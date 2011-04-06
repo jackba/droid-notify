@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<!-- App Strings -->
+    <string name="hello">Hello World, DroidNotify!</string>
+    <string name="app_name">DroidNotify</string>
+    <string name="nma_text">New message: %s</string>
+    <string name="subject_text">Subject:</string>
+    
+    
+    <!-- Button Strings -->  
+    <string name="view_mms_button_text">View MMS</string>
+    <string name="view_button_text">View</string>
+    <string name="close_button_text">Close</string>
+   	<string name="reply_button_text">Reply</string>
+   	<string name="inbox_button_text">Inbox</string>
+   	<string name="delete_button_text">Delete</string>
+   	<string name="next_button_text">Next</string>
+   	<string name="previous_button_text">Previous</string>
+   	<string name="unlock_button_text">Unlock</string>
+   	<string name="tts_button_text">Text-to-speech</string>
+    
+    
+    
+    
+</resources>
