@@ -3,7 +3,7 @@
 	<!-- App Strings -->
     <string name="hello">Hello World, DroidNotify!</string>
     <string name="app_name">DroidNotify</string>
-    <string name="nma_text">New message: %s</string>
+    <string name="new_message_at_text">New message: %s</string>
     <string name="subject_text">Subject:</string>
     
     
