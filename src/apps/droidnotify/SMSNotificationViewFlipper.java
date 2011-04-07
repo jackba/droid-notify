@@ -30,11 +30,13 @@ public class SMSNotificationViewFlipper extends ViewFlipper {
 	
 	public SMSNotificationViewFlipper(Context context) {
 		super(context);
+		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.SMSNotificationViewFlipper().");
 		Init(context);
 	}
 
 	public SMSNotificationViewFlipper(Context context, AttributeSet attrs) {
 		super(context, attrs);
+		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.SMSNotificationViewFlipper().");
 		Init(context);
 	}
 
@@ -46,65 +48,67 @@ public class SMSNotificationViewFlipper extends ViewFlipper {
 	// Public Methods
 	//================================================================================
 	
-	public void addMessage(TextMessage newMessage) {
+	public void AddMessage(TextMessage newMessage) {
+		 if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.AddMessage().");
 		_messages.add(newMessage);
 	    _totalMessages = _messages.size();
-	    addView(new SMSNotificationViewer(_context, newMessage));
+	    addView(new SMSNotificationViewer(_context, newMessage));   
 	}
 	
-	public void addMessages(ArrayList<TextMessage> newMessages) {
-		if (newMessages != null) {
-			for (int i=0; i<newMessages.size(); i++) {
-				addView(new SMSNotificationViewer(_context, newMessages.get(i)));
-			}
-			_messages.addAll(newMessages);
-			_totalMessages = _messages.size();
-		}
-	}
+//	public void AddMessages(ArrayList<TextMessage> newMessages) {
+//		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.AddMessages().");
+//		if (newMessages != null) {
+//			for (int i=0; i<newMessages.size(); i++) {
+//				addView(new SMSNotificationViewer(_context, newMessages.get(i)));
+//			}
+//			_messages.addAll(newMessages);
+//			_totalMessages = _messages.size();
+//		}
+//	}
 	
-	/**
-	* Remove the message and its view and the location numMessage
-	*
-	* @param numMessage
-	* @return true if there were no more messages to remove, false otherwise
-	*/
-	public boolean removeMessage(int message_number) {
-		if (message_number < _totalMessages && message_number >= 0 && _totalMessages > 1) {
-			// Fadeout current message
-			setOutAnimation(_context, android.R.anim.fade_out);
-	
-			// If last message, slide in from left
-			if (message_number == (_totalMessages-1)) {
-				setInAnimation(inFromLeftAnimation());
-			} else{ // Else slide in from right
-				setInAnimation(inFromRightAnimation());
-			}
-			// Remove the view
-			removeViewAt(message_number);
-			// Remove message from arraylist
-			_messages.remove(message_number);
-			// Update total messages count
-			_totalMessages = _messages.size();
-			// If we removed the last message then set current message to last
-			if (_currentMessage >= _totalMessages) {
-				_currentMessage = _totalMessages - 1;
-			}
-			// If more messages, return false
-			if (_totalMessages > 0)
-				return false;
-		}
-		return true;
-	}
-
-	/**
-	* Remove the currently active message, if there is only one message left then it will not
-	* be removed
-	*
-	* @return true if there were no more messages to remove, false otherwise
-	*/
-	public boolean removeActiveMessage() {
-		return removeMessage(_currentMessage);
-	}
+//	/**
+//	* Remove the message and its view and the location numMessage
+//	*
+//	* @param numMessage
+//	* @return true if there were no more messages to remove, false otherwise
+//	*/
+//	public boolean removeMessage(int message_number) {
+//		if (message_number < _totalMessages && message_number >= 0 && _totalMessages > 1) {
+//			// Fadeout current message
+//			setOutAnimation(_context, android.R.anim.fade_out);
+//	
+//			// If last message, slide in from left
+//			if (message_number == (_totalMessages-1)) {
+//				setInAnimation(inFromLeftAnimation());
+//			} else{ // Else slide in from right
+//				setInAnimation(inFromRightAnimation());
+//			}
+//			// Remove the view
+//			removeViewAt(message_number);
+//			// Remove message from arraylist
+//			_messages.remove(message_number);
+//			// Update total messages count
+//			_totalMessages = _messages.size();
+//			// If we removed the last message then set current message to last
+//			if (_currentMessage >= _totalMessages) {
+//				_currentMessage = _totalMessages - 1;
+//			}
+//			// If more messages, return false
+//			if (_totalMessages > 0)
+//				return false;
+//		}
+//		return true;
+//	}
+//
+//	/**
+//	* Remove the currently active message, if there is only one message left then it will not
+//	* be removed
+//	*
+//	* @return true if there were no more messages to remove, false otherwise
+//	*/
+//	public boolean removeActiveMessage() {
+//		return removeMessage(_currentMessage);
+//	}
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
@@ -196,10 +200,12 @@ public class SMSNotificationViewFlipper extends ViewFlipper {
 	//================================================================================
 	
 	private void Init(Context context) {
+		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.Init().");
 		_context = context;
 		_messages = new ArrayList<TextMessage>(1);
 		_totalMessages = 0;
 		_currentMessage = 0;
+		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper should be inflated now.");
 	}
 
 }
