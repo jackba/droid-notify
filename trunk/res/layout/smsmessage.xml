@@ -61,7 +61,6 @@
 		android:layout_width="fill_parent"
 		android:layout_height="0dip"
 		android:id="@+id/message_scroll_view"
-		android:visibility="gone"
 		android:layout_weight="1"
 		android:paddingBottom="10dp"
 		android:paddingTop="6dp">

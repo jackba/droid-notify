@@ -3,9 +3,9 @@
 	<!-- App Strings -->
     <string name="hello">Hello World, DroidNotify!</string>
     <string name="app_name">DroidNotify</string>
-    <string name="new_message_at_text">New message: %s</string>
+    <string name="new_message_at_text">New message at %s</string>
     <string name="subject_text">Subject:</string>
-    
+    <string name="reply_to_text">To: %s</string>
     
     <!-- Button Strings -->  
     <string name="view_mms_button_text">View MMS</string>
@@ -17,7 +17,8 @@
    	<string name="next_button_text">Next</string>
    	<string name="previous_button_text">Previous</string>
    	<string name="unlock_button_text">Unlock</string>
-   	<string name="tts_button_text">Text-to-speech</string>
+   	<string name="send_button_text">Send</string>
+   	<string name="cancel_button_text">Cancel</string>
     
     
     
