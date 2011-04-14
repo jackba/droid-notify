@@ -2,5 +2,5 @@
 
 = Release Notes =
 
-  **0.9 beta*
+  *0.9 beta
    *pending release
