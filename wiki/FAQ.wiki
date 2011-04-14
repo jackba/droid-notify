@@ -1,4 +1,5 @@
-#summary Frequently Asked Questions
+#summary Frequently asked questions
 
 = Droid Notify - Frequently Asked Questions =
 
+Coming Soon (I hope someone has some questions)
