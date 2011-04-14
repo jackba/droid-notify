@@ -3,4 +3,4 @@
 = Release Notes =
 
  * *v0.9* beta
-  *pending release
+  * pending release
