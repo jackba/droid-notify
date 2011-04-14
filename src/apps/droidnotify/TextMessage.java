@@ -21,18 +21,17 @@ public class TextMessage {
     //================================================================================
 	
 	private Context _context;
-	private String _fromaddress = null;
-	private String _messagebody = null;
-	private long _timestamp = 0;
-	private long _threadid = 0;
-	private Long _contactid = null;
-	private String _contactlookupkey = null;
-	private String _contactname = null;
-	private int _messagetype = 0;
-	private boolean _notify = true;
-	private long _messageid = 0;
-	private boolean _fromemailgateway = false;
-	private MessageClass _messageclass = null;
+	private String _fromaddress;
+	private String _messagebody;
+	private long _timestamp;
+	private long _threadid;
+	private long _contactid;
+	private String _contactlookupkey;
+	private String _contactname;
+	private int _messagetype;
+	private long _messageid;
+	private boolean _fromemailgateway;
+	private MessageClass _messageclass;
   
 	//================================================================================
 	// Constructors
@@ -75,154 +74,21 @@ public class TextMessage {
         }
 		if (Log.DEBUG) Log.v("TextMessage.TextMessage() Exiting");
 	}
-	
-//	/**
-//	 * Construct SmsMmsMessage given a raw message (created from pdu), used for when
-//	 * a message is initially received via the network.
-//	 */
-//	public TextMessage(Context context, SmsMessage[] SMSMessages, long timestamp) {
-//		if (Log.DEBUG) Log.v("TextMessage.TextMessage() 1");
-//		SmsMessage sms = SMSMessages[0];
-//		_context = context;
-//		_timestamp = timestamp;
-//		_messagetype = 0;
-//		_fromaddress = sms.getDisplayOriginatingAddress();
-//		_fromemailgateway = sms.isEmail();
-//		_messageclass = sms.getMessageClass();
-//		String body = "";
-//		try {
-//			if (SMSMessages.length == 1 || sms.isReplace()) {
-//				body = sms.getDisplayMessageBody();
-//			} else {
-//				StringBuilder bodyText = new StringBuilder();
-//				for (int i = 0; i < SMSMessages.length; i++) {
-//					bodyText.append(SMSMessages[i].getMessageBody());
-//				}
-//				body = bodyText.toString();
-//			}
-//		} catch (Exception e) {
-//			if (Log.DEBUG) Log.v("TextMessage.TextMessage Exception: " + e.toString());
-//		}
-//		_messagebody = body;
-//
-//    /*
-//     * Lookup the rest of the info from the system db
-//     */
-//	ContactEntry contact = new ContactEntry();
-//    // If this SMS is from an email gateway then lookup contactId by email address
-//    if (_fromemailgateway) {
-//    	if (Log.DEBUG) Log.v("Sms came from email gateway.");
-//    	contact.PopulateContactFromEmail(context, _fromaddress);
-//    	_contactname = _fromaddress;
-//    } else { // Else lookup contactId by phone number
-//    	if (Log.DEBUG) Log.v("Sms did NOT come from email gateway");
-//    	contact.PopulateContactFromPhoneNumber(context, _fromaddress);
-//    	_contactname = PhoneNumberUtils.formatNumber(_fromaddress);
-//    }
-//    _unreadcount = getUnreadMessagesCount(context, timestamp, _messagebody); 
-//    if (_contactname == null) {
-//    	_contactname = context.getString(android.R.string.unknownName);
-//    }
-//  }
-
-//	/**
-//     * Construct SmsMmsMessage for getMmsDetails() - fetched from the MMS database table
-//     * @return
-//     */
-//	public TextMessage(Context context, SmsMessage message, long timestamp) {
-//		if (Log.DEBUG) Log.v("TextMessage.TextMessage() 2");
-//		SmsMessage sms = message;
-//		_context = context;
-//		_timestamp = timestamp;
-//		_messagetype = 0;
-//		_fromaddress = sms.getDisplayOriginatingAddress();
-//		_fromemailgateway = sms.isEmail();
-//		_messageclass = sms.getMessageClass();
-//		_messagebody = sms.getDisplayMessageBody();
-//
-//	    /*
-//	     * Lookup the rest of the info from the system db
-//	     */
-//		ContactEntry contact = new ContactEntry();
-//	    // If this SMS is from an email gateway then lookup contactId by email address
-//	    if (_fromemailgateway) {
-//	    	if (Log.DEBUG) Log.v("Sms came from email gateway.");
-//	    	contact.PopulateContactFromEmail(context, _fromaddress);
-//	    	_contactname = _fromaddress;
-//	    } else { // Else lookup contactId by phone number
-//	    	if (Log.DEBUG) Log.v("Sms did NOT come from email gateway");
-//	    	contact.PopulateContactFromPhoneNumber(context, _fromaddress);
-//	    	_contactname = PhoneNumberUtils.formatNumber(_fromaddress);
-//	    }
-//	    
-//	    if (_contactname == null) {
-//	    	_contactname = context.getString(android.R.string.unknownName);
-//	    }
-// 	}
-
-//	/**
-//	 * Construct SmsMmsMessage for getSmsDetails() - info fetched from the SMS
-//	 * database table
-//	 */
-//	public TextMessage(Context _context, String _fromAddress, String _messageBody, long _timestamp, long _threadId, int _unreadCount, long _messageId, int _messageType) {
-//		if (Log.DEBUG) Log.v("TextMessage.TextMessage() 3");
-//    context = _context;
-//    fromAddress = _fromAddress;
-//    messageBody = _messageBody;
-//    timestamp = _timestamp;
-//    messageType = _messageType;
-//
-//    ContactIdentification contactIdentify = null;
-//
-//    if (PhoneNumberUtils.isWellFormedSmsAddress(fromAddress)) {
-//      contactIdentify = SmsPopupUtils.getPersonIdFromPhoneNumber(context, fromAddress);
-//      contactName = PhoneNumberUtils.formatNumber(fromAddress);
-//      fromEmailGateway = false;
-//    } else {
-//      contactIdentify = SmsPopupUtils.getPersonIdFromEmail(context, fromAddress);
-//      contactName = fromAddress;
-//      fromEmailGateway = true;
-//    }
-//
-//    if (contactIdentify != null) {
-//      contactId = contactIdentify.contactId;
-//      contactLookupKey = contactIdentify.contactLookup;
-//      contactName = contactIdentify.contactName;
-//    }
-//
-//    unreadCount = _unreadCount;
-//    threadId = _threadId;
-//    messageId = _messageId;
-//
-//    if (contactName == null) {
-//      contactName = context.getString(android.R.string.unknownName);
-//    }
-//	}
-
-//	/**
-//     * Construct SmsMmsMessage by specifying all data, only used for testing the
-//     * notification from the preferences screen
-//     */
-//	public TextMessage(Context _context, String _fromAddress, String _messageBody, long _timestamp, String _contactId, String _contactLookup, String _contactName, int _unreadCount, long _threadId, int _messageType) {
-//		if (Log.DEBUG) Log.v("TextMessage.TextMessage() 4");
-//    context = _context;
-//    fromAddress = _fromAddress;
-//    messageBody = _messageBody;
-//    timestamp = _timestamp;
-//    contactId = _contactId;
-//    contactLookupKey = _contactLookup;
-//    contactName = _contactName;
-//    unreadCount = _unreadCount;
-//    threadId = _threadId;
-//    messageType = _messageType;
-//	}
 
 	//================================================================================
 	// Accessors
 	//================================================================================
 
 	/**
-	 * 
+	 * Set the context property.
+	 */
+	public void setContext(Context context) {
+		if (Log.DEBUG) Log.v("TextMessage.setContext()");
+	    _context = context;
+	}
+	
+	/**
+	 * Get the context property.
 	 */
 	public Context getContext() {
 		if (Log.DEBUG) Log.v("TextMessage.getContext()");
@@ -230,15 +96,31 @@ public class TextMessage {
 	}
 
 	/**
-	 * 
+	 * Set the fromaddress property.
+	 */
+	public void getFromAddress(String fromaddress) {
+		if (Log.DEBUG) Log.v("TextMessage.setFromAddress()");
+		_fromaddress = fromaddress;
+	}
+	
+	/**
+	 * Get the fromaddress property.
 	 */
 	public String getFromAddress() {
 		if (Log.DEBUG) Log.v("TextMessage.getFromAddress()");
 		return _fromaddress;
 	}
-
+	
 	/**
-	 * 
+	 * Set the messagebody property.
+	 */
+	public void setMessageBody(String messagebody) {
+		if (Log.DEBUG) Log.v("TextMessage.setMessageBody()");
+		_messagebody = messagebody;
+	}
+	
+	/**
+	 * Get the messagebody property.
 	 */
 	public String getMessageBody() {
 		if (Log.DEBUG) Log.v("TextMessage.getMessageBody()");
@@ -249,58 +131,79 @@ public class TextMessage {
 	}
 
 	/**
-	 * 
+	 * Set the timestamp property.
+	 */
+	public void setTimeStamp(long timestamp) {
+		if (Log.DEBUG) Log.v("TextMessage.setTimeStamp()");
+	    _timestamp = timestamp;
+	}
+	
+	/**
+	 * Get the timestamp property.
 	 */
 	public long getTimeStamp() {
 		if (Log.DEBUG) Log.v("TextMessage.getTimeStamp()");
 	    return _timestamp;
 	}
-
-	/**
-	 * 
-	 */
-	public long getThreadID() {
-		if (Log.DEBUG) Log.v("TextMessage.getThreadID()");
-	    return _threadid;
-	}
 	
 	/**
-	 * 
+	 * Set the threadid property.
 	 */
 	public void setThreadID(long threadid) {
 		if (Log.DEBUG) Log.v("TextMessage.setThreadID()");
 	    _threadid = threadid;
+	}
+	
+	/**
+	 * Get the threadid property.
+	 */
+	public long getThreadID() {
+		if (Log.DEBUG) Log.v("TextMessage.getThreadID()");
+	    return _threadid;
 	}	
 	
 	/**
-	 * 
+	 * Set the contactid property.
 	 */
-	public void setThreadRead() {
-		if (Log.DEBUG) Log.v("TextMessage.setThreadRead()");
-	    //locateThreadId();
-	    //SmsPopupUtils.setThreadRead(context, threadId);
-	}
-
-	/**
-	 * 
-	 */
-	public void setMessageRead() {
-		if (Log.DEBUG) Log.v("TextMessage.setMessageRead()");
-	    //locateMessageId();
-	    //SmsPopupUtils.setMessageRead(context, messageId, messageType);
+	public void setContactID(long contactid) {
+		if (Log.DEBUG) Log.v("TextMessage.setContactID()");
+	    _contactid = contactid;
 	}
 	
 	/**
-	 * 
+	 * Get the contactid property.
 	 */
-	public MessageClass getMessageClass() {
-		if (Log.DEBUG) Log.v("TextMessage.getMessageClass()");
-		return _messageclass;
+	public long getContactID() {
+		if (Log.DEBUG) Log.v("TextMessage.getContactID()");
+	    return _contactid;
 	}
-
+	
+	/**
+	 * Set the contactlookupkey property.
+	 */
+	public void setContactLookupKey(String contactlookupkey) {
+		if (Log.DEBUG) Log.v("TextMessage.setContactLookupKey()");
+		_contactlookupkey = contactlookupkey;
+	}
+	
+	/**
+	 * Get the contactlookupkey property.
+	 */
+	public String getContactLookupKey() {
+		if (Log.DEBUG) Log.v("TextMessage.getContactLookupKey()");
+	    return _contactlookupkey;
+	}	
 
 	/**
-	 * 
+	 * Set the contactname property.
+	 */
+	public void setContactName(String contactname) {
+		if (Log.DEBUG) Log.v("TextMessage.setContactName()");
+		_contactname = contactname;
+	}
+	
+	/**
+	 * Get the contactname property.
 	 */
 	public String getContactName() {
 		if (Log.DEBUG) Log.v("TextMessage.getContactName()");
@@ -309,9 +212,25 @@ public class TextMessage {
 	    }
 		return _contactname;
 	}
+	
+	/**
+	 * Get the messageclass property.
+	 */
+	public MessageClass getMessageClass() {
+		if (Log.DEBUG) Log.v("TextMessage.getMessageClass()");
+		return _messageclass;
+	}
 
 	/**
-	 * 
+	 * Set the messagetype property.
+	 */
+	public void getMessageType(int messagetype) {
+		if (Log.DEBUG) Log.v("TextMessage.setMessageType()");
+		_messagetype = messagetype;
+	}
+	
+	/**
+	 * Get the messagetype property.
 	 */
 	public int getMessageType() {
 		if (Log.DEBUG) Log.v("TextMessage.getMessageType()");
@@ -319,19 +238,51 @@ public class TextMessage {
 	}
 
 	/**
-	 * 
+	 * Set the messageid property.
 	 */
-	public boolean getNotify() {
-	    if (Log.DEBUG) Log.v("TextMessage.getNotify()");
-		return _notify;
+	public void setMessageId(long messageid) {
+		if (Log.DEBUG) Log.v("TextMessage.setMessageId()");
+  		_messageid = messageid;
+	}
+	
+	/**
+	 * Get the messageid property.
+	 */
+	public long getMessageId() {
+		if (Log.DEBUG) Log.v("TextMessage.getMessageId()");
+  		return _messageid;
 	}
 
 	/**
-	 * 
+	 * Set the fromemailgateway property.
 	 */
-	public long getMessageId() {
-		//locateMessageId();
-  		return _messageid;
+	public void setFromEmailGateway(boolean fromemailgateway) {
+		if (Log.DEBUG) Log.v("TextMessage.setFromEmailGateway()");
+  		_fromemailgateway = fromemailgateway;
+	}
+	
+	/**
+	 * Get the fromemailgateway property.
+	 */
+	public boolean setFromEmailGateway() {
+		if (Log.DEBUG) Log.v("TextMessage.getFromEmailGateway()");
+  		return _fromemailgateway;
+	}	
+
+	/**
+	 * Set the messageclass property.
+	 */
+	public void setMessageClass(MessageClass messageclass) {
+		if (Log.DEBUG) Log.v("TextMessage.setMessageClass()");
+		_messageclass = messageclass;
+	}
+	
+	/**
+	 * Get the messageclass property.
+	 */
+	public MessageClass setMessageClass() {
+		if (Log.DEBUG) Log.v("TextMessage.getMessageClass()");
+  		return _messageclass;
 	}
 	
 	//================================================================================
@@ -350,46 +301,17 @@ public class TextMessage {
 		if (Log.DEBUG) Log.v("TextMessage.getReplyIntent() Replying by threadId: " + getThreadID());
 		return getSMSReplyIntent(getContext(), getThreadID());
 	}
-  
-//	/**
-//     * Convert all SmsMmsMessage data to an extras bundle to send via an intent
-//     */
-//	public Bundle toBundle() {
-//		if (Log.DEBUG) Log.v("TextMessage.toBundle()");
-//		Bundle b = new Bundle();
-//    b.putString(EXTRAS_FROM_ADDRESS, fromAddress);
-//    b.putString(EXTRAS_MESSAGE_BODY, messageBody);
-//    b.putLong(EXTRAS_TIMESTAMP, timestamp);
-//    b.putString(EXTRAS_CONTACT_ID, contactId);
-//    b.putString(EXTRAS_CONTACT_LOOKUP, contactLookupKey);
-//    b.putString(EXTRAS_CONTACT_NAME, contactName);
-//    b.putInt(EXTRAS_UNREAD_COUNT, unreadCount);
-//    b.putLong(EXTRAS_THREAD_ID, threadId);
-//    b.putInt(EXTRAS_MESSAGE_TYPE, messageType);
-//    b.putBoolean(EXTRAS_NOTIFY, notify);
-//    b.putInt(EXTRAS_REMINDER_COUNT, reminderCount);
-//    b.putLong(EXTRAS_MESSAGE_ID, messageId);
-//    b.putBoolean(EXTRAS_EMAIL_GATEWAY, fromEmailGateway);
-//		return b;
-//	}
-
+	 
 //	/**
 //	 * 
-//	 */
-//	public Intent getPopupIntent() {
-//		if (Log.DEBUG) Log.v("TextMessage.getPopupIntent()");
-//		Intent notificationIntent = new Intent(_context, SMSNotificationActivity.class);
-//		if (Log.DEBUG) Log.v("TextMessage.getPopupIntent() Created notificationIntent");
-//		notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-//    	notificationIntent.putExtras(toBundle());
-//    	if (Log.DEBUG) Log.v("TextMessage.getPopupIntent() Returning notificationIntent");
-//    	return notificationIntent;
-//	}
-
+//	 */ 
 //  public void delete() {
 //    SmsPopupUtils.deleteMessage(context, getMessageId(), threadId, messageType);
 //  }
-
+	 
+//	/**
+//	 * 
+//	 */ 
 //  public void locateMessageId() {
 //    if (messageId == 0) {
 //      if (threadId == 0) {
@@ -461,21 +383,15 @@ public class TextMessage {
 	 */
 	public Intent getSMSReplyIntent(Context context, long threadID) {
 		if (Log.DEBUG) Log.v("TextMessage.getSMSReplyIntent()");
-	    Intent i = new Intent(Intent.ACTION_VIEW);
-	    i.setType("vnd.android-dir/mms-sms");
+	    Intent intent = new Intent(Intent.ACTION_VIEW);
+	    intent.setType("vnd.android-dir/mms-sms");
 	    int flags =
 	    	Intent.FLAG_ACTIVITY_NEW_TASK |
 	    	Intent.FLAG_ACTIVITY_SINGLE_TOP |
 	    	Intent.FLAG_ACTIVITY_CLEAR_TOP;
-	    i.setFlags(flags);
-	    i.putExtra("address", getFromAddress());
-	    if (threadID > 0) {
-	    	if (Log.DEBUG) Log.v("TextMessage.getSMSReplyIntent() Has Thread ID");
-	    	//i.setData(Uri.withAppendedPath(Uri.parse("content://sms"), String.valueOf(threadID)));
-	    } else {
-	    	//return getSmsInboxIntent();
-	    }
-	    return i;
+	    intent.setFlags(flags);
+	    intent.putExtra("address", getFromAddress());
+	    return intent;
 	}
 	
 //  /**
@@ -502,7 +418,7 @@ public class TextMessage {
 //      try {
 //        if (cursor.moveToFirst()) {
 //
-//          String contactId = String.valueOf(cursor.getLong(0));
+//          String contactId = String.valueOf(cursor.getlong(0));
 //          String contactName = cursor.getString(1);
 //          String contactLookup = null;
 //
@@ -519,7 +435,7 @@ public class TextMessage {
 //    }
 //    return null;
 //  }
-//
+
 //  /**
 //   *
 //   * Looks up a contats photo by their contact id, returns a Bitmap array
@@ -608,7 +524,7 @@ public class TextMessage {
 //    // Return bitmap scaled to new height and width
 //    return Bitmap.createScaledBitmap(contactBitmap, newWidth, newHeight, true);
 //  }
-//
+
 //  /**
 //   * Opens an InputStream for the person's photo and returns the photo as a Bitmap.
 //   * If the person's photo isn't present returns the placeholderImageResource instead.
@@ -633,70 +549,70 @@ public class TextMessage {
 //    return bm;
 //  }
 
-	/**
-	 * 
-	 */
-	private static Bitmap loadPlaceholderPhoto(int placeholderImageResource, Context context, BitmapFactory.Options options) {
-		if (Log.DEBUG) Log.v("TextMessage.loadPlaceholderPhoto()");
-		if (placeholderImageResource == 0) {
-			return null;
-		}
-		return BitmapFactory.decodeResource(context.getResources(), placeholderImageResource, options);
-	}
+//	/**
+//	 * 
+//	 */
+//	private static Bitmap loadPlaceholderPhoto(int placeholderImageResource, Context context, BitmapFactory.Options options) {
+//		if (Log.DEBUG) Log.v("TextMessage.loadPlaceholderPhoto()");
+//		if (placeholderImageResource == 0) {
+//			return null;
+//		}
+//		return BitmapFactory.decodeResource(context.getResources(), placeholderImageResource, options);
+//	}
   
-	/**
-     * Return current unread message count from system db (sms only)
-     *
-     * @param context
-     * @param timestamp only messages before this timestamp will be counted
-     * @return unread sms message count
-     */
-	private int getUnreadMessagesCount(Context context, long timestamp, String messagebody) {
-		if (Log.DEBUG) Log.v("TextMessage.getUnreadMessagesCount()");
-		final String[] projection = new String[] { "_id", "body" };
-		final String selection = "read=0";
-		final String[] selectionArgs = null;
-		final String sortOrder = "date DESC";
-		int count = 0;
-		Cursor cursor = context.getContentResolver().query(
-				Uri.withAppendedPath(Uri.parse("content://sms"), "inbox"),
-				projection,
-				selection,
-				selectionArgs,
-				sortOrder);
-		if (cursor != null) {
-			try {
-				count = cursor.getCount();
-		        /*
-		         * We need to check if the message received matches the most recent one in the db
-		         * or not (to find out if our code ran before the system code or vice-versa)
-		         */
-		        if (messagebody != null && count > 0) {
-        		if (cursor.moveToFirst()) {
-	        		/*
-	        		 * Check the most recent message, if the body does not match then it hasn't yet
-	        		 * been inserted into the system database, therefore we need to add one to our
-	        		 * total count
-	        		 */
-        			if (!messagebody.equals(cursor.getString(1))) {
-        				if (Log.DEBUG) Log.v("TextMessage.GetUnreadMessagesCount(): Most recent message did not match body, adding 1 to count.");
-        				count++;
-        			}
-        		}
-        	}
-			} finally {
-	    	  cursor.close();
-	      	}
-		}
-	    /*
-	     * If count is still 0 and timestamp is set then its likely the system db had not updated
-	     * when this code ran, therefore let's add 1 so the notify will run correctly.
-	     */
-	    if (count == 0 && timestamp > 0) {
-	    	count = 1;
-	    }
-    	if (Log.DEBUG) Log.v("TextMessage.GetUnreadMessagesCount() Unread Count: " + count);
-    	return count;
-  }
-  
+//	/**
+//     * Return current unread message count from system db (sms only)
+//     *
+//     * @param context
+//     * @param timestamp only messages before this timestamp will be counted
+//     * @return unread sms message count
+//     */
+//	private int getUnreadMessagesCount(Context context, long timestamp, String messagebody) {
+//		if (Log.DEBUG) Log.v("TextMessage.getUnreadMessagesCount()");
+//		final String[] projection = new String[] { "_id", "body" };
+//		final String selection = "read=0";
+//		final String[] selectionArgs = null;
+//		final String sortOrder = "date DESC";
+//		int count = 0;
+//		Cursor cursor = context.getContentResolver().query(
+//				Uri.withAppendedPath(Uri.parse("content://sms"), "inbox"),
+//				projection,
+//				selection,
+//				selectionArgs,
+//				sortOrder);
+//		if (cursor != null) {
+//			try {
+//				count = cursor.getCount();
+//		        /*
+//		         * We need to check if the message received matches the most recent one in the db
+//		         * or not (to find out if our code ran before the system code or vice-versa)
+//		         */
+//		        if (messagebody != null && count > 0) {
+//        		if (cursor.moveToFirst()) {
+//	        		/*
+//	        		 * Check the most recent message, if the body does not match then it hasn't yet
+//	        		 * been inserted into the system database, therefore we need to add one to our
+//	        		 * total count
+//	        		 */
+//        			if (!messagebody.equals(cursor.getString(1))) {
+//        				if (Log.DEBUG) Log.v("TextMessage.GetUnreadMessagesCount(): Most recent message did not match body, adding 1 to count.");
+//        				count++;
+//        			}
+//        		}
+//        	}
+//			} finally {
+//	    	  cursor.close();
+//	      	}
+//		}
+//	    /*
+//	     * If count is still 0 and timestamp is set then its likely the system db had not updated
+//	     * when this code ran, therefore let's add 1 so the notify will run correctly.
+//	     */
+//	    if (count == 0 && timestamp > 0) {
+//	    	count = 1;
+//	    }
+//    	if (Log.DEBUG) Log.v("TextMessage.GetUnreadMessagesCount() Unread Count: " + count);
+//    	return count;
+//  }
+
 }

@@ -12,7 +12,6 @@ import android.os.Message;
 import android.os.PowerManager;
 import android.os.Process;
 import android.telephony.SmsMessage;
-import android.telephony.SmsMessage.MessageClass;
 import android.telephony.TelephonyManager;
 
 /**
@@ -27,16 +26,15 @@ public class SMSReceiverService extends Service {
 	private Context _context;
 	private ServiceHandler SMSServiceHandler;
     private Looper SMSServiceLooper;
-    private int SMSResultCode;
 	private static Object SMSStartingServiceSync = new Object();
-	private static PowerManager.WakeLock SMSStartingService;
+	private static PowerManager.WakeLock SMSStartingServiceWakeLock;
 	
 	//================================================================================
 	// Constructors
 	//================================================================================
 	
 	/**
-	 * 
+	 * SMSReceiverService constructor.
 	 */	
 	public SMSReceiverService() {
 		if (Log.DEBUG) Log.v("SMSReceiverService.SMSService().");
@@ -80,11 +78,10 @@ public class SMSReceiverService extends Service {
 	public void onStart(Intent intent, int startId) {
 		super.onStart(intent, startId);
 		if (Log.DEBUG) Log.v("SMSReceiverService.onStart()");
-		SMSResultCode = intent != null ? intent.getIntExtra("result", 0) : 0;
-	    Message msg = SMSServiceHandler.obtainMessage();
-	    msg.arg1 = startId;
-	    msg.obj = intent;
-	    SMSServiceHandler.sendMessage(msg);
+	    Message message = SMSServiceHandler.obtainMessage();
+	    message.arg1 = startId;
+	    message.obj = intent;
+	    SMSServiceHandler.sendMessage(message);
 	}
 	
 	/**
@@ -98,52 +95,51 @@ public class SMSReceiverService extends Service {
 	}
 	
 	/**
-	 * Start the service to process the current event notifications, acquiring the
-	 * wake lock before returning to ensure that the service will run.
+	 * Start the service to process the current event notifications.
+	 * Acquiring the wake lock before returning to ensure that the service will run.
 	 */
 	public static void startSMSMonitoringService(Context context, Intent intent){
 		synchronized (SMSStartingServiceSync) {
 			if (Log.DEBUG) Log.v("SMSReceiverService.startSMSMonitoringService()");
-			if (SMSStartingService == null) {
+			if (SMSStartingServiceWakeLock == null) {
 				PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-				SMSStartingService = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "DroidNotify.SMSReceiverService");
-				SMSStartingService.setReferenceCounted(false);
+				SMSStartingServiceWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "DroidNotify.SMSReceiverService");
+				SMSStartingServiceWakeLock.setReferenceCounted(false);
 			}
 			if (Log.DEBUG) Log.v("SMSReceiverService.startSMSMonitoringService() Aquireing wake lock");
-			SMSStartingService.acquire();
+			SMSStartingServiceWakeLock.acquire();
 			if (Log.DEBUG) Log.v("SMSReceiverService.startSMSMonitoringService() Starting service with intent");
 			context.startService(intent);
 		}
 	}
 	
 	/**
-	 * Called back by the service when it has finished processing notifications,
-	 * releasing the wake lock if the service is now stopping.
+	 * Called back by the service when it has finished processing notifications.
 	 */
 	public static void finishSMSMonitoringService(Service service, int startId) {
 		synchronized (SMSStartingServiceSync) {
 	    	if (Log.DEBUG) Log.v("SMSReceiverService.finishSMSMonitoringService()");
-    		if (SMSStartingService != null) {
+    		if (SMSStartingServiceWakeLock != null) {
     			if (service.stopSelfResult(startId)) {
-    				SMSStartingService.release();
+    				SMSStartingServiceWakeLock.release();
     			}
     		}
 		}
 	}
 
 	/**
-     * Get SMS messages from the Intent object.
+     * Get SMS message from the Intent object.
      */
 	public static final SmsMessage[] getMessagesFromIntent(Intent intent) {
 		if (Log.DEBUG) Log.v("SMSReceiver.getMessagesFromIntent()");
 		Bundle bundle = intent.getExtras();        
-		SmsMessage[] msgs = null;           
+		SmsMessage[] message = null;           
 		if (bundle != null){
-          // Retrieve the SMS message received
+          // Retrieve the SMS message received from the intent object.
           Object[] pdus = (Object[]) bundle.get("pdus");
-          msgs = new SmsMessage[pdus.length];  
+          message = new SmsMessage[pdus.length];  
 		}
-		return msgs;
+		return message;
 	}
 	
 	//================================================================================
@@ -151,12 +147,14 @@ public class SMSReceiverService extends Service {
 	//================================================================================
 	
 	/**
-	 * 
+	 * Honestly, I don't know why we need this extra class. 
+	 * I will see if I can do this another way. 
+	 * I copied this from antoher project without knowing why it's needed.
 	 */
 	private final class ServiceHandler extends Handler {
 		
 		/**
-		 * 
+		 * ServiceHandler constructor.
 		 */
 	    public ServiceHandler(Looper looper) {
 	    	super(looper);
@@ -164,59 +162,55 @@ public class SMSReceiverService extends Service {
 	    }
 		
 		/**
-		 * 
+		 * Handle the message that was received.
 		 */
 	    @Override
-	    public void handleMessage(Message msg) {
+	    public void handleMessage(Message message) {
 	    	if (Log.DEBUG) Log.v("SMSReceiverService.ServiceHandler.HandleMessage()");
-	    	int serviceId = msg.arg1;
-	    	Intent intent = (Intent) msg.obj;
+	    	int serviceID = message.arg1;
+	    	Intent intent = (Intent) message.obj;
 	    	String action = intent.getAction();
 	        String dataType = intent.getType();
 	        if (Log.DEBUG) Log.v("SMSReceiverService.ServiceHandler.handleMessage() Action Received: " + action);
 	        if (action.equals("android.provider.Telephony.SMS_RECEIVED")) {
 	        	handleSMSMessageReceived(intent);
 	        }
-	    	finishSMSMonitoringService(SMSReceiverService.this, serviceId);
+	    	finishSMSMonitoringService(SMSReceiverService.this, serviceID);
 	    }
 	    
 	}
 	
 	/**
      * Handle the SMS message that was received.
+     * Trigger the notification if the message is valid.
      */
 	private void handleSMSMessageReceived(Intent intent) {
 		if (Log.DEBUG) Log.v("SMSReceiver.handleSMSMessageReceived()");
 		Bundle bundle = intent.getExtras();
 		if (bundle != null) {
-			SmsMessage[] SMSMessages = getMessagesFromIntent(intent);
-			if (SMSMessages != null) {
-				//displaySMSNotificationToScreen(new TextMessage(_context, SMSMessages, System.currentTimeMillis()));
+			SmsMessage[] message = getMessagesFromIntent(intent);
+			if (message != null) {
 				displaySMSNotificationToScreen(intent);
 			}
 		}
 	}
 	
 	/**
-	 * 
+	 * Display the notification to the screen.
+	 * Send add the SMS message to the intent object that we created for the new activity.
 	 */
-	//private void displaySMSNotificationToScreen(TextMessage SMSMessage) {
 	private void displaySMSNotificationToScreen(Intent intent) {
 		if (Log.DEBUG) Log.v("SMSReceiver.displaySMSNotificationToScreen()");
-	    // Fetch call state, if the user is in a call or the phone is ringing we don't want to show the popup
+	    // Get the call state, if the user is in a call or the phone is ringing, don't show the notification.
 	    TelephonyManager telemanager = (TelephonyManager) _context.getSystemService(Context.TELEPHONY_SERVICE);
 	    boolean callStateIdle = telemanager.getCallState() == TelephonyManager.CALL_STATE_IDLE;
-	    //If the user is not in a call then show the popup activity
+	    // If the user is not in a call then show the notification activity.
 	    if (callStateIdle) {
-	    	if (Log.DEBUG) Log.v("!!!!!Display SMS Popup Window!!!!!");
-	    	//ManageWakeLock.acquireFull(context);
-	    	
-	    	//_context.startActivity(SMSMessage.getPopupIntent());
-	    	
-	    	Intent i = new Intent(_context, SMSNotificationActivity.class);
-	    	i.putExtras(intent.getExtras());
-	    	i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-	    	_context.startActivity(i);
+	    	if (Log.DEBUG) Log.v("SMSReceiver.displaySMSNotificationToScreen() Display SMS Notification Window");    	
+	    	Intent newIntent = new Intent(_context, SMSNotificationActivity.class);
+	    	newIntent.putExtras(intent.getExtras());
+	    	newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+	    	_context.startActivity(newIntent);
 	    	
 	    }
 	}

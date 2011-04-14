@@ -127,7 +127,7 @@ public class SMSNotificationActivity extends Activity {
 	    initNavigationButtons(previousButton, inboxButton, nextButton);
 
 //		    refreshViews();
-//		    resizeLayout();
+	    resizeLayout();
 	}
 
 	/**
@@ -590,7 +590,8 @@ public class SMSNotificationActivity extends Activity {
 	}
 
 	/**
-	 * Reply to the current message, start the reply intent
+	 * Reply to the current message using the built in SMS app.
+	 * This starts the built in SMS app Activity.
 	 */
 	private void replyToMessage() {
 		if (Log.DEBUG) Log.v("SMSNotificationActivity.replyToMessage()");
@@ -601,6 +602,7 @@ public class SMSNotificationActivity extends Activity {
 	
 	/**
 	 * Resize the notification to fit the screen.
+	 * Makes the notification pretty.
 	 */
 	private void resizeLayout() {
 		if (Log.DEBUG) Log.v("SMSNotificationActivity.resizeLayout()");
@@ -611,33 +613,7 @@ public class SMSNotificationActivity extends Activity {
 	}
 
 	/**
-	 * 
-	 */
-	private void refreshViews() {
-
-//		    ManageKeyguard.initialize(this);
-//		    if (ManageKeyguard.inKeyguardRestrictedInputMode()) {
-//		      // Show unlock button
-//		      buttonSwitcher.setDisplayedChild(BUTTON_SWITCHER_UNLOCK_BUTTON);
-//
-//		      // Disable long-press context menu
-//		      unregisterForContextMenu(mSmsPopups);
-//
-//		      SmsPopupViewFlipper.setLockMode(true);
-//
-//		    } else {
-//		      // Show main popup buttons
-//		      buttonSwitcher.setDisplayedChild(BUTTON_SWITCHER_MAIN_BUTTONS);
-//
-//		      // Enable long-press context menu
-//		      registerForContextMenu(mSmsPopups);
-//
-//		      SmsPopupViewFlipper.setLockMode(false);
-//		    }
-	}
-
-	/**
-	 * Close the notification window & mark the message read.
+	 * Close the notification window & mark the active message read.
 	 */
 	private void closeNotification() {
 		if (Log.DEBUG) Log.v("SMSNotificationActivity.closeNotification()");
@@ -647,7 +623,7 @@ public class SMSNotificationActivity extends Activity {
 	
 	/**
 	 * Customized activity finish.
-	 * This closes this activity screen and removed it from the users screen.
+	 * This closes this activity screen.
 	 */
 	private void finishActivity() {
 		if (Log.DEBUG) Log.v("SMSNotificationActivity.finishActivity()");

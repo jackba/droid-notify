@@ -21,12 +21,12 @@ public class SMSNotificationViewer extends LinearLayout {
     //================================================================================
 	
 	private Context _context;	
-	private TextView fromTV;
-	private TextView messageReceivedTV;
-	private TextView messageTV;
-	private ScrollView messageScrollView = null;
-	private ImageView photoImageView = null;
-	private Drawable contactPhotoPlaceholderDrawable = null;
+	private TextView _fromTV;
+	private TextView _messageReceivedTV;
+	private TextView _messageTV;
+	private ScrollView _messageScrollView = null;
+	private ImageView _photoImageView = null;
+	private Drawable _contactPhotoPlaceholderDrawable = null;
 
 	//================================================================================
 	// Constructors
@@ -63,15 +63,12 @@ public class SMSNotificationViewer extends LinearLayout {
 	    View.inflate(context, R.layout.smsmessage, this);
 	    if (Log.DEBUG) Log.v("SMSNotificationViewer should be inflated now");
 	    // Find the main textviews and layouts
-	    fromTV = (TextView) findViewById(R.id.from_text_view);
-	    messageTV = (TextView) findViewById(R.id.message_text_view);
-	    messageReceivedTV = (TextView) findViewById(R.id.header_text_view);
-	    messageScrollView = (ScrollView) findViewById(R.id.message_scroll_view);
-	    photoImageView = (ImageView) findViewById(R.id.from_image_view);
-	    contactPhotoPlaceholderDrawable = getResources().getDrawable(android.R.drawable.ic_dialog_info);
-
-	
-	
+	    _fromTV = (TextView) findViewById(R.id.from_text_view);
+	    _messageTV = (TextView) findViewById(R.id.message_text_view);
+	    _messageReceivedTV = (TextView) findViewById(R.id.header_text_view);
+	    _messageScrollView = (ScrollView) findViewById(R.id.message_scroll_view);
+	    _photoImageView = (ImageView) findViewById(R.id.from_image_view);
+	    _contactPhotoPlaceholderDrawable = getResources().getDrawable(android.R.drawable.ic_dialog_info);
 	}
 
 	/**
@@ -82,13 +79,11 @@ public class SMSNotificationViewer extends LinearLayout {
 		String formattedTimestamp = new SimpleDateFormat("h:mma").format(message.getTimeStamp());
 	    String headerText = _context.getString(R.string.new_message_at_text, formattedTimestamp.toLowerCase());
 	    // Set the from, message and header views
-	    fromTV.setText(message.getContactName());
-	    messageTV.setText(message.getMessageBody());
-	    messageReceivedTV.setText(headerText);
+	    _fromTV.setText(message.getContactName());
+	    _messageTV.setText(message.getMessageBody());
+	    _messageReceivedTV.setText(headerText);
 	    // Set placeholder image
-	    photoImageView.setImageDrawable(contactPhotoPlaceholderDrawable);
-	    
-		    
+	    _photoImageView.setImageDrawable(_contactPhotoPlaceholderDrawable);    
 	}
 
 //	  private void loadContactPhoto() {
