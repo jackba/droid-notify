@@ -37,6 +37,12 @@
 	      	android:layout_width="100dp" />
   	</RelativeLayout>
   	
+  	<apps.droidnotify.SMSNotificationViewFlipper
+    	android:id="@+id/sms_notification_layout"
+    	android:layout_width="fill_parent" 
+    	android:layout_height="wrap_content">
+    </apps.droidnotify.SMSNotificationViewFlipper>
+  	
 	<LinearLayout android:layout_width="fill_parent" 
 	android:background="@android:color/darker_gray" 
 	android:layout_height="wrap_content" android:padding="2dp" 

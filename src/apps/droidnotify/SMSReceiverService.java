@@ -191,7 +191,8 @@ public class SMSReceiverService extends Service {
 		if (bundle != null) {
 			SmsMessage[] SMSMessages = getMessagesFromIntent(intent);
 			if (SMSMessages != null) {
-				displaySMSNotificationToScreen(new TextMessage(_context, SMSMessages, System.currentTimeMillis()));
+				//displaySMSNotificationToScreen(new TextMessage(_context, SMSMessages, System.currentTimeMillis()));
+				displaySMSNotificationToScreen(intent);
 			}
 		}
 	}
@@ -199,24 +200,25 @@ public class SMSReceiverService extends Service {
 	/**
 	 * 
 	 */
-	private void displaySMSNotificationToScreen(TextMessage SMSMessage) {
+	//private void displaySMSNotificationToScreen(TextMessage SMSMessage) {
+	private void displaySMSNotificationToScreen(Intent intent) {
 		if (Log.DEBUG) Log.v("SMSReceiver.displaySMSNotificationToScreen()");
-	    // Class 0 SMS, let the system handle this
-	    if (SMSMessage.getMessageType() == 0 &&
-	    	SMSMessage.getMessageClass() == MessageClass.CLASS_0) {
-	    	return;
-	    }
-
 	    // Fetch call state, if the user is in a call or the phone is ringing we don't want to show the popup
 	    TelephonyManager telemanager = (TelephonyManager) _context.getSystemService(Context.TELEPHONY_SERVICE);
 	    boolean callStateIdle = telemanager.getCallState() == TelephonyManager.CALL_STATE_IDLE;
-
 	    //If the user is not in a call then show the popup activity
 	    if (callStateIdle) {
 	    	if (Log.DEBUG) Log.v("!!!!!Display SMS Popup Window!!!!!");
 	    	//ManageWakeLock.acquireFull(context);
-	    	_context.startActivity(SMSMessage.getPopupIntent());
+	    	
+	    	//_context.startActivity(SMSMessage.getPopupIntent());
+	    	
+	    	Intent i = new Intent(_context, SMSNotificationActivity.class);
+	    	i.putExtras(intent.getExtras());
+	    	i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+	    	_context.startActivity(i);
+	    	
 	    }
 	}
-	
+
 }

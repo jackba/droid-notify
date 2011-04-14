@@ -11,6 +11,9 @@ import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.ViewFlipper;
 
+/**
+ *
+ */
 public class SMSNotificationViewFlipper extends ViewFlipper {
 
 	//================================================================================
@@ -27,44 +30,89 @@ public class SMSNotificationViewFlipper extends ViewFlipper {
 	//================================================================================
 	// Constructors
 	//================================================================================
-	
+	  
+	/**
+	 *
+	 */
 	public SMSNotificationViewFlipper(Context context) {
 		super(context);
-		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.SMSNotificationViewFlipper().");
-		Init(context);
+		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.SMSNotificationViewFlipper()");
+		init(context);
 	}
-
+	  
+	/**
+	 *
+	 */
 	public SMSNotificationViewFlipper(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.SMSNotificationViewFlipper().");
-		Init(context);
+		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.SMSNotificationViewFlipper()");
+		init(context);
 	}
 
 	//================================================================================
 	// Accessors
 	//================================================================================
 	  
+	/**
+	 *
+	 */ 
+	public int getCurrentMessage(){
+		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.getCurrentMessage() Current Message: " + _currentMessage);
+		return _currentMessage;
+	}
+	  
+	/**
+	 *
+	 */
+	public int getTotalMessages(){
+		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.getTotalMessages() Total Messages: " + _totalMessages);
+		return _totalMessages;
+	}
+	  
+	/**
+	 *
+	 */
+	public Boolean isLastMessage(){
+		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.isLastMessage() Is Last Message: " + (_currentMessage == _totalMessages));
+		if((_currentMessage + 1) >= _totalMessages){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	  
+	/**
+	 *
+	 */
+	public Boolean isFirstMessage(){
+		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.isFirstMessage() Is First Message: " + (_currentMessage <= 1));
+		if((_currentMessage + 1) <= 1){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
 	//================================================================================
 	// Public Methods
 	//================================================================================
-	
-	public void AddMessage(TextMessage newMessage) {
-		 if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.AddMessage().");
-		_messages.add(newMessage);
+	  
+	/**
+	 *
+	 */
+	public void addMessage(TextMessage message) {
+		 if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.addMessage()");
+		_messages.add(message);
+		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.addMessage() Added message");
 	    _totalMessages = _messages.size();
-	    addView(new SMSNotificationViewer(_context, newMessage));   
+	    if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.addMessage() Set message size)");
+	    addView(new SMSNotificationViewer(_context, message)); 
+	    if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.addMessage() Created mesage View)");
 	}
 	
-//	public void AddMessages(ArrayList<TextMessage> newMessages) {
-//		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.AddMessages().");
-//		if (newMessages != null) {
-//			for (int i=0; i<newMessages.size(); i++) {
-//				addView(new SMSNotificationViewer(_context, newMessages.get(i)));
-//			}
-//			_messages.addAll(newMessages);
-//			_totalMessages = _messages.size();
-//		}
-//	}
+	public TextMessage getActiveMessage(){
+		return _messages.get(getCurrentMessage());
+	}
 	
 //	/**
 //	* Remove the message and its view and the location numMessage
@@ -109,13 +157,17 @@ public class SMSNotificationViewFlipper extends ViewFlipper {
 //	public boolean removeActiveMessage() {
 //		return removeMessage(_currentMessage);
 //	}
-
+	  
+	/**
+	 *
+	 */
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
+		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.onTouchEvent()");
 		if (lockMode) return true;
 		switch (event.getAction()) {
 			case MotionEvent.ACTION_MOVE:
-			Log.v("ACTION_MOVE");
+				if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.onTouchEvent() ACTION_MOVE");
 			final View currentView = getCurrentView();
 			currentView.layout((int) (event.getX() - oldTouchValue), currentView.getTop(),
 			currentView.getRight(), currentView.getBottom());
@@ -124,9 +176,13 @@ public class SMSNotificationViewFlipper extends ViewFlipper {
 		}
 		return super.onTouchEvent(event);
 	}
-	
+	  
+	/**
+	 *
+	 */
 	@Override
 	public void showNext() {
+		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.showNext()");
 		if (_currentMessage < _totalMessages-1) {
 			_currentMessage += 1;
 			setInAnimation(inFromRightAnimation());
@@ -135,9 +191,13 @@ public class SMSNotificationViewFlipper extends ViewFlipper {
 			if (Log.DEBUG) Log.v("showNext() - " + _currentMessage);
 		}
 	}
-
+	  
+	/**
+	 *
+	 */
 	@Override
 	public void showPrevious() {
+		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.showPrevious()");
 		if (_currentMessage > 0) {
 			_currentMessage -= 1;
 			setInAnimation(inFromLeftAnimation());
@@ -146,12 +206,12 @@ public class SMSNotificationViewFlipper extends ViewFlipper {
 			if (Log.DEBUG) Log.v("showPrevious() - " + _currentMessage);
 		}
 	}
-
-	public static void SetLockMode(boolean mode) {
-	    lockMode = mode;
-	}
-	
+	  
+	/**
+	 *
+	 */
 	public static Animation inFromRightAnimation() {
+		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.inFromRightAnimation()");
 		Animation inFromRight = new TranslateAnimation(
 		Animation.RELATIVE_TO_PARENT, +1.0f,
 		Animation.RELATIVE_TO_PARENT, 0.0f,
@@ -161,8 +221,12 @@ public class SMSNotificationViewFlipper extends ViewFlipper {
 		inFromRight.setInterpolator(new AccelerateInterpolator());
 		return inFromRight;
 	}
-
+	  
+	/**
+	 *
+	 */
 	public static Animation outToLeftAnimation() {
+		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.outToLeftAnimation()");
 		Animation outtoLeft = new TranslateAnimation(
 		Animation.RELATIVE_TO_PARENT, 0.0f,
 		Animation.RELATIVE_TO_PARENT, -1.0f,
@@ -172,8 +236,12 @@ public class SMSNotificationViewFlipper extends ViewFlipper {
 		outtoLeft.setInterpolator(new AccelerateInterpolator());
 		return outtoLeft;
 	}
-
+	  
+	/**
+	 *
+	 */
 	public static Animation inFromLeftAnimation() {
+		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.inFromLeftAnimation()");
 		Animation inFromLeft = new TranslateAnimation(
 		Animation.RELATIVE_TO_PARENT, -1.0f,
 		Animation.RELATIVE_TO_PARENT, 0.0f,
@@ -183,8 +251,12 @@ public class SMSNotificationViewFlipper extends ViewFlipper {
 		inFromLeft.setInterpolator(new AccelerateInterpolator());
 		return inFromLeft;
 	}
-
+	  
+	/**
+	 *
+	 */
 	public static Animation outToRightAnimation() {
+		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.outToRightAnimation()");
 		Animation outtoRight = new TranslateAnimation(
 		Animation.RELATIVE_TO_PARENT, 0.0f,
 		Animation.RELATIVE_TO_PARENT, +1.0f,
@@ -198,14 +270,16 @@ public class SMSNotificationViewFlipper extends ViewFlipper {
 	//================================================================================
 	// Private Methods
 	//================================================================================
-	
-	private void Init(Context context) {
-		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.Init().");
+	  
+	/**
+	 *
+	 */
+	private void init(Context context) {
+		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.init()");
 		_context = context;
 		_messages = new ArrayList<TextMessage>(1);
 		_totalMessages = 0;
 		_currentMessage = 0;
-		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper should be inflated now.");
 	}
 
 }
