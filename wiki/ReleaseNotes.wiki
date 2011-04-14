@@ -1,4 +1,4 @@
-#Summary Summary of app versions
+#summary Summary of app versions
 
 = Release Notes =
 
