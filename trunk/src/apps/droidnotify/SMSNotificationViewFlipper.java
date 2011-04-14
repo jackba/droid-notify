@@ -22,17 +22,17 @@ public class SMSNotificationViewFlipper extends ViewFlipper {
 	
 	private Context _context;
 	private ArrayList<TextMessage> _messages;
-	private int _currentMessage;
-	private int _totalMessages;
-	private static boolean lockMode;
-	private float oldTouchValue;
+	private int _currentmessage;
+	private int _totalmessages;
+	private static boolean _lockMode;
+	private float _oldTouchValue;
 
 	//================================================================================
 	// Constructors
 	//================================================================================
 	  
 	/**
-	 *
+	 * SMSNotificationViewFlipper constructor.
 	 */
 	public SMSNotificationViewFlipper(Context context) {
 		super(context);
@@ -40,76 +40,102 @@ public class SMSNotificationViewFlipper extends ViewFlipper {
 		init(context);
 	}
 	  
-	/**
-	 *
-	 */
-	public SMSNotificationViewFlipper(Context context, AttributeSet attrs) {
-		super(context, attrs);
-		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.SMSNotificationViewFlipper()");
-		init(context);
-	}
-
 	//================================================================================
 	// Accessors
 	//================================================================================
 	  
+
 	/**
-	 *
+	 * Set the context property.
+	 */
+	public void setContext(Context context) {
+		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.setContext()");
+	    _context = context;
+	}
+
+	/**
+	 * Get the messages property.
+	 */ 
+	public ArrayList<TextMessage> getMessages(){
+		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.getMessages()");
+		return _messages;
+	}
+	
+	/**
+	 * Set the currentMessage property.
+	 */ 
+	public void setCurrentMessage(int currentmessage){
+		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.setCurrentMessage()");
+		_currentmessage = currentmessage;
+	}
+	
+	/**
+	 * Get the currentMessage property.
 	 */ 
 	public int getCurrentMessage(){
-		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.getCurrentMessage() Current Message: " + _currentMessage);
-		return _currentMessage;
+		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.getCurrentMessage()");
+		return _currentmessage;
 	}
-	  
+	
 	/**
-	 *
+	 * Set the totalmessages property.
+	 */ 
+	public void setTotalMessages(int totalmessages){
+		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.setTotalMessages()");
+		_totalmessages = totalmessages;
+	}	  
+	
+	/**
+	 * Get the totalmessages property.
 	 */
 	public int getTotalMessages(){
-		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.getTotalMessages() Total Messages: " + _totalMessages);
-		return _totalMessages;
-	}
-	  
-	/**
-	 *
-	 */
-	public Boolean isLastMessage(){
-		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.isLastMessage() Is Last Message: " + (_currentMessage == _totalMessages));
-		if((_currentMessage + 1) >= _totalMessages){
-			return true;
-		}else{
-			return false;
-		}
-	}
-	  
-	/**
-	 *
-	 */
-	public Boolean isFirstMessage(){
-		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.isFirstMessage() Is First Message: " + (_currentMessage <= 1));
-		if((_currentMessage + 1) <= 1){
-			return true;
-		}else{
-			return false;
-		}
+		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.getTotalMessages()");
+		return _totalmessages;
 	}
 	
 	//================================================================================
 	// Public Methods
 	//================================================================================
+
+	/**
+	 * Determine if the current message is the last message in the list.
+	 */
+	public Boolean isLastMessage(){
+		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.isLastMessage()");
+		if((getCurrentMessage() + 1) >= getTotalMessages()){
+			return true;
+		}else{
+			return false;
+		}
+	}
 	  
 	/**
-	 *
+	 * Determine if the current message is the first message in the list.
+	 */
+	public Boolean isFirstMessage(){
+		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.isFirstMessage()");
+		if((getCurrentMessage() + 1) <= 1){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	/**
+	 * Add message to the messages list.
+	 * Add new message View to the ViewFlipper.
 	 */
 	public void addMessage(TextMessage message) {
 		 if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.addMessage()");
 		_messages.add(message);
-		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.addMessage() Added message");
-	    _totalMessages = _messages.size();
-	    if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.addMessage() Set message size)");
-	    addView(new SMSNotificationViewer(_context, message)); 
-	    if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.addMessage() Created mesage View)");
+		setTotalMessages(_messages.size());
+	    addView(new SMSNotificationViewer(getContext(), message)); 
 	}
 	
+	/**
+	 * Return the active message.
+	 * The active message is the current message.
+	 */	
 	public TextMessage getActiveMessage(){
 		return _messages.get(getCurrentMessage());
 	}
@@ -121,12 +147,12 @@ public class SMSNotificationViewFlipper extends ViewFlipper {
 //	* @return true if there were no more messages to remove, false otherwise
 //	*/
 //	public boolean removeMessage(int message_number) {
-//		if (message_number < _totalMessages && message_number >= 0 && _totalMessages > 1) {
+//		if (message_number < getTotalMessages() && message_number >= 0 && getTotalMessages() > 1) {
 //			// Fadeout current message
 //			setOutAnimation(_context, android.R.anim.fade_out);
 //	
 //			// If last message, slide in from left
-//			if (message_number == (_totalMessages-1)) {
+//			if (message_number == (getTotalMessages()-1)) {
 //				setInAnimation(inFromLeftAnimation());
 //			} else{ // Else slide in from right
 //				setInAnimation(inFromRightAnimation());
@@ -136,13 +162,13 @@ public class SMSNotificationViewFlipper extends ViewFlipper {
 //			// Remove message from arraylist
 //			_messages.remove(message_number);
 //			// Update total messages count
-//			_totalMessages = _messages.size();
+//			getTotalMessages() = _messages.size();
 //			// If we removed the last message then set current message to last
-//			if (_currentMessage >= _totalMessages) {
-//				_currentMessage = _totalMessages - 1;
+//			if (getCurrentMessage() >= getTotalMessages()) {
+//				getCurrentMessage() = getTotalMessages() - 1;
 //			}
 //			// If more messages, return false
-//			if (_totalMessages > 0)
+//			if (getTotalMessages() > 0)
 //				return false;
 //		}
 //		return true;
@@ -155,7 +181,7 @@ public class SMSNotificationViewFlipper extends ViewFlipper {
 //	* @return true if there were no more messages to remove, false otherwise
 //	*/
 //	public boolean removeActiveMessage() {
-//		return removeMessage(_currentMessage);
+//		return removeMessage(getCurrentMessage());
 //	}
 	  
 	/**
@@ -164,51 +190,49 @@ public class SMSNotificationViewFlipper extends ViewFlipper {
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.onTouchEvent()");
-		if (lockMode) return true;
+		if (_lockMode) return true;
 		switch (event.getAction()) {
 			case MotionEvent.ACTION_MOVE:
 				if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.onTouchEvent() ACTION_MOVE");
 			final View currentView = getCurrentView();
-			currentView.layout((int) (event.getX() - oldTouchValue), currentView.getTop(),
+			currentView.layout((int) (event.getX() - _oldTouchValue), currentView.getTop(),
 			currentView.getRight(), currentView.getBottom());
-			oldTouchValue = event.getX();
+			_oldTouchValue = event.getX();
 			break;
 		}
 		return super.onTouchEvent(event);
 	}
 	  
 	/**
-	 *
+	 * Function to show the next message in the list.
 	 */
 	@Override
 	public void showNext() {
 		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.showNext()");
-		if (_currentMessage < _totalMessages-1) {
-			_currentMessage += 1;
+		if (getCurrentMessage() < getTotalMessages()-1) {
+			setCurrentMessage(getCurrentMessage() + 1);
 			setInAnimation(inFromRightAnimation());
 			setOutAnimation(outToLeftAnimation());
 			super.showNext();
-			if (Log.DEBUG) Log.v("showNext() - " + _currentMessage);
 		}
 	}
 	  
 	/**
-	 *
+	 * Function to show the previous message in the list.
 	 */
 	@Override
 	public void showPrevious() {
 		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.showPrevious()");
-		if (_currentMessage > 0) {
-			_currentMessage -= 1;
+		if (getCurrentMessage() > 0) {
+			setCurrentMessage(getCurrentMessage() - 1);
 			setInAnimation(inFromLeftAnimation());
 			setOutAnimation(outToRightAnimation());
-			super.showPrevious();			
-			if (Log.DEBUG) Log.v("showPrevious() - " + _currentMessage);
+			super.showPrevious();
 		}
 	}
 	  
 	/**
-	 *
+	 * Function to animate the moving of the a message that comes form the right.
 	 */
 	public static Animation inFromRightAnimation() {
 		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.inFromRightAnimation()");
@@ -223,7 +247,7 @@ public class SMSNotificationViewFlipper extends ViewFlipper {
 	}
 	  
 	/**
-	 *
+	 * Function to animate the moving of the a message that leaves to the left.
 	 */
 	public static Animation outToLeftAnimation() {
 		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.outToLeftAnimation()");
@@ -238,7 +262,7 @@ public class SMSNotificationViewFlipper extends ViewFlipper {
 	}
 	  
 	/**
-	 *
+	 * Function to animate the moving of the a message that comes form the left.
 	 */
 	public static Animation inFromLeftAnimation() {
 		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.inFromLeftAnimation()");
@@ -253,7 +277,7 @@ public class SMSNotificationViewFlipper extends ViewFlipper {
 	}
 	  
 	/**
-	 *
+	 * Function to animate the moving of the a message that leaves to the right.
 	 */
 	public static Animation outToRightAnimation() {
 		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.outToRightAnimation()");
@@ -272,14 +296,14 @@ public class SMSNotificationViewFlipper extends ViewFlipper {
 	//================================================================================
 	  
 	/**
-	 *
+	 * Initialize the ViewFlipper properties.
 	 */
 	private void init(Context context) {
 		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.init()");
-		_context = context;
+		setContext(context);
 		_messages = new ArrayList<TextMessage>(1);
-		_totalMessages = 0;
-		_currentMessage = 0;
+		setTotalMessages(0);
+		setCurrentMessage(0);
 	}
 
 }
