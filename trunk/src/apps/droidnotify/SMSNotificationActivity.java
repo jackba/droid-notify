@@ -2,10 +2,8 @@ package apps.droidnotify;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -25,17 +23,13 @@ public class SMSNotificationActivity extends Activity {
 
 	private Bundle bundle;
 	private SMSNotificationViewFlipper SMSNotificationFlipper = null;
-	private LinearLayout headerLayout;
 	private LinearLayout mainLayout;
-	private LinearLayout buttonLayout;
 	private Button previousButton;
 	private Button inboxButton;
 	private Button nextButton;
 	
 	private double WIDTH = 0.9;
 	private int MAX_WIDTH = 640;
-	private int DIALOG_DELETE = Menu.FIRST;
-	private int DIALOG_REPLY = Menu.FIRST + 1;
 	  
 	/**
 	 *
@@ -63,7 +57,7 @@ public class SMSNotificationActivity extends Activity {
 	 */ 
 	private void setupViews() {
 		if (Log.DEBUG) Log.v("SMSNotificationActivity.setupViews()");
-		// Find main views
+
 		SMSNotificationFlipper = (SMSNotificationViewFlipper) findViewById(R.id.sms_notification_layout);
 		
 		previousButton = (Button) findViewById(R.id.previous_button);
@@ -126,8 +120,6 @@ public class SMSNotificationActivity extends Activity {
 	    
 	    initNavigationButtons(previousButton, inboxButton, nextButton);
 
-//		    refreshViews();
-	    resizeLayout();
 	}
 
 	/**
@@ -152,8 +144,7 @@ public class SMSNotificationActivity extends Activity {
 	private void initNavigationButtons(Button previousButton, Button inboxButton, Button nextButton){
 		if (Log.DEBUG) Log.v("SMSNotificationActivity.initNavigationButtons()");
 		updateNavigationButtons(previousButton, inboxButton, nextButton);
-	}
-	  
+	}  
 	  
 	/**
 	 *
@@ -165,20 +156,19 @@ public class SMSNotificationActivity extends Activity {
 		nextButton.setEnabled(!SMSNotificationFlipper.isLastMessage()); 		
     }
 	  
-//	  @Override
-//	  protected void onNewIntent(Intent intent) {
-//
-//	    super.onNewIntent(intent);
-//	    if (Log.DEBUG) Log.v("SMSPopupActivity: onNewIntent()");
-//
+	  @Override
+	  protected void onNewIntent(Intent intent) {
+	    super.onNewIntent(intent);
+	    if (Log.DEBUG) Log.v("SMSNotificationActivity.onNewIntent()");
+
 //	    // Update intent held by activity
 //	    setIntent(intent);
 //
 //	    // Setup messages
 //	    setupMessages(intent.getExtras(), true);
-//
+
 //	    wakeApp();
-//	}
+	}
 	  
 	/**
 	 *
@@ -595,9 +585,27 @@ public class SMSNotificationActivity extends Activity {
 	 */
 	private void replyToMessage() {
 		if (Log.DEBUG) Log.v("SMSNotificationActivity.replyToMessage()");
-		Intent i = SMSNotificationFlipper.getActiveMessage().getReplyIntent();
-		SMSNotificationActivity.this.getApplicationContext().startActivity(i);
+		//Intent i = SMSNotificationFlipper.getActiveMessage().getReplyIntent();
+		//SMSNotificationActivity.this.getApplicationContext().startActivity(i);
+		//finishActivity();
+		TextMessage message = SMSNotificationFlipper.getActiveMessage();
+		Intent intent = getMessageReplyIntent(message);
+		getApplicationContext().startActivity(intent);
 		finishActivity();
+	}
+	
+	/**
+	 * 
+	 */ 
+	private Intent getMessageReplyIntent(TextMessage message) {
+		if (Log.DEBUG) Log.v("SMSNotificationActivity.getMessageReplyIntent()");
+		//Reply to SMS "thread_id"
+		if (Log.DEBUG) Log.v("SMSNotificationActivity.getMessageReplyIntent() Replying to threadID: " + message.getThreadID());
+	    Intent intent = new Intent(Intent.ACTION_VIEW);
+	    intent.setType("vnd.android-dir/mms-sms");
+	    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+	    intent.putExtra("address", message.getFromAddress());
+	    return intent;
 	}
 	
 	/**

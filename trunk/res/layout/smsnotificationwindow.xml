@@ -4,9 +4,10 @@
 	android:layout_height="fill_parent"
 	android:minWidth="310dp"
 	android:id="@+id/main_layout"
-	android:layout_width="fill_parent" android:orientation="vertical">
-	
+	android:layout_width="fill_parent" 
+	android:orientation="vertical">
 	<RelativeLayout
+		xmlns:android="http://schemas.android.com/apk/res/android"
     	android:layout_width="wrap_content"
     	android:background="@android:color/darker_gray"
     	android:layout_height="wrap_content"
@@ -35,18 +36,20 @@
 	      	android:id="@+id/inbox_button"
 	      	android:layout_centerHorizontal="true"
 	      	android:layout_width="100dp" />
-  	</RelativeLayout>
+	</RelativeLayout>
   	
-  	<apps.droidnotify.SMSNotificationViewFlipper
-    	android:id="@+id/sms_notification_layout"
-    	android:layout_width="fill_parent" 
+	<apps.droidnotify.SMSNotificationViewFlipper
+		android:id="@+id/sms_notification_layout"
+		android:layout_width="fill_parent" 
     	android:layout_height="wrap_content">
-    </apps.droidnotify.SMSNotificationViewFlipper>
+	</apps.droidnotify.SMSNotificationViewFlipper>
   	
-	<LinearLayout android:layout_width="fill_parent" 
-	android:background="@android:color/darker_gray" 
-	android:layout_height="wrap_content" android:padding="2dp" 
-	android:gravity="center" android:id="@+id/button_layout">
+	<LinearLayout 
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="fill_parent" 
+		android:background="@android:color/darker_gray" 
+		android:layout_height="wrap_content" android:padding="2dp" 
+		android:gravity="center" android:id="@+id/button_layout">
 		<Button android:layout_width="fill_parent" 
 			android:layout_height="wrap_content" 
 			android:text="@string/close_button_text" 

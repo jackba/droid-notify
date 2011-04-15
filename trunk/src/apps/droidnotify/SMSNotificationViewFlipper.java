@@ -24,7 +24,7 @@ public class SMSNotificationViewFlipper extends ViewFlipper {
 	private ArrayList<TextMessage> _messages;
 	private int _currentmessage;
 	private int _totalmessages;
-	private static boolean _lockMode;
+	private boolean _lockMode;
 	private float _oldTouchValue;
 
 	//================================================================================
@@ -39,11 +39,18 @@ public class SMSNotificationViewFlipper extends ViewFlipper {
 		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.SMSNotificationViewFlipper()");
 		init(context);
 	}
+	
+	/**
+	 * SMSNotificationViewFlipper constructor.
+	 */	
+	public  SMSNotificationViewFlipper(Context context, AttributeSet attributes) {
+		super(context, attributes);
+		init(context);
+	}
 	  
 	//================================================================================
 	// Accessors
 	//================================================================================
-	  
 
 	/**
 	 * Set the context property.
@@ -52,7 +59,7 @@ public class SMSNotificationViewFlipper extends ViewFlipper {
 		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.setContext()");
 	    _context = context;
 	}
-
+	
 	/**
 	 * Get the messages property.
 	 */ 
@@ -234,7 +241,7 @@ public class SMSNotificationViewFlipper extends ViewFlipper {
 	/**
 	 * Function to animate the moving of the a message that comes form the right.
 	 */
-	public static Animation inFromRightAnimation() {
+	private Animation inFromRightAnimation() {
 		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.inFromRightAnimation()");
 		Animation inFromRight = new TranslateAnimation(
 		Animation.RELATIVE_TO_PARENT, +1.0f,
@@ -249,7 +256,7 @@ public class SMSNotificationViewFlipper extends ViewFlipper {
 	/**
 	 * Function to animate the moving of the a message that leaves to the left.
 	 */
-	public static Animation outToLeftAnimation() {
+	private Animation outToLeftAnimation() {
 		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.outToLeftAnimation()");
 		Animation outtoLeft = new TranslateAnimation(
 		Animation.RELATIVE_TO_PARENT, 0.0f,
@@ -264,7 +271,7 @@ public class SMSNotificationViewFlipper extends ViewFlipper {
 	/**
 	 * Function to animate the moving of the a message that comes form the left.
 	 */
-	public static Animation inFromLeftAnimation() {
+	private Animation inFromLeftAnimation() {
 		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.inFromLeftAnimation()");
 		Animation inFromLeft = new TranslateAnimation(
 		Animation.RELATIVE_TO_PARENT, -1.0f,
@@ -279,7 +286,7 @@ public class SMSNotificationViewFlipper extends ViewFlipper {
 	/**
 	 * Function to animate the moving of the a message that leaves to the right.
 	 */
-	public static Animation outToRightAnimation() {
+	private Animation outToRightAnimation() {
 		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.outToRightAnimation()");
 		Animation outtoRight = new TranslateAnimation(
 		Animation.RELATIVE_TO_PARENT, 0.0f,
@@ -300,7 +307,7 @@ public class SMSNotificationViewFlipper extends ViewFlipper {
 	 */
 	private void init(Context context) {
 		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.init()");
-		setContext(context);
+		//setContext(context);
 		_messages = new ArrayList<TextMessage>(1);
 		setTotalMessages(0);
 		setCurrentMessage(0);
