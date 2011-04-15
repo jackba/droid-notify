@@ -43,7 +43,23 @@ public class SMSReceiverService extends Service {
 	//================================================================================
 	// Accessors
 	//================================================================================
-	  
+
+	/**
+	 * Set the context property.
+	 */
+	public void setContext(Context context) {
+		if (Log.DEBUG) Log.v("SMSReceiverService.setContext()");
+	    _context = context;
+	}
+	
+	/**
+	 * Get the context property.
+	 */
+	public Context getContext() {
+		if (Log.DEBUG) Log.v("SMSReceiverService.getContext()");
+	    return _context;
+	}
+	
 	//================================================================================
 	// Public Methods
 	//================================================================================
@@ -66,7 +82,7 @@ public class SMSReceiverService extends Service {
 		if (Log.DEBUG) Log.v("SMSReceiverService.onCreate()");
 	    HandlerThread thread = new HandlerThread("DroidNotify", Process.THREAD_PRIORITY_BACKGROUND);
 	    thread.start();
-	    _context = getApplicationContext();
+	    setContext(getApplicationContext());
 	    SMSServiceLooper = thread.getLooper();
 	    SMSServiceHandler = new ServiceHandler(SMSServiceLooper);
 	}
@@ -170,7 +186,7 @@ public class SMSReceiverService extends Service {
 	    	int serviceID = message.arg1;
 	    	Intent intent = (Intent) message.obj;
 	    	String action = intent.getAction();
-	        String dataType = intent.getType();
+	        //String dataType = intent.getType();
 	        if (Log.DEBUG) Log.v("SMSReceiverService.ServiceHandler.handleMessage() Action Received: " + action);
 	        if (action.equals("android.provider.Telephony.SMS_RECEIVED")) {
 	        	handleSMSMessageReceived(intent);
@@ -202,16 +218,15 @@ public class SMSReceiverService extends Service {
 	private void displaySMSNotificationToScreen(Intent intent) {
 		if (Log.DEBUG) Log.v("SMSReceiver.displaySMSNotificationToScreen()");
 	    // Get the call state, if the user is in a call or the phone is ringing, don't show the notification.
-	    TelephonyManager telemanager = (TelephonyManager) _context.getSystemService(Context.TELEPHONY_SERVICE);
+	    TelephonyManager telemanager = (TelephonyManager) getContext().getSystemService(Context.TELEPHONY_SERVICE);
 	    boolean callStateIdle = telemanager.getCallState() == TelephonyManager.CALL_STATE_IDLE;
 	    // If the user is not in a call then show the notification activity.
 	    if (callStateIdle) {
 	    	if (Log.DEBUG) Log.v("SMSReceiver.displaySMSNotificationToScreen() Display SMS Notification Window");    	
-	    	Intent newIntent = new Intent(_context, SMSNotificationActivity.class);
+	    	Intent newIntent = new Intent(getContext(), SMSNotificationActivity.class);
 	    	newIntent.putExtras(intent.getExtras());
 	    	newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-	    	_context.startActivity(newIntent);
-	    	
+	    	getContext().startActivity(newIntent);
 	    }
 	}
 
