@@ -37,7 +37,7 @@ public class SMSNotificationViewer extends LinearLayout {
      */	
 	public SMSNotificationViewer(Context context,  TextMessage message) {
 	    super(context);
-	    if (Log.DEBUG) Log.v("SMSNotificationViewer.SMSNotificationViewer()");
+	    if (Log.getDebug()) Log.v("SMSNotificationViewer.SMSNotificationViewer()");
 	    _context = context;
 	    initLayoutItems(context);
 	    populateMessageView(message);
@@ -59,9 +59,9 @@ public class SMSNotificationViewer extends LinearLayout {
      * 
      */	
 	private void initLayoutItems(Context context) {
-		if (Log.DEBUG) Log.v("SMSNotificationViewer.SetupLayout()");
+		if (Log.getDebug()) Log.v("SMSNotificationViewer.SetupLayout()");
 	    View.inflate(context, R.layout.smsmessage, this);
-	    if (Log.DEBUG) Log.v("SMSNotificationViewer should be inflated now");
+	    if (Log.getDebug()) Log.v("SMSNotificationViewer should be inflated now");
 	    // Find the main textviews and layouts
 	    _fromTV = (TextView) findViewById(R.id.from_text_view);
 	    _messageTV = (TextView) findViewById(R.id.message_text_view);

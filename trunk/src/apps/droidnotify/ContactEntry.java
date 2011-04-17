@@ -20,190 +20,23 @@ public class ContactEntry {
     // Properties
     //================================================================================
 	
-	private Long _contactid = null;
-	private String _contactlookupkey = null;
-	private String _contactdisplayname = null;
-	private static final Pattern NAME_ADDR_EMAIL_PATTERN = Pattern.compile("\\s*(\"[^\"]*\"|[^<>\"]+)\\s*<([^<>]+)>\\s*");
 	private Uri emailUri = Uri.parse("content://contacts/people/with_email_or_im_filter");
 	private Uri phoneUri;
-	private String columns[] = new String[] { Contacts._ID, Contacts.DISPLAY_NAME };
 	private int _maxphotosize = 1024;
 	private int _thumbphotosize = 96;
 	
 	//================================================================================
 	// Constructors
 	//================================================================================
-	public ContactEntry(){
-		_contactid = null;
-		_contactlookupkey = null;
-		_contactdisplayname = null;	
-		return;
-	}
-	
-	public ContactEntry(Long contactid, String contactlookup, String contactname){
-		_contactid = contactid;
-		_contactlookupkey = contactlookup;
-		_contactdisplayname = contactname;	
-		return;
-	}
 	
 	//================================================================================
 	// Accessors
 	//================================================================================
-	  
-	public Long getContactID(){
-		return _contactid;
-	}
-
-	public void setContactID(Long contactid){
-		_contactid = contactid;
-		return;
-	}
-
-	public String getContactLookupKey(){
-		return _contactlookupkey;
-	}
-
-	public void setContactLookupKey(String contactlookup){
-		_contactlookupkey = contactlookup;
-		return;
-	}
-	
-	public String getContactName(){
-		return _contactdisplayname;
-	}
-
-	public void setContactName(String contactname){
-		_contactdisplayname = contactname;
-		return;
-	}
 	
 	//================================================================================
 	// Public Methods
 	//================================================================================
-  
-	/**
-	 * Looks up a contacts id, given their email address.
-	 * Leaves properties as null if not found.
-	 */
-	public void PopulateContactFromEmail(Context context, String email) {
-		if (email == null){
-			return;
-		}
-	    Cursor cursor = null;
-	    try {
-	    	cursor = context.getContentResolver().query(
-	    			Uri.withAppendedPath(emailUri, Uri.encode(ExtractEmailAddress(email))),
-	    			columns,
-	    			null, 
-	    			null, 
-	    			null);
-	    } catch (Exception e) {
-	    	Log.v("ContactEntry.PopulateContactFromEmail() Exception: " + e.toString());
-	    	return;
-	    }
-	    if (cursor != null) {
-	    	try {
-	    		if (cursor.moveToFirst()) {
-	    			_contactid = Long.valueOf(cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID)));
-	    			_contactdisplayname = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-	    			_contactlookupkey = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY));
-	    			if (Log.DEBUG) Log.v("Found person: " + _contactid + ", " + _contactdisplayname + ", " + _contactlookupkey);
-	    		}
-		    } catch (Exception e) {
-		    	Log.v("ContactEntry.PopulateContactFromEmail() Exception: " + e.toString());
-	    	} finally {
-	    		cursor.close();
-	    	}
-	    }
-	    return;
-	}
-	
-	/**
-	 * Looks up a contacts id, given their phone number.
-	 * Leaves properties as null if not found.
-	 */
-	public void PopulateContactFromPhoneNumber(Context context, String phonenumber) {
-	    if (phonenumber == null){
-	    	return;
-	    }
-	    Cursor cursor = null;
-	    phoneUri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(phonenumber));
-	    try {
-	    	cursor = context.getContentResolver().query(
-	    			phoneUri,
-	    			columns,
-	    			null, 
-	    			null, 
-	    			null);
-	    } catch (Exception e) {
-	    	Log.v("ContactEntry.PopulateContactFromEmail() Exception: " + e.toString());
-	    	return;
-	    }
-	    if (cursor != null) {
-	      try {
-	    		if (cursor.moveToFirst()) {
-	    			_contactid = Long.valueOf(cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID)));
-	    			_contactdisplayname = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-	    			_contactlookupkey = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY));
-	    			if (Log.DEBUG) Log.v("Found person: " + _contactid + ", " + _contactdisplayname + ", " + _contactlookupkey);
-	    		}
-		    } catch (Exception e) {
-		    	Log.v("ContactEntry.PopulateContactFromPhoneNumber() Exception: " + e.toString());
-	    	} finally {
-	    		cursor.close();
-	    	}
-	    }
-	    return;
-	}
-	
-	/**
-	 * Looks up a contacts display name by contact id - if not found, the 
-	 * phone number will be formatted and returned instead.
-	 */
-	public String GetPersonName(Context context, Long id, String phonenumber) {
-		String columns[] = new String[] { Contacts.DISPLAY_NAME };
-		_contactdisplayname = null;
-	    // Check for id, if null return the formatting phone number as the name
-	    if (id == null) {
-	    	if (phonenumber != null)
-	    		_contactdisplayname = PhoneNumberUtils.formatNumber(phonenumber);
-	    	return _contactdisplayname;
-	    }
-	    Cursor cursor = null;
-	    try {
-	    	cursor = context.getContentResolver().query(
-	        Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_URI, String.valueOf(id)),
-	        columns,
-	        null, 
-	        null, 
-	        null);
-	    } catch (Exception e) {
-	    	_contactdisplayname = null;
-	    	Log.v("ContactEntry.GetPersonName() Exception: " + e.toString());
-	    }
-	    if (cursor != null) {
-	    	try {
-	    		if (cursor.getCount() > 0) {
-	    			cursor.moveToFirst();
-	    			_contactdisplayname = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-	    			if (Log.DEBUG) Log.v("Contact Display Name: " + _contactdisplayname);
-	    		}
-	    	} catch (Exception e) {
-	    		_contactdisplayname = null;
-		    	Log.v("ContactEntry.GetPersonName() Exception: " + e.toString());
-		    } finally {
-	    	  cursor.close();
-	    	}
-	    	if(_contactdisplayname != null)
-	    		return _contactdisplayname;
-	    }
-	    if (phonenumber != null) {
-	    	_contactdisplayname = PhoneNumberUtils.formatNumber(phonenumber);
-	    }
-	    return _contactdisplayname;
-	  }
-
+ 
 	//================================================================================
 	// Private Methods
 	//================================================================================
@@ -237,7 +70,7 @@ public class ContactEntry {
 	    // Raw height and width of contact photo
 	    int height = options.outHeight;
 	    int width = options.outWidth;
-	    if (Log.DEBUG) Log.v("ContactEntry.GetPersonPhoto() Contact photo size = H" + height + " x W" + width + ".");
+	    if (Log.getDebug()) Log.v("ContactEntry.GetPersonPhoto() Contact photo size = H" + height + " x W" + width + ".");
 	    // If photo is too large or not found get out
 	    if (height > _maxphotosize || width > _maxphotosize  || width == 0 || height == 0) 
 	    	return null;
@@ -247,7 +80,7 @@ public class ContactEntry {
 	    final float scale = context.getResources().getDisplayMetrics().density;
 	    int thumbsize = _thumbphotosize;
 	    if (scale != 1.0) {
-	    	if (Log.DEBUG) Log.v("ContactEntry.GetPersonPhoto() Screen density is not 1.0, adjusting contact photo.");
+	    	if (Log.getDebug()) Log.v("ContactEntry.GetPersonPhoto() Screen density is not 1.0, adjusting contact photo.");
 	      	thumbsize = Math.round(thumbsize * scale);
 	    }
 	    int newHeight = thumbsize;
@@ -314,14 +147,6 @@ public class ContactEntry {
 		return BitmapFactory.decodeResource(context.getResources(), placeholderImageResource, options);
 	}
 	
-	private String ExtractEmailAddress(String email) {
-		Matcher match = NAME_ADDR_EMAIL_PATTERN.matcher(email);
-		if (match.matches()){
-			return match.group(2);
-		}
-		return email;
-	}
-	
 	/**
 	 * Returns an InputStream for the person's photo
 	 * @param id the id of the person
@@ -336,7 +161,5 @@ public class ContactEntry {
 	    }
 	    return input;
 	}
-	
-	
 	
 }
