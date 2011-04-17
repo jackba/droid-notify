@@ -1,6 +1,5 @@
 package apps.droidnotify;
 
-import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
@@ -11,25 +10,36 @@ import android.telephony.SmsMessage.MessageClass;
 
 /**
  * 
+ * @author csevigny
+ *
  */
 public class TextMessage {
+	
+	//================================================================================
+    // Constants
+    //================================================================================
+	
+	private int MESSAGE_TYPE_PHONE = 0;
+	private int MESSAGE_TYPE_SMS = 1;
+	private int MESSAGE_TYPE_MMS = 2;
 	
 	//================================================================================
     // Properties
     //================================================================================
 	
 	private Context _context;
-	private String _fromaddress;
-	private String _messagebody;
-	private long _timestamp;
-	private long _threadid;
-	private long _contactid;
-	private String _contactlookupkey;
-	private String _contactname;
-	private int _messagetype;
-	private long _messageid;
-	private boolean _fromemailgateway;
-	private MessageClass _messageclass;
+	private String _fromAddress;
+	private String _messageBody;
+	private long _timeStamp;
+	private long _threadID;
+	private long _contactID;
+	private String _contactLookupKey;
+	private String _contactName;
+	private long _photoID;
+	private int _messageType;
+	private long _messageID;
+	private boolean _fromEmailGateway;
+	private MessageClass _messageClass;
   
 	//================================================================================
 	// Constructors
@@ -39,10 +49,10 @@ public class TextMessage {
 	 * Construct SmsMmsMessage given a raw message (created from pdu).
 	 */
 	public TextMessage(Context context, Bundle b) {
-		if (Log.DEBUG) Log.v("TextMessage.TextMessage()");
+		if (Log.getDebug()) Log.v("TextMessage.TextMessage()");
 		setContext(context);
 		SmsMessage[] msgs = null;
-        String messagebody = "";            
+        String messageBody = "";            
         if (b != null){
             // Retrieve SMS message from bundle.
             Object[] pdus = (Object[]) b.get("pdus");
@@ -55,15 +65,16 @@ public class TextMessage {
     		setFromAddress(sms.getDisplayOriginatingAddress());
     		setFromEmailGateway(sms.isEmail());
     		setMessageClass(sms.getMessageClass());
-    		setMessageType(0);
+    		setMessageType(MESSAGE_TYPE_SMS);
             //Get the entire message body from the new message.
             for (int i=0; i<msgs.length; i++){                
-                messagebody += msgs[i].getMessageBody().toString();
+                messageBody += msgs[i].getMessageBody().toString();
             }
-            setMessageBody(messagebody);
-    		setThreadID(getThreadIdByAddress(getContext(), getFromAddress()));  
-    		setContactID(getContactIDByAddress(getContext(), getFromAddress())); 
-    		//setMessageID(getMessageID(getContext(), getFromAddress())); 
+            setMessageBody(messageBody);
+    		loadThreadID(getContext(), getFromAddress());  
+    		loadContactsInfo(getContext(), getFromAddress());
+    		
+ 
         }
 	}
 
@@ -75,7 +86,7 @@ public class TextMessage {
 	 * Set the context property.
 	 */
 	public void setContext(Context context) {
-		if (Log.DEBUG) Log.v("TextMessage.setContext()");
+		if (Log.getDebug()) Log.v("TextMessage.setContext()");
 	    _context = context;
 	}
 	
@@ -83,198 +94,214 @@ public class TextMessage {
 	 * Get the context property.
 	 */
 	public Context getContext() {
-		if (Log.DEBUG) Log.v("TextMessage.getContext()");
+		if (Log.getDebug()) Log.v("TextMessage.getContext()");
 	    return _context;
 	}
 
 	/**
-	 * Set the fromaddress property.
+	 * Set the fromAddress property.
 	 */
-	public void setFromAddress(String fromaddress) {
-		if (Log.DEBUG) Log.v("TextMessage.setFromAddress()");
-		_fromaddress = fromaddress;
+	public void setFromAddress(String fromAddress) {
+		if (Log.getDebug()) Log.v("TextMessage.setFromAddress()");
+		_fromAddress = fromAddress;
 	}
 	
 	/**
-	 * Get the fromaddress property.
+	 * Get the fromAddress property.
 	 */
 	public String getFromAddress() {
-		if (Log.DEBUG) Log.v("TextMessage.getFromAddress()");
-		return _fromaddress;
+		if (Log.getDebug()) Log.v("TextMessage.getFromAddress()");
+		return _fromAddress;
 	}
 	
 	/**
-	 * Set the messagebody property.
+	 * Set the messageBody property.
 	 */
-	public void setMessageBody(String messagebody) {
-		if (Log.DEBUG) Log.v("TextMessage.setMessageBody()");
-		_messagebody = messagebody;
+	public void setMessageBody(String messageBody) {
+		if (Log.getDebug()) Log.v("TextMessage.setMessageBody()");
+		_messageBody = messageBody;
 	}
 	
 	/**
-	 * Get the messagebody property.
+	 * Get the messageBody property.
 	 */
 	public String getMessageBody() {
-		if (Log.DEBUG) Log.v("TextMessage.getMessageBody()");
-		if (_messagebody == null) {
-			_messagebody = "";
+		if (Log.getDebug()) Log.v("TextMessage.getMessageBody()");
+		if (_messageBody == null) {
+			_messageBody = "";
 	    }
-	    return _messagebody;
+	    return _messageBody;
 	}
 
 	/**
-	 * Set the timestamp property.
+	 * Set the timeStamp property.
 	 */
-	public void setTimeStamp(long timestamp) {
-		if (Log.DEBUG) Log.v("TextMessage.setTimeStamp()");
-	    _timestamp = timestamp;
+	public void setTimeStamp(long timeStamp) {
+		if (Log.getDebug()) Log.v("TextMessage.setTimeStamp()");
+	    _timeStamp = timeStamp;
 	}
 	
 	/**
-	 * Get the timestamp property.
+	 * Get the timeStamp property.
 	 */
 	public long getTimeStamp() {
-		if (Log.DEBUG) Log.v("TextMessage.getTimeStamp()");
-	    return _timestamp;
+		if (Log.getDebug()) Log.v("TextMessage.getTimeStamp()");
+	    return _timeStamp;
 	}
 	
 	/**
-	 * Set the threadid property.
+	 * Set the threadID property.
 	 */
-	public void setThreadID(long threadid) {
-		if (Log.DEBUG) Log.v("TextMessage.setThreadID()");
-	    _threadid = threadid;
+	public void setThreadID(long threadID) {
+		if (Log.getDebug()) Log.v("TextMessage.setThreadID()");
+	    _threadID = threadID;
 	}
 	
 	/**
-	 * Get the threadid property.
+	 * Get the threadID property.
 	 */
 	public long getThreadID() {
-		if (Log.DEBUG) Log.v("TextMessage.getThreadID()");
-	    return _threadid;
+		if (Log.getDebug()) Log.v("TextMessage.getThreadID()");
+	    return _threadID;
 	}	
 	
 	/**
-	 * Set the contactid property.
+	 * Set the contactID property.
 	 */
-	public void setContactID(long contactid) {
-		if (Log.DEBUG) Log.v("TextMessage.setContactID()");
-	    _contactid = contactid;
+	public void setContactID(long contactID) {
+		if (Log.getDebug()) Log.v("TextMessage.setContactID()");
+	    _contactID = contactID;
 	}
 	
 	/**
-	 * Get the contactid property.
+	 * Get the contactID property.
 	 */
 	public long getContactID() {
-		if (Log.DEBUG) Log.v("TextMessage.getContactID()");
-	    return _contactid;
+		if (Log.getDebug()) Log.v("TextMessage.getContactID()");
+	    return _contactID;
 	}
 	
 	/**
-	 * Set the contactlookupkey property.
+	 * Set the contactLookupKey property.
 	 */
-	public void setContactLookupKey(String contactlookupkey) {
-		if (Log.DEBUG) Log.v("TextMessage.setContactLookupKey()");
-		_contactlookupkey = contactlookupkey;
+	public void setContactLookupKey(String contactLookupKey) {
+		if (Log.getDebug()) Log.v("TextMessage.setContactLookupKey()");
+		_contactLookupKey = contactLookupKey;
 	}
 	
 	/**
-	 * Get the contactlookupkey property.
+	 * Get the contactLookupKey property.
 	 */
 	public String getContactLookupKey() {
-		if (Log.DEBUG) Log.v("TextMessage.getContactLookupKey()");
-	    return _contactlookupkey;
+		if (Log.getDebug()) Log.v("TextMessage.getContactLookupKey()");
+	    return _contactLookupKey;
 	}	
 
 	/**
-	 * Set the contactname property.
+	 * Set the contactName property.
 	 */
-	public void setContactName(String contactname) {
-		if (Log.DEBUG) Log.v("TextMessage.setContactName()");
-		_contactname = contactname;
+	public void setContactName(String contactName) {
+		if (Log.getDebug()) Log.v("TextMessage.setContactName()");
+		_contactName = contactName;
 	}
 	
 	/**
-	 * Get the contactname property.
+	 * Get the contactName property.
 	 */
 	public String getContactName() {
-		if (Log.DEBUG) Log.v("TextMessage.getContactName()");
-		if (_contactname == null) {
-			_contactname = _context.getString(android.R.string.unknownName);
+		if (Log.getDebug()) Log.v("TextMessage.getContactName()");
+		if (_contactName == null) {
+			_contactName = _context.getString(android.R.string.unknownName);
 	    }
-		return _contactname;
+		return _contactName;
+	}
+
+	/**
+	 * Set the photoID property.
+	 */
+	public void setPhotoID(long photoID) {
+		if (Log.getDebug()) Log.v("TextMessage.setPhotoID()");
+		_photoID = photoID;
 	}
 	
 	/**
-	 * Get the messageclass property.
+	 * Get the photoID property.
+	 */
+	public long getPhotoID() {
+		if (Log.getDebug()) Log.v("TextMessage.getPhotoID()");
+		return _photoID;
+	}
+	
+	/**
+	 * Get the messageClass property.
 	 */
 	public MessageClass getMessageClass() {
-		if (Log.DEBUG) Log.v("TextMessage.getMessageClass()");
-		return _messageclass;
+		if (Log.getDebug()) Log.v("TextMessage.getMessageClass()");
+		return _messageClass;
 	}
 
 	/**
-	 * Set the messagetype property.
+	 * Set the messageType property.
 	 */
-	public void setMessageType(int messagetype) {
-		if (Log.DEBUG) Log.v("TextMessage.setMessageType()");
-		_messagetype = messagetype;
+	public void setMessageType(int messageType) {
+		if (Log.getDebug()) Log.v("TextMessage.setMessageType()");
+		_messageType = messageType;
 	}
 	
 	/**
-	 * Get the messagetype property.
+	 * Get the messageType property.
 	 */
 	public int getMessageType() {
-		if (Log.DEBUG) Log.v("TextMessage.getMessageType()");
-		return _messagetype;
+		if (Log.getDebug()) Log.v("TextMessage.getMessageType()");
+		return _messageType;
 	}
 
 	/**
-	 * Set the messageid property.
+	 * Set the messageID property.
 	 */
-	public void setMessageId(long messageid) {
-		if (Log.DEBUG) Log.v("TextMessage.setMessageId()");
-  		_messageid = messageid;
+	public void setMessageId(long messageID) {
+		if (Log.getDebug()) Log.v("TextMessage.setMessageId()");
+  		_messageID = messageID;
 	}
 	
 	/**
-	 * Get the messageid property.
+	 * Get the messageID property.
 	 */
 	public long getMessageId() {
-		if (Log.DEBUG) Log.v("TextMessage.getMessageId()");
-  		return _messageid;
+		if (Log.getDebug()) Log.v("TextMessage.getMessageId()");
+  		return _messageID;
 	}
 
 	/**
-	 * Set the fromemailgateway property.
+	 * Set the fromEmailGateway property.
 	 */
-	public void setFromEmailGateway(boolean fromemailgateway) {
-		if (Log.DEBUG) Log.v("TextMessage.setFromEmailGateway()");
-  		_fromemailgateway = fromemailgateway;
+	public void setFromEmailGateway(boolean fromEmailGateway) {
+		if (Log.getDebug()) Log.v("TextMessage.setFromEmailGateway()");
+  		_fromEmailGateway = fromEmailGateway;
 	}
 	
 	/**
-	 * Get the fromemailgateway property.
+	 * Get the fromEmailGateway property.
 	 */
 	public boolean setFromEmailGateway() {
-		if (Log.DEBUG) Log.v("TextMessage.getFromEmailGateway()");
-  		return _fromemailgateway;
+		if (Log.getDebug()) Log.v("TextMessage.getFromEmailGateway()");
+  		return _fromEmailGateway;
 	}	
 
 	/**
-	 * Set the messageclass property.
+	 * Set the messageClass property.
 	 */
-	public void setMessageClass(MessageClass messageclass) {
-		if (Log.DEBUG) Log.v("TextMessage.setMessageClass()");
-		_messageclass = messageclass;
+	public void setMessageClass(MessageClass messageClass) {
+		if (Log.getDebug()) Log.v("TextMessage.setMessageClass()");
+		_messageClass = messageClass;
 	}
 	
 	/**
-	 * Get the messageclass property.
+	 * Get the messageClass property.
 	 */
 	public MessageClass setMessageClass() {
-		if (Log.DEBUG) Log.v("TextMessage.getMessageClass()");
-  		return _messageclass;
+		if (Log.getDebug()) Log.v("TextMessage.getMessageClass()");
+  		return _messageClass;
 	}
 	
 	//================================================================================
@@ -284,78 +311,15 @@ public class TextMessage {
 	//================================================================================
 	// Private Methods
 	//================================================================================
-
-	 
-	/**
-	 * Get the contact ID from the ContactsContract content provider using the SMS message address.
-	 */ 
-	private long getContactIDByAddress(Context context, String address){
-		if (Log.DEBUG) Log.v("TextMessage.getContactIDByAddress()");
-		if (address == null) return 0;
-		final String[] projection = null;
-		final String selection = null;
-		final String[] selectionArgs = null;
-		final String sortOrder = null;
-	    long contactID = 0;
-//		Cursor cursor = context.getContentResolver().query(
-//			ContactsContract.Contacts.CONTENT_URI,
-//    		projection,
-//    		selection,
-//			selectionArgs,
-//			sortOrder);
-//	    if (cursor != null) {
-//	    	if(cursor.getCount() > 0){
-//	        	try {
-//	        		while (cursor.moveToNext()) {
-//	        	        String contactID = cursor.getString(cur.getColumnIndex(ContactsContract.Contacts._ID));
-//	        	        String name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-//	         			if (Integer.parseInt(cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))) > 0) {
-//	         				final String[] phoneProjection = null;
-//	         				final String phoneSelection = ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?";
-//	         				final String[] phoneSelectionArgs = new String[]{contactID};
-//	         				final String phoneSortOrder = null;
-//	         				Cursor phoneNumberCursor = context.getContentResolver().query(
-//	         						ContactsContract.CommonDataKinds.Phone.CONTENT_URI, 
-//	         						phoneProjection, 
-//	         						phoneSelection, 
-//	         						phoneSelectionArgs, 
-//	         						phoneSortOrder);
-//	         			    if (phoneNumberCursor != null) {
-//	         			    	if(phoneNumberCursor.getCount() > 0){
-//	         			        	try {
-//				         	 	        while (phoneNumberCursor.moveToNext()) {
-//				         	 	        	if(phoneNumberCursor.getString(ContactsContract.CommonDataKinds.Phone.) == address){
-//				         	 	        		contactID = phoneNumberCursor.getString(0);
-//				         	 	        		if (Log.DEBUG) Log.v("TextMessage.getContactIDByAddress() Contact_ID Found: " + contactID);
-//				         	 	        	}
-//				         	 	        } 
-//		         			    	} finally {
-//		         			    		phoneNumberCursor.close();
-//		         			    	}
-//		         		    	}else{
-//		         		    		phoneNumberCursor.close();
-//		         		    	}
-//	         			    }
-//	         			}
-//	         		}
-//		    	} finally {
-//		    		cursor.close();
-//		    	}
-//	    	}else{
-//	        	cursor.close();
-//	    	}
-//        }
-        return contactID;
-	}
 	
 	/**
 	 * Get the THREAD_ID from the SMS Contract content provider using the SMS message address.
 	 */
-	private long getThreadIdByAddress(Context context, String address){
-		if (Log.DEBUG) Log.v("TextMessage.getThreadIdByAddress()");
-		if (address == null) return 0;
+	private void loadThreadID(Context context, String address){
+		if (Log.getDebug()) Log.v("TextMessage.getThreadIdByAddress()");
+		if (address == null) return;
 		final String[] projection = new String[] { "_ID", "THREAD_ID" };
-		final String selection = "address=" + address;
+		final String selection = "ADDRESS = " + address;
 		final String[] selectionArgs = null;
 		final String sortOrder = null;
 	    long threadID = 0;
@@ -370,7 +334,7 @@ public class TextMessage {
 		    	try {
 		    		if (cursor.moveToFirst()) {
 		    			threadID = cursor.getLong(cursor.getColumnIndex("THREAD_ID"));
-		    			if (Log.DEBUG) Log.v("TextMessage.getThreadIdByAddress() Thread_ID Found: " + threadID);
+		    			if (Log.getDebug()) Log.v("TextMessage.getThreadIdByAddress() Thread_ID Found: " + threadID);
 		    		}
 		    	} finally {
 		    		cursor.close();
@@ -379,7 +343,62 @@ public class TextMessage {
 	        	cursor.close();
 	    	}
 	    }
-	    return threadID;
+	    setThreadID(threadID);
 	}
 
+	/**
+	 * Load contact info from the ContactsContract content provider using the SMS message address.
+	 */ 
+	private void loadContactsInfo(Context context, String smsPhoneNumber){
+		PhoneNumber incomingNumber = new PhoneNumber(smsPhoneNumber);
+		if (Log.getDebug()) Log.v("TextMessage.loadContactsInfo()");
+		if (smsPhoneNumber == null) return;
+		final String[] projection = null;
+		final String selection = null;
+		final String[] selectionArgs = null;
+		final String sortOrder = null;
+		Cursor cursor = context.getContentResolver().query(
+				ContactsContract.Contacts.CONTENT_URI,
+				projection, 
+				selection, 
+				selectionArgs, 
+				sortOrder);
+		while (cursor.moveToNext()) { 
+		   String contactID = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID)); 
+		   String hasPhone = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)); 
+		   String contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+		   String contactLookupKey = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY));
+		   String photoID = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_ID)); 
+		   if (Log.getDebug()) Log.v("TextMessage.loadContactsInfo() photoID: " + photoID);
+		   if (Integer.parseInt(hasPhone) > 0) { 
+				final String[] phoneProjection = null;
+				final String phoneSelection = ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = " + contactID;
+				final String[] phoneSelectionArgs = null;
+				final String phoneSortOrder = null;
+				Cursor phoneCursor = context.getContentResolver().query(
+						ContactsContract.CommonDataKinds.Phone.CONTENT_URI, 
+						phoneProjection, 
+						phoneSelection, 
+						phoneSelectionArgs, 
+						phoneSortOrder); 
+		      while (phoneCursor.moveToNext()) { 
+		    	  String phoneNumber = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+		    	  PhoneNumber contactNumber = new PhoneNumber(phoneNumber);
+		    	  if(incomingNumber.getPhoneNumber().equals(contactNumber.getPhoneNumber())){
+		    		  setContactID(Long.parseLong(contactID));
+		    		  setContactLookupKey(contactLookupKey);
+		    		  setContactName(contactName);
+		    		  //setPhotoID(Long.parseLong(photoID));
+		    	  }
+		      } 
+		      phoneCursor.close(); 
+		   }
+		}
+		cursor.close();
+	}
+	
+	
+	
+	
+	
 }

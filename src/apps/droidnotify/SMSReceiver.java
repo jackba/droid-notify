@@ -32,7 +32,7 @@ public class SMSReceiver extends BroadcastReceiver{
 	 */
 	@Override
 	public void onReceive(Context context, Intent intent){
-		if (Log.DEBUG) Log.v("SMSReceiver.onReceive()");
+		if (Log.getDebug()) Log.v("SMSReceiver.onReceive()");
 	    intent.setClass(context, SMSReceiverService.class);
 	    intent.putExtra("result", getResultCode());
 	    SMSReceiverService.startSMSMonitoringService(context, intent);

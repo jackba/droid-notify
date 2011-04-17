@@ -15,7 +15,7 @@
             </intent-filter>
         </activity>
 
-		<activity android:name=".SMSNotificationActivity" android:theme="@android:style/Theme.Dialog"
+		<activity android:name="NotificationActivity" android:theme="@android:style/Theme.Dialog"
 			android:launchMode="singleTask" android:configChanges="keyboardHidden|orientation"
 			android:screenOrientation="user">
 		</activity>

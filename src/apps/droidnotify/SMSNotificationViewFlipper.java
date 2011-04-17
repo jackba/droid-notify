@@ -36,7 +36,7 @@ public class SMSNotificationViewFlipper extends ViewFlipper {
 	 */
 	public SMSNotificationViewFlipper(Context context) {
 		super(context);
-		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.SMSNotificationViewFlipper()");
+		if (Log.getDebug()) Log.v("SMSNotificationViewFlipper.SMSNotificationViewFlipper()");
 		init(context);
 	}
 	
@@ -56,7 +56,7 @@ public class SMSNotificationViewFlipper extends ViewFlipper {
 	 * Set the context property.
 	 */
 	public void setContext(Context context) {
-		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.setContext()");
+		if (Log.getDebug()) Log.v("SMSNotificationViewFlipper.setContext()");
 	    _context = context;
 	}
 	
@@ -64,7 +64,7 @@ public class SMSNotificationViewFlipper extends ViewFlipper {
 	 * Get the messages property.
 	 */ 
 	public ArrayList<TextMessage> getMessages(){
-		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.getMessages()");
+		if (Log.getDebug()) Log.v("SMSNotificationViewFlipper.getMessages()");
 		return _messages;
 	}
 	
@@ -72,7 +72,7 @@ public class SMSNotificationViewFlipper extends ViewFlipper {
 	 * Set the currentMessage property.
 	 */ 
 	public void setCurrentMessage(int currentmessage){
-		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.setCurrentMessage()");
+		if (Log.getDebug()) Log.v("SMSNotificationViewFlipper.setCurrentMessage()");
 		_currentmessage = currentmessage;
 	}
 	
@@ -80,7 +80,7 @@ public class SMSNotificationViewFlipper extends ViewFlipper {
 	 * Get the currentMessage property.
 	 */ 
 	public int getCurrentMessage(){
-		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.getCurrentMessage()");
+		if (Log.getDebug()) Log.v("SMSNotificationViewFlipper.getCurrentMessage()");
 		return _currentmessage;
 	}
 	
@@ -88,7 +88,7 @@ public class SMSNotificationViewFlipper extends ViewFlipper {
 	 * Set the totalmessages property.
 	 */ 
 	public void setTotalMessages(int totalmessages){
-		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.setTotalMessages()");
+		if (Log.getDebug()) Log.v("SMSNotificationViewFlipper.setTotalMessages()");
 		_totalmessages = totalmessages;
 	}	  
 	
@@ -96,7 +96,7 @@ public class SMSNotificationViewFlipper extends ViewFlipper {
 	 * Get the totalmessages property.
 	 */
 	public int getTotalMessages(){
-		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.getTotalMessages()");
+		if (Log.getDebug()) Log.v("SMSNotificationViewFlipper.getTotalMessages()");
 		return _totalmessages;
 	}
 	
@@ -108,7 +108,7 @@ public class SMSNotificationViewFlipper extends ViewFlipper {
 	 * Determine if the current message is the last message in the list.
 	 */
 	public Boolean isLastMessage(){
-		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.isLastMessage()");
+		if (Log.getDebug()) Log.v("SMSNotificationViewFlipper.isLastMessage()");
 		if((getCurrentMessage() + 1) >= getTotalMessages()){
 			return true;
 		}else{
@@ -120,7 +120,7 @@ public class SMSNotificationViewFlipper extends ViewFlipper {
 	 * Determine if the current message is the first message in the list.
 	 */
 	public Boolean isFirstMessage(){
-		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.isFirstMessage()");
+		if (Log.getDebug()) Log.v("SMSNotificationViewFlipper.isFirstMessage()");
 		if((getCurrentMessage() + 1) <= 1){
 			return true;
 		}else{
@@ -133,7 +133,7 @@ public class SMSNotificationViewFlipper extends ViewFlipper {
 	 * Add new message View to the ViewFlipper.
 	 */
 	public void addMessage(TextMessage message) {
-		 if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.addMessage()");
+		 if (Log.getDebug()) Log.v("SMSNotificationViewFlipper.addMessage()");
 		_messages.add(message);
 		setTotalMessages(_messages.size());
 	    addView(new SMSNotificationViewer(getContext(), message)); 
@@ -196,11 +196,11 @@ public class SMSNotificationViewFlipper extends ViewFlipper {
 	 */
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.onTouchEvent()");
+		if (Log.getDebug()) Log.v("SMSNotificationViewFlipper.onTouchEvent()");
 		if (_lockMode) return true;
 		switch (event.getAction()) {
 			case MotionEvent.ACTION_MOVE:
-				if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.onTouchEvent() ACTION_MOVE");
+				if (Log.getDebug()) Log.v("SMSNotificationViewFlipper.onTouchEvent() ACTION_MOVE");
 			final View currentView = getCurrentView();
 			currentView.layout((int) (event.getX() - _oldTouchValue), currentView.getTop(),
 			currentView.getRight(), currentView.getBottom());
@@ -215,7 +215,7 @@ public class SMSNotificationViewFlipper extends ViewFlipper {
 	 */
 	@Override
 	public void showNext() {
-		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.showNext()");
+		if (Log.getDebug()) Log.v("SMSNotificationViewFlipper.showNext()");
 		if (getCurrentMessage() < getTotalMessages()-1) {
 			setCurrentMessage(getCurrentMessage() + 1);
 			setInAnimation(inFromRightAnimation());
@@ -229,7 +229,7 @@ public class SMSNotificationViewFlipper extends ViewFlipper {
 	 */
 	@Override
 	public void showPrevious() {
-		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.showPrevious()");
+		if (Log.getDebug()) Log.v("SMSNotificationViewFlipper.showPrevious()");
 		if (getCurrentMessage() > 0) {
 			setCurrentMessage(getCurrentMessage() - 1);
 			setInAnimation(inFromLeftAnimation());
@@ -242,7 +242,7 @@ public class SMSNotificationViewFlipper extends ViewFlipper {
 	 * Function to animate the moving of the a message that comes form the right.
 	 */
 	private Animation inFromRightAnimation() {
-		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.inFromRightAnimation()");
+		if (Log.getDebug()) Log.v("SMSNotificationViewFlipper.inFromRightAnimation()");
 		Animation inFromRight = new TranslateAnimation(
 		Animation.RELATIVE_TO_PARENT, +1.0f,
 		Animation.RELATIVE_TO_PARENT, 0.0f,
@@ -257,7 +257,7 @@ public class SMSNotificationViewFlipper extends ViewFlipper {
 	 * Function to animate the moving of the a message that leaves to the left.
 	 */
 	private Animation outToLeftAnimation() {
-		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.outToLeftAnimation()");
+		if (Log.getDebug()) Log.v("SMSNotificationViewFlipper.outToLeftAnimation()");
 		Animation outtoLeft = new TranslateAnimation(
 		Animation.RELATIVE_TO_PARENT, 0.0f,
 		Animation.RELATIVE_TO_PARENT, -1.0f,
@@ -272,7 +272,7 @@ public class SMSNotificationViewFlipper extends ViewFlipper {
 	 * Function to animate the moving of the a message that comes form the left.
 	 */
 	private Animation inFromLeftAnimation() {
-		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.inFromLeftAnimation()");
+		if (Log.getDebug()) Log.v("SMSNotificationViewFlipper.inFromLeftAnimation()");
 		Animation inFromLeft = new TranslateAnimation(
 		Animation.RELATIVE_TO_PARENT, -1.0f,
 		Animation.RELATIVE_TO_PARENT, 0.0f,
@@ -287,7 +287,7 @@ public class SMSNotificationViewFlipper extends ViewFlipper {
 	 * Function to animate the moving of the a message that leaves to the right.
 	 */
 	private Animation outToRightAnimation() {
-		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.outToRightAnimation()");
+		if (Log.getDebug()) Log.v("SMSNotificationViewFlipper.outToRightAnimation()");
 		Animation outtoRight = new TranslateAnimation(
 		Animation.RELATIVE_TO_PARENT, 0.0f,
 		Animation.RELATIVE_TO_PARENT, +1.0f,
@@ -306,7 +306,7 @@ public class SMSNotificationViewFlipper extends ViewFlipper {
 	 * Initialize the ViewFlipper properties.
 	 */
 	private void init(Context context) {
-		if (Log.DEBUG) Log.v("SMSNotificationViewFlipper.init()");
+		if (Log.getDebug()) Log.v("SMSNotificationViewFlipper.init()");
 		//setContext(context);
 		_messages = new ArrayList<TextMessage>(1);
 		setTotalMessages(0);
