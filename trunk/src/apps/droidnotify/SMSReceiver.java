@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 
 /**
- * This class listens for incoming text messages and triggers the event.
+ * This class listens for incoming text messages.
  */
 public class SMSReceiver extends BroadcastReceiver{
 
