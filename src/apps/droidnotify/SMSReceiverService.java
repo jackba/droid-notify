@@ -217,6 +217,8 @@ public class SMSReceiverService extends Service {
 	 */
 	private void displaySMSNotificationToScreen(Intent intent) {
 		if (Log.getDebug()) Log.v("SMSReceiver.displaySMSNotificationToScreen()");
+		Bundle bundle = intent.getExtras();
+		bundle.putString("notificationType", "1");
 	    // Get the call state, if the user is in a call or the phone is ringing, don't show the notification.
 	    TelephonyManager telemanager = (TelephonyManager) getContext().getSystemService(Context.TELEPHONY_SERVICE);
 	    boolean callStateIdle = telemanager.getCallState() == TelephonyManager.CALL_STATE_IDLE;
@@ -224,7 +226,7 @@ public class SMSReceiverService extends Service {
 	    if (callStateIdle) {
 	    	if (Log.getDebug()) Log.v("SMSReceiver.displaySMSNotificationToScreen() Display SMS Notification Window");    	
 	    	Intent newIntent = new Intent(getContext(), NotificationActivity.class);
-	    	newIntent.putExtras(intent.getExtras());
+	    	newIntent.putExtras(bundle);
 	    	newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
 	    	getContext().startActivity(newIntent);
 	    }
