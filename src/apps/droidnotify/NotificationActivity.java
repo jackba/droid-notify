@@ -43,11 +43,11 @@ public class NotificationActivity extends Activity {
 		super.onCreate(b);
 	    if (Log.getDebug()) Log.v("SMSNotificationActivity.onCreate()");
 	    Bundle bundle = this.getIntent().getExtras();
-	    String notificationType = bundle.getString("notificationType");
-	    if(Integer.parseInt(notificationType) == NOTIFICATION_TYPE_PHONE){
+	    int notificationType = bundle.getInt("notificationType");
+	    if(notificationType == NOTIFICATION_TYPE_PHONE){
 	    	//TODO - Missed Call
 	    }
-	    if(Integer.parseInt(notificationType) == NOTIFICATION_TYPE_SMS){
+	    if(notificationType == NOTIFICATION_TYPE_SMS){
 		    requestWindowFeature(Window.FEATURE_NO_TITLE);
 		    setContentView(R.layout.notificationwrapper);
 		    setupViews();
@@ -59,10 +59,10 @@ public class NotificationActivity extends Activity {
 		    	setupMessages(b);
 		    }
 	    }
-	    if(Integer.parseInt(notificationType) == NOTIFICATION_TYPE_MMS){
+	    if(notificationType == NOTIFICATION_TYPE_MMS){
 	    	//TODO - MMS Message
 	    }
-	    if(Integer.parseInt(notificationType) == NOTIFICATION_TYPE_CALENDAR){
+	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
 	    	//TODO - Calendar Reminder
 	    }
 	    // wake up app (turn on screen and run notification)
