@@ -21,16 +21,20 @@ import android.widget.LinearLayout;
  */
 public class NotificationActivity extends Activity {
 
+	private double WIDTH = 0.9;
+	private int MAX_WIDTH = 640;
+	private int NOTIFICATION_TYPE_PHONE = 0;
+	private int NOTIFICATION_TYPE_SMS = 1;
+	private int NOTIFICATION_TYPE_MMS = 2;
+	private int NOTIFICATION_TYPE_CALENDAR = 3;
+	
 	private Bundle bundle;
-	private SMSNotificationViewFlipper SMSNotificationFlipper = null;
+	private NotificationViewFlipper SMSNotificationFlipper = null;
 	private LinearLayout mainLayout;
 	private Button previousButton;
 	private Button inboxButton;
 	private Button nextButton;
-	
-	private double WIDTH = 0.9;
-	private int MAX_WIDTH = 640;
-	  
+
 	/**
 	 *
 	 */
@@ -38,15 +42,28 @@ public class NotificationActivity extends Activity {
 	protected void onCreate(Bundle b) {
 		super.onCreate(b);
 	    if (Log.getDebug()) Log.v("SMSNotificationActivity.onCreate()");
-	    requestWindowFeature(Window.FEATURE_NO_TITLE);
-	    setContentView(R.layout.smsnotificationwindow);
-	    setupViews();
-	    if (b == null) { // This is a new activity
-	    	if (Log.getDebug()) Log.v("SMSNotificationActivity.onCreate() Using Intent");
-	    	setupMessages(getIntent().getExtras());
-	    } else { // This activity was recreated after being destroyed
-	    	if (Log.getDebug()) Log.v("SMSNotificationActivity.onCreate() Using Bundle");
-	    	setupMessages(b);
+	    Bundle bundle = this.getIntent().getExtras();
+	    String notificationType = bundle.getString("notificationType");
+	    if(Integer.parseInt(notificationType) == NOTIFICATION_TYPE_PHONE){
+	    	//TODO - Missed Call
+	    }
+	    if(Integer.parseInt(notificationType) == NOTIFICATION_TYPE_SMS){
+		    requestWindowFeature(Window.FEATURE_NO_TITLE);
+		    setContentView(R.layout.notificationwrapper);
+		    setupViews();
+		    if (b == null) { // This is a new activity
+		    	if (Log.getDebug()) Log.v("SMSNotificationActivity.onCreate() Using Intent");
+		    	setupMessages(bundle);
+		    } else { // This activity was recreated after being destroyed
+		    	if (Log.getDebug()) Log.v("SMSNotificationActivity.onCreate() Using Bundle");
+		    	setupMessages(b);
+		    }
+	    }
+	    if(Integer.parseInt(notificationType) == NOTIFICATION_TYPE_MMS){
+	    	//TODO - MMS Message
+	    }
+	    if(Integer.parseInt(notificationType) == NOTIFICATION_TYPE_CALENDAR){
+	    	//TODO - Calendar Reminder
 	    }
 	    // wake up app (turn on screen and run notification)
 	    //wakeApp();
@@ -58,7 +75,7 @@ public class NotificationActivity extends Activity {
 	private void setupViews() {
 		if (Log.getDebug()) Log.v("SMSNotificationActivity.setupViews()");
 
-		SMSNotificationFlipper = (SMSNotificationViewFlipper) findViewById(R.id.sms_notification_layout);
+		SMSNotificationFlipper = (NotificationViewFlipper) findViewById(R.id.notification_layout);
 		
 		previousButton = (Button) findViewById(R.id.previous_button);
 		inboxButton = (Button) findViewById(R.id.inbox_button);
@@ -128,10 +145,10 @@ public class NotificationActivity extends Activity {
 	 * @param b the incoming intent bundle
 	 * @param newIntent if this is from onNewIntent or not
 	 */
-	private void setupMessages(Bundle b) {
+	private void setupMessages(Bundle bundle) {
 		if (Log.getDebug()) Log.v("SMSNotificationActivity.setupMessages()");
 	    // Create message from bundle
-	    TextMessage message = new TextMessage(getApplicationContext(), b);
+	    Notification message = new Notification(getApplicationContext(), bundle, 1);
 	    if (Log.getDebug()) Log.v("SMSNotificationActivity.setupMessages() Message address: " + message.getFromAddress());
 	    if (Log.getDebug()) Log.v("SMSNotificationActivity.setupMessages() Adding message to flipper");
 	    SMSNotificationFlipper.addMessage(message);
@@ -588,7 +605,7 @@ public class NotificationActivity extends Activity {
 		//Intent i = SMSNotificationFlipper.getActiveMessage().getReplyIntent();
 		//SMSNotificationActivity.this.getApplicationContext().startActivity(i);
 		//finishActivity();
-		TextMessage message = SMSNotificationFlipper.getActiveMessage();
+		Notification message = SMSNotificationFlipper.getActiveMessage();
 		Intent intent = getMessageReplyIntent(message);
 		getApplicationContext().startActivity(intent);
 		finishActivity();
@@ -597,7 +614,7 @@ public class NotificationActivity extends Activity {
 	/**
 	 * 
 	 */ 
-	private Intent getMessageReplyIntent(TextMessage message) {
+	private Intent getMessageReplyIntent(Notification message) {
 		if (Log.getDebug()) Log.v("SMSNotificationActivity.getMessageReplyIntent()");
 		//Reply to SMS "thread_id"
 		if (Log.getDebug()) Log.v("SMSNotificationActivity.getMessageReplyIntent() Replying to threadID: " + message.getThreadID());
