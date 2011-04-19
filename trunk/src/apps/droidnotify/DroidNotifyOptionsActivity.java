@@ -58,23 +58,24 @@ public class DroidNotifyOptionsActivity extends Activity {
         if (Log.getDebug()) Log.v("DroidNotifyOptionsActivity.onCreate()");
         setContext(getApplicationContext());
         setContentView(R.layout.main);
-        registerCallLogContentObserver();
+        //registerCallLogContentObserver();
     }
 	  
 	//================================================================================
 	// Private Methods
 	//================================================================================
     
-    /**
-     * 
-     */
-    private void registerCallLogContentObserver(){
-    	if (Log.getDebug()) Log.v("DroidNotifyOptionsActivity.registerCallLogContentObserver()");
-    	Context context = getContext();
-    	ContentResolver contentresolver = context.getContentResolver();
-    	contentresolver.registerContentObserver(
-	            android.provider.CallLog.Calls.CONTENT_URI, 
-	            true,
-	            new CallLogContentObserver(context, handler));
-    }
+//    /**
+//     * 
+//     */
+//    private void registerCallLogContentObserver(){
+//    	if (Log.getDebug()) Log.v("DroidNotifyOptionsActivity.registerCallLogContentObserver()");
+//    	Context context = getContext();
+//    	ContentResolver contentresolver = context.getContentResolver();
+//    	contentresolver.registerContentObserver(
+//	            android.provider.CallLog.Calls.CONTENT_URI, 
+//	            true,
+//	            new CallLogContentObserver(context, handler));
+//    }
+    
 }
