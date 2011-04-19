@@ -22,7 +22,6 @@ public class SMSReceiverService extends Service {
 	//================================================================================
     // Properties
     //================================================================================
-	
 	private Context _context;
 	private ServiceHandler SMSServiceHandler;
     private Looper SMSServiceLooper;
@@ -143,20 +142,20 @@ public class SMSReceiverService extends Service {
 		}
 	}
 
-	/**
-     * Get SMS message from the Intent object.
-     */
-	public static final SmsMessage[] getMessagesFromIntent(Intent intent) {
-		if (Log.getDebug()) Log.v("SMSReceiver.getMessagesFromIntent()");
-		Bundle bundle = intent.getExtras();        
-		SmsMessage[] message = null;           
-		if (bundle != null){
-          // Retrieve the SMS message received from the intent object.
-          Object[] pdus = (Object[]) bundle.get("pdus");
-          message = new SmsMessage[pdus.length];  
-		}
-		return message;
-	}
+//	/**
+//     * Get SMS message from the Intent object.
+//     */
+//	public static final SmsMessage[] getMessagesFromIntent(Intent intent) {
+//		if (Log.getDebug()) Log.v("SMSReceiver.getMessagesFromIntent()");
+//		Bundle bundle = intent.getExtras();        
+//		SmsMessage[] message = null;           
+//		if (bundle != null){
+//          // Retrieve the SMS message received from the intent object.
+//          Object[] pdus = (Object[]) bundle.get("pdus");
+//          message = new SmsMessage[pdus.length];  
+//		}
+//		return message;
+//	}
 	
 	//================================================================================
 	// Private Methods
@@ -204,10 +203,10 @@ public class SMSReceiverService extends Service {
 		if (Log.getDebug()) Log.v("SMSReceiver.handleSMSMessageReceived()");
 		Bundle bundle = intent.getExtras();
 		if (bundle != null) {
-			SmsMessage[] message = getMessagesFromIntent(intent);
-			if (message != null) {
+//			SmsMessage[] message = getMessagesFromIntent(intent);
+//			if (message != null) {
 				displaySMSNotificationToScreen(intent);
-			}
+//			}
 		}
 	}
 	

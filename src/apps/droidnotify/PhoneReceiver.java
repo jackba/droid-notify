@@ -4,10 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-/**
- * This class listens for incoming text messages.
- */
-public class SMSReceiver extends BroadcastReceiver{
+public class PhoneReceiver extends BroadcastReceiver{
 
 	//================================================================================
     // Properties
@@ -26,15 +23,13 @@ public class SMSReceiver extends BroadcastReceiver{
 	//================================================================================
 	
 	/**
-	 * This method onReceive() takes too long here (more than 10 seconds) and causes a 
-	 * "Application Not Responding: Wait/Close" message.
-	 * Instead use a service that executes in a different thread.
+	 * 
 	 */
 	@Override
 	public void onReceive(Context context, Intent intent){
-		if (Log.getDebug()) Log.v("SMSReceiver.onReceive()");
-	    intent.setClass(context, SMSReceiverService.class);
-	    SMSReceiverService.startSMSMonitoringService(context, intent);
+		if (Log.getDebug()) Log.v("PhoneReceiver.onReceive()");
+	    intent.setClass(context, PhoneService.class);
+	    PhoneService.startPhoneMonitoringService(context, intent);
 	}
 	  
 	//================================================================================
@@ -42,5 +37,3 @@ public class SMSReceiver extends BroadcastReceiver{
 	//================================================================================
 	
 }
-	
-

@@ -79,24 +79,14 @@ public class CallLogContentObserver extends ContentObserver {
 	    		String isCallNew = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.NEW));
 	    		if (Log.getDebug()) Log.v("CallLogContentObserver.onChange() Checking Call: " + callNumber + " Received At: " + callDate + " Call Type: " + callType + " Is Call New? " + isCallNew);
 	    		if(Integer.parseInt(callType) == MISSED_CALL_TYPE && Integer.parseInt(isCallNew) > 0){
-    				
     				if (Log.getDebug()) Log.v("CallLogContentObserver.onChange() Missed Call Found: " + callNumber);
-    				
+    				//Start Notification
     			}else{
     				break;
     			}
 	    	}
 	    	cursor.close();
-	    }
-                
-//    	Intent intent = new Intent(_context, NotificationActivity.class);
-//    	Bundle bundle = new Bundle();
-//    	bundle.putInt("notificationType", 0);
-//    	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-//    	_context.startActivity(intent);
-    	
-    	
-    	
+	    }    	
     }
 	  
 	//================================================================================
