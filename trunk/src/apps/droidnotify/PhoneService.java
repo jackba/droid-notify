@@ -1,5 +1,7 @@
 package apps.droidnotify;
 
+import java.util.ArrayList;
+
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -196,10 +198,13 @@ public class PhoneService extends Service {
 	    }
 	}
 	
+	/**
+	 * 
+	 * @param intent
+	 */
 	private void checkCallLog(Intent intent){
 		if (Log.getDebug()) Log.v("PhoneService.checkCallLog()");
-		Bundle bundle = intent.getExtras();
-		bundle.putInt("notificationType", 0);
+		ArrayList<String> missedCallsArray = new ArrayList();
 		boolean missedCalls = false;
 		final String[] projection = null;
 		final String selection = null;
@@ -222,11 +227,9 @@ public class PhoneService extends Service {
     				if (Log.getDebug()) Log.v("PhoneService.checkCallLog() Missed Call Found: " + callNumber);
     				//Start Notification
     				missedCalls = true;
-
-    				//TODO Need to create an array of missed calls and pass that into the Notification Activity.
-    				
-    				
-    				
+    				//Store missed call numbers and dates in an array.
+    				String missedCallInfo = callNumber + "|" + callDate;
+    				missedCallsArray.add(missedCallInfo);
     			}else{
     				break;
     			}
@@ -235,7 +238,11 @@ public class PhoneService extends Service {
 	    }
 	    if (Log.getDebug()) Log.v("PhoneService.checkCallLog() Missed Calls? " + missedCalls); 
 	    if(missedCalls){
-	    	if (Log.getDebug()) Log.v("PhoneService.checkCallLog() Display Phone Notification Window");    	
+	    	if (Log.getDebug()) Log.v("PhoneService.checkCallLog() Display Phone Notification Window");  
+			Bundle bundle = intent.getExtras();
+			//Add properties to the bundle that we send to the new Activity.
+			bundle.putInt("notificationType", 0);
+	    	bundle.putStringArrayList("missedCallsArray", missedCallsArray);
 	    	Intent newIntent = new Intent(getContext(), NotificationActivity.class);
 	    	newIntent.putExtras(bundle);
 	    	newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);

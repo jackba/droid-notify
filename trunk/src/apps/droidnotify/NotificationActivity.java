@@ -1,5 +1,7 @@
 package apps.droidnotify;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
@@ -14,6 +16,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 /**
@@ -21,6 +24,11 @@ import android.widget.LinearLayout;
  */
 public class NotificationActivity extends Activity {
 
+	
+	//================================================================================
+    // Properties
+    //================================================================================
+	
 	private double WIDTH = 0.9;
 	private int MAX_WIDTH = 640;
 	private int NOTIFICATION_TYPE_PHONE = 0;
@@ -35,6 +43,102 @@ public class NotificationActivity extends Activity {
 	private Button inboxButton;
 	private Button nextButton;
 
+	//================================================================================
+	// Constructors
+	//================================================================================
+	
+	//================================================================================
+	// Accessors
+	//================================================================================
+	  
+	//================================================================================
+	// Public Methods
+	//================================================================================
+  
+	/**
+	 *
+	 */
+	@Override
+	public void onWindowFocusChanged(boolean hasFocus) {
+	    super.onWindowFocusChanged(hasFocus);
+	    if (Log.getDebug()) Log.v("NotificationActivity.onWindowFocusChanged() Value: " + hasFocus);
+	}
+	  
+	/**
+	 *
+	 */
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+	    super.onSaveInstanceState(outState);
+	    if (Log.getDebug()) Log.v("NotificationActivity.onSaveInstanceState()");
+	    // Save values from most recent bundle (ie. most recent message)
+	    outState.putAll(bundle);
+	}
+	  
+	/**
+	 *
+	 */
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+	    super.onConfigurationChanged(newConfig);
+	    if (Log.getDebug()) Log.v("NotificationActivity.onConfigurationChanged()");
+	    //resizeLayout();
+	}
+
+	/**
+	 * Create Context Menu (Long-press menu)
+	 */
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+	    super.onCreateContextMenu(menu, v, menuInfo);
+	    if (Log.getDebug()) Log.v("NotificationActivity.onCreateContextMenu()");
+
+//	    menu.add(Menu.NONE, CONTEXT_VIEWCONTACT_ID, Menu.NONE, getString(R.string.view_contact));
+//	    menu.add(Menu.NONE, CONTEXT_CLOSE_ID, Menu.NONE, getString(R.string.button_close));
+//	    menu.add(Menu.NONE, CONTEXT_DELETE_ID, Menu.NONE, getString(R.string.button_delete));
+//	    menu.add(Menu.NONE, CONTEXT_REPLY_ID, Menu.NONE, getString(R.string.button_reply));
+//	    menu.add(Menu.NONE, CONTEXT_QUICKREPLY_ID, Menu.NONE, getString(R.string.button_quickreply));
+//	    menu.add(Menu.NONE, CONTEXT_TTS_ID, Menu.NONE, getString(R.string.button_tts));
+//	    menu.add(Menu.NONE, CONTEXT_INBOX_ID, Menu.NONE, getString(R.string.button_inbox));
+	}
+
+	/**
+	 * Context Menu Item Selected
+	 */
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		if (Log.getDebug()) Log.v("NotificationActivity.onContextItemSelected()");
+//	    switch (item.getItemId()) {
+//	      case CONTEXT_CLOSE_ID:
+//	        closeMessage();
+//	        break;
+//	      case CONTEXT_DELETE_ID:
+//	        showDialog(DIALOG_DELETE);
+//	        break;
+//	      case CONTEXT_REPLY_ID:
+//	        replyToMessage();
+//	        break;
+//	      case CONTEXT_QUICKREPLY_ID:
+//	        quickReply();
+//	        break;
+//	      case CONTEXT_INBOX_ID:
+//	        gotoInbox();
+//	        break;
+//	      case CONTEXT_TTS_ID:
+//	        speakMessage();
+//	        break;
+//	      case CONTEXT_VIEWCONTACT_ID:
+//	        viewContact();
+//	        break;
+//	    }
+		return super.onContextItemSelected(item);
+	}
+	
+	
+	//================================================================================
+	// Protected Methods
+	//================================================================================
+	
 	/**
 	 *
 	 */
@@ -50,159 +154,30 @@ public class NotificationActivity extends Activity {
 	    setContentView(R.layout.notificationwrapper);
 	    setupViews(notificationType);
 	    if(notificationType == NOTIFICATION_TYPE_PHONE){
-	    	//TODO - Missed Call
+	    	if (Log.getDebug()) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_PHONE");
+	    	setupMissedCalls(bundle);
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_SMS){
-		    if (b == null) { // This is a new activity
-		    	if (Log.getDebug()) Log.v("NotificationActivity.onCreate() Using Intent");
+//		    if (b == null) { // This is a new activity
+		    	if (Log.getDebug()) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_SMS");
 		    	setupMessages(bundle);
-		    } else { // This activity was recreated after being destroyed
-		    	if (Log.getDebug()) Log.v("NotificationActivity.onCreate() Using Bundle");
-		    	setupMessages(b);
-		    }
+//		    } else { // This activity was recreated after being destroyed
+//		    	if (Log.getDebug()) Log.v("NotificationActivity.onCreate() Using Bundle");
+//		    	setupMessages(b);
+//		    }
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_MMS){
+	    	if (Log.getDebug()) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_MMS");
 	    	//TODO - MMS Message
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
+	    	if (Log.getDebug()) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_CALENDAR");
 	    	//TODO - Calendar Reminder
 	    }
 	    // wake up app (turn on screen and run notification)
 	    //wakeApp();
 	}
-	
-	/**
-	 *
-	 */ 
-	private void setupViews(int notificationType) {
-		if (Log.getDebug()) Log.v("NotificationActivity.setupViews()");
 
-		SMSNotificationFlipper = (NotificationViewFlipper) findViewById(R.id.notification_layout);
-	
-		previousButton = (Button) findViewById(R.id.previous_button);
-		inboxButton = (Button) findViewById(R.id.inbox_button);
-		nextButton = (Button) findViewById(R.id.next_button);
-		
-	    if(notificationType == NOTIFICATION_TYPE_PHONE){
-	    	//TODO - Missed Call
-	    }
-		if(notificationType == NOTIFICATION_TYPE_SMS){
-							
-			// Inbox Button
-			inboxButton.setOnClickListener(new OnClickListener() {
-			    public void onClick(View v) {
-			    	if (Log.getDebug()) Log.v("Inbox Clicked()");
-			    	gotoInbox();
-			    }
-			});
-						    			
-			// Delete Button
-			Button deleteButton = (Button) findViewById(R.id.delete_button);
-			deleteButton.setOnClickListener(new OnClickListener() {
-			    public void onClick(View v) {
-			    	if (Log.getDebug()) Log.v("Delete Button Clicked()");
-			    	showDialog(Menu.FIRST);
-			    	updateNavigationButtons(previousButton, inboxButton, nextButton);
-			    }
-			});
-			
-			// Reply Button
-			Button replyButton = (Button) findViewById(R.id.reply_button);
-			replyButton.setOnClickListener(new OnClickListener() {
-			    public void onClick(View v) {
-			    	if (Log.getDebug()) Log.v("Reply Button Clicked()");
-			    	replyToMessage();
-			    }
-			});
-			
-			initNavigationButtons(previousButton, inboxButton, nextButton);
-
-		}
-	    if(notificationType == NOTIFICATION_TYPE_MMS){
-	    	//TODO - MMS Message
-	    }
-	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
-	    	//TODO - Calendar Reminder
-	    }
-	    
-	    //Items that are the same for aLL notification types.
-	
-		// Previous Button
-		previousButton.setOnClickListener(new OnClickListener() {
-		    public void onClick(View v) {
-		    	if (Log.getDebug()) Log.v("Previous Button Clicked()");
-		    	SMSNotificationFlipper.showPrevious();
-		    	updateNavigationButtons(previousButton, inboxButton, nextButton);
-		    }
-		});
-		
-		// Next Button
-		nextButton.setOnClickListener(new OnClickListener() {
-		    public void onClick(View v) {
-		    	if (Log.getDebug()) Log.v("Next Button Clicked()");
-		    	SMSNotificationFlipper.showNext();
-		    	updateNavigationButtons(previousButton, inboxButton, nextButton);
-		    }
-		});
-	    
-		// Close Button
-		Button closeButton = (Button) findViewById(R.id.close_button);		      
-		closeButton.setOnClickListener(new OnClickListener() {
-		    public void onClick(View v) {
-		    	if (Log.getDebug()) Log.v("Close Button Clicked()");
-		    	closeNotification();
-		    }
-		});
-	    
-	}
-
-	/**
-	 * Setup messages within the popup given an intent bundle
-	 *
-	 * @param b the incoming intent bundle
-	 * @param newIntent if this is from onNewIntent or not
-	 */
-	private void setupMessages(Bundle bundle) {
-		if (Log.getDebug()) Log.v("NotificationActivity.setupMessages()");
-	    // Create message from bundle
-	    Notification message = new Notification(getApplicationContext(), bundle, 1);
-	    if (Log.getDebug()) Log.v("NotificationActivity.setupMessages() Message address: " + message.getFromAddress());
-	    if (Log.getDebug()) Log.v("NotificationActivity.setupMessages() Adding message to flipper");
-	    SMSNotificationFlipper.addMessage(message);
-	    updateNavigationButtons(previousButton, inboxButton, nextButton);
-	}
-	
-	/**
-	 *
-	 */
-	private void initNavigationButtons(Button previousButton, Button inboxButton, Button nextButton){
-		if (Log.getDebug()) Log.v("NotificationActivity.initNavigationButtons()");
-		updateNavigationButtons(previousButton, inboxButton, nextButton);
-	}  
-	  
-	/**
-	 *
-	 */
-    private void updateNavigationButtons(Button previousButton, Button inboxButton, Button nextButton){
-    	if (Log.getDebug()) Log.v("NotificationActivity.UpdateNavigationButtons()");
-		previousButton.setEnabled(!SMSNotificationFlipper.isFirstMessage());
-		inboxButton.setText( (SMSNotificationFlipper.getCurrentMessage() + 1) + "/" + SMSNotificationFlipper.getTotalMessages());
-		nextButton.setEnabled(!SMSNotificationFlipper.isLastMessage()); 		
-    }
-	  
-	  @Override
-	  protected void onNewIntent(Intent intent) {
-	    super.onNewIntent(intent);
-	    if (Log.getDebug()) Log.v("NotificationActivity.onNewIntent()");
-
-//	    // Update intent held by activity
-//	    setIntent(intent);
-//
-//	    // Setup messages
-//	    setupMessages(intent.getExtras(), true);
-
-//	    wakeApp();
-	}
 	  
 	/**
 	 *
@@ -211,7 +186,7 @@ public class NotificationActivity extends Activity {
 	protected void onStart() {
 		super.onStart();
 	    if (Log.getDebug()) Log.v("NotificationActivity.onStart()");
-	    //ManageWakeLock.acquirePartial(getApplicationContext());
+	    // TODO - NotificationActivity.onStart()
 	}
 	  
 	/**
@@ -221,9 +196,7 @@ public class NotificationActivity extends Activity {
 	protected void onResume() {
 	    super.onResume();
 	    if (Log.getDebug()) Log.v("NotificationActivity.onResume()");
-	    //wasVisible = false;
-	    // Reset exitingKeyguardSecurely bool to false
-	    //exitingKeyguardSecurely = false;
+	    // TODO - NotificationActivity.onResume()
 	}
 	  
 	/**
@@ -257,10 +230,7 @@ public class NotificationActivity extends Activity {
 	protected void onStop() {
 	    super.onStop();
 	    if (Log.getDebug()) Log.v("NotificationActivity.onStop()");
-
-	    // Cancel the receiver that will clear our locks
-	    //ClearAllReceiver.removeCancel(getApplicationContext());
-	    //ClearAllReceiver.clearAll(!exitingKeyguardSecurely);
+	    // TODO - NotificationActivity.onStop()
 	}
 	  
 	/**
@@ -487,92 +457,165 @@ public class NotificationActivity extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 	    super.onActivityResult(requestCode, resultCode, data);
 	    if (Log.getDebug()) Log.v("NotificationActivity.onActivityResult()");
-//	    if (requestCode == VOICE_RECOGNITION_REQUEST_CODE && resultCode == RESULT_OK) {
-//	      ArrayList<String> matches = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-//	      if (Log.getDebug()) Log.v("Voice recog text: " + matches.get(0));
-//	      quickReply(matches.get(0));
-//	    }
-	}
-	  
-	/**
-	 *
-	 */
-	@Override
-	public void onWindowFocusChanged(boolean hasFocus) {
-	    super.onWindowFocusChanged(hasFocus);
-	    if (Log.getDebug()) Log.v("NotificationActivity.onWindowFocusChanged() Value: " + hasFocus);
-	}
-	  
-	/**
-	 *
-	 */
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-	    super.onSaveInstanceState(outState);
-	    if (Log.getDebug()) Log.v("NotificationActivity.onSaveInstanceState()");
-	    // Save values from most recent bundle (ie. most recent message)
-	    outState.putAll(bundle);
-	}
-	  
-	/**
-	 *
-	 */
-	@Override
-	public void onConfigurationChanged(Configuration newConfig) {
-	    super.onConfigurationChanged(newConfig);
-	    if (Log.getDebug()) Log.v("NotificationActivity.onConfigurationChanged()");
-	    //resizeLayout();
+	    //TODO  - NotificationActivity.onActivityResult()
 	}
 
-	/**
-	 * Create Context Menu (Long-press menu)
-	 */
+    /**
+     * 
+     */
 	@Override
-	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-	    super.onCreateContextMenu(menu, v, menuInfo);
-	    if (Log.getDebug()) Log.v("NotificationActivity.onCreateContextMenu()");
-
-//	    menu.add(Menu.NONE, CONTEXT_VIEWCONTACT_ID, Menu.NONE, getString(R.string.view_contact));
-//	    menu.add(Menu.NONE, CONTEXT_CLOSE_ID, Menu.NONE, getString(R.string.button_close));
-//	    menu.add(Menu.NONE, CONTEXT_DELETE_ID, Menu.NONE, getString(R.string.button_delete));
-//	    menu.add(Menu.NONE, CONTEXT_REPLY_ID, Menu.NONE, getString(R.string.button_reply));
-//	    menu.add(Menu.NONE, CONTEXT_QUICKREPLY_ID, Menu.NONE, getString(R.string.button_quickreply));
-//	    menu.add(Menu.NONE, CONTEXT_TTS_ID, Menu.NONE, getString(R.string.button_tts));
-//	    menu.add(Menu.NONE, CONTEXT_INBOX_ID, Menu.NONE, getString(R.string.button_inbox));
-	}
-
-	/**
-	 * Context Menu Item Selected
-	 */
-	@Override
-	public boolean onContextItemSelected(MenuItem item) {
-		if (Log.getDebug()) Log.v("NotificationActivity.onContextItemSelected()");
-//	    switch (item.getItemId()) {
-//	      case CONTEXT_CLOSE_ID:
-//	        closeMessage();
-//	        break;
-//	      case CONTEXT_DELETE_ID:
-//	        showDialog(DIALOG_DELETE);
-//	        break;
-//	      case CONTEXT_REPLY_ID:
-//	        replyToMessage();
-//	        break;
-//	      case CONTEXT_QUICKREPLY_ID:
-//	        quickReply();
-//	        break;
-//	      case CONTEXT_INBOX_ID:
-//	        gotoInbox();
-//	        break;
-//	      case CONTEXT_TTS_ID:
-//	        speakMessage();
-//	        break;
-//	      case CONTEXT_VIEWCONTACT_ID:
-//	        viewContact();
-//	        break;
-//	    }
-		return super.onContextItemSelected(item);
+	protected void onNewIntent(Intent intent) {
+	    super.onNewIntent(intent);
+	    if (Log.getDebug()) Log.v("NotificationActivity.onNewIntent()");
+	    //TODO  - NotificationActivity.onNewIntent()
 	}
 	
+	//================================================================================
+	// Private Methods
+	//================================================================================
+	
+	/**
+	 *
+	 */ 
+	private void setupViews(int notificationType) {
+		if (Log.getDebug()) Log.v("NotificationActivity.setupViews()");
+
+		SMSNotificationFlipper = (NotificationViewFlipper) findViewById(R.id.notification_layout);
+	
+		previousButton = (Button) findViewById(R.id.previous_button);
+		inboxButton = (Button) findViewById(R.id.inbox_button);
+		nextButton = (Button) findViewById(R.id.next_button);
+		
+	    if(notificationType == NOTIFICATION_TYPE_PHONE){
+	    	//TODO - Missed Call
+	    }
+		if(notificationType == NOTIFICATION_TYPE_SMS){
+							
+			// Inbox Button
+			inboxButton.setOnClickListener(new OnClickListener() {
+			    public void onClick(View v) {
+			    	if (Log.getDebug()) Log.v("Inbox Clicked()");
+			    	gotoInbox();
+			    }
+			});
+						    			
+			// Delete Button
+			Button deleteButton = (Button) findViewById(R.id.delete_button);
+			deleteButton.setOnClickListener(new OnClickListener() {
+			    public void onClick(View v) {
+			    	if (Log.getDebug()) Log.v("Delete Button Clicked()");
+			    	showDialog(Menu.FIRST);
+			    	updateNavigationButtons(previousButton, inboxButton, nextButton);
+			    }
+			});
+			
+			// Reply Button
+			Button replyButton = (Button) findViewById(R.id.reply_button);
+			replyButton.setOnClickListener(new OnClickListener() {
+			    public void onClick(View v) {
+			    	if (Log.getDebug()) Log.v("Reply Button Clicked()");
+			    	replyToMessage();
+			    }
+			});
+
+		}
+	    if(notificationType == NOTIFICATION_TYPE_MMS){
+	    	//TODO - MMS Message
+	    }
+	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
+	    	//TODO - Calendar Reminder
+	    }
+	    
+	    //Items that are the same for aLL notification types.
+	
+		// Previous Button
+		previousButton.setOnClickListener(new OnClickListener() {
+		    public void onClick(View v) {
+		    	if (Log.getDebug()) Log.v("Previous Button Clicked()");
+		    	SMSNotificationFlipper.showPrevious();
+		    	updateNavigationButtons(previousButton, inboxButton, nextButton);
+		    }
+		});
+		
+		// Next Button
+		nextButton.setOnClickListener(new OnClickListener() {
+		    public void onClick(View v) {
+		    	if (Log.getDebug()) Log.v("Next Button Clicked()");
+		    	SMSNotificationFlipper.showNext();
+		    	updateNavigationButtons(previousButton, inboxButton, nextButton);
+		    }
+		});
+	    
+		// Close Button
+		Button closeButton = (Button) findViewById(R.id.close_button);		      
+		closeButton.setOnClickListener(new OnClickListener() {
+		    public void onClick(View v) {
+		    	if (Log.getDebug()) Log.v("Close Button Clicked()");
+		    	closeNotification();
+		    }
+		});
+		
+		initNavigationButtons(previousButton, inboxButton, nextButton);
+	    
+	}
+	
+	/**
+	 * 
+	 * @param bundle
+	 */
+	private void setupMissedCalls(Bundle bundle){
+		if (Log.getDebug()) Log.v("NotificationActivity.setupMissedCalls()");   
+		ArrayList<String> missedCallsArray = bundle.getStringArrayList("missedCallsArray");
+		for(int i=0; i< missedCallsArray.size(); i++){
+			String[] missedCallInfo = missedCallsArray.get(i).split("\\|");
+			if (Log.getDebug()) Log.v("NotificationActivity.setupMissedCalls() MissedCallInfo: " + missedCallsArray.get(i));
+			String phoneNumber = missedCallInfo[0];
+			if (Log.getDebug()) Log.v("NotificationActivity.setupMissedCalls() ParsedPhone Number: " + phoneNumber);
+			long timeStamp = Long.parseLong(missedCallInfo[1]);
+			if (Log.getDebug()) Log.v("NotificationActivity.setupMissedCalls() Parsed TimeStamp: " + timeStamp);
+			Notification missedCallnotification = new Notification(getApplicationContext(), phoneNumber, timeStamp, 0);
+			if (Log.getDebug()) Log.v("NotificationActivity.setupMissedCalls() Notification Phone Number: " + missedCallnotification.getPhoneNumber());
+			if (Log.getDebug()) Log.v("NotificationActivity.setupMissedCalls() Adding misssed call to flipper");
+			SMSNotificationFlipper.addMessage(missedCallnotification);
+			break;
+		}
+	    updateNavigationButtons(previousButton, inboxButton, nextButton);
+	}
+	
+	/**
+	 * Setup messages within the popup given an intent bundle
+	 *
+	 * @param b the incoming intent bundle
+	 * @param newIntent if this is from onNewIntent or not
+	 */
+	private void setupMessages(Bundle bundle) {
+		if (Log.getDebug()) Log.v("NotificationActivity.setupMessages()");
+	    // Create message from bundle
+	    Notification smsMessage = new Notification(getApplicationContext(), bundle, 1);
+	    if (Log.getDebug()) Log.v("NotificationActivity.setupMessages() Notification Phone Number: " + smsMessage.getPhoneNumber());
+	    if (Log.getDebug()) Log.v("NotificationActivity.setupMessages() Adding SMS message to flipper");
+	    SMSNotificationFlipper.addMessage(smsMessage);
+	    updateNavigationButtons(previousButton, inboxButton, nextButton);
+	}
+	
+	/**
+	 *
+	 */
+	private void initNavigationButtons(Button previousButton, Button inboxButton, Button nextButton){
+		if (Log.getDebug()) Log.v("NotificationActivity.initNavigationButtons()");
+		updateNavigationButtons(previousButton, inboxButton, nextButton);
+	}  
+	  
+	/**
+	 *
+	 */
+    private void updateNavigationButtons(Button previousButton, Button inboxButton, Button nextButton){
+    	if (Log.getDebug()) Log.v("NotificationActivity.UpdateNavigationButtons()");
+		previousButton.setEnabled(!SMSNotificationFlipper.isFirstMessage());
+		inboxButton.setText( (SMSNotificationFlipper.getCurrentMessage() + 1) + "/" + SMSNotificationFlipper.getTotalMessages());
+		nextButton.setEnabled(!SMSNotificationFlipper.isLastMessage()); 		
+    }
+
 //	/**
 //	 * Wake up the activity, this will acquire the wakelock (turn on the screen)
 //	 * and sound the notification if needed. This is called once all preparation
@@ -638,7 +681,7 @@ public class NotificationActivity extends Activity {
 	    Intent intent = new Intent(Intent.ACTION_VIEW);
 	    intent.setType("vnd.android-dir/mms-sms");
 	    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-	    intent.putExtra("address", message.getFromAddress());
+	    intent.putExtra("address", message.getPhoneNumber());
 	    return intent;
 	}
 	

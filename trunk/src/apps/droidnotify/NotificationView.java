@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.ImageView;
@@ -35,12 +36,12 @@ public class NotificationView extends LinearLayout {
 	/**
      * 
      */	
-	public NotificationView(Context context,  Notification message) {
+	public NotificationView(Context context,  Notification notification) {
 	    super(context);
 	    if (Log.getDebug()) Log.v("NotificationView.NotificationView()");
 	    _context = context;
 	    initLayoutItems(context);
-	    populateMessageView(message);
+	    populateNotificationView(notification);
 	}
 
 	//================================================================================
@@ -68,31 +69,27 @@ public class NotificationView extends LinearLayout {
 	    _messageReceivedTV = (TextView) findViewById(R.id.header_text_view);
 	    _messageScrollView = (ScrollView) findViewById(R.id.message_scroll_view);
 	    _photoImageView = (ImageView) findViewById(R.id.from_image_view);
-	    _contactPhotoPlaceholderDrawable = getResources().getDrawable(android.R.drawable.ic_dialog_info);
 	}
 
 	/**
-	 * Populate all the main SMS/MMS views with content from the actual SmsMmsMessage
+	 * Populate all the notification views with content from the actual Notification.
 	 */
-	private void populateMessageView(Notification message) {
+	private void populateNotificationView(Notification notification) {
 		// Update TextView that contains the timestamp for the incoming message
-		String formattedTimestamp = new SimpleDateFormat("h:mma").format(message.getTimeStamp());
+		String formattedTimestamp = new SimpleDateFormat("h:mma").format(notification.getTimeStamp());
 	    String headerText = _context.getString(R.string.new_message_at_text, formattedTimestamp.toLowerCase());
 	    // Set the from, message and header views
-	    _fromTV.setText(message.getContactName());
-	    _messageTV.setText(message.getMessageBody());
+	    _fromTV.setText(notification.getContactName());
+	    _messageTV.setText(notification.getMessageBody());
 	    _messageReceivedTV.setText(headerText);
-	    // Set placeholder image
-	    _photoImageView.setImageDrawable(_contactPhotoPlaceholderDrawable);    
+	    //Load contact photo if it exists.
+	    Bitmap bitmap = notification.getPhotoImg();
+	    if(bitmap!=null){
+	    	_photoImageView.setImageBitmap(notification.getPhotoImg());    
+	    }else{  
+	    	// Load the placeholder image if the contact has no photo.
+	    	_photoImageView.setImageBitmap(BitmapFactory.decodeResource(getContext().getResources(), R.drawable.android_contact_placeholder));
+	    }
 	}
-
-//	  private void loadContactPhoto() {
-//	    // Fetch contact photo in background
-////	    if (contactPhoto == null) {
-////	      SetContactPhotoToDefault(photoImageView);
-////	      new FetchContactPhotoTask().execute(message.getContactId());
-////	      addQuickContactOnClick();
-////	    }
-//	  }
 
 }

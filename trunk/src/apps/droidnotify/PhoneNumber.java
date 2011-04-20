@@ -32,7 +32,7 @@ public class PhoneNumber {
 	 * @param phoneNumber
 	 */
 	public void setPhoneNumber(String phoneNumber){
-		if (Log.getDebug()) Log.v("PhoneNumber.setPhoneNumber()");
+		if (Log.getDebug()) Log.v("PhoneNumber.setPhoneNumber() PhoneNumber: " + phoneNumber);
 		_phoneNumber = phoneNumber;
 	}
 	
@@ -62,12 +62,12 @@ public class PhoneNumber {
 	 * @return phoneNumber
 	 */
 	private String formatNumber(String  phoneNumber){
-		if (Log.getDebug()) Log.v("PhoneNumber.formatNumber()");
+		if (Log.getDebug()) Log.v("PhoneNumber.formatNumber() Number to format: " + phoneNumber);
 		phoneNumber = phoneNumber.replace("-", "");
 		if(phoneNumber.substring(0,1).equals("1")){
 			phoneNumber = phoneNumber.substring(1);
 		}
-		if (Log.getDebug()) Log.v("PhoneNumber.formatNumber() Formatted Number: " + phoneNumber);
+		if (Log.getDebug()) Log.v("PhoneNumber.formatNumber() Formatted number: " + phoneNumber);
 		return phoneNumber;
 	}
 	
