@@ -1,7 +1,12 @@
 package apps.droidnotify;
 
+import java.io.InputStream;
+
+import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -29,7 +34,7 @@ public class Notification {
     //================================================================================
 	
 	private Context _context;
-	private String _fromAddress;
+	private String _phoneNumber;
 	private String _messageBody;
 	private long _timeStamp;
 	private long _threadID;
@@ -37,6 +42,7 @@ public class Notification {
 	private String _contactLookupKey;
 	private String _contactName;
 	private long _photoID;
+	private Bitmap _photoImg;
 	private int _messageType;
 	private long _messageID;
 	private boolean _fromEmailGateway;
@@ -50,13 +56,14 @@ public class Notification {
 	 * Construct SmsMmsMessage given a raw message (created from pdu).
 	 */
 	public Notification(Context context, Bundle bundle, int notificationType) {
-		if (Log.getDebug()) Log.v("Notification.Notification()");
+		if (Log.getDebug()) Log.v("Notification.Notification(Context, Bundle, int)");
 		setContext(context);
 		SmsMessage[] msgs = null;
         String messageBody = "";            
         if (bundle != null){
+        	setMessageType(notificationType);
         	if(notificationType == NOTIFICATION_TYPE_PHONE){
-    	    	//TODO - Missed Call
+        		//TODO - Missed Call
     	    }
         	if(notificationType == NOTIFICATION_TYPE_SMS){
         		// Retrieve SMS message from bundle.
@@ -67,17 +74,16 @@ public class Notification {
 	            }
 	            SmsMessage sms = msgs[0];
 	            setTimeStamp(new java.util.Date().getTime());
-	    		setFromAddress(sms.getDisplayOriginatingAddress());
+	    		setPhoneNumber(sms.getDisplayOriginatingAddress());
 	    		setFromEmailGateway(sms.isEmail());
 	    		setMessageClass(sms.getMessageClass());
-	    		setMessageType(notificationType);
 	            //Get the entire message body from the new message.
 	            for (int i=0; i<msgs.length; i++){                
 	                messageBody += msgs[i].getMessageBody().toString();
 	            }
 	            setMessageBody(messageBody);
-	    		loadThreadID(getContext(), getFromAddress());  
-	    		loadContactsInfo(getContext(), getFromAddress());
+	    		loadThreadID(getContext(), getPhoneNumber());  
+	    		loadContactsInfo(getContext(), getPhoneNumber());
         	}
     	    if(notificationType == NOTIFICATION_TYPE_MMS){
     	    	//TODO - MMS Message
@@ -86,6 +92,36 @@ public class Notification {
     	    	//TODO - Calendar Reminder
     	    }
         }
+	}
+	
+	/**
+	 * 
+	 * @param context
+	 * @param phoneNumber
+	 * @param timestamp
+	 * @param notificationType
+	 */
+	public Notification(Context context, String phoneNumber, long timeStamp, int notificationType){
+		if (Log.getDebug()) Log.v("Notification.Notification(Context, String, long, int)");
+		setContext(context);
+		setMessageType(notificationType);
+    	if(notificationType == NOTIFICATION_TYPE_PHONE){
+    		if (Log.getDebug()) Log.v("Notification.Notification() NOTIFICATION_TYPE_PHONE");
+    		setPhoneNumber(phoneNumber);
+    		setTimeStamp(timeStamp);
+    		loadContactsInfo(getContext(), getPhoneNumber());
+	    }
+    	if(notificationType == NOTIFICATION_TYPE_SMS || notificationType == NOTIFICATION_TYPE_MMS){
+    		if (Log.getDebug()) Log.v("Notification.Notification() NOTIFICATION_TYPE_SMS");
+    		setPhoneNumber(phoneNumber);
+    		setTimeStamp(timeStamp);
+    		loadThreadID(getContext(), getPhoneNumber());  
+    		loadContactsInfo(getContext(), getPhoneNumber());
+    	}
+	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
+	    	if (Log.getDebug()) Log.v("Notification.Notification() NOTIFICATION_TYPE_CALENDAR");
+	    	//TODO - Calendar Reminder
+	    }
 	}
 
 	//================================================================================
@@ -109,26 +145,26 @@ public class Notification {
 	}
 
 	/**
-	 * Set the fromAddress property.
+	 * Set the phoneNumber property.
 	 */
-	public void setFromAddress(String fromAddress) {
-		if (Log.getDebug()) Log.v("Notification.setFromAddress()");
-		_fromAddress = fromAddress;
+	public void setPhoneNumber(String phoneNumber) {
+		if (Log.getDebug()) Log.v("Notification.setPhoneNumber() PhoneNumber: " + phoneNumber);
+		_phoneNumber = phoneNumber;
 	}
 	
 	/**
-	 * Get the fromAddress property.
+	 * Get the phoneNumber property.
 	 */
-	public String getFromAddress() {
-		if (Log.getDebug()) Log.v("Notification.getFromAddress()");
-		return _fromAddress;
+	public String getPhoneNumber() {
+		if (Log.getDebug()) Log.v("Notification.getPhoneNumber()");
+		return _phoneNumber;
 	}
 	
 	/**
 	 * Set the messageBody property.
 	 */
 	public void setMessageBody(String messageBody) {
-		if (Log.getDebug()) Log.v("Notification.setMessageBody()");
+		if (Log.getDebug()) Log.v("Notification.setMessageBody() MessageBody: " + messageBody);
 		_messageBody = messageBody;
 	}
 	
@@ -147,7 +183,7 @@ public class Notification {
 	 * Set the timeStamp property.
 	 */
 	public void setTimeStamp(long timeStamp) {
-		if (Log.getDebug()) Log.v("Notification.setTimeStamp()");
+		if (Log.getDebug()) Log.v("Notification.setTimeStamp() TimeStamp: " + timeStamp);
 	    _timeStamp = timeStamp;
 	}
 	
@@ -163,7 +199,7 @@ public class Notification {
 	 * Set the threadID property.
 	 */
 	public void setThreadID(long threadID) {
-		if (Log.getDebug()) Log.v("Notification.setThreadID()");
+		if (Log.getDebug()) Log.v("Notification.setThreadID() ThreadID: " + threadID);
 	    _threadID = threadID;
 	}
 	
@@ -179,7 +215,7 @@ public class Notification {
 	 * Set the contactID property.
 	 */
 	public void setContactID(long contactID) {
-		if (Log.getDebug()) Log.v("Notification.setContactID()");
+		if (Log.getDebug()) Log.v("Notification.setContactID() ContactID: " + contactID);
 	    _contactID = contactID;
 	}
 	
@@ -195,7 +231,7 @@ public class Notification {
 	 * Set the contactLookupKey property.
 	 */
 	public void setContactLookupKey(String contactLookupKey) {
-		if (Log.getDebug()) Log.v("Notification.setContactLookupKey()");
+		if (Log.getDebug()) Log.v("Notification.setContactLookupKey() ContactLookupKey: " + contactLookupKey);
 		_contactLookupKey = contactLookupKey;
 	}
 	
@@ -211,7 +247,7 @@ public class Notification {
 	 * Set the contactName property.
 	 */
 	public void setContactName(String contactName) {
-		if (Log.getDebug()) Log.v("Notification.setContactName()");
+		if (Log.getDebug()) Log.v("Notification.setContactName() ContactName: " + contactName);
 		_contactName = contactName;
 	}
 	
@@ -230,7 +266,7 @@ public class Notification {
 	 * Set the photoID property.
 	 */
 	public void setPhotoID(long photoID) {
-		if (Log.getDebug()) Log.v("Notification.setPhotoID()");
+		if (Log.getDebug()) Log.v("Notification.setPhotoID() PhotoID: " + photoID);
 		_photoID = photoID;
 	}
 	
@@ -241,20 +277,28 @@ public class Notification {
 		if (Log.getDebug()) Log.v("Notification.getPhotoID()");
 		return _photoID;
 	}
+
+	/**
+	 * Set the photoImg property.
+	 */
+	public void setPhotoImg(Bitmap photoImg) {
+		if (Log.getDebug()) Log.v("Notification.setPhotoID() PhotoIImg: " + photoImg);
+		_photoImg = photoImg;
+	}
 	
 	/**
-	 * Get the messageClass property.
+	 * Get the photoIImg property.
 	 */
-	public MessageClass getMessageClass() {
-		if (Log.getDebug()) Log.v("Notification.getMessageClass()");
-		return _messageClass;
+	public Bitmap getPhotoImg() {
+		if (Log.getDebug()) Log.v("Notification.getPhotoIImg()");
+		return _photoImg;
 	}
-
+	
 	/**
 	 * Set the messageType property.
 	 */
 	public void setMessageType(int messageType) {
-		if (Log.getDebug()) Log.v("Notification.setMessageType()");
+		if (Log.getDebug()) Log.v("Notification.setMessageType() MessageType: " + messageType);
 		_messageType = messageType;
 	}
 	
@@ -270,7 +314,7 @@ public class Notification {
 	 * Set the messageID property.
 	 */
 	public void setMessageId(long messageID) {
-		if (Log.getDebug()) Log.v("Notification.setMessageId()");
+		if (Log.getDebug()) Log.v("Notification.setMessageId() MessageID: " + messageID);
   		_messageID = messageID;
 	}
 	
@@ -286,7 +330,7 @@ public class Notification {
 	 * Set the fromEmailGateway property.
 	 */
 	public void setFromEmailGateway(boolean fromEmailGateway) {
-		if (Log.getDebug()) Log.v("Notification.setFromEmailGateway()");
+		if (Log.getDebug()) Log.v("Notification.setFromEmailGateway() FromEmailGateway: " + fromEmailGateway);
   		_fromEmailGateway = fromEmailGateway;
 	}
 	
@@ -309,7 +353,7 @@ public class Notification {
 	/**
 	 * Get the messageClass property.
 	 */
-	public MessageClass setMessageClass() {
+	public MessageClass getMessageClass() {
 		if (Log.getDebug()) Log.v("Notification.getMessageClass()");
   		return _messageClass;
 	}
@@ -325,11 +369,14 @@ public class Notification {
 	/**
 	 * Get the THREAD_ID from the SMS Contract content provider using the SMS message address.
 	 */
-	private void loadThreadID(Context context, String address){
+	private void loadThreadID(Context context, String phoneNumber){
 		if (Log.getDebug()) Log.v("Notification.getThreadIdByAddress()");
-		if (address == null) return;
+		if (phoneNumber == null){
+			if (Log.getDebug()) Log.v("Notification.loadThreadID() Phone number provided is NULL: Exiting loadThreadID()");
+			return;
+		}
 		final String[] projection = new String[] { "_ID", "THREAD_ID" };
-		final String selection = "ADDRESS = " + address;
+		final String selection = "ADDRESS = " + phoneNumber;
 		final String[] selectionArgs = null;
 		final String sortOrder = null;
 	    long threadID = 0;
@@ -355,10 +402,14 @@ public class Notification {
 	/**
 	 * Load contact info from the ContactsContract content provider using the SMS message address.
 	 */ 
-	private void loadContactsInfo(Context context, String smsPhoneNumber){
-		PhoneNumber incomingNumber = new PhoneNumber(smsPhoneNumber);
+	private void loadContactsInfo(Context context, String phoneNumber){
 		if (Log.getDebug()) Log.v("Notification.loadContactsInfo()");
-		if (smsPhoneNumber == null) return;
+		if (phoneNumber == null) {
+			if (Log.getDebug()) Log.v("Notification.loadContactsInfo() Phone number provided is NULL: Exiting loadContactsInfo()");
+			return;
+		}
+		PhoneNumber incomingNumber = new PhoneNumber(phoneNumber);
+		if (Log.getDebug()) Log.v("Notification.loadContactsInfo() Got PhoneNumber object");
 		final String[] projection = null;
 		final String selection = null;
 		final String[] selectionArgs = null;
@@ -369,13 +420,13 @@ public class Notification {
 				selection, 
 				selectionArgs, 
 				sortOrder);
+		if (Log.getDebug()) Log.v("Notification.loadContactsInfo() Searching contacts");
 		while (cursor.moveToNext()) { 
 		   String contactID = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID)); 
 		   String hasPhone = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)); 
 		   String contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
 		   String contactLookupKey = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY));
 		   String photoID = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_ID)); 
-		   if (Log.getDebug()) Log.v("Notification.loadContactsInfo() photoID: " + photoID);
 		   if (Integer.parseInt(hasPhone) > 0) { 
 				final String[] phoneProjection = null;
 				final String phoneSelection = ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = " + contactID;
@@ -388,13 +439,27 @@ public class Notification {
 						phoneSelectionArgs, 
 						phoneSortOrder); 
 		      while (phoneCursor.moveToNext()) { 
-		    	  String phoneNumber = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-		    	  PhoneNumber contactNumber = new PhoneNumber(phoneNumber);
+		    	  String contactPhoneNumber = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+		    	  PhoneNumber contactNumber = new PhoneNumber(contactPhoneNumber);
 		    	  if(incomingNumber.getPhoneNumber().equals(contactNumber.getPhoneNumber())){
 		    		  setContactID(Long.parseLong(contactID));
-		    		  setContactLookupKey(contactLookupKey);
-		    		  setContactName(contactName);
-		    		  //setPhotoID(Long.parseLong(photoID));
+		    		  if(contactLookupKey != null){
+		    			  setContactLookupKey(contactLookupKey);
+		    		  }
+		    		  if(contactName != null){
+		    			  setContactName(contactName);
+		    		  }
+		    		  if(photoID != null){
+		    			  setPhotoID(Long.parseLong(photoID));
+		    		  }
+		  	          Uri uri = ContentUris.withAppendedId(
+		  	        		  ContactsContract.Contacts.CONTENT_URI,
+		  	        		  Long.parseLong(contactID));
+		  		      InputStream input = ContactsContract.Contacts.openContactPhotoInputStream(context.getContentResolver(), uri);
+		  		      Bitmap contactPhotoBitmap = BitmapFactory.decodeStream(input);
+		  		      if(contactPhotoBitmap!= null){
+		  		    	  setPhotoImg(contactPhotoBitmap);
+		  		      }
 		    	  }
 		      } 
 		      phoneCursor.close(); 
@@ -402,9 +467,7 @@ public class Notification {
 		}
 		cursor.close();
 	}
-	
-	
-	
-	
+
+
 	
 }
