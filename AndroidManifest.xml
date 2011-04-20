@@ -27,7 +27,7 @@
                 <action android:name="android.intent.action.PHONE_STATE" />
             </intent-filter> 
         </receiver>     
-       	<service android:name=".PhoneReceiver"/>
+       	<service android:name=".PhoneService"/>
    
    		<activity android:name="NotificationActivity" android:theme="@android:style/Theme.Dialog"
 			android:launchMode="singleTask" android:configChanges="keyboardHidden|orientation"

@@ -11,7 +11,6 @@ import android.os.Looper;
 import android.os.Message;
 import android.os.PowerManager;
 import android.os.Process;
-import android.telephony.SmsMessage;
 import android.telephony.TelephonyManager;
 
 /**
@@ -162,9 +161,9 @@ public class SMSReceiverService extends Service {
 	//================================================================================
 	
 	/**
-	 * Honestly, I don't know why we need this extra class. 
-	 * I will see if I can do this another way. 
-	 * I copied this from antoher project without knowing why it's needed.
+	 * This class has something to do with the new thread we started. 
+	 * I am not completely sure how this part works.
+	 * I copied this from another project.
 	 */
 	private final class ServiceHandler extends Handler {
 		

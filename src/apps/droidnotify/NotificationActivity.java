@@ -79,24 +79,15 @@ public class NotificationActivity extends Activity {
 
 		SMSNotificationFlipper = (NotificationViewFlipper) findViewById(R.id.notification_layout);
 	
+		previousButton = (Button) findViewById(R.id.previous_button);
+		inboxButton = (Button) findViewById(R.id.inbox_button);
+		nextButton = (Button) findViewById(R.id.next_button);
+		
 	    if(notificationType == NOTIFICATION_TYPE_PHONE){
 	    	//TODO - Missed Call
 	    }
 		if(notificationType == NOTIFICATION_TYPE_SMS){
-		
-			previousButton = (Button) findViewById(R.id.previous_button);
-			inboxButton = (Button) findViewById(R.id.inbox_button);
-			nextButton = (Button) findViewById(R.id.next_button);
-			
-			// Previous Button
-			previousButton.setOnClickListener(new OnClickListener() {
-			    public void onClick(View v) {
-			    	if (Log.getDebug()) Log.v("Previous Button Clicked()");
-			    	SMSNotificationFlipper.showPrevious();
-			    	updateNavigationButtons(previousButton, inboxButton, nextButton);
-			    }
-			});
-			
+							
 			// Inbox Button
 			inboxButton.setOnClickListener(new OnClickListener() {
 			    public void onClick(View v) {
@@ -104,25 +95,7 @@ public class NotificationActivity extends Activity {
 			    	gotoInbox();
 			    }
 			});
-			
-			// Next Button
-			nextButton.setOnClickListener(new OnClickListener() {
-			    public void onClick(View v) {
-			    	if (Log.getDebug()) Log.v("Next Button Clicked()");
-			    	SMSNotificationFlipper.showNext();
-			    	updateNavigationButtons(previousButton, inboxButton, nextButton);
-			    }
-			});
-			    
-			// Close Button
-			Button closeButton = (Button) findViewById(R.id.close_button);		      
-			closeButton.setOnClickListener(new OnClickListener() {
-			    public void onClick(View v) {
-			    	if (Log.getDebug()) Log.v("Close Button Clicked()");
-			    	closeNotification();
-			    }
-			});
-			
+						    			
 			// Delete Button
 			Button deleteButton = (Button) findViewById(R.id.delete_button);
 			deleteButton.setOnClickListener(new OnClickListener() {
@@ -151,6 +124,36 @@ public class NotificationActivity extends Activity {
 	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
 	    	//TODO - Calendar Reminder
 	    }
+	    
+	    //Items that are the same for aLL notification types.
+	
+		// Previous Button
+		previousButton.setOnClickListener(new OnClickListener() {
+		    public void onClick(View v) {
+		    	if (Log.getDebug()) Log.v("Previous Button Clicked()");
+		    	SMSNotificationFlipper.showPrevious();
+		    	updateNavigationButtons(previousButton, inboxButton, nextButton);
+		    }
+		});
+		
+		// Next Button
+		nextButton.setOnClickListener(new OnClickListener() {
+		    public void onClick(View v) {
+		    	if (Log.getDebug()) Log.v("Next Button Clicked()");
+		    	SMSNotificationFlipper.showNext();
+		    	updateNavigationButtons(previousButton, inboxButton, nextButton);
+		    }
+		});
+	    
+		// Close Button
+		Button closeButton = (Button) findViewById(R.id.close_button);		      
+		closeButton.setOnClickListener(new OnClickListener() {
+		    public void onClick(View v) {
+		    	if (Log.getDebug()) Log.v("Close Button Clicked()");
+		    	closeNotification();
+		    }
+		});
+	    
 	}
 
 	/**
