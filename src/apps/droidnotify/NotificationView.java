@@ -4,9 +4,17 @@ import java.text.SimpleDateFormat;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuff.Mode;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.view.View;
+import android.view.ViewGroup.MarginLayoutParams;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -27,7 +35,6 @@ public class NotificationView extends LinearLayout {
 	private TextView _messageTV;
 	private ScrollView _messageScrollView = null;
 	private ImageView _photoImageView = null;
-	private Drawable _contactPhotoPlaceholderDrawable = null;
 
 	//================================================================================
 	// Constructors
@@ -72,9 +79,10 @@ public class NotificationView extends LinearLayout {
 	}
 
 	/**
-	 * Populate all the notification views with content from the actual Notification.
+	 * Populate the notification view with content from the actual Notification.
 	 */
 	private void populateNotificationView(Notification notification) {
+		if (Log.getDebug()) Log.v("NotificationView.populateNotificationView()");
 		// Update TextView that contains the timestamp for the incoming message
 		String formattedTimestamp = new SimpleDateFormat("h:mma").format(notification.getTimeStamp());
 	    String headerText = _context.getString(R.string.new_message_at_text, formattedTimestamp.toLowerCase());
@@ -82,14 +90,46 @@ public class NotificationView extends LinearLayout {
 	    _fromTV.setText(notification.getContactName());
 	    _messageTV.setText(notification.getMessageBody());
 	    _messageReceivedTV.setText(headerText);
+	    //Setup ImageView
+	    _photoImageView.setBackgroundResource(0);
+	    _photoImageView.setPadding(0, 0, 0, 0);
+	    //_photoImageView.setBackgroundResource(android.R.drawable.picture_frame);
+	    _photoImageView.setBackgroundResource(R.drawable.image_picture_frame);
 	    //Load contact photo if it exists.
 	    Bitmap bitmap = notification.getPhotoImg();
 	    if(bitmap!=null){
-	    	_photoImageView.setImageBitmap(notification.getPhotoImg());    
+	    	_photoImageView.setImageBitmap((Bitmap)getRoundedCornerBitmap(notification.getPhotoImg(), 5));    
 	    }else{  
 	    	// Load the placeholder image if the contact has no photo.
-	    	_photoImageView.setImageBitmap(BitmapFactory.decodeResource(getContext().getResources(), R.drawable.android_contact_placeholder));
+	    	_photoImageView.setImageBitmap(getRoundedCornerBitmap(BitmapFactory.decodeResource(getContext().getResources(), R.drawable.android_contact_placeholder), 5));
 	    }
 	}
-
+	
+	/**
+	 * Function that rounds the corners of a Bitmap image.
+	 * 
+	 * @param bitmap
+	 * @param pixels
+	 * @return Bitmap image
+	 */
+	private Bitmap getRoundedCornerBitmap(Bitmap bitmap, int pixels) {
+        Bitmap output = Bitmap.createBitmap(
+        		bitmap.getWidth(), 
+        		bitmap
+                .getHeight(), 
+                Config.ARGB_8888);
+        Canvas canvas = new Canvas(output);
+        final int color = 0xff424242;
+        final Paint paint = new Paint();
+        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+        final RectF rectF = new RectF(rect);
+        final float roundPx = pixels;
+        paint.setAntiAlias(true);
+        canvas.drawARGB(0, 0, 0, 0);
+        paint.setColor(color);
+        canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
+        paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
+        canvas.drawBitmap(bitmap, rect, rect, paint);
+        return output;
+	}
 }
