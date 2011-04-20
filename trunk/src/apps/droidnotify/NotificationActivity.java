@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -14,16 +15,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 /**
- *
+ * This is the main activity that runs the notifications.
  */
 public class NotificationActivity extends Activity {
-
 	
 	//================================================================================
     // Properties
@@ -42,6 +42,8 @@ public class NotificationActivity extends Activity {
 	private Button previousButton;
 	private Button inboxButton;
 	private Button nextButton;
+	private InputMethodManager inputMethodManager = null;
+	private View softKeyboardTriggerView = null;
 
 	//================================================================================
 	// Constructors
@@ -56,7 +58,7 @@ public class NotificationActivity extends Activity {
 	//================================================================================
   
 	/**
-	 *
+	 * 
 	 */
 	@Override
 	public void onWindowFocusChanged(boolean hasFocus) {
@@ -65,82 +67,61 @@ public class NotificationActivity extends Activity {
 	}
 	  
 	/**
-	 *
+	 * 
 	 */
 	@Override
-	public void onSaveInstanceState(Bundle outState) {
-	    super.onSaveInstanceState(outState);
+	public void onSaveInstanceState(Bundle saveBundle) {
+	    super.onSaveInstanceState(saveBundle);
 	    if (Log.getDebug()) Log.v("NotificationActivity.onSaveInstanceState()");
-	    // Save values from most recent bundle (ie. most recent message)
-	    outState.putAll(bundle);
+	    // Save values from most recent bundle.
+	    saveBundle.putAll(bundle);
 	}
-	  
+	
 	/**
-	 *
+	 * 
+	 */
+	@Override
+	public void onRestoreInstanceState(Bundle restoreBundle){
+		super.onRestoreInstanceState(restoreBundle);
+		//TODO - NotificationActivity().onRestoreInstanceState()
+	}
+	
+	/**
+	 * 
 	 */
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 	    super.onConfigurationChanged(newConfig);
 	    if (Log.getDebug()) Log.v("NotificationActivity.onConfigurationChanged()");
-	    //resizeLayout();
+	    //TODO - NotificationActivity().onConfigurationChanged()
 	}
 
 	/**
 	 * Create Context Menu (Long-press menu)
 	 */
 	@Override
-	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-	    super.onCreateContextMenu(menu, v, menuInfo);
+	public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenuInfo contextMenuInfo) {
+	    super.onCreateContextMenu(contextMenu, view, contextMenuInfo);
 	    if (Log.getDebug()) Log.v("NotificationActivity.onCreateContextMenu()");
-
-//	    menu.add(Menu.NONE, CONTEXT_VIEWCONTACT_ID, Menu.NONE, getString(R.string.view_contact));
-//	    menu.add(Menu.NONE, CONTEXT_CLOSE_ID, Menu.NONE, getString(R.string.button_close));
-//	    menu.add(Menu.NONE, CONTEXT_DELETE_ID, Menu.NONE, getString(R.string.button_delete));
-//	    menu.add(Menu.NONE, CONTEXT_REPLY_ID, Menu.NONE, getString(R.string.button_reply));
-//	    menu.add(Menu.NONE, CONTEXT_QUICKREPLY_ID, Menu.NONE, getString(R.string.button_quickreply));
-//	    menu.add(Menu.NONE, CONTEXT_TTS_ID, Menu.NONE, getString(R.string.button_tts));
-//	    menu.add(Menu.NONE, CONTEXT_INBOX_ID, Menu.NONE, getString(R.string.button_inbox));
+	    //TODO - NotificationActivity().onCreateContextMenu()
 	}
 
 	/**
 	 * Context Menu Item Selected
 	 */
 	@Override
-	public boolean onContextItemSelected(MenuItem item) {
+	public boolean onContextItemSelected(MenuItem menuItem) {
 		if (Log.getDebug()) Log.v("NotificationActivity.onContextItemSelected()");
-//	    switch (item.getItemId()) {
-//	      case CONTEXT_CLOSE_ID:
-//	        closeMessage();
-//	        break;
-//	      case CONTEXT_DELETE_ID:
-//	        showDialog(DIALOG_DELETE);
-//	        break;
-//	      case CONTEXT_REPLY_ID:
-//	        replyToMessage();
-//	        break;
-//	      case CONTEXT_QUICKREPLY_ID:
-//	        quickReply();
-//	        break;
-//	      case CONTEXT_INBOX_ID:
-//	        gotoInbox();
-//	        break;
-//	      case CONTEXT_TTS_ID:
-//	        speakMessage();
-//	        break;
-//	      case CONTEXT_VIEWCONTACT_ID:
-//	        viewContact();
-//	        break;
-//	    }
-		return super.onContextItemSelected(item);
+	    //TODO - NotificationActivity().onCreateContextMenu()
+		return super.onContextItemSelected(menuItem);
 	}
-	
 	
 	//================================================================================
 	// Protected Methods
 	//================================================================================
 	
 	/**
-	 *
+	 * Called when the activity is created. Set up views and notifications.
 	 */
 	@Override
 	protected void onCreate(Bundle b) {
@@ -180,7 +161,7 @@ public class NotificationActivity extends Activity {
 
 	  
 	/**
-	 *
+	 * 
 	 */
 	@Override
 	protected void onStart() {
@@ -190,7 +171,7 @@ public class NotificationActivity extends Activity {
 	}
 	  
 	/**
-	 *
+	 * 
 	 */
 	@Override
 	protected void onResume() {
@@ -200,21 +181,19 @@ public class NotificationActivity extends Activity {
 	}
 	  
 	/**
-	 *
+	 * 
 	 */
 	@Override
 	protected void onPause() {
 	    super.onPause();
 	    if (Log.getDebug()) Log.v("NotificationActivity.onPause()");
+	    hideSoftKeyboard();
 
-//	    // Hide the soft keyboard in case it was shown via quick reply
-//	    hideSoftKeyboard();
-//
 //	    // Dismiss loading dialog
 //	    if (mProgressDialog != null) {
 //	      mProgressDialog.dismiss();
 //	    }
-//
+
 //	    if (wasVisible) {
 //	      // Cancel the receiver that will clear our locks
 //	      ClearAllReceiver.removeCancel(getApplicationContext());
@@ -224,7 +203,7 @@ public class NotificationActivity extends Activity {
 	}
 	  
 	/**
-	 *
+	 * 
 	 */
 	@Override
 	protected void onStop() {
@@ -234,7 +213,7 @@ public class NotificationActivity extends Activity {
 	}
 	  
 	/**
-	 *
+	 * 
 	 */
 	@Override
 	protected void onDestroy() {
@@ -420,7 +399,7 @@ public class NotificationActivity extends Activity {
 	}
 	  
 	/**
-	 *
+	 * 
 	 */
 	@Override
 	protected void onPrepareDialog(int id, Dialog dialog) {
@@ -461,13 +440,16 @@ public class NotificationActivity extends Activity {
 	}
 
     /**
-     * 
+     * This is called when the activity is running and it is run again for a different notification.
      */
 	@Override
 	protected void onNewIntent(Intent intent) {
 	    super.onNewIntent(intent);
 	    if (Log.getDebug()) Log.v("NotificationActivity.onNewIntent()");
 	    //TODO  - NotificationActivity.onNewIntent()
+	    setIntent(intent);
+	    setupMessages(intent.getExtras());
+	    //TODO - NotificationActivity.onNewIntent() - Get all unread messages if new Activity?
 	}
 	
 	//================================================================================
@@ -475,7 +457,7 @@ public class NotificationActivity extends Activity {
 	//================================================================================
 	
 	/**
-	 *
+	 * 
 	 */ 
 	private void setupViews(int notificationType) {
 		if (Log.getDebug()) Log.v("NotificationActivity.setupViews()");
@@ -599,7 +581,7 @@ public class NotificationActivity extends Activity {
 	}
 	
 	/**
-	 *
+	 * 
 	 */
 	private void initNavigationButtons(Button previousButton, Button inboxButton, Button nextButton){
 		if (Log.getDebug()) Log.v("NotificationActivity.initNavigationButtons()");
@@ -607,7 +589,7 @@ public class NotificationActivity extends Activity {
 	}  
 	  
 	/**
-	 *
+	 * 
 	 */
     private void updateNavigationButtons(Button previousButton, Button inboxButton, Button nextButton){
     	if (Log.getDebug()) Log.v("NotificationActivity.UpdateNavigationButtons()");
@@ -697,6 +679,31 @@ public class NotificationActivity extends Activity {
 		mainLayout.invalidate();
 	}
 
+	/**
+	 * Show the soft keyboard and store the view that triggered it.
+	 */
+	private void showSoftKeyboard(View triggeringView) {
+		if (Log.getDebug()) Log.v("NotificationActivity.showSoftKeyboard()");
+	    if (inputMethodManager == null) {
+	    	inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+	    }
+	    softKeyboardTriggerView = triggeringView;
+	    inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+	}
+	
+	/**
+	 * Hide the soft keyboard.
+	 */
+	private void hideSoftKeyboard() {
+		if (Log.getDebug()) Log.v("NotificationActivity.hideSoftKeyboard()");
+	    if (softKeyboardTriggerView == null) return;
+	    if (inputMethodManager == null) {
+	    	inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+	    }
+	    inputMethodManager.hideSoftInputFromWindow(softKeyboardTriggerView.getApplicationWindowToken(), 0);
+	    softKeyboardTriggerView = null;
+	}
+	
 	/**
 	 * Close the notification window & mark the active message read.
 	 */
