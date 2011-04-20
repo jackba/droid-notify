@@ -1,9 +1,10 @@
 package apps.droidnotify;
 
 import android.app.Service;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -12,7 +13,6 @@ import android.os.Looper;
 import android.os.Message;
 import android.os.PowerManager;
 import android.os.Process;
-import android.telephony.SmsMessage;
 import android.telephony.TelephonyManager;
 
 public class PhoneService extends Service {
@@ -21,6 +21,10 @@ public class PhoneService extends Service {
     // Properties
     //================================================================================
 	
+    public final int INCOMING_CALL_TYPE = android.provider.CallLog.Calls.INCOMING_TYPE;
+    public final int OUTGOING_CALL_TYPE = android.provider.CallLog.Calls.OUTGOING_TYPE;
+    public final int MISSED_CALL_TYPE = android.provider.CallLog.Calls.MISSED_TYPE;
+    
 	private Context _context;
 	private ServiceHandler PhoneServiceHandler;
     private Looper PhoneServiceLooper;
@@ -35,7 +39,7 @@ public class PhoneService extends Service {
 	 * PhoneService constructor.
 	 */	
 	public PhoneService() {
-		if (Log.getDebug()) Log.v("PhoneService.SMSService().");
+		if (Log.getDebug()) Log.v("PhoneService.PhoneService()");
 	}
 	
 	//================================================================================
@@ -114,15 +118,15 @@ public class PhoneService extends Service {
 	 */
 	public static void startPhoneMonitoringService(Context context, Intent intent){
 		synchronized (PhoneStartingServiceSync) {
-			if (Log.getDebug()) Log.v("PhoneService.startSMSMonitoringService()");
+			if (Log.getDebug()) Log.v("PhoneService.startPhoneMonitoringService()");
 			if (PhoneStartingServiceWakeLock == null) {
 				PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
 				PhoneStartingServiceWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "DroidNotify.PhoneService");
 				PhoneStartingServiceWakeLock.setReferenceCounted(false);
 			}
-			if (Log.getDebug()) Log.v("PhoneService.startSMSMonitoringService() Aquireing wake lock");
+			if (Log.getDebug()) Log.v("PhoneService.startPhoneMonitoringService() Aquireing wake lock");
 			PhoneStartingServiceWakeLock.acquire();
-			if (Log.getDebug()) Log.v("PhoneService.startSMSMonitoringService() Starting service with intent");
+			if (Log.getDebug()) Log.v("PhoneService.startPhoneMonitoringService() Starting service with intent");
 			context.startService(intent);
 		}
 	}
@@ -132,7 +136,7 @@ public class PhoneService extends Service {
 	 */
 	public static void finishPhoneMonitoringService(Service service, int startId) {
 		synchronized (PhoneStartingServiceSync) {
-	    	if (Log.getDebug()) Log.v("PhoneService.finishSMSMonitoringService()");
+	    	if (Log.getDebug()) Log.v("PhoneService.finishPhoneMonitoringService()");
     		if (PhoneStartingServiceWakeLock != null) {
     			if (service.stopSelfResult(startId)) {
     				PhoneStartingServiceWakeLock.release();
@@ -146,9 +150,9 @@ public class PhoneService extends Service {
 	//================================================================================
 	
 	/**
-	 * Honestly, I don't know why we need this extra class. 
-	 * I will see if I can do this another way. 
-	 * I copied this from antoher project without knowing why it's needed.
+	 * This class has something to do with the new thread we started. 
+	 * I am not completely sure how this part works.
+	 * I copied this from another project.
 	 */
 	private final class ServiceHandler extends Handler {
 		
@@ -169,59 +173,74 @@ public class PhoneService extends Service {
 	    	int serviceID = message.arg1;
 	    	Intent intent = (Intent) message.obj;
 	    	String action = intent.getAction();
-	        //String dataType = intent.getType();
 	        if (Log.getDebug()) Log.v("PhoneService.ServiceHandler.handleMessage() Action Received: " + action);
-	        if (action.equals("android.provider.Telephony.SMS_RECEIVED")) {
-	        	handlePhoneMessageReceived(intent);
-	        }
+	        displayPhoneNotificationToScreen(intent);
 	    	finishPhoneMonitoringService(PhoneService.this, serviceID);
 	    }
 	    
 	}
 	
 	/**
-     * Handle the SMS message that was received.
-     * Trigger the notification if the message is valid.
-     */
-	private void handlePhoneMessageReceived(Intent intent) {
-		if (Log.getDebug()) Log.v("SMSReceiver.handleSMSMessageReceived()");
-		Bundle bundle = intent.getExtras();
-		if (bundle != null) {
-//			SmsMessage[] message = getMessagesFromIntent(intent);
-//			if (message != null) {
-				displayPhoneNotificationToScreen(intent);
-//			}
-		}
+	 * Display the notification to the screen.
+	 */
+	private void displayPhoneNotificationToScreen(final Intent intent) {
+		if (Log.getDebug()) Log.v("PhoneService.displayPhoneNotificationToScreen()");
+		TelephonyManager telemanager = (TelephonyManager) getContext().getSystemService(Context.TELEPHONY_SERVICE);
+	    boolean callStateIdle = telemanager.getCallState() == TelephonyManager.CALL_STATE_IDLE;
+	    if (Log.getDebug()) Log.v("Phone.displaySMSNotificationToScreen() Current Call State: " + telemanager.getCallState());
+	    // If the user is not in a call then start the check on the call log.
+	    if (callStateIdle) {
+	    	if (Log.getDebug()) Log.v("PhoneService.checkCallLog() Call state idle.");
+	    	//Possibly need to "SLEEP" a few seconds to allow the phone log to be updated before we query it.
+	        checkCallLog(intent);
+	    }
 	}
 	
-	/**
-	 * Display the notification to the screen.
-	 * Send add the SMS message to the intent object that we created for the new activity.
-	 */
-	private void displayPhoneNotificationToScreen(Intent intent) {
-		if (Log.getDebug()) Log.v("Phone.displaySMSNotificationToScreen()");
-//		Bundle bundle = intent.getExtras();
-//		bundle.putInt("notificationType", 0);
-//	    // Get the call state, if the user is in a call or the phone is ringing, don't show the notification.
-//	    TelephonyManager telemanager = (TelephonyManager) getContext().getSystemService(Context.TELEPHONY_SERVICE);
-//	    boolean callStateIdle = telemanager.getCallState() == TelephonyManager.CALL_STATE_IDLE;
-//	    // If the user is not in a call then show the notification activity.
-//	    if (callStateIdle) {
-//	    	if (Log.getDebug()) Log.v("Phone.displaySMSNotificationToScreen() Display SMS Notification Window");    	
-//	    	Intent newIntent = new Intent(getContext(), NotificationActivity.class);
-//	    	newIntent.putExtras(bundle);
-//	    	newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-//	    	getContext().startActivity(newIntent);
-//	    }
-	    	
-		Handler handler = new Handler();
-		Context context = getContext();
-     	ContentResolver contentresolver = context.getContentResolver();
-     	contentresolver.registerContentObserver(
- 	            android.provider.CallLog.Calls.CONTENT_URI, 
- 	            true,
- 	            new CallLogContentObserver(context, handler));
-	    	
+	private void checkCallLog(Intent intent){
+		if (Log.getDebug()) Log.v("PhoneService.checkCallLog()");
+		Bundle bundle = intent.getExtras();
+		bundle.putInt("notificationType", 0);
+		boolean missedCalls = false;
+		final String[] projection = null;
+		final String selection = null;
+		final String[] selectionArgs = null;
+		final String sortOrder = "DATE DESC";
+	    Cursor cursor = _context.getContentResolver().query(
+	    		Uri.parse("content://call_log/calls"),
+	    		projection,
+	    		selection,
+				selectionArgs,
+				sortOrder);
+	    if (cursor != null) {
+	    	while (cursor.moveToNext()) { 
+	    		String callNumber = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.NUMBER));
+	    		String callDate = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.DATE));
+	    		String callType = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.TYPE));
+	    		String isCallNew = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.NEW));
+	    		if (Log.getDebug()) Log.v("PhoneService.checkCallLog() Checking Call: " + callNumber + " Received At: " + callDate + " Call Type: " + callType + " Is Call New? " + isCallNew);
+	    		if(Integer.parseInt(callType) == MISSED_CALL_TYPE && Integer.parseInt(isCallNew) > 0){
+    				if (Log.getDebug()) Log.v("PhoneService.checkCallLog() Missed Call Found: " + callNumber);
+    				//Start Notification
+    				missedCalls = true;
+
+    				//TODO Need to create an array of missed calls and pass that into the Notification Activity.
+    				
+    				
+    				
+    			}else{
+    				break;
+    			}
+	    	}
+	    	cursor.close();
+	    }
+	    if (Log.getDebug()) Log.v("PhoneService.checkCallLog() Missed Calls? " + missedCalls); 
+	    if(missedCalls){
+	    	if (Log.getDebug()) Log.v("PhoneService.checkCallLog() Display Phone Notification Window");    	
+	    	Intent newIntent = new Intent(getContext(), NotificationActivity.class);
+	    	newIntent.putExtras(bundle);
+	    	newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+	    	getContext().startActivity(newIntent);
+	    }
 	}
 	
 }

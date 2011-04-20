@@ -22,6 +22,7 @@ public class CallLogContentObserver extends ContentObserver {
     public final int INCOMING_CALL_TYPE = android.provider.CallLog.Calls.INCOMING_TYPE;
     public final int OUTGOING_CALL_TYPE = android.provider.CallLog.Calls.OUTGOING_TYPE;
     public final int MISSED_CALL_TYPE = android.provider.CallLog.Calls.MISSED_TYPE;
+    
 	public Context _context;
 	
 	//================================================================================
