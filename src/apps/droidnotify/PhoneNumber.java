@@ -17,6 +17,9 @@ public class PhoneNumber {
 	// Constructors
 	//================================================================================
 	
+	/**
+	 * Constructor for a new PhoneNumber object.
+	 */
 	public PhoneNumber(String phoneNumber){
 		if (Log.getDebug()) Log.v("PhoneNumber.PhoneNumber()");
 		setPhoneNumber(formatNumber(phoneNumber));
@@ -39,7 +42,7 @@ public class PhoneNumber {
 	/**
 	 * Get the phoneNumber property.
 	 * 
-	 * @return
+	 * @return phoneNumber
 	 */
 	public String getPhoneNumber(){
 		if (Log.getDebug()) Log.v("PhoneNumber.getPhoneNumber()");

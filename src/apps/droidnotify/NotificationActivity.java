@@ -24,18 +24,23 @@ import android.widget.LinearLayout;
  * This is the main activity that runs the notifications.
  */
 public class NotificationActivity extends Activity {
+
+	//================================================================================
+    // Constants
+    //================================================================================
+	
+	private final double WIDTH = 0.9;
+	private final int MAX_WIDTH = 640;
+	
+	private final int NOTIFICATION_TYPE_PHONE = 0;
+	private final int NOTIFICATION_TYPE_SMS = 1;
+	private final int NOTIFICATION_TYPE_MMS = 2;
+	private final int NOTIFICATION_TYPE_CALENDAR = 3;
 	
 	//================================================================================
     // Properties
     //================================================================================
-	
-	private double WIDTH = 0.9;
-	private int MAX_WIDTH = 640;
-	private int NOTIFICATION_TYPE_PHONE = 0;
-	private int NOTIFICATION_TYPE_SMS = 1;
-	private int NOTIFICATION_TYPE_MMS = 2;
-	private int NOTIFICATION_TYPE_CALENDAR = 3;
-	
+
 	private Bundle bundle;
 	private NotificationViewFlipper SMSNotificationFlipper = null;
 	private LinearLayout mainLayout;

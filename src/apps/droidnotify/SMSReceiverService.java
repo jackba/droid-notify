@@ -19,6 +19,15 @@ import android.telephony.TelephonyManager;
 public class SMSReceiverService extends Service {
 
 	//================================================================================
+    // Constants
+    //================================================================================
+	
+	private final int NOTIFICATION_TYPE_PHONE = 0;
+	private final int NOTIFICATION_TYPE_SMS = 1;
+	private final int NOTIFICATION_TYPE_MMS = 2;
+	private final int NOTIFICATION_TYPE_CALENDAR = 3;
+	
+	//================================================================================
     // Properties
     //================================================================================
 	private Context _context;
