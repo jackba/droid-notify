@@ -26,10 +26,20 @@ import android.widget.TextView;
 public class NotificationView extends LinearLayout {
 
 	//================================================================================
+    // Constants
+    //================================================================================
+	
+	private final int NOTIFICATION_TYPE_PHONE = 0;
+	private final int NOTIFICATION_TYPE_SMS = 1;
+	private final int NOTIFICATION_TYPE_MMS = 2;
+	private final int NOTIFICATION_TYPE_CALENDAR = 3;
+	
+	//================================================================================
     // Properties
     //================================================================================
 	
 	private Context _context;	
+	private int _notificationType;
 	private TextView _fromTV;
 	private TextView _messageReceivedTV;
 	private TextView _messageTV;
@@ -46,7 +56,8 @@ public class NotificationView extends LinearLayout {
 	public NotificationView(Context context,  Notification notification) {
 	    super(context);
 	    if (Log.getDebug()) Log.v("NotificationView.NotificationView()");
-	    _context = context;
+	    setContext(context);
+	    setNotificationType(notification.getNotificationType());
 	    initLayoutItems(context);
 	    populateNotificationView(notification);
 	}
@@ -54,7 +65,31 @@ public class NotificationView extends LinearLayout {
 	//================================================================================
 	// Accessors
 	//================================================================================
-	  
+
+	/**
+	 * Set the context property.
+	 */
+	public void setContext(Context context) {
+		if (Log.getDebug()) Log.v("NotificationView.setContext()");
+	    _context = context;
+	}
+	
+	/**
+	 * Set the notificationType property.
+	 */
+	public void setNotificationType(int notificationType) {
+		if (Log.getDebug()) Log.v("Notification.seNotificationType()");
+	    _notificationType = notificationType;
+	}
+	
+	/**
+	 * Get the notificationType property.
+	 */
+	public int getNotificationType() {
+		if (Log.getDebug()) Log.v("Notification.getNotificationType()");
+	    return _notificationType;
+	}
+	
 	//================================================================================
 	// Public Methods
 	//================================================================================

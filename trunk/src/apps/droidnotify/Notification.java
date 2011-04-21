@@ -24,10 +24,10 @@ public class Notification {
     // Constants
     //================================================================================
 	
-	private int NOTIFICATION_TYPE_PHONE = 0;
-	private int NOTIFICATION_TYPE_SMS = 1;
-	private int NOTIFICATION_TYPE_MMS = 2;
-	private int NOTIFICATION_TYPE_CALENDAR = 3;
+	private final int NOTIFICATION_TYPE_PHONE = 0;
+	private final int NOTIFICATION_TYPE_SMS = 1;
+	private final int NOTIFICATION_TYPE_MMS = 2;
+	private final int NOTIFICATION_TYPE_CALENDAR = 3;
 	
 	//================================================================================
     // Properties
@@ -43,7 +43,7 @@ public class Notification {
 	private String _contactName;
 	private long _photoID;
 	private Bitmap _photoImg;
-	private int _messageType;
+	private int _notificationType;
 	private long _messageID;
 	private boolean _fromEmailGateway;
 	private MessageClass _messageClass;
@@ -61,7 +61,7 @@ public class Notification {
 		SmsMessage[] msgs = null;
         String messageBody = "";            
         if (bundle != null){
-        	setMessageType(notificationType);
+        	setNotificationType(notificationType);
         	if(notificationType == NOTIFICATION_TYPE_PHONE){
         		//TODO - Missed Call
     	    }
@@ -104,7 +104,7 @@ public class Notification {
 	public Notification(Context context, String phoneNumber, long timeStamp, int notificationType){
 		if (Log.getDebug()) Log.v("Notification.Notification(Context, String, long, int)");
 		setContext(context);
-		setMessageType(notificationType);
+		setNotificationType(notificationType);
     	if(notificationType == NOTIFICATION_TYPE_PHONE){
     		if (Log.getDebug()) Log.v("Notification.Notification() NOTIFICATION_TYPE_PHONE");
     		setPhoneNumber(phoneNumber);
@@ -295,19 +295,19 @@ public class Notification {
 	}
 	
 	/**
-	 * Set the messageType property.
+	 * Set the notificationType property.
 	 */
-	public void setMessageType(int messageType) {
-		if (Log.getDebug()) Log.v("Notification.setMessageType() MessageType: " + messageType);
-		_messageType = messageType;
+	public void setNotificationType(int notificationType) {
+		if (Log.getDebug()) Log.v("Notification.setNotificationType() NotificationType: " + notificationType);
+		_notificationType = notificationType;
 	}
 	
 	/**
-	 * Get the messageType property.
+	 * Get the notificationType property.
 	 */
-	public int getMessageType() {
-		if (Log.getDebug()) Log.v("Notification.getMessageType()");
-		return _messageType;
+	public int getNotificationType() {
+		if (Log.getDebug()) Log.v("Notification.getNotificationType()");
+		return _notificationType;
 	}
 
 	/**

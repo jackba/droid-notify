@@ -20,12 +20,21 @@ import android.telephony.TelephonyManager;
 public class PhoneService extends Service {
 
 	//================================================================================
-    // Properties
+    // Constants
     //================================================================================
+	
+	private final int NOTIFICATION_TYPE_PHONE = 0;
+	private final int NOTIFICATION_TYPE_SMS = 1;
+	private final int NOTIFICATION_TYPE_MMS = 2;
+	private final int NOTIFICATION_TYPE_CALENDAR = 3;
 	
     public final int INCOMING_CALL_TYPE = android.provider.CallLog.Calls.INCOMING_TYPE;
     public final int OUTGOING_CALL_TYPE = android.provider.CallLog.Calls.OUTGOING_TYPE;
     public final int MISSED_CALL_TYPE = android.provider.CallLog.Calls.MISSED_TYPE;
+    
+	//================================================================================
+    // Properties
+    //================================================================================
     
 	private Context _context;
 	private ServiceHandler PhoneServiceHandler;
