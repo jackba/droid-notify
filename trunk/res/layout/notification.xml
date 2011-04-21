@@ -12,17 +12,16 @@
 		android:layout_gravity="left">
 		<ImageView
 			android:src="@drawable/email_icon"
-			android:id="@+id/from_image_view"
+			android:id="@+id/notification_type_icon_image_view"
 			android:layout_width="wrap_content"
 			android:layout_gravity="center"
 			android:scaleType="center"
 			android:layout_margin="4dp" android:layout_height="match_parent"/>
 			<TextView
-				android:id="@+id/from_text_view"
+				android:id="@+id/time_text_view"
 				android:layout_width="fill_parent"
 				android:gravity="center_vertical"
 				android:textAppearance="?android:attr/textAppearanceSmall"
-				android:text=" 11:46pm"
 				android:padding="1dp"
 				android:textColorLink="?android:attr/textColorPrimaryDisableOnly" android:layout_height="match_parent"/>
 	</LinearLayout>
@@ -69,10 +68,10 @@
 				android:paddingBottom="2dp"
 				android:textColorLink="?android:attr/textColorPrimaryDisableOnly" />
 			<TextView
-				android:id="@+id/header_text_view"
+				android:id="@+id/phone_number_text_view"
 				android:textAppearance="?android:attr/textAppearanceSmall"
 				android:textColor="?android:attr/textColorPrimaryDisableOnly"
-				android:text="@string/new_message_at_text"
+				android:text="@string/from_phone_number_text"
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
 				android:paddingTop="2dp" />
