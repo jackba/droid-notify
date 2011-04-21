@@ -26,6 +26,7 @@ public class SMSReceiverService extends Service {
 	private final int NOTIFICATION_TYPE_SMS = 1;
 	private final int NOTIFICATION_TYPE_MMS = 2;
 	private final int NOTIFICATION_TYPE_CALENDAR = 3;
+	private final int NOTIFICATION_TYPE_EMAIL = 4;
 	
 	//================================================================================
     // Properties
@@ -225,7 +226,7 @@ public class SMSReceiverService extends Service {
 	private void displaySMSNotificationToScreen(Intent intent) {
 		if (Log.getDebug()) Log.v("SMSReceiver.displaySMSNotificationToScreen()");
 		Bundle bundle = intent.getExtras();
-		bundle.putInt("notificationType", 1);
+		bundle.putInt("notificationType", NOTIFICATION_TYPE_SMS);
 	    // Get the call state, if the user is in a call or the phone is ringing, don't show the notification.
 	    TelephonyManager telemanager = (TelephonyManager) getContext().getSystemService(Context.TELEPHONY_SERVICE);
 	    boolean callStateIdle = telemanager.getCallState() == TelephonyManager.CALL_STATE_IDLE;

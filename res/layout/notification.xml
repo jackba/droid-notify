@@ -11,7 +11,7 @@
 		android:layout_height="wrap_content"
 		android:layout_gravity="left">
 		<ImageView
-			android:src="@drawable/email_icon"
+			android:src="@android:drawable/ic_dialog_info"
 			android:id="@+id/notification_type_icon_image_view"
 			android:layout_width="wrap_content"
 			android:layout_gravity="center"
@@ -21,6 +21,7 @@
 				android:id="@+id/time_text_view"
 				android:layout_width="fill_parent"
 				android:gravity="center_vertical"
+				android:text="Timestamp"
 				android:textAppearance="?android:attr/textAppearanceSmall"
 				android:padding="1dp"
 				android:textColorLink="?android:attr/textColorPrimaryDisableOnly" android:layout_height="match_parent"/>
@@ -63,7 +64,7 @@
 				android:textAppearance="?android:attr/textAppearanceLarge"
 				android:maxLines="2"
 				android:layout_height="wrap_content"
-				android:text="Text Here"
+				android:text="Contact Name"
 				android:ellipsize="end"
 				android:paddingBottom="2dp"
 				android:textColorLink="?android:attr/textColorPrimaryDisableOnly" />
@@ -71,7 +72,7 @@
 				android:id="@+id/phone_number_text_view"
 				android:textAppearance="?android:attr/textAppearanceSmall"
 				android:textColor="?android:attr/textColorPrimaryDisableOnly"
-				android:text="@string/from_phone_number_text"
+				android:text="(Phone Number)"
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
 				android:paddingTop="2dp" />
@@ -88,23 +89,24 @@
   		android:paddingBottom="2dp"
   		android:paddingTop="2dp" />
 	<ScrollView
-		android:layout_width="fill_parent"
-		android:layout_height="0dip"
-		android:id="@+id/message_scroll_view"
+		android:id="@+id/notification_text_scroll_view"
 		android:layout_weight="1"
 		android:paddingBottom="10dp"
-		android:paddingTop="6dp">
+		android:paddingTop="6dp" 
+		android:layout_height="match_parent" 
+		android:layout_width="match_parent">
 		<TextView
-			android:text="Text here"
-			android:id="@+id/message_text_view"
+			android:text="Notification Text"
+			android:id="@+id/notification_text_view"
 			android:autoLink="all"
 			android:textAppearance="?android:attr/textAppearanceMedium"
 			android:textColor="?android:attr/textColorPrimaryDisableOnly"
 			android:layout_height="wrap_content"
 			android:layout_width="fill_parent"
-			android:gravity="center"
+			android:gravity="left"
 			android:paddingRight="10dp"
 			android:paddingLeft="10dp"
-			android:textColorLink="?android:attr/textColorPrimaryDisableOnly" />
+			android:textColorLink="?android:attr/textColorPrimaryDisableOnly" 
+			android:layout_gravity="left"/>
 	</ScrollView>
 </LinearLayout>

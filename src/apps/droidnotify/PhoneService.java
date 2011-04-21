@@ -27,6 +27,7 @@ public class PhoneService extends Service {
 	private final int NOTIFICATION_TYPE_SMS = 1;
 	private final int NOTIFICATION_TYPE_MMS = 2;
 	private final int NOTIFICATION_TYPE_CALENDAR = 3;
+	private final int NOTIFICATION_TYPE_EMAIL = 4;
 	
     public final int INCOMING_CALL_TYPE = android.provider.CallLog.Calls.INCOMING_TYPE;
     public final int OUTGOING_CALL_TYPE = android.provider.CallLog.Calls.OUTGOING_TYPE;
@@ -250,7 +251,7 @@ public class PhoneService extends Service {
 	    	if (Log.getDebug()) Log.v("PhoneService.checkCallLog() Display Phone Notification Window");  
 			Bundle bundle = intent.getExtras();
 			//Add properties to the bundle that we send to the new Activity.
-			bundle.putInt("notificationType", 0);
+			bundle.putInt("notificationType", NOTIFICATION_TYPE_PHONE);
 	    	bundle.putStringArrayList("missedCallsArray", missedCallsArray);
 	    	Intent newIntent = new Intent(getContext(), NotificationActivity.class);
 	    	newIntent.putExtras(bundle);
