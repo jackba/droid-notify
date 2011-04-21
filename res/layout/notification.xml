@@ -11,6 +11,37 @@
 		android:layout_height="wrap_content"
 		android:layout_gravity="left">
 		<ImageView
+			android:src="@drawable/email_icon"
+			android:id="@+id/from_image_view"
+			android:layout_width="wrap_content"
+			android:layout_gravity="center"
+			android:scaleType="center"
+			android:layout_margin="4dp" android:layout_height="match_parent"/>
+			<TextView
+				android:id="@+id/from_text_view"
+				android:layout_width="fill_parent"
+				android:gravity="center_vertical"
+				android:textAppearance="?android:attr/textAppearanceSmall"
+				android:text=" 11:46pm"
+				android:padding="1dp"
+				android:textColorLink="?android:attr/textColorPrimaryDisableOnly" android:layout_height="match_parent"/>
+	</LinearLayout>
+	<ImageView
+  		xmlns:android="http://schemas.android.com/apk/res/android"
+  		android:src="@android:drawable/divider_horizontal_dark"
+  		android:layout_width="fill_parent"
+  		android:layout_height="wrap_content"
+  		android:scaleType="fitXY"
+  		android:paddingLeft="5dp"
+  		android:paddingRight="5dp"
+  		android:paddingBottom="2dp"
+  		android:paddingTop="2dp" />
+	<LinearLayout
+		android:id="@+id/from_linear_layout"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_gravity="left">
+		<ImageView
 			android:src="@android:drawable/ic_dialog_info"
 			android:id="@+id/from_image_view"
 			android:layout_width="wrap_content"
