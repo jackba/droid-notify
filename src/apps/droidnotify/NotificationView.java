@@ -33,6 +33,7 @@ public class NotificationView extends LinearLayout {
 	private final int NOTIFICATION_TYPE_SMS = 1;
 	private final int NOTIFICATION_TYPE_MMS = 2;
 	private final int NOTIFICATION_TYPE_CALENDAR = 3;
+	private final int NOTIFICATION_TYPE_EMAIL = 4;
 	
 	//================================================================================
     // Properties
@@ -41,9 +42,11 @@ public class NotificationView extends LinearLayout {
 	private Context _context;	
 	private int _notificationType;
 	private TextView _fromTV;
-	private TextView _messageReceivedTV;
+	private TextView _phoneNumberTV;
+	private TextView _receivedAtTV;
 	private TextView _messageTV;
 	private ScrollView _messageScrollView = null;
+	private ImageView _notificationIconIV = null;
 	private ImageView _photoImageView = null;
 
 	//================================================================================
@@ -102,15 +105,17 @@ public class NotificationView extends LinearLayout {
      * 
      */	
 	private void initLayoutItems(Context context) {
-		if (Log.getDebug()) Log.v("NotificationView.SetupLayout()");
+		if (Log.getDebug()) Log.v("NotificationView.initLayoutItems()");
 	    View.inflate(context, R.layout.notification, this);
 	    if (Log.getDebug()) Log.v("NotificationView should be inflated now");
 	    // Find the main textviews and layouts
 	    _fromTV = (TextView) findViewById(R.id.from_text_view);
+	    _phoneNumberTV = (TextView) findViewById(R.id.phone_number_text_view);
 	    _messageTV = (TextView) findViewById(R.id.message_text_view);
-	    _messageReceivedTV = (TextView) findViewById(R.id.header_text_view);
+	    _receivedAtTV = (TextView) findViewById(R.id.time_text_view);
 	    _messageScrollView = (ScrollView) findViewById(R.id.message_scroll_view);
 	    _photoImageView = (ImageView) findViewById(R.id.from_image_view);
+	    _notificationIconIV = (ImageView) findViewById(R.id.notification_type_icon_image_view);
 	}
 
 	/**
@@ -118,13 +123,92 @@ public class NotificationView extends LinearLayout {
 	 */
 	private void populateNotificationView(Notification notification) {
 		if (Log.getDebug()) Log.v("NotificationView.populateNotificationView()");
+	    // Set from, number, message etc. views.
+	    _fromTV.setText(notification.getContactName());
+	    _phoneNumberTV.setText(notification.getPhoneNumber());
+	    //Load the notification message.
+	    setNotificationMessage(notification);
+	    //Load the notification type icon & text into the notification.
+	    setNotificationTypeInfo(notification);
+	    //Load the image from the users contacts.
+	    setNotificationImage(notification);
+	}
+	
+	/**
+	 * Set the notification message. 
+	 * This is specific to the type of notification that was received.
+	 * 
+	 * @param notification
+	 */
+	private void setNotificationMessage(Notification notification){
+		if (Log.getDebug()) Log.v("NotificationView.setNotificationMessage()");
+		int notificationType = notification.getNotificationType();
+		String notificationText = "";
+	    if(notificationType == NOTIFICATION_TYPE_PHONE){
+	    	notificationText = "Missed Call!";
+	    }
+	    if(notificationType == NOTIFICATION_TYPE_SMS || notificationType == NOTIFICATION_TYPE_MMS){
+	    	notificationText = notification.getMessageBody();
+	    }
+	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
+	    	//TODO - NOTIFICATION_TYPE_CALENDAR - Insert Calendar Item
+	    	notificationText = "TODO-Insert Calendar Item";
+	    }
+	    if(notificationType == NOTIFICATION_TYPE_EMAIL){
+	    	//TODO - NOTIFICATION_TYPE_CALENDAR - Insert Email Item
+	    	notificationText = "TODO-Insert Email Item";
+	    } 
+	    _messageTV.setText(notificationText);
+	}
+	
+	/**
+	 * Set notification specific details into the header of the notification.
+	 * This is specific to the type of notification that was received.
+	 * Details include:
+	 * 		Icon,
+	 * 		Icon Text,
+	 * 		Date & Time,
+	 * 		Etc...
+	 * 
+	 * @param notification
+	 */
+	private void setNotificationTypeInfo(Notification notification){
+		if (Log.getDebug()) Log.v("NotificationView.setNotificationTypeInfo()");
+		int notificationType = notification.getNotificationType();
+		Bitmap iconBitmap = null;
 		// Update TextView that contains the timestamp for the incoming message
 		String formattedTimestamp = new SimpleDateFormat("h:mma").format(notification.getTimeStamp());
-	    String headerText = _context.getString(R.string.new_message_at_text, formattedTimestamp.toLowerCase());
-	    // Set the from, message and header views
-	    _fromTV.setText(notification.getContactName());
-	    _messageTV.setText(notification.getMessageBody());
-	    _messageReceivedTV.setText(headerText);
+	    String receivedAtText = "";
+	    if(notificationType == NOTIFICATION_TYPE_PHONE){
+	    	iconBitmap = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.missed_call_icon);
+	    	receivedAtText = getContext().getString(R.string.missed_call_at_text, formattedTimestamp.toLowerCase());
+	    }
+	    if(notificationType == NOTIFICATION_TYPE_SMS || notificationType == NOTIFICATION_TYPE_MMS){
+	    	iconBitmap = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.sms_icon);
+	    	receivedAtText = getContext().getString(R.string.message_at_text, formattedTimestamp.toLowerCase());
+	    }
+	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
+	    	iconBitmap = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.calendar_icon);
+	    	receivedAtText = getContext().getString(R.string.appointment_at_text, formattedTimestamp.toLowerCase());
+	    }
+	    if(notificationType == NOTIFICATION_TYPE_EMAIL){
+	    	iconBitmap = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.email_icon);
+	    	receivedAtText = getContext().getString(R.string.email_at_text, formattedTimestamp.toLowerCase());
+	    }    
+	    if(iconBitmap != null){
+	    	_notificationIconIV.setImageBitmap(iconBitmap);
+	    }
+		_receivedAtTV.setText(receivedAtText);
+	}
+	
+	
+	/**
+	 * Insert the image from the users contacts into the notification View.
+	 * 
+	 * @param notification
+	 */
+	private void setNotificationImage(Notification notification){
+		if (Log.getDebug()) Log.v("NotificationView.setNotificationImage()");
 	    //Setup ImageView
 	    _photoImageView.setBackgroundResource(0);
 	    _photoImageView.setPadding(0, 0, 0, 0);
@@ -148,6 +232,7 @@ public class NotificationView extends LinearLayout {
 	 * @return Bitmap image
 	 */
 	private Bitmap getRoundedCornerBitmap(Bitmap bitmap, int pixels) {
+		if (Log.getDebug()) Log.v("NotificationView.getRoundedCornerBitmap()");
         Bitmap output = Bitmap.createBitmap(
         		bitmap.getWidth(), 
         		bitmap
@@ -167,4 +252,5 @@ public class NotificationView extends LinearLayout {
         canvas.drawBitmap(bitmap, rect, rect, paint);
         return output;
 	}
+	
 }
