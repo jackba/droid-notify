@@ -36,19 +36,20 @@ public class NotificationActivity extends Activity {
 	private final int NOTIFICATION_TYPE_SMS = 1;
 	private final int NOTIFICATION_TYPE_MMS = 2;
 	private final int NOTIFICATION_TYPE_CALENDAR = 3;
+	private final int NOTIFICATION_TYPE_EMAIL = 4;
 	
 	//================================================================================
     // Properties
     //================================================================================
 
-	private Bundle bundle;
-	private NotificationViewFlipper SMSNotificationFlipper = null;
-	private LinearLayout mainLayout;
-	private Button previousButton;
-	private Button inboxButton;
-	private Button nextButton;
-	private InputMethodManager inputMethodManager = null;
-	private View softKeyboardTriggerView = null;
+	private Bundle bundle = null;
+	private NotificationViewFlipper _notificationViewFlipper = null;
+	private LinearLayout _mainLayout = null;
+	private Button _previousButton = null;
+	private Button _inboxButton = null;
+	private Button _nextButton = null;
+	private InputMethodManager _inputMethodManager = null;
+	private View _softKeyboardTriggerView = null;
 
 	//================================================================================
 	// Constructors
@@ -137,7 +138,7 @@ public class NotificationActivity extends Activity {
 	    int notificationType = bundle.getInt("notificationType");
 	    if (Log.getDebug()) Log.v("NotificationActivity.onCreate() Notification Type: " + notificationType);
 	    requestWindowFeature(Window.FEATURE_NO_TITLE);
-	    setContentView(R.layout.notificationwrapper);
+	    setContentView(R.layout.notificationwrapper);    
 	    setupViews(notificationType);
 	    if(notificationType == NOTIFICATION_TYPE_PHONE){
 	    	if (Log.getDebug()) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_PHONE");
@@ -158,7 +159,11 @@ public class NotificationActivity extends Activity {
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
 	    	if (Log.getDebug()) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_CALENDAR");
-	    	//TODO - Calendar Reminder
+	    	//TODO - Calendar Event
+	    }
+	    if(notificationType == NOTIFICATION_TYPE_EMAIL){
+	    	if (Log.getDebug()) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_EMAIL");
+	    	//TODO - Email Message
 	    }
 	    // wake up app (turn on screen and run notification)
 	    //wakeApp();
@@ -467,11 +472,11 @@ public class NotificationActivity extends Activity {
 	private void setupViews(int notificationType) {
 		if (Log.getDebug()) Log.v("NotificationActivity.setupViews()");
 
-		SMSNotificationFlipper = (NotificationViewFlipper) findViewById(R.id.notification_layout);
+		_notificationViewFlipper = (NotificationViewFlipper) findViewById(R.id.notification_layout);
 	
-		previousButton = (Button) findViewById(R.id.previous_button);
-		inboxButton = (Button) findViewById(R.id.inbox_button);
-		nextButton = (Button) findViewById(R.id.next_button);
+		_previousButton = (Button) findViewById(R.id.previous_button);
+		_inboxButton = (Button) findViewById(R.id.inbox_button);
+		_nextButton = (Button) findViewById(R.id.next_button);
 		
 	    if(notificationType == NOTIFICATION_TYPE_PHONE){
 	    	//TODO - Missed Call
@@ -479,7 +484,7 @@ public class NotificationActivity extends Activity {
 		if(notificationType == NOTIFICATION_TYPE_SMS){
 							
 			// Inbox Button
-			inboxButton.setOnClickListener(new OnClickListener() {
+			_inboxButton.setOnClickListener(new OnClickListener() {
 			    public void onClick(View v) {
 			    	if (Log.getDebug()) Log.v("Inbox Clicked()");
 			    	gotoInbox();
@@ -492,7 +497,7 @@ public class NotificationActivity extends Activity {
 			    public void onClick(View v) {
 			    	if (Log.getDebug()) Log.v("Delete Button Clicked()");
 			    	showDialog(Menu.FIRST);
-			    	updateNavigationButtons(previousButton, inboxButton, nextButton);
+			    	updateNavigationButtons(_previousButton, _inboxButton, _nextButton);
 			    }
 			});
 			
@@ -516,20 +521,20 @@ public class NotificationActivity extends Activity {
 	    //Items that are the same for aLL notification types.
 	
 		// Previous Button
-		previousButton.setOnClickListener(new OnClickListener() {
+		_previousButton.setOnClickListener(new OnClickListener() {
 		    public void onClick(View v) {
 		    	if (Log.getDebug()) Log.v("Previous Button Clicked()");
-		    	SMSNotificationFlipper.showPrevious();
-		    	updateNavigationButtons(previousButton, inboxButton, nextButton);
+		    	_notificationViewFlipper.showPrevious();
+		    	updateNavigationButtons(_previousButton, _inboxButton, _nextButton);
 		    }
 		});
 		
 		// Next Button
-		nextButton.setOnClickListener(new OnClickListener() {
+		_nextButton.setOnClickListener(new OnClickListener() {
 		    public void onClick(View v) {
 		    	if (Log.getDebug()) Log.v("Next Button Clicked()");
-		    	SMSNotificationFlipper.showNext();
-		    	updateNavigationButtons(previousButton, inboxButton, nextButton);
+		    	_notificationViewFlipper.showNext();
+		    	updateNavigationButtons(_previousButton, _inboxButton, _nextButton);
 		    }
 		});
 	    
@@ -542,7 +547,7 @@ public class NotificationActivity extends Activity {
 		    }
 		});
 		
-		initNavigationButtons(previousButton, inboxButton, nextButton);
+		initNavigationButtons(_previousButton, _inboxButton, _nextButton);
 	    
 	}
 	
@@ -563,10 +568,10 @@ public class NotificationActivity extends Activity {
 			Notification missedCallnotification = new Notification(getApplicationContext(), phoneNumber, timeStamp, 0);
 			if (Log.getDebug()) Log.v("NotificationActivity.setupMissedCalls() Notification Phone Number: " + missedCallnotification.getPhoneNumber());
 			if (Log.getDebug()) Log.v("NotificationActivity.setupMissedCalls() Adding misssed call to flipper");
-			SMSNotificationFlipper.addMessage(missedCallnotification);
+	_notificationViewFlipper.addMessage(missedCallnotification);
 			break;
 		}
-	    updateNavigationButtons(previousButton, inboxButton, nextButton);
+	    updateNavigationButtons(_previousButton, _inboxButton, _nextButton);
 	}
 	
 	/**
@@ -581,26 +586,26 @@ public class NotificationActivity extends Activity {
 	    Notification smsMessage = new Notification(getApplicationContext(), bundle, 1);
 	    if (Log.getDebug()) Log.v("NotificationActivity.setupMessages() Notification Phone Number: " + smsMessage.getPhoneNumber());
 	    if (Log.getDebug()) Log.v("NotificationActivity.setupMessages() Adding SMS message to flipper");
-	    SMSNotificationFlipper.addMessage(smsMessage);
-	    updateNavigationButtons(previousButton, inboxButton, nextButton);
+	    _notificationViewFlipper.addMessage(smsMessage);
+	    updateNavigationButtons(_previousButton, _inboxButton, _nextButton);
 	}
 	
 	/**
 	 * 
 	 */
-	private void initNavigationButtons(Button previousButton, Button inboxButton, Button nextButton){
+	private void initNavigationButtons(Button _previousButton, Button _inboxButton, Button _nextButton){
 		if (Log.getDebug()) Log.v("NotificationActivity.initNavigationButtons()");
-		updateNavigationButtons(previousButton, inboxButton, nextButton);
+		updateNavigationButtons(_previousButton, _inboxButton, _nextButton);
 	}  
 	  
 	/**
 	 * 
 	 */
-    private void updateNavigationButtons(Button previousButton, Button inboxButton, Button nextButton){
+    private void updateNavigationButtons(Button _previousButton, Button _inboxButton, Button _nextButton){
     	if (Log.getDebug()) Log.v("NotificationActivity.UpdateNavigationButtons()");
-		previousButton.setEnabled(!SMSNotificationFlipper.isFirstMessage());
-		inboxButton.setText( (SMSNotificationFlipper.getCurrentMessage() + 1) + "/" + SMSNotificationFlipper.getTotalMessages());
-		nextButton.setEnabled(!SMSNotificationFlipper.isLastMessage()); 		
+		_previousButton.setEnabled(!_notificationViewFlipper.isFirstMessage());
+		_inboxButton.setText( (_notificationViewFlipper.getCurrentMessage() + 1) + "/" + _notificationViewFlipper.getTotalMessages());
+		_nextButton.setEnabled(!_notificationViewFlipper.isLastMessage()); 		
     }
 
 //	/**
@@ -649,10 +654,10 @@ public class NotificationActivity extends Activity {
 	 */
 	private void replyToMessage() {
 		if (Log.getDebug()) Log.v("NotificationActivity.replyToMessage()");
-		//Intent i = SMSNotificationFlipper.getActiveMessage().getReplyIntent();
+		//Intent i = _notificationViewFlipper.getActiveMessage().getReplyIntent();
 		//NotificationActivity.this.getApplicationContext().startActivity(i);
 		//finishActivity();
-		Notification message = SMSNotificationFlipper.getActiveMessage();
+		Notification message = _notificationViewFlipper.getActiveMessage();
 		Intent intent = getMessageReplyIntent(message);
 		getApplicationContext().startActivity(intent);
 		finishActivity();
@@ -680,8 +685,8 @@ public class NotificationActivity extends Activity {
 		if (Log.getDebug()) Log.v("NotificationActivity.resizeLayout()");
 		Display d = getWindowManager().getDefaultDisplay();
 		int width = d.getWidth() > MAX_WIDTH ? MAX_WIDTH : (int) (d.getWidth() * WIDTH);
-		mainLayout.setMinimumWidth(width);
-		mainLayout.invalidate();
+		_mainLayout.setMinimumWidth(width);
+		_mainLayout.invalidate();
 	}
 
 	/**
@@ -689,11 +694,11 @@ public class NotificationActivity extends Activity {
 	 */
 	private void showSoftKeyboard(View triggeringView) {
 		if (Log.getDebug()) Log.v("NotificationActivity.showSoftKeyboard()");
-	    if (inputMethodManager == null) {
-	    	inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+	    if (_inputMethodManager == null) {
+	    	_inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 	    }
-	    softKeyboardTriggerView = triggeringView;
-	    inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+	    _softKeyboardTriggerView = triggeringView;
+	    _inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
 	}
 	
 	/**
@@ -701,12 +706,12 @@ public class NotificationActivity extends Activity {
 	 */
 	private void hideSoftKeyboard() {
 		if (Log.getDebug()) Log.v("NotificationActivity.hideSoftKeyboard()");
-	    if (softKeyboardTriggerView == null) return;
-	    if (inputMethodManager == null) {
-	    	inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+	    if (_softKeyboardTriggerView == null) return;
+	    if (_inputMethodManager == null) {
+	    	_inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 	    }
-	    inputMethodManager.hideSoftInputFromWindow(softKeyboardTriggerView.getApplicationWindowToken(), 0);
-	    softKeyboardTriggerView = null;
+	    _inputMethodManager.hideSoftInputFromWindow(_softKeyboardTriggerView.getApplicationWindowToken(), 0);
+	    _softKeyboardTriggerView = null;
 	}
 	
 	/**

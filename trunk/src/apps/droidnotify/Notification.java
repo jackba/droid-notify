@@ -28,6 +28,7 @@ public class Notification {
 	private final int NOTIFICATION_TYPE_SMS = 1;
 	private final int NOTIFICATION_TYPE_MMS = 2;
 	private final int NOTIFICATION_TYPE_CALENDAR = 3;
+	private final int NOTIFICATION_TYPE_EMAIL = 4;
 	
 	//================================================================================
     // Properties
@@ -86,10 +87,13 @@ public class Notification {
 	    		loadContactsInfo(getContext(), getPhoneNumber());
         	}
     	    if(notificationType == NOTIFICATION_TYPE_MMS){
-    	    	//TODO - MMS Message
+    	    	//TODO - NOTIFICATION_TYPE_MMS - MMS Message
     	    }
     	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
-    	    	//TODO - Calendar Reminder
+    	    	//TODO - NOTIFICATION_TYPE_CALENDAR - Calendar Event
+    	    }
+    	    if(notificationType == NOTIFICATION_TYPE_EMAIL){
+    	    	//TODO - NOTIFICATION_TYPE_EMAIL - Email Message
     	    }
         }
 	}
@@ -112,7 +116,7 @@ public class Notification {
     		loadContactsInfo(getContext(), getPhoneNumber());
 	    }
     	if(notificationType == NOTIFICATION_TYPE_SMS || notificationType == NOTIFICATION_TYPE_MMS){
-    		if (Log.getDebug()) Log.v("Notification.Notification() NOTIFICATION_TYPE_SMS");
+    		if (Log.getDebug()) Log.v("Notification.Notification() NOTIFICATION_TYPE_SMS OR NOTIFICATION_TYPE_MMS");
     		setPhoneNumber(phoneNumber);
     		setTimeStamp(timeStamp);
     		loadThreadID(getContext(), getPhoneNumber());  
@@ -121,6 +125,10 @@ public class Notification {
 	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
 	    	if (Log.getDebug()) Log.v("Notification.Notification() NOTIFICATION_TYPE_CALENDAR");
 	    	//TODO - Calendar Reminder
+	    }
+	    if(notificationType == NOTIFICATION_TYPE_EMAIL){
+	    	if (Log.getDebug()) Log.v("Notification.Notification() NOTIFICATION_TYPE_EMAIL");
+	    	//TODO - Email Message
 	    }
 	}
 

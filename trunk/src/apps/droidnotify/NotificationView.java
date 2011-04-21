@@ -12,9 +12,8 @@ import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.graphics.drawable.Drawable;
+import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup.MarginLayoutParams;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -111,9 +110,9 @@ public class NotificationView extends LinearLayout {
 	    // Find the main textviews and layouts
 	    _fromTV = (TextView) findViewById(R.id.from_text_view);
 	    _phoneNumberTV = (TextView) findViewById(R.id.phone_number_text_view);
-	    _messageTV = (TextView) findViewById(R.id.message_text_view);
+	    _messageTV = (TextView) findViewById(R.id.notification_text_view);
 	    _receivedAtTV = (TextView) findViewById(R.id.time_text_view);
-	    _messageScrollView = (ScrollView) findViewById(R.id.message_scroll_view);
+	    _messageScrollView = (ScrollView) findViewById(R.id.notification_text_scroll_view);
 	    _photoImageView = (ImageView) findViewById(R.id.from_image_view);
 	    _notificationIconIV = (ImageView) findViewById(R.id.notification_type_icon_image_view);
 	}
@@ -125,7 +124,7 @@ public class NotificationView extends LinearLayout {
 		if (Log.getDebug()) Log.v("NotificationView.populateNotificationView()");
 	    // Set from, number, message etc. views.
 	    _fromTV.setText(notification.getContactName());
-	    _phoneNumberTV.setText(notification.getPhoneNumber());
+	    _phoneNumberTV.setText("(" + notification.getPhoneNumber() + ")");
 	    //Load the notification message.
 	    setNotificationMessage(notification);
 	    //Load the notification type icon & text into the notification.
@@ -144,21 +143,27 @@ public class NotificationView extends LinearLayout {
 		if (Log.getDebug()) Log.v("NotificationView.setNotificationMessage()");
 		int notificationType = notification.getNotificationType();
 		String notificationText = "";
+		int notificationAlignment = Gravity.LEFT;
 	    if(notificationType == NOTIFICATION_TYPE_PHONE){
 	    	notificationText = "Missed Call!";
+	    	notificationAlignment = Gravity.CENTER;
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_SMS || notificationType == NOTIFICATION_TYPE_MMS){
 	    	notificationText = notification.getMessageBody();
+	    	notificationAlignment = Gravity.LEFT;
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
-	    	//TODO - NOTIFICATION_TYPE_CALENDAR - Insert Calendar Item
+	    	//TODO - Insert Calendar Item
 	    	notificationText = "TODO-Insert Calendar Item";
+	    	notificationAlignment = Gravity.LEFT;
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_EMAIL){
-	    	//TODO - NOTIFICATION_TYPE_CALENDAR - Insert Email Item
+	    	//TODO - Insert Email Item
 	    	notificationText = "TODO-Insert Email Item";
+	    	notificationAlignment = Gravity.LEFT;
 	    } 
 	    _messageTV.setText(notificationText);
+	    _messageTV.setGravity(notificationAlignment);
 	}
 	
 	/**
