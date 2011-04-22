@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
 	<!-- App Strings -->
     <string name="hello">Hello World, DroidNotify!</string>
     <string name="app_name">DroidNotify</string>
@@ -23,8 +24,5 @@
    	<string name="unlock_button_text">Unlock</string>
    	<string name="send_button_text">Send</string>
    	<string name="cancel_button_text">Cancel</string>
-    
-    
-    
-    
+
 </resources>

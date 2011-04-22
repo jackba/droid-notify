@@ -1,41 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" 
+<manifest 
+	xmlns:android="http://schemas.android.com/apk/res/android" 
 	package="apps.droidnotify" 
 	android:versionCode="1" 
 	android:versionName="1.0">
-	
-	<uses-sdk android:minSdkVersion="8" android:targetSdkVersion="8" />
-	
-    <application android:icon="@drawable/icon" android:label="@string/app_name">
-    
-        <activity android:name="DroidNotifyOptionsActivity" android:label="@string/app_name">
+	<uses-sdk 
+		android:minSdkVersion="8" 
+		android:targetSdkVersion="8" />
+    <application 
+    	android:icon="@drawable/icon" 
+    	android:label="@string/app_name">
+        <activity 
+        	android:name="DroidNotifyOptionsActivity" 
+        	android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
  		<receiver android:name=".SMSReceiver"> 
             <intent-filter> 
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" /> 
             </intent-filter> 
         </receiver>     
        	<service android:name=".SMSReceiverService"/>
-   
    		<receiver android:name=".PhoneReceiver"> 
             <intent-filter> 
                 <action android:name="android.intent.action.PHONE_STATE" />
             </intent-filter> 
         </receiver>     
        	<service android:name=".PhoneService"/>
-   
-   		<activity android:name="NotificationActivity" android:theme="@android:style/Theme.Dialog"
-			android:launchMode="singleTask" android:configChanges="keyboardHidden|orientation"
+   		<activity 
+   			android:name="NotificationActivity" 
+   			android:theme="@style/Theme.TranslucentDialog"
+			android:launchMode="singleTask" 
+			android:configChanges="keyboardHidden|orientation"
 			android:screenOrientation="user">
 		</activity>
-    	
     </application>
-    
     <uses-permission android:name="android.permission.READ_SMS" />
 	<uses-permission android:name="android.permission.WRITE_SMS" />
 	<uses-permission android:name="android.permission.SEND_SMS" />
@@ -49,5 +51,4 @@
 	<uses-permission android:name="android.permission.READ_LOGS" />
 	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
 	<uses-feature android:name="android.hardware.telephony" />
-	
 </manifest>
