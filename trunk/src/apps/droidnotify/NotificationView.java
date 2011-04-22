@@ -13,6 +13,7 @@ import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.text.method.ScrollingMovementMethod;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
@@ -48,7 +49,6 @@ public class NotificationView extends LinearLayout {
 	private TextView _phoneNumberTextView;
 	private TextView _receivedAtTextView;
 	private TextView _notificationTextView;
-	private ScrollView _notificationScrollView = null;
 	private ImageView _notificationIconImageView = null;
 	private ImageView _photoImageView = null;
 	private NotificationViewFlipper _notificationViewFlipper = null;
@@ -153,12 +153,13 @@ public class NotificationView extends LinearLayout {
 	    _phoneNumberTextView = (TextView) findViewById(R.id.phone_number_text_view);
 	    _notificationTextView = (TextView) findViewById(R.id.notification_text_view);
 	    _receivedAtTextView = (TextView) findViewById(R.id.time_text_view);
-	    _notificationScrollView = (ScrollView) findViewById(R.id.notification_text_scroll_view);
 	    _photoImageView = (ImageView) findViewById(R.id.from_image_view);
 	    _notificationIconImageView = (ImageView) findViewById(R.id.notification_type_icon_image_view);    
 	    setNotificationViewFlipper(((NotificationActivity)getContext()).getNotificationViewFlipper());
 	    _phoneButtonLayout = (LinearLayout) findViewById(R.id.phone_button_layout);
 		_smsButtonLayout = (LinearLayout) findViewById(R.id.sms_button_layout);
+		_notificationTextView.setMovementMethod(new ScrollingMovementMethod());
+		_notificationTextView.setScrollbarFadingEnabled(false);
 	}
 
 	private void setupNotificationViewButtons(Notification notification) {
@@ -425,5 +426,21 @@ public class NotificationView extends LinearLayout {
 		getContext().startActivity(intent);
 		((NotificationActivity)getContext()).finishActivity();  
 	}
+ 
+//	/**
+//	 * Take the user to the messaging application inbox.
+//	 */
+//	private void gotoInbox() {
+//		if (Log.getDebug()) Log.v("NotificationActivity.gotoInbox()");
+//		Intent i = new Intent(Intent.ACTION_MAIN);
+//	    i.setType("vnd.android-dir/mms-sms");
+//	    int flags =
+//	    	Intent.FLAG_ACTIVITY_NEW_TASK |
+//	    	Intent.FLAG_ACTIVITY_SINGLE_TOP |
+//	    	Intent.FLAG_ACTIVITY_CLEAR_TOP;
+//	    i.setFlags(flags);	
+//		NotificationActivity.this.getApplicationContext().startActivity(i);
+//		finishActivity();
+//	}
 	
 }

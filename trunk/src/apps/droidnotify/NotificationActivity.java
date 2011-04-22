@@ -45,7 +45,7 @@ public class NotificationActivity extends Activity {
 
 	private Bundle _bundle = null;
 	private NotificationViewFlipper _notificationViewFlipper = null;
-	private LinearLayout _mainLayout = null;
+	private LinearLayout _mainActivityLayout = null;
 	private Button _previousButton = null;
 	private Button _nextButton = null;
 	private TextView _notificationCountTextView = null;
@@ -64,7 +64,7 @@ public class NotificationActivity extends Activity {
 	 * Set the notificationViewFlipper property.
 	 */
 	public void setNotificationViewFlipper(NotificationViewFlipper notificationViewFlipper) {
-		if (Log.getDebug()) Log.v("Notification.seNotificationViewFlipper()");
+		if (Log.getDebug()) Log.v("NotificationActivity.setNotificationViewFlipper()");
 	    _notificationViewFlipper = notificationViewFlipper;
 	}
 	
@@ -72,9 +72,106 @@ public class NotificationActivity extends Activity {
 	 * Get the notificationViewFlipper property.
 	 */
 	public NotificationViewFlipper getNotificationViewFlipper() {
-		if (Log.getDebug()) Log.v("Notification.getNotificationViewFlipper()");
+		if (Log.getDebug()) Log.v("NotificationActivity.getNotificationViewFlipper()");
 	    return _notificationViewFlipper;
 	}
+	  
+	/**
+	 * Set the previousButton property.
+	 */
+	public void setMainActivityLayout(LinearLayout mainActivityLayout) {
+		if (Log.getDebug()) Log.v("NotificationActivity.setMainActivityLayout()");
+		_mainActivityLayout = mainActivityLayout;
+	}
+	
+	/**
+	 * Get the previousButton property.
+	 */
+	public LinearLayout getMainActivityLayout() {
+		if (Log.getDebug()) Log.v("NotificationActivity.getMainActivityLayout()");
+	    return _mainActivityLayout;
+	}
+	  
+	/**
+	 * Set the previousButton property.
+	 */
+	public void setPreviousButton(Button previousButton) {
+		if (Log.getDebug()) Log.v("NotificationActivity.setPreviousButton()");
+		_previousButton = previousButton;
+	}
+	
+	/**
+	 * Get the previousButton property.
+	 */
+	public Button getPreviousButton() {
+		if (Log.getDebug()) Log.v("NotificationActivity.getPreviousButton()");
+	    return _previousButton;
+	}
+	
+	/**
+	 * Set the nextButton property.
+	 */
+	public void setNextButton(Button nextButton) {
+		if (Log.getDebug()) Log.v("NotificationActivity.setNextButton()");
+		_nextButton = nextButton;
+	}
+	
+	/**
+	 * Get the previousButton property.
+	 */
+	public Button getNextButton() {
+		if (Log.getDebug()) Log.v("NotificationActivity.getNextButton()");
+	    return _nextButton;
+	}
+
+	/**
+	 * Set the notificationCountTextView property.
+	 */
+	public void setNotificationCountTextView(TextView notificationCountTextView) {
+		if (Log.getDebug()) Log.v("NotificationActivity.setNotificationCountTextView()");
+		_notificationCountTextView = notificationCountTextView;
+	}
+	
+	/**
+	 * Get the notificationCountTextView property.
+	 */
+	public TextView getNotificationCountTextView() {
+		if (Log.getDebug()) Log.v("NotificationActivity.getNotificationCountTextView()");
+	    return _notificationCountTextView;
+	}
+
+	/**
+	 * Set the inputMethodManager property.
+	 */
+	public void setInputMethodManager(InputMethodManager inputMethodManager) {
+		if (Log.getDebug()) Log.v("NotificationActivity.setInputMethodManager()");
+		_inputMethodManager = inputMethodManager;
+	}
+	
+	/**
+	 * Get the inputMethodManager property.
+	 */
+	public InputMethodManager getInputMethodManager() {
+		if (Log.getDebug()) Log.v("NotificationActivity.getInputMethodManager()");
+	    return _inputMethodManager;
+	}	
+
+	/**
+	 * Set the softKeyboardTriggerView property.
+	 */
+	public void setSoftKeyboardTriggerView(View softKeyboardTriggerView) {
+		if (Log.getDebug()) Log.v("NotificationActivity.setSoftKeyboardTriggerView()");
+		_softKeyboardTriggerView = softKeyboardTriggerView;
+	}
+	
+	/**
+	 * Get the softKeyboardTriggerView property.
+	 */
+	public View getSoftKeyboardTriggerView() {
+		if (Log.getDebug()) Log.v("NotificationActivity.getGoftKeyboardTriggerView()");
+	    return _softKeyboardTriggerView;
+	}
+	
 	
 	//================================================================================
 	// Public Methods
@@ -154,7 +251,7 @@ public class NotificationActivity extends Activity {
 	 */
     public void updateNavigationButtons(){
     	if (Log.getDebug()) Log.v("NotificationActivity.updateNavigationButtons()");
-		updateNavigationButtons(_previousButton, _notificationCountTextView, _nextButton);		
+		updateNavigationButtons(getPreviousButton(), getNotificationCountTextView(), getNextButton());		
     }
     
 	//================================================================================
@@ -232,18 +329,6 @@ public class NotificationActivity extends Activity {
 	    super.onPause();
 	    if (Log.getDebug()) Log.v("NotificationActivity.onPause()");
 	    hideSoftKeyboard();
-
-//	    // Dismiss loading dialog
-//	    if (mProgressDialog != null) {
-//	      mProgressDialog.dismiss();
-//	    }
-
-//	    if (wasVisible) {
-//	      // Cancel the receiver that will clear our locks
-//	      ClearAllReceiver.removeCancel(getApplicationContext());
-//	      ClearAllReceiver.clearAll(!exitingKeyguardSecurely);
-//	    }
-
 	}
 	  
 	/**
@@ -426,8 +511,8 @@ public class NotificationActivity extends Activity {
 //		        qrEditText.setSelection(0);
 //	
 //		        return qrAlertDialog;
-
-
+//
+//
 //	        /*
 //	         * Loading Dialog
 //	         */
@@ -449,8 +534,6 @@ public class NotificationActivity extends Activity {
 	protected void onPrepareDialog(int id, Dialog dialog) {
 	    super.onPrepareDialog(id, dialog);
 	    if (Log.getDebug()) Log.v("NotificationActivity.onPrepareDialog()");
-
-//	    if (Log.getDebug()) Log.v("onPrepareDialog()");
 //	    // User interacted so remove all locks and cancel reminders
 //	    ClearAllReceiver.removeCancel(getApplicationContext());
 //	    ClearAllReceiver.clearAll(false);
@@ -490,7 +573,6 @@ public class NotificationActivity extends Activity {
 	protected void onNewIntent(Intent intent) {
 	    super.onNewIntent(intent);
 	    if (Log.getDebug()) Log.v("NotificationActivity.onNewIntent()");
-	    //TODO  - NotificationActivity.onNewIntent()
 	    setIntent(intent);
 	    setupMessages(intent.getExtras());
 	    //TODO - NotificationActivity.onNewIntent() - Get all unread messages if new Activity?
@@ -506,30 +588,30 @@ public class NotificationActivity extends Activity {
 	private void setupViews(int notificationType) {
 		if (Log.getDebug()) Log.v("NotificationActivity.setupViews()");
 
-		_notificationViewFlipper = (NotificationViewFlipper) findViewById(R.id.notification_view_flipper);
-		_previousButton = (Button) findViewById(R.id.previous_button);
-		_nextButton = (Button) findViewById(R.id.next_button);
-		_notificationCountTextView = (TextView) findViewById(R.id.notification_count_text_view);
+		setNotificationViewFlipper((NotificationViewFlipper) findViewById(R.id.notification_view_flipper));
+		setPreviousButton((Button) findViewById(R.id.previous_button));
+		setNextButton((Button) findViewById(R.id.next_button));
+		setNotificationCountTextView((TextView) findViewById(R.id.notification_count_text_view));
 	
 		// Previous Button
-		_previousButton.setOnClickListener(new OnClickListener() {
+		getPreviousButton().setOnClickListener(new OnClickListener() {
 		    public void onClick(View v) {
 		    	if (Log.getDebug()) Log.v("Previous Button Clicked()");
-		    	_notificationViewFlipper.showPrevious();
-		    	updateNavigationButtons(_previousButton, _notificationCountTextView, _nextButton);
+		    	getNotificationViewFlipper().showPrevious();
+		    	updateNavigationButtons(getPreviousButton(), getNotificationCountTextView(), getNextButton());
 		    }
 		});
 		
 		// Next Button
-		_nextButton.setOnClickListener(new OnClickListener() {
+		getNextButton().setOnClickListener(new OnClickListener() {
 		    public void onClick(View v) {
 		    	if (Log.getDebug()) Log.v("Next Button Clicked()");
-		    	_notificationViewFlipper.showNext();
-		    	updateNavigationButtons(_previousButton, _notificationCountTextView, _nextButton);
+		    	getNotificationViewFlipper().showNext();
+		    	updateNavigationButtons(getPreviousButton(), getNotificationCountTextView(), getNextButton());
 		    }
 		});
 		
-		initNavigationButtons(_previousButton, _notificationCountTextView, _nextButton);
+		initNavigationButtons(getPreviousButton(), getNotificationCountTextView(), getNextButton());
 	    
 	}
 	
@@ -550,9 +632,9 @@ public class NotificationActivity extends Activity {
 			Notification missedCallnotification = new Notification(getApplicationContext(), phoneNumber, timeStamp, NOTIFICATION_TYPE_PHONE);
 			if (Log.getDebug()) Log.v("NotificationActivity.setupMissedCalls() Notification Phone Number: " + missedCallnotification.getPhoneNumber());
 			if (Log.getDebug()) Log.v("NotificationActivity.setupMissedCalls() Adding misssed call to flipper");
-			_notificationViewFlipper.addNotification(missedCallnotification);
+			getNotificationViewFlipper().addNotification(missedCallnotification);
 		}
-	    updateNavigationButtons(_previousButton, _notificationCountTextView, _nextButton);
+	    updateNavigationButtons(getPreviousButton(), getNotificationCountTextView(), getNextButton());
 	}
 	
 	/**
@@ -566,8 +648,8 @@ public class NotificationActivity extends Activity {
 	    // Create message from bundle
 	    Notification smsMessage = new Notification(getApplicationContext(), bundle, NOTIFICATION_TYPE_SMS);
 	    if (Log.getDebug()) Log.v("NotificationActivity.setupMessages() Notification Phone Number: " + smsMessage.getPhoneNumber());
-	    _notificationViewFlipper.addNotification(smsMessage);
-	    updateNavigationButtons(_previousButton, _notificationCountTextView, _nextButton);
+	    getNotificationViewFlipper().addNotification(smsMessage);
+	    updateNavigationButtons(getPreviousButton(), getNotificationCountTextView(), getNextButton());
 	}
 	
 	/**
@@ -575,7 +657,7 @@ public class NotificationActivity extends Activity {
 	 */
 	private void initNavigationButtons(Button _previousButton, TextView _notificationCountTextView, Button _nextButton){
 		if (Log.getDebug()) Log.v("NotificationActivity.initNavigationButtons()");
-		updateNavigationButtons(_previousButton, _notificationCountTextView, _nextButton);
+		updateNavigationButtons(getPreviousButton(), getNotificationCountTextView(), getNextButton());
 	}  
 	  
 	/**
@@ -583,9 +665,9 @@ public class NotificationActivity extends Activity {
 	 */
     public void updateNavigationButtons(Button _previousButton, TextView _notificationCountTextView, Button _nextButton){
     	if (Log.getDebug()) Log.v("NotificationActivity.updateNavigationButtons()");
-		_previousButton.setEnabled(!_notificationViewFlipper.isFirstMessage());
-		_notificationCountTextView.setText( (_notificationViewFlipper.getCurrentNotification() + 1) + "/" + _notificationViewFlipper.getTotalNotifications());
-		_nextButton.setEnabled(!_notificationViewFlipper.isLastMessage()); 		
+		getPreviousButton().setEnabled(!getNotificationViewFlipper().isFirstMessage());
+		_notificationCountTextView.setText( (getNotificationViewFlipper().getCurrentNotification() + 1) + "/" + getNotificationViewFlipper().getTotalNotifications());
+		getNextButton().setEnabled(!getNotificationViewFlipper().isLastMessage()); 		
     }
     
 //	/**
@@ -611,23 +693,6 @@ public class NotificationActivity extends Activity {
 //	      	ManageNotification.show(getApplicationContext(), mSmsPopups.getActiveMessage());
 //	    }
 //	}
-	  
-//	/**
-//	 * Take the user to the messaging application inbox
-//	 */
-//	private void gotoInbox() {
-//		if (Log.getDebug()) Log.v("NotificationActivity.gotoInbox()");
-//		Intent i = new Intent(Intent.ACTION_MAIN);
-//	    i.setType("vnd.android-dir/mms-sms");
-//	    int flags =
-//	    	Intent.FLAG_ACTIVITY_NEW_TASK |
-//	    	Intent.FLAG_ACTIVITY_SINGLE_TOP |
-//	    	Intent.FLAG_ACTIVITY_CLEAR_TOP;
-//	    i.setFlags(flags);	
-//		NotificationActivity.this.getApplicationContext().startActivity(i);
-//		finishActivity();
-//	}
-
 	
 	/**
 	 * Resize the notification to fit the screen.
@@ -637,8 +702,8 @@ public class NotificationActivity extends Activity {
 		if (Log.getDebug()) Log.v("NotificationActivity.resizeLayout()");
 		Display d = getWindowManager().getDefaultDisplay();
 		int width = d.getWidth() > MAX_WIDTH ? MAX_WIDTH : (int) (d.getWidth() * WIDTH);
-		_mainLayout.setMinimumWidth(width);
-		_mainLayout.invalidate();
+		getMainActivityLayout().setMinimumWidth(width);
+		getMainActivityLayout().invalidate();
 	}
 
 	/**
@@ -646,11 +711,11 @@ public class NotificationActivity extends Activity {
 	 */
 	private void showSoftKeyboard(View triggeringView) {
 		if (Log.getDebug()) Log.v("NotificationActivity.showSoftKeyboard()");
-	    if (_inputMethodManager == null) {
-	    	_inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+	    if (getInputMethodManager() == null) {
+	    	setInputMethodManager((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE));
 	    }
-	    _softKeyboardTriggerView = triggeringView;
-	    _inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+	    setSoftKeyboardTriggerView(triggeringView);
+	    getInputMethodManager().toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
 	}
 	
 	/**
@@ -658,12 +723,12 @@ public class NotificationActivity extends Activity {
 	 */
 	private void hideSoftKeyboard() {
 		if (Log.getDebug()) Log.v("NotificationActivity.hideSoftKeyboard()");
-	    if (_softKeyboardTriggerView == null) return;
-	    if (_inputMethodManager == null) {
-	    	_inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+	    if (getSoftKeyboardTriggerView() == null) return;
+	    if (getInputMethodManager() == null) {
+	    	setInputMethodManager((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE));
 	    }
-	    _inputMethodManager.hideSoftInputFromWindow(_softKeyboardTriggerView.getApplicationWindowToken(), 0);
-	    _softKeyboardTriggerView = null;
+	    getInputMethodManager().hideSoftInputFromWindow(getSoftKeyboardTriggerView().getApplicationWindowToken(), 0);
+	    setSoftKeyboardTriggerView(null);
 	}
 
 }
