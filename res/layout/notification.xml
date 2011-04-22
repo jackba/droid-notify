@@ -88,27 +88,20 @@
   		android:paddingRight="5dp"
   		android:paddingBottom="2dp"
   		android:paddingTop="2dp" />
-	<ScrollView
-		android:id="@+id/notification_text_scroll_view"
-		android:layout_weight="1"
-		android:paddingBottom="10dp"
-		android:paddingTop="6dp" 
-		android:layout_height="match_parent" 
-		android:layout_width="match_parent">
-		<TextView
-			android:text="Notification Text"
-			android:id="@+id/notification_text_view"
-			android:autoLink="all"
-			android:textAppearance="?android:attr/textAppearanceMedium"
-			android:textColor="?android:attr/textColorPrimaryDisableOnly"
-			android:layout_height="wrap_content"
-			android:layout_width="fill_parent"
-			android:gravity="left"
-			android:paddingRight="10dp"
-			android:paddingLeft="10dp"
-			android:textColorLink="?android:attr/textColorPrimaryDisableOnly" 
-			android:layout_gravity="left"/>
-	</ScrollView>
+	<TextView
+		android:text="Notification Text"
+		android:id="@+id/notification_text_view"
+		android:autoLink="all"
+		android:textAppearance="?android:attr/textAppearanceMedium"
+		android:textColor="?android:attr/textColorPrimaryDisableOnly"
+		android:layout_width="fill_parent"
+		android:gravity="left"
+		android:paddingRight="10dp"
+		android:paddingLeft="10dp"
+		android:textColorLink="?android:attr/textColorPrimaryDisableOnly" 
+		android:layout_gravity="left" 
+		android:layout_height="70dip"
+		android:scrollbars="vertical"/>
 	<LinearLayout 
 		xmlns:android="http://schemas.android.com/apk/res/android"
 		android:layout_width="fill_parent" 
