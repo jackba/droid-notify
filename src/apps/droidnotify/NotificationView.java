@@ -3,6 +3,7 @@ package apps.droidnotify;
 import java.text.SimpleDateFormat;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
@@ -13,7 +14,10 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.view.Gravity;
+import android.view.Menu;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -40,13 +44,17 @@ public class NotificationView extends LinearLayout {
 	
 	private Context _context;	
 	private int _notificationType;
-	private TextView _fromTV;
-	private TextView _phoneNumberTV;
-	private TextView _receivedAtTV;
-	private TextView _messageTV;
-	private ScrollView _messageScrollView = null;
-	private ImageView _notificationIconIV = null;
+	private TextView _fromTextView;
+	private TextView _phoneNumberTextView;
+	private TextView _receivedAtTextView;
+	private TextView _notificationTextView;
+	private ScrollView _notificationScrollView = null;
+	private ImageView _notificationIconImageView = null;
 	private ImageView _photoImageView = null;
+	private NotificationViewFlipper _notificationViewFlipper = null;
+	private LinearLayout _phoneButtonLayout = null;
+	private LinearLayout _smsButtonLayout = null;
+	private Notification _notification = null;
 
 	//================================================================================
 	// Constructors
@@ -59,9 +67,11 @@ public class NotificationView extends LinearLayout {
 	    super(context);
 	    if (Log.getDebug()) Log.v("NotificationView.NotificationView()");
 	    setContext(context);
+	    setNotification(notification);
 	    setNotificationType(notification.getNotificationType());
 	    initLayoutItems(context);
-	    populateNotificationView(notification);
+	    setupNotificationViewButtons(notification);
+	    populateNotificationViewInfo(notification);
 	}
 
 	//================================================================================
@@ -74,6 +84,38 @@ public class NotificationView extends LinearLayout {
 	public void setContext(Context context) {
 		if (Log.getDebug()) Log.v("NotificationView.setContext()");
 	    _context = context;
+	}
+	
+	/**
+	 * Set the notification property.
+	 */
+	public void setNotification(Notification notification) {
+		if (Log.getDebug()) Log.v("Notification.seNotification()");
+	    _notification = notification;
+	}
+	
+	/**
+	 * Get the notification property.
+	 */
+	public Notification getNotification() {
+		if (Log.getDebug()) Log.v("Notification.getNotification()");
+	    return _notification;
+	}
+	
+	/**
+	 * Set the notificationViewFlipper property.
+	 */
+	public void setNotificationViewFlipper(NotificationViewFlipper notificationViewFlipper) {
+		if (Log.getDebug()) Log.v("Notification.seNotificationViewFlipper()");
+	    _notificationViewFlipper = notificationViewFlipper;
+	}
+	
+	/**
+	 * Get the notificationViewFlipper property.
+	 */
+	public NotificationViewFlipper getNotificationViewFlipper() {
+		if (Log.getDebug()) Log.v("Notification.getNotificationViewFlipper()");
+	    return _notificationViewFlipper;
 	}
 	
 	/**
@@ -101,32 +143,133 @@ public class NotificationView extends LinearLayout {
 	//================================================================================
 	
 	/**
-     * 
-     */	
+	 * Initialize the layout items.
+	 */
 	private void initLayoutItems(Context context) {
 		if (Log.getDebug()) Log.v("NotificationView.initLayoutItems()");
 	    View.inflate(context, R.layout.notification, this);
 	    if (Log.getDebug()) Log.v("NotificationView should be inflated now");
-	    // Find the main textviews and layouts
-	    _fromTV = (TextView) findViewById(R.id.from_text_view);
-	    _phoneNumberTV = (TextView) findViewById(R.id.phone_number_text_view);
-	    _messageTV = (TextView) findViewById(R.id.notification_text_view);
-	    _receivedAtTV = (TextView) findViewById(R.id.time_text_view);
-	    _messageScrollView = (ScrollView) findViewById(R.id.notification_text_scroll_view);
+	    _fromTextView = (TextView) findViewById(R.id.from_text_view);
+	    _phoneNumberTextView = (TextView) findViewById(R.id.phone_number_text_view);
+	    _notificationTextView = (TextView) findViewById(R.id.notification_text_view);
+	    _receivedAtTextView = (TextView) findViewById(R.id.time_text_view);
+	    _notificationScrollView = (ScrollView) findViewById(R.id.notification_text_scroll_view);
 	    _photoImageView = (ImageView) findViewById(R.id.from_image_view);
-	    _notificationIconIV = (ImageView) findViewById(R.id.notification_type_icon_image_view);
+	    _notificationIconImageView = (ImageView) findViewById(R.id.notification_type_icon_image_view);    
+	    setNotificationViewFlipper(((NotificationActivity)getContext()).getNotificationViewFlipper());
+	    _phoneButtonLayout = (LinearLayout) findViewById(R.id.phone_button_layout);
+		_smsButtonLayout = (LinearLayout) findViewById(R.id.sms_button_layout);
 	}
 
+	private void setupNotificationViewButtons(Notification notification) {
+		int notificationType = notification.getNotificationType();
+		int phoneButtonLayoutVisibility = View.GONE;
+		int smsButtonLayoutVisibility = View.GONE;
+	    if(notificationType == NOTIFICATION_TYPE_PHONE){
+	    	//Display the correct navigation buttons for each notification type.
+	    	phoneButtonLayoutVisibility = View.VISIBLE;
+	    	smsButtonLayoutVisibility = View.GONE;
+			// Dismiss Button
+			Button phoneDismissButton = (Button) findViewById(R.id.phone_dismiss_button);		      
+			phoneDismissButton.setOnClickListener(new OnClickListener() {
+			    public void onClick(View v) {
+			    	if (Log.getDebug()) Log.v("Dismiss Button Clicked()");
+			    	dismissNotification();
+			    }
+			});
+			// Call Button
+			Button phoneCallButton = (Button) findViewById(R.id.phone_call_button);		      
+			phoneCallButton.setOnClickListener(new OnClickListener() {
+			    public void onClick(View v) {
+			    	if (Log.getDebug()) Log.v("Call Button Clicked()");
+			    	dismissNotification();
+			    }
+			});
+	    }
+		if(notificationType == NOTIFICATION_TYPE_SMS){
+			//Display the correct navigation buttons for each notification type.
+	    	phoneButtonLayoutVisibility = View.GONE;
+	    	smsButtonLayoutVisibility = View.VISIBLE;
+			// Dismiss Button
+			Button smsDismissButton = (Button) findViewById(R.id.sms_dismiss_button);		      
+			smsDismissButton.setOnClickListener(new OnClickListener() {
+			    public void onClick(View view) {
+			    	if (Log.getDebug()) Log.v("SMS Dismiss Button Clicked()");
+			    	dismissNotification();
+			    }
+			});		    			
+			// Delete Button
+			Button smsDeleteButton = (Button) findViewById(R.id.sms_delete_button);
+			smsDeleteButton.setOnClickListener(new OnClickListener() {
+			    public void onClick(View view) {
+			    	if (Log.getDebug()) Log.v("SMS Delete Button Clicked()");
+			    	//showDialog(Menu.FIRST);
+			    	//updateNavigationButtons(_previousButton, _inboxButton, _nextButton);
+			    }
+			});
+			// Reply Button
+			Button smsReplyButton = (Button) findViewById(R.id.sms_reply_button);
+			smsReplyButton.setOnClickListener(new OnClickListener() {
+			    public void onClick(View view) {
+			    	if (Log.getDebug()) Log.v("SMS Reply Button Clicked()");
+			    	replyToMessage();
+			    }
+			});
+		}
+	    if(notificationType == NOTIFICATION_TYPE_MMS){
+			//Display the correct navigation buttons for each notification type.
+	    	phoneButtonLayoutVisibility = View.GONE;
+	    	smsButtonLayoutVisibility = View.VISIBLE;
+			// Dismiss Button
+			Button mmsDismissButton = (Button) findViewById(R.id.sms_dismiss_button);		      
+			mmsDismissButton.setOnClickListener(new OnClickListener() {
+			    public void onClick(View view) {
+			    	if (Log.getDebug()) Log.v("MMS Dismiss Button Clicked()");
+			    	dismissNotification();
+			    }
+			});			    			
+			// Delete Button
+			Button mmsDeleteButton = (Button) findViewById(R.id.sms_delete_button);
+			mmsDeleteButton.setOnClickListener(new OnClickListener() {
+			    public void onClick(View view) {
+			    	if (Log.getDebug()) Log.v("MMS Delete Button Clicked()");
+			    	//showDialog(Menu.FIRST);
+			    	//updateNavigationButtons(_previousButton, _inboxButton, _nextButton);
+			    }
+			});
+			// Reply Button
+			Button mmsReplyButton = (Button) findViewById(R.id.sms_reply_button);
+			mmsReplyButton.setOnClickListener(new OnClickListener() {
+			    public void onClick(View view) {
+			    	if (Log.getDebug()) Log.v("MMS Reply Button Clicked()");
+			    	replyToMessage();
+			    }
+			});
+	    }
+	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
+	    	phoneButtonLayoutVisibility = View.GONE;
+	    	smsButtonLayoutVisibility = View.GONE;
+	    	//TODO - Calendar Reminder
+	    }
+	    if(notificationType == NOTIFICATION_TYPE_EMAIL){
+	    	phoneButtonLayoutVisibility = View.GONE;
+	    	smsButtonLayoutVisibility = View.GONE;
+	    	//TODO - Calendar Reminder
+	    }
+		_phoneButtonLayout.setVisibility(phoneButtonLayoutVisibility);
+    	_smsButtonLayout.setVisibility(smsButtonLayoutVisibility);
+	}
+	
 	/**
 	 * Populate the notification view with content from the actual Notification.
 	 */
-	private void populateNotificationView(Notification notification) {
-		if (Log.getDebug()) Log.v("NotificationView.populateNotificationView()");
+	private void populateNotificationViewInfo(Notification notification) {
+		if (Log.getDebug()) Log.v("NotificationView.populateNotificationViewInfo()");
 	    // Set from, number, message etc. views.
-	    _fromTV.setText(notification.getContactName());
+	    _fromTextView.setText(notification.getContactName());
 	    //TODO Not sure about the format below?
-	    //_phoneNumberTV.setText("(" + notification.getAddressBookPhoneNumber() + ")");
-	    _phoneNumberTV.setText(notification.getAddressBookPhoneNumber());
+	    //_phoneNumberTextView.setText("(" + notification.getAddressBookPhoneNumber() + ")");
+	    _phoneNumberTextView.setText(notification.getAddressBookPhoneNumber());
 	    //Load the notification message.
 	    setNotificationMessage(notification);
 	    //Load the notification type icon & text into the notification.
@@ -164,8 +307,8 @@ public class NotificationView extends LinearLayout {
 	    	notificationText = "TODO-Insert Email Item";
 	    	notificationAlignment = Gravity.LEFT;
 	    } 
-	    _messageTV.setText(notificationText);
-	    _messageTV.setGravity(notificationAlignment);
+	    _notificationTextView.setText(notificationText);
+	    _notificationTextView.setGravity(notificationAlignment);
 	}
 	
 	/**
@@ -203,9 +346,9 @@ public class NotificationView extends LinearLayout {
 	    	receivedAtText = getContext().getString(R.string.email_at_text, formattedTimestamp.toLowerCase());
 	    }    
 	    if(iconBitmap != null){
-	    	_notificationIconIV.setImageBitmap(iconBitmap);
+	    	_notificationIconImageView.setImageBitmap(iconBitmap);
 	    }
-		_receivedAtTV.setText(receivedAtText);
+		_receivedAtTextView.setText(receivedAtText);
 	}
 	
 	
@@ -258,6 +401,29 @@ public class NotificationView extends LinearLayout {
         paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
         canvas.drawBitmap(bitmap, rect, rect, paint);
         return output;
+	}
+	
+	/**
+	 * Remove the notification from the ViewFlipper.
+	 */
+	private void dismissNotification(){
+		if (Log.getDebug()) Log.v("NotificationView.dismissNotification()");
+		getNotificationViewFlipper().removeActiveNotification();
+	}
+	
+	/**
+	 * Reply to the current message using the built in SMS app.
+	 * This starts the built in SMS app Activity.
+	 */
+	private void replyToMessage() {
+		if (Log.getDebug()) Log.v("NotificationView.replyToMessage()");
+		Notification notification = getNotification();
+		Intent intent = new Intent(Intent.ACTION_VIEW);
+	    intent.setType("vnd.android-dir/mms-sms");
+	    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+	    intent.putExtra("address", notification.getPhoneNumber());
+		getContext().startActivity(intent);
+		((NotificationActivity)getContext()).finishActivity();  
 	}
 	
 }
