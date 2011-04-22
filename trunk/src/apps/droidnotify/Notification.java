@@ -387,6 +387,17 @@ public class Notification {
 	// Public Methods
 	//================================================================================
   
+	public void setViewed(boolean isViewed){
+		//TODO - NotificationViewFlipper.removeNotification() - Set the notification as being viewed
+		if(isViewed){
+			
+			
+		}else{
+			
+			
+		}
+	}
+	
 	//================================================================================
 	// Private Methods
 	//================================================================================
@@ -496,7 +507,5 @@ public class Notification {
 		}
 		cursor.close();
 	}
-
-
 	
 }

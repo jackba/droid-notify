@@ -12,23 +12,33 @@
     	android:background="@android:color/darker_gray"
     	android:layout_height="wrap_content"
     	android:padding="2dp"
-    	android:id="@+id/header_layout">
+    	android:id="@+id/header_layout" android:gravity="center">
 	    <Button
 	     	android:layout_height="wrap_content"
 	      	android:background="@android:drawable/btn_default_small"
 	      	android:layout_alignParentLeft="true"
 	      	android:layout_alignParentTop="true"
-	      	android:text="&lt;--"
+	      	android:text="&lt;"
 	      	android:id="@+id/previous_button"
 	      	android:layout_width="50dip" />
+	    <TextView android:textAppearance="?android:attr/textAppearanceMedium" 
+	    	android:text="0/0" 
+	    	android:layout_height="20dip" 
+	    	android:id="@+id/notification_count_text_view" 
+	    	android:layout_toRightOf="@+id/previous_button" 
+	    	android:layout_alignParentTop="true"
+	    	android:layout_toLeftOf="@+id/next_button" 
+	    	android:layout_width="wrap_content"
+	    	android:gravity="center_horizontal"/>
 	    <Button
 	      	android:layout_height="wrap_content"
 	      	android:background="@android:drawable/btn_default_small"
 	      	android:layout_alignParentRight="true"
 	      	android:layout_alignParentTop="true"
-	      	android:text="--&gt;"
+	      	android:text="&gt;"
 	      	android:id="@+id/next_button"
 	      	android:layout_width="50dip" />
+<!-- 	
 		<Button
 	      	android:layout_height="wrap_content"
 	      	android:background="@android:drawable/btn_default_small"
@@ -36,14 +46,17 @@
 	      	android:id="@+id/inbox_button"
 	      	android:layout_centerHorizontal="true"
 	      	android:layout_width="100dp" />
+-->
+
 	</RelativeLayout>
   	
 	<apps.droidnotify.NotificationViewFlipper
-		android:id="@+id/notification_layout"
+		android:id="@+id/notification_view_flipper"
 		android:layout_width="fill_parent" 
     	android:layout_height="wrap_content">
 	</apps.droidnotify.NotificationViewFlipper>
-  	
+  
+<!--
 	<LinearLayout 
 		xmlns:android="http://schemas.android.com/apk/res/android"
 		android:layout_width="fill_parent" 
@@ -66,5 +79,6 @@
 			android:id="@+id/reply_button" 
 			android:layout_weight="1" />
 	</LinearLayout>	
-	
+-->
+
 </LinearLayout>

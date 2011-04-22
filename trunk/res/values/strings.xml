@@ -16,6 +16,7 @@
     <string name="view_mms_button_text">View MMS</string>
     <string name="view_button_text">View</string>
     <string name="close_button_text">Close</string>
+    <string name="dismiss_button_text">Dismiss</string>
    	<string name="reply_button_text">Reply</string>
    	<string name="inbox_button_text">Inbox</string>
    	<string name="delete_button_text">Delete</string>
@@ -24,5 +25,6 @@
    	<string name="unlock_button_text">Unlock</string>
    	<string name="send_button_text">Send</string>
    	<string name="cancel_button_text">Cancel</string>
+   	<string name="call_button_text">Call</string>
 
 </resources>

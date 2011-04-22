@@ -19,6 +19,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 /**
  * This is the main activity that runs the notifications.
@@ -42,12 +43,12 @@ public class NotificationActivity extends Activity {
     // Properties
     //================================================================================
 
-	private Bundle bundle = null;
+	private Bundle _bundle = null;
 	private NotificationViewFlipper _notificationViewFlipper = null;
 	private LinearLayout _mainLayout = null;
 	private Button _previousButton = null;
-	private Button _inboxButton = null;
 	private Button _nextButton = null;
+	private TextView _notificationCountTextView = null;
 	private InputMethodManager _inputMethodManager = null;
 	private View _softKeyboardTriggerView = null;
 
@@ -59,6 +60,22 @@ public class NotificationActivity extends Activity {
 	// Accessors
 	//================================================================================
 	  
+	/**
+	 * Set the notificationViewFlipper property.
+	 */
+	public void setNotificationViewFlipper(NotificationViewFlipper notificationViewFlipper) {
+		if (Log.getDebug()) Log.v("Notification.seNotificationViewFlipper()");
+	    _notificationViewFlipper = notificationViewFlipper;
+	}
+	
+	/**
+	 * Get the notificationViewFlipper property.
+	 */
+	public NotificationViewFlipper getNotificationViewFlipper() {
+		if (Log.getDebug()) Log.v("Notification.getNotificationViewFlipper()");
+	    return _notificationViewFlipper;
+	}
+	
 	//================================================================================
 	// Public Methods
 	//================================================================================
@@ -80,7 +97,7 @@ public class NotificationActivity extends Activity {
 	    super.onSaveInstanceState(saveBundle);
 	    if (Log.getDebug()) Log.v("NotificationActivity.onSaveInstanceState()");
 	    // Save values from most recent bundle.
-	    saveBundle.putAll(bundle);
+	    saveBundle.putAll(_bundle);
 	}
 	
 	/**
@@ -121,7 +138,25 @@ public class NotificationActivity extends Activity {
 	    //TODO - NotificationActivity().onCreateContextMenu()
 		return super.onContextItemSelected(menuItem);
 	}
-	
+
+	/**
+	 * Customized activity finish.
+	 * This closes this activity screen.
+	 */
+	public void finishActivity() {
+		if (Log.getDebug()) Log.v("NotificationActivity.finishActivity()");
+	    // Finish the activity
+	    finish();
+	}
+	  
+	/**
+	 * Update the navigation buttons and text when items are added or removed.
+	 */
+    public void updateNavigationButtons(){
+    	if (Log.getDebug()) Log.v("NotificationActivity.updateNavigationButtons()");
+		updateNavigationButtons(_previousButton, _notificationCountTextView, _nextButton);		
+    }
+    
 	//================================================================================
 	// Protected Methods
 	//================================================================================
@@ -134,7 +169,6 @@ public class NotificationActivity extends Activity {
 		super.onCreate(b);
 	    if (Log.getDebug()) Log.v("NotificationActivity.onCreate()");
 	    Bundle bundle = getIntent().getExtras();
-	    if (Log.getDebug()) Log.v("NotificationActivity.onCreate() Got bundle");
 	    int notificationType = bundle.getInt("notificationType");
 	    if (Log.getDebug()) Log.v("NotificationActivity.onCreate() Notification Type: " + notificationType);
 	    requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -467,65 +501,22 @@ public class NotificationActivity extends Activity {
 	//================================================================================
 	
 	/**
-	 * 
+	 * Set up the ViewFlipper elements.
 	 */ 
 	private void setupViews(int notificationType) {
 		if (Log.getDebug()) Log.v("NotificationActivity.setupViews()");
 
-		_notificationViewFlipper = (NotificationViewFlipper) findViewById(R.id.notification_layout);
-	
+		_notificationViewFlipper = (NotificationViewFlipper) findViewById(R.id.notification_view_flipper);
 		_previousButton = (Button) findViewById(R.id.previous_button);
-		_inboxButton = (Button) findViewById(R.id.inbox_button);
 		_nextButton = (Button) findViewById(R.id.next_button);
-		
-	    if(notificationType == NOTIFICATION_TYPE_PHONE){
-	    	//TODO - Missed Call
-	    }
-		if(notificationType == NOTIFICATION_TYPE_SMS){
-							
-			// Inbox Button
-			_inboxButton.setOnClickListener(new OnClickListener() {
-			    public void onClick(View v) {
-			    	if (Log.getDebug()) Log.v("Inbox Clicked()");
-			    	gotoInbox();
-			    }
-			});
-						    			
-			// Delete Button
-			Button deleteButton = (Button) findViewById(R.id.delete_button);
-			deleteButton.setOnClickListener(new OnClickListener() {
-			    public void onClick(View v) {
-			    	if (Log.getDebug()) Log.v("Delete Button Clicked()");
-			    	showDialog(Menu.FIRST);
-			    	updateNavigationButtons(_previousButton, _inboxButton, _nextButton);
-			    }
-			});
-			
-			// Reply Button
-			Button replyButton = (Button) findViewById(R.id.reply_button);
-			replyButton.setOnClickListener(new OnClickListener() {
-			    public void onClick(View v) {
-			    	if (Log.getDebug()) Log.v("Reply Button Clicked()");
-			    	replyToMessage();
-			    }
-			});
-
-		}
-	    if(notificationType == NOTIFICATION_TYPE_MMS){
-	    	//TODO - MMS Message
-	    }
-	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
-	    	//TODO - Calendar Reminder
-	    }
-	    
-	    //Items that are the same for aLL notification types.
+		_notificationCountTextView = (TextView) findViewById(R.id.notification_count_text_view);
 	
 		// Previous Button
 		_previousButton.setOnClickListener(new OnClickListener() {
 		    public void onClick(View v) {
 		    	if (Log.getDebug()) Log.v("Previous Button Clicked()");
 		    	_notificationViewFlipper.showPrevious();
-		    	updateNavigationButtons(_previousButton, _inboxButton, _nextButton);
+		    	updateNavigationButtons(_previousButton, _notificationCountTextView, _nextButton);
 		    }
 		});
 		
@@ -534,20 +525,11 @@ public class NotificationActivity extends Activity {
 		    public void onClick(View v) {
 		    	if (Log.getDebug()) Log.v("Next Button Clicked()");
 		    	_notificationViewFlipper.showNext();
-		    	updateNavigationButtons(_previousButton, _inboxButton, _nextButton);
-		    }
-		});
-	    
-		// Close Button
-		Button closeButton = (Button) findViewById(R.id.close_button);		      
-		closeButton.setOnClickListener(new OnClickListener() {
-		    public void onClick(View v) {
-		    	if (Log.getDebug()) Log.v("Close Button Clicked()");
-		    	closeNotification();
+		    	updateNavigationButtons(_previousButton, _notificationCountTextView, _nextButton);
 		    }
 		});
 		
-		initNavigationButtons(_previousButton, _inboxButton, _nextButton);
+		initNavigationButtons(_previousButton, _notificationCountTextView, _nextButton);
 	    
 	}
 	
@@ -565,13 +547,12 @@ public class NotificationActivity extends Activity {
 			if (Log.getDebug()) Log.v("NotificationActivity.setupMissedCalls() ParsedPhone Number: " + phoneNumber);
 			long timeStamp = Long.parseLong(missedCallInfo[1]);
 			if (Log.getDebug()) Log.v("NotificationActivity.setupMissedCalls() Parsed TimeStamp: " + timeStamp);
-			Notification missedCallnotification = new Notification(getApplicationContext(), phoneNumber, timeStamp, 0);
+			Notification missedCallnotification = new Notification(getApplicationContext(), phoneNumber, timeStamp, NOTIFICATION_TYPE_PHONE);
 			if (Log.getDebug()) Log.v("NotificationActivity.setupMissedCalls() Notification Phone Number: " + missedCallnotification.getPhoneNumber());
 			if (Log.getDebug()) Log.v("NotificationActivity.setupMissedCalls() Adding misssed call to flipper");
-	_notificationViewFlipper.addMessage(missedCallnotification);
-			break;
+			_notificationViewFlipper.addNotification(missedCallnotification);
 		}
-	    updateNavigationButtons(_previousButton, _inboxButton, _nextButton);
+	    updateNavigationButtons(_previousButton, _notificationCountTextView, _nextButton);
 	}
 	
 	/**
@@ -583,31 +564,30 @@ public class NotificationActivity extends Activity {
 	private void setupMessages(Bundle bundle) {
 		if (Log.getDebug()) Log.v("NotificationActivity.setupMessages()");
 	    // Create message from bundle
-	    Notification smsMessage = new Notification(getApplicationContext(), bundle, 1);
+	    Notification smsMessage = new Notification(getApplicationContext(), bundle, NOTIFICATION_TYPE_SMS);
 	    if (Log.getDebug()) Log.v("NotificationActivity.setupMessages() Notification Phone Number: " + smsMessage.getPhoneNumber());
-	    if (Log.getDebug()) Log.v("NotificationActivity.setupMessages() Adding SMS message to flipper");
-	    _notificationViewFlipper.addMessage(smsMessage);
-	    updateNavigationButtons(_previousButton, _inboxButton, _nextButton);
+	    _notificationViewFlipper.addNotification(smsMessage);
+	    updateNavigationButtons(_previousButton, _notificationCountTextView, _nextButton);
 	}
 	
 	/**
-	 * 
+	 * Initialize the navigation buttons and text.
 	 */
-	private void initNavigationButtons(Button _previousButton, Button _inboxButton, Button _nextButton){
+	private void initNavigationButtons(Button _previousButton, TextView _notificationCountTextView, Button _nextButton){
 		if (Log.getDebug()) Log.v("NotificationActivity.initNavigationButtons()");
-		updateNavigationButtons(_previousButton, _inboxButton, _nextButton);
+		updateNavigationButtons(_previousButton, _notificationCountTextView, _nextButton);
 	}  
 	  
 	/**
-	 * 
+	 * Update the navigation buttons and text when items are added or removed.
 	 */
-    private void updateNavigationButtons(Button _previousButton, Button _inboxButton, Button _nextButton){
-    	if (Log.getDebug()) Log.v("NotificationActivity.UpdateNavigationButtons()");
+    public void updateNavigationButtons(Button _previousButton, TextView _notificationCountTextView, Button _nextButton){
+    	if (Log.getDebug()) Log.v("NotificationActivity.updateNavigationButtons()");
 		_previousButton.setEnabled(!_notificationViewFlipper.isFirstMessage());
-		_inboxButton.setText( (_notificationViewFlipper.getCurrentMessage() + 1) + "/" + _notificationViewFlipper.getTotalMessages());
+		_notificationCountTextView.setText( (_notificationViewFlipper.getCurrentNotification() + 1) + "/" + _notificationViewFlipper.getTotalNotifications());
 		_nextButton.setEnabled(!_notificationViewFlipper.isLastMessage()); 		
     }
-
+    
 //	/**
 //	 * Wake up the activity, this will acquire the wakelock (turn on the screen)
 //	 * and sound the notification if needed. This is called once all preparation
@@ -632,50 +612,22 @@ public class NotificationActivity extends Activity {
 //	    }
 //	}
 	  
-	/**
-	 * Take the user to the messaging application inbox
-	 */
-	private void gotoInbox() {
-		if (Log.getDebug()) Log.v("NotificationActivity.gotoInbox()");
-		Intent i = new Intent(Intent.ACTION_MAIN);
-	    i.setType("vnd.android-dir/mms-sms");
-	    int flags =
-	    	Intent.FLAG_ACTIVITY_NEW_TASK |
-	    	Intent.FLAG_ACTIVITY_SINGLE_TOP |
-	    	Intent.FLAG_ACTIVITY_CLEAR_TOP;
-	    i.setFlags(flags);	
-		NotificationActivity.this.getApplicationContext().startActivity(i);
-		finishActivity();
-	}
+//	/**
+//	 * Take the user to the messaging application inbox
+//	 */
+//	private void gotoInbox() {
+//		if (Log.getDebug()) Log.v("NotificationActivity.gotoInbox()");
+//		Intent i = new Intent(Intent.ACTION_MAIN);
+//	    i.setType("vnd.android-dir/mms-sms");
+//	    int flags =
+//	    	Intent.FLAG_ACTIVITY_NEW_TASK |
+//	    	Intent.FLAG_ACTIVITY_SINGLE_TOP |
+//	    	Intent.FLAG_ACTIVITY_CLEAR_TOP;
+//	    i.setFlags(flags);	
+//		NotificationActivity.this.getApplicationContext().startActivity(i);
+//		finishActivity();
+//	}
 
-	/**
-	 * Reply to the current message using the built in SMS app.
-	 * This starts the built in SMS app Activity.
-	 */
-	private void replyToMessage() {
-		if (Log.getDebug()) Log.v("NotificationActivity.replyToMessage()");
-		//Intent i = _notificationViewFlipper.getActiveMessage().getReplyIntent();
-		//NotificationActivity.this.getApplicationContext().startActivity(i);
-		//finishActivity();
-		Notification message = _notificationViewFlipper.getActiveMessage();
-		Intent intent = getMessageReplyIntent(message);
-		getApplicationContext().startActivity(intent);
-		finishActivity();
-	}
-	
-	/**
-	 * 
-	 */ 
-	private Intent getMessageReplyIntent(Notification message) {
-		if (Log.getDebug()) Log.v("NotificationActivity.getMessageReplyIntent()");
-		//Reply to SMS "thread_id"
-		if (Log.getDebug()) Log.v("NotificationActivity.getMessageReplyIntent() Replying to threadID: " + message.getThreadID());
-	    Intent intent = new Intent(Intent.ACTION_VIEW);
-	    intent.setType("vnd.android-dir/mms-sms");
-	    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-	    intent.putExtra("address", message.getPhoneNumber());
-	    return intent;
-	}
 	
 	/**
 	 * Resize the notification to fit the screen.
@@ -712,25 +664,6 @@ public class NotificationActivity extends Activity {
 	    }
 	    _inputMethodManager.hideSoftInputFromWindow(_softKeyboardTriggerView.getApplicationWindowToken(), 0);
 	    _softKeyboardTriggerView = null;
-	}
-	
-	/**
-	 * Close the notification window & mark the active message read.
-	 */
-	private void closeNotification() {
-		if (Log.getDebug()) Log.v("NotificationActivity.closeNotification()");
-		//TODO - Mark active message as read.
-		finishActivity();
-	}
-	
-	/**
-	 * Customized activity finish.
-	 * This closes this activity screen.
-	 */
-	private void finishActivity() {
-		if (Log.getDebug()) Log.v("NotificationActivity.finishActivity()");
-	    // Finish the activity
-	    finish();
 	}
 
 }

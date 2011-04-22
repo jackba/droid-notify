@@ -109,4 +109,43 @@
 			android:textColorLink="?android:attr/textColorPrimaryDisableOnly" 
 			android:layout_gravity="left"/>
 	</ScrollView>
+	<LinearLayout 
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="fill_parent" 
+		android:background="@android:color/darker_gray" 
+		android:layout_height="wrap_content" android:padding="2dp" 
+		android:gravity="center" android:id="@+id/phone_button_layout">
+		<Button android:layout_width="fill_parent" 
+			android:layout_height="wrap_content" 
+			android:text="@string/dismiss_button_text" 
+			android:id="@+id/phone_dismiss_button" 
+			android:layout_weight="1" />
+		<Button android:layout_width="fill_parent" 
+			android:layout_height="wrap_content" 
+			android:text="@string/call_button_text" 
+			android:id="@+id/phone_call_button" 
+			android:layout_weight="1" />
+	</LinearLayout>
+	<LinearLayout 
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="fill_parent" 
+		android:background="@android:color/darker_gray" 
+		android:layout_height="wrap_content" android:padding="2dp" 
+		android:gravity="center" android:id="@+id/sms_button_layout">
+		<Button android:layout_width="fill_parent" 
+			android:layout_height="wrap_content" 
+			android:text="@string/dismiss_button_text" 
+			android:id="@+id/sms_dismiss_button" 
+			android:layout_weight="1" />
+		<Button android:layout_width="fill_parent" 
+			android:layout_height="wrap_content" 
+			android:text="@string/delete_button_text" 
+			android:id="@+id/sms_delete_button" 
+			android:layout_weight="1" />
+		<Button android:layout_width="fill_parent" 
+			android:layout_height="wrap_content" 
+			android:text="@string/reply_button_text" 
+			android:id="@+id/sms_reply_button" 
+			android:layout_weight="1" />
+	</LinearLayout>	
 </LinearLayout>
