@@ -124,7 +124,9 @@ public class NotificationView extends LinearLayout {
 		if (Log.getDebug()) Log.v("NotificationView.populateNotificationView()");
 	    // Set from, number, message etc. views.
 	    _fromTV.setText(notification.getContactName());
-	    _phoneNumberTV.setText("(" + notification.getPhoneNumber() + ")");
+	    //TODO Not sure about the format below?
+	    //_phoneNumberTV.setText("(" + notification.getAddressBookPhoneNumber() + ")");
+	    _phoneNumberTV.setText(notification.getAddressBookPhoneNumber());
 	    //Load the notification message.
 	    setNotificationMessage(notification);
 	    //Load the notification type icon & text into the notification.

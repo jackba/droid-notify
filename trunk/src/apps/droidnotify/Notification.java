@@ -36,6 +36,7 @@ public class Notification {
 	
 	private Context _context;
 	private String _phoneNumber;
+	private String _addressBookPhoneNumber;
 	private String _messageBody;
 	private long _timeStamp;
 	private long _threadID;
@@ -150,6 +151,22 @@ public class Notification {
 	public Context getContext() {
 		if (Log.getDebug()) Log.v("Notification.getContext()");
 	    return _context;
+	}
+
+	/**
+	 * Set the addressBookPhoneNumber property.
+	 */
+	public void setAddressBookPhoneNumber(String addressBookPhoneNumber) {
+		if (Log.getDebug()) Log.v("Notification.setAddressBookPhoneNumber() PhoneNumber: " + addressBookPhoneNumber);
+		_addressBookPhoneNumber = addressBookPhoneNumber;
+	}
+	
+	/**
+	 * Get the addressBookPhoneNumber property.
+	 */
+	public String getAddressBookPhoneNumber() {
+		if (Log.getDebug()) Log.v("Notification.getAddressBookPhoneNumber()");
+		return _addressBookPhoneNumber;
 	}
 
 	/**
@@ -447,10 +464,13 @@ public class Notification {
 						phoneSelectionArgs, 
 						phoneSortOrder); 
 		      while (phoneCursor.moveToNext()) { 
-		    	  String contactPhoneNumber = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-		    	  PhoneNumber contactNumber = new PhoneNumber(contactPhoneNumber);
+		    	  String addressBookPhoneNumber = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+		    	  PhoneNumber contactNumber = new PhoneNumber(addressBookPhoneNumber);
 		    	  if(incomingNumber.getPhoneNumber().equals(contactNumber.getPhoneNumber())){
 		    		  setContactID(Long.parseLong(contactID));
+		    		  if(addressBookPhoneNumber != null){
+		    			  setAddressBookPhoneNumber(addressBookPhoneNumber);
+		    		  }
 		    		  if(contactLookupKey != null){
 		    			  setContactLookupKey(contactLookupKey);
 		    		  }
@@ -468,6 +488,7 @@ public class Notification {
 		  		      if(contactPhotoBitmap!= null){
 		  		    	  setPhotoImg(contactPhotoBitmap);
 		  		      }
+		  		      break;
 		    	  }
 		      } 
 		      phoneCursor.close(); 
