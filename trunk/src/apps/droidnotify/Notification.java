@@ -387,8 +387,12 @@ public class Notification {
 	// Public Methods
 	//================================================================================
   
+	/**
+	 * Set this notification as being viewed on the users phone.
+	 */
 	public void setViewed(boolean isViewed){
-		//TODO - NotificationViewFlipper.removeNotification() - Set the notification as being viewed
+		if (Log.getDebug()) Log.v("Notification.setViewed()");
+		//TODO - Notification.setViewed() - Set the notification as being viewed on the phone.
 		if(isViewed){
 			
 			
@@ -396,6 +400,14 @@ public class Notification {
 			
 			
 		}
+	}
+	
+	/**
+	 * Set this notification as being viewed on the users phone.
+	 */
+	public void deleteMessage(){
+		if (Log.getDebug()) Log.v("Notification.deleteMessage()");
+		//TODO - Notification.deleteMessage()) - Delete this message from the phone.
 	}
 	
 	//================================================================================
