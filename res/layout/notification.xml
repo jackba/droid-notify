@@ -116,6 +116,7 @@
 		<Button android:layout_width="fill_parent" 
 			android:layout_height="wrap_content" 
 			android:text="@string/call_button_text" 
+			android:drawableLeft="@drawable/sym_action_call"
 			android:id="@+id/phone_call_button" 
 			android:layout_weight="1" />
 	</LinearLayout>
@@ -133,6 +134,7 @@
 		<Button android:layout_width="fill_parent" 
 			android:layout_height="wrap_content" 
 			android:text="@string/delete_button_text" 
+			android:drawableLeft="@drawable/ic_delete"
 			android:id="@+id/sms_delete_button" 
 			android:layout_weight="1" />
 		<Button android:layout_width="fill_parent" 

@@ -252,7 +252,22 @@ public class NotificationViewFlipper extends ViewFlipper {
 			super.showPrevious();
 		}
 	}
-	  
+	
+	/**
+	 * Display the delete dialog fromt the activity and return the result.
+	 * 
+	 * @return Boolean of the confirmation of delete. 
+	 */
+	public void showDeleteDialog(){
+		if (Log.getDebug()) Log.v("NotificationViewFlipper.showDeleteDialog()");
+		((NotificationActivity)getContext()).showDeleteDialog();
+	}
+	
+	//================================================================================
+	// Private Methods
+	//================================================================================
+
+	
 	/**
 	 * Function to animate the moving of the a message that comes form the right.
 	 */
@@ -313,10 +328,6 @@ public class NotificationViewFlipper extends ViewFlipper {
 		return outtoRight;
 	}
 	
-	//================================================================================
-	// Private Methods
-	//================================================================================
-	  
 	/**
 	 * Initialize the ViewFlipper properties.
 	 */

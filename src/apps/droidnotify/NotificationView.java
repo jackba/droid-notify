@@ -13,6 +13,7 @@ import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.net.Uri;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Gravity;
 import android.view.Menu;
@@ -137,7 +138,17 @@ public class NotificationView extends LinearLayout {
 	//================================================================================
 	// Public Methods
 	//================================================================================
-	  
+
+	/**
+	 * Remove the notification from the ViewFlipper.
+	 */
+	public void deleteMessage(){
+		if (Log.getDebug()) Log.v("NotificationView.deleteMessage()");
+		//Remove SMS or MMS message from ViewFlipper.
+		getNotificationViewFlipper().removeActiveNotification();
+		//TODO - Delete SMS or MMS message from device.
+	}
+	
 	//================================================================================
 	// Private Methods
 	//================================================================================
@@ -171,7 +182,7 @@ public class NotificationView extends LinearLayout {
 	    	phoneButtonLayoutVisibility = View.VISIBLE;
 	    	smsButtonLayoutVisibility = View.GONE;
 			// Dismiss Button
-			Button phoneDismissButton = (Button) findViewById(R.id.phone_dismiss_button);		      
+	    	final Button phoneDismissButton = (Button) findViewById(R.id.phone_dismiss_button);		      
 			phoneDismissButton.setOnClickListener(new OnClickListener() {
 			    public void onClick(View v) {
 			    	if (Log.getDebug()) Log.v("Dismiss Button Clicked()");
@@ -179,11 +190,11 @@ public class NotificationView extends LinearLayout {
 			    }
 			});
 			// Call Button
-			Button phoneCallButton = (Button) findViewById(R.id.phone_call_button);		      
+			final Button phoneCallButton = (Button) findViewById(R.id.phone_call_button);		      
 			phoneCallButton.setOnClickListener(new OnClickListener() {
 			    public void onClick(View v) {
 			    	if (Log.getDebug()) Log.v("Call Button Clicked()");
-			    	dismissNotification();
+			    	makePhoneCall();
 			    }
 			});
 	    }
@@ -192,7 +203,7 @@ public class NotificationView extends LinearLayout {
 	    	phoneButtonLayoutVisibility = View.GONE;
 	    	smsButtonLayoutVisibility = View.VISIBLE;
 			// Dismiss Button
-			Button smsDismissButton = (Button) findViewById(R.id.sms_dismiss_button);		      
+	    	final Button smsDismissButton = (Button) findViewById(R.id.sms_dismiss_button);		      
 			smsDismissButton.setOnClickListener(new OnClickListener() {
 			    public void onClick(View view) {
 			    	if (Log.getDebug()) Log.v("SMS Dismiss Button Clicked()");
@@ -200,16 +211,15 @@ public class NotificationView extends LinearLayout {
 			    }
 			});		    			
 			// Delete Button
-			Button smsDeleteButton = (Button) findViewById(R.id.sms_delete_button);
+			final Button smsDeleteButton = (Button) findViewById(R.id.sms_delete_button);
 			smsDeleteButton.setOnClickListener(new OnClickListener() {
 			    public void onClick(View view) {
 			    	if (Log.getDebug()) Log.v("SMS Delete Button Clicked()");
-			    	//showDialog(Menu.FIRST);
-			    	//updateNavigationButtons(_previousButton, _inboxButton, _nextButton);
+			    	showDeleteDialog();
 			    }
 			});
 			// Reply Button
-			Button smsReplyButton = (Button) findViewById(R.id.sms_reply_button);
+			final Button smsReplyButton = (Button) findViewById(R.id.sms_reply_button);
 			smsReplyButton.setOnClickListener(new OnClickListener() {
 			    public void onClick(View view) {
 			    	if (Log.getDebug()) Log.v("SMS Reply Button Clicked()");
@@ -222,7 +232,7 @@ public class NotificationView extends LinearLayout {
 	    	phoneButtonLayoutVisibility = View.GONE;
 	    	smsButtonLayoutVisibility = View.VISIBLE;
 			// Dismiss Button
-			Button mmsDismissButton = (Button) findViewById(R.id.sms_dismiss_button);		      
+	    	final Button mmsDismissButton = (Button) findViewById(R.id.sms_dismiss_button);		      
 			mmsDismissButton.setOnClickListener(new OnClickListener() {
 			    public void onClick(View view) {
 			    	if (Log.getDebug()) Log.v("MMS Dismiss Button Clicked()");
@@ -230,16 +240,15 @@ public class NotificationView extends LinearLayout {
 			    }
 			});			    			
 			// Delete Button
-			Button mmsDeleteButton = (Button) findViewById(R.id.sms_delete_button);
+			final Button mmsDeleteButton = (Button) findViewById(R.id.sms_delete_button);
 			mmsDeleteButton.setOnClickListener(new OnClickListener() {
 			    public void onClick(View view) {
 			    	if (Log.getDebug()) Log.v("MMS Delete Button Clicked()");
-			    	//showDialog(Menu.FIRST);
-			    	//updateNavigationButtons(_previousButton, _inboxButton, _nextButton);
+			    	showDeleteDialog();
 			    }
 			});
 			// Reply Button
-			Button mmsReplyButton = (Button) findViewById(R.id.sms_reply_button);
+			final Button mmsReplyButton = (Button) findViewById(R.id.sms_reply_button);
 			mmsReplyButton.setOnClickListener(new OnClickListener() {
 			    public void onClick(View view) {
 			    	if (Log.getDebug()) Log.v("MMS Reply Button Clicked()");
@@ -331,7 +340,7 @@ public class NotificationView extends LinearLayout {
 		String formattedTimestamp = new SimpleDateFormat("h:mma").format(notification.getTimeStamp());
 	    String receivedAtText = "";
 	    if(notificationType == NOTIFICATION_TYPE_PHONE){
-	    	iconBitmap = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.missed_call_icon);
+	    	iconBitmap = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.sym_call_missed);
 	    	receivedAtText = getContext().getString(R.string.missed_call_at_text, formattedTimestamp.toLowerCase());
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_SMS || notificationType == NOTIFICATION_TYPE_MMS){
@@ -371,7 +380,7 @@ public class NotificationView extends LinearLayout {
 	    	_photoImageView.setImageBitmap((Bitmap)getRoundedCornerBitmap(notification.getPhotoImg(), 5));    
 	    }else{  
 	    	// Load the placeholder image if the contact has no photo.
-	    	_photoImageView.setImageBitmap(getRoundedCornerBitmap(BitmapFactory.decodeResource(getContext().getResources(), R.drawable.android_contact_placeholder), 5));
+	    	_photoImageView.setImageBitmap(getRoundedCornerBitmap(BitmapFactory.decodeResource(getContext().getResources(), R.drawable.ic_contact_picture), 5));
 	    }
 	}
 	
@@ -426,7 +435,32 @@ public class NotificationView extends LinearLayout {
 		getContext().startActivity(intent);
 		((NotificationActivity)getContext()).finishActivity();  
 	}
+	
+	/**
+	 * Make a phone call to the current missed call notification.
+	 * This starts the phones built in dialer & caller.
+	 */
+	private void makePhoneCall(){
+		if (Log.getDebug()) Log.v("NotificationView.makePhoneCall()");
+		Notification notification = getNotification();
+		Intent intent = new Intent(Intent.ACTION_CALL);
+        intent.setData(Uri.parse("tel:" + notification.getPhoneNumber()));
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        getContext().startActivity(intent);
+		((NotificationActivity)getContext()).finishActivity();
+	}
  
+	/**
+	 * Confirm the delete request of this message.
+	 */
+	private void showDeleteDialog(){
+		if (Log.getDebug()) Log.v("NotificationView.showDeleteDialog()");
+		//Show pop up dialog to confirm deletion.
+		getNotificationViewFlipper().showDeleteDialog();
+	}
+	
+	
+	
 //	/**
 //	 * Take the user to the messaging application inbox.
 //	 */
