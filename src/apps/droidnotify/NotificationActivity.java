@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Display;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -260,7 +259,7 @@ public class NotificationActivity extends Activity {
     }
   
 	/**
-	 * Display the delete dialog fromt the activity and return the result.
+	 * Display the delete dialog from the activity and return the result.
 	 * 
 	 * @return Boolean of the confirmation of delete. 
 	 */
@@ -371,7 +370,7 @@ public class NotificationActivity extends Activity {
 	@Override
 	protected Dialog onCreateDialog(int id) {
 		if (Log.getDebug()) Log.v("NotificationActivity.onCreateDialog()");
-		AlertDialog alert;
+		AlertDialog alert = null;
 		switch (id) {
 		  	
 	      /*
@@ -381,10 +380,8 @@ public class NotificationActivity extends Activity {
 				if (Log.getDebug()) Log.v("NotificationActivity.onCreateDialog() DIALOG_DELETE_MESSAGE");
 				AlertDialog.Builder builder = new AlertDialog.Builder(this);
 				builder.setIcon(android.R.drawable.ic_dialog_alert);
-				//builder..setTitle(getString(R.string.pref_show_delete_button_dialog_title))
-				//builder..setMessage(getString(R.string.pref_show_delete_button_dialog_text))
-				builder.setTitle("Delete");
-				builder.setMessage("This will delete the message from the phone.");
+				builder.setTitle(getString(R.string.delete_message_dialog_title_text));
+				builder.setMessage(getString(R.string.delete_message_dialog_text));
 				builder.setPositiveButton(R.string.delete_button_text, new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
 							deleteMessage();
@@ -546,8 +543,8 @@ public class NotificationActivity extends Activity {
 //	        mProgressDialog.setCancelable(true);
 //	        return mProgressDialog;
 		        
-		default:
-			alert = null;
+//		default:
+//			alert = null;
 		}
 		return alert;
 	}
@@ -757,10 +754,11 @@ public class NotificationActivity extends Activity {
 	}
 	
 	/**
-	 * Delete the message from the users phone.
+	 * Delete the current message from the users phone.
 	 */
 	private void deleteMessage(){
-		
+		if (Log.getDebug()) Log.v("NotificationActivity.deleteMessage()");
+		getNotificationViewFlipper().deleteMessage();
 	}
 
 }

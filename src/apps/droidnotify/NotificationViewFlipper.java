@@ -263,11 +263,21 @@ public class NotificationViewFlipper extends ViewFlipper {
 		((NotificationActivity)getContext()).showDeleteDialog();
 	}
 	
+	/**
+	 * Delete the current message from the users phone.
+	 */
+	public void deleteMessage(){
+		if (Log.getDebug()) Log.v("NotificationViewFlipper.deleteMessage()");
+		//Remove the notification from the ViewFlipper.
+		Notification notification = getNotification(getCurrentNotification());
+		removeActiveNotification();
+		//Delete the current message from the users phone.
+		notification.deleteMessage();
+	}
 	//================================================================================
 	// Private Methods
 	//================================================================================
 
-	
 	/**
 	 * Function to animate the moving of the a message that comes form the right.
 	 */
