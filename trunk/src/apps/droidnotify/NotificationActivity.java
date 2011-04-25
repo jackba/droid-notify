@@ -3,8 +3,10 @@ package apps.droidnotify;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -38,6 +40,9 @@ public class NotificationActivity extends Activity {
 	private final int NOTIFICATION_TYPE_MMS = 2;
 	private final int NOTIFICATION_TYPE_CALENDAR = 3;
 	private final int NOTIFICATION_TYPE_EMAIL = 4;
+	
+	static final int DIALOG_DELETE_MESSAGE = 0;
+
 	
 	//================================================================================
     // Properties
@@ -253,6 +258,16 @@ public class NotificationActivity extends Activity {
     	if (Log.getDebug()) Log.v("NotificationActivity.updateNavigationButtons()");
 		updateNavigationButtons(getPreviousButton(), getNotificationCountTextView(), getNextButton());		
     }
+  
+	/**
+	 * Display the delete dialog fromt the activity and return the result.
+	 * 
+	 * @return Boolean of the confirmation of delete. 
+	 */
+	public void showDeleteDialog(){
+		if (Log.getDebug()) Log.v("NotificationActivity.showDeleteDialog()");
+		showDialog(DIALOG_DELETE_MESSAGE);
+	}
     
 	//================================================================================
 	// Protected Methods
@@ -356,23 +371,31 @@ public class NotificationActivity extends Activity {
 	@Override
 	protected Dialog onCreateDialog(int id) {
 		if (Log.getDebug()) Log.v("NotificationActivity.onCreateDialog()");
+		AlertDialog alert;
 		switch (id) {
 		  	
-//	      /*
-//	       * Delete message dialog
-//	       */
-//	      case DIALOG_DELETE:
-//	        return new AlertDialog.Builder(this)
-//	        .setIcon(android.R.drawable.ic_dialog_alert)
-//	        .setTitle(getString(R.string.pref_show_delete_button_dialog_title))
-//	        .setMessage(getString(R.string.pref_show_delete_button_dialog_text))
-//	        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-//	          public void onClick(DialogInterface dialog, int whichButton) {
-//	            deleteMessage();
-//	          }
-//	        })
-//	        .setNegativeButton(android.R.string.cancel, null)
-//	        .create();
+	      /*
+	       * Delete message dialog
+	       */
+			case DIALOG_DELETE_MESSAGE:
+				if (Log.getDebug()) Log.v("NotificationActivity.onCreateDialog() DIALOG_DELETE_MESSAGE");
+				AlertDialog.Builder builder = new AlertDialog.Builder(this);
+				builder.setIcon(android.R.drawable.ic_dialog_alert);
+				//builder..setTitle(getString(R.string.pref_show_delete_button_dialog_title))
+				//builder..setMessage(getString(R.string.pref_show_delete_button_dialog_text))
+				builder.setTitle("Delete");
+				builder.setMessage("This will delete the message from the phone.");
+				builder.setPositiveButton(R.string.delete_button_text, new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int id) {
+							deleteMessage();
+						}
+					})
+					.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int id) {
+			            	dialog.cancel();
+						}
+					});
+				alert = builder.create();
 
 //			/**
 //		     * Reply Dialog
@@ -523,8 +546,10 @@ public class NotificationActivity extends Activity {
 //	        mProgressDialog.setCancelable(true);
 //	        return mProgressDialog;
 		        
-	    }
-	    return null;
+		default:
+			alert = null;
+		}
+		return alert;
 	}
 	  
 	/**
@@ -729,6 +754,13 @@ public class NotificationActivity extends Activity {
 	    }
 	    getInputMethodManager().hideSoftInputFromWindow(getSoftKeyboardTriggerView().getApplicationWindowToken(), 0);
 	    setSoftKeyboardTriggerView(null);
+	}
+	
+	/**
+	 * Delete the message from the users phone.
+	 */
+	private void deleteMessage(){
+		
 	}
 
 }
