@@ -5,6 +5,7 @@ import java.io.InputStream;
 import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -65,7 +66,7 @@ public class Notification {
         if (bundle != null){
         	setNotificationType(notificationType);
         	if(notificationType == NOTIFICATION_TYPE_PHONE){
-        		//TODO - Missed Call
+        		//Do Nothing. This should not be called if a missed call is received.
     	    }
         	if(notificationType == NOTIFICATION_TYPE_SMS){
         		// Retrieve SMS message from bundle.
@@ -75,7 +76,7 @@ public class Notification {
 	                msgs[i] = SmsMessage.createFromPdu((byte[])pdus[i]);                
 	            }
 	            SmsMessage sms = msgs[0];
-	            setTimeStamp(new java.util.Date().getTime());
+	            setTimeStamp(sms.getTimestampMillis());
 	    		setPhoneNumber(sms.getDisplayOriginatingAddress());
 	    		setFromEmailGateway(sms.isEmail());
 	    		setMessageClass(sms.getMessageClass());
@@ -84,7 +85,8 @@ public class Notification {
 	                messageBody += msgs[i].getMessageBody().toString();
 	            }
 	            setMessageBody(messageBody);
-	    		loadThreadID(getContext(), getPhoneNumber());  
+	    		loadThreadID(getContext(), getPhoneNumber());
+	    		loadMessageID(getContext(), getThreadID(), getMessageBody(), getTimeStamp());
 	    		loadContactsInfo(getContext(), getPhoneNumber());
         	}
     	    if(notificationType == NOTIFICATION_TYPE_MMS){
@@ -118,10 +120,7 @@ public class Notification {
 	    }
     	if(notificationType == NOTIFICATION_TYPE_SMS || notificationType == NOTIFICATION_TYPE_MMS){
     		if (Log.getDebug()) Log.v("Notification.Notification() NOTIFICATION_TYPE_SMS OR NOTIFICATION_TYPE_MMS");
-    		setPhoneNumber(phoneNumber);
-    		setTimeStamp(timeStamp);
-    		loadThreadID(getContext(), getPhoneNumber());  
-    		loadContactsInfo(getContext(), getPhoneNumber());
+    		//Do Nothing. This should not be called if a SMS or MMS is received.
     	}
 	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
 	    	if (Log.getDebug()) Log.v("Notification.Notification() NOTIFICATION_TYPE_CALENDAR");
@@ -338,16 +337,16 @@ public class Notification {
 	/**
 	 * Set the messageID property.
 	 */
-	public void setMessageId(long messageID) {
-		if (Log.getDebug()) Log.v("Notification.setMessageId() MessageID: " + messageID);
+	public void setMessageID(long messageID) {
+		if (Log.getDebug()) Log.v("Notification.setMessageID() MessageID: " + messageID);
   		_messageID = messageID;
 	}
 	
 	/**
 	 * Get the messageID property.
 	 */
-	public long getMessageId() {
-		if (Log.getDebug()) Log.v("Notification.getMessageId()");
+	public long getMessageID() {
+		if (Log.getDebug()) Log.v("Notification.getMessageID()");
   		return _messageID;
 	}
 
@@ -407,7 +406,27 @@ public class Notification {
 	 */
 	public void deleteMessage(){
 		if (Log.getDebug()) Log.v("Notification.deleteMessage()");
-		//TODO - Notification.deleteMessage()) - Delete this message from the phone.
+		long threadID = getThreadID();
+		if(threadID == 0){
+			if (Log.getDebug()) Log.v("Notification.deleteMessage() Thread ID == 0. Load Thread ID");
+			loadThreadID(getContext(), getPhoneNumber());
+			threadID = getThreadID();
+		}
+		long messageID = getMessageID();
+		if(messageID == 0){
+			if (Log.getDebug()) Log.v("Notification.deleteMessage() Message ID == 0. Load Message ID");
+			loadMessageID(getContext(), getThreadID(), getMessageBody(), getTimeStamp());
+			messageID = getMessageID();
+		}
+		//Delete entire SMS thread.
+		//if (Log.getDebug()) Log.v("Notification.deleteMessage() Thread ID: " + threadID);
+		//if(threadID > 0){
+		//	getContext().getContentResolver().delete(Uri.parse("content://sms/conversations/" + threadID), null, null);
+		//}	
+		//Delete single message.
+		if (Log.getDebug()) Log.v("Notification.deleteMessage() Delete Message ID: " + messageID);
+		//Try to delete from "content://sms"
+		getContext().getContentResolver().delete(Uri.parse("content://sms/" + messageID), null, null);
 	}
 	
 	//================================================================================
@@ -438,8 +457,10 @@ public class Notification {
 	    	try {
 	    		if (cursor.moveToFirst()) {
 	    			threadID = cursor.getLong(cursor.getColumnIndex("THREAD_ID"));
-	    			if (Log.getDebug()) Log.v("Notification.getThreadIdByAddress() Thread_ID Found: " + threadID);
+	    			if (Log.getDebug()) Log.v("Notification.loadThreadID() Thread ID Found: " + threadID);
 	    		}
+	    	}catch(Exception e){
+		    		if (Log.getDebug()) Log.v("Notification.loadThreadID() EXCEPTION: " + e.toString());
 	    	} finally {
 	    		cursor.close();
 	    	}
@@ -447,6 +468,48 @@ public class Notification {
 	    setThreadID(threadID);
 	}
 
+	/**
+	 * 
+	 * @param context
+	 * @param threadId
+	 * @param timestamp
+	 */
+	public void loadMessageID(Context context, long threadID, String messageBody, long timeStamp) {
+		if (Log.getDebug()) Log.v("Notification.loadMessageID()");
+		if (threadID == 0){
+			if (Log.getDebug()) Log.v("Notification.loadMessageID() Thread ID provided is NULL: Exiting loadMessageId()");
+			return;
+		}    
+		if (messageBody == null){
+			if (Log.getDebug()) Log.v("Notification.loadMessageID() Message body provided is NULL: Exiting loadMessageId()");
+			return;
+		} 
+		final String[] projection = new String[] { "_ID"};
+		final String selection = "THREAD_ID = " + threadID + " AND BODY = " + DatabaseUtils.sqlEscapeString(messageBody);
+		final String[] selectionArgs = null;
+		final String sortOrder = null;
+		long messageID = 0;
+	    Cursor cursor = context.getContentResolver().query(
+	    		Uri.parse("content://sms/inbox"),
+	    		projection,
+	    		selection,
+				selectionArgs,
+				sortOrder);
+	    if (cursor != null) {
+	    	try {
+	    		if (cursor.moveToFirst()) {
+	    			messageID = cursor.getLong(cursor.getColumnIndex("_ID"));
+	    			if (Log.getDebug()) Log.v("Notification.loadMessageID() Message ID Found: " + messageID);
+	    		}
+	    	}catch(Exception e){
+	    		if (Log.getDebug()) Log.v("Notification.loadMessageID() EXCEPTION: " + e.toString());
+	    	} finally {
+	    		cursor.close();
+	    	}
+	    }
+	    setMessageID(messageID);
+	  }
+	
 	/**
 	 * Load contact info from the ContactsContract content provider using the SMS message address.
 	 */ 
