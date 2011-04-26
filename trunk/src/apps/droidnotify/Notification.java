@@ -3,6 +3,7 @@ package apps.droidnotify;
 import java.io.InputStream;
 
 import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
@@ -10,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.CallLog;
 import android.provider.ContactsContract;
 import android.telephony.SmsMessage;
 import android.telephony.SmsMessage.MessageClass;
@@ -391,14 +393,18 @@ public class Notification {
 	 */
 	public void setViewed(boolean isViewed){
 		if (Log.getDebug()) Log.v("Notification.setViewed()");
-		//TODO - Notification.setViewed() - Set the notification as being viewed on the phone.
-		if(isViewed){
-			
-			
-		}else{
-			
-			
-		}
+    	if(getNotificationType() == NOTIFICATION_TYPE_PHONE){
+    		setCallViewed(isViewed);
+	    }
+    	if(getNotificationType() == NOTIFICATION_TYPE_SMS || getNotificationType() == NOTIFICATION_TYPE_MMS){
+    		//TODO - Notification.setViewed() - NOTIFICATION_TYPE_SMS,NOTIFICATION_TYPE_MMS Set the notification as being viewed on the phone.
+    	}
+	    if(getNotificationType() == NOTIFICATION_TYPE_CALENDAR){
+	    	//TODO - Notification.setViewed() - NOTIFICATION_TYPE_CALENDAR Set the notification as being viewed on the phone.
+	    }
+	    if(getNotificationType() == NOTIFICATION_TYPE_EMAIL){
+	    	//TODO - Notification.setViewed() - NOTIFICATION_TYPE_EMAIL Set the notification as being viewed on the phone.
+	    }
 	}
 	
 	/**
@@ -419,14 +425,19 @@ public class Notification {
 			messageID = getMessageID();
 		}
 		//Delete entire SMS thread.
-		//if (Log.getDebug()) Log.v("Notification.deleteMessage() Thread ID: " + threadID);
-		//if(threadID > 0){
-		//	getContext().getContentResolver().delete(Uri.parse("content://sms/conversations/" + threadID), null, null);
-		//}	
+		//if (Log.getDebug()) Log.v("Notification.deleteMessage() Delete Thread ID: " + threadID);
+		//Delete from URI "content://sms/conversations/"
+		//getContext().getContentResolver().delete(
+		//	Uri.parse("content://sms/conversations/" + threadID), 
+		//	null, 
+		//	null);
 		//Delete single message.
 		if (Log.getDebug()) Log.v("Notification.deleteMessage() Delete Message ID: " + messageID);
-		//Try to delete from "content://sms"
-		getContext().getContentResolver().delete(Uri.parse("content://sms/" + messageID), null, null);
+		//Delete from URI "content://sms"
+		getContext().getContentResolver().delete(
+				Uri.parse("content://sms/" + messageID),
+				null, 
+				null);
 	}
 	
 	//================================================================================
@@ -434,7 +445,10 @@ public class Notification {
 	//================================================================================
 	
 	/**
-	 * Get the THREAD_ID from the SMS Contract content provider using the SMS message address.
+	 * Load the SMS Thread ID for this notification.
+	 * 
+	 * @param context
+	 * @param phoneNumber
 	 */
 	private void loadThreadID(Context context, String phoneNumber){
 		if (Log.getDebug()) Log.v("Notification.getThreadIdByAddress()");
@@ -469,6 +483,7 @@ public class Notification {
 	}
 
 	/**
+	 * Load the SMS Message ID for this notification.
 	 * 
 	 * @param context
 	 * @param threadId
@@ -508,10 +523,13 @@ public class Notification {
 	    	}
 	    }
 	    setMessageID(messageID);
-	  }
+	}
 	
 	/**
-	 * Load contact info from the ContactsContract content provider using the SMS message address.
+	 * Load the various contact info for this notification.
+	 * 
+	 * @param context
+	 * @param phoneNumber
 	 */ 
 	private void loadContactsInfo(Context context, String phoneNumber){
 		if (Log.getDebug()) Log.v("Notification.loadContactsInfo()");
@@ -581,6 +599,31 @@ public class Notification {
 		   }
 		}
 		cursor.close();
+	}
+
+	/**
+	 * Set the call log as viewed (not new) or new depending on the input.
+	 * 
+	 * @param isViewed
+	 */
+	private void setCallViewed(boolean isViewed){
+		if (Log.getDebug()) Log.v("Notification.setCallViewed()");
+		ContentValues contentValues = new ContentValues();
+		if(isViewed){
+			contentValues.put(CallLog.Calls.NEW, 0);
+		}else{
+			contentValues.put(CallLog.Calls.NEW, 1);
+		}
+		//String selection = android.provider.CallLog.Calls.NUMBER + " = ? and " + android.provider.CallLog.Calls.DATE + " = ?";
+		//String[] selectionArgs = new String[] {getPhoneNumber(), Long.toString(getTimeStamp())};
+		String selection = android.provider.CallLog.Calls.NUMBER + " = ?";
+		String[] selectionArgs = new String[] {getPhoneNumber()};
+		int count = getContext().getContentResolver().update(
+		        ContentUris.withAppendedId(CallLog.Calls.CONTENT_URI, 0), 
+		        contentValues,
+		        selection, 
+		        selectionArgs);
+		if (Log.getDebug()) Log.v("Notification.setCallViewed() Updated Call Log Rows Affected: " + count);
 	}
 	
 }

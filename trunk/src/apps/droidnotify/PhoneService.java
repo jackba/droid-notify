@@ -1,6 +1,7 @@
 package apps.droidnotify;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import android.app.Service;
 import android.content.Context;
@@ -214,7 +215,7 @@ public class PhoneService extends Service {
 	 */
 	private void checkCallLog(Intent intent){
 		if (Log.getDebug()) Log.v("PhoneService.checkCallLog()");
-		ArrayList<String> missedCallsArray = new ArrayList();
+		ArrayList<String> missedCallsArray = new ArrayList<String>();
 		boolean missedCalls = false;
 		final String[] projection = null;
 		final String selection = null;
@@ -227,22 +228,61 @@ public class PhoneService extends Service {
 				selectionArgs,
 				sortOrder);
 	    if (cursor != null) {
-	    	while (cursor.moveToNext()) { 
-	    		String callNumber = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.NUMBER));
-	    		String callDate = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.DATE));
-	    		String callType = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.TYPE));
-	    		String isCallNew = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.NEW));
-	    		if (Log.getDebug()) Log.v("PhoneService.checkCallLog() Checking Call: " + callNumber + " Received At: " + callDate + " Call Type: " + callType + " Is Call New? " + isCallNew);
-	    		if(Integer.parseInt(callType) == MISSED_CALL_TYPE && Integer.parseInt(isCallNew) > 0){
-    				if (Log.getDebug()) Log.v("PhoneService.checkCallLog() Missed Call Found: " + callNumber);
-    				//Start Notification
-    				missedCalls = true;
-    				//Store missed call numbers and dates in an array.
-    				String missedCallInfo = callNumber + "|" + callDate;
-    				missedCallsArray.add(missedCallInfo);
-    			}else{
-    				break;
-    			}
+	    	boolean callLogNotUpdated = true;
+	    	//Needed to put some sort of code here in order to allow the phone to update the call log before we query it.
+	    	//Use another while loop and some logic to make sure that the phone has been updated after the incoming call.
+	    	int maxTries = 1000;
+	    	int totalTries = 0;
+	    	long lastCallTimeStamp = 0;
+	    	boolean hasEntries = false;
+	    	while (callLogNotUpdated){
+	    		totalTries += 1;
+	    		if (Log.getDebug()) Log.v("PhoneService.checkCallLog() Checking Call Log (Try count " + totalTries + ")");
+	    		//Query the call log for missed calls.
+		    	while (cursor.moveToNext()) { 
+		    		String callNumber = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.NUMBER));
+		    		String callDate = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.DATE));
+		    		String callType = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.TYPE));
+		    		String isCallNew = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.NEW));
+		    		if (Log.getDebug()) Log.v("PhoneService.checkCallLog() Checking Call: " + callNumber + " Received At: " + callDate + " Call Type: " + callType + " Is Call New? " + isCallNew);
+		    		//Store the latest phone timeStamp.
+		    		if(lastCallTimeStamp == 0){lastCallTimeStamp = Long.parseLong(callDate);}
+		    		if(Integer.parseInt(callType) == MISSED_CALL_TYPE && Integer.parseInt(isCallNew) > 0){
+	    				if (Log.getDebug()) Log.v("PhoneService.checkCallLog() Missed Call Found: " + callNumber);
+	    				//Start Notification
+	    				missedCalls = true;
+	    				//Store missed call numbers and dates in an array.
+	    				String missedCallInfo = callNumber + "|" + callDate;
+	    				missedCallsArray.add(missedCallInfo);
+	    			}else{
+	    				break;
+	    			}
+		    		//Code to try to ensure that the call log was updated before we check it.
+		    		if(!hasEntries){
+		    			hasEntries = true;
+		    			if (Log.getDebug()) Log.v("PhoneService.checkCallLog() Call Log has entries");
+		    		}else{
+		    			if (Log.getDebug()) Log.v("PhoneService.checkCallLog() Call Log has NO entries");
+		    		}
+		    	}
+		    	//Code to try to ensure that the call log was updated before we check it.
+		    	maxTries += 1;
+		    	if(hasEntries){	
+	    			//Compare the difference between the current time and the latest call log entry.
+	    			long timeThreshold = 3000;
+	    			long currentTimeStamp = System.currentTimeMillis();
+	    			if( (currentTimeStamp - lastCallTimeStamp) > timeThreshold){
+	    				callLogNotUpdated = false;
+	    				if (Log.getDebug()) Log.v("PhoneService.checkCallLog() Latest Call Log entry within threshold (" + timeThreshold + " miliseconds)");
+	    			}else{
+	    				if (Log.getDebug()) Log.v("PhoneService.checkCallLog() Latest Call Log entry NOT within threshold (" + timeThreshold + " miliseconds)");	
+	    			}
+		    	}
+		    	if(totalTries >= maxTries){
+		    		if (Log.getDebug()) Log.v("PhoneService.checkCallLog() Max tries reached (" + maxTries + ")...Giving Up!");
+		    		callLogNotUpdated = false;
+		    		break;
+		    	}
 	    	}
 	    	cursor.close();
 	    }
