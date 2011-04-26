@@ -2,6 +2,7 @@ package apps.droidnotify;
 
 import java.io.InputStream;
 
+import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
@@ -52,6 +53,7 @@ public class Notification {
 	private long _messageID;
 	private boolean _fromEmailGateway;
 	private MessageClass _messageClass;
+	private boolean _contactExists;
   
 	//================================================================================
 	// Constructors
@@ -63,6 +65,7 @@ public class Notification {
 	public Notification(Context context, Bundle bundle, int notificationType) {
 		if (Log.getDebug()) Log.v("Notification.Notification(Context, Bundle, int)");
 		setContext(context);
+		setContactExists(false);
 		SmsMessage[] msgs = null;
         String messageBody = "";            
         if (bundle != null){
@@ -113,6 +116,7 @@ public class Notification {
 	public Notification(Context context, String phoneNumber, long timeStamp, int notificationType){
 		if (Log.getDebug()) Log.v("Notification.Notification(Context, String, long, int)");
 		setContext(context);
+		setContactExists(false);
 		setNotificationType(notificationType);
     	if(notificationType == NOTIFICATION_TYPE_PHONE){
     		if (Log.getDebug()) Log.v("Notification.Notification() NOTIFICATION_TYPE_PHONE");
@@ -383,6 +387,22 @@ public class Notification {
 		if (Log.getDebug()) Log.v("Notification.getMessageClass()");
   		return _messageClass;
 	}
+
+	/**
+	 * Set the contactExists property.
+	 */
+	public void setContactExists(boolean contactExists) {
+		if (Log.getDebug()) Log.v("Notification.setContactExists()");
+		_contactExists = contactExists;
+	}
+	
+	/**
+	 * Get the contactExists property.
+	 */
+	public boolean getContactExists() {
+		if (Log.getDebug()) Log.v("Notification.getContactExists()");
+  		return _contactExists;
+	}
 	
 	//================================================================================
 	// Public Methods
@@ -397,7 +417,7 @@ public class Notification {
     		setCallViewed(isViewed);
 	    }
     	if(getNotificationType() == NOTIFICATION_TYPE_SMS || getNotificationType() == NOTIFICATION_TYPE_MMS){
-    		//TODO - Notification.setViewed() - NOTIFICATION_TYPE_SMS,NOTIFICATION_TYPE_MMS Set the notification as being viewed on the phone.
+    		setMessageRead(isViewed);
     	}
 	    if(getNotificationType() == NOTIFICATION_TYPE_CALENDAR){
 	    	//TODO - Notification.setViewed() - NOTIFICATION_TYPE_CALENDAR Set the notification as being viewed on the phone.
@@ -591,6 +611,7 @@ public class Notification {
 		  		      Bitmap contactPhotoBitmap = BitmapFactory.decodeStream(input);
 		  		      if(contactPhotoBitmap!= null){
 		  		    	  setPhotoImg(contactPhotoBitmap);
+		  		    	  setContactExists(true);
 		  		      }
 		  		      break;
 		    	  }
@@ -610,20 +631,44 @@ public class Notification {
 		if (Log.getDebug()) Log.v("Notification.setCallViewed()");
 		ContentValues contentValues = new ContentValues();
 		if(isViewed){
-			contentValues.put(CallLog.Calls.NEW, 0);
+			contentValues.put(android.provider.CallLog.Calls.NEW, 0);
 		}else{
-			contentValues.put(CallLog.Calls.NEW, 1);
+			contentValues.put(android.provider.CallLog.Calls.NEW, 1);
 		}
-		//String selection = android.provider.CallLog.Calls.NUMBER + " = ? and " + android.provider.CallLog.Calls.DATE + " = ?";
-		//String[] selectionArgs = new String[] {getPhoneNumber(), Long.toString(getTimeStamp())};
-		String selection = android.provider.CallLog.Calls.NUMBER + " = ?";
-		String[] selectionArgs = new String[] {getPhoneNumber()};
-		int count = getContext().getContentResolver().update(
-		        ContentUris.withAppendedId(CallLog.Calls.CONTENT_URI, 0), 
-		        contentValues,
-		        selection, 
-		        selectionArgs);
-		if (Log.getDebug()) Log.v("Notification.setCallViewed() Updated Call Log Rows Affected: " + count);
+		String selection = android.provider.CallLog.Calls.NUMBER + " = ? and " + android.provider.CallLog.Calls.DATE + " = ?";
+		String[] selectionArgs = new String[] {getPhoneNumber(), Long.toString(getTimeStamp())};
+		getContext().getContentResolver().update(
+				Uri.parse("content://call_log/calls"),
+				contentValues,
+				selection, 
+				selectionArgs);
 	}
-	
+
+	/**
+	 * Set the SMS/MMS message as read or unread depending on the input.
+	 * 
+	 * @param isViewed
+	 */
+	private void setMessageRead(boolean isViewed){
+		if (Log.getDebug()) Log.v("Notification.setMessageRead()");
+		long messageID = getMessageID();
+		if(messageID == 0){
+			if (Log.getDebug()) Log.v("Notification.setMessageRead() Message ID == 0. Load Message ID");
+			loadMessageID(getContext(), getThreadID(), getMessageBody(), getTimeStamp());
+			messageID = getMessageID();
+		}
+		ContentValues contentValues = new ContentValues();
+		if(isViewed){
+			contentValues.put("READ", 1);
+		}else{
+			contentValues.put("READ", 0);
+		}
+		String selection = null;
+		String[] selectionArgs = null;
+		getContext().getContentResolver().update(
+				Uri.parse("content://sms/" + messageID), 
+	    		contentValues, 
+	    		selection, 
+	    		selectionArgs);
+	}
 }
