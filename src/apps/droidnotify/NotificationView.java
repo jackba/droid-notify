@@ -277,9 +277,11 @@ public class NotificationView extends LinearLayout {
 		if (Log.getDebug()) Log.v("NotificationView.populateNotificationViewInfo()");
 	    // Set from, number, message etc. views.
 	    _fromTextView.setText(notification.getContactName());
-	    //TODO Not sure about the format below?
-	    //_phoneNumberTextView.setText("(" + notification.getAddressBookPhoneNumber() + ")");
-	    _phoneNumberTextView.setText(notification.getAddressBookPhoneNumber());
+	    if(notification.getContactExists()){
+	    	_phoneNumberTextView.setText(notification.getAddressBookPhoneNumber());
+	    }else{
+	    	_phoneNumberTextView.setText(notification.getPhoneNumber());
+	    }
 	    //Load the notification message.
 	    setNotificationMessage(notification);
 	    //Load the notification type icon & text into the notification.

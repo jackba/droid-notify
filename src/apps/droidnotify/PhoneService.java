@@ -266,7 +266,6 @@ public class PhoneService extends Service {
 		    		}
 		    	}
 		    	//Code to try to ensure that the call log was updated before we check it.
-		    	maxTries += 1;
 		    	if(hasEntries){	
 	    			//Compare the difference between the current time and the latest call log entry.
 	    			long timeThreshold = 3000;
