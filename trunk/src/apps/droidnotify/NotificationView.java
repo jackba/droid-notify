@@ -344,15 +344,15 @@ public class NotificationView extends LinearLayout {
 	    	receivedAtText = getContext().getString(R.string.missed_call_at_text, formattedTimestamp.toLowerCase());
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_SMS || notificationType == NOTIFICATION_TYPE_MMS){
-	    	iconBitmap = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.sms_icon);
+	    	iconBitmap = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.sms);
 	    	receivedAtText = getContext().getString(R.string.message_at_text, formattedTimestamp.toLowerCase());
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
-	    	iconBitmap = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.calendar_icon);
+	    	iconBitmap = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.calendar);
 	    	receivedAtText = getContext().getString(R.string.appointment_at_text, formattedTimestamp.toLowerCase());
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_EMAIL){
-	    	iconBitmap = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.email_icon);
+	    	iconBitmap = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.email);
 	    	receivedAtText = getContext().getString(R.string.email_at_text, formattedTimestamp.toLowerCase());
 	    }    
 	    if(iconBitmap != null){
