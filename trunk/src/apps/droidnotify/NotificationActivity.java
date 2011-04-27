@@ -8,8 +8,10 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Display;
@@ -42,6 +44,10 @@ public class NotificationActivity extends Activity {
 	
 	static final int DIALOG_DELETE_MESSAGE = 0;
 
+	final String APP_ENABLED_KEY = "app_enabled_settings";
+	final String SMS_NOTIFICATIONS_ENABLED_KEY = "sms_notifications_enabled";
+	final String MMS_NOTIFICATIONS_ENABLED_KEY = "mms_notifications_enabled";
+	final String MISSED_CALL_NOTIFICATIONS_ENABLED_KEY = "missed_call_notifications_enabled";
 	
 	//================================================================================
     // Properties
@@ -279,6 +285,13 @@ public class NotificationActivity extends Activity {
 	protected void onCreate(Bundle b) {
 		super.onCreate(b);
 	    if (Log.getDebug()) Log.v("NotificationActivity.onCreate()");
+		//Read preferences and end activity early if app is disabled.
+	    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+	    if(!preferences.getBoolean(APP_ENABLED_KEY, true)){
+			if (Log.getDebug()) Log.v("NotificationActivity.onCreate() App Disabled. Finishing Activity... ");
+			finishActivity();
+			return;
+		}
 	    Bundle bundle = getIntent().getExtras();
 	    int notificationType = bundle.getInt("notificationType");
 	    if (Log.getDebug()) Log.v("NotificationActivity.onCreate() Notification Type: " + notificationType);
@@ -287,19 +300,32 @@ public class NotificationActivity extends Activity {
 	    setupViews(notificationType);
 	    if(notificationType == NOTIFICATION_TYPE_PHONE){
 	    	if (Log.getDebug()) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_PHONE");
+			//Read preferences and end activity early if missed call notifications are disabled.
+		    if(!preferences.getBoolean(MISSED_CALL_NOTIFICATIONS_ENABLED_KEY, true)){
+				if (Log.getDebug()) Log.v("NotificationActivity.onCreate() Missed Call Notifications Disabled. Finishing Activity... ");
+				finishActivity();
+				return;
+			}
 	    	setupMissedCalls(bundle);
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_SMS){
-//		    if (b == null) { // This is a new activity
-		    	if (Log.getDebug()) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_SMS");
-		    	setupMessages(bundle);
-//		    } else { // This activity was recreated after being destroyed
-//		    	if (Log.getDebug()) Log.v("NotificationActivity.onCreate() Using Bundle");
-//		    	setupMessages(b);
-//		    }
+		    if (Log.getDebug()) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_SMS");
+			//Read preferences and end activity early if SMS notifications are disabled.
+		    if(!preferences.getBoolean(SMS_NOTIFICATIONS_ENABLED_KEY, true)){
+				if (Log.getDebug()) Log.v("NotificationActivity.onCreate() SMS Notifications Disabled. Finishing Activity... ");
+				finishActivity();
+				return;
+			}
+		    setupMessages(bundle);
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_MMS){
 	    	if (Log.getDebug()) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_MMS");
+			//Read preferences and end activity early if MMS notifications are disabled.
+		    if(!preferences.getBoolean(MMS_NOTIFICATIONS_ENABLED_KEY, true)){
+				if (Log.getDebug()) Log.v("NotificationActivity.onCreate() MMS Notifications Disabled. Finishing Activity... ");
+				finishActivity();
+				return;
+			}
 	    	//TODO - MMS Message
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
@@ -343,6 +369,7 @@ public class NotificationActivity extends Activity {
 	    super.onPause();
 	    if (Log.getDebug()) Log.v("NotificationActivity.onPause()");
 	    hideSoftKeyboard();
+	 // TODO - NotificationActivity.onPause()
 	}
 	  
 	/**
@@ -362,6 +389,7 @@ public class NotificationActivity extends Activity {
 	protected void onDestroy() {
 	    super.onDestroy();
 	    if (Log.getDebug()) Log.v("NotificationActivity.onDestroy()");
+	 // TODO - NotificationActivity.onDestroy()
 	}
 
 	/**

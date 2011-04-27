@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+  xmlns:android="http://schemas.android.com/apk/res/android">
+  
+	<CheckBoxPreference 
+		android:id="@+id/app_enabled" 
+		android:key="app_enabled_settings" 
+        android:title="@string/preference_appenabled_title" 
+        android:summaryOn="@string/preference_appenabled_summaryOn" 
+        android:summaryOff="@string/preference_appenabled_summaryOff" 
+        android:defaultValue="true" /> 
+  
+		<PreferenceScreen
+            android:key="notifications_enabled_settings"
+            android:title="Notifications Enabled">
+			<CheckBoxPreference 
+				android:key="sms_notifications_enabled" 
+        		android:title="@string/preference_sms_enabled_title" 
+        		android:summaryOn="@string/preference_sms_enabled_summaryOn" 
+        		android:summaryOff="@string/preference_sms_enabled_summaryOff" 
+        		android:defaultValue="true" />
+			<CheckBoxPreference 
+				android:key="mms_notifications_enabled" 
+        		android:title="@string/preference_mms_enabled_title" 
+        		android:summaryOn="@string/preference_mms_enabled_summaryOn" 
+        		android:summaryOff="@string/preference_mms_enabled_summaryOff" 
+        		android:defaultValue="true" />
+			<CheckBoxPreference 
+				android:key="missed_call_notifications_enabled" 
+        		android:title="@string/preference_missed_call_enabled_title" 
+        		android:summaryOn="@string/preference_missed_call_enabled_summaryOn" 
+        		android:summaryOff="@string/preference_missed_call_enabled_summaryOff" 
+        		android:defaultValue="true" />
+		</PreferenceScreen>
+  
+</PreferenceScreen>
