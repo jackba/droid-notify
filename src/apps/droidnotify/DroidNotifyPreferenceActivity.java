@@ -68,19 +68,23 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 	
 	/**
 	 * 
+	 * 
+	 * @param savedInstanceState
 	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	    if (Log.getDebug()) Log.v("DroidNotifyPreferenceActivity.onCreate()");	    
 	    addPreferencesFromResource(R.xml.preferences);
-	    
+	    //Load the preference screens and items. 
 	    _appEnabledCheckbox = (CheckBoxPreference)getPreferenceScreen().findPreference(APP_ENABLED_KEY);
 	    _notificationPreferenceScreen = (PreferenceScreen)getPreferenceScreen().findPreference(NOTIFICATIONS_ENABLED_SETTINGS);
 	    _smsEnabledCheckbox = (CheckBoxPreference)getPreferenceScreen().findPreference(SMS_NOTIFICATIONS_ENABLED_KEY);
 	    _mmsEnabledCheckbox = (CheckBoxPreference)getPreferenceScreen().findPreference(MMS_NOTIFICATIONS_ENABLED_KEY);
 	    _missedCallEnabledCheckbox = (CheckBoxPreference)getPreferenceScreen().findPreference(MISSED_CALL_NOTIFICATIONS_ENABLED_KEY);
-	   
+	    //Disable any preference screens depending on the current preference settings.
+	    SharedPreferences sharedPreferences = getPreferenceScreen().getSharedPreferences();
+	    updatePreferenceAccesibility(sharedPreferences, APP_ENABLED_KEY);
 	    // Register the SharedPreferenceChanged listener.            
         getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
 	}
@@ -119,6 +123,20 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 	 */
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 		if (Log.getDebug()) Log.v("DroidNotifyPreferenceActivity.onSharedPreferenceChanged() Key: " + key);
+		updatePreferenceAccesibility(sharedPreferences, key);
+	}
+	
+	//================================================================================
+	// Private Methods
+	//================================================================================
+	
+	/**
+	 * 
+	 * 
+	 * @param sharedPreferences
+	 * @param key
+	 */
+	private void updatePreferenceAccesibility(SharedPreferences sharedPreferences, String key){
         //App enable preference changed.
 		if (key.equals(APP_ENABLED_KEY)) {
         	if(sharedPreferences.getBoolean(key, true)){
@@ -130,9 +148,5 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
         	}
         }
 	}
-	
-	//================================================================================
-	// Private Methods
-	//================================================================================
 	
 }
