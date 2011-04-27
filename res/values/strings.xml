@@ -28,5 +28,22 @@
    	<string name="send_button_text">Send</string>
    	<string name="cancel_button_text">Cancel</string>
    	<string name="call_button_text">Call</string>
+   	
+   	<!-- Preference Strings -->
+   	<string name="preference_appenabled_title">Enable Droid Notify</string>
+   	<string name="preference_appenabled_summaryOn">Droid Notify is enabled</string>
+   	<string name="preference_appenabled_summaryOff">Droid Notify is disabled</string>
+   	
+   	<string name="preference_sms_enabled_title">Enable SMS</string>
+   	<string name="preference_sms_enabled_summaryOn">SMS notifications are enabled</string>
+   	<string name="preference_sms_enabled_summaryOff">SMS notifications are disabled</string>
+   	
+   	<string name="preference_mms_enabled_title">Enable MMS</string>
+   	<string name="preference_mms_enabled_summaryOn">MMS notifications are enabled</string>
+   	<string name="preference_mms_enabled_summaryOff">MMS notifications are disabled</string>
+   	
+   	<string name="preference_missed_call_enabled_title">Enable Missed Call</string>
+   	<string name="preference_missed_call_enabled_summaryOn">Missed Call notifications are enabled</string>
+   	<string name="preference_missed_call_enabled_summaryOff">Missed Call notifications are disabled</string>
 
 </resources>

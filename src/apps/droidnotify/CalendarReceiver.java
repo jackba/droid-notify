@@ -3,13 +3,9 @@ package apps.droidnotify;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 
-/**
- * This class listens for incoming text messages.
- */
-public class SMSReceiver extends BroadcastReceiver{
-	
+public class CalendarReceiver extends BroadcastReceiver{
+
 	//================================================================================
     // Properties
     //================================================================================
@@ -33,9 +29,9 @@ public class SMSReceiver extends BroadcastReceiver{
 	 */
 	@Override
 	public void onReceive(Context context, Intent intent){
-		if (Log.getDebug()) Log.v("SMSReceiver.onReceive()");
-	    intent.setClass(context, SMSReceiverService.class);
-	    SMSReceiverService.startSMSMonitoringService(context, intent);
+		if (Log.getDebug()) Log.v("CalendarReceiver.onReceive()");
+	    //intent.setClass(context, CalendarReceiverService.class);
+	    //CalendarReceiverService.startCalendarMonitoringService(context, intent);
 	}
 	  
 	//================================================================================
