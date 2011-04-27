@@ -10,7 +10,7 @@ import android.os.Handler;
 
 /**
  * 
- * @author csevigny
+ * @author Camille Sevigny
  *
  */
 public class CallLogContentObserver extends ContentObserver {

@@ -4,6 +4,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
+/**
+ * 
+ * @author Camille Sevigny
+ *
+ */
 public class CalendarReceiver extends BroadcastReceiver{
 
 	//================================================================================

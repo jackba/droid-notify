@@ -26,6 +26,9 @@ import android.widget.TextView;
 
 /**
  * This is the main activity that runs the notifications.
+ * 
+ * @author Camille Sevigny
+ *
  */
 public class NotificationActivity extends Activity {
 

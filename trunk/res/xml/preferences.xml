@@ -47,7 +47,7 @@
 			android:title="@string/preference_about"
       		android:summary="@string/preference_about_summary"
       		android:dialogMessage="@string/preference_about_text"
-      		android:positiveButtonText="Ok"
+      		android:positiveButtonText="OK"
       		android:negativeButtonText="@null" />
       	</PreferenceCategory>
 </PreferenceScreen>

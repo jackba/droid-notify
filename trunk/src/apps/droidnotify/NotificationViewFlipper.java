@@ -12,6 +12,8 @@ import android.view.animation.TranslateAnimation;
 import android.widget.ViewFlipper;
 
 /**
+ * 
+ * @author Camille Sevigny
  *
  */
 public class NotificationViewFlipper extends ViewFlipper {

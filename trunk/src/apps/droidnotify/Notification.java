@@ -19,7 +19,7 @@ import android.telephony.SmsMessage.MessageClass;
 
 /**
  * 
- * @author csevigny
+ * @author Camille Sevigny
  *
  */
 public class Notification {
