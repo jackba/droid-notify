@@ -2,7 +2,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 	<PreferenceCategory
 		android:key="main_setting"
-		android:title="Main Setting">
+		android:title="Main Settings">
 	<CheckBoxPreference 
 		android:id="@+id/app_enabled" 
 		android:key="app_enabled_settings" 
@@ -16,7 +16,7 @@
 		android:title="Notification Settings">
 		<PreferenceScreen
 			android:key="notifications_enabled_settings"
-			android:title="Notifications Enabled">
+			android:title="Notifications">
 			<CheckBoxPreference 
 				android:key="sms_notifications_enabled" 
 				android:title="@string/preference_sms_enabled_title" 
