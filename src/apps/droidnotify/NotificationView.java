@@ -27,6 +27,8 @@ import android.widget.TextView;
 
 /**
  * 
+ * @author Camille Sevigny
+ *
  */
 public class NotificationView extends LinearLayout {
 

@@ -7,6 +7,9 @@ import android.content.SharedPreferences;
 
 /**
  * This class listens for incoming text messages.
+ * 
+ * @author Camille Sevigny
+ *
  */
 public class SMSReceiver extends BroadcastReceiver{
 	

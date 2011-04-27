@@ -2,7 +2,7 @@ package apps.droidnotify;
 
 /**
  * 
- * @author csevigny
+ * @author Camille Sevigny
  *
  */
 public class Log {

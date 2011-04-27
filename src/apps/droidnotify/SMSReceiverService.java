@@ -15,6 +15,9 @@ import android.telephony.TelephonyManager;
 
 /**
  * This class listens for incoming text messages and triggers the event.
+ * 
+ * @author Camille Sevigny
+ *
  */
 public class SMSReceiverService extends Service {
 

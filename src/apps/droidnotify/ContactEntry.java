@@ -14,6 +14,11 @@ import android.provider.ContactsContract;
 import android.provider.ContactsContract.Contacts;
 import android.telephony.PhoneNumberUtils;
 
+/**
+ * 
+ * @author Camille Sevigny
+ *
+ */
 public class ContactEntry {
 
 	//================================================================================

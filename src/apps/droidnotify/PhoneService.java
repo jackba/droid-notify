@@ -18,6 +18,11 @@ import android.os.PowerManager;
 import android.os.Process;
 import android.telephony.TelephonyManager;
 
+/**
+ * 
+ * @author Camille Sevigny
+ *
+ */
 public class PhoneService extends Service {
 
 	//================================================================================
