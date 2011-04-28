@@ -24,6 +24,8 @@ public class Log {
 
 	/**
 	 *  Get logTag property.
+	 *  
+	 *  @return _logTag
 	 */
 	public static String getLogTag(){
 		return _logTag;
@@ -31,6 +33,8 @@ public class Log {
 
 	/**
 	 *  Get debug property.
+	 *  
+	 *  @return _debug
 	 */
 	public static boolean getDebug(){
 		return _debug;
@@ -42,6 +46,7 @@ public class Log {
 	
 	/**
 	 *  Add an entry to the Android LogCat log under the V (Verbose) type.
+	 *  
 	 *  @param msg
 	 */
 	public static void v(String msg) {
@@ -50,6 +55,7 @@ public class Log {
 	
 	/**
 	 *  Add an entry to the Android LogCat log under the D (Debug) type.
+	 *  
 	 *  @param msg
 	 */
 	public static void d(String msg) {
@@ -58,6 +64,7 @@ public class Log {
 	
 	/**
 	 *  Add an entry to the Android LogCat log under the I (Info) type.
+	 *  
 	 *  @param msg
 	 */
 	public static void i(String msg) {
@@ -66,6 +73,7 @@ public class Log {
 	
 	/**
 	 *  Add an entry to the Android LogCat log under the W (Warning) type.
+	 *  
 	 *  @param msg
 	 */
 	public static void w(String msg) {
@@ -74,6 +82,7 @@ public class Log {
 	
 	/**
 	 *  Add an entry to the Android LogCat log under the E (Error) type.
+	 *  
 	 *  @param msg
 	 */
 	public static void e(String msg) {

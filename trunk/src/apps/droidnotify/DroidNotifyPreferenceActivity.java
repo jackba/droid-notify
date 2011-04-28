@@ -4,11 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
-import android.preference.CheckBoxPreference;
 import android.preference.PreferenceActivity;
-import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
-import android.widget.TextView;
 
 /**
  * 
@@ -54,6 +51,8 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 
 	/**
 	 * Set the context property.
+	 * 
+	 * @param context
 	 */
 	public void setContext(Context context) {
 		if (Log.getDebug()) Log.v("DroidNotifyPreferenceActivity.setContext()");
@@ -62,6 +61,8 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 	
 	/**
 	 * Get the context property.
+	 * 
+	 * @return context
 	 */
 	public Context getContext() {
 		if (Log.getDebug()) Log.v("DroidNotifyPreferenceActivity.getContext()");
@@ -73,7 +74,7 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 	//================================================================================
 	
 	/**
-	 * 
+	 * The preference Activity was created.
 	 * 
 	 * @param savedInstanceState
 	 */
@@ -106,7 +107,7 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 	//================================================================================
 	
 	/**
-	 * 
+	 * Activity was resumed after it was stopped or paused.
 	 */
 	@Override
 	protected void onResume() {
@@ -117,7 +118,7 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 	}
 	
 	/**
-	 * 
+	 * Activity was paused due to a new Activity being started or other reason.
 	 */
     @Override
     protected void onPause() {
@@ -126,7 +127,25 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
         // Unregister the SharedPreferenceChanged listener.            
         getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this); 
     }
-	
+	  
+	/**
+	 * Activity was stopped due to a new Activity being started or other reason.
+	 */
+	@Override
+	protected void onStop() {
+	    super.onStop();
+	    if (Log.getDebug()) Log.v("DroidNotifyPreferenceActivity.onStop()");
+	}
+	  
+	/**
+	 * Activity was stopped and closed out completely.
+	 */
+	@Override
+	protected void onDestroy() {
+	    super.onDestroy();
+	    if (Log.getDebug()) Log.v("DroidNotifyPreferenceActivity.onDestroy()");
+	}
+    
 	/**
 	 * When a SharedPreference is changed this registered function is called.
 	 * 
@@ -143,7 +162,7 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 	//================================================================================
 	
 	/**
-	 * 
+	 * Updates the preference screens to disable or enable certain options based on the current preference settings.
 	 * 
 	 * @param sharedPreferences
 	 * @param key
