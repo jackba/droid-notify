@@ -5,6 +5,7 @@
     <string name="app_name">DroidNotify</string>
     <string name="app_name_formatted">Droid Notify</string>
     <string name="app_name_formatted_version">Droid Notify v0.9</string>
+    <string name="app_settings_text">Settings</string>
     <string name="app_version">v0.9</string>
     <string name="message_at_text">New message at %s</string>
     <string name="missed_call_at_text">Missed call at %s</string>

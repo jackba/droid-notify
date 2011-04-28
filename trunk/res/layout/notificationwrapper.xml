@@ -18,8 +18,9 @@
 	      	android:background="@android:drawable/btn_default_small"
 	      	android:layout_alignParentLeft="true"
 	      	android:layout_alignParentTop="true"
-	      	android:text="&lt;"
-	      	android:id="@+id/previous_button"
+	      	android:text=""
+	      	android:id="@+id/previous_button" 
+			android:drawableLeft="@drawable/ic_menu_back"
 	      	android:layout_width="50dip" />
 	    <TextView android:textAppearance="?android:attr/textAppearanceMedium" 
 	    	android:text="0/0" 
@@ -35,8 +36,9 @@
 	      	android:background="@android:drawable/btn_default_small"
 	      	android:layout_alignParentRight="true"
 	      	android:layout_alignParentTop="true"
-	      	android:text="&gt;"
-	      	android:id="@+id/next_button"
+	      	android:text=""
+	      	android:id="@+id/next_button" 
+			android:drawableRight="@drawable/ic_menu_forward"
 	      	android:layout_width="50dip" />
 <!-- 	
 		<Button
