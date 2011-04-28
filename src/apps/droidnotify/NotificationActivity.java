@@ -10,11 +10,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Display;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -38,6 +41,8 @@ public class NotificationActivity extends Activity {
 	
 	private final double WIDTH = 0.9;
 	private final int MAX_WIDTH = 640;
+	
+	private final int MENU_ITEM_SETTINGS = R.id.app_settings;
 	
 	private final int NOTIFICATION_TYPE_PHONE = 0;
 	private final int NOTIFICATION_TYPE_SMS = 1;
@@ -75,6 +80,25 @@ public class NotificationActivity extends Activity {
 	  
 	/**
 	 * Set the notificationViewFlipper property.
+	 * 
+	 * @param bundle
+	 */
+	public void setBundle(Bundle bundle) {
+		if (Log.getDebug()) Log.v("NotificationActivity.setBundle()");
+	    _bundle = bundle;
+	}
+	
+	/**
+	 * Get the notificationViewFlipper property.
+	 */
+	public Bundle getBundle() {
+		if (Log.getDebug()) Log.v("NotificationActivity.getBundle()");
+	    return _bundle;
+	}  
+	/**
+	 * Set the notificationViewFlipper property.
+	 * 
+	 * @param notificationViewFlipper
 	 */
 	public void setNotificationViewFlipper(NotificationViewFlipper notificationViewFlipper) {
 		if (Log.getDebug()) Log.v("NotificationActivity.setNotificationViewFlipper()");
@@ -91,6 +115,8 @@ public class NotificationActivity extends Activity {
 	  
 	/**
 	 * Set the previousButton property.
+	 * 
+	 * @param mainActivityLayout
 	 */
 	public void setMainActivityLayout(LinearLayout mainActivityLayout) {
 		if (Log.getDebug()) Log.v("NotificationActivity.setMainActivityLayout()");
@@ -107,6 +133,8 @@ public class NotificationActivity extends Activity {
 	  
 	/**
 	 * Set the previousButton property.
+	 * 
+	 * @param previousButton
 	 */
 	public void setPreviousButton(Button previousButton) {
 		if (Log.getDebug()) Log.v("NotificationActivity.setPreviousButton()");
@@ -123,6 +151,8 @@ public class NotificationActivity extends Activity {
 	
 	/**
 	 * Set the nextButton property.
+	 * 
+	 * @param nextButton
 	 */
 	public void setNextButton(Button nextButton) {
 		if (Log.getDebug()) Log.v("NotificationActivity.setNextButton()");
@@ -139,6 +169,8 @@ public class NotificationActivity extends Activity {
 
 	/**
 	 * Set the notificationCountTextView property.
+	 * 
+	 * @param notificationCountTextView
 	 */
 	public void setNotificationCountTextView(TextView notificationCountTextView) {
 		if (Log.getDebug()) Log.v("NotificationActivity.setNotificationCountTextView()");
@@ -155,6 +187,8 @@ public class NotificationActivity extends Activity {
 
 	/**
 	 * Set the inputMethodManager property.
+	 * 
+	 * @param inputMethodManager
 	 */
 	public void setInputMethodManager(InputMethodManager inputMethodManager) {
 		if (Log.getDebug()) Log.v("NotificationActivity.setInputMethodManager()");
@@ -171,6 +205,8 @@ public class NotificationActivity extends Activity {
 
 	/**
 	 * Set the softKeyboardTriggerView property.
+	 * 
+	 * @param softKeyboardTriggerView
 	 */
 	public void setSoftKeyboardTriggerView(View softKeyboardTriggerView) {
 		if (Log.getDebug()) Log.v("NotificationActivity.setSoftKeyboardTriggerView()");
@@ -191,6 +227,34 @@ public class NotificationActivity extends Activity {
 	//================================================================================
   
 	/**
+	 * Creates the menu item for this activity.
+	 * 
+	 * @param menu
+	 */
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.menu, menu);
+	    return true;
+	}
+	
+	/**
+	 * Handle the users selecting of the menu items.
+	 * 
+	 * @param item
+	 */
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    // Handle item selection
+	    switch (item.getItemId()) {
+	    case MENU_ITEM_SETTINGS:
+	        launchPreferenceScreen();
+	        return true;
+	    }
+	    return false;
+	}
+	
+	/**
 	 * 
 	 */
 	@Override
@@ -204,10 +268,8 @@ public class NotificationActivity extends Activity {
 	 */
 	@Override
 	public void onSaveInstanceState(Bundle saveBundle) {
-	    super.onSaveInstanceState(saveBundle);
+		super.onSaveInstanceState(saveBundle);
 	    if (Log.getDebug()) Log.v("NotificationActivity.onSaveInstanceState()");
-	    // Save values from most recent bundle.
-	    saveBundle.putAll(_bundle);
 	}
 	
 	/**
@@ -285,9 +347,11 @@ public class NotificationActivity extends Activity {
 	 * Called when the activity is created. Set up views and notifications.
 	 */
 	@Override
-	protected void onCreate(Bundle b) {
-		super.onCreate(b);
+	protected void onCreate(Bundle bundle) {
+		super.onCreate(bundle);
 	    if (Log.getDebug()) Log.v("NotificationActivity.onCreate()");
+	    //Initialize properties.
+	    setBundle(bundle);
 		//Read preferences and end activity early if app is disabled.
 	    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 	    if(!preferences.getBoolean(APP_ENABLED_KEY, true)){
@@ -295,8 +359,8 @@ public class NotificationActivity extends Activity {
 			finishActivity();
 			return;
 		}
-	    Bundle bundle = getIntent().getExtras();
-	    int notificationType = bundle.getInt("notificationType");
+	    Bundle extrasBundle = getIntent().getExtras();
+	    int notificationType = extrasBundle.getInt("notificationType");
 	    if (Log.getDebug()) Log.v("NotificationActivity.onCreate() Notification Type: " + notificationType);
 	    requestWindowFeature(Window.FEATURE_NO_TITLE);
 	    setContentView(R.layout.notificationwrapper);    
@@ -309,7 +373,7 @@ public class NotificationActivity extends Activity {
 				finishActivity();
 				return;
 			}
-	    	setupMissedCalls(bundle);
+	    	setupMissedCalls(extrasBundle);
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_SMS){
 		    if (Log.getDebug()) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_SMS");
@@ -319,7 +383,7 @@ public class NotificationActivity extends Activity {
 				finishActivity();
 				return;
 			}
-		    setupMessages(bundle);
+		    setupMessages(extrasBundle);
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_MMS){
 	    	if (Log.getDebug()) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_MMS");
@@ -355,7 +419,7 @@ public class NotificationActivity extends Activity {
 	}
 	  
 	/**
-	 * 
+	 * Activity was resumed after it was stopped or paused.
 	 */
 	@Override
 	protected void onResume() {
@@ -365,28 +429,29 @@ public class NotificationActivity extends Activity {
 	}
 	  
 	/**
-	 * 
+	 * Activity was paused due to a new Activity being started or other reason.
 	 */
 	@Override
 	protected void onPause() {
 	    super.onPause();
 	    if (Log.getDebug()) Log.v("NotificationActivity.onPause()");
 	    hideSoftKeyboard();
-	 // TODO - NotificationActivity.onPause()
+	    // TODO - NotificationActivity.onPause()  
 	}
 	  
 	/**
-	 * 
+	 * Activity was stopped due to a new Activity being started or other reason.
 	 */
 	@Override
 	protected void onStop() {
 	    super.onStop();
 	    if (Log.getDebug()) Log.v("NotificationActivity.onStop()");
+	    hideSoftKeyboard();
 	    // TODO - NotificationActivity.onStop()
 	}
 	  
 	/**
-	 * 
+	 * Activity was stopped and closed out completely.
 	 */
 	@Override
 	protected void onDestroy() {
@@ -396,7 +461,7 @@ public class NotificationActivity extends Activity {
 	}
 
 	/**
-	 * Create Dialog
+	 * Create new Dialog.
 	 */
 	@Override
 	protected Dialog onCreateDialog(int id) {
@@ -404,9 +469,9 @@ public class NotificationActivity extends Activity {
 		AlertDialog alert = null;
 		switch (id) {
 		  	
-	      /*
-	       * Delete message dialog
-	       */
+	        /*
+	         * Delete confirmation dialog.
+	         */
 			case DIALOG_DELETE_MESSAGE:
 				if (Log.getDebug()) Log.v("NotificationActivity.onCreateDialog() DIALOG_DELETE_MESSAGE");
 				AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -424,158 +489,6 @@ public class NotificationActivity extends Activity {
 						}
 					});
 				alert = builder.create();
-
-//			/**
-//		     * Reply Dialog
-//		     */
-//		  	case DIALOG_REPLY:
-//		    	LayoutInflater factory = getLayoutInflater();
-//		        final View qrLayout = factory.inflate(R.layout.message_quick_reply, null);
-//		        qrEditText = (EditText) qrLayout.findViewById(R.id.QuickReplyEditText);
-//		        final TextView qrCounterTextView =
-//		          (TextView) qrLayout.findViewById(R.id.QuickReplyCounterTextView);
-//		        final Button qrSendButton = (Button) qrLayout.findViewById(R.id.send_button);
-//	
-//		        final ImageButton voiceRecognitionButton =
-//		          (ImageButton) qrLayout.findViewById(R.id.SpeechRecogButton);
-//	
-//		        voiceRecognitionButton.setOnClickListener(new OnClickListener() {
-//		          public void onClick(View view) {
-//		            final Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-//		            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-//		                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-//	
-//		            // Check if the device has the ability to do speech recognition
-//		            final PackageManager packageManager = SmsPopupActivity.this.getPackageManager();
-//		            List<ResolveInfo> list = packageManager.queryIntentActivities(intent, 0);
-//	
-//		            if (list.size() > 0) {
-//		              // TODO: really I should allow voice input here without unlocking first (I allow
-//		              // quick replies without unlock anyway)
-//		              exitingKeyguardSecurely = true;
-//		              ManageKeyguard.exitKeyguardSecurely(new LaunchOnKeyguardExit() {
-//		                public void LaunchOnKeyguardExitSuccess() {
-//		                  SmsPopupActivity.this.startActivityForResult(intent,
-//		                      VOICE_RECOGNITION_REQUEST_CODE);
-//		                }
-//		              });
-//		            } else {
-//		              Toast.makeText(SmsPopupActivity.this, R.string.error_no_voice_recognition,
-//		                  Toast.LENGTH_LONG).show();
-//		              view.setEnabled(false);
-//		            }
-//		          }
-//		        });
-//	
-//		        qrEditText.addTextChangedListener(new QmTextWatcher(this, qrCounterTextView, qrSendButton));
-//		        qrEditText.setOnEditorActionListener(new OnEditorActionListener() {
-//		          public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-//	
-//		            // event != null means enter key pressed
-//		            if (event != null) {
-//		              // if shift is not pressed then move focus to send button
-//		              if (!event.isShiftPressed()) {
-//		                if (v != null) {
-//		                  View focusableView = v.focusSearch(View.FOCUS_RIGHT);
-//		                  if (focusableView != null) {
-//		                    focusableView.requestFocus();
-//		                    return true;
-//		                  }
-//		                }
-//		              }
-//	
-//		              // otherwise allow keypress through
-//		              return false;
-//		            }
-//	
-//		            if (actionId == EditorInfo.IME_ACTION_SEND) {
-//		              if (v != null) {
-//		                sendQuickReply(v.getText().toString());
-//		              }
-//		              return true;
-//		            }
-//	
-//		            // else consume
-//		            return true;
-//		          }
-//		        });
-//	
-//		        quickreplyTextView = (TextView) qrLayout.findViewById(R.id.QuickReplyTextView);
-//		        QmTextWatcher.getQuickReplyCounterText(
-//		            qrEditText.getText().toString(), qrCounterTextView, qrSendButton);
-//	
-//		        qrSendButton.setOnClickListener(new OnClickListener() {
-//		          public void onClick(View v) {
-//		            sendQuickReply(qrEditText.getText().toString());
-//		          }
-//		        });
-//	
-//		        // Construct basic AlertDialog using AlertDialog.Builder
-//		        final AlertDialog qrAlertDialog = new AlertDialog.Builder(this)
-//		        .setIcon(android.R.drawable.ic_dialog_email)
-//		        .setTitle(R.string.quickreply_title)
-//		        .create();
-//	
-//		        // Set the custom layout with no spacing at the bottom
-//		        qrAlertDialog.setView(qrLayout, 0, 5, 0, 0);
-//	
-//		        // Preset messages button
-//		        Button presetButton = (Button) qrLayout.findViewById(R.id.PresetMessagesButton);
-//		        presetButton.setOnClickListener(new OnClickListener() {
-//		          public void onClick(View v) {
-//		            showDialog(DIALOG_PRESET_MSG);
-//		          }
-//		        });
-//	
-//		        // Cancel button
-//		        Button cancelButton = (Button) qrLayout.findViewById(R.id.CancelButton);
-//		        cancelButton.setOnClickListener(new OnClickListener() {
-//		          public void onClick(View v) {
-//		            if (qrAlertDialog != null) {
-//		              hideSoftKeyboard();
-//		              qrAlertDialog.dismiss();
-//		            }
-//		          }
-//		        });
-//	
-//		        // Ensure this dialog is counted as "editable" (so soft keyboard will always show on top)
-//		        qrAlertDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
-//	
-//		        qrAlertDialog.setOnDismissListener(new OnDismissListener() {
-//		          public void onDismiss(DialogInterface dialog) {
-//		            if (Log.getDebug()) Log.v("Quick Reply Dialog: onDissmiss()");
-//		          }
-//		        });
-//	
-//		        // Update quick reply views now that they have been created
-//		        updateQuickReplyView("");
-//	
-//		        /*
-//		         * TODO: due to what seems like a bug, setting selection to 0 here doesn't seem to work
-//		         * but setting it to 1 first then back to 0 does.  I couldn't find a way around this :|
-//		         * To reproduce, comment out the below line and set a quick reply signature, when
-//		         * clicking Quick Reply the cursor will be positioned at the end of the EditText
-//		         * rather than the start.
-//		         */
-//		        if (qrEditText.getText().toString().length() > 0) qrEditText.setSelection(1);
-//	
-//		        qrEditText.setSelection(0);
-//	
-//		        return qrAlertDialog;
-//
-//
-//	        /*
-//	         * Loading Dialog
-//	         */
-//	      case DIALOG_LOADING:
-//	        mProgressDialog = new ProgressDialog(this);
-//	        mProgressDialog.setMessage(getString(R.string.loading_message));
-//	        mProgressDialog.setIndeterminate(true);
-//	        mProgressDialog.setCancelable(true);
-//	        return mProgressDialog;
-		        
-//		default:
-//			alert = null;
 		}
 		return alert;
 	}
@@ -587,30 +500,11 @@ public class NotificationActivity extends Activity {
 	protected void onPrepareDialog(int id, Dialog dialog) {
 	    super.onPrepareDialog(id, dialog);
 	    if (Log.getDebug()) Log.v("NotificationActivity.onPrepareDialog()");
-//	    // User interacted so remove all locks and cancel reminders
-//	    ClearAllReceiver.removeCancel(getApplicationContext());
-//	    ClearAllReceiver.clearAll(false);
-//	    ReminderReceiver.cancelReminder(getApplicationContext());
-//
-//	    switch (id) {
-//	      case DIALOG_QUICKREPLY:
-//	        showSoftKeyboard(qrEditText);
-//
-//	        // Set width of dialog to fill_parent
-//	        LayoutParams mLP = dialog.getWindow().getAttributes();
-//
-//	        // TODO: this should be limited in case the screen is large
-//	        mLP.width = LayoutParams.FILL_PARENT;
-//	        dialog.getWindow().setAttributes(mLP);
-//	        break;
-//
-//	      case DIALOG_PRESET_MSG:
-//	        break;
-//	    }
+	    //TODO  - NotificationActivity.onPrepareDialog()
 	}
 
 	/**
-	 * Handle the results from the recognition activity.
+	 * 
 	 */
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -790,6 +684,16 @@ public class NotificationActivity extends Activity {
 	private void deleteMessage(){
 		if (Log.getDebug()) Log.v("NotificationActivity.deleteMessage()");
 		getNotificationViewFlipper().deleteMessage();
+	}
+	
+	/**
+	 * Launches the preferences screen as new intent.
+	 */
+	private void launchPreferenceScreen(){
+		if (Log.getDebug()) Log.v("NotificationActivity.launchPreferenceScreen()");
+		Context context = getApplicationContext();
+		Intent intent = new Intent(context, DroidNotifyPreferenceActivity.class);
+		startActivity(intent);
 	}
 
 }
