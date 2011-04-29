@@ -2,17 +2,17 @@ package apps.droidnotify;
 
 import java.io.InputStream;
 
-import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.CallLog;
+import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.telephony.SmsMessage;
 import android.telephony.SmsMessage.MessageClass;
@@ -33,6 +33,21 @@ public class Notification {
 	private final int NOTIFICATION_TYPE_MMS = 2;
 	private final int NOTIFICATION_TYPE_CALENDAR = 3;
 	private final int NOTIFICATION_TYPE_EMAIL = 4;
+	
+	final String SMS_DISMISS_KEY = "sms_dismiss_button_action";
+	final String MMS_DISMISS_KEY = "mms_dismiss_button_action";
+	final String MISSED_CALL_DISMISS_KEY = "missed_call_dismiss_button_action";
+	final String SMS_DELETE_KEY = "sms_delete_button_action";
+	final String MMS_DELETE_KEY = "mms_delete_button_action";
+	final String SMS_DISMISS_ACTION_MARK_READ = "0";
+	final String SMS_DELETE_ACTION_DELETE_MESSAGE = "0";
+	final String SMS_DELETE_ACTION_DELETE_THREAD = "1";
+	final String MMS_DISMISS_ACTION_MARK_READ = "0";
+	final String MMS_DELETE_ACTION_DELETE_MESSAGE = "0";
+	final String MMS_DELETE_ACTION_DELETE_THREAD = "1";
+	final String MISSED_CALL_DISMISS_ACTION_MARK_READ = "0";
+	final String MISSED_CALL_DISMISS_ACTION_DELETE = "1";
+
 	
 	//================================================================================
     // Properties
@@ -237,7 +252,10 @@ public class Notification {
 	 * Get the threadID property.
 	 */
 	public long getThreadID() {
-		if (Log.getDebug()) Log.v("Notification.getThreadID()");
+		if(_threadID == 0){
+			loadThreadID(getContext(), getPhoneNumber());
+		}
+		if (Log.getDebug()) Log.v("Notification.getThreadID() ThreadID: " + _threadID);
 	    return _threadID;
 	}	
 	
@@ -413,16 +431,36 @@ public class Notification {
 	 */
 	public void setViewed(boolean isViewed){
 		if (Log.getDebug()) Log.v("Notification.setViewed()");
-    	if(getNotificationType() == NOTIFICATION_TYPE_PHONE){
-    		setCallViewed(isViewed);
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+		int notificationType = getNotificationType();
+		if (Log.getDebug()) Log.v("Notification.setViewed() Preference Value: " + preferences.getString(MISSED_CALL_DISMISS_KEY, "0"));
+    	if(notificationType == NOTIFICATION_TYPE_PHONE){
+    		//Action is determined by the users preferences. 
+    		//Either mark the call log as viewed, delete the call log entry, or do nothing to the call log entry.
+    		if(preferences.getString(MISSED_CALL_DISMISS_KEY, "0").equals(MISSED_CALL_DISMISS_ACTION_MARK_READ)){
+    			setCallViewed(isViewed);
+    		}else if(preferences.getString(MISSED_CALL_DISMISS_KEY, "0").equals(MISSED_CALL_DISMISS_ACTION_DELETE)){
+    			deleteFromCallLog();
+    		}
 	    }
-    	if(getNotificationType() == NOTIFICATION_TYPE_SMS || getNotificationType() == NOTIFICATION_TYPE_MMS){
-    		setMessageRead(isViewed);
+    	if(notificationType == NOTIFICATION_TYPE_SMS){
+    		//Action is determined by the users preferences. 
+    		//Either mark the message as viewed or do nothing to the message.
+    		if(preferences.getString(SMS_DISMISS_KEY, "0").equals(SMS_DISMISS_ACTION_MARK_READ)){
+    			setMessageRead(isViewed);
+    		}
     	}
-	    if(getNotificationType() == NOTIFICATION_TYPE_CALENDAR){
+    	if(getNotificationType() == NOTIFICATION_TYPE_MMS){
+    		//Action is determined by the users preferences. 
+    		//Either mark the message as viewed or do nothing to the message.
+    		if(preferences.getString(MMS_DISMISS_KEY, "0").equals(MMS_DISMISS_ACTION_MARK_READ)){
+    			setMessageRead(isViewed);
+    		}
+    	}
+	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
 	    	//TODO - Notification.setViewed() - NOTIFICATION_TYPE_CALENDAR Set the notification as being viewed on the phone.
 	    }
-	    if(getNotificationType() == NOTIFICATION_TYPE_EMAIL){
+	    if(notificationType == NOTIFICATION_TYPE_EMAIL){
 	    	//TODO - Notification.setViewed() - NOTIFICATION_TYPE_EMAIL Set the notification as being viewed on the phone.
 	    }
 	}
@@ -432,32 +470,61 @@ public class Notification {
 	 */
 	public void deleteMessage(){
 		if (Log.getDebug()) Log.v("Notification.deleteMessage()");
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+		int notificationType = getNotificationType();
+		//Decide what to do here based on the users preferences.
+		//Delete the single message, delete the entire thread, or do nothing.
+		boolean deleteThread = false;
+		boolean deleteMessage = false;
+		if(notificationType == NOTIFICATION_TYPE_SMS){
+			if(preferences.getString(SMS_DELETE_KEY, "0").equals(SMS_DELETE_ACTION_DELETE_MESSAGE)){
+				deleteThread = false;
+				deleteMessage = true;
+			}else if(preferences.getString(SMS_DELETE_KEY, "0").equals(SMS_DELETE_ACTION_DELETE_THREAD)){
+				deleteThread = true;
+				deleteMessage = false;
+			}
+		}else if(notificationType == NOTIFICATION_TYPE_MMS){
+			if(preferences.getString(MMS_DELETE_KEY, "0").equals(MMS_DELETE_ACTION_DELETE_MESSAGE)){
+				deleteThread = false;
+				deleteMessage = true;
+			}else if(preferences.getString(MMS_DELETE_KEY, "0").equals(MMS_DELETE_ACTION_DELETE_THREAD)){
+				deleteThread = true;
+				deleteMessage = false;
+			}
+		}
+		Context context = getContext();
 		long threadID = getThreadID();
 		if(threadID == 0){
 			if (Log.getDebug()) Log.v("Notification.deleteMessage() Thread ID == 0. Load Thread ID");
-			loadThreadID(getContext(), getPhoneNumber());
+			loadThreadID(context, getPhoneNumber());
 			threadID = getThreadID();
 		}
 		long messageID = getMessageID();
 		if(messageID == 0){
 			if (Log.getDebug()) Log.v("Notification.deleteMessage() Message ID == 0. Load Message ID");
-			loadMessageID(getContext(), getThreadID(), getMessageBody(), getTimeStamp());
+			loadMessageID(context, getThreadID(), getMessageBody(), getTimeStamp());
 			messageID = getMessageID();
 		}
-		//Delete entire SMS thread.
-		//if (Log.getDebug()) Log.v("Notification.deleteMessage() Delete Thread ID: " + threadID);
-		//Delete from URI "content://sms/conversations/"
-		//getContext().getContentResolver().delete(
-		//	Uri.parse("content://sms/conversations/" + threadID), 
-		//	null, 
-		//	null);
-		//Delete single message.
-		if (Log.getDebug()) Log.v("Notification.deleteMessage() Delete Message ID: " + messageID);
-		//Delete from URI "content://sms"
-		getContext().getContentResolver().delete(
-				Uri.parse("content://sms/" + messageID),
-				null, 
-				null);
+		if(deleteMessage || deleteThread){
+			if(deleteThread){
+				//Delete entire SMS thread.
+				if (Log.getDebug()) Log.v("Notification.deleteMessage() Delete Thread ID: " + threadID);
+				//Delete from URI "content://sms/conversations/"
+				context.getContentResolver().delete(
+						Uri.parse("content://sms/conversations/" + threadID), 
+						null, 
+						null);
+			}else{
+				//Delete single message.
+				if (Log.getDebug()) Log.v("Notification.deleteMessage() Delete Message ID: " + messageID);
+				//Delete from URI "content://sms"
+				context.getContentResolver().delete(
+						Uri.parse("content://sms/" + messageID),
+						null, 
+						null);
+			}
+		}
 	}
 	
 	//================================================================================
@@ -640,6 +707,19 @@ public class Notification {
 		getContext().getContentResolver().update(
 				Uri.parse("content://call_log/calls"),
 				contentValues,
+				selection, 
+				selectionArgs);
+	}
+	
+	/**
+	 * Delete the call log entry.
+	 */
+	private void deleteFromCallLog(){
+		if (Log.getDebug()) Log.v("Notification.deleteFromCallLog()");
+		String selection = android.provider.CallLog.Calls.NUMBER + " = ? and " + android.provider.CallLog.Calls.DATE + " = ?";
+		String[] selectionArgs = new String[] {getPhoneNumber(), Long.toString(getTimeStamp())};
+		getContext().getContentResolver().delete(
+				Uri.parse("content://call_log/calls"),
 				selection, 
 				selectionArgs);
 	}
