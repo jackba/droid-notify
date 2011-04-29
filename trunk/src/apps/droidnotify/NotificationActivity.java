@@ -9,6 +9,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.ContextMenu;
@@ -47,6 +49,10 @@ public class NotificationActivity extends Activity {
 	private final int NOTIFICATION_TYPE_CALENDAR = 3;
 	private final int NOTIFICATION_TYPE_EMAIL = 4;
 	
+    public final int INCOMING_CALL_TYPE = android.provider.CallLog.Calls.INCOMING_TYPE;
+    public final int OUTGOING_CALL_TYPE = android.provider.CallLog.Calls.OUTGOING_TYPE;
+    public final int MISSED_CALL_TYPE = android.provider.CallLog.Calls.MISSED_TYPE;
+	
 	static final int DIALOG_DELETE_MESSAGE = 0;
 
 	final String APP_ENABLED_KEY = "app_enabled_settings";
@@ -54,11 +60,23 @@ public class NotificationActivity extends Activity {
 	final String MMS_NOTIFICATIONS_ENABLED_KEY = "mms_notifications_enabled";
 	final String MISSED_CALL_NOTIFICATIONS_ENABLED_KEY = "missed_call_notifications_enabled";
 	
+	final String SMS_DELETE_KEY = "sms_delete_button_action";
+	final String MMS_DELETE_KEY = "mms_delete_button_action";
+	final String SMS_DISMISS_ACTION_MARK_READ = "0";
+	final String SMS_DELETE_ACTION_DELETE_MESSAGE = "0";
+	final String SMS_DELETE_ACTION_DELETE_THREAD = "1";
+	final String SMS_DELETE_ACTION_NOTHING = "2";
+	final String MMS_DISMISS_ACTION_MARK_READ = "0";
+	final String MMS_DELETE_ACTION_DELETE_MESSAGE = "0";
+	final String MMS_DELETE_ACTION_DELETE_THREAD = "1";
+	final String MMS_DELETE_ACTION_NOTHING = "2";
+	
 	//================================================================================
     // Properties
     //================================================================================
 
 	private Bundle _bundle = null;
+	private Context _context = null;
 	private NotificationViewFlipper _notificationViewFlipper = null;
 	private LinearLayout _mainActivityLayout = null;
 	private Button _previousButton = null;
@@ -93,7 +111,28 @@ public class NotificationActivity extends Activity {
 	public Bundle getBundle() {
 		if (Log.getDebug()) Log.v("NotificationActivity.getBundle()");
 	    return _bundle;
-	}  
+	} 
+
+	/**
+	 * Set the context property.
+	 * 
+	 * @param context
+	 */
+	public void setContext(Context context) {
+		if (Log.getDebug()) Log.v("DroidNotifyPreferenceActivity.setContext()");
+	    _context = context;
+	}
+	
+	/**
+	 * Get the context property.
+	 * 
+	 * @return context
+	 */
+	public Context getContext() {
+		if (Log.getDebug()) Log.v("DroidNotifyPreferenceActivity.getContext()");
+	    return _context;
+	}
+	
 	/**
 	 * Set the notificationViewFlipper property.
 	 * 
@@ -358,7 +397,23 @@ public class NotificationActivity extends Activity {
 	 */
 	public void showDeleteDialog(){
 		if (Log.getDebug()) Log.v("NotificationActivity.showDeleteDialog()");
-		showDialog(DIALOG_DELETE_MESSAGE);
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+		int notificationType = getNotificationViewFlipper().getActiveMessage().getNotificationType();
+		if(notificationType == NOTIFICATION_TYPE_SMS){
+			if(preferences.getString(SMS_DELETE_KEY, "0").equals(SMS_DELETE_ACTION_NOTHING)){
+				//Remove the notification from the ViewFlipper
+				deleteMessage();
+			}else{
+				showDialog(DIALOG_DELETE_MESSAGE);
+			}
+		}else if(notificationType == NOTIFICATION_TYPE_MMS){
+			if(preferences.getString(MMS_DELETE_KEY, "0").equals(MMS_DELETE_ACTION_NOTHING)){
+				//Remove the notification from the ViewFlipper
+				deleteMessage();
+			}else{
+				showDialog(DIALOG_DELETE_MESSAGE);
+			}
+		}
 	}
     
 	//================================================================================
@@ -376,6 +431,7 @@ public class NotificationActivity extends Activity {
 	    if (Log.getDebug()) Log.v("NotificationActivity.onCreate()");
 	    //Initialize properties.
 	    setBundle(bundle);
+	    setContext(getApplicationContext());
 		//Read preferences and end activity early if app is disabled.
 	    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 	    if(!preferences.getBoolean(APP_ENABLED_KEY, true)){
@@ -397,7 +453,7 @@ public class NotificationActivity extends Activity {
 				finishActivity();
 				return;
 			}
-	    	setupMissedCalls(extrasBundle);
+	    	setupMissedCalls(extrasBundle, false);
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_SMS){
 		    if (Log.getDebug()) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_SMS");
@@ -491,6 +547,8 @@ public class NotificationActivity extends Activity {
 	@Override
 	protected Dialog onCreateDialog(int id) {
 		if (Log.getDebug()) Log.v("NotificationActivity.onCreateDialog()");
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+		int notificationType = getNotificationViewFlipper().getActiveMessage().getNotificationType();
 		AlertDialog alertDialog = null;
 		switch (id) {
 		  	
@@ -502,7 +560,21 @@ public class NotificationActivity extends Activity {
 				AlertDialog.Builder builder = new AlertDialog.Builder(this);
 				builder.setIcon(android.R.drawable.ic_dialog_alert);
 				builder.setTitle(getString(R.string.delete_message_dialog_title_text));
-				builder.setMessage(getString(R.string.delete_message_dialog_text));
+				//Action is determined by the users preferences. 
+				//Either show the 
+				if(notificationType == NOTIFICATION_TYPE_SMS){
+					if(preferences.getString(SMS_DELETE_KEY, "0").equals(SMS_DELETE_ACTION_DELETE_MESSAGE)){
+						builder.setMessage(getString(R.string.delete_message_dialog_text));
+					}else if(preferences.getString(SMS_DELETE_KEY, "0").equals(SMS_DELETE_ACTION_DELETE_THREAD)){
+						builder.setMessage(getString(R.string.delete_thread_dialog_text));
+					}
+				}else if(notificationType == NOTIFICATION_TYPE_MMS){
+					if(preferences.getString(MMS_DELETE_KEY, "0").equals(MMS_DELETE_ACTION_DELETE_MESSAGE)){
+						builder.setMessage(getString(R.string.delete_message_dialog_text));
+					}else if(preferences.getString(MMS_DELETE_KEY, "0").equals(MMS_DELETE_ACTION_DELETE_THREAD)){
+						builder.setMessage(getString(R.string.delete_thread_dialog_text));
+					}
+				}
 				builder.setPositiveButton(R.string.delete_button_text, new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
 							deleteMessage();
@@ -566,7 +638,7 @@ public class NotificationActivity extends Activity {
 				if (Log.getDebug()) Log.v("NotificationActivity.onNewIntent() Missed Call Notifications Disabled.");
 				return;
 			}
-	    	setupMissedCalls(extrasBundle);
+	    	setupMissedCalls(extrasBundle, true);
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_SMS){
 		    if (Log.getDebug()) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_SMS");
@@ -642,9 +714,9 @@ public class NotificationActivity extends Activity {
 	 * 
 	 * @param bundle
 	 */
-	private void setupMissedCalls(Bundle bundle){
+	private void setupMissedCalls(Bundle bundle, boolean newIntent){
 		if (Log.getDebug()) Log.v("NotificationActivity.setupMissedCalls()");   
-		ArrayList<String> missedCallsArray = bundle.getStringArrayList("missedCallsArray");
+		ArrayList<String> missedCallsArray = getMissedCalls(newIntent);
 		for(int i=0; i< missedCallsArray.size(); i++){
 			String[] missedCallInfo = missedCallsArray.get(i).split("\\|");
 			if (Log.getDebug()) Log.v("NotificationActivity.setupMissedCalls() MissedCallInfo: " + missedCallsArray.get(i));
@@ -775,6 +847,51 @@ public class NotificationActivity extends Activity {
 		Context context = getApplicationContext();
 		Intent intent = new Intent(context, DroidNotifyPreferenceActivity.class);
 		startActivity(intent);
+	}
+
+	/**
+	 * Query the call log and check for any missed calls.
+	 * 
+	 * @param isNewIntent
+	 * 
+	 * @return ArrayList<String>
+	 */
+	private ArrayList<String> getMissedCalls(boolean isNewIntent){
+		if (Log.getDebug()) Log.v("NotificationActivity.getMissedCalls() IsNewIntent? " + isNewIntent);
+		ArrayList<String> missedCallsArray = new ArrayList<String>();
+		final String[] projection = null;
+		final String selection = null;
+		final String[] selectionArgs = null;
+		final String sortOrder = "DATE DESC";
+	    Cursor cursor = getContext().getContentResolver().query(
+	    		Uri.parse("content://call_log/calls"),
+	    		projection,
+	    		selection,
+				selectionArgs,
+				sortOrder);
+	    if (cursor != null) {
+	    	//TODO - Possible Bug - call log might not have been updated with the last call when we check it. I am not sure how to handle that case yet.
+	    	while (cursor.moveToNext()) { 
+	    		String callNumber = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.NUMBER));
+	    		String callDate = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.DATE));
+	    		String callType = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.TYPE));
+	    		String isCallNew = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.NEW));
+	    		if (Log.getDebug()) Log.v("NotificationActivity.getMissedCalls() Checking Call: " + callNumber + " Received At: " + callDate + " Call Type: " + callType + " Is Call New? " + isCallNew);
+	    		if(Integer.parseInt(callType) == MISSED_CALL_TYPE && Integer.parseInt(isCallNew) > 0){
+    				if (Log.getDebug()) Log.v("NotificationActivity.getMissedCalls() Missed Call Found: " + callNumber);
+    				//Store missed call numbers and dates in an array.
+    				String missedCallInfo = callNumber + "|" + callDate;
+    				missedCallsArray.add(missedCallInfo);
+    				if(isNewIntent){
+    					break;
+    				}
+    			}else{
+    				break;
+    			}
+	    	}
+	    	cursor.close();
+	    }
+	    return missedCallsArray;
 	}
 
 }
