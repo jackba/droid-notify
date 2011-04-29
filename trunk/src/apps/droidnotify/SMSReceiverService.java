@@ -38,7 +38,7 @@ public class SMSReceiverService extends Service {
 	private ServiceHandler SMSServiceHandler;
     private Looper SMSServiceLooper;
 	private static Object SMSStartingServiceSync = new Object();
-	private static PowerManager.WakeLock SMSStartingServiceWakeLock;
+	private static PowerManager.WakeLock _wakeLock;
 	
 	//================================================================================
 	// Constructors
@@ -128,13 +128,14 @@ public class SMSReceiverService extends Service {
 	public static void startSMSMonitoringService(Context context, Intent intent){
 		synchronized (SMSStartingServiceSync) {
 			if (Log.getDebug()) Log.v("SMSReceiverService.startSMSMonitoringService()");
-			if (SMSStartingServiceWakeLock == null) {
+			PowerManager.WakeLock wakeLock = _wakeLock;
+			if (wakeLock == null) {
 				PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-				SMSStartingServiceWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "DroidNotify.SMSReceiverService");
-				SMSStartingServiceWakeLock.setReferenceCounted(false);
+				wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "DroidNotify.SMSReceiverService");
+				wakeLock.setReferenceCounted(false);
 			}
-			if (Log.getDebug()) Log.v("SMSReceiverService.startSMSMonitoringService() Aquireing wake lock");
-			SMSStartingServiceWakeLock.acquire();
+			if (Log.getDebug()) Log.v("SMSReceiverService.startSMSMonitoringService() Aquired wake lock");
+			wakeLock.acquire();
 			if (Log.getDebug()) Log.v("SMSReceiverService.startSMSMonitoringService() Starting service with intent");
 			context.startService(intent);
 		}
@@ -146,9 +147,10 @@ public class SMSReceiverService extends Service {
 	public static void finishSMSMonitoringService(Service service, int startId) {
 		synchronized (SMSStartingServiceSync) {
 	    	if (Log.getDebug()) Log.v("SMSReceiverService.finishSMSMonitoringService()");
-    		if (SMSStartingServiceWakeLock != null) {
+	    	PowerManager.WakeLock wakeLock = _wakeLock;
+    		if (wakeLock != null) {
     			if (service.stopSelfResult(startId)) {
-    				SMSStartingServiceWakeLock.release();
+    				wakeLock.release();
     			}
     		}
 		}

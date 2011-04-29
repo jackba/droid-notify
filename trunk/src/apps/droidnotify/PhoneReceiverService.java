@@ -38,7 +38,7 @@ public class PhoneReceiverService extends Service {
 	private ServiceHandler PhoneServiceHandler;
     private Looper PhoneServiceLooper;
 	private static Object PhoneStartingServiceSync = new Object();
-	private static PowerManager.WakeLock PhoneStartingServiceWakeLock;
+	private static PowerManager.WakeLock _wakeLock;
 	
 	//================================================================================
 	// Constructors
@@ -128,13 +128,14 @@ public class PhoneReceiverService extends Service {
 	public static void startPhoneMonitoringService(Context context, Intent intent){
 		synchronized (PhoneStartingServiceSync) {
 			if (Log.getDebug()) Log.v("PhoneReceiverService.startPhoneMonitoringService()");
-			if (PhoneStartingServiceWakeLock == null) {
+			PowerManager.WakeLock wakeLock = _wakeLock;
+			if (wakeLock == null) {
 				PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-				PhoneStartingServiceWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "DroidNotify.PhoneService");
-				PhoneStartingServiceWakeLock.setReferenceCounted(false);
+				wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "DroidNotify.PhoneService");
+				wakeLock.setReferenceCounted(false);
 			}
-			if (Log.getDebug()) Log.v("PhoneReceiverService.startPhoneMonitoringService() Aquireing wake lock");
-			PhoneStartingServiceWakeLock.acquire();
+			if (Log.getDebug()) Log.v("PhoneReceiverService.startPhoneMonitoringService() Aquired wake lock");
+			wakeLock.acquire();
 			if (Log.getDebug()) Log.v("PhoneReceiverService.startPhoneMonitoringService() Starting service with intent");
 			context.startService(intent);
 		}
@@ -146,9 +147,10 @@ public class PhoneReceiverService extends Service {
 	public static void finishPhoneMonitoringService(Service service, int startId) {
 		synchronized (PhoneStartingServiceSync) {
 	    	if (Log.getDebug()) Log.v("PhoneReceiverService.finishPhoneMonitoringService()");
-    		if (PhoneStartingServiceWakeLock != null) {
+	    	PowerManager.WakeLock wakeLock = _wakeLock;
+    		if (wakeLock != null) {
     			if (service.stopSelfResult(startId)) {
-    				PhoneStartingServiceWakeLock.release();
+    				wakeLock.release();
     			}
     		}
 		}

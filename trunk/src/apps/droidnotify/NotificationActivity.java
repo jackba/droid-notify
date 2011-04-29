@@ -12,6 +12,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -20,6 +21,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.view.Window;
 import android.widget.Button;
@@ -55,10 +57,13 @@ public class NotificationActivity extends Activity {
 	
 	static final int DIALOG_DELETE_MESSAGE = 0;
 
-	final String APP_ENABLED_KEY = "app_enabled_settings";
+	final String APP_ENABLED_KEY = "app_enabled";
 	final String SMS_NOTIFICATIONS_ENABLED_KEY = "sms_notifications_enabled";
 	final String MMS_NOTIFICATIONS_ENABLED_KEY = "mms_notifications_enabled";
 	final String MISSED_CALL_NOTIFICATIONS_ENABLED_KEY = "missed_call_notifications_enabled";
+	final String SCREEN_ENABLED_KEY = "screen_enabled";
+	final String SCREEN_DIM_ENABLED_KEY = "screen_dim_enabled";
+	final String KEYGUARD_ENABLED_KEY = "keyguard_enabled";
 	
 	final String SMS_DELETE_KEY = "sms_delete_button_action";
 	final String MMS_DELETE_KEY = "mms_delete_button_action";
@@ -77,6 +82,7 @@ public class NotificationActivity extends Activity {
 
 	private Bundle _bundle = null;
 	private Context _context = null;
+	private PowerManager.WakeLock _wakeLock;
 	private NotificationViewFlipper _notificationViewFlipper = null;
 	private LinearLayout _mainActivityLayout = null;
 	private Button _previousButton = null;
@@ -112,6 +118,27 @@ public class NotificationActivity extends Activity {
 		if (Log.getDebug()) Log.v("NotificationActivity.getBundle()");
 	    return _bundle;
 	} 
+
+	/**
+	 * Set the wakeLock property.
+	 * 
+	 * @param wakeLock
+	 */
+	public void setWakeLock(PowerManager.WakeLock wakeLock) {
+		if (Log.getDebug()) Log.v("DroidNotifyPreferenceActivity.setWakeLock()");
+		_wakeLock = wakeLock;
+	}
+	
+	/**
+	 * Get the wakeLock property.
+	 * 
+	 * @return wakeLock
+	 */
+	public PowerManager.WakeLock getWakeLock() {
+		if (Log.getDebug()) Log.v("DroidNotifyPreferenceActivity.getWakeLock()");
+	    return _wakeLock;
+	}
+
 
 	/**
 	 * Set the context property.
@@ -308,51 +335,6 @@ public class NotificationActivity extends Activity {
 	    }
 	    return false;
 	}
-	
-//	/**
-//	 * 
-//	 * 
-//	 * @param hasFocus
-//	 */
-//	@Override
-//	public void onWindowFocusChanged(boolean hasFocus) {
-//	    super.onWindowFocusChanged(hasFocus);
-//	    if (Log.getDebug()) Log.v("NotificationActivity.onWindowFocusChanged() Value: " + hasFocus);
-//	}
-//	  
-//	/**
-//	 * Saves the current state of the Activity when the activity is paused or stopped.
-//	 * 
-//	 * @param saveBundle
-//	 */
-//	@Override
-//	public void onSaveInstanceState(Bundle saveBundle) {
-//		super.onSaveInstanceState(saveBundle);
-//	    if (Log.getDebug()) Log.v("NotificationActivity.onSaveInstanceState()");
-//	}
-//	
-//	/**
-//	 * 
-//	 * 
-//	 * @param restoreBundle
-//	 */
-//	@Override
-//	public void onRestoreInstanceState(Bundle restoreBundle){
-//		super.onRestoreInstanceState(restoreBundle);
-//		//TODO - NotificationActivity().onRestoreInstanceState()
-//	}
-//	
-//	/**
-//	 * 
-//	 * 
-//	 * @param newConfig
-//	 */
-//	@Override
-//	public void onConfigurationChanged(Configuration newConfig) {
-//	    super.onConfigurationChanged(newConfig);
-//	    if (Log.getDebug()) Log.v("NotificationActivity.onConfigurationChanged()");
-//	    //TODO - NotificationActivity().onConfigurationChanged()
-//	}
 
 	/**
 	 * Create Context Menu (Long-press menu)
@@ -380,6 +362,8 @@ public class NotificationActivity extends Activity {
 	 */
 	public void finishActivity() {
 		if (Log.getDebug()) Log.v("NotificationActivity.finishActivity()");
+		//Release the WakeLock
+		//releaseWakeLock();
 	    // Finish the activity.
 	    finish();
 	}
@@ -429,9 +413,10 @@ public class NotificationActivity extends Activity {
 	protected void onCreate(Bundle bundle) {
 		super.onCreate(bundle);
 	    if (Log.getDebug()) Log.v("NotificationActivity.onCreate()");
+	    Context context = getApplicationContext();
 	    //Initialize properties.
 	    setBundle(bundle);
-	    setContext(getApplicationContext());
+	    setContext(context);
 		//Read preferences and end activity early if app is disabled.
 	    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 	    if(!preferences.getBoolean(APP_ENABLED_KEY, true)){
@@ -443,6 +428,14 @@ public class NotificationActivity extends Activity {
 	    int notificationType = extrasBundle.getInt("notificationType");
 	    if (Log.getDebug()) Log.v("NotificationActivity.onCreate() Notification Type: " + notificationType);
 	    requestWindowFeature(Window.FEATURE_NO_TITLE);
+	    //Remove the phone's KeyGuard based on the users preferences.
+	    if(preferences.getBoolean(KEYGUARD_ENABLED_KEY, true)){
+	    	getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+	    }
+	    //Apply the WakeLock settings based on the users preferences.
+	    
+	    //getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+	    
 	    setContentView(R.layout.notificationwrapper);    
 	    setupViews(notificationType);
 	    if(notificationType == NOTIFICATION_TYPE_PHONE){
@@ -483,8 +476,8 @@ public class NotificationActivity extends Activity {
 	    	if (Log.getDebug()) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_EMAIL");
 	    	//TODO - Email Message
 	    }
-	    // wake up app (turn on screen and run notification)
-	    //wakeApp();
+	    //Acquire WakeLock
+	    //acquireWakeLock(context);
 	}
 
 	  
@@ -551,7 +544,7 @@ public class NotificationActivity extends Activity {
 		int notificationType = getNotificationViewFlipper().getActiveMessage().getNotificationType();
 		AlertDialog alertDialog = null;
 		switch (id) {
-		  	
+
 	        /*
 	         * Delete confirmation dialog.
 	         */
@@ -590,26 +583,6 @@ public class NotificationActivity extends Activity {
 		}
 		return alertDialog;
 	}
-	  
-//	/**
-//	 * 
-//	 */
-//	@Override
-//	protected void onPrepareDialog(int id, Dialog dialog) {
-//	    super.onPrepareDialog(id, dialog);
-//	    if (Log.getDebug()) Log.v("NotificationActivity.onPrepareDialog()");
-//	    //TODO  - NotificationActivity.onPrepareDialog()
-//	}
-//
-//	/**
-//	 * 
-//	 */
-//	@Override
-//	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//	    super.onActivityResult(requestCode, resultCode, data);
-//	    if (Log.getDebug()) Log.v("NotificationActivity.onActivityResult()");
-//	    //TODO  - NotificationActivity.onActivityResult()
-//	}
 
     /**
      * This is called when the activity is running and it is triggered and run again for a different notification.
@@ -622,6 +595,7 @@ public class NotificationActivity extends Activity {
 	    super.onNewIntent(intent);
 	    if (Log.getDebug()) Log.v("NotificationActivity.onNewIntent()");
 	    setIntent(intent);
+	    Context context = getContext();
 	    //Read preferences and end activity early if app is disabled.
 	    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 	    if(!preferences.getBoolean(APP_ENABLED_KEY, true)){
@@ -668,6 +642,8 @@ public class NotificationActivity extends Activity {
 	    	if (Log.getDebug()) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_EMAIL");
 	    	//TODO - Email Message
 	    }
+	    //Acquire WakeLock
+	    //acquireWakeLock(context);
 	}
 	
 	//================================================================================
@@ -681,12 +657,10 @@ public class NotificationActivity extends Activity {
 	 */ 
 	private void setupViews(int notificationType) {
 		if (Log.getDebug()) Log.v("NotificationActivity.setupViews()");
-
 		setNotificationViewFlipper((NotificationViewFlipper) findViewById(R.id.notification_view_flipper));
 		setPreviousButton((Button) findViewById(R.id.previous_button));
 		setNextButton((Button) findViewById(R.id.next_button));
 		setNotificationCountTextView((TextView) findViewById(R.id.notification_count_text_view));
-	
 		// Previous Button
 		getPreviousButton().setOnClickListener(new OnClickListener() {
 		    public void onClick(View v) {
@@ -695,7 +669,6 @@ public class NotificationActivity extends Activity {
 		    	updateNavigationButtons(getPreviousButton(), getNotificationCountTextView(), getNextButton(), getNotificationViewFlipper());
 		    }
 		});
-		
 		// Next Button
 		getNextButton().setOnClickListener(new OnClickListener() {
 		    public void onClick(View v) {
@@ -704,9 +677,7 @@ public class NotificationActivity extends Activity {
 		    	updateNavigationButtons(getPreviousButton(), getNotificationCountTextView(), getNextButton(), getNotificationViewFlipper());
 		    }
 		});
-		
-		initNavigationButtons();
-	    
+		initNavigationButtons();	    
 	}
 	
 	/**
@@ -893,5 +864,61 @@ public class NotificationActivity extends Activity {
 	    }
 	    return missedCallsArray;
 	}
-
+	
+	/**
+	 * Acquires the WakeLock for this Activity.
+	 * The type flags for the WakeLock will be determined by the user preferences. 
+	 * 
+	 * @param context
+	 */
+	private void acquireWakeLock(Context context){
+		if (Log.getDebug()) Log.v("NotificationActivity.acquireWakeLock()");
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+		PowerManager pm = (PowerManager)context.getSystemService(Context.POWER_SERVICE);
+		PowerManager.WakeLock wakeLock = null;
+		//Set the wakeLock properties based on the users preferences.
+		if(preferences.getBoolean(SCREEN_ENABLED_KEY, true)){
+			if(preferences.getBoolean(SCREEN_DIM_ENABLED_KEY, true)){
+				if (Log.getDebug()) Log.v("NotificationActivity.acquireWakeLock() Screen Wake Enabled Dim");
+				wakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, "DroidNotify.NotificationActivity");
+			}else{
+				if (Log.getDebug()) Log.v("NotificationActivity.acquireWakeLock() Screen Wake Enabled Full");
+				wakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, "DroidNotify.NotificationActivity");
+			}
+		}else{
+			if (Log.getDebug()) Log.v("NotificationActivity.acquireWakeLock() Screen Wake Disabled");
+			wakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "DroidNotify.NotificationActivity");
+		}
+		if (Log.getDebug()) Log.v("NotificationActivity.acquireWakeLock() Aquired wake lock");
+		wakeLock.acquire();
+		setWakeLock(wakeLock);
+	}
+	
+	/**
+	 * Release the WakeLock.
+	 */
+	private void releaseWakeLock(){
+		if (Log.getDebug()) Log.v("NotificationActivity.releaseWakeLock()");
+		getWakeLock().release();
+	}
+	
+//	/**
+//	 * Removes the KeyGuard for this Activity.
+//	 * The removal of the KeyGuard will be determined by the user preferences. 
+//	 * 
+//	 * @param context
+//	 */
+//	private void removeKeyGuard(Context context){
+//		if (Log.getDebug()) Log.v("NotificationActivity.removeKeyGuard()");
+//		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+//		KeyguardManager km = (KeyguardManager)getSystemService(Context.KEYGUARD_SERVICE);
+//		PowerManager.WakeLock wakeLock = null;
+//		//Set the wakeLock properties based on the users preferences.
+//		if(preferences.getBoolean(KEYGUARD_ENABLED_KEY, true)){
+//			myLock = km.newKeyguardLock();
+//			myLock.disableKeyguard();
+//		}
+//		setWakeLock(wakeLock);
+//	}
+	
 }

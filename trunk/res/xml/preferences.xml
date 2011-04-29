@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 	<PreferenceCategory
-		android:key="main_setting"
+		android:key="main_setting_category"
 		android:title="General">
-	<CheckBoxPreference 
-		android:id="@+id/app_enabled" 
-		android:key="app_enabled_settings" 
+	<CheckBoxPreference
+		android:key="app_enabled" 
         android:title="@string/preference_appenabled_title" 
         android:summaryOn="@string/preference_appenabled_summaryOn" 
         android:summaryOff="@string/preference_appenabled_summaryOff" 
-        android:defaultValue="true" /> 
+        android:defaultValue="true" />
   	</PreferenceCategory>
 	<PreferenceCategory
 		android:key="notification_settings"
 		android:title="Notification Settings">
 		<PreferenceScreen
 			android:key="notifications_enabled_settings"
-			android:title="Notifications">
+			android:title="Notifications"
+			android:dependency="app_enabled">
 			<PreferenceCategory
-				android:key="sms_notification_settings"
+				android:key="sms_notification_settings_category"
 				android:title="SMS Notifications">
 				<CheckBoxPreference 
 					android:key="sms_notifications_enabled" 
@@ -28,7 +28,8 @@
 					android:defaultValue="true" />
 				<PreferenceScreen
 					android:key="sms_button_settings"
-					android:title="SMS Button Settings">
+					android:title="SMS Button Settings"
+					android:dependency="sms_notifications_enabled">
 					<ListPreference
 						android:key="sms_dismiss_button_action"
 						android:title="Dismiss Button Action"
@@ -53,7 +54,7 @@
 				</PreferenceScreen>
   			</PreferenceCategory>
 			<PreferenceCategory
-				android:key="mms_notification_settings"
+				android:key="mms_notification_settings_category"
 				android:title="MMS Notifications">
 				<CheckBoxPreference 
 					android:key="mms_notifications_enabled" 
@@ -63,7 +64,8 @@
 					android:defaultValue="true" />
 				<PreferenceScreen
 					android:key="mms_button_settings"
-					android:title="MMS Button Settings">
+					android:title="MMS Button Settings"
+					android:dependency="mms_notifications_enabled">
 					<ListPreference
 						android:key="mms_dismiss_button_action"
 						android:title="Dismiss Button Action"
@@ -88,7 +90,7 @@
 				</PreferenceScreen>
   			</PreferenceCategory>
 			<PreferenceCategory
-				android:key="missed_call_notification_settings"
+				android:key="missed_call_notification_settings_category"
 				android:title="Missed Call Notifications">
 				<CheckBoxPreference 
 					android:key="missed_call_notifications_enabled" 
@@ -98,7 +100,8 @@
 					android:defaultValue="true" />
 				<PreferenceScreen
 					android:key="missed_call_button_settings"
-					android:title="Missed Call Button Settings">
+					android:title="Missed Call Button Settings"
+					android:dependency="missed_call_notifications_enabled">
 					<ListPreference
 						android:key="missed_call_dismiss_button_action"
 						android:title="Dismiss Button Action"
@@ -111,6 +114,33 @@
 		</PreferenceScreen>
   	</PreferenceCategory>
 	<PreferenceCategory
+		android:key="screen_settings_category"
+		android:title="Screen Settings">
+		<PreferenceScreen
+			android:key="screen_settings"
+			android:title="Screen Settings">
+			<CheckBoxPreference 
+				android:key="screen_enabled" 
+				android:title="@string/preference_screen_enabled_title" 
+				android:summaryOn="@string/preference_screen_enabled_summaryOn" 
+				android:summaryOff="@string/preference_screen_enabled_summaryOff" 
+				android:defaultValue="true" />
+			<CheckBoxPreference 
+				android:key="screen_dim_enabled" 
+				android:title="@string/preference_screen_dim_enabled_title" 
+				android:summaryOn="@string/preference_screen_dim_enabled_summaryOn" 
+				android:summaryOff="@string/preference_screen_dim_enabled_summaryOff" 
+				android:defaultValue="true"
+				android:dependency="screen_enabled" />
+			<CheckBoxPreference 
+				android:key="keyguard_enabled" 
+				android:title="@string/preference_keyguard_enabled_title" 
+				android:summaryOn="@string/preference_keyguard_enabled_summaryOn" 
+				android:summaryOff="@string/preference_keyguard_enabled_summaryOff" 
+				android:defaultValue="true" />
+		</PreferenceScreen>
+	</PreferenceCategory>
+	<PreferenceCategory
 		android:key="notification_info"
 		android:title="About">
   		<apps.droidnotify.preferences.AboutDialogPreference
@@ -122,5 +152,5 @@
       		android:dialogMessage="@string/preference_about_text"
       		android:positiveButtonText="OK"
       		android:negativeButtonText="@null" />
-      	</PreferenceCategory>
+	</PreferenceCategory>
 </PreferenceScreen>
