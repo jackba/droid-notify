@@ -54,4 +54,16 @@
    	<string name="preference_missed_call_enabled_summaryOn">Missed Call notifications are enabled</string>
    	<string name="preference_missed_call_enabled_summaryOff">Missed Call notifications are disabled</string>
 
+	<string name="preference_screen_enabled_title">Turn Screen On</string>
+   	<string name="preference_screen_enabled_summaryOn">The screen will turn on when a notification is shown</string>
+   	<string name="preference_screen_enabled_summaryOff">Screen will not turn on when notification is shown</string>
+
+	<string name="preference_screen_dim_enabled_title">Dim Screen</string>
+   	<string name="preference_screen_dim_enabled_summaryOn">Dim screen when it turns on (saves battery power)</string>
+   	<string name="preference_screen_dim_enabled_summaryOff">Screen will not dim</string>
+  
+ 	<string name="preference_keyguard_enabled_title">Unlock Phone</string>
+   	<string name="preference_keyguard_enabled_summaryOn">Unlock phone when a notification is shown</string>
+   	<string name="preference_keyguard_enabled_summaryOff">Do not unlock phone when a notification is shown</string>
+   	
 </resources>

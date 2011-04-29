@@ -38,7 +38,7 @@ public class MMSReceiverService extends Service {
 	private ServiceHandler MMSServiceHandler;
     private Looper MMSServiceLooper;
 	private static Object MMSStartingServiceSync = new Object();
-	private static PowerManager.WakeLock MMSStartingServiceWakeLock;
+	private static PowerManager.WakeLock _wakeLock;
 	
 	//================================================================================
 	// Constructors
@@ -128,13 +128,14 @@ public class MMSReceiverService extends Service {
 	public static void startMMSMonitoringService(Context context, Intent intent){
 		synchronized (MMSStartingServiceSync) {
 			if (Log.getDebug()) Log.v("MMSReceiverService.startMMSMonitoringService()");
-			if (MMSStartingServiceWakeLock == null) {
+			PowerManager.WakeLock wakeLock = _wakeLock;
+			if (wakeLock == null) {
 				PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-				MMSStartingServiceWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "DroidNotify.MMSReceiverService");
-				MMSStartingServiceWakeLock.setReferenceCounted(false);
+				wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "DroidNotify.MMSReceiverService");
+				wakeLock.setReferenceCounted(false);
 			}
-			if (Log.getDebug()) Log.v("MMSReceiverService.startMMSMonitoringService() Aquireing wake lock");
-			MMSStartingServiceWakeLock.acquire();
+			if (Log.getDebug()) Log.v("MMSReceiverService.startMMSMonitoringService() Aquired wake lock");
+			wakeLock.acquire();
 			if (Log.getDebug()) Log.v("MMSReceiverService.startMMSMonitoringService() Starting service with intent");
 			context.startService(intent);
 		}
@@ -146,9 +147,10 @@ public class MMSReceiverService extends Service {
 	public static void finishMMSMonitoringService(Service service, int startId) {
 		synchronized (MMSStartingServiceSync) {
 	    	if (Log.getDebug()) Log.v("MMSReceiverService.finishMMSMonitoringService()");
-    		if (MMSStartingServiceWakeLock != null) {
+	    	PowerManager.WakeLock wakeLock = _wakeLock;
+    		if (wakeLock != null) {
     			if (service.stopSelfResult(startId)) {
-    				MMSStartingServiceWakeLock.release();
+    				wakeLock.release();
     			}
     		}
 		}
