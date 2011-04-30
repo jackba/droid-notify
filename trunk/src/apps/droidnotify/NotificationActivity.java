@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.KeyguardManager;
+import android.app.KeyguardManager.KeyguardLock;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -83,6 +85,7 @@ public class NotificationActivity extends Activity {
 	private Bundle _bundle = null;
 	private Context _context = null;
 	private PowerManager.WakeLock _wakeLock;
+	private KeyguardLock _keyguardLock; 
 	private NotificationViewFlipper _notificationViewFlipper = null;
 	private LinearLayout _mainActivityLayout = null;
 	private Button _previousButton = null;
@@ -363,7 +366,7 @@ public class NotificationActivity extends Activity {
 	public void finishActivity() {
 		if (Log.getDebug()) Log.v("NotificationActivity.finishActivity()");
 		//Release the WakeLock
-		//releaseWakeLock();
+		releaseWakeLock();
 	    // Finish the activity.
 	    finish();
 	}
@@ -429,13 +432,11 @@ public class NotificationActivity extends Activity {
 	    if (Log.getDebug()) Log.v("NotificationActivity.onCreate() Notification Type: " + notificationType);
 	    requestWindowFeature(Window.FEATURE_NO_TITLE);
 	    //Remove the phone's KeyGuard based on the users preferences.
-	    if(preferences.getBoolean(KEYGUARD_ENABLED_KEY, true)){
-	    	getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
-	    }
+	    //if(preferences.getBoolean(KEYGUARD_ENABLED_KEY, true)){
+	    //	getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+	    //}
 	    //Apply the WakeLock settings based on the users preferences.
-	    
 	    //getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-	    
 	    setContentView(R.layout.notificationwrapper);    
 	    setupViews(notificationType);
 	    if(notificationType == NOTIFICATION_TYPE_PHONE){
@@ -477,7 +478,9 @@ public class NotificationActivity extends Activity {
 	    	//TODO - Email Message
 	    }
 	    //Acquire WakeLock
-	    //acquireWakeLock(context);
+	    acquireWakeLock(context);
+	    //Remove the KeyGuard
+	    disableKeyGuard(context);
 	}
 
 	  
@@ -506,6 +509,7 @@ public class NotificationActivity extends Activity {
 	protected void onPause() {
 	    super.onPause();
 	    if (Log.getDebug()) Log.v("NotificationActivity.onPause()");
+	    reenableKeyGuard(getContext());
 	    //hideSoftKeyboard();
 	    // TODO - NotificationActivity.onPause()  
 	}
@@ -517,6 +521,7 @@ public class NotificationActivity extends Activity {
 	protected void onStop() {
 	    super.onStop();
 	    if (Log.getDebug()) Log.v("NotificationActivity.onStop()");
+	    reenableKeyGuard(getContext());
 	    //hideSoftKeyboard();
 	    // TODO - NotificationActivity.onStop()
 	}
@@ -643,7 +648,9 @@ public class NotificationActivity extends Activity {
 	    	//TODO - Email Message
 	    }
 	    //Acquire WakeLock
-	    //acquireWakeLock(context);
+	    acquireWakeLock(context);
+	    //Remove the KeyGuard
+	    disableKeyGuard(context);
 	}
 	
 	//================================================================================
@@ -738,31 +745,7 @@ public class NotificationActivity extends Activity {
     	notificationCountTextView.setText( (notificationViewFlipper.getCurrentNotification() + 1) + "/" + notificationViewFlipper.getTotalNotifications());
     	nextButton.setEnabled(!notificationViewFlipper.isLastMessage()); 		
     }
-    
-//	/**
-//	 * Wake up the activity, this will acquire the wakelock (turn on the screen)
-//	 * and sound the notification if needed. This is called once all preparation
-//	 * is done for this activity (end of onCreate()).
-//	 */
-//	private void wakeApp() {
-//	    // Time to acquire a full WakeLock (turn on screen)
-//	    ManageWakeLock.acquireFull(getApplicationContext());
-//	    ManageWakeLock.releasePartial();
-//
-//	    replying = false;
-//	    inbox = false;
-//
-//	    // See if a notification has been played for this message...
-//	    if (mSmsPopups.getActiveMessage().getNotify()) {
-//	    	// Store extra to signify we have already notified for this message
-//	    	bundle.putBoolean(SmsMmsMessage.EXTRAS_NOTIFY, false);
-//	      	// Reset the reminderCount to 0 just to be sure
-//	      	mSmsPopups.getActiveMessage().updateReminderCount(0);
-//	      	// Run the notification
-//	      	ManageNotification.show(getApplicationContext(), mSmsPopups.getActiveMessage());
-//	    }
-//	}
-//	
+   
 //	/**
 //	 * Resize the notification to fit the screen.
 //	 * Makes the notification pretty.
@@ -902,23 +885,36 @@ public class NotificationActivity extends Activity {
 		getWakeLock().release();
 	}
 	
-//	/**
-//	 * Removes the KeyGuard for this Activity.
-//	 * The removal of the KeyGuard will be determined by the user preferences. 
-//	 * 
-//	 * @param context
-//	 */
-//	private void removeKeyGuard(Context context){
-//		if (Log.getDebug()) Log.v("NotificationActivity.removeKeyGuard()");
-//		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-//		KeyguardManager km = (KeyguardManager)getSystemService(Context.KEYGUARD_SERVICE);
-//		PowerManager.WakeLock wakeLock = null;
-//		//Set the wakeLock properties based on the users preferences.
-//		if(preferences.getBoolean(KEYGUARD_ENABLED_KEY, true)){
-//			myLock = km.newKeyguardLock();
-//			myLock.disableKeyguard();
-//		}
-//		setWakeLock(wakeLock);
-//	}
+	/**
+	 * Disables the KeyGuard for this Activity.
+	 * The removal of the KeyGuard will be determined by the user preferences. 
+	 * 
+	 * @param context
+	 */
+	private void disableKeyGuard(Context context){
+		if (Log.getDebug()) Log.v("NotificationActivity.removeKeyGuard()");
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+		KeyguardManager km = (KeyguardManager)getSystemService(Context.KEYGUARD_SERVICE);
+		KeyguardLock keyguardLock = _keyguardLock;
+		keyguardLock = km.newKeyguardLock(KEYGUARD_SERVICE); 
+		//Set the wakeLock properties based on the users preferences.
+		if(preferences.getBoolean(KEYGUARD_ENABLED_KEY, true)){
+			keyguardLock.disableKeyguard();
+		}
+	}
+
+	/**
+	 * Re-Enables the KeyGuard for this Activity. 
+	 * 
+	 * @param context
+	 */
+	private void reenableKeyGuard(Context context){
+		if (Log.getDebug()) Log.v("NotificationActivity.removeKeyGuard()");
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+		KeyguardManager km = (KeyguardManager)getSystemService(Context.KEYGUARD_SERVICE);
+		KeyguardLock keyguardLock = _keyguardLock;
+		keyguardLock = km.newKeyguardLock(KEYGUARD_SERVICE); 
+		keyguardLock.reenableKeyguard();
+	}
 	
 }
