@@ -521,7 +521,6 @@ public class NotificationActivity extends Activity {
 	protected void onStop() {
 	    super.onStop();
 	    if (Log.getDebug()) Log.v("NotificationActivity.onStop()");
-	    reenableKeyGuard(getContext());
 	    //hideSoftKeyboard();
 	    // TODO - NotificationActivity.onStop()
 	}
@@ -900,6 +899,8 @@ public class NotificationActivity extends Activity {
 		//Set the wakeLock properties based on the users preferences.
 		if(preferences.getBoolean(KEYGUARD_ENABLED_KEY, true)){
 			keyguardLock.disableKeyguard();
+			_keyguardLock = keyguardLock;
+			//reenableKeyGuard(getContext());
 		}
 	}
 
@@ -910,10 +911,7 @@ public class NotificationActivity extends Activity {
 	 */
 	private void reenableKeyGuard(Context context){
 		if (Log.getDebug()) Log.v("NotificationActivity.removeKeyGuard()");
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-		KeyguardManager km = (KeyguardManager)getSystemService(Context.KEYGUARD_SERVICE);
-		KeyguardLock keyguardLock = _keyguardLock;
-		keyguardLock = km.newKeyguardLock(KEYGUARD_SERVICE); 
+		KeyguardLock keyguardLock = _keyguardLock ;
 		keyguardLock.reenableKeyguard();
 	}
 	
