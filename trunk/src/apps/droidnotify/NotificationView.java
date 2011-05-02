@@ -290,6 +290,8 @@ public class NotificationView extends LinearLayout {
 	    setNotificationTypeInfo(notification);
 	    //Load the image from the users contacts.
 	    setNotificationImage(notification);
+	    //Add context menu items.
+	    setupContextMenus();
 	}
 	
 	/**
@@ -386,6 +388,8 @@ public class NotificationView extends LinearLayout {
 	    	// Load the placeholder image if the contact has no photo.
 	    	_photoImageView.setImageBitmap(getRoundedCornerBitmap(BitmapFactory.decodeResource(getContext().getResources(), R.drawable.ic_contact_picture), 5));
 	    }
+	    _photoImageView.setFocusable(true);
+	    _photoImageView.setClickable(true);
 	}
 	
 	/**
@@ -463,7 +467,15 @@ public class NotificationView extends LinearLayout {
 		getNotificationViewFlipper().showDeleteDialog();
 	}
 	
-	
+	/**
+	 * Setup the context menus for the various items on the notification window.
+	 */
+	private void setupContextMenus(){
+		if (Log.getDebug()) Log.v("NotificationActivity.setupContextMenus()"); 
+		Context context = getContext();
+		NotificationActivity notificationActivity = (NotificationActivity)context;
+		notificationActivity.registerForContextMenu(_photoImageView);
+	}
 	
 //	/**
 //	 * Take the user to the messaging application inbox.

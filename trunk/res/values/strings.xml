@@ -32,6 +32,8 @@
    	<string name="send_button_text">Send</string>
    	<string name="cancel_button_text">Cancel</string>
    	<string name="call_button_text">Call</string>
+   	<string name="view_contact_text">View Contact</string>
+   	<string name="add_contact_text">Add Contact</string>
    	
    	<!-- Preference Strings -->
    	<string name="preference_about">About</string>

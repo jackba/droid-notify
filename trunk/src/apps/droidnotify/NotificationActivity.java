@@ -27,9 +27,12 @@ import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.view.Window;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * This is the main activity that runs the notifications.
@@ -78,6 +81,11 @@ public class NotificationActivity extends Activity {
 	final String MMS_DELETE_ACTION_DELETE_MESSAGE = "0";
 	final String MMS_DELETE_ACTION_DELETE_THREAD = "1";
 	final String MMS_DELETE_ACTION_NOTHING = "2";
+	
+	final int CONTACT_PHOTO_IMAGE_VIEW = R.id.from_image_view;
+	
+	final int VIEW_CONTACT_CONTEXT_MENU = R.id.view_contact;
+	final int ADD_CONTACT_CONTEXT_MENU = R.id.add_contact;
 	
 	//================================================================================
     // Properties
@@ -337,7 +345,7 @@ public class NotificationActivity extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 	    MenuInflater inflater = getMenuInflater();
-	    inflater.inflate(R.menu.menu, menu);
+	    inflater.inflate(R.menu.optionsmenu, menu);
 	    return true;
 	}
 	
@@ -366,7 +374,17 @@ public class NotificationActivity extends Activity {
 	public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenuInfo contextMenuInfo) {
 	    super.onCreateContextMenu(contextMenu, view, contextMenuInfo);
 	    if (Log.getDebug()) Log.v("NotificationActivity.onCreateContextMenu()");
-	    //TODO - NotificationActivity().onCreateContextMenu()
+	    
+	    switch (view.getId()) {
+
+	        /*
+	         * Contact photo ConextMenu.
+	         */
+			case CONTACT_PHOTO_IMAGE_VIEW:
+				MenuInflater menuInflater = getMenuInflater();
+				menuInflater.inflate(R.menu.photocontextmenu, contextMenu);
+	    }
+		    
 	}
 
 	/**
@@ -375,8 +393,16 @@ public class NotificationActivity extends Activity {
 	@Override
 	public boolean onContextItemSelected(MenuItem menuItem) {
 		if (Log.getDebug()) Log.v("NotificationActivity.onContextItemSelected()");
-	    //TODO - NotificationActivity().onCreateContextMenu()
-		return super.onContextItemSelected(menuItem);
+		  switch (menuItem.getItemId()) {
+			  case VIEW_CONTACT_CONTEXT_MENU:
+				  Toast.makeText(getContext(), "This is the action for View Contact", 30).show();
+				  return true;
+			  case ADD_CONTACT_CONTEXT_MENU:
+				  Toast.makeText(getContext(), "This is the action for Add Contact", 30).show();
+				  return true;
+			  default:
+				  return super.onContextItemSelected(menuItem);
+		  }
 	}
 
 	/**
@@ -694,16 +720,20 @@ public class NotificationActivity extends Activity {
 	 */ 
 	private void setupViews(int notificationType) {
 		if (Log.getDebug()) Log.v("NotificationActivity.setupViews()");
-		setNotificationViewFlipper((NotificationViewFlipper) findViewById(R.id.notification_view_flipper));
-		setPreviousButton((Button) findViewById(R.id.previous_button));
-		setNextButton((Button) findViewById(R.id.next_button));
-		setNotificationCountTextView((TextView) findViewById(R.id.notification_count_text_view));
+		final NotificationViewFlipper notificationViewFlipper = (NotificationViewFlipper) findViewById(R.id.notification_view_flipper);
+		final Button previousButton = (Button) findViewById(R.id.previous_button);
+		final Button nextButton = (Button) findViewById(R.id.next_button);
+		final TextView notificationCountTextView = (TextView) findViewById(R.id.notification_count_text_view);
+		setNotificationViewFlipper(notificationViewFlipper);
+		setPreviousButton(previousButton);
+		setNextButton(nextButton);
+		setNotificationCountTextView(notificationCountTextView);
 		// Previous Button
 		getPreviousButton().setOnClickListener(new OnClickListener() {
 		    public void onClick(View v) {
 		    	if (Log.getDebug()) Log.v("Previous Button Clicked()");
 		    	getNotificationViewFlipper().showPrevious();
-		    	updateNavigationButtons(getPreviousButton(), getNotificationCountTextView(), getNextButton(), getNotificationViewFlipper());
+		    	updateNavigationButtons(previousButton, notificationCountTextView, nextButton, notificationViewFlipper);
 		    }
 		});
 		// Next Button
@@ -711,7 +741,7 @@ public class NotificationActivity extends Activity {
 		    public void onClick(View v) {
 		    	if (Log.getDebug()) Log.v("Next Button Clicked()");
 		    	getNotificationViewFlipper().showNext();
-		    	updateNavigationButtons(getPreviousButton(), getNotificationCountTextView(), getNextButton(), getNotificationViewFlipper());
+		    	updateNavigationButtons(previousButton, notificationCountTextView, nextButton, notificationViewFlipper);
 		    }
 		});
 		initNavigationButtons();	    
@@ -723,7 +753,11 @@ public class NotificationActivity extends Activity {
 	 * @param bundle
 	 */
 	private void setupMissedCalls(Bundle bundle, boolean newIntent){
-		if (Log.getDebug()) Log.v("NotificationActivity.setupMissedCalls()");   
+		if (Log.getDebug()) Log.v("NotificationActivity.setupMissedCalls()"); 
+		final NotificationViewFlipper notificationViewFlipper = getNotificationViewFlipper();
+		final Button previousButton = getPreviousButton();
+		final Button nextButton = getNextButton();
+		final TextView notificationCountTextView = getNotificationCountTextView();
 		ArrayList<String> missedCallsArray = getMissedCalls(newIntent);
 		for(int i=0; i< missedCallsArray.size(); i++){
 			String[] missedCallInfo = missedCallsArray.get(i).split("\\|");
@@ -737,7 +771,7 @@ public class NotificationActivity extends Activity {
 			if (Log.getDebug()) Log.v("NotificationActivity.setupMissedCalls() Adding misssed call to flipper");
 			getNotificationViewFlipper().addNotification(missedCallnotification);
 		}
-	    updateNavigationButtons(getPreviousButton(), getNotificationCountTextView(), getNextButton(), getNotificationViewFlipper());
+	    updateNavigationButtons(previousButton, notificationCountTextView, nextButton, notificationViewFlipper);
 	}
 	
 	/**
@@ -747,11 +781,15 @@ public class NotificationActivity extends Activity {
 	 */
 	private void setupMessages(Bundle bundle) {
 		if (Log.getDebug()) Log.v("NotificationActivity.setupMessages()");
+		final NotificationViewFlipper notificationViewFlipper = getNotificationViewFlipper();
+		final Button previousButton = getPreviousButton();
+		final Button nextButton = getNextButton();
+		final TextView notificationCountTextView = getNotificationCountTextView();
 	    // Create message from bundle.
 	    Notification smsMessage = new Notification(getApplicationContext(), bundle, NOTIFICATION_TYPE_SMS);
 	    if (Log.getDebug()) Log.v("NotificationActivity.setupMessages() Notification Phone Number: " + smsMessage.getPhoneNumber());
-	    getNotificationViewFlipper().addNotification(smsMessage);
-	    updateNavigationButtons(getPreviousButton(), getNotificationCountTextView(), getNextButton(), getNotificationViewFlipper());
+	    notificationViewFlipper.addNotification(smsMessage);
+	    updateNavigationButtons(previousButton, notificationCountTextView, nextButton, notificationViewFlipper);
 	}
 	
 	/**
@@ -759,7 +797,11 @@ public class NotificationActivity extends Activity {
 	 */
 	private void initNavigationButtons(){
 		if (Log.getDebug()) Log.v("NotificationActivity.initNavigationButtons()");
-		updateNavigationButtons(getPreviousButton(), getNotificationCountTextView(), getNextButton(), getNotificationViewFlipper());
+		final NotificationViewFlipper notificationViewFlipper = getNotificationViewFlipper();
+		final Button previousButton = getPreviousButton();
+		final Button nextButton = getNextButton();
+		final TextView notificationCountTextView = getNotificationCountTextView();
+		updateNavigationButtons(previousButton, notificationCountTextView, nextButton, notificationViewFlipper);
 	}  
 	  
 	/**
@@ -820,7 +862,8 @@ public class NotificationActivity extends Activity {
 	 */
 	private void deleteMessage(){
 		if (Log.getDebug()) Log.v("NotificationActivity.deleteMessage()");
-		getNotificationViewFlipper().deleteMessage();
+		NotificationViewFlipper notificationViewFlipper = getNotificationViewFlipper();
+		notificationViewFlipper.deleteMessage();
 	}
 	
 	/**

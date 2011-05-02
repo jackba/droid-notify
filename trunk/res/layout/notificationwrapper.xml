@@ -21,10 +21,10 @@
 	      	android:text=""
 	      	android:id="@+id/previous_button" 
 			android:drawableLeft="@drawable/ic_menu_back"
-	      	android:layout_width="50dip" />
+	      	android:layout_width="75dip" />
 	    <TextView android:textAppearance="?android:attr/textAppearanceMedium" 
 	    	android:text="0/0" 
-	    	android:layout_height="20dip" 
+	    	android:layout_height="50dip" 
 	    	android:id="@+id/notification_count_text_view" 
 	    	android:layout_toRightOf="@+id/previous_button" 
 	    	android:layout_alignParentTop="true"
@@ -39,7 +39,7 @@
 	      	android:text=""
 	      	android:id="@+id/next_button" 
 			android:drawableRight="@drawable/ic_menu_forward"
-	      	android:layout_width="50dip" />
+	      	android:layout_width="75dip" />
 <!-- 	
 		<Button
 	      	android:layout_height="wrap_content"
