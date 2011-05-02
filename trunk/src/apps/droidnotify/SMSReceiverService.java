@@ -145,8 +145,8 @@ public class SMSReceiverService extends Service {
 	 * Called back by the service when it has finished processing notifications.
 	 */
 	public static void finishSMSMonitoringService(Service service, int startId) {
+		if (Log.getDebug()) Log.v("SMSReceiverService.finishSMSMonitoringService()");
 		synchronized (SMSStartingServiceSync) {
-	    	if (Log.getDebug()) Log.v("SMSReceiverService.finishSMSMonitoringService()");
 	    	PowerManager.WakeLock wakeLock = _wakeLock;
     		if (wakeLock != null) {
     			if (service.stopSelfResult(startId)) {
