@@ -431,12 +431,12 @@ public class NotificationActivity extends Activity {
 	    int notificationType = extrasBundle.getInt("notificationType");
 	    if (Log.getDebug()) Log.v("NotificationActivity.onCreate() Notification Type: " + notificationType);
 	    requestWindowFeature(Window.FEATURE_NO_TITLE);
+	    //This does not work in Android Release 2.2 even though it should.
 	    //Remove the phone's KeyGuard based on the users preferences.
 	    //if(preferences.getBoolean(KEYGUARD_ENABLED_KEY, true)){
-	    //	getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+	    //getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD); 
+    	//getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
 	    //}
-	    //Apply the WakeLock settings based on the users preferences.
-	    //getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 	    setContentView(R.layout.notificationwrapper);    
 	    setupViews(notificationType);
 	    if(notificationType == NOTIFICATION_TYPE_PHONE){
@@ -481,6 +481,7 @@ public class NotificationActivity extends Activity {
 	    acquireWakeLock(context);
 	    //Remove the KeyGuard
 	    disableKeyGuard(context);
+	    //reenableKeyGuard(context);
 	}
 
 	  
@@ -500,6 +501,7 @@ public class NotificationActivity extends Activity {
 	protected void onResume() {
 	    super.onResume();
 	    if (Log.getDebug()) Log.v("NotificationActivity.onResume()");
+	    acquireWakeLock(getContext());
 	}
 	  
 	/**
@@ -509,8 +511,7 @@ public class NotificationActivity extends Activity {
 	protected void onPause() {
 	    super.onPause();
 	    if (Log.getDebug()) Log.v("NotificationActivity.onPause()");
-	    reenableKeyGuard(getContext());
-	    //hideSoftKeyboard();
+	    releaseWakeLock();
 	    // TODO - NotificationActivity.onPause()  
 	}
 	  
@@ -521,7 +522,6 @@ public class NotificationActivity extends Activity {
 	protected void onStop() {
 	    super.onStop();
 	    if (Log.getDebug()) Log.v("NotificationActivity.onStop()");
-	    //hideSoftKeyboard();
 	    // TODO - NotificationActivity.onStop()
 	}
 	  
@@ -650,6 +650,7 @@ public class NotificationActivity extends Activity {
 	    acquireWakeLock(context);
 	    //Remove the KeyGuard
 	    disableKeyGuard(context);
+	    //reenableKeyGuard(context);
 	}
 	
 	//================================================================================
@@ -857,19 +858,21 @@ public class NotificationActivity extends Activity {
 		if (Log.getDebug()) Log.v("NotificationActivity.acquireWakeLock()");
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
 		PowerManager pm = (PowerManager)context.getSystemService(Context.POWER_SERVICE);
-		PowerManager.WakeLock wakeLock = null;
-		//Set the wakeLock properties based on the users preferences.
-		if(preferences.getBoolean(SCREEN_ENABLED_KEY, true)){
-			if(preferences.getBoolean(SCREEN_DIM_ENABLED_KEY, true)){
-				if (Log.getDebug()) Log.v("NotificationActivity.acquireWakeLock() Screen Wake Enabled Dim");
-				wakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, "DroidNotify.NotificationActivity");
+		PowerManager.WakeLock wakeLock = getWakeLock();
+		if(wakeLock == null){
+			//Set the wakeLock properties based on the users preferences.
+			if(preferences.getBoolean(SCREEN_ENABLED_KEY, true)){
+				if(preferences.getBoolean(SCREEN_DIM_ENABLED_KEY, true)){
+					if (Log.getDebug()) Log.v("NotificationActivity.acquireWakeLock() Screen Wake Enabled Dim");
+					wakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, "DroidNotify.NotificationActivity");
+				}else{
+					if (Log.getDebug()) Log.v("NotificationActivity.acquireWakeLock() Screen Wake Enabled Full");
+					wakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, "DroidNotify.NotificationActivity");
+				}
 			}else{
-				if (Log.getDebug()) Log.v("NotificationActivity.acquireWakeLock() Screen Wake Enabled Full");
-				wakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, "DroidNotify.NotificationActivity");
+				if (Log.getDebug()) Log.v("NotificationActivity.acquireWakeLock() Screen Wake Disabled");
+				wakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "DroidNotify.NotificationActivity");
 			}
-		}else{
-			if (Log.getDebug()) Log.v("NotificationActivity.acquireWakeLock() Screen Wake Disabled");
-			wakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "DroidNotify.NotificationActivity");
 		}
 		if (Log.getDebug()) Log.v("NotificationActivity.acquireWakeLock() Aquired wake lock");
 		wakeLock.acquire();
@@ -881,7 +884,10 @@ public class NotificationActivity extends Activity {
 	 */
 	private void releaseWakeLock(){
 		if (Log.getDebug()) Log.v("NotificationActivity.releaseWakeLock()");
-		getWakeLock().release();
+		PowerManager.WakeLock wakelock = getWakeLock();
+		if(wakelock != null){
+			getWakeLock().release();
+		}
 	}
 	
 	/**
@@ -900,7 +906,6 @@ public class NotificationActivity extends Activity {
 		if(preferences.getBoolean(KEYGUARD_ENABLED_KEY, true)){
 			keyguardLock.disableKeyguard();
 			_keyguardLock = keyguardLock;
-			//reenableKeyGuard(getContext());
 		}
 	}
 
@@ -910,9 +915,11 @@ public class NotificationActivity extends Activity {
 	 * @param context
 	 */
 	private void reenableKeyGuard(Context context){
-		if (Log.getDebug()) Log.v("NotificationActivity.removeKeyGuard()");
+		if (Log.getDebug()) Log.v("NotificationActivity.reenableKeyGuard()");
 		KeyguardLock keyguardLock = _keyguardLock ;
 		keyguardLock.reenableKeyguard();
+		keyguardLock = null;
+		_keyguardLock = null;
 	}
 	
 }
