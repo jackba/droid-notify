@@ -155,21 +155,6 @@ public class SMSReceiverService extends Service {
     		}
 		}
 	}
-
-//	/**
-//     * Get SMS message from the Intent object.
-//     */
-//	public static final SmsMessage[] getMessagesFromIntent(Intent intent) {
-//		if (Log.getDebug()) Log.v("SMSReceiver.getMessagesFromIntent()");
-//		Bundle bundle = intent.getExtras();        
-//		SmsMessage[] message = null;           
-//		if (bundle != null){
-//          // Retrieve the SMS message received from the intent object.
-//          Object[] pdus = (Object[]) bundle.get("pdus");
-//          message = new SmsMessage[pdus.length];  
-//		}
-//		return message;
-//	}
 	
 	//================================================================================
 	// Private Methods
