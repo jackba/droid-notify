@@ -34,6 +34,9 @@
    	<string name="call_button_text">Call</string>
    	<string name="view_contact_text">View Contact</string>
    	<string name="add_contact_text">Add Contact</string>
+   	<string name="call_contact_text">Call Contact</string>
+   	<string name="text_contact_text">Text Contact</string>
+   	<string name="edit_contact_text">Edit Contact</string>
    	
    	<!-- Preference Strings -->
    	<string name="preference_about">About</string>
