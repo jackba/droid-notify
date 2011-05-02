@@ -6,5 +6,13 @@
       <item 
 		android:id="@+id/add_contact"
         android:title="@string/add_contact_text" />
-        
+      <item 
+		android:id="@+id/call_contact"
+        android:title="@string/call_contact_text" />
+      <item 
+		android:id="@+id/text_contact"
+        android:title="@string/text_contact_text" />
+	<item 
+		android:id="@+id/edit_contact"
+        android:title="@string/edit_contact_text" />
 </menu>

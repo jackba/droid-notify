@@ -7,6 +7,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.KeyguardManager;
 import android.app.KeyguardManager.KeyguardLock;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -17,6 +18,10 @@ import android.os.Bundle;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.preference.PreferenceManager;
+import android.provider.Contacts.Intents.Insert;
+import android.provider.Contacts.People;
+import android.provider.ContactsContract;
+import android.provider.ContactsContract.CommonDataKinds.Phone;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -86,7 +91,9 @@ public class NotificationActivity extends Activity {
 	
 	final int VIEW_CONTACT_CONTEXT_MENU = R.id.view_contact;
 	final int ADD_CONTACT_CONTEXT_MENU = R.id.add_contact;
-	
+	final int CALL_CONTACT_CONTEXT_MENU = R.id.call_contact;
+	final int TEXT_CONTACT_CONTEXT_MENU = R.id.text_contact;	
+	final int EDIT_CONTACT_CONTEXT_MENU = R.id.edit_contact;	
 	//================================================================================
     // Properties
     //================================================================================
@@ -393,15 +400,51 @@ public class NotificationActivity extends Activity {
 	@Override
 	public boolean onContextItemSelected(MenuItem menuItem) {
 		if (Log.getDebug()) Log.v("NotificationActivity.onContextItemSelected()");
-		  switch (menuItem.getItemId()) {
-			  case VIEW_CONTACT_CONTEXT_MENU:
-				  Toast.makeText(getContext(), "This is the action for View Contact", 30).show();
-				  return true;
-			  case ADD_CONTACT_CONTEXT_MENU:
-				  Toast.makeText(getContext(), "This is the action for Add Contact", 30).show();
-				  return true;
-			  default:
-				  return super.onContextItemSelected(menuItem);
+		Context context = getContext();
+		NotificationViewFlipper notificationViewFlipper = getNotificationViewFlipper();
+		int currentNotification = notificationViewFlipper.getCurrentNotification();
+		Notification notification = notificationViewFlipper.getNotification(currentNotification);
+		Intent intent = null;;
+		switch (menuItem.getItemId()) {
+			case VIEW_CONTACT_CONTEXT_MENU:
+				intent = new Intent(Intent.ACTION_VIEW);
+				//This works but is deprecated. Trying a different way.
+			    //intent.setData(ContentUris.withAppendedId(People.CONTENT_URI, notification.getContactID()));
+				//This is the Androidd API 5+ method to do this.
+				Uri viewContactURI = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_URI, String.valueOf(notification.getContactID()));
+			    intent.setData(viewContactURI);	
+			    intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+			    context.startActivity(intent);
+				return true;
+			case ADD_CONTACT_CONTEXT_MENU:
+				intent = new Intent(Intent.ACTION_INSERT);
+				intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
+				intent.putExtra(ContactsContract.Intents.Insert.PHONE, notification.getPhoneNumber());			
+			    intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+			    context.startActivity(intent);
+				return true;
+			case CALL_CONTACT_CONTEXT_MENU:
+				intent = new Intent(Intent.ACTION_CALL);
+		        intent.setData(Uri.parse("tel:" + notification.getPhoneNumber()));		
+			    intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+			    context.startActivity(intent);
+				return true;
+			case TEXT_CONTACT_CONTEXT_MENU:
+//				intent = new Intent(Intent.ACTION_INSERT);
+//				intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
+//				intent.putExtra(ContactsContract.Intents.Insert.PHONE, notification.getPhoneNumber());			
+//			    intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+//			    context.startActivity(intent);
+				return true;
+			case EDIT_CONTACT_CONTEXT_MENU:
+				intent = new Intent(Intent.ACTION_EDIT);
+				intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
+				intent.putExtra(ContactsContract.Intents.Insert.PHONE, notification.getContactID());			
+			    intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+			    context.startActivity(intent);
+				return true;
+			default:
+				return super.onContextItemSelected(menuItem);
 		  }
 	}
 
