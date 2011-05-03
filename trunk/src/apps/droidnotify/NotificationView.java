@@ -435,13 +435,21 @@ public class NotificationView extends LinearLayout {
 	 */
 	private void replyToMessage() {
 		if (Log.getDebug()) Log.v("NotificationView.replyToMessage()");
+		Context context = getContext();
 		Notification notification = getNotification();
+		String phoneNumber = notification.getPhoneNumber();
 		Intent intent = new Intent(Intent.ACTION_VIEW);
 	    intent.setType("vnd.android-dir/mms-sms");
-	    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-	    intent.putExtra("address", notification.getPhoneNumber());
-		getContext().startActivity(intent);
-		((NotificationActivity)getContext()).finishActivity();  
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+        		| Intent.FLAG_ACTIVITY_SINGLE_TOP
+        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
+        		| Intent.FLAG_ACTIVITY_NO_HISTORY
+        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+	    intent.putExtra("address", phoneNumber);
+	    context.startActivity(intent);
+	    //Not sure if this should be a preference to end the notification activity when a reply is made?
+        //NotificationActivity notificationActivity = (NotificationActivity)context;
+		//notificationActivity.finishActivity(); 
 	}
 	
 	/**
@@ -450,12 +458,20 @@ public class NotificationView extends LinearLayout {
 	 */
 	private void makePhoneCall(){
 		if (Log.getDebug()) Log.v("NotificationView.makePhoneCall()");
+		Context context = getContext();
 		Notification notification = getNotification();
+		String phoneNumber = notification.getPhoneNumber();
 		Intent intent = new Intent(Intent.ACTION_CALL);
-        intent.setData(Uri.parse("tel:" + notification.getPhoneNumber()));
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        getContext().startActivity(intent);
-		((NotificationActivity)getContext()).finishActivity();
+        intent.setData(Uri.parse("tel:" + phoneNumber));
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+        		| Intent.FLAG_ACTIVITY_SINGLE_TOP
+        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
+        		| Intent.FLAG_ACTIVITY_NO_HISTORY
+        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+        context.startActivity(intent);
+        //Not sure if this should be a preference to end the notification activity when a call is made?
+        //NotificationActivity notificationActivity = (NotificationActivity)context;
+		//notificationActivity.finishActivity();
 	}
  
 	/**

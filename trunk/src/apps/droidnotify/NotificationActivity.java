@@ -404,43 +404,65 @@ public class NotificationActivity extends Activity {
 		NotificationViewFlipper notificationViewFlipper = getNotificationViewFlipper();
 		int currentNotification = notificationViewFlipper.getCurrentNotification();
 		Notification notification = notificationViewFlipper.getNotification(currentNotification);
-		Intent intent = null;;
+		String phoneNumber = notification.getPhoneNumber();
+		long contactID = notification.getContactID();
+		Intent intent = null;
 		switch (menuItem.getItemId()) {
 			case VIEW_CONTACT_CONTEXT_MENU:
 				intent = new Intent(Intent.ACTION_VIEW);
 				//This works but is deprecated. Trying a different way.
-			    //intent.setData(ContentUris.withAppendedId(People.CONTENT_URI, notification.getContactID()));
-				//This is the Androidd API 5+ method to do this.
-				Uri viewContactURI = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_URI, String.valueOf(notification.getContactID()));
+			    //intent.setData(ContentUris.withAppendedId(People.CONTENT_URI, contactID));
+				//This is the Android API 5+ method to do this.
+				Uri viewContactURI = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_URI, String.valueOf(contactID));
 			    intent.setData(viewContactURI);	
-			    intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+		        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+		        		| Intent.FLAG_ACTIVITY_SINGLE_TOP
+		        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
+		        		| Intent.FLAG_ACTIVITY_NO_HISTORY
+		        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
 			    context.startActivity(intent);
 				return true;
 			case ADD_CONTACT_CONTEXT_MENU:
 				intent = new Intent(Intent.ACTION_INSERT);
 				intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
-				intent.putExtra(ContactsContract.Intents.Insert.PHONE, notification.getPhoneNumber());			
-			    intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+				intent.putExtra(ContactsContract.Intents.Insert.PHONE, phoneNumber);			
+		        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+		        		| Intent.FLAG_ACTIVITY_SINGLE_TOP
+		        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
+		        		| Intent.FLAG_ACTIVITY_NO_HISTORY
+		        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
 			    context.startActivity(intent);
 				return true;
 			case CALL_CONTACT_CONTEXT_MENU:
 				intent = new Intent(Intent.ACTION_CALL);
-		        intent.setData(Uri.parse("tel:" + notification.getPhoneNumber()));		
-			    intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+		        intent.setData(Uri.parse("tel:" + phoneNumber));		
+		        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+		        		| Intent.FLAG_ACTIVITY_SINGLE_TOP
+		        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
+		        		| Intent.FLAG_ACTIVITY_NO_HISTORY
+		        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
 			    context.startActivity(intent);
 				return true;
 			case TEXT_CONTACT_CONTEXT_MENU:
-//				intent = new Intent(Intent.ACTION_INSERT);
-//				intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
-//				intent.putExtra(ContactsContract.Intents.Insert.PHONE, notification.getPhoneNumber());			
-//			    intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-//			    context.startActivity(intent);
+				intent = new Intent(Intent.ACTION_VIEW);
+				intent.setType("vnd.android-dir/mms-sms");
+		        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+		        		| Intent.FLAG_ACTIVITY_SINGLE_TOP
+		        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
+		        		| Intent.FLAG_ACTIVITY_NO_HISTORY
+		        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+			    intent.putExtra("address", phoneNumber);
+			    context.startActivity(intent);
 				return true;
 			case EDIT_CONTACT_CONTEXT_MENU:
 				intent = new Intent(Intent.ACTION_EDIT);
-				intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
-				intent.putExtra(ContactsContract.Intents.Insert.PHONE, notification.getContactID());			
-			    intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+				Uri editContactURI = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_URI, String.valueOf(contactID));
+			    intent.setData(editContactURI);	
+		        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+		        		| Intent.FLAG_ACTIVITY_SINGLE_TOP
+		        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
+		        		| Intent.FLAG_ACTIVITY_NO_HISTORY
+		        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
 			    context.startActivity(intent);
 				return true;
 			default:
