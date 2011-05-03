@@ -203,6 +203,7 @@ public class PhoneReceiverService extends Service {
 	    boolean callStateIdle = telemanager.getCallState() == TelephonyManager.CALL_STATE_IDLE;
 	    if (Log.getDebug()) Log.v("PhoneReceiverService.displayPhoneNotificationToScreen() Current Call State: " + telemanager.getCallState());
 	    // If the user is not in a call then start the check on the call log.
+	    if (Log.getDebug()) Log.v("PhoneReceiverService.displayPhoneNotificationToScreen() Current Call State Idle? " + callStateIdle); 
 	    if (callStateIdle) {
 	    	if (Log.getDebug()) Log.v("PhoneReceiverService.displayPhoneNotificationToScreen() Call state idle.");
 			Bundle bundle = intent.getExtras();

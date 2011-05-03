@@ -186,6 +186,12 @@ public class Notification {
 	 */
 	public String getAddressBookPhoneNumber() {
 		if (Log.getDebug()) Log.v("Notification.getAddressBookPhoneNumber()");
+		if(_addressBookPhoneNumber == null){
+			loadContactsInfo(getContext(),getPhoneNumber());
+		}
+		if(_addressBookPhoneNumber == null){
+			return _phoneNumber;
+		}
 		return _addressBookPhoneNumber;
 	}
 
@@ -272,6 +278,9 @@ public class Notification {
 	 */
 	public long getContactID() {
 		if (Log.getDebug()) Log.v("Notification.getContactID()");
+		if(_contactID == 0){
+			loadContactsInfo(getContext(),getPhoneNumber());
+		}
 	    return _contactID;
 	}
 	
@@ -288,6 +297,9 @@ public class Notification {
 	 */
 	public String getContactLookupKey() {
 		if (Log.getDebug()) Log.v("Notification.getContactLookupKey()");
+		if(_contactLookupKey == null){
+			loadContactsInfo(getContext(),getPhoneNumber());
+		}
 	    return _contactLookupKey;
 	}	
 
@@ -371,6 +383,9 @@ public class Notification {
 	 */
 	public long getMessageID() {
 		if (Log.getDebug()) Log.v("Notification.getMessageID()");
+		if(_messageID == 0){
+			loadMessageID(getContext(), getThreadID(), getMessageBody(), getTimeStamp());
+		}
   		return _messageID;
 	}
 
@@ -431,7 +446,8 @@ public class Notification {
 	 */
 	public void setViewed(boolean isViewed){
 		if (Log.getDebug()) Log.v("Notification.setViewed()");
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+		Context context = getContext();
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		int notificationType = getNotificationType();
 		if (Log.getDebug()) Log.v("Notification.setViewed() Preference Value: " + preferences.getString(MISSED_CALL_DISMISS_KEY, "0"));
     	if(notificationType == NOTIFICATION_TYPE_PHONE){
@@ -696,6 +712,9 @@ public class Notification {
 	 */
 	private void setCallViewed(boolean isViewed){
 		if (Log.getDebug()) Log.v("Notification.setCallViewed()");
+		Context context = getContext();
+		String phoneNumber = getPhoneNumber();
+		long timeStamp = getTimeStamp();
 		ContentValues contentValues = new ContentValues();
 		if(isViewed){
 			contentValues.put(android.provider.CallLog.Calls.NEW, 0);
@@ -703,8 +722,8 @@ public class Notification {
 			contentValues.put(android.provider.CallLog.Calls.NEW, 1);
 		}
 		String selection = android.provider.CallLog.Calls.NUMBER + " = ? and " + android.provider.CallLog.Calls.DATE + " = ?";
-		String[] selectionArgs = new String[] {getPhoneNumber(), Long.toString(getTimeStamp())};
-		getContext().getContentResolver().update(
+		String[] selectionArgs = new String[] {phoneNumber, Long.toString(timeStamp)};
+		context.getContentResolver().update(
 				Uri.parse("content://call_log/calls"),
 				contentValues,
 				selection, 
@@ -716,9 +735,12 @@ public class Notification {
 	 */
 	private void deleteFromCallLog(){
 		if (Log.getDebug()) Log.v("Notification.deleteFromCallLog()");
+		Context context = getContext();
+		String phoneNumber = getPhoneNumber();
+		long timeStamp = getTimeStamp();
 		String selection = android.provider.CallLog.Calls.NUMBER + " = ? and " + android.provider.CallLog.Calls.DATE + " = ?";
-		String[] selectionArgs = new String[] {getPhoneNumber(), Long.toString(getTimeStamp())};
-		getContext().getContentResolver().delete(
+		String[] selectionArgs = new String[] {phoneNumber, Long.toString(timeStamp)};
+		context.getContentResolver().delete(
 				Uri.parse("content://call_log/calls"),
 				selection, 
 				selectionArgs);
@@ -731,10 +753,14 @@ public class Notification {
 	 */
 	private void setMessageRead(boolean isViewed){
 		if (Log.getDebug()) Log.v("Notification.setMessageRead()");
+		Context context = getContext();
 		long messageID = getMessageID();
+		long threadID = getThreadID();
+		String messageBody = getMessageBody();
+		long timeStamp = getTimeStamp();
 		if(messageID == 0){
 			if (Log.getDebug()) Log.v("Notification.setMessageRead() Message ID == 0. Load Message ID");
-			loadMessageID(getContext(), getThreadID(), getMessageBody(), getTimeStamp());
+			loadMessageID(context, threadID, messageBody, timeStamp);
 			messageID = getMessageID();
 		}
 		ContentValues contentValues = new ContentValues();
@@ -745,7 +771,7 @@ public class Notification {
 		}
 		String selection = null;
 		String[] selectionArgs = null;
-		getContext().getContentResolver().update(
+		context.getContentResolver().update(
 				Uri.parse("content://sms/" + messageID), 
 	    		contentValues, 
 	    		selection, 
