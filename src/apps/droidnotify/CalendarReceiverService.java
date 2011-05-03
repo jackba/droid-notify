@@ -1,5 +1,7 @@
 package apps.droidnotify;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -18,7 +20,7 @@ import android.telephony.TelephonyManager;
  * @author Camille Sevigny
  *
  */
-public class PhoneReceiverService extends Service {
+public class CalendarReceiverService extends Service {
 
 	//================================================================================
     // Constants
@@ -35,9 +37,9 @@ public class PhoneReceiverService extends Service {
     //================================================================================
     
 	private Context _context;
-	private ServiceHandler PhoneServiceHandler;
-    private Looper PhoneServiceLooper;
-	private static Object PhoneStartingServiceSync = new Object();
+	private ServiceHandler CalendarServiceHandler;
+    private Looper CalendarServiceLooper;
+	private static Object CalendarStartingServiceSync = new Object();
 	private static PowerManager.WakeLock _wakeLock;
 	
 	//================================================================================
@@ -45,10 +47,10 @@ public class PhoneReceiverService extends Service {
 	//================================================================================
 	
 	/**
-	 * PhoneService constructor.
+	 * CalendarService constructor.
 	 */	
-	public PhoneReceiverService() {
-		if (Log.getDebug()) Log.v("PhoneReceiverService.PhoneService()");
+	public CalendarReceiverService() {
+		if (Log.getDebug()) Log.v("CalendarReceiverService.CalendarService()");
 	}
 	
 	//================================================================================
@@ -59,7 +61,7 @@ public class PhoneReceiverService extends Service {
 	 * Set the context property.
 	 */
 	public void setContext(Context context) {
-		if (Log.getDebug()) Log.v("PhoneReceiverService.setContext()");
+		if (Log.getDebug()) Log.v("CalendarReceiverService.setContext()");
 	    _context = context;
 	}
 	
@@ -67,7 +69,7 @@ public class PhoneReceiverService extends Service {
 	 * Get the context property.
 	 */
 	public Context getContext() {
-		if (Log.getDebug()) Log.v("PhoneReceiverService.getContext()");
+		if (Log.getDebug()) Log.v("CalendarReceiverService.getContext()");
 	    return _context;
 	}
 	
@@ -80,7 +82,7 @@ public class PhoneReceiverService extends Service {
 	 */
 	@Override
 	public IBinder onBind(Intent intent) {
-		if (Log.getDebug()) Log.v("PhoneReceiverService.onBind()");
+		if (Log.getDebug()) Log.v("CalendarReceiverService.onBind()");
 		return null;
 	}
 	
@@ -90,12 +92,12 @@ public class PhoneReceiverService extends Service {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		if (Log.getDebug()) Log.v("PhoneReceiverService.onCreate()");
+		if (Log.getDebug()) Log.v("CalendarReceiverService.onCreate()");
 	    HandlerThread thread = new HandlerThread("DroidNotify", Process.THREAD_PRIORITY_BACKGROUND);
 	    thread.start();
 	    setContext(getApplicationContext());
-	    PhoneServiceLooper = thread.getLooper();
-	    PhoneServiceHandler = new ServiceHandler(PhoneServiceLooper);
+	    CalendarServiceLooper = thread.getLooper();
+	    CalendarServiceHandler = new ServiceHandler(CalendarServiceLooper);
 	}
 	
 	/**
@@ -104,11 +106,11 @@ public class PhoneReceiverService extends Service {
 	@Override
 	public void onStart(Intent intent, int startId) {
 		super.onStart(intent, startId);
-		if (Log.getDebug()) Log.v("PhoneReceiverService.onStart()");
-	    Message message = PhoneServiceHandler.obtainMessage();
+		if (Log.getDebug()) Log.v("CalendarReceiverService.onStart()");
+	    Message message = CalendarServiceHandler.obtainMessage();
 	    message.arg1 = startId;
 	    message.obj = intent;
-	    PhoneServiceHandler.sendMessage(message);
+	    CalendarServiceHandler.sendMessage(message);
 	}
 	
 	/**
@@ -117,26 +119,26 @@ public class PhoneReceiverService extends Service {
 	@Override
 	public void onDestroy() {
     	super.onDestroy();
-    	if (Log.getDebug()) Log.v("PhoneReceiverService.onDestroy()");
-    	PhoneServiceLooper.quit();
+    	if (Log.getDebug()) Log.v("CalendarReceiverService.onDestroy()");
+    	CalendarServiceLooper.quit();
 	}
 	
 	/**
 	 * Start the service to process the current event notifications.
 	 * Acquiring the wake lock before returning to ensure that the service will run.
 	 */
-	public static void startPhoneMonitoringService(Context context, Intent intent){
-		synchronized (PhoneStartingServiceSync) {
-			if (Log.getDebug()) Log.v("PhoneReceiverService.startPhoneMonitoringService()");
+	public static void startCalendarMonitoringService(Context context, Intent intent){
+		synchronized (CalendarStartingServiceSync) {
+			if (Log.getDebug()) Log.v("CalendarReceiverService.startCalendarMonitoringService()");
 			PowerManager.WakeLock wakeLock = _wakeLock;
 			if (wakeLock == null) {
 				PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-				wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "DroidNotify.PhoneService");
+				wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "DroidNotify.CalendarService");
 				wakeLock.setReferenceCounted(false);
 			}
-			if (Log.getDebug()) Log.v("PhoneReceiverService.startPhoneMonitoringService() Aquired wake lock");
+			if (Log.getDebug()) Log.v("CalendarReceiverService.startCalendarMonitoringService() Aquired wake lock");
 			wakeLock.acquire();
-			if (Log.getDebug()) Log.v("PhoneReceiverService.startPhoneMonitoringService() Starting service with intent");
+			if (Log.getDebug()) Log.v("CalendarReceiverService.startCalendarMonitoringService() Starting service with intent");
 			context.startService(intent);
 		}
 	}
@@ -144,9 +146,9 @@ public class PhoneReceiverService extends Service {
 	/**
 	 * Called back by the service when it has finished processing notifications.
 	 */
-	public static void finishPhoneMonitoringService(Service service, int startId) {
-		synchronized (PhoneStartingServiceSync) {
-	    	if (Log.getDebug()) Log.v("PhoneReceiverService.finishPhoneMonitoringService()");
+	public static void finishCalendarMonitoringService(Service service, int startId) {
+		synchronized (CalendarStartingServiceSync) {
+	    	if (Log.getDebug()) Log.v("CalendarReceiverService.finishCalendarMonitoringService()");
 	    	PowerManager.WakeLock wakeLock = _wakeLock;
     		if (wakeLock != null) {
     			if (service.stopSelfResult(startId)) {
@@ -172,7 +174,7 @@ public class PhoneReceiverService extends Service {
 		 */
 	    public ServiceHandler(Looper looper) {
 	    	super(looper);
-	    	if (Log.getDebug()) Log.v("PhoneReceiverService.ServiceHandler.ServiceHandler()");
+	    	if (Log.getDebug()) Log.v("CalendarReceiverService.ServiceHandler.ServiceHandler()");
 	    }
 		
 		/**
@@ -180,39 +182,28 @@ public class PhoneReceiverService extends Service {
 		 */
 	    @Override
 	    public void handleMessage(Message message) {
-	    	if (Log.getDebug()) Log.v("PhoneReceiverService.ServiceHandler.HandleMessage()");
+	    	if (Log.getDebug()) Log.v("CalendarReceiverService.ServiceHandler.HandleMessage()");
 	    	int serviceID = message.arg1;
 	    	Intent intent = (Intent) message.obj;
 	    	String action = intent.getAction();
-	        if (Log.getDebug()) Log.v("PhoneReceiverService.ServiceHandler.handleMessage() Action Received: " + action);
-	        displayPhoneNotificationToScreen();
-	    	finishPhoneMonitoringService(PhoneReceiverService.this, serviceID);
+	        if (Log.getDebug()) Log.v("CalendarReceiverService.ServiceHandler.handleMessage() Action Received: " + action);
+	        displayCalendarNotificationToScreen();
+	    	finishCalendarMonitoringService(CalendarReceiverService.this, serviceID);
 	    }
 	    
 	}
 	
 	/**
-	 * Display the notification to the screen.
-	 * Let the activity check the call log and determine if we need to show a notification or not.
+	 * 
 	 * 
 	 * @param intent
 	 */
-	private void displayPhoneNotificationToScreen() {
-		if (Log.getDebug()) Log.v("PhoneReceiverService.displayPhoneNotificationToScreen()");
-		TelephonyManager telemanager = (TelephonyManager) getContext().getSystemService(Context.TELEPHONY_SERVICE);
-	    boolean callStateIdle = telemanager.getCallState() == TelephonyManager.CALL_STATE_IDLE;
-	    if (Log.getDebug()) Log.v("PhoneReceiverService.displayPhoneNotificationToScreen() Current Call State: " + telemanager.getCallState());
-	    // If the user is not in a call then start the check on the call log.
-	    if (Log.getDebug()) Log.v("PhoneReceiverService.displayPhoneNotificationToScreen() Current Call State Idle? " + callStateIdle); 
-	    if (callStateIdle) {
-	    	if (Log.getDebug()) Log.v("PhoneReceiverService.displayPhoneNotificationToScreen() Call state idle.");
-			Bundle bundle = new Bundle();
-			bundle.putInt("notificationType", NOTIFICATION_TYPE_PHONE);
-	    	Intent intent = new Intent(getContext(), NotificationActivity.class);
-	    	intent.putExtras(bundle);
-	    	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-	    	getContext().startActivity(intent);
-	    }
+	private void displayCalendarNotificationToScreen() {
+		if (Log.getDebug()) Log.v("CalendarReceiverService.displayCalendarNotificationToScreen()");
+    	Intent intent = new Intent(getContext(), CalendarAlarmReceiver.class);
+    	PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, 0);
+		AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+		alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (5 * 1000), 30 * 1000, pendingIntent);
 	}
 	
 }

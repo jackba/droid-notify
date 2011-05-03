@@ -35,8 +35,8 @@ public class CalendarReceiver extends BroadcastReceiver{
 	@Override
 	public void onReceive(Context context, Intent intent){
 		if (Log.getDebug()) Log.v("CalendarReceiver.onReceive()");
-	    //intent.setClass(context, CalendarReceiverService.class);
-	    //CalendarReceiverService.startCalendarMonitoringService(context, intent);
+	    intent.setClass(context, CalendarReceiverService.class);
+	    CalendarReceiverService.startCalendarMonitoringService(context, intent);
 	}
 	  
 	//================================================================================
