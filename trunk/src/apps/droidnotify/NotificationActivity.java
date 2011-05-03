@@ -389,6 +389,15 @@ public class NotificationActivity extends Activity {
 	         */
 			case CONTACT_PHOTO_IMAGE_VIEW:
 				MenuInflater menuInflater = getMenuInflater();
+				NotificationViewFlipper notificationViewFlipper = getNotificationViewFlipper();
+				int currentNotification = notificationViewFlipper.getCurrentNotification();
+				Notification notification = notificationViewFlipper.getNotification(currentNotification);
+				String phoneNumber = notification.getPhoneNumber();
+				if(notification.getContactExists()){
+					contextMenu.setHeaderTitle(notification.getContactName()); 
+				}else{
+					contextMenu.setHeaderTitle(phoneNumber);  
+				}
 				menuInflater.inflate(R.menu.photocontextmenu, contextMenu);
 	    }
 		    
