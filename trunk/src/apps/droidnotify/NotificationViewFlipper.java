@@ -309,12 +309,14 @@ public class NotificationViewFlipper extends ViewFlipper {
 			}else if(preferences.getString(SMS_DELETE_KEY, "0").equals(SMS_DELETE_ACTION_DELETE_MESSAGE)){
 				//Delete the current message from the users phone.
 				notification.deleteMessage();
+				//Remove the notification from the ViewFlipper
+				removeActiveNotification();
 			}else if(preferences.getString(SMS_DELETE_KEY, "0").equals(SMS_DELETE_ACTION_DELETE_THREAD)){
-				//Remove all Notifications with the thread ID.
-				removeNotifications(notification.getThreadID());
 				//Delete the current message from the users phone.
 				//The notification will remove ALL messages for this thread from the phone for us.
 				notification.deleteMessage();
+				//Remove all Notifications with the thread ID.
+				removeNotifications(notification.getThreadID());
 			}
 		}else if(notificationType == NOTIFICATION_TYPE_MMS){
 			if(preferences.getString(MMS_DELETE_KEY, "0").equals(MMS_DELETE_ACTION_NOTHING)){

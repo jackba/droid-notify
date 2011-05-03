@@ -373,7 +373,7 @@ public class NotificationActivity extends Activity {
 	    }
 	    return false;
 	}
-
+	
 	/**
 	 * Create Context Menu (Long-press menu)
 	 */
@@ -381,7 +381,6 @@ public class NotificationActivity extends Activity {
 	public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenuInfo contextMenuInfo) {
 	    super.onCreateContextMenu(contextMenu, view, contextMenuInfo);
 	    if (Log.getDebug()) Log.v("NotificationActivity.onCreateContextMenu()");
-	    
 	    switch (view.getId()) {
 
 	        /*
@@ -393,12 +392,42 @@ public class NotificationActivity extends Activity {
 				int currentNotification = notificationViewFlipper.getCurrentNotification();
 				Notification notification = notificationViewFlipper.getNotification(currentNotification);
 				String phoneNumber = notification.getPhoneNumber();
+				int notificationType = notification.getNotificationType();
+				if (Log.getDebug()) Log.v("NotificationActivity.onCreateContextMenu() Does contact exist?" + notification.getContactExists());
+				//Add the header text to the menu.
 				if(notification.getContactExists()){
 					contextMenu.setHeaderTitle(notification.getContactName()); 
 				}else{
-					contextMenu.setHeaderTitle(phoneNumber);  
+					contextMenu.setHeaderTitle(phoneNumber); 
 				}
 				menuInflater.inflate(R.menu.photocontextmenu, contextMenu);
+				//Remove menu options based on the NotificationType.
+				if(notification.getContactExists()){
+					MenuItem menuItem = contextMenu.findItem(ADD_CONTACT_CONTEXT_MENU);
+					menuItem.setVisible(false);
+				}else{
+					MenuItem viewMenuItem = contextMenu.findItem(VIEW_CONTACT_CONTEXT_MENU);
+					viewMenuItem.setVisible(false);
+					MenuItem editMenuItem = contextMenu.findItem(EDIT_CONTACT_CONTEXT_MENU);
+					editMenuItem.setVisible(false);
+				}
+			    if(notificationType == NOTIFICATION_TYPE_PHONE){
+			    	MenuItem menuItem = contextMenu.findItem(CALL_CONTACT_CONTEXT_MENU);
+					menuItem.setVisible(false);
+			    }
+			    if(notificationType == NOTIFICATION_TYPE_SMS){
+			    	MenuItem menuItem = contextMenu.findItem(TEXT_CONTACT_CONTEXT_MENU);
+					menuItem.setVisible(false);
+			    }
+			    if(notificationType == NOTIFICATION_TYPE_MMS){
+			    	//TODO - MMS Message
+			    }
+			    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
+			    	//TODO - Calendar Event
+			    }
+			    if(notificationType == NOTIFICATION_TYPE_EMAIL){
+			    	//TODO - Email Message
+			    }
 	    }
 		    
 	}

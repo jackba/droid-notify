@@ -69,6 +69,7 @@ public class Notification {
 	private boolean _fromEmailGateway;
 	private MessageClass _messageClass;
 	private boolean _contactExists;
+	private boolean _contactPhotoExists;
   
 	//================================================================================
 	// Constructors
@@ -132,6 +133,7 @@ public class Notification {
 		if (Log.getDebug()) Log.v("Notification.Notification(Context, String, long, int)");
 		setContext(context);
 		setContactExists(false);
+		setContactPhotoExists(false);
 		setNotificationType(notificationType);
     	if(notificationType == NOTIFICATION_TYPE_PHONE){
     		if (Log.getDebug()) Log.v("Notification.Notification() NOTIFICATION_TYPE_PHONE");
@@ -436,7 +438,22 @@ public class Notification {
 		if (Log.getDebug()) Log.v("Notification.getContactExists()");
   		return _contactExists;
 	}
+
+	/**
+	 * Set the contactExists property.
+	 */
+	public void setContactPhotoExists(boolean contactPhotoExists) {
+		if (Log.getDebug()) Log.v("Notification.setContactPhotoExists()");
+		_contactPhotoExists = contactPhotoExists;
+	}
 	
+	/**
+	 * Get the contactExists property.
+	 */
+	public boolean getContactPhotoExists() {
+		if (Log.getDebug()) Log.v("Notification.getContactPhotoExists()");
+  		return _contactPhotoExists;
+	}	
 	//================================================================================
 	// Public Methods
 	//================================================================================
@@ -694,8 +711,9 @@ public class Notification {
 		  		      Bitmap contactPhotoBitmap = BitmapFactory.decodeStream(input);
 		  		      if(contactPhotoBitmap!= null){
 		  		    	  setPhotoImg(contactPhotoBitmap);
-		  		    	  setContactExists(true);
+		  		    	  setContactPhotoExists(true);
 		  		      }
+		  		      setContactExists(true);
 		  		      break;
 		    	  }
 		      } 
