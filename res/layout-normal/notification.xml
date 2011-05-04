@@ -85,6 +85,7 @@
 	</LinearLayout>
 	<ImageView
   		xmlns:android="http://schemas.android.com/apk/res/android"
+  		android:id="@+id/under_contact_image_view"
   		android:src="@drawable/divider_horizontal_dark"
   		android:layout_width="fill_parent"
   		android:layout_height="wrap_content"
@@ -170,8 +171,7 @@
 			android:layout_weight="1" />
 		<Button android:layout_width="fill_parent" 
 			android:layout_height="wrap_content" 
-			android:text="@string/view_button_text" 
-			android:drawableLeft="@drawable/sym_action_call"
+			android:text="@string/view_button_text"
 			android:id="@+id/calendar_view_button" 
 			android:layout_weight="1" />
 	</LinearLayout>
