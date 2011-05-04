@@ -34,20 +34,19 @@ public class Notification {
 	private final int NOTIFICATION_TYPE_CALENDAR = 3;
 	private final int NOTIFICATION_TYPE_EMAIL = 4;
 	
-	final String SMS_DISMISS_KEY = "sms_dismiss_button_action";
-	final String MMS_DISMISS_KEY = "mms_dismiss_button_action";
-	final String MISSED_CALL_DISMISS_KEY = "missed_call_dismiss_button_action";
-	final String SMS_DELETE_KEY = "sms_delete_button_action";
-	final String MMS_DELETE_KEY = "mms_delete_button_action";
-	final String SMS_DISMISS_ACTION_MARK_READ = "0";
-	final String SMS_DELETE_ACTION_DELETE_MESSAGE = "0";
-	final String SMS_DELETE_ACTION_DELETE_THREAD = "1";
-	final String MMS_DISMISS_ACTION_MARK_READ = "0";
-	final String MMS_DELETE_ACTION_DELETE_MESSAGE = "0";
-	final String MMS_DELETE_ACTION_DELETE_THREAD = "1";
-	final String MISSED_CALL_DISMISS_ACTION_MARK_READ = "0";
-	final String MISSED_CALL_DISMISS_ACTION_DELETE = "1";
-
+	private final String SMS_DISMISS_KEY = "sms_dismiss_button_action";
+	private final String MMS_DISMISS_KEY = "mms_dismiss_button_action";
+	private final String MISSED_CALL_DISMISS_KEY = "missed_call_dismiss_button_action";
+	private final String SMS_DELETE_KEY = "sms_delete_button_action";
+	private final String MMS_DELETE_KEY = "mms_delete_button_action";
+	private final String SMS_DISMISS_ACTION_MARK_READ = "0";
+	private final String SMS_DELETE_ACTION_DELETE_MESSAGE = "0";
+	private final String SMS_DELETE_ACTION_DELETE_THREAD = "1";
+	private final String MMS_DISMISS_ACTION_MARK_READ = "0";
+	private final String MMS_DELETE_ACTION_DELETE_MESSAGE = "0";
+	private final String MMS_DELETE_ACTION_DELETE_THREAD = "1";
+	private final String MISSED_CALL_DISMISS_ACTION_MARK_READ = "0";
+	private final String MISSED_CALL_DISMISS_ACTION_DELETE = "1";
 	
 	//================================================================================
     // Properties
@@ -70,13 +69,19 @@ public class Notification {
 	private MessageClass _messageClass;
 	private boolean _contactExists;
 	private boolean _contactPhotoExists;
+	private String _title;
+	private String _email;
   
 	//================================================================================
 	// Constructors
 	//================================================================================
   
 	/**
-	 * Construct SmsMmsMessage given a raw message (created from pdu).
+	 * This constructor should be called for SMS & MMS Messages.
+	 * 
+	 * @param context
+	 * @param bundle
+	 * @param notificationType
 	 */
 	public Notification(Context context, Bundle bundle, int notificationType) {
 		if (Log.getDebug()) Log.v("Notification.Notification(Context, Bundle, int)");
@@ -101,6 +106,7 @@ public class Notification {
 	    		setPhoneNumber(sms.getDisplayOriginatingAddress());
 	    		setFromEmailGateway(sms.isEmail());
 	    		setMessageClass(sms.getMessageClass());
+	    		setTitle("SMS Message");
 	            //Get the entire message body from the new message.
 	            for (int i=0; i<msgs.length; i++){                
 	                messageBody += msgs[i].getMessageBody().toString();
@@ -111,18 +117,20 @@ public class Notification {
 	    		loadContactsInfo(getContext(), getPhoneNumber());
         	}
     	    if(notificationType == NOTIFICATION_TYPE_MMS){
+    	    	setTitle("MMS Message");
     	    	//TODO - NOTIFICATION_TYPE_MMS - MMS Message
     	    }
     	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
-    	    	//TODO - NOTIFICATION_TYPE_CALENDAR - Calendar Event
+    	    	//Do Nothing. This should not be called if a calendar reminder is received.
     	    }
     	    if(notificationType == NOTIFICATION_TYPE_EMAIL){
-    	    	//TODO - NOTIFICATION_TYPE_EMAIL - Email Message
+    	    	//Do Nothing. This should not be called if an email is received.
     	    }
         }
 	}
 	
 	/**
+	 * This constructor should be called for Missed Calls.
 	 * 
 	 * @param context
 	 * @param phoneNumber
@@ -136,25 +144,56 @@ public class Notification {
 		setContactPhotoExists(false);
 		setNotificationType(notificationType);
     	if(notificationType == NOTIFICATION_TYPE_PHONE){
-    		if (Log.getDebug()) Log.v("Notification.Notification() NOTIFICATION_TYPE_PHONE");
     		setPhoneNumber(phoneNumber);
     		setTimeStamp(timeStamp);
+      		setTitle("Missed Call");
     		loadContactsInfo(getContext(), getPhoneNumber());
+	    }
+    	if(notificationType == NOTIFICATION_TYPE_SMS || notificationType == NOTIFICATION_TYPE_MMS){
+    		//Do Nothing. This should not be called if a SMS or MMS is received.
+    	}
+	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
+	    	//Do Nothing. This should not be called if a calendar reminder is received.
+	    }
+	    if(notificationType == NOTIFICATION_TYPE_EMAIL){
+	    	//Do Nothing. This should not be called if an email is received.
+	    }
+	}
+
+	/**
+	 * This constructor should be called for Calendar Reminders or Emails.
+	 * 
+	 * @param context
+	 * @param phoneNumber
+	 * @param timestamp
+	 * @param notificationType
+	 */
+	public Notification(Context context, String title, String messageBody, long timeStamp, int notificationType){
+		if (Log.getDebug()) Log.v("Notification.Notification(Context, String, String, long, int)");
+		setContext(context);
+		setContactExists(false);
+		setContactPhotoExists(false);
+		setNotificationType(notificationType);
+    	if(notificationType == NOTIFICATION_TYPE_PHONE){
+    		//Do Nothing. This should not be called if a missed call is received.
 	    }
     	if(notificationType == NOTIFICATION_TYPE_SMS || notificationType == NOTIFICATION_TYPE_MMS){
     		if (Log.getDebug()) Log.v("Notification.Notification() NOTIFICATION_TYPE_SMS OR NOTIFICATION_TYPE_MMS");
     		//Do Nothing. This should not be called if a SMS or MMS is received.
     	}
 	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
-	    	if (Log.getDebug()) Log.v("Notification.Notification() NOTIFICATION_TYPE_CALENDAR");
-	    	//TODO - Calendar Reminder
+	    	setTimeStamp(timeStamp);
+	    	setTitle(title);
+	    	setMessageBody(messageBody);
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_EMAIL){
-	    	if (Log.getDebug()) Log.v("Notification.Notification() NOTIFICATION_TYPE_EMAIL");
-	    	//TODO - Email Message
+	    	setTimeStamp(timeStamp);
+	    	setTitle(title);
+	    	setMessageBody(messageBody);
+	    	loadContactsInfo(getContext(), getEmail());
 	    }
 	}
-
+	
 	//================================================================================
 	// Accessors
 	//================================================================================
@@ -454,6 +493,39 @@ public class Notification {
 		if (Log.getDebug()) Log.v("Notification.getContactPhotoExists()");
   		return _contactPhotoExists;
 	}	
+
+	/**
+	 * Set the title property.
+	 */
+	public void setTitle(String title) {
+		if (Log.getDebug()) Log.v("Notification.setTitle() Title: " + title);
+		_title = title;
+	}
+	
+	/**
+	 * Get the title property.
+	 */
+	public String getTitle() {
+		if (Log.getDebug()) Log.v("Notification.getTitle() Title: " + _title);
+  		return _title;
+	}
+
+	/**
+	 * Set the email property.
+	 */
+	public void setEmail(String email) {
+		if (Log.getDebug()) Log.v("Notification.setTitle() Email: " + email);
+		_email = email;
+	}
+	
+	/**
+	 * Get the email property.
+	 */
+	public String getEmail() {
+		if (Log.getDebug()) Log.v("Notification.getTitle() Email: " + _email);
+  		return _email;
+	}
+	
 	//================================================================================
 	// Public Methods
 	//================================================================================
@@ -491,7 +563,7 @@ public class Notification {
     		}
     	}
 	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
-	    	//TODO - Notification.setViewed() - NOTIFICATION_TYPE_CALENDAR Set the notification as being viewed on the phone.
+	    	//Do nothing. There is no log to update for Calendar Remindres.
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_EMAIL){
 	    	//TODO - Notification.setViewed() - NOTIFICATION_TYPE_EMAIL Set the notification as being viewed on the phone.
@@ -671,12 +743,13 @@ public class Notification {
 				sortOrder);
 		if (Log.getDebug()) Log.v("Notification.loadContactsInfo() Searching contacts");
 		while (cursor.moveToNext()) { 
-		   String contactID = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID)); 
-		   String hasPhone = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)); 
-		   String contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-		   String contactLookupKey = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY));
-		   String photoID = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_ID)); 
-		   if (Integer.parseInt(hasPhone) > 0) { 
+			//TODO - Add logic to check whether this is an email notification or not. The query should be updated if it's an email notification.
+			String contactID = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID)); 
+			String hasPhone = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)); 
+			String contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+			String contactLookupKey = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY));
+			String photoID = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_ID)); 
+			if (Integer.parseInt(hasPhone) > 0) { 
 				final String[] phoneProjection = null;
 				final String phoneSelection = ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = " + contactID;
 				final String[] phoneSelectionArgs = null;

@@ -7,7 +7,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.KeyguardManager;
 import android.app.KeyguardManager.KeyguardLock;
-import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -18,10 +17,7 @@ import android.os.Bundle;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.preference.PreferenceManager;
-import android.provider.Contacts.Intents.Insert;
-import android.provider.Contacts.People;
 import android.provider.ContactsContract;
-import android.provider.ContactsContract.CommonDataKinds.Phone;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -29,15 +25,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.view.Window;
-import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 /**
  * This is the main activity that runs the notifications.
@@ -863,6 +855,7 @@ public class NotificationActivity extends Activity {
 	 */
 	private void setupMissedCalls(Bundle bundle, boolean newIntent){
 		if (Log.getDebug()) Log.v("NotificationActivity.setupMissedCalls()"); 
+		Context context = getContext();
 		final NotificationViewFlipper notificationViewFlipper = getNotificationViewFlipper();
 		final Button previousButton = getPreviousButton();
 		final Button nextButton = getNextButton();
@@ -875,10 +868,8 @@ public class NotificationActivity extends Activity {
 			if (Log.getDebug()) Log.v("NotificationActivity.setupMissedCalls() ParsedPhone Number: " + phoneNumber);
 			long timeStamp = Long.parseLong(missedCallInfo[1]);
 			if (Log.getDebug()) Log.v("NotificationActivity.setupMissedCalls() Parsed TimeStamp: " + timeStamp);
-			Notification missedCallnotification = new Notification(getApplicationContext(), phoneNumber, timeStamp, NOTIFICATION_TYPE_PHONE);
-			if (Log.getDebug()) Log.v("NotificationActivity.setupMissedCalls() Notification Phone Number: " + missedCallnotification.getPhoneNumber());
-			if (Log.getDebug()) Log.v("NotificationActivity.setupMissedCalls() Adding misssed call to flipper");
-			getNotificationViewFlipper().addNotification(missedCallnotification);
+			Notification missedCallNotification = new Notification(context, phoneNumber, timeStamp, NOTIFICATION_TYPE_PHONE);
+			getNotificationViewFlipper().addNotification(missedCallNotification);
 		}
 	    updateNavigationButtons(previousButton, notificationCountTextView, nextButton, notificationViewFlipper);
 	}
@@ -889,22 +880,33 @@ public class NotificationActivity extends Activity {
 	 * @param bundle
 	 */
 	private void setupMessages(Bundle bundle) {
-		if (Log.getDebug()) Log.v("NotificationActivity.setupMessages()");
+		if (Log.getDebug()) Log.v("NotificationActivity.setupMessages()"); 
+		Context context = getContext();
 		final NotificationViewFlipper notificationViewFlipper = getNotificationViewFlipper();
 		final Button previousButton = getPreviousButton();
 		final Button nextButton = getNextButton();
 		final TextView notificationCountTextView = getNotificationCountTextView();
 	    // Create message from bundle.
-	    Notification smsMessage = new Notification(getApplicationContext(), bundle, NOTIFICATION_TYPE_SMS);
+	    Notification smsMessage = new Notification(context, bundle, NOTIFICATION_TYPE_SMS);
 	    if (Log.getDebug()) Log.v("NotificationActivity.setupMessages() Notification Phone Number: " + smsMessage.getPhoneNumber());
 	    notificationViewFlipper.addNotification(smsMessage);
 	    updateNavigationButtons(previousButton, notificationCountTextView, nextButton, notificationViewFlipper);
 	}
 	
 	private void setupCalendarReminders(Bundle bundle){
-		
-		
-		
+		if (Log.getDebug()) Log.v("NotificationActivity.setupCalendarReminders()");  
+		Context context = getContext();
+		final NotificationViewFlipper notificationViewFlipper = getNotificationViewFlipper();
+		final Button previousButton = getPreviousButton();
+		final Button nextButton = getNextButton();
+		final TextView notificationCountTextView = getNotificationCountTextView();
+		String calenderReminderInfo[] = (String[])bundle.getStringArray("calenderReminderInfo");
+		String title = calenderReminderInfo[0];
+		String messageBody = calenderReminderInfo[1];
+		long timeStamp = Long.parseLong(calenderReminderInfo[2]);
+		Notification calendarReminderNotification = new Notification(context, title, messageBody, timeStamp, NOTIFICATION_TYPE_CALENDAR);
+		getNotificationViewFlipper().addNotification(calendarReminderNotification);		
+		updateNavigationButtons(previousButton, notificationCountTextView, nextButton, notificationViewFlipper);
 	}
 	
 	/**

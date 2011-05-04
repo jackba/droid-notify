@@ -199,7 +199,8 @@ public class PhoneReceiverService extends Service {
 	 */
 	private void displayPhoneNotificationToScreen() {
 		if (Log.getDebug()) Log.v("PhoneReceiverService.displayPhoneNotificationToScreen()");
-		TelephonyManager telemanager = (TelephonyManager) getContext().getSystemService(Context.TELEPHONY_SERVICE);
+		Context context = getContext();
+		TelephonyManager telemanager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 	    boolean callStateIdle = telemanager.getCallState() == TelephonyManager.CALL_STATE_IDLE;
 	    if (Log.getDebug()) Log.v("PhoneReceiverService.displayPhoneNotificationToScreen() Current Call State: " + telemanager.getCallState());
 	    // If the user is not in a call then start the check on the call log.
@@ -208,10 +209,10 @@ public class PhoneReceiverService extends Service {
 	    	if (Log.getDebug()) Log.v("PhoneReceiverService.displayPhoneNotificationToScreen() Call state idle.");
 			Bundle bundle = new Bundle();
 			bundle.putInt("notificationType", NOTIFICATION_TYPE_PHONE);
-	    	Intent intent = new Intent(getContext(), NotificationActivity.class);
+	    	Intent intent = new Intent(context, NotificationActivity.class);
 	    	intent.putExtras(bundle);
 	    	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-	    	getContext().startActivity(intent);
+	    	context.startActivity(intent);
 	    }
 	}
 	

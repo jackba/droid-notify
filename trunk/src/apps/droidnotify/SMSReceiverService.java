@@ -38,7 +38,7 @@ public class SMSReceiverService extends Service {
 	private ServiceHandler SMSServiceHandler;
     private Looper SMSServiceLooper;
 	private static Object SMSStartingServiceSync = new Object();
-	private static PowerManager.WakeLock _wakeLock;
+	private static PowerManager.WakeLock _wakeLock = null;
 	
 	//================================================================================
 	// Constructors
@@ -151,6 +151,8 @@ public class SMSReceiverService extends Service {
     		if (wakeLock != null) {
     			if (service.stopSelfResult(startId)) {
     				wakeLock.release();
+    				wakeLock = null;
+    				_wakeLock = null;
     			}
     		}
 		}
@@ -202,19 +204,29 @@ public class SMSReceiverService extends Service {
 	 */
 	private void displaySMSNotificationToScreen(Intent intent) {
 		if (Log.getDebug()) Log.v("SMSReceiver.displaySMSNotificationToScreen()");
+		Context context = getApplicationContext();
 		Bundle bundle = intent.getExtras();
 		bundle.putInt("notificationType", NOTIFICATION_TYPE_SMS);
 	    // Get the call state, if the user is in a call or the phone is ringing, don't show the notification.
-	    TelephonyManager telemanager = (TelephonyManager) getContext().getSystemService(Context.TELEPHONY_SERVICE);
+	    TelephonyManager telemanager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 	    boolean callStateIdle = telemanager.getCallState() == TelephonyManager.CALL_STATE_IDLE;
 	    // If the user is not in a call then show the notification activity.
 	    if (Log.getDebug()) Log.v("SMSReceiver.displaySMSNotificationToScreen() Current Call State Idle? " + callStateIdle); 
 	    if (callStateIdle) {
 	    	if (Log.getDebug()) Log.v("SMSReceiver.displaySMSNotificationToScreen() Display SMS Notification Window");    	
-	    	Intent newIntent = new Intent(getContext(), NotificationActivity.class);
+	    	Intent newIntent = new Intent(context, NotificationActivity.class);
 	    	newIntent.putExtras(bundle);
 	    	newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-	    	getContext().startActivity(newIntent);
+	    	context.startActivity(newIntent);	    	
+//	    	//START CALENDAR TEST
+//	    	Intent newIntent = new Intent(context, NotificationActivity.class);
+//	    	Bundle newBundle = new Bundle();
+//	    	newBundle.putInt("notificationType", NOTIFICATION_TYPE_CALENDAR);
+//	    	newBundle.putStringArray("calenderReminderInfo",new String[]{"Camille's Birthday","Get Camille a pressent NOW!","1304516824000"});
+//	    	newIntent.putExtras(newBundle);
+//	    	newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+//	    	context.startActivity(newIntent);
+//	    	//END CALENDAR TEST
 	    }
 	}
 

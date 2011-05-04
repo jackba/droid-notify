@@ -59,6 +59,7 @@ public class NotificationView extends LinearLayout {
 	private ImageView _notificationIconImageView = null;
 	private ImageView _photoImageView = null;
 	private LinearLayout _contactLinearLayout = null;
+	private ImageView _underContactDividerImageView = null;
 	private NotificationViewFlipper _notificationViewFlipper = null;
 	private LinearLayout _phoneButtonLinearLayout = null;
 	private LinearLayout _smsButtonLinearLayout = null;
@@ -75,12 +76,17 @@ public class NotificationView extends LinearLayout {
 	public NotificationView(Context context,  Notification notification) {
 	    super(context);
 	    if (Log.getDebug()) Log.v("NotificationView.NotificationView()");
+	    int notificationType = notification.getNotificationType();
 	    setContext(context);
 	    setNotification(notification);
 	    setNotificationType(notification.getNotificationType());
 	    initLayoutItems(context);
 	    setupNotificationViewButtons(notification);
 	    populateNotificationViewInfo(notification);
+	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
+	    	setupCalendarView();
+	    }
+	    
 	}
 
 	//================================================================================
@@ -183,6 +189,7 @@ public class NotificationView extends LinearLayout {
 		_notificationTextView.setMovementMethod(new ScrollingMovementMethod());
 		_notificationTextView.setScrollbarFadingEnabled(false);
 		_contactLinearLayout = (LinearLayout) findViewById(R.id.contact_linear_layout);
+		_underContactDividerImageView = (ImageView) findViewById(R.id.under_contact_image_view);
 	}
 
 	private void setupNotificationViewButtons(Notification notification) {
@@ -277,12 +284,11 @@ public class NotificationView extends LinearLayout {
 	    	smsButtonLayoutVisibility = View.GONE;
 	    	calendarButtonLayoutVisibility = View.VISIBLE;
 			// Dismiss Button
-	    	final Button calendarDismissButton = (Button) findViewById(R.id.sms_dismiss_button);		      
+	    	final Button calendarDismissButton = (Button) findViewById(R.id.calendar_dismiss_button);		      
 	    	calendarDismissButton.setOnClickListener(new OnClickListener() {
 			    public void onClick(View view) {
 			    	if (Log.getDebug()) Log.v("Calendar Dismiss Button Clicked()");
-			    	//TODO - Calendar Reminder
-			    	//dismissNotification();
+			    	dismissNotification();
 			    }
 			});			    			
 			// View Button
@@ -348,13 +354,11 @@ public class NotificationView extends LinearLayout {
 	    	notificationAlignment = Gravity.LEFT;
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
-	    	//TODO - Insert Calendar Item
-	    	notificationText = "TODO-Insert Calendar Item";
+	    	notificationText = notification.getTitle() + " - " + notification.getMessageBody();
 	    	notificationAlignment = Gravity.LEFT;
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_EMAIL){
-	    	//TODO - Insert Email Item
-	    	notificationText = "TODO-Insert Email Item";
+	    	notificationText = notification.getTitle() + " - " + notification.getMessageBody();
 	    	notificationAlignment = Gravity.LEFT;
 	    } 
 	    _notificationTextView.setText(notificationText);
@@ -401,6 +405,11 @@ public class NotificationView extends LinearLayout {
 		_receivedAtTextView.setText(receivedAtText);
 	}
 	
+	private void setupCalendarView(){
+		if (Log.getDebug()) Log.v("NotificationView.setupCalendarView()");
+		_contactLinearLayout.setVisibility(View.GONE);
+		_underContactDividerImageView.setVisibility(View.GONE);
+	}
 	
 	/**
 	 * Insert the image from the users contacts into the notification View.
@@ -422,8 +431,6 @@ public class NotificationView extends LinearLayout {
 	    	// Load the placeholder image if the contact has no photo.
 	    	_photoImageView.setImageBitmap(getRoundedCornerBitmap(BitmapFactory.decodeResource(getContext().getResources(), R.drawable.ic_contact_picture), 5));
 	    }
-	    //_photoImageView.setFocusable(true);
-	    //_photoImageView.setClickable(true);
 	}
 	
 	/**
