@@ -62,38 +62,40 @@ public class NotificationActivity extends Activity {
 	private final int NOTIFICATION_TYPE_CALENDAR = 3;
 	private final int NOTIFICATION_TYPE_EMAIL = 4;
 	
-    public final int INCOMING_CALL_TYPE = android.provider.CallLog.Calls.INCOMING_TYPE;
-    public final int OUTGOING_CALL_TYPE = android.provider.CallLog.Calls.OUTGOING_TYPE;
-    public final int MISSED_CALL_TYPE = android.provider.CallLog.Calls.MISSED_TYPE;
+	private final int INCOMING_CALL_TYPE = android.provider.CallLog.Calls.INCOMING_TYPE;
+	private final int OUTGOING_CALL_TYPE = android.provider.CallLog.Calls.OUTGOING_TYPE;
+	private final int MISSED_CALL_TYPE = android.provider.CallLog.Calls.MISSED_TYPE;
 	
-	static final int DIALOG_DELETE_MESSAGE = 0;
+	private final int DIALOG_DELETE_MESSAGE = 0;
 
-	final String APP_ENABLED_KEY = "app_enabled";
-	final String SMS_NOTIFICATIONS_ENABLED_KEY = "sms_notifications_enabled";
-	final String MMS_NOTIFICATIONS_ENABLED_KEY = "mms_notifications_enabled";
-	final String MISSED_CALL_NOTIFICATIONS_ENABLED_KEY = "missed_call_notifications_enabled";
-	final String SCREEN_ENABLED_KEY = "screen_enabled";
-	final String SCREEN_DIM_ENABLED_KEY = "screen_dim_enabled";
-	final String KEYGUARD_ENABLED_KEY = "keyguard_enabled";
+	private final String APP_ENABLED_KEY = "app_enabled";
+	private final String SMS_NOTIFICATIONS_ENABLED_KEY = "sms_notifications_enabled";
+	private final String MMS_NOTIFICATIONS_ENABLED_KEY = "mms_notifications_enabled";
+	private final String MISSED_CALL_NOTIFICATIONS_ENABLED_KEY = "missed_call_notifications_enabled";
+	private final String SCREEN_ENABLED_KEY = "screen_enabled";
+	private final String SCREEN_DIM_ENABLED_KEY = "screen_dim_enabled";
+	private final String KEYGUARD_ENABLED_KEY = "keyguard_enabled";
 	
-	final String SMS_DELETE_KEY = "sms_delete_button_action";
-	final String MMS_DELETE_KEY = "mms_delete_button_action";
-	final String SMS_DISMISS_ACTION_MARK_READ = "0";
-	final String SMS_DELETE_ACTION_DELETE_MESSAGE = "0";
-	final String SMS_DELETE_ACTION_DELETE_THREAD = "1";
-	final String SMS_DELETE_ACTION_NOTHING = "2";
-	final String MMS_DISMISS_ACTION_MARK_READ = "0";
-	final String MMS_DELETE_ACTION_DELETE_MESSAGE = "0";
-	final String MMS_DELETE_ACTION_DELETE_THREAD = "1";
-	final String MMS_DELETE_ACTION_NOTHING = "2";
+	private final String SMS_DELETE_KEY = "sms_delete_button_action";
+	private final String MMS_DELETE_KEY = "mms_delete_button_action";
+	private final String SMS_DISMISS_ACTION_MARK_READ = "0";
+	private final String SMS_DELETE_ACTION_DELETE_MESSAGE = "0";
+	private final String SMS_DELETE_ACTION_DELETE_THREAD = "1";
+	private final String SMS_DELETE_ACTION_NOTHING = "2";
+	private final String MMS_DISMISS_ACTION_MARK_READ = "0";
+	private final String MMS_DELETE_ACTION_DELETE_MESSAGE = "0";
+	private final String MMS_DELETE_ACTION_DELETE_THREAD = "1";
+	private final String MMS_DELETE_ACTION_NOTHING = "2";
 	
-	final int CONTACT_PHOTO_IMAGE_VIEW = R.id.from_image_view;
+	private final int CONTACT_PHOTO_IMAGE_VIEW = R.id.contact_image_view;
+	private final int CONTACT_PHOTO_LINEAR_LAYOUT = R.id.contact_linear_layout;
 	
-	final int VIEW_CONTACT_CONTEXT_MENU = R.id.view_contact;
-	final int ADD_CONTACT_CONTEXT_MENU = R.id.add_contact;
-	final int CALL_CONTACT_CONTEXT_MENU = R.id.call_contact;
-	final int TEXT_CONTACT_CONTEXT_MENU = R.id.text_contact;	
-	final int EDIT_CONTACT_CONTEXT_MENU = R.id.edit_contact;	
+	private final int VIEW_CONTACT_CONTEXT_MENU = R.id.view_contact;
+	private final int ADD_CONTACT_CONTEXT_MENU = R.id.add_contact;
+	private final int CALL_CONTACT_CONTEXT_MENU = R.id.call_contact;
+	private final int TEXT_CONTACT_CONTEXT_MENU = R.id.text_contact;	
+	private final int EDIT_CONTACT_CONTEXT_MENU = R.id.edit_contact;
+	
 	//================================================================================
     // Properties
     //================================================================================
@@ -386,7 +388,7 @@ public class NotificationActivity extends Activity {
 	        /*
 	         * Contact photo ConextMenu.
 	         */
-			case CONTACT_PHOTO_IMAGE_VIEW:
+			case CONTACT_PHOTO_LINEAR_LAYOUT:
 				MenuInflater menuInflater = getMenuInflater();
 				NotificationViewFlipper notificationViewFlipper = getNotificationViewFlipper();
 				int currentNotification = notificationViewFlipper.getCurrentNotification();
@@ -589,8 +591,7 @@ public class NotificationActivity extends Activity {
 //	    }
 //	    if(preferences.getBoolean(SCREEN_ENABLED_KEY, true)){
 //	    	getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
-//	    }
-	    
+//	    }    
 //	    getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
 //	    		| WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
 //	    		| WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
@@ -636,6 +637,10 @@ public class NotificationActivity extends Activity {
 	    	if (Log.getDebug()) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_EMAIL");
 	    	//TODO - Email Message
 	    }
+	    
+	    //Testing out the calendar function. This can only be run on a phone, not on the emulator.
+	    setupCalendarReminders(extrasBundle);
+	    
 	    //Acquire WakeLock
 	    acquireWakeLock(context);
 	    //Remove the KeyGuard
@@ -833,18 +838,18 @@ public class NotificationActivity extends Activity {
 		setNextButton(nextButton);
 		setNotificationCountTextView(notificationCountTextView);
 		// Previous Button
-		getPreviousButton().setOnClickListener(new OnClickListener() {
+		previousButton.setOnClickListener(new OnClickListener() {
 		    public void onClick(View v) {
 		    	if (Log.getDebug()) Log.v("Previous Button Clicked()");
-		    	getNotificationViewFlipper().showPrevious();
+		    	notificationViewFlipper.showPrevious();
 		    	updateNavigationButtons(previousButton, notificationCountTextView, nextButton, notificationViewFlipper);
 		    }
 		});
 		// Next Button
-		getNextButton().setOnClickListener(new OnClickListener() {
+		nextButton.setOnClickListener(new OnClickListener() {
 		    public void onClick(View v) {
 		    	if (Log.getDebug()) Log.v("Next Button Clicked()");
-		    	getNotificationViewFlipper().showNext();
+		    	notificationViewFlipper.showNext();
 		    	updateNavigationButtons(previousButton, notificationCountTextView, nextButton, notificationViewFlipper);
 		    }
 		});
@@ -894,6 +899,12 @@ public class NotificationActivity extends Activity {
 	    if (Log.getDebug()) Log.v("NotificationActivity.setupMessages() Notification Phone Number: " + smsMessage.getPhoneNumber());
 	    notificationViewFlipper.addNotification(smsMessage);
 	    updateNavigationButtons(previousButton, notificationCountTextView, nextButton, notificationViewFlipper);
+	}
+	
+	private void setupCalendarReminders(Bundle bundle){
+		
+		
+		
 	}
 	
 	/**

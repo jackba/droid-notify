@@ -11,24 +11,26 @@
 		android:layout_height="wrap_content"
 		android:layout_gravity="left">
 		<ImageView
-			android:src="@android:drawable/ic_dialog_info"
+			android:src="@drawable/ic_dialog_info"
 			android:id="@+id/notification_type_icon_image_view"
 			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
 			android:layout_gravity="center"
 			android:scaleType="center"
-			android:layout_margin="4dp" android:layout_height="match_parent"/>
+			android:layout_margin="4dp"/>
 			<TextView
 				android:id="@+id/time_text_view"
 				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
 				android:gravity="center_vertical"
 				android:text="Timestamp"
 				android:textAppearance="?android:attr/textAppearanceSmall"
 				android:padding="1dp"
-				android:textColorLink="?android:attr/textColorPrimaryDisableOnly" android:layout_height="match_parent"/>
+				android:textColorLink="?android:attr/textColorPrimaryDisableOnly"/>
 	</LinearLayout>
 	<ImageView
   		xmlns:android="http://schemas.android.com/apk/res/android"
-  		android:src="@android:drawable/divider_horizontal_dark"
+  		android:src="@drawable/divider_horizontal_dark"
   		android:layout_width="fill_parent"
   		android:layout_height="wrap_content"
   		android:scaleType="fitXY"
@@ -37,17 +39,20 @@
   		android:paddingBottom="2dp"
   		android:paddingTop="2dp" />
 	<LinearLayout
-		android:id="@+id/from_linear_layout"
+		android:id="@+id/contact_linear_layout"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
-		android:layout_gravity="left">
+		android:layout_gravity="left"
+		android:focusable="true" 
+		android:clickable="true"
+		android:background="@drawable/list_selector_background">
 		<ImageView
-			android:src="@android:drawable/ic_dialog_info"
-			android:id="@+id/from_image_view"
+			android:src="@drawable/ic_dialog_info"
+			android:id="@+id/contact_image_view"
 			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
 			android:layout_gravity="center"
 			android:scaleType="center"
-			android:layout_height="wrap_content"
 			android:layout_margin="4dp" />
 		<LinearLayout
 			android:orientation="vertical"
@@ -59,11 +64,11 @@
 			<TextView
 				android:id="@+id/from_text_view"
 				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
 				android:gravity="center_vertical"
 				android:autoLink="phone"
 				android:textAppearance="?android:attr/textAppearanceLarge"
 				android:maxLines="2"
-				android:layout_height="wrap_content"
 				android:text="Contact Name"
 				android:ellipsize="end"
 				android:paddingBottom="2dp"
@@ -80,7 +85,7 @@
 	</LinearLayout>
 	<ImageView
   		xmlns:android="http://schemas.android.com/apk/res/android"
-  		android:src="@android:drawable/divider_horizontal_dark"
+  		android:src="@drawable/divider_horizontal_dark"
   		android:layout_width="fill_parent"
   		android:layout_height="wrap_content"
   		android:scaleType="fitXY"
@@ -105,9 +110,11 @@
 	<LinearLayout 
 		xmlns:android="http://schemas.android.com/apk/res/android"
 		android:layout_width="fill_parent" 
-		android:background="@android:color/darker_gray" 
-		android:layout_height="wrap_content" android:padding="2dp" 
-		android:gravity="center" android:id="@+id/phone_button_layout">
+		android:background="@color/darker_gray" 
+		android:layout_height="wrap_content" 
+		android:padding="2dp" 
+		android:gravity="center" 
+		android:id="@+id/phone_button_layout">
 		<Button android:layout_width="fill_parent" 
 			android:layout_height="wrap_content" 
 			android:text="@string/dismiss_button_text" 
@@ -124,9 +131,11 @@
 	<LinearLayout 
 		xmlns:android="http://schemas.android.com/apk/res/android"
 		android:layout_width="fill_parent" 
-		android:background="@android:color/darker_gray" 
-		android:layout_height="wrap_content" android:padding="2dp" 
-		android:gravity="center" android:id="@+id/sms_button_layout">
+		android:background="@color/darker_gray" 
+		android:layout_height="wrap_content" 
+		android:padding="2dp" 
+		android:gravity="center" 
+		android:id="@+id/sms_button_layout">
 		<Button android:layout_width="fill_parent" 
 			android:layout_height="wrap_content" 
 			android:text="@string/dismiss_button_text" 
@@ -148,14 +157,16 @@
 	<LinearLayout 
 		xmlns:android="http://schemas.android.com/apk/res/android"
 		android:layout_width="fill_parent" 
-		android:background="@android:color/darker_gray" 
-		android:layout_height="wrap_content" android:padding="2dp" 
-		android:gravity="center" android:id="@+id/calendar_button_layout">
+		android:background="@color/darker_gray" 
+		android:layout_height="wrap_content" 
+		android:padding="2dp" 
+		android:gravity="center" 
+		android:id="@+id/calendar_button_layout">
 		<Button android:layout_width="fill_parent" 
 			android:layout_height="wrap_content" 
 			android:text="@string/dismiss_button_text" 
 			android:drawableLeft="@drawable/ic_dialog_alert"
-			android:id="@+id/phone_dismiss_button" 
+			android:id="@+id/calendar_dismiss_button" 
 			android:layout_weight="1" />
 		<Button android:layout_width="fill_parent" 
 			android:layout_height="wrap_content" 

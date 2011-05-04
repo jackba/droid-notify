@@ -14,6 +14,7 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.net.Uri;
+import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Gravity;
 import android.view.Menu;
@@ -42,6 +43,9 @@ public class NotificationView extends LinearLayout {
 	private final int NOTIFICATION_TYPE_CALENDAR = 3;
 	private final int NOTIFICATION_TYPE_EMAIL = 4;
 	
+	private final int CONTACT_PHOTO_IMAGE_VIEW = R.id.contact_image_view;
+	private final int CONTACT_PHOTO_LINEAR_LAYOUT = R.id.contact_linear_layout;
+	
 	//================================================================================
     // Properties
     //================================================================================
@@ -54,10 +58,11 @@ public class NotificationView extends LinearLayout {
 	private TextView _notificationTextView;
 	private ImageView _notificationIconImageView = null;
 	private ImageView _photoImageView = null;
+	private LinearLayout _contactLinearLayout = null;
 	private NotificationViewFlipper _notificationViewFlipper = null;
-	private LinearLayout _phoneButtonLayout = null;
-	private LinearLayout _smsButtonLayout = null;
-	private LinearLayout _calendarButtonLayout = null;
+	private LinearLayout _phoneButtonLinearLayout = null;
+	private LinearLayout _smsButtonLinearLayout = null;
+	private LinearLayout _calendarButtonLinearLayout = null;
 	private Notification _notification = null;
 
 	//================================================================================
@@ -165,16 +170,19 @@ public class NotificationView extends LinearLayout {
 	    if (Log.getDebug()) Log.v("NotificationView should be inflated now");
 	    _fromTextView = (TextView) findViewById(R.id.from_text_view);
 	    _phoneNumberTextView = (TextView) findViewById(R.id.phone_number_text_view);
+	    //Automatically format the phone number input into this text view.
+		_phoneNumberTextView.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
 	    _notificationTextView = (TextView) findViewById(R.id.notification_text_view);
 	    _receivedAtTextView = (TextView) findViewById(R.id.time_text_view);
-	    _photoImageView = (ImageView) findViewById(R.id.from_image_view);
+	    _photoImageView = (ImageView) findViewById(R.id.contact_image_view);
 	    _notificationIconImageView = (ImageView) findViewById(R.id.notification_type_icon_image_view);    
 	    setNotificationViewFlipper(((NotificationActivity)getContext()).getNotificationViewFlipper());
-	    _phoneButtonLayout = (LinearLayout) findViewById(R.id.phone_button_layout);
-		_smsButtonLayout = (LinearLayout) findViewById(R.id.sms_button_layout);
-		_calendarButtonLayout = (LinearLayout) findViewById(R.id.calendar_button_layout);
+	    _phoneButtonLinearLayout = (LinearLayout) findViewById(R.id.phone_button_layout);
+		_smsButtonLinearLayout = (LinearLayout) findViewById(R.id.sms_button_layout);
+		_calendarButtonLinearLayout = (LinearLayout) findViewById(R.id.calendar_button_layout);
 		_notificationTextView.setMovementMethod(new ScrollingMovementMethod());
 		_notificationTextView.setScrollbarFadingEnabled(false);
+		_contactLinearLayout = (LinearLayout) findViewById(R.id.contact_linear_layout);
 	}
 
 	private void setupNotificationViewButtons(Notification notification) {
@@ -269,11 +277,12 @@ public class NotificationView extends LinearLayout {
 	    	smsButtonLayoutVisibility = View.GONE;
 	    	calendarButtonLayoutVisibility = View.VISIBLE;
 			// Dismiss Button
-	    	final Button mmsDismissButton = (Button) findViewById(R.id.sms_dismiss_button);		      
-			mmsDismissButton.setOnClickListener(new OnClickListener() {
+	    	final Button calendarDismissButton = (Button) findViewById(R.id.sms_dismiss_button);		      
+	    	calendarDismissButton.setOnClickListener(new OnClickListener() {
 			    public void onClick(View view) {
 			    	if (Log.getDebug()) Log.v("Calendar Dismiss Button Clicked()");
-			    	dismissNotification();
+			    	//TODO - Calendar Reminder
+			    	//dismissNotification();
 			    }
 			});			    			
 			// View Button
@@ -289,10 +298,12 @@ public class NotificationView extends LinearLayout {
 	    if(notificationType == NOTIFICATION_TYPE_EMAIL){
 	    	phoneButtonLayoutVisibility = View.GONE;
 	    	smsButtonLayoutVisibility = View.GONE;
-	    	//TODO - Calendar Reminder
+	    	calendarButtonLayoutVisibility = View.GONE;
+	    	//TODO - Email Notification
 	    }
-		_phoneButtonLayout.setVisibility(phoneButtonLayoutVisibility);
-    	_smsButtonLayout.setVisibility(smsButtonLayoutVisibility);
+		_phoneButtonLinearLayout.setVisibility(phoneButtonLayoutVisibility);
+    	_smsButtonLinearLayout.setVisibility(smsButtonLayoutVisibility);
+    	_calendarButtonLinearLayout.setVisibility(calendarButtonLayoutVisibility);
 	}
 	
 	/**
@@ -411,8 +422,8 @@ public class NotificationView extends LinearLayout {
 	    	// Load the placeholder image if the contact has no photo.
 	    	_photoImageView.setImageBitmap(getRoundedCornerBitmap(BitmapFactory.decodeResource(getContext().getResources(), R.drawable.ic_contact_picture), 5));
 	    }
-	    _photoImageView.setFocusable(true);
-	    _photoImageView.setClickable(true);
+	    //_photoImageView.setFocusable(true);
+	    //_photoImageView.setClickable(true);
 	}
 	
 	/**
@@ -515,10 +526,10 @@ public class NotificationView extends LinearLayout {
 		NotificationActivity notificationActivity = (NotificationActivity)context;
 		int notificationType = getNotificationType();
 		if(notificationType == NOTIFICATION_TYPE_PHONE){
-			notificationActivity.registerForContextMenu(_photoImageView);
+			notificationActivity.registerForContextMenu(_contactLinearLayout);
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_SMS || notificationType == NOTIFICATION_TYPE_MMS){
-	    	notificationActivity.registerForContextMenu(_photoImageView);
+	    	notificationActivity.registerForContextMenu(_contactLinearLayout);
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
 	    	
