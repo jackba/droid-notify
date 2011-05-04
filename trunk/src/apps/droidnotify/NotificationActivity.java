@@ -420,7 +420,8 @@ public class NotificationActivity extends Activity {
 					menuItem.setVisible(false);
 			    }
 			    if(notificationType == NOTIFICATION_TYPE_MMS){
-			    	//TODO - MMS Message
+			    	MenuItem menuItem = contextMenu.findItem(TEXT_CONTACT_CONTEXT_MENU);
+					menuItem.setVisible(false);
 			    }
 			    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
 			    	//TODO - Calendar Event

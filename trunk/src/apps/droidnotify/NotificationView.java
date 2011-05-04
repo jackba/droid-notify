@@ -57,6 +57,7 @@ public class NotificationView extends LinearLayout {
 	private NotificationViewFlipper _notificationViewFlipper = null;
 	private LinearLayout _phoneButtonLayout = null;
 	private LinearLayout _smsButtonLayout = null;
+	private LinearLayout _calendarButtonLayout = null;
 	private Notification _notification = null;
 
 	//================================================================================
@@ -171,6 +172,7 @@ public class NotificationView extends LinearLayout {
 	    setNotificationViewFlipper(((NotificationActivity)getContext()).getNotificationViewFlipper());
 	    _phoneButtonLayout = (LinearLayout) findViewById(R.id.phone_button_layout);
 		_smsButtonLayout = (LinearLayout) findViewById(R.id.sms_button_layout);
+		_calendarButtonLayout = (LinearLayout) findViewById(R.id.calendar_button_layout);
 		_notificationTextView.setMovementMethod(new ScrollingMovementMethod());
 		_notificationTextView.setScrollbarFadingEnabled(false);
 	}
@@ -179,10 +181,12 @@ public class NotificationView extends LinearLayout {
 		int notificationType = notification.getNotificationType();
 		int phoneButtonLayoutVisibility = View.GONE;
 		int smsButtonLayoutVisibility = View.GONE;
+		int calendarButtonLayoutVisibility = View.GONE;
 	    if(notificationType == NOTIFICATION_TYPE_PHONE){
 	    	//Display the correct navigation buttons for each notification type.
 	    	phoneButtonLayoutVisibility = View.VISIBLE;
 	    	smsButtonLayoutVisibility = View.GONE;
+	    	calendarButtonLayoutVisibility = View.GONE;
 			// Dismiss Button
 	    	final Button phoneDismissButton = (Button) findViewById(R.id.phone_dismiss_button);		      
 			phoneDismissButton.setOnClickListener(new OnClickListener() {
@@ -204,6 +208,7 @@ public class NotificationView extends LinearLayout {
 			//Display the correct navigation buttons for each notification type.
 	    	phoneButtonLayoutVisibility = View.GONE;
 	    	smsButtonLayoutVisibility = View.VISIBLE;
+	    	calendarButtonLayoutVisibility = View.GONE;
 			// Dismiss Button
 	    	final Button smsDismissButton = (Button) findViewById(R.id.sms_dismiss_button);		      
 			smsDismissButton.setOnClickListener(new OnClickListener() {
@@ -233,6 +238,7 @@ public class NotificationView extends LinearLayout {
 			//Display the correct navigation buttons for each notification type.
 	    	phoneButtonLayoutVisibility = View.GONE;
 	    	smsButtonLayoutVisibility = View.VISIBLE;
+	    	calendarButtonLayoutVisibility = View.GONE;
 			// Dismiss Button
 	    	final Button mmsDismissButton = (Button) findViewById(R.id.sms_dismiss_button);		      
 			mmsDismissButton.setOnClickListener(new OnClickListener() {
@@ -261,7 +267,24 @@ public class NotificationView extends LinearLayout {
 	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
 	    	phoneButtonLayoutVisibility = View.GONE;
 	    	smsButtonLayoutVisibility = View.GONE;
-	    	//TODO - Calendar Reminder
+	    	calendarButtonLayoutVisibility = View.VISIBLE;
+			// Dismiss Button
+	    	final Button mmsDismissButton = (Button) findViewById(R.id.sms_dismiss_button);		      
+			mmsDismissButton.setOnClickListener(new OnClickListener() {
+			    public void onClick(View view) {
+			    	if (Log.getDebug()) Log.v("Calendar Dismiss Button Clicked()");
+			    	dismissNotification();
+			    }
+			});			    			
+			// View Button
+			final Button calendarViewButton = (Button) findViewById(R.id.calendar_view_button);
+			calendarViewButton.setOnClickListener(new OnClickListener() {
+			    public void onClick(View view) {
+			    	if (Log.getDebug()) Log.v("Calendar View Button Clicked()");
+			    	//TODO - Calendar Reminder
+			    	//replyToMessage();
+			    }
+			});
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_EMAIL){
 	    	phoneButtonLayoutVisibility = View.GONE;
@@ -490,7 +513,19 @@ public class NotificationView extends LinearLayout {
 		if (Log.getDebug()) Log.v("NotificationActivity.setupContextMenus()"); 
 		Context context = getContext();
 		NotificationActivity notificationActivity = (NotificationActivity)context;
-		notificationActivity.registerForContextMenu(_photoImageView);
+		int notificationType = getNotificationType();
+		if(notificationType == NOTIFICATION_TYPE_PHONE){
+			notificationActivity.registerForContextMenu(_photoImageView);
+	    }
+	    if(notificationType == NOTIFICATION_TYPE_SMS || notificationType == NOTIFICATION_TYPE_MMS){
+	    	notificationActivity.registerForContextMenu(_photoImageView);
+	    }
+	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
+	    	
+	    }
+	    if(notificationType == NOTIFICATION_TYPE_EMAIL){
+	    	
+	    } 	
 	}
 	
 //	/**
