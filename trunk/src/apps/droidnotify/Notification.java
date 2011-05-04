@@ -577,7 +577,7 @@ public class Notification {
 			return;
 		}
 		final String[] projection = new String[] { "_ID", "THREAD_ID" };
-		final String selection = "ADDRESS = " + phoneNumber;
+		final String selection = "ADDRESS = " + DatabaseUtils.sqlEscapeString(phoneNumber);
 		final String[] selectionArgs = null;
 		final String sortOrder = null;
 	    long threadID = 0;
@@ -740,7 +740,7 @@ public class Notification {
 			contentValues.put(android.provider.CallLog.Calls.NEW, 1);
 		}
 		String selection = android.provider.CallLog.Calls.NUMBER + " = ? and " + android.provider.CallLog.Calls.DATE + " = ?";
-		String[] selectionArgs = new String[] {phoneNumber, Long.toString(timeStamp)};
+		String[] selectionArgs = new String[] {DatabaseUtils.sqlEscapeString(phoneNumber), Long.toString(timeStamp)};
 		context.getContentResolver().update(
 				Uri.parse("content://call_log/calls"),
 				contentValues,
@@ -757,7 +757,7 @@ public class Notification {
 		String phoneNumber = getPhoneNumber();
 		long timeStamp = getTimeStamp();
 		String selection = android.provider.CallLog.Calls.NUMBER + " = ? and " + android.provider.CallLog.Calls.DATE + " = ?";
-		String[] selectionArgs = new String[] {phoneNumber, Long.toString(timeStamp)};
+		String[] selectionArgs = new String[] {DatabaseUtils.sqlEscapeString(phoneNumber), Long.toString(timeStamp)};
 		context.getContentResolver().delete(
 				Uri.parse("content://call_log/calls"),
 				selection, 
