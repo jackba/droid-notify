@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 
@@ -139,26 +140,36 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 	//================================================================================
 	
 	/**
-	 *
+	 * This function starts the main AlarmManager that will check the users calendar for events.
+	 * This function should run only once when the application is installed.
 	 */
 	private void runOnceAlarmManager(){
 		if (Log.getDebug()) Log.v("DroidNotifyPreferenceActivity.runOnceAlarmManager()");
 		Context context = getContext();
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		boolean runOnce = preferences.getBoolean("runOnce", true);
-		if (Log.getDebug()) Log.v("DroidNotifyPreferenceActivity.runOnceAlarmManager() RunOnce?" + runOnce);
-		if(runOnce) {
+		if (Log.getDebug()) Log.v("DroidNotifyPreferenceActivity.runOnceAlarmManager() Run Once?" + runOnce);
+		//if(runOnce) {
 			if (Log.getDebug()) Log.v("DroidNotifyPreferenceActivity.runOnceAlarmManager() Alarm Code Running");
 			SharedPreferences.Editor editor = preferences.edit();
 			editor.putBoolean("runOnce", false);
 			editor.commit();
 			//Schedule event.
-			Intent intent = new Intent(context, CalendarAlarmReceiver.class);
-	    	PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
-			AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-			alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 1000, 30 * 1000, pendingIntent);
-       }
+			AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+			Intent intent = new Intent(context, CalendarOnAlarmReceiver.class);
+			PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+			alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, getStartTimeOfAlarm(), AlarmManager.INTERVAL_DAY, pendingIntent);
+       //}
+	}
 	
+	/**
+	 * Calculates the start time of the alarm.
+	 * 
+	 * @return alarmStartTime
+	 */
+	private long getStartTimeOfAlarm(){
+		long alarmStartTime = SystemClock.elapsedRealtime() + (2 * 60 * 1000); // 2 Minutes From Current Time
+		return alarmStartTime;
 	}
 	
 }

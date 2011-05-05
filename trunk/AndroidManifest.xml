@@ -55,11 +55,15 @@
                 <action android:name="android.intent.action.EVENT_REMINDER" />
             </intent-filter> 
         </receiver> 
-		<receiver android:name=".CalendarReceiver">
+		<receiver android:name=".CalendarOnBootReceiver">
 			<intent-filter>
-			<action android:name="android.intent.action.BOOT_COMPLETED" />
+				<action android:name="android.intent.action.BOOT_COMPLETED" />
 			</intent-filter>
 		</receiver>
+		<receiver android:name=".CalendarOnAlarmReceiver"></receiver>
+		<service android:name=".CalendarReceiverService"></service>
+		<receiver android:name=".CalendarNotificationOnAlarmReceiver"></receiver>
+		<service android:name=".CalendarNotificationReceiverService"></service>
    		<activity 
    			android:name=".NotificationActivity" 
    			android:theme="@style/Theme.TranslucentDialog"

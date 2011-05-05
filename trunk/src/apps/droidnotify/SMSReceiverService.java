@@ -217,16 +217,7 @@ public class SMSReceiverService extends Service {
 	    	Intent newIntent = new Intent(context, NotificationActivity.class);
 	    	newIntent.putExtras(bundle);
 	    	newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-	    	context.startActivity(newIntent);	    	
-//	    	//START CALENDAR TEST
-//	    	Intent newIntent = new Intent(context, NotificationActivity.class);
-//	    	Bundle newBundle = new Bundle();
-//	    	newBundle.putInt("notificationType", NOTIFICATION_TYPE_CALENDAR);
-//	    	newBundle.putStringArray("calenderReminderInfo",new String[]{"Camille's Birthday","Get Camille a pressent NOW!","1304516824000"});
-//	    	newIntent.putExtras(newBundle);
-//	    	newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-//	    	context.startActivity(newIntent);
-//	    	//END CALENDAR TEST
+	    	context.startActivity(newIntent);
 	    }
 	}
 

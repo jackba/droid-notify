@@ -1,26 +1,32 @@
 package apps.droidnotify;
 
+/***
+	Copyright (c) 2008-2011 CommonsWare, LLC
+	Licensed under the Apache License, Version 2.0 (the "License"); you may not
+	use this file except in compliance with the License. You may obtain	a copy
+	of the License at http://www.apache.org/licenses/LICENSE-2.0. Unless required
+	by applicable law or agreed to in writing, software distributed under the
+	License is distributed on an "AS IS" BASIS,	WITHOUT	WARRANTIES OR CONDITIONS
+	OF ANY KIND, either express or implied. See the License for the specific
+	language governing permissions and limitations under the License.
+	
+	From _The Busy Coder's Guide to Advanced Android Development_
+		http://commonsware.com/AdvAndroid
+*/
+
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.HandlerThread;
-import android.os.IBinder;
-import android.os.Looper;
-import android.os.Message;
-import android.os.PowerManager;
-import android.os.Process;
-import android.telephony.TelephonyManager;
+import android.os.SystemClock;
 
 /**
  * 
- * @author Camille Sevigny
+* @author CommonsWare edited by Camille Sevigny
  *
  */
-public class CalendarReceiverService extends Service {
+public class CalendarReceiverService extends WakefulIntentService {
 
 	//================================================================================
     // Constants
@@ -31,47 +37,18 @@ public class CalendarReceiverService extends Service {
 	private final int NOTIFICATION_TYPE_MMS = 2;
 	private final int NOTIFICATION_TYPE_CALENDAR = 3;
 	private final int NOTIFICATION_TYPE_EMAIL = 4;
-    
+	
 	//================================================================================
     // Properties
     //================================================================================
-    
-	private Context _context;
-	private ServiceHandler CalendarServiceHandler;
-    private Looper CalendarServiceLooper;
-	private static Object CalendarStartingServiceSync = new Object();
-	private static PowerManager.WakeLock _wakeLock;
 	
 	//================================================================================
 	// Constructors
 	//================================================================================
 	
-	/**
-	 * CalendarService constructor.
-	 */	
-	public CalendarReceiverService() {
-		if (Log.getDebug()) Log.v("CalendarReceiverService.CalendarService()");
-	}
-	
 	//================================================================================
 	// Accessors
 	//================================================================================
-
-	/**
-	 * Set the context property.
-	 */
-	public void setContext(Context context) {
-		if (Log.getDebug()) Log.v("CalendarReceiverService.setContext()");
-	    _context = context;
-	}
-	
-	/**
-	 * Get the context property.
-	 */
-	public Context getContext() {
-		if (Log.getDebug()) Log.v("CalendarReceiverService.getContext()");
-	    return _context;
-	}
 	
 	//================================================================================
 	// Public Methods
@@ -80,130 +57,54 @@ public class CalendarReceiverService extends Service {
 	/**
 	 * 
 	 */
+	public CalendarReceiverService() {
+		super("CalendarReceiverService");
+		if (Log.getDebug()) Log.v("CalendarReceiverService.CalendarReceiverService()");
+	}
+
+	//================================================================================
+	// Protected Methods
+	//================================================================================
+	
+	/**
+	 * This service function should read the users calendar events for the next 25 hours and start alarms for each one individually.
+	 * 
+	 * @param intent
+	 */
 	@Override
-	public IBinder onBind(Intent intent) {
-		if (Log.getDebug()) Log.v("CalendarReceiverService.onBind()");
-		return null;
+	protected void doWakefulWork(Intent intent) {
+		if (Log.getDebug()) Log.v("CalendarReceiverService.doWakefulWork()");
+		
+		
+		
+		
+		
+		//scheduleCalendarNotification(getApplicationContext(), SystemClock.elapsedRealtime() + 1000 ,"Camille's Birthday", "Get Camille a pressent NOW!", "1304516824000");
+	
+	
+	
+	
+	
 	}
 	
 	/**
 	 * 
 	 */
-	@Override
-	public void onCreate() {
-		super.onCreate();
-		if (Log.getDebug()) Log.v("CalendarReceiverService.onCreate()");
-	    HandlerThread thread = new HandlerThread("DroidNotify", Process.THREAD_PRIORITY_BACKGROUND);
-	    thread.start();
-	    setContext(getApplicationContext());
-	    CalendarServiceLooper = thread.getLooper();
-	    CalendarServiceHandler = new ServiceHandler(CalendarServiceLooper);
-	}
-	
-	/**
-	 * 
-	 */
-	@Override
-	public void onStart(Intent intent, int startId) {
-		super.onStart(intent, startId);
-		if (Log.getDebug()) Log.v("CalendarReceiverService.onStart()");
-	    Message message = CalendarServiceHandler.obtainMessage();
-	    message.arg1 = startId;
-	    message.obj = intent;
-	    CalendarServiceHandler.sendMessage(message);
-	}
-	
-	/**
-	 * 
-	 */
-	@Override
-	public void onDestroy() {
-    	super.onDestroy();
-    	if (Log.getDebug()) Log.v("CalendarReceiverService.onDestroy()");
-    	CalendarServiceLooper.quit();
-	}
-	
-	/**
-	 * Start the service to process the current event notifications.
-	 * Acquiring the wake lock before returning to ensure that the service will run.
-	 */
-	public static void startCalendarMonitoringService(Context context, Intent intent){
-		synchronized (CalendarStartingServiceSync) {
-			if (Log.getDebug()) Log.v("CalendarReceiverService.startCalendarMonitoringService()");
-			PowerManager.WakeLock wakeLock = _wakeLock;
-			if (wakeLock == null) {
-				PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-				wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "DroidNotify.CalendarService");
-				wakeLock.setReferenceCounted(false);
-			}
-			if (Log.getDebug()) Log.v("CalendarReceiverService.startCalendarMonitoringService() Aquired wake lock");
-			wakeLock.acquire();
-			if (Log.getDebug()) Log.v("CalendarReceiverService.startCalendarMonitoringService() Starting service with intent");
-			context.startService(intent);
-		}
-	}
-	
-	/**
-	 * Called back by the service when it has finished processing notifications.
-	 */
-	public static void finishCalendarMonitoringService(Service service, int startId) {
-		synchronized (CalendarStartingServiceSync) {
-	    	if (Log.getDebug()) Log.v("CalendarReceiverService.finishCalendarMonitoringService()");
-	    	PowerManager.WakeLock wakeLock = _wakeLock;
-    		if (wakeLock != null) {
-    			if (service.stopSelfResult(startId)) {
-    				wakeLock.release();
-    			}
-    		}
-		}
+	private void scheduleCalendarNotification(Context context, long scheduledAlarmTime, String title, String body, String timeStamp){
+		if (Log.getDebug()) Log.v("CalendarReceiverService.scheduleCalendarNotification()");
+		AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+    	Intent calendarNotificationIntent = new Intent(context, CalendarNotificationOnAlarmReceiver.class);
+    	Bundle calendarNotificationBundle = new Bundle();
+    	calendarNotificationBundle.putInt("notificationType", NOTIFICATION_TYPE_CALENDAR);
+    	calendarNotificationBundle.putStringArray("calenderReminderInfo",new String[]{title, body, timeStamp});
+    	calendarNotificationIntent.putExtras(calendarNotificationBundle);
+    	calendarNotificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+		PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, calendarNotificationIntent, 0);
+		alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, scheduledAlarmTime, pendingIntent);
 	}
 	
 	//================================================================================
 	// Private Methods
 	//================================================================================
-	
-	/**
-	 * This class has something to do with the new thread we started. 
-	 * I am not completely sure how this part works.
-	 * I copied this from another project.
-	 */
-	private final class ServiceHandler extends Handler {
-		
-		/**
-		 * ServiceHandler constructor.
-		 */
-	    public ServiceHandler(Looper looper) {
-	    	super(looper);
-	    	if (Log.getDebug()) Log.v("CalendarReceiverService.ServiceHandler.ServiceHandler()");
-	    }
-		
-		/**
-		 * Handle the message that was received.
-		 */
-	    @Override
-	    public void handleMessage(Message message) {
-	    	if (Log.getDebug()) Log.v("CalendarReceiverService.ServiceHandler.HandleMessage()");
-	    	int serviceID = message.arg1;
-	    	Intent intent = (Intent) message.obj;
-	    	String action = intent.getAction();
-	        if (Log.getDebug()) Log.v("CalendarReceiverService.ServiceHandler.handleMessage() Action Received: " + action);
-	        displayCalendarNotificationToScreen();
-	    	finishCalendarMonitoringService(CalendarReceiverService.this, serviceID);
-	    }
-	    
-	}
-	
-	/**
-	 * 
-	 * 
-	 * @param intent
-	 */
-	private void displayCalendarNotificationToScreen() {
-		if (Log.getDebug()) Log.v("CalendarReceiverService.displayCalendarNotificationToScreen()");
-//    	Intent intent = new Intent(getContext(), CalendarAlarmReceiver.class);
-//    	PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, 0);
-//		AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-//		alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (5 * 1000), 30 * 1000, pendingIntent);
-	}
 	
 }
