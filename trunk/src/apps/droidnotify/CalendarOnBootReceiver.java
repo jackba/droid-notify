@@ -49,7 +49,7 @@ public class CalendarOnBootReceiver extends BroadcastReceiver {
 	 * @return alarmStartTime
 	 */
 	private long getStartTimeOfAlarm(){
-		long alarmStartTime = SystemClock.elapsedRealtime() + (2 * 60 * 1000); // 2 Minutes From Current Time
+		long alarmStartTime = System.currentTimeMillis() + (2 * 60 * 1000); // 2 Minutes From Current Time
 		return alarmStartTime;
 	}
 	
