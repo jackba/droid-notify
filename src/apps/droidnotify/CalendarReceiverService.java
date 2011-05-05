@@ -200,10 +200,10 @@ public class CalendarReceiverService extends Service {
 	 */
 	private void displayCalendarNotificationToScreen() {
 		if (Log.getDebug()) Log.v("CalendarReceiverService.displayCalendarNotificationToScreen()");
-    	Intent intent = new Intent(getContext(), CalendarAlarmReceiver.class);
-    	PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, 0);
-		AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-		alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (5 * 1000), 30 * 1000, pendingIntent);
+//    	Intent intent = new Intent(getContext(), CalendarAlarmReceiver.class);
+//    	PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, 0);
+//		AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+//		alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (5 * 1000), 30 * 1000, pendingIntent);
 	}
 	
 }
