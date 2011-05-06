@@ -21,6 +21,7 @@ import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.HapticFeedbackConstants;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -33,6 +34,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.view.HapticFeedbackConstants;
 
 /**
  * This is the main activity that runs the notifications.
@@ -73,7 +75,12 @@ public class NotificationActivity extends Activity {
 	private final String CALENDAR_NOTIFICATIONS_ENABLED_KEY = "calendar_notifications_enabled";
 	private final String SCREEN_ENABLED_KEY = "screen_enabled";
 	private final String SCREEN_DIM_ENABLED_KEY = "screen_dim_enabled";
-	private final String KEYGUARD_ENABLED_KEY = "keyguard_enabled";
+	private final String KEYGUARD_ENABLED_KEY = "keyguard_enabled";	
+	private final String MISSED_CALL_VIBRATE_ENABLED_KEY = "missed_call_vibrate_enabled";
+	private final String SMS_VIBRATE_ENABLED_KEY = "sms_vibrate_enabled";
+	private final String MMS_VIBRATE_ENABLED_KEY = "mms_vibrate_enabled";
+	private final String CALENDAR_VIBRATE_ENABLED_KEY = "calendar_vibrate_enabled";
+	private final String HAPTIC_FEEDBACK_ENABLED_KEY = "haptic_feedback_enabled";
 	
 	private final String SMS_DELETE_KEY = "sms_delete_button_action";
 	private final String MMS_DELETE_KEY = "mms_delete_button_action";
@@ -447,6 +454,7 @@ public class NotificationActivity extends Activity {
 		String phoneNumber = notification.getPhoneNumber();
 		long contactID = notification.getContactID();
 		Intent intent = null;
+		customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 		switch (menuItem.getItemId()) {
 			case VIEW_CONTACT_CONTEXT_MENU:
 				try{
@@ -667,11 +675,11 @@ public class NotificationActivity extends Activity {
 	    	if (Log.getDebug()) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_EMAIL");
 	    	//TODO - Email Message
 	    }  
-	    //Set Ring/Vibration feedback to Activity
-	    runNotificationFeedback();
-	    //Acquire WakeLock
+	    //Set Haptic Feedback on Activity.
+	    runNotificationFeedback(notificationType);
+	    //Acquire WakeLock.
 	    acquireWakeLock(context);
-	    //Remove the KeyGuard
+	    //Remove the KeyGuard.
 	    disableKeyguardLock(context);
 	}
 
@@ -767,11 +775,13 @@ public class NotificationActivity extends Activity {
 				}
 				builder.setPositiveButton(R.string.delete_button_text, new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
+							customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 							deleteMessage();
 						}
 					})
 					.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
+							customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 			            	dialog.cancel();
 						}
 					});
@@ -1165,11 +1175,56 @@ public class NotificationActivity extends Activity {
 	/**
 	 * Set ring tone or vibration based on users preferences for this notification.
 	 */
-	private void runNotificationFeedback(){
+	private void runNotificationFeedback(int notificationType){
 		if (Log.getDebug()) Log.v("NotificationActivity.runNotificationFeedback()");
 		Vibrator vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
-		//TODO - Set vibration based on user preferences
-		vibrator.vibrate(1 * 1000);
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+		//Set vibration based on user preferences.
+	    if(notificationType == NOTIFICATION_TYPE_PHONE){
+	 	    if(preferences.getBoolean(MISSED_CALL_VIBRATE_ENABLED_KEY, true)){
+	 	    	vibrator.vibrate(1 * 1000);
+	 	    }
+	    }
+	    if(notificationType == NOTIFICATION_TYPE_SMS){
+	 	    if(preferences.getBoolean(SMS_VIBRATE_ENABLED_KEY, true)){
+	 	    	vibrator.vibrate(1 * 1000);
+	 	    }
+	    }
+	    if(notificationType == NOTIFICATION_TYPE_MMS){
+	 	    if(preferences.getBoolean(MMS_VIBRATE_ENABLED_KEY, true)){
+	 	    	vibrator.vibrate(1 * 1000);
+	 	    }
+	    }
+	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
+	 	    if(preferences.getBoolean(CALENDAR_VIBRATE_ENABLED_KEY, true)){
+	 	    	vibrator.vibrate(1 * 1000);
+	 	    }
+	    }
+	    if(notificationType == NOTIFICATION_TYPE_EMAIL){
+	    	//TODO - Email Message
+	    }
+	}
+	
+	/**
+	 * Custom haptic feedback function.
+	 * Performs haptic feedback based on the users preferences.
+	 * 
+	 * @param hapticFeedbackConstant
+	 */
+	private void customPerformHapticFeedback(int hapticFeedbackConstant){
+		Vibrator vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+		//Perform the haptic feedback based on the users preferences.
+		if(preferences.getBoolean(HAPTIC_FEEDBACK_ENABLED_KEY, true)){
+			if(hapticFeedbackConstant == HapticFeedbackConstants.VIRTUAL_KEY){
+				vibrator.vibrate(50);
+			}
+		}
+		if(preferences.getBoolean(HAPTIC_FEEDBACK_ENABLED_KEY, true)){
+			if(hapticFeedbackConstant == HapticFeedbackConstants.LONG_PRESS){
+				vibrator.vibrate(100);
+			}
+		}
 	}
 	
 }

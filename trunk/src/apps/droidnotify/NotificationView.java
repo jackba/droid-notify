@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
@@ -14,17 +15,16 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Gravity;
-import android.view.Menu;
+import android.view.HapticFeedbackConstants;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 /**
@@ -46,6 +46,8 @@ public class NotificationView extends LinearLayout {
 	
 	private final int CONTACT_PHOTO_IMAGE_VIEW = R.id.contact_image_view;
 	private final int CONTACT_PHOTO_LINEAR_LAYOUT = R.id.contact_linear_layout;
+	
+	private final String HAPTIC_FEEDBACK_ENABLED_KEY = "haptic_feedback_enabled";
 	
 	//================================================================================
     // Properties
@@ -238,18 +240,20 @@ public class NotificationView extends LinearLayout {
 	    	smsButtonLayoutVisibility = View.GONE;
 	    	calendarButtonLayoutVisibility = View.GONE;
 			// Dismiss Button
-	    	final Button phoneDismissButton = (Button) findViewById(R.id.phone_dismiss_button);		      
+	    	final Button phoneDismissButton = (Button) findViewById(R.id.phone_dismiss_button);	
 			phoneDismissButton.setOnClickListener(new OnClickListener() {
 			    public void onClick(View v) {
 			    	if (Log.getDebug()) Log.v("Dismiss Button Clicked()");
+			    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 			    	dismissNotification();
 			    }
 			});
 			// Call Button
-			final Button phoneCallButton = (Button) findViewById(R.id.phone_call_button);		      
+			final Button phoneCallButton = (Button) findViewById(R.id.phone_call_button);
 			phoneCallButton.setOnClickListener(new OnClickListener() {
 			    public void onClick(View v) {
 			    	if (Log.getDebug()) Log.v("Call Button Clicked()");
+			    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 			    	makePhoneCall();
 			    }
 			});
@@ -260,10 +264,11 @@ public class NotificationView extends LinearLayout {
 	    	smsButtonLayoutVisibility = View.VISIBLE;
 	    	calendarButtonLayoutVisibility = View.GONE;
 			// Dismiss Button
-	    	final Button smsDismissButton = (Button) findViewById(R.id.sms_dismiss_button);		      
+	    	final Button smsDismissButton = (Button) findViewById(R.id.sms_dismiss_button);	
 			smsDismissButton.setOnClickListener(new OnClickListener() {
 			    public void onClick(View view) {
 			    	if (Log.getDebug()) Log.v("SMS Dismiss Button Clicked()");
+			    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 			    	dismissNotification();
 			    }
 			});		    			
@@ -272,14 +277,16 @@ public class NotificationView extends LinearLayout {
 			smsDeleteButton.setOnClickListener(new OnClickListener() {
 			    public void onClick(View view) {
 			    	if (Log.getDebug()) Log.v("SMS Delete Button Clicked()");
+			    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 			    	showDeleteDialog();
 			    }
 			});
 			// Reply Button
-			final Button smsReplyButton = (Button) findViewById(R.id.sms_reply_button);
+			final Button smsReplyButton = (Button) findViewById(R.id.sms_reply_button); 
 			smsReplyButton.setOnClickListener(new OnClickListener() {
 			    public void onClick(View view) {
 			    	if (Log.getDebug()) Log.v("SMS Reply Button Clicked()");
+			    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 			    	replyToMessage();
 			    }
 			});
@@ -290,26 +297,29 @@ public class NotificationView extends LinearLayout {
 	    	smsButtonLayoutVisibility = View.VISIBLE;
 	    	calendarButtonLayoutVisibility = View.GONE;
 			// Dismiss Button
-	    	final Button mmsDismissButton = (Button) findViewById(R.id.sms_dismiss_button);		      
+	    	final Button mmsDismissButton = (Button) findViewById(R.id.sms_dismiss_button); 
 			mmsDismissButton.setOnClickListener(new OnClickListener() {
 			    public void onClick(View view) {
 			    	if (Log.getDebug()) Log.v("MMS Dismiss Button Clicked()");
+			    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 			    	dismissNotification();
 			    }
 			});			    			
 			// Delete Button
-			final Button mmsDeleteButton = (Button) findViewById(R.id.sms_delete_button);
+			final Button mmsDeleteButton = (Button) findViewById(R.id.sms_delete_button); 
 			mmsDeleteButton.setOnClickListener(new OnClickListener() {
 			    public void onClick(View view) {
 			    	if (Log.getDebug()) Log.v("MMS Delete Button Clicked()");
+			    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 			    	showDeleteDialog();
 			    }
 			});
 			// Reply Button
-			final Button mmsReplyButton = (Button) findViewById(R.id.sms_reply_button);
+			final Button mmsReplyButton = (Button) findViewById(R.id.sms_reply_button); 
 			mmsReplyButton.setOnClickListener(new OnClickListener() {
 			    public void onClick(View view) {
 			    	if (Log.getDebug()) Log.v("MMS Reply Button Clicked()");
+			    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 			    	replyToMessage();
 			    }
 			});
@@ -319,18 +329,20 @@ public class NotificationView extends LinearLayout {
 	    	smsButtonLayoutVisibility = View.GONE;
 	    	calendarButtonLayoutVisibility = View.VISIBLE;
 			// Dismiss Button
-	    	final Button calendarDismissButton = (Button) findViewById(R.id.calendar_dismiss_button);		      
+	    	final Button calendarDismissButton = (Button) findViewById(R.id.calendar_dismiss_button); 
 	    	calendarDismissButton.setOnClickListener(new OnClickListener() {
 			    public void onClick(View view) {
 			    	if (Log.getDebug()) Log.v("Calendar Dismiss Button Clicked()");
+			    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 			    	dismissNotification();
 			    }
 			});			    			
 			// View Button
-			final Button calendarViewButton = (Button) findViewById(R.id.calendar_view_button);
+			final Button calendarViewButton = (Button) findViewById(R.id.calendar_view_button); 
 			calendarViewButton.setOnClickListener(new OnClickListener() {
 			    public void onClick(View view) {
 			    	if (Log.getDebug()) Log.v("Calendar View Button Clicked()");
+			    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 			    	//TODO - Calendar Reminder
 			    	//replyToMessage();
 			    }
@@ -579,6 +591,20 @@ public class NotificationView extends LinearLayout {
 	    if(notificationType == NOTIFICATION_TYPE_EMAIL){
 	    	
 	    } 	
+	}
+
+	/**
+	 * Custom haptic feedback function.
+	 * Performs haptic feedback based on the users preferences.
+	 * 
+	 * @param hapticFeedbackConstant
+	 */
+	private void customPerformHapticFeedback(int hapticFeedbackConstant){
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+		//Perform the haptic feedback based on the users preferences.
+		if(preferences.getBoolean(HAPTIC_FEEDBACK_ENABLED_KEY, true)){
+			performHapticFeedback(hapticFeedbackConstant);
+		}
 	}
 	
 //	/**
