@@ -16,6 +16,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
+import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.view.ContextMenu;
@@ -23,6 +24,7 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
@@ -532,7 +534,7 @@ public class NotificationActivity extends Activity {
 				return super.onContextItemSelected(menuItem);
 		  }
 	}
-
+	
 	/**
 	 * Customized activity finish.
 	 * This closes this activity screen.
@@ -653,7 +655,7 @@ public class NotificationActivity extends Activity {
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
 	    	if (Log.getDebug()) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_CALENDAR");
-			//Read preferences and end activity early if SMS notifications are disabled.
+			//Read preferences and end activity early if calendar notifications are disabled.
 		    if(!preferences.getBoolean(CALENDAR_NOTIFICATIONS_ENABLED_KEY, true)){
 				if (Log.getDebug()) Log.v("NotificationActivity.onCreate() Calendar Notifications Disabled. Finishing Activity... ");
 				finishActivity();
@@ -664,8 +666,9 @@ public class NotificationActivity extends Activity {
 	    if(notificationType == NOTIFICATION_TYPE_EMAIL){
 	    	if (Log.getDebug()) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_EMAIL");
 	    	//TODO - Email Message
-	    }
-	    
+	    }  
+	    //Set Ring/Vibration feedback to Activity
+	    runNotificationFeedback();
 	    //Acquire WakeLock
 	    acquireWakeLock(context);
 	    //Remove the KeyGuard
@@ -830,7 +833,13 @@ public class NotificationActivity extends Activity {
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
 	    	if (Log.getDebug()) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_CALENDAR");
-	    	//TODO - Calendar Event
+			//Read preferences and end activity early if calendar notifications are disabled.
+		    if(!preferences.getBoolean(CALENDAR_NOTIFICATIONS_ENABLED_KEY, true)){
+				if (Log.getDebug()) Log.v("NotificationActivity.onCreate() Calendar Notifications Disabled. Finishing Activity... ");
+				finishActivity();
+				return;
+			}
+		    setupCalendarEventNotifications(extrasBundle);
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_EMAIL){
 	    	if (Log.getDebug()) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_EMAIL");
@@ -1151,6 +1160,16 @@ public class NotificationActivity extends Activity {
 			keyguardLock = null;
 			setKeyguardLock(keyguardLock);
 		}
+	}
+	
+	/**
+	 * Set ring tone or vibration based on users preferences for this notification.
+	 */
+	private void runNotificationFeedback(){
+		if (Log.getDebug()) Log.v("NotificationActivity.runNotificationFeedback()");
+		Vibrator vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
+		//TODO - Set vibration based on user preferences
+		vibrator.vibrate(1 * 1000);
 	}
 	
 }

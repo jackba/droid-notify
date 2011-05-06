@@ -6,8 +6,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
-import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
@@ -45,12 +43,9 @@ public class NotificationViewFlipper extends ViewFlipper {
     // Properties
     //================================================================================
 	
-	private Context _context;
 	private ArrayList<Notification> _notifications;
 	private int _currentNotification;
 	private int _totalNotifications;
-	private boolean _lockMode;
-	private float _oldTouchValue;
 
 	//================================================================================
 	// Constructors
@@ -76,14 +71,6 @@ public class NotificationViewFlipper extends ViewFlipper {
 	//================================================================================
 	// Accessors
 	//================================================================================
-
-	/**
-	 * Set the context property.
-	 */
-	public void setContext(Context context) {
-		if (Log.getDebug()) Log.v("NotificationViewFlipper.setContext()");
-	    _context = context;
-	}
 	
 	/**
 	 * Get the notifications property.
@@ -168,10 +155,11 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 */
 	public void addNotification(Notification notification) {
 		if (Log.getDebug()) Log.v("NotificationViewFlipper.addNotification()");
+		Context context = getContext();
 		if(!containsNotification(notification)){
 			getNotifications().add(notification);
 			setTotalNotifications(_notifications.size());
-			addView(new NotificationView(getContext(), notification)); 
+			addView(new NotificationView(context, notification)); 
 		}
 	}
 
@@ -190,40 +178,49 @@ public class NotificationViewFlipper extends ViewFlipper {
 	* @param notificationNumber
 	*/
 	public void removeNotification(int notificationNumber) {
-		if (Log.getDebug()) Log.v("NotificationViewFlipper.removeNotification()");
+		if (Log.getDebug()) Log.v("NotificationViewFlipper.removeNotification() NotificationNumber: " + notificationNumber);
 		//Get the current notification object.
 		Notification notification = getNotification(notificationNumber);
 		int totalNotifications = getTotalNotifications();
-		ArrayList<Notification> notifications = getNotifications();
 		Context context = getContext();
+		NotificationActivity notificationActivity = (NotificationActivity)context;
 		if (totalNotifications > 1) {
-			// Fade out current notification.
-			setOutAnimation(context, android.R.anim.fade_out);
-			// If this is the last notification, slide in from left.
-			if (notificationNumber == (totalNotifications-1)) {
-				setInAnimation(inFromLeftAnimation());
-			} else{ // Else slide in from right.
-				setInAnimation(inFromRightAnimation());
+			try{
+				// Fade out current notification.
+				setOutAnimation(context, android.R.anim.fade_out);
+				// If this is the last notification, slide in from left.
+				if (notificationNumber == (totalNotifications-1)) {
+					setInAnimation(inFromLeftAnimation());
+				} else{ // Else slide in from right.
+					setInAnimation(inFromRightAnimation());
+				}
+				// Remove the view from the ViewFlipper.
+				removeViewAt(notificationNumber);
+				//Set notification as being viewed in the phone.
+				setNotificationViewed(notification);
+				// Remove notification from the ArrayList.
+				_notifications.remove(notificationNumber);
+				// Update total notifications count.
+				setTotalNotifications(_notifications.size());
+				totalNotifications -= 1;
+				// If we removed the last notification then set current notification to the last one.
+				if (notificationNumber >= totalNotifications) {
+					setCurrentNotification(totalNotifications - 1);
+				}
+				//Update the activities navigation buttons.
+				notificationActivity.updateNavigationButtons();
+			}catch(Exception ex){
+				if (Log.getDebug()) Log.v("NotificationViewFlipper.removeNotification() [Total Notification > 1] ERROR: " + ex.toString());
 			}
-			// Remove the view from the ViewFlipper.
-			removeViewAt(notificationNumber);
-			//Set notification as being viewed in the phone.
-			setNotificationViewed(notification);
-			// Remove notification from the ArrayList.
-			notifications.remove(notificationNumber);
-			// Update total notifications count.
-			setTotalNotifications(notifications.size());
-			// If we removed the last notification then set current notification to the last one.
-			if (notificationNumber >= totalNotifications) {
-				setCurrentNotification(totalNotifications - 1);
-			}
-			//Update the activities navigation buttons.
-			((NotificationActivity)context).updateNavigationButtons();
 		}else{
 			//Set notification as being viewed in the phone.
-			setNotificationViewed(notification);
-			//Close the ViewFlipper and finish the activity.
-			((NotificationActivity)context).finishActivity();
+			try{
+				setNotificationViewed(notification);
+				//Close the ViewFlipper and finish the activity.
+				notificationActivity.finishActivity();
+			}catch(Exception ex){
+				if (Log.getDebug()) Log.v("NotificationViewFlipper.removeNotification() [TotalNotification <= 1] ERROR: " + ex.toString());
+			}
 		}
 	}
 
@@ -236,25 +233,6 @@ public class NotificationViewFlipper extends ViewFlipper {
 		return getNotifications().get(getCurrentNotification());
 	}
 	
-	/**
-	 *
-	 */
-	@Override
-	public boolean onTouchEvent(MotionEvent event) {
-		if (Log.getDebug()) Log.v("NotificationViewFlipper.onTouchEvent()");
-		if (_lockMode) return true;
-		switch (event.getAction()) {
-			case MotionEvent.ACTION_MOVE:
-				if (Log.getDebug()) Log.v("NotificationViewFlipper.onTouchEvent() ACTION_MOVE");
-			final View currentView = getCurrentView();
-			currentView.layout((int) (event.getX() - _oldTouchValue), currentView.getTop(),
-			currentView.getRight(), currentView.getBottom());
-			_oldTouchValue = event.getX();
-			break;
-		}
-		return super.onTouchEvent(event);
-	}
-	  
 	/**
 	 * Function to show the next message in the list.
 	 */
@@ -334,6 +312,68 @@ public class NotificationViewFlipper extends ViewFlipper {
 			}
 		}
 	}
+	
+	
+	/**
+	 * Function to animate the moving of the a message that comes from the right.
+	 */
+	public Animation inFromRightAnimation() {
+		if (Log.getDebug()) Log.v("NotificationViewFlipper.inFromRightAnimation()");
+		Animation inFromRight = new TranslateAnimation(
+		Animation.RELATIVE_TO_PARENT, +1.0f,
+		Animation.RELATIVE_TO_PARENT, 0.0f,
+		Animation.RELATIVE_TO_PARENT, 0.0f,
+		Animation.RELATIVE_TO_PARENT, 0.0f);
+		inFromRight.setDuration(350);
+		inFromRight.setInterpolator(new AccelerateInterpolator());
+		return inFromRight;
+	}
+	  
+	/**
+	 * Function to animate the moving of the a message that leaves to the left.
+	 */
+	public Animation outToLeftAnimation() {
+		if (Log.getDebug()) Log.v("NotificationViewFlipper.outToLeftAnimation()");
+		Animation outtoLeft = new TranslateAnimation(
+		Animation.RELATIVE_TO_PARENT, 0.0f,
+		Animation.RELATIVE_TO_PARENT, -1.0f,
+		Animation.RELATIVE_TO_PARENT, 0.0f,
+		Animation.RELATIVE_TO_PARENT, 0.0f);
+		outtoLeft.setDuration(350);
+		outtoLeft.setInterpolator(new AccelerateInterpolator());
+		return outtoLeft;
+	}
+	  
+	/**
+	 * Function to animate the moving of the a message that comes from the left.
+	 */
+	public Animation inFromLeftAnimation() {
+		if (Log.getDebug()) Log.v("NotificationViewFlipper.inFromLeftAnimation()");
+		Animation inFromLeft = new TranslateAnimation(
+		Animation.RELATIVE_TO_PARENT, -1.0f,
+		Animation.RELATIVE_TO_PARENT, 0.0f,
+		Animation.RELATIVE_TO_PARENT, 0.0f,
+		Animation.RELATIVE_TO_PARENT, 0.0f);
+		inFromLeft.setDuration(350);
+		inFromLeft.setInterpolator(new AccelerateInterpolator());
+		return inFromLeft;
+	}
+	  
+	/**
+	 * Function to animate the moving of the a message that leaves to the right.
+	 */
+	public Animation outToRightAnimation() {
+		if (Log.getDebug()) Log.v("NotificationViewFlipper.outToRightAnimation()");
+		Animation outtoRight = new TranslateAnimation(
+		Animation.RELATIVE_TO_PARENT, 0.0f,
+		Animation.RELATIVE_TO_PARENT, +1.0f,
+		Animation.RELATIVE_TO_PARENT, 0.0f,
+		Animation.RELATIVE_TO_PARENT, 0.0f);
+		outtoRight.setDuration(350);
+		outtoRight.setInterpolator(new AccelerateInterpolator());
+		return outtoRight;
+	}
+	
 	//================================================================================
 	// Private Methods
 	//================================================================================
@@ -356,71 +396,10 @@ public class NotificationViewFlipper extends ViewFlipper {
 	}
 	
 	/**
-	 * Function to animate the moving of the a message that comes form the right.
-	 */
-	private Animation inFromRightAnimation() {
-		if (Log.getDebug()) Log.v("NotificationViewFlipper.inFromRightAnimation()");
-		Animation inFromRight = new TranslateAnimation(
-		Animation.RELATIVE_TO_PARENT, +1.0f,
-		Animation.RELATIVE_TO_PARENT, 0.0f,
-		Animation.RELATIVE_TO_PARENT, 0.0f,
-		Animation.RELATIVE_TO_PARENT, 0.0f);
-		inFromRight.setDuration(350);
-		inFromRight.setInterpolator(new AccelerateInterpolator());
-		return inFromRight;
-	}
-	  
-	/**
-	 * Function to animate the moving of the a message that leaves to the left.
-	 */
-	private Animation outToLeftAnimation() {
-		if (Log.getDebug()) Log.v("NotificationViewFlipper.outToLeftAnimation()");
-		Animation outtoLeft = new TranslateAnimation(
-		Animation.RELATIVE_TO_PARENT, 0.0f,
-		Animation.RELATIVE_TO_PARENT, -1.0f,
-		Animation.RELATIVE_TO_PARENT, 0.0f,
-		Animation.RELATIVE_TO_PARENT, 0.0f);
-		outtoLeft.setDuration(350);
-		outtoLeft.setInterpolator(new AccelerateInterpolator());
-		return outtoLeft;
-	}
-	  
-	/**
-	 * Function to animate the moving of the a message that comes form the left.
-	 */
-	private Animation inFromLeftAnimation() {
-		if (Log.getDebug()) Log.v("NotificationViewFlipper.inFromLeftAnimation()");
-		Animation inFromLeft = new TranslateAnimation(
-		Animation.RELATIVE_TO_PARENT, -1.0f,
-		Animation.RELATIVE_TO_PARENT, 0.0f,
-		Animation.RELATIVE_TO_PARENT, 0.0f,
-		Animation.RELATIVE_TO_PARENT, 0.0f);
-		inFromLeft.setDuration(350);
-		inFromLeft.setInterpolator(new AccelerateInterpolator());
-		return inFromLeft;
-	}
-	  
-	/**
-	 * Function to animate the moving of the a message that leaves to the right.
-	 */
-	private Animation outToRightAnimation() {
-		if (Log.getDebug()) Log.v("NotificationViewFlipper.outToRightAnimation()");
-		Animation outtoRight = new TranslateAnimation(
-		Animation.RELATIVE_TO_PARENT, 0.0f,
-		Animation.RELATIVE_TO_PARENT, +1.0f,
-		Animation.RELATIVE_TO_PARENT, 0.0f,
-		Animation.RELATIVE_TO_PARENT, 0.0f);
-		outtoRight.setDuration(350);
-		outtoRight.setInterpolator(new AccelerateInterpolator());
-		return outtoRight;
-	}
-	
-	/**
 	 * Initialize the ViewFlipper properties.
 	 */
 	private void init(Context context) {
 		if (Log.getDebug()) Log.v("NotificationViewFlipper.init()");
-		setContext(context);
 		_notifications = new ArrayList<Notification>(1);
 		setTotalNotifications(0);
 		setCurrentNotification(0);
@@ -450,7 +429,6 @@ public class NotificationViewFlipper extends ViewFlipper {
 		for(int i = 0; i < notifications.size(); i++){
 			String phoneNumber = notifications.get(i).getPhoneNumber();
 			long timeStamp = notifications.get(i).getTimeStamp();
-			if (Log.getDebug()) Log.v("NotificationViewFlipper.containsNotification() Checking Notification " + i + " PhoneNumber: " + phoneNumber + " TimeStamp: " + timeStamp);
 			if(notification.getPhoneNumber() == phoneNumber && notification.getTimeStamp() == timeStamp){
 				if (Log.getDebug()) Log.v("NotificationViewFlipper.containsNotification() TRUE");
 				return true;

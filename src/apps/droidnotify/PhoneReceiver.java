@@ -33,8 +33,12 @@ public class PhoneReceiver extends BroadcastReceiver{
 	@Override
 	public void onReceive(Context context, Intent intent){
 		if (Log.getDebug()) Log.v("PhoneReceiver.onReceive()");
-	    intent.setClass(context, PhoneReceiverService.class);
-	    PhoneReceiverService.startPhoneMonitoringService(context, intent);
+		//DELETE THIS SOON
+	    //intent.setClass(context, PhoneReceiverService.class);
+	    //PhoneReceiverService.startPhoneMonitoringService(context, intent);
+		//----------------
+		WakefulIntentService.acquireStaticLock(context);
+		context.startService(new Intent(context, PhoneReceiverService.class));
 	}
 	  
 	//================================================================================
