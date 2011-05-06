@@ -59,7 +59,11 @@
    	<string name="preference_missed_call_enabled_title">Enable Missed Call</string>
    	<string name="preference_missed_call_enabled_summaryOn">Missed Call notifications are enabled</string>
    	<string name="preference_missed_call_enabled_summaryOff">Missed Call notifications are disabled</string>
-
+   	
+   	<string name="preference_calendar_enabled_title">Enable Calendar Event</string>
+   	<string name="preference_calendar_enabled_summaryOn">Calendar Event notifications are enabled</string>
+   	<string name="preference_calendar_enabled_summaryOff">Calendar Event notifications are disabled</string>
+   	
 	<string name="preference_screen_enabled_title">Turn Screen On</string>
    	<string name="preference_screen_enabled_summaryOn">The screen will turn on when a notification is shown</string>
    	<string name="preference_screen_enabled_summaryOff">Screen will not turn on when notification is shown</string>

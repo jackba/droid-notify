@@ -71,7 +71,9 @@ public class Notification {
 	private boolean _contactPhotoExists;
 	private String _title;
 	private String _email;
-  
+	private long _calendarID;
+	private long _calendarEventID;
+	
 	//================================================================================
 	// Constructors
 	//================================================================================
@@ -121,7 +123,7 @@ public class Notification {
     	    	//TODO - NOTIFICATION_TYPE_MMS - MMS Message
     	    }
     	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
-    	    	//Do Nothing. This should not be called if a calendar reminder is received.
+    	    	//Do Nothing. This should not be called if a calendar event is received.
     	    }
     	    if(notificationType == NOTIFICATION_TYPE_EMAIL){
     	    	//Do Nothing. This should not be called if an email is received.
@@ -153,7 +155,7 @@ public class Notification {
     		//Do Nothing. This should not be called if a SMS or MMS is received.
     	}
 	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
-	    	//Do Nothing. This should not be called if a calendar reminder is received.
+	    	//Do Nothing. This should not be called if a calendar event is received.
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_EMAIL){
 	    	//Do Nothing. This should not be called if an email is received.
@@ -161,14 +163,14 @@ public class Notification {
 	}
 
 	/**
-	 * This constructor should be called for Calendar Reminders or Emails.
+	 * This constructor should be called for Calendar Events.
 	 * 
 	 * @param context
 	 * @param phoneNumber
 	 * @param timestamp
 	 * @param notificationType
 	 */
-	public Notification(Context context, String title, String messageBody, long timeStamp, int notificationType){
+	public Notification(Context context, String title, String messageBody, long timeStamp, long calendarID, long calendarEventID, int notificationType){
 		if (Log.getDebug()) Log.v("Notification.Notification(Context, String, String, long, int)");
 		setContext(context);
 		setContactExists(false);
@@ -185,12 +187,11 @@ public class Notification {
 	    	setTimeStamp(timeStamp);
 	    	setTitle(title);
 	    	setMessageBody(messageBody);
+	    	setCalendarID(calendarID);
+	    	setCalendarEventID(calendarEventID);
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_EMAIL){
-	    	setTimeStamp(timeStamp);
-	    	setTitle(title);
-	    	setMessageBody(messageBody);
-	    	loadContactsInfo(getContext(), getEmail());
+	    	//Do Nothing. This should not be called if an email is received.
 	    }
 	}
 	
@@ -514,7 +515,7 @@ public class Notification {
 	 * Set the email property.
 	 */
 	public void setEmail(String email) {
-		if (Log.getDebug()) Log.v("Notification.setTitle() Email: " + email);
+		if (Log.getDebug()) Log.v("Notification.setEmail() Email: " + email);
 		_email = email;
 	}
 	
@@ -522,10 +523,43 @@ public class Notification {
 	 * Get the email property.
 	 */
 	public String getEmail() {
-		if (Log.getDebug()) Log.v("Notification.getTitle() Email: " + _email);
+		if (Log.getDebug()) Log.v("Notification.getEmail() Email: " + _email);
   		return _email;
 	}
+
+
+	/**
+	 * Set the calendarID property.
+	 */
+	public void setCalendarID(long calendarID) {
+		if (Log.getDebug()) Log.v("Notification.setCalendarID() CalendarID: " + calendarID);
+		_calendarID = calendarID;
+	}
 	
+	/**
+	 * Get the calendarID property.
+	 */
+	public long getCalendarID() {
+		if (Log.getDebug()) Log.v("Notification.getCalendarID() CalendarID: " + _calendarID);
+  		return _calendarID;
+	}
+
+
+	/**
+	 * Set the calendarEventID property.
+	 */
+	public void setCalendarEventID(long calendarEventID) {
+		if (Log.getDebug()) Log.v("Notification.setCalendarEventID() CalendarEventID: " + calendarEventID);
+		_calendarEventID = calendarEventID;
+	}
+	
+	/**
+	 * Get the calendarEventID property.
+	 */
+	public long getCalendarEventID() {
+		if (Log.getDebug()) Log.v("Notification.getCalendarEventID() CalendarEventID: " + _calendarEventID);
+  		return _calendarEventID;
+	}
 	//================================================================================
 	// Public Methods
 	//================================================================================
@@ -563,7 +597,7 @@ public class Notification {
     		}
     	}
 	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
-	    	//Do nothing. There is no log to update for Calendar Remindres.
+	    	//Do nothing. There is no log to update for Calendar Events.
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_EMAIL){
 	    	//TODO - Notification.setViewed() - NOTIFICATION_TYPE_EMAIL Set the notification as being viewed on the phone.

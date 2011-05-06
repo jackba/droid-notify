@@ -63,4 +63,12 @@
 		<item name="1">1</item>
 		<item name="2">2</item>
 	</string-array>
+	
+	<!-- Calendar Event Button Preferences Arrays --> 
+    <string-array name="calendar_dismiss_button_options">
+		<item name="0">Nothing</item>
+	</string-array>
+	<string-array name="calendar_dismiss_button_options_values">
+		<item name="0">0</item>
+	</string-array>
 </resources>

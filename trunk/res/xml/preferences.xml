@@ -111,6 +111,28 @@
 						android:entryValues="@array/missed_call_dismiss_button_options_values"/>
 				</PreferenceScreen>
 			</PreferenceCategory>
+			<PreferenceCategory
+				android:key="calendar_notification_settings_category"
+				android:title="Calendar Event Notifications">
+				<CheckBoxPreference 
+					android:key="calendar_notifications_enabled" 
+					android:title="@string/preference_calendar_enabled_title" 
+					android:summaryOn="@string/preference_calendar_enabled_summaryOn" 
+					android:summaryOff="@string/preference_calendar_enabled_summaryOff" 
+					android:defaultValue="true" />
+				<PreferenceScreen
+					android:key="calendar_button_settings"
+					android:title="Calendar Button Settings"
+					android:dependency="calendar_notifications_enabled">
+					<ListPreference
+						android:key="calendar_dismiss_button_action"
+						android:title="Dismiss Button Action"
+						android:summary="Define what happens when you dismiss a Calendar Event."
+						android:defaultValue="0"
+						android:entries="@array/calendar_dismiss_button_options"
+						android:entryValues="@array/calendar_dismiss_button_options_values"/>
+				</PreferenceScreen>
+			</PreferenceCategory>
 		</PreferenceScreen>
   	</PreferenceCategory>
 	<PreferenceCategory

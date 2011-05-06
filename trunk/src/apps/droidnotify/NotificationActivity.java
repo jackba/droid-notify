@@ -25,6 +25,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.view.Window;
 import android.widget.Button;
@@ -46,6 +47,9 @@ public class NotificationActivity extends Activity {
 	//private final double WIDTH = 0.9;
 	//private final int MAX_WIDTH = 640;
 	
+	private final String DROID_NOTIFY_WAKELOCK = "DROID_NOTIFY_WAKELOCK";
+	private final String DROID_NOTIFY_KEYGUARD = "DROID_NOTIFY_KEYGUARD";
+	
 	private final int MENU_ITEM_SETTINGS = R.id.app_settings;
 	
 	private final int NOTIFICATION_TYPE_PHONE = 0;
@@ -64,6 +68,7 @@ public class NotificationActivity extends Activity {
 	private final String SMS_NOTIFICATIONS_ENABLED_KEY = "sms_notifications_enabled";
 	private final String MMS_NOTIFICATIONS_ENABLED_KEY = "mms_notifications_enabled";
 	private final String MISSED_CALL_NOTIFICATIONS_ENABLED_KEY = "missed_call_notifications_enabled";
+	private final String CALENDAR_NOTIFICATIONS_ENABLED_KEY = "calendar_notifications_enabled";
 	private final String SCREEN_ENABLED_KEY = "screen_enabled";
 	private final String SCREEN_DIM_ENABLED_KEY = "screen_dim_enabled";
 	private final String KEYGUARD_ENABLED_KEY = "keyguard_enabled";
@@ -442,62 +447,87 @@ public class NotificationActivity extends Activity {
 		Intent intent = null;
 		switch (menuItem.getItemId()) {
 			case VIEW_CONTACT_CONTEXT_MENU:
-				intent = new Intent(Intent.ACTION_VIEW);
-				//This works but is deprecated. Trying a different way.
-			    //intent.setData(ContentUris.withAppendedId(People.CONTENT_URI, contactID));
-				//This is the Android API 5+ method to do this.
-				Uri viewContactURI = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_URI, String.valueOf(contactID));
-			    intent.setData(viewContactURI);	
-		        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-		        		| Intent.FLAG_ACTIVITY_SINGLE_TOP
-		        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
-		        		| Intent.FLAG_ACTIVITY_NO_HISTORY
-		        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-			    context.startActivity(intent);
-				return true;
+				try{
+					intent = new Intent(Intent.ACTION_VIEW);
+					//This works but is deprecated. Trying a different way.
+				    //intent.setData(ContentUris.withAppendedId(People.CONTENT_URI, contactID));
+					//This is the Android API 5+ method to do this.
+					Uri viewContactURI = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_URI, String.valueOf(contactID));
+				    intent.setData(viewContactURI);	
+			        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+			        		| Intent.FLAG_ACTIVITY_SINGLE_TOP
+			        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
+			        		| Intent.FLAG_ACTIVITY_NO_HISTORY
+			        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+				    context.startActivity(intent);
+					return true;
+				}catch(Exception ex){
+					if (Log.getDebug()) Log.e("NotificationActivity.onContextItemSelected() VIEW_CONTACT_CONTEXT_MENU ERROR: " + ex.toString());
+					return false;
+				}
 			case ADD_CONTACT_CONTEXT_MENU:
-				intent = new Intent(Intent.ACTION_INSERT);
-				intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
-				intent.putExtra(ContactsContract.Intents.Insert.PHONE, phoneNumber);			
-		        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-		        		| Intent.FLAG_ACTIVITY_SINGLE_TOP
-		        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
-		        		| Intent.FLAG_ACTIVITY_NO_HISTORY
-		        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-			    context.startActivity(intent);
-				return true;
+				try{
+					intent = new Intent(Intent.ACTION_INSERT);
+					intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
+					intent.putExtra(ContactsContract.Intents.Insert.PHONE, phoneNumber);			
+			        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+			        		| Intent.FLAG_ACTIVITY_SINGLE_TOP
+			        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
+			        		| Intent.FLAG_ACTIVITY_NO_HISTORY
+			        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+				    context.startActivity(intent);
+					return true;
+				}catch(Exception ex){
+					if (Log.getDebug()) Log.e("NotificationActivity.onContextItemSelected() ADD_CONTACT_CONTEXT_MENU ERROR: " + ex.toString());
+					return false;
+				}
 			case CALL_CONTACT_CONTEXT_MENU:
-				intent = new Intent(Intent.ACTION_CALL);
-		        intent.setData(Uri.parse("tel:" + phoneNumber));		
-		        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-		        		| Intent.FLAG_ACTIVITY_SINGLE_TOP
-		        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
-		        		| Intent.FLAG_ACTIVITY_NO_HISTORY
-		        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-			    context.startActivity(intent);
-				return true;
+				try{
+					intent = new Intent(Intent.ACTION_CALL);
+			        intent.setData(Uri.parse("tel:" + phoneNumber));		
+			        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+			        		| Intent.FLAG_ACTIVITY_SINGLE_TOP
+			        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
+			        		| Intent.FLAG_ACTIVITY_NO_HISTORY
+			        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+				    context.startActivity(intent);
+					return true;
+				}catch(Exception ex){
+					if (Log.getDebug()) Log.e("NotificationActivity.onContextItemSelected() CALL_CONTACT_CONTEXT_MENU ERROR: " + ex.toString());
+					return false;
+				}
 			case TEXT_CONTACT_CONTEXT_MENU:
-				intent = new Intent(Intent.ACTION_VIEW);
-				intent.setType("vnd.android-dir/mms-sms");
-		        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-		        		| Intent.FLAG_ACTIVITY_SINGLE_TOP
-		        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
-		        		| Intent.FLAG_ACTIVITY_NO_HISTORY
-		        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-			    intent.putExtra("address", phoneNumber);
-			    context.startActivity(intent);
-				return true;
+				try{
+					intent = new Intent(Intent.ACTION_VIEW);
+					intent.setType("vnd.android-dir/mms-sms");
+			        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+			        		| Intent.FLAG_ACTIVITY_SINGLE_TOP
+			        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
+			        		| Intent.FLAG_ACTIVITY_NO_HISTORY
+			        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+				    intent.putExtra("address", phoneNumber);
+				    context.startActivity(intent);
+					return true;
+				}catch(Exception ex){
+					if (Log.getDebug()) Log.e("NotificationActivity.onContextItemSelected() TEXT_CONTACT_CONTEXT_MENU ERROR: " + ex.toString());
+					return false;
+				}
 			case EDIT_CONTACT_CONTEXT_MENU:
-				intent = new Intent(Intent.ACTION_EDIT);
-				Uri editContactURI = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_URI, String.valueOf(contactID));
-			    intent.setData(editContactURI);	
-		        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-		        		| Intent.FLAG_ACTIVITY_SINGLE_TOP
-		        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
-		        		| Intent.FLAG_ACTIVITY_NO_HISTORY
-		        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-			    context.startActivity(intent);
-				return true;
+				try{
+					intent = new Intent(Intent.ACTION_EDIT);
+					Uri editContactURI = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_URI, String.valueOf(contactID));
+				    intent.setData(editContactURI);	
+			        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+			        		| Intent.FLAG_ACTIVITY_SINGLE_TOP
+			        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
+			        		| Intent.FLAG_ACTIVITY_NO_HISTORY
+			        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+				    context.startActivity(intent);
+					return true;
+				}catch(Exception ex){
+					if (Log.getDebug()) Log.e("NotificationActivity.onContextItemSelected() EDIT_CONTACT_CONTEXT_MENU ERROR: " + ex.toString());
+					return false;
+				}
 			default:
 				return super.onContextItemSelected(menuItem);
 		  }
@@ -623,15 +653,18 @@ public class NotificationActivity extends Activity {
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
 	    	if (Log.getDebug()) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_CALENDAR");
-	    	//TODO - Calendar Event
+			//Read preferences and end activity early if SMS notifications are disabled.
+		    if(!preferences.getBoolean(CALENDAR_NOTIFICATIONS_ENABLED_KEY, true)){
+				if (Log.getDebug()) Log.v("NotificationActivity.onCreate() Calendar Notifications Disabled. Finishing Activity... ");
+				finishActivity();
+				return;
+			}
+		    setupCalendarEventNotifications(extrasBundle);
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_EMAIL){
 	    	if (Log.getDebug()) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_EMAIL");
 	    	//TODO - Email Message
 	    }
-	    
-	    //Testing out the calendar function. This can only be run on a phone, not on the emulator.
-	    setupCalendarReminders(extrasBundle);
 	    
 	    //Acquire WakeLock
 	    acquireWakeLock(context);
@@ -658,7 +691,6 @@ public class NotificationActivity extends Activity {
 	    if (Log.getDebug()) Log.v("NotificationActivity.onResume()");
 	    Context context = getContext();
 	    acquireWakeLock(context);
-	    disableKeyguardLock(context);
 	}
 	  
 	/**
@@ -668,8 +700,7 @@ public class NotificationActivity extends Activity {
 	protected void onPause() {
 	    super.onPause();
 	    if (Log.getDebug()) Log.v("NotificationActivity.onPause()");
-	    releaseWakeLock();
-	    reenableKeyguardLock();  
+	    releaseWakeLock(); 
 	}
 	  
 	/**
@@ -680,7 +711,6 @@ public class NotificationActivity extends Activity {
 	    super.onStop();
 	    if (Log.getDebug()) Log.v("NotificationActivity.onStop()");
 	    releaseWakeLock();
-	    reenableKeyguardLock();
 	}
 	  
 	/**
@@ -690,6 +720,8 @@ public class NotificationActivity extends Activity {
 	protected void onDestroy() {
 	    super.onDestroy();
 	    if (Log.getDebug()) Log.v("NotificationActivity.onDestroy()");
+	    releaseWakeLock();
+	    reenableKeyguardLock();
 	}
 
 	/**
@@ -893,19 +925,21 @@ public class NotificationActivity extends Activity {
 	    updateNavigationButtons(previousButton, notificationCountTextView, nextButton, notificationViewFlipper);
 	}
 	
-	private void setupCalendarReminders(Bundle bundle){
-		if (Log.getDebug()) Log.v("NotificationActivity.setupCalendarReminders()");  
+	private void setupCalendarEventNotifications(Bundle bundle){
+		if (Log.getDebug()) Log.v("NotificationActivity.setupCalendarEventNotifications()");  
 		Context context = getContext();
 		final NotificationViewFlipper notificationViewFlipper = getNotificationViewFlipper();
 		final Button previousButton = getPreviousButton();
 		final Button nextButton = getNextButton();
 		final TextView notificationCountTextView = getNotificationCountTextView();
-		String calenderReminderInfo[] = (String[])bundle.getStringArray("calenderReminderInfo");
-		String title = calenderReminderInfo[0];
-		String messageBody = calenderReminderInfo[1];
-		long timeStamp = Long.parseLong(calenderReminderInfo[2]);
-		Notification calendarReminderNotification = new Notification(context, title, messageBody, timeStamp, NOTIFICATION_TYPE_CALENDAR);
-		getNotificationViewFlipper().addNotification(calendarReminderNotification);		
+		String calenderEventInfo[] = (String[])bundle.getStringArray("calenderEventInfo");
+		String title = calenderEventInfo[0];
+		String messageBody = calenderEventInfo[1];
+		long timeStamp = Long.parseLong(calenderEventInfo[2]);
+		long calendarID = Long.parseLong(calenderEventInfo[3]);
+		long calendarEventID = Long.parseLong(calenderEventInfo[4]);
+		Notification calendarEventNotification = new Notification(context, title, messageBody, timeStamp, calendarID, calendarEventID,NOTIFICATION_TYPE_CALENDAR);
+		getNotificationViewFlipper().addNotification(calendarEventNotification);		
 		updateNavigationButtons(previousButton, notificationCountTextView, nextButton, notificationViewFlipper);
 	}
 	
@@ -1054,14 +1088,14 @@ public class NotificationActivity extends Activity {
 			if(preferences.getBoolean(SCREEN_ENABLED_KEY, true)){
 				if(preferences.getBoolean(SCREEN_DIM_ENABLED_KEY, true)){
 					if (Log.getDebug()) Log.v("NotificationActivity.acquireWakeLock() Screen Wake Enabled Dim");
-					wakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, "DroidNotify.NotificationActivity");
+					wakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, DROID_NOTIFY_WAKELOCK);
 				}else{
 					if (Log.getDebug()) Log.v("NotificationActivity.acquireWakeLock() Screen Wake Enabled Full");
-					wakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, "DroidNotify.NotificationActivity");
+					wakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, DROID_NOTIFY_WAKELOCK);
 				}
 			}else{
 				if (Log.getDebug()) Log.v("NotificationActivity.acquireWakeLock() Screen Wake Disabled");
-				wakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "DroidNotify.NotificationActivity");
+				wakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, DROID_NOTIFY_WAKELOCK);
 			}
 		}
 		if (Log.getDebug()) Log.v("NotificationActivity.acquireWakeLock() Aquired wake lock");
@@ -1083,30 +1117,31 @@ public class NotificationActivity extends Activity {
 	}
 	
 	/**
-	 * Disables the KeyGuard for this Activity.
-	 * The removal of the KeyGuard will be determined by the user preferences. 
+	 * Disables the Keyguard for this Activity.
+	 * The removal of the Keyguard will be determined by the user preferences. 
 	 * 
 	 * @param context
 	 */
 	private void disableKeyguardLock(Context context){
-		if (Log.getDebug()) Log.v("NotificationActivity.removeKeyGuard()");
+		if (Log.getDebug()) Log.v("NotificationActivity.disableKeyguardLock()");
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
 		KeyguardManager km = (KeyguardManager)getSystemService(Context.KEYGUARD_SERVICE);
 		KeyguardLock keyguardLock = getKeyguardLock();
 		if(keyguardLock == null){
-			keyguardLock = km.newKeyguardLock(KEYGUARD_SERVICE); 
+			keyguardLock = km.newKeyguardLock(DROID_NOTIFY_KEYGUARD); 
 		}
-		//Set the wakeLock properties based on the users preferences.
+		//Set the keyguard properties based on the users preferences.
 		if(preferences.getBoolean(KEYGUARD_ENABLED_KEY, true)){
+			if (Log.getDebug()) Log.v("NotificationActivity.disableKeyguardLock() Disable Keyguard Enabled");
 			keyguardLock.disableKeyguard();
 			setKeyguardLock(keyguardLock);
+		}else{
+			if (Log.getDebug()) Log.v("NotificationActivity.disableKeyguardLock() Disable Keyguard Disabled");
 		}
 	}
 
 	/**
-	 * Re-Enables the KeyGuard for this Activity. 
-	 * 
-	 * @param context
+	 * Re-Enables the Keyguard for this Activity.
 	 */
 	private void reenableKeyguardLock(){
 		if (Log.getDebug()) Log.v("NotificationActivity.reenableKeyguardLock()");
