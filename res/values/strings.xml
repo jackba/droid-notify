@@ -47,22 +47,38 @@
    	<string name="preference_appenabled_title">Enable Droid Notify</string>
    	<string name="preference_appenabled_summaryOn">Droid Notify is enabled</string>
    	<string name="preference_appenabled_summaryOff">Droid Notify is disabled</string>
+
+   	<string name="preference_haptic_feedback_title">Enable Haptic Feedback</string>
+   	<string name="preference_haptic_feedback_summaryOn">Haptic Feedback is enabled. Vibrate when pressing soft keys and on certain UI interactions.</string>
+   	<string name="preference_haptic_feedback_summaryOff">Haptic Feedback is disabled.</string>
    	
    	<string name="preference_sms_enabled_title">Enable SMS</string>
    	<string name="preference_sms_enabled_summaryOn">SMS notifications are enabled</string>
    	<string name="preference_sms_enabled_summaryOff">SMS notifications are disabled</string>
-   	
+    <string name="preference_sms_vibrate_enabled_title">Enable Vibrations</string>
+   	<string name="preference_sms_vibrate_enabled_summaryOn">SMS notifications will vibrate on arrival.</string>
+   	<string name="preference_sms_vibrate_enabled_summaryOff">SMS notifications will not vibrate on arrival.</string>
+   	 	
    	<string name="preference_mms_enabled_title">Enable MMS</string>
    	<string name="preference_mms_enabled_summaryOn">MMS notifications are enabled</string>
    	<string name="preference_mms_enabled_summaryOff">MMS notifications are disabled</string>
+    <string name="preference_mms_vibrate_enabled_title">Enable Vibrations</string>
+   	<string name="preference_mms_vibrate_enabled_summaryOn">MMS notifications will vibrate on arrival.</string>
+   	<string name="preference_mms_vibrate_enabled_summaryOff">MMS notifications will not vibrate on arrival.</string>
    	
    	<string name="preference_missed_call_enabled_title">Enable Missed Call</string>
    	<string name="preference_missed_call_enabled_summaryOn">Missed Call notifications are enabled</string>
    	<string name="preference_missed_call_enabled_summaryOff">Missed Call notifications are disabled</string>
+    <string name="preference_missed_call_vibrate_enabled_title">Enable Vibrations</string>
+   	<string name="preference_missed_call_vibrate_enabled_summaryOn">Missed Call notifications will vibrate on arrival.</string>
+   	<string name="preference_missed_call_vibrate_enabled_summaryOff">Missed Call notifications will not vibrate on arrival.</string>
    	
    	<string name="preference_calendar_enabled_title">Enable Calendar Event</string>
    	<string name="preference_calendar_enabled_summaryOn">Calendar Event notifications are enabled</string>
    	<string name="preference_calendar_enabled_summaryOff">Calendar Event notifications are disabled</string>
+    <string name="preference_calendar_vibrate_enabled_title">Enable Vibrations</string>
+   	<string name="preference_calendar_vibrate_enabled_summaryOn">Calendar Event notifications will vibrate on arrival.</string>
+   	<string name="preference_calendar_vibrate_enabled_summaryOff">Calendar Event notifications will not vibrate on arrival.</string>
    	
 	<string name="preference_screen_enabled_title">Turn Screen On</string>
    	<string name="preference_screen_enabled_summaryOn">The screen will turn on when a notification is shown</string>

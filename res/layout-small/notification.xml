@@ -45,7 +45,8 @@
 		android:layout_gravity="left"
 		android:focusable="true" 
 		android:clickable="true"
-		android:background="@drawable/list_selector_background">
+		android:background="@drawable/list_selector_background"
+		android:hapticFeedbackEnabled="true">
 		<ImageView
 			android:src="@drawable/ic_dialog_info"
 			android:id="@+id/contact_image_view"
@@ -121,13 +122,15 @@
 			android:text="@string/dismiss_button_text" 
 			android:drawableLeft="@drawable/ic_dialog_alert"
 			android:id="@+id/phone_dismiss_button" 
-			android:layout_weight="1" />
+			android:layout_weight="1"
+			android:hapticFeedbackEnabled="true" />
 		<Button android:layout_width="fill_parent" 
 			android:layout_height="wrap_content" 
 			android:text="@string/call_button_text" 
 			android:drawableLeft="@drawable/sym_action_call"
 			android:id="@+id/phone_call_button" 
-			android:layout_weight="1" />
+			android:layout_weight="1"
+			android:hapticFeedbackEnabled="true" />
 	</LinearLayout>
 	<LinearLayout 
 		xmlns:android="http://schemas.android.com/apk/res/android"
@@ -142,18 +145,21 @@
 			android:text="@string/dismiss_button_text" 
 			android:drawableLeft="@drawable/ic_dialog_alert" 
 			android:id="@+id/sms_dismiss_button" 
-			android:layout_weight="1" />
+			android:layout_weight="1"
+			android:hapticFeedbackEnabled="true" />
 		<Button android:layout_width="fill_parent" 
 			android:layout_height="wrap_content" 
 			android:text="@string/delete_button_text" 
 			android:drawableLeft="@drawable/ic_delete"
 			android:id="@+id/sms_delete_button" 
-			android:layout_weight="1" />
+			android:layout_weight="1"
+			android:hapticFeedbackEnabled="true" />
 		<Button android:layout_width="fill_parent" 
 			android:layout_height="wrap_content" 
 			android:text="@string/reply_button_text" 
 			android:id="@+id/sms_reply_button" 
-			android:layout_weight="1" />
+			android:layout_weight="1"
+			android:hapticFeedbackEnabled="true" />
 	</LinearLayout>	
 	<LinearLayout 
 		xmlns:android="http://schemas.android.com/apk/res/android"
@@ -168,11 +174,13 @@
 			android:text="@string/dismiss_button_text" 
 			android:drawableLeft="@drawable/ic_dialog_alert"
 			android:id="@+id/calendar_dismiss_button" 
-			android:layout_weight="1" />
+			android:layout_weight="1"
+			android:hapticFeedbackEnabled="true" />
 		<Button android:layout_width="fill_parent" 
 			android:layout_height="wrap_content" 
 			android:text="@string/view_button_text"
 			android:id="@+id/calendar_view_button" 
-			android:layout_weight="1" />
+			android:layout_weight="1"
+			android:hapticFeedbackEnabled="true" />
 	</LinearLayout>
 </LinearLayout>
