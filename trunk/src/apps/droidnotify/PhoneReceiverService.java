@@ -1,24 +1,17 @@
 package apps.droidnotify;
 
-import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.HandlerThread;
-import android.os.IBinder;
-import android.os.Looper;
-import android.os.Message;
-import android.os.PowerManager;
-import android.os.Process;
 import android.telephony.TelephonyManager;
 
 /**
  * 
+ * 
  * @author Camille Sevigny
  *
  */
-public class PhoneReceiverService extends Service {
+public class PhoneReceiverService extends WakefulIntentService {
 
 	//================================================================================
     // Constants
@@ -29,47 +22,18 @@ public class PhoneReceiverService extends Service {
 	private final int NOTIFICATION_TYPE_MMS = 2;
 	private final int NOTIFICATION_TYPE_CALENDAR = 3;
 	private final int NOTIFICATION_TYPE_EMAIL = 4;
-    
+	
 	//================================================================================
     // Properties
     //================================================================================
-    
-	private Context _context;
-	private ServiceHandler PhoneServiceHandler;
-    private Looper PhoneServiceLooper;
-	private static Object PhoneStartingServiceSync = new Object();
-	private static PowerManager.WakeLock _wakeLock;
 	
 	//================================================================================
 	// Constructors
 	//================================================================================
 	
-	/**
-	 * PhoneService constructor.
-	 */	
-	public PhoneReceiverService() {
-		if (Log.getDebug()) Log.v("PhoneReceiverService.PhoneService()");
-	}
-	
 	//================================================================================
 	// Accessors
 	//================================================================================
-
-	/**
-	 * Set the context property.
-	 */
-	public void setContext(Context context) {
-		if (Log.getDebug()) Log.v("PhoneReceiverService.setContext()");
-	    _context = context;
-	}
-	
-	/**
-	 * Get the context property.
-	 */
-	public Context getContext() {
-		if (Log.getDebug()) Log.v("PhoneReceiverService.getContext()");
-	    return _context;
-	}
 	
 	//================================================================================
 	// Public Methods
@@ -78,135 +42,40 @@ public class PhoneReceiverService extends Service {
 	/**
 	 * 
 	 */
-	@Override
-	public IBinder onBind(Intent intent) {
-		if (Log.getDebug()) Log.v("PhoneReceiverService.onBind()");
-		return null;
+	public PhoneReceiverService() {
+		super("PhoneReceiverService");
+		if (Log.getDebug()) Log.v("PhoneReceiverService.PhoneReceiverService()");
 	}
-	
-	/**
-	 * 
-	 */
-	@Override
-	public void onCreate() {
-		super.onCreate();
-		if (Log.getDebug()) Log.v("PhoneReceiverService.onCreate()");
-	    HandlerThread thread = new HandlerThread("DroidNotify", Process.THREAD_PRIORITY_BACKGROUND);
-	    thread.start();
-	    setContext(getApplicationContext());
-	    PhoneServiceLooper = thread.getLooper();
-	    PhoneServiceHandler = new ServiceHandler(PhoneServiceLooper);
-	}
-	
-	/**
-	 * 
-	 */
-	@Override
-	public void onStart(Intent intent, int startId) {
-		super.onStart(intent, startId);
-		if (Log.getDebug()) Log.v("PhoneReceiverService.onStart()");
-	    Message message = PhoneServiceHandler.obtainMessage();
-	    message.arg1 = startId;
-	    message.obj = intent;
-	    PhoneServiceHandler.sendMessage(message);
-	}
-	
-	/**
-	 * 
-	 */
-	@Override
-	public void onDestroy() {
-    	super.onDestroy();
-    	if (Log.getDebug()) Log.v("PhoneReceiverService.onDestroy()");
-    	PhoneServiceLooper.quit();
-	}
-	
-	/**
-	 * Start the service to process the current event notifications.
-	 * Acquiring the wake lock before returning to ensure that the service will run.
-	 */
-	public static void startPhoneMonitoringService(Context context, Intent intent){
-		synchronized (PhoneStartingServiceSync) {
-			if (Log.getDebug()) Log.v("PhoneReceiverService.startPhoneMonitoringService()");
-			PowerManager.WakeLock wakeLock = _wakeLock;
-			if (wakeLock == null) {
-				PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-				wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "DroidNotify.PhoneService");
-				wakeLock.setReferenceCounted(false);
-			}
-			if (Log.getDebug()) Log.v("PhoneReceiverService.startPhoneMonitoringService() Aquired wake lock");
-			wakeLock.acquire();
-			if (Log.getDebug()) Log.v("PhoneReceiverService.startPhoneMonitoringService() Starting service with intent");
-			context.startService(intent);
-		}
-	}
-	
-	/**
-	 * Called back by the service when it has finished processing notifications.
-	 */
-	public static void finishPhoneMonitoringService(Service service, int startId) {
-		synchronized (PhoneStartingServiceSync) {
-	    	if (Log.getDebug()) Log.v("PhoneReceiverService.finishPhoneMonitoringService()");
-	    	PowerManager.WakeLock wakeLock = _wakeLock;
-    		if (wakeLock != null) {
-    			if (service.stopSelfResult(startId)) {
-    				wakeLock.release();
-    			}
-    		}
-		}
-	}
-	
+
 	//================================================================================
-	// Private Methods
+	// Protected Methods
 	//================================================================================
 	
 	/**
-	 * This class has something to do with the new thread we started. 
-	 * I am not completely sure how this part works.
-	 * I copied this from another project.
+	 * This service function should read the users calendar events for the next 25 hours and start alarms for each one individually.
+	 * 
+	 * @param intent
 	 */
-	private final class ServiceHandler extends Handler {
-		
-		/**
-		 * ServiceHandler constructor.
-		 */
-	    public ServiceHandler(Looper looper) {
-	    	super(looper);
-	    	if (Log.getDebug()) Log.v("PhoneReceiverService.ServiceHandler.ServiceHandler()");
-	    }
-		
-		/**
-		 * Handle the message that was received.
-		 */
-	    @Override
-	    public void handleMessage(Message message) {
-	    	if (Log.getDebug()) Log.v("PhoneReceiverService.ServiceHandler.HandleMessage()");
-	    	int serviceID = message.arg1;
-	    	Intent intent = (Intent) message.obj;
-	    	String action = intent.getAction();
-	        if (Log.getDebug()) Log.v("PhoneReceiverService.ServiceHandler.handleMessage() Action Received: " + action);
-	        displayPhoneNotificationToScreen();
-	    	finishPhoneMonitoringService(PhoneReceiverService.this, serviceID);
-	    }
-	    
+	@Override
+	protected void doWakefulWork(Intent intent) {
+		if (Log.getDebug()) Log.v("PhoneReceiverService.doWakefulWork()");
+		Context context = getApplicationContext();
+		displayPhoneNotificationToScreen(context);
 	}
 	
 	/**
 	 * Display the notification to the screen.
 	 * Let the activity check the call log and determine if we need to show a notification or not.
 	 * 
-	 * @param intent
+	 * @param context
 	 */
-	private void displayPhoneNotificationToScreen() {
-		if (Log.getDebug()) Log.v("PhoneReceiverService.displayPhoneNotificationToScreen()");
-		Context context = getContext();
+	private void displayPhoneNotificationToScreen(Context context) {
+		if (Log.getDebug()) Log.v("PhoneReceiverService.displayPhoneNotificationToScreen()");	
 		TelephonyManager telemanager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 	    boolean callStateIdle = telemanager.getCallState() == TelephonyManager.CALL_STATE_IDLE;
 	    if (Log.getDebug()) Log.v("PhoneReceiverService.displayPhoneNotificationToScreen() Current Call State: " + telemanager.getCallState());
-	    // If the user is not in a call then start the check on the call log.
-	    if (Log.getDebug()) Log.v("PhoneReceiverService.displayPhoneNotificationToScreen() Current Call State Idle? " + callStateIdle); 
+	    // If the user is not in a call then start the check on the call log. 
 	    if (callStateIdle) {
-	    	if (Log.getDebug()) Log.v("PhoneReceiverService.displayPhoneNotificationToScreen() Call state idle.");
 			Bundle bundle = new Bundle();
 			bundle.putInt("notificationType", NOTIFICATION_TYPE_PHONE);
 	    	Intent intent = new Intent(context, NotificationActivity.class);

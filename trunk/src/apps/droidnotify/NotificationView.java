@@ -18,6 +18,7 @@ import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Gravity;
 import android.view.Menu;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -65,6 +66,7 @@ public class NotificationView extends LinearLayout {
 	private LinearLayout _smsButtonLinearLayout = null;
 	private LinearLayout _calendarButtonLinearLayout = null;
 	private Notification _notification = null;
+	private float _oldTouchValue;
 
 	//================================================================================
 	// Constructors
@@ -161,6 +163,39 @@ public class NotificationView extends LinearLayout {
 		//Remove SMS or MMS message from ViewFlipper.
 		getNotificationViewFlipper().removeActiveNotification();
 		//TODO - Delete SMS or MMS message from device.
+	}
+
+	/**
+	 * Define the action of the view when you swipe your finger across it.
+	 * This motion is handled to switch to the next view or previous view.
+	 */
+	@Override
+	public boolean onTouchEvent(MotionEvent motionEvent) {
+		if (Log.getDebug()) Log.v("NotificationView.onTouchEvent()");
+		Context context = getContext();
+		NotificationViewFlipper notificationViewFlipper = getNotificationViewFlipper();
+		NotificationActivity notificationActivity = (NotificationActivity)context;
+		float currentTouchValue = motionEvent.getX();
+		switch (motionEvent.getAction()) {
+			case MotionEvent.ACTION_DOWN:
+				if (Log.getDebug()) Log.v("NotificationView.onTouchEvent() ACTION_DOWN");
+				_oldTouchValue = currentTouchValue;
+				return true;
+			case MotionEvent.ACTION_UP:
+				if (Log.getDebug()) Log.v("NotificationView.onTouchEvent() ACTION_UP");
+				if (_oldTouchValue > currentTouchValue){
+            	   notificationViewFlipper.setInAnimation(notificationViewFlipper.inFromLeftAnimation());
+            	   notificationViewFlipper.setOutAnimation(notificationViewFlipper.outToRightAnimation());
+                   notificationViewFlipper.showNext();
+				}else if (_oldTouchValue < currentTouchValue){
+            	   notificationViewFlipper.setInAnimation(notificationViewFlipper.inFromRightAnimation());
+            	   notificationViewFlipper.setOutAnimation(notificationViewFlipper.outToLeftAnimation());
+                   notificationViewFlipper.showPrevious();
+               	}
+				notificationActivity.updateNavigationButtons();
+				return true;
+		}
+		return super.onTouchEvent(motionEvent);
 	}
 	
 	//================================================================================
