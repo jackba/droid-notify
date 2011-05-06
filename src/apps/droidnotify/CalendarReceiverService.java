@@ -100,15 +100,35 @@ public class CalendarReceiverService extends WakefulIntentService {
 		if (Log.getDebug()) Log.v("CalendarReceiverService.readCalendars()");
 		try{
 			ContentResolver contentResolver = context.getContentResolver();
-			// Fetch a list of all calendars synced with the device, their display names and whether the
-			// user has them selected for display.
-			final Cursor cursor = contentResolver.query(
-					//Uri.parse("content://calendar/calendars"), //Android 2.1
-					Uri.parse("content://com.android.calendar/calendars"), //Android 2.2
+			// Fetch a list of all calendars synced with the device, their display names and whether the user has them selected for display.
+			String contentProvider = "";
+		 	Cursor cursor = null;
+			try{
+				//Android 2.1
+				contentProvider = "content://calendar";
+				cursor = contentResolver.query(
+					Uri.parse(contentProvider + "/calendars"), 
 					new String[] { "_id", "displayName", "selected" },
 					null,
 					null,
 					null);
+			}catch(Exception ex){
+				//Do Nothing
+			}
+			if(cursor == null){
+				try{
+					//Android 2.2
+					contentProvider = "content://com.android.calendar";
+					cursor = contentResolver.query(
+						Uri.parse(contentProvider + "/calendars"),
+						new String[] { "_id", "displayName", "selected" },
+						null,
+						null,
+						null);
+				}catch(Exception ex){
+					return;
+				}
+			}
 			// For a full list of available columns see http://tinyurl.com/yfbg76w
 			HashSet<String> calendarIds = new HashSet<String>();
 			if (Log.getDebug()) Log.v("CalendarReceiverService.readCalendars() About To Read Calendar");
@@ -123,8 +143,7 @@ public class CalendarReceiverService extends WakefulIntentService {
 			if (Log.getDebug()) Log.v("CalendarReceiverService.readCalendar() Calendar IDs Read");
 			// For each calendar, display all the events from the previous week to the end of next week.		
 			for (String id : calendarIds) {
-				//Uri.Builder builder = Uri.parse("content://calendar/instances/when").buildUpon(); //Android 2.1
-				Uri.Builder builder = Uri.parse("content://com.android.calendar/instances/when").buildUpon(); //Android 2.2
+				Uri.Builder builder = Uri.parse(contentProvider + "/instances/when").buildUpon();
 				long now = System.currentTimeMillis();
 				ContentUris.appendId(builder, now - DateUtils.WEEK_IN_MILLIS);
 				ContentUris.appendId(builder, now + DateUtils.WEEK_IN_MILLIS);
