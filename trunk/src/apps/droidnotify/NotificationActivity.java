@@ -454,7 +454,7 @@ public class NotificationActivity extends Activity {
 		String phoneNumber = notification.getPhoneNumber();
 		long contactID = notification.getContactID();
 		Intent intent = null;
-		customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+		//customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 		switch (menuItem.getItemId()) {
 			case VIEW_CONTACT_CONTEXT_MENU:
 				try{
@@ -882,16 +882,18 @@ public class NotificationActivity extends Activity {
 		setNotificationCountTextView(notificationCountTextView);
 		// Previous Button
 		previousButton.setOnClickListener(new OnClickListener() {
-		    public void onClick(View v) {
+		    public void onClick(View view) {
 		    	if (Log.getDebug()) Log.v("Previous Button Clicked()");
+		    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 		    	notificationViewFlipper.showPrevious();
 		    	updateNavigationButtons(previousButton, notificationCountTextView, nextButton, notificationViewFlipper);
 		    }
 		});
 		// Next Button
 		nextButton.setOnClickListener(new OnClickListener() {
-		    public void onClick(View v) {
+		    public void onClick(View view) {
 		    	if (Log.getDebug()) Log.v("Next Button Clicked()");
+		    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 		    	notificationViewFlipper.showNext();
 		    	updateNavigationButtons(previousButton, notificationCountTextView, nextButton, notificationViewFlipper);
 		    }

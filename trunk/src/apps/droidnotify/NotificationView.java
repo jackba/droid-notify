@@ -15,6 +15,7 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.net.Uri;
+import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.text.method.ScrollingMovementMethod;
@@ -600,10 +601,22 @@ public class NotificationView extends LinearLayout {
 	 * @param hapticFeedbackConstant
 	 */
 	private void customPerformHapticFeedback(int hapticFeedbackConstant){
+		Context context = getContext();
+		NotificationActivity notificationActivity = (NotificationActivity)context;
+		Vibrator vibrator = (Vibrator)notificationActivity.getSystemService(Context.VIBRATOR_SERVICE);
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
 		//Perform the haptic feedback based on the users preferences.
 		if(preferences.getBoolean(HAPTIC_FEEDBACK_ENABLED_KEY, true)){
-			performHapticFeedback(hapticFeedbackConstant);
+			if(hapticFeedbackConstant == HapticFeedbackConstants.VIRTUAL_KEY){
+				//performHapticFeedback(hapticFeedbackConstant);
+				vibrator.vibrate(50);
+			}
+		}
+		if(preferences.getBoolean(HAPTIC_FEEDBACK_ENABLED_KEY, true)){
+			if(hapticFeedbackConstant == HapticFeedbackConstants.LONG_PRESS){
+				//performHapticFeedback(hapticFeedbackConstant);
+				vibrator.vibrate(100);
+			}
 		}
 	}
 	
