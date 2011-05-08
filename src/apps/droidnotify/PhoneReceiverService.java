@@ -52,7 +52,7 @@ public class PhoneReceiverService extends WakefulIntentService {
 	//================================================================================
 	
 	/**
-	 * This service function should read the users calendar events for the next 25 hours and start alarms for each one individually.
+	 * Do the work for the service inside this function.
 	 * 
 	 * @param intent
 	 */
@@ -84,5 +84,9 @@ public class PhoneReceiverService extends WakefulIntentService {
 	    	context.startActivity(intent);
 	    }
 	}
+	
+	//================================================================================
+	// Private Methods
+	//================================================================================
 	
 }

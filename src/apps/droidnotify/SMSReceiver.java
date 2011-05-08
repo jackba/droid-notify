@@ -37,8 +37,12 @@ public class SMSReceiver extends BroadcastReceiver{
 	@Override
 	public void onReceive(Context context, Intent intent){
 		if (Log.getDebug()) Log.v("SMSReceiver.onReceive()");
-	    intent.setClass(context, SMSReceiverService.class);
-	    SMSReceiverService.startSMSMonitoringService(context, intent);
+		//DELETE THIS SOON
+	    //intent.setClass(context, SMSReceiverService.class);
+	    //SMSReceiverService.startSMSMonitoringService(context, intent);
+		//----------------
+		WakefulIntentService.acquireStaticLock(context);
+		context.startService(new Intent(context, SMSReceiverService.class));
 	}
 	  
 	//================================================================================
