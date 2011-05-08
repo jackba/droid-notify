@@ -34,7 +34,7 @@ import android.text.format.DateUtils;
 * @author CommonsWare edited by Camille Sevigny
  *
  */
-public class CalendarReceiverService extends WakefulIntentService {
+public class CalendarAlarmReceiverService extends WakefulIntentService {
 
 	//================================================================================
     // Constants
@@ -65,9 +65,9 @@ public class CalendarReceiverService extends WakefulIntentService {
 	/**
 	 * 
 	 */
-	public CalendarReceiverService() {
-		super("CalendarReceiverService");
-		if (Log.getDebug()) Log.v("CalendarReceiverService.CalendarReceiverService()");
+	public CalendarAlarmReceiverService() {
+		super("CalendarAlarmReceiverService");
+		if (Log.getDebug()) Log.v("CalendarAlarmReceiverService.CalendarReceiverService()");
 	}
 
 	//================================================================================
@@ -81,7 +81,7 @@ public class CalendarReceiverService extends WakefulIntentService {
 	 */
 	@Override
 	protected void doWakefulWork(Intent intent) {
-		if (Log.getDebug()) Log.v("CalendarReceiverService.doWakefulWork()");
+		if (Log.getDebug()) Log.v("CalendarAlarmReceiverService.doWakefulWork()");
 		Context context = getApplicationContext();
 		//Read the users calendar(s) and events.
 		readCalendars(context);
@@ -97,7 +97,7 @@ public class CalendarReceiverService extends WakefulIntentService {
 	 * @param context
 	 */
 	public static void readCalendars(Context context) {
-		if (Log.getDebug()) Log.v("CalendarReceiverService.readCalendars()");
+		if (Log.getDebug()) Log.v("CalendarAlarmReceiverService.readCalendars()");
 		try{
 			ContentResolver contentResolver = context.getContentResolver();
 			// Fetch a list of all calendars synced with the device, their display names and whether the user has them selected for display.
@@ -131,16 +131,16 @@ public class CalendarReceiverService extends WakefulIntentService {
 			}
 			// For a full list of available columns see http://tinyurl.com/yfbg76w
 			HashSet<String> calendarIds = new HashSet<String>();
-			if (Log.getDebug()) Log.v("CalendarReceiverService.readCalendars() About To Read Calendar");
+			if (Log.getDebug()) Log.v("CalendarAlarmReceiverService.readCalendars() About To Read Calendar");
 			while (cursor.moveToNext()) {
-				if (Log.getDebug()) Log.v("CalendarReceiverService.readCalendar() Reading Calendars...");
+				if (Log.getDebug()) Log.v("CalendarAlarmReceiverService.readCalendar() Reading Calendars...");
 				final String _id = cursor.getString(0);
 				final String displayName = cursor.getString(1);
 				final Boolean selected = !cursor.getString(2).equals("0");
 				if (Log.getDebug()) Log.v("Id: " + _id + " Display Name: " + displayName + " Selected: " + selected);
 				calendarIds.add(_id);
 			}	
-			if (Log.getDebug()) Log.v("CalendarReceiverService.readCalendar() Calendar IDs Read");
+			if (Log.getDebug()) Log.v("CalendarAlarmReceiverService.readCalendar() Calendar IDs Read");
 			// For each calendar, display all the events from the previous week to the end of next week.		
 			for (String id : calendarIds) {
 				Uri.Builder builder = Uri.parse(contentProvider + "/instances/when").buildUpon();
@@ -164,7 +164,7 @@ public class CalendarReceiverService extends WakefulIntentService {
 				}
 			}
 		}catch(Exception ex){
-			if (Log.getDebug()) Log.e("CalendarReceiverService.readCalendars() ERROR: " + ex.toString());
+			if (Log.getDebug()) Log.e("CalendarAlarmReceiverService.readCalendars() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -172,7 +172,7 @@ public class CalendarReceiverService extends WakefulIntentService {
 	 * 
 	 */
 	private void scheduleCalendarNotification(Context context, long scheduledAlarmTime, String title, String body, String timeStamp, String calendarID, String calendarEventID){
-		if (Log.getDebug()) Log.v("CalendarReceiverService.scheduleCalendarNotification()");
+		if (Log.getDebug()) Log.v("CalendarAlarmReceiverService.scheduleCalendarNotification()");
 		AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
     	Intent calendarNotificationIntent = new Intent(context, CalendarNotificationAlarmReceiver.class);
     	Bundle calendarNotificationBundle = new Bundle();

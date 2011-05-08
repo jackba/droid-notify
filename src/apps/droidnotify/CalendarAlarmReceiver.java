@@ -50,9 +50,9 @@ public class CalendarAlarmReceiver extends BroadcastReceiver {
 	 */
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		if (Log.getDebug()) Log.v("CalendarOnAlarmReceiver.onReceive()");
+		if (Log.getDebug()) Log.v("CalendarAlarmReceiver.onReceive()");
 		WakefulIntentService.acquireStaticLock(context);
-		context.startService(new Intent(context, CalendarReceiverService.class));
+		context.startService(new Intent(context, CalendarAlarmReceiverService.class));
 	}
 
 	//================================================================================
