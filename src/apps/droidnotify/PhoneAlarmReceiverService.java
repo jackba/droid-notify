@@ -3,13 +3,9 @@ package apps.droidnotify;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 
-/**
- * 
-* @author Camille Sevigny
- *
- */
-public class CalendarNotificationReceiverService extends WakefulIntentService {
+public class PhoneAlarmReceiverService extends WakefulIntentService {
 
 	//================================================================================
     // Constants
@@ -40,9 +36,9 @@ public class CalendarNotificationReceiverService extends WakefulIntentService {
 	/**
 	 * 
 	 */
-	public CalendarNotificationReceiverService() {
-		super("CalendarNotificationReceiverService");
-		if (Log.getDebug()) Log.v("CalendarNotificationReceiverService.CalendarNotificationReceiverService()");
+	public PhoneAlarmReceiverService() {
+		super("PhoneAlarmReceiverService");
+		if (Log.getDebug()) Log.v("PhoneAlarmReceiverService.PhoneAlarmReceiverService()");
 	}
 
 	//================================================================================
@@ -56,13 +52,20 @@ public class CalendarNotificationReceiverService extends WakefulIntentService {
 	 */
 	@Override
 	protected void doWakefulWork(Intent intent) {
-		if (Log.getDebug()) Log.v("CalendarNotificationReceiverService.doWakefulWork()");
+		if (Log.getDebug()) Log.v("PhoneAlarmReceiverService.doWakefulWork()");
 		Context context = getApplicationContext();
-    	Intent calendarNotificationIntent = new Intent(context, NotificationActivity.class);
-    	Bundle calendarNotificationBundle = intent.getExtras();
-    	calendarNotificationIntent.putExtras(calendarNotificationBundle);
-    	calendarNotificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-    	context.startActivity(calendarNotificationIntent);
+		TelephonyManager telemanager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+	    boolean callStateIdle = telemanager.getCallState() == TelephonyManager.CALL_STATE_IDLE;
+	    if (Log.getDebug()) Log.v("PhoneReceiverService.displayPhoneNotificationToScreen() Current Call State: " + telemanager.getCallState());
+	    // If the user is not in a call then start the check on the call log. 
+	    if (callStateIdle) {
+			Bundle bundle = new Bundle();
+			bundle.putInt("notificationType", NOTIFICATION_TYPE_PHONE);
+	    	Intent phoneNotificationIntent = new Intent(context, NotificationActivity.class);
+	    	phoneNotificationIntent.putExtras(bundle);
+	    	phoneNotificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+	    	context.startActivity(phoneNotificationIntent);
+	    }
 	}
 	
 	//================================================================================

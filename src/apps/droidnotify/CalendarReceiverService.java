@@ -174,7 +174,7 @@ public class CalendarReceiverService extends WakefulIntentService {
 	private void scheduleCalendarNotification(Context context, long scheduledAlarmTime, String title, String body, String timeStamp, String calendarID, String calendarEventID){
 		if (Log.getDebug()) Log.v("CalendarReceiverService.scheduleCalendarNotification()");
 		AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-    	Intent calendarNotificationIntent = new Intent(context, CalendarNotificationOnAlarmReceiver.class);
+    	Intent calendarNotificationIntent = new Intent(context, CalendarNotificationAlarmReceiver.class);
     	Bundle calendarNotificationBundle = new Bundle();
     	calendarNotificationBundle.putInt("notificationType", NOTIFICATION_TYPE_CALENDAR);
     	calendarNotificationBundle.putStringArray("calenderReminderInfo",new String[]{title, body, timeStamp, calendarID, calendarEventID});

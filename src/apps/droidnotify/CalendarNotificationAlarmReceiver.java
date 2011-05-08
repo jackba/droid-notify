@@ -10,7 +10,7 @@ import android.os.Bundle;
  * @author Camille Sevigny
  *
  */
-public class CalendarNotificationOnAlarmReceiver extends BroadcastReceiver {
+public class CalendarNotificationAlarmReceiver extends BroadcastReceiver {
 	
 	/**
 	 * 
@@ -20,9 +20,9 @@ public class CalendarNotificationOnAlarmReceiver extends BroadcastReceiver {
 	 */
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		if (Log.getDebug()) Log.v("CalendarNotificationOnAlarmReceiver.onReceive()");
+		if (Log.getDebug()) Log.v("CalendarNotificationAlarmReceiver.onReceive()");
 		WakefulIntentService.acquireStaticLock(context);
-		Intent newIntent = new Intent(context, CalendarNotificationReceiverService.class);
+		Intent newIntent = new Intent(context, CalendarNotificationAlarmReceiverService.class);
 		Bundle bundle = intent.getExtras();
 		newIntent.putExtras(bundle);
 		context.startService(newIntent);

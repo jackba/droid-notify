@@ -37,7 +37,7 @@ public class CalendarOnBootReceiver extends BroadcastReceiver {
 	public void onReceive(Context context, Intent intent) {
 		if (Log.getDebug()) Log.v("CalendarOnBootReceiver.onReceive()");
 		AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-		Intent newIntent = new Intent(context, CalendarOnAlarmReceiver.class);
+		Intent newIntent = new Intent(context, CalendarAlarmReceiver.class);
 		PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, newIntent, 0);
 		alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, getStartTimeOfAlarm(), AlarmManager.INTERVAL_DAY, pendingIntent);
 	}
