@@ -60,7 +60,7 @@
 				<action android:name="android.intent.action.BOOT_COMPLETED" />
 			</intent-filter>
 		</receiver>
-		<receiver android:name=".CalendarOnAlarmReceiver"></receiver>
+		<receiver android:name="CalendarAlarmReceiver"></receiver>
 		<service android:name=".CalendarReceiverService"></service>
 		<receiver android:name=".CalendarNotificationOnAlarmReceiver"></receiver>
 		<service android:name=".CalendarNotificationReceiverService"></service>
