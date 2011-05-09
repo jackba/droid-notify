@@ -42,7 +42,7 @@ public class CalendarNotificationAlarmReceiverService extends WakefulIntentServi
 	 */
 	public CalendarNotificationAlarmReceiverService() {
 		super("CalendarNotificationAlarmReceiverService");
-		if (Log.getDebug()) Log.v("CalendarNotificationAlarmReceiverService.CalendarNotificationReceiverService()");
+		if (Log.getDebug()) Log.v("CalendarNotificationAlarmReceiverService.CalendarNotificationAlarmReceiverService()");
 	}
 
 	//================================================================================
@@ -59,8 +59,8 @@ public class CalendarNotificationAlarmReceiverService extends WakefulIntentServi
 		if (Log.getDebug()) Log.v("CalendarNotificationAlarmReceiverService.doWakefulWork()");
 		Context context = getApplicationContext();
     	Intent calendarNotificationIntent = new Intent(context, NotificationActivity.class);
-    	Bundle calendarNotificationBundle = intent.getExtras();
-    	calendarNotificationIntent.putExtras(calendarNotificationBundle);
+    	Bundle bundle = intent.getExtras();
+    	calendarNotificationIntent.putExtras(bundle);
     	calendarNotificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
     	context.startActivity(calendarNotificationIntent);
 	}

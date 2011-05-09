@@ -1,5 +1,6 @@
 package apps.droidnotify;
 
+import java.sql.Date;
 import java.text.SimpleDateFormat;
 
 import android.content.Context;
@@ -17,6 +18,7 @@ import android.graphics.RectF;
 import android.net.Uri;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
+import android.provider.ContactsContract.CommonDataKinds.Event;
 import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Gravity;
@@ -344,8 +346,7 @@ public class NotificationView extends LinearLayout {
 			    public void onClick(View view) {
 			    	if (Log.getDebug()) Log.v("Calendar View Button Clicked()");
 			    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-			    	//TODO - Calendar Reminder
-			    	//replyToMessage();
+			    	viewCalendarEvent();
 			    }
 			});
 	    }
@@ -558,9 +559,37 @@ public class NotificationView extends LinearLayout {
         		| Intent.FLAG_ACTIVITY_NO_HISTORY
         		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
         context.startActivity(intent);
-        //Not sure if this should be a preference to end the notification activity when a call is made?
-        //NotificationActivity notificationActivity = (NotificationActivity)context;
-		//notificationActivity.finishActivity();
+	}
+	
+	/**
+	 * View the calendar event using the Calendar Event ID.
+	 */
+	private void viewCalendarEvent(){
+		if (Log.getDebug()) Log.v("NotificationView.viewCalendarEvent()");
+		Context context = getContext();
+		Notification notification = getNotification();
+		long calendarEventID = notification.getCalendarEventID();
+		try{
+			//Android 2.2+
+			Intent intent = new Intent(Intent.ACTION_VIEW);
+			intent.setData(Uri.parse("content://com.android.calendar/events/" + String.valueOf(calendarEventID)));	
+			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+	        		| Intent.FLAG_ACTIVITY_SINGLE_TOP
+	        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
+	        		| Intent.FLAG_ACTIVITY_NO_HISTORY
+	        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+	        context.startActivity(intent);
+		}catch(Exception ex){
+			//Android 2.1 and below.
+			Intent intent = new Intent(Intent.ACTION_VIEW);	
+			intent.setData(Uri.parse("content://calendar/events/" + String.valueOf(calendarEventID)));	
+	        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+	        		| Intent.FLAG_ACTIVITY_SINGLE_TOP
+	        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
+	        		| Intent.FLAG_ACTIVITY_NO_HISTORY
+	        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+	        context.startActivity(intent);	
+		}
 	}
  
 	/**
@@ -619,6 +648,66 @@ public class NotificationView extends LinearLayout {
 			}
 		}
 	}
+
+//	/**
+//	 * Add a calendar event.
+//	 */
+//	private void addCalendarEvent(){
+//		if (Log.getDebug()) Log.v("NotificationView.viewCalendarEvent()");
+//		Context context = getContext();
+//		try{
+//			//Android 2.2+
+//			Intent intent = new Intent(Intent.ACTION_EDIT);
+//			intent.setType("vnd.android.cursor.item/event");
+//			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+//	        		| Intent.FLAG_ACTIVITY_SINGLE_TOP
+//	        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
+//	        		| Intent.FLAG_ACTIVITY_NO_HISTORY
+//	        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+//	        context.startActivity(intent);
+//		}catch(Exception ex){
+//			//Android 2.1 and below.
+//			Intent intent = new Intent(Intent.ACTION_EDIT);
+//			intent.setType("vnd.android.cursor.item/event");
+//			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+//	        		| Intent.FLAG_ACTIVITY_SINGLE_TOP
+//	        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
+//	        		| Intent.FLAG_ACTIVITY_NO_HISTORY
+//	        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+//	        context.startActivity(intent);
+//		}
+//	}
+
+//	/**
+//	 * Edit a calendar event.
+//	 */
+//	private void editCalendarEvent(){
+//		if (Log.getDebug()) Log.v("NotificationView.viewCalendarEvent()");
+//		Context context = getContext();
+//	    Notification notification = getNotification();
+//	    long calendarEventID = notification.getCalendarEventID();
+//		try{
+//			//Android 2.2+
+//			Intent intent = new Intent(Intent.ACTION_EDIT);
+//			intent.setData(Uri.parse("content://com.android.calendar/events/" + String.valueOf(calendarEventID)));	
+//			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+//	        		| Intent.FLAG_ACTIVITY_SINGLE_TOP
+//	        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
+//	        		| Intent.FLAG_ACTIVITY_NO_HISTORY
+//	        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+//	        context.startActivity(intent);
+//		}catch(Exception ex){
+//			//Android 2.1 and below.
+//			Intent intent = new Intent(Intent.ACTION_EDIT);	
+//			intent.setData(Uri.parse("content://calendar/events/" + String.valueOf(calendarEventID)));	
+//	        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+//	        		| Intent.FLAG_ACTIVITY_SINGLE_TOP
+//	        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
+//	        		| Intent.FLAG_ACTIVITY_NO_HISTORY
+//	        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+//	        context.startActivity(intent);	
+//		}
+//	}
 	
 //	/**
 //	 * Take the user to the messaging application inbox.
