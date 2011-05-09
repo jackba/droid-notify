@@ -39,17 +39,8 @@ public class CalendarOnBootReceiver extends BroadcastReceiver {
 		AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 		Intent newIntent = new Intent(context, CalendarAlarmReceiver.class);
 		PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, newIntent, 0);
-		alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, getStartTimeOfAlarm(), AlarmManager.INTERVAL_DAY, pendingIntent);
-	}
-	
-	/**
-	 * Calculates the start time of the alarm.
-	 * 
-	 * @return alarmStartTime
-	 */
-	private long getStartTimeOfAlarm(){
-		long alarmStartTime = System.currentTimeMillis() + (2 * 60 * 1000); // 2 Minutes From Current Time
-		return alarmStartTime;
+		// Set alarm to go off 5 minutes from the current time.
+		alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (5 * 60 * 1000), AlarmManager.INTERVAL_DAY, pendingIntent);
 	}
 	
 }

@@ -73,6 +73,8 @@ public class Notification {
 	private String _email;
 	private long _calendarID;
 	private long _calendarEventID;
+	private long _calendarBeginTime;
+	private long _calendarEndTime;
 	
 	//================================================================================
 	// Constructors

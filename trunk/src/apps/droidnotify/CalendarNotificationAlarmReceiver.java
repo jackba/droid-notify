@@ -22,10 +22,10 @@ public class CalendarNotificationAlarmReceiver extends BroadcastReceiver {
 	public void onReceive(Context context, Intent intent) {
 		if (Log.getDebug()) Log.v("CalendarNotificationAlarmReceiver.onReceive()");
 		WakefulIntentService.acquireStaticLock(context);
-		Intent newIntent = new Intent(context, CalendarNotificationAlarmReceiverService.class);
+		Intent calendarNotificationIntent = new Intent(context, CalendarNotificationAlarmReceiverService.class);
 		Bundle bundle = intent.getExtras();
-		newIntent.putExtras(bundle);
-		context.startService(newIntent);
+		calendarNotificationIntent.putExtras(bundle);
+		context.startService(calendarNotificationIntent);
 	}
 	
 }
