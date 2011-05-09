@@ -402,11 +402,11 @@ public class NotificationView extends LinearLayout {
 	    	notificationAlignment = Gravity.LEFT;
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
-	    	notificationText = notification.getTitle() + " - " + notification.getMessageBody();
+	    	notificationText = notification.getTitle();
 	    	notificationAlignment = Gravity.LEFT;
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_EMAIL){
-	    	notificationText = notification.getTitle() + " - " + notification.getMessageBody();
+	    	notificationText = notification.getTitle();
 	    	notificationAlignment = Gravity.LEFT;
 	    } 
 	    _notificationTextView.setText(notificationText);
