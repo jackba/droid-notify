@@ -30,12 +30,12 @@
             </intent-filter> 
         </receiver>
         <service android:name=".SMSReceiverService"/>
-   		<receiver android:name=".PhoneReceiver"> 
+   		<receiver android:name=".PhoneAlarmReceiver"> 
             <intent-filter> 
                 <action android:name="android.intent.action.PHONE_STATE" />
             </intent-filter> 
         </receiver>     
-       	<service android:name=".PhoneReceiverService"/> 
+       	<service android:name=".PhoneAlarmReceiverService"/> 
 		<receiver android:name=".CalendarOnBootReceiver">
 			<intent-filter>
 				<action android:name="android.intent.action.BOOT_COMPLETED" />
