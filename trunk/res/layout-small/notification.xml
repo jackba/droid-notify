@@ -178,7 +178,8 @@
 			android:hapticFeedbackEnabled="true" />
 		<Button android:layout_width="fill_parent" 
 			android:layout_height="wrap_content" 
-			android:text="@string/view_button_text"
+			android:text="@string/view_button_text" 
+			android:drawableLeft="@drawable/ic_menu_my_calendar"
 			android:id="@+id/calendar_view_button" 
 			android:layout_weight="1"
 			android:hapticFeedbackEnabled="true" />
