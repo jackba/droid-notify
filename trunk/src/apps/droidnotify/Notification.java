@@ -192,22 +192,7 @@ public class Notification {
 	    	setTimeStamp(eventStartTime);
 	    	setTitle(title);
 	    	_allDay = allDay;
-	    	if(messageBody.equals("")){
-	    		String calendarNotificationMessage = "";
-	    		if(allDay){
-	    			Date eventStartDate = new Date(eventStartTime);
-	    			SimpleDateFormat eventDateFormatted = new SimpleDateFormat();
-	    			calendarNotificationMessage = eventDateFormatted.format(eventStartDate);
-	    		}else{
-	    			Date eventStartDate = new Date(eventStartTime);
-	    			Date eventEndDate = new Date(eventEndTime);
-	    			SimpleDateFormat eventDateFormatted = new SimpleDateFormat();
-	    			calendarNotificationMessage = eventDateFormatted.format(eventStartDate);
-	    		}
-	    		setMessageBody(calendarNotificationMessage);
-	    	}else{
-	    		setMessageBody(messageBody);
-	    	}
+	    	setMessageBody(formatCalendarEventMessage(messageBody, eventStartTime, eventEndTime, allDay));
 	    	setCalendarID(calendarID);
 	    	setCalendarEventID(calendarEventID);
 	    	_calendarEventStartTime = eventStartTime;
@@ -956,5 +941,38 @@ public class Notification {
 		}catch(Exception ex){
 			if (Log.getDebug()) Log.e("Notification.setMessageRead() ERROR: " + ex.toString());
 		}
+	}
+	
+	/**
+	 * Format the Notification message to display for a Calendar Event.
+	 * 
+	 * @param eventStartTime
+	 * @param eventEndTime
+	 * @param allDay
+	 * @return formatted string
+	 */
+	private String formatCalendarEventMessage(String messageBody, long eventStartTime, long eventEndTime, boolean allDay){
+		if (Log.getDebug()) Log.e("Notification.formatCalendarEventMessage()");
+		String formattedMessage = "";
+		SimpleDateFormat eventDateFormatted = new SimpleDateFormat();
+		Date eventEndDate = new Date(eventEndTime);
+		Date eventStartDate = new Date(eventStartTime);
+		String[] startTimeInfo = eventDateFormatted.format(eventStartDate).split(" ");
+		String[] endTimeInfo = eventDateFormatted.format(eventEndDate).split(" ");
+    	if(messageBody.equals("")){
+    		if(allDay){
+    			formattedMessage = startTimeInfo[0] + " - All Day";
+    		}else{
+    			//Check if the event spans a single day or not.
+    			if(startTimeInfo[0].equals(endTimeInfo[0])){
+    				formattedMessage = startTimeInfo[0] + " " + startTimeInfo[1] + " " + startTimeInfo[2] +  " - " +  endTimeInfo[1] + " " + startTimeInfo[2];
+    			}else{
+    				formattedMessage = eventDateFormatted.format(eventStartDate) + " - " +  eventDateFormatted.format(eventEndDate);
+    			}
+    		}
+    	}else{
+    		formattedMessage = messageBody;
+    	}
+		return formattedMessage;
 	}
 }

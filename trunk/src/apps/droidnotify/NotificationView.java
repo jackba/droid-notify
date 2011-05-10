@@ -403,7 +403,11 @@ public class NotificationView extends LinearLayout {
 	    	notificationAlignment = Gravity.LEFT;
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
-	    	notificationText = notification.getTitle() + " - " + notification.getMessageBody();
+	    	String notificationTitle = notification.getTitle();
+	    	if(notificationTitle.equals("")){
+	    		notificationTitle = "No Title";
+	    	}
+	    	notificationText = notificationTitle + " @ " + notification.getMessageBody();
 	    	notificationAlignment = Gravity.LEFT;
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_EMAIL){
@@ -442,7 +446,8 @@ public class NotificationView extends LinearLayout {
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
 	    	iconBitmap = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.calendar);
-	    	receivedAtText = getContext().getString(R.string.appointment_at_text, formattedTimestamp.toLowerCase());
+	    	//receivedAtText = getContext().getString(R.string.appointment_at_text, formattedTimestamp.toLowerCase());
+	    	receivedAtText = getContext().getString(R.string.calendar_event_text);
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_EMAIL){
 	    	iconBitmap = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.email);

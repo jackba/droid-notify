@@ -74,16 +74,10 @@ public class SMSReceiverService extends WakefulIntentService {
 		if (Log.getDebug()) Log.v("SMSReceiver.displaySMSNotificationToScreen()");
 		Bundle bundle = intent.getExtras();
 		bundle.putInt("notificationType", NOTIFICATION_TYPE_SMS);
-	    // Get the call state, if the user is in a call or the phone is ringing, don't show the notification.
-	    TelephonyManager telemanager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-	    boolean callStateIdle = telemanager.getCallState() == TelephonyManager.CALL_STATE_IDLE;
-	    // If the user is not in a call then show the notification activity.
-	    if (callStateIdle) {
-	    	Intent newIntent = new Intent(context, NotificationActivity.class);
-	    	newIntent.putExtras(bundle);
-	    	newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-	    	context.startActivity(newIntent);
-	    }
+    	Intent newIntent = new Intent(context, NotificationActivity.class);
+    	newIntent.putExtras(bundle);
+    	newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+    	context.startActivity(newIntent);
 	}
 	
 	//================================================================================

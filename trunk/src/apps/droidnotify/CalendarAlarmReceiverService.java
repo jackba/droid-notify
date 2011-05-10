@@ -168,11 +168,12 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
 			// For each calendar, display all the events from the previous week to the end of next week.		
 			for (String calendarID : calendarIds) {
 				Uri.Builder builder = Uri.parse(contentProvider + "/instances/when").buildUpon();
-				long now = System.currentTimeMillis();
-				ContentUris.appendId(builder, now);
-				ContentUris.appendId(builder, now + ( 2 * DateUtils.WEEK_IN_MILLIS));
+				long currentTime = System.currentTimeMillis();
+				ContentUris.appendId(builder, currentTime);
+				//For testing only, return events for next 2 weeks.
+				ContentUris.appendId(builder, currentTime + ( 2 * DateUtils.WEEK_IN_MILLIS));
 				//Search for events between now and the next 25 hours.
-				//ContentUris.appendId(builder, now + AlarmManager.INTERVAL_DAY + (1 * 60 * 60 * 1000));
+				//ContentUris.appendId(builder, currentTime + AlarmManager.INTERVAL_DAY + reminderInterval);
 				Cursor eventCursor = contentResolver.query(builder.build(),
 						new String[] { CALENDAR_EVENT_ID, CALENDAR_EVENT_TITLE, CALENDAR_INSTANCE_BEGIN, CALENDAR_INSTANCE_END, CALENDAR_EVENT_ALL_DAY},
 						"Calendars._id=" + calendarID,
@@ -186,8 +187,8 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
 					long eventEndTime = eventCursor.getLong(eventCursor.getColumnIndex(CALENDAR_INSTANCE_END));
 					final Boolean allDay = !eventCursor.getString(eventCursor.getColumnIndex(CALENDAR_EVENT_ALL_DAY)).equals("0");
 					if (Log.getDebug()) Log.v("Event ID: " + eventID + " Title: " + eventTitle + " Begin: " + eventStartTime + " End: " + eventEndTime + " All Day: " + allDay);
-					//scheduleCalendarNotification(context, System.currentTimeMillis() + (2 * 60 * 1000), eventTitle, Long.toString(eventStartTime), calendarID.toString(), eventID );
-					scheduleCalendarNotification(context, eventStartTime - reminderInterval, eventTitle, Long.toString(eventStartTime), Long.toString(eventEndTime), Boolean.toString(allDay), calendarID.toString(), eventID );
+					scheduleCalendarNotification(context, System.currentTimeMillis(), eventTitle, Long.toString(eventStartTime), Long.toString(eventEndTime), Boolean.toString(allDay), calendarID, eventID );
+					//scheduleCalendarNotification(context, eventStartTime - reminderInterval, eventTitle, Long.toString(eventStartTime), Long.toString(eventEndTime), Boolean.toString(allDay), calendarID.toString(), eventID );
 				}
 			}
 		}catch(Exception ex){
