@@ -29,13 +29,28 @@ import android.preference.PreferenceManager;
  */
 public class CalendarOnBootReceiver extends BroadcastReceiver {
 
-    private final long INTERVAL_15_MINUTES = 15 * 60 * 1000;
-    private final long INTERVAL_30_MINUTES = 30 * 60 * 1000;
-    private final long INTERVAL_45_MINUTES = 55 * 60 * 1000;
-    private final long INTERVAL_HOUR = 60 * 60 * 1000;
+	//================================================================================
+    // Constants
+    //================================================================================
     
     private final String CALENDAR_REMINDER_KEY = "calendar_reminder_settings";
-	
+
+	//================================================================================
+    // Properties
+    //================================================================================
+
+	//================================================================================
+	// Constructors
+	//================================================================================
+		
+	//================================================================================
+	// Accessors
+	//================================================================================
+	  
+	//================================================================================
+	// Public Methods
+	//================================================================================
+    
 	/**
 	 * 
 	 * 
@@ -53,5 +68,9 @@ public class CalendarOnBootReceiver extends BroadcastReceiver {
 		// Set alarm to go off 5 minutes from the current time.
 		alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (5 * 60 * 1000), AlarmManager.INTERVAL_DAY + reminderInterval, pendingIntent);
 	}
+	  
+	//================================================================================
+	// Private Methods
+	//================================================================================
 	
 }

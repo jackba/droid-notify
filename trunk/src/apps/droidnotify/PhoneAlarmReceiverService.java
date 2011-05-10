@@ -54,18 +54,12 @@ public class PhoneAlarmReceiverService extends WakefulIntentService {
 	protected void doWakefulWork(Intent intent) {
 		if (Log.getDebug()) Log.v("PhoneAlarmReceiverService.doWakefulWork()");
 		Context context = getApplicationContext();
-		TelephonyManager telemanager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-	    boolean callStateIdle = telemanager.getCallState() == TelephonyManager.CALL_STATE_IDLE;
-	    if (Log.getDebug()) Log.v("PhoneReceiverService.displayPhoneNotificationToScreen() Current Call State: " + telemanager.getCallState());
-	    // If the user is not in a call then start the check on the call log. 
-	    if (callStateIdle) {
-			Bundle bundle = new Bundle();
-			bundle.putInt("notificationType", NOTIFICATION_TYPE_PHONE);
-	    	Intent phoneNotificationIntent = new Intent(context, NotificationActivity.class);
-	    	phoneNotificationIntent.putExtras(bundle);
-	    	phoneNotificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-	    	context.startActivity(phoneNotificationIntent);
-	    }
+		Bundle bundle = new Bundle();
+		bundle.putInt("notificationType", NOTIFICATION_TYPE_PHONE);
+    	Intent phoneNotificationIntent = new Intent(context, NotificationActivity.class);
+    	phoneNotificationIntent.putExtras(bundle);
+    	phoneNotificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+    	context.startActivity(phoneNotificationIntent);
 	}
 	
 	//================================================================================

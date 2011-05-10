@@ -63,7 +63,32 @@
 		<item name="1">1</item>
 		<item name="2">2</item>
 	</string-array>
-	
+    <string-array name="call_log_timeout_options">
+		<item name="0">No Timeout</item>
+		<item name="1">1 second</item>
+		<item name="2">2 seconds</item>
+		<item name="3">3 seconds</item>
+		<item name="4">4 seconds</item>
+		<item name="5">5 seconds</item>
+		<item name="6">6 seconds</item>
+		<item name="7">7 seconds</item>
+		<item name="8">8 seconds</item>
+		<item name="9">9 seconds</item>
+		<item name="10">10 seconds</item>
+	</string-array>
+	<string-array name="call_log_timeout_options_values">
+		<item name="0">0</item>
+		<item name="1">1</item>
+		<item name="2">2</item>
+		<item name="3">3</item>
+		<item name="4">4</item>
+		<item name="5">5</item>
+		<item name="6">6</item>
+		<item name="7">7</item>
+		<item name="8">8</item>
+		<item name="9">9</item>
+		<item name="10">10</item>
+	</string-array>
 	<!-- Calendar Event Button Preferences Arrays --> 
     <string-array name="calendar_dismiss_button_options">
 		<item name="0">Nothing</item>
