@@ -216,7 +216,7 @@ public class NotificationView extends LinearLayout {
 	    if (Log.getDebug()) Log.v("NotificationView should be inflated now");
 	    _fromTextView = (TextView) findViewById(R.id.from_text_view);
 	    _phoneNumberTextView = (TextView) findViewById(R.id.phone_number_text_view);
-	    //Automatically format the phone number input into this text view.
+	    //Automatically format the phone number in this text view.
 		_phoneNumberTextView.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
 	    _notificationTextView = (TextView) findViewById(R.id.notification_text_view);
 	    _receivedAtTextView = (TextView) findViewById(R.id.time_text_view);
@@ -403,7 +403,7 @@ public class NotificationView extends LinearLayout {
 	    	notificationAlignment = Gravity.LEFT;
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
-	    	notificationText = notification.getTitle();
+	    	notificationText = notification.getTitle() + " - " + notification.getMessageBody();
 	    	notificationAlignment = Gravity.LEFT;
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_EMAIL){

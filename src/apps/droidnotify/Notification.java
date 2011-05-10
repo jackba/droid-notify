@@ -1,6 +1,8 @@
 package apps.droidnotify;
 
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -73,8 +75,9 @@ public class Notification {
 	private String _email;
 	private long _calendarID;
 	private long _calendarEventID;
-	private long _calendarBeginTime;
-	private long _calendarEndTime;
+	private long _calendarEventStartTime;
+	private long _calendarEventEndTime;
+	private boolean _allDay;
 	
 	//================================================================================
 	// Constructors
@@ -172,7 +175,7 @@ public class Notification {
 	 * @param timestamp
 	 * @param notificationType
 	 */
-	public Notification(Context context, String title, String messageBody, long timeStamp, long calendarID, long calendarEventID, int notificationType){
+	public Notification(Context context, String title, String messageBody, long eventStartTime, long eventEndTime, boolean allDay, long calendarID, long calendarEventID, int notificationType){
 		if (Log.getDebug()) Log.v("Notification.Notification(Context, String, String, long, int)");
 		setContext(context);
 		setContactExists(false);
@@ -186,11 +189,29 @@ public class Notification {
     		//Do Nothing. This should not be called if a SMS or MMS is received.
     	}
 	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
-	    	setTimeStamp(timeStamp);
+	    	setTimeStamp(eventStartTime);
 	    	setTitle(title);
-	    	setMessageBody(messageBody);
+	    	_allDay = allDay;
+	    	if(messageBody.equals("")){
+	    		String calendarNotificationMessage = "";
+	    		if(allDay){
+	    			Date eventStartDate = new Date(eventStartTime);
+	    			SimpleDateFormat eventDateFormatted = new SimpleDateFormat();
+	    			calendarNotificationMessage = eventDateFormatted.format(eventStartDate);
+	    		}else{
+	    			Date eventStartDate = new Date(eventStartTime);
+	    			Date eventEndDate = new Date(eventEndTime);
+	    			SimpleDateFormat eventDateFormatted = new SimpleDateFormat();
+	    			calendarNotificationMessage = eventDateFormatted.format(eventStartDate);
+	    		}
+	    		setMessageBody(calendarNotificationMessage);
+	    	}else{
+	    		setMessageBody(messageBody);
+	    	}
 	    	setCalendarID(calendarID);
 	    	setCalendarEventID(calendarEventID);
+	    	_calendarEventStartTime = eventStartTime;
+	    	_calendarEventEndTime = eventEndTime;
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_EMAIL){
 	    	//Do Nothing. This should not be called if an email is received.

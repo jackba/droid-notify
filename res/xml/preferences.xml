@@ -78,7 +78,8 @@
 					android:title="@string/preference_mms_enabled_title" 
 					android:summaryOn="@string/preference_mms_enabled_summaryOn" 
 					android:summaryOff="@string/preference_mms_enabled_summaryOff" 
-					android:defaultValue="true" />
+					android:defaultValue="false"
+					android:enabled="false" />
 				<PreferenceScreen
 					android:key="mms_button_settings"
 					android:title="MMS Button Settings"
@@ -171,6 +172,14 @@
 						android:entries="@array/calendar_dismiss_button_options"
 						android:entryValues="@array/calendar_dismiss_button_options_values"/>
 				</PreferenceScreen>
+				<ListPreference
+					android:key="calendar_reminder_settings"
+					android:title="Event Reminder Settings"
+					android:summary="How early do you want to be reminded about an upcoming event?"
+					android:defaultValue="0"
+					android:entries="@array/calendar_reminder_options"
+					android:entryValues="@array/calendar_reminder_options_values"
+					android:dependency="calendar_notifications_enabled" />
 				<PreferenceScreen
 					android:key="calendar_vibrate_settings"
 					android:title="Calendar Event Vibrate Settings"

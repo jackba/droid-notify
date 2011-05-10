@@ -41,6 +41,13 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 	final String SCREEN_ENABLED_KEY = "screen_enabled";
 	final String SCREEN_DIM_ENABLED_KEY = "screen_dim_enabled";
 	
+    private final long INTERVAL_15_MINUTES = 15 * 60 * 1000;
+    private final long INTERVAL_30_MINUTES = 30 * 60 * 1000;
+    private final long INTERVAL_45_MINUTES = 55 * 60 * 1000;
+    private final long INTERVAL_HOUR = 60 * 60 * 1000;
+    
+    private final String CALENDAR_REMINDER_KEY = "calendar_reminder_settings";
+	
 	//================================================================================
     // Properties
     //================================================================================
@@ -154,21 +161,22 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 	private void runOnceAlarmManager(){
 		if (Log.getDebug()) Log.v("DroidNotifyPreferenceActivity.runOnceAlarmManager()");
 		Context context = getContext();
-//		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-//		boolean runOnce = preferences.getBoolean("runOnce", true);
-//		if (Log.getDebug()) Log.v("DroidNotifyPreferenceActivity.runOnceAlarmManager() Run Once?" + runOnce);
-//		if(runOnce) {
-//			if (Log.getDebug()) Log.v("DroidNotifyPreferenceActivity.runOnceAlarmManager() Alarm Code Running");
-//			SharedPreferences.Editor editor = preferences.edit();
-//			editor.putBoolean("runOnce", false);
-//			editor.commit();
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		boolean runOnce = preferences.getBoolean("runOnce", true);
+		long reminderInterval = Long.parseLong(preferences.getString(CALENDAR_REMINDER_KEY, "15")) * 60 * 1000;
+		if (Log.getDebug()) Log.v("DroidNotifyPreferenceActivity.runOnceAlarmManager() Run Once?" + runOnce);
+		if(runOnce) {
+			if (Log.getDebug()) Log.v("DroidNotifyPreferenceActivity.runOnceAlarmManager() Alarm Code Running");
+			SharedPreferences.Editor editor = preferences.edit();
+			editor.putBoolean("runOnce", false);
+			editor.commit();
 			//Schedule the reading of the calendar events.
 			AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 			Intent intent = new Intent(context, CalendarAlarmReceiver.class);
 			PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
 			// Set alarm to go off 5 minutes from the current time.
-			alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, SystemClock.elapsedRealtime() + (5 * 60 * 1000), AlarmManager.INTERVAL_DAY, pendingIntent);
-//       }	
+			alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, SystemClock.elapsedRealtime() + (5 * 60 * 1000), AlarmManager.INTERVAL_DAY + reminderInterval, pendingIntent);
+       }	
 	}
 	
 }
