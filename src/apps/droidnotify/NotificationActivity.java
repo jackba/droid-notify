@@ -914,13 +914,15 @@ public class NotificationActivity extends Activity {
 		final Button nextButton = getNextButton();
 		final TextView notificationCountTextView = getNotificationCountTextView();
 		ArrayList<String> missedCallsArray = getMissedCalls(newIntent);
+		if(missedCallsArray.size() == 0){
+			if (Log.getDebug()) Log.v("NotificationActivity.setupMissedCalls() No missed calls were found. Exiting Activity...");
+			finishActivity();
+			return;
+		}
 		for(int i=0; i< missedCallsArray.size(); i++){
 			String[] missedCallInfo = missedCallsArray.get(i).split("\\|");
-			if (Log.getDebug()) Log.v("NotificationActivity.setupMissedCalls() MissedCallInfo: " + missedCallsArray.get(i));
 			String phoneNumber = missedCallInfo[0];
-			if (Log.getDebug()) Log.v("NotificationActivity.setupMissedCalls() ParsedPhone Number: " + phoneNumber);
 			long timeStamp = Long.parseLong(missedCallInfo[1]);
-			if (Log.getDebug()) Log.v("NotificationActivity.setupMissedCalls() Parsed TimeStamp: " + timeStamp);
 			Notification missedCallNotification = new Notification(context, phoneNumber, timeStamp, NOTIFICATION_TYPE_PHONE);
 			getNotificationViewFlipper().addNotification(missedCallNotification);
 		}
@@ -1064,34 +1066,37 @@ public class NotificationActivity extends Activity {
 		final String selection = null;
 		final String[] selectionArgs = null;
 		final String sortOrder = "DATE DESC";
-	    Cursor cursor = getContext().getContentResolver().query(
-	    		Uri.parse("content://call_log/calls"),
-	    		projection,
-	    		selection,
-				selectionArgs,
-				sortOrder);
-	    if (cursor != null) {
-	    	//TODO - Possible Bug - call log might not have been updated with the last call when we check it. I am not sure how to handle that case yet.
-	    	while (cursor.moveToNext()) { 
-	    		String callNumber = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.NUMBER));
-	    		String callDate = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.DATE));
-	    		String callType = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.TYPE));
-	    		String isCallNew = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.NEW));
-	    		if (Log.getDebug()) Log.v("NotificationActivity.getMissedCalls() Checking Call: " + callNumber + " Received At: " + callDate + " Call Type: " + callType + " Is Call New? " + isCallNew);
-	    		if(Integer.parseInt(callType) == MISSED_CALL_TYPE && Integer.parseInt(isCallNew) > 0){
-    				if (Log.getDebug()) Log.v("NotificationActivity.getMissedCalls() Missed Call Found: " + callNumber);
-    				//Store missed call numbers and dates in an array.
-    				String missedCallInfo = callNumber + "|" + callDate;
-    				missedCallsArray.add(missedCallInfo);
-    				if(isNewIntent){
-    					break;
-    				}
-    			}else{
-    				break;
-    			}
-	    	}
-	    	cursor.close();
-	    }
+		try{
+		    Cursor cursor = getContext().getContentResolver().query(
+		    		Uri.parse("content://call_log/calls"),
+		    		projection,
+		    		selection,
+					selectionArgs,
+					sortOrder);
+		    if (cursor != null) {
+		    	while (cursor.moveToNext()) { 
+		    		String callNumber = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.NUMBER));
+		    		String callDate = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.DATE));
+		    		String callType = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.TYPE));
+		    		String isCallNew = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.NEW));
+		    		//if (Log.getDebug()) Log.v("NotificationActivity.getMissedCalls() Checking Call: " + callNumber + " Received At: " + callDate + " Call Type: " + callType + " Is Call New? " + isCallNew);
+		    		if(Integer.parseInt(callType) == MISSED_CALL_TYPE && Integer.parseInt(isCallNew) > 0){
+	    				if (Log.getDebug()) Log.v("NotificationActivity.getMissedCalls() Missed Call Found: " + callNumber);
+	    				//Store missed call numbers and dates in an array.
+	    				String missedCallInfo = callNumber + "|" + callDate;
+	    				missedCallsArray.add(missedCallInfo);
+	    				if(isNewIntent){
+	    					break;
+	    				}
+	    			}else{
+	    				break;
+	    			}
+		    	}
+		    	cursor.close();
+		    }
+		}catch(Exception ex){
+			if (Log.getDebug()) Log.e("NotificationActivity.getMissedCalls() ERROR: " + ex.toString());
+		}
 	    return missedCallsArray;
 	}
 	

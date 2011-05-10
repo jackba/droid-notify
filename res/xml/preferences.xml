@@ -176,7 +176,7 @@
 					android:key="calendar_reminder_settings"
 					android:title="Event Reminder Settings"
 					android:summary="How early do you want to be reminded about an upcoming event?"
-					android:defaultValue="0"
+					android:defaultValue="15"
 					android:entries="@array/calendar_reminder_options"
 					android:entryValues="@array/calendar_reminder_options_values"
 					android:dependency="calendar_notifications_enabled" />

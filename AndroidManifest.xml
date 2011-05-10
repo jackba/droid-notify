@@ -3,7 +3,7 @@
 	xmlns:android="http://schemas.android.com/apk/res/android" 
 	package="apps.droidnotify" 
 	android:versionCode="1" 
-	android:versionName="@string/app_name_formatted_version">
+	android:versionName="@string/app_name_formatted_version" >
 	<uses-sdk 
 		android:minSdkVersion="7" 
 		android:targetSdkVersion="7" />
@@ -13,12 +13,12 @@
 		android:smallScreens="true"
 		android:anyDensity="false" />
     <application 
-    	android:icon="@drawable/icon" 
-    	android:label="@string/app_name" 
-    	android:debuggable="true">
+    	android:icon="@drawable/ic_launcher_droidnotify" 
+    	android:label="@string/app_name_formatted" 
+    	android:debuggable="true" >
         <activity 
         	android:name=".DroidNotifyPreferenceActivity" 
-        	android:label="@string/app_name">
+        	android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -29,29 +29,29 @@
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" /> 
             </intent-filter> 
         </receiver>
-        <service android:name=".SMSReceiverService"/>
-   		<receiver android:name=".PhoneAlarmReceiver"> 
+        <service android:name=".SMSReceiverService" />
+   		<receiver android:name=".PhoneReceiver" > 
             <intent-filter> 
                 <action android:name="android.intent.action.PHONE_STATE" />
             </intent-filter> 
-        </receiver>     
-       	<service android:name=".PhoneAlarmReceiverService"/> 
-		<receiver android:name=".CalendarOnBootReceiver">
+        </receiver>
+        <receiver android:name=".PhoneAlarmReceiver" />
+       	<service android:name=".PhoneAlarmReceiverService" /> 
+		<receiver android:name=".CalendarOnBootReceiver" >
 			<intent-filter>
 				<action android:name="android.intent.action.BOOT_COMPLETED" />
 			</intent-filter>
 		</receiver>
-		<receiver android:name="CalendarAlarmReceiver"></receiver>
-		<service android:name=".CalendarAlarmReceiverService"></service>
-		<receiver android:name=".CalendarNotificationAlarmReceiver"></receiver>
-		<service android:name=".CalendarNotificationAlarmReceiverService"></service>
+		<receiver android:name="CalendarAlarmReceiver" />
+		<service android:name=".CalendarAlarmReceiverService" />
+		<receiver android:name=".CalendarNotificationAlarmReceiver" />
+		<service android:name=".CalendarNotificationAlarmReceiverService" />
    		<activity 
    			android:name=".NotificationActivity" 
    			android:theme="@style/Theme.TranslucentDialog"
 			android:launchMode="singleTask" 
 			android:configChanges="keyboardHidden|orientation"
-			android:screenOrientation="user">
-		</activity>
+			android:screenOrientation="user" />
     </application>
 	<uses-permission android:name="android.permission.CALL_PHONE" />
 	<uses-permission android:name="android.permission.DISABLE_KEYGUARD" />

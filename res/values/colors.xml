@@ -4,4 +4,5 @@
     <color name="black">#ff000000</color>
     <color name="transparent">#00000000</color>
 	<color name="darker_gray">#aaa</color>
+	<color name="android_green">#a5c639</color>
 </resources>
