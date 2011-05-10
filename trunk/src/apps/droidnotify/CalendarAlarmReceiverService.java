@@ -23,10 +23,12 @@ import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.preference.PreferenceManager;
 import android.provider.ContactsContract.CommonDataKinds.Event;
 import android.text.format.DateUtils;
 
@@ -64,6 +66,8 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
     private final long INTERVAL_30_MINUTES = 30 * 60 * 1000;
     private final long INTERVAL_45_MINUTES = 55 * 60 * 1000;
     private final long INTERVAL_HOUR = 60 * 60 * 1000;
+    
+    private final String CALENDAR_REMINDER_KEY = "calendar_reminder_settings";
 	
 	//================================================================================
     // Properties
@@ -117,6 +121,9 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
 	 */
 	public void readCalendars(Context context) {
 		if (Log.getDebug()) Log.v("CalendarAlarmReceiverService.readCalendars()");
+		//Determine the reminder interval based on the users preferences.
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		long reminderInterval = Long.parseLong(preferences.getString(CALENDAR_REMINDER_KEY, "15")) * 60 * 1000;
 		try{
 			ContentResolver contentResolver = context.getContentResolver();
 			// Fetch a list of all calendars synced with the device, their display names and whether the user has them selected for display.
@@ -180,7 +187,7 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
 					final Boolean allDay = !eventCursor.getString(eventCursor.getColumnIndex(CALENDAR_EVENT_ALL_DAY)).equals("0");
 					if (Log.getDebug()) Log.v("Event ID: " + eventID + " Title: " + eventTitle + " Begin: " + eventStartTime + " End: " + eventEndTime + " All Day: " + allDay);
 					//scheduleCalendarNotification(context, System.currentTimeMillis() + (2 * 60 * 1000), eventTitle, Long.toString(eventStartTime), calendarID.toString(), eventID );
-					scheduleCalendarNotification(context, eventStartTime - INTERVAL_15_MINUTES, eventTitle, Long.toString(eventStartTime), calendarID.toString(), eventID );
+					scheduleCalendarNotification(context, eventStartTime - reminderInterval, eventTitle, Long.toString(eventStartTime), Long.toString(eventEndTime), Boolean.toString(allDay), calendarID.toString(), eventID );
 				}
 			}
 		}catch(Exception ex){
@@ -198,13 +205,13 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
 	 * @param calendarID
 	 * @param eventID
 	 */
-	private void scheduleCalendarNotification(Context context, long scheduledAlarmTime, String title, String timeStamp, String calendarID, String eventID){
+	private void scheduleCalendarNotification(Context context, long scheduledAlarmTime, String title, String eventStartTime, String eventEndTime, String eventAllDay, String calendarID, String eventID){
 		if (Log.getDebug()) Log.v("CalendarAlarmReceiverService.scheduleCalendarNotification()");
 		AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
     	Intent calendarNotificationIntent = new Intent(context, CalendarNotificationAlarmReceiver.class);
     	Bundle bundle = new Bundle();
     	bundle.putInt("notificationType", NOTIFICATION_TYPE_CALENDAR);
-    	bundle.putStringArray("calenderEventInfo",new String[]{title, "", timeStamp, calendarID, eventID});
+    	bundle.putStringArray("calenderEventInfo",new String[]{title, "", eventStartTime, eventEndTime, eventAllDay, calendarID, eventID});
     	calendarNotificationIntent.putExtras(bundle);
     	calendarNotificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
     	//Set the Action attribute for the scheduled intent. 

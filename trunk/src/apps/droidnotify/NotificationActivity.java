@@ -956,10 +956,12 @@ public class NotificationActivity extends Activity {
 		String calenderEventInfo[] = (String[])bundle.getStringArray("calenderEventInfo");
 		String title = calenderEventInfo[0];
 		String messageBody = calenderEventInfo[1];
-		long timeStamp = Long.parseLong(calenderEventInfo[2]);
-		long calendarID = Long.parseLong(calenderEventInfo[3]);
-		long calendarEventID = Long.parseLong(calenderEventInfo[4]);
-		Notification calendarEventNotification = new Notification(context, title, messageBody, timeStamp, calendarID, calendarEventID,NOTIFICATION_TYPE_CALENDAR);
+		long eventStartTime = Long.parseLong(calenderEventInfo[2]);
+		long eventEndTime = Long.parseLong(calenderEventInfo[3]);
+		boolean eventAllDay = Boolean.parseBoolean(calenderEventInfo[4]);
+		long calendarID = Long.parseLong(calenderEventInfo[5]);
+		long calendarEventID = Long.parseLong(calenderEventInfo[6]);
+		Notification calendarEventNotification = new Notification(context, title, messageBody, eventStartTime, eventEndTime, eventAllDay, calendarID, calendarEventID,NOTIFICATION_TYPE_CALENDAR);
 		getNotificationViewFlipper().addNotification(calendarEventNotification);		
 		updateNavigationButtons(previousButton, notificationCountTextView, nextButton, notificationViewFlipper);
 	}
