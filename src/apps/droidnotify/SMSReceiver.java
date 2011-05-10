@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.telephony.TelephonyManager;
 
 /**
  * This class listens for incoming text messages.
@@ -37,12 +38,17 @@ public class SMSReceiver extends BroadcastReceiver{
 	@Override
 	public void onReceive(Context context, Intent intent){
 		if (Log.getDebug()) Log.v("SMSReceiver.onReceive()");
-		//DELETE THIS SOON
-	    //intent.setClass(context, SMSReceiverService.class);
-	    //SMSReceiverService.startSMSMonitoringService(context, intent);
-		//----------------
-		WakefulIntentService.acquireStaticLock(context);
-		context.startService(new Intent(context, SMSReceiverService.class));
+	    TelephonyManager telemanager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+	    boolean callStateIdle = telemanager.getCallState() == TelephonyManager.CALL_STATE_IDLE;
+	    // If the user is not in a call then start out work. 
+	    if (callStateIdle) {
+			WakefulIntentService.acquireStaticLock(context);
+			context.startService(new Intent(context, SMSReceiverService.class));
+	    }else{
+	    	if (Log.getDebug()) Log.v("SMSReceiver.onReceive() Phone Call In Progress.");
+	    	//TODO - Reschedule this notification in 5 minutes.
+	    	
+	    }
 	}
 	  
 	//================================================================================

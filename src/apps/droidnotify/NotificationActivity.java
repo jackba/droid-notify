@@ -675,7 +675,7 @@ public class NotificationActivity extends Activity {
 	    	if (Log.getDebug()) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_EMAIL");
 	    	//TODO - Email Message
 	    }  
-	    //Set Haptic Feedback on Activity.
+	    //Set Vibration or Ringtone to announce Activity.
 	    runNotificationFeedback(notificationType);
 	    //Acquire WakeLock.
 	    acquireWakeLock(context);
@@ -855,6 +855,8 @@ public class NotificationActivity extends Activity {
 	    	if (Log.getDebug()) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_EMAIL");
 	    	//TODO - Email Message
 	    }
+	    //Set Vibration or Ringtone to announce Activity.
+	    runNotificationFeedback(notificationType);
 	    //Acquire WakeLock
 	    acquireWakeLock(context);
 	    //Remove the KeyGuard
@@ -960,10 +962,13 @@ public class NotificationActivity extends Activity {
 		String messageBody = calenderEventInfo[1];
 		long eventStartTime = Long.parseLong(calenderEventInfo[2]);
 		long eventEndTime = Long.parseLong(calenderEventInfo[3]);
+		//if (Log.getDebug()) Log.v("NotificationActivity.setupCalendarEventNotifications() AllDay: " + calenderEventInfo[4]); 
 		boolean eventAllDay = Boolean.parseBoolean(calenderEventInfo[4]);
+		//if (Log.getDebug()) Log.v("NotificationActivity.setupCalendarEventNotifications() CalendarID: " + calenderEventInfo[5]); 
 		long calendarID = Long.parseLong(calenderEventInfo[5]);
-		long calendarEventID = Long.parseLong(calenderEventInfo[6]);
-		Notification calendarEventNotification = new Notification(context, title, messageBody, eventStartTime, eventEndTime, eventAllDay, calendarID, calendarEventID,NOTIFICATION_TYPE_CALENDAR);
+		//if (Log.getDebug()) Log.v("NotificationActivity.setupCalendarEventNotifications() EventID: " + calenderEventInfo[6]); 
+		long eventID = Long.parseLong(calenderEventInfo[6]);
+		Notification calendarEventNotification = new Notification(context, title, messageBody, eventStartTime, eventEndTime, eventAllDay, calendarID, eventID, NOTIFICATION_TYPE_CALENDAR);
 		getNotificationViewFlipper().addNotification(calendarEventNotification);		
 		updateNavigationButtons(previousButton, notificationCountTextView, nextButton, notificationViewFlipper);
 	}

@@ -18,15 +18,15 @@
 			android:layout_gravity="center"
 			android:scaleType="center"
 			android:layout_margin="4dp"/>
-			<TextView
-				android:id="@+id/time_text_view"
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:gravity="center_vertical"
-				android:text="Timestamp"
-				android:textAppearance="?android:attr/textAppearanceSmall"
-				android:padding="1dp"
-				android:textColorLink="?android:attr/textColorPrimaryDisableOnly"/>
+		<TextView
+			android:id="@+id/time_text_view"
+			android:layout_width="fill_parent"
+			android:gravity="center_vertical"
+			android:text="Timestamp"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:padding="1dp"
+			android:textColorLink="?android:attr/textColorPrimaryDisableOnly" 
+			android:layout_height="fill_parent"/>
 	</LinearLayout>
 	<ImageView
   		xmlns:android="http://schemas.android.com/apk/res/android"
@@ -120,7 +120,7 @@
 		<Button android:layout_width="fill_parent" 
 			android:layout_height="wrap_content" 
 			android:text="@string/dismiss_button_text" 
-			android:drawableLeft="@drawable/ic_dialog_alert"
+			android:drawableLeft="@drawable/ic_menu_close_clear_cancel"
 			android:id="@+id/phone_dismiss_button" 
 			android:layout_weight="1"
 			android:hapticFeedbackEnabled="true" />
@@ -143,7 +143,7 @@
 		<Button android:layout_width="fill_parent" 
 			android:layout_height="wrap_content" 
 			android:text="@string/dismiss_button_text" 
-			android:drawableLeft="@drawable/ic_dialog_alert" 
+			android:drawableLeft="@drawable/ic_menu_close_clear_cancel" 
 			android:id="@+id/sms_dismiss_button" 
 			android:layout_weight="1"
 			android:hapticFeedbackEnabled="true" />
@@ -157,6 +157,7 @@
 		<Button android:layout_width="fill_parent" 
 			android:layout_height="wrap_content" 
 			android:text="@string/reply_button_text" 
+			android:drawableLeft="@drawable/ic_menu_start_conversation" 
 			android:id="@+id/sms_reply_button" 
 			android:layout_weight="1"
 			android:hapticFeedbackEnabled="true" />
@@ -172,7 +173,7 @@
 		<Button android:layout_width="fill_parent" 
 			android:layout_height="wrap_content" 
 			android:text="@string/dismiss_button_text" 
-			android:drawableLeft="@drawable/ic_dialog_alert"
+			android:drawableLeft="@drawable/ic_menu_close_clear_cancel"
 			android:id="@+id/calendar_dismiss_button" 
 			android:layout_weight="1"
 			android:hapticFeedbackEnabled="true" />
