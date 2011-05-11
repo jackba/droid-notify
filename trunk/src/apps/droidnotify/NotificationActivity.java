@@ -7,6 +7,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.KeyguardManager;
 import android.app.KeyguardManager.KeyguardLock;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -99,6 +100,10 @@ public class NotificationActivity extends Activity {
 	private final int CALL_CONTACT_CONTEXT_MENU = R.id.call_contact;
 	private final int TEXT_CONTACT_CONTEXT_MENU = R.id.text_contact;	
 	private final int EDIT_CONTACT_CONTEXT_MENU = R.id.edit_contact;
+	private final int EDIT_EVENT_CONTEXT_MENU = R.id.edit_calendar_event;
+	
+	private final String EVENT_BEGIN_TIME = "beginTime";
+	private final String EVENT_END_TIME = "endTime";
 	
 	//================================================================================
     // Properties
@@ -401,16 +406,20 @@ public class NotificationActivity extends Activity {
 				int notificationType = notification.getNotificationType();
 				if (Log.getDebug()) Log.v("NotificationActivity.onCreateContextMenu() Does contact exist?" + notification.getContactExists());
 				//Add the header text to the menu.
-				if(notification.getContactExists()){
-					contextMenu.setHeaderTitle(notification.getContactName()); 
+				if(notificationType == NOTIFICATION_TYPE_CALENDAR){
+					contextMenu.setHeaderTitle("Calendar Event");
 				}else{
-					contextMenu.setHeaderTitle(phoneNumber); 
+					if(notification.getContactExists()){
+						contextMenu.setHeaderTitle(notification.getContactName()); 
+					}else{
+						contextMenu.setHeaderTitle(phoneNumber); 
+					}
 				}
-				menuInflater.inflate(R.menu.photocontextmenu, contextMenu);
+				menuInflater.inflate(R.menu.notificationcontextmenu, contextMenu);
 				//Remove menu options based on the NotificationType.
 				if(notification.getContactExists()){
-					MenuItem menuItem = contextMenu.findItem(ADD_CONTACT_CONTEXT_MENU);
-					menuItem.setVisible(false);
+					MenuItem addMenuItem = contextMenu.findItem(ADD_CONTACT_CONTEXT_MENU);
+					addMenuItem.setVisible(false);
 				}else{
 					MenuItem viewMenuItem = contextMenu.findItem(VIEW_CONTACT_CONTEXT_MENU);
 					viewMenuItem.setVisible(false);
@@ -418,19 +427,34 @@ public class NotificationActivity extends Activity {
 					editMenuItem.setVisible(false);
 				}
 			    if(notificationType == NOTIFICATION_TYPE_PHONE){
-			    	MenuItem menuItem = contextMenu.findItem(CALL_CONTACT_CONTEXT_MENU);
-					menuItem.setVisible(false);
+			    	MenuItem callMenuItem = contextMenu.findItem(CALL_CONTACT_CONTEXT_MENU);
+			    	callMenuItem.setVisible(false);
+					MenuItem editEventMenuItem = contextMenu.findItem(EDIT_EVENT_CONTEXT_MENU);
+					editEventMenuItem.setVisible(false);
 			    }
 			    if(notificationType == NOTIFICATION_TYPE_SMS){
-			    	MenuItem menuItem = contextMenu.findItem(TEXT_CONTACT_CONTEXT_MENU);
-					menuItem.setVisible(false);
+			    	MenuItem textMenuItem = contextMenu.findItem(TEXT_CONTACT_CONTEXT_MENU);
+			    	textMenuItem.setVisible(false);
+					MenuItem editEventMenuItem = contextMenu.findItem(EDIT_EVENT_CONTEXT_MENU);
+					editEventMenuItem.setVisible(false);
 			    }
 			    if(notificationType == NOTIFICATION_TYPE_MMS){
-			    	MenuItem menuItem = contextMenu.findItem(TEXT_CONTACT_CONTEXT_MENU);
-					menuItem.setVisible(false);
+			    	MenuItem textMenuItem = contextMenu.findItem(TEXT_CONTACT_CONTEXT_MENU);
+			    	textMenuItem.setVisible(false);
+					MenuItem editEventMenuItem = contextMenu.findItem(EDIT_EVENT_CONTEXT_MENU);
+					editEventMenuItem.setVisible(false);
 			    }
 			    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
-			    	//TODO - Calendar Event
+					MenuItem addMenuItem = contextMenu.findItem(ADD_CONTACT_CONTEXT_MENU);
+					addMenuItem.setVisible(false);
+			    	MenuItem viewMenuItem = contextMenu.findItem(VIEW_CONTACT_CONTEXT_MENU);
+					viewMenuItem.setVisible(false);
+					MenuItem editMenuItem = contextMenu.findItem(EDIT_CONTACT_CONTEXT_MENU);
+					editMenuItem.setVisible(false);
+					MenuItem textMenuItem = contextMenu.findItem(TEXT_CONTACT_CONTEXT_MENU);
+					textMenuItem.setVisible(false);
+					MenuItem callMenuItem = contextMenu.findItem(CALL_CONTACT_CONTEXT_MENU);
+					callMenuItem.setVisible(false);
 			    }
 			    if(notificationType == NOTIFICATION_TYPE_EMAIL){
 			    	//TODO - Email Message
@@ -536,6 +560,39 @@ public class NotificationActivity extends Activity {
 					if (Log.getDebug()) Log.e("NotificationActivity.onContextItemSelected() EDIT_CONTACT_CONTEXT_MENU ERROR: " + ex.toString());
 					return false;
 				}
+			case EDIT_EVENT_CONTEXT_MENU:
+				try{
+				    long calendarEventID = notification.getCalendarEventID();
+					try{
+						//Android 2.2+
+						intent = new Intent(Intent.ACTION_EDIT);
+						intent.setData(Uri.parse("content://com.android.calendar/events/" + String.valueOf(calendarEventID)));	
+						intent.putExtra(EVENT_BEGIN_TIME,notification.getCalendarEventStartTime());
+						intent.putExtra(EVENT_END_TIME,notification.getCalendarEventEndTime());
+						intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+				        		| Intent.FLAG_ACTIVITY_SINGLE_TOP
+				        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
+				        		| Intent.FLAG_ACTIVITY_NO_HISTORY
+				        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+				        context.startActivity(intent);
+					}catch(Exception ex){
+						//Android 2.1 and below.
+						intent = new Intent(Intent.ACTION_EDIT);	
+						intent.setData(Uri.parse("content://calendar/events/" + String.valueOf(calendarEventID)));	
+						intent.putExtra(EVENT_BEGIN_TIME,notification.getCalendarEventStartTime());
+						intent.putExtra(EVENT_END_TIME,notification.getCalendarEventEndTime());
+						intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+				        		| Intent.FLAG_ACTIVITY_SINGLE_TOP
+				        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
+				        		| Intent.FLAG_ACTIVITY_NO_HISTORY
+				        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+				        context.startActivity(intent);	
+					}
+					return true;
+				}catch(Exception ex){
+					if (Log.getDebug()) Log.e("NotificationActivity.onContextItemSelected() EDIT_EVENT_CONTEXT_MENU ERROR: " + ex.toString());
+					return false;
+				}
 			default:
 				return super.onContextItemSelected(menuItem);
 		  }
@@ -627,6 +684,8 @@ public class NotificationActivity extends Activity {
 	    setupViews(notificationType);
 	    if(notificationType == NOTIFICATION_TYPE_TEST){
 	    	createTextNotifications();
+	    	//Stop the progess spinner from displaying once this operation has complete.
+	    	DroidNotifyPreferenceActivity._progressDialog.dismiss();
 	    }    
 	    if(notificationType == NOTIFICATION_TYPE_PHONE){
 	    	if (Log.getDebug()) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_PHONE");
@@ -1112,10 +1171,10 @@ public class NotificationActivity extends Activity {
 	}
 	
 	/**
-	 * Acquires the WakeLock for this Activity.
+	 * Function that acquires the WakeLock for this Activity.
 	 * The type flags for the WakeLock will be determined by the user preferences. 
 	 * 
-	 * @param context
+	 * @param context - The current context of this Activity.
 	 */
 	private void acquireWakeLock(Context context){
 		if (Log.getDebug()) Log.v("NotificationActivity.acquireWakeLock()");
@@ -1143,7 +1202,7 @@ public class NotificationActivity extends Activity {
 	}
 	
 	/**
-	 * Release the WakeLock.
+	 * Function that releases the WakeLock.
 	 */
 	private void releaseWakeLock(){
 		if (Log.getDebug()) Log.v("NotificationActivity.releaseWakeLock()");
@@ -1156,10 +1215,10 @@ public class NotificationActivity extends Activity {
 	}
 	
 	/**
-	 * Disables the Keyguard for this Activity.
+	 * Function that disables the Keyguard for this Activity.
 	 * The removal of the Keyguard will be determined by the user preferences. 
 	 * 
-	 * @param context
+	 * @param context - The current context of this Activity.
 	 */
 	private void disableKeyguardLock(Context context){
 		if (Log.getDebug()) Log.v("NotificationActivity.disableKeyguardLock()");
@@ -1193,7 +1252,9 @@ public class NotificationActivity extends Activity {
 	}
 	
 	/**
-	 * Set ring tone or vibration based on users preferences for this notification.
+	 * Function to set ring tone or vibration based on users preferences for this notification.
+	 * 
+	 * @param notificationType - The type of the current notification.
 	 */
 	private void runNotificationFeedback(int notificationType){
 		if (Log.getDebug()) Log.v("NotificationActivity.runNotificationFeedback()");
@@ -1226,12 +1287,13 @@ public class NotificationActivity extends Activity {
 	}
 	
 	/**
-	 * Custom haptic feedback function.
-	 * Performs haptic feedback based on the users preferences.
+	 * Function that performs custom haptic feedback.
+	 * This function performs haptic feedback based on the users preferences.
 	 * 
-	 * @param hapticFeedbackConstant
+	 * @param hapticFeedbackConstant - What type of action the feedback is responding to.
 	 */
 	private void customPerformHapticFeedback(int hapticFeedbackConstant){
+		if (Log.getDebug()) Log.v("NotificationActivity.customPerformHapticFeedback()");
 		Vibrator vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
 		//Perform the haptic feedback based on the users preferences.
@@ -1248,9 +1310,10 @@ public class NotificationActivity extends Activity {
 	}
 	
 	/**
-	 * Create a test notification of each type.
+	 * Function to create a test notification of each type.
 	 */
 	private void createTextNotifications(){
+		if (Log.getDebug()) Log.v("NotificationActivity.createTextNotifications()");
 		Context context = getContext();
 		NotificationViewFlipper notificationViewFlipper = getNotificationViewFlipper();
 		//Add SMS Message Notification.
@@ -1260,7 +1323,7 @@ public class NotificationActivity extends Activity {
 		Notification missedCallNotification = new Notification(context, "5555555555", System.currentTimeMillis(), NOTIFICATION_TYPE_PHONE);
 		notificationViewFlipper.addNotification(missedCallNotification);
 		//Add Calendar Event Notification.
-		Notification calendarEventNotification = new Notification(context, "Droid Notify Calendar Event Test", "", System.currentTimeMillis(), System.currentTimeMillis() + (10 * 60 * 1000), false, 1, 1, NOTIFICATION_TYPE_CALENDAR);
+		Notification calendarEventNotification = new Notification(context, "Droid Notify Calendar Event Test - Droid Notify Calendar Event Test - Droid Notify Calendar Event Test - Droid Notify Calendar Event Test - Droid Notify Calendar Event Test", "", System.currentTimeMillis(), System.currentTimeMillis() + (10 * 60 * 1000), false, 1, 1, NOTIFICATION_TYPE_CALENDAR);
 		notificationViewFlipper.addNotification(calendarEventNotification);	
 	    updateNavigationButtons(getPreviousButton(), getNotificationCountTextView(), getNextButton(), getNotificationViewFlipper());
 	}
