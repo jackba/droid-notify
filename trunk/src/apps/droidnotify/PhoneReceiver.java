@@ -53,7 +53,7 @@ public class PhoneReceiver extends BroadcastReceiver{
 	    if (Log.getDebug()) Log.v("PhoneReceiver.onReceive() Current Call State: " + telemanager.getCallState());
 	    if (callStateIdle) {
 			//Schedule phone task x seconds after the broadcast.
-			//This time is set by the users advanced preferences. 5 seconds id the default value.
+			//This time is set by the users advanced preferences. 5 seconds is the default value.
 			//This should allow enough time to pass for the phone log to be written to.
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 			long timeoutInterval = Long.parseLong(preferences.getString(CALL_LOG_TIMEOUT_KEY, "5")) * 1000;

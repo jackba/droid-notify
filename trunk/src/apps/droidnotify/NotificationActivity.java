@@ -59,8 +59,8 @@ public class NotificationActivity extends Activity {
 	private final int NOTIFICATION_TYPE_CALENDAR = 3;
 	private final int NOTIFICATION_TYPE_EMAIL = 4;
 	
-	private final int INCOMING_CALL_TYPE = android.provider.CallLog.Calls.INCOMING_TYPE;
-	private final int OUTGOING_CALL_TYPE = android.provider.CallLog.Calls.OUTGOING_TYPE;
+	//private final int INCOMING_CALL_TYPE = android.provider.CallLog.Calls.INCOMING_TYPE;
+	//private final int OUTGOING_CALL_TYPE = android.provider.CallLog.Calls.OUTGOING_TYPE;
 	private final int MISSED_CALL_TYPE = android.provider.CallLog.Calls.MISSED_TYPE;
 	
 	private final int DIALOG_DELETE_MESSAGE = 0;
@@ -81,16 +81,16 @@ public class NotificationActivity extends Activity {
 	
 	private final String SMS_DELETE_KEY = "sms_delete_button_action";
 	private final String MMS_DELETE_KEY = "mms_delete_button_action";
-	private final String SMS_DISMISS_ACTION_MARK_READ = "0";
+	//private final String SMS_DISMISS_ACTION_MARK_READ = "0";
 	private final String SMS_DELETE_ACTION_DELETE_MESSAGE = "0";
 	private final String SMS_DELETE_ACTION_DELETE_THREAD = "1";
 	private final String SMS_DELETE_ACTION_NOTHING = "2";
-	private final String MMS_DISMISS_ACTION_MARK_READ = "0";
+	//private final String MMS_DISMISS_ACTION_MARK_READ = "0";
 	private final String MMS_DELETE_ACTION_DELETE_MESSAGE = "0";
 	private final String MMS_DELETE_ACTION_DELETE_THREAD = "1";
 	private final String MMS_DELETE_ACTION_NOTHING = "2";
 	
-	private final int CONTACT_PHOTO_IMAGE_VIEW = R.id.contact_image_view;
+	//private final int CONTACT_PHOTO_IMAGE_VIEW = R.id.contact_image_view;
 	private final int CONTACT_PHOTO_LINEAR_LAYOUT = R.id.contact_linear_layout;
 	
 	private final int VIEW_CONTACT_CONTEXT_MENU = R.id.view_contact;
@@ -613,14 +613,8 @@ public class NotificationActivity extends Activity {
 	    if (Log.getDebug()) Log.v("NotificationActivity.onCreate() Notification Type: " + notificationType);
 	    requestWindowFeature(Window.FEATURE_NO_TITLE);
 	    
-	    //This does not work in Android Release 2.2 even though it should.
-	    //Remove the phone's KeyGuard based on the users preferences.
-//	    if(preferences.getBoolean(KEYGUARD_ENABLED_KEY, true)){
-//	    	getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD); 
-//	    }
-//	    if(preferences.getBoolean(SCREEN_ENABLED_KEY, true)){
-//	    	getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
-//	    }    
+//	    //Remove the phone's KeyGuard & Wakelock.
+//	    //This does not work in Android Release 2.2 even though it should.
 //	    getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
 //	    		| WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
 //	    		| WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
@@ -636,7 +630,10 @@ public class NotificationActivity extends Activity {
 				finishActivity();
 				return;
 			}
-	    	setupMissedCalls(extrasBundle, false);
+	    	if(setupMissedCalls(extrasBundle, false) == false){
+	    		finishActivity();
+				return;
+	    	}
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_SMS){
 		    if (Log.getDebug()) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_SMS");
@@ -816,7 +813,10 @@ public class NotificationActivity extends Activity {
 				if (Log.getDebug()) Log.v("NotificationActivity.onNewIntent() Missed Call Notifications Disabled.");
 				return;
 			}
-	    	setupMissedCalls(extrasBundle, true);
+		    if(setupMissedCalls(extrasBundle, true) == false){
+	    		finishActivity();
+				return;
+	    	}
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_SMS){
 		    if (Log.getDebug()) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_SMS");
@@ -905,7 +905,7 @@ public class NotificationActivity extends Activity {
 	 * 
 	 * @param bundle
 	 */
-	private void setupMissedCalls(Bundle bundle, boolean newIntent){
+	private boolean setupMissedCalls(Bundle bundle, boolean newIntent){
 		if (Log.getDebug()) Log.v("NotificationActivity.setupMissedCalls()"); 
 		Context context = getContext();
 		final NotificationViewFlipper notificationViewFlipper = getNotificationViewFlipper();
@@ -915,8 +915,7 @@ public class NotificationActivity extends Activity {
 		ArrayList<String> missedCallsArray = getMissedCalls(newIntent);
 		if(missedCallsArray.size() == 0){
 			if (Log.getDebug()) Log.v("NotificationActivity.setupMissedCalls() No missed calls were found. Exiting Activity...");
-			finishActivity();
-			return;
+			return false;
 		}
 		for(int i=0; i< missedCallsArray.size(); i++){
 			String[] missedCallInfo = missedCallsArray.get(i).split("\\|");
@@ -926,6 +925,7 @@ public class NotificationActivity extends Activity {
 			getNotificationViewFlipper().addNotification(missedCallNotification);
 		}
 	    updateNavigationButtons(previousButton, notificationCountTextView, nextButton, notificationViewFlipper);
+	    return true;
 	}
 	
 	/**

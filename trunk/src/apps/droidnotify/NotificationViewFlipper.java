@@ -22,11 +22,11 @@ public class NotificationViewFlipper extends ViewFlipper {
     // Constants
     //================================================================================
 	
-	private final int NOTIFICATION_TYPE_PHONE = 0;
+	//private final int NOTIFICATION_TYPE_PHONE = 0;
 	private final int NOTIFICATION_TYPE_SMS = 1;
 	private final int NOTIFICATION_TYPE_MMS = 2;
-	private final int NOTIFICATION_TYPE_CALENDAR = 3;
-	private final int NOTIFICATION_TYPE_EMAIL = 4;
+	//private final int NOTIFICATION_TYPE_CALENDAR = 3;
+	//private final int NOTIFICATION_TYPE_EMAIL = 4;
 	
 	final String SMS_DELETE_KEY = "sms_delete_button_action";
 	final String MMS_DELETE_KEY = "mms_delete_button_action";

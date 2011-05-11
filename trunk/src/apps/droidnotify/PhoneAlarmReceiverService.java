@@ -11,10 +11,10 @@ public class PhoneAlarmReceiverService extends WakefulIntentService {
     //================================================================================
 	
 	private final int NOTIFICATION_TYPE_PHONE = 0;
-	private final int NOTIFICATION_TYPE_SMS = 1;
-	private final int NOTIFICATION_TYPE_MMS = 2;
-	private final int NOTIFICATION_TYPE_CALENDAR = 3;
-	private final int NOTIFICATION_TYPE_EMAIL = 4;
+	//private final int NOTIFICATION_TYPE_SMS = 1;
+	//private final int NOTIFICATION_TYPE_MMS = 2;
+	//private final int NOTIFICATION_TYPE_CALENDAR = 3;
+	//private final int NOTIFICATION_TYPE_EMAIL = 4;
 	
 	//================================================================================
     // Properties
@@ -45,7 +45,7 @@ public class PhoneAlarmReceiverService extends WakefulIntentService {
 	//================================================================================
 	
 	/**
-	 * Display the notification for this Calendar Event.
+	 * Display the notification for this possible Missed Call.
 	 * 
 	 * @param intent
 	 */
