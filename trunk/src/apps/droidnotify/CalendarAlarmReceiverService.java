@@ -178,7 +178,7 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
 					long eventEndTime = eventCursor.getLong(eventCursor.getColumnIndex(CALENDAR_INSTANCE_END));
 					final Boolean allDay = !eventCursor.getString(eventCursor.getColumnIndex(CALENDAR_EVENT_ALL_DAY)).equals("0");
 					if (Log.getDebug()) Log.v("Event ID: " + eventID + " Title: " + eventTitle + " Begin: " + eventStartTime + " End: " + eventEndTime + " All Day: " + allDay);
-					scheduleCalendarNotification(context, System.currentTimeMillis(), eventTitle, Long.toString(eventStartTime), Long.toString(eventEndTime), Boolean.toString(allDay), calendarID, eventID );
+					scheduleCalendarNotification(context, System.currentTimeMillis() + (1 * 60 * 1000), eventTitle, Long.toString(eventStartTime), Long.toString(eventEndTime), Boolean.toString(allDay), calendarID, eventID );
 					//scheduleCalendarNotification(context, eventStartTime - reminderInterval, eventTitle, Long.toString(eventStartTime), Long.toString(eventEndTime), Boolean.toString(allDay), calendarID.toString(), eventID );
 				}
 			}
@@ -207,7 +207,8 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
     	calendarNotificationIntent.putExtras(bundle);
     	calendarNotificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
     	//Set the Action attribute for the scheduled intent. 
-    	//Add custom attributes based on the CalendarID and CalendarEventID in order to "hack" the AlarmManager into thinking these are different intents (which they are of course).
+    	//Add custom attributes based on the CalendarID and CalendarEventID in order to tell the AlarmManager that these are different intents (which they are of course).
+    	//If you don't do this the alarms will over write each other because the AlarmManager will think they are the same intents being rescheduled.
     	calendarNotificationIntent.setAction("apps.droidnotify.VIEW/" + calendarID + "/" + eventID);
 		PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, calendarNotificationIntent, 0);
 		alarmManager.set(AlarmManager.RTC_WAKEUP, scheduledAlarmTime, pendingIntent);

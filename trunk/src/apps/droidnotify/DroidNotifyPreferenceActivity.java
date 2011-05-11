@@ -140,7 +140,6 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		boolean runOnce = preferences.getBoolean("runOnce", true);
 		long reminderInterval = Long.parseLong(preferences.getString(CALENDAR_REMINDER_KEY, "15")) * 60 * 1000;
-		if (Log.getDebug()) Log.v("DroidNotifyPreferenceActivity.runOnceAlarmManager() Run Once? " + runOnce);
 		//if(runOnce) {
 			if (Log.getDebug()) Log.v("DroidNotifyPreferenceActivity.runOnceAlarmManager() Alarm Code Running");
 			SharedPreferences.Editor editor = preferences.edit();
