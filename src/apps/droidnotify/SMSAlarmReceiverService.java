@@ -4,13 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-/**
- * This class listens for incoming text messages and triggers the event.
- * 
- * @author Camille Sevigny
- *
- */
-public class SMSReceiverService extends WakefulIntentService {
+public class SMSAlarmReceiverService extends WakefulIntentService {
 
 	//================================================================================
     // Constants
@@ -41,9 +35,9 @@ public class SMSReceiverService extends WakefulIntentService {
 	/**
 	 * 
 	 */
-	public SMSReceiverService() {
-		super("SMSReceiverService");
-		if (Log.getDebug()) Log.v("SMSReceiverService.SMSReceiverService()");
+	public SMSAlarmReceiverService() {
+		super("SMSAlarmReceiverService");
+		if (Log.getDebug()) Log.v("SMSAlarmReceiverService.SMSAlarmReceiverService()");
 	}
 
 	//================================================================================

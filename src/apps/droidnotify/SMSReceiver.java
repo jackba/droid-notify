@@ -1,5 +1,7 @@
 package apps.droidnotify;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +14,12 @@ import android.telephony.TelephonyManager;
  *
  */
 public class SMSReceiver extends BroadcastReceiver{
+
+	//================================================================================
+    // Constants
+    //================================================================================
+	
+	private final long INTERVAL_ONE_MINUTE = (1 * 60 * 1000);
 	
 	//================================================================================
     // Properties
@@ -42,11 +50,18 @@ public class SMSReceiver extends BroadcastReceiver{
 	    // If the user is not in a call then start out work. 
 	    if (callStateIdle) {
 			WakefulIntentService.acquireStaticLock(context);
-			context.startService(new Intent(context, SMSReceiverService.class));
+			Intent smsIntent = new Intent(context, SMSReceiverService.class);
+			smsIntent.putExtras(intent.getExtras());
+			context.startService(smsIntent);
 	    }else{
-	    	if (Log.getDebug()) Log.v("SMSReceiver.onReceive() Phone Call In Progress.");
-	    	//TODO - Reschedule this notification in 5 minutes.
-	    	
+	    	if (Log.getDebug()) Log.v("SMSReceiver.onReceive() Phone Call In Progress. Rescheduling notification.");
+			AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+			Intent smsIntent = new Intent(context, SMSAlarmReceiver.class);
+			smsIntent.putExtras(intent.getExtras());
+			smsIntent.setAction("apps.droidnotify.VIEW/SMSReschedule/" + System.currentTimeMillis());
+			PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, smsIntent, 0);
+			// Set alarm to go off 1 minute from the current time.
+			alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + INTERVAL_ONE_MINUTE, pendingIntent);
 	    }
 	}
 	  

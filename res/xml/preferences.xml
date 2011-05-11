@@ -14,7 +14,8 @@
         android:title="@string/preference_haptic_feedback_title" 
         android:summaryOn="@string/preference_haptic_feedback_summaryOn" 
         android:summaryOff="@string/preference_haptic_feedback_summaryOff" 
-        android:defaultValue="true" />
+        android:defaultValue="true"
+        android:dependency="app_enabled" />
   	</PreferenceCategory>
 	<PreferenceCategory
 		android:key="notification_settings"
@@ -235,7 +236,8 @@
 				android:summary="Define how long to wait after a call before querying the call log for a missed call."
 				android:defaultValue="5"
 				android:entries="@array/call_log_timeout_options"
-				android:entryValues="@array/call_log_timeout_options_values"/>
+				android:entryValues="@array/call_log_timeout_options_values"
+				android:dependency="calendar_notifications_enabled" />
 		</PreferenceScreen>
 	</PreferenceCategory>
 	<PreferenceCategory

@@ -28,7 +28,7 @@ abstract public class WakefulIntentService extends IntentService {
 	
 	abstract void doWakefulWork(Intent intent);
 
-	public static final String LOCK_NAME_STATIC="com.commonsware.android.syssvc.AppService.Static";
+	public static final String LOCK_NAME_STATIC="app.droidnotify.android.syssvc.AppService.Static";
 	private static PowerManager.WakeLock lockStatic = null;
 
 	/**

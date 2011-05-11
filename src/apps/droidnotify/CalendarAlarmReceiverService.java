@@ -40,11 +40,11 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
     // Constants
     //================================================================================
 	
-	private final int NOTIFICATION_TYPE_PHONE = 0;
-	private final int NOTIFICATION_TYPE_SMS = 1;
-	private final int NOTIFICATION_TYPE_MMS = 2;
+	//private final int NOTIFICATION_TYPE_PHONE = 0;
+	//private final int NOTIFICATION_TYPE_SMS = 1;
+	//private final int NOTIFICATION_TYPE_MMS = 2;
 	private final int NOTIFICATION_TYPE_CALENDAR = 3;
-	private final int NOTIFICATION_TYPE_EMAIL = 4;
+	//private final int NOTIFICATION_TYPE_EMAIL = 4;
 	
 	private final String _ID = "_id";
 	private final String CALENDAR_EVENT_ID = "event_id"; 
@@ -54,10 +54,10 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
     private final String CALENDAR_EVENT_ALL_DAY = "allDay"; 
     private final String CALENDAR_EVENT_DISPLAY_NAME = "displayName"; 
     private final String CALENDAR_SELECTED = "selected"; 
-    private final String CALENDAR_INSTANCE_START_DAY = "startDay"; 
-    private final String CALENDAR_EVENT_INSTANCE_START_MINUTE = "startMinute"; 
-    private final String CALENDAR_EVENT_DESCRIPTION = "description";
-    private final String CALENDAR_EVENT_LOCATION = "eventLocation";
+    //private final String CALENDAR_INSTANCE_START_DAY = "startDay"; 
+    //private final String CALENDAR_EVENT_INSTANCE_START_MINUTE = "startMinute"; 
+    //private final String CALENDAR_EVENT_DESCRIPTION = "description";
+    //private final String CALENDAR_EVENT_LOCATION = "eventLocation";
     private final String CALENDAR_REMINDER_KEY = "calendar_reminder_settings";
 	
 	//================================================================================
