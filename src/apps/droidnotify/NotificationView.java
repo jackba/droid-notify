@@ -46,10 +46,9 @@ public class NotificationView extends LinearLayout {
 	private final int NOTIFICATION_TYPE_CALENDAR = 3;
 	private final int NOTIFICATION_TYPE_EMAIL = 4;
 	
-	private final int CONTACT_PHOTO_IMAGE_VIEW = R.id.contact_image_view;
-	private final int CONTACT_PHOTO_LINEAR_LAYOUT = R.id.contact_linear_layout;
-	
 	private final String HAPTIC_FEEDBACK_ENABLED_KEY = "haptic_feedback_enabled";
+	private final String EVENT_BEGIN_TIME = "beginTime";
+	private final String EVENT_END_TIME = "endTime";
 	
 	//================================================================================
     // Properties
@@ -577,8 +576,8 @@ public class NotificationView extends LinearLayout {
 			//Android 2.2+
 			Intent intent = new Intent(Intent.ACTION_VIEW);
 			intent.setData(Uri.parse("content://com.android.calendar/events/" + String.valueOf(calendarEventID)));	
-			intent.putExtra("beginTime",notification.getCalendarEventStartTime());
-			intent.putExtra("endTime",notification.getCalendarEventEndTime());
+			intent.putExtra(EVENT_BEGIN_TIME,notification.getCalendarEventStartTime());
+			intent.putExtra(EVENT_END_TIME,notification.getCalendarEventEndTime());
 			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
 	        		| Intent.FLAG_ACTIVITY_SINGLE_TOP
 	        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
@@ -589,8 +588,8 @@ public class NotificationView extends LinearLayout {
 			//Android 2.1 and below.
 			Intent intent = new Intent(Intent.ACTION_VIEW);	
 			intent.setData(Uri.parse("content://calendar/events/" + String.valueOf(calendarEventID)));	
-			intent.putExtra("beginTime",notification.getCalendarEventStartTime());
-			intent.putExtra("endTime",notification.getCalendarEventEndTime());
+			intent.putExtra(EVENT_BEGIN_TIME,notification.getCalendarEventStartTime());
+			intent.putExtra(EVENT_END_TIME,notification.getCalendarEventEndTime());
 			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
 	        		| Intent.FLAG_ACTIVITY_SINGLE_TOP
 	        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
@@ -661,7 +660,7 @@ public class NotificationView extends LinearLayout {
 //	 * Add a calendar event.
 //	 */
 //	private void addCalendarEvent(){
-//		if (Log.getDebug()) Log.v("NotificationView.viewCalendarEvent()");
+//		if (Log.getDebug()) Log.v("NotificationView.addCalendarEvent()");
 //		Context context = getContext();
 //		try{
 //			//Android 2.2+
@@ -690,7 +689,7 @@ public class NotificationView extends LinearLayout {
 //	 * Edit a calendar event.
 //	 */
 //	private void editCalendarEvent(){
-//		if (Log.getDebug()) Log.v("NotificationView.viewCalendarEvent()");
+//		if (Log.getDebug()) Log.v("NotificationView.editCalendarEvent()");
 //		Context context = getContext();
 //	    Notification notification = getNotification();
 //	    long calendarEventID = notification.getCalendarEventID();
@@ -698,8 +697,8 @@ public class NotificationView extends LinearLayout {
 //			//Android 2.2+
 //			Intent intent = new Intent(Intent.ACTION_EDIT);
 //			intent.setData(Uri.parse("content://com.android.calendar/events/" + String.valueOf(calendarEventID)));	
-//			intent.putExtra("beginTime",notification.getCalendarEventStartTime());
-//			intent.putExtra("endTime",notification.getCalendarEventEndTime());
+//			intent.putExtra(EVENT_BEGIN_TIME,notification.getCalendarEventStartTime());
+//			intent.putExtra(EVENT_END_TIME,notification.getCalendarEventEndTime());
 //			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
 //	        		| Intent.FLAG_ACTIVITY_SINGLE_TOP
 //	        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
@@ -710,8 +709,8 @@ public class NotificationView extends LinearLayout {
 //			//Android 2.1 and below.
 //			Intent intent = new Intent(Intent.ACTION_EDIT);	
 //			intent.setData(Uri.parse("content://calendar/events/" + String.valueOf(calendarEventID)));	
-//			intent.putExtra("beginTime",notification.getCalendarEventStartTime());
-//			intent.putExtra("endTime",notification.getCalendarEventEndTime());
+//			intent.putExtra(EVENT_BEGIN_TIME,notification.getCalendarEventStartTime());
+//			intent.putExtra(EVENT_END_TIME,notification.getCalendarEventEndTime());
 //			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
 //	        		| Intent.FLAG_ACTIVITY_SINGLE_TOP
 //	        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
@@ -722,19 +721,19 @@ public class NotificationView extends LinearLayout {
 //	}
 	
 //	/**
-//	 * Take the user to the messaging application inbox.
+//	 * Goto the messaging application inbox.
 //	 */
 //	private void gotoInbox() {
-//		if (Log.getDebug()) Log.v("NotificationActivity.gotoInbox()");
-//		Intent i = new Intent(Intent.ACTION_MAIN);
-//	    i.setType("vnd.android-dir/mms-sms");
-//	    int flags =
-//	    	Intent.FLAG_ACTIVITY_NEW_TASK |
-//	    	Intent.FLAG_ACTIVITY_SINGLE_TOP |
-//	    	Intent.FLAG_ACTIVITY_CLEAR_TOP;
-//	    i.setFlags(flags);	
-//		NotificationActivity.this.getApplicationContext().startActivity(i);
-//		finishActivity();
+//		if (Log.getDebug()) Log.v("NotificationVIew.gotoInbox()");
+//		Context context = getContext();
+//		Intent intent = new Intent(Intent.ACTION_MAIN);
+//	    intent.setType("vnd.android-dir/mms-sms");
+//		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+//				| Intent.FLAG_ACTIVITY_SINGLE_TOP
+//				| Intent.FLAG_ACTIVITY_CLEAR_TOP
+//				| Intent.FLAG_ACTIVITY_NO_HISTORY
+//				| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);	
+//		context.startActivity(intent);
 //	}
 	
 }
