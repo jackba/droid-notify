@@ -53,6 +53,7 @@ public class NotificationActivity extends Activity {
 	
 	private final int MENU_ITEM_SETTINGS = R.id.app_settings;
 	
+	private final int NOTIFICATION_TYPE_TEST = -1;
 	private final int NOTIFICATION_TYPE_PHONE = 0;
 	private final int NOTIFICATION_TYPE_SMS = 1;
 	private final int NOTIFICATION_TYPE_MMS = 2;
@@ -601,6 +602,11 @@ public class NotificationActivity extends Activity {
 	    //Initialize properties.
 	    setBundle(bundle);
 	    setContext(context);
+	    Bundle extrasBundle = getIntent().getExtras();
+	    int notificationType = extrasBundle.getInt("notificationType");
+	    if (Log.getDebug()) Log.v("NotificationActivity.onCreate() Notification Type: " + notificationType);
+	    
+	    //TODO - Move this code to the receivers or services out of this activity. It should not be here.
 		//Read preferences and end activity early if app is disabled.
 	    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 	    if(!preferences.getBoolean(APP_ENABLED_KEY, true)){
@@ -608,10 +614,6 @@ public class NotificationActivity extends Activity {
 			finishActivity();
 			return;
 		}
-	    Bundle extrasBundle = getIntent().getExtras();
-	    int notificationType = extrasBundle.getInt("notificationType");
-	    if (Log.getDebug()) Log.v("NotificationActivity.onCreate() Notification Type: " + notificationType);
-	    requestWindowFeature(Window.FEATURE_NO_TITLE);
 	    
 //	    //Remove the phone's KeyGuard & Wakelock.
 //	    //This does not work in Android Release 2.2 even though it should.
@@ -619,11 +621,16 @@ public class NotificationActivity extends Activity {
 //	    		| WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
 //	    		| WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
 //	    		| WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON); 
-	    	    
-	    setContentView(R.layout.notificationwrapper);    
+	    
+	    requestWindowFeature(Window.FEATURE_NO_TITLE);	    
+	    setContentView(R.layout.notificationwrapper);
 	    setupViews(notificationType);
+	    if(notificationType == NOTIFICATION_TYPE_TEST){
+	    	createTextNotifications();
+	    }    
 	    if(notificationType == NOTIFICATION_TYPE_PHONE){
 	    	if (Log.getDebug()) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_PHONE");
+	    	//TODO - Move this code to the receivers or services out of this activity. It should not be here.
 			//Read preferences and end activity early if missed call notifications are disabled.
 		    if(!preferences.getBoolean(MISSED_CALL_NOTIFICATIONS_ENABLED_KEY, true)){
 				if (Log.getDebug()) Log.v("NotificationActivity.onCreate() Missed Call Notifications Disabled. Finishing Activity... ");
@@ -637,6 +644,7 @@ public class NotificationActivity extends Activity {
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_SMS){
 		    if (Log.getDebug()) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_SMS");
+		    //TODO - Move this code to the receivers or services out of this activity. It should not be here.
 			//Read preferences and end activity early if SMS notifications are disabled.
 		    if(!preferences.getBoolean(SMS_NOTIFICATIONS_ENABLED_KEY, true)){
 				if (Log.getDebug()) Log.v("NotificationActivity.onCreate() SMS Notifications Disabled. Finishing Activity... ");
@@ -657,6 +665,7 @@ public class NotificationActivity extends Activity {
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
 	    	if (Log.getDebug()) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_CALENDAR");
+	    	//TODO - Move this code to the receivers or services out of this activity. It should not be here.
 			//Read preferences and end activity early if calendar notifications are disabled.
 		    if(!preferences.getBoolean(CALENDAR_NOTIFICATIONS_ENABLED_KEY, true)){
 				if (Log.getDebug()) Log.v("NotificationActivity.onCreate() Calendar Notifications Disabled. Finishing Activity... ");
@@ -1236,6 +1245,24 @@ public class NotificationActivity extends Activity {
 				vibrator.vibrate(100);
 			}
 		}
+	}
+	
+	/**
+	 * Create a test notification of each type.
+	 */
+	private void createTextNotifications(){
+		Context context = getContext();
+		NotificationViewFlipper notificationViewFlipper = getNotificationViewFlipper();
+		//Add SMS Message Notification.
+		Notification smsNotification = new Notification(context, "5555555555", "Droid Notify SMS Message Test", System.currentTimeMillis(), NOTIFICATION_TYPE_SMS);
+		notificationViewFlipper.addNotification(smsNotification);
+		//Add Missed Call Notification.
+		Notification missedCallNotification = new Notification(context, "5555555555", System.currentTimeMillis(), NOTIFICATION_TYPE_PHONE);
+		notificationViewFlipper.addNotification(missedCallNotification);
+		//Add Calendar Event Notification.
+		Notification calendarEventNotification = new Notification(context, "Droid Notify Calendar Event Test", "", System.currentTimeMillis(), System.currentTimeMillis() + (10 * 60 * 1000), false, 1, 1, NOTIFICATION_TYPE_CALENDAR);
+		notificationViewFlipper.addNotification(calendarEventNotification);	
+	    updateNavigationButtons(getPreviousButton(), getNotificationCountTextView(), getNextButton(), getNotificationViewFlipper());
 	}
 	
 }

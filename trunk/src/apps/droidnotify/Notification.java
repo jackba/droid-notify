@@ -91,7 +91,7 @@ public class Notification {
 	 * @param notificationType
 	 */
 	public Notification(Context context, Bundle bundle, int notificationType) {
-		if (Log.getDebug()) Log.v("Notification.Notification(Context, Bundle, int)");
+		if (Log.getDebug()) Log.v("Notification.Notification(Context context, Bundle bundle, int notificationType)");
 		setContext(context);
 		setContactExists(false);
 		SmsMessage[] msgs = null;
@@ -135,6 +135,29 @@ public class Notification {
     	    }
         }
 	}
+
+	/**
+	 * This constructor should be called for TEST SMS & MMS Messages.
+	 * 
+	 * @param context
+	 * @param bundle
+	 * @param notificationType
+	 */
+	public Notification(Context context, String phoneNumber, String messageBody, long timeStamp, int notificationType) {
+		if (Log.getDebug()) Log.v("Notification.Notification(Context context, String phoneNumber, String messageBody, long timeStamp, int notificationType)");
+		setContext(context);
+		setNotificationType(notificationType);
+		setContactExists(false);
+        setTimeStamp(timeStamp);
+		setPhoneNumber(phoneNumber);
+		setFromEmailGateway(false);
+		setMessageClass(MessageClass.CLASS_0);
+		setTitle("SMS Message");
+        setMessageBody(messageBody);
+		loadThreadID(getContext(), getPhoneNumber());
+		loadMessageID(getContext(), getThreadID(), getMessageBody(), getTimeStamp());
+		loadContactsInfo(getContext(), getPhoneNumber());
+	}
 	
 	/**
 	 * This constructor should be called for Missed Calls.
@@ -145,7 +168,7 @@ public class Notification {
 	 * @param notificationType
 	 */
 	public Notification(Context context, String phoneNumber, long timeStamp, int notificationType){
-		if (Log.getDebug()) Log.v("Notification.Notification(Context, String, long, int)");
+		if (Log.getDebug()) Log.v("Notification.Notification(Context context, String phoneNumber, long timeStamp, int notificationType)");
 		setContext(context);
 		setContactExists(false);
 		setContactPhotoExists(false);
@@ -176,7 +199,7 @@ public class Notification {
 	 * @param notificationType
 	 */
 	public Notification(Context context, String title, String messageBody, long eventStartTime, long eventEndTime, boolean allDay, long calendarID, long calendarEventID, int notificationType){
-		if (Log.getDebug()) Log.v("Notification.Notification(Context, String, String, long, int)");
+		if (Log.getDebug()) Log.v("Notification.Notification(Context context, String title, String messageBody, long eventStartTime, long eventEndTime, boolean allDay, long calendarID, long calendarEventID, int notificationType)");
 		setContext(context);
 		setContactExists(false);
 		setContactPhotoExists(false);

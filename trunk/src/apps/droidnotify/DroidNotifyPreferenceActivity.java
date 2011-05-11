@@ -10,6 +10,9 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 
 /**
  * 
@@ -22,6 +25,7 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
     // Constants
     //================================================================================
 
+	private final int NOTIFICATION_TYPE_TEST = -1;
     private final String CALENDAR_REMINDER_KEY = "calendar_reminder_settings";
 	
 	//================================================================================
@@ -73,7 +77,9 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 	    if (Log.getDebug()) Log.v("DroidNotifyPreferenceActivity.onCreate()");	
 	    setContext(getApplicationContext());
 	    addPreferencesFromResource(R.xml.preferences);
+	    setContentView(R.xml.preferenceswrapper);
 	    runOnceAlarmManager();
+	    setupTextnotificationsButton();
 	}
 
 	//================================================================================
@@ -129,6 +135,26 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 	//================================================================================
 	// Private Methods
 	//================================================================================
+	
+	/**
+	 * Set up the "Test Notifications" button. 
+	 * When clicked, this button will display some fake notifications to the user using their current preference options.
+	 */
+	private void setupTextnotificationsButton(){
+		final Button testNotificationsButton = (Button) findViewById(R.id.test_notifications_button);
+		testNotificationsButton.setOnClickListener(new OnClickListener() {
+		    public void onClick(View view) {
+		    	if (Log.getDebug()) Log.v("Test Notifications Button Clicked()");
+				Context context = getContext();
+				Bundle bundle = new Bundle();
+				bundle.putInt("notificationType", NOTIFICATION_TYPE_TEST);
+		    	Intent testIntent = new Intent(context, NotificationActivity.class);
+		    	testIntent.putExtras(bundle);
+		    	testIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+		    	context.startActivity(testIntent);
+		    }
+		});
+	}
 	
 	/**
 	 * This function starts the main AlarmManager that will check the users calendar for events.
