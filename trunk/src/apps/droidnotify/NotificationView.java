@@ -1,6 +1,5 @@
 package apps.droidnotify;
 
-import java.sql.Date;
 import java.text.SimpleDateFormat;
 
 import android.content.Context;
@@ -18,8 +17,8 @@ import android.graphics.RectF;
 import android.net.Uri;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
-import android.provider.ContactsContract.CommonDataKinds.Event;
 import android.telephony.PhoneNumberFormattingTextWatcher;
+import android.text.Html;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Gravity;
 import android.view.HapticFeedbackConstants;
@@ -407,14 +406,14 @@ public class NotificationView extends LinearLayout {
 	    	if(notificationTitle.equals("")){
 	    		notificationTitle = "No Title";
 	    	}
-	    	notificationText = notificationTitle + " @ " + notification.getMessageBody();
+	    	notificationText = "<b>" + notificationTitle + "</b><br/><i>" + notification.getMessageBody() + "</i>";
 	    	notificationAlignment = Gravity.LEFT;
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_EMAIL){
 	    	notificationText = notification.getTitle();
 	    	notificationAlignment = Gravity.LEFT;
 	    } 
-	    _notificationTextView.setText(notificationText);
+	    _notificationTextView.setText(Html.fromHtml(notificationText));
 	    _notificationTextView.setGravity(notificationAlignment);
 	}
 	
@@ -578,6 +577,8 @@ public class NotificationView extends LinearLayout {
 			//Android 2.2+
 			Intent intent = new Intent(Intent.ACTION_VIEW);
 			intent.setData(Uri.parse("content://com.android.calendar/events/" + String.valueOf(calendarEventID)));	
+			intent.putExtra("beginTime",notification.getCalendarEventStartTime());
+			intent.putExtra("endTime",notification.getCalendarEventEndTime());
 			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
 	        		| Intent.FLAG_ACTIVITY_SINGLE_TOP
 	        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
@@ -588,7 +589,9 @@ public class NotificationView extends LinearLayout {
 			//Android 2.1 and below.
 			Intent intent = new Intent(Intent.ACTION_VIEW);	
 			intent.setData(Uri.parse("content://calendar/events/" + String.valueOf(calendarEventID)));	
-	        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+			intent.putExtra("beginTime",notification.getCalendarEventStartTime());
+			intent.putExtra("endTime",notification.getCalendarEventEndTime());
+			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
 	        		| Intent.FLAG_ACTIVITY_SINGLE_TOP
 	        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
 	        		| Intent.FLAG_ACTIVITY_NO_HISTORY
@@ -621,10 +624,10 @@ public class NotificationView extends LinearLayout {
 	    	notificationActivity.registerForContextMenu(_contactLinearLayout);
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
-	    	
+	    	//No menu at this time for Calendar Events.
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_EMAIL){
-	    	
+	    	//No menu at this time for Calendar Emails.
 	    } 	
 	}
 
@@ -695,6 +698,8 @@ public class NotificationView extends LinearLayout {
 //			//Android 2.2+
 //			Intent intent = new Intent(Intent.ACTION_EDIT);
 //			intent.setData(Uri.parse("content://com.android.calendar/events/" + String.valueOf(calendarEventID)));	
+//			intent.putExtra("beginTime",notification.getCalendarEventStartTime());
+//			intent.putExtra("endTime",notification.getCalendarEventEndTime());
 //			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
 //	        		| Intent.FLAG_ACTIVITY_SINGLE_TOP
 //	        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
@@ -705,7 +710,9 @@ public class NotificationView extends LinearLayout {
 //			//Android 2.1 and below.
 //			Intent intent = new Intent(Intent.ACTION_EDIT);	
 //			intent.setData(Uri.parse("content://calendar/events/" + String.valueOf(calendarEventID)));	
-//	        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+//			intent.putExtra("beginTime",notification.getCalendarEventStartTime());
+//			intent.putExtra("endTime",notification.getCalendarEventEndTime());
+//			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
 //	        		| Intent.FLAG_ACTIVITY_SINGLE_TOP
 //	        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
 //	        		| Intent.FLAG_ACTIVITY_NO_HISTORY

@@ -243,7 +243,7 @@
 		android:title="About">
   		<apps.droidnotify.preferences.AboutDialogPreference
   			android:key="about_droid_notify" 
-  			android:dialogIcon="@drawable/icon"
+  			android:dialogIcon="@drawable/ic_launcher_droidnotify"
   			android:dialogTitle="@string/app_name_formatted_version"
 			android:title="@string/preference_about"
       		android:summary="@string/preference_about_summary"

@@ -191,12 +191,12 @@ public class Notification {
 	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
 	    	setTimeStamp(eventStartTime);
 	    	setTitle(title);
-	    	_allDay = allDay;
+	    	setAllDay(allDay);
 	    	setMessageBody(formatCalendarEventMessage(messageBody, eventStartTime, eventEndTime, allDay));
 	    	setCalendarID(calendarID);
 	    	setCalendarEventID(calendarEventID);
-	    	_calendarEventStartTime = eventStartTime;
-	    	_calendarEventEndTime = eventEndTime;
+	    	setCalendarEventStartTime(eventStartTime);
+	    	setCalendarEventEndTime(eventEndTime);
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_EMAIL){
 	    	//Do Nothing. This should not be called if an email is received.
@@ -552,6 +552,13 @@ public class Notification {
   		return _calendarID;
 	}
 
+	/**
+	 * Set the calendarEventStartTime property.
+	 */
+	public void setCalendarEventStartTime(long calendarEventStartTime) {
+		if (Log.getDebug()) Log.v("Notification.setCalendarEventStartTime() CalendarEventStartTime: " + calendarEventStartTime);
+		_calendarEventStartTime = calendarEventStartTime;
+	}
 
 	/**
 	 * Set the calendarEventID property.
@@ -568,6 +575,47 @@ public class Notification {
 		if (Log.getDebug()) Log.v("Notification.getCalendarEventID() CalendarEventID: " + _calendarEventID);
   		return _calendarEventID;
 	}
+	
+	/**
+	 * Get the calendarEventStartTime property.
+	 */
+	public long getCalendarEventStartTime() {
+		if (Log.getDebug()) Log.v("Notification.getCalendarEventStartTime() CalendarEventStartTime: " + _calendarEventStartTime);
+  		return _calendarEventStartTime;
+	}
+
+	/**
+	 * Set the calendarEventEndTime property.
+	 */
+	public void setCalendarEventEndTime(long calendarEventEndTime) {
+		if (Log.getDebug()) Log.v("Notification.setCalendarEventEndTime() CalendarEventEndTime: " + calendarEventEndTime);
+		_calendarEventEndTime = calendarEventEndTime;
+	}
+	
+	/**
+	 * Get the calendarEventEndTime property.
+	 */
+	public long getCalendarEventEndTime() {
+		if (Log.getDebug()) Log.v("Notification.getCalendarEventEndTime() CalendarEventEndTime: " + _calendarEventEndTime);
+  		return _calendarEventEndTime;
+	}
+
+	/**
+	 * Set the allDay property.
+	 */
+	public void setAllDay(boolean allDay) {
+		if (Log.getDebug()) Log.v("Notification.setCalendarEventEndTime() AllDay: " + allDay);
+		_allDay = allDay;
+	}
+	
+	/**
+	 * Get the allDay property.
+	 */
+	public boolean getAllDay() {
+		if (Log.getDebug()) Log.v("Notification.getCalendarEventEndTime() AllDay: " + _allDay);
+  		return _allDay;
+	}
+	
 	//================================================================================
 	// Public Methods
 	//================================================================================

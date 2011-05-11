@@ -3,7 +3,6 @@ package apps.droidnotify;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.telephony.TelephonyManager;
 
 /**
  * This class listens for incoming text messages and triggers the event.

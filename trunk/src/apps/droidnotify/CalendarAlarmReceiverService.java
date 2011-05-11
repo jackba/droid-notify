@@ -14,7 +14,6 @@ package apps.droidnotify;
 		http://commonsware.com/AdvAndroid
 */
 
-import java.sql.Date;
 import java.util.HashSet;
 
 import android.app.AlarmManager;
@@ -27,9 +26,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.preference.PreferenceManager;
-import android.provider.ContactsContract.CommonDataKinds.Event;
 import android.text.format.DateUtils;
 
 /**
@@ -61,12 +58,6 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
     private final String CALENDAR_EVENT_INSTANCE_START_MINUTE = "startMinute"; 
     private final String CALENDAR_EVENT_DESCRIPTION = "description";
     private final String CALENDAR_EVENT_LOCATION = "eventLocation";
-    
-    private final long INTERVAL_15_MINUTES = 15 * 60 * 1000;
-    private final long INTERVAL_30_MINUTES = 30 * 60 * 1000;
-    private final long INTERVAL_45_MINUTES = 55 * 60 * 1000;
-    private final long INTERVAL_HOUR = 60 * 60 * 1000;
-    
     private final String CALENDAR_REMINDER_KEY = "calendar_reminder_settings";
 	
 	//================================================================================
