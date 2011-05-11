@@ -3,7 +3,6 @@ package apps.droidnotify;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.telephony.TelephonyManager;
 
 public class PhoneAlarmReceiverService extends WakefulIntentService {
 

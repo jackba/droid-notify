@@ -10,16 +10,6 @@ import android.os.Bundle;
  *
  */
 public class CalendarNotificationAlarmReceiverService extends WakefulIntentService {
-
-	//================================================================================
-    // Constants
-    //================================================================================
-	
-	private final int NOTIFICATION_TYPE_PHONE = 0;
-	private final int NOTIFICATION_TYPE_SMS = 1;
-	private final int NOTIFICATION_TYPE_MMS = 2;
-	private final int NOTIFICATION_TYPE_CALENDAR = 3;
-	private final int NOTIFICATION_TYPE_EMAIL = 4;
 	
 	//================================================================================
     // Properties

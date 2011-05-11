@@ -3,6 +3,7 @@ package apps.droidnotify.preferences;
 import android.content.Context;
 import android.preference.DialogPreference;
 import android.util.AttributeSet;
+import apps.droidnotify.Log;
 
 /**
  * 
@@ -11,7 +12,6 @@ import android.util.AttributeSet;
  */
 public class AboutDialogPreference extends DialogPreference {
 
-	
 	//================================================================================
     // Properties
     //================================================================================
@@ -27,6 +27,7 @@ public class AboutDialogPreference extends DialogPreference {
 	 */
 	public AboutDialogPreference(Context context, AttributeSet attrs) {
 		super(context, attrs);
+		if (Log.getDebug()) Log.v("AboutDialogPreference.AboutDialogPreference(Context context, AttributeSet attrs)");
 	}
 
 	/**
@@ -37,8 +38,9 @@ public class AboutDialogPreference extends DialogPreference {
 	 */
 	public AboutDialogPreference(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
+		if (Log.getDebug()) Log.v("AboutDialogPreference.AboutDialogPreference(Context context, AttributeSet attrs, int defStyle)");
 	}
-
+	
 	//================================================================================
 	// Accessors
 	//================================================================================

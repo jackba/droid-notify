@@ -1,23 +1,15 @@
 package apps.droidnotify;
 
-import java.sql.Date;
-import java.util.HashSet;
-
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.content.ContentResolver;
-import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
-import android.text.format.DateUtils;
 
 /**
  * 
@@ -29,23 +21,7 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 	//================================================================================
     // Constants
     //================================================================================
-	
-	final String APP_ENABLED_KEY = "app_enabled";
-	final String NOTIFICATIONS_ENABLED_SETTINGS = "notifications_enabled_settings";
-	final String SMS_NOTIFICATIONS_ENABLED_KEY = "sms_notifications_enabled";
-	final String SMS_BUTTON_SETTINGS = "sms_button_settings";
-	final String MMS_NOTIFICATIONS_ENABLED_KEY = "mms_notifications_enabled";
-	final String MMS_BUTTON_SETTINGS = "mms_button_settings";
-	final String MISSED_CALL_NOTIFICATIONS_ENABLED_KEY = "missed_call_notifications_enabled";
-	final String MISSED_CALL_BUTTON_SETTINGS = "missed_call_button_settings";
-	final String SCREEN_ENABLED_KEY = "screen_enabled";
-	final String SCREEN_DIM_ENABLED_KEY = "screen_dim_enabled";
-	
-    private final long INTERVAL_15_MINUTES = 15 * 60 * 1000;
-    private final long INTERVAL_30_MINUTES = 30 * 60 * 1000;
-    private final long INTERVAL_45_MINUTES = 55 * 60 * 1000;
-    private final long INTERVAL_HOUR = 60 * 60 * 1000;
-    
+
     private final String CALENDAR_REMINDER_KEY = "calendar_reminder_settings";
 	
 	//================================================================================
