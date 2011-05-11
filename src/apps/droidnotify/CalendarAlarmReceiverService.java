@@ -178,8 +178,8 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
 					long eventEndTime = eventCursor.getLong(eventCursor.getColumnIndex(CALENDAR_INSTANCE_END));
 					final Boolean allDay = !eventCursor.getString(eventCursor.getColumnIndex(CALENDAR_EVENT_ALL_DAY)).equals("0");
 					if (Log.getDebug()) Log.v("Event ID: " + eventID + " Title: " + eventTitle + " Begin: " + eventStartTime + " End: " + eventEndTime + " All Day: " + allDay);
-					scheduleCalendarNotification(context, System.currentTimeMillis() + (1 * 60 * 1000), eventTitle, Long.toString(eventStartTime), Long.toString(eventEndTime), Boolean.toString(allDay), calendarID, eventID );
-					//scheduleCalendarNotification(context, eventStartTime - reminderInterval, eventTitle, Long.toString(eventStartTime), Long.toString(eventEndTime), Boolean.toString(allDay), calendarID.toString(), eventID );
+					//scheduleCalendarNotification(context, System.currentTimeMillis() + (1 * 60 * 1000), eventTitle, Long.toString(eventStartTime), Long.toString(eventEndTime), Boolean.toString(allDay), calendarID, eventID );
+					scheduleCalendarNotification(context, eventStartTime - reminderInterval, eventTitle, Long.toString(eventStartTime), Long.toString(eventEndTime), Boolean.toString(allDay), calendarID.toString(), eventID );
 				}
 			}
 		}catch(Exception ex){

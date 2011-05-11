@@ -10,6 +10,8 @@
     <string name="message_at_text">New message at %s</string>
     <string name="missed_call_at_text">Missed call at %s</string>
     <string name="appointment_at_text">Appointment at %s</string>
+    <string name="appointment_on_text">Appointment on %s</string>
+    <string name="event_on_text">Event on %s</string>
     <string name="calendar_event_text">Calendar Event</string>
     <string name="email_at_text">New email at %s</string>
     <string name="from_phone_number_text">From %s</string>
@@ -39,6 +41,7 @@
    	<string name="call_contact_text">Call Contact</string>
    	<string name="text_contact_text">Text Contact</string>
    	<string name="edit_contact_text">Edit Contact</string>
+   	<string name="edit_calendar_event_text">Edit Event</string>
    	
    	<!-- Preference Strings -->
    	<string name="preference_about">About</string>

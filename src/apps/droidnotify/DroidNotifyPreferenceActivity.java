@@ -2,10 +2,12 @@ package apps.droidnotify;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.preference.PreferenceActivity;
@@ -32,6 +34,8 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
     // Properties
     //================================================================================
 
+    public static ProgressDialog _progressDialog;
+    
 	private Context _context;
 
 	//================================================================================
@@ -79,7 +83,7 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 	    addPreferencesFromResource(R.xml.preferences);
 	    setContentView(R.xml.preferenceswrapper);
 	    runOnceAlarmManager();
-	    setupTextnotificationsButton();
+	    setupTestnotificationsButton();
 	}
 
 	//================================================================================
@@ -140,21 +144,72 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 	 * Set up the "Test Notifications" button. 
 	 * When clicked, this button will display some fake notifications to the user using their current preference options.
 	 */
-	private void setupTextnotificationsButton(){
+	private void setupTestnotificationsButton(){
+		if (Log.getDebug()) Log.v("DroidNotifyPreferenceActivity.setupTestnotificationsButton()");
 		final Button testNotificationsButton = (Button) findViewById(R.id.test_notifications_button);
 		testNotificationsButton.setOnClickListener(new OnClickListener() {
 		    public void onClick(View view) {
 		    	if (Log.getDebug()) Log.v("Test Notifications Button Clicked()");
-				Context context = getContext();
+		    	Context context = getContext();
 				Bundle bundle = new Bundle();
 				bundle.putInt("notificationType", NOTIFICATION_TYPE_TEST);
-		    	Intent testIntent = new Intent(context, NotificationActivity.class);
+		    	final Intent testIntent = new Intent(context, NotificationActivity.class);
 		    	testIntent.putExtras(bundle);
 		    	testIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+		    	//Display a progess spinner for the user.
+		    	_progressDialog = new ProgressDialog(DroidNotifyPreferenceActivity.this);
+		    	_progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+		    	_progressDialog.setMessage("Loading Notifications...");
+		    	_progressDialog.show();
+		    	//Start the test Notification Activity.
 		    	context.startActivity(testIntent);
+		    	
+		    	
+		    	
+		    	
+		    	
+		    	
+		    	
+		    	
+		    	
+		    	
+		    	
+		    	
+		    	
+		    	
 		    }
 		});
 	}
+	
+//	private class RestoreDBTask extends AsyncTask <Void, Void, String>
+//	{
+//	    private ProgressDialog dialog;
+//
+//	    @Override
+//	    protected void onPreExecute()
+//	    {
+//	        dialog = ProgressDialog.show(
+//	            SplashActivity.this,
+//	            getString(R.string.progress_wait),
+//	            getString(R.string.progress_db_installing), 
+//	            true);
+//	    }
+//
+//	    @Override
+//	    protected String doInBackground(Void... params)
+//	    {
+//	        // do all the things with DB
+//	        DBHelper dbHelper = new DBHelper(SplashActivity.this);
+//	        dbHelper.close();
+//	        return "";
+//	    }
+//
+//	    @Override
+//	    protected void onPostExecute(String result)
+//	    {
+//	        dialog.dismiss();
+//	    }
+//	}
 	
 	/**
 	 * This function starts the main AlarmManager that will check the users calendar for events.

@@ -58,17 +58,18 @@
 		<LinearLayout
 			android:orientation="vertical"
 			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
+			android:layout_height="85dip"
 			android:layout_gravity="center_vertical"
 			android:id="@+id/FromTextLinearLayout"
 			android:padding="4dp">
 			<TextView
 				android:id="@+id/from_text_view"
 				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
+				android:layout_height="50dip"
+				android:scrollbars="vertical"
 				android:gravity="center_vertical"
 				android:autoLink="phone"
-				android:textAppearance="?android:attr/textAppearanceLarge"
+				android:textAppearance="?android:attr/textAppearanceMedium"
 				android:maxLines="2"
 				android:text="Contact Name"
 				android:ellipsize="end"

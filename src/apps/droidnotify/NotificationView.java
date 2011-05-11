@@ -364,13 +364,24 @@ public class NotificationView extends LinearLayout {
 	 */
 	private void populateNotificationViewInfo(Notification notification) {
 		if (Log.getDebug()) Log.v("NotificationView.populateNotificationViewInfo()");
+		Context context = getContext();
+		int notificationType = notification.getNotificationType();
 	    // Set from, number, message etc. views.
-	    _fromTextView.setText(notification.getContactName());
-	    if(notification.getContactExists()){
-	    	_phoneNumberTextView.setText(notification.getAddressBookPhoneNumber());
-	    }else{
-	    	_phoneNumberTextView.setText(notification.getPhoneNumber());
-	    }
+		if(notificationType == NOTIFICATION_TYPE_CALENDAR){
+			String notificationTitle = notification.getTitle();
+	    	if(notificationTitle.equals("")){
+	    		notificationTitle = "No Title";
+	    	}
+			_fromTextView.setText(notificationTitle);
+			_phoneNumberTextView.setVisibility(View.GONE);
+		}else{
+			_fromTextView.setText(notification.getContactName());
+		    if(notification.getContactExists()){
+		    	_phoneNumberTextView.setText(notification.getAddressBookPhoneNumber());
+		    }else{
+		    	_phoneNumberTextView.setText(notification.getPhoneNumber());
+		    }
+		}
 	    //Load the notification message.
 	    setNotificationMessage(notification);
 	    //Load the notification type icon & text into the notification.
@@ -382,10 +393,10 @@ public class NotificationView extends LinearLayout {
 	}
 	
 	/**
-	 * Set the notification message. 
+	 * Function to set the notification message. 
 	 * This is specific to the type of notification that was received.
 	 * 
-	 * @param notification
+	 * @param notification - The notification that we are pulling the information from.
 	 */
 	private void setNotificationMessage(Notification notification){
 		if (Log.getDebug()) Log.v("NotificationView.setNotificationMessage()");
@@ -394,7 +405,8 @@ public class NotificationView extends LinearLayout {
 		int notificationAlignment = Gravity.LEFT;
 	    if(notificationType == NOTIFICATION_TYPE_PHONE){
 	    	notificationText = "Missed Call!";
-	    	notificationAlignment = Gravity.CENTER;
+	    	//notificationAlignment = Gravity.CENTER;
+	    	notificationAlignment = Gravity.LEFT;
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_SMS || notificationType == NOTIFICATION_TYPE_MMS){
 	    	notificationText = notification.getMessageBody();
@@ -405,7 +417,7 @@ public class NotificationView extends LinearLayout {
 	    	if(notificationTitle.equals("")){
 	    		notificationTitle = "No Title";
 	    	}
-	    	notificationText = "<b>" + notificationTitle + "</b><br/><i>" + notification.getMessageBody() + "</i>";
+	    	notificationText = "<i>" + notification.getMessageBody() + "</i>";
 	    	notificationAlignment = Gravity.LEFT;
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_EMAIL){
@@ -417,7 +429,7 @@ public class NotificationView extends LinearLayout {
 	}
 	
 	/**
-	 * Set notification specific details into the header of the notification.
+	 * Function to set notification specific details into the header of the Notification.
 	 * This is specific to the type of notification that was received.
 	 * Details include:
 	 * 		Icon,
@@ -425,31 +437,31 @@ public class NotificationView extends LinearLayout {
 	 * 		Date & Time,
 	 * 		Etc...
 	 * 
-	 * @param notification
+	 * @param notification - The notification that we are pulling the information from.
 	 */
 	private void setNotificationTypeInfo(Notification notification){
 		if (Log.getDebug()) Log.v("NotificationView.setNotificationTypeInfo()");
 		int notificationType = notification.getNotificationType();
+		Context context = getContext();
 		Bitmap iconBitmap = null;
-		// Update TextView that contains the timestamp for the incoming message
+		// Update TextView that contains the image, contact info/calendar info, and timestamp for the Notification.
 		String formattedTimestamp = new SimpleDateFormat("h:mma").format(notification.getTimeStamp());
 	    String receivedAtText = "";
 	    if(notificationType == NOTIFICATION_TYPE_PHONE){
 	    	iconBitmap = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.sym_call_missed);
-	    	receivedAtText = getContext().getString(R.string.missed_call_at_text, formattedTimestamp.toLowerCase());
+	    	receivedAtText = context.getString(R.string.missed_call_at_text, formattedTimestamp.toLowerCase());
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_SMS || notificationType == NOTIFICATION_TYPE_MMS){
 	    	iconBitmap = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.sms);
-	    	receivedAtText = getContext().getString(R.string.message_at_text, formattedTimestamp.toLowerCase());
+	    	receivedAtText = context.getString(R.string.message_at_text, formattedTimestamp.toLowerCase());
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
 	    	iconBitmap = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.calendar);
-	    	//receivedAtText = getContext().getString(R.string.appointment_at_text, formattedTimestamp.toLowerCase());
-	    	receivedAtText = getContext().getString(R.string.calendar_event_text);
+	    	receivedAtText = context.getString(R.string.calendar_event_text);
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_EMAIL){
 	    	iconBitmap = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.email);
-	    	receivedAtText = getContext().getString(R.string.email_at_text, formattedTimestamp.toLowerCase());
+	    	receivedAtText = context.getString(R.string.email_at_text, formattedTimestamp.toLowerCase());
 	    }    
 	    if(iconBitmap != null){
 	    	_notificationIconImageView.setImageBitmap(iconBitmap);
@@ -457,10 +469,12 @@ public class NotificationView extends LinearLayout {
 		_receivedAtTextView.setText(receivedAtText);
 	}
 	
+	/**
+	 * Alter the main notification view and remove the Contact photo as there is no contact for Calendar Events.
+	 */
 	private void setupCalendarView(){
 		if (Log.getDebug()) Log.v("NotificationView.setupCalendarView()");
-		_contactLinearLayout.setVisibility(View.GONE);
-		_underContactDividerImageView.setVisibility(View.GONE);
+		_photoImageView.setVisibility(View.GONE);
 	}
 	
 	/**
@@ -488,9 +502,10 @@ public class NotificationView extends LinearLayout {
 	/**
 	 * Function that rounds the corners of a Bitmap image.
 	 * 
-	 * @param bitmap
-	 * @param pixels
-	 * @return Bitmap image
+	 * @param bitmap - The Bitmap to be formatted.
+	 * @param pixels - The number of pixels as the diameter of the rounded corners.
+	 * 
+	 * @return Bitmap - The formatted Bitmap image.
 	 */
 	private Bitmap getRoundedCornerBitmap(Bitmap bitmap, int pixels) {
 		if (Log.getDebug()) Log.v("NotificationView.getRoundedCornerBitmap()");
@@ -515,7 +530,7 @@ public class NotificationView extends LinearLayout {
 	}
 	
 	/**
-	 * Remove the notification from the ViewFlipper.
+	 * Function to remove the notification from the ViewFlipper.
 	 */
 	private void dismissNotification(){
 		if (Log.getDebug()) Log.v("NotificationView.dismissNotification()");
@@ -523,8 +538,8 @@ public class NotificationView extends LinearLayout {
 	}
 	
 	/**
-	 * Reply to the current message using the built in SMS app.
-	 * This starts the built in SMS app Activity.
+	 * Function that launches a new Activity.
+	 * This function replies to the current message using the stock Android messaging app.
 	 */
 	private void replyToMessage() {
 		if (Log.getDebug()) Log.v("NotificationView.replyToMessage()");
@@ -540,14 +555,11 @@ public class NotificationView extends LinearLayout {
         		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
 	    intent.putExtra("address", phoneNumber);
 	    context.startActivity(intent);
-	    //Not sure if this should be a preference to end the notification activity when a reply is made?
-        //NotificationActivity notificationActivity = (NotificationActivity)context;
-		//notificationActivity.finishActivity(); 
 	}
 	
 	/**
-	 * Make a phone call to the current missed call notification.
-	 * This starts the phones built in dialer & caller.
+	 * Function that launches a new Activity.
+	 * This function makes a phone call to the current missed call notification using the phones stock Android dialer & caller.
 	 */
 	private void makePhoneCall(){
 		if (Log.getDebug()) Log.v("NotificationView.makePhoneCall()");
@@ -565,7 +577,8 @@ public class NotificationView extends LinearLayout {
 	}
 	
 	/**
-	 * View the calendar event using the Calendar Event ID.
+	 * Function that launches a new Activity.
+	 * This function views the calendar event using the stock Android calendar app.
 	 */
 	private void viewCalendarEvent(){
 		if (Log.getDebug()) Log.v("NotificationView.viewCalendarEvent()");
@@ -600,16 +613,15 @@ public class NotificationView extends LinearLayout {
 	}
  
 	/**
-	 * Confirm the delete request of this message.
+	 * Function to confirm the delete request of the current message.
 	 */
 	private void showDeleteDialog(){
 		if (Log.getDebug()) Log.v("NotificationView.showDeleteDialog()");
-		//Show pop up dialog to confirm deletion.
 		getNotificationViewFlipper().showDeleteDialog();
 	}
 	
 	/**
-	 * Setup the context menus for the various items on the notification window.
+	 * Function to setup the context menus for the various items on the notification window.
 	 */
 	private void setupContextMenus(){
 		if (Log.getDebug()) Log.v("NotificationActivity.setupContextMenus()"); 
@@ -623,18 +635,18 @@ public class NotificationView extends LinearLayout {
 	    	notificationActivity.registerForContextMenu(_contactLinearLayout);
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
-	    	//No menu at this time for Calendar Events.
+	    	notificationActivity.registerForContextMenu(_contactLinearLayout);
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_EMAIL){
-	    	//No menu at this time for Calendar Emails.
+	    	//No menu at this time for Emails.
 	    } 	
 	}
 
 	/**
-	 * Custom haptic feedback function.
-	 * Performs haptic feedback based on the users preferences.
+	 * Function that performs custom haptic feedback.
+	 * This function performs haptic feedback based on the users preferences.
 	 * 
-	 * @param hapticFeedbackConstant
+	 * @param hapticFeedbackConstant - What type of action the feedback is responding to.
 	 */
 	private void customPerformHapticFeedback(int hapticFeedbackConstant){
 		Context context = getContext();

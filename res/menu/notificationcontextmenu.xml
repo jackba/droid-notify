@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-      <item 
+	<item 
 		android:id="@+id/view_contact"
         android:title="@string/view_contact_text" />
-      <item 
+    <item 
 		android:id="@+id/add_contact"
         android:title="@string/add_contact_text" />
-      <item 
+    <item 
 		android:id="@+id/call_contact"
         android:title="@string/call_contact_text" />
-      <item 
+    <item 
 		android:id="@+id/text_contact"
         android:title="@string/text_contact_text" />
 	<item 
 		android:id="@+id/edit_contact"
         android:title="@string/edit_contact_text" />
+	<item 
+		android:id="@+id/edit_calendar_event"
+        android:title="@string/edit_calendar_event_text" />
 </menu>
