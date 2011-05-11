@@ -76,10 +76,10 @@ public class SMSReceiverService extends WakefulIntentService {
 		Context context = getApplicationContext();
 		Bundle bundle = intent.getExtras();
 		bundle.putInt("notificationType", NOTIFICATION_TYPE_SMS);
-    	Intent smsNotificationIntent = new Intent(context, NotificationActivity.class);
-    	smsNotificationIntent.putExtras(bundle);
-    	smsNotificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-    	context.startActivity(smsNotificationIntent);
+    	Intent smsIntent = new Intent(context, NotificationActivity.class);
+    	smsIntent.putExtras(bundle);
+    	smsIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+    	context.startActivity(smsIntent);
 	}
 
 }
