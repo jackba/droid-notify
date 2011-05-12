@@ -121,11 +121,11 @@ public class Notification {
 	            setMessageBody(messageBody);
 	    		loadThreadID(getContext(), getPhoneNumber());
 	    		loadMessageID(getContext(), getThreadID(), getMessageBody(), getTimeStamp());
-	    		loadContactsInfo(getContext(), getPhoneNumber());
+	    		loadContactsInfoByPhoneNumber(getContext(), getPhoneNumber());
         	}
     	    if(notificationType == NOTIFICATION_TYPE_MMS){
     	    	setTitle("MMS Message");
-    	    	//TODO - NOTIFICATION_TYPE_MMS - MMS Message
+    	    	//TODO - MMS
     	    }
     	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
     	    	//Do Nothing. This should not be called if a calendar event is received.
@@ -156,7 +156,7 @@ public class Notification {
         setMessageBody(messageBody);
 		loadThreadID(getContext(), getPhoneNumber());
 		loadMessageID(getContext(), getThreadID(), getMessageBody(), getTimeStamp());
-		loadContactsInfo(getContext(), getPhoneNumber());
+		loadContactsInfoByPhoneNumber(getContext(), getPhoneNumber());
 	}
 	
 	/**
@@ -177,7 +177,7 @@ public class Notification {
     		setPhoneNumber(phoneNumber);
     		setTimeStamp(timeStamp);
       		setTitle("Missed Call");
-    		loadContactsInfo(getContext(), getPhoneNumber());
+    		loadContactsInfoByPhoneNumber(getContext(), getPhoneNumber());
 	    }
     	if(notificationType == NOTIFICATION_TYPE_SMS || notificationType == NOTIFICATION_TYPE_MMS){
     		//Do Nothing. This should not be called if a SMS or MMS is received.
@@ -260,7 +260,7 @@ public class Notification {
 	public String getAddressBookPhoneNumber() {
 		if (Log.getDebug()) Log.v("Notification.getAddressBookPhoneNumber()");
 		if(_addressBookPhoneNumber == null){
-			loadContactsInfo(getContext(),getPhoneNumber());
+			loadContactsInfoByPhoneNumber(getContext(),getPhoneNumber());
 		}
 		if(_addressBookPhoneNumber == null){
 			return _phoneNumber;
@@ -352,7 +352,7 @@ public class Notification {
 	public long getContactID() {
 		if (Log.getDebug()) Log.v("Notification.getContactID()");
 		if(_contactID == 0){
-			loadContactsInfo(getContext(),getPhoneNumber());
+			loadContactsInfoByPhoneNumber(getContext(),getPhoneNumber());
 		}
 	    return _contactID;
 	}
@@ -371,7 +371,7 @@ public class Notification {
 	public String getContactLookupKey() {
 		if (Log.getDebug()) Log.v("Notification.getContactLookupKey()");
 		if(_contactLookupKey == null){
-			loadContactsInfo(getContext(),getPhoneNumber());
+			loadContactsInfoByPhoneNumber(getContext(),getPhoneNumber());
 		}
 	    return _contactLookupKey;
 	}	
@@ -679,7 +679,7 @@ public class Notification {
 	    	//Do nothing. There is no log to update for Calendar Events.
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_EMAIL){
-	    	//TODO - Notification.setViewed() - NOTIFICATION_TYPE_EMAIL Set the notification as being viewed on the phone.
+	    	setEmailRead(isViewed);
 	    }
 	}
 	
@@ -847,18 +847,19 @@ public class Notification {
 	}
 	
 	/**
-	 * Load the various contact info for this notification.
+	 * Load the various contact info for this notification from a phoneNumber.
 	 * 
 	 * @param context
 	 * @param phoneNumber
 	 */ 
-	private void loadContactsInfo(Context context, String phoneNumber){
+	private void loadContactsInfoByPhoneNumber(Context context, String phoneNumber){
 		if (Log.getDebug()) Log.v("Notification.loadContactsInfo()");
 		if (phoneNumber == null) {
-			if (Log.getDebug()) Log.v("Notification.loadContactsInfo() Phone number provided is NULL: Exiting loadContactsInfo()");
+			if (Log.getDebug()) Log.v("Notification.loadContactsInfo() Phone number provided is NULL: Exiting...");
 			return;
 		}
 		try{
+			//TODO - Update this code to query the DB faster by inserting a "WHERE phonenumber=?" clause.
 			PhoneNumber incomingNumber = new PhoneNumber(phoneNumber);
 			if (Log.getDebug()) Log.v("Notification.loadContactsInfo() Got PhoneNumber object");
 			final String[] projection = null;
@@ -873,7 +874,6 @@ public class Notification {
 					sortOrder);
 			if (Log.getDebug()) Log.v("Notification.loadContactsInfo() Searching contacts");
 			while (cursor.moveToNext()) { 
-				//TODO - Add logic to check whether this is an email notification or not. The query should be updated if it's an email notification.
 				String contactID = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID)); 
 				String hasPhone = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)); 
 				String contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
@@ -929,6 +929,87 @@ public class Notification {
 		}
 	}
 
+	/**
+	 * Load the various contact info for this notification from an email address.
+	 * 
+	 * @param context
+	 * @param email
+	 */ 
+	private void loadContactsInfoByEmail(Context context, String email){
+		if (Log.getDebug()) Log.v("Notification.loadContactsInfoByEmail()");
+		if (email == null) {
+			if (Log.getDebug()) Log.v("Notification.loadContactsInfoByEmail() Email provided is NULL: Exiting...");
+			return;
+		}
+		try{
+			//TODO - Write This Function loadContactsInfoByEmail(Context context, String email)
+//			if (Log.getDebug()) Log.v("Notification.loadContactsInfo() Got PhoneNumber object");
+//			final String[] projection = null;
+//			final String selection = null;
+//			final String[] selectionArgs = null;
+//			final String sortOrder = null;
+//			Cursor cursor = context.getContentResolver().query(
+//					ContactsContract.Contacts.CONTENT_URI,
+//					projection, 
+//					selection, 
+//					selectionArgs, 
+//					sortOrder);
+//			if (Log.getDebug()) Log.v("Notification.loadContactsInfo() Searching contacts");
+//			while (cursor.moveToNext()) { 
+//				String contactID = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID)); 
+//				String hasPhone = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)); 
+//				String hasEmail = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.e)); 
+//				String contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+//				String contactLookupKey = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY));
+//				String photoID = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_ID)); 
+//					final String[] phoneProjection = null;
+//					final String phoneSelection = ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = " + contactID;
+//					final String[] phoneSelectionArgs = null;
+//					final String phoneSortOrder = null;
+//					Cursor phoneCursor = context.getContentResolver().query(
+//							ContactsContract.CommonDataKinds.Phone.CONTENT_URI, 
+//							phoneProjection, 
+//							phoneSelection, 
+//							phoneSelectionArgs, 
+//							phoneSortOrder); 
+//					while (phoneCursor.moveToNext()) { 
+//			    	  String addressBookPhoneNumber = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+//			    	  PhoneNumber contactNumber = new PhoneNumber(addressBookPhoneNumber);
+//			    	  if(incomingNumber.getPhoneNumber().equals(contactNumber.getPhoneNumber())){
+//			    		  setContactID(Long.parseLong(contactID));
+//			    		  if(addressBookPhoneNumber != null){
+//			    			  setAddressBookPhoneNumber(addressBookPhoneNumber);
+//			    		  }
+//			    		  if(contactLookupKey != null){
+//			    			  setContactLookupKey(contactLookupKey);
+//			    		  }
+//			    		  if(contactName != null){
+//			    			  setContactName(contactName);
+//			    		  }
+//			    		  if(photoID != null){
+//			    			  setPhotoID(Long.parseLong(photoID));
+//			    		  }
+//			  	          Uri uri = ContentUris.withAppendedId(
+//			  	        		  ContactsContract.Contacts.CONTENT_URI,
+//			  	        		  Long.parseLong(contactID));
+//			  		      InputStream input = ContactsContract.Contacts.openContactPhotoInputStream(context.getContentResolver(), uri);
+//			  		      Bitmap contactPhotoBitmap = BitmapFactory.decodeStream(input);
+//			  		      if(contactPhotoBitmap!= null){
+//			  		    	  setPhotoImg(contactPhotoBitmap);
+//			  		    	  setContactPhotoExists(true);
+//			  		      }
+//			  		      setContactExists(true);
+//			  		      break;
+//			    	  }
+//			      } 
+//			      phoneCursor.close(); 
+//			}
+//			cursor.close();
+		}catch(Exception ex){
+			if (Log.getDebug()) Log.e("Notification.loadContactsInfo() ERROR: " + ex.toString());
+		}
+	}
+	
 	/**
 	 * Set the call log as viewed (not new) or new depending on the input.
 	 * 
@@ -1011,6 +1092,43 @@ public class Notification {
 		    		selectionArgs);
 		}catch(Exception ex){
 			if (Log.getDebug()) Log.e("Notification.setMessageRead() ERROR: " + ex.toString());
+		}
+	}
+
+	/**
+	 * Set the Email message as read or unread depending on the input.
+	 * 
+	 * @param isViewed
+	 */
+	private void setEmailRead(boolean isViewed){
+		if (Log.getDebug()) Log.v("Notification.setEmailRead()");
+		try{
+			//TODO - Write This Function setEmailRead(boolean isViewed)
+//			Context context = getContext();
+//			long messageID = getMessageID();
+//			long threadID = getThreadID();
+//			String messageBody = getMessageBody();
+//			long timeStamp = getTimeStamp();
+//			if(messageID == 0){
+//				if (Log.getDebug()) Log.v("Notification.setMessageRead() Message ID == 0. Load Message ID");
+//				loadMessageID(context, threadID, messageBody, timeStamp);
+//				messageID = getMessageID();
+//			}
+//			ContentValues contentValues = new ContentValues();
+//			if(isViewed){
+//				contentValues.put("READ", 1);
+//			}else{
+//				contentValues.put("READ", 0);
+//			}
+//			String selection = null;
+//			String[] selectionArgs = null;
+//			context.getContentResolver().update(
+//					Uri.parse("content://sms/" + messageID), 
+//		    		contentValues, 
+//		    		selection, 
+//		    		selectionArgs);
+		}catch(Exception ex){
+			if (Log.getDebug()) Log.e("Notification.setEmailRead() ERROR: " + ex.toString());
 		}
 	}
 	
