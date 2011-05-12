@@ -139,7 +139,7 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 	//================================================================================
 	
 	/**
-	 * Set up the "Test Notifications" button. 
+	 * Function to set up the "Test Notifications" button. 
 	 * When clicked, this button will display some fake notifications to the user using their current preference options.
 	 */
 	private void setupTestnotificationsButton(){
@@ -179,7 +179,7 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 		}
 		boolean runOnce = preferences.getBoolean("runOnce", true);
 		long reminderInterval = Long.parseLong(preferences.getString(CALENDAR_REMINDER_KEY, "15")) * 60 * 1000;
-		//if(runOnce) {
+		if(runOnce) {
 			if (Log.getDebug()) Log.v("DroidNotifyPreferenceActivity.runOnceAlarmManager() Alarm Code Running");
 			SharedPreferences.Editor editor = preferences.edit();
 			editor.putBoolean("runOnce", false);
@@ -190,7 +190,7 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 			PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
 			// Set alarm to go off 5 minutes from the current time.
 			alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, SystemClock.elapsedRealtime() + (5 * 60 * 1000), AlarmManager.INTERVAL_DAY + reminderInterval, pendingIntent);
-       //}
+       }
 	}
 	
 }

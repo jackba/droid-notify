@@ -446,7 +446,7 @@ public class NotificationActivity extends Activity {
 					callMenuItem.setVisible(false);
 			    }
 			    if(notificationType == NOTIFICATION_TYPE_EMAIL){
-			    	//TODO - Email Message
+			    	//TODO - Email
 			    }
 	    }
 		    
@@ -675,7 +675,7 @@ public class NotificationActivity extends Activity {
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_MMS){
 	    	if (Log.getDebug()) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_MMS");
-	    	//TODO - MMS Message
+	    	//TODO - MMS
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
 	    	if (Log.getDebug()) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_CALENDAR");
@@ -683,10 +683,11 @@ public class NotificationActivity extends Activity {
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_EMAIL){
 	    	if (Log.getDebug()) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_EMAIL");
-	    	//TODO - Email Message
+	    	//TODO - Email
 	    }  
 	    //Set Vibration or Ringtone to announce Activity.
 	    runNotificationFeedback(notificationType);
+	    //TODO - Should this be set in a "timeout" thread to release after 1 minute or so in order to save battery power?
 	    //Acquire WakeLock.
 	    acquireWakeLock(context);
 	    //Remove the KeyGuard.
@@ -823,12 +824,11 @@ public class NotificationActivity extends Activity {
 	    if(notificationType == NOTIFICATION_TYPE_SMS){
 		    if (Log.getDebug()) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_SMS");
 		    setupMessages(extrasBundle);
-		    //TODO - NotificationActivity.onNewIntent() - NOTIFICATION_TYPE_SMS Get all unread messages if new Activity?
+		    //TODO - Get all unread SMS messages if new Activity?
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_MMS){
 	    	if (Log.getDebug()) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_MMS");
-	    	//TODO - MMS Message
-		    //TODO - NotificationActivity.onNewIntent() - NOTIFICATION_TYPE_MMS Get all unread messages if new Activity?
+	    	//TODO - MMS
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
 	    	if (Log.getDebug()) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_CALENDAR");
@@ -836,7 +836,7 @@ public class NotificationActivity extends Activity {
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_EMAIL){
 	    	if (Log.getDebug()) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_EMAIL");
-	    	//TODO - Email Message
+	    	//TODO - Email
 	    }
 	    //Set Vibration or Ringtone to announce Activity.
 	    runNotificationFeedback(notificationType);
@@ -1127,6 +1127,9 @@ public class NotificationActivity extends Activity {
 		Vibrator vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		//Set vibration based on user preferences.
+		if(notificationType == NOTIFICATION_TYPE_TEST){
+			vibrator.vibrate(1 * 1000);
+		}
 	    if(notificationType == NOTIFICATION_TYPE_PHONE){
 	 	    if(preferences.getBoolean(MISSED_CALL_VIBRATE_ENABLED_KEY, true)){
 	 	    	vibrator.vibrate(1 * 1000);
@@ -1148,8 +1151,9 @@ public class NotificationActivity extends Activity {
 	 	    }
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_EMAIL){
-	    	//TODO - Email Message
+	    	//TODO - Email
 	    }
+	    //TODO - Add ringtone option and code for Notification Feedback.
 	}
 	
 	/**

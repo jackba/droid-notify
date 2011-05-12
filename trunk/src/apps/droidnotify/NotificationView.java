@@ -158,15 +158,15 @@ public class NotificationView extends LinearLayout {
 	// Public Methods
 	//================================================================================
 
-	/**
-	 * Remove the notification from the ViewFlipper.
-	 */
-	public void deleteMessage(){
-		if (Log.getDebug()) Log.v("NotificationView.deleteMessage()");
-		//Remove SMS or MMS message from ViewFlipper.
-		getNotificationViewFlipper().removeActiveNotification();
-		//TODO - Delete SMS or MMS message from device.
-	}
+//	/**
+//	 * Remove the notification from the ViewFlipper.
+//	 */
+//	private void deleteMessage(){
+//		if (Log.getDebug()) Log.v("NotificationView.deleteMessage()");
+//		//Remove SMS or MMS message from ViewFlipper.
+//		getNotificationViewFlipper().removeActiveNotification();
+//		//???T/O/D/O - Delete SMS or MMS message from device.
+//	}
 
 	/**
 	 * Define the action of the view when you swipe your finger across it.
@@ -352,7 +352,7 @@ public class NotificationView extends LinearLayout {
 	    	phoneButtonLayoutVisibility = View.GONE;
 	    	smsButtonLayoutVisibility = View.GONE;
 	    	calendarButtonLayoutVisibility = View.GONE;
-	    	//TODO - Email Notification
+	    	//TODO - Email
 	    }
 		_phoneButtonLinearLayout.setVisibility(phoneButtonLayoutVisibility);
     	_smsButtonLinearLayout.setVisibility(smsButtonLayoutVisibility);
@@ -494,7 +494,8 @@ public class NotificationView extends LinearLayout {
 	    	_photoImageView.setImageBitmap((Bitmap)getRoundedCornerBitmap(notification.getPhotoImg(), 5));    
 	    }else{  
 	    	// Load the placeholder image if the contact has no photo.
-	    	_photoImageView.setImageBitmap(getRoundedCornerBitmap(BitmapFactory.decodeResource(getContext().getResources(), R.drawable.ic_contact_picture), 5));
+	    	//TODO - Add user preference to choose from a selection of placeholder images.
+	    	_photoImageView.setImageBitmap(getRoundedCornerBitmap(BitmapFactory.decodeResource(getContext().getResources(), R.drawable.ic_contact_picture_5), 5));
 	    }
 	}
 	
@@ -584,6 +585,9 @@ public class NotificationView extends LinearLayout {
 		Context context = getContext();
 		Notification notification = getNotification();
 		long calendarEventID = notification.getCalendarEventID();
+		if(calendarEventID == 0){
+			return;
+		}
 		try{
 			//Android 2.2+
 			Intent intent = new Intent(Intent.ACTION_VIEW);
