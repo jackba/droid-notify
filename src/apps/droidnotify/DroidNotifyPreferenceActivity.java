@@ -2,12 +2,10 @@ package apps.droidnotify;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.preference.PreferenceActivity;
@@ -26,7 +24,9 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 	//================================================================================
     // Constants
     //================================================================================
-
+    
+	private final String APP_ENABLED_KEY = "app_enabled";
+	private final String CALENDAR_NOTIFICATIONS_ENABLED_KEY = "calendar_notifications_enabled";
 	private final int NOTIFICATION_TYPE_TEST = -1;
     private final String CALENDAR_REMINDER_KEY = "calendar_reminder_settings";
 	
@@ -34,9 +34,7 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
     // Properties
     //================================================================================
 
-    public static ProgressDialog _progressDialog;
-    
-	private Context _context;
+    private Context _context;
 
 	//================================================================================
 	// Constructors
@@ -78,8 +76,8 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
-	    if (Log.getDebug()) Log.v("DroidNotifyPreferenceActivity.onCreate()");	
-	    setContext(getApplicationContext());
+	    if (Log.getDebug()) Log.v("DroidNotifyPreferenceActivity.onCreate()");
+	    setContext(DroidNotifyPreferenceActivity.this);
 	    addPreferencesFromResource(R.xml.preferences);
 	    setContentView(R.xml.preferenceswrapper);
 	    runOnceAlarmManager();
@@ -150,66 +148,16 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 		testNotificationsButton.setOnClickListener(new OnClickListener() {
 		    public void onClick(View view) {
 		    	if (Log.getDebug()) Log.v("Test Notifications Button Clicked()");
-		    	Context context = getContext();
-				Bundle bundle = new Bundle();
+		    	Context context = DroidNotifyPreferenceActivity.this;
+		    	Bundle bundle = new Bundle();
 				bundle.putInt("notificationType", NOTIFICATION_TYPE_TEST);
-		    	final Intent testIntent = new Intent(context, NotificationActivity.class);
+		    	Intent testIntent = new Intent(context, NotificationActivity.class);
 		    	testIntent.putExtras(bundle);
 		    	testIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-		    	//Display a progess spinner for the user.
-		    	_progressDialog = new ProgressDialog(DroidNotifyPreferenceActivity.this);
-		    	_progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-		    	_progressDialog.setMessage("Loading Notifications...");
-		    	_progressDialog.show();
-		    	//Start the test Notification Activity.
-		    	context.startActivity(testIntent);
-		    	
-		    	
-		    	
-		    	
-		    	
-		    	
-		    	
-		    	
-		    	
-		    	
-		    	
-		    	
-		    	
-		    	
+		    	DroidNotifyPreferenceActivity.this.startActivity(testIntent);
 		    }
 		});
 	}
-	
-//	private class RestoreDBTask extends AsyncTask <Void, Void, String>
-//	{
-//	    private ProgressDialog dialog;
-//
-//	    @Override
-//	    protected void onPreExecute()
-//	    {
-//	        dialog = ProgressDialog.show(
-//	            SplashActivity.this,
-//	            getString(R.string.progress_wait),
-//	            getString(R.string.progress_db_installing), 
-//	            true);
-//	    }
-//
-//	    @Override
-//	    protected String doInBackground(Void... params)
-//	    {
-//	        // do all the things with DB
-//	        DBHelper dbHelper = new DBHelper(SplashActivity.this);
-//	        dbHelper.close();
-//	        return "";
-//	    }
-//
-//	    @Override
-//	    protected void onPostExecute(String result)
-//	    {
-//	        dialog.dismiss();
-//	    }
-//	}
 	
 	/**
 	 * This function starts the main AlarmManager that will check the users calendar for events.
@@ -219,6 +167,16 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 		if (Log.getDebug()) Log.v("DroidNotifyPreferenceActivity.runOnceAlarmManager()");
 		Context context = getContext();
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		//Read preferences and exit if app is disabled.
+	    if(!preferences.getBoolean(APP_ENABLED_KEY, true)){
+			if (Log.getDebug()) Log.v("SMSReceiver.onReceive() App Disabled. Exiting...");
+			return;
+		}
+		//Read preferences and exit if calendar notifications are disabled.
+	    if(!preferences.getBoolean(CALENDAR_NOTIFICATIONS_ENABLED_KEY, true)){
+			if (Log.getDebug()) Log.v("NotificationActivity.onCreate() Calendar Notifications Disabled. Exiting... ");
+			return;
+		}
 		boolean runOnce = preferences.getBoolean("runOnce", true);
 		long reminderInterval = Long.parseLong(preferences.getString(CALENDAR_REMINDER_KEY, "15")) * 60 * 1000;
 		//if(runOnce) {

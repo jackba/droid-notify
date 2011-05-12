@@ -54,7 +54,7 @@ public class NotificationView extends LinearLayout {
     // Properties
     //================================================================================
 	
-	private Context _context;	
+	//private Context _context;	
 	private int _notificationType;
 	private TextView _fromTextView;
 	private TextView _phoneNumberTextView;
@@ -63,7 +63,7 @@ public class NotificationView extends LinearLayout {
 	private ImageView _notificationIconImageView = null;
 	private ImageView _photoImageView = null;
 	private LinearLayout _contactLinearLayout = null;
-	private ImageView _underContactDividerImageView = null;
+	//private ImageView _underContactDividerImageView = null;
 	private NotificationViewFlipper _notificationViewFlipper = null;
 	private LinearLayout _phoneButtonLinearLayout = null;
 	private LinearLayout _smsButtonLinearLayout = null;
@@ -82,7 +82,7 @@ public class NotificationView extends LinearLayout {
 	    super(context);
 	    if (Log.getDebug()) Log.v("NotificationView.NotificationView()");
 	    int notificationType = notification.getNotificationType();
-	    setContext(context);
+	    //setContext(context);
 	    setNotification(notification);
 	    setNotificationType(notification.getNotificationType());
 	    initLayoutItems(context);
@@ -98,13 +98,13 @@ public class NotificationView extends LinearLayout {
 	// Accessors
 	//================================================================================
 
-	/**
-	 * Set the context property.
-	 */
-	public void setContext(Context context) {
-		if (Log.getDebug()) Log.v("NotificationView.setContext()");
-	    _context = context;
-	}
+//	/**
+//	 * Set the context property.
+//	 */
+//	public void setContext(Context context) {
+//		if (Log.getDebug()) Log.v("NotificationView.setContext()");
+//	    _context = context;
+//	}
 	
 	/**
 	 * Set the notification property.
@@ -227,7 +227,7 @@ public class NotificationView extends LinearLayout {
 		_notificationTextView.setMovementMethod(new ScrollingMovementMethod());
 		_notificationTextView.setScrollbarFadingEnabled(false);
 		_contactLinearLayout = (LinearLayout) findViewById(R.id.contact_linear_layout);
-		_underContactDividerImageView = (ImageView) findViewById(R.id.under_contact_image_view);
+		//_underContactDividerImageView = (ImageView) findViewById(R.id.under_contact_image_view);
 	}
 
 	private void setupNotificationViewButtons(Notification notification) {
@@ -364,7 +364,6 @@ public class NotificationView extends LinearLayout {
 	 */
 	private void populateNotificationViewInfo(Notification notification) {
 		if (Log.getDebug()) Log.v("NotificationView.populateNotificationViewInfo()");
-		Context context = getContext();
 		int notificationType = notification.getNotificationType();
 	    // Set from, number, message etc. views.
 		if(notificationType == NOTIFICATION_TYPE_CALENDAR){

@@ -3,12 +3,14 @@
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
 	android:orientation="vertical">
-    <Button android:id="@+id/test_notifications_button"
+    <Button 
+    	android:id="@+id/test_notifications_button"
     	android:text="Test Notifications"
     	android:layout_height="wrap_content"
     	android:layout_width="wrap_content"
-    	android:layout_gravity="center_horizontal"/>
-    <ListView android:id="@android:id/list"
+    	android:layout_gravity="center_horizontal" />
+    <ListView 
+    	android:id="@android:id/list"
     	android:layout_width="fill_parent"
     	android:layout_height="fill_parent" />
 </LinearLayout>

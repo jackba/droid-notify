@@ -5,6 +5,8 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 
 /**
@@ -19,6 +21,8 @@ public class SMSReceiver extends BroadcastReceiver{
     // Constants
     //================================================================================
 	
+	private final String APP_ENABLED_KEY = "app_enabled";
+	private final String SMS_NOTIFICATIONS_ENABLED_KEY = "sms_notifications_enabled";
 	private final long INTERVAL_ONE_MINUTE = (1 * 60 * 1000);
 	
 	//================================================================================
@@ -45,6 +49,18 @@ public class SMSReceiver extends BroadcastReceiver{
 	@Override
 	public void onReceive(Context context, Intent intent){
 		if (Log.getDebug()) Log.v("SMSReceiver.onReceive()");
+		//Read preferences and exit if app is disabled.
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+	    if(!preferences.getBoolean(APP_ENABLED_KEY, true)){
+			if (Log.getDebug()) Log.v("SMSReceiver.onReceive() App Disabled. Exiting...");
+			return;
+		}
+		//Read preferences and exit if SMS notifications are disabled.
+	    if(!preferences.getBoolean(SMS_NOTIFICATIONS_ENABLED_KEY, true)){
+			if (Log.getDebug()) Log.v("SMSReceiver.onReceive() SMS Notifications Disabled. Exiting...");
+			return;
+		}
+	    //Check the state of the users phone.
 	    TelephonyManager telemanager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 	    boolean callStateIdle = telemanager.getCallState() == TelephonyManager.CALL_STATE_IDLE;
 	    // If the user is not in a call then start out work. 
