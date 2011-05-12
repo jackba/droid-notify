@@ -5,6 +5,8 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 
 /**
@@ -17,7 +19,9 @@ public class CalendarNotificationAlarmReceiver extends BroadcastReceiver {
 	//================================================================================
     // Constants
     //================================================================================
-	
+    
+	private final String APP_ENABLED_KEY = "app_enabled";
+	private final String CALENDAR_NOTIFICATIONS_ENABLED_KEY = "calendar_notifications_enabled";
 	private final long INTERVAL_ONE_MINUTE = (1 * 60 * 1000);
 	
 	//================================================================================
@@ -45,6 +49,18 @@ public class CalendarNotificationAlarmReceiver extends BroadcastReceiver {
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		if (Log.getDebug()) Log.v("CalendarNotificationAlarmReceiver.onReceive()");
+		//Read preferences and exit if app is disabled.
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+	    if(!preferences.getBoolean(APP_ENABLED_KEY, true)){
+			if (Log.getDebug()) Log.v("SMSReceiver.onReceive() App Disabled. Exiting...");
+			return;
+		}
+		//Read preferences and exit if calendar notifications are disabled.
+	    if(!preferences.getBoolean(CALENDAR_NOTIFICATIONS_ENABLED_KEY, true)){
+			if (Log.getDebug()) Log.v("NotificationActivity.onCreate() Calendar Notifications Disabled. Exiting... ");
+			return;
+		}
+	    //Check the state of the users phone.
 		TelephonyManager telemanager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 	    boolean callStateIdle = telemanager.getCallState() == TelephonyManager.CALL_STATE_IDLE;
 	    if (Log.getDebug()) Log.v("PhoneReceiver.onReceive() Current Call State: " + telemanager.getCallState());

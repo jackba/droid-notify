@@ -33,6 +33,8 @@ public class CalendarOnBootReceiver extends BroadcastReceiver {
     // Constants
     //================================================================================
     
+	private final String APP_ENABLED_KEY = "app_enabled";
+	private final String CALENDAR_NOTIFICATIONS_ENABLED_KEY = "calendar_notifications_enabled";
     private final String CALENDAR_REMINDER_KEY = "calendar_reminder_settings";
 
 	//================================================================================
@@ -60,7 +62,17 @@ public class CalendarOnBootReceiver extends BroadcastReceiver {
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		if (Log.getDebug()) Log.v("CalendarOnBootReceiver.onReceive()");
+		//Read preferences and exit if app is disabled.
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+	    if(!preferences.getBoolean(APP_ENABLED_KEY, true)){
+			if (Log.getDebug()) Log.v("SMSReceiver.onReceive() App Disabled. Exiting...");
+			return;
+		}
+		//Read preferences and exit if calendar notifications are disabled.
+	    if(!preferences.getBoolean(CALENDAR_NOTIFICATIONS_ENABLED_KEY, true)){
+			if (Log.getDebug()) Log.v("NotificationActivity.onCreate() Calendar Notifications Disabled. Exiting... ");
+			return;
+		}
 		long reminderInterval = Long.parseLong(preferences.getString(CALENDAR_REMINDER_KEY, "15")) * 60 * 1000;
 		AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 		Intent newIntent = new Intent(context, CalendarAlarmReceiver.class);

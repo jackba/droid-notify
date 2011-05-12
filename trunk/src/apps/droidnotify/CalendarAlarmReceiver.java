@@ -17,6 +17,8 @@ package apps.droidnotify;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 /**
  * 
@@ -26,6 +28,13 @@ import android.content.Intent;
  */
 public class CalendarAlarmReceiver extends BroadcastReceiver {
 
+	//================================================================================
+    // Constants
+    //================================================================================
+    
+	private final String APP_ENABLED_KEY = "app_enabled";
+	private final String CALENDAR_NOTIFICATIONS_ENABLED_KEY = "calendar_notifications_enabled";
+	
 	//================================================================================
     // Properties
     //================================================================================
@@ -51,6 +60,17 @@ public class CalendarAlarmReceiver extends BroadcastReceiver {
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		if (Log.getDebug()) Log.v("CalendarAlarmReceiver.onReceive()");
+		//Read preferences and exit if app is disabled.
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+	    if(!preferences.getBoolean(APP_ENABLED_KEY, true)){
+			if (Log.getDebug()) Log.v("SMSReceiver.onReceive() App Disabled. Exiting...");
+			return;
+		}
+		//Read preferences and exit if calendar notifications are disabled.
+	    if(!preferences.getBoolean(CALENDAR_NOTIFICATIONS_ENABLED_KEY, true)){
+			if (Log.getDebug()) Log.v("NotificationActivity.onCreate() Calendar Notifications Disabled. Exiting... ");
+			return;
+		}
 		WakefulIntentService.acquireStaticLock(context);
 		context.startService(new Intent(context, CalendarAlarmReceiverService.class));
 	}

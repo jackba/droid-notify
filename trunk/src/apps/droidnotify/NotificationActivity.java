@@ -7,12 +7,10 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.KeyguardManager;
 import android.app.KeyguardManager.KeyguardLock;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.PowerManager;
@@ -61,17 +59,8 @@ public class NotificationActivity extends Activity {
 	private final int NOTIFICATION_TYPE_CALENDAR = 3;
 	private final int NOTIFICATION_TYPE_EMAIL = 4;
 	
-	//private final int INCOMING_CALL_TYPE = android.provider.CallLog.Calls.INCOMING_TYPE;
-	//private final int OUTGOING_CALL_TYPE = android.provider.CallLog.Calls.OUTGOING_TYPE;
-	private final int MISSED_CALL_TYPE = android.provider.CallLog.Calls.MISSED_TYPE;
-	
 	private final int DIALOG_DELETE_MESSAGE = 0;
 
-	private final String APP_ENABLED_KEY = "app_enabled";
-	private final String SMS_NOTIFICATIONS_ENABLED_KEY = "sms_notifications_enabled";
-	private final String MMS_NOTIFICATIONS_ENABLED_KEY = "mms_notifications_enabled";
-	private final String MISSED_CALL_NOTIFICATIONS_ENABLED_KEY = "missed_call_notifications_enabled";
-	private final String CALENDAR_NOTIFICATIONS_ENABLED_KEY = "calendar_notifications_enabled";
 	private final String SCREEN_ENABLED_KEY = "screen_enabled";
 	private final String SCREEN_DIM_ENABLED_KEY = "screen_dim_enabled";
 	private final String KEYGUARD_ENABLED_KEY = "keyguard_enabled";	
@@ -80,9 +69,9 @@ public class NotificationActivity extends Activity {
 	private final String MMS_VIBRATE_ENABLED_KEY = "mms_vibrate_enabled";
 	private final String CALENDAR_VIBRATE_ENABLED_KEY = "calendar_vibrate_enabled";
 	private final String HAPTIC_FEEDBACK_ENABLED_KEY = "haptic_feedback_enabled";
-	
 	private final String SMS_DELETE_KEY = "sms_delete_button_action";
 	private final String MMS_DELETE_KEY = "mms_delete_button_action";
+	
 	//private final String SMS_DISMISS_ACTION_MARK_READ = "0";
 	private final String SMS_DELETE_ACTION_DELETE_MESSAGE = "0";
 	private final String SMS_DELETE_ACTION_DELETE_THREAD = "1";
@@ -338,7 +327,7 @@ public class NotificationActivity extends Activity {
 //		if (Log.getDebug()) Log.v("NotificationActivity.setSoftKeyboardTriggerView()");
 //		_softKeyboardTriggerView = softKeyboardTriggerView;
 //	}
-//	
+
 //	/**
 //	 * Get the softKeyboardTriggerView property.
 //	 *
@@ -662,16 +651,7 @@ public class NotificationActivity extends Activity {
 	    Bundle extrasBundle = getIntent().getExtras();
 	    int notificationType = extrasBundle.getInt("notificationType");
 	    if (Log.getDebug()) Log.v("NotificationActivity.onCreate() Notification Type: " + notificationType);
-	    
-	    //TODO - Move this code to the receivers or services out of this activity. It should not be here.
-		//Read preferences and end activity early if app is disabled.
-	    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-	    if(!preferences.getBoolean(APP_ENABLED_KEY, true)){
-			if (Log.getDebug()) Log.v("NotificationActivity.onCreate() App Disabled. Finishing Activity... ");
-			finishActivity();
-			return;
-		}
-	    
+
 //	    //Remove the phone's KeyGuard & Wakelock.
 //	    //This does not work in Android Release 2.2 even though it should.
 //	    getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
@@ -683,54 +663,22 @@ public class NotificationActivity extends Activity {
 	    setContentView(R.layout.notificationwrapper);
 	    setupViews(notificationType);
 	    if(notificationType == NOTIFICATION_TYPE_TEST){
-	    	createTextNotifications();
-	    	//Stop the progess spinner from displaying once this operation has complete.
-	    	DroidNotifyPreferenceActivity._progressDialog.dismiss();
+	    	createTestNotifications();
 	    }    
 	    if(notificationType == NOTIFICATION_TYPE_PHONE){
 	    	if (Log.getDebug()) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_PHONE");
-	    	//TODO - Move this code to the receivers or services out of this activity. It should not be here.
-			//Read preferences and end activity early if missed call notifications are disabled.
-		    if(!preferences.getBoolean(MISSED_CALL_NOTIFICATIONS_ENABLED_KEY, true)){
-				if (Log.getDebug()) Log.v("NotificationActivity.onCreate() Missed Call Notifications Disabled. Finishing Activity... ");
-				finishActivity();
-				return;
-			}
-	    	if(setupMissedCalls(extrasBundle, false) == false){
-	    		finishActivity();
-				return;
-	    	}
+	    	setupMissedCalls(extrasBundle);
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_SMS){
 		    if (Log.getDebug()) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_SMS");
-		    //TODO - Move this code to the receivers or services out of this activity. It should not be here.
-			//Read preferences and end activity early if SMS notifications are disabled.
-		    if(!preferences.getBoolean(SMS_NOTIFICATIONS_ENABLED_KEY, true)){
-				if (Log.getDebug()) Log.v("NotificationActivity.onCreate() SMS Notifications Disabled. Finishing Activity... ");
-				finishActivity();
-				return;
-			}
 		    setupMessages(extrasBundle);
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_MMS){
 	    	if (Log.getDebug()) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_MMS");
-			//Read preferences and end activity early if MMS notifications are disabled.
-		    if(!preferences.getBoolean(MMS_NOTIFICATIONS_ENABLED_KEY, true)){
-				if (Log.getDebug()) Log.v("NotificationActivity.onCreate() MMS Notifications Disabled. Finishing Activity... ");
-				finishActivity();
-				return;
-			}
 	    	//TODO - MMS Message
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
 	    	if (Log.getDebug()) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_CALENDAR");
-	    	//TODO - Move this code to the receivers or services out of this activity. It should not be here.
-			//Read preferences and end activity early if calendar notifications are disabled.
-		    if(!preferences.getBoolean(CALENDAR_NOTIFICATIONS_ENABLED_KEY, true)){
-				if (Log.getDebug()) Log.v("NotificationActivity.onCreate() Calendar Notifications Disabled. Finishing Activity... ");
-				finishActivity();
-				return;
-			}
 		    setupCalendarEventNotifications(extrasBundle);
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_EMAIL){
@@ -865,55 +813,25 @@ public class NotificationActivity extends Activity {
 	    if (Log.getDebug()) Log.v("NotificationActivity.onNewIntent()");
 	    setIntent(intent);
 	    Context context = getContext();
-	    //Read preferences and end activity early if app is disabled.
-	    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-	    if(!preferences.getBoolean(APP_ENABLED_KEY, true)){
-			if (Log.getDebug()) Log.v("NotificationActivity.onNewIntent() App Disabled. Finishing Activity... ");
-			return;
-		}
 	    Bundle extrasBundle = getIntent().getExtras();
 	    int notificationType = extrasBundle.getInt("notificationType");
 	    if (Log.getDebug()) Log.v("NotificationActivity.onNewIntent() Notification Type: " + notificationType);
 	    if(notificationType == NOTIFICATION_TYPE_PHONE){
 	    	if (Log.getDebug()) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_PHONE");
-			//Read preferences and end activity early if missed call notifications are disabled.
-		    if(!preferences.getBoolean(MISSED_CALL_NOTIFICATIONS_ENABLED_KEY, true)){
-				if (Log.getDebug()) Log.v("NotificationActivity.onNewIntent() Missed Call Notifications Disabled.");
-				return;
-			}
-		    if(setupMissedCalls(extrasBundle, true) == false){
-	    		finishActivity();
-				return;
-	    	}
+	    	setupMissedCalls(extrasBundle);
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_SMS){
 		    if (Log.getDebug()) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_SMS");
-			//Read preferences and end activity early if SMS notifications are disabled.
-		    if(!preferences.getBoolean(SMS_NOTIFICATIONS_ENABLED_KEY, true)){
-				if (Log.getDebug()) Log.v("NotificationActivity.onNewIntent() SMS Notifications Disabled.");
-				return;
-			}
 		    setupMessages(extrasBundle);
 		    //TODO - NotificationActivity.onNewIntent() - NOTIFICATION_TYPE_SMS Get all unread messages if new Activity?
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_MMS){
 	    	if (Log.getDebug()) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_MMS");
-			//Read preferences and end activity early if MMS notifications are disabled.
-		    if(!preferences.getBoolean(MMS_NOTIFICATIONS_ENABLED_KEY, true)){
-				if (Log.getDebug()) Log.v("NotificationActivity.onNewIntent() MMS Notifications Disabled.");
-				return;
-			}
 	    	//TODO - MMS Message
 		    //TODO - NotificationActivity.onNewIntent() - NOTIFICATION_TYPE_MMS Get all unread messages if new Activity?
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
 	    	if (Log.getDebug()) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_CALENDAR");
-			//Read preferences and end activity early if calendar notifications are disabled.
-		    if(!preferences.getBoolean(CALENDAR_NOTIFICATIONS_ENABLED_KEY, true)){
-				if (Log.getDebug()) Log.v("NotificationActivity.onCreate() Calendar Notifications Disabled. Finishing Activity... ");
-				finishActivity();
-				return;
-			}
 		    setupCalendarEventNotifications(extrasBundle);
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_EMAIL){
@@ -973,18 +891,14 @@ public class NotificationActivity extends Activity {
 	 * 
 	 * @param bundle
 	 */
-	private boolean setupMissedCalls(Bundle bundle, boolean newIntent){
+	private boolean setupMissedCalls(Bundle bundle){
 		if (Log.getDebug()) Log.v("NotificationActivity.setupMissedCalls()"); 
 		Context context = getContext();
 		final NotificationViewFlipper notificationViewFlipper = getNotificationViewFlipper();
 		final Button previousButton = getPreviousButton();
 		final Button nextButton = getNextButton();
 		final TextView notificationCountTextView = getNotificationCountTextView();
-		ArrayList<String> missedCallsArray = getMissedCalls(newIntent);
-		if(missedCallsArray.size() == 0){
-			if (Log.getDebug()) Log.v("NotificationActivity.setupMissedCalls() No missed calls were found. Exiting Activity...");
-			return false;
-		}
+		ArrayList<String> missedCallsArray = bundle.getStringArrayList("missedCallsArrayList");
 		for(int i=0; i< missedCallsArray.size(); i++){
 			String[] missedCallInfo = missedCallsArray.get(i).split("\\|");
 			String phoneNumber = missedCallInfo[0];
@@ -1120,54 +1034,6 @@ public class NotificationActivity extends Activity {
 		Context context = getApplicationContext();
 		Intent intent = new Intent(context, DroidNotifyPreferenceActivity.class);
 		startActivity(intent);
-	}
-
-	/**
-	 * Query the call log and check for any missed calls.
-	 * 
-	 * @param isNewIntent
-	 * 
-	 * @return ArrayList<String>
-	 */
-	private ArrayList<String> getMissedCalls(boolean isNewIntent){
-		if (Log.getDebug()) Log.v("NotificationActivity.getMissedCalls() IsNewIntent? " + isNewIntent);
-		ArrayList<String> missedCallsArray = new ArrayList<String>();
-		final String[] projection = null;
-		final String selection = null;
-		final String[] selectionArgs = null;
-		final String sortOrder = "DATE DESC";
-		try{
-		    Cursor cursor = getContext().getContentResolver().query(
-		    		Uri.parse("content://call_log/calls"),
-		    		projection,
-		    		selection,
-					selectionArgs,
-					sortOrder);
-		    if (cursor != null) {
-		    	while (cursor.moveToNext()) { 
-		    		String callNumber = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.NUMBER));
-		    		String callDate = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.DATE));
-		    		String callType = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.TYPE));
-		    		String isCallNew = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.NEW));
-		    		//if (Log.getDebug()) Log.v("NotificationActivity.getMissedCalls() Checking Call: " + callNumber + " Received At: " + callDate + " Call Type: " + callType + " Is Call New? " + isCallNew);
-		    		if(Integer.parseInt(callType) == MISSED_CALL_TYPE && Integer.parseInt(isCallNew) > 0){
-	    				if (Log.getDebug()) Log.v("NotificationActivity.getMissedCalls() Missed Call Found: " + callNumber);
-	    				//Store missed call numbers and dates in an array.
-	    				String missedCallInfo = callNumber + "|" + callDate;
-	    				missedCallsArray.add(missedCallInfo);
-	    				if(isNewIntent){
-	    					break;
-	    				}
-	    			}else{
-	    				break;
-	    			}
-		    	}
-		    	cursor.close();
-		    }
-		}catch(Exception ex){
-			if (Log.getDebug()) Log.e("NotificationActivity.getMissedCalls() ERROR: " + ex.toString());
-		}
-	    return missedCallsArray;
 	}
 	
 	/**
@@ -1312,7 +1178,7 @@ public class NotificationActivity extends Activity {
 	/**
 	 * Function to create a test notification of each type.
 	 */
-	private void createTextNotifications(){
+	private void createTestNotifications(){
 		if (Log.getDebug()) Log.v("NotificationActivity.createTextNotifications()");
 		Context context = getContext();
 		NotificationViewFlipper notificationViewFlipper = getNotificationViewFlipper();

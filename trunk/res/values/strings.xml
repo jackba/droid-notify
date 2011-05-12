@@ -20,6 +20,7 @@
     <string name="delete_message_dialog_title_text">Delete</string>
     <string name="delete_message_dialog_text">This will delete the message from the phone.</string>
     <string name="delete_thread_dialog_text">The entire thread will be deleted from the phone.</string>
+    <string name="loading_notification_text">Loading Notifications...</string>
     
     <!-- Button Strings -->  
     <string name="view_mms_button_text">View MMS</string>
