@@ -491,6 +491,7 @@ public class NotificationView extends LinearLayout {
 	    //Load contact photo if it exists.
 	    Bitmap bitmap = notification.getPhotoImg();
 	    if(bitmap!=null){
+	    	//TODO - Write function to resize the image to a standard size for the notifications.
 	    	_photoImageView.setImageBitmap((Bitmap)getRoundedCornerBitmap(notification.getPhotoImg(), 5));    
 	    }else{  
 	    	// Load the placeholder image if the contact has no photo.
@@ -543,6 +544,7 @@ public class NotificationView extends LinearLayout {
 	 */
 	private void replyToMessage() {
 		if (Log.getDebug()) Log.v("NotificationView.replyToMessage()");
+		//TODO - Add a "Quick Reply" screen and base it on the users preferences.
 		Context context = getContext();
 		Notification notification = getNotification();
 		String phoneNumber = notification.getPhoneNumber();
