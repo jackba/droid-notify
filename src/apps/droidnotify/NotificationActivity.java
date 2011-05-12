@@ -1189,7 +1189,7 @@ public class NotificationActivity extends Activity {
 		Notification missedCallNotification = new Notification(context, "5555555555", System.currentTimeMillis(), NOTIFICATION_TYPE_PHONE);
 		notificationViewFlipper.addNotification(missedCallNotification);
 		//Add Calendar Event Notification.
-		Notification calendarEventNotification = new Notification(context, "Droid Notify Calendar Event Test - Droid Notify Calendar Event Test - Droid Notify Calendar Event Test - Droid Notify Calendar Event Test - Droid Notify Calendar Event Test", "", System.currentTimeMillis(), System.currentTimeMillis() + (10 * 60 * 1000), false, 1, 1, NOTIFICATION_TYPE_CALENDAR);
+		Notification calendarEventNotification = new Notification(context, "Droid Notify Calendar Event Test", "", System.currentTimeMillis(), System.currentTimeMillis() + (10 * 60 * 1000), false, 0, 0, NOTIFICATION_TYPE_CALENDAR);
 		notificationViewFlipper.addNotification(calendarEventNotification);	
 	    updateNavigationButtons(getPreviousButton(), getNotificationCountTextView(), getNextButton(), getNotificationViewFlipper());
 	}
