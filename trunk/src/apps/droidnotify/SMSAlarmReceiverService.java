@@ -5,8 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 
 /**
+ * This class handles scheduled SMS notifications that we want to display.
  * 
- * @author Camille Sevigny
+ * @author Camille Sévigny
  */
 public class SMSAlarmReceiverService extends WakefulIntentService {
 

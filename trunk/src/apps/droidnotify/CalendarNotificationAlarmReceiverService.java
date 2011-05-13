@@ -5,8 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 
 /**
+ * This class handles scheduled Calendar Event notifications that we want to display.
  * 
- * @author Camille Sevigny
+ * @author Camille Sévigny
  */
 public class CalendarNotificationAlarmReceiverService extends WakefulIntentService {
 	

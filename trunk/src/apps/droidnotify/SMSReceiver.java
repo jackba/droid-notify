@@ -10,9 +10,9 @@ import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 
 /**
- * This class listens for incoming text messages.
+ * This class listens for incoming SMS messages.
  * 
- * @author Camille Sevigny
+ * @author Camille Sévigny
  */
 public class SMSReceiver extends BroadcastReceiver{
 

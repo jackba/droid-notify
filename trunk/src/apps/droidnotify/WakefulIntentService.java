@@ -21,7 +21,7 @@ import android.os.PowerManager;
 /**
  * This class allows us to aquire a WakeLock, do work on an Intent, and then releases the WakeLock.
  * 
- * @author CommonsWare edited by Camille Sevigny
+ * @author CommonsWare edited by Camille Sévigny
  */
 abstract public class WakefulIntentService extends IntentService {
 	

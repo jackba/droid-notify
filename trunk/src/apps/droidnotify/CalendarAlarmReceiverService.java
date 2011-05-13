@@ -30,8 +30,9 @@ import android.preference.PreferenceManager;
 import android.text.format.DateUtils;
 
 /**
+ * This class handles the checking of the users calendars.
  * 
-* @author CommonsWare edited by Camille Sevigny
+ * @author CommonsWare edited by Camille Sévigny
  *
  */
 public class CalendarAlarmReceiverService extends WakefulIntentService {

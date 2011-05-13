@@ -7,9 +7,9 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 /**
+ * This class listens for scheduled notifications to check the users calendars.
  * 
- * 
- * @author Camille Sevigny
+ * @author Camille Sévigny
  */
 public class CalendarAlarmReceiver extends BroadcastReceiver {
 

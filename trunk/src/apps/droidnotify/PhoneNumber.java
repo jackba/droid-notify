@@ -1,8 +1,9 @@
 package apps.droidnotify;
 
 /**
+ * This is a small utility class to help format and compare phone numbers.
  * 
- * @author Camille Sevigny
+ * @author Camille Sévigny
  */
 public class PhoneNumber {
 	

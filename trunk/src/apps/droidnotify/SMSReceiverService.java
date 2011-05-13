@@ -7,7 +7,7 @@ import android.os.Bundle;
 /**
  * This class handles the work of processing incoming SMS messages.
  * 
- * @author Camille Sevigny
+ * @author Camille Sévigny
  */
 public class SMSReceiverService extends WakefulIntentService {
 

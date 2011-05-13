@@ -37,8 +37,7 @@ import android.widget.TextView;
 /**
  * This is the main activity that runs the notifications.
  * 
- * @author Camille Sevigny
- *
+ * @author Camille Sévigny
  */
 public class NotificationActivity extends Activity {
 
@@ -46,22 +45,15 @@ public class NotificationActivity extends Activity {
     // Constants
     //================================================================================
 	
-	//private final double WIDTH = 0.9;
-	//private final int MAX_WIDTH = 640;
-	
 	private final String DROID_NOTIFY_WAKELOCK = "DROID_NOTIFY_WAKELOCK";
 	private final String DROID_NOTIFY_KEYGUARD = "DROID_NOTIFY_KEYGUARD";
-	
-	private final int MENU_ITEM_SETTINGS = R.id.app_settings;
-	
+
 	private final int NOTIFICATION_TYPE_TEST = -1;
 	private final int NOTIFICATION_TYPE_PHONE = 0;
 	private final int NOTIFICATION_TYPE_SMS = 1;
 	private final int NOTIFICATION_TYPE_MMS = 2;
 	private final int NOTIFICATION_TYPE_CALENDAR = 3;
 	private final int NOTIFICATION_TYPE_EMAIL = 4;
-	
-	private final int DIALOG_DELETE_MESSAGE = 0;
 
 	private final String SCREEN_ENABLED_KEY = "screen_enabled";
 	private final String SCREEN_DIM_ENABLED_KEY = "screen_dim_enabled";
@@ -74,18 +66,17 @@ public class NotificationActivity extends Activity {
 	private final String SMS_DELETE_KEY = "sms_delete_button_action";
 	private final String MMS_DELETE_KEY = "mms_delete_button_action";
 	
-	//private final String SMS_DISMISS_ACTION_MARK_READ = "0";
 	private final String SMS_DELETE_ACTION_DELETE_MESSAGE = "0";
 	private final String SMS_DELETE_ACTION_DELETE_THREAD = "1";
 	private final String SMS_DELETE_ACTION_NOTHING = "2";
-	//private final String MMS_DISMISS_ACTION_MARK_READ = "0";
 	private final String MMS_DELETE_ACTION_DELETE_MESSAGE = "0";
 	private final String MMS_DELETE_ACTION_DELETE_THREAD = "1";
 	private final String MMS_DELETE_ACTION_NOTHING = "2";
 	
-	//private final int CONTACT_PHOTO_IMAGE_VIEW = R.id.contact_image_view;
-	private final int CONTACT_PHOTO_LINEAR_LAYOUT = R.id.contact_linear_layout;
+	private final int DIALOG_DELETE_MESSAGE = 0;
 	
+	private final int MENU_ITEM_SETTINGS = R.id.app_settings;
+	private final int CONTACT_PHOTO_LINEAR_LAYOUT = R.id.contact_linear_layout;
 	private final int VIEW_CONTACT_CONTEXT_MENU = R.id.view_contact;
 	private final int ADD_CONTACT_CONTEXT_MENU = R.id.add_contact;
 	private final int CALL_CONTACT_CONTEXT_MENU = R.id.call_contact;
@@ -112,7 +103,6 @@ public class NotificationActivity extends Activity {
 	private InputMethodManager _inputMethodManager = null;
 	private WakeLockHandler wakeLockHandler = new WakeLockHandler();
 	private KeyguardHandler keyguardHandler = new KeyguardHandler();
-	//private View _softKeyboardTriggerView = null;
 
 	//================================================================================
 	// Constructors
@@ -125,7 +115,7 @@ public class NotificationActivity extends Activity {
 	/**
 	 * Set the notificationViewFlipper property.
 	 * 
-	 * @param bundle
+	 * @param bundle - Bundle for this activity.
 	 */
 	public void setBundle(Bundle bundle) {
 		if (Log.getDebug()) Log.v("NotificationActivity.setBundle()");
@@ -135,7 +125,7 @@ public class NotificationActivity extends Activity {
 	/**
 	 * Get the notificationViewFlipper property.
 	 * 
-	 * @return _bundle
+	 * @return bundle - Bundle for this activity.
 	 */
 	public Bundle getBundle() {
 		if (Log.getDebug()) Log.v("NotificationActivity.getBundle()");
@@ -145,7 +135,7 @@ public class NotificationActivity extends Activity {
 	/**
 	 * Set the keyguardLock property.
 	 * 
-	 * @param keyguardLock
+	 * @param keyguardLock - Phone's KeyguardLock.
 	 */
 	public void setKeyguardLock(KeyguardLock keyguardLock) {
 		if (Log.getDebug()) Log.v("NotificationActivity.setKeyguardLock()");
@@ -155,7 +145,7 @@ public class NotificationActivity extends Activity {
 	/**
 	 * Get the keyguardLock property.
 	 * 
-	 * @return keyguardLock
+	 * @return keyguardLock - Phone's KeyguardLock.
 	 */
 	public KeyguardLock getKeyguardLock() {
 		if (Log.getDebug()) Log.v("NotificationActivity.getKeyguardLock()");
@@ -165,7 +155,7 @@ public class NotificationActivity extends Activity {
 	/**
 	 * Set the wakeLock property.
 	 * 
-	 * @param wakeLock
+	 * @param wakeLock - Phone's WakeLock.
 	 */
 	public void setWakeLock(WakeLock wakeLock) {
 		if (Log.getDebug()) Log.v("NotificationActivity.setWakeLock()");
@@ -175,7 +165,7 @@ public class NotificationActivity extends Activity {
 	/**
 	 * Get the wakeLock property.
 	 * 
-	 * @return wakeLock
+	 * @return wakeLock - Phone's WakeLock.
 	 */
 	public WakeLock getWakeLock() {
 		if (Log.getDebug()) Log.v("NotificationActivity.getWakeLock()");
@@ -185,7 +175,7 @@ public class NotificationActivity extends Activity {
 	/**
 	 * Set the context property.
 	 * 
-	 * @param context
+	 * @param context - Application's Context.
 	 */
 	public void setContext(Context context) {
 		if (Log.getDebug()) Log.v("NotificationActivity.setContext()");
@@ -195,7 +185,7 @@ public class NotificationActivity extends Activity {
 	/**
 	 * Get the context property.
 	 * 
-	 * @return context
+	 * @return context - Application's Context.
 	 */
 	public Context getContext() {
 		if (Log.getDebug()) Log.v("NotificationActivity.getContext()");
@@ -205,7 +195,7 @@ public class NotificationActivity extends Activity {
 	/**
 	 * Set the notificationViewFlipper property.
 	 * 
-	 * @param notificationViewFlipper
+	 * @param notificationViewFlipper - Applications' ViewFlipper.
 	 */
 	public void setNotificationViewFlipper(NotificationViewFlipper notificationViewFlipper) {
 		if (Log.getDebug()) Log.v("NotificationActivity.setNotificationViewFlipper()");
@@ -215,7 +205,7 @@ public class NotificationActivity extends Activity {
 	/**
 	 * Get the notificationViewFlipper property.
 	 * 
-	 * @return _notificationViewFlipper
+	 * @return notificationViewFlipper - Applications' ViewFlipper.
 	 */
 	public NotificationViewFlipper getNotificationViewFlipper() {
 		if (Log.getDebug()) Log.v("NotificationActivity.getNotificationViewFlipper()");
@@ -223,9 +213,9 @@ public class NotificationActivity extends Activity {
 	}
 	  
 	/**
-	 * Set the previousButton property.
+	 * Set the mainActivityLayout property.
 	 * 
-	 * @param mainActivityLayout
+	 * @param mainActivityLayout - The "main activity" LinearLayout
 	 */
 	public void setMainActivityLayout(LinearLayout mainActivityLayout) {
 		if (Log.getDebug()) Log.v("NotificationActivity.setMainActivityLayout()");
@@ -233,9 +223,9 @@ public class NotificationActivity extends Activity {
 	}
 	
 	/**
-	 * Get the previousButton property.
+	 * Get the mainActivityLayout property.
 	 * 
-	 * @return _mainActivityLayout
+	 * @return mainActivityLayout - The "main activity" LinearLayout
 	 */
 	public LinearLayout getMainActivityLayout() {
 		if (Log.getDebug()) Log.v("NotificationActivity.getMainActivityLayout()");
@@ -245,7 +235,7 @@ public class NotificationActivity extends Activity {
 	/**
 	 * Set the previousButton property.
 	 * 
-	 * @param previousButton
+	 * @param previousButton - The previous button.
 	 */
 	public void setPreviousButton(Button previousButton) {
 		if (Log.getDebug()) Log.v("NotificationActivity.setPreviousButton()");
@@ -255,7 +245,7 @@ public class NotificationActivity extends Activity {
 	/**
 	 * Get the previousButton property.
 	 * 
-	 * @return _previousButton
+	 * @return previousButton - The previous button.
 	 */
 	public Button getPreviousButton() {
 		if (Log.getDebug()) Log.v("NotificationActivity.getPreviousButton()");
@@ -265,7 +255,7 @@ public class NotificationActivity extends Activity {
 	/**
 	 * Set the nextButton property.
 	 * 
-	 * @param nextButton
+	 * @param nextButton - The next button.
 	 */
 	public void setNextButton(Button nextButton) {
 		if (Log.getDebug()) Log.v("NotificationActivity.setNextButton()");
@@ -275,7 +265,7 @@ public class NotificationActivity extends Activity {
 	/**
 	 * Get the previousButton property.
 	 * 
-	 * @return _nextButton
+	 * @return nextButton - The next button.
 	 */
 	public Button getNextButton() {
 		if (Log.getDebug()) Log.v("NotificationActivity.getNextButton()");
@@ -285,7 +275,7 @@ public class NotificationActivity extends Activity {
 	/**
 	 * Set the notificationCountTextView property.
 	 * 
-	 * @param notificationCountTextView
+	 * @param notificationCountTextView - The "notification count" TextView
 	 */
 	public void setNotificationCountTextView(TextView notificationCountTextView) {
 		if (Log.getDebug()) Log.v("NotificationActivity.setNotificationCountTextView()");
@@ -295,7 +285,7 @@ public class NotificationActivity extends Activity {
 	/**
 	 * Get the notificationCountTextView property.
 	 * 
-	 * @return _notificationCountTextView
+	 * @return notificationCountTextView - The "notification count" TextView
 	 */
 	public TextView getNotificationCountTextView() {
 		if (Log.getDebug()) Log.v("NotificationActivity.getNotificationCountTextView()");
@@ -305,7 +295,7 @@ public class NotificationActivity extends Activity {
 	/**
 	 * Set the inputMethodManager property.
 	 * 
-	 * @param inputMethodManager
+	 * @param InputMethodManager
 	 */
 	public void setInputMethodManager(InputMethodManager inputMethodManager) {
 		if (Log.getDebug()) Log.v("NotificationActivity.setInputMethodManager()");
@@ -315,32 +305,12 @@ public class NotificationActivity extends Activity {
 	/**
 	 * Get the inputMethodManager property.
 	 * 
-	 * @return _inputMethodManager
+	 * @return inputMethodManager - InputMethodManager
 	 */
 	public InputMethodManager getInputMethodManager() {
 		if (Log.getDebug()) Log.v("NotificationActivity.getInputMethodManager()");
 	    return _inputMethodManager;
 	}	
-
-//	/**
-//	 * Set the softKeyboardTriggerView property.
-//	 * 
-//	 * @param softKeyboardTriggerView
-//	 */
-//	public void setSoftKeyboardTriggerView(View softKeyboardTriggerView) {
-//		if (Log.getDebug()) Log.v("NotificationActivity.setSoftKeyboardTriggerView()");
-//		_softKeyboardTriggerView = softKeyboardTriggerView;
-//	}
-
-//	/**
-//	 * Get the softKeyboardTriggerView property.
-//	 *
-//	 * @return _softKeyboardTriggerView
-//	 */
-//	public View getSoftKeyboardTriggerView() {
-//		if (Log.getDebug()) Log.v("NotificationActivity.getGoftKeyboardTriggerView()");
-//	    return _softKeyboardTriggerView;
-//	}
 	
 	//================================================================================
 	// Public Methods
@@ -349,9 +319,9 @@ public class NotificationActivity extends Activity {
 	/**
 	 * Creates the menu item for this activity.
 	 * 
-	 * @param menu
+	 * @param menu - Menu.
 	 * 
-	 * @return boolean
+	 * @return boolean - Returns true to indicate that the menu was created.
 	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -363,23 +333,29 @@ public class NotificationActivity extends Activity {
 	/**
 	 * Handle the users selecting of the menu items.
 	 * 
-	 * @param item
+	 * @param menuItem - Menu Item .
 	 * 
-	 * @return boolean
+	 * @return boolean - Returns true to indicate that the action was handled.
 	 */
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
+	public boolean onOptionsItemSelected(MenuItem menuItem) {
 	    // Handle item selection
-	    switch (item.getItemId()) {
-	    case MENU_ITEM_SETTINGS:
-	        launchPreferenceScreen();
-	        return true;
+	    switch (menuItem.getItemId()){
+	    
+	    	case MENU_ITEM_SETTINGS:
+	    		launchPreferenceScreen();
+	    		return true;
+	    		
 	    }
 	    return false;
 	}
 	
 	/**
-	 * Create Context Menu (Long-press menu)
+	 * Create Context Menu (Long-press menu).
+	 * 
+	 * @param contextMenu - ContextMenu
+	 * @param view - View
+	 * @param contextMenuInfo - ContextMenuInfo
 	 */
 	@Override
 	public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenuInfo contextMenuInfo) {
@@ -388,7 +364,7 @@ public class NotificationActivity extends Activity {
 	    switch (view.getId()) {
 
 	        /*
-	         * Contact photo ConextMenu.
+	         * Contact info/photo ConextMenu.
 	         */
 			case CONTACT_PHOTO_LINEAR_LAYOUT:
 				MenuInflater menuInflater = getMenuInflater();
@@ -457,7 +433,9 @@ public class NotificationActivity extends Activity {
 	}
 
 	/**
-	 * Context Menu Item Selected  (Long-press menu item selected)
+	 * Context Menu Item Selected (Long-press menu item selected).
+	 * 
+	 * @param menuItem - Create the context meny items for this Activity.
 	 */
 	@Override
 	public boolean onContextItemSelected(MenuItem menuItem) {
@@ -642,7 +620,7 @@ public class NotificationActivity extends Activity {
 	/**
 	 * Called when the activity is created. Set up views and notifications.
 	 * 
-	 * @param bundle
+	 * @param bundle - Activity bundle.
 	 */
 	@Override
 	protected void onCreate(Bundle bundle) {
@@ -655,14 +633,6 @@ public class NotificationActivity extends Activity {
 	    Bundle extrasBundle = getIntent().getExtras();
 	    int notificationType = extrasBundle.getInt("notificationType");
 	    if (Log.getDebug()) Log.v("NotificationActivity.onCreate() Notification Type: " + notificationType);
-
-//	    //Remove the phone's KeyGuard & Wakelock.
-//	    //This does not work in Android Release 2.2 even though it should.
-//	    getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
-//	    		| WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
-//	    		| WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
-//	    		| WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON); 
-	    
 	    requestWindowFeature(Window.FEATURE_NO_TITLE);	    
 	    setContentView(R.layout.notificationwrapper);
 	    setupViews(notificationType);
@@ -701,7 +671,6 @@ public class NotificationActivity extends Activity {
 	    //TODO - Add user preference to set the timeout value to enable the Keyguard.
 	    keyguardHandler.sleep(30 * 1000);
 	}
-
 	  
 	/**
 	 * Activity was started after it stopped or for the first time.
@@ -757,9 +726,9 @@ public class NotificationActivity extends Activity {
 	/**
 	 * Create new Dialog.
 	 * 
-	 * @param id
+	 * @param id - ID of the Dialog that we want to display.
 	 * 
-	 * @return Dialog
+	 * @return Dialog - Popup Dialog created.
 	 */
 	@Override
 	protected Dialog onCreateDialog(int id) {
@@ -814,7 +783,7 @@ public class NotificationActivity extends Activity {
      * This is called when the activity is running and it is triggered and run again for a different notification.
      * This is a copy of the onCreate() method but without the initialization calls.
      * 
-     * @param intent
+     * @param intent - Activity intent.
      */
 	@Override
 	protected void onNewIntent(Intent intent) {
@@ -861,7 +830,7 @@ public class NotificationActivity extends Activity {
 	/**
 	 * Set up the ViewFlipper elements.
 	 * 
-	 * @param notificationType
+	 * @param notificationType - Notification type.
 	 */ 
 	private void setupViews(int notificationType) {
 		if (Log.getDebug()) Log.v("NotificationActivity.setupViews()");
@@ -897,7 +866,7 @@ public class NotificationActivity extends Activity {
 	/**
 	 * Setup the missed calls notifications.
 	 * 
-	 * @param bundle
+	 * @param bundle - Activity bundle.
 	 */
 	private boolean setupMissedCalls(Bundle bundle){
 		if (Log.getDebug()) Log.v("NotificationActivity.setupMissedCalls()"); 
@@ -921,7 +890,7 @@ public class NotificationActivity extends Activity {
 	/**
 	 * Setup the SMS/MMS message notifications.
 	 *
-	 * @param bundle
+	 * @param bundle - Activity bundle.
 	 */
 	private void setupMessages(Bundle bundle) {
 		if (Log.getDebug()) Log.v("NotificationActivity.setupMessages()"); 
@@ -937,6 +906,11 @@ public class NotificationActivity extends Activity {
 	    updateNavigationButtons(previousButton, notificationCountTextView, nextButton, notificationViewFlipper);
 	}
 	
+	/**
+	 * Setup the Calendar Event notifications.
+	 * 
+	 * @param bundle - Activity bundle.
+	 */
 	private void setupCalendarEventNotifications(Bundle bundle){
 		if (Log.getDebug()) Log.v("NotificationActivity.setupCalendarEventNotifications()");  
 		Context context = getContext();
@@ -975,9 +949,9 @@ public class NotificationActivity extends Activity {
 	/**
 	 * Update the navigation buttons and text when items are added or removed.
 	 * 
-	 * @param previousButton
-	 * @param notificationCountTextView
-	 * @param nextButton
+	 * @param previousButton - Next button of the flipper.
+	 * @param notificationCountTextView - View of the counts on the Activity.
+	 * @param nextButton - Next button of the flipper.
 	 */
     public void updateNavigationButtons(Button previousButton, TextView notificationCountTextView, Button nextButton, NotificationViewFlipper notificationViewFlipper){
     	if (Log.getDebug()) Log.v("NotificationActivity.updateNavigationButtons()");
@@ -985,45 +959,6 @@ public class NotificationActivity extends Activity {
     	notificationCountTextView.setText( (notificationViewFlipper.getCurrentNotification() + 1) + "/" + notificationViewFlipper.getTotalNotifications());
     	nextButton.setEnabled(!notificationViewFlipper.isLastMessage()); 		
     }
-   
-//	/**
-//	 * Resize the notification to fit the screen.
-//	 * Makes the notification pretty.
-//	 */
-//	private void resizeLayout() {
-//		if (Log.getDebug()) Log.v("NotificationActivity.resizeLayout()");
-//		Display d = getWindowManager().getDefaultDisplay();
-//		int width = d.getWidth() > MAX_WIDTH ? MAX_WIDTH : (int) (d.getWidth() * WIDTH);
-//		getMainActivityLayout().setMinimumWidth(width);
-//		getMainActivityLayout().invalidate();
-//	}
-//
-//	/**
-//	 * Show the soft keyboard and store the view that triggered it.
-//	 * 
-//	 * @param triggeringView
-//	 */
-//	private void showSoftKeyboard(View triggeringView) {
-//		if (Log.getDebug()) Log.v("NotificationActivity.showSoftKeyboard()");
-//	    if (getInputMethodManager() == null) {
-//	    	setInputMethodManager((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE));
-//	    }
-//	    setSoftKeyboardTriggerView(triggeringView);
-//	    getInputMethodManager().toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
-//	}
-//	
-//	/**
-//	 * Hide the soft keyboard.
-//	 */
-//	private void hideSoftKeyboard() {
-//		if (Log.getDebug()) Log.v("NotificationActivity.hideSoftKeyboard()");
-//	    if (getSoftKeyboardTriggerView() == null) return;
-//	    if (getInputMethodManager() == null) {
-//	    	setInputMethodManager((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE));
-//	    }
-//	    getInputMethodManager().hideSoftInputFromWindow(getSoftKeyboardTriggerView().getApplicationWindowToken(), 0);
-//	    setSoftKeyboardTriggerView(null);
-//	}
 	
 	/**
 	 * Delete the current message from the users phone.
@@ -1210,14 +1145,14 @@ public class NotificationActivity extends Activity {
 	/**
 	 * This class is a Handler that executes in it's own thread and is used to delay the releasing of the WakeLock.
 	 * 
-	 * @author Camille Sevigny
+	 * @author Camille Sévigny
 	 */
 	class WakeLockHandler extends Handler {
 
 		/**
 		 * Handles the delayed function call when the sleep period is over.
 		 * 
-		 * @param msg
+		 * @param msg - Message to be handled.
 		 */
 		@Override
 	    public void handleMessage(Message msg) {
@@ -1228,7 +1163,7 @@ public class NotificationActivity extends Activity {
 		/**
 		 * Put the thread to sleep for a period of time.
 		 * 
-		 * @param delayMillis
+		 * @param delayMillis - Delay time in milliseconds.
 		 */
 	    public void sleep(long delayMillis) {
 	    	if (Log.getDebug()) Log.v("WakeLockHandler.sleep()");
@@ -1241,14 +1176,14 @@ public class NotificationActivity extends Activity {
 	/**
 	 * This class is a Handler that executes in it's own thread and is used to delay the releasing of the Keyguard.
 	 * 
-	 * @author Camille Sevigny
+	 * @author Camille Sévigny
 	 */
 	class KeyguardHandler extends Handler {
 
 		/**
 		 * Handles the delayed function call when the sleep period is over.
 		 * 
-		 * @param msg
+		 * @param msg - Message to be handled.
 		 */
 		@Override
 		public void handleMessage(Message msg) {
@@ -1259,7 +1194,7 @@ public class NotificationActivity extends Activity {
 		/**
 		 * Put the thread to sleep for a period of time.
 		 * 
-		 * @param delayMillis
+		 * @param delayMillis - Delay time in milliseconds.
 		 */
 		public void sleep(long delayMillis) {
 			if (Log.getDebug()) Log.v("KeyguardHandler.sleep()");
