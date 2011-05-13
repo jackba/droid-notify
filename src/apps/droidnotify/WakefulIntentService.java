@@ -10,8 +10,7 @@ package apps.droidnotify;
 	OF ANY KIND, either express or implied. See the License for the specific
 	language governing permissions and limitations under the License.
 	
-	From _The Busy Coder's Guide to Advanced Android Development_
-		http://commonsware.com/AdvAndroid
+	From _The Busy Coder's Guide to Advanced Android Development_ http://commonsware.com/AdvAndroid
 */
 
 import android.app.IntentService;
@@ -20,9 +19,9 @@ import android.content.Intent;
 import android.os.PowerManager;
 
 /**
+ * This class allows us to aquire a WakeLock, do work on an Intent, and then releases the WakeLock.
  * 
- * @author CommonsWare
- *
+ * @author CommonsWare edited by Camille Sevigny
  */
 abstract public class WakefulIntentService extends IntentService {
 	
@@ -32,9 +31,9 @@ abstract public class WakefulIntentService extends IntentService {
 	private static PowerManager.WakeLock lockStatic = null;
 
 	/**
+	 * Class Constructor.
 	 * 
-	 * 
-	 * @param name
+	 * @param name - String name of the service.
 	 */
 	public WakefulIntentService(String name) {
 		super(name);
@@ -42,9 +41,9 @@ abstract public class WakefulIntentService extends IntentService {
 	}
 	
 	/**
+	 * Aquire the WakeLock.
 	 * 
-	 * 
-	 * @param context
+	 * @param context - Application Context.
 	 */
 	public static void acquireStaticLock(Context context) {
 		if (Log.getDebug()) Log.v("WakefulIntentService.acquireStaticLock()");
@@ -52,11 +51,11 @@ abstract public class WakefulIntentService extends IntentService {
 	}
 
 	/**
+	 * Instantiates the WakeLock and returns in.
 	 * 
+	 * @param context - Application Context.
 	 * 
-	 * @param context
-	 * 
-	 * @return WakeLock
+	 * @return WakeLock - Returns the instantiated WakeLock.
 	 */
 	synchronized private static PowerManager.WakeLock getLock(Context context) {
 		if (Log.getDebug()) Log.v("WakefulIntentService.getLock()");
@@ -69,9 +68,9 @@ abstract public class WakefulIntentService extends IntentService {
 	}
     
 	/**
+	 * Handles the intent that we are working with.
 	 * 
-	 * 
-	 * @param intent
+	  * @param intent - Intent object that we are working with.
 	 */
 	@Override
 	final protected void onHandleIntent(Intent intent) {

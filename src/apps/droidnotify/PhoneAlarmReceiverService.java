@@ -8,6 +8,10 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 
+/**
+ * 
+ * @author Camille Sevigny
+ */
 public class PhoneAlarmReceiverService extends WakefulIntentService {
 
 	//================================================================================
@@ -15,10 +19,6 @@ public class PhoneAlarmReceiverService extends WakefulIntentService {
     //================================================================================
 	
 	private final int NOTIFICATION_TYPE_PHONE = 0;
-	//private final int NOTIFICATION_TYPE_SMS = 1;
-	//private final int NOTIFICATION_TYPE_MMS = 2;
-	//private final int NOTIFICATION_TYPE_CALENDAR = 3;
-	//private final int NOTIFICATION_TYPE_EMAIL = 4;
 	private final int MISSED_CALL_TYPE = android.provider.CallLog.Calls.MISSED_TYPE;
 	
 	//================================================================================
@@ -38,7 +38,7 @@ public class PhoneAlarmReceiverService extends WakefulIntentService {
 	//================================================================================
 	
 	/**
-	 * 
+	 * Class Constructor
 	 */
 	public PhoneAlarmReceiverService() {
 		super("PhoneAlarmReceiverService");
@@ -50,9 +50,9 @@ public class PhoneAlarmReceiverService extends WakefulIntentService {
 	//================================================================================
 	
 	/**
-	 * Display the notification for this possible Missed Call.
+	 * Display the notification for this Missed Call.
 	 * 
-	 * @param intent
+	 * @param intent - Intent object that we are working with.
 	 */
 	@Override
 	protected void doWakefulWork(Intent intent) {

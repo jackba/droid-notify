@@ -1,9 +1,9 @@
 package apps.droidnotify;
 
 /**
+ * This class logs messages to the Android log file.
  * 
  * @author Camille Sevigny
- *
  */
 public class Log {
 	
@@ -25,7 +25,7 @@ public class Log {
 	/**
 	 *  Get logTag property.
 	 *  
-	 *  @return _logTag
+	 *  @return String - Returns the tag of these log entries.
 	 */
 	public static String getLogTag(){
 		return _logTag;
@@ -34,7 +34,7 @@ public class Log {
 	/**
 	 *  Get debug property.
 	 *  
-	 *  @return _debug
+	 *  @return boolean - Returns true if the log class is set to log entries.
 	 */
 	public static boolean getDebug(){
 		return _debug;
@@ -47,7 +47,7 @@ public class Log {
 	/**
 	 *  Add an entry to the Android LogCat log under the V (Verbose) type.
 	 *  
-	 *  @param msg
+	 *  @param msg - Entry to be made to the log file.
 	 */
 	public static void v(String msg) {
 		android.util.Log.v(getLogTag(), msg);
@@ -56,7 +56,7 @@ public class Log {
 	/**
 	 *  Add an entry to the Android LogCat log under the D (Debug) type.
 	 *  
-	 *  @param msg
+	 *  @param msg - Entry to be made to the log file.
 	 */
 	public static void d(String msg) {
 		android.util.Log.d(getLogTag(), msg);
@@ -65,7 +65,7 @@ public class Log {
 	/**
 	 *  Add an entry to the Android LogCat log under the I (Info) type.
 	 *  
-	 *  @param msg
+	 *  @param msg - Entry to be made to the log file.
 	 */
 	public static void i(String msg) {
 		android.util.Log.i(getLogTag(), msg);
@@ -74,7 +74,7 @@ public class Log {
 	/**
 	 *  Add an entry to the Android LogCat log under the W (Warning) type.
 	 *  
-	 *  @param msg
+	 *  @param msg - Entry to be made to the log file.
 	 */
 	public static void w(String msg) {
 		android.util.Log.w(getLogTag(), msg);
@@ -83,7 +83,7 @@ public class Log {
 	/**
 	 *  Add an entry to the Android LogCat log under the E (Error) type.
 	 *  
-	 *  @param msg
+	 *  @param msg - Entry to be made to the log file.
 	 */
 	public static void e(String msg) {
 		android.util.Log.e(getLogTag(), msg);

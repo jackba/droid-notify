@@ -4,17 +4,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+/**
+ * 
+ * @author Camille Sevigny
+ */
 public class SMSAlarmReceiverService extends WakefulIntentService {
 
 	//================================================================================
     // Constants
     //================================================================================
 	
-	//private final int NOTIFICATION_TYPE_PHONE = 0;
 	private final int NOTIFICATION_TYPE_SMS = 1;
-	//private final int NOTIFICATION_TYPE_MMS = 2;
-	//private final int NOTIFICATION_TYPE_CALENDAR = 3;
-	//private final int NOTIFICATION_TYPE_EMAIL = 4;
 	
 	//================================================================================
     // Properties
@@ -33,7 +33,7 @@ public class SMSAlarmReceiverService extends WakefulIntentService {
 	//================================================================================
 	
 	/**
-	 * 
+	 * Class Constructor.
 	 */
 	public SMSAlarmReceiverService() {
 		super("SMSAlarmReceiverService");
@@ -47,7 +47,7 @@ public class SMSAlarmReceiverService extends WakefulIntentService {
 	/**
 	 * Do the work for the service inside this function.
 	 * 
-	 * @param intent
+	 * @param intent - Intent object that we are working with.
 	 */
 	@Override
 	protected void doWakefulWork(Intent intent) {
@@ -63,17 +63,17 @@ public class SMSAlarmReceiverService extends WakefulIntentService {
 	 * Display the notification to the screen.
 	 * Send add the SMS message to the intent object that we created for the new activity.
 	 * 
-	 * @param intent
+	 * @param intent - Intent object that we are working with.
 	 */
 	private void startNotificationActivity(Intent intent) {
 		if (Log.getDebug()) Log.v("SMSReceiverService.startNotificationActivity()");
 		Context context = getApplicationContext();
 		Bundle bundle = intent.getExtras();
 		bundle.putInt("notificationType", NOTIFICATION_TYPE_SMS);
-    	Intent smsNotificationIntent = new Intent(context, NotificationActivity.class);
-    	smsNotificationIntent.putExtras(bundle);
-    	smsNotificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-    	context.startActivity(smsNotificationIntent);
+    	Intent smsIntent = new Intent(context, NotificationActivity.class);
+    	smsIntent.putExtras(bundle);
+    	smsIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+    	context.startActivity(smsIntent);
 	}
 
 }

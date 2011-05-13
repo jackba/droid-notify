@@ -91,7 +91,7 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
 	/**
 	 * This service function should read the users calendar events for the next 25 hours and start alarms for each one individually.
 	 * 
-	 * @param intent
+	 * @param intent - Intent object that we are working with.
 	 */
 	@Override
 	protected void doWakefulWork(Intent intent) {
@@ -106,9 +106,10 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
 	//================================================================================
 	
 	/**
+	 * Read the phones calendars and events. 
+	 * Schedules Calendar Event notifications based on the Event date and time.
 	 * 
-	 * 
-	 * @param context
+	 * @param context - Application Context.
 	 */
 	public void readCalendars(Context context) {
 		if (Log.getDebug()) Log.v("CalendarAlarmReceiverService.readCalendars()");
@@ -192,12 +193,12 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
 	/**
 	 * Schedule an alarm that will trigger a Notification for a Calendar Event.
 	 * 
-	 * @param context
-	 * @param scheduledAlarmTime
-	 * @param title
-	 * @param timeStamp
-	 * @param calendarID
-	 * @param eventID
+	 * @param context - Application Context.
+	 * @param scheduledAlarmTime - Time the alarm should be scheduled.
+	 * @param title - Title of the Calendar Event.
+	 * @param timeStamp - TimeStamp of the Calendar Event.
+	 * @param calendarID - Calendar ID of the Calendar Event.
+	 * @param eventID - Event ID of the Calendar Event.
 	 */
 	private void scheduleCalendarNotification(Context context, long scheduledAlarmTime, String title, String eventStartTime, String eventEndTime, String eventAllDay, String calendarID, String eventID){
 		if (Log.getDebug()) Log.v("CalendarAlarmReceiverService.scheduleCalendarNotification()");
