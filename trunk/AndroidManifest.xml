@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest 
 	xmlns:android="http://schemas.android.com/apk/res/android" 
-	package="apps.droidnotify" 
-	android:versionCode="1" 
-	android:versionName="@string/app_name_formatted_version" >
+	package="apps.droidnotify"
+      android:versionCode="1"
+      android:versionName="0.9" >
 	<uses-sdk 
-		android:minSdkVersion="7" 
-		android:targetSdkVersion="7" />
+		android:minSdkVersion="5" 
+		android:targetSdkVersion="8" />
 	<supports-screens
 		android:largeScreens="true"
 		android:normalScreens="true"
