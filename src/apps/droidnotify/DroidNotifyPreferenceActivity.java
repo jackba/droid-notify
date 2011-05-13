@@ -15,8 +15,9 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 /**
+ * This is the applications preference Activity.
  * 
- * @author Camille Sevigny
+ * @author Camille Sévigny
  */
 public class DroidNotifyPreferenceActivity extends PreferenceActivity implements OnSharedPreferenceChangeListener {
 

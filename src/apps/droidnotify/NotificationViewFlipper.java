@@ -12,8 +12,9 @@ import android.view.animation.TranslateAnimation;
 import android.widget.ViewFlipper;
 
 /**
+ * This class is the main control window that displays and moves the Notifications.
  * 
- * @author Camille Sevigny
+ * @author Camille Sévigny
  */
 public class NotificationViewFlipper extends ViewFlipper {
 

@@ -3,7 +3,7 @@ package apps.droidnotify;
 /**
  * This class logs messages to the Android log file.
  * 
- * @author Camille Sevigny
+ * @author Camille Sévigny
  */
 public class Log {
 	
@@ -12,7 +12,7 @@ public class Log {
     //================================================================================
 	
 	private static final String _logTag = "DroidNotify";
-	private static final boolean _debug = true;
+	private static final boolean _debug = false;
 
 	//================================================================================
 	// Constructors

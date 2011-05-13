@@ -9,8 +9,9 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 /**
+ * This class listens for the OnBoot event from the users phone. Then it schedules the users calendars to be checked.
  * 
- * @author Camille Sevigny
+ * @author Camille Sévigny
  */
 public class CalendarOnBootReceiver extends BroadcastReceiver {
 

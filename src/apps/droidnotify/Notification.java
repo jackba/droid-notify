@@ -20,9 +20,9 @@ import android.telephony.SmsMessage;
 import android.telephony.SmsMessage.MessageClass;
 
 /**
+ * This is the Notification class that holds all the information about all notifications we will display to the user.
  * 
- * @author Camille Sevigny
- *
+ * @author Camille Sévigny
  */
 public class Notification {
 	
@@ -84,11 +84,8 @@ public class Notification {
 	//================================================================================
   
 	/**
+	 * Class Constructor
 	 * This constructor should be called for SMS & MMS Messages.
-	 * 
-	 * @param context
-	 * @param bundle
-	 * @param notificationType
 	 */
 	public Notification(Context context, Bundle bundle, int notificationType) {
 		if (Log.getDebug()) Log.v("Notification.Notification(Context context, Bundle bundle, int notificationType)");
@@ -109,8 +106,10 @@ public class Notification {
 	                msgs[i] = SmsMessage.createFromPdu((byte[])pdus[i]);                
 	            }
 	            SmsMessage sms = msgs[0];
-	            setTimeStamp(sms.getTimestampMillis());
-	    		setPhoneNumber(sms.getDisplayOriginatingAddress());
+	            long timeStamp = sms.getTimestampMillis();
+	            setTimeStamp(timeStamp);
+	            String phoneNumber = sms.getDisplayOriginatingAddress();
+	    		setPhoneNumber(phoneNumber);
 	    		setFromEmailGateway(sms.isEmail());
 	    		setMessageClass(sms.getMessageClass());
 	    		setTitle("SMS Message");
@@ -119,9 +118,9 @@ public class Notification {
 	                messageBody += msgs[i].getMessageBody().toString();
 	            }
 	            setMessageBody(messageBody);
-	    		loadThreadID(getContext(), getPhoneNumber());
-	    		loadMessageID(getContext(), getThreadID(), getMessageBody(), getTimeStamp());
-	    		loadContactsInfoByPhoneNumber(getContext(), getPhoneNumber());
+	    		loadThreadID(context, phoneNumber);
+	    		loadMessageID(context, getThreadID(), messageBody, timeStamp);
+	    		loadContactsInfoByPhoneNumber(context, phoneNumber);
         	}
     	    if(notificationType == NOTIFICATION_TYPE_MMS){
     	    	setTitle("MMS Message");
@@ -137,11 +136,8 @@ public class Notification {
 	}
 
 	/**
+	 * Class Constructor
 	 * This constructor should be called for TEST SMS & MMS Messages.
-	 * 
-	 * @param context
-	 * @param bundle
-	 * @param notificationType
 	 */
 	public Notification(Context context, String phoneNumber, String messageBody, long timeStamp, int notificationType) {
 		if (Log.getDebug()) Log.v("Notification.Notification(Context context, String phoneNumber, String messageBody, long timeStamp, int notificationType)");
@@ -154,18 +150,11 @@ public class Notification {
 		setMessageClass(MessageClass.CLASS_0);
 		setTitle("SMS Message");
         setMessageBody(messageBody);
-		loadThreadID(getContext(), getPhoneNumber());
-		loadMessageID(getContext(), getThreadID(), getMessageBody(), getTimeStamp());
-		loadContactsInfoByPhoneNumber(getContext(), getPhoneNumber());
 	}
 	
 	/**
+	 * Class Constructor
 	 * This constructor should be called for Missed Calls.
-	 * 
-	 * @param context
-	 * @param phoneNumber
-	 * @param timestamp
-	 * @param notificationType
 	 */
 	public Notification(Context context, String phoneNumber, long timeStamp, int notificationType){
 		if (Log.getDebug()) Log.v("Notification.Notification(Context context, String phoneNumber, long timeStamp, int notificationType)");
@@ -177,7 +166,7 @@ public class Notification {
     		setPhoneNumber(phoneNumber);
     		setTimeStamp(timeStamp);
       		setTitle("Missed Call");
-    		loadContactsInfoByPhoneNumber(getContext(), getPhoneNumber());
+    		loadContactsInfoByPhoneNumber(context, phoneNumber);
 	    }
     	if(notificationType == NOTIFICATION_TYPE_SMS || notificationType == NOTIFICATION_TYPE_MMS){
     		//Do Nothing. This should not be called if a SMS or MMS is received.
@@ -191,12 +180,8 @@ public class Notification {
 	}
 
 	/**
+	 * Class Constructor
 	 * This constructor should be called for Calendar Events.
-	 * 
-	 * @param context
-	 * @param phoneNumber
-	 * @param timestamp
-	 * @param notificationType
 	 */
 	public Notification(Context context, String title, String messageBody, long eventStartTime, long eventEndTime, boolean allDay, long calendarID, long calendarEventID, int notificationType){
 		if (Log.getDebug()) Log.v("Notification.Notification(Context context, String title, String messageBody, long eventStartTime, long eventEndTime, boolean allDay, long calendarID, long calendarEventID, int notificationType)");
@@ -207,9 +192,13 @@ public class Notification {
     	if(notificationType == NOTIFICATION_TYPE_PHONE){
     		//Do Nothing. This should not be called if a missed call is received.
 	    }
-    	if(notificationType == NOTIFICATION_TYPE_SMS || notificationType == NOTIFICATION_TYPE_MMS){
-    		if (Log.getDebug()) Log.v("Notification.Notification() NOTIFICATION_TYPE_SMS OR NOTIFICATION_TYPE_MMS");
-    		//Do Nothing. This should not be called if a SMS or MMS is received.
+    	if(notificationType == NOTIFICATION_TYPE_SMS){
+    		if (Log.getDebug()) Log.v("Notification.Notification() NOTIFICATION_TYPE_SMS");
+    		//Do Nothing. This should not be called if a SMS is received.
+    	}   		
+    	if(notificationType == NOTIFICATION_TYPE_MMS){
+    		if (Log.getDebug()) Log.v("Notification.Notification() NOTIFICATION_TYPE_MMS");
+    		//Do Nothing. This should not be called if an MMS is received.
     	}
 	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
 	    	setTimeStamp(eventStartTime);
@@ -232,6 +221,8 @@ public class Notification {
 
 	/**
 	 * Set the context property.
+	 * 
+	 * @param context - Applications Context.
 	 */
 	public void setContext(Context context) {
 		if (Log.getDebug()) Log.v("Notification.setContext()");
@@ -240,6 +231,8 @@ public class Notification {
 	
 	/**
 	 * Get the context property.
+	 * 
+	 * @return context - Applications Context.
 	 */
 	public Context getContext() {
 		if (Log.getDebug()) Log.v("Notification.getContext()");
@@ -248,6 +241,8 @@ public class Notification {
 
 	/**
 	 * Set the addressBookPhoneNumber property.
+	 * 
+	 * @param addressBookPhoneNumber - Phone's contact phone number.
 	 */
 	public void setAddressBookPhoneNumber(String addressBookPhoneNumber) {
 		if (Log.getDebug()) Log.v("Notification.setAddressBookPhoneNumber() PhoneNumber: " + addressBookPhoneNumber);
@@ -256,6 +251,8 @@ public class Notification {
 	
 	/**
 	 * Get the addressBookPhoneNumber property.
+	 * 
+	 * @return addressBookPhoneNumber - Phone's contact phone number or stored phone number if not available.
 	 */
 	public String getAddressBookPhoneNumber() {
 		if (Log.getDebug()) Log.v("Notification.getAddressBookPhoneNumber()");
@@ -270,6 +267,8 @@ public class Notification {
 
 	/**
 	 * Set the phoneNumber property.
+	 * 
+	 * @param phoneNumber - Contact's phone number.
 	 */
 	public void setPhoneNumber(String phoneNumber) {
 		if (Log.getDebug()) Log.v("Notification.setPhoneNumber() PhoneNumber: " + phoneNumber);
@@ -278,6 +277,8 @@ public class Notification {
 	
 	/**
 	 * Get the phoneNumber property.
+	 * 
+	 * @return phoneNumber - Contact's phone number.
 	 */
 	public String getPhoneNumber() {
 		if (Log.getDebug()) Log.v("Notification.getPhoneNumber()");
@@ -286,6 +287,8 @@ public class Notification {
 	
 	/**
 	 * Set the messageBody property.
+	 * 
+	 * @param messageBody - Notification's message.
 	 */
 	public void setMessageBody(String messageBody) {
 		if (Log.getDebug()) Log.v("Notification.setMessageBody() MessageBody: " + messageBody);
@@ -294,6 +297,8 @@ public class Notification {
 	
 	/**
 	 * Get the messageBody property.
+	 * 
+	 * @return messageBody - Notification's message.
 	 */
 	public String getMessageBody() {
 		if (Log.getDebug()) Log.v("Notification.getMessageBody()");
@@ -305,6 +310,8 @@ public class Notification {
 
 	/**
 	 * Set the timeStamp property.
+	 * 
+	 * @param timeStamp - TimeStamp of notification.
 	 */
 	public void setTimeStamp(long timeStamp) {
 		if (Log.getDebug()) Log.v("Notification.setTimeStamp() TimeStamp: " + timeStamp);
@@ -313,6 +320,8 @@ public class Notification {
 	
 	/**
 	 * Get the timeStamp property.
+	 * 
+	 * @return timeStamp - TimeStamp of notification.
 	 */
 	public long getTimeStamp() {
 		if (Log.getDebug()) Log.v("Notification.getTimeStamp()");
@@ -321,6 +330,8 @@ public class Notification {
 	
 	/**
 	 * Set the threadID property.
+	 * 
+	 * @param threadID - SMS/MMS Message thread id.
 	 */
 	public void setThreadID(long threadID) {
 		if (Log.getDebug()) Log.v("Notification.setThreadID() ThreadID: " + threadID);
@@ -329,6 +340,8 @@ public class Notification {
 	
 	/**
 	 * Get the threadID property.
+	 * 
+	 * @return threadID - SMS/MMS Message thread id.
 	 */
 	public long getThreadID() {
 		if(_threadID == 0){
@@ -340,6 +353,8 @@ public class Notification {
 	
 	/**
 	 * Set the contactID property.
+	 * 
+	 * @param contactID - Contact's ID.
 	 */
 	public void setContactID(long contactID) {
 		if (Log.getDebug()) Log.v("Notification.setContactID() ContactID: " + contactID);
@@ -348,6 +363,8 @@ public class Notification {
 	
 	/**
 	 * Get the contactID property.
+	 * 
+	 * @return contactID - Contact's ID.
 	 */
 	public long getContactID() {
 		if (Log.getDebug()) Log.v("Notification.getContactID()");
@@ -359,6 +376,8 @@ public class Notification {
 	
 	/**
 	 * Set the contactLookupKey property.
+	 * 
+	 * @param contactLookupKey - Contact's lookup key.
 	 */
 	public void setContactLookupKey(String contactLookupKey) {
 		if (Log.getDebug()) Log.v("Notification.setContactLookupKey() ContactLookupKey: " + contactLookupKey);
@@ -367,6 +386,8 @@ public class Notification {
 	
 	/**
 	 * Get the contactLookupKey property.
+	 * 
+	 * @return contactLookupKey - Contact's lookup key.
 	 */
 	public String getContactLookupKey() {
 		if (Log.getDebug()) Log.v("Notification.getContactLookupKey()");
@@ -378,6 +399,8 @@ public class Notification {
 
 	/**
 	 * Set the contactName property.
+	 * 
+	 * @param contactName - Contact's display name.
 	 */
 	public void setContactName(String contactName) {
 		if (Log.getDebug()) Log.v("Notification.setContactName() ContactName: " + contactName);
@@ -386,6 +409,8 @@ public class Notification {
 	
 	/**
 	 * Get the contactName property.
+	 * 
+	 * @return contactName - Contact's display name.
 	 */
 	public String getContactName() {
 		if (Log.getDebug()) Log.v("Notification.getContactName()");
@@ -397,6 +422,8 @@ public class Notification {
 
 	/**
 	 * Set the photoID property.
+	 * 
+	 * @param photoID - Contact's photo id.
 	 */
 	public void setPhotoID(long photoID) {
 		if (Log.getDebug()) Log.v("Notification.setPhotoID() PhotoID: " + photoID);
@@ -405,6 +432,8 @@ public class Notification {
 	
 	/**
 	 * Get the photoID property.
+	 * 
+	 * @return photoID - Contact's photo id.
 	 */
 	public long getPhotoID() {
 		if (Log.getDebug()) Log.v("Notification.getPhotoID()");
@@ -413,6 +442,8 @@ public class Notification {
 
 	/**
 	 * Set the photoImg property.
+	 * 
+	 * @param photoImg - Bitmap of contact's photo.
 	 */
 	public void setPhotoImg(Bitmap photoImg) {
 		if (Log.getDebug()) Log.v("Notification.setPhotoID() PhotoIImg: " + photoImg);
@@ -421,6 +452,8 @@ public class Notification {
 	
 	/**
 	 * Get the photoIImg property.
+	 * 
+	 * @return photoImg - Bitmap of contact's photo.
 	 */
 	public Bitmap getPhotoImg() {
 		if (Log.getDebug()) Log.v("Notification.getPhotoIImg()");
@@ -429,6 +462,8 @@ public class Notification {
 	
 	/**
 	 * Set the notificationType property.
+	 * 
+	 * @param notificationType - The type of notification this is.
 	 */
 	public void setNotificationType(int notificationType) {
 		if (Log.getDebug()) Log.v("Notification.setNotificationType() NotificationType: " + notificationType);
@@ -437,6 +472,8 @@ public class Notification {
 	
 	/**
 	 * Get the notificationType property.
+	 * 
+	 * @return notificationType - The type of notification this is.
 	 */
 	public int getNotificationType() {
 		if (Log.getDebug()) Log.v("Notification.getNotificationType()");
@@ -445,6 +482,8 @@ public class Notification {
 
 	/**
 	 * Set the messageID property.
+	 * 
+	 * @param messageID - The message id of the SMS/MMS message.
 	 */
 	public void setMessageID(long messageID) {
 		if (Log.getDebug()) Log.v("Notification.setMessageID() MessageID: " + messageID);
@@ -453,6 +492,8 @@ public class Notification {
 	
 	/**
 	 * Get the messageID property.
+	 * 
+	 * @return messageID - The message id of the SMS/MMS message.
 	 */
 	public long getMessageID() {
 		if (Log.getDebug()) Log.v("Notification.getMessageID()");
@@ -464,6 +505,8 @@ public class Notification {
 
 	/**
 	 * Set the fromEmailGateway property.
+	 * 
+	 * @param fromEmailGateway - Boolean which is true if the message came from an email gateway.
 	 */
 	public void setFromEmailGateway(boolean fromEmailGateway) {
 		if (Log.getDebug()) Log.v("Notification.setFromEmailGateway() FromEmailGateway: " + fromEmailGateway);
@@ -472,6 +515,8 @@ public class Notification {
 	
 	/**
 	 * Get the fromEmailGateway property.
+	 * 
+	 * @return fromEmailGateway - Boolean which returns true if the message came from an email gateway.
 	 */
 	public boolean setFromEmailGateway() {
 		if (Log.getDebug()) Log.v("Notification.getFromEmailGateway()");
@@ -480,6 +525,8 @@ public class Notification {
 
 	/**
 	 * Set the messageClass property.
+	 * 
+	 * @param messageClass - The message class of the SMS/MMS message.
 	 */
 	public void setMessageClass(MessageClass messageClass) {
 		if (Log.getDebug()) Log.v("Notification.setMessageClass()");
@@ -488,6 +535,8 @@ public class Notification {
 	
 	/**
 	 * Get the messageClass property.
+	 * 
+	 * @return messageClass - The message class of the SMS/MMS message.
 	 */
 	public MessageClass getMessageClass() {
 		if (Log.getDebug()) Log.v("Notification.getMessageClass()");
@@ -496,6 +545,8 @@ public class Notification {
 
 	/**
 	 * Set the contactExists property.
+	 * 
+	 * @param contactExists - Boolean which is true if there is a contact in the phone linked to this notification.
 	 */
 	public void setContactExists(boolean contactExists) {
 		if (Log.getDebug()) Log.v("Notification.setContactExists()");
@@ -504,6 +555,8 @@ public class Notification {
 	
 	/**
 	 * Get the contactExists property.
+	 * 
+	 * @return  contactExists - Boolean returns true if there is a contact in the phone linked to this notification.
 	 */
 	public boolean getContactExists() {
 		if (Log.getDebug()) Log.v("Notification.getContactExists()");
@@ -511,7 +564,9 @@ public class Notification {
 	}
 
 	/**
-	 * Set the contactExists property.
+	 * Set the contactPhotoExists property.
+	 * 
+	 * @param contactPhotoExists - Boolean which is true if there is a contact photo in the phone linked to this notification.
 	 */
 	public void setContactPhotoExists(boolean contactPhotoExists) {
 		if (Log.getDebug()) Log.v("Notification.setContactPhotoExists()");
@@ -519,7 +574,9 @@ public class Notification {
 	}
 	
 	/**
-	 * Get the contactExists property.
+	 * Get the contactPhotoExists property.
+	 * 
+	 * @return contactPhotoExists - Boolean which is true if there is a contact photo in the phone linked to this notification.
 	 */
 	public boolean getContactPhotoExists() {
 		if (Log.getDebug()) Log.v("Notification.getContactPhotoExists()");
@@ -528,6 +585,8 @@ public class Notification {
 
 	/**
 	 * Set the title property.
+	 * 
+	 * @param title - Notification title.
 	 */
 	public void setTitle(String title) {
 		if (Log.getDebug()) Log.v("Notification.setTitle() Title: " + title);
@@ -536,6 +595,8 @@ public class Notification {
 	
 	/**
 	 * Get the title property.
+	 * 
+	 * @return title - Notification title.
 	 */
 	public String getTitle() {
 		if (Log.getDebug()) Log.v("Notification.getTitle() Title: " + _title);
@@ -544,6 +605,8 @@ public class Notification {
 
 	/**
 	 * Set the email property.
+	 * 
+	 * @param setEmail - Contact's email address.
 	 */
 	public void setEmail(String email) {
 		if (Log.getDebug()) Log.v("Notification.setEmail() Email: " + email);
@@ -552,6 +615,8 @@ public class Notification {
 	
 	/**
 	 * Get the email property.
+	 * 
+	 * @return setEmail - Contact's email address.
 	 */
 	public String getEmail() {
 		if (Log.getDebug()) Log.v("Notification.getEmail() Email: " + _email);
@@ -561,6 +626,8 @@ public class Notification {
 
 	/**
 	 * Set the calendarID property.
+	 * 
+	 * @param calendarID - Calendar Event's id.
 	 */
 	public void setCalendarID(long calendarID) {
 		if (Log.getDebug()) Log.v("Notification.setCalendarID() CalendarID: " + calendarID);
@@ -569,6 +636,8 @@ public class Notification {
 	
 	/**
 	 * Get the calendarID property.
+	 * 
+	 * @return calendarID - Calendar Event's id.
 	 */
 	public long getCalendarID() {
 		if (Log.getDebug()) Log.v("Notification.getCalendarID() CalendarID: " + _calendarID);
@@ -576,15 +645,9 @@ public class Notification {
 	}
 
 	/**
-	 * Set the calendarEventStartTime property.
-	 */
-	public void setCalendarEventStartTime(long calendarEventStartTime) {
-		if (Log.getDebug()) Log.v("Notification.setCalendarEventStartTime() CalendarEventStartTime: " + calendarEventStartTime);
-		_calendarEventStartTime = calendarEventStartTime;
-	}
-
-	/**
 	 * Set the calendarEventID property.
+	 * 
+	 * @return calendarEventStartTime - Start time of the Calendar Event.
 	 */
 	public void setCalendarEventID(long calendarEventID) {
 		if (Log.getDebug()) Log.v("Notification.setCalendarEventID() CalendarEventID: " + calendarEventID);
@@ -593,6 +656,8 @@ public class Notification {
 	
 	/**
 	 * Get the calendarEventID property.
+	 * 
+	 * @param 
 	 */
 	public long getCalendarEventID() {
 		if (Log.getDebug()) Log.v("Notification.getCalendarEventID() CalendarEventID: " + _calendarEventID);
@@ -600,7 +665,19 @@ public class Notification {
 	}
 	
 	/**
+	 * Set the calendarEventStartTime property.
+	 * 
+	 * @param calendarEventStartTime - Start time of the Calendar Event.
+	 */
+	public void setCalendarEventStartTime(long calendarEventStartTime) {
+		if (Log.getDebug()) Log.v("Notification.setCalendarEventStartTime() CalendarEventStartTime: " + calendarEventStartTime);
+		_calendarEventStartTime = calendarEventStartTime;
+	}
+	
+	/**
 	 * Get the calendarEventStartTime property.
+	 * 
+	 * @return calendarEventStartTime - Start time of the Calendar Event.
 	 */
 	public long getCalendarEventStartTime() {
 		if (Log.getDebug()) Log.v("Notification.getCalendarEventStartTime() CalendarEventStartTime: " + _calendarEventStartTime);
@@ -609,6 +686,8 @@ public class Notification {
 
 	/**
 	 * Set the calendarEventEndTime property.
+	 * 
+	 * @param calendarEventEndTime - End time of the Calendar Event.
 	 */
 	public void setCalendarEventEndTime(long calendarEventEndTime) {
 		if (Log.getDebug()) Log.v("Notification.setCalendarEventEndTime() CalendarEventEndTime: " + calendarEventEndTime);
@@ -617,6 +696,8 @@ public class Notification {
 	
 	/**
 	 * Get the calendarEventEndTime property.
+	 * 
+	 * @return calendarEventEndTime - End time of the Calendar Event.
 	 */
 	public long getCalendarEventEndTime() {
 		if (Log.getDebug()) Log.v("Notification.getCalendarEventEndTime() CalendarEventEndTime: " + _calendarEventEndTime);
@@ -625,6 +706,8 @@ public class Notification {
 
 	/**
 	 * Set the allDay property.
+	 * 
+	 * @param allDay - Boolean which is true if the Calendar Event is all day.
 	 */
 	public void setAllDay(boolean allDay) {
 		if (Log.getDebug()) Log.v("Notification.setCalendarEventEndTime() AllDay: " + allDay);
@@ -633,6 +716,8 @@ public class Notification {
 	
 	/**
 	 * Get the allDay property.
+	 * 
+	 * @return allDay - Boolean returns true if the Calendar Event is all day.
 	 */
 	public boolean getAllDay() {
 		if (Log.getDebug()) Log.v("Notification.getCalendarEventEndTime() AllDay: " + _allDay);
@@ -645,6 +730,8 @@ public class Notification {
   
 	/**
 	 * Set this notification as being viewed on the users phone.
+	 * 
+	 * @param isViewed - Boolean value to set or unset the item as being viewed.
 	 */
 	public void setViewed(boolean isViewed){
 		if (Log.getDebug()) Log.v("Notification.setViewed()");
@@ -684,7 +771,7 @@ public class Notification {
 	}
 	
 	/**
-	 * Set this notification as being viewed on the users phone.
+	 * Delete the message or thread from the users phone.
 	 */
 	public void deleteMessage(){
 		if (Log.getDebug()) Log.v("Notification.deleteMessage()");
@@ -728,8 +815,6 @@ public class Notification {
 			if(deleteThread){
 			try{
 				//Delete entire SMS thread.
-				if (Log.getDebug()) Log.v("Notification.deleteMessage() Delete Thread ID: " + threadID);
-				//Delete from URI "content://sms/conversations/"
 				context.getContentResolver().delete(
 						Uri.parse("content://sms/conversations/" + threadID), 
 						null, 
@@ -740,8 +825,6 @@ public class Notification {
 			}else{
 				try{
 					//Delete single message.
-					if (Log.getDebug()) Log.v("Notification.deleteMessage() Delete Message ID: " + messageID);
-					//Delete from URI "content://sms"
 					context.getContentResolver().delete(
 							Uri.parse("content://sms/" + messageID),
 							null, 
@@ -758,10 +841,10 @@ public class Notification {
 	//================================================================================
 	
 	/**
-	 * Load the SMS Thread ID for this notification.
+	 * Load the SMS/MMS thread id for this notification.
 	 * 
-	 * @param context
-	 * @param phoneNumber
+	 * @param context - Application Context.
+	 * @param phoneNumber - Notifications's phone number.
 	 */
 	private void loadThreadID(Context context, String phoneNumber){
 		if (Log.getDebug()) Log.v("Notification.getThreadIdByAddress()");
@@ -800,11 +883,11 @@ public class Notification {
 	}
 
 	/**
-	 * Load the SMS Message ID for this notification.
+	 * Load the SMS/MMS message id for this notification.
 	 * 
-	 * @param context
-	 * @param threadId
-	 * @param timestamp
+	 * @param context - Application Context.
+	 * @param threadId - Notifications's threadID.
+	 * @param timestamp - Notifications's timeStamp.
 	 */
 	public void loadMessageID(Context context, long threadID, String messageBody, long timeStamp) {
 		if (Log.getDebug()) Log.v("Notification.loadMessageID()");
@@ -849,8 +932,8 @@ public class Notification {
 	/**
 	 * Load the various contact info for this notification from a phoneNumber.
 	 * 
-	 * @param context
-	 * @param phoneNumber
+	 * @param context - Application Context.
+	 * @param phoneNumber - Notifications's phone number.
 	 */ 
 	private void loadContactsInfoByPhoneNumber(Context context, String phoneNumber){
 		if (Log.getDebug()) Log.v("Notification.loadContactsInfo()");
@@ -932,8 +1015,8 @@ public class Notification {
 //	/**
 //	 * Load the various contact info for this notification from an email address.
 //	 * 
-//	 * @param context
-//	 * @param email
+//	 * @param context - Application Context.
+//	 * @param phoneNumber - Notifications's phone number.
 //	 */ 
 //	private void loadContactsInfoByEmail(Context context, String email){
 //		if (Log.getDebug()) Log.v("Notification.loadContactsInfoByEmail()");
@@ -1013,7 +1096,7 @@ public class Notification {
 	/**
 	 * Set the call log as viewed (not new) or new depending on the input.
 	 * 
-	 * @param isViewed
+	 * @param isViewed - Boolean, if true sets the call log call as being viewed.
 	 */
 	private void setCallViewed(boolean isViewed){
 		if (Log.getDebug()) Log.v("Notification.setCallViewed()");
@@ -1062,7 +1145,7 @@ public class Notification {
 	/**
 	 * Set the SMS/MMS message as read or unread depending on the input.
 	 * 
-	 * @param isViewed
+	 * @param isViewed - Boolean, if true sets the message as viewed.
 	 */
 	private void setMessageRead(boolean isViewed){
 		if (Log.getDebug()) Log.v("Notification.setMessageRead()");
@@ -1098,7 +1181,7 @@ public class Notification {
 	/**
 	 * Set the Email message as read or unread depending on the input.
 	 * 
-	 * @param isViewed
+	 * @param isViewed - Boolean, if true sets the message as viewed.
 	 */
 	private void setEmailRead(boolean isViewed){
 		if (Log.getDebug()) Log.v("Notification.setEmailRead()");
@@ -1133,12 +1216,13 @@ public class Notification {
 	}
 	
 	/**
-	 * Format the Notification message to display for a Calendar Event.
+	 * Format/create the Calendar Event message.
 	 * 
-	 * @param eventStartTime
-	 * @param eventEndTime
-	 * @param allDay
-	 * @return formatted string
+	 * @param eventStartTime - Calendar Event's start time.
+	 * @param eventEndTime - Calendar Event's end time.
+	 * @param allDay - Boolean, true if the Calendar Event is all day.
+	 * 
+	 * @return String - Returns the formatted Calendar Event message.
 	 */
 	private String formatCalendarEventMessage(String messageBody, long eventStartTime, long eventEndTime, boolean allDay){
 		if (Log.getDebug()) Log.e("Notification.formatCalendarEventMessage()");

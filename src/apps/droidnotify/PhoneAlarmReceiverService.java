@@ -9,8 +9,9 @@ import android.net.Uri;
 import android.os.Bundle;
 
 /**
+ * This class handles scheduled Missed Call notifications that we want to display.
  * 
- * @author Camille Sevigny
+ * @author Camille Sévigny
  */
 public class PhoneAlarmReceiverService extends WakefulIntentService {
 

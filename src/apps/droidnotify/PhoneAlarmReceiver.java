@@ -10,8 +10,9 @@ import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 
 /**
+ * This class listens for scheduled Missed Call notifications that we want to display.
  * 
- * @author Camille Sevigny
+ * @author Camille Sévigny
  */
 public class PhoneAlarmReceiver extends BroadcastReceiver {
 

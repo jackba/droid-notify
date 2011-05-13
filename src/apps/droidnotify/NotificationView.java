@@ -30,9 +30,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 /**
+ * This class is the view which the ViewFlipper displays for each notification.
  * 
- * @author Camille Sevigny
- *
+ * @author Camille Sévigny
  */
 public class NotificationView extends LinearLayout {
 
@@ -54,7 +54,6 @@ public class NotificationView extends LinearLayout {
     // Properties
     //================================================================================
 	
-	//private Context _context;	
 	private int _notificationType;
 	private TextView _fromTextView;
 	private TextView _phoneNumberTextView;
@@ -63,7 +62,6 @@ public class NotificationView extends LinearLayout {
 	private ImageView _notificationIconImageView = null;
 	private ImageView _photoImageView = null;
 	private LinearLayout _contactLinearLayout = null;
-	//private ImageView _underContactDividerImageView = null;
 	private NotificationViewFlipper _notificationViewFlipper = null;
 	private LinearLayout _phoneButtonLinearLayout = null;
 	private LinearLayout _smsButtonLinearLayout = null;
@@ -76,13 +74,12 @@ public class NotificationView extends LinearLayout {
 	//================================================================================
 	
 	/**
-     * 
+     * Class Constructor.
      */	
 	public NotificationView(Context context,  Notification notification) {
 	    super(context);
 	    if (Log.getDebug()) Log.v("NotificationView.NotificationView()");
 	    int notificationType = notification.getNotificationType();
-	    //setContext(context);
 	    setNotification(notification);
 	    setNotificationType(notification.getNotificationType());
 	    initLayoutItems(context);
@@ -97,17 +94,11 @@ public class NotificationView extends LinearLayout {
 	//================================================================================
 	// Accessors
 	//================================================================================
-
-//	/**
-//	 * Set the context property.
-//	 */
-//	public void setContext(Context context) {
-//		if (Log.getDebug()) Log.v("NotificationView.setContext()");
-//	    _context = context;
-//	}
 	
 	/**
 	 * Set the notification property.
+	 * 
+	 * @param notification - This view's Notification.
 	 */
 	public void setNotification(Notification notification) {
 		if (Log.getDebug()) Log.v("Notification.seNotification()");
@@ -116,6 +107,8 @@ public class NotificationView extends LinearLayout {
 	
 	/**
 	 * Get the notification property.
+	 * 
+	 * @return notification - This view's Notification.
 	 */
 	public Notification getNotification() {
 		if (Log.getDebug()) Log.v("Notification.getNotification()");
@@ -124,6 +117,8 @@ public class NotificationView extends LinearLayout {
 	
 	/**
 	 * Set the notificationViewFlipper property.
+	 * 
+	 * @param notificationViewFlipper - Applications' ViewFlipper.
 	 */
 	public void setNotificationViewFlipper(NotificationViewFlipper notificationViewFlipper) {
 		if (Log.getDebug()) Log.v("Notification.seNotificationViewFlipper()");
@@ -132,6 +127,8 @@ public class NotificationView extends LinearLayout {
 	
 	/**
 	 * Get the notificationViewFlipper property.
+	 * 
+	 * @return notificationViewFlipper - Applications' ViewFlipper.
 	 */
 	public NotificationViewFlipper getNotificationViewFlipper() {
 		if (Log.getDebug()) Log.v("Notification.getNotificationViewFlipper()");
@@ -140,6 +137,8 @@ public class NotificationView extends LinearLayout {
 	
 	/**
 	 * Set the notificationType property.
+	 * 
+	 * @param notificationType - The type of notification this is.
 	 */
 	public void setNotificationType(int notificationType) {
 		if (Log.getDebug()) Log.v("Notification.seNotificationType()");
@@ -148,29 +147,246 @@ public class NotificationView extends LinearLayout {
 	
 	/**
 	 * Get the notificationType property.
+	 * 
+	 * @return notificationType - The type of notification this is.
 	 */
 	public int getNotificationType() {
 		if (Log.getDebug()) Log.v("Notification.getNotificationType()");
 	    return _notificationType;
 	}
 	
+	/**
+	 * Set the fromTextView property.
+	 * 
+	 * @param fromTextView - The "from" TextView.
+	 */
+	public void setFromTextView(TextView fromTextView) {
+		if (Log.getDebug()) Log.v("Notification.setFromTextView()");
+	    _fromTextView = fromTextView;
+	}
+	
+	/**
+	 * Get the fromTextView property.
+	 * 
+	 * @return fromTextView - The "from" TextView.
+	 */
+	public TextView getFromTextView() {
+		if (Log.getDebug()) Log.v("Notification.getFromTextView()");
+	    return _fromTextView;
+	}
+	
+	/**
+	 * Set the phoneNumberTextView property.
+	 * 
+	 * @param phoneNumberTextView - The "phone number" TextView.
+	 */
+	public void setPhoneNumberTextView(TextView phoneNumberTextView) {
+		if (Log.getDebug()) Log.v("Notification.setPhoneNumberTextView()");
+	    _phoneNumberTextView = phoneNumberTextView;
+	}
+	
+	/**
+	 * Get the phoneNumberTextView property.
+	 * 
+	 * @return phoneNumberTextView - The "phone number" TextView.
+	 */
+	public TextView getPhoneNumberTextView() {
+		if (Log.getDebug()) Log.v("Notification.getPhoneNumberTextView()");
+	    return _phoneNumberTextView;
+	}
+	
+	/**
+	 * Set the receivedAtTextView property.
+	 * 
+	 * @param receivedAtTextView - The "received at" TextView.
+	 */
+	public void setReceivedAtTextView(TextView receivedAtTextView) {
+		if (Log.getDebug()) Log.v("Notification.setReceivedAtTextView()");
+	    _receivedAtTextView = receivedAtTextView;
+	}
+	
+	/**
+	 * Get the receivedAtTextView property.
+	 * 
+	 * @return receivedAtTextView - The "received at" TextView.
+	 */
+	public TextView getReceivedAtTextView() {
+		if (Log.getDebug()) Log.v("Notification.getReceivedAtTextView()");
+	    return _receivedAtTextView;
+	}
+	
+	/**
+	 * Set the notificationTextView property.
+	 * 
+	 * @param notificationTextView - The "notification" TextView.
+	 */
+	public void setNotificationTextView(TextView notificationTextView) {
+		if (Log.getDebug()) Log.v("Notification.setNotificationTextView()");
+	    _notificationTextView = notificationTextView;
+	}
+	
+	/**
+	 * Get the notificationTextView property.
+	 * 
+	 * @return notificationTextView - The "notification" TextView.
+	 */
+	public TextView getNotificationTextView() {
+		if (Log.getDebug()) Log.v("Notification.getNotificationTextView()");
+	    return _notificationTextView;
+	}
+	
+	/**
+	 * Set the notificationIconImageView property.
+	 * 
+	 * @param notificationIconImageView - The "notification icon" ImageView.
+	 */
+	public void setNotificationIconImageView(ImageView notificationIconImageView) {
+		if (Log.getDebug()) Log.v("Notification.setNotificationIconImageView()");
+	    _notificationIconImageView = notificationIconImageView;
+	}
+	
+	/**
+	 * Get the notificationIconImageView property.
+	 * 
+	 * @return notificationIconImageView - The "notification icon" ImageView.
+	 */
+	public ImageView getNotificationIconImageView() {
+		if (Log.getDebug()) Log.v("Notification.getNotificationIconImageView()");
+	    return _notificationIconImageView;
+	}
+
+	/**
+	 * Set the photoImageView property.
+	 * 
+	 * @param photoImageView - The "photo" ImageView.
+	 */
+	public void setPhotoImageView(ImageView photoImageView) {
+		if (Log.getDebug()) Log.v("Notification.setPhotoImageView()");
+	    _photoImageView = photoImageView;
+	}
+	
+	/**
+	 * Get the photoImageView property.
+	 * 
+	 * @return photoImageView - The "photo" ImageView.
+	 */
+	public ImageView getPhotoImageView() {
+		if (Log.getDebug()) Log.v("Notification.getPhotoImageView()");
+	    return _photoImageView;
+	}
+	
+	/**
+	 * Set the contactLinearLayout property.
+	 * 
+	 * @param contactLinearLayout - The "contact" LinearLayout.
+	 */
+	public void setContactLinearLayout(LinearLayout contactLinearLayout) {
+		if (Log.getDebug()) Log.v("Notification.setContactLinearLayout()");
+	    _contactLinearLayout = contactLinearLayout;
+	}
+	
+	/**
+	 * Get the contactLinearLayout property.
+	 * 
+	 * @return contactLinearLayout - The "contact" LinearLayout.
+	 */
+	public LinearLayout getContactLinearLayout() {
+		if (Log.getDebug()) Log.v("Notification.getContactLinearLayout()");
+	    return _contactLinearLayout;
+	}
+
+	/**
+	 * Set the phoneButtonLinearLayout property.
+	 * 
+	 * @param phoneButtonLinearLayout - The "phone button" LinearLayout.
+	 */
+	public void setPhoneButtonLinearLayout(LinearLayout phoneButtonLinearLayout) {
+		if (Log.getDebug()) Log.v("Notification.setPhoneButtonLinearLayout()");
+	    _phoneButtonLinearLayout = phoneButtonLinearLayout;
+	}
+	
+	/**
+	 * Get the phoneButtonLinearLayout property.
+	 * 
+	 * @return phoneButtonLinearLayout - The "phone button" LinearLayout.
+	 */
+	public LinearLayout getPhoneButtonLinearLayout() {
+		if (Log.getDebug()) Log.v("Notification.getPhoneButtonLinearLayout()");
+	    return _phoneButtonLinearLayout;
+	}
+
+
+	/**
+	 * Set the smsButtonLinearLayout property.
+	 * 
+	 * @param smsButtonLinearLayout - The "sms button" LinearLayout.
+	 */
+	public void setSMSButtonLinearLayout(LinearLayout smsButtonLinearLayout) {
+		if (Log.getDebug()) Log.v("Notification.setSMSButtonLinearLayout()");
+	    _smsButtonLinearLayout = smsButtonLinearLayout;
+	}
+	
+	/**
+	 * Get the smsButtonLinearLayout property.
+	 * 
+	 * @return smsButtonLinearLayout - The "phone button" LinearLayout.
+	 */
+	public LinearLayout getSMSButtonLinearLayout() {
+		if (Log.getDebug()) Log.v("Notification.getSMSButtonLinearLayout()");
+	    return _smsButtonLinearLayout;
+	}
+
+	/**
+	 * Set the calendarButtonLinearLayout property.
+	 * 
+	 * @param calendarButtonLinearLayout - The "calendar button" LinearLayout.
+	 */
+	public void setCalendarButtonLinearLayout(LinearLayout calendarButtonLinearLayout) {
+		if (Log.getDebug()) Log.v("Notification.setCalendarButtonLinearLayout()");
+	    _calendarButtonLinearLayout = calendarButtonLinearLayout;
+	}
+	
+	/**
+	 * Get the calendarButtonLinearLayout property.
+	 * 
+	 * @return calendarButtonLinearLayout - The "calendar button" LinearLayout.
+	 */
+	public LinearLayout getCalendarButtonLinearLayout() {
+		if (Log.getDebug()) Log.v("Notification.getCalendarButtonLinearLayout()");
+	    return _calendarButtonLinearLayout;
+	}
+
+	/**
+	 * Set the oldTouchValue property.
+	 * 
+	 * @param oldTouchValue - The touch value of a MotionEvent.
+	 */
+	public void setOldTouchValue(float oldTouchValue) {
+		if (Log.getDebug()) Log.v("Notification.setOldTouchValue()");
+	    _oldTouchValue = oldTouchValue;
+	}
+	
+	/**
+	 * Get the oldTouchValue property.
+	 * 
+	 * @return oldTouchValue - The touch value of a MotionEvent.
+	 */
+	public float getOldTouchValue() {
+		if (Log.getDebug()) Log.v("Notification.getOldTouchValue()");
+	    return _oldTouchValue;
+	}
+	
 	//================================================================================
 	// Public Methods
 	//================================================================================
 
-//	/**
-//	 * Remove the notification from the ViewFlipper.
-//	 */
-//	private void deleteMessage(){
-//		if (Log.getDebug()) Log.v("NotificationView.deleteMessage()");
-//		//Remove SMS or MMS message from ViewFlipper.
-//		getNotificationViewFlipper().removeActiveNotification();
-//		//???T/O/D/O - Delete SMS or MMS message from device.
-//	}
-
 	/**
 	 * Define the action of the view when you swipe your finger across it.
 	 * This motion is handled to switch to the next view or previous view.
+	 * 
+	 * @param motionEvent - MotionEvent object.
+	 * 
+	 * @return boolean - Returns true if the MotionEvent was handled.
 	 */
 	@Override
 	public boolean onTouchEvent(MotionEvent motionEvent) {
@@ -179,18 +395,19 @@ public class NotificationView extends LinearLayout {
 		NotificationViewFlipper notificationViewFlipper = getNotificationViewFlipper();
 		NotificationActivity notificationActivity = (NotificationActivity)context;
 		float currentTouchValue = motionEvent.getX();
+		float oldTouchValue = getOldTouchValue();
 		switch (motionEvent.getAction()) {
 			case MotionEvent.ACTION_DOWN:
 				if (Log.getDebug()) Log.v("NotificationView.onTouchEvent() ACTION_DOWN");
-				_oldTouchValue = currentTouchValue;
+				setOldTouchValue(currentTouchValue);
 				return true;
 			case MotionEvent.ACTION_UP:
 				if (Log.getDebug()) Log.v("NotificationView.onTouchEvent() ACTION_UP");
-				if (_oldTouchValue > currentTouchValue){
+				if (oldTouchValue > currentTouchValue){
             	   notificationViewFlipper.setInAnimation(notificationViewFlipper.inFromLeftAnimation());
             	   notificationViewFlipper.setOutAnimation(notificationViewFlipper.outToRightAnimation());
                    notificationViewFlipper.showNext();
-				}else if (_oldTouchValue < currentTouchValue){
+				}else if (oldTouchValue < currentTouchValue){
             	   notificationViewFlipper.setInAnimation(notificationViewFlipper.inFromRightAnimation());
             	   notificationViewFlipper.setOutAnimation(notificationViewFlipper.outToLeftAnimation());
                    notificationViewFlipper.showPrevious();
@@ -207,34 +424,45 @@ public class NotificationView extends LinearLayout {
 	
 	/**
 	 * Initialize the layout items.
+	 * 
+	 * @param context - Application's Context.
 	 */
 	private void initLayoutItems(Context context) {
 		if (Log.getDebug()) Log.v("NotificationView.initLayoutItems()");
 	    View.inflate(context, R.layout.notification, this);
 	    if (Log.getDebug()) Log.v("NotificationView should be inflated now");
-	    _fromTextView = (TextView) findViewById(R.id.from_text_view);
+	    setFromTextView((TextView) findViewById(R.id.from_text_view));
 	    _phoneNumberTextView = (TextView) findViewById(R.id.phone_number_text_view);
 	    //Automatically format the phone number in this text view.
 		_phoneNumberTextView.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
-	    _notificationTextView = (TextView) findViewById(R.id.notification_text_view);
-	    _receivedAtTextView = (TextView) findViewById(R.id.time_text_view);
-	    _photoImageView = (ImageView) findViewById(R.id.contact_image_view);
-	    _notificationIconImageView = (ImageView) findViewById(R.id.notification_type_icon_image_view);    
+		setPhoneNumberTextView(_phoneNumberTextView);
+		setReceivedAtTextView((TextView) findViewById(R.id.time_text_view));
+		setPhotoImageView((ImageView) findViewById(R.id.contact_image_view));
+	    setNotificationIconImageView((ImageView) findViewById(R.id.notification_type_icon_image_view));    
 	    setNotificationViewFlipper(((NotificationActivity)getContext()).getNotificationViewFlipper());
-	    _phoneButtonLinearLayout = (LinearLayout) findViewById(R.id.phone_button_layout);
-		_smsButtonLinearLayout = (LinearLayout) findViewById(R.id.sms_button_layout);
-		_calendarButtonLinearLayout = (LinearLayout) findViewById(R.id.calendar_button_layout);
+		_notificationTextView = (TextView) findViewById(R.id.notification_text_view);
 		_notificationTextView.setMovementMethod(new ScrollingMovementMethod());
 		_notificationTextView.setScrollbarFadingEnabled(false);
-		_contactLinearLayout = (LinearLayout) findViewById(R.id.contact_linear_layout);
-		//_underContactDividerImageView = (ImageView) findViewById(R.id.under_contact_image_view);
+		setNotificationTextView(_notificationTextView);
+	    setPhoneButtonLinearLayout((LinearLayout) findViewById(R.id.phone_button_layout));
+	    setSMSButtonLinearLayout((LinearLayout) findViewById(R.id.sms_button_layout));
+		setCalendarButtonLinearLayout((LinearLayout) findViewById(R.id.calendar_button_layout));
+		setContactLinearLayout((LinearLayout) findViewById(R.id.contact_linear_layout));
 	}
 
+	/**
+	 * Sets up the NotificationView's buttons.
+	 * 
+	 * @param notification - This View's Notification.
+	 */
 	private void setupNotificationViewButtons(Notification notification) {
 		int notificationType = notification.getNotificationType();
 		int phoneButtonLayoutVisibility = View.GONE;
 		int smsButtonLayoutVisibility = View.GONE;
 		int calendarButtonLayoutVisibility = View.GONE;
+		LinearLayout phoneButtonLinearLayout = getPhoneButtonLinearLayout();
+		LinearLayout smsButtonLinearLayout = getSMSButtonLinearLayout();
+		LinearLayout calendarButtonLinearLayout = getCalendarButtonLinearLayout();
 	    if(notificationType == NOTIFICATION_TYPE_PHONE){
 	    	//Display the correct navigation buttons for each notification type.
 	    	phoneButtonLayoutVisibility = View.VISIBLE;
@@ -354,31 +582,35 @@ public class NotificationView extends LinearLayout {
 	    	calendarButtonLayoutVisibility = View.GONE;
 	    	//TODO - Email
 	    }
-		_phoneButtonLinearLayout.setVisibility(phoneButtonLayoutVisibility);
-    	_smsButtonLinearLayout.setVisibility(smsButtonLayoutVisibility);
-    	_calendarButtonLinearLayout.setVisibility(calendarButtonLayoutVisibility);
+		phoneButtonLinearLayout.setVisibility(phoneButtonLayoutVisibility);
+    	smsButtonLinearLayout.setVisibility(smsButtonLayoutVisibility);
+    	calendarButtonLinearLayout.setVisibility(calendarButtonLayoutVisibility);
 	}
 	
 	/**
 	 * Populate the notification view with content from the actual Notification.
+	 * 
+	 * @param notification - This View's Notification.
 	 */
 	private void populateNotificationViewInfo(Notification notification) {
 		if (Log.getDebug()) Log.v("NotificationView.populateNotificationViewInfo()");
 		int notificationType = notification.getNotificationType();
 	    // Set from, number, message etc. views.
+		TextView fromTextView = getFromTextView();
+		TextView phoneNumberTextView = getPhoneNumberTextView();
 		if(notificationType == NOTIFICATION_TYPE_CALENDAR){
 			String notificationTitle = notification.getTitle();
 	    	if(notificationTitle.equals("")){
 	    		notificationTitle = "No Title";
 	    	}
-			_fromTextView.setText(notificationTitle);
-			_phoneNumberTextView.setVisibility(View.GONE);
+			fromTextView.setText(notificationTitle);
+			phoneNumberTextView.setVisibility(View.GONE);
 		}else{
-			_fromTextView.setText(notification.getContactName());
+			fromTextView.setText(notification.getContactName());
 		    if(notification.getContactExists()){
-		    	_phoneNumberTextView.setText(notification.getAddressBookPhoneNumber());
+		    	phoneNumberTextView.setText(notification.getAddressBookPhoneNumber());
 		    }else{
-		    	_phoneNumberTextView.setText(notification.getPhoneNumber());
+		    	phoneNumberTextView.setText(notification.getPhoneNumber());
 		    }
 		}
 	    //Load the notification message.
@@ -392,19 +624,19 @@ public class NotificationView extends LinearLayout {
 	}
 	
 	/**
-	 * Function to set the notification message. 
+	 * Set the notification message. 
 	 * This is specific to the type of notification that was received.
 	 * 
-	 * @param notification - The notification that we are pulling the information from.
+	 * @param notification - This View's Notification.
 	 */
 	private void setNotificationMessage(Notification notification){
 		if (Log.getDebug()) Log.v("NotificationView.setNotificationMessage()");
 		int notificationType = notification.getNotificationType();
 		String notificationText = "";
+		TextView notificationTextView = getNotificationTextView();
 		int notificationAlignment = Gravity.LEFT;
 	    if(notificationType == NOTIFICATION_TYPE_PHONE){
 	    	notificationText = "Missed Call!";
-	    	//notificationAlignment = Gravity.CENTER;
 	    	notificationAlignment = Gravity.LEFT;
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_SMS || notificationType == NOTIFICATION_TYPE_MMS){
@@ -423,12 +655,12 @@ public class NotificationView extends LinearLayout {
 	    	notificationText = notification.getTitle();
 	    	notificationAlignment = Gravity.LEFT;
 	    } 
-	    _notificationTextView.setText(Html.fromHtml(notificationText));
-	    _notificationTextView.setGravity(notificationAlignment);
+	    notificationTextView.setText(Html.fromHtml(notificationText));
+	    notificationTextView.setGravity(notificationAlignment);
 	}
 	
 	/**
-	 * Function to set notification specific details into the header of the Notification.
+	 * Set notification specific details into the header of the Notification.
 	 * This is specific to the type of notification that was received.
 	 * Details include:
 	 * 		Icon,
@@ -436,7 +668,7 @@ public class NotificationView extends LinearLayout {
 	 * 		Date & Time,
 	 * 		Etc...
 	 * 
-	 * @param notification - The notification that we are pulling the information from.
+	 * @param notification - This View's Notification.
 	 */
 	private void setNotificationTypeInfo(Notification notification){
 		if (Log.getDebug()) Log.v("NotificationView.setNotificationTypeInfo()");
@@ -446,6 +678,8 @@ public class NotificationView extends LinearLayout {
 		// Update TextView that contains the image, contact info/calendar info, and timestamp for the Notification.
 		String formattedTimestamp = new SimpleDateFormat("h:mma").format(notification.getTimeStamp());
 	    String receivedAtText = "";
+	    TextView receivedAtTextView = getReceivedAtTextView();
+	    ImageView notificationIconImageView = getNotificationIconImageView();
 	    if(notificationType == NOTIFICATION_TYPE_PHONE){
 	    	iconBitmap = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.sym_call_missed);
 	    	receivedAtText = context.getString(R.string.missed_call_at_text, formattedTimestamp.toLowerCase());
@@ -463,45 +697,47 @@ public class NotificationView extends LinearLayout {
 	    	receivedAtText = context.getString(R.string.email_at_text, formattedTimestamp.toLowerCase());
 	    }    
 	    if(iconBitmap != null){
-	    	_notificationIconImageView.setImageBitmap(iconBitmap);
+	    	notificationIconImageView.setImageBitmap(iconBitmap);
 	    }
-		_receivedAtTextView.setText(receivedAtText);
+	    receivedAtTextView.setText(receivedAtText);
 	}
 	
 	/**
-	 * Alter the main notification view and remove the Contact photo as there is no contact for Calendar Events.
+	 * Alter the main notification view and remove the contact photo as there is no contact for Calendar Events.
 	 */
 	private void setupCalendarView(){
 		if (Log.getDebug()) Log.v("NotificationView.setupCalendarView()");
-		_photoImageView.setVisibility(View.GONE);
+		ImageView photoImageView = getPhotoImageView();
+		photoImageView.setVisibility(View.GONE);
 	}
 	
 	/**
 	 * Insert the image from the users contacts into the notification View.
 	 * 
-	 * @param notification
+	 * @param notification - This View's Notification.
 	 */
 	private void setNotificationImage(Notification notification){
 		if (Log.getDebug()) Log.v("NotificationView.setNotificationImage()");
+		ImageView photoImageView = getPhotoImageView();
 	    //Setup ImageView
-	    _photoImageView.setBackgroundResource(0);
-	    _photoImageView.setPadding(0, 0, 0, 0);
+		photoImageView.setBackgroundResource(0);
+		photoImageView.setPadding(0, 0, 0, 0);
 	    //_photoImageView.setBackgroundResource(android.R.drawable.picture_frame);
 	    _photoImageView.setBackgroundResource(R.drawable.image_picture_frame);
 	    //Load contact photo if it exists.
 	    Bitmap bitmap = notification.getPhotoImg();
 	    if(bitmap!=null){
 	    	//TODO - Write function to resize the image to a standard size for the notifications.
-	    	_photoImageView.setImageBitmap((Bitmap)getRoundedCornerBitmap(notification.getPhotoImg(), 5));    
+	    	photoImageView.setImageBitmap((Bitmap)getRoundedCornerBitmap(notification.getPhotoImg(), 5));    
 	    }else{  
 	    	// Load the placeholder image if the contact has no photo.
 	    	//TODO - Add user preference to choose from a selection of placeholder images.
-	    	_photoImageView.setImageBitmap(getRoundedCornerBitmap(BitmapFactory.decodeResource(getContext().getResources(), R.drawable.ic_contact_picture_5), 5));
+	    	photoImageView.setImageBitmap(getRoundedCornerBitmap(BitmapFactory.decodeResource(getContext().getResources(), R.drawable.ic_contact_picture_5), 5));
 	    }
 	}
 	
 	/**
-	 * Function that rounds the corners of a Bitmap image.
+	 * Rounds the corners of a Bitmap image.
 	 * 
 	 * @param bitmap - The Bitmap to be formatted.
 	 * @param pixels - The number of pixels as the diameter of the rounded corners.
@@ -531,7 +767,7 @@ public class NotificationView extends LinearLayout {
 	}
 	
 	/**
-	 * Function to remove the notification from the ViewFlipper.
+	 * Remove the notification from the ViewFlipper.
 	 */
 	private void dismissNotification(){
 		if (Log.getDebug()) Log.v("NotificationView.dismissNotification()");
@@ -539,8 +775,8 @@ public class NotificationView extends LinearLayout {
 	}
 	
 	/**
-	 * Function that launches a new Activity.
-	 * This function replies to the current message using the stock Android messaging app.
+	 * Launches a new Activity.
+	 * Replies to the current message using the stock Android messaging app.
 	 */
 	private void replyToMessage() {
 		if (Log.getDebug()) Log.v("NotificationView.replyToMessage()");
@@ -560,8 +796,8 @@ public class NotificationView extends LinearLayout {
 	}
 	
 	/**
-	 * Function that launches a new Activity.
-	 * This function makes a phone call to the current missed call notification using the phones stock Android dialer & caller.
+	 * Launches a new Activity.
+	 * Makes a phone call to the current missed call notification using the phones stock Android dialer & caller.
 	 */
 	private void makePhoneCall(){
 		if (Log.getDebug()) Log.v("NotificationView.makePhoneCall()");
@@ -579,8 +815,8 @@ public class NotificationView extends LinearLayout {
 	}
 	
 	/**
-	 * Function that launches a new Activity.
-	 * This function views the calendar event using the stock Android calendar app.
+	 * Launches a new Activity.
+	 * Views the calendar event using the stock Android calendar app.
 	 */
 	private void viewCalendarEvent(){
 		if (Log.getDebug()) Log.v("NotificationView.viewCalendarEvent()");
@@ -618,7 +854,7 @@ public class NotificationView extends LinearLayout {
 	}
  
 	/**
-	 * Function to confirm the delete request of the current message.
+	 * Confirm the delete request of the current message.
 	 */
 	private void showDeleteDialog(){
 		if (Log.getDebug()) Log.v("NotificationView.showDeleteDialog()");
@@ -626,21 +862,25 @@ public class NotificationView extends LinearLayout {
 	}
 	
 	/**
-	 * Function to setup the context menus for the various items on the notification window.
+	 * Setup the context menus for the various items on the notification window.
 	 */
 	private void setupContextMenus(){
 		if (Log.getDebug()) Log.v("NotificationActivity.setupContextMenus()"); 
 		Context context = getContext();
 		NotificationActivity notificationActivity = (NotificationActivity)context;
+		LinearLayout contactLinearLayout = getContactLinearLayout();
 		int notificationType = getNotificationType();
 		if(notificationType == NOTIFICATION_TYPE_PHONE){
-			notificationActivity.registerForContextMenu(_contactLinearLayout);
+			notificationActivity.registerForContextMenu(contactLinearLayout);
 	    }
-	    if(notificationType == NOTIFICATION_TYPE_SMS || notificationType == NOTIFICATION_TYPE_MMS){
-	    	notificationActivity.registerForContextMenu(_contactLinearLayout);
+	    if(notificationType == NOTIFICATION_TYPE_SMS){
+	    	notificationActivity.registerForContextMenu(contactLinearLayout);
+	    }
+	    if(notificationType == NOTIFICATION_TYPE_MMS){
+	    	notificationActivity.registerForContextMenu(contactLinearLayout);
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
-	    	notificationActivity.registerForContextMenu(_contactLinearLayout);
+	    	notificationActivity.registerForContextMenu(contactLinearLayout);
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_EMAIL){
 	    	//No menu at this time for Emails.
@@ -648,8 +888,7 @@ public class NotificationView extends LinearLayout {
 	}
 
 	/**
-	 * Function that performs custom haptic feedback.
-	 * This function performs haptic feedback based on the users preferences.
+	 * Performs haptic feedback based on the users preferences.
 	 * 
 	 * @param hapticFeedbackConstant - What type of action the feedback is responding to.
 	 */

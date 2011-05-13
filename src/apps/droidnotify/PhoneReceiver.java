@@ -10,8 +10,9 @@ import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 
 /**
+ * This class listens for the phone state to change.
  * 
- * @author Camille Sevigny
+ * @author Camille Sévigny
  */
 public class PhoneReceiver extends BroadcastReceiver{
 
