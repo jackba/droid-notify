@@ -13,6 +13,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.os.Vibrator;
@@ -108,6 +110,8 @@ public class NotificationActivity extends Activity {
 	private Button _nextButton = null;
 	private TextView _notificationCountTextView = null;
 	private InputMethodManager _inputMethodManager = null;
+	private WakeLockHandler wakeLockHandler = new WakeLockHandler();
+	private KeyguardHandler keyguardHandler = new KeyguardHandler();
 	//private View _softKeyboardTriggerView = null;
 
 	//================================================================================
@@ -687,11 +691,15 @@ public class NotificationActivity extends Activity {
 	    }  
 	    //Set Vibration or Ringtone to announce Activity.
 	    runNotificationFeedback(notificationType);
-	    //TODO - Should this be set in a "timeout" thread to release after 1 minute or so in order to save battery power?
 	    //Acquire WakeLock.
 	    acquireWakeLock(context);
+	    //TODO - Should this be set in a "timeout" thread to release after 1 minute or so in order to save battery power?
+	    //TODO - Add user preference to set the timeout value to enable the WakeLock.
+	    wakeLockHandler.sleep(30 * 1000);
 	    //Remove the KeyGuard.
 	    disableKeyguardLock(context);
+	    //TODO - Add user preference to set the timeout value to enable the Keyguard.
+	    keyguardHandler.sleep(30 * 1000);
 	}
 
 	  
@@ -1198,4 +1206,65 @@ public class NotificationActivity extends Activity {
 	    updateNavigationButtons(getPreviousButton(), getNotificationCountTextView(), getNextButton(), getNotificationViewFlipper());
 	}
 	
+	/**
+	 * This class is a Handler that executes in it's own thread and is used to delay the releasing of the WakeLock.
+	 * 
+	 * @author Camille Sevigny
+	 */
+	class WakeLockHandler extends Handler {
+
+		/**
+		 * Handles the delayed function call when the sleep period is over.
+		 * 
+		 * @param msg
+		 */
+		@Override
+	    public void handleMessage(Message msg) {
+			if (Log.getDebug()) Log.v("WakeLockHandler.handleMessage()");
+	    	NotificationActivity.this.releaseWakeLock();
+	    }
+
+		/**
+		 * Put the thread to sleep for a period of time.
+		 * 
+		 * @param delayMillis
+		 */
+	    public void sleep(long delayMillis) {
+	    	if (Log.getDebug()) Log.v("WakeLockHandler.sleep()");
+	    	this.removeMessages(0);
+	    	sendMessageDelayed(obtainMessage(0), delayMillis);
+	    }
+
+	};
+		
+	/**
+	 * This class is a Handler that executes in it's own thread and is used to delay the releasing of the Keyguard.
+	 * 
+	 * @author Camille Sevigny
+	 */
+	class KeyguardHandler extends Handler {
+
+		/**
+		 * Handles the delayed function call when the sleep period is over.
+		 * 
+		 * @param msg
+		 */
+		@Override
+		public void handleMessage(Message msg) {
+			if (Log.getDebug()) Log.v("KeyguardHandler.handleMessage()");
+			NotificationActivity.this.reenableKeyguardLock();
+		}
+		    
+		/**
+		 * Put the thread to sleep for a period of time.
+		 * 
+		 * @param delayMillis
+		 */
+		public void sleep(long delayMillis) {
+			if (Log.getDebug()) Log.v("KeyguardHandler.sleep()");
+			this.removeMessages(0);
+			sendMessageDelayed(obtainMessage(0), delayMillis);
+		}
+
+	};	
 }
