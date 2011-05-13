@@ -929,20 +929,20 @@ public class Notification {
 		}
 	}
 
-	/**
-	 * Load the various contact info for this notification from an email address.
-	 * 
-	 * @param context
-	 * @param email
-	 */ 
-	private void loadContactsInfoByEmail(Context context, String email){
-		if (Log.getDebug()) Log.v("Notification.loadContactsInfoByEmail()");
-		if (email == null) {
-			if (Log.getDebug()) Log.v("Notification.loadContactsInfoByEmail() Email provided is NULL: Exiting...");
-			return;
-		}
-		try{
-			//TODO - Write This Function loadContactsInfoByEmail(Context context, String email)
+//	/**
+//	 * Load the various contact info for this notification from an email address.
+//	 * 
+//	 * @param context
+//	 * @param email
+//	 */ 
+//	private void loadContactsInfoByEmail(Context context, String email){
+//		if (Log.getDebug()) Log.v("Notification.loadContactsInfoByEmail()");
+//		if (email == null) {
+//			if (Log.getDebug()) Log.v("Notification.loadContactsInfoByEmail() Email provided is NULL: Exiting...");
+//			return;
+//		}
+//		try{
+//			//TODO - Write This Function loadContactsInfoByEmail(Context context, String email)
 //			if (Log.getDebug()) Log.v("Notification.loadContactsInfo() Got PhoneNumber object");
 //			final String[] projection = null;
 //			final String selection = null;
@@ -1005,10 +1005,10 @@ public class Notification {
 //			      phoneCursor.close(); 
 //			}
 //			cursor.close();
-		}catch(Exception ex){
-			if (Log.getDebug()) Log.e("Notification.loadContactsInfo() ERROR: " + ex.toString());
-		}
-	}
+//		}catch(Exception ex){
+//			if (Log.getDebug()) Log.e("Notification.loadContactsInfo() ERROR: " + ex.toString());
+//		}
+//	}
 	
 	/**
 	 * Set the call log as viewed (not new) or new depending on the input.

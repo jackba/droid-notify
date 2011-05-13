@@ -189,6 +189,9 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 			Intent intent = new Intent(context, CalendarAlarmReceiver.class);
 			PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
 			// Set alarm to go off 5 minutes from the current time.
+			//This line of code is for testing.
+			//alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, SystemClock.elapsedRealtime() + (30 * 1000), AlarmManager.INTERVAL_DAY + reminderInterval, pendingIntent);
+			//--------------------------------
 			alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, SystemClock.elapsedRealtime() + (5 * 60 * 1000), AlarmManager.INTERVAL_DAY + reminderInterval, pendingIntent);
        }
 	}

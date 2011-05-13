@@ -77,6 +77,7 @@ public class CalendarNotificationAlarmReceiver extends BroadcastReceiver {
 			calendarIntent.setAction("apps.droidnotify.VIEW/CalendarReschedule/" + System.currentTimeMillis());
 			PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, calendarIntent, 0);
 			// Set alarm to go off 1 minute from the current time.
+			//TODO - Add a user preference to set the timeout time for rescheduled notifications.
 			alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + INTERVAL_ONE_MINUTE, pendingIntent);
 	    }
 	}

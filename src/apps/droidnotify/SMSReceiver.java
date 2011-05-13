@@ -64,7 +64,7 @@ public class SMSReceiver extends BroadcastReceiver{
 	    TelephonyManager telemanager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 	    boolean callStateIdle = telemanager.getCallState() == TelephonyManager.CALL_STATE_IDLE;
 	    // If the user is not in a call then start out work. 
-	    if (callStateIdle) {
+	    if(callStateIdle){
 			WakefulIntentService.acquireStaticLock(context);
 			Intent smsIntent = new Intent(context, SMSReceiverService.class);
 			smsIntent.putExtras(intent.getExtras());
@@ -77,6 +77,7 @@ public class SMSReceiver extends BroadcastReceiver{
 			smsIntent.setAction("apps.droidnotify.VIEW/SMSReschedule/" + System.currentTimeMillis());
 			PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, smsIntent, 0);
 			// Set alarm to go off 1 minute from the current time.
+			//TODO - Add a user preference to set the timeout time for rescheduled notifications.
 			alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + INTERVAL_ONE_MINUTE, pendingIntent);
 	    }
 	}

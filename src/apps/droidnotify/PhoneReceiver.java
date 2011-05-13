@@ -64,8 +64,7 @@ public class PhoneReceiver extends BroadcastReceiver{
 	    //Check the state of the users phone.
 		TelephonyManager telemanager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 	    boolean callStateIdle = telemanager.getCallState() == TelephonyManager.CALL_STATE_IDLE;
-	    if (Log.getDebug()) Log.v("PhoneReceiver.onReceive() Current Call State: " + telemanager.getCallState());
-	    if (callStateIdle) {
+	    if(callStateIdle){
 			//Schedule phone task x seconds after the broadcast.
 			//This time is set by the users advanced preferences. 5 seconds is the default value.
 			//This should allow enough time to pass for the phone log to be written to.

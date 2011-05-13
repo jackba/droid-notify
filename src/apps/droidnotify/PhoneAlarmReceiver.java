@@ -1,10 +1,13 @@
 package apps.droidnotify;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.telephony.TelephonyManager;
 
 public class PhoneAlarmReceiver extends BroadcastReceiver {
 
@@ -14,6 +17,7 @@ public class PhoneAlarmReceiver extends BroadcastReceiver {
     
 	private final String APP_ENABLED_KEY = "app_enabled";
 	private final String MISSED_CALL_NOTIFICATIONS_ENABLED_KEY = "missed_call_notifications_enabled";
+	private final long INTERVAL_ONE_MINUTE = (1 * 60 * 1000);
 	
 	//================================================================================
     // Properties
@@ -51,8 +55,22 @@ public class PhoneAlarmReceiver extends BroadcastReceiver {
 			if (Log.getDebug()) Log.v("PhoneAlarmReceiver.onReceive() Missed Call Notifications Disabled. Exiting... ");
 			return;
 		}
-		WakefulIntentService.acquireStaticLock(context);
-		context.startService(new Intent(context, PhoneAlarmReceiverService.class));
+	    //Check the state of the users phone.
+		TelephonyManager telemanager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+	    boolean callStateIdle = telemanager.getCallState() == TelephonyManager.CALL_STATE_IDLE;
+	    if (callStateIdle) {
+			WakefulIntentService.acquireStaticLock(context);
+			context.startService(new Intent(context, PhoneAlarmReceiverService.class));
+	    }else{
+	    	if (Log.getDebug()) Log.v("PhoneAlarmReceiver.onReceive() Phone Call In Progress. Rescheduling notification.");
+			AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+			Intent phoneIntent = new Intent(context, PhoneAlarmReceiver.class);
+			phoneIntent.setAction("apps.droidnotify.VIEW/PhoneReschedule/" + System.currentTimeMillis());
+			PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, phoneIntent, 0);
+			// Set alarm to go off 1 minute from the current time.
+			//TODO - Add a user preference to set the timeout time for rescheduled notifications.
+			alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + INTERVAL_ONE_MINUTE, pendingIntent);
+	    }
 	}
 
 	//================================================================================

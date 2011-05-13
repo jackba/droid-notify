@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- SMS Button Preferences Arrays --> 
+
+    <!-- SMS Preferences Arrays --> 
     <string-array name="sms_dismiss_button_options">
 		<item name="0">Mark As Read</item>
 		<item name="1">Nothing</item>
@@ -26,7 +27,7 @@
 		<item name="0">0</item>
 	</string-array>
 	
-	<!-- MMS Button Preferences Arrays --> 
+	<!-- MMS Preferences Arrays --> 
     <string-array name="mms_dismiss_button_options">
 		<item name="0">Mark As Read</item>
 		<item name="1">Nothing</item>
@@ -52,7 +53,7 @@
 		<item name="0">0</item>
 	</string-array>
 	
-	<!-- Missed Call Button Preferences Arrays --> 
+	<!-- Missed Call Preferences Arrays --> 
     <string-array name="missed_call_dismiss_button_options">
 		<item name="0">Mark As Read</item>
 		<item name="1">Delete From Call Log</item>
@@ -89,7 +90,18 @@
 		<item name="9">9</item>
 		<item name="10">10</item>
 	</string-array>
-	<!-- Calendar Event Button Preferences Arrays --> 
+    <string-array name="missed_call_call_log_options">
+		<item name="0">Get Latest Missed Call</item>
+		<item name="1">Get Recent Missed Calls</item>
+		<item name="2">Get All Missed Calls</item>
+	</string-array>
+	<string-array name="missed_call_call_log_options_values">
+		<item name="0">0</item>
+		<item name="1">1</item>
+		<item name="2">2</item>
+	</string-array>	
+	
+	<!-- Calendar Event Preferences Arrays --> 
     <string-array name="calendar_dismiss_button_options">
 		<item name="0">Nothing</item>
 	</string-array>
@@ -108,4 +120,43 @@
 		<item name="2">45</item>
 		<item name="3">60</item>
 	</string-array>
+	
+	<!-- Email Preferences Arrays --> 
+	
+	<!-- Other Preferences Arrays --> 
+    <string-array name="notification_reschedule_timeout_options">
+		<item name="0">15 Seconds</item>
+		<item name="1">30 Seconds</item>
+		<item name="2">45 Seconds</item>
+		<item name="3">1 Minute</item>
+		<item name="4">1 Minute 15 Seconds</item>
+		<item name="5">1 Minute 30 Seconds</item>
+		<item name="6">1 Minute  45 Seconds</item>
+		<item name="7">2 Minutes</item>
+	</string-array>
+	<string-array name="notification_reschedule_timeout_options_values">
+		<item name="0">0.25</item>
+		<item name="1">0.50</item>
+		<item name="2">0.75</item>
+		<item name="3">1</item>
+		<item name="4">1.25</item>
+		<item name="5">1.50</item>
+		<item name="6">1.75</item>
+		<item name="7">2</item>
+	</string-array>
+    <string-array name="notification_placeholder_image_options">
+		<item name="0">ic_contact_picture</item>
+		<item name="1">ic_contact_picture_1</item>
+		<item name="2">ic_contact_picture_2</item>
+		<item name="3">ic_contact_picture_3</item>
+		<item name="4">ic_contact_picture_4</item>
+	</string-array>
+	<string-array name="notification_placeholder_image_options_values">
+		<item name="0">ic_contact_picture</item>
+		<item name="1">ic_contact_picture_1</item>
+		<item name="2">ic_contact_picture_2</item>
+		<item name="3">ic_contact_picture_3</item>
+		<item name="4">ic_contact_picture_4</item>
+	</string-array>
+	
 </resources>
