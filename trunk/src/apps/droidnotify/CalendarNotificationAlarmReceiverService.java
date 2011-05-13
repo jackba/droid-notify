@@ -6,8 +6,7 @@ import android.os.Bundle;
 
 /**
  * 
-* @author Camille Sevigny
- *
+ * @author Camille Sevigny
  */
 public class CalendarNotificationAlarmReceiverService extends WakefulIntentService {
 	
@@ -28,7 +27,7 @@ public class CalendarNotificationAlarmReceiverService extends WakefulIntentServi
 	//================================================================================
 	
 	/**
-	 * 
+	 * Class Constructor.
 	 */
 	public CalendarNotificationAlarmReceiverService() {
 		super("CalendarNotificationAlarmReceiverService");
@@ -40,9 +39,9 @@ public class CalendarNotificationAlarmReceiverService extends WakefulIntentServi
 	//================================================================================
 	
 	/**
-	 * Do the work for the service inside this function.
+	 * Display the notification for this Calendar Event.
 	 * 
-	 * @param intent
+	 * @param intent - Intent object that we are working with.
 	 */
 	@Override
 	protected void doWakefulWork(Intent intent) {
@@ -57,7 +56,7 @@ public class CalendarNotificationAlarmReceiverService extends WakefulIntentServi
 	/**
 	 * Display the notification for this Calendar Event.
 	 * 
-	 * @param intent
+	 * @param intent - Intent object that we are working with.
 	 */
 	private void startNotificationActivity(Intent intent) {
 		Context context = getApplicationContext();

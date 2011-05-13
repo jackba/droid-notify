@@ -14,7 +14,6 @@ import android.widget.ViewFlipper;
 /**
  * 
  * @author Camille Sevigny
- *
  */
 public class NotificationViewFlipper extends ViewFlipper {
 
@@ -22,11 +21,8 @@ public class NotificationViewFlipper extends ViewFlipper {
     // Constants
     //================================================================================
 	
-	//private final int NOTIFICATION_TYPE_PHONE = 0;
 	private final int NOTIFICATION_TYPE_SMS = 1;
 	private final int NOTIFICATION_TYPE_MMS = 2;
-	//private final int NOTIFICATION_TYPE_CALENDAR = 3;
-	//private final int NOTIFICATION_TYPE_EMAIL = 4;
 	
 	final String SMS_DELETE_KEY = "sms_delete_button_action";
 	final String MMS_DELETE_KEY = "mms_delete_button_action";
@@ -52,7 +48,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 	//================================================================================
 	  
 	/**
-	 * NotificationViewFlipper constructor.
+	 * Class Constructor.
 	 */
 	public NotificationViewFlipper(Context context) {
 		super(context);
@@ -61,7 +57,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 	}
 	
 	/**
-	 * NotificationViewFlipper constructor.
+	 * Class Constructor.
 	 */	
 	public  NotificationViewFlipper(Context context, AttributeSet attributes) {
 		super(context, attributes);
@@ -74,6 +70,8 @@ public class NotificationViewFlipper extends ViewFlipper {
 	
 	/**
 	 * Get the notifications property.
+	 * 
+	 * @return ArrayList<Notification> - Returns the ArrayList of the Notifications.
 	 */ 
 	public ArrayList<Notification> getNotifications(){
 		if (Log.getDebug()) Log.v("NotificationViewFlipper.getNotifications()");
@@ -82,6 +80,8 @@ public class NotificationViewFlipper extends ViewFlipper {
 	
 	/**
 	 * Set the currentNotification property.
+	 * 
+	 * @param currentNotification - Int value of the current Notification.
 	 */ 
 	public void setCurrentNotification(int currentNotification){
 		if (Log.getDebug()) Log.v("NotificationViewFlipper.setCurrentNotification()");
@@ -90,6 +90,8 @@ public class NotificationViewFlipper extends ViewFlipper {
 	
 	/**
 	 * Get the currentNotification property.
+	 * 
+	 * @return int - Int value of the current Notification.
 	 */ 
 	public int getCurrentNotification(){
 		if (Log.getDebug()) Log.v("NotificationViewFlipper.getCurrentNotification()");
@@ -98,6 +100,8 @@ public class NotificationViewFlipper extends ViewFlipper {
 	
 	/**
 	 * Set the totalNotifications property.
+	 * 
+	 * @param totalNotifications - Int value of the total number of notifications.
 	 */ 
 	public void setTotalNotifications(int totalNotifications){
 		if (Log.getDebug()) Log.v("NotificationViewFlipper.setTotalNotifications()");
@@ -106,6 +110,8 @@ public class NotificationViewFlipper extends ViewFlipper {
 	
 	/**
 	 * Get the totalNotifications property.
+	 * 
+	 * @return int - Int value of the total number of notifications.
 	 */
 	public int getTotalNotifications(){
 		if (Log.getDebug()) Log.v("NotificationViewFlipper.getTotalNotifications()");
@@ -118,13 +124,19 @@ public class NotificationViewFlipper extends ViewFlipper {
 
 	/**
 	 * Retrieve the Notification at the current index.
+	 * 
+	 * @param notificationNumber - Index of a Notification in the ArrayList of Notifications.
+	 * 
+	 * @return Notification - Return the notification located at the specified index.
 	 */
 	public Notification getNotification(int notificationNumber){
 		return _notifications.get(notificationNumber);
 	}
 	
 	/**
-	 * Determine if the current message is the last message in the list.
+	 * Determine if the current Notification is the last Notification in the list.
+	 * 
+	 * @return boolean - Returns true if the current Notification is the last Notification in the ArrayList.
 	 */
 	public boolean isLastMessage(){
 		if (Log.getDebug()) Log.v("NotificationViewFlipper.isLastMessage()");
@@ -136,7 +148,9 @@ public class NotificationViewFlipper extends ViewFlipper {
 	}
 	  
 	/**
-	 * Determine if the current message is the first message in the list.
+	 * Determine if the current Notification is the first Notification in the list.
+	 * 
+	 * @return boolean - Returns true if the current Notification is the first Notification in the ArrayList.
 	 */
 	public boolean isFirstMessage(){
 		if (Log.getDebug()) Log.v("NotificationViewFlipper.isFirstMessage()");
@@ -151,7 +165,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 * Add notification to the notifications ArrayList.
 	 * Add new notification View to the ViewFlipper.
 	 * 
-	 * @param notification
+	 * @param notification - Notification to add to the ArrayList.
 	 */
 	public void addNotification(Notification notification) {
 		if (Log.getDebug()) Log.v("NotificationViewFlipper.addNotification()");
@@ -164,8 +178,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 	}
 
 	/**
-	 * Remove the currently active message.
-	 *
+	 * Remove the current Notification.
 	 */
 	public void removeActiveNotification() {
 		if (Log.getDebug()) Log.v("NotificationViewFlipper.removeActiveNotification()");
@@ -173,9 +186,9 @@ public class NotificationViewFlipper extends ViewFlipper {
 	}
 	
 	/**
-	* Remove the message and its view.
+	* Remove the Notification and its view.
 	*
-	* @param notificationNumber
+	* @param notificationNumber - Int of the notificaiton to be removed.
 	*/
 	public void removeNotification(int notificationNumber) {
 		if (Log.getDebug()) Log.v("NotificationViewFlipper.removeNotification() NotificationNumber: " + notificationNumber);
@@ -225,8 +238,10 @@ public class NotificationViewFlipper extends ViewFlipper {
 	}
 
 	/**
-	 * Return the active message.
-	 * The active message is the current message.
+	 * Return the active Notification.
+	 * The active Notification is the current message.
+	 * 
+	 * @return Notification - The Notification that is the current Notification.
 	 */	
 	public Notification getActiveMessage(){
 		if (Log.getDebug()) Log.v("NotificationViewFlipper.getActiveMessage()");
@@ -234,7 +249,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 	}
 	
 	/**
-	 * Function to show the next message in the list.
+	 * Show the next Notification/View in the list.
 	 */
 	@Override
 	public void showNext() {
@@ -248,7 +263,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 	}
 	  
 	/**
-	 * Function to show the previous message in the list.
+	 * Show the previous Notification/View in the list.
 	 */
 	@Override
 	public void showPrevious() {
@@ -262,9 +277,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 	}
 	
 	/**
-	 * Display the delete dialog from the activity and return the result.
-	 * 
-	 * @return Boolean of the confirmation of delete. 
+	 * Display the delete dialog from the activity.
 	 */
 	public void showDeleteDialog(){
 		if (Log.getDebug()) Log.v("NotificationViewFlipper.showDeleteDialog()");
@@ -272,7 +285,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 	}
 	
 	/**
-	 * Delete the current message from the users phone.
+	 * Delete the current Notification.
 	 */
 	public void deleteMessage(){
 		if (Log.getDebug()) Log.v("NotificationViewFlipper.deleteMessage()");
@@ -315,7 +328,9 @@ public class NotificationViewFlipper extends ViewFlipper {
 	
 	
 	/**
-	 * Function to animate the moving of the a message that comes from the right.
+	 * Animation of the moving of the a Notification that comes from the right.
+	 * 
+	 * @return Animation - Returns the Animation object.
 	 */
 	public Animation inFromRightAnimation() {
 		if (Log.getDebug()) Log.v("NotificationViewFlipper.inFromRightAnimation()");
@@ -330,7 +345,9 @@ public class NotificationViewFlipper extends ViewFlipper {
 	}
 	  
 	/**
-	 * Function to animate the moving of the a message that leaves to the left.
+	 * Animation of the moving of the a Notification that leaves to the left.
+	 * 
+	 * @return Animation - Returns the Animation object.
 	 */
 	public Animation outToLeftAnimation() {
 		if (Log.getDebug()) Log.v("NotificationViewFlipper.outToLeftAnimation()");
@@ -345,7 +362,9 @@ public class NotificationViewFlipper extends ViewFlipper {
 	}
 	  
 	/**
-	 * Function to animate the moving of the a message that comes from the left.
+	 * Animation of the moving of the a Notification that comes from the left.
+	 * 
+	 * @return Animation - Returns the Animation object.
 	 */
 	public Animation inFromLeftAnimation() {
 		if (Log.getDebug()) Log.v("NotificationViewFlipper.inFromLeftAnimation()");
@@ -360,7 +379,9 @@ public class NotificationViewFlipper extends ViewFlipper {
 	}
 	  
 	/**
-	 * Function to animate the moving of the a message that leaves to the right.
+	 * Animation of the moving of the a Notification that leaves to the right.
+	 * 
+	 * @return Animation - Returns the Animation object.
 	 */
 	public Animation outToRightAnimation() {
 		if (Log.getDebug()) Log.v("NotificationViewFlipper.outToRightAnimation()");
@@ -381,7 +402,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 	/**
 	 * Remove all Notifications with this thread ID.
 	 * 
-	 * @param threadID
+	 * @param threadID - Thread ID of the Notifications to be removed.
 	 */ 
 	private void removeNotifications(long threadID){
 		if (Log.getDebug()) Log.v("NotificationViewFlipper.removeNotifications() Thread ID: " + threadID);
@@ -397,6 +418,8 @@ public class NotificationViewFlipper extends ViewFlipper {
 	
 	/**
 	 * Initialize the ViewFlipper properties.
+	 * 
+	 * @param context - Application Context.
 	 */
 	private void init(Context context) {
 		if (Log.getDebug()) Log.v("NotificationViewFlipper.init()");
@@ -409,7 +432,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 * Set the notification as being viewed.
 	 * Let the Notification object handle this method.
 	 * 
-	 * @param notification
+	 * @param notification - The Notification to set as viewed.
 	 */
 	private void setNotificationViewed(Notification notification){
 		if (Log.getDebug()) Log.v("NotificationViewFlipper.setNotificationViewed()");
@@ -417,11 +440,11 @@ public class NotificationViewFlipper extends ViewFlipper {
 	}
 	
 	/**
-	 * Checks the ViewFlipper's notifications ArrayList if it contains this particular Notification.
+	 * Checks the ViewFlipper's notification ArrayList and returns true if it contains this particular Notification.
 	 * 
-	 * @param notification
+	 * @param notification - Notification to compare.
 	 * 
-	 * @return boolean
+	 * @return boolean - Returns true if the ArrayList contains the passed in Notification.
 	 */
 	private boolean containsNotification(Notification notification) {
 		if (Log.getDebug()) Log.v("NotificationViewFlipper.containsNotification()");

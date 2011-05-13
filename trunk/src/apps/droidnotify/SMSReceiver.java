@@ -13,7 +13,6 @@ import android.telephony.TelephonyManager;
  * This class listens for incoming text messages.
  * 
  * @author Camille Sevigny
- *
  */
 public class SMSReceiver extends BroadcastReceiver{
 
@@ -42,9 +41,11 @@ public class SMSReceiver extends BroadcastReceiver{
 	//================================================================================
 	
 	/**
-	 * This method onReceive() takes too long here (more than 10 seconds) and causes a 
-	 * "Application Not Responding: Wait/Close" message.
-	 * Instead use a service that executes in a different thread.
+	 * Receives the incomming SMS message. The SMS message is located within the Intent object.
+	 * This function starts the service that will handle the work or reschedules the work if the phone is in use.
+	 * 
+	 * @param context - Application Context.
+	 * @param intent - Intent object that we are working with.
 	 */
 	@Override
 	public void onReceive(Context context, Intent intent){

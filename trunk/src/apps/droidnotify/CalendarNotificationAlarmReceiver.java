@@ -12,7 +12,6 @@ import android.telephony.TelephonyManager;
 /**
  * 
  * @author Camille Sevigny
- *
  */
 public class CalendarNotificationAlarmReceiver extends BroadcastReceiver {
 
@@ -41,10 +40,11 @@ public class CalendarNotificationAlarmReceiver extends BroadcastReceiver {
 	//================================================================================
 	
 	/**
+	 * Receives a notification that the Calendar should be checked.
+	 * This function starts the service that will handle the work or reschedules the work if the phone is in use.
 	 * 
-	 * 
-	 * @param context
-	 * @param intent
+	 * @param context - Application Context.
+	 * @param intent - Intent object that we are working with.
 	 */
 	@Override
 	public void onReceive(Context context, Intent intent) {

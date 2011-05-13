@@ -5,10 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 
 /**
- * This class listens for incoming text messages and triggers the event.
+ * This class handles the work of processing incoming SMS messages.
  * 
  * @author Camille Sevigny
- *
  */
 public class SMSReceiverService extends WakefulIntentService {
 
@@ -16,11 +15,7 @@ public class SMSReceiverService extends WakefulIntentService {
     // Constants
     //================================================================================
 	
-	//private final int NOTIFICATION_TYPE_PHONE = 0;
 	private final int NOTIFICATION_TYPE_SMS = 1;
-	//private final int NOTIFICATION_TYPE_MMS = 2;
-	//private final int NOTIFICATION_TYPE_CALENDAR = 3;
-	//private final int NOTIFICATION_TYPE_EMAIL = 4;
 	
 	//================================================================================
     // Properties
@@ -39,7 +34,7 @@ public class SMSReceiverService extends WakefulIntentService {
 	//================================================================================
 	
 	/**
-	 * 
+	 * Class Constructor.
 	 */
 	public SMSReceiverService() {
 		super("SMSReceiverService");
@@ -53,7 +48,7 @@ public class SMSReceiverService extends WakefulIntentService {
 	/**
 	 * Do the work for the service inside this function.
 	 * 
-	 * @param intent
+	 * @param intent - Intent object that we are working with.
 	 */
 	@Override
 	protected void doWakefulWork(Intent intent) {
@@ -67,9 +62,9 @@ public class SMSReceiverService extends WakefulIntentService {
 	
 	/**
 	 * Display the notification to the screen.
-	 * Send add the SMS message to the intent object that we created for the new activity.
+	 * Send add the SMS message to the Intent object that we created for the new activity.
 	 * 
-	 * @param intent
+	 * @param intent - Intent object that we are working with.
 	 */
 	private void startNotificationActivity(Intent intent) {
 		if (Log.getDebug()) Log.v("SMSReceiverService.startNotificationActivity()");

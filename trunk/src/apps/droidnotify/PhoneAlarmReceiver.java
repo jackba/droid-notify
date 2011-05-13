@@ -9,6 +9,10 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 
+/**
+ * 
+ * @author Camille Sevigny
+ */
 public class PhoneAlarmReceiver extends BroadcastReceiver {
 
 	//================================================================================
@@ -36,10 +40,11 @@ public class PhoneAlarmReceiver extends BroadcastReceiver {
 	//================================================================================
 	
 	/**
+	 * Receives a notification that the phone state changed.
+	 * This function starts the service that will handle the work or reschedules the work if the phone is in use.
 	 * 
-	 * 
-	 * @param context
-	 * @param intent
+	 * @param context - Application Context.
+	 * @param intent - Intent object that we are working with.
 	 */
 	@Override
 	public void onReceive(Context context, Intent intent) {

@@ -17,7 +17,6 @@ import android.widget.Button;
 /**
  * 
  * @author Camille Sevigny
- *
  */
 public class DroidNotifyPreferenceActivity extends PreferenceActivity implements OnSharedPreferenceChangeListener {
 
@@ -47,7 +46,7 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 	/**
 	 * Set the context property.
 	 * 
-	 * @param context
+	 * @param context - Application Context.
 	 */
 	public void setContext(Context context) {
 		if (Log.getDebug()) Log.v("DroidNotifyPreferenceActivity.setContext()");
@@ -57,7 +56,7 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 	/**
 	 * Get the context property.
 	 * 
-	 * @return context
+	 * @return context - Application Context.
 	 */
 	public Context getContext() {
 		if (Log.getDebug()) Log.v("DroidNotifyPreferenceActivity.getContext()");
@@ -71,7 +70,7 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 	/**
 	 * The preference Activity was created.
 	 * 
-	 * @param savedInstanceState
+	 * @param savedInstanceState - Information about the current state of the PreferenceActivity.
 	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -127,8 +126,8 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 	/**
 	 * When a SharedPreference is changed this registered function is called.
 	 * 
-	 * @param sharedPreferences
-	 * @param key
+	 * @param sharedPreferences - The Preference object who's key was changed.
+	 * @param key - The String value of the preference Key who's preference value was changed.
 	 */
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 		if (Log.getDebug()) Log.v("DroidNotifyPreferenceActivity.onSharedPreferenceChanged() Key: " + key);
@@ -139,7 +138,7 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 	//================================================================================
 	
 	/**
-	 * Function to set up the "Test Notifications" button. 
+	 * Set up the "Test Notifications" button. 
 	 * When clicked, this button will display some fake notifications to the user using their current preference options.
 	 */
 	private void setupTestnotificationsButton(){
@@ -148,7 +147,7 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 		testNotificationsButton.setOnClickListener(new OnClickListener() {
 		    public void onClick(View view) {
 		    	if (Log.getDebug()) Log.v("Test Notifications Button Clicked()");
-		    	Context context = DroidNotifyPreferenceActivity.this;
+		    	Context context = getContext();
 		    	Bundle bundle = new Bundle();
 				bundle.putInt("notificationType", NOTIFICATION_TYPE_TEST);
 		    	Intent testIntent = new Intent(context, NotificationActivity.class);
@@ -160,8 +159,8 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 	}
 	
 	/**
-	 * This function starts the main AlarmManager that will check the users calendar for events.
-	 * This function should run only once when the application is installed.
+	 * Starts the main AlarmManager that will check the users calendar for events.
+	 * This should run only once when the application is installed.
 	 */
 	private void runOnceAlarmManager(){
 		if (Log.getDebug()) Log.v("DroidNotifyPreferenceActivity.runOnceAlarmManager()");

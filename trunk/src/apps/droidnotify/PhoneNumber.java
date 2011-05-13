@@ -3,7 +3,6 @@ package apps.droidnotify;
 /**
  * 
  * @author Camille Sevigny
- *
  */
 public class PhoneNumber {
 	
@@ -18,7 +17,9 @@ public class PhoneNumber {
 	//================================================================================
 	
 	/**
-	 * Constructor for a new PhoneNumber object.
+	 * Class Constructor.
+	 * 
+	 * @param phoneNumber - String of the phone number.
 	 */
 	public PhoneNumber(String phoneNumber){
 		if (Log.getDebug()) Log.v("PhoneNumber.PhoneNumber()");
@@ -32,7 +33,7 @@ public class PhoneNumber {
 	/**
 	 * Set the phoneNumber property.
 	 * 
-	 * @param phoneNumber
+	 * @param phoneNumber - String of phone number property
 	 */
 	public void setPhoneNumber(String phoneNumber){
 		if (Log.getDebug()) Log.v("PhoneNumber.setPhoneNumber() PhoneNumber: " + phoneNumber);
@@ -42,10 +43,10 @@ public class PhoneNumber {
 	/**
 	 * Get the phoneNumber property.
 	 * 
-	 * @return phoneNumber
+	 * @return phoneNumber - String of phone number property
 	 */
 	public String getPhoneNumber(){
-		if (Log.getDebug()) Log.v("PhoneNumber.getPhoneNumber()");
+		if (Log.getDebug()) Log.v("PhoneNumber.getPhoneNumber() PhoneNumber: " + _phoneNumber);
 		return _phoneNumber;
 	}
 	  
@@ -61,16 +62,15 @@ public class PhoneNumber {
 	 * Format the the phoneNumber property.
 	 * Standardize the number for comparison purposes.
 	 * 
-	 * @param phoneNumber
-	 * @return phoneNumber
+	 * @param phoneNumber - String of original phone number property
+	 * @return phoneNumber - String of formatted phone number property
 	 */
 	private String formatNumber(String  phoneNumber){
-		if (Log.getDebug()) Log.v("PhoneNumber.formatNumber() Number to format: " + phoneNumber);
+		if (Log.getDebug()) Log.v("PhoneNumber.formatNumber()");
 		phoneNumber = phoneNumber.replace("-", "");
 		if(phoneNumber.substring(0,1).equals("1")){
 			phoneNumber = phoneNumber.substring(1);
 		}
-		if (Log.getDebug()) Log.v("PhoneNumber.formatNumber() Formatted number: " + phoneNumber);
 		return phoneNumber;
 	}
 	
