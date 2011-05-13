@@ -1071,6 +1071,7 @@ public class NotificationActivity extends Activity {
 			}
 		}
 		if (Log.getDebug()) Log.v("NotificationActivity.acquireWakeLock() Aquired wake lock");
+		wakeLock.setReferenceCounted(false);
 		wakeLock.acquire();
 		setWakeLock(wakeLock);
 	}
