@@ -9,7 +9,7 @@
   * The keyguard will be disabled when a notification is received. It will be re-enabled after a set timeout period or when the notifications have all been cleared, whichever comes first.
   * If the phone is in a call notifications will not be shown but instead will be re-scheduled to at a later time.
   * There are preferences that allow you to customize each notification type individually as well as some other global preference settings.
- * *v1.0* _Coming Soon_
+ * *v1.0* _Coming Soon..._
   * Added more preference settings to customize the app.
   * Fixed a bug in the Calendar Event notifications.
   *
