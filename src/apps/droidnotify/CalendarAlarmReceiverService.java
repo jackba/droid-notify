@@ -27,7 +27,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.text.format.DateUtils;
 
 /**
  * This class handles the checking of the users calendars.
@@ -41,11 +40,7 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
     // Constants
     //================================================================================
 	
-	//private final int NOTIFICATION_TYPE_PHONE = 0;
-	//private final int NOTIFICATION_TYPE_SMS = 1;
-	//private final int NOTIFICATION_TYPE_MMS = 2;
 	private final int NOTIFICATION_TYPE_CALENDAR = 3;
-	//private final int NOTIFICATION_TYPE_EMAIL = 4;
 	
 	private final String _ID = "_id";
 	private final String CALENDAR_EVENT_ID = "event_id"; 
@@ -55,10 +50,6 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
     private final String CALENDAR_EVENT_ALL_DAY = "allDay"; 
     private final String CALENDAR_EVENT_DISPLAY_NAME = "displayName"; 
     private final String CALENDAR_SELECTED = "selected"; 
-    //private final String CALENDAR_INSTANCE_START_DAY = "startDay"; 
-    //private final String CALENDAR_EVENT_INSTANCE_START_MINUTE = "startMinute"; 
-    //private final String CALENDAR_EVENT_DESCRIPTION = "description";
-    //private final String CALENDAR_EVENT_LOCATION = "eventLocation";
     private final String CALENDAR_REMINDER_KEY = "calendar_reminder_settings";
 	
 	//================================================================================
@@ -162,11 +153,11 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
 			for (String calendarID : calendarIds) {
 				Uri.Builder builder = Uri.parse(contentProvider + "/instances/when").buildUpon();
 				long currentTime = System.currentTimeMillis();
-				ContentUris.appendId(builder, currentTime);
-				//For testing only, return events for next 2 weeks.
-				ContentUris.appendId(builder, currentTime + ( 2 * DateUtils.WEEK_IN_MILLIS));
-				//Search for events between now and the next 25 hours.
-				//ContentUris.appendId(builder, currentTime + AlarmManager.INTERVAL_DAY + reminderInterval);
+				long queryStartTime = currentTime + reminderInterval;
+				//The start time of the query should be the current time + the reminder interval.
+				ContentUris.appendId(builder, queryStartTime);
+				//The end time of the query should be one day past the start time.
+				ContentUris.appendId(builder, queryStartTime + AlarmManager.INTERVAL_DAY);
 				Cursor eventCursor = contentResolver.query(builder.build(),
 						new String[] { CALENDAR_EVENT_ID, CALENDAR_EVENT_TITLE, CALENDAR_INSTANCE_BEGIN, CALENDAR_INSTANCE_END, CALENDAR_EVENT_ALL_DAY},
 						"Calendars._id=" + calendarID,

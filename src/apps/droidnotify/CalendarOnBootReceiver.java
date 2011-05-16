@@ -21,7 +21,6 @@ public class CalendarOnBootReceiver extends BroadcastReceiver {
     
 	private final String APP_ENABLED_KEY = "app_enabled";
 	private final String CALENDAR_NOTIFICATIONS_ENABLED_KEY = "calendar_notifications_enabled";
-    private final String CALENDAR_REMINDER_KEY = "calendar_reminder_settings";
 
 	//================================================================================
     // Properties
@@ -60,12 +59,11 @@ public class CalendarOnBootReceiver extends BroadcastReceiver {
 			if (Log.getDebug()) Log.v("NotificationActivity.onCreate() Calendar Notifications Disabled. Exiting... ");
 			return;
 		}
-		long reminderInterval = Long.parseLong(preferences.getString(CALENDAR_REMINDER_KEY, "15")) * 60 * 1000;
 		AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 		Intent newIntent = new Intent(context, CalendarAlarmReceiver.class);
 		PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, newIntent, 0);
 		// Set alarm to go off 5 minutes from the current time.
-		alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (5 * 60 * 1000), AlarmManager.INTERVAL_DAY + reminderInterval, pendingIntent);
+		alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (5 * 60 * 1000), AlarmManager.INTERVAL_DAY, pendingIntent);
 	}
 	  
 	//================================================================================

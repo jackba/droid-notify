@@ -158,5 +158,92 @@
 		<item name="3">ic_contact_picture_3</item>
 		<item name="4">ic_contact_picture_4</item>
 	</string-array>
-	
+    <string-array name="reschedule_notification_timeout_options">
+		<item name="0">1 Minute</item>
+		<item name="1">2 Minutes</item>
+		<item name="2">3 Minutes</item>
+		<item name="3">4 Minutes</item>
+		<item name="4">5 Minutes</item>
+		<item name="5">10 Minutes</item>
+		<item name="6">15 Minutes</item>
+		<item name="7">30 Minutes</item>
+		<item name="8">45 Minutes</item>
+		<item name="9">1 Hour</item>
+	</string-array>
+	<string-array name="reschedule_notification_timeout_options_values">
+		<item name="0">1</item>
+		<item name="1">2</item>
+		<item name="2">3</item>
+		<item name="3">4</item>
+		<item name="4">5</item>
+		<item name="5">10</item>
+		<item name="6">15</item>
+		<item name="7">30</item>
+		<item name="8">45</item>
+		<item name="9">60</item>
+	</string-array>
+    <string-array name="wakelock_timeout_options">
+		<item name="0">10 Seconds</item>
+		<item name="1">15 Seconds</item>
+		<item name="2">20 Seconds</item>
+		<item name="3">25 Seconds</item>
+		<item name="4">30 Seconds</item>
+		<item name="5">45 Seconds</item>
+		<item name="6">1 Minute</item>
+		<item name="7">2 Minutes</item>
+		<item name="8">3 Minutes</item>
+		<item name="9">4 Minutes</item>
+		<item name="10">5 Minutes</item>
+		<item name="11">10 Minutes</item>
+		<item name="12">15 Minutes</item>
+		<item name="13">30 Minutes</item>
+	</string-array>
+	<string-array name="wakelock_timeout_options_values">
+		<item name="0">10</item>
+		<item name="1">15</item>
+		<item name="2">20</item>
+		<item name="3">25</item>
+		<item name="4">30</item>
+		<item name="5">45</item>
+		<item name="6">60</item>
+		<item name="7">120</item>
+		<item name="8">180</item>
+		<item name="9">240</item>
+		<item name="10">300</item>
+		<item name="11">600</item>
+		<item name="12">9000</item>
+		<item name="13">1800</item>
+	</string-array>
+    <string-array name="keyguard_timeout_options">
+		<item name="0">10 Seconds</item>
+		<item name="1">15 Seconds</item>
+		<item name="2">20 Seconds</item>
+		<item name="3">25 Seconds</item>
+		<item name="4">30 Seconds</item>
+		<item name="5">45 Seconds</item>
+		<item name="6">1 Minute</item>
+		<item name="7">2 Minutes</item>
+		<item name="8">3 Minutes</item>
+		<item name="9">4 Minutes</item>
+		<item name="10">5 Minutes</item>
+		<item name="11">10 Minutes</item>
+		<item name="12">15 Minutes</item>
+		<item name="13">30 Minutes</item>
+	</string-array>
+	<string-array name="keyguard_timeout_options_values">
+		<item name="0">10</item>
+		<item name="1">15</item>
+		<item name="2">20</item>
+		<item name="3">25</item>
+		<item name="4">30</item>
+		<item name="5">45</item>
+		<item name="6">60</item>
+		<item name="7">120</item>
+		<item name="8">180</item>
+		<item name="9">240</item>
+		<item name="10">300</item>
+		<item name="11">600</item>
+		<item name="12">9000</item>
+		<item name="13">1800</item>
+	</string-array>
 </resources>

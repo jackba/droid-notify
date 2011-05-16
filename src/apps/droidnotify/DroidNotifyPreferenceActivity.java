@@ -28,7 +28,6 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 	private final String APP_ENABLED_KEY = "app_enabled";
 	private final String CALENDAR_NOTIFICATIONS_ENABLED_KEY = "calendar_notifications_enabled";
 	private final int NOTIFICATION_TYPE_TEST = -1;
-    private final String CALENDAR_REMINDER_KEY = "calendar_reminder_settings";
 	
 	//================================================================================
     // Properties
@@ -178,7 +177,6 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 			return;
 		}
 		boolean runOnce = preferences.getBoolean("runOnce", true);
-		long reminderInterval = Long.parseLong(preferences.getString(CALENDAR_REMINDER_KEY, "15")) * 60 * 1000;
 		if(runOnce) {
 			if (Log.getDebug()) Log.v("DroidNotifyPreferenceActivity.runOnceAlarmManager() Alarm Code Running");
 			SharedPreferences.Editor editor = preferences.edit();
@@ -192,7 +190,7 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 			//This line of code is for testing.
 			//alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, SystemClock.elapsedRealtime() + (30 * 1000), AlarmManager.INTERVAL_DAY + reminderInterval, pendingIntent);
 			//--------------------------------
-			alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, SystemClock.elapsedRealtime() + (5 * 60 * 1000), AlarmManager.INTERVAL_DAY + reminderInterval, pendingIntent);
+			alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, SystemClock.elapsedRealtime() + (5 * 60 * 1000), AlarmManager.INTERVAL_DAY, pendingIntent);
        }
 	}
 	

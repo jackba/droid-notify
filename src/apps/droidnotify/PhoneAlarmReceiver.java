@@ -22,7 +22,7 @@ public class PhoneAlarmReceiver extends BroadcastReceiver {
     
 	private final String APP_ENABLED_KEY = "app_enabled";
 	private final String MISSED_CALL_NOTIFICATIONS_ENABLED_KEY = "missed_call_notifications_enabled";
-	private final long INTERVAL_ONE_MINUTE = (1 * 60 * 1000);
+	private final String RESCHEDULE_NOTIFICATION_TIMEOUT_KEY = "reschedule_notification_timeout_settings";
 	
 	//================================================================================
     // Properties
@@ -73,9 +73,9 @@ public class PhoneAlarmReceiver extends BroadcastReceiver {
 			Intent phoneIntent = new Intent(context, PhoneAlarmReceiver.class);
 			phoneIntent.setAction("apps.droidnotify.VIEW/PhoneReschedule/" + System.currentTimeMillis());
 			PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, phoneIntent, 0);
-			// Set alarm to go off 1 minute from the current time.
-			//TODO - Add a user preference to set the timeout time for rescheduled notifications.
-			alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + INTERVAL_ONE_MINUTE, pendingIntent);
+			// Set alarm to go off x minutes from the current timeas defined by the user preferences.
+			long rescheduleInterval = Long.parseLong(preferences.getString(RESCHEDULE_NOTIFICATION_TIMEOUT_KEY, "5")) * 60 * 1000;
+			alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + rescheduleInterval, pendingIntent);
 	    }
 	}
 
