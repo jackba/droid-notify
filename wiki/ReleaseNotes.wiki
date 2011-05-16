@@ -3,5 +3,9 @@
 
 = Release Notes =
 
- * *v0.9* beta
-  * pending release...
+ * *v0.9* Beta Release (May 15, 2011)
+  * Popup a notification when a SMS message is received, a phone call is missed, and calendar events are occurring soon.
+  * The screen will be woken up when a notification is received. It will be re-enabled after a set timeout period or when the notifications have all been cleared, whichever comes first.
+  * The keyguard will be disabled when a notification is received. It will be re-enabled after a set timeout period or when the notifications have all been cleared, whichever comes first.
+  * If the phone is in a call notifications will not be shown but instead will be re-scheduled to at a later time.
+  * There are preferences that allow you to customize each notification type individually as well as some other global preference settings.
