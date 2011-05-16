@@ -12,4 +12,5 @@
  * *v1.0* _Coming Soon..._
   * Added more preference settings to customize the app.
   * Fixed a bug in the Calendar Event notifications.
+  * Prepped/setup the application so that translations can be incorporated.
   *
