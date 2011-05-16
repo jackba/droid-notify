@@ -97,4 +97,43 @@
    	<string name="preference_keyguard_enabled_summaryOn">Unlock phone when a notification is shown</string>
    	<string name="preference_keyguard_enabled_summaryOff">Do not unlock phone when a notification is shown</string>
    	
+   	<string name="preference_general">General</string>
+   	<string name="preference_notification_settings">Notification Settings</string>
+   	<string name="preference_notifications">Notifications</string>
+   	<string name="preference_sms_notifications">SMS Notifications</string>
+   	<string name="preference_sms_button_settings">SMS Button Settings</string>
+   	<string name="preference_dismiss_button_action">Dismiss Button Action</string>
+   	<string name="preference_sms_dismiss_button_action_summary">Define what happens when you dismiss a SMS.</string>
+   	<string name="preference_delete_button_action">Delete Button Action</string>
+   	<string name="preference_sms_delete_button_action_summary">Define what happens when you delete a SMS.</string>
+   	<string name="preference_reply_button_action">Reply Button Action</string>
+   	<string name="preference_sms_reply_button_action_summary">Define what happens when you reply to a SMS.</string>
+   	<string name="preference_sms_vibrate_settings">SMS Vibrate Settings</string>
+   	<string name="preference_mms_notifications">MMS Notifications</string>
+   	<string name="preference_mms_button_settings">MMS Button Settings</string>
+   	<string name="preference_mms_dismiss_button_action_summary">Define what happens when you dismiss a MMS.</string>
+   	<string name="preference_mms_delete_button_action_summary">Define what happens when you delete a MMS.</string>
+   	<string name="preference_mms_reply_button_action_summary">Define what happens when you reply to a MMS.</string>
+   	<string name="preference_mms_vibrate_settings">MMS Vibrate Settings</string>
+   	<string name="preference_missed_call_notifications">Missed Call Notifications</string>
+   	<string name="preference_missed_call_button_settings">Missed Call Button Settings</string>
+   	<string name="preference_missed_call_dismiss_button_action_summary">Define what happens when you dismiss a Missed Call.</string>
+   	<string name="preference_missed_call_vibrate_settings">Missed Call Vibrate Settings</string>
+   	<string name="preference_calendar_notifications">Calendar Notifications</string>
+   	<string name="preference_calendar_button_settings">Calendar Button Settings</string>
+   	<string name="preference_calendar_dismiss_button_action_summary">Define what happens when you dismiss a Calendar Event.</string>
+   	<string name="preference_event_reminder_settings">Event Reminder Settings</string>
+    <string name="preference_event_reminder_summary">How early do you want to be reminded about an upcoming event?</string>
+   	<string name="preference_calendar_vibrate_settings">Calendar Vibrate Settings</string>
+   	<string name="preference_screen_settings">Screen Settings</string>
+   	<string name="preference_advanced_settings">Advanced Settings</string>
+   	<string name="preference_call_log_timeout">Call Log Timeout</string>
+   	<string name="preference_call_log_timeout_summary">Define how long to wait after a call before querying the call log for a missed call.</string>
+    <string name="preference_reschedule_timeout">Reschedule Timeout</string>
+   	<string name="preference_reschedule_timeout_summary">Define how long to wait before a notification is rescheduled.</string> 	
+   	<string name="preference_wakelock_timeout">WakeLock Timeout</string>
+   	<string name="preference_wakelock_timeout_summary">Define how long to wait before releasing the phones WakeLock. The smaller the timeout, the less battery power is used.</string> 
+   	<string name="preference_keyguard_timeout">Keyguard Timeout</string>
+   	<string name="preference_keyguard_timeout_summary">Define how long to wait before a releasing the phones Keyguard.</string> 
+   	
 </resources>

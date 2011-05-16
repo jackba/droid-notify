@@ -65,6 +65,8 @@ public class NotificationActivity extends Activity {
 	private final String HAPTIC_FEEDBACK_ENABLED_KEY = "haptic_feedback_enabled";
 	private final String SMS_DELETE_KEY = "sms_delete_button_action";
 	private final String MMS_DELETE_KEY = "mms_delete_button_action";
+	private final String WAKELOCK_TIMEOUT_KEY = "wakelock_timeout_settings";
+	private final String KEYGUARD_TIMEOUT_KEY = "keyguard_timeout_settings";
 	
 	private final String SMS_DELETE_ACTION_DELETE_MESSAGE = "0";
 	private final String SMS_DELETE_ACTION_DELETE_THREAD = "1";
@@ -661,15 +663,15 @@ public class NotificationActivity extends Activity {
 	    }  
 	    //Set Vibration or Ringtone to announce Activity.
 	    runNotificationFeedback(notificationType);
+	    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 	    //Acquire WakeLock.
 	    acquireWakeLock(context);
-	    //TODO - Should this be set in a "timeout" thread to release after 1 minute or so in order to save battery power?
-	    //TODO - Add user preference to set the timeout value to enable the WakeLock.
-	    wakeLockHandler.sleep(30 * 1000);
+	    long wakelockTimeout = Long.parseLong(preferences.getString(WAKELOCK_TIMEOUT_KEY, "30")) * 1000;
+	    wakeLockHandler.sleep(wakelockTimeout * 1000);
 	    //Remove the KeyGuard.
 	    disableKeyguardLock(context);
-	    //TODO - Add user preference to set the timeout value to enable the Keyguard.
-	    keyguardHandler.sleep(30 * 1000);
+	    long keyguardTimeout = Long.parseLong(preferences.getString(KEYGUARD_TIMEOUT_KEY, "30")) * 1000;
+	    keyguardHandler.sleep(keyguardTimeout * 1000);
 	}
 	  
 	/**

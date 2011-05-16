@@ -2,7 +2,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 	<PreferenceCategory
 		android:key="main_setting_category"
-		android:title="General">
+		android:title="@string/preference_general">
 	<CheckBoxPreference
 		android:key="app_enabled" 
         android:title="@string/preference_appenabled_title" 
@@ -19,14 +19,14 @@
   	</PreferenceCategory>
 	<PreferenceCategory
 		android:key="notification_settings"
-		android:title="Notification Settings">
+		android:title="@string/preference_notification_settings">
 		<PreferenceScreen
 			android:key="notifications_enabled_settings"
-			android:title="Notifications"
+			android:title="@string/preference_notifications"
 			android:dependency="app_enabled">
 			<PreferenceCategory
 				android:key="sms_notification_settings_category"
-				android:title="SMS Notifications">
+				android:title="@string/preference_sms_notifications">
 				<CheckBoxPreference 
 					android:key="sms_notifications_enabled" 
 					android:title="@string/preference_sms_enabled_title" 
@@ -35,33 +35,33 @@
 					android:defaultValue="true" />
 				<PreferenceScreen
 					android:key="sms_button_settings"
-					android:title="SMS Button Settings"
+					android:title="@string/preference_sms_button_settings"
 					android:dependency="sms_notifications_enabled">
 					<ListPreference
 						android:key="sms_dismiss_button_action"
-						android:title="Dismiss Button Action"
-						android:summary="Define what happens when you dismiss a SMS."
+						android:title="@string/preference_dismiss_button_action"
+						android:summary="@string/preference_sms_dismiss_button_action_summary"
 						android:defaultValue="0"
 						android:entries="@array/sms_dismiss_button_options"
 						android:entryValues="@array/sms_dismiss_button_options_values"/>
 					<ListPreference
 						android:key="sms_delete_button_action"
-						android:title="Delete Button Action"
-						android:summary="Define what happens when you delete a SMS."
+						android:title="@string/preference_delete_button_action"
+						android:summary="@string/preference_sms_delete_button_action_summary"
 						android:defaultValue="0"
 						android:entries="@array/sms_delete_button_options"
 						android:entryValues="@array/sms_delete_button_options_values"/>
 					<ListPreference
 						android:key="sms_reply_button_action"
-						android:title="Reply Button Action"
-						android:summary="Define what happens when you reply to a SMS."
+						android:title="@string/preference_reply_button_action"
+						android:summary="@string/preference_sms_reply_button_action_summary"
 						android:defaultValue="0"
 						android:entries="@array/sms_reply_button_options"
 						android:entryValues="@array/sms_reply_button_options_values"/>
 				</PreferenceScreen>
 				<PreferenceScreen
 					android:key="sms_vibrate_settings"
-					android:title="SMS Vibrate Settings"
+					android:title="@string/preference_sms_vibrate_settings"
 					android:dependency="sms_notifications_enabled">
 					<CheckBoxPreference 
 						android:key="sms_vibrate_enabled" 
@@ -73,7 +73,7 @@
   			</PreferenceCategory>
 			<PreferenceCategory
 				android:key="mms_notification_settings_category"
-				android:title="MMS Notifications">
+				android:title="@string/preference_mms_notifications">
 				<CheckBoxPreference 
 					android:key="mms_notifications_enabled" 
 					android:title="@string/preference_mms_enabled_title" 
@@ -83,33 +83,33 @@
 					android:enabled="false" />
 				<PreferenceScreen
 					android:key="mms_button_settings"
-					android:title="MMS Button Settings"
+					android:title="@string/preference_sms_button_settings"
 					android:dependency="mms_notifications_enabled">
 					<ListPreference
 						android:key="mms_dismiss_button_action"
-						android:title="Dismiss Button Action"
-						android:summary="Define what happens when you dismiss a MMS."
+						android:title="@string/preference_dismiss_button_action"
+						android:summary="@string/preference_mms_dismiss_button_action_summary"
 						android:defaultValue="0"
 						android:entries="@array/mms_dismiss_button_options"
 						android:entryValues="@array/mms_dismiss_button_options_values"/>
 					<ListPreference
 						android:key="mms_delete_button_action"
-						android:title="Delete Button Action"
-						android:summary="Define what happens when you delete a MMS."
+						android:title="@string/preference_delete_button_action"
+						android:summary="@string/preference_mms_delete_button_action_summary"
 						android:defaultValue="0"
 						android:entries="@array/mms_delete_button_options"
 						android:entryValues="@array/mms_delete_button_options_values"/>
 					<ListPreference
 						android:key="mms_reply_button_action"
-						android:title="Reply Button Action"
-						android:summary="Define what happens when you reply to a MMS."
+						android:title="@string/preference_reply_button_action"
+						android:summary="@string/preference_mms_reply_button_action_summary"
 						android:defaultValue="0"
 						android:entries="@array/mms_reply_button_options"
 						android:entryValues="@array/mms_reply_button_options_values"/>
 				</PreferenceScreen>
 				<PreferenceScreen
 					android:key="mms_vibrate_settings"
-					android:title="MMS Vibrate Settings"
+					android:title="@string/preference_mms_vibrate_settings"
 					android:dependency="mms_notifications_enabled">
 					<CheckBoxPreference 
 						android:key="sms_vibrate_enabled" 
@@ -121,7 +121,7 @@
   			</PreferenceCategory>
 			<PreferenceCategory
 				android:key="missed_call_notification_settings_category"
-				android:title="Missed Call Notifications">
+				android:title="@string/preference_missed_call_notifications">
 				<CheckBoxPreference 
 					android:key="missed_call_notifications_enabled" 
 					android:title="@string/preference_missed_call_enabled_title" 
@@ -130,19 +130,19 @@
 					android:defaultValue="true" />
 				<PreferenceScreen
 					android:key="missed_call_button_settings"
-					android:title="Missed Call Button Settings"
+					android:title="@string/preference_missed_call_button_settings"
 					android:dependency="missed_call_notifications_enabled">
 					<ListPreference
 						android:key="missed_call_dismiss_button_action"
-						android:title="Dismiss Button Action"
-						android:summary="Define what happens when you dismiss a Missed Call."
+						android:title="@string/preference_dismiss_button_action"
+						android:summary="@string/preference_missed_call_dismiss_button_action_summary"
 						android:defaultValue="0"
 						android:entries="@array/missed_call_dismiss_button_options"
 						android:entryValues="@array/missed_call_dismiss_button_options_values"/>
 				</PreferenceScreen>
 				<PreferenceScreen
 					android:key="missed_call_vibrate_settings"
-					android:title="Missed Call Vibrate Settings"
+					android:title="@string/preference_missed_call_vibrate_settings"
 					android:dependency="missed_call_notifications_enabled">
 					<CheckBoxPreference 
 						android:key="missed_call_vibrate_enabled" 
@@ -154,7 +154,7 @@
 			</PreferenceCategory>
 			<PreferenceCategory
 				android:key="calendar_notification_settings_category"
-				android:title="Calendar Event Notifications">
+				android:title="@string/preference_calendar_notifications">
 				<CheckBoxPreference 
 					android:key="calendar_notifications_enabled" 
 					android:title="@string/preference_calendar_enabled_title" 
@@ -163,27 +163,27 @@
 					android:defaultValue="true" />
 				<PreferenceScreen
 					android:key="calendar_button_settings"
-					android:title="Calendar Button Settings"
+					android:title="@string/preference_calendar_button_settings"
 					android:dependency="calendar_notifications_enabled">
 					<ListPreference
 						android:key="calendar_dismiss_button_action"
-						android:title="Dismiss Button Action"
-						android:summary="Define what happens when you dismiss a Calendar Event."
+						android:title="@string/preference_dismiss_button_action"
+						android:summary="@string/preference_calendar_dismiss_button_action_summary"
 						android:defaultValue="0"
 						android:entries="@array/calendar_dismiss_button_options"
 						android:entryValues="@array/calendar_dismiss_button_options_values"/>
 				</PreferenceScreen>
 				<ListPreference
 					android:key="calendar_reminder_settings"
-					android:title="Event Reminder Settings"
-					android:summary="How early do you want to be reminded about an upcoming event?"
+					android:title="@string/preference_event_reminder_settings"
+					android:summary="@string/preference_event_reminder_summary"
 					android:defaultValue="15"
 					android:entries="@array/calendar_reminder_options"
 					android:entryValues="@array/calendar_reminder_options_values"
 					android:dependency="calendar_notifications_enabled" />
 				<PreferenceScreen
 					android:key="calendar_vibrate_settings"
-					android:title="Calendar Event Vibrate Settings"
+					android:title="@string/preference_calendar_vibrate_settings"
 					android:dependency="calendar_notifications_enabled">
 					<CheckBoxPreference 
 						android:key="calendar_vibrate_enabled" 
@@ -197,10 +197,10 @@
   	</PreferenceCategory>
 	<PreferenceCategory
 		android:key="screen_settings_category"
-		android:title="Screen Settings">
+		android:title="@string/preference_screen_settings">
 		<PreferenceScreen
 			android:key="screen_settings"
-			android:title="Screen Settings"
+			android:title="@string/preference_screen_settings"
 			android:dependency="app_enabled">
 			<CheckBoxPreference 
 				android:key="screen_enabled" 
@@ -228,16 +228,40 @@
 		android:title="Advanced Settings">
 		<PreferenceScreen
 			android:key="advanced_settings"
-			android:title="Advanced Settings"
+			android:title="@string/preference_advanced_settings"
 			android:dependency="app_enabled">
 			<ListPreference
 				android:key="call_log_timeout_settings"
-				android:title="Call Log Timeout"
-				android:summary="Define how long to wait after a call before querying the call log for a missed call."
+				android:title="@string/preference_call_log_timeout"
+				android:summary="@string/preference_call_log_timeout_summary"
 				android:defaultValue="5"
 				android:entries="@array/call_log_timeout_options"
 				android:entryValues="@array/call_log_timeout_options_values"
 				android:dependency="calendar_notifications_enabled" />
+			<ListPreference
+				android:key="reschedule_notification_timeout_settings"
+				android:title="@string/preference_reschedule_timeout"
+				android:summary="@string/preference_reschedule_timeout_summary"
+				android:defaultValue="5"
+				android:entries="@array/reschedule_notification_timeout_options"
+				android:entryValues="@array/reschedule_notification_timeout_options_values"
+				android:dependency="app_enabled" />
+			<ListPreference
+				android:key="wakelock_timeout_settings"
+				android:title="@string/preference_wakelock_timeout"
+				android:summary="@string/preference_wakelock_timeout_summary"
+				android:defaultValue="4"
+				android:entries="@array/wakelock_timeout_options"
+				android:entryValues="@array/wakelock_timeout_options_values"
+				android:dependency="app_enabled" />
+			<ListPreference
+				android:key="keyguard_timeout_settings"
+				android:title="@string/preference_keyguard_timeout"
+				android:summary="@string/preference_keyguard_timeout_summary"
+				android:defaultValue="4"
+				android:entries="@array/keyguard_timeout_options"
+				android:entryValues="@array/keyguard_timeout_options_values"
+				android:dependency="app_enabled" />
 		</PreferenceScreen>
 	</PreferenceCategory>
 	<PreferenceCategory
