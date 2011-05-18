@@ -277,4 +277,17 @@
       		android:positiveButtonText="OK"
       		android:negativeButtonText="@null" />
 	</PreferenceCategory>
+	<PreferenceCategory
+		android:key="app_license"
+		android:title="@string/license_info">
+  		<apps.droidnotify.preferences.AboutDialogPreference
+  			android:key="droid_notify_license" 
+  			android:dialogIcon="@drawable/ic_dialog_info"
+  			android:dialogTitle="@string/app_license"
+			android:title="@string/license"
+      		android:summary="@string/app_license"
+      		android:dialogMessage="@string/eula_text"
+      		android:positiveButtonText="OK"
+      		android:negativeButtonText="@null" />
+	</PreferenceCategory>
 </PreferenceScreen>
