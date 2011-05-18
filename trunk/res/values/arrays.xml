@@ -22,9 +22,11 @@
 	</string-array>
     <string-array name="sms_reply_button_options">
 		<item name="0">Reply Using Android</item>
+		<item name="1">Reply Using Quick Reply</item>
 	</string-array>
 	<string-array name="sms_reply_button_options_values">
 		<item name="0">0</item>
+		<item name="1">1</item>
 	</string-array>
 	
 	<!-- MMS Preferences Arrays --> 

@@ -21,6 +21,11 @@
     <string name="delete_thread_dialog_text">The entire thread will be deleted from the phone.</string>
     <string name="loading_notification_text">Loading Notifications...</string>
     <string name="to_text">To</string>
+    <string name="about_text">About</string>
+    <string name="advanced_settings_text">Advanced Settings</string>
+    <string name="ok_text">OK</string>
+    <string name="close_text">Close</string>
+    <string name="quick_reply">Quick Reply</string>
     
     <!-- Button Strings -->  
     <string name="view_mms_button_text">View MMS</string>

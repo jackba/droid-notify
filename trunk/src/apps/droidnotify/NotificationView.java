@@ -15,6 +15,7 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.telephony.PhoneNumberFormattingTextWatcher;
@@ -47,6 +48,9 @@ public class NotificationView extends LinearLayout {
 	private final int NOTIFICATION_TYPE_EMAIL = 4;
 	
 	private final String HAPTIC_FEEDBACK_ENABLED_KEY = "haptic_feedback_enabled";
+	private final String SMS_REPLY_BUTTON_ACTION_KEY = "sms_reply_button_action";
+	private final String SMS_ANDROID_REPLY = "0";
+	private final String SMS_QUICK_REPLY = "1";
 	private final String EVENT_BEGIN_TIME = "beginTime";
 	private final String EVENT_END_TIME = "endTime";
 	
@@ -780,19 +784,33 @@ public class NotificationView extends LinearLayout {
 	 */
 	private void replyToMessage() {
 		if (Log.getDebug()) Log.v("NotificationView.replyToMessage()");
-		//TODO - Add a "Quick Reply" screen and base it on the users preferences.
 		Context context = getContext();
 		Notification notification = getNotification();
 		String phoneNumber = notification.getPhoneNumber();
-		Intent intent = new Intent(Intent.ACTION_VIEW);
-	    intent.setType("vnd.android-dir/mms-sms");
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-        		| Intent.FLAG_ACTIVITY_SINGLE_TOP
-        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
-        		| Intent.FLAG_ACTIVITY_NO_HISTORY
-        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-	    intent.putExtra("address", phoneNumber);
-	    context.startActivity(intent);
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+		//Reply using Android's SMS Messaging app.
+		if(preferences.getString(SMS_REPLY_BUTTON_ACTION_KEY, "0").equals(SMS_ANDROID_REPLY)){
+			Intent intent = new Intent(Intent.ACTION_VIEW);
+		    intent.setType("vnd.android-dir/mms-sms");
+	        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+	        		| Intent.FLAG_ACTIVITY_SINGLE_TOP
+	        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
+	        		| Intent.FLAG_ACTIVITY_NO_HISTORY
+	        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+		    intent.putExtra("address", phoneNumber);
+		    context.startActivity(intent);
+		}	
+		//Reply using the built in Quick Reply Activity.
+		if(preferences.getString(SMS_REPLY_BUTTON_ACTION_KEY, "0").equals(SMS_QUICK_REPLY)){
+			Intent intent = new Intent(context, QuickReplyActivity.class);
+			if (Log.getDebug()) Log.v("NotificationView.replyToMessage() Put phone number in bundle");
+	        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP
+	        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+	        if (Log.getDebug()) Log.v("NotificationView.replyToMessage() Put bundle in intent");
+		    intent.putExtra("smsPhoneNumber", phoneNumber);
+		    intent.putExtra("smsMessage", "");
+		    context.startActivity(intent);
+		}
 	}
 	
 	/**

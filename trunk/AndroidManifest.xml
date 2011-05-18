@@ -51,8 +51,12 @@
    		<activity 
    			android:name=".NotificationActivity" 
    			android:theme="@style/Theme.TranslucentDialog"
-			android:launchMode="singleTask" 
-			android:configChanges="keyboardHidden|orientation"
+			android:launchMode="singleTask"
+			android:screenOrientation="user" />
+		<activity 
+   			android:name=".QuickReplyActivity" 
+   			android:theme="@style/Theme.TranslucentDialog"
+			android:launchMode="singleTask"
 			android:screenOrientation="user" />
     </application>
 	<uses-permission android:name="android.permission.CALL_PHONE" />

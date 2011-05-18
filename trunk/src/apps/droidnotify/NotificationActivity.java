@@ -764,13 +764,13 @@ public class NotificationActivity extends Activity {
 				}
 				builder.setPositiveButton(R.string.delete_button_text, new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
-							customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+							//customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 							deleteMessage();
 						}
 					})
 					.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
-							customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+							//customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 			            	dialog.cancel();
 						}
 					});
