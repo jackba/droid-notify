@@ -1,8 +1,10 @@
 package apps.droidnotify;
 
 import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
@@ -81,6 +83,7 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 	    setContentView(R.xml.preferenceswrapper);
 	    runOnceAlarmManager();
 	    setupTestnotificationsButton();
+	    runOnceEula();
 	}
 
 	//================================================================================
@@ -168,17 +171,16 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		//Read preferences and exit if app is disabled.
 	    if(!preferences.getBoolean(APP_ENABLED_KEY, true)){
-			if (Log.getDebug()) Log.v("SMSReceiver.onReceive() App Disabled. Exiting...");
+			if (Log.getDebug()) Log.v("DroidNotifyPreferenceActivity.runOnceAlarmManager() App Disabled. Exiting...");
 			return;
 		}
 		//Read preferences and exit if calendar notifications are disabled.
 	    if(!preferences.getBoolean(CALENDAR_NOTIFICATIONS_ENABLED_KEY, true)){
-			if (Log.getDebug()) Log.v("NotificationActivity.onCreate() Calendar Notifications Disabled. Exiting... ");
+			if (Log.getDebug()) Log.v("DroidNotifyPreferenceActivity.runOnceAlarmManager() Calendar Notifications Disabled. Exiting... ");
 			return;
 		}
 		boolean runOnce = preferences.getBoolean("runOnce", true);
 		if(runOnce) {
-			if (Log.getDebug()) Log.v("DroidNotifyPreferenceActivity.runOnceAlarmManager() Alarm Code Running");
 			SharedPreferences.Editor editor = preferences.edit();
 			editor.putBoolean("runOnce", false);
 			editor.commit();
@@ -192,6 +194,31 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 			//--------------------------------
 			alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, SystemClock.elapsedRealtime() + (5 * 60 * 1000), AlarmManager.INTERVAL_DAY, pendingIntent);
        }
+	}
+	
+	/**
+	 * This displays the EULA to the user the first time the app is run.
+	 */
+	private void runOnceEula(){
+		if (Log.getDebug()) Log.v("DroidNotifyPreferenceActivity.runOnceEula()");
+		Context context = getContext();
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		boolean runOnceEula = preferences.getBoolean("runOnceEula", true);
+		if(runOnceEula) {
+			SharedPreferences.Editor editor = preferences.edit();
+			editor.putBoolean("runOnceEula", false);
+			editor.commit();
+			AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+			alertDialog.setIcon(R.drawable.ic_dialog_info);
+			alertDialog.setTitle(R.string.app_license);
+			alertDialog.setMessage(R.string.eula_text);
+		    alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+		    	public void onClick(DialogInterface dialogInterface, int id) {
+		    		//Action on dialog close. Do nothing.
+		       }
+		     });
+		    alertDialog.show();
+		}
 	}
 	
 }
