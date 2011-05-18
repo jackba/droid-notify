@@ -14,4 +14,5 @@
   * Fixed a bug in the Calendar Event notifications.
   * Prepped/setup the application so that translations can be incorporated.
   * Added the GNU V3 End User License Agreement to the app.
+  * Added new Quick Reply built in SMS Message screen. This will be an option that you can specify in the app's preferences. You can use the built in Messaging App to send messages or this new built in Quick Reply screen.
   *
