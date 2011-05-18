@@ -225,7 +225,7 @@
 	</PreferenceCategory>
 	<PreferenceCategory
 		android:key="advanced_settings_category"
-		android:title="Advanced Settings">
+		android:title="@string/advanced_settings_text">
 		<PreferenceScreen
 			android:key="advanced_settings"
 			android:title="@string/preference_advanced_settings"
@@ -266,7 +266,7 @@
 	</PreferenceCategory>
 	<PreferenceCategory
 		android:key="notification_info"
-		android:title="About">
+		android:title="@string/about_text">
   		<apps.droidnotify.preferences.AboutDialogPreference
   			android:key="about_droid_notify" 
   			android:dialogIcon="@drawable/ic_launcher_droidnotify"
@@ -274,7 +274,7 @@
 			android:title="@string/preference_about"
       		android:summary="@string/preference_about_summary"
       		android:dialogMessage="@string/preference_about_text"
-      		android:positiveButtonText="OK"
+      		android:positiveButtonText="@string/ok_text"
       		android:negativeButtonText="@null" />
 	</PreferenceCategory>
 	<PreferenceCategory
@@ -287,7 +287,7 @@
 			android:title="@string/license"
       		android:summary="@string/app_license"
       		android:dialogMessage="@string/eula_text"
-      		android:positiveButtonText="OK"
+      		android:positiveButtonText="@string/ok_text"
       		android:negativeButtonText="@null" />
 	</PreferenceCategory>
 </PreferenceScreen>
