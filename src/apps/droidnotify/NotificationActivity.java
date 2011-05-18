@@ -629,7 +629,6 @@ public class NotificationActivity extends Activity {
 		super.onCreate(bundle);
 	    if (Log.getDebug()) Log.v("NotificationActivity.onCreate()");
 	    Context context = getApplicationContext();
-	    //Initialize properties.
 	    setBundle(bundle);
 	    setContext(context);
 	    Bundle extrasBundle = getIntent().getExtras();
