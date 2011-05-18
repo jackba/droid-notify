@@ -16,11 +16,11 @@
     <string name="email_at_text">New email at %s</string>
     <string name="from_phone_number_text">From %s</string>
     <string name="subject_text">Subject:</string>
-    <string name="reply_to_text">To: %s</string>
     <string name="delete_message_dialog_title_text">Delete</string>
     <string name="delete_message_dialog_text">This will delete the message from the phone.</string>
     <string name="delete_thread_dialog_text">The entire thread will be deleted from the phone.</string>
     <string name="loading_notification_text">Loading Notifications...</string>
+    <string name="to_text">To</string>
     
     <!-- Button Strings -->  
     <string name="view_mms_button_text">View MMS</string>
