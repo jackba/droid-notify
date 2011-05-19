@@ -11,6 +11,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -67,6 +70,12 @@ public class NotificationActivity extends Activity {
 	private final String MMS_DELETE_KEY = "mms_delete_button_action";
 	private final String WAKELOCK_TIMEOUT_KEY = "wakelock_timeout_settings";
 	private final String KEYGUARD_TIMEOUT_KEY = "keyguard_timeout_settings";
+	private final String MISSED_CALL_RINGTONE_ENABLED_KEY = "missed_call_ringtone_enabled";
+	private final String SMS_RINGTONE_ENABLED_KEY = "sms_ringtone_enabled";
+	private final String MMS_RINGTONE_ENABLED_KEY = "mms_ringtone_enabled";
+	private final String CALENDAR_RINGTONE_ENABLED_KEY = "calendar_ringtone_enabled";
+	private final String ALL_VIBRATE_ENABLED_KEY = "app_vibrations_enabled";
+	private final String ALL_RINGTONE_ENABLED_KEY = "app_ringtones_enabled";
 	
 	private final String SMS_DELETE_ACTION_DELETE_MESSAGE = "0";
 	private final String SMS_DELETE_ACTION_DELETE_THREAD = "1";
@@ -103,8 +112,10 @@ public class NotificationActivity extends Activity {
 	private Button _nextButton = null;
 	private TextView _notificationCountTextView = null;
 	private InputMethodManager _inputMethodManager = null;
-	private WakeLockHandler wakeLockHandler = new WakeLockHandler();
-	private KeyguardHandler keyguardHandler = new KeyguardHandler();
+	private WakeLockHandler _wakeLockHandler = new WakeLockHandler();
+	private KeyguardHandler _keyguardHandler = new KeyguardHandler();
+	private Ringtone _ringtone = null;
+	private RingtoneHandler _ringtoneHandler = new RingtoneHandler();
 
 	//================================================================================
 	// Constructors
@@ -313,6 +324,26 @@ public class NotificationActivity extends Activity {
 		if (Log.getDebug()) Log.v("NotificationActivity.getInputMethodManager()");
 	    return _inputMethodManager;
 	}	
+
+	/**
+	 * Set the ringtone property.
+	 * 
+	 * @param Ringtone
+	 */
+	public void setRingtone(Ringtone ringtone) {
+		if (Log.getDebug()) Log.v("NotificationActivity.setRingtone()");
+		_ringtone = ringtone;
+	}
+	
+	/**
+	 * Get the ringtone property.
+	 * 
+	 * @return ringtone - Ringtone
+	 */
+	public Ringtone getRingtone() {
+		if (Log.getDebug()) Log.v("NotificationActivity.getRingtone()");
+	    return _ringtone;
+	}
 	
 	//================================================================================
 	// Public Methods
@@ -614,6 +645,14 @@ public class NotificationActivity extends Activity {
 			}
 		}
 	}
+	
+	/**
+	 * Handles the activity when the configuration changes (e.g. The phone switches from portrait view to landscape view).
+	 */
+	public void onConfigurationChanged(Configuration config) {
+        super.onConfigurationChanged(config);                
+        //Do Nothing (For Now).
+	}
     
 	//================================================================================
 	// Protected Methods
@@ -666,11 +705,11 @@ public class NotificationActivity extends Activity {
 	    //Acquire WakeLock.
 	    acquireWakeLock(context);
 	    long wakelockTimeout = Long.parseLong(preferences.getString(WAKELOCK_TIMEOUT_KEY, "30")) * 1000;
-	    wakeLockHandler.sleep(wakelockTimeout * 1000);
+	    _wakeLockHandler.sleep(wakelockTimeout * 1000);
 	    //Remove the KeyGuard.
 	    disableKeyguardLock(context);
 	    long keyguardTimeout = Long.parseLong(preferences.getString(KEYGUARD_TIMEOUT_KEY, "30")) * 1000;
-	    keyguardHandler.sleep(keyguardTimeout * 1000);
+	    _keyguardHandler.sleep(keyguardTimeout * 1000);
 	}
 	  
 	/**
@@ -818,10 +857,15 @@ public class NotificationActivity extends Activity {
 	    }
 	    //Set Vibration or Ringtone to announce Activity.
 	    runNotificationFeedback(notificationType);
-	    //Acquire WakeLock
+	    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+	    //Acquire WakeLock.
 	    acquireWakeLock(context);
-	    //Remove the KeyGuard
+	    long wakelockTimeout = Long.parseLong(preferences.getString(WAKELOCK_TIMEOUT_KEY, "30")) * 1000;
+	    _wakeLockHandler.sleep(wakelockTimeout * 1000);
+	    //Remove the KeyGuard.
 	    disableKeyguardLock(context);
+	    long keyguardTimeout = Long.parseLong(preferences.getString(KEYGUARD_TIMEOUT_KEY, "30")) * 1000;
+	    _keyguardHandler.sleep(keyguardTimeout * 1000);
 	}
 	
 	//================================================================================
@@ -1061,6 +1105,74 @@ public class NotificationActivity extends Activity {
 			setKeyguardLock(keyguardLock);
 		}
 	}
+
+	/**
+	 * Starts the playback of the ringtone.
+	 */
+	private void playRingtone(int notificationType){
+		if (Log.getDebug()) Log.v("NotificationActivity.playRingtone()");
+		Context context = getContext();
+		Ringtone ringtone = getRingtone();
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+		if(ringtone== null){
+			//TODO - Choose ringtone to play.
+			ringtone = RingtoneManager.getRingtone(context, RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));			
+		}
+		Boolean canPlayRingtone = false;
+		long rintoneStopValue = 3 * 1000;
+		if(notificationType == NOTIFICATION_TYPE_TEST){
+			canPlayRingtone = true;
+		}
+	    if(notificationType == NOTIFICATION_TYPE_PHONE){
+	 		if(preferences.getBoolean(MISSED_CALL_RINGTONE_ENABLED_KEY, false)){
+	 	    	canPlayRingtone = true;
+	 	    }
+	 		//TODO - Ringtone Timeout
+	 	    //rintoneStopValue = Long.parseLong(preferences.getString(MISSED_CALL_RINGTONE_TIMEOUT_KEY, "3")) * 1000;
+	    }
+	    if(notificationType == NOTIFICATION_TYPE_SMS){
+	 	    if(preferences.getBoolean(SMS_RINGTONE_ENABLED_KEY, false)){
+	 	    	canPlayRingtone = true;
+	 	    }
+	 		//TODO - Ringtone Timeout
+	 	    //rintoneStopValue = Long.parseLong(preferences.getString(SMS_RINGTONE_TIMEOUT_KEY, "3")) * 1000;
+	    }
+	    if(notificationType == NOTIFICATION_TYPE_MMS){
+	 	    if(preferences.getBoolean(MMS_RINGTONE_ENABLED_KEY, false)){
+	 	    	canPlayRingtone = true;
+	 	    }
+	 		//TODO - Ringtone Timeout
+	 	    //rintoneStopValue = Long.parseLong(preferences.getString(MMS_RINGTONE_TIMEOUT_KEY, "3")) * 1000;
+	    }
+	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
+	 	    if(preferences.getBoolean(CALENDAR_RINGTONE_ENABLED_KEY, false)){
+	 	    	canPlayRingtone = true;
+	 	    }
+	 		//TODO - Ringtone Timeout
+	 	    //rintoneStopValue = Long.parseLong(preferences.getString(CALENDAR_RINGTONE_TIMEOUT_KEY, "3")) * 1000;
+	    }
+	    if(notificationType == NOTIFICATION_TYPE_EMAIL){
+	    	//TODO - Email
+	    }
+		if(canPlayRingtone){
+			ringtone.play();
+		}
+		setRingtone(ringtone);
+		_ringtoneHandler.sleep(rintoneStopValue);
+	}
+	
+	/**
+	 * Stops the playback of the ringtone.
+	 */
+	private void stopRingtone(){
+		if (Log.getDebug()) Log.v("NotificationActivity.stopRingtone()");
+		Ringtone ringtone = getRingtone();
+		if(ringtone!= null){
+			ringtone.stop();
+			ringtone = null;
+			setRingtone(ringtone);
+		}
+	}
 	
 	/**
 	 * Function to set ring tone or vibration based on users preferences for this notification.
@@ -1069,36 +1181,42 @@ public class NotificationActivity extends Activity {
 	 */
 	private void runNotificationFeedback(int notificationType){
 		if (Log.getDebug()) Log.v("NotificationActivity.runNotificationFeedback()");
+		Context context = getContext();
 		Vibrator vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		//Set vibration based on user preferences.
-		if(notificationType == NOTIFICATION_TYPE_TEST){
-			vibrator.vibrate(1 * 1000);
+		if(preferences.getBoolean(ALL_VIBRATE_ENABLED_KEY, true)){
+			if(notificationType == NOTIFICATION_TYPE_TEST){
+				vibrator.vibrate(1 * 1000);
+			}
+		    if(notificationType == NOTIFICATION_TYPE_PHONE){
+		 	    if(preferences.getBoolean(MISSED_CALL_VIBRATE_ENABLED_KEY, true)){
+		 	    	vibrator.vibrate(1 * 1000);
+		 	    }
+		    }
+		    if(notificationType == NOTIFICATION_TYPE_SMS){
+		 	    if(preferences.getBoolean(SMS_VIBRATE_ENABLED_KEY, true)){
+		 	    	vibrator.vibrate(1 * 1000);
+		 	    }
+		    }
+		    if(notificationType == NOTIFICATION_TYPE_MMS){
+		 	    if(preferences.getBoolean(MMS_VIBRATE_ENABLED_KEY, true)){
+		 	    	vibrator.vibrate(1 * 1000);
+		 	    }
+		    }
+		    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
+		 	    if(preferences.getBoolean(CALENDAR_VIBRATE_ENABLED_KEY, true)){
+		 	    	vibrator.vibrate(1 * 1000);
+		 	    }
+		    }
+		    if(notificationType == NOTIFICATION_TYPE_EMAIL){
+		    	//TODO - Email
+		    }
 		}
-	    if(notificationType == NOTIFICATION_TYPE_PHONE){
-	 	    if(preferences.getBoolean(MISSED_CALL_VIBRATE_ENABLED_KEY, true)){
-	 	    	vibrator.vibrate(1 * 1000);
-	 	    }
+		//Set ringtone based on user preferences.
+		if(preferences.getBoolean(ALL_RINGTONE_ENABLED_KEY, true)){
+	    	playRingtone(notificationType);
 	    }
-	    if(notificationType == NOTIFICATION_TYPE_SMS){
-	 	    if(preferences.getBoolean(SMS_VIBRATE_ENABLED_KEY, true)){
-	 	    	vibrator.vibrate(1 * 1000);
-	 	    }
-	    }
-	    if(notificationType == NOTIFICATION_TYPE_MMS){
-	 	    if(preferences.getBoolean(MMS_VIBRATE_ENABLED_KEY, true)){
-	 	    	vibrator.vibrate(1 * 1000);
-	 	    }
-	    }
-	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
-	 	    if(preferences.getBoolean(CALENDAR_VIBRATE_ENABLED_KEY, true)){
-	 	    	vibrator.vibrate(1 * 1000);
-	 	    }
-	    }
-	    if(notificationType == NOTIFICATION_TYPE_EMAIL){
-	    	//TODO - Email
-	    }
-	    //TODO - Add ringtone option and code for Notification Feedback.
 	}
 	
 	/**
@@ -1203,5 +1321,37 @@ public class NotificationActivity extends Activity {
 			sendMessageDelayed(obtainMessage(0), delayMillis);
 		}
 
-	};	
+	};
+	
+	/**
+	 * This class is a Handler that executes in it's own thread and is used to delay the stopping of the ringtone feedback.
+	 * 
+	 * @author Camille Sévigny
+	 */
+	class RingtoneHandler extends Handler {
+
+		/**
+		 * Handles the delayed function call when the sleep period is over.
+		 * 
+		 * @param msg - Message to be handled.
+		 */
+		@Override
+	    public void handleMessage(Message msg) {
+			if (Log.getDebug()) Log.v("RingtoneHandler.handleMessage()");
+	    	NotificationActivity.this.stopRingtone();
+	    }
+
+		/**
+		 * Put the thread to sleep for a period of time.
+		 * 
+		 * @param delayMillis - Delay time in milliseconds.
+		 */
+	    public void sleep(long delayMillis) {
+	    	if (Log.getDebug()) Log.v("RingtoneHandler.sleep()");
+	    	this.removeMessages(0);
+	    	sendMessageDelayed(obtainMessage(0), delayMillis);
+	    }
+
+	};
+	
 }

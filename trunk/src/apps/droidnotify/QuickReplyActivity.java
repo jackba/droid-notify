@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.view.View;
@@ -172,6 +173,14 @@ public class QuickReplyActivity extends Activity {
 	//================================================================================
 	// Public Methods
 	//================================================================================
+
+	/**
+	 * Handles the activity when the configuration changes (e.g. The phone switches from portrait view to landscape view).
+	 */
+	public void onConfigurationChanged(Configuration config) {
+        super.onConfigurationChanged(config);
+        //Do Nothing (For Now).
+	}
 	
 	//================================================================================
 	// Protected Methods

@@ -52,12 +52,14 @@
    			android:name=".NotificationActivity" 
    			android:theme="@style/Theme.TranslucentDialog"
 			android:launchMode="singleTask"
-			android:screenOrientation="user" />
+			android:screenOrientation="user"
+        	android:configChanges="keyboardHidden|orientation" />
 		<activity 
    			android:name=".QuickReplyActivity" 
    			android:theme="@style/Theme.TranslucentDialog"
 			android:launchMode="singleTask"
-			android:screenOrientation="user" />
+			android:screenOrientation="user"
+        	android:configChanges="keyboardHidden|orientation" />
     </application>
 	<uses-permission android:name="android.permission.CALL_PHONE" />
 	<uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
@@ -75,5 +77,6 @@
 	<uses-permission android:name="android.permission.WAKE_LOCK" />
 	<uses-permission android:name="android.permission.WRITE_SMS" />
 	<uses-permission android:name="android.permission.WRITE_CONTACTS" />
+	<uses-permission android:name="android.permission.WRITE_CALENDAR" />
 	<uses-feature android:name="android.hardware.telephony" />
 </manifest>
