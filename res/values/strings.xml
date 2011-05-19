@@ -50,6 +50,22 @@
    	<string name="edit_calendar_event_text">Edit Event</string>
    	
    	<!-- Preference Strings -->
+   	<string name="preference_general">General</string>
+   	<string name="preference_notification_settings">Notification Settings</string>
+   	<string name="preference_notifications">Notifications</string>
+   	<string name="preference_dismiss_button_action">Dismiss Button Action</string>
+   	<string name="preference_delete_button_action">Delete Button Action</string>
+   	<string name="preference_reply_button_action">Reply Button Action</string>
+   	<string name="preference_vibrate_settings">Vibrate Settings</string>
+   	<string name="preference_ringtone_settings">Ringtone Settings</string>
+   	
+   	<string name="preference_vibrations_enabled_title">Enable Vibrations</string>
+   	<string name="preference_vibrations_enabled_summaryOn">Vibrations when notifications are received is enabled.</string>
+   	<string name="preference_vibrations_enabled_summaryOff">Vibrations when notifications are received is disabled.</string>
+   	<string name="preference_ringtones_enabled_title">Enable Ringtones</string>
+   	<string name="preference_ringtones_enabled_summaryOn">Playing ringtones when notifications are received is enabled.</string>
+   	<string name="preference_ringtones_enabled_summaryOff">Playing ringtones when notifications are received is disabled.</string>
+   	
    	<string name="preference_about">About</string>
    	<string name="preference_about_summary">About Droid Notify</string>
 	<string name="preference_about_text">Created by: Camille Sevigny\nEmail: droidnotify@gmail.com\n\nDroid Notify is an application that shows a dialog when an SMS message, Missed Call is received or Calendar Event occurs.  It shows the most recent message or call and schedules your calendar events to be displayed to you, who it\'s from and the contact picture if available.\n\nFeel free to email me any comments, suggestions or bugs.\n\n</string>
@@ -68,6 +84,14 @@
     <string name="preference_sms_vibrate_enabled_title">Enable Vibrations</string>
    	<string name="preference_sms_vibrate_enabled_summaryOn">SMS notifications will vibrate on arrival.</string>
    	<string name="preference_sms_vibrate_enabled_summaryOff">SMS notifications will not vibrate on arrival.</string>
+   	<string name="preference_sms_notifications">SMS Notifications</string>
+   	<string name="preference_sms_button_settings">SMS Button Settings</string>
+   	<string name="preference_sms_dismiss_button_action_summary">Define what happens when you dismiss a SMS.</string>
+   	<string name="preference_sms_delete_button_action_summary">Define what happens when you delete a SMS.</string>
+   	<string name="preference_sms_reply_button_action_summary">Define what happens when you reply to a SMS.</string>  	
+    <string name="preference_sms_ringtone_enabled_title">Enable Ringtone</string>
+   	<string name="preference_sms_ringtone_enabled_summaryOn">SMS notifications will play a ringtone on arrival.</string>
+   	<string name="preference_sms_ringtone_enabled_summaryOff">SMS notifications will not play a ringtone on arrival.</string>
    	 	
    	<string name="preference_mms_enabled_title">Enable MMS</string>
    	<string name="preference_mms_enabled_summaryOn">MMS notifications are enabled</string>
@@ -75,6 +99,14 @@
     <string name="preference_mms_vibrate_enabled_title">Enable Vibrations</string>
    	<string name="preference_mms_vibrate_enabled_summaryOn">MMS notifications will vibrate on arrival.</string>
    	<string name="preference_mms_vibrate_enabled_summaryOff">MMS notifications will not vibrate on arrival.</string>
+   	<string name="preference_mms_notifications">MMS Notifications</string>
+   	<string name="preference_mms_button_settings">MMS Button Settings</string>
+   	<string name="preference_mms_dismiss_button_action_summary">Define what happens when you dismiss a MMS.</string>
+   	<string name="preference_mms_delete_button_action_summary">Define what happens when you delete a MMS.</string>
+   	<string name="preference_mms_reply_button_action_summary">Define what happens when you reply to a MMS.</string>
+    <string name="preference_mms_ringtone_enabled_title">Enable Ringtone</string>
+   	<string name="preference_mms_ringtone_enabled_summaryOn">MMS notifications will play a ringtone on arrival.</string>
+   	<string name="preference_mms_ringtone_enabled_summaryOff">MMS notifications will not play a ringtone on arrival.</string>
    	
    	<string name="preference_missed_call_enabled_title">Enable Missed Call</string>
    	<string name="preference_missed_call_enabled_summaryOn">Missed Call notifications are enabled</string>
@@ -82,6 +114,12 @@
     <string name="preference_missed_call_vibrate_enabled_title">Enable Vibrations</string>
    	<string name="preference_missed_call_vibrate_enabled_summaryOn">Missed Call notifications will vibrate on arrival.</string>
    	<string name="preference_missed_call_vibrate_enabled_summaryOff">Missed Call notifications will not vibrate on arrival.</string>
+   	<string name="preference_missed_call_notifications">Missed Call Notifications</string>
+   	<string name="preference_missed_call_button_settings">Missed Call Button Settings</string>
+   	<string name="preference_missed_call_dismiss_button_action_summary">Define what happens when you dismiss a Missed Call.</string>
+    <string name="preference_missed_call_ringtone_enabled_title">Enable Ringtone</string>
+   	<string name="preference_missed_call_ringtone_enabled_summaryOn">Missed Call notifications will play a ringtone on arrival.</string>
+   	<string name="preference_missed_call_ringtone_enabled_summaryOff">Missed Call notifications will not play a ringtone on arrival.</string>
    	
    	<string name="preference_calendar_enabled_title">Enable Calendar Event</string>
    	<string name="preference_calendar_enabled_summaryOn">Calendar Event notifications are enabled</string>
@@ -89,11 +127,20 @@
     <string name="preference_calendar_vibrate_enabled_title">Enable Vibrations</string>
    	<string name="preference_calendar_vibrate_enabled_summaryOn">Calendar Event notifications will vibrate on arrival.</string>
    	<string name="preference_calendar_vibrate_enabled_summaryOff">Calendar Event notifications will not vibrate on arrival.</string>
+   	<string name="preference_calendar_notifications">Calendar Notifications</string>
+   	<string name="preference_calendar_button_settings">Calendar Button Settings</string>
+   	<string name="preference_calendar_dismiss_button_action_summary">Define what happens when you dismiss a Calendar Event.</string>
+   	<string name="preference_event_reminder_settings">Event Reminder Settings</string>
+    <string name="preference_event_reminder_summary">How early do you want to be reminded about an upcoming event?</string>
+    <string name="preference_calendar_ringtone_enabled_title">Enable Ringtone</string>
+   	<string name="preference_calendar_ringtone_enabled_summaryOn">Calendar notifications will play a ringtone on arrival.</string>
+   	<string name="preference_calendar_ringtone_enabled_summaryOff">Calendar notifications will not play a ringtone on arrival.</string>
    	
+    <string name="preference_screen_settings">Screen Settings</string>
 	<string name="preference_screen_enabled_title">Turn Screen On</string>
    	<string name="preference_screen_enabled_summaryOn">The screen will turn on when a notification is shown</string>
    	<string name="preference_screen_enabled_summaryOff">Screen will not turn on when notification is shown</string>
-
+   	
 	<string name="preference_screen_dim_enabled_title">Dim Screen</string>
    	<string name="preference_screen_dim_enabled_summaryOn">Dim screen when it turns on (saves battery power)</string>
    	<string name="preference_screen_dim_enabled_summaryOff">Screen will not dim</string>
@@ -101,36 +148,7 @@
  	<string name="preference_keyguard_enabled_title">Unlock Phone</string>
    	<string name="preference_keyguard_enabled_summaryOn">Unlock phone when a notification is shown</string>
    	<string name="preference_keyguard_enabled_summaryOff">Do not unlock phone when a notification is shown</string>
-   	
-   	<string name="preference_general">General</string>
-   	<string name="preference_notification_settings">Notification Settings</string>
-   	<string name="preference_notifications">Notifications</string>
-   	<string name="preference_sms_notifications">SMS Notifications</string>
-   	<string name="preference_sms_button_settings">SMS Button Settings</string>
-   	<string name="preference_dismiss_button_action">Dismiss Button Action</string>
-   	<string name="preference_sms_dismiss_button_action_summary">Define what happens when you dismiss a SMS.</string>
-   	<string name="preference_delete_button_action">Delete Button Action</string>
-   	<string name="preference_sms_delete_button_action_summary">Define what happens when you delete a SMS.</string>
-   	<string name="preference_reply_button_action">Reply Button Action</string>
-   	<string name="preference_sms_reply_button_action_summary">Define what happens when you reply to a SMS.</string>
-   	<string name="preference_sms_vibrate_settings">SMS Vibrate Settings</string>
-   	<string name="preference_mms_notifications">MMS Notifications</string>
-   	<string name="preference_mms_button_settings">MMS Button Settings</string>
-   	<string name="preference_mms_dismiss_button_action_summary">Define what happens when you dismiss a MMS.</string>
-   	<string name="preference_mms_delete_button_action_summary">Define what happens when you delete a MMS.</string>
-   	<string name="preference_mms_reply_button_action_summary">Define what happens when you reply to a MMS.</string>
-   	<string name="preference_mms_vibrate_settings">MMS Vibrate Settings</string>
-   	<string name="preference_missed_call_notifications">Missed Call Notifications</string>
-   	<string name="preference_missed_call_button_settings">Missed Call Button Settings</string>
-   	<string name="preference_missed_call_dismiss_button_action_summary">Define what happens when you dismiss a Missed Call.</string>
-   	<string name="preference_missed_call_vibrate_settings">Missed Call Vibrate Settings</string>
-   	<string name="preference_calendar_notifications">Calendar Notifications</string>
-   	<string name="preference_calendar_button_settings">Calendar Button Settings</string>
-   	<string name="preference_calendar_dismiss_button_action_summary">Define what happens when you dismiss a Calendar Event.</string>
-   	<string name="preference_event_reminder_settings">Event Reminder Settings</string>
-    <string name="preference_event_reminder_summary">How early do you want to be reminded about an upcoming event?</string>
-   	<string name="preference_calendar_vibrate_settings">Calendar Vibrate Settings</string>
-   	<string name="preference_screen_settings">Screen Settings</string>
+
    	<string name="preference_advanced_settings">Advanced Settings</string>
    	<string name="preference_call_log_timeout">Call Log Timeout</string>
    	<string name="preference_call_log_timeout_summary">Define how long to wait after a call before querying the call log for a missed call.</string>
@@ -140,5 +158,10 @@
    	<string name="preference_wakelock_timeout_summary">Define how long to wait before releasing the phones WakeLock. The smaller the timeout, the less battery power is used.</string> 
    	<string name="preference_keyguard_timeout">Keyguard Timeout</string>
    	<string name="preference_keyguard_timeout_summary">Define how long to wait before a releasing the phones Keyguard.</string> 
+   	
+
+   	
+
+
    	
 </resources>
