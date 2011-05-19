@@ -82,7 +82,8 @@
 						android:title="@string/preference_sms_vibrate_enabled_title" 
 						android:summaryOn="@string/preference_sms_vibrate_enabled_summaryOn" 
 						android:summaryOff="@string/preference_sms_vibrate_enabled_summaryOff" 
-						android:defaultValue="true" />
+						android:defaultValue="true"
+						android:dependency="app_vibrations_enabled" />
 				</PreferenceScreen>
 				<PreferenceScreen
 					android:key="sms_ringtone_settings"
@@ -93,8 +94,8 @@
 						android:title="@string/preference_sms_ringtone_enabled_title" 
 						android:summaryOn="@string/preference_sms_ringtone_enabled_summaryOn" 
 						android:summaryOff="@string/preference_sms_ringtone_enabled_summaryOff" 
-						android:defaultValue="true"
-						android:dependency="app_ringtone_enabled" />
+						android:defaultValue="false"
+						android:dependency="app_ringtones_enabled" />
 					<RingtonePreference 
 						android:key="sms_ringtone_audio" 
 						android:showDefault="true"
@@ -148,7 +149,8 @@
 						android:title="@string/preference_mms_vibrate_enabled_title" 
 						android:summaryOn="@string/preference_mms_vibrate_enabled_summaryOn" 
 						android:summaryOff="@string/preference_mms_vibrate_enabled_summaryOff" 
-						android:defaultValue="true" />
+						android:defaultValue="true"
+						android:dependency="app_vibrations_enabled" />
 				</PreferenceScreen>
 				<PreferenceScreen
 					android:key="mms_ringtone_settings"
@@ -159,8 +161,8 @@
 						android:title="@string/preference_mms_ringtone_enabled_title" 
 						android:summaryOn="@string/preference_mms_ringtone_enabled_summaryOn" 
 						android:summaryOff="@string/preference_mms_ringtone_enabled_summaryOff" 
-						android:defaultValue="true"
-						android:dependency="app_ringtone_enabled" />
+						android:defaultValue="false"
+						android:dependency="app_ringtones_enabled" />
 					<RingtonePreference 
 						android:key="mms_ringtone_audio" 
 						android:showDefault="true"
@@ -199,19 +201,20 @@
 						android:title="@string/preference_missed_call_vibrate_enabled_title" 
 						android:summaryOn="@string/preference_missed_call_vibrate_enabled_summaryOn" 
 						android:summaryOff="@string/preference_missed_call_vibrate_enabled_summaryOff" 
-						android:defaultValue="true" />
+						android:defaultValue="true"
+						android:dependency="app_vibrations_enabled" />
 				</PreferenceScreen>
 				<PreferenceScreen
 					android:key="missed_call_ringtone_settings"
 					android:title="@string/preference_ringtone_settings"
 					android:dependency="missed_call_notifications_enabled">
 					<CheckBoxPreference 
-						android:key="sms_ringtone_enabled" 
+						android:key="missed_call_ringtone_enabled" 
 						android:title="@string/preference_missed_call_ringtone_enabled_title" 
 						android:summaryOn="@string/preference_missed_call_ringtone_enabled_summaryOn" 
 						android:summaryOff="@string/preference_missed_call_ringtone_enabled_summaryOff" 
-						android:defaultValue="true"
-						android:dependency="app_ringtone_enabled" />
+						android:defaultValue="false"
+						android:dependency="app_ringtones_enabled" />
 					<RingtonePreference 
 						android:key="missed_call_ringtone_audio" 
 						android:showDefault="true"
@@ -258,19 +261,20 @@
 						android:title="@string/preference_calendar_vibrate_enabled_title" 
 						android:summaryOn="@string/preference_calendar_vibrate_enabled_summaryOn" 
 						android:summaryOff="@string/preference_calendar_vibrate_enabled_summaryOff" 
-						android:defaultValue="true" />
+						android:defaultValue="true"
+						android:dependency="app_vibrations_enabled" />
 				</PreferenceScreen>
 				<PreferenceScreen
 					android:key="calendar_ringtone_settings"
 					android:title="@string/preference_ringtone_settings"
 					android:dependency="calendar_notifications_enabled">
 					<CheckBoxPreference 
-						android:key="sms_ringtone_enabled" 
+						android:key="calendar_ringtone_enabled" 
 						android:title="@string/preference_calendar_ringtone_enabled_title" 
 						android:summaryOn="@string/preference_calendar_ringtone_enabled_summaryOn" 
 						android:summaryOff="@string/preference_calendar_ringtone_enabled_summaryOff" 
-						android:defaultValue="true"
-						android:dependency="app_ringtone_enabled" />
+						android:defaultValue="false"
+						android:dependency="app_ringtones_enabled" />
 					<RingtonePreference 
 						android:key="calendar_ringtone_audio" 
 						android:showDefault="true"

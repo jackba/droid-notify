@@ -76,6 +76,7 @@ public class NotificationActivity extends Activity {
 	private final String CALENDAR_RINGTONE_ENABLED_KEY = "calendar_ringtone_enabled";
 	private final String ALL_VIBRATE_ENABLED_KEY = "app_vibrations_enabled";
 	private final String ALL_RINGTONE_ENABLED_KEY = "app_ringtones_enabled";
+	private final String SMS_RINGTONE_KEY = "sms_ringtone_audio";
 	
 	private final String SMS_DELETE_ACTION_DELETE_MESSAGE = "0";
 	private final String SMS_DELETE_ACTION_DELETE_THREAD = "1";
@@ -1114,10 +1115,10 @@ public class NotificationActivity extends Activity {
 		Context context = getContext();
 		Ringtone ringtone = getRingtone();
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-		if(ringtone== null){
+		//if(ringtone == null){
 			//TODO - Choose ringtone to play.
-			ringtone = RingtoneManager.getRingtone(context, RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));			
-		}
+			ringtone = RingtoneManager.getRingtone(context, Uri.parse(preferences.getString(SMS_RINGTONE_KEY, "DEFAULT_SOUND")));			
+		//}
 		Boolean canPlayRingtone = false;
 		long rintoneStopValue = 3 * 1000;
 		if(notificationType == NOTIFICATION_TYPE_TEST){
