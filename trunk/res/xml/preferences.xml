@@ -75,7 +75,7 @@
 				</PreferenceScreen>
 				<PreferenceScreen
 					android:key="sms_vibrate_settings"
-					android:title="@string/preference_vibrate_settings"
+					android:title="@string/preference_sms_vibrate_settings"
 					android:dependency="sms_notifications_enabled">
 					<CheckBoxPreference 
 						android:key="sms_vibrate_enabled" 
@@ -87,19 +87,19 @@
 				</PreferenceScreen>
 				<PreferenceScreen
 					android:key="sms_ringtone_settings"
-					android:title="@string/preference_ringtone_settings"
+					android:title="@string/preference_sms_ringtone_settings"
 					android:dependency="sms_notifications_enabled">
 					<CheckBoxPreference 
 						android:key="sms_ringtone_enabled" 
 						android:title="@string/preference_sms_ringtone_enabled_title" 
 						android:summaryOn="@string/preference_sms_ringtone_enabled_summaryOn" 
 						android:summaryOff="@string/preference_sms_ringtone_enabled_summaryOff" 
-						android:defaultValue="false"
+						android:defaultValue="true"
 						android:dependency="app_ringtones_enabled" />
 					<RingtonePreference 
 						android:key="sms_ringtone_audio" 
 						android:showDefault="true"
-         				android:title="Select Ringtone"
+         				android:title="@string/preference_select_ringtone"
          				android:ringtoneType="notification"
 						android:dependency="sms_ringtone_enabled" />
 				</PreferenceScreen>
@@ -142,7 +142,7 @@
 				</PreferenceScreen>
 				<PreferenceScreen
 					android:key="mms_vibrate_settings"
-					android:title="@string/preference_vibrate_settings"
+					android:title="@string/preference_mms_vibrate_settings"
 					android:dependency="mms_notifications_enabled">
 					<CheckBoxPreference 
 						android:key="sms_vibrate_enabled" 
@@ -154,19 +154,19 @@
 				</PreferenceScreen>
 				<PreferenceScreen
 					android:key="mms_ringtone_settings"
-					android:title="@string/preference_ringtone_settings"
+					android:title="@string/preference_mms_ringtone_settings"
 					android:dependency="mms_notifications_enabled">
 					<CheckBoxPreference 
 						android:key="mms_ringtone_enabled" 
 						android:title="@string/preference_mms_ringtone_enabled_title" 
 						android:summaryOn="@string/preference_mms_ringtone_enabled_summaryOn" 
 						android:summaryOff="@string/preference_mms_ringtone_enabled_summaryOff" 
-						android:defaultValue="false"
+						android:defaultValue="true"
 						android:dependency="app_ringtones_enabled" />
 					<RingtonePreference 
 						android:key="mms_ringtone_audio" 
 						android:showDefault="true"
-         				android:title="Select Ringtone"
+         				android:title="@string/preference_select_ringtone"
          				android:ringtoneType="notification"
 						android:dependency="mms_ringtone_enabled" />
 				</PreferenceScreen>
@@ -194,7 +194,7 @@
 				</PreferenceScreen>
 				<PreferenceScreen
 					android:key="missed_call_vibrate_settings"
-					android:title="@string/preference_vibrate_settings"
+					android:title="@string/preference_missed_call_vibrate_settings"
 					android:dependency="missed_call_notifications_enabled">
 					<CheckBoxPreference 
 						android:key="missed_call_vibrate_enabled" 
@@ -206,19 +206,19 @@
 				</PreferenceScreen>
 				<PreferenceScreen
 					android:key="missed_call_ringtone_settings"
-					android:title="@string/preference_ringtone_settings"
+					android:title="@string/preference_missed_call_ringtone_settings"
 					android:dependency="missed_call_notifications_enabled">
 					<CheckBoxPreference 
 						android:key="missed_call_ringtone_enabled" 
 						android:title="@string/preference_missed_call_ringtone_enabled_title" 
 						android:summaryOn="@string/preference_missed_call_ringtone_enabled_summaryOn" 
 						android:summaryOff="@string/preference_missed_call_ringtone_enabled_summaryOff" 
-						android:defaultValue="false"
+						android:defaultValue="true"
 						android:dependency="app_ringtones_enabled" />
 					<RingtonePreference 
 						android:key="missed_call_ringtone_audio" 
 						android:showDefault="true"
-         				android:title="Select Ringtone"
+         				android:title="@string/preference_select_ringtone"
          				android:ringtoneType="notification"
 						android:dependency="missed_call_ringtone_enabled" />
 				</PreferenceScreen>
@@ -254,7 +254,7 @@
 					android:dependency="calendar_notifications_enabled" />
 				<PreferenceScreen
 					android:key="calendar_vibrate_settings"
-					android:title="@string/preference_vibrate_settings"
+					android:title="@string/preference_calendar_vibrate_settings"
 					android:dependency="calendar_notifications_enabled">
 					<CheckBoxPreference 
 						android:key="calendar_vibrate_enabled" 
@@ -266,19 +266,19 @@
 				</PreferenceScreen>
 				<PreferenceScreen
 					android:key="calendar_ringtone_settings"
-					android:title="@string/preference_ringtone_settings"
+					android:title="@string/preference_calendar_ringtone_settings"
 					android:dependency="calendar_notifications_enabled">
 					<CheckBoxPreference 
 						android:key="calendar_ringtone_enabled" 
 						android:title="@string/preference_calendar_ringtone_enabled_title" 
 						android:summaryOn="@string/preference_calendar_ringtone_enabled_summaryOn" 
 						android:summaryOff="@string/preference_calendar_ringtone_enabled_summaryOff" 
-						android:defaultValue="false"
+						android:defaultValue="true"
 						android:dependency="app_ringtones_enabled" />
 					<RingtonePreference 
 						android:key="calendar_ringtone_audio" 
 						android:showDefault="true"
-         				android:title="Select Ringtone"
+         				android:title="@string/preference_select_ringtone"
          				android:ringtoneType="notification"
 						android:dependency="calendar_ringtone_enabled" />
 				</PreferenceScreen>
@@ -340,7 +340,7 @@
 				android:key="wakelock_timeout_settings"
 				android:title="@string/preference_wakelock_timeout"
 				android:summary="@string/preference_wakelock_timeout_summary"
-				android:defaultValue="4"
+				android:defaultValue="30"
 				android:entries="@array/wakelock_timeout_options"
 				android:entryValues="@array/wakelock_timeout_options_values"
 				android:dependency="app_enabled" />
@@ -348,10 +348,18 @@
 				android:key="keyguard_timeout_settings"
 				android:title="@string/preference_keyguard_timeout"
 				android:summary="@string/preference_keyguard_timeout_summary"
-				android:defaultValue="4"
+				android:defaultValue="30"
 				android:entries="@array/keyguard_timeout_options"
 				android:entryValues="@array/keyguard_timeout_options_values"
 				android:dependency="app_enabled" />
+			<ListPreference
+				android:key="ringtone_length_settings"
+				android:title="@string/preference_ringtone_length"
+				android:summary="@string/preference_ringtone_length_summary"
+				android:defaultValue="3"
+				android:entries="@array/ringtone_length_options"
+				android:entryValues="@array/ringtone_length_options_values"
+				android:dependency="app_ringtones_enabled" />
 		</PreferenceScreen>
 	</PreferenceCategory>
 	<PreferenceCategory
