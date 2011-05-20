@@ -125,27 +125,7 @@
 	
 	<!-- Email Preferences Arrays --> 
 	
-	<!-- Other Preferences Arrays --> 
-    <string-array name="notification_reschedule_timeout_options">
-		<item name="0">15 Seconds</item>
-		<item name="1">30 Seconds</item>
-		<item name="2">45 Seconds</item>
-		<item name="3">1 Minute</item>
-		<item name="4">1 Minute 15 Seconds</item>
-		<item name="5">1 Minute 30 Seconds</item>
-		<item name="6">1 Minute  45 Seconds</item>
-		<item name="7">2 Minutes</item>
-	</string-array>
-	<string-array name="notification_reschedule_timeout_options_values">
-		<item name="0">0.25</item>
-		<item name="1">0.50</item>
-		<item name="2">0.75</item>
-		<item name="3">1</item>
-		<item name="4">1.25</item>
-		<item name="5">1.50</item>
-		<item name="6">1.75</item>
-		<item name="7">2</item>
-	</string-array>
+	<!-- Other Preferences Arrays -->
     <string-array name="notification_placeholder_image_options">
 		<item name="0">ic_contact_picture</item>
 		<item name="1">ic_contact_picture_1</item>
@@ -247,5 +227,29 @@
 		<item name="11">600</item>
 		<item name="12">9000</item>
 		<item name="13">1800</item>
+	</string-array>
+    <string-array name="ringtone_length_options">
+		<item name="0">1 Seconds</item>
+		<item name="1">2 Seconds</item>
+		<item name="2">3 Seconds</item>
+		<item name="3">4 Seconds</item>
+		<item name="4">5 Seconds</item>
+		<item name="5">6 Seconds</item>
+		<item name="6">7 Seconds</item>
+		<item name="7">8 Seconds</item>
+		<item name="8">9 Seconds</item>
+		<item name="9">10 Seconds</item>
+	</string-array>
+	<string-array name="ringtone_length_options_values">
+		<item name="0">1</item>
+		<item name="1">2</item>
+		<item name="2">3</item>
+		<item name="3">4</item>
+		<item name="4">5</item>
+		<item name="5">6</item>
+		<item name="6">7</item>
+		<item name="7">8</item>
+		<item name="8">9</item>
+		<item name="9">10</item>
 	</string-array>
 </resources>

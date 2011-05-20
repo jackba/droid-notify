@@ -77,6 +77,10 @@ public class NotificationActivity extends Activity {
 	private final String ALL_VIBRATE_ENABLED_KEY = "app_vibrations_enabled";
 	private final String ALL_RINGTONE_ENABLED_KEY = "app_ringtones_enabled";
 	private final String SMS_RINGTONE_KEY = "sms_ringtone_audio";
+	private final String MMS_RINGTONE_KEY = "mms_ringtone_audio";
+	private final String MISSED_CALL_RINGTONE_KEY = "missed_call_ringtone_audio";
+	private final String CALENDAR_RINGTONE_KEY = "calendar_ringtone_audio";
+	private final String RINGTONE_LENGTH_KEY = "ringtone_length_settings";
 	
 	private final String SMS_DELETE_ACTION_DELETE_MESSAGE = "0";
 	private final String SMS_DELETE_ACTION_DELETE_THREAD = "1";
@@ -1115,49 +1119,38 @@ public class NotificationActivity extends Activity {
 		Context context = getContext();
 		Ringtone ringtone = getRingtone();
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-		//if(ringtone == null){
-			//TODO - Choose ringtone to play.
-			ringtone = RingtoneManager.getRingtone(context, Uri.parse(preferences.getString(SMS_RINGTONE_KEY, "DEFAULT_SOUND")));			
-		//}
-		Boolean canPlayRingtone = false;
-		long rintoneStopValue = 3 * 1000;
+		long rintoneStopValue = Long.parseLong(preferences.getString(RINGTONE_LENGTH_KEY, "3")) * 1000;
 		if(notificationType == NOTIFICATION_TYPE_TEST){
-			canPlayRingtone = true;
+			ringtone = RingtoneManager.getRingtone(context, Uri.parse(preferences.getString(SMS_RINGTONE_KEY, "DEFAULT_SOUND")));
+			ringtone.play();
 		}
 	    if(notificationType == NOTIFICATION_TYPE_PHONE){
 	 		if(preferences.getBoolean(MISSED_CALL_RINGTONE_ENABLED_KEY, false)){
-	 	    	canPlayRingtone = true;
-	 	    }
-	 		//TODO - Ringtone Timeout
-	 	    //rintoneStopValue = Long.parseLong(preferences.getString(MISSED_CALL_RINGTONE_TIMEOUT_KEY, "3")) * 1000;
+	 	    	ringtone = RingtoneManager.getRingtone(context, Uri.parse(preferences.getString(MISSED_CALL_RINGTONE_KEY, "DEFAULT_SOUND")));
+	 	    	ringtone.play();
+	 		}
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_SMS){
 	 	    if(preferences.getBoolean(SMS_RINGTONE_ENABLED_KEY, false)){
-	 	    	canPlayRingtone = true;
+	 	    	ringtone = RingtoneManager.getRingtone(context, Uri.parse(preferences.getString(SMS_RINGTONE_KEY, "DEFAULT_SOUND")));
+	 	    	ringtone.play();
 	 	    }
-	 		//TODO - Ringtone Timeout
-	 	    //rintoneStopValue = Long.parseLong(preferences.getString(SMS_RINGTONE_TIMEOUT_KEY, "3")) * 1000;
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_MMS){
 	 	    if(preferences.getBoolean(MMS_RINGTONE_ENABLED_KEY, false)){
-	 	    	canPlayRingtone = true;
+	 	    	ringtone = RingtoneManager.getRingtone(context, Uri.parse(preferences.getString(MMS_RINGTONE_KEY, "DEFAULT_SOUND")));
+	 	    	ringtone.play();
 	 	    }
-	 		//TODO - Ringtone Timeout
-	 	    //rintoneStopValue = Long.parseLong(preferences.getString(MMS_RINGTONE_TIMEOUT_KEY, "3")) * 1000;
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
 	 	    if(preferences.getBoolean(CALENDAR_RINGTONE_ENABLED_KEY, false)){
-	 	    	canPlayRingtone = true;
+	 	    	ringtone = RingtoneManager.getRingtone(context, Uri.parse(preferences.getString(CALENDAR_RINGTONE_KEY, "DEFAULT_SOUND")));
+	 	    	ringtone.play();
 	 	    }
-	 		//TODO - Ringtone Timeout
-	 	    //rintoneStopValue = Long.parseLong(preferences.getString(CALENDAR_RINGTONE_TIMEOUT_KEY, "3")) * 1000;
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_EMAIL){
 	    	//TODO - Email
 	    }
-		if(canPlayRingtone){
-			ringtone.play();
-		}
 		setRingtone(ringtone);
 		_ringtoneHandler.sleep(rintoneStopValue);
 	}
@@ -1182,13 +1175,13 @@ public class NotificationActivity extends Activity {
 	 */
 	private void runNotificationFeedback(int notificationType){
 		if (Log.getDebug()) Log.v("NotificationActivity.runNotificationFeedback()");
-		Context context = getContext();
 		Vibrator vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		//Set vibration based on user preferences.
 		if(preferences.getBoolean(ALL_VIBRATE_ENABLED_KEY, true)){
 			if(notificationType == NOTIFICATION_TYPE_TEST){
 				vibrator.vibrate(1 * 1000);
+				vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
 			}
 		    if(notificationType == NOTIFICATION_TYPE_PHONE){
 		 	    if(preferences.getBoolean(MISSED_CALL_VIBRATE_ENABLED_KEY, true)){
