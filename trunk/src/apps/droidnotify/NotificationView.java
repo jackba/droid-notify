@@ -40,6 +40,8 @@ public class NotificationView extends LinearLayout {
     // Constants
     //================================================================================
 	
+	private final int SQUARE_IMAGE_SIZE = 90;
+	
 	private final int NOTIFICATION_TYPE_PHONE = 0;
 	private final int NOTIFICATION_TYPE_SMS = 1;
 	private final int NOTIFICATION_TYPE_MMS = 2;
@@ -725,12 +727,10 @@ public class NotificationView extends LinearLayout {
 	    //Setup ImageView
 		photoImageView.setBackgroundResource(0);
 		photoImageView.setPadding(0, 0, 0, 0);
-	    //_photoImageView.setBackgroundResource(android.R.drawable.picture_frame);
 	    _photoImageView.setBackgroundResource(R.drawable.image_picture_frame);
 	    //Load contact photo if it exists.
 	    Bitmap bitmap = notification.getPhotoImg();
 	    if(bitmap!=null){
-	    	//TODO - Write function to resize the image to a standard size for the notifications.
 	    	photoImageView.setImageBitmap((Bitmap)getRoundedCornerBitmap(notification.getPhotoImg(), 5));    
 	    }else{  
 	    	// Load the placeholder image if the contact has no photo.
@@ -766,6 +766,9 @@ public class NotificationView extends LinearLayout {
         canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
         paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
         canvas.drawBitmap(bitmap, rect, rect, paint);
+        //Resize the Bitmap so that all images are consistent.
+        //Bitmap createScaledBitmap(Bitmap src, int dstWidth, int dstHeight, boolean filter)
+        output = Bitmap.createScaledBitmap(output, SQUARE_IMAGE_SIZE, SQUARE_IMAGE_SIZE, true);
         return output;
 	}
 	
