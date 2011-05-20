@@ -15,5 +15,5 @@
   * Prepped/setup the application so that translations can be incorporated.
   * Added the GNU V3 End User License Agreement to the app.
   * Added new Quick Reply built in SMS Message screen. This will be an option that you can specify in the app's preferences. You can use the built in Messaging App to send messages or this new built in Quick Reply screen.
-  * Added ringtone support so that new notifications will ring when they arrive. This is an option and customizable based on notification.
+  * Added ringtone support so that new notifications will ring when they arrive. This is an option and it is customizable based on notification type.
   * 
