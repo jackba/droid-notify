@@ -17,4 +17,5 @@
   * Added new Quick Reply built in SMS Message screen. This will be an option that you can specify in the app's preferences. You can use the built in Messaging App to send messages or this new built in Quick Reply screen.
   * Added ringtone support so that new notifications will ring when they arrive. This is an option and it is customizable based on notification type.
   * Added code that resizes all images to a standard size for all notifications.
-  *
+  * Added the ability to load all unread SMS messages when a new message is received. This can be turned off and on in the preferences.
+  * 
