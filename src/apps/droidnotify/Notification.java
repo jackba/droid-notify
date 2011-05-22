@@ -137,10 +137,32 @@ public class Notification {
 
 	/**
 	 * Class Constructor
+	 * This constructor should be called for SMS & MMS Messages.
+	 */
+	public Notification(Context context, long messageID, long threadID, String messageBody, String phoneNumber, long timeStamp, long contactID, int notificationType) {
+		if (Log.getDebug()) Log.v("Notification.Notification(Context context, long messageID, long threadID, String messageBody, String phoneNumber, long timeStamp, long contactID, int notificationType)");
+		setTitle("SMS Message");
+		setContext(context);
+		setMessageID(messageID);
+		setThreadID(threadID);
+		setMessageBody(messageBody);
+		setPhoneNumber(phoneNumber);
+        setTimeStamp(timeStamp);
+        setContactID(contactID);
+		setFromEmailGateway(false);
+		setMessageClass(MessageClass.CLASS_0);
+		setContactExists(false);
+		loadContactsInfoByPhoneNumber(context, phoneNumber);   
+		setNotificationType(notificationType);
+	}
+	
+	/**
+	 * Class Constructor
 	 * This constructor should be called for TEST SMS & MMS Messages.
 	 */
 	public Notification(Context context, String phoneNumber, String messageBody, long timeStamp, int notificationType) {
 		if (Log.getDebug()) Log.v("Notification.Notification(Context context, String phoneNumber, String messageBody, long timeStamp, int notificationType)");
+		setTitle("SMS Message");
 		setContext(context);
 		setNotificationType(notificationType);
 		setContactExists(false);
@@ -148,7 +170,6 @@ public class Notification {
 		setPhoneNumber(phoneNumber);
 		setFromEmailGateway(false);
 		setMessageClass(MessageClass.CLASS_0);
-		setTitle("SMS Message");
         setMessageBody(messageBody);
 	}
 	
@@ -871,7 +892,7 @@ public class Notification {
 		    			if (Log.getDebug()) Log.v("Notification.loadThreadID() Thread ID Found: " + threadID);
 		    		}
 		    	}catch(Exception e){
-			    		if (Log.getDebug()) Log.v("Notification.loadThreadID() EXCEPTION: " + e.toString());
+			    		if (Log.getDebug()) Log.e("Notification.loadThreadID() EXCEPTION: " + e.toString());
 		    	} finally {
 		    		cursor.close();
 		    	}
@@ -918,7 +939,7 @@ public class Notification {
 		    			if (Log.getDebug()) Log.v("Notification.loadMessageID() Message ID Found: " + messageID);
 		    		}
 		    	}catch(Exception e){
-		    		if (Log.getDebug()) Log.v("Notification.loadMessageID() EXCEPTION: " + e.toString());
+		    		if (Log.getDebug()) Log.e("Notification.loadMessageID() EXCEPTION: " + e.toString());
 		    	} finally {
 		    		cursor.close();
 		    	}
@@ -928,7 +949,7 @@ public class Notification {
 			if (Log.getDebug()) Log.e("Notification.loadMessageID() ERROR: " + ex.toString());
 		}
 	}
-	
+
 	/**
 	 * Load the various contact info for this notification from a phoneNumber.
 	 * 
@@ -942,11 +963,10 @@ public class Notification {
 			return;
 		}
 		try{
-			//TODO - Update this code to query the DB faster by inserting a "WHERE phonenumber=?" clause.
 			PhoneNumber incomingNumber = new PhoneNumber(phoneNumber);
 			if (Log.getDebug()) Log.v("Notification.loadContactsInfo() Got PhoneNumber object");
 			final String[] projection = null;
-			final String selection = null;
+			final String selection = ContactsContract.Contacts.HAS_PHONE_NUMBER + "=1";
 			final String[] selectionArgs = null;
 			final String sortOrder = null;
 			Cursor cursor = context.getContentResolver().query(
@@ -958,54 +978,51 @@ public class Notification {
 			if (Log.getDebug()) Log.v("Notification.loadContactsInfo() Searching contacts");
 			while (cursor.moveToNext()) { 
 				String contactID = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID)); 
-				String hasPhone = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)); 
 				String contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
 				String contactLookupKey = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY));
 				String photoID = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_ID)); 
-				if (Integer.parseInt(hasPhone) > 0) { 
-					final String[] phoneProjection = null;
-					final String phoneSelection = ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = " + contactID;
-					final String[] phoneSelectionArgs = null;
-					final String phoneSortOrder = null;
-					Cursor phoneCursor = context.getContentResolver().query(
-							ContactsContract.CommonDataKinds.Phone.CONTENT_URI, 
-							phoneProjection, 
-							phoneSelection, 
-							phoneSelectionArgs, 
-							phoneSortOrder); 
-			      while (phoneCursor.moveToNext()) { 
-			    	  String addressBookPhoneNumber = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-			    	  PhoneNumber contactNumber = new PhoneNumber(addressBookPhoneNumber);
-			    	  if(incomingNumber.getPhoneNumber().equals(contactNumber.getPhoneNumber())){
-			    		  setContactID(Long.parseLong(contactID));
-			    		  if(addressBookPhoneNumber != null){
-			    			  setAddressBookPhoneNumber(addressBookPhoneNumber);
-			    		  }
-			    		  if(contactLookupKey != null){
-			    			  setContactLookupKey(contactLookupKey);
-			    		  }
-			    		  if(contactName != null){
-			    			  setContactName(contactName);
-			    		  }
-			    		  if(photoID != null){
-			    			  setPhotoID(Long.parseLong(photoID));
-			    		  }
-			  	          Uri uri = ContentUris.withAppendedId(
-			  	        		  ContactsContract.Contacts.CONTENT_URI,
-			  	        		  Long.parseLong(contactID));
-			  		      InputStream input = ContactsContract.Contacts.openContactPhotoInputStream(context.getContentResolver(), uri);
-			  		      Bitmap contactPhotoBitmap = BitmapFactory.decodeStream(input);
-			  		      if(contactPhotoBitmap!= null){
-			  		    	  setPhotoImg(contactPhotoBitmap);
-			  		    	  setContactPhotoExists(true);
-			  		      }
-			  		      setContactExists(true);
-			  		      break;
-			    	  }
-			      } 
-			      phoneCursor.close(); 
-			   }
-			}
+				final String[] phoneProjection = null;
+				final String phoneSelection = ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = " + contactID;
+				final String[] phoneSelectionArgs = null;
+				final String phoneSortOrder = null;
+				Cursor phoneCursor = context.getContentResolver().query(
+						ContactsContract.CommonDataKinds.Phone.CONTENT_URI, 
+						phoneProjection, 
+						phoneSelection, 
+						phoneSelectionArgs, 
+						phoneSortOrder); 
+				while (phoneCursor.moveToNext()) { 
+					String addressBookPhoneNumber = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+					PhoneNumber contactNumber = new PhoneNumber(addressBookPhoneNumber);
+					if(incomingNumber.getPhoneNumber().equals(contactNumber.getPhoneNumber())){
+						setContactID(Long.parseLong(contactID));
+						if(addressBookPhoneNumber != null){
+		    			  	setAddressBookPhoneNumber(addressBookPhoneNumber);
+		    		  	}
+		    		  	if(contactLookupKey != null){
+		    			  	setContactLookupKey(contactLookupKey);
+		    		  	}
+		    		  	if(contactName != null){
+		    			  	setContactName(contactName);
+		    		  	}
+		    		  	if(photoID != null){
+		    			  	setPhotoID(Long.parseLong(photoID));
+		    		  	}
+		  	          	Uri uri = ContentUris.withAppendedId(
+		  	        		  ContactsContract.Contacts.CONTENT_URI,
+		  	        		  Long.parseLong(contactID));
+		  		      	InputStream input = ContactsContract.Contacts.openContactPhotoInputStream(context.getContentResolver(), uri);
+		  		      	Bitmap contactPhotoBitmap = BitmapFactory.decodeStream(input);
+		  		      	if(contactPhotoBitmap!= null){
+		  		    	  	setPhotoImg(contactPhotoBitmap);
+		  		    	  	setContactPhotoExists(true);
+		  		      	}
+		  		      	setContactExists(true);
+		  		      	break;
+					}
+				}
+				phoneCursor.close(); 
+		   	}
 			cursor.close();
 		}catch(Exception ex){
 			if (Log.getDebug()) Log.e("Notification.loadContactsInfo() ERROR: " + ex.toString());
@@ -1225,7 +1242,7 @@ public class Notification {
 	 * @return String - Returns the formatted Calendar Event message.
 	 */
 	private String formatCalendarEventMessage(String messageBody, long eventStartTime, long eventEndTime, boolean allDay){
-		if (Log.getDebug()) Log.e("Notification.formatCalendarEventMessage()");
+		if (Log.getDebug()) Log.v("Notification.formatCalendarEventMessage()");
 		String formattedMessage = "";
 		SimpleDateFormat eventDateFormatted = new SimpleDateFormat();
 		Date eventEndDate = new Date(eventEndTime);
