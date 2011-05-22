@@ -734,7 +734,6 @@ public class NotificationView extends LinearLayout {
 	    	photoImageView.setImageBitmap((Bitmap)getRoundedCornerBitmap(notification.getPhotoImg(), 5));    
 	    }else{  
 	    	// Load the placeholder image if the contact has no photo.
-	    	//TODO - Add user preference to choose from a selection of placeholder images.
 	    	photoImageView.setImageBitmap(getRoundedCornerBitmap(BitmapFactory.decodeResource(getContext().getResources(), R.drawable.ic_contact_picture_5), 5));
 	    }
 	}

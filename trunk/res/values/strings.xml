@@ -70,16 +70,19 @@
 	<string name="preference_about_text">Created by: Camille Sevigny\nEmail: droidnotify@gmail.com\n\nDroid Notify is an application that shows a dialog when an SMS message, Missed Call is received or Calendar Event occurs.  It shows the most recent message or call and schedules your calendar events to be displayed to you, who it\'s from and the contact picture if available.\n\nFeel free to email me any comments, suggestions or bugs.\n\n</string>
 
    	<string name="preference_appenabled_title">Enable Droid Notify</string>
-   	<string name="preference_appenabled_summaryOn">Droid Notify is enabled</string>
-   	<string name="preference_appenabled_summaryOff">Droid Notify is disabled</string>
+   	<string name="preference_appenabled_summaryOn">Droid Notify is enabled.</string>
+   	<string name="preference_appenabled_summaryOff">Droid Notify is disabled.</string>
 
    	<string name="preference_haptic_feedback_title">Enable Haptic Feedback</string>
    	<string name="preference_haptic_feedback_summaryOn">Haptic Feedback is enabled. Vibrate when pressing soft keys and on certain UI interactions.</string>
    	<string name="preference_haptic_feedback_summaryOff">Haptic Feedback is disabled.</string>
    	
    	<string name="preference_sms_enabled_title">Enable SMS</string>
-   	<string name="preference_sms_enabled_summaryOn">SMS notifications are enabled</string>
-   	<string name="preference_sms_enabled_summaryOff">SMS notifications are disabled</string>
+   	<string name="preference_sms_enabled_summaryOn">SMS notifications are enabled.</string>
+   	<string name="preference_sms_enabled_summaryOff">SMS notifications are disabled.</string>
+    <string name="preference_sms_display_unread_enabled_title">Load Unread SMS</string>
+   	<string name="preference_sms_display_unread_enabled_summaryOn">Load unread sms messages when a new sms message arives.</string>
+   	<string name="preference_sms_display_unread_enabled_summaryOff">Do not load any older unread sms messages.</string>	
     <string name="preference_sms_vibrate_enabled_title">Enable Vibrations</string>
    	<string name="preference_sms_vibrate_enabled_summaryOn">SMS notifications will vibrate on arrival.</string>
    	<string name="preference_sms_vibrate_enabled_summaryOff">SMS notifications will not vibrate on arrival.</string>

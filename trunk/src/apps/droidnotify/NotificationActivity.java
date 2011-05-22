@@ -12,6 +12,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.database.Cursor;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -81,6 +82,7 @@ public class NotificationActivity extends Activity {
 	private final String MISSED_CALL_RINGTONE_KEY = "missed_call_ringtone_audio";
 	private final String CALENDAR_RINGTONE_KEY = "calendar_ringtone_audio";
 	private final String RINGTONE_LENGTH_KEY = "ringtone_length_settings";
+	private final String SMS_DISPLAY_UNREAD_KEY = "sms_display_unread_enabled";
 	
 	private final String SMS_DELETE_ACTION_DELETE_MESSAGE = "0";
 	private final String SMS_DELETE_ACTION_DELETE_THREAD = "1";
@@ -681,6 +683,7 @@ public class NotificationActivity extends Activity {
 	    requestWindowFeature(Window.FEATURE_NO_TITLE);	    
 	    setContentView(R.layout.notificationwrapper);
 	    setupViews(notificationType);
+	    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 	    if(notificationType == NOTIFICATION_TYPE_TEST){
 	    	createTestNotifications();
 	    }    
@@ -691,6 +694,9 @@ public class NotificationActivity extends Activity {
 	    if(notificationType == NOTIFICATION_TYPE_SMS){
 		    if (Log.getDebug()) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_SMS");
 		    setupMessages(extrasBundle);
+		    if(preferences.getBoolean(SMS_DISPLAY_UNREAD_KEY, true)){
+		    	getAllUnreadMessages();
+		    }
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_MMS){
 	    	if (Log.getDebug()) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_MMS");
@@ -706,7 +712,6 @@ public class NotificationActivity extends Activity {
 	    }  
 	    //Set Vibration or Ringtone to announce Activity.
 	    runNotificationFeedback(notificationType);
-	    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 	    //Acquire WakeLock.
 	    acquireWakeLock(context);
 	    long wakelockTimeout = Long.parseLong(preferences.getString(WAKELOCK_TIMEOUT_KEY, "30")) * 1000;
@@ -846,7 +851,6 @@ public class NotificationActivity extends Activity {
 	    if(notificationType == NOTIFICATION_TYPE_SMS){
 		    if (Log.getDebug()) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_SMS");
 		    setupMessages(extrasBundle);
-		    //TODO - Get all unread SMS messages if new Activity?
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_MMS){
 	    	if (Log.getDebug()) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_MMS");
@@ -951,9 +955,47 @@ public class NotificationActivity extends Activity {
 		final TextView notificationCountTextView = getNotificationCountTextView();
 	    // Create message from bundle.
 	    Notification smsMessage = new Notification(context, bundle, NOTIFICATION_TYPE_SMS);
-	    if (Log.getDebug()) Log.v("NotificationActivity.setupMessages() Notification Phone Number: " + smsMessage.getPhoneNumber());
 	    notificationViewFlipper.addNotification(smsMessage);
 	    updateNavigationButtons(previousButton, notificationCountTextView, nextButton, notificationViewFlipper);
+	}
+	
+	/**
+	 * Get all unread Messages and load them.
+	 */
+	private void getAllUnreadMessages(){
+		Context context = getContext();
+		final NotificationViewFlipper notificationViewFlipper = getNotificationViewFlipper();
+		final Button previousButton = getPreviousButton();
+		final Button nextButton = getNextButton();
+		final TextView notificationCountTextView = getNotificationCountTextView();
+		final String[] projection = new String[] { "_ID", "THREAD_ID", "ADDRESS", "PERSON", "DATE", "BODY"};
+		final String selection = "READ = 0";
+		final String[] selectionArgs = null;
+		final String sortOrder = null;
+		Cursor cursor = null;
+        try{
+		    cursor = context.getContentResolver().query(
+		    		Uri.parse("content://sms/inbox"),
+		    		projection,
+		    		selection,
+					selectionArgs,
+					sortOrder);
+		    while (cursor.moveToNext()) { 
+		    	long messageID = cursor.getLong(cursor.getColumnIndex("_ID"));
+		    	long threadID = cursor.getLong(cursor.getColumnIndex("THREAD_ID"));
+		    	String messageBody = cursor.getString(cursor.getColumnIndex("BODY"));
+		    	String phoneNumber = cursor.getString(cursor.getColumnIndex("ADDRESS"));
+		    	long timestamp = cursor.getLong(cursor.getColumnIndex("DATE"));
+		    	long contactID = cursor.getLong(cursor.getColumnIndex("PERSON"));
+		    	Notification smsMessage = new Notification(context, messageID, threadID, messageBody, phoneNumber, timestamp, contactID, NOTIFICATION_TYPE_SMS);		
+		    	notificationViewFlipper.addNotification(smsMessage);	
+		    }
+		}catch(Exception ex){
+			if (Log.getDebug()) Log.e("Notification.loadMessageID() ERROR: " + ex.toString());
+		} finally {
+    		cursor.close();
+    	}
+		updateNavigationButtons(previousButton, notificationCountTextView, nextButton, notificationViewFlipper);
 	}
 	
 	/**
@@ -973,11 +1015,8 @@ public class NotificationActivity extends Activity {
 		String messageBody = calenderEventInfo[1];
 		long eventStartTime = Long.parseLong(calenderEventInfo[2]);
 		long eventEndTime = Long.parseLong(calenderEventInfo[3]);
-		//if (Log.getDebug()) Log.v("NotificationActivity.setupCalendarEventNotifications() AllDay: " + calenderEventInfo[4]); 
 		boolean eventAllDay = Boolean.parseBoolean(calenderEventInfo[4]);
-		//if (Log.getDebug()) Log.v("NotificationActivity.setupCalendarEventNotifications() CalendarID: " + calenderEventInfo[5]); 
 		long calendarID = Long.parseLong(calenderEventInfo[5]);
-		//if (Log.getDebug()) Log.v("NotificationActivity.setupCalendarEventNotifications() EventID: " + calenderEventInfo[6]); 
 		long eventID = Long.parseLong(calenderEventInfo[6]);
 		Notification calendarEventNotification = new Notification(context, title, messageBody, eventStartTime, eventEndTime, eventAllDay, calendarID, eventID, NOTIFICATION_TYPE_CALENDAR);
 		getNotificationViewFlipper().addNotification(calendarEventNotification);		
