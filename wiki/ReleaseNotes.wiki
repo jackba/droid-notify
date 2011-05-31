@@ -19,3 +19,7 @@
   * Added code that resizes all images to a standard size for all notifications.
   * Added the ability to load all unread SMS messages when a new message is received. This can be turned off and on in the preferences.
   * Timeout to release screen after unlocking phone (Saves battery power/life)
+ * *v1.1* _Coming Soon..._
+  * New UI for notifications.
+  * Keep older UI as an option in the preferences.
+  *
