@@ -18,4 +18,4 @@
   * Added ringtone support so that new notifications will ring when they arrive. This is an option and it is customizable based on notification type.
   * Added code that resizes all images to a standard size for all notifications.
   * Added the ability to load all unread SMS messages when a new message is received. This can be turned off and on in the preferences.
-  * 
+  * Timeout to release screen after unlocking phone (Saves battery power/life)
