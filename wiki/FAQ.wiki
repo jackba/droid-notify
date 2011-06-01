@@ -3,7 +3,7 @@
 
 = Droid Notify - Frequently Asked Questions =
 
- *[WikiSyntax#Can_I_change_the_UI of_the_notification?]
+ *[FAQ#Can_I_change_the_UI of_the_notification?] Can I change the UI of the notification?
 
 
 
