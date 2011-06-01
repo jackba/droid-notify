@@ -3,5 +3,13 @@
 
 = Droid Notify - Frequently Asked Questions =
 
-===_Coming Soon_===
-_(I hope someone has some questions)_
+ *[WikiSyntax#Can_I_change_the_UI of_the_notification?]
+
+
+
+
+----
+
+==Can I change the UI of the notification?==
+
+I am currently working on a few different UI's for the notifications. I am not a graphic designer but I am more than willing to work with anyone who has a concept for a notification window. Please email me if you have any suggestions.
