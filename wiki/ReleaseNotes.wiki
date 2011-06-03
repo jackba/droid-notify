@@ -23,6 +23,7 @@
   * More preference options.
   * Can select the contact placeholder image from a pre-defined list.
   * Fixed a bug where some phones crashed due to a bad ringtone or no default ringtone.
+  * Fixed a bug where some phones crashed due to their date format of their calendars.
   *
  * *v1.2* _Coming Soon..._
   * New UI for notifications.
