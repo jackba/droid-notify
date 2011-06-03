@@ -24,6 +24,9 @@
   * Can select the contact placeholder image from a pre-defined list.
   * Fixed a bug where some phones crashed due to a bad ringtone or no default ringtone.
   * Fixed a bug where some phones crashed due to the date format of their calendar events.
+  * Updated the "Test Notification" button on the preferences screen.
+  * Added a "Rate This App" feature on the preferences screen.
+  * Added a "Email Developer" feature on the preferences screen.
   *
  * *v1.2* _Coming Soon..._
   * New UI for notifications.
