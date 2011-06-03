@@ -22,6 +22,7 @@
  * *v1.1* _Coming Soon..._
   * More preference options.
   * Can select the contact placeholder image from a pre-defined list.
+  * Fixed a bug where some phones crashed due to a bad ringtone or no default ringtone.
   *
  * *v1.2* _Coming Soon..._
   * New UI for notifications.
