@@ -3,9 +3,9 @@
 
 	<!-- App Strings -->
 	<string name="app_version">v1.1</string>
+	<string name="app_name_formatted_version">Droid Notify v1.1</string>
     <string name="app_name">DroidNotify</string>
     <string name="app_name_formatted">Droid Notify</string>
-    <string name="app_name_formatted_version">Droid Notify v1.0</string>
     <string name="app_settings_text">Settings</string>
     <string name="message_at_text">New message at %s</string>
     <string name="missed_call_at_text">Missed call at %s</string>
