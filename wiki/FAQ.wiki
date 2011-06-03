@@ -20,4 +20,4 @@ This is likely because you have the system messaging app notifications still ena
 
 ==The contact photo in the notification doesn't display the user's facebook photo even though it shows in the system contacts?==
 
-Unfortunately the Facebook app doesn't allow Developer Apps to access the photos it uses.
+Unfortunately the Facebook app doesn't allow Developer Apps to access the photos it imports into the phone.
