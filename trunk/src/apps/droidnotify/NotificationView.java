@@ -739,7 +739,7 @@ public class NotificationView extends LinearLayout {
 	    	// Load the placeholder image if the contact has no photo.
 	    	// This is based on user preferences from a list of predefined images.
 	    	SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-	    	String contactPlaceholderImageID = preferences.getString(CONTACT_PLACEHOLDER_KEY, "5");
+	    	String contactPlaceholderImageID = preferences.getString(CONTACT_PLACEHOLDER_KEY, "0");
 	    	//Default image resource.
 	    	int contactPlaceholderImageResourceID = R.drawable.ic_contact_picture_5;
 	    	if(contactPlaceholderImageID.equals("0")) contactPlaceholderImageResourceID = R.drawable.ic_contact_picture_1;

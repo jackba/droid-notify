@@ -1250,15 +1250,20 @@ public class Notification {
 		String[] startTimeInfo = eventDateFormatted.format(eventStartDate).split(" ");
 		String[] endTimeInfo = eventDateFormatted.format(eventEndDate).split(" ");
     	if(messageBody.equals("")){
-    		if(allDay){
-    			formattedMessage = startTimeInfo[0] + " - All Day";
-    		}else{
-    			//Check if the event spans a single day or not.
-    			if(startTimeInfo[0].equals(endTimeInfo[0])){
-    				formattedMessage = startTimeInfo[0] + " " + startTimeInfo[1] + " " + startTimeInfo[2] +  " - " +  endTimeInfo[1] + " " + startTimeInfo[2];
-    			}else{
-    				formattedMessage = eventDateFormatted.format(eventStartDate) + " - " +  eventDateFormatted.format(eventEndDate);
-    			}
+    		try{
+	    		if(allDay){
+	    			formattedMessage = startTimeInfo[0] + " - All Day";
+	    		}else{
+	    			//Check if the event spans a single day or not.
+	    			if(startTimeInfo[0].equals(endTimeInfo[0]) && startTimeInfo.length == 3){
+	    				formattedMessage = startTimeInfo[0] + " " + startTimeInfo[1] + " " + startTimeInfo[2] +  " - " +  endTimeInfo[1] + " " + startTimeInfo[2];
+	    			}else{
+	    				formattedMessage = eventDateFormatted.format(eventStartDate) + " - " +  eventDateFormatted.format(eventEndDate);
+	    			}
+	    		}
+    		}catch(Exception ex){
+    			if (Log.getDebug()) Log.e("Notification.formatCalendarEventMessage() ERROR: " + ex.toString());
+    			formattedMessage = eventDateFormatted.format(eventStartDate) + " - " +  eventDateFormatted.format(eventEndDate);
     		}
     	}else{
     		formattedMessage = messageBody;

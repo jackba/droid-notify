@@ -8,13 +8,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.preference.Preference;
+import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
 
 /**
  * This is the applications preference Activity.
@@ -80,9 +80,8 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 	    if (Log.getDebug()) Log.v("DroidNotifyPreferenceActivity.onCreate()");
 	    setContext(DroidNotifyPreferenceActivity.this);
 	    addPreferencesFromResource(R.xml.preferences);
-	    setContentView(R.xml.preferenceswrapper);
+	    setupCustomPreferences();
 	    runOnceAlarmManager();
-	    setupTestnotificationsButton();
 	    runOnceEula();
 	}
 
@@ -139,27 +138,6 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 	//================================================================================
 	// Private Methods
 	//================================================================================
-	
-	/**
-	 * Set up the "Test Notifications" button. 
-	 * When clicked, this button will display some fake notifications to the user using their current preference options.
-	 */
-	private void setupTestnotificationsButton(){
-		if (Log.getDebug()) Log.v("DroidNotifyPreferenceActivity.setupTestnotificationsButton()");
-		final Button testNotificationsButton = (Button) findViewById(R.id.test_notifications_button);
-		testNotificationsButton.setOnClickListener(new OnClickListener() {
-		    public void onClick(View view) {
-		    	if (Log.getDebug()) Log.v("Test Notifications Button Clicked()");
-		    	Context context = getContext();
-		    	Bundle bundle = new Bundle();
-				bundle.putInt("notificationType", NOTIFICATION_TYPE_TEST);
-		    	Intent testIntent = new Intent(context, NotificationActivity.class);
-		    	testIntent.putExtras(bundle);
-		    	testIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-		    	DroidNotifyPreferenceActivity.this.startActivity(testIntent);
-		    }
-		});
-	}
 	
 	/**
 	 * Starts the main AlarmManager that will check the users calendar for events.
@@ -219,6 +197,56 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 		     });
 		    alertDialog.show();
 		}
+	}
+	
+	/**
+	 * Setup the custom Preference buttons.
+	 */
+	private void setupCustomPreferences(){
+		if (Log.getDebug()) Log.v("DroidNotifyPreferenceActivity.setupCustomPreferences()");
+		//Test Notifications Preference/Button
+		Preference testAppPref = (Preference)findPreference("test_app");
+		testAppPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+        	public boolean onPreferenceClick(Preference preference) {
+		    	if (Log.getDebug()) Log.v("Test Notifications Button Clicked()");
+		    	Context context = getContext();
+		    	Bundle bundle = new Bundle();
+				bundle.putInt("notificationType", NOTIFICATION_TYPE_TEST);
+		    	Intent testIntent = new Intent(context, NotificationActivity.class);
+		    	testIntent.putExtras(bundle);
+		    	testIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+		    	DroidNotifyPreferenceActivity.this.startActivity(testIntent);
+	            return true;
+           }
+		});
+		//Rate This App Preference/Button
+		Preference rateAppPref = (Preference)findPreference("rate_app");
+		rateAppPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+        	public boolean onPreferenceClick(Preference preference) {
+		    	if (Log.getDebug()) Log.v("Rate This App Button Clicked()");
+		    	Intent intent = new Intent(Intent.ACTION_VIEW);
+		    	//Direct To Market App
+		    	//intent.setData(Uri.parse("market://details?id=apps.droidnotify"));
+		    	//URL of website. Turns out that this will prompt the user to choose Market or Web.
+		    	//This is prefered as a choice is always better.
+		    	intent.setData(Uri.parse("http://market.android.com/details?id=apps.droidnotify"));
+		    	startActivity(intent);
+	            return true;
+           }
+		});
+		//Email Developer Preference/Button
+		Preference emailDeveloperPref = (Preference)findPreference("email_developer");
+		emailDeveloperPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+        	public boolean onPreferenceClick(Preference preference) {
+		    	if (Log.getDebug()) Log.v("Email Developer Button Clicked()");
+		    	Intent intent = new Intent(android.content.Intent.ACTION_SEND);
+		    	intent.setType("plain/text");
+		    	intent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{ "droidnotify@gmail.com"});
+		    	intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Droid Notify App Feedback");
+                startActivity(intent);
+	            return true;
+           }
+		});
 	}
 	
 }
