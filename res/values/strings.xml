@@ -57,6 +57,8 @@
    	<string name="preference_delete_button_action">Delete Button Action</string>
    	<string name="preference_reply_button_action">Reply Button Action</string>
    	<string name="preference_select_ringtone">Select Ringtone</string>
+    <string name="preference_contact_placeholder_image">Placeholder Image</string>
+    <string name="preference_contact_placeholder_image_summary">Select the placeholder image you would like to be displayed for unknown contacts.</string>
    	
    	<string name="preference_vibrations_enabled_title">Enable Vibrations</string>
    	<string name="preference_vibrations_enabled_summaryOn">Vibrations when notifications are received is enabled.</string>

@@ -1160,31 +1160,51 @@ public class NotificationActivity extends Activity {
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		long rintoneStopValue = Long.parseLong(preferences.getString(RINGTONE_LENGTH_KEY, "3")) * 1000;
 		if(notificationType == NOTIFICATION_TYPE_TEST){
-			ringtone = RingtoneManager.getRingtone(context, Uri.parse(preferences.getString(SMS_RINGTONE_KEY, "DEFAULT_SOUND")));
-			ringtone.play();
+			try{
+				ringtone = RingtoneManager.getRingtone(context, Uri.parse(preferences.getString(SMS_RINGTONE_KEY, "DEFAULT_SOUND")));
+				ringtone.play();
+ 	    	}catch(Exception ex){
+ 	    		if (Log.getDebug()) Log.e("NotificationActivity.playRingtone() NOTIFICATION_TYPE_TEST ERROR: " + ex.toString());
+	    	}
 		}
 	    if(notificationType == NOTIFICATION_TYPE_PHONE){
 	 		if(preferences.getBoolean(MISSED_CALL_RINGTONE_ENABLED_KEY, false)){
-	 	    	ringtone = RingtoneManager.getRingtone(context, Uri.parse(preferences.getString(MISSED_CALL_RINGTONE_KEY, "DEFAULT_SOUND")));
-	 	    	ringtone.play();
+	 	    	try{
+		 			ringtone = RingtoneManager.getRingtone(context, Uri.parse(preferences.getString(MISSED_CALL_RINGTONE_KEY, "DEFAULT_SOUND")));
+		 	    	ringtone.play();
+	 	    	}catch(Exception ex){
+	 	    		if (Log.getDebug()) Log.e("NotificationActivity.playRingtone() NOTIFICATION_TYPE_PHONE ERROR: " + ex.toString());
+		    	}
 	 		}
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_SMS){
 	 	    if(preferences.getBoolean(SMS_RINGTONE_ENABLED_KEY, false)){
-	 	    	ringtone = RingtoneManager.getRingtone(context, Uri.parse(preferences.getString(SMS_RINGTONE_KEY, "DEFAULT_SOUND")));
-	 	    	ringtone.play();
+	 	    	try{
+		 	    	ringtone = RingtoneManager.getRingtone(context, Uri.parse(preferences.getString(SMS_RINGTONE_KEY, "DEFAULT_SOUND")));
+		 	    	ringtone.play();
+	 	    	}catch(Exception ex){
+	 	    		if (Log.getDebug()) Log.e("NotificationActivity.playRingtone() NOTIFICATION_TYPE_SMS ERROR: " + ex.toString());
+		    	}
 	 	    }
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_MMS){
 	 	    if(preferences.getBoolean(MMS_RINGTONE_ENABLED_KEY, false)){
-	 	    	ringtone = RingtoneManager.getRingtone(context, Uri.parse(preferences.getString(MMS_RINGTONE_KEY, "DEFAULT_SOUND")));
-	 	    	ringtone.play();
+	 	    	try{
+		 	    	ringtone = RingtoneManager.getRingtone(context, Uri.parse(preferences.getString(MMS_RINGTONE_KEY, "DEFAULT_SOUND")));
+		 	    	ringtone.play();
+	 	    	}catch(Exception ex){
+	 	    		if (Log.getDebug()) Log.e("NotificationActivity.playRingtone() NOTIFICATION_TYPE_MMS ERROR: " + ex.toString());
+		    	}
 	 	    }
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
 	 	    if(preferences.getBoolean(CALENDAR_RINGTONE_ENABLED_KEY, false)){
-	 	    	ringtone = RingtoneManager.getRingtone(context, Uri.parse(preferences.getString(CALENDAR_RINGTONE_KEY, "DEFAULT_SOUND")));
-	 	    	ringtone.play();
+	 	    	try{
+	 	    		ringtone = RingtoneManager.getRingtone(context, Uri.parse(preferences.getString(CALENDAR_RINGTONE_KEY, "DEFAULT_SOUND")));
+	 	    		ringtone.play();
+	 	    	}catch(Exception ex){
+	 	    		if (Log.getDebug()) Log.e("NotificationActivity.playRingtone() NOTIFICATION_TYPE_CALENDAR ERROR: " + ex.toString());
+		    	}
 	 	    }
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_EMAIL){
@@ -1201,9 +1221,13 @@ public class NotificationActivity extends Activity {
 		if (Log.getDebug()) Log.v("NotificationActivity.stopRingtone()");
 		Ringtone ringtone = getRingtone();
 		if(ringtone!= null){
-			ringtone.stop();
-			ringtone = null;
-			setRingtone(ringtone);
+			try{
+				ringtone.stop();
+				ringtone = null;
+				setRingtone(ringtone);
+			}catch(Exception ex){
+ 	    		if (Log.getDebug()) Log.e("NotificationActivity.stopRingtone() ERROR: " + ex.toString());
+	    	}
 		}
 	}
 	
