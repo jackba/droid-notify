@@ -212,10 +212,15 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 		    	Context context = getContext();
 		    	Bundle bundle = new Bundle();
 				bundle.putInt("notificationType", NOTIFICATION_TYPE_TEST);
-		    	Intent testIntent = new Intent(context, NotificationActivity.class);
-		    	testIntent.putExtras(bundle);
-		    	testIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-		    	DroidNotifyPreferenceActivity.this.startActivity(testIntent);
+		    	Intent intent = new Intent(context, NotificationActivity.class);
+		    	intent.putExtras(bundle);
+		    	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+		    	try{
+		    		startActivity(intent);
+		    	}catch(Exception ex){
+	 	    		if (Log.getDebug()) Log.e("DroidNotifyPreferenceActivity.setupCustomPreferences() Test Notifications Button ERROR: " + ex.toString());
+	 	    		return false;
+		    	}
 	            return true;
            }
 		});
@@ -230,7 +235,12 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 		    	//URL of website. Turns out that this will prompt the user to choose Market or Web.
 		    	//This is prefered as a choice is always better.
 		    	intent.setData(Uri.parse("http://market.android.com/details?id=apps.droidnotify"));
-		    	startActivity(intent);
+		    	try{
+		    		startActivity(intent);
+		    	}catch(Exception ex){
+	 	    		if (Log.getDebug()) Log.e("DroidNotifyPreferenceActivity.setupCustomPreferences() Rate This App Button ERROR: " + ex.toString());
+	 	    		return false;
+		    	}
 	            return true;
            }
 		});
@@ -243,7 +253,12 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 		    	intent.setType("plain/text");
 		    	intent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{ "droidnotify@gmail.com"});
 		    	intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Droid Notify App Feedback");
-                startActivity(intent);
+		    	try{
+		    		startActivity(intent);
+		    	}catch(Exception ex){
+	 	    		if (Log.getDebug()) Log.e("DroidNotifyPreferenceActivity.setupCustomPreferences() Email Developer Button ERROR: " + ex.toString());
+	 	    		return false;
+		    	}
 	            return true;
            }
 		});
