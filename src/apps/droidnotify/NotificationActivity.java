@@ -1162,7 +1162,7 @@ public class NotificationActivity extends Activity {
 		if(notificationType == NOTIFICATION_TYPE_TEST){
 			try{
 				ringtone = RingtoneManager.getRingtone(context, Uri.parse(preferences.getString(SMS_RINGTONE_KEY, "DEFAULT_SOUND")));
-				ringtone.play();
+				if(ringtone != null) ringtone.play();
  	    	}catch(Exception ex){
  	    		if (Log.getDebug()) Log.e("NotificationActivity.playRingtone() NOTIFICATION_TYPE_TEST ERROR: " + ex.toString());
 	    	}
@@ -1171,7 +1171,7 @@ public class NotificationActivity extends Activity {
 	 		if(preferences.getBoolean(MISSED_CALL_RINGTONE_ENABLED_KEY, false)){
 	 	    	try{
 		 			ringtone = RingtoneManager.getRingtone(context, Uri.parse(preferences.getString(MISSED_CALL_RINGTONE_KEY, "DEFAULT_SOUND")));
-		 	    	ringtone.play();
+		 			if(ringtone != null) ringtone.play();
 	 	    	}catch(Exception ex){
 	 	    		if (Log.getDebug()) Log.e("NotificationActivity.playRingtone() NOTIFICATION_TYPE_PHONE ERROR: " + ex.toString());
 		    	}
@@ -1181,7 +1181,7 @@ public class NotificationActivity extends Activity {
 	 	    if(preferences.getBoolean(SMS_RINGTONE_ENABLED_KEY, false)){
 	 	    	try{
 		 	    	ringtone = RingtoneManager.getRingtone(context, Uri.parse(preferences.getString(SMS_RINGTONE_KEY, "DEFAULT_SOUND")));
-		 	    	ringtone.play();
+		 	    	if(ringtone != null) ringtone.play();
 	 	    	}catch(Exception ex){
 	 	    		if (Log.getDebug()) Log.e("NotificationActivity.playRingtone() NOTIFICATION_TYPE_SMS ERROR: " + ex.toString());
 		    	}
@@ -1191,7 +1191,7 @@ public class NotificationActivity extends Activity {
 	 	    if(preferences.getBoolean(MMS_RINGTONE_ENABLED_KEY, false)){
 	 	    	try{
 		 	    	ringtone = RingtoneManager.getRingtone(context, Uri.parse(preferences.getString(MMS_RINGTONE_KEY, "DEFAULT_SOUND")));
-		 	    	ringtone.play();
+		 	    	if(ringtone != null) ringtone.play();
 	 	    	}catch(Exception ex){
 	 	    		if (Log.getDebug()) Log.e("NotificationActivity.playRingtone() NOTIFICATION_TYPE_MMS ERROR: " + ex.toString());
 		    	}
@@ -1201,7 +1201,7 @@ public class NotificationActivity extends Activity {
 	 	    if(preferences.getBoolean(CALENDAR_RINGTONE_ENABLED_KEY, false)){
 	 	    	try{
 	 	    		ringtone = RingtoneManager.getRingtone(context, Uri.parse(preferences.getString(CALENDAR_RINGTONE_KEY, "DEFAULT_SOUND")));
-	 	    		ringtone.play();
+	 	    		if(ringtone != null) ringtone.play();
 	 	    	}catch(Exception ex){
 	 	    		if (Log.getDebug()) Log.e("NotificationActivity.playRingtone() NOTIFICATION_TYPE_CALENDAR ERROR: " + ex.toString());
 		    	}
@@ -1223,11 +1223,11 @@ public class NotificationActivity extends Activity {
 		if(ringtone!= null){
 			try{
 				ringtone.stop();
-				ringtone = null;
-				setRingtone(ringtone);
 			}catch(Exception ex){
  	    		if (Log.getDebug()) Log.e("NotificationActivity.stopRingtone() ERROR: " + ex.toString());
 	    	}
+			ringtone = null;
+			setRingtone(ringtone);
 		}
 	}
 	
