@@ -12,7 +12,7 @@ public class Log {
     //================================================================================
 	
 	private static final String _logTag = "DroidNotify";
-	private static final boolean _debug = true;
+	private static final boolean _debug = false;
 
 	//================================================================================
 	// Constructors
