@@ -1,5 +1,9 @@
 package apps.droidnotify;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+
 /**
  * This class logs messages to the Android log file.
  * 
@@ -12,7 +16,7 @@ public class Log {
     //================================================================================
 	
 	private static final String _logTag = "DroidNotify";
-	private static final boolean _debug = false;
+	private static final boolean _debug = true;
 
 	//================================================================================
 	// Constructors
@@ -51,6 +55,7 @@ public class Log {
 	 */
 	public static void v(String msg) {
 		android.util.Log.v(getLogTag(), msg);
+		writeToCustomLog("V: " + msg);
 	}
 	
 	/**
@@ -60,6 +65,7 @@ public class Log {
 	 */
 	public static void d(String msg) {
 		android.util.Log.d(getLogTag(), msg);
+		writeToCustomLog("D: " + msg);
 	}	
 	
 	/**
@@ -69,6 +75,7 @@ public class Log {
 	 */
 	public static void i(String msg) {
 		android.util.Log.i(getLogTag(), msg);
+		writeToCustomLog("I: " + msg);
 	}
 	
 	/**
@@ -78,6 +85,7 @@ public class Log {
 	 */
 	public static void w(String msg) {
 		android.util.Log.w(getLogTag(), msg);
+		writeToCustomLog("W: " + msg);
 	}
 	
 	/**
@@ -87,10 +95,37 @@ public class Log {
 	 */
 	public static void e(String msg) {
 		android.util.Log.e(getLogTag(), msg);
+		writeToCustomLog("E: " + msg);
 	}
   
 	//================================================================================
 	// Private Methods
 	//================================================================================
+	
+	/**
+	 *  Writes a custom log file to the SD card of the phone.
+	 * 
+	 * @param text - String value to append to the custom log.
+	 */
+	private static void writeToCustomLog(String text)
+	{       
+		File logFile = new File("sdcard/DroidNotifyLog.txt");
+		if (!logFile.exists()){
+			try{
+				logFile.createNewFile();
+			}catch (Exception ex){
+				//Do Nothing
+			}
+		}
+		try{
+	    	//BufferedWriter for performance, true to set append to file flag
+			BufferedWriter buf = new BufferedWriter(new FileWriter(logFile, true)); 
+			buf.append(text);
+			buf.newLine();
+			buf.close();
+		}catch (Exception ex){
+			//Do Nothing
+		}
+	}
 	
 }

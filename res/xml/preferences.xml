@@ -61,8 +61,8 @@
 				<CheckBoxPreference 
 					android:key="sms_display_unread_enabled" 
 					android:title="@string/preference_sms_display_unread_enabled_title" 
-					android:summaryOn="@string/preference_sms_enabled_summaryOn" 
-					android:summaryOff="@string/preference_sms_enabled_summaryOff" 
+					android:summaryOn="@string/preference_sms_display_unread_enabled_summaryOn" 
+					android:summaryOff="@string/preference_sms_display_unread_enabled_summaryOff" 
 					android:defaultValue="true"
 					android:dependency="sms_notifications_enabled" />
 				<PreferenceScreen
