@@ -32,7 +32,7 @@
   *
 
  * *v1.2* _Coming Soon..._
-  * Fixed a pretty big bug that displayed duplicate notifications for incoming SMS messages.
+  * Fixed a bug that displayed duplicate notifications for incoming SMS messages.
   * Fixed a bug in which incoming SMS messages displayed the time in GMT. Incoming SMS messages have a timestamp in GMT. The time should now appear as the localized time for the users phone.
   *
 
