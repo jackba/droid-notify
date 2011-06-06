@@ -693,9 +693,9 @@ public class NotificationActivity extends Activity {
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_SMS){
 		    if (Log.getDebug()) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_SMS");
-		    setupMessages(extrasBundle);
+		    Notification newSMSNotification = setupMessage(extrasBundle);
 		    if(preferences.getBoolean(SMS_DISPLAY_UNREAD_KEY, true)){
-		    	getAllUnreadMessages();
+		    	getAllUnreadMessages(newSMSNotification.getMessageID(), newSMSNotification.getMessageBody());
 		    }
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_MMS){
@@ -850,7 +850,7 @@ public class NotificationActivity extends Activity {
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_SMS){
 		    if (Log.getDebug()) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_SMS");
-		    setupMessages(extrasBundle);
+		    setupMessage(extrasBundle);
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_MMS){
 	    	if (Log.getDebug()) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_MMS");
@@ -942,11 +942,13 @@ public class NotificationActivity extends Activity {
 	}
 	
 	/**
-	 * Setup the SMS/MMS message notifications.
+	 * Setup the incoming SMS/MMS message notification.
 	 *
 	 * @param bundle - Activity bundle.
+	 * 
+	 * @return Notification - Returns the new incoming SMS message in the form of a Notification object.
 	 */
-	private void setupMessages(Bundle bundle) {
+	private Notification setupMessage(Bundle bundle) {
 		if (Log.getDebug()) Log.v("NotificationActivity.setupMessages()"); 
 		Context context = getContext();
 		final NotificationViewFlipper notificationViewFlipper = getNotificationViewFlipper();
@@ -957,12 +959,17 @@ public class NotificationActivity extends Activity {
 	    Notification smsMessage = new Notification(context, bundle, NOTIFICATION_TYPE_SMS);
 	    notificationViewFlipper.addNotification(smsMessage);
 	    updateNavigationButtons(previousButton, notificationCountTextView, nextButton, notificationViewFlipper);
+	    return smsMessage;
 	}
 	
 	/**
 	 * Get all unread Messages and load them.
+	 * 
+	 * @param messageIDFilter - Long value of the currently incoming SMS message.
+	 * @param messagebodyFilter - String value of the currently incoming SMS message.
 	 */
-	private void getAllUnreadMessages(){
+	private void getAllUnreadMessages(long messageIDFilter, String messageBodyFilter){
+		if (Log.getDebug()) Log.v("NotificationActivity.getAllUnreadMessages() messageIDFilter: " + messageIDFilter + " messageBodyFilter: " + messageBodyFilter ); 
 		Context context = getContext();
 		final NotificationViewFlipper notificationViewFlipper = getNotificationViewFlipper();
 		final Button previousButton = getPreviousButton();
@@ -987,8 +994,12 @@ public class NotificationActivity extends Activity {
 		    	String phoneNumber = cursor.getString(cursor.getColumnIndex("ADDRESS"));
 		    	long timestamp = cursor.getLong(cursor.getColumnIndex("DATE"));
 		    	long contactID = cursor.getLong(cursor.getColumnIndex("PERSON"));
-		    	Notification smsMessage = new Notification(context, messageID, threadID, messageBody, phoneNumber, timestamp, contactID, NOTIFICATION_TYPE_SMS);		
-		    	notificationViewFlipper.addNotification(smsMessage);	
+		    	//Don't load the message that corresponds to the messageIDFilter or messageBodyFilter.
+		    	//If we load this message we will have duplicate Notifications, which is bad.
+		    	if(messageID != messageIDFilter && !messageBody.trim().equals(messageBodyFilter)){
+			    	Notification smsMessage = new Notification(context, messageID, threadID, messageBody, phoneNumber, timestamp, contactID, NOTIFICATION_TYPE_SMS);		
+			    	notificationViewFlipper.addNotification(smsMessage);
+		    	}
 		    }
 		}catch(Exception ex){
 			if (Log.getDebug()) Log.e("Notification.loadMessageID() ERROR: " + ex.toString());

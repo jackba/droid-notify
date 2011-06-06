@@ -2,8 +2,8 @@
 <resources>
 
 	<!-- App Strings -->
-	<string name="app_version">v1.1</string>
-	<string name="app_name_formatted_version">Droid Notify v1.1</string>
+	<string name="app_version">v1.2</string>
+	<string name="app_name_formatted_version">Droid Notify v1.2</string>
     <string name="app_name">DroidNotify</string>
     <string name="app_name_formatted">Droid Notify</string>
     <string name="app_settings_text">Settings</string>
@@ -87,8 +87,8 @@
    	<string name="preference_sms_enabled_summaryOn">SMS notifications are enabled.</string>
    	<string name="preference_sms_enabled_summaryOff">SMS notifications are disabled.</string>
     <string name="preference_sms_display_unread_enabled_title">Load Unread SMS</string>
-   	<string name="preference_sms_display_unread_enabled_summaryOn">Load unread sms messages when a new sms message arives.</string>
-   	<string name="preference_sms_display_unread_enabled_summaryOff">Do not load any older unread sms messages.</string>	
+   	<string name="preference_sms_display_unread_enabled_summaryOn">Load all unread sms messages when a new sms message arrives.</string>
+   	<string name="preference_sms_display_unread_enabled_summaryOff">Do not load any older unread sms messages. Load only the current incoming message.</string>	
     <string name="preference_sms_vibrate_enabled_title">Enable Vibrations</string>
    	<string name="preference_sms_vibrate_enabled_summaryOn">SMS notifications will vibrate on arrival.</string>
    	<string name="preference_sms_vibrate_enabled_summaryOff">SMS notifications will not vibrate on arrival.</string>

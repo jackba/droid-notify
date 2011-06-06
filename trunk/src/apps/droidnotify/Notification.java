@@ -3,6 +3,7 @@ package apps.droidnotify;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -107,6 +108,9 @@ public class Notification {
 	            }
 	            SmsMessage sms = msgs[0];
 	            long timeStamp = sms.getTimestampMillis();
+	            //Adjust the timestamp from GMT to the localized time of the users phone.
+	            //I don't know why the line below is "-=" and not "+=" but for some reason it works.
+	            timeStamp -= TimeZone.getDefault().getOffset(timeStamp);
 	            setTimeStamp(timeStamp);
 	            String phoneNumber = sms.getDisplayOriginatingAddress();
 	    		setPhoneNumber(phoneNumber);
@@ -117,6 +121,10 @@ public class Notification {
 	            for (int i=0; i<msgs.length; i++){                
 	                messageBody += msgs[i].getMessageBody().toString();
 	            }
+	            if(messageBody.startsWith(phoneNumber)){
+	            	messageBody = messageBody.substring(phoneNumber.length());
+	            }	            
+	            messageBody = messageBody.trim();
 	            setMessageBody(messageBody);
 	    		loadThreadID(context, phoneNumber);
 	    		loadMessageID(context, getThreadID(), messageBody, timeStamp);
@@ -921,8 +929,8 @@ public class Notification {
 			return;
 		} 
 		try{
-			final String[] projection = new String[] { "_ID"};
-			final String selection = "THREAD_ID = " + threadID + " AND BODY = " + DatabaseUtils.sqlEscapeString(messageBody);
+			final String[] projection = new String[] { "_ID, BODY"};
+			final String selection = "THREAD_ID = " + threadID ;
 			final String[] selectionArgs = null;
 			final String sortOrder = null;
 			long messageID = 0;
@@ -932,17 +940,16 @@ public class Notification {
 		    		selection,
 					selectionArgs,
 					sortOrder);
-		    if (cursor != null) {
-		    	try {
-		    		if (cursor.moveToFirst()) {
+		    try{
+			    while (cursor.moveToNext()) { 
+		    		if(cursor.getString(cursor.getColumnIndex("BODY")).trim().equals(messageBody)){
 		    			messageID = cursor.getLong(cursor.getColumnIndex("_ID"));
-		    			if (Log.getDebug()) Log.v("Notification.loadMessageID() Message ID Found: " + messageID);
+		    			if (Log.getDebug()) Log.v("Notification.loadMessageID() Message ID Found: " + cursor.getLong(cursor.getColumnIndex("_ID")));
+		    			break;
 		    		}
-		    	}catch(Exception e){
-		    		if (Log.getDebug()) Log.e("Notification.loadMessageID() EXCEPTION: " + e.toString());
-		    	} finally {
-		    		cursor.close();
-		    	}
+			    }
+		    }finally{
+		    	cursor.close();
 		    }
 		    setMessageID(messageID);
 		}catch(Exception ex){
@@ -964,7 +971,6 @@ public class Notification {
 		}
 		try{
 			PhoneNumber incomingNumber = new PhoneNumber(phoneNumber);
-			if (Log.getDebug()) Log.v("Notification.loadContactsInfo() Got PhoneNumber object");
 			final String[] projection = null;
 			final String selection = ContactsContract.Contacts.HAS_PHONE_NUMBER + "=1";
 			final String[] selectionArgs = null;
