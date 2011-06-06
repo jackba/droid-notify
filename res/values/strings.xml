@@ -52,7 +52,7 @@
    	<string name="edit_calendar_event_text">Edit Event</string>
    	
    	<!-- Preference Strings -->
-   	<string name="preference_general">General</string>
+   	<string name="preference_general">General Settings</string>
    	<string name="preference_notification_settings">Notification Settings</string>
    	<string name="preference_notifications">Notifications</string>
    	<string name="preference_dismiss_button_action">Dismiss Button Action</string>
@@ -170,8 +170,6 @@
    	<string name="preference_keyguard_enabled_summaryOff">Do not unlock phone when a notification is shown</string>
 	<string name="preference_keyguard_timeout">Keyguard Timeout</string>
    	<string name="preference_keyguard_timeout_summary">Define how long to wait before a releasing the phones Keyguard.</string>
-   	
-   	<string name="preference_advanced_settings">Advanced Settings</string>
 
     <string name="preference_reschedule_timeout">Reschedule Timeout</string>
    	<string name="preference_reschedule_timeout_summary">Define how long to wait before a notification is rescheduled.</string> 	

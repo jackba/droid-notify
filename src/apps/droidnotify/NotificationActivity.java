@@ -1077,27 +1077,34 @@ public class NotificationActivity extends Activity {
 	private void acquireWakeLock(Context context){
 		if (Log.getDebug()) Log.v("NotificationActivity.acquireWakeLock()");
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-		PowerManager pm = (PowerManager)context.getSystemService(Context.POWER_SERVICE);
+		PowerManager pm = null;
 		WakeLock wakeLock = getWakeLock();
-		if(wakeLock == null){
-			//Set the wakeLock properties based on the users preferences.
-			if(preferences.getBoolean(SCREEN_ENABLED_KEY, true)){
-				if(preferences.getBoolean(SCREEN_DIM_ENABLED_KEY, true)){
-					if (Log.getDebug()) Log.v("NotificationActivity.acquireWakeLock() Screen Wake Enabled Dim");
-					wakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, DROID_NOTIFY_WAKELOCK);
+		try{
+			pm = (PowerManager)context.getSystemService(Context.POWER_SERVICE);
+			if(wakeLock == null){
+				//Set the wakeLock properties based on the users preferences.
+				if(preferences.getBoolean(SCREEN_ENABLED_KEY, true)){
+					if(preferences.getBoolean(SCREEN_DIM_ENABLED_KEY, true)){
+						if (Log.getDebug()) Log.v("NotificationActivity.acquireWakeLock() Screen Wake Enabled Dim");
+						wakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, DROID_NOTIFY_WAKELOCK);
+					}else{
+						if (Log.getDebug()) Log.v("NotificationActivity.acquireWakeLock() Screen Wake Enabled Full");
+						wakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, DROID_NOTIFY_WAKELOCK);
+					}
 				}else{
-					if (Log.getDebug()) Log.v("NotificationActivity.acquireWakeLock() Screen Wake Enabled Full");
-					wakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, DROID_NOTIFY_WAKELOCK);
+					if (Log.getDebug()) Log.v("NotificationActivity.acquireWakeLock() Screen Wake Disabled");
+					wakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, DROID_NOTIFY_WAKELOCK);
 				}
-			}else{
-				if (Log.getDebug()) Log.v("NotificationActivity.acquireWakeLock() Screen Wake Disabled");
-				wakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, DROID_NOTIFY_WAKELOCK);
 			}
+			if(wakeLock != null){
+				if (Log.getDebug()) Log.v("NotificationActivity.acquireWakeLock() Aquired wake lock");
+				wakeLock.setReferenceCounted(false);
+				wakeLock.acquire();
+				setWakeLock(wakeLock);
+			}
+		}catch(Exception ex){
+			if (Log.getDebug()) Log.e("NotificationActivity.acquireWakeLock() ERROR: " + ex.toString());
 		}
-		if (Log.getDebug()) Log.v("NotificationActivity.acquireWakeLock() Aquired wake lock");
-		wakeLock.setReferenceCounted(false);
-		wakeLock.acquire();
-		setWakeLock(wakeLock);
 	}
 	
 	/**
@@ -1106,10 +1113,14 @@ public class NotificationActivity extends Activity {
 	private void releaseWakeLock(){
 		if (Log.getDebug()) Log.v("NotificationActivity.releaseWakeLock()");
 		WakeLock wakeLock = getWakeLock();
-		if(wakeLock != null){
-			wakeLock.release();
-			wakeLock = null;
-			setWakeLock(wakeLock);
+		try{
+			if(wakeLock != null){
+				wakeLock.release();
+				wakeLock = null;
+				setWakeLock(wakeLock);
+			}
+		}catch(Exception ex){
+			if (Log.getDebug()) Log.e("NotificationActivity.releaseWakeLock() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -1122,18 +1133,23 @@ public class NotificationActivity extends Activity {
 	private void disableKeyguardLock(Context context){
 		if (Log.getDebug()) Log.v("NotificationActivity.disableKeyguardLock()");
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-		KeyguardManager km = (KeyguardManager)getSystemService(Context.KEYGUARD_SERVICE);
+		KeyguardManager km = null;
 		KeyguardLock keyguardLock = getKeyguardLock();
-		if(keyguardLock == null){
-			keyguardLock = km.newKeyguardLock(DROID_NOTIFY_KEYGUARD); 
-		}
-		//Set the keyguard properties based on the users preferences.
-		if(preferences.getBoolean(KEYGUARD_ENABLED_KEY, true)){
-			if (Log.getDebug()) Log.v("NotificationActivity.disableKeyguardLock() Disable Keyguard Enabled");
-			keyguardLock.disableKeyguard();
-			setKeyguardLock(keyguardLock);
-		}else{
-			if (Log.getDebug()) Log.v("NotificationActivity.disableKeyguardLock() Disable Keyguard Disabled");
+		try{
+			km = (KeyguardManager)getSystemService(Context.KEYGUARD_SERVICE);
+			if(keyguardLock == null){
+				keyguardLock = km.newKeyguardLock(DROID_NOTIFY_KEYGUARD); 
+			}
+			//Set the keyguard properties based on the users preferences.
+			if(preferences.getBoolean(KEYGUARD_ENABLED_KEY, true)){
+				if (Log.getDebug()) Log.v("NotificationActivity.disableKeyguardLock() Disable Keyguard Enabled");
+				keyguardLock.disableKeyguard();
+				setKeyguardLock(keyguardLock);
+			}else{
+				if (Log.getDebug()) Log.v("NotificationActivity.disableKeyguardLock() Disable Keyguard Disabled");
+			}
+		}catch(Exception ex){
+			if (Log.getDebug()) Log.e("NotificationActivity.disableKeyguardLock() ERROR: " + ex.toString());
 		}
 	}
 
@@ -1143,10 +1159,14 @@ public class NotificationActivity extends Activity {
 	private void reenableKeyguardLock(){
 		if (Log.getDebug()) Log.v("NotificationActivity.reenableKeyguardLock()");
 		KeyguardLock keyguardLock = getKeyguardLock();
-		if(keyguardLock != null){
-			keyguardLock.reenableKeyguard();
-			keyguardLock = null;
-			setKeyguardLock(keyguardLock);
+		try{
+			if(keyguardLock != null){
+				keyguardLock.reenableKeyguard();
+				keyguardLock = null;
+				setKeyguardLock(keyguardLock);
+			}
+		}catch(Exception ex){
+			if (Log.getDebug()) Log.e("NotificationActivity.reenableKeyguardLock() ERROR: " + ex.toString());
 		}
 	}
 
@@ -1220,15 +1240,15 @@ public class NotificationActivity extends Activity {
 	private void stopRingtone(){
 		if (Log.getDebug()) Log.v("NotificationActivity.stopRingtone()");
 		Ringtone ringtone = getRingtone();
-		if(ringtone!= null){
-			try{
+		try{
+			if(ringtone!= null){
 				ringtone.stop();
-			}catch(Exception ex){
- 	    		if (Log.getDebug()) Log.e("NotificationActivity.stopRingtone() ERROR: " + ex.toString());
-	    	}
-			ringtone = null;
-			setRingtone(ringtone);
-		}
+				ringtone = null;
+				setRingtone(ringtone);
+			}
+		}catch(Exception ex){
+	    		if (Log.getDebug()) Log.e("NotificationActivity.stopRingtone() ERROR: " + ex.toString());
+    	}
 	}
 	
 	/**
@@ -1238,42 +1258,46 @@ public class NotificationActivity extends Activity {
 	 */
 	private void runNotificationFeedback(int notificationType){
 		if (Log.getDebug()) Log.v("NotificationActivity.runNotificationFeedback()");
-		Vibrator vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-		//Set vibration based on user preferences.
-		if(preferences.getBoolean(ALL_VIBRATE_ENABLED_KEY, true)){
-			if(notificationType == NOTIFICATION_TYPE_TEST){
-				vibrator.vibrate(1 * 1000);
-				vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
+		Vibrator vibrator = null;
+		try{
+			vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
+			//Set vibration based on user preferences.
+			if(preferences.getBoolean(ALL_VIBRATE_ENABLED_KEY, true)){
+				if(notificationType == NOTIFICATION_TYPE_TEST){
+					if(vibrator != null) vibrator.vibrate(1 * 1000);
+				}
+			    if(notificationType == NOTIFICATION_TYPE_PHONE){
+			 	    if(preferences.getBoolean(MISSED_CALL_VIBRATE_ENABLED_KEY, true)){
+			 	    	if(vibrator != null) vibrator.vibrate(1 * 1000);
+			 	    }
+			    }
+			    if(notificationType == NOTIFICATION_TYPE_SMS){
+			 	    if(preferences.getBoolean(SMS_VIBRATE_ENABLED_KEY, true)){
+			 	    	if(vibrator != null) vibrator.vibrate(1 * 1000);
+			 	    }
+			    }
+			    if(notificationType == NOTIFICATION_TYPE_MMS){
+			 	    if(preferences.getBoolean(MMS_VIBRATE_ENABLED_KEY, true)){
+			 	    	if(vibrator != null) vibrator.vibrate(1 * 1000);
+			 	    }
+			    }
+			    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
+			 	    if(preferences.getBoolean(CALENDAR_VIBRATE_ENABLED_KEY, true)){
+			 	    	if(vibrator != null) vibrator.vibrate(1 * 1000);
+			 	    }
+			    }
+			    if(notificationType == NOTIFICATION_TYPE_EMAIL){
+			    	//TODO - Email
+			    }
 			}
-		    if(notificationType == NOTIFICATION_TYPE_PHONE){
-		 	    if(preferences.getBoolean(MISSED_CALL_VIBRATE_ENABLED_KEY, true)){
-		 	    	vibrator.vibrate(1 * 1000);
-		 	    }
+			//Set ringtone based on user preferences.
+			if(preferences.getBoolean(ALL_RINGTONE_ENABLED_KEY, true)){
+		    	playRingtone(notificationType);
 		    }
-		    if(notificationType == NOTIFICATION_TYPE_SMS){
-		 	    if(preferences.getBoolean(SMS_VIBRATE_ENABLED_KEY, true)){
-		 	    	vibrator.vibrate(1 * 1000);
-		 	    }
-		    }
-		    if(notificationType == NOTIFICATION_TYPE_MMS){
-		 	    if(preferences.getBoolean(MMS_VIBRATE_ENABLED_KEY, true)){
-		 	    	vibrator.vibrate(1 * 1000);
-		 	    }
-		    }
-		    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
-		 	    if(preferences.getBoolean(CALENDAR_VIBRATE_ENABLED_KEY, true)){
-		 	    	vibrator.vibrate(1 * 1000);
-		 	    }
-		    }
-		    if(notificationType == NOTIFICATION_TYPE_EMAIL){
-		    	//TODO - Email
-		    }
+		}catch(Exception ex){
+			if (Log.getDebug()) Log.e("NotificationActivity.runNotificationFeedback() ERROR: " + ex.toString());
 		}
-		//Set ringtone based on user preferences.
-		if(preferences.getBoolean(ALL_RINGTONE_ENABLED_KEY, true)){
-	    	playRingtone(notificationType);
-	    }
 	}
 	
 	/**
@@ -1284,18 +1308,23 @@ public class NotificationActivity extends Activity {
 	 */
 	private void customPerformHapticFeedback(int hapticFeedbackConstant){
 		if (Log.getDebug()) Log.v("NotificationActivity.customPerformHapticFeedback()");
-		Vibrator vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-		//Perform the haptic feedback based on the users preferences.
-		if(preferences.getBoolean(HAPTIC_FEEDBACK_ENABLED_KEY, true)){
-			if(hapticFeedbackConstant == HapticFeedbackConstants.VIRTUAL_KEY){
-				vibrator.vibrate(50);
+		Vibrator vibrator = null;
+		try{
+			vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
+			//Perform the haptic feedback based on the users preferences.
+			if(preferences.getBoolean(HAPTIC_FEEDBACK_ENABLED_KEY, true)){
+				if(hapticFeedbackConstant == HapticFeedbackConstants.VIRTUAL_KEY){
+					if(vibrator != null) vibrator.vibrate(50);
+				}
 			}
-		}
-		if(preferences.getBoolean(HAPTIC_FEEDBACK_ENABLED_KEY, true)){
-			if(hapticFeedbackConstant == HapticFeedbackConstants.LONG_PRESS){
-				vibrator.vibrate(100);
+			if(preferences.getBoolean(HAPTIC_FEEDBACK_ENABLED_KEY, true)){
+				if(hapticFeedbackConstant == HapticFeedbackConstants.LONG_PRESS){
+					if(vibrator != null) vibrator.vibrate(100);
+				}
 			}
+		}catch(Exception ex){
+			if (Log.getDebug()) Log.e("NotificationActivity.customPerformHapticFeedback() ERROR: " + ex.toString());
 		}
 	}
 	
