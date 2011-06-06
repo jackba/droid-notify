@@ -21,7 +21,7 @@
   * Added the ability to load all unread SMS messages when a new message is received. This can be turned off and on in the preferences.
   * Timeout to release screen after unlocking phone (Saves battery power/life)
 
- * *v1.1* _Coming Soon..._
+ * *v1.1* (June 06, 2011)
   * Added more preference options.
   * You can now select the contact placeholder image from a pre-defined list.
   * Fixed a bug where some phones crashed due to a bad ringtone or no default ringtone.
