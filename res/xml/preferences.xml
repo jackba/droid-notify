@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen 
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:droidnotify="http://schemas.android.com/apk/res/apps.droidnotify">
+	xmlns:droidnotify="http://schemas.android.com/apk/res/apps.droidnotify"
+	android:key="preference_screen">
 	<PreferenceCategory
 		android:key="test_app_category"
 		android:title="@string/test_text">
@@ -367,5 +368,17 @@
       		android:dialogMessage="@string/eula_text"
       		android:positiveButtonText="@string/ok_text"
       		android:negativeButtonText="@null" />
+	</PreferenceCategory>
+	<PreferenceCategory
+		android:key="app_debug_category"
+		android:title="Debug Purposes Only">
+  		<Preference
+            android:key="email_logs"
+        	android:title="Send Developer Logs"
+          	android:summary="Use this button to automatically email the developer the application logs that are stored on your phone." />
+		<Preference
+            android:key="clear_logs"
+        	android:title="Clear Developer Logs"
+          	android:summary="Use this button to clear the application logs that are stored on your phone." />
 	</PreferenceCategory>
 </PreferenceScreen>

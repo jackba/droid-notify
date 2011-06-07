@@ -55,6 +55,7 @@ public class Notification {
     // Properties
     //================================================================================
 	
+	private boolean _debug;
 	private Context _context;
 	private String _phoneNumber;
 	private String _addressBookPhoneNumber;
@@ -89,7 +90,8 @@ public class Notification {
 	 * This constructor should be called for SMS & MMS Messages.
 	 */
 	public Notification(Context context, Bundle bundle, int notificationType) {
-		if (Log.getDebug()) Log.v("Notification.Notification(Context context, Bundle bundle, int notificationType)");
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Notification.Notification(Context context, Bundle bundle, int notificationType)");
 		setContext(context);
 		setContactExists(false);
 		SmsMessage[] msgs = null;
@@ -148,7 +150,8 @@ public class Notification {
 	 * This constructor should be called for SMS & MMS Messages.
 	 */
 	public Notification(Context context, long messageID, long threadID, String messageBody, String phoneNumber, long timeStamp, long contactID, int notificationType) {
-		if (Log.getDebug()) Log.v("Notification.Notification(Context context, long messageID, long threadID, String messageBody, String phoneNumber, long timeStamp, long contactID, int notificationType)");
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Notification.Notification(Context context, long messageID, long threadID, String messageBody, String phoneNumber, long timeStamp, long contactID, int notificationType)");
 		setTitle("SMS Message");
 		setContext(context);
 		setMessageID(messageID);
@@ -169,7 +172,8 @@ public class Notification {
 	 * This constructor should be called for TEST SMS & MMS Messages.
 	 */
 	public Notification(Context context, String phoneNumber, String messageBody, long timeStamp, int notificationType) {
-		if (Log.getDebug()) Log.v("Notification.Notification(Context context, String phoneNumber, String messageBody, long timeStamp, int notificationType)");
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Notification.Notification(Context context, String phoneNumber, String messageBody, long timeStamp, int notificationType)");
 		setTitle("SMS Message");
 		setContext(context);
 		setNotificationType(notificationType);
@@ -186,7 +190,8 @@ public class Notification {
 	 * This constructor should be called for Missed Calls.
 	 */
 	public Notification(Context context, String phoneNumber, long timeStamp, int notificationType){
-		if (Log.getDebug()) Log.v("Notification.Notification(Context context, String phoneNumber, long timeStamp, int notificationType)");
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Notification.Notification(Context context, String phoneNumber, long timeStamp, int notificationType)");
 		setContext(context);
 		setContactExists(false);
 		setContactPhotoExists(false);
@@ -195,7 +200,10 @@ public class Notification {
     		setPhoneNumber(phoneNumber);
     		setTimeStamp(timeStamp);
       		setTitle("Missed Call");
-    		loadContactsInfoByPhoneNumber(context, phoneNumber);
+      		//Don't load contact info if this is a test message (Phone Number: 555-555-5555).
+    		if(!phoneNumber.equals("5555555555")){
+    			loadContactsInfoByPhoneNumber(context, phoneNumber);
+    		}
 	    }
     	if(notificationType == NOTIFICATION_TYPE_SMS || notificationType == NOTIFICATION_TYPE_MMS){
     		//Do Nothing. This should not be called if a SMS or MMS is received.
@@ -213,7 +221,8 @@ public class Notification {
 	 * This constructor should be called for Calendar Events.
 	 */
 	public Notification(Context context, String title, String messageBody, long eventStartTime, long eventEndTime, boolean allDay, long calendarID, long calendarEventID, int notificationType){
-		if (Log.getDebug()) Log.v("Notification.Notification(Context context, String title, String messageBody, long eventStartTime, long eventEndTime, boolean allDay, long calendarID, long calendarEventID, int notificationType)");
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Notification.Notification(Context context, String title, String messageBody, long eventStartTime, long eventEndTime, boolean allDay, long calendarID, long calendarEventID, int notificationType)");
 		setContext(context);
 		setContactExists(false);
 		setContactPhotoExists(false);
@@ -222,11 +231,11 @@ public class Notification {
     		//Do Nothing. This should not be called if a missed call is received.
 	    }
     	if(notificationType == NOTIFICATION_TYPE_SMS){
-    		if (Log.getDebug()) Log.v("Notification.Notification() NOTIFICATION_TYPE_SMS");
+    		if (_debug) Log.v("Notification.Notification() NOTIFICATION_TYPE_SMS");
     		//Do Nothing. This should not be called if a SMS is received.
     	}   		
     	if(notificationType == NOTIFICATION_TYPE_MMS){
-    		if (Log.getDebug()) Log.v("Notification.Notification() NOTIFICATION_TYPE_MMS");
+    		if (_debug) Log.v("Notification.Notification() NOTIFICATION_TYPE_MMS");
     		//Do Nothing. This should not be called if an MMS is received.
     	}
 	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
@@ -254,7 +263,7 @@ public class Notification {
 	 * @param context - Applications Context.
 	 */
 	public void setContext(Context context) {
-		if (Log.getDebug()) Log.v("Notification.setContext()");
+		if (_debug) Log.v("Notification.setContext()");
 	    _context = context;
 	}
 	
@@ -264,7 +273,7 @@ public class Notification {
 	 * @return context - Applications Context.
 	 */
 	public Context getContext() {
-		if (Log.getDebug()) Log.v("Notification.getContext()");
+		if (_debug) Log.v("Notification.getContext()");
 	    return _context;
 	}
 
@@ -274,7 +283,7 @@ public class Notification {
 	 * @param addressBookPhoneNumber - Phone's contact phone number.
 	 */
 	public void setAddressBookPhoneNumber(String addressBookPhoneNumber) {
-		if (Log.getDebug()) Log.v("Notification.setAddressBookPhoneNumber() PhoneNumber: " + addressBookPhoneNumber);
+		if (_debug) Log.v("Notification.setAddressBookPhoneNumber() PhoneNumber: " + addressBookPhoneNumber);
 		_addressBookPhoneNumber = addressBookPhoneNumber;
 	}
 	
@@ -284,7 +293,7 @@ public class Notification {
 	 * @return addressBookPhoneNumber - Phone's contact phone number or stored phone number if not available.
 	 */
 	public String getAddressBookPhoneNumber() {
-		if (Log.getDebug()) Log.v("Notification.getAddressBookPhoneNumber()");
+		if (_debug) Log.v("Notification.getAddressBookPhoneNumber()");
 		if(_addressBookPhoneNumber == null){
 			loadContactsInfoByPhoneNumber(getContext(),getPhoneNumber());
 		}
@@ -300,7 +309,7 @@ public class Notification {
 	 * @param phoneNumber - Contact's phone number.
 	 */
 	public void setPhoneNumber(String phoneNumber) {
-		if (Log.getDebug()) Log.v("Notification.setPhoneNumber() PhoneNumber: " + phoneNumber);
+		if (_debug) Log.v("Notification.setPhoneNumber() PhoneNumber: " + phoneNumber);
 		_phoneNumber = phoneNumber;
 	}
 	
@@ -310,7 +319,7 @@ public class Notification {
 	 * @return phoneNumber - Contact's phone number.
 	 */
 	public String getPhoneNumber() {
-		if (Log.getDebug()) Log.v("Notification.getPhoneNumber()");
+		if (_debug) Log.v("Notification.getPhoneNumber()");
 		return _phoneNumber;
 	}
 	
@@ -320,7 +329,7 @@ public class Notification {
 	 * @param messageBody - Notification's message.
 	 */
 	public void setMessageBody(String messageBody) {
-		if (Log.getDebug()) Log.v("Notification.setMessageBody() MessageBody: " + messageBody);
+		if (_debug) Log.v("Notification.setMessageBody() MessageBody: " + messageBody);
 		_messageBody = messageBody;
 	}
 	
@@ -330,7 +339,7 @@ public class Notification {
 	 * @return messageBody - Notification's message.
 	 */
 	public String getMessageBody() {
-		if (Log.getDebug()) Log.v("Notification.getMessageBody()");
+		if (_debug) Log.v("Notification.getMessageBody()");
 		if (_messageBody == null) {
 			_messageBody = "";
 	    }
@@ -343,7 +352,7 @@ public class Notification {
 	 * @param timeStamp - TimeStamp of notification.
 	 */
 	public void setTimeStamp(long timeStamp) {
-		if (Log.getDebug()) Log.v("Notification.setTimeStamp() TimeStamp: " + timeStamp);
+		if (_debug) Log.v("Notification.setTimeStamp() TimeStamp: " + timeStamp);
 	    _timeStamp = timeStamp;
 	}
 	
@@ -353,7 +362,7 @@ public class Notification {
 	 * @return timeStamp - TimeStamp of notification.
 	 */
 	public long getTimeStamp() {
-		if (Log.getDebug()) Log.v("Notification.getTimeStamp()");
+		if (_debug) Log.v("Notification.getTimeStamp()");
 	    return _timeStamp;
 	}
 	
@@ -363,7 +372,7 @@ public class Notification {
 	 * @param threadID - SMS/MMS Message thread id.
 	 */
 	public void setThreadID(long threadID) {
-		if (Log.getDebug()) Log.v("Notification.setThreadID() ThreadID: " + threadID);
+		if (_debug) Log.v("Notification.setThreadID() ThreadID: " + threadID);
 	    _threadID = threadID;
 	}
 	
@@ -376,7 +385,7 @@ public class Notification {
 		if(_threadID == 0){
 			loadThreadID(getContext(), getPhoneNumber());
 		}
-		if (Log.getDebug()) Log.v("Notification.getThreadID() ThreadID: " + _threadID);
+		if (_debug) Log.v("Notification.getThreadID() ThreadID: " + _threadID);
 	    return _threadID;
 	}	
 	
@@ -386,7 +395,7 @@ public class Notification {
 	 * @param contactID - Contact's ID.
 	 */
 	public void setContactID(long contactID) {
-		if (Log.getDebug()) Log.v("Notification.setContactID() ContactID: " + contactID);
+		if (_debug) Log.v("Notification.setContactID() ContactID: " + contactID);
 	    _contactID = contactID;
 	}
 	
@@ -396,7 +405,7 @@ public class Notification {
 	 * @return contactID - Contact's ID.
 	 */
 	public long getContactID() {
-		if (Log.getDebug()) Log.v("Notification.getContactID()");
+		if (_debug) Log.v("Notification.getContactID()");
 		if(_contactID == 0){
 			loadContactsInfoByPhoneNumber(getContext(),getPhoneNumber());
 		}
@@ -409,7 +418,7 @@ public class Notification {
 	 * @param contactLookupKey - Contact's lookup key.
 	 */
 	public void setContactLookupKey(String contactLookupKey) {
-		if (Log.getDebug()) Log.v("Notification.setContactLookupKey() ContactLookupKey: " + contactLookupKey);
+		if (_debug) Log.v("Notification.setContactLookupKey() ContactLookupKey: " + contactLookupKey);
 		_contactLookupKey = contactLookupKey;
 	}
 	
@@ -419,7 +428,7 @@ public class Notification {
 	 * @return contactLookupKey - Contact's lookup key.
 	 */
 	public String getContactLookupKey() {
-		if (Log.getDebug()) Log.v("Notification.getContactLookupKey()");
+		if (_debug) Log.v("Notification.getContactLookupKey()");
 		if(_contactLookupKey == null){
 			loadContactsInfoByPhoneNumber(getContext(),getPhoneNumber());
 		}
@@ -432,7 +441,7 @@ public class Notification {
 	 * @param contactName - Contact's display name.
 	 */
 	public void setContactName(String contactName) {
-		if (Log.getDebug()) Log.v("Notification.setContactName() ContactName: " + contactName);
+		if (_debug) Log.v("Notification.setContactName() ContactName: " + contactName);
 		_contactName = contactName;
 	}
 	
@@ -442,7 +451,7 @@ public class Notification {
 	 * @return contactName - Contact's display name.
 	 */
 	public String getContactName() {
-		if (Log.getDebug()) Log.v("Notification.getContactName()");
+		if (_debug) Log.v("Notification.getContactName()");
 		if (_contactName == null) {
 			_contactName = _context.getString(android.R.string.unknownName);
 	    }
@@ -455,7 +464,7 @@ public class Notification {
 	 * @param photoID - Contact's photo id.
 	 */
 	public void setPhotoID(long photoID) {
-		if (Log.getDebug()) Log.v("Notification.setPhotoID() PhotoID: " + photoID);
+		if (_debug) Log.v("Notification.setPhotoID() PhotoID: " + photoID);
 		_photoID = photoID;
 	}
 	
@@ -465,7 +474,7 @@ public class Notification {
 	 * @return photoID - Contact's photo id.
 	 */
 	public long getPhotoID() {
-		if (Log.getDebug()) Log.v("Notification.getPhotoID()");
+		if (_debug) Log.v("Notification.getPhotoID()");
 		return _photoID;
 	}
 
@@ -475,7 +484,7 @@ public class Notification {
 	 * @param photoImg - Bitmap of contact's photo.
 	 */
 	public void setPhotoImg(Bitmap photoImg) {
-		if (Log.getDebug()) Log.v("Notification.setPhotoID() PhotoIImg: " + photoImg);
+		if (_debug) Log.v("Notification.setPhotoID() PhotoIImg: " + photoImg);
 		_photoImg = photoImg;
 	}
 	
@@ -485,7 +494,7 @@ public class Notification {
 	 * @return photoImg - Bitmap of contact's photo.
 	 */
 	public Bitmap getPhotoImg() {
-		if (Log.getDebug()) Log.v("Notification.getPhotoIImg()");
+		if (_debug) Log.v("Notification.getPhotoIImg()");
 		return _photoImg;
 	}
 	
@@ -495,7 +504,7 @@ public class Notification {
 	 * @param notificationType - The type of notification this is.
 	 */
 	public void setNotificationType(int notificationType) {
-		if (Log.getDebug()) Log.v("Notification.setNotificationType() NotificationType: " + notificationType);
+		if (_debug) Log.v("Notification.setNotificationType() NotificationType: " + notificationType);
 		_notificationType = notificationType;
 	}
 	
@@ -505,7 +514,7 @@ public class Notification {
 	 * @return notificationType - The type of notification this is.
 	 */
 	public int getNotificationType() {
-		if (Log.getDebug()) Log.v("Notification.getNotificationType()");
+		if (_debug) Log.v("Notification.getNotificationType()");
 		return _notificationType;
 	}
 
@@ -515,7 +524,7 @@ public class Notification {
 	 * @param messageID - The message id of the SMS/MMS message.
 	 */
 	public void setMessageID(long messageID) {
-		if (Log.getDebug()) Log.v("Notification.setMessageID() MessageID: " + messageID);
+		if (_debug) Log.v("Notification.setMessageID() MessageID: " + messageID);
   		_messageID = messageID;
 	}
 	
@@ -525,7 +534,7 @@ public class Notification {
 	 * @return messageID - The message id of the SMS/MMS message.
 	 */
 	public long getMessageID() {
-		if (Log.getDebug()) Log.v("Notification.getMessageID()");
+		if (_debug) Log.v("Notification.getMessageID()");
 		if(_messageID == 0){
 			loadMessageID(getContext(), getThreadID(), getMessageBody(), getTimeStamp());
 		}
@@ -538,7 +547,7 @@ public class Notification {
 	 * @param fromEmailGateway - Boolean which is true if the message came from an email gateway.
 	 */
 	public void setFromEmailGateway(boolean fromEmailGateway) {
-		if (Log.getDebug()) Log.v("Notification.setFromEmailGateway() FromEmailGateway: " + fromEmailGateway);
+		if (_debug) Log.v("Notification.setFromEmailGateway() FromEmailGateway: " + fromEmailGateway);
   		_fromEmailGateway = fromEmailGateway;
 	}
 	
@@ -548,7 +557,7 @@ public class Notification {
 	 * @return fromEmailGateway - Boolean which returns true if the message came from an email gateway.
 	 */
 	public boolean setFromEmailGateway() {
-		if (Log.getDebug()) Log.v("Notification.getFromEmailGateway()");
+		if (_debug) Log.v("Notification.getFromEmailGateway()");
   		return _fromEmailGateway;
 	}	
 
@@ -558,7 +567,7 @@ public class Notification {
 	 * @param messageClass - The message class of the SMS/MMS message.
 	 */
 	public void setMessageClass(MessageClass messageClass) {
-		if (Log.getDebug()) Log.v("Notification.setMessageClass()");
+		if (_debug) Log.v("Notification.setMessageClass()");
 		_messageClass = messageClass;
 	}
 	
@@ -568,7 +577,7 @@ public class Notification {
 	 * @return messageClass - The message class of the SMS/MMS message.
 	 */
 	public MessageClass getMessageClass() {
-		if (Log.getDebug()) Log.v("Notification.getMessageClass()");
+		if (_debug) Log.v("Notification.getMessageClass()");
   		return _messageClass;
 	}
 
@@ -578,7 +587,7 @@ public class Notification {
 	 * @param contactExists - Boolean which is true if there is a contact in the phone linked to this notification.
 	 */
 	public void setContactExists(boolean contactExists) {
-		if (Log.getDebug()) Log.v("Notification.setContactExists()");
+		if (_debug) Log.v("Notification.setContactExists()");
 		_contactExists = contactExists;
 	}
 	
@@ -588,7 +597,7 @@ public class Notification {
 	 * @return  contactExists - Boolean returns true if there is a contact in the phone linked to this notification.
 	 */
 	public boolean getContactExists() {
-		if (Log.getDebug()) Log.v("Notification.getContactExists()");
+		if (_debug) Log.v("Notification.getContactExists()");
   		return _contactExists;
 	}
 
@@ -598,7 +607,7 @@ public class Notification {
 	 * @param contactPhotoExists - Boolean which is true if there is a contact photo in the phone linked to this notification.
 	 */
 	public void setContactPhotoExists(boolean contactPhotoExists) {
-		if (Log.getDebug()) Log.v("Notification.setContactPhotoExists()");
+		if (_debug) Log.v("Notification.setContactPhotoExists()");
 		_contactPhotoExists = contactPhotoExists;
 	}
 	
@@ -608,7 +617,7 @@ public class Notification {
 	 * @return contactPhotoExists - Boolean which is true if there is a contact photo in the phone linked to this notification.
 	 */
 	public boolean getContactPhotoExists() {
-		if (Log.getDebug()) Log.v("Notification.getContactPhotoExists()");
+		if (_debug) Log.v("Notification.getContactPhotoExists()");
   		return _contactPhotoExists;
 	}	
 
@@ -618,7 +627,7 @@ public class Notification {
 	 * @param title - Notification title.
 	 */
 	public void setTitle(String title) {
-		if (Log.getDebug()) Log.v("Notification.setTitle() Title: " + title);
+		if (_debug) Log.v("Notification.setTitle() Title: " + title);
 		_title = title;
 	}
 	
@@ -628,7 +637,7 @@ public class Notification {
 	 * @return title - Notification title.
 	 */
 	public String getTitle() {
-		if (Log.getDebug()) Log.v("Notification.getTitle() Title: " + _title);
+		if (_debug) Log.v("Notification.getTitle() Title: " + _title);
   		return _title;
 	}
 
@@ -638,7 +647,7 @@ public class Notification {
 	 * @param setEmail - Contact's email address.
 	 */
 	public void setEmail(String email) {
-		if (Log.getDebug()) Log.v("Notification.setEmail() Email: " + email);
+		if (_debug) Log.v("Notification.setEmail() Email: " + email);
 		_email = email;
 	}
 	
@@ -648,7 +657,7 @@ public class Notification {
 	 * @return setEmail - Contact's email address.
 	 */
 	public String getEmail() {
-		if (Log.getDebug()) Log.v("Notification.getEmail() Email: " + _email);
+		if (_debug) Log.v("Notification.getEmail() Email: " + _email);
   		return _email;
 	}
 
@@ -659,7 +668,7 @@ public class Notification {
 	 * @param calendarID - Calendar Event's id.
 	 */
 	public void setCalendarID(long calendarID) {
-		if (Log.getDebug()) Log.v("Notification.setCalendarID() CalendarID: " + calendarID);
+		if (_debug) Log.v("Notification.setCalendarID() CalendarID: " + calendarID);
 		_calendarID = calendarID;
 	}
 	
@@ -669,7 +678,7 @@ public class Notification {
 	 * @return calendarID - Calendar Event's id.
 	 */
 	public long getCalendarID() {
-		if (Log.getDebug()) Log.v("Notification.getCalendarID() CalendarID: " + _calendarID);
+		if (_debug) Log.v("Notification.getCalendarID() CalendarID: " + _calendarID);
   		return _calendarID;
 	}
 
@@ -679,7 +688,7 @@ public class Notification {
 	 * @return calendarEventStartTime - Start time of the Calendar Event.
 	 */
 	public void setCalendarEventID(long calendarEventID) {
-		if (Log.getDebug()) Log.v("Notification.setCalendarEventID() CalendarEventID: " + calendarEventID);
+		if (_debug) Log.v("Notification.setCalendarEventID() CalendarEventID: " + calendarEventID);
 		_calendarEventID = calendarEventID;
 	}
 	
@@ -689,7 +698,7 @@ public class Notification {
 	 * @param 
 	 */
 	public long getCalendarEventID() {
-		if (Log.getDebug()) Log.v("Notification.getCalendarEventID() CalendarEventID: " + _calendarEventID);
+		if (_debug) Log.v("Notification.getCalendarEventID() CalendarEventID: " + _calendarEventID);
   		return _calendarEventID;
 	}
 	
@@ -699,7 +708,7 @@ public class Notification {
 	 * @param calendarEventStartTime - Start time of the Calendar Event.
 	 */
 	public void setCalendarEventStartTime(long calendarEventStartTime) {
-		if (Log.getDebug()) Log.v("Notification.setCalendarEventStartTime() CalendarEventStartTime: " + calendarEventStartTime);
+		if (_debug) Log.v("Notification.setCalendarEventStartTime() CalendarEventStartTime: " + calendarEventStartTime);
 		_calendarEventStartTime = calendarEventStartTime;
 	}
 	
@@ -709,7 +718,7 @@ public class Notification {
 	 * @return calendarEventStartTime - Start time of the Calendar Event.
 	 */
 	public long getCalendarEventStartTime() {
-		if (Log.getDebug()) Log.v("Notification.getCalendarEventStartTime() CalendarEventStartTime: " + _calendarEventStartTime);
+		if (_debug) Log.v("Notification.getCalendarEventStartTime() CalendarEventStartTime: " + _calendarEventStartTime);
   		return _calendarEventStartTime;
 	}
 
@@ -719,7 +728,7 @@ public class Notification {
 	 * @param calendarEventEndTime - End time of the Calendar Event.
 	 */
 	public void setCalendarEventEndTime(long calendarEventEndTime) {
-		if (Log.getDebug()) Log.v("Notification.setCalendarEventEndTime() CalendarEventEndTime: " + calendarEventEndTime);
+		if (_debug) Log.v("Notification.setCalendarEventEndTime() CalendarEventEndTime: " + calendarEventEndTime);
 		_calendarEventEndTime = calendarEventEndTime;
 	}
 	
@@ -729,7 +738,7 @@ public class Notification {
 	 * @return calendarEventEndTime - End time of the Calendar Event.
 	 */
 	public long getCalendarEventEndTime() {
-		if (Log.getDebug()) Log.v("Notification.getCalendarEventEndTime() CalendarEventEndTime: " + _calendarEventEndTime);
+		if (_debug) Log.v("Notification.getCalendarEventEndTime() CalendarEventEndTime: " + _calendarEventEndTime);
   		return _calendarEventEndTime;
 	}
 
@@ -739,7 +748,7 @@ public class Notification {
 	 * @param allDay - Boolean which is true if the Calendar Event is all day.
 	 */
 	public void setAllDay(boolean allDay) {
-		if (Log.getDebug()) Log.v("Notification.setCalendarEventEndTime() AllDay: " + allDay);
+		if (_debug) Log.v("Notification.setCalendarEventEndTime() AllDay: " + allDay);
 		_allDay = allDay;
 	}
 	
@@ -749,7 +758,7 @@ public class Notification {
 	 * @return allDay - Boolean returns true if the Calendar Event is all day.
 	 */
 	public boolean getAllDay() {
-		if (Log.getDebug()) Log.v("Notification.getCalendarEventEndTime() AllDay: " + _allDay);
+		if (_debug) Log.v("Notification.getCalendarEventEndTime() AllDay: " + _allDay);
   		return _allDay;
 	}
 	
@@ -763,11 +772,11 @@ public class Notification {
 	 * @param isViewed - Boolean value to set or unset the item as being viewed.
 	 */
 	public void setViewed(boolean isViewed){
-		if (Log.getDebug()) Log.v("Notification.setViewed()");
+		if (_debug) Log.v("Notification.setViewed()");
 		Context context = getContext();
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		int notificationType = getNotificationType();
-		if (Log.getDebug()) Log.v("Notification.setViewed() Preference Value: " + preferences.getString(MISSED_CALL_DISMISS_KEY, "0"));
+		if (_debug) Log.v("Notification.setViewed() Preference Value: " + preferences.getString(MISSED_CALL_DISMISS_KEY, "0"));
     	if(notificationType == NOTIFICATION_TYPE_PHONE){
     		//Action is determined by the users preferences. 
     		//Either mark the call log as viewed, delete the call log entry, or do nothing to the call log entry.
@@ -803,7 +812,7 @@ public class Notification {
 	 * Delete the message or thread from the users phone.
 	 */
 	public void deleteMessage(){
-		if (Log.getDebug()) Log.v("Notification.deleteMessage()");
+		if (_debug) Log.v("Notification.deleteMessage()");
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
 		int notificationType = getNotificationType();
 		//Decide what to do here based on the users preferences.
@@ -830,13 +839,13 @@ public class Notification {
 		Context context = getContext();
 		long threadID = getThreadID();
 		if(threadID == 0){
-			if (Log.getDebug()) Log.v("Notification.deleteMessage() Thread ID == 0. Load Thread ID");
+			if (_debug) Log.v("Notification.deleteMessage() Thread ID == 0. Load Thread ID");
 			loadThreadID(context, getPhoneNumber());
 			threadID = getThreadID();
 		}
 		long messageID = getMessageID();
 		if(messageID == 0){
-			if (Log.getDebug()) Log.v("Notification.deleteMessage() Message ID == 0. Load Message ID");
+			if (_debug) Log.v("Notification.deleteMessage() Message ID == 0. Load Message ID");
 			loadMessageID(context, getThreadID(), getMessageBody(), getTimeStamp());
 			messageID = getMessageID();
 		}
@@ -849,7 +858,7 @@ public class Notification {
 						null, 
 						null);
 				}catch(Exception ex){
-					if (Log.getDebug()) Log.e("Notification.deleteMessage() Delete Thread ERROR: " + ex.toString());
+					if (_debug) Log.e("Notification.deleteMessage() Delete Thread ERROR: " + ex.toString());
 				}
 			}else{
 				try{
@@ -859,7 +868,7 @@ public class Notification {
 							null, 
 							null);
 				}catch(Exception ex){
-					if (Log.getDebug()) Log.e("Notification.deleteMessageg() Delete Message ERROR: " + ex.toString());
+					if (_debug) Log.e("Notification.deleteMessageg() Delete Message ERROR: " + ex.toString());
 				}
 			}
 		}
@@ -876,9 +885,9 @@ public class Notification {
 	 * @param phoneNumber - Notifications's phone number.
 	 */
 	private void loadThreadID(Context context, String phoneNumber){
-		if (Log.getDebug()) Log.v("Notification.getThreadIdByAddress()");
+		if (_debug) Log.v("Notification.getThreadIdByAddress()");
 		if (phoneNumber == null){
-			if (Log.getDebug()) Log.v("Notification.loadThreadID() Phone number provided is NULL: Exiting loadThreadID()");
+			if (_debug) Log.v("Notification.loadThreadID() Phone number provided is NULL: Exiting loadThreadID()");
 			return;
 		}
 		try{
@@ -897,17 +906,17 @@ public class Notification {
 		    	try {
 		    		if (cursor.moveToFirst()) {
 		    			threadID = cursor.getLong(cursor.getColumnIndex("THREAD_ID"));
-		    			if (Log.getDebug()) Log.v("Notification.loadThreadID() Thread ID Found: " + threadID);
+		    			if (_debug) Log.v("Notification.loadThreadID() Thread ID Found: " + threadID);
 		    		}
 		    	}catch(Exception e){
-			    		if (Log.getDebug()) Log.e("Notification.loadThreadID() EXCEPTION: " + e.toString());
+			    		if (_debug) Log.e("Notification.loadThreadID() EXCEPTION: " + e.toString());
 		    	} finally {
 		    		cursor.close();
 		    	}
 		    }
 		    setThreadID(threadID);
 		}catch(Exception ex){
-			if (Log.getDebug()) Log.e("Notification.loadThreadID() ERROR: " + ex.toString());
+			if (_debug) Log.e("Notification.loadThreadID() ERROR: " + ex.toString());
 		}
 	}
 
@@ -919,13 +928,13 @@ public class Notification {
 	 * @param timestamp - Notifications's timeStamp.
 	 */
 	public void loadMessageID(Context context, long threadID, String messageBody, long timeStamp) {
-		if (Log.getDebug()) Log.v("Notification.loadMessageID()");
+		if (_debug) Log.v("Notification.loadMessageID()");
 		if (threadID == 0){
-			if (Log.getDebug()) Log.v("Notification.loadMessageID() Thread ID provided is NULL: Exiting loadMessageId()");
+			if (_debug) Log.v("Notification.loadMessageID() Thread ID provided is NULL: Exiting loadMessageId()");
 			return;
 		}    
 		if (messageBody == null){
-			if (Log.getDebug()) Log.v("Notification.loadMessageID() Message body provided is NULL: Exiting loadMessageId()");
+			if (_debug) Log.v("Notification.loadMessageID() Message body provided is NULL: Exiting loadMessageId()");
 			return;
 		} 
 		try{
@@ -944,18 +953,18 @@ public class Notification {
 			    while (cursor.moveToNext()) { 
 		    		if(cursor.getString(cursor.getColumnIndex("BODY")).trim().equals(messageBody)){
 		    			messageID = cursor.getLong(cursor.getColumnIndex("_ID"));
-		    			if (Log.getDebug()) Log.v("Notification.loadMessageID() Message ID Found: " + cursor.getLong(cursor.getColumnIndex("_ID")));
+		    			if (_debug) Log.v("Notification.loadMessageID() Message ID Found: " + cursor.getLong(cursor.getColumnIndex("_ID")));
 		    			break;
 		    		}
 			    }
 		    }catch(Exception ex){
-				if (Log.getDebug()) Log.e("Notification.loadMessageID() ERROR: " + ex.toString());
+				if (_debug) Log.e("Notification.loadMessageID() ERROR: " + ex.toString());
 			}finally{
 		    	cursor.close();
 		    }
 		    setMessageID(messageID);
 		}catch(Exception ex){
-			if (Log.getDebug()) Log.e("Notification.loadMessageID() ERROR: " + ex.toString());
+			if (_debug) Log.e("Notification.loadMessageID() ERROR: " + ex.toString());
 		}
 	}
 
@@ -966,9 +975,9 @@ public class Notification {
 	 * @param phoneNumber - Notifications's phone number.
 	 */ 
 	private void loadContactsInfoByPhoneNumber(Context context, String phoneNumber){
-		if (Log.getDebug()) Log.v("Notification.loadContactsInfo()");
+		if (_debug) Log.v("Notification.loadContactsInfo()");
 		if (phoneNumber == null) {
-			if (Log.getDebug()) Log.v("Notification.loadContactsInfo() Phone number provided is NULL: Exiting...");
+			if (_debug) Log.v("Notification.loadContactsInfo() Phone number provided is NULL: Exiting...");
 			return;
 		}
 		try{
@@ -983,7 +992,7 @@ public class Notification {
 					selection, 
 					selectionArgs, 
 					sortOrder);
-			if (Log.getDebug()) Log.v("Notification.loadContactsInfo() Searching contacts");
+			if (_debug) Log.v("Notification.loadContactsInfo() Searching contacts");
 			while (cursor.moveToNext()) { 
 				String contactID = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID)); 
 				String contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
@@ -1033,7 +1042,7 @@ public class Notification {
 		   	}
 			cursor.close();
 		}catch(Exception ex){
-			if (Log.getDebug()) Log.e("Notification.loadContactsInfo() ERROR: " + ex.toString());
+			if (_debug) Log.e("Notification.loadContactsInfo() ERROR: " + ex.toString());
 		}
 	}
 
@@ -1044,14 +1053,14 @@ public class Notification {
 //	 * @param phoneNumber - Notifications's phone number.
 //	 */ 
 //	private void loadContactsInfoByEmail(Context context, String email){
-//		if (Log.getDebug()) Log.v("Notification.loadContactsInfoByEmail()");
+//		if (_debug) Log.v("Notification.loadContactsInfoByEmail()");
 //		if (email == null) {
-//			if (Log.getDebug()) Log.v("Notification.loadContactsInfoByEmail() Email provided is NULL: Exiting...");
+//			if (_debug) Log.v("Notification.loadContactsInfoByEmail() Email provided is NULL: Exiting...");
 //			return;
 //		}
 //		try{
 //			//TODO - Write This Function loadContactsInfoByEmail(Context context, String email)
-//			if (Log.getDebug()) Log.v("Notification.loadContactsInfo() Got PhoneNumber object");
+//			if (_debug) Log.v("Notification.loadContactsInfo() Got PhoneNumber object");
 //			final String[] projection = null;
 //			final String selection = null;
 //			final String[] selectionArgs = null;
@@ -1062,7 +1071,7 @@ public class Notification {
 //					selection, 
 //					selectionArgs, 
 //					sortOrder);
-//			if (Log.getDebug()) Log.v("Notification.loadContactsInfo() Searching contacts");
+//			if (_debug) Log.v("Notification.loadContactsInfo() Searching contacts");
 //			while (cursor.moveToNext()) { 
 //				String contactID = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID)); 
 //				String hasPhone = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)); 
@@ -1114,7 +1123,7 @@ public class Notification {
 //			}
 //			cursor.close();
 //		}catch(Exception ex){
-//			if (Log.getDebug()) Log.e("Notification.loadContactsInfo() ERROR: " + ex.toString());
+//			if (_debug) Log.e("Notification.loadContactsInfo() ERROR: " + ex.toString());
 //		}
 //	}
 	
@@ -1124,7 +1133,7 @@ public class Notification {
 	 * @param isViewed - Boolean, if true sets the call log call as being viewed.
 	 */
 	private void setCallViewed(boolean isViewed){
-		if (Log.getDebug()) Log.v("Notification.setCallViewed()");
+		if (_debug) Log.v("Notification.setCallViewed()");
 		Context context = getContext();
 		String phoneNumber = getPhoneNumber();
 		long timeStamp = getTimeStamp();
@@ -1143,7 +1152,7 @@ public class Notification {
 					selection, 
 					selectionArgs);
 		}catch(Exception ex){
-			if (Log.getDebug()) Log.e("Notification.setCallViewed() ERROR: " + ex.toString());
+			if (_debug) Log.e("Notification.setCallViewed() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -1151,7 +1160,7 @@ public class Notification {
 	 * Delete the call log entry.
 	 */
 	private void deleteFromCallLog(){
-		if (Log.getDebug()) Log.v("Notification.deleteFromCallLog()");
+		if (_debug) Log.v("Notification.deleteFromCallLog()");
 		Context context = getContext();
 		String phoneNumber = getPhoneNumber();
 		long timeStamp = getTimeStamp();
@@ -1163,7 +1172,7 @@ public class Notification {
 					selection, 
 					selectionArgs);
 		}catch(Exception ex){
-			if (Log.getDebug()) Log.e("Notification.deleteFromCallLog() ERROR: " + ex.toString());
+			if (_debug) Log.e("Notification.deleteFromCallLog() ERROR: " + ex.toString());
 		}
 	}
 
@@ -1173,14 +1182,14 @@ public class Notification {
 	 * @param isViewed - Boolean, if true sets the message as viewed.
 	 */
 	private void setMessageRead(boolean isViewed){
-		if (Log.getDebug()) Log.v("Notification.setMessageRead()");
+		if (_debug) Log.v("Notification.setMessageRead()");
 		Context context = getContext();
 		long messageID = getMessageID();
 		long threadID = getThreadID();
 		String messageBody = getMessageBody();
 		long timeStamp = getTimeStamp();
 		if(messageID == 0){
-			if (Log.getDebug()) Log.v("Notification.setMessageRead() Message ID == 0. Loading Message ID");
+			if (_debug) Log.v("Notification.setMessageRead() Message ID == 0. Loading Message ID");
 			loadMessageID(context, threadID, messageBody, timeStamp);
 			messageID = getMessageID();
 		}
@@ -1199,7 +1208,7 @@ public class Notification {
 		    		selection, 
 		    		selectionArgs);
 		}catch(Exception ex){
-			if (Log.getDebug()) Log.e("Notification.setMessageRead() ERROR: " + ex.toString());
+			if (_debug) Log.e("Notification.setMessageRead() ERROR: " + ex.toString());
 		}
 	}
 
@@ -1209,7 +1218,7 @@ public class Notification {
 	 * @param isViewed - Boolean, if true sets the message as viewed.
 	 */
 	private void setEmailRead(boolean isViewed){
-		if (Log.getDebug()) Log.v("Notification.setEmailRead()");
+		if (_debug) Log.v("Notification.setEmailRead()");
 		try{
 			//TODO - Write This Function setEmailRead(boolean isViewed)
 //			Context context = getContext();
@@ -1218,7 +1227,7 @@ public class Notification {
 //			String messageBody = getMessageBody();
 //			long timeStamp = getTimeStamp();
 //			if(messageID == 0){
-//				if (Log.getDebug()) Log.v("Notification.setMessageRead() Message ID == 0. Load Message ID");
+//				if (_debug) Log.v("Notification.setMessageRead() Message ID == 0. Load Message ID");
 //				loadMessageID(context, threadID, messageBody, timeStamp);
 //				messageID = getMessageID();
 //			}
@@ -1236,7 +1245,7 @@ public class Notification {
 //		    		selection, 
 //		    		selectionArgs);
 		}catch(Exception ex){
-			if (Log.getDebug()) Log.e("Notification.setEmailRead() ERROR: " + ex.toString());
+			if (_debug) Log.e("Notification.setEmailRead() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -1250,7 +1259,7 @@ public class Notification {
 	 * @return String - Returns the formatted Calendar Event message.
 	 */
 	private String formatCalendarEventMessage(String messageBody, long eventStartTime, long eventEndTime, boolean allDay){
-		if (Log.getDebug()) Log.v("Notification.formatCalendarEventMessage()");
+		if (_debug) Log.v("Notification.formatCalendarEventMessage()");
 		String formattedMessage = "";
 		SimpleDateFormat eventDateFormatted = new SimpleDateFormat();
 		Date eventEndDate = new Date(eventEndTime);
@@ -1270,7 +1279,7 @@ public class Notification {
 	    			}
 	    		}
     		}catch(Exception ex){
-    			if (Log.getDebug()) Log.e("Notification.formatCalendarEventMessage() ERROR: " + ex.toString());
+    			if (_debug) Log.e("Notification.formatCalendarEventMessage() ERROR: " + ex.toString());
     			formattedMessage = eventDateFormatted.format(eventStartDate) + " - " +  eventDateFormatted.format(eventEndDate);
     		}
     	}else{

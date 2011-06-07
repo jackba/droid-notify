@@ -109,6 +109,7 @@ public class NotificationActivity extends Activity {
     // Properties
     //================================================================================
 
+	private boolean _debug;
 	private Bundle _bundle = null;
 	private Context _context = null;
 	private WakeLock _wakeLock;
@@ -138,7 +139,7 @@ public class NotificationActivity extends Activity {
 	 * @param bundle - Bundle for this activity.
 	 */
 	public void setBundle(Bundle bundle) {
-		if (Log.getDebug()) Log.v("NotificationActivity.setBundle()");
+		if (_debug) Log.v("NotificationActivity.setBundle()");
 	    _bundle = bundle;
 	}
 	
@@ -148,7 +149,7 @@ public class NotificationActivity extends Activity {
 	 * @return bundle - Bundle for this activity.
 	 */
 	public Bundle getBundle() {
-		if (Log.getDebug()) Log.v("NotificationActivity.getBundle()");
+		if (_debug) Log.v("NotificationActivity.getBundle()");
 	    return _bundle;
 	} 
 
@@ -158,7 +159,7 @@ public class NotificationActivity extends Activity {
 	 * @param keyguardLock - Phone's KeyguardLock.
 	 */
 	public void setKeyguardLock(KeyguardLock keyguardLock) {
-		if (Log.getDebug()) Log.v("NotificationActivity.setKeyguardLock()");
+		if (_debug) Log.v("NotificationActivity.setKeyguardLock()");
 		_keyguardLock = keyguardLock;
 	}
 	
@@ -168,7 +169,7 @@ public class NotificationActivity extends Activity {
 	 * @return keyguardLock - Phone's KeyguardLock.
 	 */
 	public KeyguardLock getKeyguardLock() {
-		if (Log.getDebug()) Log.v("NotificationActivity.getKeyguardLock()");
+		if (_debug) Log.v("NotificationActivity.getKeyguardLock()");
 	    return _keyguardLock;
 	}
 
@@ -178,7 +179,7 @@ public class NotificationActivity extends Activity {
 	 * @param wakeLock - Phone's WakeLock.
 	 */
 	public void setWakeLock(WakeLock wakeLock) {
-		if (Log.getDebug()) Log.v("NotificationActivity.setWakeLock()");
+		if (_debug) Log.v("NotificationActivity.setWakeLock()");
 		_wakeLock = wakeLock;
 	}
 	
@@ -188,7 +189,7 @@ public class NotificationActivity extends Activity {
 	 * @return wakeLock - Phone's WakeLock.
 	 */
 	public WakeLock getWakeLock() {
-		if (Log.getDebug()) Log.v("NotificationActivity.getWakeLock()");
+		if (_debug) Log.v("NotificationActivity.getWakeLock()");
 	    return _wakeLock;
 	}
 
@@ -198,7 +199,7 @@ public class NotificationActivity extends Activity {
 	 * @param context - Application's Context.
 	 */
 	public void setContext(Context context) {
-		if (Log.getDebug()) Log.v("NotificationActivity.setContext()");
+		if (_debug) Log.v("NotificationActivity.setContext()");
 	    _context = context;
 	}
 	
@@ -208,7 +209,7 @@ public class NotificationActivity extends Activity {
 	 * @return context - Application's Context.
 	 */
 	public Context getContext() {
-		if (Log.getDebug()) Log.v("NotificationActivity.getContext()");
+		if (_debug) Log.v("NotificationActivity.getContext()");
 	    return _context;
 	}
 	
@@ -218,7 +219,7 @@ public class NotificationActivity extends Activity {
 	 * @param notificationViewFlipper - Applications' ViewFlipper.
 	 */
 	public void setNotificationViewFlipper(NotificationViewFlipper notificationViewFlipper) {
-		if (Log.getDebug()) Log.v("NotificationActivity.setNotificationViewFlipper()");
+		if (_debug) Log.v("NotificationActivity.setNotificationViewFlipper()");
 	    _notificationViewFlipper = notificationViewFlipper;
 	}
 	
@@ -228,7 +229,7 @@ public class NotificationActivity extends Activity {
 	 * @return notificationViewFlipper - Applications' ViewFlipper.
 	 */
 	public NotificationViewFlipper getNotificationViewFlipper() {
-		if (Log.getDebug()) Log.v("NotificationActivity.getNotificationViewFlipper()");
+		if (_debug) Log.v("NotificationActivity.getNotificationViewFlipper()");
 	    return _notificationViewFlipper;
 	}
 	  
@@ -238,7 +239,7 @@ public class NotificationActivity extends Activity {
 	 * @param mainActivityLayout - The "main activity" LinearLayout
 	 */
 	public void setMainActivityLayout(LinearLayout mainActivityLayout) {
-		if (Log.getDebug()) Log.v("NotificationActivity.setMainActivityLayout()");
+		if (_debug) Log.v("NotificationActivity.setMainActivityLayout()");
 		_mainActivityLayout = mainActivityLayout;
 	}
 	
@@ -248,7 +249,7 @@ public class NotificationActivity extends Activity {
 	 * @return mainActivityLayout - The "main activity" LinearLayout
 	 */
 	public LinearLayout getMainActivityLayout() {
-		if (Log.getDebug()) Log.v("NotificationActivity.getMainActivityLayout()");
+		if (_debug) Log.v("NotificationActivity.getMainActivityLayout()");
 	    return _mainActivityLayout;
 	}
 	  
@@ -258,7 +259,7 @@ public class NotificationActivity extends Activity {
 	 * @param previousButton - The previous button.
 	 */
 	public void setPreviousButton(Button previousButton) {
-		if (Log.getDebug()) Log.v("NotificationActivity.setPreviousButton()");
+		if (_debug) Log.v("NotificationActivity.setPreviousButton()");
 		_previousButton = previousButton;
 	}
 	
@@ -268,7 +269,7 @@ public class NotificationActivity extends Activity {
 	 * @return previousButton - The previous button.
 	 */
 	public Button getPreviousButton() {
-		if (Log.getDebug()) Log.v("NotificationActivity.getPreviousButton()");
+		if (_debug) Log.v("NotificationActivity.getPreviousButton()");
 	    return _previousButton;
 	}
 	
@@ -278,7 +279,7 @@ public class NotificationActivity extends Activity {
 	 * @param nextButton - The next button.
 	 */
 	public void setNextButton(Button nextButton) {
-		if (Log.getDebug()) Log.v("NotificationActivity.setNextButton()");
+		if (_debug) Log.v("NotificationActivity.setNextButton()");
 		_nextButton = nextButton;
 	}
 	
@@ -288,7 +289,7 @@ public class NotificationActivity extends Activity {
 	 * @return nextButton - The next button.
 	 */
 	public Button getNextButton() {
-		if (Log.getDebug()) Log.v("NotificationActivity.getNextButton()");
+		if (_debug) Log.v("NotificationActivity.getNextButton()");
 	    return _nextButton;
 	}
 
@@ -298,7 +299,7 @@ public class NotificationActivity extends Activity {
 	 * @param notificationCountTextView - The "notification count" TextView
 	 */
 	public void setNotificationCountTextView(TextView notificationCountTextView) {
-		if (Log.getDebug()) Log.v("NotificationActivity.setNotificationCountTextView()");
+		if (_debug) Log.v("NotificationActivity.setNotificationCountTextView()");
 		_notificationCountTextView = notificationCountTextView;
 	}
 	
@@ -308,7 +309,7 @@ public class NotificationActivity extends Activity {
 	 * @return notificationCountTextView - The "notification count" TextView
 	 */
 	public TextView getNotificationCountTextView() {
-		if (Log.getDebug()) Log.v("NotificationActivity.getNotificationCountTextView()");
+		if (_debug) Log.v("NotificationActivity.getNotificationCountTextView()");
 	    return _notificationCountTextView;
 	}
 
@@ -318,7 +319,7 @@ public class NotificationActivity extends Activity {
 	 * @param InputMethodManager
 	 */
 	public void setInputMethodManager(InputMethodManager inputMethodManager) {
-		if (Log.getDebug()) Log.v("NotificationActivity.setInputMethodManager()");
+		if (_debug) Log.v("NotificationActivity.setInputMethodManager()");
 		_inputMethodManager = inputMethodManager;
 	}
 	
@@ -328,7 +329,7 @@ public class NotificationActivity extends Activity {
 	 * @return inputMethodManager - InputMethodManager
 	 */
 	public InputMethodManager getInputMethodManager() {
-		if (Log.getDebug()) Log.v("NotificationActivity.getInputMethodManager()");
+		if (_debug) Log.v("NotificationActivity.getInputMethodManager()");
 	    return _inputMethodManager;
 	}	
 
@@ -338,7 +339,7 @@ public class NotificationActivity extends Activity {
 	 * @param Ringtone
 	 */
 	public void setRingtone(Ringtone ringtone) {
-		if (Log.getDebug()) Log.v("NotificationActivity.setRingtone()");
+		if (_debug) Log.v("NotificationActivity.setRingtone()");
 		_ringtone = ringtone;
 	}
 	
@@ -348,7 +349,7 @@ public class NotificationActivity extends Activity {
 	 * @return ringtone - Ringtone
 	 */
 	public Ringtone getRingtone() {
-		if (Log.getDebug()) Log.v("NotificationActivity.getRingtone()");
+		if (_debug) Log.v("NotificationActivity.getRingtone()");
 	    return _ringtone;
 	}
 	
@@ -400,7 +401,7 @@ public class NotificationActivity extends Activity {
 	@Override
 	public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenuInfo contextMenuInfo) {
 	    super.onCreateContextMenu(contextMenu, view, contextMenuInfo);
-	    if (Log.getDebug()) Log.v("NotificationActivity.onCreateContextMenu()");
+	    if (_debug) Log.v("NotificationActivity.onCreateContextMenu()");
 	    switch (view.getId()) {
 
 	        /*
@@ -413,7 +414,7 @@ public class NotificationActivity extends Activity {
 				Notification notification = notificationViewFlipper.getNotification(currentNotification);
 				String phoneNumber = notification.getPhoneNumber();
 				int notificationType = notification.getNotificationType();
-				if (Log.getDebug()) Log.v("NotificationActivity.onCreateContextMenu() Does contact exist?" + notification.getContactExists());
+				if (_debug) Log.v("NotificationActivity.onCreateContextMenu() Does contact exist?" + notification.getContactExists());
 				//Add the header text to the menu.
 				if(notificationType == NOTIFICATION_TYPE_CALENDAR){
 					contextMenu.setHeaderTitle("Calendar Event");
@@ -479,7 +480,7 @@ public class NotificationActivity extends Activity {
 	 */
 	@Override
 	public boolean onContextItemSelected(MenuItem menuItem) {
-		if (Log.getDebug()) Log.v("NotificationActivity.onContextItemSelected()");
+		if (_debug) Log.v("NotificationActivity.onContextItemSelected()");
 		Context context = getContext();
 		NotificationViewFlipper notificationViewFlipper = getNotificationViewFlipper();
 		int currentNotification = notificationViewFlipper.getCurrentNotification();
@@ -505,7 +506,7 @@ public class NotificationActivity extends Activity {
 				    context.startActivity(intent);
 					return true;
 				}catch(Exception ex){
-					if (Log.getDebug()) Log.e("NotificationActivity.onContextItemSelected() VIEW_CONTACT_CONTEXT_MENU ERROR: " + ex.toString());
+					if (_debug) Log.e("NotificationActivity.onContextItemSelected() VIEW_CONTACT_CONTEXT_MENU ERROR: " + ex.toString());
 					return false;
 				}
 			case ADD_CONTACT_CONTEXT_MENU:
@@ -521,7 +522,7 @@ public class NotificationActivity extends Activity {
 				    context.startActivity(intent);
 					return true;
 				}catch(Exception ex){
-					if (Log.getDebug()) Log.e("NotificationActivity.onContextItemSelected() ADD_CONTACT_CONTEXT_MENU ERROR: " + ex.toString());
+					if (_debug) Log.e("NotificationActivity.onContextItemSelected() ADD_CONTACT_CONTEXT_MENU ERROR: " + ex.toString());
 					return false;
 				}
 			case CALL_CONTACT_CONTEXT_MENU:
@@ -536,7 +537,7 @@ public class NotificationActivity extends Activity {
 				    context.startActivity(intent);
 					return true;
 				}catch(Exception ex){
-					if (Log.getDebug()) Log.e("NotificationActivity.onContextItemSelected() CALL_CONTACT_CONTEXT_MENU ERROR: " + ex.toString());
+					if (_debug) Log.e("NotificationActivity.onContextItemSelected() CALL_CONTACT_CONTEXT_MENU ERROR: " + ex.toString());
 					return false;
 				}
 			case TEXT_CONTACT_CONTEXT_MENU:
@@ -552,7 +553,7 @@ public class NotificationActivity extends Activity {
 				    context.startActivity(intent);
 					return true;
 				}catch(Exception ex){
-					if (Log.getDebug()) Log.e("NotificationActivity.onContextItemSelected() TEXT_CONTACT_CONTEXT_MENU ERROR: " + ex.toString());
+					if (_debug) Log.e("NotificationActivity.onContextItemSelected() TEXT_CONTACT_CONTEXT_MENU ERROR: " + ex.toString());
 					return false;
 				}
 			case EDIT_CONTACT_CONTEXT_MENU:
@@ -568,7 +569,7 @@ public class NotificationActivity extends Activity {
 				    context.startActivity(intent);
 					return true;
 				}catch(Exception ex){
-					if (Log.getDebug()) Log.e("NotificationActivity.onContextItemSelected() EDIT_CONTACT_CONTEXT_MENU ERROR: " + ex.toString());
+					if (_debug) Log.e("NotificationActivity.onContextItemSelected() EDIT_CONTACT_CONTEXT_MENU ERROR: " + ex.toString());
 					return false;
 				}
 			case EDIT_EVENT_CONTEXT_MENU:
@@ -601,7 +602,7 @@ public class NotificationActivity extends Activity {
 					}
 					return true;
 				}catch(Exception ex){
-					if (Log.getDebug()) Log.e("NotificationActivity.onContextItemSelected() EDIT_EVENT_CONTEXT_MENU ERROR: " + ex.toString());
+					if (_debug) Log.e("NotificationActivity.onContextItemSelected() EDIT_EVENT_CONTEXT_MENU ERROR: " + ex.toString());
 					return false;
 				}
 			default:
@@ -614,7 +615,7 @@ public class NotificationActivity extends Activity {
 	 * This closes this activity screen.
 	 */
 	public void finishActivity() {
-		if (Log.getDebug()) Log.v("NotificationActivity.finishActivity()");
+		if (_debug) Log.v("NotificationActivity.finishActivity()");
 		//Release the WakeLock
 		releaseWakeLock();
 	    // Finish the activity.
@@ -625,7 +626,7 @@ public class NotificationActivity extends Activity {
 	 * Update the navigation buttons and text when items are added or removed.
 	 */
     public void updateNavigationButtons(){
-    	if (Log.getDebug()) Log.v("NotificationActivity.updateNavigationButtons()");
+    	if (_debug) Log.v("NotificationActivity.updateNavigationButtons()");
 		updateNavigationButtons(getPreviousButton(), getNotificationCountTextView(), getNextButton(), getNotificationViewFlipper());		
     }
   
@@ -633,7 +634,7 @@ public class NotificationActivity extends Activity {
 	 * Display the delete dialog from the activity and return the result. 
 	 */
 	public void showDeleteDialog(){
-		if (Log.getDebug()) Log.v("NotificationActivity.showDeleteDialog()");
+		if (_debug) Log.v("NotificationActivity.showDeleteDialog()");
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
 		int notificationType = getNotificationViewFlipper().getActiveMessage().getNotificationType();
 		if(notificationType == NOTIFICATION_TYPE_SMS){
@@ -673,13 +674,14 @@ public class NotificationActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle bundle) {
 		super.onCreate(bundle);
-	    if (Log.getDebug()) Log.v("NotificationActivity.onCreate()");
+		_debug = Log.getDebug();
+	    if (_debug) Log.v("NotificationActivity.onCreate()");
 	    Context context = getApplicationContext();
 	    setBundle(bundle);
 	    setContext(context);
 	    Bundle extrasBundle = getIntent().getExtras();
 	    int notificationType = extrasBundle.getInt("notificationType");
-	    if (Log.getDebug()) Log.v("NotificationActivity.onCreate() Notification Type: " + notificationType);
+	    if (_debug) Log.v("NotificationActivity.onCreate() Notification Type: " + notificationType);
 	    requestWindowFeature(Window.FEATURE_NO_TITLE);	    
 	    setContentView(R.layout.notificationwrapper);
 	    setupViews(notificationType);
@@ -688,26 +690,26 @@ public class NotificationActivity extends Activity {
 	    	createTestNotifications();
 	    }    
 	    if(notificationType == NOTIFICATION_TYPE_PHONE){
-	    	if (Log.getDebug()) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_PHONE");
+	    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_PHONE");
 	    	setupMissedCalls(extrasBundle);
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_SMS){
-		    if (Log.getDebug()) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_SMS");
+		    if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_SMS");
 		    Notification newSMSNotification = setupMessage(extrasBundle);
 		    if(preferences.getBoolean(SMS_DISPLAY_UNREAD_KEY, true)){
-		    	getAllUnreadMessages(newSMSNotification.getMessageID(), newSMSNotification.getMessageBody());
+		    	getAllUnreadMMSMessages(newSMSNotification.getMessageID(), newSMSNotification.getMessageBody());
 		    }
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_MMS){
-	    	if (Log.getDebug()) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_MMS");
+	    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_MMS");
 	    	//TODO - MMS
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
-	    	if (Log.getDebug()) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_CALENDAR");
+	    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_CALENDAR");
 		    setupCalendarEventNotifications(extrasBundle);
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_EMAIL){
-	    	if (Log.getDebug()) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_EMAIL");
+	    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_EMAIL");
 	    	//TODO - Email
 	    }  
 	    //Set Vibration or Ringtone to announce Activity.
@@ -728,7 +730,8 @@ public class NotificationActivity extends Activity {
 	@Override
 	protected void onStart() {
 		super.onStart();
-	    if (Log.getDebug()) Log.v("NotificationActivity.onStart()");
+		_debug = Log.getDebug();
+	    if (_debug) Log.v("NotificationActivity.onStart()");
 	}
 	  
 	/**
@@ -737,7 +740,8 @@ public class NotificationActivity extends Activity {
 	@Override
 	protected void onResume() {
 	    super.onResume();
-	    if (Log.getDebug()) Log.v("NotificationActivity.onResume()");
+	    _debug = Log.getDebug();
+	    if (_debug) Log.v("NotificationActivity.onResume()");
 	    Context context = getContext();
 	    acquireWakeLock(context);
 	}
@@ -748,7 +752,7 @@ public class NotificationActivity extends Activity {
 	@Override
 	protected void onPause() {
 	    super.onPause();
-	    if (Log.getDebug()) Log.v("NotificationActivity.onPause()");
+	    if (_debug) Log.v("NotificationActivity.onPause()");
 	    releaseWakeLock(); 
 	}
 	  
@@ -758,7 +762,7 @@ public class NotificationActivity extends Activity {
 	@Override
 	protected void onStop() {
 	    super.onStop();
-	    if (Log.getDebug()) Log.v("NotificationActivity.onStop()");
+	    if (_debug) Log.v("NotificationActivity.onStop()");
 	    releaseWakeLock();
 	}
 	  
@@ -768,7 +772,7 @@ public class NotificationActivity extends Activity {
 	@Override
 	protected void onDestroy() {
 	    super.onDestroy();
-	    if (Log.getDebug()) Log.v("NotificationActivity.onDestroy()");
+	    if (_debug) Log.v("NotificationActivity.onDestroy()");
 	    releaseWakeLock();
 	    reenableKeyguardLock();
 	}
@@ -782,7 +786,7 @@ public class NotificationActivity extends Activity {
 	 */
 	@Override
 	protected Dialog onCreateDialog(int id) {
-		if (Log.getDebug()) Log.v("NotificationActivity.onCreateDialog()");
+		if (_debug) Log.v("NotificationActivity.onCreateDialog()");
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
 		int notificationType = getNotificationViewFlipper().getActiveMessage().getNotificationType();
 		AlertDialog alertDialog = null;
@@ -792,7 +796,7 @@ public class NotificationActivity extends Activity {
 	         * Delete confirmation dialog.
 	         */
 			case DIALOG_DELETE_MESSAGE:
-				if (Log.getDebug()) Log.v("NotificationActivity.onCreateDialog() DIALOG_DELETE_MESSAGE");
+				if (_debug) Log.v("NotificationActivity.onCreateDialog() DIALOG_DELETE_MESSAGE");
 				AlertDialog.Builder builder = new AlertDialog.Builder(this);
 				builder.setIcon(android.R.drawable.ic_dialog_alert);
 				builder.setTitle(getString(R.string.delete_message_dialog_title_text));
@@ -838,30 +842,30 @@ public class NotificationActivity extends Activity {
 	@Override
 	protected void onNewIntent(Intent intent) {
 	    super.onNewIntent(intent);
-	    if (Log.getDebug()) Log.v("NotificationActivity.onNewIntent()");
+	    if (_debug) Log.v("NotificationActivity.onNewIntent()");
 	    setIntent(intent);
 	    Context context = getContext();
 	    Bundle extrasBundle = getIntent().getExtras();
 	    int notificationType = extrasBundle.getInt("notificationType");
-	    if (Log.getDebug()) Log.v("NotificationActivity.onNewIntent() Notification Type: " + notificationType);
+	    if (_debug) Log.v("NotificationActivity.onNewIntent() Notification Type: " + notificationType);
 	    if(notificationType == NOTIFICATION_TYPE_PHONE){
-	    	if (Log.getDebug()) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_PHONE");
+	    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_PHONE");
 	    	setupMissedCalls(extrasBundle);
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_SMS){
-		    if (Log.getDebug()) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_SMS");
+		    if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_SMS");
 		    setupMessage(extrasBundle);
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_MMS){
-	    	if (Log.getDebug()) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_MMS");
+	    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_MMS");
 	    	//TODO - MMS
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
-	    	if (Log.getDebug()) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_CALENDAR");
+	    	if (_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_CALENDAR");
 		    setupCalendarEventNotifications(extrasBundle);
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_EMAIL){
-	    	if (Log.getDebug()) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_EMAIL");
+	    	if (_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_EMAIL");
 	    	//TODO - Email
 	    }
 	    //Set Vibration or Ringtone to announce Activity.
@@ -887,7 +891,7 @@ public class NotificationActivity extends Activity {
 	 * @param notificationType - Notification type.
 	 */ 
 	private void setupViews(int notificationType) {
-		if (Log.getDebug()) Log.v("NotificationActivity.setupViews()");
+		if (_debug) Log.v("NotificationActivity.setupViews()");
 		final NotificationViewFlipper notificationViewFlipper = (NotificationViewFlipper) findViewById(R.id.notification_view_flipper);
 		final Button previousButton = (Button) findViewById(R.id.previous_button);
 		final Button nextButton = (Button) findViewById(R.id.next_button);
@@ -899,7 +903,7 @@ public class NotificationActivity extends Activity {
 		// Previous Button
 		previousButton.setOnClickListener(new OnClickListener() {
 		    public void onClick(View view) {
-		    	if (Log.getDebug()) Log.v("Previous Button Clicked()");
+		    	if (_debug) Log.v("Previous Button Clicked()");
 		    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 		    	notificationViewFlipper.showPrevious();
 		    	updateNavigationButtons(previousButton, notificationCountTextView, nextButton, notificationViewFlipper);
@@ -908,7 +912,7 @@ public class NotificationActivity extends Activity {
 		// Next Button
 		nextButton.setOnClickListener(new OnClickListener() {
 		    public void onClick(View view) {
-		    	if (Log.getDebug()) Log.v("Next Button Clicked()");
+		    	if (_debug) Log.v("Next Button Clicked()");
 		    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 		    	notificationViewFlipper.showNext();
 		    	updateNavigationButtons(previousButton, notificationCountTextView, nextButton, notificationViewFlipper);
@@ -923,7 +927,7 @@ public class NotificationActivity extends Activity {
 	 * @param bundle - Activity bundle.
 	 */
 	private boolean setupMissedCalls(Bundle bundle){
-		if (Log.getDebug()) Log.v("NotificationActivity.setupMissedCalls()"); 
+		if (_debug) Log.v("NotificationActivity.setupMissedCalls()"); 
 		Context context = getContext();
 		final NotificationViewFlipper notificationViewFlipper = getNotificationViewFlipper();
 		final Button previousButton = getPreviousButton();
@@ -949,7 +953,7 @@ public class NotificationActivity extends Activity {
 	 * @return Notification - Returns the new incoming SMS message in the form of a Notification object.
 	 */
 	private Notification setupMessage(Bundle bundle) {
-		if (Log.getDebug()) Log.v("NotificationActivity.setupMessages()"); 
+		if (_debug) Log.v("NotificationActivity.setupMessages()"); 
 		Context context = getContext();
 		final NotificationViewFlipper notificationViewFlipper = getNotificationViewFlipper();
 		final Button previousButton = getPreviousButton();
@@ -968,8 +972,8 @@ public class NotificationActivity extends Activity {
 	 * @param messageIDFilter - Long value of the currently incoming SMS message.
 	 * @param messagebodyFilter - String value of the currently incoming SMS message.
 	 */
-	private void getAllUnreadMessages(long messageIDFilter, String messageBodyFilter){
-		if (Log.getDebug()) Log.v("NotificationActivity.getAllUnreadMessages() messageIDFilter: " + messageIDFilter + " messageBodyFilter: " + messageBodyFilter ); 
+	private void getAllUnreadSMSMessages(long messageIDFilter, String messageBodyFilter){
+		if (_debug) Log.v("NotificationActivity.getAllUnreadSMSMessages() messageIDFilter: " + messageIDFilter + " messageBodyFilter: " + messageBodyFilter ); 
 		Context context = getContext();
 		final NotificationViewFlipper notificationViewFlipper = getNotificationViewFlipper();
 		final Button previousButton = getPreviousButton();
@@ -1002,7 +1006,55 @@ public class NotificationActivity extends Activity {
 		    	}
 		    }
 		}catch(Exception ex){
-			if (Log.getDebug()) Log.e("Notification.loadMessageID() ERROR: " + ex.toString());
+			if (_debug) Log.e("NotificationActivity.getAllUnreadSMSMessages() ERROR: " + ex.toString());
+		} finally {
+    		cursor.close();
+    	}
+		updateNavigationButtons(previousButton, notificationCountTextView, nextButton, notificationViewFlipper);
+	}
+
+	/**
+	 * Get all unread Messages and load them.
+	 * 
+	 * @param messageIDFilter - Long value of the currently incoming SMS message.
+	 * @param messagebodyFilter - String value of the currently incoming SMS message.
+	 */
+	private void getAllUnreadMMSMessages(long messageIDFilter, String messageBodyFilter){
+		if (_debug) Log.v("NotificationActivity.getAllUnreadMMSMessages() messageIDFilter: " + messageIDFilter + " messageBodyFilter: " + messageBodyFilter ); 
+		Context context = getContext();
+		final NotificationViewFlipper notificationViewFlipper = getNotificationViewFlipper();
+		final Button previousButton = getPreviousButton();
+		final Button nextButton = getNextButton();
+		final TextView notificationCountTextView = getNotificationCountTextView();
+		final String[] projection = new String[] { "_ID", "THREAD_ID", "ADDRESS", "PERSON", "DATE", "BODY"};
+		final String selection = "READ = 0";
+		final String[] selectionArgs = null;
+		final String sortOrder = null;
+		Cursor cursor = null;
+        try{
+		    cursor = context.getContentResolver().query(
+		    		Uri.parse("content://mms/inbox"),
+		    		projection,
+		    		selection,
+					selectionArgs,
+					sortOrder);
+		    while (cursor.moveToNext()) { 
+		    	long messageID = cursor.getLong(cursor.getColumnIndex("_ID"));
+		    	if (_debug) Log.v("NotificationActivity.getAllUnreadMMSMessages() _ID: " + messageID);
+//		    	long threadID = cursor.getLong(cursor.getColumnIndex("THREAD_ID"));
+//		    	String messageBody = cursor.getString(cursor.getColumnIndex("BODY"));
+//		    	String phoneNumber = cursor.getString(cursor.getColumnIndex("ADDRESS"));
+//		    	long timestamp = cursor.getLong(cursor.getColumnIndex("DATE"));
+//		    	long contactID = cursor.getLong(cursor.getColumnIndex("PERSON"));
+		    	//Don't load the message that corresponds to the messageIDFilter or messageBodyFilter.
+		    	//If we load this message we will have duplicate Notifications, which is bad.
+		    	//if(messageID != messageIDFilter && !messageBody.trim().equals(messageBodyFilter)){
+			    	//Notification smsMessage = new Notification(context, messageID, threadID, messageBody, phoneNumber, timestamp, contactID, NOTIFICATION_TYPE_SMS);		
+			    	//notificationViewFlipper.addNotification(smsMessage);
+		    	//}
+		    }
+		}catch(Exception ex){
+			if (_debug) Log.e("NotificationActivity.getAllUnreadMMSMessages() ERROR: " + ex.toString());
 		} finally {
     		cursor.close();
     	}
@@ -1015,7 +1067,7 @@ public class NotificationActivity extends Activity {
 	 * @param bundle - Activity bundle.
 	 */
 	private void setupCalendarEventNotifications(Bundle bundle){
-		if (Log.getDebug()) Log.v("NotificationActivity.setupCalendarEventNotifications()");  
+		if (_debug) Log.v("NotificationActivity.setupCalendarEventNotifications()");  
 		Context context = getContext();
 		final NotificationViewFlipper notificationViewFlipper = getNotificationViewFlipper();
 		final Button previousButton = getPreviousButton();
@@ -1038,7 +1090,7 @@ public class NotificationActivity extends Activity {
 	 * Initialize the navigation buttons and text.
 	 */
 	private void initNavigationButtons(){
-		if (Log.getDebug()) Log.v("NotificationActivity.initNavigationButtons()");
+		if (_debug) Log.v("NotificationActivity.initNavigationButtons()");
 		final NotificationViewFlipper notificationViewFlipper = getNotificationViewFlipper();
 		final Button previousButton = getPreviousButton();
 		final Button nextButton = getNextButton();
@@ -1054,7 +1106,7 @@ public class NotificationActivity extends Activity {
 	 * @param nextButton - Next button of the flipper.
 	 */
     public void updateNavigationButtons(Button previousButton, TextView notificationCountTextView, Button nextButton, NotificationViewFlipper notificationViewFlipper){
-    	if (Log.getDebug()) Log.v("NotificationActivity.updateNavigationButtons()");
+    	if (_debug) Log.v("NotificationActivity.updateNavigationButtons()");
     	previousButton.setEnabled(!notificationViewFlipper.isFirstMessage());
     	notificationCountTextView.setText( (notificationViewFlipper.getCurrentNotification() + 1) + "/" + notificationViewFlipper.getTotalNotifications());
     	nextButton.setEnabled(!notificationViewFlipper.isLastMessage()); 		
@@ -1064,7 +1116,7 @@ public class NotificationActivity extends Activity {
 	 * Delete the current message from the users phone.
 	 */
 	private void deleteMessage(){
-		if (Log.getDebug()) Log.v("NotificationActivity.deleteMessage()");
+		if (_debug) Log.v("NotificationActivity.deleteMessage()");
 		NotificationViewFlipper notificationViewFlipper = getNotificationViewFlipper();
 		notificationViewFlipper.deleteMessage();
 	}
@@ -1073,7 +1125,7 @@ public class NotificationActivity extends Activity {
 	 * Launches the preferences screen as new intent.
 	 */
 	private void launchPreferenceScreen(){
-		if (Log.getDebug()) Log.v("NotificationActivity.launchPreferenceScreen()");
+		if (_debug) Log.v("NotificationActivity.launchPreferenceScreen()");
 		Context context = getApplicationContext();
 		Intent intent = new Intent(context, DroidNotifyPreferenceActivity.class);
 		startActivity(intent);
@@ -1086,7 +1138,7 @@ public class NotificationActivity extends Activity {
 	 * @param context - The current context of this Activity.
 	 */
 	private void acquireWakeLock(Context context){
-		if (Log.getDebug()) Log.v("NotificationActivity.acquireWakeLock()");
+		if (_debug) Log.v("NotificationActivity.acquireWakeLock()");
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		PowerManager pm = null;
 		WakeLock wakeLock = getWakeLock();
@@ -1096,25 +1148,25 @@ public class NotificationActivity extends Activity {
 				//Set the wakeLock properties based on the users preferences.
 				if(preferences.getBoolean(SCREEN_ENABLED_KEY, true)){
 					if(preferences.getBoolean(SCREEN_DIM_ENABLED_KEY, true)){
-						if (Log.getDebug()) Log.v("NotificationActivity.acquireWakeLock() Screen Wake Enabled Dim");
+						if (_debug) Log.v("NotificationActivity.acquireWakeLock() Screen Wake Enabled Dim");
 						wakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, DROID_NOTIFY_WAKELOCK);
 					}else{
-						if (Log.getDebug()) Log.v("NotificationActivity.acquireWakeLock() Screen Wake Enabled Full");
+						if (_debug) Log.v("NotificationActivity.acquireWakeLock() Screen Wake Enabled Full");
 						wakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, DROID_NOTIFY_WAKELOCK);
 					}
 				}else{
-					if (Log.getDebug()) Log.v("NotificationActivity.acquireWakeLock() Screen Wake Disabled");
+					if (_debug) Log.v("NotificationActivity.acquireWakeLock() Screen Wake Disabled");
 					wakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, DROID_NOTIFY_WAKELOCK);
 				}
 			}
 			if(wakeLock != null){
-				if (Log.getDebug()) Log.v("NotificationActivity.acquireWakeLock() Aquired wake lock");
+				if (_debug) Log.v("NotificationActivity.acquireWakeLock() Aquired wake lock");
 				wakeLock.setReferenceCounted(false);
 				wakeLock.acquire();
 				setWakeLock(wakeLock);
 			}
 		}catch(Exception ex){
-			if (Log.getDebug()) Log.e("NotificationActivity.acquireWakeLock() ERROR: " + ex.toString());
+			if (_debug) Log.e("NotificationActivity.acquireWakeLock() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -1122,7 +1174,7 @@ public class NotificationActivity extends Activity {
 	 * Function that releases the WakeLock.
 	 */
 	private void releaseWakeLock(){
-		if (Log.getDebug()) Log.v("NotificationActivity.releaseWakeLock()");
+		if (_debug) Log.v("NotificationActivity.releaseWakeLock()");
 		WakeLock wakeLock = getWakeLock();
 		try{
 			if(wakeLock != null){
@@ -1131,7 +1183,7 @@ public class NotificationActivity extends Activity {
 				setWakeLock(wakeLock);
 			}
 		}catch(Exception ex){
-			if (Log.getDebug()) Log.e("NotificationActivity.releaseWakeLock() ERROR: " + ex.toString());
+			if (_debug) Log.e("NotificationActivity.releaseWakeLock() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -1142,7 +1194,7 @@ public class NotificationActivity extends Activity {
 	 * @param context - The current context of this Activity.
 	 */
 	private void disableKeyguardLock(Context context){
-		if (Log.getDebug()) Log.v("NotificationActivity.disableKeyguardLock()");
+		if (_debug) Log.v("NotificationActivity.disableKeyguardLock()");
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
 		KeyguardManager km = null;
 		KeyguardLock keyguardLock = getKeyguardLock();
@@ -1153,14 +1205,14 @@ public class NotificationActivity extends Activity {
 			}
 			//Set the keyguard properties based on the users preferences.
 			if(preferences.getBoolean(KEYGUARD_ENABLED_KEY, true)){
-				if (Log.getDebug()) Log.v("NotificationActivity.disableKeyguardLock() Disable Keyguard Enabled");
+				if (_debug) Log.v("NotificationActivity.disableKeyguardLock() Disable Keyguard Enabled");
 				keyguardLock.disableKeyguard();
 				setKeyguardLock(keyguardLock);
 			}else{
-				if (Log.getDebug()) Log.v("NotificationActivity.disableKeyguardLock() Disable Keyguard Disabled");
+				if (_debug) Log.v("NotificationActivity.disableKeyguardLock() Disable Keyguard Disabled");
 			}
 		}catch(Exception ex){
-			if (Log.getDebug()) Log.e("NotificationActivity.disableKeyguardLock() ERROR: " + ex.toString());
+			if (_debug) Log.e("NotificationActivity.disableKeyguardLock() ERROR: " + ex.toString());
 		}
 	}
 
@@ -1168,7 +1220,7 @@ public class NotificationActivity extends Activity {
 	 * Re-Enables the Keyguard for this Activity.
 	 */
 	private void reenableKeyguardLock(){
-		if (Log.getDebug()) Log.v("NotificationActivity.reenableKeyguardLock()");
+		if (_debug) Log.v("NotificationActivity.reenableKeyguardLock()");
 		KeyguardLock keyguardLock = getKeyguardLock();
 		try{
 			if(keyguardLock != null){
@@ -1177,7 +1229,7 @@ public class NotificationActivity extends Activity {
 				setKeyguardLock(keyguardLock);
 			}
 		}catch(Exception ex){
-			if (Log.getDebug()) Log.e("NotificationActivity.reenableKeyguardLock() ERROR: " + ex.toString());
+			if (_debug) Log.e("NotificationActivity.reenableKeyguardLock() ERROR: " + ex.toString());
 		}
 	}
 
@@ -1185,7 +1237,7 @@ public class NotificationActivity extends Activity {
 	 * Starts the playback of the ringtone.
 	 */
 	private void playRingtone(int notificationType){
-		if (Log.getDebug()) Log.v("NotificationActivity.playRingtone()");
+		if (_debug) Log.v("NotificationActivity.playRingtone()");
 		Context context = getContext();
 		Ringtone ringtone = getRingtone();
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
@@ -1195,7 +1247,7 @@ public class NotificationActivity extends Activity {
 				ringtone = RingtoneManager.getRingtone(context, Uri.parse(preferences.getString(SMS_RINGTONE_KEY, "DEFAULT_SOUND")));
 				if(ringtone != null) ringtone.play();
  	    	}catch(Exception ex){
- 	    		if (Log.getDebug()) Log.e("NotificationActivity.playRingtone() NOTIFICATION_TYPE_TEST ERROR: " + ex.toString());
+ 	    		if (_debug) Log.e("NotificationActivity.playRingtone() NOTIFICATION_TYPE_TEST ERROR: " + ex.toString());
 	    	}
 		}
 	    if(notificationType == NOTIFICATION_TYPE_PHONE){
@@ -1204,7 +1256,7 @@ public class NotificationActivity extends Activity {
 		 			ringtone = RingtoneManager.getRingtone(context, Uri.parse(preferences.getString(MISSED_CALL_RINGTONE_KEY, "DEFAULT_SOUND")));
 		 			if(ringtone != null) ringtone.play();
 	 	    	}catch(Exception ex){
-	 	    		if (Log.getDebug()) Log.e("NotificationActivity.playRingtone() NOTIFICATION_TYPE_PHONE ERROR: " + ex.toString());
+	 	    		if (_debug) Log.e("NotificationActivity.playRingtone() NOTIFICATION_TYPE_PHONE ERROR: " + ex.toString());
 		    	}
 	 		}
 	    }
@@ -1214,7 +1266,7 @@ public class NotificationActivity extends Activity {
 		 	    	ringtone = RingtoneManager.getRingtone(context, Uri.parse(preferences.getString(SMS_RINGTONE_KEY, "DEFAULT_SOUND")));
 		 	    	if(ringtone != null) ringtone.play();
 	 	    	}catch(Exception ex){
-	 	    		if (Log.getDebug()) Log.e("NotificationActivity.playRingtone() NOTIFICATION_TYPE_SMS ERROR: " + ex.toString());
+	 	    		if (_debug) Log.e("NotificationActivity.playRingtone() NOTIFICATION_TYPE_SMS ERROR: " + ex.toString());
 		    	}
 	 	    }
 	    }
@@ -1224,7 +1276,7 @@ public class NotificationActivity extends Activity {
 		 	    	ringtone = RingtoneManager.getRingtone(context, Uri.parse(preferences.getString(MMS_RINGTONE_KEY, "DEFAULT_SOUND")));
 		 	    	if(ringtone != null) ringtone.play();
 	 	    	}catch(Exception ex){
-	 	    		if (Log.getDebug()) Log.e("NotificationActivity.playRingtone() NOTIFICATION_TYPE_MMS ERROR: " + ex.toString());
+	 	    		if (_debug) Log.e("NotificationActivity.playRingtone() NOTIFICATION_TYPE_MMS ERROR: " + ex.toString());
 		    	}
 	 	    }
 	    }
@@ -1234,7 +1286,7 @@ public class NotificationActivity extends Activity {
 	 	    		ringtone = RingtoneManager.getRingtone(context, Uri.parse(preferences.getString(CALENDAR_RINGTONE_KEY, "DEFAULT_SOUND")));
 	 	    		if(ringtone != null) ringtone.play();
 	 	    	}catch(Exception ex){
-	 	    		if (Log.getDebug()) Log.e("NotificationActivity.playRingtone() NOTIFICATION_TYPE_CALENDAR ERROR: " + ex.toString());
+	 	    		if (_debug) Log.e("NotificationActivity.playRingtone() NOTIFICATION_TYPE_CALENDAR ERROR: " + ex.toString());
 		    	}
 	 	    }
 	    }
@@ -1249,7 +1301,7 @@ public class NotificationActivity extends Activity {
 	 * Stops the playback of the ringtone.
 	 */
 	private void stopRingtone(){
-		if (Log.getDebug()) Log.v("NotificationActivity.stopRingtone()");
+		if (_debug) Log.v("NotificationActivity.stopRingtone()");
 		Ringtone ringtone = getRingtone();
 		try{
 			if(ringtone!= null){
@@ -1258,7 +1310,7 @@ public class NotificationActivity extends Activity {
 				setRingtone(ringtone);
 			}
 		}catch(Exception ex){
-	    		if (Log.getDebug()) Log.e("NotificationActivity.stopRingtone() ERROR: " + ex.toString());
+	    		if (_debug) Log.e("NotificationActivity.stopRingtone() ERROR: " + ex.toString());
     	}
 	}
 	
@@ -1268,7 +1320,7 @@ public class NotificationActivity extends Activity {
 	 * @param notificationType - The type of the current notification.
 	 */
 	private void runNotificationFeedback(int notificationType){
-		if (Log.getDebug()) Log.v("NotificationActivity.runNotificationFeedback()");
+		if (_debug) Log.v("NotificationActivity.runNotificationFeedback()");
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		Vibrator vibrator = null;
 		try{
@@ -1307,7 +1359,7 @@ public class NotificationActivity extends Activity {
 		    	playRingtone(notificationType);
 		    }
 		}catch(Exception ex){
-			if (Log.getDebug()) Log.e("NotificationActivity.runNotificationFeedback() ERROR: " + ex.toString());
+			if (_debug) Log.e("NotificationActivity.runNotificationFeedback() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -1318,7 +1370,7 @@ public class NotificationActivity extends Activity {
 	 * @param hapticFeedbackConstant - What type of action the feedback is responding to.
 	 */
 	private void customPerformHapticFeedback(int hapticFeedbackConstant){
-		if (Log.getDebug()) Log.v("NotificationActivity.customPerformHapticFeedback()");
+		if (_debug) Log.v("NotificationActivity.customPerformHapticFeedback()");
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
 		Vibrator vibrator = null;
 		try{
@@ -1335,7 +1387,7 @@ public class NotificationActivity extends Activity {
 				}
 			}
 		}catch(Exception ex){
-			if (Log.getDebug()) Log.e("NotificationActivity.customPerformHapticFeedback() ERROR: " + ex.toString());
+			if (_debug) Log.e("NotificationActivity.customPerformHapticFeedback() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -1343,7 +1395,7 @@ public class NotificationActivity extends Activity {
 	 * Function to create a test notification of each type.
 	 */
 	private void createTestNotifications(){
-		if (Log.getDebug()) Log.v("NotificationActivity.createTextNotifications()");
+		if (_debug) Log.v("NotificationActivity.createTextNotifications()");
 		Context context = getContext();
 		NotificationViewFlipper notificationViewFlipper = getNotificationViewFlipper();
 		//Add SMS Message Notification.
@@ -1372,7 +1424,7 @@ public class NotificationActivity extends Activity {
 		 */
 		@Override
 	    public void handleMessage(Message msg) {
-			if (Log.getDebug()) Log.v("WakeLockHandler.handleMessage()");
+			if (_debug) Log.v("WakeLockHandler.handleMessage()");
 	    	NotificationActivity.this.releaseWakeLock();
 	    }
 
@@ -1382,7 +1434,7 @@ public class NotificationActivity extends Activity {
 		 * @param delayMillis - Delay time in milliseconds.
 		 */
 	    public void sleep(long delayMillis) {
-	    	if (Log.getDebug()) Log.v("WakeLockHandler.sleep()");
+	    	if (_debug) Log.v("WakeLockHandler.sleep()");
 	    	this.removeMessages(0);
 	    	sendMessageDelayed(obtainMessage(0), delayMillis);
 	    }
@@ -1403,7 +1455,7 @@ public class NotificationActivity extends Activity {
 		 */
 		@Override
 		public void handleMessage(Message msg) {
-			if (Log.getDebug()) Log.v("KeyguardHandler.handleMessage()");
+			if (_debug) Log.v("KeyguardHandler.handleMessage()");
 			NotificationActivity.this.reenableKeyguardLock();
 		}
 		    
@@ -1413,7 +1465,7 @@ public class NotificationActivity extends Activity {
 		 * @param delayMillis - Delay time in milliseconds.
 		 */
 		public void sleep(long delayMillis) {
-			if (Log.getDebug()) Log.v("KeyguardHandler.sleep()");
+			if (_debug) Log.v("KeyguardHandler.sleep()");
 			this.removeMessages(0);
 			sendMessageDelayed(obtainMessage(0), delayMillis);
 		}
@@ -1434,7 +1486,7 @@ public class NotificationActivity extends Activity {
 		 */
 		@Override
 	    public void handleMessage(Message msg) {
-			if (Log.getDebug()) Log.v("RingtoneHandler.handleMessage()");
+			if (_debug) Log.v("RingtoneHandler.handleMessage()");
 	    	NotificationActivity.this.stopRingtone();
 	    }
 
@@ -1444,7 +1496,7 @@ public class NotificationActivity extends Activity {
 		 * @param delayMillis - Delay time in milliseconds.
 		 */
 	    public void sleep(long delayMillis) {
-	    	if (Log.getDebug()) Log.v("RingtoneHandler.sleep()");
+	    	if (_debug) Log.v("RingtoneHandler.sleep()");
 	    	this.removeMessages(0);
 	    	sendMessageDelayed(obtainMessage(0), delayMillis);
 	    }

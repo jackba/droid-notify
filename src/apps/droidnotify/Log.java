@@ -54,8 +54,10 @@ public class Log {
 	 *  @param msg - Entry to be made to the log file.
 	 */
 	public static void v(String msg) {
-		android.util.Log.v(getLogTag(), msg);
-		writeToCustomLog("V: " + msg);
+		if(_debug){
+			android.util.Log.v(getLogTag(), msg);
+			writeToCustomLog(1,msg);
+		}
 	}
 	
 	/**
@@ -64,8 +66,10 @@ public class Log {
 	 *  @param msg - Entry to be made to the log file.
 	 */
 	public static void d(String msg) {
-		android.util.Log.d(getLogTag(), msg);
-		writeToCustomLog("D: " + msg);
+		if(_debug){
+			android.util.Log.d(getLogTag(), msg);
+			writeToCustomLog(2,msg);
+		}
 	}	
 	
 	/**
@@ -74,8 +78,10 @@ public class Log {
 	 *  @param msg - Entry to be made to the log file.
 	 */
 	public static void i(String msg) {
-		android.util.Log.i(getLogTag(), msg);
-		writeToCustomLog("I: " + msg);
+		if(_debug){
+			android.util.Log.i(getLogTag(), msg);
+			writeToCustomLog(3,msg);
+		}
 	}
 	
 	/**
@@ -84,8 +90,10 @@ public class Log {
 	 *  @param msg - Entry to be made to the log file.
 	 */
 	public static void w(String msg) {
-		android.util.Log.w(getLogTag(), msg);
-		writeToCustomLog("W: " + msg);
+		if(_debug){
+			android.util.Log.w(getLogTag(), msg);
+			writeToCustomLog(4,msg);
+		}
 	}
 	
 	/**
@@ -94,8 +102,10 @@ public class Log {
 	 *  @param msg - Entry to be made to the log file.
 	 */
 	public static void e(String msg) {
-		android.util.Log.e(getLogTag(), msg);
-		writeToCustomLog("E: " + msg);
+		if(_debug){
+			android.util.Log.e(getLogTag(), msg);
+			writeToCustomLog(5,msg);
+		}
 	}
   
 	//================================================================================
@@ -107,24 +117,48 @@ public class Log {
 	 * 
 	 * @param text - String value to append to the custom log.
 	 */
-	private static void writeToCustomLog(String text)
-	{       
-		File logFile = new File("sdcard/DroidNotifyLog.txt");
+	private static void writeToCustomLog(int logType, String msg)
+	{   
+		File logFile = null;
+		File directoryStructure = null;
+		switch (logType) {
+	        case 1:  
+	        	logFile = new File("sdcard/Droid Notify/Logs/V/DroidNotifyLog.txt");
+	        	directoryStructure = new File("sdcard/Droid Notify/Logs/V");
+	        	break;
+	        case 2:  
+	        	logFile = new File("sdcard/Droid Notify/Logs/D/DroidNotifyLog.txt");
+	        	directoryStructure = new File("sdcard/Droid Notify/Logs/D");
+	        	break;
+	        case 3:  
+	        	logFile = new File("sdcard/Droid Notify/Logs/I/DroidNotifyLog.txt"); 
+	        	directoryStructure = new File("sdcard/Droid Notify/Logs/I");
+	        	break;
+	        case 4:  
+	        	logFile = new File("sdcard/Droid Notify/Logs/W/DroidNotifyLog.txt"); 
+	        	directoryStructure = new File("sdcard/Droid Notify/Logs/W");
+	        	break;
+	        case 5:  
+	        	logFile = new File("sdcard/Droid Notify/Logs/E/DroidNotifyLog.txt");
+	        	directoryStructure = new File("sdcard/Droid Notify/Logs/E");
+	        	break;
+		}
 		if (!logFile.exists()){
 			try{
+				directoryStructure.mkdirs();
 				logFile.createNewFile();
 			}catch (Exception ex){
-				//Do Nothing
+				android.util.Log.e(getLogTag(), "Log.writeToCustomLog CREATE ERROR: " + ex.toString());
 			}
 		}
 		try{
 	    	//BufferedWriter for performance, true to set append to file flag
 			BufferedWriter buf = new BufferedWriter(new FileWriter(logFile, true)); 
-			buf.append(text);
+			buf.append(msg);
 			buf.newLine();
 			buf.close();
 		}catch (Exception ex){
-			//Do Nothing
+			android.util.Log.e(getLogTag(), "Log.writeToCustomLog WRITE ERROR: " + ex.toString());
 		}
 	}
 	

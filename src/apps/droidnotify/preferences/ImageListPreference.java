@@ -44,9 +44,7 @@ public class ImageListPreference extends ListPreference {
 		String[] imageNames = context.getResources().getStringArray(typedArray.getResourceId(typedArray.getIndexCount()-1, -1));
 		_resourceIds = new int[imageNames.length];
 		for (int i=0;i<imageNames.length;i++) {
-			if (Log.getDebug()) Log.v("ImageListPreference.ImageListPreference() Image Name: " + imageNames[i]);
 			String imageName = imageNames[i].substring(imageNames[i].lastIndexOf('/') + 1, imageNames[i].lastIndexOf('.'));
-			if (Log.getDebug()) Log.v("ImageListPreference.ImageListPreference() Image Name Parsed: " + imageName);
 			_resourceIds[i] = context.getResources().getIdentifier(imageName, "drawable", context.getPackageName());
 		}
 		typedArray.recycle();

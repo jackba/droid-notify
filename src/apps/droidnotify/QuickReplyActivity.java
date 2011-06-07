@@ -35,6 +35,7 @@ public class QuickReplyActivity extends Activity {
     // Properties
     //================================================================================
 	
+	private boolean _debug;
 	private Bundle _bundle = null;
 	private Context _context = null;
 	private Button _sendButton = null;
@@ -56,7 +57,7 @@ public class QuickReplyActivity extends Activity {
 	 * @param bundle - The bundle passed into this Activity.
 	 */
 	public void setBundle(Bundle bundle) {
-		if (Log.getDebug()) Log.v("NotificationActivity.setBundle()");
+		if (_debug) Log.v("NotificationActivity.setBundle()");
 	    _bundle = bundle;
 	}
 	
@@ -66,7 +67,7 @@ public class QuickReplyActivity extends Activity {
 	 * @return Bundle - The bundle passed into this Activity.
 	 */
 	public Bundle getBundle() {
-		if (Log.getDebug()) Log.v("NotificationActivity.getBundle()");
+		if (_debug) Log.v("NotificationActivity.getBundle()");
 	    return _bundle;
 	} 
 	
@@ -76,7 +77,7 @@ public class QuickReplyActivity extends Activity {
 	 * @param context - Application's Context.
 	 */
 	public void setContext(Context context) {
-		if (Log.getDebug()) Log.v("NotificationActivity.setContext()");
+		if (_debug) Log.v("NotificationActivity.setContext()");
 	    _context = context;
 	}
 	
@@ -86,7 +87,7 @@ public class QuickReplyActivity extends Activity {
 	 * @return Context - Application's Context.
 	 */
 	public Context getContext() {
-		if (Log.getDebug()) Log.v("NotificationActivity.getContext()");
+		if (_debug) Log.v("NotificationActivity.getContext()");
 	    return _context;
 	}
 	
@@ -96,7 +97,7 @@ public class QuickReplyActivity extends Activity {
 	 * @param sendButton - Send Button.
 	 */
 	public void setSendButton(Button sendButton) {
-		if (Log.getDebug()) Log.v("NotificationActivity.setSendButton()");
+		if (_debug) Log.v("NotificationActivity.setSendButton()");
 	    _sendButton = sendButton;
 	}
 	
@@ -106,7 +107,7 @@ public class QuickReplyActivity extends Activity {
 	 * @return Button - Send Button.
 	 */
 	public Button getSendButton() {
-		if (Log.getDebug()) Log.v("NotificationActivity.getSendButton()");
+		if (_debug) Log.v("NotificationActivity.getSendButton()");
 	    return _sendButton;
 	}
 
@@ -116,7 +117,7 @@ public class QuickReplyActivity extends Activity {
 	 * @param cancelButton - Cancel Button.
 	 */
 	public void setCancelButton(Button cancelButton) {
-		if (Log.getDebug()) Log.v("NotificationActivity.setCancelButton()");
+		if (_debug) Log.v("NotificationActivity.setCancelButton()");
 	    _cancelButton = cancelButton;
 	}
 	
@@ -126,7 +127,7 @@ public class QuickReplyActivity extends Activity {
 	 * @return Button - Cancel Button.
 	 */
 	public Button getCancelButton() {
-		if (Log.getDebug()) Log.v("NotificationActivity.getCancelButton()");
+		if (_debug) Log.v("NotificationActivity.getCancelButton()");
 	    return _cancelButton;
 	}
 	
@@ -136,7 +137,7 @@ public class QuickReplyActivity extends Activity {
 	 * @param toEditText - To Edit Text.
 	 */
 	public void setToEditText(EditText toEditText) {
-		if (Log.getDebug()) Log.v("NotificationActivity.setToEditText()");
+		if (_debug) Log.v("NotificationActivity.setToEditText()");
 	    _toEditText = toEditText;
 	}
 	
@@ -146,7 +147,7 @@ public class QuickReplyActivity extends Activity {
 	 * @return EditText - To Edit Text.
 	 */
 	public EditText getToEditText() {
-		if (Log.getDebug()) Log.v("NotificationActivity.getToEditText()");
+		if (_debug) Log.v("NotificationActivity.getToEditText()");
 	    return _toEditText;
 	}
 	
@@ -156,7 +157,7 @@ public class QuickReplyActivity extends Activity {
 	 * @param toEditText - To Edit Text.
 	 */
 	public void setMessageEditText(EditText messageEditText) {
-		if (Log.getDebug()) Log.v("NotificationActivity.setMessageEditText()");
+		if (_debug) Log.v("NotificationActivity.setMessageEditText()");
 	    _messageEditText = messageEditText;
 	}
 	
@@ -166,7 +167,7 @@ public class QuickReplyActivity extends Activity {
 	 * @return EditText - To Edit Text.
 	 */
 	public EditText getMessageEditText() {
-		if (Log.getDebug()) Log.v("NotificationActivity.getMessageEditText()");
+		if (_debug) Log.v("NotificationActivity.getMessageEditText()");
 	    return _messageEditText;
 	}
 	
@@ -194,7 +195,8 @@ public class QuickReplyActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle bundle) {
 		super.onCreate(bundle);
-	    if (Log.getDebug()) Log.v("QuickReplyActivity.onCreate()");
+		_debug = Log.getDebug();
+	    if (_debug) Log.v("QuickReplyActivity.onCreate()");
 	    Context context = getApplicationContext();
 	    setBundle(bundle);
 	    setContext(context);
@@ -220,7 +222,8 @@ public class QuickReplyActivity extends Activity {
 	@Override
 	protected void onStart() {
 		super.onStart();
-	    if (Log.getDebug()) Log.v("QuickReplyActivity.onStart()");
+		_debug = Log.getDebug();
+	    if (_debug) Log.v("QuickReplyActivity.onStart()");
 	}
 	  
 	/**
@@ -229,7 +232,8 @@ public class QuickReplyActivity extends Activity {
 	@Override
 	protected void onResume() {
 	    super.onResume();
-	    if (Log.getDebug()) Log.v("QuickReplyActivity.onResume()");
+	    _debug = Log.getDebug();
+	    if (_debug) Log.v("QuickReplyActivity.onResume()");
 	}
 	  
 	/**
@@ -238,7 +242,7 @@ public class QuickReplyActivity extends Activity {
 	@Override
 	protected void onPause() {
 	    super.onPause();
-	    if (Log.getDebug()) Log.v("QuickReplyActivity.onPause()");
+	    if (_debug) Log.v("QuickReplyActivity.onPause()");
 	}
 	  
 	/**
@@ -247,7 +251,7 @@ public class QuickReplyActivity extends Activity {
 	@Override
 	protected void onStop() {
 	    super.onStop();
-	    if (Log.getDebug()) Log.v("QuickReplyActivity.onStop()");
+	    if (_debug) Log.v("QuickReplyActivity.onStop()");
 	}
 	  
 	/**
@@ -256,7 +260,7 @@ public class QuickReplyActivity extends Activity {
 	@Override
 	protected void onDestroy() {
 	    super.onDestroy();
-	    if (Log.getDebug()) Log.v("QuickReplyActivity.onDestroy()");
+	    if (_debug) Log.v("QuickReplyActivity.onDestroy()");
 	}
 	
 	//================================================================================
@@ -268,7 +272,7 @@ public class QuickReplyActivity extends Activity {
 	 * This closes this activity screen.
 	 */
 	private void finishActivity() {
-		if (Log.getDebug()) Log.v("QuickReplyActivity.finishActivity()");
+		if (_debug) Log.v("QuickReplyActivity.finishActivity()");
 	    // Finish the activity.
 	    finish();
 	}
@@ -279,7 +283,7 @@ public class QuickReplyActivity extends Activity {
 	 * @param bundle - The bundle passed into this Activity.
 	 */
 	private void parseQuickReplyParameters(Bundle bundle){
-		if (Log.getDebug()) Log.v("QuickReplyActivity.parseQuickReplyParameters()");
+		if (_debug) Log.v("QuickReplyActivity.parseQuickReplyParameters()");
 		String phoneNumber = bundle.getString("smsPhoneNumber");
 		String message = bundle.getString("smsMessage");
 		EditText toEditText = getToEditText();
@@ -296,7 +300,7 @@ public class QuickReplyActivity extends Activity {
 	 * Setup the Quick Reply buttons.
 	 */
 	private void setupButtons(){
-		if (Log.getDebug()) Log.v("QuickReplyActivity.setupButtons()");
+		if (_debug) Log.v("QuickReplyActivity.setupButtons()");
 	    Button sendButton = getSendButton(); 
 	    sendButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view) {     
@@ -315,7 +319,7 @@ public class QuickReplyActivity extends Activity {
 	 * Send simple SMS message.
 	 */
 	private void sendSMSMessage(){
-		if (Log.getDebug()) Log.v("QuickReplyActivity.sendSMSMessage()");
+		if (_debug) Log.v("QuickReplyActivity.sendSMSMessage()");
 		EditText toEditText = getToEditText();
 		EditText messageEditText = getMessageEditText();
 		String phoneNumber = toEditText.getText().toString();
@@ -338,7 +342,7 @@ public class QuickReplyActivity extends Activity {
 	 * @param message - The message we are sending.
 	 */
 	private void sendSMS(String phoneNumber, String message){   
-		if (Log.getDebug()) Log.v("QuickReplyActivity.sendSMS()");
+		if (_debug) Log.v("QuickReplyActivity.sendSMS()");
         final String SMS_SENT = "SMS_SENT";
         final String SMS_DELIVERED = "SMS_DELIVERED";
         PendingIntent sentPI = PendingIntent.getBroadcast(this, 0, new Intent(SMS_SENT), 0);

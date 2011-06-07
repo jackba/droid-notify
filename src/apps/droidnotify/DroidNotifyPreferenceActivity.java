@@ -1,5 +1,8 @@
 package apps.droidnotify;
 
+import java.io.File;
+import java.io.FileOutputStream;
+
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
@@ -8,13 +11,17 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
+import android.preference.PreferenceScreen;
+import android.widget.Toast;
 
 /**
  * This is the applications preference Activity.
@@ -30,12 +37,17 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 	private final String APP_ENABLED_KEY = "app_enabled";
 	private final String CALENDAR_NOTIFICATIONS_ENABLED_KEY = "calendar_notifications_enabled";
 	private final int NOTIFICATION_TYPE_TEST = -1;
+	//Google Market URL
+	//private final String RATE_APP_URL = "http://market.android.com/details?id=apps.droidnotify";
+	//Amazon Appstore URL
+	private final String RATE_APP_URL = "http://www.amazon.com/gp/mas/dl/android?p=apps.droidnotify";
 	
 	//================================================================================
     // Properties
     //================================================================================
 
     private Context _context;
+    private boolean _debug;
 
 	//================================================================================
 	// Constructors
@@ -51,7 +63,7 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 	 * @param context - Application Context.
 	 */
 	public void setContext(Context context) {
-		if (Log.getDebug()) Log.v("DroidNotifyPreferenceActivity.setContext()");
+		if (_debug) Log.v("DroidNotifyPreferenceActivity.setContext()");
 	    _context = context;
 	}
 	
@@ -61,7 +73,7 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 	 * @return context - Application Context.
 	 */
 	public Context getContext() {
-		if (Log.getDebug()) Log.v("DroidNotifyPreferenceActivity.getContext()");
+		if (_debug) Log.v("DroidNotifyPreferenceActivity.getContext()");
 	    return _context;
 	}
 	
@@ -77,12 +89,132 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
-	    if (Log.getDebug()) Log.v("DroidNotifyPreferenceActivity.onCreate()");
+	    _debug = Log.getDebug();
+	    if (_debug) Log.v("DroidNotifyPreferenceActivity.onCreate()");
 	    setContext(DroidNotifyPreferenceActivity.this);
 	    addPreferencesFromResource(R.xml.preferences);
 	    setupCustomPreferences();
 	    runOnceAlarmManager();
 	    runOnceEula();
+	    setupAppDebugMode(_debug);
+	    getAllUnreadMMSMessages();
+	}
+	
+	/**
+	 * Get all unread Messages and load them.
+	 * 
+	 * @param messageIDFilter - Long value of the currently incoming SMS message.
+	 * @param messagebodyFilter - String value of the currently incoming SMS message.
+	 */
+	private void getAllUnreadMMSMessages(){
+		if (_debug) Log.v("NotificationActivity.getAllUnreadMMSMessages()"); 
+		Context context = getContext();
+		final String[] projection = new String[] { "_ID, THREAD_ID, DATE, M_ID, SUB"};
+		//final String[] projection = null;
+		final String selection = null;
+		final String[] selectionArgs = null;
+		final String sortOrder = null;
+		Cursor cursor = null;
+        try{
+		    cursor = context.getContentResolver().query(
+		    		Uri.parse("content://mms/inbox"),
+		    		projection,
+		    		selection,
+					selectionArgs,
+					sortOrder);
+		    while (cursor.moveToNext()) { 
+		    	//for( int i = 0; i < cursor.getColumnCount(); i++) {
+		    	//	if (_debug) Log.v("MMS/Inbox Column: " + cursor.getColumnName(i));
+		    	//}
+		    	long id = cursor.getLong(cursor.getColumnIndex("_ID"));
+		    	if (_debug) Log.v("NotificationActivity.getAllUnreadMMSMessages() _ID: " + id);
+		    	long threadID = cursor.getLong(cursor.getColumnIndex("THREAD_ID"));
+		    	if (_debug) Log.v("NotificationActivity.getAllUnreadMMSMessages() THREAD_ID: " + threadID);
+		    	long timestamp = cursor.getLong(cursor.getColumnIndex("DATE"));
+		    	if (_debug) Log.v("NotificationActivity.getAllUnreadMMSMessages() DATE: " + timestamp);
+		    	String messageID2 = cursor.getString(cursor.getColumnIndex("M_ID"));
+		    	if (_debug) Log.v("NotificationActivity.getAllUnreadMMSMessages() M_ID: " + messageID2);
+		    	String subject = cursor.getString(cursor.getColumnIndex("M_ID"));
+		    	if (_debug) Log.v("NotificationActivity.getAllUnreadMMSMessages() SUB: " + subject);
+
+		    	//String[] coloumns = null; 
+		    	//String[] values = null; 
+		    	
+				final String[] projectionAddr = null;
+				final String selectionAddr = new String ("MSG_ID = " + id);
+				final String[] selectionArgsAddr = null;
+				final String sortOrderAddr = null;
+				Cursor curAddr = null;
+				try{
+					curAddr = context.getContentResolver().query(
+			    			Uri.parse("content://mms/" + id + "/addr"), 
+			    			projectionAddr, 
+			    			selectionAddr, 
+			    			selectionArgsAddr, 
+			    			sortOrderAddr); 
+			    	if(curAddr.moveToFirst()){ 
+			    		for( int i = 0; i < curAddr.getColumnCount(); i++) {
+				    		if (_debug) Log.v("MMS/id/ADDR Column: " + curAddr.getColumnName(i));
+				    	}
+				    	String msgID = curAddr.getString (curAddr.getColumnIndex ("MSG_ID")); 
+				    	if (_debug) Log.v("NotificationActivity.getAllUnreadMMSMessages() MSG_ID: " + msgID);
+				    	String contactID = curAddr.getString (curAddr.getColumnIndex ("CONTACT_ID")); 
+				    	if (_debug) Log.v("NotificationActivity.getAllUnreadMMSMessages() CONTACT_ID: " + contactID);
+				    	String address = curAddr.getString (curAddr.getColumnIndex ("ADDRESS")); 
+				    	if (_debug) Log.v("NotificationActivity.getAllUnreadMMSMessages() ADDRESS: " + address);
+				    	
+				    	Cursor curPart = null;
+				    	try{
+					    	final String[] projectionPart = null;
+					    	final String selectionPart = new String ("MID = " + msgID); 
+							final String[] selectionArgsPart = null;
+							final String sortOrderPart = null;
+					    	curPart = context.getContentResolver().query(Uri.parse ("content://mms/part"), projectionPart , selectionPart, selectionArgsPart, sortOrderPart); 
+					    	while(curPart.moveToNext()) { 
+						    	for( int i = 0; i < curPart.getColumnCount(); i++) {
+						    		if (_debug) Log.v("MMS/PART Column: " + curPart.getColumnName(i));
+						    	}
+						    	String partID = curPart.getString (curPart.getColumnIndex ("_ID")); 
+						    	if (_debug) Log.v("NotificationActivity.getAllUnreadMMSMessages() _ID: " + partID);
+						    	String partMessageID = curPart.getString (curPart.getColumnIndex ("MID")); 
+						    	if (_debug) Log.v("NotificationActivity.getAllUnreadMMSMessages() MID: " + partMessageID);
+						    	String contentType = curPart.getString (curPart.getColumnIndex ("CT")); 
+						    	if (_debug) Log.v("NotificationActivity.getAllUnreadMMSMessages() CT: " + contentType);
+						    	String name = curPart.getString (curPart.getColumnIndex ("NAME")); 
+						    	if (_debug) Log.v("NotificationActivity.getAllUnreadMMSMessages() NAME: " + name);
+						    	String data = curPart.getString (curPart.getColumnIndex ("_DATA")); 
+						    	if (_debug) Log.v("NotificationActivity.getAllUnreadMMSMessages() _DATA: " + data);
+					    		//if(values[3].equals("image/jpeg")) { 
+						    	//	GetMmsAttachment(values[0],values[12],values[4]); 
+					    		//}
+					    	}
+						}catch(Exception ex){
+							if (_debug) Log.e("NotificationActivity.getAllUnreadMMSMessages() ERROR: " + ex.toString());
+						} finally {
+							curPart.close();
+				    	}
+			    	}
+			    	
+				}catch(Exception ex){
+					if (_debug) Log.e("NotificationActivity.getAllUnreadMMSMessages() ERROR: " + ex.toString());
+				} finally {
+					curAddr.close();
+		    	}
+		    	//break;
+
+		    	//Don't load the message that corresponds to the messageIDFilter or messageBodyFilter.
+		    	//If we load this message we will have duplicate Notifications, which is bad.
+		    	//if(messageID != messageIDFilter && !messageBody.trim().equals(messageBodyFilter)){
+			    	//Notification smsMessage = new Notification(context, messageID, threadID, messageBody, phoneNumber, timestamp, contactID, NOTIFICATION_TYPE_SMS);		
+			    	//notificationViewFlipper.addNotification(smsMessage);
+		    	//}
+				
+		    }
+		}catch(Exception ex){
+			if (_debug) Log.e("NotificationActivity.getAllUnreadMMSMessages() ERROR: " + ex.toString());
+		} finally {
+    		cursor.close();
+    	}
 	}
 
 	//================================================================================
@@ -95,7 +227,8 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 	@Override
 	protected void onResume() {
 	    super.onResume();
-	    if (Log.getDebug()) Log.v("DroidNotifyPreferenceActivity.onResume()");
+	    _debug = Log.getDebug();
+	    if (_debug) Log.v("DroidNotifyPreferenceActivity.onResume()");
 	}
 	
 	/**
@@ -104,7 +237,7 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
     @Override
     protected void onPause() {
         super.onPause();
-        if (Log.getDebug()) Log.v("DroidNotifyPreferenceActivity.onPause()");
+        if (_debug) Log.v("DroidNotifyPreferenceActivity.onPause()");
     }
 	  
 	/**
@@ -113,7 +246,7 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 	@Override
 	protected void onStop() {
 	    super.onStop();
-	    if (Log.getDebug()) Log.v("DroidNotifyPreferenceActivity.onStop()");
+	    if (_debug) Log.v("DroidNotifyPreferenceActivity.onStop()");
 	}
 	  
 	/**
@@ -122,7 +255,7 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 	@Override
 	protected void onDestroy() {
 	    super.onDestroy();
-	    if (Log.getDebug()) Log.v("DroidNotifyPreferenceActivity.onDestroy()");
+	    if (_debug) Log.v("DroidNotifyPreferenceActivity.onDestroy()");
 	}
     
 	/**
@@ -132,7 +265,7 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 	 * @param key - The String value of the preference Key who's preference value was changed.
 	 */
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-		if (Log.getDebug()) Log.v("DroidNotifyPreferenceActivity.onSharedPreferenceChanged() Key: " + key);
+		if (_debug) Log.v("DroidNotifyPreferenceActivity.onSharedPreferenceChanged() Key: " + key);
 	}
 	
 	//================================================================================
@@ -144,17 +277,17 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 	 * This should run only once when the application is installed.
 	 */
 	private void runOnceAlarmManager(){
-		if (Log.getDebug()) Log.v("DroidNotifyPreferenceActivity.runOnceAlarmManager()");
+		if (_debug) Log.v("DroidNotifyPreferenceActivity.runOnceAlarmManager()");
 		Context context = getContext();
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		//Read preferences and exit if app is disabled.
 	    if(!preferences.getBoolean(APP_ENABLED_KEY, true)){
-			if (Log.getDebug()) Log.v("DroidNotifyPreferenceActivity.runOnceAlarmManager() App Disabled. Exiting...");
+			if (_debug) Log.v("DroidNotifyPreferenceActivity.runOnceAlarmManager() App Disabled. Exiting...");
 			return;
 		}
 		//Read preferences and exit if calendar notifications are disabled.
 	    if(!preferences.getBoolean(CALENDAR_NOTIFICATIONS_ENABLED_KEY, true)){
-			if (Log.getDebug()) Log.v("DroidNotifyPreferenceActivity.runOnceAlarmManager() Calendar Notifications Disabled. Exiting... ");
+			if (_debug) Log.v("DroidNotifyPreferenceActivity.runOnceAlarmManager() Calendar Notifications Disabled. Exiting... ");
 			return;
 		}
 		boolean runOnce = preferences.getBoolean("runOnce", true);
@@ -178,7 +311,7 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 	 * This displays the EULA to the user the first time the app is run.
 	 */
 	private void runOnceEula(){
-		if (Log.getDebug()) Log.v("DroidNotifyPreferenceActivity.runOnceEula()");
+		if (_debug) Log.v("DroidNotifyPreferenceActivity.runOnceEula()");
 		Context context = getContext();
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		boolean runOnceEula = preferences.getBoolean("runOnceEula", true);
@@ -203,12 +336,12 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 	 * Setup the custom Preference buttons.
 	 */
 	private void setupCustomPreferences(){
-		if (Log.getDebug()) Log.v("DroidNotifyPreferenceActivity.setupCustomPreferences()");
+		if (_debug) Log.v("DroidNotifyPreferenceActivity.setupCustomPreferences()");
 		//Test Notifications Preference/Button
 		Preference testAppPref = (Preference)findPreference("test_app");
 		testAppPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
         	public boolean onPreferenceClick(Preference preference) {
-		    	if (Log.getDebug()) Log.v("Test Notifications Button Clicked()");
+		    	if (_debug) Log.v("Test Notifications Button Clicked()");
 		    	Context context = getContext();
 		    	Bundle bundle = new Bundle();
 				bundle.putInt("notificationType", NOTIFICATION_TYPE_TEST);
@@ -218,7 +351,7 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 		    	try{
 		    		startActivity(intent);
 		    	}catch(Exception ex){
-	 	    		if (Log.getDebug()) Log.e("DroidNotifyPreferenceActivity.setupCustomPreferences() Test Notifications Button ERROR: " + ex.toString());
+	 	    		if (_debug) Log.e("DroidNotifyPreferenceActivity.setupCustomPreferences() Test Notifications Button ERROR: " + ex.toString());
 	 	    		return false;
 		    	}
 	            return true;
@@ -228,17 +361,17 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 		Preference rateAppPref = (Preference)findPreference("rate_app");
 		rateAppPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
         	public boolean onPreferenceClick(Preference preference) {
-		    	if (Log.getDebug()) Log.v("Rate This App Button Clicked()");
+		    	if (_debug) Log.v("Rate This App Button Clicked()");
 		    	Intent intent = new Intent(Intent.ACTION_VIEW);
 		    	//Direct To Market App
 		    	//intent.setData(Uri.parse("market://details?id=apps.droidnotify"));
 		    	//URL of website. Turns out that this will prompt the user to choose Market or Web.
-		    	//This is prefered as a choice is always better.
-		    	intent.setData(Uri.parse("http://market.android.com/details?id=apps.droidnotify"));
+		    	//This is preferred as a choice is always better.
+		    	intent.setData(Uri.parse(RATE_APP_URL));
 		    	try{
 		    		startActivity(intent);
 		    	}catch(Exception ex){
-	 	    		if (Log.getDebug()) Log.e("DroidNotifyPreferenceActivity.setupCustomPreferences() Rate This App Button ERROR: " + ex.toString());
+	 	    		if (_debug) Log.e("DroidNotifyPreferenceActivity.setupCustomPreferences() Rate This App Button ERROR: " + ex.toString());
 	 	    		return false;
 		    	}
 	            return true;
@@ -248,7 +381,7 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 		Preference emailDeveloperPref = (Preference)findPreference("email_developer");
 		emailDeveloperPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
         	public boolean onPreferenceClick(Preference preference) {
-		    	if (Log.getDebug()) Log.v("Email Developer Button Clicked()");
+		    	if (_debug) Log.v("Email Developer Button Clicked()");
 		    	Intent intent = new Intent(android.content.Intent.ACTION_SEND);
 		    	intent.setType("plain/text");
 		    	intent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{ "droidnotify@gmail.com"});
@@ -256,12 +389,115 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 		    	try{
 		    		startActivity(intent);
 		    	}catch(Exception ex){
-	 	    		if (Log.getDebug()) Log.e("DroidNotifyPreferenceActivity.setupCustomPreferences() Email Developer Button ERROR: " + ex.toString());
+	 	    		if (_debug) Log.e("DroidNotifyPreferenceActivity.setupCustomPreferences() Email Developer Button ERROR: " + ex.toString());
 	 	    		return false;
 		    	}
 	            return true;
            }
 		});
+		//Email Developer Logs Preference/Button
+		Preference emailDeveloperLogsPref = (Preference)findPreference("email_logs");
+		emailDeveloperLogsPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+        	public boolean onPreferenceClick(Preference preference) {
+		    	if (_debug) Log.v("Email Developer Logs Button Clicked()");
+		    	Intent intent = new Intent(android.content.Intent.ACTION_SEND);
+		    	intent.setType("plain/text");
+		    	intent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{ "droidnotify@gmail.com"});
+		    	intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Droid Notify App Logs");
+		    	intent.putExtra(android.content.Intent.EXTRA_TEXT, "What went wrong? What is the reason for emailing the log files: ");
+		    	File logFileV = new File("sdcard/Droid Notify/Logs/V/DroidNotifyLog.txt");
+		    	File logFileD = new File("sdcard/Droid Notify/Logs/D/DroidNotifyLog.txt");
+		    	File logFileI = new File("sdcard/Droid Notify/Logs/I/DroidNotifyLog.txt");
+		    	File logFileW = new File("sdcard/Droid Notify/Logs/W/DroidNotifyLog.txt");
+		    	File logFileE = new File("sdcard/Droid Notify/Logs/E/DroidNotifyLog.txt");
+		    	if(logFileV.exists()) intent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///mnt/sdcard/Droid Notify/Logs/V/DroidNotifyLog.txt"));
+		    	if(logFileD.exists()) intent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///mnt/sdcard/Droid Notify/Logs/D/DroidNotifyLog.txt"));
+		    	if(logFileI.exists()) intent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///mnt/sdcard/Droid Notify/Logs/I/DroidNotifyLog.txt"));
+		    	if(logFileW.exists()) intent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///mnt/sdcard/Droid Notify/Logs/W/DroidNotifyLog.txt"));
+		    	if(logFileE.exists()) intent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///mnt/sdcard/Droid Notify/Logs/E/DroidNotifyLog.txt"));
+		    	try{
+		    		startActivity(intent);
+		    	}catch(Exception ex){
+	 	    		if (_debug) Log.e("DroidNotifyPreferenceActivity.setupCustomPreferences() Email Developer Logs Button ERROR: " + ex.toString());
+	 	    		return false;
+		    	}
+	            return true;
+           }
+		});
+		//Clear Developer Logs Preference/Button
+		Preference clearDeveloperLogsPref = (Preference)findPreference("clear_logs");
+		clearDeveloperLogsPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+        	public boolean onPreferenceClick(Preference preference) {
+		    	if (_debug) Log.v("Clear Developer Logs Button Clicked()");
+		    	clearDeveloperLogs();
+	            return true;
+           }
+		});
+	}
+	
+	/**
+	 * Sets up some options if the app is in debug mode.
+	 * Hides or shows some tools on the preference screen to assist the developer debug the app.
+	 * 
+	 * @param inDebugMode
+	 */
+	private void setupAppDebugMode(boolean inDebugMode){
+		if (_debug) Log.v("DroidNotifyPreferenceActivity.setupAppDebugMode()");
+		if(inDebugMode){
+			//Do Nothing.
+		}else{
+			PreferenceScreen mainPreferences = this.getPreferenceScreen();
+			PreferenceCategory debugPreferenceCategory = (PreferenceCategory) findPreference("app_debug_category");
+			mainPreferences.removePreference(debugPreferenceCategory);
+		}
+	}
+	
+	/**
+	 * Clear the developer logs on the SD card.
+	 */
+	private void clearDeveloperLogs(){
+		if (_debug) Log.v("DroidNotifyPreferenceActivity.clearDeveloperLogs()");
+		File logFileV = new File("sdcard/Droid Notify/Logs/V/DroidNotifyLog.txt");
+    	File logFileD = new File("sdcard/Droid Notify/Logs/D/DroidNotifyLog.txt");
+    	File logFileI = new File("sdcard/Droid Notify/Logs/I/DroidNotifyLog.txt");
+    	File logFileW = new File("sdcard/Droid Notify/Logs/W/DroidNotifyLog.txt");
+    	File logFileE = new File("sdcard/Droid Notify/Logs/E/DroidNotifyLog.txt");
+    	if(logFileV.exists()){
+    		try{
+    			new FileOutputStream("sdcard/Droid Notify/Logs/V/DroidNotifyLog.txt").close();
+    		}catch (Exception ex){
+    			if (_debug) Log.e("DroidNotifyPreferenceActivity.clearDeveloperLogs() ERROR: " + ex.toString());
+			}
+    	}
+    	if(logFileD.exists()){
+    		try{
+    			new FileOutputStream("sdcard/Droid Notify/Logs/D/DroidNotifyLog.txt").close();
+    		}catch (Exception ex){
+    			if (_debug) Log.e("DroidNotifyPreferenceActivity.clearDeveloperLogs() ERROR: " + ex.toString());
+			}
+    	}
+    	if(logFileI.exists()){
+    		try{
+    			new FileOutputStream("sdcard/Droid Notify/Logs/I/DroidNotifyLog.txt").close();
+    		}catch (Exception ex){
+    			if (_debug) Log.e("DroidNotifyPreferenceActivity.clearDeveloperLogs() ERROR: " + ex.toString());
+			}
+    	}
+    	if(logFileW.exists()){
+    		try{
+    			new FileOutputStream("sdcard/Droid Notify/Logs/W/DroidNotifyLog.txt").close();
+    		}catch (Exception ex){
+    			if (_debug) Log.e("DroidNotifyPreferenceActivity.clearDeveloperLogs() ERROR: " + ex.toString());
+			}
+    	}
+    	if(logFileE.exists()){
+    		try{
+    			new FileOutputStream("sdcard/Droid Notify/Logs/E/DroidNotifyLog.txt").close();
+    		}catch (Exception ex){
+    			if (_debug) Log.e("DroidNotifyPreferenceActivity.clearDeveloperLogs() ERROR: " + ex.toString());
+			}
+    	}
+    	Toast.makeText(getContext(), "The application logs have been cleared.", Toast.LENGTH_SHORT).show();
 	}
 	
 }
