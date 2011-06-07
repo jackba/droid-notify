@@ -948,7 +948,9 @@ public class Notification {
 		    			break;
 		    		}
 			    }
-		    }finally{
+		    }catch(Exception ex){
+				if (Log.getDebug()) Log.e("Notification.loadMessageID() ERROR: " + ex.toString());
+			}finally{
 		    	cursor.close();
 		    }
 		    setMessageID(messageID);
@@ -972,7 +974,7 @@ public class Notification {
 		try{
 			PhoneNumber incomingNumber = new PhoneNumber(phoneNumber);
 			final String[] projection = null;
-			final String selection = ContactsContract.Contacts.HAS_PHONE_NUMBER + "=1";
+			final String selection = ContactsContract.Contacts.HAS_PHONE_NUMBER + " = 1";
 			final String[] selectionArgs = null;
 			final String sortOrder = null;
 			Cursor cursor = context.getContentResolver().query(
@@ -1123,18 +1125,18 @@ public class Notification {
 	 */
 	private void setCallViewed(boolean isViewed){
 		if (Log.getDebug()) Log.v("Notification.setCallViewed()");
+		Context context = getContext();
+		String phoneNumber = getPhoneNumber();
+		long timeStamp = getTimeStamp();
+		ContentValues contentValues = new ContentValues();
+		if(isViewed){
+			contentValues.put(android.provider.CallLog.Calls.NEW, 0);
+		}else{
+			contentValues.put(android.provider.CallLog.Calls.NEW, 1);
+		}
+		String selection = android.provider.CallLog.Calls.NUMBER + " = ? and " + android.provider.CallLog.Calls.DATE + " = ?";
+		String[] selectionArgs = new String[] {DatabaseUtils.sqlEscapeString(phoneNumber), Long.toString(timeStamp)};
 		try{
-			Context context = getContext();
-			String phoneNumber = getPhoneNumber();
-			long timeStamp = getTimeStamp();
-			ContentValues contentValues = new ContentValues();
-			if(isViewed){
-				contentValues.put(android.provider.CallLog.Calls.NEW, 0);
-			}else{
-				contentValues.put(android.provider.CallLog.Calls.NEW, 1);
-			}
-			String selection = android.provider.CallLog.Calls.NUMBER + " = ? and " + android.provider.CallLog.Calls.DATE + " = ?";
-			String[] selectionArgs = new String[] {DatabaseUtils.sqlEscapeString(phoneNumber), Long.toString(timeStamp)};
 			context.getContentResolver().update(
 					Uri.parse("content://call_log/calls"),
 					contentValues,
@@ -1150,12 +1152,12 @@ public class Notification {
 	 */
 	private void deleteFromCallLog(){
 		if (Log.getDebug()) Log.v("Notification.deleteFromCallLog()");
+		Context context = getContext();
+		String phoneNumber = getPhoneNumber();
+		long timeStamp = getTimeStamp();
+		String selection = android.provider.CallLog.Calls.NUMBER + " = ? and " + android.provider.CallLog.Calls.DATE + " = ?";
+		String[] selectionArgs = new String[] {DatabaseUtils.sqlEscapeString(phoneNumber), Long.toString(timeStamp)};
 		try{
-			Context context = getContext();
-			String phoneNumber = getPhoneNumber();
-			long timeStamp = getTimeStamp();
-			String selection = android.provider.CallLog.Calls.NUMBER + " = ? and " + android.provider.CallLog.Calls.DATE + " = ?";
-			String[] selectionArgs = new String[] {DatabaseUtils.sqlEscapeString(phoneNumber), Long.toString(timeStamp)};
 			context.getContentResolver().delete(
 					Uri.parse("content://call_log/calls"),
 					selection, 
@@ -1172,25 +1174,25 @@ public class Notification {
 	 */
 	private void setMessageRead(boolean isViewed){
 		if (Log.getDebug()) Log.v("Notification.setMessageRead()");
+		Context context = getContext();
+		long messageID = getMessageID();
+		long threadID = getThreadID();
+		String messageBody = getMessageBody();
+		long timeStamp = getTimeStamp();
+		if(messageID == 0){
+			if (Log.getDebug()) Log.v("Notification.setMessageRead() Message ID == 0. Loading Message ID");
+			loadMessageID(context, threadID, messageBody, timeStamp);
+			messageID = getMessageID();
+		}
+		ContentValues contentValues = new ContentValues();
+		if(isViewed){
+			contentValues.put("READ", 1);
+		}else{
+			contentValues.put("READ", 0);
+		}
+		String selection = null;
+		String[] selectionArgs = null;
 		try{
-			Context context = getContext();
-			long messageID = getMessageID();
-			long threadID = getThreadID();
-			String messageBody = getMessageBody();
-			long timeStamp = getTimeStamp();
-			if(messageID == 0){
-				if (Log.getDebug()) Log.v("Notification.setMessageRead() Message ID == 0. Load Message ID");
-				loadMessageID(context, threadID, messageBody, timeStamp);
-				messageID = getMessageID();
-			}
-			ContentValues contentValues = new ContentValues();
-			if(isViewed){
-				contentValues.put("READ", 1);
-			}else{
-				contentValues.put("READ", 0);
-			}
-			String selection = null;
-			String[] selectionArgs = null;
 			context.getContentResolver().update(
 					Uri.parse("content://sms/" + messageID), 
 		    		contentValues, 
