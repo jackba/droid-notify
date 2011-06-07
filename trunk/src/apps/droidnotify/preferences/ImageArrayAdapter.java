@@ -84,7 +84,6 @@ public class ImageArrayAdapter extends ArrayAdapter<CharSequence> {
 		LayoutInflater inflater = ((Activity)getContext()).getLayoutInflater();
 		View rowView = inflater.inflate(R.layout.listitem, parent, false);
 		ImageView imageView = (ImageView)rowView.findViewById(R.id.image);
-		//imageView.setImageResource(_resourceIds[position]);
 		imageView.setImageBitmap(getRoundedCornerBitmap(BitmapFactory.decodeResource(getContext().getResources(), _resourceIds[position]), 5));
 		CheckedTextView checkedTextView = (CheckedTextView)rowView.findViewById(R.id.check);
 		checkedTextView.setText(getItem(position));

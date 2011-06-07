@@ -27,9 +27,17 @@ abstract public class WakefulIntentService extends IntentService {
 	
 	abstract void doWakefulWork(Intent intent);
 
+	//================================================================================
+    // Properties
+    //================================================================================
+	
 	public static final String LOCK_NAME_STATIC="app.droidnotify.android.syssvc.AppService.Static";
 	private static PowerManager.WakeLock lockStatic = null;
 
+	//================================================================================
+	// Constructors
+	//================================================================================
+	
 	/**
 	 * Class Constructor.
 	 * 
@@ -39,6 +47,10 @@ abstract public class WakefulIntentService extends IntentService {
 		super(name);
 		if (Log.getDebug()) Log.v("WakefulIntentService.WakefulIntentService()");
 	}
+
+	//================================================================================
+	// Public Methods
+	//================================================================================
 	
 	/**
 	 * Aquire the WakeLock.
@@ -50,6 +62,30 @@ abstract public class WakefulIntentService extends IntentService {
 		getLock(context).acquire();
 	}
 
+	//================================================================================
+	// Protected Methods
+	//================================================================================
+	
+	/**
+	 * Handles the intent that we are working with.
+	 * 
+	  * @param intent - Intent object that we are working with.
+	 */
+	@Override
+	final protected void onHandleIntent(Intent intent) {
+		if (Log.getDebug()) Log.v("WakefulIntentService.onHandleIntent()");
+		try {
+			doWakefulWork(intent);
+		}
+		finally {
+			getLock(this).release();
+		}
+	}
+	
+	//================================================================================
+	// Private Methods
+	//================================================================================
+	
 	/**
 	 * Instantiates the WakeLock and returns in.
 	 * 
@@ -65,22 +101,6 @@ abstract public class WakefulIntentService extends IntentService {
 			lockStatic.setReferenceCounted(true);
 		}
 		return(lockStatic);
-	}
-    
-	/**
-	 * Handles the intent that we are working with.
-	 * 
-	  * @param intent - Intent object that we are working with.
-	 */
-	@Override
-	final protected void onHandleIntent(Intent intent) {
-		if (Log.getDebug()) Log.v("WakefulIntentService.onHandleIntent()");
-		try {
-			doWakefulWork(intent);
-		}
-		finally {
-			getLock(this).release();
-		}
 	}
 	
 }

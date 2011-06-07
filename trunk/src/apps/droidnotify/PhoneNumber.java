@@ -11,6 +11,7 @@ public class PhoneNumber {
     // Properties
     //================================================================================
 	
+	private boolean _debug;
 	private String _phoneNumber;
 
 	//================================================================================
@@ -23,7 +24,8 @@ public class PhoneNumber {
 	 * @param phoneNumber - String of the phone number.
 	 */
 	public PhoneNumber(String phoneNumber){
-		if (Log.getDebug()) Log.v("PhoneNumber.PhoneNumber()");
+		_debug = Log.getDebug();
+		if (_debug) Log.v("PhoneNumber.PhoneNumber()");
 		setPhoneNumber(formatNumber(phoneNumber));
 	}
 	
@@ -37,7 +39,7 @@ public class PhoneNumber {
 	 * @param phoneNumber - String of phone number property
 	 */
 	public void setPhoneNumber(String phoneNumber){
-		if (Log.getDebug()) Log.v("PhoneNumber.setPhoneNumber() PhoneNumber: " + phoneNumber);
+		if (_debug) Log.v("PhoneNumber.setPhoneNumber() PhoneNumber: " + phoneNumber);
 		_phoneNumber = phoneNumber;
 	}
 	
@@ -47,7 +49,7 @@ public class PhoneNumber {
 	 * @return phoneNumber - String of phone number property
 	 */
 	public String getPhoneNumber(){
-		if (Log.getDebug()) Log.v("PhoneNumber.getPhoneNumber() PhoneNumber: " + _phoneNumber);
+		if (_debug) Log.v("PhoneNumber.getPhoneNumber() PhoneNumber: " + _phoneNumber);
 		return _phoneNumber;
 	}
 	  
@@ -67,7 +69,7 @@ public class PhoneNumber {
 	 * @return phoneNumber - String of formatted phone number property
 	 */
 	private String formatNumber(String  phoneNumber){
-		if (Log.getDebug()) Log.v("PhoneNumber.formatNumber()");
+		if (_debug) Log.v("PhoneNumber.formatNumber()");
 		phoneNumber = phoneNumber.replace("-", "");
 		if(phoneNumber.substring(0,1).equals("1")){
 			phoneNumber = phoneNumber.substring(1);
