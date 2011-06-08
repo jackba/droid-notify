@@ -50,7 +50,7 @@
 		<service android:name=".CalendarNotificationAlarmReceiverService" />
    		<activity 
    			android:name=".NotificationActivity" 
-   			android:theme="@style/Theme.TranslucentDialog"
+   			android:theme="@style/Theme.Transparent"
 			android:launchMode="singleTask"
 			android:screenOrientation="user"
         	android:configChanges="keyboardHidden|orientation" />

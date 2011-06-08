@@ -24,6 +24,7 @@ import android.view.Gravity;
 import android.view.HapticFeedbackConstants;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -35,12 +36,12 @@ import android.widget.TextView;
  * @author Camille Sévigny
  */
 public class NotificationView extends LinearLayout {
-
+	
 	//================================================================================
     // Constants
     //================================================================================
 	
-	private final int SQUARE_IMAGE_SIZE = 90;
+	private final int SQUARE_IMAGE_SIZE = 80;
 	
 	private final int NOTIFICATION_TYPE_PHONE = 0;
 	private final int NOTIFICATION_TYPE_SMS = 1;
@@ -57,6 +58,9 @@ public class NotificationView extends LinearLayout {
 	
 	private final String EVENT_BEGIN_TIME = "beginTime";
 	private final String EVENT_END_TIME = "endTime";
+	
+	private final String APP_THEME_KEY = "app_theme";
+	private final String IPHONE_THEME = "iphone";
 	
 	//================================================================================
     // Properties
@@ -421,10 +425,18 @@ public class NotificationView extends LinearLayout {
             	   notificationViewFlipper.setOutAnimation(notificationViewFlipper.outToLeftAnimation());
                    notificationViewFlipper.showPrevious();
                	}
-				notificationActivity.updateNavigationButtons();
+//				notificationActivity.updateNavigationButtons();
+				updateNavigationButtons();
 				return true;
 		}
 		return super.onTouchEvent(motionEvent);
+	}
+	
+	/**
+	 * 
+	 */
+	public void updateNavigationButtons(){
+		
 	}
 	
 	//================================================================================
@@ -438,25 +450,79 @@ public class NotificationView extends LinearLayout {
 	 */
 	private void initLayoutItems(Context context) {
 		if (_debug) Log.v("NotificationView.initLayoutItems()");
-	    View.inflate(context, R.layout.notification, this);
-	    if (_debug) Log.v("NotificationView should be inflated now");
-	    setFromTextView((TextView) findViewById(R.id.from_text_view));
-	    _phoneNumberTextView = (TextView) findViewById(R.id.phone_number_text_view);
-	    //Automatically format the phone number in this text view.
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		//Set based on the theme. This is set in the user preferences.
+		String applicationThemeSetting = preferences.getString(APP_THEME_KEY, "iphone");
+//		if(applicationThemeSetting.equals(IPHONE_THEME)){
+			View.inflate(context, R.layout.iphone_theme_notification, this);
+//			setFromTextView((TextView) findViewById(R.id.contact_name_text_view_iphone_theme));
+//			_phoneNumberTextView = (TextView) findViewById(R.id.contact_number_text_view_iphone_theme);
+//			//Automatically format the phone number in this text view.
+//			_phoneNumberTextView.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
+//			setReceivedAtTextView((TextView) findViewById(R.id.notification_info_text_view_iphone_theme));
+//			setPhotoImageView((ImageView) findViewById(R.id.contact_photo_image_view_iphone_theme));
+//		    setNotificationIconImageView((ImageView) findViewById(R.id.notification_type_icon_image_view_iphone_theme));    
+//			_notificationTextView = (TextView) findViewById(R.id.notification_details_text_view_iphone_theme);
+//			_notificationTextView.setMovementMethod(new ScrollingMovementMethod());
+//			_notificationTextView.setScrollbarFadingEnabled(false);
+//		    setPhoneButtonLinearLayout((LinearLayout) findViewById(R.id.phone_button_linear_layout_iphone_theme));
+//		    setSMSButtonLinearLayout((LinearLayout) findViewById(R.id.sms_button_linear_layout_iphone_theme));
+//			setCalendarButtonLinearLayout((LinearLayout) findViewById(R.id.calendar_button_linear_layout_iphone_theme));
+//			//TODO - NEED TO CHANGE THIS TO WORK WITH CALENDAR NOTIFICATIONS!!
+//			setContactLinearLayout((LinearLayout) findViewById(R.id.contact_main_linear_layout_iphone_theme));	
+//		}else{
+			//View.inflate(context, R.layout.notification, this);
+//			setFromTextView((TextView) findViewById(R.id.from_text_view));
+//			_phoneNumberTextView = (TextView) findViewById(R.id.phone_number_text_view);
+//			//Automatically format the phone number in this text view.
+//			_phoneNumberTextView.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
+//			setReceivedAtTextView((TextView) findViewById(R.id.time_text_view));
+//			setPhotoImageView((ImageView) findViewById(R.id.contact_image_view));
+//		    setNotificationIconImageView((ImageView) findViewById(R.id.notification_type_icon_image_view));
+//			_notificationTextView = (TextView) findViewById(R.id.notification_text_view);
+//			_notificationTextView.setMovementMethod(new ScrollingMovementMethod());
+//			_notificationTextView.setScrollbarFadingEnabled(false);
+//		    setPhoneButtonLinearLayout((LinearLayout) findViewById(R.id.phone_button_layout));
+//		    setSMSButtonLinearLayout((LinearLayout) findViewById(R.id.sms_button_layout));
+//			setCalendarButtonLinearLayout((LinearLayout) findViewById(R.id.calendar_button_layout));
+//			setContactLinearLayout((LinearLayout) findViewById(R.id.contact_linear_layout));
+//		}
+
+		setFromTextView((TextView) findViewById(R.id.contact_name_text_view));
+		_phoneNumberTextView = (TextView) findViewById(R.id.contact_number_text_view);
+		//Automatically format the phone number in this text view.
 		_phoneNumberTextView.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
-		setPhoneNumberTextView(_phoneNumberTextView);
-		setReceivedAtTextView((TextView) findViewById(R.id.time_text_view));
-		setPhotoImageView((ImageView) findViewById(R.id.contact_image_view));
+		setReceivedAtTextView((TextView) findViewById(R.id.notification_info_text_view));
+		setPhotoImageView((ImageView) findViewById(R.id.contact_photo_image_view));
 	    setNotificationIconImageView((ImageView) findViewById(R.id.notification_type_icon_image_view));    
-	    setNotificationViewFlipper(((NotificationActivity)getContext()).getNotificationViewFlipper());
-		_notificationTextView = (TextView) findViewById(R.id.notification_text_view);
+		_notificationTextView = (TextView) findViewById(R.id.notification_details_text_view);
 		_notificationTextView.setMovementMethod(new ScrollingMovementMethod());
 		_notificationTextView.setScrollbarFadingEnabled(false);
+	    setPhoneButtonLinearLayout((LinearLayout) findViewById(R.id.phone_button_linear_layout));
+	    setSMSButtonLinearLayout((LinearLayout) findViewById(R.id.sms_button_linear_layout));
+		setCalendarButtonLinearLayout((LinearLayout) findViewById(R.id.calendar_button_linear_layout));
+		//TODO - NEED TO CHANGE THIS TO WORK WITH CALENDAR NOTIFICATIONS!!
+		setContactLinearLayout((LinearLayout) findViewById(R.id.contact_main_linear_layout));		
+		
+		setPhoneNumberTextView(_phoneNumberTextView);
+		setNotificationViewFlipper(((NotificationActivity)getContext()).getNotificationViewFlipper());
 		setNotificationTextView(_notificationTextView);
-	    setPhoneButtonLinearLayout((LinearLayout) findViewById(R.id.phone_button_layout));
-	    setSMSButtonLinearLayout((LinearLayout) findViewById(R.id.sms_button_layout));
-		setCalendarButtonLinearLayout((LinearLayout) findViewById(R.id.calendar_button_layout));
-		setContactLinearLayout((LinearLayout) findViewById(R.id.contact_linear_layout));
+		
+		
+
+
+//
+//		final TextView notificationCountTextView;
+//	    //Set based on the theme. This is set in the user preferences.
+//		if(applicationThemeSetting.equals(IPHONE_THEME)){
+//			notificationCountTextView = (TextView) findViewById(R.id.notification_count_text_view_iphone_theme);
+//		}else{
+//			notificationCountTextView = (TextView) findViewById(R.id.notification_count_text_view);
+//		}
+//		setNotificationCountTextView(notificationCountTextView);
+
+		
+		
 	}
 
 	/**
@@ -465,6 +531,7 @@ public class NotificationView extends LinearLayout {
 	 * @param notification - This View's Notification.
 	 */
 	private void setupNotificationViewButtons(Notification notification) {
+		Context context = getContext();
 		int notificationType = notification.getNotificationType();
 		int phoneButtonLayoutVisibility = View.GONE;
 		int smsButtonLayoutVisibility = View.GONE;
@@ -472,13 +539,56 @@ public class NotificationView extends LinearLayout {
 		LinearLayout phoneButtonLinearLayout = getPhoneButtonLinearLayout();
 		LinearLayout smsButtonLinearLayout = getSMSButtonLinearLayout();
 		LinearLayout calendarButtonLinearLayout = getCalendarButtonLinearLayout();
+    	SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+    	String applicationThemeSetting = preferences.getString(APP_THEME_KEY, "iphone");
+		final Button previousButton;
+		final Button nextButton;
+//		if(applicationThemeSetting.equals(IPHONE_THEME)){
+//			previousButton = (Button) findViewById(R.id.previous_button_iphone_theme);
+//			nextButton = (Button) findViewById(R.id.next_button_iphone_theme);
+//		}else{
+//			previousButton = (Button) findViewById(R.id.previous_button);
+//			nextButton = (Button) findViewById(R.id.next_button);
+//		} 
+		previousButton = (Button) findViewById(R.id.previous_button);
+		nextButton = (Button) findViewById(R.id.next_button);
+		// Previous Button
+		previousButton.setOnClickListener(new OnClickListener() {
+		    public void onClick(View view) {
+		    	if (_debug) Log.v("Previous Button Clicked()");
+		    	NotificationViewFlipper notificationViewFlipper = getNotificationViewFlipper();
+		    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+		    	notificationViewFlipper.showPrevious();
+		    	//updateNavigationButtons(previousButton, notificationCountTextView, nextButton, notificationViewFlipper);
+		    }
+		});
+		if (_debug) Log.v("NotificationActivity.setupViews() here");
+		// Next Button
+		nextButton.setOnClickListener(new OnClickListener() {
+		    public void onClick(View view) {
+		    	if (_debug) Log.v("Next Button Clicked()");
+		    	NotificationViewFlipper notificationViewFlipper = getNotificationViewFlipper();
+		    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+		    	notificationViewFlipper.showNext();
+		    	//updateNavigationButtons(previousButton, notificationCountTextView, nextButton, notificationViewFlipper);
+		    }
+		});	
+    	
+    	
 	    if(notificationType == NOTIFICATION_TYPE_PHONE){
 	    	//Display the correct navigation buttons for each notification type.
 	    	phoneButtonLayoutVisibility = View.VISIBLE;
 	    	smsButtonLayoutVisibility = View.GONE;
 	    	calendarButtonLayoutVisibility = View.GONE;
 			// Dismiss Button
-	    	final Button phoneDismissButton = (Button) findViewById(R.id.phone_dismiss_button);	
+	    	final Button phoneDismissButton;
+			//Set based on the theme. This is set in the user preferences.
+//			if(applicationThemeSetting.equals(IPHONE_THEME)){
+//				phoneDismissButton = (Button) findViewById(R.id.phone_dismiss_button_iphone_theme);	
+//			}else{
+//				phoneDismissButton = (Button) findViewById(R.id.phone_dismiss_button);	
+//			}
+			phoneDismissButton = (Button) findViewById(R.id.phone_dismiss_button);
 			phoneDismissButton.setOnClickListener(new OnClickListener() {
 			    public void onClick(View v) {
 			    	if (_debug) Log.v("Dismiss Button Clicked()");
@@ -487,7 +597,14 @@ public class NotificationView extends LinearLayout {
 			    }
 			});
 			// Call Button
-			final Button phoneCallButton = (Button) findViewById(R.id.phone_call_button);
+			final Button phoneCallButton;
+			//Set based on the theme. This is set in the user preferences.
+//			if(applicationThemeSetting.equals(IPHONE_THEME)){
+//				phoneCallButton = (Button) findViewById(R.id.phone_call_button_iphone_theme);	
+//			}else{
+//				phoneCallButton = (Button) findViewById(R.id.phone_call_button);	
+//			}
+			phoneCallButton = (Button) findViewById(R.id.phone_call_button);
 			phoneCallButton.setOnClickListener(new OnClickListener() {
 			    public void onClick(View v) {
 			    	if (_debug) Log.v("Call Button Clicked()");
@@ -502,7 +619,14 @@ public class NotificationView extends LinearLayout {
 	    	smsButtonLayoutVisibility = View.VISIBLE;
 	    	calendarButtonLayoutVisibility = View.GONE;
 			// Dismiss Button
-	    	final Button smsDismissButton = (Button) findViewById(R.id.sms_dismiss_button);	
+	    	final Button smsDismissButton;
+			//Set based on the theme. This is set in the user preferences.
+//			if(applicationThemeSetting.equals(IPHONE_THEME)){
+//				smsDismissButton = (Button) findViewById(R.id.sms_dismiss_button_iphone_theme);		
+//			}else{
+//				smsDismissButton = (Button) findViewById(R.id.sms_dismiss_button);		
+//			}
+			smsDismissButton = (Button) findViewById(R.id.sms_dismiss_button);
 			smsDismissButton.setOnClickListener(new OnClickListener() {
 			    public void onClick(View view) {
 			    	if (_debug) Log.v("SMS Dismiss Button Clicked()");
@@ -511,7 +635,14 @@ public class NotificationView extends LinearLayout {
 			    }
 			});		    			
 			// Delete Button
-			final Button smsDeleteButton = (Button) findViewById(R.id.sms_delete_button);
+			final Button smsDeleteButton;
+			//Set based on the theme. This is set in the user preferences.
+//			if(applicationThemeSetting.equals(IPHONE_THEME)){
+//				smsDeleteButton = (Button) findViewById(R.id.sms_delete_button_iphone_theme);		
+//			}else{
+//				smsDeleteButton = (Button) findViewById(R.id.sms_delete_button);		
+//			}
+			smsDeleteButton = (Button) findViewById(R.id.sms_delete_button);
 			smsDeleteButton.setOnClickListener(new OnClickListener() {
 			    public void onClick(View view) {
 			    	if (_debug) Log.v("SMS Delete Button Clicked()");
@@ -520,7 +651,14 @@ public class NotificationView extends LinearLayout {
 			    }
 			});
 			// Reply Button
-			final Button smsReplyButton = (Button) findViewById(R.id.sms_reply_button); 
+			final Button smsReplyButton;
+			//Set based on the theme. This is set in the user preferences.
+//			if(applicationThemeSetting.equals(IPHONE_THEME)){
+//				smsReplyButton = (Button) findViewById(R.id.sms_reply_button_iphone_theme); 		
+//			}else{
+//				smsReplyButton = (Button) findViewById(R.id.sms_reply_button); 		
+//			}
+			smsReplyButton = (Button) findViewById(R.id.sms_reply_button);
 			smsReplyButton.setOnClickListener(new OnClickListener() {
 			    public void onClick(View view) {
 			    	if (_debug) Log.v("SMS Reply Button Clicked()");
@@ -530,44 +668,24 @@ public class NotificationView extends LinearLayout {
 			});
 		}
 	    if(notificationType == NOTIFICATION_TYPE_MMS){
-			//Display the correct navigation buttons for each notification type.
 	    	phoneButtonLayoutVisibility = View.GONE;
-	    	smsButtonLayoutVisibility = View.VISIBLE;
+	    	smsButtonLayoutVisibility = View.GONE;
 	    	calendarButtonLayoutVisibility = View.GONE;
-			// Dismiss Button
-	    	final Button mmsDismissButton = (Button) findViewById(R.id.sms_dismiss_button); 
-			mmsDismissButton.setOnClickListener(new OnClickListener() {
-			    public void onClick(View view) {
-			    	if (_debug) Log.v("MMS Dismiss Button Clicked()");
-			    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-			    	dismissNotification();
-			    }
-			});			    			
-			// Delete Button
-			final Button mmsDeleteButton = (Button) findViewById(R.id.sms_delete_button); 
-			mmsDeleteButton.setOnClickListener(new OnClickListener() {
-			    public void onClick(View view) {
-			    	if (_debug) Log.v("MMS Delete Button Clicked()");
-			    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-			    	showDeleteDialog();
-			    }
-			});
-			// Reply Button
-			final Button mmsReplyButton = (Button) findViewById(R.id.sms_reply_button); 
-			mmsReplyButton.setOnClickListener(new OnClickListener() {
-			    public void onClick(View view) {
-			    	if (_debug) Log.v("MMS Reply Button Clicked()");
-			    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-			    	replyToMessage();
-			    }
-			});
+	    	//TODO - MMS
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
 	    	phoneButtonLayoutVisibility = View.GONE;
 	    	smsButtonLayoutVisibility = View.GONE;
 	    	calendarButtonLayoutVisibility = View.VISIBLE;
 			// Dismiss Button
-	    	final Button calendarDismissButton = (Button) findViewById(R.id.calendar_dismiss_button); 
+	    	final Button calendarDismissButton;
+	    	//Set based on the theme. This is set in the user preferences.
+//			if(applicationThemeSetting.equals(IPHONE_THEME)){
+//				calendarDismissButton = (Button) findViewById(R.id.calendar_dismiss_button_iphone_theme); 		
+//			}else{
+//				calendarDismissButton = (Button) findViewById(R.id.calendar_dismiss_button); 		
+//			}
+			calendarDismissButton = (Button) findViewById(R.id.calendar_dismiss_button);
 	    	calendarDismissButton.setOnClickListener(new OnClickListener() {
 			    public void onClick(View view) {
 			    	if (_debug) Log.v("Calendar Dismiss Button Clicked()");
@@ -576,7 +694,14 @@ public class NotificationView extends LinearLayout {
 			    }
 			});			    			
 			// View Button
-			final Button calendarViewButton = (Button) findViewById(R.id.calendar_view_button); 
+	    	final Button calendarViewButton;
+	    	//Set based on the theme. This is set in the user preferences.
+//			if(applicationThemeSetting.equals(IPHONE_THEME)){
+//				calendarViewButton = (Button) findViewById(R.id.calendar_view_button_iphone_theme);		
+//			}else{
+//				calendarViewButton = (Button) findViewById(R.id.calendar_view_button);		
+//			} 
+			calendarViewButton = (Button) findViewById(R.id.calendar_view_button);
 			calendarViewButton.setOnClickListener(new OnClickListener() {
 			    public void onClick(View view) {
 			    	if (_debug) Log.v("Calendar View Button Clicked()");
@@ -729,9 +854,10 @@ public class NotificationView extends LinearLayout {
 		if (_debug) Log.v("NotificationView.setNotificationImage()");
 		ImageView photoImageView = getPhotoImageView();
 	    //Setup ImageView
-		photoImageView.setBackgroundResource(0);
-		photoImageView.setPadding(0, 0, 0, 0);
-	    _photoImageView.setBackgroundResource(R.drawable.image_picture_frame);
+		//photoImageView.setBackgroundResource(0);
+		//photoImageView.setPadding(0, 0, 0, 0);
+	    //photoImageView.setBackgroundResource(R.drawable.image_picture_frame);
+	    //photoImageView.setBackgroundResource(R.drawable.image_picture_frame_white);
 	    //Load contact photo if it exists.
 	    Bitmap bitmap = notification.getPhotoImg();
 	    if(bitmap!=null){

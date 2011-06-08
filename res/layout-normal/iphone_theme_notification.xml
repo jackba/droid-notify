@@ -1,184 +1,256 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:id="@+id/main_layout_1"
+<LinearLayout 
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/main_layout"
     android:orientation="vertical"
-    android:layout_width="300dip"
-    android:minWidth="300dip"
-    android:layout_height="wrap_content" 
+    android:layout_height="wrap_content"
+    android:layout_width="fill_parent" 
     android:gravity="center_vertical|fill_horizontal"
     android:background="@drawable/iphone_panel">
-		
 	<RelativeLayout
-		xmlns:android="http://schemas.android.com/apk/res/android"
+    	android:id="@+id/header_navigation"
     	android:layout_width="wrap_content"
-    	android:layout_height="30dip"
-    	android:padding="2dp"
-    	android:id="@+id/header_layout" 
-    	android:gravity="center">
+    	android:layout_height="30dip" 
+    	android:gravity="center"
+    	android:padding="2dp">
 	    <Button
-	    	android:id="@+id/previous_button_1" 
+	    	android:id="@+id/previous_button" 
 	     	android:layout_height="wrap_content"
 	     	android:layout_width="wrap_content"
-	      	android:background="@drawable/ic_btn_find_prev"
 	      	android:layout_alignParentLeft="true"
 	      	android:layout_alignParentTop="true"
-			android:hapticFeedbackEnabled="true" />
-	    <TextView 
-	    	android:layout_width="wrap_content"
-	    	android:layout_height="50dip" 
+			android:hapticFeedbackEnabled="true"
+	      	android:background="@drawable/btn_prev_arrow" />
+	    <TextView
+	    	android:id="@+id/notification_count_text_view"
+	    	android:layout_height="50dip"  
+	    	android:layout_width="wrap_content" 
+	    	android:layout_alignParentTop="true"
+	    	android:layout_toRightOf="@+id/previous_button" 
+	    	android:layout_toLeftOf="@+id/next_button"
+	    	android:gravity="center"
 	    	android:textAppearance="?android:attr/textAppearanceMedium" 
 	    	android:textColor="@color/white"
-	    	android:text="0/0"
-	    	android:id="@+id/notification_count_text_view" 
-	    	android:layout_alignParentTop="true"
-	    	android:layout_toRightOf="@+id/previous_button_1" 
-	    	android:layout_toLeftOf="@+id/next_button_1" 
-	    	android:gravity="center"/>
+	    	android:text="0/0"/>
 	    <Button
-	    	android:id="@+id/next_button_1" 
+	    	android:id="@+id/next_button" 
 	      	android:layout_height="wrap_content"
 	      	android:layout_width="wrap_content"
-	      	android:background="@drawable/ic_btn_find_next"
 	      	android:layout_alignParentRight="true"
 	      	android:layout_alignParentTop="true"
-			android:hapticFeedbackEnabled="true"/>
+			android:hapticFeedbackEnabled="true"
+	      	android:background="@drawable/btn_next_arrow"/>
 	</RelativeLayout>
-
+	<LinearLayout
+		android:id="@+id/contact_main_linear_layout"
+		android:orientation="vertical"
+		android:layout_height="wrap_content"
+		android:layout_width="fill_parent"
+		android:layout_gravity="left"
+		android:focusable="true" 
+		android:clickable="true"
+		android:hapticFeedbackEnabled="true">	
 		<LinearLayout
-			android:id="@+id/contact_linear_layout"
-			android:layout_width="fill_parent"
+			android:id="@+id/contact_wrapper_linear_layout"
+			android:orientation="horizontal"
 			android:layout_height="wrap_content"
-			android:layout_gravity="left"
+			android:layout_width="fill_parent" 
+			android:layout_gravity="fill_horizontal"
 			android:focusable="true" 
 			android:clickable="true"
-			android:hapticFeedbackEnabled="true"
-			android:orientation="vertical">
-			
-			<LinearLayout
-				android:id="@+id/contact_linear_layout"
-				android:layout_width="fill_parent"
+			android:hapticFeedbackEnabled="true">
+			<ImageView
+				android:id="@+id/contact_photo_image_view"
 				android:layout_height="wrap_content"
+				android:layout_width="wrap_content"
+				android:layout_gravity="center_vertical"
+				android:layout_margin="4dip"
+				android:scaleType="center"
+				android:background="@drawable/image_picture_frame_white" />			
+			<LinearLayout
+				android:id="@+id/contact_info_wrapper_linear_layout"
+				android:orientation="vertical"
+				android:layout_height="wrap_content"
+				android:layout_width="fill_parent"
+				android:layout_gravity="left"
 				android:focusable="true" 
 				android:clickable="true"
 				android:hapticFeedbackEnabled="true"
-				android:orientation="horizontal" 
-				android:layout_gravity="fill_horizontal">
-
-				<ImageView
-					android:src="@drawable/ic_contact_picture_5"
-					android:id="@+id/contact_image_view"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:scaleType="center"
-					android:layout_gravity="center_vertical"/>	
-					
+				android:paddingLeft="5dip">
 				<LinearLayout
-					android:id="@+id/contact_linear_layout"
+					android:id="@+id/contact_info_linear_layout"
 					android:layout_width="fill_parent"
 					android:layout_height="wrap_content"
-					android:layout_gravity="left"
-					android:focusable="true" 
-					android:clickable="true"
-					android:hapticFeedbackEnabled="true"
-					android:orientation="vertical"
-					android:paddingLeft="5dip">
-			
-					<LinearLayout
-						android:id="@+id/from_linear_layout"
-						android:layout_width="fill_parent"
+					android:orientation="horizontal" 
+					android:layout_gravity="center_vertical">
+					<ImageView
+						android:id="@+id/notification_type_icon_image_view"
 						android:layout_height="wrap_content"
-						android:orientation="horizontal" 
-						android:layout_gravity="center_vertical">
-						<ImageView
-							android:src="@drawable/sym_call_missed"
-							android:id="@+id/notification_type_icon_image_view"
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:layout_gravity="center"/>
-						<TextView
-							android:id="@+id/time_text_view"
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:text="Missed Call 11:23pm" 
-							android:textStyle="bold"
-							android:textColorLink="@color/white"
-							android:textAppearance="?android:attr/textAppearanceSmall"
-							android:paddingLeft="5dip" 
-							android:layout_gravity="center_vertical"/>
-					</LinearLayout>
-		
-					<TextView
-						android:id="@+id/name_text_view"
 						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_gravity="left"
-						android:textAppearance="?android:attr/textAppearanceLarge"
-						android:maxLines="1"
-						android:text="Camille Sevigny" 
-						android:textStyle="bold"
-						android:textColorLink="@color/white" />
-				
+						android:layout_gravity="center"/>
 					<TextView
-						android:id="@+id/number_text_view"
-						android:layout_width="wrap_content"
+						android:id="@+id/notification_info_text_view"
 						android:layout_height="wrap_content"
-						android:layout_gravity="left"
-						android:textAppearance="?android:attr/textAppearanceMedium"
-						android:maxLines="1"
-						android:text="555-555-5555" 
+						android:layout_width="wrap_content" 
+						android:layout_gravity="center_vertical"
+						android:text="Missed Call 11:23pm" 
 						android:textStyle="bold"
-						android:textColorLink="@color/white" />
-					
+						android:textColorLink="@color/white"
+						android:textAppearance="?android:attr/textAppearanceSmall"
+						android:paddingLeft="5dip"/>
 				</LinearLayout>
-		
+				<TextView
+					android:id="@+id/contact_name_text_view"
+					android:layout_height="wrap_content"
+					android:layout_width="wrap_content"
+					android:layout_gravity="left"
+					android:textAppearance="?android:attr/textAppearanceLarge"
+					android:maxLines="1" 
+					android:textStyle="bold"
+					android:textColorLink="@color/white" />
+				<TextView
+					android:id="@+id/contact_number_text_view"
+					android:layout_height="wrap_content"
+					android:layout_width="wrap_content"
+					android:layout_gravity="left"
+					android:textAppearance="?android:attr/textAppearanceMedium"
+					android:maxLines="1"
+					android:textStyle="bold"
+					android:textColorLink="@color/white"  />
 			</LinearLayout>
-			
-			<TextView  
-				android:id="@+id/notification_text_view"  
-				android:layout_width="fill_parent" 
-				android:layout_height="70dip" 
-				android:layout_gravity="left" 
-				android:text="Missed Call!" 
-				android:textAppearance="?android:attr/textAppearanceSmall" 
-				android:textColor="@color/white" 
-				android:gravity="left" 
-				android:autoLink="all"
-				android:scrollbars="vertical" android:selectAllOnFocus="true"/>
-			
 		</LinearLayout>
-	
-		<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
-			android:id="@+id/phone_button_layout_1"
-			android:layout_width="fill_parent" 
+		<TextView
+			android:id="@+id/notification_details_text_view"  
+			android:layout_height="70dip"  
+			android:layout_width="fill_parent"
+			android:layout_gravity="left"
+			android:textAppearance="?android:attr/textAppearanceSmall" 
+			android:textColor="@color/white" 
+			android:gravity="left" 
+			android:autoLink="all"
+			android:scrollbars="vertical" 
+			android:selectAllOnFocus="true"/>
+	</LinearLayout>
+	<LinearLayout 
+		android:id="@+id/phone_button_linear_layout" 
+		android:layout_height="wrap_content"
+		android:layout_width="fill_parent" 
+		android:layout_gravity="center_horizontal" 
+		android:padding="2dip" 
+		android:gravity="center">
+		<Button
+			android:id="@+id/phone_dismiss_button"  
 			android:layout_height="wrap_content" 
-			android:padding="2dip" 
-			android:gravity="center" android:layout_gravity="center_horizontal">
-			<Button xmlns:android="http://schemas.android.com/apk/res/android"
-				android:id="@+id/phone_dismiss_button_1" 
-				android:layout_width="fill_parent" 
-				android:layout_height="wrap_content"  
-				android:text="Dismiss" 
-				android:textColor="#ffffff"
-				android:gravity="center_vertical|center_horizontal" 
-				android:textStyle="bold"
-				android:drawableLeft="@drawable/ic_menu_close_clear_cancel"
-				android:layout_weight="1"
-				android:hapticFeedbackEnabled="true"
-				android:background="@drawable/btn_iphone"
-				android:layout_marginRight="10dip" />
-			<Button xmlns:android="http://schemas.android.com/apk/res/android"
-				android:id="@+id/phone_call_button_1" 
-				android:layout_width="fill_parent" 
-				android:layout_height="wrap_content"  
-				android:text="Call" 
-				android:textColor="#ffffff"
-				android:gravity="center_vertical|center_horizontal"  
-				android:textStyle="bold"
-				android:drawableLeft="@drawable/sym_call_incoming"
-				android:layout_weight="1"
-				android:hapticFeedbackEnabled="true"
-				android:background="@drawable/btn_iphone"
-				android:layout_marginLeft="10dip" />
-		</LinearLayout>
-	
+			android:layout_width="fill_parent"
+			android:layout_weight="1" 
+			android:layout_marginRight="2dip"
+			android:layout_marginLeft="2dip"
+			android:textColor="#ffffff"
+			android:gravity="center_vertical|center_horizontal" 
+			android:textStyle="bold"
+			android:drawableLeft="@drawable/ic_menu_close_clear_cancel"
+			android:hapticFeedbackEnabled="true"
+			android:background="@drawable/btn_iphone" 
+			android:text="@string/dismiss_button_text" />
+		<Button
+			android:id="@+id/phone_call_button"  
+			android:layout_height="wrap_content" 
+			android:layout_width="fill_parent" 
+			android:layout_weight="1"
+			android:layout_marginRight="2dip"
+			android:layout_marginLeft="2dip"
+			android:textColor="#ffffff"
+			android:gravity="center_vertical|center_horizontal"  
+			android:textStyle="bold"
+			android:drawableLeft="@drawable/sym_call_incoming"
+			android:hapticFeedbackEnabled="true"
+			android:background="@drawable/btn_iphone"
+			android:text="@string/call_button_text" />
+	</LinearLayout>
+	<LinearLayout 
+		android:id="@+id/sms_button_linear_layout" 
+		android:layout_height="wrap_content"
+		android:layout_width="fill_parent" 
+		android:layout_gravity="center_horizontal" 
+		android:padding="2dip" 
+		android:gravity="center">
+		<Button
+			android:id="@+id/sms_dismiss_button"  
+			android:layout_height="wrap_content" 
+			android:layout_width="fill_parent"
+			android:layout_weight="1" 
+			android:layout_marginRight="2dip"
+			android:layout_marginLeft="2dip"
+			android:textColor="#ffffff"
+			android:gravity="center_vertical|center_horizontal" 
+			android:textStyle="bold"
+			android:drawableLeft="@drawable/ic_menu_close_clear_cancel"
+			android:hapticFeedbackEnabled="true"
+			android:background="@drawable/btn_iphone" 
+			android:text="@string/dismiss_button_text" />
+		<Button
+			android:id="@+id/sms_delete_button"  
+			android:layout_height="wrap_content" 
+			android:layout_width="fill_parent"
+			android:layout_weight="1" 
+			android:layout_marginRight="2dip"
+			android:layout_marginLeft="2dip"
+			android:textColor="#ffffff"
+			android:gravity="center_vertical|center_horizontal" 
+			android:textStyle="bold"
+			android:drawableLeft="@drawable/ic_delete"
+			android:hapticFeedbackEnabled="true"
+			android:background="@drawable/btn_iphone" 
+			android:text="@string/delete_button_text" />
+		<Button
+			android:id="@+id/sms_reply_button"  
+			android:layout_height="wrap_content" 
+			android:layout_width="fill_parent" 
+			android:layout_weight="1"
+			android:layout_marginRight="2dip"
+			android:layout_marginLeft="2dip"
+			android:textColor="#ffffff"
+			android:gravity="center_vertical|center_horizontal"  
+			android:textStyle="bold"
+			android:drawableLeft="@drawable/sym_call_incoming"
+			android:hapticFeedbackEnabled="true"
+			android:background="@drawable/btn_iphone"
+			android:text="@string/reply_button_text" />
+	</LinearLayout>
+	<LinearLayout 
+		android:id="@+id/calendar_button_linear_layout" 
+		android:layout_height="wrap_content"
+		android:layout_width="fill_parent" 
+		android:layout_gravity="center_horizontal" 
+		android:padding="2dip" 
+		android:gravity="center">
+		<Button
+			android:id="@+id/calendar_dismiss_button"  
+			android:layout_height="wrap_content" 
+			android:layout_width="fill_parent"
+			android:layout_weight="1" 
+			android:layout_marginRight="2dip"
+			android:layout_marginLeft="2dip"
+			android:textColor="#ffffff"
+			android:gravity="center_vertical|center_horizontal" 
+			android:textStyle="bold"
+			android:drawableLeft="@drawable/ic_menu_close_clear_cancel"
+			android:hapticFeedbackEnabled="true"
+			android:background="@drawable/btn_iphone" 
+			android:text="@string/dismiss_button_text" />
+		<Button
+			android:id="@+id/calendar_view_button"  
+			android:layout_height="wrap_content" 
+			android:layout_width="fill_parent" 
+			android:layout_weight="1"
+			android:layout_marginRight="2dip"
+			android:layout_marginLeft="2dip"
+			android:textColor="#ffffff"
+			android:gravity="center_vertical|center_horizontal"  
+			android:textStyle="bold"
+			android:drawableLeft="@drawable/ic_menu_my_calendar"
+			android:hapticFeedbackEnabled="true"
+			android:background="@drawable/btn_iphone"
+			android:text="@string/view_button_text" />
+	</LinearLayout>
 </LinearLayout>
