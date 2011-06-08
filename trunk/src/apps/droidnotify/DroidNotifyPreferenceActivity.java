@@ -38,9 +38,9 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 	private final String CALENDAR_NOTIFICATIONS_ENABLED_KEY = "calendar_notifications_enabled";
 	private final int NOTIFICATION_TYPE_TEST = -1;
 	//Google Market URL
-	//private final String RATE_APP_URL = "http://market.android.com/details?id=apps.droidnotify";
+	private final String RATE_APP_URL = "http://market.android.com/details?id=apps.droidnotify";
 	//Amazon Appstore URL
-	private final String RATE_APP_URL = "http://www.amazon.com/gp/mas/dl/android?p=apps.droidnotify";
+	//private final String RATE_APP_URL = "http://www.amazon.com/gp/mas/dl/android?p=apps.droidnotify";
 	
 	//================================================================================
     // Properties
