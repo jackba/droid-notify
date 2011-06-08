@@ -36,6 +36,9 @@ public class NotificationViewFlipper extends ViewFlipper {
 	final String MMS_DELETE_ACTION_DELETE_THREAD = "1";
 	final String MMS_DELETE_ACTION_NOTHING = "2";
 	
+	private final String APP_THEME_KEY = "app_theme";
+	private final String IPHONE_THEME = "iphone";
+	
 	//================================================================================
     // Properties
     //================================================================================
@@ -226,7 +229,8 @@ public class NotificationViewFlipper extends ViewFlipper {
 					setCurrentNotification(totalNotifications - 1);
 				}
 				//Update the activities navigation buttons.
-				notificationActivity.updateNavigationButtons();
+				//notificationActivity.updateNavigationButtons();
+				//updateNavigationButtons();
 			}catch(Exception ex){
 				if (_debug) Log.v("NotificationViewFlipper.removeNotification() [Total Notification > 1] ERROR: " + ex.toString());
 			}

@@ -8,7 +8,7 @@
 	android:minWidth="300dp"
     android:background="@drawable/transparent">
 	<apps.droidnotify.NotificationViewFlipper
-		android:id="@+id/notification_view_flipper" 
+		android:id="@+id/notification_view_flipper_iphone_theme" 
     	android:layout_height="wrap_content"
 		android:layout_width="fill_parent" />
 </LinearLayout>

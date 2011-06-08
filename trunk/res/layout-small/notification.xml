@@ -54,7 +54,8 @@
 			android:layout_height="wrap_content"
 			android:layout_gravity="center"
 			android:scaleType="center"
-			android:layout_margin="4dp" />
+			android:layout_margin="4dp"
+			android:background="@drawable/image_picture_frame" />
 		<LinearLayout
 			android:orientation="vertical"
 			android:layout_width="fill_parent"

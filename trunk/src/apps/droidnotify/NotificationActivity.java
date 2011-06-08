@@ -31,7 +31,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
+//import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.view.Window;
 import android.widget.Button;
@@ -104,6 +104,10 @@ public class NotificationActivity extends Activity {
 	
 	private final String EVENT_BEGIN_TIME = "beginTime";
 	private final String EVENT_END_TIME = "endTime";
+
+	private final String APP_THEME_KEY = "app_theme";
+	private final String CLASSIC_THEME = "classic";
+	private final String IPHONE_THEME = "iphone";
 	
 	//================================================================================
     // Properties
@@ -622,13 +626,13 @@ public class NotificationActivity extends Activity {
 	    finish();
 	}
 	  
-	/**
-	 * Update the navigation buttons and text when items are added or removed.
-	 */
-    public void updateNavigationButtons(){
-    	if (_debug) Log.v("NotificationActivity.updateNavigationButtons()");
-		updateNavigationButtons(getPreviousButton(), getNotificationCountTextView(), getNextButton(), getNotificationViewFlipper());		
-    }
+//	/**
+//	 * Update the navigation buttons and text when items are added or removed.
+//	 */
+//    public void updateNavigationButtons(){
+//    	if (_debug) Log.v("NotificationActivity.updateNavigationButtons()");
+//		updateNavigationButtons(getPreviousButton(), getNotificationCountTextView(), getNextButton(), getNotificationViewFlipper());		
+//    }
   
 	/**
 	 * Display the delete dialog from the activity and return the result. 
@@ -677,16 +681,23 @@ public class NotificationActivity extends Activity {
 		_debug = Log.getDebug();
 	    if (_debug) Log.v("NotificationActivity.onCreate()");
 	    Context context = getApplicationContext();
+	    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 	    setBundle(bundle);
 	    setContext(context);
 	    Bundle extrasBundle = getIntent().getExtras();
 	    int notificationType = extrasBundle.getInt("notificationType");
 	    if (_debug) Log.v("NotificationActivity.onCreate() Notification Type: " + notificationType);
-	    requestWindowFeature(Window.FEATURE_NO_TITLE);	    
-	    setContentView(R.layout.notificationwrapper);
+	    requestWindowFeature(Window.FEATURE_NO_TITLE);
+	    //Set based on the theme. This is set in the user preferences.
+	    String applicationThemeSetting = preferences.getString(APP_THEME_KEY, "classic");
+		//if(applicationThemeSetting.equals(IPHONE_THEME)){
+	    //	setContentView(R.layout.iphone_theme_notificationwrapper);
+	    //}else{
+	     	setContentView(R.layout.notificationwrapper);
+	    //}
 	    setupViews(notificationType);
-	    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 	    if(notificationType == NOTIFICATION_TYPE_TEST){
+	    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_TEST");
 	    	createTestNotifications();
 	    }    
 	    if(notificationType == NOTIFICATION_TYPE_PHONE){
@@ -892,33 +903,49 @@ public class NotificationActivity extends Activity {
 	 */ 
 	private void setupViews(int notificationType) {
 		if (_debug) Log.v("NotificationActivity.setupViews()");
-		final NotificationViewFlipper notificationViewFlipper = (NotificationViewFlipper) findViewById(R.id.notification_view_flipper);
-		final Button previousButton = (Button) findViewById(R.id.previous_button);
-		final Button nextButton = (Button) findViewById(R.id.next_button);
-		final TextView notificationCountTextView = (TextView) findViewById(R.id.notification_count_text_view);
+//		Context context = getContext();
+//		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		final NotificationViewFlipper notificationViewFlipper;
+//		final Button previousButton;
+//		final Button nextButton;
+//		final TextView notificationCountTextView;
+	    //Set based on the theme. This is set in the user preferences.
+//	    String applicationThemeSetting = preferences.getString(APP_THEME_KEY, "iphone");
+//		if(applicationThemeSetting.equals(IPHONE_THEME)){
+//			notificationViewFlipper = (NotificationViewFlipper) findViewById(R.id.notification_view_flipper_iphone_theme);
+//			previousButton = (Button) findViewById(R.id.previous_button_iphone_theme);
+//			nextButton = (Button) findViewById(R.id.next_button_iphone_theme);
+//			notificationCountTextView = (TextView) findViewById(R.id.notification_count_text_view_iphone_theme);
+//		}else{
+			notificationViewFlipper = (NotificationViewFlipper) findViewById(R.id.notification_view_flipper);
+//			previousButton = (Button) findViewById(R.id.previous_button);
+//			nextButton = (Button) findViewById(R.id.next_button);
+//			notificationCountTextView = (TextView) findViewById(R.id.notification_count_text_view);
+//		}
 		setNotificationViewFlipper(notificationViewFlipper);
-		setPreviousButton(previousButton);
-		setNextButton(nextButton);
-		setNotificationCountTextView(notificationCountTextView);
-		// Previous Button
-		previousButton.setOnClickListener(new OnClickListener() {
-		    public void onClick(View view) {
-		    	if (_debug) Log.v("Previous Button Clicked()");
-		    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-		    	notificationViewFlipper.showPrevious();
-		    	updateNavigationButtons(previousButton, notificationCountTextView, nextButton, notificationViewFlipper);
-		    }
-		});
-		// Next Button
-		nextButton.setOnClickListener(new OnClickListener() {
-		    public void onClick(View view) {
-		    	if (_debug) Log.v("Next Button Clicked()");
-		    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-		    	notificationViewFlipper.showNext();
-		    	updateNavigationButtons(previousButton, notificationCountTextView, nextButton, notificationViewFlipper);
-		    }
-		});
-		initNavigationButtons();	    
+//		setPreviousButton(previousButton);
+//		setNextButton(nextButton);
+//		setNotificationCountTextView(notificationCountTextView);
+//		// Previous Button
+//		previousButton.setOnClickListener(new OnClickListener() {
+//		    public void onClick(View view) {
+//		    	if (_debug) Log.v("Previous Button Clicked()");
+//		    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+//		    	notificationViewFlipper.showPrevious();
+//		    	updateNavigationButtons(previousButton, notificationCountTextView, nextButton, notificationViewFlipper);
+//		    }
+//		});
+//		if (_debug) Log.v("NotificationActivity.setupViews() here");
+//		// Next Button
+//		nextButton.setOnClickListener(new OnClickListener() {
+//		    public void onClick(View view) {
+//		    	if (_debug) Log.v("Next Button Clicked()");
+//		    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+//		    	notificationViewFlipper.showNext();
+//		    	updateNavigationButtons(previousButton, notificationCountTextView, nextButton, notificationViewFlipper);
+//		    }
+//		});
+//		initNavigationButtons();	    
 	}
 	
 	/**
@@ -929,10 +956,10 @@ public class NotificationActivity extends Activity {
 	private boolean setupMissedCalls(Bundle bundle){
 		if (_debug) Log.v("NotificationActivity.setupMissedCalls()"); 
 		Context context = getContext();
-		final NotificationViewFlipper notificationViewFlipper = getNotificationViewFlipper();
-		final Button previousButton = getPreviousButton();
-		final Button nextButton = getNextButton();
-		final TextView notificationCountTextView = getNotificationCountTextView();
+//		final NotificationViewFlipper notificationViewFlipper = getNotificationViewFlipper();
+//		final Button previousButton = getPreviousButton();
+//		final Button nextButton = getNextButton();
+//		final TextView notificationCountTextView = getNotificationCountTextView();
 		ArrayList<String> missedCallsArray = bundle.getStringArrayList("missedCallsArrayList");
 		for(int i=0; i< missedCallsArray.size(); i++){
 			String[] missedCallInfo = missedCallsArray.get(i).split("\\|");
@@ -941,7 +968,7 @@ public class NotificationActivity extends Activity {
 			Notification missedCallNotification = new Notification(context, phoneNumber, timeStamp, NOTIFICATION_TYPE_PHONE);
 			getNotificationViewFlipper().addNotification(missedCallNotification);
 		}
-	    updateNavigationButtons(previousButton, notificationCountTextView, nextButton, notificationViewFlipper);
+//	    updateNavigationButtons(previousButton, notificationCountTextView, nextButton, notificationViewFlipper);
 	    return true;
 	}
 	
@@ -955,14 +982,14 @@ public class NotificationActivity extends Activity {
 	private Notification setupMessage(Bundle bundle) {
 		if (_debug) Log.v("NotificationActivity.setupMessages()"); 
 		Context context = getContext();
-		final NotificationViewFlipper notificationViewFlipper = getNotificationViewFlipper();
-		final Button previousButton = getPreviousButton();
-		final Button nextButton = getNextButton();
-		final TextView notificationCountTextView = getNotificationCountTextView();
+		NotificationViewFlipper notificationViewFlipper = getNotificationViewFlipper();
+//		final Button previousButton = getPreviousButton();
+//		final Button nextButton = getNextButton();
+//		final TextView notificationCountTextView = getNotificationCountTextView();
 	    // Create message from bundle.
 	    Notification smsMessage = new Notification(context, bundle, NOTIFICATION_TYPE_SMS);
 	    notificationViewFlipper.addNotification(smsMessage);
-	    updateNavigationButtons(previousButton, notificationCountTextView, nextButton, notificationViewFlipper);
+//	    updateNavigationButtons(previousButton, notificationCountTextView, nextButton, notificationViewFlipper);
 	    return smsMessage;
 	}
 	
@@ -975,10 +1002,10 @@ public class NotificationActivity extends Activity {
 	private void getAllUnreadSMSMessages(long messageIDFilter, String messageBodyFilter){
 		if (_debug) Log.v("NotificationActivity.getAllUnreadSMSMessages() messageIDFilter: " + messageIDFilter + " messageBodyFilter: " + messageBodyFilter ); 
 		Context context = getContext();
-		final NotificationViewFlipper notificationViewFlipper = getNotificationViewFlipper();
-		final Button previousButton = getPreviousButton();
-		final Button nextButton = getNextButton();
-		final TextView notificationCountTextView = getNotificationCountTextView();
+		NotificationViewFlipper notificationViewFlipper = getNotificationViewFlipper();
+//		final Button previousButton = getPreviousButton();
+//		final Button nextButton = getNextButton();
+//		final TextView notificationCountTextView = getNotificationCountTextView();
 		final String[] projection = new String[] { "_ID", "THREAD_ID", "ADDRESS", "PERSON", "DATE", "BODY"};
 		final String selection = "READ = 0";
 		final String[] selectionArgs = null;
@@ -1010,7 +1037,7 @@ public class NotificationActivity extends Activity {
 		} finally {
     		cursor.close();
     	}
-		updateNavigationButtons(previousButton, notificationCountTextView, nextButton, notificationViewFlipper);
+//		updateNavigationButtons(previousButton, notificationCountTextView, nextButton, notificationViewFlipper);
 	}
 
 	/**
@@ -1022,10 +1049,10 @@ public class NotificationActivity extends Activity {
 	private void getAllUnreadMMSMessages(long messageIDFilter, String messageBodyFilter){
 		if (_debug) Log.v("NotificationActivity.getAllUnreadMMSMessages() messageIDFilter: " + messageIDFilter + " messageBodyFilter: " + messageBodyFilter ); 
 		Context context = getContext();
-		final NotificationViewFlipper notificationViewFlipper = getNotificationViewFlipper();
-		final Button previousButton = getPreviousButton();
-		final Button nextButton = getNextButton();
-		final TextView notificationCountTextView = getNotificationCountTextView();
+//		NotificationViewFlipper notificationViewFlipper = getNotificationViewFlipper();
+//		final Button previousButton = getPreviousButton();
+//		final Button nextButton = getNextButton();
+//		final TextView notificationCountTextView = getNotificationCountTextView();
 		final String[] projection = new String[] { "_ID", "THREAD_ID", "ADDRESS", "PERSON", "DATE", "BODY"};
 		final String selection = "READ = 0";
 		final String[] selectionArgs = null;
@@ -1058,7 +1085,7 @@ public class NotificationActivity extends Activity {
 		} finally {
     		cursor.close();
     	}
-		updateNavigationButtons(previousButton, notificationCountTextView, nextButton, notificationViewFlipper);
+//		updateNavigationButtons(previousButton, notificationCountTextView, nextButton, notificationViewFlipper);
 	}
 	
 	/**
@@ -1069,10 +1096,10 @@ public class NotificationActivity extends Activity {
 	private void setupCalendarEventNotifications(Bundle bundle){
 		if (_debug) Log.v("NotificationActivity.setupCalendarEventNotifications()");  
 		Context context = getContext();
-		final NotificationViewFlipper notificationViewFlipper = getNotificationViewFlipper();
-		final Button previousButton = getPreviousButton();
-		final Button nextButton = getNextButton();
-		final TextView notificationCountTextView = getNotificationCountTextView();
+//		NotificationViewFlipper notificationViewFlipper = getNotificationViewFlipper();
+//		final Button previousButton = getPreviousButton();
+//		final Button nextButton = getNextButton();
+//		final TextView notificationCountTextView = getNotificationCountTextView();
 		String calenderEventInfo[] = (String[])bundle.getStringArray("calenderEventInfo");
 		String title = calenderEventInfo[0];
 		String messageBody = calenderEventInfo[1];
@@ -1083,34 +1110,34 @@ public class NotificationActivity extends Activity {
 		long eventID = Long.parseLong(calenderEventInfo[6]);
 		Notification calendarEventNotification = new Notification(context, title, messageBody, eventStartTime, eventEndTime, eventAllDay, calendarID, eventID, NOTIFICATION_TYPE_CALENDAR);
 		getNotificationViewFlipper().addNotification(calendarEventNotification);		
-		updateNavigationButtons(previousButton, notificationCountTextView, nextButton, notificationViewFlipper);
+//		updateNavigationButtons(previousButton, notificationCountTextView, nextButton, notificationViewFlipper);
 	}
 	
-	/**
-	 * Initialize the navigation buttons and text.
-	 */
-	private void initNavigationButtons(){
-		if (_debug) Log.v("NotificationActivity.initNavigationButtons()");
-		final NotificationViewFlipper notificationViewFlipper = getNotificationViewFlipper();
-		final Button previousButton = getPreviousButton();
-		final Button nextButton = getNextButton();
-		final TextView notificationCountTextView = getNotificationCountTextView();
-		updateNavigationButtons(previousButton, notificationCountTextView, nextButton, notificationViewFlipper);
-	}  
+//	/**
+//	 * Initialize the navigation buttons and text.
+//	 */
+//	private void initNavigationButtons(){
+//		if (_debug) Log.v("NotificationActivity.initNavigationButtons()");
+//		final NotificationViewFlipper notificationViewFlipper = getNotificationViewFlipper();
+//		final Button previousButton = getPreviousButton();
+//		final Button nextButton = getNextButton();
+//		final TextView notificationCountTextView = getNotificationCountTextView();
+//		updateNavigationButtons(previousButton, notificationCountTextView, nextButton, notificationViewFlipper);
+//	}  
 	  
-	/**
-	 * Update the navigation buttons and text when items are added or removed.
-	 * 
-	 * @param previousButton - Next button of the flipper.
-	 * @param notificationCountTextView - View of the counts on the Activity.
-	 * @param nextButton - Next button of the flipper.
-	 */
-    public void updateNavigationButtons(Button previousButton, TextView notificationCountTextView, Button nextButton, NotificationViewFlipper notificationViewFlipper){
-    	if (_debug) Log.v("NotificationActivity.updateNavigationButtons()");
-    	previousButton.setEnabled(!notificationViewFlipper.isFirstMessage());
-    	notificationCountTextView.setText( (notificationViewFlipper.getCurrentNotification() + 1) + "/" + notificationViewFlipper.getTotalNotifications());
-    	nextButton.setEnabled(!notificationViewFlipper.isLastMessage()); 		
-    }
+//	/**
+//	 * Update the navigation buttons and text when items are added or removed.
+//	 * 
+//	 * @param previousButton - Next button of the flipper.
+//	 * @param notificationCountTextView - View of the counts on the Activity.
+//	 * @param nextButton - Next button of the flipper.
+//	 */
+//    public void updateNavigationButtons(Button previousButton, TextView notificationCountTextView, Button nextButton, NotificationViewFlipper notificationViewFlipper){
+//    	if (_debug) Log.v("NotificationActivity.updateNavigationButtons()");
+//    	previousButton.setEnabled(!notificationViewFlipper.isFirstMessage());
+//    	notificationCountTextView.setText( (notificationViewFlipper.getCurrentNotification() + 1) + "/" + notificationViewFlipper.getTotalNotifications());
+//    	nextButton.setEnabled(!notificationViewFlipper.isLastMessage()); 		
+//    }
 	
 	/**
 	 * Delete the current message from the users phone.
@@ -1363,33 +1390,33 @@ public class NotificationActivity extends Activity {
 		}
 	}
 	
-	/**
-	 * Function that performs custom haptic feedback.
-	 * This function performs haptic feedback based on the users preferences.
-	 * 
-	 * @param hapticFeedbackConstant - What type of action the feedback is responding to.
-	 */
-	private void customPerformHapticFeedback(int hapticFeedbackConstant){
-		if (_debug) Log.v("NotificationActivity.customPerformHapticFeedback()");
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-		Vibrator vibrator = null;
-		try{
-			vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
-			//Perform the haptic feedback based on the users preferences.
-			if(preferences.getBoolean(HAPTIC_FEEDBACK_ENABLED_KEY, true)){
-				if(hapticFeedbackConstant == HapticFeedbackConstants.VIRTUAL_KEY){
-					if(vibrator != null) vibrator.vibrate(50);
-				}
-			}
-			if(preferences.getBoolean(HAPTIC_FEEDBACK_ENABLED_KEY, true)){
-				if(hapticFeedbackConstant == HapticFeedbackConstants.LONG_PRESS){
-					if(vibrator != null) vibrator.vibrate(100);
-				}
-			}
-		}catch(Exception ex){
-			if (_debug) Log.e("NotificationActivity.customPerformHapticFeedback() ERROR: " + ex.toString());
-		}
-	}
+//	/**
+//	 * Function that performs custom haptic feedback.
+//	 * This function performs haptic feedback based on the users preferences.
+//	 * 
+//	 * @param hapticFeedbackConstant - What type of action the feedback is responding to.
+//	 */
+//	private void customPerformHapticFeedback(int hapticFeedbackConstant){
+//		if (_debug) Log.v("NotificationActivity.customPerformHapticFeedback()");
+//		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+//		Vibrator vibrator = null;
+//		try{
+//			vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
+//			//Perform the haptic feedback based on the users preferences.
+//			if(preferences.getBoolean(HAPTIC_FEEDBACK_ENABLED_KEY, true)){
+//				if(hapticFeedbackConstant == HapticFeedbackConstants.VIRTUAL_KEY){
+//					if(vibrator != null) vibrator.vibrate(50);
+//				}
+//			}
+//			if(preferences.getBoolean(HAPTIC_FEEDBACK_ENABLED_KEY, true)){
+//				if(hapticFeedbackConstant == HapticFeedbackConstants.LONG_PRESS){
+//					if(vibrator != null) vibrator.vibrate(100);
+//				}
+//			}
+//		}catch(Exception ex){
+//			if (_debug) Log.e("NotificationActivity.customPerformHapticFeedback() ERROR: " + ex.toString());
+//		}
+//	}
 	
 	/**
 	 * Function to create a test notification of each type.
@@ -1407,7 +1434,7 @@ public class NotificationActivity extends Activity {
 		//Add Calendar Event Notification.
 		Notification calendarEventNotification = new Notification(context, "Droid Notify Calendar Event Test", "", System.currentTimeMillis(), System.currentTimeMillis() + (10 * 60 * 1000), false, 0, 0, NOTIFICATION_TYPE_CALENDAR);
 		notificationViewFlipper.addNotification(calendarEventNotification);	
-	    updateNavigationButtons(getPreviousButton(), getNotificationCountTextView(), getNextButton(), getNotificationViewFlipper());
+//	    updateNavigationButtons(getPreviousButton(), getNotificationCountTextView(), getNextButton(), getNotificationViewFlipper());
 	}
 	
 	/**
