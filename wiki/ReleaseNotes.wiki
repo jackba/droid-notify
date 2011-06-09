@@ -29,12 +29,11 @@
   * Updated the "Test Notification" button on the preferences screen.
   * Added a "Rate This App" feature on the preferences screen.
   * Added a "Email Developer" feature on the preferences screen.
-  *
 
- * *v1.2* _Coming Soon..._
+ * *v1.2* (June 08, 2011)
   * Fixed a bug that displayed duplicate notifications for incoming SMS messages.
   * Fixed a bug in which incoming SMS messages displayed the time in GMT. Incoming SMS messages have a timestamp in GMT. The time should now appear as the localized time for the users phone.
-  *
+  * Fixed a bug that prevented the contact of the incoming call or SMS message from loading correctly.
 
  * *v1.3* _Coming Soon..._
   * New UI for notifications.
