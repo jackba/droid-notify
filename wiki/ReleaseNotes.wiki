@@ -35,7 +35,8 @@
   * Fixed a bug in which incoming SMS messages displayed the time in GMT. Incoming SMS messages have a timestamp in GMT. The time should now appear as the localized time for the users phone.
   * Fixed a bug that prevented the contact of the incoming call or SMS message from loading correctly.
 
- * *v1.3* _Coming Soon..._
+ * *v2.0* _Coming Soon..._
   * New UI for notifications.
-  * Keep older UI as an option in the preferences.
+  * Add "Themes" in preferences for the notifications.
+  * Add touch "swipe" and "fling" motions to navigate through notifications. 
   *
