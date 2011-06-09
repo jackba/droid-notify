@@ -93,7 +93,7 @@ public class NotificationActivity extends Activity {
 	private final int DIALOG_DELETE_MESSAGE = 0;
 	
 	private final int MENU_ITEM_SETTINGS = R.id.app_settings;
-	private final int CONTACT_PHOTO_LINEAR_LAYOUT = R.id.contact_linear_layout;
+	private final int CONTACT_WRAPPER_LINEAR_LAYOUT = R.id.contact_wrapper_linear_layout;
 	private final int VIEW_CONTACT_CONTEXT_MENU = R.id.view_contact;
 	private final int ADD_CONTACT_CONTEXT_MENU = R.id.add_contact;
 	private final int CALL_CONTACT_CONTEXT_MENU = R.id.call_contact;
@@ -364,7 +364,7 @@ public class NotificationActivity extends Activity {
 	        /*
 	         * Contact info/photo ConextMenu.
 	         */
-			case CONTACT_PHOTO_LINEAR_LAYOUT:
+			case CONTACT_WRAPPER_LINEAR_LAYOUT:
 				MenuInflater menuInflater = getMenuInflater();
 				NotificationViewFlipper notificationViewFlipper = getNotificationViewFlipper();
 				int currentNotification = notificationViewFlipper.getCurrentNotification();
