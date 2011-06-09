@@ -60,6 +60,7 @@
 					android:entries="@array/theme_options"
 					android:entryValues="@array/theme_values"
 					droidnotify:entryImages="@array/theme_images"
+					android:defaultValue="0"
 					android:dependency="app_enabled" />
 			</PreferenceCategory>
 			<PreferenceCategory
@@ -290,8 +291,8 @@
 				android:summary="@string/preference_contact_placeholder_image_summary"
 				android:entries="@array/contact_placeholder_options"
 				android:entryValues="@array/contact_placeholder_values"
-				droidnotify:entryImages="@array/contact_placeholder_images"
-				android:dependency="app_enabled" />
+				android:defaultValue="0"
+				droidnotify:entryImages="@array/contact_placeholder_images" />
 		</PreferenceScreen>
 	</PreferenceCategory>
 	<PreferenceCategory
