@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_width="fill_parent" 
     android:gravity="center_vertical|fill_horizontal"
-    android:background="@drawable/iphone_panel">
+    android:background="@drawable/panel_background">
 	<RelativeLayout
     	android:id="@+id/header_navigation"
     	android:layout_width="wrap_content"
@@ -144,11 +144,9 @@
 			android:layout_weight="1" 
 			android:layout_marginLeft="1dip"
 			android:layout_marginRight="1dip"
-			android:textColor="#ffffff"
 			android:gravity="center_vertical|center_horizontal"
 			android:drawableLeft="@drawable/ic_menu_close_clear_cancel"
-			android:hapticFeedbackEnabled="true"
-			android:background="@drawable/btn_iphone" 
+			android:hapticFeedbackEnabled="true" 
 			android:text="@string/dismiss_button_text" />
 		<Button
 			android:id="@+id/phone_call_button"  
@@ -157,11 +155,9 @@
 			android:layout_weight="1"
 			android:layout_marginLeft="1dip"
 			android:layout_marginRight="1dip"
-			android:textColor="#ffffff"
 			android:gravity="center_vertical|center_horizontal"
 			android:drawableLeft="@drawable/sym_call_incoming"
 			android:hapticFeedbackEnabled="true"
-			android:background="@drawable/btn_iphone"
 			android:text="@string/call_button_text" />
 	</LinearLayout>
 	<LinearLayout 
@@ -178,11 +174,9 @@
 			android:layout_weight="1" 
 			android:layout_marginLeft="1dip"
 			android:layout_marginRight="1dip"
-			android:textColor="#ffffff"
 			android:gravity="center_vertical|center_horizontal"
 			android:drawableLeft="@drawable/ic_menu_close_clear_cancel"
 			android:hapticFeedbackEnabled="true"
-			android:background="@drawable/btn_iphone" 
 			android:text="@string/dismiss_button_text" />
 		<Button
 			android:id="@+id/sms_delete_button"  
@@ -191,11 +185,9 @@
 			android:layout_weight="1" 
 			android:layout_marginLeft="1dip"
 			android:layout_marginRight="1dip"
-			android:textColor="#ffffff"
-			android:gravity="center_vertical|center_horizontal" 
+			android:gravity="center_vertical|center_horizontal"
 			android:drawableLeft="@drawable/ic_delete"
-			android:hapticFeedbackEnabled="true"
-			android:background="@drawable/btn_iphone" 
+			android:hapticFeedbackEnabled="true" 
 			android:text="@string/delete_button_text" />
 		<Button
 			android:id="@+id/sms_reply_button"  
@@ -204,11 +196,9 @@
 			android:layout_weight="1"
 			android:layout_marginLeft="1dip"
 			android:layout_marginRight="1dip"
-			android:textColor="#ffffff"
-			android:gravity="center_vertical|center_horizontal" 
-			android:drawableLeft="@drawable/sym_call_incoming"
+			android:gravity="center_vertical|center_horizontal"
+			android:drawableLeft="@drawable/sym_action_call"
 			android:hapticFeedbackEnabled="true"
-			android:background="@drawable/btn_iphone"
 			android:text="@string/reply_button_text" />
 	</LinearLayout>
 	<LinearLayout 
@@ -225,11 +215,9 @@
 			android:layout_weight="1" 
 			android:layout_marginLeft="1dip"
 			android:layout_marginRight="1dip"
-			android:textColor="#ffffff"
-			android:gravity="center_vertical|center_horizontal" 
+			android:gravity="center_vertical|center_horizontal"
 			android:drawableLeft="@drawable/ic_menu_close_clear_cancel"
-			android:hapticFeedbackEnabled="true"
-			android:background="@drawable/btn_iphone" 
+			android:hapticFeedbackEnabled="true" 
 			android:text="@string/dismiss_button_text" />
 		<Button
 			android:id="@+id/calendar_view_button"  
@@ -238,11 +226,9 @@
 			android:layout_weight="1"
 			android:layout_marginLeft="1dip"
 			android:layout_marginRight="1dip"
-			android:textColor="#ffffff"
 			android:gravity="center_vertical|center_horizontal"
 			android:drawableLeft="@drawable/ic_menu_my_calendar"
 			android:hapticFeedbackEnabled="true"
-			android:background="@drawable/btn_iphone"
 			android:text="@string/view_button_text" />
 	</LinearLayout>
 </LinearLayout>

@@ -6,9 +6,12 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
+import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 /**
@@ -37,7 +40,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 	final String MMS_DELETE_ACTION_NOTHING = "2";
 	
 	private final String APP_THEME_KEY = "app_theme";
-	private final String IPHONE_THEME = "iphone";
+	private final String ANDROID_THEME = "android";
 	
 	//================================================================================
     // Properties
@@ -47,6 +50,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 	private ArrayList<Notification> _notifications;
 	private int _currentNotification;
 	private int _totalNotifications;
+	private float _oldTouchValue;
 
 	//================================================================================
 	// Constructors
@@ -103,6 +107,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 */ 
 	public int getCurrentNotification(){
 		if (_debug) Log.v("NotificationViewFlipper.getCurrentNotification()");
+		
 		return _currentNotification;
 	}
 	
@@ -124,6 +129,26 @@ public class NotificationViewFlipper extends ViewFlipper {
 	public int getTotalNotifications(){
 		if (_debug) Log.v("NotificationViewFlipper.getTotalNotifications()");
 		return _totalNotifications;
+	}
+
+	/**
+	 * Set the oldTouchValue property.
+	 * 
+	 * @param oldTouchValue - The touch value of a MotionEvent.
+	 */
+	public void setOldTouchValue(float oldTouchValue) {
+		if (_debug) Log.v("Notification.setOldTouchValue()");
+	    _oldTouchValue = oldTouchValue;
+	}
+	
+	/**
+	 * Get the oldTouchValue property.
+	 * 
+	 * @return oldTouchValue - The touch value of a MotionEvent.
+	 */
+	public float getOldTouchValue() {
+		if (_debug) Log.v("Notification.getOldTouchValue()");
+	    return _oldTouchValue;
 	}
 	
 	//================================================================================
@@ -180,8 +205,13 @@ public class NotificationViewFlipper extends ViewFlipper {
 		Context context = getContext();
 		if(!containsNotification(notification)){
 			getNotifications().add(notification);
-			setTotalNotifications(_notifications.size());
+			int currentNotification = getCurrentNotification();
+			int totalNotificationCount = _notifications.size();
+			setTotalNotifications(totalNotificationCount);
 			addView(new NotificationView(context, notification)); 
+			//Update the navigation information on the current View every time a new View is added.
+			final View nextView = this.getChildAt(currentNotification);
+			updateViewNavigationButtons(nextView);
 		}
 	}
 
@@ -207,20 +237,12 @@ public class NotificationViewFlipper extends ViewFlipper {
 		NotificationActivity notificationActivity = (NotificationActivity)context;
 		if (totalNotifications > 1) {
 			try{
-				// Fade out current notification.
-				setOutAnimation(context, android.R.anim.fade_out);
-				// If this is the last notification, slide in from left.
-				if (notificationNumber == (totalNotifications-1)) {
-					setInAnimation(inFromLeftAnimation());
-				} else{ // Else slide in from right.
-					setInAnimation(inFromRightAnimation());
-				}
-				// Remove the view from the ViewFlipper.
-				removeViewAt(notificationNumber);
 				//Set notification as being viewed in the phone.
 				setNotificationViewed(notification);
 				// Remove notification from the ArrayList.
 				_notifications.remove(notificationNumber);
+				// Fade out current notification.
+				setOutAnimation(context, android.R.anim.fade_out);
 				// Update total notifications count.
 				setTotalNotifications(_notifications.size());
 				totalNotifications -= 1;
@@ -228,9 +250,20 @@ public class NotificationViewFlipper extends ViewFlipper {
 				if (notificationNumber >= totalNotifications) {
 					setCurrentNotification(totalNotifications - 1);
 				}
-				//Update the activities navigation buttons.
-				//notificationActivity.updateNavigationButtons();
-				//updateNavigationButtons();
+				// If this is the last notification, slide in from left.
+				if (notificationNumber == (totalNotifications)) {
+					setInAnimation(inFromLeftAnimation());
+					//Update the navigation information on the previous view before we switch to it.
+					final View previousView = this.getChildAt(notificationNumber - 1);
+					updateViewNavigationButtons(previousView);
+				} else{ // Else slide in from right.
+					setInAnimation(inFromRightAnimation());
+					//Update the navigation information on the next view before we switch to it.
+					final View nextView = this.getChildAt(notificationNumber + 1);
+					updateViewNavigationButtons(nextView);
+				}
+				// Remove the view from the ViewFlipper.
+				removeViewAt(notificationNumber);
 			}catch(Exception ex){
 				if (_debug) Log.v("NotificationViewFlipper.removeNotification() [Total Notification > 1] ERROR: " + ex.toString());
 			}
@@ -263,10 +296,15 @@ public class NotificationViewFlipper extends ViewFlipper {
 	@Override
 	public void showNext() {
 		if (_debug) Log.v("NotificationViewFlipper.showNext()");
-		if (getCurrentNotification() < getTotalNotifications()-1) {
-			setCurrentNotification(getCurrentNotification() + 1);
+		int currentNotification = getCurrentNotification();
+		if (currentNotification < getTotalNotifications()-1) {
+			setCurrentNotification(currentNotification + 1);
 			setInAnimation(inFromRightAnimation());
 			setOutAnimation(outToLeftAnimation());
+			//Update the navigation information on the next view before we switch to it.
+			final View nextView = this.getChildAt(currentNotification + 1);
+			updateViewNavigationButtons(nextView);
+			//Flip to next View.
 			super.showNext();
 		}
 	}
@@ -277,10 +315,15 @@ public class NotificationViewFlipper extends ViewFlipper {
 	@Override
 	public void showPrevious() {
 		if (_debug) Log.v("NotificationViewFlipper.showPrevious()");
-		if (getCurrentNotification() > 0) {
-			setCurrentNotification(getCurrentNotification() - 1);
+		int currentNotification = getCurrentNotification();
+		if (currentNotification > 0) {
+			setCurrentNotification(currentNotification - 1);
 			setInAnimation(inFromLeftAnimation());
 			setOutAnimation(outToRightAnimation());
+			//Update the navigation information on the previous view before we switch to it.
+			final View nextView = this.getChildAt(currentNotification - 1);
+			updateViewNavigationButtons(nextView);
+			//Flip to previous View.
 			super.showPrevious();
 		}
 	}
@@ -334,7 +377,6 @@ public class NotificationViewFlipper extends ViewFlipper {
 			}
 		}
 	}
-	
 	
 	/**
 	 * Animation of the moving of the a Notification that comes from the right.
@@ -404,6 +446,38 @@ public class NotificationViewFlipper extends ViewFlipper {
 		return outtoRight;
 	}
 	
+	/**
+	 * Updates the navigation buttons on each of the Notification Views.
+	 * 
+	 * @param view - The View that we will update.
+	 */
+	public void updateViewNavigationButtons(View view){
+    	if (_debug) Log.v("NotificationView.updateNavigationButtons()");
+    	Context context = getContext();
+    	SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		Button previousButton = (Button) view.findViewById(R.id.previous_button);
+		TextView notificationCountTextView = (TextView) view.findViewById(R.id.notification_count_text_view);
+		Button nextButton = (Button) view.findViewById(R.id.next_button);
+    	String applicationThemeSetting = preferences.getString(APP_THEME_KEY, ANDROID_THEME);
+    	previousButton.setEnabled(!isFirstMessage());
+    	if(!applicationThemeSetting.equals(ANDROID_THEME)){
+	    	if(isFirstMessage()){
+	    		previousButton.setVisibility(View.INVISIBLE);
+	    	}else{
+	    		previousButton.setVisibility(View.VISIBLE);
+	    	}
+    	}
+    	notificationCountTextView.setText((getCurrentNotification() + 1) + "/" + getTotalNotifications());
+    	nextButton.setEnabled(!isLastMessage());
+    	if(!applicationThemeSetting.equals(ANDROID_THEME)){
+	    	if(isLastMessage()){
+	    		nextButton.setVisibility(View.INVISIBLE);
+	    	}else{
+	    		nextButton.setVisibility(View.VISIBLE);
+	    	}
+    	}
+	}
+	
 	//================================================================================
 	// Private Methods
 	//================================================================================
@@ -416,8 +490,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 	private void removeNotifications(long threadID){
 		if (_debug) Log.v("NotificationViewFlipper.removeNotifications() Thread ID: " + threadID);
 		//Must iterate backwards through this collection.
-		//By removing items from the end, we don't have to worry about shifting index numbers 
-		//as we would if we removed from the beginning.
+		//By removing items from the end, we don't have to worry about shifting index numbers as we would if we removed from the beginning.
 		for(int i = getTotalNotifications() - 1; i >= 0; i--){
 			if(getNotification(i).getThreadID() == threadID){
 				removeNotification(i);
@@ -469,5 +542,5 @@ public class NotificationViewFlipper extends ViewFlipper {
 		if (_debug) Log.v("NotificationViewFlipper.containsNotification() FALSE");
 		return false;
 	}
-
+	
 }
