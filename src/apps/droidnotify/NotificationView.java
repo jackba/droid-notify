@@ -22,9 +22,7 @@ import android.text.Html;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Gravity;
 import android.view.HapticFeedbackConstants;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -60,6 +58,8 @@ public class NotificationView extends LinearLayout {
 	private final String EVENT_END_TIME = "endTime";
 	
 	private final String APP_THEME_KEY = "app_theme";
+	private final String ANDROID_THEME = "android";
+	private final String ANDROID_DARK_THEME = "android_dark";
 	private final String IPHONE_THEME = "iphone";
 	
 	//================================================================================
@@ -109,52 +109,12 @@ public class NotificationView extends LinearLayout {
 	//================================================================================
 	
 	/**
-	 * Set the notification property.
-	 * 
-	 * @param notification - This view's Notification.
-	 */
-	public void setNotification(Notification notification) {
-		if (_debug) Log.v("Notification.seNotification()");
-	    _notification = notification;
-	}
-	
-	/**
-	 * Get the notification property.
-	 * 
-	 * @return notification - This view's Notification.
-	 */
-	public Notification getNotification() {
-		if (_debug) Log.v("Notification.getNotification()");
-	    return _notification;
-	}
-	
-	/**
-	 * Set the notificationViewFlipper property.
-	 * 
-	 * @param notificationViewFlipper - Applications' ViewFlipper.
-	 */
-	public void setNotificationViewFlipper(NotificationViewFlipper notificationViewFlipper) {
-		if (_debug) Log.v("Notification.seNotificationViewFlipper()");
-	    _notificationViewFlipper = notificationViewFlipper;
-	}
-	
-	/**
-	 * Get the notificationViewFlipper property.
-	 * 
-	 * @return notificationViewFlipper - Applications' ViewFlipper.
-	 */
-	public NotificationViewFlipper getNotificationViewFlipper() {
-		if (_debug) Log.v("Notification.getNotificationViewFlipper()");
-	    return _notificationViewFlipper;
-	}
-	
-	/**
 	 * Set the notificationType property.
 	 * 
 	 * @param notificationType - The type of notification this is.
 	 */
 	public void setNotificationType(int notificationType) {
-		if (_debug) Log.v("Notification.seNotificationType()");
+		if (_debug) Log.v("NotificationView.seNotificationType()");
 	    _notificationType = notificationType;
 	}
 	
@@ -164,8 +124,48 @@ public class NotificationView extends LinearLayout {
 	 * @return notificationType - The type of notification this is.
 	 */
 	public int getNotificationType() {
-		if (_debug) Log.v("Notification.getNotificationType()");
+		if (_debug) Log.v("NotificationView.getNotificationType()");
 	    return _notificationType;
+	}
+
+	/**
+	 * Set the notification property.
+	 * 
+	 * @param notification - This view's Notification.
+	 */
+	public void setNotification(Notification notification) {
+		if (_debug) Log.v("NotificationView.seNotification()");
+	    _notification = notification;
+	}
+	
+	/**
+	 * Get the notification property.
+	 * 
+	 * @return notification - This view's Notification.
+	 */
+	public Notification getNotification() {
+		if (_debug) Log.v("NotificationView.getNotification()");
+	    return _notification;
+	}
+	
+	/**
+	 * Set the notificationViewFlipper property.
+	 * 
+	 * @param notificationViewFlipper - Applications' ViewFlipper.
+	 */
+	public void setNotificationViewFlipper(NotificationViewFlipper notificationViewFlipper) {
+		if (_debug) Log.v("NotificationView.seNotificationViewFlipper()");
+	    _notificationViewFlipper = notificationViewFlipper;
+	}
+	
+	/**
+	 * Get the notificationViewFlipper property.
+	 * 
+	 * @return notificationViewFlipper - Applications' ViewFlipper.
+	 */
+	public NotificationViewFlipper getNotificationViewFlipper() {
+		if (_debug) Log.v("NotificationView.getNotificationViewFlipper()");
+	    return _notificationViewFlipper;
 	}
 	
 	/**
@@ -174,7 +174,7 @@ public class NotificationView extends LinearLayout {
 	 * @param fromTextView - The "from" TextView.
 	 */
 	public void setFromTextView(TextView fromTextView) {
-		if (_debug) Log.v("Notification.setFromTextView()");
+		if (_debug) Log.v("NotificationView.setFromTextView()");
 	    _fromTextView = fromTextView;
 	}
 	
@@ -184,7 +184,7 @@ public class NotificationView extends LinearLayout {
 	 * @return fromTextView - The "from" TextView.
 	 */
 	public TextView getFromTextView() {
-		if (_debug) Log.v("Notification.getFromTextView()");
+		if (_debug) Log.v("NotificationView.getFromTextView()");
 	    return _fromTextView;
 	}
 	
@@ -194,7 +194,7 @@ public class NotificationView extends LinearLayout {
 	 * @param phoneNumberTextView - The "phone number" TextView.
 	 */
 	public void setPhoneNumberTextView(TextView phoneNumberTextView) {
-		if (_debug) Log.v("Notification.setPhoneNumberTextView()");
+		if (_debug) Log.v("NotificationView.setPhoneNumberTextView()");
 	    _phoneNumberTextView = phoneNumberTextView;
 	}
 	
@@ -204,7 +204,7 @@ public class NotificationView extends LinearLayout {
 	 * @return phoneNumberTextView - The "phone number" TextView.
 	 */
 	public TextView getPhoneNumberTextView() {
-		if (_debug) Log.v("Notification.getPhoneNumberTextView()");
+		if (_debug) Log.v("NotificationView.getPhoneNumberTextView()");
 	    return _phoneNumberTextView;
 	}
 	
@@ -214,7 +214,7 @@ public class NotificationView extends LinearLayout {
 	 * @param receivedAtTextView - The "received at" TextView.
 	 */
 	public void setReceivedAtTextView(TextView receivedAtTextView) {
-		if (_debug) Log.v("Notification.setReceivedAtTextView()");
+		if (_debug) Log.v("NotificationView.setReceivedAtTextView()");
 	    _receivedAtTextView = receivedAtTextView;
 	}
 	
@@ -224,7 +224,7 @@ public class NotificationView extends LinearLayout {
 	 * @return receivedAtTextView - The "received at" TextView.
 	 */
 	public TextView getReceivedAtTextView() {
-		if (_debug) Log.v("Notification.getReceivedAtTextView()");
+		if (_debug) Log.v("NotificationView.getReceivedAtTextView()");
 	    return _receivedAtTextView;
 	}
 	
@@ -234,7 +234,7 @@ public class NotificationView extends LinearLayout {
 	 * @param notificationTextView - The "notification" TextView.
 	 */
 	public void setNotificationTextView(TextView notificationTextView) {
-		if (_debug) Log.v("Notification.setNotificationTextView()");
+		if (_debug) Log.v("NotificationView.setNotificationTextView()");
 	    _notificationTextView = notificationTextView;
 	}
 	
@@ -244,7 +244,7 @@ public class NotificationView extends LinearLayout {
 	 * @return notificationTextView - The "notification" TextView.
 	 */
 	public TextView getNotificationTextView() {
-		if (_debug) Log.v("Notification.getNotificationTextView()");
+		if (_debug) Log.v("NotificationView.getNotificationTextView()");
 	    return _notificationTextView;
 	}
 	
@@ -254,7 +254,7 @@ public class NotificationView extends LinearLayout {
 	 * @param notificationIconImageView - The "notification icon" ImageView.
 	 */
 	public void setNotificationIconImageView(ImageView notificationIconImageView) {
-		if (_debug) Log.v("Notification.setNotificationIconImageView()");
+		if (_debug) Log.v("NotificationView.setNotificationIconImageView()");
 	    _notificationIconImageView = notificationIconImageView;
 	}
 	
@@ -264,7 +264,7 @@ public class NotificationView extends LinearLayout {
 	 * @return notificationIconImageView - The "notification icon" ImageView.
 	 */
 	public ImageView getNotificationIconImageView() {
-		if (_debug) Log.v("Notification.getNotificationIconImageView()");
+		if (_debug) Log.v("NotificationView.getNotificationIconImageView()");
 	    return _notificationIconImageView;
 	}
 
@@ -274,7 +274,7 @@ public class NotificationView extends LinearLayout {
 	 * @param photoImageView - The "photo" ImageView.
 	 */
 	public void setPhotoImageView(ImageView photoImageView) {
-		if (_debug) Log.v("Notification.setPhotoImageView()");
+		if (_debug) Log.v("NotificationView.setPhotoImageView()");
 	    _photoImageView = photoImageView;
 	}
 	
@@ -284,7 +284,7 @@ public class NotificationView extends LinearLayout {
 	 * @return photoImageView - The "photo" ImageView.
 	 */
 	public ImageView getPhotoImageView() {
-		if (_debug) Log.v("Notification.getPhotoImageView()");
+		if (_debug) Log.v("NotificationView.getPhotoImageView()");
 	    return _photoImageView;
 	}
 	
@@ -294,7 +294,7 @@ public class NotificationView extends LinearLayout {
 	 * @param contactLinearLayout - The "contact" LinearLayout.
 	 */
 	public void setContactLinearLayout(LinearLayout contactLinearLayout) {
-		if (_debug) Log.v("Notification.setContactLinearLayout()");
+		if (_debug) Log.v("NotificationView.setContactLinearLayout()");
 	    _contactLinearLayout = contactLinearLayout;
 	}
 	
@@ -304,7 +304,7 @@ public class NotificationView extends LinearLayout {
 	 * @return contactLinearLayout - The "contact" LinearLayout.
 	 */
 	public LinearLayout getContactLinearLayout() {
-		if (_debug) Log.v("Notification.getContactLinearLayout()");
+		if (_debug) Log.v("NotificationView.getContactLinearLayout()");
 	    return _contactLinearLayout;
 	}
 
@@ -314,7 +314,7 @@ public class NotificationView extends LinearLayout {
 	 * @param phoneButtonLinearLayout - The "phone button" LinearLayout.
 	 */
 	public void setPhoneButtonLinearLayout(LinearLayout phoneButtonLinearLayout) {
-		if (_debug) Log.v("Notification.setPhoneButtonLinearLayout()");
+		if (_debug) Log.v("NotificationView.setPhoneButtonLinearLayout()");
 	    _phoneButtonLinearLayout = phoneButtonLinearLayout;
 	}
 	
@@ -324,7 +324,7 @@ public class NotificationView extends LinearLayout {
 	 * @return phoneButtonLinearLayout - The "phone button" LinearLayout.
 	 */
 	public LinearLayout getPhoneButtonLinearLayout() {
-		if (_debug) Log.v("Notification.getPhoneButtonLinearLayout()");
+		if (_debug) Log.v("NotificationView.getPhoneButtonLinearLayout()");
 	    return _phoneButtonLinearLayout;
 	}
 
@@ -335,7 +335,7 @@ public class NotificationView extends LinearLayout {
 	 * @param smsButtonLinearLayout - The "sms button" LinearLayout.
 	 */
 	public void setSMSButtonLinearLayout(LinearLayout smsButtonLinearLayout) {
-		if (_debug) Log.v("Notification.setSMSButtonLinearLayout()");
+		if (_debug) Log.v("NotificationView.setSMSButtonLinearLayout()");
 	    _smsButtonLinearLayout = smsButtonLinearLayout;
 	}
 	
@@ -345,7 +345,7 @@ public class NotificationView extends LinearLayout {
 	 * @return smsButtonLinearLayout - The "phone button" LinearLayout.
 	 */
 	public LinearLayout getSMSButtonLinearLayout() {
-		if (_debug) Log.v("Notification.getSMSButtonLinearLayout()");
+		if (_debug) Log.v("NotificationView.getSMSButtonLinearLayout()");
 	    return _smsButtonLinearLayout;
 	}
 
@@ -355,7 +355,7 @@ public class NotificationView extends LinearLayout {
 	 * @param calendarButtonLinearLayout - The "calendar button" LinearLayout.
 	 */
 	public void setCalendarButtonLinearLayout(LinearLayout calendarButtonLinearLayout) {
-		if (_debug) Log.v("Notification.setCalendarButtonLinearLayout()");
+		if (_debug) Log.v("NotificationView.setCalendarButtonLinearLayout()");
 	    _calendarButtonLinearLayout = calendarButtonLinearLayout;
 	}
 	
@@ -365,7 +365,7 @@ public class NotificationView extends LinearLayout {
 	 * @return calendarButtonLinearLayout - The "calendar button" LinearLayout.
 	 */
 	public LinearLayout getCalendarButtonLinearLayout() {
-		if (_debug) Log.v("Notification.getCalendarButtonLinearLayout()");
+		if (_debug) Log.v("NotificationView.getCalendarButtonLinearLayout()");
 	    return _calendarButtonLinearLayout;
 	}
 
@@ -375,7 +375,7 @@ public class NotificationView extends LinearLayout {
 	 * @param oldTouchValue - The touch value of a MotionEvent.
 	 */
 	public void setOldTouchValue(float oldTouchValue) {
-		if (_debug) Log.v("Notification.setOldTouchValue()");
+		if (_debug) Log.v("NotificationView.setOldTouchValue()");
 	    _oldTouchValue = oldTouchValue;
 	}
 	
@@ -385,59 +385,13 @@ public class NotificationView extends LinearLayout {
 	 * @return oldTouchValue - The touch value of a MotionEvent.
 	 */
 	public float getOldTouchValue() {
-		if (_debug) Log.v("Notification.getOldTouchValue()");
+		if (_debug) Log.v("NotificationView.getOldTouchValue()");
 	    return _oldTouchValue;
 	}
 	
 	//================================================================================
 	// Public Methods
 	//================================================================================
-
-	/**
-	 * Define the action of the view when you swipe your finger across it.
-	 * This motion is handled to switch to the next view or previous view.
-	 * 
-	 * @param motionEvent - MotionEvent object.
-	 * 
-	 * @return boolean - Returns true if the MotionEvent was handled.
-	 */
-	@Override
-	public boolean onTouchEvent(MotionEvent motionEvent) {
-		if (_debug) Log.v("NotificationView.onTouchEvent()");
-		Context context = getContext();
-		NotificationViewFlipper notificationViewFlipper = getNotificationViewFlipper();
-		NotificationActivity notificationActivity = (NotificationActivity)context;
-		float currentTouchValue = motionEvent.getX();
-		float oldTouchValue = getOldTouchValue();
-		switch (motionEvent.getAction()) {
-			case MotionEvent.ACTION_DOWN:
-				if (_debug) Log.v("NotificationView.onTouchEvent() ACTION_DOWN");
-				setOldTouchValue(currentTouchValue);
-				return true;
-			case MotionEvent.ACTION_UP:
-				if (_debug) Log.v("NotificationView.onTouchEvent() ACTION_UP");
-				if (oldTouchValue > currentTouchValue){
-            	   notificationViewFlipper.setInAnimation(notificationViewFlipper.inFromLeftAnimation());
-            	   notificationViewFlipper.setOutAnimation(notificationViewFlipper.outToRightAnimation());
-                   notificationViewFlipper.showNext();
-				}else if (oldTouchValue < currentTouchValue){
-            	   notificationViewFlipper.setInAnimation(notificationViewFlipper.inFromRightAnimation());
-            	   notificationViewFlipper.setOutAnimation(notificationViewFlipper.outToLeftAnimation());
-                   notificationViewFlipper.showPrevious();
-               	}
-//				notificationActivity.updateNavigationButtons();
-				updateNavigationButtons();
-				return true;
-		}
-		return super.onTouchEvent(motionEvent);
-	}
-	
-	/**
-	 * 
-	 */
-	public void updateNavigationButtons(){
-		
-	}
 	
 	//================================================================================
 	// Private Methods
@@ -452,77 +406,30 @@ public class NotificationView extends LinearLayout {
 		if (_debug) Log.v("NotificationView.initLayoutItems()");
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		//Set based on the theme. This is set in the user preferences.
-		String applicationThemeSetting = preferences.getString(APP_THEME_KEY, "iphone");
-//		if(applicationThemeSetting.equals(IPHONE_THEME)){
-			View.inflate(context, R.layout.iphone_theme_notification, this);
-//			setFromTextView((TextView) findViewById(R.id.contact_name_text_view_iphone_theme));
-//			_phoneNumberTextView = (TextView) findViewById(R.id.contact_number_text_view_iphone_theme);
-//			//Automatically format the phone number in this text view.
-//			_phoneNumberTextView.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
-//			setReceivedAtTextView((TextView) findViewById(R.id.notification_info_text_view_iphone_theme));
-//			setPhotoImageView((ImageView) findViewById(R.id.contact_photo_image_view_iphone_theme));
-//		    setNotificationIconImageView((ImageView) findViewById(R.id.notification_type_icon_image_view_iphone_theme));    
-//			_notificationTextView = (TextView) findViewById(R.id.notification_details_text_view_iphone_theme);
-//			_notificationTextView.setMovementMethod(new ScrollingMovementMethod());
-//			_notificationTextView.setScrollbarFadingEnabled(false);
-//		    setPhoneButtonLinearLayout((LinearLayout) findViewById(R.id.phone_button_linear_layout_iphone_theme));
-//		    setSMSButtonLinearLayout((LinearLayout) findViewById(R.id.sms_button_linear_layout_iphone_theme));
-//			setCalendarButtonLinearLayout((LinearLayout) findViewById(R.id.calendar_button_linear_layout_iphone_theme));
-//			//TODO - NEED TO CHANGE THIS TO WORK WITH CALENDAR NOTIFICATIONS!!
-//			setContactLinearLayout((LinearLayout) findViewById(R.id.contact_main_linear_layout_iphone_theme));	
-//		}else{
-			//View.inflate(context, R.layout.notification, this);
-//			setFromTextView((TextView) findViewById(R.id.from_text_view));
-//			_phoneNumberTextView = (TextView) findViewById(R.id.phone_number_text_view);
-//			//Automatically format the phone number in this text view.
-//			_phoneNumberTextView.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
-//			setReceivedAtTextView((TextView) findViewById(R.id.time_text_view));
-//			setPhotoImageView((ImageView) findViewById(R.id.contact_image_view));
-//		    setNotificationIconImageView((ImageView) findViewById(R.id.notification_type_icon_image_view));
-//			_notificationTextView = (TextView) findViewById(R.id.notification_text_view);
-//			_notificationTextView.setMovementMethod(new ScrollingMovementMethod());
-//			_notificationTextView.setScrollbarFadingEnabled(false);
-//		    setPhoneButtonLinearLayout((LinearLayout) findViewById(R.id.phone_button_layout));
-//		    setSMSButtonLinearLayout((LinearLayout) findViewById(R.id.sms_button_layout));
-//			setCalendarButtonLinearLayout((LinearLayout) findViewById(R.id.calendar_button_layout));
-//			setContactLinearLayout((LinearLayout) findViewById(R.id.contact_linear_layout));
-//		}
-
+		String applicationThemeSetting = preferences.getString(APP_THEME_KEY, ANDROID_THEME);
+		int themeResource = R.layout.android_theme_notification;
+		if(applicationThemeSetting.equals(ANDROID_THEME)) themeResource = R.layout.android_theme_notification;
+		if(applicationThemeSetting.equals(ANDROID_DARK_THEME)) themeResource = R.layout.android_dark_theme_notification;
+		if(applicationThemeSetting.equals(IPHONE_THEME)) themeResource = R.layout.iphone_theme_notification;
+		View.inflate(context, themeResource, this);
 		setFromTextView((TextView) findViewById(R.id.contact_name_text_view));
 		_phoneNumberTextView = (TextView) findViewById(R.id.contact_number_text_view);
 		//Automatically format the phone number in this text view.
 		_phoneNumberTextView.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
+		setPhoneNumberTextView(_phoneNumberTextView);
 		setReceivedAtTextView((TextView) findViewById(R.id.notification_info_text_view));
 		setPhotoImageView((ImageView) findViewById(R.id.contact_photo_image_view));
 	    setNotificationIconImageView((ImageView) findViewById(R.id.notification_type_icon_image_view));    
 		_notificationTextView = (TextView) findViewById(R.id.notification_details_text_view);
 		_notificationTextView.setMovementMethod(new ScrollingMovementMethod());
 		_notificationTextView.setScrollbarFadingEnabled(false);
+		setNotificationTextView(_notificationTextView);	
 	    setPhoneButtonLinearLayout((LinearLayout) findViewById(R.id.phone_button_linear_layout));
 	    setSMSButtonLinearLayout((LinearLayout) findViewById(R.id.sms_button_linear_layout));
 		setCalendarButtonLinearLayout((LinearLayout) findViewById(R.id.calendar_button_linear_layout));
 		//TODO - NEED TO CHANGE THIS TO WORK WITH CALENDAR NOTIFICATIONS!!
-		setContactLinearLayout((LinearLayout) findViewById(R.id.contact_main_linear_layout));		
-		
-		setPhoneNumberTextView(_phoneNumberTextView);
+		setContactLinearLayout((LinearLayout) findViewById(R.id.contact_main_linear_layout));	
 		setNotificationViewFlipper(((NotificationActivity)getContext()).getNotificationViewFlipper());
-		setNotificationTextView(_notificationTextView);
-		
-		
-
-
-//
-//		final TextView notificationCountTextView;
-//	    //Set based on the theme. This is set in the user preferences.
-//		if(applicationThemeSetting.equals(IPHONE_THEME)){
-//			notificationCountTextView = (TextView) findViewById(R.id.notification_count_text_view_iphone_theme);
-//		}else{
-//			notificationCountTextView = (TextView) findViewById(R.id.notification_count_text_view);
-//		}
-//		setNotificationCountTextView(notificationCountTextView);
-
-		
-		
 	}
 
 	/**
@@ -531,7 +438,7 @@ public class NotificationView extends LinearLayout {
 	 * @param notification - This View's Notification.
 	 */
 	private void setupNotificationViewButtons(Notification notification) {
-		Context context = getContext();
+		if (_debug) Log.v("NotificationView.setupNotificationViewButtons()");
 		int notificationType = notification.getNotificationType();
 		int phoneButtonLayoutVisibility = View.GONE;
 		int smsButtonLayoutVisibility = View.GONE;
@@ -539,20 +446,8 @@ public class NotificationView extends LinearLayout {
 		LinearLayout phoneButtonLinearLayout = getPhoneButtonLinearLayout();
 		LinearLayout smsButtonLinearLayout = getSMSButtonLinearLayout();
 		LinearLayout calendarButtonLinearLayout = getCalendarButtonLinearLayout();
-    	SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-    	String applicationThemeSetting = preferences.getString(APP_THEME_KEY, "iphone");
-		final Button previousButton;
-		final Button nextButton;
-//		if(applicationThemeSetting.equals(IPHONE_THEME)){
-//			previousButton = (Button) findViewById(R.id.previous_button_iphone_theme);
-//			nextButton = (Button) findViewById(R.id.next_button_iphone_theme);
-//		}else{
-//			previousButton = (Button) findViewById(R.id.previous_button);
-//			nextButton = (Button) findViewById(R.id.next_button);
-//		} 
-		previousButton = (Button) findViewById(R.id.previous_button);
-		nextButton = (Button) findViewById(R.id.next_button);
 		// Previous Button
+    	final Button previousButton = (Button) findViewById(R.id.previous_button);
 		previousButton.setOnClickListener(new OnClickListener() {
 		    public void onClick(View view) {
 		    	if (_debug) Log.v("Previous Button Clicked()");
@@ -562,33 +457,23 @@ public class NotificationView extends LinearLayout {
 		    	//updateNavigationButtons(previousButton, notificationCountTextView, nextButton, notificationViewFlipper);
 		    }
 		});
-		if (_debug) Log.v("NotificationActivity.setupViews() here");
 		// Next Button
+		final Button nextButton = (Button) findViewById(R.id.next_button);
 		nextButton.setOnClickListener(new OnClickListener() {
 		    public void onClick(View view) {
 		    	if (_debug) Log.v("Next Button Clicked()");
 		    	NotificationViewFlipper notificationViewFlipper = getNotificationViewFlipper();
 		    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 		    	notificationViewFlipper.showNext();
-		    	//updateNavigationButtons(previousButton, notificationCountTextView, nextButton, notificationViewFlipper);
 		    }
 		});	
-    	
-    	
 	    if(notificationType == NOTIFICATION_TYPE_PHONE){
 	    	//Display the correct navigation buttons for each notification type.
 	    	phoneButtonLayoutVisibility = View.VISIBLE;
 	    	smsButtonLayoutVisibility = View.GONE;
 	    	calendarButtonLayoutVisibility = View.GONE;
 			// Dismiss Button
-	    	final Button phoneDismissButton;
-			//Set based on the theme. This is set in the user preferences.
-//			if(applicationThemeSetting.equals(IPHONE_THEME)){
-//				phoneDismissButton = (Button) findViewById(R.id.phone_dismiss_button_iphone_theme);	
-//			}else{
-//				phoneDismissButton = (Button) findViewById(R.id.phone_dismiss_button);	
-//			}
-			phoneDismissButton = (Button) findViewById(R.id.phone_dismiss_button);
+	    	final Button phoneDismissButton = (Button) findViewById(R.id.phone_dismiss_button);
 			phoneDismissButton.setOnClickListener(new OnClickListener() {
 			    public void onClick(View v) {
 			    	if (_debug) Log.v("Dismiss Button Clicked()");
@@ -597,14 +482,7 @@ public class NotificationView extends LinearLayout {
 			    }
 			});
 			// Call Button
-			final Button phoneCallButton;
-			//Set based on the theme. This is set in the user preferences.
-//			if(applicationThemeSetting.equals(IPHONE_THEME)){
-//				phoneCallButton = (Button) findViewById(R.id.phone_call_button_iphone_theme);	
-//			}else{
-//				phoneCallButton = (Button) findViewById(R.id.phone_call_button);	
-//			}
-			phoneCallButton = (Button) findViewById(R.id.phone_call_button);
+			final Button phoneCallButton = (Button) findViewById(R.id.phone_call_button);
 			phoneCallButton.setOnClickListener(new OnClickListener() {
 			    public void onClick(View v) {
 			    	if (_debug) Log.v("Call Button Clicked()");
@@ -619,14 +497,7 @@ public class NotificationView extends LinearLayout {
 	    	smsButtonLayoutVisibility = View.VISIBLE;
 	    	calendarButtonLayoutVisibility = View.GONE;
 			// Dismiss Button
-	    	final Button smsDismissButton;
-			//Set based on the theme. This is set in the user preferences.
-//			if(applicationThemeSetting.equals(IPHONE_THEME)){
-//				smsDismissButton = (Button) findViewById(R.id.sms_dismiss_button_iphone_theme);		
-//			}else{
-//				smsDismissButton = (Button) findViewById(R.id.sms_dismiss_button);		
-//			}
-			smsDismissButton = (Button) findViewById(R.id.sms_dismiss_button);
+	    	final Button smsDismissButton = (Button) findViewById(R.id.sms_dismiss_button);
 			smsDismissButton.setOnClickListener(new OnClickListener() {
 			    public void onClick(View view) {
 			    	if (_debug) Log.v("SMS Dismiss Button Clicked()");
@@ -635,14 +506,7 @@ public class NotificationView extends LinearLayout {
 			    }
 			});		    			
 			// Delete Button
-			final Button smsDeleteButton;
-			//Set based on the theme. This is set in the user preferences.
-//			if(applicationThemeSetting.equals(IPHONE_THEME)){
-//				smsDeleteButton = (Button) findViewById(R.id.sms_delete_button_iphone_theme);		
-//			}else{
-//				smsDeleteButton = (Button) findViewById(R.id.sms_delete_button);		
-//			}
-			smsDeleteButton = (Button) findViewById(R.id.sms_delete_button);
+			final Button smsDeleteButton = (Button) findViewById(R.id.sms_delete_button);
 			smsDeleteButton.setOnClickListener(new OnClickListener() {
 			    public void onClick(View view) {
 			    	if (_debug) Log.v("SMS Delete Button Clicked()");
@@ -651,14 +515,7 @@ public class NotificationView extends LinearLayout {
 			    }
 			});
 			// Reply Button
-			final Button smsReplyButton;
-			//Set based on the theme. This is set in the user preferences.
-//			if(applicationThemeSetting.equals(IPHONE_THEME)){
-//				smsReplyButton = (Button) findViewById(R.id.sms_reply_button_iphone_theme); 		
-//			}else{
-//				smsReplyButton = (Button) findViewById(R.id.sms_reply_button); 		
-//			}
-			smsReplyButton = (Button) findViewById(R.id.sms_reply_button);
+			final Button smsReplyButton = (Button) findViewById(R.id.sms_reply_button);
 			smsReplyButton.setOnClickListener(new OnClickListener() {
 			    public void onClick(View view) {
 			    	if (_debug) Log.v("SMS Reply Button Clicked()");
@@ -678,14 +535,7 @@ public class NotificationView extends LinearLayout {
 	    	smsButtonLayoutVisibility = View.GONE;
 	    	calendarButtonLayoutVisibility = View.VISIBLE;
 			// Dismiss Button
-	    	final Button calendarDismissButton;
-	    	//Set based on the theme. This is set in the user preferences.
-//			if(applicationThemeSetting.equals(IPHONE_THEME)){
-//				calendarDismissButton = (Button) findViewById(R.id.calendar_dismiss_button_iphone_theme); 		
-//			}else{
-//				calendarDismissButton = (Button) findViewById(R.id.calendar_dismiss_button); 		
-//			}
-			calendarDismissButton = (Button) findViewById(R.id.calendar_dismiss_button);
+	    	final Button calendarDismissButton = (Button) findViewById(R.id.calendar_dismiss_button);
 	    	calendarDismissButton.setOnClickListener(new OnClickListener() {
 			    public void onClick(View view) {
 			    	if (_debug) Log.v("Calendar Dismiss Button Clicked()");
@@ -694,14 +544,7 @@ public class NotificationView extends LinearLayout {
 			    }
 			});			    			
 			// View Button
-	    	final Button calendarViewButton;
-	    	//Set based on the theme. This is set in the user preferences.
-//			if(applicationThemeSetting.equals(IPHONE_THEME)){
-//				calendarViewButton = (Button) findViewById(R.id.calendar_view_button_iphone_theme);		
-//			}else{
-//				calendarViewButton = (Button) findViewById(R.id.calendar_view_button);		
-//			} 
-			calendarViewButton = (Button) findViewById(R.id.calendar_view_button);
+	    	final Button calendarViewButton = (Button) findViewById(R.id.calendar_view_button);
 			calendarViewButton.setOnClickListener(new OnClickListener() {
 			    public void onClick(View view) {
 			    	if (_debug) Log.v("Calendar View Button Clicked()");
@@ -853,11 +696,6 @@ public class NotificationView extends LinearLayout {
 	private void setNotificationImage(Notification notification){
 		if (_debug) Log.v("NotificationView.setNotificationImage()");
 		ImageView photoImageView = getPhotoImageView();
-	    //Setup ImageView
-		//photoImageView.setBackgroundResource(0);
-		//photoImageView.setPadding(0, 0, 0, 0);
-	    //photoImageView.setBackgroundResource(R.drawable.image_picture_frame);
-	    //photoImageView.setBackgroundResource(R.drawable.image_picture_frame_white);
 	    //Load contact photo if it exists.
 	    Bitmap bitmap = notification.getPhotoImg();
 	    if(bitmap!=null){
@@ -928,29 +766,40 @@ public class NotificationView extends LinearLayout {
 		Context context = getContext();
 		Notification notification = getNotification();
 		String phoneNumber = notification.getPhoneNumber();
+		if(phoneNumber == null){
+			return;
+		}
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
 		//Reply using Android's SMS Messaging app.
 		if(preferences.getString(SMS_REPLY_BUTTON_ACTION_KEY, "0").equals(SMS_ANDROID_REPLY)){
-			Intent intent = new Intent(Intent.ACTION_VIEW);
-		    intent.setType("vnd.android-dir/mms-sms");
-	        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-	        		| Intent.FLAG_ACTIVITY_SINGLE_TOP
-	        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
-	        		| Intent.FLAG_ACTIVITY_NO_HISTORY
-	        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-		    intent.putExtra("address", phoneNumber);
-		    context.startActivity(intent);
+			try{
+				Intent intent = new Intent(Intent.ACTION_VIEW);
+			    intent.setType("vnd.android-dir/mms-sms");
+		        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+		        		| Intent.FLAG_ACTIVITY_SINGLE_TOP
+		        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
+		        		| Intent.FLAG_ACTIVITY_NO_HISTORY
+		        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+			    intent.putExtra("address", phoneNumber);
+			    context.startActivity(intent);
+			}catch(Exception ex){
+				if (_debug) Log.e("NotificationView.replyToMessage() Android Reply ERROR: " + ex.toString());
+			}
 		}	
 		//Reply using the built in Quick Reply Activity.
 		if(preferences.getString(SMS_REPLY_BUTTON_ACTION_KEY, "0").equals(SMS_QUICK_REPLY)){
-			Intent intent = new Intent(context, QuickReplyActivity.class);
-			if (_debug) Log.v("NotificationView.replyToMessage() Put phone number in bundle");
-	        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP
-	        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-	        if (_debug) Log.v("NotificationView.replyToMessage() Put bundle in intent");
-		    intent.putExtra("smsPhoneNumber", phoneNumber);
-		    intent.putExtra("smsMessage", "");
-		    context.startActivity(intent);
+			try{
+				Intent intent = new Intent(context, QuickReplyActivity.class);
+				if (_debug) Log.v("NotificationView.replyToMessage() Put phone number in bundle");
+		        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP
+		        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+		        if (_debug) Log.v("NotificationView.replyToMessage() Put bundle in intent");
+			    intent.putExtra("smsPhoneNumber", phoneNumber);
+			    intent.putExtra("smsMessage", "");
+			    context.startActivity(intent);
+			}catch(Exception ex){
+				if (_debug) Log.e("NotificationView.replyToMessage() Quick Reply ERROR: " + ex.toString());
+			}
 		}
 	}
 	
@@ -963,14 +812,21 @@ public class NotificationView extends LinearLayout {
 		Context context = getContext();
 		Notification notification = getNotification();
 		String phoneNumber = notification.getPhoneNumber();
-		Intent intent = new Intent(Intent.ACTION_CALL);
-        intent.setData(Uri.parse("tel:" + phoneNumber));
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-        		| Intent.FLAG_ACTIVITY_SINGLE_TOP
-        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
-        		| Intent.FLAG_ACTIVITY_NO_HISTORY
-        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-        context.startActivity(intent);
+		if(phoneNumber == null){
+			return;
+		}
+		try{
+			Intent intent = new Intent(Intent.ACTION_CALL);
+	        intent.setData(Uri.parse("tel:" + phoneNumber));
+	        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+	        		| Intent.FLAG_ACTIVITY_SINGLE_TOP
+	        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
+	        		| Intent.FLAG_ACTIVITY_NO_HISTORY
+	        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+	        context.startActivity(intent);
+		}catch(Exception ex){
+			if (_debug) Log.e("NotificationView.makePhoneCall() ERROR: " + ex.toString());
+		}
 	}
 	
 	/**
@@ -986,9 +842,11 @@ public class NotificationView extends LinearLayout {
 			return;
 		}
 		try{
-			//Android 2.2+
 			Intent intent = new Intent(Intent.ACTION_VIEW);
+			//Android 2.2+
 			intent.setData(Uri.parse("content://com.android.calendar/events/" + String.valueOf(calendarEventID)));	
+			//Android 2.1 and below.
+			//intent.setData(Uri.parse("content://calendar/events/" + String.valueOf(calendarEventID)));
 			intent.putExtra(EVENT_BEGIN_TIME,notification.getCalendarEventStartTime());
 			intent.putExtra(EVENT_END_TIME,notification.getCalendarEventEndTime());
 			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
@@ -998,17 +856,7 @@ public class NotificationView extends LinearLayout {
 	        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
 	        context.startActivity(intent);
 		}catch(Exception ex){
-			//Android 2.1 and below.
-			Intent intent = new Intent(Intent.ACTION_VIEW);	
-			intent.setData(Uri.parse("content://calendar/events/" + String.valueOf(calendarEventID)));	
-			intent.putExtra(EVENT_BEGIN_TIME,notification.getCalendarEventStartTime());
-			intent.putExtra(EVENT_END_TIME,notification.getCalendarEventEndTime());
-			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-	        		| Intent.FLAG_ACTIVITY_SINGLE_TOP
-	        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
-	        		| Intent.FLAG_ACTIVITY_NO_HISTORY
-	        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-	        context.startActivity(intent);	
+			if (_debug) Log.e("NotificationView.viewCalendarEvent() ERROR: " + ex.toString());
 		}
 	}
  
@@ -1088,15 +936,7 @@ public class NotificationView extends LinearLayout {
 //	        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
 //	        context.startActivity(intent);
 //		}catch(Exception ex){
-//			//Android 2.1 and below.
-//			Intent intent = new Intent(Intent.ACTION_EDIT);
-//			intent.setType("vnd.android.cursor.item/event");
-//			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-//	        		| Intent.FLAG_ACTIVITY_SINGLE_TOP
-//	        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
-//	        		| Intent.FLAG_ACTIVITY_NO_HISTORY
-//	        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-//	        context.startActivity(intent);
+//			if (_debug) Log.e("NotificationView.addCalendarEvent() ERROR: " + ex.toString());
 //		}
 //	}
 
@@ -1121,17 +961,7 @@ public class NotificationView extends LinearLayout {
 //	        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
 //	        context.startActivity(intent);
 //		}catch(Exception ex){
-//			//Android 2.1 and below.
-//			Intent intent = new Intent(Intent.ACTION_EDIT);	
-//			intent.setData(Uri.parse("content://calendar/events/" + String.valueOf(calendarEventID)));	
-//			intent.putExtra(EVENT_BEGIN_TIME,notification.getCalendarEventStartTime());
-//			intent.putExtra(EVENT_END_TIME,notification.getCalendarEventEndTime());
-//			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-//	        		| Intent.FLAG_ACTIVITY_SINGLE_TOP
-//	        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
-//	        		| Intent.FLAG_ACTIVITY_NO_HISTORY
-//	        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-//	        context.startActivity(intent);	
+//			if (_debug) Log.e("NotificationView.editCalendarEvent() ERROR: " + ex.toString());
 //		}
 //	}
 	

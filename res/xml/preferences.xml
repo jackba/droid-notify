@@ -51,6 +51,18 @@
 			android:title="@string/preference_notifications"
 			android:dependency="app_enabled">
 			<PreferenceCategory
+				android:key="theme_settings_category"
+				android:title="@string/theme_text">
+				<apps.droidnotify.preferences.ImageListPreference
+					android:key="app_theme"
+					android:title="@string/theme_text"
+					android:summary="@string/preference_theme_summary"
+					android:entries="@array/theme_options"
+					android:entryValues="@array/theme_values"
+					droidnotify:entryImages="@array/theme_images"
+					android:dependency="app_enabled" />
+			</PreferenceCategory>
+			<PreferenceCategory
 				android:key="sms_notification_settings_category"
 				android:title="@string/preference_sms_notifications">
 				<CheckBoxPreference 

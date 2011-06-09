@@ -30,13 +30,12 @@ import android.view.HapticFeedbackConstants;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
-//import android.view.View.OnClickListener;
+import android.view.ViewConfiguration;
 import android.view.inputmethod.InputMethodManager;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 /**
  * This is the main activity that runs the notifications.
@@ -104,10 +103,6 @@ public class NotificationActivity extends Activity {
 	
 	private final String EVENT_BEGIN_TIME = "beginTime";
 	private final String EVENT_END_TIME = "endTime";
-
-	private final String APP_THEME_KEY = "app_theme";
-	private final String CLASSIC_THEME = "classic";
-	private final String IPHONE_THEME = "iphone";
 	
 	//================================================================================
     // Properties
@@ -120,14 +115,12 @@ public class NotificationActivity extends Activity {
 	private KeyguardLock _keyguardLock; 
 	private NotificationViewFlipper _notificationViewFlipper = null;
 	private LinearLayout _mainActivityLayout = null;
-	private Button _previousButton = null;
-	private Button _nextButton = null;
-	private TextView _notificationCountTextView = null;
 	private InputMethodManager _inputMethodManager = null;
 	private WakeLockHandler _wakeLockHandler = new WakeLockHandler();
 	private KeyguardHandler _keyguardHandler = new KeyguardHandler();
 	private Ringtone _ringtone = null;
 	private RingtoneHandler _ringtoneHandler = new RingtoneHandler();
+	private MotionEvent _downMotionEvent = null;
 
 	//================================================================================
 	// Constructors
@@ -256,66 +249,6 @@ public class NotificationActivity extends Activity {
 		if (_debug) Log.v("NotificationActivity.getMainActivityLayout()");
 	    return _mainActivityLayout;
 	}
-	  
-	/**
-	 * Set the previousButton property.
-	 * 
-	 * @param previousButton - The previous button.
-	 */
-	public void setPreviousButton(Button previousButton) {
-		if (_debug) Log.v("NotificationActivity.setPreviousButton()");
-		_previousButton = previousButton;
-	}
-	
-	/**
-	 * Get the previousButton property.
-	 * 
-	 * @return previousButton - The previous button.
-	 */
-	public Button getPreviousButton() {
-		if (_debug) Log.v("NotificationActivity.getPreviousButton()");
-	    return _previousButton;
-	}
-	
-	/**
-	 * Set the nextButton property.
-	 * 
-	 * @param nextButton - The next button.
-	 */
-	public void setNextButton(Button nextButton) {
-		if (_debug) Log.v("NotificationActivity.setNextButton()");
-		_nextButton = nextButton;
-	}
-	
-	/**
-	 * Get the previousButton property.
-	 * 
-	 * @return nextButton - The next button.
-	 */
-	public Button getNextButton() {
-		if (_debug) Log.v("NotificationActivity.getNextButton()");
-	    return _nextButton;
-	}
-
-	/**
-	 * Set the notificationCountTextView property.
-	 * 
-	 * @param notificationCountTextView - The "notification count" TextView
-	 */
-	public void setNotificationCountTextView(TextView notificationCountTextView) {
-		if (_debug) Log.v("NotificationActivity.setNotificationCountTextView()");
-		_notificationCountTextView = notificationCountTextView;
-	}
-	
-	/**
-	 * Get the notificationCountTextView property.
-	 * 
-	 * @return notificationCountTextView - The "notification count" TextView
-	 */
-	public TextView getNotificationCountTextView() {
-		if (_debug) Log.v("NotificationActivity.getNotificationCountTextView()");
-	    return _notificationCountTextView;
-	}
 
 	/**
 	 * Set the inputMethodManager property.
@@ -355,6 +288,26 @@ public class NotificationActivity extends Activity {
 	public Ringtone getRingtone() {
 		if (_debug) Log.v("NotificationActivity.getRingtone()");
 	    return _ringtone;
+	}
+
+	/**
+	 * Set the oldTouchValue property.
+	 * 
+	 * @param oldTouchValue - The touch value of a MotionEvent.
+	 */
+	public void setDownMotionEvent(MotionEvent downMotionEvent) {
+		if (_debug) Log.v("NotificationActivity.setDownMotionEvent()");
+	    _downMotionEvent = downMotionEvent;
+	}
+	
+	/**
+	 * Get the oldTouchValue property.
+	 * 
+	 * @return oldTouchValue - The touch value of a MotionEvent.
+	 */
+	public MotionEvent getDownMotionEvent() {
+		if (_debug) Log.v("NotificationActivity.getDownMotionEvent()");
+	    return _downMotionEvent;
 	}
 	
 	//================================================================================
@@ -497,9 +450,6 @@ public class NotificationActivity extends Activity {
 			case VIEW_CONTACT_CONTEXT_MENU:
 				try{
 					intent = new Intent(Intent.ACTION_VIEW);
-					//This works but is deprecated. Trying a different way.
-				    //intent.setData(ContentUris.withAppendedId(People.CONTENT_URI, contactID));
-					//This is the Android API 5+ method to do this.
 					Uri viewContactURI = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_URI, String.valueOf(contactID));
 				    intent.setData(viewContactURI);	
 			        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
@@ -580,9 +530,11 @@ public class NotificationActivity extends Activity {
 				try{
 				    long calendarEventID = notification.getCalendarEventID();
 					try{
-						//Android 2.2+
 						intent = new Intent(Intent.ACTION_EDIT);
-						intent.setData(Uri.parse("content://com.android.calendar/events/" + String.valueOf(calendarEventID)));	
+						//Android 2.2+
+						intent.setData(Uri.parse("content://com.android.calendar/events/" + String.valueOf(calendarEventID)));
+						//Android 2.1 and below.
+						//intent.setData(Uri.parse("content://calendar/events/" + String.valueOf(calendarEventID)));	
 						intent.putExtra(EVENT_BEGIN_TIME,notification.getCalendarEventStartTime());
 						intent.putExtra(EVENT_END_TIME,notification.getCalendarEventEndTime());
 						intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
@@ -592,17 +544,8 @@ public class NotificationActivity extends Activity {
 				        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
 				        context.startActivity(intent);
 					}catch(Exception ex){
-						//Android 2.1 and below.
-						intent = new Intent(Intent.ACTION_EDIT);	
-						intent.setData(Uri.parse("content://calendar/events/" + String.valueOf(calendarEventID)));	
-						intent.putExtra(EVENT_BEGIN_TIME,notification.getCalendarEventStartTime());
-						intent.putExtra(EVENT_END_TIME,notification.getCalendarEventEndTime());
-						intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-				        		| Intent.FLAG_ACTIVITY_SINGLE_TOP
-				        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
-				        		| Intent.FLAG_ACTIVITY_NO_HISTORY
-				        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-				        context.startActivity(intent);	
+						if (_debug) Log.e("NotificationActivity.onContextItemSelected() EDIT_EVENT_CONTEXT_MENU ERROR: " + ex.toString());
+						return false;
 					}
 					return true;
 				}catch(Exception ex){
@@ -625,14 +568,6 @@ public class NotificationActivity extends Activity {
 	    // Finish the activity.
 	    finish();
 	}
-	  
-//	/**
-//	 * Update the navigation buttons and text when items are added or removed.
-//	 */
-//    public void updateNavigationButtons(){
-//    	if (_debug) Log.v("NotificationActivity.updateNavigationButtons()");
-//		updateNavigationButtons(getPreviousButton(), getNotificationCountTextView(), getNextButton(), getNotificationViewFlipper());		
-//    }
   
 	/**
 	 * Display the delete dialog from the activity and return the result. 
@@ -663,9 +598,45 @@ public class NotificationActivity extends Activity {
 	 */
 	public void onConfigurationChanged(Configuration config) {
         super.onConfigurationChanged(config);                
-        //Do Nothing (For Now).
+        //Do Nothing.
 	}
-    
+
+	/**
+	 * This function intercepts all the touch events.
+	 * In here we decide what to pass on to child items and what to handle ourselves.
+	 * 
+	 * @param motionEvent - The touch event that occurred.
+	 */
+	@Override
+	public boolean dispatchTouchEvent(MotionEvent motionEvent){
+		if (_debug) Log.v("NotificationActivity.dispatchTouchEvent()");
+		NotificationViewFlipper notificationViewFlipper = getNotificationViewFlipper();
+	    switch (motionEvent.getAction()){
+	        case MotionEvent.ACTION_DOWN:{
+		        //Keep track of the starting down-event.
+		        setDownMotionEvent(MotionEvent.obtain(motionEvent));
+		        break;
+	        }
+	        case MotionEvent.ACTION_UP:{
+	            //Consume if necessary and perform the fling / swipe action
+	            //if it has been determined to be a fling / swipe
+	        	MotionEvent downMotionEvent = getDownMotionEvent();
+	        	float deltaX = motionEvent.getX() - downMotionEvent.getX();
+		        if(Math.abs(deltaX) > new ViewConfiguration().getScaledTouchSlop()  * 2){
+		        	if (deltaX < 0){
+	                   notificationViewFlipper.showNext();
+	                   return true;
+					}else if (deltaX > 0){
+	                   notificationViewFlipper.showPrevious();
+	                   return true;
+	               	}
+		        }
+	            break;
+	        }
+	    }
+	    return super.dispatchTouchEvent(motionEvent);
+	}
+	
 	//================================================================================
 	// Protected Methods
 	//================================================================================
@@ -688,13 +659,7 @@ public class NotificationActivity extends Activity {
 	    int notificationType = extrasBundle.getInt("notificationType");
 	    if (_debug) Log.v("NotificationActivity.onCreate() Notification Type: " + notificationType);
 	    requestWindowFeature(Window.FEATURE_NO_TITLE);
-	    //Set based on the theme. This is set in the user preferences.
-	    String applicationThemeSetting = preferences.getString(APP_THEME_KEY, "classic");
-		//if(applicationThemeSetting.equals(IPHONE_THEME)){
-	    //	setContentView(R.layout.iphone_theme_notificationwrapper);
-	    //}else{
-	     	setContentView(R.layout.notificationwrapper);
-	    //}
+	    setContentView(R.layout.notificationwrapper);
 	    setupViews(notificationType);
 	    if(notificationType == NOTIFICATION_TYPE_TEST){
 	    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_TEST");
@@ -708,7 +673,7 @@ public class NotificationActivity extends Activity {
 		    if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_SMS");
 		    Notification newSMSNotification = setupMessage(extrasBundle);
 		    if(preferences.getBoolean(SMS_DISPLAY_UNREAD_KEY, true)){
-		    	getAllUnreadMMSMessages(newSMSNotification.getMessageID(), newSMSNotification.getMessageBody());
+		    	getAllUnreadSMSMessages(newSMSNotification.getMessageID(), newSMSNotification.getMessageBody());
 		    }
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_MMS){
@@ -812,7 +777,6 @@ public class NotificationActivity extends Activity {
 				builder.setIcon(android.R.drawable.ic_dialog_alert);
 				builder.setTitle(getString(R.string.delete_message_dialog_title_text));
 				//Action is determined by the users preferences. 
-				//Either show the 
 				if(notificationType == NOTIFICATION_TYPE_SMS){
 					if(preferences.getString(SMS_DELETE_KEY, "0").equals(SMS_DELETE_ACTION_DELETE_MESSAGE)){
 						builder.setMessage(getString(R.string.delete_message_dialog_text));
@@ -879,7 +843,7 @@ public class NotificationActivity extends Activity {
 	    	if (_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_EMAIL");
 	    	//TODO - Email
 	    }
-	    //Set Vibration or Ringtone to announce Activity.
+	    //Set Vibration and/or Ringtone to announce Activity.
 	    runNotificationFeedback(notificationType);
 	    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 	    //Acquire WakeLock.
@@ -903,49 +867,9 @@ public class NotificationActivity extends Activity {
 	 */ 
 	private void setupViews(int notificationType) {
 		if (_debug) Log.v("NotificationActivity.setupViews()");
-//		Context context = getContext();
-//		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		final NotificationViewFlipper notificationViewFlipper;
-//		final Button previousButton;
-//		final Button nextButton;
-//		final TextView notificationCountTextView;
-	    //Set based on the theme. This is set in the user preferences.
-//	    String applicationThemeSetting = preferences.getString(APP_THEME_KEY, "iphone");
-//		if(applicationThemeSetting.equals(IPHONE_THEME)){
-//			notificationViewFlipper = (NotificationViewFlipper) findViewById(R.id.notification_view_flipper_iphone_theme);
-//			previousButton = (Button) findViewById(R.id.previous_button_iphone_theme);
-//			nextButton = (Button) findViewById(R.id.next_button_iphone_theme);
-//			notificationCountTextView = (TextView) findViewById(R.id.notification_count_text_view_iphone_theme);
-//		}else{
-			notificationViewFlipper = (NotificationViewFlipper) findViewById(R.id.notification_view_flipper);
-//			previousButton = (Button) findViewById(R.id.previous_button);
-//			nextButton = (Button) findViewById(R.id.next_button);
-//			notificationCountTextView = (TextView) findViewById(R.id.notification_count_text_view);
-//		}
+		notificationViewFlipper = (NotificationViewFlipper) findViewById(R.id.notification_view_flipper);
 		setNotificationViewFlipper(notificationViewFlipper);
-//		setPreviousButton(previousButton);
-//		setNextButton(nextButton);
-//		setNotificationCountTextView(notificationCountTextView);
-//		// Previous Button
-//		previousButton.setOnClickListener(new OnClickListener() {
-//		    public void onClick(View view) {
-//		    	if (_debug) Log.v("Previous Button Clicked()");
-//		    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-//		    	notificationViewFlipper.showPrevious();
-//		    	updateNavigationButtons(previousButton, notificationCountTextView, nextButton, notificationViewFlipper);
-//		    }
-//		});
-//		if (_debug) Log.v("NotificationActivity.setupViews() here");
-//		// Next Button
-//		nextButton.setOnClickListener(new OnClickListener() {
-//		    public void onClick(View view) {
-//		    	if (_debug) Log.v("Next Button Clicked()");
-//		    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-//		    	notificationViewFlipper.showNext();
-//		    	updateNavigationButtons(previousButton, notificationCountTextView, nextButton, notificationViewFlipper);
-//		    }
-//		});
-//		initNavigationButtons();	    
 	}
 	
 	/**
@@ -956,10 +880,6 @@ public class NotificationActivity extends Activity {
 	private boolean setupMissedCalls(Bundle bundle){
 		if (_debug) Log.v("NotificationActivity.setupMissedCalls()"); 
 		Context context = getContext();
-//		final NotificationViewFlipper notificationViewFlipper = getNotificationViewFlipper();
-//		final Button previousButton = getPreviousButton();
-//		final Button nextButton = getNextButton();
-//		final TextView notificationCountTextView = getNotificationCountTextView();
 		ArrayList<String> missedCallsArray = bundle.getStringArrayList("missedCallsArrayList");
 		for(int i=0; i< missedCallsArray.size(); i++){
 			String[] missedCallInfo = missedCallsArray.get(i).split("\\|");
@@ -968,7 +888,6 @@ public class NotificationActivity extends Activity {
 			Notification missedCallNotification = new Notification(context, phoneNumber, timeStamp, NOTIFICATION_TYPE_PHONE);
 			getNotificationViewFlipper().addNotification(missedCallNotification);
 		}
-//	    updateNavigationButtons(previousButton, notificationCountTextView, nextButton, notificationViewFlipper);
 	    return true;
 	}
 	
@@ -983,13 +902,9 @@ public class NotificationActivity extends Activity {
 		if (_debug) Log.v("NotificationActivity.setupMessages()"); 
 		Context context = getContext();
 		NotificationViewFlipper notificationViewFlipper = getNotificationViewFlipper();
-//		final Button previousButton = getPreviousButton();
-//		final Button nextButton = getNextButton();
-//		final TextView notificationCountTextView = getNotificationCountTextView();
 	    // Create message from bundle.
 	    Notification smsMessage = new Notification(context, bundle, NOTIFICATION_TYPE_SMS);
 	    notificationViewFlipper.addNotification(smsMessage);
-//	    updateNavigationButtons(previousButton, notificationCountTextView, nextButton, notificationViewFlipper);
 	    return smsMessage;
 	}
 	
@@ -1003,9 +918,6 @@ public class NotificationActivity extends Activity {
 		if (_debug) Log.v("NotificationActivity.getAllUnreadSMSMessages() messageIDFilter: " + messageIDFilter + " messageBodyFilter: " + messageBodyFilter ); 
 		Context context = getContext();
 		NotificationViewFlipper notificationViewFlipper = getNotificationViewFlipper();
-//		final Button previousButton = getPreviousButton();
-//		final Button nextButton = getNextButton();
-//		final TextView notificationCountTextView = getNotificationCountTextView();
 		final String[] projection = new String[] { "_ID", "THREAD_ID", "ADDRESS", "PERSON", "DATE", "BODY"};
 		final String selection = "READ = 0";
 		final String[] selectionArgs = null;
@@ -1037,56 +949,9 @@ public class NotificationActivity extends Activity {
 		} finally {
     		cursor.close();
     	}
-//		updateNavigationButtons(previousButton, notificationCountTextView, nextButton, notificationViewFlipper);
 	}
 
-	/**
-	 * Get all unread Messages and load them.
-	 * 
-	 * @param messageIDFilter - Long value of the currently incoming SMS message.
-	 * @param messagebodyFilter - String value of the currently incoming SMS message.
-	 */
-	private void getAllUnreadMMSMessages(long messageIDFilter, String messageBodyFilter){
-		if (_debug) Log.v("NotificationActivity.getAllUnreadMMSMessages() messageIDFilter: " + messageIDFilter + " messageBodyFilter: " + messageBodyFilter ); 
-		Context context = getContext();
-//		NotificationViewFlipper notificationViewFlipper = getNotificationViewFlipper();
-//		final Button previousButton = getPreviousButton();
-//		final Button nextButton = getNextButton();
-//		final TextView notificationCountTextView = getNotificationCountTextView();
-		final String[] projection = new String[] { "_ID", "THREAD_ID", "ADDRESS", "PERSON", "DATE", "BODY"};
-		final String selection = "READ = 0";
-		final String[] selectionArgs = null;
-		final String sortOrder = null;
-		Cursor cursor = null;
-        try{
-		    cursor = context.getContentResolver().query(
-		    		Uri.parse("content://mms/inbox"),
-		    		projection,
-		    		selection,
-					selectionArgs,
-					sortOrder);
-		    while (cursor.moveToNext()) { 
-		    	long messageID = cursor.getLong(cursor.getColumnIndex("_ID"));
-		    	if (_debug) Log.v("NotificationActivity.getAllUnreadMMSMessages() _ID: " + messageID);
-//		    	long threadID = cursor.getLong(cursor.getColumnIndex("THREAD_ID"));
-//		    	String messageBody = cursor.getString(cursor.getColumnIndex("BODY"));
-//		    	String phoneNumber = cursor.getString(cursor.getColumnIndex("ADDRESS"));
-//		    	long timestamp = cursor.getLong(cursor.getColumnIndex("DATE"));
-//		    	long contactID = cursor.getLong(cursor.getColumnIndex("PERSON"));
-		    	//Don't load the message that corresponds to the messageIDFilter or messageBodyFilter.
-		    	//If we load this message we will have duplicate Notifications, which is bad.
-		    	//if(messageID != messageIDFilter && !messageBody.trim().equals(messageBodyFilter)){
-			    	//Notification smsMessage = new Notification(context, messageID, threadID, messageBody, phoneNumber, timestamp, contactID, NOTIFICATION_TYPE_SMS);		
-			    	//notificationViewFlipper.addNotification(smsMessage);
-		    	//}
-		    }
-		}catch(Exception ex){
-			if (_debug) Log.e("NotificationActivity.getAllUnreadMMSMessages() ERROR: " + ex.toString());
-		} finally {
-    		cursor.close();
-    	}
-//		updateNavigationButtons(previousButton, notificationCountTextView, nextButton, notificationViewFlipper);
-	}
+	//TODO - ADD IN FUNCTION: getAllUnreadMMSMessages
 	
 	/**
 	 * Setup the Calendar Event notifications.
@@ -1096,10 +961,6 @@ public class NotificationActivity extends Activity {
 	private void setupCalendarEventNotifications(Bundle bundle){
 		if (_debug) Log.v("NotificationActivity.setupCalendarEventNotifications()");  
 		Context context = getContext();
-//		NotificationViewFlipper notificationViewFlipper = getNotificationViewFlipper();
-//		final Button previousButton = getPreviousButton();
-//		final Button nextButton = getNextButton();
-//		final TextView notificationCountTextView = getNotificationCountTextView();
 		String calenderEventInfo[] = (String[])bundle.getStringArray("calenderEventInfo");
 		String title = calenderEventInfo[0];
 		String messageBody = calenderEventInfo[1];
@@ -1110,34 +971,7 @@ public class NotificationActivity extends Activity {
 		long eventID = Long.parseLong(calenderEventInfo[6]);
 		Notification calendarEventNotification = new Notification(context, title, messageBody, eventStartTime, eventEndTime, eventAllDay, calendarID, eventID, NOTIFICATION_TYPE_CALENDAR);
 		getNotificationViewFlipper().addNotification(calendarEventNotification);		
-//		updateNavigationButtons(previousButton, notificationCountTextView, nextButton, notificationViewFlipper);
 	}
-	
-//	/**
-//	 * Initialize the navigation buttons and text.
-//	 */
-//	private void initNavigationButtons(){
-//		if (_debug) Log.v("NotificationActivity.initNavigationButtons()");
-//		final NotificationViewFlipper notificationViewFlipper = getNotificationViewFlipper();
-//		final Button previousButton = getPreviousButton();
-//		final Button nextButton = getNextButton();
-//		final TextView notificationCountTextView = getNotificationCountTextView();
-//		updateNavigationButtons(previousButton, notificationCountTextView, nextButton, notificationViewFlipper);
-//	}  
-	  
-//	/**
-//	 * Update the navigation buttons and text when items are added or removed.
-//	 * 
-//	 * @param previousButton - Next button of the flipper.
-//	 * @param notificationCountTextView - View of the counts on the Activity.
-//	 * @param nextButton - Next button of the flipper.
-//	 */
-//    public void updateNavigationButtons(Button previousButton, TextView notificationCountTextView, Button nextButton, NotificationViewFlipper notificationViewFlipper){
-//    	if (_debug) Log.v("NotificationActivity.updateNavigationButtons()");
-//    	previousButton.setEnabled(!notificationViewFlipper.isFirstMessage());
-//    	notificationCountTextView.setText( (notificationViewFlipper.getCurrentNotification() + 1) + "/" + notificationViewFlipper.getTotalNotifications());
-//    	nextButton.setEnabled(!notificationViewFlipper.isLastMessage()); 		
-//    }
 	
 	/**
 	 * Delete the current message from the users phone.
@@ -1390,33 +1224,33 @@ public class NotificationActivity extends Activity {
 		}
 	}
 	
-//	/**
-//	 * Function that performs custom haptic feedback.
-//	 * This function performs haptic feedback based on the users preferences.
-//	 * 
-//	 * @param hapticFeedbackConstant - What type of action the feedback is responding to.
-//	 */
-//	private void customPerformHapticFeedback(int hapticFeedbackConstant){
-//		if (_debug) Log.v("NotificationActivity.customPerformHapticFeedback()");
-//		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-//		Vibrator vibrator = null;
-//		try{
-//			vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
-//			//Perform the haptic feedback based on the users preferences.
-//			if(preferences.getBoolean(HAPTIC_FEEDBACK_ENABLED_KEY, true)){
-//				if(hapticFeedbackConstant == HapticFeedbackConstants.VIRTUAL_KEY){
-//					if(vibrator != null) vibrator.vibrate(50);
-//				}
-//			}
-//			if(preferences.getBoolean(HAPTIC_FEEDBACK_ENABLED_KEY, true)){
-//				if(hapticFeedbackConstant == HapticFeedbackConstants.LONG_PRESS){
-//					if(vibrator != null) vibrator.vibrate(100);
-//				}
-//			}
-//		}catch(Exception ex){
-//			if (_debug) Log.e("NotificationActivity.customPerformHapticFeedback() ERROR: " + ex.toString());
-//		}
-//	}
+	/**
+	 * Function that performs custom haptic feedback.
+	 * This function performs haptic feedback based on the users preferences.
+	 * 
+	 * @param hapticFeedbackConstant - What type of action the feedback is responding to.
+	 */
+	private void customPerformHapticFeedback(int hapticFeedbackConstant){
+		if (_debug) Log.v("NotificationActivity.customPerformHapticFeedback()");
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+		Vibrator vibrator = null;
+		try{
+			vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
+			//Perform the haptic feedback based on the users preferences.
+			if(preferences.getBoolean(HAPTIC_FEEDBACK_ENABLED_KEY, true)){
+				if(hapticFeedbackConstant == HapticFeedbackConstants.VIRTUAL_KEY){
+					if(vibrator != null) vibrator.vibrate(50);
+				}
+			}
+			if(preferences.getBoolean(HAPTIC_FEEDBACK_ENABLED_KEY, true)){
+				if(hapticFeedbackConstant == HapticFeedbackConstants.LONG_PRESS){
+					if(vibrator != null) vibrator.vibrate(100);
+				}
+			}
+		}catch(Exception ex){
+			if (_debug) Log.e("NotificationActivity.customPerformHapticFeedback() ERROR: " + ex.toString());
+		}
+	}
 	
 	/**
 	 * Function to create a test notification of each type.
@@ -1434,7 +1268,6 @@ public class NotificationActivity extends Activity {
 		//Add Calendar Event Notification.
 		Notification calendarEventNotification = new Notification(context, "Droid Notify Calendar Event Test", "", System.currentTimeMillis(), System.currentTimeMillis() + (10 * 60 * 1000), false, 0, 0, NOTIFICATION_TYPE_CALENDAR);
 		notificationViewFlipper.addNotification(calendarEventNotification);	
-//	    updateNavigationButtons(getPreviousButton(), getNotificationCountTextView(), getNextButton(), getNotificationViewFlipper());
 	}
 	
 	/**
