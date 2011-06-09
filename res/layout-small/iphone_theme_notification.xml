@@ -92,8 +92,6 @@
 						android:layout_height="wrap_content"
 						android:layout_width="wrap_content" 
 						android:layout_gravity="center_vertical"
-						android:text="Missed Call 11:23pm" 
-						android:textStyle="bold"
 						android:textColorLink="@color/white"
 						android:textAppearance="?android:attr/textAppearanceSmall"
 						android:paddingLeft="5dip"/>
@@ -114,7 +112,6 @@
 					android:layout_gravity="left"
 					android:textAppearance="?android:attr/textAppearanceMedium"
 					android:maxLines="1"
-					android:textStyle="bold"
 					android:textColorLink="@color/white"  />
 			</LinearLayout>
 		</LinearLayout>
@@ -127,7 +124,8 @@
 			android:textColor="@color/white" 
 			android:gravity="left" 
 			android:autoLink="all"
-			android:scrollbars="vertical" 
+			android:scrollbars="vertical"
+			android:padding="5dip" 
 			android:selectAllOnFocus="true"/>
 	</LinearLayout>
 	<LinearLayout 
@@ -206,7 +204,7 @@
 			android:layout_marginRight="1dip"
 			android:textColor="#ffffff"
 			android:gravity="center_vertical|center_horizontal" 
-			android:drawableLeft="@drawable/sym_call_incoming"
+			android:drawableLeft="@drawable/ic_menu_start_conversation"
 			android:hapticFeedbackEnabled="true"
 			android:background="@drawable/btn_iphone"
 			android:text="@string/reply_button_text" />

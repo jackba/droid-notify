@@ -62,6 +62,8 @@ public class NotificationView extends LinearLayout {
 	private final String ANDROID_DARK_THEME = "android_dark";
 	private final String IPHONE_THEME = "iphone";
 	
+	private final int CONTACT_WRAPPER_LINEAR_LAYOUT = R.id.contact_wrapper_linear_layout;
+	
 	//================================================================================
     // Properties
     //================================================================================
@@ -99,9 +101,6 @@ public class NotificationView extends LinearLayout {
 	    initLayoutItems(context);
 	    setupNotificationViewButtons(notification);
 	    populateNotificationViewInfo(notification);
-	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
-	    	setupCalendarView();
-	    }
 	}
 
 	//================================================================================
@@ -427,8 +426,7 @@ public class NotificationView extends LinearLayout {
 	    setPhoneButtonLinearLayout((LinearLayout) findViewById(R.id.phone_button_linear_layout));
 	    setSMSButtonLinearLayout((LinearLayout) findViewById(R.id.sms_button_linear_layout));
 		setCalendarButtonLinearLayout((LinearLayout) findViewById(R.id.calendar_button_linear_layout));
-		//TODO - NEED TO CHANGE THIS TO WORK WITH CALENDAR NOTIFICATIONS!!
-		setContactLinearLayout((LinearLayout) findViewById(R.id.contact_main_linear_layout));	
+		setContactLinearLayout((LinearLayout) findViewById(R.id.contact_wrapper_linear_layout));	
 		setNotificationViewFlipper(((NotificationActivity)getContext()).getNotificationViewFlipper());
 	}
 
@@ -454,7 +452,6 @@ public class NotificationView extends LinearLayout {
 		    	NotificationViewFlipper notificationViewFlipper = getNotificationViewFlipper();
 		    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 		    	notificationViewFlipper.showPrevious();
-		    	//updateNavigationButtons(previousButton, notificationCountTextView, nextButton, notificationViewFlipper);
 		    }
 		});
 		// Next Button
@@ -582,6 +579,8 @@ public class NotificationView extends LinearLayout {
 	    	}
 			fromTextView.setText(notificationTitle);
 			phoneNumberTextView.setVisibility(View.GONE);
+			ImageView photoImageView = getPhotoImageView();
+			photoImageView.setVisibility(View.GONE);
 		}else{
 			fromTextView.setText(notification.getContactName());
 		    if(notification.getContactExists()){
@@ -589,6 +588,10 @@ public class NotificationView extends LinearLayout {
 		    }else{
 		    	phoneNumberTextView.setText(notification.getPhoneNumber());
 		    }
+		}
+		if(notificationType == NOTIFICATION_TYPE_PHONE){
+			TextView notificationTextView = getNotificationTextView();
+			notificationTextView.setVisibility(View.GONE);
 		}
 	    //Load the notification message.
 	    setNotificationMessage(notification);
@@ -614,23 +617,19 @@ public class NotificationView extends LinearLayout {
 		int notificationAlignment = Gravity.LEFT;
 	    if(notificationType == NOTIFICATION_TYPE_PHONE){
 	    	notificationText = "Missed Call!";
-	    	notificationAlignment = Gravity.LEFT;
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_SMS || notificationType == NOTIFICATION_TYPE_MMS){
 	    	notificationText = notification.getMessageBody();
-	    	notificationAlignment = Gravity.LEFT;
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
 	    	String notificationTitle = notification.getTitle();
 	    	if(notificationTitle.equals("")){
 	    		notificationTitle = "No Title";
 	    	}
-	    	notificationText = "<i>" + notification.getMessageBody() + "</i>";
-	    	notificationAlignment = Gravity.LEFT;
+	    	notificationText = "<i>" + notification.getMessageBody() + "</i><br/>" + notificationTitle;
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_EMAIL){
 	    	notificationText = notification.getTitle();
-	    	notificationAlignment = Gravity.LEFT;
 	    } 
 	    notificationTextView.setText(Html.fromHtml(notificationText));
 	    notificationTextView.setGravity(notificationAlignment);
@@ -678,16 +677,7 @@ public class NotificationView extends LinearLayout {
 	    }
 	    receivedAtTextView.setText(receivedAtText);
 	}
-	
-	/**
-	 * Alter the main notification view and remove the contact photo as there is no contact for Calendar Events.
-	 */
-	private void setupCalendarView(){
-		if (_debug) Log.v("NotificationView.setupCalendarView()");
-		ImageView photoImageView = getPhotoImageView();
-		photoImageView.setVisibility(View.GONE);
-	}
-	
+		
 	/**
 	 * Insert the image from the users contacts into the notification View.
 	 * 

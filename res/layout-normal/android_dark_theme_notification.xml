@@ -6,11 +6,11 @@
     android:layout_height="wrap_content"
     android:layout_width="fill_parent" 
     android:gravity="center_vertical|fill_horizontal"
-    android:background="@drawable/panel_background2">
+    android:background="@drawable/android_dark_panel">
 	<RelativeLayout
     	android:id="@+id/header_navigation"
     	android:layout_width="wrap_content"
-    	android:layout_height="30dip" 
+    	android:layout_height="wrap_content" 
     	android:gravity="center"
     	android:padding="2dp">
 	    <Button
@@ -58,7 +58,8 @@
 			android:layout_gravity="fill_horizontal"
 			android:focusable="true" 
 			android:clickable="true"
-			android:hapticFeedbackEnabled="true">
+			android:hapticFeedbackEnabled="true"
+			android:background="@drawable/list_selector_background">
 			<ImageView
 				android:id="@+id/contact_photo_image_view"
 				android:layout_height="wrap_content"
@@ -72,9 +73,6 @@
 				android:layout_height="wrap_content"
 				android:layout_width="fill_parent"
 				android:layout_gravity="left"
-				android:focusable="true" 
-				android:clickable="true"
-				android:hapticFeedbackEnabled="true"
 				android:paddingLeft="5dip">
 				<LinearLayout
 					android:id="@+id/contact_info_linear_layout"
@@ -92,8 +90,6 @@
 						android:layout_height="wrap_content"
 						android:layout_width="wrap_content" 
 						android:layout_gravity="center_vertical"
-						android:text="Missed Call 11:23pm" 
-						android:textStyle="bold"
 						android:textColorLink="@color/white"
 						android:textAppearance="?android:attr/textAppearanceSmall"
 						android:paddingLeft="5dip"/>
@@ -114,7 +110,6 @@
 					android:layout_gravity="left"
 					android:textAppearance="?android:attr/textAppearanceMedium"
 					android:maxLines="1"
-					android:textStyle="bold"
 					android:textColorLink="@color/white"  />
 			</LinearLayout>
 		</LinearLayout>
@@ -127,7 +122,8 @@
 			android:textColor="@color/white" 
 			android:gravity="left" 
 			android:autoLink="all"
-			android:scrollbars="vertical" 
+			android:scrollbars="vertical"
+			android:padding="5dip" 
 			android:selectAllOnFocus="true"/>
 	</LinearLayout>
 	<LinearLayout 
@@ -156,7 +152,7 @@
 			android:layout_marginLeft="1dip"
 			android:layout_marginRight="1dip"
 			android:gravity="center_vertical|center_horizontal"
-			android:drawableLeft="@drawable/sym_call_incoming"
+			android:drawableLeft="@drawable/sym_action_call"
 			android:hapticFeedbackEnabled="true"
 			android:text="@string/call_button_text" />
 	</LinearLayout>
@@ -197,7 +193,7 @@
 			android:layout_marginLeft="1dip"
 			android:layout_marginRight="1dip"
 			android:gravity="center_vertical|center_horizontal"
-			android:drawableLeft="@drawable/sym_action_call"
+			android:drawableLeft="@drawable/ic_menu_start_conversation"
 			android:hapticFeedbackEnabled="true"
 			android:text="@string/reply_button_text" />
 	</LinearLayout>
