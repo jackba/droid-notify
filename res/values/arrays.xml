@@ -122,7 +122,58 @@
 		<item name="2">45</item>
 		<item name="3">60</item>
 	</string-array>
-	
+    <string-array name="calendar_reminder_all_day_options">
+		<item name="0">1 Hour Before</item>
+		<item name="1">2 Hours Before</item>
+		<item name="2">3 Hours Before</item>
+		<item name="3">4 Hours Before</item>
+		<item name="4">5 Hours Before</item>
+		<item name="5">6 Hours Before</item>
+		<item name="6">7 Hours Before</item>
+		<item name="7">8 Hours Before</item>
+		<item name="8">9 Hours Before</item>
+		<item name="9">10 Hours Before</item>
+		<item name="10">11 Hours Before</item>
+		<item name="11">12 Hours Before</item>
+		<item name="12">13 Hours Before</item>
+		<item name="13">14 Hours Before</item>
+		<item name="14">15 Hours Before</item>
+		<item name="15">16 Hours Before</item>
+		<item name="16">17 Hours Before</item>
+		<item name="17">18 Hours Before</item>
+		<item name="18">19 Hours Before</item>
+		<item name="19">20 Hours Before</item>
+		<item name="20">21 Hours Before</item>
+		<item name="21">22 Hours Before</item>
+		<item name="22">23 Hours Before</item>
+		<item name="23">24 Hours Before</item>
+	</string-array>
+	<string-array name="calendar_reminder_all_day_options_values">
+		<item name="0">1</item>
+		<item name="1">2</item>
+		<item name="2">3</item>
+		<item name="3">4</item>
+		<item name="4">5</item>
+		<item name="5">6</item>
+		<item name="6">7</item>
+		<item name="7">8</item>
+		<item name="8">9</item>
+		<item name="9">10</item>
+		<item name="10">11</item>
+		<item name="11">12</item>
+		<item name="12">13</item>
+		<item name="13">14</item>
+		<item name="14">15</item>
+		<item name="15">16</item>
+		<item name="16">17</item>
+		<item name="17">18</item>
+		<item name="18">19</item>
+		<item name="19">20</item>
+		<item name="20">21</item>
+		<item name="21">22</item>
+		<item name="22">23</item>
+		<item name="23">24</item>
+	</string-array>	
 	<!-- Email Preferences Arrays --> 
 	
 	<!-- Other Preferences Arrays -->

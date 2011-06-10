@@ -84,6 +84,8 @@ public class NotificationActivity extends Activity {
 	private final String CALENDAR_RINGTONE_KEY = "calendar_ringtone_audio";
 	private final String RINGTONE_LENGTH_KEY = "ringtone_length_settings";
 	private final String SMS_DISPLAY_UNREAD_KEY = "sms_display_unread_enabled";
+	private final String SMS_CONFIRM_DELETION_KEY = "confirm_sms_deletion_enabled";
+	private final String MMS_CONFIRM_DELETION_KEY = "confirm_mms_deletion_enabled";
 	
 	private final String SMS_DELETE_ACTION_DELETE_MESSAGE = "0";
 	private final String SMS_DELETE_ACTION_DELETE_THREAD = "1";
@@ -580,17 +582,29 @@ public class NotificationActivity extends Activity {
 		int notificationType = getNotificationViewFlipper().getActiveMessage().getNotificationType();
 		if(notificationType == NOTIFICATION_TYPE_SMS){
 			if(preferences.getString(SMS_DELETE_KEY, "0").equals(SMS_DELETE_ACTION_NOTHING)){
-				//Remove the notification from the ViewFlipper
+				//Remove the notification from the ViewFlipper.
 				deleteMessage();
 			}else{
-				showDialog(DIALOG_DELETE_MESSAGE);
+				if(preferences.getBoolean(SMS_CONFIRM_DELETION_KEY, true)){
+					//Confirm deletion of the message.
+					showDialog(DIALOG_DELETE_MESSAGE);
+				}else{
+					//Remove the notification from the ViewFlipper.
+					deleteMessage();
+				}
 			}
 		}else if(notificationType == NOTIFICATION_TYPE_MMS){
 			if(preferences.getString(MMS_DELETE_KEY, "0").equals(MMS_DELETE_ACTION_NOTHING)){
 				//Remove the notification from the ViewFlipper
 				deleteMessage();
 			}else{
-				showDialog(DIALOG_DELETE_MESSAGE);
+				if(preferences.getBoolean(MMS_CONFIRM_DELETION_KEY, true)){
+					//Confirm deletion of the message.
+					showDialog(DIALOG_DELETE_MESSAGE);
+				}else{
+					//Remove the notification from the ViewFlipper.
+					deleteMessage();
+				}
 			}
 		}
 	}

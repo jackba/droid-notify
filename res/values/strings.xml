@@ -116,6 +116,9 @@
    	<string name="preference_sms_ringtone_enabled_summaryOff">SMS notifications will not play a ringtone on arrival.</string>
    	<string name="preference_sms_vibrate_settings">SMS Vibrate Settings</string>
    	<string name="preference_sms_ringtone_settings">SMS Ringtone Settings</string>
+   	<string name="preference_confirm_sms_deletion_enabled_title">Confirm Message Deletion</string>
+   	<string name="preference_confirm_sms_deletion_enabled_summaryOn">A dialog box will display when you delete a message.</string>
+   	<string name="preference_confirm_sms_deletion_enabled_summaryOff">A dialog box will not display when you delete a message.</string>
    	
    	<string name="preference_mms_enabled_title">Enable MMS</string>
    	<string name="preference_mms_enabled_summaryOn">MMS notifications are enabled</string>
@@ -169,6 +172,8 @@
    	
    	<string name="preference_event_reminder_settings">Event Reminder Settings</string>
     <string name="preference_event_reminder_summary">How early do you want to be reminded about an upcoming event?</string>
+    <string name="preference_event_reminder_all_day_settings">All-Day Event Reminder Settings</string>
+    <string name="preference_event_reminder_all_day_summary">How early do you want to be reminded about an upcoming All-Day event?</string>
     
     <string name="preference_screen_settings">Screen Settings</string>
 	<string name="preference_screen_enabled_title">Turn Screen On</string>

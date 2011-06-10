@@ -51,7 +51,8 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
     private final String CALENDAR_EVENT_DISPLAY_NAME = "displayName"; 
     private final String CALENDAR_SELECTED = "selected"; 
     private final String CALENDAR_REMINDER_KEY = "calendar_reminder_settings";
-	
+    private final String CALENDAR_REMINDER_ALL_DAY_KEY = "calendar_reminder_all_day_settings";
+    
 	//================================================================================
     // Properties
     //================================================================================
@@ -108,6 +109,7 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
 		//Determine the reminder interval based on the users preferences.
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		long reminderInterval = Long.parseLong(preferences.getString(CALENDAR_REMINDER_KEY, "15")) * 60 * 1000;
+		long reminderIntervalAllDay = Long.parseLong(preferences.getString(CALENDAR_REMINDER_ALL_DAY_KEY, "6")) * 60 * 60 * 1000;
 		try{
 			ContentResolver contentResolver = context.getContentResolver();
 			// Fetch a list of all calendars synced with the device, their display names and whether the user has them selected for display.
@@ -116,6 +118,8 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
 			try{
 				//Android 2.2+
 				contentProvider = "content://com.android.calendar";
+				//Android 2.1 and below.
+				//contentProvider = "content://calendar";
 				cursor = contentResolver.query(
 					Uri.parse(contentProvider + "/calendars"), 
 					new String[] { _ID, CALENDAR_EVENT_DISPLAY_NAME, CALENDAR_SELECTED },
@@ -123,22 +127,12 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
 					null,
 					null);
 			}catch(Exception ex){
-				//Do Nothing
+				if (Log.getDebug()) Log.e("CalendarAlarmReceiverService.readCalendars() Cursor ERROR: " + ex.toString());
+				return;
 			}
 			if(cursor == null){
-				try{
-					//Android 2.1 and below.
-					contentProvider = "content://calendar";
-					cursor = contentResolver.query(
-						Uri.parse(contentProvider + "/calendars"),
-						new String[] { _ID, CALENDAR_EVENT_DISPLAY_NAME, CALENDAR_SELECTED },
-						null,
-						null,
-						null);
-				}catch(Exception ex){
-					if (Log.getDebug()) Log.e("CalendarAlarmReceiverService.readCalendars() ERROR: Content Resolver returned a null cursor. Exiting...");
-					return;
-				}
+				if (Log.getDebug()) Log.e("CalendarAlarmReceiverService.readCalendars() ERROR: Content Resolver returned a null cursor. Exiting...");
+				return;
 			}
 			// For a full list of available columns see http://tinyurl.com/yfbg76w
 			HashSet<String> calendarIds = new HashSet<String>();
@@ -171,10 +165,20 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
 					long eventEndTime = eventCursor.getLong(eventCursor.getColumnIndex(CALENDAR_INSTANCE_END));
 					final Boolean allDay = !eventCursor.getString(eventCursor.getColumnIndex(CALENDAR_EVENT_ALL_DAY)).equals("0");
 					if (Log.getDebug()) Log.v("Event ID: " + eventID + " Title: " + eventTitle + " Begin: " + eventStartTime + " End: " + eventEndTime + " All Day: " + allDay);
-					//This line of code is for testing.
-					//scheduleCalendarNotification(context, System.currentTimeMillis() + (1 * 30 * 1000), eventTitle, Long.toString(eventStartTime), Long.toString(eventEndTime), Boolean.toString(allDay), calendarID, eventID );
 					//--------------------------------
-					scheduleCalendarNotification(context, eventStartTime - reminderInterval, eventTitle, Long.toString(eventStartTime), Long.toString(eventEndTime), Boolean.toString(allDay), calendarID.toString(), eventID );
+					//This line of code is for testing.
+					//scheduleCalendarNotification(context, System.currentTimeMillis() + (30 * 1000), eventTitle, Long.toString(eventStartTime), Long.toString(eventEndTime), Boolean.toString(allDay), calendarID.toString(), eventID );
+					//--------------------------------
+					//For all day events and any event in the past, don't schedule them.
+					if(allDay){
+						//Special case for all-day events.
+						if(eventStartTime >= System.currentTimeMillis()){
+							scheduleCalendarNotification(context, eventStartTime - reminderIntervalAllDay, eventTitle, Long.toString(eventStartTime), Long.toString(eventEndTime), Boolean.toString(allDay), calendarID.toString(), eventID );
+						}
+					}else if(eventStartTime >= System.currentTimeMillis()){
+						//Schedule non-all-day events.
+						scheduleCalendarNotification(context, eventStartTime - reminderInterval, eventTitle, Long.toString(eventStartTime), Long.toString(eventEndTime), Boolean.toString(allDay), calendarID.toString(), eventID );
+					}
 				}
 			}
 		}catch(Exception ex){
