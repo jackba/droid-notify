@@ -41,4 +41,5 @@
   * Add touch "swipe" and "fling" motions to navigate through notifications. 
   * Add user preference to show or hide the icons on the buttons.
   * Add user preference to show a confirmation dialog box when you delete a message.
+  * Add user preference to schedule All-Day calendar events hours before that special type of event (instead of minutes like other events).
   * 
