@@ -37,9 +37,9 @@
 
  * *v2.0* _Coming Soon..._
   * New UI for notifications.
-  * Add "Themes" in preferences for the notifications.
-  * Add touch "swipe" and "fling" motions to navigate through notifications. 
-  * Add user preference to show or hide the icons on the buttons.
-  * Add user preference to show a confirmation dialog box when you delete a message.
-  * Add user preference to schedule All-Day calendar events hours before that special type of event (instead of minutes like other events).
+  * Added "Themes" in preferences for the notifications.
+  * Added touch "swipe" and "fling" motions to navigate through notifications. 
+  * Added user preference to show or hide the icons on the buttons.
+  * Added user preference to show a confirmation dialog box when you delete a message.
+  * Added user preference to schedule All-Day calendar events hours before that special type of event (instead of minutes like other events).
   * 
