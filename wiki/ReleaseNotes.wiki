@@ -40,4 +40,5 @@
   * Add "Themes" in preferences for the notifications.
   * Add touch "swipe" and "fling" motions to navigate through notifications. 
   * Add user preference to show or hide the icons on the buttons.
-  *
+  * Add user preference to show a confirmation dialog box when you delete a message.
+  * 
