@@ -6,9 +6,13 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Vibrator;
+import android.preference.PreferenceManager;
 import android.telephony.SmsManager;
+import android.view.HapticFeedbackConstants;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -30,6 +34,13 @@ public class QuickReplyActivity extends Activity {
 	private final int CANCEL_BUTTON = R.id.quick_reply_cancel_button;
 	private final int TO_EDIT_TEXT = R.id.send_to_edit_text;
 	private final int MESSAGE_EDIT_TEXT = R.id.message_edit_text;
+
+	private final String HAPTIC_FEEDBACK_ENABLED_KEY = "haptic_feedback_enabled";
+	
+	private final String APP_THEME_KEY = "app_theme";
+	private final String ANDROID_THEME = "android";
+	private final String ANDROID_DARK_THEME = "android_dark";
+	private final String IPHONE_THEME = "iphone";
 	
 	//================================================================================
     // Properties
@@ -57,7 +68,7 @@ public class QuickReplyActivity extends Activity {
 	 * @param bundle - The bundle passed into this Activity.
 	 */
 	public void setBundle(Bundle bundle) {
-		if (_debug) Log.v("NotificationActivity.setBundle()");
+		if (_debug) Log.v("QuickReplyActivity.setBundle()");
 	    _bundle = bundle;
 	}
 	
@@ -67,7 +78,7 @@ public class QuickReplyActivity extends Activity {
 	 * @return Bundle - The bundle passed into this Activity.
 	 */
 	public Bundle getBundle() {
-		if (_debug) Log.v("NotificationActivity.getBundle()");
+		if (_debug) Log.v("QuickReplyActivity.getBundle()");
 	    return _bundle;
 	} 
 	
@@ -77,7 +88,7 @@ public class QuickReplyActivity extends Activity {
 	 * @param context - Application's Context.
 	 */
 	public void setContext(Context context) {
-		if (_debug) Log.v("NotificationActivity.setContext()");
+		if (_debug) Log.v("QuickReplyActivity.setContext()");
 	    _context = context;
 	}
 	
@@ -87,7 +98,7 @@ public class QuickReplyActivity extends Activity {
 	 * @return Context - Application's Context.
 	 */
 	public Context getContext() {
-		if (_debug) Log.v("NotificationActivity.getContext()");
+		if (_debug) Log.v("QuickReplyActivity.getContext()");
 	    return _context;
 	}
 	
@@ -97,7 +108,7 @@ public class QuickReplyActivity extends Activity {
 	 * @param sendButton - Send Button.
 	 */
 	public void setSendButton(Button sendButton) {
-		if (_debug) Log.v("NotificationActivity.setSendButton()");
+		if (_debug) Log.v("QuickReplyActivity.setSendButton()");
 	    _sendButton = sendButton;
 	}
 	
@@ -107,7 +118,7 @@ public class QuickReplyActivity extends Activity {
 	 * @return Button - Send Button.
 	 */
 	public Button getSendButton() {
-		if (_debug) Log.v("NotificationActivity.getSendButton()");
+		if (_debug) Log.v("QuickReplyActivity.getSendButton()");
 	    return _sendButton;
 	}
 
@@ -117,7 +128,7 @@ public class QuickReplyActivity extends Activity {
 	 * @param cancelButton - Cancel Button.
 	 */
 	public void setCancelButton(Button cancelButton) {
-		if (_debug) Log.v("NotificationActivity.setCancelButton()");
+		if (_debug) Log.v("QuickReplyActivity.setCancelButton()");
 	    _cancelButton = cancelButton;
 	}
 	
@@ -127,7 +138,7 @@ public class QuickReplyActivity extends Activity {
 	 * @return Button - Cancel Button.
 	 */
 	public Button getCancelButton() {
-		if (_debug) Log.v("NotificationActivity.getCancelButton()");
+		if (_debug) Log.v("QuickReplyActivity.getCancelButton()");
 	    return _cancelButton;
 	}
 	
@@ -137,7 +148,7 @@ public class QuickReplyActivity extends Activity {
 	 * @param toEditText - To Edit Text.
 	 */
 	public void setToEditText(EditText toEditText) {
-		if (_debug) Log.v("NotificationActivity.setToEditText()");
+		if (_debug) Log.v("QuickReplyActivity.setToEditText()");
 	    _toEditText = toEditText;
 	}
 	
@@ -147,7 +158,7 @@ public class QuickReplyActivity extends Activity {
 	 * @return EditText - To Edit Text.
 	 */
 	public EditText getToEditText() {
-		if (_debug) Log.v("NotificationActivity.getToEditText()");
+		if (_debug) Log.v("QuickReplyActivity.getToEditText()");
 	    return _toEditText;
 	}
 	
@@ -157,7 +168,7 @@ public class QuickReplyActivity extends Activity {
 	 * @param toEditText - To Edit Text.
 	 */
 	public void setMessageEditText(EditText messageEditText) {
-		if (_debug) Log.v("NotificationActivity.setMessageEditText()");
+		if (_debug) Log.v("QuickReplyActivity.setMessageEditText()");
 	    _messageEditText = messageEditText;
 	}
 	
@@ -167,7 +178,7 @@ public class QuickReplyActivity extends Activity {
 	 * @return EditText - To Edit Text.
 	 */
 	public EditText getMessageEditText() {
-		if (_debug) Log.v("NotificationActivity.getMessageEditText()");
+		if (_debug) Log.v("QuickReplyActivity.getMessageEditText()");
 	    return _messageEditText;
 	}
 	
@@ -180,7 +191,8 @@ public class QuickReplyActivity extends Activity {
 	 */
 	public void onConfigurationChanged(Configuration config) {
         super.onConfigurationChanged(config);
-        //Do Nothing (For Now).
+        if (_debug) Log.v("QuickReplyActivity.onConfigurationChanged()");
+        //Do Nothing.
 	}
 	
 	//================================================================================
@@ -200,10 +212,15 @@ public class QuickReplyActivity extends Activity {
 	    Context context = getApplicationContext();
 	    setBundle(bundle);
 	    setContext(context);
-	    //requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
-	    //getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.quickreplytitlebar);
 	    requestWindowFeature(Window.FEATURE_LEFT_ICON);
-	    setContentView(R.layout.smsreply);
+	    //Set based on the theme. This is set in the user preferences.
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		String applicationThemeSetting = preferences.getString(APP_THEME_KEY, ANDROID_THEME);
+		int themeResource = R.layout.android_theme_notification;
+		if(applicationThemeSetting.equals(ANDROID_THEME)) themeResource = R.layout.android_theme_smsreply;
+		if(applicationThemeSetting.equals(ANDROID_DARK_THEME)) themeResource = R.layout.android_dark_theme_smsreply;
+		if(applicationThemeSetting.equals(IPHONE_THEME)) themeResource = R.layout.iphone_theme_smsreply;
+	    setContentView(themeResource);
 	    setFeatureDrawableResource(Window.FEATURE_LEFT_ICON, R.drawable.ic_menu_start_conversation);
 	    setTitle("Quick Reply");    
 	    setSendButton((Button)findViewById(SEND_BUTTON));
@@ -303,13 +320,15 @@ public class QuickReplyActivity extends Activity {
 		if (_debug) Log.v("QuickReplyActivity.setupButtons()");
 	    Button sendButton = getSendButton(); 
 	    sendButton.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View view) {     
+            public void onClick(View view) {
+            	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
             	sendSMSMessage(); 
             }
         });
 	    Button cancelButton = getCancelButton(); 
 	    cancelButton.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View view) {     
+            public void onClick(View view) {
+            	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
             	finishActivity();                
             }
         });
@@ -328,9 +347,9 @@ public class QuickReplyActivity extends Activity {
             sendSMS(phoneNumber, message);                
         }else{
         	if(phoneNumber.length()<= 0){
-        		Toast.makeText(getBaseContext(), "Please enter a number to send the message to.", Toast.LENGTH_SHORT).show();
+        		Toast.makeText(getBaseContext(), getString(R.string.phone_number_error_text), Toast.LENGTH_SHORT).show();
         	}else if(message.length()<= 0){
-        		Toast.makeText(getBaseContext(), "Please enter a message to send.", Toast.LENGTH_SHORT).show();
+        		Toast.makeText(getBaseContext(), getString(R.string.message_error_text), Toast.LENGTH_SHORT).show();
         	}
         }
 	}
@@ -355,19 +374,19 @@ public class QuickReplyActivity extends Activity {
                 switch (getResultCode())
                 {
                     case Activity.RESULT_OK:
-                        Toast.makeText(getBaseContext(), "Message sent", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getBaseContext(), getString(R.string.message_sent_text), Toast.LENGTH_SHORT).show();
                         break;
                     case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
-                        Toast.makeText(getBaseContext(), "Message not sent: Generic failure", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getBaseContext(), getString(R.string.message_sent_error_generic_failure_text), Toast.LENGTH_SHORT).show();
                         break;
                     case SmsManager.RESULT_ERROR_NO_SERVICE:
-                        Toast.makeText(getBaseContext(), "Message not sent: No service", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getBaseContext(), getString(R.string.message_sent_error_no_service_text), Toast.LENGTH_SHORT).show();
                         break;
                     case SmsManager.RESULT_ERROR_NULL_PDU:
-                        Toast.makeText(getBaseContext(), "Message not sent: Null PDU", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getBaseContext(), getString(R.string.message_sent_error_null_pdu_text), Toast.LENGTH_SHORT).show();
                         break;
                     case SmsManager.RESULT_ERROR_RADIO_OFF:
-                        Toast.makeText(getBaseContext(), "Message not sent: Radio off", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getBaseContext(), getString(R.string.message_sent_error_radio_off_text), Toast.LENGTH_SHORT).show();
                         break;
                 }
                 //Finish Activity.
@@ -382,10 +401,10 @@ public class QuickReplyActivity extends Activity {
         //        switch (getResultCode())
         //        {
         //            case Activity.RESULT_OK:
-        //                Toast.makeText(getBaseContext(), "Message delivered", Toast.LENGTH_SHORT).show();
+        //                Toast.makeText(getBaseContext(), getString(R.string.message_delivered_text), Toast.LENGTH_SHORT).show();
         //                break;
         //            case Activity.RESULT_CANCELED:
-        //                Toast.makeText(getBaseContext(), "Message not delivered", Toast.LENGTH_SHORT).show();
+        //                Toast.makeText(getBaseContext(), getString(R.string.message_not_delivered_text), Toast.LENGTH_SHORT).show();
         //                break;                        
         //        }
         //    }
@@ -394,5 +413,33 @@ public class QuickReplyActivity extends Activity {
         SmsManager sms = SmsManager.getDefault();
         sms.sendTextMessage(phoneNumber, null, message, sentPI, deliveredPI);        
     }
+	
+	/**
+	 * Function that performs custom haptic feedback.
+	 * This function performs haptic feedback based on the users preferences.
+	 * 
+	 * @param hapticFeedbackConstant - What type of action the feedback is responding to.
+	 */
+	private void customPerformHapticFeedback(int hapticFeedbackConstant){
+		if (_debug) Log.v("QuickReplyActivity.customPerformHapticFeedback()");
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+		Vibrator vibrator = null;
+		try{
+			vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
+			//Perform the haptic feedback based on the users preferences.
+			if(preferences.getBoolean(HAPTIC_FEEDBACK_ENABLED_KEY, true)){
+				if(hapticFeedbackConstant == HapticFeedbackConstants.VIRTUAL_KEY){
+					if(vibrator != null) vibrator.vibrate(50);
+				}
+			}
+			if(preferences.getBoolean(HAPTIC_FEEDBACK_ENABLED_KEY, true)){
+				if(hapticFeedbackConstant == HapticFeedbackConstants.LONG_PRESS){
+					if(vibrator != null) vibrator.vibrate(100);
+				}
+			}
+		}catch(Exception ex){
+			if (_debug) Log.e("QuickReplyActivity.customPerformHapticFeedback() ERROR: " + ex.toString());
+		}
+	}
 	
 }

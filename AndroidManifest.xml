@@ -56,7 +56,7 @@
         	android:configChanges="keyboardHidden|orientation" />
 		<activity 
    			android:name=".QuickReplyActivity" 
-   			android:theme="@style/Theme.TranslucentDialog"
+   			android:theme="@style/Theme.Transparent"
 			android:launchMode="singleTask"
 			android:screenOrientation="user"
         	android:configChanges="keyboardHidden|orientation" />

@@ -1,51 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/main_layout_iphone_theme" 
+	android:orientation="vertical"
 	android:layout_height="fill_parent"
-	android:minWidth="310dp"
-	android:id="@+id/main_layout"
-	android:layout_width="fill_parent" 
-	android:orientation="vertical">
-	<RelativeLayout
-		xmlns:android="http://schemas.android.com/apk/res/android"
-    	android:layout_width="wrap_content"
-    	android:background="@android:color/darker_gray"
-    	android:layout_height="wrap_content"
-    	android:padding="2dp"
-    	android:id="@+id/header_layout" android:gravity="center">
-	    <Button
-	     	android:layout_height="wrap_content"
-	      	android:background="@android:drawable/btn_default_small"
-	      	android:layout_alignParentLeft="true"
-	      	android:layout_alignParentTop="true"
-	      	android:text=""
-	      	android:id="@+id/previous_button" 
-			android:drawableLeft="@drawable/ic_menu_back"
-	      	android:layout_width="60dip"
-			android:hapticFeedbackEnabled="true" />
-	    <TextView android:textAppearance="?android:attr/textAppearanceMedium" 
-	    	android:text="0/0" 
-	    	android:layout_height="50dip" 
-	    	android:id="@+id/notification_count_text_view" 
-	    	android:layout_toRightOf="@+id/previous_button" 
-	    	android:layout_alignParentTop="true"
-	    	android:layout_toLeftOf="@+id/next_button" 
-	    	android:layout_width="wrap_content"
-	    	android:gravity="center_horizontal"/>
-	    <Button
-	      	android:layout_height="wrap_content"
-	      	android:background="@android:drawable/btn_default_small"
-	      	android:layout_alignParentRight="true"
-	      	android:layout_alignParentTop="true"
-	      	android:text=""
-	      	android:id="@+id/next_button" 
-			android:drawableRight="@drawable/ic_menu_forward"
-	      	android:layout_width="60dip"
-			android:hapticFeedbackEnabled="true"/>
-	</RelativeLayout>	
+	android:layout_width="fill_parent"
+	android:minWidth="300dp"
+    android:background="@drawable/transparent">
 	<apps.droidnotify.NotificationViewFlipper
-		android:id="@+id/notification_view_flipper"
-		android:layout_width="fill_parent" 
-    	android:layout_height="wrap_content">
-	</apps.droidnotify.NotificationViewFlipper>
+		android:id="@+id/notification_view_flipper" 
+    	android:layout_height="wrap_content"
+		android:layout_width="fill_parent" />
 </LinearLayout>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout 
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:id="@+id/main_layout"
+	android:id="@+id/notification_linear_layout"
     android:orientation="vertical"
     android:layout_height="wrap_content"
     android:layout_width="fill_parent" 
@@ -144,7 +144,7 @@
 			android:layout_marginRight="1dip"
 			android:textColor="#ffffff"
 			android:gravity="center_vertical|center_horizontal"
-			android:drawableLeft="@drawable/ic_menu_close_clear_cancel"
+			android:drawableLeft="@drawable/ic_delete_white"
 			android:hapticFeedbackEnabled="true"
 			android:background="@drawable/btn_iphone" 
 			android:text="@string/dismiss_button_text" />
@@ -157,7 +157,7 @@
 			android:layout_marginRight="1dip"
 			android:textColor="#ffffff"
 			android:gravity="center_vertical|center_horizontal"
-			android:drawableLeft="@drawable/sym_call_incoming"
+			android:drawableLeft="@drawable/ic_call_white"
 			android:hapticFeedbackEnabled="true"
 			android:background="@drawable/btn_iphone"
 			android:text="@string/call_button_text" />
@@ -178,7 +178,7 @@
 			android:layout_marginRight="1dip"
 			android:textColor="#ffffff"
 			android:gravity="center_vertical|center_horizontal"
-			android:drawableLeft="@drawable/ic_menu_close_clear_cancel"
+			android:drawableLeft="@drawable/ic_delete_white"
 			android:hapticFeedbackEnabled="true"
 			android:background="@drawable/btn_iphone" 
 			android:text="@string/dismiss_button_text" />
@@ -191,7 +191,7 @@
 			android:layout_marginRight="1dip"
 			android:textColor="#ffffff"
 			android:gravity="center_vertical|center_horizontal" 
-			android:drawableLeft="@drawable/ic_delete"
+			android:drawableLeft="@drawable/ic_delete_red"
 			android:hapticFeedbackEnabled="true"
 			android:background="@drawable/btn_iphone" 
 			android:text="@string/delete_button_text" />
@@ -225,7 +225,7 @@
 			android:layout_marginRight="1dip"
 			android:textColor="#ffffff"
 			android:gravity="center_vertical|center_horizontal" 
-			android:drawableLeft="@drawable/ic_menu_close_clear_cancel"
+			android:drawableLeft="@drawable/ic_delete_white"
 			android:hapticFeedbackEnabled="true"
 			android:background="@drawable/btn_iphone" 
 			android:text="@string/dismiss_button_text" />

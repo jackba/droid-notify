@@ -27,12 +27,14 @@ import android.provider.ContactsContract;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.HapticFeedbackConstants;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.view.Window;
 import android.widget.LinearLayout;
@@ -597,7 +599,8 @@ public class NotificationActivity extends Activity {
 	 * Handles the activity when the configuration changes (e.g. The phone switches from portrait view to landscape view).
 	 */
 	public void onConfigurationChanged(Configuration config) {
-        super.onConfigurationChanged(config);                
+        super.onConfigurationChanged(config);   
+        if (_debug) Log.v("NotificationActivity.onConfigurationChanged()");
         //Do Nothing.
 	}
 
@@ -763,6 +766,7 @@ public class NotificationActivity extends Activity {
 	@Override
 	protected Dialog onCreateDialog(int id) {
 		if (_debug) Log.v("NotificationActivity.onCreateDialog()");
+		Context context = getContext();
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
 		int notificationType = getNotificationViewFlipper().getActiveMessage().getNotificationType();
 		AlertDialog alertDialog = null;

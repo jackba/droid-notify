@@ -50,6 +50,12 @@ public class NotificationView extends LinearLayout {
 	private final String HAPTIC_FEEDBACK_ENABLED_KEY = "haptic_feedback_enabled";
 	private final String SMS_REPLY_BUTTON_ACTION_KEY = "sms_reply_button_action";
 	private final String CONTACT_PLACEHOLDER_KEY = "contact_placeholder";
+	private final String BUTTON_ICONS_KEY = "button_icons_enabled";
+	
+	private final String APP_THEME_KEY = "app_theme";
+	private final String ANDROID_THEME = "android";
+	private final String ANDROID_DARK_THEME = "android_dark";
+	private final String IPHONE_THEME = "iphone";
 	
 	private final String SMS_ANDROID_REPLY = "0";
 	private final String SMS_QUICK_REPLY = "1";
@@ -57,12 +63,7 @@ public class NotificationView extends LinearLayout {
 	private final String EVENT_BEGIN_TIME = "beginTime";
 	private final String EVENT_END_TIME = "endTime";
 	
-	private final String APP_THEME_KEY = "app_theme";
-	private final String ANDROID_THEME = "android";
-	private final String ANDROID_DARK_THEME = "android_dark";
-	private final String IPHONE_THEME = "iphone";
 	
-	private final int CONTACT_WRAPPER_LINEAR_LAYOUT = R.id.contact_wrapper_linear_layout;
 	
 	//================================================================================
     // Properties
@@ -95,7 +96,6 @@ public class NotificationView extends LinearLayout {
 	    super(context);
 	    _debug = Log.getDebug();
 	    if (_debug) Log.v("NotificationView.NotificationView()");
-	    int notificationType = notification.getNotificationType();
 	    setNotification(notification);
 	    setNotificationType(notification.getNotificationType());
 	    initLayoutItems(context);
@@ -403,8 +403,8 @@ public class NotificationView extends LinearLayout {
 	 */
 	private void initLayoutItems(Context context) {
 		if (_debug) Log.v("NotificationView.initLayoutItems()");
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		//Set based on the theme. This is set in the user preferences.
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		String applicationThemeSetting = preferences.getString(APP_THEME_KEY, ANDROID_THEME);
 		int themeResource = R.layout.android_theme_notification;
 		if(applicationThemeSetting.equals(ANDROID_THEME)) themeResource = R.layout.android_theme_notification;
@@ -437,6 +437,8 @@ public class NotificationView extends LinearLayout {
 	 */
 	private void setupNotificationViewButtons(Notification notification) {
 		if (_debug) Log.v("NotificationView.setupNotificationViewButtons()");
+		Context context = getContext();
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		int notificationType = notification.getNotificationType();
 		int phoneButtonLayoutVisibility = View.GONE;
 		int smsButtonLayoutVisibility = View.GONE;
@@ -487,6 +489,11 @@ public class NotificationView extends LinearLayout {
 			    	makePhoneCall();
 			    }
 			});
+			//Remove the icons from the View's buttons, based on the user preferences.
+			if(!preferences.getBoolean(BUTTON_ICONS_KEY, true)){
+				phoneDismissButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
+				phoneCallButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
+			}
 	    }
 		if(notificationType == NOTIFICATION_TYPE_SMS){
 			//Display the correct navigation buttons for each notification type.
@@ -520,6 +527,12 @@ public class NotificationView extends LinearLayout {
 			    	replyToMessage();
 			    }
 			});
+			//Remove the icons from the View's buttons, based on the user preferences.
+			if(!preferences.getBoolean(BUTTON_ICONS_KEY, true)){
+				smsDismissButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
+				smsDeleteButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
+				smsReplyButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
+			}
 		}
 	    if(notificationType == NOTIFICATION_TYPE_MMS){
 	    	phoneButtonLayoutVisibility = View.GONE;
@@ -549,6 +562,11 @@ public class NotificationView extends LinearLayout {
 			    	viewCalendarEvent();
 			    }
 			});
+			//Remove the icons from the View's buttons, based on the user preferences.
+			if(!preferences.getBoolean(BUTTON_ICONS_KEY, true)){
+				calendarDismissButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
+				calendarViewButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
+			}
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_EMAIL){
 	    	phoneButtonLayoutVisibility = View.GONE;

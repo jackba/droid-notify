@@ -15,33 +15,33 @@
 	<PreferenceCategory
 		android:key="main_setting_category"
 		android:title="@string/preference_general">
-	<CheckBoxPreference
-		android:key="app_enabled" 
-        android:title="@string/preference_appenabled_title" 
-        android:summaryOn="@string/preference_appenabled_summaryOn" 
-        android:summaryOff="@string/preference_appenabled_summaryOff" 
-        android:defaultValue="true" />
-	<CheckBoxPreference
-		android:key="haptic_feedback_enabled" 
-        android:title="@string/preference_haptic_feedback_title" 
-        android:summaryOn="@string/preference_haptic_feedback_summaryOn" 
-        android:summaryOff="@string/preference_haptic_feedback_summaryOff" 
-        android:defaultValue="true"
-        android:dependency="app_enabled" />
-    <CheckBoxPreference 
-		android:key="app_vibrations_enabled" 
-		android:title="@string/preference_vibrations_enabled_title" 
-		android:summaryOn="@string/preference_vibrations_enabled_summaryOn" 
-		android:summaryOff="@string/preference_vibrations_enabled_summaryOff" 
-		android:defaultValue="true"
-		android:dependency="app_enabled" />
-	<CheckBoxPreference 
-		android:key="app_ringtones_enabled" 
-		android:title="@string/preference_ringtones_enabled_title" 
-		android:summaryOn="@string/preference_ringtones_enabled_summaryOn" 
-		android:summaryOff="@string/preference_ringtones_enabled_summaryOff" 
-		android:defaultValue="false"
-		android:dependency="app_enabled" />
+		<CheckBoxPreference
+			android:key="app_enabled" 
+        	android:title="@string/preference_appenabled_title" 
+        	android:summaryOn="@string/preference_appenabled_summaryOn" 
+        	android:summaryOff="@string/preference_appenabled_summaryOff" 
+        	android:defaultValue="true" />
+		<CheckBoxPreference
+			android:key="haptic_feedback_enabled" 
+        	android:title="@string/preference_haptic_feedback_title" 
+        	android:summaryOn="@string/preference_haptic_feedback_summaryOn" 
+        	android:summaryOff="@string/preference_haptic_feedback_summaryOff" 
+        	android:defaultValue="true"
+        	android:dependency="app_enabled" />
+    	<CheckBoxPreference 
+			android:key="app_vibrations_enabled" 
+			android:title="@string/preference_vibrations_enabled_title" 
+			android:summaryOn="@string/preference_vibrations_enabled_summaryOn" 
+			android:summaryOff="@string/preference_vibrations_enabled_summaryOff" 
+			android:defaultValue="true"
+			android:dependency="app_enabled" />
+		<CheckBoxPreference 
+			android:key="app_ringtones_enabled" 
+			android:title="@string/preference_ringtones_enabled_title" 
+			android:summaryOn="@string/preference_ringtones_enabled_summaryOn" 
+			android:summaryOff="@string/preference_ringtones_enabled_summaryOff" 
+			android:defaultValue="false"
+			android:dependency="app_enabled" />
   	</PreferenceCategory>
 	<PreferenceCategory
 		android:key="notification_settings_category"
@@ -293,6 +293,12 @@
 				android:entryValues="@array/contact_placeholder_values"
 				android:defaultValue="0"
 				droidnotify:entryImages="@array/contact_placeholder_images" />
+			<CheckBoxPreference
+				android:key="button_icons_enabled" 
+        		android:title="@string/preference_button_icons_enabled_title" 
+        		android:summaryOn="@string/preference_button_icons_enabled_summaryOn" 
+        		android:summaryOff="@string/preference_button_icons_enabled_summaryOff" 
+        		android:defaultValue="true" />
 		</PreferenceScreen>
 	</PreferenceCategory>
 	<PreferenceCategory
