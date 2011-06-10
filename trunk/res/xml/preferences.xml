@@ -83,6 +83,12 @@
 					android:key="sms_button_settings_screen"
 					android:title="@string/preference_sms_button_settings"
 					android:dependency="sms_notifications_enabled">
+					<CheckBoxPreference
+						android:key="confirm_sms_deletion_enabled" 
+        				android:title="@string/preference_confirm_sms_deletion_enabled_title" 
+        				android:summaryOn="@string/preference_confirm_sms_deletion_enabled_summaryOn" 
+        				android:summaryOff="@string/preference_confirm_sms_deletion_enabled_summaryOff" 
+        				android:defaultValue="true" />
 					<ListPreference
 						android:key="sms_dismiss_button_action"
 						android:title="@string/preference_dismiss_button_action"
@@ -216,6 +222,14 @@
 					android:defaultValue="15"
 					android:entries="@array/calendar_reminder_options"
 					android:entryValues="@array/calendar_reminder_options_values"
+					android:dependency="calendar_notifications_enabled" />
+				<ListPreference
+					android:key="calendar_reminder_all_day_settings"
+					android:title="@string/preference_event_reminder_all_day_settings"
+					android:summary="@string/preference_event_reminder_all_day_summary"
+					android:defaultValue="6"
+					android:entries="@array/calendar_reminder_all_day_options"
+					android:entryValues="@array/calendar_reminder_all_day_options_values"
 					android:dependency="calendar_notifications_enabled" />
 				<PreferenceScreen
 					android:key="calendar_vibrate_settings_screen"
