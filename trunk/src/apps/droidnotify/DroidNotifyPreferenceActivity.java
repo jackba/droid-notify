@@ -11,7 +11,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -97,124 +96,6 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 	    runOnceAlarmManager();
 	    runOnceEula();
 	    setupAppDebugMode(_debug);
-	    getAllUnreadMMSMessages();
-	}
-	
-	/**
-	 * Get all unread Messages and load them.
-	 * 
-	 * @param messageIDFilter - Long value of the currently incoming SMS message.
-	 * @param messagebodyFilter - String value of the currently incoming SMS message.
-	 */
-	private void getAllUnreadMMSMessages(){
-		if (_debug) Log.v("NotificationActivity.getAllUnreadMMSMessages()"); 
-		Context context = getContext();
-		final String[] projection = new String[] { "_ID, THREAD_ID, DATE, M_ID, SUB"};
-		//final String[] projection = null;
-		final String selection = null;
-		final String[] selectionArgs = null;
-		final String sortOrder = null;
-		Cursor cursor = null;
-        try{
-		    cursor = context.getContentResolver().query(
-		    		Uri.parse("content://mms/inbox"),
-		    		projection,
-		    		selection,
-					selectionArgs,
-					sortOrder);
-		    while (cursor.moveToNext()) { 
-		    	//for( int i = 0; i < cursor.getColumnCount(); i++) {
-		    	//	if (_debug) Log.v("MMS/Inbox Column: " + cursor.getColumnName(i));
-		    	//}
-		    	long id = cursor.getLong(cursor.getColumnIndex("_ID"));
-		    	if (_debug) Log.v("NotificationActivity.getAllUnreadMMSMessages() _ID: " + id);
-		    	long threadID = cursor.getLong(cursor.getColumnIndex("THREAD_ID"));
-		    	if (_debug) Log.v("NotificationActivity.getAllUnreadMMSMessages() THREAD_ID: " + threadID);
-		    	long timestamp = cursor.getLong(cursor.getColumnIndex("DATE"));
-		    	if (_debug) Log.v("NotificationActivity.getAllUnreadMMSMessages() DATE: " + timestamp);
-		    	String messageID2 = cursor.getString(cursor.getColumnIndex("M_ID"));
-		    	if (_debug) Log.v("NotificationActivity.getAllUnreadMMSMessages() M_ID: " + messageID2);
-		    	String subject = cursor.getString(cursor.getColumnIndex("M_ID"));
-		    	if (_debug) Log.v("NotificationActivity.getAllUnreadMMSMessages() SUB: " + subject);
-
-		    	//String[] coloumns = null; 
-		    	//String[] values = null; 
-		    	
-				final String[] projectionAddr = null;
-				final String selectionAddr = new String ("MSG_ID = " + id);
-				final String[] selectionArgsAddr = null;
-				final String sortOrderAddr = null;
-				Cursor curAddr = null;
-				try{
-					curAddr = context.getContentResolver().query(
-			    			Uri.parse("content://mms/" + id + "/addr"), 
-			    			projectionAddr, 
-			    			selectionAddr, 
-			    			selectionArgsAddr, 
-			    			sortOrderAddr); 
-			    	if(curAddr.moveToFirst()){ 
-			    		for( int i = 0; i < curAddr.getColumnCount(); i++) {
-				    		if (_debug) Log.v("MMS/id/ADDR Column: " + curAddr.getColumnName(i));
-				    	}
-				    	String msgID = curAddr.getString (curAddr.getColumnIndex ("MSG_ID")); 
-				    	if (_debug) Log.v("NotificationActivity.getAllUnreadMMSMessages() MSG_ID: " + msgID);
-				    	String contactID = curAddr.getString (curAddr.getColumnIndex ("CONTACT_ID")); 
-				    	if (_debug) Log.v("NotificationActivity.getAllUnreadMMSMessages() CONTACT_ID: " + contactID);
-				    	String address = curAddr.getString (curAddr.getColumnIndex ("ADDRESS")); 
-				    	if (_debug) Log.v("NotificationActivity.getAllUnreadMMSMessages() ADDRESS: " + address);
-				    	
-				    	Cursor curPart = null;
-				    	try{
-					    	final String[] projectionPart = null;
-					    	final String selectionPart = new String ("MID = " + msgID); 
-							final String[] selectionArgsPart = null;
-							final String sortOrderPart = null;
-					    	curPart = context.getContentResolver().query(Uri.parse ("content://mms/part"), projectionPart , selectionPart, selectionArgsPart, sortOrderPart); 
-					    	while(curPart.moveToNext()) { 
-						    	for( int i = 0; i < curPart.getColumnCount(); i++) {
-						    		if (_debug) Log.v("MMS/PART Column: " + curPart.getColumnName(i));
-						    	}
-						    	String partID = curPart.getString (curPart.getColumnIndex ("_ID")); 
-						    	if (_debug) Log.v("NotificationActivity.getAllUnreadMMSMessages() _ID: " + partID);
-						    	String partMessageID = curPart.getString (curPart.getColumnIndex ("MID")); 
-						    	if (_debug) Log.v("NotificationActivity.getAllUnreadMMSMessages() MID: " + partMessageID);
-						    	String contentType = curPart.getString (curPart.getColumnIndex ("CT")); 
-						    	if (_debug) Log.v("NotificationActivity.getAllUnreadMMSMessages() CT: " + contentType);
-						    	String name = curPart.getString (curPart.getColumnIndex ("NAME")); 
-						    	if (_debug) Log.v("NotificationActivity.getAllUnreadMMSMessages() NAME: " + name);
-						    	String data = curPart.getString (curPart.getColumnIndex ("_DATA")); 
-						    	if (_debug) Log.v("NotificationActivity.getAllUnreadMMSMessages() _DATA: " + data);
-					    		//if(values[3].equals("image/jpeg")) { 
-						    	//	GetMmsAttachment(values[0],values[12],values[4]); 
-					    		//}
-					    	}
-						}catch(Exception ex){
-							if (_debug) Log.e("NotificationActivity.getAllUnreadMMSMessages() ERROR: " + ex.toString());
-						} finally {
-							curPart.close();
-				    	}
-			    	}
-			    	
-				}catch(Exception ex){
-					if (_debug) Log.e("NotificationActivity.getAllUnreadMMSMessages() ERROR: " + ex.toString());
-				} finally {
-					curAddr.close();
-		    	}
-		    	//break;
-
-		    	//Don't load the message that corresponds to the messageIDFilter or messageBodyFilter.
-		    	//If we load this message we will have duplicate Notifications, which is bad.
-		    	//if(messageID != messageIDFilter && !messageBody.trim().equals(messageBodyFilter)){
-			    	//Notification smsMessage = new Notification(context, messageID, threadID, messageBody, phoneNumber, timestamp, contactID, NOTIFICATION_TYPE_SMS);		
-			    	//notificationViewFlipper.addNotification(smsMessage);
-		    	//}
-				
-		    }
-		}catch(Exception ex){
-			if (_debug) Log.e("NotificationActivity.getAllUnreadMMSMessages() ERROR: " + ex.toString());
-		} finally {
-    		cursor.close();
-    	}
 	}
 
 	//================================================================================
