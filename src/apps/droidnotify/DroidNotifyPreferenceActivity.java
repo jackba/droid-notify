@@ -36,6 +36,7 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 	private final String APP_ENABLED_KEY = "app_enabled";
 	private final String CALENDAR_NOTIFICATIONS_ENABLED_KEY = "calendar_notifications_enabled";
 	private final int NOTIFICATION_TYPE_TEST = -1;
+	private final boolean SHOW_FEEDBACK_PREFERENCE = true;
 	//Google Market URL
 	private final String RATE_APP_URL = "http://market.android.com/details?id=apps.droidnotify";
 	//Amazon Appstore URL
@@ -96,6 +97,7 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 	    runOnceAlarmManager();
 	    runOnceEula();
 	    setupAppDebugMode(_debug);
+	    setupRateLink();
 	}
 
 	//================================================================================
@@ -330,6 +332,17 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 		}else{
 			PreferenceScreen mainPreferences = this.getPreferenceScreen();
 			PreferenceCategory debugPreferenceCategory = (PreferenceCategory) findPreference("app_debug_category");
+			mainPreferences.removePreference(debugPreferenceCategory);
+		}
+	}
+	
+	private void setupRateLink(){
+		if (_debug) Log.v("DroidNotifyPreferenceActivity.setupRateLink()");
+		if(SHOW_FEEDBACK_PREFERENCE){
+			//Do Nothing.
+		}else{
+			PreferenceScreen mainPreferences = this.getPreferenceScreen();
+			PreferenceCategory debugPreferenceCategory = (PreferenceCategory) findPreference("app_feedback_category");
 			mainPreferences.removePreference(debugPreferenceCategory);
 		}
 	}
