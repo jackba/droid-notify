@@ -42,4 +42,5 @@
   * Added user preference to show or hide the icons on the buttons.
   * Added user preference to show a confirmation dialog box when you delete a message.
   * Added user preference to schedule All-Day calendar events hours before that special type of event (instead of minutes like other events).
+  * Fixed a bug in the Calendar Notifications. The displayed time was off due to GMT timezone defaults.
   * 
