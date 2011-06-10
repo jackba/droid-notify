@@ -51,6 +51,17 @@
    	<string name="edit_contact_text">Edit Contact</string>
    	<string name="edit_calendar_event_text">Edit Event</string>
    	
+   	<!-- Quick Reply Strings -->
+   	<string name="phone_number_error_text">Please enter a number to send the message to.</string>
+   	<string name="message_error_text">Please enter a message to send.</string>
+   	<string name="message_sent_text">Message sent</string>
+    <string name="message_sent_error_generic_failure_text">Message not sent: Generic failure</string>
+    <string name="message_sent_error_no_service_text">Message not sent: No service</string>
+    <string name="message_sent_error_null_pdu_text">Message not sent: Null PDU</string>
+    <string name="message_sent_error_radio_off_text">Message not sent: Radio off</string>
+   	<string name="message_delivered_text">Message delivered</string>
+   	<string name="message_not_delivered_text">Message not delivered</string>
+   	
    	<!-- Preference Strings -->
    	<string name="preference_general">General Settings</string>
    	<string name="preference_notification_settings">Notification Settings</string>
@@ -63,6 +74,9 @@
    	<string name="misc_settings_text">Misc Settings</string>
     <string name="preference_contact_placeholder_image">Placeholder Image</string>
     <string name="preference_contact_placeholder_image_summary">Select the placeholder image you would like to display for unknown contacts.</string>
+   	<string name="preference_button_icons_enabled_title">Display Button Icons</string>
+   	<string name="preference_button_icons_enabled_summaryOn">Display an icon on app buttons.</string>
+   	<string name="preference_button_icons_enabled_summaryOff">Do not display an icon on app buttons.</string>
    	
    	<string name="preference_vibrations_enabled_title">Enable Vibrations</string>
    	<string name="preference_vibrations_enabled_summaryOn">Vibrations when notifications are received is enabled.</string>
