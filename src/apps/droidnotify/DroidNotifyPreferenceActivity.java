@@ -174,7 +174,7 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 			return;
 		}
 		boolean runOnce = preferences.getBoolean("runOnce", true);
-		if(runOnce) {
+		if(runOnce || _debug) {
 			SharedPreferences.Editor editor = preferences.edit();
 			editor.putBoolean("runOnce", false);
 			editor.commit();

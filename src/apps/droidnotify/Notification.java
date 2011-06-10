@@ -1262,6 +1262,8 @@ public class Notification {
 		if (_debug) Log.v("Notification.formatCalendarEventMessage()");
 		String formattedMessage = "";
 		SimpleDateFormat eventDateFormatted = new SimpleDateFormat();
+		//Calendar times were being adjusted assuming that they were in GMT. THis should fix that issue.
+		eventDateFormatted.setTimeZone(TimeZone.getTimeZone("GMT"));
 		Date eventEndDate = new Date(eventEndTime);
 		Date eventStartDate = new Date(eventStartTime);
 		String[] startTimeInfo = eventDateFormatted.format(eventStartDate).split(" ");
