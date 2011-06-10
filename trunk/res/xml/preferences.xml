@@ -60,7 +60,7 @@
 					android:entries="@array/theme_options"
 					android:entryValues="@array/theme_values"
 					droidnotify:entryImages="@array/theme_images"
-					android:defaultValue="0"
+					android:defaultValue="android"
 					android:dependency="app_enabled" />
 			</PreferenceCategory>
 			<PreferenceCategory
