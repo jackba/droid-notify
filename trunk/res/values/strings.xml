@@ -200,7 +200,7 @@
    	<string name="preference_ringtone_length_summary">Define how long to let the ringtone play.</string>
    	
    	<string name="rate_app_text">Rate App</string>
-   	<string name="rate_app_summary">Rate this application on the Android Market.</string>
+   	<string name="rate_app_summary">Rate this application.</string>
    	
    	<string name="email_developer_text">Email Developer</string>
    	<string name="email_developer_summary">Send an email to the developer to give feedback about this application.</string>

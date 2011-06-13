@@ -365,12 +365,16 @@
 		</PreferenceScreen>
 	</PreferenceCategory>
 	<PreferenceCategory
-		android:key="app_feedback_category"
-		android:title="@string/feedback_text">
+		android:key="rate_app_category"
+		android:title="@string/rate_app_text">
 		<Preference
             android:key="rate_app"
         	android:title="@string/rate_app_text"
           	android:summary="@string/rate_app_summary" />
+    </PreferenceCategory>       	
+	<PreferenceCategory
+		android:key="app_feedback_category"
+		android:title="@string/feedback_text">
 		<Preference
             android:key="email_developer"
         	android:title="@string/email_developer_text"
