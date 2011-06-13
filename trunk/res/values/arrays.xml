@@ -332,16 +332,25 @@
 		<item name="0">Android</item>
 		<item name="1">Android Dark</item>
 		<item name="2">iPhone</item>
+		<item name="3">Dark Translucent</item>
+		<item name="4">Dark Translucent V2</item>
+		<item name="5">Dark Translucent V3</item>
 	</string-array>
 	<string-array name="theme_values">
 		<item name="0">android</item>
 		<item name="1">android_dark</item>
 		<item name="2">iphone</item>
+		<item name="3">dark_translucent</item>
+		<item name="4">dark_translucent_v2</item>
+		<item name="5">dark_translucent_v3</item>
 	</string-array>
 	<array name="theme_images">
 		<item name="0">@drawable/ic_contact_picture_1</item>
 		<item name="1">@drawable/ic_contact_picture_2</item>
 		<item name="2">@drawable/ic_contact_picture_3</item>
+		<item name="3">@drawable/ic_contact_picture_4</item>
+		<item name="4">@drawable/ic_contact_picture_4</item>
+		<item name="5">@drawable/ic_contact_picture_4</item>
 	</array>
 	
 </resources>
