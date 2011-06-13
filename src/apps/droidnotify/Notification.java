@@ -110,7 +110,7 @@ public class Notification {
 	            }
 	            SmsMessage sms = msgs[0];
 	            long timeStamp = sms.getTimestampMillis();
-	            //Adjust the timestamp from GMT to the localized time of the users phone.
+	            //Adjust the timestamp to the localized time of the users phone.
 	            //I don't know why the line below is "-=" and not "+=" but for some reason it works.
 	            timeStamp -= TimeZone.getDefault().getOffset(timeStamp);
 	            setTimeStamp(timeStamp);
@@ -1262,7 +1262,6 @@ public class Notification {
 		if (_debug) Log.v("Notification.formatCalendarEventMessage()");
 		String formattedMessage = "";
 		SimpleDateFormat eventDateFormatted = new SimpleDateFormat();
-		//Calendar times were being adjusted assuming that they were in GMT. This should fix that issue.
 		eventDateFormatted.setTimeZone(TimeZone.getDefault());
 		Date eventEndDate = new Date(eventEndTime);
 		Date eventStartDate = new Date(eventStartTime);
