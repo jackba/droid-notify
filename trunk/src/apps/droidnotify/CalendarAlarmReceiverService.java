@@ -15,6 +15,7 @@ package apps.droidnotify;
 */
 
 import java.util.HashSet;
+import java.util.TimeZone;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -134,7 +135,6 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
 				if (Log.getDebug()) Log.e("CalendarAlarmReceiverService.readCalendars() ERROR: Content Resolver returned a null cursor. Exiting...");
 				return;
 			}
-			// For a full list of available columns see http://tinyurl.com/yfbg76w
 			HashSet<String> calendarIds = new HashSet<String>();
 			while (cursor.moveToNext()) {
 				final String calendarID = cursor.getString(cursor.getColumnIndex(_ID));
@@ -157,7 +157,6 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
 						"Calendars._id=" + calendarID,
 						null,
 						"startDay ASC, startMinute ASC"); 
-				// For a full list of available columns see http://tinyurl.com/yfbg76w
 				while (eventCursor.moveToNext()) {
 					String eventID = eventCursor.getString(eventCursor.getColumnIndex(CALENDAR_EVENT_ID));
 					String eventTitle = eventCursor.getString(eventCursor.getColumnIndex(CALENDAR_EVENT_TITLE));
@@ -165,13 +164,12 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
 					long eventEndTime = eventCursor.getLong(eventCursor.getColumnIndex(CALENDAR_INSTANCE_END));
 					final Boolean allDay = !eventCursor.getString(eventCursor.getColumnIndex(CALENDAR_EVENT_ALL_DAY)).equals("0");
 					if (Log.getDebug()) Log.v("Event ID: " + eventID + " Title: " + eventTitle + " Begin: " + eventStartTime + " End: " + eventEndTime + " All Day: " + allDay);
-					//--------------------------------
-					//This line of code is for testing.
-					//scheduleCalendarNotification(context, System.currentTimeMillis() + (30 * 1000), eventTitle, Long.toString(eventStartTime), Long.toString(eventEndTime), Boolean.toString(allDay), calendarID.toString(), eventID );
-					//--------------------------------
+					long timezoneOffsetValue =  TimeZone.getDefault().getOffset(System.currentTimeMillis());
 					//For all day events and any event in the past, don't schedule them.
 					if(allDay){
 						//Special case for all-day events.
+						eventStartTime = eventStartTime  - timezoneOffsetValue;
+						eventEndTime = eventEndTime  - timezoneOffsetValue;
 						if(eventStartTime >= System.currentTimeMillis()){
 							scheduleCalendarNotification(context, eventStartTime - reminderIntervalAllDay, eventTitle, Long.toString(eventStartTime), Long.toString(eventEndTime), Boolean.toString(allDay), calendarID.toString(), eventID );
 						}
