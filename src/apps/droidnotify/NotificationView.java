@@ -56,6 +56,9 @@ public class NotificationView extends LinearLayout {
 	private final String ANDROID_THEME = "android";
 	private final String ANDROID_DARK_THEME = "android_dark";
 	private final String IPHONE_THEME = "iphone";
+	private final String DARK_TRANSLUCENT_THEME = "dark_translucent";
+	private final String DARK_TRANSLUCENT_V2_THEME = "dark_translucent_v2";
+	private final String DARK_TRANSLUCENT_V3_THEME = "dark_translucent_v3";
 	
 	private final String SMS_ANDROID_REPLY = "0";
 	private final String SMS_QUICK_REPLY = "1";
@@ -410,6 +413,9 @@ public class NotificationView extends LinearLayout {
 		if(applicationThemeSetting.equals(ANDROID_THEME)) themeResource = R.layout.android_theme_notification;
 		if(applicationThemeSetting.equals(ANDROID_DARK_THEME)) themeResource = R.layout.android_dark_theme_notification;
 		if(applicationThemeSetting.equals(IPHONE_THEME)) themeResource = R.layout.iphone_theme_notification;
+		if(applicationThemeSetting.equals(DARK_TRANSLUCENT_THEME)) themeResource = R.layout.dark_translucent_theme_notification;
+		if(applicationThemeSetting.equals(DARK_TRANSLUCENT_V2_THEME)) themeResource = R.layout.dark_translucent_v2_theme_notification;
+		if(applicationThemeSetting.equals(DARK_TRANSLUCENT_V3_THEME)) themeResource = R.layout.dark_translucent_v3_theme_notification;
 		View.inflate(context, themeResource, this);
 		setFromTextView((TextView) findViewById(R.id.contact_name_text_view));
 		_phoneNumberTextView = (TextView) findViewById(R.id.contact_number_text_view);
