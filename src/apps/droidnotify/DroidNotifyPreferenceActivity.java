@@ -32,15 +32,15 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 	//================================================================================
     // Constants
     //================================================================================
-    
+	
+	//Google Market URL
+	private final String RATE_APP_ANDROID_URL = "http://market.android.com/details?id=apps.droidnotify";
+	//Amazon Appstore URL
+	private final String RATE_APP_AMAZON_URL = "http://www.amazon.com/gp/mas/dl/android?p=apps.droidnotify";
+	
 	private final String APP_ENABLED_KEY = "app_enabled";
 	private final String CALENDAR_NOTIFICATIONS_ENABLED_KEY = "calendar_notifications_enabled";
 	private final int NOTIFICATION_TYPE_TEST = -1;
-	private final boolean SHOW_FEEDBACK_PREFERENCE = true;
-	//Google Market URL
-	private final String RATE_APP_URL = "http://market.android.com/details?id=apps.droidnotify";
-	//Amazon Appstore URL
-	//private final String RATE_APP_URL = "http://www.amazon.com/gp/mas/dl/android?p=apps.droidnotify";
 	
 	//================================================================================
     // Properties
@@ -48,6 +48,7 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 
     private Context _context;
     private boolean _debug;
+    private boolean _debugCalendar;
 
 	//================================================================================
 	// Constructors
@@ -90,6 +91,7 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	    _debug = Log.getDebug();
+	    _debugCalendar = Log.getDebugCalendar();
 	    if (_debug) Log.v("DroidNotifyPreferenceActivity.onCreate()");
 	    setContext(DroidNotifyPreferenceActivity.this);
 	    addPreferencesFromResource(R.xml.preferences);
@@ -97,7 +99,7 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 	    runOnceAlarmManager();
 	    runOnceEula();
 	    setupAppDebugMode(_debug);
-	    setupRateLink();
+	    setupRateAppPreference();
 	}
 
 	//================================================================================
@@ -174,7 +176,7 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 			return;
 		}
 		boolean runOnce = preferences.getBoolean("runOnce", true);
-		if(runOnce || _debug) {
+		if(runOnce || _debugCalendar) {
 			SharedPreferences.Editor editor = preferences.edit();
 			editor.putBoolean("runOnce", false);
 			editor.commit();
@@ -185,9 +187,9 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 			//--------------------------------
 			//Set alarm to go off 30 seconds from the current time.
 			//This line of code is for testing.
-			//alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, SystemClock.elapsedRealtime() + (30 * 1000), AlarmManager.INTERVAL_DAY, pendingIntent);
+			alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, SystemClock.elapsedRealtime() + (30 * 1000), AlarmManager.INTERVAL_DAY, pendingIntent);
 			//--------------------------------
-			alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, SystemClock.elapsedRealtime() + (5 * 60 * 1000), AlarmManager.INTERVAL_DAY, pendingIntent);
+			//alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, SystemClock.elapsedRealtime() + (5 * 60 * 1000), AlarmManager.INTERVAL_DAY, pendingIntent);
        }
 	}
 	
@@ -251,7 +253,10 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 		    	//intent.setData(Uri.parse("market://details?id=apps.droidnotify"));
 		    	//URL of website. Turns out that this will prompt the user to choose Market or Web.
 		    	//This is preferred as a choice is always better.
-		    	intent.setData(Uri.parse(RATE_APP_URL));
+		    	String rateAppURL = "";
+		    	if(Log.getShowAndroidRateAppLink()) rateAppURL = RATE_APP_ANDROID_URL;
+		    	if(Log.getShowAmazonRateAppLink()) rateAppURL = RATE_APP_AMAZON_URL;
+		    	intent.setData(Uri.parse(rateAppURL));
 		    	try{
 		    		startActivity(intent);
 		    	}catch(Exception ex){
@@ -327,23 +332,25 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 	 */
 	private void setupAppDebugMode(boolean inDebugMode){
 		if (_debug) Log.v("DroidNotifyPreferenceActivity.setupAppDebugMode()");
-		if(inDebugMode){
-			//Do Nothing.
-		}else{
+		if(!inDebugMode){
 			PreferenceScreen mainPreferences = this.getPreferenceScreen();
 			PreferenceCategory debugPreferenceCategory = (PreferenceCategory) findPreference("app_debug_category");
 			mainPreferences.removePreference(debugPreferenceCategory);
 		}
 	}
 	
-	private void setupRateLink(){
+	/**
+	 * Removes the "Rate App" link from the application if not in the Android or Amazon stores.
+	 */
+	private void setupRateAppPreference(){
 		if (_debug) Log.v("DroidNotifyPreferenceActivity.setupRateLink()");
-		if(SHOW_FEEDBACK_PREFERENCE){
-			//Do Nothing.
-		}else{
+		boolean showRateAppCategory = false;
+		if(Log.getShowAndroidRateAppLink()) showRateAppCategory = true;
+		if(Log.getShowAmazonRateAppLink()) showRateAppCategory = true;
+		if(!showRateAppCategory){
 			PreferenceScreen mainPreferences = this.getPreferenceScreen();
-			PreferenceCategory debugPreferenceCategory = (PreferenceCategory) findPreference("app_feedback_category");
-			mainPreferences.removePreference(debugPreferenceCategory);
+			PreferenceCategory rateAppCategory = (PreferenceCategory) findPreference("rate_app_category");
+			mainPreferences.removePreference(rateAppCategory);
 		}
 	}
 	

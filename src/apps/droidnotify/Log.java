@@ -17,7 +17,10 @@ public class Log {
 	
 	private static final String _logTag = "DroidNotify";
 	private static final boolean _debug = true;
-
+	private static final boolean _debugCalendar = true;
+	private static final boolean _showAndroidRateAppLink = true;
+	private static final boolean _showAmazonRateAppLink = false;
+	
 	//================================================================================
 	// Constructors
 	//================================================================================
@@ -42,6 +45,33 @@ public class Log {
 	 */
 	public static boolean getDebug(){
 		return _debug;
+	}
+
+	/**
+	 *  Get debugCalendar property.
+	 *  
+	 *  @return boolean - Returns true if the log class is set to debug calendar entries.
+	 */
+	public static boolean getDebugCalendar(){
+		return _debugCalendar;
+	}
+
+	/**
+	 *  Get showAndroidRateAppLink property.
+	 *  
+	 *  @return boolean - Returns true if we want to show the Android Market link.
+	 */
+	public static boolean getShowAndroidRateAppLink(){
+		return _showAndroidRateAppLink;
+	}
+
+	/**
+	 *  Get showAmazonRateAppLink property.
+	 *  
+	 *  @return boolean - Returns true if we want to show the Amazon Appstore link.
+	 */
+	public static boolean getShowAmazonRateAppLink(){
+		return _showAmazonRateAppLink;
 	}
 	
 	//================================================================================
