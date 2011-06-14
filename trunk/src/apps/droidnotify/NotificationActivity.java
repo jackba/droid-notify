@@ -655,7 +655,7 @@ public class NotificationActivity extends Activity {
 	    int notificationType = extrasBundle.getInt("notificationType");
 	    if (_debug) Log.v("NotificationActivity.onCreate() Notification Type: " + notificationType);
 	    //Don't rotate the Activity when the screen rotates based on the user preferences.
-	    if(preferences.getBoolean(LANDSCAPE_SCREEN_ENABLED_KEY, true)){
+	    if(preferences.getBoolean(LANDSCAPE_SCREEN_ENABLED_KEY, false)){
 	    	this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 	    }
 	    setContentView(R.layout.notificationwrapper);
