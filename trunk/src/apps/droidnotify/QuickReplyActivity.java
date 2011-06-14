@@ -220,7 +220,7 @@ public class QuickReplyActivity extends Activity {
 	    setContext(context);
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 	    //Don't rotate the Activity when the screen rotates based on the user preferences.
-	    if(preferences.getBoolean(LANDSCAPE_SCREEN_ENABLED_KEY, false)){
+	    if(!preferences.getBoolean(LANDSCAPE_SCREEN_ENABLED_KEY, false)){
 	    	this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 	    }
 	    //Set based on the theme. This is set in the user preferences.
