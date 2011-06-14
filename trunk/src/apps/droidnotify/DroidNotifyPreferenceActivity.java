@@ -11,6 +11,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -40,6 +41,8 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 	
 	private final String APP_ENABLED_KEY = "app_enabled";
 	private final String CALENDAR_NOTIFICATIONS_ENABLED_KEY = "calendar_notifications_enabled";
+	private final String LANDSCAPE_SCREEN_ENABLED_KEY = "landscape_screen_enabled";
+	
 	private final int NOTIFICATION_TYPE_TEST = -1;
 	
 	//================================================================================
@@ -93,7 +96,13 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 	    _debug = Log.getDebug();
 	    _debugCalendar = Log.getDebugCalendar();
 	    if (_debug) Log.v("DroidNotifyPreferenceActivity.onCreate()");
-	    setContext(DroidNotifyPreferenceActivity.this);
+	    Context context = DroidNotifyPreferenceActivity.this;
+	    setContext(context);
+	    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+	    //Don't rotate the Activity when the screen rotates based on the user preferences.
+	    if(preferences.getBoolean(LANDSCAPE_SCREEN_ENABLED_KEY, true)){
+	    	this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+	    }
 	    addPreferencesFromResource(R.xml.preferences);
 	    setupCustomPreferences();
 	    runOnceAlarmManager();

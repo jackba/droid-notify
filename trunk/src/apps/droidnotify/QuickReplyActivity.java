@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Vibrator;
@@ -15,6 +16,7 @@ import android.telephony.SmsManager;
 import android.view.HapticFeedbackConstants;
 import android.view.View;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -36,11 +38,15 @@ public class QuickReplyActivity extends Activity {
 	private final int MESSAGE_EDIT_TEXT = R.id.message_edit_text;
 
 	private final String HAPTIC_FEEDBACK_ENABLED_KEY = "haptic_feedback_enabled";
+	private final String LANDSCAPE_SCREEN_ENABLED_KEY = "landscape_screen_enabled";
 	
 	private final String APP_THEME_KEY = "app_theme";
 	private final String ANDROID_THEME = "android";
 	private final String ANDROID_DARK_THEME = "android_dark";
 	private final String IPHONE_THEME = "iphone";
+	private final String DARK_TRANSLUCENT_THEME = "dark_translucent";
+	private final String DARK_TRANSLUCENT_V2_THEME = "dark_translucent_v2";
+	private final String DARK_TRANSLUCENT_V3_THEME = "dark_translucent_v3";
 	
 	//================================================================================
     // Properties
@@ -212,17 +218,21 @@ public class QuickReplyActivity extends Activity {
 	    Context context = getApplicationContext();
 	    setBundle(bundle);
 	    setContext(context);
-	    requestWindowFeature(Window.FEATURE_LEFT_ICON);
-	    //Set based on the theme. This is set in the user preferences.
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+	    //Don't rotate the Activity when the screen rotates based on the user preferences.
+	    if(preferences.getBoolean(LANDSCAPE_SCREEN_ENABLED_KEY, true)){
+	    	this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+	    }
+	    //Set based on the theme. This is set in the user preferences.
 		String applicationThemeSetting = preferences.getString(APP_THEME_KEY, ANDROID_THEME);
 		int themeResource = R.layout.android_theme_notification;
 		if(applicationThemeSetting.equals(ANDROID_THEME)) themeResource = R.layout.android_theme_smsreply;
 		if(applicationThemeSetting.equals(ANDROID_DARK_THEME)) themeResource = R.layout.android_dark_theme_smsreply;
 		if(applicationThemeSetting.equals(IPHONE_THEME)) themeResource = R.layout.iphone_theme_smsreply;
-	    setContentView(themeResource);
-	    setFeatureDrawableResource(Window.FEATURE_LEFT_ICON, R.drawable.ic_menu_start_conversation);
-	    setTitle("Quick Reply");    
+		if(applicationThemeSetting.equals(DARK_TRANSLUCENT_THEME)) themeResource = R.layout.dark_translucent_theme_smsreply;
+		if(applicationThemeSetting.equals(DARK_TRANSLUCENT_V2_THEME)) themeResource = R.layout.dark_translucent_v2_theme_smsreply;
+		if(applicationThemeSetting.equals(DARK_TRANSLUCENT_V3_THEME)) themeResource = R.layout.dark_translucent_v3_theme_smsreply;		
+	    setContentView(themeResource);  
 	    setSendButton((Button)findViewById(SEND_BUTTON));
 	    setCancelButton((Button)findViewById(CANCEL_BUTTON));
 	    setToEditText((EditText)findViewById(TO_EDIT_TEXT));
@@ -231,6 +241,8 @@ public class QuickReplyActivity extends Activity {
 	    parseQuickReplyParameters(extrasBundle);
 	    //Setup Activities buttons.
 	    setupButtons();
+	    //Set focus to appropriate field.
+	    setFocus();
 	}
 	
 	/**
@@ -241,6 +253,7 @@ public class QuickReplyActivity extends Activity {
 		super.onStart();
 		_debug = Log.getDebug();
 	    if (_debug) Log.v("QuickReplyActivity.onStart()");
+	    setFocus();
 	}
 	  
 	/**
@@ -251,6 +264,7 @@ public class QuickReplyActivity extends Activity {
 	    super.onResume();
 	    _debug = Log.getDebug();
 	    if (_debug) Log.v("QuickReplyActivity.onResume()");
+	    setFocus();
 	}
 	  
 	/**
@@ -260,6 +274,7 @@ public class QuickReplyActivity extends Activity {
 	protected void onPause() {
 	    super.onPause();
 	    if (_debug) Log.v("QuickReplyActivity.onPause()");
+	    showSoftKeyboard(false, (EditText) findViewById(R.id.message_edit_text));
 	}
 	  
 	/**
@@ -278,6 +293,7 @@ public class QuickReplyActivity extends Activity {
 	protected void onDestroy() {
 	    super.onDestroy();
 	    if (_debug) Log.v("QuickReplyActivity.onDestroy()");
+	    showSoftKeyboard(false, (EditText) findViewById(R.id.message_edit_text));
 	}
 	
 	//================================================================================
@@ -366,52 +382,49 @@ public class QuickReplyActivity extends Activity {
         final String SMS_DELIVERED = "SMS_DELIVERED";
         PendingIntent sentPI = PendingIntent.getBroadcast(this, 0, new Intent(SMS_SENT), 0);
         PendingIntent deliveredPI = PendingIntent.getBroadcast(this, 0, new Intent(SMS_DELIVERED), 0);
- 
         //When the SMS has been sent.
-        registerReceiver(new BroadcastReceiver(){
-            @Override
-            public void onReceive(Context arg0, Intent arg1) {
-                switch (getResultCode())
-                {
-                    case Activity.RESULT_OK:
-                        Toast.makeText(getBaseContext(), getString(R.string.message_sent_text), Toast.LENGTH_SHORT).show();
-                        break;
-                    case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
-                        Toast.makeText(getBaseContext(), getString(R.string.message_sent_error_generic_failure_text), Toast.LENGTH_SHORT).show();
-                        break;
-                    case SmsManager.RESULT_ERROR_NO_SERVICE:
-                        Toast.makeText(getBaseContext(), getString(R.string.message_sent_error_no_service_text), Toast.LENGTH_SHORT).show();
-                        break;
-                    case SmsManager.RESULT_ERROR_NULL_PDU:
-                        Toast.makeText(getBaseContext(), getString(R.string.message_sent_error_null_pdu_text), Toast.LENGTH_SHORT).show();
-                        break;
-                    case SmsManager.RESULT_ERROR_RADIO_OFF:
-                        Toast.makeText(getBaseContext(), getString(R.string.message_sent_error_radio_off_text), Toast.LENGTH_SHORT).show();
-                        break;
-                }
-                //Finish Activity.
-                finishActivity();
-            }
-        }, new IntentFilter(SMS_SENT));
- 
+//        registerReceiver(new BroadcastReceiver(){
+//            @Override
+//            public void onReceive(Context arg0, Intent arg1) {
+//                switch (getResultCode())
+//                {
+//                    case Activity.RESULT_OK:
+//                        Toast.makeText(getBaseContext(), getString(R.string.message_sent_text), Toast.LENGTH_SHORT).show();
+//                        break;
+//                    case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
+//                        Toast.makeText(getBaseContext(), getString(R.string.message_sent_error_generic_failure_text), Toast.LENGTH_SHORT).show();
+//                        break;
+//                    case SmsManager.RESULT_ERROR_NO_SERVICE:
+//                        Toast.makeText(getBaseContext(), getString(R.string.message_sent_error_no_service_text), Toast.LENGTH_SHORT).show();
+//                        break;
+//                    case SmsManager.RESULT_ERROR_NULL_PDU:
+//                        Toast.makeText(getBaseContext(), getString(R.string.message_sent_error_null_pdu_text), Toast.LENGTH_SHORT).show();
+//                        break;
+//                    case SmsManager.RESULT_ERROR_RADIO_OFF:
+//                        Toast.makeText(getBaseContext(), getString(R.string.message_sent_error_radio_off_text), Toast.LENGTH_SHORT).show();
+//                        break;
+//                }
+//            }
+//        }, new IntentFilter(SMS_SENT));
         //When the SMS has been delivered.
-        //registerReceiver(new BroadcastReceiver(){
-        //    @Override
-        //    public void onReceive(Context arg0, Intent arg1) {
-        //        switch (getResultCode())
-        //        {
-        //            case Activity.RESULT_OK:
-        //                Toast.makeText(getBaseContext(), getString(R.string.message_delivered_text), Toast.LENGTH_SHORT).show();
-        //                break;
-        //            case Activity.RESULT_CANCELED:
-        //                Toast.makeText(getBaseContext(), getString(R.string.message_not_delivered_text), Toast.LENGTH_SHORT).show();
-        //                break;                        
-        //        }
-        //    }
-        //}, new IntentFilter(SMS_DELIVERED));        
- 
+//        registerReceiver(new BroadcastReceiver(){
+//            @Override
+//            public void onReceive(Context arg0, Intent arg1) {
+//                switch (getResultCode())
+//                {
+//                    case Activity.RESULT_OK:
+//                        Toast.makeText(getBaseContext(), getString(R.string.message_delivered_text), Toast.LENGTH_SHORT).show();
+//                        break;
+//                    case Activity.RESULT_CANCELED:
+//                        Toast.makeText(getBaseContext(), getString(R.string.message_not_delivered_text), Toast.LENGTH_SHORT).show();
+//                        break;                        
+//                }
+//            }
+//        }, new IntentFilter(SMS_DELIVERED));        
         SmsManager sms = SmsManager.getDefault();
-        sms.sendTextMessage(phoneNumber, null, message, sentPI, deliveredPI);        
+        sms.sendTextMessage(phoneNumber, null, message, sentPI, deliveredPI);
+        //Finish Activity.
+        finishActivity();
     }
 	
 	/**
@@ -439,6 +452,38 @@ public class QuickReplyActivity extends Activity {
 			}
 		}catch(Exception ex){
 			if (_debug) Log.e("QuickReplyActivity.customPerformHapticFeedback() ERROR: " + ex.toString());
+		}
+	}
+	
+	/**
+	 * Sets the focus to the body EditText field.
+	 */
+	private void setFocus(){
+		if (_debug) Log.v("QuickReplyActivity.setFocus()");
+		EditText quickReplyMessageEditText = (EditText) findViewById(R.id.message_edit_text);
+		quickReplyMessageEditText.requestFocus();
+		showSoftKeyboard(true, quickReplyMessageEditText);
+	}
+	
+	/**
+	 * Shows or hides the soft keyboard on the Message EditText view.
+	 * 
+	 * @param showKeyboard - Boolean to either show or hide the soft keyboard.
+	 */
+	private void showSoftKeyboard(boolean showKeyboard, View view){
+		if (_debug) Log.v("QuickReplyActivity.showSoftKeyboard()");
+		InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+		// This will only trigger it if no physical keyboard is open.
+		try{
+			//if(inputMethodManager != null){
+				if(showKeyboard){
+					inputMethodManager.showSoftInput(view, InputMethodManager.SHOW_FORCED);
+				}else{
+					inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+				}
+			//}
+		}catch(Exception ex){
+			if (_debug) Log.e("QuickReplyActivity.showSoftKeyboard() ERROR: " + ex.toString());
 		}
 	}
 	

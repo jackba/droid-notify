@@ -211,5 +211,8 @@
    	<string name="theme_text">Notification Themes</string>
    	<string name="preference_theme_summary">Select the theme for the notifications.</string>
    	
+   	<string name="preference_landscape_screen_enabled_title">Enable Landscape Screen</string>
+   	<string name="preference_landscape_screen_enabled_summaryOn">The screens will rotate to landscape mode when the phone is rotated.</string>
+   	<string name="preference_landscape_screen_enabled_summaryOff">The screens will not rotate to landscape mode when the phone is rotated.</string>
    	
 </resources>
