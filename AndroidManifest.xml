@@ -59,7 +59,8 @@
    			android:theme="@style/Theme.Transparent"
 			android:launchMode="singleTask"
 			android:screenOrientation="user"
-        	android:configChanges="keyboardHidden|orientation" />
+        	android:configChanges="keyboardHidden|orientation"
+        	android:windowSoftInputMode="stateVisible" />
     </application>
 	<uses-permission android:name="android.permission.CALL_PHONE" />
 	<uses-permission android:name="android.permission.DISABLE_KEYGUARD" />

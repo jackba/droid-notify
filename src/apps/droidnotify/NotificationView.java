@@ -66,8 +66,6 @@ public class NotificationView extends LinearLayout {
 	private final String EVENT_BEGIN_TIME = "beginTime";
 	private final String EVENT_END_TIME = "endTime";
 	
-	
-	
 	//================================================================================
     // Properties
     //================================================================================
@@ -777,6 +775,7 @@ public class NotificationView extends LinearLayout {
 	 */
 	private void replyToMessage() {
 		if (_debug) Log.v("NotificationView.replyToMessage()");
+		//Setup Reply action.
 		Context context = getContext();
 		Notification notification = getNotification();
 		String phoneNumber = notification.getPhoneNumber();
@@ -815,6 +814,8 @@ public class NotificationView extends LinearLayout {
 				if (_debug) Log.e("NotificationView.replyToMessage() Quick Reply ERROR: " + ex.toString());
 			}
 		}
+		//Remove notification from ViewFlipper.
+		getNotificationViewFlipper().removeActiveNotification();
 	}
 	
 	/**

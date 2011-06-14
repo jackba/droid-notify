@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.media.Ringtone;
@@ -27,14 +28,12 @@ import android.provider.ContactsContract;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.HapticFeedbackConstants;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.view.Window;
 import android.widget.LinearLayout;
@@ -86,6 +85,7 @@ public class NotificationActivity extends Activity {
 	private final String SMS_DISPLAY_UNREAD_KEY = "sms_display_unread_enabled";
 	private final String SMS_CONFIRM_DELETION_KEY = "confirm_sms_deletion_enabled";
 	private final String MMS_CONFIRM_DELETION_KEY = "confirm_mms_deletion_enabled";
+	private final String LANDSCAPE_SCREEN_ENABLED_KEY = "landscape_screen_enabled";
 	
 	private final String SMS_DELETE_ACTION_DELETE_MESSAGE = "0";
 	private final String SMS_DELETE_ACTION_DELETE_THREAD = "1";
@@ -118,7 +118,6 @@ public class NotificationActivity extends Activity {
 	private WakeLock _wakeLock;
 	private KeyguardLock _keyguardLock; 
 	private NotificationViewFlipper _notificationViewFlipper = null;
-	private LinearLayout _mainActivityLayout = null;
 	private InputMethodManager _inputMethodManager = null;
 	private WakeLockHandler _wakeLockHandler = new WakeLockHandler();
 	private KeyguardHandler _keyguardHandler = new KeyguardHandler();
@@ -232,26 +231,6 @@ public class NotificationActivity extends Activity {
 	public NotificationViewFlipper getNotificationViewFlipper() {
 		if (_debug) Log.v("NotificationActivity.getNotificationViewFlipper()");
 	    return _notificationViewFlipper;
-	}
-	  
-	/**
-	 * Set the mainActivityLayout property.
-	 * 
-	 * @param mainActivityLayout - The "main activity" LinearLayout
-	 */
-	public void setMainActivityLayout(LinearLayout mainActivityLayout) {
-		if (_debug) Log.v("NotificationActivity.setMainActivityLayout()");
-		_mainActivityLayout = mainActivityLayout;
-	}
-	
-	/**
-	 * Get the mainActivityLayout property.
-	 * 
-	 * @return mainActivityLayout - The "main activity" LinearLayout
-	 */
-	public LinearLayout getMainActivityLayout() {
-		if (_debug) Log.v("NotificationActivity.getMainActivityLayout()");
-	    return _mainActivityLayout;
 	}
 
 	/**
@@ -675,7 +654,10 @@ public class NotificationActivity extends Activity {
 	    Bundle extrasBundle = getIntent().getExtras();
 	    int notificationType = extrasBundle.getInt("notificationType");
 	    if (_debug) Log.v("NotificationActivity.onCreate() Notification Type: " + notificationType);
-	    requestWindowFeature(Window.FEATURE_NO_TITLE);
+	    //Don't rotate the Activity when the screen rotates based on the user preferences.
+	    if(preferences.getBoolean(LANDSCAPE_SCREEN_ENABLED_KEY, true)){
+	    	this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+	    }
 	    setContentView(R.layout.notificationwrapper);
 	    setupViews(notificationType);
 	    if(notificationType == NOTIFICATION_TYPE_TEST){

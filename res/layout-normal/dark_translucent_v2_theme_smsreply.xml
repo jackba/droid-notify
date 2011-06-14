@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
   	android:layout_width="wrap_content"
     android:minWidth="300dip"
-    android:background="@drawable/iphone_panel">
+    android:background="@drawable/dark_translucent_v2_panel">
   	<LinearLayout
   		android:id="@+id/send_to_linear_layout"
     	android:orientation="horizontal"
@@ -59,11 +59,11 @@
       		android:layout_marginRight="2dip"
       		android:layout_gravity="center_vertical" 
       		android:layout_weight="1"
-      		android:nextFocusLeft="@+id/message_edit_text" 
-	    	android:textColor="@color/white"
+      		android:nextFocusLeft="@+id/message_edit_text"
 			android:gravity="center_vertical|center_horizontal"
-			android:hapticFeedbackEnabled="true"
-			android:background="@drawable/btn_iphone"
+			android:hapticFeedbackEnabled="true" 
+	    	android:textColor="@color/white"
+			android:background="@drawable/btn_dark_translucent"
       		android:text="@string/send_button_text" />
 		<Button 
 			android:id="@+id/quick_reply_cancel_button" 
@@ -72,11 +72,11 @@
       		android:layout_marginLeft="2dip"
       		android:layout_marginRight="2dip" 
 			android:layout_gravity="center"  
-			android:layout_weight="1" 
-	    	android:textColor="@color/white"
+			android:layout_weight="1"
 			android:gravity="center_vertical|center_horizontal"
-			android:hapticFeedbackEnabled="true"
-			android:background="@drawable/btn_iphone"
+			android:hapticFeedbackEnabled="true" 
+	    	android:textColor="@color/white"
+			android:background="@drawable/btn_dark_translucent"
 			android:text="@string/cancel_button_text" />
 	</LinearLayout>
 </LinearLayout>

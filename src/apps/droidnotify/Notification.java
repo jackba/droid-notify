@@ -131,6 +131,10 @@ public class Notification {
 	    		loadThreadID(context, phoneNumber);
 	    		loadMessageID(context, getThreadID(), messageBody, timeStamp);
 	    		loadContactsInfoByPhoneNumber(context, phoneNumber);
+	    		//Search by email if we can't find the contact info.
+	    		if(!getContactExists()){
+	    			loadContactsInfoByEmail(context, phoneNumber);
+	    		}
         	}
     	    if(notificationType == NOTIFICATION_TYPE_MMS){
     	    	setTitle("MMS Message");
@@ -1039,6 +1043,7 @@ public class Notification {
 					}
 				}
 				phoneCursor.close(); 
+				if(getContactExists()) break;
 		   	}
 			cursor.close();
 		}catch(Exception ex){
@@ -1046,86 +1051,82 @@ public class Notification {
 		}
 	}
 
-//	/**
-//	 * Load the various contact info for this notification from an email address.
-//	 * 
-//	 * @param context - Application Context.
-//	 * @param phoneNumber - Notifications's phone number.
-//	 */ 
-//	private void loadContactsInfoByEmail(Context context, String email){
-//		if (_debug) Log.v("Notification.loadContactsInfoByEmail()");
-//		if (email == null) {
-//			if (_debug) Log.v("Notification.loadContactsInfoByEmail() Email provided is NULL: Exiting...");
-//			return;
-//		}
-//		try{
-//			//TODO - Write This Function loadContactsInfoByEmail(Context context, String email)
-//			if (_debug) Log.v("Notification.loadContactsInfo() Got PhoneNumber object");
-//			final String[] projection = null;
-//			final String selection = null;
-//			final String[] selectionArgs = null;
-//			final String sortOrder = null;
-//			Cursor cursor = context.getContentResolver().query(
-//					ContactsContract.Contacts.CONTENT_URI,
-//					projection, 
-//					selection, 
-//					selectionArgs, 
-//					sortOrder);
-//			if (_debug) Log.v("Notification.loadContactsInfo() Searching contacts");
-//			while (cursor.moveToNext()) { 
-//				String contactID = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID)); 
-//				String hasPhone = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)); 
-//				String hasEmail = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.e)); 
-//				String contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-//				String contactLookupKey = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY));
-//				String photoID = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_ID)); 
-//					final String[] phoneProjection = null;
-//					final String phoneSelection = ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = " + contactID;
-//					final String[] phoneSelectionArgs = null;
-//					final String phoneSortOrder = null;
-//					Cursor phoneCursor = context.getContentResolver().query(
-//							ContactsContract.CommonDataKinds.Phone.CONTENT_URI, 
-//							phoneProjection, 
-//							phoneSelection, 
-//							phoneSelectionArgs, 
-//							phoneSortOrder); 
-//					while (phoneCursor.moveToNext()) { 
-//			    	  String addressBookPhoneNumber = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-//			    	  PhoneNumber contactNumber = new PhoneNumber(addressBookPhoneNumber);
-//			    	  if(incomingNumber.getPhoneNumber().equals(contactNumber.getPhoneNumber())){
-//			    		  setContactID(Long.parseLong(contactID));
-//			    		  if(addressBookPhoneNumber != null){
-//			    			  setAddressBookPhoneNumber(addressBookPhoneNumber);
-//			    		  }
-//			    		  if(contactLookupKey != null){
-//			    			  setContactLookupKey(contactLookupKey);
-//			    		  }
-//			    		  if(contactName != null){
-//			    			  setContactName(contactName);
-//			    		  }
-//			    		  if(photoID != null){
-//			    			  setPhotoID(Long.parseLong(photoID));
-//			    		  }
-//			  	          Uri uri = ContentUris.withAppendedId(
-//			  	        		  ContactsContract.Contacts.CONTENT_URI,
-//			  	        		  Long.parseLong(contactID));
-//			  		      InputStream input = ContactsContract.Contacts.openContactPhotoInputStream(context.getContentResolver(), uri);
-//			  		      Bitmap contactPhotoBitmap = BitmapFactory.decodeStream(input);
-//			  		      if(contactPhotoBitmap!= null){
-//			  		    	  setPhotoImg(contactPhotoBitmap);
-//			  		    	  setContactPhotoExists(true);
-//			  		      }
-//			  		      setContactExists(true);
-//			  		      break;
-//			    	  }
-//			      } 
-//			      phoneCursor.close(); 
-//			}
-//			cursor.close();
-//		}catch(Exception ex){
-//			if (_debug) Log.e("Notification.loadContactsInfo() ERROR: " + ex.toString());
-//		}
-//	}
+	/**
+	 * Load the various contact info for this notification from an email.
+	 * 
+	 * @param context - Application Context.
+	 * @param incomingEmail - Notifications's email address.
+	 */ 
+	private void loadContactsInfoByEmail(Context context, String incomingEmail){
+		if (_debug) Log.v("Notification.loadContactsInfoByEmail()");
+		if (incomingEmail == null) {
+			if (_debug) Log.v("Notification.loadContactsInfoByEmail() Email provided is NULL: Exiting...");
+			return;
+		}
+		try{
+			final String[] projection = null;
+			final String selection = null;
+			final String[] selectionArgs = null;
+			final String sortOrder = null;
+			Cursor cursor = context.getContentResolver().query(
+					ContactsContract.Contacts.CONTENT_URI,
+					projection, 
+					selection, 
+					selectionArgs, 
+					sortOrder);
+			if (_debug) Log.v("Notification.loadContactsInfoByEmail() Searching contacts");
+			while (cursor.moveToNext()) { 
+				String contactID = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID)); 
+				String contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+				String contactLookupKey = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY));
+				String photoID = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_ID)); 
+				final String[] emailProjection = null;
+				final String emailSelection = ContactsContract.CommonDataKinds.Email.CONTACT_ID + " = " + contactID;
+				final String[] emailSelectionArgs = null;
+				final String emailSortOrder = null;
+                Cursor emailCursor = context.getContentResolver().query(
+                		ContactsContract.CommonDataKinds.Email.CONTENT_URI, 
+                		emailProjection,
+                		emailSelection, 
+                        emailSelectionArgs, 
+                        emailSortOrder);
+                while (emailCursor.moveToNext()) {
+                	String contactEmail = emailCursor.getString(emailCursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA));
+                    //String emailType = emailCursor.getString(emailCursor.getColumnIndex(Phone.TYPE));
+                    //if (_debug) Log.v("Notification.loadContactsInfoByEmail() Email Address: " + emailIdOfContact + " Email Type: " + emailType);
+					if(incomingEmail.toLowerCase().equals(contactEmail.toLowerCase())){
+						setContactID(Long.parseLong(contactID));
+		    		  	if(contactLookupKey != null){
+		    			  	setContactLookupKey(contactLookupKey);
+		    		  	}
+		    		  	if(contactName != null){
+		    			  	setContactName(contactName);
+		    		  	}
+		    		  	if(photoID != null){
+		    			  	setPhotoID(Long.parseLong(photoID));
+		    		  	}
+		  	          	Uri uri = ContentUris.withAppendedId(
+		  	        		  ContactsContract.Contacts.CONTENT_URI,
+		  	        		  Long.parseLong(contactID));
+		  		      	InputStream input = ContactsContract.Contacts.openContactPhotoInputStream(context.getContentResolver(), uri);
+		  		      	Bitmap contactPhotoBitmap = BitmapFactory.decodeStream(input);
+		  		      	if(contactPhotoBitmap!= null){
+		  		    	  	setPhotoImg(contactPhotoBitmap);
+		  		    	  	setContactPhotoExists(true);
+		  		      	}
+		  		      	setContactExists(true);
+		  		      	break;
+					}
+                    
+                }
+                emailCursor.close();
+                if(getContactExists()) break;
+		   	}
+			cursor.close();
+		}catch(Exception ex){
+			if (_debug) Log.e("Notification.loadContactsInfo() ERROR: " + ex.toString());
+		}
+	}
 	
 	/**
 	 * Set the call log as viewed (not new) or new depending on the input.

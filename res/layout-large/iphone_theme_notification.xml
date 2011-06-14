@@ -89,8 +89,8 @@
 						android:id="@+id/notification_info_text_view"
 						android:layout_height="wrap_content"
 						android:layout_width="wrap_content" 
-						android:layout_gravity="center_vertical"
-						android:textColorLink="@color/white"
+						android:layout_gravity="center_vertical" 
+	    				android:textColor="@color/white"
 						android:textAppearance="?android:attr/textAppearanceSmall"
 						android:paddingLeft="5dip"/>
 				</LinearLayout>
@@ -101,16 +101,16 @@
 					android:layout_gravity="left"
 					android:textAppearance="?android:attr/textAppearanceLarge"
 					android:maxLines="1" 
-					android:textStyle="bold"
-					android:textColorLink="@color/white" />
+					android:textStyle="bold" 
+	    			android:textColor="@color/white" />
 				<TextView
 					android:id="@+id/contact_number_text_view"
 					android:layout_height="wrap_content"
 					android:layout_width="wrap_content"
 					android:layout_gravity="left"
 					android:textAppearance="?android:attr/textAppearanceMedium"
-					android:maxLines="1"
-					android:textColorLink="@color/white"  />
+					android:maxLines="1" 
+	    			android:textColor="@color/white"  />
 			</LinearLayout>
 		</LinearLayout>
 		<TextView
@@ -119,7 +119,7 @@
 			android:layout_width="fill_parent"
 			android:layout_gravity="left"
 			android:textAppearance="?android:attr/textAppearanceSmall" 
-			android:textColor="@color/white" 
+	    	android:textColor="@color/white" 
 			android:gravity="left" 
 			android:autoLink="all"
 			android:scrollbars="vertical"
@@ -143,6 +143,7 @@
 			android:gravity="center_vertical|center_horizontal"
 			android:drawableLeft="@drawable/ic_delete_white"
 			android:hapticFeedbackEnabled="true" 
+	    	android:textColor="@color/white"
 			android:background="@drawable/btn_iphone"
 			android:text="@string/dismiss_button_text" />
 		<Button
@@ -154,7 +155,8 @@
 			android:layout_marginRight="1dip"
 			android:gravity="center_vertical|center_horizontal"
 			android:drawableLeft="@drawable/ic_call_white"
-			android:hapticFeedbackEnabled="true"
+			android:hapticFeedbackEnabled="true" 
+	    	android:textColor="@color/white"
 			android:background="@drawable/btn_iphone"
 			android:text="@string/call_button_text" />
 	</LinearLayout>
@@ -174,7 +176,8 @@
 			android:layout_marginRight="1dip"
 			android:gravity="center_vertical|center_horizontal"
 			android:drawableLeft="@drawable/ic_delete_white"
-			android:hapticFeedbackEnabled="true"
+			android:hapticFeedbackEnabled="true" 
+	    	android:textColor="@color/white"
 			android:background="@drawable/btn_iphone"
 			android:text="@string/dismiss_button_text" />
 		<Button
@@ -187,6 +190,7 @@
 			android:gravity="center_vertical|center_horizontal"
 			android:drawableLeft="@drawable/ic_delete_red"
 			android:hapticFeedbackEnabled="true" 
+	    	android:textColor="@color/white"
 			android:background="@drawable/btn_iphone"
 			android:text="@string/delete_button_text" />
 		<Button
@@ -198,7 +202,8 @@
 			android:layout_marginRight="1dip"
 			android:gravity="center_vertical|center_horizontal"
 			android:drawableLeft="@drawable/ic_menu_start_conversation"
-			android:hapticFeedbackEnabled="true"
+			android:hapticFeedbackEnabled="true" 
+	    	android:textColor="@color/white"
 			android:background="@drawable/btn_iphone"
 			android:text="@string/reply_button_text" />
 	</LinearLayout>
@@ -219,6 +224,7 @@
 			android:gravity="center_vertical|center_horizontal"
 			android:drawableLeft="@drawable/ic_delete_white"
 			android:hapticFeedbackEnabled="true" 
+	    	android:textColor="@color/white"
 			android:background="@drawable/btn_iphone"
 			android:text="@string/dismiss_button_text" />
 		<Button
@@ -230,7 +236,8 @@
 			android:layout_marginRight="1dip"
 			android:gravity="center_vertical|center_horizontal"
 			android:drawableLeft="@drawable/ic_menu_my_calendar"
-			android:hapticFeedbackEnabled="true"
+			android:hapticFeedbackEnabled="true" 
+	    	android:textColor="@color/white"
 			android:background="@drawable/btn_iphone"
 			android:text="@string/view_button_text" />
 	</LinearLayout>
