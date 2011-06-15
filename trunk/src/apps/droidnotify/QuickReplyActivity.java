@@ -2,10 +2,9 @@ package apps.droidnotify;
 
 import android.app.Activity;
 import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
+//import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
@@ -15,7 +14,6 @@ import android.preference.PreferenceManager;
 import android.telephony.SmsManager;
 import android.view.HapticFeedbackConstants;
 import android.view.View;
-import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -318,6 +316,7 @@ public class QuickReplyActivity extends Activity {
 	private void parseQuickReplyParameters(Bundle bundle){
 		if (_debug) Log.v("QuickReplyActivity.parseQuickReplyParameters()");
 		String phoneNumber = bundle.getString("smsPhoneNumber");
+		//String contactName = bundle.getString("smsContactName");
 		String message = bundle.getString("smsMessage");
 		EditText toEditText = getToEditText();
 		EditText messageEditText = getMessageEditText();
@@ -475,13 +474,13 @@ public class QuickReplyActivity extends Activity {
 		InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 		// This will only trigger it if no physical keyboard is open.
 		try{
-			//if(inputMethodManager != null){
+			if(inputMethodManager != null){
 				if(showKeyboard){
 					inputMethodManager.showSoftInput(view, InputMethodManager.SHOW_FORCED);
 				}else{
 					inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
 				}
-			//}
+			}
 		}catch(Exception ex){
 			if (_debug) Log.e("QuickReplyActivity.showSoftKeyboard() ERROR: " + ex.toString());
 		}

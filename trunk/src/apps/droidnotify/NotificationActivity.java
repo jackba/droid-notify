@@ -35,8 +35,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.inputmethod.InputMethodManager;
-import android.view.Window;
-import android.widget.LinearLayout;
 
 /**
  * This is the main activity that runs the notifications.
@@ -107,7 +105,7 @@ public class NotificationActivity extends Activity {
 	
 	private final String EVENT_BEGIN_TIME = "beginTime";
 	private final String EVENT_END_TIME = "endTime";
-	
+		
 	//================================================================================
     // Properties
     //================================================================================
@@ -322,11 +320,10 @@ public class NotificationActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem menuItem) {
 	    // Handle item selection
 	    switch (menuItem.getItemId()){
-	    
-	    	case MENU_ITEM_SETTINGS:
+	    	case MENU_ITEM_SETTINGS:{
 	    		launchPreferenceScreen();
 	    		return true;
-	    		
+	    	}
 	    }
 	    return false;
 	}
@@ -343,18 +340,16 @@ public class NotificationActivity extends Activity {
 	    super.onCreateContextMenu(contextMenu, view, contextMenuInfo);
 	    if (_debug) Log.v("NotificationActivity.onCreateContextMenu()");
 	    switch (view.getId()) {
-
 	        /*
 	         * Contact info/photo ConextMenu.
 	         */
-			case CONTACT_WRAPPER_LINEAR_LAYOUT:
+			case CONTACT_WRAPPER_LINEAR_LAYOUT:{
 				MenuInflater menuInflater = getMenuInflater();
 				NotificationViewFlipper notificationViewFlipper = getNotificationViewFlipper();
 				int currentNotification = notificationViewFlipper.getCurrentNotification();
 				Notification notification = notificationViewFlipper.getNotification(currentNotification);
 				String phoneNumber = notification.getPhoneNumber();
 				int notificationType = notification.getNotificationType();
-				if (_debug) Log.v("NotificationActivity.onCreateContextMenu() Does contact exist?" + notification.getContactExists());
 				//Add the header text to the menu.
 				if(notificationType == NOTIFICATION_TYPE_CALENDAR){
 					contextMenu.setHeaderTitle("Calendar Event");
@@ -409,8 +404,8 @@ public class NotificationActivity extends Activity {
 			    if(notificationType == NOTIFICATION_TYPE_EMAIL){
 			    	//TODO - Email
 			    }
-	    }
-		    
+			}
+	    }  
 	}
 
 	/**
@@ -430,7 +425,7 @@ public class NotificationActivity extends Activity {
 		Intent intent = null;
 		//customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 		switch (menuItem.getItemId()) {
-			case VIEW_CONTACT_CONTEXT_MENU:
+			case VIEW_CONTACT_CONTEXT_MENU:{
 				try{
 					intent = new Intent(Intent.ACTION_VIEW);
 					Uri viewContactURI = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_URI, String.valueOf(contactID));
@@ -446,7 +441,8 @@ public class NotificationActivity extends Activity {
 					if (_debug) Log.e("NotificationActivity.onContextItemSelected() VIEW_CONTACT_CONTEXT_MENU ERROR: " + ex.toString());
 					return false;
 				}
-			case ADD_CONTACT_CONTEXT_MENU:
+			}
+			case ADD_CONTACT_CONTEXT_MENU:{
 				try{
 					intent = new Intent(Intent.ACTION_INSERT);
 					intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
@@ -462,7 +458,8 @@ public class NotificationActivity extends Activity {
 					if (_debug) Log.e("NotificationActivity.onContextItemSelected() ADD_CONTACT_CONTEXT_MENU ERROR: " + ex.toString());
 					return false;
 				}
-			case CALL_CONTACT_CONTEXT_MENU:
+			}
+			case CALL_CONTACT_CONTEXT_MENU:{
 				try{
 					intent = new Intent(Intent.ACTION_CALL);
 			        intent.setData(Uri.parse("tel:" + phoneNumber));		
@@ -477,7 +474,8 @@ public class NotificationActivity extends Activity {
 					if (_debug) Log.e("NotificationActivity.onContextItemSelected() CALL_CONTACT_CONTEXT_MENU ERROR: " + ex.toString());
 					return false;
 				}
-			case TEXT_CONTACT_CONTEXT_MENU:
+			}
+			case TEXT_CONTACT_CONTEXT_MENU:{
 				try{
 					intent = new Intent(Intent.ACTION_VIEW);
 					intent.setType("vnd.android-dir/mms-sms");
@@ -493,7 +491,8 @@ public class NotificationActivity extends Activity {
 					if (_debug) Log.e("NotificationActivity.onContextItemSelected() TEXT_CONTACT_CONTEXT_MENU ERROR: " + ex.toString());
 					return false;
 				}
-			case EDIT_CONTACT_CONTEXT_MENU:
+			}
+			case EDIT_CONTACT_CONTEXT_MENU:{
 				try{
 					intent = new Intent(Intent.ACTION_EDIT);
 					Uri editContactURI = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_URI, String.valueOf(contactID));
@@ -509,7 +508,8 @@ public class NotificationActivity extends Activity {
 					if (_debug) Log.e("NotificationActivity.onContextItemSelected() EDIT_CONTACT_CONTEXT_MENU ERROR: " + ex.toString());
 					return false;
 				}
-			case EDIT_EVENT_CONTEXT_MENU:
+			}
+			case EDIT_EVENT_CONTEXT_MENU:{
 				try{
 				    long calendarEventID = notification.getCalendarEventID();
 					try{
@@ -535,8 +535,10 @@ public class NotificationActivity extends Activity {
 					if (_debug) Log.e("NotificationActivity.onContextItemSelected() EDIT_EVENT_CONTEXT_MENU ERROR: " + ex.toString());
 					return false;
 				}
-			default:
+			}
+			default:{
 				return super.onContextItemSelected(menuItem);
+			}
 		  }
 	}
 	
@@ -763,7 +765,7 @@ public class NotificationActivity extends Activity {
 	protected Dialog onCreateDialog(int id) {
 		if (_debug) Log.v("NotificationActivity.onCreateDialog()");
 		Context context = getContext();
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		int notificationType = getNotificationViewFlipper().getActiveMessage().getNotificationType();
 		AlertDialog alertDialog = null;
 		switch (id) {
