@@ -14,6 +14,7 @@ import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.graphics.drawable.TransitionDrawable;
 import android.net.Uri;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
@@ -27,6 +28,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.view.MotionEvent;
 
 /**
  * This class is the view which the ViewFlipper displays for each notification.
@@ -72,9 +74,9 @@ public class NotificationView extends LinearLayout {
 	
 	private boolean _debug;
 	private int _notificationType;
-	private TextView _fromTextView;
-	private TextView _phoneNumberTextView;
-	private TextView _receivedAtTextView;
+	private TextView _contactNameTextView;
+	private TextView _contactNumberTextView;
+	private TextView _notificationInfoTextView;
 	private TextView _notificationTextView;
 	private ImageView _notificationIconImageView = null;
 	private ImageView _photoImageView = null;
@@ -100,6 +102,7 @@ public class NotificationView extends LinearLayout {
 	    setNotification(notification);
 	    setNotificationType(notification.getNotificationType());
 	    initLayoutItems(context);
+	    initLongPressView();
 	    setupNotificationViewButtons(notification);
 	    populateNotificationViewInfo(notification);
 	}
@@ -173,9 +176,9 @@ public class NotificationView extends LinearLayout {
 	 * 
 	 * @param fromTextView - The "from" TextView.
 	 */
-	public void setFromTextView(TextView fromTextView) {
-		if (_debug) Log.v("NotificationView.setFromTextView()");
-	    _fromTextView = fromTextView;
+	public void setContactNameTextView(TextView fromTextView) {
+		if (_debug) Log.v("NotificationView.setContactNameTextView()");
+	    _contactNameTextView = fromTextView;
 	}
 	
 	/**
@@ -183,9 +186,9 @@ public class NotificationView extends LinearLayout {
 	 * 
 	 * @return fromTextView - The "from" TextView.
 	 */
-	public TextView getFromTextView() {
-		if (_debug) Log.v("NotificationView.getFromTextView()");
-	    return _fromTextView;
+	public TextView getContactNameTextView() {
+		if (_debug) Log.v("NotificationView.getContactNameTextView()");
+	    return _contactNameTextView;
 	}
 	
 	/**
@@ -193,9 +196,9 @@ public class NotificationView extends LinearLayout {
 	 * 
 	 * @param phoneNumberTextView - The "phone number" TextView.
 	 */
-	public void setPhoneNumberTextView(TextView phoneNumberTextView) {
-		if (_debug) Log.v("NotificationView.setPhoneNumberTextView()");
-	    _phoneNumberTextView = phoneNumberTextView;
+	public void setContactNumberTextView(TextView phoneNumberTextView) {
+		if (_debug) Log.v("NotificationView.setContactNumberTextView()");
+	    _contactNumberTextView = phoneNumberTextView;
 	}
 	
 	/**
@@ -203,9 +206,9 @@ public class NotificationView extends LinearLayout {
 	 * 
 	 * @return phoneNumberTextView - The "phone number" TextView.
 	 */
-	public TextView getPhoneNumberTextView() {
-		if (_debug) Log.v("NotificationView.getPhoneNumberTextView()");
-	    return _phoneNumberTextView;
+	public TextView getContactNumberTextView() {
+		if (_debug) Log.v("NotificationView.getContactNumberTextView()");
+	    return _contactNumberTextView;
 	}
 	
 	/**
@@ -213,9 +216,9 @@ public class NotificationView extends LinearLayout {
 	 * 
 	 * @param receivedAtTextView - The "received at" TextView.
 	 */
-	public void setReceivedAtTextView(TextView receivedAtTextView) {
-		if (_debug) Log.v("NotificationView.setReceivedAtTextView()");
-	    _receivedAtTextView = receivedAtTextView;
+	public void setNotificationInfoTextView(TextView receivedAtTextView) {
+		if (_debug) Log.v("NotificationView.setNotificationInfoTextView()");
+	    _notificationInfoTextView = receivedAtTextView;
 	}
 	
 	/**
@@ -223,9 +226,9 @@ public class NotificationView extends LinearLayout {
 	 * 
 	 * @return receivedAtTextView - The "received at" TextView.
 	 */
-	public TextView getReceivedAtTextView() {
-		if (_debug) Log.v("NotificationView.getReceivedAtTextView()");
-	    return _receivedAtTextView;
+	public TextView getNotificationInfoTextView() {
+		if (_debug) Log.v("NotificationView.getNotificationInfoTextView()");
+	    return _notificationInfoTextView;
 	}
 	
 	/**
@@ -415,12 +418,12 @@ public class NotificationView extends LinearLayout {
 		if(applicationThemeSetting.equals(DARK_TRANSLUCENT_V2_THEME)) themeResource = R.layout.dark_translucent_v2_theme_notification;
 		if(applicationThemeSetting.equals(DARK_TRANSLUCENT_V3_THEME)) themeResource = R.layout.dark_translucent_v3_theme_notification;
 		View.inflate(context, themeResource, this);
-		setFromTextView((TextView) findViewById(R.id.contact_name_text_view));
-		_phoneNumberTextView = (TextView) findViewById(R.id.contact_number_text_view);
+		setContactNameTextView((TextView) findViewById(R.id.contact_name_text_view));
+		_contactNumberTextView = (TextView) findViewById(R.id.contact_number_text_view);
 		//Automatically format the phone number in this text view.
-		_phoneNumberTextView.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
-		setPhoneNumberTextView(_phoneNumberTextView);
-		setReceivedAtTextView((TextView) findViewById(R.id.notification_info_text_view));
+		_contactNumberTextView.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
+		setContactNumberTextView(_contactNumberTextView);
+		setNotificationInfoTextView((TextView) findViewById(R.id.notification_info_text_view));
 		setPhotoImageView((ImageView) findViewById(R.id.contact_photo_image_view));
 	    setNotificationIconImageView((ImageView) findViewById(R.id.notification_type_icon_image_view));    
 		_notificationTextView = (TextView) findViewById(R.id.notification_details_text_view);
@@ -592,8 +595,8 @@ public class NotificationView extends LinearLayout {
 		if (_debug) Log.v("NotificationView.populateNotificationViewInfo()");
 		int notificationType = notification.getNotificationType();
 	    // Set from, number, message etc. views.
-		TextView fromTextView = getFromTextView();
-		TextView phoneNumberTextView = getPhoneNumberTextView();
+		TextView fromTextView = getContactNameTextView();
+		TextView phoneNumberTextView = getContactNumberTextView();
 		if(notificationType == NOTIFICATION_TYPE_CALENDAR){
 			String notificationTitle = notification.getTitle();
 	    	if(notificationTitle.equals("")){
@@ -676,7 +679,7 @@ public class NotificationView extends LinearLayout {
 		// Update TextView that contains the image, contact info/calendar info, and timestamp for the Notification.
 		String formattedTimestamp = new SimpleDateFormat("h:mma").format(notification.getTimeStamp());
 	    String receivedAtText = "";
-	    TextView receivedAtTextView = getReceivedAtTextView();
+	    TextView receivedAtTextView = getNotificationInfoTextView();
 	    ImageView notificationIconImageView = getNotificationIconImageView();
 	    if(notificationType == NOTIFICATION_TYPE_PHONE){
 	    	iconBitmap = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.sym_call_missed);
@@ -842,6 +845,8 @@ public class NotificationView extends LinearLayout {
 		}catch(Exception ex){
 			if (_debug) Log.e("NotificationView.makePhoneCall() ERROR: " + ex.toString());
 		}
+		//Remove notification from ViewFlipper.
+		getNotificationViewFlipper().removeActiveNotification();
 	}
 	
 	/**
@@ -873,6 +878,8 @@ public class NotificationView extends LinearLayout {
 		}catch(Exception ex){
 			if (_debug) Log.e("NotificationView.viewCalendarEvent() ERROR: " + ex.toString());
 		}
+		//Remove notification from ViewFlipper.
+		getNotificationViewFlipper().removeActiveNotification();
 	}
  
 	/**
@@ -932,6 +939,140 @@ public class NotificationView extends LinearLayout {
 				vibrator.vibrate(100);
 			}
 		}
+	}
+	
+	/**
+	 * Creates and sets up the animation event when a long press is performed on the contact wrapper View.
+	 */
+	private void initLongPressView(){
+		if (_debug) Log.v("NotificationView.initLongPressView()");
+		final Context context = getContext();		
+		OnTouchListener contactWrapperOnTouchListener = new OnTouchListener() {
+			public boolean onTouch(View view, MotionEvent motionEvent){
+	     		switch (motionEvent.getAction()){
+		     		case MotionEvent.ACTION_DOWN:{
+		     			if (_debug) Log.v("NotificationView.initLongPressView() ACTION_DOWN");
+		                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		         		String applicationThemeSetting = preferences.getString(APP_THEME_KEY, ANDROID_THEME);
+		        		int listSelectorBackgroundResource = R.layout.android_theme_notification;
+		        		int contactWrapperTextColorResource = R.color.black;
+		         		//Set View background.
+		        		if(applicationThemeSetting.equals(ANDROID_THEME)){
+		        			listSelectorBackgroundResource = R.drawable.list_selector_background_transition;
+		        			contactWrapperTextColorResource = R.color.black;
+		        		}
+		        		if(applicationThemeSetting.equals(ANDROID_DARK_THEME)){
+		        			listSelectorBackgroundResource = R.drawable.list_selector_background_transition_blue;
+		        			contactWrapperTextColorResource = R.color.black;
+		        		}
+		        		if(applicationThemeSetting.equals(IPHONE_THEME)){
+		        			listSelectorBackgroundResource = R.drawable.list_selector_background_transition_blue;
+		        			contactWrapperTextColorResource = R.color.black;
+		        		}
+		        		if(applicationThemeSetting.equals(DARK_TRANSLUCENT_THEME)){
+		        			listSelectorBackgroundResource = R.drawable.list_selector_background_transition_blue;
+		        			contactWrapperTextColorResource = R.color.black;
+		        		}
+		        		if(applicationThemeSetting.equals(DARK_TRANSLUCENT_V2_THEME)){
+		        			listSelectorBackgroundResource = R.drawable.list_selector_background_transition_blue;
+		        			contactWrapperTextColorResource = R.color.black;
+		        		}
+		        		if(applicationThemeSetting.equals(DARK_TRANSLUCENT_V3_THEME)){
+		        			listSelectorBackgroundResource = R.drawable.list_selector_background_transition_blue;
+		        			contactWrapperTextColorResource = R.color.black;
+		        		}
+		                TransitionDrawable transition = (TransitionDrawable) context.getResources().getDrawable(listSelectorBackgroundResource);
+		                view.setBackgroundDrawable(transition);
+		                transition.setCrossFadeEnabled(true);
+		                transition.startTransition(400);
+		                //Set Views children font color.
+		                getNotificationInfoTextView().setTextColor(getResources().getColor(contactWrapperTextColorResource));
+		                getContactNameTextView().setTextColor(getResources().getColor(contactWrapperTextColorResource));
+		                getContactNumberTextView().setTextColor(getResources().getColor(contactWrapperTextColorResource)); 
+		                break;
+			        }
+		     		case MotionEvent.ACTION_UP:{
+		     			if (_debug) Log.v("NotificationView.initLongPressView() ACTION_UP");
+		                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		         		String applicationThemeSetting = preferences.getString(APP_THEME_KEY, ANDROID_THEME);
+		        		int listSelectorBackgroundResource = R.drawable.list_selector_background;
+		        		int contactWrapperTextColorResource = R.color.white;
+		         		//Set View background.
+		        		if(applicationThemeSetting.equals(ANDROID_THEME)){
+		        			listSelectorBackgroundResource = R.drawable.list_selector_background;
+		        			contactWrapperTextColorResource = R.color.white;
+		        		}
+		        		if(applicationThemeSetting.equals(ANDROID_DARK_THEME)){
+		        			listSelectorBackgroundResource = R.drawable.list_selector_background_blue;
+		        			contactWrapperTextColorResource = R.color.white;
+		        		}
+		        		if(applicationThemeSetting.equals(IPHONE_THEME)){
+		        			listSelectorBackgroundResource = R.drawable.list_selector_background_blue;
+		        			contactWrapperTextColorResource = R.color.white;
+		        		}
+		        		if(applicationThemeSetting.equals(DARK_TRANSLUCENT_THEME)){
+		        			listSelectorBackgroundResource = R.drawable.list_selector_background_blue;
+		        			contactWrapperTextColorResource = R.color.white;
+		        		}
+		        		if(applicationThemeSetting.equals(DARK_TRANSLUCENT_V2_THEME)){
+		        			listSelectorBackgroundResource = R.drawable.list_selector_background_blue;
+		        			contactWrapperTextColorResource = R.color.white;
+		        		}
+		        		if(applicationThemeSetting.equals(DARK_TRANSLUCENT_V3_THEME)){
+		        			listSelectorBackgroundResource = R.drawable.list_selector_background_blue;
+		        			contactWrapperTextColorResource = R.color.white;
+		        		}
+		                view.setBackgroundResource(listSelectorBackgroundResource);
+		                //Set Views children font color.
+		                getNotificationInfoTextView().setTextColor(getResources().getColor(contactWrapperTextColorResource));
+		                getContactNameTextView().setTextColor(getResources().getColor(contactWrapperTextColorResource));
+		                getContactNumberTextView().setTextColor(getResources().getColor(contactWrapperTextColorResource)); 
+		                break;
+		     		}
+		     		case MotionEvent.ACTION_CANCEL:{
+		     			if (_debug) Log.v("NotificationView.initLongPressView() ACTION_CANCEL");
+		                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		         		String applicationThemeSetting = preferences.getString(APP_THEME_KEY, ANDROID_THEME);
+		        		int listSelectorBackgroundResource = R.drawable.list_selector_background;
+		        		int contactWrapperTextColorResource = R.color.white;
+		         		//Set View background.
+		        		if(applicationThemeSetting.equals(ANDROID_THEME)){
+		        			listSelectorBackgroundResource = R.drawable.list_selector_background;
+		        			contactWrapperTextColorResource = R.color.white;
+		        		}
+		        		if(applicationThemeSetting.equals(ANDROID_DARK_THEME)){
+		        			listSelectorBackgroundResource = R.drawable.list_selector_background_blue;
+		        			contactWrapperTextColorResource = R.color.white;
+		        		}
+		        		if(applicationThemeSetting.equals(IPHONE_THEME)){
+		        			listSelectorBackgroundResource = R.drawable.list_selector_background_blue;
+		        			contactWrapperTextColorResource = R.color.white;
+		        		}
+		        		if(applicationThemeSetting.equals(DARK_TRANSLUCENT_THEME)){
+		        			listSelectorBackgroundResource = R.drawable.list_selector_background_blue;
+		        			contactWrapperTextColorResource = R.color.white;
+		        		}
+		        		if(applicationThemeSetting.equals(DARK_TRANSLUCENT_V2_THEME)){
+		        			listSelectorBackgroundResource = R.drawable.list_selector_background_blue;
+		        			contactWrapperTextColorResource = R.color.white;
+		        		}
+		        		if(applicationThemeSetting.equals(DARK_TRANSLUCENT_V3_THEME)){
+		        			listSelectorBackgroundResource = R.drawable.list_selector_background_blue;
+		        			contactWrapperTextColorResource = R.color.white;
+		        		}
+		                view.setBackgroundResource(listSelectorBackgroundResource);
+		                //Set Views children font color.
+		                getNotificationInfoTextView().setTextColor(getResources().getColor(contactWrapperTextColorResource));
+		                getContactNameTextView().setTextColor(getResources().getColor(contactWrapperTextColorResource));
+		                getContactNumberTextView().setTextColor(getResources().getColor(contactWrapperTextColorResource)); 
+		                break;
+		     		}
+	     		}
+	     		return false;
+			}
+	     };
+	     LinearLayout contactWrapperLinearLayout = (LinearLayout) findViewById(R.id.contact_wrapper_linear_layout);
+	     contactWrapperLinearLayout.setOnTouchListener(contactWrapperOnTouchListener);
 	}
 
 //	/**
