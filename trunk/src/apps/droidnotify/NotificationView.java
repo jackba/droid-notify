@@ -945,13 +945,13 @@ public class NotificationView extends LinearLayout {
 	 * Creates and sets up the animation event when a long press is performed on the contact wrapper View.
 	 */
 	private void initLongPressView(){
-		if (_debug) Log.v("NotificationView.initLongPressView()");
-		final Context context = getContext();		
+		if (_debug) Log.v("NotificationView.initLongPressView()");	
 		OnTouchListener contactWrapperOnTouchListener = new OnTouchListener() {
 			public boolean onTouch(View view, MotionEvent motionEvent){
 	     		switch (motionEvent.getAction()){
 		     		case MotionEvent.ACTION_DOWN:{
 		     			if (_debug) Log.v("NotificationView.initLongPressView() ACTION_DOWN");
+		     			Context context = view.getContext();
 		                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		         		String applicationThemeSetting = preferences.getString(APP_THEME_KEY, ANDROID_THEME);
 		        		int listSelectorBackgroundResource = R.layout.android_theme_notification;
@@ -981,18 +981,19 @@ public class NotificationView extends LinearLayout {
 		        			listSelectorBackgroundResource = R.drawable.list_selector_background_transition_blue;
 		        			contactWrapperTextColorResource = R.color.black;
 		        		}
-		                TransitionDrawable transition = (TransitionDrawable) context.getResources().getDrawable(listSelectorBackgroundResource);
+		        		TransitionDrawable transition = (TransitionDrawable) context.getResources().getDrawable(listSelectorBackgroundResource);
 		                view.setBackgroundDrawable(transition);
 		                transition.setCrossFadeEnabled(true);
 		                transition.startTransition(400);
 		                //Set Views children font color.
-		                getNotificationInfoTextView().setTextColor(getResources().getColor(contactWrapperTextColorResource));
-		                getContactNameTextView().setTextColor(getResources().getColor(contactWrapperTextColorResource));
-		                getContactNumberTextView().setTextColor(getResources().getColor(contactWrapperTextColorResource)); 
+		                getNotificationInfoTextView().setTextColor(context.getResources().getColor(contactWrapperTextColorResource));
+		                getContactNameTextView().setTextColor(context.getResources().getColor(contactWrapperTextColorResource));
+		                getContactNumberTextView().setTextColor(context.getResources().getColor(contactWrapperTextColorResource));
 		                break;
 			        }
 		     		case MotionEvent.ACTION_UP:{
 		     			if (_debug) Log.v("NotificationView.initLongPressView() ACTION_UP");
+		     			Context context = view.getContext();
 		                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		         		String applicationThemeSetting = preferences.getString(APP_THEME_KEY, ANDROID_THEME);
 		        		int listSelectorBackgroundResource = R.drawable.list_selector_background;
@@ -1024,13 +1025,14 @@ public class NotificationView extends LinearLayout {
 		        		}
 		                view.setBackgroundResource(listSelectorBackgroundResource);
 		                //Set Views children font color.
-		                getNotificationInfoTextView().setTextColor(getResources().getColor(contactWrapperTextColorResource));
-		                getContactNameTextView().setTextColor(getResources().getColor(contactWrapperTextColorResource));
-		                getContactNumberTextView().setTextColor(getResources().getColor(contactWrapperTextColorResource)); 
+		                getNotificationInfoTextView().setTextColor(context.getResources().getColor(contactWrapperTextColorResource));
+		                getContactNameTextView().setTextColor(context.getResources().getColor(contactWrapperTextColorResource));
+		                getContactNumberTextView().setTextColor(context.getResources().getColor(contactWrapperTextColorResource)); 
 		                break;
 		     		}
 		     		case MotionEvent.ACTION_CANCEL:{
 		     			if (_debug) Log.v("NotificationView.initLongPressView() ACTION_CANCEL");
+		     			Context context = view.getContext();
 		                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		         		String applicationThemeSetting = preferences.getString(APP_THEME_KEY, ANDROID_THEME);
 		        		int listSelectorBackgroundResource = R.drawable.list_selector_background;
@@ -1062,9 +1064,9 @@ public class NotificationView extends LinearLayout {
 		        		}
 		                view.setBackgroundResource(listSelectorBackgroundResource);
 		                //Set Views children font color.
-		                getNotificationInfoTextView().setTextColor(getResources().getColor(contactWrapperTextColorResource));
-		                getContactNameTextView().setTextColor(getResources().getColor(contactWrapperTextColorResource));
-		                getContactNumberTextView().setTextColor(getResources().getColor(contactWrapperTextColorResource)); 
+		                getNotificationInfoTextView().setTextColor(context.getResources().getColor(contactWrapperTextColorResource));
+		                getContactNameTextView().setTextColor(context.getResources().getColor(contactWrapperTextColorResource));
+		                getContactNumberTextView().setTextColor(context.getResources().getColor(contactWrapperTextColorResource)); 
 		                break;
 		     		}
 	     		}
