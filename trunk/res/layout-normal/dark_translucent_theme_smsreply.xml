@@ -12,19 +12,19 @@
     	android:orientation="horizontal"
   		android:layout_width="fill_parent"
   		android:layout_height="wrap_content"
-    	android:padding="5dip" >
+    	android:padding="5dip">
     	<TextView
       		android:layout_width="wrap_content"
       		android:layout_height="wrap_content"
-      		android:layout_marginTop="5dip"
      		android:layout_marginRight="3dip"
       		android:layout_marginLeft="3dip"
       		android:id="@+id/send_to_text_view"
       		android:textAppearance="?android:attr/textAppearanceMedium" 
 	    	android:textColor="@color/white"
-			android:drawableLeft="@drawable/ic_menu_start_conversation"
+			android:drawableLeft="@drawable/ic_conversation_white"
       		android:text="@string/quick_reply"
-      		android:lines="1" />
+      		android:drawablePadding="5dip" 
+      		android:gravity="center_horizontal"/>
   	</LinearLayout>
 	<LinearLayout
   		android:background="@drawable/divider_white"
