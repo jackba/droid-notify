@@ -682,7 +682,7 @@ public class NotificationView extends LinearLayout {
 	    TextView receivedAtTextView = getNotificationInfoTextView();
 	    ImageView notificationIconImageView = getNotificationIconImageView();
 	    if(notificationType == NOTIFICATION_TYPE_PHONE){
-	    	iconBitmap = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.sym_call_missed);
+	    	iconBitmap = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.ic_missed_call);
 	    	receivedAtText = context.getString(R.string.missed_call_at_text, formattedTimestamp.toLowerCase());
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_SMS || notificationType == NOTIFICATION_TYPE_MMS){
