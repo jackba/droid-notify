@@ -143,8 +143,9 @@
 			android:layout_marginLeft="1dip"
 			android:layout_marginRight="1dip"
 			android:gravity="center_vertical|center_horizontal"
-			android:drawableLeft="@drawable/ic_delete_white"
-			android:hapticFeedbackEnabled="true" 
+			android:drawableLeft="@drawable/ic_delete_black"
+			android:hapticFeedbackEnabled="true"
+			android:textColor="@color/black" 
 			android:background="@drawable/btn_android_default"
 			android:text="@string/dismiss_button_text" />
 		<Button
@@ -157,6 +158,7 @@
 			android:gravity="center_vertical|center_horizontal"
 			android:drawableLeft="@drawable/ic_call_green"
 			android:hapticFeedbackEnabled="true"
+			android:textColor="@color/black"
 			android:background="@drawable/btn_android_default"
 			android:text="@string/call_button_text" />
 	</LinearLayout>
@@ -175,8 +177,9 @@
 			android:layout_marginLeft="1dip"
 			android:layout_marginRight="1dip"
 			android:gravity="center_vertical|center_horizontal"
-			android:drawableLeft="@drawable/ic_delete_white"
+			android:drawableLeft="@drawable/ic_delete_black"
 			android:hapticFeedbackEnabled="true"
+			android:textColor="@color/black"
 			android:background="@drawable/btn_android_default"
 			android:text="@string/dismiss_button_text" />
 		<Button
@@ -188,7 +191,8 @@
 			android:layout_marginRight="1dip"
 			android:gravity="center_vertical|center_horizontal"
 			android:drawableLeft="@drawable/ic_delete_red"
-			android:hapticFeedbackEnabled="true" 
+			android:hapticFeedbackEnabled="true"
+			android:textColor="@color/black" 
 			android:background="@drawable/btn_android_default"
 			android:text="@string/delete_button_text" />
 		<Button
@@ -201,6 +205,7 @@
 			android:gravity="center_vertical|center_horizontal"
 			android:drawableLeft="@drawable/ic_menu_start_conversation"
 			android:hapticFeedbackEnabled="true"
+			android:textColor="@color/black"
 			android:background="@drawable/btn_android_default"
 			android:text="@string/reply_button_text" />
 	</LinearLayout>
@@ -219,8 +224,9 @@
 			android:layout_marginLeft="1dip"
 			android:layout_marginRight="1dip"
 			android:gravity="center_vertical|center_horizontal"
-			android:drawableLeft="@drawable/ic_delete_white"
-			android:hapticFeedbackEnabled="true" 
+			android:drawableLeft="@drawable/ic_delete_black"
+			android:hapticFeedbackEnabled="true"
+			android:textColor="@color/black"
 			android:background="@drawable/btn_android_default"
 			android:text="@string/dismiss_button_text" />
 		<Button
@@ -231,8 +237,9 @@
 			android:layout_marginLeft="1dip"
 			android:layout_marginRight="1dip"
 			android:gravity="center_vertical|center_horizontal"
-			android:drawableLeft="@drawable/ic_menu_my_calendar"
+			android:drawableLeft="@drawable/ic_calendar_event_black"
 			android:hapticFeedbackEnabled="true"
+			android:textColor="@color/black"
 			android:background="@drawable/btn_android_default"
 			android:text="@string/view_button_text" />
 	</LinearLayout>
