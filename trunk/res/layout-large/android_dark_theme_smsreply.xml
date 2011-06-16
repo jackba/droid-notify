@@ -26,9 +26,9 @@
       		android:drawablePadding="5dip" 
       		android:gravity="center_horizontal"/>
   	</LinearLayout>
-	<LinearLayout
-  		android:background="@drawable/divider_white"
-  		android:layout_height="2dip"  
+	<ImageView
+  		android:src="@drawable/divider_white"
+  		android:layout_height="1dip"  
 		android:layout_width="fill_parent"/>
   	<LinearLayout
   		android:id="@+id/send_to_linear_layout"
@@ -79,7 +79,7 @@
 			android:gravity="center_vertical|center_horizontal"
 			android:hapticFeedbackEnabled="true" 
 	    	android:textColor="@color/white"
-			android:background="@drawable/btn_android_default"
+			android:background="@drawable/btn_android_dark"
       		android:text="@string/send_button_text" />
 		<Button 
 			android:id="@+id/quick_reply_cancel_button" 
@@ -92,7 +92,7 @@
 			android:gravity="center_vertical|center_horizontal"
 			android:hapticFeedbackEnabled="true" 
 	    	android:textColor="@color/white"
-			android:background="@drawable/btn_android_default"
+			android:background="@drawable/btn_android_dark"
 			android:text="@string/cancel_button_text" />
 	</LinearLayout>
 </LinearLayout>

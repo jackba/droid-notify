@@ -434,7 +434,7 @@ public class NotificationView extends LinearLayout {
 	    setSMSButtonLinearLayout((LinearLayout) findViewById(R.id.sms_button_linear_layout));
 		setCalendarButtonLinearLayout((LinearLayout) findViewById(R.id.calendar_button_linear_layout));
 		setContactLinearLayout((LinearLayout) findViewById(R.id.contact_wrapper_linear_layout));	
-		setNotificationViewFlipper(((NotificationActivity)getContext()).getNotificationViewFlipper());
+		setNotificationViewFlipper(((NotificationActivity)context).getNotificationViewFlipper());
 	}
 
 	/**
