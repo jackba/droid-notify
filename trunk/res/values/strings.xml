@@ -208,7 +208,7 @@
    	<string name="test_app_text">Test Notifications</string>
    	<string name="test_app_summary">View test notifications. A popup will apear with some sample notifications.</string>
    	
-   	<string name="theme_text">Notification Themes</string>
+   	<string name="theme_text">Notification Theme</string>
    	<string name="preference_theme_summary">Select the theme for the notifications.</string>
    	
    	<string name="preference_landscape_screen_enabled_title">Enable Landscape Screen</string>
