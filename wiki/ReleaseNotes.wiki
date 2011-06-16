@@ -3,48 +3,48 @@
 
 = Release Notes =
 
- * *v2.0* _Coming Soon..._
-  * New UI for notifications.
-  * Added "Themes" in preferences for the notifications.
-  * Added touch "swipe" and "fling" motions to navigate through notifications. 
-  * Added user preference to show or hide the icons on the buttons.
-  * Added user preference to show a confirmation dialog box when you delete a message.
-  * Added user preference to schedule All-Day calendar events hours before that special type of event (instead of minutes like other events).
-  * Fixed a bug in the Calendar Notifications. The displayed time was off due to GMT timezone defaults.
-  * Updated the Quick Reply screen with some useful tweaks and features. 
-   * Added focus to the message body field.
-   * Display the softkeyboard when the screen loads.
-   * 
-  *
+*v2.0* _Coming Soon..._
+ * New UI for notifications.
+ * Added "Themes" in preferences for the notifications.
+ * Added touch "swipe" and "fling" motions to navigate through notifications. 
+ * Added user preference to show or hide the icons on the buttons.
+ * Added user preference to show a confirmation dialog box when you delete a message.
+ * Added user preference to schedule All-Day calendar events hours before that special type of event (instead of minutes like other events).
+ * Fixed a bug in the Calendar Notifications. The displayed time was off due to GMT timezone defaults.
+ * Updated the Quick Reply screen with some useful tweaks and features. 
+  * Added focus to the message body field.
+  * Display the softkeyboard when the screen loads.
+  * 
+ *
 
  * *v1.2* (June 08, 2011)
   * Fixed a bug that displayed duplicate notifications for incoming SMS messages.
   * Fixed a bug in which incoming SMS messages displayed the time in GMT. Incoming SMS messages have a timestamp in GMT. The time should now appear as the localized time for the users phone.
   * Fixed a bug that prevented the contact of the incoming call or SMS message from loading correctly.
 
- * *v1.1* (June 06, 2011)
-  * Added more preference options.
-  * You can now select the contact placeholder image from a pre-defined list.
-  * Fixed a bug where some phones crashed due to a bad ringtone or no default ringtone.
-  * Fixed a bug where some phones crashed due to the date format of their calendar events.
-  * Updated the "Test Notification" button on the preferences screen.
-  * Added a "Rate This App" feature on the preferences screen.
-  * Added a "Email Developer" feature on the preferences screen.
+*v1.1* (June 06, 2011)
+ * Added more preference options.
+ * You can now select the contact placeholder image from a pre-defined list.
+ * Fixed a bug where some phones crashed due to a bad ringtone or no default ringtone.
+ * Fixed a bug where some phones crashed due to the date format of their calendar events.
+ * Updated the "Test Notification" button on the preferences screen.
+ * Added a "Rate This App" feature on the preferences screen.
+ * Added a "Email Developer" feature on the preferences screen.
 
- * *v1.0* Release (June 02, 2011)
-  * Added more preference settings to customize the app.
-  * Fixed a bug in the Calendar Event notifications.
-  * Prepped/setup the application so that translations can be incorporated.
-  * Added the GNU V3 End User License Agreement to the app.
-  * Added new Quick Reply built in SMS Message screen. This will be an option that you can specify in the app's preferences. You can use the built in Messaging App to send messages or this new built in Quick Reply screen.
-  * Added ringtone support so that new notifications will ring when they arrive. This is an option and it is customizable based on notification type.
-  * Added code that resizes all images to a standard size for all notifications.
-  * Added the ability to load all unread SMS messages when a new message is received. This can be turned off and on in the preferences.
-  * Timeout to release screen after unlocking phone (Saves battery power/life)
+*v1.0* Release (June 02, 2011)
+ * Added more preference settings to customize the app.
+ * Fixed a bug in the Calendar Event notifications.
+ * Prepped/setup the application so that translations can be incorporated.
+ * Added the GNU V3 End User License Agreement to the app.
+ * Added new Quick Reply built in SMS Message screen. This will be an option that you can specify in the app's preferences. You can use the built in Messaging App to send messages or this new built in Quick Reply screen.
+ * Added ringtone support so that new notifications will ring when they arrive. This is an option and it is customizable based on notification type.
+ * Added code that resizes all images to a standard size for all notifications.
+ * Added the ability to load all unread SMS messages when a new message is received. This can be turned off and on in the preferences.
+ * Timeout to release screen after unlocking phone (Saves battery power/life)
 
- * *v0.9* Beta Release (May 15, 2011)
-  * Popup a notification when a SMS message is received, a phone call is missed, and calendar events are occurring soon.
-  * The screen will be woken up when a notification is received. It will be re-enabled after a set timeout period or when the notifications have all been cleared, whichever comes first.
-  * The keyguard will be disabled when a notification is received. It will be re-enabled after a set timeout period or when the notifications have all been cleared, whichever comes first.
-  * If the phone is in a call notifications will not be shown but instead will be re-scheduled to at a later time.
-  * There are preferences that allow you to customize each notification type individually as well as some other global preference settings.
+*v0.9* Beta Release (May 15, 2011)
+ * Popup a notification when a SMS message is received, a phone call is missed, and calendar events are occurring soon.
+ * The screen will be woken up when a notification is received. It will be re-enabled after a set timeout period or when the notifications have all been cleared, whichever comes first.
+ * The keyguard will be disabled when a notification is received. It will be re-enabled after a set timeout period or when the notifications have all been cleared, whichever comes first.
+ * If the phone is in a call notifications will not be shown but instead will be re-scheduled to at a later time.
+ * There are preferences that allow you to customize each notification type individually as well as some other global preference settings.
