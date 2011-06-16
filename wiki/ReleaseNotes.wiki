@@ -11,11 +11,15 @@
  * Added user preference to show a confirmation dialog box when you delete a message.
  * Added user preference to schedule All-Day calendar events hours before that special type of event (instead of minutes like other events).
  * Fixed a bug in the Calendar Notifications. The displayed time was off due to GMT timezone defaults.
- * Updated the Quick Reply screen with some useful tweaks and features. 
+ * Updated the Quick Reply screen with some useful tweaks and features.
+  * Update UI of Quick Reply screen. 
   * Added focus to the message body field.
   * Display the softkeyboard when the screen loads.
   * 
- *
+ * When you reply to a SMS notification, the notification will be removed now.
+ * When you call from a Missed Call notification, the notification will be removed now.
+ * When you view an event from a Calendar Event notification, the notification will be removed now.
+ * 
 
  * *v1.2* (June 08, 2011)
   * Fixed a bug that displayed duplicate notifications for incoming SMS messages.
