@@ -1218,7 +1218,7 @@ public class NotificationActivity extends Activity {
 			    }
 			}
 			//Set ringtone based on user preferences.
-			if(preferences.getBoolean(ALL_RINGTONE_ENABLED_KEY, true)){
+			if(preferences.getBoolean(ALL_RINGTONE_ENABLED_KEY, false)){
 		    	playRingtone(notificationType);
 		    }
 		}catch(Exception ex){

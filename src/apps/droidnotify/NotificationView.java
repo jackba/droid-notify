@@ -984,7 +984,7 @@ public class NotificationView extends LinearLayout {
 		        		TransitionDrawable transition = (TransitionDrawable) context.getResources().getDrawable(listSelectorBackgroundResource);
 		                view.setBackgroundDrawable(transition);
 		                transition.setCrossFadeEnabled(true);
-		                transition.startTransition(400);
+		                transition.startTransition(300);
 		                //Set Views children font color.
 		                getNotificationInfoTextView().setTextColor(context.getResources().getColor(contactWrapperTextColorResource));
 		                getContactNameTextView().setTextColor(context.getResources().getColor(contactWrapperTextColorResource));
