@@ -428,7 +428,7 @@ public class NotificationView extends LinearLayout {
 	    setNotificationIconImageView((ImageView) findViewById(R.id.notification_type_icon_image_view));    
 		_notificationTextView = (TextView) findViewById(R.id.notification_details_text_view);
 		_notificationTextView.setMovementMethod(new ScrollingMovementMethod());
-		_notificationTextView.setScrollbarFadingEnabled(false);
+		//_notificationTextView.setScrollbarFadingEnabled(false);
 		setNotificationTextView(_notificationTextView);	
 	    setPhoneButtonLinearLayout((LinearLayout) findViewById(R.id.phone_button_linear_layout));
 	    setSMSButtonLinearLayout((LinearLayout) findViewById(R.id.sms_button_linear_layout));
