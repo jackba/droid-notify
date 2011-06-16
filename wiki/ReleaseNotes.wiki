@@ -20,6 +20,7 @@
  * When you call from a Missed Call notification, the notification will be removed now.
  * When you view an event from a Calendar Event notification, the notification will be removed now.
  * Incoming SMS messages that come from an Email Gateway should now be able to load the contact if that email is in the users phone contacts.
+ * Updated linked text color to be white.
  * 
 
  * *v1.2* (June 08, 2011)
