@@ -121,6 +121,7 @@
 			android:layout_gravity="left"
 			android:textAppearance="?android:attr/textAppearanceSmall" 
 			android:textColor="@color/white" 
+			android:textColorLink="@color/white" 
 			android:gravity="left" 
 			android:autoLink="all"
 			android:scrollbars="vertical"
