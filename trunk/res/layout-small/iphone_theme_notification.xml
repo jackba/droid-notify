@@ -114,12 +114,13 @@
 			</LinearLayout>
 		</LinearLayout>
 		<TextView
-			android:id="@+id/notification_details_text_view"  
-			android:layout_height="70dip"  
-			android:layout_width="fill_parent"
+			android:id="@+id/notification_details_text_view"
+			android:layout_height="wrap_content"
+			android:layout_width="fill_parent"  
+			android:maxLines="5"
 			android:layout_gravity="left"
 			android:textAppearance="?android:attr/textAppearanceSmall" 
-	    	android:textColor="@color/white" 
+			android:textColor="@color/white" 
 			android:gravity="left" 
 			android:autoLink="all"
 			android:scrollbars="vertical"
