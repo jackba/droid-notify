@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -32,7 +33,7 @@ public class QuickReplyActivity extends Activity {
 	
 	private final int SEND_BUTTON = R.id.quick_reply_send_button;
 	private final int CANCEL_BUTTON = R.id.quick_reply_cancel_button;
-	private final int TO_EDIT_TEXT = R.id.send_to_edit_text;
+	private final int SEND_TO_TEXT_VIEW = R.id.send_to_text_view;
 	private final int MESSAGE_EDIT_TEXT = R.id.message_edit_text;
 
 	private final String HAPTIC_FEEDBACK_ENABLED_KEY = "haptic_feedback_enabled";
@@ -55,8 +56,9 @@ public class QuickReplyActivity extends Activity {
 	private Context _context = null;
 	private Button _sendButton = null;
 	private Button _cancelButton = null;
-	private EditText _toEditText  = null;
+	private TextView _sendToTextView  = null;
 	private EditText _messageEditText = null;
+	private String _phoneNumber;
 	
 	//================================================================================
 	// Constructors
@@ -147,29 +149,29 @@ public class QuickReplyActivity extends Activity {
 	}
 	
 	/**
-	 * Set the toEditText property.
+	 * Set the sendToTextView property.
 	 * 
-	 * @param toEditText - To Edit Text.
+	 * @param sendToTextView - Send message to Text View.
 	 */
-	public void setToEditText(EditText toEditText) {
-		if (_debug) Log.v("QuickReplyActivity.setToEditText()");
-	    _toEditText = toEditText;
+	public void setSendToTextView(TextView sendToTextView) {
+		if (_debug) Log.v("QuickReplyActivity.setSendToTextView()");
+	    _sendToTextView = sendToTextView;
 	}
 	
 	/**
-	 * Get the toEditText property.
+	 * Get the sendToTextView property.
 	 * 
-	 * @return EditText - To Edit Text.
+	 * @return TextView - Send message to Text View.
 	 */
-	public EditText getToEditText() {
-		if (_debug) Log.v("QuickReplyActivity.getToEditText()");
-	    return _toEditText;
+	public TextView getSendToTextView() {
+		if (_debug) Log.v("QuickReplyActivity.getSendToTextView()");
+	    return _sendToTextView;
 	}
 	
 	/**
-	 * Set the toEditText property.
+	 * Set the messageEditText property.
 	 * 
-	 * @param toEditText - To Edit Text.
+	 * @param messageEditText - Message Edit Text.
 	 */
 	public void setMessageEditText(EditText messageEditText) {
 		if (_debug) Log.v("QuickReplyActivity.setMessageEditText()");
@@ -184,6 +186,26 @@ public class QuickReplyActivity extends Activity {
 	public EditText getMessageEditText() {
 		if (_debug) Log.v("QuickReplyActivity.getMessageEditText()");
 	    return _messageEditText;
+	}
+	
+	/**
+	 * Get the phoneNumber property.
+	 * 
+	 * @param phoneNumber - The phone number to send the message to.
+	 */
+	public void setPhoneNumber(String phoneNumber) {
+		if (_debug) Log.v("QuickReplyActivity.setPhoneNumber()");
+	    _phoneNumber = phoneNumber;
+	}	
+	
+	/**
+	 * Get the phoneNumber property.
+	 * 
+	 * @return String - The phone number to send the message to.
+	 */
+	public String getPhoneNumber() {
+		if (_debug) Log.v("QuickReplyActivity.getPhoneNumber()");
+	    return _phoneNumber;
 	}
 	
 	//================================================================================
@@ -233,8 +255,9 @@ public class QuickReplyActivity extends Activity {
 	    setContentView(themeResource);  
 	    setSendButton((Button)findViewById(SEND_BUTTON));
 	    setCancelButton((Button)findViewById(CANCEL_BUTTON));
-	    setToEditText((EditText)findViewById(TO_EDIT_TEXT));
+	    setSendToTextView((TextView)findViewById(SEND_TO_TEXT_VIEW));
 	    setMessageEditText((EditText)findViewById(MESSAGE_EDIT_TEXT));
+	    //Get name and phone number from the Bundle.
 	    Bundle extrasBundle = getIntent().getExtras();
 	    parseQuickReplyParameters(extrasBundle);
 	    //Setup Activities buttons.
@@ -316,13 +339,21 @@ public class QuickReplyActivity extends Activity {
 	private void parseQuickReplyParameters(Bundle bundle){
 		if (_debug) Log.v("QuickReplyActivity.parseQuickReplyParameters()");
 		String phoneNumber = bundle.getString("smsPhoneNumber");
+		setPhoneNumber(phoneNumber);
+		String name = bundle.getString("smsName");
 		//String contactName = bundle.getString("smsContactName");
 		String message = bundle.getString("smsMessage");
-		EditText toEditText = getToEditText();
+		TextView sendToTextView = getSendToTextView();
 		EditText messageEditText = getMessageEditText();
-		if(phoneNumber != null){
-			toEditText.setText(phoneNumber);
+		if(phoneNumber == null){
+			if (_debug) Log.v("QuickReplyActivity.parseQuickReplyParameters() Send To number is null. Exiting...");
+			return;
 		}
+		if(!name.equals("")){
+			sendToTextView.setText("To: " + name + " (" + phoneNumber + ")");
+		}else{
+			sendToTextView.setText("To: " + phoneNumber);
+		}		
 		if(message != null){
 			messageEditText.setText(message);
 		}
@@ -354,9 +385,8 @@ public class QuickReplyActivity extends Activity {
 	 */
 	private void sendSMSMessage(){
 		if (_debug) Log.v("QuickReplyActivity.sendSMSMessage()");
-		EditText toEditText = getToEditText();
+		String phoneNumber = getPhoneNumber();
 		EditText messageEditText = getMessageEditText();
-		String phoneNumber = toEditText.getText().toString();
         String message = messageEditText.getText().toString();                 
         if(phoneNumber.length()>0 && message.length()>0){                
             sendSMS(phoneNumber, message);                

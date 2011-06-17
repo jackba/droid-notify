@@ -693,12 +693,12 @@ public class NotificationActivity extends Activity {
 	    runNotificationFeedback(notificationType);
 	    //Acquire WakeLock.
 	    acquireWakeLock(context);
-	    long wakelockTimeout = Long.parseLong(preferences.getString(WAKELOCK_TIMEOUT_KEY, "30")) * 1000;
-	    _wakeLockHandler.sleep(wakelockTimeout * 1000);
+	    long wakelockTimeout = Long.parseLong(preferences.getString(WAKELOCK_TIMEOUT_KEY, "300")) * 1000;
+	    _wakeLockHandler.sleep(wakelockTimeout);
 	    //Remove the KeyGuard.
 	    disableKeyguardLock(context);
-	    long keyguardTimeout = Long.parseLong(preferences.getString(KEYGUARD_TIMEOUT_KEY, "30")) * 1000;
-	    _keyguardHandler.sleep(keyguardTimeout * 1000);
+	    long keyguardTimeout = Long.parseLong(preferences.getString(KEYGUARD_TIMEOUT_KEY, "300")) * 1000;
+	    _keyguardHandler.sleep(keyguardTimeout);
 	}
 	  
 	/**
@@ -850,12 +850,12 @@ public class NotificationActivity extends Activity {
 	    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 	    //Acquire WakeLock.
 	    acquireWakeLock(context);
-	    long wakelockTimeout = Long.parseLong(preferences.getString(WAKELOCK_TIMEOUT_KEY, "30")) * 1000;
-	    _wakeLockHandler.sleep(wakelockTimeout * 1000);
+	    long wakelockTimeout = Long.parseLong(preferences.getString(WAKELOCK_TIMEOUT_KEY, "300")) * 1000;
+	    _wakeLockHandler.sleep(wakelockTimeout);
 	    //Remove the KeyGuard.
 	    disableKeyguardLock(context);
-	    long keyguardTimeout = Long.parseLong(preferences.getString(KEYGUARD_TIMEOUT_KEY, "30")) * 1000;
-	    _keyguardHandler.sleep(keyguardTimeout * 1000);
+	    long keyguardTimeout = Long.parseLong(preferences.getString(KEYGUARD_TIMEOUT_KEY, "300")) * 1000;
+	    _keyguardHandler.sleep(keyguardTimeout);
 	}
 	
 	//================================================================================

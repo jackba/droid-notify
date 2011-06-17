@@ -806,11 +806,15 @@ public class NotificationView extends LinearLayout {
 		if(preferences.getString(SMS_REPLY_BUTTON_ACTION_KEY, "0").equals(SMS_QUICK_REPLY)){
 			try{
 				Intent intent = new Intent(context, QuickReplyActivity.class);
-				if (_debug) Log.v("NotificationView.replyToMessage() Put phone number in bundle");
 		        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP
 		        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
 		        if (_debug) Log.v("NotificationView.replyToMessage() Put bundle in intent");
 			    intent.putExtra("smsPhoneNumber", phoneNumber);
+			    if(notification.getContactExists()){
+			    	intent.putExtra("smsName", notification.getContactName());
+			    }else{
+			    	intent.putExtra("smsName", "");
+			    }
 			    intent.putExtra("smsMessage", "");
 			    context.startActivity(intent);
 			}catch(Exception ex){

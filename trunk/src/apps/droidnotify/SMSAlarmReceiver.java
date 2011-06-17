@@ -71,15 +71,17 @@ public class SMSAlarmReceiver extends BroadcastReceiver {
 			smsIntent.putExtras(intent.getExtras());
 			context.startService(smsIntent);
 	    }else{
-	    	if (Log.getDebug()) Log.v("SMSReceiver.onReceive() Phone Call In Progress. Rescheduling notification.");
-			AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-			Intent smsIntent = new Intent(context, SMSAlarmReceiver.class);
-			smsIntent.putExtras(intent.getExtras());
-			smsIntent.setAction("apps.droidnotify.VIEW/SMSReschedule/" + System.currentTimeMillis());
-			PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, smsIntent, 0);
-			// Set alarm to go off x minutes from the current timeas defined by the user preferences.
-			long rescheduleInterval = Long.parseLong(preferences.getString(RESCHEDULE_NOTIFICATION_TIMEOUT_KEY, "5")) * 60 * 1000;
-			alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + rescheduleInterval, pendingIntent);
+	    	// Set alarm to go off x minutes from the current time as defined by the user preferences.
+	    	long rescheduleInterval = Long.parseLong(preferences.getString(RESCHEDULE_NOTIFICATION_TIMEOUT_KEY, "5")) * 60 * 1000;
+	    	if(rescheduleInterval > 0){
+		    	if (Log.getDebug()) Log.v("SMSReceiver.onReceive() Phone Call In Progress. Rescheduling notification.");
+				AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+				Intent smsIntent = new Intent(context, SMSAlarmReceiver.class);
+				smsIntent.putExtras(intent.getExtras());
+				smsIntent.setAction("apps.droidnotify.VIEW/SMSReschedule/" + System.currentTimeMillis());
+				PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, smsIntent, 0);
+				alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + rescheduleInterval, pendingIntent);
+	    	}
 	    }
 	}
 
