@@ -920,8 +920,8 @@ public class NotificationActivity extends Activity {
 		if (_debug) Log.v("NotificationActivity.getAllUnreadSMSMessages() messageIDFilter: " + messageIDFilter + " messageBodyFilter: " + messageBodyFilter ); 
 		Context context = getContext();
 		NotificationViewFlipper notificationViewFlipper = getNotificationViewFlipper();
-		final String[] projection = new String[] { "_ID", "THREAD_ID", "ADDRESS", "PERSON", "DATE", "BODY"};
-		final String selection = "READ = 0";
+		final String[] projection = new String[] { "_id", "thread_id", "address", "person", "date", "body"};
+		final String selection = "read = 0";
 		final String[] selectionArgs = null;
 		final String sortOrder = null;
 		Cursor cursor = null;
@@ -933,12 +933,12 @@ public class NotificationActivity extends Activity {
 					selectionArgs,
 					sortOrder);
 		    while (cursor.moveToNext()) { 
-		    	long messageID = cursor.getLong(cursor.getColumnIndex("_ID"));
-		    	long threadID = cursor.getLong(cursor.getColumnIndex("THREAD_ID"));
-		    	String messageBody = cursor.getString(cursor.getColumnIndex("BODY"));
-		    	String phoneNumber = cursor.getString(cursor.getColumnIndex("ADDRESS"));
-		    	long timestamp = cursor.getLong(cursor.getColumnIndex("DATE"));
-		    	long contactID = cursor.getLong(cursor.getColumnIndex("PERSON"));
+		    	long messageID = cursor.getLong(cursor.getColumnIndex("_id"));
+		    	long threadID = cursor.getLong(cursor.getColumnIndex("thread_id"));
+		    	String messageBody = cursor.getString(cursor.getColumnIndex("body"));
+		    	String phoneNumber = cursor.getString(cursor.getColumnIndex("address"));
+		    	long timestamp = cursor.getLong(cursor.getColumnIndex("date"));
+		    	long contactID = cursor.getLong(cursor.getColumnIndex("person"));
 		    	//Don't load the message that corresponds to the messageIDFilter or messageBodyFilter.
 		    	//If we load this message we will have duplicate Notifications, which is bad.
 		    	if(messageID != messageIDFilter && !messageBody.trim().equals(messageBodyFilter)){
