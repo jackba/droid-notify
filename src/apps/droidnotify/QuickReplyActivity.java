@@ -2,9 +2,10 @@ package apps.droidnotify;
 
 import android.app.Activity;
 import android.app.PendingIntent;
-//import android.content.BroadcastReceiver;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
@@ -58,7 +59,8 @@ public class QuickReplyActivity extends Activity {
 	private Button _cancelButton = null;
 	private TextView _sendToTextView  = null;
 	private EditText _messageEditText = null;
-	private String _phoneNumber;
+	private String _phoneNumber = null;
+	private String _serviceCenterAddress = null;
 	
 	//================================================================================
 	// Constructors
@@ -206,6 +208,26 @@ public class QuickReplyActivity extends Activity {
 	public String getPhoneNumber() {
 		if (_debug) Log.v("QuickReplyActivity.getPhoneNumber()");
 	    return _phoneNumber;
+	}
+
+	/**
+	 * Set the serviceCenterAddress property.
+	 * 
+	 * @param serviceCenterAddress - The SMS/MMS service center address.
+	 */
+	public void setServiceCenterAddress(String serviceCenterAddress) {
+		if (_debug) Log.v("Notification.setServiceCenterAddress() ServiceCenterAddress: " + serviceCenterAddress);
+		_serviceCenterAddress = serviceCenterAddress;
+	}
+	
+	/**
+	 * Get the serviceCenterAddress property.
+	 * 
+	 * @return serviceCenterAddress - The SMS/MMS service center address.
+	 */
+	public String getServiceCenterAddress() {
+		if (_debug) Log.v("Notification.getServiceCenterAddress() ServiceCenterAddress: " + _serviceCenterAddress);
+  		return _serviceCenterAddress;
 	}
 	
 	//================================================================================
@@ -386,10 +408,11 @@ public class QuickReplyActivity extends Activity {
 	private void sendSMSMessage(){
 		if (_debug) Log.v("QuickReplyActivity.sendSMSMessage()");
 		String phoneNumber = getPhoneNumber();
+		String serviceCenterAddress = getServiceCenterAddress();
 		EditText messageEditText = getMessageEditText();
         String message = messageEditText.getText().toString();                 
         if(phoneNumber.length()>0 && message.length()>0){                
-            sendSMS(phoneNumber, message);                
+            sendSMS(phoneNumber, serviceCenterAddress, message);                
         }else{
         	if(phoneNumber.length()<= 0){
         		Toast.makeText(getBaseContext(), getString(R.string.phone_number_error_text), Toast.LENGTH_SHORT).show();
@@ -405,37 +428,37 @@ public class QuickReplyActivity extends Activity {
 	 * @param phoneNumber - The phone number we are sending the message to.
 	 * @param message - The message we are sending.
 	 */
-	private void sendSMS(String phoneNumber, String message){   
+	private void sendSMS(String phoneNumber, String serviceCenterAddress, String message){   
 		if (_debug) Log.v("QuickReplyActivity.sendSMS()");
         final String SMS_SENT = "SMS_SENT";
         final String SMS_DELIVERED = "SMS_DELIVERED";
         PendingIntent sentPI = PendingIntent.getBroadcast(this, 0, new Intent(SMS_SENT), 0);
         PendingIntent deliveredPI = PendingIntent.getBroadcast(this, 0, new Intent(SMS_DELIVERED), 0);
         //When the SMS has been sent.
-//        registerReceiver(new BroadcastReceiver(){
-//            @Override
-//            public void onReceive(Context arg0, Intent arg1) {
-//                switch (getResultCode())
-//                {
-//                    case Activity.RESULT_OK:
-//                        Toast.makeText(getBaseContext(), getString(R.string.message_sent_text), Toast.LENGTH_SHORT).show();
-//                        break;
-//                    case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
-//                        Toast.makeText(getBaseContext(), getString(R.string.message_sent_error_generic_failure_text), Toast.LENGTH_SHORT).show();
-//                        break;
-//                    case SmsManager.RESULT_ERROR_NO_SERVICE:
-//                        Toast.makeText(getBaseContext(), getString(R.string.message_sent_error_no_service_text), Toast.LENGTH_SHORT).show();
-//                        break;
-//                    case SmsManager.RESULT_ERROR_NULL_PDU:
-//                        Toast.makeText(getBaseContext(), getString(R.string.message_sent_error_null_pdu_text), Toast.LENGTH_SHORT).show();
-//                        break;
-//                    case SmsManager.RESULT_ERROR_RADIO_OFF:
-//                        Toast.makeText(getBaseContext(), getString(R.string.message_sent_error_radio_off_text), Toast.LENGTH_SHORT).show();
-//                        break;
-//                }
-//            }
-//        }, new IntentFilter(SMS_SENT));
-        //When the SMS has been delivered.
+        registerReceiver(new BroadcastReceiver(){
+            @Override
+            public void onReceive(Context arg0, Intent arg1) {
+                switch (getResultCode())
+                {
+                    case Activity.RESULT_OK:
+                        Toast.makeText(getBaseContext(), getString(R.string.message_sent_text), Toast.LENGTH_SHORT).show();
+                        break;
+                    case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
+                        Toast.makeText(getBaseContext(), getString(R.string.message_sent_error_generic_failure_text), Toast.LENGTH_SHORT).show();
+                        break;
+                    case SmsManager.RESULT_ERROR_NO_SERVICE:
+                        Toast.makeText(getBaseContext(), getString(R.string.message_sent_error_no_service_text), Toast.LENGTH_SHORT).show();
+                        break;
+                    case SmsManager.RESULT_ERROR_NULL_PDU:
+                        Toast.makeText(getBaseContext(), getString(R.string.message_sent_error_null_pdu_text), Toast.LENGTH_SHORT).show();
+                        break;
+                    case SmsManager.RESULT_ERROR_RADIO_OFF:
+                        Toast.makeText(getBaseContext(), getString(R.string.message_sent_error_radio_off_text), Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        }, new IntentFilter(SMS_SENT));
+//        //When the SMS has been delivered.
 //        registerReceiver(new BroadcastReceiver(){
 //            @Override
 //            public void onReceive(Context arg0, Intent arg1) {
@@ -451,7 +474,7 @@ public class QuickReplyActivity extends Activity {
 //            }
 //        }, new IntentFilter(SMS_DELIVERED));        
         SmsManager sms = SmsManager.getDefault();
-        sms.sendTextMessage(phoneNumber, null, message, sentPI, deliveredPI);
+        sms.sendTextMessage(phoneNumber, serviceCenterAddress, message, sentPI, deliveredPI);
         //Finish Activity.
         finishActivity();
     }
