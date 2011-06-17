@@ -71,15 +71,17 @@ public class CalendarNotificationAlarmReceiver extends BroadcastReceiver {
 			calendarIntent.putExtras(intent.getExtras());
 			context.startService(calendarIntent);
 	    }else{
-	    	if (Log.getDebug()) Log.v("CalendarNotificationAlarmReceiver.onReceive() Phone Call In Progress. Rescheduling notification.");
-			AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-			Intent calendarIntent = new Intent(context, CalendarNotificationAlarmReceiver.class);
-			calendarIntent.putExtras(intent.getExtras());
-			calendarIntent.setAction("apps.droidnotify.VIEW/CalendarReschedule/" + System.currentTimeMillis());
-			PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, calendarIntent, 0);
-			// Set alarm to go off x minutes from the current timeas defined by the user preferences.
-			long rescheduleInterval = Long.parseLong(preferences.getString(RESCHEDULE_NOTIFICATION_TIMEOUT_KEY, "5")) * 60 * 1000;
-			alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + rescheduleInterval, pendingIntent);
+	    	// Set alarm to go off x minutes from the current time as defined by the user preferences.
+	    	long rescheduleInterval = Long.parseLong(preferences.getString(RESCHEDULE_NOTIFICATION_TIMEOUT_KEY, "5")) * 60 * 1000;
+	    	if(rescheduleInterval > 0){
+		    	if (Log.getDebug()) Log.v("CalendarNotificationAlarmReceiver.onReceive() Phone Call In Progress. Rescheduling notification.");
+				AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+				Intent calendarIntent = new Intent(context, CalendarNotificationAlarmReceiver.class);
+				calendarIntent.putExtras(intent.getExtras());
+				calendarIntent.setAction("apps.droidnotify.VIEW/CalendarReschedule/" + System.currentTimeMillis());
+				PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, calendarIntent, 0);
+				alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + rescheduleInterval, pendingIntent);
+	    	}
 	    }
 	}
 	  

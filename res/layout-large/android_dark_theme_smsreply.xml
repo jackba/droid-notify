@@ -8,17 +8,17 @@
     android:minWidth="300dip"
     android:background="@drawable/android_dark_panel">
   	<LinearLayout
-  		android:id="@+id/send_to_linear_layout"
+  		android:id="@+id/quick_reply_title_linear_layout"
     	android:orientation="horizontal"
   		android:layout_width="fill_parent"
   		android:layout_height="wrap_content"
     	android:padding="5dip">
     	<TextView
+      		android:id="@+id/quick_reply_title_text_view"
       		android:layout_width="wrap_content"
       		android:layout_height="wrap_content"
      		android:layout_marginRight="3dip"
       		android:layout_marginLeft="3dip"
-      		android:id="@+id/send_to_text_view"
       		android:textAppearance="?android:attr/textAppearanceMedium" 
 	    	android:textColor="@color/white"
 			android:drawableLeft="@drawable/ic_conversation_white"
@@ -37,22 +37,15 @@
   		android:layout_height="wrap_content"
     	android:padding="5dip" >
     	<TextView 
-      		android:layout_width="wrap_content"
-      		android:layout_height="wrap_content"
-      		android:layout_marginTop="5dip"
-     		android:layout_marginRight="3dip"
-      		android:layout_marginLeft="3dip"
       		android:id="@+id/send_to_text_view"
-      		android:textAppearance="?android:attr/textAppearanceMedium" 
+      		android:layout_height="wrap_content"
+      		android:layout_width="wrap_content"
+      		android:layout_marginTop="2dip"
+      		android:layout_marginLeft="2dip"
+      		android:layout_marginRight="2dip"
+      		android:textAppearance="?android:attr/textAppearanceSmall" 
 	    	android:textColor="@color/white"
-      		android:text="@string/to_text"
       		android:lines="1" />
-		<EditText 
-			android:id="@+id/send_to_edit_text" 
-			android:layout_height="wrap_content"
-			android:layout_width="fill_parent"
-        	android:maxLines="1"
-        	android:maxLength="30" />
   	</LinearLayout>
 	<EditText 
 		android:id="@+id/message_edit_text" 
@@ -61,7 +54,8 @@
         android:maxLines="3"
         android:maxLength="1000"
         android:inputType="textShortMessage|textAutoCorrect|textCapSentences|textMultiLine"
-        android:imeOptions="actionSend|flagNoEnterAction" />
+        android:imeOptions="actionSend|flagNoEnterAction" 
+        android:gravity="left|top"/>
 	<LinearLayout
     	android:orientation="horizontal"
     	android:layout_width="fill_parent"
