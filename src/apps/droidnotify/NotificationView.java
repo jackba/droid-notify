@@ -28,6 +28,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.view.MotionEvent;
 
 /**
@@ -800,6 +801,7 @@ public class NotificationView extends LinearLayout {
 			    context.startActivity(intent);
 			}catch(Exception ex){
 				if (_debug) Log.e("NotificationView.replyToMessage() Android Reply ERROR: " + ex.toString());
+				Toast.makeText(context, context.getString(R.string.app_android_messaging_app_error), Toast.LENGTH_SHORT).show();
 			}
 		}	
 		//Reply using the built in Quick Reply Activity.
@@ -819,6 +821,7 @@ public class NotificationView extends LinearLayout {
 			    context.startActivity(intent);
 			}catch(Exception ex){
 				if (_debug) Log.e("NotificationView.replyToMessage() Quick Reply ERROR: " + ex.toString());
+				Toast.makeText(context, context.getString(R.string.app_android_quick_reply_app_error), Toast.LENGTH_SHORT).show();
 			}
 		}
 		//Remove notification from ViewFlipper.
@@ -848,6 +851,7 @@ public class NotificationView extends LinearLayout {
 	        context.startActivity(intent);
 		}catch(Exception ex){
 			if (_debug) Log.e("NotificationView.makePhoneCall() ERROR: " + ex.toString());
+			Toast.makeText(context, context.getString(R.string.app_android_phone_app_error), Toast.LENGTH_SHORT).show();
 		}
 		//Remove notification from ViewFlipper.
 		getNotificationViewFlipper().removeActiveNotification();
@@ -881,6 +885,7 @@ public class NotificationView extends LinearLayout {
 	        context.startActivity(intent);
 		}catch(Exception ex){
 			if (_debug) Log.e("NotificationView.viewCalendarEvent() ERROR: " + ex.toString());
+			Toast.makeText(context, context.getString(R.string.app_android_calendar_app_error), Toast.LENGTH_SHORT).show();
 		}
 		//Remove notification from ViewFlipper.
 		getNotificationViewFlipper().removeActiveNotification();

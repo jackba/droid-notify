@@ -29,6 +29,16 @@
     <string name="test_text">Test Notifications</string>
     <string name="feedback_text">Feedback</string>
     
+    <!-- App Error Message Strings -->
+    <string name="app_android_messaging_app_error">The Android Messaging application could not be started.</string>
+	<string name="app_android_phone_app_error">The Android Phone application could not be started.</string>
+    <string name="app_android_calendar_app_error">The Android Calendar application could not be started.</string>
+    <string name="app_android_email_app_error">The Android Email application could not be started.</string>
+    <string name="app_android_contacts_app_error">The Android Contacts application could not be started.</string>
+    <string name="app_android_quick_reply_app_error">The Quick Reply application could not be started.</string>
+    <string name="app_android_test_app_error">The Test Notifications could not be started.</string>
+    <string name="app_android_rate_app_error">The Web application could not be started.</string>
+    
     <!-- Button Strings -->  
     <string name="view_mms_button_text">View MMS</string>
     <string name="view_button_text">View</string>
