@@ -35,6 +35,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
 /**
  * This is the main activity that runs the notifications.
@@ -439,6 +440,7 @@ public class NotificationActivity extends Activity {
 					return true;
 				}catch(Exception ex){
 					if (_debug) Log.e("NotificationActivity.onContextItemSelected() VIEW_CONTACT_CONTEXT_MENU ERROR: " + ex.toString());
+					Toast.makeText(context, context.getString(R.string.app_android_calendar_app_error), Toast.LENGTH_SHORT).show();
 					return false;
 				}
 			}
@@ -456,6 +458,7 @@ public class NotificationActivity extends Activity {
 					return true;
 				}catch(Exception ex){
 					if (_debug) Log.e("NotificationActivity.onContextItemSelected() ADD_CONTACT_CONTEXT_MENU ERROR: " + ex.toString());
+					Toast.makeText(context, context.getString(R.string.app_android_contacts_app_error), Toast.LENGTH_SHORT).show();
 					return false;
 				}
 			}
@@ -472,6 +475,7 @@ public class NotificationActivity extends Activity {
 					return true;
 				}catch(Exception ex){
 					if (_debug) Log.e("NotificationActivity.onContextItemSelected() CALL_CONTACT_CONTEXT_MENU ERROR: " + ex.toString());
+					Toast.makeText(context, context.getString(R.string.app_android_phone_app_error), Toast.LENGTH_SHORT).show();
 					return false;
 				}
 			}
@@ -489,6 +493,7 @@ public class NotificationActivity extends Activity {
 					return true;
 				}catch(Exception ex){
 					if (_debug) Log.e("NotificationActivity.onContextItemSelected() TEXT_CONTACT_CONTEXT_MENU ERROR: " + ex.toString());
+					Toast.makeText(context, context.getString(R.string.app_android_messaging_app_error), Toast.LENGTH_SHORT).show();
 					return false;
 				}
 			}
@@ -506,6 +511,7 @@ public class NotificationActivity extends Activity {
 					return true;
 				}catch(Exception ex){
 					if (_debug) Log.e("NotificationActivity.onContextItemSelected() EDIT_CONTACT_CONTEXT_MENU ERROR: " + ex.toString());
+					Toast.makeText(context, context.getString(R.string.app_android_contacts_app_error), Toast.LENGTH_SHORT).show();
 					return false;
 				}
 			}
@@ -528,6 +534,7 @@ public class NotificationActivity extends Activity {
 				        context.startActivity(intent);
 					}catch(Exception ex){
 						if (_debug) Log.e("NotificationActivity.onContextItemSelected() EDIT_EVENT_CONTEXT_MENU ERROR: " + ex.toString());
+						Toast.makeText(context, context.getString(R.string.app_android_calendar_app_error), Toast.LENGTH_SHORT).show();
 						return false;
 					}
 					return true;

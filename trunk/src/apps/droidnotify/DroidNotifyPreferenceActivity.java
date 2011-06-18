@@ -247,6 +247,7 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 		    		startActivity(intent);
 		    	}catch(Exception ex){
 	 	    		if (_debug) Log.e("DroidNotifyPreferenceActivity.setupCustomPreferences() Test Notifications Button ERROR: " + ex.toString());
+	 	    		Toast.makeText(context, context.getString(R.string.app_android_test_app_error), Toast.LENGTH_SHORT).show();
 	 	    		return false;
 		    	}
 	            return true;
@@ -257,6 +258,7 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 		rateAppPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
         	public boolean onPreferenceClick(Preference preference) {
 		    	if (_debug) Log.v("Rate This App Button Clicked()");
+		    	Context context = getContext();
 		    	Intent intent = new Intent(Intent.ACTION_VIEW);
 		    	//Direct To Market App
 		    	//intent.setData(Uri.parse("market://details?id=apps.droidnotify"));
@@ -270,6 +272,7 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 		    		startActivity(intent);
 		    	}catch(Exception ex){
 	 	    		if (_debug) Log.e("DroidNotifyPreferenceActivity.setupCustomPreferences() Rate This App Button ERROR: " + ex.toString());
+	 	    		Toast.makeText(context, context.getString(R.string.app_android_rate_app_error), Toast.LENGTH_SHORT).show();
 	 	    		return false;
 		    	}
 	            return true;
@@ -280,6 +283,7 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 		emailDeveloperPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
         	public boolean onPreferenceClick(Preference preference) {
 		    	if (_debug) Log.v("Email Developer Button Clicked()");
+		    	Context context = getContext();
 		    	Intent intent = new Intent(android.content.Intent.ACTION_SEND);
 		    	intent.setType("plain/text");
 		    	intent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{ "droidnotify@gmail.com"});
@@ -288,6 +292,7 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 		    		startActivity(intent);
 		    	}catch(Exception ex){
 	 	    		if (_debug) Log.e("DroidNotifyPreferenceActivity.setupCustomPreferences() Email Developer Button ERROR: " + ex.toString());
+	 	    		Toast.makeText(context, context.getString(R.string.app_android_email_app_error), Toast.LENGTH_SHORT).show();
 	 	    		return false;
 		    	}
 	            return true;
@@ -298,6 +303,7 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 		emailDeveloperLogsPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
         	public boolean onPreferenceClick(Preference preference) {
 		    	if (_debug) Log.v("Email Developer Logs Button Clicked()");
+		    	Context context = getContext();
 		    	Intent intent = new Intent(android.content.Intent.ACTION_SEND);
 		    	intent.setType("plain/text");
 		    	intent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{ "droidnotify@gmail.com"});
@@ -317,6 +323,7 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 		    		startActivity(intent);
 		    	}catch(Exception ex){
 	 	    		if (_debug) Log.e("DroidNotifyPreferenceActivity.setupCustomPreferences() Email Developer Logs Button ERROR: " + ex.toString());
+	 	    		Toast.makeText(context, context.getString(R.string.app_android_email_app_error), Toast.LENGTH_SHORT).show();
 	 	    		return false;
 		    	}
 	            return true;
