@@ -103,6 +103,7 @@ public class NotificationActivity extends Activity {
 	private final int TEXT_CONTACT_CONTEXT_MENU = R.id.text_contact;	
 	private final int EDIT_CONTACT_CONTEXT_MENU = R.id.edit_contact;
 	private final int EDIT_EVENT_CONTEXT_MENU = R.id.edit_calendar_event;
+	private final int VIEW_THREAD_CONTEXT_MENU = R.id.view_thread;
 	
 	private final String EVENT_BEGIN_TIME = "beginTime";
 	private final String EVENT_END_TIME = "endTime";
@@ -377,6 +378,8 @@ public class NotificationActivity extends Activity {
 			    	callMenuItem.setVisible(false);
 					MenuItem editEventMenuItem = contextMenu.findItem(EDIT_EVENT_CONTEXT_MENU);
 					editEventMenuItem.setVisible(false);
+					MenuItem viewThreadMenuItem = contextMenu.findItem(VIEW_THREAD_CONTEXT_MENU);
+					viewThreadMenuItem.setVisible(false);
 			    }
 			    if(notificationType == NOTIFICATION_TYPE_SMS){
 			    	MenuItem textMenuItem = contextMenu.findItem(TEXT_CONTACT_CONTEXT_MENU);
@@ -401,6 +404,8 @@ public class NotificationActivity extends Activity {
 					textMenuItem.setVisible(false);
 					MenuItem callMenuItem = contextMenu.findItem(CALL_CONTACT_CONTEXT_MENU);
 					callMenuItem.setVisible(false);
+					MenuItem viewThreadMenuItem = contextMenu.findItem(VIEW_THREAD_CONTEXT_MENU);
+					viewThreadMenuItem.setVisible(false);
 			    }
 			    if(notificationType == NOTIFICATION_TYPE_EMAIL){
 			    	//TODO - Email
@@ -540,6 +545,29 @@ public class NotificationActivity extends Activity {
 					return true;
 				}catch(Exception ex){
 					if (_debug) Log.e("NotificationActivity.onContextItemSelected() EDIT_EVENT_CONTEXT_MENU ERROR: " + ex.toString());
+					return false;
+				}
+			}
+			case VIEW_THREAD_CONTEXT_MENU:{
+				try{
+					try{
+						intent = new Intent(Intent.ACTION_VIEW);
+					    intent.setType("vnd.android-dir/mms-sms");
+				        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+				        		| Intent.FLAG_ACTIVITY_SINGLE_TOP
+				        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
+				        		| Intent.FLAG_ACTIVITY_NO_HISTORY
+				        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+					    intent.putExtra("address", phoneNumber);
+					    context.startActivity(intent);
+					}catch(Exception ex){
+						if (_debug) Log.e("NotificationActivity.onContextItemSelected() VIEW_THREAD_CONTEXT_MENU ERROR: " + ex.toString());
+						Toast.makeText(context, context.getString(R.string.app_android_messaging_app_error), Toast.LENGTH_SHORT).show();
+						return false;
+					}
+					return true;
+				}catch(Exception ex){
+					if (_debug) Log.e("NotificationActivity.onContextItemSelected() VIEW_THREAD_CONTEXT_MENU ERROR: " + ex.toString());
 					return false;
 				}
 			}
