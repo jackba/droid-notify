@@ -1153,6 +1153,7 @@ public class Notification {
 			if (_debug) Log.v("Notification.loadContactsInfoByEmail() Email provided does not appear to be a valid email address: Exiting...");
 			return;
 		}
+		String contactID = null;
 		try{
 			final String[] projection = null;
 			final String selection = null;
@@ -1166,7 +1167,7 @@ public class Notification {
 					sortOrder);
 			if (_debug) Log.v("Notification.loadContactsInfoByEmail() Searching contacts");
 			while (cursor.moveToNext()) { 
-				String contactID = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID)); 
+				contactID = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID)); 
 				String contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
 				String contactLookupKey = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY));
 				String photoID = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_ID)); 
@@ -1210,6 +1211,30 @@ public class Notification {
                     
                 }
                 emailCursor.close();
+                if(contactID != null){
+	                //Get the contacts phone number using the contactID.
+	                final String[] phoneProjection = null;
+					final String phoneSelection = ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = " + contactID;
+					final String[] phoneSelectionArgs = null;
+					final String phoneSortOrder = null;
+					Cursor phoneCursor = context.getContentResolver().query(
+							ContactsContract.CommonDataKinds.Phone.CONTENT_URI, 
+							phoneProjection, 
+							phoneSelection, 
+							phoneSelectionArgs, 
+							phoneSortOrder); 
+					while (phoneCursor.moveToNext()) { 
+						String addressBookPhoneNumber = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+							if(addressBookPhoneNumber != null){
+			    			  	setAddressBookPhoneNumber(addressBookPhoneNumber);
+			    		  	}
+			    		  	if(contactLookupKey != null){
+			    			  	setContactLookupKey(contactLookupKey);
+			    			  	break;
+			    		  	}
+					}
+					phoneCursor.close();
+                }
                 if(getContactExists()) break;
 		   	}
 			cursor.close();
