@@ -18,4 +18,7 @@
 	<item 
 		android:id="@+id/edit_calendar_event"
         android:title="@string/edit_calendar_event_text" />
+    <item 
+		android:id="@+id/view_thread"
+        android:title="@string/view_thread_text" />
 </menu>
