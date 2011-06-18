@@ -961,17 +961,19 @@ public class Notification {
 	 */
 	public void loadMessageID(Context context, long threadID, String messageBody, long timeStamp) {
 		if (_debug) Log.v("Notification.loadMessageID()");
-		if (threadID == 0){
-			if (_debug) Log.v("Notification.loadMessageID() Thread ID provided is NULL: Exiting loadMessageId()");
-			return;
-		}    
 		if (messageBody == null){
 			if (_debug) Log.v("Notification.loadMessageID() Message body provided is NULL: Exiting loadMessageId()");
 			return;
 		} 
 		try{
 			final String[] projection = new String[] { "_id, body"};
-			final String selection = "thread_id = " + threadID ;
+			final String selection;
+			if(threadID == 0){
+				selection = null;
+			}
+			else{
+				selection = "thread_id = " + threadID ;
+			}
 			final String[] selectionArgs = null;
 			final String sortOrder = null;
 			long messageID = 0;
@@ -1027,15 +1029,10 @@ public class Notification {
 		    		selection,
 					selectionArgs,
 					sortOrder);
-		    try{
-		    	
+		    try{		    	
 //		    	for(int i=0; i<cursor.getColumnCount(); i++){
 //		    		if (_debug) Log.v("Notification.loadServiceCenterAddress() Cursor Column: " + cursor.getColumnName(i) + " Column Value: " + cursor.getString(i));
 //		    	}
-		    	
-//		    	if ((cursor == null) || !cursor.moveToFirst()) {
-//			        return null;
-//			    }
 		    	while (cursor.moveToNext()) { 
 			    	serviceCenterAddress = cursor.getString(cursor.getColumnIndex("service_center"));
 			    	if (_debug) Log.v("Notification.loadServiceCenterAddress() Reply Path Present: " + cursor.getString(cursor.getColumnIndex("reply_path_present")));
@@ -1150,6 +1147,10 @@ public class Notification {
 		if (_debug) Log.v("Notification.loadContactsInfoByEmail()");
 		if (incomingEmail == null) {
 			if (_debug) Log.v("Notification.loadContactsInfoByEmail() Email provided is NULL: Exiting...");
+			return;
+		}
+		if (!incomingEmail.contains("@")) {
+			if (_debug) Log.v("Notification.loadContactsInfoByEmail() Email provided does not appear to be a valid email address: Exiting...");
 			return;
 		}
 		try{

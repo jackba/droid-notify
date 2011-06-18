@@ -784,6 +784,7 @@ public class NotificationView extends LinearLayout {
 		Notification notification = getNotification();
 		String phoneNumber = notification.getPhoneNumber();
 		if(phoneNumber == null){
+			Toast.makeText(context, context.getString(R.string.app_android_reply_messaging_address_error), Toast.LENGTH_SHORT).show();
 			return;
 		}
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
@@ -802,6 +803,7 @@ public class NotificationView extends LinearLayout {
 			}catch(Exception ex){
 				if (_debug) Log.e("NotificationView.replyToMessage() Android Reply ERROR: " + ex.toString());
 				Toast.makeText(context, context.getString(R.string.app_android_messaging_app_error), Toast.LENGTH_SHORT).show();
+				return;
 			}
 		}	
 		//Reply using the built in Quick Reply Activity.
@@ -822,6 +824,7 @@ public class NotificationView extends LinearLayout {
 			}catch(Exception ex){
 				if (_debug) Log.e("NotificationView.replyToMessage() Quick Reply ERROR: " + ex.toString());
 				Toast.makeText(context, context.getString(R.string.app_android_quick_reply_app_error), Toast.LENGTH_SHORT).show();
+				return;
 			}
 		}
 		//Remove notification from ViewFlipper.
@@ -837,12 +840,18 @@ public class NotificationView extends LinearLayout {
 		Context context = getContext();
 		Notification notification = getNotification();
 		String phoneNumber = notification.getPhoneNumber();
-		if(phoneNumber == null){
+		String addressBookPhoneNumber = notification.getAddressBookPhoneNumber();
+		String numberToBeCalled = addressBookPhoneNumber;
+		if(numberToBeCalled == null){
+			numberToBeCalled = phoneNumber;
+		}
+		if(numberToBeCalled == null || numberToBeCalled.contains("@")){
+			Toast.makeText(context, context.getString(R.string.app_android_phone_number_format_error), Toast.LENGTH_SHORT).show();
 			return;
 		}
 		try{
 			Intent intent = new Intent(Intent.ACTION_CALL);
-	        intent.setData(Uri.parse("tel:" + phoneNumber));
+	        intent.setData(Uri.parse("tel:" + numberToBeCalled));
 	        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
 	        		| Intent.FLAG_ACTIVITY_SINGLE_TOP
 	        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
@@ -852,6 +861,7 @@ public class NotificationView extends LinearLayout {
 		}catch(Exception ex){
 			if (_debug) Log.e("NotificationView.makePhoneCall() ERROR: " + ex.toString());
 			Toast.makeText(context, context.getString(R.string.app_android_phone_app_error), Toast.LENGTH_SHORT).show();
+			return;
 		}
 		//Remove notification from ViewFlipper.
 		getNotificationViewFlipper().removeActiveNotification();
@@ -867,6 +877,7 @@ public class NotificationView extends LinearLayout {
 		Notification notification = getNotification();
 		long calendarEventID = notification.getCalendarEventID();
 		if(calendarEventID == 0){
+			Toast.makeText(context, context.getString(R.string.app_android_calendar_event_not_found_error), Toast.LENGTH_SHORT).show();
 			return;
 		}
 		try{
@@ -886,6 +897,7 @@ public class NotificationView extends LinearLayout {
 		}catch(Exception ex){
 			if (_debug) Log.e("NotificationView.viewCalendarEvent() ERROR: " + ex.toString());
 			Toast.makeText(context, context.getString(R.string.app_android_calendar_app_error), Toast.LENGTH_SHORT).show();
+			return;
 		}
 		//Remove notification from ViewFlipper.
 		getNotificationViewFlipper().removeActiveNotification();
