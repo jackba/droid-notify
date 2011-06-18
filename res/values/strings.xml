@@ -38,6 +38,11 @@
     <string name="app_android_quick_reply_app_error">The Quick Reply application could not be started.</string>
     <string name="app_android_test_app_error">The Test Notifications could not be started.</string>
     <string name="app_android_rate_app_error">The Web application could not be started.</string>
+    <string name="app_android_message_not_found_error">The selected message could not be found.</string>
+    <string name="app_android_phone_number_format_error">The phone number does not appear to be valid. Dialing number failed.</string>
+    <string name="app_android_reply_messaging_address_error">The messaging address does not appear to be valid. Reply to message failed.</string>
+    <string name="app_android_contact_not_found_error">The selected contact could not be found.</string>
+    <string name="app_android_calendar_event_not_found_error">The selected calendar event could not be found.</string>
     
     <!-- Button Strings -->  
     <string name="view_mms_button_text">View MMS</string>
