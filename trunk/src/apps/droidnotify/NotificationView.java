@@ -42,45 +42,45 @@ public class NotificationView extends LinearLayout {
     // Constants
     //================================================================================
 	
-	private final int SQUARE_IMAGE_SIZE = 80;
+	private static final int SQUARE_IMAGE_SIZE = 80;
 	
-	private final int NOTIFICATION_TYPE_PHONE = 0;
-	private final int NOTIFICATION_TYPE_SMS = 1;
-	private final int NOTIFICATION_TYPE_MMS = 2;
-	private final int NOTIFICATION_TYPE_CALENDAR = 3;
-	private final int NOTIFICATION_TYPE_EMAIL = 4;
+	private static final int NOTIFICATION_TYPE_PHONE = 0;
+	private static final int NOTIFICATION_TYPE_SMS = 1;
+	private static final int NOTIFICATION_TYPE_MMS = 2;
+	private static final int NOTIFICATION_TYPE_CALENDAR = 3;
+	private static final int NOTIFICATION_TYPE_EMAIL = 4;
 	
-	//private final int ADD_CONTACT_ACTIVITY = 1;
-	//private final int EDIT_CONTACT_ACTIVITY = 2;
-	//private final int VIEW_CONTACT_ACTIVITY = 3;
-	private final int SEND_SMS_ACTIVITY = 4;
-	//private final int MESSAGING_ACTIVITY = 5;
-	//private final int VIEW_SMS_MESSAGE_ACTIVITY = 6;
-	//private final int VIEW_SMS_THREAD_ACTIVITY = 7;
-	private final int CALL_ACTIVITY = 8;
-	//private final int CALENDAR_ACTIVITY = 9;
-	//private final int ADD_CALENDAR_ACTIVITY = 10;
-	//private final int EDIT_CALENDAR_ACTIVITY = 11;
-	private final int VIEW_CALENDAR_ACTIVITY = 12;
+	//private static final int ADD_CONTACT_ACTIVITY = 1;
+	//private static final int EDIT_CONTACT_ACTIVITY = 2;
+	//private static final int VIEW_CONTACT_ACTIVITY = 3;
+	private static final int SEND_SMS_ACTIVITY = 4;
+	//private static final int MESSAGING_ACTIVITY = 5;
+	//private static final int VIEW_SMS_MESSAGE_ACTIVITY = 6;
+	//private static final int VIEW_SMS_THREAD_ACTIVITY = 7;
+	private static final int CALL_ACTIVITY = 8;
+	//private static final int CALENDAR_ACTIVITY = 9;
+	//private static final int ADD_CALENDAR_ACTIVITY = 10;
+	//private static final int EDIT_CALENDAR_ACTIVITY = 11;
+	private static final int VIEW_CALENDAR_ACTIVITY = 12;
 	
-	private final String HAPTIC_FEEDBACK_ENABLED_KEY = "haptic_feedback_enabled";
-	private final String SMS_REPLY_BUTTON_ACTION_KEY = "sms_reply_button_action";
-	private final String CONTACT_PLACEHOLDER_KEY = "contact_placeholder";
-	private final String BUTTON_ICONS_KEY = "button_icons_enabled";
+	private static final String HAPTIC_FEEDBACK_ENABLED_KEY = "haptic_feedback_enabled";
+	private static final String SMS_REPLY_BUTTON_ACTION_KEY = "sms_reply_button_action";
+	private static final String CONTACT_PLACEHOLDER_KEY = "contact_placeholder";
+	private static final String BUTTON_ICONS_KEY = "button_icons_enabled";
 	
-	private final String APP_THEME_KEY = "app_theme";
-	private final String ANDROID_THEME = "android";
-	private final String ANDROID_DARK_THEME = "android_dark";
-	private final String IPHONE_THEME = "iphone";
-	private final String DARK_TRANSLUCENT_THEME = "dark_translucent";
-	private final String DARK_TRANSLUCENT_V2_THEME = "dark_translucent_v2";
-	private final String DARK_TRANSLUCENT_V3_THEME = "dark_translucent_v3";
+	private static final String APP_THEME_KEY = "app_theme";
+	private static final String ANDROID_THEME = "android";
+	private static final String ANDROID_DARK_THEME = "android_dark";
+	private static final String IPHONE_THEME = "iphone";
+	private static final String DARK_TRANSLUCENT_THEME = "dark_translucent";
+	private static final String DARK_TRANSLUCENT_V2_THEME = "dark_translucent_v2";
+	private static final String DARK_TRANSLUCENT_V3_THEME = "dark_translucent_v3";
 	
-	private final String SMS_ANDROID_REPLY = "0";
-	private final String SMS_QUICK_REPLY = "1";
+	private static final String SMS_ANDROID_REPLY = "0";
+	private static final String SMS_QUICK_REPLY = "1";
 	
-	private final String EVENT_BEGIN_TIME = "beginTime";
-	private final String EVENT_END_TIME = "endTime";
+	private static final String EVENT_BEGIN_TIME = "beginTime";
+	private static final String EVENT_END_TIME = "endTime";
 	
 	//================================================================================
     // Properties

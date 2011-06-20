@@ -32,21 +32,21 @@ public class QuickReplyActivity extends Activity {
     // Constants
     //================================================================================
 	
-	private final int SEND_BUTTON = R.id.quick_reply_send_button;
-	private final int CANCEL_BUTTON = R.id.quick_reply_cancel_button;
-	private final int SEND_TO_TEXT_VIEW = R.id.send_to_text_view;
-	private final int MESSAGE_EDIT_TEXT = R.id.message_edit_text;
+	private static final int SEND_BUTTON = R.id.quick_reply_send_button;
+	private static final int CANCEL_BUTTON = R.id.quick_reply_cancel_button;
+	private static final int SEND_TO_TEXT_VIEW = R.id.send_to_text_view;
+	private static final int MESSAGE_EDIT_TEXT = R.id.message_edit_text;
 
-	private final String HAPTIC_FEEDBACK_ENABLED_KEY = "haptic_feedback_enabled";
-	private final String LANDSCAPE_SCREEN_ENABLED_KEY = "landscape_screen_enabled";
+	private static final String HAPTIC_FEEDBACK_ENABLED_KEY = "haptic_feedback_enabled";
+	private static final String LANDSCAPE_SCREEN_ENABLED_KEY = "landscape_screen_enabled";
 	
-	private final String APP_THEME_KEY = "app_theme";
-	private final String ANDROID_THEME = "android";
-	private final String ANDROID_DARK_THEME = "android_dark";
-	private final String IPHONE_THEME = "iphone";
-	private final String DARK_TRANSLUCENT_THEME = "dark_translucent";
-	private final String DARK_TRANSLUCENT_V2_THEME = "dark_translucent_v2";
-	private final String DARK_TRANSLUCENT_V3_THEME = "dark_translucent_v3";
+	private static final String APP_THEME_KEY = "app_theme";
+	private static final String ANDROID_THEME = "android";
+	private static final String ANDROID_DARK_THEME = "android_dark";
+	private static final String IPHONE_THEME = "iphone";
+	private static final String DARK_TRANSLUCENT_THEME = "dark_translucent";
+	private static final String DARK_TRANSLUCENT_V2_THEME = "dark_translucent_v2";
+	private static final String DARK_TRANSLUCENT_V3_THEME = "dark_translucent_v3";
 	
 	//================================================================================
     // Properties

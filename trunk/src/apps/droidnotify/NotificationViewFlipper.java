@@ -25,22 +25,22 @@ public class NotificationViewFlipper extends ViewFlipper {
     // Constants
     //================================================================================
 	
-	private final int NOTIFICATION_TYPE_SMS = 1;
-	private final int NOTIFICATION_TYPE_MMS = 2;
+	private static final int NOTIFICATION_TYPE_SMS = 1;
+	private static final int NOTIFICATION_TYPE_MMS = 2;
 	
-	final String SMS_DELETE_KEY = "sms_delete_button_action";
-	final String MMS_DELETE_KEY = "mms_delete_button_action";
-	final String SMS_DISMISS_ACTION_MARK_READ = "0";
-	final String SMS_DELETE_ACTION_DELETE_MESSAGE = "0";
-	final String SMS_DELETE_ACTION_DELETE_THREAD = "1";
-	final String SMS_DELETE_ACTION_NOTHING = "2";
-	final String MMS_DISMISS_ACTION_MARK_READ = "0";
-	final String MMS_DELETE_ACTION_DELETE_MESSAGE = "0";
-	final String MMS_DELETE_ACTION_DELETE_THREAD = "1";
-	final String MMS_DELETE_ACTION_NOTHING = "2";
+	private static final String SMS_DELETE_KEY = "sms_delete_button_action";
+	private static final String MMS_DELETE_KEY = "mms_delete_button_action";
+	//private static final String SMS_DISMISS_ACTION_MARK_READ = "0";
+	private static final String SMS_DELETE_ACTION_DELETE_MESSAGE = "0";
+	private static final String SMS_DELETE_ACTION_DELETE_THREAD = "1";
+	private static final String SMS_DELETE_ACTION_NOTHING = "2";
+	//private static final String MMS_DISMISS_ACTION_MARK_READ = "0";
+	private static final String MMS_DELETE_ACTION_DELETE_MESSAGE = "0";
+	private static final String MMS_DELETE_ACTION_DELETE_THREAD = "1";
+	private static final String MMS_DELETE_ACTION_NOTHING = "2";
 	
-	private final String APP_THEME_KEY = "app_theme";
-	private final String ANDROID_THEME = "android";
+	private static final String APP_THEME_KEY = "app_theme";
+	private static final String ANDROID_THEME = "android";
 	
 	//================================================================================
     // Properties
