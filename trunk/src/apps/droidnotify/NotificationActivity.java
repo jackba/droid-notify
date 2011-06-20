@@ -58,6 +58,19 @@ public class NotificationActivity extends Activity {
 	private final int NOTIFICATION_TYPE_CALENDAR = 3;
 	private final int NOTIFICATION_TYPE_EMAIL = 4;
 
+	private final int ADD_CONTACT_ACTIVITY = 1;
+	private final int EDIT_CONTACT_ACTIVITY = 2;
+	private final int VIEW_CONTACT_ACTIVITY = 3;
+	private final int SEND_SMS_ACTIVITY = 4;
+	private final int MESSAGING_ACTIVITY = 5;
+	private final int VIEW_SMS_MESSAGE_ACTIVITY = 6;
+	private final int VIEW_SMS_THREAD_ACTIVITY = 7;
+	private final int CALL_ACTIVITY = 8;
+	//private final int CALENDAR_ACTIVITY = 9;
+	private final int ADD_CALENDAR_ACTIVITY = 10;
+	private final int EDIT_CALENDAR_ACTIVITY = 11;
+	private final int VIEW_CALENDAR_ACTIVITY = 12;
+	
 	private final String SCREEN_ENABLED_KEY = "screen_enabled";
 	private final String SCREEN_DIM_ENABLED_KEY = "screen_dim_enabled";
 	private final String KEYGUARD_ENABLED_KEY = "keyguard_enabled";	
@@ -102,8 +115,10 @@ public class NotificationActivity extends Activity {
 	private final int CALL_CONTACT_CONTEXT_MENU = R.id.call_contact;
 	private final int TEXT_CONTACT_CONTEXT_MENU = R.id.text_contact;	
 	private final int EDIT_CONTACT_CONTEXT_MENU = R.id.edit_contact;
+	private final int ADD_EVENT_CONTEXT_MENU = R.id.add_calendar_event;
 	private final int EDIT_EVENT_CONTEXT_MENU = R.id.edit_calendar_event;
 	private final int VIEW_THREAD_CONTEXT_MENU = R.id.view_thread;
+	private final int MESSAGING_INBOX_CONTEXT_MENU = R.id.messaging_inbox;
 	
 	private final String EVENT_BEGIN_TIME = "beginTime";
 	private final String EVENT_END_TIME = "endTime";
@@ -374,22 +389,24 @@ public class NotificationActivity extends Activity {
 					editMenuItem.setVisible(false);
 				}
 			    if(notificationType == NOTIFICATION_TYPE_PHONE){
-			    	//MenuItem callMenuItem = contextMenu.findItem(CALL_CONTACT_CONTEXT_MENU);
-			    	//callMenuItem.setVisible(false);
+			    	MenuItem addCalendarEventMenuItem = contextMenu.findItem(ADD_EVENT_CONTEXT_MENU);
+			    	addCalendarEventMenuItem.setVisible(false);
 					MenuItem editEventMenuItem = contextMenu.findItem(EDIT_EVENT_CONTEXT_MENU);
 					editEventMenuItem.setVisible(false);
 					MenuItem viewThreadMenuItem = contextMenu.findItem(VIEW_THREAD_CONTEXT_MENU);
 					viewThreadMenuItem.setVisible(false);
+					MenuItem messagingInboxMenuItem = contextMenu.findItem(MESSAGING_INBOX_CONTEXT_MENU);
+					messagingInboxMenuItem.setVisible(false);
 			    }
 			    if(notificationType == NOTIFICATION_TYPE_SMS){
-			    	//MenuItem textMenuItem = contextMenu.findItem(TEXT_CONTACT_CONTEXT_MENU);
-			    	//textMenuItem.setVisible(false);
+			    	MenuItem addCalendarEventMenuItem = contextMenu.findItem(ADD_EVENT_CONTEXT_MENU);
+			    	addCalendarEventMenuItem.setVisible(false);
 					MenuItem editEventMenuItem = contextMenu.findItem(EDIT_EVENT_CONTEXT_MENU);
 					editEventMenuItem.setVisible(false);
 			    }
 			    if(notificationType == NOTIFICATION_TYPE_MMS){
-			    	//MenuItem textMenuItem = contextMenu.findItem(TEXT_CONTACT_CONTEXT_MENU);
-			    	//textMenuItem.setVisible(false);
+			    	MenuItem addCalendarEventMenuItem = contextMenu.findItem(ADD_EVENT_CONTEXT_MENU);
+			    	addCalendarEventMenuItem.setVisible(false);
 					MenuItem editEventMenuItem = contextMenu.findItem(EDIT_EVENT_CONTEXT_MENU);
 					editEventMenuItem.setVisible(false);
 			    }
@@ -406,6 +423,8 @@ public class NotificationActivity extends Activity {
 					callMenuItem.setVisible(false);
 					MenuItem viewThreadMenuItem = contextMenu.findItem(VIEW_THREAD_CONTEXT_MENU);
 					viewThreadMenuItem.setVisible(false);
+					MenuItem messagingInboxMenuItem = contextMenu.findItem(MESSAGING_INBOX_CONTEXT_MENU);
+					messagingInboxMenuItem.setVisible(false);
 			    }
 			    if(notificationType == NOTIFICATION_TYPE_EMAIL){
 			    	//TODO - Email
@@ -421,6 +440,7 @@ public class NotificationActivity extends Activity {
 	 */
 	@Override
 	public boolean onContextItemSelected(MenuItem menuItem) {
+		//test
 		if (_debug) Log.v("NotificationActivity.onContextItemSelected()");
 		Context context = getContext();
 		NotificationViewFlipper notificationViewFlipper = getNotificationViewFlipper();
@@ -432,30 +452,6 @@ public class NotificationActivity extends Activity {
 		Intent intent = null;
 		//customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 		switch (menuItem.getItemId()) {
-			case VIEW_CONTACT_CONTEXT_MENU:{
-				try{
-					if(contactID == 0){
-						Toast.makeText(context, context.getString(R.string.app_android_contact_not_found_error), Toast.LENGTH_SHORT).show();
-						return false;
-					}
-					intent = new Intent(Intent.ACTION_VIEW);
-					Uri viewContactURI = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_URI, String.valueOf(contactID));
-				    intent.setData(viewContactURI);	
-			        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-			        		| Intent.FLAG_ACTIVITY_SINGLE_TOP
-			        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
-			        		| Intent.FLAG_ACTIVITY_NO_HISTORY
-			        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-				    context.startActivity(intent);
-					//Remove notification from ViewFlipper.
-					getNotificationViewFlipper().removeActiveNotification();
-					return true;
-				}catch(Exception ex){
-					if (_debug) Log.e("NotificationActivity.onContextItemSelected() VIEW_CONTACT_CONTEXT_MENU ERROR: " + ex.toString());
-					Toast.makeText(context, context.getString(R.string.app_android_calendar_app_error), Toast.LENGTH_SHORT).show();
-					return false;
-				}
-			}
 			case ADD_CONTACT_CONTEXT_MENU:{
 				try{
 					intent = new Intent(Intent.ACTION_INSERT);
@@ -465,18 +461,57 @@ public class NotificationActivity extends Activity {
 					}else{
 						intent.putExtra(ContactsContract.Intents.Insert.PHONE, phoneNumber);
 					}		
-			        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-			        		| Intent.FLAG_ACTIVITY_SINGLE_TOP
+			        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP
 			        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
 			        		| Intent.FLAG_ACTIVITY_NO_HISTORY
 			        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-				    context.startActivity(intent);
-					//Remove notification from ViewFlipper.
-					getNotificationViewFlipper().removeActiveNotification();
+				    startActivityForResult(intent,ADD_CONTACT_ACTIVITY);
 					return true;
 				}catch(Exception ex){
 					if (_debug) Log.e("NotificationActivity.onContextItemSelected() ADD_CONTACT_CONTEXT_MENU ERROR: " + ex.toString());
-					Toast.makeText(context, context.getString(R.string.app_android_contacts_app_error), Toast.LENGTH_SHORT).show();
+					Toast.makeText(context, context.getString(R.string.app_android_contacts_app_error), Toast.LENGTH_LONG).show();
+					return false;
+				}
+			}
+			case EDIT_CONTACT_CONTEXT_MENU:{
+				try{
+					if(contactID == 0){
+						Toast.makeText(context, context.getString(R.string.app_android_contact_not_found_error), Toast.LENGTH_LONG).show();
+						return false;
+					}
+					intent = new Intent(Intent.ACTION_EDIT);
+					Uri editContactURI = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_URI, String.valueOf(contactID));
+				    intent.setData(editContactURI);	
+			        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP
+			        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
+			        		| Intent.FLAG_ACTIVITY_NO_HISTORY
+			        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+				    startActivityForResult(intent,EDIT_CONTACT_ACTIVITY);
+					return true;
+				}catch(Exception ex){
+					if (_debug) Log.e("NotificationActivity.onContextItemSelected() EDIT_CONTACT_CONTEXT_MENU ERROR: " + ex.toString());
+					Toast.makeText(context, context.getString(R.string.app_android_contacts_app_error), Toast.LENGTH_LONG).show();
+					return false;
+				}
+			}
+			case VIEW_CONTACT_CONTEXT_MENU:{
+				try{
+					if(contactID == 0){
+						Toast.makeText(context, context.getString(R.string.app_android_contact_not_found_error), Toast.LENGTH_LONG).show();
+						return false;
+					}
+					intent = new Intent(Intent.ACTION_VIEW);
+					Uri viewContactURI = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_URI, String.valueOf(contactID));
+				    intent.setData(viewContactURI);	
+			        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP
+			        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
+			        		| Intent.FLAG_ACTIVITY_NO_HISTORY
+			        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+				    startActivityForResult(intent,VIEW_CONTACT_ACTIVITY);
+					return true;
+				}catch(Exception ex){
+					if (_debug) Log.e("NotificationActivity.onContextItemSelected() VIEW_CONTACT_CONTEXT_MENU ERROR: " + ex.toString());
+					Toast.makeText(context, context.getString(R.string.app_android_calendar_app_error), Toast.LENGTH_LONG).show();
 					return false;
 				}
 			}
@@ -487,100 +522,41 @@ public class NotificationActivity extends Activity {
 						numberToBeCalled = phoneNumber;
 					}
 					if(numberToBeCalled == null || numberToBeCalled.contains("@")){
-						Toast.makeText(context, context.getString(R.string.app_android_phone_number_format_error), Toast.LENGTH_SHORT).show();
+						Toast.makeText(context, context.getString(R.string.app_android_phone_number_format_error), Toast.LENGTH_LONG).show();
 						return false;
 					}
 					intent = new Intent(Intent.ACTION_CALL);
 			        intent.setData(Uri.parse("tel:" + numberToBeCalled));		
-			        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-			        		| Intent.FLAG_ACTIVITY_SINGLE_TOP
+			        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP
 			        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
 			        		| Intent.FLAG_ACTIVITY_NO_HISTORY
 			        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-				    context.startActivity(intent);
-					//Remove notification from ViewFlipper.
-					getNotificationViewFlipper().removeActiveNotification();
+				    startActivityForResult(intent,CALL_ACTIVITY);
 					return true;
 				}catch(Exception ex){
 					if (_debug) Log.e("NotificationActivity.onContextItemSelected() CALL_CONTACT_CONTEXT_MENU ERROR: " + ex.toString());
-					Toast.makeText(context, context.getString(R.string.app_android_phone_app_error), Toast.LENGTH_SHORT).show();
+					Toast.makeText(context, context.getString(R.string.app_android_phone_app_error), Toast.LENGTH_LONG).show();
 					return false;
 				}
 			}
 			case TEXT_CONTACT_CONTEXT_MENU:{
 				try{
 					if(phoneNumber == null){
-						Toast.makeText(context, context.getString(R.string.app_android_reply_messaging_address_error), Toast.LENGTH_SHORT).show();
+						Toast.makeText(context, context.getString(R.string.app_android_reply_messaging_address_error), Toast.LENGTH_LONG).show();
 						return false;
 					}
 					intent = new Intent(Intent.ACTION_VIEW);
 					intent.setType("vnd.android-dir/mms-sms");
-			        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-			        		| Intent.FLAG_ACTIVITY_SINGLE_TOP
+			        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP
 			        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
 			        		| Intent.FLAG_ACTIVITY_NO_HISTORY
 			        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
 				    intent.putExtra("address", phoneNumber);
-				    context.startActivity(intent);
-					//Remove notification from ViewFlipper.
-					getNotificationViewFlipper().removeActiveNotification();
+				    startActivityForResult(intent,SEND_SMS_ACTIVITY);
 					return true;
 				}catch(Exception ex){
 					if (_debug) Log.e("NotificationActivity.onContextItemSelected() TEXT_CONTACT_CONTEXT_MENU ERROR: " + ex.toString());
-					Toast.makeText(context, context.getString(R.string.app_android_messaging_app_error), Toast.LENGTH_SHORT).show();
-					return false;
-				}
-			}
-			case EDIT_CONTACT_CONTEXT_MENU:{
-				try{
-					if(contactID == 0){
-						Toast.makeText(context, context.getString(R.string.app_android_contact_not_found_error), Toast.LENGTH_SHORT).show();
-						return false;
-					}
-					intent = new Intent(Intent.ACTION_EDIT);
-					Uri editContactURI = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_URI, String.valueOf(contactID));
-				    intent.setData(editContactURI);	
-			        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-			        		| Intent.FLAG_ACTIVITY_SINGLE_TOP
-			        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
-			        		| Intent.FLAG_ACTIVITY_NO_HISTORY
-			        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-				    context.startActivity(intent);
-				    //Remove notification from ViewFlipper.
-					getNotificationViewFlipper().removeActiveNotification();
-					return true;
-				}catch(Exception ex){
-					if (_debug) Log.e("NotificationActivity.onContextItemSelected() EDIT_CONTACT_CONTEXT_MENU ERROR: " + ex.toString());
-					Toast.makeText(context, context.getString(R.string.app_android_contacts_app_error), Toast.LENGTH_SHORT).show();
-					return false;
-				}
-			}
-			case EDIT_EVENT_CONTEXT_MENU:{
-			    long calendarEventID = notification.getCalendarEventID();
-				try{
-					if(calendarEventID == 0){
-						Toast.makeText(context, context.getString(R.string.app_android_calendar_event_not_found_error), Toast.LENGTH_SHORT).show();
-						return false;
-					}
-					intent = new Intent(Intent.ACTION_EDIT);
-					//Android 2.2+
-					intent.setData(Uri.parse("content://com.android.calendar/events/" + String.valueOf(calendarEventID)));
-					//Android 2.1 and below.
-					//intent.setData(Uri.parse("content://calendar/events/" + String.valueOf(calendarEventID)));	
-					intent.putExtra(EVENT_BEGIN_TIME,notification.getCalendarEventStartTime());
-					intent.putExtra(EVENT_END_TIME,notification.getCalendarEventEndTime());
-					intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-			        		| Intent.FLAG_ACTIVITY_SINGLE_TOP
-			        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
-			        		| Intent.FLAG_ACTIVITY_NO_HISTORY
-			        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-			        context.startActivity(intent);
-					//Remove notification from ViewFlipper.
-					getNotificationViewFlipper().removeActiveNotification();
-					return true;
-				}catch(Exception ex){
-					if (_debug) Log.e("NotificationActivity.onContextItemSelected() EDIT_EVENT_CONTEXT_MENU ERROR: " + ex.toString());
-					Toast.makeText(context, context.getString(R.string.app_android_calendar_app_error), Toast.LENGTH_SHORT).show();
+					Toast.makeText(context, context.getString(R.string.app_android_messaging_app_error), Toast.LENGTH_LONG).show();
 					return false;
 				}
 			}
@@ -590,8 +566,7 @@ public class NotificationActivity extends Activity {
 					long messageID = notification.getMessageID();
 					intent = new Intent(Intent.ACTION_VIEW);
 				    intent.setType("vnd.android-dir/mms-sms");
-			        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-			        		| Intent.FLAG_ACTIVITY_SINGLE_TOP
+			        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP
 			        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
 			        		| Intent.FLAG_ACTIVITY_NO_HISTORY
 			        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
@@ -599,24 +574,81 @@ public class NotificationActivity extends Activity {
 			        	intent.putExtra("thread_id", threadID);
 			        }else if(messageID != 0){
 			        	intent.putExtra("message_id", messageID);
-			        }else{
-			        	Toast.makeText(context, context.getString(R.string.app_android_message_not_found_error), Toast.LENGTH_SHORT).show();
+			        }
+			        else{
+			        	Toast.makeText(context, context.getString(R.string.app_android_message_not_found_error), Toast.LENGTH_LONG).show();
 			        	return false;
 			        }
-			        context.startActivity(intent);
-					//Remove notification from ViewFlipper.
-					getNotificationViewFlipper().removeActiveNotification();
+				    startActivityForResult(intent,VIEW_SMS_THREAD_ACTIVITY);
 					return true;
 				}catch(Exception ex){
 					if (_debug) Log.e("NotificationActivity.onContextItemSelected() VIEW_THREAD_CONTEXT_MENU ERROR: " + ex.toString());
-					Toast.makeText(context, context.getString(R.string.app_android_messaging_app_error), Toast.LENGTH_SHORT).show();
+					Toast.makeText(context, context.getString(R.string.app_android_messaging_app_error), Toast.LENGTH_LONG).show();
+					return false;
+				}
+			}
+			case MESSAGING_INBOX_CONTEXT_MENU:{
+				try{
+					intent = new Intent(Intent.ACTION_MAIN);
+				    intent.setType("vnd.android-dir/mms-sms");
+			        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP
+			        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
+			        		| Intent.FLAG_ACTIVITY_NO_HISTORY
+			        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+				    startActivityForResult(intent,MESSAGING_ACTIVITY);
+					return true;
+				}catch(Exception ex){
+					if (_debug) Log.e("NotificationActivity.onContextItemSelected() VIEW_THREAD_CONTEXT_MENU ERROR: " + ex.toString());
+					Toast.makeText(context, context.getString(R.string.app_android_messaging_app_error), Toast.LENGTH_LONG).show();
+					return false;
+				}
+			}
+			case ADD_EVENT_CONTEXT_MENU:{
+				try{
+					intent = new Intent(Intent.ACTION_EDIT);
+					intent.setType("vnd.android.cursor.item/event");
+					intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP
+			        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
+			        		| Intent.FLAG_ACTIVITY_NO_HISTORY
+			        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+				    startActivityForResult(intent,ADD_CALENDAR_ACTIVITY);
+					return true;
+				}catch(Exception ex){
+					if (_debug) Log.e("NotificationActivity.onContextItemSelected() ADD_EVENT_CONTEXT_MENU ERROR: " + ex.toString());
+					Toast.makeText(context, context.getString(R.string.app_android_calendar_app_error), Toast.LENGTH_LONG).show();
+					return false;
+				}
+			}
+			case EDIT_EVENT_CONTEXT_MENU:{
+			    long calendarEventID = notification.getCalendarEventID();
+				try{
+					if(calendarEventID == 0){
+						Toast.makeText(context, context.getString(R.string.app_android_calendar_event_not_found_error), Toast.LENGTH_LONG).show();
+						return false;
+					}
+					intent = new Intent(Intent.ACTION_EDIT);
+					//Android 2.2+
+					intent.setData(Uri.parse("content://com.android.calendar/events/" + String.valueOf(calendarEventID)));
+					//Android 2.1 and below.
+					//intent.setData(Uri.parse("content://calendar/events/" + String.valueOf(calendarEventID)));	
+					intent.putExtra(EVENT_BEGIN_TIME,notification.getCalendarEventStartTime());
+					intent.putExtra(EVENT_END_TIME,notification.getCalendarEventEndTime());
+					intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP
+			        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
+			        		| Intent.FLAG_ACTIVITY_NO_HISTORY
+			        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+				    startActivityForResult(intent,EDIT_CALENDAR_ACTIVITY);
+					return true;
+				}catch(Exception ex){
+					if (_debug) Log.e("NotificationActivity.onContextItemSelected() EDIT_EVENT_CONTEXT_MENU ERROR: " + ex.toString());
+					Toast.makeText(context, context.getString(R.string.app_android_calendar_app_error), Toast.LENGTH_LONG).show();
 					return false;
 				}
 			}
 			default:{
 				return super.onContextItemSelected(menuItem);
 			}
-		  }
+		}
 	}
 	
 	/**
@@ -715,6 +747,186 @@ public class NotificationActivity extends Activity {
 	//================================================================================
 	// Protected Methods
 	//================================================================================
+
+	/**
+	 * 
+	 * 
+	 * @param requestCode
+	 * @param resultCode
+	 * @param returnedIntent
+	 */
+	protected void onActivityResult(int requestCode, int resultCode, Intent returnedIntent){
+		//test
+		if (_debug) Log.v("NotificationActivity.onActivityResult( ) requestCode: " + requestCode + " resultCode: " + resultCode);
+		Context context = getContext();
+	    switch(requestCode) {
+		    case ADD_CONTACT_ACTIVITY:{ 
+		    	if (resultCode == RESULT_OK) {
+		    		if (_debug) Log.v("NotificationActivity.onActivityResult() ADD_CONTACT_ACTIVITY: RESULT_OK");
+		        	//Remove notification from ViewFlipper.
+					getNotificationViewFlipper().removeActiveNotification();
+		    	}else if (resultCode == RESULT_CANCELED) {
+		    		if (_debug) Log.v("NotificationActivity.onActivityResult() ADD_CONTACT_ACTIVITY: RESULT_CANCELED");
+		    		//Remove notification from ViewFlipper.
+					getNotificationViewFlipper().removeActiveNotification();
+		    	}else{
+		    		if (_debug) Log.v("NotificationActivity.onActivityResult() ADD_CONTACT_ACTIVITY: " + resultCode);
+		        	Toast.makeText(context, context.getString(R.string.app_android_contacts_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
+		    	}
+		        break;
+		    }
+		    case EDIT_CONTACT_ACTIVITY:{ 
+		    	if (resultCode == RESULT_OK) {
+		    		if (_debug) Log.v("NotificationActivity.onActivityResult() EDIT_CONTACT_ACTIVITY: RESULT_OK");
+		        	//Remove notification from ViewFlipper.
+					getNotificationViewFlipper().removeActiveNotification();
+		    	}else if (resultCode == RESULT_CANCELED) {
+		    		if (_debug) Log.v("NotificationActivity.onActivityResult() EDIT_CONTACT_ACTIVITY: RESULT_CANCELED");
+		    		//Remove notification from ViewFlipper.
+					getNotificationViewFlipper().removeActiveNotification();
+		    	}else{
+		    		if (_debug) Log.v("NotificationActivity.onActivityResult() EDIT_CONTACT_ACTIVITY: " + resultCode);
+		        	Toast.makeText(context, context.getString(R.string.app_android_contacts_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
+		    	}
+		        break;
+		    }
+		    case VIEW_CONTACT_ACTIVITY:{ 
+		    	if (resultCode == RESULT_OK) {
+		    		if (_debug) Log.v("NotificationActivity.onActivityResult() VIEW_CONTACT_ACTIVITY: RESULT_OK");
+		        	//Remove notification from ViewFlipper.
+					getNotificationViewFlipper().removeActiveNotification();
+		    	}else if (resultCode == RESULT_CANCELED) {
+		    		if (_debug) Log.v("NotificationActivity.onActivityResult() VIEW_CONTACT_ACTIVITY: RESULT_CANCELED");
+		    		//Remove notification from ViewFlipper.
+					getNotificationViewFlipper().removeActiveNotification();
+		    	}else{
+		    		if (_debug) Log.v("NotificationActivity.onActivityResult() VIEW_CONTACT_ACTIVITY: " + resultCode);
+		        	Toast.makeText(context, context.getString(R.string.app_android_contacts_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
+		    	}
+		        break;
+		    }
+		    case SEND_SMS_ACTIVITY:{ 
+		    	if (resultCode == RESULT_OK) {
+		    		if (_debug) Log.v("NotificationActivity.onActivityResult() SEND_SMS_ACTIVITY: RESULT_OK");
+		        	//Remove notification from ViewFlipper.
+					getNotificationViewFlipper().removeActiveNotification();
+		    	}else if (resultCode == RESULT_CANCELED) {
+		    		if (_debug) Log.v("NotificationActivity.onActivityResult() SEND_SMS_ACTIVITY: RESULT_CANCELED");
+		    		//Remove notification from ViewFlipper.
+					getNotificationViewFlipper().removeActiveNotification();
+		    	}else{
+		    		if (_debug) Log.v("NotificationActivity.onActivityResult() SEND_SMS_ACTIVITY: " + resultCode);
+		        	Toast.makeText(context, context.getString(R.string.app_android_messaging_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
+		    	}
+		        break;
+		    }
+		    case VIEW_SMS_MESSAGE_ACTIVITY:{ 
+		    	if (resultCode == RESULT_OK) {
+		    		if (_debug) Log.v("NotificationActivity.onActivityResult() VIEW_SMS_MESSAGE_ACTIVITY: RESULT_OK");
+		        	//Remove notification from ViewFlipper.
+					getNotificationViewFlipper().removeActiveNotification();
+		    	}else if (resultCode == RESULT_CANCELED) {
+		    		if (_debug) Log.v("NotificationActivity.onActivityResult() VIEW_SMS_MESSAGE_ACTIVITY: RESULT_CANCELED");
+		    		//Remove notification from ViewFlipper.
+					getNotificationViewFlipper().removeActiveNotification();
+		    	}else{
+		    		if (_debug) Log.v("NotificationActivity.onActivityResult() VIEW_SMS_MESSAGE_ACTIVITY: " + resultCode);
+		        	Toast.makeText(context, context.getString(R.string.app_android_messaging_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
+		    	}
+		        break;
+		    }
+		    case VIEW_SMS_THREAD_ACTIVITY:{ 
+		    	if (resultCode == RESULT_OK) {
+		    		if (_debug) Log.v("NotificationActivity.onActivityResult() VIEW_SMS_THREAD_ACTIVITY: RESULT_OK");
+		        	//Remove notification from ViewFlipper.
+					getNotificationViewFlipper().removeActiveNotification();
+		    	}else if (resultCode == RESULT_CANCELED) {
+		    		if (_debug) Log.v("NotificationActivity.onActivityResult() VIEW_SMS_THREAD_ACTIVITY: RESULT_CANCELED");
+		    		//Remove notification from ViewFlipper.
+					getNotificationViewFlipper().removeActiveNotification();
+		    	}else{
+		    		if (_debug) Log.v("NotificationActivity.onActivityResult() VIEW_SMS_THREAD_ACTIVITY: " + resultCode);
+		        	Toast.makeText(context, context.getString(R.string.app_android_messaging_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
+		    	}
+		        break;
+		    }
+		    case MESSAGING_ACTIVITY:{ 
+		    	if (resultCode == RESULT_OK) {
+		    		if (_debug) Log.v("NotificationActivity.onActivityResult() MESSAGING_ACTIVITY: RESULT_OK");
+		        	//Remove notification from ViewFlipper.
+					getNotificationViewFlipper().removeActiveNotification();
+		    	}else if (resultCode == RESULT_CANCELED) {
+		    		if (_debug) Log.v("NotificationActivity.onActivityResult() MESSAGING_ACTIVITY: RESULT_CANCELED");
+		    		//Remove notification from ViewFlipper.
+					getNotificationViewFlipper().removeActiveNotification();
+		    	}else{
+		    		if (_debug) Log.v("NotificationActivity.onActivityResult() MESSAGING_ACTIVITY: " + resultCode);
+		        	Toast.makeText(context, context.getString(R.string.app_android_messaging_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
+		    	}
+		        break;
+		    }
+		    case CALL_ACTIVITY:{ 
+		    	if (resultCode == RESULT_OK) {
+		    		if (_debug) Log.v("NotificationActivity.onActivityResult() CALL_ACTIVITY: RESULT_OK");
+		        	//Remove notification from ViewFlipper.
+					getNotificationViewFlipper().removeActiveNotification();
+		    	}else if (resultCode == RESULT_CANCELED) {
+		    		if (_debug) Log.v("NotificationActivity.onActivityResult() CALL_ACTIVITY: RESULT_CANCELED");
+		    		//Remove notification from ViewFlipper.
+					getNotificationViewFlipper().removeActiveNotification();
+		    	}else{
+		    		if (_debug) Log.v("NotificationActivity.onActivityResult() CALL_ACTIVITY: " + resultCode);
+		        	Toast.makeText(context, context.getString(R.string.app_android_phone_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
+		    	}
+		        break;
+		    }
+		    case ADD_CALENDAR_ACTIVITY:{ 
+		    	if (resultCode == RESULT_OK) {
+		    		if (_debug) Log.v("NotificationActivity.onActivityResult() ADD_CALENDAR_ACTIVITY: RESULT_OK");
+		        	//Remove notification from ViewFlipper.
+					getNotificationViewFlipper().removeActiveNotification();
+		    	}else if (resultCode == RESULT_CANCELED) {
+		    		if (_debug) Log.v("NotificationActivity.onActivityResult() ADD_CALENDAR_ACTIVITY: RESULT_CANCELED");
+		    		//Remove notification from ViewFlipper.
+					getNotificationViewFlipper().removeActiveNotification();
+		    	}else{
+		    		if (_debug) Log.v("NotificationActivity.onActivityResult() ADD_CALENDAR_ACTIVITY: " + resultCode);
+		        	Toast.makeText(context, context.getString(R.string.app_android_calendar_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
+		    	}
+		        break;
+		    }
+		    case EDIT_CALENDAR_ACTIVITY:{ 
+		    	if (resultCode == RESULT_OK) {
+		    		if (_debug) Log.v("NotificationActivity.onActivityResult() EDIT_CALENDAR_ACTIVITY: RESULT_OK");
+		        	//Remove notification from ViewFlipper.
+					getNotificationViewFlipper().removeActiveNotification();
+		    	}else if (resultCode == RESULT_CANCELED) {
+		    		if (_debug) Log.v("NotificationActivity.onActivityResult() EDIT_CALENDAR_ACTIVITY: RESULT_CANCELED");
+		    		//Remove notification from ViewFlipper.
+					getNotificationViewFlipper().removeActiveNotification();
+		    	}else{
+		    		if (_debug) Log.v("NotificationActivity.onActivityResult() EDIT_CALENDAR_ACTIVITY: " + resultCode);
+		        	Toast.makeText(context, context.getString(R.string.app_android_calendar_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
+		    	}
+		        break;
+		    }
+		    case VIEW_CALENDAR_ACTIVITY:{ 
+		    	if (resultCode == RESULT_OK) {
+		    		if (_debug) Log.v("NotificationActivity.onActivityResult() VIEW_CALENDAR_ACTIVITY: RESULT_OK");
+		        	//Remove notification from ViewFlipper.
+					getNotificationViewFlipper().removeActiveNotification();
+		    	}else if (resultCode == RESULT_CANCELED) {
+		    		if (_debug) Log.v("NotificationActivity.onActivityResult() VIEW_CALENDAR_ACTIVITY: RESULT_CANCELED");
+		    		//Remove notification from ViewFlipper.
+					getNotificationViewFlipper().removeActiveNotification();
+		    	}else{
+		    		if (_debug) Log.v("NotificationActivity.onActivityResult() VIEW_CALENDAR_ACTIVITY: " + resultCode);
+		        	Toast.makeText(context, context.getString(R.string.app_android_calendar_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
+		    	}
+		        break;
+		    }
+	    }
+    }
 	
 	/**
 	 * Called when the activity is created. Set up views and notifications.

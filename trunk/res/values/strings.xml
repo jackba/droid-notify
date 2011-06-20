@@ -42,7 +42,12 @@
     <string name="app_android_phone_number_format_error">The phone number does not appear to be valid. Dialing number failed.</string>
     <string name="app_android_reply_messaging_address_error">The messaging address does not appear to be valid. Reply to message failed.</string>
     <string name="app_android_contact_not_found_error">The selected contact could not be found.</string>
-    <string name="app_android_calendar_event_not_found_error">The selected calendar event could not be found.</string>
+    <string name="app_android_calendar_event_not_found_error">The selected calendar event could not be found.</string>  
+    <string name="app_android_messaging_unknown_error">Unknown Messaging App error.</string>
+    <string name="app_android_phone_unknown_error">Unknown Phone Call error.</string>
+    <string name="app_android_calendar_unknown_error">Unknown Calendar App error.</string>
+    <string name="app_android_email_unknown_error">Unknown Email App error.</string>
+    <string name="app_android_contacts_unknown_error">Unknown Contacts App error.</string>
     
     <!-- Button Strings -->  
     <string name="view_mms_button_text">View MMS</string>
@@ -64,8 +69,10 @@
    	<string name="call_contact_text">Call Contact</string>
    	<string name="text_contact_text">Text Contact</string>
    	<string name="edit_contact_text">Edit Contact</string>
-   	<string name="edit_calendar_event_text">Edit Event</string>
+   	<string name="add_calendar_event_text">Add Calendar Event</string>
+   	<string name="edit_calendar_event_text">Edit Calendar Event</string>
    	<string name="view_thread_text">View Thread</string>
+   	<string name="messaging_inbox_text">Messaging Inbox</string>
    	
    	<!-- Quick Reply Strings -->
    	<string name="phone_number_error_text">Please enter a number to send the message to.</string>

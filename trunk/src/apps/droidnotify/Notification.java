@@ -304,9 +304,9 @@ public class Notification {
 	 */
 	public String getAddressBookPhoneNumber() {
 		if (_debug) Log.v("Notification.getAddressBookPhoneNumber()");
-		if(_addressBookPhoneNumber == null){
-			loadContactsInfoByPhoneNumber(getContext(),getPhoneNumber());
-		}
+//		if(_addressBookPhoneNumber == null){
+//			loadContactsInfoByPhoneNumber(getContext(),getPhoneNumber());
+//		}
 		if(_addressBookPhoneNumber == null){
 			return _phoneNumber;
 		}
@@ -416,9 +416,9 @@ public class Notification {
 	 */
 	public long getContactID() {
 		if (_debug) Log.v("Notification.getContactID()");
-		if(_contactID == 0){
-			loadContactsInfoByPhoneNumber(getContext(),getPhoneNumber());
-		}
+//		if(_contactID == 0){
+//			loadContactsInfoByPhoneNumber(getContext(),getPhoneNumber());
+//		}
 	    return _contactID;
 	}
 	
@@ -439,9 +439,9 @@ public class Notification {
 	 */
 	public String getContactLookupKey() {
 		if (_debug) Log.v("Notification.getContactLookupKey()");
-		if(_contactLookupKey == null){
-			loadContactsInfoByPhoneNumber(getContext(),getPhoneNumber());
-		}
+//		if(_contactLookupKey == null){
+//			loadContactsInfoByPhoneNumber(getContext(),getPhoneNumber());
+//		}
 	    return _contactLookupKey;
 	}	
 
