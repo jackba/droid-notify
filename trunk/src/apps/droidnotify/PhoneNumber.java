@@ -67,6 +67,10 @@ public class PhoneNumber {
 	private String formatNumber(String  phoneNumber){
 		if (_debug) Log.v("PhoneNumber.formatNumber()");
 		phoneNumber = phoneNumber.replace("-", "");
+		phoneNumber = phoneNumber.replace("+", "");
+		phoneNumber = phoneNumber.replace("(", "");
+		phoneNumber = phoneNumber.replace(")", "");
+		phoneNumber = phoneNumber.replace(" ", "");
 		if(phoneNumber.substring(0,1).equals("1")){
 			phoneNumber = phoneNumber.substring(1);
 		}

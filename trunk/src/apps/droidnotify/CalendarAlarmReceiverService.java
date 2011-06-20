@@ -14,7 +14,9 @@ package apps.droidnotify;
 		http://commonsware.com/AdvAndroid
 */
 
-import java.util.HashSet;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.TimeZone;
 
 import android.app.AlarmManager;
@@ -60,10 +62,6 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
 	
 	//================================================================================
 	// Constructors
-	//================================================================================
-	
-	//================================================================================
-	// Accessors
 	//================================================================================
 	
 	//================================================================================
@@ -135,16 +133,20 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
 				if (Log.getDebug()) Log.e("CalendarAlarmReceiverService.readCalendars() ERROR: Content Resolver returned a null cursor. Exiting...");
 				return;
 			}
-			HashSet<String> calendarIds = new HashSet<String>();
+			HashMap<String, String> calendarIds = new HashMap<String, String>();
 			while (cursor.moveToNext()) {
 				final String calendarID = cursor.getString(cursor.getColumnIndex(_ID));
 				final String calendarDisplayName = cursor.getString(cursor.getColumnIndex(CALENDAR_DISPLAY_NAME));
 				final Boolean calendarSelected = !cursor.getString(cursor.getColumnIndex(CALENDAR_SELECTED)).equals("0");
 				if (Log.getDebug()) Log.v("Id: " + calendarID + " Display Name: " + calendarDisplayName + " Selected: " + calendarSelected);
-				calendarIds.add(calendarID);
+				calendarIds.put(calendarID, calendarDisplayName);
 			}	
-			// For each calendar, display all the events from the previous week to the end of next week.		
-			for (String calendarID : calendarIds) {
+			// For each calendar, display all the events from the previous week to the end of next week.
+			Iterator<Map.Entry<String, String>> calendarIdsEnumerator = calendarIds.entrySet().iterator();
+			while(calendarIdsEnumerator.hasNext()) {
+				Map.Entry<String, String> calendarInfo = calendarIdsEnumerator.next();
+				String calendarID = calendarInfo.getKey();
+				String calendarName = calendarInfo.getValue();
 				Uri.Builder builder = Uri.parse(contentProvider + "/instances/when").buildUpon();
 				long currentTime = System.currentTimeMillis();
 				long queryStartTime = currentTime + reminderInterval;
@@ -171,11 +173,11 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
 						eventStartTime = eventStartTime  - timezoneOffsetValue;
 						eventEndTime = eventEndTime  - timezoneOffsetValue;
 						if(eventStartTime >= System.currentTimeMillis()){
-							scheduleCalendarNotification(context, eventStartTime - reminderIntervalAllDay, eventTitle, Long.toString(eventStartTime), Long.toString(eventEndTime), Boolean.toString(allDay), calendarID.toString(), eventID );
+							scheduleCalendarNotification(context, eventStartTime - reminderIntervalAllDay, eventTitle, Long.toString(eventStartTime), Long.toString(eventEndTime), Boolean.toString(allDay), calendarName, calendarID.toString(), eventID );
 						}
 					}else if(eventStartTime >= System.currentTimeMillis()){
 						//Schedule non-all-day events.
-						scheduleCalendarNotification(context, eventStartTime - reminderInterval, eventTitle, Long.toString(eventStartTime), Long.toString(eventEndTime), Boolean.toString(allDay), calendarID.toString(), eventID );
+						scheduleCalendarNotification(context, eventStartTime - reminderInterval, eventTitle, Long.toString(eventStartTime), Long.toString(eventEndTime), Boolean.toString(allDay), calendarName, calendarID.toString(), eventID );
 					}
 				}
 			}
@@ -194,13 +196,13 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
 	 * @param calendarID - Calendar ID of the Calendar Event.
 	 * @param eventID - Event ID of the Calendar Event.
 	 */
-	private void scheduleCalendarNotification(Context context, long scheduledAlarmTime, String title, String eventStartTime, String eventEndTime, String eventAllDay, String calendarID, String eventID){
+	private void scheduleCalendarNotification(Context context, long scheduledAlarmTime, String title, String eventStartTime, String eventEndTime, String eventAllDay, String calendarName, String calendarID, String eventID){
 		if (Log.getDebug()) Log.v("CalendarAlarmReceiverService.scheduleCalendarNotification()");
 		AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
     	Intent calendarNotificationIntent = new Intent(context, CalendarNotificationAlarmReceiver.class);
     	Bundle bundle = new Bundle();
     	bundle.putInt("notificationType", NOTIFICATION_TYPE_CALENDAR);
-    	bundle.putStringArray("calenderEventInfo",new String[]{title, "", eventStartTime, eventEndTime, eventAllDay, calendarID, eventID});
+    	bundle.putStringArray("calenderEventInfo",new String[]{title, "", eventStartTime, eventEndTime, eventAllDay, calendarName, calendarID, eventID});
     	calendarNotificationIntent.putExtras(bundle);
     	calendarNotificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
     	//Set the Action attribute for the scheduled intent. 
