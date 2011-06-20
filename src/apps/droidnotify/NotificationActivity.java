@@ -1078,9 +1078,10 @@ public class NotificationActivity extends Activity {
 		long eventStartTime = Long.parseLong(calenderEventInfo[2]);
 		long eventEndTime = Long.parseLong(calenderEventInfo[3]);
 		boolean eventAllDay = Boolean.parseBoolean(calenderEventInfo[4]);
+		String calendarName = calenderEventInfo[4];
 		long calendarID = Long.parseLong(calenderEventInfo[5]);
 		long eventID = Long.parseLong(calenderEventInfo[6]);
-		Notification calendarEventNotification = new Notification(_context, title, messageBody, eventStartTime, eventEndTime, eventAllDay, calendarID, eventID, NOTIFICATION_TYPE_CALENDAR);
+		Notification calendarEventNotification = new Notification(_context, title, messageBody, eventStartTime, eventEndTime, eventAllDay, calendarName, calendarID, eventID, NOTIFICATION_TYPE_CALENDAR);
 		_notificationViewFlipper.addNotification(calendarEventNotification);		
 	}
 	
@@ -1359,7 +1360,7 @@ public class NotificationActivity extends Activity {
 		Notification missedCallNotification = new Notification(_context, "5555555555", System.currentTimeMillis(), NOTIFICATION_TYPE_PHONE);
 		notificationViewFlipper.addNotification(missedCallNotification);
 		//Add Calendar Event Notification.
-		Notification calendarEventNotification = new Notification(_context, "Droid Notify Calendar Event Test", "", System.currentTimeMillis(), System.currentTimeMillis() + (10 * 60 * 1000), false, 0, 0, NOTIFICATION_TYPE_CALENDAR);
+		Notification calendarEventNotification = new Notification(_context, "Droid Notify Calendar Event Test", "", System.currentTimeMillis(), System.currentTimeMillis() + (10 * 60 * 1000), false, "Test Calendar",  0, 0, NOTIFICATION_TYPE_CALENDAR);
 		notificationViewFlipper.addNotification(calendarEventNotification);	
 	}
 	

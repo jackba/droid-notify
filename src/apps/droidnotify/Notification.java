@@ -42,6 +42,8 @@ public class Notification {
 	private static final String MISSED_CALL_DISMISS_KEY = "missed_call_dismiss_button_action";
 	private static final String SMS_DELETE_KEY = "sms_delete_button_action";
 	private static final String MMS_DELETE_KEY = "mms_delete_button_action";
+	private static final String CALENDAR_LABELS_KEY = "calendar_labels_enabled";
+	
 	private static final String SMS_DISMISS_ACTION_MARK_READ = "0";
 	private static final String SMS_DELETE_ACTION_DELETE_MESSAGE = "0";
 	private static final String SMS_DELETE_ACTION_DELETE_THREAD = "1";
@@ -235,9 +237,9 @@ public class Notification {
 	 * Class Constructor
 	 * This constructor should be called for Calendar Events.
 	 */
-	public Notification(Context context, String title, String messageBody, long eventStartTime, long  eventEndTime, boolean allDay, long calendarID, long calendarEventID, int notificationType){
+	public Notification(Context context, String title, String messageBody, long eventStartTime, long  eventEndTime, boolean allDay, String calendarName, long calendarID, long calendarEventID, int notificationType){
 		_debug = Log.getDebug();
-		if (_debug) Log.v("Notification.Notification(Context context, String title, String messageBody, long eventStartTime, long eventEndTime, boolean allDay, long calendarID, long calendarEventID, int notificationType)");
+		if (_debug) Log.v("Notification.Notification(Context context, String title, String messageBody, long eventStartTime, long eventEndTime, boolean allDay, String calendarName, long calendarID, long calendarEventID, int notificationType)");
 		_context = context;
 		_preferences = PreferenceManager.getDefaultSharedPreferences(_context);
 		_contactExists = false;
@@ -258,7 +260,7 @@ public class Notification {
 	    	_timeStamp = eventStartTime;
 	    	_title = title;
 	    	_allDay = allDay;
-	    	_messageBody = formatCalendarEventMessage(messageBody, eventStartTime, eventEndTime, allDay);
+	    	_messageBody = formatCalendarEventMessage(messageBody, eventStartTime, eventEndTime, allDay, calendarName);
 	    	_calendarID = calendarID;
 	    	_calendarEventID = calendarEventID;
 	    	_calendarEventStartTime = eventStartTime;
@@ -356,16 +358,6 @@ public class Notification {
 	}
 	
 	/**
-	 * Get the photoID property.
-	 * 
-	 * @return photoID - Contact's photo id.
-	 */
-	public long getPhotoID() {
-		if (_debug) Log.v("Notification.getPhotoID()");
-		return _photoID;
-	}
-	
-	/**
 	 * Get the photoIImg property.
 	 * 
 	 * @return photoImg - Bitmap of contact's photo.
@@ -399,49 +391,6 @@ public class Notification {
 	}
 	
 	/**
-	 * Get the fromEmailGateway property.
-	 * 
-	 * @return fromEmailGateway - Boolean which returns true if the message came from an email gateway.
-	 */
-	public boolean getFromEmailGateway() {
-		if (_debug) Log.v("Notification.getFromEmailGateway()");
-  		return _fromEmailGateway;
-	}	
-	
-	/**
-	 * Get the serviceCenterAddress property.
-	 * 
-	 * @return serviceCenterAddress - The SMS/MMS service center address.
-	 */
-	public String getServiceCenterAddress() {
-		if (_debug) Log.v("Notification.getServiceCenterAddress() ServiceCenterAddress: " + _serviceCenterAddress);
-		if(_serviceCenterAddress == null){
-			loadServiceCenterAddress(_context, getThreadID());
-		}
-  		return _serviceCenterAddress;
-	}
-	
-	/**
-	 * Set the messageClass property.
-	 * 
-	 * @param messageClass - The message class of the SMS/MMS message.
-	 */
-	public void setMessageClass(MessageClass messageClass) {
-		if (_debug) Log.v("Notification.setMessageClass()");
-		_messageClass = messageClass;
-	}
-	
-	/**
-	 * Get the messageClass property.
-	 * 
-	 * @return messageClass - The message class of the SMS/MMS message.
-	 */
-	public MessageClass getMessageClass() {
-		if (_debug) Log.v("Notification.getMessageClass()");
-  		return _messageClass;
-	}
-	
-	/**
 	 * Get the contactExists property.
 	 * 
 	 * @return  contactExists - Boolean returns true if there is a contact in the phone linked to this notification.
@@ -449,16 +398,6 @@ public class Notification {
 	public boolean getContactExists() {
 		if (_debug) Log.v("Notification.getContactExists()");
   		return _contactExists;
-	}
-	
-	/**
-	 * Get the contactPhotoExists property.
-	 * 
-	 * @return contactPhotoExists - Boolean which is true if there is a contact photo in the phone linked to this notification.
-	 */
-	public boolean getContactPhotoExists() {
-		if (_debug) Log.v("Notification.getContactPhotoExists()");
-  		return _contactPhotoExists;
 	}	
 	
 	/**
@@ -469,26 +408,6 @@ public class Notification {
 	public String getTitle() {
 		if (_debug) Log.v("Notification.getTitle() Title: " + _title);
   		return _title;
-	}
-	
-	/**
-	 * Get the email property.
-	 * 
-	 * @return setEmail - Contact's email address.
-	 */
-	public String getEmail() {
-		if (_debug) Log.v("Notification.getEmail() Email: " + _email);
-  		return _email;
-	}
-	
-	/**
-	 * Get the calendarID property.
-	 * 
-	 * @return calendarID - Calendar Event's id.
-	 */
-	public long getCalendarID() {
-		if (_debug) Log.v("Notification.getCalendarID() CalendarID: " + _calendarID);
-  		return _calendarID;
 	}
 	
 	/**
@@ -519,16 +438,6 @@ public class Notification {
 	public long getCalendarEventEndTime() {
 		if (_debug) Log.v("Notification.getCalendarEventEndTime() CalendarEventEndTime: " + _calendarEventEndTime);
   		return _calendarEventEndTime;
-	}
-	
-	/**
-	 * Get the allDay property.
-	 * 
-	 * @return allDay - Boolean returns true if the Calendar Event is all day.
-	 */
-	public boolean getAllDay() {
-		if (_debug) Log.v("Notification.getCalendarEventEndTime() AllDay: " + _allDay);
-  		return _allDay;
 	}
   
 	/**
@@ -1075,7 +984,7 @@ public class Notification {
 	 * 
 	 * @return String - Returns the formatted Calendar Event message.
 	 */
-	private String formatCalendarEventMessage(String messageBody, long eventStartTime, long eventEndTime, boolean allDay){
+	private String formatCalendarEventMessage(String messageBody, long eventStartTime, long eventEndTime, boolean allDay, String calendarName){
 		if (_debug) Log.v("Notification.formatCalendarEventMessage()");
 		String formattedMessage = "";
 		SimpleDateFormat eventDateFormatted = new SimpleDateFormat();
@@ -1102,6 +1011,10 @@ public class Notification {
     		}
     	}else{
     		formattedMessage = messageBody;
+    	}
+    	_preferences = PreferenceManager.getDefaultSharedPreferences(_context);
+    	if(_preferences.getBoolean(CALENDAR_LABELS_KEY, true)){
+    		formattedMessage = "<b>" + calendarName + "</b><br/>" + formattedMessage;
     	}
 		return formattedMessage;
 	}
