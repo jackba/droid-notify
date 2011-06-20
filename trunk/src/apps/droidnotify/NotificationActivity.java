@@ -34,7 +34,6 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 /**
@@ -127,117 +126,26 @@ public class NotificationActivity extends Activity {
     // Properties
     //================================================================================
 
-	private boolean _debug;
-	private Bundle _bundle = null;
+	private boolean _debug = false;
 	private Context _context = null;
-	private WakeLock _wakeLock;
-	private KeyguardLock _keyguardLock; 
+	private WakeLock _wakeLock = null;
+	private KeyguardLock _keyguardLock = null; 
 	private NotificationViewFlipper _notificationViewFlipper = null;
-	private InputMethodManager _inputMethodManager = null;
-	private WakeLockHandler _wakeLockHandler = new WakeLockHandler();
-	private KeyguardHandler _keyguardHandler = new KeyguardHandler();
+	private WakeLockHandler _wakeLockHandler = null;
+	private KeyguardHandler _keyguardHandler = null;
 	private Ringtone _ringtone = null;
-	private RingtoneHandler _ringtoneHandler = new RingtoneHandler();
+	private RingtoneHandler _ringtoneHandler = null;
 	private MotionEvent _downMotionEvent = null;
+	SharedPreferences _preferences = null;
 
 	//================================================================================
 	// Constructors
 	//================================================================================
-	
+		
 	//================================================================================
-	// Accessors
+	// Public Methods
 	//================================================================================
-	  
-	/**
-	 * Set the notificationViewFlipper property.
-	 * 
-	 * @param bundle - Bundle for this activity.
-	 */
-	public void setBundle(Bundle bundle) {
-		if (_debug) Log.v("NotificationActivity.setBundle()");
-	    _bundle = bundle;
-	}
-	
-	/**
-	 * Get the notificationViewFlipper property.
-	 * 
-	 * @return bundle - Bundle for this activity.
-	 */
-	public Bundle getBundle() {
-		if (_debug) Log.v("NotificationActivity.getBundle()");
-	    return _bundle;
-	} 
 
-	/**
-	 * Set the keyguardLock property.
-	 * 
-	 * @param keyguardLock - Phone's KeyguardLock.
-	 */
-	public void setKeyguardLock(KeyguardLock keyguardLock) {
-		if (_debug) Log.v("NotificationActivity.setKeyguardLock()");
-		_keyguardLock = keyguardLock;
-	}
-	
-	/**
-	 * Get the keyguardLock property.
-	 * 
-	 * @return keyguardLock - Phone's KeyguardLock.
-	 */
-	public KeyguardLock getKeyguardLock() {
-		if (_debug) Log.v("NotificationActivity.getKeyguardLock()");
-	    return _keyguardLock;
-	}
-
-	/**
-	 * Set the wakeLock property.
-	 * 
-	 * @param wakeLock - Phone's WakeLock.
-	 */
-	public void setWakeLock(WakeLock wakeLock) {
-		if (_debug) Log.v("NotificationActivity.setWakeLock()");
-		_wakeLock = wakeLock;
-	}
-	
-	/**
-	 * Get the wakeLock property.
-	 * 
-	 * @return wakeLock - Phone's WakeLock.
-	 */
-	public WakeLock getWakeLock() {
-		if (_debug) Log.v("NotificationActivity.getWakeLock()");
-	    return _wakeLock;
-	}
-
-	/**
-	 * Set the context property.
-	 * 
-	 * @param context - Application's Context.
-	 */
-	public void setContext(Context context) {
-		if (_debug) Log.v("NotificationActivity.setContext()");
-	    _context = context;
-	}
-	
-	/**
-	 * Get the context property.
-	 * 
-	 * @return context - Application's Context.
-	 */
-	public Context getContext() {
-		if (_debug) Log.v("NotificationActivity.getContext()");
-	    return _context;
-	}
-	
-	/**
-	 * Set the notificationViewFlipper property.
-	 * 
-	 * @param notificationViewFlipper - Applications' ViewFlipper.
-	 */
-	public void setNotificationViewFlipper(NotificationViewFlipper notificationViewFlipper) {
-		if (_debug) Log.v("NotificationActivity.setNotificationViewFlipper()");
-	    _notificationViewFlipper = notificationViewFlipper;
-	}
-	
 	/**
 	 * Get the notificationViewFlipper property.
 	 * 
@@ -247,71 +155,7 @@ public class NotificationActivity extends Activity {
 		if (_debug) Log.v("NotificationActivity.getNotificationViewFlipper()");
 	    return _notificationViewFlipper;
 	}
-
-	/**
-	 * Set the inputMethodManager property.
-	 * 
-	 * @param InputMethodManager
-	 */
-	public void setInputMethodManager(InputMethodManager inputMethodManager) {
-		if (_debug) Log.v("NotificationActivity.setInputMethodManager()");
-		_inputMethodManager = inputMethodManager;
-	}
 	
-	/**
-	 * Get the inputMethodManager property.
-	 * 
-	 * @return inputMethodManager - InputMethodManager
-	 */
-	public InputMethodManager getInputMethodManager() {
-		if (_debug) Log.v("NotificationActivity.getInputMethodManager()");
-	    return _inputMethodManager;
-	}	
-
-	/**
-	 * Set the ringtone property.
-	 * 
-	 * @param Ringtone
-	 */
-	public void setRingtone(Ringtone ringtone) {
-		if (_debug) Log.v("NotificationActivity.setRingtone()");
-		_ringtone = ringtone;
-	}
-	
-	/**
-	 * Get the ringtone property.
-	 * 
-	 * @return ringtone - Ringtone
-	 */
-	public Ringtone getRingtone() {
-		if (_debug) Log.v("NotificationActivity.getRingtone()");
-	    return _ringtone;
-	}
-
-	/**
-	 * Set the oldTouchValue property.
-	 * 
-	 * @param oldTouchValue - The touch value of a MotionEvent.
-	 */
-	public void setDownMotionEvent(MotionEvent downMotionEvent) {
-		if (_debug) Log.v("NotificationActivity.setDownMotionEvent()");
-	    _downMotionEvent = downMotionEvent;
-	}
-	
-	/**
-	 * Get the oldTouchValue property.
-	 * 
-	 * @return oldTouchValue - The touch value of a MotionEvent.
-	 */
-	public MotionEvent getDownMotionEvent() {
-		if (_debug) Log.v("NotificationActivity.getDownMotionEvent()");
-	    return _downMotionEvent;
-	}
-	
-	//================================================================================
-	// Public Methods
-	//================================================================================
-  
 	/**
 	 * Creates the menu item for this activity.
 	 * 
@@ -321,8 +165,7 @@ public class NotificationActivity extends Activity {
 	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-	    MenuInflater inflater = getMenuInflater();
-	    inflater.inflate(R.menu.optionsmenu, menu);
+		getMenuInflater().inflate(R.menu.optionsmenu, menu);
 	    return true;
 	}
 	
@@ -362,10 +205,7 @@ public class NotificationActivity extends Activity {
 	         */
 			case CONTACT_WRAPPER_LINEAR_LAYOUT:{
 				MenuInflater menuInflater = getMenuInflater();
-				NotificationViewFlipper notificationViewFlipper = getNotificationViewFlipper();
-				int currentNotification = notificationViewFlipper.getCurrentNotification();
-				Notification notification = notificationViewFlipper.getNotification(currentNotification);
-				String phoneNumber = notification.getPhoneNumber();
+				Notification notification = _notificationViewFlipper.getActiveNotification();
 				int notificationType = notification.getNotificationType();
 				//Add the header text to the menu.
 				if(notificationType == NOTIFICATION_TYPE_CALENDAR){
@@ -374,7 +214,7 @@ public class NotificationActivity extends Activity {
 					if(notification.getContactExists()){
 						contextMenu.setHeaderTitle(notification.getContactName()); 
 					}else{
-						contextMenu.setHeaderTitle(phoneNumber); 
+						contextMenu.setHeaderTitle(notification.getPhoneNumber()); 
 					}
 				}
 				menuInflater.inflate(R.menu.notificationcontextmenu, contextMenu);
@@ -440,20 +280,14 @@ public class NotificationActivity extends Activity {
 	 */
 	@Override
 	public boolean onContextItemSelected(MenuItem menuItem) {
-		//test
 		if (_debug) Log.v("NotificationActivity.onContextItemSelected()");
-		Context context = getContext();
-		NotificationViewFlipper notificationViewFlipper = getNotificationViewFlipper();
-		int currentNotification = notificationViewFlipper.getCurrentNotification();
-		Notification notification = notificationViewFlipper.getNotification(currentNotification);
-		String phoneNumber = notification.getPhoneNumber();
-		String addressBookPhoneNumber = notification.getAddressBookPhoneNumber();
-		long contactID = notification.getContactID();
+		Notification notification = _notificationViewFlipper.getActiveNotification();	
 		Intent intent = null;
 		//customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 		switch (menuItem.getItemId()) {
 			case ADD_CONTACT_CONTEXT_MENU:{
 				try{
+					String phoneNumber = notification.getPhoneNumber();
 					intent = new Intent(Intent.ACTION_INSERT);
 					intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
 					if(phoneNumber.contains("@")){
@@ -469,14 +303,15 @@ public class NotificationActivity extends Activity {
 					return true;
 				}catch(Exception ex){
 					if (_debug) Log.e("NotificationActivity.onContextItemSelected() ADD_CONTACT_CONTEXT_MENU ERROR: " + ex.toString());
-					Toast.makeText(context, context.getString(R.string.app_android_contacts_app_error), Toast.LENGTH_LONG).show();
+					Toast.makeText(_context, _context.getString(R.string.app_android_contacts_app_error), Toast.LENGTH_LONG).show();
 					return false;
 				}
 			}
 			case EDIT_CONTACT_CONTEXT_MENU:{
 				try{
+					long contactID = notification.getContactID();
 					if(contactID == 0){
-						Toast.makeText(context, context.getString(R.string.app_android_contact_not_found_error), Toast.LENGTH_LONG).show();
+						Toast.makeText(_context, _context.getString(R.string.app_android_contact_not_found_error), Toast.LENGTH_LONG).show();
 						return false;
 					}
 					intent = new Intent(Intent.ACTION_EDIT);
@@ -490,14 +325,15 @@ public class NotificationActivity extends Activity {
 					return true;
 				}catch(Exception ex){
 					if (_debug) Log.e("NotificationActivity.onContextItemSelected() EDIT_CONTACT_CONTEXT_MENU ERROR: " + ex.toString());
-					Toast.makeText(context, context.getString(R.string.app_android_contacts_app_error), Toast.LENGTH_LONG).show();
+					Toast.makeText(_context, _context.getString(R.string.app_android_contacts_app_error), Toast.LENGTH_LONG).show();
 					return false;
 				}
 			}
 			case VIEW_CONTACT_CONTEXT_MENU:{
 				try{
+					long contactID = notification.getContactID();
 					if(contactID == 0){
-						Toast.makeText(context, context.getString(R.string.app_android_contact_not_found_error), Toast.LENGTH_LONG).show();
+						Toast.makeText(_context, _context.getString(R.string.app_android_contact_not_found_error), Toast.LENGTH_LONG).show();
 						return false;
 					}
 					intent = new Intent(Intent.ACTION_VIEW);
@@ -511,18 +347,18 @@ public class NotificationActivity extends Activity {
 					return true;
 				}catch(Exception ex){
 					if (_debug) Log.e("NotificationActivity.onContextItemSelected() VIEW_CONTACT_CONTEXT_MENU ERROR: " + ex.toString());
-					Toast.makeText(context, context.getString(R.string.app_android_calendar_app_error), Toast.LENGTH_LONG).show();
+					Toast.makeText(_context, _context.getString(R.string.app_android_calendar_app_error), Toast.LENGTH_LONG).show();
 					return false;
 				}
 			}
 			case CALL_CONTACT_CONTEXT_MENU:{
 				try{
-					String numberToBeCalled = addressBookPhoneNumber;
+					String numberToBeCalled = notification.getAddressBookPhoneNumber();
 					if(numberToBeCalled == null){
-						numberToBeCalled = phoneNumber;
+						numberToBeCalled = notification.getPhoneNumber();
 					}
 					if(numberToBeCalled == null || numberToBeCalled.contains("@")){
-						Toast.makeText(context, context.getString(R.string.app_android_phone_number_format_error), Toast.LENGTH_LONG).show();
+						Toast.makeText(_context, _context.getString(R.string.app_android_phone_number_format_error), Toast.LENGTH_LONG).show();
 						return false;
 					}
 					intent = new Intent(Intent.ACTION_CALL);
@@ -535,14 +371,15 @@ public class NotificationActivity extends Activity {
 					return true;
 				}catch(Exception ex){
 					if (_debug) Log.e("NotificationActivity.onContextItemSelected() CALL_CONTACT_CONTEXT_MENU ERROR: " + ex.toString());
-					Toast.makeText(context, context.getString(R.string.app_android_phone_app_error), Toast.LENGTH_LONG).show();
+					Toast.makeText(_context, _context.getString(R.string.app_android_phone_app_error), Toast.LENGTH_LONG).show();
 					return false;
 				}
 			}
 			case TEXT_CONTACT_CONTEXT_MENU:{
 				try{
+					String phoneNumber = notification.getPhoneNumber();
 					if(phoneNumber == null){
-						Toast.makeText(context, context.getString(R.string.app_android_reply_messaging_address_error), Toast.LENGTH_LONG).show();
+						Toast.makeText(_context, _context.getString(R.string.app_android_reply_messaging_address_error), Toast.LENGTH_LONG).show();
 						return false;
 					}
 					intent = new Intent(Intent.ACTION_VIEW);
@@ -556,7 +393,7 @@ public class NotificationActivity extends Activity {
 					return true;
 				}catch(Exception ex){
 					if (_debug) Log.e("NotificationActivity.onContextItemSelected() TEXT_CONTACT_CONTEXT_MENU ERROR: " + ex.toString());
-					Toast.makeText(context, context.getString(R.string.app_android_messaging_app_error), Toast.LENGTH_LONG).show();
+					Toast.makeText(_context, _context.getString(R.string.app_android_messaging_app_error), Toast.LENGTH_LONG).show();
 					return false;
 				}
 			}
@@ -576,14 +413,14 @@ public class NotificationActivity extends Activity {
 			        	intent.putExtra("message_id", messageID);
 			        }
 			        else{
-			        	Toast.makeText(context, context.getString(R.string.app_android_message_not_found_error), Toast.LENGTH_LONG).show();
+			        	Toast.makeText(_context, _context.getString(R.string.app_android_message_not_found_error), Toast.LENGTH_LONG).show();
 			        	return false;
 			        }
 				    startActivityForResult(intent,VIEW_SMS_THREAD_ACTIVITY);
 					return true;
 				}catch(Exception ex){
 					if (_debug) Log.e("NotificationActivity.onContextItemSelected() VIEW_THREAD_CONTEXT_MENU ERROR: " + ex.toString());
-					Toast.makeText(context, context.getString(R.string.app_android_messaging_app_error), Toast.LENGTH_LONG).show();
+					Toast.makeText(_context, _context.getString(R.string.app_android_messaging_app_error), Toast.LENGTH_LONG).show();
 					return false;
 				}
 			}
@@ -599,7 +436,7 @@ public class NotificationActivity extends Activity {
 					return true;
 				}catch(Exception ex){
 					if (_debug) Log.e("NotificationActivity.onContextItemSelected() VIEW_THREAD_CONTEXT_MENU ERROR: " + ex.toString());
-					Toast.makeText(context, context.getString(R.string.app_android_messaging_app_error), Toast.LENGTH_LONG).show();
+					Toast.makeText(_context, _context.getString(R.string.app_android_messaging_app_error), Toast.LENGTH_LONG).show();
 					return false;
 				}
 			}
@@ -615,15 +452,15 @@ public class NotificationActivity extends Activity {
 					return true;
 				}catch(Exception ex){
 					if (_debug) Log.e("NotificationActivity.onContextItemSelected() ADD_EVENT_CONTEXT_MENU ERROR: " + ex.toString());
-					Toast.makeText(context, context.getString(R.string.app_android_calendar_app_error), Toast.LENGTH_LONG).show();
+					Toast.makeText(_context, _context.getString(R.string.app_android_calendar_app_error), Toast.LENGTH_LONG).show();
 					return false;
 				}
 			}
 			case EDIT_EVENT_CONTEXT_MENU:{
-			    long calendarEventID = notification.getCalendarEventID();
 				try{
+				    long calendarEventID = notification.getCalendarEventID();
 					if(calendarEventID == 0){
-						Toast.makeText(context, context.getString(R.string.app_android_calendar_event_not_found_error), Toast.LENGTH_LONG).show();
+						Toast.makeText(_context, _context.getString(R.string.app_android_calendar_event_not_found_error), Toast.LENGTH_LONG).show();
 						return false;
 					}
 					intent = new Intent(Intent.ACTION_EDIT);
@@ -641,7 +478,7 @@ public class NotificationActivity extends Activity {
 					return true;
 				}catch(Exception ex){
 					if (_debug) Log.e("NotificationActivity.onContextItemSelected() EDIT_EVENT_CONTEXT_MENU ERROR: " + ex.toString());
-					Toast.makeText(context, context.getString(R.string.app_android_calendar_app_error), Toast.LENGTH_LONG).show();
+					Toast.makeText(_context, _context.getString(R.string.app_android_calendar_app_error), Toast.LENGTH_LONG).show();
 					return false;
 				}
 			}
@@ -668,14 +505,13 @@ public class NotificationActivity extends Activity {
 	 */
 	public void showDeleteDialog(){
 		if (_debug) Log.v("NotificationActivity.showDeleteDialog()");
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-		int notificationType = getNotificationViewFlipper().getActiveMessage().getNotificationType();
+		int notificationType = _notificationViewFlipper.getActiveNotification().getNotificationType();
 		if(notificationType == NOTIFICATION_TYPE_SMS){
-			if(preferences.getString(SMS_DELETE_KEY, "0").equals(SMS_DELETE_ACTION_NOTHING)){
+			if(_preferences.getString(SMS_DELETE_KEY, "0").equals(SMS_DELETE_ACTION_NOTHING)){
 				//Remove the notification from the ViewFlipper.
 				deleteMessage();
 			}else{
-				if(preferences.getBoolean(SMS_CONFIRM_DELETION_KEY, true)){
+				if(_preferences.getBoolean(SMS_CONFIRM_DELETION_KEY, true)){
 					//Confirm deletion of the message.
 					showDialog(DIALOG_DELETE_MESSAGE);
 				}else{
@@ -684,11 +520,11 @@ public class NotificationActivity extends Activity {
 				}
 			}
 		}else if(notificationType == NOTIFICATION_TYPE_MMS){
-			if(preferences.getString(MMS_DELETE_KEY, "0").equals(MMS_DELETE_ACTION_NOTHING)){
+			if(_preferences.getString(MMS_DELETE_KEY, "0").equals(MMS_DELETE_ACTION_NOTHING)){
 				//Remove the notification from the ViewFlipper
 				deleteMessage();
 			}else{
-				if(preferences.getBoolean(MMS_CONFIRM_DELETION_KEY, true)){
+				if(_preferences.getBoolean(MMS_CONFIRM_DELETION_KEY, true)){
 					//Confirm deletion of the message.
 					showDialog(DIALOG_DELETE_MESSAGE);
 				}else{
@@ -717,24 +553,21 @@ public class NotificationActivity extends Activity {
 	@Override
 	public boolean dispatchTouchEvent(MotionEvent motionEvent){
 		if (_debug) Log.v("NotificationActivity.dispatchTouchEvent()");
-		NotificationViewFlipper notificationViewFlipper = getNotificationViewFlipper();
 	    switch (motionEvent.getAction()){
 	        case MotionEvent.ACTION_DOWN:{
 		        //Keep track of the starting down-event.
-		        setDownMotionEvent(MotionEvent.obtain(motionEvent));
+		        _downMotionEvent = MotionEvent.obtain(motionEvent);
 		        break;
 	        }
 	        case MotionEvent.ACTION_UP:{
-	            //Consume if necessary and perform the fling / swipe action
-	            //if it has been determined to be a fling / swipe
-	        	MotionEvent downMotionEvent = getDownMotionEvent();
-	        	float deltaX = motionEvent.getX() - downMotionEvent.getX();
+	            //Consume if necessary and perform the fling / swipe action if it has been determined to be a fling / swipe.
+	        	float deltaX = motionEvent.getX() - _downMotionEvent.getX();
 		        if(Math.abs(deltaX) > new ViewConfiguration().getScaledTouchSlop()  * 2){
 		        	if (deltaX < 0){
-	                   notificationViewFlipper.showNext();
+	                   _notificationViewFlipper.showNext();
 	                   return true;
 					}else if (deltaX > 0){
-	                   notificationViewFlipper.showPrevious();
+	                   _notificationViewFlipper.showPrevious();
 	                   return true;
 	               	}
 		        }
@@ -756,22 +589,20 @@ public class NotificationActivity extends Activity {
 	 * @param returnedIntent
 	 */
 	protected void onActivityResult(int requestCode, int resultCode, Intent returnedIntent){
-		//test
 		if (_debug) Log.v("NotificationActivity.onActivityResult( ) requestCode: " + requestCode + " resultCode: " + resultCode);
-		Context context = getContext();
 	    switch(requestCode) {
 		    case ADD_CONTACT_ACTIVITY:{ 
 		    	if (resultCode == RESULT_OK) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() ADD_CONTACT_ACTIVITY: RESULT_OK");
 		        	//Remove notification from ViewFlipper.
-					getNotificationViewFlipper().removeActiveNotification();
+					_notificationViewFlipper.removeActiveNotification();
 		    	}else if (resultCode == RESULT_CANCELED) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() ADD_CONTACT_ACTIVITY: RESULT_CANCELED");
 		    		//Remove notification from ViewFlipper.
-					getNotificationViewFlipper().removeActiveNotification();
+					_notificationViewFlipper.removeActiveNotification();
 		    	}else{
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() ADD_CONTACT_ACTIVITY: " + resultCode);
-		        	Toast.makeText(context, context.getString(R.string.app_android_contacts_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
+		        	Toast.makeText(_context, _context.getString(R.string.app_android_contacts_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
 		    	}
 		        break;
 		    }
@@ -779,14 +610,14 @@ public class NotificationActivity extends Activity {
 		    	if (resultCode == RESULT_OK) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() EDIT_CONTACT_ACTIVITY: RESULT_OK");
 		        	//Remove notification from ViewFlipper.
-					getNotificationViewFlipper().removeActiveNotification();
+					_notificationViewFlipper.removeActiveNotification();
 		    	}else if (resultCode == RESULT_CANCELED) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() EDIT_CONTACT_ACTIVITY: RESULT_CANCELED");
 		    		//Remove notification from ViewFlipper.
-					getNotificationViewFlipper().removeActiveNotification();
+					_notificationViewFlipper.removeActiveNotification();
 		    	}else{
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() EDIT_CONTACT_ACTIVITY: " + resultCode);
-		        	Toast.makeText(context, context.getString(R.string.app_android_contacts_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
+		        	Toast.makeText(_context, _context.getString(R.string.app_android_contacts_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
 		    	}
 		        break;
 		    }
@@ -794,14 +625,14 @@ public class NotificationActivity extends Activity {
 		    	if (resultCode == RESULT_OK) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() VIEW_CONTACT_ACTIVITY: RESULT_OK");
 		        	//Remove notification from ViewFlipper.
-					getNotificationViewFlipper().removeActiveNotification();
+					_notificationViewFlipper.removeActiveNotification();
 		    	}else if (resultCode == RESULT_CANCELED) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() VIEW_CONTACT_ACTIVITY: RESULT_CANCELED");
 		    		//Remove notification from ViewFlipper.
-					getNotificationViewFlipper().removeActiveNotification();
+					_notificationViewFlipper.removeActiveNotification();
 		    	}else{
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() VIEW_CONTACT_ACTIVITY: " + resultCode);
-		        	Toast.makeText(context, context.getString(R.string.app_android_contacts_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
+		        	Toast.makeText(_context, _context.getString(R.string.app_android_contacts_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
 		    	}
 		        break;
 		    }
@@ -809,14 +640,14 @@ public class NotificationActivity extends Activity {
 		    	if (resultCode == RESULT_OK) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() SEND_SMS_ACTIVITY: RESULT_OK");
 		        	//Remove notification from ViewFlipper.
-					getNotificationViewFlipper().removeActiveNotification();
+					_notificationViewFlipper.removeActiveNotification();
 		    	}else if (resultCode == RESULT_CANCELED) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() SEND_SMS_ACTIVITY: RESULT_CANCELED");
 		    		//Remove notification from ViewFlipper.
-					getNotificationViewFlipper().removeActiveNotification();
+					_notificationViewFlipper.removeActiveNotification();
 		    	}else{
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() SEND_SMS_ACTIVITY: " + resultCode);
-		        	Toast.makeText(context, context.getString(R.string.app_android_messaging_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
+		        	Toast.makeText(_context, _context.getString(R.string.app_android_messaging_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
 		    	}
 		        break;
 		    }
@@ -824,14 +655,14 @@ public class NotificationActivity extends Activity {
 		    	if (resultCode == RESULT_OK) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() VIEW_SMS_MESSAGE_ACTIVITY: RESULT_OK");
 		        	//Remove notification from ViewFlipper.
-					getNotificationViewFlipper().removeActiveNotification();
+					_notificationViewFlipper.removeActiveNotification();
 		    	}else if (resultCode == RESULT_CANCELED) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() VIEW_SMS_MESSAGE_ACTIVITY: RESULT_CANCELED");
 		    		//Remove notification from ViewFlipper.
-					getNotificationViewFlipper().removeActiveNotification();
+					_notificationViewFlipper.removeActiveNotification();
 		    	}else{
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() VIEW_SMS_MESSAGE_ACTIVITY: " + resultCode);
-		        	Toast.makeText(context, context.getString(R.string.app_android_messaging_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
+		        	Toast.makeText(_context, _context.getString(R.string.app_android_messaging_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
 		    	}
 		        break;
 		    }
@@ -839,14 +670,14 @@ public class NotificationActivity extends Activity {
 		    	if (resultCode == RESULT_OK) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() VIEW_SMS_THREAD_ACTIVITY: RESULT_OK");
 		        	//Remove notification from ViewFlipper.
-					getNotificationViewFlipper().removeActiveNotification();
+					_notificationViewFlipper.removeActiveNotification();
 		    	}else if (resultCode == RESULT_CANCELED) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() VIEW_SMS_THREAD_ACTIVITY: RESULT_CANCELED");
 		    		//Remove notification from ViewFlipper.
-					getNotificationViewFlipper().removeActiveNotification();
+					_notificationViewFlipper.removeActiveNotification();
 		    	}else{
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() VIEW_SMS_THREAD_ACTIVITY: " + resultCode);
-		        	Toast.makeText(context, context.getString(R.string.app_android_messaging_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
+		        	Toast.makeText(_context, _context.getString(R.string.app_android_messaging_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
 		    	}
 		        break;
 		    }
@@ -854,14 +685,14 @@ public class NotificationActivity extends Activity {
 		    	if (resultCode == RESULT_OK) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() MESSAGING_ACTIVITY: RESULT_OK");
 		        	//Remove notification from ViewFlipper.
-					getNotificationViewFlipper().removeActiveNotification();
+					_notificationViewFlipper.removeActiveNotification();
 		    	}else if (resultCode == RESULT_CANCELED) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() MESSAGING_ACTIVITY: RESULT_CANCELED");
 		    		//Remove notification from ViewFlipper.
-					getNotificationViewFlipper().removeActiveNotification();
+					_notificationViewFlipper.removeActiveNotification();
 		    	}else{
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() MESSAGING_ACTIVITY: " + resultCode);
-		        	Toast.makeText(context, context.getString(R.string.app_android_messaging_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
+		        	Toast.makeText(_context, _context.getString(R.string.app_android_messaging_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
 		    	}
 		        break;
 		    }
@@ -869,14 +700,14 @@ public class NotificationActivity extends Activity {
 		    	if (resultCode == RESULT_OK) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() CALL_ACTIVITY: RESULT_OK");
 		        	//Remove notification from ViewFlipper.
-					getNotificationViewFlipper().removeActiveNotification();
+					_notificationViewFlipper.removeActiveNotification();
 		    	}else if (resultCode == RESULT_CANCELED) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() CALL_ACTIVITY: RESULT_CANCELED");
 		    		//Remove notification from ViewFlipper.
-					getNotificationViewFlipper().removeActiveNotification();
+					_notificationViewFlipper.removeActiveNotification();
 		    	}else{
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() CALL_ACTIVITY: " + resultCode);
-		        	Toast.makeText(context, context.getString(R.string.app_android_phone_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
+		        	Toast.makeText(_context, _context.getString(R.string.app_android_phone_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
 		    	}
 		        break;
 		    }
@@ -884,14 +715,14 @@ public class NotificationActivity extends Activity {
 		    	if (resultCode == RESULT_OK) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() ADD_CALENDAR_ACTIVITY: RESULT_OK");
 		        	//Remove notification from ViewFlipper.
-					getNotificationViewFlipper().removeActiveNotification();
+					_notificationViewFlipper.removeActiveNotification();
 		    	}else if (resultCode == RESULT_CANCELED) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() ADD_CALENDAR_ACTIVITY: RESULT_CANCELED");
 		    		//Remove notification from ViewFlipper.
-					getNotificationViewFlipper().removeActiveNotification();
+					_notificationViewFlipper.removeActiveNotification();
 		    	}else{
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() ADD_CALENDAR_ACTIVITY: " + resultCode);
-		        	Toast.makeText(context, context.getString(R.string.app_android_calendar_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
+		        	Toast.makeText(_context, _context.getString(R.string.app_android_calendar_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
 		    	}
 		        break;
 		    }
@@ -899,14 +730,14 @@ public class NotificationActivity extends Activity {
 		    	if (resultCode == RESULT_OK) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() EDIT_CALENDAR_ACTIVITY: RESULT_OK");
 		        	//Remove notification from ViewFlipper.
-					getNotificationViewFlipper().removeActiveNotification();
+					_notificationViewFlipper.removeActiveNotification();
 		    	}else if (resultCode == RESULT_CANCELED) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() EDIT_CALENDAR_ACTIVITY: RESULT_CANCELED");
 		    		//Remove notification from ViewFlipper.
-					getNotificationViewFlipper().removeActiveNotification();
+					_notificationViewFlipper.removeActiveNotification();
 		    	}else{
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() EDIT_CALENDAR_ACTIVITY: " + resultCode);
-		        	Toast.makeText(context, context.getString(R.string.app_android_calendar_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
+		        	Toast.makeText(_context, _context.getString(R.string.app_android_calendar_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
 		    	}
 		        break;
 		    }
@@ -914,14 +745,14 @@ public class NotificationActivity extends Activity {
 		    	if (resultCode == RESULT_OK) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() VIEW_CALENDAR_ACTIVITY: RESULT_OK");
 		        	//Remove notification from ViewFlipper.
-					getNotificationViewFlipper().removeActiveNotification();
+					_notificationViewFlipper.removeActiveNotification();
 		    	}else if (resultCode == RESULT_CANCELED) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() VIEW_CALENDAR_ACTIVITY: RESULT_CANCELED");
 		    		//Remove notification from ViewFlipper.
-					getNotificationViewFlipper().removeActiveNotification();
+					_notificationViewFlipper.removeActiveNotification();
 		    	}else{
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() VIEW_CALENDAR_ACTIVITY: " + resultCode);
-		        	Toast.makeText(context, context.getString(R.string.app_android_calendar_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
+		        	Toast.makeText(_context, _context.getString(R.string.app_android_calendar_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
 		    	}
 		        break;
 		    }
@@ -938,15 +769,16 @@ public class NotificationActivity extends Activity {
 		super.onCreate(bundle);
 		_debug = Log.getDebug();
 	    if (_debug) Log.v("NotificationActivity.onCreate()");
-	    Context context = getApplicationContext();
-	    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-	    setBundle(bundle);
-	    setContext(context);
+	    _context = getApplicationContext();
+	    _preferences = PreferenceManager.getDefaultSharedPreferences(_context);
+		_wakeLockHandler = new WakeLockHandler();
+		_keyguardHandler = new KeyguardHandler();
+		_ringtoneHandler = new RingtoneHandler();
 	    Bundle extrasBundle = getIntent().getExtras();
 	    int notificationType = extrasBundle.getInt("notificationType");
 	    if (_debug) Log.v("NotificationActivity.onCreate() Notification Type: " + notificationType);
 	    //Don't rotate the Activity when the screen rotates based on the user preferences.
-	    if(!preferences.getBoolean(LANDSCAPE_SCREEN_ENABLED_KEY, false)){
+	    if(!_preferences.getBoolean(LANDSCAPE_SCREEN_ENABLED_KEY, false)){
 	    	this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 	    }
 	    setContentView(R.layout.notificationwrapper);
@@ -962,7 +794,7 @@ public class NotificationActivity extends Activity {
 	    if(notificationType == NOTIFICATION_TYPE_SMS){
 		    if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_SMS");
 		    Notification newSMSNotification = setupMessage(extrasBundle);
-		    if(preferences.getBoolean(SMS_DISPLAY_UNREAD_KEY, true)){
+		    if(_preferences.getBoolean(SMS_DISPLAY_UNREAD_KEY, true)){
 		    	getAllUnreadSMSMessages(newSMSNotification.getMessageID(), newSMSNotification.getMessageBody());
 		    }
 	    }
@@ -981,12 +813,12 @@ public class NotificationActivity extends Activity {
 	    //Set Vibration or Ringtone to announce Activity.
 	    runNotificationFeedback(notificationType);
 	    //Acquire WakeLock.
-	    acquireWakeLock(context);
-	    long wakelockTimeout = Long.parseLong(preferences.getString(WAKELOCK_TIMEOUT_KEY, "300")) * 1000;
+	    acquireWakeLock(_context);
+	    long wakelockTimeout = Long.parseLong(_preferences.getString(WAKELOCK_TIMEOUT_KEY, "300")) * 1000;
 	    _wakeLockHandler.sleep(wakelockTimeout);
 	    //Remove the KeyGuard.
-	    disableKeyguardLock(context);
-	    long keyguardTimeout = Long.parseLong(preferences.getString(KEYGUARD_TIMEOUT_KEY, "300")) * 1000;
+	    disableKeyguardLock(_context);
+	    long keyguardTimeout = Long.parseLong(_preferences.getString(KEYGUARD_TIMEOUT_KEY, "300")) * 1000;
 	    _keyguardHandler.sleep(keyguardTimeout);
 	}
 	  
@@ -1008,8 +840,7 @@ public class NotificationActivity extends Activity {
 	    super.onResume();
 	    _debug = Log.getDebug();
 	    if (_debug) Log.v("NotificationActivity.onResume()");
-	    Context context = getContext();
-	    acquireWakeLock(context);
+	    acquireWakeLock(_context);
 	}
 	  
 	/**
@@ -1029,7 +860,6 @@ public class NotificationActivity extends Activity {
 	protected void onStop() {
 	    super.onStop();
 	    if (_debug) Log.v("NotificationActivity.onStop()");
-	    releaseWakeLock();
 	}
 	  
 	/**
@@ -1053,31 +883,28 @@ public class NotificationActivity extends Activity {
 	@Override
 	protected Dialog onCreateDialog(int id) {
 		if (_debug) Log.v("NotificationActivity.onCreateDialog()");
-		Context context = getContext();
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-		int notificationType = getNotificationViewFlipper().getActiveMessage().getNotificationType();
+		int notificationType = _notificationViewFlipper.getActiveNotification().getNotificationType();
 		AlertDialog alertDialog = null;
 		switch (id) {
-
 	        /*
 	         * Delete confirmation dialog.
 	         */
-			case DIALOG_DELETE_MESSAGE:
+			case DIALOG_DELETE_MESSAGE:{
 				if (_debug) Log.v("NotificationActivity.onCreateDialog() DIALOG_DELETE_MESSAGE");
 				AlertDialog.Builder builder = new AlertDialog.Builder(this);
 				builder.setIcon(android.R.drawable.ic_dialog_alert);
 				builder.setTitle(getString(R.string.delete_message_dialog_title_text));
 				//Action is determined by the users preferences. 
 				if(notificationType == NOTIFICATION_TYPE_SMS){
-					if(preferences.getString(SMS_DELETE_KEY, "0").equals(SMS_DELETE_ACTION_DELETE_MESSAGE)){
+					if(_preferences.getString(SMS_DELETE_KEY, "0").equals(SMS_DELETE_ACTION_DELETE_MESSAGE)){
 						builder.setMessage(getString(R.string.delete_message_dialog_text));
-					}else if(preferences.getString(SMS_DELETE_KEY, "0").equals(SMS_DELETE_ACTION_DELETE_THREAD)){
+					}else if(_preferences.getString(SMS_DELETE_KEY, "0").equals(SMS_DELETE_ACTION_DELETE_THREAD)){
 						builder.setMessage(getString(R.string.delete_thread_dialog_text));
 					}
 				}else if(notificationType == NOTIFICATION_TYPE_MMS){
-					if(preferences.getString(MMS_DELETE_KEY, "0").equals(MMS_DELETE_ACTION_DELETE_MESSAGE)){
+					if(_preferences.getString(MMS_DELETE_KEY, "0").equals(MMS_DELETE_ACTION_DELETE_MESSAGE)){
 						builder.setMessage(getString(R.string.delete_message_dialog_text));
-					}else if(preferences.getString(MMS_DELETE_KEY, "0").equals(MMS_DELETE_ACTION_DELETE_THREAD)){
+					}else if(_preferences.getString(MMS_DELETE_KEY, "0").equals(MMS_DELETE_ACTION_DELETE_THREAD)){
 						builder.setMessage(getString(R.string.delete_thread_dialog_text));
 					}
 				}
@@ -1094,7 +921,7 @@ public class NotificationActivity extends Activity {
 						}
 					});
 				alertDialog = builder.create();
-				
+			}
 		}
 		return alertDialog;
 	}
@@ -1110,7 +937,6 @@ public class NotificationActivity extends Activity {
 	    super.onNewIntent(intent);
 	    if (_debug) Log.v("NotificationActivity.onNewIntent()");
 	    setIntent(intent);
-	    Context context = getContext();
 	    Bundle extrasBundle = getIntent().getExtras();
 	    int notificationType = extrasBundle.getInt("notificationType");
 	    if (_debug) Log.v("NotificationActivity.onNewIntent() Notification Type: " + notificationType);
@@ -1136,13 +962,13 @@ public class NotificationActivity extends Activity {
 	    }
 	    //Set Vibration and/or Ringtone to announce Activity.
 	    runNotificationFeedback(notificationType);
-	    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+	    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(_context);
 	    //Acquire WakeLock.
-	    acquireWakeLock(context);
+	    acquireWakeLock(_context);
 	    long wakelockTimeout = Long.parseLong(preferences.getString(WAKELOCK_TIMEOUT_KEY, "300")) * 1000;
 	    _wakeLockHandler.sleep(wakelockTimeout);
 	    //Remove the KeyGuard.
-	    disableKeyguardLock(context);
+	    disableKeyguardLock(_context);
 	    long keyguardTimeout = Long.parseLong(preferences.getString(KEYGUARD_TIMEOUT_KEY, "300")) * 1000;
 	    _keyguardHandler.sleep(keyguardTimeout);
 	}
@@ -1158,9 +984,7 @@ public class NotificationActivity extends Activity {
 	 */ 
 	private void setupViews(int notificationType) {
 		if (_debug) Log.v("NotificationActivity.setupViews()");
-		final NotificationViewFlipper notificationViewFlipper;
-		notificationViewFlipper = (NotificationViewFlipper) findViewById(R.id.notification_view_flipper);
-		setNotificationViewFlipper(notificationViewFlipper);
+		_notificationViewFlipper = (NotificationViewFlipper) findViewById(R.id.notification_view_flipper);
 	}
 	
 	/**
@@ -1170,14 +994,13 @@ public class NotificationActivity extends Activity {
 	 */
 	private boolean setupMissedCalls(Bundle bundle){
 		if (_debug) Log.v("NotificationActivity.setupMissedCalls()"); 
-		Context context = getContext();
 		ArrayList<String> missedCallsArray = bundle.getStringArrayList("missedCallsArrayList");
 		for(int i=0; i< missedCallsArray.size(); i++){
 			String[] missedCallInfo = missedCallsArray.get(i).split("\\|");
 			String phoneNumber = missedCallInfo[0];
 			long timeStamp = Long.parseLong(missedCallInfo[1]);
-			Notification missedCallNotification = new Notification(context, phoneNumber, timeStamp, NOTIFICATION_TYPE_PHONE);
-			getNotificationViewFlipper().addNotification(missedCallNotification);
+			Notification missedCallNotification = new Notification(_context, phoneNumber, timeStamp, NOTIFICATION_TYPE_PHONE);
+			_notificationViewFlipper.addNotification(missedCallNotification);
 		}
 	    return true;
 	}
@@ -1191,10 +1014,9 @@ public class NotificationActivity extends Activity {
 	 */
 	private Notification setupMessage(Bundle bundle) {
 		if (_debug) Log.v("NotificationActivity.setupMessages()"); 
-		Context context = getContext();
-		NotificationViewFlipper notificationViewFlipper = getNotificationViewFlipper();
+		NotificationViewFlipper notificationViewFlipper = _notificationViewFlipper;
 	    // Create message from bundle.
-	    Notification smsMessage = new Notification(context, bundle, NOTIFICATION_TYPE_SMS);
+	    Notification smsMessage = new Notification(_context, bundle, NOTIFICATION_TYPE_SMS);
 	    notificationViewFlipper.addNotification(smsMessage);
 	    return smsMessage;
 	}
@@ -1207,15 +1029,14 @@ public class NotificationActivity extends Activity {
 	 */
 	private void getAllUnreadSMSMessages(long messageIDFilter, String messageBodyFilter){
 		if (_debug) Log.v("NotificationActivity.getAllUnreadSMSMessages() messageIDFilter: " + messageIDFilter + " messageBodyFilter: " + messageBodyFilter ); 
-		Context context = getContext();
-		NotificationViewFlipper notificationViewFlipper = getNotificationViewFlipper();
+		NotificationViewFlipper notificationViewFlipper = _notificationViewFlipper;
 		final String[] projection = new String[] { "_id", "thread_id", "address", "person", "date", "body"};
 		final String selection = "read = 0";
 		final String[] selectionArgs = null;
 		final String sortOrder = null;
 		Cursor cursor = null;
         try{
-		    cursor = context.getContentResolver().query(
+		    cursor = _context.getContentResolver().query(
 		    		Uri.parse("content://sms/inbox"),
 		    		projection,
 		    		selection,
@@ -1231,7 +1052,7 @@ public class NotificationActivity extends Activity {
 		    	//Don't load the message that corresponds to the messageIDFilter or messageBodyFilter.
 		    	//If we load this message we will have duplicate Notifications, which is bad.
 		    	if(messageID != messageIDFilter && !messageBody.trim().equals(messageBodyFilter)){
-			    	Notification smsMessage = new Notification(context, messageID, threadID, messageBody, phoneNumber, timestamp, contactID, NOTIFICATION_TYPE_SMS);		
+			    	Notification smsMessage = new Notification(_context, messageID, threadID, messageBody, phoneNumber, timestamp, contactID, NOTIFICATION_TYPE_SMS);		
 			    	notificationViewFlipper.addNotification(smsMessage);
 		    	}
 		    }
@@ -1251,7 +1072,6 @@ public class NotificationActivity extends Activity {
 	 */
 	private void setupCalendarEventNotifications(Bundle bundle){
 		if (_debug) Log.v("NotificationActivity.setupCalendarEventNotifications()");  
-		Context context = getContext();
 		String calenderEventInfo[] = (String[])bundle.getStringArray("calenderEventInfo");
 		String title = calenderEventInfo[0];
 		String messageBody = calenderEventInfo[1];
@@ -1260,8 +1080,8 @@ public class NotificationActivity extends Activity {
 		boolean eventAllDay = Boolean.parseBoolean(calenderEventInfo[4]);
 		long calendarID = Long.parseLong(calenderEventInfo[5]);
 		long eventID = Long.parseLong(calenderEventInfo[6]);
-		Notification calendarEventNotification = new Notification(context, title, messageBody, eventStartTime, eventEndTime, eventAllDay, calendarID, eventID, NOTIFICATION_TYPE_CALENDAR);
-		getNotificationViewFlipper().addNotification(calendarEventNotification);		
+		Notification calendarEventNotification = new Notification(_context, title, messageBody, eventStartTime, eventEndTime, eventAllDay, calendarID, eventID, NOTIFICATION_TYPE_CALENDAR);
+		_notificationViewFlipper.addNotification(calendarEventNotification);		
 	}
 	
 	/**
@@ -1269,7 +1089,7 @@ public class NotificationActivity extends Activity {
 	 */
 	private void deleteMessage(){
 		if (_debug) Log.v("NotificationActivity.deleteMessage()");
-		NotificationViewFlipper notificationViewFlipper = getNotificationViewFlipper();
+		NotificationViewFlipper notificationViewFlipper = _notificationViewFlipper;
 		notificationViewFlipper.deleteMessage();
 	}
 	
@@ -1291,31 +1111,28 @@ public class NotificationActivity extends Activity {
 	 */
 	private void acquireWakeLock(Context context){
 		if (_debug) Log.v("NotificationActivity.acquireWakeLock()");
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		PowerManager pm = null;
-		WakeLock wakeLock = getWakeLock();
 		try{
 			pm = (PowerManager)context.getSystemService(Context.POWER_SERVICE);
-			if(wakeLock == null){
+			if(_wakeLock == null){
 				//Set the wakeLock properties based on the users preferences.
-				if(preferences.getBoolean(SCREEN_ENABLED_KEY, true)){
-					if(preferences.getBoolean(SCREEN_DIM_ENABLED_KEY, true)){
+				if(_preferences.getBoolean(SCREEN_ENABLED_KEY, true)){
+					if(_preferences.getBoolean(SCREEN_DIM_ENABLED_KEY, true)){
 						if (_debug) Log.v("NotificationActivity.acquireWakeLock() Screen Wake Enabled Dim");
-						wakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, DROID_NOTIFY_WAKELOCK);
+						_wakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, DROID_NOTIFY_WAKELOCK);
 					}else{
 						if (_debug) Log.v("NotificationActivity.acquireWakeLock() Screen Wake Enabled Full");
-						wakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, DROID_NOTIFY_WAKELOCK);
+						_wakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, DROID_NOTIFY_WAKELOCK);
 					}
 				}else{
 					if (_debug) Log.v("NotificationActivity.acquireWakeLock() Screen Wake Disabled");
-					wakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, DROID_NOTIFY_WAKELOCK);
+					_wakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, DROID_NOTIFY_WAKELOCK);
 				}
 			}
-			if(wakeLock != null){
+			if(_wakeLock != null){
 				if (_debug) Log.v("NotificationActivity.acquireWakeLock() Aquired wake lock");
-				wakeLock.setReferenceCounted(false);
-				wakeLock.acquire();
-				setWakeLock(wakeLock);
+				_wakeLock.setReferenceCounted(false);
+				_wakeLock.acquire();
 			}
 		}catch(Exception ex){
 			if (_debug) Log.e("NotificationActivity.acquireWakeLock() ERROR: " + ex.toString());
@@ -1327,12 +1144,10 @@ public class NotificationActivity extends Activity {
 	 */
 	private void releaseWakeLock(){
 		if (_debug) Log.v("NotificationActivity.releaseWakeLock()");
-		WakeLock wakeLock = getWakeLock();
 		try{
-			if(wakeLock != null){
-				wakeLock.release();
-				wakeLock = null;
-				setWakeLock(wakeLock);
+			if(_wakeLock != null){
+				_wakeLock.release();
+				_wakeLock = null;
 			}
 		}catch(Exception ex){
 			if (_debug) Log.e("NotificationActivity.releaseWakeLock() ERROR: " + ex.toString());
@@ -1347,19 +1162,16 @@ public class NotificationActivity extends Activity {
 	 */
 	private void disableKeyguardLock(Context context){
 		if (_debug) Log.v("NotificationActivity.disableKeyguardLock()");
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
 		KeyguardManager km = null;
-		KeyguardLock keyguardLock = getKeyguardLock();
 		try{
 			km = (KeyguardManager)getSystemService(Context.KEYGUARD_SERVICE);
-			if(keyguardLock == null){
-				keyguardLock = km.newKeyguardLock(DROID_NOTIFY_KEYGUARD); 
+			if(_keyguardLock == null){
+				_keyguardLock = km.newKeyguardLock(DROID_NOTIFY_KEYGUARD); 
 			}
 			//Set the keyguard properties based on the users preferences.
-			if(preferences.getBoolean(KEYGUARD_ENABLED_KEY, true)){
+			if(_preferences.getBoolean(KEYGUARD_ENABLED_KEY, true)){
 				if (_debug) Log.v("NotificationActivity.disableKeyguardLock() Disable Keyguard Enabled");
-				keyguardLock.disableKeyguard();
-				setKeyguardLock(keyguardLock);
+				_keyguardLock.disableKeyguard();
 			}else{
 				if (_debug) Log.v("NotificationActivity.disableKeyguardLock() Disable Keyguard Disabled");
 			}
@@ -1373,12 +1185,10 @@ public class NotificationActivity extends Activity {
 	 */
 	private void reenableKeyguardLock(){
 		if (_debug) Log.v("NotificationActivity.reenableKeyguardLock()");
-		KeyguardLock keyguardLock = getKeyguardLock();
 		try{
-			if(keyguardLock != null){
-				keyguardLock.reenableKeyguard();
-				keyguardLock = null;
-				setKeyguardLock(keyguardLock);
+			if(_keyguardLock != null){
+				_keyguardLock.reenableKeyguard();
+				_keyguardLock = null;
 			}
 		}catch(Exception ex){
 			if (_debug) Log.e("NotificationActivity.reenableKeyguardLock() ERROR: " + ex.toString());
@@ -1390,53 +1200,50 @@ public class NotificationActivity extends Activity {
 	 */
 	private void playRingtone(int notificationType){
 		if (_debug) Log.v("NotificationActivity.playRingtone()");
-		Context context = getContext();
-		Ringtone ringtone = getRingtone();
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-		long rintoneStopValue = Long.parseLong(preferences.getString(RINGTONE_LENGTH_KEY, "3")) * 1000;
+		long rintoneStopValue = Long.parseLong(_preferences.getString(RINGTONE_LENGTH_KEY, "3")) * 1000;
 		if(notificationType == NOTIFICATION_TYPE_TEST){
 			try{
-				ringtone = RingtoneManager.getRingtone(context, Uri.parse(preferences.getString(SMS_RINGTONE_KEY, "DEFAULT_SOUND")));
-				if(ringtone != null) ringtone.play();
+				_ringtone = RingtoneManager.getRingtone(_context, Uri.parse(_preferences.getString(SMS_RINGTONE_KEY, "DEFAULT_SOUND")));
+				if(_ringtone != null) _ringtone.play();
  	    	}catch(Exception ex){
  	    		if (_debug) Log.e("NotificationActivity.playRingtone() NOTIFICATION_TYPE_TEST ERROR: " + ex.toString());
 	    	}
 		}
 	    if(notificationType == NOTIFICATION_TYPE_PHONE){
-	 		if(preferences.getBoolean(MISSED_CALL_RINGTONE_ENABLED_KEY, false)){
+	 		if(_preferences.getBoolean(MISSED_CALL_RINGTONE_ENABLED_KEY, false)){
 	 	    	try{
-		 			ringtone = RingtoneManager.getRingtone(context, Uri.parse(preferences.getString(MISSED_CALL_RINGTONE_KEY, "DEFAULT_SOUND")));
-		 			if(ringtone != null) ringtone.play();
+		 			_ringtone = RingtoneManager.getRingtone(_context, Uri.parse(_preferences.getString(MISSED_CALL_RINGTONE_KEY, "DEFAULT_SOUND")));
+		 			if(_ringtone != null) _ringtone.play();
 	 	    	}catch(Exception ex){
 	 	    		if (_debug) Log.e("NotificationActivity.playRingtone() NOTIFICATION_TYPE_PHONE ERROR: " + ex.toString());
 		    	}
 	 		}
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_SMS){
-	 	    if(preferences.getBoolean(SMS_RINGTONE_ENABLED_KEY, false)){
+	 	    if(_preferences.getBoolean(SMS_RINGTONE_ENABLED_KEY, false)){
 	 	    	try{
-		 	    	ringtone = RingtoneManager.getRingtone(context, Uri.parse(preferences.getString(SMS_RINGTONE_KEY, "DEFAULT_SOUND")));
-		 	    	if(ringtone != null) ringtone.play();
+		 	    	_ringtone = RingtoneManager.getRingtone(_context, Uri.parse(_preferences.getString(SMS_RINGTONE_KEY, "DEFAULT_SOUND")));
+		 	    	if(_ringtone != null) _ringtone.play();
 	 	    	}catch(Exception ex){
 	 	    		if (_debug) Log.e("NotificationActivity.playRingtone() NOTIFICATION_TYPE_SMS ERROR: " + ex.toString());
 		    	}
 	 	    }
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_MMS){
-	 	    if(preferences.getBoolean(MMS_RINGTONE_ENABLED_KEY, false)){
+	 	    if(_preferences.getBoolean(MMS_RINGTONE_ENABLED_KEY, false)){
 	 	    	try{
-		 	    	ringtone = RingtoneManager.getRingtone(context, Uri.parse(preferences.getString(MMS_RINGTONE_KEY, "DEFAULT_SOUND")));
-		 	    	if(ringtone != null) ringtone.play();
+		 	    	_ringtone = RingtoneManager.getRingtone(_context, Uri.parse(_preferences.getString(MMS_RINGTONE_KEY, "DEFAULT_SOUND")));
+		 	    	if(_ringtone != null) _ringtone.play();
 	 	    	}catch(Exception ex){
 	 	    		if (_debug) Log.e("NotificationActivity.playRingtone() NOTIFICATION_TYPE_MMS ERROR: " + ex.toString());
 		    	}
 	 	    }
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
-	 	    if(preferences.getBoolean(CALENDAR_RINGTONE_ENABLED_KEY, false)){
+	 	    if(_preferences.getBoolean(CALENDAR_RINGTONE_ENABLED_KEY, false)){
 	 	    	try{
-	 	    		ringtone = RingtoneManager.getRingtone(context, Uri.parse(preferences.getString(CALENDAR_RINGTONE_KEY, "DEFAULT_SOUND")));
-	 	    		if(ringtone != null) ringtone.play();
+	 	    		_ringtone = RingtoneManager.getRingtone(_context, Uri.parse(_preferences.getString(CALENDAR_RINGTONE_KEY, "DEFAULT_SOUND")));
+	 	    		if(_ringtone != null) _ringtone.play();
 	 	    	}catch(Exception ex){
 	 	    		if (_debug) Log.e("NotificationActivity.playRingtone() NOTIFICATION_TYPE_CALENDAR ERROR: " + ex.toString());
 		    	}
@@ -1445,7 +1252,6 @@ public class NotificationActivity extends Activity {
 	    if(notificationType == NOTIFICATION_TYPE_EMAIL){
 	    	//TODO - Email
 	    }
-		setRingtone(ringtone);
 		_ringtoneHandler.sleep(rintoneStopValue);
 	}
 	
@@ -1454,12 +1260,10 @@ public class NotificationActivity extends Activity {
 	 */
 	private void stopRingtone(){
 		if (_debug) Log.v("NotificationActivity.stopRingtone()");
-		Ringtone ringtone = getRingtone();
 		try{
-			if(ringtone!= null){
-				ringtone.stop();
-				ringtone = null;
-				setRingtone(ringtone);
+			if(_ringtone!= null){
+				_ringtone.stop();
+				_ringtone = null;
 			}
 		}catch(Exception ex){
 	    		if (_debug) Log.e("NotificationActivity.stopRingtone() ERROR: " + ex.toString());
@@ -1523,17 +1327,16 @@ public class NotificationActivity extends Activity {
 	 */
 	private void customPerformHapticFeedback(int hapticFeedbackConstant){
 		if (_debug) Log.v("NotificationActivity.customPerformHapticFeedback()");
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
 		Vibrator vibrator = null;
 		try{
 			vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
 			//Perform the haptic feedback based on the users preferences.
-			if(preferences.getBoolean(HAPTIC_FEEDBACK_ENABLED_KEY, true)){
+			if(_preferences.getBoolean(HAPTIC_FEEDBACK_ENABLED_KEY, true)){
 				if(hapticFeedbackConstant == HapticFeedbackConstants.VIRTUAL_KEY){
 					if(vibrator != null) vibrator.vibrate(50);
 				}
 			}
-			if(preferences.getBoolean(HAPTIC_FEEDBACK_ENABLED_KEY, true)){
+			if(_preferences.getBoolean(HAPTIC_FEEDBACK_ENABLED_KEY, true)){
 				if(hapticFeedbackConstant == HapticFeedbackConstants.LONG_PRESS){
 					if(vibrator != null) vibrator.vibrate(100);
 				}
@@ -1548,16 +1351,15 @@ public class NotificationActivity extends Activity {
 	 */
 	private void createTestNotifications(){
 		if (_debug) Log.v("NotificationActivity.createTextNotifications()");
-		Context context = getContext();
-		NotificationViewFlipper notificationViewFlipper = getNotificationViewFlipper();
+		NotificationViewFlipper notificationViewFlipper = _notificationViewFlipper;
 		//Add SMS Message Notification.
-		Notification smsNotification = new Notification(context, "5555555555", "Droid Notify SMS Message Test", System.currentTimeMillis(), NOTIFICATION_TYPE_SMS);
+		Notification smsNotification = new Notification(_context, "5555555555", "Droid Notify SMS Message Test", System.currentTimeMillis(), NOTIFICATION_TYPE_SMS);
 		notificationViewFlipper.addNotification(smsNotification);
 		//Add Missed Call Notification.
-		Notification missedCallNotification = new Notification(context, "5555555555", System.currentTimeMillis(), NOTIFICATION_TYPE_PHONE);
+		Notification missedCallNotification = new Notification(_context, "5555555555", System.currentTimeMillis(), NOTIFICATION_TYPE_PHONE);
 		notificationViewFlipper.addNotification(missedCallNotification);
 		//Add Calendar Event Notification.
-		Notification calendarEventNotification = new Notification(context, "Droid Notify Calendar Event Test", "", System.currentTimeMillis(), System.currentTimeMillis() + (10 * 60 * 1000), false, 0, 0, NOTIFICATION_TYPE_CALENDAR);
+		Notification calendarEventNotification = new Notification(_context, "Droid Notify Calendar Event Test", "", System.currentTimeMillis(), System.currentTimeMillis() + (10 * 60 * 1000), false, 0, 0, NOTIFICATION_TYPE_CALENDAR);
 		notificationViewFlipper.addNotification(calendarEventNotification);	
 	}
 	
