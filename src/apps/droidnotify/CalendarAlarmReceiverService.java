@@ -49,7 +49,7 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
     private final String CALENDAR_INSTANCE_BEGIN = "begin"; 
     private final String CALENDAR_INSTANCE_END = "end"; 
     private final String CALENDAR_EVENT_ALL_DAY = "allDay"; 
-    private final String CALENDAR_EVENT_DISPLAY_NAME = "displayName"; 
+    private final String CALENDAR_DISPLAY_NAME = "displayName"; 
     private final String CALENDAR_SELECTED = "selected"; 
     private final String CALENDAR_REMINDER_KEY = "calendar_reminder_settings";
     private final String CALENDAR_REMINDER_ALL_DAY_KEY = "calendar_reminder_all_day_settings";
@@ -123,7 +123,7 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
 				//contentProvider = "content://calendar";
 				cursor = contentResolver.query(
 					Uri.parse(contentProvider + "/calendars"), 
-					new String[] { _ID, CALENDAR_EVENT_DISPLAY_NAME, CALENDAR_SELECTED },
+					new String[] { _ID, CALENDAR_DISPLAY_NAME, CALENDAR_SELECTED },
 					null,
 					null,
 					null);
@@ -138,7 +138,7 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
 			HashSet<String> calendarIds = new HashSet<String>();
 			while (cursor.moveToNext()) {
 				final String calendarID = cursor.getString(cursor.getColumnIndex(_ID));
-				final String calendarDisplayName = cursor.getString(cursor.getColumnIndex(CALENDAR_EVENT_DISPLAY_NAME));
+				final String calendarDisplayName = cursor.getString(cursor.getColumnIndex(CALENDAR_DISPLAY_NAME));
 				final Boolean calendarSelected = !cursor.getString(cursor.getColumnIndex(CALENDAR_SELECTED)).equals("0");
 				if (Log.getDebug()) Log.v("Id: " + calendarID + " Display Name: " + calendarDisplayName + " Selected: " + calendarSelected);
 				calendarIds.add(calendarID);

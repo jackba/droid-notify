@@ -46,11 +46,13 @@ public class NotificationViewFlipper extends ViewFlipper {
     // Properties
     //================================================================================
 	
-	private boolean _debug;
-	private ArrayList<Notification> _notifications;
-	private int _currentNotification;
-	private int _totalNotifications;
-	private float _oldTouchValue;
+	private boolean _debug = false;
+	private Context _context = null;
+	private ArrayList<Notification> _notifications = null;
+	private int _currentNotification = 0;
+	private int _totalNotifications = 0;
+	private SharedPreferences _preferences = null;
+	private NotificationActivity _notificationActivity = null;
 
 	//================================================================================
 	// Constructors
@@ -63,6 +65,10 @@ public class NotificationViewFlipper extends ViewFlipper {
 		super(context);
 		_debug = Log.getDebug();
 		if (_debug) Log.v("NotificationViewFlipper.NotificationViewFlipper()");
+		_context = context;
+		_preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		_notificationActivity = (NotificationActivity) context;
+		_notifications = new ArrayList<Notification>();
 		init(context);
 	}
 	
@@ -73,86 +79,141 @@ public class NotificationViewFlipper extends ViewFlipper {
 		super(context, attributes);
 		_debug = Log.getDebug();
 		if (_debug) Log.v("NotificationViewFlipper.NotificationViewFlipper()");
+		_context = context;
+		_preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		_notificationActivity = (NotificationActivity) context;
+		_notifications = new ArrayList<Notification>();
 		init(context);
 	}
 	  
 	//================================================================================
-	// Accessors
+	// Public Methods
 	//================================================================================
 	
 	/**
-	 * Get the notifications property.
+	 * Add notification to the notifications ArrayList.
+	 * Add new notification View to the ViewFlipper.
 	 * 
-	 * @return ArrayList<Notification> - Returns the ArrayList of the Notifications.
-	 */ 
-	public ArrayList<Notification> getNotifications(){
-		if (_debug) Log.v("NotificationViewFlipper.getNotifications()");
-		return _notifications;
-	}
-	
-	/**
-	 * Set the currentNotification property.
-	 * 
-	 * @param currentNotification - Int value of the current Notification.
-	 */ 
-	public void setCurrentNotification(int currentNotification){
-		if (_debug) Log.v("NotificationViewFlipper.setCurrentNotification()");
-		_currentNotification = currentNotification;
-	}
-	
-	/**
-	 * Get the currentNotification property.
-	 * 
-	 * @return int - Int value of the current Notification.
-	 */ 
-	public int getCurrentNotification(){
-		if (_debug) Log.v("NotificationViewFlipper.getCurrentNotification()");
-		
-		return _currentNotification;
-	}
-	
-	/**
-	 * Set the totalNotifications property.
-	 * 
-	 * @param totalNotifications - Int value of the total number of notifications.
-	 */ 
-	public void setTotalNotifications(int totalNotifications){
-		if (_debug) Log.v("NotificationViewFlipper.setTotalNotifications()");
-		_totalNotifications = totalNotifications;
-	}	  
-	
-	/**
-	 * Get the totalNotifications property.
-	 * 
-	 * @return int - Int value of the total number of notifications.
+	 * @param notification - Notification to add to the ArrayList.
 	 */
-	public int getTotalNotifications(){
-		if (_debug) Log.v("NotificationViewFlipper.getTotalNotifications()");
-		return _totalNotifications;
+	public void addNotification(Notification notification) {
+		if (_debug) Log.v("NotificationViewFlipper.addNotification()");
+		if(!containsNotification(notification)){
+			_notifications.add(notification);
+			_totalNotifications = _notifications.size();
+			addView(new NotificationView(_context, notification)); 
+			//Update the navigation information on the current View every time a new View is added.
+			final View nextView = this.getChildAt(_currentNotification);
+			updateViewNavigationButtons(nextView);
+		}
 	}
 
 	/**
-	 * Set the oldTouchValue property.
-	 * 
-	 * @param oldTouchValue - The touch value of a MotionEvent.
+	 * Remove the current Notification.
 	 */
-	public void setOldTouchValue(float oldTouchValue) {
-		if (_debug) Log.v("Notification.setOldTouchValue()");
-	    _oldTouchValue = oldTouchValue;
+	public void removeActiveNotification() {
+		if (_debug) Log.v("NotificationViewFlipper.removeActiveNotification()");
+		removeNotification(_currentNotification);
+	}
+
+	/**
+	 * Return the active Notification.
+	 * The active Notification is the current message.
+	 * 
+	 * @return Notification - The Notification that is the current Notification.
+	 */	
+	public Notification getActiveNotification(){
+		if (_debug) Log.v("NotificationViewFlipper.getActiveMessage()");
+		return _notifications.get(_currentNotification);
 	}
 	
 	/**
-	 * Get the oldTouchValue property.
-	 * 
-	 * @return oldTouchValue - The touch value of a MotionEvent.
+	 * Show the next Notification/View in the list.
 	 */
-	public float getOldTouchValue() {
-		if (_debug) Log.v("Notification.getOldTouchValue()");
-	    return _oldTouchValue;
+	@Override
+	public void showNext() {
+		if (_debug) Log.v("NotificationViewFlipper.showNext()");
+		if (_currentNotification < _totalNotifications - 1) {
+			_currentNotification += 1;
+			setInAnimation(inFromRightAnimation());
+			setOutAnimation(outToLeftAnimation());
+			//Update the navigation information on the next view before we switch to it.
+			final View nextView = this.getChildAt(_currentNotification);
+			updateViewNavigationButtons(nextView);
+			//Flip to next View.
+			super.showNext();
+		}
+	}
+	  
+	/**
+	 * Show the previous Notification/View in the list.
+	 */
+	@Override
+	public void showPrevious() {
+		if (_debug) Log.v("NotificationViewFlipper.showPrevious()");
+		if (_currentNotification > 0) {
+			_currentNotification -= 1;
+			setInAnimation(inFromLeftAnimation());
+			setOutAnimation(outToRightAnimation());
+			//Update the navigation information on the previous view before we switch to it.
+			final View nextView = this.getChildAt(_currentNotification);
+			updateViewNavigationButtons(nextView);
+			//Flip to previous View.
+			super.showPrevious();
+		}
 	}
 	
+	/**
+	 * Display the delete dialog from the activity.
+	 */
+	public void showDeleteDialog(){
+		if (_debug) Log.v("NotificationViewFlipper.showDeleteDialog()");
+		_notificationActivity.showDeleteDialog();
+	}
+	
+	/**
+	 * Delete the current Notification.
+	 */
+	public void deleteMessage(){
+		if (_debug) Log.v("NotificationViewFlipper.deleteMessage()");
+		//Remove the notification from the ViewFlipper.
+		Notification notification = getNotification(_currentNotification);
+		int notificationType = notification.getNotificationType();
+		if(notificationType == NOTIFICATION_TYPE_SMS){
+			if(_preferences.getString(SMS_DELETE_KEY, "0").equals(SMS_DELETE_ACTION_NOTHING)){
+				//Remove the notification from the ViewFlipper
+				removeActiveNotification();
+			}else if(_preferences.getString(SMS_DELETE_KEY, "0").equals(SMS_DELETE_ACTION_DELETE_MESSAGE)){
+				//Delete the current message from the users phone.
+				notification.deleteMessage();
+				//Remove the notification from the ViewFlipper
+				removeActiveNotification();
+			}else if(_preferences.getString(SMS_DELETE_KEY, "0").equals(SMS_DELETE_ACTION_DELETE_THREAD)){
+				//Delete the current message from the users phone.
+				//The notification will remove ALL messages for this thread from the phone for us.
+				notification.deleteMessage();
+				//Remove all Notifications with the thread ID.
+				removeNotifications(notification.getThreadID());
+			}
+		}else if(notificationType == NOTIFICATION_TYPE_MMS){
+			if(_preferences.getString(MMS_DELETE_KEY, "0").equals(MMS_DELETE_ACTION_NOTHING)){
+				//Remove the notification from the ViewFlipper
+				removeActiveNotification();
+			}else if(_preferences.getString(MMS_DELETE_KEY, "0").equals(MMS_DELETE_ACTION_DELETE_MESSAGE)){
+				//Delete the current message from the users phone.
+				notification.deleteMessage();
+			}else if(_preferences.getString(MMS_DELETE_KEY, "0").equals(MMS_DELETE_ACTION_DELETE_THREAD)){
+				//Remove all Notifications with the thread ID.
+				removeNotifications(notification.getThreadID());
+				//Delete the current message from the users phone.
+				//The notification will remove ALL messages for this thread from the phone for us.
+				notification.deleteMessage();
+			}
+		}
+	}
+
 	//================================================================================
-	// Public Methods
+	// Private Methods
 	//================================================================================
 
 	/**
@@ -162,18 +223,18 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 * 
 	 * @return Notification - Return the notification located at the specified index.
 	 */
-	public Notification getNotification(int notificationNumber){
+	private Notification getNotification(int notificationNumber){
 		return _notifications.get(notificationNumber);
 	}
-	
+
 	/**
 	 * Determine if the current Notification is the last Notification in the list.
 	 * 
 	 * @return boolean - Returns true if the current Notification is the last Notification in the ArrayList.
 	 */
-	public boolean isLastMessage(){
+	private boolean isLastMessage(){
 		if (_debug) Log.v("NotificationViewFlipper.isLastMessage()");
-		if((getCurrentNotification() + 1) >= getTotalNotifications()){
+		if((_currentNotification + 1) >= _totalNotifications){
 			return true;
 		}else{
 			return false;
@@ -185,9 +246,9 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 * 
 	 * @return boolean - Returns true if the current Notification is the first Notification in the ArrayList.
 	 */
-	public boolean isFirstMessage(){
+	private boolean isFirstMessage(){
 		if (_debug) Log.v("NotificationViewFlipper.isFirstMessage()");
-		if((getCurrentNotification() + 1) <= 1){
+		if((_currentNotification + 1) <= 1){
 			return true;
 		}else{
 			return false;
@@ -195,63 +256,30 @@ public class NotificationViewFlipper extends ViewFlipper {
 	}
 	
 	/**
-	 * Add notification to the notifications ArrayList.
-	 * Add new notification View to the ViewFlipper.
-	 * 
-	 * @param notification - Notification to add to the ArrayList.
-	 */
-	public void addNotification(Notification notification) {
-		if (_debug) Log.v("NotificationViewFlipper.addNotification()");
-		Context context = getContext();
-		if(!containsNotification(notification)){
-			getNotifications().add(notification);
-			int currentNotification = getCurrentNotification();
-			int totalNotificationCount = _notifications.size();
-			setTotalNotifications(totalNotificationCount);
-			addView(new NotificationView(context, notification)); 
-			//Update the navigation information on the current View every time a new View is added.
-			final View nextView = this.getChildAt(currentNotification);
-			updateViewNavigationButtons(nextView);
-		}
-	}
-
-	/**
-	 * Remove the current Notification.
-	 */
-	public void removeActiveNotification() {
-		if (_debug) Log.v("NotificationViewFlipper.removeActiveNotification()");
-		removeNotification(getCurrentNotification());
-	}
-	
-	/**
 	* Remove the Notification and its view.
 	*
 	* @param notificationNumber - Int of the notificaiton to be removed.
 	*/
-	public void removeNotification(int notificationNumber) {
+	private void removeNotification(int notificationNumber) {
 		if (_debug) Log.v("NotificationViewFlipper.removeNotification() NotificationNumber: " + notificationNumber);
 		//Get the current notification object.
 		Notification notification = getNotification(notificationNumber);
-		int totalNotifications = getTotalNotifications();
-		Context context = getContext();
-		NotificationActivity notificationActivity = (NotificationActivity)context;
-		if (totalNotifications > 1) {
+		if (_totalNotifications > 1) {
 			try{
 				//Set notification as being viewed in the phone.
 				setNotificationViewed(notification);
 				// Remove notification from the ArrayList.
 				_notifications.remove(notificationNumber);
 				// Fade out current notification.
-				setOutAnimation(context, android.R.anim.fade_out);
+				setOutAnimation(_context, android.R.anim.fade_out);
 				// Update total notifications count.
-				setTotalNotifications(_notifications.size());
-				totalNotifications -= 1;
+				_totalNotifications = _notifications.size();
 				// If we removed the last notification then set current notification to the last one.
-				if (notificationNumber >= totalNotifications) {
-					setCurrentNotification(totalNotifications - 1);
+				if (notificationNumber >= _totalNotifications) {
+					_currentNotification = _totalNotifications - 1;
 				}
 				// If this is the last notification, slide in from left.
-				if (notificationNumber == (totalNotifications)) {
+				if (notificationNumber == (_totalNotifications)) {
 					setInAnimation(inFromLeftAnimation());
 					//Update the navigation information on the previous view before we switch to it.
 					final View previousView = this.getChildAt(notificationNumber - 1);
@@ -272,108 +300,9 @@ public class NotificationViewFlipper extends ViewFlipper {
 			try{
 				setNotificationViewed(notification);
 				//Close the ViewFlipper and finish the activity.
-				notificationActivity.finishActivity();
+				_notificationActivity.finishActivity();
 			}catch(Exception ex){
 				if (_debug) Log.v("NotificationViewFlipper.removeNotification() [TotalNotification <= 1] ERROR: " + ex.toString());
-			}
-		}
-	}
-
-	/**
-	 * Return the active Notification.
-	 * The active Notification is the current message.
-	 * 
-	 * @return Notification - The Notification that is the current Notification.
-	 */	
-	public Notification getActiveMessage(){
-		if (_debug) Log.v("NotificationViewFlipper.getActiveMessage()");
-		return getNotifications().get(getCurrentNotification());
-	}
-	
-	/**
-	 * Show the next Notification/View in the list.
-	 */
-	@Override
-	public void showNext() {
-		if (_debug) Log.v("NotificationViewFlipper.showNext()");
-		int currentNotification = getCurrentNotification();
-		if (currentNotification < getTotalNotifications()-1) {
-			setCurrentNotification(currentNotification + 1);
-			setInAnimation(inFromRightAnimation());
-			setOutAnimation(outToLeftAnimation());
-			//Update the navigation information on the next view before we switch to it.
-			final View nextView = this.getChildAt(currentNotification + 1);
-			updateViewNavigationButtons(nextView);
-			//Flip to next View.
-			super.showNext();
-		}
-	}
-	  
-	/**
-	 * Show the previous Notification/View in the list.
-	 */
-	@Override
-	public void showPrevious() {
-		if (_debug) Log.v("NotificationViewFlipper.showPrevious()");
-		int currentNotification = getCurrentNotification();
-		if (currentNotification > 0) {
-			setCurrentNotification(currentNotification - 1);
-			setInAnimation(inFromLeftAnimation());
-			setOutAnimation(outToRightAnimation());
-			//Update the navigation information on the previous view before we switch to it.
-			final View nextView = this.getChildAt(currentNotification - 1);
-			updateViewNavigationButtons(nextView);
-			//Flip to previous View.
-			super.showPrevious();
-		}
-	}
-	
-	/**
-	 * Display the delete dialog from the activity.
-	 */
-	public void showDeleteDialog(){
-		if (_debug) Log.v("NotificationViewFlipper.showDeleteDialog()");
-		((NotificationActivity)getContext()).showDeleteDialog();
-	}
-	
-	/**
-	 * Delete the current Notification.
-	 */
-	public void deleteMessage(){
-		if (_debug) Log.v("NotificationViewFlipper.deleteMessage()");
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-		//Remove the notification from the ViewFlipper.
-		Notification notification = getNotification(getCurrentNotification());
-		int notificationType = notification.getNotificationType();
-		if(notificationType == NOTIFICATION_TYPE_SMS){
-			if(preferences.getString(SMS_DELETE_KEY, "0").equals(SMS_DELETE_ACTION_NOTHING)){
-				//Remove the notification from the ViewFlipper
-				removeActiveNotification();
-			}else if(preferences.getString(SMS_DELETE_KEY, "0").equals(SMS_DELETE_ACTION_DELETE_MESSAGE)){
-				//Delete the current message from the users phone.
-				notification.deleteMessage();
-				//Remove the notification from the ViewFlipper
-				removeActiveNotification();
-			}else if(preferences.getString(SMS_DELETE_KEY, "0").equals(SMS_DELETE_ACTION_DELETE_THREAD)){
-				//Delete the current message from the users phone.
-				//The notification will remove ALL messages for this thread from the phone for us.
-				notification.deleteMessage();
-				//Remove all Notifications with the thread ID.
-				removeNotifications(notification.getThreadID());
-			}
-		}else if(notificationType == NOTIFICATION_TYPE_MMS){
-			if(preferences.getString(MMS_DELETE_KEY, "0").equals(MMS_DELETE_ACTION_NOTHING)){
-				//Remove the notification from the ViewFlipper
-				removeActiveNotification();
-			}else if(preferences.getString(MMS_DELETE_KEY, "0").equals(MMS_DELETE_ACTION_DELETE_MESSAGE)){
-				//Delete the current message from the users phone.
-				notification.deleteMessage();
-			}else if(preferences.getString(MMS_DELETE_KEY, "0").equals(MMS_DELETE_ACTION_DELETE_THREAD)){
-				//Remove all Notifications with the thread ID.
-				removeNotifications(notification.getThreadID());
-				//Delete the current message from the users phone.
-				//The notification will remove ALL messages for this thread from the phone for us.
-				notification.deleteMessage();
 			}
 		}
 	}
@@ -383,7 +312,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 * 
 	 * @return Animation - Returns the Animation object.
 	 */
-	public Animation inFromRightAnimation() {
+	private Animation inFromRightAnimation() {
 		if (_debug) Log.v("NotificationViewFlipper.inFromRightAnimation()");
 		Animation inFromRight = new TranslateAnimation(
 		Animation.RELATIVE_TO_PARENT, +1.0f,
@@ -400,7 +329,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 * 
 	 * @return Animation - Returns the Animation object.
 	 */
-	public Animation outToLeftAnimation() {
+	private Animation outToLeftAnimation() {
 		if (_debug) Log.v("NotificationViewFlipper.outToLeftAnimation()");
 		Animation outtoLeft = new TranslateAnimation(
 		Animation.RELATIVE_TO_PARENT, 0.0f,
@@ -417,7 +346,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 * 
 	 * @return Animation - Returns the Animation object.
 	 */
-	public Animation inFromLeftAnimation() {
+	private Animation inFromLeftAnimation() {
 		if (_debug) Log.v("NotificationViewFlipper.inFromLeftAnimation()");
 		Animation inFromLeft = new TranslateAnimation(
 		Animation.RELATIVE_TO_PARENT, -1.0f,
@@ -434,7 +363,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 * 
 	 * @return Animation - Returns the Animation object.
 	 */
-	public Animation outToRightAnimation() {
+	private Animation outToRightAnimation() {
 		if (_debug) Log.v("NotificationViewFlipper.outToRightAnimation()");
 		Animation outtoRight = new TranslateAnimation(
 		Animation.RELATIVE_TO_PARENT, 0.0f,
@@ -451,14 +380,12 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 * 
 	 * @param view - The View that we will update.
 	 */
-	public void updateViewNavigationButtons(View view){
+	private void updateViewNavigationButtons(View view){
     	if (_debug) Log.v("NotificationView.updateNavigationButtons()");
-    	Context context = getContext();
-    	SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		Button previousButton = (Button) view.findViewById(R.id.previous_button);
 		TextView notificationCountTextView = (TextView) view.findViewById(R.id.notification_count_text_view);
 		Button nextButton = (Button) view.findViewById(R.id.next_button);
-    	String applicationThemeSetting = preferences.getString(APP_THEME_KEY, ANDROID_THEME);
+    	String applicationThemeSetting = _preferences.getString(APP_THEME_KEY, ANDROID_THEME);
     	previousButton.setEnabled(!isFirstMessage());
     	if(!applicationThemeSetting.equals(ANDROID_THEME)){
 	    	if(isFirstMessage()){
@@ -467,7 +394,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 	    		previousButton.setVisibility(View.VISIBLE);
 	    	}
     	}
-    	notificationCountTextView.setText((getCurrentNotification() + 1) + "/" + getTotalNotifications());
+    	notificationCountTextView.setText((_currentNotification + 1) + "/" + _totalNotifications);
     	nextButton.setEnabled(!isLastMessage());
     	if(!applicationThemeSetting.equals(ANDROID_THEME)){
 	    	if(isLastMessage()){
@@ -478,10 +405,6 @@ public class NotificationViewFlipper extends ViewFlipper {
     	}
 	}
 	
-	//================================================================================
-	// Private Methods
-	//================================================================================
-
 	/**
 	 * Remove all Notifications with this thread ID.
 	 * 
@@ -491,7 +414,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 		if (_debug) Log.v("NotificationViewFlipper.removeNotifications() Thread ID: " + threadID);
 		//Must iterate backwards through this collection.
 		//By removing items from the end, we don't have to worry about shifting index numbers as we would if we removed from the beginning.
-		for(int i = getTotalNotifications() - 1; i >= 0; i--){
+		for(int i = _totalNotifications - 1; i >= 0; i--){
 			if(getNotification(i).getThreadID() == threadID){
 				removeNotification(i);
 			}
@@ -506,8 +429,8 @@ public class NotificationViewFlipper extends ViewFlipper {
 	private void init(Context context) {
 		if (_debug) Log.v("NotificationViewFlipper.init()");
 		_notifications = new ArrayList<Notification>(1);
-		setTotalNotifications(0);
-		setCurrentNotification(0);
+		_totalNotifications = 0;
+		_currentNotification = 0;
 	}
 	
 	/**
@@ -524,22 +447,17 @@ public class NotificationViewFlipper extends ViewFlipper {
 	/**
 	 * Checks the ViewFlipper's notification ArrayList and returns true if it contains this particular Notification.
 	 * 
-	 * @param notification - Notification to compare.
+	 * @param newNotification - New Notification to compare.
 	 * 
 	 * @return boolean - Returns true if the ArrayList contains the passed in Notification.
 	 */
-	private boolean containsNotification(Notification notification) {
+	private boolean containsNotification(Notification newNotification) {
 		if (_debug) Log.v("NotificationViewFlipper.containsNotification()");
-		ArrayList<Notification> notifications = getNotifications();
-		for(int i = 0; i < notifications.size(); i++){
-			String phoneNumber = notifications.get(i).getPhoneNumber();
-			long timeStamp = notifications.get(i).getTimeStamp();
-			if(notification.getPhoneNumber() == phoneNumber && notification.getTimeStamp() == timeStamp){
-				if (_debug) Log.v("NotificationViewFlipper.containsNotification() TRUE");
+		for (Notification currentNotification : _notifications) {
+			if(newNotification.getPhoneNumber() == currentNotification.getPhoneNumber() && newNotification.getTimeStamp() == currentNotification.getTimeStamp()){
 				return true;
 			}
 		}
-		if (_debug) Log.v("NotificationViewFlipper.containsNotification() FALSE");
 		return false;
 	}
 	

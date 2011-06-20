@@ -53,182 +53,19 @@ public class QuickReplyActivity extends Activity {
     //================================================================================
 	
 	private boolean _debug;
-	private Bundle _bundle = null;
 	private Context _context = null;
 	private Button _sendButton = null;
 	private Button _cancelButton = null;
 	private TextView _sendToTextView  = null;
 	private EditText _messageEditText = null;
 	private String _phoneNumber = null;
+	private String _name = null;
 	private String _serviceCenterAddress = null;
+	private SharedPreferences _preferences = null;
 	
 	//================================================================================
 	// Constructors
 	//================================================================================
-	
-	//================================================================================
-	// Accessors
-	//================================================================================
-	  
-	/**
-	 * Set the notificationViewFlipper property.
-	 * 
-	 * @param bundle - The bundle passed into this Activity.
-	 */
-	public void setBundle(Bundle bundle) {
-		if (_debug) Log.v("QuickReplyActivity.setBundle()");
-	    _bundle = bundle;
-	}
-	
-	/**
-	 * Get the notificationViewFlipper property.
-	 * 
-	 * @return Bundle - The bundle passed into this Activity.
-	 */
-	public Bundle getBundle() {
-		if (_debug) Log.v("QuickReplyActivity.getBundle()");
-	    return _bundle;
-	} 
-	
-	/**
-	 * Set the context property.
-	 * 
-	 * @param context - Application's Context.
-	 */
-	public void setContext(Context context) {
-		if (_debug) Log.v("QuickReplyActivity.setContext()");
-	    _context = context;
-	}
-	
-	/**
-	 * Get the context property.
-	 * 
-	 * @return Context - Application's Context.
-	 */
-	public Context getContext() {
-		if (_debug) Log.v("QuickReplyActivity.getContext()");
-	    return _context;
-	}
-	
-	/**
-	 * Set the sendButton property.
-	 * 
-	 * @param sendButton - Send Button.
-	 */
-	public void setSendButton(Button sendButton) {
-		if (_debug) Log.v("QuickReplyActivity.setSendButton()");
-	    _sendButton = sendButton;
-	}
-	
-	/**
-	 * Get the sendButton property.
-	 * 
-	 * @return Button - Send Button.
-	 */
-	public Button getSendButton() {
-		if (_debug) Log.v("QuickReplyActivity.getSendButton()");
-	    return _sendButton;
-	}
-
-	/**
-	 * Set the cancelButton property.
-	 * 
-	 * @param cancelButton - Cancel Button.
-	 */
-	public void setCancelButton(Button cancelButton) {
-		if (_debug) Log.v("QuickReplyActivity.setCancelButton()");
-	    _cancelButton = cancelButton;
-	}
-	
-	/**
-	 * Get the cancelButton property.
-	 * 
-	 * @return Button - Cancel Button.
-	 */
-	public Button getCancelButton() {
-		if (_debug) Log.v("QuickReplyActivity.getCancelButton()");
-	    return _cancelButton;
-	}
-	
-	/**
-	 * Set the sendToTextView property.
-	 * 
-	 * @param sendToTextView - Send message to Text View.
-	 */
-	public void setSendToTextView(TextView sendToTextView) {
-		if (_debug) Log.v("QuickReplyActivity.setSendToTextView()");
-	    _sendToTextView = sendToTextView;
-	}
-	
-	/**
-	 * Get the sendToTextView property.
-	 * 
-	 * @return TextView - Send message to Text View.
-	 */
-	public TextView getSendToTextView() {
-		if (_debug) Log.v("QuickReplyActivity.getSendToTextView()");
-	    return _sendToTextView;
-	}
-	
-	/**
-	 * Set the messageEditText property.
-	 * 
-	 * @param messageEditText - Message Edit Text.
-	 */
-	public void setMessageEditText(EditText messageEditText) {
-		if (_debug) Log.v("QuickReplyActivity.setMessageEditText()");
-	    _messageEditText = messageEditText;
-	}
-	
-	/**
-	 * Get the messageEditText property.
-	 * 
-	 * @return EditText - To Edit Text.
-	 */
-	public EditText getMessageEditText() {
-		if (_debug) Log.v("QuickReplyActivity.getMessageEditText()");
-	    return _messageEditText;
-	}
-	
-	/**
-	 * Get the phoneNumber property.
-	 * 
-	 * @param phoneNumber - The phone number to send the message to.
-	 */
-	public void setPhoneNumber(String phoneNumber) {
-		if (_debug) Log.v("QuickReplyActivity.setPhoneNumber()");
-	    _phoneNumber = phoneNumber;
-	}	
-	
-	/**
-	 * Get the phoneNumber property.
-	 * 
-	 * @return String - The phone number to send the message to.
-	 */
-	public String getPhoneNumber() {
-		if (_debug) Log.v("QuickReplyActivity.getPhoneNumber()");
-	    return _phoneNumber;
-	}
-
-	/**
-	 * Set the serviceCenterAddress property.
-	 * 
-	 * @param serviceCenterAddress - The SMS/MMS service center address.
-	 */
-	public void setServiceCenterAddress(String serviceCenterAddress) {
-		if (_debug) Log.v("Notification.setServiceCenterAddress() ServiceCenterAddress: " + serviceCenterAddress);
-		_serviceCenterAddress = serviceCenterAddress;
-	}
-	
-	/**
-	 * Get the serviceCenterAddress property.
-	 * 
-	 * @return serviceCenterAddress - The SMS/MMS service center address.
-	 */
-	public String getServiceCenterAddress() {
-		if (_debug) Log.v("Notification.getServiceCenterAddress() ServiceCenterAddress: " + _serviceCenterAddress);
-  		return _serviceCenterAddress;
-	}
 	
 	//================================================================================
 	// Public Methods
@@ -257,16 +94,14 @@ public class QuickReplyActivity extends Activity {
 		super.onCreate(bundle);
 		_debug = Log.getDebug();
 	    if (_debug) Log.v("QuickReplyActivity.onCreate()");
-	    Context context = getApplicationContext();
-	    setBundle(bundle);
-	    setContext(context);
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+	    _context = getApplicationContext();
+	    _preferences = PreferenceManager.getDefaultSharedPreferences(_context);
 	    //Don't rotate the Activity when the screen rotates based on the user preferences.
-	    if(!preferences.getBoolean(LANDSCAPE_SCREEN_ENABLED_KEY, false)){
+	    if(!_preferences.getBoolean(LANDSCAPE_SCREEN_ENABLED_KEY, false)){
 	    	this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 	    }
 	    //Set based on the theme. This is set in the user preferences.
-		String applicationThemeSetting = preferences.getString(APP_THEME_KEY, ANDROID_THEME);
+		String applicationThemeSetting = _preferences.getString(APP_THEME_KEY, ANDROID_THEME);
 		int themeResource = R.layout.android_theme_notification;
 		if(applicationThemeSetting.equals(ANDROID_THEME)) themeResource = R.layout.android_theme_smsreply;
 		if(applicationThemeSetting.equals(ANDROID_DARK_THEME)) themeResource = R.layout.android_dark_theme_smsreply;
@@ -275,10 +110,10 @@ public class QuickReplyActivity extends Activity {
 		if(applicationThemeSetting.equals(DARK_TRANSLUCENT_V2_THEME)) themeResource = R.layout.dark_translucent_v2_theme_smsreply;
 		if(applicationThemeSetting.equals(DARK_TRANSLUCENT_V3_THEME)) themeResource = R.layout.dark_translucent_v3_theme_smsreply;		
 	    setContentView(themeResource);  
-	    setSendButton((Button)findViewById(SEND_BUTTON));
-	    setCancelButton((Button)findViewById(CANCEL_BUTTON));
-	    setSendToTextView((TextView)findViewById(SEND_TO_TEXT_VIEW));
-	    setMessageEditText((EditText)findViewById(MESSAGE_EDIT_TEXT));
+	    _sendButton = (Button)findViewById(SEND_BUTTON);
+	    _cancelButton = (Button)findViewById(CANCEL_BUTTON);
+	    _sendToTextView = (TextView)findViewById(SEND_TO_TEXT_VIEW);
+	    _messageEditText = (EditText)findViewById(MESSAGE_EDIT_TEXT);
 	    //Get name and phone number from the Bundle.
 	    Bundle extrasBundle = getIntent().getExtras();
 	    parseQuickReplyParameters(extrasBundle);
@@ -344,40 +179,26 @@ public class QuickReplyActivity extends Activity {
 	//================================================================================
 	
 	/**
-	 * Customized activity finish.
-	 * This closes this activity screen.
-	 */
-	private void finishActivity() {
-		if (_debug) Log.v("QuickReplyActivity.finishActivity()");
-	    // Finish the activity.
-	    finish();
-	}
-
-	/**
 	 * Gets the passed in parameters for this Activity and loads them into the text fields.
 	 * 
 	 * @param bundle - The bundle passed into this Activity.
 	 */
 	private void parseQuickReplyParameters(Bundle bundle){
 		if (_debug) Log.v("QuickReplyActivity.parseQuickReplyParameters()");
-		String phoneNumber = bundle.getString("smsPhoneNumber");
-		setPhoneNumber(phoneNumber);
-		String name = bundle.getString("smsName");
-		//String contactName = bundle.getString("smsContactName");
+		_phoneNumber = bundle.getString("smsPhoneNumber");
+		_name = bundle.getString("smsName");
 		String message = bundle.getString("smsMessage");
-		TextView sendToTextView = getSendToTextView();
-		EditText messageEditText = getMessageEditText();
-		if(phoneNumber == null){
+		if(_phoneNumber == null){
 			if (_debug) Log.v("QuickReplyActivity.parseQuickReplyParameters() Send To number is null. Exiting...");
 			return;
 		}
-		if(!name.equals("")){
-			sendToTextView.setText("To: " + name + " (" + phoneNumber + ")");
+		if(!_name.equals("")){
+			_sendToTextView.setText("To: " + _name + " (" + _phoneNumber + ")");
 		}else{
-			sendToTextView.setText("To: " + phoneNumber);
+			_sendToTextView.setText("To: " + _phoneNumber);
 		}		
 		if(message != null){
-			messageEditText.setText(message);
+			_messageEditText.setText(message);
 		}
 	}
 	
@@ -386,21 +207,19 @@ public class QuickReplyActivity extends Activity {
 	 */
 	private void setupButtons(){
 		if (_debug) Log.v("QuickReplyActivity.setupButtons()");
-	    Button sendButton = getSendButton(); 
-	    sendButton.setOnClickListener(new View.OnClickListener(){
+	    _sendButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view) {
             	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
             	sendSMSMessage(); 
             }
         });
-	    Button cancelButton = getCancelButton(); 
-	    cancelButton.setOnClickListener(new View.OnClickListener(){
+	    _cancelButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view) {
             	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
             	//Set the result for this activity.
             	setResult(RESULT_CANCELED);
             	//Finish Activity.
-            	finishActivity();                
+            	finish();                
             }
         });
 	}
@@ -410,14 +229,11 @@ public class QuickReplyActivity extends Activity {
 	 */
 	private void sendSMSMessage(){
 		if (_debug) Log.v("QuickReplyActivity.sendSMSMessage()");
-		String phoneNumber = getPhoneNumber();
-		String serviceCenterAddress = getServiceCenterAddress();
-		EditText messageEditText = getMessageEditText();
-        String message = messageEditText.getText().toString();                 
-        if(phoneNumber.length()>0 && message.length()>0){                
-            sendSMS(phoneNumber, serviceCenterAddress, message);                
+        String message = _messageEditText.getText().toString();                 
+        if(_phoneNumber.length()>0 && message.length()>0){                
+            sendSMS(_phoneNumber, _serviceCenterAddress, message);                
         }else{
-        	if(phoneNumber.length()<= 0){
+        	if(_phoneNumber.length()<= 0){
         		Toast.makeText(getBaseContext(), getString(R.string.phone_number_error_text), Toast.LENGTH_SHORT).show();
         	}else if(message.length()<= 0){
         		Toast.makeText(getBaseContext(), getString(R.string.message_error_text), Toast.LENGTH_SHORT).show();
@@ -481,7 +297,7 @@ public class QuickReplyActivity extends Activity {
         //Set the result for this activity.
         setResult(RESULT_OK);
         //Finish Activity.
-        finishActivity();
+        finish();
     }
 	
 	/**
@@ -492,17 +308,16 @@ public class QuickReplyActivity extends Activity {
 	 */
 	private void customPerformHapticFeedback(int hapticFeedbackConstant){
 		if (_debug) Log.v("QuickReplyActivity.customPerformHapticFeedback()");
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
 		Vibrator vibrator = null;
 		try{
 			vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
 			//Perform the haptic feedback based on the users preferences.
-			if(preferences.getBoolean(HAPTIC_FEEDBACK_ENABLED_KEY, true)){
+			if(_preferences.getBoolean(HAPTIC_FEEDBACK_ENABLED_KEY, true)){
 				if(hapticFeedbackConstant == HapticFeedbackConstants.VIRTUAL_KEY){
 					if(vibrator != null) vibrator.vibrate(50);
 				}
 			}
-			if(preferences.getBoolean(HAPTIC_FEEDBACK_ENABLED_KEY, true)){
+			if(_preferences.getBoolean(HAPTIC_FEEDBACK_ENABLED_KEY, true)){
 				if(hapticFeedbackConstant == HapticFeedbackConstants.LONG_PRESS){
 					if(vibrator != null) vibrator.vibrate(100);
 				}
