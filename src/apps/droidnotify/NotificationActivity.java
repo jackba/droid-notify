@@ -47,80 +47,80 @@ public class NotificationActivity extends Activity {
     // Constants
     //================================================================================
 	
-	private final String DROID_NOTIFY_WAKELOCK = "DROID_NOTIFY_WAKELOCK";
-	private final String DROID_NOTIFY_KEYGUARD = "DROID_NOTIFY_KEYGUARD";
+	private static final String DROID_NOTIFY_WAKELOCK = "DROID_NOTIFY_WAKELOCK";
+	private static final String DROID_NOTIFY_KEYGUARD = "DROID_NOTIFY_KEYGUARD";
 
-	private final int NOTIFICATION_TYPE_TEST = -1;
-	private final int NOTIFICATION_TYPE_PHONE = 0;
-	private final int NOTIFICATION_TYPE_SMS = 1;
-	private final int NOTIFICATION_TYPE_MMS = 2;
-	private final int NOTIFICATION_TYPE_CALENDAR = 3;
-	private final int NOTIFICATION_TYPE_EMAIL = 4;
+	private static final int NOTIFICATION_TYPE_TEST = -1;
+	private static final int NOTIFICATION_TYPE_PHONE = 0;
+	private static final int NOTIFICATION_TYPE_SMS = 1;
+	private static final int NOTIFICATION_TYPE_MMS = 2;
+	private static final int NOTIFICATION_TYPE_CALENDAR = 3;
+	private static final int NOTIFICATION_TYPE_EMAIL = 4;
 
-	private final int ADD_CONTACT_ACTIVITY = 1;
-	private final int EDIT_CONTACT_ACTIVITY = 2;
-	private final int VIEW_CONTACT_ACTIVITY = 3;
-	private final int SEND_SMS_ACTIVITY = 4;
-	private final int MESSAGING_ACTIVITY = 5;
-	private final int VIEW_SMS_MESSAGE_ACTIVITY = 6;
-	private final int VIEW_SMS_THREAD_ACTIVITY = 7;
-	private final int CALL_ACTIVITY = 8;
-	//private final int CALENDAR_ACTIVITY = 9;
-	private final int ADD_CALENDAR_ACTIVITY = 10;
-	private final int EDIT_CALENDAR_ACTIVITY = 11;
-	private final int VIEW_CALENDAR_ACTIVITY = 12;
+	private static final int ADD_CONTACT_ACTIVITY = 1;
+	private static final int EDIT_CONTACT_ACTIVITY = 2;
+	private static final int VIEW_CONTACT_ACTIVITY = 3;
+	private static final int SEND_SMS_ACTIVITY = 4;
+	private static final int MESSAGING_ACTIVITY = 5;
+	private static final int VIEW_SMS_MESSAGE_ACTIVITY = 6;
+	private static final int VIEW_SMS_THREAD_ACTIVITY = 7;
+	private static final int CALL_ACTIVITY = 8;
+	//private static final int CALENDAR_ACTIVITY = 9;
+	private static final int ADD_CALENDAR_ACTIVITY = 10;
+	private static final int EDIT_CALENDAR_ACTIVITY = 11;
+	private static final int VIEW_CALENDAR_ACTIVITY = 12;
 	
-	private final String SCREEN_ENABLED_KEY = "screen_enabled";
-	private final String SCREEN_DIM_ENABLED_KEY = "screen_dim_enabled";
-	private final String KEYGUARD_ENABLED_KEY = "keyguard_enabled";	
-	private final String MISSED_CALL_VIBRATE_ENABLED_KEY = "missed_call_vibrate_enabled";
-	private final String SMS_VIBRATE_ENABLED_KEY = "sms_vibrate_enabled";
-	private final String MMS_VIBRATE_ENABLED_KEY = "mms_vibrate_enabled";
-	private final String CALENDAR_VIBRATE_ENABLED_KEY = "calendar_vibrate_enabled";
-	private final String HAPTIC_FEEDBACK_ENABLED_KEY = "haptic_feedback_enabled";
-	private final String SMS_DELETE_KEY = "sms_delete_button_action";
-	private final String MMS_DELETE_KEY = "mms_delete_button_action";
-	private final String WAKELOCK_TIMEOUT_KEY = "wakelock_timeout_settings";
-	private final String KEYGUARD_TIMEOUT_KEY = "keyguard_timeout_settings";
-	private final String MISSED_CALL_RINGTONE_ENABLED_KEY = "missed_call_ringtone_enabled";
-	private final String SMS_RINGTONE_ENABLED_KEY = "sms_ringtone_enabled";
-	private final String MMS_RINGTONE_ENABLED_KEY = "mms_ringtone_enabled";
-	private final String CALENDAR_RINGTONE_ENABLED_KEY = "calendar_ringtone_enabled";
-	private final String ALL_VIBRATE_ENABLED_KEY = "app_vibrations_enabled";
-	private final String ALL_RINGTONE_ENABLED_KEY = "app_ringtones_enabled";
-	private final String SMS_RINGTONE_KEY = "sms_ringtone_audio";
-	private final String MMS_RINGTONE_KEY = "mms_ringtone_audio";
-	private final String MISSED_CALL_RINGTONE_KEY = "missed_call_ringtone_audio";
-	private final String CALENDAR_RINGTONE_KEY = "calendar_ringtone_audio";
-	private final String RINGTONE_LENGTH_KEY = "ringtone_length_settings";
-	private final String SMS_DISPLAY_UNREAD_KEY = "sms_display_unread_enabled";
-	private final String SMS_CONFIRM_DELETION_KEY = "confirm_sms_deletion_enabled";
-	private final String MMS_CONFIRM_DELETION_KEY = "confirm_mms_deletion_enabled";
-	private final String LANDSCAPE_SCREEN_ENABLED_KEY = "landscape_screen_enabled";
+	private static final String SCREEN_ENABLED_KEY = "screen_enabled";
+	private static final String SCREEN_DIM_ENABLED_KEY = "screen_dim_enabled";
+	private static final String KEYGUARD_ENABLED_KEY = "keyguard_enabled";	
+	private static final String MISSED_CALL_VIBRATE_ENABLED_KEY = "missed_call_vibrate_enabled";
+	private static final String SMS_VIBRATE_ENABLED_KEY = "sms_vibrate_enabled";
+	private static final String MMS_VIBRATE_ENABLED_KEY = "mms_vibrate_enabled";
+	private static final String CALENDAR_VIBRATE_ENABLED_KEY = "calendar_vibrate_enabled";
+	private static final String HAPTIC_FEEDBACK_ENABLED_KEY = "haptic_feedback_enabled";
+	private static final String SMS_DELETE_KEY = "sms_delete_button_action";
+	private static final String MMS_DELETE_KEY = "mms_delete_button_action";
+	private static final String WAKELOCK_TIMEOUT_KEY = "wakelock_timeout_settings";
+	private static final String KEYGUARD_TIMEOUT_KEY = "keyguard_timeout_settings";
+	private static final String MISSED_CALL_RINGTONE_ENABLED_KEY = "missed_call_ringtone_enabled";
+	private static final String SMS_RINGTONE_ENABLED_KEY = "sms_ringtone_enabled";
+	private static final String MMS_RINGTONE_ENABLED_KEY = "mms_ringtone_enabled";
+	private static final String CALENDAR_RINGTONE_ENABLED_KEY = "calendar_ringtone_enabled";
+	private static final String ALL_VIBRATE_ENABLED_KEY = "app_vibrations_enabled";
+	private static final String ALL_RINGTONE_ENABLED_KEY = "app_ringtones_enabled";
+	private static final String SMS_RINGTONE_KEY = "sms_ringtone_audio";
+	private static final String MMS_RINGTONE_KEY = "mms_ringtone_audio";
+	private static final String MISSED_CALL_RINGTONE_KEY = "missed_call_ringtone_audio";
+	private static final String CALENDAR_RINGTONE_KEY = "calendar_ringtone_audio";
+	private static final String RINGTONE_LENGTH_KEY = "ringtone_length_settings";
+	private static final String SMS_DISPLAY_UNREAD_KEY = "sms_display_unread_enabled";
+	private static final String SMS_CONFIRM_DELETION_KEY = "confirm_sms_deletion_enabled";
+	private static final String MMS_CONFIRM_DELETION_KEY = "confirm_mms_deletion_enabled";
+	private static final String LANDSCAPE_SCREEN_ENABLED_KEY = "landscape_screen_enabled";
 	
-	private final String SMS_DELETE_ACTION_DELETE_MESSAGE = "0";
-	private final String SMS_DELETE_ACTION_DELETE_THREAD = "1";
-	private final String SMS_DELETE_ACTION_NOTHING = "2";
-	private final String MMS_DELETE_ACTION_DELETE_MESSAGE = "0";
-	private final String MMS_DELETE_ACTION_DELETE_THREAD = "1";
-	private final String MMS_DELETE_ACTION_NOTHING = "2";
+	private static final String SMS_DELETE_ACTION_DELETE_MESSAGE = "0";
+	private static final String SMS_DELETE_ACTION_DELETE_THREAD = "1";
+	private static final String SMS_DELETE_ACTION_NOTHING = "2";
+	private static final String MMS_DELETE_ACTION_DELETE_MESSAGE = "0";
+	private static final String MMS_DELETE_ACTION_DELETE_THREAD = "1";
+	private static final String MMS_DELETE_ACTION_NOTHING = "2";
 	
-	private final int DIALOG_DELETE_MESSAGE = 0;
+	private static final int DIALOG_DELETE_MESSAGE = 0;
 	
-	private final int MENU_ITEM_SETTINGS = R.id.app_settings;
-	private final int CONTACT_WRAPPER_LINEAR_LAYOUT = R.id.contact_wrapper_linear_layout;
-	private final int VIEW_CONTACT_CONTEXT_MENU = R.id.view_contact;
-	private final int ADD_CONTACT_CONTEXT_MENU = R.id.add_contact;
-	private final int CALL_CONTACT_CONTEXT_MENU = R.id.call_contact;
-	private final int TEXT_CONTACT_CONTEXT_MENU = R.id.text_contact;	
-	private final int EDIT_CONTACT_CONTEXT_MENU = R.id.edit_contact;
-	private final int ADD_EVENT_CONTEXT_MENU = R.id.add_calendar_event;
-	private final int EDIT_EVENT_CONTEXT_MENU = R.id.edit_calendar_event;
-	private final int VIEW_THREAD_CONTEXT_MENU = R.id.view_thread;
-	private final int MESSAGING_INBOX_CONTEXT_MENU = R.id.messaging_inbox;
+	private static final int MENU_ITEM_SETTINGS = R.id.app_settings;
+	private static final int CONTACT_WRAPPER_LINEAR_LAYOUT = R.id.contact_wrapper_linear_layout;
+	private static final int VIEW_CONTACT_CONTEXT_MENU = R.id.view_contact;
+	private static final int ADD_CONTACT_CONTEXT_MENU = R.id.add_contact;
+	private static final int CALL_CONTACT_CONTEXT_MENU = R.id.call_contact;
+	private static final int TEXT_CONTACT_CONTEXT_MENU = R.id.text_contact;	
+	private static final int EDIT_CONTACT_CONTEXT_MENU = R.id.edit_contact;
+	private static final int ADD_EVENT_CONTEXT_MENU = R.id.add_calendar_event;
+	private static final int EDIT_EVENT_CONTEXT_MENU = R.id.edit_calendar_event;
+	private static final int VIEW_THREAD_CONTEXT_MENU = R.id.view_thread;
+	private static final int MESSAGING_INBOX_CONTEXT_MENU = R.id.messaging_inbox;
 	
-	private final String EVENT_BEGIN_TIME = "beginTime";
-	private final String EVENT_END_TIME = "endTime";
+	private static final String EVENT_BEGIN_TIME = "beginTime";
+	private static final String EVENT_END_TIME = "endTime";
 		
 	//================================================================================
     // Properties

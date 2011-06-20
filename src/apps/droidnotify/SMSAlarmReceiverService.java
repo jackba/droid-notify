@@ -15,7 +15,7 @@ public class SMSAlarmReceiverService extends WakefulIntentService {
     // Constants
     //================================================================================
 	
-	private final int NOTIFICATION_TYPE_SMS = 1;
+	private static final int NOTIFICATION_TYPE_SMS = 1;
 	
 	//================================================================================
     // Properties

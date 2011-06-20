@@ -41,18 +41,18 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
     // Constants
     //================================================================================
 	
-	private final int NOTIFICATION_TYPE_CALENDAR = 3;
+	private static final int NOTIFICATION_TYPE_CALENDAR = 3;
 	
-	private final String _ID = "_id";
-	private final String CALENDAR_EVENT_ID = "event_id"; 
-	private final String CALENDAR_EVENT_TITLE = "title"; 
-    private final String CALENDAR_INSTANCE_BEGIN = "begin"; 
-    private final String CALENDAR_INSTANCE_END = "end"; 
-    private final String CALENDAR_EVENT_ALL_DAY = "allDay"; 
-    private final String CALENDAR_DISPLAY_NAME = "displayName"; 
-    private final String CALENDAR_SELECTED = "selected"; 
-    private final String CALENDAR_REMINDER_KEY = "calendar_reminder_settings";
-    private final String CALENDAR_REMINDER_ALL_DAY_KEY = "calendar_reminder_all_day_settings";
+	private static final String _ID = "_id";
+	private static final String CALENDAR_EVENT_ID = "event_id"; 
+	private static final String CALENDAR_EVENT_TITLE = "title"; 
+    private static final String CALENDAR_INSTANCE_BEGIN = "begin"; 
+    private static final String CALENDAR_INSTANCE_END = "end"; 
+    private static final String CALENDAR_EVENT_ALL_DAY = "allDay"; 
+    private static final String CALENDAR_DISPLAY_NAME = "displayName"; 
+    private static final String CALENDAR_SELECTED = "selected"; 
+    private static final String CALENDAR_REMINDER_KEY = "calendar_reminder_settings";
+    private static final String CALENDAR_REMINDER_ALL_DAY_KEY = "calendar_reminder_all_day_settings";
     
 	//================================================================================
     // Properties

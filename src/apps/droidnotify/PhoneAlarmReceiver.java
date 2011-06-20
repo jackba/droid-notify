@@ -20,9 +20,9 @@ public class PhoneAlarmReceiver extends BroadcastReceiver {
     // Constants
     //================================================================================
     
-	private final String APP_ENABLED_KEY = "app_enabled";
-	private final String MISSED_CALL_NOTIFICATIONS_ENABLED_KEY = "missed_call_notifications_enabled";
-	private final String RESCHEDULE_NOTIFICATION_TIMEOUT_KEY = "reschedule_notification_timeout_settings";
+	private static final String APP_ENABLED_KEY = "app_enabled";
+	private static final String MISSED_CALL_NOTIFICATIONS_ENABLED_KEY = "missed_call_notifications_enabled";
+	private static final String RESCHEDULE_NOTIFICATION_TIMEOUT_KEY = "reschedule_notification_timeout_settings";
 	
 	//================================================================================
     // Properties

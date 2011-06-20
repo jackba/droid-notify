@@ -19,8 +19,8 @@ public class CalendarOnBootReceiver extends BroadcastReceiver {
     // Constants
     //================================================================================
     
-	private final String APP_ENABLED_KEY = "app_enabled";
-	private final String CALENDAR_NOTIFICATIONS_ENABLED_KEY = "calendar_notifications_enabled";
+	private static final String APP_ENABLED_KEY = "app_enabled";
+	private static final String CALENDAR_NOTIFICATIONS_ENABLED_KEY = "calendar_notifications_enabled";
 
 	//================================================================================
     // Properties

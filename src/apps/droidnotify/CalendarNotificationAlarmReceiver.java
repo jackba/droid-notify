@@ -20,9 +20,9 @@ public class CalendarNotificationAlarmReceiver extends BroadcastReceiver {
     // Constants
     //================================================================================
     
-	private final String APP_ENABLED_KEY = "app_enabled";
-	private final String CALENDAR_NOTIFICATIONS_ENABLED_KEY = "calendar_notifications_enabled";
-	private final String RESCHEDULE_NOTIFICATION_TIMEOUT_KEY = "reschedule_notification_timeout_settings";
+	private static final String APP_ENABLED_KEY = "app_enabled";
+	private static final String CALENDAR_NOTIFICATIONS_ENABLED_KEY = "calendar_notifications_enabled";
+	private static final String RESCHEDULE_NOTIFICATION_TIMEOUT_KEY = "reschedule_notification_timeout_settings";
 	
 	//================================================================================
     // Properties

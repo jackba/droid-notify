@@ -35,23 +35,24 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
     //================================================================================
 	
 	//Google Market URL
-	private final String RATE_APP_ANDROID_URL = "http://market.android.com/details?id=apps.droidnotify";
+	private static final String RATE_APP_ANDROID_URL = "http://market.android.com/details?id=apps.droidnotify";
 	//Amazon Appstore URL
-	private final String RATE_APP_AMAZON_URL = "http://www.amazon.com/gp/mas/dl/android?p=apps.droidnotify";
+	private static final String RATE_APP_AMAZON_URL = "http://www.amazon.com/gp/mas/dl/android?p=apps.droidnotify";
 	
-	private final String APP_ENABLED_KEY = "app_enabled";
-	private final String CALENDAR_NOTIFICATIONS_ENABLED_KEY = "calendar_notifications_enabled";
-	private final String LANDSCAPE_SCREEN_ENABLED_KEY = "landscape_screen_enabled";
+	private static final String APP_ENABLED_KEY = "app_enabled";
+	private static final String CALENDAR_NOTIFICATIONS_ENABLED_KEY = "calendar_notifications_enabled";
+	private static final String LANDSCAPE_SCREEN_ENABLED_KEY = "landscape_screen_enabled";
 	
-	private final int NOTIFICATION_TYPE_TEST = -1;
+	private static final int NOTIFICATION_TYPE_TEST = -1;
 	
 	//================================================================================
     // Properties
     //================================================================================
 
-    private Context _context;
-    private boolean _debug;
-    private boolean _debugCalendar;
+    private boolean _debug = false;
+    private Context _context = null;
+    private boolean _debugCalendar = false;
+    private SharedPreferences _preferences = null;
 
 	//================================================================================
 	// Constructors
@@ -60,26 +61,6 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 	//================================================================================
 	// Accessors
 	//================================================================================
-
-	/**
-	 * Set the context property.
-	 * 
-	 * @param context - Application Context.
-	 */
-	public void setContext(Context context) {
-		if (_debug) Log.v("DroidNotifyPreferenceActivity.setContext()");
-	    _context = context;
-	}
-	
-	/**
-	 * Get the context property.
-	 * 
-	 * @return context - Application Context.
-	 */
-	public Context getContext() {
-		if (_debug) Log.v("DroidNotifyPreferenceActivity.getContext()");
-	    return _context;
-	}
 	
 	//================================================================================
 	// Public Methods
@@ -94,13 +75,12 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	    _debug = Log.getDebug();
-	    _debugCalendar = Log.getDebugCalendar();
 	    if (_debug) Log.v("DroidNotifyPreferenceActivity.onCreate()");
-	    Context context = DroidNotifyPreferenceActivity.this;
-	    setContext(context);
-	    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+	    _debugCalendar = Log.getDebugCalendar();
+	    _context = DroidNotifyPreferenceActivity.this;
+	    _preferences = PreferenceManager.getDefaultSharedPreferences(_context);
 	    //Don't rotate the Activity when the screen rotates based on the user preferences.
-	    if(!preferences.getBoolean(LANDSCAPE_SCREEN_ENABLED_KEY, false)){
+	    if(!_preferences.getBoolean(LANDSCAPE_SCREEN_ENABLED_KEY, false)){
 	    	this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 	    }
 	    addPreferencesFromResource(R.xml.preferences);
@@ -172,27 +152,25 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 	 */
 	private void runOnceAlarmManager(){
 		if (_debug) Log.v("DroidNotifyPreferenceActivity.runOnceAlarmManager()");
-		Context context = getContext();
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		//Read preferences and exit if app is disabled.
-	    if(!preferences.getBoolean(APP_ENABLED_KEY, true)){
+	    if(!_preferences.getBoolean(APP_ENABLED_KEY, true)){
 			if (_debug) Log.v("DroidNotifyPreferenceActivity.runOnceAlarmManager() App Disabled. Exiting...");
 			return;
 		}
 		//Read preferences and exit if calendar notifications are disabled.
-	    if(!preferences.getBoolean(CALENDAR_NOTIFICATIONS_ENABLED_KEY, true)){
+	    if(!_preferences.getBoolean(CALENDAR_NOTIFICATIONS_ENABLED_KEY, true)){
 			if (_debug) Log.v("DroidNotifyPreferenceActivity.runOnceAlarmManager() Calendar Notifications Disabled. Exiting... ");
 			return;
 		}
-		boolean runOnce = preferences.getBoolean("runOnce", true);
+		boolean runOnce = _preferences.getBoolean("runOnce", true);
 		if(runOnce || _debugCalendar) {
-			SharedPreferences.Editor editor = preferences.edit();
+			SharedPreferences.Editor editor = _preferences.edit();
 			editor.putBoolean("runOnce", false);
 			editor.commit();
 			//Schedule the reading of the calendar events.
-			AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-			Intent intent = new Intent(context, CalendarAlarmReceiver.class);
-			PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+			AlarmManager alarmManager = (AlarmManager) _context.getSystemService(Context.ALARM_SERVICE);
+			Intent intent = new Intent(_context, CalendarAlarmReceiver.class);
+			PendingIntent pendingIntent = PendingIntent.getBroadcast(_context, 0, intent, 0);
 			//--------------------------------
 			//Set alarm to go off 30 seconds from the current time.
 			//This line of code is for testing.
@@ -207,11 +185,9 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 	 */
 	private void runOnceEula(){
 		if (_debug) Log.v("DroidNotifyPreferenceActivity.runOnceEula()");
-		Context context = getContext();
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-		boolean runOnceEula = preferences.getBoolean("runOnceEula", true);
+		boolean runOnceEula = _preferences.getBoolean("runOnceEula", true);
 		if(runOnceEula) {
-			SharedPreferences.Editor editor = preferences.edit();
+			SharedPreferences.Editor editor = _preferences.edit();
 			editor.putBoolean("runOnceEula", false);
 			editor.commit();
 			AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
@@ -237,17 +213,16 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 		testAppPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
         	public boolean onPreferenceClick(Preference preference) {
 		    	if (_debug) Log.v("Test Notifications Button Clicked()");
-		    	Context context = getContext();
 		    	Bundle bundle = new Bundle();
 				bundle.putInt("notificationType", NOTIFICATION_TYPE_TEST);
-		    	Intent intent = new Intent(context, NotificationActivity.class);
+		    	Intent intent = new Intent(_context, NotificationActivity.class);
 		    	intent.putExtras(bundle);
 		    	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
 		    	try{
 		    		startActivity(intent);
 		    	}catch(Exception ex){
 	 	    		if (_debug) Log.e("DroidNotifyPreferenceActivity.setupCustomPreferences() Test Notifications Button ERROR: " + ex.toString());
-	 	    		Toast.makeText(context, context.getString(R.string.app_android_test_app_error), Toast.LENGTH_SHORT).show();
+	 	    		Toast.makeText(_context, _context.getString(R.string.app_android_test_app_error), Toast.LENGTH_SHORT).show();
 	 	    		return false;
 		    	}
 	            return true;
@@ -258,7 +233,6 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 		rateAppPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
         	public boolean onPreferenceClick(Preference preference) {
 		    	if (_debug) Log.v("Rate This App Button Clicked()");
-		    	Context context = getContext();
 		    	Intent intent = new Intent(Intent.ACTION_VIEW);
 		    	//Direct To Market App
 		    	//intent.setData(Uri.parse("market://details?id=apps.droidnotify"));
@@ -272,7 +246,7 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 		    		startActivity(intent);
 		    	}catch(Exception ex){
 	 	    		if (_debug) Log.e("DroidNotifyPreferenceActivity.setupCustomPreferences() Rate This App Button ERROR: " + ex.toString());
-	 	    		Toast.makeText(context, context.getString(R.string.app_android_rate_app_error), Toast.LENGTH_SHORT).show();
+	 	    		Toast.makeText(_context, _context.getString(R.string.app_android_rate_app_error), Toast.LENGTH_SHORT).show();
 	 	    		return false;
 		    	}
 	            return true;
@@ -283,7 +257,6 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 		emailDeveloperPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
         	public boolean onPreferenceClick(Preference preference) {
 		    	if (_debug) Log.v("Email Developer Button Clicked()");
-		    	Context context = getContext();
 		    	Intent intent = new Intent(android.content.Intent.ACTION_SEND);
 		    	intent.setType("plain/text");
 		    	intent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{ "droidnotify@gmail.com"});
@@ -292,7 +265,7 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 		    		startActivity(intent);
 		    	}catch(Exception ex){
 	 	    		if (_debug) Log.e("DroidNotifyPreferenceActivity.setupCustomPreferences() Email Developer Button ERROR: " + ex.toString());
-	 	    		Toast.makeText(context, context.getString(R.string.app_android_email_app_error), Toast.LENGTH_SHORT).show();
+	 	    		Toast.makeText(_context, _context.getString(R.string.app_android_email_app_error), Toast.LENGTH_SHORT).show();
 	 	    		return false;
 		    	}
 	            return true;
@@ -303,7 +276,6 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 		emailDeveloperLogsPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
         	public boolean onPreferenceClick(Preference preference) {
 		    	if (_debug) Log.v("Email Developer Logs Button Clicked()");
-		    	Context context = getContext();
 		    	Intent intent = new Intent(android.content.Intent.ACTION_SEND);
 		    	intent.setType("plain/text");
 		    	intent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{ "droidnotify@gmail.com"});
@@ -323,7 +295,7 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 		    		startActivity(intent);
 		    	}catch(Exception ex){
 	 	    		if (_debug) Log.e("DroidNotifyPreferenceActivity.setupCustomPreferences() Email Developer Logs Button ERROR: " + ex.toString());
-	 	    		Toast.makeText(context, context.getString(R.string.app_android_email_app_error), Toast.LENGTH_SHORT).show();
+	 	    		Toast.makeText(_context, _context.getString(R.string.app_android_email_app_error), Toast.LENGTH_SHORT).show();
 	 	    		return false;
 		    	}
 	            return true;
@@ -415,7 +387,7 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
     			if (_debug) Log.e("DroidNotifyPreferenceActivity.clearDeveloperLogs() ERROR: " + ex.toString());
 			}
     	}
-    	Toast.makeText(getContext(), "The application logs have been cleared.", Toast.LENGTH_SHORT).show();
+    	Toast.makeText(_context, "The application logs have been cleared.", Toast.LENGTH_SHORT).show();
 	}
 	
 }

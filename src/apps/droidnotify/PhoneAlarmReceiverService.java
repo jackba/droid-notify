@@ -19,8 +19,8 @@ public class PhoneAlarmReceiverService extends WakefulIntentService {
     // Constants
     //================================================================================
 	
-	private final int NOTIFICATION_TYPE_PHONE = 0;
-	private final int MISSED_CALL_TYPE = android.provider.CallLog.Calls.MISSED_TYPE;
+	private static final int NOTIFICATION_TYPE_PHONE = 0;
+	private static final int MISSED_CALL_TYPE = android.provider.CallLog.Calls.MISSED_TYPE;
 	
 	//================================================================================
     // Properties
