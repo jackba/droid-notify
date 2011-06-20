@@ -50,6 +50,19 @@ public class NotificationView extends LinearLayout {
 	private final int NOTIFICATION_TYPE_CALENDAR = 3;
 	private final int NOTIFICATION_TYPE_EMAIL = 4;
 	
+	//private final int ADD_CONTACT_ACTIVITY = 1;
+	//private final int EDIT_CONTACT_ACTIVITY = 2;
+	//private final int VIEW_CONTACT_ACTIVITY = 3;
+	private final int SEND_SMS_ACTIVITY = 4;
+	//private final int MESSAGING_ACTIVITY = 5;
+	//private final int VIEW_SMS_MESSAGE_ACTIVITY = 6;
+	//private final int VIEW_SMS_THREAD_ACTIVITY = 7;
+	private final int CALL_ACTIVITY = 8;
+	//private final int CALENDAR_ACTIVITY = 9;
+	//private final int ADD_CALENDAR_ACTIVITY = 10;
+	//private final int EDIT_CALENDAR_ACTIVITY = 11;
+	private final int VIEW_CALENDAR_ACTIVITY = 12;
+	
 	private final String HAPTIC_FEEDBACK_ENABLED_KEY = "haptic_feedback_enabled";
 	private final String SMS_REPLY_BUTTON_ACTION_KEY = "sms_reply_button_action";
 	private final String CONTACT_PLACEHOLDER_KEY = "contact_placeholder";
@@ -87,7 +100,7 @@ public class NotificationView extends LinearLayout {
 	private LinearLayout _smsButtonLinearLayout = null;
 	private LinearLayout _calendarButtonLinearLayout = null;
 	private Notification _notification = null;
-	private float _oldTouchValue;
+	private NotificationActivity _notificationActivity = null;
 
 	//================================================================================
 	// Constructors
@@ -372,25 +385,25 @@ public class NotificationView extends LinearLayout {
 		if (_debug) Log.v("NotificationView.getCalendarButtonLinearLayout()");
 	    return _calendarButtonLinearLayout;
 	}
-
+	
 	/**
-	 * Set the oldTouchValue property.
+	 * Set the notificationActivity property.
 	 * 
-	 * @param oldTouchValue - The touch value of a MotionEvent.
+	 * @param notificationActivity - Applications' Activity.
 	 */
-	public void setOldTouchValue(float oldTouchValue) {
-		if (_debug) Log.v("NotificationView.setOldTouchValue()");
-	    _oldTouchValue = oldTouchValue;
+	public void setNotificationActivity(NotificationActivity notificationActivity) {
+		if (_debug) Log.v("NotificationView.seNotificationActivity()");
+	    _notificationActivity = notificationActivity;
 	}
 	
 	/**
-	 * Get the oldTouchValue property.
+	 * Get the notificationActivity property.
 	 * 
-	 * @return oldTouchValue - The touch value of a MotionEvent.
+	 * @return notificationActivity - Applications' Activity.
 	 */
-	public float getOldTouchValue() {
-		if (_debug) Log.v("NotificationView.getOldTouchValue()");
-	    return _oldTouchValue;
+	public NotificationActivity getNotificationActivity() {
+		if (_debug) Log.v("NotificationView.getNotificationActivity()");
+	    return _notificationActivity;
 	}
 	
 	//================================================================================
@@ -434,8 +447,10 @@ public class NotificationView extends LinearLayout {
 	    setPhoneButtonLinearLayout((LinearLayout) findViewById(R.id.phone_button_linear_layout));
 	    setSMSButtonLinearLayout((LinearLayout) findViewById(R.id.sms_button_linear_layout));
 		setCalendarButtonLinearLayout((LinearLayout) findViewById(R.id.calendar_button_linear_layout));
-		setContactLinearLayout((LinearLayout) findViewById(R.id.contact_wrapper_linear_layout));	
-		setNotificationViewFlipper(((NotificationActivity)context).getNotificationViewFlipper());
+		setContactLinearLayout((LinearLayout) findViewById(R.id.contact_wrapper_linear_layout));
+		NotificationActivity notificationActivity = (NotificationActivity)context;
+		setNotificationActivity(notificationActivity);
+		setNotificationViewFlipper(notificationActivity.getNotificationViewFlipper());
 	}
 
 	/**
@@ -781,10 +796,11 @@ public class NotificationView extends LinearLayout {
 		if (_debug) Log.v("NotificationView.replyToMessage()");
 		//Setup Reply action.
 		Context context = getContext();
+		NotificationActivity notificationActivity = getNotificationActivity();
 		Notification notification = getNotification();
 		String phoneNumber = notification.getPhoneNumber();
 		if(phoneNumber == null){
-			Toast.makeText(context, context.getString(R.string.app_android_reply_messaging_address_error), Toast.LENGTH_SHORT).show();
+			Toast.makeText(context, context.getString(R.string.app_android_reply_messaging_address_error), Toast.LENGTH_LONG).show();
 			return;
 		}
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
@@ -793,16 +809,15 @@ public class NotificationView extends LinearLayout {
 			try{
 				Intent intent = new Intent(Intent.ACTION_VIEW);
 			    intent.setType("vnd.android-dir/mms-sms");
-		        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-		        		| Intent.FLAG_ACTIVITY_SINGLE_TOP
+		        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP
 		        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
 		        		| Intent.FLAG_ACTIVITY_NO_HISTORY
 		        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
 			    intent.putExtra("address", phoneNumber);
-			    context.startActivity(intent);
+		        notificationActivity.startActivityForResult(intent,SEND_SMS_ACTIVITY);
 			}catch(Exception ex){
 				if (_debug) Log.e("NotificationView.replyToMessage() Android Reply ERROR: " + ex.toString());
-				Toast.makeText(context, context.getString(R.string.app_android_messaging_app_error), Toast.LENGTH_SHORT).show();
+				Toast.makeText(context, context.getString(R.string.app_android_messaging_app_error), Toast.LENGTH_LONG).show();
 				return;
 			}
 		}	
@@ -811,6 +826,8 @@ public class NotificationView extends LinearLayout {
 			try{
 				Intent intent = new Intent(context, QuickReplyActivity.class);
 		        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP
+		        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
+		        		| Intent.FLAG_ACTIVITY_NO_HISTORY
 		        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
 		        if (_debug) Log.v("NotificationView.replyToMessage() Put bundle in intent");
 			    intent.putExtra("smsPhoneNumber", phoneNumber);
@@ -820,15 +837,13 @@ public class NotificationView extends LinearLayout {
 			    	intent.putExtra("smsName", "");
 			    }
 			    intent.putExtra("smsMessage", "");
-			    context.startActivity(intent);
+		        notificationActivity.startActivityForResult(intent,SEND_SMS_ACTIVITY);
 			}catch(Exception ex){
 				if (_debug) Log.e("NotificationView.replyToMessage() Quick Reply ERROR: " + ex.toString());
-				Toast.makeText(context, context.getString(R.string.app_android_quick_reply_app_error), Toast.LENGTH_SHORT).show();
+				Toast.makeText(context, context.getString(R.string.app_android_quick_reply_app_error), Toast.LENGTH_LONG).show();
 				return;
 			}
 		}
-		//Remove notification from ViewFlipper.
-		getNotificationViewFlipper().removeActiveNotification();
 	}
 	
 	/**
@@ -838,6 +853,7 @@ public class NotificationView extends LinearLayout {
 	private void makePhoneCall(){
 		if (_debug) Log.v("NotificationView.makePhoneCall()");
 		Context context = getContext();
+		NotificationActivity notificationActivity = getNotificationActivity();
 		Notification notification = getNotification();
 		String phoneNumber = notification.getPhoneNumber();
 		String addressBookPhoneNumber = notification.getAddressBookPhoneNumber();
@@ -846,25 +862,22 @@ public class NotificationView extends LinearLayout {
 			numberToBeCalled = phoneNumber;
 		}
 		if(numberToBeCalled == null || numberToBeCalled.contains("@")){
-			Toast.makeText(context, context.getString(R.string.app_android_phone_number_format_error), Toast.LENGTH_SHORT).show();
+			Toast.makeText(context, context.getString(R.string.app_android_phone_number_format_error), Toast.LENGTH_LONG).show();
 			return;
 		}
 		try{
 			Intent intent = new Intent(Intent.ACTION_CALL);
 	        intent.setData(Uri.parse("tel:" + numberToBeCalled));
-	        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-	        		| Intent.FLAG_ACTIVITY_SINGLE_TOP
+	        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP
 	        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
 	        		| Intent.FLAG_ACTIVITY_NO_HISTORY
 	        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-	        context.startActivity(intent);
+	        notificationActivity.startActivityForResult(intent,CALL_ACTIVITY);
 		}catch(Exception ex){
 			if (_debug) Log.e("NotificationView.makePhoneCall() ERROR: " + ex.toString());
-			Toast.makeText(context, context.getString(R.string.app_android_phone_app_error), Toast.LENGTH_SHORT).show();
+			Toast.makeText(context, context.getString(R.string.app_android_phone_app_error), Toast.LENGTH_LONG).show();
 			return;
 		}
-		//Remove notification from ViewFlipper.
-		getNotificationViewFlipper().removeActiveNotification();
 	}
 	
 	/**
@@ -874,10 +887,11 @@ public class NotificationView extends LinearLayout {
 	private void viewCalendarEvent(){
 		if (_debug) Log.v("NotificationView.viewCalendarEvent()");
 		Context context = getContext();
+		NotificationActivity notificationActivity = getNotificationActivity();
 		Notification notification = getNotification();
 		long calendarEventID = notification.getCalendarEventID();
 		if(calendarEventID == 0){
-			Toast.makeText(context, context.getString(R.string.app_android_calendar_event_not_found_error), Toast.LENGTH_SHORT).show();
+			Toast.makeText(context, context.getString(R.string.app_android_calendar_event_not_found_error), Toast.LENGTH_LONG).show();
 			return;
 		}
 		try{
@@ -888,19 +902,16 @@ public class NotificationView extends LinearLayout {
 			//intent.setData(Uri.parse("content://calendar/events/" + String.valueOf(calendarEventID)));
 			intent.putExtra(EVENT_BEGIN_TIME,notification.getCalendarEventStartTime());
 			intent.putExtra(EVENT_END_TIME,notification.getCalendarEventEndTime());
-			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-	        		| Intent.FLAG_ACTIVITY_SINGLE_TOP
+			intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP
 	        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
 	        		| Intent.FLAG_ACTIVITY_NO_HISTORY
 	        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-	        context.startActivity(intent);
+	        notificationActivity.startActivityForResult(intent,VIEW_CALENDAR_ACTIVITY);
 		}catch(Exception ex){
 			if (_debug) Log.e("NotificationView.viewCalendarEvent() ERROR: " + ex.toString());
-			Toast.makeText(context, context.getString(R.string.app_android_calendar_app_error), Toast.LENGTH_SHORT).show();
+			Toast.makeText(context, context.getString(R.string.app_android_calendar_app_error), Toast.LENGTH_LONG).show();
 			return;
 		}
-		//Remove notification from ViewFlipper.
-		getNotificationViewFlipper().removeActiveNotification();
 	}
  
 	/**
@@ -933,7 +944,7 @@ public class NotificationView extends LinearLayout {
 	    	notificationActivity.registerForContextMenu(contactLinearLayout);
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_EMAIL){
-	    	//No menu at this time for Emails.
+	    	notificationActivity.registerForContextMenu(contactLinearLayout);
 	    } 	
 	}
 
@@ -1097,67 +1108,5 @@ public class NotificationView extends LinearLayout {
 	     LinearLayout contactWrapperLinearLayout = (LinearLayout) findViewById(R.id.contact_wrapper_linear_layout);
 	     contactWrapperLinearLayout.setOnTouchListener(contactWrapperOnTouchListener);
 	}
-
-//	/**
-//	 * Add a calendar event.
-//	 */
-//	private void addCalendarEvent(){
-//		if (_debug) Log.v("NotificationView.addCalendarEvent()");
-//		Context context = getContext();
-//		try{
-//			//Android 2.2+
-//			Intent intent = new Intent(Intent.ACTION_EDIT);
-//			intent.setType("vnd.android.cursor.item/event");
-//			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-//	        		| Intent.FLAG_ACTIVITY_SINGLE_TOP
-//	        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
-//	        		| Intent.FLAG_ACTIVITY_NO_HISTORY
-//	        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-//	        context.startActivity(intent);
-//		}catch(Exception ex){
-//			if (_debug) Log.e("NotificationView.addCalendarEvent() ERROR: " + ex.toString());
-//		}
-//	}
-
-//	/**
-//	 * Edit a calendar event.
-//	 */
-//	private void editCalendarEvent(){
-//		if (_debug) Log.v("NotificationView.editCalendarEvent()");
-//		Context context = getContext();
-//	    Notification notification = getNotification();
-//	    long calendarEventID = notification.getCalendarEventID();
-//		try{
-//			//Android 2.2+
-//			Intent intent = new Intent(Intent.ACTION_EDIT);
-//			intent.setData(Uri.parse("content://com.android.calendar/events/" + String.valueOf(calendarEventID)));	
-//			intent.putExtra(EVENT_BEGIN_TIME,notification.getCalendarEventStartTime());
-//			intent.putExtra(EVENT_END_TIME,notification.getCalendarEventEndTime());
-//			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-//	        		| Intent.FLAG_ACTIVITY_SINGLE_TOP
-//	        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
-//	        		| Intent.FLAG_ACTIVITY_NO_HISTORY
-//	        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-//	        context.startActivity(intent);
-//		}catch(Exception ex){
-//			if (_debug) Log.e("NotificationView.editCalendarEvent() ERROR: " + ex.toString());
-//		}
-//	}
-	
-//	/**
-//	 * Goto the messaging application inbox.
-//	 */
-//	private void gotoInbox() {
-//		if (_debug) Log.v("NotificationVIew.gotoInbox()");
-//		Context context = getContext();
-//		Intent intent = new Intent(Intent.ACTION_MAIN);
-//	    intent.setType("vnd.android-dir/mms-sms");
-//		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-//				| Intent.FLAG_ACTIVITY_SINGLE_TOP
-//				| Intent.FLAG_ACTIVITY_CLEAR_TOP
-//				| Intent.FLAG_ACTIVITY_NO_HISTORY
-//				| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);	
-//		context.startActivity(intent);
-//	}
 	
 }

@@ -397,6 +397,9 @@ public class QuickReplyActivity extends Activity {
 	    cancelButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view) {
             	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+            	//Set the result for this activity.
+            	setResult(RESULT_CANCELED);
+            	//Finish Activity.
             	finishActivity();                
             }
         });
@@ -475,6 +478,8 @@ public class QuickReplyActivity extends Activity {
 //        }, new IntentFilter(SMS_DELIVERED));        
         SmsManager sms = SmsManager.getDefault();
         sms.sendTextMessage(phoneNumber, serviceCenterAddress, message, sentPI, deliveredPI);
+        //Set the result for this activity.
+        setResult(RESULT_OK);
         //Finish Activity.
         finishActivity();
     }
