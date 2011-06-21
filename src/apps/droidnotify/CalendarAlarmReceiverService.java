@@ -14,6 +14,8 @@ package apps.droidnotify;
 		http://commonsware.com/AdvAndroid
 */
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -55,11 +57,12 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
     private static final String CALENDAR_SELECTED = "selected"; 
     private static final String CALENDAR_REMINDER_KEY = "calendar_reminder_settings";
     private static final String CALENDAR_REMINDER_ALL_DAY_KEY = "calendar_reminder_all_day_settings";
+    private static final String CALENDAR_SELECTION_KEY = "calendar_selection";
     
 	//================================================================================
     // Properties
     //================================================================================
-	
+    
 	//================================================================================
 	// Constructors
 	//================================================================================
@@ -109,37 +112,36 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		long reminderInterval = Long.parseLong(preferences.getString(CALENDAR_REMINDER_KEY, "15")) * 60 * 1000;
 		long reminderIntervalAllDay = Long.parseLong(preferences.getString(CALENDAR_REMINDER_ALL_DAY_KEY, "6")) * 60 * 60 * 1000;
+		String calendarPreferences = preferences.getString(CALENDAR_SELECTION_KEY, "");
+		ArrayList<String> calendarsArray = new ArrayList<String>();
+		if(!calendarPreferences.equals("")){
+			Collections.addAll(calendarsArray, calendarPreferences.split("\\|")); 
+		}
+	 	Cursor cursor = null;
 		try{
 			ContentResolver contentResolver = context.getContentResolver();
 			// Fetch a list of all calendars synced with the device, their display names and whether the user has them selected for display.
 			String contentProvider = "";
-		 	Cursor cursor = null;
-			try{
-				//Android 2.2+
-				contentProvider = "content://com.android.calendar";
-				//Android 2.1 and below.
-				//contentProvider = "content://calendar";
-				cursor = contentResolver.query(
-					Uri.parse(contentProvider + "/calendars"), 
-					new String[] { _ID, CALENDAR_DISPLAY_NAME, CALENDAR_SELECTED },
-					null,
-					null,
-					null);
-			}catch(Exception ex){
-				if (Log.getDebug()) Log.e("CalendarAlarmReceiverService.readCalendars() Cursor ERROR: " + ex.toString());
-				return;
-			}
-			if(cursor == null){
-				if (Log.getDebug()) Log.e("CalendarAlarmReceiverService.readCalendars() ERROR: Content Resolver returned a null cursor. Exiting...");
-				return;
-			}
+			//Android 2.2+
+			contentProvider = "content://com.android.calendar";
+			//Android 2.1 and below.
+			//contentProvider = "content://calendar";
+			cursor = contentResolver.query(
+				Uri.parse(contentProvider + "/calendars"), 
+				new String[] { _ID, CALENDAR_DISPLAY_NAME, CALENDAR_SELECTED },
+				null,
+				null,
+				null);
 			HashMap<String, String> calendarIds = new HashMap<String, String>();
 			while (cursor.moveToNext()) {
 				final String calendarID = cursor.getString(cursor.getColumnIndex(_ID));
 				final String calendarDisplayName = cursor.getString(cursor.getColumnIndex(CALENDAR_DISPLAY_NAME));
 				final Boolean calendarSelected = !cursor.getString(cursor.getColumnIndex(CALENDAR_SELECTED)).equals("0");
-				if (Log.getDebug()) Log.v("Id: " + calendarID + " Display Name: " + calendarDisplayName + " Selected: " + calendarSelected);
-				calendarIds.put(calendarID, calendarDisplayName);
+				if (Log.getDebug()) Log.v("FOUND CALENDAR - Id: " + calendarID + " Display Name: " + calendarDisplayName + " Selected: " + calendarSelected);
+				if(calendarsArray.contains(calendarID)){
+					if (Log.getDebug()) Log.v("CHECKING CALENDAR -  Id: " + calendarID + " Display Name: " + calendarDisplayName + " Selected: " + calendarSelected);
+					calendarIds.put(calendarID, calendarDisplayName);
+				}
 			}	
 			// For each calendar, display all the events from the previous week to the end of next week.
 			Iterator<Map.Entry<String, String>> calendarIdsEnumerator = calendarIds.entrySet().iterator();
@@ -154,35 +156,44 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
 				ContentUris.appendId(builder, queryStartTime);
 				//The end time of the query should be one day past the start time.
 				ContentUris.appendId(builder, queryStartTime + AlarmManager.INTERVAL_DAY);
-				Cursor eventCursor = contentResolver.query(builder.build(),
+				Cursor eventCursor = null;
+				try{
+					eventCursor = contentResolver.query(builder.build(),
 						new String[] { CALENDAR_EVENT_ID, CALENDAR_EVENT_TITLE, CALENDAR_INSTANCE_BEGIN, CALENDAR_INSTANCE_END, CALENDAR_EVENT_ALL_DAY},
 						"Calendars._id=" + calendarID,
 						null,
 						"startDay ASC, startMinute ASC"); 
-				while (eventCursor.moveToNext()) {
-					String eventID = eventCursor.getString(eventCursor.getColumnIndex(CALENDAR_EVENT_ID));
-					String eventTitle = eventCursor.getString(eventCursor.getColumnIndex(CALENDAR_EVENT_TITLE));
-					long eventStartTime = eventCursor.getLong(eventCursor.getColumnIndex(CALENDAR_INSTANCE_BEGIN));
-					long eventEndTime = eventCursor.getLong(eventCursor.getColumnIndex(CALENDAR_INSTANCE_END));
-					final Boolean allDay = !eventCursor.getString(eventCursor.getColumnIndex(CALENDAR_EVENT_ALL_DAY)).equals("0");
-					if (Log.getDebug()) Log.v("Event ID: " + eventID + " Title: " + eventTitle + " Begin: " + eventStartTime + " End: " + eventEndTime + " All Day: " + allDay);
-					long timezoneOffsetValue =  TimeZone.getDefault().getOffset(System.currentTimeMillis());
-					//For all day events and any event in the past, don't schedule them.
-					if(allDay){
-						//Special case for all-day events.
-						eventStartTime = eventStartTime  - timezoneOffsetValue;
-						eventEndTime = eventEndTime  - timezoneOffsetValue;
-						if(eventStartTime >= System.currentTimeMillis()){
-							scheduleCalendarNotification(context, eventStartTime - reminderIntervalAllDay, eventTitle, Long.toString(eventStartTime), Long.toString(eventEndTime), Boolean.toString(allDay), calendarName, calendarID.toString(), eventID );
+					while (eventCursor.moveToNext()) {
+						String eventID = eventCursor.getString(eventCursor.getColumnIndex(CALENDAR_EVENT_ID));
+						String eventTitle = eventCursor.getString(eventCursor.getColumnIndex(CALENDAR_EVENT_TITLE));
+						long eventStartTime = eventCursor.getLong(eventCursor.getColumnIndex(CALENDAR_INSTANCE_BEGIN));
+						long eventEndTime = eventCursor.getLong(eventCursor.getColumnIndex(CALENDAR_INSTANCE_END));
+						final Boolean allDay = !eventCursor.getString(eventCursor.getColumnIndex(CALENDAR_EVENT_ALL_DAY)).equals("0");
+						if (Log.getDebug()) Log.v("Event ID: " + eventID + " Title: " + eventTitle + " Begin: " + eventStartTime + " End: " + eventEndTime + " All Day: " + allDay);
+						long timezoneOffsetValue =  TimeZone.getDefault().getOffset(System.currentTimeMillis());
+						//For all day events and any event in the past, don't schedule them.
+						if(allDay){
+							//Special case for all-day events.
+							eventStartTime = eventStartTime  - timezoneOffsetValue;
+							eventEndTime = eventEndTime  - timezoneOffsetValue;
+							if(eventStartTime >= System.currentTimeMillis()){
+								scheduleCalendarNotification(context, eventStartTime - reminderIntervalAllDay, eventTitle, Long.toString(eventStartTime), Long.toString(eventEndTime), Boolean.toString(allDay), calendarName, calendarID.toString(), eventID );
+							}
+						}else if(eventStartTime >= System.currentTimeMillis()){
+							//Schedule non-all-day events.
+							scheduleCalendarNotification(context, eventStartTime - reminderInterval, eventTitle, Long.toString(eventStartTime), Long.toString(eventEndTime), Boolean.toString(allDay), calendarName, calendarID.toString(), eventID );
 						}
-					}else if(eventStartTime >= System.currentTimeMillis()){
-						//Schedule non-all-day events.
-						scheduleCalendarNotification(context, eventStartTime - reminderInterval, eventTitle, Long.toString(eventStartTime), Long.toString(eventEndTime), Boolean.toString(allDay), calendarName, calendarID.toString(), eventID );
 					}
+				}catch(Exception ex){
+					if (Log.getDebug()) Log.e("CalendarAlarmReceiverService.readCalendars() Event Query ERROR: " + ex.toString());
+				}finally{
+					eventCursor.close();
 				}
 			}
 		}catch(Exception ex){
-			if (Log.getDebug()) Log.e("CalendarAlarmReceiverService.readCalendars() ERROR: " + ex.toString());
+			if (Log.getDebug()) Log.e("CalendarAlarmReceiverService.readCalendars() Calendar Query ERROR: " + ex.toString());
+		}finally{
+			cursor.close();
 		}
 	}
 	

@@ -54,6 +54,7 @@
     <string name="app_android_contacts_phone_number_chooser_error">Error querying the contacts available phone numbers.</string>
     <string name="app_android_contacts_email_chooser_error">Error querying the contacts available email addresses.</string>
     <string name="app_android_no_number_found_error">No phone number could be found for this contact.</string>
+    <string name="app_android_calendars_not_found_error">No calendars could be found on your phone.</string>
     
     <!-- Button Strings -->  
     <string name="view_mms_button_text">View MMS</string>
