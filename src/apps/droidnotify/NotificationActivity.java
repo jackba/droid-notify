@@ -38,6 +38,8 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 /**
@@ -101,6 +103,9 @@ public class NotificationActivity extends Activity {
 	private static final String SMS_CONFIRM_DELETION_KEY = "confirm_sms_deletion_enabled";
 	private static final String MMS_CONFIRM_DELETION_KEY = "confirm_mms_deletion_enabled";
 	private static final String LANDSCAPE_SCREEN_ENABLED_KEY = "landscape_screen_enabled";
+	private static final String BLUR_SCREEN_ENABLED_KEY = "blur_screen_enabled";
+	private static final String DIM_SCREEN_ENABLED_KEY = "dim_screen_enabled";
+	private static final String DIM_SCREEN_AMOUNT_KEY = "dim_screen_amount";
 	
 	private static final String SMS_DELETE_ACTION_DELETE_MESSAGE = "0";
 	private static final String SMS_DELETE_ACTION_DELETE_THREAD = "1";
@@ -798,6 +803,20 @@ public class NotificationActivity extends Activity {
 	    //Don't rotate the Activity when the screen rotates based on the user preferences.
 	    if(!_preferences.getBoolean(LANDSCAPE_SCREEN_ENABLED_KEY, false)){
 	    	this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+	    }
+	    //Get main window for this Activity.
+	    Window mainWindow = getWindow(); 
+	    //Set Blur 
+	    if(_preferences.getBoolean(BLUR_SCREEN_ENABLED_KEY, false)){
+	    	mainWindow.addFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
+	    }
+	    //Set Dim
+	    if(_preferences.getBoolean(DIM_SCREEN_ENABLED_KEY, false)){
+	    	mainWindow.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND); 
+		    WindowManager.LayoutParams params = mainWindow.getAttributes(); 
+		    int dimAmt = Integer.parseInt(_preferences.getString(DIM_SCREEN_AMOUNT_KEY, "50"));
+		    params.dimAmount = dimAmt / 100f; 
+		    mainWindow.setAttributes(params); 
 	    }
 	    setContentView(R.layout.notificationwrapper);
 	    setupViews(notificationType);

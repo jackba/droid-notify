@@ -355,4 +355,32 @@
 		<item name="5">@drawable/ic_contact_picture_4</item>
 	</array>
 	
+	<!-- Dim Screen Arrays --> 
+	<string-array name="dim_screen_amount_options">
+		<item name="0">0</item>
+		<item name="1">10</item>
+		<item name="2">20</item>
+		<item name="3">30</item>
+		<item name="4">40</item>
+		<item name="5">50</item>
+		<item name="6">60</item>
+		<item name="7">70</item>
+		<item name="8">80</item>
+		<item name="9">90</item>
+		<item name="10">100</item>
+	</string-array>
+	<string-array name="dim_screen_amount_options_values">
+		<item name="0">0</item>
+		<item name="1">10</item>
+		<item name="2">20</item>
+		<item name="3">30</item>
+		<item name="4">40</item>
+		<item name="5">50</item>
+		<item name="6">60</item>
+		<item name="7">70</item>
+		<item name="8">80</item>
+		<item name="9">90</item>
+		<item name="10">100</item>
+	</string-array>
+	
 </resources>
