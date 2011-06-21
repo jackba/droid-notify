@@ -48,7 +48,7 @@ public class SMSAlarmReceiverService extends WakefulIntentService {
 	 */
 	@Override
 	protected void doWakefulWork(Intent intent) {
-		if (Log.getDebug()) Log.v("SMSReceiverService.doWakefulWork()");
+		if (Log.getDebug()) Log.v("SMSAlarmReceiverService.doWakefulWork()");
 		startNotificationActivity(intent);
 	}
 	
@@ -63,7 +63,7 @@ public class SMSAlarmReceiverService extends WakefulIntentService {
 	 * @param intent - Intent object that we are working with.
 	 */
 	private void startNotificationActivity(Intent intent) {
-		if (Log.getDebug()) Log.v("SMSReceiverService.startNotificationActivity()");
+		if (Log.getDebug()) Log.v("SMSAlarmReceiverService.startNotificationActivity()");
 		Context context = getApplicationContext();
 		Bundle bundle = intent.getExtras();
 		bundle.putInt("notificationType", NOTIFICATION_TYPE_SMS);

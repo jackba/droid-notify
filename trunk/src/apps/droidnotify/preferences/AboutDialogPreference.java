@@ -21,9 +21,10 @@ public class AboutDialogPreference extends DialogPreference {
 	//================================================================================
 	
 	/**
+	 * Class Constructor.
 	 * 
-	 * @param context
-	 * @param attrs
+	 * @param context - Context
+	 * @param attrs - AttributeSet
 	 */
 	public AboutDialogPreference(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -31,10 +32,11 @@ public class AboutDialogPreference extends DialogPreference {
 	}
 
 	/**
+	 * Class Constructor.
 	 * 
-	 * @param context
-	 * @param attrs
-	 * @param defStyle
+	 * @param context - Context
+	 * @param attrs - AttributeSet
+	 * @param defStyle - int
 	 */
 	public AboutDialogPreference(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);

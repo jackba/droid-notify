@@ -49,18 +49,18 @@ public class CalendarNotificationAlarmReceiver extends BroadcastReceiver {
 		//Read preferences and exit if app is disabled.
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 	    if(!preferences.getBoolean(APP_ENABLED_KEY, true)){
-			if (Log.getDebug()) Log.v("SMSReceiver.onReceive() App Disabled. Exiting...");
+			if (Log.getDebug()) Log.v("CalendarNotificationAlarmReceiver.onReceive() App Disabled. Exiting...");
 			return;
 		}
 		//Read preferences and exit if calendar notifications are disabled.
 	    if(!preferences.getBoolean(CALENDAR_NOTIFICATIONS_ENABLED_KEY, true)){
-			if (Log.getDebug()) Log.v("NotificationActivity.onCreate() Calendar Notifications Disabled. Exiting... ");
+			if (Log.getDebug()) Log.v("CalendarNotificationAlarmReceiver.onReceive() Calendar Notifications Disabled. Exiting... ");
 			return;
 		}
 	    //Check the state of the users phone.
 		TelephonyManager telemanager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 	    boolean callStateIdle = telemanager.getCallState() == TelephonyManager.CALL_STATE_IDLE;
-	    if (Log.getDebug()) Log.v("PhoneReceiver.onReceive() Current Call State: " + telemanager.getCallState());
+	    if (Log.getDebug()) Log.v("CalendarNotificationAlarmReceiver.onReceive() Current Call State: " + telemanager.getCallState());
 	    if (callStateIdle) {
 			WakefulIntentService.acquireStaticLock(context);
 			Intent calendarIntent = new Intent(context, CalendarNotificationAlarmReceiverService.class);
