@@ -23,7 +23,7 @@
  * Updated linked text color to be white.
  * Added more error checking and pop-up error messages so that the user gets instant feedback about the operation of the app.
  * Tweaked the code in order to gain efficiency and performance. 
- * 
+ * Added/Updated "Text Contact" & "Call Contact" context menu items.
  * 
 
  * *v1.2* (June 08, 2011)
