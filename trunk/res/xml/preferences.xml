@@ -301,7 +301,30 @@
 				android:title="@string/preference_keyguard_enabled_title" 
 				android:summaryOn="@string/preference_keyguard_enabled_summaryOn" 
 				android:summaryOff="@string/preference_keyguard_enabled_summaryOff" 
-				android:defaultValue="true" />
+				android:defaultValue="true"
+				android:dependency="screen_enabled" />
+			<CheckBoxPreference 
+				android:key="blur_screen_enabled" 
+				android:title="@string/preference_blur_screen_enabled_title" 
+				android:summaryOn="@string/preference_blur_screen_enabled_summaryOn" 
+				android:summaryOff="@string/preference_blur_screen_enabled_summaryOff" 
+				android:defaultValue="false"
+				android:dependency="screen_enabled" />
+			<CheckBoxPreference 
+				android:key="dim_screen_enabled" 
+				android:title="@string/preference_dim_screen_enabled_title" 
+				android:summaryOn="@string/preference_dim_screen_enabled_summaryOn" 
+				android:summaryOff="@string/preference_dim_screen_enabled_summaryOff" 
+				android:defaultValue="false"
+				android:dependency="screen_enabled" />
+			<ListPreference
+				android:key="dim_screen_amount_settings"
+				android:title="@string/preference_dim_screen_amount"
+				android:summary="@string/preference_dim_screen_amount_summary"
+				android:defaultValue="50"
+				android:entries="@array/dim_screen_amount_options"
+				android:entryValues="@array/dim_screen_amount_options_values"
+				android:dependency="dim_screen_enabled" />
 		</PreferenceScreen>
 	</PreferenceCategory>
 	<PreferenceCategory

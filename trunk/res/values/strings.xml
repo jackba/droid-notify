@@ -186,8 +186,8 @@
    	<string name="preference_call_log_timeout_summary">Define how long to wait after a call before querying the call log for a missed call.</string>
    	
    	<string name="preference_calendar_enabled_title">Enable Calendar Event</string>
-   	<string name="preference_calendar_enabled_summaryOn">Calendar Event notifications are enabled</string>
-   	<string name="preference_calendar_enabled_summaryOff">Calendar Event notifications are disabled</string>
+   	<string name="preference_calendar_enabled_summaryOn">Calendar Event notifications are enabled.</string>
+   	<string name="preference_calendar_enabled_summaryOff">Calendar Event notifications are disabled.</string>
    	<string name="preference_calendar_selection_title">Select Calendars</string>
    	<string name="preference_calendar_selection_summary">Select the Calendars that you wish to be notified about.</string>
    	<string name="preference_calendar_labels_enabled_title">Enable Calendar Labels</string>
@@ -212,19 +212,25 @@
     
     <string name="preference_screen_settings">Screen Settings</string>
 	<string name="preference_screen_enabled_title">Turn Screen On</string>
-   	<string name="preference_screen_enabled_summaryOn">The screen will turn on when a notification is shown</string>
-   	<string name="preference_screen_enabled_summaryOff">Screen will not turn on when notification is shown</string>
-   	
+   	<string name="preference_screen_enabled_summaryOn">The screen will turn on when a notification is shown.</string>
+   	<string name="preference_screen_enabled_summaryOff">Screen will not turn on when notification is shown.</string>
 	<string name="preference_screen_dim_enabled_title">Dim Screen</string>
-   	<string name="preference_screen_dim_enabled_summaryOn">Dim screen when it turns on (saves battery power)</string>
-   	<string name="preference_screen_dim_enabled_summaryOff">Screen will not dim</string>
-  
+   	<string name="preference_screen_dim_enabled_summaryOn">Dim screen when it turns on (saves battery power).</string>
+   	<string name="preference_screen_dim_enabled_summaryOff">Screen will not dim.</string>
  	<string name="preference_keyguard_enabled_title">Unlock Phone</string>
-   	<string name="preference_keyguard_enabled_summaryOn">Unlock phone when a notification is shown</string>
-   	<string name="preference_keyguard_enabled_summaryOff">Do not unlock phone when a notification is shown</string>
+   	<string name="preference_keyguard_enabled_summaryOn">Unlock phone when a notification is shown.</string>
+   	<string name="preference_keyguard_enabled_summaryOff">Do not unlock phone when a notification is shown.</string>
 	<string name="preference_keyguard_timeout">Keyguard Timeout</string>
    	<string name="preference_keyguard_timeout_summary">Define how long to wait before a releasing the phones Keyguard.</string>
-
+	<string name="preference_blur_screen_enabled_title">Blur Screen Background</string>
+   	<string name="preference_blur_screen_enabled_summaryOn">The background of the screen will blur when a notification is shown.</string>
+   	<string name="preference_blur_screen_enabled_summaryOff">The background of the screen will not blur when a notification is shown.</string>
+	<string name="preference_dim_screen_enabled_title">Dim Screen Background</string>
+   	<string name="preference_dim_screen_enabled_summaryOn">The background of the screen will dim when a notification is shown.</string>
+   	<string name="preference_dim_screen_enabled_summaryOff">The background of the screen will not dim when a notification is shown.</string>
+   	<string name="preference_dim_screen_amount">Dim Screen Value</string>
+   	<string name="preference_dim_screen_amount_summary">Define how dim you want the background screen to get. (0 = no dimming, 100 = black)</string> 
+   	
     <string name="preference_reschedule_timeout">Reschedule Timeout</string>
    	<string name="preference_reschedule_timeout_summary">Define how long to wait before a notification is rescheduled.</string> 	
    	
