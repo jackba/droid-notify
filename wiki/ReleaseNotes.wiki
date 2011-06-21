@@ -26,7 +26,8 @@
  * Tweaked the code in order to gain efficiency and performance. 
  * Added/Updated "Text Contact" & "Call Contact" context menu items.
  * Added an option to display the Calendar name to the Event notification. (This is useful when you have more than one calendar in your phone)
- *
+ * Added an option to Blur or Dim the background when a notification is received.
+ * 
 
  * *v1.2* (June 08, 2011)
   * Fixed a bug that displayed duplicate notifications for incoming SMS messages.
