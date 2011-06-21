@@ -179,6 +179,10 @@ public class Notification {
 		_messageClass = MessageClass.CLASS_0;   
 		_notificationType = notificationType;
 		loadContactsInfoByPhoneNumber(_context, _phoneNumber);
+		//Search by email if we can't find the contact info.
+		if(!_contactExists){
+			loadContactsInfoByEmail(_context, _phoneNumber);
+		}
 	}
 	
 	/**
