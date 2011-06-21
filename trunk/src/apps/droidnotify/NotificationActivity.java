@@ -353,47 +353,43 @@ public class NotificationActivity extends Activity {
 			}
 			case CALL_CONTACT_CONTEXT_MENU:{
 				try{
-					String numberToBeCalled = notification.getAddressBookPhoneNumber();
-					if(numberToBeCalled == null){
-						numberToBeCalled = notification.getPhoneNumber();
-					}
-					if(numberToBeCalled == null || numberToBeCalled.contains("@")){
-						Toast.makeText(_context, _context.getString(R.string.app_android_phone_number_format_error), Toast.LENGTH_LONG).show();
-						return false;
-					}
-					intent = new Intent(Intent.ACTION_CALL);
-			        intent.setData(Uri.parse("tel:" + numberToBeCalled));		
-			        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP
-			        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
-			        		| Intent.FLAG_ACTIVITY_NO_HISTORY
-			        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-				    startActivityForResult(intent,CALL_ACTIVITY);
+					final String[] phoneNumberArray = {"Red", "Green", "Blue"};
+					AlertDialog.Builder builder = new AlertDialog.Builder(this);
+					builder.setTitle(_context.getString(R.string.select_number_to_call_text));
+					builder.setSingleChoiceItems(phoneNumberArray, -1, new DialogInterface.OnClickListener() {
+					    public void onClick(DialogInterface dialog, int selectedPhoneNumber) {
+					        //Launch the SMS Messaging app to send a text to the selected number.
+					    	makePhoneCall(phoneNumberArray[selectedPhoneNumber]);
+					    	//Close the dialog box.
+					    	dialog.dismiss();
+					    }
+					});
+					builder.create().show();
 					return true;
 				}catch(Exception ex){
 					if (_debug) Log.e("NotificationActivity.onContextItemSelected() CALL_CONTACT_CONTEXT_MENU ERROR: " + ex.toString());
-					Toast.makeText(_context, _context.getString(R.string.app_android_phone_app_error), Toast.LENGTH_LONG).show();
+					Toast.makeText(_context, _context.getString(R.string.app_android_contacts_phone_number_chooser_error), Toast.LENGTH_LONG).show();
 					return false;
 				}
 			}
 			case TEXT_CONTACT_CONTEXT_MENU:{
 				try{
-					String phoneNumber = notification.getPhoneNumber();
-					if(phoneNumber == null){
-						Toast.makeText(_context, _context.getString(R.string.app_android_reply_messaging_address_error), Toast.LENGTH_LONG).show();
-						return false;
-					}
-					intent = new Intent(Intent.ACTION_VIEW);
-					intent.setType("vnd.android-dir/mms-sms");
-			        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP
-			        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
-			        		| Intent.FLAG_ACTIVITY_NO_HISTORY
-			        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-				    intent.putExtra("address", phoneNumber);
-				    startActivityForResult(intent,SEND_SMS_ACTIVITY);
+					final String[] phoneNumberArray = {"Red", "Green", "Blue"};
+					AlertDialog.Builder builder = new AlertDialog.Builder(this);
+					builder.setTitle(_context.getString(R.string.select_number_to_text_text));
+					builder.setSingleChoiceItems(phoneNumberArray, -1, new DialogInterface.OnClickListener() {
+					    public void onClick(DialogInterface dialog, int selectedPhoneNumber) {
+					        //Launch the SMS Messaging app to send a text to the selected number.
+					    	sendSMSMessage(phoneNumberArray[selectedPhoneNumber]);
+					    	//Close the dialog box.
+					    	dialog.dismiss();
+					    }
+					});
+					builder.create().show();
 					return true;
 				}catch(Exception ex){
 					if (_debug) Log.e("NotificationActivity.onContextItemSelected() TEXT_CONTACT_CONTEXT_MENU ERROR: " + ex.toString());
-					Toast.makeText(_context, _context.getString(R.string.app_android_messaging_app_error), Toast.LENGTH_LONG).show();
+					Toast.makeText(_context, _context.getString(R.string.app_android_contacts_phone_number_chooser_error), Toast.LENGTH_LONG).show();
 					return false;
 				}
 			}
@@ -1456,5 +1452,58 @@ public class NotificationActivity extends Activity {
 	    }
 
 	};
+	
+	/**
+	 * Send a text message using the built in Android messaging app.
+	 * 
+	 * @param phoneNumber - The phone number we want to send a text message to.
+	 */
+	private void sendSMSMessage(String phoneNumber){
+		if (_debug) Log.v("NotificationActivity.sendSMSMessage()");
+		try{
+			if(phoneNumber == null){
+				Toast.makeText(_context, _context.getString(R.string.app_android_reply_messaging_address_error), Toast.LENGTH_LONG).show();
+				return;
+			}
+			Intent intent = new Intent(Intent.ACTION_VIEW);
+			intent.setType("vnd.android-dir/mms-sms");
+	        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP
+	        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
+	        		| Intent.FLAG_ACTIVITY_NO_HISTORY
+	        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+		    intent.putExtra("address", phoneNumber);
+		    startActivityForResult(intent,SEND_SMS_ACTIVITY);
+		}catch(Exception ex){
+			if (_debug) Log.e("NotificationActivity.sendSMSMessage() ERROR: " + ex.toString());
+			Toast.makeText(_context, _context.getString(R.string.app_android_messaging_app_error), Toast.LENGTH_LONG).show();
+			return;
+		}
+	}
+	
+	/**
+	 * Place a phone call.
+	 * 
+	 * @param phoneNumber - The phone number we want to send a place a call to.
+	 */
+	private void makePhoneCall(String phoneNumber){
+		if (_debug) Log.v("NotificationActivity.makePhoneCall()");
+		try{
+			if(phoneNumber == null){
+				Toast.makeText(_context, _context.getString(R.string.app_android_phone_number_format_error), Toast.LENGTH_LONG).show();
+				return;
+			}
+			Intent intent = new Intent(Intent.ACTION_CALL);
+	        intent.setData(Uri.parse("tel:" + phoneNumber));		
+	        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP
+	        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
+	        		| Intent.FLAG_ACTIVITY_NO_HISTORY
+	        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+		    startActivityForResult(intent,CALL_ACTIVITY);
+		}catch(Exception ex){
+			if (_debug) Log.e("NotificationActivity.makePhoneCall() ERROR: " + ex.toString());
+			Toast.makeText(_context, _context.getString(R.string.app_android_phone_app_error), Toast.LENGTH_LONG).show();
+			return;
+		}
+	}	
 	
 }
