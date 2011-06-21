@@ -1,5 +1,6 @@
 package apps.droidnotify;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 
 import android.app.Activity;
@@ -7,6 +8,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.KeyguardManager;
 import android.app.KeyguardManager.KeyguardLock;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,6 +16,8 @@ import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -353,19 +357,28 @@ public class NotificationActivity extends Activity {
 			}
 			case CALL_CONTACT_CONTEXT_MENU:{
 				try{
-					final String[] phoneNumberArray = {"Red", "Green", "Blue"};
-					AlertDialog.Builder builder = new AlertDialog.Builder(this);
-					builder.setTitle(_context.getString(R.string.select_number_to_call_text));
-					builder.setSingleChoiceItems(phoneNumberArray, -1, new DialogInterface.OnClickListener() {
-					    public void onClick(DialogInterface dialog, int selectedPhoneNumber) {
-					        //Launch the SMS Messaging app to send a text to the selected number.
-					    	makePhoneCall(phoneNumberArray[selectedPhoneNumber]);
-					    	//Close the dialog box.
-					    	dialog.dismiss();
-					    }
-					});
-					builder.create().show();
-					return true;
+					final String[] phoneNumberArray = getPhoneNumbers(notification);
+					if(phoneNumberArray == null){
+						Toast.makeText(_context, _context.getString(R.string.app_android_no_number_found_error), Toast.LENGTH_LONG).show();
+						return false;
+					}else if(phoneNumberArray.length == 1){
+						makePhoneCall(phoneNumberArray[0]);
+						return true;
+					}else{
+						AlertDialog.Builder builder = new AlertDialog.Builder(this);
+						builder.setTitle(_context.getString(R.string.select_number_text));
+						builder.setSingleChoiceItems(phoneNumberArray, -1, new DialogInterface.OnClickListener() {
+						    public void onClick(DialogInterface dialog, int selectedPhoneNumber) {
+						        //Launch the SMS Messaging app to send a text to the selected number.
+						    	String[] phoneNumberInfo = phoneNumberArray[selectedPhoneNumber].split(":");
+						    	makePhoneCall(phoneNumberInfo[1].trim());
+						    	//Close the dialog box.
+						    	dialog.dismiss();
+						    }
+						});
+						builder.create().show();
+						return true;
+					}
 				}catch(Exception ex){
 					if (_debug) Log.e("NotificationActivity.onContextItemSelected() CALL_CONTACT_CONTEXT_MENU ERROR: " + ex.toString());
 					Toast.makeText(_context, _context.getString(R.string.app_android_contacts_phone_number_chooser_error), Toast.LENGTH_LONG).show();
@@ -374,19 +387,28 @@ public class NotificationActivity extends Activity {
 			}
 			case TEXT_CONTACT_CONTEXT_MENU:{
 				try{
-					final String[] phoneNumberArray = {"Red", "Green", "Blue"};
-					AlertDialog.Builder builder = new AlertDialog.Builder(this);
-					builder.setTitle(_context.getString(R.string.select_number_to_text_text));
-					builder.setSingleChoiceItems(phoneNumberArray, -1, new DialogInterface.OnClickListener() {
-					    public void onClick(DialogInterface dialog, int selectedPhoneNumber) {
-					        //Launch the SMS Messaging app to send a text to the selected number.
-					    	sendSMSMessage(phoneNumberArray[selectedPhoneNumber]);
-					    	//Close the dialog box.
-					    	dialog.dismiss();
-					    }
-					});
-					builder.create().show();
-					return true;
+					final String[] phoneNumberArray = getPhoneNumbers(notification);
+					if(phoneNumberArray == null){
+						Toast.makeText(_context, _context.getString(R.string.app_android_no_number_found_error), Toast.LENGTH_LONG).show();
+						return false;
+					}else if(phoneNumberArray.length == 1){
+						sendSMSMessage(phoneNumberArray[0]);
+						return true;
+					}else{
+						AlertDialog.Builder builder = new AlertDialog.Builder(this);
+						builder.setTitle(_context.getString(R.string.select_number_text));
+						builder.setSingleChoiceItems(phoneNumberArray, -1, new DialogInterface.OnClickListener() {
+						    public void onClick(DialogInterface dialog, int selectedPhoneNumber) {
+						        //Launch the SMS Messaging app to send a text to the selected number.
+						    	String[] phoneNumberInfo = phoneNumberArray[selectedPhoneNumber].split(":");
+						    	sendSMSMessage(phoneNumberInfo[1].trim());
+						    	//Close the dialog box.
+						    	dialog.dismiss();
+						    }
+						});
+						builder.create().show();
+						return true;
+					}
 				}catch(Exception ex){
 					if (_debug) Log.e("NotificationActivity.onContextItemSelected() TEXT_CONTACT_CONTEXT_MENU ERROR: " + ex.toString());
 					Toast.makeText(_context, _context.getString(R.string.app_android_contacts_phone_number_chooser_error), Toast.LENGTH_LONG).show();
@@ -1506,4 +1528,138 @@ public class NotificationActivity extends Activity {
 		}
 	}	
 	
+	/**
+	 * 
+	 * 
+	 * @param notification
+	 * 
+	 * @return String[] - Array of phone numbers for this contact. Returns null if no numbers are found or available.
+	 */
+	private String[] getPhoneNumbers(Notification notification){
+		if (_debug) Log.v("NotificationActivity.getPhoneNumbers()");	
+		if(notification.getContactExists()){
+			try{
+				ArrayList<String> phoneNumberArray = new ArrayList<String>();
+				long contactID = notification.getContactID();
+				final String[] phoneProjection = new String[] {ContactsContract.CommonDataKinds.Phone.NUMBER, ContactsContract.CommonDataKinds.Phone.TYPE, ContactsContract.CommonDataKinds.Phone.LABEL};
+				final String phoneSelection = ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = " + String.valueOf(contactID);
+				final String[] phoneSelectionArgs = null;
+				final String phoneSortOrder = null;
+				Cursor phoneCursor = _context.getContentResolver().query(
+						ContactsContract.CommonDataKinds.Phone.CONTENT_URI, 
+						phoneProjection, 
+						phoneSelection, 
+						phoneSelectionArgs, 
+						phoneSortOrder); 
+				while (phoneCursor.moveToNext()) { 
+					String phoneNumber = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+					int phoneNumberTypeInt = Integer.parseInt(phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE)));
+					String phoneNumberType = null;
+					switch(phoneNumberTypeInt){
+						case ContactsContract.CommonDataKinds.Phone.TYPE_HOME:{
+							phoneNumberType = "Home: ";
+							break;
+						}
+						case ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE:{
+							phoneNumberType = "Mobile: ";
+							break;
+						}
+						case ContactsContract.CommonDataKinds.Phone.TYPE_WORK:{
+							phoneNumberType = "Work: ";
+							break;
+						}
+						case ContactsContract.CommonDataKinds.Phone.TYPE_FAX_WORK:{
+							phoneNumberType = "Work Fax: ";
+							break;
+						}
+						case ContactsContract.CommonDataKinds.Phone.TYPE_FAX_HOME:{
+							phoneNumberType = "Home Fax: ";
+							break;
+						}
+						case ContactsContract.CommonDataKinds.Phone.TYPE_PAGER:{
+							phoneNumberType = "Pager: ";
+							break;
+						}
+						case ContactsContract.CommonDataKinds.Phone.TYPE_OTHER:{
+							phoneNumberType = "Other: ";
+							break;
+						}
+						case ContactsContract.CommonDataKinds.Phone.TYPE_CALLBACK:{
+							phoneNumberType = "Callback: ";
+							break;
+						}
+						case ContactsContract.CommonDataKinds.Phone.TYPE_CAR:{
+							phoneNumberType = "Car: ";
+							break;
+						}
+						case ContactsContract.CommonDataKinds.Phone.TYPE_COMPANY_MAIN:{
+							phoneNumberType = "Company: ";
+							break;
+						}
+						case ContactsContract.CommonDataKinds.Phone.TYPE_ISDN:{
+							phoneNumberType = "ISDN: ";
+							break;
+						}
+						case ContactsContract.CommonDataKinds.Phone.TYPE_MAIN:{
+							phoneNumberType = "Main: ";
+							break;
+						}
+						case ContactsContract.CommonDataKinds.Phone.TYPE_OTHER_FAX:{
+							phoneNumberType = "Other Fax: ";
+							break;
+						}
+						case ContactsContract.CommonDataKinds.Phone.TYPE_RADIO:{
+							phoneNumberType = "Radio: ";
+							break;
+						}
+						case ContactsContract.CommonDataKinds.Phone.TYPE_TELEX:{
+							phoneNumberType = "Telex: ";
+							break;
+						}
+						case ContactsContract.CommonDataKinds.Phone.TYPE_TTY_TDD:{
+							phoneNumberType = "TTY/TDD: ";
+							break;
+						}
+						case ContactsContract.CommonDataKinds.Phone.TYPE_WORK_MOBILE:{
+							phoneNumberType = "Work Mobile: ";
+							break;
+						}
+						case ContactsContract.CommonDataKinds.Phone.TYPE_WORK_PAGER:{
+							phoneNumberType = "Work Pager: ";
+							break;
+						}
+						case ContactsContract.CommonDataKinds.Phone.TYPE_ASSISTANT:{
+							phoneNumberType = "Assistant: ";
+							break;
+						}
+						case ContactsContract.CommonDataKinds.Phone.TYPE_MMS:{
+							phoneNumberType = "MMS: ";
+							break;
+						}
+						case ContactsContract.CommonDataKinds.Phone.TYPE_CUSTOM:{
+							phoneNumberType = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.LABEL));
+							break;
+						}
+						default:{
+							phoneNumberType = "No Label: ";
+							break;
+						}
+					}
+					phoneNumberArray.add(phoneNumberType + phoneNumber);
+				}
+				phoneCursor.close(); 
+				return phoneNumberArray.toArray(new String[]{});
+			}catch(Exception ex){
+				if (_debug) Log.e("NotificationActivity.getPhoneNumbers() ERROR: " + ex.toString());
+				return null;
+			}
+		}else{
+			String phoneNumber = notification.getPhoneNumber();
+			if(!phoneNumber.contains("@")){
+				return new String[] {phoneNumber};
+			}else{
+				return null;
+			}
+		}
+	}
 }
