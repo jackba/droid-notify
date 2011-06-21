@@ -28,6 +28,8 @@
     <string name="quick_reply">Quick Reply</string>
     <string name="test_text">Test Notifications</string>
     <string name="feedback_text">Feedback</string>
+    <string name="select_number_to_call_text">Select Number to Call</string>
+    <string name="select_number_to_text_text">Select Number to Text</string>
     
     <!-- App Error Message Strings -->
     <string name="app_android_messaging_app_error">The Android Messaging application could not be started.</string>
@@ -48,6 +50,8 @@
     <string name="app_android_calendar_unknown_error">Unknown Calendar App error.</string>
     <string name="app_android_email_unknown_error">Unknown Email App error.</string>
     <string name="app_android_contacts_unknown_error">Unknown Contacts App error.</string>
+    <string name="app_android_contacts_phone_number_chooser_error">Error querying the contacts available phone numbers.</string>
+    <string name="app_android_contacts_email_chooser_error">Error querying the contacts available email addresses.</string>
     
     <!-- Button Strings -->  
     <string name="view_mms_button_text">View MMS</string>
