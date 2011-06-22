@@ -60,7 +60,6 @@ public class Notification {
 	private boolean _debug = false;
 	private Context _context = null;
 	private String _sentFromAddress = null;
-	private String _addressBookPhoneNumber = null;
 	private String _messageBody = null;
 	private long _timeStamp;
 	private long _threadID = 0;
@@ -73,7 +72,6 @@ public class Notification {
 	private long _messageID = 0;
 	private boolean _fromEmailGateway = false;
 	private String _serviceCenterAddress = null;
-	private MessageClass _messageClass = null;
 	private boolean _contactExists = false;
 	private boolean _contactPhotoExists = false;
 	private String _title = null;
@@ -96,64 +94,96 @@ public class Notification {
 	public Notification(Context context, Bundle bundle, int notificationType) {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Notification.Notification(Context context, Bundle bundle, int notificationType)");
-		_context = context;
-		_preferences = PreferenceManager.getDefaultSharedPreferences(_context);
-		_contactExists = false;
-		_contactPhotoExists = false;
-		_notificationType = notificationType;
-		SmsMessage[] msgs = null;          
-        if (bundle != null){
-        	if(notificationType == NOTIFICATION_TYPE_PHONE){
-        		//Do Nothing. This should not be called if a missed call is received.
-    	    }
-        	if(notificationType == NOTIFICATION_TYPE_SMS){
-        		// Retrieve SMS message from bundle.
-	            Object[] pdus = (Object[]) bundle.get("pdus");
-	            msgs = new SmsMessage[pdus.length]; 
-	            for (int i=0; i<msgs.length; i++){
-	                msgs[i] = SmsMessage.createFromPdu((byte[])pdus[i]);                
-	            }
-	            SmsMessage sms = msgs[0];
-	            _timeStamp = sms.getTimestampMillis();
-	            //Adjust the timestamp to the localized time of the users phone.
-	            //I don't know why the line below is "-=" and not "+=" but for some reason it works.
-	            _timeStamp -= TimeZone.getDefault().getOffset(_timeStamp);
-	    		_sentFromAddress = sms.getDisplayOriginatingAddress().toLowerCase();
-	    		_fromEmailGateway = sms.isEmail();
-	    		_serviceCenterAddress = sms.getServiceCenterAddress();
-	    		_messageClass = sms.getMessageClass();
-	    		_title = "SMS Message";
-	    		StringBuilder messageBody = new StringBuilder();
-	            //Get the entire message body from the new message.
-	            for (int i=0; i<msgs.length; i++){                
-	            	messageBody.append(msgs[i].getMessageBody().toString());
-	            }
-	            if(messageBody.toString().startsWith(_sentFromAddress)){
-	            	_messageBody = messageBody.toString().substring(_sentFromAddress.length());
-	            }	            
-	            _messageBody = _messageBody.trim();
-	    		loadThreadID(_context, _sentFromAddress);
-	    		if(sms.getServiceCenterAddress() == null){
-	    			loadServiceCenterAddress(_context, _threadID);
-	    		}
-	    		loadMessageID(_context, _threadID, _messageBody, _timeStamp);
-	    		loadContactsInfoByPhoneNumber(_context, _sentFromAddress);
-	    		//Search by email if we can't find the contact info.
-	    		if(!_contactExists){
-	    			loadContactsInfoByEmail(_context, _sentFromAddress);
-	    		}
-        	}
-    	    if(notificationType == NOTIFICATION_TYPE_MMS){
-    	    	_title = "MMS Message";
-    	    	//TODO - MMS
-    	    }
-    	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
-    	    	//Do Nothing. This should not be called if a calendar event is received.
-    	    }
-    	    if(notificationType == NOTIFICATION_TYPE_EMAIL){
-    	    	//Do Nothing. This should not be called if an email is received.
-    	    }
-        }
+		try{
+			_context = context;
+			_preferences = PreferenceManager.getDefaultSharedPreferences(_context);
+			_contactExists = false;
+			_contactPhotoExists = false;
+			_notificationType = notificationType;
+			SmsMessage[] msgs = null;          
+	        if (bundle != null){
+	        	if(notificationType == NOTIFICATION_TYPE_PHONE){
+	        		//Do Nothing. This should not be called if a missed call is received.
+	    	    }
+	        	if(notificationType == NOTIFICATION_TYPE_SMS){
+	        		try{
+		        		// Retrieve SMS message from bundle.
+			            Object[] pdus = (Object[]) bundle.get("pdus");
+			            if (_debug) Log.v("Parsed pdus.");
+			            msgs = new SmsMessage[pdus.length];
+			            for (int i=0; i<msgs.length; i++){
+			                msgs[i] = SmsMessage.createFromPdu((byte[])pdus[i]);                
+			            }
+			            if (_debug) Log.v("Parsed message objects.");
+			            SmsMessage sms = msgs[0];
+			            _timeStamp = sms.getTimestampMillis();
+			            //Adjust the timestamp to the localized time of the users phone.
+			            //I don't know why the line below is "-=" and not "+=" but for some reason it works.
+			            _timeStamp -= TimeZone.getDefault().getOffset(_timeStamp);
+			            _sentFromAddress = sms.getDisplayOriginatingAddress().toLowerCase();
+			    		_fromEmailGateway = sms.isEmail();
+			    		_serviceCenterAddress = sms.getServiceCenterAddress();
+			    		_title = "SMS Message";
+			    		try{
+			    			String smsSubject = sms.getPseudoSubject();
+				    		if (_debug) Log.v("TEST 1");
+				    			StringBuilder messageBody = new StringBuilder();
+				    			if (_debug) Log.v("TEST 1");
+					            //Get the entire message body from the new message.
+					    		int messagesLength = msgs.length;
+					    	if (_debug) Log.v("TEST 2");
+					            for (int i = 0; i < messagesLength; i++){                
+					            	//messageBody.append(msgs[i].getMessageBody().toString());
+					            	messageBody.append(msgs[i].getDisplayMessageBody().toString());
+					            }
+					        if (_debug) Log.v("TEST 3");    
+					            if(messageBody.toString().startsWith(_sentFromAddress)){
+					            	_messageBody = messageBody.toString().substring(_sentFromAddress.length());
+					            }
+					        if (_debug) Log.v("TEST 4");     
+					            if(smsSubject != null && !smsSubject.equals("")){
+				    				_messageBody = "(" + smsSubject + ")" + messageBody.toString();
+				    			}else{
+				    				_messageBody = messageBody.toString();
+				    			}
+					        if (_debug) Log.v("TEST 5");    
+				            
+			    		}catch(Exception ex){
+			    			if (_debug) Log.v("Notification.Notification(Context context, Bundle bundle, int notificationType) Parse Message Body ERROR: " + ex.toString());
+			    		}
+				        if (_debug) Log.v("TEST 6"); 
+			    		loadThreadID(_context, _sentFromAddress);
+			    		if (_debug) Log.v("TEST 7"); 
+			    		if(sms.getServiceCenterAddress() == null){
+			    			loadServiceCenterAddress(_context, _threadID);
+			    		}
+			    		if (_debug) Log.v("TEST 8"); 
+			    		loadMessageID(_context, _threadID, _messageBody, _timeStamp);
+			    		if (_debug) Log.v("TEST 9"); 
+			    		loadContactsInfoByPhoneNumber(_context, _sentFromAddress);
+			    		if (_debug) Log.v("TEST 10"); 
+			    		//Search by email if we can't find the contact info.
+			    		if(!_contactExists){
+			    			loadContactsInfoByEmail(_context, _sentFromAddress);
+			    		}
+	        		}catch(Exception ex){
+	        			if (_debug) Log.v("Notification.Notification(Context context, Bundle bundle, int notificationType) Parse SMS Message ERROR: " + ex.toString());
+	        		}
+	        	}
+	    	    if(notificationType == NOTIFICATION_TYPE_MMS){
+	    	    	_title = "MMS Message";
+	    	    	//TODO - MMS
+	    	    }
+	    	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
+	    	    	//Do Nothing. This should not be called if a calendar event is received.
+	    	    }
+	    	    if(notificationType == NOTIFICATION_TYPE_EMAIL){
+	    	    	//Do Nothing. This should not be called if an email is received.
+	    	    }
+	        }
+		}catch(Exception ex){
+			if (_debug) Log.v("Notification.Notification(Context context, Bundle bundle, int notificationType) ERROR: " + ex.toString());
+		}
 	}
 
 	/**
@@ -163,25 +193,43 @@ public class Notification {
 	public Notification(Context context, long messageID, long threadID, String messageBody, String sentFromAddress, long timeStamp, long contactID, int notificationType) {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Notification.Notification(Context context, long messageID, long threadID, String messageBody, String phoneNumber, long timeStamp, long contactID, int notificationType)");
-		_title = "SMS Message";
-		_context = context;
-		_preferences = PreferenceManager.getDefaultSharedPreferences(_context);
-		_contactExists = false;
-		_contactPhotoExists = false;
-		_notificationType = notificationType;
-		_messageID = messageID;
-		_threadID = threadID;
-		_messageBody = messageBody;
-		_sentFromAddress = sentFromAddress.toLowerCase();
-        _timeStamp = timeStamp;
-        _contactID = contactID;
-        _fromEmailGateway = false;
-		_messageClass = MessageClass.CLASS_0;   
-		_notificationType = notificationType;
-		loadContactsInfoByPhoneNumber(_context, _sentFromAddress);
-		//Search by email if we can't find the contact info.
-		if(!_contactExists){
-			loadContactsInfoByEmail(_context, _sentFromAddress);
+		try{
+			_title = "SMS Message";
+			_context = context;
+			_preferences = PreferenceManager.getDefaultSharedPreferences(_context);
+			_contactExists = false;
+			_contactPhotoExists = false;
+			_notificationType = notificationType;
+			if(notificationType == NOTIFICATION_TYPE_SMS){
+				_messageID = messageID;
+				_threadID = threadID;
+				_messageBody = messageBody;
+				_sentFromAddress = sentFromAddress.toLowerCase();
+		        _timeStamp = timeStamp;
+		        _contactID = contactID;
+		        _fromEmailGateway = false;  
+				_notificationType = notificationType;
+				loadContactsInfoByPhoneNumber(_context, _sentFromAddress);
+				//Search by email if we can't find the contact info.
+				if(!_contactExists){
+					loadContactsInfoByEmail(_context, _sentFromAddress);
+				}
+			}
+			if(notificationType == NOTIFICATION_TYPE_MMS){
+				_title = "MMS Message";
+		        //TODO - MMS 
+		    }
+	    	if(notificationType == NOTIFICATION_TYPE_SMS || notificationType == NOTIFICATION_TYPE_MMS){
+	    		//Do Nothing. This should not be called if a SMS or MMS is received.
+	    	}
+		    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
+		    	//Do Nothing. This should not be called if a calendar event is received.
+		    }
+		    if(notificationType == NOTIFICATION_TYPE_EMAIL){
+		    	//Do Nothing. This should not be called if an email is received.
+		    }
+		}catch(Exception ex){
+			if (_debug) Log.v("Notification.Notification(Context context, long messageID, long threadID, String messageBody, String phoneNumber, long timeStamp, long contactID, int notificationType) ERROR: " + ex.toString());
 		}
 	}
 	
@@ -192,17 +240,38 @@ public class Notification {
 	public Notification(Context context, String sentFromAddress, String messageBody, long timeStamp, int notificationType) {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Notification.Notification(Context context, String phoneNumber, String messageBody, long timeStamp, int notificationType)");
-		_title = "SMS Message";
-		_context = context;
-		_preferences = PreferenceManager.getDefaultSharedPreferences(_context);
-		_contactExists = false;
-		_contactPhotoExists = false;
-		_notificationType = notificationType;
-        _timeStamp = timeStamp;
-		_sentFromAddress = sentFromAddress.toLowerCase();
-        _fromEmailGateway = false;
-		_messageClass = MessageClass.CLASS_0;
-        _messageBody = messageBody;
+		try{
+			_context = context;
+			_preferences = PreferenceManager.getDefaultSharedPreferences(_context);
+			_contactExists = false;
+			_contactPhotoExists = false;
+			_notificationType = notificationType;
+			if(notificationType == NOTIFICATION_TYPE_SMS){
+				_title = "SMS Message";
+		        _timeStamp = timeStamp;
+				_sentFromAddress = sentFromAddress.toLowerCase();
+		        _fromEmailGateway = false;
+		        _messageBody = messageBody;
+			}
+			if(notificationType == NOTIFICATION_TYPE_MMS){
+				_title = "MMS Message";
+		        _timeStamp = timeStamp;
+				_sentFromAddress = sentFromAddress.toLowerCase();
+		        _fromEmailGateway = false;
+		        _messageBody = messageBody;
+		    }
+	    	if(notificationType == NOTIFICATION_TYPE_SMS || notificationType == NOTIFICATION_TYPE_MMS){
+	    		//Do Nothing. This should not be called if a SMS or MMS is received.
+	    	}
+		    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
+		    	//Do Nothing. This should not be called if a calendar event is received.
+		    }
+		    if(notificationType == NOTIFICATION_TYPE_EMAIL){
+		    	//Do Nothing. This should not be called if an email is received.
+		    }
+		}catch(Exception ex){
+			if (_debug) Log.v("Notification.Notification(Context context, String phoneNumber, String messageBody, long timeStamp, int notificationType) ERROR: " + ex.toString());
+		}
 	}
 	
 	/**
@@ -212,29 +281,33 @@ public class Notification {
 	public Notification(Context context, String sentFromAddress, long timeStamp, int notificationType){
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Notification.Notification(Context context, String phoneNumber, long timeStamp, int notificationType)");
-		_context = context;
-		_preferences = PreferenceManager.getDefaultSharedPreferences(_context);
-		_contactExists = false;
-		_contactPhotoExists = false;
-		_notificationType = notificationType;
-    	if(notificationType == NOTIFICATION_TYPE_PHONE){
-    		_sentFromAddress = sentFromAddress.toLowerCase();
-    		_timeStamp = timeStamp;
-    		_title = "Missed Call";
-      		//Don't load contact info if this is a test message (Phone Number: 555-555-5555).
-    		if(!sentFromAddress.equals("5555555555")){
-    			loadContactsInfoByPhoneNumber(context, sentFromAddress);
-    		}
-	    }
-    	if(notificationType == NOTIFICATION_TYPE_SMS || notificationType == NOTIFICATION_TYPE_MMS){
-    		//Do Nothing. This should not be called if a SMS or MMS is received.
-    	}
-	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
-	    	//Do Nothing. This should not be called if a calendar event is received.
-	    }
-	    if(notificationType == NOTIFICATION_TYPE_EMAIL){
-	    	//Do Nothing. This should not be called if an email is received.
-	    }
+		try{
+			_context = context;
+			_preferences = PreferenceManager.getDefaultSharedPreferences(_context);
+			_contactExists = false;
+			_contactPhotoExists = false;
+			_notificationType = notificationType;
+	    	if(notificationType == NOTIFICATION_TYPE_PHONE){
+	    		_sentFromAddress = sentFromAddress.toLowerCase();
+	    		_timeStamp = timeStamp;
+	    		_title = "Missed Call";
+	      		//Don't load contact info if this is a test message (Phone Number: 555-555-5555).
+	    		if(!sentFromAddress.equals("5555555555")){
+	    			loadContactsInfoByPhoneNumber(context, sentFromAddress);
+	    		}
+		    }
+	    	if(notificationType == NOTIFICATION_TYPE_SMS || notificationType == NOTIFICATION_TYPE_MMS){
+	    		//Do Nothing. This should not be called if a SMS or MMS is received.
+	    	}
+		    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
+		    	//Do Nothing. This should not be called if a calendar event is received.
+		    }
+		    if(notificationType == NOTIFICATION_TYPE_EMAIL){
+		    	//Do Nothing. This should not be called if an email is received.
+		    }
+		}catch(Exception ex){
+			if (_debug) Log.v("Notification.Notification(Context context, String phoneNumber, long timeStamp, int notificationType) ERROR: " + ex.toString());
+		}
 	}
 
 	/**
@@ -244,53 +317,44 @@ public class Notification {
 	public Notification(Context context, String title, String messageBody, long eventStartTime, long  eventEndTime, boolean allDay, String calendarName, long calendarID, long calendarEventID, int notificationType){
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Notification.Notification(Context context, String title, String messageBody, long eventStartTime, long eventEndTime, boolean allDay, String calendarName, long calendarID, long calendarEventID, int notificationType)");
-		_context = context;
-		_preferences = PreferenceManager.getDefaultSharedPreferences(_context);
-		_contactExists = false;
-		_contactPhotoExists = false;
-		_notificationType = notificationType;
-    	if(notificationType == NOTIFICATION_TYPE_PHONE){
-    		//Do Nothing. This should not be called if a missed call is received.
-	    }
-    	if(notificationType == NOTIFICATION_TYPE_SMS){
-    		if (_debug) Log.v("Notification.Notification() NOTIFICATION_TYPE_SMS");
-    		//Do Nothing. This should not be called if a SMS is received.
-    	}   		
-    	if(notificationType == NOTIFICATION_TYPE_MMS){
-    		if (_debug) Log.v("Notification.Notification() NOTIFICATION_TYPE_MMS");
-    		//Do Nothing. This should not be called if an MMS is received.
-    	}
-	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
-	    	_timeStamp = eventStartTime;
-	    	_title = title;
-	    	_allDay = allDay;
-	    	_messageBody = formatCalendarEventMessage(messageBody, eventStartTime, eventEndTime, allDay, calendarName);
-	    	_calendarID = calendarID;
-	    	_calendarEventID = calendarEventID;
-	    	_calendarEventStartTime = eventStartTime;
-	    	_calendarEventEndTime = eventEndTime;
-	    }
-	    if(notificationType == NOTIFICATION_TYPE_EMAIL){
-	    	//Do Nothing. This should not be called if an email is received.
-	    }
+		try{
+			_context = context;
+			_preferences = PreferenceManager.getDefaultSharedPreferences(_context);
+			_contactExists = false;
+			_contactPhotoExists = false;
+			_notificationType = notificationType;
+	    	if(notificationType == NOTIFICATION_TYPE_PHONE){
+	    		//Do Nothing. This should not be called if a missed call is received.
+		    }
+	    	if(notificationType == NOTIFICATION_TYPE_SMS){
+	    		if (_debug) Log.v("Notification.Notification() NOTIFICATION_TYPE_SMS");
+	    		//Do Nothing. This should not be called if a SMS is received.
+	    	}   		
+	    	if(notificationType == NOTIFICATION_TYPE_MMS){
+	    		if (_debug) Log.v("Notification.Notification() NOTIFICATION_TYPE_MMS");
+	    		//Do Nothing. This should not be called if an MMS is received.
+	    	}
+		    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
+		    	_timeStamp = eventStartTime;
+		    	_title = title;
+		    	_allDay = allDay;
+		    	_messageBody = formatCalendarEventMessage(messageBody, eventStartTime, eventEndTime, allDay, calendarName);
+		    	_calendarID = calendarID;
+		    	_calendarEventID = calendarEventID;
+		    	_calendarEventStartTime = eventStartTime;
+		    	_calendarEventEndTime = eventEndTime;
+		    }
+		    if(notificationType == NOTIFICATION_TYPE_EMAIL){
+		    	//Do Nothing. This should not be called if an email is received.
+		    }
+		}catch(Exception ex){
+			if (_debug) Log.v("Notification.Notification(Context context, String title, String messageBody, long eventStartTime, long eventEndTime, boolean allDay, String calendarName, long calendarID, long calendarEventID, int notificationType) ERROR: " + ex.toString());
+		}
 	}
 	
 	//================================================================================
 	// Public Methods
 	//================================================================================
-	
-//	/**
-//	 * Get the addressBookPhoneNumber property.
-//	 * 
-//	 * @return addressBookPhoneNumber - Phone's contact phone number or stored phone number if not available.
-//	 */
-//	public String getAddressBookPhoneNumber() {
-//		if (_debug) Log.v("Notification.getAddressBookPhoneNumber()");
-//		if(_addressBookPhoneNumber == null){
-//			return _sentFromAddress;
-//		}
-//		return _addressBookPhoneNumber;
-//	}
 	
 	/**
 	 * Get the phoneNumber property.
@@ -551,15 +615,19 @@ public class Notification {
 	 * @param context - Application Context.
 	 * @param phoneNumber - Notifications's phone number.
 	 */
-	private void loadThreadID(Context context, String phoneNumber){
+	private void loadThreadID(Context context, String address){
 		if (_debug) Log.v("Notification.getThreadIdByAddress()");
-		if (phoneNumber == null){
-			if (_debug) Log.v("Notification.loadThreadID() Phone number provided is NULL: Exiting loadThreadID()");
+		if (address == null){
+			if (_debug) Log.v("Notification.loadThreadID() Phone number provided is null: Exiting...");
+			return;
+		}
+		if (address == ""){
+			if (_debug) Log.v("Notification.loadThreadID() Phone number provided is empty: Exiting...");
 			return;
 		}
 		try{
 			final String[] projection = new String[] { "_id", "thread_id" };
-			final String selection = "address = " + DatabaseUtils.sqlEscapeString(phoneNumber);
+			final String selection = "address = " + DatabaseUtils.sqlEscapeString(address);
 			final String[] selectionArgs = null;
 			final String sortOrder = null;
 		    long threadID = 0;
@@ -597,7 +665,7 @@ public class Notification {
 	public void loadMessageID(Context context, long threadID, String messageBody, long timeStamp) {
 		if (_debug) Log.v("Notification.loadMessageID()");
 		if (messageBody == null){
-			if (_debug) Log.v("Notification.loadMessageID() Message body provided is NULL: Exiting loadMessageId()");
+			if (_debug) Log.v("Notification.loadMessageID() Message body provided is null: Exiting...");
 			return;
 		} 
 		try{
@@ -648,7 +716,7 @@ public class Notification {
 	private String loadServiceCenterAddress(Context context, long threadID) {
 		if (_debug) Log.v("Notification.loadServiceCenterAddress()");
 		if (threadID == 0){
-			if (_debug) Log.v("Notification.loadServiceCenterAddress() Thread ID provided is NULL: Exiting loadServiceCenterAddress()");
+			if (_debug) Log.v("Notification.loadServiceCenterAddress() Thread ID provided is null: Exiting...");
 			return null;
 		} 
 		try{
@@ -694,7 +762,7 @@ public class Notification {
 	private void loadContactsInfoByPhoneNumber(Context context, String incomingNumber){
 		if (_debug) Log.v("Notification.loadContactsInfo()");
 		if (incomingNumber == null) {
-			if (_debug) Log.v("Notification.loadContactsInfo() Phone number provided is NULL: Exiting...");
+			if (_debug) Log.v("Notification.loadContactsInfo() Phone number provided is null: Exiting...");
 			return;
 		}
 		//Exit if the phone number is an email address.
@@ -730,13 +798,9 @@ public class Notification {
 						phoneSelectionArgs, 
 						phoneSortOrder); 
 				while (phoneCursor.moveToNext()) { 
-					String addressBookPhoneNumber = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-					String contactNumber = addressBookPhoneNumber;
+					String contactNumber = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
 					if(removeFormatting(incomingNumber).equals(removeFormatting(contactNumber))){
 						_contactID = Long.parseLong(contactID);
-						if(addressBookPhoneNumber != null){
-		    			  	_addressBookPhoneNumber = addressBookPhoneNumber;
-		    		  	}
 		    		  	if(contactLookupKey != null){
 		    			  	_contactLookupKey = contactLookupKey;
 		    		  	}
@@ -777,7 +841,7 @@ public class Notification {
 	private void loadContactsInfoByEmail(Context context, String incomingEmail){
 		if (_debug) Log.v("Notification.loadContactsInfoByEmail()");
 		if (incomingEmail == null) {
-			if (_debug) Log.v("Notification.loadContactsInfoByEmail() Email provided is NULL: Exiting...");
+			if (_debug) Log.v("Notification.loadContactsInfoByEmail() Email provided is null: Exiting...");
 			return;
 		}
 		if (!incomingEmail.contains("@")) {
@@ -842,30 +906,6 @@ public class Notification {
                     
                 }
                 emailCursor.close();
-                if(contactID != null){
-	                //Get the contacts phone number using the contactID.
-	                final String[] phoneProjection = null;
-					final String phoneSelection = ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = " + contactID;
-					final String[] phoneSelectionArgs = null;
-					final String phoneSortOrder = null;
-					Cursor phoneCursor = context.getContentResolver().query(
-							ContactsContract.CommonDataKinds.Phone.CONTENT_URI, 
-							phoneProjection, 
-							phoneSelection, 
-							phoneSelectionArgs, 
-							phoneSortOrder); 
-					while (phoneCursor.moveToNext()) { 
-						String addressBookPhoneNumber = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-							if(addressBookPhoneNumber != null){
-			    			  	_addressBookPhoneNumber = addressBookPhoneNumber;
-			    		  	}
-			    		  	if(contactLookupKey != null){
-			    		  		_contactLookupKey = contactLookupKey;
-			    			  	break;
-			    		  	}
-					}
-					phoneCursor.close();
-                }
                 if(_contactExists) break;
 		   	}
 			cursor.close();
@@ -927,6 +967,10 @@ public class Notification {
 		if(_messageID == 0){
 			if (_debug) Log.v("Notification.setMessageRead() Message ID == 0. Loading Message ID");
 			loadMessageID(_context, _threadID, _messageBody, _timeStamp);
+			if(_messageID == 0){
+				if (_debug) Log.v("Notification.setMessageRead() Message ID == 0: Exiting...");
+				return;
+			}
 		}
 		ContentValues contentValues = new ContentValues();
 		if(isViewed){

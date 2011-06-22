@@ -3,12 +3,14 @@ package apps.droidnotify;
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
@@ -47,6 +49,16 @@ public class QuickReplyActivity extends Activity {
 	private static final String DARK_TRANSLUCENT_THEME = "dark_translucent";
 	private static final String DARK_TRANSLUCENT_V2_THEME = "dark_translucent_v2";
 	private static final String DARK_TRANSLUCENT_V3_THEME = "dark_translucent_v3";
+	
+	private static final String SMS_GATEWAY_KEY = "quick_reply_sms_gateway_settings";
+	private static final int SMS_EMAIL_GATEWAY_KEY_1 = 1;
+	private static final int SMS_EMAIL_GATEWAY_KEY_2 = 2;
+	private static final int SMS_EMAIL_GATEWAY_KEY_3 = 3;
+	private static final int SMS_EMAIL_GATEWAY_KEY_4 = 4;
+	private static final int SMS_EMAIL_GATEWAY_KEY_5 = 5;
+	private static final int SMS_EMAIL_GATEWAY_KEY_6 = 6;
+	private static final int SMS_EMAIL_GATEWAY_KEY_7 = 7;
+	private static final int SMS_EMAIL_GATEWAY_KEY_8 = 8;
 	
 	//================================================================================
     // Properties
@@ -247,7 +259,7 @@ public class QuickReplyActivity extends Activity {
 	 * @param phoneNumber - The phone number we are sending the message to.
 	 * @param message - The message we are sending.
 	 */
-	private void sendSMS(String phoneNumber, String serviceCenterAddress, String message){   
+	private void sendSMS(String smsAddress, String serviceCenterAddress, String message){   
 		if (_debug) Log.v("QuickReplyActivity.sendSMS()");
         final String SMS_SENT = "SMS_SENT";
         final String SMS_DELIVERED = "SMS_DELIVERED";
@@ -291,9 +303,88 @@ public class QuickReplyActivity extends Activity {
 //                        break;                        
 //                }
 //            }
-//        }, new IntentFilter(SMS_DELIVERED));        
-        SmsManager sms = SmsManager.getDefault();
-        sms.sendTextMessage(phoneNumber, serviceCenterAddress, message, sentPI, deliveredPI);
+//        }, new IntentFilter(SMS_DELIVERED));  
+		SmsManager sms = SmsManager.getDefault();
+		if(smsAddress.contains("@")){
+			//Send to email address
+			//Need to set the SMS-to-Email Gateway number for this to work.
+			// (USA) Sprint PCS - 6245 [address message]
+			// (USA) T-Mobile - 500 [address text | address/subject/text | address#subject#text]
+			// (USA) AT&T - 121 [address text | address (subject) text]
+			// (USA) AT&T - 111 [address text | address (subject) text]
+			// (UK) AQL - 447766 [address text]
+			// (UK) AQL - 404142 [address text]
+			// (Croatia) T-Mobile - 100 [address#subject#text]
+			// (Costa Rica) ICS - 1001 [address : (subject) text]
+			//This value can be set in the Advanced Settings preferences.
+			int smsToEmailGatewayKey = Integer.parseInt(_preferences.getString(SMS_GATEWAY_KEY, "1"));
+			switch(smsToEmailGatewayKey){
+		    	case SMS_EMAIL_GATEWAY_KEY_1:{
+		    		// (USA) Sprint PCS - 6245 [address message]
+		    		String smsToEmailGatewayNumber = "6245";
+		    		sms.sendTextMessage(smsToEmailGatewayNumber, serviceCenterAddress, smsAddress + " " + message, sentPI, deliveredPI);
+		    	}
+		    	case SMS_EMAIL_GATEWAY_KEY_2:{
+		    		// (USA) T-Mobile - 500 [address text | address/subject/text | address#subject#text]
+		    		String smsToEmailGatewayNumber = "500";
+		    		sms.sendTextMessage(smsToEmailGatewayNumber, serviceCenterAddress, smsAddress + " " + message, sentPI, deliveredPI);
+		    	}
+		    	case SMS_EMAIL_GATEWAY_KEY_3:{
+		    		// (USA) AT&T - 121 [address text | address (subject) text]
+		    		String smsToEmailGatewayNumber = "121";
+		    		sms.sendTextMessage(smsToEmailGatewayNumber, serviceCenterAddress, smsAddress + " " + message, sentPI, deliveredPI);
+		    	}
+		    	case SMS_EMAIL_GATEWAY_KEY_4:{
+		    		// (USA) AT&T - 111 [address text | address (subject) text]
+		    		String smsToEmailGatewayNumber = "111";
+		    		sms.sendTextMessage(smsToEmailGatewayNumber, serviceCenterAddress, smsAddress + " " + message, sentPI, deliveredPI);
+		    	}
+		    	case SMS_EMAIL_GATEWAY_KEY_5:{
+		    		// (UK) AQL - 447766 [address text]
+		    		String smsToEmailGatewayNumber = "447766";
+		    		sms.sendTextMessage(smsToEmailGatewayNumber, serviceCenterAddress, smsAddress + " " + message, sentPI, deliveredPI);
+		    	}
+		    	case SMS_EMAIL_GATEWAY_KEY_6:{
+		    		// (UK) AQL - 404142 [address text]
+		    		String smsToEmailGatewayNumber = "404142";
+		    		sms.sendTextMessage(smsToEmailGatewayNumber, serviceCenterAddress, smsAddress + " " + message, sentPI, deliveredPI);
+		    	}
+		    	case SMS_EMAIL_GATEWAY_KEY_7:{
+		    		// (USA) AT&T - 121 [address text | address (subject) text]
+		    		String smsToEmailGatewayNumber = "121";
+		    		sms.sendTextMessage(smsToEmailGatewayNumber, serviceCenterAddress, smsAddress + " " + message, sentPI, deliveredPI);
+		    	}
+		    	case SMS_EMAIL_GATEWAY_KEY_8:{
+		    		// (Croatia) T-Mobile - 100 [address#subject#text]
+		    		String smsToEmailGatewayNumber = "100";
+		    		sms.sendTextMessage(smsToEmailGatewayNumber, serviceCenterAddress, smsAddress + "##" + message, sentPI, deliveredPI);
+		    	}
+		    	default:{
+		    		sms.sendTextMessage(smsAddress, serviceCenterAddress, message, sentPI, deliveredPI);
+		    	}
+		    	try{
+		        	//Store the message in the Sent folder so that it shows in Messaging apps.
+		            ContentValues values = new ContentValues();
+		            values.put("address", smsAddress);
+		            values.put("body", message);
+		            getContentResolver().insert(Uri.parse("content://sms/sent"), values);
+		    	}catch(Exception ex){
+		    		if (_debug) Log.e("QuickReplyActivity.sendSMS() Insert Into Sent Foler ERROR: " + ex.toString());
+		    	}
+			}        	
+		}else{
+			//Send to regular text message number.
+			sms.sendTextMessage(smsAddress, serviceCenterAddress, message, sentPI, deliveredPI);
+			try{
+		    	//Store the message in the Sent folder so that it shows in Messaging apps.
+		        ContentValues values = new ContentValues();
+		        values.put("address", smsAddress);
+		        values.put("body", message);
+		        getContentResolver().insert(Uri.parse("content://sms/sent"), values);
+			}catch(Exception ex){
+				if (_debug) Log.e("QuickReplyActivity.sendSMS() Insert Into Sent Foler ERROR: " + ex.toString());
+			}
+		}
         //Set the result for this activity.
         setResult(RESULT_OK);
         //Finish Activity.
