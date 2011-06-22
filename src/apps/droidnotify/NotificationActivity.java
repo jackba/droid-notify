@@ -830,14 +830,14 @@ public class NotificationActivity extends Activity {
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_SMS){
 		    if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_SMS");
-		    Notification newSMSNotification = setupMessage(extrasBundle, notificationType);
+		    Notification newSMSNotification = setupMessage(extrasBundle);
 		    if(_preferences.getBoolean(SMS_DISPLAY_UNREAD_KEY, true)){
 		    	getAllUnreadSMSMessages(newSMSNotification.getMessageID(), newSMSNotification.getMessageBody());
 		    }
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_MMS){
 	    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_MMS");
-	    	Notification newMMSNotification = setupMessage(extrasBundle, notificationType);
+	    	getMMSMessage(true);
 	    	//TODO - MMS
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
@@ -984,11 +984,11 @@ public class NotificationActivity extends Activity {
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_SMS){
 		    if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_SMS");
-		    setupMessage(extrasBundle, notificationType);
+		    setupMessage(extrasBundle);
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_MMS){
 	    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_MMS");
-	    	setupMessage(extrasBundle, notificationType);
+	    	getMMSMessage(false);
 	    	//TODO - MMS
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
@@ -1045,17 +1045,17 @@ public class NotificationActivity extends Activity {
 	}
 	
 	/**
-	 * Setup the incoming SMS/MMS message notification.
+	 * Setup the incoming SMS message notification.
 	 *
 	 * @param bundle - Activity bundle.
 	 * 
 	 * @return Notification - Returns the new incoming SMS message in the form of a Notification object.
 	 */
-	private Notification setupMessage(Bundle bundle, int notificationType) {
-		if (_debug) Log.v("NotificationActivity.setupMessages()"); 
+	private Notification setupMessage(Bundle bundle) {
+		if (_debug) Log.v("NotificationActivity.setupMessage()"); 
 		NotificationViewFlipper notificationViewFlipper = _notificationViewFlipper;
 	    // Create message from bundle.
-	    Notification smsMessage = new Notification(_context, bundle, notificationType);
+	    Notification smsMessage = new Notification(_context, bundle, NOTIFICATION_TYPE_SMS);
 	    notificationViewFlipper.addNotification(smsMessage);
 	    return smsMessage;
 	}
@@ -1683,4 +1683,23 @@ public class NotificationActivity extends Activity {
 			}
 		}
 	}
+	
+	/**
+	 * Get new MMS messages.
+	 *
+	 * @param bundle - Activity bundle.
+	 * 
+	 * @return Notification - Returns the new incoming SMS message in the form of a Notification object.
+	 */
+	private void getMMSMessage(boolean loadAllNew) {
+		if (_debug) Log.v("NotificationActivity.getMMSMessage()"); 
+		
+		
+		
+		
+		
+		
+		
+	}
+	
 }

@@ -99,22 +99,20 @@ public class Notification {
 			_preferences = PreferenceManager.getDefaultSharedPreferences(_context);
 			_contactExists = false;
 			_contactPhotoExists = false;
-			_notificationType = notificationType;
-			SmsMessage[] msgs = null;          
+			_notificationType = notificationType;          
 	        if (bundle != null){
 	        	if(notificationType == NOTIFICATION_TYPE_PHONE){
 	        		//Do Nothing. This should not be called if a missed call is received.
 	    	    }
 	        	if(notificationType == NOTIFICATION_TYPE_SMS){
 	        		try{
+	        			SmsMessage[] msgs = null;
 		        		// Retrieve SMS message from bundle.
 			            Object[] pdus = (Object[]) bundle.get("pdus");
-			            if (_debug) Log.v("Parsed pdus.");
 			            msgs = new SmsMessage[pdus.length];
 			            for (int i=0; i<msgs.length; i++){
 			                msgs[i] = SmsMessage.createFromPdu((byte[])pdus[i]);                
 			            }
-			            if (_debug) Log.v("Parsed message objects.");
 			            SmsMessage sms = msgs[0];
 			            _timeStamp = sms.getTimestampMillis();
 			            //Adjust the timestamp to the localized time of the users phone.
@@ -123,46 +121,35 @@ public class Notification {
 			            _sentFromAddress = sms.getDisplayOriginatingAddress().toLowerCase();
 			    		_fromEmailGateway = sms.isEmail();
 			    		_serviceCenterAddress = sms.getServiceCenterAddress();
+		    			String smsSubject = sms.getPseudoSubject();
 			    		_title = "SMS Message";
 			    		try{
-			    			String smsSubject = sms.getPseudoSubject();
-				    		if (_debug) Log.v("TEST 1");
-				    			StringBuilder messageBody = new StringBuilder();
-				    			if (_debug) Log.v("TEST 1");
-					            //Get the entire message body from the new message.
-					    		int messagesLength = msgs.length;
-					    	if (_debug) Log.v("TEST 2");
-					            for (int i = 0; i < messagesLength; i++){                
-					            	//messageBody.append(msgs[i].getMessageBody().toString());
-					            	messageBody.append(msgs[i].getDisplayMessageBody().toString());
-					            }
-					        if (_debug) Log.v("TEST 3");    
-					            if(messageBody.toString().startsWith(_sentFromAddress)){
-					            	_messageBody = messageBody.toString().substring(_sentFromAddress.length());
-					            }
-					        if (_debug) Log.v("TEST 4");     
-					            if(smsSubject != null && !smsSubject.equals("")){
-				    				_messageBody = "(" + smsSubject + ")" + messageBody.toString();
-				    			}else{
-				    				_messageBody = messageBody.toString();
-				    			}
-					        if (_debug) Log.v("TEST 5");    
-				            
+			    			StringBuilder messageBody = new StringBuilder();
+			    			if (_debug) Log.v("TEST 1");
+				            //Get the entire message body from the new message.
+				    		int messagesLength = msgs.length;
+				            for (int i = 0; i < messagesLength; i++){                
+				            	//messageBody.append(msgs[i].getMessageBody().toString());
+				            	messageBody.append(msgs[i].getDisplayMessageBody().toString());
+				            }   
+				            if(messageBody.toString().startsWith(_sentFromAddress)){
+				            	_messageBody = messageBody.toString().substring(_sentFromAddress.length());
+				            }    
+				            if(smsSubject != null && !smsSubject.equals("")){
+			    				_messageBody = "(" + smsSubject + ")" + messageBody.toString();
+			    			}else{
+			    				_messageBody = messageBody.toString();
+			    			}   
 			    		}catch(Exception ex){
 			    			if (_debug) Log.v("Notification.Notification(Context context, Bundle bundle, int notificationType) Parse Message Body ERROR: " + ex.toString());
 			    		}
-				        if (_debug) Log.v("TEST 6"); 
 			    		loadThreadID(_context, _sentFromAddress);
-			    		if (_debug) Log.v("TEST 7"); 
-			    		if(sms.getServiceCenterAddress() == null){
+			    		if(_serviceCenterAddress == null){
 			    			loadServiceCenterAddress(_context, _threadID);
 			    		}
-			    		if (_debug) Log.v("TEST 8"); 
 			    		loadMessageID(_context, _threadID, _messageBody, _timeStamp);
-			    		if (_debug) Log.v("TEST 9"); 
-			    		loadContactsInfoByPhoneNumber(_context, _sentFromAddress);
-			    		if (_debug) Log.v("TEST 10"); 
-			    		//Search by email if we can't find the contact info.
+			    		loadContactsInfoByPhoneNumber(_context, _sentFromAddress); 
+			    		//Search by email if we can't find the contact info by phone number.
 			    		if(!_contactExists){
 			    			loadContactsInfoByEmail(_context, _sentFromAddress);
 			    		}
@@ -171,9 +158,7 @@ public class Notification {
 	        		}
 	        	}
 	    	    if(notificationType == NOTIFICATION_TYPE_MMS){
-	    	    	_title = "MMS Message";
-	    	    	
-	    	    	//TODO - MMS
+	    	    	//Do Nothing. This should not be called if a mms is received.
 	    	    }
 	    	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
 	    	    	//Do Nothing. This should not be called if a calendar event is received.
