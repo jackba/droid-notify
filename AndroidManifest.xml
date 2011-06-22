@@ -29,9 +29,16 @@
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" /> 
             </intent-filter> 
         </receiver>
-        <service android:name=".SMSReceiverService" />
         <receiver android:name=".SMSAlarmReceiver" />
-        <service android:name=".SMSAlarmReceiverService" />
+        <service android:name=".SMSReceiverService" />
+		<receiver android:name=".MMSReceiver"> 
+			<intent-filter>
+                <action android:name="android.provider.Telephony.WAP_PUSH_RECEIVED" />
+                <data android:mimeType="application/vnd.wap.mms-message" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".MMSAlarmReceiver" />
+        <service android:name=".MMSReceiverService" />
    		<receiver android:name=".PhoneReceiver" > 
             <intent-filter> 
                 <action android:name="android.intent.action.PHONE_STATE" />

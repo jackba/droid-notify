@@ -172,6 +172,7 @@ public class Notification {
 	        	}
 	    	    if(notificationType == NOTIFICATION_TYPE_MMS){
 	    	    	_title = "MMS Message";
+	    	    	
 	    	    	//TODO - MMS
 	    	    }
 	    	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){

@@ -830,13 +830,14 @@ public class NotificationActivity extends Activity {
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_SMS){
 		    if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_SMS");
-		    Notification newSMSNotification = setupMessage(extrasBundle);
+		    Notification newSMSNotification = setupMessage(extrasBundle, notificationType);
 		    if(_preferences.getBoolean(SMS_DISPLAY_UNREAD_KEY, true)){
 		    	getAllUnreadSMSMessages(newSMSNotification.getMessageID(), newSMSNotification.getMessageBody());
 		    }
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_MMS){
 	    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_MMS");
+	    	Notification newMMSNotification = setupMessage(extrasBundle, notificationType);
 	    	//TODO - MMS
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
@@ -983,10 +984,11 @@ public class NotificationActivity extends Activity {
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_SMS){
 		    if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_SMS");
-		    setupMessage(extrasBundle);
+		    setupMessage(extrasBundle, notificationType);
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_MMS){
 	    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_MMS");
+	    	setupMessage(extrasBundle, notificationType);
 	    	//TODO - MMS
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
@@ -1049,11 +1051,11 @@ public class NotificationActivity extends Activity {
 	 * 
 	 * @return Notification - Returns the new incoming SMS message in the form of a Notification object.
 	 */
-	private Notification setupMessage(Bundle bundle) {
+	private Notification setupMessage(Bundle bundle, int notificationType) {
 		if (_debug) Log.v("NotificationActivity.setupMessages()"); 
 		NotificationViewFlipper notificationViewFlipper = _notificationViewFlipper;
 	    // Create message from bundle.
-	    Notification smsMessage = new Notification(_context, bundle, NOTIFICATION_TYPE_SMS);
+	    Notification smsMessage = new Notification(_context, bundle, notificationType);
 	    notificationViewFlipper.addNotification(smsMessage);
 	    return smsMessage;
 	}
