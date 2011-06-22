@@ -59,7 +59,7 @@ public class Notification {
 	
 	private boolean _debug = false;
 	private Context _context = null;
-	private String _phoneNumber = null;
+	private String _sentFromAddress = null;
 	private String _addressBookPhoneNumber = null;
 	private String _messageBody = null;
 	private long _timeStamp;
@@ -118,7 +118,7 @@ public class Notification {
 	            //Adjust the timestamp to the localized time of the users phone.
 	            //I don't know why the line below is "-=" and not "+=" but for some reason it works.
 	            _timeStamp -= TimeZone.getDefault().getOffset(_timeStamp);
-	    		_phoneNumber = sms.getDisplayOriginatingAddress();
+	    		_sentFromAddress = sms.getDisplayOriginatingAddress().toLowerCase();
 	    		_fromEmailGateway = sms.isEmail();
 	    		_serviceCenterAddress = sms.getServiceCenterAddress();
 	    		_messageClass = sms.getMessageClass();
@@ -128,19 +128,19 @@ public class Notification {
 	            for (int i=0; i<msgs.length; i++){                
 	            	messageBody.append(msgs[i].getMessageBody().toString());
 	            }
-	            if(messageBody.toString().startsWith(_phoneNumber)){
-	            	_messageBody = messageBody.toString().substring(_phoneNumber.length());
+	            if(messageBody.toString().startsWith(_sentFromAddress)){
+	            	_messageBody = messageBody.toString().substring(_sentFromAddress.length());
 	            }	            
 	            _messageBody = _messageBody.trim();
-	    		loadThreadID(_context, _phoneNumber);
+	    		loadThreadID(_context, _sentFromAddress);
 	    		if(sms.getServiceCenterAddress() == null){
 	    			loadServiceCenterAddress(_context, _threadID);
 	    		}
 	    		loadMessageID(_context, _threadID, _messageBody, _timeStamp);
-	    		loadContactsInfoByPhoneNumber(_context, _phoneNumber);
+	    		loadContactsInfoByPhoneNumber(_context, _sentFromAddress);
 	    		//Search by email if we can't find the contact info.
 	    		if(!_contactExists){
-	    			loadContactsInfoByEmail(_context, _phoneNumber);
+	    			loadContactsInfoByEmail(_context, _sentFromAddress);
 	    		}
         	}
     	    if(notificationType == NOTIFICATION_TYPE_MMS){
@@ -160,7 +160,7 @@ public class Notification {
 	 * Class Constructor
 	 * This constructor should be called for SMS & MMS Messages.
 	 */
-	public Notification(Context context, long messageID, long threadID, String messageBody, String phoneNumber, long timeStamp, long contactID, int notificationType) {
+	public Notification(Context context, long messageID, long threadID, String messageBody, String sentFromAddress, long timeStamp, long contactID, int notificationType) {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Notification.Notification(Context context, long messageID, long threadID, String messageBody, String phoneNumber, long timeStamp, long contactID, int notificationType)");
 		_title = "SMS Message";
@@ -172,16 +172,16 @@ public class Notification {
 		_messageID = messageID;
 		_threadID = threadID;
 		_messageBody = messageBody;
-		_phoneNumber = phoneNumber;
+		_sentFromAddress = sentFromAddress.toLowerCase();
         _timeStamp = timeStamp;
         _contactID = contactID;
         _fromEmailGateway = false;
 		_messageClass = MessageClass.CLASS_0;   
 		_notificationType = notificationType;
-		loadContactsInfoByPhoneNumber(_context, _phoneNumber);
+		loadContactsInfoByPhoneNumber(_context, _sentFromAddress);
 		//Search by email if we can't find the contact info.
 		if(!_contactExists){
-			loadContactsInfoByEmail(_context, _phoneNumber);
+			loadContactsInfoByEmail(_context, _sentFromAddress);
 		}
 	}
 	
@@ -189,7 +189,7 @@ public class Notification {
 	 * Class Constructor
 	 * This constructor should be called for TEST SMS & MMS Messages.
 	 */
-	public Notification(Context context, String phoneNumber, String messageBody, long timeStamp, int notificationType) {
+	public Notification(Context context, String sentFromAddress, String messageBody, long timeStamp, int notificationType) {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Notification.Notification(Context context, String phoneNumber, String messageBody, long timeStamp, int notificationType)");
 		_title = "SMS Message";
@@ -199,7 +199,7 @@ public class Notification {
 		_contactPhotoExists = false;
 		_notificationType = notificationType;
         _timeStamp = timeStamp;
-		_phoneNumber = phoneNumber;
+		_sentFromAddress = sentFromAddress.toLowerCase();
         _fromEmailGateway = false;
 		_messageClass = MessageClass.CLASS_0;
         _messageBody = messageBody;
@@ -209,7 +209,7 @@ public class Notification {
 	 * Class Constructor
 	 * This constructor should be called for Missed Calls.
 	 */
-	public Notification(Context context, String phoneNumber, long timeStamp, int notificationType){
+	public Notification(Context context, String sentFromAddress, long timeStamp, int notificationType){
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Notification.Notification(Context context, String phoneNumber, long timeStamp, int notificationType)");
 		_context = context;
@@ -218,12 +218,12 @@ public class Notification {
 		_contactPhotoExists = false;
 		_notificationType = notificationType;
     	if(notificationType == NOTIFICATION_TYPE_PHONE){
-    		_phoneNumber = phoneNumber;
+    		_sentFromAddress = sentFromAddress.toLowerCase();
     		_timeStamp = timeStamp;
     		_title = "Missed Call";
       		//Don't load contact info if this is a test message (Phone Number: 555-555-5555).
-    		if(!phoneNumber.equals("5555555555")){
-    			loadContactsInfoByPhoneNumber(context, phoneNumber);
+    		if(!sentFromAddress.equals("5555555555")){
+    			loadContactsInfoByPhoneNumber(context, sentFromAddress);
     		}
 	    }
     	if(notificationType == NOTIFICATION_TYPE_SMS || notificationType == NOTIFICATION_TYPE_MMS){
@@ -279,27 +279,27 @@ public class Notification {
 	// Public Methods
 	//================================================================================
 	
-	/**
-	 * Get the addressBookPhoneNumber property.
-	 * 
-	 * @return addressBookPhoneNumber - Phone's contact phone number or stored phone number if not available.
-	 */
-	public String getAddressBookPhoneNumber() {
-		if (_debug) Log.v("Notification.getAddressBookPhoneNumber()");
-		if(_addressBookPhoneNumber == null){
-			return _phoneNumber;
-		}
-		return _addressBookPhoneNumber;
-	}
+//	/**
+//	 * Get the addressBookPhoneNumber property.
+//	 * 
+//	 * @return addressBookPhoneNumber - Phone's contact phone number or stored phone number if not available.
+//	 */
+//	public String getAddressBookPhoneNumber() {
+//		if (_debug) Log.v("Notification.getAddressBookPhoneNumber()");
+//		if(_addressBookPhoneNumber == null){
+//			return _sentFromAddress;
+//		}
+//		return _addressBookPhoneNumber;
+//	}
 	
 	/**
 	 * Get the phoneNumber property.
 	 * 
 	 * @return phoneNumber - Contact's phone number.
 	 */
-	public String getPhoneNumber() {
-		if (_debug) Log.v("Notification.getPhoneNumber()");
-		return _phoneNumber;
+	public String getSentFromAddress() {
+		if (_debug) Log.v("Notification.getSentFromAddress()");
+		return _sentFromAddress;
 	}
 	
 	/**
@@ -332,7 +332,7 @@ public class Notification {
 	 */
 	public long getThreadID() {
 		if(_threadID == 0){
-			loadThreadID(_context, getPhoneNumber());
+			loadThreadID(_context, _sentFromAddress);
 		}
 		if (_debug) Log.v("Notification.getThreadID() ThreadID: " + _threadID);
 	    return _threadID;
@@ -510,7 +510,7 @@ public class Notification {
 		}
 		if(_threadID == 0){
 			if (_debug) Log.v("Notification.deleteMessage() Thread ID == 0. Load Thread ID");
-			loadThreadID(_context, _phoneNumber);
+			loadThreadID(_context, _sentFromAddress);
 		}
 		if(_messageID == 0){
 			if (_debug) Log.v("Notification.deleteMessage() Message ID == 0. Load Message ID");
@@ -691,19 +691,18 @@ public class Notification {
 	 * @param context - Application Context.
 	 * @param phoneNumber - Notifications's phone number.
 	 */ 
-	private void loadContactsInfoByPhoneNumber(Context context, String phoneNumber){
+	private void loadContactsInfoByPhoneNumber(Context context, String incomingNumber){
 		if (_debug) Log.v("Notification.loadContactsInfo()");
-		if (phoneNumber == null) {
+		if (incomingNumber == null) {
 			if (_debug) Log.v("Notification.loadContactsInfo() Phone number provided is NULL: Exiting...");
 			return;
 		}
 		//Exit if the phone number is an email address.
-		if (phoneNumber.contains("@")) {
+		if (incomingNumber.contains("@")) {
 			if (_debug) Log.v("Notification.loadContactsInfo() Phone number provided appears to be an email address: Exiting...");
 			return;
 		}
 		try{
-			PhoneNumber incomingNumber = new PhoneNumber(phoneNumber);
 			final String[] projection = null;
 			final String selection = ContactsContract.Contacts.HAS_PHONE_NUMBER + " = 1";
 			final String[] selectionArgs = null;
@@ -732,8 +731,8 @@ public class Notification {
 						phoneSortOrder); 
 				while (phoneCursor.moveToNext()) { 
 					String addressBookPhoneNumber = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-					PhoneNumber contactNumber = new PhoneNumber(addressBookPhoneNumber);
-					if(incomingNumber.getPhoneNumber().equals(contactNumber.getPhoneNumber())){
+					String contactNumber = addressBookPhoneNumber;
+					if(removeFormatting(incomingNumber).equals(removeFormatting(contactNumber))){
 						_contactID = Long.parseLong(contactID);
 						if(addressBookPhoneNumber != null){
 		    			  	_addressBookPhoneNumber = addressBookPhoneNumber;
@@ -889,7 +888,7 @@ public class Notification {
 			contentValues.put(android.provider.CallLog.Calls.NEW, 1);
 		}
 		String selection = android.provider.CallLog.Calls.NUMBER + " = ? and " + android.provider.CallLog.Calls.DATE + " = ?";
-		String[] selectionArgs = new String[] {DatabaseUtils.sqlEscapeString(_phoneNumber), Long.toString(_timeStamp)};
+		String[] selectionArgs = new String[] {DatabaseUtils.sqlEscapeString(_sentFromAddress), Long.toString(_timeStamp)};
 		try{
 			_context.getContentResolver().update(
 					Uri.parse("content://call_log/calls"),
@@ -907,7 +906,7 @@ public class Notification {
 	private void deleteFromCallLog(){
 		if (_debug) Log.v("Notification.deleteFromCallLog()");
 		String selection = android.provider.CallLog.Calls.NUMBER + " = ? and " + android.provider.CallLog.Calls.DATE + " = ?";
-		String[] selectionArgs = new String[] {DatabaseUtils.sqlEscapeString(_phoneNumber), Long.toString(_timeStamp)};
+		String[] selectionArgs = new String[] {DatabaseUtils.sqlEscapeString(_sentFromAddress), Long.toString(_timeStamp)};
 		try{
 			_context.getContentResolver().delete(
 					Uri.parse("content://call_log/calls"),
@@ -1022,4 +1021,25 @@ public class Notification {
     	}
 		return formattedMessage;
 	}
+	
+	/**
+	 * Remove all non-numeric items from the phone number.
+	 * 
+	 * @param phoneNumber - String of original phone number.
+	 * 
+	 * @return phoneNumber - String of phone number with no formatting.
+	 */
+	private String removeFormatting(String  phoneNumber){
+		if (_debug) Log.v("Notification.removeFormatting()");
+		phoneNumber = phoneNumber.replace("-", "");
+		phoneNumber = phoneNumber.replace("+", "");
+		phoneNumber = phoneNumber.replace("(", "");
+		phoneNumber = phoneNumber.replace(")", "");
+		phoneNumber = phoneNumber.replace(" ", "");
+		if(phoneNumber.length() > 10){
+			phoneNumber = phoneNumber.substring(phoneNumber.length() - 10, phoneNumber.length());
+		}		
+		return phoneNumber.trim();
+	}
+	
 }

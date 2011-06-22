@@ -223,7 +223,7 @@ public class NotificationActivity extends Activity {
 					if(notification.getContactExists()){
 						contextMenu.setHeaderTitle(notification.getContactName()); 
 					}else{
-						contextMenu.setHeaderTitle(notification.getPhoneNumber()); 
+						contextMenu.setHeaderTitle(notification.getSentFromAddress()); 
 					}
 				}
 				menuInflater.inflate(R.menu.notificationcontextmenu, contextMenu);
@@ -296,13 +296,13 @@ public class NotificationActivity extends Activity {
 		switch (menuItem.getItemId()) {
 			case ADD_CONTACT_CONTEXT_MENU:{
 				try{
-					String phoneNumber = notification.getPhoneNumber();
+					String sentFromAddress = notification.getSentFromAddress();
 					intent = new Intent(Intent.ACTION_INSERT);
 					intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
-					if(phoneNumber.contains("@")){
-						intent.putExtra(ContactsContract.Intents.Insert.EMAIL, phoneNumber);
+					if(sentFromAddress.contains("@")){
+						intent.putExtra(ContactsContract.Intents.Insert.EMAIL, sentFromAddress);
 					}else{
-						intent.putExtra(ContactsContract.Intents.Insert.PHONE, phoneNumber);
+						intent.putExtra(ContactsContract.Intents.Insert.PHONE, sentFromAddress);
 					}		
 			        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP
 			        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
@@ -1391,10 +1391,10 @@ public class NotificationActivity extends Activity {
 		if (_debug) Log.v("NotificationActivity.createTextNotifications()");
 		NotificationViewFlipper notificationViewFlipper = _notificationViewFlipper;
 		//Add SMS Message Notification.
-		Notification smsNotification = new Notification(_context, "5555555555", "Droid Notify SMS Message Test", System.currentTimeMillis(), NOTIFICATION_TYPE_SMS);
+		Notification smsNotification = new Notification(_context, "15555555555", "Droid Notify SMS Message Test", System.currentTimeMillis(), NOTIFICATION_TYPE_SMS);
 		notificationViewFlipper.addNotification(smsNotification);
 		//Add Missed Call Notification.
-		Notification missedCallNotification = new Notification(_context, "5555555555", System.currentTimeMillis(), NOTIFICATION_TYPE_PHONE);
+		Notification missedCallNotification = new Notification(_context, "15555555555", System.currentTimeMillis(), NOTIFICATION_TYPE_PHONE);
 		notificationViewFlipper.addNotification(missedCallNotification);
 		//Add Calendar Event Notification.
 		Notification calendarEventNotification = new Notification(_context, "Droid Notify Calendar Event Test", "", System.currentTimeMillis(), System.currentTimeMillis() + (10 * 60 * 1000), false, "Test Calendar",  0, 0, NOTIFICATION_TYPE_CALENDAR);
@@ -1673,7 +1673,7 @@ public class NotificationActivity extends Activity {
 				return null;
 			}
 		}else{
-			String phoneNumber = notification.getPhoneNumber();
+			String phoneNumber = notification.getSentFromAddress();
 			if(!phoneNumber.contains("@")){
 				return new String[] {phoneNumber};
 			}else{

@@ -50,6 +50,11 @@ public class NotificationView extends LinearLayout {
 	private static final int NOTIFICATION_TYPE_CALENDAR = 3;
 	private static final int NOTIFICATION_TYPE_EMAIL = 4;
 	
+	private static final int PHONE_NUMBER_FORMAT_A = 1;
+	private static final int PHONE_NUMBER_FORMAT_B = 2;
+	private static final int PHONE_NUMBER_FORMAT_C = 3;
+	private static final int PHONE_NUMBER_FORMAT_D = 4;
+	
 	//private static final int ADD_CONTACT_ACTIVITY = 1;
 	//private static final int EDIT_CONTACT_ACTIVITY = 2;
 	//private static final int VIEW_CONTACT_ACTIVITY = 3;
@@ -158,8 +163,11 @@ public class NotificationView extends LinearLayout {
 		View.inflate(context, themeResource, this);
 		_contactNameTextView = (TextView) findViewById(R.id.contact_name_text_view);
 		_contactNumberTextView = (TextView) findViewById(R.id.contact_number_text_view);
+		
 		//Automatically format the phone number in this text view.
-		_contactNumberTextView.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
+		//_contactNumberTextView.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
+		
+		
 		_notificationInfoTextView = (TextView) findViewById(R.id.notification_info_text_view);
 		_photoImageView = (ImageView) findViewById(R.id.contact_photo_image_view);
 	    _notificationIconImageView = (ImageView) findViewById(R.id.notification_type_icon_image_view);    
@@ -332,10 +340,11 @@ public class NotificationView extends LinearLayout {
 			_photoImageView.setVisibility(View.GONE);
 		}else{
 			_contactNameTextView.setText(notification.getContactName());
-		    if(notification.getContactExists()){
-		    	_contactNumberTextView.setText(notification.getAddressBookPhoneNumber());
+			String sentFromAddress = notification.getSentFromAddress();
+		    if(sentFromAddress.contains("@")){
+		    	_contactNumberTextView.setText(sentFromAddress);
 		    }else{
-		    	_contactNumberTextView.setText(notification.getPhoneNumber());
+		    	_contactNumberTextView.setText(formatPhoneNumber(sentFromAddress));
 		    }
 		}
 		if(_notificationType == NOTIFICATION_TYPE_PHONE){
@@ -494,7 +503,7 @@ public class NotificationView extends LinearLayout {
 	private void replyToMessage() {
 		if (_debug) Log.v("NotificationView.replyToMessage()");
 		//Setup Reply action.
-		String phoneNumber = _notification.getPhoneNumber();
+		String phoneNumber = _notification.getSentFromAddress();
 		if(phoneNumber == null){
 			Toast.makeText(_context, _context.getString(R.string.app_android_reply_messaging_address_error), Toast.LENGTH_LONG).show();
 			return;
@@ -547,12 +556,8 @@ public class NotificationView extends LinearLayout {
 	 */
 	private void makePhoneCall(){
 		if (_debug) Log.v("NotificationView.makePhoneCall()");
-		String phoneNumber = _notification.getPhoneNumber();
-		String addressBookPhoneNumber = _notification.getAddressBookPhoneNumber();
-		String numberToBeCalled = addressBookPhoneNumber;
-		if(numberToBeCalled == null){
-			numberToBeCalled = phoneNumber;
-		}
+		String phoneNumber = _notification.getSentFromAddress();
+		String numberToBeCalled = phoneNumber;
 		if(numberToBeCalled == null || numberToBeCalled.contains("@")){
 			Toast.makeText(_context, _context.getString(R.string.app_android_phone_number_format_error), Toast.LENGTH_LONG).show();
 			return;
@@ -783,6 +788,111 @@ public class NotificationView extends LinearLayout {
 	     };
 	     LinearLayout contactWrapperLinearLayout = (LinearLayout) findViewById(R.id.contact_wrapper_linear_layout);
 	     contactWrapperLinearLayout.setOnTouchListener(contactWrapperOnTouchListener);
+	}
+	
+	/**
+	 * Remove all non-numeric items from the phone number.
+	 * 
+	 * @param phoneNumber - String of original phone number.
+	 * 
+	 * @return phoneNumber - String of phone number with no formatting.
+	 */
+	private String removeFormatting(String  phoneNumber){
+		if (_debug) Log.v("NotificationView.removeFormatting()");
+		phoneNumber = phoneNumber.replace("-", "");
+		phoneNumber = phoneNumber.replace("+", "");
+		phoneNumber = phoneNumber.replace("(", "");
+		phoneNumber = phoneNumber.replace(")", "");
+		phoneNumber = phoneNumber.replace(" ", "");
+		return phoneNumber.trim();
+	}
+	
+	/**
+	 * Function to format phone numbers.
+	 * 
+	 * @param inputPhoneNumber - Phone number to be formatted.
+	 * 
+	 * @return String - Formatted phone number string.
+	 */
+	private String formatPhoneNumber(String inputPhoneNumber){
+		if (_debug) Log.v("NotificationView.formatPhoneNumber()");
+		inputPhoneNumber = removeFormatting(inputPhoneNumber);
+		StringBuilder outputPhoneNumber = new StringBuilder("");
+		//TODO - Add preference for the phone number format in Advanced Preferences
+		int phoneNumberFormatPreference = 1;
+		switch(phoneNumberFormatPreference){
+			case PHONE_NUMBER_FORMAT_A:{
+				if(inputPhoneNumber.length() >= 10){
+					//Format ###-###-#### e.g. 123-456-7890
+					outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 4, inputPhoneNumber.length()));
+					outputPhoneNumber.insert(0,"-");
+					outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 7, inputPhoneNumber.length() - 4));
+					outputPhoneNumber.insert(0,"-");
+					if(inputPhoneNumber.length() == 10){
+						outputPhoneNumber.insert(0,inputPhoneNumber.substring(0, inputPhoneNumber.length() - 7));
+					}else{
+						outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 10, inputPhoneNumber.length() - 7));
+						outputPhoneNumber.insert(0,"-");
+						outputPhoneNumber.insert(0,inputPhoneNumber.substring(0, inputPhoneNumber.length() - 10));
+					}
+				}else{
+					outputPhoneNumber.append(inputPhoneNumber);
+				}
+				break;
+			}
+			case PHONE_NUMBER_FORMAT_B:{
+				if(inputPhoneNumber.length() >= 10){
+					//Format ##-###-##### e.g. 12-345-67890
+					outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 5, inputPhoneNumber.length()));
+					outputPhoneNumber.insert(0,"-");
+					outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 8, inputPhoneNumber.length() - 5));
+					outputPhoneNumber.insert(0,"-");
+					if(inputPhoneNumber.length() == 10){
+						outputPhoneNumber.insert(0,inputPhoneNumber.substring(0, inputPhoneNumber.length() - 8));
+					}else{
+						outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 10, inputPhoneNumber.length() - 8));
+						outputPhoneNumber.insert(0,"-");
+						outputPhoneNumber.insert(0,inputPhoneNumber.substring(0, inputPhoneNumber.length() - 10));
+					}
+				}else{
+					outputPhoneNumber.append(inputPhoneNumber);
+				}
+				break;
+			}
+			case PHONE_NUMBER_FORMAT_C:{
+				if(inputPhoneNumber.length() >= 10){
+					//Format #-##-##-##-## e.g. 12-34-56-78-90
+					outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 2, inputPhoneNumber.length()));
+					outputPhoneNumber.insert(0,"-");
+					outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 4, inputPhoneNumber.length() - 2));
+					outputPhoneNumber.insert(0,"-");
+					outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 6, inputPhoneNumber.length() - 4));
+					outputPhoneNumber.insert(0,"-");
+					outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 8, inputPhoneNumber.length() - 6));
+					outputPhoneNumber.insert(0,"-");
+					if(inputPhoneNumber.length() == 10){
+						outputPhoneNumber.insert(0,inputPhoneNumber.substring(0, inputPhoneNumber.length() - 8));
+					}else{
+						outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 10, inputPhoneNumber.length() - 8));
+						outputPhoneNumber.insert(0,"-");
+						outputPhoneNumber.insert(0,inputPhoneNumber.substring(0, inputPhoneNumber.length() - 10));
+					}
+				}else{
+					outputPhoneNumber.append(inputPhoneNumber);
+				}
+				break;
+			}
+			case PHONE_NUMBER_FORMAT_D:{
+				//Format ########## e.g. 1234567890
+				outputPhoneNumber.append(inputPhoneNumber);
+				break;
+			}
+			default:{
+				outputPhoneNumber.append(inputPhoneNumber);
+				break;
+			}
+		}
+		return outputPhoneNumber.toString();
 	}
 	
 }

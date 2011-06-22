@@ -454,7 +454,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 	private boolean containsNotification(Notification newNotification) {
 		if (_debug) Log.v("NotificationViewFlipper.containsNotification()");
 		for (Notification currentNotification : _notifications) {
-			if(newNotification.getPhoneNumber() == currentNotification.getPhoneNumber() && newNotification.getTimeStamp() == currentNotification.getTimeStamp()){
+			if(newNotification.getSentFromAddress() == currentNotification.getSentFromAddress() && newNotification.getTimeStamp() == currentNotification.getTimeStamp()){
 				return true;
 			}
 		}
