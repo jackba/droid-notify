@@ -2,11 +2,9 @@ package apps.droidnotify;
 
 import android.app.Activity;
 import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
@@ -265,30 +263,30 @@ public class QuickReplyActivity extends Activity {
         final String SMS_DELIVERED = "SMS_DELIVERED";
         PendingIntent sentPI = PendingIntent.getBroadcast(this, 0, new Intent(SMS_SENT), 0);
         PendingIntent deliveredPI = PendingIntent.getBroadcast(this, 0, new Intent(SMS_DELIVERED), 0);
-        //When the SMS has been sent.
-        registerReceiver(new BroadcastReceiver(){
-            @Override
-            public void onReceive(Context arg0, Intent arg1) {
-                switch (getResultCode())
-                {
-                    case Activity.RESULT_OK:
-                        Toast.makeText(getBaseContext(), getString(R.string.message_sent_text), Toast.LENGTH_SHORT).show();
-                        break;
-                    case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
-                        Toast.makeText(getBaseContext(), getString(R.string.message_sent_error_generic_failure_text), Toast.LENGTH_SHORT).show();
-                        break;
-                    case SmsManager.RESULT_ERROR_NO_SERVICE:
-                        Toast.makeText(getBaseContext(), getString(R.string.message_sent_error_no_service_text), Toast.LENGTH_SHORT).show();
-                        break;
-                    case SmsManager.RESULT_ERROR_NULL_PDU:
-                        Toast.makeText(getBaseContext(), getString(R.string.message_sent_error_null_pdu_text), Toast.LENGTH_SHORT).show();
-                        break;
-                    case SmsManager.RESULT_ERROR_RADIO_OFF:
-                        Toast.makeText(getBaseContext(), getString(R.string.message_sent_error_radio_off_text), Toast.LENGTH_SHORT).show();
-                        break;
-                }
-            }
-        }, new IntentFilter(SMS_SENT));
+//        //When the SMS has been sent.
+//        registerReceiver(new BroadcastReceiver(){
+//            @Override
+//            public void onReceive(Context arg0, Intent arg1) {
+//                switch (getResultCode())
+//                {
+//                    case Activity.RESULT_OK:
+//                        Toast.makeText(getBaseContext(), getString(R.string.message_sent_text), Toast.LENGTH_SHORT).show();
+//                        break;
+//                    case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
+//                        Toast.makeText(getBaseContext(), getString(R.string.message_sent_error_generic_failure_text), Toast.LENGTH_SHORT).show();
+//                        break;
+//                    case SmsManager.RESULT_ERROR_NO_SERVICE:
+//                        Toast.makeText(getBaseContext(), getString(R.string.message_sent_error_no_service_text), Toast.LENGTH_SHORT).show();
+//                        break;
+//                    case SmsManager.RESULT_ERROR_NULL_PDU:
+//                        Toast.makeText(getBaseContext(), getString(R.string.message_sent_error_null_pdu_text), Toast.LENGTH_SHORT).show();
+//                        break;
+//                    case SmsManager.RESULT_ERROR_RADIO_OFF:
+//                        Toast.makeText(getBaseContext(), getString(R.string.message_sent_error_radio_off_text), Toast.LENGTH_SHORT).show();
+//                        break;
+//                }
+//            }
+//        }, new IntentFilter(SMS_SENT));
 //        //When the SMS has been delivered.
 //        registerReceiver(new BroadcastReceiver(){
 //            @Override

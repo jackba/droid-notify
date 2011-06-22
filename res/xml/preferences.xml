@@ -51,19 +51,6 @@
 			android:title="@string/preference_notifications"
 			android:dependency="app_enabled">
 			<PreferenceCategory
-				android:key="theme_settings_category"
-				android:title="@string/theme_text">
-				<apps.droidnotify.preferences.ImageListPreference
-					android:key="app_theme"
-					android:title="@string/theme_text"
-					android:summary="@string/preference_theme_summary"
-					android:entries="@array/theme_options"
-					android:entryValues="@array/theme_values"
-					droidnotify:entryImages="@array/theme_images"
-					android:defaultValue="android"
-					android:dependency="app_enabled" />
-			</PreferenceCategory>
-			<PreferenceCategory
 				android:key="sms_notification_settings_category"
 				android:title="@string/preference_sms_notifications">
 				<CheckBoxPreference 
@@ -334,6 +321,27 @@
 			android:key="misc_settings_screen"
 			android:title="@string/misc_settings_text"
 			android:dependency="app_enabled">
+			<PreferenceCategory
+				android:key="theme_settings_category"
+				android:title="@string/theme_text">
+				<apps.droidnotify.preferences.ImageListPreference
+					android:key="app_theme"
+					android:title="@string/theme_text"
+					android:summary="@string/preference_theme_summary"
+					android:entries="@array/theme_options"
+					android:entryValues="@array/theme_values"
+					droidnotify:entryImages="@array/theme_images"
+					android:defaultValue="android"
+					android:dependency="app_enabled" />
+			</PreferenceCategory>
+			<ListPreference
+				android:key="phone_number_format_settings"
+				android:title="@string/preference_phone_number_format"
+				android:summary="@string/preference_phone_number_format_summary"
+				android:defaultValue="1"
+				android:entries="@array/phone_number_format_options"
+				android:entryValues="@array/phone_number_format_options_values"
+				android:dependency="app_enabled" />
 			<apps.droidnotify.preferences.ImageListPreference
 				android:key="contact_placeholder"
 				android:title="@string/preference_contact_placeholder_image"

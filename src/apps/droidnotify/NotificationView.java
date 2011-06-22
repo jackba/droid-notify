@@ -18,7 +18,6 @@ import android.graphics.drawable.TransitionDrawable;
 import android.net.Uri;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
-import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.text.Html;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Gravity;
@@ -54,6 +53,7 @@ public class NotificationView extends LinearLayout {
 	private static final int PHONE_NUMBER_FORMAT_B = 2;
 	private static final int PHONE_NUMBER_FORMAT_C = 3;
 	private static final int PHONE_NUMBER_FORMAT_D = 4;
+	private static final int PHONE_NUMBER_FORMAT_E = 5;
 	
 	//private static final int ADD_CONTACT_ACTIVITY = 1;
 	//private static final int EDIT_CONTACT_ACTIVITY = 2;
@@ -72,6 +72,7 @@ public class NotificationView extends LinearLayout {
 	private static final String SMS_REPLY_BUTTON_ACTION_KEY = "sms_reply_button_action";
 	private static final String CONTACT_PLACEHOLDER_KEY = "contact_placeholder";
 	private static final String BUTTON_ICONS_KEY = "button_icons_enabled";
+	private static final String PHONE_NUMBER_FORMAT_KEY = "phone_number_format_settings";
 	
 	private static final String APP_THEME_KEY = "app_theme";
 	private static final String ANDROID_THEME = "android";
@@ -163,11 +164,8 @@ public class NotificationView extends LinearLayout {
 		View.inflate(context, themeResource, this);
 		_contactNameTextView = (TextView) findViewById(R.id.contact_name_text_view);
 		_contactNumberTextView = (TextView) findViewById(R.id.contact_number_text_view);
-		
 		//Automatically format the phone number in this text view.
 		//_contactNumberTextView.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
-		
-		
 		_notificationInfoTextView = (TextView) findViewById(R.id.notification_info_text_view);
 		_photoImageView = (ImageView) findViewById(R.id.contact_photo_image_view);
 	    _notificationIconImageView = (ImageView) findViewById(R.id.notification_type_icon_image_view);    
@@ -819,11 +817,11 @@ public class NotificationView extends LinearLayout {
 		inputPhoneNumber = removeFormatting(inputPhoneNumber);
 		StringBuilder outputPhoneNumber = new StringBuilder("");
 		//TODO - Add preference for the phone number format in Advanced Preferences
-		int phoneNumberFormatPreference = 1;
+		int phoneNumberFormatPreference = Integer.parseInt(_preferences.getString(PHONE_NUMBER_FORMAT_KEY, "1"));
 		switch(phoneNumberFormatPreference){
 			case PHONE_NUMBER_FORMAT_A:{
 				if(inputPhoneNumber.length() >= 10){
-					//Format ###-###-#### e.g. 123-456-7890
+					//Format ###-###-#### (e.g.123-456-7890)
 					outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 4, inputPhoneNumber.length()));
 					outputPhoneNumber.insert(0,"-");
 					outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 7, inputPhoneNumber.length() - 4));
@@ -842,7 +840,7 @@ public class NotificationView extends LinearLayout {
 			}
 			case PHONE_NUMBER_FORMAT_B:{
 				if(inputPhoneNumber.length() >= 10){
-					//Format ##-###-##### e.g. 12-345-67890
+					//Format ##-###-##### (e.g.12-345-67890)
 					outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 5, inputPhoneNumber.length()));
 					outputPhoneNumber.insert(0,"-");
 					outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 8, inputPhoneNumber.length() - 5));
@@ -861,7 +859,7 @@ public class NotificationView extends LinearLayout {
 			}
 			case PHONE_NUMBER_FORMAT_C:{
 				if(inputPhoneNumber.length() >= 10){
-					//Format #-##-##-##-## e.g. 12-34-56-78-90
+					//Format ##-##-##-##-## (e.g.12-34-56-78-90)
 					outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 2, inputPhoneNumber.length()));
 					outputPhoneNumber.insert(0,"-");
 					outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 4, inputPhoneNumber.length() - 2));
@@ -883,8 +881,28 @@ public class NotificationView extends LinearLayout {
 				break;
 			}
 			case PHONE_NUMBER_FORMAT_D:{
-				//Format ########## e.g. 1234567890
+				//Format ########## (e.g.1234567890)
 				outputPhoneNumber.append(inputPhoneNumber);
+				break;
+			}
+			case PHONE_NUMBER_FORMAT_E:{
+				if(inputPhoneNumber.length() >= 10){
+					//Format (###) ###-#### (e.g.(123) 456-7890)
+					outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 4, inputPhoneNumber.length()));
+					outputPhoneNumber.insert(0,"-");
+					outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 7, inputPhoneNumber.length() - 4));
+					outputPhoneNumber.insert(0,") ");
+					if(inputPhoneNumber.length() == 10){
+						outputPhoneNumber.insert(0,inputPhoneNumber.substring(0, inputPhoneNumber.length() - 7));
+						outputPhoneNumber.insert(0,"(");
+					}else{
+						outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 10, inputPhoneNumber.length() - 7));
+						outputPhoneNumber.insert(0," (");
+						outputPhoneNumber.insert(0,inputPhoneNumber.substring(0, inputPhoneNumber.length() - 10));
+					}
+				}else{
+					outputPhoneNumber.append(inputPhoneNumber);
+				}
 				break;
 			}
 			default:{
