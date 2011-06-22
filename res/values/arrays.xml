@@ -383,4 +383,25 @@
 		<item name="10">100</item>
 	</string-array>
 	
+	<!-- Dim Screen Arrays --> 
+	<string-array name="quick_reply_sms_gateway_options">
+		<item name="0">(USA) Sprint PCS / Virgin-Mobile</item>
+		<item name="1">(USA) T-Mobile</item>
+		<item name="2">(USA) AT&amp;T</item>
+		<item name="3">(USA) AT&amp;T [alternate]</item>
+		<item name="4">(UK) AQL</item>
+		<item name="5">(UK) AQL [alternate]</item>
+		<item name="6">(Croatia) T-Mobile</item>
+		<item name="7">(Costa Rica) ICS</item>
+	</string-array>
+	<string-array name="quick_reply_sms_gateway_options_values">
+		<item name="0">1</item>
+		<item name="1">2</item>
+		<item name="2">3</item>
+		<item name="3">4</item>
+		<item name="4">5</item>
+		<item name="5">6</item>
+		<item name="6">7</item>
+		<item name="7">8</item>
+	</string-array>	
 </resources>

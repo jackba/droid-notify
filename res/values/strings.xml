@@ -256,4 +256,7 @@
    	<string name="preference_landscape_screen_enabled_summaryOn">The screens will rotate to landscape mode when the phone is rotated.</string>
    	<string name="preference_landscape_screen_enabled_summaryOff">The screens will not rotate to landscape mode when the phone is rotated.</string>
    	
+   	<string name="preference_quick_reply_sms_gateway">SMS-to-Email Gateway</string>
+   	<string name="preference_quick_reply_sms_gateway_summary">Please select your service provider from this list. If you can\'t find it unfortunately you won\'t be able to send an SMS message to an Email address using the built in Quick Reply. (Please try using the Android Messaging App)</string>
+   	
 </resources>
