@@ -1391,10 +1391,10 @@ public class NotificationActivity extends Activity {
 		if (_debug) Log.v("NotificationActivity.createTextNotifications()");
 		NotificationViewFlipper notificationViewFlipper = _notificationViewFlipper;
 		//Add SMS Message Notification.
-		Notification smsNotification = new Notification(_context, "15555555555", "Droid Notify SMS Message Test", System.currentTimeMillis(), NOTIFICATION_TYPE_SMS);
+		Notification smsNotification = new Notification(_context, "5555555555", "Droid Notify SMS Message Test", System.currentTimeMillis(), NOTIFICATION_TYPE_SMS);
 		notificationViewFlipper.addNotification(smsNotification);
 		//Add Missed Call Notification.
-		Notification missedCallNotification = new Notification(_context, "15555555555", System.currentTimeMillis(), NOTIFICATION_TYPE_PHONE);
+		Notification missedCallNotification = new Notification(_context, "5555555555", System.currentTimeMillis(), NOTIFICATION_TYPE_PHONE);
 		notificationViewFlipper.addNotification(missedCallNotification);
 		//Add Calendar Event Notification.
 		Notification calendarEventNotification = new Notification(_context, "Droid Notify Calendar Event Test", "", System.currentTimeMillis(), System.currentTimeMillis() + (10 * 60 * 1000), false, "Test Calendar",  0, 0, NOTIFICATION_TYPE_CALENDAR);

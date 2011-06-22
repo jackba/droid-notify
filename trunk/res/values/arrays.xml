@@ -404,4 +404,20 @@
 		<item name="6">7</item>
 		<item name="7">8</item>
 	</string-array>	
+	
+	<!-- Phone Number Format Arrays --> 
+	<string-array name="phone_number_format_options">
+		<item name="0">###-###-####\n(e.g.123-456-7890)</item>
+		<item name="1">##-###-#####\n(e.g.12-345-67890)</item>
+		<item name="2">##-##-##-##-##\n(e.g.12-34-56-78-90)</item>
+		<item name="3">##########\n(e.g.1234567890)</item>
+		<item name="4">(###) ###-####\n(e.g.(123) 456-7890)</item>
+	</string-array>
+	<string-array name="phone_number_format_options_values">
+		<item name="0">1</item>
+		<item name="1">2</item>
+		<item name="2">3</item>
+		<item name="3">4</item>
+		<item name="4">5</item>
+	</string-array>	
 </resources>
