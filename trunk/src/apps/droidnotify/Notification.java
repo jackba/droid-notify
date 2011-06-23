@@ -71,7 +71,6 @@ public class Notification {
 	private int _notificationType = 0;
 	private long _messageID = 0;
 	private boolean _fromEmailGateway = false;
-	private String _serviceCenterAddress = null;
 	private boolean _contactExists = false;
 	private boolean _contactPhotoExists = false;
 	private String _title = null;
@@ -120,7 +119,6 @@ public class Notification {
 			            _timeStamp -= TimeZone.getDefault().getOffset(_timeStamp);
 			            _sentFromAddress = sms.getDisplayOriginatingAddress().toLowerCase();
 			    		_fromEmailGateway = sms.isEmail();
-			    		_serviceCenterAddress = sms.getServiceCenterAddress();
 		    			String smsSubject = sms.getPseudoSubject();
 			    		_title = "SMS Message";
 			    		try{
@@ -144,9 +142,6 @@ public class Notification {
 			    			if (_debug) Log.v("Notification.Notification(Context context, Bundle bundle, int notificationType) Parse Message Body ERROR: " + ex.toString());
 			    		}
 			    		loadThreadID(_context, _sentFromAddress);
-			    		if(_serviceCenterAddress == null){
-			    			loadServiceCenterAddress(_context, _threadID);
-			    		}
 			    		loadMessageID(_context, _threadID, _messageBody, _timeStamp);
 			    		loadContactsInfoByPhoneNumber(_context, _sentFromAddress); 
 			    		//Search by email if we can't find the contact info by phone number.
@@ -690,54 +685,6 @@ public class Notification {
 			if (_debug) Log.e("Notification.loadMessageID() ERROR: " + ex.toString());
 		}
 	}
-	
-	/**
-	 * Get the service center to use for a reply.
-	 * 
-	 * @param context
-	 * @param threadID
-	 * 
-	 * @return String - The service center address of the message.
-	 */
-	private String loadServiceCenterAddress(Context context, long threadID) {
-		if (_debug) Log.v("Notification.loadServiceCenterAddress()");
-		if (threadID == 0){
-			if (_debug) Log.v("Notification.loadServiceCenterAddress() Thread ID provided is null: Exiting...");
-			return null;
-		} 
-		try{
-			final String[] projection = new String[] {"reply_path_present", "service_center"};
-			final String selection = "thread_id = " + threadID ;
-			final String[] selectionArgs = null;
-			final String sortOrder = "date DESC";
-			String serviceCenterAddress = null;
-		    Cursor cursor = context.getContentResolver().query(
-		    		Uri.parse("content://sms"),
-		    		projection,
-		    		selection,
-					selectionArgs,
-					sortOrder);
-		    try{		    	
-//		    	for(int i=0; i<cursor.getColumnCount(); i++){
-//		    		if (_debug) Log.v("Notification.loadServiceCenterAddress() Cursor Column: " + cursor.getColumnName(i) + " Column Value: " + cursor.getString(i));
-//		    	}
-		    	while (cursor.moveToNext()) { 
-			    	serviceCenterAddress = cursor.getString(cursor.getColumnIndex("service_center"));
-	    			if(serviceCenterAddress != null){
-	    				return serviceCenterAddress;
-	    			}
-		    	}
-		    }catch(Exception ex){
-				if (_debug) Log.e("Notification.loadServiceCenterAddress() ERROR: " + ex.toString());
-			}finally{
-		    	cursor.close();
-		    }
-		    _serviceCenterAddress = serviceCenterAddress;
-		}catch(Exception ex){
-			if (_debug) Log.e("Notification.loadServiceCenterAddress() ERROR: " + ex.toString());
-		}	    
-		return null;
-	}	
 
 	/**
 	 * Load the various contact info for this notification from a phoneNumber.
@@ -1071,5 +1018,53 @@ public class Notification {
 		}		
 		return phoneNumber.trim();
 	}
+	
+//	/**
+//	 * Get the service center to use for a reply.
+//	 * 
+//	 * @param context
+//	 * @param threadID
+//	 * 
+//	 * @return String - The service center address of the message.
+//	 */
+//	private String loadServiceCenterAddress(Context context, long threadID) {
+//		if (_debug) Log.v("Notification.loadServiceCenterAddress()");
+//		if (threadID == 0){
+//			if (_debug) Log.v("Notification.loadServiceCenterAddress() Thread ID provided is null: Exiting...");
+//			return null;
+//		} 
+//		try{
+//			final String[] projection = new String[] {"reply_path_present", "service_center"};
+//			final String selection = "thread_id = " + threadID ;
+//			final String[] selectionArgs = null;
+//			final String sortOrder = "date DESC";
+//			String serviceCenterAddress = null;
+//		    Cursor cursor = context.getContentResolver().query(
+//		    		Uri.parse("content://sms"),
+//		    		projection,
+//		    		selection,
+//					selectionArgs,
+//					sortOrder);
+//		    try{		    	
+////		    	for(int i=0; i<cursor.getColumnCount(); i++){
+////		    		if (_debug) Log.v("Notification.loadServiceCenterAddress() Cursor Column: " + cursor.getColumnName(i) + " Column Value: " + cursor.getString(i));
+////		    	}
+//		    	while (cursor.moveToNext()) { 
+//			    	serviceCenterAddress = cursor.getString(cursor.getColumnIndex("service_center"));
+//	    			if(serviceCenterAddress != null){
+//	    				return serviceCenterAddress;
+//	    			}
+//		    	}
+//		    }catch(Exception ex){
+//				if (_debug) Log.e("Notification.loadServiceCenterAddress() ERROR: " + ex.toString());
+//			}finally{
+//		    	cursor.close();
+//		    }
+//		    _serviceCenterAddress = serviceCenterAddress;
+//		}catch(Exception ex){
+//			if (_debug) Log.e("Notification.loadServiceCenterAddress() ERROR: " + ex.toString());
+//		}	    
+//		return null;
+//	}	
 	
 }

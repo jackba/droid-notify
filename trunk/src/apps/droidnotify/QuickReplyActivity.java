@@ -70,7 +70,6 @@ public class QuickReplyActivity extends Activity {
 	private EditText _messageEditText = null;
 	private String _phoneNumber = null;
 	private String _name = null;
-	private String _serviceCenterAddress = null;
 	private SharedPreferences _preferences = null;
 	
 	//================================================================================
@@ -241,7 +240,7 @@ public class QuickReplyActivity extends Activity {
 		if (_debug) Log.v("QuickReplyActivity.sendSMSMessage()");
         String message = _messageEditText.getText().toString();                 
         if(_phoneNumber.length()>0 && message.length()>0){                
-            sendSMS(_phoneNumber, _serviceCenterAddress, message);                
+            sendSMS(_phoneNumber, message);                
         }else{
         	if(_phoneNumber.length()<= 0){
         		Toast.makeText(getBaseContext(), getString(R.string.phone_number_error_text), Toast.LENGTH_SHORT).show();
@@ -257,7 +256,7 @@ public class QuickReplyActivity extends Activity {
 	 * @param phoneNumber - The phone number we are sending the message to.
 	 * @param message - The message we are sending.
 	 */
-	private void sendSMS(String smsAddress, String serviceCenterAddress, String message){   
+	private void sendSMS(String smsAddress, String message){   
 		if (_debug) Log.v("QuickReplyActivity.sendSMS()");
         final String SMS_SENT = "SMS_SENT";
         final String SMS_DELIVERED = "SMS_DELIVERED";
@@ -320,45 +319,45 @@ public class QuickReplyActivity extends Activity {
 		    	case SMS_EMAIL_GATEWAY_KEY_1:{
 		    		// (USA) Sprint PCS - 6245 [address message]
 		    		String smsToEmailGatewayNumber = "6245";
-		    		sms.sendTextMessage(smsToEmailGatewayNumber, serviceCenterAddress, smsAddress + " " + message, sentPI, deliveredPI);
+		    		sms.sendTextMessage(smsToEmailGatewayNumber, null, smsAddress + " " + message, sentPI, deliveredPI);
 		    	}
 		    	case SMS_EMAIL_GATEWAY_KEY_2:{
 		    		// (USA) T-Mobile - 500 [address text | address/subject/text | address#subject#text]
 		    		String smsToEmailGatewayNumber = "500";
-		    		sms.sendTextMessage(smsToEmailGatewayNumber, serviceCenterAddress, smsAddress + " " + message, sentPI, deliveredPI);
+		    		sms.sendTextMessage(smsToEmailGatewayNumber, null, smsAddress + " " + message, sentPI, deliveredPI);
 		    	}
 		    	case SMS_EMAIL_GATEWAY_KEY_3:{
 		    		// (USA) AT&T - 121 [address text | address (subject) text]
 		    		String smsToEmailGatewayNumber = "121";
-		    		sms.sendTextMessage(smsToEmailGatewayNumber, serviceCenterAddress, smsAddress + " " + message, sentPI, deliveredPI);
+		    		sms.sendTextMessage(smsToEmailGatewayNumber, null, smsAddress + " " + message, sentPI, deliveredPI);
 		    	}
 		    	case SMS_EMAIL_GATEWAY_KEY_4:{
 		    		// (USA) AT&T - 111 [address text | address (subject) text]
 		    		String smsToEmailGatewayNumber = "111";
-		    		sms.sendTextMessage(smsToEmailGatewayNumber, serviceCenterAddress, smsAddress + " " + message, sentPI, deliveredPI);
+		    		sms.sendTextMessage(smsToEmailGatewayNumber, null, smsAddress + " " + message, sentPI, deliveredPI);
 		    	}
 		    	case SMS_EMAIL_GATEWAY_KEY_5:{
 		    		// (UK) AQL - 447766 [address text]
 		    		String smsToEmailGatewayNumber = "447766";
-		    		sms.sendTextMessage(smsToEmailGatewayNumber, serviceCenterAddress, smsAddress + " " + message, sentPI, deliveredPI);
+		    		sms.sendTextMessage(smsToEmailGatewayNumber, null, smsAddress + " " + message, sentPI, deliveredPI);
 		    	}
 		    	case SMS_EMAIL_GATEWAY_KEY_6:{
 		    		// (UK) AQL - 404142 [address text]
 		    		String smsToEmailGatewayNumber = "404142";
-		    		sms.sendTextMessage(smsToEmailGatewayNumber, serviceCenterAddress, smsAddress + " " + message, sentPI, deliveredPI);
+		    		sms.sendTextMessage(smsToEmailGatewayNumber, null, smsAddress + " " + message, sentPI, deliveredPI);
 		    	}
 		    	case SMS_EMAIL_GATEWAY_KEY_7:{
 		    		// (USA) AT&T - 121 [address text | address (subject) text]
 		    		String smsToEmailGatewayNumber = "121";
-		    		sms.sendTextMessage(smsToEmailGatewayNumber, serviceCenterAddress, smsAddress + " " + message, sentPI, deliveredPI);
+		    		sms.sendTextMessage(smsToEmailGatewayNumber, null, smsAddress + " " + message, sentPI, deliveredPI);
 		    	}
 		    	case SMS_EMAIL_GATEWAY_KEY_8:{
 		    		// (Croatia) T-Mobile - 100 [address#subject#text]
 		    		String smsToEmailGatewayNumber = "100";
-		    		sms.sendTextMessage(smsToEmailGatewayNumber, serviceCenterAddress, smsAddress + "##" + message, sentPI, deliveredPI);
+		    		sms.sendTextMessage(smsToEmailGatewayNumber, null, smsAddress + "##" + message, sentPI, deliveredPI);
 		    	}
 		    	default:{
-		    		sms.sendTextMessage(smsAddress, serviceCenterAddress, message, sentPI, deliveredPI);
+		    		sms.sendTextMessage(smsAddress, null, message, sentPI, deliveredPI);
 		    	}
 		    	try{
 		        	//Store the message in the Sent folder so that it shows in Messaging apps.
@@ -372,7 +371,7 @@ public class QuickReplyActivity extends Activity {
 			}        	
 		}else{
 			//Send to regular text message number.
-			sms.sendTextMessage(smsAddress, serviceCenterAddress, message, sentPI, deliveredPI);
+			sms.sendTextMessage(smsAddress, null, message, sentPI, deliveredPI);
 			try{
 		    	//Store the message in the Sent folder so that it shows in Messaging apps.
 		        ContentValues values = new ContentValues();

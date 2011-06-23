@@ -22,7 +22,7 @@ public class PhoneReceiver extends BroadcastReceiver{
     
 	private static final String APP_ENABLED_KEY = "app_enabled";
 	private static final String MISSED_CALL_NOTIFICATIONS_ENABLED_KEY = "missed_call_notifications_enabled";
-    private static final String CALL_LOG_TIMEOUT_KEY = "calendar_reminder_settings";
+    private static final String CALL_LOG_TIMEOUT_KEY = "call_log_timeout_settings";
 	
 	//================================================================================
     // Properties
