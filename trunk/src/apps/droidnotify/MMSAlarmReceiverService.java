@@ -113,7 +113,7 @@ public class MMSAlarmReceiverService extends WakefulIntentService {
 		    	if (_debug) Log.v("MMSAlarmReceiverService.getMMSMessages() messageAddress: " + messageAddress);
 		    	if (_debug) Log.v("MMSAlarmReceiverService.getMMSMessages() messageBody: " + messageBody);
 	    		SimpleDateFormat dateFormatted = new SimpleDateFormat();
-	    		if (_debug) Log.v("Notification.Notification() NOTIFICATION_TYPE_MMS dateFormatted.format(timeStamp): " + dateFormatted.format(timeStamp));
+	    		if (_debug) Log.v("Notification.Notification() NOTIFICATION_TYPE_MMS dateFormatted.format(timeStamp): " + dateFormatted.format(Long.parseLong(timeStamp)));
 	    		if (_debug) Log.v("Notification.Notification() NOTIFICATION_TYPE_MMS dateFormatted.format(timeStamp): " + dateFormatted.format(System.currentTimeMillis()));
 		    	mmsArray.add(messageAddress + "|" + messageBody + "|" + messageID + "|" + threadID + "|" + timeStamp);
 		    	break;
