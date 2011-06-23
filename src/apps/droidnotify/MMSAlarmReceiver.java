@@ -57,25 +57,21 @@ public class MMSAlarmReceiver extends BroadcastReceiver {
 			if (Log.getDebug()) Log.v("MMSAlarmReceiver.onReceive() MMS Notifications Disabled. Exiting...");
 			return;
 		}
-	  //Check the state of the users phone.
-	    TelephonyManager telemanager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+	    //Check the state of the users phone.
+		TelephonyManager telemanager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 	    boolean callStateIdle = telemanager.getCallState() == TelephonyManager.CALL_STATE_IDLE;
-	    // If the user is not in a call then start out work. 
-	    if(callStateIdle){
+	    if (callStateIdle) {
 			WakefulIntentService.acquireStaticLock(context);
-			Intent mmsIntent = new Intent(context, MMSReceiverService.class);
-			mmsIntent.putExtras(intent.getExtras());
-			context.startService(mmsIntent);
+			context.startService(new Intent(context, MMSAlarmReceiverService.class));
 	    }else{
 	    	// Set alarm to go off x minutes from the current time as defined by the user preferences.
 	    	long rescheduleInterval = Long.parseLong(preferences.getString(RESCHEDULE_NOTIFICATION_TIMEOUT_KEY, "5")) * 60 * 1000;
 	    	if(rescheduleInterval > 0){
-		    	if (Log.getDebug()) Log.v("MMSReceiver.onReceive() Phone Call In Progress. Rescheduling notification.");
+		    	if (Log.getDebug()) Log.v("MMSAlarmReceiver.onReceive() Phone Call In Progress. Rescheduling notification.");
 				AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-				Intent mmsIntent = new Intent(context, MMSAlarmReceiver.class);
-				mmsIntent.putExtras(intent.getExtras());
-				mmsIntent.setAction("apps.droidnotify.VIEW/MMSReschedule/" + System.currentTimeMillis());
-				PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, mmsIntent, 0);
+				Intent phoneIntent = new Intent(context, MMSAlarmReceiver.class);
+				phoneIntent.setAction("apps.droidnotify.VIEW/MMSReschedule/" + System.currentTimeMillis());
+				PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, phoneIntent, 0);
 				alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + rescheduleInterval, pendingIntent);
 	    	}
 	    }

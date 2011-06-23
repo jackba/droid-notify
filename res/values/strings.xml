@@ -153,6 +153,9 @@
    	<string name="preference_mms_enabled_title">Enable MMS</string>
    	<string name="preference_mms_enabled_summaryOn">MMS notifications are enabled</string>
    	<string name="preference_mms_enabled_summaryOff">MMS notifications are disabled</string>
+	<string name="preference_mms_display_unread_enabled_title">Load Unread SMS</string>
+   	<string name="preference_mms_display_unread_enabled_summaryOn">Load all unread mms messages when a new mms message arrives.</string>
+   	<string name="preference_mms_display_unread_enabled_summaryOff">Do not load any older unread mms messages. Load only the current incoming message.</string>	
     <string name="preference_mms_vibrate_enabled_title">Enable Vibrations</string>
    	<string name="preference_mms_vibrate_enabled_summaryOn">MMS notifications will vibrate on arrival.</string>
    	<string name="preference_mms_vibrate_enabled_summaryOff">MMS notifications will not vibrate on arrival.</string>
@@ -166,6 +169,9 @@
    	<string name="preference_mms_ringtone_enabled_summaryOff">MMS notifications will not play a ringtone on arrival.</string>
    	<string name="preference_mms_vibrate_settings">MMS Vibrate Settings</string>
    	<string name="preference_mms_ringtone_settings">MMS Ringtone Settings</string>
+	<string name="preference_confirm_mms_deletion_enabled_title">Confirm Message Deletion</string>
+   	<string name="preference_confirm_mms_deletion_enabled_summaryOn">A dialog box will display when you delete a message.</string>
+   	<string name="preference_confirm_mms_deletion_enabled_summaryOff">A dialog box will not display when you delete a message.</string>
    	
    	<string name="preference_missed_call_enabled_title">Enable Missed Call</string>
    	<string name="preference_missed_call_enabled_summaryOn">Missed Call notifications are enabled</string>

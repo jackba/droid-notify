@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.telephony.TelephonyManager;
 
 /**
  * This class listens for incoming MMS messages.
@@ -22,7 +21,8 @@ public class MMSReceiver extends BroadcastReceiver{
 	
 	private static final String APP_ENABLED_KEY = "app_enabled";
 	private static final String MMS_NOTIFICATIONS_ENABLED_KEY = "mms_notifications_enabled";
-	private static final String RESCHEDULE_NOTIFICATION_TIMEOUT_KEY = "reschedule_notification_timeout_settings";
+	private static final String MMS_TIMEOUT_KEY = "mms_timeout_settings";
+	
 	
 	//================================================================================
     // Properties
@@ -57,28 +57,15 @@ public class MMSReceiver extends BroadcastReceiver{
 			if (Log.getDebug()) Log.v("MMSReceiver.onReceive() MMS Notifications Disabled. Exiting...");
 			return;
 		}
-	    //Check the state of the users phone.
-	    TelephonyManager telemanager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-	    boolean callStateIdle = telemanager.getCallState() == TelephonyManager.CALL_STATE_IDLE;
-	    // If the user is not in a call then start out work. 
-	    if(callStateIdle){
-			WakefulIntentService.acquireStaticLock(context);
-			Intent smsIntent = new Intent(context, MMSReceiverService.class);
-			smsIntent.putExtras(intent.getExtras());
-			context.startService(smsIntent);
-	    }else{
-	    	// Set alarm to go off x minutes from the current time as defined by the user preferences.
-	    	long rescheduleInterval = Long.parseLong(preferences.getString(RESCHEDULE_NOTIFICATION_TIMEOUT_KEY, "5")) * 60 * 1000;
-	    	if(rescheduleInterval > 0){
-		    	if (Log.getDebug()) Log.v("MMSReceiver.onReceive() Phone Call In Progress. Rescheduling notification.");
-				AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-				Intent smsIntent = new Intent(context, MMSAlarmReceiver.class);
-				smsIntent.putExtras(intent.getExtras());
-				smsIntent.setAction("apps.droidnotify.VIEW/MMSReschedule/" + System.currentTimeMillis());
-				PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, smsIntent, 0);
-				alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + rescheduleInterval, pendingIntent);
-	    	}
-	    }
+		//Schedule mms task x seconds after the broadcast.
+		//This time is set by the users advanced preferences. 5 seconds is the default value.
+		//This should allow enough time to pass for the phone log to be written to.
+		long timeoutInterval = Long.parseLong(preferences.getString(MMS_TIMEOUT_KEY, "5")) * 1000;
+		//Schedule the phone service.
+		AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+		Intent newIntent = new Intent(context, MMSAlarmReceiver.class);
+		PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, newIntent, 0);
+		alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + timeoutInterval, pendingIntent);		
 	}
 	  
 	//================================================================================

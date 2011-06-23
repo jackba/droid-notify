@@ -85,36 +85,36 @@ public class PhoneAlarmReceiverService extends WakefulIntentService {
 		final String selection = null;
 		final String[] selectionArgs = null;
 		final String sortOrder = "DATE DESC";
+		Cursor cursor = null;
 		try{
-		    Cursor cursor = getApplicationContext().getContentResolver().query(
+		    cursor = getApplicationContext().getContentResolver().query(
 		    		Uri.parse("content://call_log/calls"),
 		    		projection,
 		    		selection,
 					selectionArgs,
 					sortOrder);
-		    if (cursor != null) {
-		    	while (cursor.moveToNext()) { 
-		    		String callNumber = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.NUMBER));
-		    		String callDate = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.DATE));
-		    		String callType = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.TYPE));
-		    		String isCallNew = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.NEW));
-		    		if(Integer.parseInt(callType) == MISSED_CALL_TYPE && Integer.parseInt(isCallNew) > 0){
-	    				if (Log.getDebug()) Log.v("PhoneAlarmReceiverService.getMissedCalls() Missed Call Found: " + callNumber);
-	    				//Store missed call numbers and dates in an array.
-	    				String missedCallInfo = callNumber + "|" + callDate;
-	    				missedCallsArray.add(missedCallInfo);
-	    				//TODO - Add preferences to decide what to do here. Check ALL calls or just recent calls or just the latest calls?
-	    				//if(isNewIntent){
-	    					break;
-	    				//}
-	    			}else{
-	    				break;
-	    			}
-		    	}
-		    	cursor.close();
-		    }
+	    	while (cursor.moveToNext()) { 
+	    		String callNumber = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.NUMBER));
+	    		String callDate = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.DATE));
+	    		String callType = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.TYPE));
+	    		String isCallNew = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.NEW));
+	    		if(Integer.parseInt(callType) == MISSED_CALL_TYPE && Integer.parseInt(isCallNew) > 0){
+    				if (Log.getDebug()) Log.v("PhoneAlarmReceiverService.getMissedCalls() Missed Call Found: " + callNumber);
+    				//Store missed call numbers and dates in an array.
+    				String missedCallInfo = callNumber + "|" + callDate;
+    				missedCallsArray.add(missedCallInfo);
+    				//TODO - Add preferences to decide what to do here. Check ALL calls or just recent calls or just the latest calls?
+    				//if(isNewIntent){
+    					break;
+    				//}
+    			}else{
+    				break;
+    			}
+	    	}
 		}catch(Exception ex){
 			if (Log.getDebug()) Log.e("PhoneAlarmReceiverService.getMissedCalls() ERROR: " + ex.toString());
+		}finally{
+			cursor.close();
 		}
 	    return missedCallsArray;
 	}

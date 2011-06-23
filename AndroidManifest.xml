@@ -38,7 +38,7 @@
             </intent-filter>
         </receiver>
         <receiver android:name=".MMSAlarmReceiver" />
-        <service android:name=".MMSReceiverService" />
+        <service android:name=".MMSAlarmReceiverService" />
    		<receiver android:name=".PhoneReceiver" > 
             <intent-filter> 
                 <action android:name="android.intent.action.PHONE_STATE" />
