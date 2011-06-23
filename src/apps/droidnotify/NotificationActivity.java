@@ -1,7 +1,9 @@
 package apps.droidnotify;
 
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.TimeZone;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -1697,12 +1699,15 @@ public class NotificationActivity extends Activity {
 			String messageBody = mmsInfo[1];
 			long messageID = Long.parseLong(mmsInfo[2]);
 			long threadID = Long.parseLong(mmsInfo[3]);
-			long timestamp = Long.parseLong(mmsInfo[4]);
-		    _notificationViewFlipper.addNotification(new Notification(_context, messageAddress, messageBody, messageID, threadID, timestamp, NOTIFICATION_TYPE_MMS));
+			long timeStamp = Long.parseLong(mmsInfo[4]);
+    		SimpleDateFormat dateFormatted = new SimpleDateFormat();
+    		if (_debug) Log.v("Notification.Notification() NOTIFICATION_TYPE_MMS dateFormatted.format(timeStamp): " + dateFormatted.format(timeStamp));
+    		if (_debug) Log.v("Notification.Notification() NOTIFICATION_TYPE_MMS dateFormatted.format(timeStamp): " + dateFormatted.format(System.currentTimeMillis()));
+    		if (_debug) Log.v("Notification.Notification() NOTIFICATION_TYPE_MMS timeStamp: " + timeStamp);
+    		_notificationViewFlipper.addNotification(new Notification(_context, messageAddress, messageBody, messageID, threadID, timeStamp, NOTIFICATION_TYPE_MMS));
 		}
 		if(loadAllNew){
 			//TODO - Load all unread MMS messages.
-			
 		}
 	}
 	

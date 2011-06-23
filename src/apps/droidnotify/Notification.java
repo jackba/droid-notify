@@ -381,12 +381,6 @@ public class Notification {
 	            	_sentFromAddress = 	removeEmailFormatting(_sentFromAddress);
 	            }
 	    		_timeStamp = timeStamp;
-	    		//Adjust for our local timezone.
-	    		SimpleDateFormat dateFormatted = new SimpleDateFormat();
-	    		if (_debug) Log.v("Notification.Notification() NOTIFICATION_TYPE_MMS dateFormatted.format(timeStamp): " + dateFormatted.format(_timeStamp));
-	    		if (_debug) Log.v("Notification.Notification() NOTIFICATION_TYPE_MMS dateFormatted.format(timeStamp): " + dateFormatted.format(System.currentTimeMillis()));
-	    		if (_debug) Log.v("Notification.Notification() NOTIFICATION_TYPE_MMS timeStamp: " + _timeStamp);
-	    		if (_debug) Log.v("Notification.Notification() NOTIFICATION_TYPE_MMS TimeZone.getDefault().getOffset(_timeStamp): " + TimeZone.getDefault().getOffset(_timeStamp));
 	    		_title = "MMS Message";
 	    		_threadID = threadID;
 	    		_messageID = messageID;
