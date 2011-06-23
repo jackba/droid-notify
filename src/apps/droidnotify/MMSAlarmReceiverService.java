@@ -3,6 +3,7 @@ package apps.droidnotify;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import android.content.Context;
@@ -101,17 +102,20 @@ public class MMSAlarmReceiverService extends WakefulIntentService {
 					selectionArgs,
 					sortOrder);
 	    	while (cursor.moveToNext()) {		    	
-	    		String messageID = cursor.getString (cursor.getColumnIndex("_id"));
-	    		String threadID = cursor.getString (cursor.getColumnIndex("thread_id"));
-		    	String timestamp = cursor.getString (cursor.getColumnIndex("date"));
+	    		String messageID = cursor.getString(cursor.getColumnIndex("_id"));
+	    		String threadID = cursor.getString(cursor.getColumnIndex("thread_id"));
+		    	String timeStamp = cursor.getString(cursor.getColumnIndex("date"));
 		    	String messageAddress = getMMSAddress(String.valueOf(messageID));
 		    	String messageBody = getMMSText(String.valueOf(messageID));
 		    	if (_debug) Log.v("MMSAlarmReceiverService.getMMSMessages() messageID: " + messageID);
 		    	if (_debug) Log.v("MMSAlarmReceiverService.getMMSMessages() threadID: " + threadID);
-		    	if (_debug) Log.v("MMSAlarmReceiverService.getMMSMessages() timestamp: " + timestamp);
+		    	if (_debug) Log.v("MMSAlarmReceiverService.getMMSMessages() timestamp: " + timeStamp);
 		    	if (_debug) Log.v("MMSAlarmReceiverService.getMMSMessages() messageAddress: " + messageAddress);
 		    	if (_debug) Log.v("MMSAlarmReceiverService.getMMSMessages() messageBody: " + messageBody);
-		    	mmsArray.add(messageAddress + "|" + messageBody + "|" + messageID + "|" + threadID + "|" + timestamp);
+	    		SimpleDateFormat dateFormatted = new SimpleDateFormat();
+	    		if (_debug) Log.v("Notification.Notification() NOTIFICATION_TYPE_MMS dateFormatted.format(timeStamp): " + dateFormatted.format(timeStamp));
+	    		if (_debug) Log.v("Notification.Notification() NOTIFICATION_TYPE_MMS dateFormatted.format(timeStamp): " + dateFormatted.format(System.currentTimeMillis()));
+		    	mmsArray.add(messageAddress + "|" + messageBody + "|" + messageID + "|" + threadID + "|" + timeStamp);
 		    	break;
 	    	}
 		}catch(Exception ex){

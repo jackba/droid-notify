@@ -1700,10 +1700,6 @@ public class NotificationActivity extends Activity {
 			long messageID = Long.parseLong(mmsInfo[2]);
 			long threadID = Long.parseLong(mmsInfo[3]);
 			long timeStamp = Long.parseLong(mmsInfo[4]);
-    		SimpleDateFormat dateFormatted = new SimpleDateFormat();
-    		if (_debug) Log.v("Notification.Notification() NOTIFICATION_TYPE_MMS dateFormatted.format(timeStamp): " + dateFormatted.format(timeStamp));
-    		if (_debug) Log.v("Notification.Notification() NOTIFICATION_TYPE_MMS dateFormatted.format(timeStamp): " + dateFormatted.format(System.currentTimeMillis()));
-    		if (_debug) Log.v("Notification.Notification() NOTIFICATION_TYPE_MMS timeStamp: " + timeStamp);
     		_notificationViewFlipper.addNotification(new Notification(_context, messageAddress, messageBody, messageID, threadID, timeStamp, NOTIFICATION_TYPE_MMS));
 		}
 		if(loadAllNew){
