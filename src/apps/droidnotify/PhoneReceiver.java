@@ -28,6 +28,8 @@ public class PhoneReceiver extends BroadcastReceiver{
     // Properties
     //================================================================================
 
+    private boolean _debug = false;
+    
 	//================================================================================
 	// Constructors
 	//================================================================================
@@ -45,16 +47,17 @@ public class PhoneReceiver extends BroadcastReceiver{
 	 */
 	@Override
 	public void onReceive(Context context, Intent intent){
-		if (Log.getDebug()) Log.v("PhoneReceiver.onReceive()");
+		_debug = Log.getDebug();
+		if (_debug) Log.v("PhoneReceiver.onReceive()");
 		//Read preferences and exit if app is disabled.
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 	    if(!preferences.getBoolean(APP_ENABLED_KEY, true)){
-			if (Log.getDebug()) Log.v("PhoneReceiver.onReceive() App Disabled. Exiting...");
+			if (_debug) Log.v("PhoneReceiver.onReceive() App Disabled. Exiting...");
 			return;
 		}
 		//Read preferences and exit if missed call notifications are disabled.
 	    if(!preferences.getBoolean(MISSED_CALL_NOTIFICATIONS_ENABLED_KEY, true)){
-			if (Log.getDebug()) Log.v("PhoneReceiver.onReceive() Missed Call Notifications Disabled. Exiting... ");
+			if (_debug) Log.v("PhoneReceiver.onReceive() Missed Call Notifications Disabled. Exiting... ");
 			return;
 		}
 	    //Check the state of the users phone.
@@ -71,7 +74,7 @@ public class PhoneReceiver extends BroadcastReceiver{
 			PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, newIntent, 0);
 			alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + timeoutInterval, pendingIntent);		
 	    }else{
-	    	if (Log.getDebug()) Log.v("PhoneReceiver.onReceive() Phone Call In Progress. Exiting...");
+	    	if (_debug) Log.v("PhoneReceiver.onReceive() Phone Call In Progress. Exiting...");
 	    }
 	}
 	  

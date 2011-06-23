@@ -17,7 +17,7 @@ public class Log {
 	
 	private static final String _logTag = "DroidNotify";
 	private static final boolean _debug = true;
-	private static final boolean _debugCalendar = true;
+	private static final boolean _debugCalendar = false;
 	private static final boolean _showAndroidRateAppLink = true;
 	private static final boolean _showAmazonRateAppLink = false;
 	

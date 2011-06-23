@@ -2,6 +2,7 @@ package apps.droidnotify;
 
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
@@ -88,7 +89,7 @@ public class Notification {
   
 	/**
 	 * Class Constructor
-	 * This constructor should be called for SMS & MMS Messages.
+	 * This constructor should be called for SMS messages.
 	 */
 	public Notification(Context context, Bundle bundle, int notificationType) {
 		_debug = Log.getDebug();
@@ -118,6 +119,9 @@ public class Notification {
 			            //I don't know why the line below is "-=" and not "+=" but for some reason it works.
 			            _timeStamp -= TimeZone.getDefault().getOffset(_timeStamp);
 			            _sentFromAddress = sms.getDisplayOriginatingAddress().toLowerCase();
+			            if(_sentFromAddress.contains("@")){
+			            	_sentFromAddress = 	removeEmailFormatting(_sentFromAddress);
+			            }
 			    		_fromEmailGateway = sms.isEmail();
 		    			String smsSubject = sms.getPseudoSubject();
 			    		_title = "SMS Message";
@@ -131,12 +135,12 @@ public class Notification {
 				            	messageBody.append(msgs[i].getDisplayMessageBody().toString());
 				            }   
 				            if(messageBody.toString().startsWith(_sentFromAddress)){
-				            	_messageBody = messageBody.toString().substring(_sentFromAddress.length());
+				            	_messageBody = messageBody.toString().substring(_sentFromAddress.length()).replace("\n", "<br/>").trim();
 				            }    
 				            if(smsSubject != null && !smsSubject.equals("")){
-			    				_messageBody = "(" + smsSubject + ")" + messageBody.toString();
+			    				_messageBody = "(" + smsSubject + ")" + messageBody.toString().replace("\n", "<br/>").trim();
 			    			}else{
-			    				_messageBody = messageBody.toString();
+			    				_messageBody = messageBody.toString().replace("\n", "<br/>").trim();
 			    			}   
 			    		}catch(Exception ex){
 			    			if (_debug) Log.v("Notification.Notification(Context context, Bundle bundle, int notificationType) Parse Message Body ERROR: " + ex.toString());
@@ -181,11 +185,17 @@ public class Notification {
 			_contactExists = false;
 			_contactPhotoExists = false;
 			_notificationType = notificationType;
+        	if(notificationType == NOTIFICATION_TYPE_PHONE){
+        		//Do Nothing. This should not be called if a missed call is received.
+    	    }
 			if(notificationType == NOTIFICATION_TYPE_SMS){
 				_messageID = messageID;
 				_threadID = threadID;
-				_messageBody = messageBody;
+				_messageBody = messageBody.replace("\n", "<br/>").trim();
 				_sentFromAddress = sentFromAddress.toLowerCase();
+	            if(_sentFromAddress.contains("@")){
+	            	_sentFromAddress = 	removeEmailFormatting(_sentFromAddress);
+	            }
 		        _timeStamp = timeStamp;
 		        _contactID = contactID;
 		        _fromEmailGateway = false;  
@@ -197,12 +207,23 @@ public class Notification {
 				}
 			}
 			if(notificationType == NOTIFICATION_TYPE_MMS){
-				_title = "MMS Message";
-		        //TODO - MMS 
+					_messageID = messageID;
+					_threadID = threadID;
+					_messageBody = messageBody.replace("\n", "<br/>").trim();
+					_sentFromAddress = sentFromAddress.toLowerCase();
+		            if(_sentFromAddress.contains("@")){
+		            	_sentFromAddress = 	removeEmailFormatting(_sentFromAddress);
+		            }
+			        _timeStamp = timeStamp;
+			        _contactID = contactID;
+			        _fromEmailGateway = false;  
+					_notificationType = notificationType;
+					loadContactsInfoByPhoneNumber(_context, _sentFromAddress);
+					//Search by email if we can't find the contact info.
+					if(!_contactExists){
+						loadContactsInfoByEmail(_context, _sentFromAddress);
+					}
 		    }
-	    	if(notificationType == NOTIFICATION_TYPE_SMS || notificationType == NOTIFICATION_TYPE_MMS){
-	    		//Do Nothing. This should not be called if a SMS or MMS is received.
-	    	}
 		    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
 		    	//Do Nothing. This should not be called if a calendar event is received.
 		    }
@@ -319,7 +340,7 @@ public class Notification {
 		    	_timeStamp = eventStartTime;
 		    	_title = title;
 		    	_allDay = allDay;
-		    	_messageBody = formatCalendarEventMessage(messageBody, eventStartTime, eventEndTime, allDay, calendarName);
+		    	_messageBody = formatCalendarEventMessage(messageBody, eventStartTime, eventEndTime, allDay, calendarName).replace("\n", "<br/>").trim();
 		    	_calendarID = calendarID;
 		    	_calendarEventID = calendarEventID;
 		    	_calendarEventStartTime = eventStartTime;
@@ -330,6 +351,63 @@ public class Notification {
 		    }
 		}catch(Exception ex){
 			if (_debug) Log.v("Notification.Notification(Context context, String title, String messageBody, long eventStartTime, long eventEndTime, boolean allDay, String calendarName, long calendarID, long calendarEventID, int notificationType) ERROR: " + ex.toString());
+		}
+	}
+	
+	/**
+	 * Class Constructor
+	 * This constructor should be called for MMS messages.
+	 */
+	public Notification(Context context, String sentFromAddress, String messageBody, long messageID, long threadID, long timeStamp, int notificationType){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Notification.Notification(Context context, String messageAddress, String messageBody, long messageID, long threadID, long timestamp, int notificationType)");
+		try{
+			_context = context;
+			_preferences = PreferenceManager.getDefaultSharedPreferences(_context);
+			_contactExists = false;
+			_contactPhotoExists = false;
+			_notificationType = notificationType;
+	    	if(notificationType == NOTIFICATION_TYPE_PHONE){
+	    		//Do Nothing. This should not be called if a missed call is received.
+		    }
+	    	if(notificationType == NOTIFICATION_TYPE_SMS){
+	    		if (_debug) Log.v("Notification.Notification() NOTIFICATION_TYPE_SMS");
+	    		//Do Nothing. This should not be called if a SMS is received.
+	    	}   		
+	    	if(notificationType == NOTIFICATION_TYPE_MMS){
+	    		if (_debug) Log.v("Notification.Notification() NOTIFICATION_TYPE_MMS");
+	    		_sentFromAddress = sentFromAddress.toLowerCase();
+	            if(_sentFromAddress.contains("@")){
+	            	_sentFromAddress = 	removeEmailFormatting(_sentFromAddress);
+	            }
+	    		_timeStamp = timeStamp;
+	    		//Adjust for our local timezone.
+	    		SimpleDateFormat dateFormatted = new SimpleDateFormat();
+	    		if (_debug) Log.v("Notification.Notification() NOTIFICATION_TYPE_MMS dateFormatted.format(timeStamp): " + dateFormatted.format(_timeStamp));
+	    		if (_debug) Log.v("Notification.Notification() NOTIFICATION_TYPE_MMS dateFormatted.format(timeStamp): " + dateFormatted.format(System.currentTimeMillis()));
+	    		if (_debug) Log.v("Notification.Notification() NOTIFICATION_TYPE_MMS timeStamp: " + _timeStamp);
+	    		if (_debug) Log.v("Notification.Notification() NOTIFICATION_TYPE_MMS TimeZone.getDefault().getOffset(_timeStamp): " + TimeZone.getDefault().getOffset(_timeStamp));
+	    		_title = "MMS Message";
+	    		_threadID = threadID;
+	    		_messageID = messageID;
+	    		_messageBody = messageBody.replace("\n", "<br/>").trim();
+	    		if(_messageBody.equals("")){
+	    			_messageBody = "[MMS Media Content Will Not Display]";
+	    		}
+				loadContactsInfoByPhoneNumber(_context, _sentFromAddress);
+				//Search by email if we can't find the contact info.
+				if(!_contactExists){
+					loadContactsInfoByEmail(_context, _sentFromAddress);
+				}
+	    	}
+		    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
+		    	//Do Nothing. This should not be called if a calendar event is received.
+		    }
+		    if(notificationType == NOTIFICATION_TYPE_EMAIL){
+		    	//Do Nothing. This should not be called if an email is received.
+		    }
+		}catch(Exception ex){
+			if (_debug) Log.v("Notification(Context context, String sentFromAddress, String messageBody, long messageID, long threadID, long timeStamp, int notificationType) ERROR: " + ex.toString());
 		}
 	}
 	
@@ -1004,9 +1082,9 @@ public class Notification {
 	 * 
 	 * @param phoneNumber - String of original phone number.
 	 * 
-	 * @return phoneNumber - String of phone number with no formatting.
+	 * @return String - String of phone number with no formatting.
 	 */
-	private String removeFormatting(String  phoneNumber){
+	private String removeFormatting(String phoneNumber){
 		if (_debug) Log.v("Notification.removeFormatting()");
 		phoneNumber = phoneNumber.replace("-", "");
 		phoneNumber = phoneNumber.replace("+", "");
@@ -1015,8 +1093,29 @@ public class Notification {
 		phoneNumber = phoneNumber.replace(" ", "");
 		if(phoneNumber.length() > 10){
 			phoneNumber = phoneNumber.substring(phoneNumber.length() - 10, phoneNumber.length());
-		}		
+		}	
 		return phoneNumber.trim();
+	}
+	
+	/**
+	 * Remove formatting from email addresses.
+	 * 
+	 * @param address - String of original email address.
+	 * 
+	 * @return String - String of email address with no formatting.
+	 */
+	private String removeEmailFormatting(String address){
+		if (_debug) Log.v("Notification.removeEmailFormatting()");
+		if(address.contains("<") && address.contains(">")){
+			address = address.substring(address.indexOf("<") + 1,address.indexOf(">"));
+		}
+		if(address.contains("(") && address.contains(")")){
+			address = address.substring(address.indexOf("(") + 1,address.indexOf(")"));
+		}
+		if(address.contains("[") && address.contains("]")){
+			address = address.substring(address.indexOf("[") + 1,address.indexOf("]"));
+		}
+		return address.trim();
 	}
 	
 //	/**

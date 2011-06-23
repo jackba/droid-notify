@@ -28,6 +28,8 @@ public class CalendarNotificationAlarmReceiver extends BroadcastReceiver {
     // Properties
     //================================================================================
 
+	private boolean _debug = false;
+	
 	//================================================================================
 	// Constructors
 	//================================================================================
@@ -45,22 +47,23 @@ public class CalendarNotificationAlarmReceiver extends BroadcastReceiver {
 	 */
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		if (Log.getDebug()) Log.v("CalendarNotificationAlarmReceiver.onReceive()");
+		_debug = Log.getDebug();
+		if (_debug) Log.v("CalendarNotificationAlarmReceiver.onReceive()");
 		//Read preferences and exit if app is disabled.
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 	    if(!preferences.getBoolean(APP_ENABLED_KEY, true)){
-			if (Log.getDebug()) Log.v("CalendarNotificationAlarmReceiver.onReceive() App Disabled. Exiting...");
+			if (_debug) Log.v("CalendarNotificationAlarmReceiver.onReceive() App Disabled. Exiting...");
 			return;
 		}
 		//Read preferences and exit if calendar notifications are disabled.
 	    if(!preferences.getBoolean(CALENDAR_NOTIFICATIONS_ENABLED_KEY, true)){
-			if (Log.getDebug()) Log.v("CalendarNotificationAlarmReceiver.onReceive() Calendar Notifications Disabled. Exiting... ");
+			if (_debug) Log.v("CalendarNotificationAlarmReceiver.onReceive() Calendar Notifications Disabled. Exiting... ");
 			return;
 		}
 	    //Check the state of the users phone.
 		TelephonyManager telemanager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 	    boolean callStateIdle = telemanager.getCallState() == TelephonyManager.CALL_STATE_IDLE;
-	    if (Log.getDebug()) Log.v("CalendarNotificationAlarmReceiver.onReceive() Current Call State: " + telemanager.getCallState());
+	    if (_debug) Log.v("CalendarNotificationAlarmReceiver.onReceive() Current Call State: " + telemanager.getCallState());
 	    if (callStateIdle) {
 			WakefulIntentService.acquireStaticLock(context);
 			Intent calendarIntent = new Intent(context, CalendarNotificationAlarmReceiverService.class);
@@ -70,7 +73,7 @@ public class CalendarNotificationAlarmReceiver extends BroadcastReceiver {
 	    	// Set alarm to go off x minutes from the current time as defined by the user preferences.
 	    	long rescheduleInterval = Long.parseLong(preferences.getString(RESCHEDULE_NOTIFICATION_TIMEOUT_KEY, "5")) * 60 * 1000;
 	    	if(rescheduleInterval > 0){
-		    	if (Log.getDebug()) Log.v("CalendarNotificationAlarmReceiver.onReceive() Phone Call In Progress. Rescheduling notification.");
+		    	if (_debug) Log.v("CalendarNotificationAlarmReceiver.onReceive() Phone Call In Progress. Rescheduling notification.");
 				AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 				Intent calendarIntent = new Intent(context, CalendarNotificationAlarmReceiver.class);
 				calendarIntent.putExtras(intent.getExtras());
