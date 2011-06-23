@@ -62,7 +62,9 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
 	//================================================================================
     // Properties
     //================================================================================
-    
+
+	private boolean _debug = false;
+	
 	//================================================================================
 	// Constructors
 	//================================================================================
@@ -76,7 +78,8 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
 	 */
 	public CalendarAlarmReceiverService() {
 		super("CalendarAlarmReceiverService");
-		if (Log.getDebug()) Log.v("CalendarAlarmReceiverService.CalendarReceiverService()");
+		_debug = Log.getDebug();
+		if (_debug) Log.v("CalendarAlarmReceiverService.CalendarReceiverService()");
 	}
 
 	//================================================================================
@@ -90,7 +93,8 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
 	 */
 	@Override
 	protected void doWakefulWork(Intent intent) {
-		if (Log.getDebug()) Log.v("CalendarAlarmReceiverService.doWakefulWork()");
+		_debug = Log.getDebug();
+		if (_debug) Log.v("CalendarAlarmReceiverService.doWakefulWork()");
 		Context context = getApplicationContext();
 		//Read the users calendar(s) and events.
 		readCalendars(context);
@@ -107,7 +111,7 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
 	 * @param context - Application Context.
 	 */
 	public void readCalendars(Context context) {
-		if (Log.getDebug()) Log.v("CalendarAlarmReceiverService.readCalendars()");
+		if (_debug) Log.v("CalendarAlarmReceiverService.readCalendars()");
 		//Determine the reminder interval based on the users preferences.
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		long reminderInterval = Long.parseLong(preferences.getString(CALENDAR_REMINDER_KEY, "15")) * 60 * 1000;
@@ -137,9 +141,9 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
 				final String calendarID = cursor.getString(cursor.getColumnIndex(_ID));
 				final String calendarDisplayName = cursor.getString(cursor.getColumnIndex(CALENDAR_DISPLAY_NAME));
 				final Boolean calendarSelected = !cursor.getString(cursor.getColumnIndex(CALENDAR_SELECTED)).equals("0");
-				if (Log.getDebug()) Log.v("FOUND CALENDAR - Id: " + calendarID + " Display Name: " + calendarDisplayName + " Selected: " + calendarSelected);
+				if (_debug) Log.v("FOUND CALENDAR - Id: " + calendarID + " Display Name: " + calendarDisplayName + " Selected: " + calendarSelected);
 				if(calendarsArray.contains(calendarID)){
-					if (Log.getDebug()) Log.v("CHECKING CALENDAR -  Id: " + calendarID + " Display Name: " + calendarDisplayName + " Selected: " + calendarSelected);
+					if (_debug) Log.v("CHECKING CALENDAR -  Id: " + calendarID + " Display Name: " + calendarDisplayName + " Selected: " + calendarSelected);
 					calendarIds.put(calendarID, calendarDisplayName);
 				}
 			}	
@@ -169,7 +173,7 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
 						long eventStartTime = eventCursor.getLong(eventCursor.getColumnIndex(CALENDAR_INSTANCE_BEGIN));
 						long eventEndTime = eventCursor.getLong(eventCursor.getColumnIndex(CALENDAR_INSTANCE_END));
 						final Boolean allDay = !eventCursor.getString(eventCursor.getColumnIndex(CALENDAR_EVENT_ALL_DAY)).equals("0");
-						if (Log.getDebug()) Log.v("Event ID: " + eventID + " Title: " + eventTitle + " Begin: " + eventStartTime + " End: " + eventEndTime + " All Day: " + allDay);
+						if (_debug) Log.v("Event ID: " + eventID + " Title: " + eventTitle + " Begin: " + eventStartTime + " End: " + eventEndTime + " All Day: " + allDay);
 						long timezoneOffsetValue =  TimeZone.getDefault().getOffset(System.currentTimeMillis());
 						//For all day events and any event in the past, don't schedule them.
 						if(allDay){
@@ -185,13 +189,13 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
 						}
 					}
 				}catch(Exception ex){
-					if (Log.getDebug()) Log.e("CalendarAlarmReceiverService.readCalendars() Event Query ERROR: " + ex.toString());
+					if (_debug) Log.e("CalendarAlarmReceiverService.readCalendars() Event Query ERROR: " + ex.toString());
 				}finally{
 					eventCursor.close();
 				}
 			}
 		}catch(Exception ex){
-			if (Log.getDebug()) Log.e("CalendarAlarmReceiverService.readCalendars() Calendar Query ERROR: " + ex.toString());
+			if (_debug) Log.e("CalendarAlarmReceiverService.readCalendars() Calendar Query ERROR: " + ex.toString());
 		}finally{
 			cursor.close();
 		}
@@ -208,7 +212,7 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
 	 * @param eventID - Event ID of the Calendar Event.
 	 */
 	private void scheduleCalendarNotification(Context context, long scheduledAlarmTime, String title, String eventStartTime, String eventEndTime, String eventAllDay, String calendarName, String calendarID, String eventID){
-		if (Log.getDebug()) Log.v("CalendarAlarmReceiverService.scheduleCalendarNotification()");
+		if (_debug) Log.v("CalendarAlarmReceiverService.scheduleCalendarNotification()");
 		AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
     	Intent calendarNotificationIntent = new Intent(context, CalendarNotificationAlarmReceiver.class);
     	Bundle bundle = new Bundle();

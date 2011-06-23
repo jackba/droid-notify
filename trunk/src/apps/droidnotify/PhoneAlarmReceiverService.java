@@ -26,6 +26,8 @@ public class PhoneAlarmReceiverService extends WakefulIntentService {
     // Properties
     //================================================================================
 	
+	private boolean _debug = false;
+	
 	//================================================================================
 	// Constructors
 	//================================================================================
@@ -39,7 +41,8 @@ public class PhoneAlarmReceiverService extends WakefulIntentService {
 	 */
 	public PhoneAlarmReceiverService() {
 		super("PhoneAlarmReceiverService");
-		if (Log.getDebug()) Log.v("PhoneAlarmReceiverService.PhoneAlarmReceiverService()");
+		_debug = Log.getDebug();
+		if (_debug) Log.v("PhoneAlarmReceiverService.PhoneAlarmReceiverService()");
 	}
 
 	//================================================================================
@@ -53,7 +56,8 @@ public class PhoneAlarmReceiverService extends WakefulIntentService {
 	 */
 	@Override
 	protected void doWakefulWork(Intent intent) {
-		if (Log.getDebug()) Log.v("PhoneAlarmReceiverService.doWakefulWork()");
+		_debug = Log.getDebug();
+		if (_debug) Log.v("PhoneAlarmReceiverService.doWakefulWork()");
 		ArrayList<String> missedCallsArray = getMissedCalls();
 		if(missedCallsArray.size() > 0){
 			Context context = getApplicationContext();
@@ -65,7 +69,7 @@ public class PhoneAlarmReceiverService extends WakefulIntentService {
 	    	phoneNotificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
 	    	context.startActivity(phoneNotificationIntent);
 		}else{
-			if (Log.getDebug()) Log.v("PhoneAlarmReceiverService.doWakefulWork() No missed calls were found. Exiting...");
+			if (_debug) Log.v("PhoneAlarmReceiverService.doWakefulWork() No missed calls were found. Exiting...");
 		}
 	}
 	
@@ -79,12 +83,12 @@ public class PhoneAlarmReceiverService extends WakefulIntentService {
 	 * @return ArrayList<String> - Returns an ArrayList of Strings that contain the missed call information.
 	 */
 	private ArrayList<String> getMissedCalls(){
-		if (Log.getDebug()) Log.v("PhoneAlarmReceiverService.getMissedCalls()");
+		if (_debug) Log.v("PhoneAlarmReceiverService.getMissedCalls()");
 		ArrayList<String> missedCallsArray = new ArrayList<String>();
 		final String[] projection = null;
 		final String selection = null;
 		final String[] selectionArgs = null;
-		final String sortOrder = "DATE DESC";
+		final String sortOrder = android.provider.CallLog.Calls.DATE + " DESC";
 		Cursor cursor = null;
 		try{
 		    cursor = getApplicationContext().getContentResolver().query(
@@ -99,12 +103,11 @@ public class PhoneAlarmReceiverService extends WakefulIntentService {
 	    		String callType = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.TYPE));
 	    		String isCallNew = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.NEW));
 	    		if(Integer.parseInt(callType) == MISSED_CALL_TYPE && Integer.parseInt(isCallNew) > 0){
-    				if (Log.getDebug()) Log.v("PhoneAlarmReceiverService.getMissedCalls() Missed Call Found: " + callNumber);
+    				if (_debug) Log.v("PhoneAlarmReceiverService.getMissedCalls() Missed Call Found: " + callNumber);
     				//Store missed call numbers and dates in an array.
-    				String missedCallInfo = callNumber + "|" + callDate;
-    				missedCallsArray.add(missedCallInfo);
+    				missedCallsArray.add(callNumber + "|" + callDate);
     				//TODO - Add preferences to decide what to do here. Check ALL calls or just recent calls or just the latest calls?
-    				//if(isNewIntent){
+    				//if(){
     					break;
     				//}
     			}else{
@@ -112,7 +115,7 @@ public class PhoneAlarmReceiverService extends WakefulIntentService {
     			}
 	    	}
 		}catch(Exception ex){
-			if (Log.getDebug()) Log.e("PhoneAlarmReceiverService.getMissedCalls() ERROR: " + ex.toString());
+			if (_debug) Log.e("PhoneAlarmReceiverService.getMissedCalls() ERROR: " + ex.toString());
 		}finally{
 			cursor.close();
 		}

@@ -1,6 +1,7 @@
 package apps.droidnotify;
 
 import java.text.SimpleDateFormat;
+import java.util.TimeZone;
 
 import android.content.Context;
 import android.content.Intent;
@@ -276,10 +277,43 @@ public class NotificationView extends LinearLayout {
 			}
 		}
 	    if(_notificationType == NOTIFICATION_TYPE_MMS){
+			//Display the correct navigation buttons for each notification type.
 	    	phoneButtonLayoutVisibility = View.GONE;
-	    	smsButtonLayoutVisibility = View.GONE;
+	    	smsButtonLayoutVisibility = View.VISIBLE;
 	    	calendarButtonLayoutVisibility = View.GONE;
-	    	//TODO - MMS
+			// Dismiss Button
+	    	final Button smsDismissButton = (Button) findViewById(R.id.sms_dismiss_button);
+			smsDismissButton.setOnClickListener(new OnClickListener() {
+			    public void onClick(View view) {
+			    	if (_debug) Log.v("MMS Dismiss Button Clicked()");
+			    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+			    	dismissNotification();
+			    }
+			});		    			
+			// Delete Button
+			final Button smsDeleteButton = (Button) findViewById(R.id.sms_delete_button);
+			smsDeleteButton.setOnClickListener(new OnClickListener() {
+			    public void onClick(View view) {
+			    	if (_debug) Log.v("MMS Delete Button Clicked()");
+			    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+			    	showDeleteDialog();
+			    }
+			});
+			// Reply Button
+			final Button smsReplyButton = (Button) findViewById(R.id.sms_reply_button);
+			smsReplyButton.setOnClickListener(new OnClickListener() {
+			    public void onClick(View view) {
+			    	if (_debug) Log.v("MMS Reply Button Clicked()");
+			    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+			    	replyToMessage();
+			    }
+			});
+			//Remove the icons from the View's buttons, based on the user preferences.
+			if(!_preferences.getBoolean(BUTTON_ICONS_KEY, true)){
+				smsDismissButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
+				smsDeleteButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
+				smsReplyButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
+			}
 	    }
 	    if(_notificationType == NOTIFICATION_TYPE_CALENDAR){
 	    	phoneButtonLayoutVisibility = View.GONE;
@@ -371,7 +405,10 @@ public class NotificationView extends LinearLayout {
 	    if(_notificationType == NOTIFICATION_TYPE_PHONE){
 	    	notificationText = "Missed Call!";
 	    }
-	    if(_notificationType == NOTIFICATION_TYPE_SMS || _notificationType == NOTIFICATION_TYPE_MMS){
+	    if(_notificationType == NOTIFICATION_TYPE_SMS){
+	    	notificationText = notification.getMessageBody();
+	    }
+	    if(_notificationType == NOTIFICATION_TYPE_MMS){
 	    	notificationText = notification.getMessageBody();
 	    }
 	    if(_notificationType == NOTIFICATION_TYPE_CALENDAR){
@@ -403,13 +440,20 @@ public class NotificationView extends LinearLayout {
 		if (_debug) Log.v("NotificationView.set_notificationTypeInfo()");
 		Bitmap iconBitmap = null;
 		// Update TextView that contains the image, contact info/calendar info, and timestamp for the Notification.
-		String formattedTimestamp = new SimpleDateFormat("h:mma").format(notification.getTimeStamp());
+		SimpleDateFormat dateFormatted = new SimpleDateFormat("h:mma");
+		dateFormatted.setTimeZone(TimeZone.getDefault());
+		String formattedTimestamp = dateFormatted.format(notification.getTimeStamp());
+		//String formattedTimestamp = new SimpleDateFormat("h:mma").format(notification.getTimeStamp());
 	    String receivedAtText = "";
 	    if(_notificationType == NOTIFICATION_TYPE_PHONE){
 	    	iconBitmap = BitmapFactory.decodeResource(_context.getResources(), R.drawable.ic_missed_call);
 	    	receivedAtText = _context.getString(R.string.missed_call_at_text, formattedTimestamp.toLowerCase());
 	    }
-	    if(_notificationType == NOTIFICATION_TYPE_SMS || _notificationType == NOTIFICATION_TYPE_MMS){
+	    if(_notificationType == NOTIFICATION_TYPE_SMS){
+	    	iconBitmap = BitmapFactory.decodeResource(_context.getResources(), R.drawable.sms);
+	    	receivedAtText = _context.getString(R.string.message_at_text, formattedTimestamp.toLowerCase());
+	    }
+	    if( _notificationType == NOTIFICATION_TYPE_MMS){
 	    	iconBitmap = BitmapFactory.decodeResource(_context.getResources(), R.drawable.sms);
 	    	receivedAtText = _context.getString(R.string.message_at_text, formattedTimestamp.toLowerCase());
 	    }

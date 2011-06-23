@@ -173,6 +173,9 @@
    	<string name="preference_confirm_mms_deletion_enabled_summaryOn">A dialog box will display when you delete a message.</string>
    	<string name="preference_confirm_mms_deletion_enabled_summaryOff">A dialog box will not display when you delete a message.</string>
    	
+   	<string name="preference_mms_timeout">MMS Timeout</string>
+   	<string name="preference_mms_timeout_summary">Define how long to wait after a MMS is received before querying the MMS inbox for a new message.</string>
+   	
    	<string name="preference_missed_call_enabled_title">Enable Missed Call</string>
    	<string name="preference_missed_call_enabled_summaryOn">Missed Call notifications are enabled</string>
    	<string name="preference_missed_call_enabled_summaryOff">Missed Call notifications are disabled</string>

@@ -14,6 +14,8 @@ public class CalendarNotificationAlarmReceiverService extends WakefulIntentServi
 	//================================================================================
     // Properties
     //================================================================================
+
+	private boolean _debug = false;
 	
 	//================================================================================
 	// Constructors
@@ -28,7 +30,8 @@ public class CalendarNotificationAlarmReceiverService extends WakefulIntentServi
 	 */
 	public CalendarNotificationAlarmReceiverService() {
 		super("CalendarNotificationAlarmReceiverService");
-		if (Log.getDebug()) Log.v("CalendarNotificationAlarmReceiverService.CalendarNotificationAlarmReceiverService()");
+		_debug = Log.getDebug();
+		if (_debug) Log.v("CalendarNotificationAlarmReceiverService.CalendarNotificationAlarmReceiverService()");
 	}
 
 	//================================================================================
@@ -42,7 +45,8 @@ public class CalendarNotificationAlarmReceiverService extends WakefulIntentServi
 	 */
 	@Override
 	protected void doWakefulWork(Intent intent) {
-		if (Log.getDebug()) Log.v("CalendarNotificationAlarmReceiverService.doWakefulWork()");
+		_debug = Log.getDebug();
+		if (_debug) Log.v("CalendarNotificationAlarmReceiverService.doWakefulWork()");
 		startNotificationActivity(intent);
 	}
 	

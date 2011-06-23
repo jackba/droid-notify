@@ -28,6 +28,8 @@ public class SMSAlarmReceiver extends BroadcastReceiver {
     // Properties
     //================================================================================
 
+	private boolean _debug = false;
+	
 	//================================================================================
 	// Constructors
 	//================================================================================
@@ -45,16 +47,17 @@ public class SMSAlarmReceiver extends BroadcastReceiver {
 	 */
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		if (Log.getDebug()) Log.v("SMSAlarmReceiver.onReceive()");
+		_debug = Log.getDebug();
+		if (_debug) Log.v("SMSAlarmReceiver.onReceive()");
 		//Read preferences and exit if app is disabled.
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 	    if(!preferences.getBoolean(APP_ENABLED_KEY, true)){
-			if (Log.getDebug()) Log.v("SMSAlarmReceiver.onReceive() App Disabled. Exiting...");
+			if (_debug) Log.v("SMSAlarmReceiver.onReceive() App Disabled. Exiting...");
 			return;
 		}
 		//Read preferences and exit if SMS notifications are disabled.
 	    if(!preferences.getBoolean(SMS_NOTIFICATIONS_ENABLED_KEY, true)){
-			if (Log.getDebug()) Log.v("SMSAlarmReceiver.onReceive() SMS Notifications Disabled. Exiting...");
+			if (_debug) Log.v("SMSAlarmReceiver.onReceive() SMS Notifications Disabled. Exiting...");
 			return;
 		}
 	  //Check the state of the users phone.
@@ -70,7 +73,7 @@ public class SMSAlarmReceiver extends BroadcastReceiver {
 	    	// Set alarm to go off x minutes from the current time as defined by the user preferences.
 	    	long rescheduleInterval = Long.parseLong(preferences.getString(RESCHEDULE_NOTIFICATION_TIMEOUT_KEY, "5")) * 60 * 1000;
 	    	if(rescheduleInterval > 0){
-		    	if (Log.getDebug()) Log.v("SMSReceiver.onReceive() Phone Call In Progress. Rescheduling notification.");
+		    	if (_debug) Log.v("SMSReceiver.onReceive() Phone Call In Progress. Rescheduling notification.");
 				AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 				Intent smsIntent = new Intent(context, SMSAlarmReceiver.class);
 				smsIntent.putExtras(intent.getExtras());
