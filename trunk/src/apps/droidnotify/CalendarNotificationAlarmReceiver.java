@@ -71,9 +71,9 @@ public class CalendarNotificationAlarmReceiver extends BroadcastReceiver {
 			context.startService(calendarIntent);
 	    }else{
 	    	// Set alarm to go off x minutes from the current time as defined by the user preferences.
-	    	long rescheduleInterval = Long.parseLong(preferences.getString(RESCHEDULE_NOTIFICATION_TIMEOUT_KEY, "5")) * 60 * 1000;
+	    	int rescheduleInterval = Integer.parseInt(preferences.getString(RESCHEDULE_NOTIFICATION_TIMEOUT_KEY, "5")) * 60 * 1000;
 	    	if(rescheduleInterval > 0){
-		    	if (_debug) Log.v("CalendarNotificationAlarmReceiver.onReceive() Phone Call In Progress. Rescheduling notification.");
+		    	if (_debug) Log.v("SMSReceiver.onReceive() Phone Call In Progress. Rescheduling notification. Rechedule in " + rescheduleInterval + "minutes.");
 				AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 				Intent calendarIntent = new Intent(context, CalendarNotificationAlarmReceiver.class);
 				calendarIntent.putExtras(intent.getExtras());
