@@ -203,7 +203,7 @@
 			android:layout_marginLeft="1dip"
 			android:layout_marginRight="1dip"
 			android:gravity="center_vertical|center_horizontal"
-			android:drawableLeft="@drawable/ic_conversation_white_small"
+			android:drawableLeft="@drawable/ic_conversation_white"
 			android:hapticFeedbackEnabled="true" 
 	    	android:textColor="@color/white"
 			android:background="@drawable/btn_dark_translucent"
