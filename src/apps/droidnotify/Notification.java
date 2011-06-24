@@ -385,9 +385,7 @@ public class Notification {
 	    		_threadID = threadID;
 	    		_messageID = messageID;
 	    		_messageBody = messageBody.replace("\n", "<br/>").trim();
-	    		if(_messageBody.equals("")){
-	    			_messageBody = "[MMS Media Content Will Not Display]";
-	    		}
+	    		_messageBody += "<i>[MMS Media Content Will Not Display]</i>";
 				loadContactsInfoByPhoneNumber(_context, _sentFromAddress);
 				//Search by email if we can't find the contact info.
 				if(!_contactExists){

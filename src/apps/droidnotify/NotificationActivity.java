@@ -1699,7 +1699,8 @@ public class NotificationActivity extends Activity {
 			String messageBody = mmsInfo[1];
 			long messageID = Long.parseLong(mmsInfo[2]);
 			long threadID = Long.parseLong(mmsInfo[3]);
-			long timeStamp = Long.parseLong(mmsInfo[4]);
+			//The timestamp is in seconds and not milliseconds. You must multiply by 1000. :)
+			long timeStamp = Long.parseLong(mmsInfo[4]) * 1000;
     		_notificationViewFlipper.addNotification(new Notification(_context, messageAddress, messageBody, messageID, threadID, timeStamp, NOTIFICATION_TYPE_MMS));
 		}
 		if(loadAllNew){
