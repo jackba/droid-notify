@@ -71,8 +71,8 @@
       		android:layout_weight="1"
       		android:nextFocusLeft="@+id/message_edit_text"
 			android:gravity="center_vertical|center_horizontal"
-			android:hapticFeedbackEnabled="true" 
-	    	android:textColor="@color/white"
+			android:hapticFeedbackEnabled="true"
+	    	android:textColor="@color/black"
 			android:background="@drawable/btn_android_default"
       		android:text="@string/send_button_text" />
 		<Button 
@@ -84,8 +84,8 @@
 			android:layout_gravity="center"  
 			android:layout_weight="1"
 			android:gravity="center_vertical|center_horizontal"
-			android:hapticFeedbackEnabled="true" 
-	    	android:textColor="@color/white"
+			android:hapticFeedbackEnabled="true"
+	    	android:textColor="@color/black"
 			android:background="@drawable/btn_android_default"
 			android:text="@string/cancel_button_text" />
 	</LinearLayout>
