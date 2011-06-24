@@ -166,35 +166,10 @@
 		android:id="@+id/sms_button_linear_layout" 
 		android:layout_height="wrap_content"
 		android:layout_width="fill_parent" 
+		android:orientation="vertical" 
 		android:layout_gravity="center_horizontal" 
 		android:padding="2dip" 
 		android:gravity="center">
-		<Button
-			android:id="@+id/sms_dismiss_button"  
-			android:layout_height="wrap_content" 
-			android:layout_width="fill_parent"
-			android:layout_weight="1" 
-			android:layout_marginLeft="1dip"
-			android:layout_marginRight="1dip"
-			android:gravity="center_vertical|center_horizontal"
-			android:drawableLeft="@drawable/ic_delete_white"
-			android:hapticFeedbackEnabled="true" 
-	    	android:textColor="@color/white"
-			android:background="@drawable/btn_dark_translucent"
-			android:text="@string/dismiss_button_text" />
-		<Button
-			android:id="@+id/sms_delete_button"  
-			android:layout_height="wrap_content" 
-			android:layout_width="fill_parent"
-			android:layout_weight="1" 
-			android:layout_marginLeft="1dip"
-			android:layout_marginRight="1dip"
-			android:gravity="center_vertical|center_horizontal"
-			android:drawableLeft="@drawable/ic_delete_red"
-			android:hapticFeedbackEnabled="true" 
-	    	android:textColor="@color/white"
-			android:background="@drawable/btn_dark_translucent" 
-			android:text="@string/delete_button_text" />
 		<Button
 			android:id="@+id/sms_reply_button"  
 			android:layout_height="wrap_content" 
@@ -205,9 +180,44 @@
 			android:gravity="center_vertical|center_horizontal"
 			android:drawableLeft="@drawable/ic_conversation_white_small"
 			android:hapticFeedbackEnabled="true" 
-	    	android:textColor="@color/white"
+			android:textColor="@color/white"
 			android:background="@drawable/btn_dark_translucent"
 			android:text="@string/reply_button_text" />
+		<LinearLayout 
+			android:id="@+id/sms_button_linear_layout" 
+			android:layout_height="wrap_content"
+			android:layout_width="fill_parent" 
+			android:orientation="horizontal"  
+			android:layout_gravity="center_horizontal" 
+			android:padding="2dip" 
+			android:gravity="center">
+			<Button
+				android:id="@+id/sms_dismiss_button"  
+				android:layout_height="wrap_content" 
+				android:layout_width="fill_parent"
+				android:layout_weight="1" 
+				android:layout_marginLeft="1dip"
+				android:layout_marginRight="1dip"
+				android:gravity="center_vertical|center_horizontal"
+				android:drawableLeft="@drawable/ic_delete_white"
+				android:hapticFeedbackEnabled="true" 
+				android:textColor="@color/white"
+				android:background="@drawable/btn_dark_translucent"
+				android:text="@string/dismiss_button_text" />
+			<Button
+				android:id="@+id/sms_delete_button"  
+				android:layout_height="wrap_content" 
+				android:layout_width="fill_parent"
+				android:layout_weight="1" 
+				android:layout_marginLeft="1dip"
+				android:layout_marginRight="1dip"
+				android:gravity="center_vertical|center_horizontal"
+				android:drawableLeft="@drawable/ic_delete_red"
+				android:hapticFeedbackEnabled="true" 
+				android:textColor="@color/white"
+				android:background="@drawable/btn_dark_translucent" 
+				android:text="@string/delete_button_text" />
+		</LinearLayout>
 	</LinearLayout>
 	<LinearLayout 
 		android:id="@+id/calendar_button_linear_layout" 
