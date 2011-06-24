@@ -28,6 +28,8 @@ public class MMSAlarmReceiver extends BroadcastReceiver {
     // Properties
     //================================================================================
 
+    private boolean _debug = false;
+    
 	//================================================================================
 	// Constructors
 	//================================================================================
@@ -45,16 +47,17 @@ public class MMSAlarmReceiver extends BroadcastReceiver {
 	 */
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		if (Log.getDebug()) Log.v("MMSAlarmReceiver.onReceive()");
+		_debug = Log.getDebug();
+		if (_debug) Log.v("MMSAlarmReceiver.onReceive()");
 		//Read preferences and exit if app is disabled.
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 	    if(!preferences.getBoolean(APP_ENABLED_KEY, true)){
-			if (Log.getDebug()) Log.v("MMSAlarmReceiver.onReceive() App Disabled. Exiting...");
+			if (_debug) Log.v("MMSAlarmReceiver.onReceive() App Disabled. Exiting...");
 			return;
 		}
 		//Read preferences and exit if MMS notifications are disabled.
 	    if(!preferences.getBoolean(MMS_NOTIFICATIONS_ENABLED_KEY, true)){
-			if (Log.getDebug()) Log.v("MMSAlarmReceiver.onReceive() MMS Notifications Disabled. Exiting...");
+			if (_debug) Log.v("MMSAlarmReceiver.onReceive() MMS Notifications Disabled. Exiting...");
 			return;
 		}
 	    //Check the state of the users phone.
@@ -65,9 +68,9 @@ public class MMSAlarmReceiver extends BroadcastReceiver {
 			context.startService(new Intent(context, MMSAlarmReceiverService.class));
 	    }else{
 	    	// Set alarm to go off x minutes from the current time as defined by the user preferences.
-	    	long rescheduleInterval = Long.parseLong(preferences.getString(RESCHEDULE_NOTIFICATION_TIMEOUT_KEY, "5")) * 60 * 1000;
+	    	int rescheduleInterval = Integer.parseInt(preferences.getString(RESCHEDULE_NOTIFICATION_TIMEOUT_KEY, "5")) * 60 * 1000;
 	    	if(rescheduleInterval > 0){
-		    	if (Log.getDebug()) Log.v("MMSAlarmReceiver.onReceive() Phone Call In Progress. Rescheduling notification.");
+		    	if (_debug) Log.v("SMSReceiver.onReceive() Phone Call In Progress. Rescheduling notification. Rechedule in " + rescheduleInterval + "minutes.");
 				AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 				Intent phoneIntent = new Intent(context, MMSAlarmReceiver.class);
 				phoneIntent.setAction("apps.droidnotify.VIEW/MMSReschedule/" + System.currentTimeMillis());
