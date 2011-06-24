@@ -13,7 +13,7 @@ import android.preference.PreferenceManager;
  * 
  * @author Camille Sévigny
  */
-public class CalendarOnBootReceiver extends BroadcastReceiver {
+public class OnBootReceiver extends BroadcastReceiver {
 
 	//================================================================================
     // Constants
@@ -46,16 +46,16 @@ public class CalendarOnBootReceiver extends BroadcastReceiver {
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		_debug = Log.getDebug();
-		if (_debug) Log.v("CalendarOnBootReceiver.onReceive()");
+		if (_debug) Log.v("OnBootReceiver.onReceive()");
 		//Read preferences and exit if app is disabled.
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 	    if(!preferences.getBoolean(APP_ENABLED_KEY, true)){
-			if (_debug) Log.v("CalendarOnBootReceiver.onReceive() App Disabled. Exiting...");
+			if (_debug) Log.v("OnBootReceiver.onReceive() App Disabled. Exiting...");
 			return;
 		}
 		//Read preferences and exit if calendar notifications are disabled.
 	    if(!preferences.getBoolean(CALENDAR_NOTIFICATIONS_ENABLED_KEY, true)){
-			if (_debug) Log.v("CalendarOnBootReceiver.onReceive() Calendar Notifications Disabled. Exiting... ");
+			if (_debug) Log.v("OnBootReceiver.onReceive() Calendar Notifications Disabled. Exiting... ");
 			return;
 		}
 		AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
