@@ -73,7 +73,7 @@
 			android:gravity="center_vertical|center_horizontal"
 			android:hapticFeedbackEnabled="true" 
 	    	android:textColor="@color/white"
-			android:background="@drawable/btn_android_dark"
+			android:background="@drawable/btn_android_default"
       		android:text="@string/send_button_text" />
 		<Button 
 			android:id="@+id/quick_reply_cancel_button" 
@@ -86,7 +86,7 @@
 			android:gravity="center_vertical|center_horizontal"
 			android:hapticFeedbackEnabled="true" 
 	    	android:textColor="@color/white"
-			android:background="@drawable/btn_android_dark"
+			android:background="@drawable/btn_android_default"
 			android:text="@string/cancel_button_text" />
 	</LinearLayout>
 </LinearLayout>
