@@ -6,12 +6,18 @@
 Test Notifications
 
 *_General Settings_*
+
 Enable Droid Notify
+
 Hnable Haptic Feedback
+
 Enable Vibrations
+
 Enable Ringtones
 
+
 *_Notification Settings_*
+
 Notifications
  * *_SMS Notifications_*
   * Enable SMS Notifications
@@ -75,6 +81,7 @@ Notifications
    * Select Ringtone
 
 *_Screen Settings_*
+
 Screen Settings	
  * Turn Screen On
  * Dim Screen
@@ -84,6 +91,7 @@ Screen Settings
  * Blur Screen Value
 	
 *_Misc Settings_*
+
 Misc Settings
  * Notification Theme
  * Phone Number Format
@@ -92,6 +100,7 @@ Misc Settings
  * Display Button Icons
 	
 *_Advanced Settings_*
+
 Advanced Settings
  * Reschedule Tiemout
  * Wakelock Tiemout
@@ -102,13 +111,17 @@ Advanced Settings
  * Ringtone Length
  
 *_Rate App_*
+
 Rate App
 
 *_Feedback_*
+
 Email Developer
 
 *_About_*
+
 About
 
 *_License_*
+
 License
