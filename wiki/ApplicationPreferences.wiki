@@ -1,4 +1,4 @@
-#Outline of the Application Preferences
+#summary Outline of the Application Preferences
 
 = Application Preferences =
 
