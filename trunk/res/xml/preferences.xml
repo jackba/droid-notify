@@ -138,13 +138,6 @@
 					android:summaryOn="@string/preference_mms_enabled_summaryOn" 
 					android:summaryOff="@string/preference_mms_enabled_summaryOff" 
 					android:defaultValue="true" />
-				<CheckBoxPreference 
-					android:key="mms_display_unread_enabled" 
-					android:title="@string/preference_mms_display_unread_enabled_title" 
-					android:summaryOn="@string/preference_mms_display_unread_enabled_summaryOn" 
-					android:summaryOff="@string/preference_mms_display_unread_enabled_summaryOff" 
-					android:defaultValue="true"
-					android:dependency="mms_notifications_enabled" />
 				<PreferenceScreen
 					android:key="mms_button_settings_screen"
 					android:title="@string/preference_mms_button_settings"
