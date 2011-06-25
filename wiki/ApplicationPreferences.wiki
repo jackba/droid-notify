@@ -1,0 +1,133 @@
+#Outline of the Application Preferences
+
+= Application Preferences =
+
+Test Notifications<br/>
+<br/>
+<strong><i>General Settings</i></strong><br/>
+Enable Droid Notify<br/>
+Hnable Haptic Feedback<br/>
+Enable Vibrations<br/>
+Enable Ringtones<br/>
+<br/>
+<strong><i>Notification Settings</i></strong><br/>
+Notifications<br/>
+<ul>
+	<strong><i>SMS Notifications</i></strong>
+	<li>Enable SMS Notifications</li>
+	<li>Load Unread SMS Messages</li>
+	<li>SMS Button Settings</li>
+	<ul>
+		<li>Confirm Deletion
+		<li>Dismiss Button Action</li>
+		<li>Delete Button Action</li>
+		<li>Reply Button Action</li>
+    </ul>
+  <li>SMS Vibrate Settings</li>
+	<ul>
+	  <li>Enable Vibrations        
+  </ul>
+    <li>SMS Ringtone Settings
+    </li>
+    <ul>
+      <li>Enable Ringtones
+      
+      <li>Select Ringtone  
+    </ul>
+    <p>&nbsp;</p>
+    <strong><i>MMS Notifications</i></strong>
+	<li>Enable MMS Notifications</li>
+	<li>MMS Button Settings</li>
+	<ul>
+		<li>Confirm Deletion
+		<li>Dismiss Button Action</li>
+		<li>Delete Button Action</li>
+		<li>Reply Button Action</li>
+	</ul>
+	<li>MMS Vibrate Settings</li>
+	<ul>
+		<li>Enable Vibrations
+	</ul>
+	<li>MMS Ringtone Settings</li>
+	<ul>
+		<li>Enable Ringtones
+	  <li>Select Ringtone        
+  </ul>
+	<p>&nbsp;</p>
+	<strong><i>Missed Call Notifications</i></strong>
+	<li>Enable Missed Call Notifications</li>
+	<li>Missed Call Button Settings</li>
+	<ul>
+		<li>Dismiss Button Action</li>
+	</ul>
+	<li>Missed Call Vibrate Settings</li>
+	<ul>
+		<li>Enable Vibrations
+	</ul>
+	<li>Missed Call Ringtone Settings</li>
+	<ul>
+		<li>Enable Ringtones
+	  <li>Select Ringtone        
+  </ul>
+	<p>&nbsp;</p>
+	<strong><i>Calendar Notifications</i></strong>
+	<li>Enable Calendar Notifications</li>
+	<li>Select Calendars</li>
+	<li>Enable Calendar Labels</li>
+	<li>Calendar Button Settings</li>
+	<ul>
+		<li>Dismiss Button Action</li>
+	</ul>
+	<li>Enable Reminder Settings</li>
+	<li>All Day Enable Reminder Settings</li>
+	<li>Missed Call Vibrate Settings</li>
+	<ul>
+		<li>Enable Vibrations
+	</ul>
+	<li>Missed Call Ringtone Settings</li>
+	<ul>
+		<li>Enable Ringtones
+		<li>Select Ringtone
+	</ul>
+</ul>
+<strong><i>Screen Settings</i></strong><br/>
+Screen Settings<br/>
+<ul>	
+	<li>Turn Screen On</li>
+	<li>Dim Screen</li>
+	<li>Disable Keyguard</li>
+	<li>Blur Screen Background</li>
+	<li>Dim Screen Background</li>
+	<li>Blur Screen Value</li>
+</ul>	
+<strong><i>Misc Settings</i></strong><br/>
+Misc Settings<br/>
+<ul>	
+	<li>Notification Theme</li>
+	<li>Phone Number Format</li>
+	<li>Placeholder Image</li>
+	<li>Enable Landscape Screen</li>
+	<li>Display Button Icons</li>
+</ul>	
+<strong><i>Advanced Settings</i></strong><br/>
+Advanced Settings<br/>
+<ul>	
+	<li>Reschedule Tiemout</li>
+	<li>Wakelock Tiemout</li>
+	<li>Keyguard Tiemout</li>
+	<li>SMS-to-Email Gateway</li>
+	<li>MMS Tiemout</li>
+	<li>Call Log Tiemout</li>
+	<li>Ringtone Length</li>
+</ul>	
+<strong><i>Rate App</i></strong><br/>
+Rate App<br/>
+<br/>
+<strong><i>Feedback</i></strong><br/>
+Email Developer<br/>
+<br/>
+<strong><i>About</i></strong><br/>
+About<br/>
+<br/>
+<strong><i>License</i></strong><br/>
+License<br/>
