@@ -1,4 +1,4 @@
-package apps.droidnotify;
+package apps.droidnotify.preferences;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -22,13 +22,17 @@ import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.widget.Toast;
+import apps.droidnotify.CalendarAlarmReceiver;
+import apps.droidnotify.Log;
+import apps.droidnotify.NotificationActivity;
+import apps.droidnotify.R;
 
 /**
  * This is the applications preference Activity.
  * 
  * @author Camille Sévigny
  */
-public class DroidNotifyPreferenceActivity extends PreferenceActivity implements OnSharedPreferenceChangeListener {
+public class MainPreferenceActivity extends PreferenceActivity implements OnSharedPreferenceChangeListener {
 
 	//================================================================================
     // Constants
@@ -71,9 +75,9 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	    _debug = Log.getDebug();
-	    if (_debug) Log.v("DroidNotifyPreferenceActivity.onCreate()");
+	    if (_debug) Log.v("MainPreferenceActivity.onCreate()");
 	    _debugCalendar = Log.getDebugCalendar();
-	    _context = DroidNotifyPreferenceActivity.this;
+	    _context = MainPreferenceActivity.this;
 	    _preferences = PreferenceManager.getDefaultSharedPreferences(_context);
 	    //Don't rotate the Activity when the screen rotates based on the user preferences.
 	    if(!_preferences.getBoolean(LANDSCAPE_SCREEN_ENABLED_KEY, false)){
@@ -98,7 +102,7 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 	protected void onResume() {
 	    super.onResume();
 	    _debug = Log.getDebug();
-	    if (_debug) Log.v("DroidNotifyPreferenceActivity.onResume()");
+	    if (_debug) Log.v("MainPreferenceActivity.onResume()");
 	}
 	
 	/**
@@ -107,7 +111,7 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
     @Override
     protected void onPause() {
         super.onPause();
-        if (_debug) Log.v("DroidNotifyPreferenceActivity.onPause()");
+        if (_debug) Log.v("MainPreferenceActivity.onPause()");
     }
 	  
 	/**
@@ -116,7 +120,7 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 	@Override
 	protected void onStop() {
 	    super.onStop();
-	    if (_debug) Log.v("DroidNotifyPreferenceActivity.onStop()");
+	    if (_debug) Log.v("MainPreferenceActivity.onStop()");
 	}
 	  
 	/**
@@ -125,7 +129,7 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 	@Override
 	protected void onDestroy() {
 	    super.onDestroy();
-	    if (_debug) Log.v("DroidNotifyPreferenceActivity.onDestroy()");
+	    if (_debug) Log.v("MainPreferenceActivity.onDestroy()");
 	}
     
 	/**
@@ -135,7 +139,7 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 	 * @param key - The String value of the preference Key who's preference value was changed.
 	 */
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-		if (_debug) Log.v("DroidNotifyPreferenceActivity.onSharedPreferenceChanged() Key: " + key);
+		if (_debug) Log.v("MainPreferenceActivity.onSharedPreferenceChanged() Key: " + key);
 	}
 	
 	//================================================================================
@@ -147,15 +151,15 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 	 * This should run only once when the application is installed.
 	 */
 	private void runOnceAlarmManager(){
-		if (_debug) Log.v("DroidNotifyPreferenceActivity.runOnceAlarmManager()");
+		if (_debug) Log.v("MainPreferenceActivity.runOnceAlarmManager()");
 		//Read preferences and exit if app is disabled.
 	    if(!_preferences.getBoolean(APP_ENABLED_KEY, true)){
-			if (_debug) Log.v("DroidNotifyPreferenceActivity.runOnceAlarmManager() App Disabled. Exiting...");
+			if (_debug) Log.v("MainPreferenceActivity.runOnceAlarmManager() App Disabled. Exiting...");
 			return;
 		}
 		//Read preferences and exit if calendar notifications are disabled.
 	    if(!_preferences.getBoolean(CALENDAR_NOTIFICATIONS_ENABLED_KEY, true)){
-			if (_debug) Log.v("DroidNotifyPreferenceActivity.runOnceAlarmManager() Calendar Notifications Disabled. Exiting... ");
+			if (_debug) Log.v("MainPreferenceActivity.runOnceAlarmManager() Calendar Notifications Disabled. Exiting... ");
 			return;
 		}
 		boolean runOnce = _preferences.getBoolean("runOnce", true);
@@ -183,7 +187,7 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 	 * This displays the EULA to the user the first time the app is run.
 	 */
 	private void runOnceEula(){
-		if (_debug) Log.v("DroidNotifyPreferenceActivity.runOnceEula()");
+		if (_debug) Log.v("MainPreferenceActivity.runOnceEula()");
 		boolean runOnceEula = _preferences.getBoolean("runOnceEula", true);
 		if(runOnceEula) {
 			SharedPreferences.Editor editor = _preferences.edit();
@@ -206,7 +210,7 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 	 * Setup the custom Preference buttons.
 	 */
 	private void setupCustomPreferences(){
-		if (_debug) Log.v("DroidNotifyPreferenceActivity.setupCustomPreferences()");
+		if (_debug) Log.v("MainPreferenceActivity.setupCustomPreferences()");
 		//Test Notifications Preference/Button
 		Preference testAppPref = (Preference)findPreference("test_app");
 		testAppPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
@@ -220,7 +224,7 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 		    	try{
 		    		startActivity(intent);
 		    	}catch(Exception ex){
-	 	    		if (_debug) Log.e("DroidNotifyPreferenceActivity.setupCustomPreferences() Test Notifications Button ERROR: " + ex.toString());
+	 	    		if (_debug) Log.e("MainPreferenceActivity.setupCustomPreferences() Test Notifications Button ERROR: " + ex.toString());
 	 	    		Toast.makeText(_context, _context.getString(R.string.app_android_test_app_error), Toast.LENGTH_SHORT).show();
 	 	    		return false;
 		    	}
@@ -244,7 +248,7 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 		    	try{
 		    		startActivity(intent);
 		    	}catch(Exception ex){
-	 	    		if (_debug) Log.e("DroidNotifyPreferenceActivity.setupCustomPreferences() Rate This App Button ERROR: " + ex.toString());
+	 	    		if (_debug) Log.e("MainPreferenceActivity.setupCustomPreferences() Rate This App Button ERROR: " + ex.toString());
 	 	    		Toast.makeText(_context, _context.getString(R.string.app_android_rate_app_error), Toast.LENGTH_SHORT).show();
 	 	    		return false;
 		    	}
@@ -263,7 +267,7 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 		    	try{
 		    		startActivity(intent);
 		    	}catch(Exception ex){
-	 	    		if (_debug) Log.e("DroidNotifyPreferenceActivity.setupCustomPreferences() Email Developer Button ERROR: " + ex.toString());
+	 	    		if (_debug) Log.e("MainPreferenceActivity.setupCustomPreferences() Email Developer Button ERROR: " + ex.toString());
 	 	    		Toast.makeText(_context, _context.getString(R.string.app_android_email_app_error), Toast.LENGTH_SHORT).show();
 	 	    		return false;
 		    	}
@@ -293,7 +297,7 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 		    	try{
 		    		startActivity(intent);
 		    	}catch(Exception ex){
-	 	    		if (_debug) Log.e("DroidNotifyPreferenceActivity.setupCustomPreferences() Email Developer Logs Button ERROR: " + ex.toString());
+	 	    		if (_debug) Log.e("MainPreferenceActivity.setupCustomPreferences() Email Developer Logs Button ERROR: " + ex.toString());
 	 	    		Toast.makeText(_context, _context.getString(R.string.app_android_email_app_error), Toast.LENGTH_SHORT).show();
 	 	    		return false;
 		    	}
@@ -318,7 +322,7 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 	 * @param inDebugMode
 	 */
 	private void setupAppDebugMode(boolean inDebugMode){
-		if (_debug) Log.v("DroidNotifyPreferenceActivity.setupAppDebugMode()");
+		if (_debug) Log.v("MainPreferenceActivity.setupAppDebugMode()");
 		if(!inDebugMode){
 			PreferenceScreen mainPreferences = this.getPreferenceScreen();
 			PreferenceCategory debugPreferenceCategory = (PreferenceCategory) findPreference("app_debug_category");
@@ -330,7 +334,7 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 	 * Removes the "Rate App" link from the application if not in the Android or Amazon stores.
 	 */
 	private void setupRateAppPreference(){
-		if (_debug) Log.v("DroidNotifyPreferenceActivity.setupRateLink()");
+		if (_debug) Log.v("MainPreferenceActivity.setupRateLink()");
 		boolean showRateAppCategory = false;
 		if(Log.getShowAndroidRateAppLink()) showRateAppCategory = true;
 		if(Log.getShowAmazonRateAppLink()) showRateAppCategory = true;
@@ -345,7 +349,7 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
 	 * Clear the developer logs on the SD card.
 	 */
 	private void clearDeveloperLogs(){
-		if (_debug) Log.v("DroidNotifyPreferenceActivity.clearDeveloperLogs()");
+		if (_debug) Log.v("MainPreferenceActivity.clearDeveloperLogs()");
 		File logFileV = new File("sdcard/Droid Notify/Logs/V/DroidNotifyLog.txt");
     	File logFileD = new File("sdcard/Droid Notify/Logs/D/DroidNotifyLog.txt");
     	File logFileI = new File("sdcard/Droid Notify/Logs/I/DroidNotifyLog.txt");
@@ -355,35 +359,35 @@ public class DroidNotifyPreferenceActivity extends PreferenceActivity implements
     		try{
     			new FileOutputStream("sdcard/Droid Notify/Logs/V/DroidNotifyLog.txt").close();
     		}catch (Exception ex){
-    			if (_debug) Log.e("DroidNotifyPreferenceActivity.clearDeveloperLogs() ERROR: " + ex.toString());
+    			if (_debug) Log.e("MainPreferenceActivity.clearDeveloperLogs() ERROR: " + ex.toString());
 			}
     	}
     	if(logFileD.exists()){
     		try{
     			new FileOutputStream("sdcard/Droid Notify/Logs/D/DroidNotifyLog.txt").close();
     		}catch (Exception ex){
-    			if (_debug) Log.e("DroidNotifyPreferenceActivity.clearDeveloperLogs() ERROR: " + ex.toString());
+    			if (_debug) Log.e("MainPreferenceActivity.clearDeveloperLogs() ERROR: " + ex.toString());
 			}
     	}
     	if(logFileI.exists()){
     		try{
     			new FileOutputStream("sdcard/Droid Notify/Logs/I/DroidNotifyLog.txt").close();
     		}catch (Exception ex){
-    			if (_debug) Log.e("DroidNotifyPreferenceActivity.clearDeveloperLogs() ERROR: " + ex.toString());
+    			if (_debug) Log.e("MainPreferenceActivity.clearDeveloperLogs() ERROR: " + ex.toString());
 			}
     	}
     	if(logFileW.exists()){
     		try{
     			new FileOutputStream("sdcard/Droid Notify/Logs/W/DroidNotifyLog.txt").close();
     		}catch (Exception ex){
-    			if (_debug) Log.e("DroidNotifyPreferenceActivity.clearDeveloperLogs() ERROR: " + ex.toString());
+    			if (_debug) Log.e("MainPreferenceActivity.clearDeveloperLogs() ERROR: " + ex.toString());
 			}
     	}
     	if(logFileE.exists()){
     		try{
     			new FileOutputStream("sdcard/Droid Notify/Logs/E/DroidNotifyLog.txt").close();
     		}catch (Exception ex){
-    			if (_debug) Log.e("DroidNotifyPreferenceActivity.clearDeveloperLogs() ERROR: " + ex.toString());
+    			if (_debug) Log.e("MainPreferenceActivity.clearDeveloperLogs() ERROR: " + ex.toString());
 			}
     	}
     	Toast.makeText(_context, "The application logs have been cleared.", Toast.LENGTH_SHORT).show();
