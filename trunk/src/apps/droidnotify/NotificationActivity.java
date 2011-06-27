@@ -43,6 +43,7 @@ import android.view.ViewConfiguration;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
+import apps.droidnotify.preferences.MainPreferenceActivity;
 
 /**
  * This is the main activity that runs the notifications.
@@ -1138,7 +1139,7 @@ public class NotificationActivity extends Activity {
 	private void launchPreferenceScreen(){
 		if (_debug) Log.v("NotificationActivity.launchPreferenceScreen()");
 		Context context = getApplicationContext();
-		Intent intent = new Intent(context, DroidNotifyPreferenceActivity.class);
+		Intent intent = new Intent(context, MainPreferenceActivity.class);
 		startActivity(intent);
 	}
 	
