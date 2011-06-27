@@ -559,6 +559,7 @@ public class NotificationActivity extends Activity {
 	/**
 	 * Handles the activity when the configuration changes (e.g. The phone switches from portrait view to landscape view).
 	 */
+	@Override
 	public void onConfigurationChanged(Configuration config) {
         super.onConfigurationChanged(config);   
         if (_debug) Log.v("NotificationActivity.onConfigurationChanged()");
