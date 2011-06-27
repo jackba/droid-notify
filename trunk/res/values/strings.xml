@@ -19,7 +19,6 @@
     <string name="delete_message_dialog_title_text">Delete</string>
     <string name="delete_message_dialog_text">This will delete the message from the phone.</string>
     <string name="delete_thread_dialog_text">The entire thread will be deleted from the phone.</string>
-    <string name="loading_notification_text">Loading Notifications...</string>
     <string name="to_text">To</string>
     <string name="about_text">About</string>
     <string name="advanced_settings_text">Advanced Settings</string>
@@ -104,6 +103,7 @@
    	<string name="misc_settings_text">Misc Settings</string>
     <string name="preference_contact_placeholder_image">Placeholder Image</string>
     <string name="preference_contact_placeholder_image_summary">Select the placeholder image you would like to display for unknown contacts.</string>
+   	
    	<string name="preference_button_icons_enabled_title">Display Button Icons</string>
    	<string name="preference_button_icons_enabled_summaryOn">Display an icon on app buttons.</string>
    	<string name="preference_button_icons_enabled_summaryOff">Do not display an icon on app buttons.</string>
