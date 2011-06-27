@@ -1,16 +1,12 @@
 package apps.droidnotify;
 
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.TimeZone;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.KeyguardManager;
 import android.app.KeyguardManager.KeyguardLock;
-import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -18,8 +14,6 @@ import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -33,7 +27,7 @@ import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.view.HapticFeedbackConstants;
+//import android.view.HapticFeedbackConstants;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -43,6 +37,7 @@ import android.view.ViewConfiguration;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
+
 import apps.droidnotify.preferences.MainPreferenceActivity;
 
 /**
@@ -86,7 +81,7 @@ public class NotificationActivity extends Activity {
 	private static final String SMS_VIBRATE_ENABLED_KEY = "sms_vibrate_enabled";
 	private static final String MMS_VIBRATE_ENABLED_KEY = "mms_vibrate_enabled";
 	private static final String CALENDAR_VIBRATE_ENABLED_KEY = "calendar_vibrate_enabled";
-	private static final String HAPTIC_FEEDBACK_ENABLED_KEY = "haptic_feedback_enabled";
+//	private static final String HAPTIC_FEEDBACK_ENABLED_KEY = "haptic_feedback_enabled";
 	private static final String SMS_DELETE_KEY = "sms_delete_button_action";
 	private static final String MMS_DELETE_KEY = "mms_delete_button_action";
 	private static final String WAKELOCK_TIMEOUT_KEY = "wakelock_timeout_settings";
@@ -1359,32 +1354,32 @@ public class NotificationActivity extends Activity {
 		}
 	}
 	
-	/**
-	 * Function that performs custom haptic feedback.
-	 * This function performs haptic feedback based on the users preferences.
-	 * 
-	 * @param hapticFeedbackConstant - What type of action the feedback is responding to.
-	 */
-	private void customPerformHapticFeedback(int hapticFeedbackConstant){
-		if (_debug) Log.v("NotificationActivity.customPerformHapticFeedback()");
-		Vibrator vibrator = null;
-		try{
-			vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
-			//Perform the haptic feedback based on the users preferences.
-			if(_preferences.getBoolean(HAPTIC_FEEDBACK_ENABLED_KEY, true)){
-				if(hapticFeedbackConstant == HapticFeedbackConstants.VIRTUAL_KEY){
-					if(vibrator != null) vibrator.vibrate(50);
-				}
-			}
-			if(_preferences.getBoolean(HAPTIC_FEEDBACK_ENABLED_KEY, true)){
-				if(hapticFeedbackConstant == HapticFeedbackConstants.LONG_PRESS){
-					if(vibrator != null) vibrator.vibrate(100);
-				}
-			}
-		}catch(Exception ex){
-			if (_debug) Log.e("NotificationActivity.customPerformHapticFeedback() ERROR: " + ex.toString());
-		}
-	}
+//	/**
+//	 * Function that performs custom haptic feedback.
+//	 * This function performs haptic feedback based on the users preferences.
+//	 * 
+//	 * @param hapticFeedbackConstant - What type of action the feedback is responding to.
+//	 */
+//	private void customPerformHapticFeedback(int hapticFeedbackConstant){
+//		if (_debug) Log.v("NotificationActivity.customPerformHapticFeedback()");
+//		Vibrator vibrator = null;
+//		try{
+//			vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
+//			//Perform the haptic feedback based on the users preferences.
+//			if(_preferences.getBoolean(HAPTIC_FEEDBACK_ENABLED_KEY, true)){
+//				if(hapticFeedbackConstant == HapticFeedbackConstants.VIRTUAL_KEY){
+//					if(vibrator != null) vibrator.vibrate(50);
+//				}
+//			}
+//			if(_preferences.getBoolean(HAPTIC_FEEDBACK_ENABLED_KEY, true)){
+//				if(hapticFeedbackConstant == HapticFeedbackConstants.LONG_PRESS){
+//					if(vibrator != null) vibrator.vibrate(100);
+//				}
+//			}
+//		}catch(Exception ex){
+//			if (_debug) Log.e("NotificationActivity.customPerformHapticFeedback() ERROR: " + ex.toString());
+//		}
+//	}
 	
 	/**
 	 * Function to create a test notification of each type.
