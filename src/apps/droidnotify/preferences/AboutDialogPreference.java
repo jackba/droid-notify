@@ -6,9 +6,9 @@ import android.util.AttributeSet;
 import apps.droidnotify.Log;
 
 /**
+ * This is class extends the DialogPreference so that we can display a Dialog box in the PreferenceActivty.
  * 
- * @author xqs230cs
- *
+ * @author Camille Sévigny
  */
 public class AboutDialogPreference extends DialogPreference {
 
