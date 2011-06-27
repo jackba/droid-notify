@@ -197,7 +197,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			alertDialog.setIcon(R.drawable.ic_dialog_info);
 			alertDialog.setTitle(R.string.app_license);
 			alertDialog.setMessage(R.string.eula_text);
-		    alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+		    alertDialog.setPositiveButton(R.string.ok_text, new DialogInterface.OnClickListener() {
 		    	public void onClick(DialogInterface dialogInterface, int id) {
 		    		//Action on dialog close. Do nothing.
 		       }
