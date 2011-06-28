@@ -35,7 +35,7 @@ public class ImageArrayAdapter extends ArrayAdapter<CharSequence> {
     // Constants
     //================================================================================
 	
-	private final int SQUARE_IMAGE_SIZE = 50;
+	//private final int SQUARE_IMAGE_SIZE = 50;
 	
 	//================================================================================
     // Properties
@@ -126,7 +126,7 @@ public class ImageArrayAdapter extends ArrayAdapter<CharSequence> {
         canvas.drawBitmap(bitmap, rect, rect, paint);
         //Resize the Bitmap so that all images are consistent.
         //Bitmap createScaledBitmap(Bitmap src, int dstWidth, int dstHeight, boolean filter)
-        output = Bitmap.createScaledBitmap(output, SQUARE_IMAGE_SIZE, SQUARE_IMAGE_SIZE, true);
+        //output = Bitmap.createScaledBitmap(output, SQUARE_IMAGE_SIZE, SQUARE_IMAGE_SIZE, true);
         return output;
 	}
 	

@@ -59,7 +59,11 @@ abstract public class WakefulIntentService extends IntentService {
 	 */
 	public static void acquireStaticLock(Context context) {
 		if (Log.getDebug()) Log.v("WakefulIntentService.acquireStaticLock()");
-		getLock(context).acquire();
+		try{
+			getLock(context).acquire();
+		}catch(Exception ex){
+			//Do Nothing.
+		}
 	}
 
 	//================================================================================
@@ -76,9 +80,14 @@ abstract public class WakefulIntentService extends IntentService {
 		if (Log.getDebug()) Log.v("WakefulIntentService.onHandleIntent()");
 		try {
 			doWakefulWork(intent);
-		}
-		finally {
-			getLock(this).release();
+		}catch(Exception ex){
+			//Do Nothing.
+		}finally {
+			try{
+				getLock(this).release();
+			}catch(Exception ex){
+				//Do Nothing.
+			}
 		}
 	}
 	
