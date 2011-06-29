@@ -32,7 +32,7 @@
  * Added an option to Blur or Dim the background when a notification is received.
  * Added an option and functionality to reply to SMS messages with any installed messaging app, the android messaging app, or a built in quick reply screen.
 
- * *v1.2* (June 08, 2011)
+*v1.2* (June 08, 2011)
   * Fixed a bug that displayed duplicate notifications for incoming SMS messages.
   * Fixed a bug in which incoming SMS messages displayed the time in GMT. Incoming SMS messages have a timestamp in GMT. The time should now appear as the localized time for the users phone.
   * Fixed a bug that prevented the contact of the incoming call or SMS message from loading correctly.
