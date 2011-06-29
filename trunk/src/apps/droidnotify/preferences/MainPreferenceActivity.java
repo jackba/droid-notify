@@ -86,9 +86,9 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	    addPreferencesFromResource(R.xml.preferences);
 	    setupCustomPreferences();
 	    runOnceAlarmManager();
-	    runOnceEula();
 	    setupAppDebugMode(_debug);
 	    setupRateAppPreference();
+	    runOnceEula();
 	}
 
 	//================================================================================
