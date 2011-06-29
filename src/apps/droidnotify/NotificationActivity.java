@@ -929,7 +929,7 @@ public class NotificationActivity extends Activity {
 				if (_debug) Log.v("NotificationActivity.onCreateDialog() DIALOG_DELETE_MESSAGE");
 				AlertDialog.Builder builder = new AlertDialog.Builder(this);
 				builder.setIcon(android.R.drawable.ic_dialog_alert);
-				builder.setTitle(getString(R.string.delete_message_dialog_title_text));
+				builder.setTitle(getString(R.string.delete_text));
 				//Action is determined by the users preferences. 
 				if(notificationType == NOTIFICATION_TYPE_SMS){
 					if(_preferences.getString(SMS_DELETE_KEY, "0").equals(SMS_DELETE_ACTION_DELETE_MESSAGE)){
@@ -944,13 +944,13 @@ public class NotificationActivity extends Activity {
 						builder.setMessage(getString(R.string.delete_thread_dialog_text));
 					}
 				}
-				builder.setPositiveButton(R.string.delete_button_text, new DialogInterface.OnClickListener() {
+				builder.setPositiveButton(R.string.delete_text, new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
 							//customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 							deleteMessage();
 						}
 					})
-					.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+					.setNegativeButton(R.string.cancel_text, new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
 							//customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 			            	dialog.cancel();
