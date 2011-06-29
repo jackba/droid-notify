@@ -83,8 +83,10 @@ public class NotificationView extends LinearLayout {
 	private static final String DARK_TRANSLUCENT_V2_THEME = "dark_translucent_v2";
 	private static final String DARK_TRANSLUCENT_V3_THEME = "dark_translucent_v3";
 	
-	private static final String SMS_ANDROID_REPLY = "0";
-	private static final String SMS_QUICK_REPLY = "1";
+	private static final String SMS_MESSAGING_APP_REPLY = "0";
+	private static final String SMS_ANDROID_REPLY = "1";
+	private static final String SMS_QUICK_REPLY = "2";
+	
 	
 	private static final String EVENT_BEGIN_TIME = "beginTime";
 	private static final String EVENT_END_TIME = "endTime";
@@ -550,6 +552,22 @@ public class NotificationView extends LinearLayout {
 			Toast.makeText(_context, _context.getString(R.string.app_android_reply_messaging_address_error), Toast.LENGTH_LONG).show();
 			return;
 		}
+		//Reply using any installed SMS messaging app.
+		if(_preferences.getString(SMS_REPLY_BUTTON_ACTION_KEY, "0").equals(SMS_MESSAGING_APP_REPLY)){
+			try{
+				Intent intent = new Intent(Intent.ACTION_SENDTO);
+			    intent.setData(Uri.parse("smsto:" + phoneNumber));
+		        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP
+		        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
+		        		| Intent.FLAG_ACTIVITY_NO_HISTORY
+		        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+		        _notificationActivity.startActivityForResult(intent,SEND_SMS_ACTIVITY);
+			}catch(Exception ex){
+				if (_debug) Log.e("NotificationView.replyToMessage() Android Reply ERROR: " + ex.toString());
+				Toast.makeText(_context, _context.getString(R.string.app_android_messaging_app_error), Toast.LENGTH_LONG).show();
+				return;
+			}
+		}	
 		//Reply using Android's SMS Messaging app.
 		if(_preferences.getString(SMS_REPLY_BUTTON_ACTION_KEY, "0").equals(SMS_ANDROID_REPLY)){
 			try{
