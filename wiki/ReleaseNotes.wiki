@@ -27,6 +27,7 @@
  * Added/Updated "Text Contact" & "Call Contact" context menu items.
  * Added an option to display the Calendar name to the Event notification. (This is useful when you have more than one calendar in your phone)
  * Added an option to Blur or Dim the background when a notification is received.
+ * Added an option and functionality to reply to SMS messages with any installed messaging app, the android messaging app, or a built in quick reply screen.
  * 
 
  * *v1.2* (June 08, 2011)
