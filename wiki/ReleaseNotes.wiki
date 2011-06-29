@@ -3,6 +3,9 @@
 
 = Release Notes =
 
+*v2.1* _Coming Soon..._
+ * 
+
 *v2.0* _Coming Soon..._
  * New UI for notifications.
  * Added "Themes" in preferences for the notifications.
@@ -28,7 +31,6 @@
  * Added an option to display the Calendar name to the Event notification. (This is useful when you have more than one calendar in your phone)
  * Added an option to Blur or Dim the background when a notification is received.
  * Added an option and functionality to reply to SMS messages with any installed messaging app, the android messaging app, or a built in quick reply screen.
- * 
 
  * *v1.2* (June 08, 2011)
   * Fixed a bug that displayed duplicate notifications for incoming SMS messages.
