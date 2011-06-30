@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
+//import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
@@ -220,6 +220,11 @@ public class QuickReplyActivity extends Activity {
             public void onClick(View view) {
             	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
             	sendSMSMessage(); 
+        		if (_debug) Log.e("QuickReplyActivity.sendSMS() Setting Result Code To RESULT_OK");
+                //Set the result for this activity.
+                setResult(RESULT_OK);
+                //Finish Activity.
+                finish();
             }
         });
 	    _cancelButton.setOnClickListener(new View.OnClickListener(){
@@ -258,10 +263,12 @@ public class QuickReplyActivity extends Activity {
 	 */
 	private void sendSMS(String smsAddress, String message){   
 		if (_debug) Log.v("QuickReplyActivity.sendSMS()");
-        final String SMS_SENT = "SMS_SENT";
-        final String SMS_DELIVERED = "SMS_DELIVERED";
-        PendingIntent sentPI = PendingIntent.getBroadcast(this, 0, new Intent(SMS_SENT), 0);
-        PendingIntent deliveredPI = PendingIntent.getBroadcast(this, 0, new Intent(SMS_DELIVERED), 0);
+//        final String SMS_SENT = "SMS_SENT";
+//        final String SMS_DELIVERED = "SMS_DELIVERED";
+        //PendingIntent sentPI = PendingIntent.getBroadcast(this, 0, new Intent(SMS_SENT), 0);
+        //PendingIntent deliveredPI = PendingIntent.getBroadcast(this, 0, new Intent(SMS_DELIVERED), 0);
+        PendingIntent sentPI = null;
+        PendingIntent deliveredPI = null;
 //        //When the SMS has been sent.
 //        registerReceiver(new BroadcastReceiver(){
 //            @Override
@@ -382,10 +389,6 @@ public class QuickReplyActivity extends Activity {
 				if (_debug) Log.e("QuickReplyActivity.sendSMS() Insert Into Sent Foler ERROR: " + ex.toString());
 			}
 		}
-        //Set the result for this activity.
-        setResult(RESULT_OK);
-        //Finish Activity.
-        finish();
     }
 	
 	/**

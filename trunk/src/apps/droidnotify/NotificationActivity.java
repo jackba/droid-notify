@@ -73,6 +73,7 @@ public class NotificationActivity extends Activity {
 	private static final int ADD_CALENDAR_ACTIVITY = 10;
 	private static final int EDIT_CALENDAR_ACTIVITY = 11;
 	private static final int VIEW_CALENDAR_ACTIVITY = 12;
+	private static final int SEND_SMS_QUICK_REPLY_ACTIVITY = 13;
 	
 	private static final String SCREEN_ENABLED_KEY = "screen_enabled";
 	private static final String SCREEN_DIM_ENABLED_KEY = "screen_dim_enabled";
@@ -775,6 +776,21 @@ public class NotificationActivity extends Activity {
 		    	}else{
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() VIEW_CALENDAR_ACTIVITY: " + resultCode);
 		        	Toast.makeText(_context, _context.getString(R.string.app_android_calendar_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
+		    	}
+		        break;
+		    }
+		    case SEND_SMS_QUICK_REPLY_ACTIVITY:{ 
+		    	if (resultCode == RESULT_OK) {
+		    		if (_debug) Log.v("NotificationActivity.onActivityResult() SEND_SMS_QUICK_REPLY_ACTIVITY: RESULT_OK");
+		        	//Remove notification from ViewFlipper.
+					_notificationViewFlipper.removeActiveNotification();
+		    	}else if (resultCode == RESULT_CANCELED) {
+		    		if (_debug) Log.v("NotificationActivity.onActivityResult() SEND_SMS_QUICK_REPLY_ACTIVITY: RESULT_CANCELED");
+		    		//Remove notification from ViewFlipper.
+					//_notificationViewFlipper.removeActiveNotification();
+		    	}else{
+		    		if (_debug) Log.v("NotificationActivity.onActivityResult() SEND_SMS_QUICK_REPLY_ACTIVITY: " + resultCode);
+		        	Toast.makeText(_context, _context.getString(R.string.app_android_messaging_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
 		    	}
 		        break;
 		    }

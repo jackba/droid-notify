@@ -68,6 +68,7 @@ public class NotificationView extends LinearLayout {
 	//private static final int ADD_CALENDAR_ACTIVITY = 10;
 	//private static final int EDIT_CALENDAR_ACTIVITY = 11;
 	private static final int VIEW_CALENDAR_ACTIVITY = 12;
+	private static final int SEND_SMS_QUICK_REPLY_ACTIVITY = 13;
 	
 	private static final String HAPTIC_FEEDBACK_ENABLED_KEY = "haptic_feedback_enabled";
 	private static final String SMS_REPLY_BUTTON_ACTION_KEY = "sms_reply_button_action";
@@ -601,7 +602,7 @@ public class NotificationView extends LinearLayout {
 			    	intent.putExtra("smsName", "");
 			    }
 			    intent.putExtra("smsMessage", "");
-		        _notificationActivity.startActivityForResult(intent,SEND_SMS_ACTIVITY);
+		        _notificationActivity.startActivityForResult(intent,SEND_SMS_QUICK_REPLY_ACTIVITY);
 			}catch(Exception ex){
 				if (_debug) Log.e("NotificationView.replyToMessage() Quick Reply ERROR: " + ex.toString());
 				Toast.makeText(_context, _context.getString(R.string.app_android_quick_reply_app_error), Toast.LENGTH_LONG).show();
