@@ -6,7 +6,7 @@
 *v2.1* _Coming Soon..._
  * 
 
-*v2.0* _Coming Soon..._
+*v2.0* (June 30, 2011)
  * New UI for notifications.
  * Added "Themes" in preferences for the notifications.
  * Added touch "swipe" and "fling" motions to navigate through notifications. 
