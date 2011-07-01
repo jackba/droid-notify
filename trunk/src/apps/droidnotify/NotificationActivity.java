@@ -787,7 +787,7 @@ public class NotificationActivity extends Activity {
 		    	}else if (resultCode == RESULT_CANCELED) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() SEND_SMS_QUICK_REPLY_ACTIVITY: RESULT_CANCELED");
 		    		//Remove notification from ViewFlipper.
-					//_notificationViewFlipper.removeActiveNotification();
+					_notificationViewFlipper.removeActiveNotification();
 		    	}else{
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() SEND_SMS_QUICK_REPLY_ACTIVITY: " + resultCode);
 		        	Toast.makeText(_context, _context.getString(R.string.app_android_messaging_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
