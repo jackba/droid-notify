@@ -558,6 +558,8 @@ public class NotificationView extends LinearLayout {
 			try{
 				Intent intent = new Intent(Intent.ACTION_SENDTO);
 			    intent.setData(Uri.parse("smsto:" + phoneNumber));
+			    // Exit the app once the SMS is sent.
+			    intent.putExtra("compose_mode", true);
 		        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP
 		        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
 		        		| Intent.FLAG_ACTIVITY_NO_HISTORY

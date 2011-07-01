@@ -277,6 +277,7 @@ public class NotificationActivity extends Activity {
 			    if(notificationType == NOTIFICATION_TYPE_EMAIL){
 			    	//TODO - Email
 			    }
+				break;
 			}
 	    }  
 	}
