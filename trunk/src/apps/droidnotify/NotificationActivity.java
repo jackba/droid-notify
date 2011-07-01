@@ -813,7 +813,7 @@ public class NotificationActivity extends Activity {
 		_wakeLockHandler = new WakeLockHandler();
 		_keyguardHandler = new KeyguardHandler();
 		_ringtoneHandler = new RingtoneHandler();
-	    Bundle extrasBundle = getIntent().getExtras();
+	    final Bundle extrasBundle = getIntent().getExtras();
 	    int notificationType = extrasBundle.getInt("notificationType");
 	    if (_debug) Log.v("NotificationActivity.onCreate() Notification Type: " + notificationType);
 	    //Don't rotate the Activity when the screen rotates based on the user preferences.
@@ -838,32 +838,69 @@ public class NotificationActivity extends Activity {
 	    setupViews(notificationType);
 	    if(notificationType == NOTIFICATION_TYPE_TEST){
 	    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_TEST");
-	    	createTestNotifications();
+	    	
+	    	// Start lengthy operation in a background thread.
+	        new Thread(new Runnable() {
+	             public void run() {
+            	 	createTestNotifications();
+	             }
+	        }).start();
+	        
 	    }    
 	    if(notificationType == NOTIFICATION_TYPE_PHONE){
 	    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_PHONE");
-	    	setupMissedCalls(extrasBundle);
+	    	
+	    	// Start lengthy operation in a background thread.
+	        new Thread(new Runnable() {
+	             public void run() {
+	            	 setupMissedCalls(extrasBundle);
+	             }
+	        }).start();
+	    	
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_SMS){
 		    if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_SMS");
 		    Notification newSMSNotification = setupMessage(extrasBundle);
+		    final long messageID = newSMSNotification.getMessageID();
+		    final String messagebody = newSMSNotification.getMessageBody();
 		    if(_preferences.getBoolean(SMS_DISPLAY_UNREAD_KEY, true)){
-		    	getAllUnreadSMSMessages(newSMSNotification.getMessageID(), newSMSNotification.getMessageBody());
+		    	
+		    	// Start lengthy operation in a background thread.
+		        new Thread(new Runnable() {
+		             public void run() {
+		            	 getAllUnreadSMSMessages(messageID, messagebody);
+		             }
+		        }).start();
+		        
 		    }
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_MMS){
 	    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_MMS");
-	    	getMMSMessage(extrasBundle, true);
+	    	
+	    	// Start lengthy operation in a background thread.
+	    	new Thread(new Runnable() {
+	             public void run() {
+	            	 getMMSMessage(extrasBundle, true);
+	             }
+	        }).start();
+	    	
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
 	    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_CALENDAR");
-		    setupCalendarEventNotifications(extrasBundle);
+	    	
+	    	// Start lengthy operation in a background thread.
+	    	new Thread(new Runnable() {
+	             public void run() {
+            	 	setupCalendarEventNotifications(extrasBundle);
+	             }
+	        }).start();
+	    	
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_EMAIL){
 	    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_EMAIL");
 	    	//TODO - Email
 	    }  
-	    //Set Vibration or Ringtone to announce Activity.
+	    //Set Vibration/Ringtone to announce Activity.
 	    runNotificationFeedback(notificationType);
 	    //Acquire WakeLock.
 	    acquireWakeLock(_context);
@@ -1081,7 +1118,6 @@ public class NotificationActivity extends Activity {
 	 */
 	private void getAllUnreadSMSMessages(long messageIDFilter, String messageBodyFilter){
 		if (_debug) Log.v("NotificationActivity.getAllUnreadSMSMessages() messageIDFilter: " + messageIDFilter + " messageBodyFilter: " + messageBodyFilter ); 
-		NotificationViewFlipper notificationViewFlipper = _notificationViewFlipper;
 		final String[] projection = new String[] { "_id", "thread_id", "address", "person", "date", "body"};
 		final String selection = "read = 0";
 		final String[] selectionArgs = null;
@@ -1105,7 +1141,7 @@ public class NotificationActivity extends Activity {
 		    	//If we load this message we will have duplicate Notifications, which is bad.
 		    	if(messageID != messageIDFilter && !messageBody.replace("\n", "<br/>").trim().equals(messageBodyFilter.replace("\n", "<br/>").trim())){
 			    	Notification smsMessage = new Notification(_context, messageID, threadID, messageBody, phoneNumber, timestamp, contactID, NOTIFICATION_TYPE_SMS);		
-			    	notificationViewFlipper.addNotification(smsMessage);
+			    	_notificationViewFlipper.addNotification(smsMessage);
 		    	}
 		    }
 		}catch(Exception ex){

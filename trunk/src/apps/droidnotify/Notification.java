@@ -127,7 +127,6 @@ public class Notification {
 			    		_title = "SMS Message";
 			    		try{
 			    			StringBuilder messageBody = new StringBuilder();
-			    			if (_debug) Log.v("TEST 1");
 				            //Get the entire message body from the new message.
 				    		int messagesLength = msgs.length;
 				            for (int i = 0; i < messagesLength; i++){                
