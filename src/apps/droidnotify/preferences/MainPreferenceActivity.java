@@ -220,7 +220,8 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 				bundle.putInt("notificationType", NOTIFICATION_TYPE_TEST);
 		    	Intent intent = new Intent(_context, NotificationActivity.class);
 		    	intent.putExtras(bundle);
-		    	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+		    	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+		    			| Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
 		    	try{
 		    		startActivity(intent);
 		    	}catch(Exception ex){
@@ -236,16 +237,13 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		rateAppPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
         	public boolean onPreferenceClick(Preference preference) {
 		    	if (_debug) Log.v("Rate This App Button Clicked()");
-		    	Intent intent = new Intent(Intent.ACTION_VIEW);
-		    	//Direct To Market App
-		    	//intent.setData(Uri.parse("market://details?id=apps.droidnotify"));
-		    	//URL of website. Turns out that this will prompt the user to choose Market or Web.
-		    	//This is preferred as a choice is always better.
-		    	String rateAppURL = "";
-		    	if(Log.getShowAndroidRateAppLink()) rateAppURL = RATE_APP_ANDROID_URL;
-		    	if(Log.getShowAmazonRateAppLink()) rateAppURL = RATE_APP_AMAZON_URL;
-		    	intent.setData(Uri.parse(rateAppURL));
 		    	try{
+			    	String rateAppURL = "";
+			    	if(Log.getShowAndroidRateAppLink()) rateAppURL = RATE_APP_ANDROID_URL;
+			    	if(Log.getShowAmazonRateAppLink()) rateAppURL = RATE_APP_AMAZON_URL;
+			    	Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(rateAppURL));			    	
+			    	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+			    			| Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
 		    		startActivity(intent);
 		    	}catch(Exception ex){
 	 	    		if (_debug) Log.e("MainPreferenceActivity.setupCustomPreferences() Rate This App Button ERROR: " + ex.toString());
@@ -260,11 +258,15 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		emailDeveloperPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
         	public boolean onPreferenceClick(Preference preference) {
 		    	if (_debug) Log.v("Email Developer Button Clicked()");
-		    	Intent intent = new Intent(android.content.Intent.ACTION_SEND);
-		    	intent.setType("plain/text");
-		    	intent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{ "droidnotify@gmail.com"});
-		    	intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Droid Notify App Feedback");
 		    	try{
+			    	Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:droidnotify@gmail.com"));
+			    	intent.putExtra("subject", "Droid Notify App Feedback");
+			    	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+			    			| Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+//		    		Intent intent = new Intent(android.content.Intent.ACTION_SEND);
+//		    		intent.setType("plain/text");
+//		    		intent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{ "droidnotify@gmail.com"});
+//		    		intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Droid Notify App Feedback");
 		    		startActivity(intent);
 		    	}catch(Exception ex){
 	 	    		if (_debug) Log.e("MainPreferenceActivity.setupCustomPreferences() Email Developer Button ERROR: " + ex.toString());
@@ -279,22 +281,27 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		emailDeveloperLogsPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
         	public boolean onPreferenceClick(Preference preference) {
 		    	if (_debug) Log.v("Email Developer Logs Button Clicked()");
-		    	Intent intent = new Intent(android.content.Intent.ACTION_SEND);
-		    	intent.setType("plain/text");
-		    	intent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{ "droidnotify@gmail.com"});
-		    	intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Droid Notify App Logs");
-		    	intent.putExtra(android.content.Intent.EXTRA_TEXT, "What went wrong? What is the reason for emailing the log files: ");
-		    	File logFileV = new File("sdcard/Droid Notify/Logs/V/DroidNotifyLog.txt");
-		    	File logFileD = new File("sdcard/Droid Notify/Logs/D/DroidNotifyLog.txt");
-		    	File logFileI = new File("sdcard/Droid Notify/Logs/I/DroidNotifyLog.txt");
-		    	File logFileW = new File("sdcard/Droid Notify/Logs/W/DroidNotifyLog.txt");
-		    	File logFileE = new File("sdcard/Droid Notify/Logs/E/DroidNotifyLog.txt");
-		    	if(logFileV.exists()) intent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///mnt/sdcard/Droid Notify/Logs/V/DroidNotifyLog.txt"));
-		    	if(logFileD.exists()) intent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///mnt/sdcard/Droid Notify/Logs/D/DroidNotifyLog.txt"));
-		    	if(logFileI.exists()) intent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///mnt/sdcard/Droid Notify/Logs/I/DroidNotifyLog.txt"));
-		    	if(logFileW.exists()) intent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///mnt/sdcard/Droid Notify/Logs/W/DroidNotifyLog.txt"));
-		    	if(logFileE.exists()) intent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///mnt/sdcard/Droid Notify/Logs/E/DroidNotifyLog.txt"));
 		    	try{
+			    	Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:droidnotify@gmail.com"));
+			    	intent.putExtra("subject", "Droid Notify App Logs");
+			    	intent.putExtra("body", "What went wrong? What is the reason for emailing the log files: ");
+			    	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+			    			| Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+//		    		Intent intent = new Intent(android.content.Intent.ACTION_SEND);
+//		    		intent.setType("plain/text");
+//		    		intent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{ "droidnotify@gmail.com"});
+//		    		intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Droid Notify App Logs");
+//		    		intent.putExtra(android.content.Intent.EXTRA_TEXT, "What went wrong? What is the reason for emailing the log files: ");
+			    	File logFileV = new File("sdcard/Droid Notify/Logs/V/DroidNotifyLog.txt");
+			    	File logFileD = new File("sdcard/Droid Notify/Logs/D/DroidNotifyLog.txt");
+			    	File logFileI = new File("sdcard/Droid Notify/Logs/I/DroidNotifyLog.txt");
+			    	File logFileW = new File("sdcard/Droid Notify/Logs/W/DroidNotifyLog.txt");
+			    	File logFileE = new File("sdcard/Droid Notify/Logs/E/DroidNotifyLog.txt");
+			    	if(logFileV.exists()) intent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///mnt/sdcard/Droid Notify/Logs/V/DroidNotifyLog.txt"));
+			    	if(logFileD.exists()) intent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///mnt/sdcard/Droid Notify/Logs/D/DroidNotifyLog.txt"));
+			    	if(logFileI.exists()) intent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///mnt/sdcard/Droid Notify/Logs/I/DroidNotifyLog.txt"));
+			    	if(logFileW.exists()) intent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///mnt/sdcard/Droid Notify/Logs/W/DroidNotifyLog.txt"));
+			    	if(logFileE.exists()) intent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///mnt/sdcard/Droid Notify/Logs/E/DroidNotifyLog.txt"));
 		    		startActivity(intent);
 		    	}catch(Exception ex){
 	 	    		if (_debug) Log.e("MainPreferenceActivity.setupCustomPreferences() Email Developer Logs Button ERROR: " + ex.toString());
