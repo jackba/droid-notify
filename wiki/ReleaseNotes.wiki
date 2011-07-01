@@ -4,6 +4,7 @@
 = Release Notes =
 
 *v2.1* _Coming Soon..._
+ * Added better integration with 3rd party messaging apps.
  * 
 
 *v2.0* (June 30, 2011)
