@@ -68,8 +68,9 @@ public class NotificationViewFlipper extends ViewFlipper {
 		_context = context;
 		_preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		_notificationActivity = (NotificationActivity) context;
-		_notifications = new ArrayList<Notification>();
-		init(context);
+		_notifications = new ArrayList<Notification>(1);
+		_totalNotifications = 0;
+		_currentNotification = 0;
 	}
 	
 	/**
@@ -82,8 +83,9 @@ public class NotificationViewFlipper extends ViewFlipper {
 		_context = context;
 		_preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		_notificationActivity = (NotificationActivity) context;
-		_notifications = new ArrayList<Notification>();
-		init(context);
+		_notifications = new ArrayList<Notification>(1);
+		_totalNotifications = 0;
+		_currentNotification = 0;
 	}
 	  
 	//================================================================================
@@ -101,7 +103,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 		if(!containsNotification(notification)){
 			_notifications.add(notification);
 			_totalNotifications = _notifications.size();
-			addView(new NotificationView(_context, notification)); 
+			addView(new NotificationView(_context, notification));
 			//Update the navigation information on the current View every time a new View is added.
 			final View nextView = this.getChildAt(_currentNotification);
 			updateViewNavigationButtons(nextView);
@@ -423,18 +425,6 @@ public class NotificationViewFlipper extends ViewFlipper {
 				removeNotification(i);
 			}
 		}
-	}
-	
-	/**
-	 * Initialize the ViewFlipper properties.
-	 * 
-	 * @param context - Application Context.
-	 */
-	private void init(Context context) {
-		if (_debug) Log.v("NotificationViewFlipper.init()");
-		_notifications = new ArrayList<Notification>(1);
-		_totalNotifications = 0;
-		_currentNotification = 0;
 	}
 	
 	/**

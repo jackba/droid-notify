@@ -422,23 +422,13 @@ public class NotificationActivity extends Activity {
 			}
 			case VIEW_THREAD_CONTEXT_MENU:{
 				try{
-					long threadID = notification.getThreadID();
-					long messageID = notification.getMessageID();
+					String phoneNumber = notification.getSentFromAddress();
 					intent = new Intent(Intent.ACTION_VIEW);
-				    intent.setType("vnd.android-dir/mms-sms");
 			        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP
 			        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
 			        		| Intent.FLAG_ACTIVITY_NO_HISTORY
 			        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-			        if(threadID != 0){
-			        	intent.putExtra("thread_id", threadID);
-			        }else if(messageID != 0){
-			        	intent.putExtra("message_id", messageID);
-			        }
-			        else{
-			        	Toast.makeText(_context, _context.getString(R.string.app_android_message_not_found_error), Toast.LENGTH_LONG).show();
-			        	return false;
-			        }
+			        intent.setData(Uri.parse("smsto:" + phoneNumber));
 				    startActivityForResult(intent,VIEW_SMS_THREAD_ACTIVITY);
 					return true;
 				}catch(Exception ex){
@@ -789,6 +779,7 @@ public class NotificationActivity extends Activity {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() SEND_SMS_QUICK_REPLY_ACTIVITY: RESULT_CANCELED");
 		    		//Remove notification from ViewFlipper.
 					_notificationViewFlipper.removeActiveNotification();
+		    		//TODO - FIX THIS QUICK REPLY ISSUE!
 		    	}else{
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() SEND_SMS_QUICK_REPLY_ACTIVITY: " + resultCode);
 		        	Toast.makeText(_context, _context.getString(R.string.app_android_messaging_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
@@ -838,25 +829,11 @@ public class NotificationActivity extends Activity {
 	    setupViews(notificationType);
 	    if(notificationType == NOTIFICATION_TYPE_TEST){
 	    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_TEST");
-	    	
-	    	// Start lengthy operation in a background thread.
-	        new Thread(new Runnable() {
-	             public void run() {
-            	 	createTestNotifications();
-	             }
-	        }).start();
-	        
+	    	createTestNotifications(); 
 	    }    
 	    if(notificationType == NOTIFICATION_TYPE_PHONE){
 	    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_PHONE");
-	    	
-	    	// Start lengthy operation in a background thread.
-	        new Thread(new Runnable() {
-	             public void run() {
-	            	 setupMissedCalls(extrasBundle);
-	             }
-	        }).start();
-	    	
+	    	setupMissedCalls(extrasBundle);
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_SMS){
 		    if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_SMS");
@@ -864,37 +841,16 @@ public class NotificationActivity extends Activity {
 		    final long messageID = newSMSNotification.getMessageID();
 		    final String messagebody = newSMSNotification.getMessageBody();
 		    if(_preferences.getBoolean(SMS_DISPLAY_UNREAD_KEY, true)){
-		    	
-		    	// Start lengthy operation in a background thread.
-		        new Thread(new Runnable() {
-		             public void run() {
-		            	 getAllUnreadSMSMessages(messageID, messagebody);
-		             }
-		        }).start();
-		        
+		    	getAllUnreadSMSMessages(messageID, messagebody);
 		    }
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_MMS){
 	    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_MMS");
-	    	
-	    	// Start lengthy operation in a background thread.
-	    	new Thread(new Runnable() {
-	             public void run() {
-	            	 getMMSMessage(extrasBundle, true);
-	             }
-	        }).start();
-	    	
+	    	getMMSMessage(extrasBundle, true);
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
 	    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_CALENDAR");
-	    	
-	    	// Start lengthy operation in a background thread.
-	    	new Thread(new Runnable() {
-	             public void run() {
-            	 	setupCalendarEventNotifications(extrasBundle);
-	             }
-	        }).start();
-	    	
+	    	setupCalendarEventNotifications(extrasBundle);
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_EMAIL){
 	    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_EMAIL");
@@ -1087,9 +1043,23 @@ public class NotificationActivity extends Activity {
 		ArrayList<String> missedCallsArray = bundle.getStringArrayList("missedCallsArrayList");
 		for(int i=0; i< missedCallsArray.size(); i++){
 			String[] missedCallInfo = missedCallsArray.get(i).split("\\|");
-			String phoneNumber = missedCallInfo[0];
-			long timeStamp = Long.parseLong(missedCallInfo[1]);
-			Notification missedCallNotification = new Notification(_context, phoneNumber, timeStamp, NOTIFICATION_TYPE_PHONE);
+			String phoneNumber = null;
+			long timeStamp = 0;
+			long contactID = 0;
+			String contactName = null;
+			long photoID = 0;
+			if( missedCallInfo.length == 2){
+				phoneNumber = missedCallInfo[0];
+				timeStamp = Long.parseLong(missedCallInfo[1]);
+			}else{
+				phoneNumber = missedCallInfo[0];
+				timeStamp = Long.parseLong(missedCallInfo[1]);
+				contactID = Long.parseLong(missedCallInfo[2]);
+				contactName = missedCallInfo[3];
+				photoID = Long.parseLong(missedCallInfo[4]);
+			}
+			//Notification missedCallNotification = new Notification(_context, phoneNumber, timeStamp, NOTIFICATION_TYPE_PHONE);
+			Notification missedCallNotification = new Notification(_context, phoneNumber, timeStamp, contactID, contactName, photoID, NOTIFICATION_TYPE_PHONE);
 			_notificationViewFlipper.addNotification(missedCallNotification);
 		}
 	    return true;
@@ -1445,7 +1415,7 @@ public class NotificationActivity extends Activity {
 		Notification smsNotification = new Notification(_context, "5555555555", "Droid Notify SMS Message Test", System.currentTimeMillis(), NOTIFICATION_TYPE_SMS);
 		notificationViewFlipper.addNotification(smsNotification);
 		//Add Missed Call Notification.
-		Notification missedCallNotification = new Notification(_context, "5555555555", System.currentTimeMillis(), NOTIFICATION_TYPE_PHONE);
+		Notification missedCallNotification = new Notification(_context, "5555555555", System.currentTimeMillis(), 0, "", 0, NOTIFICATION_TYPE_PHONE);
 		notificationViewFlipper.addNotification(missedCallNotification);
 		//Add Calendar Event Notification.
 		Notification calendarEventNotification = new Notification(_context, "Droid Notify Calendar Event Test", "", System.currentTimeMillis(), System.currentTimeMillis() + (10 * 60 * 1000), false, "Test Calendar",  0, 0, NOTIFICATION_TYPE_CALENDAR);
@@ -1557,13 +1527,12 @@ public class NotificationActivity extends Activity {
 				Toast.makeText(_context, _context.getString(R.string.app_android_reply_messaging_address_error), Toast.LENGTH_LONG).show();
 				return;
 			}
-			Intent intent = new Intent(Intent.ACTION_VIEW);
-			intent.setType("vnd.android-dir/mms-sms");
+			Intent intent = new Intent(Intent.ACTION_SENDTO);
+		    intent.setData(Uri.parse("smsto:" + phoneNumber));
 	        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP
 	        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
 	        		| Intent.FLAG_ACTIVITY_NO_HISTORY
 	        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-		    intent.putExtra("address", phoneNumber);
 		    startActivityForResult(intent,SEND_SMS_ACTIVITY);
 		}catch(Exception ex){
 			if (_debug) Log.e("NotificationActivity.sendSMSMessage() ERROR: " + ex.toString());
