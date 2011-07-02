@@ -2,7 +2,6 @@ package apps.droidnotify;
 
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
@@ -19,7 +18,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.telephony.SmsMessage;
-import android.telephony.SmsMessage.MessageClass;
 
 /**
  * This is the Notification class that holds all the information about all notifications we will display to the user.
@@ -65,7 +63,6 @@ public class Notification {
 	private long _timeStamp;
 	private long _threadID = 0;
 	private long _contactID = 0;
-	private String _contactLookupKey = null;
 	private String _contactName = null;
 	private long _photoID = 0;
 	private Bitmap _photoImg = null;
@@ -275,45 +272,78 @@ public class Notification {
 		}
 	}
 	
+//	/**
+//	 * Class Constructor
+//	 * This constructor should be called for Missed Calls.
+//	 */
+//	public Notification(Context context, String sentFromAddress, long timeStamp, int notificationType){
+//		_debug = Log.getDebug();
+//		if (_debug) Log.v("Notification.Notification(Context context, String phoneNumber, long timeStamp, int notificationType)");
+//		try{
+//			_context = context;
+//			_preferences = PreferenceManager.getDefaultSharedPreferences(_context);
+//			_contactExists = false;
+//			_contactPhotoExists = false;
+//			_notificationType = notificationType;
+//	    	if(notificationType == NOTIFICATION_TYPE_PHONE){
+//	    		_sentFromAddress = sentFromAddress.toLowerCase();
+//	    		_timeStamp = timeStamp;
+//	    		_title = "Missed Call";
+//	      		//Don't load contact info if this is a test message (Phone Number: 555-555-5555).
+//	    		if(!sentFromAddress.equals("5555555555")){
+//	    			loadContactsInfoByPhoneNumber(context, sentFromAddress);
+//	    		}
+//		    }
+//	    	if(notificationType == NOTIFICATION_TYPE_SMS || notificationType == NOTIFICATION_TYPE_MMS){
+//	    		//Do Nothing. This should not be called if a SMS or MMS is received.
+//	    	}
+//		    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
+//		    	//Do Nothing. This should not be called if a calendar event is received.
+//		    }
+//		    if(notificationType == NOTIFICATION_TYPE_EMAIL){
+//		    	//Do Nothing. This should not be called if an email is received.
+//		    }
+//		}catch(Exception ex){
+//			if (_debug) Log.v("Notification.Notification(Context context, String phoneNumber, long timeStamp, int notificationType) ERROR: " + ex.toString());
+//		}
+//	}
+
 	/**
 	 * Class Constructor
-	 * This constructor should be called for Missed Calls.
 	 */
-	public Notification(Context context, String sentFromAddress, long timeStamp, int notificationType){
+	public Notification(Context context, String sentFromAddress, long timeStamp, long contactID, String contactName, long photoID, int notificationType){
 		_debug = Log.getDebug();
-		if (_debug) Log.v("Notification.Notification(Context context, String phoneNumber, long timeStamp, int notificationType)");
+		if (_debug) Log.v("Notification.Notification(Context context, String sentFromAddress, long timeStamp, long contactID, string contactName, long photoID, int notificationType)");
 		try{
 			_context = context;
 			_preferences = PreferenceManager.getDefaultSharedPreferences(_context);
 			_contactExists = false;
 			_contactPhotoExists = false;
 			_notificationType = notificationType;
-	    	if(notificationType == NOTIFICATION_TYPE_PHONE){
-	    		_sentFromAddress = sentFromAddress.toLowerCase();
-	    		_timeStamp = timeStamp;
-	    		_title = "Missed Call";
-	      		//Don't load contact info if this is a test message (Phone Number: 555-555-5555).
-	    		if(!sentFromAddress.equals("5555555555")){
-	    			loadContactsInfoByPhoneNumber(context, sentFromAddress);
-	    		}
-		    }
-	    	if(notificationType == NOTIFICATION_TYPE_SMS || notificationType == NOTIFICATION_TYPE_MMS){
-	    		//Do Nothing. This should not be called if a SMS or MMS is received.
-	    	}
-		    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
-		    	//Do Nothing. This should not be called if a calendar event is received.
-		    }
-		    if(notificationType == NOTIFICATION_TYPE_EMAIL){
-		    	//Do Nothing. This should not be called if an email is received.
-		    }
+    		_sentFromAddress = sentFromAddress.toLowerCase();
+    		_timeStamp = timeStamp;
+    		_title = "Missed Call";
+    		_contactID = contactID;
+    		if(contactName.equals("")){
+    			_contactName = null;
+    			_contactExists = false;
+    		}else{
+    			_contactName = contactName;
+    			_contactExists = true;
+    		}
+    		_photoID = photoID;
+    		if(photoID == 0){
+    			_contactPhotoExists = false;
+    		}else{
+    			_contactPhotoExists = true;
+    		}	
 		}catch(Exception ex){
-			if (_debug) Log.v("Notification.Notification(Context context, String phoneNumber, long timeStamp, int notificationType) ERROR: " + ex.toString());
+			if (_debug) Log.v("Notification.Notification(Context context, String sentFromAddress, long timeStamp, long contactID, String contactName, long photoID, int notificationType) ERROR: " + ex.toString());
 		}
 	}
-
+	
 	/**
 	 * Class Constructor
-	 * This constructor should be called for Calendar Events.
 	 */
 	public Notification(Context context, String title, String messageBody, long eventStartTime, long  eventEndTime, boolean allDay, String calendarName, long calendarID, long calendarEventID, int notificationType){
 		_debug = Log.getDebug();
@@ -324,30 +354,14 @@ public class Notification {
 			_contactExists = false;
 			_contactPhotoExists = false;
 			_notificationType = notificationType;
-	    	if(notificationType == NOTIFICATION_TYPE_PHONE){
-	    		//Do Nothing. This should not be called if a missed call is received.
-		    }
-	    	if(notificationType == NOTIFICATION_TYPE_SMS){
-	    		if (_debug) Log.v("Notification.Notification() NOTIFICATION_TYPE_SMS");
-	    		//Do Nothing. This should not be called if a SMS is received.
-	    	}   		
-	    	if(notificationType == NOTIFICATION_TYPE_MMS){
-	    		if (_debug) Log.v("Notification.Notification() NOTIFICATION_TYPE_MMS");
-	    		//Do Nothing. This should not be called if an MMS is received.
-	    	}
-		    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
-		    	_timeStamp = eventStartTime;
-		    	_title = title;
-		    	_allDay = allDay;
-		    	_messageBody = formatCalendarEventMessage(messageBody, eventStartTime, eventEndTime, allDay, calendarName).replace("\n", "<br/>").trim();
-		    	_calendarID = calendarID;
-		    	_calendarEventID = calendarEventID;
-		    	_calendarEventStartTime = eventStartTime;
-		    	_calendarEventEndTime = eventEndTime;
-		    }
-		    if(notificationType == NOTIFICATION_TYPE_EMAIL){
-		    	//Do Nothing. This should not be called if an email is received.
-		    }
+	    	_timeStamp = eventStartTime;
+	    	_title = title;
+	    	_allDay = allDay;
+	    	_messageBody = formatCalendarEventMessage(messageBody, eventStartTime, eventEndTime, allDay, calendarName).replace("\n", "<br/>").trim();
+	    	_calendarID = calendarID;
+	    	_calendarEventID = calendarEventID;
+	    	_calendarEventStartTime = eventStartTime;
+	    	_calendarEventEndTime = eventEndTime;
 		}catch(Exception ex){
 			if (_debug) Log.v("Notification.Notification(Context context, String title, String messageBody, long eventStartTime, long eventEndTime, boolean allDay, String calendarName, long calendarID, long calendarEventID, int notificationType) ERROR: " + ex.toString());
 		}
@@ -483,6 +497,16 @@ public class Notification {
 	public Bitmap getPhotoImg() {
 		if (_debug) Log.v("Notification.getPhotoIImg()");
 		return _photoImg;
+	}
+	
+	/**
+	 * Get the photoIImg property.
+	 * 
+	 * @return photoImg - Bitmap of contact's photo.
+	 */
+	public void setPhotoImg(Bitmap photoImg) {
+		if (_debug) Log.v("Notification.setPhotoIImg()");
+		_photoImg = photoImg;
 	}
 	
 	/**
@@ -787,7 +811,6 @@ public class Notification {
 			while (cursor.moveToNext()) { 
 				String contactID = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID)); 
 				String contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-				String contactLookupKey = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY));
 				String photoID = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_ID)); 
 				final String[] phoneProjection = null;
 				final String phoneSelection = ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = " + contactID;
@@ -803,9 +826,6 @@ public class Notification {
 					String contactNumber = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
 					if(removeFormatting(incomingNumber).equals(removeFormatting(contactNumber))){
 						_contactID = Long.parseLong(contactID);
-		    		  	if(contactLookupKey != null){
-		    			  	_contactLookupKey = contactLookupKey;
-		    		  	}
 		    		  	if(contactName != null){
 		    		  		_contactName = contactName;
 		    		  	}
@@ -866,7 +886,6 @@ public class Notification {
 			while (cursor.moveToNext()) { 
 				contactID = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID)); 
 				String contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-				String contactLookupKey = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY));
 				String photoID = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_ID)); 
 				final String[] emailProjection = null;
 				final String emailSelection = ContactsContract.CommonDataKinds.Email.CONTACT_ID + " = " + contactID;
@@ -884,9 +903,6 @@ public class Notification {
                     //if (_debug) Log.v("Notification.loadContactsInfoByEmail() Email Address: " + emailIdOfContact + " Email Type: " + emailType);
 					if(incomingEmail.toLowerCase().equals(contactEmail.toLowerCase())){
 						_contactID = Long.parseLong(contactID);
-		    		  	if(contactLookupKey != null){
-		    		  		_contactLookupKey = contactLookupKey;
-		    		  	}
 		    		  	if(contactName != null){
 		    		  		_contactName = contactName;
 		    		  	}

@@ -1,8 +1,10 @@
 package apps.droidnotify;
 
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.TimeZone;
 
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -19,6 +21,7 @@ import android.graphics.drawable.TransitionDrawable;
 import android.net.Uri;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
+import android.provider.ContactsContract;
 import android.text.Html;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Gravity;
@@ -389,10 +392,11 @@ public class NotificationView extends LinearLayout {
 	    setNotificationMessage(notification);
 	    //Load the notification type icon & text into the notification.
 	    setNotificationTypeInfo(notification);
-	    //Load the image from the users contacts.
-	    setNotificationImage(notification);
 	    //Add context menu items.
 	    setupContextMenus();
+	    //Load the image from the users contacts.
+		//TODO - Do this in an asynchronous task!
+	    setNotificationImage(notification);
 	}
 	
 	/**
@@ -473,7 +477,8 @@ public class NotificationView extends LinearLayout {
 	    }
 	    _notificationInfoTextView.setText(receivedAtText);
 	}
-		
+
+	//TODO - Do this in an asynchronous task!
 	/**
 	 * Insert the image from the users contacts into the notification View.
 	 * 
@@ -482,9 +487,10 @@ public class NotificationView extends LinearLayout {
 	private void setNotificationImage(Notification notification){
 		if (_debug) Log.v("NotificationView.setNotificationImage()");
 	    //Load contact photo if it exists.
-	    Bitmap bitmap = notification.getPhotoImg();
+	    Bitmap bitmap = getContactImage(notification.getContactID());
 	    if(bitmap!=null){
 	    	_photoImageView.setImageBitmap((Bitmap)getRoundedCornerBitmap(notification.getPhotoImg(), 5));
+	    	notification.setPhotoImg(bitmap);
 	    }else{
 	    	// Load the placeholder image if the contact has no photo.
 	    	// This is based on user preferences from a list of predefined images.
@@ -574,13 +580,12 @@ public class NotificationView extends LinearLayout {
 		//Reply using Android's SMS Messaging app.
 		if(_preferences.getString(SMS_REPLY_BUTTON_ACTION_KEY, "0").equals(SMS_ANDROID_REPLY)){
 			try{
-				Intent intent = new Intent(Intent.ACTION_VIEW);
-			    intent.setType("vnd.android-dir/mms-sms");
+				Intent intent = new Intent(Intent.ACTION_SENDTO);
+			    intent.setData(Uri.parse("smsto:" + phoneNumber));
 		        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP
 		        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
 		        		| Intent.FLAG_ACTIVITY_NO_HISTORY
 		        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-			    intent.putExtra("address", phoneNumber);
 		        _notificationActivity.startActivityForResult(intent,SEND_SMS_ACTIVITY);
 			}catch(Exception ex){
 				if (_debug) Log.e("NotificationView.replyToMessage() Android Reply ERROR: " + ex.toString());
@@ -881,7 +886,6 @@ public class NotificationView extends LinearLayout {
 		if (_debug) Log.v("NotificationView.formatPhoneNumber()");
 		inputPhoneNumber = removeFormatting(inputPhoneNumber);
 		StringBuilder outputPhoneNumber = new StringBuilder("");
-		//TODO - Add preference for the phone number format in Advanced Preferences
 		int phoneNumberFormatPreference = Integer.parseInt(_preferences.getString(PHONE_NUMBER_FORMAT_KEY, "1"));
 		switch(phoneNumberFormatPreference){
 			case PHONE_NUMBER_FORMAT_A:{
@@ -976,6 +980,25 @@ public class NotificationView extends LinearLayout {
 			}
 		}
 		return outputPhoneNumber.toString();
+	}
+	
+	/**
+	 * Get the contact image for the corresponding contact id.
+	 * 
+	 * @param contactID - The contact id of the contact image we want to retrieve.
+	 * 
+	 * @return Bitmap - The bitmap of the contact image or null if there is none.
+	 */
+	private Bitmap getContactImage(long contactID){
+		if (_debug) Log.v("NotificationView.getContactImage()");
+		Uri uri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, contactID);
+		InputStream input = ContactsContract.Contacts.openContactPhotoInputStream(_context.getContentResolver(), uri);
+		Bitmap contactPhotoBitmap = BitmapFactory.decodeStream(input);
+		if(contactPhotoBitmap!= null){
+			return contactPhotoBitmap;
+		}else{
+			return null;
+		}
 	}
 	
 }
