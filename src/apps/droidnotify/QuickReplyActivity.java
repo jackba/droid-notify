@@ -263,8 +263,8 @@ public class QuickReplyActivity extends Activity {
 	 */
 	private void sendSMS(String smsAddress, String message){   
 		if (_debug) Log.v("QuickReplyActivity.sendSMS()");
-//        final String SMS_SENT = "SMS_SENT";
-//        final String SMS_DELIVERED = "SMS_DELIVERED";
+//      final String SMS_SENT = "SMS_SENT";
+//      final String SMS_DELIVERED = "SMS_DELIVERED";
         //PendingIntent sentPI = PendingIntent.getBroadcast(this, 0, new Intent(SMS_SENT), 0);
         //PendingIntent deliveredPI = PendingIntent.getBroadcast(this, 0, new Intent(SMS_DELIVERED), 0);
         PendingIntent sentPI = null;

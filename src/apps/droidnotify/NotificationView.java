@@ -489,7 +489,8 @@ public class NotificationView extends LinearLayout {
 	    //Load contact photo if it exists.
 	    Bitmap bitmap = getContactImage(notification.getContactID());
 	    if(bitmap!=null){
-	    	_photoImageView.setImageBitmap((Bitmap)getRoundedCornerBitmap(notification.getPhotoImg(), 5));
+	    	if (_debug) Log.v("NotificationView.setNotificationImage() 1");
+	    	_photoImageView.setImageBitmap((Bitmap)getRoundedCornerBitmap(bitmap, 5));
 	    	notification.setPhotoImg(bitmap);
 	    }else{
 	    	// Load the placeholder image if the contact has no photo.
@@ -516,27 +517,37 @@ public class NotificationView extends LinearLayout {
 	 */
 	private Bitmap getRoundedCornerBitmap(Bitmap bitmap, int pixels) {
 		if (_debug) Log.v("NotificationView.getRoundedCornerBitmap()");
-        Bitmap output = Bitmap.createBitmap(
-        		bitmap.getWidth(), 
-        		bitmap
-                .getHeight(), 
-                Config.ARGB_8888);
-        Canvas canvas = new Canvas(output);
-        final int color = 0xff424242;
-        final Paint paint = new Paint();
-        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
-        final RectF rectF = new RectF(rect);
-        final float roundPx = pixels;
-        paint.setAntiAlias(true);
-        canvas.drawARGB(0, 0, 0, 0);
-        paint.setColor(color);
-        canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
-        paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
-        canvas.drawBitmap(bitmap, rect, rect, paint);
-        //Resize the Bitmap so that all images are consistent.
-        //Bitmap createScaledBitmap(Bitmap src, int dstWidth, int dstHeight, boolean filter)
-        output = Bitmap.createScaledBitmap(output, SQUARE_IMAGE_SIZE, SQUARE_IMAGE_SIZE, true);
-        return output;
+		try{
+			Bitmap output = null;
+			if(bitmap == null){
+				return null;
+			}else{
+		        output = Bitmap.createBitmap(
+		        		bitmap.getWidth(), 
+		        		bitmap
+		                .getHeight(), 
+		                Config.ARGB_8888);
+		        Canvas canvas = new Canvas(output);
+		        final int color = 0xff424242;
+		        final Paint paint = new Paint();
+		        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+		        final RectF rectF = new RectF(rect);
+		        final float roundPx = pixels;
+		        paint.setAntiAlias(true);
+		        canvas.drawARGB(0, 0, 0, 0);
+		        paint.setColor(color);
+		        canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
+		        paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
+		        canvas.drawBitmap(bitmap, rect, rect, paint);
+		        //Resize the Bitmap so that all images are consistent.
+		        //Bitmap createScaledBitmap(Bitmap src, int dstWidth, int dstHeight, boolean filter)
+		        output = Bitmap.createScaledBitmap(output, SQUARE_IMAGE_SIZE, SQUARE_IMAGE_SIZE, true);
+		        return output;
+			}
+		}catch(Exception ex){
+			if (_debug) Log.e("NotificationView.getRoundedCornerBitmap() ERROR: " + ex.toString());
+			return null;
+		}
 	}
 	
 	/**
@@ -577,9 +588,17 @@ public class NotificationView extends LinearLayout {
 				return;
 			}
 		}	
+		
+		//This preference is deprecated and should be removed within the next few updates.================
 		//Reply using Android's SMS Messaging app.
 		if(_preferences.getString(SMS_REPLY_BUTTON_ACTION_KEY, "0").equals(SMS_ANDROID_REPLY)){
 			try{
+				
+				//Temporary fix for updated preferences.
+				SharedPreferences.Editor editor = _preferences.edit();
+				editor.putString(SMS_REPLY_BUTTON_ACTION_KEY, "0");
+				editor.commit();
+				
 				Intent intent = new Intent(Intent.ACTION_SENDTO);
 			    intent.setData(Uri.parse("smsto:" + phoneNumber));
 		        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP
@@ -587,12 +606,15 @@ public class NotificationView extends LinearLayout {
 		        		| Intent.FLAG_ACTIVITY_NO_HISTORY
 		        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
 		        _notificationActivity.startActivityForResult(intent,SEND_SMS_ACTIVITY);
+		        
 			}catch(Exception ex){
 				if (_debug) Log.e("NotificationView.replyToMessage() Android Reply ERROR: " + ex.toString());
 				Toast.makeText(_context, _context.getString(R.string.app_android_messaging_app_error), Toast.LENGTH_LONG).show();
 				return;
 			}
 		}	
+		//====================================================================================================
+		
 		//Reply using the built in Quick Reply Activity.
 		if(_preferences.getString(SMS_REPLY_BUTTON_ACTION_KEY, "0").equals(SMS_QUICK_REPLY)){
 			try{
@@ -991,12 +1013,17 @@ public class NotificationView extends LinearLayout {
 	 */
 	private Bitmap getContactImage(long contactID){
 		if (_debug) Log.v("NotificationView.getContactImage()");
-		Uri uri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, contactID);
-		InputStream input = ContactsContract.Contacts.openContactPhotoInputStream(_context.getContentResolver(), uri);
-		Bitmap contactPhotoBitmap = BitmapFactory.decodeStream(input);
-		if(contactPhotoBitmap!= null){
-			return contactPhotoBitmap;
-		}else{
+		try{
+			Uri uri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, contactID);
+			InputStream input = ContactsContract.Contacts.openContactPhotoInputStream(_context.getContentResolver(), uri);
+			Bitmap contactPhotoBitmap = BitmapFactory.decodeStream(input);
+			if(contactPhotoBitmap!= null){
+				return contactPhotoBitmap;
+			}else{
+				return null;
+			}
+		}catch(Exception ex){
+			if (_debug) Log.e("NotificationView.getContactImage() ERROR: " + ex.toString());
 			return null;
 		}
 	}

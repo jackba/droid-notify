@@ -840,7 +840,7 @@ public class NotificationActivity extends Activity {
 		    Notification newSMSNotification = setupMessage(extrasBundle);
 		    final long messageID = newSMSNotification.getMessageID();
 		    final String messagebody = newSMSNotification.getMessageBody();
-		    if(_preferences.getBoolean(SMS_DISPLAY_UNREAD_KEY, true)){
+		    if(_preferences.getBoolean(SMS_DISPLAY_UNREAD_KEY, false)){
 		    	getAllUnreadSMSMessages(messageID, messagebody);
 		    }
 	    }
@@ -1714,13 +1714,46 @@ public class NotificationActivity extends Activity {
 		ArrayList<String> mmsArray = bundle.getStringArrayList("mmsArrayList");
 		for(String mmsArrayItem : mmsArray){
 			String[] mmsInfo = mmsArrayItem.split("\\|");
-			String messageAddress = mmsInfo[0];
-			String messageBody = mmsInfo[1];
-			long messageID = Long.parseLong(mmsInfo[2]);
-			long threadID = Long.parseLong(mmsInfo[3]);
+			String messageAddress = null;
+			String messageBody = null;
+			long messageID = 0;
+			long threadID = 0;
+			long contactID = 0;
+			String contactName = null;
+			long photoID = 0;
 			//The timestamp is in seconds and not milliseconds. You must multiply by 1000. :)
-			long timeStamp = Long.parseLong(mmsInfo[4]) * 1000;
-    		_notificationViewFlipper.addNotification(new Notification(_context, messageAddress, messageBody, messageID, threadID, timeStamp, NOTIFICATION_TYPE_MMS));
+			long timeStamp = 0;
+    		//_notificationViewFlipper.addNotification(new Notification(_context, messageAddress, messageBody, messageID, threadID, timeStamp, NOTIFICATION_TYPE_MMS));
+			if( mmsInfo.length == 4){
+//				if (_debug) Log.v("NotificationActivity.getMMSMessage() mmsInfo[0]: " + mmsInfo[0]); 
+//				if (_debug) Log.v("NotificationActivity.getMMSMessage() mmsInfo[1]: " + mmsInfo[1]); 
+//				if (_debug) Log.v("NotificationActivity.getMMSMessage() mmsInfo[2]: " + mmsInfo[2]); 
+//				if (_debug) Log.v("NotificationActivity.getMMSMessage() mmsInfo[3]: " + mmsInfo[3]); 
+//				if (_debug) Log.v("NotificationActivity.getMMSMessage() mmsInfo[4]: " + mmsInfo[4]); 
+				messageAddress = mmsInfo[0];
+				messageBody = mmsInfo[1];
+				messageID = Long.parseLong(mmsInfo[2]);
+				threadID = Long.parseLong(mmsInfo[3]);
+				timeStamp = Long.parseLong(mmsInfo[4]) * 1000;
+			}else{
+//				if (_debug) Log.v("NotificationActivity.getMMSMessage() mmsInfo[0]: " + mmsInfo[0]); 
+//				if (_debug) Log.v("NotificationActivity.getMMSMessage() mmsInfo[1]: " + mmsInfo[1]); 
+//				if (_debug) Log.v("NotificationActivity.getMMSMessage() mmsInfo[2]: " + mmsInfo[2]); 
+//				if (_debug) Log.v("NotificationActivity.getMMSMessage() mmsInfo[3]: " + mmsInfo[3]); 
+//				if (_debug) Log.v("NotificationActivity.getMMSMessage() mmsInfo[4]: " + mmsInfo[4]); 
+//				if (_debug) Log.v("NotificationActivity.getMMSMessage() mmsInfo[5]: " + mmsInfo[5]); 
+//				if (_debug) Log.v("NotificationActivity.getMMSMessage() mmsInfo[6]: " + mmsInfo[6]); 
+//				if (_debug) Log.v("NotificationActivity.getMMSMessage() mmsInfo[7]: " + mmsInfo[7]); 
+				messageAddress = mmsInfo[0];
+				messageBody = mmsInfo[1];
+				messageID = Long.parseLong(mmsInfo[2]);
+				threadID = Long.parseLong(mmsInfo[3]);
+				timeStamp = Long.parseLong(mmsInfo[4]) * 1000;
+				contactID = Long.parseLong(mmsInfo[5]);
+				contactName = mmsInfo[6];
+				photoID = Long.parseLong(mmsInfo[7]);
+			}
+    		_notificationViewFlipper.addNotification(new Notification(_context, messageAddress, messageBody, messageID, threadID, timeStamp, contactID, contactName, photoID, NOTIFICATION_TYPE_MMS));
 		}
 		if(loadAllNew){
 			//TODO - Load all unread MMS messages.

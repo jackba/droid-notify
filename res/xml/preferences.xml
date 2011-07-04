@@ -64,7 +64,7 @@
 					android:title="@string/preference_sms_display_unread_enabled_title" 
 					android:summaryOn="@string/preference_sms_display_unread_enabled_summaryOn" 
 					android:summaryOff="@string/preference_sms_display_unread_enabled_summaryOff" 
-					android:defaultValue="true"
+					android:defaultValue="false"
 					android:dependency="sms_notifications_enabled" />
 				<PreferenceScreen
 					android:key="sms_button_settings_screen"

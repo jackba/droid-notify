@@ -230,6 +230,57 @@ public class Notification {
 			if (_debug) Log.v("Notification.Notification(Context context, long messageID, long threadID, String messageBody, String phoneNumber, long timeStamp, long contactID, int notificationType) ERROR: " + ex.toString());
 		}
 	}
+
+	/**
+	 * Class Constructor
+	 */
+	public Notification(Context context, String sentFromAddress, String messageBody, long messageID, long threadID, long timeStamp, long contactID, String contactName, long photoID, int notificationType) {
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Notification.Notification(Context contex, String sentFromAddresst, String messageBody, long messageID, long threadID, long timeStamp, long contactID, String contactName, long photoID, int notificationType)");
+		try{
+			if(notificationType == NOTIFICATION_TYPE_PHONE){
+				_title = "Missed Call";
+		    }
+			if(notificationType == NOTIFICATION_TYPE_SMS){
+				_title = "SMS Message";
+			}
+			if(notificationType == NOTIFICATION_TYPE_MMS){
+				_title = "MMS Message";	
+		    }
+		    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
+		    	_title = "Calendar Event";
+		    }
+		    if(notificationType == NOTIFICATION_TYPE_EMAIL){
+		    	_title = "Email";
+		    }
+			_context = context;
+			_preferences = PreferenceManager.getDefaultSharedPreferences(_context);
+			_contactExists = false;
+			_contactPhotoExists = false;
+			_notificationType = notificationType;
+    		_sentFromAddress = sentFromAddress.toLowerCase();
+    		_messageBody = messageBody;
+    		_messageID = messageID;
+    		_threadID = threadID;
+    		_timeStamp = timeStamp;
+    		_contactID = contactID;
+    		if(contactName.equals("")){
+    			_contactName = null;
+    			_contactExists = false;
+    		}else{
+    			_contactName = contactName;
+    			_contactExists = true;
+    		}
+    		_photoID = photoID;
+    		if(photoID == 0){
+    			_contactPhotoExists = false;
+    		}else{
+    			_contactPhotoExists = true;
+    		}
+		}catch(Exception ex){
+			if (_debug) Log.v("Notification.Notification(Context contex, String sentFromAddresst, String messageBody, long messageID, long threadID, long timeStamp, long contactID, String contactName, long photoID, int notificationType) ERROR: " + ex.toString());
+		}
+	}
 	
 	/**
 	 * Class Constructor
@@ -315,6 +366,21 @@ public class Notification {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Notification.Notification(Context context, String sentFromAddress, long timeStamp, long contactID, string contactName, long photoID, int notificationType)");
 		try{
+			if(notificationType == NOTIFICATION_TYPE_PHONE){
+				_title = "Missed Call";
+		    }
+			if(notificationType == NOTIFICATION_TYPE_SMS){
+				_title = "SMS Message";
+			}
+			if(notificationType == NOTIFICATION_TYPE_MMS){
+				_title = "MMS Message";	
+		    }
+		    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
+		    	_title = "Calendar Event";
+		    }
+		    if(notificationType == NOTIFICATION_TYPE_EMAIL){
+		    	_title = "Email";
+		    }
 			_context = context;
 			_preferences = PreferenceManager.getDefaultSharedPreferences(_context);
 			_contactExists = false;
@@ -322,7 +388,6 @@ public class Notification {
 			_notificationType = notificationType;
     		_sentFromAddress = sentFromAddress.toLowerCase();
     		_timeStamp = timeStamp;
-    		_title = "Missed Call";
     		_contactID = contactID;
     		if(contactName.equals("")){
     			_contactName = null;
@@ -495,7 +560,7 @@ public class Notification {
 	 * @return photoImg - Bitmap of contact's photo.
 	 */
 	public Bitmap getPhotoImg() {
-		if (_debug) Log.v("Notification.getPhotoIImg()");
+		if (_debug) Log.v("Notification.getPhotoImg()");
 		return _photoImg;
 	}
 	
@@ -901,7 +966,7 @@ public class Notification {
                 	String contactEmail = emailCursor.getString(emailCursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA));
                     //String emailType = emailCursor.getString(emailCursor.getColumnIndex(Phone.TYPE));
                     //if (_debug) Log.v("Notification.loadContactsInfoByEmail() Email Address: " + emailIdOfContact + " Email Type: " + emailType);
-					if(incomingEmail.toLowerCase().equals(contactEmail.toLowerCase())){
+					if(removeEmailFormatting(incomingEmail).equals(removeEmailFormatting(contactEmail))){
 						_contactID = Long.parseLong(contactID);
 		    		  	if(contactName != null){
 		    		  		_contactName = contactName;
@@ -1122,7 +1187,7 @@ public class Notification {
 		if(address.contains("[") && address.contains("]")){
 			address = address.substring(address.indexOf("[") + 1,address.indexOf("]"));
 		}
-		return address.trim();
+		return address.toLowerCase().trim();
 	}
 	
 //	/**
