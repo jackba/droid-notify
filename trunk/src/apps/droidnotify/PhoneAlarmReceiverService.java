@@ -183,7 +183,6 @@ public class PhoneAlarmReceiverService extends WakefulIntentService {
 		    			  	_photoID = Long.parseLong(photoID);
 		    		  	}
 		  		      	_contactExists = true;
-		  		      	if (_debug) Log.v("PhoneAlarmReceiverService.loadContactsInfoByPhoneNumber() Contact Found");
 		  		      	break;
 					}
 				}
