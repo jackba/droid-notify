@@ -19,6 +19,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.TransitionDrawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
@@ -30,6 +31,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.view.MotionEvent;
@@ -116,6 +118,7 @@ public class NotificationView extends LinearLayout {
 	private LinearLayout _phoneButtonLinearLayout = null;
 	private LinearLayout _smsButtonLinearLayout = null;
 	private LinearLayout _calendarButtonLinearLayout = null;
+	private ProgressBar _photoProgressBar = null;
 
 	//================================================================================
 	// Constructors
@@ -175,6 +178,7 @@ public class NotificationView extends LinearLayout {
 		//_contactNumberTextView.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
 		_notificationInfoTextView = (TextView) findViewById(R.id.notification_info_text_view);
 		_photoImageView = (ImageView) findViewById(R.id.contact_photo_image_view);
+		_photoProgressBar = (ProgressBar) findViewById(R.id.contact_photo_progress_bar);
 	    _notificationIconImageView = (ImageView) findViewById(R.id.notification_type_icon_image_view);    
 		_notificationTextView = (TextView) findViewById(R.id.notification_details_text_view);
 		_notificationTextView.setMovementMethod(new ScrollingMovementMethod());
@@ -395,8 +399,7 @@ public class NotificationView extends LinearLayout {
 	    //Add context menu items.
 	    setupContextMenus();
 	    //Load the image from the users contacts.
-		//TODO - Do this in an asynchronous task!
-	    setNotificationImage(notification);
+	    new setNotificationContactImageAsyncTask().execute(notification.getContactID());
 	}
 	
 	/**
@@ -476,35 +479,6 @@ public class NotificationView extends LinearLayout {
 	    	_notificationIconImageView.setImageBitmap(iconBitmap);
 	    }
 	    _notificationInfoTextView.setText(receivedAtText);
-	}
-
-	//TODO - Do this in an asynchronous task!
-	/**
-	 * Insert the image from the users contacts into the notification View.
-	 * 
-	 * @param notification - This View's Notification.
-	 */
-	private void setNotificationImage(Notification notification){
-		if (_debug) Log.v("NotificationView.setNotificationImage()");
-	    //Load contact photo if it exists.
-	    Bitmap bitmap = getContactImage(notification.getContactID());
-	    if(bitmap!=null){
-	    	if (_debug) Log.v("NotificationView.setNotificationImage() 1");
-	    	_photoImageView.setImageBitmap((Bitmap)getRoundedCornerBitmap(bitmap, 5));
-	    	notification.setPhotoImg(bitmap);
-	    }else{
-	    	// Load the placeholder image if the contact has no photo.
-	    	// This is based on user preferences from a list of predefined images.
-	    	String contactPlaceholderImageID = _preferences.getString(CONTACT_PLACEHOLDER_KEY, "0");
-	    	//Default image resource.
-	    	int contactPlaceholderImageResourceID = R.drawable.ic_contact_picture_5;
-	    	if(contactPlaceholderImageID.equals("0")) contactPlaceholderImageResourceID = R.drawable.ic_contact_picture_1;
-	    	if(contactPlaceholderImageID.equals("1")) contactPlaceholderImageResourceID = R.drawable.ic_contact_picture_2;
-	    	if(contactPlaceholderImageID.equals("2")) contactPlaceholderImageResourceID = R.drawable.ic_contact_picture_3;
-	    	if(contactPlaceholderImageID.equals("3")) contactPlaceholderImageResourceID = R.drawable.ic_contact_picture_4;
-	    	if(contactPlaceholderImageID.equals("4")) contactPlaceholderImageResourceID = R.drawable.ic_contact_picture_5;
-	    	_photoImageView.setImageBitmap(getRoundedCornerBitmap(BitmapFactory.decodeResource(_context.getResources(), contactPlaceholderImageResourceID), 5));
-	    }
 	}
 	
 	/**
@@ -1002,6 +976,74 @@ public class NotificationView extends LinearLayout {
 			}
 		}
 		return outputPhoneNumber.toString();
+	}
+
+	
+	/**
+	 * Set the notification contact's image
+	 * 
+	 * @author Camille Sévigny
+	 */
+	private class setNotificationContactImageAsyncTask extends AsyncTask<Long, Void, Bitmap> {
+		/**
+		 * Set up the contact image loading view.
+		 */
+	    protected void onPreExecute() {
+			if (_debug) Log.v("NotificationView.setNotificationContactImageAsyncTask.onPreExecute()");
+	    	_photoImageView.setVisibility(View.GONE);
+	    	_photoProgressBar.setVisibility(View.VISIBLE);
+	    }
+	    /**
+	     * Do this work in the background.
+	     * 
+	     * @param params - The contact's id.
+	     */
+	    protected Bitmap doInBackground(Long... params) {
+			if (_debug) Log.v("NotificationView.setNotificationContactImageAsyncTask.doInBackground()");
+	    	return getNotificationContactImage(params[0]);
+	    }
+	    /**
+	     * Set the image to the notification View.
+	     * 
+	     * @param result - The image of the contact.
+	     */
+	    protected void onPostExecute(Bitmap result) {
+			if (_debug) Log.v("NotificationView.setNotificationContactImageAsyncTask.onPostExecute()");
+	    	_photoImageView.setImageBitmap(result);
+	    	_photoProgressBar.setVisibility(View.GONE);
+	    	_photoImageView.setVisibility(View.VISIBLE);
+	    }
+	}
+
+	/**
+	 * Get the image from the users contacts.
+	 * 
+	 * @param contactID - This contact's id.
+	 */
+	private Bitmap getNotificationContactImage(long contactID){
+		if (_debug) Log.v("NotificationView.getNotificationContactImage()");
+	    //Load contact photo if it exists.
+		try{
+		    Bitmap bitmap = getContactImage(contactID);
+		    if(bitmap!=null){
+		    	return (Bitmap)getRoundedCornerBitmap(bitmap, 5);
+		    }else{
+		    	// Load the placeholder image if the contact has no photo.
+		    	// This is based on user preferences from a list of predefined images.
+		    	String contactPlaceholderImageID = _preferences.getString(CONTACT_PLACEHOLDER_KEY, "0");
+		    	//Default image resource.
+		    	int contactPlaceholderImageResourceID = R.drawable.ic_contact_picture_5;
+		    	if(contactPlaceholderImageID.equals("0")) contactPlaceholderImageResourceID = R.drawable.ic_contact_picture_1;
+		    	if(contactPlaceholderImageID.equals("1")) contactPlaceholderImageResourceID = R.drawable.ic_contact_picture_2;
+		    	if(contactPlaceholderImageID.equals("2")) contactPlaceholderImageResourceID = R.drawable.ic_contact_picture_3;
+		    	if(contactPlaceholderImageID.equals("3")) contactPlaceholderImageResourceID = R.drawable.ic_contact_picture_4;
+		    	if(contactPlaceholderImageID.equals("4")) contactPlaceholderImageResourceID = R.drawable.ic_contact_picture_5;
+		    	return (getRoundedCornerBitmap(BitmapFactory.decodeResource(_context.getResources(), contactPlaceholderImageResourceID), 5));
+		    }
+		}catch(Exception ex){
+			if (_debug) Log.e("NotificationView.getNotificationContactImage() ERROR: " + ex.toString());
+			return null;
+		}
 	}
 	
 	/**
