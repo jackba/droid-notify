@@ -1,7 +1,9 @@
 package apps.droidnotify.preferences;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 
 import android.app.AlarmManager;
 import android.app.AlertDialog;
@@ -323,6 +325,21 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	            return true;
            }
 		});
+		//Export Preferences Preference/Button
+		Preference exportPreferencesPref = (Preference)findPreference("export_preferences");
+		exportPreferencesPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+        	public boolean onPreferenceClick(Preference preference) {
+		    	if (_debug) Log.v("Export Preferences Button Clicked()");
+		    	try{
+			    	//Run this process in the background in an AsyncTask.
+			    	new exportPreferencesAsyncTask().execute();
+		    	}catch(Exception ex){
+	 	    		if (_debug) Log.e("MainPreferenceActivity.setupCustomPreferences() Export Preferences Button ERROR: " + ex.toString());
+	 	    		return false;
+		    	}
+	            return true;
+           }
+		});
 	}
 	
 	/**
@@ -388,7 +405,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	    protected void onPostExecute(Void res) {
 			if (_debug) Log.v("MainPreferenceActivity.clearDeveloperLogAsyncTask.onPostExecute()");
 	        dialog.dismiss();
-	    	Toast.makeText(_context, "The application logs have been cleared.", Toast.LENGTH_SHORT).show();
+	    	Toast.makeText(_context, "The application logs have been cleared.", Toast.LENGTH_LONG).show();
 	    }
 	}
 	
@@ -441,6 +458,95 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
     	}catch (Exception ex){
 			if (_debug) Log.e("MainPreferenceActivity.clearDeveloperLogs() ERROR: " + ex.toString());
 		}
+	}
+	
+	/**
+	 * Clear the developer logs as a background task.
+	 * 
+	 * @author Camille Sévigny
+	 */
+	private class exportPreferencesAsyncTask extends AsyncTask<Void, Void, Boolean> {
+		//ProgressDialog to display while the task is running.
+		private ProgressDialog dialog;
+		/**
+		 * Setup the Progress Dialog.
+		 */
+	    protected void onPreExecute() {
+			if (_debug) Log.v("MainPreferenceActivity.exportPreferencesAsyncTask.onPreExecute()");
+	        dialog = ProgressDialog.show(MainPreferenceActivity.this, "", _context.getString(R.string.preference_export_preferences_progress_text), true);
+	    }
+	    /**
+	     * Do this work in the background.
+	     * 
+	     * @param params
+	     */
+	    protected Boolean doInBackground(Void... params) {
+			if (_debug) Log.v("MainPreferenceActivity.exportPreferencesAsyncTask.doInBackground()");
+	    	return exportApplicationPreferences();
+	    }
+	    /**
+	     * Stop the Progress Dialog and do any post background work.
+	     * 
+	     * @param result
+	     */
+	    protected void onPostExecute(Boolean successful) {
+			if (_debug) Log.v("MainPreferenceActivity.exportPreferencesAsyncTask.onPostExecute()");
+	        dialog.dismiss();
+	        if(successful){
+	        	Toast.makeText(_context, _context.getString(R.string.preference_export_preferences_finish_text), Toast.LENGTH_LONG).show();
+	        }else{
+	        	Toast.makeText(_context, _context.getString(R.string.preference_export_preferences_error_text), Toast.LENGTH_LONG).show();
+	        }
+	    }
+	}
+	
+	/**
+	 * Export the application preferences to the SD card.
+	 */
+	private boolean exportApplicationPreferences(){
+		if (_debug) Log.v("MainPreferenceActivity.exportApplicationPreferences()");
+		File preferenceFile = new File("sdcard/Droid Notify/Preferences/DroidNotifyPreferences.txt");
+		File directoryStructure = new File("sdcard/Droid Notify/Preferences");
+    	if (!preferenceFile.exists()){
+			try{
+				directoryStructure.mkdirs();
+				preferenceFile.createNewFile();
+			}catch (Exception ex){
+				if (_debug) Log.e("MainPreferenceActivity.exportApplicationPreferences() Create File ERROR: " + ex.toString());
+				return false;
+			}
+		}
+    	try{
+			BufferedWriter buf = new BufferedWriter(new FileWriter(preferenceFile, true)); 
+			
+			//Write each preference to the text file.
+			buf.append("app_enabled|" + _preferences.getBoolean("app_enabled", true));
+			buf.newLine();
+			buf.append("haptic_feedback_enabled|" + _preferences.getBoolean("haptic_feedback_enabled", true));
+			buf.newLine();
+			buf.append("app_vibrations_enabled|" + _preferences.getBoolean("app_vibrations_enabled", true));
+			buf.newLine();
+			buf.append("app_ringtones_enabled|" + _preferences.getBoolean("app_ringtones_enabled", false));
+			buf.newLine();
+			
+			buf.append("sms_notifications_enabled|" + _preferences.getBoolean("sms_notifications_enabled", true));
+			buf.newLine();
+			buf.append("sms_display_unread_enabled|" + _preferences.getBoolean("sms_display_unread_enabled", false));
+			buf.newLine();
+			
+			
+			
+			
+			
+			
+			
+			
+			buf.close();
+		}catch (Exception ex){
+			if (_debug) Log.e("MainPreferenceActivity.exportApplicationPreferences() Wrtie File ERROR: " + ex.toString());
+			return false;
+		}
+		return true;
 	}
 	
 }
