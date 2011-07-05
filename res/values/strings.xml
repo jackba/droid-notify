@@ -272,4 +272,10 @@
    	<string name="preference_phone_number_format">Phone Number Format</string>
    	<string name="preference_phone_number_format_summary">Select the phone number format used to display phone numbers.</string>
    	
+   	<string name="preference_export_preferences_title">Export Preferences</string>
+   	<string name="preference_export_preferences_summary">Export this applications preferences. This will allow you to save your preferences and import them back in later in case you need to uninstall and then reinstall this application.</string>
+   	<string name="preference_export_preferences_progress_text">Exporting Application Preferences...</string>
+   	<string name="preference_export_preferences_finish_text">The application preferences have been exported.</string>
+   	<string name="preference_export_preferences_error_text">The application preferences were not exported. Possible causes for this error include a missing SD Card or other SD card related issues which prevents this application from writing a file to the SD card location.</string>
+   	
 </resources>

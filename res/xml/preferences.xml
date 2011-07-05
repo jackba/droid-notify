@@ -499,6 +499,10 @@
 				android:entries="@array/ringtone_length_options"
 				android:entryValues="@array/ringtone_length_options_values"
 				android:dependency="app_ringtones_enabled" />
+			<Preference
+            	android:key="export_preferences"
+        		android:title="@string/preference_export_preferences_title"
+          		android:summary="@string/preference_export_preferences_summary" />
 		</PreferenceScreen>
 	</PreferenceCategory>
 	<PreferenceCategory
