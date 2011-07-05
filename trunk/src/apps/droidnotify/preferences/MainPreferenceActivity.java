@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,6 +14,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.preference.Preference;
@@ -190,19 +192,23 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		if (_debug) Log.v("MainPreferenceActivity.runOnceEula()");
 		boolean runOnceEula = _preferences.getBoolean("runOnceEula", true);
 		if(runOnceEula) {
-			SharedPreferences.Editor editor = _preferences.edit();
-			editor.putBoolean("runOnceEula", false);
-			editor.commit();
-			AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-			alertDialog.setIcon(R.drawable.ic_dialog_info);
-			alertDialog.setTitle(R.string.app_license);
-			alertDialog.setMessage(R.string.eula_text);
-		    alertDialog.setPositiveButton(R.string.ok_text, new DialogInterface.OnClickListener() {
-		    	public void onClick(DialogInterface dialogInterface, int id) {
-		    		//Action on dialog close. Do nothing.
-		       }
-		     });
-		    alertDialog.show();
+			try{
+				SharedPreferences.Editor editor = _preferences.edit();
+				editor.putBoolean("runOnceEula", false);
+				editor.commit();
+				AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+				alertDialog.setIcon(R.drawable.ic_dialog_info);
+				alertDialog.setTitle(R.string.app_license);
+				alertDialog.setMessage(R.string.eula_text);
+			    alertDialog.setPositiveButton(R.string.ok_text, new DialogInterface.OnClickListener() {
+			    	public void onClick(DialogInterface dialogInterface, int id) {
+			    		//Action on dialog close. Do nothing.
+			       }
+			     });
+			    alertDialog.show();
+			}catch(Exception ex){
+ 	    		if (_debug) Log.e("MainPreferenceActivity.runOnceEula() ERROR: " + ex.toString());
+	    	}
 		}
 	}
 	
@@ -263,10 +269,6 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			    	intent.putExtra("subject", "Droid Notify App Feedback");
 			    	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
 			    			| Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-//		    		Intent intent = new Intent(android.content.Intent.ACTION_SEND);
-//		    		intent.setType("plain/text");
-//		    		intent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{ "droidnotify@gmail.com"});
-//		    		intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Droid Notify App Feedback");
 		    		startActivity(intent);
 		    	}catch(Exception ex){
 	 	    		if (_debug) Log.e("MainPreferenceActivity.setupCustomPreferences() Email Developer Button ERROR: " + ex.toString());
@@ -287,11 +289,6 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			    	intent.putExtra("body", "What went wrong? What is the reason for emailing the log files: ");
 			    	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
 			    			| Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-//		    		Intent intent = new Intent(android.content.Intent.ACTION_SEND);
-//		    		intent.setType("plain/text");
-//		    		intent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{ "droidnotify@gmail.com"});
-//		    		intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Droid Notify App Logs");
-//		    		intent.putExtra(android.content.Intent.EXTRA_TEXT, "What went wrong? What is the reason for emailing the log files: ");
 			    	File logFileV = new File("sdcard/Droid Notify/Logs/V/DroidNotifyLog.txt");
 			    	File logFileD = new File("sdcard/Droid Notify/Logs/D/DroidNotifyLog.txt");
 			    	File logFileI = new File("sdcard/Droid Notify/Logs/I/DroidNotifyLog.txt");
@@ -316,7 +313,13 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		clearDeveloperLogsPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
         	public boolean onPreferenceClick(Preference preference) {
 		    	if (_debug) Log.v("Clear Developer Logs Button Clicked()");
-		    	clearDeveloperLogs();
+		    	try{
+			    	//Run this process in the background in an AsyncTask.
+			    	new clearDeveloperLogAsyncTask().execute();
+		    	}catch(Exception ex){
+	 	    		if (_debug) Log.e("MainPreferenceActivity.setupCustomPreferences() Clear Developer Logs Button ERROR: " + ex.toString());
+	 	    		return false;
+		    	}
 	            return true;
            }
 		});
@@ -341,7 +344,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	 * Removes the "Rate App" link from the application if not in the Android or Amazon stores.
 	 */
 	private void setupRateAppPreference(){
-		if (_debug) Log.v("MainPreferenceActivity.setupRateLink()");
+		if (_debug) Log.v("MainPreferenceActivity.setupRateAppPreference()");
 		boolean showRateAppCategory = false;
 		if(Log.getShowAndroidRateAppLink()) showRateAppCategory = true;
 		if(Log.getShowAmazonRateAppLink()) showRateAppCategory = true;
@@ -353,51 +356,91 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	}
 	
 	/**
+	 * Clear the developer logs as a background task.
+	 * 
+	 * @author Camille Sévigny
+	 */
+	private class clearDeveloperLogAsyncTask extends AsyncTask<Void, Void, Void> {
+		//ProgressDialog to display while the task is running.
+		private ProgressDialog dialog;
+		/**
+		 * Setup the Progress Dialog.
+		 */
+	    protected void onPreExecute() {
+			if (_debug) Log.v("MainPreferenceActivity.clearDeveloperLogAsyncTask.onPreExecute()");
+	        dialog = ProgressDialog.show(MainPreferenceActivity.this, "", "Clearing Application Logs...", true);
+	    }
+	    /**
+	     * Do this work in the background.
+	     * 
+	     * @param params
+	     */
+	    protected Void doInBackground(Void... params) {
+			if (_debug) Log.v("MainPreferenceActivity.clearDeveloperLogAsyncTask.doInBackground()");
+	    	clearDeveloperLogs();
+	    	return null;
+	    }
+	    /**
+	     * Stop the Progress Dialog and do any post background work.
+	     * 
+	     * @param result
+	     */
+	    protected void onPostExecute(Void res) {
+			if (_debug) Log.v("MainPreferenceActivity.clearDeveloperLogAsyncTask.onPostExecute()");
+	        dialog.dismiss();
+	    	Toast.makeText(_context, "The application logs have been cleared.", Toast.LENGTH_SHORT).show();
+	    }
+	}
+	
+	/**
 	 * Clear the developer logs on the SD card.
 	 */
 	private void clearDeveloperLogs(){
 		if (_debug) Log.v("MainPreferenceActivity.clearDeveloperLogs()");
-		File logFileV = new File("sdcard/Droid Notify/Logs/V/DroidNotifyLog.txt");
-    	File logFileD = new File("sdcard/Droid Notify/Logs/D/DroidNotifyLog.txt");
-    	File logFileI = new File("sdcard/Droid Notify/Logs/I/DroidNotifyLog.txt");
-    	File logFileW = new File("sdcard/Droid Notify/Logs/W/DroidNotifyLog.txt");
-    	File logFileE = new File("sdcard/Droid Notify/Logs/E/DroidNotifyLog.txt");
-    	if(logFileV.exists()){
-    		try{
-    			new FileOutputStream("sdcard/Droid Notify/Logs/V/DroidNotifyLog.txt").close();
-    		}catch (Exception ex){
-    			if (_debug) Log.e("MainPreferenceActivity.clearDeveloperLogs() ERROR: " + ex.toString());
-			}
-    	}
-    	if(logFileD.exists()){
-    		try{
-    			new FileOutputStream("sdcard/Droid Notify/Logs/D/DroidNotifyLog.txt").close();
-    		}catch (Exception ex){
-    			if (_debug) Log.e("MainPreferenceActivity.clearDeveloperLogs() ERROR: " + ex.toString());
-			}
-    	}
-    	if(logFileI.exists()){
-    		try{
-    			new FileOutputStream("sdcard/Droid Notify/Logs/I/DroidNotifyLog.txt").close();
-    		}catch (Exception ex){
-    			if (_debug) Log.e("MainPreferenceActivity.clearDeveloperLogs() ERROR: " + ex.toString());
-			}
-    	}
-    	if(logFileW.exists()){
-    		try{
-    			new FileOutputStream("sdcard/Droid Notify/Logs/W/DroidNotifyLog.txt").close();
-    		}catch (Exception ex){
-    			if (_debug) Log.e("MainPreferenceActivity.clearDeveloperLogs() ERROR: " + ex.toString());
-			}
-    	}
-    	if(logFileE.exists()){
-    		try{
-    			new FileOutputStream("sdcard/Droid Notify/Logs/E/DroidNotifyLog.txt").close();
-    		}catch (Exception ex){
-    			if (_debug) Log.e("MainPreferenceActivity.clearDeveloperLogs() ERROR: " + ex.toString());
-			}
-    	}
-    	Toast.makeText(_context, "The application logs have been cleared.", Toast.LENGTH_SHORT).show();
+		try{
+			File logFileV = new File("sdcard/Droid Notify/Logs/V/DroidNotifyLog.txt");
+	    	File logFileD = new File("sdcard/Droid Notify/Logs/D/DroidNotifyLog.txt");
+	    	File logFileI = new File("sdcard/Droid Notify/Logs/I/DroidNotifyLog.txt");
+	    	File logFileW = new File("sdcard/Droid Notify/Logs/W/DroidNotifyLog.txt");
+	    	File logFileE = new File("sdcard/Droid Notify/Logs/E/DroidNotifyLog.txt");
+	    	if(logFileV.exists()){
+	    		try{
+	    			new FileOutputStream("sdcard/Droid Notify/Logs/V/DroidNotifyLog.txt").close();
+	    		}catch (Exception ex){
+	    			if (_debug) Log.e("MainPreferenceActivity.clearDeveloperLogs() sdcard/Droid Notify/Logs/V/DroidNotifyLog.txt ERROR: " + ex.toString());
+				}
+	    	}
+	    	if(logFileD.exists()){
+	    		try{
+	    			new FileOutputStream("sdcard/Droid Notify/Logs/D/DroidNotifyLog.txt").close();
+	    		}catch (Exception ex){
+	    			if (_debug) Log.e("MainPreferenceActivity.clearDeveloperLogs() sdcard/Droid Notify/Logs/D/DroidNotifyLog.txt ERROR: " + ex.toString());
+				}
+	    	}
+	    	if(logFileI.exists()){
+	    		try{
+	    			new FileOutputStream("sdcard/Droid Notify/Logs/I/DroidNotifyLog.txt").close();
+	    		}catch (Exception ex){
+	    			if (_debug) Log.e("MainPreferenceActivity.clearDeveloperLogs() sdcard/Droid Notify/Logs/I/DroidNotifyLog.txt ERROR: " + ex.toString());
+				}
+	    	}
+	    	if(logFileW.exists()){
+	    		try{
+	    			new FileOutputStream("sdcard/Droid Notify/Logs/W/DroidNotifyLog.txt").close();
+	    		}catch (Exception ex){
+	    			if (_debug) Log.e("MainPreferenceActivity.clearDeveloperLogs() sdcard/Droid Notify/Logs/W/DroidNotifyLog.txt ERROR: " + ex.toString());
+				}
+	    	}
+	    	if(logFileE.exists()){
+	    		try{
+	    			new FileOutputStream("sdcard/Droid Notify/Logs/E/DroidNotifyLog.txt").close();
+	    		}catch (Exception ex){
+	    			if (_debug) Log.e("MainPreferenceActivity.clearDeveloperLogs() sdcard/Droid Notify/Logs/E/DroidNotifyLog.txt ERROR: " + ex.toString());
+				}
+	    	}
+    	}catch (Exception ex){
+			if (_debug) Log.e("MainPreferenceActivity.clearDeveloperLogs() ERROR: " + ex.toString());
+		}
 	}
 	
 }
