@@ -1,9 +1,12 @@
 package apps.droidnotify.preferences;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 
 import android.app.AlarmManager;
 import android.app.AlertDialog;
@@ -19,12 +22,15 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.preference.CheckBoxPreference;
+import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
+import android.preference.RingtonePreference;
 import android.widget.Toast;
 import apps.droidnotify.CalendarAlarmReceiver;
 import apps.droidnotify.Log;
@@ -340,6 +346,21 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	            return true;
            }
 		});
+		//Export Preferences Preference/Button
+		Preference importPreferencesPref = (Preference)findPreference("import_preferences");
+		importPreferencesPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+        	public boolean onPreferenceClick(Preference preference) {
+		    	if (_debug) Log.v("Import Preferences Button Clicked()");
+		    	try{
+			    	//Run this process in the background in an AsyncTask.
+			    	new importPreferencesAsyncTask().execute();
+		    	}catch(Exception ex){
+	 	    		if (_debug) Log.e("MainPreferenceActivity.setupCustomPreferences() Import Preferences Button ERROR: " + ex.toString());
+	 	    		return false;
+		    	}
+	            return true;
+           }
+		});
 	}
 	
 	/**
@@ -461,7 +482,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	}
 	
 	/**
-	 * Clear the developer logs as a background task.
+	 * Export application preferences.
 	 * 
 	 * @author Camille Sévigny
 	 */
@@ -502,6 +523,8 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	
 	/**
 	 * Export the application preferences to the SD card.
+	 * 
+	 * @return boolean - True if the operation was successful, false otherwise.
 	 */
 	private boolean exportApplicationPreferences(){
 		if (_debug) Log.v("MainPreferenceActivity.exportApplicationPreferences()");
@@ -520,6 +543,8 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			BufferedWriter buf = new BufferedWriter(new FileWriter(preferenceFile, true)); 
 			
 			//Write each preference to the text file.
+			
+			//General Settings
 			buf.append("app_enabled|" + _preferences.getBoolean("app_enabled", true));
 			buf.newLine();
 			buf.append("haptic_feedback_enabled|" + _preferences.getBoolean("haptic_feedback_enabled", true));
@@ -528,24 +553,196 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			buf.newLine();
 			buf.append("app_ringtones_enabled|" + _preferences.getBoolean("app_ringtones_enabled", false));
 			buf.newLine();
-			
+
+			//Notification Settings
 			buf.append("sms_notifications_enabled|" + _preferences.getBoolean("sms_notifications_enabled", true));
 			buf.newLine();
 			buf.append("sms_display_unread_enabled|" + _preferences.getBoolean("sms_display_unread_enabled", false));
 			buf.newLine();
+			buf.append("confirm_sms_deletion_enabled|" + _preferences.getBoolean("confirm_sms_deletion_enabled", true));
+			buf.newLine();
+			buf.append("sms_dismiss_button_action|" + _preferences.getString("sms_dismiss_button_action", "0"));
+			buf.newLine();
+			buf.append("sms_delete_button_action|" + _preferences.getString("sms_delete_button_action", "0"));
+			buf.newLine();
+			buf.append("sms_reply_button_action|" + _preferences.getString("sms_reply_button_action", "0"));
+			buf.newLine();
+			buf.append("sms_vibrate_enabled|" + _preferences.getBoolean("sms_vibrate_enabled", true));
+			buf.newLine();
+			buf.append("sms_ringtone_enabled|" + _preferences.getBoolean("sms_ringtone_enabled", true));
+			buf.newLine();
+			buf.append("sms_ringtone_audio|" + _preferences.getString("sms_ringtone_audio", "DEFAULT_SOUND"));
+			buf.newLine();
 			
+			buf.append("mms_notifications_enabled|" + _preferences.getBoolean("mms_notifications_enabled", true));
+			buf.newLine();
+			buf.append("mms_display_unread_enabled|" + _preferences.getBoolean("mms_display_unread_enabled", false));
+			buf.newLine();
+			buf.append("confirm_mms_deletion_enabled|" + _preferences.getBoolean("confirm_mms_deletion_enabled", true));
+			buf.newLine();
+			buf.append("mms_dismiss_button_action|" + _preferences.getString("mms_dismiss_button_action", "0"));
+			buf.newLine();
+			buf.append("mms_delete_button_action|" + _preferences.getString("mms_delete_button_action", "0"));
+			buf.newLine();
+			buf.append("mms_reply_button_action|" + _preferences.getString("mms_reply_button_action", "0"));
+			buf.newLine();
+			buf.append("mms_vibrate_enabled|" + _preferences.getBoolean("mms_vibrate_enabled", true));
+			buf.newLine();
+			buf.append("mms_ringtone_enabled|" + _preferences.getBoolean("mms_ringtone_enabled", true));
+			buf.newLine();
+			buf.append("mms_ringtone_audio|" + _preferences.getString("mms_ringtone_audio", "DEFAULT_SOUND"));
+			buf.newLine();
 			
+			buf.append("missed_call_notifications_enabled|" + _preferences.getBoolean("missed_call_notifications_enabled", true));
+			buf.newLine();
+			buf.append("missed_call_dismiss_button_action|" + _preferences.getString("missed_call_dismiss_button_action", "0"));
+			buf.newLine();
+			buf.append("missed_call_vibrate_enabled|" + _preferences.getBoolean("missed_call_vibrate_enabled", true));
+			buf.newLine();
+			buf.append("missed_call_ringtone_enabled|" + _preferences.getBoolean("missed_call_ringtone_enabled", true));
+			buf.newLine();
+			buf.append("missed_call_ringtone_audio|" + _preferences.getString("missed_call_ringtone_audio", "DEFAULT_SOUND"));
+			buf.newLine();
 			
-			
-			
-			
-			
+			buf.append("calendar_notifications_enabled|" + _preferences.getBoolean("calendar_notifications_enabled", true));
+			buf.newLine();
+			buf.append("calendar_selection|" + _preferences.getString("calendar_selection", "0"));
+			buf.newLine();
+			buf.append("calendar_labels_enabled|" + _preferences.getBoolean("calendar_labels_enabled", true));
+			buf.newLine();
+			buf.append("calendar_dismiss_button_action|" + _preferences.getString("calendar_dismiss_button_action", "0"));
+			buf.newLine();
+			buf.append("calendar_reminder_settings|" + _preferences.getString("calendar_reminder_settings", "15"));
+			buf.newLine();
+			buf.append("calendar_reminder_all_day_settings|" + _preferences.getString("calendar_reminder_all_day_settings", "6"));
+			buf.newLine();
+			buf.append("calendar_vibrate_enabled|" + _preferences.getBoolean("calendar_vibrate_enabled", true));
+			buf.newLine();
+			buf.append("calendar_ringtone_enabled|" + _preferences.getBoolean("calendar_ringtone_enabled", true));
+			buf.newLine();
+			buf.append("calendar_ringtone_audio|" + _preferences.getString("calendar_ringtone_audio", "DEFAULT_SOUND"));
+			buf.newLine();
+
+			//Screen Settings
+			buf.append("screen_enabled|" + _preferences.getBoolean("screen_enabled", true));
+			buf.newLine();
+			buf.append("screen_dim_enabled|" + _preferences.getBoolean("screen_dim_enabled", true));
+			buf.newLine();
+			buf.append("keyguard_enabled|" + _preferences.getBoolean("keyguard_enabled", true));
+			buf.newLine();
+			buf.append("blur_screen_enabled|" + _preferences.getBoolean("blur_screen_enabled", true));
+			buf.newLine();
+			buf.append("dim_screen_enabled|" + _preferences.getBoolean("dim_screen_enabled", true));
+			buf.newLine();
+			buf.append("dim_screen_amount_settings|" + _preferences.getString("dim_screen_amount_settings", "50"));
+			buf.newLine();
+
+			//Misc Settings
+			buf.append("app_theme|" + _preferences.getString("app_theme", "android"));
+			buf.newLine();
+			buf.append("phone_number_format_settings|" + _preferences.getString("phone_number_format_settings", "1"));
+			buf.newLine();
+			buf.append("contact_placeholder|" + _preferences.getString("contact_placeholder", "0"));
+			buf.newLine();
+			buf.append("landscape_screen_enabled|" + _preferences.getBoolean("landscape_screen_enabled", false));
+			buf.newLine();
+			buf.append("button_icons_enabled|" + _preferences.getBoolean("button_icons_enabled", true));
+			buf.newLine();			
+
+			//Advanced Settings
+			buf.append("reschedule_notification_timeout_settings|" + _preferences.getString("reschedule_notification_timeout_settings", "5"));
+			buf.newLine();
+			buf.append("wakelock_timeout_settings|" + _preferences.getString("wakelock_timeout_settings", "300"));
+			buf.newLine();
+			buf.append("keyguard_timeout_settings|" + _preferences.getString("keyguard_timeout_settings", "300"));
+			buf.newLine();
+			buf.append("quick_reply_sms_gateway_settings|" + _preferences.getString("quick_reply_sms_gateway_settings", "1"));
+			buf.newLine();
+			buf.append("mms_timeout_settings|" + _preferences.getString("mms_timeout_settings", "40"));
+			buf.newLine();
+			buf.append("call_log_timeout_settings|" + _preferences.getString("call_log_timeout_settings", "5"));
+			buf.newLine();
+			buf.append("ringtone_length_settings|" + _preferences.getString("ringtone_length_settings", "3"));
+			buf.newLine();
 			
 			buf.close();
 		}catch (Exception ex){
 			if (_debug) Log.e("MainPreferenceActivity.exportApplicationPreferences() Wrtie File ERROR: " + ex.toString());
 			return false;
 		}
+		return true;
+	}
+	
+	/**
+	 * Import application preferences.
+	 * 
+	 * @author Camille Sévigny
+	 */
+	private class importPreferencesAsyncTask extends AsyncTask<Void, Void, Boolean> {
+		//ProgressDialog to display while the task is running.
+		private ProgressDialog dialog;
+		/**
+		 * Setup the Progress Dialog.
+		 */
+	    protected void onPreExecute() {
+			if (_debug) Log.v("MainPreferenceActivity.importPreferencesAsyncTask.onPreExecute()");
+	        dialog = ProgressDialog.show(MainPreferenceActivity.this, "", _context.getString(R.string.preference_import_preferences_progress_text), true);
+	    }
+	    /**
+	     * Do this work in the background.
+	     * 
+	     * @param params
+	     */
+	    protected Boolean doInBackground(Void... params) {
+			if (_debug) Log.v("MainPreferenceActivity.importPreferencesAsyncTask.doInBackground()");
+	    	return importApplicationPreferences();
+	    }
+	    /**
+	     * Stop the Progress Dialog and do any post background work.
+	     * 
+	     * @param result
+	     */
+	    protected void onPostExecute(Boolean successful) {
+			if (_debug) Log.v("MainPreferenceActivity.importPreferencesAsyncTask.onPostExecute()");
+	        dialog.dismiss();
+	        if(successful){
+	        	Toast.makeText(_context, _context.getString(R.string.preference_import_preferences_finish_text), Toast.LENGTH_LONG).show();
+	        }else{
+	        	Toast.makeText(_context, _context.getString(R.string.preference_import_preferences_error_text), Toast.LENGTH_LONG).show();
+	        }
+	    }
+	}
+	
+	/**
+	 * Import the application preferences from the SD card.
+	 * 
+	 * @return boolean - True if the operation was successful, false otherwise.
+	 */
+	private boolean importApplicationPreferences(){
+		if (_debug) Log.v("MainPreferenceActivity.importApplicationPreferences()");
+		File preferenceFile = new File("sdcard/Droid Notify/Preferences/DroidNotifyPreferences.txt");
+    	if (!preferenceFile.exists()){
+    		if (_debug) Log.v("MainPreferenceActivity.importApplicationPreferences() Preference file does not exist.");
+			return false;
+		}
+    	try {
+    		SharedPreferences.Editor editor = _preferences.edit();
+    	    BufferedReader br = new BufferedReader(new FileReader(preferenceFile));
+    	    String line;
+    	    while ((line = br.readLine()) != null) {
+    	    	String[] preferenceInfo = line.split("\\|");
+    	        if(preferenceInfo[1].toLowerCase().equals("true") || preferenceInfo[1].toLowerCase().equals("false")){
+    	        	editor.putBoolean(preferenceInfo[0], Boolean.parseBoolean(preferenceInfo[1])); 
+	    	    }else{
+	    	    	editor.putString(preferenceInfo[0], preferenceInfo[1]); 
+	    	    }
+    	    }
+    		editor.commit();
+    	}
+    	catch (IOException ex) {
+    		if (_debug) Log.e("MainPreferenceActivity.importApplicationPreferences() ERROR: " + ex.toString());
+    		return false;
+    	}
 		return true;
 	}
 	

@@ -503,6 +503,10 @@
             	android:key="export_preferences"
         		android:title="@string/preference_export_preferences_title"
           		android:summary="@string/preference_export_preferences_summary" />
+			<Preference
+            	android:key="import_preferences"
+        		android:title="@string/preference_import_preferences_title"
+          		android:summary="@string/preference_import_preferences_summary" />
 		</PreferenceScreen>
 	</PreferenceCategory>
 	<PreferenceCategory
