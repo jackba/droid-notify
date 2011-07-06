@@ -17,7 +17,7 @@ import android.provider.ContactsContract;
  * 
  * @author Camille Sévigny
  */
-public class MMSAlarmReceiverService extends WakefulIntentService {
+public class MMSReceiverService extends WakefulIntentService {
 
 	//================================================================================
     // Constants
@@ -42,10 +42,10 @@ public class MMSAlarmReceiverService extends WakefulIntentService {
 	/**
 	 * Class Constructor.
 	 */
-	public MMSAlarmReceiverService() {
-		super("MMSAlarmReceiverService");
+	public MMSReceiverService() {
+		super("MMSReceiverService");
 		_debug = Log.getDebug();
-		if (_debug) Log.v("MMSAlarmReceiverService.MMSReceiverService()");
+		if (_debug) Log.v("MMSReceiverService.MMSReceiverService()");
 	}
 
 	//================================================================================
@@ -60,7 +60,7 @@ public class MMSAlarmReceiverService extends WakefulIntentService {
 	@Override
 	protected void doWakefulWork(Intent intent) {
 		_debug = Log.getDebug();
-		if (_debug) Log.v("MMSAlarmReceiverService.doWakefulWork()");
+		if (_debug) Log.v("MMSReceiverService.doWakefulWork()");
 		ArrayList<String> mmsArray = getMMSMessages();
 		if(mmsArray.size() > 0){
 			Context context = getApplicationContext();
@@ -72,7 +72,7 @@ public class MMSAlarmReceiverService extends WakefulIntentService {
 	    	mmsNotificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
 	    	context.startActivity(mmsNotificationIntent);
 		}else{
-			if (_debug) Log.v("MMSAlarmReceiverService.doWakefulWork() No new MMSs were found. Exiting...");
+			if (_debug) Log.v("MMSReceiverService.doWakefulWork() No new MMSs were found. Exiting...");
 		}
 	}
 	
@@ -86,7 +86,7 @@ public class MMSAlarmReceiverService extends WakefulIntentService {
 	 * @return ArrayList<String> - Returns an ArrayList of Strings that contain the mms information.
 	 */
 	private ArrayList<String> getMMSMessages(){
-		if (_debug) Log.v("MMSAlarmReceiverService.getMMSMessages()");
+		if (_debug) Log.v("MMSReceiverService.getMMSMessages()");
 		Context context = getApplicationContext();
 		ArrayList<String> mmsArray = new ArrayList<String>();
 		final String[] projection = new String[] {"_id", "thread_id", "date"};
@@ -107,11 +107,11 @@ public class MMSAlarmReceiverService extends WakefulIntentService {
 		    	String timeStamp = cursor.getString(cursor.getColumnIndex("date"));
 		    	String messageAddress = getMMSAddress(messageID);
 		    	String messageBody = getMMSText(messageID);
-		    	if (_debug) Log.v("MMSAlarmReceiverService.getMMSMessages() messageID: " + messageID);
-		    	if (_debug) Log.v("MMSAlarmReceiverService.getMMSMessages() threadID: " + threadID);
-		    	if (_debug) Log.v("MMSAlarmReceiverService.getMMSMessages() timestamp: " + timeStamp);
-		    	if (_debug) Log.v("MMSAlarmReceiverService.getMMSMessages() messageAddress: " + messageAddress);
-		    	if (_debug) Log.v("MMSAlarmReceiverService.getMMSMessages() messageBody: " + messageBody);
+		    	if (_debug) Log.v("MMSReceiverService.getMMSMessages() messageID: " + messageID);
+		    	if (_debug) Log.v("MMSReceiverService.getMMSMessages() threadID: " + threadID);
+		    	if (_debug) Log.v("MMSReceiverService.getMMSMessages() timestamp: " + timeStamp);
+		    	if (_debug) Log.v("MMSReceiverService.getMMSMessages() messageAddress: " + messageAddress);
+		    	if (_debug) Log.v("MMSReceiverService.getMMSMessages() messageBody: " + messageBody);
 		    	String[] mmsContactInfo = null;
 		    	if(messageAddress.contains("@")){
 		    		mmsContactInfo = loadContactsInfoByEmail(context, messageAddress);
@@ -126,7 +126,7 @@ public class MMSAlarmReceiverService extends WakefulIntentService {
 		    	break;
 	    	}
 		}catch(Exception ex){
-			if (_debug) Log.e("MMSAlarmReceiverService.getMMSMessages() ERROR: " + ex.toString());
+			if (_debug) Log.e("MMSReceiverService.getMMSMessages() ERROR: " + ex.toString());
 		} finally {
     		cursor.close();
     	}
@@ -141,7 +141,7 @@ public class MMSAlarmReceiverService extends WakefulIntentService {
 	 * @return String - The phone or email address of the MMS message.
 	 */
 	private String getMMSAddress(String messageID) {
-		if (_debug) Log.v("MMSAlarmReceiverService.getMMSAddress()");
+		if (_debug) Log.v("MMSReceiverService.getMMSAddress()");
 		final String[] projection = new String[] {"address"};
 		final String selection = "msg_id = " + messageID;
 		final String[] selectionArgs = null;
@@ -160,7 +160,7 @@ public class MMSAlarmReceiverService extends WakefulIntentService {
 	            break;
 	        }
 		}catch(Exception ex){
-			if (_debug) Log.e("MMSAlarmReceiverService.getMMSAddress() ERROR: " + ex.toString());
+			if (_debug) Log.e("MMSReceiverService.getMMSAddress() ERROR: " + ex.toString());
 		} finally {
     		cursor.close();
     	}	   
@@ -175,7 +175,7 @@ public class MMSAlarmReceiverService extends WakefulIntentService {
 	 * @return String - The message text of the MMS message.
 	 */
 	private String getMMSText(String messageID) {
-		if (_debug) Log.v("MMSAlarmReceiverService.getMMSText()");
+		if (_debug) Log.v("MMSReceiverService.getMMSText()");
 		final String[] projection = new String[] {"_id", "ct", "_data", "text"};
 		final String selection = "mid = " + messageID;
 		final String[] selectionArgs = null;
@@ -210,7 +210,7 @@ public class MMSAlarmReceiverService extends WakefulIntentService {
 		        }
 	        }
 		}catch(Exception ex){
-			if (_debug) Log.e("MMSAlarmReceiverService.getMMSText ERROR: " + ex.toString());
+			if (_debug) Log.e("MMSReceiverService.getMMSText ERROR: " + ex.toString());
 		} finally {
     		cursor.close();
     	}	   
@@ -225,7 +225,7 @@ public class MMSAlarmReceiverService extends WakefulIntentService {
 	 * @return String - The message text of the MMS message.
 	 */
 	private String getMMSTextFromPart(String messageID) {
-		if (_debug) Log.v("MMSAlarmReceiverService.getMMSTextFromPart()");
+		if (_debug) Log.v("MMSReceiverService.getMMSTextFromPart()");
 	    InputStream inputStream = null;
 	    StringBuilder messageText = new StringBuilder();
 	    try {
@@ -240,12 +240,12 @@ public class MMSAlarmReceiverService extends WakefulIntentService {
 	            }
 	        }
 	    } catch (Exception ex) {
-	    	if (_debug) Log.e("MMSAlarmReceiverService.getMMSTextFromPart() ERROR: " + ex.toString());
+	    	if (_debug) Log.e("MMSReceiverService.getMMSTextFromPart() ERROR: " + ex.toString());
 	    }finally {
 	    	try{
 	    		inputStream.close();
 	    	}catch(Exception ex){
-	    		if (_debug) Log.e("MMSAlarmReceiverService.getMMSTextFromPart() ERROR: " + ex.toString());
+	    		if (_debug) Log.e("MMSReceiverService.getMMSTextFromPart() ERROR: " + ex.toString());
 	    	}
 	    }
 	    return messageText.toString();
@@ -256,20 +256,22 @@ public class MMSAlarmReceiverService extends WakefulIntentService {
 	 * 
 	 * @param context - Application Context.
 	 * @param phoneNumber - Notifications's phone number.
+	 * 
+	 * @return String[] - String Array of the contact information.
 	 */ 
 	private String[] loadContactsInfoByPhoneNumber(Context context, String incomingNumber){
-		if (_debug) Log.v("MMSAlarmReceiverService.loadContactsInfoByPhoneNumber()");
+		if (_debug) Log.v("MMSReceiverService.loadContactsInfoByPhoneNumber()");
 		long _contactID = 0;
 		String _contactName = "";
 		long _photoID = 0;
 		boolean _contactExists = false;
 		if (incomingNumber == null) {
-			if (_debug) Log.v("MMSAlarmReceiverService.loadContactsInfoByPhoneNumber() Phone number provided is null: Exiting...");
+			if (_debug) Log.v("MMSReceiverService.loadContactsInfoByPhoneNumber() Phone number provided is null: Exiting...");
 			return null;
 		}
 		//Exit if the phone number is an email address.
 		if (incomingNumber.contains("@")) {
-			if (_debug) Log.v("MMSAlarmReceiverService.loadContactsInfoByPhoneNumber() Phone number provided appears to be an email address: Exiting...");
+			if (_debug) Log.v("MMSReceiverService.loadContactsInfoByPhoneNumber() Phone number provided appears to be an email address: Exiting...");
 			return null;
 		}
 		try{
@@ -283,7 +285,7 @@ public class MMSAlarmReceiverService extends WakefulIntentService {
 					selection, 
 					selectionArgs, 
 					sortOrder);
-			if (_debug) Log.v("MMSAlarmReceiverService.loadContactsInfoByPhoneNumber() Searching Contacts");
+			if (_debug) Log.v("MMSReceiverService.loadContactsInfoByPhoneNumber() Searching Contacts");
 			while (cursor.moveToNext()) { 
 				String contactID = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID)); 
 				String contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
@@ -318,7 +320,7 @@ public class MMSAlarmReceiverService extends WakefulIntentService {
 			cursor.close();
 			return new String[]{String.valueOf(_contactID), _contactName, String.valueOf(_photoID)};
 		}catch(Exception ex){
-			if (_debug) Log.e("MMSAlarmReceiverService.loadContactsInfoByPhoneNumber() ERROR: " + ex.toString());
+			if (_debug) Log.e("MMSReceiverService.loadContactsInfoByPhoneNumber() ERROR: " + ex.toString());
 			return null;
 		}
 	}
@@ -331,7 +333,7 @@ public class MMSAlarmReceiverService extends WakefulIntentService {
 	 * @return String - String of phone number with no formatting.
 	 */
 	private String removeFormatting(String phoneNumber){
-		if (_debug) Log.v("MMSAlarmReceiverService.removeFormatting()");
+		if (_debug) Log.v("MMSReceiverService.removeFormatting()");
 		phoneNumber = phoneNumber.replace("-", "");
 		phoneNumber = phoneNumber.replace("+", "");
 		phoneNumber = phoneNumber.replace("(", "");
@@ -348,19 +350,21 @@ public class MMSAlarmReceiverService extends WakefulIntentService {
 	 * 
 	 * @param context - Application Context.
 	 * @param incomingEmail - Notifications's email address.
+	 * 
+	 * @return String[] - String Array of the contact information.
 	 */ 
 	private String[] loadContactsInfoByEmail(Context context, String incomingEmail){
-		if (_debug) Log.v("MMSAlarmReceiverService.loadContactsInfoByEmail()");
+		if (_debug) Log.v("MMSReceiverService.loadContactsInfoByEmail()");
 		long _contactID = 0;
 		String _contactName = "";
 		long _photoID = 0;
 		boolean _contactExists = false;
 		if (incomingEmail == null) {
-			if (_debug) Log.v("MMSAlarmReceiverService.loadContactsInfoByEmail() Email provided is null: Exiting...");
+			if (_debug) Log.v("MMSReceiverService.loadContactsInfoByEmail() Email provided is null: Exiting...");
 			return null;
 		}
 		if (!incomingEmail.contains("@")) {
-			if (_debug) Log.v("MMSAlarmReceiverService.loadContactsInfoByEmail() Email provided does not appear to be a valid email address: Exiting...");
+			if (_debug) Log.v("MMSReceiverService.loadContactsInfoByEmail() Email provided does not appear to be a valid email address: Exiting...");
 			return null;
 		}
 		String contactID = null;
@@ -375,7 +379,7 @@ public class MMSAlarmReceiverService extends WakefulIntentService {
 					selection, 
 					selectionArgs, 
 					sortOrder);
-			if (_debug) Log.v("MMSAlarmReceiverService.loadContactsInfoByEmail() Searching contacts");
+			if (_debug) Log.v("MMSReceiverService.loadContactsInfoByEmail() Searching contacts");
 			while (cursor.moveToNext()) { 
 				contactID = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID)); 
 				String contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
@@ -410,7 +414,7 @@ public class MMSAlarmReceiverService extends WakefulIntentService {
 			cursor.close();
 			return new String[]{String.valueOf(_contactID), _contactName, String.valueOf(_photoID)};
 		}catch(Exception ex){
-			if (_debug) Log.e("MMSAlarmReceiverService.loadContactsInfoByEmail() ERROR: " + ex.toString());
+			if (_debug) Log.e("MMSReceiverService.loadContactsInfoByEmail() ERROR: " + ex.toString());
 			return null;
 		}
 	}

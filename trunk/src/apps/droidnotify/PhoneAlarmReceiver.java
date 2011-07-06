@@ -65,7 +65,7 @@ public class PhoneAlarmReceiver extends BroadcastReceiver {
 	    boolean callStateIdle = telemanager.getCallState() == TelephonyManager.CALL_STATE_IDLE;
 	    if (callStateIdle) {
 			WakefulIntentService.acquireStaticLock(context);
-			context.startService(new Intent(context, PhoneAlarmReceiverService.class));
+			context.startService(new Intent(context, PhoneReceiverService.class));
 	    }else{
 	    	// Set alarm to go off x minutes from the current time as defined by the user preferences.
 	    	long rescheduleInterval = Long.parseLong(preferences.getString(RESCHEDULE_NOTIFICATION_TIMEOUT_KEY, "5")) * 60 * 1000;

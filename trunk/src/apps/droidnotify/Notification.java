@@ -14,10 +14,8 @@ import android.database.DatabaseUtils;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
-import android.telephony.SmsMessage;
 
 /**
  * This is the Notification class that holds all the information about all notifications we will display to the user.
@@ -68,7 +66,6 @@ public class Notification {
 	private Bitmap _photoImg = null;
 	private int _notificationType = 0;
 	private long _messageID = 0;
-	private boolean _fromEmailGateway = false;
 	private boolean _contactExists = false;
 	private boolean _contactPhotoExists = false;
 	private String _title = null;
@@ -83,149 +80,49 @@ public class Notification {
 	//================================================================================
 	// Constructors
 	//================================================================================
-  
-	/**
-	 * Class Constructor
-	 * This constructor should be called for SMS messages.
-	 */
-	public Notification(Context context, Bundle bundle, int notificationType) {
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Notification.Notification(Context context, Bundle bundle, int notificationType)");
-		try{
-			_context = context;
-			_preferences = PreferenceManager.getDefaultSharedPreferences(_context);
-			_contactExists = false;
-			_contactPhotoExists = false;
-			_notificationType = notificationType;          
-	        if (bundle != null){
-	        	if(notificationType == NOTIFICATION_TYPE_PHONE){
-	        		//Do Nothing. This should not be called if a missed call is received.
-	    	    }
-	        	if(notificationType == NOTIFICATION_TYPE_SMS){
-	        		try{
-	        			SmsMessage[] msgs = null;
-		        		// Retrieve SMS message from bundle.
-			            Object[] pdus = (Object[]) bundle.get("pdus");
-			            msgs = new SmsMessage[pdus.length];
-			            for (int i=0; i<msgs.length; i++){
-			                msgs[i] = SmsMessage.createFromPdu((byte[])pdus[i]);                
-			            }
-			            SmsMessage sms = msgs[0];
-			            _timeStamp = sms.getTimestampMillis();
-			            //Adjust the timestamp to the localized time of the users phone.
-			            //I don't know why the line below is "-=" and not "+=" but for some reason it works.
-			            _timeStamp -= TimeZone.getDefault().getOffset(_timeStamp);
-			            _sentFromAddress = sms.getDisplayOriginatingAddress().toLowerCase();
-			            if(_sentFromAddress.contains("@")){
-			            	_sentFromAddress = 	removeEmailFormatting(_sentFromAddress);
-			            }
-			    		_fromEmailGateway = sms.isEmail();
-		    			String smsSubject = sms.getPseudoSubject();
-			    		_title = "SMS Message";
-			    		try{
-			    			StringBuilder messageBody = new StringBuilder();
-				            //Get the entire message body from the new message.
-				    		int messagesLength = msgs.length;
-				            for (int i = 0; i < messagesLength; i++){                
-				            	//messageBody.append(msgs[i].getMessageBody().toString());
-				            	messageBody.append(msgs[i].getDisplayMessageBody().toString());
-				            }   
-				            if(messageBody.toString().startsWith(_sentFromAddress)){
-				            	_messageBody = messageBody.toString().substring(_sentFromAddress.length()).replace("\n", "<br/>").trim();
-				            }    
-				            if(smsSubject != null && !smsSubject.equals("")){
-			    				_messageBody = "(" + smsSubject + ")" + messageBody.toString().replace("\n", "<br/>").trim();
-			    			}else{
-			    				_messageBody = messageBody.toString().replace("\n", "<br/>").trim();
-			    			}   
-			    		}catch(Exception ex){
-			    			if (_debug) Log.v("Notification.Notification(Context context, Bundle bundle, int notificationType) Parse Message Body ERROR: " + ex.toString());
-			    		}
-			    		loadThreadID(_context, _sentFromAddress);
-			    		loadMessageID(_context, _threadID, _messageBody, _timeStamp);
-			    		loadContactsInfoByPhoneNumber(_context, _sentFromAddress); 
-			    		//Search by email if we can't find the contact info by phone number.
-			    		if(!_contactExists){
-			    			loadContactsInfoByEmail(_context, _sentFromAddress);
-			    		}
-	        		}catch(Exception ex){
-	        			if (_debug) Log.v("Notification.Notification(Context context, Bundle bundle, int notificationType) Parse SMS Message ERROR: " + ex.toString());
-	        		}
-	        	}
-	    	    if(notificationType == NOTIFICATION_TYPE_MMS){
-	    	    	//Do Nothing. This should not be called if a mms is received.
-	    	    }
-	    	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
-	    	    	//Do Nothing. This should not be called if a calendar event is received.
-	    	    }
-	    	    if(notificationType == NOTIFICATION_TYPE_EMAIL){
-	    	    	//Do Nothing. This should not be called if an email is received.
-	    	    }
-	        }
-		}catch(Exception ex){
-			if (_debug) Log.v("Notification.Notification(Context context, Bundle bundle, int notificationType) ERROR: " + ex.toString());
-		}
-	}
 
 	/**
 	 * Class Constructor
-	 * This constructor should be called for SMS & MMS Messages.
 	 */
 	public Notification(Context context, long messageID, long threadID, String messageBody, String sentFromAddress, long timeStamp, long contactID, int notificationType) {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Notification.Notification(Context context, long messageID, long threadID, String messageBody, String phoneNumber, long timeStamp, long contactID, int notificationType)");
 		try{
-			_title = "SMS Message";
+			if(notificationType == NOTIFICATION_TYPE_PHONE){
+				_title = "Missed Call";
+		    }
+			if(notificationType == NOTIFICATION_TYPE_SMS){
+				_title = "SMS Message";
+			}
+			if(notificationType == NOTIFICATION_TYPE_MMS){
+				_title = "MMS Message";	
+		    }
+		    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
+		    	_title = "Calendar Event";
+		    }
+		    if(notificationType == NOTIFICATION_TYPE_EMAIL){
+		    	_title = "Email";
+		    }
 			_context = context;
 			_preferences = PreferenceManager.getDefaultSharedPreferences(_context);
 			_contactExists = false;
 			_contactPhotoExists = false;
 			_notificationType = notificationType;
-        	if(notificationType == NOTIFICATION_TYPE_PHONE){
-        		//Do Nothing. This should not be called if a missed call is received.
-    	    }
-			if(notificationType == NOTIFICATION_TYPE_SMS){
-				_messageID = messageID;
-				_threadID = threadID;
-				_messageBody = messageBody.replace("\n", "<br/>").trim();
-				_sentFromAddress = sentFromAddress.toLowerCase();
-	            if(_sentFromAddress.contains("@")){
-	            	_sentFromAddress = 	removeEmailFormatting(_sentFromAddress);
-	            }
-		        _timeStamp = timeStamp;
-		        _contactID = contactID;
-		        _fromEmailGateway = false;  
-				_notificationType = notificationType;
-				loadContactsInfoByPhoneNumber(_context, _sentFromAddress);
-				//Search by email if we can't find the contact info.
-				if(!_contactExists){
-					loadContactsInfoByEmail(_context, _sentFromAddress);
-				}
+			_messageID = messageID;
+			_threadID = threadID;
+			_messageBody = messageBody.replace("\n", "<br/>").trim();
+			_sentFromAddress = sentFromAddress.toLowerCase();
+            if(_sentFromAddress.contains("@")){
+            	_sentFromAddress = 	removeEmailFormatting(_sentFromAddress);
+            }
+	        _timeStamp = timeStamp;
+	        _contactID = contactID;
+			_notificationType = notificationType;
+			loadContactsInfoByPhoneNumber(_context, _sentFromAddress);
+			//Search by email if we can't find the contact info.
+			if(!_contactExists){
+				loadContactsInfoByEmail(_context, _sentFromAddress);
 			}
-			if(notificationType == NOTIFICATION_TYPE_MMS){
-					_messageID = messageID;
-					_threadID = threadID;
-					_messageBody = messageBody.replace("\n", "<br/>").trim();
-					_sentFromAddress = sentFromAddress.toLowerCase();
-		            if(_sentFromAddress.contains("@")){
-		            	_sentFromAddress = 	removeEmailFormatting(_sentFromAddress);
-		            }
-			        _timeStamp = timeStamp;
-			        _contactID = contactID;
-			        _fromEmailGateway = false;  
-					_notificationType = notificationType;
-					loadContactsInfoByPhoneNumber(_context, _sentFromAddress);
-					//Search by email if we can't find the contact info.
-					if(!_contactExists){
-						loadContactsInfoByEmail(_context, _sentFromAddress);
-					}
-		    }
-		    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
-		    	//Do Nothing. This should not be called if a calendar event is received.
-		    }
-		    if(notificationType == NOTIFICATION_TYPE_EMAIL){
-		    	//Do Nothing. This should not be called if an email is received.
-		    }
 		}catch(Exception ex){
 			if (_debug) Log.v("Notification.Notification(Context context, long messageID, long threadID, String messageBody, String phoneNumber, long timeStamp, long contactID, int notificationType) ERROR: " + ex.toString());
 		}
@@ -284,80 +181,38 @@ public class Notification {
 	
 	/**
 	 * Class Constructor
-	 * This constructor should be called for TEST SMS & MMS Messages.
 	 */
 	public Notification(Context context, String sentFromAddress, String messageBody, long timeStamp, int notificationType) {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Notification.Notification(Context context, String phoneNumber, String messageBody, long timeStamp, int notificationType)");
-		try{
+		try{			
+			if(notificationType == NOTIFICATION_TYPE_PHONE){
+				_title = "Missed Call";
+		    }
+			if(notificationType == NOTIFICATION_TYPE_SMS){
+				_title = "SMS Message";
+			}
+			if(notificationType == NOTIFICATION_TYPE_MMS){
+				_title = "MMS Message";	
+		    }
+		    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
+		    	_title = "Calendar Event";
+		    }
+		    if(notificationType == NOTIFICATION_TYPE_EMAIL){
+		    	_title = "Email";
+		    }
 			_context = context;
 			_preferences = PreferenceManager.getDefaultSharedPreferences(_context);
 			_contactExists = false;
 			_contactPhotoExists = false;
 			_notificationType = notificationType;
-			if(notificationType == NOTIFICATION_TYPE_SMS){
-				_title = "SMS Message";
-		        _timeStamp = timeStamp;
-				_sentFromAddress = sentFromAddress.toLowerCase();
-		        _fromEmailGateway = false;
-		        _messageBody = messageBody;
-			}
-			if(notificationType == NOTIFICATION_TYPE_MMS){
-				_title = "MMS Message";
-		        _timeStamp = timeStamp;
-				_sentFromAddress = sentFromAddress.toLowerCase();
-		        _fromEmailGateway = false;
-		        _messageBody = messageBody;
-		    }
-	    	if(notificationType == NOTIFICATION_TYPE_SMS || notificationType == NOTIFICATION_TYPE_MMS){
-	    		//Do Nothing. This should not be called if a SMS or MMS is received.
-	    	}
-		    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
-		    	//Do Nothing. This should not be called if a calendar event is received.
-		    }
-		    if(notificationType == NOTIFICATION_TYPE_EMAIL){
-		    	//Do Nothing. This should not be called if an email is received.
-		    }
+	        _timeStamp = timeStamp;
+			_sentFromAddress = sentFromAddress.toLowerCase();
+	        _messageBody = messageBody;
 		}catch(Exception ex){
 			if (_debug) Log.v("Notification.Notification(Context context, String phoneNumber, String messageBody, long timeStamp, int notificationType) ERROR: " + ex.toString());
 		}
 	}
-	
-//	/**
-//	 * Class Constructor
-//	 * This constructor should be called for Missed Calls.
-//	 */
-//	public Notification(Context context, String sentFromAddress, long timeStamp, int notificationType){
-//		_debug = Log.getDebug();
-//		if (_debug) Log.v("Notification.Notification(Context context, String phoneNumber, long timeStamp, int notificationType)");
-//		try{
-//			_context = context;
-//			_preferences = PreferenceManager.getDefaultSharedPreferences(_context);
-//			_contactExists = false;
-//			_contactPhotoExists = false;
-//			_notificationType = notificationType;
-//	    	if(notificationType == NOTIFICATION_TYPE_PHONE){
-//	    		_sentFromAddress = sentFromAddress.toLowerCase();
-//	    		_timeStamp = timeStamp;
-//	    		_title = "Missed Call";
-//	      		//Don't load contact info if this is a test message (Phone Number: 555-555-5555).
-//	    		if(!sentFromAddress.equals("5555555555")){
-//	    			loadContactsInfoByPhoneNumber(context, sentFromAddress);
-//	    		}
-//		    }
-//	    	if(notificationType == NOTIFICATION_TYPE_SMS || notificationType == NOTIFICATION_TYPE_MMS){
-//	    		//Do Nothing. This should not be called if a SMS or MMS is received.
-//	    	}
-//		    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
-//		    	//Do Nothing. This should not be called if a calendar event is received.
-//		    }
-//		    if(notificationType == NOTIFICATION_TYPE_EMAIL){
-//		    	//Do Nothing. This should not be called if an email is received.
-//		    }
-//		}catch(Exception ex){
-//			if (_debug) Log.v("Notification.Notification(Context context, String phoneNumber, long timeStamp, int notificationType) ERROR: " + ex.toString());
-//		}
-//	}
 
 	/**
 	 * Class Constructor
@@ -429,55 +284,6 @@ public class Notification {
 	    	_calendarEventEndTime = eventEndTime;
 		}catch(Exception ex){
 			if (_debug) Log.v("Notification.Notification(Context context, String title, String messageBody, long eventStartTime, long eventEndTime, boolean allDay, String calendarName, long calendarID, long calendarEventID, int notificationType) ERROR: " + ex.toString());
-		}
-	}
-	
-	/**
-	 * Class Constructor
-	 * This constructor should be called for MMS messages.
-	 */
-	public Notification(Context context, String sentFromAddress, String messageBody, long messageID, long threadID, long timeStamp, int notificationType){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Notification.Notification(Context context, String messageAddress, String messageBody, long messageID, long threadID, long timestamp, int notificationType)");
-		try{
-			_context = context;
-			_preferences = PreferenceManager.getDefaultSharedPreferences(_context);
-			_contactExists = false;
-			_contactPhotoExists = false;
-			_notificationType = notificationType;
-	    	if(notificationType == NOTIFICATION_TYPE_PHONE){
-	    		//Do Nothing. This should not be called if a missed call is received.
-		    }
-	    	if(notificationType == NOTIFICATION_TYPE_SMS){
-	    		if (_debug) Log.v("Notification.Notification() NOTIFICATION_TYPE_SMS");
-	    		//Do Nothing. This should not be called if a SMS is received.
-	    	}   		
-	    	if(notificationType == NOTIFICATION_TYPE_MMS){
-	    		if (_debug) Log.v("Notification.Notification() NOTIFICATION_TYPE_MMS");
-	    		_sentFromAddress = sentFromAddress.toLowerCase();
-	            if(_sentFromAddress.contains("@")){
-	            	_sentFromAddress = 	removeEmailFormatting(_sentFromAddress);
-	            }
-	    		_timeStamp = timeStamp;
-	    		_title = "MMS Message";
-	    		_threadID = threadID;
-	    		_messageID = messageID;
-	    		_messageBody = messageBody.replace("\n", "<br/>").trim();
-	    		_messageBody += "<i>[MMS Media Content Will Not Display]</i>";
-				loadContactsInfoByPhoneNumber(_context, _sentFromAddress);
-				//Search by email if we can't find the contact info.
-				if(!_contactExists){
-					loadContactsInfoByEmail(_context, _sentFromAddress);
-				}
-	    	}
-		    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
-		    	//Do Nothing. This should not be called if a calendar event is received.
-		    }
-		    if(notificationType == NOTIFICATION_TYPE_EMAIL){
-		    	//Do Nothing. This should not be called if an email is received.
-		    }
-		}catch(Exception ex){
-			if (_debug) Log.v("Notification(Context context, String sentFromAddress, String messageBody, long messageID, long threadID, long timeStamp, int notificationType) ERROR: " + ex.toString());
 		}
 	}
 	
@@ -590,10 +396,10 @@ public class Notification {
 	 * @return messageID - The message id of the SMS/MMS message.
 	 */
 	public long getMessageID() {
-		if (_debug) Log.v("Notification.getMessageID()");
 		if(_messageID == 0){
-			loadMessageID(_context, getThreadID(), getMessageBody(), getTimeStamp());
+			loadMessageID(_context, getThreadID(), _messageBody, _timeStamp);
 		}
+		if (_debug) Log.v("Notification.getMessageID() MessageID: " + _messageID);
   		return _messageID;
 	}
 	
@@ -603,7 +409,7 @@ public class Notification {
 	 * @return  contactExists - Boolean returns true if there is a contact in the phone linked to this notification.
 	 */
 	public boolean getContactExists() {
-		if (_debug) Log.v("Notification.getContactExists()");
+		if (_debug) Log.v("Notification.getContactExists() Exists: " + _contactExists);
   		return _contactExists;
 	}	
 	
@@ -711,20 +517,12 @@ public class Notification {
 				deleteMessage = false;
 			}
 		}
-		if(_threadID == 0){
-			if (_debug) Log.v("Notification.deleteMessage() Thread ID == 0. Load Thread ID");
-			loadThreadID(_context, _sentFromAddress);
-		}
-		if(_messageID == 0){
-			if (_debug) Log.v("Notification.deleteMessage() Message ID == 0. Load Message ID");
-			loadMessageID(_context, _threadID, _messageBody, _timeStamp);
-		}
 		if(deleteMessage || deleteThread){
 			if(deleteThread){
 			try{
 				//Delete entire SMS thread.
 				_context.getContentResolver().delete(
-						Uri.parse("content://sms/conversations/" + _threadID), 
+						Uri.parse("content://sms/conversations/" + getThreadID()), 
 						null, 
 						null);
 				}catch(Exception ex){
@@ -734,7 +532,7 @@ public class Notification {
 				try{
 					//Delete single message.
 					_context.getContentResolver().delete(
-							Uri.parse("content://sms/" + _messageID),
+							Uri.parse("content://sms/" + getMessageID()),
 							null, 
 							null);
 				}catch(Exception ex){
@@ -1047,13 +845,10 @@ public class Notification {
 	 */
 	private void setMessageRead(boolean isViewed){
 		if(_debug)Log.v("Notification.setMessageRead()");
+		getMessageID();
 		if(_messageID == 0){
-			if (_debug) Log.v("Notification.setMessageRead() Message ID == 0. Loading Message ID");
-			loadMessageID(_context, _threadID, _messageBody, _timeStamp);
-			if(_messageID == 0){
-				if (_debug) Log.v("Notification.setMessageRead() Message ID == 0: Exiting...");
-				return;
-			}
+			if (_debug) Log.v("Notification.setMessageRead() Message ID == 0: Exiting...");
+			return;
 		}
 		ContentValues contentValues = new ContentValues();
 		if(isViewed){
