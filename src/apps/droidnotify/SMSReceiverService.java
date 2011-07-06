@@ -158,7 +158,7 @@ public class SMSReceiverService extends WakefulIntentService {
 			}
     		return smsArray;
 		}catch(Exception ex){
-			if (_debug) Log.v("Notification.Notification(Context context, Bundle bundle, int notificationType) Parse Message Body ERROR: " + ex.toString());
+			if (_debug) Log.v("SMSReceiverService.getSMSMessages() ERROR: " + ex.toString());
 			return null;
 		}
 	}
@@ -170,14 +170,14 @@ public class SMSReceiverService extends WakefulIntentService {
 	 * @param phoneNumber - Notifications's phone number.
 	 */
 	private long loadThreadID(Context context, String address){
-		if (_debug) Log.v("Notification.getThreadIdByAddress()");
+		if (_debug) Log.v("SMSReceiverService.getThreadIdByAddress()");
 		long threadID = 0;
 		if (address == null){
-			if (_debug) Log.v("Notification.loadThreadID() Address provided is null: Exiting...");
+			if (_debug) Log.v("SMSReceiverService.loadThreadID() Address provided is null: Exiting...");
 			return 0;
 		}
 		if (address == ""){
-			if (_debug) Log.v("Notification.loadThreadID() Address provided is empty: Exiting...");
+			if (_debug) Log.v("SMSReceiverService.loadThreadID() Address provided is empty: Exiting...");
 			return 0;
 		}
 		try{
@@ -196,17 +196,17 @@ public class SMSReceiverService extends WakefulIntentService {
 		    	if (cursor != null) {
 		    		if (cursor.moveToFirst()) {
 		    			threadID = cursor.getLong(cursor.getColumnIndex("thread_id"));
-		    			if (_debug) Log.v("Notification.loadThreadID() Thread ID Found: " + threadID);
+		    			if (_debug) Log.v("SMSReceiverService.loadThreadID() Thread ID Found: " + threadID);
 		    		}
 		    	}
 	    	}catch(Exception e){
-		    		if (_debug) Log.e("Notification.loadThreadID() EXCEPTION: " + e.toString());
+		    		if (_debug) Log.e("SMSReceiverService.loadThreadID() EXCEPTION: " + e.toString());
 	    	} finally {
 	    		cursor.close();
 	    	}
 	    	return threadID;
 		}catch(Exception ex){
-			if (_debug) Log.e("Notification.loadThreadID() ERROR: " + ex.toString());
+			if (_debug) Log.e("SMSReceiverService.loadThreadID() ERROR: " + ex.toString());
 			return 0;
 		}
 	}
@@ -219,9 +219,9 @@ public class SMSReceiverService extends WakefulIntentService {
 	 * @param timestamp - Notifications's timeStamp.
 	 */
 	public long loadMessageID(Context context, long threadID, String messageBody, long timeStamp) {
-		if (_debug) Log.v("Notification.loadMessageID()");
+		if (_debug) Log.v("SMSReceiverService.loadMessageID()");
 		if (messageBody == null){
-			if (_debug) Log.v("Notification.loadMessageID() Message body provided is null: Exiting...");
+			if (_debug) Log.v("SMSReceiverService.loadMessageID() Message body provided is null: Exiting...");
 			return 0;
 		} 
 		long messageID = 0;
@@ -247,18 +247,18 @@ public class SMSReceiverService extends WakefulIntentService {
 			    while (cursor.moveToNext()) { 
 		    		if(cursor.getString(cursor.getColumnIndex("body")).trim().equals(messageBody)){
 		    			messageID = cursor.getLong(cursor.getColumnIndex("_id"));
-		    			if (_debug) Log.v("Notification.loadMessageID() Message ID Found: " + messageID);
+		    			if (_debug) Log.v("SMSReceiverService.loadMessageID() Message ID Found: " + messageID);
 		    			break;
 		    		}
 			    }
 		    }catch(Exception ex){
-				if (_debug) Log.e("Notification.loadMessageID() ERROR: " + ex.toString());
+				if (_debug) Log.e("SMSReceiverService.loadMessageID() ERROR: " + ex.toString());
 			}finally{
 		    	cursor.close();
 		    }
 		    return messageID;
 		}catch(Exception ex){
-			if (_debug) Log.e("Notification.loadMessageID() ERROR: " + ex.toString());
+			if (_debug) Log.e("SMSReceiverService.loadMessageID() ERROR: " + ex.toString());
 			return 0;
 		}
 	}
@@ -272,18 +272,18 @@ public class SMSReceiverService extends WakefulIntentService {
 	 * @return String[] - String Array of the contact information.
 	 */ 
 	private String[] loadContactsInfoByPhoneNumber(Context context, String incomingNumber){
-		if (_debug) Log.v("MMSReceiverService.loadContactsInfoByPhoneNumber()");
+		if (_debug) Log.v("SMSReceiverService.loadContactsInfoByPhoneNumber()");
 		long _contactID = 0;
 		String _contactName = "";
 		long _photoID = 0;
 		boolean _contactExists = false;
 		if (incomingNumber == null) {
-			if (_debug) Log.v("MMSReceiverService.loadContactsInfoByPhoneNumber() Phone number provided is null: Exiting...");
+			if (_debug) Log.v("SMSReceiverService.loadContactsInfoByPhoneNumber() Phone number provided is null: Exiting...");
 			return null;
 		}
 		//Exit if the phone number is an email address.
 		if (incomingNumber.contains("@")) {
-			if (_debug) Log.v("MMSReceiverService.loadContactsInfoByPhoneNumber() Phone number provided appears to be an email address: Exiting...");
+			if (_debug) Log.v("SMSReceiverService.loadContactsInfoByPhoneNumber() Phone number provided appears to be an email address: Exiting...");
 			return null;
 		}
 		try{
@@ -297,7 +297,7 @@ public class SMSReceiverService extends WakefulIntentService {
 					selection, 
 					selectionArgs, 
 					sortOrder);
-			if (_debug) Log.v("MMSReceiverService.loadContactsInfoByPhoneNumber() Searching Contacts");
+			if (_debug) Log.v("SMSReceiverService.loadContactsInfoByPhoneNumber() Searching Contacts");
 			while (cursor.moveToNext()) { 
 				String contactID = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID)); 
 				String contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
@@ -332,7 +332,7 @@ public class SMSReceiverService extends WakefulIntentService {
 			cursor.close();
 			return new String[]{String.valueOf(_contactID), _contactName, String.valueOf(_photoID)};
 		}catch(Exception ex){
-			if (_debug) Log.e("MMSReceiverService.loadContactsInfoByPhoneNumber() ERROR: " + ex.toString());
+			if (_debug) Log.e("SMSReceiverService.loadContactsInfoByPhoneNumber() ERROR: " + ex.toString());
 			return null;
 		}
 	}
@@ -345,7 +345,7 @@ public class SMSReceiverService extends WakefulIntentService {
 	 * @return String - String of phone number with no formatting.
 	 */
 	private String removeFormatting(String phoneNumber){
-		if (_debug) Log.v("MMSReceiverService.removeFormatting()");
+		if (_debug) Log.v("SMSReceiverService.removeFormatting()");
 		phoneNumber = phoneNumber.replace("-", "");
 		phoneNumber = phoneNumber.replace("+", "");
 		phoneNumber = phoneNumber.replace("(", "");
@@ -366,17 +366,17 @@ public class SMSReceiverService extends WakefulIntentService {
 	 * @return String[] - String Array of the contact information.
 	 */ 
 	private String[] loadContactsInfoByEmail(Context context, String incomingEmail){
-		if (_debug) Log.v("MMSReceiverService.loadContactsInfoByEmail()");
+		if (_debug) Log.v("SMSReceiverService.loadContactsInfoByEmail()");
 		long _contactID = 0;
 		String _contactName = "";
 		long _photoID = 0;
 		boolean _contactExists = false;
 		if (incomingEmail == null) {
-			if (_debug) Log.v("MMSReceiverService.loadContactsInfoByEmail() Email provided is null: Exiting...");
+			if (_debug) Log.v("SMSReceiverService.loadContactsInfoByEmail() Email provided is null: Exiting...");
 			return null;
 		}
 		if (!incomingEmail.contains("@")) {
-			if (_debug) Log.v("MMSReceiverService.loadContactsInfoByEmail() Email provided does not appear to be a valid email address: Exiting...");
+			if (_debug) Log.v("SMSReceiverService.loadContactsInfoByEmail() Email provided does not appear to be a valid email address: Exiting...");
 			return null;
 		}
 		String contactID = null;
@@ -391,7 +391,7 @@ public class SMSReceiverService extends WakefulIntentService {
 					selection, 
 					selectionArgs, 
 					sortOrder);
-			if (_debug) Log.v("MMSReceiverService.loadContactsInfoByEmail() Searching contacts");
+			if (_debug) Log.v("SMSReceiverService.loadContactsInfoByEmail() Searching contacts");
 			while (cursor.moveToNext()) { 
 				contactID = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID)); 
 				String contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
@@ -426,7 +426,7 @@ public class SMSReceiverService extends WakefulIntentService {
 			cursor.close();
 			return new String[]{String.valueOf(_contactID), _contactName, String.valueOf(_photoID)};
 		}catch(Exception ex){
-			if (_debug) Log.e("MMSReceiverService.loadContactsInfoByEmail() ERROR: " + ex.toString());
+			if (_debug) Log.e("SMSReceiverService.loadContactsInfoByEmail() ERROR: " + ex.toString());
 			return null;
 		}
 	}
@@ -439,7 +439,7 @@ public class SMSReceiverService extends WakefulIntentService {
 	 * @return String - String of email address with no formatting.
 	 */
 	private String removeEmailFormatting(String address){
-		if (_debug) Log.v("Notification.removeEmailFormatting()");
+		if (_debug) Log.v("SMSReceiverService.removeEmailFormatting()");
 		if(address.contains("<") && address.contains(">")){
 			address = address.substring(address.indexOf("<") + 1,address.indexOf(">"));
 		}

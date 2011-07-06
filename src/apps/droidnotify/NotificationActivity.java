@@ -17,6 +17,7 @@ import android.database.Cursor;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -27,7 +28,6 @@ import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
-//import android.view.HapticFeedbackConstants;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -1570,7 +1570,7 @@ public class NotificationActivity extends Activity {
 		if (_debug) Log.v("NotificationActivity.setupSMSMessages()"); 
 		ArrayList<String> smsArray = bundle.getStringArrayList("smsArrayList");
 		String currentMessageBody = null;
-		long currentMessageID = 0;
+		String currentMessageID = "0";
 		for(String smsArrayItem : smsArray){
 			String[] smsInfo = smsArrayItem.split("\\|");
 			String messageAddress = null;
@@ -1581,7 +1581,7 @@ public class NotificationActivity extends Activity {
 			String contactName = null;
 			long photoID = 0;
 			long timeStamp = 0;
-    		if( smsInfo.length == 4){ 
+    		if( smsInfo.length == 5){ 
 				messageAddress = smsInfo[0];
 				messageBody = smsInfo[1];
 				messageID = Long.parseLong(smsInfo[2]);
@@ -1597,7 +1597,7 @@ public class NotificationActivity extends Activity {
 				contactName = smsInfo[6];
 				photoID = Long.parseLong(smsInfo[7]);
 				currentMessageBody = messageBody;
-				currentMessageID = messageID;
+				currentMessageID = String.valueOf(messageID);
 			}
     		_notificationViewFlipper.addNotification(new Notification(_context, messageAddress, messageBody, messageID, threadID, timeStamp, contactID, contactName, photoID, NOTIFICATION_TYPE_SMS));
 		}
@@ -1606,6 +1606,7 @@ public class NotificationActivity extends Activity {
 			//TODO - Put this in an AsyncTask AKA in the background!
 			if(_preferences.getBoolean(SMS_DISPLAY_UNREAD_KEY, false)){
 		    	//getAllUnreadSMSMessages(currentMessageID, currentMessageBody);
+				new getAllUnreadSMSMessagesAsyncTask().execute(currentMessageID, currentMessageBody);
 		    }
 		}
 	}
@@ -1628,7 +1629,7 @@ public class NotificationActivity extends Activity {
 			String contactName = null;
 			long photoID = 0;
 			long timeStamp = 0;
-    		if( mmsInfo.length == 4){
+    		if( mmsInfo.length == 5){
 				messageAddress = mmsInfo[0];
 				messageBody = mmsInfo[1];
 				messageID = Long.parseLong(mmsInfo[2]);
@@ -1656,6 +1657,59 @@ public class NotificationActivity extends Activity {
 		    }
 		}
 	}
+
+	/**
+	 * Set the notification contact's image
+	 * 
+	 * @author Camille Sévigny
+	 */
+	private class getAllUnreadSMSMessagesAsyncTask extends AsyncTask<String, Void, ArrayList<String>> {
+	    /**
+	     * Do this work in the background.
+	     * 
+	     * @param params - The contact's id.
+	     */
+	    protected ArrayList<String> doInBackground(String... params) {
+			if (_debug) Log.v("NotificationActivity.getAllUnreadSMSMessagesAsyncTask.doInBackground()");
+	    	return getAllUnreadSMSMessages(Long.parseLong(params[0]), params[1]);
+	    }
+	    /**
+	     * Set the image to the notification View.
+	     * 
+	     * @param result - The image of the contact.
+	     */
+	    protected void onPostExecute(ArrayList<String> smsArray) {
+			if (_debug) Log.v("NotificationActivity.getAllUnreadSMSMessagesAsyncTask.onPostExecute()");
+			for(String smsArrayItem : smsArray){
+				String[] smsInfo = smsArrayItem.split("\\|");
+				String messageAddress = null;
+				String messageBody = null;
+				long messageID = 0;
+				long threadID = 0;
+				long contactID = 0;
+				String contactName = null;
+				long photoID = 0;
+				long timeStamp = 0;
+	    		if( smsInfo.length == 5){ 
+					messageAddress = smsInfo[0];
+					messageBody = smsInfo[1];
+					messageID = Long.parseLong(smsInfo[2]);
+					threadID = Long.parseLong(smsInfo[3]);
+					timeStamp = Long.parseLong(smsInfo[4]);
+				}else{ 
+					messageAddress = smsInfo[0];
+					messageBody = smsInfo[1];
+					messageID = Long.parseLong(smsInfo[2]);
+					threadID = Long.parseLong(smsInfo[3]);
+					timeStamp = Long.parseLong(smsInfo[4]);
+					contactID = Long.parseLong(smsInfo[5]);
+					contactName = smsInfo[6];
+					photoID = Long.parseLong(smsInfo[7]);
+				}
+	    		_notificationViewFlipper.addNotification(new Notification(_context, messageAddress, messageBody, messageID, threadID, timeStamp, contactID, contactName, photoID, NOTIFICATION_TYPE_SMS));
+			}
+	    }
+	}
 	
 	/**
 	 * Get all unread Messages and load them.
@@ -1663,8 +1717,10 @@ public class NotificationActivity extends Activity {
 	 * @param messageIDFilter - Long value of the currently incoming SMS message.
 	 * @param messagebodyFilter - String value of the currently incoming SMS message.
 	 */
-	private void getAllUnreadSMSMessages(long messageIDFilter, String messageBodyFilter){
-		if (_debug) Log.v("NotificationActivity.getAllUnreadSMSMessages() messageIDFilter: " + messageIDFilter + " messageBodyFilter: " + messageBodyFilter ); 
+	private ArrayList<String> getAllUnreadSMSMessages(long messageIDFilter, String messageBodyFilter){
+		if (_debug) Log.v("NotificationActivity.getAllUnreadSMSMessages() messageIDFilter: " + messageIDFilter + " messageBodyFilter: " + messageBodyFilter );
+		Context context = getApplicationContext();
+		ArrayList<String> smsArray = new ArrayList<String>();
 		final String[] projection = new String[] { "_id", "thread_id", "address", "person", "date", "body"};
 		final String selection = "read = 0";
 		final String[] selectionArgs = null;
@@ -1681,13 +1737,21 @@ public class NotificationActivity extends Activity {
 		    	long messageID = cursor.getLong(cursor.getColumnIndex("_id"));
 		    	long threadID = cursor.getLong(cursor.getColumnIndex("thread_id"));
 		    	String messageBody = cursor.getString(cursor.getColumnIndex("body"));
-		    	String phoneNumber = cursor.getString(cursor.getColumnIndex("address"));
-		    	long timestamp = cursor.getLong(cursor.getColumnIndex("date"));
-		    	long contactID = cursor.getLong(cursor.getColumnIndex("person"));
+		    	String sentFromAddress = cursor.getString(cursor.getColumnIndex("address"));
+		    	long timeStamp = cursor.getLong(cursor.getColumnIndex("date"));
 		    	//Don't load the message that corresponds to the messageIDFilter or messageBodyFilter.
-		    	//If we load this message we will have duplicate Notifications, which is bad.
 		    	if(messageID != messageIDFilter && !messageBody.replace("\n", "<br/>").trim().equals(messageBodyFilter.replace("\n", "<br/>").trim())){
-			    	_notificationViewFlipper.addNotification(new Notification(_context, messageID, threadID, messageBody, phoneNumber, timestamp, contactID, NOTIFICATION_TYPE_SMS));
+		    		String[] smsContactInfo = null;
+		    		if(sentFromAddress.contains("@")){
+			    		smsContactInfo = loadContactsInfoByEmail(context, sentFromAddress);
+			    	}else{
+			    		smsContactInfo = loadContactsInfoByPhoneNumber(context, sentFromAddress);
+			    	}
+		    		if(smsContactInfo == null){
+						smsArray.add(sentFromAddress + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + threadID + "|" + timeStamp);
+					}else{
+						smsArray.add(sentFromAddress + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + threadID + "|" + timeStamp + "|" + smsContactInfo[0] + "|" + smsContactInfo[1] + "|" + smsContactInfo[2]);
+					}
 		    	}
 		    }
 		}catch(Exception ex){
@@ -1695,13 +1759,14 @@ public class NotificationActivity extends Activity {
 		} finally {
     		cursor.close();
     	}
+		return smsArray;
 	}
-
+	
 	//TODO - ADD IN FUNCTION: getAllUnreadMMSMessages
-	private void getAllUnreadMMSMessages(long messageIDFilter ){
-		
-		
-	}
+//	private void getAllUnreadMMSMessages(long messageIDFilter ){
+//		
+//		
+//	}
 	
 	/**
 	 * Setup the missed calls notifications.
@@ -1753,6 +1818,195 @@ public class NotificationActivity extends Activity {
 		long eventID = Long.parseLong(calenderEventInfo[6]);
 		Notification calendarEventNotification = new Notification(_context, title, messageBody, eventStartTime, eventEndTime, eventAllDay, calendarName, calendarID, eventID, NOTIFICATION_TYPE_CALENDAR);
 		_notificationViewFlipper.addNotification(calendarEventNotification);		
+	}
+	
+	/**
+	 * Load the various contact info for this notification from a phoneNumber.
+	 * 
+	 * @param context - Application Context.
+	 * @param phoneNumber - Notifications's phone number.
+	 * 
+	 * @return String[] - String Array of the contact information.
+	 */ 
+	private String[] loadContactsInfoByPhoneNumber(Context context, String incomingNumber){
+		if (_debug) Log.v("NotificationActivity.loadContactsInfoByPhoneNumber()");
+		long _contactID = 0;
+		String _contactName = "";
+		long _photoID = 0;
+		boolean _contactExists = false;
+		if (incomingNumber == null) {
+			if (_debug) Log.v("NotificationActivity.loadContactsInfoByPhoneNumber() Phone number provided is null: Exiting...");
+			return null;
+		}
+		//Exit if the phone number is an email address.
+		if (incomingNumber.contains("@")) {
+			if (_debug) Log.v("NotificationActivity.loadContactsInfoByPhoneNumber() Phone number provided appears to be an email address: Exiting...");
+			return null;
+		}
+		try{
+			final String[] projection = null;
+			final String selection = ContactsContract.Contacts.HAS_PHONE_NUMBER + " = 1";
+			final String[] selectionArgs = null;
+			final String sortOrder = null;
+			Cursor cursor = context.getContentResolver().query(
+					ContactsContract.Contacts.CONTENT_URI,
+					projection, 
+					selection, 
+					selectionArgs, 
+					sortOrder);
+			if (_debug) Log.v("NotificationActivity.loadContactsInfoByPhoneNumber() Searching Contacts");
+			while (cursor.moveToNext()) { 
+				String contactID = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID)); 
+				String contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+				String photoID = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_ID)); 
+				final String[] phoneProjection = null;
+				final String phoneSelection = ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = " + contactID;
+				final String[] phoneSelectionArgs = null;
+				final String phoneSortOrder = null;
+				Cursor phoneCursor = context.getContentResolver().query(
+						ContactsContract.CommonDataKinds.Phone.CONTENT_URI, 
+						phoneProjection, 
+						phoneSelection, 
+						phoneSelectionArgs, 
+						phoneSortOrder); 
+				while (phoneCursor.moveToNext()) { 
+					String contactNumber = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+					if(removeFormatting(incomingNumber).equals(removeFormatting(contactNumber))){
+						_contactID = Long.parseLong(contactID);
+		    		  	if(contactName != null){
+		    		  		_contactName = contactName;
+		    		  	}
+		    		  	if(photoID != null){
+		    			  	_photoID = Long.parseLong(photoID);
+		    		  	}
+		  		      	_contactExists = true;
+		  		      	break;
+					}
+				}
+				phoneCursor.close(); 
+				if(_contactExists) break;
+		   	}
+			cursor.close();
+			return new String[]{String.valueOf(_contactID), _contactName, String.valueOf(_photoID)};
+		}catch(Exception ex){
+			if (_debug) Log.e("NotificationActivity.loadContactsInfoByPhoneNumber() ERROR: " + ex.toString());
+			return null;
+		}
+	}
+	
+	/**
+	 * Remove all non-numeric items from the phone number.
+	 * 
+	 * @param phoneNumber - String of original phone number.
+	 * 
+	 * @return String - String of phone number with no formatting.
+	 */
+	private String removeFormatting(String phoneNumber){
+		if (_debug) Log.v("NotificationActivity.removeFormatting()");
+		phoneNumber = phoneNumber.replace("-", "");
+		phoneNumber = phoneNumber.replace("+", "");
+		phoneNumber = phoneNumber.replace("(", "");
+		phoneNumber = phoneNumber.replace(")", "");
+		phoneNumber = phoneNumber.replace(" ", "");
+		if(phoneNumber.length() > 10){
+			phoneNumber = phoneNumber.substring(phoneNumber.length() - 10, phoneNumber.length());
+		}	
+		return phoneNumber.trim();
+	}
+	
+	/**
+	 * Load the various contact info for this notification from an email.
+	 * 
+	 * @param context - Application Context.
+	 * @param incomingEmail - Notifications's email address.
+	 * 
+	 * @return String[] - String Array of the contact information.
+	 */ 
+	private String[] loadContactsInfoByEmail(Context context, String incomingEmail){
+		if (_debug) Log.v("NotificationActivity.loadContactsInfoByEmail()");
+		long _contactID = 0;
+		String _contactName = "";
+		long _photoID = 0;
+		boolean _contactExists = false;
+		if (incomingEmail == null) {
+			if (_debug) Log.v("NotificationActivity.loadContactsInfoByEmail() Email provided is null: Exiting...");
+			return null;
+		}
+		if (!incomingEmail.contains("@")) {
+			if (_debug) Log.v("NotificationActivity.loadContactsInfoByEmail() Email provided does not appear to be a valid email address: Exiting...");
+			return null;
+		}
+		String contactID = null;
+		try{
+			final String[] projection = null;
+			final String selection = null;
+			final String[] selectionArgs = null;
+			final String sortOrder = null;
+			Cursor cursor = context.getContentResolver().query(
+					ContactsContract.Contacts.CONTENT_URI,
+					projection, 
+					selection, 
+					selectionArgs, 
+					sortOrder);
+			if (_debug) Log.v("NotificationActivity.loadContactsInfoByEmail() Searching contacts");
+			while (cursor.moveToNext()) { 
+				contactID = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID)); 
+				String contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+				String photoID = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_ID)); 
+				final String[] emailProjection = null;
+				final String emailSelection = ContactsContract.CommonDataKinds.Email.CONTACT_ID + " = " + contactID;
+				final String[] emailSelectionArgs = null;
+				final String emailSortOrder = null;
+                Cursor emailCursor = context.getContentResolver().query(
+                		ContactsContract.CommonDataKinds.Email.CONTENT_URI, 
+                		emailProjection,
+                		emailSelection, 
+                        emailSelectionArgs, 
+                        emailSortOrder);
+                while (emailCursor.moveToNext()) {
+                	String contactEmail = emailCursor.getString(emailCursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA));
+                	if(removeEmailFormatting(incomingEmail).equals(removeEmailFormatting(contactEmail))){
+						_contactID = Long.parseLong(contactID);
+		    		  	if(contactName != null){
+		    		  		_contactName = contactName;
+		    		  	}
+		    		  	if(photoID != null){
+		    			  	_photoID = Long.parseLong(photoID);
+		    		  	}
+		  		      	_contactExists = true;
+		  		      	break;
+					}
+                }
+                emailCursor.close();
+                if(_contactExists) break;
+		   	}
+			cursor.close();
+			return new String[]{String.valueOf(_contactID), _contactName, String.valueOf(_photoID)};
+		}catch(Exception ex){
+			if (_debug) Log.e("NotificationActivity.loadContactsInfoByEmail() ERROR: " + ex.toString());
+			return null;
+		}
+	}
+	
+	/**
+	 * Remove formatting from email addresses.
+	 * 
+	 * @param address - String of original email address.
+	 * 
+	 * @return String - String of email address with no formatting.
+	 */
+	private String removeEmailFormatting(String address){
+		if (_debug) Log.v("NotificationActivity.removeEmailFormatting()");
+		if(address.contains("<") && address.contains(">")){
+			address = address.substring(address.indexOf("<") + 1,address.indexOf(">"));
+		}
+		if(address.contains("(") && address.contains(")")){
+			address = address.substring(address.indexOf("(") + 1,address.indexOf(")"));
+		}
+		if(address.contains("[") && address.contains("]")){
+			address = address.substring(address.indexOf("[") + 1,address.indexOf("]"));
+		}
+		return address.toLowerCase().trim();
 	}
 	
 }
