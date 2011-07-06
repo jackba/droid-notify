@@ -101,6 +101,7 @@ public class NotificationActivity extends Activity {
 	private static final String SMS_DISPLAY_UNREAD_KEY = "sms_display_unread_enabled";
 	private static final String SMS_CONFIRM_DELETION_KEY = "confirm_sms_deletion_enabled";
 	private static final String MMS_CONFIRM_DELETION_KEY = "confirm_mms_deletion_enabled";
+	private static final String MMS_DISPLAY_UNREAD_KEY = "mms_display_unread_enabled";
 	private static final String LANDSCAPE_SCREEN_ENABLED_KEY = "landscape_screen_enabled";
 	private static final String BLUR_SCREEN_ENABLED_KEY = "blur_screen_enabled";
 	private static final String DIM_SCREEN_ENABLED_KEY = "dim_screen_enabled";
@@ -837,16 +838,11 @@ public class NotificationActivity extends Activity {
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_SMS){
 		    if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_SMS");
-		    Notification newSMSNotification = setupMessage(extrasBundle);
-		    final long messageID = newSMSNotification.getMessageID();
-		    final String messagebody = newSMSNotification.getMessageBody();
-		    if(_preferences.getBoolean(SMS_DISPLAY_UNREAD_KEY, false)){
-		    	getAllUnreadSMSMessages(messageID, messagebody);
-		    }
+		    setupSMSMessages(extrasBundle, true);
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_MMS){
 	    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_MMS");
-	    	getMMSMessage(extrasBundle, true);
+	    	setupMMSMessages(extrasBundle, true);
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
 	    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_CALENDAR");
@@ -992,11 +988,11 @@ public class NotificationActivity extends Activity {
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_SMS){
 		    if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_SMS");
-		    setupMessage(extrasBundle);
+		    setupSMSMessages(extrasBundle, false);
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_MMS){
 	    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_MMS");
-	    	getMMSMessage(extrasBundle, false);
+	    	setupMMSMessages(extrasBundle, false);
 	    }
 	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
 	    	if (_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_CALENDAR");
@@ -1031,116 +1027,6 @@ public class NotificationActivity extends Activity {
 	private void setupViews(int notificationType) {
 		if (_debug) Log.v("NotificationActivity.setupViews()");
 		_notificationViewFlipper = (NotificationViewFlipper) findViewById(R.id.notification_view_flipper);
-	}
-	
-	/**
-	 * Setup the missed calls notifications.
-	 * 
-	 * @param bundle - Activity bundle.
-	 */
-	private boolean setupMissedCalls(Bundle bundle){
-		if (_debug) Log.v("NotificationActivity.setupMissedCalls()"); 
-		ArrayList<String> missedCallsArray = bundle.getStringArrayList("missedCallsArrayList");
-		for(int i=0; i< missedCallsArray.size(); i++){
-			String[] missedCallInfo = missedCallsArray.get(i).split("\\|");
-			String phoneNumber = null;
-			long timeStamp = 0;
-			long contactID = 0;
-			String contactName = null;
-			long photoID = 0;
-			if( missedCallInfo.length == 2){
-				phoneNumber = missedCallInfo[0];
-				timeStamp = Long.parseLong(missedCallInfo[1]);
-			}else{
-				phoneNumber = missedCallInfo[0];
-				timeStamp = Long.parseLong(missedCallInfo[1]);
-				contactID = Long.parseLong(missedCallInfo[2]);
-				contactName = missedCallInfo[3];
-				photoID = Long.parseLong(missedCallInfo[4]);
-			}
-			//Notification missedCallNotification = new Notification(_context, phoneNumber, timeStamp, NOTIFICATION_TYPE_PHONE);
-			Notification missedCallNotification = new Notification(_context, phoneNumber, timeStamp, contactID, contactName, photoID, NOTIFICATION_TYPE_PHONE);
-			_notificationViewFlipper.addNotification(missedCallNotification);
-		}
-	    return true;
-	}
-	
-	/**
-	 * Setup the incoming SMS message notification.
-	 *
-	 * @param bundle - Activity bundle.
-	 * 
-	 * @return Notification - Returns the new incoming SMS message in the form of a Notification object.
-	 */
-	private Notification setupMessage(Bundle bundle) {
-		if (_debug) Log.v("NotificationActivity.setupMessage()"); 
-	    // Create message from bundle.
-	    Notification smsMessage = new Notification(_context, bundle, NOTIFICATION_TYPE_SMS);
-	    _notificationViewFlipper.addNotification(smsMessage);
-	    return smsMessage;
-	}
-	
-	/**
-	 * Get all unread Messages and load them.
-	 * 
-	 * @param messageIDFilter - Long value of the currently incoming SMS message.
-	 * @param messagebodyFilter - String value of the currently incoming SMS message.
-	 */
-	private void getAllUnreadSMSMessages(long messageIDFilter, String messageBodyFilter){
-		if (_debug) Log.v("NotificationActivity.getAllUnreadSMSMessages() messageIDFilter: " + messageIDFilter + " messageBodyFilter: " + messageBodyFilter ); 
-		final String[] projection = new String[] { "_id", "thread_id", "address", "person", "date", "body"};
-		final String selection = "read = 0";
-		final String[] selectionArgs = null;
-		final String sortOrder = null;
-		Cursor cursor = null;
-        try{
-		    cursor = _context.getContentResolver().query(
-		    		Uri.parse("content://sms/inbox"),
-		    		projection,
-		    		selection,
-					selectionArgs,
-					sortOrder);
-		    while (cursor.moveToNext()) { 
-		    	long messageID = cursor.getLong(cursor.getColumnIndex("_id"));
-		    	long threadID = cursor.getLong(cursor.getColumnIndex("thread_id"));
-		    	String messageBody = cursor.getString(cursor.getColumnIndex("body"));
-		    	String phoneNumber = cursor.getString(cursor.getColumnIndex("address"));
-		    	long timestamp = cursor.getLong(cursor.getColumnIndex("date"));
-		    	long contactID = cursor.getLong(cursor.getColumnIndex("person"));
-		    	//Don't load the message that corresponds to the messageIDFilter or messageBodyFilter.
-		    	//If we load this message we will have duplicate Notifications, which is bad.
-		    	if(messageID != messageIDFilter && !messageBody.replace("\n", "<br/>").trim().equals(messageBodyFilter.replace("\n", "<br/>").trim())){
-			    	Notification smsMessage = new Notification(_context, messageID, threadID, messageBody, phoneNumber, timestamp, contactID, NOTIFICATION_TYPE_SMS);		
-			    	_notificationViewFlipper.addNotification(smsMessage);
-		    	}
-		    }
-		}catch(Exception ex){
-			if (_debug) Log.e("NotificationActivity.getAllUnreadSMSMessages() ERROR: " + ex.toString());
-		} finally {
-    		cursor.close();
-    	}
-	}
-
-	//TODO - ADD IN FUNCTION: getAllUnreadMMSMessages
-	
-	/**
-	 * Setup the Calendar Event notifications.
-	 * 
-	 * @param bundle - Activity bundle.
-	 */
-	private void setupCalendarEventNotifications(Bundle bundle){
-		if (_debug) Log.v("NotificationActivity.setupCalendarEventNotifications()");  
-		String calenderEventInfo[] = (String[])bundle.getStringArray("calenderEventInfo");
-		String title = calenderEventInfo[0];
-		String messageBody = calenderEventInfo[1];
-		long eventStartTime = Long.parseLong(calenderEventInfo[2]);
-		long eventEndTime = Long.parseLong(calenderEventInfo[3]);
-		boolean eventAllDay = Boolean.parseBoolean(calenderEventInfo[4]);
-		String calendarName = calenderEventInfo[4];
-		long calendarID = Long.parseLong(calenderEventInfo[5]);
-		long eventID = Long.parseLong(calenderEventInfo[6]);
-		Notification calendarEventNotification = new Notification(_context, title, messageBody, eventStartTime, eventEndTime, eventAllDay, calendarName, calendarID, eventID, NOTIFICATION_TYPE_CALENDAR);
-		_notificationViewFlipper.addNotification(calendarEventNotification);		
 	}
 	
 	/**
@@ -1377,33 +1263,6 @@ public class NotificationActivity extends Activity {
 			if (_debug) Log.e("NotificationActivity.runNotificationFeedback() ERROR: " + ex.toString());
 		}
 	}
-	
-//	/**
-//	 * Function that performs custom haptic feedback.
-//	 * This function performs haptic feedback based on the users preferences.
-//	 * 
-//	 * @param hapticFeedbackConstant - What type of action the feedback is responding to.
-//	 */
-//	private void customPerformHapticFeedback(int hapticFeedbackConstant){
-//		if (_debug) Log.v("NotificationActivity.customPerformHapticFeedback()");
-//		Vibrator vibrator = null;
-//		try{
-//			vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
-//			//Perform the haptic feedback based on the users preferences.
-//			if(_preferences.getBoolean(HAPTIC_FEEDBACK_ENABLED_KEY, true)){
-//				if(hapticFeedbackConstant == HapticFeedbackConstants.VIRTUAL_KEY){
-//					if(vibrator != null) vibrator.vibrate(50);
-//				}
-//			}
-//			if(_preferences.getBoolean(HAPTIC_FEEDBACK_ENABLED_KEY, true)){
-//				if(hapticFeedbackConstant == HapticFeedbackConstants.LONG_PRESS){
-//					if(vibrator != null) vibrator.vibrate(100);
-//				}
-//			}
-//		}catch(Exception ex){
-//			if (_debug) Log.e("NotificationActivity.customPerformHapticFeedback() ERROR: " + ex.toString());
-//		}
-//	}
 	
 	/**
 	 * Function to create a test notification of each type.
@@ -1701,16 +1560,63 @@ public class NotificationActivity extends Activity {
 			}
 		}
 	}
+
+	/**
+	 * Get new MMS messages.
+	 *
+	 * @param bundle - Activity bundle.
+	 */
+	private void setupSMSMessages(Bundle bundle, boolean loadAllNew) {
+		if (_debug) Log.v("NotificationActivity.setupSMSMessages()"); 
+		ArrayList<String> smsArray = bundle.getStringArrayList("smsArrayList");
+		String currentMessageBody = null;
+		long currentMessageID = 0;
+		for(String smsArrayItem : smsArray){
+			String[] smsInfo = smsArrayItem.split("\\|");
+			String messageAddress = null;
+			String messageBody = null;
+			long messageID = 0;
+			long threadID = 0;
+			long contactID = 0;
+			String contactName = null;
+			long photoID = 0;
+			long timeStamp = 0;
+    		if( smsInfo.length == 4){ 
+				messageAddress = smsInfo[0];
+				messageBody = smsInfo[1];
+				messageID = Long.parseLong(smsInfo[2]);
+				threadID = Long.parseLong(smsInfo[3]);
+				timeStamp = Long.parseLong(smsInfo[4]);
+			}else{ 
+				messageAddress = smsInfo[0];
+				messageBody = smsInfo[1];
+				messageID = Long.parseLong(smsInfo[2]);
+				threadID = Long.parseLong(smsInfo[3]);
+				timeStamp = Long.parseLong(smsInfo[4]);
+				contactID = Long.parseLong(smsInfo[5]);
+				contactName = smsInfo[6];
+				photoID = Long.parseLong(smsInfo[7]);
+				currentMessageBody = messageBody;
+				currentMessageID = messageID;
+			}
+    		_notificationViewFlipper.addNotification(new Notification(_context, messageAddress, messageBody, messageID, threadID, timeStamp, contactID, contactName, photoID, NOTIFICATION_TYPE_SMS));
+		}
+		if(loadAllNew){
+			//Load all unread SMS messages.
+			//TODO - Put this in an AsyncTask AKA in the background!
+			if(_preferences.getBoolean(SMS_DISPLAY_UNREAD_KEY, false)){
+		    	//getAllUnreadSMSMessages(currentMessageID, currentMessageBody);
+		    }
+		}
+	}
 	
 	/**
 	 * Get new MMS messages.
 	 *
 	 * @param bundle - Activity bundle.
-	 * 
-	 * @return Notification - Returns the new incoming SMS message in the form of a Notification object.
 	 */
-	private void getMMSMessage(Bundle bundle, boolean loadAllNew) {
-		if (_debug) Log.v("NotificationActivity.getMMSMessage()"); 
+	private void setupMMSMessages(Bundle bundle, boolean loadAllNew) {
+		if (_debug) Log.v("NotificationActivity.setupMMSMessages()"); 
 		ArrayList<String> mmsArray = bundle.getStringArrayList("mmsArrayList");
 		for(String mmsArrayItem : mmsArray){
 			String[] mmsInfo = mmsArrayItem.split("\\|");
@@ -1721,33 +1627,20 @@ public class NotificationActivity extends Activity {
 			long contactID = 0;
 			String contactName = null;
 			long photoID = 0;
-			//The timestamp is in seconds and not milliseconds. You must multiply by 1000. :)
 			long timeStamp = 0;
-    		//_notificationViewFlipper.addNotification(new Notification(_context, messageAddress, messageBody, messageID, threadID, timeStamp, NOTIFICATION_TYPE_MMS));
-			if( mmsInfo.length == 4){
-//				if (_debug) Log.v("NotificationActivity.getMMSMessage() mmsInfo[0]: " + mmsInfo[0]); 
-//				if (_debug) Log.v("NotificationActivity.getMMSMessage() mmsInfo[1]: " + mmsInfo[1]); 
-//				if (_debug) Log.v("NotificationActivity.getMMSMessage() mmsInfo[2]: " + mmsInfo[2]); 
-//				if (_debug) Log.v("NotificationActivity.getMMSMessage() mmsInfo[3]: " + mmsInfo[3]); 
-//				if (_debug) Log.v("NotificationActivity.getMMSMessage() mmsInfo[4]: " + mmsInfo[4]); 
+    		if( mmsInfo.length == 4){
 				messageAddress = mmsInfo[0];
 				messageBody = mmsInfo[1];
 				messageID = Long.parseLong(mmsInfo[2]);
 				threadID = Long.parseLong(mmsInfo[3]);
+				//The timestamp is in seconds and not milliseconds. You must multiply by 1000. :)
 				timeStamp = Long.parseLong(mmsInfo[4]) * 1000;
 			}else{
-//				if (_debug) Log.v("NotificationActivity.getMMSMessage() mmsInfo[0]: " + mmsInfo[0]); 
-//				if (_debug) Log.v("NotificationActivity.getMMSMessage() mmsInfo[1]: " + mmsInfo[1]); 
-//				if (_debug) Log.v("NotificationActivity.getMMSMessage() mmsInfo[2]: " + mmsInfo[2]); 
-//				if (_debug) Log.v("NotificationActivity.getMMSMessage() mmsInfo[3]: " + mmsInfo[3]); 
-//				if (_debug) Log.v("NotificationActivity.getMMSMessage() mmsInfo[4]: " + mmsInfo[4]); 
-//				if (_debug) Log.v("NotificationActivity.getMMSMessage() mmsInfo[5]: " + mmsInfo[5]); 
-//				if (_debug) Log.v("NotificationActivity.getMMSMessage() mmsInfo[6]: " + mmsInfo[6]); 
-//				if (_debug) Log.v("NotificationActivity.getMMSMessage() mmsInfo[7]: " + mmsInfo[7]); 
 				messageAddress = mmsInfo[0];
 				messageBody = mmsInfo[1];
 				messageID = Long.parseLong(mmsInfo[2]);
 				threadID = Long.parseLong(mmsInfo[3]);
+				//The timestamp is in seconds and not milliseconds. You must multiply by 1000. :)
 				timeStamp = Long.parseLong(mmsInfo[4]) * 1000;
 				contactID = Long.parseLong(mmsInfo[5]);
 				contactName = mmsInfo[6];
@@ -1757,7 +1650,109 @@ public class NotificationActivity extends Activity {
 		}
 		if(loadAllNew){
 			//TODO - Load all unread MMS messages.
+			//TODO - Put this in an AsyncTask AKA in the background!
+			if(_preferences.getBoolean(MMS_DISPLAY_UNREAD_KEY, false)){
+		    	//getAllUnreadMMSMessages(currentMessageID, currentMessageBody);
+		    }
 		}
+	}
+	
+	/**
+	 * Get all unread Messages and load them.
+	 * 
+	 * @param messageIDFilter - Long value of the currently incoming SMS message.
+	 * @param messagebodyFilter - String value of the currently incoming SMS message.
+	 */
+	private void getAllUnreadSMSMessages(long messageIDFilter, String messageBodyFilter){
+		if (_debug) Log.v("NotificationActivity.getAllUnreadSMSMessages() messageIDFilter: " + messageIDFilter + " messageBodyFilter: " + messageBodyFilter ); 
+		final String[] projection = new String[] { "_id", "thread_id", "address", "person", "date", "body"};
+		final String selection = "read = 0";
+		final String[] selectionArgs = null;
+		final String sortOrder = null;
+		Cursor cursor = null;
+        try{
+		    cursor = _context.getContentResolver().query(
+		    		Uri.parse("content://sms/inbox"),
+		    		projection,
+		    		selection,
+					selectionArgs,
+					sortOrder);
+		    while (cursor.moveToNext()) { 
+		    	long messageID = cursor.getLong(cursor.getColumnIndex("_id"));
+		    	long threadID = cursor.getLong(cursor.getColumnIndex("thread_id"));
+		    	String messageBody = cursor.getString(cursor.getColumnIndex("body"));
+		    	String phoneNumber = cursor.getString(cursor.getColumnIndex("address"));
+		    	long timestamp = cursor.getLong(cursor.getColumnIndex("date"));
+		    	long contactID = cursor.getLong(cursor.getColumnIndex("person"));
+		    	//Don't load the message that corresponds to the messageIDFilter or messageBodyFilter.
+		    	//If we load this message we will have duplicate Notifications, which is bad.
+		    	if(messageID != messageIDFilter && !messageBody.replace("\n", "<br/>").trim().equals(messageBodyFilter.replace("\n", "<br/>").trim())){
+			    	_notificationViewFlipper.addNotification(new Notification(_context, messageID, threadID, messageBody, phoneNumber, timestamp, contactID, NOTIFICATION_TYPE_SMS));
+		    	}
+		    }
+		}catch(Exception ex){
+			if (_debug) Log.e("NotificationActivity.getAllUnreadSMSMessages() ERROR: " + ex.toString());
+		} finally {
+    		cursor.close();
+    	}
+	}
+
+	//TODO - ADD IN FUNCTION: getAllUnreadMMSMessages
+	private void getAllUnreadMMSMessages(long messageIDFilter ){
+		
+		
+	}
+	
+	/**
+	 * Setup the missed calls notifications.
+	 * 
+	 * @param bundle - Activity bundle.
+	 */
+	private boolean setupMissedCalls(Bundle bundle){
+		if (_debug) Log.v("NotificationActivity.setupMissedCalls()"); 
+		ArrayList<String> missedCallsArray = bundle.getStringArrayList("missedCallsArrayList");
+		for(int i=0; i< missedCallsArray.size(); i++){
+			String[] missedCallInfo = missedCallsArray.get(i).split("\\|");
+			String phoneNumber = null;
+			long timeStamp = 0;
+			long contactID = 0;
+			String contactName = null;
+			long photoID = 0;
+			if( missedCallInfo.length == 2){
+				phoneNumber = missedCallInfo[0];
+				timeStamp = Long.parseLong(missedCallInfo[1]);
+			}else{
+				phoneNumber = missedCallInfo[0];
+				timeStamp = Long.parseLong(missedCallInfo[1]);
+				contactID = Long.parseLong(missedCallInfo[2]);
+				contactName = missedCallInfo[3];
+				photoID = Long.parseLong(missedCallInfo[4]);
+			}
+			//Notification missedCallNotification = new Notification(_context, phoneNumber, timeStamp, NOTIFICATION_TYPE_PHONE);
+			Notification missedCallNotification = new Notification(_context, phoneNumber, timeStamp, contactID, contactName, photoID, NOTIFICATION_TYPE_PHONE);
+			_notificationViewFlipper.addNotification(missedCallNotification);
+		}
+	    return true;
+	}
+	
+	/**
+	 * Setup the Calendar Event notifications.
+	 * 
+	 * @param bundle - Activity bundle.
+	 */
+	private void setupCalendarEventNotifications(Bundle bundle){
+		if (_debug) Log.v("NotificationActivity.setupCalendarEventNotifications()");  
+		String calenderEventInfo[] = (String[])bundle.getStringArray("calenderEventInfo");
+		String title = calenderEventInfo[0];
+		String messageBody = calenderEventInfo[1];
+		long eventStartTime = Long.parseLong(calenderEventInfo[2]);
+		long eventEndTime = Long.parseLong(calenderEventInfo[3]);
+		boolean eventAllDay = Boolean.parseBoolean(calenderEventInfo[4]);
+		String calendarName = calenderEventInfo[4];
+		long calendarID = Long.parseLong(calenderEventInfo[5]);
+		long eventID = Long.parseLong(calenderEventInfo[6]);
+		Notification calendarEventNotification = new Notification(_context, title, messageBody, eventStartTime, eventEndTime, eventAllDay, calendarName, calendarID, eventID, NOTIFICATION_TYPE_CALENDAR);
+		_notificationViewFlipper.addNotification(calendarEventNotification);		
 	}
 	
 }

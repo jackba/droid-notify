@@ -14,7 +14,7 @@ import android.provider.ContactsContract;
  * 
  * @author Camille Sévigny
  */
-public class PhoneAlarmReceiverService extends WakefulIntentService {
+public class PhoneReceiverService extends WakefulIntentService {
 
 	//================================================================================
     // Constants
@@ -40,10 +40,10 @@ public class PhoneAlarmReceiverService extends WakefulIntentService {
 	/**
 	 * Class Constructor
 	 */
-	public PhoneAlarmReceiverService() {
-		super("PhoneAlarmReceiverService");
+	public PhoneReceiverService() {
+		super("PhoneReceiverService");
 		_debug = Log.getDebug();
-		if (_debug) Log.v("PhoneAlarmReceiverService.PhoneAlarmReceiverService()");
+		if (_debug) Log.v("PhoneReceiverService.PhoneReceiverService()");
 	}
 
 	//================================================================================
@@ -58,7 +58,7 @@ public class PhoneAlarmReceiverService extends WakefulIntentService {
 	@Override
 	protected void doWakefulWork(Intent intent) {
 		_debug = Log.getDebug();
-		if (_debug) Log.v("PhoneAlarmReceiverService.doWakefulWork()");
+		if (_debug) Log.v("PhoneReceiverService.doWakefulWork()");
 		ArrayList<String> missedCallsArray = getMissedCalls();
 		if(missedCallsArray.size() > 0){
 			Context context = getApplicationContext();
@@ -70,7 +70,7 @@ public class PhoneAlarmReceiverService extends WakefulIntentService {
 	    	phoneNotificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
 	    	context.startActivity(phoneNotificationIntent);
 		}else{
-			if (_debug) Log.v("PhoneAlarmReceiverService.doWakefulWork() No missed calls were found. Exiting...");
+			if (_debug) Log.v("PhoneReceiverService.doWakefulWork() No missed calls were found. Exiting...");
 		}
 	}
 	
@@ -84,7 +84,7 @@ public class PhoneAlarmReceiverService extends WakefulIntentService {
 	 * @return ArrayList<String> - Returns an ArrayList of Strings that contain the missed call information.
 	 */
 	private ArrayList<String> getMissedCalls(){
-		if (_debug) Log.v("PhoneAlarmReceiverService.getMissedCalls()");
+		if (_debug) Log.v("PhoneReceiverService.getMissedCalls()");
 		Context context = getApplicationContext();
 		ArrayList<String> missedCallsArray = new ArrayList<String>();
 		final String[] projection = null;
@@ -105,7 +105,7 @@ public class PhoneAlarmReceiverService extends WakefulIntentService {
 	    		String callType = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.TYPE));
 	    		String isCallNew = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.NEW));
 	    		if(Integer.parseInt(callType) == MISSED_CALL_TYPE && Integer.parseInt(isCallNew) > 0){
-    				if (_debug) Log.v("PhoneAlarmReceiverService.getMissedCalls() Missed Call Found: " + callNumber);
+    				if (_debug) Log.v("PhoneReceiverService.getMissedCalls() Missed Call Found: " + callNumber);
     				String[] missedCallContactInfo = loadContactsInfoByPhoneNumber(context, callNumber);
     				if(missedCallContactInfo == null){
     					missedCallsArray.add(callNumber + "|" + callDate);
@@ -118,7 +118,7 @@ public class PhoneAlarmReceiverService extends WakefulIntentService {
     			}
 	    	}
 		}catch(Exception ex){
-			if (_debug) Log.e("PhoneAlarmReceiverService.getMissedCalls() ERROR: " + ex.toString());
+			if (_debug) Log.e("PhoneReceiverService.getMissedCalls() ERROR: " + ex.toString());
 		}finally{
 			cursor.close();
 		}
@@ -132,18 +132,18 @@ public class PhoneAlarmReceiverService extends WakefulIntentService {
 	 * @param phoneNumber - Notifications's phone number.
 	 */ 
 	private String[] loadContactsInfoByPhoneNumber(Context context, String incomingNumber){
-		if (_debug) Log.v("PhoneAlarmReceiverService.loadContactsInfoByPhoneNumber()");
+		if (_debug) Log.v("PhoneReceiverService.loadContactsInfoByPhoneNumber()");
 		long _contactID = 0;
 		String _contactName = "";
 		long _photoID = 0;
 		boolean _contactExists = false;
 		if (incomingNumber == null) {
-			if (_debug) Log.v("PhoneAlarmReceiverService.loadContactsInfoByPhoneNumber() Phone number provided is null: Exiting...");
+			if (_debug) Log.v("PhoneReceiverService.loadContactsInfoByPhoneNumber() Phone number provided is null: Exiting...");
 			return null;
 		}
 		//Exit if the phone number is an email address.
 		if (incomingNumber.contains("@")) {
-			if (_debug) Log.v("PhoneAlarmReceiverService.loadContactsInfoByPhoneNumber() Phone number provided appears to be an email address: Exiting...");
+			if (_debug) Log.v("PhoneReceiverService.loadContactsInfoByPhoneNumber() Phone number provided appears to be an email address: Exiting...");
 			return null;
 		}
 		try{
@@ -157,7 +157,7 @@ public class PhoneAlarmReceiverService extends WakefulIntentService {
 					selection, 
 					selectionArgs, 
 					sortOrder);
-			if (_debug) Log.v("PhoneAlarmReceiverService.loadContactsInfoByPhoneNumber() Searching Contacts");
+			if (_debug) Log.v("PhoneReceiverService.loadContactsInfoByPhoneNumber() Searching Contacts");
 			while (cursor.moveToNext()) { 
 				String contactID = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID)); 
 				String contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
@@ -192,7 +192,7 @@ public class PhoneAlarmReceiverService extends WakefulIntentService {
 			cursor.close();
 			return new String[]{String.valueOf(_contactID), _contactName, String.valueOf(_photoID)};
 		}catch(Exception ex){
-			if (_debug) Log.e("PhoneAlarmReceiverService.loadContactsInfoByPhoneNumber() ERROR: " + ex.toString());
+			if (_debug) Log.e("PhoneReceiverService.loadContactsInfoByPhoneNumber() ERROR: " + ex.toString());
 			return null;
 		}
 	}
@@ -205,7 +205,7 @@ public class PhoneAlarmReceiverService extends WakefulIntentService {
 	 * @return String - String of phone number with no formatting.
 	 */
 	private String removeFormatting(String phoneNumber){
-		if (_debug) Log.v("PhoneAlarmReceiverService.removeFormatting()");
+		if (_debug) Log.v("PhoneReceiverService.removeFormatting()");
 		phoneNumber = phoneNumber.replace("-", "");
 		phoneNumber = phoneNumber.replace("+", "");
 		phoneNumber = phoneNumber.replace("(", "");

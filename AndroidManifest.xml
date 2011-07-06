@@ -42,14 +42,14 @@
             </intent-filter>
         </receiver>
         <receiver android:name=".MMSAlarmReceiver" />
-        <service android:name=".MMSAlarmReceiverService" />
+        <service android:name="MMSReceiverService" />
    		<receiver android:name=".PhoneReceiver" > 
             <intent-filter> 
                 <action android:name="android.intent.action.PHONE_STATE" />
             </intent-filter> 
         </receiver>
         <receiver android:name=".PhoneAlarmReceiver" />
-       	<service android:name=".PhoneAlarmReceiverService" /> 
+       	<service android:name="PhoneReceiverService" /> 
 		<receiver android:name=".OnBootReceiver" >
 			<intent-filter>
 				<action android:name="android.intent.action.BOOT_COMPLETED" />
