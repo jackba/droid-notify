@@ -977,10 +977,9 @@ public class NotificationView extends LinearLayout {
 		}
 		return outputPhoneNumber.toString();
 	}
-
 	
 	/**
-	 * Set the notification contact's image
+	 * Set the notification contact's image.
 	 * 
 	 * @author Camille Sévigny
 	 */

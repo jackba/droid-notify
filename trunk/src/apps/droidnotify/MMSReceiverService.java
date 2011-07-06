@@ -427,7 +427,7 @@ public class MMSReceiverService extends WakefulIntentService {
 	 * @return String - String of email address with no formatting.
 	 */
 	private String removeEmailFormatting(String address){
-		if (_debug) Log.v("Notification.removeEmailFormatting()");
+		if (_debug) Log.v("MMSReceiverService.removeEmailFormatting()");
 		if(address.contains("<") && address.contains(">")){
 			address = address.substring(address.indexOf("<") + 1,address.indexOf(">"));
 		}
