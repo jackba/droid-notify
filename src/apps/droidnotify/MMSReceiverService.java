@@ -1,8 +1,5 @@
 package apps.droidnotify;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import android.content.Context;
@@ -101,23 +98,21 @@ public class MMSReceiverService extends WakefulIntentService {
 	    		String messageID = cursor.getString(cursor.getColumnIndex("_id"));
 	    		String threadID = cursor.getString(cursor.getColumnIndex("thread_id"));
 		    	String timeStamp = cursor.getString(cursor.getColumnIndex("date"));
-		    	String messageAddress = getMMSAddress(messageID);
-		    	String messageBody = getMMSText(messageID);
-		    	if (_debug) Log.v("MMSReceiverService.getMMSMessages() messageID: " + messageID);
-		    	if (_debug) Log.v("MMSReceiverService.getMMSMessages() threadID: " + threadID);
-		    	if (_debug) Log.v("MMSReceiverService.getMMSMessages() timestamp: " + timeStamp);
-		    	if (_debug) Log.v("MMSReceiverService.getMMSMessages() messageAddress: " + messageAddress);
-		    	if (_debug) Log.v("MMSReceiverService.getMMSMessages() messageBody: " + messageBody);
+		    	String sentFromAddress = Common.getMMSAddress(context, messageID);
+		    	if(sentFromAddress.contains("@")){
+	            	sentFromAddress = Common.removeEmailFormatting(sentFromAddress);
+	            }
+		    	String messageBody = Common.getMMSText(context, messageID);
 		    	String[] mmsContactInfo = null;
-		    	if(messageAddress.contains("@")){
-		    		mmsContactInfo = Common.loadContactsInfoByEmail(context, messageAddress);
+		    	if(sentFromAddress.contains("@")){
+		    		mmsContactInfo = Common.loadContactsInfoByEmail(context, sentFromAddress);
 		    	}else{
-		    		mmsContactInfo = Common.loadContactsInfoByPhoneNumber(context, messageAddress);
+		    		mmsContactInfo = Common.loadContactsInfoByPhoneNumber(context, sentFromAddress);
 		    	}
 				if(mmsContactInfo == null){
-					mmsArray.add(messageAddress + "|" + messageBody + "|" + messageID + "|" + threadID + "|" + timeStamp);
+					mmsArray.add(sentFromAddress + "|" + messageBody + "|" + messageID + "|" + threadID + "|" + timeStamp);
 				}else{
-					mmsArray.add(messageAddress + "|" + messageBody + "|" + messageID + "|" + threadID + "|" + timeStamp + "|" + mmsContactInfo[0] + "|" + mmsContactInfo[1] + "|" + mmsContactInfo[2]);
+					mmsArray.add(sentFromAddress + "|" + messageBody + "|" + messageID + "|" + threadID + "|" + timeStamp + "|" + mmsContactInfo[0] + "|" + mmsContactInfo[1] + "|" + mmsContactInfo[2]);
 				}
 		    	break;
 	    	}
@@ -127,124 +122,6 @@ public class MMSReceiverService extends WakefulIntentService {
     		cursor.close();
     	}
 		return mmsArray;	
-	}
-
-	/**
-	 * Gets the address of the MMS message.
-	 * 
-	 * @param messageID - The MMS message ID.
-	 * 
-	 * @return String - The phone or email address of the MMS message.
-	 */
-	private String getMMSAddress(String messageID) {
-		if (_debug) Log.v("MMSReceiverService.getMMSAddress()");
-		final String[] projection = new String[] {"address"};
-		final String selection = "msg_id = " + messageID;
-		final String[] selectionArgs = null;
-		final String sortOrder = null;
-		String messageAddress = null;
-		Cursor cursor = null;
-        try{
-		    cursor = getApplicationContext().getContentResolver().query(
-		    		Uri.parse("content://mms/" + messageID + "/addr"),
-		    		projection,
-		    		selection,
-					selectionArgs,
-					sortOrder);
-		    while(cursor.moveToNext()){
-		    	messageAddress = cursor.getString(cursor.getColumnIndex("address"));
-	            break;
-	        }
-		}catch(Exception ex){
-			if (_debug) Log.e("MMSReceiverService.getMMSAddress() ERROR: " + ex.toString());
-		} finally {
-    		cursor.close();
-    	}	   
-	    return messageAddress;
-	}
-	
-	/**
-	 * Read the message text of the MMS message.
-	 * 
-	 * @param messageID - The MMS message ID.
-	 * 
-	 * @return String - The message text of the MMS message.
-	 */
-	private String getMMSText(String messageID) {
-		if (_debug) Log.v("MMSReceiverService.getMMSText()");
-		final String[] projection = new String[] {"_id", "ct", "_data", "text"};
-		final String selection = "mid = " + messageID;
-		final String[] selectionArgs = null;
-		final String sortOrder = null;
-		StringBuilder messageText = new StringBuilder();
-		Cursor cursor = null;
-        try{
-		    cursor = getApplicationContext().getContentResolver().query(
-		    		Uri.parse("content://mms/part"),
-		    		projection,
-		    		selection,
-					selectionArgs,
-					sortOrder);
-		    while(cursor.moveToNext()){
-		        String partId = cursor.getString(cursor.getColumnIndex("_id"));
-		        String contentType = cursor.getString(cursor.getColumnIndex("ct"));
-		        String text = cursor.getString(cursor.getColumnIndex("text"));
-		        if(text != null){
-	            	if(!messageText.toString().equals("")){
-	            		messageText.append(" ");
-	            	}
-			        messageText.append(text);
-		        }
-		        if (contentType.equals("text/plain")) {
-		            String data = cursor.getString(cursor.getColumnIndex("_data"));
-		            if (data != null) {
-		            	if(!messageText.toString().equals("")){
-		            		messageText.append(" ");
-		            	}
-		            	messageText.append(getMMSTextFromPart(partId));
-		            }
-		        }
-	        }
-		}catch(Exception ex){
-			if (_debug) Log.e("MMSReceiverService.getMMSText ERROR: " + ex.toString());
-		} finally {
-    		cursor.close();
-    	}	   
-	    return messageText.toString();  
-	}
-	
-	/**
-	 * Read the message text of the MMS message.
-	 * 
-	 * @param messageID - The MMS message ID.
-	 * 
-	 * @return String - The message text of the MMS message.
-	 */
-	private String getMMSTextFromPart(String messageID) {
-		if (_debug) Log.v("MMSReceiverService.getMMSTextFromPart()");
-	    InputStream inputStream = null;
-	    StringBuilder messageText = new StringBuilder();
-	    try {
-	    	inputStream = getContentResolver().openInputStream(Uri.parse("content://mms/part/" + messageID));
-	        if (inputStream != null) {
-	            InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
-	            BufferedReader reader = new BufferedReader(inputStreamReader);
-	            String temp = reader.readLine();
-	            while (temp != null) {
-	            	messageText.append(temp);
-	                temp = reader.readLine();
-	            }
-	        }
-	    } catch (Exception ex) {
-	    	if (_debug) Log.e("MMSReceiverService.getMMSTextFromPart() ERROR: " + ex.toString());
-	    }finally {
-	    	try{
-	    		inputStream.close();
-	    	}catch(Exception ex){
-	    		if (_debug) Log.e("MMSReceiverService.getMMSTextFromPart() ERROR: " + ex.toString());
-	    	}
-	    }
-	    return messageText.toString();
 	}
 	
 }
