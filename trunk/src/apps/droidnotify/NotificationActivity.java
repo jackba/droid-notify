@@ -1559,7 +1559,7 @@ public class NotificationActivity extends Activity {
 	}
 
 	/**
-	 * Get new MMS messages.
+	 * Get new SMS messages.
 	 *
 	 * @param bundle - Activity bundle.
 	 */
@@ -1600,9 +1600,7 @@ public class NotificationActivity extends Activity {
 		}
 		if(loadAllNew){
 			//Load all unread SMS messages.
-			//TODO - Put this in an AsyncTask AKA in the background!
 			if(_preferences.getBoolean(SMS_DISPLAY_UNREAD_KEY, false)){
-		    	//getAllUnreadSMSMessages(currentMessageID, currentMessageBody);
 				new getAllUnreadSMSMessagesAsyncTask().execute(currentMessageID, currentMessageBody);
 		    }
 		}
@@ -1647,16 +1645,15 @@ public class NotificationActivity extends Activity {
     		_notificationViewFlipper.addNotification(new Notification(_context, messageAddress, messageBody, messageID, threadID, timeStamp, contactID, contactName, photoID, NOTIFICATION_TYPE_MMS));
 		}
 		if(loadAllNew){
-			//TODO - Load all unread MMS messages.
-			//TODO - Put this in an AsyncTask AKA in the background!
+			//Load all unread MMS messages.
 			if(_preferences.getBoolean(MMS_DISPLAY_UNREAD_KEY, false)){
-		    	//getAllUnreadMMSMessages(currentMessageID, currentMessageBody);
+				new getAllUnreadMMSMessagesAsyncTask().execute();
 		    }
 		}
 	}
 
 	/**
-	 * Set the notification contact's image
+	 * Get unread SMS messages in the background.
 	 * 
 	 * @author Camille Sévigny
 	 */
@@ -1737,6 +1734,9 @@ public class NotificationActivity extends Activity {
 		    	long threadID = cursor.getLong(cursor.getColumnIndex("thread_id"));
 		    	String messageBody = cursor.getString(cursor.getColumnIndex("body"));
 		    	String sentFromAddress = cursor.getString(cursor.getColumnIndex("address"));
+	            if(sentFromAddress.contains("@")){
+	            	sentFromAddress = Common.removeEmailFormatting(sentFromAddress);
+	            }
 		    	long timeStamp = cursor.getLong(cursor.getColumnIndex("date"));
 		    	//Don't load the message that corresponds to the messageIDFilter or messageBodyFilter.
 		    	if(messageID != messageIDFilter && !messageBody.replace("\n", "<br/>").trim().equals(messageBodyFilter.replace("\n", "<br/>").trim())){
@@ -1760,12 +1760,117 @@ public class NotificationActivity extends Activity {
     	}
 		return smsArray;
 	}
+
+	/**
+	 * Get unread MMS messages in the background.
+	 * 
+	 * @author Camille Sévigny
+	 */
+	private class getAllUnreadMMSMessagesAsyncTask extends AsyncTask<Void, Void, ArrayList<String>> {
+	    
+		/**
+	     * Do this work in the background.
+	     * 
+	     * @param params - The contact's id.
+	     */
+	    protected ArrayList<String> doInBackground(Void...params) {
+			if (_debug) Log.v("NotificationActivity.getAllUnreadMMSMessagesAsyncTask.doInBackground()");
+	    	return getAllUnreadMMSMessages();
+	    }
+	    
+	    /**
+	     * Set the image to the notification View.
+	     * 
+	     * @param result - The image of the contact.
+	     */
+	    protected void onPostExecute(ArrayList<String> mmsArray) {
+			if (_debug) Log.v("NotificationActivity.getAllUnreadMMSMessagesAsyncTask.onPostExecute()");
+			for(String mmsArrayItem : mmsArray){
+				String[] mmsInfo = mmsArrayItem.split("\\|");
+				String messageAddress = null;
+				String messageBody = null;
+				long messageID = 0;
+				long threadID = 0;
+				long contactID = 0;
+				String contactName = null;
+				long photoID = 0;
+				long timeStamp = 0;
+	    		if( mmsInfo.length == 5){ 
+					messageAddress = mmsInfo[0];
+					messageBody = mmsInfo[1];
+					messageID = Long.parseLong(mmsInfo[2]);
+					threadID = Long.parseLong(mmsInfo[3]);
+					timeStamp = Long.parseLong(mmsInfo[4]);
+				}else{ 
+					messageAddress = mmsInfo[0];
+					messageBody = mmsInfo[1];
+					messageID = Long.parseLong(mmsInfo[2]);
+					threadID = Long.parseLong(mmsInfo[3]);
+					timeStamp = Long.parseLong(mmsInfo[4]);
+					contactID = Long.parseLong(mmsInfo[5]);
+					contactName = mmsInfo[6];
+					photoID = Long.parseLong(mmsInfo[7]);
+				}
+	    		_notificationViewFlipper.addNotification(new Notification(_context, messageAddress, messageBody, messageID, threadID, timeStamp, contactID, contactName, photoID, NOTIFICATION_TYPE_SMS));
+			}
+	    }
+	}
 	
-	//TODO - ADD IN FUNCTION: getAllUnreadMMSMessages
-//	private void getAllUnreadMMSMessages(long messageIDFilter ){
-//		
-//		
-//	}
+	/**
+	 * Get all unread Messages and load them.
+	 * 
+	 * @param messageIDFilter - Long value of the currently incoming SMS message.
+	 * @param messagebodyFilter - String value of the currently incoming SMS message.
+	 */
+	private ArrayList<String> getAllUnreadMMSMessages(){
+		if (_debug) Log.v("NotificationActivity.getAllUnreadMMSMessages()");
+		Context context = getApplicationContext();
+		ArrayList<String> mmsArray = new ArrayList<String>();
+		final String[] projection = new String[] {"_id", "thread_id", "date"};
+		final String selection = "read = 0";
+		final String[] selectionArgs = null;
+		final String sortOrder = "date DESC";
+		Cursor cursor = null;
+		boolean isFirst = true;
+        try{
+		    cursor = context.getContentResolver().query(
+		    		Uri.parse("content://mms/inbox"),
+		    		projection,
+		    		selection,
+					selectionArgs,
+					sortOrder);
+	    	while (cursor.moveToNext()) {
+	    		//Do not grab the first unread MMS message.
+	    		if(!isFirst){
+		    		String messageID = cursor.getString(cursor.getColumnIndex("_id"));
+		    		String threadID = cursor.getString(cursor.getColumnIndex("thread_id"));
+			    	String timeStamp = cursor.getString(cursor.getColumnIndex("date"));
+			    	String sentFromAddress = Common.getMMSAddress(context, messageID);
+		            if(sentFromAddress.contains("@")){
+		            	sentFromAddress = Common.removeEmailFormatting(sentFromAddress);
+		            }
+			    	String messageBody = Common.getMMSText(context, messageID);
+			    	String[] mmsContactInfo = null;
+			    	if(sentFromAddress.contains("@")){
+			    		mmsContactInfo = Common.loadContactsInfoByEmail(context, sentFromAddress);
+			    	}else{
+			    		mmsContactInfo = Common.loadContactsInfoByPhoneNumber(context, sentFromAddress);
+			    	}
+					if(mmsContactInfo == null){
+						mmsArray.add(sentFromAddress + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + threadID + "|" + timeStamp);
+					}else{
+						mmsArray.add(sentFromAddress + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + threadID + "|" + timeStamp + "|" + mmsContactInfo[0] + "|" + mmsContactInfo[1] + "|" + mmsContactInfo[2]);
+					}
+		    	}
+				isFirst = false;
+	    	}
+		}catch(Exception ex){
+			if (_debug) Log.e("MMSReceiverService.getMMSMessages() ERROR: " + ex.toString());
+		} finally {
+    		cursor.close();
+    	}
+		return mmsArray;
+	}
 	
 	/**
 	 * Setup the missed calls notifications.

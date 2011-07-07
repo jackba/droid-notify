@@ -1,5 +1,9 @@
 package apps.droidnotify.common;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
 import android.content.Context;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
@@ -206,7 +210,7 @@ public class Common {
 	 */
 	public static String removeEmailFormatting(String address){
 		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.removeEmailFormatting()");
+		if (_debug) Log.v("Common.removeEmailFormatting() Email Address: " + address);
 		if(address.contains("<") && address.contains(">")){
 			address = address.substring(address.indexOf("<") + 1,address.indexOf(">"));
 		}
@@ -216,6 +220,7 @@ public class Common {
 		if(address.contains("[") && address.contains("]")){
 			address = address.substring(address.indexOf("[") + 1,address.indexOf("]"));
 		}
+		if (_debug) Log.v("Common.removeEmailFormatting() Formatted Email Address: " + address);
 		return address.toLowerCase().trim();
 	}
 	
@@ -320,6 +325,90 @@ public class Common {
 			return 0;
 		}
 	}
+
+	/**
+	 * Gets the address of the MMS message.
+	 * 
+	 * @param messageID - The MMS message ID.
+	 * 
+	 * @return String - The phone or email address of the MMS message.
+	 */
+	public static String getMMSAddress(Context context, String messageID) {
+		if (_debug) Log.v("MMSReceiverService.getMMSAddress()");
+		final String[] projection = new String[] {"address"};
+		final String selection = "msg_id = " + messageID;
+		final String[] selectionArgs = null;
+		final String sortOrder = null;
+		String messageAddress = null;
+		Cursor cursor = null;
+        try{
+		    cursor = context.getContentResolver().query(
+		    		Uri.parse("content://mms/" + messageID + "/addr"),
+		    		projection,
+		    		selection,
+					selectionArgs,
+					sortOrder);
+		    while(cursor.moveToNext()){
+		    	messageAddress = cursor.getString(cursor.getColumnIndex("address"));
+	            break;
+	        }
+		}catch(Exception ex){
+			if (_debug) Log.e("MMSReceiverService.getMMSAddress() ERROR: " + ex.toString());
+		} finally {
+    		cursor.close();
+    	}	   
+	    return messageAddress;
+	}
+	
+	/**
+	 * Read the message text of the MMS message.
+	 * 
+	 * @param messageID - The MMS message ID.
+	 * 
+	 * @return String - The message text of the MMS message.
+	 */
+	public static String getMMSText(Context context, String messageID) {
+		if (_debug) Log.v("MMSReceiverService.getMMSText()");
+		final String[] projection = new String[] {"_id", "ct", "_data", "text"};
+		final String selection = "mid = " + messageID;
+		final String[] selectionArgs = null;
+		final String sortOrder = null;
+		StringBuilder messageText = new StringBuilder();
+		Cursor cursor = null;
+        try{
+		    cursor = context.getContentResolver().query(
+		    		Uri.parse("content://mms/part"),
+		    		projection,
+		    		selection,
+					selectionArgs,
+					sortOrder);
+		    while(cursor.moveToNext()){
+		        String partId = cursor.getString(cursor.getColumnIndex("_id"));
+		        String contentType = cursor.getString(cursor.getColumnIndex("ct"));
+		        String text = cursor.getString(cursor.getColumnIndex("text"));
+		        if(text != null){
+	            	if(!messageText.toString().equals("")){
+	            		messageText.append(" ");
+	            	}
+			        messageText.append(text);
+		        }
+		        if (contentType.equals("text/plain")) {
+		            String data = cursor.getString(cursor.getColumnIndex("_data"));
+		            if (data != null) {
+		            	if(!messageText.toString().equals("")){
+		            		messageText.append(" ");
+		            	}
+		            	messageText.append(getMMSTextFromPart(context, partId));
+		            }
+		        }
+	        }
+		}catch(Exception ex){
+			if (_debug) Log.e("MMSReceiverService.getMMSText ERROR: " + ex.toString());
+		} finally {
+    		cursor.close();
+    	}	   
+	    return messageText.toString();  
+	}
 	
 //	/**
 //	 * Get the service center to use for a reply.
@@ -368,5 +457,43 @@ public class Common {
 //		}	    
 //		return null;
 //	}
+
+	//================================================================================
+	// Private Methods
+	//================================================================================
+	
+	/**
+	 * Read the message text of the MMS message.
+	 * 
+	 * @param messageID - The MMS message ID.
+	 * 
+	 * @return String - The message text of the MMS message.
+	 */
+	private static String getMMSTextFromPart(Context context, String messageID) {
+		if (_debug) Log.v("MMSReceiverService.getMMSTextFromPart()");
+	    InputStream inputStream = null;
+	    StringBuilder messageText = new StringBuilder();
+	    try {
+	    	inputStream = context.getContentResolver().openInputStream(Uri.parse("content://mms/part/" + messageID));
+	        if (inputStream != null) {
+	            InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
+	            BufferedReader reader = new BufferedReader(inputStreamReader);
+	            String temp = reader.readLine();
+	            while (temp != null) {
+	            	messageText.append(temp);
+	                temp = reader.readLine();
+	            }
+	        }
+	    } catch (Exception ex) {
+	    	if (_debug) Log.e("MMSReceiverService.getMMSTextFromPart() ERROR: " + ex.toString());
+	    }finally {
+	    	try{
+	    		inputStream.close();
+	    	}catch(Exception ex){
+	    		if (_debug) Log.e("MMSReceiverService.getMMSTextFromPart() ERROR: " + ex.toString());
+	    	}
+	    }
+	    return messageText.toString();
+	}
 	
 }
