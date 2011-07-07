@@ -3,7 +3,6 @@ package apps.droidnotify.preferences;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -21,6 +20,7 @@ import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.SystemClock;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
@@ -294,11 +294,16 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			    	intent.putExtra("body", "What went wrong? What is the reason for emailing the log files: ");
 			    	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
 			    			| Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-			    	File logFileV = new File("sdcard/Droid Notify/Logs/V/DroidNotifyLog.txt");
-			    	File logFileD = new File("sdcard/Droid Notify/Logs/D/DroidNotifyLog.txt");
-			    	File logFileI = new File("sdcard/Droid Notify/Logs/I/DroidNotifyLog.txt");
-			    	File logFileW = new File("sdcard/Droid Notify/Logs/W/DroidNotifyLog.txt");
-			    	File logFileE = new File("sdcard/Droid Notify/Logs/E/DroidNotifyLog.txt");
+					File logFilePathV = Environment.getExternalStoragePublicDirectory("Droid Notify/Logs/V");
+					File logFileV = new File(logFilePathV, "DroidNotifyLog.txt");
+					File logFilePathD = Environment.getExternalStoragePublicDirectory("Droid Notify/Logs/D");
+					File logFileD = new File(logFilePathD, "DroidNotifyLog.txt");
+					File logFilePathI = Environment.getExternalStoragePublicDirectory("Droid Notify/Logs/I");
+					File logFileI = new File(logFilePathI, "DroidNotifyLog.txt");
+					File logFilePathW = Environment.getExternalStoragePublicDirectory("Droid Notify/Logs/W");
+					File logFileW = new File(logFilePathW, "DroidNotifyLog.txt");
+					File logFilePathE = Environment.getExternalStoragePublicDirectory("Droid Notify/Logs/E");
+					File logFileE = new File(logFilePathE, "DroidNotifyLog.txt");
 			    	if(logFileV.exists()) intent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///mnt/sdcard/Droid Notify/Logs/V/DroidNotifyLog.txt"));
 			    	if(logFileD.exists()) intent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///mnt/sdcard/Droid Notify/Logs/D/DroidNotifyLog.txt"));
 			    	if(logFileI.exists()) intent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///mnt/sdcard/Droid Notify/Logs/I/DroidNotifyLog.txt"));
@@ -432,45 +437,62 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	 */
 	private void clearDeveloperLogs(){
 		if (_debug) Log.v("MainPreferenceActivity.clearDeveloperLogs()");
+		String state = Environment.getExternalStorageState();
+		if (Environment.MEDIA_MOUNTED.equals(state)) {
+		    //We can read and write the media. Do nothing.
+		} else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+		    // We can only read the media.
+			if (_debug) Log.e("MainPreferenceActivity.clearDeveloperLogs() External Storage Read Only State");
+		    return;
+		} else {
+		    // Something else is wrong. It may be one of many other states, but all we need to know is we can neither read nor write
+			if (_debug) Log.e("MainPreferenceActivity.clearDeveloperLogs() External Storage Can't Write Or Read State");
+		    return;
+		}
 		try{
-			File logFileV = new File("sdcard/Droid Notify/Logs/V/DroidNotifyLog.txt");
-	    	File logFileD = new File("sdcard/Droid Notify/Logs/D/DroidNotifyLog.txt");
-	    	File logFileI = new File("sdcard/Droid Notify/Logs/I/DroidNotifyLog.txt");
-	    	File logFileW = new File("sdcard/Droid Notify/Logs/W/DroidNotifyLog.txt");
-	    	File logFileE = new File("sdcard/Droid Notify/Logs/E/DroidNotifyLog.txt");
+			File logFilePathV = Environment.getExternalStoragePublicDirectory("Droid Notify/Logs/V");
+			File logFileV = new File(logFilePathV, "DroidNotifyLog.txt");
+			File logFilePathD = Environment.getExternalStoragePublicDirectory("Droid Notify/Logs/D");
+			File logFileD = new File(logFilePathD, "DroidNotifyLog.txt");
+			File logFilePathI = Environment.getExternalStoragePublicDirectory("Droid Notify/Logs/I");
+			File logFileI = new File(logFilePathI, "DroidNotifyLog.txt");
+			File logFilePathW = Environment.getExternalStoragePublicDirectory("Droid Notify/Logs/W");
+			File logFileW = new File(logFilePathW, "DroidNotifyLog.txt");
+			File logFilePathE = Environment.getExternalStoragePublicDirectory("Droid Notify/Logs/E");
+			File logFileE = new File(logFilePathE, "DroidNotifyLog.txt");
 	    	if(logFileV.exists()){
 	    		try{
-	    			new FileOutputStream("sdcard/Droid Notify/Logs/V/DroidNotifyLog.txt").close();
+	    			logFileV.delete();
 	    		}catch (Exception ex){
-	    			if (_debug) Log.e("MainPreferenceActivity.clearDeveloperLogs() sdcard/Droid Notify/Logs/V/DroidNotifyLog.txt ERROR: " + ex.toString());
+	    			if (_debug) Log.e("MainPreferenceActivity.clearDeveloperLogs() LogFileV ERROR: " + ex.toString());
 				}
 	    	}
 	    	if(logFileD.exists()){
 	    		try{
-	    			new FileOutputStream("sdcard/Droid Notify/Logs/D/DroidNotifyLog.txt").close();
+	    			logFileD.delete();
 	    		}catch (Exception ex){
-	    			if (_debug) Log.e("MainPreferenceActivity.clearDeveloperLogs() sdcard/Droid Notify/Logs/D/DroidNotifyLog.txt ERROR: " + ex.toString());
+	    			if (_debug) Log.e("MainPreferenceActivity.clearDeveloperLogs() LogFileD ERROR: " + ex.toString());
 				}
 	    	}
 	    	if(logFileI.exists()){
 	    		try{
-	    			new FileOutputStream("sdcard/Droid Notify/Logs/I/DroidNotifyLog.txt").close();
+	    			logFileI.delete();
 	    		}catch (Exception ex){
-	    			if (_debug) Log.e("MainPreferenceActivity.clearDeveloperLogs() sdcard/Droid Notify/Logs/I/DroidNotifyLog.txt ERROR: " + ex.toString());
+	    			if (_debug) Log.e("MainPreferenceActivity.clearDeveloperLogs() LogFileI ERROR: " + ex.toString());
 				}
 	    	}
 	    	if(logFileW.exists()){
 	    		try{
-	    			new FileOutputStream("sdcard/Droid Notify/Logs/W/DroidNotifyLog.txt").close();
+	    			logFileW.delete();
 	    		}catch (Exception ex){
-	    			if (_debug) Log.e("MainPreferenceActivity.clearDeveloperLogs() sdcard/Droid Notify/Logs/W/DroidNotifyLog.txt ERROR: " + ex.toString());
+	    			if (_debug) Log.e("MainPreferenceActivity.clearDeveloperLogs() LogFileW ERROR: " + ex.toString());
 				}
 	    	}
 	    	if(logFileE.exists()){
 	    		try{
-	    			new FileOutputStream("sdcard/Droid Notify/Logs/E/DroidNotifyLog.txt").close();
+	    			logFileE.delete();
 	    		}catch (Exception ex){
-	    			if (_debug) Log.e("MainPreferenceActivity.clearDeveloperLogs() sdcard/Droid Notify/Logs/E/DroidNotifyLog.txt ERROR: " + ex.toString());
+	    			if (_debug) Log.e("MainPreferenceActivity.clearDeveloperLogs() LogFileE ERROR: " + ex.toString());
 				}
 	    	}
     	}catch (Exception ex){
@@ -525,141 +547,152 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	 */
 	private boolean exportApplicationPreferences(){
 		if (_debug) Log.v("MainPreferenceActivity.exportApplicationPreferences()");
-		File preferenceFile = new File("sdcard/Droid Notify/Preferences/DroidNotifyPreferences.txt");
-		File directoryStructure = new File("sdcard/Droid Notify/Preferences");
-    	if (!preferenceFile.exists()){
-			try{
-				directoryStructure.mkdirs();
-				preferenceFile.createNewFile();
-			}catch (Exception ex){
-				if (_debug) Log.e("MainPreferenceActivity.exportApplicationPreferences() Create File ERROR: " + ex.toString());
-				return false;
-			}
+		//Check state of external storage.
+		String state = Environment.getExternalStorageState();
+		if (Environment.MEDIA_MOUNTED.equals(state)) {
+		    //We can read and write the media. Do nothing.
+		} else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+		    // We can only read the media.
+			if (_debug) Log.e("MainPreferenceActivity.exportApplicationPreferences() External Storage Read Only State");
+		    return false;
+		} else {
+		    // Something else is wrong. It may be one of many other states, but all we need to know is we can neither read nor write
+			if (_debug) Log.e("MainPreferenceActivity.exportApplicationPreferences() External Storage Can't Write Or Read State");
+		    return false;
 		}
+    	File preferencesFilePath = Environment.getExternalStoragePublicDirectory("Droid Notify/Preferences/");
+    	File preferencesFile = new File(preferencesFilePath, "DroidNotifyPreferences.txt");
     	try{
-			BufferedWriter buf = new BufferedWriter(new FileWriter(preferenceFile, true)); 
+    		preferencesFilePath.mkdir();
+    		//Delete previous file if it exists.
+    		if(preferencesFile.exists()){
+    			preferencesFile.delete();   			
+    		}
+    		preferencesFile.createNewFile();
+    		
+			BufferedWriter buf = new BufferedWriter(new FileWriter(preferencesFile, true)); 
 			
 			//Write each preference to the text file.
 			
 			//General Settings
-			buf.append("app_enabled|" + _preferences.getBoolean("app_enabled", true));
+			buf.append("app_enabled|" + _preferences.getBoolean("app_enabled", true) + "|boolean");
 			buf.newLine();
-			buf.append("haptic_feedback_enabled|" + _preferences.getBoolean("haptic_feedback_enabled", true));
+			buf.append("haptic_feedback_enabled|" + _preferences.getBoolean("haptic_feedback_enabled", true) + "|boolean");
 			buf.newLine();
-			buf.append("app_vibrations_enabled|" + _preferences.getBoolean("app_vibrations_enabled", true));
+			buf.append("app_vibrations_enabled|" + _preferences.getBoolean("app_vibrations_enabled", true) + "|boolean");
 			buf.newLine();
-			buf.append("app_ringtones_enabled|" + _preferences.getBoolean("app_ringtones_enabled", false));
+			buf.append("app_ringtones_enabled|" + _preferences.getBoolean("app_ringtones_enabled", false) + "|boolean");
 			buf.newLine();
 
 			//Notification Settings
-			buf.append("sms_notifications_enabled|" + _preferences.getBoolean("sms_notifications_enabled", true));
+			buf.append("sms_notifications_enabled|" + _preferences.getBoolean("sms_notifications_enabled", true) + "|boolean");
 			buf.newLine();
-			buf.append("sms_display_unread_enabled|" + _preferences.getBoolean("sms_display_unread_enabled", false));
+			buf.append("sms_display_unread_enabled|" + _preferences.getBoolean("sms_display_unread_enabled", false) + "|boolean");
 			buf.newLine();
-			buf.append("confirm_sms_deletion_enabled|" + _preferences.getBoolean("confirm_sms_deletion_enabled", true));
+			buf.append("confirm_sms_deletion_enabled|" + _preferences.getBoolean("confirm_sms_deletion_enabled", true) + "|boolean");
 			buf.newLine();
-			buf.append("sms_dismiss_button_action|" + _preferences.getString("sms_dismiss_button_action", "0"));
+			buf.append("sms_dismiss_button_action|" + _preferences.getString("sms_dismiss_button_action", "0") + "|string");
 			buf.newLine();
-			buf.append("sms_delete_button_action|" + _preferences.getString("sms_delete_button_action", "0"));
+			buf.append("sms_delete_button_action|" + _preferences.getString("sms_delete_button_action", "0") + "|string");
 			buf.newLine();
-			buf.append("sms_reply_button_action|" + _preferences.getString("sms_reply_button_action", "0"));
+			buf.append("sms_reply_button_action|" + _preferences.getString("sms_reply_button_action", "0") + "|string");
 			buf.newLine();
-			buf.append("sms_vibrate_enabled|" + _preferences.getBoolean("sms_vibrate_enabled", true));
+			buf.append("sms_vibrate_enabled|" + _preferences.getBoolean("sms_vibrate_enabled", true) + "|boolean");
 			buf.newLine();
-			buf.append("sms_ringtone_enabled|" + _preferences.getBoolean("sms_ringtone_enabled", true));
+			buf.append("sms_ringtone_enabled|" + _preferences.getBoolean("sms_ringtone_enabled", true) + "|boolean");
 			buf.newLine();
-			buf.append("sms_ringtone_audio|" + _preferences.getString("sms_ringtone_audio", "DEFAULT_SOUND"));
-			buf.newLine();
-			
-			buf.append("mms_notifications_enabled|" + _preferences.getBoolean("mms_notifications_enabled", true));
-			buf.newLine();
-			buf.append("mms_display_unread_enabled|" + _preferences.getBoolean("mms_display_unread_enabled", false));
-			buf.newLine();
-			buf.append("confirm_mms_deletion_enabled|" + _preferences.getBoolean("confirm_mms_deletion_enabled", true));
-			buf.newLine();
-			buf.append("mms_dismiss_button_action|" + _preferences.getString("mms_dismiss_button_action", "0"));
-			buf.newLine();
-			buf.append("mms_delete_button_action|" + _preferences.getString("mms_delete_button_action", "0"));
-			buf.newLine();
-			buf.append("mms_reply_button_action|" + _preferences.getString("mms_reply_button_action", "0"));
-			buf.newLine();
-			buf.append("mms_vibrate_enabled|" + _preferences.getBoolean("mms_vibrate_enabled", true));
-			buf.newLine();
-			buf.append("mms_ringtone_enabled|" + _preferences.getBoolean("mms_ringtone_enabled", true));
-			buf.newLine();
-			buf.append("mms_ringtone_audio|" + _preferences.getString("mms_ringtone_audio", "DEFAULT_SOUND"));
+			buf.append("sms_ringtone_audio|" + _preferences.getString("sms_ringtone_audio", "DEFAULT_SOUND") + "|string");
 			buf.newLine();
 			
-			buf.append("missed_call_notifications_enabled|" + _preferences.getBoolean("missed_call_notifications_enabled", true));
+			buf.append("mms_notifications_enabled|" + _preferences.getBoolean("mms_notifications_enabled", true) + "|boolean");
 			buf.newLine();
-			buf.append("missed_call_dismiss_button_action|" + _preferences.getString("missed_call_dismiss_button_action", "0"));
+			buf.append("mms_display_unread_enabled|" + _preferences.getBoolean("mms_display_unread_enabled", false) + "|boolean");
 			buf.newLine();
-			buf.append("missed_call_vibrate_enabled|" + _preferences.getBoolean("missed_call_vibrate_enabled", true));
+			buf.append("confirm_mms_deletion_enabled|" + _preferences.getBoolean("confirm_mms_deletion_enabled", true) + "|boolean");
 			buf.newLine();
-			buf.append("missed_call_ringtone_enabled|" + _preferences.getBoolean("missed_call_ringtone_enabled", true));
+			buf.append("mms_dismiss_button_action|" + _preferences.getString("mms_dismiss_button_action", "0") + "|string");
 			buf.newLine();
-			buf.append("missed_call_ringtone_audio|" + _preferences.getString("missed_call_ringtone_audio", "DEFAULT_SOUND"));
+			buf.append("mms_delete_button_action|" + _preferences.getString("mms_delete_button_action", "0") + "|string");
+			buf.newLine();
+			buf.append("mms_reply_button_action|" + _preferences.getString("mms_reply_button_action", "0") + "|string");
+			buf.newLine();
+			buf.append("mms_vibrate_enabled|" + _preferences.getBoolean("mms_vibrate_enabled", true) + "|boolean");
+			buf.newLine();
+			buf.append("mms_ringtone_enabled|" + _preferences.getBoolean("mms_ringtone_enabled", true) + "|boolean");
+			buf.newLine();
+			buf.append("mms_ringtone_audio|" + _preferences.getString("mms_ringtone_audio", "DEFAULT_SOUND") + "|string");
 			buf.newLine();
 			
-			buf.append("calendar_notifications_enabled|" + _preferences.getBoolean("calendar_notifications_enabled", true));
+			buf.append("missed_call_notifications_enabled|" + _preferences.getBoolean("missed_call_notifications_enabled", true) + "|boolean");
 			buf.newLine();
-			buf.append("calendar_selection|" + _preferences.getString("calendar_selection", "0"));
+			buf.append("missed_call_dismiss_button_action|" + _preferences.getString("missed_call_dismiss_button_action", "0") + "|string");
 			buf.newLine();
-			buf.append("calendar_labels_enabled|" + _preferences.getBoolean("calendar_labels_enabled", true));
+			buf.append("missed_call_vibrate_enabled|" + _preferences.getBoolean("missed_call_vibrate_enabled", true) + "|boolean");
 			buf.newLine();
-			buf.append("calendar_dismiss_button_action|" + _preferences.getString("calendar_dismiss_button_action", "0"));
+			buf.append("missed_call_ringtone_enabled|" + _preferences.getBoolean("missed_call_ringtone_enabled", true) + "|boolean");
 			buf.newLine();
-			buf.append("calendar_reminder_settings|" + _preferences.getString("calendar_reminder_settings", "15"));
+			buf.append("missed_call_ringtone_audio|" + _preferences.getString("missed_call_ringtone_audio", "DEFAULT_SOUND") + "|string");
 			buf.newLine();
-			buf.append("calendar_reminder_all_day_settings|" + _preferences.getString("calendar_reminder_all_day_settings", "6"));
+			
+			buf.append("calendar_notifications_enabled|" + _preferences.getBoolean("calendar_notifications_enabled", true) + "|boolean");
 			buf.newLine();
-			buf.append("calendar_vibrate_enabled|" + _preferences.getBoolean("calendar_vibrate_enabled", true));
+			buf.append("calendar_selection|" + _preferences.getString("calendar_selection", "0") + "|string");
 			buf.newLine();
-			buf.append("calendar_ringtone_enabled|" + _preferences.getBoolean("calendar_ringtone_enabled", true));
+			buf.append("calendar_labels_enabled|" + _preferences.getBoolean("calendar_labels_enabled", true) + "|boolean");
 			buf.newLine();
-			buf.append("calendar_ringtone_audio|" + _preferences.getString("calendar_ringtone_audio", "DEFAULT_SOUND"));
+			buf.append("calendar_dismiss_button_action|" + _preferences.getString("calendar_dismiss_button_action", "0") + "|string");
+			buf.newLine();
+			buf.append("calendar_reminder_settings|" + _preferences.getString("calendar_reminder_settings", "15") + "|string");
+			buf.newLine();
+			buf.append("calendar_reminder_all_day_settings|" + _preferences.getString("calendar_reminder_all_day_settings", "6") + "|string");
+			buf.newLine();
+			buf.append("calendar_vibrate_enabled|" + _preferences.getBoolean("calendar_vibrate_enabled", true) + "|boolean");
+			buf.newLine();
+			buf.append("calendar_ringtone_enabled|" + _preferences.getBoolean("calendar_ringtone_enabled", true) + "|boolean");
+			buf.newLine();
+			buf.append("calendar_ringtone_audio|" + _preferences.getString("calendar_ringtone_audio", "DEFAULT_SOUND") + "|string");
 			buf.newLine();
 
 			//Screen Settings
-			buf.append("screen_enabled|" + _preferences.getBoolean("screen_enabled", true));
+			buf.append("screen_enabled|" + _preferences.getBoolean("screen_enabled", true) + "|boolean");
 			buf.newLine();
-			buf.append("screen_dim_enabled|" + _preferences.getBoolean("screen_dim_enabled", true));
+			buf.append("screen_dim_enabled|" + _preferences.getBoolean("screen_dim_enabled", true) + "|boolean");
 			buf.newLine();
-			buf.append("keyguard_enabled|" + _preferences.getBoolean("keyguard_enabled", true));
+			buf.append("keyguard_enabled|" + _preferences.getBoolean("keyguard_enabled", true) + "|boolean");
 			buf.newLine();
-			buf.append("blur_screen_enabled|" + _preferences.getBoolean("blur_screen_enabled", false));
+			buf.append("blur_screen_background_enabled|" + _preferences.getBoolean("blur_screen_enabled", false) + "|boolean");
 			buf.newLine();
-			buf.append("dim_screen_enabled|" + _preferences.getBoolean("dim_screen_enabled", false));
+			buf.append("dim_screen_background_enabled|" + _preferences.getBoolean("dim_screen_enabled", false) + "|boolean");
 			buf.newLine();
-			buf.append("dim_screen_amount_settings|" + _preferences.getString("dim_screen_amount_settings", "50"));
+			buf.append("dim_screen_background_amount_settings|" + _preferences.getString("dim_screen_amount_settings", "50") + "|string");
 			buf.newLine();
 
 			//Misc Settings
-			buf.append("app_theme|" + _preferences.getString("app_theme", "android"));
+			buf.append("app_theme|" + _preferences.getString("app_theme", "android") + "|string");
 			buf.newLine();
-			buf.append("phone_number_format_settings|" + _preferences.getString("phone_number_format_settings", "1"));
+			buf.append("phone_number_format_settings|" + _preferences.getString("phone_number_format_settings", "1") + "|string");
 			buf.newLine();
-			buf.append("contact_placeholder|" + _preferences.getString("contact_placeholder", "0"));
+			buf.append("contact_placeholder|" + _preferences.getString("contact_placeholder", "0") + "|string");
 			buf.newLine();
-			buf.append("landscape_screen_enabled|" + _preferences.getBoolean("landscape_screen_enabled", false));
+			buf.append("landscape_screen_enabled|" + _preferences.getBoolean("landscape_screen_enabled", false) + "|boolean");
 			buf.newLine();
-			buf.append("button_icons_enabled|" + _preferences.getBoolean("button_icons_enabled", true));
+			buf.append("button_icons_enabled|" + _preferences.getBoolean("button_icons_enabled", true) + "|boolean");
 			buf.newLine();			
 
 			//Advanced Settings
-			buf.append("reschedule_notification_timeout_settings|" + _preferences.getString("reschedule_notification_timeout_settings", "5"));
+			buf.append("reschedule_notification_timeout_settings|" + _preferences.getString("reschedule_notification_timeout_settings", "5") + "|string");
 			buf.newLine();
-			buf.append("wakelock_timeout_settings|" + _preferences.getString("wakelock_timeout_settings", "300"));
+			buf.append("wakelock_timeout_settings|" + _preferences.getString("wakelock_timeout_settings", "300") + "|string");
 			buf.newLine();
-			buf.append("keyguard_timeout_settings|" + _preferences.getString("keyguard_timeout_settings", "300"));
+			buf.append("keyguard_timeout_settings|" + _preferences.getString("keyguard_timeout_settings", "300") + "|string");
 			buf.newLine();
-			buf.append("quick_reply_sms_gateway_settings|" + _preferences.getString("quick_reply_sms_gateway_settings", "1"));
+			buf.append("quick_reply_sms_gateway_settings|" + _preferences.getString("quick_reply_sms_gateway_settings", "1") + "|string");
 			buf.newLine();
-			buf.append("mms_timeout_settings|" + _preferences.getString("mms_timeout_settings", "40"));
+			buf.append("mms_timeout_settings|" + _preferences.getString("mms_timeout_settings", "40") + "|string");
 			buf.newLine();
-			buf.append("call_log_timeout_settings|" + _preferences.getString("call_log_timeout_settings", "5"));
+			buf.append("call_log_timeout_settings|" + _preferences.getString("call_log_timeout_settings", "5") + "|string");
 			buf.newLine();
-			buf.append("ringtone_length_settings|" + _preferences.getString("ringtone_length_settings", "3"));
+			buf.append("ringtone_length_settings|" + _preferences.getString("ringtone_length_settings", "3") + "|string");
 			buf.newLine();
 			
 			buf.close();
@@ -717,21 +750,39 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	 */
 	private boolean importApplicationPreferences(){
 		if (_debug) Log.v("MainPreferenceActivity.importApplicationPreferences()");
-		File preferenceFile = new File("sdcard/Droid Notify/Preferences/DroidNotifyPreferences.txt");
-    	if (!preferenceFile.exists()){
+		//Check state of external storage.
+		String state = Environment.getExternalStorageState();
+		if (Environment.MEDIA_MOUNTED.equals(state)) {
+		    //We can read and write the media. Do nothing.
+		} else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+		    // We can only read the media. Do nothing.
+		} else {
+		    // Something else is wrong. It may be one of many other states, but all we need to know is we can neither read nor write
+			if (_debug) Log.e("MainPreferenceActivity.importApplicationPreferences() External Storage Can't Write Or Read State");
+		    return false;
+		}
+    	File preferencesFilePath = Environment.getExternalStoragePublicDirectory("Droid Notify/Preferences/");
+    	File preferencesFile = new File(preferencesFilePath, "DroidNotifyPreferences.txt");
+    	if (!preferencesFile.exists()){
     		if (_debug) Log.v("MainPreferenceActivity.importApplicationPreferences() Preference file does not exist.");
 			return false;
 		}
     	try {
     		SharedPreferences.Editor editor = _preferences.edit();
-    	    BufferedReader br = new BufferedReader(new FileReader(preferenceFile));
+    	    BufferedReader br = new BufferedReader(new FileReader(preferencesFile));
     	    String line;
     	    while ((line = br.readLine()) != null) {
     	    	String[] preferenceInfo = line.split("\\|");
-    	        if(preferenceInfo[1].toLowerCase().equals("true") || preferenceInfo[1].toLowerCase().equals("false")){
+    	        if(preferenceInfo[2].toLowerCase().equals("boolean")){
     	        	editor.putBoolean(preferenceInfo[0], Boolean.parseBoolean(preferenceInfo[1])); 
-	    	    }else{
+	    	    }else if(preferenceInfo[2].toLowerCase().equals("string")){
 	    	    	editor.putString(preferenceInfo[0], preferenceInfo[1]); 
+	    	    }else if(preferenceInfo[2].toLowerCase().equals("int")){
+	    	    	editor.putInt(preferenceInfo[0], Integer.parseInt(preferenceInfo[1])); 
+	    	    }else if(preferenceInfo[2].toLowerCase().equals("long")){
+	    	    	editor.putLong(preferenceInfo[0], Long.parseLong(preferenceInfo[1])); 
+	    	    }else if(preferenceInfo[2].toLowerCase().equals("float")){
+	    	    	editor.putFloat(preferenceInfo[0], Float.parseFloat(preferenceInfo[1])); 
 	    	    }
     	    }
     		editor.commit();
