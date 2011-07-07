@@ -71,11 +71,7 @@ public class QuickReplyActivity extends Activity {
 	private String _phoneNumber = null;
 	private String _name = null;
 	private SharedPreferences _preferences = null;
-	
-	//================================================================================
-	// Constructors
-	//================================================================================
-	
+
 	//================================================================================
 	// Public Methods
 	//================================================================================

@@ -27,11 +27,7 @@ public class OnBootReceiver extends BroadcastReceiver {
     //================================================================================
 
 	private boolean _debug = false;
-	
-	//================================================================================
-	// Constructors
-	//================================================================================
-	  
+
 	//================================================================================
 	// Public Methods
 	//================================================================================
@@ -64,9 +60,5 @@ public class OnBootReceiver extends BroadcastReceiver {
 		// Set alarm to go off 5 minutes from the current time.
 		alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (5 * 60 * 1000), AlarmManager.INTERVAL_DAY, pendingIntent);
 	}
-	  
-	//================================================================================
-	// Private Methods
-	//================================================================================
-	
+
 }

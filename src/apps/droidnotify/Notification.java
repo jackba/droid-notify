@@ -16,6 +16,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
+import apps.droidnotify.common.Common;
 
 /**
  * This is the Notification class that holds all the information about all notifications we will display to the user.
@@ -113,7 +114,7 @@ public class Notification {
 			_messageBody = messageBody.replace("\n", "<br/>").trim();
 			_sentFromAddress = sentFromAddress.toLowerCase();
             if(_sentFromAddress.contains("@")){
-            	_sentFromAddress = 	removeEmailFormatting(_sentFromAddress);
+            	_sentFromAddress = 	Common.removeEmailFormatting(_sentFromAddress);
             }
 	        _timeStamp = timeStamp;
 	        _contactID = contactID;
@@ -331,7 +332,7 @@ public class Notification {
 	 */
 	public long getThreadID() {
 		if(_threadID == 0){
-			loadThreadID(_context, _sentFromAddress);
+			_threadID = Common.loadThreadID(_context, _sentFromAddress);
 		}
 		if (_debug) Log.v("Notification.getThreadID() ThreadID: " + _threadID);
 	    return _threadID;
@@ -397,7 +398,7 @@ public class Notification {
 	 */
 	public long getMessageID() {
 		if(_messageID == 0){
-			loadMessageID(_context, getThreadID(), _messageBody, _timeStamp);
+			_messageID = Common.loadMessageID(_context, getThreadID(), _messageBody, _timeStamp);
 		}
 		if (_debug) Log.v("Notification.getMessageID() MessageID: " + _messageID);
   		return _messageID;
@@ -545,102 +546,6 @@ public class Notification {
 	//================================================================================
 	// Private Methods
 	//================================================================================
-	
-	/**
-	 * Load the SMS/MMS thread id for this notification.
-	 * 
-	 * @param context - Application Context.
-	 * @param phoneNumber - Notifications's phone number.
-	 */
-	private void loadThreadID(Context context, String address){
-		if (_debug) Log.v("Notification.getThreadIdByAddress()");
-		if (address == null){
-			if (_debug) Log.v("Notification.loadThreadID() Phone number provided is null: Exiting...");
-			return;
-		}
-		if (address == ""){
-			if (_debug) Log.v("Notification.loadThreadID() Phone number provided is empty: Exiting...");
-			return;
-		}
-		try{
-			final String[] projection = new String[] { "_id", "thread_id" };
-			final String selection = "address = " + DatabaseUtils.sqlEscapeString(address);
-			final String[] selectionArgs = null;
-			final String sortOrder = null;
-		    long threadID = 0;
-		    Cursor cursor = context.getContentResolver().query(
-		    		Uri.parse("content://sms/inbox"),
-		    		projection,
-		    		selection,
-					selectionArgs,
-					sortOrder);
-		    if (cursor != null) {
-		    	try {
-		    		if (cursor.moveToFirst()) {
-		    			threadID = cursor.getLong(cursor.getColumnIndex("thread_id"));
-		    			if (_debug) Log.v("Notification.loadThreadID() Thread ID Found: " + threadID);
-		    		}
-		    	}catch(Exception e){
-			    		if (_debug) Log.e("Notification.loadThreadID() EXCEPTION: " + e.toString());
-		    	} finally {
-		    		cursor.close();
-		    	}
-		    }
-		    _threadID = threadID;
-		}catch(Exception ex){
-			if (_debug) Log.e("Notification.loadThreadID() ERROR: " + ex.toString());
-		}
-	}
-
-	/**
-	 * Load the SMS/MMS message id for this notification.
-	 * 
-	 * @param context - Application Context.
-	 * @param threadId - Notifications's threadID.
-	 * @param timestamp - Notifications's timeStamp.
-	 */
-	public void loadMessageID(Context context, long threadID, String messageBody, long timeStamp) {
-		if (_debug) Log.v("Notification.loadMessageID()");
-		if (messageBody == null){
-			if (_debug) Log.v("Notification.loadMessageID() Message body provided is null: Exiting...");
-			return;
-		} 
-		try{
-			final String[] projection = new String[] { "_id, body"};
-			final String selection;
-			if(threadID == 0){
-				selection = null;
-			}
-			else{
-				selection = "thread_id = " + threadID ;
-			}
-			final String[] selectionArgs = null;
-			final String sortOrder = null;
-			long messageID = 0;
-		    Cursor cursor = context.getContentResolver().query(
-		    		Uri.parse("content://sms/inbox"),
-		    		projection,
-		    		selection,
-					selectionArgs,
-					sortOrder);
-		    try{
-			    while (cursor.moveToNext()) { 
-		    		if(cursor.getString(cursor.getColumnIndex("body")).trim().equals(messageBody)){
-		    			messageID = cursor.getLong(cursor.getColumnIndex("_id"));
-		    			if (_debug) Log.v("Notification.loadMessageID() Message ID Found: " + messageID);
-		    			break;
-		    		}
-			    }
-		    }catch(Exception ex){
-				if (_debug) Log.e("Notification.loadMessageID() ERROR: " + ex.toString());
-			}finally{
-		    	cursor.close();
-		    }
-		    _messageID = messageID;
-		}catch(Exception ex){
-			if (_debug) Log.e("Notification.loadMessageID() ERROR: " + ex.toString());
-		}
-	}
 
 	/**
 	 * Load the various contact info for this notification from a phoneNumber.
@@ -687,7 +592,7 @@ public class Notification {
 						phoneSortOrder); 
 				while (phoneCursor.moveToNext()) { 
 					String contactNumber = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-					if(removeFormatting(incomingNumber).equals(removeFormatting(contactNumber))){
+					if(Common.removeFormatting(incomingNumber).equals(Common.removeFormatting(contactNumber))){
 						_contactID = Long.parseLong(contactID);
 		    		  	if(contactName != null){
 		    		  		_contactName = contactName;
@@ -764,7 +669,7 @@ public class Notification {
                 	String contactEmail = emailCursor.getString(emailCursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA));
                     //String emailType = emailCursor.getString(emailCursor.getColumnIndex(Phone.TYPE));
                     //if (_debug) Log.v("Notification.loadContactsInfoByEmail() Email Address: " + emailIdOfContact + " Email Type: " + emailType);
-					if(removeEmailFormatting(incomingEmail).equals(removeEmailFormatting(contactEmail))){
+					if(Common.removeEmailFormatting(incomingEmail).equals(Common.removeEmailFormatting(contactEmail))){
 						_contactID = Long.parseLong(contactID);
 		    		  	if(contactName != null){
 		    		  		_contactName = contactName;
@@ -942,95 +847,6 @@ public class Notification {
     		formattedMessage = "<b>" + calendarName + "</b><br/>" + formattedMessage;
     	}
 		return formattedMessage;
-	}
-	
-	/**
-	 * Remove all non-numeric items from the phone number.
-	 * 
-	 * @param phoneNumber - String of original phone number.
-	 * 
-	 * @return String - String of phone number with no formatting.
-	 */
-	private String removeFormatting(String phoneNumber){
-		if (_debug) Log.v("Notification.removeFormatting()");
-		phoneNumber = phoneNumber.replace("-", "");
-		phoneNumber = phoneNumber.replace("+", "");
-		phoneNumber = phoneNumber.replace("(", "");
-		phoneNumber = phoneNumber.replace(")", "");
-		phoneNumber = phoneNumber.replace(" ", "");
-		if(phoneNumber.length() > 10){
-			phoneNumber = phoneNumber.substring(phoneNumber.length() - 10, phoneNumber.length());
-		}	
-		return phoneNumber.trim();
-	}
-	
-	/**
-	 * Remove formatting from email addresses.
-	 * 
-	 * @param address - String of original email address.
-	 * 
-	 * @return String - String of email address with no formatting.
-	 */
-	private String removeEmailFormatting(String address){
-		if (_debug) Log.v("Notification.removeEmailFormatting()");
-		if(address.contains("<") && address.contains(">")){
-			address = address.substring(address.indexOf("<") + 1,address.indexOf(">"));
-		}
-		if(address.contains("(") && address.contains(")")){
-			address = address.substring(address.indexOf("(") + 1,address.indexOf(")"));
-		}
-		if(address.contains("[") && address.contains("]")){
-			address = address.substring(address.indexOf("[") + 1,address.indexOf("]"));
-		}
-		return address.toLowerCase().trim();
-	}
-	
-//	/**
-//	 * Get the service center to use for a reply.
-//	 * 
-//	 * @param context
-//	 * @param threadID
-//	 * 
-//	 * @return String - The service center address of the message.
-//	 */
-//	private String loadServiceCenterAddress(Context context, long threadID) {
-//		if (_debug) Log.v("Notification.loadServiceCenterAddress()");
-//		if (threadID == 0){
-//			if (_debug) Log.v("Notification.loadServiceCenterAddress() Thread ID provided is null: Exiting...");
-//			return null;
-//		} 
-//		try{
-//			final String[] projection = new String[] {"reply_path_present", "service_center"};
-//			final String selection = "thread_id = " + threadID ;
-//			final String[] selectionArgs = null;
-//			final String sortOrder = "date DESC";
-//			String serviceCenterAddress = null;
-//		    Cursor cursor = context.getContentResolver().query(
-//		    		Uri.parse("content://sms"),
-//		    		projection,
-//		    		selection,
-//					selectionArgs,
-//					sortOrder);
-//		    try{		    	
-////		    	for(int i=0; i<cursor.getColumnCount(); i++){
-////		    		if (_debug) Log.v("Notification.loadServiceCenterAddress() Cursor Column: " + cursor.getColumnName(i) + " Column Value: " + cursor.getString(i));
-////		    	}
-//		    	while (cursor.moveToNext()) { 
-//			    	serviceCenterAddress = cursor.getString(cursor.getColumnIndex("service_center"));
-//	    			if(serviceCenterAddress != null){
-//	    				return serviceCenterAddress;
-//	    			}
-//		    	}
-//		    }catch(Exception ex){
-//				if (_debug) Log.e("Notification.loadServiceCenterAddress() ERROR: " + ex.toString());
-//			}finally{
-//		    	cursor.close();
-//		    }
-//		    _serviceCenterAddress = serviceCenterAddress;
-//		}catch(Exception ex){
-//			if (_debug) Log.e("Notification.loadServiceCenterAddress() ERROR: " + ex.toString());
-//		}	    
-//		return null;
-//	}	
+	}	
 	
 }

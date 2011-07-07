@@ -20,10 +20,6 @@ public class Log {
 	private static final boolean _debugCalendar = false;
 	private static final boolean _showAndroidRateAppLink = true;
 	private static final boolean _showAmazonRateAppLink = false;
-	
-	//================================================================================
-	// Constructors
-	//================================================================================
 
 	//================================================================================
 	// Public Methods
