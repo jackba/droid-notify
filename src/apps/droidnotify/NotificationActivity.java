@@ -1800,13 +1800,15 @@ public class NotificationActivity extends Activity {
 					messageBody = mmsInfo[1];
 					messageID = Long.parseLong(mmsInfo[2]);
 					threadID = Long.parseLong(mmsInfo[3]);
-					timeStamp = Long.parseLong(mmsInfo[4]);
+					//The timestamp is in seconds and not milliseconds. You must multiply by 1000. :)
+					timeStamp = Long.parseLong(mmsInfo[4]) * 1000;
 				}else{ 
 					messageAddress = mmsInfo[0];
 					messageBody = mmsInfo[1];
 					messageID = Long.parseLong(mmsInfo[2]);
 					threadID = Long.parseLong(mmsInfo[3]);
-					timeStamp = Long.parseLong(mmsInfo[4]);
+					//The timestamp is in seconds and not milliseconds. You must multiply by 1000. :)
+					timeStamp = Long.parseLong(mmsInfo[4]) * 1000;
 					contactID = Long.parseLong(mmsInfo[5]);
 					contactName = mmsInfo[6];
 					photoID = Long.parseLong(mmsInfo[7]);
