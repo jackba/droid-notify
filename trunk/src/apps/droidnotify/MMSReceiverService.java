@@ -10,7 +10,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
+import apps.droidnotify.common.Common;
 
 /**
  * This class handles the work of processing incoming MMS messages.
@@ -30,11 +30,7 @@ public class MMSReceiverService extends WakefulIntentService {
     //================================================================================
 	
 	boolean _debug = false;
-	
-	//================================================================================
-	// Constructors
-	//================================================================================
-	
+
 	//================================================================================
 	// Public Methods
 	//================================================================================
@@ -114,9 +110,9 @@ public class MMSReceiverService extends WakefulIntentService {
 		    	if (_debug) Log.v("MMSReceiverService.getMMSMessages() messageBody: " + messageBody);
 		    	String[] mmsContactInfo = null;
 		    	if(messageAddress.contains("@")){
-		    		mmsContactInfo = loadContactsInfoByEmail(context, messageAddress);
+		    		mmsContactInfo = Common.loadContactsInfoByEmail(context, messageAddress);
 		    	}else{
-		    		mmsContactInfo = loadContactsInfoByPhoneNumber(context, messageAddress);
+		    		mmsContactInfo = Common.loadContactsInfoByPhoneNumber(context, messageAddress);
 		    	}
 				if(mmsContactInfo == null){
 					mmsArray.add(messageAddress + "|" + messageBody + "|" + messageID + "|" + threadID + "|" + timeStamp);
@@ -249,195 +245,6 @@ public class MMSReceiverService extends WakefulIntentService {
 	    	}
 	    }
 	    return messageText.toString();
-	}
-	
-	/**
-	 * Load the various contact info for this notification from a phoneNumber.
-	 * 
-	 * @param context - Application Context.
-	 * @param phoneNumber - Notifications's phone number.
-	 * 
-	 * @return String[] - String Array of the contact information.
-	 */ 
-	private String[] loadContactsInfoByPhoneNumber(Context context, String incomingNumber){
-		if (_debug) Log.v("MMSReceiverService.loadContactsInfoByPhoneNumber()");
-		long _contactID = 0;
-		String _contactName = "";
-		long _photoID = 0;
-		boolean _contactExists = false;
-		if (incomingNumber == null) {
-			if (_debug) Log.v("MMSReceiverService.loadContactsInfoByPhoneNumber() Phone number provided is null: Exiting...");
-			return null;
-		}
-		//Exit if the phone number is an email address.
-		if (incomingNumber.contains("@")) {
-			if (_debug) Log.v("MMSReceiverService.loadContactsInfoByPhoneNumber() Phone number provided appears to be an email address: Exiting...");
-			return null;
-		}
-		try{
-			final String[] projection = null;
-			final String selection = ContactsContract.Contacts.HAS_PHONE_NUMBER + " = 1";
-			final String[] selectionArgs = null;
-			final String sortOrder = null;
-			Cursor cursor = context.getContentResolver().query(
-					ContactsContract.Contacts.CONTENT_URI,
-					projection, 
-					selection, 
-					selectionArgs, 
-					sortOrder);
-			if (_debug) Log.v("MMSReceiverService.loadContactsInfoByPhoneNumber() Searching Contacts");
-			while (cursor.moveToNext()) { 
-				String contactID = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID)); 
-				String contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-				String photoID = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_ID)); 
-				final String[] phoneProjection = null;
-				final String phoneSelection = ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = " + contactID;
-				final String[] phoneSelectionArgs = null;
-				final String phoneSortOrder = null;
-				Cursor phoneCursor = context.getContentResolver().query(
-						ContactsContract.CommonDataKinds.Phone.CONTENT_URI, 
-						phoneProjection, 
-						phoneSelection, 
-						phoneSelectionArgs, 
-						phoneSortOrder); 
-				while (phoneCursor.moveToNext()) { 
-					String contactNumber = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-					if(removeFormatting(incomingNumber).equals(removeFormatting(contactNumber))){
-						_contactID = Long.parseLong(contactID);
-		    		  	if(contactName != null){
-		    		  		_contactName = contactName;
-		    		  	}
-		    		  	if(photoID != null){
-		    			  	_photoID = Long.parseLong(photoID);
-		    		  	}
-		  		      	_contactExists = true;
-		  		      	break;
-					}
-				}
-				phoneCursor.close(); 
-				if(_contactExists) break;
-		   	}
-			cursor.close();
-			return new String[]{String.valueOf(_contactID), _contactName, String.valueOf(_photoID)};
-		}catch(Exception ex){
-			if (_debug) Log.e("MMSReceiverService.loadContactsInfoByPhoneNumber() ERROR: " + ex.toString());
-			return null;
-		}
-	}
-	
-	/**
-	 * Remove all non-numeric items from the phone number.
-	 * 
-	 * @param phoneNumber - String of original phone number.
-	 * 
-	 * @return String - String of phone number with no formatting.
-	 */
-	private String removeFormatting(String phoneNumber){
-		if (_debug) Log.v("MMSReceiverService.removeFormatting()");
-		phoneNumber = phoneNumber.replace("-", "");
-		phoneNumber = phoneNumber.replace("+", "");
-		phoneNumber = phoneNumber.replace("(", "");
-		phoneNumber = phoneNumber.replace(")", "");
-		phoneNumber = phoneNumber.replace(" ", "");
-		if(phoneNumber.length() > 10){
-			phoneNumber = phoneNumber.substring(phoneNumber.length() - 10, phoneNumber.length());
-		}	
-		return phoneNumber.trim();
-	}
-	
-	/**
-	 * Load the various contact info for this notification from an email.
-	 * 
-	 * @param context - Application Context.
-	 * @param incomingEmail - Notifications's email address.
-	 * 
-	 * @return String[] - String Array of the contact information.
-	 */ 
-	private String[] loadContactsInfoByEmail(Context context, String incomingEmail){
-		if (_debug) Log.v("MMSReceiverService.loadContactsInfoByEmail()");
-		long _contactID = 0;
-		String _contactName = "";
-		long _photoID = 0;
-		boolean _contactExists = false;
-		if (incomingEmail == null) {
-			if (_debug) Log.v("MMSReceiverService.loadContactsInfoByEmail() Email provided is null: Exiting...");
-			return null;
-		}
-		if (!incomingEmail.contains("@")) {
-			if (_debug) Log.v("MMSReceiverService.loadContactsInfoByEmail() Email provided does not appear to be a valid email address: Exiting...");
-			return null;
-		}
-		String contactID = null;
-		try{
-			final String[] projection = null;
-			final String selection = null;
-			final String[] selectionArgs = null;
-			final String sortOrder = null;
-			Cursor cursor = context.getContentResolver().query(
-					ContactsContract.Contacts.CONTENT_URI,
-					projection, 
-					selection, 
-					selectionArgs, 
-					sortOrder);
-			if (_debug) Log.v("MMSReceiverService.loadContactsInfoByEmail() Searching contacts");
-			while (cursor.moveToNext()) { 
-				contactID = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID)); 
-				String contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-				String photoID = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_ID)); 
-				final String[] emailProjection = null;
-				final String emailSelection = ContactsContract.CommonDataKinds.Email.CONTACT_ID + " = " + contactID;
-				final String[] emailSelectionArgs = null;
-				final String emailSortOrder = null;
-                Cursor emailCursor = context.getContentResolver().query(
-                		ContactsContract.CommonDataKinds.Email.CONTENT_URI, 
-                		emailProjection,
-                		emailSelection, 
-                        emailSelectionArgs, 
-                        emailSortOrder);
-                while (emailCursor.moveToNext()) {
-                	String contactEmail = emailCursor.getString(emailCursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA));
-                	if(removeEmailFormatting(incomingEmail).equals(removeEmailFormatting(contactEmail))){
-						_contactID = Long.parseLong(contactID);
-		    		  	if(contactName != null){
-		    		  		_contactName = contactName;
-		    		  	}
-		    		  	if(photoID != null){
-		    			  	_photoID = Long.parseLong(photoID);
-		    		  	}
-		  		      	_contactExists = true;
-		  		      	break;
-					}
-                }
-                emailCursor.close();
-                if(_contactExists) break;
-		   	}
-			cursor.close();
-			return new String[]{String.valueOf(_contactID), _contactName, String.valueOf(_photoID)};
-		}catch(Exception ex){
-			if (_debug) Log.e("MMSReceiverService.loadContactsInfoByEmail() ERROR: " + ex.toString());
-			return null;
-		}
-	}
-	
-	/**
-	 * Remove formatting from email addresses.
-	 * 
-	 * @param address - String of original email address.
-	 * 
-	 * @return String - String of email address with no formatting.
-	 */
-	private String removeEmailFormatting(String address){
-		if (_debug) Log.v("MMSReceiverService.removeEmailFormatting()");
-		if(address.contains("<") && address.contains(">")){
-			address = address.substring(address.indexOf("<") + 1,address.indexOf(">"));
-		}
-		if(address.contains("(") && address.contains(")")){
-			address = address.substring(address.indexOf("(") + 1,address.indexOf(")"));
-		}
-		if(address.contains("[") && address.contains("]")){
-			address = address.substring(address.indexOf("[") + 1,address.indexOf("]"));
-		}
-		return address.toLowerCase().trim();
 	}
 	
 }

@@ -93,7 +93,6 @@ public class NotificationView extends LinearLayout {
 	private static final String SMS_ANDROID_REPLY = "1";
 	private static final String SMS_QUICK_REPLY = "2";
 	
-	
 	private static final String EVENT_BEGIN_TIME = "beginTime";
 	private static final String EVENT_END_TIME = "endTime";
 	
@@ -142,15 +141,6 @@ public class NotificationView extends LinearLayout {
 	    populateNotificationViewInfo(notification);
 	}
 
-	//================================================================================
-	// Accessors
-	//================================================================================
-
-	
-	//================================================================================
-	// Public Methods
-	//================================================================================
-	
 	//================================================================================
 	// Private Methods
 	//================================================================================
@@ -984,6 +974,7 @@ public class NotificationView extends LinearLayout {
 	 * @author Camille Sévigny
 	 */
 	private class setNotificationContactImageAsyncTask extends AsyncTask<Long, Void, Bitmap> {
+		
 		/**
 		 * Set up the contact image loading view.
 		 */
@@ -992,6 +983,7 @@ public class NotificationView extends LinearLayout {
 	    	_photoImageView.setVisibility(View.GONE);
 	    	_photoProgressBar.setVisibility(View.VISIBLE);
 	    }
+	    
 	    /**
 	     * Do this work in the background.
 	     * 
@@ -1001,6 +993,7 @@ public class NotificationView extends LinearLayout {
 			if (_debug) Log.v("NotificationView.setNotificationContactImageAsyncTask.doInBackground()");
 	    	return getNotificationContactImage(params[0]);
 	    }
+	    
 	    /**
 	     * Set the image to the notification View.
 	     * 

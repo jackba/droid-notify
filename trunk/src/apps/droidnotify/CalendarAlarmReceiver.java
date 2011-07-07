@@ -25,10 +25,6 @@ public class CalendarAlarmReceiver extends BroadcastReceiver {
     //================================================================================
 	
 	private boolean _debug = false;
-	
-	//================================================================================
-	// Constructors
-	//================================================================================
 	  
 	//================================================================================
 	// Public Methods
@@ -59,9 +55,5 @@ public class CalendarAlarmReceiver extends BroadcastReceiver {
 		WakefulIntentService.acquireStaticLock(context);
 		context.startService(new Intent(context, CalendarAlarmReceiverService.class));
 	}
-
-	//================================================================================
-	// Private Methods
-	//================================================================================
 	
 }

@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
+import apps.droidnotify.common.Common;
 
 /**
  * This class handles scheduled Missed Call notifications that we want to display.
@@ -28,11 +28,7 @@ public class PhoneReceiverService extends WakefulIntentService {
     //================================================================================
 	
 	private boolean _debug = false;
-	
-	//================================================================================
-	// Constructors
-	//================================================================================
-	
+
 	//================================================================================
 	// Public Methods
 	//================================================================================
@@ -106,7 +102,7 @@ public class PhoneReceiverService extends WakefulIntentService {
 	    		String isCallNew = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.NEW));
 	    		if(Integer.parseInt(callType) == MISSED_CALL_TYPE && Integer.parseInt(isCallNew) > 0){
     				if (_debug) Log.v("PhoneReceiverService.getMissedCalls() Missed Call Found: " + callNumber);
-    				String[] missedCallContactInfo = loadContactsInfoByPhoneNumber(context, callNumber);
+    				String[] missedCallContactInfo = Common.loadContactsInfoByPhoneNumber(context, callNumber);
     				if(missedCallContactInfo == null){
     					missedCallsArray.add(callNumber + "|" + callDate);
     				}else{
@@ -123,98 +119,6 @@ public class PhoneReceiverService extends WakefulIntentService {
 			cursor.close();
 		}
 	    return missedCallsArray;
-	}
-	
-	/**
-	 * Load the various contact info for this notification from a phoneNumber.
-	 * 
-	 * @param context - Application Context.
-	 * @param phoneNumber - Notifications's phone number.
-	 */ 
-	private String[] loadContactsInfoByPhoneNumber(Context context, String incomingNumber){
-		if (_debug) Log.v("PhoneReceiverService.loadContactsInfoByPhoneNumber()");
-		long _contactID = 0;
-		String _contactName = "";
-		long _photoID = 0;
-		boolean _contactExists = false;
-		if (incomingNumber == null) {
-			if (_debug) Log.v("PhoneReceiverService.loadContactsInfoByPhoneNumber() Phone number provided is null: Exiting...");
-			return null;
-		}
-		//Exit if the phone number is an email address.
-		if (incomingNumber.contains("@")) {
-			if (_debug) Log.v("PhoneReceiverService.loadContactsInfoByPhoneNumber() Phone number provided appears to be an email address: Exiting...");
-			return null;
-		}
-		try{
-			final String[] projection = null;
-			final String selection = ContactsContract.Contacts.HAS_PHONE_NUMBER + " = 1";
-			final String[] selectionArgs = null;
-			final String sortOrder = null;
-			Cursor cursor = context.getContentResolver().query(
-					ContactsContract.Contacts.CONTENT_URI,
-					projection, 
-					selection, 
-					selectionArgs, 
-					sortOrder);
-			if (_debug) Log.v("PhoneReceiverService.loadContactsInfoByPhoneNumber() Searching Contacts");
-			while (cursor.moveToNext()) { 
-				String contactID = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID)); 
-				String contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-				String photoID = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_ID)); 
-				final String[] phoneProjection = null;
-				final String phoneSelection = ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = " + contactID;
-				final String[] phoneSelectionArgs = null;
-				final String phoneSortOrder = null;
-				Cursor phoneCursor = context.getContentResolver().query(
-						ContactsContract.CommonDataKinds.Phone.CONTENT_URI, 
-						phoneProjection, 
-						phoneSelection, 
-						phoneSelectionArgs, 
-						phoneSortOrder); 
-				while (phoneCursor.moveToNext()) { 
-					String contactNumber = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-					if(removeFormatting(incomingNumber).equals(removeFormatting(contactNumber))){
-						_contactID = Long.parseLong(contactID);
-		    		  	if(contactName != null){
-		    		  		_contactName = contactName;
-		    		  	}
-		    		  	if(photoID != null){
-		    			  	_photoID = Long.parseLong(photoID);
-		    		  	}
-		  		      	_contactExists = true;
-		  		      	break;
-					}
-				}
-				phoneCursor.close(); 
-				if(_contactExists) break;
-		   	}
-			cursor.close();
-			return new String[]{String.valueOf(_contactID), _contactName, String.valueOf(_photoID)};
-		}catch(Exception ex){
-			if (_debug) Log.e("PhoneReceiverService.loadContactsInfoByPhoneNumber() ERROR: " + ex.toString());
-			return null;
-		}
-	}
-	
-	/**
-	 * Remove all non-numeric items from the phone number.
-	 * 
-	 * @param phoneNumber - String of original phone number.
-	 * 
-	 * @return String - String of phone number with no formatting.
-	 */
-	private String removeFormatting(String phoneNumber){
-		if (_debug) Log.v("PhoneReceiverService.removeFormatting()");
-		phoneNumber = phoneNumber.replace("-", "");
-		phoneNumber = phoneNumber.replace("+", "");
-		phoneNumber = phoneNumber.replace("(", "");
-		phoneNumber = phoneNumber.replace(")", "");
-		phoneNumber = phoneNumber.replace(" ", "");
-		if(phoneNumber.length() > 10){
-			phoneNumber = phoneNumber.substring(phoneNumber.length() - 10, phoneNumber.length());
-		}	
-		return phoneNumber.trim();
 	}
 	
 }

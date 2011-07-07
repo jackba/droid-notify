@@ -22,16 +22,7 @@ public class MMSReceiver extends BroadcastReceiver{
 	private static final String APP_ENABLED_KEY = "app_enabled";
 	private static final String MMS_NOTIFICATIONS_ENABLED_KEY = "mms_notifications_enabled";
 	private static final String MMS_TIMEOUT_KEY = "mms_timeout_settings";
-	
-	
-	//================================================================================
-    // Properties
-    //================================================================================
 
-	//================================================================================
-	// Constructors
-	//================================================================================
-	  
 	//================================================================================
 	// Public Methods
 	//================================================================================
@@ -67,9 +58,5 @@ public class MMSReceiver extends BroadcastReceiver{
 		PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, newIntent, 0);
 		alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + timeoutInterval, pendingIntent);		
 	}
-	  
-	//================================================================================
-	// Private Methods
-	//================================================================================
-	
+
 }
