@@ -232,14 +232,14 @@
    	<string name="preference_keyguard_enabled_summaryOff">Do not unlock phone when a notification is shown.</string>
 	<string name="preference_keyguard_timeout">Keyguard Timeout</string>
    	<string name="preference_keyguard_timeout_summary">Define how long to wait before a releasing the phones Keyguard.</string>
-	<string name="preference_blur_screen_enabled_title">Blur Screen Background</string>
-   	<string name="preference_blur_screen_enabled_summaryOn">The background of the screen will blur when a notification is shown.</string>
-   	<string name="preference_blur_screen_enabled_summaryOff">The background of the screen will not blur when a notification is shown.</string>
-	<string name="preference_dim_screen_enabled_title">Dim Screen Background</string>
-   	<string name="preference_dim_screen_enabled_summaryOn">The background of the screen will dim when a notification is shown.</string>
-   	<string name="preference_dim_screen_enabled_summaryOff">The background of the screen will not dim when a notification is shown.</string>
-   	<string name="preference_dim_screen_amount">Dim Screen Value</string>
-   	<string name="preference_dim_screen_amount_summary">Define how dim you want the background screen to get. (0 = no dimming, 100 = black)</string> 
+	<string name="preference_blur_screen_background_enabled_title">Blur Screen Background</string>
+   	<string name="preference_blur_screen_background_enabled_summaryOn">The background of the screen will blur when a notification is shown.</string>
+   	<string name="preference_blur_screen_background_enabled_summaryOff">The background of the screen will not blur when a notification is shown.</string>
+	<string name="preference_dim_screen_background_enabled_title">Dim Screen Background</string>
+   	<string name="preference_dim_screen_background_enabled_summaryOn">The background of the screen will dim when a notification is shown.</string>
+   	<string name="preference_dim_screen_background_enabled_summaryOff">The background of the screen will not dim when a notification is shown.</string>
+   	<string name="preference_dim_screen_background_amount">Dim Screen Value</string>
+   	<string name="preference_dim_screen_background_amount_summary">Define how dim you want the background screen to get. (0 = no dimming, 100 = black)</string> 
    	
     <string name="preference_reschedule_timeout">Reschedule Timeout</string>
    	<string name="preference_reschedule_timeout_summary">Define how long to wait before a notification is rescheduled.</string> 	

@@ -4,6 +4,8 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 
+import android.os.Environment;
+
 /**
  * This class logs messages to the Android log file.
  * 
@@ -139,42 +141,46 @@ public class Log {
 	 * 
 	 * @param text - String value to append to the custom log.
 	 */
-	private static void writeToCustomLog(int logType, String msg)
-	{   
-		File logFile = null;
-		File directoryStructure = null;
+	private static void writeToCustomLog(int logType, String msg){   
+		//Check state of external storage.
+		String state = Environment.getExternalStorageState();
+		if(Environment.MEDIA_MOUNTED.equals(state)){
+		    //We can read and write the media. Do nothing.
+		}else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)){
+		    // We can only read the media.
+			android.util.Log.v(getLogTag(), "Log.writeToCustomLog() External Storage Read Only State");
+		    return;
+		}else{
+		    // Something else is wrong. It may be one of many other states, but all we need to know is we can neither read nor write
+			android.util.Log.v(getLogTag(), "Log.writeToCustomLog() External Storage Can't Write Or Read State");
+		    return;
+		}
+		File logFilePath = null;
 		switch (logType) {
-	        case 1:  
-	        	logFile = new File("sdcard/Droid Notify/Logs/V/DroidNotifyLog.txt");
-	        	directoryStructure = new File("sdcard/Droid Notify/Logs/V");
+	        case 1:{
+	        	logFilePath = Environment.getExternalStoragePublicDirectory("Droid Notify/Logs/V");
 	        	break;
-	        case 2:  
-	        	logFile = new File("sdcard/Droid Notify/Logs/D/DroidNotifyLog.txt");
-	        	directoryStructure = new File("sdcard/Droid Notify/Logs/D");
-	        	break;
-	        case 3:  
-	        	logFile = new File("sdcard/Droid Notify/Logs/I/DroidNotifyLog.txt"); 
-	        	directoryStructure = new File("sdcard/Droid Notify/Logs/I");
-	        	break;
-	        case 4:  
-	        	logFile = new File("sdcard/Droid Notify/Logs/W/DroidNotifyLog.txt"); 
-	        	directoryStructure = new File("sdcard/Droid Notify/Logs/W");
-	        	break;
-	        case 5:  
-	        	logFile = new File("sdcard/Droid Notify/Logs/E/DroidNotifyLog.txt");
-	        	directoryStructure = new File("sdcard/Droid Notify/Logs/E");
-	        	break;
-		}
-		if (!logFile.exists()){
-			try{
-				directoryStructure.mkdirs();
-				logFile.createNewFile();
-			}catch (Exception ex){
-				android.util.Log.e(getLogTag(), "Log.writeToCustomLog CREATE ERROR: " + ex.toString());
 			}
+	        case 2:{
+	        	logFilePath = Environment.getExternalStoragePublicDirectory("Droid Notify/Logs/D");
+	        	break;
+	        }
+	        case 3:{ 
+	        	logFilePath = Environment.getExternalStoragePublicDirectory("Droid Notify/Logs/I");
+	        	break;
+	        }
+	        case 4:{ 
+	        	logFilePath = Environment.getExternalStoragePublicDirectory("Droid Notify/Logs/W");
+	        	break;
+	        }
+	        case 5:{
+	        	logFilePath = Environment.getExternalStoragePublicDirectory("Droid Notify/Logs/E");
+	        	break;
+	        }
 		}
-		try{
-	    	//BufferedWriter for performance, true to set append to file flag
+	    File logFile = new File(logFilePath, "DroidNotifyLog.txt");
+	    try{
+	    	logFilePath.mkdirs();
 			BufferedWriter buf = new BufferedWriter(new FileWriter(logFile, true)); 
 			buf.append(msg);
 			buf.newLine();
