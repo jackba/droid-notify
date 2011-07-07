@@ -77,6 +77,7 @@ public class NotificationView extends LinearLayout {
 	
 	private static final String HAPTIC_FEEDBACK_ENABLED_KEY = "haptic_feedback_enabled";
 	private static final String SMS_REPLY_BUTTON_ACTION_KEY = "sms_reply_button_action";
+	private static final String MMS_REPLY_BUTTON_ACTION_KEY = "mms_reply_button_action";
 	private static final String CONTACT_PLACEHOLDER_KEY = "contact_placeholder";
 	private static final String BUTTON_ICONS_KEY = "button_icons_enabled";
 	private static final String PHONE_NUMBER_FORMAT_KEY = "phone_number_format_settings";
@@ -91,6 +92,9 @@ public class NotificationView extends LinearLayout {
 	
 	private static final String SMS_MESSAGING_APP_REPLY = "0";
 	private static final String SMS_QUICK_REPLY = "1";
+
+	private static final String MMS_MESSAGING_APP_REPLY = "0";
+	private static final String MMS_QUICK_REPLY = "1";
 	
 	private static final String EVENT_BEGIN_TIME = "beginTime";
 	private static final String EVENT_END_TIME = "endTime";
@@ -265,7 +269,7 @@ public class NotificationView extends LinearLayout {
 			    public void onClick(View view) {
 			    	if (_debug) Log.v("SMS Reply Button Clicked()");
 			    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-			    	replyToMessage();
+			    	replyToMessage(NOTIFICATION_TYPE_SMS);
 			    }
 			});
 			//Remove the icons from the View's buttons, based on the user preferences.
@@ -281,8 +285,8 @@ public class NotificationView extends LinearLayout {
 	    	smsButtonLayoutVisibility = View.VISIBLE;
 	    	calendarButtonLayoutVisibility = View.GONE;
 			// Dismiss Button
-	    	final Button smsDismissButton = (Button) findViewById(R.id.sms_dismiss_button);
-			smsDismissButton.setOnClickListener(new OnClickListener() {
+	    	final Button mmsDismissButton = (Button) findViewById(R.id.sms_dismiss_button);
+			mmsDismissButton.setOnClickListener(new OnClickListener() {
 			    public void onClick(View view) {
 			    	if (_debug) Log.v("MMS Dismiss Button Clicked()");
 			    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
@@ -290,8 +294,8 @@ public class NotificationView extends LinearLayout {
 			    }
 			});		    			
 			// Delete Button
-			final Button smsDeleteButton = (Button) findViewById(R.id.sms_delete_button);
-			smsDeleteButton.setOnClickListener(new OnClickListener() {
+			final Button mmsDeleteButton = (Button) findViewById(R.id.sms_delete_button);
+			mmsDeleteButton.setOnClickListener(new OnClickListener() {
 			    public void onClick(View view) {
 			    	if (_debug) Log.v("MMS Delete Button Clicked()");
 			    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
@@ -299,19 +303,19 @@ public class NotificationView extends LinearLayout {
 			    }
 			});
 			// Reply Button
-			final Button smsReplyButton = (Button) findViewById(R.id.sms_reply_button);
-			smsReplyButton.setOnClickListener(new OnClickListener() {
+			final Button mmsReplyButton = (Button) findViewById(R.id.sms_reply_button);
+			mmsReplyButton.setOnClickListener(new OnClickListener() {
 			    public void onClick(View view) {
 			    	if (_debug) Log.v("MMS Reply Button Clicked()");
 			    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-			    	replyToMessage();
+			    	replyToMessage(NOTIFICATION_TYPE_MMS);
 			    }
 			});
 			//Remove the icons from the View's buttons, based on the user preferences.
 			if(!_preferences.getBoolean(BUTTON_ICONS_KEY, true)){
-				smsDismissButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
-				smsDeleteButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
-				smsReplyButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
+				mmsDismissButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
+				mmsDeleteButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
+				mmsReplyButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
 			}
 	    }
 	    if(_notificationType == NOTIFICATION_TYPE_CALENDAR){
@@ -525,7 +529,7 @@ public class NotificationView extends LinearLayout {
 	 * Launches a new Activity.
 	 * Replies to the current message using the stock Android messaging app.
 	 */
-	private void replyToMessage() {
+	private void replyToMessage(int notificationType) {
 		if (_debug) Log.v("NotificationView.replyToMessage()");
 		//Setup Reply action.
 		String phoneNumber = _notification.getSentFromAddress();
@@ -533,45 +537,104 @@ public class NotificationView extends LinearLayout {
 			Toast.makeText(_context, _context.getString(R.string.app_android_reply_messaging_address_error), Toast.LENGTH_LONG).show();
 			return;
 		}
-		//Reply using any installed SMS messaging app.
-		if(_preferences.getString(SMS_REPLY_BUTTON_ACTION_KEY, "0").equals(SMS_MESSAGING_APP_REPLY)){
-			try{
-				Intent intent = new Intent(Intent.ACTION_SENDTO);
-			    intent.setData(Uri.parse("smsto:" + phoneNumber));
-			    // Exit the app once the SMS is sent.
-			    intent.putExtra("compose_mode", true);
-		        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP
-		        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
-		        		| Intent.FLAG_ACTIVITY_NO_HISTORY
-		        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-		        _notificationActivity.startActivityForResult(intent,SEND_SMS_ACTIVITY);
-			}catch(Exception ex){
-				if (_debug) Log.e("NotificationView.replyToMessage() Android Reply ERROR: " + ex.toString());
-				Toast.makeText(_context, _context.getString(R.string.app_android_messaging_app_error), Toast.LENGTH_LONG).show();
-				return;
+		if(notificationType == NOTIFICATION_TYPE_SMS){
+			//Reply using any installed SMS messaging app.
+			if(_preferences.getString(SMS_REPLY_BUTTON_ACTION_KEY, "0").equals(SMS_MESSAGING_APP_REPLY)){
+				try{
+					Intent intent = new Intent(Intent.ACTION_SENDTO);
+				    intent.setData(Uri.parse("smsto:" + phoneNumber));
+				    // Exit the app once the SMS is sent.
+				    intent.putExtra("compose_mode", true);
+			        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP
+			        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
+			        		| Intent.FLAG_ACTIVITY_NO_HISTORY
+			        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+			        _notificationActivity.startActivityForResult(intent,SEND_SMS_ACTIVITY);
+				}catch(Exception ex){
+					if (_debug) Log.e("NotificationView.replyToMessage() Android Reply ERROR: " + ex.toString());
+					Toast.makeText(_context, _context.getString(R.string.app_android_messaging_app_error), Toast.LENGTH_LONG).show();
+					return;
+				}
+			}		
+			//Reply using the built in Quick Reply Activity.
+			if(_preferences.getString(SMS_REPLY_BUTTON_ACTION_KEY, "0").equals(SMS_QUICK_REPLY)){
+				try{
+					Intent intent = new Intent(_context, QuickReplyActivity.class);
+			        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP
+			        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
+			        		| Intent.FLAG_ACTIVITY_NO_HISTORY
+			        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+			        if (_debug) Log.v("NotificationView.replyToMessage() Put bundle in intent");
+				    intent.putExtra("smsPhoneNumber", phoneNumber);
+				    if(_notification.getContactExists()){
+				    	intent.putExtra("smsName", _notification.getContactName());
+				    }else{
+				    	intent.putExtra("smsName", "");
+				    }
+				    intent.putExtra("smsMessage", "");
+			        _notificationActivity.startActivityForResult(intent,SEND_SMS_QUICK_REPLY_ACTIVITY);
+				}catch(Exception ex){
+					if (_debug) Log.e("NotificationView.replyToMessage() Quick Reply ERROR: " + ex.toString());
+					Toast.makeText(_context, _context.getString(R.string.app_android_quick_reply_app_error), Toast.LENGTH_LONG).show();
+					return;
+				}
 			}
-		}		
-		//Reply using the built in Quick Reply Activity.
-		if(_preferences.getString(SMS_REPLY_BUTTON_ACTION_KEY, "0").equals(SMS_QUICK_REPLY)){
-			try{
-				Intent intent = new Intent(_context, QuickReplyActivity.class);
-		        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP
-		        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
-		        		| Intent.FLAG_ACTIVITY_NO_HISTORY
-		        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-		        if (_debug) Log.v("NotificationView.replyToMessage() Put bundle in intent");
-			    intent.putExtra("smsPhoneNumber", phoneNumber);
-			    if(_notification.getContactExists()){
-			    	intent.putExtra("smsName", _notification.getContactName());
-			    }else{
-			    	intent.putExtra("smsName", "");
-			    }
-			    intent.putExtra("smsMessage", "");
-		        _notificationActivity.startActivityForResult(intent,SEND_SMS_QUICK_REPLY_ACTIVITY);
-			}catch(Exception ex){
-				if (_debug) Log.e("NotificationView.replyToMessage() Quick Reply ERROR: " + ex.toString());
-				Toast.makeText(_context, _context.getString(R.string.app_android_quick_reply_app_error), Toast.LENGTH_LONG).show();
-				return;
+			//Temporary Preferences Fix
+			//Remove In a month or two.
+			if(Integer.parseInt(_preferences.getString(SMS_REPLY_BUTTON_ACTION_KEY, "0")) > 1){
+				SharedPreferences.Editor editor = _preferences.edit();
+				editor.putString("SMS_REPLY_BUTTON_ACTION_KEY", "1");
+				editor.commit();
+			}
+		}
+		if(notificationType == NOTIFICATION_TYPE_MMS){
+			//Reply using any installed SMS messaging app.
+			if(_preferences.getString(MMS_REPLY_BUTTON_ACTION_KEY, "0").equals(MMS_MESSAGING_APP_REPLY)){
+				try{
+					Intent intent = new Intent(Intent.ACTION_SENDTO);
+				    intent.setData(Uri.parse("smsto:" + phoneNumber));
+				    // Exit the app once the SMS is sent.
+				    intent.putExtra("compose_mode", true);
+			        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP
+			        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
+			        		| Intent.FLAG_ACTIVITY_NO_HISTORY
+			        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+			        _notificationActivity.startActivityForResult(intent,SEND_SMS_ACTIVITY);
+				}catch(Exception ex){
+					if (_debug) Log.e("NotificationView.replyToMessage() Android Reply ERROR: " + ex.toString());
+					Toast.makeText(_context, _context.getString(R.string.app_android_messaging_app_error), Toast.LENGTH_LONG).show();
+					return;
+				}
+			}		
+			//Reply using the built in Quick Reply Activity.
+			if(_preferences.getString(MMS_REPLY_BUTTON_ACTION_KEY, "0").equals(MMS_QUICK_REPLY)){
+				try{
+					Intent intent = new Intent(_context, QuickReplyActivity.class);
+			        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP
+			        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
+			        		| Intent.FLAG_ACTIVITY_NO_HISTORY
+			        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+			        if (_debug) Log.v("NotificationView.replyToMessage() Put bundle in intent");
+				    intent.putExtra("smsPhoneNumber", phoneNumber);
+				    if(_notification.getContactExists()){
+				    	intent.putExtra("smsName", _notification.getContactName());
+				    }else{
+				    	intent.putExtra("smsName", "");
+				    }
+				    intent.putExtra("smsMessage", "");
+			        _notificationActivity.startActivityForResult(intent,SEND_SMS_QUICK_REPLY_ACTIVITY);
+				}catch(Exception ex){
+					if (_debug) Log.e("NotificationView.replyToMessage() Quick Reply ERROR: " + ex.toString());
+					Toast.makeText(_context, _context.getString(R.string.app_android_quick_reply_app_error), Toast.LENGTH_LONG).show();
+					return;
+				}
+			}
+			//Temporary Preferences Fix
+			//Remove In a month or two.
+			if(Integer.parseInt(_preferences.getString(MMS_REPLY_BUTTON_ACTION_KEY, "0")) > 1){
+				SharedPreferences.Editor editor = _preferences.edit();
+				editor.putString("MMS_REPLY_BUTTON_ACTION_KEY", "1");
+				editor.commit();
 			}
 		}
 	}
