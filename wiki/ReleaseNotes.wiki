@@ -8,6 +8,7 @@
  * Add an export/import settings feature.
  * Fixed "Application Not Responding (ANR)" bugs.
  * Fixed a Calendar Notification not displaying bug.
+ * Added option to hide the text message body.
  * 
 
 *v2.0* (June 30, 2011)
