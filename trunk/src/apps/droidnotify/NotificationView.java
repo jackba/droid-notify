@@ -35,6 +35,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.view.MotionEvent;
+import apps.droidnotify.log.Log;
 
 /**
  * This class is the view which the ViewFlipper displays for each notification.

@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
+import apps.droidnotify.log.Log;
 
 /**
  * This class listens for scheduled Calendar Event notifications that we want to display.

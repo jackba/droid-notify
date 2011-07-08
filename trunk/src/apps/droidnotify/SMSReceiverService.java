@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
 import apps.droidnotify.common.Common;
+import apps.droidnotify.log.Log;
 
 /**
  * This class handles the work of processing incoming SMS messages.

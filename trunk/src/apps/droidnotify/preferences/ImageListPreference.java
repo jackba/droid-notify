@@ -9,7 +9,7 @@ import android.content.res.TypedArray;
 import android.preference.ListPreference;
 import android.util.AttributeSet;
 import android.widget.ListAdapter;
-import apps.droidnotify.Log;
+import apps.droidnotify.log.Log;
 import apps.droidnotify.R;
 
 /**

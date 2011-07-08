@@ -20,7 +20,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckedTextView;
 import android.widget.ImageView;
-import apps.droidnotify.Log;
+import apps.droidnotify.log.Log;
 import apps.droidnotify.R;
 
 /**

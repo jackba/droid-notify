@@ -30,7 +30,7 @@ import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.widget.Toast;
 import apps.droidnotify.CalendarAlarmReceiver;
-import apps.droidnotify.Log;
+import apps.droidnotify.log.Log;
 import apps.droidnotify.NotificationActivity;
 import apps.droidnotify.R;
 
@@ -348,7 +348,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	            return true;
            }
 		});
-		//Export Preferences Preference/Button
+		//Import Preferences Preference/Button
 		Preference importPreferencesPref = (Preference)findPreference("import_preferences");
 		importPreferencesPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
         	public boolean onPreferenceClick(Preference preference) {

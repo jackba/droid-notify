@@ -17,6 +17,7 @@ import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
 import android.os.PowerManager;
+import apps.droidnotify.log.Log;
 
 /**
  * This class allows us to aquire a WakeLock, do work on an Intent, and then releases the WakeLock.

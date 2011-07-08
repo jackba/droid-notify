@@ -37,7 +37,7 @@ import android.view.ViewConfiguration;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
-
+import apps.droidnotify.log.Log;
 import apps.droidnotify.common.Common;
 import apps.droidnotify.preferences.MainPreferenceActivity;
 

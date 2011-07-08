@@ -32,6 +32,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import apps.droidnotify.log.Log;
 
 /**
  * This class handles the checking of the users calendars.
