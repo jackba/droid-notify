@@ -13,6 +13,7 @@ import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
+import apps.droidnotify.log.Log;
 
 /**
  * This class is the main control window that displays and moves the Notifications.

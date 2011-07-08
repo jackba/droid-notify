@@ -11,7 +11,7 @@ import android.net.Uri;
 import android.preference.ListPreference;
 import android.util.AttributeSet;
 import android.widget.Toast;
-import apps.droidnotify.Log;
+import apps.droidnotify.log.Log;
 import apps.droidnotify.R;
 
 /**

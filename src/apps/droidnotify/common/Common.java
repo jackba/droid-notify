@@ -9,7 +9,7 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.net.Uri;
 import android.provider.ContactsContract;
-import apps.droidnotify.Log;
+import apps.droidnotify.log.Log;
 
 /**
  * This class is a collection of methods that are used more than once.

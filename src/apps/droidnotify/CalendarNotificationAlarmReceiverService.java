@@ -3,6 +3,7 @@ package apps.droidnotify;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import apps.droidnotify.log.Log;
 
 /**
  * This class handles scheduled Calendar Event notifications that we want to display.

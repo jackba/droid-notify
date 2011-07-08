@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import apps.droidnotify.log.Log;
 
 /**
  * This class listens for the OnBoot event from the users phone. Then it schedules the users calendars to be checked.

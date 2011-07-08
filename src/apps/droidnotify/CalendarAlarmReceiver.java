@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import apps.droidnotify.log.Log;
 
 /**
  * This class listens for scheduled notifications to check the users calendars.

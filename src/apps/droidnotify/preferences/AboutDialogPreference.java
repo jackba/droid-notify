@@ -3,7 +3,7 @@ package apps.droidnotify.preferences;
 import android.content.Context;
 import android.preference.DialogPreference;
 import android.util.AttributeSet;
-import apps.droidnotify.Log;
+import apps.droidnotify.log.Log;
 
 /**
  * This is class extends the DialogPreference so that we can display a Dialog box in the PreferenceActivty.

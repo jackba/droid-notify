@@ -1,4 +1,4 @@
-package apps.droidnotify;
+package apps.droidnotify.log;
 
 import java.io.BufferedWriter;
 import java.io.File;

@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import apps.droidnotify.common.Common;
+import apps.droidnotify.log.Log;
 
 /**
  * This class handles the work of processing incoming MMS messages.

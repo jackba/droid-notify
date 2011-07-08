@@ -12,6 +12,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import apps.droidnotify.common.Common;
+import apps.droidnotify.log.Log;
 
 /**
  * This is the Notification class that holds all the information about all notifications we will display to the user.
