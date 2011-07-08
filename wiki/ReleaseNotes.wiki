@@ -5,6 +5,9 @@
 
 *v2.1* _Coming Soon..._
  * Added better integration with 3rd party messaging apps.
+ * Add an export/import settings feature.
+ * Fixed "Application Not Responding (ANR)" bugs.
+ * Fixed a Calendar Notification not displaying bug.
  * 
 
 *v2.0* (June 30, 2011)
