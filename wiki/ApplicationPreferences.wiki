@@ -47,6 +47,7 @@ Notifications
 
   * MMS Vibrate Settings
    * Enable Vibrations
+   * Load Unread MMS Messages
 
   * MMS Ringtone Settings
    * Enable Ringtones
@@ -109,6 +110,8 @@ Advanced Settings
  * MMS Tiemout
  * Call Log Tiemout
  * Ringtone Length
+ * Export Preferences
+ * Import Preferences
  
 *_Rate App_*
 
