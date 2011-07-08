@@ -3,14 +3,12 @@ package apps.droidnotify.preferences;
 import java.util.ArrayList;
 
 import android.app.AlertDialog.Builder;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.database.Cursor;
-import android.net.Uri;
 import android.preference.ListPreference;
 import android.util.AttributeSet;
 import android.widget.Toast;
+import apps.droidnotify.common.Common;
 import apps.droidnotify.log.Log;
 import apps.droidnotify.R;
 
@@ -22,14 +20,6 @@ import apps.droidnotify.R;
  * from the setEntryValues(CharSequence[]) array.
  */
 public class SelectCalendarListPreference extends ListPreference {
-	
-	//================================================================================
-    // Constants
-    //================================================================================
-	
-	private static final String _ID = "_id";
-    private static final String CALENDAR_DISPLAY_NAME = "displayName"; 
-    private static final String CALENDAR_SELECTED = "selected";
 	
 	//================================================================================
     // Properties
@@ -102,7 +92,7 @@ public class SelectCalendarListPreference extends ListPreference {
     @Override
     protected void onPrepareDialogBuilder(Builder builder) {
     	if (Log.getDebug()) Log.v("SelectCalendarListPreference.onPrepareDialogBuilder()");
-    	String availableCalendarsInfo = getAvailableCalendars();
+    	String availableCalendarsInfo = Common.getAvailableCalendars(_context);
     	if(availableCalendarsInfo == null){
     		Toast.makeText(_context, _context.getString(R.string.app_android_calendars_not_found_error), Toast.LENGTH_LONG).show();
     		return;
@@ -205,53 +195,5 @@ public class SelectCalendarListPreference extends ListPreference {
             }
         }
     }
-	
-	/**
-	 * Read the phones Calendars and return the information on them.
-	 * 
-	 * @return String - A string of the available Calendars. Specially formatted string with the Calendar information.
-	 */
-	private String getAvailableCalendars(){
-		if (Log.getDebug()) Log.v("SelectCalendarListPreference.getAvailableCalendars()");
-		StringBuilder calendarsInfo = new StringBuilder();
-		Cursor cursor = null;
-		try{
-			ContentResolver contentResolver = _context.getContentResolver();
-			// Fetch a list of all calendars synced with the device, their display names and whether the user has them selected for display.
-			String contentProvider = "";
-			//Android 2.2+
-			contentProvider = "content://com.android.calendar";
-			//Android 2.1 and below.
-			//contentProvider = "content://calendar";
-			cursor = contentResolver.query(
-				Uri.parse(contentProvider + "/calendars"), 
-				new String[] { _ID, CALENDAR_DISPLAY_NAME, CALENDAR_SELECTED },
-				null,
-				null,
-				null);
-			while (cursor.moveToNext()) {
-				final String calendarID = cursor.getString(cursor.getColumnIndex(_ID));
-				final String calendarDisplayName = cursor.getString(cursor.getColumnIndex(CALENDAR_DISPLAY_NAME));
-				final Boolean calendarSelected = !cursor.getString(cursor.getColumnIndex(CALENDAR_SELECTED)).equals("0");
-				if(calendarSelected){
-					if (Log.getDebug()) Log.v("Id: " + calendarID + " Display Name: " + calendarDisplayName + " Selected: " + calendarSelected);
-					if(!calendarsInfo.toString().equals("")){
-						calendarsInfo.append(",");
-					}
-					calendarsInfo.append(calendarID + "|" + calendarDisplayName);
-				}
-			}	
-		}catch(Exception ex){
-			if (Log.getDebug()) Log.e("SelectCalendarListPreference.getAvailableCalendars() ERROR: " + ex.toString());
-			return null;
-		}finally{
-			cursor.close();
-		}
-		if(calendarsInfo.toString().equals("")){
-			return null;
-		}else{
-			return calendarsInfo.toString();
-		}
-	}
 	
 }

@@ -30,6 +30,7 @@ import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.widget.Toast;
 import apps.droidnotify.CalendarAlarmReceiver;
+import apps.droidnotify.common.Common;
 import apps.droidnotify.log.Log;
 import apps.droidnotify.NotificationActivity;
 import apps.droidnotify.R;
@@ -53,6 +54,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	private static final String APP_ENABLED_KEY = "app_enabled";
 	private static final String CALENDAR_NOTIFICATIONS_ENABLED_KEY = "calendar_notifications_enabled";
 	private static final String LANDSCAPE_SCREEN_ENABLED_KEY = "landscape_screen_enabled";
+    private static final String CALENDAR_SELECTION_KEY = "calendar_selection";
 	
 	private static final int NOTIFICATION_TYPE_TEST = -1;
 	
@@ -169,10 +171,10 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			if (_debug) Log.v("MainPreferenceActivity.runOnceAlarmManager() Calendar Notifications Disabled. Exiting... ");
 			return;
 		}
-		boolean runOnce = _preferences.getBoolean("runOnce", true);
+		boolean runOnce = _preferences.getBoolean("runOnce_v_2_0", true);
 		if(runOnce || _debugCalendar) {
 			SharedPreferences.Editor editor = _preferences.edit();
-			editor.putBoolean("runOnce", false);
+			editor.putBoolean("runOnce_v_2_0", false);
 			editor.commit();
 			//Schedule the reading of the calendar events.
 			AlarmManager alarmManager = (AlarmManager) _context.getSystemService(Context.ALARM_SERVICE);
@@ -187,6 +189,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			}else{
 				alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, SystemClock.elapsedRealtime() + (5 * 60 * 1000), AlarmManager.INTERVAL_DAY, pendingIntent);
 			}
+			initUserCalendarsPreference();
        }
 	}
 	
@@ -792,6 +795,29 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
     		return false;
     	}
 		return true;
+	}
+	
+	/**
+	 * Initializes the calendars which will be checked for event notifications.
+	 * This sets the user preference to check all available calendars.
+	 */
+	private void initUserCalendarsPreference(){
+		if (_debug) Log.v("MainPreferenceActivity.initUserCalendarsPreference()");
+    	String availableCalendarsInfo = Common.getAvailableCalendars(_context);
+    	if(availableCalendarsInfo == null){
+    		return;
+    	}
+    	String[] calendarsInfo = availableCalendarsInfo.split(",");
+    	StringBuilder calendarSelectionPreference = new StringBuilder();
+    	for(String calendarInfo : calendarsInfo){
+    		String[] calendarInfoArray = calendarInfo.split("\\|");
+    		if(!calendarSelectionPreference.toString().equals("")) calendarSelectionPreference.append("|");
+    		calendarSelectionPreference.append(calendarInfoArray[0]);
+    	}
+    	if (_debug) Log.v("MainPreferenceActivity.initUserCalendarsPreference() calendarSelectionPreference: " + calendarSelectionPreference.toString());
+    	SharedPreferences.Editor editor = _preferences.edit();
+    	editor.putString(CALENDAR_SELECTION_KEY, calendarSelectionPreference.toString());
+    	editor.commit();
 	}
 	
 }
