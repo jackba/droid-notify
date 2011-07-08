@@ -133,8 +133,11 @@
    	<string name="preference_sms_enabled_summaryOff">SMS notifications are disabled.</string>
     <string name="preference_sms_display_unread_enabled_title">Load Unread SMS</string>
    	<string name="preference_sms_display_unread_enabled_summaryOn">Load all unread sms messages when a new sms message arrives.</string>
-   	<string name="preference_sms_display_unread_enabled_summaryOff">Do not load any older unread sms messages. Load only the current incoming message.</string>	
-    <string name="preference_sms_vibrate_enabled_title">Enable Vibrations</string>
+   	<string name="preference_sms_display_unread_enabled_summaryOff">Do not load any older unread sms messages. Load only the current incoming message.</string>	 	
+   	<string name="preference_sms_hide_message_body_enabled_title">Hide Message Body</string>
+   	<string name="preference_sms_hide_message_body_enabled_summaryOn">The message body will be visible in the notification popup.</string>
+   	<string name="preference_sms_hide_message_body_enabled_summaryOff">The message body will not be visible in the notification popup.</string>	
+   	<string name="preference_sms_vibrate_enabled_title">Enable Vibrations</string>
    	<string name="preference_sms_vibrate_enabled_summaryOn">SMS notifications will vibrate on arrival.</string>
    	<string name="preference_sms_vibrate_enabled_summaryOff">SMS notifications will not vibrate on arrival.</string>
    	<string name="preference_sms_notifications">SMS Notifications</string>
@@ -157,6 +160,9 @@
 	<string name="preference_mms_display_unread_enabled_title">Load Unread SMS</string>
    	<string name="preference_mms_display_unread_enabled_summaryOn">Load all unread mms messages when a new mms message arrives.</string>
    	<string name="preference_mms_display_unread_enabled_summaryOff">Do not load any older unread mms messages. Load only the current incoming message.</string>	
+   	<string name="preference_mms_hide_message_body_enabled_title">Hide Message Body</string>
+   	<string name="preference_mms_hide_message_body_enabled_summaryOn">The message body will be visible in the notification popup.</string>
+   	<string name="preference_mms_hide_message_body_enabled_summaryOff">The message body will not be visible in the notification popup.</string>
     <string name="preference_mms_vibrate_enabled_title">Enable Vibrations</string>
    	<string name="preference_mms_vibrate_enabled_summaryOn">MMS notifications will vibrate on arrival.</string>
    	<string name="preference_mms_vibrate_enabled_summaryOff">MMS notifications will not vibrate on arrival.</string>
@@ -219,6 +225,23 @@
     <string name="preference_event_reminder_summary">How early do you want to be reminded about an upcoming event?</string>
     <string name="preference_event_reminder_all_day_settings">All-Day Event Reminder Settings</string>
     <string name="preference_event_reminder_all_day_summary">How early do you want to be reminded about an upcoming All-Day event?</string>
+    
+    <string name="preference_show_hide_buttons_settings">Show/Hide Button Settings</string>
+    <string name="preference_hide_dismiss_button_enabled_title">Hide Dismiss Button</string>
+   	<string name="preference_hide_dismiss_button_enabled_summaryOn">The dismiss button will not be displayed.</string>
+   	<string name="preference_hide_dismiss_button_enabled_summaryOff">The dismiss button will be displayed.</string>	
+    <string name="preference_hide_delete_button_enabled_title">Hide Delete Button</string>
+   	<string name="preference_hide_delete_button_enabled_summaryOn">The delete button will not be displayed.</string>
+   	<string name="preference_hide_delete_button_enabled_summaryOff">The delete button will be displayed.</string>	
+   	<string name="preference_hide_reply_button_enabled_title">Hide Reply Button</string>
+   	<string name="preference_hide_reply_button_enabled_summaryOn">The reply button will not be displayed.</string>
+   	<string name="preference_hide_reply_button_enabled_summaryOff">The reply button will be displayed.</string>	
+   	<string name="preference_hide_call_button_enabled_title">Hide Call Button</string>
+   	<string name="preference_hide_call_button_enabled_summaryOn">The call button will not be displayed.</string>
+   	<string name="preference_hide_call_button_enabled_summaryOff">The call button will be displayed.</string>	
+   	<string name="preference_hide_view_button_enabled_title">Hide View Button</string>
+   	<string name="preference_hide_view_button_enabled_summaryOn">The view button will not be displayed.</string>
+   	<string name="preference_hide_view_button_enabled_summaryOff">The view button will be displayed.</string>	
     
     <string name="preference_screen_settings">Screen Settings</string>
 	<string name="preference_screen_enabled_title">Turn Screen On</string>
