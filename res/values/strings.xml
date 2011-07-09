@@ -30,6 +30,7 @@
     <string name="select_number_to_call_text">Select Number to Call</string>
     <string name="select_number_to_text_text">Select Number to Text</string>
     <string name="cancel_text">Cancel</string>
+    <string name="dismiss_notification_text">Dismiss Notification</string>
     
     <!-- App Error Message Strings -->
     <string name="app_android_messaging_app_error">The Android Messaging application could not be started.</string>
