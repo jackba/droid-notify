@@ -128,6 +128,7 @@ public class NotificationActivity extends Activity {
 	private static final int EDIT_EVENT_CONTEXT_MENU = R.id.edit_calendar_event;
 	private static final int VIEW_THREAD_CONTEXT_MENU = R.id.view_thread;
 	private static final int MESSAGING_INBOX_CONTEXT_MENU = R.id.messaging_inbox;
+	private static final int DISMISS_NOTIFICATION_CONTEXT_MENU = R.id.dismiss_notification;
 	
 	private static final String EVENT_BEGIN_TIME = "beginTime";
 	private static final String EVENT_END_TIME = "endTime";
@@ -490,6 +491,16 @@ public class NotificationActivity extends Activity {
 				}catch(Exception ex){
 					if (_debug) Log.e("NotificationActivity.onContextItemSelected() EDIT_EVENT_CONTEXT_MENU ERROR: " + ex.toString());
 					Toast.makeText(_context, _context.getString(R.string.app_android_calendar_app_error), Toast.LENGTH_LONG).show();
+					return false;
+				}
+			}
+			case DISMISS_NOTIFICATION_CONTEXT_MENU:{
+				try{
+					//Remove notification from ViewFlipper.
+					_notificationViewFlipper.removeActiveNotification();
+					return true;
+				}catch(Exception ex){
+					if (_debug) Log.e("NotificationActivity.onContextItemSelected() DISMISS_NOTIFICATION_CONTEXT_MENU ERROR: " + ex.toString());
 					return false;
 				}
 			}
