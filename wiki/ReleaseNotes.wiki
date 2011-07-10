@@ -3,13 +3,16 @@
 
 = Release Notes =
 
-*v2.1* _Coming Soon..._
+*v2.2* _Coming Soon..._
+ * 
+
+*v2.1* (June 09, 2011)
  * Added better integration with 3rd party messaging apps.
  * Add an export/import settings feature.
  * Fixed "Application Not Responding (ANR)" bugs.
  * Fixed a Calendar Notification not displaying bug.
  * Added option to hide the text message body.
- * 
+ * Added options to hide the notification buttons.
 
 *v2.0* (June 30, 2011)
  * New UI for notifications.
@@ -23,7 +26,6 @@
   * Update UI of Quick Reply screen. 
   * Added focus to the message body field.
   * Display the softkeyboard when the screen loads.
-  * 
  * When you perform a successfull action on a notification, the notification will be removed. (e.g.)
   * When you reply to a SMS notification, the notification will be removed now.
   * When you call from a Missed Call notification, the notification will be removed now.
