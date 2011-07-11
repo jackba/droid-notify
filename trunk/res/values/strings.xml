@@ -119,7 +119,7 @@
    	
    	<string name="preference_about">About</string>
    	<string name="preference_about_summary">About Droid Notify</string>
-	<string name="preference_about_text">Created by: Camille Sevigny\nEmail: droidnotify@gmail.com\n\nDroid Notify is an application that shows a dialog when a SMS message is received, a Missed Call is received or a Calendar Event occurs.  It shows the most recent message or call and schedules your calendar events to be displayed to you, who it\'s from and the contact picture if available.\n\nFeel free to email me any comments, suggestions or bugs.\n\n</string>
+	<string name="preference_about_text">Created by: Camille Sévigny\nEmail: droidnotify@gmail.com\n\nDroid Notify is an application that shows a popup dialog when a SMS/MMS message is received, a Missed Call is received or a Calendar Event occurs.  It shows the most recent message or call and schedules your calendar events to be displayed to you, who it\'s from and the contact picture if available.\n\nFeel free to email me any comments, suggestions or bugs.\n\n</string>
 
    	<string name="preference_appenabled_title">Enable Droid Notify</string>
    	<string name="preference_appenabled_summaryOn">Droid Notify is enabled.</string>
