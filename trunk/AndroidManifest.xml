@@ -25,14 +25,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
- 		<receiver android:name=".SMSReceiver"> 
+ 		<receiver android:name="apps.droidnotify.SMSReceiver"> 
             <intent-filter> 
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" /> 
             </intent-filter> 
         </receiver>
-        <receiver android:name=".SMSAlarmReceiver" />
-        <service android:name=".SMSReceiverService" />
-		<receiver android:name=".MMSReceiver"> 
+        <receiver android:name="apps.droidnotify.SMSAlarmReceiver" />
+        <service android:name="apps.droidnotify.SMSReceiverService" />
+		<receiver android:name="apps.droidnotify.MMSReceiver"> 
 			<intent-filter>
                 <action android:name="android.provider.Telephony.WAP_PUSH_RECEIVED" />
                 <data android:mimeType="application/vnd.wap.mms-message" />
@@ -41,32 +41,32 @@
                 <action android:name="android.provider.Telephony.MMS_RECEIVED" /> 
             </intent-filter>
         </receiver>
-        <receiver android:name=".MMSAlarmReceiver" />
-        <service android:name="MMSReceiverService" />
-   		<receiver android:name=".PhoneReceiver" > 
+        <receiver android:name="apps.droidnotify.MMSAlarmReceiver" />
+        <service android:name="apps.droidnotify.MMSReceiverService" />
+   		<receiver android:name="apps.droidnotify.PhoneReceiver" > 
             <intent-filter> 
                 <action android:name="android.intent.action.PHONE_STATE" />
             </intent-filter> 
         </receiver>
-        <receiver android:name=".PhoneAlarmReceiver" />
-       	<service android:name="PhoneReceiverService" /> 
-		<receiver android:name=".OnBootReceiver" >
+        <receiver android:name="apps.droidnotify.PhoneAlarmReceiver" />
+       	<service android:name="apps.droidnotify.PhoneReceiverService" /> 
+		<receiver android:name="apps.droidnotify.OnBootReceiver" >
 			<intent-filter>
 				<action android:name="android.intent.action.BOOT_COMPLETED" />
 			</intent-filter>
 		</receiver>
-		<receiver android:name="CalendarAlarmReceiver" />
-		<service android:name=".CalendarAlarmReceiverService" />
-		<receiver android:name=".CalendarNotificationAlarmReceiver" />
-		<service android:name=".CalendarNotificationAlarmReceiverService" />
+		<receiver android:name="apps.droidnotify.CalendarAlarmReceiver" />
+		<service android:name="apps.droidnotify.CalendarAlarmReceiverService" />
+		<receiver android:name="apps.droidnotify.CalendarNotificationAlarmReceiver" />
+		<service android:name="apps.droidnotify.CalendarNotificationAlarmReceiverService" />
    		<activity 
-   			android:name=".NotificationActivity" 
+   			android:name="apps.droidnotify.NotificationActivity" 
    			android:theme="@style/Theme.Transparent"
 			android:launchMode="singleTask"
 			android:screenOrientation="user"
         	android:configChanges="keyboardHidden|orientation" />
 		<activity 
-   			android:name=".QuickReplyActivity" 
+   			android:name="apps.droidnotify.QuickReplyActivity" 
    			android:theme="@style/Theme.Transparent"
 			android:launchMode="singleTask"
 			android:screenOrientation="user"

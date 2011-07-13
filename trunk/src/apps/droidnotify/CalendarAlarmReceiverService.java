@@ -76,7 +76,7 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
 	public CalendarAlarmReceiverService() {
 		super("CalendarAlarmReceiverService");
 		_debug = Log.getDebug();
-		if (_debug) Log.v("CalendarAlarmReceiverService.CalendarReceiverService()");
+		if (_debug) Log.v("CalendarAlarmReceiverService.CalendarAlarmReceiverService()");
 	}
 
 	//================================================================================
