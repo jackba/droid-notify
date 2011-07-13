@@ -104,9 +104,9 @@ public class NotificationActivity extends Activity {
 	private static final String MMS_CONFIRM_DELETION_KEY = "confirm_mms_deletion_enabled";
 	private static final String MMS_DISPLAY_UNREAD_KEY = "mms_display_unread_enabled";
 	private static final String LANDSCAPE_SCREEN_ENABLED_KEY = "landscape_screen_enabled";
-	private static final String BLUR_SCREEN_ENABLED_KEY = "blur_screen_enabled";
-	private static final String DIM_SCREEN_ENABLED_KEY = "dim_screen_enabled";
-	private static final String DIM_SCREEN_AMOUNT_KEY = "dim_screen_amount";
+	private static final String BLUR_SCREEN_ENABLED_KEY = "blur_screen_background_enabled";
+	private static final String DIM_SCREEN_ENABLED_KEY = "dim_screen_background_enabled";
+	private static final String DIM_SCREEN_AMOUNT_KEY = "dim_screen_background_amount";
 	
 	private static final String SMS_DELETE_ACTION_DELETE_MESSAGE = "0";
 	private static final String SMS_DELETE_ACTION_DELETE_THREAD = "1";
