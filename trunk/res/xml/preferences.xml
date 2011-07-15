@@ -565,7 +565,7 @@
 				android:defaultValue="300"
 				android:entries="@array/keyguard_timeout_options"
 				android:entryValues="@array/keyguard_timeout_options_values"
-				android:dependency="app_enabled" />
+				android:dependency="keyguard_enabled" />
 			<ListPreference
 				android:key="quick_reply_sms_gateway_settings"
 				android:title="@string/preference_quick_reply_sms_gateway"
@@ -573,7 +573,7 @@
 				android:defaultValue="1"
 				android:entries="@array/quick_reply_sms_gateway_options"
 				android:entryValues="@array/quick_reply_sms_gateway_options_values"
-				android:dependency="app_enabled" />
+				android:dependency="sms_notifications_enabled" />
 			<ListPreference
 				android:key="mms_timeout_settings"
 				android:title="@string/preference_mms_timeout"
