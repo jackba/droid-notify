@@ -61,7 +61,10 @@ public class CalendarNotificationAlarmReceiverService extends WakefulIntentServi
     	Intent calendarIntent = new Intent(context, NotificationActivity.class);
     	Bundle bundle = intent.getExtras();
     	calendarIntent.putExtras(bundle);
-    	calendarIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+    	calendarIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+    			| Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS
+    			| Intent.FLAG_ACTIVITY_NO_HISTORY
+    			| Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
     	context.startActivity(calendarIntent);
 	}
 	
