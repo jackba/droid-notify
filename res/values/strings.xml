@@ -3,7 +3,7 @@
 
 	<!-- App Strings -->
 	<string name="app_version">v2.2</string>
-	<string name="app_name_formatted_version">Droid Notify v2.2</string>
+	<string name="app_name_formatted_version">Droid Notify %s</string>
 	<string name="app_name">DroidNotify</string>
     <string name="app_name_formatted">Droid Notify</string>
     <string name="app_settings_text">Settings</string>
@@ -30,7 +30,9 @@
     <string name="select_number_to_call_text">Select Number to Call</string>
     <string name="select_number_to_text_text">Select Number to Text</string>
     <string name="cancel_text">Cancel</string>
-    <string name="dismiss_notification_text">Dismiss Notification</string>
+    <string name="dismiss_notification_text">Dismiss Notification</string>   	
+    <string name="basic_settings_text">Basic Settings</string>
+   	<string name="misc_settings_text">Misc Settings</string>
     
     <!-- App Error Message Strings -->
     <string name="app_android_messaging_app_error">The Android Messaging application could not be started.</string>
@@ -56,6 +58,7 @@
     <string name="app_android_no_number_found_error">No phone number could be found for this contact.</string>
     <string name="app_android_calendars_not_found_error">No calendars could be found on your phone.</string>
    	<string name="delete_text">Delete</string>
+   	<string name="notification_settings_text">Notification Settings</string>
     
     <!-- Button Strings -->  
     <string name="view_mms_button_text">View MMS</string>
@@ -95,20 +98,17 @@
    	
    	<!-- Preference Strings -->
    	<string name="preference_general">General Settings</string>
-   	<string name="preference_notification_settings">Notification Settings</string>
-   	<string name="preference_notifications">Notifications</string>
    	<string name="preference_dismiss_button_action">Dismiss Button Action</string>
    	<string name="preference_delete_button_action">Delete Button Action</string>
    	<string name="preference_reply_button_action">Reply Button Action</string>
    	<string name="preference_select_ringtone">Select Ringtone</string>
    	
-   	<string name="misc_settings_text">Misc Settings</string>
     <string name="preference_contact_placeholder_image">Placeholder Image</string>
     <string name="preference_contact_placeholder_image_summary">Select the placeholder image you would like to display for unknown contacts.</string>
    	
    	<string name="preference_button_icons_enabled_title">Display Button Icons</string>
-   	<string name="preference_button_icons_enabled_summaryOn">Display an icon on app buttons.</string>
-   	<string name="preference_button_icons_enabled_summaryOff">Do not display an icon on app buttons.</string>
+   	<string name="preference_button_icons_enabled_summaryOn">Display icons buttons.</string>
+   	<string name="preference_button_icons_enabled_summaryOff">Do not display icons on buttons.</string>
    	
    	<string name="preference_vibrations_enabled_title">Enable Vibrations</string>
    	<string name="preference_vibrations_enabled_summaryOn">Vibrations when notifications are received is enabled.</string>
@@ -119,7 +119,7 @@
    	
    	<string name="preference_about">About</string>
    	<string name="preference_about_summary">About Droid Notify</string>
-	<string name="preference_about_text">Created by: Camille Sévigny\nEmail: droidnotify@gmail.com\n\nDroid Notify is an application that shows a popup dialog when a SMS/MMS message is received, a Missed Call is received or a Calendar Event occurs.  It shows the most recent message or call and schedules your calendar events to be displayed to you, who it\'s from and the contact picture if available.\n\nFeel free to email me any comments, suggestions or bugs.\n\n</string>
+	<string name="preference_about_text">&lt;b>Created by:&lt;/b> Camille Sévigny&lt;br/>&lt;b>Email:&lt;/b> &lt;a href="mailto:droidnotify@gmail.com">droidnotify@gmail.com&lt;/a>&lt;br/>&lt;br/>Droid Notify is an application that shows a popup dialog when a SMS/MMS message is received, a Missed Call is received or a Calendar Event occurs.  The notifications link to your messaging app, your phone and your calendar. The notifications also display the contact information (if available) such as who it\'s from and contact photo if available.&lt;br/>&lt;br/>If you like Droid Notify, please rate this application and leave a comment.&lt;br/>&lt;br/>Feel free to email me comments, suggestions or bugs.&lt;br/>&lt;br/>&lt;b>&#169; 2011 Camille Sévigny&lt;/b>&lt;br/>&lt;br/></string>
 
    	<string name="preference_appenabled_title">Enable Droid Notify</string>
    	<string name="preference_appenabled_summaryOn">Droid Notify is enabled.</string>
@@ -133,8 +133,8 @@
    	<string name="preference_sms_enabled_summaryOn">SMS notifications are enabled.</string>
    	<string name="preference_sms_enabled_summaryOff">SMS notifications are disabled.</string>
     <string name="preference_sms_display_unread_enabled_title">Load Unread SMS</string>
-   	<string name="preference_sms_display_unread_enabled_summaryOn">Load all unread sms messages when a new sms message arrives.</string>
-   	<string name="preference_sms_display_unread_enabled_summaryOff">Do not load any older unread sms messages. Load only the current incoming message.</string>	 	
+   	<string name="preference_sms_display_unread_enabled_summaryOn">All unread sms messages will be loaded when a new sms message arrives.</string>
+   	<string name="preference_sms_display_unread_enabled_summaryOff">Only the current incoming message will be loaded.</string>	 	
    	<string name="preference_sms_hide_message_body_enabled_title">Hide Message Body</string>
    	<string name="preference_sms_hide_message_body_enabled_summaryOn">The message body will be visible in the notification popup.</string>
    	<string name="preference_sms_hide_message_body_enabled_summaryOff">The message body will not be visible in the notification popup.</string>	
@@ -156,11 +156,11 @@
    	<string name="preference_confirm_sms_deletion_enabled_summaryOff">A dialog box will not display when you delete a message.</string>
    	
    	<string name="preference_mms_enabled_title">Enable MMS</string>
-   	<string name="preference_mms_enabled_summaryOn">MMS notifications are enabled</string>
-   	<string name="preference_mms_enabled_summaryOff">MMS notifications are disabled</string>
+   	<string name="preference_mms_enabled_summaryOn">MMS notifications are enabled.</string>
+   	<string name="preference_mms_enabled_summaryOff">MMS notifications are disabled.</string>
 	<string name="preference_mms_display_unread_enabled_title">Load Unread SMS</string>
-   	<string name="preference_mms_display_unread_enabled_summaryOn">Load all unread mms messages when a new mms message arrives.</string>
-   	<string name="preference_mms_display_unread_enabled_summaryOff">Do not load any older unread mms messages. Load only the current incoming message.</string>	
+   	<string name="preference_mms_display_unread_enabled_summaryOn">All unread mms messages will be loaded when a new mms message arrives.</string>
+   	<string name="preference_mms_display_unread_enabled_summaryOff">Only the current incoming message will be loaded.</string>	
    	<string name="preference_mms_hide_message_body_enabled_title">Hide Message Body</string>
    	<string name="preference_mms_hide_message_body_enabled_summaryOn">The message body will be visible in the notification popup.</string>
    	<string name="preference_mms_hide_message_body_enabled_summaryOff">The message body will not be visible in the notification popup.</string>
@@ -185,8 +185,8 @@
    	<string name="preference_mms_timeout_summary">Define how long to wait after a MMS is received before querying the MMS inbox for a new message.</string>
    	
    	<string name="preference_missed_call_enabled_title">Enable Missed Call</string>
-   	<string name="preference_missed_call_enabled_summaryOn">Missed Call notifications are enabled</string>
-   	<string name="preference_missed_call_enabled_summaryOff">Missed Call notifications are disabled</string>
+   	<string name="preference_missed_call_enabled_summaryOn">Missed Call notifications are enabled.</string>
+   	<string name="preference_missed_call_enabled_summaryOff">Missed Call notifications are disabled.</string>
     <string name="preference_missed_call_vibrate_enabled_title">Enable Vibrations</string>
    	<string name="preference_missed_call_vibrate_enabled_summaryOn">Missed Call notifications will vibrate on arrival.</string>
    	<string name="preference_missed_call_vibrate_enabled_summaryOff">Missed Call notifications will not vibrate on arrival.</string>
@@ -246,14 +246,14 @@
     
     <string name="preference_screen_settings">Screen Settings</string>
 	<string name="preference_screen_enabled_title">Turn Screen On</string>
-   	<string name="preference_screen_enabled_summaryOn">The screen will turn on when a notification is shown.</string>
+   	<string name="preference_screen_enabled_summaryOn">Screen will turn on when a notification is shown.</string>
    	<string name="preference_screen_enabled_summaryOff">Screen will not turn on when notification is shown.</string>
 	<string name="preference_screen_dim_enabled_title">Dim Screen</string>
-   	<string name="preference_screen_dim_enabled_summaryOn">Dim screen when it turns on (saves battery power).</string>
-   	<string name="preference_screen_dim_enabled_summaryOff">Screen will not dim.</string>
+   	<string name="preference_screen_dim_enabled_summaryOn">Screen will dim when it turns on (saves battery power).</string>
+   	<string name="preference_screen_dim_enabled_summaryOff">Screen will not dim when it turns on.</string>
  	<string name="preference_keyguard_enabled_title">Unlock Phone</string>
-   	<string name="preference_keyguard_enabled_summaryOn">Unlock phone when a notification is shown.</string>
-   	<string name="preference_keyguard_enabled_summaryOff">Do not unlock phone when a notification is shown.</string>
+   	<string name="preference_keyguard_enabled_summaryOn">Phone will unlock when a notification is shown.</string>
+   	<string name="preference_keyguard_enabled_summaryOff">Phone will not unlock when a notification is shown.</string>
 	<string name="preference_keyguard_timeout">Keyguard Timeout</string>
    	<string name="preference_keyguard_timeout_summary">Define how long to wait before a releasing the phones Keyguard.</string>
 	<string name="preference_blur_screen_background_enabled_title">Blur Screen Background</string>
@@ -278,10 +278,10 @@
    	<string name="rate_app_summary">Rate this application.</string>
    	
    	<string name="email_developer_text">Email Developer</string>
-   	<string name="email_developer_summary">Send an email to the developer to give feedback about this application.</string>
+   	<string name="email_developer_summary">Send an email to the developer.</string>
    	
    	<string name="test_app_text">Test Notifications</string>
-   	<string name="test_app_summary">View test notifications. A popup will apear with some sample notifications.</string>
+   	<string name="test_app_summary">A popup will appear with sample notifications.</string>
    	
    	<string name="theme_text">Notification Theme</string>
    	<string name="preference_theme_summary">Select the theme for the notifications.</string>
@@ -291,19 +291,19 @@
    	<string name="preference_landscape_screen_enabled_summaryOff">The screens will not rotate to landscape mode when the phone is rotated.</string>
    	
    	<string name="preference_quick_reply_sms_gateway">SMS-to-Email Gateway</string>
-   	<string name="preference_quick_reply_sms_gateway_summary">Select your service provider from this list. If you can\'t find it unfortunately you won\'t be able to send an SMS message to an Email address using the built in Quick Reply. (Please try using the Android Messaging App)</string>
+   	<string name="preference_quick_reply_sms_gateway_summary">Select your service provider from this list. If you can\'t find it you won\'t be able to send SMS messages to Email address\'s with the built in Quick Reply.</string>
    	
    	<string name="preference_phone_number_format">Phone Number Format</string>
    	<string name="preference_phone_number_format_summary">Select the phone number format used to display phone numbers.</string>
    	
    	<string name="preference_export_preferences_title">Export Preferences</string>
-   	<string name="preference_export_preferences_summary">Export this applications preferences. This will allow you to save your preferences and import them back in later in case you need to uninstall and then reinstall this application.</string>
+   	<string name="preference_export_preferences_summary">Export this applications preferences to your SD card.</string>
    	<string name="preference_export_preferences_progress_text">Exporting Application Preferences...</string>
    	<string name="preference_export_preferences_finish_text">The application preferences have been exported.</string>
    	<string name="preference_export_preferences_error_text">The application preferences were not exported. Possible causes for this error include a missing SD Card or other SD card related issues which prevents this application from writing a file to the SD card location.</string>
  
     <string name="preference_import_preferences_title">Import Preferences</string>
-   	<string name="preference_import_preferences_summary">Import application preferences. **YOU MUST RESTART THE PREFERENCES TO SEE THE PREFERENCE UPDATES**</string>
+   	<string name="preference_import_preferences_summary">Import application preferences from your SD card.\n**YOU MUST RESTART THE PREFERENCES TO SEE THE PREFERENCE UPDATES**</string>
    	<string name="preference_import_preferences_progress_text">Importing Application Preferences...</string>
    	<string name="preference_import_preferences_finish_text">The application preferences have been imported.</string>
    	<string name="preference_import_preferences_error_text">The application preferences were not imported. Possible causes for this error include a missinf preferences file, a missing SD Card or other SD card related issues which prevents this application from reading a file from the SD card location.</string>

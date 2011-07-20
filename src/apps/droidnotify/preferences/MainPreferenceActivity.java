@@ -13,6 +13,7 @@ import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
@@ -28,6 +29,12 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 import apps.droidnotify.CalendarAlarmReceiver;
 import apps.droidnotify.common.Common;
@@ -204,16 +211,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 				SharedPreferences.Editor editor = _preferences.edit();
 				editor.putBoolean("runOnceEula", false);
 				editor.commit();
-				AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-				alertDialog.setIcon(R.drawable.ic_dialog_info);
-				alertDialog.setTitle(R.string.app_license);
-				alertDialog.setMessage(R.string.eula_text);
-			    alertDialog.setPositiveButton(R.string.ok_text, new DialogInterface.OnClickListener() {
-			    	public void onClick(DialogInterface dialogInterface, int id) {
-			    		//Action on dialog close. Do nothing.
-			       }
-			     });
-			    alertDialog.show();
+				displayHTMLAlertDialog(_context.getString(R.string.app_license),R.drawable.ic_dialog_info,_context.getString(R.string.eula_text));
 			}catch(Exception ex){
  	    		if (_debug) Log.e("MainPreferenceActivity.runOnceEula() ERROR: " + ex.toString());
 	    	}
@@ -234,8 +232,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 				bundle.putInt("notificationType", NOTIFICATION_TYPE_TEST);
 		    	Intent intent = new Intent(_context, NotificationActivity.class);
 		    	intent.putExtras(bundle);
-		    	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-		    			| Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+		    	intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 		    	try{
 		    		startActivity(intent);
 		    	}catch(Exception ex){
@@ -256,8 +253,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			    	if(Log.getShowAndroidRateAppLink()) rateAppURL = RATE_APP_ANDROID_URL;
 			    	if(Log.getShowAmazonRateAppLink()) rateAppURL = RATE_APP_AMAZON_URL;
 			    	Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(rateAppURL));			    	
-			    	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-			    			| Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+			    	intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 		    		startActivity(intent);
 		    	}catch(Exception ex){
 	 	    		if (_debug) Log.e("MainPreferenceActivity.setupCustomPreferences() Rate This App Button ERROR: " + ex.toString());
@@ -275,8 +271,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		    	try{
 			    	Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:droidnotify@gmail.com"));
 			    	intent.putExtra("subject", "Droid Notify App Feedback");
-			    	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-			    			| Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+			    	intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 		    		startActivity(intent);
 		    	}catch(Exception ex){
 	 	    		if (_debug) Log.e("MainPreferenceActivity.setupCustomPreferences() Email Developer Button ERROR: " + ex.toString());
@@ -284,6 +279,22 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	 	    		return false;
 		    	}
 	            return true;
+           }
+		});
+		//About Preference/Button
+		Preference aboutPreferencesPref = (Preference)findPreference("about_droid_notify");
+		aboutPreferencesPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+        	public boolean onPreferenceClick(Preference preference) {
+		    	if (_debug) Log.v("About Button Clicked()");
+		    	return displayHTMLAlertDialog(_context.getString(R.string.app_name_formatted_version, _context.getString(R.string.app_version)),R.drawable.ic_launcher_droidnotify,_context.getString(R.string.preference_about_text));
+           }
+		});
+		//License Preference/Button
+		Preference licensePreferencesPref = (Preference)findPreference("droid_notify_license");
+		licensePreferencesPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+        	public boolean onPreferenceClick(Preference preference) {
+		    	if (_debug) Log.v("License Button Clicked()");
+	            return displayHTMLAlertDialog(_context.getString(R.string.app_license),R.drawable.ic_dialog_info,_context.getString(R.string.eula_text));
            }
 		});
 		//Email Developer Logs Preference/Button
@@ -295,8 +306,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			    	Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:droidnotify@gmail.com"));
 			    	intent.putExtra("subject", "Droid Notify App Logs");
 			    	intent.putExtra("body", "What went wrong? What is the reason for emailing the log files: ");
-			    	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-			    			| Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+			    	intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 					File logFilePathV = Environment.getExternalStoragePublicDirectory("Droid Notify/Logs/V");
 					File logFileV = new File(logFilePathV, "DroidNotifyLog.txt");
 					File logFilePathD = Environment.getExternalStoragePublicDirectory("Droid Notify/Logs/D");
@@ -838,6 +848,35 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
     	SharedPreferences.Editor editor = _preferences.edit();
     	editor.putString(CALENDAR_SELECTION_KEY, calendarSelectionPreference.toString());
     	editor.commit();
+	}
+	
+	/**
+	 * Display an HTML AletDialog.
+	 */
+	private boolean displayHTMLAlertDialog(String title, int iconResource, String content){
+		if (_debug) Log.v("MainPreferenceActivity.displayHTMLAlertDialog()");
+		try{
+    		LayoutInflater layoutInflater = (LayoutInflater) _context.getSystemService(LAYOUT_INFLATER_SERVICE);
+    		View view = layoutInflater.inflate(R.layout.html_alert_dialog, (ViewGroup) findViewById(R.id.content_scroll_view));		    		
+    		TextView contentTextView = (TextView) view.findViewById(R.id.content_text_view);
+    		contentTextView.setText(Html.fromHtml(content));
+    		contentTextView.setMovementMethod(LinkMovementMethod.getInstance());
+    		AlertDialog.Builder builder = new AlertDialog.Builder(_context);
+    		builder.setIcon(iconResource);
+    		builder.setTitle(title);
+    		builder.setView(view);
+    		builder.setNegativeButton(R.string.ok_text, new OnClickListener() {
+				public void onClick(DialogInterface dialog, int id) {
+					dialog.dismiss();
+				}
+			});
+    		AlertDialog alertDialog = builder.create();
+    		alertDialog.show();
+    	}catch(Exception ex){
+	    		if (_debug) Log.e("MainPreferenceActivity.displayHTMLAlertDialog() ERROR: " + ex.toString());
+	    		return false;
+    	}
+		return true;
 	}
 	
 }
