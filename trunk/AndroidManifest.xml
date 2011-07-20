@@ -19,9 +19,10 @@
         <activity 
         	android:name="apps.droidnotify.preferences.MainPreferenceActivity" 
         	android:label="@string/app_name_formatted"
-			android:launchMode="singleTask"  >
+			android:configChanges="orientation|keyboardHidden|keyboard|navigation">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+            	<category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -62,15 +63,15 @@
    		<activity 
    			android:name="apps.droidnotify.NotificationActivity" 
    			android:theme="@style/Theme.Transparent"
-			android:launchMode="singleTask"
+   			android:launchMode="singleInstance"
+ 			android:taskAffinity=""
 			android:screenOrientation="user"
-        	android:configChanges="keyboardHidden|orientation" />
+			android:configChanges="orientation|keyboardHidden|keyboard|navigation" />
 		<activity 
    			android:name="apps.droidnotify.QuickReplyActivity" 
    			android:theme="@style/Theme.Transparent"
-			android:launchMode="singleTask"
 			android:screenOrientation="user"
-        	android:configChanges="keyboardHidden|orientation"
+			android:configChanges="orientation|keyboardHidden|keyboard|navigation"
         	android:windowSoftInputMode="stateVisible" />
     </application>
 	<uses-permission android:name="android.permission.CALL_PHONE" />
