@@ -215,8 +215,7 @@ public class QuickReplyActivity extends Activity {
 	    _sendButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view) {
             	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-            	sendSMSMessage(); 
-        		if (_debug) Log.e("QuickReplyActivity.sendSMS() Setting Result Code To RESULT_OK");
+            	sendSMSMessage();
                 //Set the result for this activity.
                 setResult(RESULT_OK);
                 //Finish Activity.

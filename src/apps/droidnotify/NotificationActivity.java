@@ -303,10 +303,7 @@ public class NotificationActivity extends Activity {
 					}else{
 						intent.putExtra(ContactsContract.Intents.Insert.PHONE, sentFromAddress);
 					}		
-			        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP
-			        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
-			        		| Intent.FLAG_ACTIVITY_NO_HISTORY
-			        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+			        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 				    startActivityForResult(intent,ADD_CONTACT_ACTIVITY);
 					return true;
 				}catch(Exception ex){
@@ -325,10 +322,7 @@ public class NotificationActivity extends Activity {
 					intent = new Intent(Intent.ACTION_EDIT);
 					Uri editContactURI = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_URI, String.valueOf(contactID));
 				    intent.setData(editContactURI);	
-			        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP
-			        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
-			        		| Intent.FLAG_ACTIVITY_NO_HISTORY
-			        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+			        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 				    startActivityForResult(intent,EDIT_CONTACT_ACTIVITY);
 					return true;
 				}catch(Exception ex){
@@ -347,10 +341,7 @@ public class NotificationActivity extends Activity {
 					intent = new Intent(Intent.ACTION_VIEW);
 					Uri viewContactURI = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_URI, String.valueOf(contactID));
 				    intent.setData(viewContactURI);	
-			        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP
-			        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
-			        		| Intent.FLAG_ACTIVITY_NO_HISTORY
-			        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+			        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 				    startActivityForResult(intent,VIEW_CONTACT_ACTIVITY);
 					return true;
 				}catch(Exception ex){
@@ -423,10 +414,7 @@ public class NotificationActivity extends Activity {
 				try{
 					String phoneNumber = notification.getSentFromAddress();
 					intent = new Intent(Intent.ACTION_VIEW);
-			        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP
-			        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
-			        		| Intent.FLAG_ACTIVITY_NO_HISTORY
-			        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+			        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 			        intent.setData(Uri.parse("smsto:" + phoneNumber));
 				    startActivityForResult(intent,VIEW_SMS_THREAD_ACTIVITY);
 					return true;
@@ -440,10 +428,7 @@ public class NotificationActivity extends Activity {
 				try{
 					intent = new Intent(Intent.ACTION_MAIN);
 				    intent.setType("vnd.android-dir/mms-sms");
-			        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP
-			        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
-			        		| Intent.FLAG_ACTIVITY_NO_HISTORY
-			        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+			        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 				    startActivityForResult(intent,MESSAGING_ACTIVITY);
 					return true;
 				}catch(Exception ex){
@@ -456,10 +441,7 @@ public class NotificationActivity extends Activity {
 				try{
 					intent = new Intent(Intent.ACTION_EDIT);
 					intent.setType("vnd.android.cursor.item/event");
-					intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP
-			        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
-			        		| Intent.FLAG_ACTIVITY_NO_HISTORY
-			        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+					intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 				    startActivityForResult(intent,ADD_CALENDAR_ACTIVITY);
 					return true;
 				}catch(Exception ex){
@@ -482,10 +464,7 @@ public class NotificationActivity extends Activity {
 					//intent.setData(Uri.parse("content://calendar/events/" + String.valueOf(calendarEventID)));	
 					intent.putExtra(EVENT_BEGIN_TIME,notification.getCalendarEventStartTime());
 					intent.putExtra(EVENT_END_TIME,notification.getCalendarEventEndTime());
-					intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP
-			        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
-			        		| Intent.FLAG_ACTIVITY_NO_HISTORY
-			        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+					intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 				    startActivityForResult(intent,EDIT_CALENDAR_ACTIVITY);
 					return true;
 				}catch(Exception ex){
@@ -783,16 +762,16 @@ public class NotificationActivity extends Activity {
 		    	if (resultCode == RESULT_OK) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() SEND_SMS_QUICK_REPLY_ACTIVITY: RESULT_OK");
 		        	//Remove notification from ViewFlipper.
-					_notificationViewFlipper.removeActiveNotification();
+				//	_notificationViewFlipper.removeActiveNotification();
 		    	}else if (resultCode == RESULT_CANCELED) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() SEND_SMS_QUICK_REPLY_ACTIVITY: RESULT_CANCELED");
 		    		//Remove notification from ViewFlipper.
-					_notificationViewFlipper.removeActiveNotification();
-		    		//TODO - FIX THIS QUICK REPLY ISSUE!
+					//_notificationViewFlipper.removeActiveNotification();
 		    	}else{
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() SEND_SMS_QUICK_REPLY_ACTIVITY: " + resultCode);
 		        	Toast.makeText(_context, _context.getString(R.string.app_android_messaging_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
 		    	}
+		    	//Because this doesn't work correctly, don't do anything for now.
 		        break;
 		    }
 	    }
@@ -1397,10 +1376,7 @@ public class NotificationActivity extends Activity {
 			}
 			Intent intent = new Intent(Intent.ACTION_SENDTO);
 		    intent.setData(Uri.parse("smsto:" + phoneNumber));
-	        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP
-	        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
-	        		| Intent.FLAG_ACTIVITY_NO_HISTORY
-	        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+	        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 		    startActivityForResult(intent,SEND_SMS_ACTIVITY);
 		}catch(Exception ex){
 			if (_debug) Log.e("NotificationActivity.sendSMSMessage() ERROR: " + ex.toString());
@@ -1423,10 +1399,7 @@ public class NotificationActivity extends Activity {
 			}
 			Intent intent = new Intent(Intent.ACTION_CALL);
 	        intent.setData(Uri.parse("tel:" + phoneNumber));		
-	        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP
-	        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
-	        		| Intent.FLAG_ACTIVITY_NO_HISTORY
-	        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+	        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 		    startActivityForResult(intent,CALL_ACTIVITY);
 		}catch(Exception ex){
 			if (_debug) Log.e("NotificationActivity.makePhoneCall() ERROR: " + ex.toString());

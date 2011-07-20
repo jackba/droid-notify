@@ -608,10 +608,7 @@ public class NotificationView extends LinearLayout {
 				    intent.setData(Uri.parse("smsto:" + phoneNumber));
 				    // Exit the app once the SMS is sent.
 				    intent.putExtra("compose_mode", true);
-			        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP
-			        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
-			        		| Intent.FLAG_ACTIVITY_NO_HISTORY
-			        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+			        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 			        _notificationActivity.startActivityForResult(intent,SEND_SMS_ACTIVITY);
 				}catch(Exception ex){
 					if (_debug) Log.e("NotificationView.replyToMessage() Android Reply ERROR: " + ex.toString());
@@ -623,10 +620,7 @@ public class NotificationView extends LinearLayout {
 			if(_preferences.getString(SMS_REPLY_BUTTON_ACTION_KEY, "0").equals(SMS_QUICK_REPLY)){
 				try{
 					Intent intent = new Intent(_context, QuickReplyActivity.class);
-			        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP
-			        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
-			        		| Intent.FLAG_ACTIVITY_NO_HISTORY
-			        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+			        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 			        if (_debug) Log.v("NotificationView.replyToMessage() Put bundle in intent");
 				    intent.putExtra("smsPhoneNumber", phoneNumber);
 				    if(_notification.getContactExists()){
@@ -658,10 +652,7 @@ public class NotificationView extends LinearLayout {
 				    intent.setData(Uri.parse("smsto:" + phoneNumber));
 				    // Exit the app once the SMS is sent.
 				    intent.putExtra("compose_mode", true);
-			        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP
-			        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
-			        		| Intent.FLAG_ACTIVITY_NO_HISTORY
-			        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+			        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 			        _notificationActivity.startActivityForResult(intent,SEND_SMS_ACTIVITY);
 				}catch(Exception ex){
 					if (_debug) Log.e("NotificationView.replyToMessage() Android Reply ERROR: " + ex.toString());
@@ -673,10 +664,7 @@ public class NotificationView extends LinearLayout {
 			if(_preferences.getString(MMS_REPLY_BUTTON_ACTION_KEY, "0").equals(MMS_QUICK_REPLY)){
 				try{
 					Intent intent = new Intent(_context, QuickReplyActivity.class);
-			        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP
-			        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
-			        		| Intent.FLAG_ACTIVITY_NO_HISTORY
-			        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+					intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 			        if (_debug) Log.v("NotificationView.replyToMessage() Put bundle in intent");
 				    intent.putExtra("smsPhoneNumber", phoneNumber);
 				    if(_notification.getContactExists()){
@@ -717,10 +705,7 @@ public class NotificationView extends LinearLayout {
 		try{
 			Intent intent = new Intent(Intent.ACTION_CALL);
 	        intent.setData(Uri.parse("tel:" + numberToBeCalled));
-	        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP
-	        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
-	        		| Intent.FLAG_ACTIVITY_NO_HISTORY
-	        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+	        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 	        _notificationActivity.startActivityForResult(intent,CALL_ACTIVITY);
 		}catch(Exception ex){
 			if (_debug) Log.e("NotificationView.makePhoneCall() ERROR: " + ex.toString());
@@ -748,10 +733,7 @@ public class NotificationView extends LinearLayout {
 			//intent.setData(Uri.parse("content://calendar/events/" + String.valueOf(calendarEventID)));
 			intent.putExtra(EVENT_BEGIN_TIME,_notification.getCalendarEventStartTime());
 			intent.putExtra(EVENT_END_TIME,_notification.getCalendarEventEndTime());
-			intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP
-	        		| Intent.FLAG_ACTIVITY_CLEAR_TOP
-	        		| Intent.FLAG_ACTIVITY_NO_HISTORY
-	        		| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+			intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 	        _notificationActivity.startActivityForResult(intent,VIEW_CALENDAR_ACTIVITY);
 		}catch(Exception ex){
 			if (_debug) Log.e("NotificationView.viewCalendarEvent() ERROR: " + ex.toString());
