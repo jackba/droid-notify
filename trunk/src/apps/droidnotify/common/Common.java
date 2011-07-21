@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -32,6 +33,9 @@ public class Common {
 	private static final String _ID = "_id";
     private static final String CALENDAR_DISPLAY_NAME = "displayName"; 
     private static final String CALENDAR_SELECTED = "selected";
+    
+	private static final String EVENT_BEGIN_TIME = "beginTime";
+	private static final String EVENT_END_TIME = "endTime";
 	
 	//================================================================================
     // Properties
@@ -552,6 +556,241 @@ public class Common {
 			return false;
 		}
 	}
+	
+	/**
+	 * Start the intent to view the phones call log.
+	 * 
+	 * @param context - Application Context.
+	 * @param notificationActivity - A reference to the parent activity.
+	 * @param requestCode - The request code we want returned.
+	 * 
+	 * @return boolean - Returns true if the activity can be started.
+	 */
+	public static boolean startCallLogViewActivity(Context context, NotificationActivity notificationActivity, int requestCode){
+		if (_debug) Log.v("Common.startCallLogViewActivity()");
+		try{
+			Intent intent = new Intent(Intent.ACTION_VIEW);
+			intent.setType("vnd.android.cursor.dir/calls");
+			notificationActivity.startActivityForResult(intent, requestCode);
+			return true;
+		}catch(Exception ex){
+			if (_debug) Log.e("Common.startCallLogViewActivity() ERROR: " + ex.toString());
+			Toast.makeText(context, context.getString(R.string.app_android_call_log_error), Toast.LENGTH_LONG).show();
+			return false;
+		}
+	}
+	
+	/**
+	 * Start the intent to view a contact.
+	 * 
+	 * @param context - Application Context.
+	 * @param notificationActivity - A reference to the parent activity.
+	 * @param contactID - The id of the contact we want to view.
+	 * @param requestCode - The request code we want returned.
+	 * 
+	 * @return boolean - Returns true if the activity can be started.
+	 */
+	public static boolean startContactViewActivity(Context context, NotificationActivity notificationActivity, long contactID, int requestCode){
+		if (_debug) Log.v("Common.startContactViewActivity()");
+		try{
+			if(contactID == 0){
+				Toast.makeText(context, context.getString(R.string.app_android_contact_not_found_error), Toast.LENGTH_LONG).show();
+				return false;
+			}
+			Intent intent = new Intent(Intent.ACTION_VIEW);
+			Uri viewContactURI = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_URI, String.valueOf(contactID));
+		    intent.setData(viewContactURI);	
+		    notificationActivity.startActivityForResult(intent, requestCode);
+			return true;
+		}catch(Exception ex){
+			if (_debug) Log.e("Common.startContactViewActivity() ERROR: " + ex.toString());
+			Toast.makeText(context, context.getString(R.string.app_android_contacts_app_error), Toast.LENGTH_LONG).show();
+			return false;
+		}
+	}
+	
+	/**
+	 * Start the intent to start the calendar app.
+	 * 
+	 * @param context - Application Context.
+	 * @param notificationActivity - A reference to the parent activity.
+	 * @param requestCode - The request code we want returned.
+	 * 
+	 * @return boolean - Returns true if the activity can be started.
+	 */
+	public static boolean startViewCalendarActivity(Context context, NotificationActivity notificationActivity, int requestCode){
+		if (_debug) Log.v("Common.startViewCalendarActivity()");
+		try{
+			//Androids calendar app.
+			Intent intent = new Intent(Intent.ACTION_VIEW);
+			intent.setClassName("com.android.calendar", "com.android.calendar.LaunchActivity"); 
+			notificationActivity.startActivityForResult(intent, requestCode);
+			return true;
+		}catch(Exception e){
+			try{
+				//HTC Sense UI calendar app.
+				Intent intent = new Intent(Intent.ACTION_MAIN); 
+				intent.setComponent(new ComponentName("com.htc.calendar", "com.htc.calendar.LaunchActivity"));
+				notificationActivity.startActivityForResult(intent, requestCode);
+				return true;
+			}catch(Exception ex){
+				if (_debug) Log.e("Common.startViewCalendarActivity() ERROR: " + ex.toString());
+				Toast.makeText(context, context.getString(R.string.app_android_calendar_app_error), Toast.LENGTH_LONG).show();
+				return false;
+			}
+		}
+	}
+	
+	/**
+	 * Start the intent to add an event to the calendar app.
+	 * 
+	 * @param context - Application Context.
+	 * @param notificationActivity - A reference to the parent activity.
+	 * @param requestCode - The request code we want returned.
+	 * 
+	 * @return boolean - Returns true if the activity can be started.
+	 */
+	public static boolean startAddCalendarEventActivity(Context context, NotificationActivity notificationActivity, int requestCode){
+		if (_debug) Log.v("Common.startAddCalendarEventActivity()");
+		try{
+			Intent intent = new Intent(Intent.ACTION_EDIT);
+			intent.setType("vnd.android.cursor.item/event");
+			notificationActivity.startActivityForResult(intent, requestCode);
+			return true;
+		}catch(Exception ex){
+			if (_debug) Log.e("Common.startAddCalendarEventActivity ERROR: " + ex.toString());
+			Toast.makeText(context, context.getString(R.string.app_android_calendar_app_error), Toast.LENGTH_LONG).show();
+			return false;
+		}
+	}
+	
+	/**
+	 * Start the intent to view an event to the calendar app.
+	 * 
+	 * @param context - Application Context.
+	 * @param notificationActivity - A reference to the parent activity.
+	 * @param calendarEventID - The id of the calendar event.
+	 * @param calendarEventStartTime - The start time of the calendar event.
+	 * @param calendarEventEndTime - The end time of the calendar event.
+	 * @param requestCode - The request code we want returned.
+	 * 
+	 * @return boolean - Returns true if the activity can be started.
+	 */
+	public static boolean startViewCalendarEventActivity(Context context, NotificationActivity notificationActivity, long calendarEventID, long calendarEventStartTime, long calendarEventEndTime, int requestCode){
+		if (_debug) Log.v("Common.startViewCalendarEventActivity()");
+		try{
+			if(calendarEventID == 0){
+				Toast.makeText(context, context.getString(R.string.app_android_calendar_event_not_found_error), Toast.LENGTH_LONG).show();
+				return false;
+			}
+			Intent intent = new Intent(Intent.ACTION_VIEW);
+			//Android 2.2+
+			intent.setData(Uri.parse("content://com.android.calendar/events/" + String.valueOf(calendarEventID)));	
+			//Android 2.1 and below.
+			//intent.setData(Uri.parse("content://calendar/events/" + String.valueOf(calendarEventID)));
+			intent.putExtra(EVENT_BEGIN_TIME, calendarEventStartTime);
+			intent.putExtra(EVENT_END_TIME, calendarEventEndTime);
+			notificationActivity.startActivityForResult(intent, requestCode);
+			return true;
+		}catch(Exception ex){
+			if (_debug) Log.e("Common.startViewCalendarEventActivity ERROR: " + ex.toString());
+			Toast.makeText(context, context.getString(R.string.app_android_calendar_app_error), Toast.LENGTH_LONG).show();
+			return false;
+		}
+	}
+	
+	/**
+	 * Start the intent to edit an event to the calendar app.
+	 * 
+	 * @param context - Application Context.
+	 * @param notificationActivity - A reference to the parent activity.
+	 * @param calendarEventID - The id of the calendar event.
+	 * @param calendarEventStartTime - The start time of the calendar event.
+	 * @param calendarEventEndTime - The end time of the calendar event.
+	 * @param requestCode - The request code we want returned.
+	 * 
+	 * @return boolean - Returns true if the activity can be started.
+	 */
+	public static boolean startEditCalendarEventActivity(Context context, NotificationActivity notificationActivity, long calendarEventID, long calendarEventStartTime, long calendarEventEndTime, int requestCode){
+		if (_debug) Log.v("Common.startEditCalendarEventActivity()");
+		try{
+			if(calendarEventID == 0){
+				Toast.makeText(context, context.getString(R.string.app_android_calendar_event_not_found_error), Toast.LENGTH_LONG).show();
+				return false;
+			}
+			Intent intent = new Intent(Intent.ACTION_EDIT);
+			//Android 2.2+
+			intent.setData(Uri.parse("content://com.android.calendar/events/" + String.valueOf(calendarEventID)));	
+			//Android 2.1 and below.
+			//intent.setData(Uri.parse("content://calendar/events/" + String.valueOf(calendarEventID)));
+			intent.putExtra(EVENT_BEGIN_TIME, calendarEventStartTime);
+			intent.putExtra(EVENT_END_TIME, calendarEventEndTime);
+			notificationActivity.startActivityForResult(intent, requestCode);
+			return true;
+		}catch(Exception ex){
+			if (_debug) Log.e("Common.startEditCalendarEventActivity ERROR: " + ex.toString());
+			Toast.makeText(context, context.getString(R.string.app_android_calendar_app_error), Toast.LENGTH_LONG).show();
+			return false;
+		}
+	}
+	
+	/**
+	 * Start the intent to edit a contact.
+	 * 
+	 * @param context - Application Context.
+	 * @param notificationActivity - A reference to the parent activity.
+	 * @param contactID - The id of the contact we want to edit.
+	 * @param requestCode - The request code we want returned.
+	 * 
+	 * @return boolean - Returns true if the activity can be started.
+	 */
+	public static boolean startContactEditActivity(Context context, NotificationActivity notificationActivity, long contactID, int requestCode){
+		if (_debug) Log.v("Common.startContactEditActivity()");
+		try{
+			if(contactID == 0){
+				Toast.makeText(context, context.getString(R.string.app_android_contact_not_found_error), Toast.LENGTH_LONG).show();
+				return false;
+			}
+			Intent intent = new Intent(Intent.ACTION_EDIT);
+			Uri viewContactURI = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_URI, String.valueOf(contactID));
+		    intent.setData(viewContactURI);	
+		    notificationActivity.startActivityForResult(intent, requestCode);
+			return true;
+		}catch(Exception ex){
+			if (_debug) Log.e("Common.startContactEditActivity() ERROR: " + ex.toString());
+			Toast.makeText(context, context.getString(R.string.app_android_contacts_app_error), Toast.LENGTH_LONG).show();
+			return false;
+		}
+	}	
+	
+	/**
+	 * Start the intent to add a contact.
+	 * 
+	 * @param context - Application Context.
+	 * @param notificationActivity - A reference to the parent activity.
+	 * @param sentFromAddress - The address (email or phone) of the contact we want to add.
+	 * @param requestCode - The request code we want returned.
+	 * 
+	 * @return boolean - Returns true if the activity can be started.
+	 */
+	public static boolean startContactAddActivity(Context context, NotificationActivity notificationActivity, String sentFromAddress, int requestCode){
+		if (_debug) Log.v("Common.startContactAddActivity()");
+		try{
+			Intent intent = new Intent(Intent.ACTION_INSERT);
+			intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
+			if(sentFromAddress.contains("@")){
+				intent.putExtra(ContactsContract.Intents.Insert.EMAIL, sentFromAddress);
+			}else{
+				intent.putExtra(ContactsContract.Intents.Insert.PHONE, sentFromAddress);
+			}
+		    notificationActivity.startActivityForResult(intent, requestCode);
+			return true;
+		}catch(Exception ex){
+			if (_debug) Log.e("Common.startContactAddActivity() ERROR: " + ex.toString());
+			Toast.makeText(context, context.getString(R.string.app_android_contacts_app_error), Toast.LENGTH_LONG).show();
+			return false;
+		}
+	}	
 	
 //	/**
 //	 * Get the service center to use for a reply.

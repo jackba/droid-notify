@@ -29,6 +29,8 @@
 	    	android:layout_toRightOf="@+id/previous_button" 
 	    	android:layout_toLeftOf="@+id/next_button"
 	    	android:gravity="center"
+			android:focusable="true" 
+			android:clickable="true"
 	    	android:textAppearance="?android:attr/textAppearanceMedium" 
 	    	android:textColor="@color/white"
 	    	android:text="0/0"/>

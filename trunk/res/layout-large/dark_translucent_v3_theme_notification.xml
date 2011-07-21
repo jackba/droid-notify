@@ -29,6 +29,8 @@
 	    	android:layout_toRightOf="@+id/previous_button" 
 	    	android:layout_toLeftOf="@+id/next_button"
 	    	android:gravity="center"
+			android:focusable="true" 
+			android:clickable="true"
 	    	android:textAppearance="?android:attr/textAppearanceMedium" 
 	    	android:textColor="@color/white"
 	    	android:text="0/0"/>
@@ -66,14 +68,14 @@
 				android:layout_width="wrap_content"
 				android:layout_gravity="center_vertical"
 				android:scaleType="center"
-				android:background="@drawable/image_picture_frame_white" />
+				android:background="@drawable/image_picture_frame_white" />		
 			<ProgressBar 
 				android:id="@+id/contact_photo_progress_bar" 
 				android:layout_height="wrap_content"
 				android:layout_width="wrap_content"
 				android:layout_gravity="center_vertical|center_horizontal"
 				android:layout_margin="42dip"
-				style="@android:style/Widget.ProgressBar.Small" />
+				style="@android:style/Widget.ProgressBar.Small" />	
 			<LinearLayout
 				android:id="@+id/contact_info_wrapper_linear_layout"
 				android:orientation="vertical"
@@ -210,7 +212,7 @@
 			android:layout_marginLeft="1dip"
 			android:layout_marginRight="1dip"
 			android:gravity="center_vertical|center_horizontal"
-			android:drawableLeft="@drawable/ic_conversation_white"
+			android:drawableLeft="@drawable/ic_conversation_white_small"
 			android:hapticFeedbackEnabled="true" 
 	    	android:textColor="@color/white"
 			android:background="@drawable/btn_dark_translucent"

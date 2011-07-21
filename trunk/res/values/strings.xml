@@ -12,6 +12,7 @@
     <string name="appointment_at_text">Appointment at %s</string>
     <string name="appointment_on_text">Appointment on %s</string>
     <string name="event_on_text">Event on %s</string>
+    <string name="view_calendar_text">View Calendar</string>
     <string name="calendar_event_text">Calendar Event</string>
     <string name="email_at_text">New email at %s</string>
     <string name="from_phone_number_text">From %s</string>
@@ -37,6 +38,7 @@
     <!-- App Error Message Strings -->
     <string name="app_android_messaging_app_error">The Android Messaging application could not be started.</string>
 	<string name="app_android_phone_app_error">The Android Phone application could not be started.</string>
+	<string name="app_android_call_log_error">The Android Call Log application could not be started.</string>
     <string name="app_android_calendar_app_error">The Android Calendar application could not be started.</string>
     <string name="app_android_email_app_error">The Android Email application could not be started.</string>
     <string name="app_android_contacts_app_error">The Android Contacts application could not be started.</string>
@@ -77,6 +79,7 @@
    	<string name="view_contact_text">View Contact</string>
    	<string name="add_contact_text">Add Contact</string>
    	<string name="call_contact_text">Call Contact</string>
+   	<string name="view_call_log_text">View Call Log</string>
    	<string name="text_contact_text">Text Contact</string>
    	<string name="edit_contact_text">Edit Contact</string>
    	<string name="add_calendar_event_text">Add Calendar Event</string>
@@ -102,6 +105,8 @@
    	<string name="preference_delete_button_action">Delete Button Action</string>
    	<string name="preference_reply_button_action">Reply Button Action</string>
    	<string name="preference_select_ringtone">Select Ringtone</string>
+   	<string name="preference_notification_count_button_action">Notification Count Action</string>
+   	<string name="preference_notification_count_button_action_summary">Define what happens when you click on the notification count text.</string>	
    	
     <string name="preference_contact_placeholder_image">Placeholder Image</string>
     <string name="preference_contact_placeholder_image_summary">Select the placeholder image you would like to display for unknown contacts.</string>
@@ -145,7 +150,7 @@
    	<string name="preference_sms_button_settings">SMS Button Settings</string>
    	<string name="preference_sms_dismiss_button_action_summary">Define what happens when you dismiss a SMS.</string>
    	<string name="preference_sms_delete_button_action_summary">Define what happens when you delete a SMS.</string>
-   	<string name="preference_sms_reply_button_action_summary">Define what happens when you reply to a SMS.</string>  	
+   	<string name="preference_sms_reply_button_action_summary">Define what happens when you reply to a SMS.</string>
     <string name="preference_sms_ringtone_enabled_title">Enable Ringtone</string>
    	<string name="preference_sms_ringtone_enabled_summaryOn">SMS notifications will play a ringtone on arrival.</string>
    	<string name="preference_sms_ringtone_enabled_summaryOff">SMS notifications will not play a ringtone on arrival.</string>

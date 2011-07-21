@@ -67,15 +67,17 @@ public class NotificationView extends LinearLayout {
 	//private static final int EDIT_CONTACT_ACTIVITY = 2;
 	//private static final int VIEW_CONTACT_ACTIVITY = 3;
 	private static final int SEND_SMS_ACTIVITY = 4;
-	//private static final int MESSAGING_ACTIVITY = 5;
-	//private static final int VIEW_SMS_MESSAGE_ACTIVITY = 6;
-	//private static final int VIEW_SMS_THREAD_ACTIVITY = 7;
+	private static final int MESSAGING_ACTIVITY = 5;
+	private static final int VIEW_SMS_MESSAGE_ACTIVITY = 6;
+	private static final int VIEW_SMS_THREAD_ACTIVITY = 7;
 	private static final int CALL_ACTIVITY = 8;
 	//private static final int CALENDAR_ACTIVITY = 9;
 	//private static final int ADD_CALENDAR_ACTIVITY = 10;
 	//private static final int EDIT_CALENDAR_ACTIVITY = 11;
 	private static final int VIEW_CALENDAR_ACTIVITY = 12;
 	private static final int SEND_SMS_QUICK_REPLY_ACTIVITY = 13;
+	private static final int VIEW_CALL_LOG_ACTIVITY = 14;
+	private static final int CALENDAR_ACTIVITY = 15;
 	
 	private static final String HAPTIC_FEEDBACK_ENABLED_KEY = "haptic_feedback_enabled";
 	private static final String SMS_REPLY_BUTTON_ACTION_KEY = "sms_reply_button_action";
@@ -96,6 +98,12 @@ public class NotificationView extends LinearLayout {
 	private static final String CALENDAR_HIDE_DISMISS_BUTTON_KEY = "calendar_hide_dismiss_button_enabled";
 	private static final String CALENDAR_HIDE_VIEW_BUTTON_KEY = "calendar_hide_view_button_enabled";
 	
+	private static final String SMS_NOTIFICATION_COUNT_ACTION_KEY = "sms_notification_count_action";
+	private static final String MMS_NOTIFICATION_COUNT_ACTION_KEY = "mms_notification_count_action";
+	private static final String PHONE_NOTIFICATION_COUNT_ACTION_KEY = "missed_call_notification_count_action";
+	private static final String CALENDAR_NOTIFICATION_COUNT_ACTION_KEY = "calendar_notification_count_action";
+	private static final String EMAIL_NOTIFICATION_COUNT_ACTION_KEY = "email_notification_count_action";
+	
 	private static final String APP_THEME_KEY = "app_theme";
 	private static final String ANDROID_THEME = "android";
 	private static final String ANDROID_DARK_THEME = "android_dark";
@@ -110,9 +118,6 @@ public class NotificationView extends LinearLayout {
 	private static final String MMS_MESSAGING_APP_REPLY = "0";
 	private static final String MMS_QUICK_REPLY = "1";
 	
-	private static final String EVENT_BEGIN_TIME = "beginTime";
-	private static final String EVENT_END_TIME = "endTime";
-	
 	//================================================================================
     // Properties
     //================================================================================
@@ -126,6 +131,7 @@ public class NotificationView extends LinearLayout {
 	private SharedPreferences _preferences = null;
 	private TextView _contactNameTextView = null;
 	private TextView _contactNumberTextView = null;
+	private TextView _notificationCountTextView = null;
 	private TextView _notificationInfoTextView = null;
 	private TextView _notificationDetailsTextView = null;
 	private ImageView _notificationIconImageView = null;
@@ -181,6 +187,7 @@ public class NotificationView extends LinearLayout {
 		View.inflate(context, themeResource, this);
 		_contactNameTextView = (TextView) findViewById(R.id.contact_name_text_view);
 		_contactNumberTextView = (TextView) findViewById(R.id.contact_number_text_view);
+		_notificationCountTextView = (TextView) findViewById(R.id.notification_count_text_view);
 		//Automatically format the phone number in this text view.
 		//_contactNumberTextView.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
 		_notificationInfoTextView = (TextView) findViewById(R.id.notification_info_text_view);
@@ -225,6 +232,110 @@ public class NotificationView extends LinearLayout {
 		    	_notificationViewFlipper.showNext();
 		    }
 		});	
+		// Notification Count Text Button
+		switch(_notificationType){
+			case NOTIFICATION_TYPE_PHONE:{
+				int notificationCountAction = Integer.parseInt(_preferences.getString(PHONE_NOTIFICATION_COUNT_ACTION_KEY, "0"));
+				if(notificationCountAction == 0){
+					//Do Nothing.
+				}else if(notificationCountAction == 1){
+					_notificationCountTextView.setOnClickListener(new OnClickListener() {
+					    public void onClick(View view) {
+					    	if (_debug) Log.v("Notification Count Button Clicked()");
+					    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+					    	Common.startCallLogViewActivity(_context, _notificationActivity, VIEW_CALL_LOG_ACTIVITY);
+					    }
+					});			
+				}
+				break;
+			}
+			case NOTIFICATION_TYPE_SMS:{
+				int notificationCountAction = Integer.parseInt(_preferences.getString(SMS_NOTIFICATION_COUNT_ACTION_KEY, "0"));
+				if(notificationCountAction == 0){
+					//Do Nothing.
+				}else if(notificationCountAction == 1){
+					_notificationCountTextView.setOnClickListener(new OnClickListener() {
+					    public void onClick(View view) {
+					    	if (_debug) Log.v("Notification Count Button Clicked()");
+					    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+					    	Common.startMessagingAppViewThreadActivity(_context, _notificationActivity, _notification.getSentFromAddress(), VIEW_SMS_MESSAGE_ACTIVITY);
+					    }
+					});	
+				}else if(notificationCountAction == 2){
+					_notificationCountTextView.setOnClickListener(new OnClickListener() {
+					    public void onClick(View view) {
+					    	if (_debug) Log.v("Notification Count Button Clicked()");
+					    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+					    	Common.startMessagingAppViewThreadActivity(_context, _notificationActivity, _notification.getSentFromAddress(), VIEW_SMS_THREAD_ACTIVITY);
+					    }
+					});	
+				}else if(notificationCountAction == 3){
+					_notificationCountTextView.setOnClickListener(new OnClickListener() {
+					    public void onClick(View view) {
+					    	if (_debug) Log.v("Notification Count Button Clicked()");
+					    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+					    	Common.startMessagingAppViewInboxActivity(_context, _notificationActivity, MESSAGING_ACTIVITY);
+					    }
+					});		
+				}
+				break;
+			}
+			case NOTIFICATION_TYPE_MMS:{
+				int notificationCountAction = Integer.parseInt(_preferences.getString(MMS_NOTIFICATION_COUNT_ACTION_KEY, "0"));
+				if(notificationCountAction == 0){
+					//Do Nothing.
+				}else if(notificationCountAction == 1){
+					_notificationCountTextView.setOnClickListener(new OnClickListener() {
+					    public void onClick(View view) {
+					    	if (_debug) Log.v("Notification Count Button Clicked()");
+					    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+					    	Common.startMessagingAppViewThreadActivity(_context, _notificationActivity, _notification.getSentFromAddress(), VIEW_SMS_MESSAGE_ACTIVITY);
+					    }
+					});	
+				}else if(notificationCountAction == 2){
+					_notificationCountTextView.setOnClickListener(new OnClickListener() {
+					    public void onClick(View view) {
+					    	if (_debug) Log.v("Notification Count Button Clicked()");
+					    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+					    	Common.startMessagingAppViewThreadActivity(_context, _notificationActivity, _notification.getSentFromAddress(), VIEW_SMS_THREAD_ACTIVITY);
+					    }
+					});	
+				}else if(notificationCountAction == 3){
+					_notificationCountTextView.setOnClickListener(new OnClickListener() {
+					    public void onClick(View view) {
+					    	if (_debug) Log.v("Notification Count Button Clicked()");
+					    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+					    	Common.startMessagingAppViewInboxActivity(_context, _notificationActivity, MESSAGING_ACTIVITY);
+					    }
+					});		
+				}
+				break;
+			}
+			case NOTIFICATION_TYPE_CALENDAR:{
+				int notificationCountAction = Integer.parseInt(_preferences.getString(CALENDAR_NOTIFICATION_COUNT_ACTION_KEY, "0"));
+				if(notificationCountAction == 0){
+					//Do Nothing.
+				}else if(notificationCountAction == 1){
+					_notificationCountTextView.setOnClickListener(new OnClickListener() {
+					    public void onClick(View view) {
+					    	if (_debug) Log.v("Notification Count Button Clicked()");
+					    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+					    	Common.startViewCalendarActivity(_context, _notificationActivity, CALENDAR_ACTIVITY);
+					    }
+					});			
+				}
+				break;
+			}
+			case NOTIFICATION_TYPE_EMAIL:{
+				String notificationCountAction = _preferences.getString(EMAIL_NOTIFICATION_COUNT_ACTION_KEY, "0");
+				if(notificationCountAction.equals("0")){
+					//Do Nothing.
+				}else{
+
+				}
+				break;
+			}
+		}
 	    if(_notificationType == NOTIFICATION_TYPE_PHONE){
 	    	//Display the correct navigation buttons for each notification type.
 	    	phoneButtonLayoutVisibility = View.VISIBLE;
@@ -390,7 +501,8 @@ public class NotificationView extends LinearLayout {
 				    public void onClick(View view) {
 				    	if (_debug) Log.v("Calendar View Button Clicked()");
 				    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-				    	viewCalendarEvent();
+				    	//viewCalendarEvent();
+				    	Common.startViewCalendarEventActivity(_context, _notificationActivity, _notification.getCalendarEventID(), _notification.getCalendarEventStartTime(), _notification.getCalendarEventEndTime(), VIEW_CALENDAR_ACTIVITY);
 				    }
 				});
 	    	}
@@ -621,18 +733,6 @@ public class NotificationView extends LinearLayout {
 		if(notificationType == NOTIFICATION_TYPE_SMS){
 			//Reply using any installed SMS messaging app.
 			if(_preferences.getString(SMS_REPLY_BUTTON_ACTION_KEY, "0").equals(SMS_MESSAGING_APP_REPLY)){
-//				try{
-//					Intent intent = new Intent(Intent.ACTION_SENDTO);
-//				    intent.setData(Uri.parse("smsto:" + phoneNumber));
-//				    // Exit the app once the SMS is sent.
-//				    intent.putExtra("compose_mode", true);
-//			        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-//			        _notificationActivity.startActivityForResult(intent,SEND_SMS_ACTIVITY);
-//				}catch(Exception ex){
-//					if (_debug) Log.e("NotificationView.replyToMessage() Android Reply ERROR: " + ex.toString());
-//					Toast.makeText(_context, _context.getString(R.string.app_android_messaging_app_error), Toast.LENGTH_LONG).show();
-//					return;
-//				}
 				Common.startMessagingAppReplyActivity(_context, _notificationActivity, phoneNumber, SEND_SMS_ACTIVITY);
 			}		
 			//Reply using the built in Quick Reply Activity.
@@ -666,18 +766,6 @@ public class NotificationView extends LinearLayout {
 		if(notificationType == NOTIFICATION_TYPE_MMS){
 			//Reply using any installed SMS messaging app.
 			if(_preferences.getString(MMS_REPLY_BUTTON_ACTION_KEY, "0").equals(MMS_MESSAGING_APP_REPLY)){
-//				try{
-//					Intent intent = new Intent(Intent.ACTION_SENDTO);
-//				    intent.setData(Uri.parse("smsto:" + phoneNumber));
-//				    // Exit the app once the SMS is sent.
-//				    intent.putExtra("compose_mode", true);
-//			        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-//			        _notificationActivity.startActivityForResult(intent,SEND_SMS_ACTIVITY);
-//				}catch(Exception ex){
-//					if (_debug) Log.e("NotificationView.replyToMessage() Android Reply ERROR: " + ex.toString());
-//					Toast.makeText(_context, _context.getString(R.string.app_android_messaging_app_error), Toast.LENGTH_LONG).show();
-//					return;
-//				}
 				Common.startMessagingAppReplyActivity(_context, _notificationActivity, phoneNumber, SEND_SMS_ACTIVITY);
 			}		
 			//Reply using the built in Quick Reply Activity.
@@ -733,34 +821,6 @@ public class NotificationView extends LinearLayout {
 			return;
 		}
 	}
-	
-	/**
-	 * Launches a new Activity.
-	 * Views the calendar event using the stock Android calendar app.
-	 */
-	private void viewCalendarEvent(){
-		if (_debug) Log.v("NotificationView.viewCalendarEvent()");
-		long calendarEventID = _notification.getCalendarEventID();
-		if(calendarEventID == 0){
-			Toast.makeText(_context, _context.getString(R.string.app_android_calendar_event_not_found_error), Toast.LENGTH_LONG).show();
-			return;
-		}
-		try{
-			Intent intent = new Intent(Intent.ACTION_VIEW);
-			//Android 2.2+
-			intent.setData(Uri.parse("content://com.android.calendar/events/" + String.valueOf(calendarEventID)));	
-			//Android 2.1 and below.
-			//intent.setData(Uri.parse("content://calendar/events/" + String.valueOf(calendarEventID)));
-			intent.putExtra(EVENT_BEGIN_TIME,_notification.getCalendarEventStartTime());
-			intent.putExtra(EVENT_END_TIME,_notification.getCalendarEventEndTime());
-			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-	        _notificationActivity.startActivityForResult(intent,VIEW_CALENDAR_ACTIVITY);
-		}catch(Exception ex){
-			if (_debug) Log.e("NotificationView.viewCalendarEvent() ERROR: " + ex.toString());
-			Toast.makeText(_context, _context.getString(R.string.app_android_calendar_app_error), Toast.LENGTH_LONG).show();
-			return;
-		}
-	}
  
 	/**
 	 * Confirm the delete request of the current message.
@@ -775,21 +835,6 @@ public class NotificationView extends LinearLayout {
 	 */
 	private void setupContextMenus(){
 		if (_debug) Log.v("NotificationView.setupContextMenus()"); 
-//		if(_notificationType == NOTIFICATION_TYPE_PHONE){
-//			_notificationActivity.registerForContextMenu(_contactLinearLayout);
-//	    }
-//	    if(_notificationType == NOTIFICATION_TYPE_SMS){
-//	    	_notificationActivity.registerForContextMenu(_contactLinearLayout);
-//	    }
-//	    if(_notificationType == NOTIFICATION_TYPE_MMS){
-//	    	_notificationActivity.registerForContextMenu(_contactLinearLayout);
-//	    }
-//	    if(_notificationType == NOTIFICATION_TYPE_CALENDAR){
-//	    	_notificationActivity.registerForContextMenu(_contactLinearLayout);
-//	    }
-//	    if(_notificationType == NOTIFICATION_TYPE_EMAIL){
-//	    	_notificationActivity.registerForContextMenu(_contactLinearLayout);
-//	    } 	
 	    _notificationActivity.registerForContextMenu(_contactLinearLayout);
 	}
 
