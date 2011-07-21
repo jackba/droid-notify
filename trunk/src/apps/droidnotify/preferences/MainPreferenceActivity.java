@@ -13,7 +13,6 @@ import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
@@ -879,7 +878,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
     		builder.setIcon(iconResource);
     		builder.setTitle(title);
     		builder.setView(view);
-    		builder.setNegativeButton(R.string.ok_text, new OnClickListener() {
+    		builder.setNegativeButton(R.string.ok_text, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int id) {
 					dialog.dismiss();
 				}
