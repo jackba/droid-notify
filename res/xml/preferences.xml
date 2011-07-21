@@ -652,7 +652,7 @@
 		android:key="app_info_category"
 		android:title="@string/about_text">
   		<Preference
-            android:key="about_droid_notify"
+            android:key="application_about"
         	android:title="@string/about_text"
           	android:summary="@string/preference_about_summary" />
 	</PreferenceCategory>
@@ -660,7 +660,7 @@
 		android:key="app_license_category"
 		android:title="@string/license_info">
   		<Preference
-            android:key="droid_notify_license" 
+            android:key="application_license" 
         	android:title="@string/license"
           	android:summary="@string/app_license" />
 	</PreferenceCategory>
