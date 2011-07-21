@@ -627,6 +627,7 @@ public class Common {
 			notificationActivity.startActivityForResult(intent, requestCode);
 			return true;
 		}catch(Exception e){
+			if (_debug) Log.e("Common.startAddCalendarEventActivity ERROR: " + e.toString());
 			try{
 				//HTC Sense UI calendar app.
 				Intent intent = new Intent(Intent.ACTION_MAIN); 
@@ -653,14 +654,24 @@ public class Common {
 	public static boolean startAddCalendarEventActivity(Context context, NotificationActivity notificationActivity, int requestCode){
 		if (_debug) Log.v("Common.startAddCalendarEventActivity()");
 		try{
+			//Androids calendar app.
 			Intent intent = new Intent(Intent.ACTION_EDIT);
 			intent.setType("vnd.android.cursor.item/event");
 			notificationActivity.startActivityForResult(intent, requestCode);
 			return true;
-		}catch(Exception ex){
-			if (_debug) Log.e("Common.startAddCalendarEventActivity ERROR: " + ex.toString());
-			Toast.makeText(context, context.getString(R.string.app_android_calendar_app_error), Toast.LENGTH_LONG).show();
-			return false;
+		}catch(Exception e){
+			if (_debug) Log.e("Common.startAddCalendarEventActivity ERROR: " + e.toString());
+			try{
+				//HTC Sense UI calendar app.
+				Intent intent = new Intent(Intent.ACTION_EDIT);
+				intent.setComponent(new ComponentName("com.htc.calendar", "com.htc.calendar.EditEvent"));
+				notificationActivity.startActivityForResult(intent, requestCode);
+				return true;
+			}catch(Exception ex){
+				if (_debug) Log.e("Common.startAddCalendarEventActivity ERROR: " + ex.toString());
+				Toast.makeText(context, context.getString(R.string.app_android_calendar_app_error), Toast.LENGTH_LONG).show();
+				return false;
+			}
 		}
 	}
 	
