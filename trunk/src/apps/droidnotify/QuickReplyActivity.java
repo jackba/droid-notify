@@ -215,11 +215,12 @@ public class QuickReplyActivity extends Activity {
 	    _sendButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view) {
             	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-            	sendSMSMessage();
-                //Set the result for this activity.
-                setResult(RESULT_OK);
-                //Finish Activity.
-                finish();
+            	if(sendSMSMessage()){
+	                //Set the result for this activity.
+	                setResult(RESULT_OK);
+	                //Finish Activity.
+	                finish();
+            	}
             }
         });
 	    _cancelButton.setOnClickListener(new View.OnClickListener(){
@@ -235,18 +236,22 @@ public class QuickReplyActivity extends Activity {
 	
 	/**
 	 * Send simple SMS message.
+	 * 
+	 * @return boolean - Returns true if the message was sent.
 	 */
-	private void sendSMSMessage(){
+	private boolean sendSMSMessage(){
 		if (_debug) Log.v("QuickReplyActivity.sendSMSMessage()");
         String message = _messageEditText.getText().toString();                 
         if(_phoneNumber.length()>0 && message.length()>0){                
-            sendSMS(_phoneNumber, message);                
+            sendSMS(_phoneNumber, message);  
+            return true;
         }else{
         	if(_phoneNumber.length()<= 0){
         		Toast.makeText(getBaseContext(), getString(R.string.phone_number_error_text), Toast.LENGTH_SHORT).show();
         	}else if(message.length()<= 0){
         		Toast.makeText(getBaseContext(), getString(R.string.message_error_text), Toast.LENGTH_SHORT).show();
         	}
+        	return false;
         }
 	}
 	

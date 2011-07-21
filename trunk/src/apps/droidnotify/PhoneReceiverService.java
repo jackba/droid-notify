@@ -64,10 +64,7 @@ public class PhoneReceiverService extends WakefulIntentService {
 			bundle.putStringArrayList("missedCallsArrayList", missedCallsArray);
 	    	Intent phoneNotificationIntent = new Intent(context, NotificationActivity.class);
 	    	phoneNotificationIntent.putExtras(bundle);
-	    	phoneNotificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-	    			| Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS
-	    			| Intent.FLAG_ACTIVITY_NO_HISTORY
-	    			| Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+	    	phoneNotificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
 	    	context.startActivity(phoneNotificationIntent);
 		}else{
 			if (_debug) Log.v("PhoneReceiverService.doWakefulWork() No missed calls were found. Exiting...");

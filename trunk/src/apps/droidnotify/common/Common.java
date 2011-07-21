@@ -6,10 +6,14 @@ import java.io.InputStreamReader;
 
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.net.Uri;
 import android.provider.ContactsContract;
+import android.widget.Toast;
+import apps.droidnotify.NotificationActivity;
+import apps.droidnotify.R;
 import apps.droidnotify.log.Log;
 
 /**
@@ -464,6 +468,88 @@ public class Common {
 			return null;
 		}else{
 			return calendarsInfo.toString();
+		}
+	}
+	
+	/**
+	 * Start the intent for any android messaging application to send a reply.
+	 * 
+	 * @param context - Application Context.
+	 * @param notificationActivity - A reference to the parent activity.
+	 * @param phoneNumber - The phone number we want to send a message to.
+	 * @param requestCode - The request code we want returned.
+	 * 
+	 * @return boolean - Returns true if the activity can be started.
+	 */
+	public static boolean startMessagingAppReplyActivity(Context context, NotificationActivity notificationActivity, String phoneNumber, int requestCode){
+		if (_debug) Log.v("Common.startMessagingAppReplyActivity()");
+		if(phoneNumber == null){
+			Toast.makeText(context, context.getString(R.string.app_android_reply_messaging_address_error), Toast.LENGTH_LONG).show();
+			return false;
+		}
+		try{
+			Intent intent = new Intent(Intent.ACTION_SENDTO);
+		    intent.setData(Uri.parse("smsto:" + phoneNumber));
+		    // Exit the app once the SMS is sent.
+		    intent.putExtra("compose_mode", true);
+	        notificationActivity.startActivityForResult(intent, requestCode);
+	        return true;
+		}catch(Exception ex){
+			if (_debug) Log.e("Common.startMessagingAppReplyActivity() ERROR: " + ex.toString());
+			Toast.makeText(context, context.getString(R.string.app_android_messaging_app_error), Toast.LENGTH_LONG).show();
+			return false;
+		}
+	}
+
+	/**
+	 * Start the intent for any android messaging application to view the message thread.
+	 * 
+	 * @param context - Application Context.
+	 * @param notificationActivity - A reference to the parent activity.
+	 * @param phoneNumber - The phone number we want to send a message to.
+	 * @param requestCode - The request code we want returned.
+	 * 
+	 * @return boolean - Returns true if the activity can be started.
+	 */
+	public static boolean startMessagingAppViewThreadActivity(Context context, NotificationActivity notificationActivity, String phoneNumber, int requestCode){
+		if (_debug) Log.v("Common.startMessagingAppViewThreadActivity()");
+		if(phoneNumber == null){
+			Toast.makeText(context, context.getString(R.string.app_android_reply_messaging_address_error), Toast.LENGTH_LONG).show();
+			return false;
+		}
+		try{
+			Intent intent = new Intent(Intent.ACTION_VIEW);
+		    intent.setData(Uri.parse("smsto:" + phoneNumber));
+	        notificationActivity.startActivityForResult(intent, requestCode);
+	        return true;
+		}catch(Exception ex){
+			if (_debug) Log.e("Common.startMessagingAppViewThreadActivity() ERROR: " + ex.toString());
+			Toast.makeText(context, context.getString(R.string.app_android_messaging_app_error), Toast.LENGTH_LONG).show();
+			return false;
+		}
+	}
+
+	/**
+	 * Start the intent for any android messaging application to view the messaging inbox.
+	 * 
+	 * @param context - Application Context.
+	 * @param notificationActivity - A reference to the parent activity.
+	 * @param phoneNumber - The phone number we want to send a message to.
+	 * @param requestCode - The request code we want returned.
+	 * 
+	 * @return boolean - Returns true if the activity can be started.
+	 */
+	public static boolean startMessagingAppViewInboxActivity(Context context, NotificationActivity notificationActivity, int requestCode){
+		if (_debug) Log.v("Common.startMessagingAppViewInboxActivity()");
+		try{
+			Intent intent = new Intent(Intent.ACTION_MAIN);
+		    intent.setType("vnd.android-dir/mms-sms");
+	        notificationActivity.startActivityForResult(intent, requestCode);
+	        return true;
+		}catch(Exception ex){
+			if (_debug) Log.e("Common.startMessagingAppViewInboxActivity() ERROR: " + ex.toString());
+			Toast.makeText(context, context.getString(R.string.app_android_messaging_app_error), Toast.LENGTH_LONG).show();
+			return false;
 		}
 	}
 	
