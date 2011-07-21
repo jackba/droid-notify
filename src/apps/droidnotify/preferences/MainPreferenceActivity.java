@@ -104,6 +104,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	    runOnceAlarmManager();
 	    setupAppDebugMode(_debug);
 	    setupRateAppPreference();
+	    setupImportPreferences();
 	    runOnceEula();
 	}
 
@@ -119,6 +120,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	    super.onResume();
 	    _debug = Log.getDebug();
 	    if (_debug) Log.v("MainPreferenceActivity.onResume()");
+	    setupImportPreferences();
 	}
 	
 	/**
@@ -232,7 +234,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 				bundle.putInt("notificationType", NOTIFICATION_TYPE_TEST);
 		    	Intent intent = new Intent(_context, NotificationActivity.class);
 		    	intent.putExtras(bundle);
-		    	intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+		    	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
 		    	try{
 		    		startActivity(intent);
 		    	}catch(Exception ex){
@@ -253,7 +255,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			    	if(Log.getShowAndroidRateAppLink()) rateAppURL = RATE_APP_ANDROID_URL;
 			    	if(Log.getShowAmazonRateAppLink()) rateAppURL = RATE_APP_AMAZON_URL;
 			    	Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(rateAppURL));			    	
-			    	intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+			    	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
 		    		startActivity(intent);
 		    	}catch(Exception ex){
 	 	    		if (_debug) Log.e("MainPreferenceActivity.setupCustomPreferences() Rate This App Button ERROR: " + ex.toString());
@@ -271,7 +273,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		    	try{
 			    	Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:droidnotify@gmail.com"));
 			    	intent.putExtra("subject", "Droid Notify App Feedback");
-			    	intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+			    	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
 		    		startActivity(intent);
 		    	}catch(Exception ex){
 	 	    		if (_debug) Log.e("MainPreferenceActivity.setupCustomPreferences() Email Developer Button ERROR: " + ex.toString());
@@ -306,7 +308,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			    	Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:droidnotify@gmail.com"));
 			    	intent.putExtra("subject", "Droid Notify App Logs");
 			    	intent.putExtra("body", "What went wrong? What is the reason for emailing the log files: ");
-			    	intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+			    	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
 					File logFilePathV = Environment.getExternalStoragePublicDirectory("Droid Notify/Logs/V");
 					File logFileV = new File(logFilePathV, "DroidNotifyLog.txt");
 					File logFilePathD = Environment.getExternalStoragePublicDirectory("Droid Notify/Logs/D");
@@ -546,6 +548,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			if (_debug) Log.v("MainPreferenceActivity.exportPreferencesAsyncTask.onPostExecute()");
 	        dialog.dismiss();
 	        if(successful){
+	    		setupImportPreferences();
 	        	Toast.makeText(_context, _context.getString(R.string.preference_export_preferences_finish_text), Toast.LENGTH_LONG).show();
 	        }else{
 	        	Toast.makeText(_context, _context.getString(R.string.preference_export_preferences_error_text), Toast.LENGTH_LONG).show();
@@ -794,13 +797,13 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			if (_debug) Log.e("MainPreferenceActivity.importApplicationPreferences() External Storage Can't Write Or Read State");
 		    return false;
 		}
-    	File preferencesFilePath = Environment.getExternalStoragePublicDirectory("Droid Notify/Preferences/");
-    	File preferencesFile = new File(preferencesFilePath, "DroidNotifyPreferences.txt");
-    	if (!preferencesFile.exists()){
+    	if (!checkPreferencesFileExists("Droid Notify/Preferences/", "DroidNotifyPreferences.txt")){
     		if (_debug) Log.v("MainPreferenceActivity.importApplicationPreferences() Preference file does not exist.");
 			return false;
 		}
     	try {
+    		File preferencesFilePath = Environment.getExternalStoragePublicDirectory("Droid Notify/Preferences/");
+        	File preferencesFile = new File(preferencesFilePath, "DroidNotifyPreferences.txt");
     		SharedPreferences.Editor editor = _preferences.edit();
     	    BufferedReader br = new BufferedReader(new FileReader(preferencesFile));
     	    String line;
@@ -819,8 +822,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	    	    }
     	    }
     		editor.commit();
-    	}
-    	catch (IOException ex) {
+    	}catch (IOException ex) {
     		if (_debug) Log.e("MainPreferenceActivity.importApplicationPreferences() ERROR: " + ex.toString());
     		return false;
     	}
@@ -877,6 +879,30 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	    		return false;
     	}
 		return true;
+	}
+	
+	/**
+	 * Sets up the import preference button. Disables if there is no import file.
+	 */
+	private void setupImportPreferences(){
+		Preference importPreference = (Preference) findPreference("import_preferences");
+		importPreference.setEnabled(checkPreferencesFileExists("Droid Notify/Preferences/", "DroidNotifyPreferences.txt"));
+	}
+	
+	/**
+	 * Checks if the user has a preferences file on the SD card.
+	 * 
+	 * @return boolean - Returns true if the preference file exists.
+	 */
+	private boolean checkPreferencesFileExists(String directory, String file){
+		if (_debug) Log.v("MainPreferenceActivity.checkPreferencesFileExists()");
+		File preferencesFilePath = Environment.getExternalStoragePublicDirectory(directory);
+    	File preferencesFile = new File(preferencesFilePath, file);
+    	if (preferencesFile.exists()){
+			return true;
+		}else{
+			return false;
+		}
 	}
 	
 }

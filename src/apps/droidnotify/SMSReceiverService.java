@@ -65,10 +65,7 @@ public class SMSReceiverService extends WakefulIntentService {
 			bundle.putStringArrayList("smsArrayList",smsArray);
 	    	Intent smsNotificationIntent = new Intent(context, NotificationActivity.class);
 	    	smsNotificationIntent.putExtras(bundle);
-	    	smsNotificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-	    			| Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS
-	    			| Intent.FLAG_ACTIVITY_NO_HISTORY
-	    			| Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+	    	smsNotificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
 	    	context.startActivity(smsNotificationIntent);
 		}else{
 			if (_debug) Log.v("SMSReceiverService.doWakefulWork() No new SMSs were found. Exiting...");

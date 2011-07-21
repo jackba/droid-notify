@@ -35,6 +35,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.view.MotionEvent;
+import apps.droidnotify.common.Common;
 import apps.droidnotify.log.Log;
 
 /**
@@ -416,7 +417,7 @@ public class NotificationView extends LinearLayout {
 	 * @param notification - This View's Notification.
 	 */
 	private void populateNotificationViewInfo(Notification notification) {
-		if (_debug) Log.v("NotificationView.populateNotificationViewInfo()");
+		if (_debug) Log.v("NotificationView.populateNotificationViewInfo() NotificationType: " + _notificationType);
 	    // Set from, number, message etc. views.
 		if(_notificationType == NOTIFICATION_TYPE_CALENDAR){
 			String notificationTitle = notification.getTitle();
@@ -426,6 +427,7 @@ public class NotificationView extends LinearLayout {
 			_contactNameTextView.setText(notificationTitle);
 			_contactNumberTextView.setVisibility(View.GONE);
 			_photoImageView.setVisibility(View.GONE);
+			_photoProgressBar.setVisibility(View.GONE);
 		}else{
 			_contactNameTextView.setText(notification.getContactName());
 			String sentFromAddress = notification.getSentFromAddress();
@@ -455,7 +457,9 @@ public class NotificationView extends LinearLayout {
 	    //Add context menu items.
 	    setupContextMenus();
 	    //Load the image from the users contacts.
-	    new setNotificationContactImageAsyncTask().execute(notification.getContactID());
+	    if(_notificationType != NOTIFICATION_TYPE_CALENDAR){
+	    	new setNotificationContactImageAsyncTask().execute(notification.getContactID());
+	    }
 	}
 	
 	/**
@@ -468,25 +472,32 @@ public class NotificationView extends LinearLayout {
 		if (_debug) Log.v("NotificationView.setNotificationMessage()");
 		String notificationText = "";
 		int notificationAlignment = Gravity.LEFT;
-	    if(_notificationType == NOTIFICATION_TYPE_PHONE){
-	    	notificationText = "Missed Call!";
-	    }
-	    if(_notificationType == NOTIFICATION_TYPE_SMS){
-	    	notificationText = notification.getMessageBody();
-	    }
-	    if(_notificationType == NOTIFICATION_TYPE_MMS){
-	    	notificationText = notification.getMessageBody();
-	    }
-	    if(_notificationType == NOTIFICATION_TYPE_CALENDAR){
-	    	String notificationTitle = notification.getTitle();
-	    	if(notificationTitle.equals("")){
-	    		notificationTitle = "No Title";
-	    	}
-	    	notificationText = "<i>" + notification.getMessageBody() + "</i><br/>" + notificationTitle;
-	    }
-	    if(_notificationType == NOTIFICATION_TYPE_EMAIL){
-	    	notificationText = notification.getTitle();
-	    } 
+		switch(_notificationType){
+			case NOTIFICATION_TYPE_PHONE:{
+				notificationText = "Missed Call!";
+				break;
+			}
+			case NOTIFICATION_TYPE_SMS:{
+				notificationText = notification.getMessageBody();
+				break;
+			}
+			case NOTIFICATION_TYPE_MMS:{
+				notificationText = notification.getMessageBody();	
+				break;
+			}
+			case NOTIFICATION_TYPE_CALENDAR:{
+		    	String notificationTitle = notification.getTitle();
+		    	if(notificationTitle.equals("")){
+		    		notificationTitle = "No Title";
+		    	}
+		    	notificationText = "<i>" + notification.getMessageBody() + "</i><br/>" + notificationTitle;
+				break;
+			}
+			case NOTIFICATION_TYPE_EMAIL:{
+				notificationText = notification.getTitle();
+				break;
+			}
+		} 
 	    _notificationDetailsTextView.setText(Html.fromHtml(notificationText));
 	    _notificationDetailsTextView.setGravity(notificationAlignment);
 	}
@@ -511,26 +522,33 @@ public class NotificationView extends LinearLayout {
 		String formattedTimestamp = dateFormatted.format(notification.getTimeStamp());
 		//String formattedTimestamp = new SimpleDateFormat("h:mma").format(notification.getTimeStamp());
 	    String receivedAtText = "";
-	    if(_notificationType == NOTIFICATION_TYPE_PHONE){
-	    	iconBitmap = BitmapFactory.decodeResource(_context.getResources(), R.drawable.ic_missed_call);
-	    	receivedAtText = _context.getString(R.string.missed_call_at_text, formattedTimestamp.toLowerCase());
-	    }
-	    if(_notificationType == NOTIFICATION_TYPE_SMS){
-	    	iconBitmap = BitmapFactory.decodeResource(_context.getResources(), R.drawable.sms);
-	    	receivedAtText = _context.getString(R.string.message_at_text, formattedTimestamp.toLowerCase());
-	    }
-	    if( _notificationType == NOTIFICATION_TYPE_MMS){
-	    	iconBitmap = BitmapFactory.decodeResource(_context.getResources(), R.drawable.sms);
-	    	receivedAtText = _context.getString(R.string.message_at_text, formattedTimestamp.toLowerCase());
-	    }
-	    if(_notificationType == NOTIFICATION_TYPE_CALENDAR){
-	    	iconBitmap = BitmapFactory.decodeResource(_context.getResources(), R.drawable.calendar);
-	    	receivedAtText = _context.getString(R.string.calendar_event_text);
-	    }
-	    if(_notificationType == NOTIFICATION_TYPE_EMAIL){
-	    	iconBitmap = BitmapFactory.decodeResource(_context.getResources(), R.drawable.email);
-	    	receivedAtText = _context.getString(R.string.email_at_text, formattedTimestamp.toLowerCase());
-	    }    
+		switch(_notificationType){
+			case NOTIFICATION_TYPE_PHONE:{
+		    	iconBitmap = BitmapFactory.decodeResource(_context.getResources(), R.drawable.ic_missed_call);
+		    	receivedAtText = _context.getString(R.string.missed_call_at_text, formattedTimestamp.toLowerCase());
+				break;
+			}
+			case NOTIFICATION_TYPE_SMS:{
+		    	iconBitmap = BitmapFactory.decodeResource(_context.getResources(), R.drawable.sms);
+		    	receivedAtText = _context.getString(R.string.message_at_text, formattedTimestamp.toLowerCase());
+				break;
+			}
+			case NOTIFICATION_TYPE_MMS:{
+		    	iconBitmap = BitmapFactory.decodeResource(_context.getResources(), R.drawable.sms);
+		    	receivedAtText = _context.getString(R.string.message_at_text, formattedTimestamp.toLowerCase());
+				break;
+			}
+			case NOTIFICATION_TYPE_CALENDAR:{
+		    	iconBitmap = BitmapFactory.decodeResource(_context.getResources(), R.drawable.calendar);
+		    	receivedAtText = _context.getString(R.string.calendar_event_text);
+				break;
+			}
+			case NOTIFICATION_TYPE_EMAIL:{
+		    	iconBitmap = BitmapFactory.decodeResource(_context.getResources(), R.drawable.email);
+		    	receivedAtText = _context.getString(R.string.email_at_text, formattedTimestamp.toLowerCase());
+				break;
+			}
+		}   
 	    if(iconBitmap != null){
 	    	_notificationIconImageView.setImageBitmap(iconBitmap);
 	    }
@@ -603,24 +621,25 @@ public class NotificationView extends LinearLayout {
 		if(notificationType == NOTIFICATION_TYPE_SMS){
 			//Reply using any installed SMS messaging app.
 			if(_preferences.getString(SMS_REPLY_BUTTON_ACTION_KEY, "0").equals(SMS_MESSAGING_APP_REPLY)){
-				try{
-					Intent intent = new Intent(Intent.ACTION_SENDTO);
-				    intent.setData(Uri.parse("smsto:" + phoneNumber));
-				    // Exit the app once the SMS is sent.
-				    intent.putExtra("compose_mode", true);
-			        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-			        _notificationActivity.startActivityForResult(intent,SEND_SMS_ACTIVITY);
-				}catch(Exception ex){
-					if (_debug) Log.e("NotificationView.replyToMessage() Android Reply ERROR: " + ex.toString());
-					Toast.makeText(_context, _context.getString(R.string.app_android_messaging_app_error), Toast.LENGTH_LONG).show();
-					return;
-				}
+//				try{
+//					Intent intent = new Intent(Intent.ACTION_SENDTO);
+//				    intent.setData(Uri.parse("smsto:" + phoneNumber));
+//				    // Exit the app once the SMS is sent.
+//				    intent.putExtra("compose_mode", true);
+//			        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+//			        _notificationActivity.startActivityForResult(intent,SEND_SMS_ACTIVITY);
+//				}catch(Exception ex){
+//					if (_debug) Log.e("NotificationView.replyToMessage() Android Reply ERROR: " + ex.toString());
+//					Toast.makeText(_context, _context.getString(R.string.app_android_messaging_app_error), Toast.LENGTH_LONG).show();
+//					return;
+//				}
+				Common.startMessagingAppReplyActivity(_context, _notificationActivity, phoneNumber, SEND_SMS_ACTIVITY);
 			}		
 			//Reply using the built in Quick Reply Activity.
 			if(_preferences.getString(SMS_REPLY_BUTTON_ACTION_KEY, "0").equals(SMS_QUICK_REPLY)){
 				try{
 					Intent intent = new Intent(_context, QuickReplyActivity.class);
-			        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+			        //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
 			        if (_debug) Log.v("NotificationView.replyToMessage() Put bundle in intent");
 				    intent.putExtra("smsPhoneNumber", phoneNumber);
 				    if(_notification.getContactExists()){
@@ -647,24 +666,25 @@ public class NotificationView extends LinearLayout {
 		if(notificationType == NOTIFICATION_TYPE_MMS){
 			//Reply using any installed SMS messaging app.
 			if(_preferences.getString(MMS_REPLY_BUTTON_ACTION_KEY, "0").equals(MMS_MESSAGING_APP_REPLY)){
-				try{
-					Intent intent = new Intent(Intent.ACTION_SENDTO);
-				    intent.setData(Uri.parse("smsto:" + phoneNumber));
-				    // Exit the app once the SMS is sent.
-				    intent.putExtra("compose_mode", true);
-			        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-			        _notificationActivity.startActivityForResult(intent,SEND_SMS_ACTIVITY);
-				}catch(Exception ex){
-					if (_debug) Log.e("NotificationView.replyToMessage() Android Reply ERROR: " + ex.toString());
-					Toast.makeText(_context, _context.getString(R.string.app_android_messaging_app_error), Toast.LENGTH_LONG).show();
-					return;
-				}
+//				try{
+//					Intent intent = new Intent(Intent.ACTION_SENDTO);
+//				    intent.setData(Uri.parse("smsto:" + phoneNumber));
+//				    // Exit the app once the SMS is sent.
+//				    intent.putExtra("compose_mode", true);
+//			        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+//			        _notificationActivity.startActivityForResult(intent,SEND_SMS_ACTIVITY);
+//				}catch(Exception ex){
+//					if (_debug) Log.e("NotificationView.replyToMessage() Android Reply ERROR: " + ex.toString());
+//					Toast.makeText(_context, _context.getString(R.string.app_android_messaging_app_error), Toast.LENGTH_LONG).show();
+//					return;
+//				}
+				Common.startMessagingAppReplyActivity(_context, _notificationActivity, phoneNumber, SEND_SMS_ACTIVITY);
 			}		
 			//Reply using the built in Quick Reply Activity.
 			if(_preferences.getString(MMS_REPLY_BUTTON_ACTION_KEY, "0").equals(MMS_QUICK_REPLY)){
 				try{
 					Intent intent = new Intent(_context, QuickReplyActivity.class);
-					intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+					//intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
 			        if (_debug) Log.v("NotificationView.replyToMessage() Put bundle in intent");
 				    intent.putExtra("smsPhoneNumber", phoneNumber);
 				    if(_notification.getContactExists()){
@@ -705,7 +725,7 @@ public class NotificationView extends LinearLayout {
 		try{
 			Intent intent = new Intent(Intent.ACTION_CALL);
 	        intent.setData(Uri.parse("tel:" + numberToBeCalled));
-	        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+	        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
 	        _notificationActivity.startActivityForResult(intent,CALL_ACTIVITY);
 		}catch(Exception ex){
 			if (_debug) Log.e("NotificationView.makePhoneCall() ERROR: " + ex.toString());
@@ -733,7 +753,7 @@ public class NotificationView extends LinearLayout {
 			//intent.setData(Uri.parse("content://calendar/events/" + String.valueOf(calendarEventID)));
 			intent.putExtra(EVENT_BEGIN_TIME,_notification.getCalendarEventStartTime());
 			intent.putExtra(EVENT_END_TIME,_notification.getCalendarEventEndTime());
-			intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
 	        _notificationActivity.startActivityForResult(intent,VIEW_CALENDAR_ACTIVITY);
 		}catch(Exception ex){
 			if (_debug) Log.e("NotificationView.viewCalendarEvent() ERROR: " + ex.toString());
@@ -755,21 +775,22 @@ public class NotificationView extends LinearLayout {
 	 */
 	private void setupContextMenus(){
 		if (_debug) Log.v("NotificationView.setupContextMenus()"); 
-		if(_notificationType == NOTIFICATION_TYPE_PHONE){
-			_notificationActivity.registerForContextMenu(_contactLinearLayout);
-	    }
-	    if(_notificationType == NOTIFICATION_TYPE_SMS){
-	    	_notificationActivity.registerForContextMenu(_contactLinearLayout);
-	    }
-	    if(_notificationType == NOTIFICATION_TYPE_MMS){
-	    	_notificationActivity.registerForContextMenu(_contactLinearLayout);
-	    }
-	    if(_notificationType == NOTIFICATION_TYPE_CALENDAR){
-	    	_notificationActivity.registerForContextMenu(_contactLinearLayout);
-	    }
-	    if(_notificationType == NOTIFICATION_TYPE_EMAIL){
-	    	_notificationActivity.registerForContextMenu(_contactLinearLayout);
-	    } 	
+//		if(_notificationType == NOTIFICATION_TYPE_PHONE){
+//			_notificationActivity.registerForContextMenu(_contactLinearLayout);
+//	    }
+//	    if(_notificationType == NOTIFICATION_TYPE_SMS){
+//	    	_notificationActivity.registerForContextMenu(_contactLinearLayout);
+//	    }
+//	    if(_notificationType == NOTIFICATION_TYPE_MMS){
+//	    	_notificationActivity.registerForContextMenu(_contactLinearLayout);
+//	    }
+//	    if(_notificationType == NOTIFICATION_TYPE_CALENDAR){
+//	    	_notificationActivity.registerForContextMenu(_contactLinearLayout);
+//	    }
+//	    if(_notificationType == NOTIFICATION_TYPE_EMAIL){
+//	    	_notificationActivity.registerForContextMenu(_contactLinearLayout);
+//	    } 	
+	    _notificationActivity.registerForContextMenu(_contactLinearLayout);
 	}
 
 	/**

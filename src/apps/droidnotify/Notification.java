@@ -136,21 +136,28 @@ public class Notification {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Notification.Notification(Context context, String phoneNumber, String messageBody, long timeStamp, int notificationType)");
 		try{			
-			if(notificationType == NOTIFICATION_TYPE_PHONE){
-				_title = "Missed Call";
-		    }
-			if(notificationType == NOTIFICATION_TYPE_SMS){
-				_title = "SMS Message";
+			switch(notificationType){
+				case NOTIFICATION_TYPE_PHONE:{
+					_title = "Missed Call";
+					break;
+				}
+				case NOTIFICATION_TYPE_SMS:{
+					_title = "SMS Message";
+					break;
+				}
+				case NOTIFICATION_TYPE_MMS:{
+					_title = "MMS Message";	
+					break;
+				}
+				case NOTIFICATION_TYPE_CALENDAR:{
+					_title = "Calendar Event";
+					break;
+				}
+				case NOTIFICATION_TYPE_EMAIL:{
+					_title = "Email";
+					break;
+				}
 			}
-			if(notificationType == NOTIFICATION_TYPE_MMS){
-				_title = "MMS Message";	
-		    }
-		    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
-		    	_title = "Calendar Event";
-		    }
-		    if(notificationType == NOTIFICATION_TYPE_EMAIL){
-		    	_title = "Email";
-		    }
 			_context = context;
 			_preferences = PreferenceManager.getDefaultSharedPreferences(_context);
 			_contactExists = false;
@@ -171,21 +178,28 @@ public class Notification {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Notification.Notification(Context context, String sentFromAddress, long timeStamp, long contactID, string contactName, long photoID, int notificationType)");
 		try{
-			if(notificationType == NOTIFICATION_TYPE_PHONE){
-				_title = "Missed Call";
-		    }
-			if(notificationType == NOTIFICATION_TYPE_SMS){
-				_title = "SMS Message";
+			switch(notificationType){
+				case NOTIFICATION_TYPE_PHONE:{
+					_title = "Missed Call";
+					break;
+				}
+				case NOTIFICATION_TYPE_SMS:{
+					_title = "SMS Message";
+					break;
+				}
+				case NOTIFICATION_TYPE_MMS:{
+					_title = "MMS Message";	
+					break;
+				}
+				case NOTIFICATION_TYPE_CALENDAR:{
+					_title = "Calendar Event";
+					break;
+				}
+				case NOTIFICATION_TYPE_EMAIL:{
+					_title = "Email";
+					break;
+				}
 			}
-			if(notificationType == NOTIFICATION_TYPE_MMS){
-				_title = "MMS Message";	
-		    }
-		    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
-		    	_title = "Calendar Event";
-		    }
-		    if(notificationType == NOTIFICATION_TYPE_EMAIL){
-		    	_title = "Email";
-		    }
 			_context = context;
 			_preferences = PreferenceManager.getDefaultSharedPreferences(_context);
 			_contactExists = false;
@@ -227,7 +241,11 @@ public class Notification {
 	    	_timeStamp = eventStartTime;
 	    	_title = title;
 	    	_allDay = allDay;
-	    	_messageBody = formatCalendarEventMessage(messageBody, eventStartTime, eventEndTime, allDay, calendarName).replace("\n", "<br/>").trim();
+	    	if(notificationType == NOTIFICATION_TYPE_CALENDAR){
+	    		_messageBody = formatCalendarEventMessage(messageBody, eventStartTime, eventEndTime, allDay, calendarName).replace("\n", "<br/>").trim();
+	    	}else{
+	    		_messageBody = messageBody;
+	    	}
 	    	_calendarID = calendarID;
 	    	_calendarEventID = calendarEventID;
 	    	_calendarEventStartTime = eventStartTime;
