@@ -600,10 +600,22 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			buf.append("app_ringtones_enabled|" + _preferences.getBoolean("app_ringtones_enabled", false) + "|boolean");
 			buf.newLine();
 
+			//Basic Settings
+			buf.append("app_theme|" + _preferences.getString("app_theme", "android") + "|string");
+			buf.newLine();
+			buf.append("phone_number_format_settings|" + _preferences.getString("phone_number_format_settings", "1") + "|string");
+			buf.newLine();
+			buf.append("contact_placeholder|" + _preferences.getString("contact_placeholder", "0") + "|string");
+			buf.newLine();
+			buf.append("button_icons_enabled|" + _preferences.getBoolean("button_icons_enabled", true) + "|boolean");
+			buf.newLine();		
+			
 			//Notification Settings
 			buf.append("sms_notifications_enabled|" + _preferences.getBoolean("sms_notifications_enabled", true) + "|boolean");
 			buf.newLine();
 			buf.append("sms_display_unread_enabled|" + _preferences.getBoolean("sms_display_unread_enabled", false) + "|boolean");
+			buf.newLine();
+			buf.append("sms_hide_message_body_enabled|" + _preferences.getBoolean("sms_hide_message_body_enabled", false) + "|boolean");
 			buf.newLine();
 			buf.append("confirm_sms_deletion_enabled|" + _preferences.getBoolean("confirm_sms_deletion_enabled", true) + "|boolean");
 			buf.newLine();
@@ -612,6 +624,8 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			buf.append("sms_delete_button_action|" + _preferences.getString("sms_delete_button_action", "0") + "|string");
 			buf.newLine();
 			buf.append("sms_reply_button_action|" + _preferences.getString("sms_reply_button_action", "0") + "|string");
+			buf.newLine();
+			buf.append("sms_notification_count_action|" + _preferences.getString("sms_notification_count_action", "0") + "|string");
 			buf.newLine();
 			buf.append("sms_hide_dismiss_button_enabled|" + _preferences.getBoolean("sms_hide_dismiss_button_enabled", false) + "|boolean");
 			buf.newLine();
@@ -630,6 +644,8 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			buf.newLine();
 			buf.append("mms_display_unread_enabled|" + _preferences.getBoolean("mms_display_unread_enabled", false) + "|boolean");
 			buf.newLine();
+			buf.append("mms_hide_message_body_enabled|" + _preferences.getBoolean("mms_hide_message_body_enabled", false) + "|boolean");
+			buf.newLine();
 			buf.append("confirm_mms_deletion_enabled|" + _preferences.getBoolean("confirm_mms_deletion_enabled", true) + "|boolean");
 			buf.newLine();
 			buf.append("mms_dismiss_button_action|" + _preferences.getString("mms_dismiss_button_action", "0") + "|string");
@@ -637,6 +653,8 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			buf.append("mms_delete_button_action|" + _preferences.getString("mms_delete_button_action", "0") + "|string");
 			buf.newLine();
 			buf.append("mms_reply_button_action|" + _preferences.getString("mms_reply_button_action", "0") + "|string");
+			buf.newLine();
+			buf.append("mms_notification_count_action|" + _preferences.getString("mms_notification_count_action", "0") + "|string");
 			buf.newLine();
 			buf.append("mms_hide_dismiss_button_enabled|" + _preferences.getBoolean("mms_hide_dismiss_button_enabled", false) + "|boolean");
 			buf.newLine();
@@ -655,6 +673,8 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			buf.newLine();
 			buf.append("missed_call_dismiss_button_action|" + _preferences.getString("missed_call_dismiss_button_action", "0") + "|string");
 			buf.newLine();
+			buf.append("missed_call_notification_count_action|" + _preferences.getString("missed_call_notification_count_action", "0") + "|string");
+			buf.newLine();
 			buf.append("missed_call_hide_dismiss_button_enabled|" + _preferences.getBoolean("missed_call_hide_dismiss_button_enabled", false) + "|boolean");
 			buf.newLine();
 			buf.append("missed_call_hide_call_button_enabled|" + _preferences.getBoolean("missed_call_hide_call_button_enabled", false) + "|boolean");
@@ -672,7 +692,9 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			buf.newLine();
 			buf.append("calendar_labels_enabled|" + _preferences.getBoolean("calendar_labels_enabled", true) + "|boolean");
 			buf.newLine();
-			buf.append("calendar_dismiss_button_action|" + _preferences.getString("calendar_dismiss_button_action", "0") + "|string");
+			buf.append("calendar_dismiss_button_action|" + _preferences.getString("calendar_dismiss_button_action", "") + "|string");
+			buf.newLine();
+			buf.append("calendar_notification_count_action|" + _preferences.getString("calendar_notification_count_action", "0") + "|string");
 			buf.newLine();
 			buf.append("calendar_hide_dismiss_button_enabled|" + _preferences.getBoolean("calendar_hide_dismiss_button_enabled", false) + "|boolean");
 			buf.newLine();
@@ -701,19 +723,9 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			buf.append("dim_screen_background_enabled|" + _preferences.getBoolean("dim_screen_enabled", false) + "|boolean");
 			buf.newLine();
 			buf.append("dim_screen_background_amount_settings|" + _preferences.getString("dim_screen_amount_settings", "50") + "|string");
-			buf.newLine();
-
-			//Misc Settings
-			buf.append("app_theme|" + _preferences.getString("app_theme", "android") + "|string");
-			buf.newLine();
-			buf.append("phone_number_format_settings|" + _preferences.getString("phone_number_format_settings", "1") + "|string");
-			buf.newLine();
-			buf.append("contact_placeholder|" + _preferences.getString("contact_placeholder", "0") + "|string");
-			buf.newLine();
+			buf.newLine();	
 			buf.append("landscape_screen_enabled|" + _preferences.getBoolean("landscape_screen_enabled", false) + "|boolean");
 			buf.newLine();
-			buf.append("button_icons_enabled|" + _preferences.getBoolean("button_icons_enabled", true) + "|boolean");
-			buf.newLine();			
 
 			//Advanced Settings
 			buf.append("reschedule_notification_timeout_settings|" + _preferences.getString("reschedule_notification_timeout_settings", "5") + "|string");
