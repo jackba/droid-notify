@@ -284,7 +284,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
            }
 		});
 		//About Preference/Button
-		Preference aboutPreferencesPref = (Preference)findPreference("about_droid_notify");
+		Preference aboutPreferencesPref = (Preference)findPreference("application_about");
 		aboutPreferencesPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
         	public boolean onPreferenceClick(Preference preference) {
 		    	if (_debug) Log.v("About Button Clicked()");
@@ -292,7 +292,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
            }
 		});
 		//License Preference/Button
-		Preference licensePreferencesPref = (Preference)findPreference("droid_notify_license");
+		Preference licensePreferencesPref = (Preference)findPreference("application_license");
 		licensePreferencesPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
         	public boolean onPreferenceClick(Preference preference) {
 		    	if (_debug) Log.v("License Button Clicked()");
