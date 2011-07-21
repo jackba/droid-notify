@@ -14,7 +14,15 @@ Hnable Haptic Feedback
 Enable Vibrations
 
 Enable Ringtones
+	
+*_Basic Settings_*
 
+Basic Settings
+ * Notification Theme
+ * Phone Number Format
+ * Placeholder Image
+ * Enable Landscape Screen
+ * Display Button Icons
 
 *_Notification Settings_*
 
@@ -29,14 +37,14 @@ Notifications
    * Dismiss Button Action
    * Delete Button Action
    * Reply Button Action
+   * Notification Count Action
    
   * SMS Vibrate Settings
    * Enable Vibrations  
    
   * SMS Ringtone Settings
-   * Enable Ringtones
-      
-  * Select Ringtone  
+   * Enable Ringtones     
+   * Select Ringtone  
 
   * *_MMS Notifications_*
   * Enable MMS Notifications
@@ -45,6 +53,7 @@ Notifications
    * Dismiss Button Action
    * Delete Button Action
    * Reply Button Action
+   * Notification Count Action
 
   * MMS Vibrate Settings
    * Enable Vibrations
@@ -59,6 +68,7 @@ Notifications
   * Enable Missed Call Notifications
   * Missed Call Button Settings
    * Dismiss Button Action
+   * Notification Count Action
 
   * Missed Call Vibrate Settings
    * Enable Vibrations
@@ -73,13 +83,14 @@ Notifications
   * Enable Calendar Labels
   * Calendar Button Settings
    * Dismiss Button Action
+   * Notification Count Action
 	
-  * Enable Reminder Settings
-  * All Day Enable Reminder Settings
-  * Missed Call Vibrate Settings
+  * Event Reminder Settings
+  * All Day Event Reminder Settings
+  * Calendar Vibrate Settings
    * Enable Vibrations
 
-  * Missed Call Ringtone Settings
+  * Calendar Ringtone Settings
    * Enable Ringtones
    * Select Ringtone
 
@@ -92,15 +103,7 @@ Screen Settings
  * Blur Screen Background
  * Dim Screen Background
  * Blur Screen Value
-	
-*_Misc Settings_*
-
-Misc Settings
- * Notification Theme
- * Phone Number Format
- * Placeholder Image
  * Enable Landscape Screen
- * Display Button Icons
 	
 *_Advanced Settings_*
 
