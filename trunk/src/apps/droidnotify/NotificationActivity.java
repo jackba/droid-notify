@@ -384,31 +384,36 @@ public class NotificationActivity extends Activity {
 	public void showDeleteDialog(){
 		if (_debug) Log.v("NotificationActivity.showDeleteDialog()");
 		int notificationType = _notificationViewFlipper.getActiveNotification().getNotificationType();
-		if(notificationType == NOTIFICATION_TYPE_SMS){
-			if(_preferences.getString(SMS_DELETE_KEY, "0").equals(SMS_DELETE_ACTION_NOTHING)){
-				//Remove the notification from the ViewFlipper.
-				deleteMessage();
-			}else{
-				if(_preferences.getBoolean(SMS_CONFIRM_DELETION_KEY, true)){
-					//Confirm deletion of the message.
-					showDialog(DIALOG_DELETE_MESSAGE);
-				}else{
+		switch(notificationType){
+			case NOTIFICATION_TYPE_SMS:{
+				if(_preferences.getString(SMS_DELETE_KEY, "0").equals(SMS_DELETE_ACTION_NOTHING)){
 					//Remove the notification from the ViewFlipper.
 					deleteMessage();
+				}else{
+					if(_preferences.getBoolean(SMS_CONFIRM_DELETION_KEY, true)){
+						//Confirm deletion of the message.
+						showDialog(DIALOG_DELETE_MESSAGE);
+					}else{
+						//Remove the notification from the ViewFlipper.
+						deleteMessage();
+					}
 				}
+				break;
 			}
-		}else if(notificationType == NOTIFICATION_TYPE_MMS){
-			if(_preferences.getString(MMS_DELETE_KEY, "0").equals(MMS_DELETE_ACTION_NOTHING)){
-				//Remove the notification from the ViewFlipper
-				deleteMessage();
-			}else{
-				if(_preferences.getBoolean(MMS_CONFIRM_DELETION_KEY, true)){
-					//Confirm deletion of the message.
-					showDialog(DIALOG_DELETE_MESSAGE);
-				}else{
-					//Remove the notification from the ViewFlipper.
+			case NOTIFICATION_TYPE_MMS:{
+				if(_preferences.getString(MMS_DELETE_KEY, "0").equals(MMS_DELETE_ACTION_NOTHING)){
+					//Remove the notification from the ViewFlipper
 					deleteMessage();
+				}else{
+					if(_preferences.getBoolean(MMS_CONFIRM_DELETION_KEY, true)){
+						//Confirm deletion of the message.
+						showDialog(DIALOG_DELETE_MESSAGE);
+					}else{
+						//Remove the notification from the ViewFlipper.
+						deleteMessage();
+					}
 				}
+				break;
 			}
 		}
 	}
@@ -721,30 +726,38 @@ public class NotificationActivity extends Activity {
 	    }
 	    setContentView(R.layout.notificationwrapper);
 	    setupViews(notificationType);
-	    if(notificationType == NOTIFICATION_TYPE_TEST){
-	    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_TEST");
-	    	createTestNotifications(); 
-	    }    
-	    if(notificationType == NOTIFICATION_TYPE_PHONE){
-	    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_PHONE");
-	    	setupMissedCalls(extrasBundle);
+	    switch(notificationType){
+	    	case NOTIFICATION_TYPE_TEST:{
+		    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_TEST");
+		    	createTestNotifications(); 
+		    	break;
+		    }    
+		    case NOTIFICATION_TYPE_PHONE:{
+		    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_PHONE");
+		    	setupMissedCalls(extrasBundle);
+		    	break;
+		    }
+		    case NOTIFICATION_TYPE_SMS:{
+			    if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_SMS");
+			    setupSMSMessages(extrasBundle, true);
+		    	break;
+		    }
+		    case NOTIFICATION_TYPE_MMS:{
+		    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_MMS");
+		    	setupMMSMessages(extrasBundle, true);
+		    	break;
+		    }
+		    case NOTIFICATION_TYPE_CALENDAR:{
+		    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_CALENDAR");
+		    	setupCalendarEventNotifications(extrasBundle);
+		    	break;
+		    }
+		    case NOTIFICATION_TYPE_EMAIL:{
+		    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_EMAIL");
+		    	//TODO - Email
+		    	break;
+		    }  
 	    }
-	    if(notificationType == NOTIFICATION_TYPE_SMS){
-		    if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_SMS");
-		    setupSMSMessages(extrasBundle, true);
-	    }
-	    if(notificationType == NOTIFICATION_TYPE_MMS){
-	    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_MMS");
-	    	setupMMSMessages(extrasBundle, true);
-	    }
-	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
-	    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_CALENDAR");
-	    	setupCalendarEventNotifications(extrasBundle);
-	    }
-	    if(notificationType == NOTIFICATION_TYPE_EMAIL){
-	    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_EMAIL");
-	    	//TODO - Email
-	    }  
 	    //Set Vibration/Ringtone to announce Activity.
 	    runNotificationFeedback(notificationType);
 	    //Acquire WakeLock.
@@ -876,25 +889,32 @@ public class NotificationActivity extends Activity {
 	    Bundle extrasBundle = getIntent().getExtras();
 	    int notificationType = extrasBundle.getInt("notificationType");
 	    if (_debug) Log.v("NotificationActivity.onNewIntent() Notification Type: " + notificationType);
-	    if(notificationType == NOTIFICATION_TYPE_PHONE){
-	    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_PHONE");
-	    	setupMissedCalls(extrasBundle);
-	    }
-	    if(notificationType == NOTIFICATION_TYPE_SMS){
-		    if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_SMS");
-		    setupSMSMessages(extrasBundle, false);
-	    }
-	    if(notificationType == NOTIFICATION_TYPE_MMS){
-	    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_MMS");
-	    	setupMMSMessages(extrasBundle, false);
-	    }
-	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
-	    	if (_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_CALENDAR");
-		    setupCalendarEventNotifications(extrasBundle);
-	    }
-	    if(notificationType == NOTIFICATION_TYPE_EMAIL){
-	    	if (_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_EMAIL");
-	    	//TODO - Email
+	    switch(notificationType){
+	    	case NOTIFICATION_TYPE_PHONE:{
+		    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_PHONE");
+		    	setupMissedCalls(extrasBundle);
+		    	break;
+		    }
+	    	case NOTIFICATION_TYPE_SMS:{
+			    if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_SMS");
+			    setupSMSMessages(extrasBundle, false);
+		    	break;
+		    }
+	    	case NOTIFICATION_TYPE_MMS:{
+		    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_MMS");
+		    	setupMMSMessages(extrasBundle, false);
+		    	break;
+		    }
+	    	case NOTIFICATION_TYPE_CALENDAR:{
+		    	if (_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_CALENDAR");
+			    setupCalendarEventNotifications(extrasBundle);
+		    	break;
+		    }
+	    	case NOTIFICATION_TYPE_EMAIL:{
+		    	if (_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_EMAIL");
+		    	//TODO - Email
+		    	break;
+		    }
 	    }
 	    //Set Vibration and/or Ringtone to announce Activity.
 	    runNotificationFeedback(notificationType);
