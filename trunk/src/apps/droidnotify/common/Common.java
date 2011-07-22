@@ -10,6 +10,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
+import android.graphics.Bitmap.Config;
+import android.graphics.PorterDuff.Mode;
 import android.net.Uri;
 import android.provider.ContactsContract;
 import android.widget.Toast;
@@ -46,6 +54,51 @@ public class Common {
 	//================================================================================
 	// Public Methods
 	//================================================================================
+	
+	/**
+	 * Rounds the corners of a Bitmap image.
+	 * 
+	 * @param bitmap - The Bitmap to be formatted.
+	 * @param pixels - The number of pixels as the diameter of the rounded corners.
+	 * 
+	 * @return Bitmap - The formatted Bitmap image.
+	 */
+	public static Bitmap getRoundedCornerBitmap(Bitmap bitmap, int pixels, boolean resizeImage, int resizeX, int resizeY) {
+		if (_debug) Log.v("NotificationView.getRoundedCornerBitmap()");
+		try{
+			Bitmap output = null;
+			if(bitmap == null){
+				return null;
+			}else{
+		        output = Bitmap.createBitmap(
+		        		bitmap.getWidth(), 
+		        		bitmap
+		                .getHeight(), 
+		                Config.ARGB_8888);
+		        Canvas canvas = new Canvas(output);
+		        final int color = 0xff424242;
+		        final Paint paint = new Paint();
+		        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+		        final RectF rectF = new RectF(rect);
+		        final float roundPx = pixels;
+		        paint.setAntiAlias(true);
+		        canvas.drawARGB(0, 0, 0, 0);
+		        paint.setColor(color);
+		        canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
+		        paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
+		        canvas.drawBitmap(bitmap, rect, rect, paint);
+		        //Resize the Bitmap so that all images are consistent.
+		        //Bitmap createScaledBitmap(Bitmap src, int dstWidth, int dstHeight, boolean filter)
+		        if(resizeImage){
+		        	output = Bitmap.createScaledBitmap(output, resizeX, resizeY, true);
+		        }
+		        return output;
+			}
+		}catch(Exception ex){
+			if (_debug) Log.e("NotificationView.getRoundedCornerBitmap() ERROR: " + ex.toString());
+			return null;
+		}
+	}
 	
 	/**
 	 * Load the various contact info for this notification from a phoneNumber.
@@ -472,6 +525,29 @@ public class Common {
 			return null;
 		}else{
 			return calendarsInfo.toString();
+		}
+	}
+	
+	/**
+	 * Place a phone call.
+	 * 
+	 * @param phoneNumber - The phone number we want to send a place a call to.
+	 */
+	public static boolean makePhoneCall(Context context, NotificationActivity notificationActivity, String phoneNumber, int requestCode){
+		if (_debug) Log.v("Common.makePhoneCall()");
+		try{
+			if(phoneNumber == null){
+				Toast.makeText(context, context.getString(R.string.app_android_phone_number_format_error), Toast.LENGTH_LONG).show();
+				return false;
+			}
+			Intent intent = new Intent(Intent.ACTION_CALL);
+	        intent.setData(Uri.parse("tel:" + phoneNumber));
+	        notificationActivity.startActivityForResult(intent, requestCode);
+		    return true;
+		}catch(Exception ex){
+			if (_debug) Log.e("Common.makePhoneCall() ERROR: " + ex.toString());
+			Toast.makeText(context, context.getString(R.string.app_android_phone_app_error), Toast.LENGTH_LONG).show();
+			return false;
 		}
 	}
 	

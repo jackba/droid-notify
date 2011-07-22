@@ -9,14 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.PorterDuff.Mode;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Rect;
-import android.graphics.RectF;
 import android.graphics.drawable.TransitionDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -232,9 +225,9 @@ public class NotificationView extends LinearLayout {
 		    	_notificationViewFlipper.showNext();
 		    }
 		});	
-		// Notification Count Text Button
 		switch(_notificationType){
 			case NOTIFICATION_TYPE_PHONE:{
+				// Notification Count Text Button
 				int notificationCountAction = Integer.parseInt(_preferences.getString(PHONE_NOTIFICATION_COUNT_ACTION_KEY, "0"));
 				if(notificationCountAction == 0){
 					//Do Nothing.
@@ -247,9 +240,45 @@ public class NotificationView extends LinearLayout {
 					    }
 					});			
 				}
+				//Display the correct navigation buttons for each notification type.
+		    	phoneButtonLayoutVisibility = View.VISIBLE;
+		    	smsButtonLayoutVisibility = View.GONE;
+		    	calendarButtonLayoutVisibility = View.GONE;
+				// Dismiss Button
+		    	final Button phoneDismissButton = (Button) findViewById(R.id.phone_dismiss_button);
+		    	if(_preferences.getBoolean(PHONE_HIDE_DISMISS_BUTTON_KEY, false)){
+		    		phoneDismissButton.setVisibility(View.GONE);
+		    	}else{
+					phoneDismissButton.setOnClickListener(new OnClickListener() {
+					    public void onClick(View v) {
+					    	if (_debug) Log.v("Dismiss Button Clicked()");
+					    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+					    	dismissNotification();
+					    }
+					});
+		    	}
+				// Call Button
+				final Button phoneCallButton = (Button) findViewById(R.id.phone_call_button);
+				if(_preferences.getBoolean(PHONE_HIDE_CALL_BUTTON_KEY, false)){
+		    		phoneCallButton.setVisibility(View.GONE);
+		    	}else{
+					phoneCallButton.setOnClickListener(new OnClickListener() {
+					    public void onClick(View v) {
+					    	if (_debug) Log.v("Call Button Clicked()");
+					    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+					    	Common.makePhoneCall(_context, _notificationActivity, _notification.getSentFromAddress(), CALL_ACTIVITY);
+					    }
+					});
+		    	}
+				//Remove the icons from the View's buttons, based on the user preferences.
+				if(!_preferences.getBoolean(BUTTON_ICONS_KEY, true)){
+					phoneDismissButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
+					phoneCallButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
+				}
 				break;
 			}
 			case NOTIFICATION_TYPE_SMS:{
+				// Notification Count Text Button
 				int notificationCountAction = Integer.parseInt(_preferences.getString(SMS_NOTIFICATION_COUNT_ACTION_KEY, "0"));
 				if(notificationCountAction == 0){
 					//Do Nothing.
@@ -278,9 +307,59 @@ public class NotificationView extends LinearLayout {
 					    }
 					});		
 				}
+				//Display the correct navigation buttons for each notification type.
+		    	phoneButtonLayoutVisibility = View.GONE;
+		    	smsButtonLayoutVisibility = View.VISIBLE;
+		    	calendarButtonLayoutVisibility = View.GONE;
+				// Dismiss Button
+		    	final Button smsDismissButton = (Button) findViewById(R.id.sms_dismiss_button);
+		    	if(_preferences.getBoolean(SMS_HIDE_DISMISS_BUTTON_KEY, false)){
+		    		smsDismissButton.setVisibility(View.GONE);
+		    	}else{
+					smsDismissButton.setOnClickListener(new OnClickListener() {
+					    public void onClick(View view) {
+					    	if (_debug) Log.v("SMS Dismiss Button Clicked()");
+					    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+					    	dismissNotification();
+					    }
+					});		
+		    	}
+				// Delete Button
+				final Button smsDeleteButton = (Button) findViewById(R.id.sms_delete_button);
+				if(_preferences.getBoolean(SMS_HIDE_DELETE_BUTTON_KEY, false)){
+		    		smsDeleteButton.setVisibility(View.GONE);
+		    	}else{
+					smsDeleteButton.setOnClickListener(new OnClickListener() {
+					    public void onClick(View view) {
+					    	if (_debug) Log.v("SMS Delete Button Clicked()");
+					    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+					    	showDeleteDialog();
+					    }
+					});
+		    	}
+				// Reply Button
+				final Button smsReplyButton = (Button) findViewById(R.id.sms_reply_button);
+				if(_preferences.getBoolean(SMS_HIDE_REPLY_BUTTON_KEY, false)){
+		    		smsReplyButton.setVisibility(View.GONE);
+		    	}else{
+					smsReplyButton.setOnClickListener(new OnClickListener() {
+					    public void onClick(View view) {
+					    	if (_debug) Log.v("SMS Reply Button Clicked()");
+					    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+					    	replyToMessage(NOTIFICATION_TYPE_SMS);
+					    }
+					});
+		    	}
+				//Remove the icons from the View's buttons, based on the user preferences.
+				if(!_preferences.getBoolean(BUTTON_ICONS_KEY, true)){
+					smsDismissButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
+					smsDeleteButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
+					smsReplyButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
+				}
 				break;
 			}
 			case NOTIFICATION_TYPE_MMS:{
+				// Notification Count Text Button
 				int notificationCountAction = Integer.parseInt(_preferences.getString(MMS_NOTIFICATION_COUNT_ACTION_KEY, "0"));
 				if(notificationCountAction == 0){
 					//Do Nothing.
@@ -309,9 +388,59 @@ public class NotificationView extends LinearLayout {
 					    }
 					});		
 				}
+				//Display the correct navigation buttons for each notification type.
+		    	phoneButtonLayoutVisibility = View.GONE;
+		    	smsButtonLayoutVisibility = View.VISIBLE;
+		    	calendarButtonLayoutVisibility = View.GONE;
+				// Dismiss Button
+		    	final Button mmsDismissButton = (Button) findViewById(R.id.sms_dismiss_button);
+		    	if(_preferences.getBoolean(MMS_HIDE_DISMISS_BUTTON_KEY, false)){
+		    		mmsDismissButton.setVisibility(View.GONE);
+		    	}else{
+					mmsDismissButton.setOnClickListener(new OnClickListener() {
+					    public void onClick(View view) {
+					    	if (_debug) Log.v("MMS Dismiss Button Clicked()");
+					    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+					    	dismissNotification();
+					    }
+					});	
+		    	}
+				// Delete Button
+				final Button mmsDeleteButton = (Button) findViewById(R.id.sms_delete_button);
+				if(_preferences.getBoolean(MMS_HIDE_DELETE_BUTTON_KEY, false)){
+		    		mmsDeleteButton.setVisibility(View.GONE);
+		    	}else{
+					mmsDeleteButton.setOnClickListener(new OnClickListener() {
+					    public void onClick(View view) {
+					    	if (_debug) Log.v("MMS Delete Button Clicked()");
+					    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+					    	showDeleteDialog();
+					    }
+					});
+		    	}
+				// Reply Button
+				final Button mmsReplyButton = (Button) findViewById(R.id.sms_reply_button);
+				if(_preferences.getBoolean(MMS_HIDE_REPLY_BUTTON_KEY, false)){
+					mmsReplyButton.setVisibility(View.GONE);
+		    	}else{
+					mmsReplyButton.setOnClickListener(new OnClickListener() {
+					    public void onClick(View view) {
+					    	if (_debug) Log.v("MMS Reply Button Clicked()");
+					    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+					    	replyToMessage(NOTIFICATION_TYPE_MMS);
+					    }
+					});
+		    	}
+				//Remove the icons from the View's buttons, based on the user preferences.
+				if(!_preferences.getBoolean(BUTTON_ICONS_KEY, true)){
+					mmsDismissButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
+					mmsDeleteButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
+					mmsReplyButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
+				}
 				break;
 			}
 			case NOTIFICATION_TYPE_CALENDAR:{
+				// Notification Count Text Button
 				int notificationCountAction = Integer.parseInt(_preferences.getString(CALENDAR_NOTIFICATION_COUNT_ACTION_KEY, "0"));
 				if(notificationCountAction == 0){
 					//Do Nothing.
@@ -324,200 +453,60 @@ public class NotificationView extends LinearLayout {
 					    }
 					});			
 				}
+		    	//Display the correct navigation buttons for each notification type.
+		    	phoneButtonLayoutVisibility = View.GONE;
+		    	smsButtonLayoutVisibility = View.GONE;
+		    	calendarButtonLayoutVisibility = View.VISIBLE;
+				// Dismiss Button
+		    	final Button calendarDismissButton = (Button) findViewById(R.id.calendar_dismiss_button);
+		    	if(_preferences.getBoolean(CALENDAR_HIDE_DISMISS_BUTTON_KEY, false)){
+		    		calendarDismissButton.setVisibility(View.GONE);
+		    	}else{
+			    	calendarDismissButton.setOnClickListener(new OnClickListener() {
+					    public void onClick(View view) {
+					    	if (_debug) Log.v("Calendar Dismiss Button Clicked()");
+					    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+					    	dismissNotification();
+					    }
+					});	
+		    	}
+				// View Button
+		    	final Button calendarViewButton = (Button) findViewById(R.id.calendar_view_button);
+		    	if(_preferences.getBoolean(CALENDAR_HIDE_VIEW_BUTTON_KEY, false)){
+		    		calendarViewButton.setVisibility(View.GONE);
+		    	}else{
+					calendarViewButton.setOnClickListener(new OnClickListener() {
+					    public void onClick(View view) {
+					    	if (_debug) Log.v("Calendar View Button Clicked()");
+					    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+					    	//viewCalendarEvent();
+					    	Common.startViewCalendarEventActivity(_context, _notificationActivity, _notification.getCalendarEventID(), _notification.getCalendarEventStartTime(), _notification.getCalendarEventEndTime(), VIEW_CALENDAR_ACTIVITY);
+					    }
+					});
+		    	}
+				//Remove the icons from the View's buttons, based on the user preferences.
+				if(!_preferences.getBoolean(BUTTON_ICONS_KEY, true)){
+					calendarDismissButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
+					calendarViewButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
+				}
 				break;
 			}
 			case NOTIFICATION_TYPE_EMAIL:{
+				// Notification Count Text Button
 				String notificationCountAction = _preferences.getString(EMAIL_NOTIFICATION_COUNT_ACTION_KEY, "0");
 				if(notificationCountAction.equals("0")){
 					//Do Nothing.
 				}else{
 
 				}
+		    	//Display the correct navigation buttons for each notification type.
+		    	phoneButtonLayoutVisibility = View.GONE;
+		    	smsButtonLayoutVisibility = View.GONE;
+		    	calendarButtonLayoutVisibility = View.GONE;
+		    	//TODO - Email
 				break;
 			}
 		}
-	    if(_notificationType == NOTIFICATION_TYPE_PHONE){
-	    	//Display the correct navigation buttons for each notification type.
-	    	phoneButtonLayoutVisibility = View.VISIBLE;
-	    	smsButtonLayoutVisibility = View.GONE;
-	    	calendarButtonLayoutVisibility = View.GONE;
-			// Dismiss Button
-	    	final Button phoneDismissButton = (Button) findViewById(R.id.phone_dismiss_button);
-	    	if(_preferences.getBoolean(PHONE_HIDE_DISMISS_BUTTON_KEY, false)){
-	    		phoneDismissButton.setVisibility(View.GONE);
-	    	}else{
-				phoneDismissButton.setOnClickListener(new OnClickListener() {
-				    public void onClick(View v) {
-				    	if (_debug) Log.v("Dismiss Button Clicked()");
-				    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-				    	dismissNotification();
-				    }
-				});
-	    	}
-			// Call Button
-			final Button phoneCallButton = (Button) findViewById(R.id.phone_call_button);
-			if(_preferences.getBoolean(PHONE_HIDE_CALL_BUTTON_KEY, false)){
-	    		phoneCallButton.setVisibility(View.GONE);
-	    	}else{
-				phoneCallButton.setOnClickListener(new OnClickListener() {
-				    public void onClick(View v) {
-				    	if (_debug) Log.v("Call Button Clicked()");
-				    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-				    	makePhoneCall();
-				    }
-				});
-	    	}
-			//Remove the icons from the View's buttons, based on the user preferences.
-			if(!_preferences.getBoolean(BUTTON_ICONS_KEY, true)){
-				phoneDismissButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
-				phoneCallButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
-			}
-	    }
-		if(_notificationType == NOTIFICATION_TYPE_SMS){
-			//Display the correct navigation buttons for each notification type.
-	    	phoneButtonLayoutVisibility = View.GONE;
-	    	smsButtonLayoutVisibility = View.VISIBLE;
-	    	calendarButtonLayoutVisibility = View.GONE;
-			// Dismiss Button
-	    	final Button smsDismissButton = (Button) findViewById(R.id.sms_dismiss_button);
-	    	if(_preferences.getBoolean(SMS_HIDE_DISMISS_BUTTON_KEY, false)){
-	    		smsDismissButton.setVisibility(View.GONE);
-	    	}else{
-				smsDismissButton.setOnClickListener(new OnClickListener() {
-				    public void onClick(View view) {
-				    	if (_debug) Log.v("SMS Dismiss Button Clicked()");
-				    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-				    	dismissNotification();
-				    }
-				});		
-	    	}
-			// Delete Button
-			final Button smsDeleteButton = (Button) findViewById(R.id.sms_delete_button);
-			if(_preferences.getBoolean(SMS_HIDE_DELETE_BUTTON_KEY, false)){
-	    		smsDeleteButton.setVisibility(View.GONE);
-	    	}else{
-				smsDeleteButton.setOnClickListener(new OnClickListener() {
-				    public void onClick(View view) {
-				    	if (_debug) Log.v("SMS Delete Button Clicked()");
-				    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-				    	showDeleteDialog();
-				    }
-				});
-	    	}
-			// Reply Button
-			final Button smsReplyButton = (Button) findViewById(R.id.sms_reply_button);
-			if(_preferences.getBoolean(SMS_HIDE_REPLY_BUTTON_KEY, false)){
-	    		smsReplyButton.setVisibility(View.GONE);
-	    	}else{
-				smsReplyButton.setOnClickListener(new OnClickListener() {
-				    public void onClick(View view) {
-				    	if (_debug) Log.v("SMS Reply Button Clicked()");
-				    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-				    	replyToMessage(NOTIFICATION_TYPE_SMS);
-				    }
-				});
-	    	}
-			//Remove the icons from the View's buttons, based on the user preferences.
-			if(!_preferences.getBoolean(BUTTON_ICONS_KEY, true)){
-				smsDismissButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
-				smsDeleteButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
-				smsReplyButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
-			}
-		}
-	    if(_notificationType == NOTIFICATION_TYPE_MMS){
-			//Display the correct navigation buttons for each notification type.
-	    	phoneButtonLayoutVisibility = View.GONE;
-	    	smsButtonLayoutVisibility = View.VISIBLE;
-	    	calendarButtonLayoutVisibility = View.GONE;
-			// Dismiss Button
-	    	final Button mmsDismissButton = (Button) findViewById(R.id.sms_dismiss_button);
-	    	if(_preferences.getBoolean(MMS_HIDE_DISMISS_BUTTON_KEY, false)){
-	    		mmsDismissButton.setVisibility(View.GONE);
-	    	}else{
-				mmsDismissButton.setOnClickListener(new OnClickListener() {
-				    public void onClick(View view) {
-				    	if (_debug) Log.v("MMS Dismiss Button Clicked()");
-				    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-				    	dismissNotification();
-				    }
-				});	
-	    	}
-			// Delete Button
-			final Button mmsDeleteButton = (Button) findViewById(R.id.sms_delete_button);
-			if(_preferences.getBoolean(MMS_HIDE_DELETE_BUTTON_KEY, false)){
-	    		mmsDeleteButton.setVisibility(View.GONE);
-	    	}else{
-				mmsDeleteButton.setOnClickListener(new OnClickListener() {
-				    public void onClick(View view) {
-				    	if (_debug) Log.v("MMS Delete Button Clicked()");
-				    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-				    	showDeleteDialog();
-				    }
-				});
-	    	}
-			// Reply Button
-			final Button mmsReplyButton = (Button) findViewById(R.id.sms_reply_button);
-			if(_preferences.getBoolean(MMS_HIDE_REPLY_BUTTON_KEY, false)){
-				mmsReplyButton.setVisibility(View.GONE);
-	    	}else{
-				mmsReplyButton.setOnClickListener(new OnClickListener() {
-				    public void onClick(View view) {
-				    	if (_debug) Log.v("MMS Reply Button Clicked()");
-				    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-				    	replyToMessage(NOTIFICATION_TYPE_MMS);
-				    }
-				});
-	    	}
-			//Remove the icons from the View's buttons, based on the user preferences.
-			if(!_preferences.getBoolean(BUTTON_ICONS_KEY, true)){
-				mmsDismissButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
-				mmsDeleteButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
-				mmsReplyButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
-			}
-	    }
-	    if(_notificationType == NOTIFICATION_TYPE_CALENDAR){
-	    	phoneButtonLayoutVisibility = View.GONE;
-	    	smsButtonLayoutVisibility = View.GONE;
-	    	calendarButtonLayoutVisibility = View.VISIBLE;
-			// Dismiss Button
-	    	final Button calendarDismissButton = (Button) findViewById(R.id.calendar_dismiss_button);
-	    	if(_preferences.getBoolean(CALENDAR_HIDE_DISMISS_BUTTON_KEY, false)){
-	    		calendarDismissButton.setVisibility(View.GONE);
-	    	}else{
-		    	calendarDismissButton.setOnClickListener(new OnClickListener() {
-				    public void onClick(View view) {
-				    	if (_debug) Log.v("Calendar Dismiss Button Clicked()");
-				    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-				    	dismissNotification();
-				    }
-				});	
-	    	}
-			// View Button
-	    	final Button calendarViewButton = (Button) findViewById(R.id.calendar_view_button);
-	    	if(_preferences.getBoolean(CALENDAR_HIDE_VIEW_BUTTON_KEY, false)){
-	    		calendarViewButton.setVisibility(View.GONE);
-	    	}else{
-				calendarViewButton.setOnClickListener(new OnClickListener() {
-				    public void onClick(View view) {
-				    	if (_debug) Log.v("Calendar View Button Clicked()");
-				    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-				    	//viewCalendarEvent();
-				    	Common.startViewCalendarEventActivity(_context, _notificationActivity, _notification.getCalendarEventID(), _notification.getCalendarEventStartTime(), _notification.getCalendarEventEndTime(), VIEW_CALENDAR_ACTIVITY);
-				    }
-				});
-	    	}
-			//Remove the icons from the View's buttons, based on the user preferences.
-			if(!_preferences.getBoolean(BUTTON_ICONS_KEY, true)){
-				calendarDismissButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
-				calendarViewButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
-			}
-	    }
-	    if(_notificationType == NOTIFICATION_TYPE_EMAIL){
-	    	phoneButtonLayoutVisibility = View.GONE;
-	    	smsButtonLayoutVisibility = View.GONE;
-	    	calendarButtonLayoutVisibility = View.GONE;
-	    	//TODO - Email
-	    }
 		_phoneButtonLinearLayout.setVisibility(phoneButtonLayoutVisibility);
     	_smsButtonLinearLayout.setVisibility(smsButtonLayoutVisibility);
     	_calendarButtonLinearLayout.setVisibility(calendarButtonLayoutVisibility);
@@ -668,49 +657,6 @@ public class NotificationView extends LinearLayout {
 	}
 	
 	/**
-	 * Rounds the corners of a Bitmap image.
-	 * 
-	 * @param bitmap - The Bitmap to be formatted.
-	 * @param pixels - The number of pixels as the diameter of the rounded corners.
-	 * 
-	 * @return Bitmap - The formatted Bitmap image.
-	 */
-	private Bitmap getRoundedCornerBitmap(Bitmap bitmap, int pixels) {
-		if (_debug) Log.v("NotificationView.getRoundedCornerBitmap()");
-		try{
-			Bitmap output = null;
-			if(bitmap == null){
-				return null;
-			}else{
-		        output = Bitmap.createBitmap(
-		        		bitmap.getWidth(), 
-		        		bitmap
-		                .getHeight(), 
-		                Config.ARGB_8888);
-		        Canvas canvas = new Canvas(output);
-		        final int color = 0xff424242;
-		        final Paint paint = new Paint();
-		        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
-		        final RectF rectF = new RectF(rect);
-		        final float roundPx = pixels;
-		        paint.setAntiAlias(true);
-		        canvas.drawARGB(0, 0, 0, 0);
-		        paint.setColor(color);
-		        canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
-		        paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
-		        canvas.drawBitmap(bitmap, rect, rect, paint);
-		        //Resize the Bitmap so that all images are consistent.
-		        //Bitmap createScaledBitmap(Bitmap src, int dstWidth, int dstHeight, boolean filter)
-		        output = Bitmap.createScaledBitmap(output, SQUARE_IMAGE_SIZE, SQUARE_IMAGE_SIZE, true);
-		        return output;
-			}
-		}catch(Exception ex){
-			if (_debug) Log.e("NotificationView.getRoundedCornerBitmap() ERROR: " + ex.toString());
-			return null;
-		}
-	}
-	
-	/**
 	 * Remove the notification from the ViewFlipper.
 	 */
 	private void dismissNotification(){
@@ -795,30 +741,6 @@ public class NotificationView extends LinearLayout {
 				editor.putString("MMS_REPLY_BUTTON_ACTION_KEY", "1");
 				editor.commit();
 			}
-		}
-	}
-	
-	/**
-	 * Launches a new Activity.
-	 * Makes a phone call to the current missed call notification using the phones stock Android dialer & caller.
-	 */
-	private void makePhoneCall(){
-		if (_debug) Log.v("NotificationView.makePhoneCall()");
-		String phoneNumber = _notification.getSentFromAddress();
-		String numberToBeCalled = phoneNumber;
-		if(numberToBeCalled == null || numberToBeCalled.contains("@")){
-			Toast.makeText(_context, _context.getString(R.string.app_android_phone_number_format_error), Toast.LENGTH_LONG).show();
-			return;
-		}
-		try{
-			Intent intent = new Intent(Intent.ACTION_CALL);
-	        intent.setData(Uri.parse("tel:" + numberToBeCalled));
-	        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-	        _notificationActivity.startActivityForResult(intent,CALL_ACTIVITY);
-		}catch(Exception ex){
-			if (_debug) Log.e("NotificationView.makePhoneCall() ERROR: " + ex.toString());
-			Toast.makeText(_context, _context.getString(R.string.app_android_phone_app_error), Toast.LENGTH_LONG).show();
-			return;
 		}
 	}
  
@@ -1164,7 +1086,7 @@ public class NotificationView extends LinearLayout {
 		try{
 		    Bitmap bitmap = getContactImage(contactID);
 		    if(bitmap!=null){
-		    	return (Bitmap)getRoundedCornerBitmap(bitmap, 5);
+		    	return Common.getRoundedCornerBitmap(bitmap, 5, true, SQUARE_IMAGE_SIZE, SQUARE_IMAGE_SIZE);
 		    }else{
 		    	// Load the placeholder image if the contact has no photo.
 		    	// This is based on user preferences from a list of predefined images.
@@ -1176,7 +1098,7 @@ public class NotificationView extends LinearLayout {
 		    	if(contactPlaceholderImageID.equals("2")) contactPlaceholderImageResourceID = R.drawable.ic_contact_picture_3;
 		    	if(contactPlaceholderImageID.equals("3")) contactPlaceholderImageResourceID = R.drawable.ic_contact_picture_4;
 		    	if(contactPlaceholderImageID.equals("4")) contactPlaceholderImageResourceID = R.drawable.ic_contact_picture_5;
-		    	return (getRoundedCornerBitmap(BitmapFactory.decodeResource(_context.getResources(), contactPlaceholderImageResourceID), 5));
+		    	return Common.getRoundedCornerBitmap(BitmapFactory.decodeResource(_context.getResources(), contactPlaceholderImageResourceID), 5, true, SQUARE_IMAGE_SIZE, SQUARE_IMAGE_SIZE);
 		    }
 		}catch(Exception ex){
 			if (_debug) Log.e("NotificationView.getNotificationContactImage() ERROR: " + ex.toString());
