@@ -182,39 +182,44 @@ public class NotificationViewFlipper extends ViewFlipper {
 		//Remove the notification from the ViewFlipper.
 		Notification notification = getNotification(_currentNotification);
 		int notificationType = notification.getNotificationType();
-		if(notificationType == NOTIFICATION_TYPE_SMS){
-			if(_preferences.getString(SMS_DELETE_KEY, "0").equals(SMS_DELETE_ACTION_NOTHING)){
-				//Remove the notification from the ViewFlipper
-				removeActiveNotification();
-			}else if(_preferences.getString(SMS_DELETE_KEY, "0").equals(SMS_DELETE_ACTION_DELETE_MESSAGE)){
-				//Delete the current message from the users phone.
-				notification.deleteMessage();
-				//Remove the notification from the ViewFlipper
-				removeActiveNotification();
-			}else if(_preferences.getString(SMS_DELETE_KEY, "0").equals(SMS_DELETE_ACTION_DELETE_THREAD)){
-				//Delete the current message from the users phone.
-				//The notification will remove ALL messages for this thread from the phone for us.
-				notification.deleteMessage();
-				//Remove all Notifications with the thread ID.
-				removeNotifications(notification.getThreadID());
+		switch(notificationType){
+			case NOTIFICATION_TYPE_SMS:{
+				if(_preferences.getString(SMS_DELETE_KEY, "0").equals(SMS_DELETE_ACTION_NOTHING)){
+					//Remove the notification from the ViewFlipper
+					removeActiveNotification();
+				}else if(_preferences.getString(SMS_DELETE_KEY, "0").equals(SMS_DELETE_ACTION_DELETE_MESSAGE)){
+					//Delete the current message from the users phone.
+					notification.deleteMessage();
+					//Remove the notification from the ViewFlipper
+					removeActiveNotification();
+				}else if(_preferences.getString(SMS_DELETE_KEY, "0").equals(SMS_DELETE_ACTION_DELETE_THREAD)){
+					//Delete the current message from the users phone.
+					//The notification will remove ALL messages for this thread from the phone for us.
+					notification.deleteMessage();
+					//Remove all Notifications with the thread ID.
+					removeNotifications(notification.getThreadID());
+				}
+				break;
 			}
-		}else if(notificationType == NOTIFICATION_TYPE_MMS){
-			if(_preferences.getString(MMS_DELETE_KEY, "0").equals(MMS_DELETE_ACTION_NOTHING)){
-				//Remove the notification from the ViewFlipper
-				removeActiveNotification();
-			}else if(_preferences.getString(MMS_DELETE_KEY, "0").equals(MMS_DELETE_ACTION_DELETE_MESSAGE)){
-				//Delete the current message from the users phone.
-				notification.deleteMessage();
-				//Remove the notification from the ViewFlipper
-				removeActiveNotification();
-			}else if(_preferences.getString(MMS_DELETE_KEY, "0").equals(MMS_DELETE_ACTION_DELETE_THREAD)){
-				//Remove all Notifications with the thread ID.
-				removeNotifications(notification.getThreadID());
-				//Delete the current message from the users phone.
-				//The notification will remove ALL messages for this thread from the phone for us.
-				notification.deleteMessage();
-				//Remove all Notifications with the thread ID.
-				removeNotifications(notification.getThreadID());
+			case NOTIFICATION_TYPE_MMS:{
+				if(_preferences.getString(MMS_DELETE_KEY, "0").equals(MMS_DELETE_ACTION_NOTHING)){
+					//Remove the notification from the ViewFlipper
+					removeActiveNotification();
+				}else if(_preferences.getString(MMS_DELETE_KEY, "0").equals(MMS_DELETE_ACTION_DELETE_MESSAGE)){
+					//Delete the current message from the users phone.
+					notification.deleteMessage();
+					//Remove the notification from the ViewFlipper
+					removeActiveNotification();
+				}else if(_preferences.getString(MMS_DELETE_KEY, "0").equals(MMS_DELETE_ACTION_DELETE_THREAD)){
+					//Remove all Notifications with the thread ID.
+					removeNotifications(notification.getThreadID());
+					//Delete the current message from the users phone.
+					//The notification will remove ALL messages for this thread from the phone for us.
+					notification.deleteMessage();
+					//Remove all Notifications with the thread ID.
+					removeNotifications(notification.getThreadID());
+				}
+				break;
 			}
 		}
 	}
