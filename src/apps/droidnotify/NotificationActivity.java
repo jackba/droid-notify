@@ -276,8 +276,7 @@ public class NotificationActivity extends Activity {
 						Toast.makeText(_context, _context.getString(R.string.app_android_no_number_found_error), Toast.LENGTH_LONG).show();
 						return false;
 					}else if(phoneNumberArray.length == 1){
-						makePhoneCall(phoneNumberArray[0]);
-						return true;
+						return makePhoneCall(phoneNumberArray[0]);
 					}else{
 						AlertDialog.Builder builder = new AlertDialog.Builder(this);
 						builder.setTitle(_context.getString(R.string.select_number_text));
@@ -288,11 +287,7 @@ public class NotificationActivity extends Activity {
 						    	if(phoneNumberInfo.length == 2){
 						    		makePhoneCall(phoneNumberInfo[1].trim());
 						    	}else{
-						    		if(phoneNumberInfo[0].trim().equals("grandcentral")){
-						    			makePhoneCall(phoneNumberInfo[0].trim().replace("grandcentral", ""));
-						    		}else{
-						    			Toast.makeText(_context, _context.getString(R.string.app_android_contacts_phone_number_chooser_error), Toast.LENGTH_LONG).show();
-						    		}
+						    		Toast.makeText(_context, _context.getString(R.string.app_android_contacts_phone_number_chooser_error), Toast.LENGTH_LONG).show();
 						    	}
 						    	//Close the dialog box.
 						    	dialog.dismiss();
@@ -325,11 +320,7 @@ public class NotificationActivity extends Activity {
 						    	if(phoneNumberInfo.length == 2){
 						    		sendSMSMessage(phoneNumberInfo[1].trim());
 						    	}else{
-						    		if(phoneNumberInfo[0].trim().equals("grandcentral")){
-						    			sendSMSMessage(phoneNumberInfo[0].trim().replace("grandcentral", ""));
-						    		}else{
-						    			Toast.makeText(_context, _context.getString(R.string.app_android_contacts_phone_number_chooser_error), Toast.LENGTH_LONG).show();
-						    		}
+						    		Toast.makeText(_context, _context.getString(R.string.app_android_contacts_phone_number_chooser_error), Toast.LENGTH_LONG).show();
 						    	}
 						    	//Close the dialog box.
 						    	dialog.dismiss();
@@ -1131,32 +1122,40 @@ public class NotificationActivity extends Activity {
 			vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
 			//Set vibration based on user preferences.
 			if(preferences.getBoolean(ALL_VIBRATE_ENABLED_KEY, true)){
-				if(notificationType == NOTIFICATION_TYPE_TEST){
-					if(vibrator != null) vibrator.vibrate(1 * 1000);
+				switch(notificationType){
+					case NOTIFICATION_TYPE_TEST:{
+						if(vibrator != null) vibrator.vibrate(1 * 1000);
+						break;
+					}
+					case NOTIFICATION_TYPE_PHONE:{
+				 	    if(preferences.getBoolean(MISSED_CALL_VIBRATE_ENABLED_KEY, true)){
+				 	    	if(vibrator != null) vibrator.vibrate(1 * 1000);
+				 	    }
+						break;
+				    }
+					case NOTIFICATION_TYPE_SMS:{
+				 	    if(preferences.getBoolean(SMS_VIBRATE_ENABLED_KEY, true)){
+				 	    	if(vibrator != null) vibrator.vibrate(1 * 1000);
+				 	    }
+						break;
+				    }
+					case NOTIFICATION_TYPE_MMS:{
+				 	    if(preferences.getBoolean(MMS_VIBRATE_ENABLED_KEY, true)){
+				 	    	if(vibrator != null) vibrator.vibrate(1 * 1000);
+				 	    }
+						break;
+				    }
+					case NOTIFICATION_TYPE_CALENDAR:{
+				 	    if(preferences.getBoolean(CALENDAR_VIBRATE_ENABLED_KEY, true)){
+				 	    	if(vibrator != null) vibrator.vibrate(1 * 1000);
+				 	    }
+						break;
+				    }
+					case NOTIFICATION_TYPE_EMAIL:{
+				    	//TODO - Email
+						break;
+				    }
 				}
-			    if(notificationType == NOTIFICATION_TYPE_PHONE){
-			 	    if(preferences.getBoolean(MISSED_CALL_VIBRATE_ENABLED_KEY, true)){
-			 	    	if(vibrator != null) vibrator.vibrate(1 * 1000);
-			 	    }
-			    }
-			    if(notificationType == NOTIFICATION_TYPE_SMS){
-			 	    if(preferences.getBoolean(SMS_VIBRATE_ENABLED_KEY, true)){
-			 	    	if(vibrator != null) vibrator.vibrate(1 * 1000);
-			 	    }
-			    }
-			    if(notificationType == NOTIFICATION_TYPE_MMS){
-			 	    if(preferences.getBoolean(MMS_VIBRATE_ENABLED_KEY, true)){
-			 	    	if(vibrator != null) vibrator.vibrate(1 * 1000);
-			 	    }
-			    }
-			    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
-			 	    if(preferences.getBoolean(CALENDAR_VIBRATE_ENABLED_KEY, true)){
-			 	    	if(vibrator != null) vibrator.vibrate(1 * 1000);
-			 	    }
-			    }
-			    if(notificationType == NOTIFICATION_TYPE_EMAIL){
-			    	//TODO - Email
-			    }
 			}
 			//Set ringtone based on user preferences.
 			if(preferences.getBoolean(ALL_RINGTONE_ENABLED_KEY, false)){
@@ -1286,20 +1285,6 @@ public class NotificationActivity extends Activity {
 	 */
 	private boolean sendSMSMessage(String phoneNumber){
 		if (_debug) Log.v("NotificationActivity.sendSMSMessage()");
-//		try{
-//			if(phoneNumber == null){
-//				Toast.makeText(_context, _context.getString(R.string.app_android_reply_messaging_address_error), Toast.LENGTH_LONG).show();
-//				return;
-//			}
-//			Intent intent = new Intent(Intent.ACTION_SENDTO);
-//		    intent.setData(Uri.parse("smsto:" + phoneNumber));
-//	        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-//		    startActivityForResult(intent,SEND_SMS_ACTIVITY);
-//		}catch(Exception ex){
-//			if (_debug) Log.e("NotificationActivity.sendSMSMessage() ERROR: " + ex.toString());
-//			Toast.makeText(_context, _context.getString(R.string.app_android_messaging_app_error), Toast.LENGTH_LONG).show();
-//			return;
-//		}
 		return Common.startMessagingAppReplyActivity(_context, this, phoneNumber, SEND_SMS_ACTIVITY);
 	}
 	
@@ -1308,22 +1293,9 @@ public class NotificationActivity extends Activity {
 	 * 
 	 * @param phoneNumber - The phone number we want to send a place a call to.
 	 */
-	private void makePhoneCall(String phoneNumber){
+	private boolean makePhoneCall(String phoneNumber){
 		if (_debug) Log.v("NotificationActivity.makePhoneCall()");
-		try{
-			if(phoneNumber == null){
-				Toast.makeText(_context, _context.getString(R.string.app_android_phone_number_format_error), Toast.LENGTH_LONG).show();
-				return;
-			}
-			Intent intent = new Intent(Intent.ACTION_CALL);
-	        intent.setData(Uri.parse("tel:" + phoneNumber));		
-	        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-		    startActivityForResult(intent,CALL_ACTIVITY);
-		}catch(Exception ex){
-			if (_debug) Log.e("NotificationActivity.makePhoneCall() ERROR: " + ex.toString());
-			Toast.makeText(_context, _context.getString(R.string.app_android_phone_app_error), Toast.LENGTH_LONG).show();
-			return;
-		}
+		return Common.makePhoneCall(_context, this, phoneNumber, CALL_ACTIVITY);
 	}	
 	
 	/**
@@ -1435,7 +1407,7 @@ public class NotificationActivity extends Activity {
 							break;
 						}
 						case ContactsContract.CommonDataKinds.Phone.TYPE_CUSTOM:{
-							phoneNumberType = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.LABEL));
+							phoneNumberType = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.LABEL)) + ": ";
 							break;
 						}
 						default:{
