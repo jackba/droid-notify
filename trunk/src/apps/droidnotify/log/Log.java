@@ -141,7 +141,7 @@ public class Log {
 	 * 
 	 * @param text - String value to append to the custom log.
 	 */
-	private static void writeToCustomLog(int logType, String msg){   
+	private static void writeToCustomLog(int logType, String msg){
 		//Check state of external storage.
 		String state = Environment.getExternalStorageState();
 		if(Environment.MEDIA_MOUNTED.equals(state)){
