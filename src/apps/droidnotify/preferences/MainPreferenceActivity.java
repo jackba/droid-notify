@@ -575,10 +575,10 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			if (_debug) Log.e("MainPreferenceActivity.exportApplicationPreferences() External Storage Can't Write Or Read State");
 		    return false;
 		}
-    	File preferencesFilePath = Environment.getExternalStoragePublicDirectory("Droid Notify/Preferences/");
+    	File preferencesFilePath = Environment.getExternalStoragePublicDirectory("Droid Notify/Preferences");
     	File preferencesFile = new File(preferencesFilePath, "DroidNotifyPreferences.txt");
     	try{
-    		preferencesFilePath.mkdir();
+    		preferencesFilePath.mkdirs();
     		//Delete previous file if it exists.
     		if(preferencesFile.exists()){
     			preferencesFile.delete();   			

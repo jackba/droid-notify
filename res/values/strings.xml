@@ -141,8 +141,8 @@
    	<string name="preference_sms_display_unread_enabled_summaryOn">All unread sms messages will be loaded when a new sms message arrives.</string>
    	<string name="preference_sms_display_unread_enabled_summaryOff">Only the current incoming message will be loaded.</string>	 	
    	<string name="preference_sms_hide_message_body_enabled_title">Hide Message Body</string>
-   	<string name="preference_sms_hide_message_body_enabled_summaryOn">The message body will be visible in the notification popup.</string>
-   	<string name="preference_sms_hide_message_body_enabled_summaryOff">The message body will not be visible in the notification popup.</string>	
+   	<string name="preference_sms_hide_message_body_enabled_summaryOn">The message body will not be visible in the notification popup.</string>
+   	<string name="preference_sms_hide_message_body_enabled_summaryOff">The message body will be visible in the notification popup.</string>	
    	<string name="preference_sms_vibrate_enabled_title">Enable Vibrations</string>
    	<string name="preference_sms_vibrate_enabled_summaryOn">SMS notifications will vibrate on arrival.</string>
    	<string name="preference_sms_vibrate_enabled_summaryOff">SMS notifications will not vibrate on arrival.</string>
@@ -167,8 +167,8 @@
    	<string name="preference_mms_display_unread_enabled_summaryOn">All unread mms messages will be loaded when a new mms message arrives.</string>
    	<string name="preference_mms_display_unread_enabled_summaryOff">Only the current incoming message will be loaded.</string>	
    	<string name="preference_mms_hide_message_body_enabled_title">Hide Message Body</string>
-   	<string name="preference_mms_hide_message_body_enabled_summaryOn">The message body will be visible in the notification popup.</string>
-   	<string name="preference_mms_hide_message_body_enabled_summaryOff">The message body will not be visible in the notification popup.</string>
+   	<string name="preference_mms_hide_message_body_enabled_summaryOn">The message body will not be visible in the notification popup.</string>
+   	<string name="preference_mms_hide_message_body_enabled_summaryOff">The message body will be visible in the notification popup.</string>
     <string name="preference_mms_vibrate_enabled_title">Enable Vibrations</string>
    	<string name="preference_mms_vibrate_enabled_summaryOn">MMS notifications will vibrate on arrival.</string>
    	<string name="preference_mms_vibrate_enabled_summaryOff">MMS notifications will not vibrate on arrival.</string>

@@ -1570,34 +1570,38 @@ public class NotificationActivity extends Activity {
 	     * @param result - The image of the contact.
 	     */
 	    protected void onPostExecute(ArrayList<String> smsArray) {
-			if (_debug) Log.v("NotificationActivity.getAllUnreadSMSMessagesAsyncTask.onPostExecute()");
+			if (_debug) Log.v("NotificationActivity.getAllUnreadSMSMessagesAsyncTask.onPostExecute()");		
 			for(String smsArrayItem : smsArray){
-				String[] smsInfo = smsArrayItem.split("\\|");
-				String messageAddress = null;
-				String messageBody = null;
-				long messageID = 0;
-				long threadID = 0;
-				long contactID = 0;
-				String contactName = null;
-				long photoID = 0;
-				long timeStamp = 0;
-	    		if( smsInfo.length == 5){ 
-					messageAddress = smsInfo[0];
-					messageBody = smsInfo[1];
-					messageID = Long.parseLong(smsInfo[2]);
-					threadID = Long.parseLong(smsInfo[3]);
-					timeStamp = Long.parseLong(smsInfo[4]);
-				}else{ 
-					messageAddress = smsInfo[0];
-					messageBody = smsInfo[1];
-					messageID = Long.parseLong(smsInfo[2]);
-					threadID = Long.parseLong(smsInfo[3]);
-					timeStamp = Long.parseLong(smsInfo[4]);
-					contactID = Long.parseLong(smsInfo[5]);
-					contactName = smsInfo[6];
-					photoID = Long.parseLong(smsInfo[7]);
+				try{
+					String[] smsInfo = smsArrayItem.split("\\|");
+					String messageAddress = null;
+					String messageBody = null;
+					long messageID = 0;
+					long threadID = 0;
+					long contactID = 0;
+					String contactName = null;
+					long photoID = 0;
+					long timeStamp = 0;
+		    		if( smsInfo.length == 5){ 
+						messageAddress = smsInfo[0];
+						messageBody = smsInfo[1];
+						messageID = Long.parseLong(smsInfo[2]);
+						threadID = Long.parseLong(smsInfo[3]);
+						timeStamp = Long.parseLong(smsInfo[4]);
+					}else{ 
+						messageAddress = smsInfo[0];
+						messageBody = smsInfo[1];
+						messageID = Long.parseLong(smsInfo[2]);
+						threadID = Long.parseLong(smsInfo[3]);
+						timeStamp = Long.parseLong(smsInfo[4]);
+						contactID = Long.parseLong(smsInfo[5]);
+						contactName = smsInfo[6];
+						photoID = Long.parseLong(smsInfo[7]);
+					}
+		    		_notificationViewFlipper.addNotification(new Notification(_context, messageAddress, messageBody, messageID, threadID, timeStamp, contactID, contactName, photoID, NOTIFICATION_TYPE_SMS));
+				}catch(Exception ex){
+					if (_debug) Log.e("NotificationActivity.getAllUnreadSMSMessagesAsyncTask.onPostExecute() ERROR: " + ex.toString());
 				}
-	    		_notificationViewFlipper.addNotification(new Notification(_context, messageAddress, messageBody, messageID, threadID, timeStamp, contactID, contactName, photoID, NOTIFICATION_TYPE_SMS));
 			}
 	    }
 	}
@@ -1809,16 +1813,25 @@ public class NotificationActivity extends Activity {
 	private void setupCalendarEventNotifications(Bundle bundle){
 		if (_debug) Log.v("NotificationActivity.setupCalendarEventNotifications()");  
 		String calenderEventInfo[] = (String[])bundle.getStringArray("calenderEventInfo");
-		String title = calenderEventInfo[0];
-		String messageBody = calenderEventInfo[1];
-		long eventStartTime = Long.parseLong(calenderEventInfo[2]); 
-		long eventEndTime = Long.parseLong(calenderEventInfo[3]);
-		boolean eventAllDay = Boolean.parseBoolean(calenderEventInfo[4]); 
-		String calendarName = calenderEventInfo[5];
-		long calendarID = Long.parseLong(calenderEventInfo[6]); 
-		long eventID = Long.parseLong(calenderEventInfo[7]);
-		Notification calendarEventNotification = new Notification(_context, title, messageBody, eventStartTime, eventEndTime, eventAllDay, calendarName, calendarID, eventID, NOTIFICATION_TYPE_CALENDAR);
-		_notificationViewFlipper.addNotification(calendarEventNotification);		
+		if(calenderEventInfo.length != 8){
+			if (_debug) Log.v("NotificationActivity.setupCalendarEventNotifications() CalendarEventInfo is not the correct length. Exiting...");  
+			return;
+		}
+		try{
+			String title = calenderEventInfo[0];
+			String messageBody = calenderEventInfo[1];
+			long eventStartTime = Long.parseLong(calenderEventInfo[2]); 
+			long eventEndTime = Long.parseLong(calenderEventInfo[3]);
+			boolean eventAllDay = Boolean.parseBoolean(calenderEventInfo[4]); 
+			String calendarName = calenderEventInfo[5];
+			long calendarID = Long.parseLong(calenderEventInfo[6]); 
+			long eventID = Long.parseLong(calenderEventInfo[7]);
+			Notification calendarEventNotification = new Notification(_context, title, messageBody, eventStartTime, eventEndTime, eventAllDay, calendarName, calendarID, eventID, NOTIFICATION_TYPE_CALENDAR);
+			_notificationViewFlipper.addNotification(calendarEventNotification);	
+		}catch(Exception ex){
+			if (_debug) Log.e("NotificationActivity.setupCalendarEventNotifications() Error: " + ex.toString());  
+			return;
+		}
 	}
 	
 	private void setupContextMenus(ContextMenu contextMenu, int notificationType){
