@@ -188,7 +188,6 @@ public class QuickReplyActivity extends Activity {
 	    super.onPause();
 	    if (_debug) Log.v("QuickReplyActivity.onPause()");
 	    showSoftKeyboard(false, (EditText) findViewById(R.id.message_edit_text));
-	    saveMessageDraft();
 	}
 	  
 	/**
@@ -198,7 +197,6 @@ public class QuickReplyActivity extends Activity {
 	protected void onStop() {
 	    super.onStop();
 	    if (_debug) Log.v("QuickReplyActivity.onStop()");
-	    saveMessageDraft();
 	}
 	  
 	/**
@@ -209,6 +207,7 @@ public class QuickReplyActivity extends Activity {
 	    super.onDestroy();
 	    if (_debug) Log.v("QuickReplyActivity.onDestroy()");
 	    showSoftKeyboard(false, (EditText) findViewById(R.id.message_edit_text));
+	    saveMessageDraft();
 	}
 	
 	//================================================================================
