@@ -120,13 +120,13 @@ public class SMSReceiverService extends WakefulIntentService {
 			}else{
 				messageBody = messageBody.toString().replace("\n", "<br/>").trim();
 			}   
-    		threadID = Common.loadThreadID(context, sentFromAddress);
-    		messageID = Common.loadMessageID(context, threadID, messageBody, timeStamp);
+    		threadID = Common.getThreadID(context, sentFromAddress);
+    		messageID = Common.getMessageID(context, threadID, messageBody, timeStamp);
     		String[] smsContactInfo = null;
     		if(sentFromAddress.contains("@")){
-	    		smsContactInfo = Common.loadContactsInfoByEmail(context, sentFromAddress);
+	    		smsContactInfo = Common.getContactsInfoByEmail(context, sentFromAddress);
 	    	}else{
-	    		smsContactInfo = Common.loadContactsInfoByPhoneNumber(context, sentFromAddress);
+	    		smsContactInfo = Common.getContactsInfoByPhoneNumber(context, sentFromAddress);
 	    	}
     		if(smsContactInfo == null){
 				smsArray.add(sentFromAddress + "|" + messageBody + "|" + messageID + "|" + threadID + "|" + timeStamp);

@@ -106,9 +106,9 @@ public class MMSReceiverService extends WakefulIntentService {
 		    	String messageBody = Common.getMMSText(context, messageID);
 		    	String[] mmsContactInfo = null;
 		    	if(sentFromAddress.contains("@")){
-		    		mmsContactInfo = Common.loadContactsInfoByEmail(context, sentFromAddress);
+		    		mmsContactInfo = Common.getContactsInfoByEmail(context, sentFromAddress);
 		    	}else{
-		    		mmsContactInfo = Common.loadContactsInfoByPhoneNumber(context, sentFromAddress);
+		    		mmsContactInfo = Common.getContactsInfoByPhoneNumber(context, sentFromAddress);
 		    	}
 				if(mmsContactInfo == null){
 					mmsArray.add(sentFromAddress + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + threadID + "|" + timeStamp);

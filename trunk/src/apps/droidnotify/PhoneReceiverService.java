@@ -103,7 +103,7 @@ public class PhoneReceiverService extends WakefulIntentService {
 	    		String isCallNew = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.NEW));
 	    		if(Integer.parseInt(callType) == MISSED_CALL_TYPE && Integer.parseInt(isCallNew) > 0){
     				if (_debug) Log.v("PhoneReceiverService.getMissedCalls() Missed Call Found: " + callNumber);
-    				String[] missedCallContactInfo = Common.loadContactsInfoByPhoneNumber(context, callNumber);
+    				String[] missedCallContactInfo = Common.getContactsInfoByPhoneNumber(context, callNumber);
     				if(missedCallContactInfo == null){
     					missedCallsArray.add(callNumber + "|" + callDate);
     				}else{

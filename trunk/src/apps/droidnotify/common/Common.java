@@ -108,7 +108,7 @@ public class Common {
 	 * 
 	 * @return String[] - String Array of the contact information.
 	 */ 
-	public static String[] loadContactsInfoByPhoneNumber(Context context, String incomingNumber){
+	public static String[] getContactsInfoByPhoneNumber(Context context, String incomingNumber){
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.loadContactsInfoByPhoneNumber()");
 		long _contactID = 0;
@@ -183,7 +183,7 @@ public class Common {
 	 * 
 	 * @return String[] - String Array of the contact information.
 	 */ 
-	public static String[] loadContactsInfoByEmail(Context context, String incomingEmail){
+	public static String[] getContactsInfoByEmail(Context context, String incomingEmail){
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.loadContactsInfoByEmail()");
 		long _contactID = 0;
@@ -300,7 +300,7 @@ public class Common {
 	 * @param context - Application Context.
 	 * @param phoneNumber - Notifications's phone number.
 	 */
-	public static long loadThreadID(Context context, String address){
+	public static long getThreadID(Context context, String address){
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.getThreadIdByAddress()");
 		long threadID = 0;
@@ -350,7 +350,7 @@ public class Common {
 	 * @param threadId - Notifications's threadID.
 	 * @param timestamp - Notifications's timeStamp.
 	 */
-	public static long loadMessageID(Context context, long threadID, String messageBody, long timeStamp) {
+	public static long getMessageID(Context context, long threadID, String messageBody, long timeStamp) {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.loadMessageID()");
 		if (messageBody == null){

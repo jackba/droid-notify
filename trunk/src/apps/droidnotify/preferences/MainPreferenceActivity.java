@@ -584,10 +584,8 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
     			preferencesFile.delete();   			
     		}
     		preferencesFile.createNewFile();
-    		
+    		//Write each preference to the text file.
 			BufferedWriter buf = new BufferedWriter(new FileWriter(preferencesFile, true)); 
-			
-			//Write each preference to the text file.
 			
 			//General Settings
 			buf.append("app_enabled|" + _preferences.getBoolean("app_enabled", true) + "|boolean");
@@ -600,6 +598,10 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			buf.newLine();
 
 			//Basic Settings
+			buf.append("quick_reply_save_draft_enabled|" + _preferences.getBoolean("quick_reply_save_draft_enabled", true) + "|boolean");
+			buf.newLine();
+			buf.append("quick_reply_hide_cancel_button_enabled|" + _preferences.getBoolean("quick_reply_hide_cancel_button_enabled", true) + "|boolean");
+			buf.newLine();
 			buf.append("app_theme|" + _preferences.getString("app_theme", "android") + "|string");
 			buf.newLine();
 			buf.append("phone_number_format_settings|" + _preferences.getString("phone_number_format_settings", "1") + "|string");

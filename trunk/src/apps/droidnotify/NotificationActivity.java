@@ -1641,9 +1641,9 @@ public class NotificationActivity extends Activity {
 		    	if(messageID != messageIDFilter && !messageBody.replace("\n", "<br/>").trim().equals(messageBodyFilter.replace("\n", "<br/>").trim())){
 		    		String[] smsContactInfo = null;
 		    		if(sentFromAddress.contains("@")){
-			    		smsContactInfo = Common.loadContactsInfoByEmail(context, sentFromAddress);
+			    		smsContactInfo = Common.getContactsInfoByEmail(context, sentFromAddress);
 			    	}else{
-			    		smsContactInfo = Common.loadContactsInfoByPhoneNumber(context, sentFromAddress);
+			    		smsContactInfo = Common.getContactsInfoByPhoneNumber(context, sentFromAddress);
 			    	}
 		    		if(smsContactInfo == null){
 						smsArray.add(sentFromAddress + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + threadID + "|" + timeStamp);
@@ -1753,9 +1753,9 @@ public class NotificationActivity extends Activity {
 			    	String messageBody = Common.getMMSText(context, messageID);
 			    	String[] mmsContactInfo = null;
 			    	if(sentFromAddress.contains("@")){
-			    		mmsContactInfo = Common.loadContactsInfoByEmail(context, sentFromAddress);
+			    		mmsContactInfo = Common.getContactsInfoByEmail(context, sentFromAddress);
 			    	}else{
-			    		mmsContactInfo = Common.loadContactsInfoByPhoneNumber(context, sentFromAddress);
+			    		mmsContactInfo = Common.getContactsInfoByPhoneNumber(context, sentFromAddress);
 			    	}
 					if(mmsContactInfo == null){
 						mmsArray.add(sentFromAddress + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + threadID + "|" + timeStamp);
