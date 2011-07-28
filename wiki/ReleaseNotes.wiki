@@ -11,8 +11,8 @@
   * Added "Save Draft" feature.
   * Send button no longer hidden by soft keyboard.
   * Option to hide the Cancel button (It's not really needed).
+ * A Missed Calls dismiss & delete from call log bug has been fixed.
  * Various small bug fixes.
- * 
 
 *v2.2* (July 22, 2011)
  * Small bug fixes, mostly related to user preferences.
