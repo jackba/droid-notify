@@ -40,7 +40,7 @@
     	android:padding="5dip">
 		<EditText 
 			android:id="@+id/message_edit_text" 
-			android:layout_height="100dip" 
+			android:layout_height="150dip" 
 			android:layout_width="200dip"
 			android:maxLines="3"
 			android:maxLength="160"
