@@ -1196,7 +1196,7 @@ public class NotificationActivity extends Activity {
 		Notification smsNotification = new Notification(_context, "5555555555", "Droid Notify SMS Message Test", System.currentTimeMillis(), NOTIFICATION_TYPE_SMS);
 		notificationViewFlipper.addNotification(smsNotification);
 		//Add Missed Call Notification.
-		Notification missedCallNotification = new Notification(_context, "5555555555", System.currentTimeMillis(), 0, "", 0, NOTIFICATION_TYPE_PHONE);
+		Notification missedCallNotification = new Notification(_context, 0, "5555555555", System.currentTimeMillis(), 0, "", 0, NOTIFICATION_TYPE_PHONE);
 		notificationViewFlipper.addNotification(missedCallNotification);
 		//Add Calendar Event Notification.
 		Notification calendarEventNotification = new Notification(_context, "Droid Notify Calendar Event Test", "", System.currentTimeMillis(), System.currentTimeMillis() + (10 * 60 * 1000), false, "Test Calendar",  0, 0, NOTIFICATION_TYPE_CALENDAR);
@@ -1783,23 +1783,25 @@ public class NotificationActivity extends Activity {
 		ArrayList<String> missedCallsArray = bundle.getStringArrayList("missedCallsArrayList");
 		for(int i=0; i< missedCallsArray.size(); i++){
 			String[] missedCallInfo = missedCallsArray.get(i).split("\\|");
+			long callLogID = 0;
 			String phoneNumber = null;
 			long timeStamp = 0;
 			long contactID = 0;
 			String contactName = null;
 			long photoID = 0;
-			if( missedCallInfo.length == 2){
-				phoneNumber = missedCallInfo[0];
-				timeStamp = Long.parseLong(missedCallInfo[1]);
+			if( missedCallInfo.length == 3){
+				callLogID = Long.parseLong(missedCallInfo[0]);
+				phoneNumber = missedCallInfo[1];
+				timeStamp = Long.parseLong(missedCallInfo[2]);
 			}else{
-				phoneNumber = missedCallInfo[0];
-				timeStamp = Long.parseLong(missedCallInfo[1]);
-				contactID = Long.parseLong(missedCallInfo[2]);
-				contactName = missedCallInfo[3];
-				photoID = Long.parseLong(missedCallInfo[4]);
+				callLogID = Long.parseLong(missedCallInfo[0]);
+				phoneNumber = missedCallInfo[1];
+				timeStamp = Long.parseLong(missedCallInfo[2]);
+				contactID = Long.parseLong(missedCallInfo[3]);
+				contactName = missedCallInfo[4];
+				photoID = Long.parseLong(missedCallInfo[5]);
 			}
-			//Notification missedCallNotification = new Notification(_context, phoneNumber, timeStamp, NOTIFICATION_TYPE_PHONE);
-			Notification missedCallNotification = new Notification(_context, phoneNumber, timeStamp, contactID, contactName, photoID, NOTIFICATION_TYPE_PHONE);
+			Notification missedCallNotification = new Notification(_context, callLogID, phoneNumber, timeStamp, contactID, contactName, photoID, NOTIFICATION_TYPE_PHONE);
 			_notificationViewFlipper.addNotification(missedCallNotification);
 		}
 	    return true;
