@@ -7,7 +7,6 @@ import java.util.TimeZone;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.database.DatabaseUtils;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.preference.PreferenceManager;
@@ -73,6 +72,7 @@ public class Notification {
 	private long _calendarEventEndTime = 0;
 	private boolean _allDay = false;
 	private SharedPreferences _preferences = null;
+	private long _callLogID = 0;
 	
 	//================================================================================
 	// Constructors
@@ -83,7 +83,7 @@ public class Notification {
 	 */
 	public Notification(Context context, String sentFromAddress, String messageBody, long messageID, long threadID, long timeStamp, long contactID, String contactName, long photoID, int notificationType) {
 		_debug = Log.getDebug();
-		if (_debug) Log.v("Notification.Notification(Context contex, String sentFromAddresst, String messageBody, long messageID, long threadID, long timeStamp, long contactID, String contactName, long photoID, int notificationType)");
+		if (_debug) Log.v("Notification.Notification(Context contex, String sentFromAddress, String messageBody, long messageID, long threadID, long timeStamp, long contactID, String contactName, long photoID, int notificationType)");
 		try{
 			if(notificationType == NOTIFICATION_TYPE_PHONE){
 				_title = "Missed Call";
@@ -125,7 +125,7 @@ public class Notification {
     			_contactPhotoExists = true;
     		}
 		}catch(Exception ex){
-			if (_debug) Log.v("Notification.Notification(Context contex, String sentFromAddresst, String messageBody, long messageID, long threadID, long timeStamp, long contactID, String contactName, long photoID, int notificationType) ERROR: " + ex.toString());
+			if (_debug) Log.v("Notification.Notification(Context contex, String sentFromAddress, String messageBody, long messageID, long threadID, long timeStamp, long contactID, String contactName, long photoID, int notificationType) ERROR: " + ex.toString());
 		}
 	}
 	
@@ -174,9 +174,9 @@ public class Notification {
 	/**
 	 * Class Constructor
 	 */
-	public Notification(Context context, String sentFromAddress, long timeStamp, long contactID, String contactName, long photoID, int notificationType){
+	public Notification(Context context, long callLogID, String sentFromAddress, long timeStamp, long contactID, String contactName, long photoID, int notificationType){
 		_debug = Log.getDebug();
-		if (_debug) Log.v("Notification.Notification(Context context, String sentFromAddress, long timeStamp, long contactID, string contactName, long photoID, int notificationType)");
+		if (_debug) Log.v("Notification.Notification(Context context, long callLogID, String sentFromAddress, long timeStamp, long contactID, string contactName, long photoID, int notificationType)");
 		try{
 			switch(notificationType){
 				case NOTIFICATION_TYPE_PHONE:{
@@ -208,6 +208,7 @@ public class Notification {
     		_sentFromAddress = sentFromAddress.toLowerCase();
     		_timeStamp = timeStamp;
     		_contactID = contactID;
+    		_callLogID = callLogID;
     		if(contactName.equals("")){
     			_contactName = null;
     			_contactExists = false;
@@ -222,7 +223,7 @@ public class Notification {
     			_contactPhotoExists = true;
     		}	
 		}catch(Exception ex){
-			if (_debug) Log.v("Notification.Notification(Context context, String sentFromAddress, long timeStamp, long contactID, String contactName, long photoID, int notificationType) ERROR: " + ex.toString());
+			if (_debug) Log.v("Notification.Notification(Context context, long callLogID, String sentFromAddress, long timeStamp, long contactID, String contactName, long photoID, int notificationType) ERROR: " + ex.toString());
 		}
 	}
 	
@@ -260,12 +261,12 @@ public class Notification {
 	//================================================================================
 	
 	/**
-	 * Get the phoneNumber property.
+	 * Get the sentFromAddress property.
 	 * 
-	 * @return phoneNumber - Contact's phone number.
+	 * @return sentFromAddress - Contact's address that sent the message/call.
 	 */
 	public String getSentFromAddress() {
-		if (_debug) Log.v("Notification.getSentFromAddress()");
+		if (_debug) Log.v("Notification.getSentFromAddress() SentFromAddress: " + _sentFromAddress);
 		return _sentFromAddress;
 	}
 	
@@ -288,7 +289,7 @@ public class Notification {
 	 * @return timeStamp - TimeStamp of notification.
 	 */
 	public long getTimeStamp() {
-		if (_debug) Log.v("Notification.getTimeStamp()");
+		if (_debug) Log.v("Notification.getTimeStamp() TimeStamp: " + _timeStamp);
 	    return _timeStamp;
 	}
 	
@@ -311,7 +312,7 @@ public class Notification {
 	 * @return contactID - Contact's ID.
 	 */
 	public long getContactID() {
-		if (_debug) Log.v("Notification.getContactID()");
+		if (_debug) Log.v("Notification.getContactID() ContactID: " + _contactID);
 	    return _contactID;
 	}
 	
@@ -321,11 +322,21 @@ public class Notification {
 	 * @return contactName - Contact's display name.
 	 */
 	public String getContactName() {
-		if (_debug) Log.v("Notification.getContactName()");
+		if (_debug) Log.v("Notification.getContactName() ContactName: " + _contactName);
 		if (_contactName == null) {
 			_contactName = _context.getString(android.R.string.unknownName);
 	    }
 		return _contactName;
+	}
+
+	/**
+	 * Get the photoID property.
+	 * 
+	 * @return photoID - Contact's photo ID.
+	 */
+	public long getPhotoID() {
+		if (_debug) Log.v("Notification.getPhotoID() PhotoID: " + _photoID);
+		return _photoID;
 	}
 	
 	/**
@@ -354,7 +365,7 @@ public class Notification {
 	 * @return notificationType - The type of notification this is.
 	 */
 	public int getNotificationType() {
-		if (_debug) Log.v("Notification.getNotificationType()");
+		if (_debug) Log.v("Notification.getNotificationType() NotificationType: " + _notificationType);
 		return _notificationType;
 	}
 	
@@ -380,6 +391,16 @@ public class Notification {
 		if (_debug) Log.v("Notification.getContactExists() Exists: " + _contactExists);
   		return _contactExists;
 	}	
+
+	/**
+	 * Get the contactPhotoExists property.
+	 * 
+	 * @return  contactPhotoExists - Boolean returns true if there is a contact photo in the phone linked to this notification.
+	 */
+	public boolean getContactPhotoExists() {
+		if (_debug) Log.v("Notification.getContactPhotoExists() Exists: " + _contactPhotoExists);
+  		return _contactPhotoExists;
+	}	
 	
 	/**
 	 * Get the title property.
@@ -389,6 +410,26 @@ public class Notification {
 	public String getTitle() {
 		if (_debug) Log.v("Notification.getTitle() Title: " + _title);
   		return _title;
+	}
+	
+	/**
+	 * Get the email property.
+	 * 
+	 * @return email - Notification email.
+	 */
+	public String getEmail() {
+		if (_debug) Log.v("Notification.getEmail() Email: " + _email);
+  		return _email;
+	}	
+	
+	/**
+	 * Get the calendarID property.
+	 * 
+	 * @return calendarID - Notification calendarID.
+	 */
+	public long getCalendarID() {
+		if (_debug) Log.v("Notification.getCalendarID() CalendarID: " + _calendarID);
+  		return _calendarID;
 	}
 	
 	/**
@@ -420,7 +461,27 @@ public class Notification {
 		if (_debug) Log.v("Notification.getCalendarEventEndTime() CalendarEventEndTime: " + _calendarEventEndTime);
   		return _calendarEventEndTime;
 	}
-  
+	
+	/**
+	 * Get the allDay property.
+	 * 
+	 * @return allDay - Boolean value set to true if the notification calendar event is an all day event.
+	 */
+	public boolean getAllDay() {
+		if (_debug) Log.v("Notification.getAllDay() AllDay: " + _allDay);
+  		return _allDay;
+	}
+	
+	/**
+	 * Get the callLogID property.
+	 * 
+	 * @return callLogID - The ID of the call in the call log.
+	 */
+	public long getCallLogID() {
+		if (_debug) Log.v("Notification.getCallLogID() CallLogID: " + _callLogID);
+  		return _callLogID;
+	}
+	
 	/**
 	 * Set this notification as being viewed on the users phone.
 	 * 
@@ -527,8 +588,8 @@ public class Notification {
 		}else{
 			contentValues.put(android.provider.CallLog.Calls.NEW, 1);
 		}
-		String selection = android.provider.CallLog.Calls.NUMBER + " = ? and " + android.provider.CallLog.Calls.DATE + " = ?";
-		String[] selectionArgs = new String[] {DatabaseUtils.sqlEscapeString(_sentFromAddress), Long.toString(_timeStamp)};
+		String selection = android.provider.CallLog.Calls._ID + " = " + _callLogID;
+		String[] selectionArgs = null;
 		try{
 			_context.getContentResolver().update(
 					Uri.parse("content://call_log/calls"),
@@ -545,8 +606,8 @@ public class Notification {
 	 */
 	private void deleteFromCallLog(){
 		if (_debug) Log.v("Notification.deleteFromCallLog()");
-		String selection = android.provider.CallLog.Calls.NUMBER + " = ? and " + android.provider.CallLog.Calls.DATE + " = ?";
-		String[] selectionArgs = new String[] {DatabaseUtils.sqlEscapeString(_sentFromAddress), Long.toString(_timeStamp)};
+		String selection = android.provider.CallLog.Calls._ID + " = " + _callLogID;
+		String[] selectionArgs = null;
 		try{
 			_context.getContentResolver().delete(
 					Uri.parse("content://call_log/calls"),

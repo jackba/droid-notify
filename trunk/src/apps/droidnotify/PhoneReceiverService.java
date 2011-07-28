@@ -97,6 +97,7 @@ public class PhoneReceiverService extends WakefulIntentService {
 					selectionArgs,
 					sortOrder);
 	    	while (cursor.moveToNext()) { 
+	    		String callLogID = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls._ID));
 	    		String callNumber = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.NUMBER));
 	    		String callDate = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.DATE));
 	    		String callType = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.TYPE));
@@ -105,9 +106,9 @@ public class PhoneReceiverService extends WakefulIntentService {
     				if (_debug) Log.v("PhoneReceiverService.getMissedCalls() Missed Call Found: " + callNumber);
     				String[] missedCallContactInfo = Common.getContactsInfoByPhoneNumber(context, callNumber);
     				if(missedCallContactInfo == null){
-    					missedCallsArray.add(callNumber + "|" + callDate);
+    					missedCallsArray.add(callLogID + "|" + callNumber + "|" + callDate);
     				}else{
-    					missedCallsArray.add(callNumber + "|" + callDate + "|" + missedCallContactInfo[0] + "|" + missedCallContactInfo[1] + "|" + missedCallContactInfo[2]);
+    					missedCallsArray.add(callLogID + "|" + callNumber + "|" + callDate + "|" + missedCallContactInfo[0] + "|" + missedCallContactInfo[1] + "|" + missedCallContactInfo[2]);
     				}
     				break;
     			}else{
