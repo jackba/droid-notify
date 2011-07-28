@@ -299,7 +299,7 @@ public class Notification {
 	 */
 	public long getThreadID() {
 		if(_threadID == 0){
-			_threadID = Common.loadThreadID(_context, _sentFromAddress);
+			_threadID = Common.getThreadID(_context, _sentFromAddress);
 		}
 		if (_debug) Log.v("Notification.getThreadID() ThreadID: " + _threadID);
 	    return _threadID;
@@ -365,7 +365,7 @@ public class Notification {
 	 */
 	public long getMessageID() {
 		if(_messageID == 0){
-			_messageID = Common.loadMessageID(_context, getThreadID(), _messageBody, _timeStamp);
+			_messageID = Common.getMessageID(_context, getThreadID(), _messageBody, _timeStamp);
 		}
 		if (_debug) Log.v("Notification.getMessageID() MessageID: " + _messageID);
   		return _messageID;

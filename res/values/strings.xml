@@ -33,6 +33,7 @@
     <string name="cancel_text">Cancel</string>
     <string name="dismiss_notification_text">Dismiss Notification</string>   	
     <string name="basic_settings_text">Basic Settings</string>
+    <string name="quick_reply_settings_text">Quick Reply Settings</string>
    	<string name="misc_settings_text">Misc Settings</string>
     
     <!-- App Error Message Strings -->
@@ -91,13 +92,14 @@
    	<!-- Quick Reply Strings -->
    	<string name="phone_number_error_text">Please enter a number to send the message to.</string>
    	<string name="message_error_text">Please enter a message to send.</string>
-   	<string name="message_sent_text">Message sent</string>
-    <string name="message_sent_error_generic_failure_text">Message not sent: Generic failure</string>
-    <string name="message_sent_error_no_service_text">Message not sent: No service</string>
-    <string name="message_sent_error_null_pdu_text">Message not sent: Null PDU</string>
-    <string name="message_sent_error_radio_off_text">Message not sent: Radio off</string>
-   	<string name="message_delivered_text">Message delivered</string>
-   	<string name="message_not_delivered_text">Message not delivered</string>
+   	<string name="message_sent_text">Message sent.</string>
+    <string name="message_sent_error_generic_failure_text">Message not sent: Generic failure.</string>
+    <string name="message_sent_error_no_service_text">Message not sent: No service.</string>
+    <string name="message_sent_error_null_pdu_text">Message not sent: Null PDU.</string>
+    <string name="message_sent_error_radio_off_text">Message not sent: Radio off.</string>
+   	<string name="message_delivered_text">Message delivered.</string>
+   	<string name="message_not_delivered_text">Message not delivered.</string>
+   	<string name="draft_saved_text">Message saved as draft.</string>
    	
    	<!-- Preference Strings -->
    	<string name="preference_general">General Settings</string>
@@ -134,6 +136,13 @@
    	<string name="preference_haptic_feedback_summaryOn">Haptic Feedback is enabled. Vibrate when pressing soft keys and on certain UI interactions.</string>
    	<string name="preference_haptic_feedback_summaryOff">Haptic Feedback is disabled.</string>
    	
+   	<string name="preference_hide_cancel_button_enabled_title">Hide Cancel Button</string>
+   	<string name="preference_hide_cancel_button_enabled_summaryOn">The cancel button will not be displayed.</string>
+   	<string name="preference_hide_cancel_button_enabled_summaryOff">The cancel button will be displayed.</string>
+   	<string name="preference_save_draft_enabled_title">Save Draft</string>
+   	<string name="preference_save_draft_enabled_summaryOn">A draft of the message will be saved if the message is not sent.</string>
+   	<string name="preference_save_draft_enabled_summaryOff">A draft of the message will not be saved.</string>
+   	
    	<string name="preference_sms_enabled_title">Enable SMS</string>
    	<string name="preference_sms_enabled_summaryOn">SMS notifications are enabled.</string>
    	<string name="preference_sms_enabled_summaryOff">SMS notifications are disabled.</string>
@@ -163,7 +172,7 @@
    	<string name="preference_mms_enabled_title">Enable MMS</string>
    	<string name="preference_mms_enabled_summaryOn">MMS notifications are enabled.</string>
    	<string name="preference_mms_enabled_summaryOff">MMS notifications are disabled.</string>
-	<string name="preference_mms_display_unread_enabled_title">Load Unread SMS</string>
+	<string name="preference_mms_display_unread_enabled_title">Load Unread MMS</string>
    	<string name="preference_mms_display_unread_enabled_summaryOn">All unread mms messages will be loaded when a new mms message arrives.</string>
    	<string name="preference_mms_display_unread_enabled_summaryOff">Only the current incoming message will be loaded.</string>	
    	<string name="preference_mms_hide_message_body_enabled_title">Hide Message Body</string>

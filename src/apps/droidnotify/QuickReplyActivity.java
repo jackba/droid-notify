@@ -12,6 +12,8 @@ import android.os.Bundle;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.telephony.SmsManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.HapticFeedbackConstants;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -19,6 +21,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import apps.droidnotify.common.Common;
 import apps.droidnotify.log.Log;
 
 /**
@@ -36,9 +39,12 @@ public class QuickReplyActivity extends Activity {
 	private static final int CANCEL_BUTTON = R.id.quick_reply_cancel_button;
 	private static final int SEND_TO_TEXT_VIEW = R.id.send_to_text_view;
 	private static final int MESSAGE_EDIT_TEXT = R.id.message_edit_text;
+	private static final int CHARACTERS_REMAINING_TEXT_TEXT = R.id.characters_remaining_text_view;
 
 	private static final String HAPTIC_FEEDBACK_ENABLED_KEY = "haptic_feedback_enabled";
 	private static final String LANDSCAPE_SCREEN_ENABLED_KEY = "landscape_screen_enabled";
+	private static final String SAVE_MESSAGE_DRAFT_KEY = "quick_reply_save_draft_enabled";
+	private static final String HIDE_CANCEL_BUTTON_KEY = "quick_reply_hide_cancel_button_enabled";
 	
 	private static final String APP_THEME_KEY = "app_theme";
 	private static final String ANDROID_THEME = "android";
@@ -67,10 +73,12 @@ public class QuickReplyActivity extends Activity {
 	private Button _sendButton = null;
 	private Button _cancelButton = null;
 	private TextView _sendToTextView  = null;
+	private TextView _charactersRemaining = null;
 	private EditText _messageEditText = null;
 	private String _phoneNumber = null;
 	private String _name = null;
 	private SharedPreferences _preferences = null;
+	private boolean _messageSent = false;
 
 	//================================================================================
 	// Public Methods
@@ -116,9 +124,31 @@ public class QuickReplyActivity extends Activity {
 		if(applicationThemeSetting.equals(DARK_TRANSLUCENT_V3_THEME)) themeResource = R.layout.dark_translucent_v3_theme_smsreply;		
 	    setContentView(themeResource);  
 	    _sendButton = (Button)findViewById(SEND_BUTTON);
+	    //Disable the Send button initially.
+	    _sendButton.setEnabled(false);
 	    _cancelButton = (Button)findViewById(CANCEL_BUTTON);
 	    _sendToTextView = (TextView)findViewById(SEND_TO_TEXT_VIEW);
 	    _messageEditText = (EditText)findViewById(MESSAGE_EDIT_TEXT);
+	    _charactersRemaining = (TextView)findViewById(CHARACTERS_REMAINING_TEXT_TEXT);
+	    //Add a TextWatcher so that the Send button will be disabled until text is entered.
+	    _messageEditText.addTextChangedListener(new TextWatcher() {
+	    	public void afterTextChanged(Editable s){
+	    		//Do Nothing.
+	    	}
+	    	public void beforeTextChanged(CharSequence s, int start, int count, int after){
+	    		//Do Nothing.
+	    	}
+	    	public void onTextChanged(CharSequence s, int start, int before, int count){
+	    		//Enable the Send button if there is text in the EditText layout.
+	    		if(s.length() > 0){
+	    			_sendButton.setEnabled(true);
+	    		}else{
+	    			_sendButton.setEnabled(false);
+	    		}
+	    		int charactersRemaining = 160 - s.length();
+	    		_charactersRemaining.setText(String.valueOf(charactersRemaining));
+	    	}
+	    });
 	    //Get name and phone number from the Bundle.
 	    Bundle extrasBundle = getIntent().getExtras();
 	    parseQuickReplyParameters(extrasBundle);
@@ -158,6 +188,7 @@ public class QuickReplyActivity extends Activity {
 	    super.onPause();
 	    if (_debug) Log.v("QuickReplyActivity.onPause()");
 	    showSoftKeyboard(false, (EditText) findViewById(R.id.message_edit_text));
+	    saveMessageDraft();
 	}
 	  
 	/**
@@ -167,6 +198,7 @@ public class QuickReplyActivity extends Activity {
 	protected void onStop() {
 	    super.onStop();
 	    if (_debug) Log.v("QuickReplyActivity.onStop()");
+	    saveMessageDraft();
 	}
 	  
 	/**
@@ -223,15 +255,19 @@ public class QuickReplyActivity extends Activity {
             	}
             }
         });
-	    _cancelButton.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View view) {
-            	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-            	//Set the result for this activity.
-            	setResult(RESULT_CANCELED);
-            	//Finish Activity.
-            	finish();                
-            }
-        });
+	    if(_preferences.getBoolean(HIDE_CANCEL_BUTTON_KEY, true)){
+	    	_cancelButton.setVisibility(View.GONE);
+    	}else{
+		    _cancelButton.setOnClickListener(new View.OnClickListener(){
+	            public void onClick(View view) {
+	            	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+	            	//Set the result for this activity.
+	            	setResult(RESULT_CANCELED);
+	            	//Finish Activity.
+	            	finish();                
+	            }
+	        });
+    	}
 	}
 	
 	/**
@@ -247,9 +283,9 @@ public class QuickReplyActivity extends Activity {
             return true;
         }else{
         	if(_phoneNumber.length()<= 0){
-        		Toast.makeText(getBaseContext(), getString(R.string.phone_number_error_text), Toast.LENGTH_SHORT).show();
+        		Toast.makeText(getBaseContext(), getString(R.string.phone_number_error_text), Toast.LENGTH_LONG).show();
         	}else if(message.length()<= 0){
-        		Toast.makeText(getBaseContext(), getString(R.string.message_error_text), Toast.LENGTH_SHORT).show();
+        		Toast.makeText(getBaseContext(), getString(R.string.message_error_text), Toast.LENGTH_LONG).show();
         	}
         	return false;
         }
@@ -276,19 +312,19 @@ public class QuickReplyActivity extends Activity {
 //                switch (getResultCode())
 //                {
 //                    case Activity.RESULT_OK:
-//                        Toast.makeText(getBaseContext(), getString(R.string.message_sent_text), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getBaseContext(), getString(R.string.message_sent_text), Toast.LENGTH_LONG).show();
 //                        break;
 //                    case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
-//                        Toast.makeText(getBaseContext(), getString(R.string.message_sent_error_generic_failure_text), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getBaseContext(), getString(R.string.message_sent_error_generic_failure_text), Toast.LENGTH_LONG).show();
 //                        break;
 //                    case SmsManager.RESULT_ERROR_NO_SERVICE:
-//                        Toast.makeText(getBaseContext(), getString(R.string.message_sent_error_no_service_text), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getBaseContext(), getString(R.string.message_sent_error_no_service_text), Toast.LENGTH_LONG).show();
 //                        break;
 //                    case SmsManager.RESULT_ERROR_NULL_PDU:
-//                        Toast.makeText(getBaseContext(), getString(R.string.message_sent_error_null_pdu_text), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getBaseContext(), getString(R.string.message_sent_error_null_pdu_text), Toast.LENGTH_LONG).show();
 //                        break;
 //                    case SmsManager.RESULT_ERROR_RADIO_OFF:
-//                        Toast.makeText(getBaseContext(), getString(R.string.message_sent_error_radio_off_text), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getBaseContext(), getString(R.string.message_sent_error_radio_off_text), Toast.LENGTH_LONG).show();
 //                        break;
 //                }
 //            }
@@ -300,10 +336,10 @@ public class QuickReplyActivity extends Activity {
 //                switch (getResultCode())
 //                {
 //                    case Activity.RESULT_OK:
-//                        Toast.makeText(getBaseContext(), getString(R.string.message_delivered_text), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getBaseContext(), getString(R.string.message_delivered_text), Toast.LENGTH_LONG).show();
 //                        break;
 //                    case Activity.RESULT_CANCELED:
-//                        Toast.makeText(getBaseContext(), getString(R.string.message_not_delivered_text), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getBaseContext(), getString(R.string.message_not_delivered_text), Toast.LENGTH_LONG).show();
 //                        break;                        
 //                }
 //            }
@@ -384,10 +420,12 @@ public class QuickReplyActivity extends Activity {
 		        ContentValues values = new ContentValues();
 		        values.put("address", smsAddress);
 		        values.put("body", message);
+		        values.put("date", String.valueOf(System.currentTimeMillis()));
 		        getContentResolver().insert(Uri.parse("content://sms/sent"), values);
 			}catch(Exception ex){
 				if (_debug) Log.e("QuickReplyActivity.sendSMS() Insert Into Sent Foler ERROR: " + ex.toString());
 			}
+			_messageSent = true;
 		}
     }
 	
@@ -447,6 +485,35 @@ public class QuickReplyActivity extends Activity {
 			}
 		}catch(Exception ex){
 			if (_debug) Log.e("QuickReplyActivity.showSoftKeyboard() ERROR: " + ex.toString());
+		}
+	}
+	
+	/**
+	 * Save the message as a draft.
+	 */
+	private void saveMessageDraft(){
+		if(_messageSent){
+			return;
+		}
+		if(_preferences.getBoolean(SAVE_MESSAGE_DRAFT_KEY, true)){
+			try{
+				Context context = getBaseContext();
+				String address = _phoneNumber;
+				String message = _messageEditText.getText().toString().trim();
+				if(!message.equals("")){
+			    	//Store the message in the draft folder so that it shows in Messaging apps.
+			        ContentValues values = new ContentValues();
+			        values.put("address", address);
+			        values.put("body", message);
+			        values.put("date", String.valueOf(System.currentTimeMillis()));
+			        values.put("type", "3");
+			        values.put("thread_id", String.valueOf(Common.getThreadID(context, address)));
+			        getContentResolver().insert(Uri.parse("content://sms/draft"), values);
+			        Toast.makeText(context, getString(R.string.draft_saved_text), Toast.LENGTH_SHORT).show();
+				}
+			}catch(Exception ex){
+				if (_debug) Log.e("QuickReplyActivity.sendSMS() Insert Into Sent Foler ERROR: " + ex.toString());
+			}
 		}
 	}
 	
