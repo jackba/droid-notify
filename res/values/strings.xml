@@ -35,7 +35,9 @@
     <string name="basic_settings_text">Basic Settings</string>
     <string name="quick_reply_settings_text">Quick Reply Settings</string>
    	<string name="misc_settings_text">Misc Settings</string>
-    
+    <string name="delete_text">Delete</string>
+   	<string name="notification_settings_text">Notification Settings</string>
+   	
     <!-- App Error Message Strings -->
     <string name="app_android_messaging_app_error">The Android Messaging application could not be started.</string>
 	<string name="app_android_phone_app_error">The Android Phone application could not be started.</string>
@@ -60,8 +62,6 @@
     <string name="app_android_contacts_email_chooser_error">Error querying the contacts available email addresses.</string>
     <string name="app_android_no_number_found_error">No phone number could be found for this contact.</string>
     <string name="app_android_calendars_not_found_error">No calendars could be found on your phone.</string>
-   	<string name="delete_text">Delete</string>
-   	<string name="notification_settings_text">Notification Settings</string>
     
     <!-- Button Strings -->  
     <string name="view_mms_button_text">View MMS</string>
