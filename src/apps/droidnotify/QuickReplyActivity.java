@@ -16,6 +16,8 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.HapticFeedbackConstants;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -45,6 +47,10 @@ public class QuickReplyActivity extends Activity {
 	private static final String LANDSCAPE_SCREEN_ENABLED_KEY = "landscape_screen_enabled";
 	private static final String SAVE_MESSAGE_DRAFT_KEY = "quick_reply_save_draft_enabled";
 	private static final String HIDE_CANCEL_BUTTON_KEY = "quick_reply_hide_cancel_button_enabled";
+	
+	private static final String QUICK_REPLY_BLUR_SCREEN_ENABLED_KEY = "quick_reply_blur_screen_background_enabled";
+	private static final String QUICK_REPLY_DIM_SCREEN_ENABLED_KEY = "quick_reply_dim_screen_background_enabled";
+	private static final String QUICK_REPLY_DIM_SCREEN_AMOUNT_KEY = "quick_reply_dim_screen_background_amount";
 	
 	private static final String APP_THEME_KEY = "app_theme";
 	private static final String ANDROID_THEME = "android";
@@ -112,6 +118,20 @@ public class QuickReplyActivity extends Activity {
 	    //Don't rotate the Activity when the screen rotates based on the user preferences.
 	    if(!_preferences.getBoolean(LANDSCAPE_SCREEN_ENABLED_KEY, false)){
 	    	this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+	    }
+	    //Get main window for this Activity.
+	    Window mainWindow = getWindow(); 
+	    //Set Blur 
+	    if(_preferences.getBoolean(QUICK_REPLY_BLUR_SCREEN_ENABLED_KEY, false)){
+	    	mainWindow.addFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
+	    }
+	    //Set Dim
+	    if(_preferences.getBoolean(QUICK_REPLY_DIM_SCREEN_ENABLED_KEY, true)){
+	    	mainWindow.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND); 
+		    WindowManager.LayoutParams params = mainWindow.getAttributes(); 
+		    int dimAmt = Integer.parseInt(_preferences.getString(QUICK_REPLY_DIM_SCREEN_AMOUNT_KEY, "50"));
+		    params.dimAmount = dimAmt / 100f; 
+		    mainWindow.setAttributes(params); 
 	    }
 	    //Set based on the theme. This is set in the user preferences.
 		String applicationThemeSetting = _preferences.getString(APP_THEME_KEY, ANDROID_THEME);

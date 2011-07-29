@@ -142,6 +142,10 @@
    	<string name="preference_save_draft_enabled_title">Save Draft</string>
    	<string name="preference_save_draft_enabled_summaryOn">A draft of the message will be saved if the message is not sent.</string>
    	<string name="preference_save_draft_enabled_summaryOff">A draft of the message will not be saved.</string>
+   	<string name="preference_quick_reply_blur_screen_background_enabled_summaryOn">The background of the screen will blur when the quick reply window is shown.</string>
+   	<string name="preference_quick_reply_blur_screen_background_enabled_summaryOff">The background of the screen will not blur when the quick reply window is shown.</string>
+   	<string name="preference_quick_reply_dim_screen_background_enabled_summaryOn">The background of the screen will dim when the quick reply window is shown.</string>
+   	<string name="preference_quick_reply_dim_screen_background_enabled_summaryOff">The background of the screen will not dim when the quick reply window is shown.</string>
    	
    	<string name="preference_sms_enabled_title">Enable SMS</string>
    	<string name="preference_sms_enabled_summaryOn">SMS notifications are enabled.</string>

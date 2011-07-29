@@ -602,6 +602,12 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			buf.newLine();
 			buf.append("quick_reply_hide_cancel_button_enabled|" + _preferences.getBoolean("quick_reply_hide_cancel_button_enabled", true) + "|boolean");
 			buf.newLine();
+			buf.append("quick_reply_blur_screen_background_enabled|" + _preferences.getBoolean("quick_reply_blur_screen_enabled", false) + "|boolean");
+			buf.newLine();
+			buf.append("quick_reply_dim_screen_background_enabled|" + _preferences.getBoolean("quick_reply_dim_screen_enabled", true) + "|boolean");
+			buf.newLine();
+			buf.append("quick_reply_dim_screen_background_amount_settings|" + _preferences.getString("quick_reply_dim_screen_amount_settings", "50") + "|string");
+			buf.newLine();
 			buf.append("app_theme|" + _preferences.getString("app_theme", "android") + "|string");
 			buf.newLine();
 			buf.append("phone_number_format_settings|" + _preferences.getString("phone_number_format_settings", "1") + "|string");
