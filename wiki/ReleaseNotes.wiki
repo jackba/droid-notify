@@ -6,13 +6,14 @@
 *v2.4* _Coming Soon..._
  * 
 
-*v2.3* _Coming Soon..._
+*v2.3* (July 29, 2011)
  * Retooled the Quick Reply screen.
   * Added "Save Draft" feature.
   * Send button no longer hidden by soft keyboard.
   * Option to hide the Cancel button (It's not really needed).
   * Option to dim or blur the background when the quick reply window is shown.
  * A Missed Calls dismiss & delete from call log bug has been fixed.
+ * Fixed a bug that prevented the exporting of the application settings.
  * Various small bug fixes.
 
 *v2.2* (July 22, 2011)
