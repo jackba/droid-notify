@@ -1781,7 +1781,8 @@ public class NotificationActivity extends Activity {
 	private boolean setupMissedCalls(Bundle bundle){
 		if (_debug) Log.v("NotificationActivity.setupMissedCalls()"); 
 		ArrayList<String> missedCallsArray = bundle.getStringArrayList("missedCallsArrayList");
-		for(int i=0; i< missedCallsArray.size(); i++){
+		int missedCallArraysize = missedCallsArray.size();
+		for(int i=0; i<missedCallArraysize ; i++){
 			String[] missedCallInfo = missedCallsArray.get(i).split("\\|");
 			long callLogID = 0;
 			String phoneNumber = null;

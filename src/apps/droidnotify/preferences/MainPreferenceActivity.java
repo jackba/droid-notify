@@ -61,6 +61,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	private static final String CALENDAR_NOTIFICATIONS_ENABLED_KEY = "calendar_notifications_enabled";
 	private static final String LANDSCAPE_SCREEN_ENABLED_KEY = "landscape_screen_enabled";
     private static final String CALENDAR_SELECTION_KEY = "calendar_selection";
+	private static final String CALENDAR_POLLING_FREQUENCY_KEY = "calendar_polling_frequency";
 	
 	private static final int NOTIFICATION_TYPE_TEST = -1;
 	
@@ -188,14 +189,15 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			AlarmManager alarmManager = (AlarmManager) _context.getSystemService(Context.ALARM_SERVICE);
 			Intent intent = new Intent(_context, CalendarAlarmReceiver.class);
 			PendingIntent pendingIntent = PendingIntent.getBroadcast(_context, 0, intent, 0);
+			long pollingFrequency = Long.parseLong(_preferences.getString(CALENDAR_POLLING_FREQUENCY_KEY, "15")) * 60 * 1000;
 			if(_debugCalendar){
 				//--------------------------------
 				//Set alarm to go off 30 seconds from the current time.
 				//This line of code is for testing.
-				alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, SystemClock.elapsedRealtime() + (30 * 1000), AlarmManager.INTERVAL_DAY, pendingIntent);
+				alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, SystemClock.elapsedRealtime() + (30 * 1000), pollingFrequency, pendingIntent);
 				//--------------------------------
 			}else{
-				alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, SystemClock.elapsedRealtime() + (5 * 60 * 1000), AlarmManager.INTERVAL_DAY, pendingIntent);
+				alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, SystemClock.elapsedRealtime() + (5 * 60 * 1000), pollingFrequency, pendingIntent);
 			}
 			initUserCalendarsPreference();
        }
@@ -678,6 +680,8 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			
 			buf.append("missed_call_notifications_enabled|" + _preferences.getBoolean("missed_call_notifications_enabled", true) + "|boolean");
 			buf.newLine();
+			buf.append("missed_call_loading_settings|" + _preferences.getString("missed_call_loading_settings", "0") + "|string");
+			buf.newLine();
 			buf.append("missed_call_dismiss_button_action|" + _preferences.getString("missed_call_dismiss_button_action", "0") + "|string");
 			buf.newLine();
 			buf.append("missed_call_notification_count_action|" + _preferences.getString("missed_call_notification_count_action", "0") + "|string");
@@ -695,6 +699,8 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			
 			buf.append("calendar_notifications_enabled|" + _preferences.getBoolean("calendar_notifications_enabled", true) + "|boolean");
 			buf.newLine();
+			buf.append("calendar_polling_frequency|" + _preferences.getString("calendar_polling_frequency", "15") + "|string");
+			buf.newLine();
 			buf.append("calendar_selection|" + _preferences.getString("calendar_selection", "0") + "|string");
 			buf.newLine();
 			buf.append("calendar_labels_enabled|" + _preferences.getBoolean("calendar_labels_enabled", true) + "|boolean");
@@ -711,6 +717,11 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			buf.newLine();
 			buf.append("calendar_reminder_all_day_settings|" + _preferences.getString("calendar_reminder_all_day_settings", "6") + "|string");
 			buf.newLine();
+			buf.append("calendar_notify_day_of_enabled|" + _preferences.getBoolean("calendar_notify_day_of_enabled", true) + "|boolean");
+			buf.newLine();
+			buf.append("calendar_notify_day_of_time|" + _preferences.getString("calendar_notify_day_of_time", "12") + "|string");
+			buf.newLine();
+			
 			buf.append("calendar_vibrate_enabled|" + _preferences.getBoolean("calendar_vibrate_enabled", true) + "|boolean");
 			buf.newLine();
 			buf.append("calendar_ringtone_enabled|" + _preferences.getBoolean("calendar_ringtone_enabled", true) + "|boolean");
