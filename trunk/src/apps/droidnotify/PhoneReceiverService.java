@@ -4,9 +4,11 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import apps.droidnotify.common.Common;
 import apps.droidnotify.log.Log;
 
@@ -23,6 +25,10 @@ public class PhoneReceiverService extends WakefulIntentService {
 	
 	private static final int NOTIFICATION_TYPE_PHONE = 0;
 	private static final int MISSED_CALL_TYPE = android.provider.CallLog.Calls.MISSED_TYPE;
+	private static final String MISSED_CALL_DISMISS_BUTTON_ACTION = "missed_call_loading_settings";
+	private static final String MISSED_CALL_GET_LATEST = "0";
+	private static final String MISSED_CALL_GET_RECENT = "1";
+	//private static final String MISSED_CALL_GET_ALL = "2";
 	
 	//================================================================================
     // Properties
@@ -82,7 +88,10 @@ public class PhoneReceiverService extends WakefulIntentService {
 	 */
 	private ArrayList<String> getMissedCalls(){
 		if (_debug) Log.v("PhoneReceiverService.getMissedCalls()");
+		Boolean missedCallFound = false;
 		Context context = getApplicationContext();
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		String missedCallPreference = preferences.getString(MISSED_CALL_DISMISS_BUTTON_ACTION, "0");
 		ArrayList<String> missedCallsArray = new ArrayList<String>();
 		final String[] projection = null;
 		final String selection = null;
@@ -110,10 +119,21 @@ public class PhoneReceiverService extends WakefulIntentService {
     				}else{
     					missedCallsArray.add(callLogID + "|" + callNumber + "|" + callDate + "|" + missedCallContactInfo[0] + "|" + missedCallContactInfo[1] + "|" + missedCallContactInfo[2]);
     				}
-    				break;
+    				if(missedCallPreference.equals(MISSED_CALL_GET_LATEST)){
+    					if (_debug) Log.v("PhoneReceiverService.getMissedCalls() Missed call found - Exiting");
+    					break;
+    				}
+    				missedCallFound = true;
     			}else{
-    				break;
+    				if(missedCallPreference.equals(MISSED_CALL_GET_RECENT)){
+    					if (_debug) Log.v("PhoneReceiverService.getMissedCalls() Found first non-missed call - Exiting");
+    					break;
+    				}
     			}
+	    		if(!missedCallFound){
+	    			if (_debug) Log.v("PhoneReceiverService.getMissedCalls() Missed callnot found - Exiting");
+	    			break;
+	    		}
 	    	}
 		}catch(Exception ex){
 			if (_debug) Log.e("PhoneReceiverService.getMissedCalls() ERROR: " + ex.toString());

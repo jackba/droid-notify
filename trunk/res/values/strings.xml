@@ -215,14 +215,18 @@
    	<string name="preference_missed_call_ringtone_enabled_summaryOn">Missed Call notifications will play a ringtone on arrival.</string>
    	<string name="preference_missed_call_ringtone_enabled_summaryOff">Missed Call notifications will not play a ringtone on arrival.</string>
    	<string name="preference_missed_call_vibrate_settings">Missed Call Vibrate Settings</string>
-   	<string name="preference_missed_call_ringtone_settings">Missed Call Ringtone Settings</string>
-   	
+   	<string name="preference_missed_call_ringtone_settings">Missed Call Ringtone Settings</string> 	
+   	<string name="preference_missed_call_loading_title">Loading Settings</string>
+   	<string name="preference_missed_call_loading_summary">Define what calls to load when a missed call is received.</string>
+
    	<string name="preference_call_log_timeout">Call Log Timeout</string>
    	<string name="preference_call_log_timeout_summary">Define how long to wait after a call before querying the call log for a missed call.</string>
    	
    	<string name="preference_calendar_enabled_title">Enable Calendar Event</string>
    	<string name="preference_calendar_enabled_summaryOn">Calendar Event notifications are enabled.</string>
    	<string name="preference_calendar_enabled_summaryOff">Calendar Event notifications are disabled.</string>
+   	<string name="preference_calendar_polling_frequency_title">Calendar Polling Frequency</string>
+    <string name="preference_calendar_polling_frequency_summary">Define how often you want to read the calendar events?</string>
    	<string name="preference_calendar_selection_title">Select Calendars</string>
    	<string name="preference_calendar_selection_summary">Select the Calendars that you wish to be notified about.</string>
    	<string name="preference_calendar_labels_enabled_title">Enable Calendar Labels</string>
@@ -240,10 +244,17 @@
    	<string name="preference_calendar_vibrate_settings">Calendar Vibrate Settings</string>
    	<string name="preference_calendar_ringtone_settings">Calendar Ringtone Settings</string>
    	
+   	<string name="all_day_event_reminders_text">All-Day Event Reminders</string>
+   	<string name="all_day_event_reminder_setting_text">All-Day Event Reminder Setting</string>
    	<string name="preference_event_reminder_settings">Event Reminder Settings</string>
     <string name="preference_event_reminder_summary">How early do you want to be reminded about an upcoming event?</string>
     <string name="preference_event_reminder_all_day_settings">All-Day Event Reminder Settings</string>
     <string name="preference_event_reminder_all_day_summary">How early do you want to be reminded about an upcoming All-Day event?</string>
+    <string name="preference_calendar_all_day_notify_day_of_time_title">Day Of Reminder Time</string>
+    <string name="preference_calendar_all_day_notify_day_of_time_summary">When do you want to be reminded about the day of an All-Day event?</string>
+    <string name="preference_calendar_all_day_notify_day_of_enabled_title">Notify Day Of Event</string>
+   	<string name="preference_calendar_all_day_notify_day_of_enabled_summaryOn">For All-Day events you will be notified on the day of the event.</string>
+   	<string name="preference_calendar_all_day_notify_day_of_enabled_summaryOff">For All-Day events you will not be notified on the day of the event.</string>
     
     <string name="preference_show_hide_buttons_settings">Show/Hide Button Settings</string>
     <string name="preference_hide_dismiss_button_enabled_title">Hide Dismiss Button</string>
@@ -273,7 +284,7 @@
    	<string name="preference_keyguard_enabled_summaryOn">Phone will unlock when a notification is shown.</string>
    	<string name="preference_keyguard_enabled_summaryOff">Phone will not unlock when a notification is shown.</string>
 	<string name="preference_keyguard_timeout">Keyguard Timeout</string>
-   	<string name="preference_keyguard_timeout_summary">Define how long to wait before a releasing the phones Keyguard.</string>
+   	<string name="preference_keyguard_timeout_summary">Define how long to wait before releasing the phones Keyguard.</string>
 	<string name="preference_blur_screen_background_enabled_title">Blur Screen Background</string>
    	<string name="preference_blur_screen_background_enabled_summaryOn">The background of the screen will blur when a notification is shown.</string>
    	<string name="preference_blur_screen_background_enabled_summaryOff">The background of the screen will not blur when a notification is shown.</string>
