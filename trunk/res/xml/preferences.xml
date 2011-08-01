@@ -43,7 +43,7 @@
 			android:defaultValue="false"
 			android:dependency="app_enabled" />
   	</PreferenceCategory>
-		<PreferenceCategory
+	<PreferenceCategory
 		android:key="basic_settings_category"
 		android:title="@string/basic_settings_text">
 		<PreferenceScreen
@@ -63,17 +63,6 @@
 						android:summaryOn="@string/preference_save_draft_enabled_summaryOn" 
 						android:summaryOff="@string/preference_save_draft_enabled_summaryOff" 
 						android:defaultValue="true" />
-					<PreferenceScreen
-							android:key="quick_reply_show_hide_buttons_settings_screen"
-							android:title="@string/preference_show_hide_buttons_settings"
-							android:dependency="app_enabled">
-							<CheckBoxPreference 
-								android:key="quick_reply_hide_cancel_button_enabled" 
-								android:title="@string/preference_hide_cancel_button_enabled_title" 
-								android:summaryOn="@string/preference_hide_cancel_button_enabled_summaryOn" 
-								android:summaryOff="@string/preference_hide_cancel_button_enabled_summaryOff" 
-								android:defaultValue="true" />
-					</PreferenceScreen>
 					<CheckBoxPreference 
 						android:key="quick_reply_blur_screen_background_enabled" 
 						android:title="@string/preference_blur_screen_background_enabled_title" 
@@ -94,6 +83,17 @@
 						android:entries="@array/dim_screen_background_amount_options"
 						android:entryValues="@array/dim_screen_background_amount_options_values"
 						android:dependency="quick_reply_dim_screen_background_enabled" />
+					<PreferenceScreen
+							android:key="quick_reply_show_hide_buttons_settings_screen"
+							android:title="@string/preference_show_hide_buttons_settings"
+							android:dependency="app_enabled">
+							<CheckBoxPreference 
+								android:key="quick_reply_hide_cancel_button_enabled" 
+								android:title="@string/preference_hide_cancel_button_enabled_title" 
+								android:summaryOn="@string/preference_hide_cancel_button_enabled_summaryOn" 
+								android:summaryOff="@string/preference_hide_cancel_button_enabled_summaryOff" 
+								android:defaultValue="true" />
+					</PreferenceScreen>
 				</PreferenceScreen>
 			</PreferenceCategory>
 			<apps.droidnotify.preferences.ImageListPreference
