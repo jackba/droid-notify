@@ -61,7 +61,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	private static final String CALENDAR_NOTIFICATIONS_ENABLED_KEY = "calendar_notifications_enabled";
 	private static final String LANDSCAPE_SCREEN_ENABLED_KEY = "landscape_screen_enabled";
     private static final String CALENDAR_SELECTION_KEY = "calendar_selection";
-	private static final String CALENDAR_POLLING_FREQUENCY_KEY = "calendar_polling_frequency";
+    private static final String CALENDAR_POLLING_FREQUENCY_KEY = "calendar_polling_frequency";
 	
 	private static final int NOTIFICATION_TYPE_TEST = -1;
 	
@@ -95,6 +95,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	    _debugCalendar = Log.getDebugCalendar();
 	    _context = MainPreferenceActivity.this;
 	    _preferences = PreferenceManager.getDefaultSharedPreferences(_context);
+	    _preferences.registerOnSharedPreferenceChangeListener(this);
 	    //Don't rotate the Activity when the screen rotates based on the user preferences.
 	    if(!_preferences.getBoolean(LANDSCAPE_SCREEN_ENABLED_KEY, false)){
 	    	this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -120,6 +121,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	    super.onResume();
 	    _debug = Log.getDebug();
 	    if (_debug) Log.v("MainPreferenceActivity.onResume()");
+	    _preferences.registerOnSharedPreferenceChangeListener(this);
 	    setupImportPreferences();
 	}
 	
@@ -130,6 +132,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
     protected void onPause() {
         super.onPause();
         if (_debug) Log.v("MainPreferenceActivity.onPause()");
+        _preferences.unregisterOnSharedPreferenceChangeListener(this);
     }
 	  
 	/**
@@ -158,6 +161,10 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	 */
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 		if (_debug) Log.v("MainPreferenceActivity.onSharedPreferenceChanged() Key: " + key);
+		//The polling time for the calendars was changed. Run the alarm manager with the updated polling time.
+		if(key.equals(CALENDAR_POLLING_FREQUENCY_KEY)){
+			startCalendarAlarmManager(SystemClock.elapsedRealtime() + (30 * 1000));
+		}
 	}
 	
 	//================================================================================
@@ -180,27 +187,37 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			if (_debug) Log.v("MainPreferenceActivity.runOnceAlarmManager() Calendar Notifications Disabled. Exiting... ");
 			return;
 		}
-		boolean runOnce = _preferences.getBoolean("runOnce_v_2_0", true);
+		boolean runOnce = _preferences.getBoolean("runOnce_v_2_4", true);
 		if(runOnce || _debugCalendar) {
 			SharedPreferences.Editor editor = _preferences.edit();
-			editor.putBoolean("runOnce_v_2_0", false);
+			editor.putBoolean("runOnce_v_2_4", false);
 			editor.commit();
-			//Schedule the reading of the calendar events.
-			AlarmManager alarmManager = (AlarmManager) _context.getSystemService(Context.ALARM_SERVICE);
-			Intent intent = new Intent(_context, CalendarAlarmReceiver.class);
-			PendingIntent pendingIntent = PendingIntent.getBroadcast(_context, 0, intent, 0);
-			long pollingFrequency = Long.parseLong(_preferences.getString(CALENDAR_POLLING_FREQUENCY_KEY, "15")) * 60 * 1000;
 			if(_debugCalendar){
 				//--------------------------------
 				//Set alarm to go off 30 seconds from the current time.
 				//This line of code is for testing.
-				alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, SystemClock.elapsedRealtime() + (30 * 1000), pollingFrequency, pendingIntent);
+				startCalendarAlarmManager(SystemClock.elapsedRealtime() + (30 * 1000));
 				//--------------------------------
 			}else{
-				alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, SystemClock.elapsedRealtime() + (5 * 60 * 1000), pollingFrequency, pendingIntent);
+				startCalendarAlarmManager(SystemClock.elapsedRealtime() + (5 * 60 * 1000));
 			}
-			initUserCalendarsPreference();
        }
+	}
+	
+	/**
+	 * Start the calendar Alarm Manager.
+	 * 
+	 * @param alarmStartTime - The time to start the calendar alarm.
+	 */
+	private void startCalendarAlarmManager(long alarmStartTime){
+		if (_debug) Log.v("MainPreferenceActivity.startCalendarAlarmManager()");
+		//Schedule the reading of the calendar events.
+		AlarmManager alarmManager = (AlarmManager) _context.getSystemService(Context.ALARM_SERVICE);
+		Intent intent = new Intent(_context, CalendarAlarmReceiver.class);
+		PendingIntent pendingIntent = PendingIntent.getBroadcast(_context, 0, intent, 0);
+		long pollingFrequency = Long.parseLong(_preferences.getString(CALENDAR_POLLING_FREQUENCY_KEY, "15")) * 60 * 1000;
+		alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, alarmStartTime, pollingFrequency, pendingIntent);
+		initUserCalendarsPreference();
 	}
 	
 	/**
@@ -602,13 +619,13 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			//Basic Settings
 			buf.append("quick_reply_save_draft_enabled|" + _preferences.getBoolean("quick_reply_save_draft_enabled", true) + "|boolean");
 			buf.newLine();
-			buf.append("quick_reply_hide_cancel_button_enabled|" + _preferences.getBoolean("quick_reply_hide_cancel_button_enabled", true) + "|boolean");
-			buf.newLine();
 			buf.append("quick_reply_blur_screen_background_enabled|" + _preferences.getBoolean("quick_reply_blur_screen_enabled", false) + "|boolean");
 			buf.newLine();
 			buf.append("quick_reply_dim_screen_background_enabled|" + _preferences.getBoolean("quick_reply_dim_screen_enabled", true) + "|boolean");
 			buf.newLine();
 			buf.append("quick_reply_dim_screen_background_amount_settings|" + _preferences.getString("quick_reply_dim_screen_amount_settings", "50") + "|string");
+			buf.newLine();
+			buf.append("quick_reply_hide_cancel_button_enabled|" + _preferences.getBoolean("quick_reply_hide_cancel_button_enabled", true) + "|boolean");
 			buf.newLine();
 			buf.append("app_theme|" + _preferences.getString("app_theme", "android") + "|string");
 			buf.newLine();
@@ -721,7 +738,6 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			buf.newLine();
 			buf.append("calendar_notify_day_of_time|" + _preferences.getString("calendar_notify_day_of_time", "12") + "|string");
 			buf.newLine();
-			
 			buf.append("calendar_vibrate_enabled|" + _preferences.getBoolean("calendar_vibrate_enabled", true) + "|boolean");
 			buf.newLine();
 			buf.append("calendar_ringtone_enabled|" + _preferences.getBoolean("calendar_ringtone_enabled", true) + "|boolean");

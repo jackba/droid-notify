@@ -977,15 +977,15 @@ public class NotificationActivity extends Activity {
 				//Set the wakeLock properties based on the users preferences.
 				if(_preferences.getBoolean(SCREEN_ENABLED_KEY, true)){
 					if(_preferences.getBoolean(SCREEN_DIM_ENABLED_KEY, true)){
-						if (_debug) Log.v("NotificationActivity.acquireWakeLock() Screen Wake Enabled Dim");
+						if (_debug) Log.v("NotificationActivity.acquireWakeLock() Screen Wake Enabled Dim.");
 						_wakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, DROID_NOTIFY_WAKELOCK);
 					}else{
-						if (_debug) Log.v("NotificationActivity.acquireWakeLock() Screen Wake Enabled Full");
+						if (_debug) Log.v("NotificationActivity.acquireWakeLock() Screen Wake Enabled Full.");
 						_wakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, DROID_NOTIFY_WAKELOCK);
 					}
 				}else{
-					if (_debug) Log.v("NotificationActivity.acquireWakeLock() Screen Wake Disabled");
-					_wakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, DROID_NOTIFY_WAKELOCK);
+					if (_debug) Log.v("NotificationActivity.acquireWakeLock() Turn On Screen Disabled.");
+					_wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, DROID_NOTIFY_WAKELOCK);
 				}
 			}
 			if(_wakeLock != null){
@@ -1028,11 +1028,15 @@ public class NotificationActivity extends Activity {
 				_keyguardLock = km.newKeyguardLock(DROID_NOTIFY_KEYGUARD); 
 			}
 			//Set the keyguard properties based on the users preferences.
-			if(_preferences.getBoolean(KEYGUARD_ENABLED_KEY, true)){
-				if (_debug) Log.v("NotificationActivity.disableKeyguardLock() Disable Keyguard Enabled");
-				_keyguardLock.disableKeyguard();
+			if(_preferences.getBoolean(SCREEN_ENABLED_KEY, true)){
+				if(_preferences.getBoolean(KEYGUARD_ENABLED_KEY, true)){
+					if (_debug) Log.v("NotificationActivity.disableKeyguardLock() Disable Keyguard Enabled.");
+					_keyguardLock.disableKeyguard();
+				}else{
+					if (_debug) Log.v("NotificationActivity.disableKeyguardLock() Disable Keyguard Disabled.");
+				}
 			}else{
-				if (_debug) Log.v("NotificationActivity.disableKeyguardLock() Disable Keyguard Disabled");
+				if (_debug) Log.v("NotificationActivity.disableKeyguardLock() Turn On Screen Disabled.");
 			}
 		}catch(Exception ex){
 			if (_debug) Log.e("NotificationActivity.disableKeyguardLock() ERROR: " + ex.toString());
