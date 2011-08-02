@@ -480,6 +480,40 @@
 						android:summaryOff="@string/preference_calendar_enabled_summaryOff" 
 						android:defaultValue="true" />
 					<ListPreference
+						android:key="calendar_notify_day_of_time"
+						android:title="@string/preference_calendar_all_day_notify_day_of_time_title"
+						android:summary="@string/preference_calendar_all_day_notify_day_of_time_summary"
+						android:defaultValue="12"
+						android:entries="@array/calendar_all_day_notify_day_of_time_options"
+						android:entryValues="@array/calendar_all_day_notify_day_of_time_options_values"
+						android:dependency="calendar_notifications_enabled" />	
+					<CheckBoxPreference 
+						android:key="calendar_reminders_enabled" 
+						android:title="@string/preference_calendar_reminders_enabled_title" 
+						android:summaryOn="@string/preference_calendar_reminders_enabled_summaryOn" 
+						android:summaryOff="@string/preference_calendar_reminders_enabled_summaryOff" 
+						android:defaultValue="true"
+						android:dependency="calendar_notifications_enabled" />
+					<PreferenceScreen
+						android:key="calendar_event_reminders_screen"
+						android:title="@string/event_reminder_settings_text"
+						android:dependency="calendar_reminders_enabled">
+						<ListPreference
+							android:key="calendar_reminder_settings"
+							android:title="@string/preference_event_reminder_settings"
+							android:summary="@string/preference_event_reminder_summary"
+							android:defaultValue="15"
+							android:entries="@array/calendar_reminder_options"
+							android:entryValues="@array/calendar_reminder_options_values" />
+						<ListPreference
+							android:key="calendar_reminder_all_day_settings"
+							android:title="@string/all_day_event_reminder_setting_text"
+							android:summary="@string/preference_event_reminder_all_day_summary"
+							android:defaultValue="6"
+							android:entries="@array/calendar_reminder_all_day_options"
+							android:entryValues="@array/calendar_reminder_all_day_options_values" />
+					</PreferenceScreen>
+					<ListPreference
 						android:key="calendar_polling_frequency"
 						android:title="@string/preference_calendar_polling_frequency_title"
 						android:summary="@string/preference_calendar_polling_frequency_summary"
@@ -534,42 +568,6 @@
 								android:summaryOff="@string/preference_hide_call_button_enabled_summaryOff" 
 								android:defaultValue="false" />
 						</PreferenceScreen>
-					</PreferenceScreen>
-					<ListPreference
-						android:key="calendar_reminder_settings"
-						android:title="@string/preference_event_reminder_settings"
-						android:summary="@string/preference_event_reminder_summary"
-						android:defaultValue="15"
-						android:entries="@array/calendar_reminder_options"
-						android:entryValues="@array/calendar_reminder_options_values"
-						android:dependency="calendar_notifications_enabled" />	
-					<PreferenceScreen
-						android:key="calendar_all_day_reminders_screen"
-						android:title="@string/all_day_event_reminders_text"
-						android:dependency="calendar_notifications_enabled">
-						<ListPreference
-							android:key="calendar_reminder_all_day_settings"
-							android:title="@string/all_day_event_reminder_setting_text"
-							android:summary="@string/preference_event_reminder_all_day_summary"
-							android:defaultValue="6"
-							android:entries="@array/calendar_reminder_all_day_options"
-							android:entryValues="@array/calendar_reminder_all_day_options_values"
-							android:dependency="calendar_notifications_enabled" />
-						<CheckBoxPreference 
-							android:key="calendar_notify_day_of_enabled" 
-							android:title="@string/preference_calendar_all_day_notify_day_of_enabled_title" 
-							android:summaryOn="@string/preference_calendar_all_day_notify_day_of_enabled_summaryOn" 
-							android:summaryOff="@string/preference_calendar_all_day_notify_day_of_enabled_summaryOff" 
-							android:defaultValue="true"
-							android:dependency="calendar_notifications_enabled" />
-						<ListPreference
-							android:key="calendar_notify_day_of_time"
-							android:title="@string/preference_calendar_all_day_notify_day_of_time_title"
-							android:summary="@string/preference_calendar_all_day_notify_day_of_time_summary"
-							android:defaultValue="12"
-							android:entries="@array/calendar_all_day_notify_day_of_time_options"
-							android:entryValues="@array/calendar_all_day_notify_day_of_time_options_values"
-							android:dependency="calendar_notify_day_of_enabled" />
 					</PreferenceScreen>
 					<PreferenceScreen
 						android:key="calendar_vibrate_settings_screen"
