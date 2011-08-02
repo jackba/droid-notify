@@ -37,6 +37,7 @@
    	<string name="misc_settings_text">Misc Settings</string>
     <string name="delete_text">Delete</string>
    	<string name="notification_settings_text">Notification Settings</string>
+   	<string name="messaging_app_running_action_text">Messaging App Running Options</string>
    	
     <!-- App Error Message Strings -->
     <string name="app_android_messaging_app_error">The Android Messaging application could not be started.</string>
@@ -171,7 +172,8 @@
    	<string name="preference_sms_ringtone_settings">SMS Ringtone Settings</string>
    	<string name="preference_confirm_sms_deletion_enabled_title">Confirm Message Deletion</string>
    	<string name="preference_confirm_sms_deletion_enabled_summaryOn">A dialog box will display when you delete a message.</string>
-   	<string name="preference_confirm_sms_deletion_enabled_summaryOff">A dialog box will not display when you delete a message.</string>
+   	<string name="preference_confirm_sms_deletion_enabled_summaryOff">A dialog box will not display when you delete a message.</string>   	
+   	<string name="messaging_app_running_action_sms_summary">Define action when a SMS notification comes in when a messaging app is currently running.</string>
    	
    	<string name="preference_mms_enabled_title">Enable MMS</string>
    	<string name="preference_mms_enabled_summaryOn">MMS notifications are enabled.</string>
@@ -198,9 +200,9 @@
 	<string name="preference_confirm_mms_deletion_enabled_title">Confirm Message Deletion</string>
    	<string name="preference_confirm_mms_deletion_enabled_summaryOn">A dialog box will display when you delete a message.</string>
    	<string name="preference_confirm_mms_deletion_enabled_summaryOff">A dialog box will not display when you delete a message.</string>
-   	
    	<string name="preference_mms_timeout">MMS Timeout</string>
-   	<string name="preference_mms_timeout_summary">Define how long to wait after a MMS is received before querying the MMS inbox for a new message.</string>
+   	<string name="preference_mms_timeout_summary">Define how long to wait after a MMS is received before querying the MMS inbox for a new message.</string>   	
+   	<string name="messaging_app_running_action_mms_summary">Define action when a MMS notification comes in when a messaging app is currently running.</string>
    	
    	<string name="preference_missed_call_enabled_title">Enable Missed Call</string>
    	<string name="preference_missed_call_enabled_summaryOn">Missed Call notifications are enabled.</string>
@@ -218,9 +220,9 @@
    	<string name="preference_missed_call_ringtone_settings">Missed Call Ringtone Settings</string> 	
    	<string name="preference_missed_call_loading_title">Loading Settings</string>
    	<string name="preference_missed_call_loading_summary">Define what calls to load when a missed call is received.</string>
-
    	<string name="preference_call_log_timeout">Call Log Timeout</string>
-   	<string name="preference_call_log_timeout_summary">Define how long to wait after a call before querying the call log for a missed call.</string>
+   	<string name="preference_call_log_timeout_summary">Define how long to wait after a call before querying the call log for a missed call.</string>   	
+   	<string name="messaging_app_running_action_missed_call_summary">Define action when a Missed Call notification comes in when a messaging app is currently running.</string>
    	
    	<string name="preference_calendar_enabled_title">Enable Calendar Event</string>
    	<string name="preference_calendar_enabled_summaryOn">Calendar Event notifications are enabled.</string>
@@ -254,7 +256,8 @@
     <string name="preference_calendar_all_day_notify_day_of_time_summary">For All-Day events, when do you want to be reminded of the event?</string>
     <string name="preference_calendar_reminders_enabled_title">Send Event Reminders</string>
    	<string name="preference_calendar_reminders_enabled_summaryOn">A reminder notification will be sent before the calendar event occurs.</string>
-   	<string name="preference_calendar_reminders_enabled_summaryOff">No reminder will be sent before the calendar event occurs.</string>
+   	<string name="preference_calendar_reminders_enabled_summaryOff">No reminder will be sent before the calendar event occurs.</string>   	
+   	<string name="messaging_app_running_action_calendar_summary">Define action when a Calendar notification comes in when a messaging app is currently running.</string>
     
     <string name="preference_show_hide_buttons_settings">Show/Hide Button Settings</string>
     <string name="preference_hide_dismiss_button_enabled_title">Hide Dismiss Button</string>
@@ -294,7 +297,11 @@
    	<string name="preference_dim_screen_background_amount">Dim Screen Value</string>
    	<string name="preference_dim_screen_background_amount_summary">Define how dim you want the background screen to get. (0 = no dimming, 100 = black)</string> 
    	
-    <string name="preference_reschedule_timeout">Reschedule Timeout</string>
+   	<string name="reschedule_notifications_text">Reschedule Notifications</string>
+   	<string name="preference_reschedule_notifications_enabled_summaryOn">The app will reschedule notifications if they are blocked (e.g. on a phone call, in a messaging app, etc...).</string>
+   	<string name="preference_reschedule_notifications_enabled_summaryOff">The app will not reschedule notifications if they are blocked.</string>
+    <string name="reschedule_settings_text">Reschedule Settings</string>
+    <string name="reschedule_tinmeout_text">Reschedule Timeout</string>
    	<string name="preference_reschedule_timeout_summary">Define how long to wait before a notification is rescheduled.</string> 	
    	
    	<string name="preference_wakelock_timeout">WakeLock Timeout</string>
