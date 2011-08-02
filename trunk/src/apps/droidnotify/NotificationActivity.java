@@ -109,6 +109,7 @@ public class NotificationActivity extends Activity {
 	private static final String BLUR_SCREEN_ENABLED_KEY = "blur_screen_background_enabled";
 	private static final String DIM_SCREEN_ENABLED_KEY = "dim_screen_background_enabled";
 	private static final String DIM_SCREEN_AMOUNT_KEY = "dim_screen_background_amount";
+	private static final String USER_IN_MESSAGING_APP = "user_in_messaging_app";
 	
 	private static final String SMS_DELETE_ACTION_DELETE_MESSAGE = "0";
 	private static final String SMS_DELETE_ACTION_DELETE_THREAD = "1";
@@ -336,10 +337,26 @@ public class NotificationActivity extends Activity {
 				}
 			}
 			case VIEW_THREAD_CONTEXT_MENU:{
-				return Common.startMessagingAppViewThreadActivity(_context, this, notification.getSentFromAddress(), VIEW_SMS_THREAD_ACTIVITY);
+				if(Common.startMessagingAppViewThreadActivity(_context, this, notification.getSentFromAddress(), VIEW_SMS_THREAD_ACTIVITY)){
+				    //Set "In Reply Screen" flag.
+					SharedPreferences.Editor editor = _preferences.edit();
+					editor.putBoolean(USER_IN_MESSAGING_APP, true);
+					editor.commit();
+					return true;
+				}else{
+					return false;
+				}
 			}
 			case MESSAGING_INBOX_CONTEXT_MENU:{
-				return Common.startMessagingAppViewInboxActivity(_context, this, MESSAGING_ACTIVITY);
+				if(Common.startMessagingAppViewInboxActivity(_context, this, MESSAGING_ACTIVITY)){
+				    //Set "In Reply Screen" flag.
+					SharedPreferences.Editor editor = _preferences.edit();
+					editor.putBoolean(USER_IN_MESSAGING_APP, true);
+					editor.commit();
+					return true;
+				}else{
+					return false;
+				}
 			}
 			case VIEW_CALENDAR_CONTEXT_MENU:{
 				return Common.startViewCalendarActivity(_context, this, CALENDAR_ACTIVITY);
@@ -532,7 +549,11 @@ public class NotificationActivity extends Activity {
 		    	}else{
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() SEND_SMS_ACTIVITY: " + resultCode);
 		        	Toast.makeText(_context, _context.getString(R.string.app_android_messaging_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
-		    	}
+		    	}  
+			    //Set "In Reply Screen" flag.
+				SharedPreferences.Editor editor = _preferences.edit();
+				editor.putBoolean(USER_IN_MESSAGING_APP, false);
+				editor.commit();
 		        break;
 		    }
 		    case VIEW_SMS_MESSAGE_ACTIVITY:{ 
@@ -547,7 +568,11 @@ public class NotificationActivity extends Activity {
 		    	}else{
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() VIEW_SMS_MESSAGE_ACTIVITY: " + resultCode);
 		        	Toast.makeText(_context, _context.getString(R.string.app_android_messaging_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
-		    	}
+		    	}  
+			    //Set "In Reply Screen" flag.
+				SharedPreferences.Editor editor = _preferences.edit();
+				editor.putBoolean(USER_IN_MESSAGING_APP, false);
+				editor.commit();
 		        break;
 		    }
 		    case VIEW_SMS_THREAD_ACTIVITY:{ 
@@ -562,7 +587,11 @@ public class NotificationActivity extends Activity {
 		    	}else{
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() VIEW_SMS_THREAD_ACTIVITY: " + resultCode);
 		        	Toast.makeText(_context, _context.getString(R.string.app_android_messaging_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
-		    	}
+		    	}  
+			    //Set "In Reply Screen" flag.
+				SharedPreferences.Editor editor = _preferences.edit();
+				editor.putBoolean(USER_IN_MESSAGING_APP, false);
+				editor.commit();
 		        break;
 		    }
 		    case MESSAGING_ACTIVITY:{ 
@@ -578,6 +607,29 @@ public class NotificationActivity extends Activity {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() MESSAGING_ACTIVITY: " + resultCode);
 		        	Toast.makeText(_context, _context.getString(R.string.app_android_messaging_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
 		    	}
+		    	//Set "In Reply Screen" flag.
+				SharedPreferences.Editor editor = _preferences.edit();
+				editor.putBoolean(USER_IN_MESSAGING_APP, false);
+				editor.commit();
+		        break;
+		    }
+		    case SEND_SMS_QUICK_REPLY_ACTIVITY:{ 
+		    	if (resultCode == RESULT_OK) {
+		    		if (_debug) Log.v("NotificationActivity.onActivityResult() SEND_SMS_QUICK_REPLY_ACTIVITY: RESULT_OK");
+		        	//Remove notification from ViewFlipper.
+		    		_notificationViewFlipper.removeActiveNotification();
+		    	}else if (resultCode == RESULT_CANCELED) {
+		    		if (_debug) Log.v("NotificationActivity.onActivityResult() SEND_SMS_QUICK_REPLY_ACTIVITY: RESULT_CANCELED");
+		    		//Remove notification from ViewFlipper.
+					//_notificationViewFlipper.removeActiveNotification();
+		    	}else{
+		    		if (_debug) Log.v("NotificationActivity.onActivityResult() SEND_SMS_QUICK_REPLY_ACTIVITY: " + resultCode);
+		        	Toast.makeText(_context, _context.getString(R.string.app_android_messaging_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
+		    	}  
+			    //Set "In Reply Screen" flag.
+				SharedPreferences.Editor editor = _preferences.edit();
+				editor.putBoolean(USER_IN_MESSAGING_APP, false);
+				editor.commit();
 		        break;
 		    }
 		    case CALL_ACTIVITY:{ 
@@ -637,21 +689,6 @@ public class NotificationActivity extends Activity {
 		    	}else{
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() VIEW_CALENDAR_ACTIVITY: " + resultCode);
 		        	Toast.makeText(_context, _context.getString(R.string.app_android_calendar_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
-		    	}
-		        break;
-		    }
-		    case SEND_SMS_QUICK_REPLY_ACTIVITY:{ 
-		    	if (resultCode == RESULT_OK) {
-		    		if (_debug) Log.v("NotificationActivity.onActivityResult() SEND_SMS_QUICK_REPLY_ACTIVITY: RESULT_OK");
-		        	//Remove notification from ViewFlipper.
-		    		_notificationViewFlipper.removeActiveNotification();
-		    	}else if (resultCode == RESULT_CANCELED) {
-		    		if (_debug) Log.v("NotificationActivity.onActivityResult() SEND_SMS_QUICK_REPLY_ACTIVITY: RESULT_CANCELED");
-		    		//Remove notification from ViewFlipper.
-					//_notificationViewFlipper.removeActiveNotification();
-		    	}else{
-		    		if (_debug) Log.v("NotificationActivity.onActivityResult() SEND_SMS_QUICK_REPLY_ACTIVITY: " + resultCode);
-		        	Toast.makeText(_context, _context.getString(R.string.app_android_messaging_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
 		    	}
 		        break;
 		    }
@@ -756,7 +793,7 @@ public class NotificationActivity extends Activity {
 		    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_EMAIL");
 		    	//TODO - Email
 		    	break;
-		    }  
+		    }
 	    }
 	    //Set Vibration/Ringtone to announce Activity.
 	    runNotificationFeedback(notificationType);
@@ -767,7 +804,11 @@ public class NotificationActivity extends Activity {
 	    //Remove the KeyGuard.
 	    disableKeyguardLock(_context);
 	    long keyguardTimeout = Long.parseLong(_preferences.getString(KEYGUARD_TIMEOUT_KEY, "300")) * 1000;
-	    _keyguardHandler.sleep(keyguardTimeout);
+	    _keyguardHandler.sleep(keyguardTimeout);  
+	    //Set "In Reply Screen" flag.
+		SharedPreferences.Editor editor = _preferences.edit();
+		editor.putBoolean(USER_IN_MESSAGING_APP, false);
+		editor.commit();
 	}
 	  
 	/**
@@ -819,6 +860,10 @@ public class NotificationActivity extends Activity {
 	    if (_debug) Log.v("NotificationActivity.onDestroy()");
 	    releaseWakeLock();
 	    reenableKeyguardLock();
+	    //Set "In Reply Screen" flag.
+		SharedPreferences.Editor editor = _preferences.edit();
+		editor.putBoolean(USER_IN_MESSAGING_APP, false);
+		editor.commit();
 	}
 
 	/**
@@ -1309,7 +1354,15 @@ public class NotificationActivity extends Activity {
 	 */
 	private boolean sendSMSMessage(String phoneNumber){
 		if (_debug) Log.v("NotificationActivity.sendSMSMessage()");
-		return Common.startMessagingAppReplyActivity(_context, this, phoneNumber, SEND_SMS_ACTIVITY);
+		if(Common.startMessagingAppReplyActivity(_context, this, phoneNumber, SEND_SMS_ACTIVITY)){
+			//Set "In Reply Screen" flag.
+			SharedPreferences.Editor editor = _preferences.edit();
+			editor.putBoolean(USER_IN_MESSAGING_APP, true);
+			editor.commit();
+			return true;
+		}else{
+			return false;
+		}
 	}
 	
 	/**

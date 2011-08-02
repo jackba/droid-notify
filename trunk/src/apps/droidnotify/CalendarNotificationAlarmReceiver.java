@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
+import apps.droidnotify.common.Common;
 import apps.droidnotify.log.Log;
 
 /**
@@ -23,7 +24,13 @@ public class CalendarNotificationAlarmReceiver extends BroadcastReceiver {
     
 	private static final String APP_ENABLED_KEY = "app_enabled";
 	private static final String CALENDAR_NOTIFICATIONS_ENABLED_KEY = "calendar_notifications_enabled";
+	private static final String RESCHEDULE_NOTIFICATIONS_ENABLED = "reschedule_notifications_enabled";
 	private static final String RESCHEDULE_NOTIFICATION_TIMEOUT_KEY = "reschedule_notification_timeout_settings";
+	private static final String USER_IN_MESSAGING_APP = "user_in_messaging_app";	
+	private static final String MESSAGING_APP_RUNNING_ACTION_CALENDAR = "messaging_app_running_action_calendar";
+	
+	private static final String MESSAGING_APP_RUNNING_ACTION_RESCHEDULE = "0";
+	private static final String MESSAGING_APP_RUNNING_ACTION_IGNORE = "1";
 	
 	//================================================================================
     // Properties
@@ -59,24 +66,46 @@ public class CalendarNotificationAlarmReceiver extends BroadcastReceiver {
 		}
 	    //Check the state of the users phone.
 		TelephonyManager telemanager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+	    boolean rescheduleNotification = false;
 	    boolean callStateIdle = telemanager.getCallState() == TelephonyManager.CALL_STATE_IDLE;
-	    if (_debug) Log.v("CalendarNotificationAlarmReceiver.onReceive() Current Call State: " + telemanager.getCallState());
-	    if (callStateIdle) {
+	    boolean inMessagingApp = preferences.getBoolean(USER_IN_MESSAGING_APP, false);
+	    boolean messagingAppRunning = Common.isMessagingAppRunning(context);
+	    if(callStateIdle && !inMessagingApp){
+	    	rescheduleNotification = true;
+	    }
+	    String messagingAppRuningAction = preferences.getString(MESSAGING_APP_RUNNING_ACTION_CALENDAR, "0");
+	    //Reschedule notification based on the users preferences.
+	    if(messagingAppRuningAction.equals(MESSAGING_APP_RUNNING_ACTION_RESCHEDULE)){
+	    	if(messagingAppRunning){
+	    		rescheduleNotification = true;
+	    	}
+	    }
+	    //Ignore notification based on the users preferences.
+	    if(messagingAppRuningAction.equals(MESSAGING_APP_RUNNING_ACTION_IGNORE)){
+	    	return;
+	    }
+	    if(!rescheduleNotification){
 			WakefulIntentService.acquireStaticLock(context);
 			Intent calendarIntent = new Intent(context, CalendarNotificationAlarmReceiverService.class);
 			calendarIntent.putExtras(intent.getExtras());
 			context.startService(calendarIntent);
 	    }else{
 	    	// Set alarm to go off x minutes from the current time as defined by the user preferences.
-	    	int rescheduleInterval = Integer.parseInt(preferences.getString(RESCHEDULE_NOTIFICATION_TIMEOUT_KEY, "5")) * 60 * 1000;
-	    	if(rescheduleInterval > 0){
-		    	if (_debug) Log.v("SMSReceiver.onReceive() Phone Call In Progress. Rescheduling notification. Rechedule in " + rescheduleInterval + "minutes.");
+	    	long rescheduleInterval = Long.parseLong(preferences.getString(RESCHEDULE_NOTIFICATION_TIMEOUT_KEY, "5")) * 60 * 1000;
+	    	if(preferences.getBoolean(RESCHEDULE_NOTIFICATIONS_ENABLED, true)){
+	    		if(rescheduleInterval == 0){
+	    			SharedPreferences.Editor editor = preferences.edit();
+	    			editor.putBoolean(RESCHEDULE_NOTIFICATIONS_ENABLED, false);
+	    			editor.commit();
+	    			return;
+	    		}
+	    		if (_debug) Log.v("CalendarNotificationAlarmReceiver.onReceive() Rescheduling notification. Rechedule in " + rescheduleInterval + "minutes.");
 				AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 				Intent calendarIntent = new Intent(context, CalendarNotificationAlarmReceiver.class);
 				calendarIntent.putExtras(intent.getExtras());
 				calendarIntent.setAction("apps.droidnotify.VIEW/CalendarReschedule/" + System.currentTimeMillis());
-				PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, calendarIntent, 0);
-				alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + rescheduleInterval, pendingIntent);
+				PendingIntent calendarPendingIntent = PendingIntent.getBroadcast(context, 0, calendarIntent, 0);
+				alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + rescheduleInterval, calendarPendingIntent);
 	    	}
 	    }
 	}

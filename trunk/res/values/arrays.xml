@@ -346,7 +346,6 @@
 		<item name="4">ic_contact_picture_4</item>
 	</string-array>
     <string-array name="reschedule_notification_timeout_options">
-    	<item name="0">Never</item>
 		<item name="1">1 Minute</item>
 		<item name="2">2 Minutes</item>
 		<item name="3">3 Minutes</item>
@@ -359,7 +358,6 @@
 		<item name="10">1 Hour</item>
 	</string-array>
 	<string-array name="reschedule_notification_timeout_options_values">
-		<item name="0">0</item>
 		<item name="1">1</item>
 		<item name="2">2</item>
 		<item name="3">3</item>
@@ -458,6 +456,16 @@
 		<item name="7">8</item>
 		<item name="8">9</item>
 		<item name="9">10</item>
+	</string-array>
+	<string-array name="messaging_app_running_action_options">
+    	<item name="0">Reschedule Notification</item>
+		<item name="1">Ignore Notification</item>
+		<item name="2">Show Notification</item>
+	</string-array>
+	<string-array name="messaging_app_running_action_options_values">
+		<item name="0">0</item>
+		<item name="1">1</item>
+		<item name="2">2</item>
 	</string-array>
 	
 	<!-- Contact Placeholder Image Arrays --> 

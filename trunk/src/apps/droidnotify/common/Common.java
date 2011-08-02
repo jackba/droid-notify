@@ -3,7 +3,11 @@ package apps.droidnotify.common;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Iterator;
+import java.util.List;
 
+import android.app.ActivityManager;
+import android.app.ActivityManager.RunningTaskInfo;
 import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -45,6 +49,26 @@ public class Common {
 	private static final String EVENT_BEGIN_TIME = "beginTime";
 	private static final String EVENT_END_TIME = "endTime";
 	
+	//Staring Array of the top SMS Messaging Apps:
+	// Android Stock App
+	// Handcent
+	// Go SMS
+	// Magic Text
+	// Chomp SMS
+	// Pansi
+	// Text'n Drive
+	//
+	//
+	//
+	public static final String[] MESSAGING_PACKAGE_NAMES_ARRAY = new String[]{
+		"com.android.mms", 
+		"com.handcent.nextsms", 
+		"com.jb.gosms", 
+		"com.pompeiicity.magictext", 
+		"com.p1.chompsms", 
+		"com.pansi.msg", 
+		"com.drivevox.drivevox" };
+	
 	//================================================================================
     // Properties
     //================================================================================
@@ -64,7 +88,8 @@ public class Common {
 	 * @return Bitmap - The formatted Bitmap image.
 	 */
 	public static Bitmap getRoundedCornerBitmap(Bitmap bitmap, int pixels, boolean resizeImage, int resizeX, int resizeY) {
-		if (_debug) Log.v("NotificationView.getRoundedCornerBitmap()");
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.getRoundedCornerBitmap()");
 		try{
 			Bitmap output = null;
 			if(bitmap == null){
@@ -95,7 +120,7 @@ public class Common {
 		        return output;
 			}
 		}catch(Exception ex){
-			if (_debug) Log.e("NotificationView.getRoundedCornerBitmap() ERROR: " + ex.toString());
+			if (_debug) Log.e("Common.getRoundedCornerBitmap() ERROR: " + ex.toString());
 			return null;
 		}
 	}
@@ -404,7 +429,8 @@ public class Common {
 	 * @return String - The phone or email address of the MMS message.
 	 */
 	public static String getMMSAddress(Context context, String messageID) {
-		if (_debug) Log.v("MMSReceiverService.getMMSAddress()");
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.getMMSAddress()");
 		final String[] projection = new String[] {"address"};
 		final String selection = "msg_id = " + messageID;
 		final String[] selectionArgs = null;
@@ -423,7 +449,7 @@ public class Common {
 	            break;
 	        }
 		}catch(Exception ex){
-			if (_debug) Log.e("MMSReceiverService.getMMSAddress() ERROR: " + ex.toString());
+			if (_debug) Log.e("Common.getMMSAddress() ERROR: " + ex.toString());
 		} finally {
     		cursor.close();
     	}	   
@@ -438,7 +464,8 @@ public class Common {
 	 * @return String - The message text of the MMS message.
 	 */
 	public static String getMMSText(Context context, String messageID) {
-		if (_debug) Log.v("MMSReceiverService.getMMSText()");
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.getMMSText()");
 		final String[] projection = new String[] {"_id", "ct", "_data", "text"};
 		final String selection = "mid = " + messageID;
 		final String[] selectionArgs = null;
@@ -473,7 +500,7 @@ public class Common {
 		        }
 	        }
 		}catch(Exception ex){
-			if (_debug) Log.e("MMSReceiverService.getMMSText ERROR: " + ex.toString());
+			if (_debug) Log.e("Common.getMMSText ERROR: " + ex.toString());
 		} finally {
     		cursor.close();
     	}	   
@@ -486,7 +513,8 @@ public class Common {
 	 * @return String - A string of the available Calendars. Specially formatted string with the Calendar information.
 	 */
 	public static String getAvailableCalendars(Context context){
-		if (Log.getDebug()) Log.v("SelectCalendarListPreference.getAvailableCalendars()");
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.getAvailableCalendars()");
 		StringBuilder calendarsInfo = new StringBuilder();
 		Cursor cursor = null;
 		try{
@@ -508,7 +536,7 @@ public class Common {
 				final String calendarDisplayName = cursor.getString(cursor.getColumnIndex(CALENDAR_DISPLAY_NAME));
 				final Boolean calendarSelected = !cursor.getString(cursor.getColumnIndex(CALENDAR_SELECTED)).equals("0");
 				if(calendarSelected){
-					if (Log.getDebug()) Log.v("Id: " + calendarID + " Display Name: " + calendarDisplayName + " Selected: " + calendarSelected);
+					if (_debug) Log.v("Id: " + calendarID + " Display Name: " + calendarDisplayName + " Selected: " + calendarSelected);
 					if(!calendarsInfo.toString().equals("")){
 						calendarsInfo.append(",");
 					}
@@ -516,7 +544,7 @@ public class Common {
 				}
 			}	
 		}catch(Exception ex){
-			if (Log.getDebug()) Log.e("SelectCalendarListPreference.getAvailableCalendars() ERROR: " + ex.toString());
+			if (_debug) Log.e("Common.getAvailableCalendars() ERROR: " + ex.toString());
 			return null;
 		}finally{
 			cursor.close();
@@ -534,6 +562,7 @@ public class Common {
 	 * @param phoneNumber - The phone number we want to send a place a call to.
 	 */
 	public static boolean makePhoneCall(Context context, NotificationActivity notificationActivity, String phoneNumber, int requestCode){
+		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.makePhoneCall()");
 		try{
 			if(phoneNumber == null){
@@ -562,6 +591,7 @@ public class Common {
 	 * @return boolean - Returns true if the activity can be started.
 	 */
 	public static boolean startMessagingAppReplyActivity(Context context, NotificationActivity notificationActivity, String phoneNumber, int requestCode){
+		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.startMessagingAppReplyActivity()");
 		if(phoneNumber == null){
 			Toast.makeText(context, context.getString(R.string.app_android_reply_messaging_address_error), Toast.LENGTH_LONG).show();
@@ -592,6 +622,7 @@ public class Common {
 	 * @return boolean - Returns true if the activity can be started.
 	 */
 	public static boolean startMessagingAppViewThreadActivity(Context context, NotificationActivity notificationActivity, String phoneNumber, int requestCode){
+		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.startMessagingAppViewThreadActivity()");
 		if(phoneNumber == null){
 			Toast.makeText(context, context.getString(R.string.app_android_reply_messaging_address_error), Toast.LENGTH_LONG).show();
@@ -620,6 +651,7 @@ public class Common {
 	 * @return boolean - Returns true if the activity can be started.
 	 */
 	public static boolean startMessagingAppViewInboxActivity(Context context, NotificationActivity notificationActivity, int requestCode){
+		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.startMessagingAppViewInboxActivity()");
 		try{
 			Intent intent = new Intent(Intent.ACTION_MAIN);
@@ -643,6 +675,7 @@ public class Common {
 	 * @return boolean - Returns true if the activity can be started.
 	 */
 	public static boolean startCallLogViewActivity(Context context, NotificationActivity notificationActivity, int requestCode){
+		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.startCallLogViewActivity()");
 		try{
 			Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -667,6 +700,7 @@ public class Common {
 	 * @return boolean - Returns true if the activity can be started.
 	 */
 	public static boolean startContactViewActivity(Context context, NotificationActivity notificationActivity, long contactID, int requestCode){
+		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.startContactViewActivity()");
 		try{
 			if(contactID == 0){
@@ -695,6 +729,7 @@ public class Common {
 	 * @return boolean - Returns true if the activity can be started.
 	 */
 	public static boolean startViewCalendarActivity(Context context, NotificationActivity notificationActivity, int requestCode){
+		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.startViewCalendarActivity()");
 		try{
 			//Androids calendar app.
@@ -728,6 +763,7 @@ public class Common {
 	 * @return boolean - Returns true if the activity can be started.
 	 */
 	public static boolean startAddCalendarEventActivity(Context context, NotificationActivity notificationActivity, int requestCode){
+		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.startAddCalendarEventActivity()");
 		try{
 			//Androids calendar app.
@@ -764,6 +800,7 @@ public class Common {
 	 * @return boolean - Returns true if the activity can be started.
 	 */
 	public static boolean startViewCalendarEventActivity(Context context, NotificationActivity notificationActivity, long calendarEventID, long calendarEventStartTime, long calendarEventEndTime, int requestCode){
+		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.startViewCalendarEventActivity()");
 		try{
 			if(calendarEventID == 0){
@@ -799,6 +836,7 @@ public class Common {
 	 * @return boolean - Returns true if the activity can be started.
 	 */
 	public static boolean startEditCalendarEventActivity(Context context, NotificationActivity notificationActivity, long calendarEventID, long calendarEventStartTime, long calendarEventEndTime, int requestCode){
+		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.startEditCalendarEventActivity()");
 		try{
 			if(calendarEventID == 0){
@@ -832,6 +870,7 @@ public class Common {
 	 * @return boolean - Returns true if the activity can be started.
 	 */
 	public static boolean startContactEditActivity(Context context, NotificationActivity notificationActivity, long contactID, int requestCode){
+		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.startContactEditActivity()");
 		try{
 			if(contactID == 0){
@@ -861,6 +900,7 @@ public class Common {
 	 * @return boolean - Returns true if the activity can be started.
 	 */
 	public static boolean startContactAddActivity(Context context, NotificationActivity notificationActivity, String sentFromAddress, int requestCode){
+		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.startContactAddActivity()");
 		try{
 			Intent intent = new Intent(Intent.ACTION_INSERT);
@@ -878,6 +918,36 @@ public class Common {
 			return false;
 		}
 	}	
+	
+	/**
+	 * Determine if the users phone has a messaging app currently running on the phone.
+	 * 
+	 * @param context - Application Context.
+	 * 
+	 * @return boolean - Returns true if a messaging app is currently running.
+	 */
+	public static boolean isMessagingAppRunning(Context context){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.isInMessagingApp()");
+		ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+	    List <RunningTaskInfo> runningTaskArray = activityManager.getRunningTasks(99999);
+	    Iterator <RunningTaskInfo> runningTaskArrayIterator = runningTaskArray.iterator();
+	    RunningTaskInfo runningTaskInfo = null;
+	    while(runningTaskArrayIterator.hasNext()){
+	    	runningTaskInfo = runningTaskArrayIterator.next();
+	    	ComponentName runningTaskComponent = runningTaskInfo.baseActivity;
+	    	String runningTaskPackageName = runningTaskComponent.getPackageName();
+	        if (_debug) Log.v("Common.isInMessagingApp() runningTaskPackageName: " + runningTaskPackageName);
+	        int messagingPackageNamesArraySize = MESSAGING_PACKAGE_NAMES_ARRAY.length;
+	        for(int i = 0; i < messagingPackageNamesArraySize; i++){
+	        	if (_debug) Log.v("Common.isInMessagingApp() MESSAGING_PACKAGE_NAMES_ARRAY[i]: " + MESSAGING_PACKAGE_NAMES_ARRAY[i]);
+		        if(MESSAGING_PACKAGE_NAMES_ARRAY[i].equals(runningTaskPackageName) || MESSAGING_PACKAGE_NAMES_ARRAY[i].contains(runningTaskPackageName)){
+		        	return true;
+		        }
+	        }
+	    }
+		return false;
+	}
 	
 //	/**
 //	 * Get the service center to use for a reply.
@@ -939,7 +1009,7 @@ public class Common {
 	 * @return String - The message text of the MMS message.
 	 */
 	private static String getMMSTextFromPart(Context context, String messageID) {
-		if (_debug) Log.v("MMSReceiverService.getMMSTextFromPart()");
+		if (_debug) Log.v("Common.getMMSTextFromPart()");
 	    InputStream inputStream = null;
 	    StringBuilder messageText = new StringBuilder();
 	    try {
@@ -954,12 +1024,12 @@ public class Common {
 	            }
 	        }
 	    } catch (Exception ex) {
-	    	if (_debug) Log.e("MMSReceiverService.getMMSTextFromPart() ERROR: " + ex.toString());
+	    	if (_debug) Log.e("Common.getMMSTextFromPart() ERROR: " + ex.toString());
 	    }finally {
 	    	try{
 	    		inputStream.close();
 	    	}catch(Exception ex){
-	    		if (_debug) Log.e("MMSReceiverService.getMMSTextFromPart() ERROR: " + ex.toString());
+	    		if (_debug) Log.e("Common.getMMSTextFromPart() ERROR: " + ex.toString());
 	    	}
 	    }
 	    return messageText.toString();

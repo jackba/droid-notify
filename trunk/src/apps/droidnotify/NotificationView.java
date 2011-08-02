@@ -90,12 +90,12 @@ public class NotificationView extends LinearLayout {
 	private static final String PHONE_HIDE_CALL_BUTTON_KEY = "missed_call_hide_call_button_enabled";
 	private static final String CALENDAR_HIDE_DISMISS_BUTTON_KEY = "calendar_hide_dismiss_button_enabled";
 	private static final String CALENDAR_HIDE_VIEW_BUTTON_KEY = "calendar_hide_view_button_enabled";
-	
 	private static final String SMS_NOTIFICATION_COUNT_ACTION_KEY = "sms_notification_count_action";
 	private static final String MMS_NOTIFICATION_COUNT_ACTION_KEY = "mms_notification_count_action";
 	private static final String PHONE_NOTIFICATION_COUNT_ACTION_KEY = "missed_call_notification_count_action";
 	private static final String CALENDAR_NOTIFICATION_COUNT_ACTION_KEY = "calendar_notification_count_action";
 	private static final String EMAIL_NOTIFICATION_COUNT_ACTION_KEY = "email_notification_count_action";
+	private static final String USER_IN_MESSAGING_APP = "user_in_messaging_app";
 	
 	private static final String APP_THEME_KEY = "app_theme";
 	private static final String ANDROID_THEME = "android";
@@ -680,7 +680,12 @@ public class NotificationView extends LinearLayout {
 			case NOTIFICATION_TYPE_SMS:{
 				//Reply using any installed SMS messaging app.
 				if(_preferences.getString(SMS_REPLY_BUTTON_ACTION_KEY, "0").equals(SMS_MESSAGING_APP_REPLY)){
-					Common.startMessagingAppReplyActivity(_context, _notificationActivity, phoneNumber, SEND_SMS_ACTIVITY);
+					if(Common.startMessagingAppReplyActivity(_context, _notificationActivity, phoneNumber, SEND_SMS_ACTIVITY)){
+						//Set "In Reply Screen" flag.
+						SharedPreferences.Editor editor = _preferences.edit();
+						editor.putBoolean(USER_IN_MESSAGING_APP, true);
+						editor.commit();
+					}
 				}		
 				//Reply using the built in Quick Reply Activity.
 				if(_preferences.getString(SMS_REPLY_BUTTON_ACTION_KEY, "0").equals(SMS_QUICK_REPLY)){
@@ -696,6 +701,10 @@ public class NotificationView extends LinearLayout {
 					    }
 					    intent.putExtra("smsMessage", "");
 				        _notificationActivity.startActivityForResult(intent,SEND_SMS_QUICK_REPLY_ACTIVITY);
+						//Set "In Reply Screen" flag.
+						SharedPreferences.Editor editor = _preferences.edit();
+						editor.putBoolean(USER_IN_MESSAGING_APP, true);
+						editor.commit();
 					}catch(Exception ex){
 						if (_debug) Log.e("NotificationView.replyToMessage() Quick Reply ERROR: " + ex.toString());
 						Toast.makeText(_context, _context.getString(R.string.app_android_quick_reply_app_error), Toast.LENGTH_LONG).show();
@@ -714,7 +723,12 @@ public class NotificationView extends LinearLayout {
 			case NOTIFICATION_TYPE_MMS:{
 				//Reply using any installed SMS messaging app.
 				if(_preferences.getString(MMS_REPLY_BUTTON_ACTION_KEY, "0").equals(MMS_MESSAGING_APP_REPLY)){
-					Common.startMessagingAppReplyActivity(_context, _notificationActivity, phoneNumber, SEND_SMS_ACTIVITY);
+					if(Common.startMessagingAppReplyActivity(_context, _notificationActivity, phoneNumber, SEND_SMS_ACTIVITY)){
+						//Set "In Reply Screen" flag.
+						SharedPreferences.Editor editor = _preferences.edit();
+						editor.putBoolean(USER_IN_MESSAGING_APP, true);
+						editor.commit();
+					}
 				}		
 				//Reply using the built in Quick Reply Activity.
 				if(_preferences.getString(MMS_REPLY_BUTTON_ACTION_KEY, "0").equals(MMS_QUICK_REPLY)){
@@ -730,6 +744,10 @@ public class NotificationView extends LinearLayout {
 					    }
 					    intent.putExtra("smsMessage", "");
 				        _notificationActivity.startActivityForResult(intent,SEND_SMS_QUICK_REPLY_ACTIVITY);
+						//Set "In Reply Screen" flag.
+						SharedPreferences.Editor editor = _preferences.edit();
+						editor.putBoolean(USER_IN_MESSAGING_APP, true);
+						editor.commit();
 					}catch(Exception ex){
 						if (_debug) Log.e("NotificationView.replyToMessage() Quick Reply ERROR: " + ex.toString());
 						Toast.makeText(_context, _context.getString(R.string.app_android_quick_reply_app_error), Toast.LENGTH_LONG).show();

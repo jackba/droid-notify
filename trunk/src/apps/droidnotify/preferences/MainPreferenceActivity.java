@@ -632,6 +632,8 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			buf.newLine();
 			buf.append("sms_hide_message_body_enabled|" + _preferences.getBoolean("sms_hide_message_body_enabled", false) + "|boolean");
 			buf.newLine();
+			buf.append("messaging_app_running_action_sms|" + _preferences.getString("messaging_app_running_action_sms", "0") + "|string");
+			buf.newLine();
 			buf.append("confirm_sms_deletion_enabled|" + _preferences.getBoolean("confirm_sms_deletion_enabled", true) + "|boolean");
 			buf.newLine();
 			buf.append("sms_dismiss_button_action|" + _preferences.getString("sms_dismiss_button_action", "0") + "|string");
@@ -661,6 +663,8 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			buf.newLine();
 			buf.append("mms_hide_message_body_enabled|" + _preferences.getBoolean("mms_hide_message_body_enabled", false) + "|boolean");
 			buf.newLine();
+			buf.append("messaging_app_running_action_mms|" + _preferences.getString("messaging_app_running_action_mms", "0") + "|string");
+			buf.newLine();
 			buf.append("confirm_mms_deletion_enabled|" + _preferences.getBoolean("confirm_mms_deletion_enabled", true) + "|boolean");
 			buf.newLine();
 			buf.append("mms_dismiss_button_action|" + _preferences.getString("mms_dismiss_button_action", "0") + "|string");
@@ -688,6 +692,8 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			buf.newLine();
 			buf.append("missed_call_loading_settings|" + _preferences.getString("missed_call_loading_settings", "0") + "|string");
 			buf.newLine();
+			buf.append("messaging_app_running_action_missed_call|" + _preferences.getString("messaging_app_running_action_missed_call", "0") + "|string");
+			buf.newLine();
 			buf.append("missed_call_dismiss_button_action|" + _preferences.getString("missed_call_dismiss_button_action", "0") + "|string");
 			buf.newLine();
 			buf.append("missed_call_notification_count_action|" + _preferences.getString("missed_call_notification_count_action", "0") + "|string");
@@ -706,6 +712,8 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			buf.append("calendar_notifications_enabled|" + _preferences.getBoolean("calendar_notifications_enabled", true) + "|boolean");
 			buf.newLine();
 			buf.append("calendar_notify_day_of_time|" + _preferences.getString("calendar_notify_day_of_time", "12") + "|string");
+			buf.newLine();
+			buf.append("messaging_app_running_action_calendar|" + _preferences.getString("messaging_app_running_action_calendar", "0") + "|string");
 			buf.newLine();
 			buf.append("calendar_reminders_enabled|" + _preferences.getBoolean("calendar_reminders_enabled", true) + "|boolean");
 			buf.newLine();
@@ -751,6 +759,8 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			buf.newLine();
 
 			//Advanced Settings
+			buf.append("reschedule_notifications_enabled|" + _preferences.getBoolean("reschedule_notifications_enabled", true) + "|boolean");
+			buf.newLine();
 			buf.append("reschedule_notification_timeout_settings|" + _preferences.getString("reschedule_notification_timeout_settings", "5") + "|string");
 			buf.newLine();
 			buf.append("wakelock_timeout_settings|" + _preferences.getString("wakelock_timeout_settings", "300") + "|string");
