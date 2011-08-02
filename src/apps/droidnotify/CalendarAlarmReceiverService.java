@@ -55,12 +55,12 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
     private static final String CALENDAR_INSTANCE_END = "end"; 
     private static final String CALENDAR_EVENT_ALL_DAY = "allDay"; 
     private static final String CALENDAR_DISPLAY_NAME = "displayName"; 
-    private static final String CALENDAR_SELECTED = "selected"; 
+    private static final String CALENDAR_SELECTED = "selected";
+    private static final String CALENDAR_SELECTION_KEY = "calendar_selection";
+	private static final String CALENDAR_NOTIFY_DAY_OF_TIME_KEY = "calendar_notify_day_of_time";
+	private static final String CALENDAR_REMINDERS_ENABLED_KEY = "calendar_reminders_enabled"; 
     private static final String CALENDAR_REMINDER_KEY = "calendar_reminder_settings";
     private static final String CALENDAR_REMINDER_ALL_DAY_KEY = "calendar_reminder_all_day_settings";
-    private static final String CALENDAR_SELECTION_KEY = "calendar_selection";
-	private static final String CALENDAR_NOTIFY_DAY_OF_ENABLED_KEY = "calendar_notify_day_of_enabled";
-	private static final String CALENDAR_NOTIFY_DAY_OF_TIME_KEY = "calendar_notify_day_of_time";
     
 	//================================================================================
     // Properties
@@ -182,18 +182,25 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
 								//Special case for all-day events.
 								eventStartTime = eventStartTime  - timezoneOffsetValue;
 								eventEndTime = eventEndTime  - timezoneOffsetValue;
-								//Only schedule the all day event if the current time is before the notification time.
-								if((eventStartTime - reminderIntervalAllDay) > currentSystemTime){
-									scheduleCalendarNotification(context, eventStartTime - reminderIntervalAllDay, eventTitle, Long.toString(eventStartTime), Long.toString(eventEndTime), Boolean.toString(allDay), calendarName, calendarID.toString(), eventID, "apps.droidnotify.VIEW/" + calendarID + "/" + eventID);
-								}
-								if(preferences.getBoolean(CALENDAR_NOTIFY_DAY_OF_ENABLED_KEY,true)){									
-									scheduleCalendarNotification(context, eventStartTime + dayOfReminderIntervalAllDay, eventTitle, Long.toString(eventStartTime), Long.toString(eventEndTime), Boolean.toString(allDay), calendarName, calendarID.toString(), eventID, "apps.droidnotify.VIEW/" + calendarID + "/" + eventID + "/DAY_OF");
+								//Schedule the notification for the event time.
+								scheduleCalendarNotification(context, eventStartTime + dayOfReminderIntervalAllDay, eventTitle, Long.toString(eventStartTime), Long.toString(eventEndTime), Boolean.toString(allDay), calendarName, calendarID.toString(), eventID, "apps.droidnotify.VIEW/" + calendarID + "/" + eventID);
+								//Schedule the reminder notification if it is enabled.
+								if(preferences.getBoolean(CALENDAR_REMINDERS_ENABLED_KEY,true)){
+									//Only schedule the all day event if the current time is before the notification time.
+									if((eventStartTime - reminderIntervalAllDay) > currentSystemTime){
+										scheduleCalendarNotification(context, eventStartTime - reminderIntervalAllDay, eventTitle, Long.toString(eventStartTime), Long.toString(eventEndTime), Boolean.toString(allDay), calendarName, calendarID.toString(), eventID, "apps.droidnotify.VIEW/" + calendarID + "/" + eventID + "/REMINDER");
+									}
 								}
 							}else{
 								//Schedule non-all-day events.
-								//Only schedule the event if the current time is before the notification time.
-								if((eventStartTime - reminderInterval) > currentSystemTime){
-									scheduleCalendarNotification(context, eventStartTime - reminderInterval, eventTitle, Long.toString(eventStartTime), Long.toString(eventEndTime), Boolean.toString(allDay), calendarName, calendarID.toString(), eventID, "apps.droidnotify.VIEW/" + calendarID + "/" + eventID);
+								//Schedule the notification for the event time.
+								scheduleCalendarNotification(context, eventStartTime, eventTitle, Long.toString(eventStartTime), Long.toString(eventEndTime), Boolean.toString(allDay), calendarName, calendarID.toString(), eventID, "apps.droidnotify.VIEW/" + calendarID + "/" + eventID);
+								//Schedule the reminder notification if it is enabled.
+								if(preferences.getBoolean(CALENDAR_REMINDERS_ENABLED_KEY,true)){
+									//Only schedule the event if the current time is before the notification time.
+									if((eventStartTime - reminderInterval) > currentSystemTime){
+										scheduleCalendarNotification(context, eventStartTime - reminderInterval, eventTitle, Long.toString(eventStartTime), Long.toString(eventEndTime), Boolean.toString(allDay), calendarName, calendarID.toString(), eventID, "apps.droidnotify.VIEW/" + calendarID + "/" + eventID + "/REMINDER");
+									}
 								}
 							}
 						}

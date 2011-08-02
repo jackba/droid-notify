@@ -52,7 +52,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
     // Constants
     //================================================================================
 	
-	//Google Market URL
+	//Android Market URL
 	private static final String RATE_APP_ANDROID_URL = "http://market.android.com/details?id=apps.droidnotify";
 	//Amazon Appstore URL
 	private static final String RATE_APP_AMAZON_URL = "http://www.amazon.com/gp/mas/dl/android?p=apps.droidnotify";
@@ -65,18 +65,16 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	
 	private static final int NOTIFICATION_TYPE_TEST = -1;
 	
+	private static final String RUN_ONCE_EULA = "runOnceEula";
+	private static final String RUN_ONCE_CALENDAR_ALARM = "runOnce_v_2_4";
+	
 	//================================================================================
     // Properties
     //================================================================================
 
     private boolean _debug = false;
     private Context _context = null;
-    private boolean _debugCalendar = false;
     private SharedPreferences _preferences = null;
-
-	//================================================================================
-	// Constructors
-	//================================================================================
 	
 	//================================================================================
 	// Public Methods
@@ -92,7 +90,6 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	    super.onCreate(savedInstanceState);
 	    _debug = Log.getDebug();
 	    if (_debug) Log.v("MainPreferenceActivity.onCreate()");
-	    _debugCalendar = Log.getDebugCalendar();
 	    _context = MainPreferenceActivity.this;
 	    _preferences = PreferenceManager.getDefaultSharedPreferences(_context);
 	    _preferences.registerOnSharedPreferenceChangeListener(this);
@@ -102,11 +99,25 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	    }
 	    addPreferencesFromResource(R.xml.preferences);
 	    setupCustomPreferences();
-	    runOnceAlarmManager();
+	    runOnceCalendarAlarmManager();
 	    setupAppDebugMode(_debug);
 	    setupRateAppPreference();
 	    setupImportPreferences();
 	    runOnceEula();
+	}
+    
+	/**
+	 * When a SharedPreference is changed this registered function is called.
+	 * 
+	 * @param sharedPreferences - The Preference object who's key was changed.
+	 * @param key - The String value of the preference Key who's preference value was changed.
+	 */
+	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+		if (_debug) Log.v("MainPreferenceActivity.onSharedPreferenceChanged() Key: " + key);
+		//The polling time for the calendars was changed. Run the alarm manager with the updated polling time.
+		if(key.equals(CALENDAR_POLLING_FREQUENCY_KEY)){
+			startCalendarAlarmManager(SystemClock.elapsedRealtime() + (30 * 1000));
+		}
 	}
 
 	//================================================================================
@@ -152,20 +163,6 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	    super.onDestroy();
 	    if (_debug) Log.v("MainPreferenceActivity.onDestroy()");
 	}
-    
-	/**
-	 * When a SharedPreference is changed this registered function is called.
-	 * 
-	 * @param sharedPreferences - The Preference object who's key was changed.
-	 * @param key - The String value of the preference Key who's preference value was changed.
-	 */
-	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-		if (_debug) Log.v("MainPreferenceActivity.onSharedPreferenceChanged() Key: " + key);
-		//The polling time for the calendars was changed. Run the alarm manager with the updated polling time.
-		if(key.equals(CALENDAR_POLLING_FREQUENCY_KEY)){
-			startCalendarAlarmManager(SystemClock.elapsedRealtime() + (30 * 1000));
-		}
-	}
 	
 	//================================================================================
 	// Private Methods
@@ -175,7 +172,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	 * Starts the main AlarmManager that will check the users calendar for events.
 	 * This should run only once when the application is installed.
 	 */
-	private void runOnceAlarmManager(){
+	private void runOnceCalendarAlarmManager(){
 		if (_debug) Log.v("MainPreferenceActivity.runOnceAlarmManager()");
 		//Read preferences and exit if app is disabled.
 	    if(!_preferences.getBoolean(APP_ENABLED_KEY, true)){
@@ -187,20 +184,12 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			if (_debug) Log.v("MainPreferenceActivity.runOnceAlarmManager() Calendar Notifications Disabled. Exiting... ");
 			return;
 		}
-		boolean runOnce = _preferences.getBoolean("runOnce_v_2_4", true);
-		if(runOnce || _debugCalendar) {
+		boolean runOnce = _preferences.getBoolean(RUN_ONCE_CALENDAR_ALARM, true);
+		if(runOnce) {
 			SharedPreferences.Editor editor = _preferences.edit();
-			editor.putBoolean("runOnce_v_2_4", false);
+			editor.putBoolean(RUN_ONCE_CALENDAR_ALARM, false);
 			editor.commit();
-			if(_debugCalendar){
-				//--------------------------------
-				//Set alarm to go off 30 seconds from the current time.
-				//This line of code is for testing.
-				startCalendarAlarmManager(SystemClock.elapsedRealtime() + (30 * 1000));
-				//--------------------------------
-			}else{
-				startCalendarAlarmManager(SystemClock.elapsedRealtime() + (5 * 60 * 1000));
-			}
+			startCalendarAlarmManager(SystemClock.elapsedRealtime() + (5 * 60 * 1000));
        }
 	}
 	
@@ -225,11 +214,11 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	 */
 	private void runOnceEula(){
 		if (_debug) Log.v("MainPreferenceActivity.runOnceEula()");
-		boolean runOnceEula = _preferences.getBoolean("runOnceEula", true);
+		boolean runOnceEula = _preferences.getBoolean(RUN_ONCE_EULA, true);
 		if(runOnceEula) {
 			try{
 				SharedPreferences.Editor editor = _preferences.edit();
-				editor.putBoolean("runOnceEula", false);
+				editor.putBoolean(RUN_ONCE_EULA, false);
 				editor.commit();
 				displayHTMLAlertDialog(_context.getString(R.string.app_license),R.drawable.ic_dialog_info,_context.getString(R.string.eula_text));
 			}catch(Exception ex){
@@ -716,6 +705,14 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			
 			buf.append("calendar_notifications_enabled|" + _preferences.getBoolean("calendar_notifications_enabled", true) + "|boolean");
 			buf.newLine();
+			buf.append("calendar_notify_day_of_time|" + _preferences.getString("calendar_notify_day_of_time", "12") + "|string");
+			buf.newLine();
+			buf.append("calendar_reminders_enabled|" + _preferences.getBoolean("calendar_reminders_enabled", true) + "|boolean");
+			buf.newLine();
+			buf.append("calendar_reminder_settings|" + _preferences.getString("calendar_reminder_settings", "15") + "|string");
+			buf.newLine();
+			buf.append("calendar_reminder_all_day_settings|" + _preferences.getString("calendar_reminder_all_day_settings", "6") + "|string");
+			buf.newLine();
 			buf.append("calendar_polling_frequency|" + _preferences.getString("calendar_polling_frequency", "15") + "|string");
 			buf.newLine();
 			buf.append("calendar_selection|" + _preferences.getString("calendar_selection", "0") + "|string");
@@ -729,14 +726,6 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			buf.append("calendar_hide_dismiss_button_enabled|" + _preferences.getBoolean("calendar_hide_dismiss_button_enabled", false) + "|boolean");
 			buf.newLine();
 			buf.append("calendar_hide_view_button_enabled|" + _preferences.getBoolean("calendar_hide_view_button_enabled", false) + "|boolean");
-			buf.newLine();
-			buf.append("calendar_reminder_settings|" + _preferences.getString("calendar_reminder_settings", "15") + "|string");
-			buf.newLine();
-			buf.append("calendar_reminder_all_day_settings|" + _preferences.getString("calendar_reminder_all_day_settings", "6") + "|string");
-			buf.newLine();
-			buf.append("calendar_notify_day_of_enabled|" + _preferences.getBoolean("calendar_notify_day_of_enabled", true) + "|boolean");
-			buf.newLine();
-			buf.append("calendar_notify_day_of_time|" + _preferences.getString("calendar_notify_day_of_time", "12") + "|string");
 			buf.newLine();
 			buf.append("calendar_vibrate_enabled|" + _preferences.getBoolean("calendar_vibrate_enabled", true) + "|boolean");
 			buf.newLine();

@@ -243,18 +243,18 @@
    	<string name="preference_calendar_ringtone_enabled_summaryOff">Calendar notifications will not play a ringtone on arrival.</string>
    	<string name="preference_calendar_vibrate_settings">Calendar Vibrate Settings</string>
    	<string name="preference_calendar_ringtone_settings">Calendar Ringtone Settings</string>
-   	
+   	<string name="event_reminder_settings_text">Event Reminder Settings</string>
    	<string name="all_day_event_reminders_text">All-Day Event Reminders</string>
-   	<string name="all_day_event_reminder_setting_text">All-Day Event Reminder Setting</string>
-   	<string name="preference_event_reminder_settings">Event Reminder Settings</string>
+   	<string name="all_day_event_reminder_setting_text">All-Day Event Settings</string>
+   	<string name="preference_event_reminder_settings">Event Settings</string>
     <string name="preference_event_reminder_summary">How early do you want to be reminded about an upcoming event?</string>
     <string name="preference_event_reminder_all_day_settings">All-Day Event Reminder Settings</string>
     <string name="preference_event_reminder_all_day_summary">How early do you want to be reminded about an upcoming All-Day event?</string>
-    <string name="preference_calendar_all_day_notify_day_of_time_title">Day Of Reminder Time</string>
-    <string name="preference_calendar_all_day_notify_day_of_time_summary">When do you want to be reminded about the day of an All-Day event?</string>
-    <string name="preference_calendar_all_day_notify_day_of_enabled_title">Notify Day Of Event</string>
-   	<string name="preference_calendar_all_day_notify_day_of_enabled_summaryOn">For All-Day events you will be notified on the day of the event.</string>
-   	<string name="preference_calendar_all_day_notify_day_of_enabled_summaryOff">For All-Day events you will not be notified on the day of the event.</string>
+    <string name="preference_calendar_all_day_notify_day_of_time_title">All-Day Notification Time</string>
+    <string name="preference_calendar_all_day_notify_day_of_time_summary">For All-Day events, when do you want to be reminded of the event?</string>
+    <string name="preference_calendar_reminders_enabled_title">Send Event Reminders</string>
+   	<string name="preference_calendar_reminders_enabled_summaryOn">A reminder notification will be sent before the calendar event occurs.</string>
+   	<string name="preference_calendar_reminders_enabled_summaryOff">No reminder will be sent before the calendar event occurs.</string>
     
     <string name="preference_show_hide_buttons_settings">Show/Hide Button Settings</string>
     <string name="preference_hide_dismiss_button_enabled_title">Hide Dismiss Button</string>
