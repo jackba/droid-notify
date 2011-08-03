@@ -70,19 +70,21 @@ public class CalendarNotificationAlarmReceiver extends BroadcastReceiver {
 	    boolean callStateIdle = telemanager.getCallState() == TelephonyManager.CALL_STATE_IDLE;
 	    boolean inMessagingApp = preferences.getBoolean(USER_IN_MESSAGING_APP, false);
 	    boolean messagingAppRunning = Common.isMessagingAppRunning(context);
-	    if(callStateIdle && !inMessagingApp){
-	    	rescheduleNotification = true;
-	    }
 	    String messagingAppRuningAction = preferences.getString(MESSAGING_APP_RUNNING_ACTION_CALENDAR, "0");
-	    //Reschedule notification based on the users preferences.
-	    if(messagingAppRuningAction.equals(MESSAGING_APP_RUNNING_ACTION_RESCHEDULE)){
+	    if(!callStateIdle || inMessagingApp){
+	    	rescheduleNotification = true;
+	    }else{
+	    	//Messaging App is running.
 	    	if(messagingAppRunning){
-	    		rescheduleNotification = true;
+	    		//Reschedule notification based on the users preferences.
+			    if(messagingAppRuningAction.equals(MESSAGING_APP_RUNNING_ACTION_RESCHEDULE)){
+					rescheduleNotification = true;
+			    }
+			    //Ignore notification based on the users preferences.
+			    if(messagingAppRuningAction.equals(MESSAGING_APP_RUNNING_ACTION_IGNORE)){
+			    	return;
+			    }
 	    	}
-	    }
-	    //Ignore notification based on the users preferences.
-	    if(messagingAppRuningAction.equals(MESSAGING_APP_RUNNING_ACTION_IGNORE)){
-	    	return;
 	    }
 	    if(!rescheduleNotification){
 			WakefulIntentService.acquireStaticLock(context);
