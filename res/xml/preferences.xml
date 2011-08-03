@@ -51,6 +51,39 @@
 			android:title="@string/basic_settings_text"
 			android:dependency="app_enabled">
 			<PreferenceCategory
+				android:key="basic_settings_inner_category"
+				android:title="@string/basic_settings_text">
+				<apps.droidnotify.preferences.ImageListPreference
+					android:key="app_theme"
+					android:title="@string/theme_text"
+					android:summary="@string/preference_theme_summary"
+					android:entries="@array/theme_options"
+					android:entryValues="@array/theme_values"
+					droidnotify:entryImages="@array/theme_images"
+					android:defaultValue="android" />
+				<ListPreference
+					android:key="phone_number_format_settings"
+					android:title="@string/preference_phone_number_format"
+					android:summary="@string/preference_phone_number_format_summary"
+					android:defaultValue="1"
+					android:entries="@array/phone_number_format_options"
+					android:entryValues="@array/phone_number_format_options_values" />
+				<apps.droidnotify.preferences.ImageListPreference
+					android:key="contact_placeholder"
+					android:title="@string/preference_contact_placeholder_image"
+					android:summary="@string/preference_contact_placeholder_image_summary"
+					android:entries="@array/contact_placeholder_options"
+					android:entryValues="@array/contact_placeholder_values"
+					android:defaultValue="0"
+					droidnotify:entryImages="@array/contact_placeholder_images" />
+				<CheckBoxPreference
+					android:key="button_icons_enabled" 
+					android:title="@string/preference_button_icons_enabled_title" 
+					android:summaryOn="@string/preference_button_icons_enabled_summaryOn" 
+					android:summaryOff="@string/preference_button_icons_enabled_summaryOff" 
+					android:defaultValue="true" />
+			</PreferenceCategory>
+			<PreferenceCategory
 				android:key="quick_reply_settings_category"
 				android:title="@string/quick_reply_settings_text">
 				<PreferenceScreen
@@ -85,8 +118,7 @@
 						android:dependency="quick_reply_dim_screen_background_enabled" />
 					<PreferenceScreen
 							android:key="quick_reply_show_hide_buttons_settings_screen"
-							android:title="@string/preference_show_hide_buttons_settings"
-							android:dependency="app_enabled">
+							android:title="@string/preference_show_hide_buttons_settings">
 							<CheckBoxPreference 
 								android:key="quick_reply_hide_cancel_button_enabled" 
 								android:title="@string/preference_hide_cancel_button_enabled_title" 
@@ -96,37 +128,6 @@
 					</PreferenceScreen>
 				</PreferenceScreen>
 			</PreferenceCategory>
-			<apps.droidnotify.preferences.ImageListPreference
-				android:key="app_theme"
-				android:title="@string/theme_text"
-				android:summary="@string/preference_theme_summary"
-				android:entries="@array/theme_options"
-				android:entryValues="@array/theme_values"
-				droidnotify:entryImages="@array/theme_images"
-				android:defaultValue="android"
-				android:dependency="app_enabled" />
-			<ListPreference
-				android:key="phone_number_format_settings"
-				android:title="@string/preference_phone_number_format"
-				android:summary="@string/preference_phone_number_format_summary"
-				android:defaultValue="1"
-				android:entries="@array/phone_number_format_options"
-				android:entryValues="@array/phone_number_format_options_values"
-				android:dependency="app_enabled" />
-			<apps.droidnotify.preferences.ImageListPreference
-				android:key="contact_placeholder"
-				android:title="@string/preference_contact_placeholder_image"
-				android:summary="@string/preference_contact_placeholder_image_summary"
-				android:entries="@array/contact_placeholder_options"
-				android:entryValues="@array/contact_placeholder_values"
-				android:defaultValue="0"
-				droidnotify:entryImages="@array/contact_placeholder_images" />
-			<CheckBoxPreference
-				android:key="button_icons_enabled" 
-        		android:title="@string/preference_button_icons_enabled_title" 
-        		android:summaryOn="@string/preference_button_icons_enabled_summaryOn" 
-        		android:summaryOff="@string/preference_button_icons_enabled_summaryOff" 
-        		android:defaultValue="true" />
 		</PreferenceScreen>
 	</PreferenceCategory>
 	<PreferenceCategory
@@ -138,8 +139,7 @@
 			android:dependency="app_enabled">		
 			<PreferenceScreen
 				android:key="sms_notification_settings_screen"
-				android:title="@string/preference_sms_notifications"
-				android:dependency="app_enabled">
+				android:title="@string/preference_sms_notifications">
 				<PreferenceCategory
 					android:key="sms_notification_settings_category"
 					android:title="@string/preference_sms_notifications">
@@ -156,20 +156,32 @@
 						android:summaryOff="@string/preference_sms_display_unread_enabled_summaryOff" 
 						android:defaultValue="false"
 						android:dependency="sms_notifications_enabled" />
-					<CheckBoxPreference 
-						android:key="sms_hide_message_body_enabled" 
-						android:title="@string/preference_sms_hide_message_body_enabled_title" 
-						android:summaryOn="@string/preference_sms_hide_message_body_enabled_summaryOn" 
-						android:summaryOff="@string/preference_sms_hide_message_body_enabled_summaryOff" 
-						android:defaultValue="false"
-						android:dependency="sms_notifications_enabled" />	
+					<PreferenceScreen
+						android:key="sms_message_body_settings_screen"
+						android:title="@string/message_body_settings_text"
+						android:dependency="sms_notifications_enabled">
+						<ListPreference
+							android:key="sms_message_body_font_size"
+							android:title="@string/preference_sms_message_body_font_size_title"
+							android:summary="@string/preference_sms_message_body_font_size_summary"
+							android:defaultValue="14"
+							android:entries="@array/message_body_font_size_options"
+							android:entryValues="@array/message_body_font_size_options_values" />	
+						<CheckBoxPreference 
+							android:key="sms_hide_message_body_enabled" 
+							android:title="@string/preference_sms_hide_message_body_enabled_title" 
+							android:summaryOn="@string/preference_sms_hide_message_body_enabled_summaryOn" 
+							android:summaryOff="@string/preference_sms_hide_message_body_enabled_summaryOff" 
+							android:defaultValue="false" />	
+					</PreferenceScreen>		
 					<ListPreference
 						android:key="messaging_app_running_action_sms"
 						android:title="@string/messaging_app_running_action_text"
 						android:summary="@string/messaging_app_running_action_sms_summary"
 						android:defaultValue="0"
 						android:entries="@array/messaging_app_running_action_options"
-						android:entryValues="@array/messaging_app_running_action_options_values" />
+						android:entryValues="@array/messaging_app_running_action_options_values"
+						android:dependency="sms_notifications_enabled" />
 					<PreferenceScreen
 						android:key="sms_button_settings_screen"
 						android:title="@string/preference_sms_button_settings"
@@ -210,8 +222,7 @@
 							android:entryValues="@array/sms_notification_count_button_options_values"/>	
 						<PreferenceScreen
 							android:key="sms_show_hide_buttons_settings_screen"
-							android:title="@string/preference_show_hide_buttons_settings"
-							android:dependency="sms_notifications_enabled">
+							android:title="@string/preference_show_hide_buttons_settings">
 							<CheckBoxPreference 
 								android:key="sms_hide_dismiss_button_enabled" 
 								android:title="@string/preference_hide_dismiss_button_enabled_title" 
@@ -284,20 +295,32 @@
 						android:summaryOff="@string/preference_mms_display_unread_enabled_summaryOff" 
 						android:defaultValue="false"
 						android:dependency="mms_notifications_enabled" />
-					<CheckBoxPreference 
-						android:key="mms_hide_message_body_enabled" 
-						android:title="@string/preference_mms_hide_message_body_enabled_title" 
-						android:summaryOn="@string/preference_mms_hide_message_body_enabled_summaryOn" 
-						android:summaryOff="@string/preference_mms_hide_message_body_enabled_summaryOff" 
-						android:defaultValue="false"
-						android:dependency="mms_notifications_enabled" />	
+					<PreferenceScreen
+						android:key="mms_message_body_settings_screen"
+						android:title="@string/message_body_settings_text"
+						android:dependency="mms_notifications_enabled">	
+						<ListPreference
+							android:key="mms_message_body_font_size"
+							android:title="@string/preference_mms_message_body_font_size_title"
+							android:summary="@string/preference_mms_message_body_font_size_summary"
+							android:defaultValue="14"
+							android:entries="@array/message_body_font_size_options"
+							android:entryValues="@array/message_body_font_size_options_values" />	
+						<CheckBoxPreference 
+							android:key="mms_hide_message_body_enabled" 
+							android:title="@string/preference_mms_hide_message_body_enabled_title" 
+							android:summaryOn="@string/preference_mms_hide_message_body_enabled_summaryOn" 
+							android:summaryOff="@string/preference_mms_hide_message_body_enabled_summaryOff" 
+							android:defaultValue="false" />
+					</PreferenceScreen>		
 					<ListPreference
 						android:key="messaging_app_running_action_mms"
 						android:title="@string/messaging_app_running_action_text"
 						android:summary="@string/messaging_app_running_action_mms_summary"
 						android:defaultValue="0"
 						android:entries="@array/messaging_app_running_action_options"
-						android:entryValues="@array/messaging_app_running_action_options_values" />
+						android:entryValues="@array/messaging_app_running_action_options_values"
+						android:dependency="mms_notifications_enabled" />
 					<PreferenceScreen
 						android:key="mms_button_settings_screen"
 						android:title="@string/preference_mms_button_settings"
@@ -338,8 +361,7 @@
 							android:entryValues="@array/mms_notification_count_button_options_values"/>
 						<PreferenceScreen
 							android:key="mms_show_hide_buttons_settings_screen"
-							android:title="@string/preference_show_hide_buttons_settings"
-							android:dependency="mms_notifications_enabled">
+							android:title="@string/preference_show_hide_buttons_settings">
 							<CheckBoxPreference 
 								android:key="mms_hide_dismiss_button_enabled" 
 								android:title="@string/preference_hide_dismiss_button_enabled_title" 
@@ -419,7 +441,8 @@
 						android:summary="@string/messaging_app_running_action_missed_call_summary"
 						android:defaultValue="0"
 						android:entries="@array/messaging_app_running_action_options"
-						android:entryValues="@array/messaging_app_running_action_options_values" />
+						android:entryValues="@array/messaging_app_running_action_options_values"
+						android:dependency="missed_call_notifications_enabled" />
 					<PreferenceScreen
 						android:key="missed_call_button_settings_screen"
 						android:title="@string/preference_missed_call_button_settings"
@@ -440,8 +463,7 @@
 							android:entryValues="@array/missed_call_notification_count_button_options_values"/>
 						<PreferenceScreen
 							android:key="missed_call_show_hide_buttons_settings_screen"
-							android:title="@string/preference_show_hide_buttons_settings"
-							android:dependency="missed_call_notifications_enabled">
+							android:title="@string/preference_show_hide_buttons_settings">
 							<CheckBoxPreference 
 								android:key="missed_call_hide_dismiss_button_enabled" 
 								android:title="@string/preference_hide_dismiss_button_enabled_title" 
@@ -515,7 +537,20 @@
 						android:summary="@string/messaging_app_running_action_calendar_summary"
 						android:defaultValue="0"
 						android:entries="@array/messaging_app_running_action_options"
-						android:entryValues="@array/messaging_app_running_action_options_values" />
+						android:entryValues="@array/messaging_app_running_action_options_values"
+						android:dependency="calendar_notifications_enabled" />
+					<PreferenceScreen
+						android:key="calendar_message_body_settings_screen"
+						android:title="@string/event_body_settings_text"
+						android:dependency="calendar_notifications_enabled">	
+						<ListPreference
+							android:key="calendar_message_body_font_size"
+							android:title="@string/preference_calendar_event_body_font_size_title"
+							android:summary="@string/preference_calendar_event_body_font_size_summary"
+							android:defaultValue="14"
+							android:entries="@array/message_body_font_size_options"
+							android:entryValues="@array/message_body_font_size_options_values" />
+					</PreferenceScreen>
 					<CheckBoxPreference 
 						android:key="calendar_reminders_enabled" 
 						android:title="@string/preference_calendar_reminders_enabled_title" 
@@ -582,8 +617,7 @@
 							android:entryValues="@array/calendar_notification_count_button_options_values"/>
 						<PreferenceScreen
 							android:key="calendar_show_hide_buttons_settings_screen"
-							android:title="@string/preference_show_hide_buttons_settings"
-							android:dependency="calendar_notifications_enabled">
+							android:title="@string/preference_show_hide_buttons_settings">
 							<CheckBoxPreference 
 								android:key="calendar_hide_dismiss_button_enabled" 
 								android:title="@string/preference_hide_dismiss_button_enabled_title" 
@@ -693,81 +727,91 @@
 		<PreferenceScreen
 			android:key="advanced_settings_screen"
 			android:title="@string/advanced_settings_text"
-			android:dependency="app_enabled">
-			<CheckBoxPreference
-				android:key="reschedule_notifications_enabled" 
-        		android:title="@string/reschedule_notifications_text" 
-        		android:summaryOn="@string/preference_reschedule_notifications_enabled_summaryOn" 
-        		android:summaryOff="@string/preference_reschedule_notifications_enabled_summaryOff" 
-        		android:defaultValue="true" />
-			<PreferenceScreen
-				android:key="reschedule_notifications_screen"
-				android:title="@string/reschedule_settings_text"
-				android:dependency="reschedule_notifications_enabled">	
+			android:dependency="app_enabled">	
+			<PreferenceCategory
+				android:key="advanced_settings_inner_category"
+				android:title="@string/advanced_settings_text">
 				<ListPreference
-					android:key="reschedule_notification_timeout_settings"
-					android:title="@string/reschedule_tinmeout_text"
-					android:summary="@string/preference_reschedule_timeout_summary"
+					android:key="wakelock_timeout_settings"
+					android:title="@string/preference_wakelock_timeout"
+					android:summary="@string/preference_wakelock_timeout_summary"
+					android:defaultValue="300"
+					android:entries="@array/wakelock_timeout_options"
+					android:entryValues="@array/wakelock_timeout_options_values" />
+				<ListPreference
+					android:key="keyguard_timeout_settings"
+					android:title="@string/preference_keyguard_timeout"
+					android:summary="@string/preference_keyguard_timeout_summary"
+					android:defaultValue="300"
+					android:entries="@array/keyguard_timeout_options"
+					android:entryValues="@array/keyguard_timeout_options_values"
+					android:dependency="keyguard_enabled" />
+				<ListPreference
+					android:key="quick_reply_sms_gateway_settings"
+					android:title="@string/preference_quick_reply_sms_gateway"
+					android:summary="@string/preference_quick_reply_sms_gateway_summary"
+					android:defaultValue="1"
+					android:entries="@array/quick_reply_sms_gateway_options"
+					android:entryValues="@array/quick_reply_sms_gateway_options_values" />
+				<ListPreference
+					android:key="mms_timeout_settings"
+					android:title="@string/preference_mms_timeout"
+					android:summary="@string/preference_mms_timeout_summary"
+					android:defaultValue="40"
+					android:entries="@array/mms_timeout_options"
+					android:entryValues="@array/mms_timeout_options_values"
+					android:dependency="mms_notifications_enabled" />
+				<ListPreference
+					android:key="call_log_timeout_settings"
+					android:title="@string/preference_call_log_timeout"
+					android:summary="@string/preference_call_log_timeout_summary"
 					android:defaultValue="5"
-					android:entries="@array/reschedule_notification_timeout_options"
-					android:entryValues="@array/reschedule_notification_timeout_options_values" />
-			</PreferenceScreen>	
-			<ListPreference
-				android:key="wakelock_timeout_settings"
-				android:title="@string/preference_wakelock_timeout"
-				android:summary="@string/preference_wakelock_timeout_summary"
-				android:defaultValue="300"
-				android:entries="@array/wakelock_timeout_options"
-				android:entryValues="@array/wakelock_timeout_options_values"
-				android:dependency="app_enabled" />
-			<ListPreference
-				android:key="keyguard_timeout_settings"
-				android:title="@string/preference_keyguard_timeout"
-				android:summary="@string/preference_keyguard_timeout_summary"
-				android:defaultValue="300"
-				android:entries="@array/keyguard_timeout_options"
-				android:entryValues="@array/keyguard_timeout_options_values"
-				android:dependency="keyguard_enabled" />
-			<ListPreference
-				android:key="quick_reply_sms_gateway_settings"
-				android:title="@string/preference_quick_reply_sms_gateway"
-				android:summary="@string/preference_quick_reply_sms_gateway_summary"
-				android:defaultValue="1"
-				android:entries="@array/quick_reply_sms_gateway_options"
-				android:entryValues="@array/quick_reply_sms_gateway_options_values"
-				android:dependency="sms_notifications_enabled" />
-			<ListPreference
-				android:key="mms_timeout_settings"
-				android:title="@string/preference_mms_timeout"
-				android:summary="@string/preference_mms_timeout_summary"
-				android:defaultValue="40"
-				android:entries="@array/mms_timeout_options"
-				android:entryValues="@array/mms_timeout_options_values"
-				android:dependency="mms_notifications_enabled" />
-			<ListPreference
-				android:key="call_log_timeout_settings"
-				android:title="@string/preference_call_log_timeout"
-				android:summary="@string/preference_call_log_timeout_summary"
-				android:defaultValue="5"
-				android:entries="@array/call_log_timeout_options"
-				android:entryValues="@array/call_log_timeout_options_values"
-				android:dependency="missed_call_notifications_enabled" />
-			<ListPreference
-				android:key="ringtone_length_settings"
-				android:title="@string/preference_ringtone_length"
-				android:summary="@string/preference_ringtone_length_summary"
-				android:defaultValue="3"
-				android:entries="@array/ringtone_length_options"
-				android:entryValues="@array/ringtone_length_options_values"
-				android:dependency="app_ringtones_enabled" />
-			<Preference
-            	android:key="export_preferences"
-        		android:title="@string/preference_export_preferences_title"
-          		android:summary="@string/preference_export_preferences_summary" />
-			<Preference
-            	android:key="import_preferences"
-        		android:title="@string/preference_import_preferences_title"
-          		android:summary="@string/preference_import_preferences_summary" />
+					android:entries="@array/call_log_timeout_options"
+					android:entryValues="@array/call_log_timeout_options_values"
+					android:dependency="missed_call_notifications_enabled" />
+				<ListPreference
+					android:key="ringtone_length_settings"
+					android:title="@string/preference_ringtone_length"
+					android:summary="@string/preference_ringtone_length_summary"
+					android:defaultValue="3"
+					android:entries="@array/ringtone_length_options"
+					android:entryValues="@array/ringtone_length_options_values"
+					android:dependency="app_ringtones_enabled" />
+          	</PreferenceCategory>	
+			<PreferenceCategory
+				android:key="reschedule_settings_category"
+				android:title="@string/reschedule_settings_text">
+				<CheckBoxPreference
+					android:key="reschedule_notifications_enabled" 
+        			android:title="@string/reschedule_notifications_text" 
+        			android:summaryOn="@string/preference_reschedule_notifications_enabled_summaryOn" 
+        			android:summaryOff="@string/preference_reschedule_notifications_enabled_summaryOff" 
+        			android:defaultValue="true" />
+				<PreferenceScreen
+					android:key="reschedule_notifications_screen"
+					android:title="@string/reschedule_settings_text"
+					android:dependency="reschedule_notifications_enabled">	
+					<ListPreference
+						android:key="reschedule_notification_timeout_settings"
+						android:title="@string/reschedule_tinmeout_text"
+						android:summary="@string/preference_reschedule_timeout_summary"
+						android:defaultValue="5"
+						android:entries="@array/reschedule_notification_timeout_options"
+						android:entryValues="@array/reschedule_notification_timeout_options_values" />
+				</PreferenceScreen>	
+			</PreferenceCategory>
+			<PreferenceCategory
+				android:key="import_export_category"
+				android:title="@string/import_export_text">
+				<Preference
+					android:key="export_preferences"
+					android:title="@string/preference_export_preferences_title"
+					android:summary="@string/preference_export_preferences_summary" />
+				<Preference
+					android:key="import_preferences"
+					android:title="@string/preference_import_preferences_title"
+					android:summary="@string/preference_import_preferences_summary" />	
+			</PreferenceCategory>	
 		</PreferenceScreen>
 	</PreferenceCategory>
 	<PreferenceCategory

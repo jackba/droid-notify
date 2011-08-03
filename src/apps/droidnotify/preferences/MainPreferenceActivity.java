@@ -633,6 +633,8 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			buf.newLine();
 			buf.append("sms_display_unread_enabled|" + _preferences.getBoolean("sms_display_unread_enabled", false) + "|boolean");
 			buf.newLine();
+			buf.append("sms_message_body_font_size|" + _preferences.getString("sms_message_body_font_size", "14") + "|string");
+			buf.newLine();
 			buf.append("sms_hide_message_body_enabled|" + _preferences.getBoolean("sms_hide_message_body_enabled", false) + "|boolean");
 			buf.newLine();
 			buf.append("messaging_app_running_action_sms|" + _preferences.getString("messaging_app_running_action_sms", "0") + "|string");
@@ -663,6 +665,8 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			buf.append("mms_notifications_enabled|" + _preferences.getBoolean("mms_notifications_enabled", true) + "|boolean");
 			buf.newLine();
 			buf.append("mms_display_unread_enabled|" + _preferences.getBoolean("mms_display_unread_enabled", false) + "|boolean");
+			buf.newLine();
+			buf.append("mms_message_body_font_size|" + _preferences.getString("mms_message_body_font_size", "14") + "|string");
 			buf.newLine();
 			buf.append("mms_hide_message_body_enabled|" + _preferences.getBoolean("mms_hide_message_body_enabled", false) + "|boolean");
 			buf.newLine();
@@ -717,6 +721,8 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			buf.append("calendar_notify_day_of_time|" + _preferences.getString("calendar_notify_day_of_time", "12") + "|string");
 			buf.newLine();
 			buf.append("messaging_app_running_action_calendar|" + _preferences.getString("messaging_app_running_action_calendar", "0") + "|string");
+			buf.newLine();
+			buf.append("calendar_message_body_font_size|" + _preferences.getString("calendar_message_body_font_size", "14") + "|string");
 			buf.newLine();
 			buf.append("calendar_reminders_enabled|" + _preferences.getBoolean("calendar_reminders_enabled", true) + "|boolean");
 			buf.newLine();
@@ -944,11 +950,15 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	 */
 	private boolean checkPreferencesFileExists(String directory, String file){
 		if (_debug) Log.v("MainPreferenceActivity.checkPreferencesFileExists()");
-		File preferencesFilePath = Environment.getExternalStoragePublicDirectory(directory);
-    	File preferencesFile = new File(preferencesFilePath, file);
-    	if (preferencesFile.exists()){
-			return true;
-		}else{
+		try{
+			File preferencesFilePath = Environment.getExternalStoragePublicDirectory(directory);
+	    	File preferencesFile = new File(preferencesFilePath, file);
+	    	if (preferencesFile.exists()){
+				return true;
+			}else{
+				return false;
+			}
+		}catch(Exception ex){
 			return false;
 		}
 	}

@@ -95,6 +95,9 @@ public class NotificationView extends LinearLayout {
 	private static final String PHONE_NOTIFICATION_COUNT_ACTION_KEY = "missed_call_notification_count_action";
 	private static final String CALENDAR_NOTIFICATION_COUNT_ACTION_KEY = "calendar_notification_count_action";
 	private static final String EMAIL_NOTIFICATION_COUNT_ACTION_KEY = "email_notification_count_action";
+	private static final String SMS_MESSAGE_BODY_FONT_SIZE = "sms_message_body_font_size";
+	private static final String MMS_MESSAGE_BODY_FONT_SIZE = "mms_message_body_font_size";
+	private static final String CALENDAR_MESSAGE_BODY_FONT_SIZE = "calendar_message_body_font_size";
 	private static final String USER_IN_MESSAGING_APP = "user_in_messaging_app";
 	
 	private static final String APP_THEME_KEY = "app_theme";
@@ -529,6 +532,8 @@ public class NotificationView extends LinearLayout {
 			_contactNumberTextView.setVisibility(View.GONE);
 			_photoImageView.setVisibility(View.GONE);
 			_photoProgressBar.setVisibility(View.GONE);
+			float messagebodyfontSize = Float.parseFloat(_preferences.getString(CALENDAR_MESSAGE_BODY_FONT_SIZE, "14"));
+			_notificationDetailsTextView.setTextSize(messagebodyfontSize);
 		}else{
 			_contactNameTextView.setText(notification.getContactName());
 			String sentFromAddress = notification.getSentFromAddress();
@@ -541,11 +546,17 @@ public class NotificationView extends LinearLayout {
 		if(_notificationType == NOTIFICATION_TYPE_SMS){
 			if(_preferences.getBoolean(SMS_HIDE_MESSAGE_KEY, false)){
 				_notificationDetailsTextView.setVisibility(View.GONE);
+			}else{
+				float messagebodyfontSize = Float.parseFloat(_preferences.getString(SMS_MESSAGE_BODY_FONT_SIZE, "14"));
+				_notificationDetailsTextView.setTextSize(messagebodyfontSize);
 			}
 		}
 		if(_notificationType == NOTIFICATION_TYPE_MMS){
 			if(_preferences.getBoolean(MMS_HIDE_MESSAGE_KEY, false)){
 				_notificationDetailsTextView.setVisibility(View.GONE);
+			}else{
+				float messagebodyfontSize = Float.parseFloat(_preferences.getString(MMS_MESSAGE_BODY_FONT_SIZE, "14"));
+				_notificationDetailsTextView.setTextSize(messagebodyfontSize);
 			}
 		}
 		if(_notificationType == NOTIFICATION_TYPE_PHONE){
