@@ -177,7 +177,8 @@ public class Common {
 						phoneSortOrder); 
 				while (phoneCursor.moveToNext()) { 
 					String contactNumber = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-					if(removeFormatting(incomingNumber).equals(removeFormatting(contactNumber))){
+					if(isPhoneNumberEqual(contactNumber, incomingNumber)){
+					//if(removeFormatting(incomingNumber).equals(removeFormatting(contactNumber))){
 						_contactID = Long.parseLong(contactID);
 		    		  	if(contactName != null){
 		    		  		_contactName = contactName;
@@ -273,27 +274,6 @@ public class Common {
 			if (_debug) Log.e("Common.loadContactsInfoByEmail() ERROR: " + ex.toString());
 			return null;
 		}
-	}
-
-	/**
-	 * Remove all non-numeric items from the phone number.
-	 * 
-	 * @param phoneNumber - String of original phone number.
-	 * 
-	 * @return String - String of phone number with no formatting.
-	 */
-	public static String removeFormatting(String phoneNumber){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.removeFormatting()");
-		phoneNumber = phoneNumber.replace("-", "");
-		phoneNumber = phoneNumber.replace("+", "");
-		phoneNumber = phoneNumber.replace("(", "");
-		phoneNumber = phoneNumber.replace(")", "");
-		phoneNumber = phoneNumber.replace(" ", "");
-		if(phoneNumber.length() > 10){
-			phoneNumber = phoneNumber.substring(phoneNumber.length() - 10, phoneNumber.length());
-		}	
-		return phoneNumber.trim();
 	}
 	
 	/**
@@ -1033,6 +1013,62 @@ public class Common {
 	    	}
 	    }
 	    return messageText.toString();
+	}
+	
+	/**
+	 * Compares the two strings. 
+	 * If the second string is larger ends with the first string, return true.
+	 * If the first string is larger ends with the second string, return true.
+	 * 
+	 * @param contactNumber - The address books phone number.
+	 * @param incomingNumber - The incoming phone number.
+	 * 
+	 * @return - boolean - 	 If the second string is larger ends with the first string, return true.
+	 *                       If the first string is larger ends with the second string, return true.
+	 */
+	private static boolean isPhoneNumberEqual(String contactNumber, String incomingNumber){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.isPhoneNumberEqual()");
+		contactNumber = removeFormatting(contactNumber);
+		incomingNumber = removeFormatting(incomingNumber);
+		int contactNumberLength = contactNumber.length();
+		int incomingNumberLength = incomingNumber.length();
+		//Iterate through the ends of both strings...backwards from the end of the string.
+		if(contactNumberLength <= incomingNumberLength){
+			for(int i = 0; i < contactNumberLength; i++){
+				if(contactNumber.charAt(contactNumberLength - 1 - i) != incomingNumber.charAt(incomingNumberLength - 1 - i)){
+					return false;
+				}
+			}
+		}else{
+			for(int i = incomingNumberLength - 1; i >= 0 ; i--){
+				if(contactNumber.charAt(contactNumberLength - 1 - i) != incomingNumber.charAt(incomingNumberLength - 1 - i)){
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+	
+	/**
+	 * Remove all non-numeric items from the phone number.
+	 * 
+	 * @param phoneNumber - String of original phone number.
+	 * 
+	 * @return String - String of phone number with no formatting.
+	 */
+	private static String removeFormatting(String phoneNumber){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.removeFormatting()");
+		phoneNumber = phoneNumber.replace("-", "");
+		phoneNumber = phoneNumber.replace("+", "");
+		phoneNumber = phoneNumber.replace("(", "");
+		phoneNumber = phoneNumber.replace(")", "");
+		phoneNumber = phoneNumber.replace(" ", "");
+		//if(phoneNumber.length() > 10){
+		//	phoneNumber = phoneNumber.substring(phoneNumber.length() - 10, phoneNumber.length());
+		//}	
+		return phoneNumber.trim();
 	}
 	
 }

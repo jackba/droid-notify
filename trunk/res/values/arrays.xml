@@ -467,6 +467,46 @@
 		<item name="1">1</item>
 		<item name="2">2</item>
 	</string-array>
+    <string-array name="message_body_font_size_options">
+		<item name="0">Size 8</item>
+		<item name="1">Size 9</item>
+		<item name="2">Size 10</item>
+		<item name="3">Size 11</item>
+		<item name="4">Size 12</item>
+		<item name="5">Size 13</item>
+		<item name="6">Size 14</item>
+		<item name="7">Size 15</item>
+		<item name="8">Size 16</item>
+		<item name="9">Size 17</item>
+		<item name="10">Size 18</item>
+		<item name="11">Size 19</item>
+		<item name="12">Size 20</item>
+		<item name="13">Size 21</item>
+		<item name="14">Size 22</item>
+		<item name="15">Size 23</item>
+		<item name="16">Size 24</item>
+		<item name="17">Size 25</item>
+	</string-array>
+	<string-array name="message_body_font_size_options_values">
+		<item name="0">8</item>
+		<item name="1">9</item>
+		<item name="2">10</item>
+		<item name="3">11</item>
+		<item name="4">12</item>
+		<item name="5">13</item>
+		<item name="6">14</item>
+		<item name="7">15</item>
+		<item name="8">16</item>
+		<item name="9">17</item>
+		<item name="10">18</item>
+		<item name="11">19</item>
+		<item name="12">20</item>
+		<item name="13">21</item>
+		<item name="14">22</item>
+		<item name="15">23</item>
+		<item name="16">24</item>
+		<item name="17">25</item>
+	</string-array>
 	
 	<!-- Contact Placeholder Image Arrays --> 
 	<string-array name="contact_placeholder_options">
@@ -545,7 +585,7 @@
 		<item name="10">100</item>
 	</string-array>
 	
-	<!-- Dim Screen Arrays --> 
+	<!-- SMS Gateway Arrays --> 
 	<string-array name="quick_reply_sms_gateway_options">
 		<item name="0">(USA) Sprint PCS / Virgin-Mobile</item>
 		<item name="1">(USA) T-Mobile</item>

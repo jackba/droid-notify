@@ -37,6 +37,9 @@
     <string name="delete_text">Delete</string>
    	<string name="notification_settings_text">Notification Settings</string>
    	<string name="messaging_app_running_action_text">Messaging App Running Options</string>
+   	<string name="message_body_settings_text">Message Body Settings</string>
+   	<string name="event_body_settings_text">Event Body Settings</string>
+   	<string name="import_export_text">Import/Export</string>
    	
     <!-- App Error Message Strings -->
     <string name="app_android_messaging_app_error">The Android Messaging application could not be started.</string>
@@ -155,7 +158,9 @@
    	<string name="preference_sms_display_unread_enabled_summaryOff">Only the current incoming message will be loaded.</string>	 	
    	<string name="preference_sms_hide_message_body_enabled_title">Hide Message Body</string>
    	<string name="preference_sms_hide_message_body_enabled_summaryOn">The message body will not be visible in the notification popup.</string>
-   	<string name="preference_sms_hide_message_body_enabled_summaryOff">The message body will be visible in the notification popup.</string>	
+   	<string name="preference_sms_hide_message_body_enabled_summaryOff">The message body will be visible in the notification popup.</string>
+   	<string name="preference_sms_message_body_font_size_title">Message Body Font Size</string>
+   	<string name="preference_sms_message_body_font_size_summary">Select the font size you want to use when when displaying the message body.</string>
    	<string name="preference_sms_vibrate_enabled_title">Enable Vibrations</string>
    	<string name="preference_sms_vibrate_enabled_summaryOn">SMS notifications will vibrate on arrival.</string>
    	<string name="preference_sms_vibrate_enabled_summaryOff">SMS notifications will not vibrate on arrival.</string>
@@ -183,6 +188,8 @@
    	<string name="preference_mms_hide_message_body_enabled_title">Hide Message Body</string>
    	<string name="preference_mms_hide_message_body_enabled_summaryOn">The message body will not be visible in the notification popup.</string>
    	<string name="preference_mms_hide_message_body_enabled_summaryOff">The message body will be visible in the notification popup.</string>
+   	<string name="preference_mms_message_body_font_size_title">Message Body Font Size</string>
+   	<string name="preference_mms_message_body_font_size_summary">Select the font size you want to use when when displaying the message body.</string>
     <string name="preference_mms_vibrate_enabled_title">Enable Vibrations</string>
    	<string name="preference_mms_vibrate_enabled_summaryOn">MMS notifications will vibrate on arrival.</string>
    	<string name="preference_mms_vibrate_enabled_summaryOff">MMS notifications will not vibrate on arrival.</string>
@@ -257,7 +264,9 @@
    	<string name="preference_calendar_reminders_enabled_summaryOn">A reminder notification will be sent before the calendar event occurs.</string>
    	<string name="preference_calendar_reminders_enabled_summaryOff">No reminder will be sent before the calendar event occurs.</string>   	
    	<string name="messaging_app_running_action_calendar_summary">Define action when a Calendar notification comes in when a messaging app is currently running.</string>
-    
+   	<string name="preference_calendar_event_body_font_size_title">Event Text Font Size</string>
+   	<string name="preference_calendar_event_body_font_size_summary">Select the font size you want to use when when displaying the event text.</string>
+   	
     <string name="preference_show_hide_buttons_settings">Show/Hide Button Settings</string>
     <string name="preference_hide_dismiss_button_enabled_title">Hide Dismiss Button</string>
    	<string name="preference_hide_dismiss_button_enabled_summaryOn">The dismiss button will not be displayed.</string>
