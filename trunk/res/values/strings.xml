@@ -2,8 +2,7 @@
 <resources>
 
 	<!-- App Strings -->
-	<string name="app_version">v2.2</string>
-	<string name="app_name_formatted_version">Droid Notify %s</string>
+	<string name="app_name_formatted_version">Droid Notify v%s</string>
 	<string name="app_name">DroidNotify</string>
     <string name="app_name_formatted">Droid Notify</string>
     <string name="app_settings_text">Settings</string>

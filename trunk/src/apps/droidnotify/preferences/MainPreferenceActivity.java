@@ -17,6 +17,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -75,6 +76,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
     private boolean _debug = false;
     private Context _context = null;
     private SharedPreferences _preferences = null;
+    private String _appVersion = null;
 	
 	//================================================================================
 	// Public Methods
@@ -98,6 +100,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	    	this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 	    }
 	    addPreferencesFromResource(R.xml.preferences);
+	    _appVersion = getApplicationVersion();
 	    setupCustomPreferences();
 	    runOnceCalendarAlarmManager();
 	    setupAppDebugMode(_debug);
@@ -295,7 +298,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		aboutPreferencesPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
         	public boolean onPreferenceClick(Preference preference) {
 		    	if (_debug) Log.v("About Button Clicked()");
-		    	return displayHTMLAlertDialog(_context.getString(R.string.app_name_formatted_version, _context.getString(R.string.app_version)),R.drawable.ic_launcher_droidnotify,_context.getString(R.string.preference_about_text));
+		    	return displayHTMLAlertDialog(_context.getString(R.string.app_name_formatted_version, _appVersion),R.drawable.ic_launcher_droidnotify,_context.getString(R.string.preference_about_text));
            }
 		});
 		//License Preference/Button
@@ -947,6 +950,21 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			return true;
 		}else{
 			return false;
+		}
+	}
+	
+	/**
+	 * Read the Application info and return the app version number.
+	 * 
+	 * @return String - The version number of the aplication.
+	 */
+	private String getApplicationVersion(){
+		PackageInfo packageInfo = null;
+		try{
+			packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+			return packageInfo.versionName;
+		}catch(Exception ex){
+			return "";
 		}
 	}
 	
