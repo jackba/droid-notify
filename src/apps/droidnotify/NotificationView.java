@@ -101,12 +101,13 @@ public class NotificationView extends LinearLayout {
 	private static final String USER_IN_MESSAGING_APP = "user_in_messaging_app";
 	
 	private static final String APP_THEME_KEY = "app_theme";
-	private static final String ANDROID_THEME = "android";
-	private static final String ANDROID_DARK_THEME = "android_dark";
+	private static final String ANDROID_FROYO_THEME = "android";
+	private static final String ANDROID_GINGERBREAD_THEME = "android_dark";
 	private static final String IPHONE_THEME = "iphone";
 	private static final String DARK_TRANSLUCENT_THEME = "dark_translucent";
 	private static final String DARK_TRANSLUCENT_V2_THEME = "dark_translucent_v2";
 	private static final String DARK_TRANSLUCENT_V3_THEME = "dark_translucent_v3";
+	private static final String HTC_SENSE_UI_THEME = "htc";
 	
 	private static final String SMS_MESSAGING_APP_REPLY = "0";
 	private static final String SMS_QUICK_REPLY = "1";
@@ -172,14 +173,15 @@ public class NotificationView extends LinearLayout {
 	private void initLayoutItems(Context context) {
 		if (_debug) Log.v("NotificationView.initLayoutItems()");
 		//Set based on the theme. This is set in the user preferences.
-		String applicationThemeSetting = _preferences.getString(APP_THEME_KEY, ANDROID_THEME);
-		int themeResource = R.layout.android_theme_notification;
-		if(applicationThemeSetting.equals(ANDROID_THEME)) themeResource = R.layout.android_theme_notification;
-		if(applicationThemeSetting.equals(ANDROID_DARK_THEME)) themeResource = R.layout.android_dark_theme_notification;
+		String applicationThemeSetting = _preferences.getString(APP_THEME_KEY, ANDROID_FROYO_THEME);
+		int themeResource = R.layout.android_default_theme_notification;
+		if(applicationThemeSetting.equals(ANDROID_FROYO_THEME)) themeResource = R.layout.android_froyo_theme_notification;
+		if(applicationThemeSetting.equals(ANDROID_GINGERBREAD_THEME)) themeResource = R.layout.android_gingerbread_theme_notification;
 		if(applicationThemeSetting.equals(IPHONE_THEME)) themeResource = R.layout.iphone_theme_notification;
 		if(applicationThemeSetting.equals(DARK_TRANSLUCENT_THEME)) themeResource = R.layout.dark_translucent_theme_notification;
 		if(applicationThemeSetting.equals(DARK_TRANSLUCENT_V2_THEME)) themeResource = R.layout.dark_translucent_v2_theme_notification;
 		if(applicationThemeSetting.equals(DARK_TRANSLUCENT_V3_THEME)) themeResource = R.layout.dark_translucent_v3_theme_notification;
+		if(applicationThemeSetting.equals(HTC_SENSE_UI_THEME)) themeResource = R.layout.htc_theme_notification;
 		View.inflate(context, themeResource, this);
 		_contactNameTextView = (TextView) findViewById(R.id.contact_name_text_view);
 		_contactNumberTextView = (TextView) findViewById(R.id.contact_number_text_view);
@@ -825,16 +827,16 @@ public class NotificationView extends LinearLayout {
 	     		switch (motionEvent.getAction()){
 		     		case MotionEvent.ACTION_DOWN:{
 		     			if (_debug) Log.v("NotificationView.initLongPressView() ACTION_DOWN");
-		                String applicationThemeSetting = _preferences.getString(APP_THEME_KEY, ANDROID_THEME);
-		        		int listSelectorBackgroundResource = R.layout.android_theme_notification;
+		                String applicationThemeSetting = _preferences.getString(APP_THEME_KEY, ANDROID_FROYO_THEME);
+		        		int listSelectorBackgroundResource = R.drawable.froyo_list_selector_background_transition;
 		        		int contactWrapperTextColorResource = R.color.black;
 		         		//Set View background.
-		        		if(applicationThemeSetting.equals(ANDROID_THEME)){
-		        			listSelectorBackgroundResource = R.drawable.list_selector_background_transition;
+		        		if(applicationThemeSetting.equals(ANDROID_FROYO_THEME)){
+		        			listSelectorBackgroundResource = R.drawable.froyo_list_selector_background_transition;
 		        			contactWrapperTextColorResource = R.color.black;
 		        		}
-		        		if(applicationThemeSetting.equals(ANDROID_DARK_THEME)){
-		        			listSelectorBackgroundResource = R.drawable.list_selector_background_transition_blue;
+		        		if(applicationThemeSetting.equals(ANDROID_GINGERBREAD_THEME)){
+		        			listSelectorBackgroundResource = R.drawable.gingerbread_list_selector_background_transition;
 		        			contactWrapperTextColorResource = R.color.black;
 		        		}
 		        		if(applicationThemeSetting.equals(IPHONE_THEME)){
@@ -853,8 +855,12 @@ public class NotificationView extends LinearLayout {
 		        			listSelectorBackgroundResource = R.drawable.list_selector_background_transition_blue;
 		        			contactWrapperTextColorResource = R.color.black;
 		        		}
-		        		TransitionDrawable transition = (TransitionDrawable) _context.getResources().getDrawable(listSelectorBackgroundResource);
-		                view.setBackgroundDrawable(transition);
+		        		if(applicationThemeSetting.equals(HTC_SENSE_UI_THEME)){
+		        			listSelectorBackgroundResource = R.drawable.htc_list_selector_background_transition;
+		        			contactWrapperTextColorResource = R.color.black;
+		        		}		        		
+	        			TransitionDrawable transition = (TransitionDrawable) _context.getResources().getDrawable(listSelectorBackgroundResource);
+	        			view.setBackgroundDrawable(transition);
 		                transition.setCrossFadeEnabled(true);
 		                transition.startTransition(300);
 		                //Set Views children font color.
@@ -865,16 +871,16 @@ public class NotificationView extends LinearLayout {
 			        }
 		     		case MotionEvent.ACTION_UP:{
 		     			if (_debug) Log.v("NotificationView.initLongPressView() ACTION_UP");
-		         		String applicationThemeSetting = _preferences.getString(APP_THEME_KEY, ANDROID_THEME);
-		        		int listSelectorBackgroundResource = R.drawable.list_selector_background;
+		         		String applicationThemeSetting = _preferences.getString(APP_THEME_KEY, ANDROID_FROYO_THEME);
+		        		int listSelectorBackgroundResource = R.drawable.froyo_list_selector_background_transition;
 		        		int contactWrapperTextColorResource = R.color.white;
 		         		//Set View background.
-		        		if(applicationThemeSetting.equals(ANDROID_THEME)){
-		        			listSelectorBackgroundResource = R.drawable.list_selector_background;
+		        		if(applicationThemeSetting.equals(ANDROID_FROYO_THEME)){
+		        			listSelectorBackgroundResource = R.drawable.froyo_list_selector_background;
 		        			contactWrapperTextColorResource = R.color.white;
 		        		}
-		        		if(applicationThemeSetting.equals(ANDROID_DARK_THEME)){
-		        			listSelectorBackgroundResource = R.drawable.list_selector_background_blue;
+		        		if(applicationThemeSetting.equals(ANDROID_GINGERBREAD_THEME)){
+		        			listSelectorBackgroundResource = R.drawable.gingerbread_list_selector_background;
 		        			contactWrapperTextColorResource = R.color.white;
 		        		}
 		        		if(applicationThemeSetting.equals(IPHONE_THEME)){
@@ -891,6 +897,10 @@ public class NotificationView extends LinearLayout {
 		        		}
 		        		if(applicationThemeSetting.equals(DARK_TRANSLUCENT_V3_THEME)){
 		        			listSelectorBackgroundResource = R.drawable.list_selector_background_blue;
+		        			contactWrapperTextColorResource = R.color.white;
+		        		}
+		        		if(applicationThemeSetting.equals(HTC_SENSE_UI_THEME)){
+		        			listSelectorBackgroundResource = R.drawable.htc_list_selector_background_transition;
 		        			contactWrapperTextColorResource = R.color.white;
 		        		}
 		                view.setBackgroundResource(listSelectorBackgroundResource);
@@ -902,16 +912,16 @@ public class NotificationView extends LinearLayout {
 		     		}
 		     		case MotionEvent.ACTION_CANCEL:{
 		     			if (_debug) Log.v("NotificationView.initLongPressView() ACTION_CANCEL");
-		         		String applicationThemeSetting = _preferences.getString(APP_THEME_KEY, ANDROID_THEME);
-		        		int listSelectorBackgroundResource = R.drawable.list_selector_background;
+		         		String applicationThemeSetting = _preferences.getString(APP_THEME_KEY, ANDROID_FROYO_THEME);
+		        		int listSelectorBackgroundResource = R.drawable.froyo_list_selector_background_transition;
 		        		int contactWrapperTextColorResource = R.color.white;
 		         		//Set View background.
-		        		if(applicationThemeSetting.equals(ANDROID_THEME)){
-		        			listSelectorBackgroundResource = R.drawable.list_selector_background;
+		        		if(applicationThemeSetting.equals(ANDROID_FROYO_THEME)){
+		        			listSelectorBackgroundResource = R.drawable.froyo_list_selector_background;
 		        			contactWrapperTextColorResource = R.color.white;
 		        		}
-		        		if(applicationThemeSetting.equals(ANDROID_DARK_THEME)){
-		        			listSelectorBackgroundResource = R.drawable.list_selector_background_blue;
+		        		if(applicationThemeSetting.equals(ANDROID_GINGERBREAD_THEME)){
+		        			listSelectorBackgroundResource = R.drawable.gingerbread_list_selector_background;
 		        			contactWrapperTextColorResource = R.color.white;
 		        		}
 		        		if(applicationThemeSetting.equals(IPHONE_THEME)){
@@ -928,6 +938,10 @@ public class NotificationView extends LinearLayout {
 		        		}
 		        		if(applicationThemeSetting.equals(DARK_TRANSLUCENT_V3_THEME)){
 		        			listSelectorBackgroundResource = R.drawable.list_selector_background_blue;
+		        			contactWrapperTextColorResource = R.color.white;
+		        		}
+		        		if(applicationThemeSetting.equals(HTC_SENSE_UI_THEME)){
+		        			listSelectorBackgroundResource = R.drawable.htc_list_selector_background;
 		        			contactWrapperTextColorResource = R.color.white;
 		        		}
 		                view.setBackgroundResource(listSelectorBackgroundResource);
