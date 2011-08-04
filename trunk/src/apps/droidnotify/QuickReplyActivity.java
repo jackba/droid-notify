@@ -136,7 +136,7 @@ public class QuickReplyActivity extends Activity {
 	    }
 	    //Set based on the theme. This is set in the user preferences.
 		String applicationThemeSetting = _preferences.getString(APP_THEME_KEY, ANDROID_FROYO_THEME);
-		int themeResource = R.layout.android_default_theme_notification;
+		int themeResource = R.layout.android_froyo_theme_notification;
 		if(applicationThemeSetting.equals(ANDROID_FROYO_THEME)) themeResource = R.layout.android_froyo_theme_smsreply;
 		if(applicationThemeSetting.equals(ANDROID_GINGERBREAD_THEME)) themeResource = R.layout.android_gingerbread_theme_smsreply;
 		if(applicationThemeSetting.equals(IPHONE_THEME)) themeResource = R.layout.iphone_theme_smsreply;
