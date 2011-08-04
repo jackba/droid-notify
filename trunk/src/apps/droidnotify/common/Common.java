@@ -339,7 +339,9 @@ public class Common {
 	    	}catch(Exception e){
 		    		if (_debug) Log.e("Common.loadThreadID() EXCEPTION: " + e.toString());
 	    	} finally {
-	    		cursor.close();
+	    		if(cursor != null){
+					cursor.close();
+				}
 	    	}
 	    	return threadID;
 		}catch(Exception ex){
@@ -392,7 +394,9 @@ public class Common {
 		    }catch(Exception ex){
 				if (_debug) Log.e("Common.loadMessageID() ERROR: " + ex.toString());
 			}finally{
-		    	cursor.close();
+				if(cursor != null){
+					cursor.close();
+				}
 		    }
 		    return messageID;
 		}catch(Exception ex){
@@ -431,7 +435,9 @@ public class Common {
 		}catch(Exception ex){
 			if (_debug) Log.e("Common.getMMSAddress() ERROR: " + ex.toString());
 		} finally {
-    		cursor.close();
+			if(cursor != null){
+				cursor.close();
+			}
     	}	   
 	    return messageAddress;
 	}
@@ -482,7 +488,9 @@ public class Common {
 		}catch(Exception ex){
 			if (_debug) Log.e("Common.getMMSText ERROR: " + ex.toString());
 		} finally {
-    		cursor.close();
+			if(cursor != null){
+				cursor.close();
+			}
     	}	   
 	    return messageText.toString();  
 	}
@@ -527,7 +535,9 @@ public class Common {
 			if (_debug) Log.e("Common.getAvailableCalendars() ERROR: " + ex.toString());
 			return null;
 		}finally{
-			cursor.close();
+			if(cursor != null){
+				cursor.close();
+			}
 		}
 		if(calendarsInfo.toString().equals("")){
 			return null;
@@ -968,7 +978,9 @@ public class Common {
 //		    }catch(Exception ex){
 //				if (_debug) Log.e("Notification.loadServiceCenterAddress() ERROR: " + ex.toString());
 //			}finally{
-//		    	cursor.close();
+//		    	if(cursor != null){
+//					cursor.close();
+//				}
 //		    }
 //		    _serviceCenterAddress = serviceCenterAddress;
 //		}catch(Exception ex){

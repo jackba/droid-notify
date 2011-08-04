@@ -53,12 +53,13 @@ public class QuickReplyActivity extends Activity {
 	private static final String QUICK_REPLY_DIM_SCREEN_AMOUNT_KEY = "quick_reply_dim_screen_background_amount";
 	
 	private static final String APP_THEME_KEY = "app_theme";
-	private static final String ANDROID_THEME = "android";
-	private static final String ANDROID_DARK_THEME = "android_dark";
+	private static final String ANDROID_FROYO_THEME = "android";
+	private static final String ANDROID_GINGERBREAD_THEME = "android_dark";
 	private static final String IPHONE_THEME = "iphone";
 	private static final String DARK_TRANSLUCENT_THEME = "dark_translucent";
 	private static final String DARK_TRANSLUCENT_V2_THEME = "dark_translucent_v2";
 	private static final String DARK_TRANSLUCENT_V3_THEME = "dark_translucent_v3";
+	private static final String HTC_SENSE_UI_THEME = "htc";
 	
 	private static final String SMS_GATEWAY_KEY = "quick_reply_sms_gateway_settings";
 	private static final int SMS_EMAIL_GATEWAY_KEY_1 = 1;
@@ -134,14 +135,15 @@ public class QuickReplyActivity extends Activity {
 		    mainWindow.setAttributes(params); 
 	    }
 	    //Set based on the theme. This is set in the user preferences.
-		String applicationThemeSetting = _preferences.getString(APP_THEME_KEY, ANDROID_THEME);
-		int themeResource = R.layout.android_theme_notification;
-		if(applicationThemeSetting.equals(ANDROID_THEME)) themeResource = R.layout.android_theme_smsreply;
-		if(applicationThemeSetting.equals(ANDROID_DARK_THEME)) themeResource = R.layout.android_dark_theme_smsreply;
+		String applicationThemeSetting = _preferences.getString(APP_THEME_KEY, ANDROID_FROYO_THEME);
+		int themeResource = R.layout.android_default_theme_notification;
+		if(applicationThemeSetting.equals(ANDROID_FROYO_THEME)) themeResource = R.layout.android_froyo_theme_smsreply;
+		if(applicationThemeSetting.equals(ANDROID_GINGERBREAD_THEME)) themeResource = R.layout.android_gingerbread_theme_smsreply;
 		if(applicationThemeSetting.equals(IPHONE_THEME)) themeResource = R.layout.iphone_theme_smsreply;
 		if(applicationThemeSetting.equals(DARK_TRANSLUCENT_THEME)) themeResource = R.layout.dark_translucent_theme_smsreply;
 		if(applicationThemeSetting.equals(DARK_TRANSLUCENT_V2_THEME)) themeResource = R.layout.dark_translucent_v2_theme_smsreply;
 		if(applicationThemeSetting.equals(DARK_TRANSLUCENT_V3_THEME)) themeResource = R.layout.dark_translucent_v3_theme_smsreply;		
+		if(applicationThemeSetting.equals(HTC_SENSE_UI_THEME)) themeResource = R.layout.htc_theme_smsreply;	
 	    setContentView(themeResource);  
 	    _sendButton = (Button)findViewById(SEND_BUTTON);
 	    //Disable the Send button initially.
