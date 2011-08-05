@@ -23,6 +23,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.SystemClock;
+import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
@@ -63,7 +64,26 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	private static final String LANDSCAPE_SCREEN_ENABLED_KEY = "landscape_screen_enabled";
     private static final String CALENDAR_SELECTION_KEY = "calendar_selection";
     private static final String CALENDAR_POLLING_FREQUENCY_KEY = "calendar_polling_frequency";
-	
+    private static final String APP_VIBRATIONS_ENABLED_KEY = "app_vibrations_enabled";
+    private static final String SMS_VIBRATE_SETTINGS_SCREEN_KEY = "sms_vibrate_settings_screen";
+    private static final String MMS_VIBRATE_SETTINGS_SCREEN_KEY = "mms_vibrate_settings_screen";
+    private static final String PHONE_VIBRATE_SETTINGS_SCREEN_KEY = "missed_call_vibrate_settings_screen";
+    private static final String CALENDAR_VIBRATE_SETTINGS_SCREEN_KEY = "calendar_vibrate_settings_screen";
+    private static final String APP_RINGTONES_ENABLED_KEY = "app_ringtones_enabled";
+    private static final String SMS_RINGTONE_SETTINGS_SCREEN_KEY = "sms_ringtone_settings_screen";
+    private static final String MMS_RINGTONE_SETTINGS_SCREEN_KEY = "mms_ringtone_settings_screen";
+    private static final String PHONE_RINGTONE_SETTINGS_SCREEN_KEY = "missed_call_ringtone_settings_screen";
+    private static final String CALENDAR_RINGTONE_SETTINGS_SCREEN_KEY = "calendar_ringtone_settings_screen";
+    private static final String SMS_REPLY_BUTTON_ACTION = "sms_reply_button_action";
+    private static final String MMS_REPLY_BUTTON_ACTION = "mms_reply_button_action";
+    private static final String QUICK_REPLY_SMS_GATEWAY_SETTING = "quick_reply_sms_gateway_settings";
+    private static final String QUICK_REPLY_SETTINGS_SCREEN = "quick_reply_settings_screen";
+    private static final String RINGTONE_LENGTH_SETTING = "ringtone_length_settings";
+	private static final String MISSED_CALL_RINGTONE_ENABLED_KEY = "missed_call_ringtone_enabled";
+	private static final String SMS_RINGTONE_ENABLED_KEY = "sms_ringtone_enabled";
+	private static final String MMS_RINGTONE_ENABLED_KEY = "mms_ringtone_enabled";
+	private static final String CALENDAR_RINGTONE_ENABLED_KEY = "calendar_ringtone_enabled";
+    
 	private static final int NOTIFICATION_TYPE_TEST = -1;
 	
 	private static final String RUN_ONCE_EULA = "runOnceEula";
@@ -106,6 +126,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	    setupAppDebugMode(_debug);
 	    setupRateAppPreference();
 	    setupImportPreferences();
+	    initPreferencesStates();
 	    runOnceEula();
 	}
     
@@ -120,6 +141,40 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		//The polling time for the calendars was changed. Run the alarm manager with the updated polling time.
 		if(key.equals(CALENDAR_POLLING_FREQUENCY_KEY)){
 			startCalendarAlarmManager(SystemClock.elapsedRealtime() + (30 * 1000));
+		}
+		if(key.equals(APP_VIBRATIONS_ENABLED_KEY)){
+			//Master Vibrate Setting
+			updateVibrateSettings();
+		}
+		if(key.equals(APP_RINGTONES_ENABLED_KEY)){
+			//Master Ringtone Setting
+			updateRingtoneSettings();
+			//Update Ringtone Length
+			updateRingtoneLengthSetting();
+		}
+		if(key.equals(SMS_REPLY_BUTTON_ACTION)){
+			//Quick Reply Settings
+			updateQuickReplySettings();
+		}
+		if(key.equals(MMS_REPLY_BUTTON_ACTION)){
+			//Quick Reply Settings
+			updateQuickReplySettings();
+		}
+		if(key.equals(MISSED_CALL_RINGTONE_ENABLED_KEY)){
+			//Update Ringtone Length
+			updateRingtoneLengthSetting();
+		}
+		if(key.equals(SMS_RINGTONE_ENABLED_KEY)){
+			//Update Ringtone Length
+			updateRingtoneLengthSetting();
+		}
+		if(key.equals(MMS_RINGTONE_ENABLED_KEY)){
+			//Update Ringtone Length
+			updateRingtoneLengthSetting();
+		}
+		if(key.equals(CALENDAR_RINGTONE_ENABLED_KEY)){
+			//Update Ringtone Length
+			updateRingtoneLengthSetting();
 		}
 	}
 
@@ -976,6 +1031,86 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		}catch(Exception ex){
 			return "";
 		}
+	}
+	
+	/**
+	 * Initialize the state of some preference items that have multiple dependencies.
+	 */
+	private void initPreferencesStates(){
+		//Master Vibrate Setting
+		updateVibrateSettings();
+		//Master Ringtone Setting
+		updateRingtoneSettings();
+		//Quick Reply Settings
+		updateQuickReplySettings();
+		//Update Ringtone Length
+		updateRingtoneLengthSetting();
+	}
+	
+	/**
+	 * Updates the availability of the Vibrate Settings.
+	 */
+	private void updateVibrateSettings(){
+		PreferenceScreen smsVibrateSettingsScreen = (PreferenceScreen) findPreference(SMS_VIBRATE_SETTINGS_SCREEN_KEY);
+		smsVibrateSettingsScreen.setEnabled(_preferences.getBoolean(APP_VIBRATIONS_ENABLED_KEY, true));
+		PreferenceScreen mmsVibrateSettingsScreen = (PreferenceScreen) findPreference(MMS_VIBRATE_SETTINGS_SCREEN_KEY);
+		mmsVibrateSettingsScreen.setEnabled(_preferences.getBoolean(APP_VIBRATIONS_ENABLED_KEY, true));
+		PreferenceScreen phoneVibrateSettingsScreen = (PreferenceScreen) findPreference(PHONE_VIBRATE_SETTINGS_SCREEN_KEY);
+		phoneVibrateSettingsScreen.setEnabled(_preferences.getBoolean(APP_VIBRATIONS_ENABLED_KEY, true));
+		PreferenceScreen calendarVibrateSettingsScreen = (PreferenceScreen) findPreference(CALENDAR_VIBRATE_SETTINGS_SCREEN_KEY);
+		calendarVibrateSettingsScreen.setEnabled(_preferences.getBoolean(APP_VIBRATIONS_ENABLED_KEY, true));
+	}
+
+	/**
+	 * Updates the availability of the Ringtone Settings.
+	 */
+	private void updateRingtoneSettings(){
+		PreferenceScreen smsRingtoneSettingsScreen = (PreferenceScreen) findPreference(SMS_RINGTONE_SETTINGS_SCREEN_KEY);
+		smsRingtoneSettingsScreen.setEnabled(_preferences.getBoolean(APP_RINGTONES_ENABLED_KEY, true));
+		PreferenceScreen mmsRingtoneSettingsScreen = (PreferenceScreen) findPreference(MMS_RINGTONE_SETTINGS_SCREEN_KEY);
+		mmsRingtoneSettingsScreen.setEnabled(_preferences.getBoolean(APP_RINGTONES_ENABLED_KEY, true));
+		PreferenceScreen phoneRingtoneSettingsScreen = (PreferenceScreen) findPreference(PHONE_RINGTONE_SETTINGS_SCREEN_KEY);
+		phoneRingtoneSettingsScreen.setEnabled(_preferences.getBoolean(APP_RINGTONES_ENABLED_KEY, true));
+		PreferenceScreen calendarRingtoneSettingsScreen = (PreferenceScreen) findPreference(CALENDAR_RINGTONE_SETTINGS_SCREEN_KEY);
+		calendarRingtoneSettingsScreen.setEnabled(_preferences.getBoolean(APP_RINGTONES_ENABLED_KEY, true));
+	}
+	
+	/**
+	 * Updates the availability of the Quick Reply SMS Gateway Setting.
+	 */
+	private void updateQuickReplySettings(){
+		boolean quickReplySMSGatewayEnabled = false;
+		if(_preferences.getString(SMS_REPLY_BUTTON_ACTION, "0").equals("1")){
+			quickReplySMSGatewayEnabled = true;
+		}
+		if(_preferences.getString(MMS_REPLY_BUTTON_ACTION, "0").equals("1")){
+			quickReplySMSGatewayEnabled = true;
+		}
+		ListPreference quickReplySMSGateway = (ListPreference) findPreference(QUICK_REPLY_SMS_GATEWAY_SETTING);
+		quickReplySMSGateway.setEnabled(quickReplySMSGatewayEnabled);
+		PreferenceScreen  quickReplyPreferenceScreen = (PreferenceScreen) findPreference(QUICK_REPLY_SETTINGS_SCREEN);
+		quickReplyPreferenceScreen.setEnabled(quickReplySMSGatewayEnabled);
+	}
+	
+	/**
+	 * Updates the availability of the Ringtone Length Setting.
+	 */
+	private void updateRingtoneLengthSetting(){
+		boolean ringtoneLengthSettingEnabled = false;
+		if(_preferences.getBoolean(MISSED_CALL_RINGTONE_ENABLED_KEY, true)){
+			ringtoneLengthSettingEnabled = true;
+		}
+		if(_preferences.getBoolean(SMS_RINGTONE_ENABLED_KEY, true)){
+			ringtoneLengthSettingEnabled = true;
+		}
+		if(_preferences.getBoolean(MMS_RINGTONE_ENABLED_KEY, true)){
+			ringtoneLengthSettingEnabled = true;
+		}
+		if(_preferences.getBoolean(CALENDAR_RINGTONE_ENABLED_KEY, true)){
+			ringtoneLengthSettingEnabled = true;
+		}
+		ListPreference ringtoneLengthSetting = (ListPreference) findPreference(RINGTONE_LENGTH_SETTING);
+		ringtoneLengthSetting.setEnabled(ringtoneLengthSettingEnabled);
 	}
 	
 }
