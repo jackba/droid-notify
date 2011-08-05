@@ -60,6 +60,7 @@ public class QuickReplyActivity extends Activity {
 	private static final String DARK_TRANSLUCENT_V2_THEME = "dark_translucent_v2";
 	private static final String DARK_TRANSLUCENT_V3_THEME = "dark_translucent_v3";
 	private static final String HTC_SENSE_UI_THEME = "htc";
+	private static final String XPERIA_THEME = "xperia";
 	
 	private static final String SMS_GATEWAY_KEY = "quick_reply_sms_gateway_settings";
 	private static final int SMS_EMAIL_GATEWAY_KEY_1 = 1;
@@ -144,6 +145,7 @@ public class QuickReplyActivity extends Activity {
 		if(applicationThemeSetting.equals(DARK_TRANSLUCENT_V2_THEME)) themeResource = R.layout.dark_translucent_v2_theme_smsreply;
 		if(applicationThemeSetting.equals(DARK_TRANSLUCENT_V3_THEME)) themeResource = R.layout.dark_translucent_v3_theme_smsreply;		
 		if(applicationThemeSetting.equals(HTC_SENSE_UI_THEME)) themeResource = R.layout.htc_theme_smsreply;	
+		if(applicationThemeSetting.equals(XPERIA_THEME)) themeResource = R.layout.xperia_theme_smsreply;	
 	    setContentView(themeResource);  
 	    _sendButton = (Button)findViewById(SEND_BUTTON);
 	    //Disable the Send button initially.

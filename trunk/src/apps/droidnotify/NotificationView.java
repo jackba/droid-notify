@@ -108,6 +108,7 @@ public class NotificationView extends LinearLayout {
 	private static final String DARK_TRANSLUCENT_V2_THEME = "dark_translucent_v2";
 	private static final String DARK_TRANSLUCENT_V3_THEME = "dark_translucent_v3";
 	private static final String HTC_SENSE_UI_THEME = "htc";
+	private static final String XPERIA_THEME = "xperia";
 	
 	private static final String SMS_MESSAGING_APP_REPLY = "0";
 	private static final String SMS_QUICK_REPLY = "1";
@@ -182,6 +183,7 @@ public class NotificationView extends LinearLayout {
 		if(applicationThemeSetting.equals(DARK_TRANSLUCENT_V2_THEME)) themeResource = R.layout.dark_translucent_v2_theme_notification;
 		if(applicationThemeSetting.equals(DARK_TRANSLUCENT_V3_THEME)) themeResource = R.layout.dark_translucent_v3_theme_notification;
 		if(applicationThemeSetting.equals(HTC_SENSE_UI_THEME)) themeResource = R.layout.htc_theme_notification;
+		if(applicationThemeSetting.equals(XPERIA_THEME)) themeResource = R.layout.xperia_theme_notification;
 		View.inflate(context, themeResource, this);
 		_contactNameTextView = (TextView) findViewById(R.id.contact_name_text_view);
 		_contactNumberTextView = (TextView) findViewById(R.id.contact_number_text_view);
@@ -858,6 +860,10 @@ public class NotificationView extends LinearLayout {
 		        		if(applicationThemeSetting.equals(HTC_SENSE_UI_THEME)){
 		        			listSelectorBackgroundResource = R.drawable.htc_list_selector_background_transition;
 		        			contactWrapperTextColorResource = R.color.black;
+		        		}	
+		        		if(applicationThemeSetting.equals(XPERIA_THEME)){
+		        			listSelectorBackgroundResource = R.drawable.xperia_list_selector_background_transition;
+		        			contactWrapperTextColorResource = R.color.black;
 		        		}		        		
 	        			TransitionDrawable transition = (TransitionDrawable) _context.getResources().getDrawable(listSelectorBackgroundResource);
 	        			view.setBackgroundDrawable(transition);
@@ -903,6 +909,10 @@ public class NotificationView extends LinearLayout {
 		        			listSelectorBackgroundResource = R.drawable.htc_list_selector_background;
 		        			contactWrapperTextColorResource = R.color.white;
 		        		}
+		        		if(applicationThemeSetting.equals(XPERIA_THEME)){
+		        			listSelectorBackgroundResource = R.drawable.xperia_list_selector_background;
+		        			contactWrapperTextColorResource = R.color.white;
+		        		}
 		                view.setBackgroundResource(listSelectorBackgroundResource);
 		                //Set Views children font color.
 		                _notificationInfoTextView.setTextColor(_context.getResources().getColor(contactWrapperTextColorResource));
@@ -942,6 +952,10 @@ public class NotificationView extends LinearLayout {
 		        		}
 		        		if(applicationThemeSetting.equals(HTC_SENSE_UI_THEME)){
 		        			listSelectorBackgroundResource = R.drawable.htc_list_selector_background;
+		        			contactWrapperTextColorResource = R.color.white;
+		        		}
+		        		if(applicationThemeSetting.equals(XPERIA_THEME)){
+		        			listSelectorBackgroundResource = R.drawable.xperia_list_selector_background;
 		        			contactWrapperTextColorResource = R.color.white;
 		        		}
 		                view.setBackgroundResource(listSelectorBackgroundResource);

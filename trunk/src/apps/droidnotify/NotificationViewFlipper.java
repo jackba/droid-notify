@@ -40,9 +40,6 @@ public class NotificationViewFlipper extends ViewFlipper {
 	private static final String MMS_DELETE_ACTION_DELETE_THREAD = "1";
 	private static final String MMS_DELETE_ACTION_NOTHING = "2";
 	
-	private static final String APP_THEME_KEY = "app_theme";
-	private static final String ANDROID_THEME = "android";
-	
 	//================================================================================
     // Properties
     //================================================================================
@@ -397,23 +394,17 @@ public class NotificationViewFlipper extends ViewFlipper {
 		Button previousButton = (Button) view.findViewById(R.id.previous_button);
 		TextView notificationCountTextView = (TextView) view.findViewById(R.id.notification_count_text_view);
 		Button nextButton = (Button) view.findViewById(R.id.next_button);
-    	String applicationThemeSetting = _preferences.getString(APP_THEME_KEY, ANDROID_THEME);
-    	previousButton.setEnabled(!isFirstMessage());
-    	if(!applicationThemeSetting.equals(ANDROID_THEME)){
-	    	if(isFirstMessage()){
-	    		previousButton.setVisibility(View.INVISIBLE);
-	    	}else{
-	    		previousButton.setVisibility(View.VISIBLE);
-	    	}
+    	if(isFirstMessage()){
+    		previousButton.setVisibility(View.INVISIBLE);
+    	}else{
+    		previousButton.setVisibility(View.VISIBLE);
     	}
     	notificationCountTextView.setText((_currentNotification + 1) + "/" + _totalNotifications);
     	nextButton.setEnabled(!isLastMessage());
-    	if(!applicationThemeSetting.equals(ANDROID_THEME)){
-	    	if(isLastMessage()){
-	    		nextButton.setVisibility(View.INVISIBLE);
-	    	}else{
-	    		nextButton.setVisibility(View.VISIBLE);
-	    	}
+    	if(isLastMessage()){
+    		nextButton.setVisibility(View.INVISIBLE);
+    	}else{
+    		nextButton.setVisibility(View.VISIBLE);
     	}
 	}
 	
