@@ -61,7 +61,7 @@
 			android:focusable="true" 
 			android:clickable="true"
 			android:hapticFeedbackEnabled="true"
-			android:background="@drawable/froyo_list_selector_background">
+			android:background="@drawable/htc_list_selector_background">
 			<ImageView
 				android:id="@+id/contact_photo_image_view"
 				android:layout_height="wrap_content"
@@ -155,7 +155,7 @@
 			android:drawableLeft="@drawable/ic_delete_black"
 			android:hapticFeedbackEnabled="true"
 			android:textColor="@color/black" 
-			android:background="@drawable/btn_froyo_android"
+			android:background="@drawable/btn_htc"
 			android:text="@string/dismiss_button_text" />
 		<Button
 			android:id="@+id/phone_call_button"  
@@ -168,7 +168,7 @@
 			android:drawableLeft="@drawable/ic_call_green"
 			android:hapticFeedbackEnabled="true"
 			android:textColor="@color/black"
-			android:background="@drawable/btn_froyo_android"
+			android:background="@drawable/btn_htc"
 			android:text="@string/call_button_text" />
 	</LinearLayout>
 	<LinearLayout 
@@ -190,7 +190,7 @@
 			android:drawableLeft="@drawable/ic_conversation_black_small"
 			android:hapticFeedbackEnabled="true"
 			android:textColor="@color/black"
-			android:background="@drawable/btn_froyo_android"
+			android:background="@drawable/btn_htc"
 			android:text="@string/reply_button_text" />
 		<LinearLayout 
 			android:id="@+id/sms_button_linear_layout" 
@@ -211,7 +211,7 @@
 				android:drawableLeft="@drawable/ic_delete_black"
 				android:hapticFeedbackEnabled="true"
 				android:textColor="@color/black"
-				android:background="@drawable/btn_froyo_android"
+				android:background="@drawable/btn_htc"
 				android:text="@string/dismiss_button_text" />
 			<Button
 				android:id="@+id/sms_delete_button"  
@@ -224,7 +224,7 @@
 				android:drawableLeft="@drawable/ic_delete_red"
 				android:hapticFeedbackEnabled="true"
 				android:textColor="@color/black" 
-				android:background="@drawable/btn_froyo_android"
+				android:background="@drawable/btn_htc"
 				android:text="@string/delete_button_text" />
 		</LinearLayout>
 	</LinearLayout>
@@ -246,7 +246,7 @@
 			android:drawableLeft="@drawable/ic_delete_black"
 			android:hapticFeedbackEnabled="true"
 			android:textColor="@color/black"
-			android:background="@drawable/btn_froyo_android"
+			android:background="@drawable/btn_htc"
 			android:text="@string/dismiss_button_text" />
 		<Button
 			android:id="@+id/calendar_view_button"  
@@ -259,7 +259,7 @@
 			android:drawableLeft="@drawable/ic_calendar_event_black"
 			android:hapticFeedbackEnabled="true"
 			android:textColor="@color/black"
-			android:background="@drawable/btn_froyo_android"
+			android:background="@drawable/btn_htc"
 			android:text="@string/view_button_text" />
 	</LinearLayout>
 </LinearLayout>

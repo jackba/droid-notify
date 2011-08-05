@@ -540,6 +540,7 @@
 		<item name="4">Dark Translucent V2</item>
 		<item name="5">Dark Translucent V3</item>
 		<item name="6">HTC Sense UI</item>
+		<item name="7">Xperia</item>
 	</string-array>
 	<string-array name="theme_values">
 		<item name="0">android</item>
@@ -549,6 +550,7 @@
 		<item name="4">dark_translucent_v2</item>
 		<item name="5">dark_translucent_v3</item>
 		<item name="6">htc</item>
+		<item name="7">xperia</item>
 	</string-array>
 	<array name="theme_images">
 		<item name="0">@drawable/android_theme_small</item>
@@ -558,6 +560,7 @@
 		<item name="4">@drawable/dark_translucent_v2_theme_small</item>
 		<item name="5">@drawable/dark_translucent_v3_theme_small</item>
 		<item name="6">@drawable/dark_translucent_v3_theme_small</item>
+		<item name="7">@drawable/dark_translucent_v3_theme_small</item>
 	</array>
 	
 	<!-- Dim Screen Arrays --> 

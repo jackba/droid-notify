@@ -6,14 +6,14 @@
     android:layout_height="wrap_content"
     android:layout_width="fill_parent" 
     android:gravity="center_vertical|fill_horizontal"
-    android:background="@drawable/htc_panel">
+    android:background="@drawable/xperia_panel">
 	<RelativeLayout
     	android:id="@+id/header_navigation"
     	android:layout_width="wrap_content"
     	android:layout_height="wrap_content" 
     	android:gravity="center"
     	android:padding="2dp">
-	    <Button
+	   	<Button
 	    	android:id="@+id/previous_button" 
 	     	android:layout_height="wrap_content"
 	     	android:layout_width="wrap_content"
@@ -61,21 +61,21 @@
 			android:focusable="true" 
 			android:clickable="true"
 			android:hapticFeedbackEnabled="true"
-			android:background="@drawable/htc_list_selector_background">
+			android:background="@drawable/xperia_list_selector_background">
 			<ImageView
 				android:id="@+id/contact_photo_image_view"
 				android:layout_height="wrap_content"
 				android:layout_width="wrap_content"
 				android:layout_gravity="center_vertical"
 				android:scaleType="center"
-				android:background="@drawable/image_picture_frame_white" />	
+				android:background="@drawable/image_picture_frame_white" />
 			<ProgressBar 
 				android:id="@+id/contact_photo_progress_bar" 
 				android:layout_height="wrap_content"
 				android:layout_width="wrap_content"
 				android:layout_gravity="center_vertical|center_horizontal"
 				android:layout_margin="42dip"
-				style="@android:style/Widget.ProgressBar.Small" />		
+				style="@android:style/Widget.ProgressBar.Small" />
 			<LinearLayout
 				android:id="@+id/contact_info_wrapper_linear_layout"
 				android:orientation="vertical"
@@ -155,7 +155,7 @@
 			android:drawableLeft="@drawable/ic_delete_black"
 			android:hapticFeedbackEnabled="true"
 			android:textColor="@color/black" 
-			android:background="@drawable/btn_htc"
+			android:background="@drawable/btn_xperia"
 			android:text="@string/dismiss_button_text" />
 		<Button
 			android:id="@+id/phone_call_button"  
@@ -168,42 +168,17 @@
 			android:drawableLeft="@drawable/ic_call_green"
 			android:hapticFeedbackEnabled="true"
 			android:textColor="@color/black"
-			android:background="@drawable/btn_htc"
+			android:background="@drawable/btn_xperia"
 			android:text="@string/call_button_text" />
 	</LinearLayout>
 	<LinearLayout 
 		android:id="@+id/sms_button_linear_layout" 
 		android:layout_height="wrap_content"
 		android:layout_width="fill_parent" 
+		android:orientation="vertical" 
 		android:layout_gravity="center_horizontal" 
 		android:padding="2dip" 
 		android:gravity="center">
-		<Button
-			android:id="@+id/sms_dismiss_button"  
-			android:layout_height="wrap_content" 
-			android:layout_width="fill_parent"
-			android:layout_weight="1" 
-			android:layout_marginLeft="1dip"
-			android:layout_marginRight="1dip"
-			android:gravity="center_vertical|center_horizontal"
-			android:drawableLeft="@drawable/ic_delete_black"
-			android:hapticFeedbackEnabled="true"
-			android:textColor="@color/black"
-			android:background="@drawable/btn_htc"
-			android:text="@string/dismiss_button_text" />
-		<Button
-			android:id="@+id/sms_delete_button"  
-			android:layout_height="wrap_content" 
-			android:layout_width="fill_parent"
-			android:layout_weight="1" 
-			android:layout_marginLeft="1dip"
-			android:layout_marginRight="1dip"
-			android:gravity="center_vertical|center_horizontal"
-			android:drawableLeft="@drawable/ic_delete_red"
-			android:hapticFeedbackEnabled="true"
-			android:textColor="@color/black" 
-			android:background="@drawable/btn_htc"
-			android:text="@string/delete_button_text" />
 		<Button
 			android:id="@+id/sms_reply_button"  
 			android:layout_height="wrap_content" 
@@ -215,8 +190,43 @@
 			android:drawableLeft="@drawable/ic_conversation_black_small"
 			android:hapticFeedbackEnabled="true"
 			android:textColor="@color/black"
-			android:background="@drawable/btn_htc"
+			android:background="@drawable/btn_xperia"
 			android:text="@string/reply_button_text" />
+		<LinearLayout 
+			android:id="@+id/sms_button_linear_layout" 
+			android:layout_height="wrap_content"
+			android:layout_width="fill_parent" 
+			android:orientation="horizontal" 
+			android:layout_gravity="center_horizontal" 
+			android:padding="2dip" 
+			android:gravity="center">
+			<Button
+				android:id="@+id/sms_dismiss_button"  
+				android:layout_height="wrap_content" 
+				android:layout_width="fill_parent"
+				android:layout_weight="1" 
+				android:layout_marginLeft="1dip"
+				android:layout_marginRight="1dip"
+				android:gravity="center_vertical|center_horizontal"
+				android:drawableLeft="@drawable/ic_delete_black"
+				android:hapticFeedbackEnabled="true"
+				android:textColor="@color/black"
+				android:background="@drawable/btn_xperia"
+				android:text="@string/dismiss_button_text" />
+			<Button
+				android:id="@+id/sms_delete_button"  
+				android:layout_height="wrap_content" 
+				android:layout_width="fill_parent"
+				android:layout_weight="1" 
+				android:layout_marginLeft="1dip"
+				android:layout_marginRight="1dip"
+				android:gravity="center_vertical|center_horizontal"
+				android:drawableLeft="@drawable/ic_delete_red"
+				android:hapticFeedbackEnabled="true"
+				android:textColor="@color/black" 
+				android:background="@drawable/btn_xperia"
+				android:text="@string/delete_button_text" />
+		</LinearLayout>
 	</LinearLayout>
 	<LinearLayout 
 		android:id="@+id/calendar_button_linear_layout" 
@@ -236,7 +246,7 @@
 			android:drawableLeft="@drawable/ic_delete_black"
 			android:hapticFeedbackEnabled="true"
 			android:textColor="@color/black"
-			android:background="@drawable/btn_htc"
+			android:background="@drawable/btn_xperia"
 			android:text="@string/dismiss_button_text" />
 		<Button
 			android:id="@+id/calendar_view_button"  
@@ -249,7 +259,7 @@
 			android:drawableLeft="@drawable/ic_calendar_event_black"
 			android:hapticFeedbackEnabled="true"
 			android:textColor="@color/black"
-			android:background="@drawable/btn_htc"
+			android:background="@drawable/btn_xperia"
 			android:text="@string/view_button_text" />
 	</LinearLayout>
 </LinearLayout>

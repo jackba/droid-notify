@@ -61,7 +61,7 @@
 			android:focusable="true" 
 			android:clickable="true"
 			android:hapticFeedbackEnabled="true"
-			android:background="@drawable/froyo_list_selector_background">
+			android:background="@drawable/htc_list_selector_background">
 			<ImageView
 				android:id="@+id/contact_photo_image_view"
 				android:layout_height="wrap_content"

@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
   	android:layout_width="wrap_content"
     android:minWidth="300dip"
-    android:background="@drawable/htc_panel">
+    android:background="@drawable/xperia_panel">
 	<TextView
 		android:id="@+id/quick_reply_title_text_view"
 		android:layout_width="wrap_content"
@@ -63,7 +63,7 @@
 				android:gravity="center_vertical|center_horizontal"
 				android:hapticFeedbackEnabled="true" 
 	    		android:textColor="@color/black"
-				android:background="@drawable/btn_htc"
+				android:background="@drawable/btn_xperia"
       			android:text="@string/send_button_text"/>
   			<TextView 
 				android:id="@+id/characters_remaining_text_view"
@@ -88,6 +88,6 @@
 		android:gravity="center_vertical|center_horizontal"
 		android:hapticFeedbackEnabled="true" 
 		android:textColor="@color/black"
-		android:background="@drawable/btn_htc"
+		android:background="@drawable/btn_xperia"
 		android:text="@string/cancel_button_text" />
 </LinearLayout>
