@@ -212,7 +212,7 @@
 			android:layout_marginLeft="1dip"
 			android:layout_marginRight="1dip"
 			android:gravity="center_vertical|center_horizontal"
-			android:drawableLeft="@drawable/ic_conversation_black_small"
+			android:drawableLeft="@drawable/ic_conversation_grey_small"
 			android:hapticFeedbackEnabled="true"
 			android:textColor="@color/black"
 			android:background="@drawable/btn_htc"
