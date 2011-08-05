@@ -900,7 +900,7 @@ public class NotificationView extends LinearLayout {
 		        			contactWrapperTextColorResource = R.color.white;
 		        		}
 		        		if(applicationThemeSetting.equals(HTC_SENSE_UI_THEME)){
-		        			listSelectorBackgroundResource = R.drawable.htc_list_selector_background_transition;
+		        			listSelectorBackgroundResource = R.drawable.htc_list_selector_background;
 		        			contactWrapperTextColorResource = R.color.white;
 		        		}
 		                view.setBackgroundResource(listSelectorBackgroundResource);
