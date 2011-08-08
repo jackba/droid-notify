@@ -99,6 +99,18 @@ public class NotificationView extends LinearLayout {
 	private static final String MMS_MESSAGE_BODY_FONT_SIZE = "mms_message_body_font_size";
 	private static final String CALENDAR_MESSAGE_BODY_FONT_SIZE = "calendar_message_body_font_size";
 	private static final String USER_IN_MESSAGING_APP = "user_in_messaging_app";
+	private static final String SMS_HIDE_CONTACT_PANEL_ENABLED_KEY = "sms_hide_contact_panel_enabled";
+	private static final String MMS_HIDE_CONTACT_PANEL_ENABLED_KEY = "mms_hide_contact_panel_enabled";
+	private static final String PHONE_HIDE_CONTACT_PANEL_ENABLED_KEY = "missed_call_hide_contact_panel_enabled";
+	private static final String SMS_HIDE_CONTACT_PHOTO_ENABLED_KEY = "sms_hide_contact_photo_enabled";
+	private static final String MMS_HIDE_CONTACT_PHOTO_ENABLED_KEY = "mms_hide_contact_photo_enabled";
+	private static final String PHONE_HIDE_CONTACT_PHOTO_ENABLED_KEY = "missed_call_hide_contact_photo_enabled";
+	private static final String SMS_HIDE_CONTACT_NAME_ENABLED_KEY = "sms_hide_contact_name_enabled";
+	private static final String MMS_HIDE_CONTACT_NAME_ENABLED_KEY = "mms_hide_contact_name_enabled";
+	private static final String PHONE_HIDE_CONTACT_NAME_ENABLED_KEY = "missed_call_hide_contact_name_enabled";
+	private static final String SMS_HIDE_CONTACT_NUMBER_ENABLED_KEY = "sms_hide_contact_number_enabled";
+	private static final String MMS_HIDE_CONTACT_NUMBER_ENABLED_KEY = "mms_hide_contact_number_enabled";
+	private static final String PHONE_HIDE_CONTACT_NUMBER_ENABLED_KEY = "missed_call_hide_contact_number_enabled";
 	
 	private static final String APP_THEME_KEY = "app_theme";
 	private static final String ANDROID_FROYO_THEME = "android";
@@ -133,12 +145,15 @@ public class NotificationView extends LinearLayout {
 	private TextView _notificationInfoTextView = null;
 	private TextView _notificationDetailsTextView = null;
 	private ImageView _notificationIconImageView = null;
-	private ImageView _photoImageView = null;
-	private LinearLayout _contactLinearLayout = null;
 	private LinearLayout _phoneButtonLinearLayout = null;
 	private LinearLayout _smsButtonLinearLayout = null;
 	private LinearLayout _calendarButtonLinearLayout = null;
+
+	private LinearLayout _contactLinearLayout = null;
+	private ImageView _photoImageView = null;
 	private ProgressBar _photoProgressBar = null;
+	
+	
 
 	//================================================================================
 	// Constructors
@@ -526,6 +541,7 @@ public class NotificationView extends LinearLayout {
 	 */
 	private void populateNotificationViewInfo(Notification notification) {
 		if (_debug) Log.v("NotificationView.populateNotificationViewInfo() NotificationType: " + _notificationType);
+		boolean loadContactPhoto = true;
 	    // Set from, number, message etc. views.
 		if(_notificationType == NOTIFICATION_TYPE_CALENDAR){
 			String notificationTitle = notification.getTitle();
@@ -536,6 +552,7 @@ public class NotificationView extends LinearLayout {
 			_contactNumberTextView.setVisibility(View.GONE);
 			_photoImageView.setVisibility(View.GONE);
 			_photoProgressBar.setVisibility(View.GONE);
+			//Set Message Body Font
 			float messagebodyfontSize = Float.parseFloat(_preferences.getString(CALENDAR_MESSAGE_BODY_FONT_SIZE, "14"));
 			_notificationDetailsTextView.setTextSize(messagebodyfontSize);
 		}else{
@@ -551,20 +568,91 @@ public class NotificationView extends LinearLayout {
 			if(_preferences.getBoolean(SMS_HIDE_MESSAGE_KEY, false)){
 				_notificationDetailsTextView.setVisibility(View.GONE);
 			}else{
+				//Set Message Body Font
 				float messagebodyfontSize = Float.parseFloat(_preferences.getString(SMS_MESSAGE_BODY_FONT_SIZE, "14"));
 				_notificationDetailsTextView.setTextSize(messagebodyfontSize);
+			}
+			//Contact Display Settings
+			if(_preferences.getBoolean(SMS_HIDE_CONTACT_PANEL_ENABLED_KEY, false)){
+				_photoImageView.setVisibility(View.GONE);
+				_photoProgressBar.setVisibility(View.GONE);
+				_contactNameTextView.setVisibility(View.GONE);
+				_contactNumberTextView.setVisibility(View.GONE);
+				loadContactPhoto = false;
+			}else{
+				//Show/Hide Contact Photo
+				if(_preferences.getBoolean(SMS_HIDE_CONTACT_PHOTO_ENABLED_KEY, false)){
+					_photoImageView.setVisibility(View.GONE);
+					_photoProgressBar.setVisibility(View.GONE);
+					loadContactPhoto = false;
+				}
+				//Show/Hide Contact Name
+				if(_preferences.getBoolean(SMS_HIDE_CONTACT_NAME_ENABLED_KEY, false)){
+					_contactNameTextView.setVisibility(View.GONE);
+				}
+				//Show/Hide Contact Number
+				if(_preferences.getBoolean(SMS_HIDE_CONTACT_NUMBER_ENABLED_KEY, false)){
+					_contactNumberTextView.setVisibility(View.GONE);
+				}
 			}
 		}
 		if(_notificationType == NOTIFICATION_TYPE_MMS){
 			if(_preferences.getBoolean(MMS_HIDE_MESSAGE_KEY, false)){
 				_notificationDetailsTextView.setVisibility(View.GONE);
 			}else{
+				//Set Message Body Font
 				float messagebodyfontSize = Float.parseFloat(_preferences.getString(MMS_MESSAGE_BODY_FONT_SIZE, "14"));
 				_notificationDetailsTextView.setTextSize(messagebodyfontSize);
+			}
+			//Contact Display Settings
+			if(_preferences.getBoolean(MMS_HIDE_CONTACT_PANEL_ENABLED_KEY, false)){
+				_photoImageView.setVisibility(View.GONE);
+				_photoProgressBar.setVisibility(View.GONE);
+				_contactNameTextView.setVisibility(View.GONE);
+				_contactNumberTextView.setVisibility(View.GONE);
+				loadContactPhoto = false;
+			}else{
+				//Show/Hide Contact Photo
+				if(_preferences.getBoolean(MMS_HIDE_CONTACT_PHOTO_ENABLED_KEY, false)){
+					_photoImageView.setVisibility(View.GONE);
+					_photoProgressBar.setVisibility(View.GONE);
+					loadContactPhoto = false;
+				}
+				//Show/Hide Contact Name
+				if(_preferences.getBoolean(MMS_HIDE_CONTACT_NAME_ENABLED_KEY, false)){
+					_contactNameTextView.setVisibility(View.GONE);
+				}
+				//Show/Hide Contact Number
+				if(_preferences.getBoolean(MMS_HIDE_CONTACT_NUMBER_ENABLED_KEY, false)){
+					_contactNumberTextView.setVisibility(View.GONE);
+				}
 			}
 		}
 		if(_notificationType == NOTIFICATION_TYPE_PHONE){
 			_notificationDetailsTextView.setVisibility(View.GONE);
+			//Contact Display Settings
+			if(_preferences.getBoolean(PHONE_HIDE_CONTACT_PANEL_ENABLED_KEY, false)){
+				_photoImageView.setVisibility(View.GONE);
+				_photoProgressBar.setVisibility(View.GONE);
+				_contactNameTextView.setVisibility(View.GONE);
+				_contactNumberTextView.setVisibility(View.GONE);
+				loadContactPhoto = false;
+			}else{
+				//Show/Hide Contact Photo
+				if(_preferences.getBoolean(PHONE_HIDE_CONTACT_PHOTO_ENABLED_KEY, false)){
+					_photoImageView.setVisibility(View.GONE);
+					_photoProgressBar.setVisibility(View.GONE);
+					loadContactPhoto = false;
+				}
+				//Show/Hide Contact Name
+				if(_preferences.getBoolean(PHONE_HIDE_CONTACT_NAME_ENABLED_KEY, false)){
+					_contactNameTextView.setVisibility(View.GONE);
+				}
+				//Show/Hide Contact Number
+				if(_preferences.getBoolean(PHONE_HIDE_CONTACT_NUMBER_ENABLED_KEY, false)){
+					_contactNumberTextView.setVisibility(View.GONE);
+				}
+			}
 		}
 	    //Load the notification message.
 	    setNotificationMessage(notification);
@@ -574,7 +662,9 @@ public class NotificationView extends LinearLayout {
 	    setupContextMenus();
 	    //Load the image from the users contacts.
 	    if(_notificationType != NOTIFICATION_TYPE_CALENDAR){
-	    	new setNotificationContactImageAsyncTask().execute(notification.getContactID());
+	    	if(loadContactPhoto){
+	    		new setNotificationContactImageAsyncTask().execute(notification.getContactID());
+	    	}
 	    }
 	}
 	
