@@ -245,6 +245,35 @@
 									android:summaryOff="@string/preference_hide_reply_button_enabled_summaryOff" 
 									android:defaultValue="false" />
 							</PreferenceScreen>
+						</PreferenceScreen>	
+						<PreferenceScreen
+							android:key="sms_contact_display_settings_screen"
+							android:title="@string/contact_display_settings_text"
+							android:dependency="sms_notifications_enabled">
+							<CheckBoxPreference 
+								android:key="sms_hide_contact_panel_enabled" 
+								android:title="@string/hide_contact_panel_text" 
+								android:summaryOn="@string/preference_sms_hide_contact_panel_enabled_summaryOn" 
+								android:summaryOff="@string/preference_sms_hide_contact_panel_enabled_summaryOff" 
+								android:defaultValue="false" />
+							<CheckBoxPreference 
+								android:key="sms_hide_contact_photo_enabled" 
+								android:title="@string/hide_contact_photo_text" 
+								android:summaryOn="@string/preference_sms_hide_contact_photo_enabled_summaryOn" 
+								android:summaryOff="@string/preference_sms_hide_contact_photo_enabled_summaryOff" 
+								android:defaultValue="false" />
+							<CheckBoxPreference 
+								android:key="sms_hide_contact_name_enabled" 
+								android:title="@string/hide_contact_name_text" 
+								android:summaryOn="@string/preference_sms_hide_contact_name_enabled_summaryOn" 
+								android:summaryOff="@string/preference_sms_hide_contact_name_enabled_summaryOff" 
+								android:defaultValue="false" />
+							<CheckBoxPreference 
+								android:key="sms_hide_contact_number_enabled" 
+								android:title="@string/hide_contact_number_text" 
+								android:summaryOn="@string/preference_sms_hide_contact_number_enabled_summaryOn" 
+								android:summaryOff="@string/preference_sms_hide_contact_number_enabled_summaryOff" 
+								android:defaultValue="false" />
 						</PreferenceScreen>
 						<PreferenceScreen
 							android:key="sms_vibrate_settings_screen"
@@ -388,6 +417,35 @@
 									android:summaryOff="@string/preference_hide_reply_button_enabled_summaryOff" 
 									android:defaultValue="false" />
 							</PreferenceScreen>
+						</PreferenceScreen>	
+						<PreferenceScreen
+							android:key="mms_contact_display_settings_screen"
+							android:title="@string/contact_display_settings_text"
+							android:dependency="mms_notifications_enabled">
+							<CheckBoxPreference 
+								android:key="mms_hide_contact_panel_enabled" 
+								android:title="@string/hide_contact_panel_text" 
+								android:summaryOn="@string/preference_mms_hide_contact_panel_enabled_summaryOn" 
+								android:summaryOff="@string/preference_mms_hide_contact_panel_enabled_summaryOff" 
+								android:defaultValue="false" />
+							<CheckBoxPreference 
+								android:key="mms_hide_contact_photo_enabled" 
+								android:title="@string/hide_contact_photo_text" 
+								android:summaryOn="@string/preference_mms_hide_contact_photo_enabled_summaryOn" 
+								android:summaryOff="@string/preference_mms_hide_contact_photo_enabled_summaryOff" 
+								android:defaultValue="false" />
+							<CheckBoxPreference 
+								android:key="mms_hide_contact_name_enabled" 
+								android:title="@string/hide_contact_name_text" 
+								android:summaryOn="@string/preference_mms_hide_contact_name_enabled_summaryOn" 
+								android:summaryOff="@string/preference_mms_hide_contact_name_enabled_summaryOff" 
+								android:defaultValue="false" />
+							<CheckBoxPreference 
+								android:key="mms_hide_contact_number_enabled" 
+								android:title="@string/hide_contact_number_text" 
+								android:summaryOn="@string/preference_mms_hide_contact_number_enabled_summaryOn" 
+								android:summaryOff="@string/preference_mms_hide_contact_number_enabled_summaryOff" 
+								android:defaultValue="false" />
 						</PreferenceScreen>
 						<PreferenceScreen
 							android:key="mms_vibrate_settings_screen"
@@ -488,6 +546,35 @@
 									android:summaryOff="@string/preference_hide_call_button_enabled_summaryOff" 
 									android:defaultValue="false" />
 							</PreferenceScreen>
+						</PreferenceScreen>	
+						<PreferenceScreen
+							android:key="missed_call_contact_display_settings_screen"
+							android:title="@string/contact_display_settings_text"
+							android:dependency="missed_call_notifications_enabled">
+							<CheckBoxPreference 
+								android:key="missed_call_hide_contact_panel_enabled" 
+								android:title="@string/hide_contact_panel_text" 
+								android:summaryOn="@string/preference_missed_call_hide_contact_panel_enabled_summaryOn" 
+								android:summaryOff="@string/preference_missed_call_hide_contact_panel_enabled_summaryOff" 
+								android:defaultValue="false" />
+							<CheckBoxPreference 
+								android:key="missed_call_hide_contact_photo_enabled" 
+								android:title="@string/hide_contact_photo_text" 
+								android:summaryOn="@string/preference_missed_call_hide_contact_photo_enabled_summaryOn" 
+								android:summaryOff="@string/preference_missed_call_hide_contact_photo_enabled_summaryOff" 
+								android:defaultValue="false" />
+							<CheckBoxPreference 
+								android:key="missed_call_hide_contact_name_enabled" 
+								android:title="@string/hide_contact_name_text" 
+								android:summaryOn="@string/preference_missed_call_hide_contact_name_enabled_summaryOn" 
+								android:summaryOff="@string/preference_missed_call_hide_contact_name_enabled_summaryOff" 
+								android:defaultValue="false" />
+							<CheckBoxPreference 
+								android:key="missed_call_hide_contact_number_enabled" 
+								android:title="@string/hide_contact_number_text" 
+								android:summaryOn="@string/preference_missed_call_hide_contact_number_enabled_summaryOn" 
+								android:summaryOff="@string/preference_missed_call_hide_contact_number_enabled_summaryOff" 
+								android:defaultValue="false" />
 						</PreferenceScreen>
 						<PreferenceScreen
 							android:key="missed_call_vibrate_settings_screen"
@@ -646,7 +733,7 @@
 									android:summaryOff="@string/preference_hide_call_button_enabled_summaryOff" 
 									android:defaultValue="false" />
 							</PreferenceScreen>
-						</PreferenceScreen>
+						</PreferenceScreen>	
 						<PreferenceScreen
 							android:key="calendar_vibrate_settings_screen"
 							android:title="@string/preference_calendar_vibrate_settings"
