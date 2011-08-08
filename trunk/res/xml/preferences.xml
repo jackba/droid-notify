@@ -116,16 +116,20 @@
 						android:entries="@array/dim_screen_background_amount_options"
 						android:entryValues="@array/dim_screen_background_amount_options_values"
 						android:dependency="quick_reply_dim_screen_background_enabled" />
-					<PreferenceScreen
+					<PreferenceCategory
+						android:key="quick_reply_show_hide_buttons_settings_category"
+						android:title="@string/show_hide_button_settings_text">	
+						<PreferenceScreen
 							android:key="quick_reply_show_hide_buttons_settings_screen"
-							android:title="@string/preference_show_hide_buttons_settings">
+							android:title="@string/show_hide_button_settings_text">
 							<CheckBoxPreference 
 								android:key="quick_reply_hide_cancel_button_enabled" 
 								android:title="@string/preference_hide_cancel_button_enabled_title" 
 								android:summaryOn="@string/preference_hide_cancel_button_enabled_summaryOn" 
 								android:summaryOff="@string/preference_hide_cancel_button_enabled_summaryOff" 
 								android:defaultValue="true" />
-					</PreferenceScreen>
+						</PreferenceScreen>
+					</PreferenceCategory>
 				</PreferenceScreen>
 			</PreferenceCategory>
 		</PreferenceScreen>
@@ -143,22 +147,30 @@
 				<PreferenceScreen
 					android:key="sms_notification_settings_screen"
 					android:title="@string/preference_sms_notifications">
+					<CheckBoxPreference 
+						android:key="sms_notifications_enabled" 
+						android:title="@string/preference_sms_enabled_title" 
+						android:summaryOn="@string/preference_sms_enabled_summaryOn" 
+						android:summaryOff="@string/preference_sms_enabled_summaryOff" 
+						android:defaultValue="true" />
+					<CheckBoxPreference 
+						android:key="sms_display_unread_enabled" 
+						android:title="@string/preference_sms_display_unread_enabled_title" 
+						android:summaryOn="@string/preference_sms_display_unread_enabled_summaryOn" 
+						android:summaryOff="@string/preference_sms_display_unread_enabled_summaryOff" 
+						android:defaultValue="false"
+						android:dependency="sms_notifications_enabled" />		
+					<ListPreference
+						android:key="messaging_app_running_action_sms"
+						android:title="@string/messaging_app_running_action_text"
+						android:summary="@string/messaging_app_running_action_sms_summary"
+						android:defaultValue="0"
+						android:entries="@array/messaging_app_running_action_options"
+						android:entryValues="@array/messaging_app_running_action_options_values"
+						android:dependency="sms_notifications_enabled" />
 					<PreferenceCategory
-						android:key="sms_notification_settings_category"
-						android:title="@string/preference_sms_notifications">
-						<CheckBoxPreference 
-							android:key="sms_notifications_enabled" 
-							android:title="@string/preference_sms_enabled_title" 
-							android:summaryOn="@string/preference_sms_enabled_summaryOn" 
-							android:summaryOff="@string/preference_sms_enabled_summaryOff" 
-							android:defaultValue="true" />
-						<CheckBoxPreference 
-							android:key="sms_display_unread_enabled" 
-							android:title="@string/preference_sms_display_unread_enabled_title" 
-							android:summaryOn="@string/preference_sms_display_unread_enabled_summaryOn" 
-							android:summaryOff="@string/preference_sms_display_unread_enabled_summaryOff" 
-							android:defaultValue="false"
-							android:dependency="sms_notifications_enabled" />
+						android:key="sms_message_body_settings_category"
+						android:title="@string/message_body_settings_text">	
 						<PreferenceScreen
 							android:key="sms_message_body_settings_screen"
 							android:title="@string/message_body_settings_text"
@@ -176,18 +188,14 @@
 								android:summaryOn="@string/preference_sms_hide_message_body_enabled_summaryOn" 
 								android:summaryOff="@string/preference_sms_hide_message_body_enabled_summaryOff" 
 								android:defaultValue="false" />	
-						</PreferenceScreen>		
-						<ListPreference
-							android:key="messaging_app_running_action_sms"
-							android:title="@string/messaging_app_running_action_text"
-							android:summary="@string/messaging_app_running_action_sms_summary"
-							android:defaultValue="0"
-							android:entries="@array/messaging_app_running_action_options"
-							android:entryValues="@array/messaging_app_running_action_options_values"
-							android:dependency="sms_notifications_enabled" />
+						</PreferenceScreen>
+					</PreferenceCategory>
+					<PreferenceCategory
+						android:key="sms_button_settings_category"
+						android:title="@string/button_settings_text">
 						<PreferenceScreen
 							android:key="sms_button_settings_screen"
-							android:title="@string/preference_sms_button_settings"
+							android:title="@string/button_settings_text"
 							android:dependency="sms_notifications_enabled">
 							<CheckBoxPreference
 								android:key="confirm_sms_deletion_enabled" 
@@ -223,29 +231,37 @@
 								android:defaultValue="0"
 								android:entries="@array/sms_notification_count_button_options"
 								android:entryValues="@array/sms_notification_count_button_options_values"/>	
-							<PreferenceScreen
-								android:key="sms_show_hide_buttons_settings_screen"
-								android:title="@string/preference_show_hide_buttons_settings">
-								<CheckBoxPreference 
-									android:key="sms_hide_dismiss_button_enabled" 
-									android:title="@string/preference_hide_dismiss_button_enabled_title" 
-									android:summaryOn="@string/preference_hide_dismiss_button_enabled_summaryOn" 
-									android:summaryOff="@string/preference_hide_dismiss_button_enabled_summaryOff" 
-									android:defaultValue="false" />
-								<CheckBoxPreference 
-									android:key="sms_hide_delete_button_enabled" 
-									android:title="@string/preference_hide_delete_button_enabled_title" 
-									android:summaryOn="@string/preference_hide_delete_button_enabled_summaryOn" 
-									android:summaryOff="@string/preference_hide_delete_button_enabled_summaryOff" 
-									android:defaultValue="false" />
-								<CheckBoxPreference 
-									android:key="sms_hide_reply_button_enabled" 
-									android:title="@string/preference_hide_reply_button_enabled_title" 
-									android:summaryOn="@string/preference_hide_reply_button_enabled_summaryOn" 
-									android:summaryOff="@string/preference_hide_reply_button_enabled_summaryOff" 
-									android:defaultValue="false" />
-							</PreferenceScreen>
+							<PreferenceCategory
+								android:key="sms_show_hide_buttons_settings_category"
+								android:title="@string/show_hide_button_settings_text">	
+								<PreferenceScreen
+									android:key="sms_show_hide_buttons_settings_screen"
+									android:title="@string/show_hide_button_settings_text">
+									<CheckBoxPreference 
+										android:key="sms_hide_dismiss_button_enabled" 
+										android:title="@string/preference_hide_dismiss_button_enabled_title" 
+										android:summaryOn="@string/preference_hide_dismiss_button_enabled_summaryOn" 
+										android:summaryOff="@string/preference_hide_dismiss_button_enabled_summaryOff" 
+										android:defaultValue="false" />
+									<CheckBoxPreference 
+										android:key="sms_hide_delete_button_enabled" 
+										android:title="@string/preference_hide_delete_button_enabled_title" 
+										android:summaryOn="@string/preference_hide_delete_button_enabled_summaryOn" 
+										android:summaryOff="@string/preference_hide_delete_button_enabled_summaryOff" 
+										android:defaultValue="false" />
+									<CheckBoxPreference 
+										android:key="sms_hide_reply_button_enabled" 
+										android:title="@string/preference_hide_reply_button_enabled_title" 
+										android:summaryOn="@string/preference_hide_reply_button_enabled_summaryOn" 
+										android:summaryOff="@string/preference_hide_reply_button_enabled_summaryOff" 
+										android:defaultValue="false" />
+								</PreferenceScreen>
+							</PreferenceCategory>
 						</PreferenceScreen>	
+					</PreferenceCategory>
+					<PreferenceCategory
+						android:key="sms_contact_display_settings_category"
+						android:title="@string/contact_display_settings_text">
 						<PreferenceScreen
 							android:key="sms_contact_display_settings_screen"
 							android:title="@string/contact_display_settings_text"
@@ -275,37 +291,37 @@
 								android:summaryOff="@string/preference_sms_hide_contact_number_enabled_summaryOff" 
 								android:defaultValue="false" />
 						</PreferenceScreen>
-						<PreferenceScreen
-							android:key="sms_vibrate_settings_screen"
-							android:title="@string/preference_sms_vibrate_settings"
-							android:dependency="sms_notifications_enabled">
-							<CheckBoxPreference 
-								android:key="sms_vibrate_enabled" 
-								android:title="@string/preference_sms_vibrate_enabled_title" 
-								android:summaryOn="@string/preference_sms_vibrate_enabled_summaryOn" 
-								android:summaryOff="@string/preference_sms_vibrate_enabled_summaryOff" 
-								android:defaultValue="true"
-								android:dependency="app_vibrations_enabled" />
-						</PreferenceScreen>
-						<PreferenceScreen
-							android:key="sms_ringtone_settings_screen"
-							android:title="@string/preference_sms_ringtone_settings"
-							android:dependency="sms_notifications_enabled">
-							<CheckBoxPreference 
-								android:key="sms_ringtone_enabled" 
-								android:title="@string/preference_sms_ringtone_enabled_title" 
-								android:summaryOn="@string/preference_sms_ringtone_enabled_summaryOn" 
-								android:summaryOff="@string/preference_sms_ringtone_enabled_summaryOff" 
-								android:defaultValue="true"
-								android:dependency="app_ringtones_enabled" />
-							<RingtonePreference 
-								android:key="sms_ringtone_audio" 
-								android:showDefault="true"
-								android:title="@string/preference_select_ringtone"
-								android:ringtoneType="notification"
-								android:dependency="sms_ringtone_enabled" />
-						</PreferenceScreen>
-					</PreferenceCategory>
+					</PreferenceCategory>	
+					<PreferenceScreen
+						android:key="sms_vibrate_settings_screen"
+						android:title="@string/preference_sms_vibrate_settings"
+						android:dependency="sms_notifications_enabled">
+						<CheckBoxPreference 
+							android:key="sms_vibrate_enabled" 
+							android:title="@string/preference_sms_vibrate_enabled_title" 
+							android:summaryOn="@string/preference_sms_vibrate_enabled_summaryOn" 
+							android:summaryOff="@string/preference_sms_vibrate_enabled_summaryOff" 
+							android:defaultValue="true"
+							android:dependency="app_vibrations_enabled" />
+					</PreferenceScreen>
+					<PreferenceScreen
+						android:key="sms_ringtone_settings_screen"
+						android:title="@string/preference_sms_ringtone_settings"
+						android:dependency="sms_notifications_enabled">
+						<CheckBoxPreference 
+							android:key="sms_ringtone_enabled" 
+							android:title="@string/preference_sms_ringtone_enabled_title" 
+							android:summaryOn="@string/preference_sms_ringtone_enabled_summaryOn" 
+							android:summaryOff="@string/preference_sms_ringtone_enabled_summaryOff" 
+							android:defaultValue="true"
+							android:dependency="app_ringtones_enabled" />
+						<RingtonePreference 
+							android:key="sms_ringtone_audio" 
+							android:showDefault="true"
+							android:title="@string/preference_select_ringtone"
+							android:ringtoneType="notification"
+							android:dependency="sms_ringtone_enabled" />
+					</PreferenceScreen>
 				</PreferenceScreen>		
 			</PreferenceCategory>
 			<PreferenceCategory
@@ -315,23 +331,31 @@
 					android:key="mms_notification_settings_screen"
 					android:title="@string/preference_mms_notifications"
 					android:dependency="app_enabled">
+					<CheckBoxPreference 
+						android:key="mms_notifications_enabled" 
+						android:title="@string/preference_mms_enabled_title" 
+						android:summaryOn="@string/preference_mms_enabled_summaryOn" 
+						android:summaryOff="@string/preference_mms_enabled_summaryOff" 
+						android:defaultValue="true" />
+					<CheckBoxPreference 
+						android:key="mms_display_unread_enabled" 
+						android:title="@string/preference_mms_display_unread_enabled_title" 
+						android:summaryOn="@string/preference_mms_display_unread_enabled_summaryOn" 
+						android:summaryOff="@string/preference_mms_display_unread_enabled_summaryOff" 
+						android:defaultValue="false"
+						android:dependency="mms_notifications_enabled" />	
+					<ListPreference
+						android:key="messaging_app_running_action_mms"
+						android:title="@string/messaging_app_running_action_text"
+						android:summary="@string/messaging_app_running_action_mms_summary"
+						android:defaultValue="0"
+						android:entries="@array/messaging_app_running_action_options"
+						android:entryValues="@array/messaging_app_running_action_options_values"
+						android:dependency="mms_notifications_enabled" />
 					<PreferenceCategory
-						android:key="mms_notification_settings_category"
-						android:title="@string/preference_mms_notifications">
-						<CheckBoxPreference 
-							android:key="mms_notifications_enabled" 
-							android:title="@string/preference_mms_enabled_title" 
-							android:summaryOn="@string/preference_mms_enabled_summaryOn" 
-							android:summaryOff="@string/preference_mms_enabled_summaryOff" 
-							android:defaultValue="true" />
-						<CheckBoxPreference 
-							android:key="mms_display_unread_enabled" 
-							android:title="@string/preference_mms_display_unread_enabled_title" 
-							android:summaryOn="@string/preference_mms_display_unread_enabled_summaryOn" 
-							android:summaryOff="@string/preference_mms_display_unread_enabled_summaryOff" 
-							android:defaultValue="false"
-							android:dependency="mms_notifications_enabled" />
-						<PreferenceScreen
+						android:key="mms_message_body_settings_category"
+						android:title="@string/message_body_settings_text">	
+					<PreferenceScreen
 							android:key="mms_message_body_settings_screen"
 							android:title="@string/message_body_settings_text"
 							android:dependency="mms_notifications_enabled">	
@@ -348,18 +372,14 @@
 								android:summaryOn="@string/preference_mms_hide_message_body_enabled_summaryOn" 
 								android:summaryOff="@string/preference_mms_hide_message_body_enabled_summaryOff" 
 								android:defaultValue="false" />
-						</PreferenceScreen>		
-						<ListPreference
-							android:key="messaging_app_running_action_mms"
-							android:title="@string/messaging_app_running_action_text"
-							android:summary="@string/messaging_app_running_action_mms_summary"
-							android:defaultValue="0"
-							android:entries="@array/messaging_app_running_action_options"
-							android:entryValues="@array/messaging_app_running_action_options_values"
-							android:dependency="mms_notifications_enabled" />
+						</PreferenceScreen>	
+					</PreferenceCategory>
+					<PreferenceCategory
+						android:key="mms_button_settings_category"
+						android:title="@string/button_settings_text">
 						<PreferenceScreen
 							android:key="mms_button_settings_screen"
-							android:title="@string/preference_mms_button_settings"
+							android:title="@string/button_settings_text"
 							android:dependency="mms_notifications_enabled">
 							<CheckBoxPreference
 								android:key="confirm_mms_deletion_enabled" 
@@ -394,30 +414,38 @@
 								android:summary="@string/preference_notification_count_button_action_summary"
 								android:defaultValue="0"
 								android:entries="@array/mms_notification_count_button_options"
-								android:entryValues="@array/mms_notification_count_button_options_values"/>
-							<PreferenceScreen
-								android:key="mms_show_hide_buttons_settings_screen"
-								android:title="@string/preference_show_hide_buttons_settings">
-								<CheckBoxPreference 
-									android:key="mms_hide_dismiss_button_enabled" 
-									android:title="@string/preference_hide_dismiss_button_enabled_title" 
-									android:summaryOn="@string/preference_hide_dismiss_button_enabled_summaryOn" 
-									android:summaryOff="@string/preference_hide_dismiss_button_enabled_summaryOff" 
-									android:defaultValue="false" />
-								<CheckBoxPreference 
-									android:key="mms_hide_delete_button_enabled" 
-									android:title="@string/preference_hide_delete_button_enabled_title" 
-									android:summaryOn="@string/preference_hide_delete_button_enabled_summaryOn" 
-									android:summaryOff="@string/preference_hide_delete_button_enabled_summaryOff" 
-									android:defaultValue="false" />
-								<CheckBoxPreference 
-									android:key="mms_hide_reply_button_enabled" 
-									android:title="@string/preference_hide_reply_button_enabled_title" 
-									android:summaryOn="@string/preference_hide_reply_button_enabled_summaryOn" 
-									android:summaryOff="@string/preference_hide_reply_button_enabled_summaryOff" 
-									android:defaultValue="false" />
-							</PreferenceScreen>
+								android:entryValues="@array/mms_notification_count_button_options_values"/>	
+							<PreferenceCategory
+								android:key="mms_show_hide_buttons_settings_category"
+								android:title="@string/show_hide_button_settings_text">	
+								<PreferenceScreen
+									android:key="mms_show_hide_buttons_settings_screen"
+									android:title="@string/show_hide_button_settings_text">
+									<CheckBoxPreference 
+										android:key="mms_hide_dismiss_button_enabled" 
+										android:title="@string/preference_hide_dismiss_button_enabled_title" 
+										android:summaryOn="@string/preference_hide_dismiss_button_enabled_summaryOn" 
+										android:summaryOff="@string/preference_hide_dismiss_button_enabled_summaryOff" 
+										android:defaultValue="false" />
+									<CheckBoxPreference 
+										android:key="mms_hide_delete_button_enabled" 
+										android:title="@string/preference_hide_delete_button_enabled_title" 
+										android:summaryOn="@string/preference_hide_delete_button_enabled_summaryOn" 
+										android:summaryOff="@string/preference_hide_delete_button_enabled_summaryOff" 
+										android:defaultValue="false" />
+									<CheckBoxPreference 
+										android:key="mms_hide_reply_button_enabled" 
+										android:title="@string/preference_hide_reply_button_enabled_title" 
+										android:summaryOn="@string/preference_hide_reply_button_enabled_summaryOn" 
+										android:summaryOff="@string/preference_hide_reply_button_enabled_summaryOff" 
+										android:defaultValue="false" />
+								</PreferenceScreen>
+							</PreferenceCategory>
 						</PreferenceScreen>	
+					</PreferenceCategory>
+					<PreferenceCategory
+						android:key="mms_contact_display_settings_category"
+						android:title="@string/contact_display_settings_text">
 						<PreferenceScreen
 							android:key="mms_contact_display_settings_screen"
 							android:title="@string/contact_display_settings_text"
@@ -447,37 +475,37 @@
 								android:summaryOff="@string/preference_mms_hide_contact_number_enabled_summaryOff" 
 								android:defaultValue="false" />
 						</PreferenceScreen>
-						<PreferenceScreen
-							android:key="mms_vibrate_settings_screen"
-							android:title="@string/preference_mms_vibrate_settings"
-							android:dependency="mms_notifications_enabled">
-							<CheckBoxPreference 
-								android:key="mms_vibrate_enabled" 
-								android:title="@string/preference_mms_vibrate_enabled_title" 
-								android:summaryOn="@string/preference_mms_vibrate_enabled_summaryOn" 
-								android:summaryOff="@string/preference_mms_vibrate_enabled_summaryOff" 
-								android:defaultValue="true"
-								android:dependency="app_vibrations_enabled" />
-						</PreferenceScreen>
-						<PreferenceScreen
-							android:key="mms_ringtone_settings_screen"
-							android:title="@string/preference_mms_ringtone_settings"
-							android:dependency="mms_notifications_enabled">
-							<CheckBoxPreference 
-								android:key="mms_ringtone_enabled" 
-								android:title="@string/preference_mms_ringtone_enabled_title" 
-								android:summaryOn="@string/preference_mms_ringtone_enabled_summaryOn" 
-								android:summaryOff="@string/preference_mms_ringtone_enabled_summaryOff" 
-								android:defaultValue="true"
-								android:dependency="app_ringtones_enabled" />
-							<RingtonePreference 
-								android:key="mms_ringtone_audio" 
-								android:showDefault="true"
-								android:title="@string/preference_select_ringtone"
-								android:ringtoneType="notification"
-								android:dependency="mms_ringtone_enabled" />
-						</PreferenceScreen>
 					</PreferenceCategory>
+					<PreferenceScreen
+						android:key="mms_vibrate_settings_screen"
+						android:title="@string/preference_mms_vibrate_settings"
+						android:dependency="mms_notifications_enabled">
+						<CheckBoxPreference 
+							android:key="mms_vibrate_enabled" 
+							android:title="@string/preference_mms_vibrate_enabled_title" 
+							android:summaryOn="@string/preference_mms_vibrate_enabled_summaryOn" 
+							android:summaryOff="@string/preference_mms_vibrate_enabled_summaryOff" 
+							android:defaultValue="true"
+							android:dependency="app_vibrations_enabled" />
+					</PreferenceScreen>
+					<PreferenceScreen
+						android:key="mms_ringtone_settings_screen"
+						android:title="@string/preference_mms_ringtone_settings"
+						android:dependency="mms_notifications_enabled">
+						<CheckBoxPreference 
+							android:key="mms_ringtone_enabled" 
+							android:title="@string/preference_mms_ringtone_enabled_title" 
+							android:summaryOn="@string/preference_mms_ringtone_enabled_summaryOn" 
+							android:summaryOff="@string/preference_mms_ringtone_enabled_summaryOff" 
+							android:defaultValue="true"
+							android:dependency="app_ringtones_enabled" />
+						<RingtonePreference 
+							android:key="mms_ringtone_audio" 
+							android:showDefault="true"
+							android:title="@string/preference_select_ringtone"
+							android:ringtoneType="notification"
+							android:dependency="mms_ringtone_enabled" />
+					</PreferenceScreen>
 				</PreferenceScreen>	
 			</PreferenceCategory>
 			<PreferenceCategory
@@ -487,34 +515,34 @@
 					android:key="missed_call_notification_settings_screen"
 					android:title="@string/preference_missed_call_notifications"
 					android:dependency="app_enabled">
+					<CheckBoxPreference 
+						android:key="missed_call_notifications_enabled" 
+						android:title="@string/preference_missed_call_enabled_title" 
+						android:summaryOn="@string/preference_missed_call_enabled_summaryOn" 
+						android:summaryOff="@string/preference_missed_call_enabled_summaryOff" 
+						android:defaultValue="true" />
+					<ListPreference
+						android:key="missed_call_loading_settings"
+						android:title="@string/preference_missed_call_loading_title"
+						android:summary="@string/preference_missed_call_loading_summary"
+						android:defaultValue="0"
+						android:entries="@array/missed_call_loading_options"
+						android:entryValues="@array/missed_call_loading_options_values"
+						android:dependency="missed_call_notifications_enabled" />	
+					<ListPreference
+						android:key="messaging_app_running_action_missed_call"
+						android:title="@string/messaging_app_running_action_text"
+						android:summary="@string/messaging_app_running_action_missed_call_summary"
+						android:defaultValue="0"
+						android:entries="@array/messaging_app_running_action_options"
+						android:entryValues="@array/messaging_app_running_action_options_values"
+						android:dependency="missed_call_notifications_enabled" />
 					<PreferenceCategory
-						android:key="missed_call_notification_settings_category"
-						android:title="@string/preference_missed_call_notifications">
-						<CheckBoxPreference 
-							android:key="missed_call_notifications_enabled" 
-							android:title="@string/preference_missed_call_enabled_title" 
-							android:summaryOn="@string/preference_missed_call_enabled_summaryOn" 
-							android:summaryOff="@string/preference_missed_call_enabled_summaryOff" 
-							android:defaultValue="true" />
-						<ListPreference
-							android:key="missed_call_loading_settings"
-							android:title="@string/preference_missed_call_loading_title"
-							android:summary="@string/preference_missed_call_loading_summary"
-							android:defaultValue="0"
-							android:entries="@array/missed_call_loading_options"
-							android:entryValues="@array/missed_call_loading_options_values"
-							android:dependency="missed_call_notifications_enabled" />	
-						<ListPreference
-							android:key="messaging_app_running_action_missed_call"
-							android:title="@string/messaging_app_running_action_text"
-							android:summary="@string/messaging_app_running_action_missed_call_summary"
-							android:defaultValue="0"
-							android:entries="@array/messaging_app_running_action_options"
-							android:entryValues="@array/messaging_app_running_action_options_values"
-							android:dependency="missed_call_notifications_enabled" />
+						android:key="missed_call_button_settings_category"
+						android:title="@string/button_settings_text">
 						<PreferenceScreen
 							android:key="missed_call_button_settings_screen"
-							android:title="@string/preference_missed_call_button_settings"
+							android:title="@string/button_settings_text"
 							android:dependency="missed_call_notifications_enabled">
 							<ListPreference
 								android:key="missed_call_dismiss_button_action"
@@ -529,24 +557,32 @@
 								android:summary="@string/preference_notification_count_button_action_summary"
 								android:defaultValue="0"
 								android:entries="@array/missed_call_notification_count_button_options"
-								android:entryValues="@array/missed_call_notification_count_button_options_values"/>
-							<PreferenceScreen
-								android:key="missed_call_show_hide_buttons_settings_screen"
-								android:title="@string/preference_show_hide_buttons_settings">
-								<CheckBoxPreference 
-									android:key="missed_call_hide_dismiss_button_enabled" 
-									android:title="@string/preference_hide_dismiss_button_enabled_title" 
-									android:summaryOn="@string/preference_hide_dismiss_button_enabled_summaryOn" 
-									android:summaryOff="@string/preference_hide_dismiss_button_enabled_summaryOff" 
-									android:defaultValue="false" />
-								<CheckBoxPreference 
-									android:key="missed_call_hide_call_button_enabled" 
-									android:title="@string/preference_hide_call_button_enabled_title" 
-									android:summaryOn="@string/preference_hide_call_button_enabled_summaryOn" 
-									android:summaryOff="@string/preference_hide_call_button_enabled_summaryOff" 
-									android:defaultValue="false" />
-							</PreferenceScreen>
+								android:entryValues="@array/missed_call_notification_count_button_options_values"/>	
+							<PreferenceCategory
+								android:key="missed_call_show_hide_buttons_settings_category"
+								android:title="@string/show_hide_button_settings_text">
+								<PreferenceScreen
+									android:key="missed_call_show_hide_buttons_settings_screen"
+									android:title="@string/show_hide_button_settings_text">
+									<CheckBoxPreference 
+										android:key="missed_call_hide_dismiss_button_enabled" 
+										android:title="@string/preference_hide_dismiss_button_enabled_title" 
+										android:summaryOn="@string/preference_hide_dismiss_button_enabled_summaryOn" 
+										android:summaryOff="@string/preference_hide_dismiss_button_enabled_summaryOff" 
+										android:defaultValue="false" />
+									<CheckBoxPreference 
+										android:key="missed_call_hide_call_button_enabled" 
+										android:title="@string/preference_hide_call_button_enabled_title" 
+										android:summaryOn="@string/preference_hide_call_button_enabled_summaryOn" 
+										android:summaryOff="@string/preference_hide_call_button_enabled_summaryOff" 
+										android:defaultValue="false" />
+								</PreferenceScreen>
+							</PreferenceCategory>
 						</PreferenceScreen>	
+					</PreferenceCategory>	
+					<PreferenceCategory
+						android:key="mms_contact_display_settings_category"
+						android:title="@string/contact_display_settings_text">
 						<PreferenceScreen
 							android:key="missed_call_contact_display_settings_screen"
 							android:title="@string/contact_display_settings_text"
@@ -576,37 +612,37 @@
 								android:summaryOff="@string/preference_missed_call_hide_contact_number_enabled_summaryOff" 
 								android:defaultValue="false" />
 						</PreferenceScreen>
-						<PreferenceScreen
-							android:key="missed_call_vibrate_settings_screen"
-							android:title="@string/preference_missed_call_vibrate_settings"
-							android:dependency="missed_call_notifications_enabled">
-							<CheckBoxPreference 
-								android:key="missed_call_vibrate_enabled" 
-								android:title="@string/preference_missed_call_vibrate_enabled_title" 
-								android:summaryOn="@string/preference_missed_call_vibrate_enabled_summaryOn" 
-								android:summaryOff="@string/preference_missed_call_vibrate_enabled_summaryOff" 
-								android:defaultValue="true"
-								android:dependency="app_vibrations_enabled" />
-						</PreferenceScreen>
-						<PreferenceScreen
-							android:key="missed_call_ringtone_settings_screen"
-							android:title="@string/preference_missed_call_ringtone_settings"
-							android:dependency="missed_call_notifications_enabled">
-							<CheckBoxPreference 
-								android:key="missed_call_ringtone_enabled" 
-								android:title="@string/preference_missed_call_ringtone_enabled_title" 
-								android:summaryOn="@string/preference_missed_call_ringtone_enabled_summaryOn" 
-								android:summaryOff="@string/preference_missed_call_ringtone_enabled_summaryOff" 
-								android:defaultValue="true"
-								android:dependency="app_ringtones_enabled" />
-							<RingtonePreference 
-								android:key="missed_call_ringtone_audio" 
-								android:showDefault="true"
-								android:title="@string/preference_select_ringtone"
-								android:ringtoneType="notification"
-								android:dependency="missed_call_ringtone_enabled" />
-						</PreferenceScreen>
 					</PreferenceCategory>
+					<PreferenceScreen
+						android:key="missed_call_vibrate_settings_screen"
+						android:title="@string/preference_missed_call_vibrate_settings"
+						android:dependency="missed_call_notifications_enabled">
+						<CheckBoxPreference 
+							android:key="missed_call_vibrate_enabled" 
+							android:title="@string/preference_missed_call_vibrate_enabled_title" 
+							android:summaryOn="@string/preference_missed_call_vibrate_enabled_summaryOn" 
+							android:summaryOff="@string/preference_missed_call_vibrate_enabled_summaryOff" 
+							android:defaultValue="true"
+							android:dependency="app_vibrations_enabled" />
+					</PreferenceScreen>
+					<PreferenceScreen
+						android:key="missed_call_ringtone_settings_screen"
+						android:title="@string/preference_missed_call_ringtone_settings"
+						android:dependency="missed_call_notifications_enabled">
+						<CheckBoxPreference 
+							android:key="missed_call_ringtone_enabled" 
+							android:title="@string/preference_missed_call_ringtone_enabled_title" 
+							android:summaryOn="@string/preference_missed_call_ringtone_enabled_summaryOn" 
+							android:summaryOff="@string/preference_missed_call_ringtone_enabled_summaryOff" 
+							android:defaultValue="true"
+							android:dependency="app_ringtones_enabled" />
+						<RingtonePreference 
+							android:key="missed_call_ringtone_audio" 
+							android:showDefault="true"
+							android:title="@string/preference_select_ringtone"
+							android:ringtoneType="notification"
+							android:dependency="missed_call_ringtone_enabled" />
+					</PreferenceScreen>
 				</PreferenceScreen>		
 			</PreferenceCategory>
 			<PreferenceCategory
@@ -616,50 +652,58 @@
 					android:key="calendar_notification_settings_screen"
 					android:title="@string/preference_calendar_notifications"
 					android:dependency="app_enabled">
+					<CheckBoxPreference 
+						android:key="calendar_notifications_enabled" 
+						android:title="@string/preference_calendar_enabled_title" 
+						android:summaryOn="@string/preference_calendar_enabled_summaryOn" 
+						android:summaryOff="@string/preference_calendar_enabled_summaryOff" 
+						android:defaultValue="true" />
+					<ListPreference
+						android:key="calendar_notify_day_of_time"
+						android:title="@string/preference_calendar_all_day_notify_day_of_time_title"
+						android:summary="@string/preference_calendar_all_day_notify_day_of_time_summary"
+						android:defaultValue="12"
+						android:entries="@array/calendar_all_day_notify_day_of_time_options"
+						android:entryValues="@array/calendar_all_day_notify_day_of_time_options_values"
+						android:dependency="calendar_notifications_enabled" />		
+					<ListPreference
+						android:key="messaging_app_running_action_calendar"
+						android:title="@string/messaging_app_running_action_text"
+						android:summary="@string/messaging_app_running_action_calendar_summary"
+						android:defaultValue="0"
+						android:entries="@array/messaging_app_running_action_options"
+						android:entryValues="@array/messaging_app_running_action_options_values"
+						android:dependency="calendar_notifications_enabled" />
+					<CheckBoxPreference 
+						android:key="calendar_reminders_enabled" 
+						android:title="@string/preference_calendar_reminders_enabled_title" 
+						android:summaryOn="@string/preference_calendar_reminders_enabled_summaryOn" 
+						android:summaryOff="@string/preference_calendar_reminders_enabled_summaryOff" 
+						android:defaultValue="true"
+						android:dependency="calendar_notifications_enabled" />
+					<ListPreference
+						android:key="calendar_polling_frequency"
+						android:title="@string/preference_calendar_polling_frequency_title"
+						android:summary="@string/preference_calendar_polling_frequency_summary"
+						android:defaultValue="15"
+						android:entries="@array/calendar_polling_frequency_options"
+						android:entryValues="@array/calendar_polling_frequency_options_values"
+						android:dependency="calendar_notifications_enabled" />
+					<apps.droidnotify.preferences.SelectCalendarListPreference
+						android:key="calendar_selection"
+						android:title="@string/preference_calendar_selection_title"
+						android:summary="@string/preference_calendar_selection_summary" 
+						android:dependency="calendar_notifications_enabled"/>
+					<CheckBoxPreference 
+						android:key="calendar_labels_enabled" 
+						android:title="@string/preference_calendar_labels_enabled_title" 
+						android:summaryOn="@string/preference_calendar_labels_enabled_summaryOn" 
+						android:summaryOff="@string/preference_calendar_labels_enabled_summaryOff" 
+						android:defaultValue="true"
+						android:dependency="calendar_notifications_enabled" />
 					<PreferenceCategory
-						android:key="calendar_notification_settings_category"
-						android:title="@string/preference_calendar_notifications">
-						<CheckBoxPreference 
-							android:key="calendar_notifications_enabled" 
-							android:title="@string/preference_calendar_enabled_title" 
-							android:summaryOn="@string/preference_calendar_enabled_summaryOn" 
-							android:summaryOff="@string/preference_calendar_enabled_summaryOff" 
-							android:defaultValue="true" />
-						<ListPreference
-							android:key="calendar_notify_day_of_time"
-							android:title="@string/preference_calendar_all_day_notify_day_of_time_title"
-							android:summary="@string/preference_calendar_all_day_notify_day_of_time_summary"
-							android:defaultValue="12"
-							android:entries="@array/calendar_all_day_notify_day_of_time_options"
-							android:entryValues="@array/calendar_all_day_notify_day_of_time_options_values"
-							android:dependency="calendar_notifications_enabled" />		
-						<ListPreference
-							android:key="messaging_app_running_action_calendar"
-							android:title="@string/messaging_app_running_action_text"
-							android:summary="@string/messaging_app_running_action_calendar_summary"
-							android:defaultValue="0"
-							android:entries="@array/messaging_app_running_action_options"
-							android:entryValues="@array/messaging_app_running_action_options_values"
-							android:dependency="calendar_notifications_enabled" />
-						<PreferenceScreen
-							android:key="calendar_message_body_settings_screen"
-							android:title="@string/event_body_settings_text"
-							android:dependency="calendar_notifications_enabled">	
-							<ListPreference
-								android:key="calendar_message_body_font_size"
-								android:title="@string/preference_calendar_event_body_font_size_title"
-								android:summary="@string/preference_calendar_event_body_font_size_summary"
-								android:defaultValue="14"
-								android:entries="@array/message_body_font_size_options"
-								android:entryValues="@array/message_body_font_size_options_values" />
-						</PreferenceScreen>
-						<CheckBoxPreference 
-							android:key="calendar_reminders_enabled" 
-							android:title="@string/preference_calendar_reminders_enabled_title" 
-							android:summaryOn="@string/preference_calendar_reminders_enabled_summaryOn" 
-							android:summaryOff="@string/preference_calendar_reminders_enabled_summaryOff" 
-							android:defaultValue="true"
-							android:dependency="calendar_notifications_enabled" />
+						android:key="calendar_event_reminders_category"
+						android:title="@string/event_reminder_settings_text">	
 						<PreferenceScreen
 							android:key="calendar_event_reminders_screen"
 							android:title="@string/event_reminder_settings_text"
@@ -679,29 +723,29 @@
 								android:entries="@array/calendar_reminder_all_day_options"
 								android:entryValues="@array/calendar_reminder_all_day_options_values" />
 						</PreferenceScreen>
-						<ListPreference
-							android:key="calendar_polling_frequency"
-							android:title="@string/preference_calendar_polling_frequency_title"
-							android:summary="@string/preference_calendar_polling_frequency_summary"
-							android:defaultValue="15"
-							android:entries="@array/calendar_polling_frequency_options"
-							android:entryValues="@array/calendar_polling_frequency_options_values"
-							android:dependency="calendar_notifications_enabled" />
-						<apps.droidnotify.preferences.SelectCalendarListPreference
-							android:key="calendar_selection"
-							android:title="@string/preference_calendar_selection_title"
-							android:summary="@string/preference_calendar_selection_summary" 
-							android:dependency="calendar_notifications_enabled"/>
-						<CheckBoxPreference 
-							android:key="calendar_labels_enabled" 
-							android:title="@string/preference_calendar_labels_enabled_title" 
-							android:summaryOn="@string/preference_calendar_labels_enabled_summaryOn" 
-							android:summaryOff="@string/preference_calendar_labels_enabled_summaryOff" 
-							android:defaultValue="true"
-							android:dependency="calendar_notifications_enabled" />
+					</PreferenceCategory>
+					<PreferenceCategory
+						android:key="calendar_message_body_settings_category"
+						android:title="@string/event_body_settings_text">		
+						<PreferenceScreen
+							android:key="calendar_message_body_settings_screen"
+							android:title="@string/event_body_settings_text"
+							android:dependency="calendar_notifications_enabled">	
+							<ListPreference
+								android:key="calendar_message_body_font_size"
+								android:title="@string/preference_calendar_event_body_font_size_title"
+								android:summary="@string/preference_calendar_event_body_font_size_summary"
+								android:defaultValue="14"
+								android:entries="@array/message_body_font_size_options"
+								android:entryValues="@array/message_body_font_size_options_values" />
+						</PreferenceScreen>
+					</PreferenceCategory>
+					<PreferenceCategory
+						android:key="calendar_button_settings_category"
+						android:title="@string/button_settings_text">
 						<PreferenceScreen
 							android:key="calendar_button_settings_screen"
-							android:title="@string/preference_calendar_button_settings"
+							android:title="@string/button_settings_text"
 							android:dependency="calendar_notifications_enabled">
 							<ListPreference
 								android:key="calendar_dismiss_button_action"
@@ -716,55 +760,59 @@
 								android:summary="@string/preference_notification_count_button_action_summary"
 								android:defaultValue="0"
 								android:entries="@array/calendar_notification_count_button_options"
-								android:entryValues="@array/calendar_notification_count_button_options_values"/>
-							<PreferenceScreen
-								android:key="calendar_show_hide_buttons_settings_screen"
-								android:title="@string/preference_show_hide_buttons_settings">
-								<CheckBoxPreference 
-									android:key="calendar_hide_dismiss_button_enabled" 
-									android:title="@string/preference_hide_dismiss_button_enabled_title" 
-									android:summaryOn="@string/preference_hide_dismiss_button_enabled_summaryOn" 
-									android:summaryOff="@string/preference_hide_dismiss_button_enabled_summaryOff" 
-									android:defaultValue="false" />
-								<CheckBoxPreference 
-									android:key="calendar_hide_view_button_enabled" 
-									android:title="@string/preference_hide_call_button_enabled_title" 
-									android:summaryOn="@string/preference_hide_call_button_enabled_summaryOn" 
-									android:summaryOff="@string/preference_hide_call_button_enabled_summaryOff" 
-									android:defaultValue="false" />
-							</PreferenceScreen>
+								android:entryValues="@array/calendar_notification_count_button_options_values"/>	
+							<PreferenceCategory
+								android:key="missed_call_show_hide_buttons_settings_category"
+								android:title="@string/show_hide_button_settings_text">
+								<PreferenceScreen
+									android:key="calendar_show_hide_buttons_settings_screen"
+									android:title="@string/show_hide_button_settings_text">
+									<CheckBoxPreference 
+										android:key="calendar_hide_dismiss_button_enabled" 
+										android:title="@string/preference_hide_dismiss_button_enabled_title" 
+										android:summaryOn="@string/preference_hide_dismiss_button_enabled_summaryOn" 
+										android:summaryOff="@string/preference_hide_dismiss_button_enabled_summaryOff" 
+										android:defaultValue="false" />
+									<CheckBoxPreference 
+										android:key="calendar_hide_view_button_enabled" 
+										android:title="@string/preference_hide_call_button_enabled_title" 
+										android:summaryOn="@string/preference_hide_call_button_enabled_summaryOn" 
+										android:summaryOff="@string/preference_hide_call_button_enabled_summaryOff" 
+										android:defaultValue="false" />
+								</PreferenceScreen>
+							</PreferenceCategory>
 						</PreferenceScreen>	
-						<PreferenceScreen
-							android:key="calendar_vibrate_settings_screen"
-							android:title="@string/preference_calendar_vibrate_settings"
-							android:dependency="calendar_notifications_enabled">
-							<CheckBoxPreference 
-								android:key="calendar_vibrate_enabled" 
-								android:title="@string/preference_calendar_vibrate_enabled_title" 
-								android:summaryOn="@string/preference_calendar_vibrate_enabled_summaryOn" 
-								android:summaryOff="@string/preference_calendar_vibrate_enabled_summaryOff" 
-								android:defaultValue="true"
-								android:dependency="app_vibrations_enabled" />
-						</PreferenceScreen>
-						<PreferenceScreen
-							android:key="calendar_ringtone_settings_screen"
-							android:title="@string/preference_calendar_ringtone_settings"
-							android:dependency="calendar_notifications_enabled">
-							<CheckBoxPreference 
-								android:key="calendar_ringtone_enabled" 
-								android:title="@string/preference_calendar_ringtone_enabled_title" 
-								android:summaryOn="@string/preference_calendar_ringtone_enabled_summaryOn" 
-								android:summaryOff="@string/preference_calendar_ringtone_enabled_summaryOff" 
-								android:defaultValue="true"
-								android:dependency="app_ringtones_enabled" />
-							<RingtonePreference 
-								android:key="calendar_ringtone_audio" 
-								android:showDefault="true"
-								android:title="@string/preference_select_ringtone"
-								android:ringtoneType="notification"
-								android:dependency="calendar_ringtone_enabled" />
-						</PreferenceScreen>
 					</PreferenceCategory>
+					<PreferenceScreen
+						android:key="calendar_vibrate_settings_screen"
+						android:title="@string/preference_calendar_vibrate_settings"
+						android:dependency="calendar_notifications_enabled">
+						<CheckBoxPreference 
+							android:key="calendar_vibrate_enabled" 
+							android:title="@string/preference_calendar_vibrate_enabled_title" 
+							android:summaryOn="@string/preference_calendar_vibrate_enabled_summaryOn" 
+							android:summaryOff="@string/preference_calendar_vibrate_enabled_summaryOff" 
+							android:defaultValue="true"
+							android:dependency="app_vibrations_enabled" />
+					</PreferenceScreen>
+					<PreferenceScreen
+						android:key="calendar_ringtone_settings_screen"
+						android:title="@string/preference_calendar_ringtone_settings"
+						android:dependency="calendar_notifications_enabled">
+						<CheckBoxPreference 
+							android:key="calendar_ringtone_enabled" 
+							android:title="@string/preference_calendar_ringtone_enabled_title" 
+							android:summaryOn="@string/preference_calendar_ringtone_enabled_summaryOn" 
+							android:summaryOff="@string/preference_calendar_ringtone_enabled_summaryOff" 
+							android:defaultValue="true"
+							android:dependency="app_ringtones_enabled" />
+						<RingtonePreference 
+							android:key="calendar_ringtone_audio" 
+							android:showDefault="true"
+							android:title="@string/preference_select_ringtone"
+							android:ringtoneType="notification"
+							android:dependency="calendar_ringtone_enabled" />
+					</PreferenceScreen>
 				</PreferenceScreen>		
 			</PreferenceCategory>
 		</PreferenceScreen>
