@@ -23,6 +23,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.SystemClock;
+import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
@@ -83,6 +84,18 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	private static final String SMS_RINGTONE_ENABLED_KEY = "sms_ringtone_enabled";
 	private static final String MMS_RINGTONE_ENABLED_KEY = "mms_ringtone_enabled";
 	private static final String CALENDAR_RINGTONE_ENABLED_KEY = "calendar_ringtone_enabled";
+	private static final String SMS_HIDE_CONTACT_PANEL_ENABLED_KEY = "sms_hide_contact_panel_enabled";
+	private static final String SMS_HIDE_CONTACT_PHOTO_ENABLED_KEY = "sms_hide_contact_photo_enabled";
+	private static final String SMS_HIDE_CONTACT_NAME_ENABLED_KEY = "sms_hide_contact_name_enabled";
+	private static final String SMS_HIDE_CONTACT_NUMBER_ENABLED_KEY = "sms_hide_contact_number_enabled";
+	private static final String MMS_HIDE_CONTACT_PANEL_ENABLED_KEY = "mms_hide_contact_panel_enabled";
+	private static final String MMS_HIDE_CONTACT_PHOTO_ENABLED_KEY = "mms_hide_contact_photo_enabled";
+	private static final String MMS_HIDE_CONTACT_NAME_ENABLED_KEY = "mms_hide_contact_name_enabled";
+	private static final String MMS_HIDE_CONTACT_NUMBER_ENABLED_KEY = "mms_hide_contact_number_enabled";
+	private static final String PHONE_HIDE_CONTACT_PANEL_ENABLED_KEY = "missed_call_hide_contact_panel_enabled";
+	private static final String PHONE_HIDE_CONTACT_PHOTO_ENABLED_KEY = "missed_call_hide_contact_photo_enabled";
+	private static final String PHONE_HIDE_CONTACT_NAME_ENABLED_KEY = "missed_call_hide_contact_name_enabled";
+	private static final String PHONE_HIDE_CONTACT_NUMBER_ENABLED_KEY = "missed_call_hide_contact_number_enabled";
 	
 	private static final int NOTIFICATION_TYPE_TEST = -1;
 	
@@ -175,6 +188,18 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		if(key.equals(CALENDAR_RINGTONE_ENABLED_KEY)){
 			//Update Ringtone Length
 			updateRingtoneLengthSetting();
+		}
+		if(key.equals(SMS_HIDE_CONTACT_PANEL_ENABLED_KEY)){
+			//Update SMS Contact Info Display
+			updateSMSContactInfoSetting();
+		}
+		if(key.equals(MMS_HIDE_CONTACT_PANEL_ENABLED_KEY)){
+			//Update MMS Contact Info Display
+			updateMMSContactInfoSetting();
+		}
+		if(key.equals(PHONE_HIDE_CONTACT_PANEL_ENABLED_KEY)){
+			//Update Phone Contact Info Display
+			updatePhoneContactInfoSetting();
 		}
 	}
 
@@ -1069,6 +1094,10 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		updateQuickReplySettings();
 		//Update Ringtone Length
 		updateRingtoneLengthSetting();
+		//Update Contact Info Displays
+		updateSMSContactInfoSetting();
+		updateMMSContactInfoSetting();
+		updatePhoneContactInfoSetting();
 	}
 	
 	/**
@@ -1135,6 +1164,45 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		}
 		ListPreference ringtoneLengthSetting = (ListPreference) findPreference(RINGTONE_LENGTH_SETTING);
 		ringtoneLengthSetting.setEnabled(ringtoneLengthSettingEnabled);
+	}
+	
+	/**
+	 * Updates the availability of the SMS Contact Info Settings.
+	 */
+	private void updateSMSContactInfoSetting(){
+		boolean contactInfoDisplaySettingsEnabled = _preferences.getBoolean(SMS_HIDE_CONTACT_PANEL_ENABLED_KEY, false);
+		CheckBoxPreference hideContactPhoto = (CheckBoxPreference) findPreference(SMS_HIDE_CONTACT_PHOTO_ENABLED_KEY);
+		hideContactPhoto.setEnabled(!contactInfoDisplaySettingsEnabled);
+		CheckBoxPreference hideContactName = (CheckBoxPreference) findPreference(SMS_HIDE_CONTACT_NAME_ENABLED_KEY);
+		hideContactName.setEnabled(!contactInfoDisplaySettingsEnabled);
+		CheckBoxPreference hideContactNumber = (CheckBoxPreference) findPreference(SMS_HIDE_CONTACT_NUMBER_ENABLED_KEY);
+		hideContactNumber.setEnabled(!contactInfoDisplaySettingsEnabled);
+	}
+	
+	/**
+	 * Updates the availability of the MMS Contact Info Settings.
+	 */
+	private void updateMMSContactInfoSetting(){
+		boolean contactInfoDisplaySettingsEnabled = _preferences.getBoolean(MMS_HIDE_CONTACT_PANEL_ENABLED_KEY, false);
+		CheckBoxPreference hideContactPhoto = (CheckBoxPreference) findPreference(MMS_HIDE_CONTACT_PHOTO_ENABLED_KEY);
+		hideContactPhoto.setEnabled(!contactInfoDisplaySettingsEnabled);
+		CheckBoxPreference hideContactName = (CheckBoxPreference) findPreference(MMS_HIDE_CONTACT_NAME_ENABLED_KEY);
+		hideContactName.setEnabled(!contactInfoDisplaySettingsEnabled);
+		CheckBoxPreference hideContactNumber = (CheckBoxPreference) findPreference(MMS_HIDE_CONTACT_NUMBER_ENABLED_KEY);
+		hideContactNumber.setEnabled(!contactInfoDisplaySettingsEnabled);
+	}
+	
+	/**
+	 * Updates the availability of the Phone Contact Info Settings.
+	 */
+	private void updatePhoneContactInfoSetting(){
+		boolean contactInfoDisplaySettingsEnabled = _preferences.getBoolean(PHONE_HIDE_CONTACT_PANEL_ENABLED_KEY, false);
+		CheckBoxPreference hideContactPhoto = (CheckBoxPreference) findPreference(PHONE_HIDE_CONTACT_PHOTO_ENABLED_KEY);
+		hideContactPhoto.setEnabled(!contactInfoDisplaySettingsEnabled);
+		CheckBoxPreference hideContactName = (CheckBoxPreference) findPreference(PHONE_HIDE_CONTACT_NAME_ENABLED_KEY);
+		hideContactName.setEnabled(!contactInfoDisplaySettingsEnabled);
+		CheckBoxPreference hideContactNumber = (CheckBoxPreference) findPreference(PHONE_HIDE_CONTACT_NUMBER_ENABLED_KEY);
+		hideContactNumber.setEnabled(!contactInfoDisplaySettingsEnabled);
 	}
 	
 }
