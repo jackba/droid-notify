@@ -46,6 +46,9 @@
    	<string name="hide_contact_number_text">Hide Contact Number</string>
    	<string name="hide_contact_name_text">Hide Contact Name</string>
    	<string name="button_settings_text">Button Settings</string>
+   	<string name="vibrate_settings_text">Vibrate Settings</string>
+   	<string name="ringtone_settings_text">Ringtone Settings</string>
+   	<string name="show_hide_button_settings_text">Show/Hide Button Settings</string>
    	
     <!-- App Error Message Strings -->
     <string name="app_android_messaging_app_error">The Android Messaging application could not be started.</string>
@@ -177,8 +180,6 @@
     <string name="preference_sms_ringtone_enabled_title">Enable Ringtone</string>
    	<string name="preference_sms_ringtone_enabled_summaryOn">SMS notifications will play a ringtone on arrival.</string>
    	<string name="preference_sms_ringtone_enabled_summaryOff">SMS notifications will not play a ringtone on arrival.</string>
-   	<string name="preference_sms_vibrate_settings">SMS Vibrate Settings</string>
-   	<string name="preference_sms_ringtone_settings">SMS Ringtone Settings</string>
    	<string name="preference_confirm_sms_deletion_enabled_title">Confirm Message Deletion</string>
    	<string name="preference_confirm_sms_deletion_enabled_summaryOn">A dialog box will display when you delete a message.</string>
    	<string name="preference_confirm_sms_deletion_enabled_summaryOff">A dialog box will not display when you delete a message.</string>   	
@@ -213,8 +214,6 @@
     <string name="preference_mms_ringtone_enabled_title">Enable Ringtone</string>
    	<string name="preference_mms_ringtone_enabled_summaryOn">MMS notifications will play a ringtone on arrival.</string>
    	<string name="preference_mms_ringtone_enabled_summaryOff">MMS notifications will not play a ringtone on arrival.</string>
-   	<string name="preference_mms_vibrate_settings">MMS Vibrate Settings</string>
-   	<string name="preference_mms_ringtone_settings">MMS Ringtone Settings</string>
 	<string name="preference_confirm_mms_deletion_enabled_title">Confirm Message Deletion</string>
    	<string name="preference_confirm_mms_deletion_enabled_summaryOn">A dialog box will display when you delete a message.</string>
    	<string name="preference_confirm_mms_deletion_enabled_summaryOff">A dialog box will not display when you delete a message.</string>
@@ -240,9 +239,7 @@
    	<string name="preference_missed_call_dismiss_button_action_summary">Define what happens when you dismiss a Missed Call.</string>
     <string name="preference_missed_call_ringtone_enabled_title">Enable Ringtone</string>
    	<string name="preference_missed_call_ringtone_enabled_summaryOn">Missed Call notifications will play a ringtone on arrival.</string>
-   	<string name="preference_missed_call_ringtone_enabled_summaryOff">Missed Call notifications will not play a ringtone on arrival.</string>
-   	<string name="preference_missed_call_vibrate_settings">Missed Call Vibrate Settings</string>
-   	<string name="preference_missed_call_ringtone_settings">Missed Call Ringtone Settings</string> 	
+   	<string name="preference_missed_call_ringtone_enabled_summaryOff">Missed Call notifications will not play a ringtone on arrival.</string>	
    	<string name="preference_missed_call_loading_title">Loading Settings</string>
    	<string name="preference_missed_call_loading_summary">Define what calls to load when a missed call is received.</string>
    	<string name="preference_call_log_timeout">Call Log Timeout</string>
@@ -275,8 +272,6 @@
    	<string name="preference_calendar_ringtone_enabled_title">Enable Ringtone</string>
    	<string name="preference_calendar_ringtone_enabled_summaryOn">Calendar notifications will play a ringtone on arrival.</string>
    	<string name="preference_calendar_ringtone_enabled_summaryOff">Calendar notifications will not play a ringtone on arrival.</string>
-   	<string name="preference_calendar_vibrate_settings">Calendar Vibrate Settings</string>
-   	<string name="preference_calendar_ringtone_settings">Calendar Ringtone Settings</string>
    	<string name="event_reminder_settings_text">Event Reminder Settings</string>
    	<string name="all_day_event_reminders_text">All-Day Event Reminders</string>
    	<string name="all_day_event_reminder_setting_text">All-Day Event Settings</string>
@@ -295,7 +290,6 @@
    	<string name="preference_calendar_hide_contact_photo_enabled_summaryOn">The contact photo will not be displayed in Calendar notifications.</string>
    	<string name="preference_calendar_hide_contact_photo_enabled_summaryOff">The contact photo will be displayed in Calendar notifications.</string> 
    	
-    <string name="show_hide_button_settings_text">Show/Hide Button Settings</string>
     <string name="preference_hide_dismiss_button_enabled_title">Hide Dismiss Button</string>
    	<string name="preference_hide_dismiss_button_enabled_summaryOn">The dismiss button will not be displayed.</string>
    	<string name="preference_hide_dismiss_button_enabled_summaryOff">The dismiss button will be displayed.</string>	
