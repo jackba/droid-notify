@@ -1043,8 +1043,13 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	 * Sets up the import preference button. Disables if there is no import file.
 	 */
 	private void setupImportPreferences(){
-		Preference importPreference = (Preference) findPreference("import_preferences");
-		importPreference.setEnabled(checkPreferencesFileExists("Droid Notify/Preferences/", "DroidNotifyPreferences.txt"));
+		if (_debug) Log.v("MainPreferenceActivity.setupImportPreferences()");
+		try{
+			Preference importPreference = (Preference) findPreference("import_preferences");
+			importPreference.setEnabled(checkPreferencesFileExists("Droid Notify/Preferences/", "DroidNotifyPreferences.txt"));
+		}catch(Exception ex){
+			if (_debug) Log.e("MainPreferenceActivity.setupImportPreferences() ERROR: " + ex.toString());
+		}
 	}
 	
 	/**
@@ -1073,6 +1078,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	 * @return String - The version number of the aplication.
 	 */
 	private String getApplicationVersion(){
+		if (_debug) Log.v("MainPreferenceActivity.getApplicationVersion()");
 		PackageInfo packageInfo = null;
 		try{
 			packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
@@ -1086,6 +1092,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	 * Initialize the state of some preference items that have multiple dependencies.
 	 */
 	private void initPreferencesStates(){
+		if (_debug) Log.v("MainPreferenceActivity.initPreferencesStates()");
 		//Master Vibrate Setting
 		updateVibrateSettings();
 		//Master Ringtone Setting
@@ -1104,85 +1111,112 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	 * Updates the availability of the Vibrate Settings.
 	 */
 	private void updateVibrateSettings(){
-		PreferenceScreen smsVibrateSettingsScreen = (PreferenceScreen) findPreference(SMS_VIBRATE_SETTINGS_SCREEN_KEY);
-		smsVibrateSettingsScreen.setEnabled(_preferences.getBoolean(APP_VIBRATIONS_ENABLED_KEY, true));
-		PreferenceScreen mmsVibrateSettingsScreen = (PreferenceScreen) findPreference(MMS_VIBRATE_SETTINGS_SCREEN_KEY);
-		mmsVibrateSettingsScreen.setEnabled(_preferences.getBoolean(APP_VIBRATIONS_ENABLED_KEY, true));
-		PreferenceScreen phoneVibrateSettingsScreen = (PreferenceScreen) findPreference(PHONE_VIBRATE_SETTINGS_SCREEN_KEY);
-		phoneVibrateSettingsScreen.setEnabled(_preferences.getBoolean(APP_VIBRATIONS_ENABLED_KEY, true));
-		PreferenceScreen calendarVibrateSettingsScreen = (PreferenceScreen) findPreference(CALENDAR_VIBRATE_SETTINGS_SCREEN_KEY);
-		calendarVibrateSettingsScreen.setEnabled(_preferences.getBoolean(APP_VIBRATIONS_ENABLED_KEY, true));
+		if (_debug) Log.v("MainPreferenceActivity.updateVibrateSettings()");
+		try{
+			PreferenceScreen smsVibrateSettingsScreen = (PreferenceScreen) findPreference(SMS_VIBRATE_SETTINGS_SCREEN_KEY);
+			smsVibrateSettingsScreen.setEnabled(_preferences.getBoolean(APP_VIBRATIONS_ENABLED_KEY, true));
+			PreferenceScreen mmsVibrateSettingsScreen = (PreferenceScreen) findPreference(MMS_VIBRATE_SETTINGS_SCREEN_KEY);
+			mmsVibrateSettingsScreen.setEnabled(_preferences.getBoolean(APP_VIBRATIONS_ENABLED_KEY, true));
+			PreferenceScreen phoneVibrateSettingsScreen = (PreferenceScreen) findPreference(PHONE_VIBRATE_SETTINGS_SCREEN_KEY);
+			phoneVibrateSettingsScreen.setEnabled(_preferences.getBoolean(APP_VIBRATIONS_ENABLED_KEY, true));
+			PreferenceScreen calendarVibrateSettingsScreen = (PreferenceScreen) findPreference(CALENDAR_VIBRATE_SETTINGS_SCREEN_KEY);
+			calendarVibrateSettingsScreen.setEnabled(_preferences.getBoolean(APP_VIBRATIONS_ENABLED_KEY, true));
+		}catch(Exception ex){
+			if (_debug) Log.e("MainPreferenceActivity.updateVibrateSettings() ERROR: " + ex.toString());
+		}
 	}
 
 	/**
 	 * Updates the availability of the Ringtone Settings.
 	 */
 	private void updateRingtoneSettings(){
-		PreferenceScreen smsRingtoneSettingsScreen = (PreferenceScreen) findPreference(SMS_RINGTONE_SETTINGS_SCREEN_KEY);
-		smsRingtoneSettingsScreen.setEnabled(_preferences.getBoolean(APP_RINGTONES_ENABLED_KEY, true));
-		PreferenceScreen mmsRingtoneSettingsScreen = (PreferenceScreen) findPreference(MMS_RINGTONE_SETTINGS_SCREEN_KEY);
-		mmsRingtoneSettingsScreen.setEnabled(_preferences.getBoolean(APP_RINGTONES_ENABLED_KEY, true));
-		PreferenceScreen phoneRingtoneSettingsScreen = (PreferenceScreen) findPreference(PHONE_RINGTONE_SETTINGS_SCREEN_KEY);
-		phoneRingtoneSettingsScreen.setEnabled(_preferences.getBoolean(APP_RINGTONES_ENABLED_KEY, true));
-		PreferenceScreen calendarRingtoneSettingsScreen = (PreferenceScreen) findPreference(CALENDAR_RINGTONE_SETTINGS_SCREEN_KEY);
-		calendarRingtoneSettingsScreen.setEnabled(_preferences.getBoolean(APP_RINGTONES_ENABLED_KEY, true));
+		if (_debug) Log.v("MainPreferenceActivity.updateRingtoneSettings()");
+		try{
+			PreferenceScreen smsRingtoneSettingsScreen = (PreferenceScreen) findPreference(SMS_RINGTONE_SETTINGS_SCREEN_KEY);
+			smsRingtoneSettingsScreen.setEnabled(_preferences.getBoolean(APP_RINGTONES_ENABLED_KEY, true));
+			PreferenceScreen mmsRingtoneSettingsScreen = (PreferenceScreen) findPreference(MMS_RINGTONE_SETTINGS_SCREEN_KEY);
+			mmsRingtoneSettingsScreen.setEnabled(_preferences.getBoolean(APP_RINGTONES_ENABLED_KEY, true));
+			PreferenceScreen phoneRingtoneSettingsScreen = (PreferenceScreen) findPreference(PHONE_RINGTONE_SETTINGS_SCREEN_KEY);
+			phoneRingtoneSettingsScreen.setEnabled(_preferences.getBoolean(APP_RINGTONES_ENABLED_KEY, true));
+			PreferenceScreen calendarRingtoneSettingsScreen = (PreferenceScreen) findPreference(CALENDAR_RINGTONE_SETTINGS_SCREEN_KEY);
+			calendarRingtoneSettingsScreen.setEnabled(_preferences.getBoolean(APP_RINGTONES_ENABLED_KEY, true));
+		}catch(Exception ex){
+			if (_debug) Log.e("MainPreferenceActivity.updateRingtoneSettings() ERROR: " + ex.toString());
+		}
 	}
 	
 	/**
 	 * Updates the availability of the Quick Reply SMS Gateway Setting.
 	 */
 	private void updateQuickReplySettings(){
-		boolean quickReplySMSGatewayEnabled = false;
-		if(_preferences.getString(SMS_REPLY_BUTTON_ACTION, "0").equals("1")){
-			quickReplySMSGatewayEnabled = true;
+		if (_debug) Log.v("MainPreferenceActivity.updateQuickReplySettings()");
+		try{
+			boolean quickReplySMSGatewayEnabled = false;
+			if(_preferences.getString(SMS_REPLY_BUTTON_ACTION, "0").equals("1")){
+				quickReplySMSGatewayEnabled = true;
+			}
+			if(_preferences.getString(MMS_REPLY_BUTTON_ACTION, "0").equals("1")){
+				quickReplySMSGatewayEnabled = true;
+			}
+			ListPreference quickReplySMSGateway = (ListPreference) findPreference(QUICK_REPLY_SMS_GATEWAY_SETTING);
+			quickReplySMSGateway.setEnabled(quickReplySMSGatewayEnabled);
+			PreferenceScreen  quickReplyPreferenceScreen = (PreferenceScreen) findPreference(QUICK_REPLY_SETTINGS_SCREEN);
+			quickReplyPreferenceScreen.setEnabled(quickReplySMSGatewayEnabled);
+		}catch(Exception ex){
+			if (_debug) Log.e("MainPreferenceActivity.updateQuickReplySettings() ERROR: " + ex.toString());
 		}
-		if(_preferences.getString(MMS_REPLY_BUTTON_ACTION, "0").equals("1")){
-			quickReplySMSGatewayEnabled = true;
-		}
-		ListPreference quickReplySMSGateway = (ListPreference) findPreference(QUICK_REPLY_SMS_GATEWAY_SETTING);
-		quickReplySMSGateway.setEnabled(quickReplySMSGatewayEnabled);
-		PreferenceScreen  quickReplyPreferenceScreen = (PreferenceScreen) findPreference(QUICK_REPLY_SETTINGS_SCREEN);
-		quickReplyPreferenceScreen.setEnabled(quickReplySMSGatewayEnabled);
 	}
 	
 	/**
 	 * Updates the availability of the Ringtone Length Setting.
 	 */
 	private void updateRingtoneLengthSetting(){
-		boolean ringtoneLengthSettingEnabled = false;
-		if(_preferences.getBoolean(MISSED_CALL_RINGTONE_ENABLED_KEY, true)){
-			ringtoneLengthSettingEnabled = true;
+		if (_debug) Log.v("MainPreferenceActivity.updateRingtoneLengthSetting()");
+		try{
+			boolean ringtoneLengthSettingEnabled = false;
+			if(_preferences.getBoolean(MISSED_CALL_RINGTONE_ENABLED_KEY, true)){
+				ringtoneLengthSettingEnabled = true;
+			}
+			if(_preferences.getBoolean(SMS_RINGTONE_ENABLED_KEY, true)){
+				ringtoneLengthSettingEnabled = true;
+			}
+			if(_preferences.getBoolean(MMS_RINGTONE_ENABLED_KEY, true)){
+				ringtoneLengthSettingEnabled = true;
+			}
+			if(_preferences.getBoolean(CALENDAR_RINGTONE_ENABLED_KEY, true)){
+				ringtoneLengthSettingEnabled = true;
+			}
+			ListPreference ringtoneLengthSetting = (ListPreference) findPreference(RINGTONE_LENGTH_SETTING);
+			ringtoneLengthSetting.setEnabled(ringtoneLengthSettingEnabled);
+		}catch(Exception ex){
+			if (_debug) Log.e("MainPreferenceActivity.updateRingtoneLengthSetting() ERROR: " + ex.toString());
 		}
-		if(_preferences.getBoolean(SMS_RINGTONE_ENABLED_KEY, true)){
-			ringtoneLengthSettingEnabled = true;
-		}
-		if(_preferences.getBoolean(MMS_RINGTONE_ENABLED_KEY, true)){
-			ringtoneLengthSettingEnabled = true;
-		}
-		if(_preferences.getBoolean(CALENDAR_RINGTONE_ENABLED_KEY, true)){
-			ringtoneLengthSettingEnabled = true;
-		}
-		ListPreference ringtoneLengthSetting = (ListPreference) findPreference(RINGTONE_LENGTH_SETTING);
-		ringtoneLengthSetting.setEnabled(ringtoneLengthSettingEnabled);
 	}
 	
 	/**
 	 * Updates the availability of the SMS Contact Info Settings.
 	 */
 	private void updateSMSContactInfoSetting(){
-		boolean contactInfoDisplaySettingsEnabled = _preferences.getBoolean(SMS_HIDE_CONTACT_PANEL_ENABLED_KEY, false);
-		CheckBoxPreference hideContactPhoto = (CheckBoxPreference) findPreference(SMS_HIDE_CONTACT_PHOTO_ENABLED_KEY);
-		hideContactPhoto.setEnabled(!contactInfoDisplaySettingsEnabled);
-		CheckBoxPreference hideContactName = (CheckBoxPreference) findPreference(SMS_HIDE_CONTACT_NAME_ENABLED_KEY);
-		hideContactName.setEnabled(!contactInfoDisplaySettingsEnabled);
-		CheckBoxPreference hideContactNumber = (CheckBoxPreference) findPreference(SMS_HIDE_CONTACT_NUMBER_ENABLED_KEY);
-		hideContactNumber.setEnabled(!contactInfoDisplaySettingsEnabled);
+		if (_debug) Log.v("MainPreferenceActivity.updateSMSContactInfoSetting()");
+		try{
+			boolean contactInfoDisplaySettingsEnabled = _preferences.getBoolean(SMS_HIDE_CONTACT_PANEL_ENABLED_KEY, false);
+			CheckBoxPreference hideContactPhoto = (CheckBoxPreference) findPreference(SMS_HIDE_CONTACT_PHOTO_ENABLED_KEY);
+			hideContactPhoto.setEnabled(!contactInfoDisplaySettingsEnabled);
+			CheckBoxPreference hideContactName = (CheckBoxPreference) findPreference(SMS_HIDE_CONTACT_NAME_ENABLED_KEY);
+			hideContactName.setEnabled(!contactInfoDisplaySettingsEnabled);
+			CheckBoxPreference hideContactNumber = (CheckBoxPreference) findPreference(SMS_HIDE_CONTACT_NUMBER_ENABLED_KEY);
+			hideContactNumber.setEnabled(!contactInfoDisplaySettingsEnabled);
+		}catch(Exception ex){
+			if (_debug) Log.e("MainPreferenceActivity.updateSMSContactInfoSetting() ERROR: " + ex.toString());
+		}
 	}
 	
 	/**
 	 * Updates the availability of the MMS Contact Info Settings.
 	 */
 	private void updateMMSContactInfoSetting(){
+		if (_debug) Log.v("MainPreferenceActivity.updateMMSContactInfoSetting()");
+		try{
 		boolean contactInfoDisplaySettingsEnabled = _preferences.getBoolean(MMS_HIDE_CONTACT_PANEL_ENABLED_KEY, false);
 		CheckBoxPreference hideContactPhoto = (CheckBoxPreference) findPreference(MMS_HIDE_CONTACT_PHOTO_ENABLED_KEY);
 		hideContactPhoto.setEnabled(!contactInfoDisplaySettingsEnabled);
@@ -1190,19 +1224,27 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		hideContactName.setEnabled(!contactInfoDisplaySettingsEnabled);
 		CheckBoxPreference hideContactNumber = (CheckBoxPreference) findPreference(MMS_HIDE_CONTACT_NUMBER_ENABLED_KEY);
 		hideContactNumber.setEnabled(!contactInfoDisplaySettingsEnabled);
+		}catch(Exception ex){
+			if (_debug) Log.e("MainPreferenceActivity.updateMMSContactInfoSetting() ERROR: " + ex.toString());
+		}
 	}
 	
 	/**
 	 * Updates the availability of the Phone Contact Info Settings.
 	 */
 	private void updatePhoneContactInfoSetting(){
-		boolean contactInfoDisplaySettingsEnabled = _preferences.getBoolean(PHONE_HIDE_CONTACT_PANEL_ENABLED_KEY, false);
-		CheckBoxPreference hideContactPhoto = (CheckBoxPreference) findPreference(PHONE_HIDE_CONTACT_PHOTO_ENABLED_KEY);
-		hideContactPhoto.setEnabled(!contactInfoDisplaySettingsEnabled);
-		CheckBoxPreference hideContactName = (CheckBoxPreference) findPreference(PHONE_HIDE_CONTACT_NAME_ENABLED_KEY);
-		hideContactName.setEnabled(!contactInfoDisplaySettingsEnabled);
-		CheckBoxPreference hideContactNumber = (CheckBoxPreference) findPreference(PHONE_HIDE_CONTACT_NUMBER_ENABLED_KEY);
-		hideContactNumber.setEnabled(!contactInfoDisplaySettingsEnabled);
+		if (_debug) Log.v("MainPreferenceActivity.updatePhoneContactInfoSetting()");
+		try{
+			boolean contactInfoDisplaySettingsEnabled = _preferences.getBoolean(PHONE_HIDE_CONTACT_PANEL_ENABLED_KEY, false);
+			CheckBoxPreference hideContactPhoto = (CheckBoxPreference) findPreference(PHONE_HIDE_CONTACT_PHOTO_ENABLED_KEY);
+			hideContactPhoto.setEnabled(!contactInfoDisplaySettingsEnabled);
+			CheckBoxPreference hideContactName = (CheckBoxPreference) findPreference(PHONE_HIDE_CONTACT_NAME_ENABLED_KEY);
+			hideContactName.setEnabled(!contactInfoDisplaySettingsEnabled);
+			CheckBoxPreference hideContactNumber = (CheckBoxPreference) findPreference(PHONE_HIDE_CONTACT_NUMBER_ENABLED_KEY);
+			hideContactNumber.setEnabled(!contactInfoDisplaySettingsEnabled);
+		}catch(Exception ex){
+			if (_debug) Log.e("MainPreferenceActivity.updatePhoneContactInfoSetting() ERROR: " + ex.toString());
+		}
 	}
 	
 }
