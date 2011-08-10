@@ -6,13 +6,13 @@
 *v2.5* _Coming Soon..._
  * 
 
-*v2.4* _Coming Soon..._
+*v2.4* (August 10, 2011)
  * Updated the user preferences with regard to Rescheduling notifications (e.g. in case you are in a call or replying to a message, etc.)
  * Added options to reschedule notifications for SMS/MMS messages if you are running a messaging app.
  * Added an option to set the text size in the notifications.
+ * Added an option to hide the contact information in the notifications.
  * Re-tooled a few themes and added 2 new themes (HTC Sense UI & Xperia).
  * Updated the phone number contacts recognition. Phone numbers should match your contacts list much better now.
- * 
  * Other small bug fixes & code improvements.
 
 *v2.3* (July 29, 2011)
