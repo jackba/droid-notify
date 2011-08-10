@@ -119,8 +119,8 @@ public class NotificationView extends LinearLayout {
 	private static final String DARK_TRANSLUCENT_THEME = "dark_translucent";
 	private static final String DARK_TRANSLUCENT_V2_THEME = "dark_translucent_v2";
 	private static final String DARK_TRANSLUCENT_V3_THEME = "dark_translucent_v3";
-	private static final String HTC_SENSE_UI_THEME = "htc";
-	private static final String XPERIA_THEME = "xperia";
+	private static final String HTC_SENSE_UI_THEME = "theme_htc";
+	private static final String XPERIA_THEME = "theme_xperia";
 	
 	private static final String SMS_MESSAGING_APP_REPLY = "0";
 	private static final String SMS_QUICK_REPLY = "1";
