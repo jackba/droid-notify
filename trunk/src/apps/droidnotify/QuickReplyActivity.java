@@ -154,7 +154,7 @@ public class QuickReplyActivity extends Activity {
 	    _sendToTextView = (TextView)findViewById(SEND_TO_TEXT_VIEW);
 	    _messageEditText = (EditText)findViewById(MESSAGE_EDIT_TEXT);
 	    _charactersRemaining = (TextView)findViewById(CHARACTERS_REMAINING_TEXT_TEXT);
-	    //Add a TextWatcher so that the Send button will be disabled until text is entered.
+	    //Add a TextWatcher.
 	    _messageEditText.addTextChangedListener(new TextWatcher() {
 	    	public void afterTextChanged(Editable s){
 	    		//Do Nothing.
