@@ -698,13 +698,6 @@
 						android:entries="@array/messaging_app_running_action_options"
 						android:entryValues="@array/messaging_app_running_action_options_values"
 						android:dependency="calendar_notifications_enabled" />
-					<CheckBoxPreference 
-						android:key="calendar_reminders_enabled" 
-						android:title="@string/preference_calendar_reminders_enabled_title" 
-						android:summaryOn="@string/preference_calendar_reminders_enabled_summaryOn" 
-						android:summaryOff="@string/preference_calendar_reminders_enabled_summaryOff" 
-						android:defaultValue="true"
-						android:dependency="calendar_notifications_enabled" />
 					<ListPreference
 						android:key="calendar_polling_frequency"
 						android:title="@string/preference_calendar_polling_frequency_title"
@@ -723,6 +716,13 @@
 						android:title="@string/preference_calendar_labels_enabled_title" 
 						android:summaryOn="@string/preference_calendar_labels_enabled_summaryOn" 
 						android:summaryOff="@string/preference_calendar_labels_enabled_summaryOff" 
+						android:defaultValue="true"
+						android:dependency="calendar_notifications_enabled" />
+					<CheckBoxPreference 
+						android:key="calendar_reminders_enabled" 
+						android:title="@string/preference_calendar_reminders_enabled_title" 
+						android:summaryOn="@string/preference_calendar_reminders_enabled_summaryOn" 
+						android:summaryOff="@string/preference_calendar_reminders_enabled_summaryOff" 
 						android:defaultValue="true"
 						android:dependency="calendar_notifications_enabled" />
 					<PreferenceCategory
