@@ -24,6 +24,12 @@ Basic Settings
  * Placeholder Image
  * Display Button Icons
  * Quick Reply Settings
+  * Save Draft
+  * Blur Screen Background
+  * Dim Screen Background
+  * Dim Screen Value
+  * Show/Hide Button Settings
+   * Hide Cancel Button
 
 
 *_Notification Settings_*
