@@ -799,9 +799,9 @@
 										android:defaultValue="false" />
 									<CheckBoxPreference 
 										android:key="calendar_hide_view_button_enabled" 
-										android:title="@string/preference_hide_call_button_enabled_title" 
-										android:summaryOn="@string/preference_hide_call_button_enabled_summaryOn" 
-										android:summaryOff="@string/preference_hide_call_button_enabled_summaryOff" 
+										android:title="@string/preference_hide_view_button_enabled_title" 
+										android:summaryOn="@string/preference_hide_view_button_enabled_summaryOn" 
+										android:summaryOff="@string/preference_hide_view_button_enabled_summaryOff" 
 										android:defaultValue="false" />
 								</PreferenceScreen>
 							</PreferenceCategory>
