@@ -22,8 +22,8 @@ Basic Settings
  * Notification Theme
  * Phone Number Format
  * Placeholder Image
- * Enable Landscape Screen
  * Display Button Icons
+ * Quick Reply Settings
 
 
 *_Notification Settings_*
