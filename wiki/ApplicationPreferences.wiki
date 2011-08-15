@@ -119,7 +119,7 @@ Advanced Settings
  * Ringtone Length
  * Reschedule Notifications
  * Reschedule Settings
-  *Reschedule Timeout
+  * Reschedule Timeout
  * Export Preferences
  * Import Preferences
  
