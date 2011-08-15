@@ -38,38 +38,57 @@ Notifications
  * *_SMS Notifications_*
   * Enable SMS Notifications
   * Load Unread SMS Messages
-  * Hide Message Body
-  
-  * SMS Button Settings
-   * Confirm Deletion
+  * Messaging App Running
+  * Message Body Settings
+   * Message Body Font Size
+   * Hide Message Body
+  * Button Settings
+   * Confirm Message Deletion
    * Dismiss Button Action
    * Delete Button Action
    * Reply Button Action
    * Notification Count Action
-   
-  * SMS Vibrate Settings
+   * Show/Hide Button Settings
+    * Hide Dismiss Button
+    * Hide Delete Button
+    * Hide Reply Button
+  * Contact Display Settings
+   * Hide All Contact Info
+   * Hide Contact Photo
+   * Hide Contact Name
+   * Hide Contact Number
+  * Vibrate Settings
    * Enable Vibrations  
-   
-  * SMS Ringtone Settings
+  * Ringtone Settings
    * Enable Ringtones     
    * Select Ringtone  
 
   * *_MMS Notifications_*
   * Enable MMS Notifications
-  * MMS Button Settings
-   * Confirm Deletion
+  * Load Unread MMS Messages
+  * Messaging App Running
+  * Message Body Settings
+   * Message Body Font Size
+   * Hide Message Body
+  * Button Settings
+   * Confirm Message Deletion
    * Dismiss Button Action
    * Delete Button Action
    * Reply Button Action
    * Notification Count Action
-
-  * MMS Vibrate Settings
-   * Enable Vibrations
-   * Load Unread MMS Messages
-   * Hide Message Body
-
-  * MMS Ringtone Settings
-   * Enable Ringtones
+   * Show/Hide Button Settings
+    * Hide Dismiss Button
+    * Hide Delete Button
+    * Hide Reply Button
+  * Contact Display Settings
+   * Hide All Contact Info
+   * Hide Contact Photo
+   * Hide Contact Name
+   * Hide Contact Number
+  * Vibrate Settings
+   * Enable Vibrations  
+  * Ringtone Settings
+   * Enable Ringtones     
    * Select Ringtone        
 
   * *_Missed Call Notifications_*
