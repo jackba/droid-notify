@@ -9,7 +9,7 @@ Test Notifications
 
 Enable Droid Notify
 
-Hnable Haptic Feedback
+Enable Haptic Feedback
 
 Enable Vibrations
 
