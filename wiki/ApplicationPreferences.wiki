@@ -114,20 +114,29 @@ Notifications
 
  * *_Calendar Notifications_*
   * Enable Calendar Notifications
+  * All-Day Notification Time
+  * Messaging App Running
+  * Send Event Reminders
+  * Calendar Polling Frequency
   * Select Calendars
   * Enable Calendar Labels
-  * Calendar Button Settings
+  * Event Reminder Settings
+   * Event Settings
+   * All-Day Event Settings
+  * Event Body Settings
+   * Event Text Font Size
+  * Button Settings
    * Dismiss Button Action
    * Notification Count Action
-	
-  * Event Reminder Settings
-  * All Day Event Reminder Settings
-  * Calendar Vibrate Settings
-   * Enable Vibrations
+   * Show/Hide Button Settings
+    * Hide Dismiss Button
+    * Hide View Button
+  * Vibrate Settings
+   * Enable Vibrations  
+  * Ringtone Settings
+   * Enable Ringtones     
+   * Select Ringtone  
 
-  * Calendar Ringtone Settings
-   * Enable Ringtones
-   * Select Ringtone
 
 *_Screen Settings_*
 
