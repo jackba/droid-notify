@@ -91,20 +91,28 @@ Notifications
    * Enable Ringtones     
    * Select Ringtone        
 
-  * *_Missed Call Notifications_*
+ * *_Missed Call Notifications_*
   * Enable Missed Call Notifications
-  * Missed Call Button Settings
+  * Loading Settings
+  * Messaging App Running
+  * Button Settings
    * Dismiss Button Action
    * Notification Count Action
+   * Show/Hide Button Settings
+    * Hide Dismiss Button
+    * Hide Call Button
+  * Contact Display Settings
+   * Hide All Contact Info
+   * Hide Contact Photo
+   * Hide Contact Name
+   * Hide Contact Number
+  * Vibrate Settings
+   * Enable Vibrations  
+  * Ringtone Settings
+   * Enable Ringtones     
+   * Select Ringtone       
 
-  * Missed Call Vibrate Settings
-   * Enable Vibrations
-
-  * Missed Call Ringtone Settings
-   * Enable Ringtones
-   * Select Ringtone        
-
-  * *_Calendar Notifications_*
+ * *_Calendar Notifications_*
   * Enable Calendar Notifications
   * Select Calendars
   * Enable Calendar Labels
