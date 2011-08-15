@@ -13,7 +13,7 @@
 
 ==Can I change the UI of the notification?==
 
-I am currently working on a few different UI's for the notifications. I am not a graphic designer but I am more than willing to work with anyone who has a concept for a notification window. Please email me if you have any suggestions.
+Yes. Currently there are built in themes that you can choose from. If you have any themes (any phone styles like a 3rd party rom, etc.) that you would like to see the notifications in, please contact me and I will do my best to create a theme in that style.
 
 ==The notification icon isn't removed when I dismiss or acknowledge the new message?==
 
