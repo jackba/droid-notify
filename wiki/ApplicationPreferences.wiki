@@ -110,13 +110,16 @@ Screen Settings
 *_Advanced Settings_*
 
 Advanced Settings
- * Reschedule Tiemout
- * Wakelock Tiemout
- * Keyguard Tiemout
+ * Wakelock Timeout
+ * Keyguard Timeout
+ * Reschedule Timeout
  * SMS-to-Email Gateway
- * MMS Tiemout
- * Call Log Tiemout
+ * MMS Timeout
+ * Call Log Timeout
  * Ringtone Length
+ * Reschedule Notifications
+ * Reschedule Settings
+  *Reschedule Timeout
  * Export Preferences
  * Import Preferences
  
