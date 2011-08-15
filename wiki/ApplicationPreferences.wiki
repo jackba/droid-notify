@@ -63,7 +63,7 @@ Notifications
    * Enable Ringtones     
    * Select Ringtone  
 
-  * *_MMS Notifications_*
+ * *_MMS Notifications_*
   * Enable MMS Notifications
   * Load Unread MMS Messages
   * Messaging App Running
