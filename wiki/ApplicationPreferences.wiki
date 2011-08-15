@@ -101,7 +101,7 @@ Notifications
 Screen Settings	
  * Turn Screen On
  * Dim Screen
- * Disable Keyguard
+ * Unlock Phone
  * Blur Screen Background
  * Dim Screen Background
  * Blur Screen Value
