@@ -113,7 +113,12 @@ public class PhoneReceiverService extends WakefulIntentService {
 	    		String isCallNew = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.NEW));
 	    		if(Integer.parseInt(callType) == MISSED_CALL_TYPE && Integer.parseInt(isCallNew) > 0){
     				if (_debug) Log.v("PhoneReceiverService.getMissedCalls() Missed Call Found: " + callNumber);
-    				String[] missedCallContactInfo = Common.getContactsInfoByPhoneNumber(context, callNumber);
+    				String[] missedCallContactInfo = null;
+    				if(Common.isPrivateUnknownNumber(callNumber)){
+    					if (_debug) Log.v("PhoneReceiverService.getMissedCalls() Is a private or unknown number.");
+    				}else{
+    					missedCallContactInfo = Common.getContactsInfoByPhoneNumber(context, callNumber);
+    				}
     				if(missedCallContactInfo == null){
     					missedCallsArray.add(callLogID + "|" + callNumber + "|" + callDate);
     				}else{

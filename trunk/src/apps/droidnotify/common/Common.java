@@ -939,6 +939,46 @@ public class Common {
 		return false;
 	}
 	
+	/**
+	 * Remove all non-numeric items from the phone number.
+	 * 
+	 * @param phoneNumber - String of original phone number.
+	 * 
+	 * @return String - String of phone number with no formatting.
+	 */
+	public static String removeFormatting(String phoneNumber){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.removeFormatting()");
+		phoneNumber = phoneNumber.replace("-", "");
+		phoneNumber = phoneNumber.replace("+", "");
+		phoneNumber = phoneNumber.replace("(", "");
+		phoneNumber = phoneNumber.replace(")", "");
+		phoneNumber = phoneNumber.replace(" ", "");
+		return phoneNumber.trim();
+	}
+	
+	/**
+	 * Determines if the incoming number is a Private or Unknown number.
+	 * 
+	 * @param incomingNumber - The incoming phone number.
+	 * 
+	 * @return boolean - Returns true if the number is a Private number or Unknown number.
+	 */
+	public static boolean isPrivateUnknownNumber(String incomingNumber){
+		if (_debug) Log.v("Common.isPrivateUnknownNumber() incomingNumber: " + incomingNumber);
+		try{
+			if(incomingNumber.length() > 4){
+				return false;
+			}
+			int convertedNumber = Integer.parseInt(incomingNumber);
+			if(convertedNumber < 1) return true;
+		}catch(Exception ex){
+			if (_debug) Log.v("Common.isPrivateUnknownNumber() Integer Parse Error");
+			return false;
+		}
+		return false;
+	}
+	
 //	/**
 //	 * Get the service center to use for a reply.
 //	 * 
@@ -1029,8 +1069,8 @@ public class Common {
 	
 	/**
 	 * Compares the two strings. 
-	 * If the second string is larger ends with the first string, return true.
-	 * If the first string is larger ends with the second string, return true.
+	 * If the second string is larger and ends with the first string, return true.
+	 * If the first string is larger and ends with the second string, return true.
 	 * 
 	 * @param contactNumber - The address books phone number.
 	 * @param incomingNumber - The incoming phone number.
@@ -1060,27 +1100,6 @@ public class Common {
 			}
 		}
 		return true;
-	}
-	
-	/**
-	 * Remove all non-numeric items from the phone number.
-	 * 
-	 * @param phoneNumber - String of original phone number.
-	 * 
-	 * @return String - String of phone number with no formatting.
-	 */
-	private static String removeFormatting(String phoneNumber){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.removeFormatting()");
-		phoneNumber = phoneNumber.replace("-", "");
-		phoneNumber = phoneNumber.replace("+", "");
-		phoneNumber = phoneNumber.replace("(", "");
-		phoneNumber = phoneNumber.replace(")", "");
-		phoneNumber = phoneNumber.replace(" ", "");
-		//if(phoneNumber.length() > 10){
-		//	phoneNumber = phoneNumber.substring(phoneNumber.length() - 10, phoneNumber.length());
-		//}	
-		return phoneNumber.trim();
 	}
 	
 }
