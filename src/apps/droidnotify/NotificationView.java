@@ -1064,23 +1064,6 @@ public class NotificationView extends LinearLayout {
 	}
 	
 	/**
-	 * Remove all non-numeric items from the phone number.
-	 * 
-	 * @param phoneNumber - String of original phone number.
-	 * 
-	 * @return phoneNumber - String of phone number with no formatting.
-	 */
-	private String removeFormatting(String  phoneNumber){
-		if (_debug) Log.v("NotificationView.removeFormatting()");
-		phoneNumber = phoneNumber.replace("-", "");
-		phoneNumber = phoneNumber.replace("+", "");
-		phoneNumber = phoneNumber.replace("(", "");
-		phoneNumber = phoneNumber.replace(")", "");
-		phoneNumber = phoneNumber.replace(" ", "");
-		return phoneNumber.trim();
-	}
-	
-	/**
 	 * Function to format phone numbers.
 	 * 
 	 * @param inputPhoneNumber - Phone number to be formatted.
@@ -1089,7 +1072,10 @@ public class NotificationView extends LinearLayout {
 	 */
 	private String formatPhoneNumber(String inputPhoneNumber){
 		if (_debug) Log.v("NotificationView.formatPhoneNumber()");
-		inputPhoneNumber = removeFormatting(inputPhoneNumber);
+		if(inputPhoneNumber.equals("Private Number")){
+			return inputPhoneNumber;
+		}
+		inputPhoneNumber = Common.removeFormatting(inputPhoneNumber);
 		StringBuilder outputPhoneNumber = new StringBuilder("");
 		int phoneNumberFormatPreference = Integer.parseInt(_preferences.getString(PHONE_NUMBER_FORMAT_KEY, "1"));
 		switch(phoneNumberFormatPreference){

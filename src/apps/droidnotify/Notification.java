@@ -205,7 +205,11 @@ public class Notification {
 			_contactExists = false;
 			_contactPhotoExists = false;
 			_notificationType = notificationType;
-    		_sentFromAddress = sentFromAddress.toLowerCase();
+			if(Common.isPrivateUnknownNumber(sentFromAddress)){
+				_sentFromAddress = "Private Number";
+			}else{
+				_sentFromAddress = sentFromAddress.toLowerCase();
+			}
     		_timeStamp = timeStamp;
     		_contactID = contactID;
     		_callLogID = callLogID;
