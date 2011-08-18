@@ -872,10 +872,6 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			buf.newLine();
 
 			//Advanced Settings
-			buf.append("reschedule_notifications_enabled|" + _preferences.getBoolean("reschedule_notifications_enabled", true) + "|boolean");
-			buf.newLine();
-			buf.append("reschedule_notification_timeout_settings|" + _preferences.getString("reschedule_notification_timeout_settings", "5") + "|string");
-			buf.newLine();
 			buf.append("wakelock_timeout_settings|" + _preferences.getString("wakelock_timeout_settings", "300") + "|string");
 			buf.newLine();
 			buf.append("keyguard_timeout_settings|" + _preferences.getString("keyguard_timeout_settings", "300") + "|string");
@@ -887,6 +883,12 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			buf.append("call_log_timeout_settings|" + _preferences.getString("call_log_timeout_settings", "5") + "|string");
 			buf.newLine();
 			buf.append("ringtone_length_settings|" + _preferences.getString("ringtone_length_settings", "3") + "|string");
+			buf.newLine();
+			buf.append("sms_timestamp_adjustment_settings|" + _preferences.getString("sms_timestamp_adjustment_settings", "0") + "|string");
+			buf.newLine();
+			buf.append("reschedule_notifications_enabled|" + _preferences.getBoolean("reschedule_notifications_enabled", true) + "|boolean");
+			buf.newLine();
+			buf.append("reschedule_notification_timeout_settings|" + _preferences.getString("reschedule_notification_timeout_settings", "5") + "|string");
 			buf.newLine();
 			
 			buf.close();

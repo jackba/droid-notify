@@ -192,6 +192,8 @@
    	<string name="preference_sms_hide_contact_name_enabled_summaryOff">The contact name will be displayed for SMS notifications.</string> 
    	<string name="preference_sms_hide_contact_number_enabled_summaryOn">The contact number will not be displayed for SMS notifications.</string>
    	<string name="preference_sms_hide_contact_number_enabled_summaryOff">The contact number will be displayed for SMS notifications.</string>
+   	<string name="preference_sms_timestamp_adjustment_title">SMS TimeStamp Adjustment</string>
+   	<string name="preference_sms_timestamp_adjustment_summary">Some phones/locations may display incorrect timestamps. Use this setting to adjust the displayed timestamp for SMS messages.</string>
    	
    	<string name="preference_mms_enabled_title">Enable MMS</string>
    	<string name="preference_mms_enabled_summaryOn">MMS notifications are enabled.</string>
@@ -228,6 +230,8 @@
    	<string name="preference_mms_hide_contact_name_enabled_summaryOff">The contact name will be displayed for MMS notifications.</string> 
    	<string name="preference_mms_hide_contact_number_enabled_summaryOn">The contact number will not be displayed for MMS notifications.</string>
    	<string name="preference_mms_hide_contact_number_enabled_summaryOff">The contact number will be displayed for MMS notifications.</string>
+   	<string name="preference_mms_timestamp_adjustment_title">MMS TimeStamp Adjustment</string>
+   	<string name="preference_mms_timestamp_adjustment_summary">Some phones/locations may display incorrect timestamps. Use this setting to adjust the displayed timestamp for MMS messages.</string>
    	
    	<string name="preference_missed_call_enabled_title">Enable Missed Call</string>
    	<string name="preference_missed_call_enabled_summaryOn">Missed Call notifications are enabled.</string>

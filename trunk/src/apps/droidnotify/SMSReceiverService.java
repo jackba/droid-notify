@@ -1,7 +1,6 @@
 package apps.droidnotify;
 
 import java.util.ArrayList;
-import java.util.TimeZone;
 
 import android.content.Context;
 import android.content.Intent;
@@ -97,8 +96,7 @@ public class SMSReceiverService extends WakefulIntentService {
             SmsMessage sms = msgs[0];
             timeStamp = sms.getTimestampMillis();
             //Adjust the timestamp to the localized time of the users phone.
-            //I don't know why the line below is "-=" and not "+=" but for some reason it works.
-            timeStamp -= TimeZone.getDefault().getOffset(timeStamp);
+            timeStamp = Common.convertGMTToLocalTime(context, timeStamp);
             sentFromAddress = sms.getDisplayOriginatingAddress().toLowerCase();
             if(sentFromAddress.contains("@")){
             	sentFromAddress = Common.removeEmailFormatting(sentFromAddress);
