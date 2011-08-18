@@ -628,4 +628,60 @@
 		<item name="3">4</item>
 		<item name="4">5</item>
 	</string-array>	
+	
+	<!-- SMS/MMS TimeStamp Adjustment Arrays --> 
+	<string-array name="timestamp_adjustment_options">
+		<item name="0">-12 Hours</item>
+		<item name="1">-11 Hours</item>
+		<item name="2">-10 Hours</item>
+		<item name="3">-9 Hours</item>
+		<item name="4">-8 Hours</item>
+		<item name="5">-7 Hours</item>
+		<item name="6">-6 Hours</item>
+		<item name="7">-5 Hours</item>
+		<item name="8">-4 Hours</item>
+		<item name="9">-3 Hours</item>
+		<item name="10">-2 Hours</item>
+		<item name="11">-1 Hours</item>
+		<item name="12">0 Hours</item>
+		<item name="13">+1 Hours</item>
+		<item name="14">+2 Hours</item>
+		<item name="15">+3 Hours</item>
+		<item name="16">+4 Hours</item>
+		<item name="17">+5 Hours</item>
+		<item name="18">+6 Hours</item>
+		<item name="19">+7 Hours</item>
+		<item name="20">+8 Hours</item>
+		<item name="21">+9 Hours</item>
+		<item name="22">+10 Hours</item>
+		<item name="23">+11 Hours</item>
+		<item name="24">+12 Hours</item>
+	</string-array>
+	<string-array name="timestamp_adjustment_options_values">
+		<item name="0">-12</item>
+		<item name="1">-11</item>
+		<item name="2">-10</item>
+		<item name="3">-9</item>
+		<item name="4">-8</item>
+		<item name="5">-7</item>
+		<item name="6">-6</item>
+		<item name="7">-5</item>
+		<item name="8">-4</item>
+		<item name="9">-3</item>
+		<item name="10">-2</item>
+		<item name="11">-1</item>
+		<item name="12">0</item>
+		<item name="13">1</item>
+		<item name="14">2</item>
+		<item name="15">3</item>
+		<item name="16">4</item>
+		<item name="17">5</item>
+		<item name="18">6</item>
+		<item name="19">7</item>
+		<item name="20">8</item>
+		<item name="21">9</item>
+		<item name="22">10</item>
+		<item name="23">11</item>
+		<item name="24">12</item>
+	</string-array>
 </resources>

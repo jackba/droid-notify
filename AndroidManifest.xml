@@ -3,7 +3,8 @@
 	xmlns:android="http://schemas.android.com/apk/res/android" 
 	package="apps.droidnotify"
     android:versionCode="10"
-    android:versionName="2.5" >
+    android:versionName="2.5"
+    android:installLocation="auto" >
 	<uses-sdk 
 		android:minSdkVersion="8" 
 		android:targetSdkVersion="8" />
