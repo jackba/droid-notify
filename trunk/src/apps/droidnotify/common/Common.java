@@ -184,7 +184,6 @@ public class Common {
 				while (phoneCursor.moveToNext()) { 
 					String contactNumber = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
 					if(isPhoneNumberEqual(contactNumber, incomingNumber)){
-					//if(removeFormatting(incomingNumber).equals(removeFormatting(contactNumber))){
 						_contactID = Long.parseLong(contactID);
 		    		  	if(contactName != null){
 		    		  		_contactName = contactName;
@@ -1107,7 +1106,6 @@ public class Common {
 	 *                       If the first string is larger ends with the second string, return true.
 	 */
 	private static boolean isPhoneNumberEqual(String contactNumber, String incomingNumber){
-		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.isPhoneNumberEqual()");
 		//Remove any formatting from each number.
 		contactNumber = removeFormatting(contactNumber);
@@ -1135,13 +1133,14 @@ public class Common {
 	}
 	
 	/**
+	 * Remove the leading zero from a string.
 	 * 
+	 * @param inputNumber - The number to remove the leading zero from.
 	 * 
-	 * @param inputNumber
-	 * 
-	 * @return
+	 * @return String - The number after we have removed the leading zero.
 	 */
 	private static String removeLeadingZero(String inputNumber){
+		if (_debug) Log.v("Common.removeLeadingZero() InputNumber: " + inputNumber);
 		if(inputNumber.subSequence(0, 1).equals("0")){
 			return inputNumber.substring(1);
 		}
