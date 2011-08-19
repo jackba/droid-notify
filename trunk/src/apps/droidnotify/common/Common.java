@@ -145,6 +145,7 @@ public class Common {
 		long _contactID = 0;
 		String _contactName = "";
 		long _photoID = 0;
+		String _lookupKey = "";
 		boolean _contactExists = false;
 		if (incomingNumber == null) {
 			if (_debug) Log.v("Common.loadContactsInfoByPhoneNumber() Phone number provided is null: Exiting...");
@@ -171,6 +172,7 @@ public class Common {
 				String contactID = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID)); 
 				String contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
 				String photoID = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_ID)); 
+				String lookupKey = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY)); 
 				final String[] phoneProjection = null;
 				final String phoneSelection = ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = " + contactID;
 				final String[] phoneSelectionArgs = null;
@@ -191,6 +193,7 @@ public class Common {
 		    		  	if(photoID != null){
 		    			  	_photoID = Long.parseLong(photoID);
 		    		  	}
+		    		  	_lookupKey = lookupKey;
 		  		      	_contactExists = true;
 		  		      	break;
 					}
@@ -199,7 +202,7 @@ public class Common {
 				if(_contactExists) break;
 		   	}
 			cursor.close();
-			return new String[]{String.valueOf(_contactID), _contactName, String.valueOf(_photoID)};
+			return new String[]{String.valueOf(_contactID), _contactName, String.valueOf(_photoID), _lookupKey};
 		}catch(Exception ex){
 			if (_debug) Log.e("Common.loadContactsInfoByPhoneNumber() ERROR: " + ex.toString());
 			return null;
@@ -220,6 +223,7 @@ public class Common {
 		long _contactID = 0;
 		String _contactName = "";
 		long _photoID = 0;
+		String _lookupKey = "";
 		boolean _contactExists = false;
 		if (incomingEmail == null) {
 			if (_debug) Log.v("Common.loadContactsInfoByEmail() Email provided is null: Exiting...");
@@ -246,6 +250,7 @@ public class Common {
 				contactID = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID)); 
 				String contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
 				String photoID = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_ID)); 
+				String lookupKey = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY)); 
 				final String[] emailProjection = null;
 				final String emailSelection = ContactsContract.CommonDataKinds.Email.CONTACT_ID + " = " + contactID;
 				final String[] emailSelectionArgs = null;
@@ -266,6 +271,7 @@ public class Common {
 		    		  	if(photoID != null){
 		    			  	_photoID = Long.parseLong(photoID);
 		    		  	}
+		    		  	_lookupKey = lookupKey;
 		  		      	_contactExists = true;
 		  		      	break;
 					}
@@ -274,7 +280,7 @@ public class Common {
                 if(_contactExists) break;
 		   	}
 			cursor.close();
-			return new String[]{String.valueOf(_contactID), _contactName, String.valueOf(_photoID)};
+			return new String[]{String.valueOf(_contactID), _contactName, String.valueOf(_photoID), _lookupKey};
 		}catch(Exception ex){
 			if (_debug) Log.e("Common.loadContactsInfoByEmail() ERROR: " + ex.toString());
 			return null;

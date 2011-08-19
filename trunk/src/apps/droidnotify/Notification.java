@@ -73,6 +73,7 @@ public class Notification {
 	private boolean _allDay = false;
 	private SharedPreferences _preferences = null;
 	private long _callLogID = 0;
+	private String _lookupKey = null;
 	
 	//================================================================================
 	// Constructors
@@ -81,9 +82,9 @@ public class Notification {
 	/**
 	 * Class Constructor
 	 */
-	public Notification(Context context, String sentFromAddress, String messageBody, long messageID, long threadID, long timeStamp, long contactID, String contactName, long photoID, int notificationType) {
+	public Notification(Context context, String sentFromAddress, String messageBody, long messageID, long threadID, long timeStamp, long contactID, String contactName, long photoID, String lookupKey, int notificationType) {
 		_debug = Log.getDebug();
-		if (_debug) Log.v("Notification.Notification(Context contex, String sentFromAddress, String messageBody, long messageID, long threadID, long timeStamp, long contactID, String contactName, long photoID, int notificationType)");
+		if (_debug) Log.v("Notification.Notification(Context contex, String sentFromAddress, String messageBody, long messageID, long threadID, long timeStamp, long contactID, String contactName, long photoID, String lookupKey, int notificationType)");
 		try{
 			if(notificationType == NOTIFICATION_TYPE_PHONE){
 				_title = "Missed Call";
@@ -124,8 +125,9 @@ public class Notification {
     		}else{
     			_contactPhotoExists = true;
     		}
+    		_lookupKey = lookupKey;
 		}catch(Exception ex){
-			if (_debug) Log.v("Notification.Notification(Context contex, String sentFromAddress, String messageBody, long messageID, long threadID, long timeStamp, long contactID, String contactName, long photoID, int notificationType) ERROR: " + ex.toString());
+			if (_debug) Log.v("Notification.Notification(Context contex, String sentFromAddress, String messageBody, long messageID, long threadID, long timeStamp, long contactID, String contactName, long photoID, String lookupKey, int notificationType) ERROR: " + ex.toString());
 		}
 	}
 	
@@ -174,9 +176,9 @@ public class Notification {
 	/**
 	 * Class Constructor
 	 */
-	public Notification(Context context, long callLogID, String sentFromAddress, long timeStamp, long contactID, String contactName, long photoID, int notificationType){
+	public Notification(Context context, long callLogID, String sentFromAddress, long timeStamp, long contactID, String contactName, long photoID, String lookupKey, int notificationType){
 		_debug = Log.getDebug();
-		if (_debug) Log.v("Notification.Notification(Context context, long callLogID, String sentFromAddress, long timeStamp, long contactID, string contactName, long photoID, int notificationType)");
+		if (_debug) Log.v("Notification.Notification(Context context, long callLogID, String sentFromAddress, long timeStamp, long contactID, string contactName, long photoID, String lookupKey, int notificationType)");
 		try{
 			switch(notificationType){
 				case NOTIFICATION_TYPE_PHONE:{
@@ -226,8 +228,9 @@ public class Notification {
     		}else{
     			_contactPhotoExists = true;
     		}	
+    		_lookupKey = lookupKey;
 		}catch(Exception ex){
-			if (_debug) Log.v("Notification.Notification(Context context, long callLogID, String sentFromAddress, long timeStamp, long contactID, String contactName, long photoID, int notificationType) ERROR: " + ex.toString());
+			if (_debug) Log.v("Notification.Notification(Context context, long callLogID, String sentFromAddress, long timeStamp, long contactID, String contactName, long photoID, String lookupKey, int notificationType) ERROR: " + ex.toString());
 		}
 	}
 	
@@ -486,6 +489,15 @@ public class Notification {
   		return _callLogID;
 	}
 	
+	/**
+	 * Get the lookupKey property.
+	 * 
+	 * @return lookupKey - The contact LookupKey.
+	 */
+	public String getLookupKey() {
+		if (_debug) Log.v("Notification.getLookupKey() LookupKey: " + _lookupKey);
+	    return _lookupKey;
+	}	
 	/**
 	 * Set this notification as being viewed on the users phone.
 	 * 
