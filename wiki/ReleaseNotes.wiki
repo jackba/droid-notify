@@ -37,7 +37,7 @@
  * Notifications should not pull up the settings screen behind it any longer.
  * Added the option to use the notification count text in the header as a button. (e.g. you can touch the text "1/1" in the header of a notification to view the message or thread of a received sms message.)
 
-*v2.1* (June 09, 2011)
+*v2.1* (July 09, 2011)
  * Added better integration with 3rd party messaging apps.
  * Add an export/import settings feature.
  * Fixed "Application Not Responding (ANR)" bugs.
