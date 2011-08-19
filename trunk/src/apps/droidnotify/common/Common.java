@@ -53,6 +53,9 @@ public class Common {
 	private static final String EVENT_BEGIN_TIME = "beginTime";
 	private static final String EVENT_END_TIME = "endTime";
 	
+	private static final int MESSAGE_TYPE_SMS = 1;
+	private static final int MESSAGE_TYPE_MMS = 2;
+	
 	private static final String SMS_TIMESTAMP_ADJUSTMENT_KEY = "sms_timestamp_adjustment_settings";
 	
 	//Staring Array of the top SMS Messaging Apps:
@@ -316,16 +319,22 @@ public class Common {
 	 * @param context - Application Context.
 	 * @param phoneNumber - Notifications's phone number.
 	 */
-	public static long getThreadID(Context context, String address){
+	public static long getThreadID(Context context, String address, int messageType){
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.getThreadIdByAddress()");
+		String messageURI = "content://sms/inbox";
+		if(messageType == MESSAGE_TYPE_SMS){
+			messageURI = "content://sms/inbox";
+		}else if(messageType == MESSAGE_TYPE_MMS){
+			messageURI = "content://mms/inbox";
+		}
 		long threadID = 0;
 		if (address == null){
-			if (_debug) Log.v("Common.loadThreadID() Address provided is null: Exiting...");
+			if (_debug) Log.v("Common.getThreadID() Address provided is null: Exiting...");
 			return 0;
 		}
 		if (address == ""){
-			if (_debug) Log.v("Common.loadThreadID() Address provided is empty: Exiting...");
+			if (_debug) Log.v("Common.getThreadID() Address provided is empty: Exiting...");
 			return 0;
 		}
 		try{
@@ -336,7 +345,7 @@ public class Common {
 			Cursor cursor = null;
 			try {
 		    	cursor = context.getContentResolver().query(
-		    		Uri.parse("content://sms/inbox"),
+		    		Uri.parse(messageURI),
 		    		projection,
 		    		selection,
 					selectionArgs,
@@ -344,11 +353,11 @@ public class Common {
 		    	if (cursor != null) {
 		    		if (cursor.moveToFirst()) {
 		    			threadID = cursor.getLong(cursor.getColumnIndex("thread_id"));
-		    			if (_debug) Log.v("Common.loadThreadID() Thread ID Found: " + threadID);
+		    			if (_debug) Log.v("Common.getThreadID() Thread ID Found: " + threadID);
 		    		}
 		    	}
 	    	}catch(Exception e){
-		    		if (_debug) Log.e("Common.loadThreadID() EXCEPTION: " + e.toString());
+		    		if (_debug) Log.e("Common.getThreadID() EXCEPTION: " + e.toString());
 	    	} finally {
 	    		if(cursor != null){
 					cursor.close();
@@ -356,7 +365,7 @@ public class Common {
 	    	}
 	    	return threadID;
 		}catch(Exception ex){
-			if (_debug) Log.e("Common.loadThreadID() ERROR: " + ex.toString());
+			if (_debug) Log.e("Common.getThreadID() ERROR: " + ex.toString());
 			return 0;
 		}
 	}
@@ -368,11 +377,17 @@ public class Common {
 	 * @param threadId - Notifications's threadID.
 	 * @param timestamp - Notifications's timeStamp.
 	 */
-	public static long getMessageID(Context context, long threadID, String messageBody, long timeStamp) {
+	public static long getMessageID(Context context, long threadID, String messageBody, long timeStamp, int messageType) {
 		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.loadMessageID()");
+		if (_debug) Log.v("Common.getMessageID()");
+		String messageURI = null;
+		if(messageType == MESSAGE_TYPE_SMS){
+			messageURI = "content://sms/inbox";
+		}else{
+			messageURI = "content://mms/inbox";
+		}
 		if (messageBody == null){
-			if (_debug) Log.v("Common.loadMessageID() Message body provided is null: Exiting...");
+			if (_debug) Log.v("Common.getMessageID() Message body provided is null: Exiting...");
 			return 0;
 		} 
 		long messageID = 0;
@@ -390,20 +405,20 @@ public class Common {
 		    Cursor cursor = null;
 		    try{
 		    	cursor = context.getContentResolver().query(
-		    		Uri.parse("content://sms/inbox"),
+		    		Uri.parse(messageURI),
 		    		projection,
 		    		selection,
 					selectionArgs,
 					sortOrder);
 			    while (cursor.moveToNext()) { 
-		    		if(cursor.getString(cursor.getColumnIndex("body")).trim().equals(messageBody)){
+		    		if(cursor.getString(cursor.getColumnIndex("body")).replace("\n", "<br/>").trim().equals(messageBody)){
 		    			messageID = cursor.getLong(cursor.getColumnIndex("_id"));
-		    			if (_debug) Log.v("Common.loadMessageID() Message ID Found: " + messageID);
+		    			if (_debug) Log.v("Common.getMessageID() Message ID Found: " + messageID);
 		    			break;
 		    		}
 			    }
 		    }catch(Exception ex){
-				if (_debug) Log.e("Common.loadMessageID() ERROR: " + ex.toString());
+				if (_debug) Log.e("Common.getMessageID() ERROR: " + ex.toString());
 			}finally{
 				if(cursor != null){
 					cursor.close();
@@ -997,7 +1012,6 @@ public class Common {
         //return timeStamp - TimeZone.getDefault().getOffset(timeStamp);
 	    long offset = TimeZone.getDefault().getOffset(inputTimeStamp);
 	    if (_debug) Log.v("Common.convertGMTToLocalTime() Current TimeStamp Offset (Hours): " + (offset / 1000 / 60 / 60));
-	    if (_debug) Log.v("Common.convertGMTToLocalTime() Current TimeZone: " + TimeZone.getAvailableIDs());
 	    if (_debug) Log.v("Common.convertGMTToLocalTime() Current TimeZone: " + TimeZone.getDefault().getID());
 	    if (TimeZone.getDefault().inDaylightTime(Calendar.getInstance().getTime())) {
 	    if (_debug) Log.v("Common.convertGMTToLocalTime() Users Is In Daylight Savings Time");
