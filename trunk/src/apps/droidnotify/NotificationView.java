@@ -1279,7 +1279,11 @@ public class NotificationView extends LinearLayout {
 			    public void onClick(View view) {
 			    	if (_debug) Log.v("Contact Photo Clicked()");
 			    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-			    	ContactsContract.QuickContact.showQuickContact(_context, _photoImageView, Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_LOOKUP_URI, lookupKey), ContactsContract.QuickContact.MODE_SMALL, null);
+			    	try{
+			    		ContactsContract.QuickContact.showQuickContact(_context, _photoImageView, Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_LOOKUP_URI, lookupKey), ContactsContract.QuickContact.MODE_SMALL, null);
+			    	}catch(Exception ex){
+			    		if (_debug) Log.e("Contact Photo Clicked ContactsContract.QuickContact.showQuickContact() Error: " + ex.toString());
+			    	}
 			    }
 			});
 		}
