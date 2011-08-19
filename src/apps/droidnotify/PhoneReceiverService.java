@@ -122,7 +122,7 @@ public class PhoneReceiverService extends WakefulIntentService {
     				if(missedCallContactInfo == null){
     					missedCallsArray.add(callLogID + "|" + callNumber + "|" + callDate);
     				}else{
-    					missedCallsArray.add(callLogID + "|" + callNumber + "|" + callDate + "|" + missedCallContactInfo[0] + "|" + missedCallContactInfo[1] + "|" + missedCallContactInfo[2]);
+    					missedCallsArray.add(callLogID + "|" + callNumber + "|" + callDate + "|" + missedCallContactInfo[0] + "|" + missedCallContactInfo[1] + "|" + missedCallContactInfo[2] + "|" + missedCallContactInfo[3]);
     				}
     				if(missedCallPreference.equals(MISSED_CALL_GET_LATEST)){
     					if (_debug) Log.v("PhoneReceiverService.getMissedCalls() Missed call found - Exiting");

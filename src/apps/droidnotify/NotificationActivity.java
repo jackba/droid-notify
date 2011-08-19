@@ -1245,7 +1245,7 @@ public class NotificationActivity extends Activity {
 		Notification smsNotification = new Notification(_context, "5555555555", "Droid Notify SMS Message Test", System.currentTimeMillis(), NOTIFICATION_TYPE_SMS);
 		notificationViewFlipper.addNotification(smsNotification);
 		//Add Missed Call Notification.
-		Notification missedCallNotification = new Notification(_context, 0, "5555555555", System.currentTimeMillis(), 0, "", 0, NOTIFICATION_TYPE_PHONE);
+		Notification missedCallNotification = new Notification(_context, 0, "5555555555", System.currentTimeMillis(), 0, "", 0, "", NOTIFICATION_TYPE_PHONE);
 		notificationViewFlipper.addNotification(missedCallNotification);
 		//Add Calendar Event Notification.
 		Notification calendarEventNotification = new Notification(_context, "Droid Notify Calendar Event Test", "", System.currentTimeMillis(), System.currentTimeMillis() + (10 * 60 * 1000), false, "Test Calendar",  0, 0, NOTIFICATION_TYPE_CALENDAR);
@@ -1529,6 +1529,7 @@ public class NotificationActivity extends Activity {
 			long contactID = 0;
 			String contactName = null;
 			long photoID = 0;
+			String lookupKey = null;
 			long timeStamp = 0;
     		if( smsInfo.length == 5){ 
 				messageAddress = smsInfo[0];
@@ -1545,10 +1546,11 @@ public class NotificationActivity extends Activity {
 				contactID = Long.parseLong(smsInfo[5]);
 				contactName = smsInfo[6];
 				photoID = Long.parseLong(smsInfo[7]);
+				lookupKey = smsInfo[8];
 				currentMessageBody = messageBody;
 				currentMessageID = String.valueOf(messageID);
 			}
-    		_notificationViewFlipper.addNotification(new Notification(_context, messageAddress, messageBody, messageID, threadID, timeStamp, contactID, contactName, photoID, NOTIFICATION_TYPE_SMS));
+    		_notificationViewFlipper.addNotification(new Notification(_context, messageAddress, messageBody, messageID, threadID, timeStamp, contactID, contactName, photoID, lookupKey, NOTIFICATION_TYPE_SMS));
 		}
 		if(loadAllNew){
 			//Load all unread SMS messages.
@@ -1575,6 +1577,7 @@ public class NotificationActivity extends Activity {
 			long contactID = 0;
 			String contactName = null;
 			long photoID = 0;
+			String lookupKey = null;
 			long timeStamp = 0;
     		if( mmsInfo.length == 5){
 				messageAddress = mmsInfo[0];
@@ -1593,8 +1596,9 @@ public class NotificationActivity extends Activity {
 				contactID = Long.parseLong(mmsInfo[5]);
 				contactName = mmsInfo[6];
 				photoID = Long.parseLong(mmsInfo[7]);
+				lookupKey = mmsInfo[8];
 			}
-    		_notificationViewFlipper.addNotification(new Notification(_context, messageAddress, messageBody, messageID, threadID, timeStamp, contactID, contactName, photoID, NOTIFICATION_TYPE_MMS));
+    		_notificationViewFlipper.addNotification(new Notification(_context, messageAddress, messageBody, messageID, threadID, timeStamp, contactID, contactName, photoID, lookupKey, NOTIFICATION_TYPE_MMS));
 		}
 		if(loadAllNew){
 			//Load all unread MMS messages.
@@ -1638,6 +1642,7 @@ public class NotificationActivity extends Activity {
 					long contactID = 0;
 					String contactName = null;
 					long photoID = 0;
+					String lookupKey = null;
 					long timeStamp = 0;
 		    		if( smsInfo.length == 5){ 
 						messageAddress = smsInfo[0];
@@ -1654,8 +1659,9 @@ public class NotificationActivity extends Activity {
 						contactID = Long.parseLong(smsInfo[5]);
 						contactName = smsInfo[6];
 						photoID = Long.parseLong(smsInfo[7]);
+						lookupKey = smsInfo[8];
 					}
-		    		_notificationViewFlipper.addNotification(new Notification(_context, messageAddress, messageBody, messageID, threadID, timeStamp, contactID, contactName, photoID, NOTIFICATION_TYPE_SMS));
+		    		_notificationViewFlipper.addNotification(new Notification(_context, messageAddress, messageBody, messageID, threadID, timeStamp, contactID, contactName, photoID, lookupKey, NOTIFICATION_TYPE_SMS));
 				}catch(Exception ex){
 					if (_debug) Log.e("NotificationActivity.getAllUnreadSMSMessagesAsyncTask.onPostExecute() ERROR: " + ex.toString());
 				}
@@ -1750,6 +1756,7 @@ public class NotificationActivity extends Activity {
 				long contactID = 0;
 				String contactName = null;
 				long photoID = 0;
+				String lookupKey = null;
 				long timeStamp = 0;
 	    		if( mmsInfo.length == 5){ 
 					messageAddress = mmsInfo[0];
@@ -1768,8 +1775,9 @@ public class NotificationActivity extends Activity {
 					contactID = Long.parseLong(mmsInfo[5]);
 					contactName = mmsInfo[6];
 					photoID = Long.parseLong(mmsInfo[7]);
+					lookupKey = mmsInfo[8];
 				}
-	    		_notificationViewFlipper.addNotification(new Notification(_context, messageAddress, messageBody, messageID, threadID, timeStamp, contactID, contactName, photoID, NOTIFICATION_TYPE_SMS));
+	    		_notificationViewFlipper.addNotification(new Notification(_context, messageAddress, messageBody, messageID, threadID, timeStamp, contactID, contactName, photoID, lookupKey, NOTIFICATION_TYPE_SMS));
 			}
 	    }
 	}
@@ -1847,6 +1855,7 @@ public class NotificationActivity extends Activity {
 			long contactID = 0;
 			String contactName = null;
 			long photoID = 0;
+			String lookupKey = null;
 			if( missedCallInfo.length == 3){
 				callLogID = Long.parseLong(missedCallInfo[0]);
 				phoneNumber = missedCallInfo[1];
@@ -1858,8 +1867,9 @@ public class NotificationActivity extends Activity {
 				contactID = Long.parseLong(missedCallInfo[3]);
 				contactName = missedCallInfo[4];
 				photoID = Long.parseLong(missedCallInfo[5]);
+				lookupKey = missedCallInfo[6];
 			}
-			Notification missedCallNotification = new Notification(_context, callLogID, phoneNumber, timeStamp, contactID, contactName, photoID, NOTIFICATION_TYPE_PHONE);
+			Notification missedCallNotification = new Notification(_context, callLogID, phoneNumber, timeStamp, contactID, contactName, photoID, lookupKey, NOTIFICATION_TYPE_PHONE);
 			_notificationViewFlipper.addNotification(missedCallNotification);
 		}
 	    return true;

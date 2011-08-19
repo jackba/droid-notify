@@ -563,6 +563,8 @@ public class NotificationView extends LinearLayout {
 		    }else{
 		    	_contactNumberTextView.setText(formatPhoneNumber(sentFromAddress));
 		    }
+		    //Add the Quick Contact Android Widget to the Contact Photo.
+		    setupQuickContact();
 		}
 		if(_notificationType == NOTIFICATION_TYPE_SMS){
 			if(_preferences.getBoolean(SMS_HIDE_MESSAGE_KEY, false)){
@@ -1264,6 +1266,22 @@ public class NotificationView extends LinearLayout {
 		}catch(Exception ex){
 			if (_debug) Log.e("NotificationView.getContactImage() ERROR: " + ex.toString());
 			return null;
+		}
+	}
+	
+	/**
+	 * Add the QuickContact widget to the Contact Photo. This is added to the OnClick event of the photo.
+	 */
+	private void setupQuickContact(){
+		final String lookupKey = _notification.getLookupKey();
+		if(lookupKey != null && !lookupKey.equals("")){
+			_photoImageView.setOnClickListener(new OnClickListener() {
+			    public void onClick(View view) {
+			    	if (_debug) Log.v("Contact Photo Clicked()");
+			    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+			    	ContactsContract.QuickContact.showQuickContact(_context, _photoImageView, Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_LOOKUP_URI, lookupKey), ContactsContract.QuickContact.MODE_SMALL, null);
+			    }
+			});
 		}
 	}
 	
