@@ -10,6 +10,7 @@
  * Added the Android "Quick Contact" popup when you click on the contacts photo.
  * Fixed a "Private Number" bug in the phone number contact recognition code.
  * Fixed a leading "0" issue in the phone number contact recognition code. This should help non North American users with the app recognizing contacts correctly.
+ * Fixed a bug that caused SMS/MMS messages not be marked as read when you dismiss the notification.
  * Other small bug fixes.
 
 *v2.4* (August 10, 2011)
