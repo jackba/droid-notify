@@ -3,8 +3,14 @@
 
 = Release Notes =
 
-*v2.5* _Coming Soon..._
+*v2.6* _Coming Soon..._
  * 
+
+*v2.5* _Coming Soon..._
+ * Added the Android "Quick Contact" popup when you click on the contacts photo.
+ * Fixed a "Private Number" bug in the phone number contact recognition code.
+ * Fixed a leading "0" issue in the phone number contact recognition code. This should help non North American users with the app recognizing contacts correctly.
+ * Other small bug fixes.
 
 *v2.4* (August 10, 2011)
  * Updated the user preferences with regard to Rescheduling notifications (e.g. in case you are in a call or replying to a message, etc.)
