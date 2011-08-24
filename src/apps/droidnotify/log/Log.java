@@ -138,11 +138,11 @@ public class Log {
 		    //We can read and write the media. Do nothing.
 		}else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)){
 		    // We can only read the media.
-			//android.util.Log.v(getLogTag(), "Log.writeToCustomLog() External Storage Read Only State");
+			android.util.Log.v(getLogTag(), "Log.writeToCustomLog() External Storage Read Only State");
 		    return;
 		}else{
 		    // Something else is wrong. It may be one of many other states, but all we need to know is we can neither read nor write
-			//android.util.Log.v(getLogTag(), "Log.writeToCustomLog() External Storage Can't Write Or Read State");
+			android.util.Log.v(getLogTag(), "Log.writeToCustomLog() External Storage Can't Write Or Read State");
 		    return;
 		}
 		File logFilePath = null;
