@@ -31,31 +31,36 @@
             </intent-filter>
         </activity>
  		<receiver android:name="apps.droidnotify.SMSReceiver"> 
-            <intent-filter> 
+            <intent-filter
+				android:priority="2147483647"> 
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" /> 
             </intent-filter> 
         </receiver>
         <service android:name="apps.droidnotify.SMSReceiverService" />
 		<receiver android:name="apps.droidnotify.MMSReceiver"> 
-			<intent-filter>
+			<intent-filter
+				android:priority="2147483647">
                 <action android:name="android.provider.Telephony.WAP_PUSH_RECEIVED" />
                 <data android:mimeType="application/vnd.wap.mms-message" />
             </intent-filter>
-            <intent-filter> 
+            <intent-filter
+				android:priority="2147483647"> 
                 <action android:name="android.provider.Telephony.MMS_RECEIVED" /> 
             </intent-filter>
         </receiver>
         <receiver android:name="apps.droidnotify.MMSAlarmReceiver" />
         <service android:name="apps.droidnotify.MMSReceiverService" />
    		<receiver android:name="apps.droidnotify.PhoneReceiver" > 
-            <intent-filter> 
+            <intent-filter
+				android:priority="2147483647"> 
                 <action android:name="android.intent.action.PHONE_STATE" />
             </intent-filter> 
         </receiver>
         <receiver android:name="apps.droidnotify.PhoneAlarmReceiver" />
        	<service android:name="apps.droidnotify.PhoneReceiverService" /> 
 		<receiver android:name="apps.droidnotify.OnBootReceiver" >
-			<intent-filter>
+			<intent-filter
+				android:priority="2147483647">
 				<action android:name="android.intent.action.BOOT_COMPLETED" />
 			</intent-filter>
 		</receiver>
