@@ -62,6 +62,8 @@ public class OnBootReceiver extends BroadcastReceiver {
 		// Set alarm to go off 5 minutes from the current time.
 		long pollingFrequency = Long.parseLong(preferences.getString(CALENDAR_POLLING_FREQUENCY_KEY, "15")) * 60 * 1000;
 		alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (5 * 60 * 1000), pollingFrequency, pendingIntent);
+//	    //Register Broadcast Receivers
+//	    Common.registerBroadcastReceivers(context);
 	}
 
 }

@@ -1027,6 +1027,20 @@ public class Common {
 	}
 	
 //	/**
+//	 * Register broadcast receivers to try to ensure that the app receives them
+//	 * and they are not aborted before it's our turn to process them.
+//	 */
+//	public static void registerBroadcastReceivers(Context context){
+//		if (_debug) Log.v("Common.registerBroadcastReceivers()");
+//		//Register SMS_RECEIVED Intent Filter
+//		SMSReceiver smsBroadcastReceiver =  new SMSReceiver();
+//		IntentFilter smsIntentFilter = new IntentFilter();
+//		smsIntentFilter.addAction("android.provider.Telephony.SMS_RECEIVED");
+//		smsIntentFilter.setPriority(2147483647);
+//		context.registerReceiver(smsBroadcastReceiver, smsIntentFilter);
+//	}
+	
+//	/**
 //	 * Get the service center to use for a reply.
 //	 * 
 //	 * @param context

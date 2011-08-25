@@ -140,6 +140,8 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	    setupRateAppPreference();
 	    setupImportPreferences();
 	    initPreferencesStates();
+//	    //Register Broadcast Receivers
+//	    Common.registerBroadcastReceivers(_context);
 	    runOnceEula();
 	}
     
