@@ -56,8 +56,8 @@ public class MMSReceiver extends BroadcastReceiver{
 			return;
 		}
 		//Schedule mms task x seconds after the broadcast.
-		//This time is set by the users advanced preferences. 5 seconds is the default value.
-		//This should allow enough time to pass for the phone log to be written to.
+		//This time is set by the users advanced preferences. 40 seconds is the default value.
+		//This should allow enough time to pass for the mms inbox to be written to.
 		long timeoutInterval = Long.parseLong(preferences.getString(MMS_TIMEOUT_KEY, "40")) * 1000;
 		AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 		Intent mmsIntent = new Intent(context, MMSAlarmReceiver.class);

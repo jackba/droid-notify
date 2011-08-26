@@ -728,7 +728,6 @@ public class NotificationView extends LinearLayout {
 		SimpleDateFormat dateFormatted = new SimpleDateFormat("h:mma");
 		dateFormatted.setTimeZone(TimeZone.getDefault());
 		String formattedTimestamp = dateFormatted.format(notification.getTimeStamp());
-		//String formattedTimestamp = new SimpleDateFormat("h:mma").format(notification.getTimeStamp());
 	    String receivedAtText = "";
 		switch(_notificationType){
 			case NOTIFICATION_TYPE_PHONE:{
