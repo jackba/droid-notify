@@ -8,6 +8,7 @@
  * [FAQ#The_contact_phot_in_the_notification_doesn't_display_the_user's_facebook_photo_even_though_it_shows_in_the_system_contacts? The contact photo in the notification doesn't display the user's facebook photo even though it shows in the system contacts?]
  * [FAQ#Is_Google_Voice_integrated_with_Droid_Notify? Is Google Voice integrated with Droid Notify?]
  * [FAQ#Can_Droid_Notify_be_moved_to_the_SD_card? Can Droid Notify be moved to the SD card?]
+ * [[FAQ#Known_Issues_with_Go_SMS_Pro_&_Droid_Notify Known Issues with Go SMS Pro & Droid Notify]
 
 ----
 
@@ -29,9 +30,20 @@ Unfortunately, the answer is no.
 
 Google Voice is a private app and does not have an open API so currently there is no way to tap into it's SMS messages or other data that it uses. I will continue to monitor the app and look for any API's that will allow Droid Notify to communicate with it or it's data, but at this time it's not possible. The only solution is to enable the Google voice option to forward your Google Voice activity to you via SMS messages.
 
-
 ==Can Droid Notify be moved to the SD card?==
 
 Unfortunately, the answer is no.
 
 If the app is moved to the SD Card / External Storage, the functionality of the application will be impacted in a negative manor. This application uses alarms and phone state intent filters to function normally. When apps are moved to the SD Card, the phone state intent filters are not received and if the SD card is ever removed or unmounted, all alarms are cleared from the memory. These issues would be catastrophic in terms of the apps operation so the application must remain on the phones internal memory.
+
+==Known Issues with Go SMS Pro & Droid Notify==
+
+If you want to use GO SMS Pro, you must follow one of the two steps below in order for Droid Notify to work with SMS/MMS notifications. These steps will only work with Droid Notify Version 2.4 or greater.
+
+1) Uncheck/deselect the "Disable other apps notifications" option in the GO SMS Pro settings/preferences . If this option is checked/selected then Droid Notify may not work (i.e. SMS/MMS notifications may not be displayed).
+
+-OR-
+
+2) If you still want SMS GO Pro to disable other apps notifications you will need to follow these simple instructions. Uninstall GO SMS Pro, install Droid Notify THEN install GO SMS Pro. Basically, GO SMS Pro MUST be installed AFTER Droid Notify.
+
+
