@@ -8,7 +8,7 @@
  * [FAQ#The_contact_phot_in_the_notification_doesn't_display_the_user's_facebook_photo_even_though_it_shows_in_the_system_contacts? The contact photo in the notification doesn't display the user's facebook photo even though it shows in the system contacts?]
  * [FAQ#Is_Google_Voice_integrated_with_Droid_Notify? Is Google Voice integrated with Droid Notify?]
  * [FAQ#Can_Droid_Notify_be_moved_to_the_SD_card? Can Droid Notify be moved to the SD card?]
- * [[FAQ#Known_Issues_with_Go_SMS_Pro_&_Droid_Notify Known Issues with Go SMS Pro & Droid Notify]
+ * [FAQ#Known_Issues_with_Go_SMS_Pro_&_Droid_Notify Known Issues with Go SMS Pro & Droid Notify]
 
 ----
 
@@ -45,5 +45,3 @@ If you want to use GO SMS Pro, you must follow one of the two steps below in ord
 -OR-
 
 2) If you still want SMS GO Pro to disable other apps notifications you will need to follow these simple instructions. Uninstall GO SMS Pro, install Droid Notify THEN install GO SMS Pro. Basically, GO SMS Pro MUST be installed AFTER Droid Notify.
-
-
