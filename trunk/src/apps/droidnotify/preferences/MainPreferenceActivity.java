@@ -41,6 +41,7 @@ import android.widget.Toast;
 import apps.droidnotify.CalendarAlarmReceiver;
 import apps.droidnotify.common.Common;
 import apps.droidnotify.log.Log;
+import apps.droidnotify.twitter.PrepareRequestTokenActivity;
 import apps.droidnotify.NotificationActivity;
 import apps.droidnotify.R;
 
@@ -54,6 +55,19 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	//================================================================================
     // Constants
     //================================================================================
+	
+	public static final String CONSUMER_KEY = "Hr8aDOFeDdY9UbvQB0w2w";
+	public static final String CONSUMER_SECRET= "wfZOJYkYVEYrmdmltOaKfRdnUfSiUkr2MQdjRUY2xU";
+ 
+	public static final String REQUEST_URL = "https://api.twitter.com/oauth/request_token";
+	public static final String ACCESS_URL = "https://api.twitter.com/oauth/authorize";
+	public static final String AUTHORIZE_URL = "https://api.twitter.com/oauth/access_token";
+ 
+	final public static String	CALLBACK_SCHEME = "droidnotify-oauth-twitter";
+	final public static String	CALLBACK_URL = CALLBACK_SCHEME + "://callback";
+	
+	
+	
 	
 	//Android Market URL
 	private static final String RATE_APP_ANDROID_URL = "http://market.android.com/details?id=apps.droidnotify";
@@ -141,6 +155,16 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	    setupImportPreferences();
 	    initPreferencesStates();
 	    runOnceEula();  
+	    
+	    
+	    
+	    Intent i = new Intent(getApplicationContext(), PrepareRequestTokenActivity.class);
+	    //i.putExtra("tweet_msg",getTweetMsg());
+	    startActivity(i);
+	    
+	    
+	    
+	    
 	}
     
 	/**
