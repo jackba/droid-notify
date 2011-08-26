@@ -1518,8 +1518,8 @@ public class NotificationActivity extends Activity {
 	private void setupSMSMessages(Bundle bundle, boolean loadAllNew) {
 		if (_debug) Log.v("NotificationActivity.setupSMSMessages()"); 
 		ArrayList<String> smsArray = bundle.getStringArrayList("smsArrayList");
-		String currentMessageBody = null;
-		String currentMessageID = "0";
+		//String currentMessageBody = null;
+		//String currentMessageID = "0";
 		for(String smsArrayItem : smsArray){
 			String[] smsInfo = smsArrayItem.split("\\|");
 			String messageAddress = null;
@@ -1547,15 +1547,16 @@ public class NotificationActivity extends Activity {
 				contactName = smsInfo[6];
 				photoID = Long.parseLong(smsInfo[7]);
 				lookupKey = smsInfo[8];
-				currentMessageBody = messageBody;
-				currentMessageID = String.valueOf(messageID);
+				//currentMessageBody = messageBody;
+				//currentMessageID = String.valueOf(messageID);
 			}
     		_notificationViewFlipper.addNotification(new Notification(_context, messageAddress, messageBody, messageID, threadID, timeStamp, contactID, contactName, photoID, lookupKey, NOTIFICATION_TYPE_SMS));
 		}
 		if(loadAllNew){
 			//Load all unread SMS messages.
 			if(_preferences.getBoolean(SMS_DISPLAY_UNREAD_KEY, false)){
-				new getAllUnreadSMSMessagesAsyncTask().execute(currentMessageID, currentMessageBody);
+				//new getAllUnreadSMSMessagesAsyncTask().execute(currentMessageID, currentMessageBody);
+				new getAllUnreadSMSMessagesAsyncTask().execute();
 		    }
 		}
 	}
@@ -1622,7 +1623,8 @@ public class NotificationActivity extends Activity {
 	     */
 	    protected ArrayList<String> doInBackground(String... params) {
 			if (_debug) Log.v("NotificationActivity.getAllUnreadSMSMessagesAsyncTask.doInBackground()");
-	    	return getAllUnreadSMSMessages(Long.parseLong(params[0]), params[1]);
+			//return getAllUnreadSMSMessages(Long.parseLong(params[0]), params[1]);
+			return getAllUnreadSMSMessages();
 	    }
 	    
 	    /**
@@ -1668,15 +1670,15 @@ public class NotificationActivity extends Activity {
 			}
 	    }
 	}
-	
+
 	/**
 	 * Get all unread Messages and load them.
 	 * 
 	 * @param messageIDFilter - Long value of the currently incoming SMS message.
 	 * @param messagebodyFilter - String value of the currently incoming SMS message.
 	 */
-	private ArrayList<String> getAllUnreadSMSMessages(long messageIDFilter, String messageBodyFilter){
-		if (_debug) Log.v("NotificationActivity.getAllUnreadSMSMessages() messageIDFilter: " + messageIDFilter + " messageBodyFilter: " + messageBodyFilter );
+	private ArrayList<String> getAllUnreadSMSMessages(){
+		if (_debug) Log.v("NotificationActivity.getAllUnreadSMSMessages()" );
 		Context context = getApplicationContext();
 		ArrayList<String> smsArray = new ArrayList<String>();
 		final String[] projection = new String[] { "_id", "thread_id", "address", "person", "date", "body"};
@@ -1684,6 +1686,7 @@ public class NotificationActivity extends Activity {
 		final String[] selectionArgs = null;
 		final String sortOrder = null;
 		Cursor cursor = null;
+		boolean isFirst = true;
         try{
 		    cursor = _context.getContentResolver().query(
 		    		Uri.parse("content://sms/inbox"),
@@ -1692,16 +1695,16 @@ public class NotificationActivity extends Activity {
 					selectionArgs,
 					sortOrder);
 		    while (cursor.moveToNext()) { 
-		    	long messageID = cursor.getLong(cursor.getColumnIndex("_id"));
-		    	long threadID = cursor.getLong(cursor.getColumnIndex("thread_id"));
-		    	String messageBody = cursor.getString(cursor.getColumnIndex("body"));
-		    	String sentFromAddress = cursor.getString(cursor.getColumnIndex("address"));
-	            if(sentFromAddress.contains("@")){
-	            	sentFromAddress = Common.removeEmailFormatting(sentFromAddress);
-	            }
-		    	long timeStamp = cursor.getLong(cursor.getColumnIndex("date"));
-		    	//Don't load the message that corresponds to the messageIDFilter or messageBodyFilter.
-		    	if(messageID != messageIDFilter && !messageBody.replace("\n", "<br/>").trim().equals(messageBodyFilter.replace("\n", "<br/>").trim())){
+	    		//Do not grab the first unread MMS message.
+	    		if(!isFirst){
+			    	long messageID = cursor.getLong(cursor.getColumnIndex("_id"));
+			    	long threadID = cursor.getLong(cursor.getColumnIndex("thread_id"));
+			    	String messageBody = cursor.getString(cursor.getColumnIndex("body"));
+			    	String sentFromAddress = cursor.getString(cursor.getColumnIndex("address"));
+		            if(sentFromAddress.contains("@")){
+		            	sentFromAddress = Common.removeEmailFormatting(sentFromAddress);
+		            }
+			    	long timeStamp = cursor.getLong(cursor.getColumnIndex("date"));
 		    		String[] smsContactInfo = null;
 		    		if(sentFromAddress.contains("@")){
 			    		smsContactInfo = Common.getContactsInfoByEmail(context, sentFromAddress);
@@ -1713,7 +1716,8 @@ public class NotificationActivity extends Activity {
 					}else{
 						smsArray.add(sentFromAddress + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + threadID + "|" + timeStamp + "|" + smsContactInfo[0] + "|" + smsContactInfo[1] + "|" + smsContactInfo[2] + "|" + smsContactInfo[3]);
 					}
-		    	}
+	    		}
+				isFirst = false;
 		    }
 		}catch(Exception ex){
 			if (_debug) Log.e("NotificationActivity.getAllUnreadSMSMessages() ERROR: " + ex.toString());
@@ -1722,6 +1726,60 @@ public class NotificationActivity extends Activity {
     	}
 		return smsArray;
 	}
+	
+//	/**
+//	 * Get all unread Messages and load them.
+//	 * 
+//	 * @param messageIDFilter - Long value of the currently incoming SMS message.
+//	 * @param messagebodyFilter - String value of the currently incoming SMS message.
+//	 */
+//	private ArrayList<String> getAllUnreadSMSMessages(long messageIDFilter, String messageBodyFilter){
+//		if (_debug) Log.v("NotificationActivity.getAllUnreadSMSMessages() messageIDFilter: " + messageIDFilter + " messageBodyFilter: " + messageBodyFilter );
+//		Context context = getApplicationContext();
+//		ArrayList<String> smsArray = new ArrayList<String>();
+//		final String[] projection = new String[] { "_id", "thread_id", "address", "person", "date", "body"};
+//		final String selection = "read = 0";
+//		final String[] selectionArgs = null;
+//		final String sortOrder = null;
+//		Cursor cursor = null;
+//        try{
+//		    cursor = _context.getContentResolver().query(
+//		    		Uri.parse("content://sms/inbox"),
+//		    		projection,
+//		    		selection,
+//					selectionArgs,
+//					sortOrder);
+//		    while (cursor.moveToNext()) { 
+//		    	long messageID = cursor.getLong(cursor.getColumnIndex("_id"));
+//		    	long threadID = cursor.getLong(cursor.getColumnIndex("thread_id"));
+//		    	String messageBody = cursor.getString(cursor.getColumnIndex("body"));
+//		    	String sentFromAddress = cursor.getString(cursor.getColumnIndex("address"));
+//	            if(sentFromAddress.contains("@")){
+//	            	sentFromAddress = Common.removeEmailFormatting(sentFromAddress);
+//	            }
+//		    	long timeStamp = cursor.getLong(cursor.getColumnIndex("date"));
+//		    	//Don't load the message that corresponds to the messageIDFilter or messageBodyFilter.
+//		    	if(messageID != messageIDFilter && !messageBody.replace("\n", "<br/>").trim().equals(messageBodyFilter.replace("\n", "<br/>").trim())){
+//		    		String[] smsContactInfo = null;
+//		    		if(sentFromAddress.contains("@")){
+//			    		smsContactInfo = Common.getContactsInfoByEmail(context, sentFromAddress);
+//			    	}else{
+//			    		smsContactInfo = Common.getContactsInfoByPhoneNumber(context, sentFromAddress);
+//			    	}
+//		    		if(smsContactInfo == null){
+//						smsArray.add(sentFromAddress + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + threadID + "|" + timeStamp);
+//					}else{
+//						smsArray.add(sentFromAddress + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + threadID + "|" + timeStamp + "|" + smsContactInfo[0] + "|" + smsContactInfo[1] + "|" + smsContactInfo[2] + "|" + smsContactInfo[3]);
+//					}
+//		    	}
+//		    }
+//		}catch(Exception ex){
+//			if (_debug) Log.e("NotificationActivity.getAllUnreadSMSMessages() ERROR: " + ex.toString());
+//		} finally {
+//    		cursor.close();
+//    	}
+//		return smsArray;
+//	}
 
 	/**
 	 * Get unread MMS messages in the background.
