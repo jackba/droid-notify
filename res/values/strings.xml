@@ -296,6 +296,8 @@
    	<string name="preference_calendar_hide_contact_photo_enabled_summaryOn">The contact photo will not be displayed in Calendar notifications.</string>
    	<string name="preference_calendar_hide_contact_photo_enabled_summaryOff">The contact photo will be displayed in Calendar notifications.</string> 
    	
+   	<string name="preference_twitter_enabled_title">Enable Twitter</string>
+   	
     <string name="preference_hide_dismiss_button_enabled_title">Hide Dismiss Button</string>
    	<string name="preference_hide_dismiss_button_enabled_summaryOn">The dismiss button will not be displayed.</string>
    	<string name="preference_hide_dismiss_button_enabled_summaryOff">The dismiss button will be displayed.</string>	

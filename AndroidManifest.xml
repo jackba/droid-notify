@@ -67,8 +67,8 @@
 		</receiver>
 		<receiver android:name="apps.droidnotify.CalendarAlarmReceiver" />
 		<service android:name="apps.droidnotify.CalendarAlarmReceiverService" />
-		<receiver android:name="apps.droidnotify.CalendarNotificationAlarmReceiver" />
-		<service android:name="apps.droidnotify.CalendarNotificationAlarmReceiverService" />
+		<receiver android:name="CalendarNotificationAlarmReceiver" />
+		<service android:name="CalendarNotificationAlarmReceiverService" />
    		<activity 
    			android:name="apps.droidnotify.NotificationActivity" 
    			android:theme="@style/Theme.Transparent"
@@ -83,6 +83,16 @@
 			android:screenOrientation="user"
 			android:configChanges="orientation|keyboardHidden|keyboard|navigation"
         	android:windowSoftInputMode="stateVisible" />
+		<activity 
+			android:name="apps.droidnotify.twitter.PrepareRequestTokenActivity" 
+			android:launchMode="singleTask">
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<category android:name="android.intent.category.BROWSABLE" />
+				<data android:scheme="droidnotify-oauth-twitter" android:host="callback" />
+			</intent-filter>
+		</activity>
     </application>
 	<uses-permission android:name="android.permission.CALL_PHONE" />
 	<uses-permission android:name="android.permission.DISABLE_KEYGUARD" />

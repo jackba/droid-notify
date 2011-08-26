@@ -42,6 +42,12 @@
 			android:summaryOff="@string/preference_ringtones_enabled_summaryOff" 
 			android:defaultValue="false"
 			android:dependency="app_enabled" />
+		<CheckBoxPreference
+			android:key="twitter_enabled" 
+        	android:title="@string/preference_twitter_enabled_title" 
+        	android:summaryOn="@string/preference_appenabled_summaryOn" 
+        	android:summaryOff="@string/preference_appenabled_summaryOff" 
+        	android:defaultValue="true" />
   	</PreferenceCategory>
 	<PreferenceCategory
 		android:key="basic_settings_category"
