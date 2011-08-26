@@ -114,7 +114,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	//================================================================================
 	// Public Methods
 	//================================================================================
-	
+
 	/**
 	 * The preference Activity was created.
 	 * 
@@ -140,9 +140,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	    setupRateAppPreference();
 	    setupImportPreferences();
 	    initPreferencesStates();
-//	    //Register Broadcast Receivers
-//	    Common.registerBroadcastReceivers(_context);
-	    runOnceEula();
+	    runOnceEula();  
 	}
     
 	/**
@@ -880,6 +878,8 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			buf.newLine();
 			buf.append("quick_reply_sms_gateway_settings|" + _preferences.getString("quick_reply_sms_gateway_settings", "1") + "|string");
 			buf.newLine();
+			buf.append("sms_timeout_settings|" + _preferences.getString("sms_timeout_settings", "10") + "|string");
+			buf.newLine();
 			buf.append("mms_timeout_settings|" + _preferences.getString("mms_timeout_settings", "40") + "|string");
 			buf.newLine();
 			buf.append("call_log_timeout_settings|" + _preferences.getString("call_log_timeout_settings", "5") + "|string");
@@ -1250,5 +1250,5 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			if (_debug) Log.e("MainPreferenceActivity.updatePhoneContactInfoSetting() ERROR: " + ex.toString());
 		}
 	}
-	
+
 }

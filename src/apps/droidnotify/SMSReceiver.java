@@ -22,6 +22,8 @@ public class SMSReceiver extends BroadcastReceiver{
     // Constants
     //================================================================================
 	
+	private static final boolean READ_SMS_FROM_DISK = true;
+	
 	private static final String APP_ENABLED_KEY = "app_enabled";
 	private static final String SMS_NOTIFICATIONS_ENABLED_KEY = "sms_notifications_enabled";
 	private static final String RESCHEDULE_NOTIFICATIONS_ENABLED = "reschedule_notifications_enabled";
@@ -31,6 +33,8 @@ public class SMSReceiver extends BroadcastReceiver{
 	
 	private static final String MESSAGING_APP_RUNNING_ACTION_RESCHEDULE = "0";
 	private static final String MESSAGING_APP_RUNNING_ACTION_IGNORE = "1";
+	
+	private static final String SMS_TIMEOUT_KEY = "sms_timeout_settings";
 	
 	//================================================================================
     // Properties
@@ -64,52 +68,63 @@ public class SMSReceiver extends BroadcastReceiver{
 			if (_debug) Log.v("SMSReceiver.onReceive() SMS Notifications Disabled. Exiting...");
 			return;
 		}
-	    //Check the state of the users phone.
-	    TelephonyManager telemanager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-	    boolean rescheduleNotification = false;
-	    boolean callStateIdle = telemanager.getCallState() == TelephonyManager.CALL_STATE_IDLE;
-	    boolean inMessagingApp = preferences.getBoolean(USER_IN_MESSAGING_APP, false);
-	    boolean messagingAppRunning = Common.isMessagingAppRunning(context);
-	    String messagingAppRuningAction = preferences.getString(MESSAGING_APP_RUNNING_ACTION_SMS, "0");
-	    if(!callStateIdle || inMessagingApp){
-	    	rescheduleNotification = true;
-	    }else{
-	    	//Messaging App is running.
-	    	if(messagingAppRunning){
-	    		//Reschedule notification based on the users preferences.
-			    if(messagingAppRuningAction.equals(MESSAGING_APP_RUNNING_ACTION_RESCHEDULE)){
-					rescheduleNotification = true;
-			    }
-			    //Ignore notification based on the users preferences.
-			    if(messagingAppRuningAction.equals(MESSAGING_APP_RUNNING_ACTION_IGNORE)){
-			    	return;
-			    }
-	    	}
-	    }
-	    if(!rescheduleNotification){
-			WakefulIntentService.acquireStaticLock(context);
-			Intent smsIntent = new Intent(context, SMSReceiverService.class);
-			smsIntent.putExtras(intent.getExtras());
-			context.startService(smsIntent);
-	    }else{
-	    	// Set alarm to go off x minutes from the current time as defined by the user preferences.
-	    	long rescheduleInterval = Long.parseLong(preferences.getString(RESCHEDULE_NOTIFICATION_TIMEOUT_KEY, "5")) * 60 * 1000;
-	    	if(preferences.getBoolean(RESCHEDULE_NOTIFICATIONS_ENABLED, true)){
-	    		if(rescheduleInterval == 0){
-	    			SharedPreferences.Editor editor = preferences.edit();
-	    			editor.putBoolean(RESCHEDULE_NOTIFICATIONS_ENABLED, false);
-	    			editor.commit();
-	    			return;
-	    		}
-	    		if (_debug) Log.v("SMSReceiver.onReceive() Rescheduling notification. Rechedule in " + rescheduleInterval + "minutes.");
-				AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-				Intent smsIntent = new Intent(context, SMSReceiver.class);
+		if(READ_SMS_FROM_DISK){
+			//Schedule sms task x seconds after the broadcast.
+			//This time is set by the users advanced preferences. 10 seconds is the default value.
+			//This should allow enough time to pass for the sms inbox to be written to.
+			long timeoutInterval = Long.parseLong(preferences.getString(SMS_TIMEOUT_KEY, "10")) * 1000;
+			AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+			Intent smsIntent = new Intent(context, SMSAlarmReceiver.class);
+			PendingIntent smsPendingIntent = PendingIntent.getBroadcast(context, 0, smsIntent, 0);
+			alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + timeoutInterval, smsPendingIntent);	
+		}else{
+		    //Check the state of the users phone.
+		    TelephonyManager telemanager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+		    boolean rescheduleNotification = false;
+		    boolean callStateIdle = telemanager.getCallState() == TelephonyManager.CALL_STATE_IDLE;
+		    boolean inMessagingApp = preferences.getBoolean(USER_IN_MESSAGING_APP, false);
+		    boolean messagingAppRunning = Common.isMessagingAppRunning(context);
+		    String messagingAppRuningAction = preferences.getString(MESSAGING_APP_RUNNING_ACTION_SMS, "0");
+		    if(!callStateIdle || inMessagingApp){
+		    	rescheduleNotification = true;
+		    }else{
+		    	//Messaging App is running.
+		    	if(messagingAppRunning){
+		    		//Reschedule notification based on the users preferences.
+				    if(messagingAppRuningAction.equals(MESSAGING_APP_RUNNING_ACTION_RESCHEDULE)){
+						rescheduleNotification = true;
+				    }
+				    //Ignore notification based on the users preferences.
+				    if(messagingAppRuningAction.equals(MESSAGING_APP_RUNNING_ACTION_IGNORE)){
+				    	return;
+				    }
+		    	}
+		    }
+		    if(!rescheduleNotification){
+				WakefulIntentService.acquireStaticLock(context);
+				Intent smsIntent = new Intent(context, SMSReceiverService.class);
 				smsIntent.putExtras(intent.getExtras());
-				smsIntent.setAction("apps.droidnotify.VIEW/SMSReschedule/" + System.currentTimeMillis());
-				PendingIntent smsPendingIntent = PendingIntent.getBroadcast(context, 0, smsIntent, 0);
-				alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + rescheduleInterval, smsPendingIntent);
-	    	}
-	    }
+				context.startService(smsIntent);
+		    }else{
+		    	// Set alarm to go off x minutes from the current time as defined by the user preferences.
+		    	long rescheduleInterval = Long.parseLong(preferences.getString(RESCHEDULE_NOTIFICATION_TIMEOUT_KEY, "5")) * 60 * 1000;
+		    	if(preferences.getBoolean(RESCHEDULE_NOTIFICATIONS_ENABLED, true)){
+		    		if(rescheduleInterval == 0){
+		    			SharedPreferences.Editor editor = preferences.edit();
+		    			editor.putBoolean(RESCHEDULE_NOTIFICATIONS_ENABLED, false);
+		    			editor.commit();
+		    			return;
+		    		}
+		    		if (_debug) Log.v("SMSReceiver.onReceive() Rescheduling notification. Rechedule in " + rescheduleInterval + "minutes.");
+					AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+					Intent smsIntent = new Intent(context, SMSReceiver.class);
+					smsIntent.putExtras(intent.getExtras());
+					smsIntent.setAction("apps.droidnotify.VIEW/SMSReschedule/" + System.currentTimeMillis());
+					PendingIntent smsPendingIntent = PendingIntent.getBroadcast(context, 0, smsIntent, 0);
+					alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + rescheduleInterval, smsPendingIntent);
+		    	}
+		    }
+		}
 	}
 
 }

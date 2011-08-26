@@ -36,6 +36,7 @@
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" /> 
             </intent-filter> 
         </receiver>
+        <receiver android:name="apps.droidnotify.SMSAlarmReceiver" />
         <service android:name="apps.droidnotify.SMSReceiverService" />
 		<receiver android:name="apps.droidnotify.MMSReceiver"> 
 			<intent-filter

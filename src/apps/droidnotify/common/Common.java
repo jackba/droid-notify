@@ -3,10 +3,8 @@ package apps.droidnotify.common;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
-import java.util.TimeZone;
 
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningTaskInfo;
@@ -14,7 +12,6 @@ import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.graphics.Bitmap;
@@ -26,7 +23,6 @@ import android.graphics.RectF;
 import android.graphics.Bitmap.Config;
 import android.graphics.PorterDuff.Mode;
 import android.net.Uri;
-import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.widget.Toast;
 import apps.droidnotify.NotificationActivity;
@@ -56,7 +52,7 @@ public class Common {
 	private static final int MESSAGE_TYPE_SMS = 1;
 	private static final int MESSAGE_TYPE_MMS = 2;
 	
-	private static final String SMS_TIMESTAMP_ADJUSTMENT_KEY = "sms_timestamp_adjustment_settings";
+//	private static final String SMS_TIMESTAMP_ADJUSTMENT_KEY = "sms_timestamp_adjustment_settings";
 	
 	//Staring Array of the top SMS Messaging Apps:
 	// Android Stock App
@@ -999,45 +995,31 @@ public class Common {
 		return false;
 	}
 	
-	/**
-	 * Convert a GMT timestamp to the phones local time.
-	 * 
-	 * @param inputTimestamp - GMT timestamp we want to convert.
-	 * 
-	 * @return long - The timestamp in the phones local time.
-	 */
-	public static long convertGMTToLocalTime(Context context, long inputTimeStamp){
-		if (_debug) Log.v("Common.convertGMTToLocalTime() InputTimeStamp: " + inputTimeStamp);
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        //return timeStamp - TimeZone.getDefault().getOffset(timeStamp);
-	    long offset = TimeZone.getDefault().getOffset(inputTimeStamp);
-	    if (_debug) Log.v("Common.convertGMTToLocalTime() Current TimeStamp Offset (Hours): " + (offset / 1000 / 60 / 60));
-	    if (_debug) Log.v("Common.convertGMTToLocalTime() Current TimeZone: " + TimeZone.getDefault().getID());
-	    if (TimeZone.getDefault().inDaylightTime(Calendar.getInstance().getTime())) {
-	    if (_debug) Log.v("Common.convertGMTToLocalTime() Users Is In Daylight Savings Time");
-	    	//offset = offset + TimeZone.getDefault().getDSTSavings();
-	 	}else{
-	    	if (_debug) Log.v("Common.convertGMTToLocalTime() Users Is NOT In Daylight Savings Time");
-	    	//offset = offset + TimeZone.getDefault().getDSTSavings();
-	    }
-		long timeStampAdjustment = Long.parseLong(preferences.getString(SMS_TIMESTAMP_ADJUSTMENT_KEY, "0")) * 60 * 60 * 1000;
-	    long outputTimeStamp = inputTimeStamp - offset + timeStampAdjustment;
-	    if (_debug) Log.v("Common.convertGMTToLocalTime() OutputTimeStamp: " + outputTimeStamp);
-	    return outputTimeStamp;
-	}
-	
 //	/**
-//	 * Register broadcast receivers to try to ensure that the app receives them
-//	 * and they are not aborted before it's our turn to process them.
+//	 * Convert a GMT timestamp to the phones local time.
+//	 * 
+//	 * @param inputTimestamp - GMT timestamp we want to convert.
+//	 * 
+//	 * @return long - The timestamp in the phones local time.
 //	 */
-//	public static void registerBroadcastReceivers(Context context){
-//		if (_debug) Log.v("Common.registerBroadcastReceivers()");
-//		//Register SMS_RECEIVED Intent Filter
-//		SMSReceiver smsBroadcastReceiver =  new SMSReceiver();
-//		IntentFilter smsIntentFilter = new IntentFilter();
-//		smsIntentFilter.addAction("android.provider.Telephony.SMS_RECEIVED");
-//		smsIntentFilter.setPriority(2147483647);
-//		context.registerReceiver(smsBroadcastReceiver, smsIntentFilter);
+//	public static long convertGMTToLocalTime(Context context, long inputTimeStamp){
+//		if (_debug) Log.v("Common.convertGMTToLocalTime() InputTimeStamp: " + inputTimeStamp);
+//		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+//        //return timeStamp - TimeZone.getDefault().getOffset(timeStamp);
+//	    long offset = TimeZone.getDefault().getOffset(inputTimeStamp);
+//	    if (_debug) Log.v("Common.convertGMTToLocalTime() Current TimeStamp Offset (Hours): " + (offset / 1000 / 60 / 60));
+//	    if (_debug) Log.v("Common.convertGMTToLocalTime() Current TimeZone: " + TimeZone.getDefault().getID());
+//	    if (TimeZone.getDefault().inDaylightTime(Calendar.getInstance().getTime())) {
+//	    if (_debug) Log.v("Common.convertGMTToLocalTime() Users Is In Daylight Savings Time");
+//	    	//offset = offset + TimeZone.getDefault().getDSTSavings();
+//	 	}else{
+//	    	if (_debug) Log.v("Common.convertGMTToLocalTime() Users Is NOT In Daylight Savings Time");
+//	    	//offset = offset + TimeZone.getDefault().getDSTSavings();
+//	    }
+//		long timeStampAdjustment = Long.parseLong(preferences.getString(SMS_TIMESTAMP_ADJUSTMENT_KEY, "0")) * 60 * 60 * 1000;
+//	    long outputTimeStamp = inputTimeStamp - offset + timeStampAdjustment;
+//	    if (_debug) Log.v("Common.convertGMTToLocalTime() OutputTimeStamp: " + outputTimeStamp);
+//	    return outputTimeStamp;
 //	}
 	
 //	/**

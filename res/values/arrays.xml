@@ -67,10 +67,44 @@
 	<string-array name="mms_reply_button_options_values">
 		<item name="0">0</item>
 		<item name="1">1</item>
+	</string-array>    
+	<string-array name="sms_timeout_options">
+		<item name="0">No Timeout</item>
+		<item name="1">1 second</item>
+		<item name="2">2 seconds</item>
+		<item name="3">3 seconds</item>
+		<item name="4">4 seconds</item>
+		<item name="5">5 seconds</item>
+		<item name="6">6 seconds</item>
+		<item name="7">7 seconds</item>
+		<item name="8">8 seconds</item>
+		<item name="9">9 seconds</item>
+		<item name="10">10 seconds</item>
+		<item name="11">15 seconds</item>
+		<item name="12">20 seconds</item>
+		<item name="13">25 seconds</item>
+		<item name="14">30 seconds</item>
+	</string-array>
+	<string-array name="sms_timeout_options_values">
+		<item name="0">0</item>
+		<item name="1">1</item>
+		<item name="2">2</item>
+		<item name="3">3</item>
+		<item name="4">4</item>
+		<item name="5">5</item>
+		<item name="6">6</item>
+		<item name="7">7</item>
+		<item name="8">8</item>
+		<item name="9">9</item>
+		<item name="10">10</item>
+		<item name="11">15</item>
+		<item name="12">20</item>
+		<item name="13">25</item>
+		<item name="14">30</item>
 	</string-array>
     <string-array name="mms_timeout_options">
 		<item name="0">No Timeout</item>
-		<item name="1">10 second</item>
+		<item name="1">10 seconds</item>
 		<item name="2">20 seconds</item>
 		<item name="3">30 seconds</item>
 		<item name="4">40 seconds</item>

@@ -182,7 +182,9 @@
    	<string name="preference_sms_ringtone_enabled_summaryOff">SMS notifications will not play a ringtone on arrival.</string>
    	<string name="preference_confirm_sms_deletion_enabled_title">Confirm Message Deletion</string>
    	<string name="preference_confirm_sms_deletion_enabled_summaryOn">A dialog box will display when you delete a message.</string>
-   	<string name="preference_confirm_sms_deletion_enabled_summaryOff">A dialog box will not display when you delete a message.</string>   	
+   	<string name="preference_confirm_sms_deletion_enabled_summaryOff">A dialog box will not display when you delete a message.</string> 
+   	<string name="preference_sms_timeout">SMS Timeout</string>
+   	<string name="preference_sms_timeout_summary">Define how long to wait after a SMS is received before querying the SMS inbox for a new message.</string>    	
    	<string name="messaging_app_running_action_sms_summary">Define action when a SMS notification comes in when a messaging app is currently running.</string> 
    	<string name="preference_sms_hide_contact_panel_enabled_summaryOn">The contact info will not be displayed for SMS notifications.</string>
    	<string name="preference_sms_hide_contact_panel_enabled_summaryOff">The contact info will be displayed for SMS notifications.</string> 
