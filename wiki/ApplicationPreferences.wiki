@@ -156,6 +156,7 @@ Advanced Settings
  * Keyguard Timeout
  * Reschedule Timeout
  * SMS-to-Email Gateway
+ * SMS Timeout
  * MMS Timeout
  * Call Log Timeout
  * Ringtone Length
