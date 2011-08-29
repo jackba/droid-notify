@@ -84,7 +84,7 @@
 			android:configChanges="orientation|keyboardHidden|keyboard|navigation"
         	android:windowSoftInputMode="stateVisible" />
 		<activity 
-			android:name="apps.droidnotify.twitter.PrepareRequestTokenActivity" 
+			android:name="apps.droidnotify.twitter.TwitterAuthenticationActivity" 
 			android:launchMode="singleTask">
 			<intent-filter>
 				<action android:name="android.intent.action.VIEW" />

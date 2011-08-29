@@ -41,7 +41,7 @@ import android.widget.Toast;
 import apps.droidnotify.CalendarAlarmReceiver;
 import apps.droidnotify.common.Common;
 import apps.droidnotify.log.Log;
-import apps.droidnotify.twitter.PrepareRequestTokenActivity;
+import apps.droidnotify.twitter.TwitterAuthenticationActivity;
 import apps.droidnotify.NotificationActivity;
 import apps.droidnotify.R;
 
@@ -65,9 +65,6 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
  
 	final public static String	CALLBACK_SCHEME = "droidnotify-oauth-twitter";
 	final public static String	CALLBACK_URL = CALLBACK_SCHEME + "://callback";
-	
-	
-	
 	
 	//Android Market URL
 	private static final String RATE_APP_ANDROID_URL = "http://market.android.com/details?id=apps.droidnotify";
@@ -110,6 +107,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	private static final String PHONE_HIDE_CONTACT_PHOTO_ENABLED_KEY = "missed_call_hide_contact_photo_enabled";
 	private static final String PHONE_HIDE_CONTACT_NAME_ENABLED_KEY = "missed_call_hide_contact_name_enabled";
 	private static final String PHONE_HIDE_CONTACT_NUMBER_ENABLED_KEY = "missed_call_hide_contact_number_enabled";
+	private static final String TWITTER_ENABLED_KEY = "twitter_enabled";
 	
 	private static final int NOTIFICATION_TYPE_TEST = -1;
 	
@@ -154,17 +152,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	    setupRateAppPreference();
 	    setupImportPreferences();
 	    initPreferencesStates();
-	    runOnceEula();  
-	    
-	    
-	    
-	    Intent i = new Intent(getApplicationContext(), PrepareRequestTokenActivity.class);
-	    //i.putExtra("tweet_msg",getTweetMsg());
-	    startActivity(i);
-	    
-	    
-	    
-	    
+	    runOnceEula();
 	}
     
 	/**
@@ -224,6 +212,13 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		if(key.equals(PHONE_HIDE_CONTACT_PANEL_ENABLED_KEY)){
 			//Update Phone Contact Info Display
 			updatePhoneContactInfoSetting();
+		}
+		if(key.equals(TWITTER_ENABLED_KEY)){
+			if (_debug) Log.v("MainPreferenceActivity.onSharedPreferenceChanged() Key: " + key);
+			if (_debug) Log.v("MainPreferenceActivity.onSharedPreferenceChanged() Enabled? " + _preferences.getBoolean(TWITTER_ENABLED_KEY, false));
+			if(_preferences.getBoolean(TWITTER_ENABLED_KEY, false)){
+				checkTwitterAuthentication();
+			}
 		}
 	}
 
@@ -1272,6 +1267,22 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			hideContactNumber.setEnabled(!contactInfoDisplaySettingsEnabled);
 		}catch(Exception ex){
 			if (_debug) Log.e("MainPreferenceActivity.updatePhoneContactInfoSetting() ERROR: " + ex.toString());
+		}
+	}
+	
+	/**
+	 * Check if the user has already authorizes us to use access his twitter account.
+	 * Launch authorization activity if not.
+	 */
+	private void checkTwitterAuthentication(){
+		if (_debug) Log.v("MainPreferenceActivity.checkTwitterAuthentication()");
+		//TODO - Check Twitter AUthentication
+		
+		boolean twitterAuthenticated = false;
+		if(!twitterAuthenticated){
+			//Get User Twitter Authentication
+		    Intent intent = new Intent(_context, TwitterAuthenticationActivity.class);
+		    startActivity(intent);
 		}
 	}
 

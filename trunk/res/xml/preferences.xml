@@ -47,7 +47,7 @@
         	android:title="@string/preference_twitter_enabled_title" 
         	android:summaryOn="@string/preference_appenabled_summaryOn" 
         	android:summaryOff="@string/preference_appenabled_summaryOff" 
-        	android:defaultValue="true" />
+        	android:defaultValue="false" />
   	</PreferenceCategory>
 	<PreferenceCategory
 		android:key="basic_settings_category"

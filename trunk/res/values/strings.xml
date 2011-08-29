@@ -30,6 +30,7 @@
     <string name="select_number_to_call_text">Select Number to Call</string>
     <string name="select_number_to_text_text">Select Number to Text</string>
     <string name="cancel_text">Cancel</string>
+    <string name="continue_text">Continue</string>
     <string name="dismiss_notification_text">Dismiss Notification</string>   	
     <string name="basic_settings_text">Basic Settings</string>
     <string name="quick_reply_settings_text">Quick Reply Settings</string>
@@ -297,6 +298,8 @@
    	<string name="preference_calendar_hide_contact_photo_enabled_summaryOff">The contact photo will be displayed in Calendar notifications.</string> 
    	
    	<string name="preference_twitter_enabled_title">Enable Twitter</string>
+   	<string name="twitter_authentication_text">Twitter Authentication</string>
+   	<string name="twitter_authentication_message_text">The next screen will open a Twitter web page in a web browser. This web page will ask you to allow this application to have access to your twitter account. If you wish to proceed please click on the "Continue" button below.</string>
    	
     <string name="preference_hide_dismiss_button_enabled_title">Hide Dismiss Button</string>
    	<string name="preference_hide_dismiss_button_enabled_summaryOn">The dismiss button will not be displayed.</string>
