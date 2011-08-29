@@ -9,7 +9,7 @@
 *v2.6* _Coming Soon..._
  * 
 
-*v2.5* _Coming Soon..._
+*v2.5* (August 29, 2011)
  * Fixed the SMS timestamp issue which displayed incorrect times for some users.
  * Added the Android "Quick Contact" popup when you click on the contacts photo.
  * Fixed a "Private Number" bug in the phone number contact recognition code.
