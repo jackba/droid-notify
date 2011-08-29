@@ -6,6 +6,8 @@ import oauth.signpost.OAuthProvider;
 import oauth.signpost.basic.DefaultOAuthProvider;
 import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
 import oauth.signpost.commonshttp.CommonsHttpOAuthProvider;
+import twitter4j.TwitterFactory;
+import twitter4j.auth.AccessToken;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -43,14 +45,15 @@ public class PrepareRequestTokenActivity extends Activity {
 	public static final String ACCESS_URL = "http://twitter.com/oauth/authorize"; //"https://api.twitter.com/oauth/authorize"
 	public static final String AUTHORIZE_URL = "http://twitter.com/oauth/access_token"; //"https://api.twitter.com/oauth/access_token"
 
-	final public static String OAUTH_CALLBACK_SCHEME = "droidnotify-oauth-twitter";
-	final public static String OAUTH_CALLBACK_URL = OAUTH_CALLBACK_SCHEME + "://callback";
+	final public static String CALLBACK_SCHEME = "droidnotify-oauth-twitter";
+	final public static String CALLBACK_URL = CALLBACK_SCHEME + "://callback";
 
 	//================================================================================
     // Properties
     //================================================================================
 	
 	private boolean _debug = false;
+	private Context	_context;
     private OAuthConsumer _consumer; 
     private OAuthProvider _provider;
     
@@ -62,15 +65,17 @@ public class PrepareRequestTokenActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		_debug = Log.getDebug();
 		if (_debug) Log.v("PrepareRequestTokenActivity.onCreate()");
-    	try {
-    		_consumer = new CommonsHttpOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
-    	    //_provider = new CommonsHttpOAuthProvider(REQUEST_URL, ACCESS_URL, AUTHORIZE_URL);
-    	    _provider = new DefaultOAuthProvider(REQUEST_URL, ACCESS_URL, AUTHORIZE_URL);
-    	} catch (Exception ex) {
-    		if (_debug) Log.e("PrepareRequestTokenActivity.onCreate() Error creating consumer / provider: " + ex.toString());
-		}
-    	if (_debug) Log.v("PrepareRequestTokenActivity.onCreate() Starting task to retrieve request token.");
-		new OAuthRequestTokenTask(this, _consumer, _provider).execute();
+		_context = getApplicationContext();
+//    	try {
+//    		_consumer = new CommonsHttpOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
+//    	    //_provider = new CommonsHttpOAuthProvider(REQUEST_URL, ACCESS_URL, AUTHORIZE_URL);
+//    	    _provider = new DefaultOAuthProvider(REQUEST_URL, ACCESS_URL, AUTHORIZE_URL);
+//    	} catch (Exception ex) {
+//    		if (_debug) Log.e("PrepareRequestTokenActivity.onCreate() Error creating consumer / provider: " + ex.toString());
+//		}
+//    	if (_debug) Log.v("PrepareRequestTokenActivity.onCreate() Starting task to retrieve request token.");
+		//new OAuthRequestTokenTask(this, _consumer, _provider).execute();
+		askOAuth();
 	}
 
 	/**
@@ -83,7 +88,7 @@ public class PrepareRequestTokenActivity extends Activity {
 		if (_debug) Log.v("PrepareRequestTokenActivity.onNewIntent()");
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		final Uri uri = intent.getData();
-		if (uri != null && uri.getScheme().equals(OAUTH_CALLBACK_SCHEME)) {
+		if (uri != null && uri.getScheme().equals(CALLBACK_SCHEME)) {
 			if (_debug) Log.v("PrepareRequestTokenActivity.onNewIntent() Callback received : " + uri);
 			if (_debug) Log.v("PrepareRequestTokenActivity.onNewIntent() Retrieving Access Token");
 			new RetrieveAccessTokenTask(this, _consumer, _provider, prefs).execute(uri);
@@ -91,6 +96,18 @@ public class PrepareRequestTokenActivity extends Activity {
 		}
 	}
 
+	private void askOAuth() {  
+		 try {  
+			  _consumer = new CommonsHttpOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);  
+			  _provider = new DefaultOAuthProvider("http://twitter.com/oauth/request_token", "http://twitter.com/oauth/access_token", "http://twitter.com/oauth/authorize");  
+			  String authUrl = _provider.retrieveRequestToken(_consumer, CALLBACK_URL);  
+			  Toast.makeText(_context, "Please authorize this app!", Toast.LENGTH_LONG).show();  
+			  startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(authUrl)));  
+		 } catch (Exception e) {  
+			 Toast.makeText(_context, e.getMessage(), Toast.LENGTH_LONG).show();  
+		 }  
+	} 
+	
 	/**
 	 * 
 	 * @author xqs230cs
@@ -146,6 +163,25 @@ public class PrepareRequestTokenActivity extends Activity {
 			}
 			return null;
 		}
+	
+//		private void checkForSavedLogin() {  
+//			 // Get Access Token and persist it  
+//			 AccessToken a = getAccessToken();  
+//			 if (a==null) return; //if there are no credentials stored then return to usual activity  
+//			  
+//			 // initialize Twitter4J  
+//			 twitter = new TwitterFactory().getInstance();  
+//			 twitter.setOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);  
+//			 twitter.setOAuthAccessToken(a);  
+//			 ((TwitterApplication)getApplication()).setTwitter(twitter);  
+//			   
+//			 startFirstActivity();  
+//			 finish();  
+//			}  
+		
+ 
+		
+
 		
 //		/**
 //		 * 
