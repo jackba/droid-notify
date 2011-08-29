@@ -42,6 +42,12 @@
 			android:summaryOff="@string/preference_ringtones_enabled_summaryOff" 
 			android:defaultValue="false"
 			android:dependency="app_enabled" />
+		<CheckBoxPreference
+			android:key="twitter_enabled" 
+        	android:title="@string/preference_twitter_enabled_title" 
+        	android:summaryOn="@string/preference_appenabled_summaryOn" 
+        	android:summaryOff="@string/preference_appenabled_summaryOff" 
+        	android:defaultValue="false" />
   	</PreferenceCategory>
 	<PreferenceCategory
 		android:key="basic_settings_category"
@@ -143,8 +149,7 @@
 			android:dependency="app_enabled">
 			<PreferenceCategory
 				android:key="sms_notification_settings_category"
-				android:title="@string/preference_sms_notifications"
-				android:drawableLeft="@drawable/sms">	
+				android:title="@string/preference_sms_notifications">	
 				<PreferenceScreen
 					android:key="sms_notification_settings_screen"
 					android:title="@string/preference_sms_notifications">
@@ -335,8 +340,7 @@
 			</PreferenceCategory>
 			<PreferenceCategory
 				android:key="mms_notification_settings_category"
-				android:title="@string/preference_mms_notifications"
-				android:drawableLeft="@drawable/sms">
+				android:title="@string/preference_mms_notifications">
 				<PreferenceScreen
 					android:key="mms_notification_settings_screen"
 					android:title="@string/preference_mms_notifications"
