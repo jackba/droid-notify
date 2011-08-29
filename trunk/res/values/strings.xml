@@ -299,7 +299,8 @@
    	
    	<string name="preference_twitter_enabled_title">Enable Twitter</string>
    	<string name="twitter_authentication_text">Twitter Authentication</string>
-   	<string name="twitter_authentication_message_text">The next screen will open a Twitter web page in a web browser. This web page will ask you to allow this application to have access to your twitter account. If you wish to proceed please click on the "Continue" button below.</string>
+   	<string name="twitter_authentication_message_text">The next screen will open a Twitter web page in a web browser. This web page will ask you to allow this application to have access to your twitter account. If you wish to proceed please click on the \"Continue\" button below.</string>
+   	<string name="authenticating_text">Authenticating...</string>
    	
     <string name="preference_hide_dismiss_button_enabled_title">Hide Dismiss Button</string>
    	<string name="preference_hide_dismiss_button_enabled_summaryOn">The dismiss button will not be displayed.</string>

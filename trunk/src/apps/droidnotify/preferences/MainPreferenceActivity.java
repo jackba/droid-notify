@@ -214,8 +214,6 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			updatePhoneContactInfoSetting();
 		}
 		if(key.equals(TWITTER_ENABLED_KEY)){
-			if (_debug) Log.v("MainPreferenceActivity.onSharedPreferenceChanged() Key: " + key);
-			if (_debug) Log.v("MainPreferenceActivity.onSharedPreferenceChanged() Enabled? " + _preferences.getBoolean(TWITTER_ENABLED_KEY, false));
 			if(_preferences.getBoolean(TWITTER_ENABLED_KEY, false)){
 				checkTwitterAuthentication();
 			}
@@ -1276,14 +1274,10 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	 */
 	private void checkTwitterAuthentication(){
 		if (_debug) Log.v("MainPreferenceActivity.checkTwitterAuthentication()");
-		//TODO - Check Twitter AUthentication
-		
-		boolean twitterAuthenticated = false;
-		if(!twitterAuthenticated){
-			//Get User Twitter Authentication
-		    Intent intent = new Intent(_context, TwitterAuthenticationActivity.class);
-		    startActivity(intent);
-		}
+		//Setup User Twitter Authentication
+	    Intent intent = new Intent(_context, TwitterAuthenticationActivity.class);
+	    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_NO_HISTORY);
+	    startActivity(intent);
 	}
 
 }
