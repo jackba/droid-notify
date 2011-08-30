@@ -3,7 +3,7 @@
 	xmlns:android="http://schemas.android.com/apk/res/android" 
 	package="apps.droidnotify"
     android:versionCode="11"
-    android:versionName="2.6"
+    android:versionName="2.5.1"
     android:installLocation="internalOnly" >
 	<uses-sdk 
 		android:minSdkVersion="8" 

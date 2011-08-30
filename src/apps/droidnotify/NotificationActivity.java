@@ -1531,24 +1531,35 @@ public class NotificationActivity extends Activity {
 			long photoID = 0;
 			String lookupKey = null;
 			long timeStamp = 0;
-    		if( smsInfo.length == 5){ 
-				messageAddress = smsInfo[0];
-				messageBody = smsInfo[1];
-				messageID = Long.parseLong(smsInfo[2]);
-				threadID = Long.parseLong(smsInfo[3]);
-				timeStamp = Long.parseLong(smsInfo[4]);
-			}else{ 
-				messageAddress = smsInfo[0];
-				messageBody = smsInfo[1];
-				messageID = Long.parseLong(smsInfo[2]);
-				threadID = Long.parseLong(smsInfo[3]);
-				timeStamp = Long.parseLong(smsInfo[4]);
-				contactID = Long.parseLong(smsInfo[5]);
-				contactName = smsInfo[6];
-				photoID = Long.parseLong(smsInfo[7]);
-				lookupKey = smsInfo[8];
-				//currentMessageBody = messageBody;
-				//currentMessageID = String.valueOf(messageID);
+			try{
+				if(smsInfo.length < 5){
+					if (_debug) Log.e("NotificationActivity.setupSMSMessages() FATAL NOTIFICATION ERROR. smsInfo.length: " + smsInfo.length);
+					return;
+				}else if(smsInfo.length == 5){ 
+					messageAddress = smsInfo[0];
+					messageBody = smsInfo[1];
+					messageID = Long.parseLong(smsInfo[2]);
+					threadID = Long.parseLong(smsInfo[3]);
+					timeStamp = Long.parseLong(smsInfo[4]);
+				}else{ 
+					messageAddress = smsInfo[0];
+					messageBody = smsInfo[1];
+					messageID = Long.parseLong(smsInfo[2]);
+					threadID = Long.parseLong(smsInfo[3]);
+					timeStamp = Long.parseLong(smsInfo[4]);
+					contactID = Long.parseLong(smsInfo[5]);
+					contactName = smsInfo[6];
+					photoID = Long.parseLong(smsInfo[7]);
+					if(smsInfo.length < 9){
+						lookupKey = "";
+					}else{
+						lookupKey = smsInfo[8];
+					}
+					//currentMessageBody = messageBody;
+					//currentMessageID = String.valueOf(messageID);
+				}
+			}catch(Exception ex){
+				if (_debug) Log.e("NotificationActivity.setupSMSMessages() ERROR: " + ex.toString());
 			}
     		_notificationViewFlipper.addNotification(new Notification(_context, messageAddress, messageBody, messageID, threadID, timeStamp, contactID, contactName, photoID, lookupKey, NOTIFICATION_TYPE_SMS));
 		}
@@ -1580,24 +1591,35 @@ public class NotificationActivity extends Activity {
 			long photoID = 0;
 			String lookupKey = null;
 			long timeStamp = 0;
-    		if( mmsInfo.length == 5){
-				messageAddress = mmsInfo[0];
-				messageBody = mmsInfo[1];
-				messageID = Long.parseLong(mmsInfo[2]);
-				threadID = Long.parseLong(mmsInfo[3]);
-				//The timestamp is in seconds and not milliseconds. You must multiply by 1000. :)
-				timeStamp = Long.parseLong(mmsInfo[4]) * 1000;
-			}else{
-				messageAddress = mmsInfo[0];
-				messageBody = mmsInfo[1];
-				messageID = Long.parseLong(mmsInfo[2]);
-				threadID = Long.parseLong(mmsInfo[3]);
-				//The timestamp is in seconds and not milliseconds. You must multiply by 1000. :)
-				timeStamp = Long.parseLong(mmsInfo[4]) * 1000;
-				contactID = Long.parseLong(mmsInfo[5]);
-				contactName = mmsInfo[6];
-				photoID = Long.parseLong(mmsInfo[7]);
-				lookupKey = mmsInfo[8];
+			try{
+				if(mmsInfo.length < 5){
+					if (_debug) Log.e("NotificationActivity.setupMMSMessages() FATAL NOTIFICATION ERROR. mmsInfo.length: " + mmsInfo.length);
+					return;
+				}else if( mmsInfo.length == 5){
+					messageAddress = mmsInfo[0];
+					messageBody = mmsInfo[1];
+					messageID = Long.parseLong(mmsInfo[2]);
+					threadID = Long.parseLong(mmsInfo[3]);
+					//The timestamp is in seconds and not milliseconds. You must multiply by 1000. :)
+					timeStamp = Long.parseLong(mmsInfo[4]) * 1000;
+				}else{
+					messageAddress = mmsInfo[0];
+					messageBody = mmsInfo[1];
+					messageID = Long.parseLong(mmsInfo[2]);
+					threadID = Long.parseLong(mmsInfo[3]);
+					//The timestamp is in seconds and not milliseconds. You must multiply by 1000. :)
+					timeStamp = Long.parseLong(mmsInfo[4]) * 1000;
+					contactID = Long.parseLong(mmsInfo[5]);
+					contactName = mmsInfo[6];
+					photoID = Long.parseLong(mmsInfo[7]);
+					if(mmsInfo.length < 9){
+						lookupKey = "";
+					}else{
+						lookupKey = mmsInfo[8];
+					}
+				}
+			}catch(Exception ex){
+				if (_debug) Log.e("NotificationActivity.setupMMSMessages() ERROR: " + ex.toString());
 			}
     		_notificationViewFlipper.addNotification(new Notification(_context, messageAddress, messageBody, messageID, threadID, timeStamp, contactID, contactName, photoID, lookupKey, NOTIFICATION_TYPE_MMS));
 		}
@@ -1635,18 +1657,21 @@ public class NotificationActivity extends Activity {
 	    protected void onPostExecute(ArrayList<String> smsArray) {
 			if (_debug) Log.v("NotificationActivity.getAllUnreadSMSMessagesAsyncTask.onPostExecute()");		
 			for(String smsArrayItem : smsArray){
+				String[] smsInfo = smsArrayItem.split("\\|");
+				String messageAddress = null;
+				String messageBody = null;
+				long messageID = 0;
+				long threadID = 0;
+				long contactID = 0;
+				String contactName = null;
+				long photoID = 0;
+				String lookupKey = null;
+				long timeStamp = 0;
 				try{
-					String[] smsInfo = smsArrayItem.split("\\|");
-					String messageAddress = null;
-					String messageBody = null;
-					long messageID = 0;
-					long threadID = 0;
-					long contactID = 0;
-					String contactName = null;
-					long photoID = 0;
-					String lookupKey = null;
-					long timeStamp = 0;
-		    		if( smsInfo.length == 5){ 
+					if(smsInfo.length < 5){
+						if (_debug) Log.e("NotificationActivity.getAllUnreadSMSMessagesAsyncTask.onPostExecute() FATAL NOTIFICATION ERROR. smsInfo.length: " + smsInfo.length);
+						return;
+					}else if( smsInfo.length == 5){ 
 						messageAddress = smsInfo[0];
 						messageBody = smsInfo[1];
 						messageID = Long.parseLong(smsInfo[2]);
@@ -1661,12 +1686,16 @@ public class NotificationActivity extends Activity {
 						contactID = Long.parseLong(smsInfo[5]);
 						contactName = smsInfo[6];
 						photoID = Long.parseLong(smsInfo[7]);
-						lookupKey = smsInfo[8];
+						if(smsInfo.length < 9){
+							lookupKey = "";
+						}else{
+							lookupKey = smsInfo[8];
+						}
 					}
-		    		_notificationViewFlipper.addNotification(new Notification(_context, messageAddress, messageBody, messageID, threadID, timeStamp, contactID, contactName, photoID, lookupKey, NOTIFICATION_TYPE_SMS));
 				}catch(Exception ex){
 					if (_debug) Log.e("NotificationActivity.getAllUnreadSMSMessagesAsyncTask.onPostExecute() ERROR: " + ex.toString());
 				}
+	    		_notificationViewFlipper.addNotification(new Notification(_context, messageAddress, messageBody, messageID, threadID, timeStamp, contactID, contactName, photoID, lookupKey, NOTIFICATION_TYPE_SMS));
 			}
 	    }
 	}
@@ -1726,60 +1755,6 @@ public class NotificationActivity extends Activity {
     	}
 		return smsArray;
 	}
-	
-//	/**
-//	 * Get all unread Messages and load them.
-//	 * 
-//	 * @param messageIDFilter - Long value of the currently incoming SMS message.
-//	 * @param messagebodyFilter - String value of the currently incoming SMS message.
-//	 */
-//	private ArrayList<String> getAllUnreadSMSMessages(long messageIDFilter, String messageBodyFilter){
-//		if (_debug) Log.v("NotificationActivity.getAllUnreadSMSMessages() messageIDFilter: " + messageIDFilter + " messageBodyFilter: " + messageBodyFilter );
-//		Context context = getApplicationContext();
-//		ArrayList<String> smsArray = new ArrayList<String>();
-//		final String[] projection = new String[] { "_id", "thread_id", "address", "person", "date", "body"};
-//		final String selection = "read = 0";
-//		final String[] selectionArgs = null;
-//		final String sortOrder = null;
-//		Cursor cursor = null;
-//        try{
-//		    cursor = _context.getContentResolver().query(
-//		    		Uri.parse("content://sms/inbox"),
-//		    		projection,
-//		    		selection,
-//					selectionArgs,
-//					sortOrder);
-//		    while (cursor.moveToNext()) { 
-//		    	long messageID = cursor.getLong(cursor.getColumnIndex("_id"));
-//		    	long threadID = cursor.getLong(cursor.getColumnIndex("thread_id"));
-//		    	String messageBody = cursor.getString(cursor.getColumnIndex("body"));
-//		    	String sentFromAddress = cursor.getString(cursor.getColumnIndex("address"));
-//	            if(sentFromAddress.contains("@")){
-//	            	sentFromAddress = Common.removeEmailFormatting(sentFromAddress);
-//	            }
-//		    	long timeStamp = cursor.getLong(cursor.getColumnIndex("date"));
-//		    	//Don't load the message that corresponds to the messageIDFilter or messageBodyFilter.
-//		    	if(messageID != messageIDFilter && !messageBody.replace("\n", "<br/>").trim().equals(messageBodyFilter.replace("\n", "<br/>").trim())){
-//		    		String[] smsContactInfo = null;
-//		    		if(sentFromAddress.contains("@")){
-//			    		smsContactInfo = Common.getContactsInfoByEmail(context, sentFromAddress);
-//			    	}else{
-//			    		smsContactInfo = Common.getContactsInfoByPhoneNumber(context, sentFromAddress);
-//			    	}
-//		    		if(smsContactInfo == null){
-//						smsArray.add(sentFromAddress + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + threadID + "|" + timeStamp);
-//					}else{
-//						smsArray.add(sentFromAddress + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + threadID + "|" + timeStamp + "|" + smsContactInfo[0] + "|" + smsContactInfo[1] + "|" + smsContactInfo[2] + "|" + smsContactInfo[3]);
-//					}
-//		    	}
-//		    }
-//		}catch(Exception ex){
-//			if (_debug) Log.e("NotificationActivity.getAllUnreadSMSMessages() ERROR: " + ex.toString());
-//		} finally {
-//    		cursor.close();
-//    	}
-//		return smsArray;
-//	}
 
 	/**
 	 * Get unread MMS messages in the background.
@@ -1816,24 +1791,35 @@ public class NotificationActivity extends Activity {
 				long photoID = 0;
 				String lookupKey = null;
 				long timeStamp = 0;
-	    		if( mmsInfo.length == 5){ 
-					messageAddress = mmsInfo[0];
-					messageBody = mmsInfo[1];
-					messageID = Long.parseLong(mmsInfo[2]);
-					threadID = Long.parseLong(mmsInfo[3]);
-					//The timestamp is in seconds and not milliseconds. You must multiply by 1000. :)
-					timeStamp = Long.parseLong(mmsInfo[4]) * 1000;
-				}else{ 
-					messageAddress = mmsInfo[0];
-					messageBody = mmsInfo[1];
-					messageID = Long.parseLong(mmsInfo[2]);
-					threadID = Long.parseLong(mmsInfo[3]);
-					//The timestamp is in seconds and not milliseconds. You must multiply by 1000. :)
-					timeStamp = Long.parseLong(mmsInfo[4]) * 1000;
-					contactID = Long.parseLong(mmsInfo[5]);
-					contactName = mmsInfo[6];
-					photoID = Long.parseLong(mmsInfo[7]);
-					lookupKey = mmsInfo[8];
+				try{
+					if(mmsInfo.length < 5){
+						if (_debug) Log.e("NotificationActivity.getAllUnreadMMSMessagesAsyncTask.onPostExecute() FATAL NOTIFICATION ERROR. mmsInfo.length: " + mmsInfo.length);
+						return;
+					}else if( mmsInfo.length == 5){ 
+						messageAddress = mmsInfo[0];
+						messageBody = mmsInfo[1];
+						messageID = Long.parseLong(mmsInfo[2]);
+						threadID = Long.parseLong(mmsInfo[3]);
+						//The timestamp is in seconds and not milliseconds. You must multiply by 1000. :)
+						timeStamp = Long.parseLong(mmsInfo[4]) * 1000;
+					}else{ 
+						messageAddress = mmsInfo[0];
+						messageBody = mmsInfo[1];
+						messageID = Long.parseLong(mmsInfo[2]);
+						threadID = Long.parseLong(mmsInfo[3]);
+						//The timestamp is in seconds and not milliseconds. You must multiply by 1000. :)
+						timeStamp = Long.parseLong(mmsInfo[4]) * 1000;
+						contactID = Long.parseLong(mmsInfo[5]);
+						contactName = mmsInfo[6];
+						photoID = Long.parseLong(mmsInfo[7]);
+						if(mmsInfo.length < 9){
+							lookupKey = "";
+						}else{
+							lookupKey = mmsInfo[8];
+						}
+					}
+				}catch(Exception ex){
+					if (_debug) Log.e("NotificationActivity.getAllUnreadMMSMessagesAsyncTask.onPostExecute() ERROR: " + ex.toString());
 				}
 	    		_notificationViewFlipper.addNotification(new Notification(_context, messageAddress, messageBody, messageID, threadID, timeStamp, contactID, contactName, photoID, lookupKey, NOTIFICATION_TYPE_SMS));
 			}
@@ -1914,21 +1900,31 @@ public class NotificationActivity extends Activity {
 			String contactName = null;
 			long photoID = 0;
 			String lookupKey = null;
-			if( missedCallInfo.length == 3){
-				callLogID = Long.parseLong(missedCallInfo[0]);
-				phoneNumber = missedCallInfo[1];
-				timeStamp = Long.parseLong(missedCallInfo[2]);
-			}else{
-				callLogID = Long.parseLong(missedCallInfo[0]);
-				phoneNumber = missedCallInfo[1];
-				timeStamp = Long.parseLong(missedCallInfo[2]);
-				contactID = Long.parseLong(missedCallInfo[3]);
-				contactName = missedCallInfo[4];
-				photoID = Long.parseLong(missedCallInfo[5]);
-				lookupKey = missedCallInfo[6];
+			try{
+				if(missedCallInfo.length < 3){
+					if (_debug) Log.e("NotificationActivity.setupMissedCalls() FATAL NOTIFICATION ERROR. missedCallInfo.length: " + missedCallInfo.length);
+					return false;
+				}else if( missedCallInfo.length == 3){
+					callLogID = Long.parseLong(missedCallInfo[0]);
+					phoneNumber = missedCallInfo[1];
+					timeStamp = Long.parseLong(missedCallInfo[2]);
+				}else{
+					callLogID = Long.parseLong(missedCallInfo[0]);
+					phoneNumber = missedCallInfo[1];
+					timeStamp = Long.parseLong(missedCallInfo[2]);
+					contactID = Long.parseLong(missedCallInfo[3]);
+					contactName = missedCallInfo[4];
+					photoID = Long.parseLong(missedCallInfo[5]);
+					if(missedCallInfo.length < 7){
+						lookupKey = "";
+					}else{
+						lookupKey = missedCallInfo[6];
+					}
+				}
+			}catch(Exception ex){
+				if (_debug) Log.e("NotificationActivity.setupMissedCalls() ERROR: " + ex.toString());
 			}
-			Notification missedCallNotification = new Notification(_context, callLogID, phoneNumber, timeStamp, contactID, contactName, photoID, lookupKey, NOTIFICATION_TYPE_PHONE);
-			_notificationViewFlipper.addNotification(missedCallNotification);
+			_notificationViewFlipper.addNotification(new Notification(_context, callLogID, phoneNumber, timeStamp, contactID, contactName, photoID, lookupKey, NOTIFICATION_TYPE_PHONE));
 		}
 	    return true;
 	}
@@ -1941,27 +1937,41 @@ public class NotificationActivity extends Activity {
 	private void setupCalendarEventNotifications(Bundle bundle){
 		if (_debug) Log.v("NotificationActivity.setupCalendarEventNotifications()");  
 		String calenderEventInfo[] = (String[])bundle.getStringArray("calenderEventInfo");
-		if(calenderEventInfo.length != 8){
-			if (_debug) Log.v("NotificationActivity.setupCalendarEventNotifications() CalendarEventInfo is not the correct length. Exiting...");  
-			return;
-		}
+		String title = null;
+		String messageBody = null;
+		long eventStartTime = 0; 
+		long eventEndTime = 0;
+		boolean eventAllDay = false; 
+		String calendarName = null;
+		long calendarID = 0; 
+		long eventID = 0;
 		try{
-			String title = calenderEventInfo[0];
-			String messageBody = calenderEventInfo[1];
-			long eventStartTime = Long.parseLong(calenderEventInfo[2]); 
-			long eventEndTime = Long.parseLong(calenderEventInfo[3]);
-			boolean eventAllDay = Boolean.parseBoolean(calenderEventInfo[4]); 
-			String calendarName = calenderEventInfo[5];
-			long calendarID = Long.parseLong(calenderEventInfo[6]); 
-			long eventID = Long.parseLong(calenderEventInfo[7]);
-			Notification calendarEventNotification = new Notification(_context, title, messageBody, eventStartTime, eventEndTime, eventAllDay, calendarName, calendarID, eventID, NOTIFICATION_TYPE_CALENDAR);
-			_notificationViewFlipper.addNotification(calendarEventNotification);	
+			if(calenderEventInfo.length < 8){
+				if (_debug) Log.e("NotificationActivity.setupCalendarEventNotifications() FATAL NOTIFICATION ERROR. calenderEventInfo.length: " + calenderEventInfo.length);
+				return ;
+			}else{
+				title = calenderEventInfo[0];
+				messageBody = calenderEventInfo[1];
+				eventStartTime = Long.parseLong(calenderEventInfo[2]); 
+				eventEndTime = Long.parseLong(calenderEventInfo[3]);
+				eventAllDay = Boolean.parseBoolean(calenderEventInfo[4]); 
+				calendarName = calenderEventInfo[5];
+				calendarID = Long.parseLong(calenderEventInfo[6]); 
+				eventID = Long.parseLong(calenderEventInfo[7]);
+			}
 		}catch(Exception ex){
 			if (_debug) Log.e("NotificationActivity.setupCalendarEventNotifications() Error: " + ex.toString());  
 			return;
 		}
+		_notificationViewFlipper.addNotification(new Notification(_context, title, messageBody, eventStartTime, eventEndTime, eventAllDay, calendarName, calendarID, eventID, NOTIFICATION_TYPE_CALENDAR));	
 	}
 	
+	/**
+	 * Setup Activity's context menus.
+	 * 
+	 * @param contextMenu - The context menu item.
+	 * @param notificationType - The notification type to customize what is shown.
+	 */
 	private void setupContextMenus(ContextMenu contextMenu, int notificationType){
 		switch(notificationType){
 			case NOTIFICATION_TYPE_PHONE:{
