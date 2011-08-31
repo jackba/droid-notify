@@ -654,6 +654,9 @@
 		<item name="2">##-##-##-##-##\n(e.g.12-34-56-78-90)</item>
 		<item name="3">##########\n(e.g.1234567890)</item>
 		<item name="4">(###) ###-####\n(e.g.(123) 456-7890)</item>
+		<item name="5">###.###.####\n(e.g.123.456.7890)</item>
+		<item name="6">##.###.#####\n(e.g.12.345.67890)</item>
+		<item name="7">##.##.##.##.##\n(e.g.12.34.56.78.90)</item>
 	</string-array>
 	<string-array name="phone_number_format_options_values">
 		<item name="0">1</item>
@@ -661,6 +664,9 @@
 		<item name="2">3</item>
 		<item name="3">4</item>
 		<item name="4">5</item>
+		<item name="5">6</item>
+		<item name="6">7</item>
+		<item name="7">8</item>
 	</string-array>	
 	
 	<!-- SMS/MMS TimeStamp Adjustment Arrays --> 

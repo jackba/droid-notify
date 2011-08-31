@@ -386,4 +386,8 @@
    	<string name="preference_import_preferences_finish_text">The application preferences have been imported.</string>
    	<string name="preference_import_preferences_error_text">The application preferences were not imported. Possible causes for this error include a missing preferences file, a missing SD Card or other SD card related issues which prevents this application from reading a file from the SD card location.</string>
    	
+    <string name="preference_hide_single_message_header_enabled_title">Hide Single Message Header</string>
+   	<string name="preference_hide_single_message_header_enabled_summaryOn">The notifications will not display the header text (e.g. 1/1) when a single message is displayed.</string>
+   	<string name="preference_hide_single_message_header_enabled_summaryOff">The notifications will display the header text (e.g. 1/1) when a single message is displayed.</string>
+   	
 </resources>
