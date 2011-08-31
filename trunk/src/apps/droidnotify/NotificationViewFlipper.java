@@ -31,7 +31,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 	
 	private static final String SMS_DELETE_KEY = "sms_delete_button_action";
 	private static final String MMS_DELETE_KEY = "mms_delete_button_action";
-	private static final String HIDE_SINGLE_MESSAGE_HEADER = "hide_single_message_header";
+	private static final String HIDE_SINGLE_MESSAGE_HEADER_KEY = "hide_single_message_header_enabled";
 	//private static final String SMS_DISMISS_ACTION_MARK_READ = "0";
 	private static final String SMS_DELETE_ACTION_DELETE_MESSAGE = "0";
 	private static final String SMS_DELETE_ACTION_DELETE_THREAD = "1";
@@ -410,7 +410,7 @@ public class NotificationViewFlipper extends ViewFlipper {
     		nextButton.setVisibility(View.VISIBLE);
     		displayNotificationCount = true;
     	}
-    	if(_preferences.getBoolean(HIDE_SINGLE_MESSAGE_HEADER, false)){
+    	if(_preferences.getBoolean(HIDE_SINGLE_MESSAGE_HEADER_KEY, false)){
 	    	if(!displayNotificationCount){
 	    		previousButton.setVisibility(View.GONE);
 	    		nextButton.setVisibility(View.GONE);
