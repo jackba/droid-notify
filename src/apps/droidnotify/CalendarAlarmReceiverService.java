@@ -240,7 +240,7 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
     	//Set the Action attribute for the scheduled intent. 
     	//Add custom attributes based on the CalendarID and CalendarEventID in order to tell the AlarmManager that these are different intents (which they are of course).
     	//If you don't do this the alarms will over write each other because the AlarmManager will think they are the same intents being rescheduled.
-    	calendarNotificationIntent.setAction(intentAction   );
+    	calendarNotificationIntent.setAction(intentAction);
     	PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, calendarNotificationIntent, 0);
 		alarmManager.set(AlarmManager.RTC_WAKEUP, scheduledAlarmTime, pendingIntent);
 	}
