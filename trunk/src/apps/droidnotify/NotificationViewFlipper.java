@@ -31,6 +31,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 	
 	private static final String SMS_DELETE_KEY = "sms_delete_button_action";
 	private static final String MMS_DELETE_KEY = "mms_delete_button_action";
+	private static final String HIDE_SINGLE_MESSAGE_HEADER = "hide_single_message_header";
 	//private static final String SMS_DISMISS_ACTION_MARK_READ = "0";
 	private static final String SMS_DELETE_ACTION_DELETE_MESSAGE = "0";
 	private static final String SMS_DELETE_ACTION_DELETE_THREAD = "1";
@@ -391,6 +392,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 */
 	private void updateViewNavigationButtons(View view){
     	if (_debug) Log.v("NotificationView.updateNavigationButtons()");
+    	boolean displayNotificationCount = false;
 		Button previousButton = (Button) view.findViewById(R.id.previous_button);
 		TextView notificationCountTextView = (TextView) view.findViewById(R.id.notification_count_text_view);
 		Button nextButton = (Button) view.findViewById(R.id.next_button);
@@ -398,6 +400,7 @@ public class NotificationViewFlipper extends ViewFlipper {
     		previousButton.setVisibility(View.INVISIBLE);
     	}else{
     		previousButton.setVisibility(View.VISIBLE);
+    		displayNotificationCount = true;
     	}
     	notificationCountTextView.setText((_currentNotification + 1) + "/" + _totalNotifications);
     	nextButton.setEnabled(!isLastMessage());
@@ -405,6 +408,16 @@ public class NotificationViewFlipper extends ViewFlipper {
     		nextButton.setVisibility(View.INVISIBLE);
     	}else{
     		nextButton.setVisibility(View.VISIBLE);
+    		displayNotificationCount = true;
+    	}
+    	if(_preferences.getBoolean(HIDE_SINGLE_MESSAGE_HEADER, false)){
+	    	if(!displayNotificationCount){
+	    		previousButton.setVisibility(View.GONE);
+	    		nextButton.setVisibility(View.GONE);
+	    		notificationCountTextView.setVisibility(View.GONE);
+	    	}else{
+	    		notificationCountTextView.setVisibility(View.VISIBLE);
+	    	}
     	}
 	}
 	

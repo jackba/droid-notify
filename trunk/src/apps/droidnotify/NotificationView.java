@@ -55,6 +55,9 @@ public class NotificationView extends LinearLayout {
 	private static final int PHONE_NUMBER_FORMAT_C = 3;
 	private static final int PHONE_NUMBER_FORMAT_D = 4;
 	private static final int PHONE_NUMBER_FORMAT_E = 5;
+	private static final int PHONE_NUMBER_FORMAT_F = 6;
+	private static final int PHONE_NUMBER_FORMAT_G = 7;
+	private static final int PHONE_NUMBER_FORMAT_H = 8;
 	
 	//private static final int ADD_CONTACT_ACTIVITY = 1;
 	//private static final int EDIT_CONTACT_ACTIVITY = 2;
@@ -148,12 +151,9 @@ public class NotificationView extends LinearLayout {
 	private LinearLayout _phoneButtonLinearLayout = null;
 	private LinearLayout _smsButtonLinearLayout = null;
 	private LinearLayout _calendarButtonLinearLayout = null;
-
 	private LinearLayout _contactLinearLayout = null;
 	private ImageView _photoImageView = null;
 	private ProgressBar _photoProgressBar = null;
-	
-	
 
 	//================================================================================
 	// Constructors
@@ -1159,6 +1159,67 @@ public class NotificationView extends LinearLayout {
 					}else{
 						outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 10, inputPhoneNumber.length() - 7));
 						outputPhoneNumber.insert(0," (");
+						outputPhoneNumber.insert(0,inputPhoneNumber.substring(0, inputPhoneNumber.length() - 10));
+					}
+				}else{
+					outputPhoneNumber.append(inputPhoneNumber);
+				}
+				break;
+			}
+			case PHONE_NUMBER_FORMAT_F:{
+				if(inputPhoneNumber.length() >= 10){
+					//Format ###-###-#### (e.g.123.456.7890)
+					outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 4, inputPhoneNumber.length()));
+					outputPhoneNumber.insert(0,".");
+					outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 7, inputPhoneNumber.length() - 4));
+					outputPhoneNumber.insert(0,".");
+					if(inputPhoneNumber.length() == 10){
+						outputPhoneNumber.insert(0,inputPhoneNumber.substring(0, inputPhoneNumber.length() - 7));
+					}else{
+						outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 10, inputPhoneNumber.length() - 7));
+						outputPhoneNumber.insert(0,".");
+						outputPhoneNumber.insert(0,inputPhoneNumber.substring(0, inputPhoneNumber.length() - 10));
+					}
+				}else{
+					outputPhoneNumber.append(inputPhoneNumber);
+				}
+				break;
+			}
+			case PHONE_NUMBER_FORMAT_G:{
+				if(inputPhoneNumber.length() >= 10){
+					//Format ##-###-##### (e.g.12.345.67890)
+					outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 5, inputPhoneNumber.length()));
+					outputPhoneNumber.insert(0,".");
+					outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 8, inputPhoneNumber.length() - 5));
+					outputPhoneNumber.insert(0,".");
+					if(inputPhoneNumber.length() == 10){
+						outputPhoneNumber.insert(0,inputPhoneNumber.substring(0, inputPhoneNumber.length() - 8));
+					}else{
+						outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 10, inputPhoneNumber.length() - 8));
+						outputPhoneNumber.insert(0,".");
+						outputPhoneNumber.insert(0,inputPhoneNumber.substring(0, inputPhoneNumber.length() - 10));
+					}
+				}else{
+					outputPhoneNumber.append(inputPhoneNumber);
+				}
+				break;
+			}
+			case PHONE_NUMBER_FORMAT_H:{
+				if(inputPhoneNumber.length() >= 10){
+					//Format ##-##-##-##-## (e.g.12.34.56.78.90)
+					outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 2, inputPhoneNumber.length()));
+					outputPhoneNumber.insert(0,".");
+					outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 4, inputPhoneNumber.length() - 2));
+					outputPhoneNumber.insert(0,".");
+					outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 6, inputPhoneNumber.length() - 4));
+					outputPhoneNumber.insert(0,".");
+					outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 8, inputPhoneNumber.length() - 6));
+					outputPhoneNumber.insert(0,".");
+					if(inputPhoneNumber.length() == 10){
+						outputPhoneNumber.insert(0,inputPhoneNumber.substring(0, inputPhoneNumber.length() - 8));
+					}else{
+						outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 10, inputPhoneNumber.length() - 8));
+						outputPhoneNumber.insert(0,".");
 						outputPhoneNumber.insert(0,inputPhoneNumber.substring(0, inputPhoneNumber.length() - 10));
 					}
 				}else{
