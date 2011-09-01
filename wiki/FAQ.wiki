@@ -10,6 +10,8 @@
  * [FAQ#Can_Droid_Notify_be_moved_to_the_SD_card? Can Droid Notify be moved to the SD card?]
  * [FAQ#Known_Issues_with_Go_SMS_Pro_&_Droid_Notify Known Issues with Go SMS Pro & Droid Notify]
 
+ * [FAQ#Will_email_notifications_be_an_added_feature_in_Droid_Notify? Will email notifications be an added feature in Droid Notify?]
+
 ----
 
 ==Can I change the UI of the notification?==
@@ -45,3 +47,11 @@ If you want to use GO SMS Pro, you must follow one of the two steps below in ord
 -OR-
 
 2) If you still want SMS GO Pro to disable other apps notifications you will need to follow these simple instructions. Uninstall GO SMS Pro, install Droid Notify THEN install GO SMS Pro. Basically, GO SMS Pro MUST be installed AFTER Droid Notify.
+
+==Will email notifications be an added feature in Droid Notify?==
+
+Unfortunately, the answer is no.
+
+Unfortunately, at this time the Email content on Android phones is secure and 3rd party apps cannot read the phones emails. The only solution to this is to develop an email client which is out of the scope of this project.
+
+Currently I will look into the gmail api and see if we can read gmail email as an alternative.
