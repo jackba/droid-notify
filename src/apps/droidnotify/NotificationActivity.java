@@ -60,7 +60,7 @@ public class NotificationActivity extends Activity {
 	private static final int NOTIFICATION_TYPE_SMS = 1;
 	private static final int NOTIFICATION_TYPE_MMS = 2;
 	private static final int NOTIFICATION_TYPE_CALENDAR = 3;
-	private static final int NOTIFICATION_TYPE_EMAIL = 4;
+	private static final int NOTIFICATION_TYPE_GMAIL = 4;
 
 	private static final int ADD_CONTACT_ACTIVITY = 1;
 	private static final int EDIT_CONTACT_ACTIVITY = 2;
@@ -789,8 +789,8 @@ public class NotificationActivity extends Activity {
 		    	setupCalendarEventNotifications(extrasBundle);
 		    	break;
 		    }
-		    case NOTIFICATION_TYPE_EMAIL:{
-		    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_EMAIL");
+		    case NOTIFICATION_TYPE_GMAIL:{
+		    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_GMAIL");
 		    	//TODO - Email
 		    	break;
 		    }
@@ -955,8 +955,8 @@ public class NotificationActivity extends Activity {
 			    setupCalendarEventNotifications(extrasBundle);
 		    	break;
 		    }
-	    	case NOTIFICATION_TYPE_EMAIL:{
-		    	if (_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_EMAIL");
+	    	case NOTIFICATION_TYPE_GMAIL:{
+		    	if (_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_GMAIL");
 		    	//TODO - Email
 		    	break;
 		    }
@@ -1157,7 +1157,7 @@ public class NotificationActivity extends Activity {
 		    	}
 	 	    }
 	    }
-	    if(notificationType == NOTIFICATION_TYPE_EMAIL){
+	    if(notificationType == NOTIFICATION_TYPE_GMAIL){
 	    	//TODO - Email
 	    }
 		_ringtoneHandler.sleep(rintoneStopValue);
@@ -1220,7 +1220,7 @@ public class NotificationActivity extends Activity {
 				 	    }
 						break;
 				    }
-					case NOTIFICATION_TYPE_EMAIL:{
+					case NOTIFICATION_TYPE_GMAIL:{
 				    	//TODO - Email
 						break;
 				    }
@@ -2028,7 +2028,7 @@ public class NotificationActivity extends Activity {
 				messagingInboxMenuItem.setVisible(false);
 				break;
 		    }
-			case NOTIFICATION_TYPE_EMAIL:{
+			case NOTIFICATION_TYPE_GMAIL:{
 				MenuItem viewCalendarEventMenuItem = contextMenu.findItem(VIEW_CALENDAR_CONTEXT_MENU);
 				viewCalendarEventMenuItem.setVisible(false);
 		    	MenuItem addCalendarEventMenuItem = contextMenu.findItem(ADD_CALENDAR_EVENT_CONTEXT_MENU);
