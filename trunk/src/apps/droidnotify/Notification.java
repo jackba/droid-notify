@@ -28,7 +28,7 @@ public class Notification {
 	private static final int NOTIFICATION_TYPE_SMS = 1;
 	private static final int NOTIFICATION_TYPE_MMS = 2;
 	private static final int NOTIFICATION_TYPE_CALENDAR = 3;
-	private static final int NOTIFICATION_TYPE_EMAIL = 4;
+	private static final int NOTIFICATION_TYPE_GMAIL = 4;
 	
 	private static final String SMS_DISMISS_KEY = "sms_dismiss_button_action";
 	private static final String MMS_DISMISS_KEY = "mms_dismiss_button_action";
@@ -98,7 +98,7 @@ public class Notification {
 		    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
 		    	_title = "Calendar Event";
 		    }
-		    if(notificationType == NOTIFICATION_TYPE_EMAIL){
+		    if(notificationType == NOTIFICATION_TYPE_GMAIL){
 		    	_title = "Email";
 		    }
 			_context = context;
@@ -155,7 +155,7 @@ public class Notification {
 					_title = "Calendar Event";
 					break;
 				}
-				case NOTIFICATION_TYPE_EMAIL:{
+				case NOTIFICATION_TYPE_GMAIL:{
 					_title = "Email";
 					break;
 				}
@@ -197,7 +197,7 @@ public class Notification {
 					_title = "Calendar Event";
 					break;
 				}
-				case NOTIFICATION_TYPE_EMAIL:{
+				case NOTIFICATION_TYPE_GMAIL:{
 					_title = "Email";
 					break;
 				}
@@ -531,7 +531,7 @@ public class Notification {
 	    if(_notificationType == NOTIFICATION_TYPE_CALENDAR){
 	    	//Do nothing. There is no log to update for Calendar Events.
 	    }
-	    if(_notificationType == NOTIFICATION_TYPE_EMAIL){
+	    if(_notificationType == NOTIFICATION_TYPE_GMAIL){
 	    	setEmailRead(isViewed);
 	    }
 	}

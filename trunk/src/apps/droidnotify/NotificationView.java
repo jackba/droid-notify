@@ -48,7 +48,7 @@ public class NotificationView extends LinearLayout {
 	private static final int NOTIFICATION_TYPE_SMS = 1;
 	private static final int NOTIFICATION_TYPE_MMS = 2;
 	private static final int NOTIFICATION_TYPE_CALENDAR = 3;
-	private static final int NOTIFICATION_TYPE_EMAIL = 4;
+	private static final int NOTIFICATION_TYPE_GMAIL = 4;
 	
 	private static final int PHONE_NUMBER_FORMAT_A = 1;
 	private static final int PHONE_NUMBER_FORMAT_B = 2;
@@ -97,7 +97,7 @@ public class NotificationView extends LinearLayout {
 	private static final String MMS_NOTIFICATION_COUNT_ACTION_KEY = "mms_notification_count_action";
 	private static final String PHONE_NOTIFICATION_COUNT_ACTION_KEY = "missed_call_notification_count_action";
 	private static final String CALENDAR_NOTIFICATION_COUNT_ACTION_KEY = "calendar_notification_count_action";
-	private static final String EMAIL_NOTIFICATION_COUNT_ACTION_KEY = "email_notification_count_action";
+	private static final String GMAIL_NOTIFICATION_COUNT_ACTION_KEY = "gmail_notification_count_action";
 	private static final String SMS_MESSAGE_BODY_FONT_SIZE = "sms_message_body_font_size";
 	private static final String MMS_MESSAGE_BODY_FONT_SIZE = "mms_message_body_font_size";
 	private static final String CALENDAR_MESSAGE_BODY_FONT_SIZE = "calendar_message_body_font_size";
@@ -513,9 +513,9 @@ public class NotificationView extends LinearLayout {
 				}
 				break;
 			}
-			case NOTIFICATION_TYPE_EMAIL:{
+			case NOTIFICATION_TYPE_GMAIL:{
 				// Notification Count Text Button
-				String notificationCountAction = _preferences.getString(EMAIL_NOTIFICATION_COUNT_ACTION_KEY, "0");
+				String notificationCountAction = _preferences.getString(GMAIL_NOTIFICATION_COUNT_ACTION_KEY, "0");
 				if(notificationCountAction.equals("0")){
 					//Do Nothing.
 				}else{
@@ -701,7 +701,7 @@ public class NotificationView extends LinearLayout {
 		    	notificationText = "<i>" + notification.getMessageBody() + "</i><br/>" + notificationTitle;
 				break;
 			}
-			case NOTIFICATION_TYPE_EMAIL:{
+			case NOTIFICATION_TYPE_GMAIL:{
 				notificationText = notification.getTitle();
 				break;
 			}
@@ -750,8 +750,8 @@ public class NotificationView extends LinearLayout {
 		    	receivedAtText = _context.getString(R.string.calendar_event_text);
 				break;
 			}
-			case NOTIFICATION_TYPE_EMAIL:{
-		    	iconBitmap = BitmapFactory.decodeResource(_context.getResources(), R.drawable.email);
+			case NOTIFICATION_TYPE_GMAIL:{
+		    	//iconBitmap = BitmapFactory.decodeResource(_context.getResources(), R.drawable.email);
 		    	receivedAtText = _context.getString(R.string.email_at_text, formattedTimestamp.toLowerCase());
 				break;
 			}
