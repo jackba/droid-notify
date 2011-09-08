@@ -35,8 +35,8 @@ public class OnBootReceiver extends BroadcastReceiver {
 	//================================================================================
     
 	/**
-	 * Receives a notification that the Calendar should be checked.
-	 * This function starts the service that will handle the work or reschedules the work if the phone is in use.
+	 * Receives a notification that the phone was restarted.
+	 * This function starts the service that will handle the work to setup calendar event notifications.
 	 * 
 	 * @param context - Application Context.
 	 * @param intent - Intent object that we are working with.
