@@ -414,7 +414,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		    	try{
 			    	Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:droidnotify@gmail.com"));
 			    	intent.putExtra("subject", "Droid Notify App Logs");
-			    	intent.putExtra("body", "What went wrong? What is the reason for emailing the log files: ");
+			    	intent.putExtra("body", "");
 			    	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
 					File logFilePathV = Environment.getExternalStoragePublicDirectory("Droid Notify/Logs/V");
 					File logFileV = new File(logFilePathV, "DroidNotifyLog.txt");
