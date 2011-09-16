@@ -761,6 +761,10 @@ public class NotificationActivity extends Activity {
 		    params.dimAmount = dimAmt / 100f; 
 		    mainWindow.setAttributes(params); 
 	    }
+	    if(_preferences.getBoolean(SCREEN_ENABLED_KEY, true) && _preferences.getBoolean(KEYGUARD_ENABLED_KEY, true)){
+	    	mainWindow.addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+	    	mainWindow.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
+	    }
 	    setContentView(R.layout.notificationwrapper);
 	    setupViews(notificationType);
 	    switch(notificationType){
@@ -1066,22 +1070,11 @@ public class NotificationActivity extends Activity {
 	 */
 	private void disableKeyguardLock(Context context){
 		if (_debug) Log.v("NotificationActivity.disableKeyguardLock()");
-		KeyguardManager km = null;
 		try{
-			km = (KeyguardManager)getSystemService(Context.KEYGUARD_SERVICE);
-			if(_keyguardLock == null){
-				_keyguardLock = km.newKeyguardLock(DROID_NOTIFY_KEYGUARD); 
-			}
-			//Set the keyguard properties based on the users preferences.
-			if(_preferences.getBoolean(SCREEN_ENABLED_KEY, true)){
-				if(_preferences.getBoolean(KEYGUARD_ENABLED_KEY, true)){
-					if (_debug) Log.v("NotificationActivity.disableKeyguardLock() Disable Keyguard Enabled.");
-					_keyguardLock.disableKeyguard();
-				}else{
-					if (_debug) Log.v("NotificationActivity.disableKeyguardLock() Disable Keyguard Disabled.");
-				}
-			}else{
-				if (_debug) Log.v("NotificationActivity.disableKeyguardLock() Turn On Screen Disabled.");
+			KeyguardManager km = (KeyguardManager)getSystemService(Context.KEYGUARD_SERVICE);
+			_keyguardLock = km.newKeyguardLock(DROID_NOTIFY_KEYGUARD);
+			if(_preferences.getBoolean(SCREEN_ENABLED_KEY, true) && _preferences.getBoolean(KEYGUARD_ENABLED_KEY, true)){
+				_keyguardLock.disableKeyguard();
 			}
 		}catch(Exception ex){
 			if (_debug) Log.e("NotificationActivity.disableKeyguardLock() ERROR: " + ex.toString());
