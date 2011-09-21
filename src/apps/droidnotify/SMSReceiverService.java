@@ -7,7 +7,9 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.telephony.SmsMessage;
 import apps.droidnotify.common.Common;
+import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
 
 /**
@@ -16,12 +18,6 @@ import apps.droidnotify.log.Log;
  * @author Camille Sévigny
  */
 public class SMSReceiverService extends WakefulIntentService {
-
-	//================================================================================
-    // Constants
-    //================================================================================
-	
-	private static final int NOTIFICATION_TYPE_SMS = 1;
 	
 	//================================================================================
     // Properties
@@ -55,13 +51,17 @@ public class SMSReceiverService extends WakefulIntentService {
 	protected void doWakefulWork(Intent intent) {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("SMSReceiverService.doWakefulWork()");
-		//Bundle newSMSBundle = intent.getExtras();
-		//ArrayList<String> smsArray = getSMSMessagesFromIntent(newSMSBundle);
-		ArrayList<String> smsArray = getSMSMessagesFromDisk();
+		ArrayList<String> smsArray = null;
+		if(){
+			Bundle newSMSBundle = intent.getExtras();
+			smsArray = getSMSMessagesFromIntent(newSMSBundle);
+		}else{
+			smsArray = getSMSMessagesFromDisk();
+		}
 		if(smsArray.size() > 0){
 			Context context = getApplicationContext();
 			Bundle bundle = new Bundle();
-			bundle.putInt("notificationType", NOTIFICATION_TYPE_SMS);
+			bundle.putInt("notificationType", Constants.NOTIFICATION_TYPE_SMS);
 			bundle.putStringArrayList("smsArrayList",smsArray);
 	    	Intent smsNotificationIntent = new Intent(context, NotificationActivity.class);
 	    	smsNotificationIntent.putExtras(bundle);
@@ -127,67 +127,74 @@ public class SMSReceiverService extends WakefulIntentService {
 		return smsArray;	
 	}
 	
-//	private ArrayList<String> getSMSMessagesFromIntent(Bundle bundle){
-//		if (_debug) Log.v("SMSReceiverService.getSMSMessagesFromIntent()");
-//		Context context = getApplicationContext();
-//		ArrayList<String> smsArray = new ArrayList<String>();
-//    	long timeStamp = 0;
-//    	String sentFromAddress = null;
-//    	String messageBody = null;
-//    	StringBuilder messageBodyBuilder = null;
-//    	String messageSubject = null;
-//    	long threadID = 0;
-//    	long messageID = 0;
-//		try{
-//			SmsMessage[] msgs = null;
-//            Object[] pdus = (Object[]) bundle.get("pdus");
-//            msgs = new SmsMessage[pdus.length];
-//            for (int i=0; i<msgs.length; i++){
-//                msgs[i] = SmsMessage.createFromPdu((byte[])pdus[i]);                
-//            }
-//            SmsMessage sms = msgs[0];
-//            timeStamp = sms.getTimestampMillis();
-//            //Adjust the timestamp to the localized time of the users phone.
-//            timeStamp = Common.convertGMTToLocalTime(context, timeStamp);
-//            sentFromAddress = sms.getDisplayOriginatingAddress().toLowerCase();
-//            if(sentFromAddress.contains("@")){
-//            	sentFromAddress = Common.removeEmailFormatting(sentFromAddress);
-//            }
-//            messageSubject = sms.getPseudoSubject();
-//            messageBodyBuilder = new StringBuilder();
-//            //Get the entire message body from the new message.
-//    		  int messagesLength = msgs.length;
-//            for (int i = 0; i < messagesLength; i++){                
-//            	//messageBody.append(msgs[i].getMessageBody().toString());
-//            	messageBodyBuilder.append(msgs[i].getDisplayMessageBody().toString());
-//            }   
-//            messageBody = messageBodyBuilder.toString();
-//            if(messageBody.toString().startsWith(sentFromAddress)){
-//            	messageBody = messageBody.toString().substring(sentFromAddress.length()).replace("\n", "<br/>").trim();
-//            }    
-//            if(messageSubject != null && !messageSubject.equals("")){
-//				messageBody = "(" + messageSubject + ")" + messageBody.toString().replace("\n", "<br/>").trim();
-//			}else{
-//				messageBody = messageBody.toString().replace("\n", "<br/>").trim();
-//			}   
-//    		threadID = Common.getThreadID(context, sentFromAddress, NOTIFICATION_TYPE_SMS);
-//    		messageID = Common.getMessageID(context, threadID, messageBody, timeStamp, NOTIFICATION_TYPE_SMS);
-//    		String[] smsContactInfo = null;
-//    		if(sentFromAddress.contains("@")){
-//	    		smsContactInfo = Common.getContactsInfoByEmail(context, sentFromAddress);
-//	    	}else{
-//	    		smsContactInfo = Common.getContactsInfoByPhoneNumber(context, sentFromAddress);
-//	    	}
-//    		if(smsContactInfo == null){
-//				smsArray.add(sentFromAddress + "|" + messageBody + "|" + messageID + "|" + threadID + "|" + timeStamp);
-//			}else{
-//				smsArray.add(sentFromAddress + "|" + messageBody + "|" + messageID + "|" + threadID + "|" + timeStamp + "|" + smsContactInfo[0] + "|" + smsContactInfo[1] + "|" + smsContactInfo[2] + "|" + smsContactInfo[3]);
-//			}
-//    		return smsArray;
-//		}catch(Exception ex){
-//			if (_debug) Log.v("SMSReceiverService.getSMSMessagesFromIntent() ERROR: " + ex.toString());
-//			return null;
-//		}
-//	}
+	/**
+	 * Parse the incoming SMS message directly.
+	 * 
+	 * @param bundle - Bundle from the incomming intent.
+	 * 
+	 * @return ArrayList<String> - Returns an ArrayList of Strings that contain the sms information.
+	 */
+	private ArrayList<String> getSMSMessagesFromIntent(Bundle bundle){
+		if (_debug) Log.v("SMSReceiverService.getSMSMessagesFromIntent()");
+		Context context = getApplicationContext();
+		ArrayList<String> smsArray = new ArrayList<String>();
+    	long timeStamp = 0;
+    	String sentFromAddress = null;
+    	String messageBody = null;
+    	StringBuilder messageBodyBuilder = null;
+    	String messageSubject = null;
+    	long threadID = 0;
+    	long messageID = 0;
+		try{
+			SmsMessage[] msgs = null;
+            Object[] pdus = (Object[]) bundle.get("pdus");
+            msgs = new SmsMessage[pdus.length];
+            for (int i=0; i<msgs.length; i++){
+                msgs[i] = SmsMessage.createFromPdu((byte[])pdus[i]);                
+            }
+            SmsMessage sms = msgs[0];
+            timeStamp = sms.getTimestampMillis();
+            //Adjust the timestamp to the localized time of the users phone.
+            timeStamp = Common.convertGMTToLocalTime(context, timeStamp);
+            sentFromAddress = sms.getDisplayOriginatingAddress().toLowerCase();
+            if(sentFromAddress.contains("@")){
+            	sentFromAddress = Common.removeEmailFormatting(sentFromAddress);
+            }
+            messageSubject = sms.getPseudoSubject();
+            messageBodyBuilder = new StringBuilder();
+            //Get the entire message body from the new message.
+    		  int messagesLength = msgs.length;
+            for (int i = 0; i < messagesLength; i++){                
+            	//messageBody.append(msgs[i].getMessageBody().toString());
+            	messageBodyBuilder.append(msgs[i].getDisplayMessageBody().toString());
+            }   
+            messageBody = messageBodyBuilder.toString();
+            if(messageBody.startsWith(sentFromAddress)){
+            	messageBody = messageBody.substring(sentFromAddress.length()).replace("\n", "<br/>").trim();
+            }    
+            if(messageSubject != null && !messageSubject.equals("")){
+				messageBody = "(" + messageSubject + ")" + messageBody.replace("\n", "<br/>").trim();
+			}else{
+				messageBody = messageBody.replace("\n", "<br/>").trim();
+			}   
+    		threadID = Common.getThreadID(context, sentFromAddress, Constants.NOTIFICATION_TYPE_SMS);
+    		messageID = Common.getMessageID(context, threadID, messageBody, timeStamp, Constants.NOTIFICATION_TYPE_SMS);
+    		String[] smsContactInfo = null;
+    		if(sentFromAddress.contains("@")){
+	    		smsContactInfo = Common.getContactsInfoByEmail(context, sentFromAddress);
+	    	}else{
+	    		smsContactInfo = Common.getContactsInfoByPhoneNumber(context, sentFromAddress);
+	    	}
+    		if(smsContactInfo == null){
+				smsArray.add(sentFromAddress + "|" + messageBody + "|" + messageID + "|" + threadID + "|" + timeStamp);
+			}else{
+				smsArray.add(sentFromAddress + "|" + messageBody + "|" + messageID + "|" + threadID + "|" + timeStamp + "|" + smsContactInfo[0] + "|" + smsContactInfo[1] + "|" + smsContactInfo[2] + "|" + smsContactInfo[3]);
+			}
+    		return smsArray;
+		}catch(Exception ex){
+			if (_debug) Log.v("SMSReceiverService.getSMSMessagesFromIntent() ERROR: " + ex.toString());
+			return null;
+		}
+	}
 		
 }

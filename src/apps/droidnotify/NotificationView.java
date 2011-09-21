@@ -29,6 +29,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.view.MotionEvent;
 import apps.droidnotify.common.Common;
+import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
 
 /**
@@ -44,12 +45,6 @@ public class NotificationView extends LinearLayout {
 	
 	private static final int SQUARE_IMAGE_SIZE = 80;
 	
-	private static final int NOTIFICATION_TYPE_PHONE = 0;
-	private static final int NOTIFICATION_TYPE_SMS = 1;
-	private static final int NOTIFICATION_TYPE_MMS = 2;
-	private static final int NOTIFICATION_TYPE_CALENDAR = 3;
-	private static final int NOTIFICATION_TYPE_GMAIL = 4;
-	
 	private static final int PHONE_NUMBER_FORMAT_A = 1;
 	private static final int PHONE_NUMBER_FORMAT_B = 2;
 	private static final int PHONE_NUMBER_FORMAT_C = 3;
@@ -58,22 +53,6 @@ public class NotificationView extends LinearLayout {
 	private static final int PHONE_NUMBER_FORMAT_F = 6;
 	private static final int PHONE_NUMBER_FORMAT_G = 7;
 	private static final int PHONE_NUMBER_FORMAT_H = 8;
-	
-	//private static final int ADD_CONTACT_ACTIVITY = 1;
-	//private static final int EDIT_CONTACT_ACTIVITY = 2;
-	//private static final int VIEW_CONTACT_ACTIVITY = 3;
-	private static final int SEND_SMS_ACTIVITY = 4;
-	private static final int MESSAGING_ACTIVITY = 5;
-	private static final int VIEW_SMS_MESSAGE_ACTIVITY = 6;
-	private static final int VIEW_SMS_THREAD_ACTIVITY = 7;
-	private static final int CALL_ACTIVITY = 8;
-	//private static final int CALENDAR_ACTIVITY = 9;
-	//private static final int ADD_CALENDAR_ACTIVITY = 10;
-	//private static final int EDIT_CALENDAR_ACTIVITY = 11;
-	private static final int VIEW_CALENDAR_ACTIVITY = 12;
-	private static final int SEND_SMS_QUICK_REPLY_ACTIVITY = 13;
-	private static final int VIEW_CALL_LOG_ACTIVITY = 14;
-	private static final int CALENDAR_ACTIVITY = 15;
 	
 	private static final String HAPTIC_FEEDBACK_ENABLED_KEY = "haptic_feedback_enabled";
 	private static final String SMS_REPLY_BUTTON_ACTION_KEY = "sms_reply_button_action";
@@ -101,7 +80,7 @@ public class NotificationView extends LinearLayout {
 	private static final String SMS_MESSAGE_BODY_FONT_SIZE = "sms_message_body_font_size";
 	private static final String MMS_MESSAGE_BODY_FONT_SIZE = "mms_message_body_font_size";
 	private static final String CALENDAR_MESSAGE_BODY_FONT_SIZE = "calendar_message_body_font_size";
-	private static final String USER_IN_MESSAGING_APP = "user_in_messaging_app";
+
 	private static final String SMS_HIDE_CONTACT_PANEL_ENABLED_KEY = "sms_hide_contact_panel_enabled";
 	private static final String MMS_HIDE_CONTACT_PANEL_ENABLED_KEY = "mms_hide_contact_panel_enabled";
 	private static final String PHONE_HIDE_CONTACT_PANEL_ENABLED_KEY = "missed_call_hide_contact_panel_enabled";
@@ -114,22 +93,6 @@ public class NotificationView extends LinearLayout {
 	private static final String SMS_HIDE_CONTACT_NUMBER_ENABLED_KEY = "sms_hide_contact_number_enabled";
 	private static final String MMS_HIDE_CONTACT_NUMBER_ENABLED_KEY = "mms_hide_contact_number_enabled";
 	private static final String PHONE_HIDE_CONTACT_NUMBER_ENABLED_KEY = "missed_call_hide_contact_number_enabled";
-	
-	private static final String APP_THEME_KEY = "app_theme";
-	private static final String ANDROID_FROYO_THEME = "android";
-	private static final String ANDROID_GINGERBREAD_THEME = "android_dark";
-	private static final String IPHONE_THEME = "iphone";
-	private static final String DARK_TRANSLUCENT_THEME = "dark_translucent";
-	private static final String DARK_TRANSLUCENT_V2_THEME = "dark_translucent_v2";
-	private static final String DARK_TRANSLUCENT_V3_THEME = "dark_translucent_v3";
-	private static final String HTC_SENSE_UI_THEME = "theme_htc";
-	private static final String XPERIA_THEME = "theme_xperia";
-	
-	private static final String SMS_MESSAGING_APP_REPLY = "0";
-	private static final String SMS_QUICK_REPLY = "1";
-
-	private static final String MMS_MESSAGING_APP_REPLY = "0";
-	private static final String MMS_QUICK_REPLY = "1";
 	
 	//================================================================================
     // Properties
@@ -189,16 +152,16 @@ public class NotificationView extends LinearLayout {
 	private void initLayoutItems(Context context) {
 		if (_debug) Log.v("NotificationView.initLayoutItems()");
 		//Set based on the theme. This is set in the user preferences.
-		String applicationThemeSetting = _preferences.getString(APP_THEME_KEY, ANDROID_FROYO_THEME);
+		String applicationThemeSetting = _preferences.getString(Constants.APP_THEME_KEY, Constants.ANDROID_FROYO_THEME);
 		int themeResource = R.layout.android_froyo_theme_notification;
-		if(applicationThemeSetting.equals(ANDROID_FROYO_THEME)) themeResource = R.layout.android_froyo_theme_notification;
-		if(applicationThemeSetting.equals(ANDROID_GINGERBREAD_THEME)) themeResource = R.layout.android_gingerbread_theme_notification;
-		if(applicationThemeSetting.equals(IPHONE_THEME)) themeResource = R.layout.iphone_theme_notification;
-		if(applicationThemeSetting.equals(DARK_TRANSLUCENT_THEME)) themeResource = R.layout.dark_translucent_theme_notification;
-		if(applicationThemeSetting.equals(DARK_TRANSLUCENT_V2_THEME)) themeResource = R.layout.dark_translucent_v2_theme_notification;
-		if(applicationThemeSetting.equals(DARK_TRANSLUCENT_V3_THEME)) themeResource = R.layout.dark_translucent_v3_theme_notification;
-		if(applicationThemeSetting.equals(HTC_SENSE_UI_THEME)) themeResource = R.layout.htc_theme_notification;
-		if(applicationThemeSetting.equals(XPERIA_THEME)) themeResource = R.layout.xperia_theme_notification;
+		if(applicationThemeSetting.equals(Constants.ANDROID_FROYO_THEME)) themeResource = R.layout.android_froyo_theme_notification;
+		if(applicationThemeSetting.equals(Constants.ANDROID_GINGERBREAD_THEME)) themeResource = R.layout.android_gingerbread_theme_notification;
+		if(applicationThemeSetting.equals(Constants.IPHONE_THEME)) themeResource = R.layout.iphone_theme_notification;
+		if(applicationThemeSetting.equals(Constants.DARK_TRANSLUCENT_THEME)) themeResource = R.layout.dark_translucent_theme_notification;
+		if(applicationThemeSetting.equals(Constants.DARK_TRANSLUCENT_V2_THEME)) themeResource = R.layout.dark_translucent_v2_theme_notification;
+		if(applicationThemeSetting.equals(Constants.DARK_TRANSLUCENT_V3_THEME)) themeResource = R.layout.dark_translucent_v3_theme_notification;
+		if(applicationThemeSetting.equals(Constants.HTC_SENSE_UI_THEME)) themeResource = R.layout.htc_theme_notification;
+		if(applicationThemeSetting.equals(Constants.XPERIA_THEME)) themeResource = R.layout.xperia_theme_notification;
 		View.inflate(context, themeResource, this);
 		_contactNameTextView = (TextView) findViewById(R.id.contact_name_text_view);
 		_contactNumberTextView = (TextView) findViewById(R.id.contact_number_text_view);
@@ -248,7 +211,7 @@ public class NotificationView extends LinearLayout {
 		    }
 		});	
 		switch(_notificationType){
-			case NOTIFICATION_TYPE_PHONE:{
+			case Constants.NOTIFICATION_TYPE_PHONE:{
 				// Notification Count Text Button
 				int notificationCountAction = Integer.parseInt(_preferences.getString(PHONE_NOTIFICATION_COUNT_ACTION_KEY, "0"));
 				if(notificationCountAction == 0){
@@ -258,7 +221,7 @@ public class NotificationView extends LinearLayout {
 					    public void onClick(View view) {
 					    	if (_debug) Log.v("Notification Count Button Clicked()");
 					    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-					    	Common.startCallLogViewActivity(_context, _notificationActivity, VIEW_CALL_LOG_ACTIVITY);
+					    	Common.startCallLogViewActivity(_context, _notificationActivity, Constants.VIEW_CALL_LOG_ACTIVITY);
 					    }
 					});			
 				}
@@ -288,7 +251,7 @@ public class NotificationView extends LinearLayout {
 					    public void onClick(View v) {
 					    	if (_debug) Log.v("Call Button Clicked()");
 					    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-					    	Common.makePhoneCall(_context, _notificationActivity, _notification.getSentFromAddress(), CALL_ACTIVITY);
+					    	Common.makePhoneCall(_context, _notificationActivity, _notification.getSentFromAddress(), Constants.CALL_ACTIVITY);
 					    }
 					});
 		    	}
@@ -299,7 +262,7 @@ public class NotificationView extends LinearLayout {
 				}
 				break;
 			}
-			case NOTIFICATION_TYPE_SMS:{
+			case Constants.NOTIFICATION_TYPE_SMS:{
 				// Notification Count Text Button
 				int notificationCountAction = Integer.parseInt(_preferences.getString(SMS_NOTIFICATION_COUNT_ACTION_KEY, "0"));
 				if(notificationCountAction == 0){
@@ -309,7 +272,7 @@ public class NotificationView extends LinearLayout {
 					    public void onClick(View view) {
 					    	if (_debug) Log.v("Notification Count Button Clicked()");
 					    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-					    	Common.startMessagingAppViewThreadActivity(_context, _notificationActivity, _notification.getSentFromAddress(), VIEW_SMS_MESSAGE_ACTIVITY);
+					    	Common.startMessagingAppViewThreadActivity(_context, _notificationActivity, _notification.getSentFromAddress(), Constants.VIEW_SMS_MESSAGE_ACTIVITY);
 					    }
 					});	
 				}else if(notificationCountAction == 2){
@@ -317,7 +280,7 @@ public class NotificationView extends LinearLayout {
 					    public void onClick(View view) {
 					    	if (_debug) Log.v("Notification Count Button Clicked()");
 					    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-					    	Common.startMessagingAppViewThreadActivity(_context, _notificationActivity, _notification.getSentFromAddress(), VIEW_SMS_THREAD_ACTIVITY);
+					    	Common.startMessagingAppViewThreadActivity(_context, _notificationActivity, _notification.getSentFromAddress(), Constants.VIEW_SMS_THREAD_ACTIVITY);
 					    }
 					});	
 				}else if(notificationCountAction == 3){
@@ -325,7 +288,7 @@ public class NotificationView extends LinearLayout {
 					    public void onClick(View view) {
 					    	if (_debug) Log.v("Notification Count Button Clicked()");
 					    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-					    	Common.startMessagingAppViewInboxActivity(_context, _notificationActivity, MESSAGING_ACTIVITY);
+					    	Common.startMessagingAppViewInboxActivity(_context, _notificationActivity, Constants.MESSAGING_ACTIVITY);
 					    }
 					});		
 				}
@@ -368,7 +331,7 @@ public class NotificationView extends LinearLayout {
 					    public void onClick(View view) {
 					    	if (_debug) Log.v("SMS Reply Button Clicked()");
 					    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-					    	replyToMessage(NOTIFICATION_TYPE_SMS);
+					    	replyToMessage(Constants.NOTIFICATION_TYPE_SMS);
 					    }
 					});
 		    	}
@@ -380,7 +343,7 @@ public class NotificationView extends LinearLayout {
 				}
 				break;
 			}
-			case NOTIFICATION_TYPE_MMS:{
+			case Constants.NOTIFICATION_TYPE_MMS:{
 				// Notification Count Text Button
 				int notificationCountAction = Integer.parseInt(_preferences.getString(MMS_NOTIFICATION_COUNT_ACTION_KEY, "0"));
 				if(notificationCountAction == 0){
@@ -390,7 +353,7 @@ public class NotificationView extends LinearLayout {
 					    public void onClick(View view) {
 					    	if (_debug) Log.v("Notification Count Button Clicked()");
 					    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-					    	Common.startMessagingAppViewThreadActivity(_context, _notificationActivity, _notification.getSentFromAddress(), VIEW_SMS_MESSAGE_ACTIVITY);
+					    	Common.startMessagingAppViewThreadActivity(_context, _notificationActivity, _notification.getSentFromAddress(), Constants.VIEW_SMS_MESSAGE_ACTIVITY);
 					    }
 					});	
 				}else if(notificationCountAction == 2){
@@ -398,7 +361,7 @@ public class NotificationView extends LinearLayout {
 					    public void onClick(View view) {
 					    	if (_debug) Log.v("Notification Count Button Clicked()");
 					    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-					    	Common.startMessagingAppViewThreadActivity(_context, _notificationActivity, _notification.getSentFromAddress(), VIEW_SMS_THREAD_ACTIVITY);
+					    	Common.startMessagingAppViewThreadActivity(_context, _notificationActivity, _notification.getSentFromAddress(), Constants.VIEW_SMS_THREAD_ACTIVITY);
 					    }
 					});	
 				}else if(notificationCountAction == 3){
@@ -406,7 +369,7 @@ public class NotificationView extends LinearLayout {
 					    public void onClick(View view) {
 					    	if (_debug) Log.v("Notification Count Button Clicked()");
 					    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-					    	Common.startMessagingAppViewInboxActivity(_context, _notificationActivity, MESSAGING_ACTIVITY);
+					    	Common.startMessagingAppViewInboxActivity(_context, _notificationActivity, Constants.MESSAGING_ACTIVITY);
 					    }
 					});		
 				}
@@ -449,7 +412,7 @@ public class NotificationView extends LinearLayout {
 					    public void onClick(View view) {
 					    	if (_debug) Log.v("MMS Reply Button Clicked()");
 					    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-					    	replyToMessage(NOTIFICATION_TYPE_MMS);
+					    	replyToMessage(Constants.NOTIFICATION_TYPE_MMS);
 					    }
 					});
 		    	}
@@ -461,7 +424,7 @@ public class NotificationView extends LinearLayout {
 				}
 				break;
 			}
-			case NOTIFICATION_TYPE_CALENDAR:{
+			case Constants.NOTIFICATION_TYPE_CALENDAR:{
 				// Notification Count Text Button
 				int notificationCountAction = Integer.parseInt(_preferences.getString(CALENDAR_NOTIFICATION_COUNT_ACTION_KEY, "0"));
 				if(notificationCountAction == 0){
@@ -471,7 +434,7 @@ public class NotificationView extends LinearLayout {
 					    public void onClick(View view) {
 					    	if (_debug) Log.v("Notification Count Button Clicked()");
 					    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-					    	Common.startViewCalendarActivity(_context, _notificationActivity, CALENDAR_ACTIVITY);
+					    	Common.startViewCalendarActivity(_context, _notificationActivity, Constants.CALENDAR_ACTIVITY);
 					    }
 					});			
 				}
@@ -502,7 +465,7 @@ public class NotificationView extends LinearLayout {
 					    	if (_debug) Log.v("Calendar View Button Clicked()");
 					    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 					    	//viewCalendarEvent();
-					    	Common.startViewCalendarEventActivity(_context, _notificationActivity, _notification.getCalendarEventID(), _notification.getCalendarEventStartTime(), _notification.getCalendarEventEndTime(), VIEW_CALENDAR_ACTIVITY);
+					    	Common.startViewCalendarEventActivity(_context, _notificationActivity, _notification.getCalendarEventID(), _notification.getCalendarEventStartTime(), _notification.getCalendarEventEndTime(), Constants.VIEW_CALENDAR_ACTIVITY);
 					    }
 					});
 		    	}
@@ -513,7 +476,7 @@ public class NotificationView extends LinearLayout {
 				}
 				break;
 			}
-			case NOTIFICATION_TYPE_GMAIL:{
+			case Constants.NOTIFICATION_TYPE_GMAIL:{
 				// Notification Count Text Button
 				String notificationCountAction = _preferences.getString(GMAIL_NOTIFICATION_COUNT_ACTION_KEY, "0");
 				if(notificationCountAction.equals("0")){
@@ -543,7 +506,7 @@ public class NotificationView extends LinearLayout {
 		if (_debug) Log.v("NotificationView.populateNotificationViewInfo() NotificationType: " + _notificationType);
 		boolean loadContactPhoto = true;
 	    // Set from, number, message etc. views.
-		if(_notificationType == NOTIFICATION_TYPE_CALENDAR){
+		if(_notificationType == Constants.NOTIFICATION_TYPE_CALENDAR){
 			String notificationTitle = notification.getTitle();
 	    	if(notificationTitle.equals("")){
 	    		notificationTitle = "No Title";
@@ -566,7 +529,7 @@ public class NotificationView extends LinearLayout {
 		    //Add the Quick Contact Android Widget to the Contact Photo.
 		    setupQuickContact();
 		}
-		if(_notificationType == NOTIFICATION_TYPE_SMS){
+		if(_notificationType == Constants.NOTIFICATION_TYPE_SMS){
 			if(_preferences.getBoolean(SMS_HIDE_MESSAGE_KEY, false)){
 				_notificationDetailsTextView.setVisibility(View.GONE);
 			}else{
@@ -598,7 +561,7 @@ public class NotificationView extends LinearLayout {
 				}
 			}
 		}
-		if(_notificationType == NOTIFICATION_TYPE_MMS){
+		if(_notificationType == Constants.NOTIFICATION_TYPE_MMS){
 			if(_preferences.getBoolean(MMS_HIDE_MESSAGE_KEY, false)){
 				_notificationDetailsTextView.setVisibility(View.GONE);
 			}else{
@@ -630,7 +593,7 @@ public class NotificationView extends LinearLayout {
 				}
 			}
 		}
-		if(_notificationType == NOTIFICATION_TYPE_PHONE){
+		if(_notificationType == Constants.NOTIFICATION_TYPE_PHONE){
 			_notificationDetailsTextView.setVisibility(View.GONE);
 			//Contact Display Settings
 			if(_preferences.getBoolean(PHONE_HIDE_CONTACT_PANEL_ENABLED_KEY, false)){
@@ -663,7 +626,7 @@ public class NotificationView extends LinearLayout {
 	    //Add context menu items.
 	    setupContextMenus();
 	    //Load the image from the users contacts.
-	    if(_notificationType != NOTIFICATION_TYPE_CALENDAR){
+	    if(_notificationType != Constants.NOTIFICATION_TYPE_CALENDAR){
 	    	if(loadContactPhoto){
 	    		new setNotificationContactImageAsyncTask().execute(notification.getContactID());
 	    	}
@@ -681,19 +644,19 @@ public class NotificationView extends LinearLayout {
 		String notificationText = "";
 		int notificationAlignment = Gravity.LEFT;
 		switch(_notificationType){
-			case NOTIFICATION_TYPE_PHONE:{
+			case Constants.NOTIFICATION_TYPE_PHONE:{
 				notificationText = "Missed Call!";
 				break;
 			}
-			case NOTIFICATION_TYPE_SMS:{
+			case Constants.NOTIFICATION_TYPE_SMS:{
 				notificationText = notification.getMessageBody();
 				break;
 			}
-			case NOTIFICATION_TYPE_MMS:{
+			case Constants.NOTIFICATION_TYPE_MMS:{
 				notificationText = notification.getMessageBody();	
 				break;
 			}
-			case NOTIFICATION_TYPE_CALENDAR:{
+			case Constants.NOTIFICATION_TYPE_CALENDAR:{
 		    	String notificationTitle = notification.getTitle();
 		    	if(notificationTitle.equals("")){
 		    		notificationTitle = "No Title";
@@ -701,7 +664,7 @@ public class NotificationView extends LinearLayout {
 		    	notificationText = "<i>" + notification.getMessageBody() + "</i><br/>" + notificationTitle;
 				break;
 			}
-			case NOTIFICATION_TYPE_GMAIL:{
+			case Constants.NOTIFICATION_TYPE_GMAIL:{
 				notificationText = notification.getTitle();
 				break;
 			}
@@ -730,27 +693,27 @@ public class NotificationView extends LinearLayout {
 		String formattedTimestamp = dateFormatted.format(notification.getTimeStamp());
 	    String receivedAtText = "";
 		switch(_notificationType){
-			case NOTIFICATION_TYPE_PHONE:{
+			case Constants.NOTIFICATION_TYPE_PHONE:{
 		    	iconBitmap = BitmapFactory.decodeResource(_context.getResources(), R.drawable.ic_missed_call);
 		    	receivedAtText = _context.getString(R.string.missed_call_at_text, formattedTimestamp.toLowerCase());
 				break;
 			}
-			case NOTIFICATION_TYPE_SMS:{
+			case Constants.NOTIFICATION_TYPE_SMS:{
 		    	iconBitmap = BitmapFactory.decodeResource(_context.getResources(), R.drawable.sms);
 		    	receivedAtText = _context.getString(R.string.message_at_text, formattedTimestamp.toLowerCase());
 				break;
 			}
-			case NOTIFICATION_TYPE_MMS:{
+			case Constants.NOTIFICATION_TYPE_MMS:{
 		    	iconBitmap = BitmapFactory.decodeResource(_context.getResources(), R.drawable.sms);
 		    	receivedAtText = _context.getString(R.string.message_at_text, formattedTimestamp.toLowerCase());
 				break;
 			}
-			case NOTIFICATION_TYPE_CALENDAR:{
+			case Constants.NOTIFICATION_TYPE_CALENDAR:{
 		    	iconBitmap = BitmapFactory.decodeResource(_context.getResources(), R.drawable.calendar);
 		    	receivedAtText = _context.getString(R.string.calendar_event_text);
 				break;
 			}
-			case NOTIFICATION_TYPE_GMAIL:{
+			case Constants.NOTIFICATION_TYPE_GMAIL:{
 		    	//iconBitmap = BitmapFactory.decodeResource(_context.getResources(), R.drawable.email);
 		    	receivedAtText = _context.getString(R.string.email_at_text, formattedTimestamp.toLowerCase());
 				break;
@@ -783,18 +746,18 @@ public class NotificationView extends LinearLayout {
 			return;
 		}
 		switch(notificationType){
-			case NOTIFICATION_TYPE_SMS:{
+			case Constants.NOTIFICATION_TYPE_SMS:{
 				//Reply using any installed SMS messaging app.
-				if(_preferences.getString(SMS_REPLY_BUTTON_ACTION_KEY, "0").equals(SMS_MESSAGING_APP_REPLY)){
-					if(Common.startMessagingAppReplyActivity(_context, _notificationActivity, phoneNumber, SEND_SMS_ACTIVITY)){
+				if(_preferences.getString(SMS_REPLY_BUTTON_ACTION_KEY, "0").equals(Constants.SMS_MESSAGING_APP_REPLY)){
+					if(Common.startMessagingAppReplyActivity(_context, _notificationActivity, phoneNumber, Constants.SEND_SMS_ACTIVITY)){
 						//Set "In Reply Screen" flag.
 						SharedPreferences.Editor editor = _preferences.edit();
-						editor.putBoolean(USER_IN_MESSAGING_APP, true);
+						editor.putBoolean(Constants.USER_IN_MESSAGING_APP, true);
 						editor.commit();
 					}
 				}		
 				//Reply using the built in Quick Reply Activity.
-				if(_preferences.getString(SMS_REPLY_BUTTON_ACTION_KEY, "0").equals(SMS_QUICK_REPLY)){
+				if(_preferences.getString(SMS_REPLY_BUTTON_ACTION_KEY, "0").equals(Constants.SMS_QUICK_REPLY)){
 					try{
 						Intent intent = new Intent(_context, QuickReplyActivity.class);
 				        //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
@@ -806,10 +769,10 @@ public class NotificationView extends LinearLayout {
 					    	intent.putExtra("smsName", "");
 					    }
 					    intent.putExtra("smsMessage", "");
-				        _notificationActivity.startActivityForResult(intent,SEND_SMS_QUICK_REPLY_ACTIVITY);
+				        _notificationActivity.startActivityForResult(intent, Constants.SEND_SMS_QUICK_REPLY_ACTIVITY);
 						//Set "In Reply Screen" flag.
 						SharedPreferences.Editor editor = _preferences.edit();
-						editor.putBoolean(USER_IN_MESSAGING_APP, true);
+						editor.putBoolean(Constants.USER_IN_MESSAGING_APP, true);
 						editor.commit();
 					}catch(Exception ex){
 						if (_debug) Log.e("NotificationView.replyToMessage() Quick Reply ERROR: " + ex.toString());
@@ -826,18 +789,18 @@ public class NotificationView extends LinearLayout {
 				}
 				break;
 			}
-			case NOTIFICATION_TYPE_MMS:{
+			case Constants.NOTIFICATION_TYPE_MMS:{
 				//Reply using any installed SMS messaging app.
-				if(_preferences.getString(MMS_REPLY_BUTTON_ACTION_KEY, "0").equals(MMS_MESSAGING_APP_REPLY)){
-					if(Common.startMessagingAppReplyActivity(_context, _notificationActivity, phoneNumber, SEND_SMS_ACTIVITY)){
+				if(_preferences.getString(MMS_REPLY_BUTTON_ACTION_KEY, "0").equals(Constants.MMS_MESSAGING_APP_REPLY)){
+					if(Common.startMessagingAppReplyActivity(_context, _notificationActivity, phoneNumber, Constants.SEND_SMS_ACTIVITY)){
 						//Set "In Reply Screen" flag.
 						SharedPreferences.Editor editor = _preferences.edit();
-						editor.putBoolean(USER_IN_MESSAGING_APP, true);
+						editor.putBoolean(Constants.USER_IN_MESSAGING_APP, true);
 						editor.commit();
 					}
 				}		
 				//Reply using the built in Quick Reply Activity.
-				if(_preferences.getString(MMS_REPLY_BUTTON_ACTION_KEY, "0").equals(MMS_QUICK_REPLY)){
+				if(_preferences.getString(MMS_REPLY_BUTTON_ACTION_KEY, "0").equals(Constants.MMS_QUICK_REPLY)){
 					try{
 						Intent intent = new Intent(_context, QuickReplyActivity.class);
 						//intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
@@ -849,10 +812,10 @@ public class NotificationView extends LinearLayout {
 					    	intent.putExtra("smsName", "");
 					    }
 					    intent.putExtra("smsMessage", "");
-				        _notificationActivity.startActivityForResult(intent,SEND_SMS_QUICK_REPLY_ACTIVITY);
+				        _notificationActivity.startActivityForResult(intent, Constants.SEND_SMS_QUICK_REPLY_ACTIVITY);
 						//Set "In Reply Screen" flag.
 						SharedPreferences.Editor editor = _preferences.edit();
-						editor.putBoolean(USER_IN_MESSAGING_APP, true);
+						editor.putBoolean(Constants.USER_IN_MESSAGING_APP, true);
 						editor.commit();
 					}catch(Exception ex){
 						if (_debug) Log.e("NotificationView.replyToMessage() Quick Reply ERROR: " + ex.toString());
@@ -920,39 +883,39 @@ public class NotificationView extends LinearLayout {
 	     		switch (motionEvent.getAction()){
 		     		case MotionEvent.ACTION_DOWN:{
 		     			if (_debug) Log.v("NotificationView.initLongPressView() ACTION_DOWN");
-		                String applicationThemeSetting = _preferences.getString(APP_THEME_KEY, ANDROID_FROYO_THEME);
+		                String applicationThemeSetting = _preferences.getString(Constants.APP_THEME_KEY, Constants.ANDROID_FROYO_THEME);
 		        		int listSelectorBackgroundResource = R.drawable.froyo_list_selector_background_transition;
 		        		int contactWrapperTextColorResource = R.color.black;
 		         		//Set View background.
-		        		if(applicationThemeSetting.equals(ANDROID_FROYO_THEME)){
+		        		if(applicationThemeSetting.equals(Constants.ANDROID_FROYO_THEME)){
 		        			listSelectorBackgroundResource = R.drawable.froyo_list_selector_background_transition;
 		        			contactWrapperTextColorResource = R.color.black;
 		        		}
-		        		if(applicationThemeSetting.equals(ANDROID_GINGERBREAD_THEME)){
+		        		if(applicationThemeSetting.equals(Constants.ANDROID_GINGERBREAD_THEME)){
 		        			listSelectorBackgroundResource = R.drawable.gingerbread_list_selector_background_transition;
 		        			contactWrapperTextColorResource = R.color.black;
 		        		}
-		        		if(applicationThemeSetting.equals(IPHONE_THEME)){
+		        		if(applicationThemeSetting.equals(Constants.IPHONE_THEME)){
 		        			listSelectorBackgroundResource = R.drawable.list_selector_background_transition_blue;
 		        			contactWrapperTextColorResource = R.color.black;
 		        		}
-		        		if(applicationThemeSetting.equals(DARK_TRANSLUCENT_THEME)){
+		        		if(applicationThemeSetting.equals(Constants.DARK_TRANSLUCENT_THEME)){
 		        			listSelectorBackgroundResource = R.drawable.list_selector_background_transition_blue;
 		        			contactWrapperTextColorResource = R.color.black;
 		        		}
-		        		if(applicationThemeSetting.equals(DARK_TRANSLUCENT_V2_THEME)){
+		        		if(applicationThemeSetting.equals(Constants.DARK_TRANSLUCENT_V2_THEME)){
 		        			listSelectorBackgroundResource = R.drawable.list_selector_background_transition_blue;
 		        			contactWrapperTextColorResource = R.color.black;
 		        		}
-		        		if(applicationThemeSetting.equals(DARK_TRANSLUCENT_V3_THEME)){
+		        		if(applicationThemeSetting.equals(Constants.DARK_TRANSLUCENT_V3_THEME)){
 		        			listSelectorBackgroundResource = R.drawable.list_selector_background_transition_blue;
 		        			contactWrapperTextColorResource = R.color.black;
 		        		}
-		        		if(applicationThemeSetting.equals(HTC_SENSE_UI_THEME)){
+		        		if(applicationThemeSetting.equals(Constants.HTC_SENSE_UI_THEME)){
 		        			listSelectorBackgroundResource = R.drawable.htc_list_selector_background_transition;
 		        			contactWrapperTextColorResource = R.color.black;
 		        		}	
-		        		if(applicationThemeSetting.equals(XPERIA_THEME)){
+		        		if(applicationThemeSetting.equals(Constants.XPERIA_THEME)){
 		        			listSelectorBackgroundResource = R.drawable.xperia_list_selector_background_transition;
 		        			contactWrapperTextColorResource = R.color.black;
 		        		}		        		
@@ -968,39 +931,39 @@ public class NotificationView extends LinearLayout {
 			        }
 		     		case MotionEvent.ACTION_UP:{
 		     			if (_debug) Log.v("NotificationView.initLongPressView() ACTION_UP");
-		         		String applicationThemeSetting = _preferences.getString(APP_THEME_KEY, ANDROID_FROYO_THEME);
+		         		String applicationThemeSetting = _preferences.getString(Constants.APP_THEME_KEY, Constants.ANDROID_FROYO_THEME);
 		        		int listSelectorBackgroundResource = R.drawable.froyo_list_selector_background_transition;
 		        		int contactWrapperTextColorResource = R.color.white;
 		         		//Set View background.
-		        		if(applicationThemeSetting.equals(ANDROID_FROYO_THEME)){
+		        		if(applicationThemeSetting.equals(Constants.ANDROID_FROYO_THEME)){
 		        			listSelectorBackgroundResource = R.drawable.froyo_list_selector_background;
 		        			contactWrapperTextColorResource = R.color.white;
 		        		}
-		        		if(applicationThemeSetting.equals(ANDROID_GINGERBREAD_THEME)){
+		        		if(applicationThemeSetting.equals(Constants.ANDROID_GINGERBREAD_THEME)){
 		        			listSelectorBackgroundResource = R.drawable.gingerbread_list_selector_background;
 		        			contactWrapperTextColorResource = R.color.white;
 		        		}
-		        		if(applicationThemeSetting.equals(IPHONE_THEME)){
+		        		if(applicationThemeSetting.equals(Constants.IPHONE_THEME)){
 		        			listSelectorBackgroundResource = R.drawable.list_selector_background_blue;
 		        			contactWrapperTextColorResource = R.color.white;
 		        		}
-		        		if(applicationThemeSetting.equals(DARK_TRANSLUCENT_THEME)){
+		        		if(applicationThemeSetting.equals(Constants.DARK_TRANSLUCENT_THEME)){
 		        			listSelectorBackgroundResource = R.drawable.list_selector_background_blue;
 		        			contactWrapperTextColorResource = R.color.white;
 		        		}
-		        		if(applicationThemeSetting.equals(DARK_TRANSLUCENT_V2_THEME)){
+		        		if(applicationThemeSetting.equals(Constants.DARK_TRANSLUCENT_V2_THEME)){
 		        			listSelectorBackgroundResource = R.drawable.list_selector_background_blue;
 		        			contactWrapperTextColorResource = R.color.white;
 		        		}
-		        		if(applicationThemeSetting.equals(DARK_TRANSLUCENT_V3_THEME)){
+		        		if(applicationThemeSetting.equals(Constants.DARK_TRANSLUCENT_V3_THEME)){
 		        			listSelectorBackgroundResource = R.drawable.list_selector_background_blue;
 		        			contactWrapperTextColorResource = R.color.white;
 		        		}
-		        		if(applicationThemeSetting.equals(HTC_SENSE_UI_THEME)){
+		        		if(applicationThemeSetting.equals(Constants.HTC_SENSE_UI_THEME)){
 		        			listSelectorBackgroundResource = R.drawable.htc_list_selector_background;
 		        			contactWrapperTextColorResource = R.color.white;
 		        		}
-		        		if(applicationThemeSetting.equals(XPERIA_THEME)){
+		        		if(applicationThemeSetting.equals(Constants.XPERIA_THEME)){
 		        			listSelectorBackgroundResource = R.drawable.xperia_list_selector_background;
 		        			contactWrapperTextColorResource = R.color.white;
 		        		}
@@ -1013,39 +976,39 @@ public class NotificationView extends LinearLayout {
 		     		}
 		     		case MotionEvent.ACTION_CANCEL:{
 		     			if (_debug) Log.v("NotificationView.initLongPressView() ACTION_CANCEL");
-		         		String applicationThemeSetting = _preferences.getString(APP_THEME_KEY, ANDROID_FROYO_THEME);
+		         		String applicationThemeSetting = _preferences.getString(Constants.APP_THEME_KEY, Constants.ANDROID_FROYO_THEME);
 		        		int listSelectorBackgroundResource = R.drawable.froyo_list_selector_background_transition;
 		        		int contactWrapperTextColorResource = R.color.white;
 		         		//Set View background.
-		        		if(applicationThemeSetting.equals(ANDROID_FROYO_THEME)){
+		        		if(applicationThemeSetting.equals(Constants.ANDROID_FROYO_THEME)){
 		        			listSelectorBackgroundResource = R.drawable.froyo_list_selector_background;
 		        			contactWrapperTextColorResource = R.color.white;
 		        		}
-		        		if(applicationThemeSetting.equals(ANDROID_GINGERBREAD_THEME)){
+		        		if(applicationThemeSetting.equals(Constants.ANDROID_GINGERBREAD_THEME)){
 		        			listSelectorBackgroundResource = R.drawable.gingerbread_list_selector_background;
 		        			contactWrapperTextColorResource = R.color.white;
 		        		}
-		        		if(applicationThemeSetting.equals(IPHONE_THEME)){
+		        		if(applicationThemeSetting.equals(Constants.IPHONE_THEME)){
 		        			listSelectorBackgroundResource = R.drawable.list_selector_background_blue;
 		        			contactWrapperTextColorResource = R.color.white;
 		        		}
-		        		if(applicationThemeSetting.equals(DARK_TRANSLUCENT_THEME)){
+		        		if(applicationThemeSetting.equals(Constants.DARK_TRANSLUCENT_THEME)){
 		        			listSelectorBackgroundResource = R.drawable.list_selector_background_blue;
 		        			contactWrapperTextColorResource = R.color.white;
 		        		}
-		        		if(applicationThemeSetting.equals(DARK_TRANSLUCENT_V2_THEME)){
+		        		if(applicationThemeSetting.equals(Constants.DARK_TRANSLUCENT_V2_THEME)){
 		        			listSelectorBackgroundResource = R.drawable.list_selector_background_blue;
 		        			contactWrapperTextColorResource = R.color.white;
 		        		}
-		        		if(applicationThemeSetting.equals(DARK_TRANSLUCENT_V3_THEME)){
+		        		if(applicationThemeSetting.equals(Constants.DARK_TRANSLUCENT_V3_THEME)){
 		        			listSelectorBackgroundResource = R.drawable.list_selector_background_blue;
 		        			contactWrapperTextColorResource = R.color.white;
 		        		}
-		        		if(applicationThemeSetting.equals(HTC_SENSE_UI_THEME)){
+		        		if(applicationThemeSetting.equals(Constants.HTC_SENSE_UI_THEME)){
 		        			listSelectorBackgroundResource = R.drawable.htc_list_selector_background;
 		        			contactWrapperTextColorResource = R.color.white;
 		        		}
-		        		if(applicationThemeSetting.equals(XPERIA_THEME)){
+		        		if(applicationThemeSetting.equals(Constants.XPERIA_THEME)){
 		        			listSelectorBackgroundResource = R.drawable.xperia_list_selector_background;
 		        			contactWrapperTextColorResource = R.color.white;
 		        		}

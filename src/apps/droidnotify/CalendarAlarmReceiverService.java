@@ -32,6 +32,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
 
 /**
@@ -41,26 +42,6 @@ import apps.droidnotify.log.Log;
  *
  */
 public class CalendarAlarmReceiverService extends WakefulIntentService {
-
-	//================================================================================
-    // Constants
-    //================================================================================
-	
-	private static final int NOTIFICATION_TYPE_CALENDAR = 3;
-	
-	private static final String _ID = "_id";
-	private static final String CALENDAR_EVENT_ID = "event_id"; 
-	private static final String CALENDAR_EVENT_TITLE = "title"; 
-    private static final String CALENDAR_INSTANCE_BEGIN = "begin"; 
-    private static final String CALENDAR_INSTANCE_END = "end"; 
-    private static final String CALENDAR_EVENT_ALL_DAY = "allDay"; 
-    private static final String CALENDAR_DISPLAY_NAME = "displayName"; 
-    private static final String CALENDAR_SELECTED = "selected";
-    private static final String CALENDAR_SELECTION_KEY = "calendar_selection";
-	private static final String CALENDAR_NOTIFY_DAY_OF_TIME_KEY = "calendar_notify_day_of_time";
-	private static final String CALENDAR_REMINDERS_ENABLED_KEY = "calendar_reminders_enabled"; 
-    private static final String CALENDAR_REMINDER_KEY = "calendar_reminder_settings";
-    private static final String CALENDAR_REMINDER_ALL_DAY_KEY = "calendar_reminder_all_day_settings";
     
 	//================================================================================
     // Properties
@@ -113,10 +94,10 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
 		if (_debug) Log.v("CalendarAlarmReceiverService.readCalendars()");
 		//Determine the reminder interval based on the users preferences.
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-		long reminderInterval = Long.parseLong(preferences.getString(CALENDAR_REMINDER_KEY, "15")) * 60 * 1000;
-		long reminderIntervalAllDay = Long.parseLong(preferences.getString(CALENDAR_REMINDER_ALL_DAY_KEY, "6")) * 60 * 60 * 1000;
-		long dayOfReminderIntervalAllDay = Long.parseLong(preferences.getString(CALENDAR_NOTIFY_DAY_OF_TIME_KEY, "12")) * 60 * 60 * 1000;
-		String calendarPreferences = preferences.getString(CALENDAR_SELECTION_KEY, "");
+		long reminderInterval = Long.parseLong(preferences.getString(Constants.CALENDAR_REMINDER_KEY, "15")) * 60 * 1000;
+		long reminderIntervalAllDay = Long.parseLong(preferences.getString(Constants.CALENDAR_REMINDER_ALL_DAY_KEY, "6")) * 60 * 60 * 1000;
+		long dayOfReminderIntervalAllDay = Long.parseLong(preferences.getString(Constants.CALENDAR_NOTIFY_DAY_OF_TIME_KEY, "12")) * 60 * 60 * 1000;
+		String calendarPreferences = preferences.getString(Constants.CALENDAR_SELECTION_KEY, "");
 		ArrayList<String> calendarsArray = new ArrayList<String>();
 		if(!calendarPreferences.equals("")){
 			Collections.addAll(calendarsArray, calendarPreferences.split("\\|")); 
@@ -132,15 +113,15 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
 			//contentProvider = "content://calendar";
 			cursor = contentResolver.query(
 				Uri.parse(contentProvider + "/calendars"), 
-				new String[] { _ID, CALENDAR_DISPLAY_NAME, CALENDAR_SELECTED },
+				new String[] { Constants._ID, Constants.CALENDAR_DISPLAY_NAME, Constants.CALENDAR_SELECTED },
 				null,
 				null,
 				null);
 			HashMap<String, String> calendarIds = new HashMap<String, String>();
 			while (cursor.moveToNext()) {
-				final String calendarID = cursor.getString(cursor.getColumnIndex(_ID));
-				final String calendarDisplayName = cursor.getString(cursor.getColumnIndex(CALENDAR_DISPLAY_NAME));
-				final Boolean calendarSelected = !cursor.getString(cursor.getColumnIndex(CALENDAR_SELECTED)).equals("0");
+				final String calendarID = cursor.getString(cursor.getColumnIndex(Constants._ID));
+				final String calendarDisplayName = cursor.getString(cursor.getColumnIndex(Constants.CALENDAR_DISPLAY_NAME));
+				final Boolean calendarSelected = !cursor.getString(cursor.getColumnIndex(Constants.CALENDAR_SELECTED)).equals("0");
 				if (_debug) Log.v("CalendarAlarmReceiverService.readCalendars() FOUND CALENDAR - Id: " + calendarID + " Display Name: " + calendarDisplayName + " Selected: " + calendarSelected);
 				if(calendarsArray.contains(calendarID)){
 					if (_debug) Log.v("CalendarAlarmReceiverService.readCalendars() CHECKING CALENDAR -  Id: " + calendarID + " Display Name: " + calendarDisplayName + " Selected: " + calendarSelected);
@@ -163,16 +144,16 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
 				Cursor eventCursor = null;
 				try{
 					eventCursor = contentResolver.query(builder.build(),
-						new String[] { CALENDAR_EVENT_ID, CALENDAR_EVENT_TITLE, CALENDAR_INSTANCE_BEGIN, CALENDAR_INSTANCE_END, CALENDAR_EVENT_ALL_DAY},
+						new String[] { Constants.CALENDAR_EVENT_ID, Constants.CALENDAR_EVENT_TITLE, Constants.CALENDAR_INSTANCE_BEGIN, Constants.CALENDAR_INSTANCE_END, Constants.CALENDAR_EVENT_ALL_DAY},
 						"Calendars._id=" + calendarID,
 						null,
 						"startDay ASC, startMinute ASC"); 
 					while (eventCursor.moveToNext()) {
-						String eventID = eventCursor.getString(eventCursor.getColumnIndex(CALENDAR_EVENT_ID));
-						String eventTitle = eventCursor.getString(eventCursor.getColumnIndex(CALENDAR_EVENT_TITLE));
-						long eventStartTime = eventCursor.getLong(eventCursor.getColumnIndex(CALENDAR_INSTANCE_BEGIN));
-						long eventEndTime = eventCursor.getLong(eventCursor.getColumnIndex(CALENDAR_INSTANCE_END));
-						final Boolean allDay = !eventCursor.getString(eventCursor.getColumnIndex(CALENDAR_EVENT_ALL_DAY)).equals("0");
+						String eventID = eventCursor.getString(eventCursor.getColumnIndex(Constants.CALENDAR_EVENT_ID));
+						String eventTitle = eventCursor.getString(eventCursor.getColumnIndex(Constants.CALENDAR_EVENT_TITLE));
+						long eventStartTime = eventCursor.getLong(eventCursor.getColumnIndex(Constants.CALENDAR_INSTANCE_BEGIN));
+						long eventEndTime = eventCursor.getLong(eventCursor.getColumnIndex(Constants.CALENDAR_INSTANCE_END));
+						final Boolean allDay = !eventCursor.getString(eventCursor.getColumnIndex(Constants.CALENDAR_EVENT_ALL_DAY)).equals("0");
 						if (_debug) Log.v("CalendarAlarmReceiverService.readCalendars() Event ID: " + eventID + " Title: " + eventTitle + " Begin: " + eventStartTime + " End: " + eventEndTime + " All Day: " + allDay);
 						long timezoneOffsetValue =  TimeZone.getDefault().getOffset(System.currentTimeMillis());
 						//For all any event in the past, don't schedule them.
@@ -185,7 +166,7 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
 								//Schedule the notification for the event time.
 								scheduleCalendarNotification(context, eventStartTime + dayOfReminderIntervalAllDay, eventTitle, Long.toString(eventStartTime), Long.toString(eventEndTime), Boolean.toString(allDay), calendarName, calendarID.toString(), eventID, "apps.droidnotify.VIEW/" + calendarID + "/" + eventID);
 								//Schedule the reminder notification if it is enabled.
-								if(preferences.getBoolean(CALENDAR_REMINDERS_ENABLED_KEY,true)){
+								if(preferences.getBoolean(Constants.CALENDAR_REMINDERS_ENABLED_KEY,true)){
 									//Only schedule the all day event if the current time is before the notification time.
 									if((eventStartTime - reminderIntervalAllDay) > currentSystemTime){
 										scheduleCalendarNotification(context, eventStartTime - reminderIntervalAllDay, eventTitle, Long.toString(eventStartTime), Long.toString(eventEndTime), Boolean.toString(allDay), calendarName, calendarID.toString(), eventID, "apps.droidnotify.VIEW/" + calendarID + "/" + eventID + "/REMINDER");
@@ -196,7 +177,7 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
 								//Schedule the notification for the event time.
 								scheduleCalendarNotification(context, eventStartTime, eventTitle, Long.toString(eventStartTime), Long.toString(eventEndTime), Boolean.toString(allDay), calendarName, calendarID.toString(), eventID, "apps.droidnotify.VIEW/" + calendarID + "/" + eventID);
 								//Schedule the reminder notification if it is enabled.
-								if(preferences.getBoolean(CALENDAR_REMINDERS_ENABLED_KEY,true)){
+								if(preferences.getBoolean(Constants.CALENDAR_REMINDERS_ENABLED_KEY,true)){
 									//Only schedule the event if the current time is before the notification time.
 									if((eventStartTime - reminderInterval) > currentSystemTime){
 										scheduleCalendarNotification(context, eventStartTime - reminderInterval, eventTitle, Long.toString(eventStartTime), Long.toString(eventEndTime), Boolean.toString(allDay), calendarName, calendarID.toString(), eventID, "apps.droidnotify.VIEW/" + calendarID + "/" + eventID + "/REMINDER");
@@ -233,7 +214,7 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
 		AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
     	Intent calendarNotificationIntent = new Intent(context, CalendarNotificationAlarmReceiver.class);
     	Bundle bundle = new Bundle();
-    	bundle.putInt("notificationType", NOTIFICATION_TYPE_CALENDAR);
+    	bundle.putInt("notificationType", Constants.NOTIFICATION_TYPE_CALENDAR);
     	bundle.putStringArray("calenderEventInfo",new String[]{title, "", eventStartTime, eventEndTime, eventAllDay, calendarName, calendarID, eventID});
     	calendarNotificationIntent.putExtras(bundle);
     	calendarNotificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);

@@ -39,6 +39,7 @@ import android.view.WindowManager;
 import android.widget.Toast;
 import apps.droidnotify.log.Log;
 import apps.droidnotify.common.Common;
+import apps.droidnotify.common.Constants;
 import apps.droidnotify.preferences.MainPreferenceActivity;
 
 /**
@@ -52,32 +53,6 @@ public class NotificationActivity extends Activity {
     // Constants
     //================================================================================
 	
-	private static final String DROID_NOTIFY_WAKELOCK = "DROID_NOTIFY_WAKELOCK";
-	private static final String DROID_NOTIFY_KEYGUARD = "DROID_NOTIFY_KEYGUARD";
-
-	private static final int NOTIFICATION_TYPE_TEST = -1;
-	private static final int NOTIFICATION_TYPE_PHONE = 0;
-	private static final int NOTIFICATION_TYPE_SMS = 1;
-	private static final int NOTIFICATION_TYPE_MMS = 2;
-	private static final int NOTIFICATION_TYPE_CALENDAR = 3;
-	private static final int NOTIFICATION_TYPE_GMAIL = 4;
-
-	private static final int ADD_CONTACT_ACTIVITY = 1;
-	private static final int EDIT_CONTACT_ACTIVITY = 2;
-	private static final int VIEW_CONTACT_ACTIVITY = 3;
-	private static final int SEND_SMS_ACTIVITY = 4;
-	private static final int MESSAGING_ACTIVITY = 5;
-	private static final int VIEW_SMS_MESSAGE_ACTIVITY = 6;
-	private static final int VIEW_SMS_THREAD_ACTIVITY = 7;
-	private static final int CALL_ACTIVITY = 8;
-	//private static final int CALENDAR_ACTIVITY = 9;
-	private static final int ADD_CALENDAR_ACTIVITY = 10;
-	private static final int EDIT_CALENDAR_ACTIVITY = 11;
-	private static final int VIEW_CALENDAR_ACTIVITY = 12;
-	private static final int SEND_SMS_QUICK_REPLY_ACTIVITY = 13;
-	private static final int VIEW_CALL_LOG_ACTIVITY = 14;
-	private static final int CALENDAR_ACTIVITY = 15;
-	
 	private static final String SCREEN_ENABLED_KEY = "screen_enabled";
 	private static final String SCREEN_DIM_ENABLED_KEY = "screen_dim_enabled";
 	private static final String KEYGUARD_ENABLED_KEY = "keyguard_enabled";	
@@ -85,7 +60,7 @@ public class NotificationActivity extends Activity {
 	private static final String SMS_VIBRATE_ENABLED_KEY = "sms_vibrate_enabled";
 	private static final String MMS_VIBRATE_ENABLED_KEY = "mms_vibrate_enabled";
 	private static final String CALENDAR_VIBRATE_ENABLED_KEY = "calendar_vibrate_enabled";
-//	private static final String HAPTIC_FEEDBACK_ENABLED_KEY = "haptic_feedback_enabled";
+
 	private static final String SMS_DELETE_KEY = "sms_delete_button_action";
 	private static final String MMS_DELETE_KEY = "mms_delete_button_action";
 	private static final String WAKELOCK_TIMEOUT_KEY = "wakelock_timeout_settings";
@@ -109,7 +84,6 @@ public class NotificationActivity extends Activity {
 	private static final String BLUR_SCREEN_ENABLED_KEY = "blur_screen_background_enabled";
 	private static final String DIM_SCREEN_ENABLED_KEY = "dim_screen_background_enabled";
 	private static final String DIM_SCREEN_AMOUNT_KEY = "dim_screen_background_amount";
-	private static final String USER_IN_MESSAGING_APP = "user_in_messaging_app";
 	
 	private static final String SMS_DELETE_ACTION_DELETE_MESSAGE = "0";
 	private static final String SMS_DELETE_ACTION_DELETE_THREAD = "1";
@@ -121,8 +95,7 @@ public class NotificationActivity extends Activity {
 	private static final int DIALOG_DELETE_MESSAGE = 0;
 	
 	private static final int MENU_ITEM_SETTINGS = R.id.app_settings;
-	private static final int CONTACT_WRAPPER_LINEAR_LAYOUT = R.id.contact_wrapper_linear_layout;
-	
+	private static final int CONTACT_WRAPPER_LINEAR_LAYOUT = R.id.contact_wrapper_linear_layout;	
 	private static final int VIEW_CONTACT_CONTEXT_MENU = R.id.view_contact_context_menu;
 	private static final int ADD_CONTACT_CONTEXT_MENU = R.id.add_contact_context_menu;
 	private static final int VIEW_CALL_LOG_CONTEXT_MENU = R.id.view_call_log_context_menu;
@@ -135,9 +108,6 @@ public class NotificationActivity extends Activity {
 	private static final int MESSAGING_INBOX_CONTEXT_MENU = R.id.messaging_inbox_context_menu;
 	private static final int DISMISS_NOTIFICATION_CONTEXT_MENU = R.id.dismiss_notification_context_menu;
 	private static final int VIEW_CALENDAR_CONTEXT_MENU = R.id.view_calendar_context_menu;
-	
-//	private static final String EVENT_BEGIN_TIME = "beginTime";
-//	private static final String EVENT_END_TIME = "endTime";
 		
 	//================================================================================
     // Properties
@@ -221,7 +191,7 @@ public class NotificationActivity extends Activity {
 				Notification notification = _notificationViewFlipper.getActiveNotification();
 				int notificationType = notification.getNotificationType();
 				//Add the header text to the menu.
-				if(notificationType == NOTIFICATION_TYPE_CALENDAR){
+				if(notificationType == Constants.NOTIFICATION_TYPE_CALENDAR){
 					contextMenu.setHeaderTitle("Calendar Event");
 				}else{
 					if(notification.getContactExists()){
@@ -259,16 +229,16 @@ public class NotificationActivity extends Activity {
 		//customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 		switch (menuItem.getItemId()) {
 			case ADD_CONTACT_CONTEXT_MENU:{
-				return Common.startContactAddActivity(_context, this, notification.getSentFromAddress(), ADD_CONTACT_ACTIVITY);
+				return Common.startContactAddActivity(_context, this, notification.getSentFromAddress(), Constants.ADD_CONTACT_ACTIVITY);
 			}
 			case EDIT_CONTACT_CONTEXT_MENU:{
-				return Common.startContactEditActivity(_context, this, notification.getContactID(), EDIT_CONTACT_ACTIVITY);
+				return Common.startContactEditActivity(_context, this, notification.getContactID(), Constants.EDIT_CONTACT_ACTIVITY);
 			}
 			case VIEW_CONTACT_CONTEXT_MENU:{
-				return Common.startContactViewActivity(_context, this, notification.getContactID(), VIEW_CONTACT_ACTIVITY);
+				return Common.startContactViewActivity(_context, this, notification.getContactID(), Constants.VIEW_CONTACT_ACTIVITY);
 			}
 			case VIEW_CALL_LOG_CONTEXT_MENU:{
-				return Common.startCallLogViewActivity(_context, this, VIEW_CALL_LOG_ACTIVITY);
+				return Common.startCallLogViewActivity(_context, this, Constants.VIEW_CALL_LOG_ACTIVITY);
 			}
 			case CALL_CONTACT_CONTEXT_MENU:{
 				try{
@@ -337,10 +307,10 @@ public class NotificationActivity extends Activity {
 				}
 			}
 			case VIEW_THREAD_CONTEXT_MENU:{
-				if(Common.startMessagingAppViewThreadActivity(_context, this, notification.getSentFromAddress(), VIEW_SMS_THREAD_ACTIVITY)){
+				if(Common.startMessagingAppViewThreadActivity(_context, this, notification.getSentFromAddress(), Constants.VIEW_SMS_THREAD_ACTIVITY)){
 				    //Set "In Reply Screen" flag.
 					SharedPreferences.Editor editor = _preferences.edit();
-					editor.putBoolean(USER_IN_MESSAGING_APP, true);
+					editor.putBoolean(Constants.USER_IN_MESSAGING_APP, true);
 					editor.commit();
 					return true;
 				}else{
@@ -348,10 +318,10 @@ public class NotificationActivity extends Activity {
 				}
 			}
 			case MESSAGING_INBOX_CONTEXT_MENU:{
-				if(Common.startMessagingAppViewInboxActivity(_context, this, MESSAGING_ACTIVITY)){
+				if(Common.startMessagingAppViewInboxActivity(_context, this, Constants.MESSAGING_ACTIVITY)){
 				    //Set "In Reply Screen" flag.
 					SharedPreferences.Editor editor = _preferences.edit();
-					editor.putBoolean(USER_IN_MESSAGING_APP, true);
+					editor.putBoolean(Constants.USER_IN_MESSAGING_APP, true);
 					editor.commit();
 					return true;
 				}else{
@@ -359,13 +329,13 @@ public class NotificationActivity extends Activity {
 				}
 			}
 			case VIEW_CALENDAR_CONTEXT_MENU:{
-				return Common.startViewCalendarActivity(_context, this, CALENDAR_ACTIVITY);
+				return Common.startViewCalendarActivity(_context, this, Constants.CALENDAR_ACTIVITY);
 			}
 			case ADD_CALENDAR_EVENT_CONTEXT_MENU:{
-				return Common.startAddCalendarEventActivity(_context, this, ADD_CALENDAR_ACTIVITY);
+				return Common.startAddCalendarEventActivity(_context, this, Constants.ADD_CALENDAR_ACTIVITY);
 			}
 			case EDIT_CALENDAR_EVENT_CONTEXT_MENU:{
-				return Common.startEditCalendarEventActivity(_context, this, notification.getCalendarEventID(), notification.getCalendarEventStartTime(), notification.getCalendarEventEndTime(), EDIT_CALENDAR_ACTIVITY);
+				return Common.startEditCalendarEventActivity(_context, this, notification.getCalendarEventID(), notification.getCalendarEventStartTime(), notification.getCalendarEventEndTime(), Constants.EDIT_CALENDAR_ACTIVITY);
 			}
 			case DISMISS_NOTIFICATION_CONTEXT_MENU:{
 				try{
@@ -402,7 +372,7 @@ public class NotificationActivity extends Activity {
 		if (_debug) Log.v("NotificationActivity.showDeleteDialog()");
 		int notificationType = _notificationViewFlipper.getActiveNotification().getNotificationType();
 		switch(notificationType){
-			case NOTIFICATION_TYPE_SMS:{
+			case Constants.NOTIFICATION_TYPE_SMS:{
 				if(_preferences.getString(SMS_DELETE_KEY, "0").equals(SMS_DELETE_ACTION_NOTHING)){
 					//Remove the notification from the ViewFlipper.
 					deleteMessage();
@@ -417,7 +387,7 @@ public class NotificationActivity extends Activity {
 				}
 				break;
 			}
-			case NOTIFICATION_TYPE_MMS:{
+			case Constants.NOTIFICATION_TYPE_MMS:{
 				if(_preferences.getString(MMS_DELETE_KEY, "0").equals(MMS_DELETE_ACTION_NOTHING)){
 					//Remove the notification from the ViewFlipper
 					deleteMessage();
@@ -492,7 +462,7 @@ public class NotificationActivity extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent returnedIntent){
 		if (_debug) Log.v("NotificationActivity.onActivityResult( ) requestCode: " + requestCode + " resultCode: " + resultCode);
 	    switch(requestCode) {
-		    case ADD_CONTACT_ACTIVITY:{ 
+		    case Constants.ADD_CONTACT_ACTIVITY:{ 
 		    	if (resultCode == RESULT_OK) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() ADD_CONTACT_ACTIVITY: RESULT_OK");
 		        	//Remove notification from ViewFlipper.
@@ -507,7 +477,7 @@ public class NotificationActivity extends Activity {
 		    	}
 		        break;
 		    }
-		    case EDIT_CONTACT_ACTIVITY:{ 
+		    case Constants.EDIT_CONTACT_ACTIVITY:{ 
 		    	if (resultCode == RESULT_OK) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() EDIT_CONTACT_ACTIVITY: RESULT_OK");
 		        	//Remove notification from ViewFlipper.
@@ -522,7 +492,7 @@ public class NotificationActivity extends Activity {
 		    	}
 		        break;
 		    }
-		    case VIEW_CONTACT_ACTIVITY:{ 
+		    case Constants.VIEW_CONTACT_ACTIVITY:{ 
 		    	if (resultCode == RESULT_OK) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() VIEW_CONTACT_ACTIVITY: RESULT_OK");
 		        	//Remove notification from ViewFlipper.
@@ -537,7 +507,7 @@ public class NotificationActivity extends Activity {
 		    	}
 		        break;
 		    }
-		    case SEND_SMS_ACTIVITY:{ 
+		    case Constants.SEND_SMS_ACTIVITY:{ 
 		    	if (resultCode == RESULT_OK) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() SEND_SMS_ACTIVITY: RESULT_OK");
 		        	//Remove notification from ViewFlipper.
@@ -552,11 +522,11 @@ public class NotificationActivity extends Activity {
 		    	}  
 			    //Set "In Reply Screen" flag.
 				SharedPreferences.Editor editor = _preferences.edit();
-				editor.putBoolean(USER_IN_MESSAGING_APP, false);
+				editor.putBoolean(Constants.USER_IN_MESSAGING_APP, false);
 				editor.commit();
 		        break;
 		    }
-		    case VIEW_SMS_MESSAGE_ACTIVITY:{ 
+		    case Constants.VIEW_SMS_MESSAGE_ACTIVITY:{ 
 		    	if (resultCode == RESULT_OK) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() VIEW_SMS_MESSAGE_ACTIVITY: RESULT_OK");
 		        	//Remove notification from ViewFlipper.
@@ -571,11 +541,11 @@ public class NotificationActivity extends Activity {
 		    	}  
 			    //Set "In Reply Screen" flag.
 				SharedPreferences.Editor editor = _preferences.edit();
-				editor.putBoolean(USER_IN_MESSAGING_APP, false);
+				editor.putBoolean(Constants.USER_IN_MESSAGING_APP, false);
 				editor.commit();
 		        break;
 		    }
-		    case VIEW_SMS_THREAD_ACTIVITY:{ 
+		    case Constants.VIEW_SMS_THREAD_ACTIVITY:{ 
 		    	if (resultCode == RESULT_OK) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() VIEW_SMS_THREAD_ACTIVITY: RESULT_OK");
 		        	//Remove notification from ViewFlipper.
@@ -590,11 +560,11 @@ public class NotificationActivity extends Activity {
 		    	}  
 			    //Set "In Reply Screen" flag.
 				SharedPreferences.Editor editor = _preferences.edit();
-				editor.putBoolean(USER_IN_MESSAGING_APP, false);
+				editor.putBoolean(Constants.USER_IN_MESSAGING_APP, false);
 				editor.commit();
 		        break;
 		    }
-		    case MESSAGING_ACTIVITY:{ 
+		    case Constants.MESSAGING_ACTIVITY:{ 
 		    	if (resultCode == RESULT_OK) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() MESSAGING_ACTIVITY: RESULT_OK");
 		        	//Remove notification from ViewFlipper.
@@ -609,11 +579,11 @@ public class NotificationActivity extends Activity {
 		    	}
 		    	//Set "In Reply Screen" flag.
 				SharedPreferences.Editor editor = _preferences.edit();
-				editor.putBoolean(USER_IN_MESSAGING_APP, false);
+				editor.putBoolean(Constants.USER_IN_MESSAGING_APP, false);
 				editor.commit();
 		        break;
 		    }
-		    case SEND_SMS_QUICK_REPLY_ACTIVITY:{ 
+		    case Constants.SEND_SMS_QUICK_REPLY_ACTIVITY:{ 
 		    	if (resultCode == RESULT_OK) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() SEND_SMS_QUICK_REPLY_ACTIVITY: RESULT_OK");
 		        	//Remove notification from ViewFlipper.
@@ -628,11 +598,11 @@ public class NotificationActivity extends Activity {
 		    	}  
 			    //Set "In Reply Screen" flag.
 				SharedPreferences.Editor editor = _preferences.edit();
-				editor.putBoolean(USER_IN_MESSAGING_APP, false);
+				editor.putBoolean(Constants.USER_IN_MESSAGING_APP, false);
 				editor.commit();
 		        break;
 		    }
-		    case CALL_ACTIVITY:{ 
+		    case Constants.CALL_ACTIVITY:{ 
 		    	if (resultCode == RESULT_OK) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() CALL_ACTIVITY: RESULT_OK");
 		        	//Remove notification from ViewFlipper.
@@ -647,7 +617,7 @@ public class NotificationActivity extends Activity {
 		    	}
 		        break;
 		    }
-		    case ADD_CALENDAR_ACTIVITY:{ 
+		    case Constants.ADD_CALENDAR_ACTIVITY:{ 
 		    	if (resultCode == RESULT_OK) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() ADD_CALENDAR_ACTIVITY: RESULT_OK");
 		        	//Remove notification from ViewFlipper.
@@ -662,7 +632,7 @@ public class NotificationActivity extends Activity {
 		    	}
 		        break;
 		    }
-		    case EDIT_CALENDAR_ACTIVITY:{ 
+		    case Constants.EDIT_CALENDAR_ACTIVITY:{ 
 		    	if (resultCode == RESULT_OK) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() EDIT_CALENDAR_ACTIVITY: RESULT_OK");
 		        	//Remove notification from ViewFlipper.
@@ -677,7 +647,7 @@ public class NotificationActivity extends Activity {
 		    	}
 		        break;
 		    }
-		    case VIEW_CALENDAR_ACTIVITY:{ 
+		    case Constants.VIEW_CALENDAR_ACTIVITY:{ 
 		    	if (resultCode == RESULT_OK) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() VIEW_CALENDAR_ACTIVITY: RESULT_OK");
 		        	//Remove notification from ViewFlipper.
@@ -692,7 +662,7 @@ public class NotificationActivity extends Activity {
 		    	}
 		        break;
 		    }
-		    case VIEW_CALL_LOG_ACTIVITY:{
+		    case Constants.VIEW_CALL_LOG_ACTIVITY:{
 		    	if (resultCode == RESULT_OK) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() VIEW_CALL_LOG_ACTIVITY: RESULT_OK");
 		        	//Remove notification from ViewFlipper.
@@ -707,7 +677,7 @@ public class NotificationActivity extends Activity {
 		    	}
 		        break;
 		    }
-		    case CALENDAR_ACTIVITY:{
+		    case Constants.CALENDAR_ACTIVITY:{
 		    	if (resultCode == RESULT_OK) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() CALENDAR_ACTIVITY: RESULT_OK");
 		        	//Remove notification from ViewFlipper.
@@ -768,32 +738,32 @@ public class NotificationActivity extends Activity {
 	    setContentView(R.layout.notificationwrapper);
 	    setupViews(notificationType);
 	    switch(notificationType){
-	    	case NOTIFICATION_TYPE_TEST:{
+	    	case Constants.NOTIFICATION_TYPE_TEST:{
 		    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_TEST");
 		    	createTestNotifications(); 
 		    	break;
 		    }    
-		    case NOTIFICATION_TYPE_PHONE:{
+		    case Constants.NOTIFICATION_TYPE_PHONE:{
 		    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_PHONE");
 		    	setupMissedCalls(extrasBundle);
 		    	break;
 		    }
-		    case NOTIFICATION_TYPE_SMS:{
+		    case Constants.NOTIFICATION_TYPE_SMS:{
 			    if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_SMS");
 			    setupSMSMessages(extrasBundle, true);
 		    	break;
 		    }
-		    case NOTIFICATION_TYPE_MMS:{
+		    case Constants.NOTIFICATION_TYPE_MMS:{
 		    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_MMS");
 		    	setupMMSMessages(extrasBundle, true);
 		    	break;
 		    }
-		    case NOTIFICATION_TYPE_CALENDAR:{
+		    case Constants.NOTIFICATION_TYPE_CALENDAR:{
 		    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_CALENDAR");
 		    	setupCalendarEventNotifications(extrasBundle);
 		    	break;
 		    }
-		    case NOTIFICATION_TYPE_GMAIL:{
+		    case Constants.NOTIFICATION_TYPE_GMAIL:{
 		    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_GMAIL");
 		    	//TODO - Email
 		    	break;
@@ -811,7 +781,7 @@ public class NotificationActivity extends Activity {
 	    _keyguardHandler.sleep(keyguardTimeout);  
 	    //Set "In Reply Screen" flag.
 		SharedPreferences.Editor editor = _preferences.edit();
-		editor.putBoolean(USER_IN_MESSAGING_APP, false);
+		editor.putBoolean(Constants.USER_IN_MESSAGING_APP, false);
 		editor.commit();
 	}
 	  
@@ -866,7 +836,7 @@ public class NotificationActivity extends Activity {
 	    reenableKeyguardLock();
 	    //Set "In Reply Screen" flag.
 		SharedPreferences.Editor editor = _preferences.edit();
-		editor.putBoolean(USER_IN_MESSAGING_APP, false);
+		editor.putBoolean(Constants.USER_IN_MESSAGING_APP, false);
 		editor.commit();
 	}
 
@@ -892,13 +862,13 @@ public class NotificationActivity extends Activity {
 				builder.setIcon(android.R.drawable.ic_dialog_alert);
 				builder.setTitle(_context.getString(R.string.delete_text));
 				//Action is determined by the users preferences. 
-				if(notificationType == NOTIFICATION_TYPE_SMS){
+				if(notificationType == Constants.NOTIFICATION_TYPE_SMS){
 					if(_preferences.getString(SMS_DELETE_KEY, "0").equals(SMS_DELETE_ACTION_DELETE_MESSAGE)){
 						builder.setMessage(_context.getString(R.string.delete_message_dialog_text));
 					}else if(_preferences.getString(SMS_DELETE_KEY, "0").equals(SMS_DELETE_ACTION_DELETE_THREAD)){
 						builder.setMessage(_context.getString(R.string.delete_thread_dialog_text));
 					}
-				}else if(notificationType == NOTIFICATION_TYPE_MMS){
+				}else if(notificationType == Constants.NOTIFICATION_TYPE_MMS){
 					if(_preferences.getString(MMS_DELETE_KEY, "0").equals(MMS_DELETE_ACTION_DELETE_MESSAGE)){
 						builder.setMessage(_context.getString(R.string.delete_message_dialog_text));
 					}else if(_preferences.getString(MMS_DELETE_KEY, "0").equals(MMS_DELETE_ACTION_DELETE_THREAD)){
@@ -939,27 +909,27 @@ public class NotificationActivity extends Activity {
 	    int notificationType = extrasBundle.getInt("notificationType");
 	    if (_debug) Log.v("NotificationActivity.onNewIntent() Notification Type: " + notificationType);
 	    switch(notificationType){
-	    	case NOTIFICATION_TYPE_PHONE:{
+	    	case Constants.NOTIFICATION_TYPE_PHONE:{
 		    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_PHONE");
 		    	setupMissedCalls(extrasBundle);
 		    	break;
 		    }
-	    	case NOTIFICATION_TYPE_SMS:{
+	    	case Constants.NOTIFICATION_TYPE_SMS:{
 			    if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_SMS");
 			    setupSMSMessages(extrasBundle, false);
 		    	break;
 		    }
-	    	case NOTIFICATION_TYPE_MMS:{
+	    	case Constants.NOTIFICATION_TYPE_MMS:{
 		    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_MMS");
 		    	setupMMSMessages(extrasBundle, false);
 		    	break;
 		    }
-	    	case NOTIFICATION_TYPE_CALENDAR:{
+	    	case Constants.NOTIFICATION_TYPE_CALENDAR:{
 		    	if (_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_CALENDAR");
 			    setupCalendarEventNotifications(extrasBundle);
 		    	break;
 		    }
-	    	case NOTIFICATION_TYPE_GMAIL:{
+	    	case Constants.NOTIFICATION_TYPE_GMAIL:{
 		    	if (_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_GMAIL");
 		    	//TODO - Email
 		    	break;
@@ -1027,14 +997,14 @@ public class NotificationActivity extends Activity {
 				if(_preferences.getBoolean(SCREEN_ENABLED_KEY, true)){
 					if(_preferences.getBoolean(SCREEN_DIM_ENABLED_KEY, true)){
 						if (_debug) Log.v("NotificationActivity.acquireWakeLock() Screen Wake Enabled Dim.");
-						_wakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, DROID_NOTIFY_WAKELOCK);
+						_wakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, Constants.DROID_NOTIFY_WAKELOCK);
 					}else{
 						if (_debug) Log.v("NotificationActivity.acquireWakeLock() Screen Wake Enabled Full.");
-						_wakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, DROID_NOTIFY_WAKELOCK);
+						_wakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, Constants.DROID_NOTIFY_WAKELOCK);
 					}
 				}else{
 					if (_debug) Log.v("NotificationActivity.acquireWakeLock() Turn On Screen Disabled.");
-					_wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, DROID_NOTIFY_WAKELOCK);
+					_wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, Constants.DROID_NOTIFY_WAKELOCK);
 				}
 			}
 			if(_wakeLock != null){
@@ -1072,7 +1042,7 @@ public class NotificationActivity extends Activity {
 		if (_debug) Log.v("NotificationActivity.disableKeyguardLock()");
 		try{
 			KeyguardManager km = (KeyguardManager)getSystemService(Context.KEYGUARD_SERVICE);
-			_keyguardLock = km.newKeyguardLock(DROID_NOTIFY_KEYGUARD);
+			_keyguardLock = km.newKeyguardLock(Constants.DROID_NOTIFY_KEYGUARD);
 			if(_preferences.getBoolean(SCREEN_ENABLED_KEY, true) && _preferences.getBoolean(KEYGUARD_ENABLED_KEY, true)){
 				_keyguardLock.disableKeyguard();
 			}
@@ -1102,7 +1072,7 @@ public class NotificationActivity extends Activity {
 	private void playRingtone(int notificationType){
 		if (_debug) Log.v("NotificationActivity.playRingtone()");
 		long rintoneStopValue = Long.parseLong(_preferences.getString(RINGTONE_LENGTH_KEY, "3")) * 1000;
-		if(notificationType == NOTIFICATION_TYPE_TEST){
+		if(notificationType == Constants.NOTIFICATION_TYPE_TEST){
 			try{
 				_ringtone = RingtoneManager.getRingtone(_context, Uri.parse(_preferences.getString(SMS_RINGTONE_KEY, "DEFAULT_SOUND")));
 				if(_ringtone != null) _ringtone.play();
@@ -1110,7 +1080,7 @@ public class NotificationActivity extends Activity {
  	    		if (_debug) Log.e("NotificationActivity.playRingtone() NOTIFICATION_TYPE_TEST ERROR: " + ex.toString());
 	    	}
 		}
-	    if(notificationType == NOTIFICATION_TYPE_PHONE){
+	    if(notificationType == Constants.NOTIFICATION_TYPE_PHONE){
 	 		if(_preferences.getBoolean(MISSED_CALL_RINGTONE_ENABLED_KEY, false)){
 	 	    	try{
 		 			_ringtone = RingtoneManager.getRingtone(_context, Uri.parse(_preferences.getString(MISSED_CALL_RINGTONE_KEY, "DEFAULT_SOUND")));
@@ -1120,7 +1090,7 @@ public class NotificationActivity extends Activity {
 		    	}
 	 		}
 	    }
-	    if(notificationType == NOTIFICATION_TYPE_SMS){
+	    if(notificationType == Constants.NOTIFICATION_TYPE_SMS){
 	 	    if(_preferences.getBoolean(SMS_RINGTONE_ENABLED_KEY, false)){
 	 	    	try{
 		 	    	_ringtone = RingtoneManager.getRingtone(_context, Uri.parse(_preferences.getString(SMS_RINGTONE_KEY, "DEFAULT_SOUND")));
@@ -1130,7 +1100,7 @@ public class NotificationActivity extends Activity {
 		    	}
 	 	    }
 	    }
-	    if(notificationType == NOTIFICATION_TYPE_MMS){
+	    if(notificationType == Constants.NOTIFICATION_TYPE_MMS){
 	 	    if(_preferences.getBoolean(MMS_RINGTONE_ENABLED_KEY, false)){
 	 	    	try{
 		 	    	_ringtone = RingtoneManager.getRingtone(_context, Uri.parse(_preferences.getString(MMS_RINGTONE_KEY, "DEFAULT_SOUND")));
@@ -1140,7 +1110,7 @@ public class NotificationActivity extends Activity {
 		    	}
 	 	    }
 	    }
-	    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
+	    if(notificationType == Constants.NOTIFICATION_TYPE_CALENDAR){
 	 	    if(_preferences.getBoolean(CALENDAR_RINGTONE_ENABLED_KEY, false)){
 	 	    	try{
 	 	    		_ringtone = RingtoneManager.getRingtone(_context, Uri.parse(_preferences.getString(CALENDAR_RINGTONE_KEY, "DEFAULT_SOUND")));
@@ -1150,7 +1120,7 @@ public class NotificationActivity extends Activity {
 		    	}
 	 	    }
 	    }
-	    if(notificationType == NOTIFICATION_TYPE_GMAIL){
+	    if(notificationType == Constants.NOTIFICATION_TYPE_GMAIL){
 	    	//TODO - Email
 	    }
 		_ringtoneHandler.sleep(rintoneStopValue);
@@ -1185,35 +1155,35 @@ public class NotificationActivity extends Activity {
 			//Set vibration based on user preferences.
 			if(preferences.getBoolean(ALL_VIBRATE_ENABLED_KEY, true)){
 				switch(notificationType){
-					case NOTIFICATION_TYPE_TEST:{
+					case Constants.NOTIFICATION_TYPE_TEST:{
 						if(vibrator != null) vibrator.vibrate(1 * 1000);
 						break;
 					}
-					case NOTIFICATION_TYPE_PHONE:{
+					case Constants.NOTIFICATION_TYPE_PHONE:{
 				 	    if(preferences.getBoolean(MISSED_CALL_VIBRATE_ENABLED_KEY, true)){
 				 	    	if(vibrator != null) vibrator.vibrate(1 * 1000);
 				 	    }
 						break;
 				    }
-					case NOTIFICATION_TYPE_SMS:{
+					case Constants.NOTIFICATION_TYPE_SMS:{
 				 	    if(preferences.getBoolean(SMS_VIBRATE_ENABLED_KEY, true)){
 				 	    	if(vibrator != null) vibrator.vibrate(1 * 1000);
 				 	    }
 						break;
 				    }
-					case NOTIFICATION_TYPE_MMS:{
+					case Constants.NOTIFICATION_TYPE_MMS:{
 				 	    if(preferences.getBoolean(MMS_VIBRATE_ENABLED_KEY, true)){
 				 	    	if(vibrator != null) vibrator.vibrate(1 * 1000);
 				 	    }
 						break;
 				    }
-					case NOTIFICATION_TYPE_CALENDAR:{
+					case Constants.NOTIFICATION_TYPE_CALENDAR:{
 				 	    if(preferences.getBoolean(CALENDAR_VIBRATE_ENABLED_KEY, true)){
 				 	    	if(vibrator != null) vibrator.vibrate(1 * 1000);
 				 	    }
 						break;
 				    }
-					case NOTIFICATION_TYPE_GMAIL:{
+					case Constants.NOTIFICATION_TYPE_GMAIL:{
 				    	//TODO - Email
 						break;
 				    }
@@ -1235,13 +1205,13 @@ public class NotificationActivity extends Activity {
 		if (_debug) Log.v("NotificationActivity.createTextNotifications()");
 		NotificationViewFlipper notificationViewFlipper = _notificationViewFlipper;
 		//Add SMS Message Notification.
-		Notification smsNotification = new Notification(_context, "5555555555", "Droid Notify SMS Message Test", System.currentTimeMillis(), NOTIFICATION_TYPE_SMS);
+		Notification smsNotification = new Notification(_context, "5555555555", "Droid Notify SMS Message Test", System.currentTimeMillis(), Constants.NOTIFICATION_TYPE_SMS);
 		notificationViewFlipper.addNotification(smsNotification);
 		//Add Missed Call Notification.
-		Notification missedCallNotification = new Notification(_context, 0, "5555555555", System.currentTimeMillis(), 0, "", 0, "", NOTIFICATION_TYPE_PHONE);
+		Notification missedCallNotification = new Notification(_context, 0, "5555555555", System.currentTimeMillis(), 0, "", 0, "", Constants.NOTIFICATION_TYPE_PHONE);
 		notificationViewFlipper.addNotification(missedCallNotification);
 		//Add Calendar Event Notification.
-		Notification calendarEventNotification = new Notification(_context, "Droid Notify Calendar Event Test", "", System.currentTimeMillis(), System.currentTimeMillis() + (10 * 60 * 1000), false, "Test Calendar",  0, 0, NOTIFICATION_TYPE_CALENDAR);
+		Notification calendarEventNotification = new Notification(_context, "Droid Notify Calendar Event Test", "", System.currentTimeMillis(), System.currentTimeMillis() + (10 * 60 * 1000), false, "Test Calendar",  0, 0, Constants.NOTIFICATION_TYPE_CALENDAR);
 		notificationViewFlipper.addNotification(calendarEventNotification);	
 	}
 	
@@ -1347,10 +1317,10 @@ public class NotificationActivity extends Activity {
 	 */
 	private boolean sendSMSMessage(String phoneNumber){
 		if (_debug) Log.v("NotificationActivity.sendSMSMessage()");
-		if(Common.startMessagingAppReplyActivity(_context, this, phoneNumber, SEND_SMS_ACTIVITY)){
+		if(Common.startMessagingAppReplyActivity(_context, this, phoneNumber, Constants.SEND_SMS_ACTIVITY)){
 			//Set "In Reply Screen" flag.
 			SharedPreferences.Editor editor = _preferences.edit();
-			editor.putBoolean(USER_IN_MESSAGING_APP, true);
+			editor.putBoolean(Constants.USER_IN_MESSAGING_APP, true);
 			editor.commit();
 			return true;
 		}else{
@@ -1365,7 +1335,7 @@ public class NotificationActivity extends Activity {
 	 */
 	private boolean makePhoneCall(String phoneNumber){
 		if (_debug) Log.v("NotificationActivity.makePhoneCall()");
-		return Common.makePhoneCall(_context, this, phoneNumber, CALL_ACTIVITY);
+		return Common.makePhoneCall(_context, this, phoneNumber, Constants.CALL_ACTIVITY);
 	}	
 	
 	/**
@@ -1554,7 +1524,7 @@ public class NotificationActivity extends Activity {
 			}catch(Exception ex){
 				if (_debug) Log.e("NotificationActivity.setupSMSMessages() ERROR: " + ex.toString());
 			}
-    		_notificationViewFlipper.addNotification(new Notification(_context, messageAddress, messageBody, messageID, threadID, timeStamp, contactID, contactName, photoID, lookupKey, NOTIFICATION_TYPE_SMS));
+    		_notificationViewFlipper.addNotification(new Notification(_context, messageAddress, messageBody, messageID, threadID, timeStamp, contactID, contactName, photoID, lookupKey, Constants.NOTIFICATION_TYPE_SMS));
 		}
 		if(loadAllNew){
 			//Load all unread SMS messages.
@@ -1614,7 +1584,7 @@ public class NotificationActivity extends Activity {
 			}catch(Exception ex){
 				if (_debug) Log.e("NotificationActivity.setupMMSMessages() ERROR: " + ex.toString());
 			}
-    		_notificationViewFlipper.addNotification(new Notification(_context, messageAddress, messageBody, messageID, threadID, timeStamp, contactID, contactName, photoID, lookupKey, NOTIFICATION_TYPE_MMS));
+    		_notificationViewFlipper.addNotification(new Notification(_context, messageAddress, messageBody, messageID, threadID, timeStamp, contactID, contactName, photoID, lookupKey, Constants.NOTIFICATION_TYPE_MMS));
 		}
 		if(loadAllNew){
 			//Load all unread MMS messages.
@@ -1688,7 +1658,7 @@ public class NotificationActivity extends Activity {
 				}catch(Exception ex){
 					if (_debug) Log.e("NotificationActivity.getAllUnreadSMSMessagesAsyncTask.onPostExecute() ERROR: " + ex.toString());
 				}
-	    		_notificationViewFlipper.addNotification(new Notification(_context, messageAddress, messageBody, messageID, threadID, timeStamp, contactID, contactName, photoID, lookupKey, NOTIFICATION_TYPE_SMS));
+	    		_notificationViewFlipper.addNotification(new Notification(_context, messageAddress, messageBody, messageID, threadID, timeStamp, contactID, contactName, photoID, lookupKey, Constants.NOTIFICATION_TYPE_SMS));
 			}
 	    }
 	}
@@ -1814,7 +1784,7 @@ public class NotificationActivity extends Activity {
 				}catch(Exception ex){
 					if (_debug) Log.e("NotificationActivity.getAllUnreadMMSMessagesAsyncTask.onPostExecute() ERROR: " + ex.toString());
 				}
-	    		_notificationViewFlipper.addNotification(new Notification(_context, messageAddress, messageBody, messageID, threadID, timeStamp, contactID, contactName, photoID, lookupKey, NOTIFICATION_TYPE_SMS));
+	    		_notificationViewFlipper.addNotification(new Notification(_context, messageAddress, messageBody, messageID, threadID, timeStamp, contactID, contactName, photoID, lookupKey, Constants.NOTIFICATION_TYPE_SMS));
 			}
 	    }
 	}
@@ -1917,7 +1887,7 @@ public class NotificationActivity extends Activity {
 			}catch(Exception ex){
 				if (_debug) Log.e("NotificationActivity.setupMissedCalls() ERROR: " + ex.toString());
 			}
-			_notificationViewFlipper.addNotification(new Notification(_context, callLogID, phoneNumber, timeStamp, contactID, contactName, photoID, lookupKey, NOTIFICATION_TYPE_PHONE));
+			_notificationViewFlipper.addNotification(new Notification(_context, callLogID, phoneNumber, timeStamp, contactID, contactName, photoID, lookupKey, Constants.NOTIFICATION_TYPE_PHONE));
 		}
 	    return true;
 	}
@@ -1956,7 +1926,7 @@ public class NotificationActivity extends Activity {
 			if (_debug) Log.e("NotificationActivity.setupCalendarEventNotifications() Error: " + ex.toString());  
 			return;
 		}
-		_notificationViewFlipper.addNotification(new Notification(_context, title, messageBody, eventStartTime, eventEndTime, eventAllDay, calendarName, calendarID, eventID, NOTIFICATION_TYPE_CALENDAR));	
+		_notificationViewFlipper.addNotification(new Notification(_context, title, messageBody, eventStartTime, eventEndTime, eventAllDay, calendarName, calendarID, eventID, Constants.NOTIFICATION_TYPE_CALENDAR));	
 	}
 	
 	/**
@@ -1967,7 +1937,7 @@ public class NotificationActivity extends Activity {
 	 */
 	private void setupContextMenus(ContextMenu contextMenu, int notificationType){
 		switch(notificationType){
-			case NOTIFICATION_TYPE_PHONE:{
+			case Constants.NOTIFICATION_TYPE_PHONE:{
 				MenuItem viewCalendarEventMenuItem = contextMenu.findItem(VIEW_CALENDAR_CONTEXT_MENU);
 				viewCalendarEventMenuItem.setVisible(false);
 		    	MenuItem addCalendarEventMenuItem = contextMenu.findItem(ADD_CALENDAR_EVENT_CONTEXT_MENU);
@@ -1980,7 +1950,7 @@ public class NotificationActivity extends Activity {
 				messagingInboxMenuItem.setVisible(false);
 				break;
 		    }
-			case NOTIFICATION_TYPE_SMS:{
+			case Constants.NOTIFICATION_TYPE_SMS:{
 				MenuItem viewCalendarEventMenuItem = contextMenu.findItem(VIEW_CALENDAR_CONTEXT_MENU);
 				viewCalendarEventMenuItem.setVisible(false);
 		    	MenuItem addCalendarEventMenuItem = contextMenu.findItem(ADD_CALENDAR_EVENT_CONTEXT_MENU);
@@ -1991,7 +1961,7 @@ public class NotificationActivity extends Activity {
 				viewCallLogMenuItem.setVisible(false);
 				break;
 		    }
-			case NOTIFICATION_TYPE_MMS:{
+			case Constants.NOTIFICATION_TYPE_MMS:{
 				MenuItem viewCalendarEventMenuItem = contextMenu.findItem(VIEW_CALENDAR_CONTEXT_MENU);
 				viewCalendarEventMenuItem.setVisible(false);
 		    	MenuItem addCalendarEventMenuItem = contextMenu.findItem(ADD_CALENDAR_EVENT_CONTEXT_MENU);
@@ -2002,7 +1972,7 @@ public class NotificationActivity extends Activity {
 				viewCallLogMenuItem.setVisible(false);
 				break;
 		    }
-			case NOTIFICATION_TYPE_CALENDAR:{
+			case Constants.NOTIFICATION_TYPE_CALENDAR:{
 				MenuItem addContactMenuItem = contextMenu.findItem(ADD_CONTACT_CONTEXT_MENU);
 				addContactMenuItem.setVisible(false);
 		    	MenuItem viewContactMenuItem = contextMenu.findItem(VIEW_CONTACT_CONTEXT_MENU);
@@ -2021,7 +1991,7 @@ public class NotificationActivity extends Activity {
 				messagingInboxMenuItem.setVisible(false);
 				break;
 		    }
-			case NOTIFICATION_TYPE_GMAIL:{
+			case Constants.NOTIFICATION_TYPE_GMAIL:{
 				MenuItem viewCalendarEventMenuItem = contextMenu.findItem(VIEW_CALENDAR_CONTEXT_MENU);
 				viewCalendarEventMenuItem.setVisible(false);
 		    	MenuItem addCalendarEventMenuItem = contextMenu.findItem(ADD_CALENDAR_EVENT_CONTEXT_MENU);

@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import apps.droidnotify.common.Common;
+import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
 
 /**
@@ -23,12 +24,6 @@ public class Notification {
 	//================================================================================
     // Constants
     //================================================================================
-	
-	private static final int NOTIFICATION_TYPE_PHONE = 0;
-	private static final int NOTIFICATION_TYPE_SMS = 1;
-	private static final int NOTIFICATION_TYPE_MMS = 2;
-	private static final int NOTIFICATION_TYPE_CALENDAR = 3;
-	private static final int NOTIFICATION_TYPE_GMAIL = 4;
 	
 	private static final String SMS_DISMISS_KEY = "sms_dismiss_button_action";
 	private static final String MMS_DISMISS_KEY = "mms_dismiss_button_action";
@@ -86,19 +81,19 @@ public class Notification {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Notification.Notification(Context contex, String sentFromAddress, String messageBody, long messageID, long threadID, long timeStamp, long contactID, String contactName, long photoID, String lookupKey, int notificationType)");
 		try{
-			if(notificationType == NOTIFICATION_TYPE_PHONE){
+			if(notificationType == Constants.NOTIFICATION_TYPE_PHONE){
 				_title = "Missed Call";
 		    }
-			if(notificationType == NOTIFICATION_TYPE_SMS){
+			if(notificationType == Constants.NOTIFICATION_TYPE_SMS){
 				_title = "SMS Message";
 			}
-			if(notificationType == NOTIFICATION_TYPE_MMS){
+			if(notificationType == Constants.NOTIFICATION_TYPE_MMS){
 				_title = "MMS Message";	
 		    }
-		    if(notificationType == NOTIFICATION_TYPE_CALENDAR){
+		    if(notificationType == Constants.NOTIFICATION_TYPE_CALENDAR){
 		    	_title = "Calendar Event";
 		    }
-		    if(notificationType == NOTIFICATION_TYPE_GMAIL){
+		    if(notificationType == Constants.NOTIFICATION_TYPE_GMAIL){
 		    	_title = "Email";
 		    }
 			_context = context;
@@ -139,23 +134,23 @@ public class Notification {
 		if (_debug) Log.v("Notification.Notification(Context context, String phoneNumber, String messageBody, long timeStamp, int notificationType)");
 		try{			
 			switch(notificationType){
-				case NOTIFICATION_TYPE_PHONE:{
+				case Constants.NOTIFICATION_TYPE_PHONE:{
 					_title = "Missed Call";
 					break;
 				}
-				case NOTIFICATION_TYPE_SMS:{
+				case Constants.NOTIFICATION_TYPE_SMS:{
 					_title = "SMS Message";
 					break;
 				}
-				case NOTIFICATION_TYPE_MMS:{
+				case Constants.NOTIFICATION_TYPE_MMS:{
 					_title = "MMS Message";	
 					break;
 				}
-				case NOTIFICATION_TYPE_CALENDAR:{
+				case Constants.NOTIFICATION_TYPE_CALENDAR:{
 					_title = "Calendar Event";
 					break;
 				}
-				case NOTIFICATION_TYPE_GMAIL:{
+				case Constants.NOTIFICATION_TYPE_GMAIL:{
 					_title = "Email";
 					break;
 				}
@@ -181,23 +176,23 @@ public class Notification {
 		if (_debug) Log.v("Notification.Notification(Context context, long callLogID, String sentFromAddress, long timeStamp, long contactID, string contactName, long photoID, String lookupKey, int notificationType)");
 		try{
 			switch(notificationType){
-				case NOTIFICATION_TYPE_PHONE:{
+				case Constants.NOTIFICATION_TYPE_PHONE:{
 					_title = "Missed Call";
 					break;
 				}
-				case NOTIFICATION_TYPE_SMS:{
+				case Constants.NOTIFICATION_TYPE_SMS:{
 					_title = "SMS Message";
 					break;
 				}
-				case NOTIFICATION_TYPE_MMS:{
+				case Constants.NOTIFICATION_TYPE_MMS:{
 					_title = "MMS Message";	
 					break;
 				}
-				case NOTIFICATION_TYPE_CALENDAR:{
+				case Constants.NOTIFICATION_TYPE_CALENDAR:{
 					_title = "Calendar Event";
 					break;
 				}
-				case NOTIFICATION_TYPE_GMAIL:{
+				case Constants.NOTIFICATION_TYPE_GMAIL:{
 					_title = "Email";
 					break;
 				}
@@ -249,7 +244,7 @@ public class Notification {
 	    	_timeStamp = eventStartTime;
 	    	_title = title;
 	    	_allDay = allDay;
-	    	if(notificationType == NOTIFICATION_TYPE_CALENDAR){
+	    	if(notificationType == Constants.NOTIFICATION_TYPE_CALENDAR){
 	    		_messageBody = formatCalendarEventMessage(messageBody, eventStartTime, eventEndTime, allDay, calendarName).replace("\n", "<br/>").trim();
 	    	}else{
 	    		_messageBody = messageBody;
@@ -505,7 +500,7 @@ public class Notification {
 	 */
 	public void setViewed(boolean isViewed){
 		if (_debug) Log.v("Notification.setViewed()");
-    	if(_notificationType == NOTIFICATION_TYPE_PHONE){
+    	if(_notificationType == Constants.NOTIFICATION_TYPE_PHONE){
     		//Action is determined by the users preferences. 
     		//Either mark the call log as viewed, delete the call log entry, or do nothing to the call log entry.
     		if(_preferences.getString(MISSED_CALL_DISMISS_KEY, "0").equals(MISSED_CALL_DISMISS_ACTION_MARK_READ)){
@@ -514,24 +509,24 @@ public class Notification {
     			deleteFromCallLog();
     		}
 	    }
-    	if(_notificationType == NOTIFICATION_TYPE_SMS){
+    	if(_notificationType == Constants.NOTIFICATION_TYPE_SMS){
     		//Action is determined by the users preferences. 
     		//Either mark the message as viewed or do nothing to the message.
     		if(_preferences.getString(SMS_DISMISS_KEY, "0").equals(SMS_DISMISS_ACTION_MARK_READ)){
     			setMessageRead(isViewed);
     		}
     	}
-    	if(_notificationType == NOTIFICATION_TYPE_MMS){
+    	if(_notificationType == Constants.NOTIFICATION_TYPE_MMS){
     		//Action is determined by the users preferences. 
     		//Either mark the message as viewed or do nothing to the message.
     		if(_preferences.getString(MMS_DISMISS_KEY, "0").equals(MMS_DISMISS_ACTION_MARK_READ)){
     			setMessageRead(isViewed);
     		}
     	}
-	    if(_notificationType == NOTIFICATION_TYPE_CALENDAR){
+	    if(_notificationType == Constants.NOTIFICATION_TYPE_CALENDAR){
 	    	//Do nothing. There is no log to update for Calendar Events.
 	    }
-	    if(_notificationType == NOTIFICATION_TYPE_GMAIL){
+	    if(_notificationType == Constants.NOTIFICATION_TYPE_GMAIL){
 	    	setEmailRead(isViewed);
 	    }
 	}
@@ -545,7 +540,7 @@ public class Notification {
 		//Delete the single message, delete the entire thread, or do nothing.
 		boolean deleteThread = false;
 		boolean deleteMessage = false;
-		if(_notificationType == NOTIFICATION_TYPE_SMS){
+		if(_notificationType == Constants.NOTIFICATION_TYPE_SMS){
 			if(_preferences.getString(SMS_DELETE_KEY, "0").equals(SMS_DELETE_ACTION_DELETE_MESSAGE)){
 				deleteThread = false;
 				deleteMessage = true;
@@ -553,7 +548,7 @@ public class Notification {
 				deleteThread = true;
 				deleteMessage = false;
 			}
-		}else if(_notificationType == NOTIFICATION_TYPE_MMS){
+		}else if(_notificationType == Constants.NOTIFICATION_TYPE_MMS){
 			if(_preferences.getString(MMS_DELETE_KEY, "0").equals(MMS_DELETE_ACTION_DELETE_MESSAGE)){
 				deleteThread = false;
 				deleteMessage = true;

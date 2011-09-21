@@ -13,6 +13,7 @@ import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
+import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
 
 /**
@@ -25,9 +26,6 @@ public class NotificationViewFlipper extends ViewFlipper {
 	//================================================================================
     // Constants
     //================================================================================
-	
-	private static final int NOTIFICATION_TYPE_SMS = 1;
-	private static final int NOTIFICATION_TYPE_MMS = 2;
 	
 	private static final String SMS_DELETE_KEY = "sms_delete_button_action";
 	private static final String MMS_DELETE_KEY = "mms_delete_button_action";
@@ -181,7 +179,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 		Notification notification = getNotification(_currentNotification);
 		int notificationType = notification.getNotificationType();
 		switch(notificationType){
-			case NOTIFICATION_TYPE_SMS:{
+			case Constants.NOTIFICATION_TYPE_SMS:{
 				if(_preferences.getString(SMS_DELETE_KEY, "0").equals(SMS_DELETE_ACTION_NOTHING)){
 					//Remove the notification from the ViewFlipper
 					removeActiveNotification();
@@ -199,7 +197,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 				}
 				break;
 			}
-			case NOTIFICATION_TYPE_MMS:{
+			case Constants.NOTIFICATION_TYPE_MMS:{
 				if(_preferences.getString(MMS_DELETE_KEY, "0").equals(MMS_DELETE_ACTION_NOTHING)){
 					//Remove the notification from the ViewFlipper
 					removeActiveNotification();
