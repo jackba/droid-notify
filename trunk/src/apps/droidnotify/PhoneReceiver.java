@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
+import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
 
 /**
@@ -16,14 +17,6 @@ import apps.droidnotify.log.Log;
  * @author Camille Sévigny
  */
 public class PhoneReceiver extends BroadcastReceiver{
-
-	//================================================================================
-    // Constants
-    //================================================================================
-    
-	private static final String APP_ENABLED_KEY = "app_enabled";
-	private static final String MISSED_CALL_NOTIFICATIONS_ENABLED_KEY = "missed_call_notifications_enabled";
-    private static final String CALL_LOG_TIMEOUT_KEY = "call_log_timeout_settings";
 	
 	//================================================================================
     // Properties
@@ -48,12 +41,12 @@ public class PhoneReceiver extends BroadcastReceiver{
 		if (_debug) Log.v("PhoneReceiver.onReceive()");
 		//Read preferences and exit if app is disabled.
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-	    if(!preferences.getBoolean(APP_ENABLED_KEY, true)){
+	    if(!preferences.getBoolean(Constants.APP_ENABLED_KEY, true)){
 			if (_debug) Log.v("PhoneReceiver.onReceive() App Disabled. Exiting...");
 			return;
 		}
 		//Read preferences and exit if missed call notifications are disabled.
-	    if(!preferences.getBoolean(MISSED_CALL_NOTIFICATIONS_ENABLED_KEY, true)){
+	    if(!preferences.getBoolean(Constants.MISSED_CALL_NOTIFICATIONS_ENABLED_KEY, true)){
 			if (_debug) Log.v("PhoneReceiver.onReceive() Missed Call Notifications Disabled. Exiting... ");
 			return;
 		}
@@ -64,7 +57,7 @@ public class PhoneReceiver extends BroadcastReceiver{
 			//Schedule phone task x seconds after the broadcast.
 			//This time is set by the users advanced preferences. 5 seconds is the default value.
 			//This should allow enough time to pass for the phone log to be written to.
-			long timeoutInterval = Long.parseLong(preferences.getString(CALL_LOG_TIMEOUT_KEY, "5")) * 1000;
+			long timeoutInterval = Long.parseLong(preferences.getString(Constants.CALL_LOG_TIMEOUT_KEY, "5")) * 1000;
 			AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 			Intent phoneIntent = new Intent(context, PhoneAlarmReceiver.class);
 			PendingIntent phonePendingIntent = PendingIntent.getBroadcast(context, 0, phoneIntent, 0);

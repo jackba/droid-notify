@@ -17,6 +17,7 @@ import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
 import android.os.PowerManager;
+import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
 
 /**
@@ -32,7 +33,6 @@ abstract public class WakefulIntentService extends IntentService {
     // Properties
     //================================================================================
 	
-	public static final String LOCK_NAME_STATIC="app.droidnotify.android.syssvc.AppService.Static";
 	private static PowerManager.WakeLock lockStatic = null;
 
 	//================================================================================
@@ -107,7 +107,7 @@ abstract public class WakefulIntentService extends IntentService {
 		if (Log.getDebug()) Log.v("WakefulIntentService.getLock()");
 		if (lockStatic==null) {
 			PowerManager mgr=(PowerManager)context.getSystemService(Context.POWER_SERVICE);
-			lockStatic=mgr.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, LOCK_NAME_STATIC);
+			lockStatic=mgr.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, Constants.LOCK_NAME_STATIC);
 			lockStatic.setReferenceCounted(true);
 		}
 		return(lockStatic);

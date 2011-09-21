@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
 
 /**
@@ -19,9 +20,7 @@ public class OnBootReceiver extends BroadcastReceiver {
 	//================================================================================
     // Constants
     //================================================================================
-    
-	private static final String APP_ENABLED_KEY = "app_enabled";
-	private static final String CALENDAR_NOTIFICATIONS_ENABLED_KEY = "calendar_notifications_enabled";
+
 	private static final String CALENDAR_POLLING_FREQUENCY_KEY = "calendar_polling_frequency";
 
 	//================================================================================
@@ -47,12 +46,12 @@ public class OnBootReceiver extends BroadcastReceiver {
 		if (_debug) Log.v("OnBootReceiver.onReceive()");
 		//Read preferences and exit if app is disabled.
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-	    if(!preferences.getBoolean(APP_ENABLED_KEY, true)){
+	    if(!preferences.getBoolean(Constants.APP_ENABLED_KEY, true)){
 			if (_debug) Log.v("OnBootReceiver.onReceive() App Disabled. Exiting...");
 			return;
 		}
 		//Read preferences and exit if calendar notifications are disabled.
-	    if(!preferences.getBoolean(CALENDAR_NOTIFICATIONS_ENABLED_KEY, true)){
+	    if(!preferences.getBoolean(Constants.CALENDAR_NOTIFICATIONS_ENABLED_KEY, true)){
 			if (_debug) Log.v("OnBootReceiver.onReceive() Calendar Notifications Disabled. Exiting... ");
 			return;
 		}

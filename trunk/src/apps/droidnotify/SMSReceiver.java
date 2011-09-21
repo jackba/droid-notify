@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 import apps.droidnotify.common.Common;
+import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
 
 /**
@@ -18,24 +19,6 @@ import apps.droidnotify.log.Log;
  */
 public class SMSReceiver extends BroadcastReceiver{
 
-	//================================================================================
-    // Constants
-    //================================================================================
-	
-	private static final boolean READ_SMS_FROM_DISK = true;
-	
-	private static final String APP_ENABLED_KEY = "app_enabled";
-	private static final String SMS_NOTIFICATIONS_ENABLED_KEY = "sms_notifications_enabled";
-	private static final String RESCHEDULE_NOTIFICATIONS_ENABLED = "reschedule_notifications_enabled";
-	private static final String RESCHEDULE_NOTIFICATION_TIMEOUT_KEY = "reschedule_notification_timeout_settings";
-	private static final String USER_IN_MESSAGING_APP = "user_in_messaging_app";
-	private static final String MESSAGING_APP_RUNNING_ACTION_SMS = "messaging_app_running_action_sms";
-	
-	private static final String MESSAGING_APP_RUNNING_ACTION_RESCHEDULE = "0";
-	private static final String MESSAGING_APP_RUNNING_ACTION_IGNORE = "1";
-	
-	private static final String SMS_TIMEOUT_KEY = "sms_timeout_settings";
-	
 	//================================================================================
     // Properties
     //================================================================================
@@ -59,20 +42,20 @@ public class SMSReceiver extends BroadcastReceiver{
 		if (_debug) Log.v("SMSReceiver.onReceive()");
 		//Read preferences and exit if app is disabled.
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-	    if(!preferences.getBoolean(APP_ENABLED_KEY, true)){
+	    if(!preferences.getBoolean(Constants.APP_ENABLED_KEY, true)){
 			if (_debug) Log.v("SMSReceiver.onReceive() App Disabled. Exiting...");
 			return;
 		}
 		//Read preferences and exit if SMS notifications are disabled.
-	    if(!preferences.getBoolean(SMS_NOTIFICATIONS_ENABLED_KEY, true)){
+	    if(!preferences.getBoolean(Constants.SMS_NOTIFICATIONS_ENABLED_KEY, true)){
 			if (_debug) Log.v("SMSReceiver.onReceive() SMS Notifications Disabled. Exiting...");
 			return;
 		}
-		if(READ_SMS_FROM_DISK){
+		if(Constants.READ_SMS_FROM_DISK){
 			//Schedule sms task x seconds after the broadcast.
 			//This time is set by the users advanced preferences. 10 seconds is the default value.
 			//This should allow enough time to pass for the sms inbox to be written to.
-			long timeoutInterval = Long.parseLong(preferences.getString(SMS_TIMEOUT_KEY, "10")) * 1000;
+			long timeoutInterval = Long.parseLong(preferences.getString(Constants.SMS_TIMEOUT_KEY, "10")) * 1000;
 			AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 			Intent smsIntent = new Intent(context, SMSAlarmReceiver.class);
 			PendingIntent smsPendingIntent = PendingIntent.getBroadcast(context, 0, smsIntent, 0);
@@ -82,20 +65,20 @@ public class SMSReceiver extends BroadcastReceiver{
 		    TelephonyManager telemanager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 		    boolean rescheduleNotification = false;
 		    boolean callStateIdle = telemanager.getCallState() == TelephonyManager.CALL_STATE_IDLE;
-		    boolean inMessagingApp = preferences.getBoolean(USER_IN_MESSAGING_APP, false);
+		    boolean inMessagingApp = preferences.getBoolean(Constants.USER_IN_MESSAGING_APP, false);
 		    boolean messagingAppRunning = Common.isMessagingAppRunning(context);
-		    String messagingAppRuningAction = preferences.getString(MESSAGING_APP_RUNNING_ACTION_SMS, "0");
+		    String messagingAppRuningAction = preferences.getString(Constants.MESSAGING_APP_RUNNING_ACTION_SMS, "0");
 		    if(!callStateIdle || inMessagingApp){
 		    	rescheduleNotification = true;
 		    }else{
 		    	//Messaging App is running.
 		    	if(messagingAppRunning){
 		    		//Reschedule notification based on the users preferences.
-				    if(messagingAppRuningAction.equals(MESSAGING_APP_RUNNING_ACTION_RESCHEDULE)){
+				    if(messagingAppRuningAction.equals(Constants.MESSAGING_APP_RUNNING_ACTION_RESCHEDULE)){
 						rescheduleNotification = true;
 				    }
 				    //Ignore notification based on the users preferences.
-				    if(messagingAppRuningAction.equals(MESSAGING_APP_RUNNING_ACTION_IGNORE)){
+				    if(messagingAppRuningAction.equals(Constants.MESSAGING_APP_RUNNING_ACTION_IGNORE)){
 				    	return;
 				    }
 		    	}
@@ -107,11 +90,11 @@ public class SMSReceiver extends BroadcastReceiver{
 				context.startService(smsIntent);
 		    }else{
 		    	// Set alarm to go off x minutes from the current time as defined by the user preferences.
-		    	long rescheduleInterval = Long.parseLong(preferences.getString(RESCHEDULE_NOTIFICATION_TIMEOUT_KEY, "5")) * 60 * 1000;
-		    	if(preferences.getBoolean(RESCHEDULE_NOTIFICATIONS_ENABLED, true)){
+		    	long rescheduleInterval = Long.parseLong(preferences.getString(Constants.RESCHEDULE_NOTIFICATION_TIMEOUT_KEY, "5")) * 60 * 1000;
+		    	if(preferences.getBoolean(Constants.RESCHEDULE_NOTIFICATIONS_ENABLED, true)){
 		    		if(rescheduleInterval == 0){
 		    			SharedPreferences.Editor editor = preferences.edit();
-		    			editor.putBoolean(RESCHEDULE_NOTIFICATIONS_ENABLED, false);
+		    			editor.putBoolean(Constants.RESCHEDULE_NOTIFICATIONS_ENABLED, false);
 		    			editor.commit();
 		    			return;
 		    		}

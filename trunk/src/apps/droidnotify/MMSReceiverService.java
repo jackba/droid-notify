@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import apps.droidnotify.common.Common;
+import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
 
 /**
@@ -16,12 +17,6 @@ import apps.droidnotify.log.Log;
  * @author Camille Sévigny
  */
 public class MMSReceiverService extends WakefulIntentService {
-
-	//================================================================================
-    // Constants
-    //================================================================================
-	
-	private static final int NOTIFICATION_TYPE_MMS = 2;
 	
 	//================================================================================
     // Properties
@@ -59,7 +54,7 @@ public class MMSReceiverService extends WakefulIntentService {
 		if(mmsArray.size() > 0){
 			Context context = getApplicationContext();
 			Bundle bundle = new Bundle();
-			bundle.putInt("notificationType", NOTIFICATION_TYPE_MMS);
+			bundle.putInt("notificationType", Constants.NOTIFICATION_TYPE_MMS);
 			bundle.putStringArrayList("mmsArrayList",mmsArray);
 	    	Intent mmsNotificationIntent = new Intent(context, NotificationActivity.class);
 	    	mmsNotificationIntent.putExtras(bundle);

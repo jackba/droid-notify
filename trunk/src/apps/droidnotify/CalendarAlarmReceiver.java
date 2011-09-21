@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
 
 /**
@@ -13,13 +14,6 @@ import apps.droidnotify.log.Log;
  * @author Camille Sévigny
  */
 public class CalendarAlarmReceiver extends BroadcastReceiver {
-
-	//================================================================================
-    // Constants
-    //================================================================================
-    
-	private static final String APP_ENABLED_KEY = "app_enabled";
-	private static final String CALENDAR_NOTIFICATIONS_ENABLED_KEY = "calendar_notifications_enabled";
 	
 	//================================================================================
     // Properties
@@ -44,12 +38,12 @@ public class CalendarAlarmReceiver extends BroadcastReceiver {
 		if (_debug) Log.v("CalendarAlarmReceiver.onReceive()");
 		//Read preferences and exit if app is disabled.
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-	    if(!preferences.getBoolean(APP_ENABLED_KEY, true)){
+	    if(!preferences.getBoolean(Constants.APP_ENABLED_KEY, true)){
 			if (_debug) Log.v("CalendarAlarmReceiver.onReceive() App Disabled. Exiting...");
 			return;
 		}
 		//Read preferences and exit if calendar notifications are disabled.
-	    if(!preferences.getBoolean(CALENDAR_NOTIFICATIONS_ENABLED_KEY, true)){
+	    if(!preferences.getBoolean(Constants.CALENDAR_NOTIFICATIONS_ENABLED_KEY, true)){
 			if (_debug) Log.v("CalendarAlarmReceiver.onReceive() Calendar Notifications Disabled. Exiting... ");
 			return;
 		}

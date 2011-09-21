@@ -24,6 +24,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import apps.droidnotify.common.Common;
+import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
 
 /**
@@ -43,35 +44,6 @@ public class QuickReplyActivity extends Activity {
 	private static final int MESSAGE_EDIT_TEXT = R.id.message_edit_text;
 	private static final int CHARACTERS_REMAINING_TEXT_TEXT = R.id.characters_remaining_text_view;
 
-	private static final String HAPTIC_FEEDBACK_ENABLED_KEY = "haptic_feedback_enabled";
-	private static final String LANDSCAPE_SCREEN_ENABLED_KEY = "landscape_screen_enabled";
-	private static final String SAVE_MESSAGE_DRAFT_KEY = "quick_reply_save_draft_enabled";
-	private static final String HIDE_CANCEL_BUTTON_KEY = "quick_reply_hide_cancel_button_enabled";
-	
-	private static final String QUICK_REPLY_BLUR_SCREEN_ENABLED_KEY = "quick_reply_blur_screen_background_enabled";
-	private static final String QUICK_REPLY_DIM_SCREEN_ENABLED_KEY = "quick_reply_dim_screen_background_enabled";
-	private static final String QUICK_REPLY_DIM_SCREEN_AMOUNT_KEY = "quick_reply_dim_screen_background_amount";
-	
-	private static final String APP_THEME_KEY = "app_theme";
-	private static final String ANDROID_FROYO_THEME = "android";
-	private static final String ANDROID_GINGERBREAD_THEME = "android_dark";
-	private static final String IPHONE_THEME = "iphone";
-	private static final String DARK_TRANSLUCENT_THEME = "dark_translucent";
-	private static final String DARK_TRANSLUCENT_V2_THEME = "dark_translucent_v2";
-	private static final String DARK_TRANSLUCENT_V3_THEME = "dark_translucent_v3";
-	private static final String HTC_SENSE_UI_THEME = "theme_htc";
-	private static final String XPERIA_THEME = "theme_xperia";
-	
-	private static final String SMS_GATEWAY_KEY = "quick_reply_sms_gateway_settings";
-	private static final int SMS_EMAIL_GATEWAY_KEY_1 = 1;
-	private static final int SMS_EMAIL_GATEWAY_KEY_2 = 2;
-	private static final int SMS_EMAIL_GATEWAY_KEY_3 = 3;
-	private static final int SMS_EMAIL_GATEWAY_KEY_4 = 4;
-	private static final int SMS_EMAIL_GATEWAY_KEY_5 = 5;
-	private static final int SMS_EMAIL_GATEWAY_KEY_6 = 6;
-	private static final int SMS_EMAIL_GATEWAY_KEY_7 = 7;
-	private static final int SMS_EMAIL_GATEWAY_KEY_8 = 8;
-	
 	//================================================================================
     // Properties
     //================================================================================
@@ -118,34 +90,34 @@ public class QuickReplyActivity extends Activity {
 	    _context = getApplicationContext();
 	    _preferences = PreferenceManager.getDefaultSharedPreferences(_context);
 	    //Don't rotate the Activity when the screen rotates based on the user preferences.
-	    if(!_preferences.getBoolean(LANDSCAPE_SCREEN_ENABLED_KEY, false)){
+	    if(!_preferences.getBoolean(Constants.LANDSCAPE_SCREEN_ENABLED_KEY, false)){
 	    	this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 	    }
 	    //Get main window for this Activity.
 	    Window mainWindow = getWindow(); 
 	    //Set Blur 
-	    if(_preferences.getBoolean(QUICK_REPLY_BLUR_SCREEN_ENABLED_KEY, false)){
+	    if(_preferences.getBoolean(Constants.QUICK_REPLY_BLUR_SCREEN_ENABLED_KEY, false)){
 	    	mainWindow.addFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
 	    }
 	    //Set Dim
-	    if(_preferences.getBoolean(QUICK_REPLY_DIM_SCREEN_ENABLED_KEY, true)){
+	    if(_preferences.getBoolean(Constants.QUICK_REPLY_DIM_SCREEN_ENABLED_KEY, true)){
 	    	mainWindow.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND); 
 		    WindowManager.LayoutParams params = mainWindow.getAttributes(); 
-		    int dimAmt = Integer.parseInt(_preferences.getString(QUICK_REPLY_DIM_SCREEN_AMOUNT_KEY, "50"));
+		    int dimAmt = Integer.parseInt(_preferences.getString(Constants.QUICK_REPLY_DIM_SCREEN_AMOUNT_KEY, "50"));
 		    params.dimAmount = dimAmt / 100f; 
 		    mainWindow.setAttributes(params); 
 	    }
 	    //Set based on the theme. This is set in the user preferences.
-		String applicationThemeSetting = _preferences.getString(APP_THEME_KEY, ANDROID_FROYO_THEME);
+		String applicationThemeSetting = _preferences.getString(Constants.APP_THEME_KEY, Constants.ANDROID_FROYO_THEME);
 		int themeResource = R.layout.android_froyo_theme_notification;
-		if(applicationThemeSetting.equals(ANDROID_FROYO_THEME)) themeResource = R.layout.android_froyo_theme_smsreply;
-		if(applicationThemeSetting.equals(ANDROID_GINGERBREAD_THEME)) themeResource = R.layout.android_gingerbread_theme_smsreply;
-		if(applicationThemeSetting.equals(IPHONE_THEME)) themeResource = R.layout.iphone_theme_smsreply;
-		if(applicationThemeSetting.equals(DARK_TRANSLUCENT_THEME)) themeResource = R.layout.dark_translucent_theme_smsreply;
-		if(applicationThemeSetting.equals(DARK_TRANSLUCENT_V2_THEME)) themeResource = R.layout.dark_translucent_v2_theme_smsreply;
-		if(applicationThemeSetting.equals(DARK_TRANSLUCENT_V3_THEME)) themeResource = R.layout.dark_translucent_v3_theme_smsreply;		
-		if(applicationThemeSetting.equals(HTC_SENSE_UI_THEME)) themeResource = R.layout.htc_theme_smsreply;	
-		if(applicationThemeSetting.equals(XPERIA_THEME)) themeResource = R.layout.xperia_theme_smsreply;	
+		if(applicationThemeSetting.equals(Constants.ANDROID_FROYO_THEME)) themeResource = R.layout.android_froyo_theme_smsreply;
+		if(applicationThemeSetting.equals(Constants.ANDROID_GINGERBREAD_THEME)) themeResource = R.layout.android_gingerbread_theme_smsreply;
+		if(applicationThemeSetting.equals(Constants.IPHONE_THEME)) themeResource = R.layout.iphone_theme_smsreply;
+		if(applicationThemeSetting.equals(Constants.DARK_TRANSLUCENT_THEME)) themeResource = R.layout.dark_translucent_theme_smsreply;
+		if(applicationThemeSetting.equals(Constants.DARK_TRANSLUCENT_V2_THEME)) themeResource = R.layout.dark_translucent_v2_theme_smsreply;
+		if(applicationThemeSetting.equals(Constants.DARK_TRANSLUCENT_V3_THEME)) themeResource = R.layout.dark_translucent_v3_theme_smsreply;		
+		if(applicationThemeSetting.equals(Constants.HTC_SENSE_UI_THEME)) themeResource = R.layout.htc_theme_smsreply;	
+		if(applicationThemeSetting.equals(Constants.XPERIA_THEME)) themeResource = R.layout.xperia_theme_smsreply;	
 	    setContentView(themeResource);  
 	    _sendButton = (Button)findViewById(SEND_BUTTON);
 	    //Disable the Send button initially.
@@ -278,7 +250,7 @@ public class QuickReplyActivity extends Activity {
             	}
             }
         });
-	    if(_preferences.getBoolean(HIDE_CANCEL_BUTTON_KEY, true)){
+	    if(_preferences.getBoolean(Constants.HIDE_CANCEL_BUTTON_KEY, true)){
 	    	_cancelButton.setVisibility(View.GONE);
     	}else{
 		    _cancelButton.setOnClickListener(new View.OnClickListener(){
@@ -380,44 +352,44 @@ public class QuickReplyActivity extends Activity {
 			// (Croatia) T-Mobile - 100 [address#subject#text]
 			// (Costa Rica) ICS - 1001 [address : (subject) text]
 			//This value can be set in the Advanced Settings preferences.
-			int smsToEmailGatewayKey = Integer.parseInt(_preferences.getString(SMS_GATEWAY_KEY, "1"));
+			int smsToEmailGatewayKey = Integer.parseInt(_preferences.getString(Constants.SMS_GATEWAY_KEY, "1"));
 			switch(smsToEmailGatewayKey){
-		    	case SMS_EMAIL_GATEWAY_KEY_1:{
+		    	case Constants.SMS_EMAIL_GATEWAY_KEY_1:{
 		    		// (USA) Sprint PCS - 6245 [address message]
 		    		String smsToEmailGatewayNumber = "6245";
 		    		sms.sendTextMessage(smsToEmailGatewayNumber, null, smsAddress + " " + message, sentPI, deliveredPI);
 		    	}
-		    	case SMS_EMAIL_GATEWAY_KEY_2:{
+		    	case Constants.SMS_EMAIL_GATEWAY_KEY_2:{
 		    		// (USA) T-Mobile - 500 [address text | address/subject/text | address#subject#text]
 		    		String smsToEmailGatewayNumber = "500";
 		    		sms.sendTextMessage(smsToEmailGatewayNumber, null, smsAddress + " " + message, sentPI, deliveredPI);
 		    	}
-		    	case SMS_EMAIL_GATEWAY_KEY_3:{
+		    	case Constants.SMS_EMAIL_GATEWAY_KEY_3:{
 		    		// (USA) AT&T - 121 [address text | address (subject) text]
 		    		String smsToEmailGatewayNumber = "121";
 		    		sms.sendTextMessage(smsToEmailGatewayNumber, null, smsAddress + " " + message, sentPI, deliveredPI);
 		    	}
-		    	case SMS_EMAIL_GATEWAY_KEY_4:{
+		    	case Constants.SMS_EMAIL_GATEWAY_KEY_4:{
 		    		// (USA) AT&T - 111 [address text | address (subject) text]
 		    		String smsToEmailGatewayNumber = "111";
 		    		sms.sendTextMessage(smsToEmailGatewayNumber, null, smsAddress + " " + message, sentPI, deliveredPI);
 		    	}
-		    	case SMS_EMAIL_GATEWAY_KEY_5:{
+		    	case Constants.SMS_EMAIL_GATEWAY_KEY_5:{
 		    		// (UK) AQL - 447766 [address text]
 		    		String smsToEmailGatewayNumber = "447766";
 		    		sms.sendTextMessage(smsToEmailGatewayNumber, null, smsAddress + " " + message, sentPI, deliveredPI);
 		    	}
-		    	case SMS_EMAIL_GATEWAY_KEY_6:{
+		    	case Constants.SMS_EMAIL_GATEWAY_KEY_6:{
 		    		// (UK) AQL - 404142 [address text]
 		    		String smsToEmailGatewayNumber = "404142";
 		    		sms.sendTextMessage(smsToEmailGatewayNumber, null, smsAddress + " " + message, sentPI, deliveredPI);
 		    	}
-		    	case SMS_EMAIL_GATEWAY_KEY_7:{
+		    	case Constants.SMS_EMAIL_GATEWAY_KEY_7:{
 		    		// (USA) AT&T - 121 [address text | address (subject) text]
 		    		String smsToEmailGatewayNumber = "121";
 		    		sms.sendTextMessage(smsToEmailGatewayNumber, null, smsAddress + " " + message, sentPI, deliveredPI);
 		    	}
-		    	case SMS_EMAIL_GATEWAY_KEY_8:{
+		    	case Constants.SMS_EMAIL_GATEWAY_KEY_8:{
 		    		// (Croatia) T-Mobile - 100 [address#subject#text]
 		    		String smsToEmailGatewayNumber = "100";
 		    		sms.sendTextMessage(smsToEmailGatewayNumber, null, smsAddress + "##" + message, sentPI, deliveredPI);
@@ -464,12 +436,10 @@ public class QuickReplyActivity extends Activity {
 		try{
 			vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
 			//Perform the haptic feedback based on the users preferences.
-			if(_preferences.getBoolean(HAPTIC_FEEDBACK_ENABLED_KEY, true)){
+			if(_preferences.getBoolean(Constants.HAPTIC_FEEDBACK_ENABLED_KEY, true)){
 				if(hapticFeedbackConstant == HapticFeedbackConstants.VIRTUAL_KEY){
 					if(vibrator != null) vibrator.vibrate(50);
 				}
-			}
-			if(_preferences.getBoolean(HAPTIC_FEEDBACK_ENABLED_KEY, true)){
 				if(hapticFeedbackConstant == HapticFeedbackConstants.LONG_PRESS){
 					if(vibrator != null) vibrator.vibrate(100);
 				}
@@ -518,7 +488,7 @@ public class QuickReplyActivity extends Activity {
 		if(_messageSent){
 			return;
 		}
-		if(_preferences.getBoolean(SAVE_MESSAGE_DRAFT_KEY, true)){
+		if(_preferences.getBoolean(Constants.SAVE_MESSAGE_DRAFT_KEY, true)){
 			try{
 				Context context = getBaseContext();
 				String address = _phoneNumber;
