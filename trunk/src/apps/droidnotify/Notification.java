@@ -20,27 +20,7 @@ import apps.droidnotify.log.Log;
  * @author Camille Sévigny
  */
 public class Notification {
-	
-	//================================================================================
-    // Constants
-    //================================================================================
-	
-	private static final String SMS_DISMISS_KEY = "sms_dismiss_button_action";
-	private static final String MMS_DISMISS_KEY = "mms_dismiss_button_action";
-	private static final String MISSED_CALL_DISMISS_KEY = "missed_call_dismiss_button_action";
-	private static final String SMS_DELETE_KEY = "sms_delete_button_action";
-	private static final String MMS_DELETE_KEY = "mms_delete_button_action";
-	private static final String CALENDAR_LABELS_KEY = "calendar_labels_enabled";
-	
-	private static final String SMS_DISMISS_ACTION_MARK_READ = "0";
-	private static final String SMS_DELETE_ACTION_DELETE_MESSAGE = "0";
-	private static final String SMS_DELETE_ACTION_DELETE_THREAD = "1";
-	private static final String MMS_DISMISS_ACTION_MARK_READ = "0";
-	private static final String MMS_DELETE_ACTION_DELETE_MESSAGE = "0";
-	private static final String MMS_DELETE_ACTION_DELETE_THREAD = "1";
-	private static final String MISSED_CALL_DISMISS_ACTION_MARK_READ = "0";
-	private static final String MISSED_CALL_DISMISS_ACTION_DELETE = "1";
-	
+
 	//================================================================================
     // Properties
     //================================================================================
@@ -503,23 +483,23 @@ public class Notification {
     	if(_notificationType == Constants.NOTIFICATION_TYPE_PHONE){
     		//Action is determined by the users preferences. 
     		//Either mark the call log as viewed, delete the call log entry, or do nothing to the call log entry.
-    		if(_preferences.getString(MISSED_CALL_DISMISS_KEY, "0").equals(MISSED_CALL_DISMISS_ACTION_MARK_READ)){
+    		if(_preferences.getString(Constants.PHONE_DISMISS_KEY, "0").equals(Constants.PHONE_DISMISS_ACTION_MARK_READ)){
     			setCallViewed(isViewed);
-    		}else if(_preferences.getString(MISSED_CALL_DISMISS_KEY, "0").equals(MISSED_CALL_DISMISS_ACTION_DELETE)){
+    		}else if(_preferences.getString(Constants.PHONE_DISMISS_KEY, "0").equals(Constants.PHONE_DISMISS_ACTION_DELETE)){
     			deleteFromCallLog();
     		}
 	    }
     	if(_notificationType == Constants.NOTIFICATION_TYPE_SMS){
     		//Action is determined by the users preferences. 
     		//Either mark the message as viewed or do nothing to the message.
-    		if(_preferences.getString(SMS_DISMISS_KEY, "0").equals(SMS_DISMISS_ACTION_MARK_READ)){
+    		if(_preferences.getString(Constants.SMS_DISMISS_KEY, "0").equals(Constants.SMS_DISMISS_ACTION_MARK_READ)){
     			setMessageRead(isViewed);
     		}
     	}
     	if(_notificationType == Constants.NOTIFICATION_TYPE_MMS){
     		//Action is determined by the users preferences. 
     		//Either mark the message as viewed or do nothing to the message.
-    		if(_preferences.getString(MMS_DISMISS_KEY, "0").equals(MMS_DISMISS_ACTION_MARK_READ)){
+    		if(_preferences.getString(Constants.MMS_DISMISS_KEY, "0").equals(Constants.MMS_DISMISS_ACTION_MARK_READ)){
     			setMessageRead(isViewed);
     		}
     	}
@@ -541,18 +521,18 @@ public class Notification {
 		boolean deleteThread = false;
 		boolean deleteMessage = false;
 		if(_notificationType == Constants.NOTIFICATION_TYPE_SMS){
-			if(_preferences.getString(SMS_DELETE_KEY, "0").equals(SMS_DELETE_ACTION_DELETE_MESSAGE)){
+			if(_preferences.getString(Constants.SMS_DELETE_KEY, "0").equals(Constants.SMS_DELETE_ACTION_DELETE_MESSAGE)){
 				deleteThread = false;
 				deleteMessage = true;
-			}else if(_preferences.getString(SMS_DELETE_KEY, "0").equals(SMS_DELETE_ACTION_DELETE_THREAD)){
+			}else if(_preferences.getString(Constants.SMS_DELETE_KEY, "0").equals(Constants.SMS_DELETE_ACTION_DELETE_THREAD)){
 				deleteThread = true;
 				deleteMessage = false;
 			}
 		}else if(_notificationType == Constants.NOTIFICATION_TYPE_MMS){
-			if(_preferences.getString(MMS_DELETE_KEY, "0").equals(MMS_DELETE_ACTION_DELETE_MESSAGE)){
+			if(_preferences.getString(Constants.MMS_DELETE_KEY, "0").equals(Constants.MMS_DELETE_ACTION_DELETE_MESSAGE)){
 				deleteThread = false;
 				deleteMessage = true;
-			}else if(_preferences.getString(MMS_DELETE_KEY, "0").equals(MMS_DELETE_ACTION_DELETE_THREAD)){
+			}else if(_preferences.getString(Constants.MMS_DELETE_KEY, "0").equals(Constants.MMS_DELETE_ACTION_DELETE_THREAD)){
 				deleteThread = true;
 				deleteMessage = false;
 			}
@@ -729,7 +709,7 @@ public class Notification {
     		formattedMessage = messageBody;
     	}
     	_preferences = PreferenceManager.getDefaultSharedPreferences(_context);
-    	if(_preferences.getBoolean(CALENDAR_LABELS_KEY, true)){
+    	if(_preferences.getBoolean(Constants.CALENDAR_LABELS_KEY, true)){
     		formattedMessage = "<b>" + calendarName + "</b><br/>" + formattedMessage;
     	}
 		return formattedMessage;

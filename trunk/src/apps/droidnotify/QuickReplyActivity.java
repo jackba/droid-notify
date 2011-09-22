@@ -354,42 +354,42 @@ public class QuickReplyActivity extends Activity {
 			//This value can be set in the Advanced Settings preferences.
 			int smsToEmailGatewayKey = Integer.parseInt(_preferences.getString(Constants.SMS_GATEWAY_KEY, "1"));
 			switch(smsToEmailGatewayKey){
-		    	case Constants.SMS_EMAIL_GATEWAY_KEY_1:{
+		    	case Constants.SMS_EMAIL_GATEWAY_1:{
 		    		// (USA) Sprint PCS - 6245 [address message]
 		    		String smsToEmailGatewayNumber = "6245";
 		    		sms.sendTextMessage(smsToEmailGatewayNumber, null, smsAddress + " " + message, sentPI, deliveredPI);
 		    	}
-		    	case Constants.SMS_EMAIL_GATEWAY_KEY_2:{
+		    	case Constants.SMS_EMAIL_GATEWAY_2:{
 		    		// (USA) T-Mobile - 500 [address text | address/subject/text | address#subject#text]
 		    		String smsToEmailGatewayNumber = "500";
 		    		sms.sendTextMessage(smsToEmailGatewayNumber, null, smsAddress + " " + message, sentPI, deliveredPI);
 		    	}
-		    	case Constants.SMS_EMAIL_GATEWAY_KEY_3:{
+		    	case Constants.SMS_EMAIL_GATEWAY_3:{
 		    		// (USA) AT&T - 121 [address text | address (subject) text]
 		    		String smsToEmailGatewayNumber = "121";
 		    		sms.sendTextMessage(smsToEmailGatewayNumber, null, smsAddress + " " + message, sentPI, deliveredPI);
 		    	}
-		    	case Constants.SMS_EMAIL_GATEWAY_KEY_4:{
+		    	case Constants.SMS_EMAIL_GATEWAY_4:{
 		    		// (USA) AT&T - 111 [address text | address (subject) text]
 		    		String smsToEmailGatewayNumber = "111";
 		    		sms.sendTextMessage(smsToEmailGatewayNumber, null, smsAddress + " " + message, sentPI, deliveredPI);
 		    	}
-		    	case Constants.SMS_EMAIL_GATEWAY_KEY_5:{
+		    	case Constants.SMS_EMAIL_GATEWAY_5:{
 		    		// (UK) AQL - 447766 [address text]
 		    		String smsToEmailGatewayNumber = "447766";
 		    		sms.sendTextMessage(smsToEmailGatewayNumber, null, smsAddress + " " + message, sentPI, deliveredPI);
 		    	}
-		    	case Constants.SMS_EMAIL_GATEWAY_KEY_6:{
+		    	case Constants.SMS_EMAIL_GATEWAY_6:{
 		    		// (UK) AQL - 404142 [address text]
 		    		String smsToEmailGatewayNumber = "404142";
 		    		sms.sendTextMessage(smsToEmailGatewayNumber, null, smsAddress + " " + message, sentPI, deliveredPI);
 		    	}
-		    	case Constants.SMS_EMAIL_GATEWAY_KEY_7:{
+		    	case Constants.SMS_EMAIL_GATEWAY_7:{
 		    		// (USA) AT&T - 121 [address text | address (subject) text]
 		    		String smsToEmailGatewayNumber = "121";
 		    		sms.sendTextMessage(smsToEmailGatewayNumber, null, smsAddress + " " + message, sentPI, deliveredPI);
 		    	}
-		    	case Constants.SMS_EMAIL_GATEWAY_KEY_8:{
+		    	case Constants.SMS_EMAIL_GATEWAY_8:{
 		    		// (Croatia) T-Mobile - 100 [address#subject#text]
 		    		String smsToEmailGatewayNumber = "100";
 		    		sms.sendTextMessage(smsToEmailGatewayNumber, null, smsAddress + "##" + message, sentPI, deliveredPI);

@@ -53,47 +53,6 @@ public class NotificationActivity extends Activity {
     // Constants
     //================================================================================
 	
-	private static final String SCREEN_ENABLED_KEY = "screen_enabled";
-	private static final String SCREEN_DIM_ENABLED_KEY = "screen_dim_enabled";
-	private static final String KEYGUARD_ENABLED_KEY = "keyguard_enabled";	
-	private static final String MISSED_CALL_VIBRATE_ENABLED_KEY = "missed_call_vibrate_enabled";
-	private static final String SMS_VIBRATE_ENABLED_KEY = "sms_vibrate_enabled";
-	private static final String MMS_VIBRATE_ENABLED_KEY = "mms_vibrate_enabled";
-	private static final String CALENDAR_VIBRATE_ENABLED_KEY = "calendar_vibrate_enabled";
-
-	private static final String SMS_DELETE_KEY = "sms_delete_button_action";
-	private static final String MMS_DELETE_KEY = "mms_delete_button_action";
-	private static final String WAKELOCK_TIMEOUT_KEY = "wakelock_timeout_settings";
-	private static final String KEYGUARD_TIMEOUT_KEY = "keyguard_timeout_settings";
-	private static final String MISSED_CALL_RINGTONE_ENABLED_KEY = "missed_call_ringtone_enabled";
-	private static final String SMS_RINGTONE_ENABLED_KEY = "sms_ringtone_enabled";
-	private static final String MMS_RINGTONE_ENABLED_KEY = "mms_ringtone_enabled";
-	private static final String CALENDAR_RINGTONE_ENABLED_KEY = "calendar_ringtone_enabled";
-	private static final String ALL_VIBRATE_ENABLED_KEY = "app_vibrations_enabled";
-	private static final String ALL_RINGTONE_ENABLED_KEY = "app_ringtones_enabled";
-	private static final String SMS_RINGTONE_KEY = "sms_ringtone_audio";
-	private static final String MMS_RINGTONE_KEY = "mms_ringtone_audio";
-	private static final String MISSED_CALL_RINGTONE_KEY = "missed_call_ringtone_audio";
-	private static final String CALENDAR_RINGTONE_KEY = "calendar_ringtone_audio";
-	private static final String RINGTONE_LENGTH_KEY = "ringtone_length_settings";
-	private static final String SMS_DISPLAY_UNREAD_KEY = "sms_display_unread_enabled";
-	private static final String SMS_CONFIRM_DELETION_KEY = "confirm_sms_deletion_enabled";
-	private static final String MMS_CONFIRM_DELETION_KEY = "confirm_mms_deletion_enabled";
-	private static final String MMS_DISPLAY_UNREAD_KEY = "mms_display_unread_enabled";
-	private static final String LANDSCAPE_SCREEN_ENABLED_KEY = "landscape_screen_enabled";
-	private static final String BLUR_SCREEN_ENABLED_KEY = "blur_screen_background_enabled";
-	private static final String DIM_SCREEN_ENABLED_KEY = "dim_screen_background_enabled";
-	private static final String DIM_SCREEN_AMOUNT_KEY = "dim_screen_background_amount";
-	
-	private static final String SMS_DELETE_ACTION_DELETE_MESSAGE = "0";
-	private static final String SMS_DELETE_ACTION_DELETE_THREAD = "1";
-	private static final String SMS_DELETE_ACTION_NOTHING = "2";
-	private static final String MMS_DELETE_ACTION_DELETE_MESSAGE = "0";
-	private static final String MMS_DELETE_ACTION_DELETE_THREAD = "1";
-	private static final String MMS_DELETE_ACTION_NOTHING = "2";
-	
-	private static final int DIALOG_DELETE_MESSAGE = 0;
-	
 	private static final int MENU_ITEM_SETTINGS = R.id.app_settings;
 	private static final int CONTACT_WRAPPER_LINEAR_LAYOUT = R.id.contact_wrapper_linear_layout;	
 	private static final int VIEW_CONTACT_CONTEXT_MENU = R.id.view_contact_context_menu;
@@ -310,7 +269,7 @@ public class NotificationActivity extends Activity {
 				if(Common.startMessagingAppViewThreadActivity(_context, this, notification.getSentFromAddress(), Constants.VIEW_SMS_THREAD_ACTIVITY)){
 				    //Set "In Reply Screen" flag.
 					SharedPreferences.Editor editor = _preferences.edit();
-					editor.putBoolean(Constants.USER_IN_MESSAGING_APP, true);
+					editor.putBoolean(Constants.USER_IN_MESSAGING_APP_KEY, true);
 					editor.commit();
 					return true;
 				}else{
@@ -321,7 +280,7 @@ public class NotificationActivity extends Activity {
 				if(Common.startMessagingAppViewInboxActivity(_context, this, Constants.MESSAGING_ACTIVITY)){
 				    //Set "In Reply Screen" flag.
 					SharedPreferences.Editor editor = _preferences.edit();
-					editor.putBoolean(Constants.USER_IN_MESSAGING_APP, true);
+					editor.putBoolean(Constants.USER_IN_MESSAGING_APP_KEY, true);
 					editor.commit();
 					return true;
 				}else{
@@ -373,13 +332,13 @@ public class NotificationActivity extends Activity {
 		int notificationType = _notificationViewFlipper.getActiveNotification().getNotificationType();
 		switch(notificationType){
 			case Constants.NOTIFICATION_TYPE_SMS:{
-				if(_preferences.getString(SMS_DELETE_KEY, "0").equals(SMS_DELETE_ACTION_NOTHING)){
+				if(_preferences.getString(Constants.SMS_DELETE_KEY, "0").equals(Constants.SMS_DELETE_ACTION_NOTHING)){
 					//Remove the notification from the ViewFlipper.
 					deleteMessage();
 				}else{
-					if(_preferences.getBoolean(SMS_CONFIRM_DELETION_KEY, true)){
+					if(_preferences.getBoolean(Constants.SMS_CONFIRM_DELETION_KEY, true)){
 						//Confirm deletion of the message.
-						showDialog(DIALOG_DELETE_MESSAGE);
+						showDialog(Constants.DIALOG_DELETE_MESSAGE);
 					}else{
 						//Remove the notification from the ViewFlipper.
 						deleteMessage();
@@ -388,13 +347,13 @@ public class NotificationActivity extends Activity {
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_MMS:{
-				if(_preferences.getString(MMS_DELETE_KEY, "0").equals(MMS_DELETE_ACTION_NOTHING)){
+				if(_preferences.getString(Constants.MMS_DELETE_KEY, "0").equals(Constants.MMS_DELETE_ACTION_NOTHING)){
 					//Remove the notification from the ViewFlipper
 					deleteMessage();
 				}else{
-					if(_preferences.getBoolean(MMS_CONFIRM_DELETION_KEY, true)){
+					if(_preferences.getBoolean(Constants.MMS_CONFIRM_DELETION_KEY, true)){
 						//Confirm deletion of the message.
-						showDialog(DIALOG_DELETE_MESSAGE);
+						showDialog(Constants.DIALOG_DELETE_MESSAGE);
 					}else{
 						//Remove the notification from the ViewFlipper.
 						deleteMessage();
@@ -522,7 +481,7 @@ public class NotificationActivity extends Activity {
 		    	}  
 			    //Set "In Reply Screen" flag.
 				SharedPreferences.Editor editor = _preferences.edit();
-				editor.putBoolean(Constants.USER_IN_MESSAGING_APP, false);
+				editor.putBoolean(Constants.USER_IN_MESSAGING_APP_KEY, false);
 				editor.commit();
 		        break;
 		    }
@@ -541,7 +500,7 @@ public class NotificationActivity extends Activity {
 		    	}  
 			    //Set "In Reply Screen" flag.
 				SharedPreferences.Editor editor = _preferences.edit();
-				editor.putBoolean(Constants.USER_IN_MESSAGING_APP, false);
+				editor.putBoolean(Constants.USER_IN_MESSAGING_APP_KEY, false);
 				editor.commit();
 		        break;
 		    }
@@ -560,7 +519,7 @@ public class NotificationActivity extends Activity {
 		    	}  
 			    //Set "In Reply Screen" flag.
 				SharedPreferences.Editor editor = _preferences.edit();
-				editor.putBoolean(Constants.USER_IN_MESSAGING_APP, false);
+				editor.putBoolean(Constants.USER_IN_MESSAGING_APP_KEY, false);
 				editor.commit();
 		        break;
 		    }
@@ -579,7 +538,7 @@ public class NotificationActivity extends Activity {
 		    	}
 		    	//Set "In Reply Screen" flag.
 				SharedPreferences.Editor editor = _preferences.edit();
-				editor.putBoolean(Constants.USER_IN_MESSAGING_APP, false);
+				editor.putBoolean(Constants.USER_IN_MESSAGING_APP_KEY, false);
 				editor.commit();
 		        break;
 		    }
@@ -598,7 +557,7 @@ public class NotificationActivity extends Activity {
 		    	}  
 			    //Set "In Reply Screen" flag.
 				SharedPreferences.Editor editor = _preferences.edit();
-				editor.putBoolean(Constants.USER_IN_MESSAGING_APP, false);
+				editor.putBoolean(Constants.USER_IN_MESSAGING_APP_KEY, false);
 				editor.commit();
 		        break;
 		    }
@@ -714,24 +673,24 @@ public class NotificationActivity extends Activity {
 	    int notificationType = extrasBundle.getInt("notificationType");
 	    if (_debug) Log.v("NotificationActivity.onCreate() Notification Type: " + notificationType);
 	    //Don't rotate the Activity when the screen rotates based on the user preferences.
-	    if(!_preferences.getBoolean(LANDSCAPE_SCREEN_ENABLED_KEY, false)){
+	    if(!_preferences.getBoolean(Constants.LANDSCAPE_SCREEN_ENABLED_KEY, false)){
 	    	this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 	    }
 	    //Get main window for this Activity.
 	    Window mainWindow = getWindow(); 
 	    //Set Blur 
-	    if(_preferences.getBoolean(BLUR_SCREEN_ENABLED_KEY, false)){
+	    if(_preferences.getBoolean(Constants.BLUR_SCREEN_ENABLED_KEY, false)){
 	    	mainWindow.addFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
 	    }
 	    //Set Dim
-	    if(_preferences.getBoolean(DIM_SCREEN_ENABLED_KEY, false)){
+	    if(_preferences.getBoolean(Constants.DIM_SCREEN_ENABLED_KEY, false)){
 	    	mainWindow.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND); 
 		    WindowManager.LayoutParams params = mainWindow.getAttributes(); 
-		    int dimAmt = Integer.parseInt(_preferences.getString(DIM_SCREEN_AMOUNT_KEY, "50"));
+		    int dimAmt = Integer.parseInt(_preferences.getString(Constants.DIM_SCREEN_AMOUNT_KEY, "50"));
 		    params.dimAmount = dimAmt / 100f; 
 		    mainWindow.setAttributes(params); 
 	    }
-	    if(_preferences.getBoolean(SCREEN_ENABLED_KEY, true) && _preferences.getBoolean(KEYGUARD_ENABLED_KEY, true)){
+	    if(_preferences.getBoolean(Constants.SCREEN_ENABLED_KEY, true) && _preferences.getBoolean(Constants.KEYGUARD_ENABLED_KEY, true)){
 	    	mainWindow.addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
 	    	mainWindow.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
 	    }
@@ -773,15 +732,15 @@ public class NotificationActivity extends Activity {
 	    runNotificationFeedback(notificationType);
 	    //Acquire WakeLock.
 	    acquireWakeLock(_context);
-	    long wakelockTimeout = Long.parseLong(_preferences.getString(WAKELOCK_TIMEOUT_KEY, "300")) * 1000;
+	    long wakelockTimeout = Long.parseLong(_preferences.getString(Constants.WAKELOCK_TIMEOUT_KEY, "300")) * 1000;
 	    _wakeLockHandler.sleep(wakelockTimeout);
 	    //Remove the KeyGuard.
 	    disableKeyguardLock(_context);
-	    long keyguardTimeout = Long.parseLong(_preferences.getString(KEYGUARD_TIMEOUT_KEY, "300")) * 1000;
+	    long keyguardTimeout = Long.parseLong(_preferences.getString(Constants.KEYGUARD_TIMEOUT_KEY, "300")) * 1000;
 	    _keyguardHandler.sleep(keyguardTimeout);  
 	    //Set "In Reply Screen" flag.
 		SharedPreferences.Editor editor = _preferences.edit();
-		editor.putBoolean(Constants.USER_IN_MESSAGING_APP, false);
+		editor.putBoolean(Constants.USER_IN_MESSAGING_APP_KEY, false);
 		editor.commit();
 	}
 	  
@@ -836,7 +795,7 @@ public class NotificationActivity extends Activity {
 	    reenableKeyguardLock();
 	    //Set "In Reply Screen" flag.
 		SharedPreferences.Editor editor = _preferences.edit();
-		editor.putBoolean(Constants.USER_IN_MESSAGING_APP, false);
+		editor.putBoolean(Constants.USER_IN_MESSAGING_APP_KEY, false);
 		editor.commit();
 	}
 
@@ -856,22 +815,22 @@ public class NotificationActivity extends Activity {
 	        /*
 	         * Delete confirmation dialog.
 	         */
-			case DIALOG_DELETE_MESSAGE:{
+			case Constants.DIALOG_DELETE_MESSAGE:{
 				if (_debug) Log.v("NotificationActivity.onCreateDialog() DIALOG_DELETE_MESSAGE");
 				AlertDialog.Builder builder = new AlertDialog.Builder(this);
 				builder.setIcon(android.R.drawable.ic_dialog_alert);
 				builder.setTitle(_context.getString(R.string.delete_text));
 				//Action is determined by the users preferences. 
 				if(notificationType == Constants.NOTIFICATION_TYPE_SMS){
-					if(_preferences.getString(SMS_DELETE_KEY, "0").equals(SMS_DELETE_ACTION_DELETE_MESSAGE)){
+					if(_preferences.getString(Constants.SMS_DELETE_KEY, "0").equals(Constants.SMS_DELETE_ACTION_DELETE_MESSAGE)){
 						builder.setMessage(_context.getString(R.string.delete_message_dialog_text));
-					}else if(_preferences.getString(SMS_DELETE_KEY, "0").equals(SMS_DELETE_ACTION_DELETE_THREAD)){
+					}else if(_preferences.getString(Constants.SMS_DELETE_KEY, "0").equals(Constants.SMS_DELETE_ACTION_DELETE_THREAD)){
 						builder.setMessage(_context.getString(R.string.delete_thread_dialog_text));
 					}
 				}else if(notificationType == Constants.NOTIFICATION_TYPE_MMS){
-					if(_preferences.getString(MMS_DELETE_KEY, "0").equals(MMS_DELETE_ACTION_DELETE_MESSAGE)){
+					if(_preferences.getString(Constants.MMS_DELETE_KEY, "0").equals(Constants.MMS_DELETE_ACTION_DELETE_MESSAGE)){
 						builder.setMessage(_context.getString(R.string.delete_message_dialog_text));
-					}else if(_preferences.getString(MMS_DELETE_KEY, "0").equals(MMS_DELETE_ACTION_DELETE_THREAD)){
+					}else if(_preferences.getString(Constants.MMS_DELETE_KEY, "0").equals(Constants.MMS_DELETE_ACTION_DELETE_THREAD)){
 						builder.setMessage(_context.getString(R.string.delete_thread_dialog_text));
 					}
 				}
@@ -940,11 +899,11 @@ public class NotificationActivity extends Activity {
 	    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(_context);
 	    //Acquire WakeLock.
 	    acquireWakeLock(_context);
-	    long wakelockTimeout = Long.parseLong(preferences.getString(WAKELOCK_TIMEOUT_KEY, "300")) * 1000;
+	    long wakelockTimeout = Long.parseLong(preferences.getString(Constants.WAKELOCK_TIMEOUT_KEY, "300")) * 1000;
 	    _wakeLockHandler.sleep(wakelockTimeout);
 	    //Remove the KeyGuard.
 	    disableKeyguardLock(_context);
-	    long keyguardTimeout = Long.parseLong(preferences.getString(KEYGUARD_TIMEOUT_KEY, "300")) * 1000;
+	    long keyguardTimeout = Long.parseLong(preferences.getString(Constants.KEYGUARD_TIMEOUT_KEY, "300")) * 1000;
 	    _keyguardHandler.sleep(keyguardTimeout);
 	}
 	
@@ -994,8 +953,8 @@ public class NotificationActivity extends Activity {
 			pm = (PowerManager)context.getSystemService(Context.POWER_SERVICE);
 			if(_wakeLock == null){
 				//Set the wakeLock properties based on the users preferences.
-				if(_preferences.getBoolean(SCREEN_ENABLED_KEY, true)){
-					if(_preferences.getBoolean(SCREEN_DIM_ENABLED_KEY, true)){
+				if(_preferences.getBoolean(Constants.SCREEN_ENABLED_KEY, true)){
+					if(_preferences.getBoolean(Constants.SCREEN_DIM_ENABLED_KEY, true)){
 						if (_debug) Log.v("NotificationActivity.acquireWakeLock() Screen Wake Enabled Dim.");
 						_wakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, Constants.DROID_NOTIFY_WAKELOCK);
 					}else{
@@ -1043,7 +1002,7 @@ public class NotificationActivity extends Activity {
 		try{
 			KeyguardManager km = (KeyguardManager)getSystemService(Context.KEYGUARD_SERVICE);
 			_keyguardLock = km.newKeyguardLock(Constants.DROID_NOTIFY_KEYGUARD);
-			if(_preferences.getBoolean(SCREEN_ENABLED_KEY, true) && _preferences.getBoolean(KEYGUARD_ENABLED_KEY, true)){
+			if(_preferences.getBoolean(Constants.SCREEN_ENABLED_KEY, true) && _preferences.getBoolean(Constants.KEYGUARD_ENABLED_KEY, true)){
 				_keyguardLock.disableKeyguard();
 			}
 		}catch(Exception ex){
@@ -1071,19 +1030,19 @@ public class NotificationActivity extends Activity {
 	 */
 	private void playRingtone(int notificationType){
 		if (_debug) Log.v("NotificationActivity.playRingtone()");
-		long rintoneStopValue = Long.parseLong(_preferences.getString(RINGTONE_LENGTH_KEY, "3")) * 1000;
+		long rintoneStopValue = Long.parseLong(_preferences.getString(Constants.RINGTONE_LENGTH_KEY, "3")) * 1000;
 		if(notificationType == Constants.NOTIFICATION_TYPE_TEST){
 			try{
-				_ringtone = RingtoneManager.getRingtone(_context, Uri.parse(_preferences.getString(SMS_RINGTONE_KEY, "DEFAULT_SOUND")));
+				_ringtone = RingtoneManager.getRingtone(_context, Uri.parse(_preferences.getString(Constants.SMS_RINGTONE_KEY, "DEFAULT_SOUND")));
 				if(_ringtone != null) _ringtone.play();
  	    	}catch(Exception ex){
  	    		if (_debug) Log.e("NotificationActivity.playRingtone() NOTIFICATION_TYPE_TEST ERROR: " + ex.toString());
 	    	}
 		}
 	    if(notificationType == Constants.NOTIFICATION_TYPE_PHONE){
-	 		if(_preferences.getBoolean(MISSED_CALL_RINGTONE_ENABLED_KEY, false)){
+	 		if(_preferences.getBoolean(Constants.PHONE_RINGTONE_ENABLED_KEY, false)){
 	 	    	try{
-		 			_ringtone = RingtoneManager.getRingtone(_context, Uri.parse(_preferences.getString(MISSED_CALL_RINGTONE_KEY, "DEFAULT_SOUND")));
+		 			_ringtone = RingtoneManager.getRingtone(_context, Uri.parse(_preferences.getString(Constants.PHONE_RINGTONE_KEY, "DEFAULT_SOUND")));
 		 			if(_ringtone != null) _ringtone.play();
 	 	    	}catch(Exception ex){
 	 	    		if (_debug) Log.e("NotificationActivity.playRingtone() NOTIFICATION_TYPE_PHONE ERROR: " + ex.toString());
@@ -1091,9 +1050,9 @@ public class NotificationActivity extends Activity {
 	 		}
 	    }
 	    if(notificationType == Constants.NOTIFICATION_TYPE_SMS){
-	 	    if(_preferences.getBoolean(SMS_RINGTONE_ENABLED_KEY, false)){
+	 	    if(_preferences.getBoolean(Constants.SMS_RINGTONE_ENABLED_KEY, false)){
 	 	    	try{
-		 	    	_ringtone = RingtoneManager.getRingtone(_context, Uri.parse(_preferences.getString(SMS_RINGTONE_KEY, "DEFAULT_SOUND")));
+		 	    	_ringtone = RingtoneManager.getRingtone(_context, Uri.parse(_preferences.getString(Constants.SMS_RINGTONE_KEY, "DEFAULT_SOUND")));
 		 	    	if(_ringtone != null) _ringtone.play();
 	 	    	}catch(Exception ex){
 	 	    		if (_debug) Log.e("NotificationActivity.playRingtone() NOTIFICATION_TYPE_SMS ERROR: " + ex.toString());
@@ -1101,9 +1060,9 @@ public class NotificationActivity extends Activity {
 	 	    }
 	    }
 	    if(notificationType == Constants.NOTIFICATION_TYPE_MMS){
-	 	    if(_preferences.getBoolean(MMS_RINGTONE_ENABLED_KEY, false)){
+	 	    if(_preferences.getBoolean(Constants.MMS_RINGTONE_ENABLED_KEY, false)){
 	 	    	try{
-		 	    	_ringtone = RingtoneManager.getRingtone(_context, Uri.parse(_preferences.getString(MMS_RINGTONE_KEY, "DEFAULT_SOUND")));
+		 	    	_ringtone = RingtoneManager.getRingtone(_context, Uri.parse(_preferences.getString(Constants.MMS_RINGTONE_KEY, "DEFAULT_SOUND")));
 		 	    	if(_ringtone != null) _ringtone.play();
 	 	    	}catch(Exception ex){
 	 	    		if (_debug) Log.e("NotificationActivity.playRingtone() NOTIFICATION_TYPE_MMS ERROR: " + ex.toString());
@@ -1111,9 +1070,9 @@ public class NotificationActivity extends Activity {
 	 	    }
 	    }
 	    if(notificationType == Constants.NOTIFICATION_TYPE_CALENDAR){
-	 	    if(_preferences.getBoolean(CALENDAR_RINGTONE_ENABLED_KEY, false)){
+	 	    if(_preferences.getBoolean(Constants.CALENDAR_RINGTONE_ENABLED_KEY, false)){
 	 	    	try{
-	 	    		_ringtone = RingtoneManager.getRingtone(_context, Uri.parse(_preferences.getString(CALENDAR_RINGTONE_KEY, "DEFAULT_SOUND")));
+	 	    		_ringtone = RingtoneManager.getRingtone(_context, Uri.parse(_preferences.getString(Constants.CALENDAR_RINGTONE_KEY, "DEFAULT_SOUND")));
 	 	    		if(_ringtone != null) _ringtone.play();
 	 	    	}catch(Exception ex){
 	 	    		if (_debug) Log.e("NotificationActivity.playRingtone() NOTIFICATION_TYPE_CALENDAR ERROR: " + ex.toString());
@@ -1153,32 +1112,32 @@ public class NotificationActivity extends Activity {
 		try{
 			vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
 			//Set vibration based on user preferences.
-			if(preferences.getBoolean(ALL_VIBRATE_ENABLED_KEY, true)){
+			if(preferences.getBoolean(Constants.ALL_VIBRATE_ENABLED_KEY, true)){
 				switch(notificationType){
 					case Constants.NOTIFICATION_TYPE_TEST:{
 						if(vibrator != null) vibrator.vibrate(1 * 1000);
 						break;
 					}
 					case Constants.NOTIFICATION_TYPE_PHONE:{
-				 	    if(preferences.getBoolean(MISSED_CALL_VIBRATE_ENABLED_KEY, true)){
+				 	    if(preferences.getBoolean(Constants.PHONE_VIBRATE_ENABLED_KEY, true)){
 				 	    	if(vibrator != null) vibrator.vibrate(1 * 1000);
 				 	    }
 						break;
 				    }
 					case Constants.NOTIFICATION_TYPE_SMS:{
-				 	    if(preferences.getBoolean(SMS_VIBRATE_ENABLED_KEY, true)){
+				 	    if(preferences.getBoolean(Constants.SMS_VIBRATE_ENABLED_KEY, true)){
 				 	    	if(vibrator != null) vibrator.vibrate(1 * 1000);
 				 	    }
 						break;
 				    }
 					case Constants.NOTIFICATION_TYPE_MMS:{
-				 	    if(preferences.getBoolean(MMS_VIBRATE_ENABLED_KEY, true)){
+				 	    if(preferences.getBoolean(Constants.MMS_VIBRATE_ENABLED_KEY, true)){
 				 	    	if(vibrator != null) vibrator.vibrate(1 * 1000);
 				 	    }
 						break;
 				    }
 					case Constants.NOTIFICATION_TYPE_CALENDAR:{
-				 	    if(preferences.getBoolean(CALENDAR_VIBRATE_ENABLED_KEY, true)){
+				 	    if(preferences.getBoolean(Constants.CALENDAR_VIBRATE_ENABLED_KEY, true)){
 				 	    	if(vibrator != null) vibrator.vibrate(1 * 1000);
 				 	    }
 						break;
@@ -1190,7 +1149,7 @@ public class NotificationActivity extends Activity {
 				}
 			}
 			//Set ringtone based on user preferences.
-			if(preferences.getBoolean(ALL_RINGTONE_ENABLED_KEY, false)){
+			if(preferences.getBoolean(Constants.ALL_RINGTONE_ENABLED_KEY, false)){
 		    	playRingtone(notificationType);
 		    }
 		}catch(Exception ex){
@@ -1320,7 +1279,7 @@ public class NotificationActivity extends Activity {
 		if(Common.startMessagingAppReplyActivity(_context, this, phoneNumber, Constants.SEND_SMS_ACTIVITY)){
 			//Set "In Reply Screen" flag.
 			SharedPreferences.Editor editor = _preferences.edit();
-			editor.putBoolean(Constants.USER_IN_MESSAGING_APP, true);
+			editor.putBoolean(Constants.USER_IN_MESSAGING_APP_KEY, true);
 			editor.commit();
 			return true;
 		}else{
@@ -1528,7 +1487,7 @@ public class NotificationActivity extends Activity {
 		}
 		if(loadAllNew){
 			//Load all unread SMS messages.
-			if(_preferences.getBoolean(SMS_DISPLAY_UNREAD_KEY, false)){
+			if(_preferences.getBoolean(Constants.SMS_DISPLAY_UNREAD_KEY, false)){
 				//new getAllUnreadSMSMessagesAsyncTask().execute(currentMessageID, currentMessageBody);
 				new getAllUnreadSMSMessagesAsyncTask().execute();
 		    }
@@ -1588,7 +1547,7 @@ public class NotificationActivity extends Activity {
 		}
 		if(loadAllNew){
 			//Load all unread MMS messages.
-			if(_preferences.getBoolean(MMS_DISPLAY_UNREAD_KEY, false)){
+			if(_preferences.getBoolean(Constants.MMS_DISPLAY_UNREAD_KEY, false)){
 				new getAllUnreadMMSMessagesAsyncTask().execute();
 		    }
 		}

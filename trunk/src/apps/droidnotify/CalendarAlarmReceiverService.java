@@ -113,13 +113,13 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
 			//contentProvider = "content://calendar";
 			cursor = contentResolver.query(
 				Uri.parse(contentProvider + "/calendars"), 
-				new String[] { Constants._ID, Constants.CALENDAR_DISPLAY_NAME, Constants.CALENDAR_SELECTED },
+				new String[] { Constants.CALENDAR_ID, Constants.CALENDAR_DISPLAY_NAME, Constants.CALENDAR_SELECTED },
 				null,
 				null,
 				null);
 			HashMap<String, String> calendarIds = new HashMap<String, String>();
 			while (cursor.moveToNext()) {
-				final String calendarID = cursor.getString(cursor.getColumnIndex(Constants._ID));
+				final String calendarID = cursor.getString(cursor.getColumnIndex(Constants.CALENDAR_ID));
 				final String calendarDisplayName = cursor.getString(cursor.getColumnIndex(Constants.CALENDAR_DISPLAY_NAME));
 				final Boolean calendarSelected = !cursor.getString(cursor.getColumnIndex(Constants.CALENDAR_SELECTED)).equals("0");
 				if (_debug) Log.v("CalendarAlarmReceiverService.readCalendars() FOUND CALENDAR - Id: " + calendarID + " Display Name: " + calendarDisplayName + " Selected: " + calendarSelected);

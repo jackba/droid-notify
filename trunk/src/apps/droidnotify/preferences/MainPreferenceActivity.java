@@ -40,6 +40,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import apps.droidnotify.CalendarAlarmReceiver;
 import apps.droidnotify.common.Common;
+import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
 import apps.droidnotify.twitter.TwitterAuthenticationActivity;
 import apps.droidnotify.NotificationActivity;
@@ -51,68 +52,6 @@ import apps.droidnotify.R;
  * @author Camille Sévigny
  */
 public class MainPreferenceActivity extends PreferenceActivity implements OnSharedPreferenceChangeListener {
-
-	//================================================================================
-    // Constants
-    //================================================================================
-	
-	public static final String CONSUMER_KEY = "Hr8aDOFeDdY9UbvQB0w2w";
-	public static final String CONSUMER_SECRET= "wfZOJYkYVEYrmdmltOaKfRdnUfSiUkr2MQdjRUY2xU";
- 
-	public static final String REQUEST_URL = "https://api.twitter.com/oauth/request_token";
-	public static final String ACCESS_URL = "https://api.twitter.com/oauth/authorize";
-	public static final String AUTHORIZE_URL = "https://api.twitter.com/oauth/access_token";
- 
-	final public static String	CALLBACK_SCHEME = "droidnotify-oauth-twitter";
-	final public static String	CALLBACK_URL = CALLBACK_SCHEME + "://callback";
-	
-	//Android Market URL
-	private static final String RATE_APP_ANDROID_URL = "http://market.android.com/details?id=apps.droidnotify";
-	//Amazon Appstore URL
-	private static final String RATE_APP_AMAZON_URL = "http://www.amazon.com/gp/mas/dl/android?p=apps.droidnotify";
-	
-	private static final String APP_ENABLED_KEY = "app_enabled";
-	private static final String CALENDAR_NOTIFICATIONS_ENABLED_KEY = "calendar_notifications_enabled";
-	private static final String LANDSCAPE_SCREEN_ENABLED_KEY = "landscape_screen_enabled";
-    private static final String CALENDAR_SELECTION_KEY = "calendar_selection";
-    private static final String CALENDAR_POLLING_FREQUENCY_KEY = "calendar_polling_frequency";
-    private static final String APP_VIBRATIONS_ENABLED_KEY = "app_vibrations_enabled";
-    private static final String SMS_VIBRATE_SETTINGS_SCREEN_KEY = "sms_vibrate_settings_screen";
-    private static final String MMS_VIBRATE_SETTINGS_SCREEN_KEY = "mms_vibrate_settings_screen";
-    private static final String PHONE_VIBRATE_SETTINGS_SCREEN_KEY = "missed_call_vibrate_settings_screen";
-    private static final String CALENDAR_VIBRATE_SETTINGS_SCREEN_KEY = "calendar_vibrate_settings_screen";
-    private static final String APP_RINGTONES_ENABLED_KEY = "app_ringtones_enabled";
-    private static final String SMS_RINGTONE_SETTINGS_SCREEN_KEY = "sms_ringtone_settings_screen";
-    private static final String MMS_RINGTONE_SETTINGS_SCREEN_KEY = "mms_ringtone_settings_screen";
-    private static final String PHONE_RINGTONE_SETTINGS_SCREEN_KEY = "missed_call_ringtone_settings_screen";
-    private static final String CALENDAR_RINGTONE_SETTINGS_SCREEN_KEY = "calendar_ringtone_settings_screen";
-    private static final String SMS_REPLY_BUTTON_ACTION = "sms_reply_button_action";
-    private static final String MMS_REPLY_BUTTON_ACTION = "mms_reply_button_action";
-    private static final String QUICK_REPLY_SMS_GATEWAY_SETTING = "quick_reply_sms_gateway_settings";
-    private static final String QUICK_REPLY_SETTINGS_SCREEN = "quick_reply_settings_screen";
-    private static final String RINGTONE_LENGTH_SETTING = "ringtone_length_settings";
-	private static final String MISSED_CALL_RINGTONE_ENABLED_KEY = "missed_call_ringtone_enabled";
-	private static final String SMS_RINGTONE_ENABLED_KEY = "sms_ringtone_enabled";
-	private static final String MMS_RINGTONE_ENABLED_KEY = "mms_ringtone_enabled";
-	private static final String CALENDAR_RINGTONE_ENABLED_KEY = "calendar_ringtone_enabled";
-	private static final String SMS_HIDE_CONTACT_PANEL_ENABLED_KEY = "sms_hide_contact_panel_enabled";
-	private static final String SMS_HIDE_CONTACT_PHOTO_ENABLED_KEY = "sms_hide_contact_photo_enabled";
-	private static final String SMS_HIDE_CONTACT_NAME_ENABLED_KEY = "sms_hide_contact_name_enabled";
-	private static final String SMS_HIDE_CONTACT_NUMBER_ENABLED_KEY = "sms_hide_contact_number_enabled";
-	private static final String MMS_HIDE_CONTACT_PANEL_ENABLED_KEY = "mms_hide_contact_panel_enabled";
-	private static final String MMS_HIDE_CONTACT_PHOTO_ENABLED_KEY = "mms_hide_contact_photo_enabled";
-	private static final String MMS_HIDE_CONTACT_NAME_ENABLED_KEY = "mms_hide_contact_name_enabled";
-	private static final String MMS_HIDE_CONTACT_NUMBER_ENABLED_KEY = "mms_hide_contact_number_enabled";
-	private static final String PHONE_HIDE_CONTACT_PANEL_ENABLED_KEY = "missed_call_hide_contact_panel_enabled";
-	private static final String PHONE_HIDE_CONTACT_PHOTO_ENABLED_KEY = "missed_call_hide_contact_photo_enabled";
-	private static final String PHONE_HIDE_CONTACT_NAME_ENABLED_KEY = "missed_call_hide_contact_name_enabled";
-	private static final String PHONE_HIDE_CONTACT_NUMBER_ENABLED_KEY = "missed_call_hide_contact_number_enabled";
-	private static final String TWITTER_ENABLED_KEY = "twitter_enabled";
-	
-	private static final int NOTIFICATION_TYPE_TEST = -1;
-	
-	private static final String RUN_ONCE_EULA = "runOnceEula";
-	private static final String RUN_ONCE_CALENDAR_ALARM = "runOnce_v_2_4";
 	
 	//================================================================================
     // Properties
@@ -141,7 +80,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	    _preferences = PreferenceManager.getDefaultSharedPreferences(_context);
 	    _preferences.registerOnSharedPreferenceChangeListener(this);
 	    //Don't rotate the Activity when the screen rotates based on the user preferences.
-	    if(!_preferences.getBoolean(LANDSCAPE_SCREEN_ENABLED_KEY, false)){
+	    if(!_preferences.getBoolean(Constants.LANDSCAPE_SCREEN_ENABLED_KEY, false)){
 	    	this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 	    }
 	    addPreferencesFromResource(R.xml.preferences_new);
@@ -164,60 +103,60 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 		if (_debug) Log.v("MainPreferenceActivity.onSharedPreferenceChanged() Key: " + key);
 		//The polling time for the calendars was changed. Run the alarm manager with the updated polling time.
-		if(key.equals(CALENDAR_POLLING_FREQUENCY_KEY)){
+		if(key.equals(Constants.CALENDAR_POLLING_FREQUENCY_KEY)){
 			startCalendarAlarmManager(SystemClock.elapsedRealtime() + (30 * 1000));
 		}
-		if(key.equals(APP_VIBRATIONS_ENABLED_KEY)){
+		if(key.equals(Constants.ALL_VIBRATE_ENABLED_KEY)){
 			//Master Vibrate Setting
 			updateVibrateSettings();
 		}
-		if(key.equals(APP_RINGTONES_ENABLED_KEY)){
+		if(key.equals(Constants.ALL_RINGTONE_ENABLED_KEY)){
 			//Master Ringtone Setting
 			updateRingtoneSettings();
 			//Update Ringtone Length
 			updateRingtoneLengthSetting();
 		}
-		if(key.equals(SMS_REPLY_BUTTON_ACTION)){
+		if(key.equals(Constants.SMS_REPLY_BUTTON_ACTION_KEY)){
 			//Quick Reply Settings
 			updateQuickReplySettings();
 		}
-		if(key.equals(MMS_REPLY_BUTTON_ACTION)){
+		if(key.equals(Constants.MMS_REPLY_BUTTON_ACTION_KEY)){
 			//Quick Reply Settings
 			updateQuickReplySettings();
 		}
-		if(key.equals(MISSED_CALL_RINGTONE_ENABLED_KEY)){
+		if(key.equals(Constants.PHONE_RINGTONE_ENABLED_KEY)){
 			//Update Ringtone Length
 			updateRingtoneLengthSetting();
 		}
-		if(key.equals(SMS_RINGTONE_ENABLED_KEY)){
+		if(key.equals(Constants.SMS_RINGTONE_ENABLED_KEY)){
 			//Update Ringtone Length
 			updateRingtoneLengthSetting();
 		}
-		if(key.equals(MMS_RINGTONE_ENABLED_KEY)){
+		if(key.equals(Constants.MMS_RINGTONE_ENABLED_KEY)){
 			//Update Ringtone Length
 			updateRingtoneLengthSetting();
 		}
-		if(key.equals(CALENDAR_RINGTONE_ENABLED_KEY)){
+		if(key.equals(Constants.CALENDAR_RINGTONE_ENABLED_KEY)){
 			//Update Ringtone Length
 			updateRingtoneLengthSetting();
 		}
-		if(key.equals(SMS_HIDE_CONTACT_PANEL_ENABLED_KEY)){
+		if(key.equals(Constants.SMS_HIDE_CONTACT_PANEL_ENABLED_KEY)){
 			//Update SMS Contact Info Display
 			updateSMSContactInfoSetting();
 		}
-		if(key.equals(MMS_HIDE_CONTACT_PANEL_ENABLED_KEY)){
+		if(key.equals(Constants.MMS_HIDE_CONTACT_PANEL_ENABLED_KEY)){
 			//Update MMS Contact Info Display
 			updateMMSContactInfoSetting();
 		}
-		if(key.equals(PHONE_HIDE_CONTACT_PANEL_ENABLED_KEY)){
+		if(key.equals(Constants.PHONE_HIDE_CONTACT_PANEL_ENABLED_KEY)){
 			//Update Phone Contact Info Display
 			updatePhoneContactInfoSetting();
 		}
-		if(key.equals(TWITTER_ENABLED_KEY)){
-			if(_preferences.getBoolean(TWITTER_ENABLED_KEY, false)){
+		if(key.equals(Constants.TWITTER_ENABLED_KEY)){
+			if(_preferences.getBoolean(Constants.TWITTER_ENABLED_KEY, false)){
 				checkTwitterAuthentication();
 			}
-		}
+		}		
 	}
 
 	//================================================================================
@@ -275,19 +214,19 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	private void runOnceCalendarAlarmManager(){
 		if (_debug) Log.v("MainPreferenceActivity.runOnceAlarmManager()");
 		//Read preferences and exit if app is disabled.
-	    if(!_preferences.getBoolean(APP_ENABLED_KEY, true)){
+	    if(!_preferences.getBoolean(Constants.APP_ENABLED_KEY, true)){
 			if (_debug) Log.v("MainPreferenceActivity.runOnceAlarmManager() App Disabled. Exiting...");
 			return;
 		}
 		//Read preferences and exit if calendar notifications are disabled.
-	    if(!_preferences.getBoolean(CALENDAR_NOTIFICATIONS_ENABLED_KEY, true)){
+	    if(!_preferences.getBoolean(Constants.CALENDAR_NOTIFICATIONS_ENABLED_KEY, true)){
 			if (_debug) Log.v("MainPreferenceActivity.runOnceAlarmManager() Calendar Notifications Disabled. Exiting... ");
 			return;
 		}
-		boolean runOnce = _preferences.getBoolean(RUN_ONCE_CALENDAR_ALARM, true);
+		boolean runOnce = _preferences.getBoolean(Constants.RUN_ONCE_CALENDAR_ALARM, true);
 		if(runOnce) {
 			SharedPreferences.Editor editor = _preferences.edit();
-			editor.putBoolean(RUN_ONCE_CALENDAR_ALARM, false);
+			editor.putBoolean(Constants.RUN_ONCE_CALENDAR_ALARM, false);
 			editor.commit();
 			startCalendarAlarmManager(SystemClock.elapsedRealtime() + (5 * 60 * 1000));
        }
@@ -304,7 +243,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		AlarmManager alarmManager = (AlarmManager) _context.getSystemService(Context.ALARM_SERVICE);
 		Intent intent = new Intent(_context, CalendarAlarmReceiver.class);
 		PendingIntent pendingIntent = PendingIntent.getBroadcast(_context, 0, intent, 0);
-		long pollingFrequency = Long.parseLong(_preferences.getString(CALENDAR_POLLING_FREQUENCY_KEY, "15")) * 60 * 1000;
+		long pollingFrequency = Long.parseLong(_preferences.getString(Constants.CALENDAR_POLLING_FREQUENCY_KEY, "15")) * 60 * 1000;
 		alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, alarmStartTime, pollingFrequency, pendingIntent);
 		initUserCalendarsPreference();
 	}
@@ -314,11 +253,11 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	 */
 	private void runOnceEula(){
 		if (_debug) Log.v("MainPreferenceActivity.runOnceEula()");
-		boolean runOnceEula = _preferences.getBoolean(RUN_ONCE_EULA, true);
+		boolean runOnceEula = _preferences.getBoolean(Constants.RUN_ONCE_EULA, true);
 		if(runOnceEula) {
 			try{
 				SharedPreferences.Editor editor = _preferences.edit();
-				editor.putBoolean(RUN_ONCE_EULA, false);
+				editor.putBoolean(Constants.RUN_ONCE_EULA, false);
 				editor.commit();
 				displayHTMLAlertDialog(_context.getString(R.string.app_license),R.drawable.ic_dialog_info,_context.getString(R.string.eula_text));
 			}catch(Exception ex){
@@ -338,7 +277,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
         	public boolean onPreferenceClick(Preference preference) {
 		    	if (_debug) Log.v("Test Notifications Button Clicked()");
 		    	Bundle bundle = new Bundle();
-				bundle.putInt("notificationType", NOTIFICATION_TYPE_TEST);
+				bundle.putInt("notificationType", Constants.NOTIFICATION_TYPE_TEST);
 		    	Intent intent = new Intent(_context, NotificationActivity.class);
 		    	intent.putExtras(bundle);
 		    	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
@@ -359,8 +298,8 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		    	if (_debug) Log.v("Rate This App Button Clicked()");
 		    	try{
 			    	String rateAppURL = "";
-			    	if(Log.getShowAndroidRateAppLink()) rateAppURL = RATE_APP_ANDROID_URL;
-			    	if(Log.getShowAmazonRateAppLink()) rateAppURL = RATE_APP_AMAZON_URL;
+			    	if(Log.getShowAndroidRateAppLink()) rateAppURL = Constants.RATE_APP_ANDROID_URL;
+			    	if(Log.getShowAmazonRateAppLink()) rateAppURL = Constants.RATE_APP_AMAZON_URL;
 			    	Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(rateAppURL));			    	
 			    	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
 		    		startActivity(intent);
@@ -1029,7 +968,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
     	}
     	if (_debug) Log.v("MainPreferenceActivity.initUserCalendarsPreference() calendarSelectionPreference: " + calendarSelectionPreference.toString());
     	SharedPreferences.Editor editor = _preferences.edit();
-    	editor.putString(CALENDAR_SELECTION_KEY, calendarSelectionPreference.toString());
+    	editor.putString(Constants.CALENDAR_SELECTION_KEY, calendarSelectionPreference.toString());
     	editor.commit();
 	}
 	
@@ -1136,14 +1075,14 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	private void updateVibrateSettings(){
 		if (_debug) Log.v("MainPreferenceActivity.updateVibrateSettings()");
 		try{
-			PreferenceScreen smsVibrateSettingsScreen = (PreferenceScreen) findPreference(SMS_VIBRATE_SETTINGS_SCREEN_KEY);
-			smsVibrateSettingsScreen.setEnabled(_preferences.getBoolean(APP_VIBRATIONS_ENABLED_KEY, true));
-			PreferenceScreen mmsVibrateSettingsScreen = (PreferenceScreen) findPreference(MMS_VIBRATE_SETTINGS_SCREEN_KEY);
-			mmsVibrateSettingsScreen.setEnabled(_preferences.getBoolean(APP_VIBRATIONS_ENABLED_KEY, true));
-			PreferenceScreen phoneVibrateSettingsScreen = (PreferenceScreen) findPreference(PHONE_VIBRATE_SETTINGS_SCREEN_KEY);
-			phoneVibrateSettingsScreen.setEnabled(_preferences.getBoolean(APP_VIBRATIONS_ENABLED_KEY, true));
-			PreferenceScreen calendarVibrateSettingsScreen = (PreferenceScreen) findPreference(CALENDAR_VIBRATE_SETTINGS_SCREEN_KEY);
-			calendarVibrateSettingsScreen.setEnabled(_preferences.getBoolean(APP_VIBRATIONS_ENABLED_KEY, true));
+			PreferenceScreen smsVibrateSettingsScreen = (PreferenceScreen) findPreference(Constants.SMS_VIBRATE_SETTINGS_SCREEN_KEY);
+			smsVibrateSettingsScreen.setEnabled(_preferences.getBoolean(Constants.ALL_VIBRATE_ENABLED_KEY, true));
+			PreferenceScreen mmsVibrateSettingsScreen = (PreferenceScreen) findPreference(Constants.MMS_VIBRATE_SETTINGS_SCREEN_KEY);
+			mmsVibrateSettingsScreen.setEnabled(_preferences.getBoolean(Constants.ALL_VIBRATE_ENABLED_KEY, true));
+			PreferenceScreen phoneVibrateSettingsScreen = (PreferenceScreen) findPreference(Constants.PHONE_VIBRATE_SETTINGS_SCREEN_KEY);
+			phoneVibrateSettingsScreen.setEnabled(_preferences.getBoolean(Constants.ALL_VIBRATE_ENABLED_KEY, true));
+			PreferenceScreen calendarVibrateSettingsScreen = (PreferenceScreen) findPreference(Constants.CALENDAR_VIBRATE_SETTINGS_SCREEN_KEY);
+			calendarVibrateSettingsScreen.setEnabled(_preferences.getBoolean(Constants.ALL_VIBRATE_ENABLED_KEY, true));
 		}catch(Exception ex){
 			if (_debug) Log.e("MainPreferenceActivity.updateVibrateSettings() ERROR: " + ex.toString());
 		}
@@ -1155,14 +1094,14 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	private void updateRingtoneSettings(){
 		if (_debug) Log.v("MainPreferenceActivity.updateRingtoneSettings()");
 		try{
-			PreferenceScreen smsRingtoneSettingsScreen = (PreferenceScreen) findPreference(SMS_RINGTONE_SETTINGS_SCREEN_KEY);
-			smsRingtoneSettingsScreen.setEnabled(_preferences.getBoolean(APP_RINGTONES_ENABLED_KEY, true));
-			PreferenceScreen mmsRingtoneSettingsScreen = (PreferenceScreen) findPreference(MMS_RINGTONE_SETTINGS_SCREEN_KEY);
-			mmsRingtoneSettingsScreen.setEnabled(_preferences.getBoolean(APP_RINGTONES_ENABLED_KEY, true));
-			PreferenceScreen phoneRingtoneSettingsScreen = (PreferenceScreen) findPreference(PHONE_RINGTONE_SETTINGS_SCREEN_KEY);
-			phoneRingtoneSettingsScreen.setEnabled(_preferences.getBoolean(APP_RINGTONES_ENABLED_KEY, true));
-			PreferenceScreen calendarRingtoneSettingsScreen = (PreferenceScreen) findPreference(CALENDAR_RINGTONE_SETTINGS_SCREEN_KEY);
-			calendarRingtoneSettingsScreen.setEnabled(_preferences.getBoolean(APP_RINGTONES_ENABLED_KEY, true));
+			PreferenceScreen smsRingtoneSettingsScreen = (PreferenceScreen) findPreference(Constants.SMS_RINGTONE_SETTINGS_SCREEN_KEY);
+			smsRingtoneSettingsScreen.setEnabled(_preferences.getBoolean(Constants.ALL_RINGTONE_ENABLED_KEY, true));
+			PreferenceScreen mmsRingtoneSettingsScreen = (PreferenceScreen) findPreference(Constants.MMS_RINGTONE_SETTINGS_SCREEN_KEY);
+			mmsRingtoneSettingsScreen.setEnabled(_preferences.getBoolean(Constants.ALL_RINGTONE_ENABLED_KEY, true));
+			PreferenceScreen phoneRingtoneSettingsScreen = (PreferenceScreen) findPreference(Constants.PHONE_RINGTONE_SETTINGS_SCREEN_KEY);
+			phoneRingtoneSettingsScreen.setEnabled(_preferences.getBoolean(Constants.ALL_RINGTONE_ENABLED_KEY, true));
+			PreferenceScreen calendarRingtoneSettingsScreen = (PreferenceScreen) findPreference(Constants.CALENDAR_RINGTONE_SETTINGS_SCREEN_KEY);
+			calendarRingtoneSettingsScreen.setEnabled(_preferences.getBoolean(Constants.ALL_RINGTONE_ENABLED_KEY, true));
 		}catch(Exception ex){
 			if (_debug) Log.e("MainPreferenceActivity.updateRingtoneSettings() ERROR: " + ex.toString());
 		}
@@ -1175,15 +1114,15 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		if (_debug) Log.v("MainPreferenceActivity.updateQuickReplySettings()");
 		try{
 			boolean quickReplySMSGatewayEnabled = false;
-			if(_preferences.getString(SMS_REPLY_BUTTON_ACTION, "0").equals("1")){
+			if(_preferences.getString(Constants.SMS_REPLY_BUTTON_ACTION_KEY, "0").equals("1")){
 				quickReplySMSGatewayEnabled = true;
 			}
-			if(_preferences.getString(MMS_REPLY_BUTTON_ACTION, "0").equals("1")){
+			if(_preferences.getString(Constants.MMS_REPLY_BUTTON_ACTION_KEY, "0").equals("1")){
 				quickReplySMSGatewayEnabled = true;
 			}
-			ListPreference quickReplySMSGateway = (ListPreference) findPreference(QUICK_REPLY_SMS_GATEWAY_SETTING);
+			ListPreference quickReplySMSGateway = (ListPreference) findPreference(Constants.SMS_GATEWAY_KEY);
 			quickReplySMSGateway.setEnabled(quickReplySMSGatewayEnabled);
-			PreferenceScreen  quickReplyPreferenceScreen = (PreferenceScreen) findPreference(QUICK_REPLY_SETTINGS_SCREEN);
+			PreferenceScreen  quickReplyPreferenceScreen = (PreferenceScreen) findPreference(Constants.QUICK_REPLY_SETTINGS_SCREEN);
 			quickReplyPreferenceScreen.setEnabled(quickReplySMSGatewayEnabled);
 		}catch(Exception ex){
 			if (_debug) Log.e("MainPreferenceActivity.updateQuickReplySettings() ERROR: " + ex.toString());
@@ -1197,19 +1136,19 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		if (_debug) Log.v("MainPreferenceActivity.updateRingtoneLengthSetting()");
 		try{
 			boolean ringtoneLengthSettingEnabled = false;
-			if(_preferences.getBoolean(MISSED_CALL_RINGTONE_ENABLED_KEY, true)){
+			if(_preferences.getBoolean(Constants.PHONE_RINGTONE_ENABLED_KEY, true)){
 				ringtoneLengthSettingEnabled = true;
 			}
-			if(_preferences.getBoolean(SMS_RINGTONE_ENABLED_KEY, true)){
+			if(_preferences.getBoolean(Constants.SMS_RINGTONE_ENABLED_KEY, true)){
 				ringtoneLengthSettingEnabled = true;
 			}
-			if(_preferences.getBoolean(MMS_RINGTONE_ENABLED_KEY, true)){
+			if(_preferences.getBoolean(Constants.MMS_RINGTONE_ENABLED_KEY, true)){
 				ringtoneLengthSettingEnabled = true;
 			}
-			if(_preferences.getBoolean(CALENDAR_RINGTONE_ENABLED_KEY, true)){
+			if(_preferences.getBoolean(Constants.CALENDAR_RINGTONE_ENABLED_KEY, true)){
 				ringtoneLengthSettingEnabled = true;
 			}
-			ListPreference ringtoneLengthSetting = (ListPreference) findPreference(RINGTONE_LENGTH_SETTING);
+			ListPreference ringtoneLengthSetting = (ListPreference) findPreference(Constants.RINGTONE_LENGTH_KEY);
 			ringtoneLengthSetting.setEnabled(ringtoneLengthSettingEnabled);
 		}catch(Exception ex){
 			if (_debug) Log.e("MainPreferenceActivity.updateRingtoneLengthSetting() ERROR: " + ex.toString());
@@ -1222,12 +1161,12 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	private void updateSMSContactInfoSetting(){
 		if (_debug) Log.v("MainPreferenceActivity.updateSMSContactInfoSetting()");
 		try{
-			boolean contactInfoDisplaySettingsEnabled = _preferences.getBoolean(SMS_HIDE_CONTACT_PANEL_ENABLED_KEY, false);
-			CheckBoxPreference hideContactPhoto = (CheckBoxPreference) findPreference(SMS_HIDE_CONTACT_PHOTO_ENABLED_KEY);
+			boolean contactInfoDisplaySettingsEnabled = _preferences.getBoolean(Constants.SMS_HIDE_CONTACT_PANEL_ENABLED_KEY, false);
+			CheckBoxPreference hideContactPhoto = (CheckBoxPreference) findPreference(Constants.SMS_HIDE_CONTACT_PHOTO_ENABLED_KEY);
 			hideContactPhoto.setEnabled(!contactInfoDisplaySettingsEnabled);
-			CheckBoxPreference hideContactName = (CheckBoxPreference) findPreference(SMS_HIDE_CONTACT_NAME_ENABLED_KEY);
+			CheckBoxPreference hideContactName = (CheckBoxPreference) findPreference(Constants.SMS_HIDE_CONTACT_NAME_ENABLED_KEY);
 			hideContactName.setEnabled(!contactInfoDisplaySettingsEnabled);
-			CheckBoxPreference hideContactNumber = (CheckBoxPreference) findPreference(SMS_HIDE_CONTACT_NUMBER_ENABLED_KEY);
+			CheckBoxPreference hideContactNumber = (CheckBoxPreference) findPreference(Constants.SMS_HIDE_CONTACT_NUMBER_ENABLED_KEY);
 			hideContactNumber.setEnabled(!contactInfoDisplaySettingsEnabled);
 		}catch(Exception ex){
 			if (_debug) Log.e("MainPreferenceActivity.updateSMSContactInfoSetting() ERROR: " + ex.toString());
@@ -1240,12 +1179,12 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	private void updateMMSContactInfoSetting(){
 		if (_debug) Log.v("MainPreferenceActivity.updateMMSContactInfoSetting()");
 		try{
-		boolean contactInfoDisplaySettingsEnabled = _preferences.getBoolean(MMS_HIDE_CONTACT_PANEL_ENABLED_KEY, false);
-		CheckBoxPreference hideContactPhoto = (CheckBoxPreference) findPreference(MMS_HIDE_CONTACT_PHOTO_ENABLED_KEY);
+		boolean contactInfoDisplaySettingsEnabled = _preferences.getBoolean(Constants.MMS_HIDE_CONTACT_PANEL_ENABLED_KEY, false);
+		CheckBoxPreference hideContactPhoto = (CheckBoxPreference) findPreference(Constants.MMS_HIDE_CONTACT_PHOTO_ENABLED_KEY);
 		hideContactPhoto.setEnabled(!contactInfoDisplaySettingsEnabled);
-		CheckBoxPreference hideContactName = (CheckBoxPreference) findPreference(MMS_HIDE_CONTACT_NAME_ENABLED_KEY);
+		CheckBoxPreference hideContactName = (CheckBoxPreference) findPreference(Constants.MMS_HIDE_CONTACT_NAME_ENABLED_KEY);
 		hideContactName.setEnabled(!contactInfoDisplaySettingsEnabled);
-		CheckBoxPreference hideContactNumber = (CheckBoxPreference) findPreference(MMS_HIDE_CONTACT_NUMBER_ENABLED_KEY);
+		CheckBoxPreference hideContactNumber = (CheckBoxPreference) findPreference(Constants.MMS_HIDE_CONTACT_NUMBER_ENABLED_KEY);
 		hideContactNumber.setEnabled(!contactInfoDisplaySettingsEnabled);
 		}catch(Exception ex){
 			if (_debug) Log.e("MainPreferenceActivity.updateMMSContactInfoSetting() ERROR: " + ex.toString());
@@ -1258,12 +1197,12 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	private void updatePhoneContactInfoSetting(){
 		if (_debug) Log.v("MainPreferenceActivity.updatePhoneContactInfoSetting()");
 		try{
-			boolean contactInfoDisplaySettingsEnabled = _preferences.getBoolean(PHONE_HIDE_CONTACT_PANEL_ENABLED_KEY, false);
-			CheckBoxPreference hideContactPhoto = (CheckBoxPreference) findPreference(PHONE_HIDE_CONTACT_PHOTO_ENABLED_KEY);
+			boolean contactInfoDisplaySettingsEnabled = _preferences.getBoolean(Constants.PHONE_HIDE_CONTACT_PANEL_ENABLED_KEY, false);
+			CheckBoxPreference hideContactPhoto = (CheckBoxPreference) findPreference(Constants.PHONE_HIDE_CONTACT_PHOTO_ENABLED_KEY);
 			hideContactPhoto.setEnabled(!contactInfoDisplaySettingsEnabled);
-			CheckBoxPreference hideContactName = (CheckBoxPreference) findPreference(PHONE_HIDE_CONTACT_NAME_ENABLED_KEY);
+			CheckBoxPreference hideContactName = (CheckBoxPreference) findPreference(Constants.PHONE_HIDE_CONTACT_NAME_ENABLED_KEY);
 			hideContactName.setEnabled(!contactInfoDisplaySettingsEnabled);
-			CheckBoxPreference hideContactNumber = (CheckBoxPreference) findPreference(PHONE_HIDE_CONTACT_NUMBER_ENABLED_KEY);
+			CheckBoxPreference hideContactNumber = (CheckBoxPreference) findPreference(Constants.PHONE_HIDE_CONTACT_NUMBER_ENABLED_KEY);
 			hideContactNumber.setEnabled(!contactInfoDisplaySettingsEnabled);
 		}catch(Exception ex){
 			if (_debug) Log.e("MainPreferenceActivity.updatePhoneContactInfoSetting() ERROR: " + ex.toString());

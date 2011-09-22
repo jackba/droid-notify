@@ -4,9 +4,11 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.telephony.SmsMessage;
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
@@ -51,15 +53,16 @@ public class SMSReceiverService extends WakefulIntentService {
 	protected void doWakefulWork(Intent intent) {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("SMSReceiverService.doWakefulWork()");
+		Context context = getApplicationContext();
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		ArrayList<String> smsArray = null;
-		if(){
+		if(preferences.getString(Constants.SMS_LOADING_SETTING_KEY, "0").equals("0")){
 			Bundle newSMSBundle = intent.getExtras();
 			smsArray = getSMSMessagesFromIntent(newSMSBundle);
 		}else{
 			smsArray = getSMSMessagesFromDisk();
 		}
 		if(smsArray.size() > 0){
-			Context context = getApplicationContext();
 			Bundle bundle = new Bundle();
 			bundle.putInt("notificationType", Constants.NOTIFICATION_TYPE_SMS);
 			bundle.putStringArrayList("smsArrayList",smsArray);

@@ -22,22 +22,6 @@ import apps.droidnotify.log.Log;
  * @author Camille Sévigny
  */
 public class NotificationViewFlipper extends ViewFlipper {
-
-	//================================================================================
-    // Constants
-    //================================================================================
-	
-	private static final String SMS_DELETE_KEY = "sms_delete_button_action";
-	private static final String MMS_DELETE_KEY = "mms_delete_button_action";
-	private static final String HIDE_SINGLE_MESSAGE_HEADER_KEY = "hide_single_message_header_enabled";
-	//private static final String SMS_DISMISS_ACTION_MARK_READ = "0";
-	private static final String SMS_DELETE_ACTION_DELETE_MESSAGE = "0";
-	private static final String SMS_DELETE_ACTION_DELETE_THREAD = "1";
-	private static final String SMS_DELETE_ACTION_NOTHING = "2";
-	//private static final String MMS_DISMISS_ACTION_MARK_READ = "0";
-	private static final String MMS_DELETE_ACTION_DELETE_MESSAGE = "0";
-	private static final String MMS_DELETE_ACTION_DELETE_THREAD = "1";
-	private static final String MMS_DELETE_ACTION_NOTHING = "2";
 	
 	//================================================================================
     // Properties
@@ -180,15 +164,15 @@ public class NotificationViewFlipper extends ViewFlipper {
 		int notificationType = notification.getNotificationType();
 		switch(notificationType){
 			case Constants.NOTIFICATION_TYPE_SMS:{
-				if(_preferences.getString(SMS_DELETE_KEY, "0").equals(SMS_DELETE_ACTION_NOTHING)){
+				if(_preferences.getString(Constants.SMS_DELETE_KEY, "0").equals(Constants.SMS_DELETE_ACTION_NOTHING)){
 					//Remove the notification from the ViewFlipper
 					removeActiveNotification();
-				}else if(_preferences.getString(SMS_DELETE_KEY, "0").equals(SMS_DELETE_ACTION_DELETE_MESSAGE)){
+				}else if(_preferences.getString(Constants.SMS_DELETE_KEY, "0").equals(Constants.SMS_DELETE_ACTION_DELETE_MESSAGE)){
 					//Delete the current message from the users phone.
 					notification.deleteMessage();
 					//Remove the notification from the ViewFlipper
 					removeActiveNotification();
-				}else if(_preferences.getString(SMS_DELETE_KEY, "0").equals(SMS_DELETE_ACTION_DELETE_THREAD)){
+				}else if(_preferences.getString(Constants.SMS_DELETE_KEY, "0").equals(Constants.SMS_DELETE_ACTION_DELETE_THREAD)){
 					//Delete the current message from the users phone.
 					//The notification will remove ALL messages for this thread from the phone for us.
 					notification.deleteMessage();
@@ -198,15 +182,15 @@ public class NotificationViewFlipper extends ViewFlipper {
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_MMS:{
-				if(_preferences.getString(MMS_DELETE_KEY, "0").equals(MMS_DELETE_ACTION_NOTHING)){
+				if(_preferences.getString(Constants.MMS_DELETE_KEY, "0").equals(Constants.MMS_DELETE_ACTION_NOTHING)){
 					//Remove the notification from the ViewFlipper
 					removeActiveNotification();
-				}else if(_preferences.getString(MMS_DELETE_KEY, "0").equals(MMS_DELETE_ACTION_DELETE_MESSAGE)){
+				}else if(_preferences.getString(Constants.MMS_DELETE_KEY, "0").equals(Constants.MMS_DELETE_ACTION_DELETE_MESSAGE)){
 					//Delete the current message from the users phone.
 					notification.deleteMessage();
 					//Remove the notification from the ViewFlipper
 					removeActiveNotification();
-				}else if(_preferences.getString(MMS_DELETE_KEY, "0").equals(MMS_DELETE_ACTION_DELETE_THREAD)){
+				}else if(_preferences.getString(Constants.MMS_DELETE_KEY, "0").equals(Constants.MMS_DELETE_ACTION_DELETE_THREAD)){
 					//Remove all Notifications with the thread ID.
 					removeNotifications(notification.getThreadID());
 					//Delete the current message from the users phone.
@@ -408,7 +392,7 @@ public class NotificationViewFlipper extends ViewFlipper {
     		nextButton.setVisibility(View.VISIBLE);
     		displayNotificationCount = true;
     	}
-    	if(_preferences.getBoolean(HIDE_SINGLE_MESSAGE_HEADER_KEY, false)){
+    	if(_preferences.getBoolean(Constants.HIDE_SINGLE_MESSAGE_HEADER_KEY, false)){
 	    	if(!displayNotificationCount){
 	    		previousButton.setVisibility(View.GONE);
 	    		nextButton.setVisibility(View.GONE);

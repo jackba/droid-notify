@@ -40,61 +40,6 @@ import apps.droidnotify.log.Log;
 public class NotificationView extends LinearLayout {
 	
 	//================================================================================
-    // Constants
-    //================================================================================
-	
-	private static final int SQUARE_IMAGE_SIZE = 80;
-	
-	private static final int PHONE_NUMBER_FORMAT_A = 1;
-	private static final int PHONE_NUMBER_FORMAT_B = 2;
-	private static final int PHONE_NUMBER_FORMAT_C = 3;
-	private static final int PHONE_NUMBER_FORMAT_D = 4;
-	private static final int PHONE_NUMBER_FORMAT_E = 5;
-	private static final int PHONE_NUMBER_FORMAT_F = 6;
-	private static final int PHONE_NUMBER_FORMAT_G = 7;
-	private static final int PHONE_NUMBER_FORMAT_H = 8;
-	
-	private static final String HAPTIC_FEEDBACK_ENABLED_KEY = "haptic_feedback_enabled";
-	private static final String SMS_REPLY_BUTTON_ACTION_KEY = "sms_reply_button_action";
-	private static final String MMS_REPLY_BUTTON_ACTION_KEY = "mms_reply_button_action";
-	private static final String CONTACT_PLACEHOLDER_KEY = "contact_placeholder";
-	private static final String BUTTON_ICONS_KEY = "button_icons_enabled";
-	private static final String PHONE_NUMBER_FORMAT_KEY = "phone_number_format_settings";
-	private static final String SMS_HIDE_MESSAGE_KEY = "sms_hide_message_body_enabled";
-	private static final String MMS_HIDE_MESSAGE_KEY = "mms_hide_message_body_enabled";
-	private static final String SMS_HIDE_DISMISS_BUTTON_KEY = "sms_hide_dismiss_button_enabled";
-	private static final String SMS_HIDE_DELETE_BUTTON_KEY = "sms_hide_delete_button_enabled";
-	private static final String SMS_HIDE_REPLY_BUTTON_KEY = "sms_hide_reply_button_enabled";
-	private static final String MMS_HIDE_DISMISS_BUTTON_KEY = "mms_hide_dismiss_button_enabled";
-	private static final String MMS_HIDE_DELETE_BUTTON_KEY = "mms_hide_delete_button_enabled";
-	private static final String MMS_HIDE_REPLY_BUTTON_KEY = "mms_hide_reply_button_enabled";
-	private static final String PHONE_HIDE_DISMISS_BUTTON_KEY = "missed_call_hide_dismiss_button_enabled";
-	private static final String PHONE_HIDE_CALL_BUTTON_KEY = "missed_call_hide_call_button_enabled";
-	private static final String CALENDAR_HIDE_DISMISS_BUTTON_KEY = "calendar_hide_dismiss_button_enabled";
-	private static final String CALENDAR_HIDE_VIEW_BUTTON_KEY = "calendar_hide_view_button_enabled";
-	private static final String SMS_NOTIFICATION_COUNT_ACTION_KEY = "sms_notification_count_action";
-	private static final String MMS_NOTIFICATION_COUNT_ACTION_KEY = "mms_notification_count_action";
-	private static final String PHONE_NOTIFICATION_COUNT_ACTION_KEY = "missed_call_notification_count_action";
-	private static final String CALENDAR_NOTIFICATION_COUNT_ACTION_KEY = "calendar_notification_count_action";
-	private static final String GMAIL_NOTIFICATION_COUNT_ACTION_KEY = "gmail_notification_count_action";
-	private static final String SMS_MESSAGE_BODY_FONT_SIZE = "sms_message_body_font_size";
-	private static final String MMS_MESSAGE_BODY_FONT_SIZE = "mms_message_body_font_size";
-	private static final String CALENDAR_MESSAGE_BODY_FONT_SIZE = "calendar_message_body_font_size";
-
-	private static final String SMS_HIDE_CONTACT_PANEL_ENABLED_KEY = "sms_hide_contact_panel_enabled";
-	private static final String MMS_HIDE_CONTACT_PANEL_ENABLED_KEY = "mms_hide_contact_panel_enabled";
-	private static final String PHONE_HIDE_CONTACT_PANEL_ENABLED_KEY = "missed_call_hide_contact_panel_enabled";
-	private static final String SMS_HIDE_CONTACT_PHOTO_ENABLED_KEY = "sms_hide_contact_photo_enabled";
-	private static final String MMS_HIDE_CONTACT_PHOTO_ENABLED_KEY = "mms_hide_contact_photo_enabled";
-	private static final String PHONE_HIDE_CONTACT_PHOTO_ENABLED_KEY = "missed_call_hide_contact_photo_enabled";
-	private static final String SMS_HIDE_CONTACT_NAME_ENABLED_KEY = "sms_hide_contact_name_enabled";
-	private static final String MMS_HIDE_CONTACT_NAME_ENABLED_KEY = "mms_hide_contact_name_enabled";
-	private static final String PHONE_HIDE_CONTACT_NAME_ENABLED_KEY = "missed_call_hide_contact_name_enabled";
-	private static final String SMS_HIDE_CONTACT_NUMBER_ENABLED_KEY = "sms_hide_contact_number_enabled";
-	private static final String MMS_HIDE_CONTACT_NUMBER_ENABLED_KEY = "mms_hide_contact_number_enabled";
-	private static final String PHONE_HIDE_CONTACT_NUMBER_ENABLED_KEY = "missed_call_hide_contact_number_enabled";
-	
-	//================================================================================
     // Properties
     //================================================================================
 	
@@ -213,7 +158,7 @@ public class NotificationView extends LinearLayout {
 		switch(_notificationType){
 			case Constants.NOTIFICATION_TYPE_PHONE:{
 				// Notification Count Text Button
-				int notificationCountAction = Integer.parseInt(_preferences.getString(PHONE_NOTIFICATION_COUNT_ACTION_KEY, "0"));
+				int notificationCountAction = Integer.parseInt(_preferences.getString(Constants.PHONE_NOTIFICATION_COUNT_ACTION_KEY, "0"));
 				if(notificationCountAction == 0){
 					//Do Nothing.
 				}else if(notificationCountAction == 1){
@@ -231,7 +176,7 @@ public class NotificationView extends LinearLayout {
 		    	calendarButtonLayoutVisibility = View.GONE;
 				// Dismiss Button
 		    	final Button phoneDismissButton = (Button) findViewById(R.id.phone_dismiss_button);
-		    	if(_preferences.getBoolean(PHONE_HIDE_DISMISS_BUTTON_KEY, false)){
+		    	if(_preferences.getBoolean(Constants.PHONE_HIDE_DISMISS_BUTTON_KEY, false)){
 		    		phoneDismissButton.setVisibility(View.GONE);
 		    	}else{
 					phoneDismissButton.setOnClickListener(new OnClickListener() {
@@ -244,7 +189,7 @@ public class NotificationView extends LinearLayout {
 		    	}
 				// Call Button
 				final Button phoneCallButton = (Button) findViewById(R.id.phone_call_button);
-				if(_preferences.getBoolean(PHONE_HIDE_CALL_BUTTON_KEY, false)){
+				if(_preferences.getBoolean(Constants.PHONE_HIDE_CALL_BUTTON_KEY, false)){
 		    		phoneCallButton.setVisibility(View.GONE);
 		    	}else{
 					phoneCallButton.setOnClickListener(new OnClickListener() {
@@ -256,7 +201,7 @@ public class NotificationView extends LinearLayout {
 					});
 		    	}
 				//Remove the icons from the View's buttons, based on the user preferences.
-				if(!_preferences.getBoolean(BUTTON_ICONS_KEY, true)){
+				if(!_preferences.getBoolean(Constants.BUTTON_ICONS_KEY, true)){
 					phoneDismissButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
 					phoneCallButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
 				}
@@ -264,7 +209,7 @@ public class NotificationView extends LinearLayout {
 			}
 			case Constants.NOTIFICATION_TYPE_SMS:{
 				// Notification Count Text Button
-				int notificationCountAction = Integer.parseInt(_preferences.getString(SMS_NOTIFICATION_COUNT_ACTION_KEY, "0"));
+				int notificationCountAction = Integer.parseInt(_preferences.getString(Constants.SMS_NOTIFICATION_COUNT_ACTION_KEY, "0"));
 				if(notificationCountAction == 0){
 					//Do Nothing.
 				}else if(notificationCountAction == 1){
@@ -298,7 +243,7 @@ public class NotificationView extends LinearLayout {
 		    	calendarButtonLayoutVisibility = View.GONE;
 				// Dismiss Button
 		    	final Button smsDismissButton = (Button) findViewById(R.id.sms_dismiss_button);
-		    	if(_preferences.getBoolean(SMS_HIDE_DISMISS_BUTTON_KEY, false)){
+		    	if(_preferences.getBoolean(Constants.SMS_HIDE_DISMISS_BUTTON_KEY, false)){
 		    		smsDismissButton.setVisibility(View.GONE);
 		    	}else{
 					smsDismissButton.setOnClickListener(new OnClickListener() {
@@ -311,7 +256,7 @@ public class NotificationView extends LinearLayout {
 		    	}
 				// Delete Button
 				final Button smsDeleteButton = (Button) findViewById(R.id.sms_delete_button);
-				if(_preferences.getBoolean(SMS_HIDE_DELETE_BUTTON_KEY, false)){
+				if(_preferences.getBoolean(Constants.SMS_HIDE_DELETE_BUTTON_KEY, false)){
 		    		smsDeleteButton.setVisibility(View.GONE);
 		    	}else{
 					smsDeleteButton.setOnClickListener(new OnClickListener() {
@@ -324,7 +269,7 @@ public class NotificationView extends LinearLayout {
 		    	}
 				// Reply Button
 				final Button smsReplyButton = (Button) findViewById(R.id.sms_reply_button);
-				if(_preferences.getBoolean(SMS_HIDE_REPLY_BUTTON_KEY, false)){
+				if(_preferences.getBoolean(Constants.SMS_HIDE_REPLY_BUTTON_KEY, false)){
 		    		smsReplyButton.setVisibility(View.GONE);
 		    	}else{
 					smsReplyButton.setOnClickListener(new OnClickListener() {
@@ -336,7 +281,7 @@ public class NotificationView extends LinearLayout {
 					});
 		    	}
 				//Remove the icons from the View's buttons, based on the user preferences.
-				if(!_preferences.getBoolean(BUTTON_ICONS_KEY, true)){
+				if(!_preferences.getBoolean(Constants.BUTTON_ICONS_KEY, true)){
 					smsDismissButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
 					smsDeleteButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
 					smsReplyButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
@@ -345,7 +290,7 @@ public class NotificationView extends LinearLayout {
 			}
 			case Constants.NOTIFICATION_TYPE_MMS:{
 				// Notification Count Text Button
-				int notificationCountAction = Integer.parseInt(_preferences.getString(MMS_NOTIFICATION_COUNT_ACTION_KEY, "0"));
+				int notificationCountAction = Integer.parseInt(_preferences.getString(Constants.MMS_NOTIFICATION_COUNT_ACTION_KEY, "0"));
 				if(notificationCountAction == 0){
 					//Do Nothing.
 				}else if(notificationCountAction == 1){
@@ -379,7 +324,7 @@ public class NotificationView extends LinearLayout {
 		    	calendarButtonLayoutVisibility = View.GONE;
 				// Dismiss Button
 		    	final Button mmsDismissButton = (Button) findViewById(R.id.sms_dismiss_button);
-		    	if(_preferences.getBoolean(MMS_HIDE_DISMISS_BUTTON_KEY, false)){
+		    	if(_preferences.getBoolean(Constants.MMS_HIDE_DISMISS_BUTTON_KEY, false)){
 		    		mmsDismissButton.setVisibility(View.GONE);
 		    	}else{
 					mmsDismissButton.setOnClickListener(new OnClickListener() {
@@ -392,7 +337,7 @@ public class NotificationView extends LinearLayout {
 		    	}
 				// Delete Button
 				final Button mmsDeleteButton = (Button) findViewById(R.id.sms_delete_button);
-				if(_preferences.getBoolean(MMS_HIDE_DELETE_BUTTON_KEY, false)){
+				if(_preferences.getBoolean(Constants.MMS_HIDE_DELETE_BUTTON_KEY, false)){
 		    		mmsDeleteButton.setVisibility(View.GONE);
 		    	}else{
 					mmsDeleteButton.setOnClickListener(new OnClickListener() {
@@ -405,7 +350,7 @@ public class NotificationView extends LinearLayout {
 		    	}
 				// Reply Button
 				final Button mmsReplyButton = (Button) findViewById(R.id.sms_reply_button);
-				if(_preferences.getBoolean(MMS_HIDE_REPLY_BUTTON_KEY, false)){
+				if(_preferences.getBoolean(Constants.MMS_HIDE_REPLY_BUTTON_KEY, false)){
 					mmsReplyButton.setVisibility(View.GONE);
 		    	}else{
 					mmsReplyButton.setOnClickListener(new OnClickListener() {
@@ -417,7 +362,7 @@ public class NotificationView extends LinearLayout {
 					});
 		    	}
 				//Remove the icons from the View's buttons, based on the user preferences.
-				if(!_preferences.getBoolean(BUTTON_ICONS_KEY, true)){
+				if(!_preferences.getBoolean(Constants.BUTTON_ICONS_KEY, true)){
 					mmsDismissButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
 					mmsDeleteButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
 					mmsReplyButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
@@ -426,7 +371,7 @@ public class NotificationView extends LinearLayout {
 			}
 			case Constants.NOTIFICATION_TYPE_CALENDAR:{
 				// Notification Count Text Button
-				int notificationCountAction = Integer.parseInt(_preferences.getString(CALENDAR_NOTIFICATION_COUNT_ACTION_KEY, "0"));
+				int notificationCountAction = Integer.parseInt(_preferences.getString(Constants.CALENDAR_NOTIFICATION_COUNT_ACTION_KEY, "0"));
 				if(notificationCountAction == 0){
 					//Do Nothing.
 				}else if(notificationCountAction == 1){
@@ -444,7 +389,7 @@ public class NotificationView extends LinearLayout {
 		    	calendarButtonLayoutVisibility = View.VISIBLE;
 				// Dismiss Button
 		    	final Button calendarDismissButton = (Button) findViewById(R.id.calendar_dismiss_button);
-		    	if(_preferences.getBoolean(CALENDAR_HIDE_DISMISS_BUTTON_KEY, false)){
+		    	if(_preferences.getBoolean(Constants.CALENDAR_HIDE_DISMISS_BUTTON_KEY, false)){
 		    		calendarDismissButton.setVisibility(View.GONE);
 		    	}else{
 			    	calendarDismissButton.setOnClickListener(new OnClickListener() {
@@ -457,7 +402,7 @@ public class NotificationView extends LinearLayout {
 		    	}
 				// View Button
 		    	final Button calendarViewButton = (Button) findViewById(R.id.calendar_view_button);
-		    	if(_preferences.getBoolean(CALENDAR_HIDE_VIEW_BUTTON_KEY, false)){
+		    	if(_preferences.getBoolean(Constants.CALENDAR_HIDE_VIEW_BUTTON_KEY, false)){
 		    		calendarViewButton.setVisibility(View.GONE);
 		    	}else{
 					calendarViewButton.setOnClickListener(new OnClickListener() {
@@ -470,7 +415,7 @@ public class NotificationView extends LinearLayout {
 					});
 		    	}
 				//Remove the icons from the View's buttons, based on the user preferences.
-				if(!_preferences.getBoolean(BUTTON_ICONS_KEY, true)){
+				if(!_preferences.getBoolean(Constants.BUTTON_ICONS_KEY, true)){
 					calendarDismissButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
 					calendarViewButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
 				}
@@ -478,7 +423,7 @@ public class NotificationView extends LinearLayout {
 			}
 			case Constants.NOTIFICATION_TYPE_GMAIL:{
 				// Notification Count Text Button
-				String notificationCountAction = _preferences.getString(GMAIL_NOTIFICATION_COUNT_ACTION_KEY, "0");
+				String notificationCountAction = _preferences.getString(Constants.GMAIL_NOTIFICATION_COUNT_ACTION_KEY, "0");
 				if(notificationCountAction.equals("0")){
 					//Do Nothing.
 				}else{
@@ -516,7 +461,7 @@ public class NotificationView extends LinearLayout {
 			_photoImageView.setVisibility(View.GONE);
 			_photoProgressBar.setVisibility(View.GONE);
 			//Set Message Body Font
-			float messagebodyfontSize = Float.parseFloat(_preferences.getString(CALENDAR_MESSAGE_BODY_FONT_SIZE, "14"));
+			float messagebodyfontSize = Float.parseFloat(_preferences.getString(Constants.CALENDAR_MESSAGE_BODY_FONT_SIZE, "14"));
 			_notificationDetailsTextView.setTextSize(messagebodyfontSize);
 		}else{
 			_contactNameTextView.setText(notification.getContactName());
@@ -530,15 +475,15 @@ public class NotificationView extends LinearLayout {
 		    setupQuickContact();
 		}
 		if(_notificationType == Constants.NOTIFICATION_TYPE_SMS){
-			if(_preferences.getBoolean(SMS_HIDE_MESSAGE_KEY, false)){
+			if(_preferences.getBoolean(Constants.SMS_HIDE_MESSAGE_KEY, false)){
 				_notificationDetailsTextView.setVisibility(View.GONE);
 			}else{
 				//Set Message Body Font
-				float messagebodyfontSize = Float.parseFloat(_preferences.getString(SMS_MESSAGE_BODY_FONT_SIZE, "14"));
+				float messagebodyfontSize = Float.parseFloat(_preferences.getString(Constants.SMS_MESSAGE_BODY_FONT_SIZE_KEY, "14"));
 				_notificationDetailsTextView.setTextSize(messagebodyfontSize);
 			}
 			//Contact Display Settings
-			if(_preferences.getBoolean(SMS_HIDE_CONTACT_PANEL_ENABLED_KEY, false)){
+			if(_preferences.getBoolean(Constants.SMS_HIDE_CONTACT_PANEL_ENABLED_KEY, false)){
 				_photoImageView.setVisibility(View.GONE);
 				_photoProgressBar.setVisibility(View.GONE);
 				_contactNameTextView.setVisibility(View.GONE);
@@ -546,31 +491,31 @@ public class NotificationView extends LinearLayout {
 				loadContactPhoto = false;
 			}else{
 				//Show/Hide Contact Photo
-				if(_preferences.getBoolean(SMS_HIDE_CONTACT_PHOTO_ENABLED_KEY, false)){
+				if(_preferences.getBoolean(Constants.SMS_HIDE_CONTACT_PHOTO_ENABLED_KEY, false)){
 					_photoImageView.setVisibility(View.GONE);
 					_photoProgressBar.setVisibility(View.GONE);
 					loadContactPhoto = false;
 				}
 				//Show/Hide Contact Name
-				if(_preferences.getBoolean(SMS_HIDE_CONTACT_NAME_ENABLED_KEY, false)){
+				if(_preferences.getBoolean(Constants.SMS_HIDE_CONTACT_NAME_ENABLED_KEY, false)){
 					_contactNameTextView.setVisibility(View.GONE);
 				}
 				//Show/Hide Contact Number
-				if(_preferences.getBoolean(SMS_HIDE_CONTACT_NUMBER_ENABLED_KEY, false)){
+				if(_preferences.getBoolean(Constants.SMS_HIDE_CONTACT_NUMBER_ENABLED_KEY, false)){
 					_contactNumberTextView.setVisibility(View.GONE);
 				}
 			}
 		}
 		if(_notificationType == Constants.NOTIFICATION_TYPE_MMS){
-			if(_preferences.getBoolean(MMS_HIDE_MESSAGE_KEY, false)){
+			if(_preferences.getBoolean(Constants.MMS_HIDE_MESSAGE_KEY, false)){
 				_notificationDetailsTextView.setVisibility(View.GONE);
 			}else{
 				//Set Message Body Font
-				float messagebodyfontSize = Float.parseFloat(_preferences.getString(MMS_MESSAGE_BODY_FONT_SIZE, "14"));
+				float messagebodyfontSize = Float.parseFloat(_preferences.getString(Constants.MMS_MESSAGE_BODY_FONT_SIZE_KEY, "14"));
 				_notificationDetailsTextView.setTextSize(messagebodyfontSize);
 			}
 			//Contact Display Settings
-			if(_preferences.getBoolean(MMS_HIDE_CONTACT_PANEL_ENABLED_KEY, false)){
+			if(_preferences.getBoolean(Constants.MMS_HIDE_CONTACT_PANEL_ENABLED_KEY, false)){
 				_photoImageView.setVisibility(View.GONE);
 				_photoProgressBar.setVisibility(View.GONE);
 				_contactNameTextView.setVisibility(View.GONE);
@@ -578,17 +523,17 @@ public class NotificationView extends LinearLayout {
 				loadContactPhoto = false;
 			}else{
 				//Show/Hide Contact Photo
-				if(_preferences.getBoolean(MMS_HIDE_CONTACT_PHOTO_ENABLED_KEY, false)){
+				if(_preferences.getBoolean(Constants.MMS_HIDE_CONTACT_PHOTO_ENABLED_KEY, false)){
 					_photoImageView.setVisibility(View.GONE);
 					_photoProgressBar.setVisibility(View.GONE);
 					loadContactPhoto = false;
 				}
 				//Show/Hide Contact Name
-				if(_preferences.getBoolean(MMS_HIDE_CONTACT_NAME_ENABLED_KEY, false)){
+				if(_preferences.getBoolean(Constants.MMS_HIDE_CONTACT_NAME_ENABLED_KEY, false)){
 					_contactNameTextView.setVisibility(View.GONE);
 				}
 				//Show/Hide Contact Number
-				if(_preferences.getBoolean(MMS_HIDE_CONTACT_NUMBER_ENABLED_KEY, false)){
+				if(_preferences.getBoolean(Constants.MMS_HIDE_CONTACT_NUMBER_ENABLED_KEY, false)){
 					_contactNumberTextView.setVisibility(View.GONE);
 				}
 			}
@@ -596,7 +541,7 @@ public class NotificationView extends LinearLayout {
 		if(_notificationType == Constants.NOTIFICATION_TYPE_PHONE){
 			_notificationDetailsTextView.setVisibility(View.GONE);
 			//Contact Display Settings
-			if(_preferences.getBoolean(PHONE_HIDE_CONTACT_PANEL_ENABLED_KEY, false)){
+			if(_preferences.getBoolean(Constants.PHONE_HIDE_CONTACT_PANEL_ENABLED_KEY, false)){
 				_photoImageView.setVisibility(View.GONE);
 				_photoProgressBar.setVisibility(View.GONE);
 				_contactNameTextView.setVisibility(View.GONE);
@@ -604,17 +549,17 @@ public class NotificationView extends LinearLayout {
 				loadContactPhoto = false;
 			}else{
 				//Show/Hide Contact Photo
-				if(_preferences.getBoolean(PHONE_HIDE_CONTACT_PHOTO_ENABLED_KEY, false)){
+				if(_preferences.getBoolean(Constants.PHONE_HIDE_CONTACT_PHOTO_ENABLED_KEY, false)){
 					_photoImageView.setVisibility(View.GONE);
 					_photoProgressBar.setVisibility(View.GONE);
 					loadContactPhoto = false;
 				}
 				//Show/Hide Contact Name
-				if(_preferences.getBoolean(PHONE_HIDE_CONTACT_NAME_ENABLED_KEY, false)){
+				if(_preferences.getBoolean(Constants.PHONE_HIDE_CONTACT_NAME_ENABLED_KEY, false)){
 					_contactNameTextView.setVisibility(View.GONE);
 				}
 				//Show/Hide Contact Number
-				if(_preferences.getBoolean(PHONE_HIDE_CONTACT_NUMBER_ENABLED_KEY, false)){
+				if(_preferences.getBoolean(Constants.PHONE_HIDE_CONTACT_NUMBER_ENABLED_KEY, false)){
 					_contactNumberTextView.setVisibility(View.GONE);
 				}
 			}
@@ -748,16 +693,16 @@ public class NotificationView extends LinearLayout {
 		switch(notificationType){
 			case Constants.NOTIFICATION_TYPE_SMS:{
 				//Reply using any installed SMS messaging app.
-				if(_preferences.getString(SMS_REPLY_BUTTON_ACTION_KEY, "0").equals(Constants.SMS_MESSAGING_APP_REPLY)){
+				if(_preferences.getString(Constants.SMS_REPLY_BUTTON_ACTION_KEY, "0").equals(Constants.SMS_MESSAGING_APP_REPLY)){
 					if(Common.startMessagingAppReplyActivity(_context, _notificationActivity, phoneNumber, Constants.SEND_SMS_ACTIVITY)){
 						//Set "In Reply Screen" flag.
 						SharedPreferences.Editor editor = _preferences.edit();
-						editor.putBoolean(Constants.USER_IN_MESSAGING_APP, true);
+						editor.putBoolean(Constants.USER_IN_MESSAGING_APP_KEY, true);
 						editor.commit();
 					}
 				}		
 				//Reply using the built in Quick Reply Activity.
-				if(_preferences.getString(SMS_REPLY_BUTTON_ACTION_KEY, "0").equals(Constants.SMS_QUICK_REPLY)){
+				if(_preferences.getString(Constants.SMS_REPLY_BUTTON_ACTION_KEY, "0").equals(Constants.SMS_QUICK_REPLY)){
 					try{
 						Intent intent = new Intent(_context, QuickReplyActivity.class);
 				        //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
@@ -772,7 +717,7 @@ public class NotificationView extends LinearLayout {
 				        _notificationActivity.startActivityForResult(intent, Constants.SEND_SMS_QUICK_REPLY_ACTIVITY);
 						//Set "In Reply Screen" flag.
 						SharedPreferences.Editor editor = _preferences.edit();
-						editor.putBoolean(Constants.USER_IN_MESSAGING_APP, true);
+						editor.putBoolean(Constants.USER_IN_MESSAGING_APP_KEY, true);
 						editor.commit();
 					}catch(Exception ex){
 						if (_debug) Log.e("NotificationView.replyToMessage() Quick Reply ERROR: " + ex.toString());
@@ -782,7 +727,7 @@ public class NotificationView extends LinearLayout {
 				}
 				//Temporary Preferences Fix
 				//Remove In a month or two.
-				if(Integer.parseInt(_preferences.getString(SMS_REPLY_BUTTON_ACTION_KEY, "0")) > 1){
+				if(Integer.parseInt(_preferences.getString(Constants.SMS_REPLY_BUTTON_ACTION_KEY, "0")) > 1){
 					SharedPreferences.Editor editor = _preferences.edit();
 					editor.putString("SMS_REPLY_BUTTON_ACTION_KEY", "1");
 					editor.commit();
@@ -791,16 +736,16 @@ public class NotificationView extends LinearLayout {
 			}
 			case Constants.NOTIFICATION_TYPE_MMS:{
 				//Reply using any installed SMS messaging app.
-				if(_preferences.getString(MMS_REPLY_BUTTON_ACTION_KEY, "0").equals(Constants.MMS_MESSAGING_APP_REPLY)){
+				if(_preferences.getString(Constants.MMS_REPLY_BUTTON_ACTION_KEY, "0").equals(Constants.MMS_MESSAGING_APP_REPLY)){
 					if(Common.startMessagingAppReplyActivity(_context, _notificationActivity, phoneNumber, Constants.SEND_SMS_ACTIVITY)){
 						//Set "In Reply Screen" flag.
 						SharedPreferences.Editor editor = _preferences.edit();
-						editor.putBoolean(Constants.USER_IN_MESSAGING_APP, true);
+						editor.putBoolean(Constants.USER_IN_MESSAGING_APP_KEY, true);
 						editor.commit();
 					}
 				}		
 				//Reply using the built in Quick Reply Activity.
-				if(_preferences.getString(MMS_REPLY_BUTTON_ACTION_KEY, "0").equals(Constants.MMS_QUICK_REPLY)){
+				if(_preferences.getString(Constants.MMS_REPLY_BUTTON_ACTION_KEY, "0").equals(Constants.MMS_QUICK_REPLY)){
 					try{
 						Intent intent = new Intent(_context, QuickReplyActivity.class);
 						//intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
@@ -815,7 +760,7 @@ public class NotificationView extends LinearLayout {
 				        _notificationActivity.startActivityForResult(intent, Constants.SEND_SMS_QUICK_REPLY_ACTIVITY);
 						//Set "In Reply Screen" flag.
 						SharedPreferences.Editor editor = _preferences.edit();
-						editor.putBoolean(Constants.USER_IN_MESSAGING_APP, true);
+						editor.putBoolean(Constants.USER_IN_MESSAGING_APP_KEY, true);
 						editor.commit();
 					}catch(Exception ex){
 						if (_debug) Log.e("NotificationView.replyToMessage() Quick Reply ERROR: " + ex.toString());
@@ -825,7 +770,7 @@ public class NotificationView extends LinearLayout {
 				}
 				//Temporary Preferences Fix
 				//Remove In a month or two.
-				if(Integer.parseInt(_preferences.getString(MMS_REPLY_BUTTON_ACTION_KEY, "0")) > 1){
+				if(Integer.parseInt(_preferences.getString(Constants.MMS_REPLY_BUTTON_ACTION_KEY, "0")) > 1){
 					SharedPreferences.Editor editor = _preferences.edit();
 					editor.putString("MMS_REPLY_BUTTON_ACTION_KEY", "1");
 					editor.commit();
@@ -859,13 +804,11 @@ public class NotificationView extends LinearLayout {
 	private void customPerformHapticFeedback(int hapticFeedbackConstant){
 		Vibrator vibrator = (Vibrator)_notificationActivity.getSystemService(Context.VIBRATOR_SERVICE);
 		//Perform the haptic feedback based on the users preferences.
-		if(_preferences.getBoolean(HAPTIC_FEEDBACK_ENABLED_KEY, true)){
+		if(_preferences.getBoolean(Constants.HAPTIC_FEEDBACK_ENABLED_KEY, true)){
 			if(hapticFeedbackConstant == HapticFeedbackConstants.VIRTUAL_KEY){
 				//performHapticFeedback(hapticFeedbackConstant);
 				vibrator.vibrate(50);
 			}
-		}
-		if(_preferences.getBoolean(HAPTIC_FEEDBACK_ENABLED_KEY, true)){
 			if(hapticFeedbackConstant == HapticFeedbackConstants.LONG_PRESS){
 				//performHapticFeedback(hapticFeedbackConstant);
 				vibrator.vibrate(100);
@@ -1041,9 +984,9 @@ public class NotificationView extends LinearLayout {
 		}
 		inputPhoneNumber = Common.removeFormatting(inputPhoneNumber);
 		StringBuilder outputPhoneNumber = new StringBuilder("");
-		int phoneNumberFormatPreference = Integer.parseInt(_preferences.getString(PHONE_NUMBER_FORMAT_KEY, "1"));
+		int phoneNumberFormatPreference = Integer.parseInt(_preferences.getString(Constants.PHONE_NUMBER_FORMAT_KEY, "1"));
 		switch(phoneNumberFormatPreference){
-			case PHONE_NUMBER_FORMAT_A:{
+			case Constants.PHONE_NUMBER_FORMAT_A:{
 				if(inputPhoneNumber.length() >= 10){
 					//Format ###-###-#### (e.g.123-456-7890)
 					outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 4, inputPhoneNumber.length()));
@@ -1062,7 +1005,7 @@ public class NotificationView extends LinearLayout {
 				}
 				break;
 			}
-			case PHONE_NUMBER_FORMAT_B:{
+			case Constants.PHONE_NUMBER_FORMAT_B:{
 				if(inputPhoneNumber.length() >= 10){
 					//Format ##-###-##### (e.g.12-345-67890)
 					outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 5, inputPhoneNumber.length()));
@@ -1081,7 +1024,7 @@ public class NotificationView extends LinearLayout {
 				}
 				break;
 			}
-			case PHONE_NUMBER_FORMAT_C:{
+			case Constants.PHONE_NUMBER_FORMAT_C:{
 				if(inputPhoneNumber.length() >= 10){
 					//Format ##-##-##-##-## (e.g.12-34-56-78-90)
 					outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 2, inputPhoneNumber.length()));
@@ -1104,12 +1047,12 @@ public class NotificationView extends LinearLayout {
 				}
 				break;
 			}
-			case PHONE_NUMBER_FORMAT_D:{
+			case Constants.PHONE_NUMBER_FORMAT_D:{
 				//Format ########## (e.g.1234567890)
 				outputPhoneNumber.append(inputPhoneNumber);
 				break;
 			}
-			case PHONE_NUMBER_FORMAT_E:{
+			case Constants.PHONE_NUMBER_FORMAT_E:{
 				if(inputPhoneNumber.length() >= 10){
 					//Format (###) ###-#### (e.g.(123) 456-7890)
 					outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 4, inputPhoneNumber.length()));
@@ -1129,7 +1072,7 @@ public class NotificationView extends LinearLayout {
 				}
 				break;
 			}
-			case PHONE_NUMBER_FORMAT_F:{
+			case Constants.PHONE_NUMBER_FORMAT_F:{
 				if(inputPhoneNumber.length() >= 10){
 					//Format ###-###-#### (e.g.123.456.7890)
 					outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 4, inputPhoneNumber.length()));
@@ -1148,7 +1091,7 @@ public class NotificationView extends LinearLayout {
 				}
 				break;
 			}
-			case PHONE_NUMBER_FORMAT_G:{
+			case Constants.PHONE_NUMBER_FORMAT_G:{
 				if(inputPhoneNumber.length() >= 10){
 					//Format ##-###-##### (e.g.12.345.67890)
 					outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 5, inputPhoneNumber.length()));
@@ -1167,7 +1110,7 @@ public class NotificationView extends LinearLayout {
 				}
 				break;
 			}
-			case PHONE_NUMBER_FORMAT_H:{
+			case Constants.PHONE_NUMBER_FORMAT_H:{
 				if(inputPhoneNumber.length() >= 10){
 					//Format ##-##-##-##-## (e.g.12.34.56.78.90)
 					outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 2, inputPhoneNumber.length()));
@@ -1248,11 +1191,11 @@ public class NotificationView extends LinearLayout {
 		try{
 		    Bitmap bitmap = getContactImage(contactID);
 		    if(bitmap!=null){
-		    	return Common.getRoundedCornerBitmap(bitmap, 5, true, SQUARE_IMAGE_SIZE, SQUARE_IMAGE_SIZE);
+		    	return Common.getRoundedCornerBitmap(bitmap, 5, true, Constants.SQUARE_IMAGE_SIZE, Constants.SQUARE_IMAGE_SIZE);
 		    }else{
 		    	// Load the placeholder image if the contact has no photo.
 		    	// This is based on user preferences from a list of predefined images.
-		    	String contactPlaceholderImageID = _preferences.getString(CONTACT_PLACEHOLDER_KEY, "0");
+		    	String contactPlaceholderImageID = _preferences.getString(Constants.CONTACT_PLACEHOLDER_KEY, "0");
 		    	//Default image resource.
 		    	int contactPlaceholderImageResourceID = R.drawable.ic_contact_picture_5;
 		    	if(contactPlaceholderImageID.equals("0")) contactPlaceholderImageResourceID = R.drawable.ic_contact_picture_1;
@@ -1260,7 +1203,7 @@ public class NotificationView extends LinearLayout {
 		    	if(contactPlaceholderImageID.equals("2")) contactPlaceholderImageResourceID = R.drawable.ic_contact_picture_3;
 		    	if(contactPlaceholderImageID.equals("3")) contactPlaceholderImageResourceID = R.drawable.ic_contact_picture_4;
 		    	if(contactPlaceholderImageID.equals("4")) contactPlaceholderImageResourceID = R.drawable.ic_contact_picture_5;
-		    	return Common.getRoundedCornerBitmap(BitmapFactory.decodeResource(_context.getResources(), contactPlaceholderImageResourceID), 5, true, SQUARE_IMAGE_SIZE, SQUARE_IMAGE_SIZE);
+		    	return Common.getRoundedCornerBitmap(BitmapFactory.decodeResource(_context.getResources(), contactPlaceholderImageResourceID), 5, true, Constants.SQUARE_IMAGE_SIZE, Constants.SQUARE_IMAGE_SIZE);
 		    }
 		}catch(Exception ex){
 			if (_debug) Log.e("NotificationView.getNotificationContactImage() ERROR: " + ex.toString());
