@@ -83,7 +83,8 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	    if(!_preferences.getBoolean(Constants.LANDSCAPE_SCREEN_ENABLED_KEY, false)){
 	    	this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 	    }
-	    addPreferencesFromResource(R.xml.preferences_new);
+	    //addPreferencesFromResource(R.xml.preferences_new);
+	    addPreferencesFromResource(R.xml.preferences);
 	    _appVersion = getApplicationVersion();
 	    setupCustomPreferences();
 	    runOnceCalendarAlarmManager();
