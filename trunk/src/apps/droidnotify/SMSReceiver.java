@@ -51,7 +51,7 @@ public class SMSReceiver extends BroadcastReceiver{
 			if (_debug) Log.v("SMSReceiver.onReceive() SMS Notifications Disabled. Exiting...");
 			return;
 		}
-		if(Constants.READ_SMS_FROM_DISK){
+		if(preferences.getString(Constants.SMS_LOADING_SETTING_KEY, "0").equals(Constants.SMS_READ_FROM_DISK)){
 			//Schedule sms task x seconds after the broadcast.
 			//This time is set by the users advanced preferences. 10 seconds is the default value.
 			//This should allow enough time to pass for the sms inbox to be written to.

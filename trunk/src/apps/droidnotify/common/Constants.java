@@ -118,7 +118,8 @@ public class Constants {
 	public static final int SMS_EMAIL_GATEWAY_8 = 8;
 	
 	//-----SMS NOTIFICATION CONSTANTS-----//
-	public static final boolean READ_SMS_FROM_DISK = true;
+	public static final String SMS_READ_FROM_INTENT = "0";
+	public static final String SMS_READ_FROM_DISK = "1";
 	public static final String SMS_MESSAGING_APP_RUNNING_ACTION_KEY = "messaging_app_running_action_sms";
 	public static final String SMS_TIMEOUT_KEY = "sms_timeout_settings";
 	public static final String SMS_DELETE_KEY = "sms_delete_button_action";	

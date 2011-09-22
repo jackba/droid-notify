@@ -56,7 +56,7 @@ public class SMSReceiverService extends WakefulIntentService {
 		Context context = getApplicationContext();
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		ArrayList<String> smsArray = null;
-		if(preferences.getString(Constants.SMS_LOADING_SETTING_KEY, "0").equals("0")){
+		if(preferences.getString(Constants.SMS_LOADING_SETTING_KEY, "0").equals(Constants.SMS_READ_FROM_INTENT)){
 			Bundle newSMSBundle = intent.getExtras();
 			smsArray = getSMSMessagesFromIntent(newSMSBundle);
 		}else{

@@ -981,14 +981,21 @@
 					android:entryValues="@array/ringtone_length_options_values"
 					android:dependency="app_ringtones_enabled" />
 				<ListPreference
+					android:key="sms_loading_settings"
+					android:title="@string/preference_sms_loading_title"
+					android:summary="@string/preference_sms_loading_summary"
+					android:defaultValue="0"
+					android:entries="@array/sms_loading_options"
+					android:entryValues="@array/sms_loading_options_values"
+					android:dependency="sms_notifications_enabled" />
+				<ListPreference
 					android:key="sms_timestamp_adjustment_settings"
 					android:title="@string/preference_sms_timestamp_adjustment_title"
 					android:summary="@string/preference_sms_timestamp_adjustment_summary"
 					android:defaultValue="0"
 					android:entries="@array/timestamp_adjustment_options"
 					android:entryValues="@array/timestamp_adjustment_options_values"
-					android:dependency="sms_notifications_enabled"
-					android:enabled="false" />
+					android:dependency="sms_notifications_enabled" />
           	</PreferenceCategory>	
 			<PreferenceCategory
 				android:key="reschedule_settings_category"
