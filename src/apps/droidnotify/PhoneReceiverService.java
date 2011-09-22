@@ -81,7 +81,7 @@ public class PhoneReceiverService extends WakefulIntentService {
 		Boolean missedCallFound = false;
 		Context context = getApplicationContext();
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-		String missedCallPreference = preferences.getString(Constants.MISSED_CALL_DISMISS_BUTTON_ACTION, "0");
+		String missedCallPreference = preferences.getString(Constants.PHONE_DISMISS_BUTTON_ACTION_KEY, "0");
 		ArrayList<String> missedCallsArray = new ArrayList<String>();
 		final String[] projection = null;
 		final String selection = null;
@@ -101,7 +101,7 @@ public class PhoneReceiverService extends WakefulIntentService {
 	    		String callDate = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.DATE));
 	    		String callType = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.TYPE));
 	    		String isCallNew = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.NEW));
-	    		if(Integer.parseInt(callType) == Constants.MISSED_CALL_TYPE && Integer.parseInt(isCallNew) > 0){
+	    		if(Integer.parseInt(callType) == Constants.PHONE_TYPE && Integer.parseInt(isCallNew) > 0){
     				if (_debug) Log.v("PhoneReceiverService.getMissedCalls() Missed Call Found: " + callNumber);
     				String[] missedCallContactInfo = null;
     				if(Common.isPrivateUnknownNumber(callNumber)){
@@ -114,13 +114,13 @@ public class PhoneReceiverService extends WakefulIntentService {
     				}else{
     					missedCallsArray.add(callLogID + "|" + callNumber + "|" + callDate + "|" + missedCallContactInfo[0] + "|" + missedCallContactInfo[1] + "|" + missedCallContactInfo[2] + "|" + missedCallContactInfo[3]);
     				}
-    				if(missedCallPreference.equals(Constants.MISSED_CALL_GET_LATEST)){
+    				if(missedCallPreference.equals(Constants.PHONE_GET_LATEST)){
     					if (_debug) Log.v("PhoneReceiverService.getMissedCalls() Missed call found - Exiting");
     					break;
     				}
     				missedCallFound = true;
     			}else{
-    				if(missedCallPreference.equals(Constants.MISSED_CALL_GET_RECENT)){
+    				if(missedCallPreference.equals(Constants.PHONE_GET_RECENT)){
     					if (_debug) Log.v("PhoneReceiverService.getMissedCalls() Found first non-missed call - Exiting");
     					break;
     				}

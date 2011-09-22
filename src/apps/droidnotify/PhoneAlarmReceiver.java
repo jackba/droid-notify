@@ -46,7 +46,7 @@ public class PhoneAlarmReceiver extends BroadcastReceiver {
 			return;
 		}
 		//Read preferences and exit if missed call notifications are disabled.
-	    if(!preferences.getBoolean(Constants.MISSED_CALL_NOTIFICATIONS_ENABLED_KEY, true)){
+	    if(!preferences.getBoolean(Constants.PHONE_NOTIFICATIONS_ENABLED_KEY, true)){
 			if (_debug) Log.v("PhoneAlarmReceiver.onReceive() Missed Call Notifications Disabled. Exiting... ");
 			return;
 		}
@@ -54,9 +54,9 @@ public class PhoneAlarmReceiver extends BroadcastReceiver {
 		TelephonyManager telemanager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 	    boolean rescheduleNotification = false;
 	    boolean callStateIdle = telemanager.getCallState() == TelephonyManager.CALL_STATE_IDLE;
-	    boolean inMessagingApp = preferences.getBoolean(Constants.USER_IN_MESSAGING_APP, false);
+	    boolean inMessagingApp = preferences.getBoolean(Constants.USER_IN_MESSAGING_APP_KEY, false);
 	    boolean messagingAppRunning = Common.isMessagingAppRunning(context);
-	    String messagingAppRuningAction = preferences.getString(Constants.MESSAGING_APP_RUNNING_ACTION_PHONE, "0");
+	    String messagingAppRuningAction = preferences.getString(Constants.PHONE_MESSAGING_APP_RUNNING_ACTION_KEY, "0");
 	    if(!callStateIdle || inMessagingApp){
 	    	rescheduleNotification = true;
 	    }else{
@@ -78,10 +78,10 @@ public class PhoneAlarmReceiver extends BroadcastReceiver {
 	    }else{
 	    	// Set alarm to go off x minutes from the current time as defined by the user preferences.
 	    	long rescheduleInterval = Long.parseLong(preferences.getString(Constants.RESCHEDULE_NOTIFICATION_TIMEOUT_KEY, "5")) * 60 * 1000;
-	    	if(preferences.getBoolean(Constants.RESCHEDULE_NOTIFICATIONS_ENABLED, true)){
+	    	if(preferences.getBoolean(Constants.RESCHEDULE_NOTIFICATIONS_ENABLED_KEY, true)){
 	    		if(rescheduleInterval == 0){
 	    			SharedPreferences.Editor editor = preferences.edit();
-	    			editor.putBoolean(Constants.RESCHEDULE_NOTIFICATIONS_ENABLED, false);
+	    			editor.putBoolean(Constants.RESCHEDULE_NOTIFICATIONS_ENABLED_KEY, false);
 	    			editor.commit();
 	    			return;
 	    		}

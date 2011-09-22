@@ -195,6 +195,8 @@
    	<string name="preference_sms_hide_contact_name_enabled_summaryOff">The contact name will be displayed for SMS notifications.</string> 
    	<string name="preference_sms_hide_contact_number_enabled_summaryOn">The contact number will not be displayed for SMS notifications.</string>
    	<string name="preference_sms_hide_contact_number_enabled_summaryOff">The contact number will be displayed for SMS notifications.</string>
+   	<string name="preference_sms_loading_title">SMS Loading Settings</string>
+   	<string name="preference_sms_loading_summary">Select how the application retrieves incoming SMS messages.</string>
    	<string name="preference_sms_timestamp_adjustment_title">SMS TimeStamp Adjustment</string>
    	<string name="preference_sms_timestamp_adjustment_summary">Some phones/locations may display incorrect timestamps. Use this setting to adjust the displayed timestamp for SMS messages.</string>
    	

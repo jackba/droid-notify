@@ -40,42 +40,6 @@ import apps.droidnotify.log.Log;
  * @author Camille Sévigny
  */
 public class Common {
-
-	//================================================================================
-    // Constants
-    //================================================================================
-	
-	private static final String _ID = "_id";
-    private static final String CALENDAR_DISPLAY_NAME = "displayName"; 
-    private static final String CALENDAR_SELECTED = "selected";
-    
-	private static final String EVENT_BEGIN_TIME = "beginTime";
-	private static final String EVENT_END_TIME = "endTime";
-	
-	private static final int MESSAGE_TYPE_SMS = 1;
-	private static final int MESSAGE_TYPE_MMS = 2;
-	
-	private static final String SMS_TIMESTAMP_ADJUSTMENT_KEY = "sms_timestamp_adjustment_settings";
-	
-	//Staring Array of the top SMS Messaging Apps:
-	// Android Stock App
-	// Handcent
-	// Go SMS
-	// Magic Text
-	// Chomp SMS
-	// Pansi
-	// Text'n Drive
-	//
-	//
-	//
-	public static final String[] MESSAGING_PACKAGE_NAMES_ARRAY = new String[]{
-		"com.android.mms", 
-		"com.handcent.nextsms", 
-		"com.jb.gosms", 
-		"com.pompeiicity.magictext", 
-		"com.p1.chompsms", 
-		"com.pansi.msg", 
-		"com.drivevox.drivevox" };
 	
 	//================================================================================
     // Properties
@@ -322,9 +286,9 @@ public class Common {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.getThreadIdByAddress()");
 		String messageURI = "content://sms/inbox";
-		if(messageType == MESSAGE_TYPE_SMS){
+		if(messageType == Constants.MESSAGE_TYPE_SMS){
 			messageURI = "content://sms/inbox";
-		}else if(messageType == MESSAGE_TYPE_MMS){
+		}else if(messageType == Constants.MESSAGE_TYPE_MMS){
 			messageURI = "content://mms/inbox";
 		}
 		long threadID = 0;
@@ -380,7 +344,7 @@ public class Common {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.getMessageID()");
 		String messageURI = null;
-		if(messageType == MESSAGE_TYPE_SMS){
+		if(messageType == Constants.MESSAGE_TYPE_SMS){
 			messageURI = "content://sms/inbox";
 		}else{
 			messageURI = "content://mms/inbox";
@@ -538,14 +502,14 @@ public class Common {
 			contentProvider = "content://com.android.calendar";
 			cursor = contentResolver.query(
 				Uri.parse(contentProvider + "/calendars"), 
-				new String[] { _ID, CALENDAR_DISPLAY_NAME, CALENDAR_SELECTED },
+				new String[] { Constants.CALENDAR_ID, Constants.CALENDAR_DISPLAY_NAME, Constants.CALENDAR_SELECTED },
 				null,
 				null,
 				null);
 			while (cursor.moveToNext()) {
-				final String calendarID = cursor.getString(cursor.getColumnIndex(_ID));
-				final String calendarDisplayName = cursor.getString(cursor.getColumnIndex(CALENDAR_DISPLAY_NAME));
-				final Boolean calendarSelected = !cursor.getString(cursor.getColumnIndex(CALENDAR_SELECTED)).equals("0");
+				final String calendarID = cursor.getString(cursor.getColumnIndex(Constants.CALENDAR_ID));
+				final String calendarDisplayName = cursor.getString(cursor.getColumnIndex(Constants.CALENDAR_DISPLAY_NAME));
+				final Boolean calendarSelected = !cursor.getString(cursor.getColumnIndex(Constants.CALENDAR_SELECTED)).equals("0");
 				if(calendarSelected){
 					if (_debug) Log.v("Id: " + calendarID + " Display Name: " + calendarDisplayName + " Selected: " + calendarSelected);
 					if(!calendarsInfo.toString().equals("")){
@@ -823,8 +787,8 @@ public class Common {
 			Intent intent = new Intent(Intent.ACTION_VIEW);
 			//Android 2.2+
 			intent.setData(Uri.parse("content://com.android.calendar/events/" + String.valueOf(calendarEventID)));	
-			intent.putExtra(EVENT_BEGIN_TIME, calendarEventStartTime);
-			intent.putExtra(EVENT_END_TIME, calendarEventEndTime);
+			intent.putExtra(Constants.CALENDAR_EVENT_BEGIN_TIME, calendarEventStartTime);
+			intent.putExtra(Constants.CALENDAR_EVENT_END_TIME, calendarEventEndTime);
 			notificationActivity.startActivityForResult(intent, requestCode);
 			return true;
 		}catch(Exception ex){
@@ -857,8 +821,8 @@ public class Common {
 			Intent intent = new Intent(Intent.ACTION_EDIT);
 			//Android 2.2+
 			intent.setData(Uri.parse("content://com.android.calendar/events/" + String.valueOf(calendarEventID)));	
-			intent.putExtra(EVENT_BEGIN_TIME, calendarEventStartTime);
-			intent.putExtra(EVENT_END_TIME, calendarEventEndTime);
+			intent.putExtra(Constants.CALENDAR_EVENT_BEGIN_TIME, calendarEventStartTime);
+			intent.putExtra(Constants.CALENDAR_EVENT_END_TIME, calendarEventEndTime);
 			notificationActivity.startActivityForResult(intent, requestCode);
 			return true;
 		}catch(Exception ex){
@@ -947,10 +911,10 @@ public class Common {
 	    	ComponentName runningTaskComponent = runningTaskInfo.baseActivity;
 	    	String runningTaskPackageName = runningTaskComponent.getPackageName();
 	        if (_debug) Log.v("Common.isInMessagingApp() runningTaskPackageName: " + runningTaskPackageName);
-	        int messagingPackageNamesArraySize = MESSAGING_PACKAGE_NAMES_ARRAY.length;
+	        int messagingPackageNamesArraySize = Constants.MESSAGING_PACKAGE_NAMES_ARRAY.length;
 	        for(int i = 0; i < messagingPackageNamesArraySize; i++){
-	        	if (_debug) Log.v("Common.isInMessagingApp() MESSAGING_PACKAGE_NAMES_ARRAY[i]: " + MESSAGING_PACKAGE_NAMES_ARRAY[i]);
-		        if(MESSAGING_PACKAGE_NAMES_ARRAY[i].equals(runningTaskPackageName) || MESSAGING_PACKAGE_NAMES_ARRAY[i].contains(runningTaskPackageName)){
+	        	if (_debug) Log.v("Common.isInMessagingApp() MESSAGING_PACKAGE_NAMES_ARRAY[i]: " + Constants.MESSAGING_PACKAGE_NAMES_ARRAY[i]);
+		        if(Constants.MESSAGING_PACKAGE_NAMES_ARRAY[i].equals(runningTaskPackageName) || Constants.MESSAGING_PACKAGE_NAMES_ARRAY[i].contains(runningTaskPackageName)){
 		        	return true;
 		        }
 	        }
@@ -1010,7 +974,7 @@ public class Common {
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         //return timeStamp - TimeZone.getDefault().getOffset(timeStamp);
 	    long offset = TimeZone.getDefault().getOffset(inputTimeStamp);
-		long timeStampAdjustment = Long.parseLong(preferences.getString(SMS_TIMESTAMP_ADJUSTMENT_KEY, "0")) * 60 * 60 * 1000;
+		long timeStampAdjustment = Long.parseLong(preferences.getString(Constants.SMS_TIMESTAMP_ADJUSTMENT_KEY, "0")) * 60 * 60 * 1000;
 	    long outputTimeStamp = inputTimeStamp - offset + timeStampAdjustment;
 	    if (_debug) Log.v("Common.convertGMTToLocalTime() OutputTimeStamp: " + outputTimeStamp);
 	    return outputTimeStamp;

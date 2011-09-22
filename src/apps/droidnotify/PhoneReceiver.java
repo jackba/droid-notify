@@ -46,7 +46,7 @@ public class PhoneReceiver extends BroadcastReceiver{
 			return;
 		}
 		//Read preferences and exit if missed call notifications are disabled.
-	    if(!preferences.getBoolean(Constants.MISSED_CALL_NOTIFICATIONS_ENABLED_KEY, true)){
+	    if(!preferences.getBoolean(Constants.PHONE_NOTIFICATIONS_ENABLED_KEY, true)){
 			if (_debug) Log.v("PhoneReceiver.onReceive() Missed Call Notifications Disabled. Exiting... ");
 			return;
 		}

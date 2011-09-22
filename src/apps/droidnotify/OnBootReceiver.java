@@ -18,12 +18,6 @@ import apps.droidnotify.log.Log;
 public class OnBootReceiver extends BroadcastReceiver {
 
 	//================================================================================
-    // Constants
-    //================================================================================
-
-	private static final String CALENDAR_POLLING_FREQUENCY_KEY = "calendar_polling_frequency";
-
-	//================================================================================
     // Properties
     //================================================================================
 
@@ -59,7 +53,7 @@ public class OnBootReceiver extends BroadcastReceiver {
 		Intent newIntent = new Intent(context, CalendarAlarmReceiver.class);
 		PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, newIntent, 0);
 		// Set alarm to go off 5 minutes from the current time.
-		long pollingFrequency = Long.parseLong(preferences.getString(CALENDAR_POLLING_FREQUENCY_KEY, "15")) * 60 * 1000;
+		long pollingFrequency = Long.parseLong(preferences.getString(Constants.CALENDAR_POLLING_FREQUENCY_KEY, "15")) * 60 * 1000;
 		alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (5 * 60 * 1000), pollingFrequency, pendingIntent);
 	}
 

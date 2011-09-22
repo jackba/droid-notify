@@ -26,20 +26,10 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import apps.droidnotify.R;
+import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
 
 public class TwitterAuthenticationActivity extends Activity {
-
-	//================================================================================
-    // Constants
-    //================================================================================
-	
-	public static final String CONSUMER_KEY = "AhWe8llUXyaZhix1oyhCA";
-	public static final String CONSUMER_SECRET= "oFKn2cyLQanVESLWlwH0GK7twXisarFrClTfuZmVUI";
-	final public static String CALLBACK_SCHEME = "droidnotify-oauth-twitter";
-	final public static String CALLBACK_URL = CALLBACK_SCHEME + "://callback";	
-	
-	private static final String HAPTIC_FEEDBACK_ENABLED_KEY = "haptic_feedback_enabled";
 	
 	//================================================================================
     // Properties
@@ -93,7 +83,7 @@ public class TwitterAuthenticationActivity extends Activity {
 		_mainLinearLayout.setVisibility(View.GONE);
 		_progressBarLinearLayout.setVisibility(View.VISIBLE);
 		Uri uri = intent.getData();
-		if (uri != null && uri.getScheme().equals(CALLBACK_SCHEME)) {
+		if (uri != null && uri.getScheme().equals(Constants.TWITTER_CALLBACK_SCHEME)) {
 			if (_debug) Log.v("TwitterAuthenticationActivity.onNewIntent() URI: " + uri);
 			if (_debug) Log.v("TwitterAuthenticationActivity.onNewIntent() uri.getScheme(): " + uri.getScheme());
 			try {
@@ -174,13 +164,11 @@ public class TwitterAuthenticationActivity extends Activity {
 	private void customPerformHapticFeedback(int hapticFeedbackConstant){
 		Vibrator vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
 		//Perform the haptic feedback based on the users preferences.
-		if(_preferences.getBoolean(HAPTIC_FEEDBACK_ENABLED_KEY, true)){
+		if(_preferences.getBoolean(Constants.HAPTIC_FEEDBACK_ENABLED_KEY, true)){
 			if(hapticFeedbackConstant == HapticFeedbackConstants.VIRTUAL_KEY){
 				//performHapticFeedback(hapticFeedbackConstant);
 				vibrator.vibrate(50);
 			}
-		}
-		if(_preferences.getBoolean(HAPTIC_FEEDBACK_ENABLED_KEY, true)){
 			if(hapticFeedbackConstant == HapticFeedbackConstants.LONG_PRESS){
 				//performHapticFeedback(hapticFeedbackConstant);
 				vibrator.vibrate(100);
@@ -228,10 +216,9 @@ public class TwitterAuthenticationActivity extends Activity {
 	private void authenticateTwitterAccount() {
 		if (_debug) Log.v("TwitterAuthenticationActivity.authenticateTwitterAccount()");
 		try {
-			_consumer = new CommonsHttpOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
-			//_provider = new DefaultOAuthProvider("http://twitter.com/oauth/request_token", "http://twitter.com/oauth/access_token", "http://twitter.com/oauth/authorize");
+			_consumer = new CommonsHttpOAuthConsumer(Constants.TWITTER_CONSUMER_KEY, Constants.TWITTER_CONSUMER_SECRET);
 			_provider = new DefaultOAuthProvider("https://api.twitter.com/oauth/request_token", "https://api.twitter.com/oauth/access_token", "https://api.twitter.com/oauth/authorize");
-			String url = _provider.retrieveRequestToken(_consumer, CALLBACK_URL);
+			String url = _provider.retrieveRequestToken(_consumer, Constants.TWITTER_CALLBACK_URL);
 			Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
 			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_NO_HISTORY);
 			startActivity(intent);
@@ -257,8 +244,8 @@ public class TwitterAuthenticationActivity extends Activity {
 			}	
 			try {
 				ConfigurationBuilder configurationBuilder = new ConfigurationBuilder(); 
-				configurationBuilder.setOAuthConsumerKey(CONSUMER_KEY); 
-				configurationBuilder.setOAuthConsumerSecret(CONSUMER_SECRET); 
+				configurationBuilder.setOAuthConsumerKey(Constants.TWITTER_CONSUMER_KEY); 
+				configurationBuilder.setOAuthConsumerSecret(Constants.TWITTER_CONSUMER_SECRET); 
 				Configuration config =  configurationBuilder.build();  
 				AccessToken accessToken = new AccessToken(oauthToken, oauthTokenSecret);
 				TwitterFactory factory = new TwitterFactory(config);
