@@ -46,6 +46,8 @@ public class Constants {
 	public static final int NOTIFICATION_TYPE_MMS = 2;
 	public static final int NOTIFICATION_TYPE_CALENDAR = 3;
 	public static final int NOTIFICATION_TYPE_GMAIL = 4;
+	public static final int NOTIFICATION_TYPE_TWITTER = 5;
+	public static final int NOTIFICATION_TYPE_FACEBOOK = 6;
 	
 	public static final int ADD_CONTACT_ACTIVITY = 1;
 	public static final int EDIT_CONTACT_ACTIVITY = 2;
@@ -279,5 +281,158 @@ public class Constants {
 	//-----EULA CONSTANTS-----//
 	public static final String RUN_ONCE_EULA = "runOnceEula";
 	public static final String RUN_ONCE_CALENDAR_ALARM = "runOnce_v_2_4";
+	
+	//-----STATUS BAR NOTIFICATION CONSTANTS-----//
+
+	public static final String STATUS_BAR_NOTIFICATIONS_VIBRATE_DEFAULT = "0,1200";
+	public static final String STATUS_BAR_NOTIFICATIONS_LED_PATTERN_DEFAULT = "1000,1000";
+	public static final String STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT = "yellow";
+	
+	//-----SMS STATUS BAR NOTIFICATION CONSTANTS-----//
+	public static final String SMS_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY = "sms_status_bar_notifications_enabled";
+	
+	public static final String SMS_STATUS_BAR_NOTIFICATIONS_SOUND_KEY = "sms_notification_sound";
+	
+	public static final String SMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_ENABLED_KEY = "sms_notification_vibrate_enabled";
+	public static final String SMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_KEY = "sms_notification_vibrate_pattern";
+	public static final String SMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_VALUE_KEY = "sms_custom";
+	public static final String SMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_KEY = "sms_notification_vibrate_pattern_custom";
+	
+	public static final String SMS_STATUS_BAR_NOTIFICATIONS_LED_ENABLED_KEY = "sms_notification_led_enabled";
+	public static final String SMS_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_KEY = "sms_notification_led_pattern";	
+	public static final String SMS_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_VALUE_KEY = "sms_custom";
+	public static final String SMS_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_KEY = "sms_notification_led_pattern_custom";
+	public static final String SMS_STATUS_BAR_NOTIFICATIONS_LED_COLOR_KEY = "sms_notification_led_color";	
+	public static final String SMS_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_VALUE_KEY = "sms_custom";
+	public static final String SMS_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_KEY = "sms_notification_led_color_custom";
+	
+	public static final String SMS_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY = "sms_notification_in_call_sound_enabled";
+	public static final String SMS_STATUS_BAR_NOTIFICATIONS_IN_CALL_VIBRATE_ENABLED_KEY = "sms_notification_in_call_vibrate_enabled";	
+	
+	//-----MMS STATUS BAR NOTIFICATION CONSTANTS-----//
+	public static final String MMS_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY = "mms_status_bar_notifications_enabled";
+	
+	public static final String MMS_STATUS_BAR_NOTIFICATIONS_SOUND_KEY = "mms_notification_sound";
+	
+	public static final String MMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_ENABLED_KEY = "mms_notification_vibrate_enabled";
+	public static final String MMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_KEY = "mms_notification_vibrate_pattern";
+	public static final String MMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_VALUE_KEY = "mms_custom";
+	public static final String MMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_KEY = "mms_notification_vibrate_pattern_custom";
+	
+	public static final String MMS_STATUS_BAR_NOTIFICATIONS_LED_ENABLED_KEY = "mms_notification_led_enabled";
+	public static final String MMS_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_KEY = "mms_notification_led_pattern";	
+	public static final String MMS_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_VALUE_KEY = "mms_custom";
+	public static final String MMS_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_KEY = "mms_notification_led_pattern_custom";
+	public static final String MMS_STATUS_BAR_NOTIFICATIONS_LED_COLOR_KEY = "mms_notification_led_color";	
+	public static final String MMS_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_VALUE_KEY = "mms_custom";
+	public static final String MMS_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_KEY = "mms_notification_led_color_custom";
+	
+	public static final String MMS_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY = "mms_notification_in_call_sound_enabled";
+	public static final String MMS_STATUS_BAR_NOTIFICATIONS_IN_CALL_VIBRATE_ENABLED_KEY = "mms_notification_in_call_vibrate_enabled";
+	
+	//-----PHONE STATUS BAR NOTIFICATION CONSTANTS-----//
+	public static final String PHONE_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY = "missed_call_status_bar_notifications_enabled";
+	
+	public static final String PHONE_STATUS_BAR_NOTIFICATIONS_SOUND_KEY = "missed_call_notification_sound";
+	
+	public static final String PHONE_STATUS_BAR_NOTIFICATIONS_VIBRATE_ENABLED_KEY = "missed_call_notification_vibrate_enabled";
+	public static final String PHONE_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_KEY = "missed_call_notification_vibrate_pattern";
+	public static final String PHONE_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_VALUE_KEY = "phone_custom";
+	public static final String PHONE_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_KEY = "missed_call_notification_vibrate_pattern_custom";
+	
+	public static final String PHONE_STATUS_BAR_NOTIFICATIONS_LED_ENABLED_KEY = "missed_call_notification_led_enabled";
+	public static final String PHONE_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_KEY = "missed_call_notification_led_pattern";	
+	public static final String PHONE_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_VALUE_KEY = "missed_call_custom";
+	public static final String PHONE_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_KEY = "missed_call_notification_led_pattern_custom";
+	public static final String PHONE_STATUS_BAR_NOTIFICATIONS_LED_COLOR_KEY = "missed_call_notification_led_color";	
+	public static final String PHONE_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_VALUE_KEY = "phone_custom";
+	public static final String PHONE_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_KEY = "missed_call_notification_led_color_custom";
+	
+	public static final String PHONE_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY = "missed_call_notification_in_call_sound_enabled";
+	public static final String PHONE_STATUS_BAR_NOTIFICATIONS_IN_CALL_VIBRATE_ENABLED_KEY = "missed_call_notification_in_call_vibrate_enabled";
+	
+	//-----CALENDAR STATUS BAR NOTIFICATION CONSTANTS-----//
+	public static final String CALENDAR_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY = "calendar_status_bar_notifications_enabled";
+	
+	public static final String CALENDAR_STATUS_BAR_NOTIFICATIONS_SOUND_KEY = "calendar_notification_sound";
+	
+	public static final String CALENDAR_STATUS_BAR_NOTIFICATIONS_VIBRATE_ENABLED_KEY = "calendar_notification_vibrate_enabled";
+	public static final String CALENDAR_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_KEY = "calendar_notification_vibrate_pattern";
+	public static final String CALENDAR_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_VALUE_KEY = "calendar_custom";
+	public static final String CALENDAR_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_KEY = "calendar_notification_vibrate_pattern_custom";
+	
+	public static final String CALENDAR_STATUS_BAR_NOTIFICATIONS_LED_ENABLED_KEY = "calendar_notification_led_enabled";
+	public static final String CALENDAR_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_KEY = "calendar_notification_led_pattern";	
+	public static final String CALENDAR_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_VALUE_KEY = "calendar_custom";
+	public static final String CALENDAR_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_KEY = "calendar_notification_led_pattern_custom";
+	public static final String CALENDAR_STATUS_BAR_NOTIFICATIONS_LED_COLOR_KEY = "calendar_notification_led_color";	
+	public static final String CALENDAR_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_VALUE_KEY = "calendar_custom";
+	public static final String CALENDAR_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_KEY = "calendar_notification_led_color_custom";
+	
+	public static final String CALENDAR_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY = "calendar_notification_in_call_sound_enabled";
+	public static final String CALENDAR_STATUS_BAR_NOTIFICATIONS_IN_CALL_VIBRATE_ENABLED_KEY = "calendar_notification_in_call_vibrate_enabled";	
+	
+	//-----GMAIL STATUS BAR NOTIFICATION CONSTANTS-----//
+	public static final String GMAIL_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY = "gmail_status_bar_notifications_enabled";
+	
+	public static final String GMAIL_STATUS_BAR_NOTIFICATIONS_SOUND_KEY = "gmail_notification_sound";
+	
+	public static final String GMAIL_STATUS_BAR_NOTIFICATIONS_VIBRATE_ENABLED_KEY = "gmail_notification_vibrate_enabled";
+	public static final String GMAIL_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_KEY = "gmail_notification_vibrate_pattern";
+	public static final String GMAIL_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_VALUE_KEY = "gmail_custom";
+	public static final String GMAIL_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_KEY = "gmail_notification_vibrate_pattern_custom";
+	
+	public static final String GMAIL_STATUS_BAR_NOTIFICATIONS_LED_ENABLED_KEY = "gmail_notification_led_enabled";
+	public static final String GMAIL_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_KEY = "gmail_notification_led_pattern";	
+	public static final String GMAIL_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_VALUE_KEY = "gmail_custom";
+	public static final String GMAIL_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_KEY = "gmail_notification_led_pattern_custom";
+	public static final String GMAIL_STATUS_BAR_NOTIFICATIONS_LED_COLOR_KEY = "gmail_notification_led_color";	
+	public static final String GMAIL_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_VALUE_KEY = "gmail_custom";
+	public static final String GMAIL_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_KEY = "gmail_notification_led_color_custom";
+	
+	public static final String GMAIL_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY = "gmail_notification_in_call_sound_enabled";
+	public static final String GMAIL_STATUS_BAR_NOTIFICATIONS_IN_CALL_VIBRATE_ENABLED_KEY = "gmail_notification_in_call_vibrate_enabled";		
+	
+	//-----TWITTER STATUS BAR NOTIFICATION CONSTANTS-----//
+	public static final String TWITTER_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY = "twitter_status_bar_notifications_enabled";
+	
+	public static final String TWITTER_STATUS_BAR_NOTIFICATIONS_SOUND_KEY = "twitter_notification_sound";
+	
+	public static final String TWITTER_STATUS_BAR_NOTIFICATIONS_VIBRATE_ENABLED_KEY = "twitter_notification_vibrate_enabled";
+	public static final String TWITTER_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_KEY = "twitter_notification_vibrate_pattern";
+	public static final String TWITTER_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_VALUE_KEY = "twitter_custom";
+	public static final String TWITTER_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_KEY = "twitter_notification_vibrate_pattern_custom";
+	
+	public static final String TWITTER_STATUS_BAR_NOTIFICATIONS_LED_ENABLED_KEY = "twitter_notification_led_enabled";
+	public static final String TWITTER_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_KEY = "twitter_notification_led_pattern";	
+	public static final String TWITTER_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_VALUE_KEY = "twitter_custom";
+	public static final String TWITTER_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_KEY = "twitter_notification_led_pattern_custom";
+	public static final String TWITTER_STATUS_BAR_NOTIFICATIONS_LED_COLOR_KEY = "twitter_notification_led_color";	
+	public static final String TWITTER_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_VALUE_KEY = "twitter_custom";
+	public static final String TWITTER_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_KEY = "twitter_notification_led_color_custom";
+	
+	public static final String TWITTER_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY = "twitter_notification_in_call_sound_enabled";
+	public static final String TWITTER_STATUS_BAR_NOTIFICATIONS_IN_CALL_VIBRATE_ENABLED_KEY = "twitter_notification_in_call_vibrate_enabled";	
+	
+	//-----FACEBOOK STATUS BAR NOTIFICATION CONSTANTS-----//
+	public static final String FACEBOOK_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY = "facebook_status_bar_notifications_enabled";
+	
+	public static final String FACEBOOK_STATUS_BAR_NOTIFICATIONS_SOUND_KEY = "facebook_notification_sound";
+	
+	public static final String FACEBOOK_STATUS_BAR_NOTIFICATIONS_VIBRATE_ENABLED_KEY = "facebook_notification_vibrate_enabled";
+	public static final String FACEBOOK_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_KEY = "facebook_notification_vibrate_pattern";
+	public static final String FACEBOOK_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_VALUE_KEY = "facebook_custom";
+	public static final String FACEBOOK_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_KEY = "facebook_notification_vibrate_pattern_custom";
+	
+	public static final String FACEBOOK_STATUS_BAR_NOTIFICATIONS_LED_ENABLED_KEY = "facebook_notification_led_enabled";
+	public static final String FACEBOOK_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_KEY = "facebook_notification_led_pattern";	
+	public static final String FACEBOOK_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_VALUE_KEY = "facebook_custom";
+	public static final String FACEBOOK_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_KEY = "facebook_notification_led_pattern_custom";
+	public static final String FACEBOOK_STATUS_BAR_NOTIFICATIONS_LED_COLOR_KEY = "facebook_notification_led_color";	
+	public static final String FACEBOOK_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_VALUE_KEY = "facebook_custom";
+	public static final String FACEBOOK_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_KEY = "facebook_notification_led_color_custom";
+	
+	public static final String FACEBOOK_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY = "facebook_notification_in_call_sound_enabled";
+	public static final String FACEBOOK_STATUS_BAR_NOTIFICATIONS_IN_CALL_VIBRATE_ENABLED_KEY = "facebook_notification_in_call_vibrate_enabled";	
 	
 }

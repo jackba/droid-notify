@@ -392,4 +392,84 @@
    	<string name="preference_hide_single_message_header_enabled_summaryOn">The notifications will not display the header text (e.g. 1/1) when a single message is displayed.</string>
    	<string name="preference_hide_single_message_header_enabled_summaryOff">The notifications will display the header text (e.g. 1/1) when a single message is displayed.</string>
    	
+    <!-- Status Bar Notification Strings -->
+    <string name="preference_notifications_enabled_title">Enable Status Bar Notifications</string>
+   	<string name="preference_notifications_enabled_summaryOn">Status Bar Notifications will be displayed.</string>
+   	<string name="preference_notifications_enabled_summaryOff">Status Bar Notifications will not be displayed.</string>   
+    
+    <string name="preference_notification_settings">Status Bar Notification Settings</string>
+    <string name="preference_notification_settings_summary">Customize Status Bar Notifications</string>
+   	
+   	<!-- Status Bar Notification Sound Strings -->
+    <string name="preference_notification_sound_settings_text">Notification Sound Settings</string>
+   	<string name="preference_notification_sound_title">Notification Sound</string>
+   	<string name="preference_notification_sound_summary">Select the sound that will play when a notification is displayed.</string> 	
+    
+    <!-- Status Bar Notification Vibrate Strings -->
+    <string name="preference_notification_vibrate_settings_text">Notification Vibration Settings</string>
+    <string name="preference_vibrate_enabled_title">Enable Vibrate</string>
+   	<string name="preference_vibrate_enabled_summaryOn">Notifications will vibrate.</string>
+   	<string name="preference_vibrate_enabled_summaryOff">Notifications will not vibrate.</string>
+    <string name="preference_vibrate_pattern_title">Vibrate Pattern</string>
+   	<string name="preference_vibrate_pattern_summary">Set the vibration pattern.</string>
+   	
+   	<!-- Status Bar Notification Custom Vibrate Dialog Strings -->
+   	<string name="preference_vibrate_pattern_dialog">Enter the custom vibrate pattern using the following format:\nMilliseconds Off, Milliseconds On, etc.\n\nExample:\n0,1000\n0,500,200,500,200,500</string>
+   	<string name="preference_vibrate_pattern_set">The custom vibrate pattern is now set.</string>
+   	<string name="preference_vibrate_pattern_error">The custom vibrate pattern entered is invalid.</string>
+   	
+   	<!-- Status Bar Notification LED Strings -->
+    <string name="preference_notification_led_settings_text">Notification LED Settings</string>  
+   	<string name="preference_led_enabled_title">Enable LED</string>
+   	  
+    <!-- Status Bar Notification LED Pattern Strings -->
+   	<string name="preference_led_enabled_summaryOn">Notifications will blink the LED light.</string>
+   	<string name="preference_led_enabled_summaryOff">Notifications will not blink the LED light.</string>
+   	<string name="preference_led_pattern_title">LED Blink Settings</string>
+   	<string name="preference_led_pattern_summary">Set the LED blink rate.</string>
+   	 	
+   	<!-- Status Bar Notification Custom LED Pattern Dialog Strings -->
+   	<string name="preference_led_pattern_dialog">Enter the time in milliseconds to turn the LED on and off.</string>
+   	<string name="preference_led_pattern_on">Time On:</string>
+   	<string name="preference_led_pattern_off">Time Off:</string>
+   	<string name="preference_led_pattern_set">The custom led blink pattern is now set.</string>
+   	<string name="preference_led_pattern_error">The custom led blink pattern is invalid.</string>	
+   	
+   	<!-- Status Bar Notification LED Color Strings -->
+   	<string name="preference_led_color_title">LED Color Settings</string>
+   	<string name="preference_led_color_summary">Set the LED color.</string>
+   	
+   	<!-- Status Bar Notification Custom LED Color Dialog Strings -->
+    <string name="preference_led_color_red">Red:</string>
+    <string name="preference_led_color_green">Green:</string>
+    <string name="preference_led_color_blue">Blue:</string>
+   	<string name="preference_led_color_set">The custom led color is now set.</string>
+        
+    <!-- Status Bar Notification In Call Strings -->
+   	<string name="preference_notification_in_call_settings_text">Notification In-Call Settings</string>   	
+   	<string name="preference_notification_in_call_sound_enable_title">Enable In-Call Sound</string> 
+   	<string name="preference_notification_in_call_sound_enable_summaryOn">Notifications will play a sound when you are in a phone call.</string>
+   	<string name="preference_notification_in_call_sound_enable_summaryOff">Notifications will not play a sound when you are in a phone call.</string>
+   	<string name="preference_notification_in_call_vibrate_enable_title">Enable In-Call Vibrate</string> 
+   	<string name="preference_notification_in_call_vibrate_enable_summaryOn">Notifications will vibrate when you are in a phone call.</string>
+   	<string name="preference_notification_in_call_vibrate_enable_summaryOff">Notifications will not vibrate when you are in a phone call.</string>
+   	
+   	<!-- Array Strings -->
+   	
+   	<string name="short_vibrate_text">Short Vibrate</string>
+    <string name="long_vibrate_text">Long Vibrate</string>
+   	<string name="multiple_short_text">Multiple Short</string>
+    <string name="multiple_long_text">Multiple Long</string>
+    <string name="custom_text">Custom</string>
+    
+   	<string name="fast_text">Fast</string>
+    <string name="normal_text">Normal</string>
+    <string name="slow_text">Slow</string>
+    
+   	<string name="red_text">Red</string>
+    <string name="blue_text">Blue</string>
+    <string name="green_text">Green</string>
+    <string name="cyan_text">Cyan</string>
+    <string name="magenta_text">Magenta</string>
+    <string name="yellow_text">Yellow</string>
 </resources>

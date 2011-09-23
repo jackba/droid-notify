@@ -732,4 +732,132 @@
 		<item name="23">11</item>
 		<item name="24">12</item>
 	</string-array>
+	
+	<!-- STATUS_BAR_NOTIFICATION_ARRAYS -->
+	
+	<string-array name="preference_vibrate_pattern_options">
+		<item name="0">@string/short_vibrate_text</item>
+		<item name="1">@string/long_vibrate_text</item>
+		<item name="2">@string/multiple_short_text</item>
+    	<item name="3">@string/multiple_long_text</item>
+	    <item name="4">@string/custom_text</item>
+	</string-array>
+	
+	<string-array name="preference_vibrate_pattern_options_values_sms">
+	    <item name="0">0,1200</item>
+    	<item name="1">0,2500</item>
+	    <item name="2">0,300,100,300,100,300,100</item>
+	    <item name="3">0,800,200,800,200,800,200</item>
+	    <item name="4">sms_custom</item>
+	</string-array>
+	
+	<string-array name="preference_vibrate_pattern_options_values_mms">
+	    <item name="0">0,1200</item>
+    	<item name="1">0,2500</item>
+	    <item name="2">0,300,100,300,100,300,100</item>
+	    <item name="3">0,800,200,800,200,800,200</item>
+	    <item name="4">mms_custom</item>
+	</string-array>
+	
+	<string-array name="preference_vibrate_pattern_options_values_missed_call">
+	    <item name="0">0,1200</item>
+    	<item name="1">0,2500</item>
+	    <item name="2">0,300,100,300,100,300,100</item>
+	    <item name="3">0,800,200,800,200,800,200</item>
+	    <item name="4">phone_custom</item>
+	</string-array>
+	
+	<string-array name="preference_vibrate_pattern_options_values_calendar">
+	    <item name="0">0,1200</item>
+    	<item name="1">0,2500</item>
+	    <item name="2">0,300,100,300,100,300,100</item>
+	    <item name="3">0,800,200,800,200,800,200</item>
+	    <item name="4">calendar_custom</item>
+	</string-array>
+
+	<string-array name="preference_led_pattern_options">
+	   	<item name="fast_text">@string/fast_text</item>
+	    <item name="normal_text">@string/normal_text</item>
+	    <item name="slow_text">@string/slow_text</item>
+	    <item name="3">@string/custom_text</item>
+	</string-array>
+		
+	<string-array name="preference_led_pattern_options_values_sms">
+	    <item name="0">300,300</item>
+	    <item name="1">1000,1000</item>
+	    <item name="2">3000,3000</item>
+	    <item name="3">sms_custom</item>
+	</string-array>
+		
+	<string-array name="preference_led_pattern_options_values_mms">
+	    <item name="0">300,300</item>
+	    <item name="1">1000,1000</item>
+	    <item name="2">3000,3000</item>
+	    <item name="3">mms_custom</item>
+	</string-array>
+		
+	<string-array name="preference_led_pattern_options_values_missed_call">
+	    <item name="0">300,300</item>
+	    <item name="1">1000,1000</item>
+	    <item name="2">3000,3000</item>
+	    <item name="3">phone_custom</item>
+	</string-array>
+		
+	<string-array name="preference_led_pattern_options_values_calendar">
+	    <item name="0">300,300</item>
+	    <item name="1">1000,1000</item>
+	    <item name="2">3000,3000</item>
+	    <item name="3">calendar_custom</item>
+	</string-array>
+  
+  	<string-array name="preference_led_color_options">
+	   	<item name="0">@string/red_text</item>
+	    <item name="1">@string/blue_text</item>
+	    <item name="2">@string/green_text</item>
+	    <item name="3">@string/cyan_text</item>
+	    <item name="4">@string/magenta_text</item>
+	    <item name="5">@string/yellow_text</item>
+	    <item name="6">@string/custom_text</item>
+  	</string-array>
+  		
+	<string-array name="preference_led_color_options_values_sms">
+	    <item name="0">red</item>
+	    <item name="1">blue</item>
+	    <item name="2">green</item>
+	    <item name="3">cyan</item>
+	    <item name="4">magenta</item>
+	    <item name="5">yellow</item>
+	    <item name="6">sms_custom</item>
+  	</string-array>
+
+	<string-array name="preference_led_color_options_values_mms">
+	    <item name="0">red</item>
+	    <item name="1">blue</item>
+	    <item name="2">green</item>
+	    <item name="3">cyan</item>
+	    <item name="4">magenta</item>
+	    <item name="5">yellow</item>
+	    <item name="6">mms_custom</item>
+  	</string-array>
+  	
+  	<string-array name="preference_led_color_options_values_missed_call">
+	    <item name="0">red</item>
+	    <item name="1">blue</item>
+	    <item name="2">green</item>
+	    <item name="3">cyan</item>
+	    <item name="4">magenta</item>
+	    <item name="5">yellow</item>
+	    <item name="6">phone_custom</item>
+  	</string-array>
+  	
+  	<string-array name="preference_led_color_options_values_calendar">
+	    <item name="0">red</item>
+	    <item name="1">blue</item>
+	    <item name="2">green</item>
+	    <item name="3">cyan</item>
+	    <item name="4">magenta</item>
+	    <item name="5">yellow</item>
+	    <item name="6">calendar_custom</item>
+  	</string-array>
+	
 </resources>
