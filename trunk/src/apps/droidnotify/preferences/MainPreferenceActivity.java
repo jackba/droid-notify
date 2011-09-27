@@ -107,16 +107,6 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		if(key.equals(Constants.CALENDAR_POLLING_FREQUENCY_KEY)){
 			startCalendarAlarmManager(SystemClock.elapsedRealtime() + (30 * 1000));
 		}
-		if(key.equals(Constants.ALL_VIBRATE_ENABLED_KEY)){
-			//Master Vibrate Setting
-			updateVibrateSettings();
-		}
-		if(key.equals(Constants.ALL_RINGTONE_ENABLED_KEY)){
-			//Master Ringtone Setting
-			updateRingtoneSettings();
-			//Update Ringtone Length
-			updateRingtoneLengthSetting();
-		}
 		if(key.equals(Constants.SMS_REPLY_BUTTON_ACTION_KEY)){
 			//Quick Reply Settings
 			updateQuickReplySettings();
@@ -124,22 +114,6 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		if(key.equals(Constants.MMS_REPLY_BUTTON_ACTION_KEY)){
 			//Quick Reply Settings
 			updateQuickReplySettings();
-		}
-		if(key.equals(Constants.PHONE_RINGTONE_ENABLED_KEY)){
-			//Update Ringtone Length
-			updateRingtoneLengthSetting();
-		}
-		if(key.equals(Constants.SMS_RINGTONE_ENABLED_KEY)){
-			//Update Ringtone Length
-			updateRingtoneLengthSetting();
-		}
-		if(key.equals(Constants.MMS_RINGTONE_ENABLED_KEY)){
-			//Update Ringtone Length
-			updateRingtoneLengthSetting();
-		}
-		if(key.equals(Constants.CALENDAR_RINGTONE_ENABLED_KEY)){
-			//Update Ringtone Length
-			updateRingtoneLengthSetting();
 		}
 		if(key.equals(Constants.SMS_HIDE_CONTACT_PANEL_ENABLED_KEY)){
 			//Update SMS Contact Info Display
@@ -638,24 +612,8 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			//General Settings
 			buf.append("app_enabled|" + _preferences.getBoolean("app_enabled", true) + "|boolean");
 			buf.newLine();
-			buf.append("haptic_feedback_enabled|" + _preferences.getBoolean("haptic_feedback_enabled", true) + "|boolean");
-			buf.newLine();
-			buf.append("app_vibrations_enabled|" + _preferences.getBoolean("app_vibrations_enabled", true) + "|boolean");
-			buf.newLine();
-			buf.append("app_ringtones_enabled|" + _preferences.getBoolean("app_ringtones_enabled", false) + "|boolean");
-			buf.newLine();
 
 			//Basic Settings
-			buf.append("quick_reply_save_draft_enabled|" + _preferences.getBoolean("quick_reply_save_draft_enabled", true) + "|boolean");
-			buf.newLine();
-			buf.append("quick_reply_blur_screen_background_enabled|" + _preferences.getBoolean("quick_reply_blur_screen_enabled", false) + "|boolean");
-			buf.newLine();
-			buf.append("quick_reply_dim_screen_background_enabled|" + _preferences.getBoolean("quick_reply_dim_screen_enabled", true) + "|boolean");
-			buf.newLine();
-			buf.append("quick_reply_dim_screen_background_amount_settings|" + _preferences.getString("quick_reply_dim_screen_amount_settings", "50") + "|string");
-			buf.newLine();
-			buf.append("quick_reply_hide_cancel_button_enabled|" + _preferences.getBoolean("quick_reply_hide_cancel_button_enabled", true) + "|boolean");
-			buf.newLine();
 			buf.append("app_theme|" + _preferences.getString("app_theme", "android_default") + "|string");
 			buf.newLine();
 			buf.append("phone_number_format_settings|" + _preferences.getString("phone_number_format_settings", "1") + "|string");
@@ -665,7 +623,17 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			buf.append("button_icons_enabled|" + _preferences.getBoolean("button_icons_enabled", true) + "|boolean");
 			buf.newLine();	
 			buf.append("hide_single_message_header_enabled|" + _preferences.getBoolean("hide_single_message_header_enabled", false) + "|boolean");
-			buf.newLine();		
+			buf.newLine();	
+			buf.append("quick_reply_save_draft_enabled|" + _preferences.getBoolean("quick_reply_save_draft_enabled", true) + "|boolean");
+			buf.newLine();
+			buf.append("quick_reply_blur_screen_background_enabled|" + _preferences.getBoolean("quick_reply_blur_screen_enabled", false) + "|boolean");
+			buf.newLine();
+			buf.append("quick_reply_dim_screen_background_enabled|" + _preferences.getBoolean("quick_reply_dim_screen_enabled", true) + "|boolean");
+			buf.newLine();
+			buf.append("quick_reply_dim_screen_background_amount_settings|" + _preferences.getString("quick_reply_dim_screen_amount_settings", "50") + "|string");
+			buf.newLine();
+			buf.append("quick_reply_hide_cancel_button_enabled|" + _preferences.getBoolean("quick_reply_hide_cancel_button_enabled", true) + "|boolean");
+			buf.newLine();	
 			
 			//Notification Settings
 			buf.append("sms_notifications_enabled|" + _preferences.getBoolean("sms_notifications_enabled", true) + "|boolean");
@@ -702,12 +670,6 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			buf.newLine();
 			buf.append("sms_hide_contact_number_enabled|" + _preferences.getBoolean("sms_hide_contact_number_enabled", false) + "|boolean");
 			buf.newLine();
-			buf.append("sms_vibrate_enabled|" + _preferences.getBoolean("sms_vibrate_enabled", true) + "|boolean");
-			buf.newLine();
-			buf.append("sms_ringtone_enabled|" + _preferences.getBoolean("sms_ringtone_enabled", true) + "|boolean");
-			buf.newLine();
-			buf.append("sms_ringtone_audio|" + _preferences.getString("sms_ringtone_audio", "DEFAULT_SOUND") + "|string");
-			buf.newLine();
 			
 			buf.append("mms_notifications_enabled|" + _preferences.getBoolean("mms_notifications_enabled", true) + "|boolean");
 			buf.newLine();
@@ -743,12 +705,6 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			buf.newLine();
 			buf.append("mms_hide_contact_number_enabled|" + _preferences.getBoolean("mms_hide_contact_number_enabled", false) + "|boolean");
 			buf.newLine();
-			buf.append("mms_vibrate_enabled|" + _preferences.getBoolean("mms_vibrate_enabled", true) + "|boolean");
-			buf.newLine();
-			buf.append("mms_ringtone_enabled|" + _preferences.getBoolean("mms_ringtone_enabled", true) + "|boolean");
-			buf.newLine();
-			buf.append("mms_ringtone_audio|" + _preferences.getString("mms_ringtone_audio", "DEFAULT_SOUND") + "|string");
-			buf.newLine();
 			
 			buf.append("missed_call_notifications_enabled|" + _preferences.getBoolean("missed_call_notifications_enabled", true) + "|boolean");
 			buf.newLine();
@@ -771,12 +727,6 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			buf.append("missed_call_hide_contact_name_enabled|" + _preferences.getBoolean("missed_call_hide_contact_name_enabled", false) + "|boolean");
 			buf.newLine();
 			buf.append("missed_call_hide_contact_number_enabled|" + _preferences.getBoolean("missed_call_hide_contact_number_enabled", false) + "|boolean");
-			buf.newLine();
-			buf.append("missed_call_vibrate_enabled|" + _preferences.getBoolean("missed_call_vibrate_enabled", true) + "|boolean");
-			buf.newLine();
-			buf.append("missed_call_ringtone_enabled|" + _preferences.getBoolean("missed_call_ringtone_enabled", true) + "|boolean");
-			buf.newLine();
-			buf.append("missed_call_ringtone_audio|" + _preferences.getString("missed_call_ringtone_audio", "DEFAULT_SOUND") + "|string");
 			buf.newLine();
 			
 			buf.append("calendar_notifications_enabled|" + _preferences.getBoolean("calendar_notifications_enabled", true) + "|boolean");
@@ -807,12 +757,6 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			buf.newLine();
 			buf.append("calendar_hide_view_button_enabled|" + _preferences.getBoolean("calendar_hide_view_button_enabled", false) + "|boolean");
 			buf.newLine();
-			buf.append("calendar_vibrate_enabled|" + _preferences.getBoolean("calendar_vibrate_enabled", true) + "|boolean");
-			buf.newLine();
-			buf.append("calendar_ringtone_enabled|" + _preferences.getBoolean("calendar_ringtone_enabled", true) + "|boolean");
-			buf.newLine();
-			buf.append("calendar_ringtone_audio|" + _preferences.getString("calendar_ringtone_audio", "DEFAULT_SOUND") + "|string");
-			buf.newLine();
 
 			//Screen Settings
 			buf.append("screen_enabled|" + _preferences.getBoolean("screen_enabled", true) + "|boolean");
@@ -820,32 +764,32 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			buf.append("screen_dim_enabled|" + _preferences.getBoolean("screen_dim_enabled", true) + "|boolean");
 			buf.newLine();
 			buf.append("keyguard_enabled|" + _preferences.getBoolean("keyguard_enabled", true) + "|boolean");
+			buf.newLine();	
+			buf.append("landscape_screen_enabled|" + _preferences.getBoolean("landscape_screen_enabled", false) + "|boolean");
 			buf.newLine();
 			buf.append("blur_screen_background_enabled|" + _preferences.getBoolean("blur_screen_enabled", false) + "|boolean");
 			buf.newLine();
 			buf.append("dim_screen_background_enabled|" + _preferences.getBoolean("dim_screen_enabled", false) + "|boolean");
 			buf.newLine();
 			buf.append("dim_screen_background_amount_settings|" + _preferences.getString("dim_screen_amount_settings", "50") + "|string");
-			buf.newLine();	
-			buf.append("landscape_screen_enabled|" + _preferences.getBoolean("landscape_screen_enabled", false) + "|boolean");
 			buf.newLine();
 
 			//Advanced Settings
+			buf.append("haptic_feedback_enabled|" + _preferences.getBoolean("haptic_feedback_enabled", true) + "|boolean");
+			buf.newLine();
 			buf.append("wakelock_timeout_settings|" + _preferences.getString("wakelock_timeout_settings", "300") + "|string");
 			buf.newLine();
 			buf.append("keyguard_timeout_settings|" + _preferences.getString("keyguard_timeout_settings", "300") + "|string");
 			buf.newLine();
-			buf.append("quick_reply_sms_gateway_settings|" + _preferences.getString("quick_reply_sms_gateway_settings", "1") + "|string");
-			buf.newLine();
 			buf.append("sms_timeout_settings|" + _preferences.getString("sms_timeout_settings", "10") + "|string");
+			buf.newLine();
+			buf.append("sms_timestamp_adjustment_settings|" + _preferences.getString("sms_timestamp_adjustment_settings", "0") + "|string");
 			buf.newLine();
 			buf.append("mms_timeout_settings|" + _preferences.getString("mms_timeout_settings", "40") + "|string");
 			buf.newLine();
 			buf.append("call_log_timeout_settings|" + _preferences.getString("call_log_timeout_settings", "5") + "|string");
 			buf.newLine();
-			buf.append("ringtone_length_settings|" + _preferences.getString("ringtone_length_settings", "3") + "|string");
-			buf.newLine();
-			buf.append("sms_timestamp_adjustment_settings|" + _preferences.getString("sms_timestamp_adjustment_settings", "0") + "|string");
+			buf.append("quick_reply_sms_gateway_settings|" + _preferences.getString("quick_reply_sms_gateway_settings", "1") + "|string");
 			buf.newLine();
 			buf.append("reschedule_notifications_enabled|" + _preferences.getBoolean("reschedule_notifications_enabled", true) + "|boolean");
 			buf.newLine();
@@ -1056,56 +1000,12 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	 */
 	private void initPreferencesStates(){
 		if (_debug) Log.v("MainPreferenceActivity.initPreferencesStates()");
-		//Master Vibrate Setting
-		updateVibrateSettings();
-		//Master Ringtone Setting
-		updateRingtoneSettings();
 		//Quick Reply Settings
 		updateQuickReplySettings();
-		//Update Ringtone Length
-		updateRingtoneLengthSetting();
 		//Update Contact Info Displays
 		updateSMSContactInfoSetting();
 		updateMMSContactInfoSetting();
 		updatePhoneContactInfoSetting();
-	}
-	
-	/**
-	 * Updates the availability of the Vibrate Settings.
-	 */
-	private void updateVibrateSettings(){
-		if (_debug) Log.v("MainPreferenceActivity.updateVibrateSettings()");
-		try{
-			PreferenceScreen smsVibrateSettingsScreen = (PreferenceScreen) findPreference(Constants.SMS_VIBRATE_SETTINGS_SCREEN_KEY);
-			smsVibrateSettingsScreen.setEnabled(_preferences.getBoolean(Constants.ALL_VIBRATE_ENABLED_KEY, true));
-			PreferenceScreen mmsVibrateSettingsScreen = (PreferenceScreen) findPreference(Constants.MMS_VIBRATE_SETTINGS_SCREEN_KEY);
-			mmsVibrateSettingsScreen.setEnabled(_preferences.getBoolean(Constants.ALL_VIBRATE_ENABLED_KEY, true));
-			PreferenceScreen phoneVibrateSettingsScreen = (PreferenceScreen) findPreference(Constants.PHONE_VIBRATE_SETTINGS_SCREEN_KEY);
-			phoneVibrateSettingsScreen.setEnabled(_preferences.getBoolean(Constants.ALL_VIBRATE_ENABLED_KEY, true));
-			PreferenceScreen calendarVibrateSettingsScreen = (PreferenceScreen) findPreference(Constants.CALENDAR_VIBRATE_SETTINGS_SCREEN_KEY);
-			calendarVibrateSettingsScreen.setEnabled(_preferences.getBoolean(Constants.ALL_VIBRATE_ENABLED_KEY, true));
-		}catch(Exception ex){
-			if (_debug) Log.e("MainPreferenceActivity.updateVibrateSettings() ERROR: " + ex.toString());
-		}
-	}
-
-	/**
-	 * Updates the availability of the Ringtone Settings.
-	 */
-	private void updateRingtoneSettings(){
-		if (_debug) Log.v("MainPreferenceActivity.updateRingtoneSettings()");
-		try{
-			PreferenceScreen smsRingtoneSettingsScreen = (PreferenceScreen) findPreference(Constants.SMS_RINGTONE_SETTINGS_SCREEN_KEY);
-			smsRingtoneSettingsScreen.setEnabled(_preferences.getBoolean(Constants.ALL_RINGTONE_ENABLED_KEY, true));
-			PreferenceScreen mmsRingtoneSettingsScreen = (PreferenceScreen) findPreference(Constants.MMS_RINGTONE_SETTINGS_SCREEN_KEY);
-			mmsRingtoneSettingsScreen.setEnabled(_preferences.getBoolean(Constants.ALL_RINGTONE_ENABLED_KEY, true));
-			PreferenceScreen phoneRingtoneSettingsScreen = (PreferenceScreen) findPreference(Constants.PHONE_RINGTONE_SETTINGS_SCREEN_KEY);
-			phoneRingtoneSettingsScreen.setEnabled(_preferences.getBoolean(Constants.ALL_RINGTONE_ENABLED_KEY, true));
-			PreferenceScreen calendarRingtoneSettingsScreen = (PreferenceScreen) findPreference(Constants.CALENDAR_RINGTONE_SETTINGS_SCREEN_KEY);
-			calendarRingtoneSettingsScreen.setEnabled(_preferences.getBoolean(Constants.ALL_RINGTONE_ENABLED_KEY, true));
-		}catch(Exception ex){
-			if (_debug) Log.e("MainPreferenceActivity.updateRingtoneSettings() ERROR: " + ex.toString());
-		}
 	}
 	
 	/**
@@ -1127,32 +1027,6 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			quickReplyPreferenceScreen.setEnabled(quickReplySMSGatewayEnabled);
 		}catch(Exception ex){
 			if (_debug) Log.e("MainPreferenceActivity.updateQuickReplySettings() ERROR: " + ex.toString());
-		}
-	}
-	
-	/**
-	 * Updates the availability of the Ringtone Length Setting.
-	 */
-	private void updateRingtoneLengthSetting(){
-		if (_debug) Log.v("MainPreferenceActivity.updateRingtoneLengthSetting()");
-		try{
-			boolean ringtoneLengthSettingEnabled = false;
-			if(_preferences.getBoolean(Constants.PHONE_RINGTONE_ENABLED_KEY, true)){
-				ringtoneLengthSettingEnabled = true;
-			}
-			if(_preferences.getBoolean(Constants.SMS_RINGTONE_ENABLED_KEY, true)){
-				ringtoneLengthSettingEnabled = true;
-			}
-			if(_preferences.getBoolean(Constants.MMS_RINGTONE_ENABLED_KEY, true)){
-				ringtoneLengthSettingEnabled = true;
-			}
-			if(_preferences.getBoolean(Constants.CALENDAR_RINGTONE_ENABLED_KEY, true)){
-				ringtoneLengthSettingEnabled = true;
-			}
-			ListPreference ringtoneLengthSetting = (ListPreference) findPreference(Constants.RINGTONE_LENGTH_KEY);
-			ringtoneLengthSetting.setEnabled(ringtoneLengthSettingEnabled);
-		}catch(Exception ex){
-			if (_debug) Log.e("MainPreferenceActivity.updateRingtoneLengthSetting() ERROR: " + ex.toString());
 		}
 	}
 	

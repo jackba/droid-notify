@@ -20,6 +20,7 @@
     <string name="delete_thread_dialog_text">The entire thread will be deleted from the phone.</string>
     <string name="to_text">To</string>
     <string name="about_text">About</string>
+    <string name="general_settings_text">General Settings</string>
     <string name="advanced_settings_text">Advanced Settings</string>
     <string name="ok_text">OK</string>
     <string name="close_text">Close</string>
@@ -47,9 +48,9 @@
    	<string name="hide_contact_number_text">Hide Contact Number</string>
    	<string name="hide_contact_name_text">Hide Contact Name</string>
    	<string name="button_settings_text">Button Settings</string>
-   	<string name="vibrate_settings_text">Vibrate Settings</string>
-   	<string name="ringtone_settings_text">Ringtone Settings</string>
-   	<string name="show_hide_button_settings_text">Show/Hide Button Settings</string>
+   	<string name="show_hide_button_settings_text">Show/Hide Button Settings</string>   	
+    <string name="general_screen_settings_text">Basic Screen Settings</string>   	
+    <string name="notification_screen_settings_text">Notification Screen Settings</string>
    	
     <!-- App Error Message Strings -->
     <string name="app_android_messaging_app_error">The Android Messaging application could not be started.</string>
@@ -171,9 +172,6 @@
    	<string name="preference_sms_hide_message_body_enabled_summaryOff">The message body will be visible in the notification popup.</string>
    	<string name="preference_sms_message_body_font_size_title">Message Body Font Size</string>
    	<string name="preference_sms_message_body_font_size_summary">Select the font size you want to use when when displaying the message body.</string>
-   	<string name="preference_sms_vibrate_enabled_title">Enable Vibrations</string>
-   	<string name="preference_sms_vibrate_enabled_summaryOn">SMS notifications will vibrate on arrival.</string>
-   	<string name="preference_sms_vibrate_enabled_summaryOff">SMS notifications will not vibrate on arrival.</string>
    	<string name="preference_sms_notifications">SMS Notifications</string>
    	<string name="preference_sms_dismiss_button_action_summary">Define what happens when you dismiss a SMS.</string>
    	<string name="preference_sms_delete_button_action_summary">Define what happens when you delete a SMS.</string>
@@ -211,16 +209,10 @@
    	<string name="preference_mms_hide_message_body_enabled_summaryOff">The message body will be visible in the notification popup.</string>
    	<string name="preference_mms_message_body_font_size_title">Message Body Font Size</string>
    	<string name="preference_mms_message_body_font_size_summary">Select the font size you want to use when when displaying the message body.</string>
-    <string name="preference_mms_vibrate_enabled_title">Enable Vibrations</string>
-   	<string name="preference_mms_vibrate_enabled_summaryOn">MMS notifications will vibrate on arrival.</string>
-   	<string name="preference_mms_vibrate_enabled_summaryOff">MMS notifications will not vibrate on arrival.</string>
    	<string name="preference_mms_notifications">MMS Notifications</string>
    	<string name="preference_mms_dismiss_button_action_summary">Define what happens when you dismiss a MMS.</string>
    	<string name="preference_mms_delete_button_action_summary">Define what happens when you delete a MMS.</string>
    	<string name="preference_mms_reply_button_action_summary">Define what happens when you reply to a MMS.</string>
-    <string name="preference_mms_ringtone_enabled_title">Enable Ringtone</string>
-   	<string name="preference_mms_ringtone_enabled_summaryOn">MMS notifications will play a ringtone on arrival.</string>
-   	<string name="preference_mms_ringtone_enabled_summaryOff">MMS notifications will not play a ringtone on arrival.</string>
 	<string name="preference_confirm_mms_deletion_enabled_title">Confirm Message Deletion</string>
    	<string name="preference_confirm_mms_deletion_enabled_summaryOn">A dialog box will display when you delete a message.</string>
    	<string name="preference_confirm_mms_deletion_enabled_summaryOff">A dialog box will not display when you delete a message.</string>
@@ -241,14 +233,8 @@
    	<string name="preference_missed_call_enabled_title">Enable Missed Call</string>
    	<string name="preference_missed_call_enabled_summaryOn">Missed Call notifications are enabled.</string>
    	<string name="preference_missed_call_enabled_summaryOff">Missed Call notifications are disabled.</string>
-    <string name="preference_missed_call_vibrate_enabled_title">Enable Vibrations</string>
-   	<string name="preference_missed_call_vibrate_enabled_summaryOn">Missed Call notifications will vibrate on arrival.</string>
-   	<string name="preference_missed_call_vibrate_enabled_summaryOff">Missed Call notifications will not vibrate on arrival.</string>
    	<string name="preference_missed_call_notifications">Missed Call Notifications</string>
    	<string name="preference_missed_call_dismiss_button_action_summary">Define what happens when you dismiss a Missed Call.</string>
-    <string name="preference_missed_call_ringtone_enabled_title">Enable Ringtone</string>
-   	<string name="preference_missed_call_ringtone_enabled_summaryOn">Missed Call notifications will play a ringtone on arrival.</string>
-   	<string name="preference_missed_call_ringtone_enabled_summaryOff">Missed Call notifications will not play a ringtone on arrival.</string>	
    	<string name="preference_missed_call_loading_title">Loading Settings</string>
    	<string name="preference_missed_call_loading_summary">Define what calls to load when a missed call is received.</string>
    	<string name="preference_call_log_timeout">Call Log Timeout</string>
@@ -273,14 +259,8 @@
    	<string name="preference_calendar_labels_enabled_title">Enable Calendar Labels</string>
    	<string name="preference_calendar_labels_enabled_summaryOn">The name of the Calendar that the event belongs to will be displayed in the notification. (Useful if you have more than one Calendar)</string>
    	<string name="preference_calendar_labels_enabled_summaryOff">The name of the Calendar that the event belongs to will not be displayed in the notification. (Useful if you have more than one Calendar)</string>
-    <string name="preference_calendar_vibrate_enabled_title">Enable Vibrations</string>
-   	<string name="preference_calendar_vibrate_enabled_summaryOn">Calendar Event notifications will vibrate on arrival.</string>
-   	<string name="preference_calendar_vibrate_enabled_summaryOff">Calendar Event notifications will not vibrate on arrival.</string>
    	<string name="preference_calendar_notifications">Calendar Notifications</string>
    	<string name="preference_calendar_dismiss_button_action_summary">Define what happens when you dismiss a Calendar Event.</string>
-   	<string name="preference_calendar_ringtone_enabled_title">Enable Ringtone</string>
-   	<string name="preference_calendar_ringtone_enabled_summaryOn">Calendar notifications will play a ringtone on arrival.</string>
-   	<string name="preference_calendar_ringtone_enabled_summaryOff">Calendar notifications will not play a ringtone on arrival.</string>
    	<string name="event_reminder_settings_text">Event Reminder Settings</string>
    	<string name="all_day_event_reminders_text">All-Day Event Reminders</string>
    	<string name="all_day_event_reminder_setting_text">All-Day Event Settings</string>
@@ -366,7 +346,7 @@
    	<string name="theme_text">Notification Theme</string>
    	<string name="preference_theme_summary">Select the theme for the notifications.</string>
    	
-   	<string name="preference_landscape_screen_enabled_title">Enable Landscape Screen</string>
+   	<string name="preference_landscape_screen_enabled_title">Enable Landscape Mode</string>
    	<string name="preference_landscape_screen_enabled_summaryOn">The screens will rotate to landscape mode when the phone is rotated.</string>
    	<string name="preference_landscape_screen_enabled_summaryOff">The screens will not rotate to landscape mode when the phone is rotated.</string>
    	

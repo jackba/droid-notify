@@ -29,7 +29,7 @@ public class VibratePatternListPreference extends ListPreference {
     private boolean _debug = false;
     private Context _context = null;
     private SharedPreferences _preferences = null;
-    private int _notificationType = 0;
+    private int _notificationType = -2;
 
 	//================================================================================
 	// Constructors
@@ -76,25 +76,30 @@ public class VibratePatternListPreference extends ListPreference {
 		super.onDialogClosed(result);
 		if (_debug) Log.v("VibratePatternListPreference.onDialogClosed()");
 		if (result) {
-			if (_preferences.getString(this.getKey(), Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_DEFAULT).equals(Constants.SMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_VALUE_KEY)) {
+			if (_preferences.getString(this.getKey(), Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_DEFAULT).equals(Constants.SMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_VALUE_KEY)) {
 				_notificationType = Constants.NOTIFICATION_TYPE_SMS;
+				showDialog();
 			}
-			if (_preferences.getString(this.getKey(), Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_DEFAULT).equals(Constants.MMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_VALUE_KEY)) {
+			if (_preferences.getString(this.getKey(), Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_DEFAULT).equals(Constants.MMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_VALUE_KEY)) {
 				_notificationType = Constants.NOTIFICATION_TYPE_PHONE;
+				showDialog();
 			}
-			if (_preferences.getString(this.getKey(), Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_DEFAULT).equals(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_VALUE_KEY)) {
+			if (_preferences.getString(this.getKey(), Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_DEFAULT).equals(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_VALUE_KEY)) {
 				_notificationType = Constants.NOTIFICATION_TYPE_PHONE;
+				showDialog();
 			}
-			if (_preferences.getString(this.getKey(), Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_DEFAULT).equals(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_VALUE_KEY)) {
+			if (_preferences.getString(this.getKey(), Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_DEFAULT).equals(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_VALUE_KEY)) {
 				_notificationType = Constants.NOTIFICATION_TYPE_PHONE;
+				showDialog();
 			}
-			if (_preferences.getString(this.getKey(), Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_DEFAULT).equals(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_VALUE_KEY)) {
+			if (_preferences.getString(this.getKey(), Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_DEFAULT).equals(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_VALUE_KEY)) {
 				_notificationType = Constants.NOTIFICATION_TYPE_PHONE;
+				showDialog();
 			}
-			if (_preferences.getString(this.getKey(), Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_DEFAULT).equals(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_VALUE_KEY)) {
+			if (_preferences.getString(this.getKey(), Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_DEFAULT).equals(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_VALUE_KEY)) {
 				_notificationType = Constants.NOTIFICATION_TYPE_PHONE;
+				showDialog();
 			}
-			showDialog();
 		}
 	}
 	
@@ -112,25 +117,25 @@ public class VibratePatternListPreference extends ListPreference {
 	    final EditText customVibratePatternEditText = (EditText) view.findViewById(R.id.customVibrateEditText);
 	    switch(_notificationType){
 		    case Constants.NOTIFICATION_TYPE_SMS:{
-		    	 customVibratePatternEditText.setText(_preferences.getString(Constants.SMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_DEFAULT));
+		    	 customVibratePatternEditText.setText(_preferences.getString(Constants.SMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_DEFAULT));
 		    }
 		    case Constants.NOTIFICATION_TYPE_MMS:{
-		    	 customVibratePatternEditText.setText(_preferences.getString(Constants.MMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_DEFAULT));
+		    	 customVibratePatternEditText.setText(_preferences.getString(Constants.MMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_DEFAULT));
 		    }
 		    case Constants.NOTIFICATION_TYPE_PHONE:{
-		    	 customVibratePatternEditText.setText(_preferences.getString(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_DEFAULT));
+		    	 customVibratePatternEditText.setText(_preferences.getString(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_DEFAULT));
 		    }
 		    case Constants.NOTIFICATION_TYPE_CALENDAR:{
-		    	 customVibratePatternEditText.setText(_preferences.getString(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_DEFAULT));
+		    	 customVibratePatternEditText.setText(_preferences.getString(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_DEFAULT));
 		    }
 		    case Constants.NOTIFICATION_TYPE_GMAIL:{
-		    	 customVibratePatternEditText.setText(_preferences.getString(Constants.GMAIL_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_DEFAULT));
+		    	 customVibratePatternEditText.setText(_preferences.getString(Constants.GMAIL_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_DEFAULT));
 		    }
 		    case Constants.NOTIFICATION_TYPE_TWITTER:{
-		    	 customVibratePatternEditText.setText(_preferences.getString(Constants.TWITTER_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_DEFAULT));
+		    	 customVibratePatternEditText.setText(_preferences.getString(Constants.TWITTER_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_DEFAULT));
 		    }
 		    case Constants.NOTIFICATION_TYPE_FACEBOOK:{
-		    	 customVibratePatternEditText.setText(_preferences.getString(Constants.FACEBOOK_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_DEFAULT));
+		    	 customVibratePatternEditText.setText(_preferences.getString(Constants.FACEBOOK_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_DEFAULT));
 		    }
 	    }
 	    AlertDialog.Builder vibratePatternAlertBuilder = new AlertDialog.Builder(_context);
