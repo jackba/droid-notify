@@ -14,8 +14,6 @@ import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.database.Cursor;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -23,7 +21,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
-import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.view.ContextMenu;
@@ -79,8 +76,6 @@ public class NotificationActivity extends Activity {
 	private NotificationViewFlipper _notificationViewFlipper = null;
 	private WakeLockHandler _wakeLockHandler = null;
 	private KeyguardHandler _keyguardHandler = null;
-	private Ringtone _ringtone = null;
-	private RingtoneHandler _ringtoneHandler = null;
 	private MotionEvent _downMotionEvent = null;
 	SharedPreferences _preferences = null;
 
@@ -668,7 +663,7 @@ public class NotificationActivity extends Activity {
 	    _preferences = PreferenceManager.getDefaultSharedPreferences(_context);
 		_wakeLockHandler = new WakeLockHandler();
 		_keyguardHandler = new KeyguardHandler();
-		_ringtoneHandler = new RingtoneHandler();
+		//_ringtoneHandler = new RingtoneHandler();
 	    final Bundle extrasBundle = getIntent().getExtras();
 	    int notificationType = extrasBundle.getInt("notificationType");
 	    if (_debug) Log.v("NotificationActivity.onCreate() Notification Type: " + notificationType);
@@ -728,8 +723,6 @@ public class NotificationActivity extends Activity {
 		    	break;
 		    }
 	    }
-	    //Set Vibration/Ringtone to announce Activity.
-	    runNotificationFeedback(notificationType);
 	    //Acquire WakeLock.
 	    acquireWakeLock(_context);
 	    long wakelockTimeout = Long.parseLong(_preferences.getString(Constants.WAKELOCK_TIMEOUT_KEY, "300")) * 1000;
@@ -894,8 +887,6 @@ public class NotificationActivity extends Activity {
 		    	break;
 		    }
 	    }
-	    //Set Vibration and/or Ringtone to announce Activity.
-	    runNotificationFeedback(notificationType);
 	    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(_context);
 	    //Acquire WakeLock.
 	    acquireWakeLock(_context);
@@ -1024,138 +1015,6 @@ public class NotificationActivity extends Activity {
 			if (_debug) Log.e("NotificationActivity.reenableKeyguardLock() ERROR: " + ex.toString());
 		}
 	}
-
-	/**
-	 * Starts the playback of the ringtone.
-	 */
-	private void playRingtone(int notificationType){
-		if (_debug) Log.v("NotificationActivity.playRingtone()");
-		long rintoneStopValue = Long.parseLong(_preferences.getString(Constants.RINGTONE_LENGTH_KEY, "3")) * 1000;
-		if(notificationType == Constants.NOTIFICATION_TYPE_TEST){
-			try{
-				_ringtone = RingtoneManager.getRingtone(_context, Uri.parse(_preferences.getString(Constants.SMS_RINGTONE_KEY, "DEFAULT_SOUND")));
-				if(_ringtone != null) _ringtone.play();
- 	    	}catch(Exception ex){
- 	    		if (_debug) Log.e("NotificationActivity.playRingtone() NOTIFICATION_TYPE_TEST ERROR: " + ex.toString());
-	    	}
-		}
-	    if(notificationType == Constants.NOTIFICATION_TYPE_PHONE){
-	 		if(_preferences.getBoolean(Constants.PHONE_RINGTONE_ENABLED_KEY, false)){
-	 	    	try{
-		 			_ringtone = RingtoneManager.getRingtone(_context, Uri.parse(_preferences.getString(Constants.PHONE_RINGTONE_KEY, "DEFAULT_SOUND")));
-		 			if(_ringtone != null) _ringtone.play();
-	 	    	}catch(Exception ex){
-	 	    		if (_debug) Log.e("NotificationActivity.playRingtone() NOTIFICATION_TYPE_PHONE ERROR: " + ex.toString());
-		    	}
-	 		}
-	    }
-	    if(notificationType == Constants.NOTIFICATION_TYPE_SMS){
-	 	    if(_preferences.getBoolean(Constants.SMS_RINGTONE_ENABLED_KEY, false)){
-	 	    	try{
-		 	    	_ringtone = RingtoneManager.getRingtone(_context, Uri.parse(_preferences.getString(Constants.SMS_RINGTONE_KEY, "DEFAULT_SOUND")));
-		 	    	if(_ringtone != null) _ringtone.play();
-	 	    	}catch(Exception ex){
-	 	    		if (_debug) Log.e("NotificationActivity.playRingtone() NOTIFICATION_TYPE_SMS ERROR: " + ex.toString());
-		    	}
-	 	    }
-	    }
-	    if(notificationType == Constants.NOTIFICATION_TYPE_MMS){
-	 	    if(_preferences.getBoolean(Constants.MMS_RINGTONE_ENABLED_KEY, false)){
-	 	    	try{
-		 	    	_ringtone = RingtoneManager.getRingtone(_context, Uri.parse(_preferences.getString(Constants.MMS_RINGTONE_KEY, "DEFAULT_SOUND")));
-		 	    	if(_ringtone != null) _ringtone.play();
-	 	    	}catch(Exception ex){
-	 	    		if (_debug) Log.e("NotificationActivity.playRingtone() NOTIFICATION_TYPE_MMS ERROR: " + ex.toString());
-		    	}
-	 	    }
-	    }
-	    if(notificationType == Constants.NOTIFICATION_TYPE_CALENDAR){
-	 	    if(_preferences.getBoolean(Constants.CALENDAR_RINGTONE_ENABLED_KEY, false)){
-	 	    	try{
-	 	    		_ringtone = RingtoneManager.getRingtone(_context, Uri.parse(_preferences.getString(Constants.CALENDAR_RINGTONE_KEY, "DEFAULT_SOUND")));
-	 	    		if(_ringtone != null) _ringtone.play();
-	 	    	}catch(Exception ex){
-	 	    		if (_debug) Log.e("NotificationActivity.playRingtone() NOTIFICATION_TYPE_CALENDAR ERROR: " + ex.toString());
-		    	}
-	 	    }
-	    }
-	    if(notificationType == Constants.NOTIFICATION_TYPE_GMAIL){
-	    	//TODO - Email
-	    }
-		_ringtoneHandler.sleep(rintoneStopValue);
-	}
-	
-	/**
-	 * Stops the playback of the ringtone.
-	 */
-	private void stopRingtone(){
-		if (_debug) Log.v("NotificationActivity.stopRingtone()");
-		try{
-			if(_ringtone!= null){
-				_ringtone.stop();
-				_ringtone = null;
-			}
-		}catch(Exception ex){
-	    		if (_debug) Log.e("NotificationActivity.stopRingtone() ERROR: " + ex.toString());
-    	}
-	}
-	
-	/**
-	 * Function to set ring tone or vibration based on users preferences for this notification.
-	 * 
-	 * @param notificationType - The type of the current notification.
-	 */
-	private void runNotificationFeedback(int notificationType){
-		if (_debug) Log.v("NotificationActivity.runNotificationFeedback()");
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-		Vibrator vibrator = null;
-		try{
-			vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
-			//Set vibration based on user preferences.
-			if(preferences.getBoolean(Constants.ALL_VIBRATE_ENABLED_KEY, true)){
-				switch(notificationType){
-					case Constants.NOTIFICATION_TYPE_TEST:{
-						if(vibrator != null) vibrator.vibrate(1 * 1000);
-						break;
-					}
-					case Constants.NOTIFICATION_TYPE_PHONE:{
-				 	    if(preferences.getBoolean(Constants.PHONE_VIBRATE_ENABLED_KEY, true)){
-				 	    	if(vibrator != null) vibrator.vibrate(1 * 1000);
-				 	    }
-						break;
-				    }
-					case Constants.NOTIFICATION_TYPE_SMS:{
-				 	    if(preferences.getBoolean(Constants.SMS_VIBRATE_ENABLED_KEY, true)){
-				 	    	if(vibrator != null) vibrator.vibrate(1 * 1000);
-				 	    }
-						break;
-				    }
-					case Constants.NOTIFICATION_TYPE_MMS:{
-				 	    if(preferences.getBoolean(Constants.MMS_VIBRATE_ENABLED_KEY, true)){
-				 	    	if(vibrator != null) vibrator.vibrate(1 * 1000);
-				 	    }
-						break;
-				    }
-					case Constants.NOTIFICATION_TYPE_CALENDAR:{
-				 	    if(preferences.getBoolean(Constants.CALENDAR_VIBRATE_ENABLED_KEY, true)){
-				 	    	if(vibrator != null) vibrator.vibrate(1 * 1000);
-				 	    }
-						break;
-				    }
-					case Constants.NOTIFICATION_TYPE_GMAIL:{
-				    	//TODO - Email
-						break;
-				    }
-				}
-			}
-			//Set ringtone based on user preferences.
-			if(preferences.getBoolean(Constants.ALL_RINGTONE_ENABLED_KEY, false)){
-		    	playRingtone(notificationType);
-		    }
-		}catch(Exception ex){
-			if (_debug) Log.e("NotificationActivity.runNotificationFeedback() ERROR: " + ex.toString());
-		}
-	}
 	
 	/**
 	 * Function to create a test notification of each type.
@@ -1233,37 +1092,6 @@ public class NotificationActivity extends Activity {
 			this.removeMessages(0);
 			sendMessageDelayed(obtainMessage(0), delayMillis);
 		}
-
-	};
-	
-	/**
-	 * This class is a Handler that executes in it's own thread and is used to delay the stopping of the ringtone feedback.
-	 * 
-	 * @author Camille Sévigny
-	 */
-	class RingtoneHandler extends Handler {
-
-		/**
-		 * Handles the delayed function call when the sleep period is over.
-		 * 
-		 * @param msg - Message to be handled.
-		 */
-		@Override
-	    public void handleMessage(Message msg) {
-			if (_debug) Log.v("RingtoneHandler.handleMessage()");
-	    	NotificationActivity.this.stopRingtone();
-	    }
-
-		/**
-		 * Put the thread to sleep for a period of time.
-		 * 
-		 * @param delayMillis - Delay time in milliseconds.
-		 */
-	    public void sleep(long delayMillis) {
-	    	if (_debug) Log.v("RingtoneHandler.sleep()");
-	    	this.removeMessages(0);
-	    	sendMessageDelayed(obtainMessage(0), delayMillis);
-	    }
 
 	};
 	

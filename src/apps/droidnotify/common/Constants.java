@@ -27,9 +27,6 @@ public class Constants {
 	public static final String RESCHEDULE_NOTIFICATIONS_ENABLED_KEY = "reschedule_notifications_enabled";
 	public static final String RESCHEDULE_NOTIFICATION_TIMEOUT_KEY = "reschedule_notification_timeout_settings";
 	public static final String USER_IN_MESSAGING_APP_KEY = "user_in_messaging_app";
-	public static final String ALL_VIBRATE_ENABLED_KEY = "app_vibrations_enabled";
-	public static final String ALL_RINGTONE_ENABLED_KEY = "app_ringtones_enabled";
-	public static final String RINGTONE_LENGTH_KEY = "ringtone_length_settings";
 	public static final String SCREEN_ENABLED_KEY = "screen_enabled";
 	public static final String SCREEN_DIM_ENABLED_KEY = "screen_dim_enabled";
 	public static final String KEYGUARD_ENABLED_KEY = "keyguard_enabled";
@@ -139,14 +136,8 @@ public class Constants {
 	public static final String SMS_NOTIFICATION_COUNT_ACTION_KEY = "sms_notification_count_action";
 	public static final String SMS_MESSAGE_BODY_FONT_SIZE_KEY = "sms_message_body_font_size";
 	public static final String SMS_DISMISS_KEY = "sms_dismiss_button_action";
-	public static final String SMS_RINGTONE_ENABLED_KEY = "sms_ringtone_enabled";
-	public static final String SMS_RINGTONE_KEY = "sms_ringtone_audio";
 	public static final String SMS_DISPLAY_UNREAD_KEY = "sms_display_unread_enabled";
 	public static final String SMS_CONFIRM_DELETION_KEY = "confirm_sms_deletion_enabled";
-	public static final String SMS_VIBRATE_ENABLED_KEY = "sms_vibrate_enabled";    
-	public static final String SMS_VIBRATE_SETTINGS_SCREEN_KEY = "sms_vibrate_settings_screen";
-    public static final String SMS_RINGTONE_SETTINGS_SCREEN_KEY = "sms_ringtone_settings_screen";
-    
 	
 	public static final String SMS_DISMISS_ACTION_MARK_READ = "0";
 	public static final String SMS_DELETE_ACTION_DELETE_MESSAGE = "0";
@@ -172,13 +163,8 @@ public class Constants {
 	public static final String MMS_NOTIFICATION_COUNT_ACTION_KEY = "mms_notification_count_action";
 	public static final String MMS_MESSAGE_BODY_FONT_SIZE_KEY = "mms_message_body_font_size";
 	public static final String MMS_DISMISS_KEY = "mms_dismiss_button_action";
-	public static final String MMS_RINGTONE_ENABLED_KEY = "mms_ringtone_enabled";
-	public static final String MMS_RINGTONE_KEY = "mms_ringtone_audio";
 	public static final String MMS_CONFIRM_DELETION_KEY = "confirm_mms_deletion_enabled";
 	public static final String MMS_DISPLAY_UNREAD_KEY = "mms_display_unread_enabled";
-	public static final String MMS_VIBRATE_ENABLED_KEY = "mms_vibrate_enabled";
-    public static final String MMS_VIBRATE_SETTINGS_SCREEN_KEY = "mms_vibrate_settings_screen";
-    public static final String MMS_RINGTONE_SETTINGS_SCREEN_KEY = "mms_ringtone_settings_screen";
 	
 	public static final String MMS_DISMISS_ACTION_MARK_READ = "0";
 	public static final String MMS_DELETE_ACTION_DELETE_MESSAGE = "0";
@@ -201,11 +187,6 @@ public class Constants {
 	public static final String PHONE_HIDE_CALL_BUTTON_KEY = "missed_call_hide_call_button_enabled";
 	public static final String PHONE_NOTIFICATION_COUNT_ACTION_KEY = "missed_call_notification_count_action";
 	public static final String PHONE_DISMISS_KEY = "missed_call_dismiss_button_action";
-	public static final String PHONE_RINGTONE_ENABLED_KEY = "missed_call_ringtone_enabled";
-	public static final String PHONE_RINGTONE_KEY = "missed_call_ringtone_audio";	
-	public static final String PHONE_VIBRATE_ENABLED_KEY = "missed_call_vibrate_enabled";
-    public static final String PHONE_VIBRATE_SETTINGS_SCREEN_KEY = "missed_call_vibrate_settings_screen";
-    public static final String PHONE_RINGTONE_SETTINGS_SCREEN_KEY = "missed_call_ringtone_settings_screen";
 	
 	public static final String PHONE_GET_LATEST = "0";
 	public static final String PHONE_GET_RECENT = "1";
@@ -237,12 +218,7 @@ public class Constants {
 	public static final String CALENDAR_NOTIFICATION_COUNT_ACTION_KEY = "calendar_notification_count_action";
 	public static final String CALENDAR_MESSAGE_BODY_FONT_SIZE = "calendar_message_body_font_size";
 	public static final String CALENDAR_LABELS_KEY = "calendar_labels_enabled";
-	public static final String CALENDAR_RINGTONE_ENABLED_KEY = "calendar_ringtone_enabled";
-	public static final String CALENDAR_RINGTONE_KEY = "calendar_ringtone_audio";
-	public static final String CALENDAR_VIBRATE_ENABLED_KEY = "calendar_vibrate_enabled";
-    public static final String CALENDAR_SELECTION_KEY = "calendar_selection";    
-    public static final String CALENDAR_VIBRATE_SETTINGS_SCREEN_KEY = "calendar_vibrate_settings_screen";
-    public static final String CALENDAR_RINGTONE_SETTINGS_SCREEN_KEY = "calendar_ringtone_settings_screen";
+	public static final String CALENDAR_SELECTION_KEY = "calendar_selection";
 	
 	public static final String CALENDAR_ID = "_id";
 	public static final String CALENDAR_EVENT_ID = "event_id"; 
@@ -284,7 +260,7 @@ public class Constants {
 	
 	//-----STATUS BAR NOTIFICATION CONSTANTS-----//
 
-	public static final String STATUS_BAR_NOTIFICATIONS_VIBRATE_DEFAULT = "0,1200";
+	public static final String STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_DEFAULT = "0,1200";
 	public static final String STATUS_BAR_NOTIFICATIONS_LED_PATTERN_DEFAULT = "1000,1000";
 	public static final String STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT = "yellow";
 	

@@ -21,27 +21,6 @@
         	android:summaryOn="@string/preference_appenabled_summaryOn" 
         	android:summaryOff="@string/preference_appenabled_summaryOff" 
         	android:defaultValue="true" />
-		<CheckBoxPreference
-			android:key="haptic_feedback_enabled" 
-        	android:title="@string/preference_haptic_feedback_title" 
-        	android:summaryOn="@string/preference_haptic_feedback_summaryOn" 
-        	android:summaryOff="@string/preference_haptic_feedback_summaryOff" 
-        	android:defaultValue="true"
-        	android:dependency="app_enabled" />
-    	<CheckBoxPreference 
-			android:key="app_vibrations_enabled" 
-			android:title="@string/preference_vibrations_enabled_title" 
-			android:summaryOn="@string/preference_vibrations_enabled_summaryOn" 
-			android:summaryOff="@string/preference_vibrations_enabled_summaryOff" 
-			android:defaultValue="true"
-			android:dependency="app_enabled" />
-		<CheckBoxPreference 
-			android:key="app_ringtones_enabled" 
-			android:title="@string/preference_ringtones_enabled_title" 
-			android:summaryOn="@string/preference_ringtones_enabled_summaryOn" 
-			android:summaryOff="@string/preference_ringtones_enabled_summaryOff" 
-			android:defaultValue="false"
-			android:dependency="app_enabled" />
   	</PreferenceCategory>
 	<PreferenceCategory
 		android:key="basic_settings_category"
@@ -223,7 +202,6 @@
 									android:defaultValue="0,1200"
 									android:dependency="sms_notification_vibrate_enabled" />
 							</PreferenceCategory>	
-							<!--
 					  		<PreferenceCategory
 								android:key="sms_notification_led_settings_category"
 								android:title="@string/preference_notification_led_settings_text">
@@ -233,20 +211,20 @@
 									android:summaryOn="@string/preference_led_enabled_summaryOn" 
 									android:summaryOff="@string/preference_led_enabled_summaryOff" 
 									android:defaultValue="true" />
-								<apps.babycaretimer.preferences.LEDColorListPreference
+								<apps.droidnotify.preferences.LEDColorListPreference
 									android:key="sms_notification_led_color"
 									android:title="@string/preference_led_color_title"
 									android:summary="@string/preference_led_color_summary"
 									android:entries="@array/preference_led_color_options"
-									android:entryValues="@array/preference_led_color_options_values"
+									android:entryValues="@array/preference_led_color_options_values_sms"
 									android:defaultValue="yellow"
-									android:dependency="notification_led_enabled" />
-								<apps.babycaretimer.preferences.LEDPatternListPreference
+									android:dependency="sms_notification_led_enabled" />
+								<apps.droidnotify.preferences.LEDPatternListPreference
 									android:key="sms_notification_led_pattern"
 									android:title="@string/preference_led_pattern_title"
 									android:summary="@string/preference_led_pattern_summary"
 									android:entries="@array/preference_led_pattern_options"
-									android:entryValues="@array/preference_led_pattern_options_values"
+									android:entryValues="@array/preference_led_pattern_options_values_sms"
 									android:defaultValue="1000,1000"
 									android:dependency="sms_notification_led_enabled" />
 							</PreferenceCategory>
@@ -266,8 +244,7 @@
 										android:summaryOff="@string/preference_notification_in_call_vibrate_enable_summaryOff" 
 										android:defaultValue="false"
 										android:dependency="sms_notification_vibrate_enabled" />
-							</PreferenceCategory>	
-							-->
+							</PreferenceCategory>
 						</PreferenceScreen>
 					</PreferenceCategory>
 					<PreferenceCategory
@@ -393,44 +370,6 @@
 								android:summaryOff="@string/preference_sms_hide_contact_number_enabled_summaryOff" 
 								android:defaultValue="false" />
 						</PreferenceScreen>
-					</PreferenceCategory>	
-					<PreferenceCategory
-						android:key="sms_vibrate_settings_category"
-						android:title="@string/vibrate_settings_text">
-						<PreferenceScreen
-							android:key="sms_vibrate_settings_screen"
-							android:title="@string/vibrate_settings_text"
-							android:dependency="sms_notifications_enabled">
-							<CheckBoxPreference 
-								android:key="sms_vibrate_enabled" 
-								android:title="@string/preference_sms_vibrate_enabled_title" 
-								android:summaryOn="@string/preference_sms_vibrate_enabled_summaryOn" 
-								android:summaryOff="@string/preference_sms_vibrate_enabled_summaryOff" 
-								android:defaultValue="true"
-								android:dependency="app_vibrations_enabled" />
-						</PreferenceScreen>
-					</PreferenceCategory>	
-					<PreferenceCategory
-						android:key="sms_ringtone_settings_category"
-						android:title="@string/ringtone_settings_text">
-						<PreferenceScreen
-							android:key="sms_ringtone_settings_screen"
-							android:title="@string/ringtone_settings_text"
-							android:dependency="sms_notifications_enabled">
-							<CheckBoxPreference 
-								android:key="sms_ringtone_enabled" 
-								android:title="@string/preference_sms_ringtone_enabled_title" 
-								android:summaryOn="@string/preference_sms_ringtone_enabled_summaryOn" 
-								android:summaryOff="@string/preference_sms_ringtone_enabled_summaryOff" 
-								android:defaultValue="true"
-								android:dependency="app_ringtones_enabled" />
-							<RingtonePreference 
-								android:key="sms_ringtone_audio" 
-								android:showDefault="true"
-								android:title="@string/preference_select_ringtone"
-								android:ringtoneType="notification"
-								android:dependency="sms_ringtone_enabled" />
-						</PreferenceScreen>
 					</PreferenceCategory>
 				</PreferenceScreen>		
 			</PreferenceCategory>
@@ -510,8 +449,7 @@
 									android:entryValues="@array/preference_vibrate_pattern_options_values_mms"
 									android:defaultValue="0,1200"
 									android:dependency="mms_notification_vibrate_enabled" />
-							</PreferenceCategory>	
-							<!--
+							</PreferenceCategory>
 					  		<PreferenceCategory
 								android:key="mms_notification_led_settings_category"
 								android:title="@string/preference_notification_led_settings_text">
@@ -521,20 +459,20 @@
 									android:summaryOn="@string/preference_led_enabled_summaryOn" 
 									android:summaryOff="@string/preference_led_enabled_summaryOff" 
 									android:defaultValue="true" />
-								<apps.babycaretimer.preferences.LEDColorListPreference
+								<apps.droidnotify.preferences.LEDColorListPreference
 									android:key="mms_notification_led_color"
 									android:title="@string/preference_led_color_title"
 									android:summary="@string/preference_led_color_summary"
 									android:entries="@array/preference_led_color_options"
-									android:entryValues="@array/preference_led_color_options_values"
+									android:entryValues="@array/preference_led_color_options_values_mms"
 									android:defaultValue="yellow"
-									android:dependency="notification_led_enabled" />
-								<apps.babycaretimer.preferences.LEDPatternListPreference
+									android:dependency="mms_notification_led_enabled" />
+								<apps.droidnotify.preferences.LEDPatternListPreference
 									android:key="mms_notification_led_pattern"
 									android:title="@string/preference_led_pattern_title"
 									android:summary="@string/preference_led_pattern_summary"
 									android:entries="@array/preference_led_pattern_options"
-									android:entryValues="@array/preference_led_pattern_options_values"
+									android:entryValues="@array/preference_led_pattern_options_values_mms"
 									android:defaultValue="1000,1000"
 									android:dependency="mms_notification_led_enabled" />
 							</PreferenceCategory>
@@ -554,8 +492,7 @@
 										android:summaryOff="@string/preference_notification_in_call_vibrate_enable_summaryOff" 
 										android:defaultValue="false"
 										android:dependency="mms_notification_vibrate_enabled" />
-							</PreferenceCategory>	
-							-->
+							</PreferenceCategory>
 						</PreferenceScreen>
 					</PreferenceCategory>
 					<PreferenceCategory
@@ -681,44 +618,6 @@
 								android:summaryOff="@string/preference_mms_hide_contact_number_enabled_summaryOff" 
 								android:defaultValue="false" />
 						</PreferenceScreen>
-					</PreferenceCategory>	
-					<PreferenceCategory
-						android:key="mms_vibrate_settings_category"
-						android:title="@string/vibrate_settings_text">
-						<PreferenceScreen
-							android:key="mms_vibrate_settings_screen"
-							android:title="@string/vibrate_settings_text"
-							android:dependency="mms_notifications_enabled">
-							<CheckBoxPreference 
-								android:key="mms_vibrate_enabled" 
-								android:title="@string/preference_mms_vibrate_enabled_title" 
-								android:summaryOn="@string/preference_mms_vibrate_enabled_summaryOn" 
-								android:summaryOff="@string/preference_mms_vibrate_enabled_summaryOff" 
-								android:defaultValue="true"
-								android:dependency="app_vibrations_enabled" />
-						</PreferenceScreen>	
-					</PreferenceCategory>
-					<PreferenceCategory
-						android:key="mms_ringtone_settings_category"
-						android:title="@string/ringtone_settings_text">
-						<PreferenceScreen
-							android:key="mms_ringtone_settings_screen"
-							android:title="@string/ringtone_settings_text"
-							android:dependency="mms_notifications_enabled">
-							<CheckBoxPreference 
-								android:key="mms_ringtone_enabled" 
-								android:title="@string/preference_mms_ringtone_enabled_title" 
-								android:summaryOn="@string/preference_mms_ringtone_enabled_summaryOn" 
-								android:summaryOff="@string/preference_mms_ringtone_enabled_summaryOff" 
-								android:defaultValue="true"
-								android:dependency="app_ringtones_enabled" />
-							<RingtonePreference 
-								android:key="mms_ringtone_audio" 
-								android:showDefault="true"
-								android:title="@string/preference_select_ringtone"
-								android:ringtoneType="notification"
-								android:dependency="mms_ringtone_enabled" />
-						</PreferenceScreen>
 					</PreferenceCategory>
 				</PreferenceScreen>	
 			</PreferenceCategory>
@@ -798,8 +697,7 @@
 									android:entryValues="@array/preference_vibrate_pattern_options_values_missed_call"
 									android:defaultValue="0,1200"
 									android:dependency="missed_call_notification_vibrate_enabled" />
-							</PreferenceCategory>	
-							<!--
+							</PreferenceCategory>
 					  		<PreferenceCategory
 								android:key="missed_call_notification_led_settings_category"
 								android:title="@string/preference_notification_led_settings_text">
@@ -809,20 +707,20 @@
 									android:summaryOn="@string/preference_led_enabled_summaryOn" 
 									android:summaryOff="@string/preference_led_enabled_summaryOff" 
 									android:defaultValue="true" />
-								<apps.babycaretimer.preferences.LEDColorListPreference
+								<apps.droidnotify.preferences.LEDColorListPreference
 									android:key="missed_call_notification_led_color"
 									android:title="@string/preference_led_color_title"
 									android:summary="@string/preference_led_color_summary"
 									android:entries="@array/preference_led_color_options"
-									android:entryValues="@array/preference_led_color_options_values"
+									android:entryValues="@array/preference_led_color_options_values_missed_call"
 									android:defaultValue="yellow"
-									android:dependency="notification_led_enabled" />
-								<apps.babycaretimer.preferences.LEDPatternListPreference
+									android:dependency="missed_call_notification_led_enabled" />
+								<apps.droidnotify.preferences.LEDPatternListPreference
 									android:key="missed_call_notification_led_pattern"
 									android:title="@string/preference_led_pattern_title"
 									android:summary="@string/preference_led_pattern_summary"
 									android:entries="@array/preference_led_pattern_options"
-									android:entryValues="@array/preference_led_pattern_options_values"
+									android:entryValues="@array/preference_led_pattern_options_values_missed_call"
 									android:defaultValue="1000,1000"
 									android:dependency="missed_call_notification_led_enabled" />
 							</PreferenceCategory>
@@ -842,8 +740,7 @@
 										android:summaryOff="@string/preference_notification_in_call_vibrate_enable_summaryOff" 
 										android:defaultValue="false"
 										android:dependency="missed_call_notification_vibrate_enabled" />
-							</PreferenceCategory>	
-							-->
+							</PreferenceCategory>
 						</PreferenceScreen>
 					</PreferenceCategory>
 					<PreferenceCategory
@@ -920,44 +817,6 @@
 								android:summaryOn="@string/preference_missed_call_hide_contact_number_enabled_summaryOn" 
 								android:summaryOff="@string/preference_missed_call_hide_contact_number_enabled_summaryOff" 
 								android:defaultValue="false" />
-						</PreferenceScreen>
-					</PreferenceCategory>	
-					<PreferenceCategory
-						android:key="missed_call_vibrate_settings_category"
-						android:title="@string/vibrate_settings_text">
-						<PreferenceScreen
-							android:key="missed_call_vibrate_settings_screen"
-							android:title="@string/vibrate_settings_text"
-							android:dependency="missed_call_notifications_enabled">
-							<CheckBoxPreference 
-								android:key="missed_call_vibrate_enabled" 
-								android:title="@string/preference_missed_call_vibrate_enabled_title" 
-								android:summaryOn="@string/preference_missed_call_vibrate_enabled_summaryOn" 
-								android:summaryOff="@string/preference_missed_call_vibrate_enabled_summaryOff" 
-								android:defaultValue="true"
-								android:dependency="app_vibrations_enabled" />
-						</PreferenceScreen>
-					</PreferenceCategory>	
-					<PreferenceCategory
-						android:key="missed_call_ringtone_settings_category"
-						android:title="@string/ringtone_settings_text">
-						<PreferenceScreen
-							android:key="missed_call_ringtone_settings_screen"
-							android:title="@string/ringtone_settings_text"
-							android:dependency="missed_call_notifications_enabled">
-							<CheckBoxPreference 
-								android:key="missed_call_ringtone_enabled" 
-								android:title="@string/preference_missed_call_ringtone_enabled_title" 
-								android:summaryOn="@string/preference_missed_call_ringtone_enabled_summaryOn" 
-								android:summaryOff="@string/preference_missed_call_ringtone_enabled_summaryOff" 
-								android:defaultValue="true"
-								android:dependency="app_ringtones_enabled" />
-							<RingtonePreference 
-								android:key="missed_call_ringtone_audio" 
-								android:showDefault="true"
-								android:title="@string/preference_select_ringtone"
-								android:ringtoneType="notification"
-								android:dependency="missed_call_ringtone_enabled" />
 						</PreferenceScreen>
 					</PreferenceCategory>
 				</PreferenceScreen>		
@@ -1066,7 +925,6 @@
 									android:defaultValue="0,1200"
 									android:dependency="calendar_notification_vibrate_enabled" />
 							</PreferenceCategory>	
-							<!--
 					  		<PreferenceCategory
 								android:key="calendar_notification_led_settings_category"
 								android:title="@string/preference_notification_led_settings_text">
@@ -1076,20 +934,20 @@
 									android:summaryOn="@string/preference_led_enabled_summaryOn" 
 									android:summaryOff="@string/preference_led_enabled_summaryOff" 
 									android:defaultValue="true" />
-								<apps.babycaretimer.preferences.LEDColorListPreference
+								<apps.droidnotify.preferences.LEDColorListPreference
 									android:key="calendar_notification_led_color"
 									android:title="@string/preference_led_color_title"
 									android:summary="@string/preference_led_color_summary"
 									android:entries="@array/preference_led_color_options"
-									android:entryValues="@array/preference_led_color_options_values"
+									android:entryValues="@array/preference_led_color_options_values_calendar"
 									android:defaultValue="yellow"
-									android:dependency="notification_led_enabled" />
-								<apps.babycaretimer.preferences.LEDPatternListPreference
+									android:dependency="calendar_notification_led_enabled" />
+								<apps.droidnotify.preferences.LEDPatternListPreference
 									android:key="calendar_notification_led_pattern"
 									android:title="@string/preference_led_pattern_title"
 									android:summary="@string/preference_led_pattern_summary"
 									android:entries="@array/preference_led_pattern_options"
-									android:entryValues="@array/preference_led_pattern_options_values"
+									android:entryValues="@array/preference_led_pattern_options_values_calendar"
 									android:defaultValue="1000,1000"
 									android:dependency="calendar_notification_led_enabled" />
 							</PreferenceCategory>
@@ -1110,7 +968,6 @@
 										android:defaultValue="false"
 										android:dependency="calendar_notification_vibrate_enabled" />
 							</PreferenceCategory>	
-							-->
 						</PreferenceScreen>
 					</PreferenceCategory>	
 					<PreferenceCategory
@@ -1194,44 +1051,6 @@
 								</PreferenceScreen>
 							</PreferenceCategory>
 						</PreferenceScreen>	
-					</PreferenceCategory>	
-					<PreferenceCategory
-						android:key="calendar_vibrate_settings_category"
-						android:title="@string/vibrate_settings_text">
-						<PreferenceScreen
-							android:key="calendar_vibrate_settings_screen"
-							android:title="@string/vibrate_settings_text"
-							android:dependency="calendar_notifications_enabled">
-							<CheckBoxPreference 
-								android:key="calendar_vibrate_enabled" 
-								android:title="@string/preference_calendar_vibrate_enabled_title" 
-								android:summaryOn="@string/preference_calendar_vibrate_enabled_summaryOn" 
-								android:summaryOff="@string/preference_calendar_vibrate_enabled_summaryOff" 
-								android:defaultValue="true"
-								android:dependency="app_vibrations_enabled" />
-						</PreferenceScreen>		
-					</PreferenceCategory>
-					<PreferenceCategory
-						android:key="calendar_ringtone_settings_category"
-						android:title="@string/ringtone_settings_text">
-						<PreferenceScreen
-							android:key="calendar_ringtone_settings_screen"
-							android:title="@string/ringtone_settings_text"
-							android:dependency="calendar_notifications_enabled">
-							<CheckBoxPreference 
-								android:key="calendar_ringtone_enabled" 
-								android:title="@string/preference_calendar_ringtone_enabled_title" 
-								android:summaryOn="@string/preference_calendar_ringtone_enabled_summaryOn" 
-								android:summaryOff="@string/preference_calendar_ringtone_enabled_summaryOff" 
-								android:defaultValue="true"
-								android:dependency="app_ringtones_enabled" />
-							<RingtonePreference 
-								android:key="calendar_ringtone_audio" 
-								android:showDefault="true"
-								android:title="@string/preference_select_ringtone"
-								android:ringtoneType="notification"
-								android:dependency="calendar_ringtone_enabled" />
-						</PreferenceScreen>	
 					</PreferenceCategory>
 				</PreferenceScreen>		
 			</PreferenceCategory>
@@ -1244,52 +1063,60 @@
 			android:key="screen_settings_screen"
 			android:title="@string/preference_screen_settings"
 			android:dependency="app_enabled">
-			<CheckBoxPreference 
-				android:key="screen_enabled" 
-				android:title="@string/preference_screen_enabled_title" 
-				android:summaryOn="@string/preference_screen_enabled_summaryOn" 
-				android:summaryOff="@string/preference_screen_enabled_summaryOff" 
-				android:defaultValue="true" />
-			<CheckBoxPreference 
-				android:key="screen_dim_enabled" 
-				android:title="@string/preference_screen_dim_enabled_title" 
-				android:summaryOn="@string/preference_screen_dim_enabled_summaryOn" 
-				android:summaryOff="@string/preference_screen_dim_enabled_summaryOff" 
-				android:defaultValue="true"
-				android:dependency="screen_enabled" />
-			<CheckBoxPreference 
-				android:key="keyguard_enabled" 
-				android:title="@string/preference_keyguard_enabled_title" 
-				android:summaryOn="@string/preference_keyguard_enabled_summaryOn" 
-				android:summaryOff="@string/preference_keyguard_enabled_summaryOff" 
-				android:defaultValue="true"
-				android:dependency="screen_enabled" />
-			<CheckBoxPreference 
-				android:key="blur_screen_background_enabled" 
-				android:title="@string/preference_blur_screen_background_enabled_title" 
-				android:summaryOn="@string/preference_blur_screen_background_enabled_summaryOn" 
-				android:summaryOff="@string/preference_blur_screen_background_enabled_summaryOff" 
-				android:defaultValue="false" />
-			<CheckBoxPreference 
-				android:key="dim_screen_background_enabled" 
-				android:title="@string/preference_dim_screen_background_enabled_title" 
-				android:summaryOn="@string/preference_dim_screen_background_enabled_summaryOn" 
-				android:summaryOff="@string/preference_dim_screen_background_enabled_summaryOff" 
-				android:defaultValue="false" />
-			<ListPreference
-				android:key="dim_screen_background_amount_settings"
-				android:title="@string/preference_dim_screen_background_amount"
-				android:summary="@string/preference_dim_screen_background_amount_summary"
-				android:defaultValue="50"
-				android:entries="@array/dim_screen_background_amount_options"
-				android:entryValues="@array/dim_screen_background_amount_options_values"
-				android:dependency="dim_screen_background_enabled" />
-			<CheckBoxPreference
-				android:key="landscape_screen_enabled" 
-        		android:title="@string/preference_landscape_screen_enabled_title" 
-        		android:summaryOn="@string/preference_landscape_screen_enabled_summaryOn" 
-        		android:summaryOff="@string/preference_landscape_screen_enabled_summaryOff" 
-        		android:defaultValue="false" />
+			<PreferenceCategory
+				android:key="general_screen_settings_category"
+				android:title="@string/general_screen_settings_text">
+				<CheckBoxPreference 
+					android:key="screen_enabled" 
+					android:title="@string/preference_screen_enabled_title" 
+					android:summaryOn="@string/preference_screen_enabled_summaryOn" 
+					android:summaryOff="@string/preference_screen_enabled_summaryOff" 
+					android:defaultValue="true" />
+				<CheckBoxPreference 
+					android:key="screen_dim_enabled" 
+					android:title="@string/preference_screen_dim_enabled_title" 
+					android:summaryOn="@string/preference_screen_dim_enabled_summaryOn" 
+					android:summaryOff="@string/preference_screen_dim_enabled_summaryOff" 
+					android:defaultValue="true"
+					android:dependency="screen_enabled" />
+				<CheckBoxPreference 
+					android:key="keyguard_enabled" 
+					android:title="@string/preference_keyguard_enabled_title" 
+					android:summaryOn="@string/preference_keyguard_enabled_summaryOn" 
+					android:summaryOff="@string/preference_keyguard_enabled_summaryOff" 
+					android:defaultValue="true"
+					android:dependency="screen_enabled" />
+				<CheckBoxPreference
+					android:key="landscape_screen_enabled" 
+	        		android:title="@string/preference_landscape_screen_enabled_title" 
+	        		android:summaryOn="@string/preference_landscape_screen_enabled_summaryOn" 
+	        		android:summaryOff="@string/preference_landscape_screen_enabled_summaryOff" 
+	        		android:defaultValue="false" />
+			</PreferenceCategory>
+			<PreferenceCategory
+				android:key="notification_screen_settings_category"
+				android:title="@string/notification_screen_settings_text">
+				<CheckBoxPreference 
+					android:key="blur_screen_background_enabled" 
+					android:title="@string/preference_blur_screen_background_enabled_title" 
+					android:summaryOn="@string/preference_blur_screen_background_enabled_summaryOn" 
+					android:summaryOff="@string/preference_blur_screen_background_enabled_summaryOff" 
+					android:defaultValue="false" />
+				<CheckBoxPreference 
+					android:key="dim_screen_background_enabled" 
+					android:title="@string/preference_dim_screen_background_enabled_title" 
+					android:summaryOn="@string/preference_dim_screen_background_enabled_summaryOn" 
+					android:summaryOff="@string/preference_dim_screen_background_enabled_summaryOff" 
+					android:defaultValue="false" />
+				<ListPreference
+					android:key="dim_screen_background_amount_settings"
+					android:title="@string/preference_dim_screen_background_amount"
+					android:summary="@string/preference_dim_screen_background_amount_summary"
+					android:defaultValue="50"
+					android:entries="@array/dim_screen_background_amount_options"
+					android:entryValues="@array/dim_screen_background_amount_options_values"
+					android:dependency="dim_screen_background_enabled" />
+			</PreferenceCategory>
 		</PreferenceScreen>
 	</PreferenceCategory>
 	<PreferenceCategory
@@ -1300,8 +1127,15 @@
 			android:title="@string/advanced_settings_text"
 			android:dependency="app_enabled">	
 			<PreferenceCategory
-				android:key="advanced_settings_inner_category"
-				android:title="@string/advanced_settings_text">
+				android:key="advanced_general_settings_category"
+				android:title="@string/general_settings_text">
+				<CheckBoxPreference
+					android:key="haptic_feedback_enabled" 
+		        	android:title="@string/preference_haptic_feedback_title" 
+		        	android:summaryOn="@string/preference_haptic_feedback_summaryOn" 
+		        	android:summaryOff="@string/preference_haptic_feedback_summaryOff" 
+		        	android:defaultValue="true"
+		        	android:dependency="app_enabled" />
 				<ListPreference
 					android:key="wakelock_timeout_settings"
 					android:title="@string/preference_wakelock_timeout"
@@ -1317,13 +1151,10 @@
 					android:entries="@array/keyguard_timeout_options"
 					android:entryValues="@array/keyguard_timeout_options_values"
 					android:dependency="keyguard_enabled" />
-				<ListPreference
-					android:key="quick_reply_sms_gateway_settings"
-					android:title="@string/preference_quick_reply_sms_gateway"
-					android:summary="@string/preference_quick_reply_sms_gateway_summary"
-					android:defaultValue="1"
-					android:entries="@array/quick_reply_sms_gateway_options"
-					android:entryValues="@array/quick_reply_sms_gateway_options_values" />
+          	</PreferenceCategory>
+			<PreferenceCategory
+				android:key="advanced_sms_settings_category"
+				android:title="@string/preference_sms_notifications">
 				<ListPreference
 					android:key="sms_timeout_settings"
 					android:title="@string/preference_sms_timeout"
@@ -1332,30 +1163,6 @@
 					android:entries="@array/sms_timeout_options"
 					android:entryValues="@array/sms_timeout_options_values"
 					android:dependency="sms_notifications_enabled" />
-				<ListPreference
-					android:key="mms_timeout_settings"
-					android:title="@string/preference_mms_timeout"
-					android:summary="@string/preference_mms_timeout_summary"
-					android:defaultValue="40"
-					android:entries="@array/mms_timeout_options"
-					android:entryValues="@array/mms_timeout_options_values"
-					android:dependency="mms_notifications_enabled" />
-				<ListPreference
-					android:key="call_log_timeout_settings"
-					android:title="@string/preference_call_log_timeout"
-					android:summary="@string/preference_call_log_timeout_summary"
-					android:defaultValue="5"
-					android:entries="@array/call_log_timeout_options"
-					android:entryValues="@array/call_log_timeout_options_values"
-					android:dependency="missed_call_notifications_enabled" />
-				<ListPreference
-					android:key="ringtone_length_settings"
-					android:title="@string/preference_ringtone_length"
-					android:summary="@string/preference_ringtone_length_summary"
-					android:defaultValue="3"
-					android:entries="@array/ringtone_length_options"
-					android:entryValues="@array/ringtone_length_options_values"
-					android:dependency="app_ringtones_enabled" />
 				<ListPreference
 					android:key="sms_loading_settings"
 					android:title="@string/preference_sms_loading_title"
@@ -1372,7 +1179,42 @@
 					android:entries="@array/timestamp_adjustment_options"
 					android:entryValues="@array/timestamp_adjustment_options_values"
 					android:dependency="sms_notifications_enabled" />
-          	</PreferenceCategory>	
+			</PreferenceCategory>
+			<PreferenceCategory
+				android:key="advanced_mms_settings_category"
+				android:title="@string/preference_mms_notifications">
+				<ListPreference
+					android:key="mms_timeout_settings"
+					android:title="@string/preference_mms_timeout"
+					android:summary="@string/preference_mms_timeout_summary"
+					android:defaultValue="40"
+					android:entries="@array/mms_timeout_options"
+					android:entryValues="@array/mms_timeout_options_values"
+					android:dependency="mms_notifications_enabled" />
+			</PreferenceCategory>
+			<PreferenceCategory
+				android:key="advanced_mms_settings_category"
+				android:title="@string/preference_missed_call_notifications">
+				<ListPreference
+					android:key="call_log_timeout_settings"
+					android:title="@string/preference_call_log_timeout"
+					android:summary="@string/preference_call_log_timeout_summary"
+					android:defaultValue="5"
+					android:entries="@array/call_log_timeout_options"
+					android:entryValues="@array/call_log_timeout_options_values"
+					android:dependency="missed_call_notifications_enabled" />
+			</PreferenceCategory>
+			<PreferenceCategory
+				android:key="advanced_mms_settings_category"
+				android:title="@string/quick_reply_settings_text">
+				<ListPreference
+					android:key="quick_reply_sms_gateway_settings"
+					android:title="@string/preference_quick_reply_sms_gateway"
+					android:summary="@string/preference_quick_reply_sms_gateway_summary"
+					android:defaultValue="1"
+					android:entries="@array/quick_reply_sms_gateway_options"
+					android:entryValues="@array/quick_reply_sms_gateway_options_values" />
+			</PreferenceCategory>
 			<PreferenceCategory
 				android:key="reschedule_settings_category"
 				android:title="@string/reschedule_settings_text">
