@@ -1095,5 +1095,15 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_NO_HISTORY);
 	    startActivity(intent);
 	}
+	
+	/**
+	 * Manually fix some of the users preferences due to updates to the user preferences.
+	 */
+	private void fixPreferenceUpdatesTemp(){
+		
+		
+		
+		
+	}
 
 }

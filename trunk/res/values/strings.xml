@@ -380,6 +380,11 @@
     <string name="preference_notification_settings">Status Bar Notification Settings</string>
     <string name="preference_notification_settings_summary">Customize Status Bar Notifications</string>
    	
+   	<!-- Status Bar Notification Icon Strings -->
+   	<string name="preference_notification_icon_settings_text">Notification Icon Settings</string>
+   	<string name="preference_notification_icon_text">Notification Icon</string>
+   	<string name="preference_notification_icon_summary">Select the notification icon you want displayed in the status bar.</string>
+   	
    	<!-- Status Bar Notification Sound Strings -->
     <string name="preference_notification_sound_settings_text">Notification Sound Settings</string>
    	<string name="preference_notification_sound_title">Notification Sound</string>

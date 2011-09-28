@@ -171,7 +171,19 @@
 							android:key="sms_notification_settings_screen"
 							android:title="@string/preference_notification_settings"
 							android:summary="@string/preference_notification_settings_summary"
-							android:dependency="sms_status_bar_notifications_enabled">	
+							android:dependency="sms_status_bar_notifications_enabled">
+							<PreferenceCategory
+								android:key="sms_notification_icon_settings_category"
+								android:title="@string/preference_notification_icon_settings_text">
+								<apps.droidnotify.preferences.ImageListPreference
+									android:key="notification_icon_sms"
+									android:title="@string/preference_notification_icon_text"
+									android:summary="@string/preference_notification_icon_summary"
+									android:entries="@array/notification_icon_options_sms"
+									android:entryValues="@array/notification_icon_values_sms"
+									droidnotify:entryImages="@array/notification_icon_images_sms"
+									android:defaultValue="status_bar_notification_sms_green" />
+							</PreferenceCategory>	
 					  		<PreferenceCategory
 								android:key="sms_notification_sound_settings_category"
 								android:title="@string/preference_notification_sound_settings_text">
@@ -419,7 +431,19 @@
 							android:key="mms_notification_settings_screen"
 							android:title="@string/preference_notification_settings"
 							android:summary="@string/preference_notification_settings_summary"
-							android:dependency="mms_status_bar_notifications_enabled">	
+							android:dependency="mms_status_bar_notifications_enabled">
+							<PreferenceCategory
+								android:key="mms_notification_icon_settings_category"
+								android:title="@string/preference_notification_icon_settings_text">
+								<apps.droidnotify.preferences.ImageListPreference
+									android:key="notification_icon_mms"
+									android:title="@string/preference_notification_icon_text"
+									android:summary="@string/preference_notification_icon_summary"
+									android:entries="@array/notification_icon_options_mms"
+									android:entryValues="@array/notification_icon_values_mms"
+									droidnotify:entryImages="@array/notification_icon_images_mms"
+									android:defaultValue="status_bar_notification_sms_green" />
+							</PreferenceCategory>	
 					  		<PreferenceCategory
 								android:key="mms_notification_sound_settings_category"
 								android:title="@string/preference_notification_sound_settings_text">

@@ -9,16 +9,17 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckedTextView;
 import android.widget.ImageView;
+import apps.droidnotify.common.Common;
 import apps.droidnotify.log.Log;
 import apps.droidnotify.R;
 
 /**
- * The ImageArrayAdapter is the array adapter used for displaying an
+ * The ImageArrayAdapterRounded is the array adapter used for displaying an
  * image with a list preference item.
  * 
  * @author Camille Sévigny
  */
-public class ImageArrayAdapter extends ArrayAdapter<CharSequence> {
+public class ImageArrayAdapterRounded extends ArrayAdapter<CharSequence> {
 	
 	//================================================================================
     // Properties
@@ -42,7 +43,7 @@ public class ImageArrayAdapter extends ArrayAdapter<CharSequence> {
 	 * @param ids - Ids resource id of the images to be displayed.
 	 * @param i - Index of the previous selected item.
 	 */
-	public ImageArrayAdapter(Context context, int textViewResourceId, CharSequence[] objects, int[] ids, int i) {
+	public ImageArrayAdapterRounded(Context context, int textViewResourceId, CharSequence[] objects, int[] ids, int i) {
 		super(context, textViewResourceId, objects);
 	    _debug = Log.getDebug();
 		if (_debug) Log.v("ImageArrayAdapterRounded.ImageArrayAdapterRounded()");
@@ -78,8 +79,8 @@ public class ImageArrayAdapter extends ArrayAdapter<CharSequence> {
 			viewHolder = (ViewHolder) currentView.getTag();
 		}
 		//Set the data for the Views.
-		viewHolder.imageView.setImageBitmap(BitmapFactory.decodeResource(getContext().getResources(), _resourceIds[position]));
-		//viewHolder.checkedTextView.setText(getItem(position));
+		viewHolder.imageView.setImageBitmap(Common.getRoundedCornerBitmap(BitmapFactory.decodeResource(getContext().getResources(), _resourceIds[position]), 5, false, 0, 0));
+		viewHolder.checkedTextView.setText(getItem(position));
 		if (position == _index) {
 			viewHolder.checkedTextView.setChecked(true);
 		} else {
