@@ -716,11 +716,21 @@ public class NotificationActivity extends Activity {
 		    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_CALENDAR");
 		    	setupCalendarEventNotifications(extrasBundle);
 		    	break;
-		    }
+			}
 		    case Constants.NOTIFICATION_TYPE_GMAIL:{
 		    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_GMAIL");
 		    	//TODO - Email
 		    	break;
+		    }
+			case Constants.NOTIFICATION_TYPE_TWITTER:{
+				if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_TWITTER");
+		    	//TODO - Twitter
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_FACEBOOK:{
+				if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_FACEBOOK");
+		    	//TODO - Facebook
+				break;
 		    }
 	    }
 	    //Acquire WakeLock.
@@ -732,9 +742,9 @@ public class NotificationActivity extends Activity {
 	    long keyguardTimeout = Long.parseLong(_preferences.getString(Constants.KEYGUARD_TIMEOUT_KEY, "300")) * 1000;
 	    _keyguardHandler.sleep(keyguardTimeout);  
 	    //Set "In Reply Screen" flag.
-		SharedPreferences.Editor editor = _preferences.edit();
-		editor.putBoolean(Constants.USER_IN_MESSAGING_APP_KEY, false);
-		editor.commit();
+	    setInReplyScreenFlag();
+	    //Display Status Bar Notification
+	    Common.setStatusBarNotification(_context, notificationType, false);
 	}
 	  
 	/**
@@ -883,9 +893,19 @@ public class NotificationActivity extends Activity {
 		    }
 	    	case Constants.NOTIFICATION_TYPE_GMAIL:{
 		    	if (_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_GMAIL");
-		    	//TODO - Email
+		    	//TODO - Gmail
 		    	break;
 		    }
+			case Constants.NOTIFICATION_TYPE_TWITTER:{
+				if (_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_TWITTER");
+		    	//TODO - Twitter
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_FACEBOOK:{
+				if (_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_FACEBOOK");
+		    	//TODO - Facebook
+				break;
+			}
 	    }
 	    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(_context);
 	    //Acquire WakeLock.
@@ -896,6 +916,8 @@ public class NotificationActivity extends Activity {
 	    disableKeyguardLock(_context);
 	    long keyguardTimeout = Long.parseLong(preferences.getString(Constants.KEYGUARD_TIMEOUT_KEY, "300")) * 1000;
 	    _keyguardHandler.sleep(keyguardTimeout);
+	    //Display Status Bar Notification
+	    Common.setStatusBarNotification(_context, notificationType, false);
 	}
 	
 	//================================================================================
@@ -1794,6 +1816,15 @@ public class NotificationActivity extends Activity {
 				break;
 		    }
 		}
+	}
+	
+	/**
+	 * Set the InReplyScreen flag.
+	 */
+	private void setInReplyScreenFlag(){
+		SharedPreferences.Editor editor = _preferences.edit();
+		editor.putBoolean(Constants.USER_IN_MESSAGING_APP_KEY, false);
+		editor.commit();
 	}
 
 }

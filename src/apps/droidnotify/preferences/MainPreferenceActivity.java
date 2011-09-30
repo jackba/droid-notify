@@ -83,6 +83,9 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	    if(!_preferences.getBoolean(Constants.LANDSCAPE_SCREEN_ENABLED_KEY, false)){
 	    	this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 	    }
+	    
+	    fixPreferenceUpdatesTemp();
+	    
 	    //addPreferencesFromResource(R.xml.preferences_new);
 	    addPreferencesFromResource(R.xml.preferences);
 	    _appVersion = getApplicationVersion();
@@ -90,8 +93,6 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	    runOnceCalendarAlarmManager();
 	    setupAppDebugMode(_debug);
 	    setupRateAppPreference();
-	    setupImportPreferences();
-	    initPreferencesStates();
 	    runOnceEula();
 	}
     
@@ -126,6 +127,31 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		if(key.equals(Constants.PHONE_HIDE_CONTACT_PANEL_ENABLED_KEY)){
 			//Update Phone Contact Info Display
 			updatePhoneContactInfoSetting();
+		}	
+		//Update Status Bar Notification Preferences
+		if(key.equals(Constants.SMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY)){
+			updateStatusBarNotificationVibrate(Constants.NOTIFICATION_TYPE_SMS);
+		}
+		if(key.equals(Constants.MMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY)){
+			updateStatusBarNotificationVibrate(Constants.NOTIFICATION_TYPE_MMS);
+		}
+		if(key.equals(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY)){
+			updateStatusBarNotificationVibrate(Constants.NOTIFICATION_TYPE_PHONE);
+		}
+		if(key.equals(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY)){
+			updateStatusBarNotificationVibrate(Constants.NOTIFICATION_TYPE_CALENDAR);
+		}
+		if(key.equals(Constants.SMS_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY)){
+			updateStatusBarNotificationRingtone(Constants.NOTIFICATION_TYPE_SMS);
+		}
+		if(key.equals(Constants.MMS_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY)){
+			updateStatusBarNotificationRingtone(Constants.NOTIFICATION_TYPE_MMS);
+		}
+		if(key.equals(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY)){
+			updateStatusBarNotificationRingtone(Constants.NOTIFICATION_TYPE_PHONE);
+		}
+		if(key.equals(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY)){
+			updateStatusBarNotificationRingtone(Constants.NOTIFICATION_TYPE_CALENDAR);
 		}
 		if(key.equals(Constants.TWITTER_ENABLED_KEY)){
 			if(_preferences.getBoolean(Constants.TWITTER_ENABLED_KEY, false)){
@@ -148,6 +174,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	    if (_debug) Log.v("MainPreferenceActivity.onResume()");
 	    _preferences.registerOnSharedPreferenceChangeListener(this);
 	    setupImportPreferences();
+	    initPreferencesStates();
 	}
 	
 	/**
@@ -624,6 +651,8 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			buf.newLine();	
 			buf.append("hide_single_message_header_enabled|" + _preferences.getBoolean("hide_single_message_header_enabled", false) + "|boolean");
 			buf.newLine();	
+			
+			//Quick Reply Settings
 			buf.append("quick_reply_save_draft_enabled|" + _preferences.getBoolean("quick_reply_save_draft_enabled", true) + "|boolean");
 			buf.newLine();
 			buf.append("quick_reply_blur_screen_background_enabled|" + _preferences.getBoolean("quick_reply_blur_screen_enabled", false) + "|boolean");
@@ -635,16 +664,45 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			buf.append("quick_reply_hide_cancel_button_enabled|" + _preferences.getBoolean("quick_reply_hide_cancel_button_enabled", true) + "|boolean");
 			buf.newLine();	
 			
-			//Notification Settings
+			//SMS Notification Settings
 			buf.append("sms_notifications_enabled|" + _preferences.getBoolean("sms_notifications_enabled", true) + "|boolean");
 			buf.newLine();
 			buf.append("sms_display_unread_enabled|" + _preferences.getBoolean("sms_display_unread_enabled", false) + "|boolean");
 			buf.newLine();
+			buf.append("messaging_app_running_action_sms|" + _preferences.getString("messaging_app_running_action_sms", "0") + "|string");
+			buf.newLine();
+
+			//SMS Status Bar Notification Settings
+			buf.append("sms_status_bar_notifications_enabled|" + _preferences.getBoolean("sms_status_bar_notifications_enabled", true) + "|boolean");
+			buf.newLine();
+			buf.append("notification_icon_sms|" + _preferences.getString("notification_icon_sms", "status_bar_notification_sms_green_preference") + "|string");
+			buf.newLine();
+			buf.append("sms_notification_sound|" + _preferences.getString("sms_notification_sound", "content://settings/system/notification_sound") + "|string");
+			buf.newLine();
+			buf.append("sms_notification_vibrate_setting|" + _preferences.getString("sms_notification_vibrate_setting", "0") + "|string");
+			buf.newLine();
+			buf.append("sms_notification_vibrate_pattern|" + _preferences.getString("sms_notification_vibrate_pattern", "0,1200") + "|string");
+			buf.newLine();
+			buf.append("sms_notification_vibrate_pattern_custom|" + _preferences.getString("sms_notification_vibrate_pattern_custom", "0,1200") + "|string");
+			buf.newLine();
+			buf.append("sms_notification_led_enabled|" + _preferences.getBoolean("sms_notification_led_enabled", true) + "|boolean");
+			buf.newLine();
+			buf.append("sms_notification_led_color|" + _preferences.getString("sms_notification_led_color", "yellow") + "|string");
+			buf.newLine();
+			buf.append("sms_notification_led_color_custom|" + _preferences.getString("sms_notification_led_color_custom", "yellow") + "|string");
+			buf.newLine();
+			buf.append("sms_notification_led_pattern|" + _preferences.getString("sms_notification_led_pattern", "1000,1000") + "|string");
+			buf.newLine();
+			buf.append("sms_notification_led_pattern_custom|" + _preferences.getString("sms_notification_led_pattern_custom", "1000,1000") + "|string");
+			buf.newLine();
+			buf.append("sms_notification_in_call_sound_enabled|" + _preferences.getBoolean("sms_notification_in_call_sound_enabled", false) + "|boolean");
+			buf.newLine();
+			buf.append("sms_notification_in_call_vibrate_enabled|" + _preferences.getBoolean("sms_notification_in_call_vibrate_enabled", false) + "|boolean");
+			buf.newLine();
+
 			buf.append("sms_message_body_font_size|" + _preferences.getString("sms_message_body_font_size", "14") + "|string");
 			buf.newLine();
 			buf.append("sms_hide_message_body_enabled|" + _preferences.getBoolean("sms_hide_message_body_enabled", false) + "|boolean");
-			buf.newLine();
-			buf.append("messaging_app_running_action_sms|" + _preferences.getString("messaging_app_running_action_sms", "0") + "|string");
 			buf.newLine();
 			buf.append("confirm_sms_deletion_enabled|" + _preferences.getBoolean("confirm_sms_deletion_enabled", true) + "|boolean");
 			buf.newLine();
@@ -671,15 +729,45 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			buf.append("sms_hide_contact_number_enabled|" + _preferences.getBoolean("sms_hide_contact_number_enabled", false) + "|boolean");
 			buf.newLine();
 			
+			//MMS Notification Settings
 			buf.append("mms_notifications_enabled|" + _preferences.getBoolean("mms_notifications_enabled", true) + "|boolean");
 			buf.newLine();
 			buf.append("mms_display_unread_enabled|" + _preferences.getBoolean("mms_display_unread_enabled", false) + "|boolean");
 			buf.newLine();
+			buf.append("messaging_app_running_action_mms|" + _preferences.getString("messaging_app_running_action_mms", "0") + "|string");
+			buf.newLine();
+			
+			//MMS Status Bar Notification Settings
+			buf.append("mms_status_bar_notifications_enabled|" + _preferences.getBoolean("mms_status_bar_notifications_enabled", true) + "|boolean");
+			buf.newLine();
+			buf.append("notification_icon_mms|" + _preferences.getString("notification_icon_mms", "status_bar_notification_sms_green_preference") + "|string");
+			buf.newLine();
+			buf.append("mms_notification_sound|" + _preferences.getString("mms_notification_sound", "content://settings/system/notification_sound") + "|string");
+			buf.newLine();
+			buf.append("mms_notification_vibrate_setting|" + _preferences.getString("mms_notification_vibrate_setting", "0") + "|string");
+			buf.newLine();
+			buf.append("mms_notification_vibrate_pattern|" + _preferences.getString("mms_notification_vibrate_pattern", "0,1200") + "|string");
+			buf.newLine();
+			buf.append("mms_notification_vibrate_pattern_custom|" + _preferences.getString("mms_notification_vibrate_pattern_custom", "0,1200") + "|string");
+			buf.newLine();
+			buf.append("mms_notification_led_enabled|" + _preferences.getBoolean("mms_notification_led_enabled", true) + "|boolean");
+			buf.newLine();
+			buf.append("mms_notification_led_color|" + _preferences.getString("mms_notification_led_color", "yellow") + "|string");
+			buf.newLine();
+			buf.append("mms_notification_led_color_custom|" + _preferences.getString("mms_notification_led_color_custom", "yellow") + "|string");
+			buf.newLine();
+			buf.append("mms_notification_led_pattern|" + _preferences.getString("mms_notification_led_pattern", "1000,1000") + "|string");
+			buf.newLine();
+			buf.append("mms_notification_led_pattern_custom|" + _preferences.getString("mms_notification_led_pattern_custom", "1000,1000") + "|string");
+			buf.newLine();
+			buf.append("mms_notification_in_call_sound_enabled|" + _preferences.getBoolean("mms_notification_in_call_sound_enabled", false) + "|boolean");
+			buf.newLine();
+			buf.append("mms_notification_in_call_vibrate_enabled|" + _preferences.getBoolean("mms_notification_in_call_vibrate_enabled", false) + "|boolean");
+			buf.newLine();
+			
 			buf.append("mms_message_body_font_size|" + _preferences.getString("mms_message_body_font_size", "14") + "|string");
 			buf.newLine();
 			buf.append("mms_hide_message_body_enabled|" + _preferences.getBoolean("mms_hide_message_body_enabled", false) + "|boolean");
-			buf.newLine();
-			buf.append("messaging_app_running_action_mms|" + _preferences.getString("messaging_app_running_action_mms", "0") + "|string");
 			buf.newLine();
 			buf.append("confirm_mms_deletion_enabled|" + _preferences.getBoolean("confirm_mms_deletion_enabled", true) + "|boolean");
 			buf.newLine();
@@ -706,12 +794,42 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			buf.append("mms_hide_contact_number_enabled|" + _preferences.getBoolean("mms_hide_contact_number_enabled", false) + "|boolean");
 			buf.newLine();
 			
+			//Missed Call Notification Settings
 			buf.append("missed_call_notifications_enabled|" + _preferences.getBoolean("missed_call_notifications_enabled", true) + "|boolean");
 			buf.newLine();
 			buf.append("missed_call_loading_settings|" + _preferences.getString("missed_call_loading_settings", "0") + "|string");
 			buf.newLine();
 			buf.append("messaging_app_running_action_missed_call|" + _preferences.getString("messaging_app_running_action_missed_call", "0") + "|string");
 			buf.newLine();
+			
+			//Missed Call Status Bar Notification Settings
+			buf.append("missed_call_status_bar_notifications_enabled|" + _preferences.getBoolean("missed_call_status_bar_notifications_enabled", true) + "|boolean");
+			buf.newLine();
+			buf.append("notification_icon_missed_call|" + _preferences.getString("notification_icon_missed_call", "status_bar_notification_missed_call_black_preference") + "|string");
+			buf.newLine();
+			buf.append("missed_call_notification_sound|" + _preferences.getString("missed_call_notification_sound", "content://settings/system/notification_sound") + "|string");
+			buf.newLine();
+			buf.append("missed_call_notification_vibrate_setting|" + _preferences.getString("missed_call_notification_vibrate_setting", "0") + "|string");
+			buf.newLine();
+			buf.append("missed_call_notification_vibrate_pattern|" + _preferences.getString("missed_call_notification_vibrate_pattern", "0,1200") + "|string");
+			buf.newLine();
+			buf.append("missed_call_notification_vibrate_pattern_custom|" + _preferences.getString("missed_call_notification_vibrate_pattern_custom", "0,1200") + "|string");
+			buf.newLine();
+			buf.append("missed_call_notification_led_enabled|" + _preferences.getBoolean("missed_call_notification_led_enabled", true) + "|boolean");
+			buf.newLine();
+			buf.append("missed_call_notification_led_color|" + _preferences.getString("missed_call_notification_led_color", "yellow") + "|string");
+			buf.newLine();
+			buf.append("missed_call_notification_led_color_custom|" + _preferences.getString("missed_call_notification_led_color_custom", "yellow") + "|string");
+			buf.newLine();
+			buf.append("missed_call_notification_led_pattern|" + _preferences.getString("missed_call_notification_led_pattern", "1000,1000") + "|string");
+			buf.newLine();
+			buf.append("missed_call_notification_led_pattern_custom|" + _preferences.getString("missed_call_notification_led_pattern_custom", "1000,1000") + "|string");
+			buf.newLine();
+			buf.append("missed_call_notification_in_call_sound_enabled|" + _preferences.getBoolean("missed_call_notification_in_call_sound_enabled", false) + "|boolean");
+			buf.newLine();
+			buf.append("missed_call_notification_in_call_vibrate_enabled|" + _preferences.getBoolean("missed_call_notification_in_call_vibrate_enabled", false) + "|boolean");
+			buf.newLine();	
+			
 			buf.append("missed_call_dismiss_button_action|" + _preferences.getString("missed_call_dismiss_button_action", "0") + "|string");
 			buf.newLine();
 			buf.append("missed_call_notification_count_action|" + _preferences.getString("missed_call_notification_count_action", "0") + "|string");
@@ -729,25 +847,55 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			buf.append("missed_call_hide_contact_number_enabled|" + _preferences.getBoolean("missed_call_hide_contact_number_enabled", false) + "|boolean");
 			buf.newLine();
 			
+			//Calendar Notification Settings
 			buf.append("calendar_notifications_enabled|" + _preferences.getBoolean("calendar_notifications_enabled", true) + "|boolean");
 			buf.newLine();
 			buf.append("calendar_notify_day_of_time|" + _preferences.getString("calendar_notify_day_of_time", "12") + "|string");
 			buf.newLine();
 			buf.append("messaging_app_running_action_calendar|" + _preferences.getString("messaging_app_running_action_calendar", "0") + "|string");
 			buf.newLine();
-			buf.append("calendar_message_body_font_size|" + _preferences.getString("calendar_message_body_font_size", "14") + "|string");
+			buf.append("calendar_polling_frequency|" + _preferences.getString("calendar_polling_frequency", "15") + "|string");
 			buf.newLine();
+			buf.append("calendar_selection|" + _preferences.getString("calendar_selection", "0") + "|string");
+			buf.newLine();		
+			buf.append("calendar_labels_enabled|" + _preferences.getBoolean("calendar_labels_enabled", true) + "|boolean");
+			buf.newLine();	
+			
+			//Calendar Status Bar Notification Settings
+			buf.append("calendar_status_bar_notifications_enabled|" + _preferences.getBoolean("calendar_status_bar_notifications_enabled", true) + "|boolean");
+			buf.newLine();
+			buf.append("notification_icon_calendar|" + _preferences.getString("notification_icon_calendar", "status_bar_notification_calendar_blue_preference") + "|string");
+			buf.newLine();
+			buf.append("calendar_notification_sound|" + _preferences.getString("calendar_notification_sound", "content://settings/system/notification_sound") + "|string");
+			buf.newLine();
+			buf.append("calendar_notification_vibrate_setting|" + _preferences.getString("calendar_notification_vibrate_setting", "0") + "|string");
+			buf.newLine();
+			buf.append("calendar_notification_vibrate_pattern|" + _preferences.getString("calendar_notification_vibrate_pattern", "0,1200") + "|string");
+			buf.newLine();
+			buf.append("calendar_notification_vibrate_pattern_custom|" + _preferences.getString("calendar_notification_vibrate_pattern_custom", "0,1200") + "|string");
+			buf.newLine();
+			buf.append("calendar_notification_led_enabled|" + _preferences.getBoolean("calendar_notification_led_enabled", true) + "|boolean");
+			buf.newLine();
+			buf.append("calendar_notification_led_color|" + _preferences.getString("calendar_notification_led_color", "yellow") + "|string");
+			buf.newLine();
+			buf.append("calendar_notification_led_color_custom|" + _preferences.getString("calendar_notification_led_color_custom", "yellow") + "|string");
+			buf.newLine();
+			buf.append("calendar_notification_led_pattern|" + _preferences.getString("calendar_notification_led_pattern", "1000,1000") + "|string");
+			buf.newLine();
+			buf.append("calendar_notification_led_pattern_custom|" + _preferences.getString("calendar_notification_led_pattern_custom", "1000,1000") + "|string");
+			buf.newLine();
+			buf.append("calendar_notification_in_call_sound_enabled|" + _preferences.getBoolean("calendar_notification_in_call_sound_enabled", false) + "|boolean");
+			buf.newLine();
+			buf.append("calendar_notification_in_call_vibrate_enabled|" + _preferences.getBoolean("calendar_notification_in_call_vibrate_enabled", false) + "|boolean");
+			buf.newLine();	
+			
 			buf.append("calendar_reminders_enabled|" + _preferences.getBoolean("calendar_reminders_enabled", true) + "|boolean");
 			buf.newLine();
 			buf.append("calendar_reminder_settings|" + _preferences.getString("calendar_reminder_settings", "15") + "|string");
 			buf.newLine();
 			buf.append("calendar_reminder_all_day_settings|" + _preferences.getString("calendar_reminder_all_day_settings", "6") + "|string");
 			buf.newLine();
-			buf.append("calendar_polling_frequency|" + _preferences.getString("calendar_polling_frequency", "15") + "|string");
-			buf.newLine();
-			buf.append("calendar_selection|" + _preferences.getString("calendar_selection", "0") + "|string");
-			buf.newLine();
-			buf.append("calendar_labels_enabled|" + _preferences.getBoolean("calendar_labels_enabled", true) + "|boolean");
+			buf.append("calendar_message_body_font_size|" + _preferences.getString("calendar_message_body_font_size", "14") + "|string");
 			buf.newLine();
 			buf.append("calendar_dismiss_button_action|" + _preferences.getString("calendar_dismiss_button_action", "") + "|string");
 			buf.newLine();
@@ -782,6 +930,8 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			buf.append("keyguard_timeout_settings|" + _preferences.getString("keyguard_timeout_settings", "300") + "|string");
 			buf.newLine();
 			buf.append("sms_timeout_settings|" + _preferences.getString("sms_timeout_settings", "10") + "|string");
+			buf.newLine();
+			buf.append("sms_loading_settings|" + _preferences.getString("sms_loading_settings", "0") + "|string");
 			buf.newLine();
 			buf.append("sms_timestamp_adjustment_settings|" + _preferences.getString("sms_timestamp_adjustment_settings", "0") + "|string");
 			buf.newLine();
@@ -1000,12 +1150,18 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	 */
 	private void initPreferencesStates(){
 		if (_debug) Log.v("MainPreferenceActivity.initPreferencesStates()");
-		//Quick Reply Settings
 		updateQuickReplySettings();
-		//Update Contact Info Displays
 		updateSMSContactInfoSetting();
 		updateMMSContactInfoSetting();
 		updatePhoneContactInfoSetting();
+		updateStatusBarNotificationVibrate(Constants.NOTIFICATION_TYPE_SMS);
+		updateStatusBarNotificationVibrate(Constants.NOTIFICATION_TYPE_MMS);
+		updateStatusBarNotificationVibrate(Constants.NOTIFICATION_TYPE_PHONE);
+		updateStatusBarNotificationVibrate(Constants.NOTIFICATION_TYPE_CALENDAR);
+		updateStatusBarNotificationRingtone(Constants.NOTIFICATION_TYPE_SMS);
+		updateStatusBarNotificationRingtone(Constants.NOTIFICATION_TYPE_MMS);
+		updateStatusBarNotificationRingtone(Constants.NOTIFICATION_TYPE_PHONE);
+		updateStatusBarNotificationRingtone(Constants.NOTIFICATION_TYPE_CALENDAR);
 	}
 	
 	/**
@@ -1054,13 +1210,13 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	private void updateMMSContactInfoSetting(){
 		if (_debug) Log.v("MainPreferenceActivity.updateMMSContactInfoSetting()");
 		try{
-		boolean contactInfoDisplaySettingsEnabled = _preferences.getBoolean(Constants.MMS_HIDE_CONTACT_PANEL_ENABLED_KEY, false);
-		CheckBoxPreference hideContactPhoto = (CheckBoxPreference) findPreference(Constants.MMS_HIDE_CONTACT_PHOTO_ENABLED_KEY);
-		hideContactPhoto.setEnabled(!contactInfoDisplaySettingsEnabled);
-		CheckBoxPreference hideContactName = (CheckBoxPreference) findPreference(Constants.MMS_HIDE_CONTACT_NAME_ENABLED_KEY);
-		hideContactName.setEnabled(!contactInfoDisplaySettingsEnabled);
-		CheckBoxPreference hideContactNumber = (CheckBoxPreference) findPreference(Constants.MMS_HIDE_CONTACT_NUMBER_ENABLED_KEY);
-		hideContactNumber.setEnabled(!contactInfoDisplaySettingsEnabled);
+			boolean contactInfoDisplaySettingsEnabled = _preferences.getBoolean(Constants.MMS_HIDE_CONTACT_PANEL_ENABLED_KEY, false);
+			CheckBoxPreference hideContactPhoto = (CheckBoxPreference) findPreference(Constants.MMS_HIDE_CONTACT_PHOTO_ENABLED_KEY);
+			hideContactPhoto.setEnabled(!contactInfoDisplaySettingsEnabled);
+			CheckBoxPreference hideContactName = (CheckBoxPreference) findPreference(Constants.MMS_HIDE_CONTACT_NAME_ENABLED_KEY);
+			hideContactName.setEnabled(!contactInfoDisplaySettingsEnabled);
+			CheckBoxPreference hideContactNumber = (CheckBoxPreference) findPreference(Constants.MMS_HIDE_CONTACT_NUMBER_ENABLED_KEY);
+			hideContactNumber.setEnabled(!contactInfoDisplaySettingsEnabled);
 		}catch(Exception ex){
 			if (_debug) Log.e("MainPreferenceActivity.updateMMSContactInfoSetting() ERROR: " + ex.toString());
 		}
@@ -1085,6 +1241,120 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	}
 	
 	/**
+	 * Updates the Ringtone In-Call preference based on the Ringtone Settings.
+	 * 
+	 * @param notificationType - The notification type.
+	 */
+	private void updateStatusBarNotificationRingtone(int notificationType){
+		if (_debug) Log.v("MainPreferenceActivity.updateStatusBarNotificationRingtone()");
+		try{
+			switch(notificationType){
+				case Constants.NOTIFICATION_TYPE_SMS:{
+					CheckBoxPreference  vibrateInCallCheckBoxPreference = (CheckBoxPreference) findPreference(Constants.SMS_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY);
+					if(_preferences.getString(Constants.SMS_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY, Constants.STATUS_BAR_NOTIFICATIONS_RINGTONE_DEFAULT).equals(Constants.STATUS_BAR_NOTIFICATIONS_RINGTONE_SILENT_VALUE)){
+						vibrateInCallCheckBoxPreference.setEnabled(false);
+					}else{
+						vibrateInCallCheckBoxPreference.setEnabled(true);
+					}
+					break;
+				}
+				case Constants.NOTIFICATION_TYPE_MMS:{
+					CheckBoxPreference  vibrateInCallCheckBoxPreference = (CheckBoxPreference) findPreference(Constants.MMS_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY);
+					if(_preferences.getString(Constants.MMS_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY, Constants.STATUS_BAR_NOTIFICATIONS_RINGTONE_DEFAULT).equals(Constants.STATUS_BAR_NOTIFICATIONS_RINGTONE_SILENT_VALUE)){
+						vibrateInCallCheckBoxPreference.setEnabled(false);
+					}else{
+						vibrateInCallCheckBoxPreference.setEnabled(true);
+					}
+					break;
+				}
+				case Constants.NOTIFICATION_TYPE_PHONE:{
+					CheckBoxPreference  vibrateInCallCheckBoxPreference = (CheckBoxPreference) findPreference(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY);
+					if(_preferences.getString(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY, Constants.STATUS_BAR_NOTIFICATIONS_RINGTONE_DEFAULT).equals(Constants.STATUS_BAR_NOTIFICATIONS_RINGTONE_SILENT_VALUE)){
+						vibrateInCallCheckBoxPreference.setEnabled(false);
+					}else{
+						vibrateInCallCheckBoxPreference.setEnabled(true);
+					}
+					break;
+				}
+				case Constants.NOTIFICATION_TYPE_CALENDAR:{
+					CheckBoxPreference  vibrateInCallCheckBoxPreference = (CheckBoxPreference) findPreference(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY);
+					if(_preferences.getString(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY, Constants.STATUS_BAR_NOTIFICATIONS_RINGTONE_DEFAULT).equals(Constants.STATUS_BAR_NOTIFICATIONS_RINGTONE_SILENT_VALUE)){
+						vibrateInCallCheckBoxPreference.setEnabled(false);
+					}else{
+						vibrateInCallCheckBoxPreference.setEnabled(true);
+					}
+					break;
+				}
+			}
+		}catch(Exception ex){
+			if (_debug) Log.v("MainPreferenceActivity.updateStatusBarNotificationRingtone() ERROR: " + ex.toString());
+		}
+	}
+	
+	/**
+	 * Updates the Vibrate preferences based on the Vibrate Settings.
+	 * 
+	 * @param notificationType - The notification type.
+	 */
+	private void updateStatusBarNotificationVibrate(int notificationType){
+		if (_debug) Log.v("MainPreferenceActivity.updateStatusBarNotificationVibrate()");
+		try{
+			switch(notificationType){
+				case Constants.NOTIFICATION_TYPE_SMS:{
+					ListPreference vibratePatternListPreference = (ListPreference) findPreference(Constants.SMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_KEY);
+					CheckBoxPreference  vibrateInCallCheckBoxPreference = (CheckBoxPreference) findPreference(Constants.SMS_STATUS_BAR_NOTIFICATIONS_IN_CALL_VIBRATE_ENABLED_KEY);
+					if(_preferences.getString(Constants.SMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_DEFAULT).equals(Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_NEVER_VALUE)){
+						vibratePatternListPreference.setEnabled(false);
+						vibrateInCallCheckBoxPreference.setEnabled(false);
+					}else{
+						vibratePatternListPreference.setEnabled(true);
+						vibrateInCallCheckBoxPreference.setEnabled(true);
+					}
+					break;
+				}
+				case Constants.NOTIFICATION_TYPE_MMS:{
+					ListPreference vibratePatternListPreference = (ListPreference) findPreference(Constants.MMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_KEY);
+					CheckBoxPreference  vibrateInCallCheckBoxPreference = (CheckBoxPreference) findPreference(Constants.MMS_STATUS_BAR_NOTIFICATIONS_IN_CALL_VIBRATE_ENABLED_KEY);
+					if(_preferences.getString(Constants.MMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_DEFAULT).equals(Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_NEVER_VALUE)){
+						vibratePatternListPreference.setEnabled(false);
+						vibrateInCallCheckBoxPreference.setEnabled(false);
+					}else{
+						vibratePatternListPreference.setEnabled(true);
+						vibrateInCallCheckBoxPreference.setEnabled(true);
+					}
+					break;
+				}
+				case Constants.NOTIFICATION_TYPE_PHONE:{
+					ListPreference vibratePatternListPreference = (ListPreference) findPreference(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_KEY);
+					CheckBoxPreference  vibrateInCallCheckBoxPreference = (CheckBoxPreference) findPreference(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_IN_CALL_VIBRATE_ENABLED_KEY);
+					if(_preferences.getString(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_DEFAULT).equals(Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_NEVER_VALUE)){
+						vibratePatternListPreference.setEnabled(false);
+						vibrateInCallCheckBoxPreference.setEnabled(false);
+					}else{
+						vibratePatternListPreference.setEnabled(true);
+						vibrateInCallCheckBoxPreference.setEnabled(true);
+					}
+					break;
+				}
+				case Constants.NOTIFICATION_TYPE_CALENDAR:{
+					ListPreference vibratePatternListPreference = (ListPreference) findPreference(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_KEY);
+					CheckBoxPreference  vibrateInCallCheckBoxPreference = (CheckBoxPreference) findPreference(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_IN_CALL_VIBRATE_ENABLED_KEY);
+					if(_preferences.getString(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_DEFAULT).equals(Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_NEVER_VALUE)){
+						vibratePatternListPreference.setEnabled(false);
+						vibrateInCallCheckBoxPreference.setEnabled(false);
+					}else{
+						vibratePatternListPreference.setEnabled(true);
+						vibrateInCallCheckBoxPreference.setEnabled(true);
+					}
+					break;
+				}
+			}
+		}catch(Exception ex){
+			if (_debug) Log.v("MainPreferenceActivity.updateStatusBarNotificationVibrate() ERROR: " + ex.toString());
+		}
+	}
+	
+	/**
 	 * Check if the user has already authorizes us to use access his twitter account.
 	 * Launch authorization activity if not.
 	 */
@@ -1100,8 +1370,122 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	 * Manually fix some of the users preferences due to updates to the user preferences.
 	 */
 	private void fixPreferenceUpdatesTemp(){
-		
-		
+		if (_debug) Log.v("MainPreferenceActivity.fixPreferenceUpdatesTemp()");
+		boolean fixPreferenceUpdates = _preferences.getBoolean("fixPreferenceUpdates", true);
+		if(fixPreferenceUpdates) {
+			try{
+				//Notifications Enabled
+				boolean smsNotificationsEnabled = true;
+				boolean mmsNotificationsEnabled = true;
+				boolean phoneNotificationsEnabled = true;
+				boolean calendarNotificationsEnabled = true;
+				
+				//Sound Enabled
+				boolean smsNotificationsSoundEnabled = true;
+				boolean mmsNotificationsSoundEnabled = true;
+				boolean phoneNotificationsSoundEnabled = true;
+				boolean calendarNotificationsSoundEnabled = true;
+				if(!_preferences.getBoolean("app_ringtones_enabled", false)){
+					smsNotificationsSoundEnabled = false;
+					mmsNotificationsSoundEnabled = false;
+					phoneNotificationsSoundEnabled = false;
+					calendarNotificationsSoundEnabled = false;
+				}else{
+					smsNotificationsSoundEnabled = _preferences.getBoolean("sms_ringtone_enabled", false);
+					mmsNotificationsSoundEnabled = _preferences.getBoolean("mms_ringtone_enabled", false);
+					phoneNotificationsSoundEnabled = _preferences.getBoolean("missed_call_ringtone_enabled", false);
+					calendarNotificationsSoundEnabled = !_preferences.getBoolean("calendar_ringtone_enabled", false);
+				}
+				//Vibrate Enabled
+				boolean smsNotificationsVibrateEnabled = true;
+				boolean mmsNotificationsVibrateEnabled = true;
+				boolean phoneNotificationsVibrateEnabled = true;
+				boolean calendarNotificationsVibrateEnabled = true;
+				if(!_preferences.getBoolean("app_vibrations_enabled", false)){
+					smsNotificationsVibrateEnabled = false;
+					mmsNotificationsVibrateEnabled = false;
+					phoneNotificationsVibrateEnabled = false;
+					calendarNotificationsVibrateEnabled = false;
+				}else{
+					smsNotificationsVibrateEnabled = _preferences.getBoolean("sms_vibrate_enabled", true);
+					mmsNotificationsVibrateEnabled = !_preferences.getBoolean("mms_vibrate_enabled", true);
+					phoneNotificationsVibrateEnabled = _preferences.getBoolean("missed_call_vibrate_enabled", true);
+					calendarNotificationsVibrateEnabled = !_preferences.getBoolean("calendar_vibrate_enabled", true);
+				}
+				
+				//Notifications Enabled
+				if(!smsNotificationsSoundEnabled && !smsNotificationsVibrateEnabled) smsNotificationsEnabled = false;
+				if(!mmsNotificationsSoundEnabled && !mmsNotificationsVibrateEnabled) mmsNotificationsEnabled = false;
+				if(!phoneNotificationsSoundEnabled && !phoneNotificationsVibrateEnabled) phoneNotificationsEnabled = false;
+				if(!calendarNotificationsSoundEnabled && !calendarNotificationsVibrateEnabled) calendarNotificationsEnabled = false;
+
+				SharedPreferences.Editor editor = _preferences.edit();
+				editor.putBoolean("fixPreferenceUpdates", false);
+				if(smsNotificationsEnabled){
+					editor.putBoolean(Constants.SMS_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY, true);
+				}else{
+					editor.putBoolean(Constants.SMS_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY, false);
+				}
+				if(smsNotificationsSoundEnabled){
+					editor.putString(Constants.SMS_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY, _preferences.getString("sms_ringtone_audio", Constants.STATUS_BAR_NOTIFICATIONS_RINGTONE_DEFAULT));
+				}else{
+					editor.putString(Constants.SMS_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY, "");
+				}
+				if(smsNotificationsVibrateEnabled){
+					editor.putString(Constants.SMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_ALWAYS_VALUE);
+				}else{
+					editor.putString(Constants.SMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_NEVER_VALUE);
+				}
+				if(mmsNotificationsEnabled){
+					editor.putBoolean(Constants.MMS_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY, true);
+				}else{
+					editor.putBoolean(Constants.MMS_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY, false);
+				}
+				if(smsNotificationsSoundEnabled){
+					editor.putString(Constants.MMS_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY, _preferences.getString("mms_ringtone_audio", Constants.STATUS_BAR_NOTIFICATIONS_RINGTONE_DEFAULT));
+				}else{
+					editor.putString(Constants.MMS_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY, "");
+				}
+				if(smsNotificationsVibrateEnabled){
+					editor.putString(Constants.MMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_ALWAYS_VALUE);
+				}else{
+					editor.putString(Constants.MMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_NEVER_VALUE);
+				}
+				if(phoneNotificationsEnabled){
+					editor.putBoolean(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY, true);
+				}else{
+					editor.putBoolean(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY, false);
+				}
+				if(smsNotificationsSoundEnabled){
+					editor.putString(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY, _preferences.getString("missed_call_ringtone_audio", Constants.STATUS_BAR_NOTIFICATIONS_RINGTONE_DEFAULT));
+				}else{
+					editor.putString(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY, "");
+				}
+				if(smsNotificationsVibrateEnabled){
+					editor.putString(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_ALWAYS_VALUE);
+				}else{
+					editor.putString(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_NEVER_VALUE);
+				}
+				if(calendarNotificationsEnabled){
+					editor.putBoolean(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY, true);
+				}else{
+					editor.putBoolean(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY, false);
+				}
+				if(smsNotificationsSoundEnabled){
+					editor.putString(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY, _preferences.getString("calendar_ringtone_audio", Constants.STATUS_BAR_NOTIFICATIONS_RINGTONE_DEFAULT));
+				}else{
+					editor.putString(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY, "");
+				}
+				if(smsNotificationsVibrateEnabled){
+					editor.putString(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_ALWAYS_VALUE);
+				}else{
+					editor.putString(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_NEVER_VALUE);
+				}
+				editor.commit();
+			}catch(Exception ex){
+ 	    		if (_debug) Log.e("MainPreferenceActivity.fixPreferenceUpdatesTemp() ERROR: " + ex.toString());
+	    	}
+		}
 		
 		
 	}

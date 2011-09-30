@@ -14,8 +14,7 @@ import apps.droidnotify.log.Log;
 import apps.droidnotify.R;
 
 /**
- * The ImageArrayAdapterRounded is the array adapter used for displaying an
- * image with a list preference item.
+ * The ImageArrayAdapterRounded is the array adapter used for displaying an image with a list preference item.
  * 
  * @author Camille Sévigny
  */

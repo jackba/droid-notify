@@ -392,9 +392,8 @@
     
     <!-- Status Bar Notification Vibrate Strings -->
     <string name="preference_notification_vibrate_settings_text">Notification Vibration Settings</string>
-    <string name="preference_vibrate_enabled_title">Enable Vibrate</string>
-   	<string name="preference_vibrate_enabled_summaryOn">Notifications will vibrate.</string>
-   	<string name="preference_vibrate_enabled_summaryOff">Notifications will not vibrate.</string>
+    <string name="preference_vibrate_setting_title">Vibrate Setting</string>
+   	<string name="preference_vibrate_setting_summary">Select the vibrate setting for notifications.</string>
     <string name="preference_vibrate_pattern_title">Vibrate Pattern</string>
    	<string name="preference_vibrate_pattern_summary">Set the vibration pattern.</string>
    	

@@ -126,7 +126,7 @@ public class PhoneReceiverService extends WakefulIntentService {
     				}
     			}
 	    		if(!missedCallFound){
-	    			if (_debug) Log.v("PhoneReceiverService.getMissedCalls() Missed callnot found - Exiting");
+	    			if (_debug) Log.v("PhoneReceiverService.getMissedCalls() Missed call not found - Exiting");
 	    			break;
 	    		}
 	    	}

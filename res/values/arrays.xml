@@ -1024,4 +1024,16 @@
 		<item name="5">@drawable/status_bar_notification_calendar_red_preference</item>
 	</array>
 	
+	<!-- Notification Vibrate Arrays --> 
+	<string-array name="vibrate_setting_options">
+		<item name="0">Always</item>
+		<item name="1">Never</item>
+		<item name="2">Only when in vibrate mode</item>
+	</string-array>
+	<string-array name="vibrate_setting_options_values">
+		<item name="0">0</item>
+		<item name="1">1</item>
+		<item name="2">2</item>
+	</string-array>	
+	
 </resources>
