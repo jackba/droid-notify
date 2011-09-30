@@ -182,7 +182,7 @@
 									android:entries="@array/notification_icon_options_sms"
 									android:entryValues="@array/notification_icon_values_sms"
 									droidnotify:entryImages="@array/notification_icon_images_sms"
-									android:defaultValue="status_bar_notification_sms_green" />
+									android:defaultValue="status_bar_notification_sms_green_preference" />
 							</PreferenceCategory>	
 					  		<PreferenceCategory
 								android:key="sms_notification_sound_settings_category"
@@ -199,20 +199,20 @@
 							<PreferenceCategory
 								android:key="sms_notification_vibrate_settings_category"
 								android:title="@string/preference_notification_vibrate_settings_text">	
-								<CheckBoxPreference 
-									android:key="sms_notification_vibrate_enabled" 
-									android:title="@string/preference_vibrate_enabled_title" 
-									android:summaryOn="@string/preference_vibrate_enabled_summaryOn" 
-									android:summaryOff="@string/preference_vibrate_enabled_summaryOff" 
-									android:defaultValue="true" />
+								<ListPreference
+									android:key="sms_notification_vibrate_setting"
+									android:title="@string/preference_vibrate_setting_title"
+									android:summary="@string/preference_vibrate_setting_summary"
+									android:defaultValue="0"
+									android:entries="@array/vibrate_setting_options"
+									android:entryValues="@array/vibrate_setting_options_values" />									
 								<apps.droidnotify.preferences.VibratePatternListPreference
 									android:key="sms_notification_vibrate_pattern"
 									android:title="@string/preference_vibrate_pattern_title"
 									android:summary="@string/preference_vibrate_pattern_summary"
 									android:entries="@array/preference_vibrate_pattern_options"
 									android:entryValues="@array/preference_vibrate_pattern_options_values_sms"
-									android:defaultValue="0,1200"
-									android:dependency="sms_notification_vibrate_enabled" />
+									android:defaultValue="0,1200" />
 							</PreferenceCategory>	
 					  		<PreferenceCategory
 								android:key="sms_notification_led_settings_category"
@@ -254,8 +254,7 @@
 										android:title="@string/preference_notification_in_call_vibrate_enable_title" 
 										android:summaryOn="@string/preference_notification_in_call_vibrate_enable_summaryOn" 
 										android:summaryOff="@string/preference_notification_in_call_vibrate_enable_summaryOff" 
-										android:defaultValue="false"
-										android:dependency="sms_notification_vibrate_enabled" />
+										android:defaultValue="false" />
 							</PreferenceCategory>
 						</PreferenceScreen>
 					</PreferenceCategory>
@@ -442,7 +441,7 @@
 									android:entries="@array/notification_icon_options_mms"
 									android:entryValues="@array/notification_icon_values_mms"
 									droidnotify:entryImages="@array/notification_icon_images_mms"
-									android:defaultValue="status_bar_notification_sms_green" />
+									android:defaultValue="status_bar_notification_sms_green_preference" />
 							</PreferenceCategory>	
 					  		<PreferenceCategory
 								android:key="mms_notification_sound_settings_category"
@@ -459,20 +458,20 @@
 							<PreferenceCategory
 								android:key="mms_notification_vibrate_settings_category"
 								android:title="@string/preference_notification_vibrate_settings_text">	
-								<CheckBoxPreference 
-									android:key="mms_notification_vibrate_enabled" 
-									android:title="@string/preference_vibrate_enabled_title" 
-									android:summaryOn="@string/preference_vibrate_enabled_summaryOn" 
-									android:summaryOff="@string/preference_vibrate_enabled_summaryOff" 
-									android:defaultValue="true" />
+								<ListPreference
+									android:key="mms_notification_vibrate_setting"
+									android:title="@string/preference_vibrate_setting_title"
+									android:summary="@string/preference_vibrate_setting_summary"
+									android:defaultValue="14"
+									android:entries="@array/vibrate_setting_options"
+									android:entryValues="@array/vibrate_setting_options_values" />
 								<apps.droidnotify.preferences.VibratePatternListPreference
 									android:key="mms_notification_vibrate_pattern"
 									android:title="@string/preference_vibrate_pattern_title"
 									android:summary="@string/preference_vibrate_pattern_summary"
 									android:entries="@array/preference_vibrate_pattern_options"
 									android:entryValues="@array/preference_vibrate_pattern_options_values_mms"
-									android:defaultValue="0,1200"
-									android:dependency="mms_notification_vibrate_enabled" />
+									android:defaultValue="0,1200" />
 							</PreferenceCategory>
 					  		<PreferenceCategory
 								android:key="mms_notification_led_settings_category"
@@ -514,8 +513,7 @@
 										android:title="@string/preference_notification_in_call_vibrate_enable_title" 
 										android:summaryOn="@string/preference_notification_in_call_vibrate_enable_summaryOn" 
 										android:summaryOff="@string/preference_notification_in_call_vibrate_enable_summaryOff" 
-										android:defaultValue="false"
-										android:dependency="mms_notification_vibrate_enabled" />
+										android:defaultValue="false" />
 							</PreferenceCategory>
 						</PreferenceScreen>
 					</PreferenceCategory>
@@ -646,7 +644,7 @@
 				</PreferenceScreen>	
 			</PreferenceCategory>
 			<PreferenceCategory
-				android:key="misseed_call_notification_settings_category"
+				android:key="missed_call_notification_settings_category"
 				android:title="@string/preference_missed_call_notifications">
 				<PreferenceScreen
 					android:key="missed_call_notification_settings_screen"
@@ -691,7 +689,19 @@
 							android:key="missed_call_notification_settings_screen"
 							android:title="@string/preference_notification_settings"
 							android:summary="@string/preference_notification_settings_summary"
-							android:dependency="missed_call_status_bar_notifications_enabled">	
+							android:dependency="missed_call_status_bar_notifications_enabled">
+							<PreferenceCategory
+								android:key="missed_call_notification_icon_settings_category"
+								android:title="@string/preference_notification_icon_settings_text">
+								<apps.droidnotify.preferences.ImageListPreference
+									android:key="notification_icon_missed_call"
+									android:title="@string/preference_notification_icon_text"
+									android:summary="@string/preference_notification_icon_summary"
+									android:entries="@array/notification_icon_options_phone"
+									android:entryValues="@array/notification_icon_values_phone"
+									droidnotify:entryImages="@array/notification_icon_images_phone"
+									android:defaultValue="status_bar_notification_missed_call_black_preference" />
+							</PreferenceCategory>	
 					  		<PreferenceCategory
 								android:key="missed_call_notification_sound_settings_category"
 								android:title="@string/preference_notification_sound_settings_text">
@@ -707,20 +717,20 @@
 							<PreferenceCategory
 								android:key="missed_call_notification_vibrate_settings_category"
 								android:title="@string/preference_notification_vibrate_settings_text">	
-								<CheckBoxPreference 
-									android:key="missed_call_notification_vibrate_enabled" 
-									android:title="@string/preference_vibrate_enabled_title" 
-									android:summaryOn="@string/preference_vibrate_enabled_summaryOn" 
-									android:summaryOff="@string/preference_vibrate_enabled_summaryOff" 
-									android:defaultValue="true" />
+								<ListPreference
+									android:key="missed_call_notification_vibrate_setting"
+									android:title="@string/preference_vibrate_setting_title"
+									android:summary="@string/preference_vibrate_setting_summary"
+									android:defaultValue="14"
+									android:entries="@array/vibrate_setting_options"
+									android:entryValues="@array/vibrate_setting_options_values" />
 								<apps.droidnotify.preferences.VibratePatternListPreference
 									android:key="missed_call_notification_vibrate_pattern"
 									android:title="@string/preference_vibrate_pattern_title"
 									android:summary="@string/preference_vibrate_pattern_summary"
 									android:entries="@array/preference_vibrate_pattern_options"
 									android:entryValues="@array/preference_vibrate_pattern_options_values_missed_call"
-									android:defaultValue="0,1200"
-									android:dependency="missed_call_notification_vibrate_enabled" />
+									android:defaultValue="0,1200" />
 							</PreferenceCategory>
 					  		<PreferenceCategory
 								android:key="missed_call_notification_led_settings_category"
@@ -762,8 +772,7 @@
 										android:title="@string/preference_notification_in_call_vibrate_enable_title" 
 										android:summaryOn="@string/preference_notification_in_call_vibrate_enable_summaryOn" 
 										android:summaryOff="@string/preference_notification_in_call_vibrate_enable_summaryOff" 
-										android:defaultValue="false"
-										android:dependency="missed_call_notification_vibrate_enabled" />
+										android:defaultValue="false" />
 							</PreferenceCategory>
 						</PreferenceScreen>
 					</PreferenceCategory>
@@ -851,7 +860,7 @@
 				<PreferenceScreen
 					android:key="calendar_notification_settings_screen"
 					android:title="@string/preference_calendar_notifications"
-					android:dependency="app_enabled">	
+					android:dependency="app_enabled">
 					<PreferenceCategory
 						android:key="calendar_basic_settings_category"
 						android:title="@string/basic_settings_text">
@@ -897,13 +906,6 @@
 							android:summaryOff="@string/preference_calendar_labels_enabled_summaryOff" 
 							android:defaultValue="true"
 							android:dependency="calendar_notifications_enabled" />
-						<CheckBoxPreference 
-							android:key="calendar_reminders_enabled" 
-							android:title="@string/preference_calendar_reminders_enabled_title" 
-							android:summaryOn="@string/preference_calendar_reminders_enabled_summaryOn" 
-							android:summaryOff="@string/preference_calendar_reminders_enabled_summaryOff" 
-							android:defaultValue="true"
-							android:dependency="calendar_notifications_enabled" />
 					</PreferenceCategory>
 					<PreferenceCategory
 						android:key="calendar_notification_settings_category"
@@ -919,6 +921,18 @@
 							android:title="@string/preference_notification_settings"
 							android:summary="@string/preference_notification_settings_summary"
 							android:dependency="calendar_status_bar_notifications_enabled">	
+							<PreferenceCategory
+								android:key="calendar_notification_icon_settings_category"
+								android:title="@string/preference_notification_icon_settings_text">
+								<apps.droidnotify.preferences.ImageListPreference
+									android:key="notification_icon_mms"
+									android:title="@string/preference_notification_icon_text"
+									android:summary="@string/preference_notification_icon_summary"
+									android:entries="@array/notification_icon_options_calendar"
+									android:entryValues="@array/notification_icon_values_calendar"
+									droidnotify:entryImages="@array/notification_icon_images_calendar"
+									android:defaultValue="status_bar_notification_calendar_blue_preference" />
+							</PreferenceCategory>
 					  		<PreferenceCategory
 								android:key="calendar_notification_sound_settings_category"
 								android:title="@string/preference_notification_sound_settings_text">
@@ -934,20 +948,20 @@
 							<PreferenceCategory
 								android:key="calendar_notification_vibrate_settings_category"
 								android:title="@string/preference_notification_vibrate_settings_text">	
-								<CheckBoxPreference 
-									android:key="calendar_notification_vibrate_enabled" 
-									android:title="@string/preference_vibrate_enabled_title" 
-									android:summaryOn="@string/preference_vibrate_enabled_summaryOn" 
-									android:summaryOff="@string/preference_vibrate_enabled_summaryOff" 
-									android:defaultValue="true" />
+								<ListPreference
+									android:key="calendar_notification_vibrate_setting"
+									android:title="@string/preference_vibrate_setting_title"
+									android:summary="@string/preference_vibrate_setting_summary"
+									android:defaultValue="14"
+									android:entries="@array/vibrate_setting_options"
+									android:entryValues="@array/vibrate_setting_options_values" />
 								<apps.droidnotify.preferences.VibratePatternListPreference
 									android:key="calendar_notification_vibrate_pattern"
 									android:title="@string/preference_vibrate_pattern_title"
 									android:summary="@string/preference_vibrate_pattern_summary"
 									android:entries="@array/preference_vibrate_pattern_options"
 									android:entryValues="@array/preference_vibrate_pattern_options_values_calendar"
-									android:defaultValue="0,1200"
-									android:dependency="calendar_notification_vibrate_enabled" />
+									android:defaultValue="0,1200" />
 							</PreferenceCategory>	
 					  		<PreferenceCategory
 								android:key="calendar_notification_led_settings_category"
@@ -989,14 +1003,20 @@
 										android:title="@string/preference_notification_in_call_vibrate_enable_title" 
 										android:summaryOn="@string/preference_notification_in_call_vibrate_enable_summaryOn" 
 										android:summaryOff="@string/preference_notification_in_call_vibrate_enable_summaryOff" 
-										android:defaultValue="false"
-										android:dependency="calendar_notification_vibrate_enabled" />
+										android:defaultValue="false" />
 							</PreferenceCategory>	
 						</PreferenceScreen>
 					</PreferenceCategory>	
 					<PreferenceCategory
 						android:key="calendar_event_reminders_category"
-						android:title="@string/event_reminder_settings_text">	
+						android:title="@string/event_reminder_settings_text">
+						<CheckBoxPreference 
+							android:key="calendar_reminders_enabled" 
+							android:title="@string/preference_calendar_reminders_enabled_title" 
+							android:summaryOn="@string/preference_calendar_reminders_enabled_summaryOn" 
+							android:summaryOff="@string/preference_calendar_reminders_enabled_summaryOff" 
+							android:defaultValue="true"
+							android:dependency="calendar_notifications_enabled" />	
 						<PreferenceScreen
 							android:key="calendar_event_reminders_screen"
 							android:title="@string/event_reminder_settings_text"

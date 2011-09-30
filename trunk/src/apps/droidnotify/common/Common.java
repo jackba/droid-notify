@@ -3,11 +3,17 @@ package apps.droidnotify.common;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.TimeZone;
 
 import android.app.ActivityManager;
+import android.app.KeyguardManager;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.ActivityManager.RunningTaskInfo;
 import android.content.ComponentName;
 import android.content.ContentResolver;
@@ -18,16 +24,23 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Bitmap.Config;
 import android.graphics.PorterDuff.Mode;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.widget.Toast;
+import apps.babycaretimer.AlarmNotificationContentIntentService;
+import apps.babycaretimer.AlarmNotificationDeleteIntentService;
+import apps.babycaretimer.common.Constants;
 import apps.droidnotify.NotificationActivity;
 import apps.droidnotify.R;
 import apps.droidnotify.log.Log;
@@ -948,6 +961,7 @@ public class Common {
 	 * @return boolean - Returns true if the number is a Private number or Unknown number.
 	 */
 	public static boolean isPrivateUnknownNumber(String incomingNumber){
+		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.isPrivateUnknownNumber() incomingNumber: " + incomingNumber);
 		try{
 			if(incomingNumber.length() > 4){
@@ -970,6 +984,7 @@ public class Common {
 	 * @return long - The timestamp in the phones local time.
 	 */
 	public static long convertGMTToLocalTime(Context context, long inputTimeStamp){
+		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.convertGMTToLocalTime() InputTimeStamp: " + inputTimeStamp);
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         //return timeStamp - TimeZone.getDefault().getOffset(timeStamp);
@@ -978,6 +993,392 @@ public class Common {
 	    long outputTimeStamp = inputTimeStamp - offset + timeStampAdjustment;
 	    if (_debug) Log.v("Common.convertGMTToLocalTime() OutputTimeStamp: " + outputTimeStamp);
 	    return outputTimeStamp;
+	}
+	
+	/**
+	 * Cancel the stock missed call notification.
+	 * 
+	 * @return boolean - Returns true if the stock missed call notification was cancelled.
+	 */
+	public static boolean cancelStockMissedCallNotification(){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.cancelStockMissedCallNotification()");
+		try{
+	        Class serviceManagerClass = Class.forName("android.os.ServiceManager");
+	        Method getServiceMethod = serviceManagerClass.getMethod("getService", String.class);
+	        Object phoneService = getServiceMethod.invoke(null, "phone");
+	        Class ITelephonyClass = Class.forName("com.android.internal.telephony.ITelephony");
+	        Class ITelephonyStubClass = null;
+	        for(Class clazz : ITelephonyClass.getDeclaredClasses()){
+	            if (clazz.getSimpleName().equals("Stub")){
+	                ITelephonyStubClass = clazz;
+	                break;
+	            }
+	        }
+	        if (ITelephonyStubClass != null) {
+	            Class IBinderClass = Class.forName("android.os.IBinder");
+	            Method asInterfaceMethod = ITelephonyStubClass.getDeclaredMethod("asInterface", IBinderClass);
+	            Object iTelephony = asInterfaceMethod.invoke(null, phoneService);
+	            if (iTelephony != null){
+	                Method cancelMissedCallsNotificationMethod = iTelephony.getClass().getMethod("cancelMissedCallsNotification");
+	                cancelMissedCallsNotificationMethod.invoke(iTelephony);
+	            }else{
+	            	if (_debug) Log.e("Telephony service is null, can't call cancelMissedCallsNotification.");
+	    	    	return false;
+	            }
+	        }else{
+	            if (_debug) Log.v("Unable to locate ITelephony.Stub class.");
+		    	return false;
+	        }
+	        return true;
+	    }catch (Exception ex){
+	    	if (_debug) Log.e("Common.cancelStockMissedCallNotification() ERROR: " + ex.toString());
+	    	return false;
+	    }
+	}
+	
+	/**
+	 * Display the status bar notification.
+	 * 
+	 * @param notificationType - The type of notification we are working with.
+	 */
+	public static void setStatusBarNotification(Context context, int notificationType, boolean callStateIdle){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.setStatusBarNotification()");
+		//Preference keys.
+		String ENABLED_KEY = null;
+		String SOUND_SETTING_KEY = null;
+		String RINGTONE_DEFAULT = Constants.STATUS_BAR_NOTIFICATIONS_RINGTONE_DEFAULT;;
+		String IN_CALL_SOUND_ENABLED_KEY = null;
+		String VIBRATE_SETTING_KEY = null;
+		String VIBRATE_ALWAYS_VALUE = Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_ALWAYS_VALUE;
+		String VIBRATE_WHEN_VIBRATE_MODE_VALUE = Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_WHEN_VIBRATE_MODE_VALUE;
+		String IN_CALL_VIBRATE_ENABLED_KEY = null;
+		String VIBRATE_PATTERN_KEY = null;
+		String VIBRATE_PATTERN_DEFAULT = Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_DEFAULT;
+		String VIBRATE_PATTERN_CUSTOM_VALUE_KEY = null;
+		String VIBRATE_PATTERN_CUSTOM_KEY = null;
+		
+		
+		
+		
+		
+		//Load values into the preference keys based on the notification type.
+		switch(notificationType){
+			case Constants.NOTIFICATION_TYPE_SMS:{
+
+				ENABLED_KEY = Constants.SMS_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY;
+				SOUND_SETTING_KEY = Constants.SMS_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY;
+				IN_CALL_SOUND_ENABLED_KEY = Constants.SMS_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY;
+				VIBRATE_SETTING_KEY = Constants.SMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY;
+				IN_CALL_VIBRATE_ENABLED_KEY = Constants.SMS_STATUS_BAR_NOTIFICATIONS_IN_CALL_VIBRATE_ENABLED_KEY;
+				VIBRATE_PATTERN_KEY = Constants.SMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_KEY;
+				VIBRATE_PATTERN_CUSTOM_VALUE_KEY = Constants.SMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_VALUE_KEY;
+				VIBRATE_PATTERN_CUSTOM_KEY = Constants.SMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_KEY;
+				
+				
+				
+				
+				
+				
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_MMS:{
+				
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_PHONE:{
+				
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_CALENDAR:{
+				
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_GMAIL:{
+	
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_TWITTER:{
+	
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_FACEBOOK:{
+	
+				break;
+			}
+		}
+		//Notification properties.
+		Vibrator vibrator = null;
+		MediaPlayer mediaPlayer = null;
+		AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+		boolean inNormalMode = audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL;
+		boolean inVibrateMode = audioManager.getRingerMode() == AudioManager.RINGER_MODE_VIBRATE;
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		String notificationSound = null;
+		boolean soundEnabled = false;
+		boolean soundInCallEnabled = false;
+		String notificationVibrate = null;
+		boolean vibrateEnabled = false;
+		boolean vibrateInCallEnabled = false;
+		//Check if notifications are enabled or not.
+		if(!preferences.getBoolean(ENABLED_KEY, true)){
+			return;
+		}
+		//Sound preferences
+		notificationSound = preferences.getString(SOUND_SETTING_KEY, RINGTONE_DEFAULT);
+		if(notificationSound != null && !notificationSound.equals("")){
+			soundEnabled = true;
+		}
+		soundInCallEnabled = preferences.getBoolean(IN_CALL_SOUND_ENABLED_KEY, false);
+		//Vibrate preferences
+		notificationVibrate = preferences.getString(VIBRATE_SETTING_KEY, VIBRATE_ALWAYS_VALUE);
+		if(notificationVibrate.equals(VIBRATE_ALWAYS_VALUE)){
+			vibrateEnabled = true;
+		}else if(notificationVibrate.equals(VIBRATE_WHEN_VIBRATE_MODE_VALUE) && inVibrateMode){
+			vibrateEnabled = true;
+		}
+		vibrateInCallEnabled = preferences.getBoolean(IN_CALL_VIBRATE_ENABLED_KEY, false);
+		String vibratePattern = null;
+		if(vibrateEnabled){
+			vibratePattern = preferences.getString(VIBRATE_PATTERN_KEY, VIBRATE_PATTERN_DEFAULT);
+			if(vibratePattern.equals(VIBRATE_PATTERN_CUSTOM_VALUE_KEY)){
+				vibratePattern = preferences.getString(VIBRATE_PATTERN_CUSTOM_KEY, VIBRATE_PATTERN_DEFAULT);
+			}
+		}
+		
+		//LED preferences
+		boolean ledEnabled = preferences.getBoolean(Constants.ALARM_NOTIFICATION_LED_ENABLED_KEY, true);
+		String ledPattern = null;
+		int ledColor = Color.parseColor(Constants.ALARM_NOTIFICATION_LED_COLOR_DEFAULT);
+		String ledColorString = null;
+		if(ledEnabled){
+			//LED Color
+			ledColorString = preferences.getString(Constants.ALARM_NOTIFICATION_LED_COLOR_KEY, Constants.ALARM_NOTIFICATION_LED_COLOR_DEFAULT);
+			if(ledColorString.equals(Constants.ALARM_NOTIFICATION_LED_COLOR_CUSTOM_VALUE_KEY)){
+				ledColorString = preferences.getString(Constants.ALARM_NOTIFICATION_LED_COLOR_CUSTOM_KEY, Constants.ALARM_NOTIFICATION_LED_COLOR_DEFAULT);
+			}
+			try{
+				ledColor = Color.parseColor(ledColorString);
+			}catch(Exception ex){
+				//Do Nothing
+			}
+			//LED Pattern
+			ledPattern = preferences.getString(Constants.ALARM_NOTIFICATION_LED_PATTERN_KEY, Constants.ALARM_NOTIFICATION_LED_PATTERN_DEFAULT);
+			if(ledPattern.equals(Constants.ALARM_NOTIFICATION_LED_PATTERN_CUSTOM_VALUE_KEY)){
+				ledPattern = preferences.getString(Constants.ALARM_NOTIFICATION_LED_PATTERN_CUSTOM_KEY, Constants.ALARM_NOTIFICATION_LED_PATTERN_DEFAULT);
+			}
+		}
+		
+		
+
+		
+
+		
+		
+		
+		
+		
+		
+		int alarmType = bundle.getInt(Constants.ALARM_TYPE);
+		int icon = 0;
+		int currentAPIVersion = android.os.Build.VERSION.SDK_INT;
+		if(currentAPIVersion >= 8){
+			icon = R.drawable.stat_notify_alarm_froyo;
+		}else{
+			icon = R.drawable.stat_notify_alarm_gingerbread;
+		}
+		CharSequence tickerText = null;
+		CharSequence contentTitle = context.getText(R.string.notifications_content_title);  
+		CharSequence contentText = context.getText(R.string.notifications_content_text);
+		switch(alarmType){
+			case Constants.TYPE_DIAPER:{	
+				tickerText = context.getText(R.string.notifications_diaper_ticker_text);
+				break;
+			}
+			case Constants.TYPE_BOTTLE:{
+				tickerText = context.getText(R.string.notifications_bottle_ticker_text);
+				break;
+			}
+			case Constants.TYPE_SLEEP:{
+				tickerText = context.getText(R.string.notifications_sleep_ticker_text);
+				break;
+			}
+			case Constants.TYPE_CUSTOM:{
+				tickerText = context.getText(R.string.notifications_custom_ticker_text);
+				break;
+			}
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		//Setup the notification
+		Notification notification = new Notification(icon, tickerText, System.currentTimeMillis());
+		//Set notification flags
+		notification.flags = Notification.FLAG_AUTO_CANCEL | Notification.FLAG_INSISTENT;
+		//Setup the notification vibration
+		if(vibrateEnabled && callStateIdle){
+			long[] vibrationPattern = parseVibratePattern(vibratePattern);
+			if(vibrationPattern == null){
+				notification.defaults |= Notification.DEFAULT_VIBRATE;
+			}else{
+				notification.vibrate = vibrationPattern;
+			}
+		}else if(vibrateEnabled && !callStateIdle && vibrateInCallEnabled && (inVibrateMode || inNormalMode)){
+			long[] vibrationPattern = parseVibratePattern(vibratePattern);
+			if(vibrationPattern == null){
+				//Do Nothing
+			}else{
+				try{
+					vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+					vibrator.vibrate(vibrationPattern, 0);
+				}catch(Exception ex){
+					if (_debug) Log.e("AlarmReceiverService.createNotification() Notification Vibrator ERROR: " + ex.toString());
+				}
+			}
+		}
+		//Setup the notification sound
+		notification.audioStreamType = Notification.STREAM_DEFAULT;
+		if(soundEnabled && callStateIdle){
+			try{
+				notification.sound = Uri.parse(notificationSound);
+			}catch(Exception ex){
+				if (_debug) Log.e("AlarmReceiverService.createNotification() Notification Sound Set ERROR: " + ex.toString());
+				notification.defaults |= Notification.DEFAULT_SOUND;
+			}
+		}else if(soundEnabled && !callStateIdle && soundInCallEnabled && inNormalMode){
+			try{
+				mediaPlayer = MediaPlayer.create(context,  Uri.parse(notificationSound));
+				mediaPlayer.setLooping(true);
+				mediaPlayer.start();
+			}catch(Exception ex){
+				if (_debug) Log.e("AlarmReceiverService.createNotification() Notification Sound Play ERROR: " + ex.toString());
+			}
+		}
+		//Setup the notification LED lights
+		if(ledEnabled){
+			notification.flags |= Notification.FLAG_SHOW_LIGHTS;
+			try{
+				int[] ledPatternArray = parseLEDPattern(ledPattern);
+				if(ledPatternArray == null){
+					notification.defaults |= Notification.DEFAULT_LIGHTS;
+				}else{
+					//LED Color
+			        notification.ledARGB = ledColor;
+					//LED Pattern
+					notification.ledOnMS = ledPatternArray[0];
+			        notification.ledOffMS = ledPatternArray[1];
+				}
+			}catch(Exception ex){
+				notification.defaults |= Notification.DEFAULT_LIGHTS;
+			}
+		}
+		//Set notification information
+		//Content Intent
+		Intent notificationContentIntent = new Intent(context, AlarmNotificationContentIntentService.class);
+		PendingIntent contentIntent = PendingIntent.getService(context, 0, notificationContentIntent, 0);
+		//Delete Intent
+		Intent notificationDeleteIntent = new Intent(context, AlarmNotificationDeleteIntentService.class);
+		PendingIntent deleteIntent = PendingIntent.getService(context, 0, notificationDeleteIntent, 0);
+		//Special case when phone is in keyguard mode
+		KeyguardManager keyguardManager = (KeyguardManager)getSystemService(Context.KEYGUARD_SERVICE);
+		boolean screenEnabled = preferences.getBoolean(Constants.SCREEN_ENABLED_KEY, true);
+		if(keyguardManager.inKeyguardRestrictedInputMode() && screenEnabled){
+			contentIntent = deleteIntent;
+			contentText = context.getText(R.string.notifications_content_lockscreen_text);
+	    }
+		
+		
+		switch(notificationType){
+			case Constants.NOTIFICATION_TYPE_SMS:{
+				
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_MMS:{
+
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_PHONE:{
+				//Remove the stock status bar notification.
+				cancelStockMissedCallNotification();
+				
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_CALENDAR:{
+
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_GMAIL:{
+
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_TWITTER:{
+
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_FACEBOOK:{
+
+				break;
+			}
+		}
+		//Set notification intent values
+		notification.deleteIntent = deleteIntent;
+		notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
+		NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+		notificationManager.notify(1, notification);
+		if(notificationType == Constants.NOTIFICATION_TYPE_PHONE){
+			//Remove the stock status bar notification.
+			cancelStockMissedCallNotification();
+		}
+	}
+	
+	/**
+	 * Remove the status bar notification.
+	 * 
+	 * @param notificationType - The type of notification we are working with.
+	 */
+	public static void removeStatusBarNotification(Context context, int notificationType){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.setStatusBarNotification()");
+		NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+		switch(notificationType){
+			case Constants.NOTIFICATION_TYPE_SMS:{
+				
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_MMS:{
+
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_PHONE:{
+				
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_CALENDAR:{
+
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_GMAIL:{
+
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_TWITTER:{
+
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_FACEBOOK:{
+
+				break;
+			}
+		}
+		notificationManager.cancel(notificationType);
 	}
 	
 //	/**
@@ -1119,6 +1520,82 @@ public class Common {
 			return inputNumber.substring(1);
 		}
 		return inputNumber;
+	}
+	
+	/**
+	 * Parse a vibration pattern.
+	 * 
+	 * @param vibratePattern - The vibrate pattern to verify.
+	 * 
+	 * @return boolean - Returns True if the vibrate pattern is valid.
+	 */
+	private static long[] parseVibratePattern(String vibratePattern){
+		if (_debug) Log.v("AlarmReceiverService.parseVibratePattern()");
+	    final int VIBRATE_PATTERN_MAX_LENGTH = 60000;
+	    final int VIBRATE_PATTERN_MAX_SIZE = 100;
+		ArrayList<Long> vibratePatternArrayList = new ArrayList<Long>();
+		long[] vibratePatternArray = null;
+		String[] vibratePatternStringArray = vibratePattern.split(",");
+		int arraySize = vibratePatternStringArray.length;
+	    for (int i = 0; i < arraySize; i++) {
+	    	long vibrateLength = 0;
+	    	try {
+	    		vibrateLength = Long.parseLong(vibratePatternStringArray[i].trim());
+	    	} catch (Exception ex) {
+	    		if (_debug) Log.e("AlarmReceiverService.parseVibratePattern() ERROR: " + ex.toString());
+	    		return null;
+	    	}
+	    	if(vibrateLength < 0){
+	    		vibrateLength = 0;
+	    	}
+	    	if(vibrateLength > VIBRATE_PATTERN_MAX_LENGTH){
+	    		vibrateLength = VIBRATE_PATTERN_MAX_LENGTH;
+	    	}
+	    	vibratePatternArrayList.add(vibrateLength);
+	    }
+	    arraySize = vibratePatternArrayList.size();
+	    if (arraySize > VIBRATE_PATTERN_MAX_SIZE){
+	    	arraySize = VIBRATE_PATTERN_MAX_SIZE;
+	    }
+	    vibratePatternArray = new long[arraySize];
+	    for (int i = 0; i < arraySize; i++) {
+	    	vibratePatternArray[i] = vibratePatternArrayList.get(i);
+	    }
+		return vibratePatternArray;
+	}
+	
+	/**
+	 * Parse an led blink pattern.
+	 * 
+	 * @param ledPattern - The blink pattern to verify.
+	 * 
+	 * @return boolean - Returns True if the blink pattern is valid.
+	 */
+	private static int[] parseLEDPattern(String ledPattern){
+		if (_debug) Log.v("AlarmReceiverService.parseLEDPattern()");
+	    final int LED_PATTERN_MAX_LENGTH = 60000;
+		int[] ledPatternArray = {0, 0};
+		String[] ledPatternStringArray = ledPattern.split(",");
+		if(ledPatternStringArray.length != 2){
+			return null;
+		}
+	    for (int i = 0; i < 2; i++) {
+	    	int blinkLength = 0;
+	    	try {
+	    		blinkLength = Integer.parseInt(ledPatternStringArray[i].trim());
+	    	} catch (Exception ex) {
+	    		if (_debug) Log.e("AlarmReceiverService.parseLEDPattern() ERROR: " + ex.toString());
+	    		return null;
+	    	}
+	    	if(blinkLength < 0){
+	    		blinkLength = 0;
+	    	}
+	    	if(blinkLength > LED_PATTERN_MAX_LENGTH){
+	    		blinkLength = LED_PATTERN_MAX_LENGTH;
+	    	}
+	    	ledPatternArray[i] = blinkLength;
+	    }
+		return ledPatternArray;
 	}
 	
 }
