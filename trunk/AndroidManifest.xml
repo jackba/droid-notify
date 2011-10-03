@@ -67,8 +67,8 @@
 		</receiver>
 		<receiver android:name="apps.droidnotify.CalendarAlarmReceiver" />
 		<service android:name="apps.droidnotify.CalendarAlarmReceiverService" />
-		<receiver android:name="CalendarNotificationAlarmReceiver" />
-		<service android:name="CalendarNotificationAlarmReceiverService" />
+		<receiver android:name="apps.droidnotify.CalendarNotificationAlarmReceiver" />
+		<service android:name="apps.droidnotify.CalendarNotificationAlarmReceiverService" />
    		<activity 
    			android:name="apps.droidnotify.NotificationActivity" 
    			android:theme="@style/Theme.Transparent"

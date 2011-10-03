@@ -6,15 +6,15 @@
 	<string name="app_name">DroidNotify</string>
     <string name="app_name_formatted">Droid Notify</string>
     <string name="app_settings_text">Settings</string>
-    <string name="message_at_text">New message at %s</string>
-    <string name="missed_call_at_text">Missed call at %s</string>
-    <string name="appointment_at_text">Appointment at %s</string>
-    <string name="appointment_on_text">Appointment on %s</string>
+    <string name="message_at_text" formatted="false">New message at %s</string>
+    <string name="missed_call_at_text" formatted="false">Missed call at %s</string>
+    <string name="appointment_at_text" formatted="false">Appointment at %s</string>
+    <string name="appointment_on_text" formatted="false">Appointment on %s</string>
     <string name="event_on_text">Event on %s</string>
     <string name="view_calendar_text">View Calendar</string>
     <string name="calendar_event_text">Calendar Event</string>
-    <string name="email_at_text">New email at %s</string>
-    <string name="from_phone_number_text">From %s</string>
+    <string name="email_at_text" formatted="false">New email at %s</string>
+    <string name="from_phone_number_text" formatted="false">From %s</string>
     <string name="subject_text">Subject:</string>
     <string name="delete_message_dialog_text">This will delete the message from the phone.</string>
     <string name="delete_thread_dialog_text">The entire thread will be deleted from the phone.</string>
@@ -76,6 +76,34 @@
     <string name="app_android_contacts_email_chooser_error">Error querying the contacts available email addresses.</string>
     <string name="app_android_no_number_found_error">No phone number could be found for this contact.</string>
     <string name="app_android_calendars_not_found_error">No calendars could be found on your phone.</string>
+    
+    <!-- Status Bar Notification Strings -->
+    <string name="status_bar_notification_content_title_text_sms">New Message</string>
+    <string name="status_bar_notification_content_title_text_mms">New Message</string>
+    <string name="status_bar_notification_content_title_text_phone">Missed Call</string>
+    <string name="status_bar_notification_content_title_text_calendar">Calendar Event Reminder</string>
+    <string name="status_bar_notification_content_title_text_gmail">New Email</string>
+    <string name="status_bar_notification_content_title_text_twitter">New Twitter Message</string>
+    <string name="status_bar_notification_content_title_text_facebook">New Facebook Message</string>
+    
+    <string name="status_bar_notification_content_text_sms" formatted="false">New message from %s - %s.</string>
+    <string name="status_bar_notification_content_text_mms" formatted="false">New message from %s - %s.</string>
+    <string name="status_bar_notification_content_text_phone" formatted="false">Missed call from %s.</string>
+    <string name="status_bar_notification_content_text_calendar" formatted="false">Calendar event: $s</string>
+    <string name="status_bar_notification_content_text_gmail" formatted="false">New email %s - %s.</string>
+    <string name="status_bar_notification_content_text_twitter" formatted="false">New twitter message from %s - %s.</string>
+    <string name="status_bar_notification_content_text_facebook" formatted="false">New facebook message %s - %s.</string>
+    
+    <string name="status_bar_notification_ticker_text_sms" formatted="false">New message from %s - %s.</string>
+    <string name="status_bar_notification_ticker_text_unknown_contact_sms" formatted="false">New message -  %s.</string>
+   	<string name="status_bar_notification_ticker_text_privacy_sms" formatted="false">New message from %s.</string>
+   	<string name="status_bar_notification_ticker_text_privacy_unknown_contact_sms">New message.</string>
+    <string name="status_bar_notification_ticker_text_mms" formatted="false">New message from %s - %s.</string>
+    <string name="status_bar_notification_ticker_text_unknown_contact_mms" formatted="false">New message - %s.</string>
+   	<string name="status_bar_notification_ticker_text_privacy_mms" formatted="false">New message from %s.</string>
+   	<string name="status_bar_notification_ticker_text_privacy_unknown_contact_mms">New message.</string>  
+    <string name="status_bar_notification_ticker_text_phone" formatted="false">Missed call from %s.</string>
+    <string name="status_bar_notification_ticker_text_calendar" formatted="false">Calendar event - $s</string>
     
     <!-- Button Strings -->  
     <string name="view_mms_button_text">View MMS</string>

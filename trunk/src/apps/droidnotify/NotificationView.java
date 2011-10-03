@@ -422,18 +422,15 @@ public class NotificationView extends LinearLayout {
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_GMAIL:{
-				// Notification Count Text Button
-				String notificationCountAction = _preferences.getString(Constants.GMAIL_NOTIFICATION_COUNT_ACTION_KEY, "0");
-				if(notificationCountAction.equals("0")){
-					//Do Nothing.
-				}else{
 
-				}
-		    	//Display the correct navigation buttons for each notification type.
-		    	phoneButtonLayoutVisibility = View.GONE;
-		    	smsButtonLayoutVisibility = View.GONE;
-		    	calendarButtonLayoutVisibility = View.GONE;
-		    	//TODO - Email
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_TWITTER:{
+	
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_FACEBOOK:{
+	
 				break;
 			}
 		}
@@ -610,7 +607,15 @@ public class NotificationView extends LinearLayout {
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_GMAIL:{
-				notificationText = notification.getTitle();
+				
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_TWITTER:{
+	
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_FACEBOOK:{
+	
 				break;
 			}
 		} 
@@ -659,8 +664,18 @@ public class NotificationView extends LinearLayout {
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_GMAIL:{
-		    	//iconBitmap = BitmapFactory.decodeResource(_context.getResources(), R.drawable.email);
+		    	//iconBitmap = BitmapFactory.decodeResource(_context.getResources(), R.drawable.gmail);
 		    	receivedAtText = _context.getString(R.string.email_at_text, formattedTimestamp.toLowerCase());
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_TWITTER:{
+		    	iconBitmap = BitmapFactory.decodeResource(_context.getResources(), R.drawable.twitter);
+		    	//receivedAtText = _context.getString(R.string.twitter_at_text, formattedTimestamp.toLowerCase());
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_FACEBOOK:{
+		    	//iconBitmap = BitmapFactory.decodeResource(_context.getResources(), R.drawable.facebook);
+		    	//receivedAtText = _context.getString(R.string.facebook_at_text, formattedTimestamp.toLowerCase());
 				break;
 			}
 		}   
