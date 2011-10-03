@@ -13,6 +13,7 @@ import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
+import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
 
@@ -96,7 +97,10 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 */
 	public void removeActiveNotification() {
 		if (_debug) Log.v("NotificationViewFlipper.removeActiveNotification()");
+		int notificationType = getActiveNotification().getNotificationType();
 		removeNotification(_currentNotification);
+    	//Clear the status bar notification.
+    	Common.clearNotifications(_context, this, notificationType, _totalNotifications);
 	}
 
 	/**
@@ -203,6 +207,23 @@ public class NotificationViewFlipper extends ViewFlipper {
 			}
 		}
 	}
+	
+	/**
+	 * Check if there are any notifications of a certain type.
+	 * 
+	 * @param notificationType - The notification type.
+	 * 
+	 * @return boolean - Returns true if a notification of the supplied type is found.
+	 */
+	public boolean containsNotificationType(int notificationType){
+		if (_debug) Log.v("NotificationViewFlipper.containsAnyNotificationType()");
+		for (Notification currentNotification : _notifications) {
+			if(currentNotification.getNotificationType() == notificationType){
+				return true;
+			}
+		}
+		return false;
+	}
 
 	//================================================================================
 	// Private Methods
@@ -216,6 +237,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 * @return Notification - Return the notification located at the specified index.
 	 */
 	private Notification getNotification(int notificationNumber){
+		if (_debug) Log.v("NotificationViewFlipper.getNotification()");
 		return _notifications.get(notificationNumber);
 	}
 
@@ -287,10 +309,12 @@ public class NotificationViewFlipper extends ViewFlipper {
 			}catch(Exception ex){
 				if (_debug) Log.v("NotificationViewFlipper.removeNotification() [Total Notification > 1] ERROR: " + ex.toString());
 			}
-		}else{
-			//Set notification as being viewed in the phone.
+		}else{	
 			try{
+				//Set notification as being viewed in the phone.
 				setNotificationViewed(notification);
+				// Set the total notifications to 0
+				_totalNotifications = 0;
 				//Close the ViewFlipper and finish the activity.
 				_notificationActivity.finishActivity();
 			}catch(Exception ex){

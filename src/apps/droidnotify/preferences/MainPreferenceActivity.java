@@ -174,7 +174,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	    if (_debug) Log.v("MainPreferenceActivity.onResume()");
 	    _preferences.registerOnSharedPreferenceChangeListener(this);
 	    setupImportPreferences();
-	    initPreferencesStates();
+	    initPreferencesStates();   
 	}
 	
 	/**
@@ -1486,8 +1486,8 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
  	    		if (_debug) Log.e("MainPreferenceActivity.fixPreferenceUpdatesTemp() ERROR: " + ex.toString());
 	    	}
 		}
-		
-		
 	}
+
+
 
 }

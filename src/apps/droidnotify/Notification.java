@@ -134,6 +134,14 @@ public class Notification {
 					_title = "Email";
 					break;
 				}
+				case Constants.NOTIFICATION_TYPE_TWITTER:{
+					_title = "Twitter";
+					break;
+				}
+				case Constants.NOTIFICATION_TYPE_FACEBOOK:{
+					_title = "Fascebook";
+					break;
+				}
 			}
 			_context = context;
 			_preferences = PreferenceManager.getDefaultSharedPreferences(_context);
@@ -174,6 +182,14 @@ public class Notification {
 				}
 				case Constants.NOTIFICATION_TYPE_GMAIL:{
 					_title = "Email";
+					break;
+				}
+				case Constants.NOTIFICATION_TYPE_TWITTER:{
+					_title = "Twitter";
+					break;
+				}
+				case Constants.NOTIFICATION_TYPE_FACEBOOK:{
+					_title = "Fascebook";
 					break;
 				}
 			}

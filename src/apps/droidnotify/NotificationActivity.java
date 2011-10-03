@@ -743,8 +743,6 @@ public class NotificationActivity extends Activity {
 	    _keyguardHandler.sleep(keyguardTimeout);  
 	    //Set "In Reply Screen" flag.
 	    setInReplyScreenFlag();
-	    //Display Status Bar Notification
-	    Common.setStatusBarNotification(_context, notificationType, false);
 	}
 	  
 	/**
@@ -916,8 +914,6 @@ public class NotificationActivity extends Activity {
 	    disableKeyguardLock(_context);
 	    long keyguardTimeout = Long.parseLong(preferences.getString(Constants.KEYGUARD_TIMEOUT_KEY, "300")) * 1000;
 	    _keyguardHandler.sleep(keyguardTimeout);
-	    //Display Status Bar Notification
-	    Common.setStatusBarNotification(_context, notificationType, false);
 	}
 	
 	//================================================================================
@@ -939,8 +935,7 @@ public class NotificationActivity extends Activity {
 	 */
 	private void deleteMessage(){
 		if (_debug) Log.v("NotificationActivity.deleteMessage()");
-		NotificationViewFlipper notificationViewFlipper = _notificationViewFlipper;
-		notificationViewFlipper.deleteMessage();
+		_notificationViewFlipper.deleteMessage();
 	}
 	
 	/**
@@ -1290,8 +1285,8 @@ public class NotificationActivity extends Activity {
 	private void setupSMSMessages(Bundle bundle, boolean loadAllNew) {
 		if (_debug) Log.v("NotificationActivity.setupSMSMessages()"); 
 		ArrayList<String> smsArray = bundle.getStringArrayList("smsArrayList");
-		//String currentMessageBody = null;
-		//String currentMessageID = "0";
+		String currentMessageBody = null;
+		String currentMessageID = "0";
 		for(String smsArrayItem : smsArray){
 			String[] smsInfo = smsArrayItem.split("\\|");
 			String messageAddress = null;
@@ -1327,19 +1322,24 @@ public class NotificationActivity extends Activity {
 					}else{
 						lookupKey = smsInfo[8];
 					}
-					//currentMessageBody = messageBody;
-					//currentMessageID = String.valueOf(messageID);
+					currentMessageBody = messageBody;
+					currentMessageID = String.valueOf(messageID);
 				}
 			}catch(Exception ex){
 				if (_debug) Log.e("NotificationActivity.setupSMSMessages() ERROR: " + ex.toString());
 			}
     		_notificationViewFlipper.addNotification(new Notification(_context, messageAddress, messageBody, messageID, threadID, timeStamp, contactID, contactName, photoID, lookupKey, Constants.NOTIFICATION_TYPE_SMS));
+		    //Display Status Bar Notification
+		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_SMS, true, contactName, messageAddress, messageBody, null, null, null);
 		}
 		if(loadAllNew){
 			//Load all unread SMS messages.
 			if(_preferences.getBoolean(Constants.SMS_DISPLAY_UNREAD_KEY, false)){
-				//new getAllUnreadSMSMessagesAsyncTask().execute(currentMessageID, currentMessageBody);
-				new getAllUnreadSMSMessagesAsyncTask().execute();
+				if(_preferences.getString(Constants.SMS_LOADING_SETTING_KEY, "0").equals(Constants.SMS_READ_FROM_INTENT)){
+					new getAllUnreadSMSMessagesAsyncTask().execute(currentMessageID, currentMessageBody);
+				}else{
+					new getAllUnreadSMSMessagesAsyncTask().execute();
+				}
 		    }
 		}
 	}
@@ -1394,6 +1394,8 @@ public class NotificationActivity extends Activity {
 				if (_debug) Log.e("NotificationActivity.setupMMSMessages() ERROR: " + ex.toString());
 			}
     		_notificationViewFlipper.addNotification(new Notification(_context, messageAddress, messageBody, messageID, threadID, timeStamp, contactID, contactName, photoID, lookupKey, Constants.NOTIFICATION_TYPE_MMS));
+		    //Display Status Bar Notification
+		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_MMS, true, contactName, messageAddress, messageBody, null, null, null);
 		}
 		if(loadAllNew){
 			//Load all unread MMS messages.
@@ -1417,8 +1419,11 @@ public class NotificationActivity extends Activity {
 	     */
 	    protected ArrayList<String> doInBackground(String... params) {
 			if (_debug) Log.v("NotificationActivity.getAllUnreadSMSMessagesAsyncTask.doInBackground()");
-			//return getAllUnreadSMSMessages(Long.parseLong(params[0]), params[1]);
-			return getAllUnreadSMSMessages();
+			if(_preferences.getString(Constants.SMS_LOADING_SETTING_KEY, "0").equals(Constants.SMS_READ_FROM_INTENT)){
+				return getAllUnreadSMSMessages(Long.parseLong(params[0]), params[1]);
+			}else{
+				return getAllUnreadSMSMessages(0, null);
+			}
 	    }
 	    
 	    /**
@@ -1478,7 +1483,7 @@ public class NotificationActivity extends Activity {
 	 * @param messageIDFilter - Long value of the currently incoming SMS message.
 	 * @param messagebodyFilter - String value of the currently incoming SMS message.
 	 */
-	private ArrayList<String> getAllUnreadSMSMessages(){
+	private ArrayList<String> getAllUnreadSMSMessages(long messageIDFilter, String messageBodyFilter){
 		if (_debug) Log.v("NotificationActivity.getAllUnreadSMSMessages()" );
 		Context context = getApplicationContext();
 		ArrayList<String> smsArray = new ArrayList<String>();
@@ -1496,29 +1501,46 @@ public class NotificationActivity extends Activity {
 					selectionArgs,
 					sortOrder);
 		    while (cursor.moveToNext()) { 
-	    		//Do not grab the first unread MMS message.
-	    		if(!isFirst){
-			    	long messageID = cursor.getLong(cursor.getColumnIndex("_id"));
-			    	long threadID = cursor.getLong(cursor.getColumnIndex("thread_id"));
-			    	String messageBody = cursor.getString(cursor.getColumnIndex("body"));
-			    	String sentFromAddress = cursor.getString(cursor.getColumnIndex("address"));
-		            if(sentFromAddress.contains("@")){
-		            	sentFromAddress = Common.removeEmailFormatting(sentFromAddress);
-		            }
-			    	long timeStamp = cursor.getLong(cursor.getColumnIndex("date"));
-		    		String[] smsContactInfo = null;
-		    		if(sentFromAddress.contains("@")){
-			    		smsContactInfo = Common.getContactsInfoByEmail(context, sentFromAddress);
-			    	}else{
-			    		smsContactInfo = Common.getContactsInfoByPhoneNumber(context, sentFromAddress);
-			    	}
-		    		if(smsContactInfo == null){
-						smsArray.add(sentFromAddress + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + threadID + "|" + timeStamp);
-					}else{
-						smsArray.add(sentFromAddress + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + threadID + "|" + timeStamp + "|" + smsContactInfo[0] + "|" + smsContactInfo[1] + "|" + smsContactInfo[2] + "|" + smsContactInfo[3]);
-					}
-	    		}
-				isFirst = false;
+		    	long messageID = cursor.getLong(cursor.getColumnIndex("_id"));
+		    	long threadID = cursor.getLong(cursor.getColumnIndex("thread_id"));
+		    	String messageBody = cursor.getString(cursor.getColumnIndex("body"));
+		    	String sentFromAddress = cursor.getString(cursor.getColumnIndex("address"));
+		    	if(sentFromAddress.contains("@")){
+	            	sentFromAddress = Common.removeEmailFormatting(sentFromAddress);
+	            }
+		    	long timeStamp = cursor.getLong(cursor.getColumnIndex("date"));
+		    	if(messageIDFilter == 0 && messageBodyFilter == null){
+		    		//Do not grab the first unread SMS message.
+		    		if(!isFirst){
+			    		String[] smsContactInfo = null;
+			    		if(sentFromAddress.contains("@")){
+				    		smsContactInfo = Common.getContactsInfoByEmail(context, sentFromAddress);
+				    	}else{
+				    		smsContactInfo = Common.getContactsInfoByPhoneNumber(context, sentFromAddress);
+				    	}
+			    		if(smsContactInfo == null){
+							smsArray.add(sentFromAddress + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + threadID + "|" + timeStamp);
+						}else{
+							smsArray.add(sentFromAddress + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + threadID + "|" + timeStamp + "|" + smsContactInfo[0] + "|" + smsContactInfo[1] + "|" + smsContactInfo[2] + "|" + smsContactInfo[3]);
+						}
+		    		}
+					isFirst = false;
+		    	}else{
+                    //Don't load the message that corresponds to the messageIDFilter or messageBodyFilter.
+                    if(messageID != messageIDFilter && !messageBody.replace("\n", "<br/>").trim().equals(messageBodyFilter.replace("\n", "<br/>").trim())){
+                        String[] smsContactInfo = null;
+                        if(sentFromAddress.contains("@")){
+                                smsContactInfo = Common.getContactsInfoByEmail(context, sentFromAddress);
+                        }else{
+                                smsContactInfo = Common.getContactsInfoByPhoneNumber(context, sentFromAddress);
+                        }
+                        if(smsContactInfo == null){
+                                smsArray.add(sentFromAddress + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + threadID + "|" + timeStamp);
+                        }else{
+                                smsArray.add(sentFromAddress + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + threadID + "|" + timeStamp + "|" + smsContactInfo[0] + "|" + smsContactInfo[1] + "|" + smsContactInfo[2] + "|" + smsContactInfo[3]);
+                        }
+                    }
+		    	}
 		    }
 		}catch(Exception ex){
 			if (_debug) Log.e("NotificationActivity.getAllUnreadSMSMessages() ERROR: " + ex.toString());
@@ -1696,7 +1718,9 @@ public class NotificationActivity extends Activity {
 			}catch(Exception ex){
 				if (_debug) Log.e("NotificationActivity.setupMissedCalls() ERROR: " + ex.toString());
 			}
-			_notificationViewFlipper.addNotification(new Notification(_context, callLogID, phoneNumber, timeStamp, contactID, contactName, photoID, lookupKey, Constants.NOTIFICATION_TYPE_PHONE));
+			_notificationViewFlipper.addNotification(new Notification(_context, callLogID, phoneNumber, timeStamp, contactID, contactName, photoID, lookupKey, Constants.NOTIFICATION_TYPE_PHONE));		    
+			//Display Status Bar Notification
+		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_PHONE, true, contactName, phoneNumber, null, null, null, null);
 		}
 	    return true;
 	}
@@ -1735,7 +1759,9 @@ public class NotificationActivity extends Activity {
 			if (_debug) Log.e("NotificationActivity.setupCalendarEventNotifications() Error: " + ex.toString());  
 			return;
 		}
-		_notificationViewFlipper.addNotification(new Notification(_context, title, messageBody, eventStartTime, eventEndTime, eventAllDay, calendarName, calendarID, eventID, Constants.NOTIFICATION_TYPE_CALENDAR));	
+		_notificationViewFlipper.addNotification(new Notification(_context, title, messageBody, eventStartTime, eventEndTime, eventAllDay, calendarName, calendarID, eventID, Constants.NOTIFICATION_TYPE_CALENDAR));
+		//Display Status Bar Notification
+	    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_PHONE, true, null, null, messageBody, String.valueOf(calendarID), String.valueOf(eventStartTime), String.valueOf(eventEndTime));
 	}
 	
 	/**
