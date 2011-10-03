@@ -182,7 +182,7 @@
 									android:entries="@array/notification_icon_options_sms"
 									android:entryValues="@array/notification_icon_values_sms"
 									droidnotify:entryImages="@array/notification_icon_images_sms"
-									android:defaultValue="status_bar_notification_sms_green_preference" />
+									android:defaultValue="status_bar_notification_sms_green" />
 							</PreferenceCategory>	
 					  		<PreferenceCategory
 								android:key="sms_notification_sound_settings_category"
@@ -441,7 +441,7 @@
 									android:entries="@array/notification_icon_options_mms"
 									android:entryValues="@array/notification_icon_values_mms"
 									droidnotify:entryImages="@array/notification_icon_images_mms"
-									android:defaultValue="status_bar_notification_sms_green_preference" />
+									android:defaultValue="status_bar_notification_sms_green" />
 							</PreferenceCategory>	
 					  		<PreferenceCategory
 								android:key="mms_notification_sound_settings_category"
@@ -700,7 +700,7 @@
 									android:entries="@array/notification_icon_options_phone"
 									android:entryValues="@array/notification_icon_values_phone"
 									droidnotify:entryImages="@array/notification_icon_images_phone"
-									android:defaultValue="status_bar_notification_missed_call_black_preference" />
+									android:defaultValue="status_bar_notification_missed_call_black" />
 							</PreferenceCategory>	
 					  		<PreferenceCategory
 								android:key="missed_call_notification_sound_settings_category"
@@ -931,7 +931,7 @@
 									android:entries="@array/notification_icon_options_calendar"
 									android:entryValues="@array/notification_icon_values_calendar"
 									droidnotify:entryImages="@array/notification_icon_images_calendar"
-									android:defaultValue="status_bar_notification_calendar_blue_preference" />
+									android:defaultValue="status_bar_notification_calendar_blue" />
 							</PreferenceCategory>
 					  		<PreferenceCategory
 								android:key="calendar_notification_sound_settings_category"

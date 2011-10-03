@@ -292,6 +292,7 @@ public class Constants {
 	public static final String SMS_STATUS_BAR_NOTIFICATIONS_IN_CALL_VIBRATE_ENABLED_KEY = "sms_notification_in_call_vibrate_enabled";
 	
 	public static final String SMS_STATUS_BAR_NOTIFICATIONS_ICON_SETTING_KEY = "notification_icon_sms";
+	public static final String SMS_STATUS_BAR_NOTIFICATIONS_ICON_DEFAULT = "status_bar_notification_sms_green";
 	
 	//-----MMS STATUS BAR NOTIFICATION CONSTANTS-----//
 	public static final String MMS_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY = "mms_status_bar_notifications_enabled";
@@ -315,6 +316,7 @@ public class Constants {
 	public static final String MMS_STATUS_BAR_NOTIFICATIONS_IN_CALL_VIBRATE_ENABLED_KEY = "mms_notification_in_call_vibrate_enabled";
 	
 	public static final String MMS_STATUS_BAR_NOTIFICATIONS_ICON_SETTING_KEY = "notification_icon_mms";
+	public static final String MMS_STATUS_BAR_NOTIFICATIONS_ICON_DEFAULT = "status_bar_notification_sms_green";
 	
 	//-----PHONE STATUS BAR NOTIFICATION CONSTANTS-----//
 	public static final String PHONE_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY = "missed_call_status_bar_notifications_enabled";
@@ -338,6 +340,7 @@ public class Constants {
 	public static final String PHONE_STATUS_BAR_NOTIFICATIONS_IN_CALL_VIBRATE_ENABLED_KEY = "missed_call_notification_in_call_vibrate_enabled";
 	
 	public static final String PHONE_STATUS_BAR_NOTIFICATIONS_ICON_SETTING_KEY = "notification_icon_missed_call";
+	public static final String PHONE_STATUS_BAR_NOTIFICATIONS_ICON_DEFAULT = "status_bar_notification_missed_call_black";
 	
 	//-----CALENDAR STATUS BAR NOTIFICATION CONSTANTS-----//
 	public static final String CALENDAR_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY = "calendar_status_bar_notifications_enabled";
@@ -361,6 +364,7 @@ public class Constants {
 	public static final String CALENDAR_STATUS_BAR_NOTIFICATIONS_IN_CALL_VIBRATE_ENABLED_KEY = "calendar_notification_in_call_vibrate_enabled";	
 	
 	public static final String CALENDAR_STATUS_BAR_NOTIFICATIONS_ICON_SETTING_KEY = "notification_icon_calendar";
+	public static final String CALENDAR_STATUS_BAR_NOTIFICATIONS_ICON_DEFAULT = "status_bar_notification_calendar_blue";
 	
 	//-----GMAIL STATUS BAR NOTIFICATION CONSTANTS-----//
 	public static final String GMAIL_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY = "gmail_status_bar_notifications_enabled";

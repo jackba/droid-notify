@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.TimeZone;
 
 import android.app.ActivityManager;
-import android.app.KeyguardManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -38,9 +37,6 @@ import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.widget.Toast;
-import apps.babycaretimer.AlarmNotificationContentIntentService;
-import apps.babycaretimer.AlarmNotificationDeleteIntentService;
-import apps.babycaretimer.common.Constants;
 import apps.droidnotify.NotificationActivity;
 import apps.droidnotify.R;
 import apps.droidnotify.log.Log;
@@ -1058,15 +1054,28 @@ public class Common {
 		String VIBRATE_PATTERN_DEFAULT = Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_DEFAULT;
 		String VIBRATE_PATTERN_CUSTOM_VALUE_KEY = null;
 		String VIBRATE_PATTERN_CUSTOM_KEY = null;
-		
-		
-		
-		
-		
+		String LED_ENABLED_KEY  = null;
+		String LED_COLOR_DEFAULT = Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT;
+		String LED_COLOR_KEY = null;
+		String LED_COLOR_CUSTOM_VALUE_KEY = null;
+		String LED_COLOR_CUSTOM_KEY = null;
+		String LED_PATTERN_KEY = null;
+		String LED_PATTERN_DEFAULT = Constants.STATUS_BAR_NOTIFICATIONS_LED_PATTERN_DEFAULT;
+		String LED_PATTERN_CUSTOM_VALUE_KEY = null;
+		String LED_PATTERN_CUSTOM_KEY = null;
+		String ICON_ID = null;
+		String ICON_DEFAULT = null;
+		int icon = 0;
+		CharSequence tickerText = null;
+		CharSequence contentTitle = null;
+		CharSequence contentText = null;
+		Intent notificationContentIntent = null;
+		PendingIntent contentIntent = null;
+		Intent notificationDeleteIntent = null;
+		PendingIntent deleteIntent = null;
 		//Load values into the preference keys based on the notification type.
 		switch(notificationType){
 			case Constants.NOTIFICATION_TYPE_SMS:{
-
 				ENABLED_KEY = Constants.SMS_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY;
 				SOUND_SETTING_KEY = Constants.SMS_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY;
 				IN_CALL_SOUND_ENABLED_KEY = Constants.SMS_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY;
@@ -1075,12 +1084,24 @@ public class Common {
 				VIBRATE_PATTERN_KEY = Constants.SMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_KEY;
 				VIBRATE_PATTERN_CUSTOM_VALUE_KEY = Constants.SMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_VALUE_KEY;
 				VIBRATE_PATTERN_CUSTOM_KEY = Constants.SMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_KEY;
+				LED_ENABLED_KEY = Constants.SMS_STATUS_BAR_NOTIFICATIONS_LED_ENABLED_KEY;
+				LED_COLOR_KEY = Constants.SMS_STATUS_BAR_NOTIFICATIONS_LED_COLOR_KEY;
+				LED_COLOR_CUSTOM_VALUE_KEY = Constants.SMS_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_VALUE_KEY;
+				LED_COLOR_CUSTOM_KEY = Constants.SMS_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_KEY;
+				LED_PATTERN_KEY = Constants.SMS_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_KEY;
+				LED_PATTERN_CUSTOM_VALUE_KEY = Constants.SMS_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_VALUE_KEY;
+				LED_PATTERN_CUSTOM_KEY = Constants.SMS_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_KEY;
+				ICON_ID = Constants.SMS_STATUS_BAR_NOTIFICATIONS_ICON_SETTING_KEY;
+				ICON_DEFAULT = Constants.SMS_STATUS_BAR_NOTIFICATIONS_ICON_DEFAULT;
 				
-				
-				
-				
-				
-				
+				//contentTitle = context.getText(R.string.notifications_content_title);  
+				//contentText = context.getText(R.string.notifications_content_text);
+				//tickerText = context.getText(R.string.notifications_diaper_ticker_text);
+				//Content Intent
+				//notificationContentIntent = new Intent(context, AlarmNotificationContentIntentService.class);
+				//Delete Intent
+				//notificationDeleteIntent = new Intent(context, AlarmNotificationDeleteIntentService.class);
+				//contentText = context.getText(R.string.notifications_content_lockscreen_text);
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_MMS:{
@@ -1145,18 +1166,17 @@ public class Common {
 			if(vibratePattern.equals(VIBRATE_PATTERN_CUSTOM_VALUE_KEY)){
 				vibratePattern = preferences.getString(VIBRATE_PATTERN_CUSTOM_KEY, VIBRATE_PATTERN_DEFAULT);
 			}
-		}
-		
+		}		
 		//LED preferences
-		boolean ledEnabled = preferences.getBoolean(Constants.ALARM_NOTIFICATION_LED_ENABLED_KEY, true);
+		boolean ledEnabled = preferences.getBoolean(LED_ENABLED_KEY, true);
 		String ledPattern = null;
-		int ledColor = Color.parseColor(Constants.ALARM_NOTIFICATION_LED_COLOR_DEFAULT);
+		int ledColor = Color.parseColor(LED_COLOR_DEFAULT);
 		String ledColorString = null;
 		if(ledEnabled){
 			//LED Color
-			ledColorString = preferences.getString(Constants.ALARM_NOTIFICATION_LED_COLOR_KEY, Constants.ALARM_NOTIFICATION_LED_COLOR_DEFAULT);
-			if(ledColorString.equals(Constants.ALARM_NOTIFICATION_LED_COLOR_CUSTOM_VALUE_KEY)){
-				ledColorString = preferences.getString(Constants.ALARM_NOTIFICATION_LED_COLOR_CUSTOM_KEY, Constants.ALARM_NOTIFICATION_LED_COLOR_DEFAULT);
+			ledColorString = preferences.getString(LED_COLOR_KEY, LED_COLOR_DEFAULT);
+			if(ledColorString.equals(LED_COLOR_CUSTOM_VALUE_KEY)){
+				ledColorString = preferences.getString(LED_COLOR_CUSTOM_KEY, LED_COLOR_DEFAULT);
 			}
 			try{
 				ledColor = Color.parseColor(ledColorString);
@@ -1164,61 +1184,11 @@ public class Common {
 				//Do Nothing
 			}
 			//LED Pattern
-			ledPattern = preferences.getString(Constants.ALARM_NOTIFICATION_LED_PATTERN_KEY, Constants.ALARM_NOTIFICATION_LED_PATTERN_DEFAULT);
-			if(ledPattern.equals(Constants.ALARM_NOTIFICATION_LED_PATTERN_CUSTOM_VALUE_KEY)){
-				ledPattern = preferences.getString(Constants.ALARM_NOTIFICATION_LED_PATTERN_CUSTOM_KEY, Constants.ALARM_NOTIFICATION_LED_PATTERN_DEFAULT);
+			ledPattern = preferences.getString(LED_PATTERN_KEY, LED_PATTERN_DEFAULT);
+			if(ledPattern.equals(LED_PATTERN_CUSTOM_VALUE_KEY)){
+				ledPattern = preferences.getString(LED_PATTERN_CUSTOM_KEY, LED_PATTERN_DEFAULT);
 			}
 		}
-		
-		
-
-		
-
-		
-		
-		
-		
-		
-		
-		int alarmType = bundle.getInt(Constants.ALARM_TYPE);
-		int icon = 0;
-		int currentAPIVersion = android.os.Build.VERSION.SDK_INT;
-		if(currentAPIVersion >= 8){
-			icon = R.drawable.stat_notify_alarm_froyo;
-		}else{
-			icon = R.drawable.stat_notify_alarm_gingerbread;
-		}
-		CharSequence tickerText = null;
-		CharSequence contentTitle = context.getText(R.string.notifications_content_title);  
-		CharSequence contentText = context.getText(R.string.notifications_content_text);
-		switch(alarmType){
-			case Constants.TYPE_DIAPER:{	
-				tickerText = context.getText(R.string.notifications_diaper_ticker_text);
-				break;
-			}
-			case Constants.TYPE_BOTTLE:{
-				tickerText = context.getText(R.string.notifications_bottle_ticker_text);
-				break;
-			}
-			case Constants.TYPE_SLEEP:{
-				tickerText = context.getText(R.string.notifications_sleep_ticker_text);
-				break;
-			}
-			case Constants.TYPE_CUSTOM:{
-				tickerText = context.getText(R.string.notifications_custom_ticker_text);
-				break;
-			}
-		}
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		//Setup the notification
 		Notification notification = new Notification(icon, tickerText, System.currentTimeMillis());
 		//Set notification flags
@@ -1240,7 +1210,7 @@ public class Common {
 					vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
 					vibrator.vibrate(vibrationPattern, 0);
 				}catch(Exception ex){
-					if (_debug) Log.e("AlarmReceiverService.createNotification() Notification Vibrator ERROR: " + ex.toString());
+					if (_debug) Log.e("Common.setStatusBarNotification() Notification Vibrator ERROR: " + ex.toString());
 				}
 			}
 		}
@@ -1250,7 +1220,7 @@ public class Common {
 			try{
 				notification.sound = Uri.parse(notificationSound);
 			}catch(Exception ex){
-				if (_debug) Log.e("AlarmReceiverService.createNotification() Notification Sound Set ERROR: " + ex.toString());
+				if (_debug) Log.e("Common.setStatusBarNotification() Notification Sound Set ERROR: " + ex.toString());
 				notification.defaults |= Notification.DEFAULT_SOUND;
 			}
 		}else if(soundEnabled && !callStateIdle && soundInCallEnabled && inNormalMode){
@@ -1259,7 +1229,7 @@ public class Common {
 				mediaPlayer.setLooping(true);
 				mediaPlayer.start();
 			}catch(Exception ex){
-				if (_debug) Log.e("AlarmReceiverService.createNotification() Notification Sound Play ERROR: " + ex.toString());
+				if (_debug) Log.e("Common.setStatusBarNotification() Notification Sound Play ERROR: " + ex.toString());
 			}
 		}
 		//Setup the notification LED lights
@@ -1280,54 +1250,141 @@ public class Common {
 				notification.defaults |= Notification.DEFAULT_LIGHTS;
 			}
 		}
-		//Set notification information
-		//Content Intent
-		Intent notificationContentIntent = new Intent(context, AlarmNotificationContentIntentService.class);
-		PendingIntent contentIntent = PendingIntent.getService(context, 0, notificationContentIntent, 0);
-		//Delete Intent
-		Intent notificationDeleteIntent = new Intent(context, AlarmNotificationDeleteIntentService.class);
-		PendingIntent deleteIntent = PendingIntent.getService(context, 0, notificationDeleteIntent, 0);
-		//Special case when phone is in keyguard mode
-		KeyguardManager keyguardManager = (KeyguardManager)getSystemService(Context.KEYGUARD_SERVICE);
-		boolean screenEnabled = preferences.getBoolean(Constants.SCREEN_ENABLED_KEY, true);
-		if(keyguardManager.inKeyguardRestrictedInputMode() && screenEnabled){
-			contentIntent = deleteIntent;
-			contentText = context.getText(R.string.notifications_content_lockscreen_text);
-	    }
-		
-		
+		//Set Notification Icon
 		switch(notificationType){
 			case Constants.NOTIFICATION_TYPE_SMS:{
-				
+				if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_sms_blue")){
+					icon = R.drawable.status_bar_notification_sms_blue;
+				}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_sms_green")){
+					icon = R.drawable.status_bar_notification_sms_green;
+				}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_sms_grey")){
+					icon = R.drawable.status_bar_notification_sms_grey;
+				}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_sms_orange")){
+					icon = R.drawable.status_bar_notification_sms_orange;
+				}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_sms_pink")){
+					icon = R.drawable.status_bar_notification_sms_pink;
+				}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_sms_purple")){
+					icon = R.drawable.status_bar_notification_sms_purple;
+				}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_sms_red")){
+					icon = R.drawable.status_bar_notification_sms_red;
+				}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_sms_postcard_aqua")){
+					icon = R.drawable.status_bar_notification_sms_postcard_aqua;
+				}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_sms_postcard_blue")){
+					icon = R.drawable.status_bar_notification_sms_postcard_blue;
+				}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_sms_postcard_green")){
+					icon = R.drawable.status_bar_notification_sms_postcard_green;
+				}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_sms_postcard_grey")){
+					icon = R.drawable.status_bar_notification_sms_postcard_grey;
+				}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_sms_postcard_orange")){
+					icon = R.drawable.status_bar_notification_sms_postcard_orange;
+				}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_sms_postcard_pink")){
+					icon = R.drawable.status_bar_notification_sms_postcard_pink;
+				}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_sms_postcard_purple")){
+					icon = R.drawable.status_bar_notification_sms_postcard_purple;
+				}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_sms_postcard_red")){
+					icon = R.drawable.status_bar_notification_sms_postcard_red;
+				}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_sms_postcard_white")){
+					icon = R.drawable.status_bar_notification_sms_postcard_white;
+				}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_sms_postcard_yellow")){
+					icon = R.drawable.status_bar_notification_sms_postcard_yellow;
+				}else{
+					//Default Value
+					icon = R.drawable.status_bar_notification_sms_green;
+				}
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_MMS:{
-
+				if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_sms_blue")){
+					icon = R.drawable.status_bar_notification_sms_blue;
+				}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_sms_green")){
+					icon = R.drawable.status_bar_notification_sms_green;
+				}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_sms_grey")){
+					icon = R.drawable.status_bar_notification_sms_grey;
+				}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_sms_orange")){
+					icon = R.drawable.status_bar_notification_sms_orange;
+				}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_sms_pink")){
+					icon = R.drawable.status_bar_notification_sms_pink;
+				}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_sms_purple")){
+					icon = R.drawable.status_bar_notification_sms_purple;
+				}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_sms_red")){
+					icon = R.drawable.status_bar_notification_sms_red;
+				}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_sms_postcard_aqua")){
+					icon = R.drawable.status_bar_notification_sms_postcard_aqua;
+				}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_sms_postcard_blue")){
+					icon = R.drawable.status_bar_notification_sms_postcard_blue;
+				}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_sms_postcard_green")){
+					icon = R.drawable.status_bar_notification_sms_postcard_green;
+				}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_sms_postcard_grey")){
+					icon = R.drawable.status_bar_notification_sms_postcard_grey;
+				}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_sms_postcard_orange")){
+					icon = R.drawable.status_bar_notification_sms_postcard_orange;
+				}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_sms_postcard_pink")){
+					icon = R.drawable.status_bar_notification_sms_postcard_pink;
+				}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_sms_postcard_purple")){
+					icon = R.drawable.status_bar_notification_sms_postcard_purple;
+				}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_sms_postcard_red")){
+					icon = R.drawable.status_bar_notification_sms_postcard_red;
+				}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_sms_postcard_white")){
+					icon = R.drawable.status_bar_notification_sms_postcard_white;
+				}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_sms_postcard_yellow")){
+					icon = R.drawable.status_bar_notification_sms_postcard_yellow;
+				}else{
+					//Default Value
+					icon = R.drawable.status_bar_notification_sms_green;
+				}
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_PHONE:{
-				//Remove the stock status bar notification.
-				cancelStockMissedCallNotification();
-				
+				if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_missed_call_black")){
+					icon = R.drawable.status_bar_notification_missed_call_black;
+				}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_missed_call_grey")){
+					icon = R.drawable.status_bar_notification_missed_call_grey;
+				}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_missed_call_red")){
+					icon = R.drawable.status_bar_notification_missed_call_red;
+				}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_missed_call_white")){
+					icon = R.drawable.status_bar_notification_missed_call_white;
+				}else {
+					//Default Value
+					icon = R.drawable.status_bar_notification_missed_call_black;
+				}
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_CALENDAR:{
-
+				if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_calendar_black")){
+					icon = R.drawable.status_bar_notification_calendar_black;
+				}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_calendar_blue")){
+					icon = R.drawable.status_bar_notification_calendar_blue;
+				}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_calendar_green")){
+					icon = R.drawable.status_bar_notification_calendar_green;
+				}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_calendar_grey")){
+					icon = R.drawable.status_bar_notification_calendar_grey;
+				}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_calendar_orange")){
+					icon = R.drawable.status_bar_notification_calendar_orange;
+				}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_calendar_red")){
+					icon = R.drawable.status_bar_notification_calendar_red;
+				}else{
+					//Default Value
+					icon = R.drawable.status_bar_notification_calendar_blue;
+				}
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_GMAIL:{
-
+	
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_TWITTER:{
-
+	
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_FACEBOOK:{
-
+	
 				break;
 			}
 		}
+		//Content Intent
+		contentIntent = PendingIntent.getService(context, 0, notificationContentIntent, 0);
+		//Delete Intent
+		deleteIntent = PendingIntent.getService(context, 0, notificationDeleteIntent, 0);
 		//Set notification intent values
 		notification.deleteIntent = deleteIntent;
 		notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
@@ -1530,7 +1587,7 @@ public class Common {
 	 * @return boolean - Returns True if the vibrate pattern is valid.
 	 */
 	private static long[] parseVibratePattern(String vibratePattern){
-		if (_debug) Log.v("AlarmReceiverService.parseVibratePattern()");
+		if (_debug) Log.v("Common.parseVibratePattern()");
 	    final int VIBRATE_PATTERN_MAX_LENGTH = 60000;
 	    final int VIBRATE_PATTERN_MAX_SIZE = 100;
 		ArrayList<Long> vibratePatternArrayList = new ArrayList<Long>();
@@ -1542,7 +1599,7 @@ public class Common {
 	    	try {
 	    		vibrateLength = Long.parseLong(vibratePatternStringArray[i].trim());
 	    	} catch (Exception ex) {
-	    		if (_debug) Log.e("AlarmReceiverService.parseVibratePattern() ERROR: " + ex.toString());
+	    		if (_debug) Log.e("Common.parseVibratePattern() ERROR: " + ex.toString());
 	    		return null;
 	    	}
 	    	if(vibrateLength < 0){
@@ -1572,7 +1629,7 @@ public class Common {
 	 * @return boolean - Returns True if the blink pattern is valid.
 	 */
 	private static int[] parseLEDPattern(String ledPattern){
-		if (_debug) Log.v("AlarmReceiverService.parseLEDPattern()");
+		if (_debug) Log.v("Common.parseLEDPattern()");
 	    final int LED_PATTERN_MAX_LENGTH = 60000;
 		int[] ledPatternArray = {0, 0};
 		String[] ledPatternStringArray = ledPattern.split(",");
@@ -1584,7 +1641,7 @@ public class Common {
 	    	try {
 	    		blinkLength = Integer.parseInt(ledPatternStringArray[i].trim());
 	    	} catch (Exception ex) {
-	    		if (_debug) Log.e("AlarmReceiverService.parseLEDPattern() ERROR: " + ex.toString());
+	    		if (_debug) Log.e("Common.parseLEDPattern() ERROR: " + ex.toString());
 	    		return null;
 	    	}
 	    	if(blinkLength < 0){
