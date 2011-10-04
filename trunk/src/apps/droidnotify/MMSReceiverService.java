@@ -4,8 +4,6 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
@@ -50,9 +48,9 @@ public class MMSReceiverService extends WakefulIntentService {
 	protected void doWakefulWork(Intent intent) {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("MMSReceiverService.doWakefulWork()");
-		ArrayList<String> mmsArray = getMMSMessages();
+		Context context = getApplicationContext();
+		ArrayList<String> mmsArray = Common.getMMSMessagesFromDisk(context);
 		if(mmsArray.size() > 0){
-			Context context = getApplicationContext();
 			Bundle bundle = new Bundle();
 			bundle.putInt("notificationType", Constants.NOTIFICATION_TYPE_MMS);
 			bundle.putStringArrayList("mmsArrayList",mmsArray);
@@ -63,61 +61,6 @@ public class MMSReceiverService extends WakefulIntentService {
 		}else{
 			if (_debug) Log.v("MMSReceiverService.doWakefulWork() No new MMSs were found. Exiting...");
 		}
-	}
-	
-	//================================================================================
-	// Private Methods
-	//================================================================================
-	
-	/**
-	 * Function to query the mms inbox and check for any new messages.
-	 * 
-	 * @return ArrayList<String> - Returns an ArrayList of Strings that contain the mms information.
-	 */
-	private ArrayList<String> getMMSMessages(){
-		if (_debug) Log.v("MMSReceiverService.getMMSMessages()");
-		Context context = getApplicationContext();
-		ArrayList<String> mmsArray = new ArrayList<String>();
-		final String[] projection = new String[] {"_id", "thread_id", "date"};
-		final String selection = "read = 0";
-		final String[] selectionArgs = null;
-		final String sortOrder = "date DESC";
-		Cursor cursor = null;
-        try{
-		    cursor = context.getContentResolver().query(
-		    		Uri.parse("content://mms/inbox"),
-		    		projection,
-		    		selection,
-					selectionArgs,
-					sortOrder);
-	    	while (cursor.moveToNext()) {		    	
-	    		String messageID = cursor.getString(cursor.getColumnIndex("_id"));
-	    		String threadID = cursor.getString(cursor.getColumnIndex("thread_id"));
-		    	String timeStamp = cursor.getString(cursor.getColumnIndex("date"));
-		    	String sentFromAddress = Common.getMMSAddress(context, messageID);
-		    	if(sentFromAddress.contains("@")){
-	            	sentFromAddress = Common.removeEmailFormatting(sentFromAddress);
-	            }
-		    	String messageBody = Common.getMMSText(context, messageID);
-		    	String[] mmsContactInfo = null;
-		    	if(sentFromAddress.contains("@")){
-		    		mmsContactInfo = Common.getContactsInfoByEmail(context, sentFromAddress);
-		    	}else{
-		    		mmsContactInfo = Common.getContactsInfoByPhoneNumber(context, sentFromAddress);
-		    	}
-				if(mmsContactInfo == null){
-					mmsArray.add(sentFromAddress + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + threadID + "|" + timeStamp);
-				}else{
-					mmsArray.add(sentFromAddress + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + threadID + "|" + timeStamp + "|" + mmsContactInfo[0] + "|" + mmsContactInfo[1] + "|" + mmsContactInfo[2] + "|" + mmsContactInfo[3]);
-				}
-		    	break;
-	    	}
-		}catch(Exception ex){
-			if (_debug) Log.e("MMSReceiverService.getMMSMessages() ERROR: " + ex.toString());
-		} finally {
-    		cursor.close();
-    	}
-		return mmsArray;	
 	}
 	
 }

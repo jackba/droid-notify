@@ -34,8 +34,8 @@ public class Constants {
     public static final String CONTACT_PLACEHOLDER_KEY = "contact_placeholder";
     public static final String BUTTON_ICONS_KEY = "button_icons_enabled";
 	
-	public static final String MESSAGING_APP_RUNNING_ACTION_RESCHEDULE = "0";
-	public static final String MESSAGING_APP_RUNNING_ACTION_IGNORE = "1";
+	public static final String BLOCKING_APP_RUNNING_ACTION_RESCHEDULE = "0";
+	public static final String BLOCKING_APP_RUNNING_ACTION_IGNORE = "1";
 	
 	public static final int NOTIFICATION_TYPE_TEST = -1;
 	public static final int NOTIFICATION_TYPE_PHONE = 0;
@@ -77,7 +77,7 @@ public class Constants {
 	// Pansi
 	// Text'n Drive
 	//
-	public static final String[] MESSAGING_PACKAGE_NAMES_ARRAY = new String[]{
+	public static final String[] BLOCKED_PACKAGE_NAMES_ARRAY = new String[]{
 		"com.android.mms", 
 		"com.handcent.nextsms", 
 		"com.jb.gosms", 
@@ -119,7 +119,7 @@ public class Constants {
 	//-----SMS NOTIFICATION CONSTANTS-----//
 	public static final String SMS_READ_FROM_INTENT = "0";
 	public static final String SMS_READ_FROM_DISK = "1";
-	public static final String SMS_MESSAGING_APP_RUNNING_ACTION_KEY = "messaging_app_running_action_sms";
+	public static final String SMS_BLOCKING_APP_RUNNING_ACTION_KEY = "messaging_app_running_action_sms";
 	public static final String SMS_TIMEOUT_KEY = "sms_timeout_settings";
 	public static final String SMS_DELETE_KEY = "sms_delete_button_action";	
 	public static final String SMS_TIMESTAMP_ADJUSTMENT_KEY = "sms_timestamp_adjustment_settings";
@@ -148,7 +148,7 @@ public class Constants {
 	public static final String SMS_QUICK_REPLY = "1";
 	
 	//-----MMS NOTIFICATION CONSTANTS-----//
-	public static final String MMS_MESSAGING_APP_RUNNING_ACTION_KEY = "messaging_app_running_action_mms";
+	public static final String MMS_BLOCKING_APP_RUNNING_ACTION_KEY = "messaging_app_running_action_mms";
 	public static final String MMS_TIMEOUT_KEY = "mms_timeout_settings";
 	public static final String MMS_DELETE_KEY = "mms_delete_button_action";
 	public static final String MMS_HIDE_CONTACT_PANEL_ENABLED_KEY = "mms_hide_contact_panel_enabled";
@@ -175,7 +175,7 @@ public class Constants {
 	public static final String MMS_QUICK_REPLY = "1";	
 
 	//-----MISSED CALL NOTIFICATION CONSTANTS-----//
-	public static final String PHONE_MESSAGING_APP_RUNNING_ACTION_KEY = "messaging_app_running_action_missed_call";
+	public static final String PHONE_BLOCKING_APP_RUNNING_ACTION_KEY = "messaging_app_running_action_missed_call";
 	public static final String CALL_LOG_TIMEOUT_KEY = "call_log_timeout_settings";
 	public static final String PHONE_DISMISS_BUTTON_ACTION_KEY = "missed_call_loading_settings";
 	public static final String PHONE_HIDE_CONTACT_PANEL_ENABLED_KEY = "missed_call_hide_contact_panel_enabled";
@@ -207,7 +207,7 @@ public class Constants {
 	public static final int PHONE_NUMBER_FORMAT_H = 8;
 	
 	//-----CALENDAR NOTIFICATION CONSTANTS-----//
-	public static final String CALENDAR_MESSAGING_APP_RUNNING_ACTION_KEY = "messaging_app_running_action_calendar";
+	public static final String CALENDAR_BLOCKING_APP_RUNNING_ACTION_KEY = "messaging_app_running_action_calendar";
 	public static final String CALENDAR_NOTIFY_DAY_OF_TIME_KEY = "calendar_notify_day_of_time";
 	public static final String CALENDAR_REMINDERS_ENABLED_KEY = "calendar_reminders_enabled"; 
     public static final String CALENDAR_REMINDER_KEY = "calendar_reminder_settings";
@@ -273,6 +273,8 @@ public class Constants {
 	//-----SMS STATUS BAR NOTIFICATION CONSTANTS-----//
 	public static final String SMS_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY = "sms_status_bar_notifications_enabled";
 	
+	public static final String SMS_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY = "sms_status_bar_notifications_show_when_blocked_enabled";
+	
 	public static final String SMS_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY = "sms_notification_sound";
 	
 	public static final String SMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY = "sms_notification_vibrate_setting";
@@ -296,6 +298,8 @@ public class Constants {
 	
 	//-----MMS STATUS BAR NOTIFICATION CONSTANTS-----//
 	public static final String MMS_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY = "mms_status_bar_notifications_enabled";
+	
+	public static final String MMS_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY = "mms_status_bar_notifications_show_when_blocked_enabled";
 	
 	public static final String MMS_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY = "mms_notification_sound";
 	
@@ -321,6 +325,8 @@ public class Constants {
 	//-----PHONE STATUS BAR NOTIFICATION CONSTANTS-----//
 	public static final String PHONE_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY = "missed_call_status_bar_notifications_enabled";
 	
+	public static final String PHONE_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY = "missed_call_status_bar_notifications_show_when_blocked_enabled";
+	
 	public static final String PHONE_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY = "missed_call_notification_sound";
 	
 	public static final String PHONE_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY = "missed_call_notification_vibrate_setting";
@@ -344,6 +350,8 @@ public class Constants {
 	
 	//-----CALENDAR STATUS BAR NOTIFICATION CONSTANTS-----//
 	public static final String CALENDAR_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY = "calendar_status_bar_notifications_enabled";
+	
+	public static final String CALENDAR_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY = "calendar_status_bar_notifications_show_when_blocked_enabled";
 	
 	public static final String CALENDAR_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY = "calendar_notification_sound";
 	

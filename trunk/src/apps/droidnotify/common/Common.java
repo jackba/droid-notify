@@ -33,9 +33,11 @@ import android.graphics.PorterDuff.Mode;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
+import android.telephony.SmsMessage;
 import android.widget.Toast;
 import apps.droidnotify.NotificationActivity;
 import apps.droidnotify.NotificationViewFlipper;
@@ -903,15 +905,15 @@ public class Common {
 	}	
 	
 	/**
-	 * Determine if the users phone has a messaging app currently running on the phone.
+	 * Determine if the users phone has a blocked app currently running on the phone.
 	 * 
 	 * @param context - Application Context.
 	 * 
-	 * @return boolean - Returns true if a messaging app is currently running.
+	 * @return boolean - Returns true if a app that is flagged to block is currently running.
 	 */
-	public static boolean isMessagingAppRunning(Context context){
+	public static boolean isBlockingAppRunning(Context context){
 		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.isInMessagingApp()");
+		if (_debug) Log.v("Common.isBlockingAppRunning()");
 		ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
 	    List <RunningTaskInfo> runningTaskArray = activityManager.getRunningTasks(99999);
 	    Iterator <RunningTaskInfo> runningTaskArrayIterator = runningTaskArray.iterator();
@@ -920,11 +922,11 @@ public class Common {
 	    	runningTaskInfo = runningTaskArrayIterator.next();
 	    	ComponentName runningTaskComponent = runningTaskInfo.baseActivity;
 	    	String runningTaskPackageName = runningTaskComponent.getPackageName();
-	        if (_debug) Log.v("Common.isInMessagingApp() runningTaskPackageName: " + runningTaskPackageName);
-	        int messagingPackageNamesArraySize = Constants.MESSAGING_PACKAGE_NAMES_ARRAY.length;
+	        if (_debug) Log.v("Common.isBlockingAppRunning() runningTaskPackageName: " + runningTaskPackageName);
+	        int messagingPackageNamesArraySize = Constants.BLOCKED_PACKAGE_NAMES_ARRAY.length;
 	        for(int i = 0; i < messagingPackageNamesArraySize; i++){
-	        	if (_debug) Log.v("Common.isInMessagingApp() MESSAGING_PACKAGE_NAMES_ARRAY[i]: " + Constants.MESSAGING_PACKAGE_NAMES_ARRAY[i]);
-		        if(Constants.MESSAGING_PACKAGE_NAMES_ARRAY[i].equals(runningTaskPackageName) || Constants.MESSAGING_PACKAGE_NAMES_ARRAY[i].contains(runningTaskPackageName)){
+	        	if (_debug) Log.v("Common.isBlockingAppRunning() MESSAGING_PACKAGE_NAMES_ARRAY[i]: " + Constants.BLOCKED_PACKAGE_NAMES_ARRAY[i]);
+		        if(Constants.BLOCKED_PACKAGE_NAMES_ARRAY[i].contains(runningTaskPackageName)){
 		        	return true;
 		        }
 	        }
@@ -984,7 +986,6 @@ public class Common {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.convertGMTToLocalTime() InputTimeStamp: " + inputTimeStamp);
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        //return timeStamp - TimeZone.getDefault().getOffset(timeStamp);
 	    long offset = TimeZone.getDefault().getOffset(inputTimeStamp);
 		long timeStampAdjustment = Long.parseLong(preferences.getString(Constants.SMS_TIMESTAMP_ADJUSTMENT_KEY, "0")) * 60 * 60 * 1000;
 	    long outputTimeStamp = inputTimeStamp - offset + timeStampAdjustment;
@@ -1039,10 +1040,15 @@ public class Common {
 	 * 
 	 * @param context - The application context.
 	 * @param notificationType - The type of notification we are working with.
-	 * 
-	 * 
+	 * @param callStateIdle - The call state of the users phone. True if the users phone is idle (not being used).
+	 * @param sentFromContactName - The contact name.
+	 * @param sentFromAddress - The sent from address (phone number)
+	 * @param message - The message of the notification.
+	 * @param calendarEventID - The calendar event id.
+	 * @param calendarEventStartTime - The calendar event start time.
+	 * @param calendarEventEndTime - The calendar event end time.
 	 */
-	public static void setStatusBarNotification(Context context, int notificationType, boolean callStateIdle, String sentFromContactName, String sentFromAddress, String message, String calendarEventID, String calendarEventStartTime, String calendarEventEndTime){
+	public static void setStatusBarNotification(Context context, int notificationType, boolean callStateIdle, String sentFromContactName, String sentFromAddress, String message){
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.setStatusBarNotification()");
 		try{
@@ -1081,6 +1087,8 @@ public class Common {
 			String sentFrom = null;
 			if(message != null && message.length() > 0){
 				message = message.replace("<br/><br/>", " ").replace("<br/>", " ");
+			}else{
+				message = "";
 			}
 			//Load values into the preference keys based on the notification type.
 			switch(notificationType){
@@ -1230,9 +1238,7 @@ public class Common {
 					tickerText = context.getString(R.string.status_bar_notification_ticker_text_calendar, message);
 					//Content Intent
 					notificationContentIntent = new Intent(Intent.ACTION_VIEW);
-					notificationContentIntent.setData(Uri.parse("content://com.android.calendar/events/" + calendarEventID));	
-					notificationContentIntent.putExtra(Constants.CALENDAR_EVENT_BEGIN_TIME, calendarEventStartTime);
-					notificationContentIntent.putExtra(Constants.CALENDAR_EVENT_END_TIME, calendarEventEndTime);
+					notificationContentIntent.setClassName("com.android.calendar", "com.android.calendar.LaunchActivity");
 					//Delete Intent
 					notificationDeleteIntent = null;
 					//Content Intent
@@ -1288,7 +1294,7 @@ public class Common {
 			}else if(notificationVibrate.equals(VIBRATE_WHEN_VIBRATE_MODE_VALUE) && inVibrateMode){
 				vibrateEnabled = true;
 			}
-			vibrateInCallEnabled = preferences.getBoolean(IN_CALL_VIBRATE_ENABLED_KEY, false);
+			vibrateInCallEnabled = preferences.getBoolean(IN_CALL_VIBRATE_ENABLED_KEY, true);
 			String vibratePattern = null;
 			if(vibrateEnabled){
 				vibratePattern = preferences.getString(VIBRATE_PATTERN_KEY, VIBRATE_PATTERN_DEFAULT);
@@ -1527,7 +1533,10 @@ public class Common {
 	/**
 	 * Clear the status bar notification if there are no more notifications of this type displayed.
 	 * 
+	 * @param context - The application context.
+	 * @param notificationViewFlipper - The notification ViewFlipper.
 	 * @param notificationType - The notification type.
+	 * @param totalNotifications - The total number of current notifications.
 	 */
 	public static void clearNotifications(Context context, NotificationViewFlipper notificationViewFlipper, int notificationType, int totalNotifications){
 		if(totalNotifications > 0){
@@ -1537,6 +1546,268 @@ public class Common {
 		}else{
 			removeStatusBarNotification(context, notificationType);
 		}
+	}
+	
+	/**
+	 * Clear all status bar notifications.
+	 * 
+	 * @param context - The application context.
+	 */
+	public static void clearAllNotifications(Context context){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.clearAllNotifications()");
+		try{
+			NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+			notificationManager.cancelAll();
+		}catch(Exception ex){
+			if (_debug) Log.e("Common.clearAllNotifications() ERROR: " + ex.toString());
+		}
+	}
+
+	/**
+	 * Function to query the sms inbox and check for any new messages.
+	 * 
+	 * @param context - The application context.
+	 * 
+	 * @return ArrayList<String> - Returns an ArrayList of Strings that contain the sms information.
+	 */
+	public static ArrayList<String> getSMSMessagesFromDisk(Context context){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.getSMSMessagesFromDisk()");
+		ArrayList<String> smsArray = new ArrayList<String>();
+		final String[] projection = new String[] { "_id", "thread_id", "address", "person", "date", "body"};
+		final String selection = "read = 0";
+		final String[] selectionArgs = null;
+		final String sortOrder = null;
+		Cursor cursor = null;
+        try{
+		    cursor = context.getContentResolver().query(
+		    		Uri.parse("content://sms/inbox"),
+		    		projection,
+		    		selection,
+					selectionArgs,
+					sortOrder);
+		    while (cursor.moveToNext()) { 
+		    	long messageID = cursor.getLong(cursor.getColumnIndex("_id"));
+		    	long threadID = cursor.getLong(cursor.getColumnIndex("thread_id"));
+		    	String messageBody = cursor.getString(cursor.getColumnIndex("body"));
+		    	String sentFromAddress = cursor.getString(cursor.getColumnIndex("address"));
+	            if(sentFromAddress.contains("@")){
+	            	sentFromAddress = Common.removeEmailFormatting(sentFromAddress);
+	            }
+		    	long timeStamp = cursor.getLong(cursor.getColumnIndex("date"));
+	    		String[] smsContactInfo = null;
+	    		if(sentFromAddress.contains("@")){
+		    		smsContactInfo = Common.getContactsInfoByEmail(context, sentFromAddress);
+		    	}else{
+		    		smsContactInfo = Common.getContactsInfoByPhoneNumber(context, sentFromAddress);
+		    	}
+	    		if(smsContactInfo == null){
+					smsArray.add(sentFromAddress + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + threadID + "|" + timeStamp);
+				}else{
+					smsArray.add(sentFromAddress + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + threadID + "|" + timeStamp + "|" + smsContactInfo[0] + "|" + smsContactInfo[1] + "|" + smsContactInfo[2] + "|" + smsContactInfo[3]);
+				}
+		    	break;
+		    }
+		}catch(Exception ex){
+			if (_debug) Log.e("Common.getSMSMessagesFromDisk() ERROR: " + ex.toString());
+		} finally {
+    		cursor.close();
+    	}
+		return smsArray;	
+	}
+	
+	/**
+	 * Parse the incoming SMS message directly.
+	 * 
+	 * @param context - The application context.
+	 * @param bundle - Bundle from the incoming intent.
+	 * 
+	 * @return ArrayList<String> - Returns an ArrayList of Strings that contain the sms information.
+	 */
+	public static ArrayList<String> getSMSMessagesFromIntent(Context context, Bundle bundle){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.getSMSMessagesFromIntent()");
+		ArrayList<String> smsArray = new ArrayList<String>();
+    	long timeStamp = 0;
+    	String sentFromAddress = null;
+    	String messageBody = null;
+    	StringBuilder messageBodyBuilder = null;
+    	String messageSubject = null;
+    	long threadID = 0;
+    	long messageID = 0;
+		try{
+			SmsMessage[] msgs = null;
+            Object[] pdus = (Object[]) bundle.get("pdus");
+            msgs = new SmsMessage[pdus.length];
+            for (int i=0; i<msgs.length; i++){
+                msgs[i] = SmsMessage.createFromPdu((byte[])pdus[i]);                
+            }
+            SmsMessage sms = msgs[0];
+            timeStamp = sms.getTimestampMillis();
+            //Adjust the timestamp to the localized time of the users phone.
+            timeStamp = Common.convertGMTToLocalTime(context, timeStamp);
+            sentFromAddress = sms.getDisplayOriginatingAddress().toLowerCase();
+            if(sentFromAddress.contains("@")){
+            	sentFromAddress = Common.removeEmailFormatting(sentFromAddress);
+            }
+            messageSubject = sms.getPseudoSubject();
+            messageBodyBuilder = new StringBuilder();
+            //Get the entire message body from the new message.
+    		  int messagesLength = msgs.length;
+            for (int i = 0; i < messagesLength; i++){                
+            	//messageBody.append(msgs[i].getMessageBody().toString());
+            	messageBodyBuilder.append(msgs[i].getDisplayMessageBody().toString());
+            }   
+            messageBody = messageBodyBuilder.toString();
+            if(messageBody.startsWith(sentFromAddress)){
+            	messageBody = messageBody.substring(sentFromAddress.length()).replace("\n", "<br/>").trim();
+            }    
+            if(messageSubject != null && !messageSubject.equals("")){
+				messageBody = "(" + messageSubject + ")" + messageBody.replace("\n", "<br/>").trim();
+			}else{
+				messageBody = messageBody.replace("\n", "<br/>").trim();
+			}   
+    		threadID = Common.getThreadID(context, sentFromAddress, Constants.NOTIFICATION_TYPE_SMS);
+    		messageID = Common.getMessageID(context, threadID, messageBody, timeStamp, Constants.NOTIFICATION_TYPE_SMS);
+    		String[] smsContactInfo = null;
+    		if(sentFromAddress.contains("@")){
+	    		smsContactInfo = Common.getContactsInfoByEmail(context, sentFromAddress);
+	    	}else{
+	    		smsContactInfo = Common.getContactsInfoByPhoneNumber(context, sentFromAddress);
+	    	}
+    		if(smsContactInfo == null){
+				smsArray.add(sentFromAddress + "|" + messageBody + "|" + messageID + "|" + threadID + "|" + timeStamp);
+			}else{
+				smsArray.add(sentFromAddress + "|" + messageBody + "|" + messageID + "|" + threadID + "|" + timeStamp + "|" + smsContactInfo[0] + "|" + smsContactInfo[1] + "|" + smsContactInfo[2] + "|" + smsContactInfo[3]);
+			}
+    		return smsArray;
+		}catch(Exception ex){
+			if (_debug) Log.v("Common.getSMSMessagesFromIntent() ERROR: " + ex.toString());
+			return null;
+		}
+	}
+	
+	/**
+	 * Function to query the mms inbox and check for any new messages.
+	 * 
+	 * @param context - The application context.
+	 * 
+	 * @return ArrayList<String> - Returns an ArrayList of Strings that contain the mms information.
+	 */
+	public static ArrayList<String> getMMSMessagesFromDisk(Context context){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.getMMSMessagesFromDisk()");
+		ArrayList<String> mmsArray = new ArrayList<String>();
+		final String[] projection = new String[] {"_id", "thread_id", "date"};
+		final String selection = "read = 0";
+		final String[] selectionArgs = null;
+		final String sortOrder = "date DESC";
+		Cursor cursor = null;
+        try{
+		    cursor = context.getContentResolver().query(
+		    		Uri.parse("content://mms/inbox"),
+		    		projection,
+		    		selection,
+					selectionArgs,
+					sortOrder);
+	    	while (cursor.moveToNext()) {		    	
+	    		String messageID = cursor.getString(cursor.getColumnIndex("_id"));
+	    		String threadID = cursor.getString(cursor.getColumnIndex("thread_id"));
+		    	String timeStamp = cursor.getString(cursor.getColumnIndex("date"));
+		    	String sentFromAddress = Common.getMMSAddress(context, messageID);
+		    	if(sentFromAddress.contains("@")){
+	            	sentFromAddress = Common.removeEmailFormatting(sentFromAddress);
+	            }
+		    	String messageBody = Common.getMMSText(context, messageID);
+		    	String[] mmsContactInfo = null;
+		    	if(sentFromAddress.contains("@")){
+		    		mmsContactInfo = Common.getContactsInfoByEmail(context, sentFromAddress);
+		    	}else{
+		    		mmsContactInfo = Common.getContactsInfoByPhoneNumber(context, sentFromAddress);
+		    	}
+				if(mmsContactInfo == null){
+					mmsArray.add(sentFromAddress + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + threadID + "|" + timeStamp);
+				}else{
+					mmsArray.add(sentFromAddress + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + threadID + "|" + timeStamp + "|" + mmsContactInfo[0] + "|" + mmsContactInfo[1] + "|" + mmsContactInfo[2] + "|" + mmsContactInfo[3]);
+				}
+		    	break;
+	    	}
+		}catch(Exception ex){
+			if (_debug) Log.e("Common.getMMSMessagesFromDisk() ERROR: " + ex.toString());
+		} finally {
+    		cursor.close();
+    	}
+		return mmsArray;	
+	}
+	
+	/**
+	 * Function to query the call log and check for any missed calls.
+	 * 
+	 * @param context - The application context.
+	 * 
+	 * @return ArrayList<String> - Returns an ArrayList of Strings that contain the missed call information.
+	 */
+	public static ArrayList<String> getMissedCalls(Context context){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.getMissedCalls()");
+		Boolean missedCallFound = false;
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		String missedCallPreference = preferences.getString(Constants.PHONE_DISMISS_BUTTON_ACTION_KEY, "0");
+		ArrayList<String> missedCallsArray = new ArrayList<String>();
+		final String[] projection = null;
+		final String selection = null;
+		final String[] selectionArgs = null;
+		final String sortOrder = android.provider.CallLog.Calls.DATE + " DESC";
+		Cursor cursor = null;
+		try{
+		    cursor = context.getContentResolver().query(
+		    		Uri.parse("content://call_log/calls"),
+		    		projection,
+		    		selection,
+					selectionArgs,
+					sortOrder);
+	    	while (cursor.moveToNext()) { 
+	    		String callLogID = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls._ID));
+	    		String callNumber = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.NUMBER));
+	    		String callDate = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.DATE));
+	    		String callType = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.TYPE));
+	    		String isCallNew = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.NEW));
+	    		if(Integer.parseInt(callType) == Constants.PHONE_TYPE && Integer.parseInt(isCallNew) > 0){
+    				if (_debug) Log.v("Common.getMissedCalls() Missed Call Found: " + callNumber);
+    				String[] missedCallContactInfo = null;
+    				if(Common.isPrivateUnknownNumber(callNumber)){
+    					if (_debug) Log.v("Common.getMissedCalls() Is a private or unknown number.");
+    				}else{
+    					missedCallContactInfo = Common.getContactsInfoByPhoneNumber(context, callNumber);
+    				}
+    				if(missedCallContactInfo == null){
+    					missedCallsArray.add(callLogID + "|" + callNumber + "|" + callDate);
+    				}else{
+    					missedCallsArray.add(callLogID + "|" + callNumber + "|" + callDate + "|" + missedCallContactInfo[0] + "|" + missedCallContactInfo[1] + "|" + missedCallContactInfo[2] + "|" + missedCallContactInfo[3]);
+    				}
+    				if(missedCallPreference.equals(Constants.PHONE_GET_LATEST)){
+    					if (_debug) Log.v("Common.getMissedCalls() Missed call found - Exiting");
+    					break;
+    				}
+    				missedCallFound = true;
+    			}else{
+    				if(missedCallPreference.equals(Constants.PHONE_GET_RECENT)){
+    					if (_debug) Log.v("Common.getMissedCalls() Found first non-missed call - Exiting");
+    					break;
+    				}
+    			}
+	    		if(!missedCallFound){
+	    			if (_debug) Log.v("Common.getMissedCalls() Missed call not found - Exiting");
+	    			break;
+	    		}
+	    	}
+		}catch(Exception ex){
+			if (_debug) Log.e("Common.getMissedCalls() ERROR: " + ex.toString());
+		}finally{
+			cursor.close();
+		}
+	    return missedCallsArray;
 	}
 	
 //	/**
@@ -1594,9 +1865,10 @@ public class Common {
 	//================================================================================
 
 	/**
-	 * Remove the status bar notification.
+	 * Remove a particular status bar notification.
 	 * 
-	 * @param notificationType - The type of notification we are working with.
+	 * @param context - The application context.
+	 * @param notificationType - The notification type.
 	 */
 	private static void removeStatusBarNotification(Context context, int notificationType){
 		_debug = Log.getDebug();

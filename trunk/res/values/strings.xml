@@ -89,7 +89,7 @@
     <string name="status_bar_notification_content_text_sms" formatted="false">New message from %s - %s.</string>
     <string name="status_bar_notification_content_text_mms" formatted="false">New message from %s - %s.</string>
     <string name="status_bar_notification_content_text_phone" formatted="false">Missed call from %s.</string>
-    <string name="status_bar_notification_content_text_calendar" formatted="false">Calendar event: $s</string>
+    <string name="status_bar_notification_content_text_calendar" formatted="false">Calendar event - %s</string>
     <string name="status_bar_notification_content_text_gmail" formatted="false">New email %s - %s.</string>
     <string name="status_bar_notification_content_text_twitter" formatted="false">New twitter message from %s - %s.</string>
     <string name="status_bar_notification_content_text_facebook" formatted="false">New facebook message %s - %s.</string>
@@ -103,7 +103,7 @@
    	<string name="status_bar_notification_ticker_text_privacy_mms" formatted="false">New message from %s.</string>
    	<string name="status_bar_notification_ticker_text_privacy_unknown_contact_mms">New message.</string>  
     <string name="status_bar_notification_ticker_text_phone" formatted="false">Missed call from %s.</string>
-    <string name="status_bar_notification_ticker_text_calendar" formatted="false">Calendar event - $s</string>
+    <string name="status_bar_notification_ticker_text_calendar" formatted="false">Calendar event - %s</string>
     
     <!-- Button Strings -->  
     <string name="view_mms_button_text">View MMS</string>
@@ -338,11 +338,10 @@
  	<string name="preference_keyguard_enabled_title">Unlock Phone</string>
    	<string name="preference_keyguard_enabled_summaryOn">Phone will unlock when a notification is shown.</string>
    	<string name="preference_keyguard_enabled_summaryOff">Phone will not unlock when a notification is shown.</string>
-	<string name="preference_keyguard_timeout">Keyguard Timeout</string>
-   	<string name="preference_keyguard_timeout_summary">Define how long to wait before releasing the phones Keyguard.</string>
 	<string name="preference_blur_screen_background_enabled_title">Blur Screen Background</string>
    	<string name="preference_blur_screen_background_enabled_summaryOn">The background of the screen will blur when a notification is shown.</string>
    	<string name="preference_blur_screen_background_enabled_summaryOff">The background of the screen will not blur when a notification is shown.</string>
+   	
 	<string name="preference_dim_screen_background_enabled_title">Dim Screen Background</string>
    	<string name="preference_dim_screen_background_enabled_summaryOn">The background of the screen will dim when a notification is shown.</string>
    	<string name="preference_dim_screen_background_enabled_summaryOff">The background of the screen will not dim when a notification is shown.</string>
@@ -356,11 +355,11 @@
     <string name="reschedule_tinmeout_text">Reschedule Timeout</string>
    	<string name="preference_reschedule_timeout_summary">Define how long to wait before a notification is rescheduled.</string> 	
    	
+   	<string name="preference_keyguard_timeout">Keyguard Timeout</string>
+   	<string name="preference_keyguard_timeout_summary">Define how long to wait before releasing the phones Keyguard after a notification is shown. The smaller the timeout, the less battery power is used.</string>
+   	
    	<string name="preference_wakelock_timeout">WakeLock Timeout</string>
-   	<string name="preference_wakelock_timeout_summary">Define how long to wait before releasing the phones WakeLock. The smaller the timeout, the less battery power is used.</string> 
-
-   	<string name="preference_ringtone_length">Ringtone Length</string>
-   	<string name="preference_ringtone_length_summary">Define how long to let the ringtone play.</string>
+   	<string name="preference_wakelock_timeout_summary">Define how long to wait before releasing the phones WakeLock after a notification is shown. The smaller the timeout, the less battery power is used.</string> 
    	
    	<string name="rate_app_text">Rate App</string>
    	<string name="rate_app_summary">Rate this application.</string>
@@ -405,6 +404,9 @@
    	<string name="preference_notifications_enabled_summaryOn">Status Bar Notifications will be displayed.</string>
    	<string name="preference_notifications_enabled_summaryOff">Status Bar Notifications will not be displayed.</string>   
     
+    <string name="preference_notifications_show_when_blocked_enabled_title">Display When Blocked</string>
+   	<string name="preference_notifications_show_when_blocked_enabled_summary">Display Status Bar Notifications even if the popup is blocked (example, when in a phone call, messaging app, etc.).</string>
+   	
     <string name="preference_notification_settings">Status Bar Notification Settings</string>
     <string name="preference_notification_settings_summary">Customize Status Bar Notifications</string>
    	

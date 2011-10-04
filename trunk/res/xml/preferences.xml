@@ -173,6 +173,15 @@
 							android:summary="@string/preference_notification_settings_summary"
 							android:dependency="sms_status_bar_notifications_enabled">
 							<PreferenceCategory
+								android:key="sms_notification_general_settings_category"
+								android:title="@string/general_settings_text">						
+								<CheckBoxPreference 
+									android:key="sms_status_bar_notifications_show_when_blocked_enabled" 
+									android:title="@string/preference_notifications_show_when_blocked_enabled_title" 
+									android:summary="@string/preference_notifications_show_when_blocked_enabled_summary" 
+									android:defaultValue="true" />
+							</PreferenceCategory>
+							<PreferenceCategory
 								android:key="sms_notification_icon_settings_category"
 								android:title="@string/preference_notification_icon_settings_text">
 								<apps.droidnotify.preferences.ImageListPreference
@@ -254,7 +263,7 @@
 										android:title="@string/preference_notification_in_call_vibrate_enable_title" 
 										android:summaryOn="@string/preference_notification_in_call_vibrate_enable_summaryOn" 
 										android:summaryOff="@string/preference_notification_in_call_vibrate_enable_summaryOff" 
-										android:defaultValue="false" />
+										android:defaultValue="true" />
 							</PreferenceCategory>
 						</PreferenceScreen>
 					</PreferenceCategory>
@@ -432,6 +441,15 @@
 							android:summary="@string/preference_notification_settings_summary"
 							android:dependency="mms_status_bar_notifications_enabled">
 							<PreferenceCategory
+								android:key="mms_notification_general_settings_category"
+								android:title="@string/general_settings_text">						
+								<CheckBoxPreference 
+									android:key="mms_status_bar_notifications_show_when_blocked_enabled" 
+									android:title="@string/preference_notifications_show_when_blocked_enabled_title" 
+									android:summary="@string/preference_notifications_show_when_blocked_enabled_summary" 
+									android:defaultValue="true" />
+							</PreferenceCategory>
+							<PreferenceCategory
 								android:key="mms_notification_icon_settings_category"
 								android:title="@string/preference_notification_icon_settings_text">
 								<apps.droidnotify.preferences.ImageListPreference
@@ -513,7 +531,7 @@
 										android:title="@string/preference_notification_in_call_vibrate_enable_title" 
 										android:summaryOn="@string/preference_notification_in_call_vibrate_enable_summaryOn" 
 										android:summaryOff="@string/preference_notification_in_call_vibrate_enable_summaryOff" 
-										android:defaultValue="false" />
+										android:defaultValue="true" />
 							</PreferenceCategory>
 						</PreferenceScreen>
 					</PreferenceCategory>
@@ -691,6 +709,15 @@
 							android:summary="@string/preference_notification_settings_summary"
 							android:dependency="missed_call_status_bar_notifications_enabled">
 							<PreferenceCategory
+								android:key="missed_call_notification_general_settings_category"
+								android:title="@string/general_settings_text">						
+								<CheckBoxPreference 
+									android:key="missed_call_status_bar_notifications_show_when_blocked_enabled" 
+									android:title="@string/preference_notifications_show_when_blocked_enabled_title" 
+									android:summary="@string/preference_notifications_show_when_blocked_enabled_summary" 
+									android:defaultValue="true" />
+							</PreferenceCategory>
+							<PreferenceCategory
 								android:key="missed_call_notification_icon_settings_category"
 								android:title="@string/preference_notification_icon_settings_text">
 								<apps.droidnotify.preferences.ImageListPreference
@@ -772,7 +799,7 @@
 										android:title="@string/preference_notification_in_call_vibrate_enable_title" 
 										android:summaryOn="@string/preference_notification_in_call_vibrate_enable_summaryOn" 
 										android:summaryOff="@string/preference_notification_in_call_vibrate_enable_summaryOff" 
-										android:defaultValue="false" />
+										android:defaultValue="true" />
 							</PreferenceCategory>
 						</PreferenceScreen>
 					</PreferenceCategory>
@@ -922,6 +949,15 @@
 							android:summary="@string/preference_notification_settings_summary"
 							android:dependency="calendar_status_bar_notifications_enabled">	
 							<PreferenceCategory
+								android:key="calendar_notification_general_settings_category"
+								android:title="@string/general_settings_text">						
+								<CheckBoxPreference 
+									android:key="calendar_status_bar_notifications_show_when_blocked_enabled" 
+									android:title="@string/preference_notifications_show_when_blocked_enabled_title" 
+									android:summary="@string/preference_notifications_show_when_blocked_enabled_summary" 
+									android:defaultValue="true" />
+							</PreferenceCategory>
+							<PreferenceCategory
 								android:key="calendar_notification_icon_settings_category"
 								android:title="@string/preference_notification_icon_settings_text">
 								<apps.droidnotify.preferences.ImageListPreference
@@ -1003,7 +1039,7 @@
 										android:title="@string/preference_notification_in_call_vibrate_enable_title" 
 										android:summaryOn="@string/preference_notification_in_call_vibrate_enable_summaryOn" 
 										android:summaryOff="@string/preference_notification_in_call_vibrate_enable_summaryOff" 
-										android:defaultValue="false" />
+										android:defaultValue="true" />
 							</PreferenceCategory>	
 						</PreferenceScreen>
 					</PreferenceCategory>	
