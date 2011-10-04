@@ -1,5 +1,7 @@
 package apps.droidnotify;
 
+import java.util.ArrayList;
+
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -55,27 +57,42 @@ public class PhoneAlarmReceiver extends BroadcastReceiver {
 	    boolean rescheduleNotification = false;
 	    boolean callStateIdle = telemanager.getCallState() == TelephonyManager.CALL_STATE_IDLE;
 	    boolean inMessagingApp = preferences.getBoolean(Constants.USER_IN_MESSAGING_APP_KEY, false);
-	    boolean messagingAppRunning = Common.isMessagingAppRunning(context);
-	    String messagingAppRuningAction = preferences.getString(Constants.PHONE_MESSAGING_APP_RUNNING_ACTION_KEY, "0");
+	    boolean blockingAppRunning = Common.isBlockingAppRunning(context);
+	    String blockingAppRuningAction = preferences.getString(Constants.PHONE_BLOCKING_APP_RUNNING_ACTION_KEY, "0");
 	    if(!callStateIdle || inMessagingApp){
 	    	rescheduleNotification = true;
-	    }else{
-	    	//Messaging App is running.
-	    	if(messagingAppRunning){
+	    }else{	    	
+	    	//Blocking App is running.
+	    	if(blockingAppRunning){
 	    		//Reschedule notification based on the users preferences.
-			    if(messagingAppRuningAction.equals(Constants.MESSAGING_APP_RUNNING_ACTION_RESCHEDULE)){
-					rescheduleNotification = true;
-			    }
-			    //Ignore notification based on the users preferences.
-			    if(messagingAppRuningAction.equals(Constants.MESSAGING_APP_RUNNING_ACTION_IGNORE)){
-			    	return;
-			    }
+			    rescheduleNotification = true;
 	    	}
 	    }
 	    if(!rescheduleNotification){
 			WakefulIntentService.acquireStaticLock(context);
 			context.startService(new Intent(context, PhoneReceiverService.class));
 	    }else{
+	    	//Display the Status Bar Notification even though the popup is blocked based on the user preferences.
+	    	if(preferences.getBoolean(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true)){
+		    	//Get the missed call info.
+	    		ArrayList<String> missedCallsArray = Common.getMissedCalls(context);
+	    		String missedCallArrayItem = missedCallsArray.get(0);
+    			String[] missedCallInfo = missedCallArrayItem.split("\\|");
+    			String phoneNumber = null;
+    			String contactName = null;
+    			if( missedCallInfo.length == 3){
+					phoneNumber = missedCallInfo[1];
+				}else{
+					phoneNumber = missedCallInfo[1];
+					contactName = missedCallInfo[4];
+				}
+				//Display Status Bar Notification
+			    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_PHONE, callStateIdle, contactName, phoneNumber, null);
+		    }
+	    	//Ignore notification based on the users preferences.
+	    	if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_IGNORE)){
+	    		return;
+	    	}
 	    	// Set alarm to go off x minutes from the current time as defined by the user preferences.
 	    	long rescheduleInterval = Long.parseLong(preferences.getString(Constants.RESCHEDULE_NOTIFICATION_TIMEOUT_KEY, "5")) * 60 * 1000;
 	    	if(preferences.getBoolean(Constants.RESCHEDULE_NOTIFICATIONS_ENABLED_KEY, true)){

@@ -798,6 +798,9 @@ public class NotificationActivity extends Activity {
 		SharedPreferences.Editor editor = _preferences.edit();
 		editor.putBoolean(Constants.USER_IN_MESSAGING_APP_KEY, false);
 		editor.commit();
+		if(true){ //TODO
+			Common.clearAllNotifications(_context);
+		}
 	}
 
 	/**
@@ -1330,7 +1333,7 @@ public class NotificationActivity extends Activity {
 			}
     		_notificationViewFlipper.addNotification(new Notification(_context, messageAddress, messageBody, messageID, threadID, timeStamp, contactID, contactName, photoID, lookupKey, Constants.NOTIFICATION_TYPE_SMS));
 		    //Display Status Bar Notification
-		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_SMS, true, contactName, messageAddress, messageBody, null, null, null);
+		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_SMS, true, contactName, messageAddress, messageBody);
 		}
 		if(loadAllNew){
 			//Load all unread SMS messages.
@@ -1395,7 +1398,7 @@ public class NotificationActivity extends Activity {
 			}
     		_notificationViewFlipper.addNotification(new Notification(_context, messageAddress, messageBody, messageID, threadID, timeStamp, contactID, contactName, photoID, lookupKey, Constants.NOTIFICATION_TYPE_MMS));
 		    //Display Status Bar Notification
-		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_MMS, true, contactName, messageAddress, messageBody, null, null, null);
+		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_MMS, true, contactName, messageAddress, messageBody);
 		}
 		if(loadAllNew){
 			//Load all unread MMS messages.
@@ -1720,7 +1723,7 @@ public class NotificationActivity extends Activity {
 			}
 			_notificationViewFlipper.addNotification(new Notification(_context, callLogID, phoneNumber, timeStamp, contactID, contactName, photoID, lookupKey, Constants.NOTIFICATION_TYPE_PHONE));		    
 			//Display Status Bar Notification
-		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_PHONE, true, contactName, phoneNumber, null, null, null, null);
+		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_PHONE, true, contactName, phoneNumber, null);
 		}
 	    return true;
 	}
@@ -1732,7 +1735,7 @@ public class NotificationActivity extends Activity {
 	 */
 	private void setupCalendarEventNotifications(Bundle bundle){
 		if (_debug) Log.v("NotificationActivity.setupCalendarEventNotifications()");  
-		String calenderEventInfo[] = (String[])bundle.getStringArray("calenderEventInfo");
+		String calenderEventInfo[] = (String[]) bundle.getStringArray("calenderEventInfo");
 		String title = null;
 		String messageBody = null;
 		long eventStartTime = 0; 
@@ -1761,7 +1764,7 @@ public class NotificationActivity extends Activity {
 		}
 		_notificationViewFlipper.addNotification(new Notification(_context, title, messageBody, eventStartTime, eventEndTime, eventAllDay, calendarName, calendarID, eventID, Constants.NOTIFICATION_TYPE_CALENDAR));
 		//Display Status Bar Notification
-	    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_PHONE, true, null, null, messageBody, String.valueOf(calendarID), String.valueOf(eventStartTime), String.valueOf(eventEndTime));
+	    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_CALENDAR, true, null, null, title);
 	}
 	
 	/**

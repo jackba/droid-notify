@@ -674,7 +674,9 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 
 			//SMS Status Bar Notification Settings
 			buf.append("sms_status_bar_notifications_enabled|" + _preferences.getBoolean("sms_status_bar_notifications_enabled", true) + "|boolean");
-			buf.newLine();
+			buf.newLine();			
+			buf.append("sms_status_bar_notifications_show_when_blocked_enabled|" + _preferences.getBoolean("sms_status_bar_notifications_show_when_blocked_enabled", true) + "|boolean");
+			buf.newLine();			
 			buf.append("notification_icon_sms|" + _preferences.getString("notification_icon_sms", "status_bar_notification_sms_green_preference") + "|string");
 			buf.newLine();
 			buf.append("sms_notification_sound|" + _preferences.getString("sms_notification_sound", "content://settings/system/notification_sound") + "|string");
@@ -739,7 +741,9 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			
 			//MMS Status Bar Notification Settings
 			buf.append("mms_status_bar_notifications_enabled|" + _preferences.getBoolean("mms_status_bar_notifications_enabled", true) + "|boolean");
-			buf.newLine();
+			buf.newLine();			
+			buf.append("mms_status_bar_notifications_show_when_blocked_enabled|" + _preferences.getBoolean("mms_status_bar_notifications_show_when_blocked_enabled", true) + "|boolean");
+			buf.newLine();			
 			buf.append("notification_icon_mms|" + _preferences.getString("notification_icon_mms", "status_bar_notification_sms_green_preference") + "|string");
 			buf.newLine();
 			buf.append("mms_notification_sound|" + _preferences.getString("mms_notification_sound", "content://settings/system/notification_sound") + "|string");
@@ -804,7 +808,9 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			
 			//Missed Call Status Bar Notification Settings
 			buf.append("missed_call_status_bar_notifications_enabled|" + _preferences.getBoolean("missed_call_status_bar_notifications_enabled", true) + "|boolean");
-			buf.newLine();
+			buf.newLine();			
+			buf.append("missed_call_status_bar_notifications_show_when_blocked_enabled|" + _preferences.getBoolean("missed_call_status_bar_notifications_show_when_blocked_enabled", true) + "|boolean");
+			buf.newLine();			
 			buf.append("notification_icon_missed_call|" + _preferences.getString("notification_icon_missed_call", "status_bar_notification_missed_call_black_preference") + "|string");
 			buf.newLine();
 			buf.append("missed_call_notification_sound|" + _preferences.getString("missed_call_notification_sound", "content://settings/system/notification_sound") + "|string");
@@ -863,7 +869,9 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			
 			//Calendar Status Bar Notification Settings
 			buf.append("calendar_status_bar_notifications_enabled|" + _preferences.getBoolean("calendar_status_bar_notifications_enabled", true) + "|boolean");
-			buf.newLine();
+			buf.newLine();			
+			buf.append("calendar_status_bar_notifications_show_when_blocked_enabled|" + _preferences.getBoolean("calendar_status_bar_notifications_show_when_blocked_enabled", true) + "|boolean");
+			buf.newLine();			
 			buf.append("notification_icon_calendar|" + _preferences.getString("notification_icon_calendar", "status_bar_notification_calendar_blue_preference") + "|string");
 			buf.newLine();
 			buf.append("calendar_notification_sound|" + _preferences.getString("calendar_notification_sound", "content://settings/system/notification_sound") + "|string");

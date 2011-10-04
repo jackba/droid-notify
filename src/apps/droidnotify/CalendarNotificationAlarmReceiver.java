@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 import apps.droidnotify.common.Common;
@@ -56,21 +57,15 @@ public class CalendarNotificationAlarmReceiver extends BroadcastReceiver {
 	    boolean rescheduleNotification = false;
 	    boolean callStateIdle = telemanager.getCallState() == TelephonyManager.CALL_STATE_IDLE;
 	    boolean inMessagingApp = preferences.getBoolean(Constants.USER_IN_MESSAGING_APP_KEY, false);
-	    boolean messagingAppRunning = Common.isMessagingAppRunning(context);
-	    String messagingAppRuningAction = preferences.getString(Constants.CALENDAR_MESSAGING_APP_RUNNING_ACTION_KEY, "0");
+	    boolean blockingAppRunning = Common.isBlockingAppRunning(context);
+	    String blockingAppRuningAction = preferences.getString(Constants.CALENDAR_BLOCKING_APP_RUNNING_ACTION_KEY, "0");
 	    if(!callStateIdle || inMessagingApp){
 	    	rescheduleNotification = true;
 	    }else{
-	    	//Messaging App is running.
-	    	if(messagingAppRunning){
+	    	//Blocking App is running.
+	    	if(blockingAppRunning){
 	    		//Reschedule notification based on the users preferences.
-			    if(messagingAppRuningAction.equals(Constants.MESSAGING_APP_RUNNING_ACTION_RESCHEDULE)){
-					rescheduleNotification = true;
-			    }
-			    //Ignore notification based on the users preferences.
-			    if(messagingAppRuningAction.equals(Constants.MESSAGING_APP_RUNNING_ACTION_IGNORE)){
-			    	return;
-			    }
+			    rescheduleNotification = true;
 	    	}
 	    }
 	    if(!rescheduleNotification){
@@ -78,7 +73,20 @@ public class CalendarNotificationAlarmReceiver extends BroadcastReceiver {
 			Intent calendarIntent = new Intent(context, CalendarNotificationAlarmReceiverService.class);
 			calendarIntent.putExtras(intent.getExtras());
 			context.startService(calendarIntent);
-	    }else{
+	    }else{	    	
+	    	//Display the Status Bar Notification even though the popup is blocked based on the user preferences.
+	    	if(preferences.getBoolean(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true)){
+		    	//Get the missed call info.
+		    	Bundle bundle = intent.getExtras();
+		    	String calenderEventInfo[] = (String[]) bundle.getStringArray("calenderEventInfo");
+				String title = calenderEventInfo[0];
+				//Display Status Bar Notification
+			    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_CALENDAR, callStateIdle, null, null, title);
+	    	}
+	    	//Ignore notification based on the users preferences.
+	    	if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_IGNORE)){
+	    		return;
+	    	}
 	    	// Set alarm to go off x minutes from the current time as defined by the user preferences.
 	    	long rescheduleInterval = Long.parseLong(preferences.getString(Constants.RESCHEDULE_NOTIFICATION_TIMEOUT_KEY, "5")) * 60 * 1000;
 	    	if(preferences.getBoolean(Constants.RESCHEDULE_NOTIFICATIONS_ENABLED_KEY, true)){

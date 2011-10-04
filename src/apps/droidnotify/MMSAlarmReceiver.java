@@ -1,5 +1,7 @@
 package apps.droidnotify;
 
+import java.util.ArrayList;
+
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -55,27 +57,45 @@ public class MMSAlarmReceiver extends BroadcastReceiver {
 	    boolean rescheduleNotification = false;
 	    boolean callStateIdle = telemanager.getCallState() == TelephonyManager.CALL_STATE_IDLE;
 	    boolean inMessagingApp = preferences.getBoolean(Constants.USER_IN_MESSAGING_APP_KEY, false);
-	    boolean messagingAppRunning = Common.isMessagingAppRunning(context);
-	    String messagingAppRuningAction = preferences.getString(Constants.MMS_MESSAGING_APP_RUNNING_ACTION_KEY, "0");
+	    boolean blockingAppRunning = Common.isBlockingAppRunning(context);
+	    String blockingAppRuningAction = preferences.getString(Constants.MMS_BLOCKING_APP_RUNNING_ACTION_KEY, "0");
 	    if(!callStateIdle || inMessagingApp){
 	    	rescheduleNotification = true;
 	    }else{
-	    	//Messaging App is running.
-	    	if(messagingAppRunning){
+	    	//Blocking App is running.
+	    	if(blockingAppRunning){
 	    		//Reschedule notification based on the users preferences.
-			    if(messagingAppRuningAction.equals(Constants.MESSAGING_APP_RUNNING_ACTION_RESCHEDULE)){
-					rescheduleNotification = true;
-			    }
-			    //Ignore notification based on the users preferences.
-			    if(messagingAppRuningAction.equals(Constants.MESSAGING_APP_RUNNING_ACTION_IGNORE)){
-			    	return;
-			    }
+			    rescheduleNotification = true;
 	    	}
 	    }
 	    if(!rescheduleNotification){
 			WakefulIntentService.acquireStaticLock(context);
 			context.startService(new Intent(context, MMSReceiverService.class));
-	    }else{
+	    }else{	    	
+	    	//Display the Status Bar Notification even though the popup is blocked based on the user preferences.
+	    	if(preferences.getBoolean(Constants.MMS_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true)){
+		    	//Get the mms message info.
+	    		ArrayList<String> mmsArray = Common.getMMSMessagesFromDisk(context);
+	    		String mmsArrayItem = mmsArray.get(0);
+				String[] mmsInfo = mmsArrayItem.split("\\|");
+				String messageAddress = null;
+				String messageBody = null;
+				String contactName = null;
+				if(mmsInfo.length == 5){ 
+					messageAddress = mmsInfo[0];
+					messageBody = mmsInfo[1];
+				}else{ 
+					messageAddress = mmsInfo[0];
+					messageBody = mmsInfo[1];
+					contactName = mmsInfo[6];
+				}
+				//Display Status Bar Notification
+			    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_MMS, callStateIdle, contactName, messageAddress, messageBody);
+		    }
+	    	//Ignore notification based on the users preferences.
+	    	if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_IGNORE)){
+	    		return;
+	    	}
 	    	// Set alarm to go off x minutes from the current time as defined by the user preferences.
 	    	long rescheduleInterval = Long.parseLong(preferences.getString(Constants.RESCHEDULE_NOTIFICATION_TIMEOUT_KEY, "5")) * 60 * 1000;
 	    	if(preferences.getBoolean(Constants.RESCHEDULE_NOTIFICATIONS_ENABLED_KEY, true)){
