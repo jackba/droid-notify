@@ -665,7 +665,7 @@ public class NotificationView extends LinearLayout {
 			}
 			case Constants.NOTIFICATION_TYPE_GMAIL:{
 		    	//iconBitmap = BitmapFactory.decodeResource(_context.getResources(), R.drawable.gmail);
-		    	receivedAtText = _context.getString(R.string.email_at_text, formattedTimestamp.toLowerCase());
+		    	//receivedAtText = _context.getString(R.string.email_at_text, formattedTimestamp.toLowerCase());
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_TWITTER:{
