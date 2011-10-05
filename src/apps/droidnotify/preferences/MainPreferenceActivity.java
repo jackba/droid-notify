@@ -158,6 +158,19 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 				checkTwitterAuthentication();
 			}
 		}		
+		if(key.equals(Constants.SMS_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY)){
+			updateClearStatusBarNotifications();
+		}		
+		if(key.equals(Constants.MMS_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY)){
+			updateClearStatusBarNotifications();
+		}		
+		if(key.equals(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY)){
+			updateClearStatusBarNotifications();
+		}		
+		if(key.equals(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY)){
+			updateClearStatusBarNotifications();
+		}
+		
 	}
 
 	//================================================================================
@@ -1172,6 +1185,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		updateStatusBarNotificationRingtone(Constants.NOTIFICATION_TYPE_MMS);
 		updateStatusBarNotificationRingtone(Constants.NOTIFICATION_TYPE_PHONE);
 		updateStatusBarNotificationRingtone(Constants.NOTIFICATION_TYPE_CALENDAR);
+		updateClearStatusBarNotifications();
 	}
 	
 	/**
@@ -1361,6 +1375,32 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			}
 		}catch(Exception ex){
 			if (_debug) Log.v("MainPreferenceActivity.updateStatusBarNotificationVibrate() ERROR: " + ex.toString());
+		}
+	}
+	
+	/**
+	 * Updates the Clear Status Bar Notofication preference based on the Status Bar Notification Settings.
+	 */
+	private void updateClearStatusBarNotifications(){
+		if (_debug) Log.v("MainPreferenceActivity.updateClearStatusBarNotifications()");
+		try{
+			boolean enabled = false;
+			if(_preferences.getBoolean(Constants.SMS_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY, true) && _preferences.getBoolean(Constants.SMS_NOTIFICATIONS_ENABLED_KEY, true)){
+				enabled = true;
+			}
+			if(_preferences.getBoolean(Constants.MMS_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY, true) && _preferences.getBoolean(Constants.MMS_NOTIFICATIONS_ENABLED_KEY, true)){
+				enabled = true;
+			}	
+			if(_preferences.getBoolean(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY, true) && _preferences.getBoolean(Constants.PHONE_NOTIFICATIONS_ENABLED_KEY, true)){
+				enabled = true;
+			}	
+			if(_preferences.getBoolean(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY, true) && _preferences.getBoolean(Constants.CALENDAR_NOTIFICATIONS_ENABLED_KEY, true)){
+				enabled = true;
+			}	
+			CheckBoxPreference clearStatusBarNotificationsOnExitCheckBoxPreference = (CheckBoxPreference) findPreference(Constants.CLEAR_STATUS_BAR_NOTIFICATIONS_ON_EXIT_KEY);
+			clearStatusBarNotificationsOnExitCheckBoxPreference.setEnabled(enabled);
+		}catch(Exception ex){
+			if (_debug) Log.v("MainPreferenceActivity.updateClearStatusBarNotifications() ERROR: " + ex.toString());
 		}
 	}
 	

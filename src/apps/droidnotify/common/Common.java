@@ -1053,6 +1053,7 @@ public class Common {
 		if (_debug) Log.v("Common.setStatusBarNotification()");
 		try{
 			//Preference keys.
+			String POPUP_ENABLED_KEY = null;
 			String ENABLED_KEY = null;
 			String SOUND_SETTING_KEY = null;
 			String RINGTONE_DEFAULT = Constants.STATUS_BAR_NOTIFICATIONS_RINGTONE_DEFAULT;;
@@ -1094,6 +1095,7 @@ public class Common {
 			switch(notificationType){
 				case Constants.NOTIFICATION_TYPE_SMS:{
 					if (_debug) Log.v("Common.setStatusBarNotification() NOTIFICATION_TYPE_SMS");
+					POPUP_ENABLED_KEY = Constants.SMS_NOTIFICATIONS_ENABLED_KEY;
 					ENABLED_KEY = Constants.SMS_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY;
 					SOUND_SETTING_KEY = Constants.SMS_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY;
 					IN_CALL_SOUND_ENABLED_KEY = Constants.SMS_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY;
@@ -1136,6 +1138,7 @@ public class Common {
 				}
 				case Constants.NOTIFICATION_TYPE_MMS:{
 					if (_debug) Log.v("Common.setStatusBarNotification() NOTIFICATION_TYPE_MMS");
+					POPUP_ENABLED_KEY = Constants.MMS_NOTIFICATIONS_ENABLED_KEY;
 					ENABLED_KEY = Constants.MMS_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY;
 					SOUND_SETTING_KEY = Constants.MMS_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY;
 					IN_CALL_SOUND_ENABLED_KEY = Constants.MMS_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY;
@@ -1178,6 +1181,7 @@ public class Common {
 				}
 				case Constants.NOTIFICATION_TYPE_PHONE:{
 					if (_debug) Log.v("Common.setStatusBarNotification() NOTIFICATION_TYPE_PHONE");
+					POPUP_ENABLED_KEY = Constants.PHONE_NOTIFICATIONS_ENABLED_KEY;
 					ENABLED_KEY = Constants.PHONE_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY;
 					SOUND_SETTING_KEY = Constants.PHONE_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY;
 					IN_CALL_SOUND_ENABLED_KEY = Constants.PHONE_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY;
@@ -1216,6 +1220,7 @@ public class Common {
 				}
 				case Constants.NOTIFICATION_TYPE_CALENDAR:{
 					if (_debug) Log.v("Common.setStatusBarNotification() NOTIFICATION_TYPE_CALENDAR");
+					POPUP_ENABLED_KEY = Constants.CALENDAR_NOTIFICATIONS_ENABLED_KEY;
 					ENABLED_KEY = Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY;
 					SOUND_SETTING_KEY = Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY;
 					IN_CALL_SOUND_ENABLED_KEY = Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY;
@@ -1277,7 +1282,7 @@ public class Common {
 			boolean vibrateEnabled = false;
 			boolean vibrateInCallEnabled = false;
 			//Check if notifications are enabled or not.
-			if(!preferences.getBoolean(ENABLED_KEY, true)){
+			if(!preferences.getBoolean(ENABLED_KEY, true) && !preferences.getBoolean(POPUP_ENABLED_KEY, true)){
 				if (_debug) Log.v("Common.setStatusBarNotification() Notifications Disabled: ENABLED_KEY " + ENABLED_KEY + " - Exiting...");
 				return;
 			}
