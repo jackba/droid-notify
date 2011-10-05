@@ -33,6 +33,7 @@ public class Constants {
 	public static final String HIDE_SINGLE_MESSAGE_HEADER_KEY = "hide_single_message_header_enabled";
     public static final String CONTACT_PLACEHOLDER_KEY = "contact_placeholder";
     public static final String BUTTON_ICONS_KEY = "button_icons_enabled";
+    public static final String CLEAR_STATUS_BAR_NOTIFICATIONS_ON_EXIT_KEY = "clear_status_bar_notifications_on_exit_enabled";
 	
 	public static final String BLOCKING_APP_RUNNING_ACTION_RESCHEDULE = "0";
 	public static final String BLOCKING_APP_RUNNING_ACTION_IGNORE = "1";

@@ -953,6 +953,8 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			buf.newLine();
 			buf.append("reschedule_notification_timeout_settings|" + _preferences.getString("reschedule_notification_timeout_settings", "5") + "|string");
 			buf.newLine();
+			buf.append("clear_status_bar_notifications_on_exit_enabled|" + _preferences.getBoolean("clear_status_bar_notifications_on_exit_enabled", false) + "|boolean");
+			buf.newLine();
 			
 			buf.close();
 		}catch (Exception ex){

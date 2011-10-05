@@ -798,7 +798,7 @@ public class NotificationActivity extends Activity {
 		SharedPreferences.Editor editor = _preferences.edit();
 		editor.putBoolean(Constants.USER_IN_MESSAGING_APP_KEY, false);
 		editor.commit();
-		if(true){ //TODO
+		if(_preferences.getBoolean(Constants.CLEAR_STATUS_BAR_NOTIFICATIONS_ON_EXIT_KEY, false)){
 			Common.clearAllNotifications(_context);
 		}
 	}
@@ -1041,16 +1041,26 @@ public class NotificationActivity extends Activity {
 	 */
 	private void createTestNotifications(){
 		if (_debug) Log.v("NotificationActivity.createTextNotifications()");
+		String sentFromAddress = "5555555555";
+		String smsTestMesage = "Droid Notify SMS Message Test";
+		String calendarTextCalendar = "Test Calendar";
+		String calendarTestEvent = "Droid Notify Calendar Event Test";
 		NotificationViewFlipper notificationViewFlipper = _notificationViewFlipper;
 		//Add SMS Message Notification.
-		Notification smsNotification = new Notification(_context, "5555555555", "Droid Notify SMS Message Test", System.currentTimeMillis(), Constants.NOTIFICATION_TYPE_SMS);
+		Notification smsNotification = new Notification(_context, sentFromAddress, smsTestMesage, System.currentTimeMillis(), Constants.NOTIFICATION_TYPE_SMS);
 		notificationViewFlipper.addNotification(smsNotification);
+		//Display Status Bar Notification
+	    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_SMS, true, null, sentFromAddress, smsTestMesage);
 		//Add Missed Call Notification.
-		Notification missedCallNotification = new Notification(_context, 0, "5555555555", System.currentTimeMillis(), 0, "", 0, "", Constants.NOTIFICATION_TYPE_PHONE);
+		Notification missedCallNotification = new Notification(_context, 0, sentFromAddress, System.currentTimeMillis(), 0, "", 0, "", Constants.NOTIFICATION_TYPE_PHONE);
 		notificationViewFlipper.addNotification(missedCallNotification);
+		//Display Status Bar Notification
+	    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_PHONE, true, null, sentFromAddress, null);
 		//Add Calendar Event Notification.
-		Notification calendarEventNotification = new Notification(_context, "Droid Notify Calendar Event Test", "", System.currentTimeMillis(), System.currentTimeMillis() + (10 * 60 * 1000), false, "Test Calendar",  0, 0, Constants.NOTIFICATION_TYPE_CALENDAR);
+		Notification calendarEventNotification = new Notification(_context, calendarTestEvent, "", System.currentTimeMillis(), System.currentTimeMillis() + (10 * 60 * 1000), false, calendarTextCalendar,  0, 0, Constants.NOTIFICATION_TYPE_CALENDAR);
 		notificationViewFlipper.addNotification(calendarEventNotification);	
+		//Display Status Bar Notification
+	    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_CALENDAR, true, null, null, calendarTestEvent);
 	}
 	
 	/**
