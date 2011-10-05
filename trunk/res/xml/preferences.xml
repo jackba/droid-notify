@@ -166,7 +166,8 @@
 							android:title="@string/preference_notifications_enabled_title" 
 							android:summaryOn="@string/preference_notifications_enabled_summaryOn" 
 							android:summaryOff="@string/preference_notifications_enabled_summaryOff" 
-							android:defaultValue="true" />		
+							android:defaultValue="true"
+							android:dependency="sms_notifications_enabled" />		
 						<PreferenceScreen
 							android:key="sms_notification_settings_screen"
 							android:title="@string/preference_notification_settings"
@@ -434,7 +435,8 @@
 							android:title="@string/preference_notifications_enabled_title" 
 							android:summaryOn="@string/preference_notifications_enabled_summaryOn" 
 							android:summaryOff="@string/preference_notifications_enabled_summaryOff" 
-							android:defaultValue="true" />		
+							android:defaultValue="true"
+							android:dependency="mms_notifications_enabled" />		
 						<PreferenceScreen
 							android:key="mms_notification_settings_screen"
 							android:title="@string/preference_notification_settings"
@@ -702,7 +704,8 @@
 							android:title="@string/preference_notifications_enabled_title" 
 							android:summaryOn="@string/preference_notifications_enabled_summaryOn" 
 							android:summaryOff="@string/preference_notifications_enabled_summaryOff" 
-							android:defaultValue="true" />		
+							android:defaultValue="true"
+							android:dependency="missed_call_notifications_enabled" />		
 						<PreferenceScreen
 							android:key="missed_call_notification_settings_screen"
 							android:title="@string/preference_notification_settings"
@@ -942,7 +945,8 @@
 							android:title="@string/preference_notifications_enabled_title" 
 							android:summaryOn="@string/preference_notifications_enabled_summaryOn" 
 							android:summaryOff="@string/preference_notifications_enabled_summaryOff" 
-							android:defaultValue="true" />		
+							android:defaultValue="true"
+							android:dependency="calendar_notifications_enabled" />		
 						<PreferenceScreen
 							android:key="calendar_notification_settings_screen"
 							android:title="@string/preference_notification_settings"
