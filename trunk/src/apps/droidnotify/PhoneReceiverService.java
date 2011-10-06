@@ -57,6 +57,7 @@ public class PhoneReceiverService extends WakefulIntentService {
 	    	Intent phoneNotificationIntent = new Intent(context, NotificationActivity.class);
 	    	phoneNotificationIntent.putExtras(bundle);
 	    	phoneNotificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+	    	Common.acquirePartialWakeLock(context);
 	    	context.startActivity(phoneNotificationIntent);
 		}else{
 			if (_debug) Log.v("PhoneReceiverService.doWakefulWork() No missed calls were found. Exiting...");

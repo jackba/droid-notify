@@ -8,7 +8,6 @@ package apps.droidnotify.common;
 public class Constants {
 	
 	//-----GENERAL APP CONSTANTS-----//
-	public static final String LOCK_NAME_STATIC="app.droidnotify.android.syssvc.AppService.Static";
 	public static final String DROID_NOTIFY_WAKELOCK = "DROID_NOTIFY_WAKELOCK";
 	public static final String DROID_NOTIFY_KEYGUARD = "DROID_NOTIFY_KEYGUARD";
 	
@@ -22,8 +21,7 @@ public class Constants {
 	public static final String BLUR_SCREEN_ENABLED_KEY = "blur_screen_background_enabled";
 	public static final String DIM_SCREEN_ENABLED_KEY = "dim_screen_background_enabled";
 	public static final String DIM_SCREEN_AMOUNT_KEY = "dim_screen_background_amount";
-	public static final String WAKELOCK_TIMEOUT_KEY = "wakelock_timeout_settings";
-	public static final String KEYGUARD_TIMEOUT_KEY = "keyguard_timeout_settings";
+	public static final String SCREEN_TIMEOUT_KEY = "screen_timeout_settings";
 	public static final String RESCHEDULE_NOTIFICATIONS_ENABLED_KEY = "reschedule_notifications_enabled";
 	public static final String RESCHEDULE_NOTIFICATION_TIMEOUT_KEY = "reschedule_notification_timeout_settings";
 	public static final String USER_IN_MESSAGING_APP_KEY = "user_in_messaging_app";

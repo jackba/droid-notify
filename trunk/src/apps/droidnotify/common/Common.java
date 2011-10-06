@@ -10,10 +10,12 @@ import java.util.List;
 import java.util.TimeZone;
 
 import android.app.ActivityManager;
+import android.app.KeyguardManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.ActivityManager.RunningTaskInfo;
+import android.app.KeyguardManager.KeyguardLock;
 import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -34,6 +36,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
@@ -58,6 +61,9 @@ public class Common {
     //================================================================================
 	
 	private static boolean _debug = false;
+	private static PowerManager.WakeLock _partialWakeLock = null;
+	private static PowerManager.WakeLock _wakeLock = null;
+	private static KeyguardLock _keyguardLock = null; 
 	
 	//================================================================================
 	// Public Methods
@@ -1813,6 +1819,135 @@ public class Common {
 			cursor.close();
 		}
 	    return missedCallsArray;
+	}
+	
+	/**
+	 * Aquire a global partial wakelock within this context.
+	 * 
+	 * @param context - The application context.
+	 */
+	public static void acquirePartialWakeLock(Context context){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.aquirePartialWakelock()");
+		try{
+			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+			if(_partialWakeLock == null){
+		    	PowerManager pm = (PowerManager)context.getSystemService(Context.POWER_SERVICE);
+		    	if(preferences.getBoolean(Constants.SCREEN_ENABLED_KEY, true)){
+		    		_partialWakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, Constants.DROID_NOTIFY_WAKELOCK);
+		    	}else{
+		    		_partialWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, Constants.DROID_NOTIFY_WAKELOCK);
+		    	}
+		    	_partialWakeLock.setReferenceCounted(false);
+			}
+			_partialWakeLock.acquire();
+		}catch(Exception ex){
+			if (_debug) Log.v("Common.aquirePartialWakelock() ERROR: " + ex.toString());
+		}
+	}
+	
+	/**
+	 * Release the global partial wakelock within this context.
+	 * 
+	 * @param context - The application context.
+	 */
+	public static void clearPartialWakeLock(){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.clearPartialWakelock()");
+		try{
+	    	if(_partialWakeLock != null){
+	    		_partialWakeLock.release();
+	    	}
+		}catch(Exception ex){
+			if (_debug) Log.v("Common.clearPartialWakelock() ERROR: " + ex.toString());
+		}
+	}
+	
+	/**
+	 * Function that acquires the WakeLock for this Activity.
+	 * The type flags for the WakeLock will be determined by the user preferences. 
+	 * 
+	 * @param context - The application context.
+	 */
+	public static void acquireWakeLock(Context context){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.aquireWakelock()");
+		try{
+			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+			if(_wakeLock == null){
+				PowerManager pm = (PowerManager)context.getSystemService(Context.POWER_SERVICE);
+				if(preferences.getBoolean(Constants.SCREEN_ENABLED_KEY, true)){
+					if(preferences.getBoolean(Constants.SCREEN_DIM_ENABLED_KEY, true)){
+						_wakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, Constants.DROID_NOTIFY_WAKELOCK);
+					}else{
+						_wakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, Constants.DROID_NOTIFY_WAKELOCK);
+					}
+				}else{
+					_wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, Constants.DROID_NOTIFY_WAKELOCK);
+				}
+				_wakeLock.setReferenceCounted(false);
+			}
+			if(_wakeLock != null){
+				_wakeLock.acquire();
+			}
+			Common.clearPartialWakeLock();
+		}catch(Exception ex){
+			if (_debug) Log.v("Common.aquireWakelock() ERROR: " + ex.toString());
+		}
+	}
+	
+	/**
+	 * Release the global wakelock within this context.
+	 * 
+	 * @param context - The application context.
+	 */
+	public static void clearWakeLock(){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.clearWakelock()");
+		try{
+			Common.clearPartialWakeLock();
+	    	if(_wakeLock != null){
+	    		_wakeLock.release();
+	    	}
+		}catch(Exception ex){
+			if (_debug) Log.v("Common.clearWakelock() ERROR: " + ex.toString());
+		}
+	}
+
+	/**
+	 * Function that disables the Keyguard for this Activity.
+	 * The removal of the Keyguard will be determined by the user preferences. 
+	 * 
+	 * @param context - The current context of this Activity.
+	 */
+	public static void acquireKeyguardLock(Context context){
+		if (_debug) Log.v("Common.acquireKeyguardLock()");
+		try{
+			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+			KeyguardManager keyguardManager = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
+			if(keyguardManager.inKeyguardRestrictedInputMode() && preferences.getBoolean(Constants.SCREEN_ENABLED_KEY, true) && preferences.getBoolean(Constants.KEYGUARD_ENABLED_KEY, true)){
+				if(_keyguardLock == null){
+					_keyguardLock = keyguardManager.newKeyguardLock(Constants.DROID_NOTIFY_KEYGUARD);
+				}
+				_keyguardLock.disableKeyguard();
+			}
+		}catch(Exception ex){
+			if (_debug) Log.e("Common.acquireKeyguardLock() ERROR: " + ex.toString());
+		}
+	}
+
+	/**
+	 * Re-Enables the Keyguard for this Activity.
+	 */
+	public static void clearKeyguardLock(){
+		if (_debug) Log.v("Common.clearKeyguardLock()");
+		try{
+			if(_keyguardLock != null){
+				_keyguardLock.reenableKeyguard();
+			}
+		}catch(Exception ex){
+			if (_debug) Log.e("Common.clearKeyguardLock() ERROR: " + ex.toString());
+		}
 	}
 	
 //	/**

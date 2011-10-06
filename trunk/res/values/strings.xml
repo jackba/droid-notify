@@ -311,18 +311,14 @@
     <string name="preference_landscape_screen_enabled_title">Enable Landscape Mode</string>
    	<string name="preference_landscape_screen_enabled_summaryOn">The screens will rotate to landscape mode when the phone is rotated.</string>
    	<string name="preference_landscape_screen_enabled_summaryOff">The screens will not rotate to landscape mode when the phone is rotated.</string>
-   	  	 	
-   	<!-- Wakelock Strings -->
- 	<string name="preference_wakelock_timeout">WakeLock Timeout</string>
-   	<string name="preference_wakelock_timeout_summary">Define how long to wait before releasing the phones WakeLock after a notification is shown. The smaller the timeout, the less battery power is used.</string> 
+ 	<string name="preference_screen_timeout">Screen Timeout</string>
+   	<string name="preference_screen_timeout_summary">Define how long to wait before releasing the phones screen after a notification is shown. The smaller the timeout, the less battery power is used.</string> 
    	  	  	 	 	
    	<!-- Keyguard Strings -->
  	<string name="preference_keyguard_enabled_title">Unlock Phone</string>
    	<string name="preference_keyguard_enabled_summaryOn">Phone will unlock when a notification is shown.</string>
    	<string name="preference_keyguard_enabled_summaryOff">Phone will not unlock when a notification is shown.</string>
-	<string name="preference_keyguard_timeout">Keyguard Timeout</string>
-   	<string name="preference_keyguard_timeout_summary">Define how long to wait before releasing the phones Keyguard after a notification is shown. The smaller the timeout, the less battery power is used.</string>
-   	
+	
    	<!-- Phone Number Format Strings -->
    	<string name="preference_phone_number_format">Phone Number Format</string>
    	<string name="preference_phone_number_format_summary">Select the phone number format used to display phone numbers.</string>

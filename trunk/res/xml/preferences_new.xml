@@ -761,20 +761,12 @@
 				android:key="advanced_settings_inner_category"
 				android:title="@string/advanced_settings_text">
 				<ListPreference
-					android:key="wakelock_timeout_settings"
-					android:title="@string/preference_wakelock_timeout"
-					android:summary="@string/preference_wakelock_timeout_summary"
+					android:key="screen_timeout_settings"
+					android:title="@string/preference_screen_timeout"
+					android:summary="@string/preference_screen_timeout_summary"
 					android:defaultValue="300"
-					android:entries="@array/wakelock_timeout_options"
-					android:entryValues="@array/wakelock_timeout_options_values" />
-				<ListPreference
-					android:key="keyguard_timeout_settings"
-					android:title="@string/preference_keyguard_timeout"
-					android:summary="@string/preference_keyguard_timeout_summary"
-					android:defaultValue="300"
-					android:entries="@array/keyguard_timeout_options"
-					android:entryValues="@array/keyguard_timeout_options_values"
-					android:dependency="keyguard_enabled" />
+					android:entries="@array/screen_timeout_options"
+					android:entryValues="@array/screen_timeout_options_values" />
 				<ListPreference
 					android:key="quick_reply_sms_gateway_settings"
 					android:title="@string/preference_quick_reply_sms_gateway"
