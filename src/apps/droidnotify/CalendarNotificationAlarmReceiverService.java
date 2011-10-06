@@ -3,6 +3,7 @@ package apps.droidnotify;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import apps.droidnotify.common.Common;
 import apps.droidnotify.log.Log;
 
 /**
@@ -62,6 +63,7 @@ public class CalendarNotificationAlarmReceiverService extends WakefulIntentServi
     	Bundle bundle = intent.getExtras();
     	calendarIntent.putExtras(bundle);
     	calendarIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+    	Common.acquirePartialWakeLock(context);
     	context.startActivity(calendarIntent);
 	}
 	

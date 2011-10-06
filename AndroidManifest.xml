@@ -69,6 +69,7 @@
 		<service android:name="apps.droidnotify.CalendarAlarmReceiverService" />
 		<receiver android:name="apps.droidnotify.CalendarNotificationAlarmReceiver" />
 		<service android:name="apps.droidnotify.CalendarNotificationAlarmReceiverService" />
+		<receiver android:name="apps.droidnotify.ScreenManagementAlarmReceiver" />
    		<activity 
    			android:name="apps.droidnotify.NotificationActivity" 
    			android:theme="@style/Theme.Transparent"

@@ -83,9 +83,9 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	    if(!_preferences.getBoolean(Constants.LANDSCAPE_SCREEN_ENABLED_KEY, false)){
 	    	this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 	    }
-	    
+	    //REMOVE THIS ON THE NEXT VERSION!--------------------------
 	    fixPreferenceUpdatesTemp();
-	    
+	    //----------------------------------------------------------
 	    //addPreferencesFromResource(R.xml.preferences_new);
 	    addPreferencesFromResource(R.xml.preferences);
 	    _appVersion = getApplicationVersion();
@@ -946,9 +946,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			//Advanced Settings
 			buf.append("haptic_feedback_enabled|" + _preferences.getBoolean("haptic_feedback_enabled", true) + "|boolean");
 			buf.newLine();
-			buf.append("wakelock_timeout_settings|" + _preferences.getString("wakelock_timeout_settings", "300") + "|string");
-			buf.newLine();
-			buf.append("keyguard_timeout_settings|" + _preferences.getString("keyguard_timeout_settings", "300") + "|string");
+			buf.append("screen_timeout_settings|" + _preferences.getString("screen_timeout_settings", "300") + "|string");
 			buf.newLine();
 			buf.append("sms_timeout_settings|" + _preferences.getString("sms_timeout_settings", "10") + "|string");
 			buf.newLine();
@@ -1421,7 +1419,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	 */
 	private void fixPreferenceUpdatesTemp(){
 		if (_debug) Log.v("MainPreferenceActivity.fixPreferenceUpdatesTemp()");
-		boolean fixPreferenceUpdates = _preferences.getBoolean("fixPreferenceUpdates", true);
+		boolean fixPreferenceUpdates = _preferences.getBoolean("FixPreferenceUpdates", true);
 		if(fixPreferenceUpdates) {
 			try{
 				//Notifications Enabled
@@ -1470,7 +1468,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 				if(!calendarNotificationsSoundEnabled && !calendarNotificationsVibrateEnabled) calendarNotificationsEnabled = false;
 
 				SharedPreferences.Editor editor = _preferences.edit();
-				editor.putBoolean("fixPreferenceUpdates", false);
+				editor.putBoolean("FixPreferenceUpdates", false);
 				if(smsNotificationsEnabled){
 					editor.putBoolean(Constants.SMS_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY, true);
 				}else{
@@ -1537,7 +1535,5 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	    	}
 		}
 	}
-
-
 
 }

@@ -3,10 +3,10 @@ package apps.droidnotify;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.KeyguardManager;
-import android.app.KeyguardManager.KeyguardLock;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -17,10 +17,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.os.PowerManager;
-import android.os.PowerManager.WakeLock;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.view.ContextMenu;
@@ -71,11 +67,7 @@ public class NotificationActivity extends Activity {
 
 	private boolean _debug = false;
 	private Context _context = null;
-	private WakeLock _wakeLock = null;
-	private KeyguardLock _keyguardLock = null; 
 	private NotificationViewFlipper _notificationViewFlipper = null;
-	private WakeLockHandler _wakeLockHandler = null;
-	private KeyguardHandler _keyguardHandler = null;
 	private MotionEvent _downMotionEvent = null;
 	SharedPreferences _preferences = null;
 
@@ -262,10 +254,7 @@ public class NotificationActivity extends Activity {
 			}
 			case VIEW_THREAD_CONTEXT_MENU:{
 				if(Common.startMessagingAppViewThreadActivity(_context, this, notification.getSentFromAddress(), Constants.VIEW_SMS_THREAD_ACTIVITY)){
-				    //Set "In Reply Screen" flag.
-					SharedPreferences.Editor editor = _preferences.edit();
-					editor.putBoolean(Constants.USER_IN_MESSAGING_APP_KEY, true);
-					editor.commit();
+					setInReplyScreenFlag(true);
 					return true;
 				}else{
 					return false;
@@ -273,10 +262,7 @@ public class NotificationActivity extends Activity {
 			}
 			case MESSAGING_INBOX_CONTEXT_MENU:{
 				if(Common.startMessagingAppViewInboxActivity(_context, this, Constants.MESSAGING_ACTIVITY)){
-				    //Set "In Reply Screen" flag.
-					SharedPreferences.Editor editor = _preferences.edit();
-					editor.putBoolean(Constants.USER_IN_MESSAGING_APP_KEY, true);
-					editor.commit();
+					setInReplyScreenFlag(true);
 					return true;
 				}else{
 					return false;
@@ -313,8 +299,9 @@ public class NotificationActivity extends Activity {
 	 */
 	public void finishActivity() {
 		if (_debug) Log.v("NotificationActivity.finishActivity()");
-		//Release the WakeLock
-		releaseWakeLock();
+		//Release the KeyguardLock & WakeLock
+		Common.clearKeyguardLock();
+		Common.clearWakeLock();
 	    // Finish the activity.
 	    finish();
 	}
@@ -474,10 +461,7 @@ public class NotificationActivity extends Activity {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() SEND_SMS_ACTIVITY: " + resultCode);
 		        	Toast.makeText(_context, _context.getString(R.string.app_android_messaging_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
 		    	}  
-			    //Set "In Reply Screen" flag.
-				SharedPreferences.Editor editor = _preferences.edit();
-				editor.putBoolean(Constants.USER_IN_MESSAGING_APP_KEY, false);
-				editor.commit();
+		    	setInReplyScreenFlag(false);
 		        break;
 		    }
 		    case Constants.VIEW_SMS_MESSAGE_ACTIVITY:{ 
@@ -493,10 +477,7 @@ public class NotificationActivity extends Activity {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() VIEW_SMS_MESSAGE_ACTIVITY: " + resultCode);
 		        	Toast.makeText(_context, _context.getString(R.string.app_android_messaging_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
 		    	}  
-			    //Set "In Reply Screen" flag.
-				SharedPreferences.Editor editor = _preferences.edit();
-				editor.putBoolean(Constants.USER_IN_MESSAGING_APP_KEY, false);
-				editor.commit();
+		    	setInReplyScreenFlag(false);
 		        break;
 		    }
 		    case Constants.VIEW_SMS_THREAD_ACTIVITY:{ 
@@ -512,10 +493,7 @@ public class NotificationActivity extends Activity {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() VIEW_SMS_THREAD_ACTIVITY: " + resultCode);
 		        	Toast.makeText(_context, _context.getString(R.string.app_android_messaging_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
 		    	}  
-			    //Set "In Reply Screen" flag.
-				SharedPreferences.Editor editor = _preferences.edit();
-				editor.putBoolean(Constants.USER_IN_MESSAGING_APP_KEY, false);
-				editor.commit();
+		    	setInReplyScreenFlag(false);
 		        break;
 		    }
 		    case Constants.MESSAGING_ACTIVITY:{ 
@@ -531,10 +509,7 @@ public class NotificationActivity extends Activity {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() MESSAGING_ACTIVITY: " + resultCode);
 		        	Toast.makeText(_context, _context.getString(R.string.app_android_messaging_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
 		    	}
-		    	//Set "In Reply Screen" flag.
-				SharedPreferences.Editor editor = _preferences.edit();
-				editor.putBoolean(Constants.USER_IN_MESSAGING_APP_KEY, false);
-				editor.commit();
+		    	setInReplyScreenFlag(false);
 		        break;
 		    }
 		    case Constants.SEND_SMS_QUICK_REPLY_ACTIVITY:{ 
@@ -550,10 +525,7 @@ public class NotificationActivity extends Activity {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() SEND_SMS_QUICK_REPLY_ACTIVITY: " + resultCode);
 		        	Toast.makeText(_context, _context.getString(R.string.app_android_messaging_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
 		    	}  
-			    //Set "In Reply Screen" flag.
-				SharedPreferences.Editor editor = _preferences.edit();
-				editor.putBoolean(Constants.USER_IN_MESSAGING_APP_KEY, false);
-				editor.commit();
+		    	setInReplyScreenFlag(false);
 		        break;
 		    }
 		    case Constants.CALL_ACTIVITY:{ 
@@ -661,33 +633,38 @@ public class NotificationActivity extends Activity {
 	    if (_debug) Log.v("NotificationActivity.onCreate()");
 	    _context = getApplicationContext();
 	    _preferences = PreferenceManager.getDefaultSharedPreferences(_context);
-		_wakeLockHandler = new WakeLockHandler();
-		_keyguardHandler = new KeyguardHandler();
-		//_ringtoneHandler = new RingtoneHandler();
+	    Common.acquireWakeLock(_context);
 	    final Bundle extrasBundle = getIntent().getExtras();
 	    int notificationType = extrasBundle.getInt("notificationType");
 	    if (_debug) Log.v("NotificationActivity.onCreate() Notification Type: " + notificationType);
+	    boolean turnScreenOn = _preferences.getBoolean(Constants.SCREEN_ENABLED_KEY, true);
+	    boolean unlockScreen = _preferences.getBoolean(Constants.KEYGUARD_ENABLED_KEY, true);
 	    //Don't rotate the Activity when the screen rotates based on the user preferences.
 	    if(!_preferences.getBoolean(Constants.LANDSCAPE_SCREEN_ENABLED_KEY, false)){
 	    	this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 	    }
 	    //Get main window for this Activity.
-	    Window mainWindow = getWindow(); 
-	    //Set Blur 
-	    if(_preferences.getBoolean(Constants.BLUR_SCREEN_ENABLED_KEY, false)){
-	    	mainWindow.addFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
-	    }
-	    //Set Dim
-	    if(_preferences.getBoolean(Constants.DIM_SCREEN_ENABLED_KEY, false)){
-	    	mainWindow.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND); 
-		    WindowManager.LayoutParams params = mainWindow.getAttributes(); 
-		    int dimAmt = Integer.parseInt(_preferences.getString(Constants.DIM_SCREEN_AMOUNT_KEY, "50"));
-		    params.dimAmount = dimAmt / 100f; 
-		    mainWindow.setAttributes(params); 
-	    }
-	    if(_preferences.getBoolean(Constants.SCREEN_ENABLED_KEY, true) && _preferences.getBoolean(Constants.KEYGUARD_ENABLED_KEY, true)){
-	    	mainWindow.addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
-	    	mainWindow.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
+	    Window mainWindow = getWindow();
+	    //Turn Screen On Flags
+	    if(turnScreenOn){
+	    	mainWindow.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+		    //Unlock Keyguard Flags
+		    if(unlockScreen){
+		    	mainWindow.addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD | 
+		    						WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
+		    }
+	    	//Set Background Blur Flags
+		    if(_preferences.getBoolean(Constants.BLUR_SCREEN_ENABLED_KEY, false)){
+		    	mainWindow.addFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
+		    }
+		    //Set Background Dim Flags
+		    if(_preferences.getBoolean(Constants.DIM_SCREEN_ENABLED_KEY, false)){
+		    	mainWindow.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND); 
+			    WindowManager.LayoutParams params = mainWindow.getAttributes(); 
+			    int dimAmt = Integer.parseInt(_preferences.getString(Constants.DIM_SCREEN_AMOUNT_KEY, "50"));
+			    params.dimAmount = dimAmt / 100f; 
+			    mainWindow.setAttributes(params); 
+		    }
 	    }
 	    setContentView(R.layout.notificationwrapper);
 	    setupViews(notificationType);
@@ -732,17 +709,10 @@ public class NotificationActivity extends Activity {
 		    	//TODO - Facebook
 				break;
 		    }
-	    }
-	    //Acquire WakeLock.
-	    acquireWakeLock(_context);
-	    long wakelockTimeout = Long.parseLong(_preferences.getString(Constants.WAKELOCK_TIMEOUT_KEY, "300")) * 1000;
-	    _wakeLockHandler.sleep(wakelockTimeout);
-	    //Remove the KeyGuard.
-	    disableKeyguardLock(_context);
-	    long keyguardTimeout = Long.parseLong(_preferences.getString(Constants.KEYGUARD_TIMEOUT_KEY, "300")) * 1000;
-	    _keyguardHandler.sleep(keyguardTimeout);  
-	    //Set "In Reply Screen" flag.
-	    setInReplyScreenFlag();
+	    } 
+	    setInReplyScreenFlag(false);
+	    Common.acquireKeyguardLock(_context);
+	    setScreenTimeoutAlarm();
 	}
 	  
 	/**
@@ -763,7 +733,7 @@ public class NotificationActivity extends Activity {
 	    super.onResume();
 	    _debug = Log.getDebug();
 	    if (_debug) Log.v("NotificationActivity.onResume()");
-	    acquireWakeLock(_context);
+	    Common.acquireWakeLock(_context);
 	}
 	  
 	/**
@@ -773,7 +743,7 @@ public class NotificationActivity extends Activity {
 	protected void onPause() {
 	    super.onPause();
 	    if (_debug) Log.v("NotificationActivity.onPause()");
-	    releaseWakeLock(); 
+	    Common.clearWakeLock();
 	}
 	  
 	/**
@@ -792,15 +762,12 @@ public class NotificationActivity extends Activity {
 	protected void onDestroy() {
 	    super.onDestroy();
 	    if (_debug) Log.v("NotificationActivity.onDestroy()");
-	    releaseWakeLock();
-	    reenableKeyguardLock();
-	    //Set "In Reply Screen" flag.
-		SharedPreferences.Editor editor = _preferences.edit();
-		editor.putBoolean(Constants.USER_IN_MESSAGING_APP_KEY, false);
-		editor.commit();
+	    Common.clearKeyguardLock();
+	    setInReplyScreenFlag(false);
 		if(_preferences.getBoolean(Constants.CLEAR_STATUS_BAR_NOTIFICATIONS_ON_EXIT_KEY, false)){
 			Common.clearAllNotifications(_context);
 		}
+	    Common.clearWakeLock();
 	}
 
 	/**
@@ -867,6 +834,7 @@ public class NotificationActivity extends Activity {
 	protected void onNewIntent(Intent intent) {
 	    super.onNewIntent(intent);
 	    if (_debug) Log.v("NotificationActivity.onNewIntent()");
+	    Common.acquireWakeLock(_context);
 	    setIntent(intent);
 	    Bundle extrasBundle = getIntent().getExtras();
 	    int notificationType = extrasBundle.getInt("notificationType");
@@ -908,15 +876,8 @@ public class NotificationActivity extends Activity {
 				break;
 			}
 	    }
-	    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(_context);
-	    //Acquire WakeLock.
-	    acquireWakeLock(_context);
-	    long wakelockTimeout = Long.parseLong(preferences.getString(Constants.WAKELOCK_TIMEOUT_KEY, "300")) * 1000;
-	    _wakeLockHandler.sleep(wakelockTimeout);
-	    //Remove the KeyGuard.
-	    disableKeyguardLock(_context);
-	    long keyguardTimeout = Long.parseLong(preferences.getString(Constants.KEYGUARD_TIMEOUT_KEY, "300")) * 1000;
-	    _keyguardHandler.sleep(keyguardTimeout);
+	    Common.acquireKeyguardLock(_context);
+	    setScreenTimeoutAlarm();
 	}
 	
 	//================================================================================
@@ -950,91 +911,8 @@ public class NotificationActivity extends Activity {
 		Intent intent = new Intent(context, MainPreferenceActivity.class);
 		startActivity(intent);
 	}
-	
-	/**
-	 * Function that acquires the WakeLock for this Activity.
-	 * The type flags for the WakeLock will be determined by the user preferences. 
-	 * 
-	 * @param context - The current context of this Activity.
-	 */
-	private void acquireWakeLock(Context context){
-		if (_debug) Log.v("NotificationActivity.acquireWakeLock()");
-		PowerManager pm = null;
-		try{
-			pm = (PowerManager)context.getSystemService(Context.POWER_SERVICE);
-			if(_wakeLock == null){
-				//Set the wakeLock properties based on the users preferences.
-				if(_preferences.getBoolean(Constants.SCREEN_ENABLED_KEY, true)){
-					if(_preferences.getBoolean(Constants.SCREEN_DIM_ENABLED_KEY, true)){
-						if (_debug) Log.v("NotificationActivity.acquireWakeLock() Screen Wake Enabled Dim.");
-						_wakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, Constants.DROID_NOTIFY_WAKELOCK);
-					}else{
-						if (_debug) Log.v("NotificationActivity.acquireWakeLock() Screen Wake Enabled Full.");
-						_wakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, Constants.DROID_NOTIFY_WAKELOCK);
-					}
-				}else{
-					if (_debug) Log.v("NotificationActivity.acquireWakeLock() Turn On Screen Disabled.");
-					_wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, Constants.DROID_NOTIFY_WAKELOCK);
-				}
-			}
-			if(_wakeLock != null){
-				if (_debug) Log.v("NotificationActivity.acquireWakeLock() Aquired wake lock");
-				_wakeLock.setReferenceCounted(false);
-				_wakeLock.acquire();
-			}
-		}catch(Exception ex){
-			if (_debug) Log.e("NotificationActivity.acquireWakeLock() ERROR: " + ex.toString());
-		}
-	}
-	
-	/**
-	 * Function that releases the WakeLock.
-	 */
-	private void releaseWakeLock(){
-		if (_debug) Log.v("NotificationActivity.releaseWakeLock()");
-		try{
-			if(_wakeLock != null){
-				_wakeLock.release();
-				_wakeLock = null;
-			}
-		}catch(Exception ex){
-			if (_debug) Log.e("NotificationActivity.releaseWakeLock() ERROR: " + ex.toString());
-		}
-	}
-	
-	/**
-	 * Function that disables the Keyguard for this Activity.
-	 * The removal of the Keyguard will be determined by the user preferences. 
-	 * 
-	 * @param context - The current context of this Activity.
-	 */
-	private void disableKeyguardLock(Context context){
-		if (_debug) Log.v("NotificationActivity.disableKeyguardLock()");
-		try{
-			KeyguardManager km = (KeyguardManager)getSystemService(Context.KEYGUARD_SERVICE);
-			_keyguardLock = km.newKeyguardLock(Constants.DROID_NOTIFY_KEYGUARD);
-			if(_preferences.getBoolean(Constants.SCREEN_ENABLED_KEY, true) && _preferences.getBoolean(Constants.KEYGUARD_ENABLED_KEY, true)){
-				_keyguardLock.disableKeyguard();
-			}
-		}catch(Exception ex){
-			if (_debug) Log.e("NotificationActivity.disableKeyguardLock() ERROR: " + ex.toString());
-		}
-	}
+		
 
-	/**
-	 * Re-Enables the Keyguard for this Activity.
-	 */
-	private void reenableKeyguardLock(){
-		if (_debug) Log.v("NotificationActivity.reenableKeyguardLock()");
-		try{
-			if(_keyguardLock != null){
-				_keyguardLock.reenableKeyguard();
-				_keyguardLock = null;
-			}
-		}catch(Exception ex){
-			if (_debug) Log.e("NotificationActivity.reenableKeyguardLock() ERROR: " + ex.toString());
-		}
-	}
 	
 	/**
 	 * Function to create a test notification of each type.
@@ -1064,68 +942,6 @@ public class NotificationActivity extends Activity {
 	}
 	
 	/**
-	 * This class is a Handler that executes in it's own thread and is used to delay the releasing of the WakeLock.
-	 * 
-	 * @author Camille Sévigny
-	 */
-	class WakeLockHandler extends Handler {
-
-		/**
-		 * Handles the delayed function call when the sleep period is over.
-		 * 
-		 * @param msg - Message to be handled.
-		 */
-		@Override
-	    public void handleMessage(Message msg) {
-			if (_debug) Log.v("WakeLockHandler.handleMessage()");
-	    	NotificationActivity.this.releaseWakeLock();
-	    }
-
-		/**
-		 * Put the thread to sleep for a period of time.
-		 * 
-		 * @param delayMillis - Delay time in milliseconds.
-		 */
-	    public void sleep(long delayMillis) {
-	    	if (_debug) Log.v("WakeLockHandler.sleep()");
-	    	this.removeMessages(0);
-	    	sendMessageDelayed(obtainMessage(0), delayMillis);
-	    }
-
-	};
-		
-	/**
-	 * This class is a Handler that executes in it's own thread and is used to delay the releasing of the Keyguard.
-	 * 
-	 * @author Camille Sévigny
-	 */
-	class KeyguardHandler extends Handler {
-
-		/**
-		 * Handles the delayed function call when the sleep period is over.
-		 * 
-		 * @param msg - Message to be handled.
-		 */
-		@Override
-		public void handleMessage(Message msg) {
-			if (_debug) Log.v("KeyguardHandler.handleMessage()");
-			NotificationActivity.this.reenableKeyguardLock();
-		}
-		    
-		/**
-		 * Put the thread to sleep for a period of time.
-		 * 
-		 * @param delayMillis - Delay time in milliseconds.
-		 */
-		public void sleep(long delayMillis) {
-			if (_debug) Log.v("KeyguardHandler.sleep()");
-			this.removeMessages(0);
-			sendMessageDelayed(obtainMessage(0), delayMillis);
-		}
-
-	};
-	
-	/**
 	 * Send a text message using any android messaging app.
 	 * 
 	 * @param phoneNumber - The phone number we want to send a text message to.
@@ -1135,10 +951,7 @@ public class NotificationActivity extends Activity {
 	private boolean sendSMSMessage(String phoneNumber){
 		if (_debug) Log.v("NotificationActivity.sendSMSMessage()");
 		if(Common.startMessagingAppReplyActivity(_context, this, phoneNumber, Constants.SEND_SMS_ACTIVITY)){
-			//Set "In Reply Screen" flag.
-			SharedPreferences.Editor editor = _preferences.edit();
-			editor.putBoolean(Constants.USER_IN_MESSAGING_APP_KEY, true);
-			editor.commit();
+			setInReplyScreenFlag(true);
 			return true;
 		}else{
 			return false;
@@ -1784,6 +1597,7 @@ public class NotificationActivity extends Activity {
 	 * @param notificationType - The notification type to customize what is shown.
 	 */
 	private void setupContextMenus(ContextMenu contextMenu, int notificationType){
+		if (_debug) Log.v("NotificationActivity.setupContextMenus()");
 		switch(notificationType){
 			case Constants.NOTIFICATION_TYPE_PHONE:{
 				MenuItem viewCalendarEventMenuItem = contextMenu.findItem(VIEW_CALENDAR_CONTEXT_MENU);
@@ -1860,10 +1674,24 @@ public class NotificationActivity extends Activity {
 	/**
 	 * Set the InReplyScreen flag.
 	 */
-	private void setInReplyScreenFlag(){
+	private void setInReplyScreenFlag(boolean flag){
+		if (_debug) Log.v("NotificationActivity.setInReplyScreenFlag()");
 		SharedPreferences.Editor editor = _preferences.edit();
-		editor.putBoolean(Constants.USER_IN_MESSAGING_APP_KEY, false);
+		editor.putBoolean(Constants.USER_IN_MESSAGING_APP_KEY, flag);
 		editor.commit();
+	}
+	
+	/**
+	 * Sets the alarm that will clear the KeyguardLock & WakeLock.
+	 */
+	private void setScreenTimeoutAlarm(){
+		if (_debug) Log.v("NotificationActivity.setScreenTimeoutAlarm()");
+		long scheduledAlarmTime = System.currentTimeMillis() + (Long.parseLong(_preferences.getString(Constants.SCREEN_TIMEOUT_KEY, "300")) * 1000);
+		AlarmManager alarmManager = (AlarmManager) _context.getSystemService(Context.ALARM_SERVICE);
+    	Intent intent = new Intent(_context, ScreenManagementAlarmReceiver.class);
+    	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+    	PendingIntent pendingIntent = PendingIntent.getBroadcast(_context, 0, intent, 0);
+		alarmManager.set(AlarmManager.RTC_WAKEUP, scheduledAlarmTime, pendingIntent);
 	}
 
 }

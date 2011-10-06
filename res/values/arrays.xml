@@ -449,7 +449,7 @@
 		<item name="10">60</item>
 	</string-array>
 	
-    <string-array name="wakelock_timeout_options">
+    <string-array name="screen_timeout_options">
 		<item name="0">@string/s10_seconds_text</item>
 		<item name="1">@string/s15_seconds_text</item>
 		<item name="2">@string/s20_seconds_text</item>
@@ -465,40 +465,7 @@
 		<item name="12">@string/s15_minutes_text</item>
 		<item name="13">@string/s30_minutes_text</item>
 	</string-array>
-	<string-array name="wakelock_timeout_options_values">
-		<item name="0">10</item>
-		<item name="1">15</item>
-		<item name="2">20</item>
-		<item name="3">25</item>
-		<item name="4">30</item>
-		<item name="5">45</item>
-		<item name="6">60</item>
-		<item name="7">120</item>
-		<item name="8">180</item>
-		<item name="9">240</item>
-		<item name="10">300</item>
-		<item name="11">600</item>
-		<item name="12">9000</item>
-		<item name="13">1800</item>
-	</string-array>
-	
-    <string-array name="keyguard_timeout_options">
-		<item name="0">@string/s10_seconds_text</item>
-		<item name="1">@string/s15_seconds_text</item>
-		<item name="2">@string/s20_seconds_text</item>
-		<item name="3">@string/s25_seconds_text</item>
-		<item name="4">@string/s30_seconds_text</item>
-		<item name="5">@string/s45_seconds_text</item>
-		<item name="6">@string/s1_minute_text</item>
-		<item name="7">@string/s2_minutes_text</item>
-		<item name="8">@string/s3_minutes_text</item>
-		<item name="9">@string/s4_minutes_text</item>
-		<item name="10">@string/s5_minutes_text</item>
-		<item name="11">@string/s10_minutes_text</item>
-		<item name="12">@string/s15_minutes_text</item>
-		<item name="13">@string/s30_minutes_text</item>
-	</string-array>
-	<string-array name="keyguard_timeout_options_values">
+	<string-array name="screen_timeout_options_values">
 		<item name="0">10</item>
 		<item name="1">15</item>
 		<item name="2">20</item>
