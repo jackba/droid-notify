@@ -7,6 +7,8 @@
  *
 
 *v2.6* _Coming Soon..._
+ * Added Status Bar Notifications
+ * Re-Tooled the screen wakeup and release.
  * 
 
 *v2.5* (August 29, 2011)
