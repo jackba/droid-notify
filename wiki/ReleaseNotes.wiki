@@ -6,10 +6,9 @@
 *v2.7* _Coming Soon..._
  *
 
-*v2.6* _Coming Soon..._
+*v2.6* (October 7, 2011)
  * Added Status Bar Notifications
- * Re-Tooled the screen wakeup and release.
- * 
+ * Re-Tooled the screen wakeup and release code.
 
 *v2.5* (August 29, 2011)
  * Fixed the SMS timestamp issue which displayed incorrect times for some users.
