@@ -19,7 +19,9 @@ Yes. Currently there are built in themes that you can choose from. If you have a
 
 ==The notification icon isn't removed when I dismiss or acknowledge the new message?==
 
-This is likely because you have the system messaging app notifications still enabled or another apps notifications enabled for incoming messages. Unfortunately there is no way for Developer Apps to remove another apps notifications. Currently Droid Notify does not provide notifications in the status bar. It is being considered as an enhancement.
+This is likely because you have the system messaging app notifications still enabled or another apps notifications enabled for incoming messages. Unfortunately there is no way for Developer Apps to remove another apps notifications. 
+
+Droid Notify supports it's own Status Bar Notifications. If you enable this feature, make sure that you disable the notifications from the Messaging App, Calendar App and any other apps that Droid Notify supports.
 
 ==The contact photo in the notification doesn't display the user's facebook photo even though it shows in the system contacts?==
 
