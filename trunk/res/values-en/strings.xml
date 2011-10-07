@@ -440,7 +440,7 @@
     <!-- Status Bar Notification LED Pattern Strings -->
    	<string name="preference_led_enabled_summaryOn">Notifications will blink the LED light.</string>
    	<string name="preference_led_enabled_summaryOff">Notifications will not blink the LED light.</string>
-   	<string name="preference_led_pattern_title">LED Blink Settings</string>
+   	<string name="preference_led_pattern_title">LED Blink Setting</string>
    	<string name="preference_led_pattern_summary">Set the LED blink rate.</string>
    	 	
    	<!-- Status Bar Notification Custom LED Pattern Dialog Strings -->
@@ -451,7 +451,7 @@
    	<string name="preference_led_pattern_error">The custom led blink pattern is invalid.</string>	
    	
    	<!-- Status Bar Notification LED Color Strings -->
-   	<string name="preference_led_color_title">LED Color Settings</string>
+   	<string name="preference_led_color_title">LED Color Setting</string>
    	<string name="preference_led_color_summary">Set the LED color.</string>
    	
    	<!-- Status Bar Notification Custom LED Color Dialog Strings -->
