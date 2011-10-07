@@ -274,7 +274,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 				SharedPreferences.Editor editor = _preferences.edit();
 				editor.putBoolean(Constants.RUN_ONCE_EULA, false);
 				editor.commit();
-				displayHTMLAlertDialog(_context.getString(R.string.app_license),R.drawable.ic_dialog_info,_context.getString(R.string.eula_text));
+				displayHTMLAlertDialog(_context.getString(R.string.app_license),R.drawable.ic_dialog_info, _context.getString(R.string.eula_text));
 			}catch(Exception ex){
  	    		if (_debug) Log.e("MainPreferenceActivity.runOnceEula() ERROR: " + ex.toString());
 	    	}
@@ -1419,7 +1419,10 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	 */
 	private void fixPreferenceUpdatesTemp(){
 		if (_debug) Log.v("MainPreferenceActivity.fixPreferenceUpdatesTemp()");
-		boolean fixPreferenceUpdates = _preferences.getBoolean("FixPreferenceUpdates", true);
+		boolean fixPreferenceUpdates = _preferences.getBoolean("fixPreferenceUpdates", true);
+		
+		fixPreferenceUpdates = true;
+		
 		if(fixPreferenceUpdates) {
 			try{
 				//Notifications Enabled
@@ -1468,7 +1471,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 				if(!calendarNotificationsSoundEnabled && !calendarNotificationsVibrateEnabled) calendarNotificationsEnabled = false;
 
 				SharedPreferences.Editor editor = _preferences.edit();
-				editor.putBoolean("FixPreferenceUpdates", false);
+				editor.putBoolean("fixPreferenceUpdates", false);
 				if(smsNotificationsEnabled){
 					editor.putBoolean(Constants.SMS_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY, true);
 				}else{
@@ -1530,6 +1533,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 					editor.putString(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_NEVER_VALUE);
 				}
 				editor.commit();
+				displayHTMLAlertDialog("---PLEASE READ---",R.drawable.ic_dialog_info, _context.getString(R.string.app_updated_text));
 			}catch(Exception ex){
  	    		if (_debug) Log.e("MainPreferenceActivity.fixPreferenceUpdatesTemp() ERROR: " + ex.toString());
 	    	}
