@@ -9,12 +9,6 @@ Test Notifications
 
 Enable Droid Notify
 
-Enable Haptic Feedback
-
-Enable Vibrations
-
-Enable Ringtones
-	
 
 *_Basic Settings_*
 
@@ -23,6 +17,7 @@ Basic Settings
  * Phone Number Format
  * Placeholder Image
  * Display Button Icons
+ * Hide Single Message Header
  * Quick Reply Settings
   * Save Draft
   * Blur Screen Background
@@ -152,6 +147,7 @@ Screen Settings
 *_Advanced Settings_*
 
 Advanced Settings
+ * Enable Haptic Feedback
  * Wakelock Timeout
  * Keyguard Timeout
  * Reschedule Timeout
