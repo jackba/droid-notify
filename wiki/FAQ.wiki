@@ -21,7 +21,7 @@ Yes. There are built in themes that you can choose from. If you have any themes 
 
 This is likely because you have the messaging app notifications still enabled (or another apps notifications enabled for the type of notification: Calendar app, etc.) Unfortunately, there is no way for developer apps to remove another apps notifications. 
 
-Droid Notify supports it's own Status Bar Notifications. If you enable this feature, make sure that you disable the notifications from the Messaging App, Calendar App and any other apps that Droid Notify supports.
+Droid Notify supports its own Status Bar Notifications. If you enable this feature, make sure that you disable the notifications from the Messaging App, Calendar App and any other apps that Droid Notify supports.
 
 ==The contact photo in the notification doesn't display the user's Facebook photo even though it shows in the system contacts?==
 
