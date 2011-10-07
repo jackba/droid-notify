@@ -31,7 +31,7 @@ Unfortunately the Facebook app doesn't allow Developer Apps to access the photos
 
 Unfortunately, the answer is no.
 
-Google Voice is a private app and does not have an open API so currently there is no way to tap into it's SMS messages or other data that it uses. I will continue to monitor the app and look for any API's that will allow Droid Notify to communicate with it or it's data, but at this time it's not possible. The only solution is to enable the Google voice option to forward your Google Voice activity to you via SMS messages.
+Google Voice is a private app and does not have an open API so currently there is no way to tap into its SMS messages or other data that it uses. I will continue to monitor the app and look for any API's that will allow Droid Notify to communicate with it or its data, but at this time it's not possible. The only solution is to enable the Google voice option to forward your Google Voice activity to you via SMS messages.
 
 ==Can Droid Notify be moved to the SD card?==
 
@@ -43,7 +43,7 @@ If the app is moved to the SD Card / External Storage, the functionality of the 
 
 If you want to use GO SMS Pro, you must follow one of the two steps below in order for Droid Notify to work with SMS/MMS notifications. These steps will only work with Droid Notify Version 2.4 or greater.
 
-1) Uncheck/deselect the "Disable other apps notifications" option in the GO SMS Pro settings/preferences . If this option is checked/selected then Droid Notify may not work (i.e. SMS/MMS notifications may not be displayed).
+1) Uncheck/deselect the "Disable other apps notifications" option in the GO SMS Pro settings/preferences. If this option is checked/selected then Droid Notify may not work (i.e. SMS/MMS notifications may not be displayed).
 
 -OR-
 
