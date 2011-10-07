@@ -15,7 +15,7 @@
 
 ==Can I change the UI of the notification?==
 
-Yes. Currently there are built in themes that you can choose from. If you have any themes (any phone styles like a 3rd party rom, etc.) that you would like to see the notifications in, please contact me and I will do my best to create a theme in that style.
+Yes. There are built in themes that you can choose from. If you have any themes (any phone styles like a 3rd party rom, etc.) that you would like to see the notifications in, please contact me and I will do my best to create a theme in that style.
 
 ==The notification icon isn't removed when I dismiss or acknowledge the new message?==
 
@@ -55,4 +55,4 @@ Unfortunately, the answer is no.
 
 Unfortunately, at this time the Email content on Android phones is secure and 3rd party apps cannot read the phones emails. The only solution to this is to develop an email client which is out of the scope of this project.
 
-Currently I will look into the gmail api and see if we can read gmail email as an alternative.
+I will look into the gmail api and see if we can read gmail email as an alternative.
