@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-	<string name="app_updated_text">Status Bar Notifications have been added to Droid Notify. Due to this addition, the user preferences have been updated slightly. Please review and configure the user settings now for this application.&lt;br/>&lt;br/>Email me if you have any questions.&lt;br/>&lt;b>Email:&lt;/b> &lt;a href="mailto:droidnotify@gmail.com">droidnotify@gmail.com&lt;/a>&lt;br/>&lt;br/>Also, I am looking for anyone who would like to translate this app into another language. If you are interested please email me. Thanks :)</string>
-
 	<!-- App Strings -->
 	<string name="app_name_formatted_version">Droid Notify v%s</string>
 	<string name="app_name">DroidNotify</string>
@@ -442,7 +440,7 @@
     <!-- Status Bar Notification LED Pattern Strings -->
    	<string name="preference_led_enabled_summaryOn">Notifications will blink the LED light.</string>
    	<string name="preference_led_enabled_summaryOff">Notifications will not blink the LED light.</string>
-   	<string name="preference_led_pattern_title">LED Blink Settings</string>
+   	<string name="preference_led_pattern_title">LED Blink Setting</string>
    	<string name="preference_led_pattern_summary">Set the LED blink rate.</string>
    	 	
    	<!-- Status Bar Notification Custom LED Pattern Dialog Strings -->
@@ -453,7 +451,7 @@
    	<string name="preference_led_pattern_error">The custom led blink pattern is invalid.</string>	
    	
    	<!-- Status Bar Notification LED Color Strings -->
-   	<string name="preference_led_color_title">LED Color Settings</string>
+   	<string name="preference_led_color_title">LED Color Setting</string>
    	<string name="preference_led_color_summary">Set the LED color.</string>
    	
    	<!-- Status Bar Notification Custom LED Color Dialog Strings -->
