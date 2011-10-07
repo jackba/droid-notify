@@ -34,6 +34,18 @@ Notifications
   * Enable SMS Notifications
   * Load Unread SMS Messages
   * Messaging App Running
+  * Enable Status Bar Notifications
+  * Status Bar Notification Settings
+   * Display When Blocked
+   * Notification Icon
+   * Notification Sound
+   * Vibrate Setting
+   * Vibrate Pattern
+   * Enable LED
+   * LED Color Setting
+   * LED Blink Setting
+   * Enable In-Call Sound
+   * Enable In-Call Vibrate
   * Message Body Settings
    * Message Body Font Size
    * Hide Message Body
@@ -51,17 +63,24 @@ Notifications
    * Hide All Contact Info
    * Hide Contact Photo
    * Hide Contact Name
-   * Hide Contact Number
-  * Vibrate Settings
-   * Enable Vibrations  
-  * Ringtone Settings
-   * Enable Ringtones     
-   * Select Ringtone  
+   * Hide Contact Number  
 
  * *_MMS Notifications_*
   * Enable MMS Notifications
   * Load Unread MMS Messages
   * Messaging App Running
+  * Enable Status Bar Notifications
+  * Status Bar Notification Settings
+   * Display When Blocked
+   * Notification Icon
+   * Notification Sound
+   * Vibrate Setting
+   * Vibrate Pattern
+   * Enable LED
+   * LED Color Setting
+   * LED Blink Setting
+   * Enable In-Call Sound
+   * Enable In-Call Vibrate
   * Message Body Settings
    * Message Body Font Size
    * Hide Message Body
@@ -79,17 +98,24 @@ Notifications
    * Hide All Contact Info
    * Hide Contact Photo
    * Hide Contact Name
-   * Hide Contact Number
-  * Vibrate Settings
-   * Enable Vibrations  
-  * Ringtone Settings
-   * Enable Ringtones     
-   * Select Ringtone        
+   * Hide Contact Number       
 
  * *_Missed Call Notifications_*
   * Enable Missed Call Notifications
   * Loading Settings
   * Messaging App Running
+  * Enable Status Bar Notifications
+  * Status Bar Notification Settings
+   * Display When Blocked
+   * Notification Icon
+   * Notification Sound
+   * Vibrate Setting
+   * Vibrate Pattern
+   * Enable LED
+   * LED Color Setting
+   * LED Blink Setting
+   * Enable In-Call Sound
+   * Enable In-Call Vibrate
   * Button Settings
    * Dismiss Button Action
    * Notification Count Action
@@ -100,12 +126,7 @@ Notifications
    * Hide All Contact Info
    * Hide Contact Photo
    * Hide Contact Name
-   * Hide Contact Number
-  * Vibrate Settings
-   * Enable Vibrations  
-  * Ringtone Settings
-   * Enable Ringtones     
-   * Select Ringtone       
+   * Hide Contact Number      
 
  * *_Calendar Notifications_*
   * Enable Calendar Notifications
@@ -115,6 +136,18 @@ Notifications
   * Calendar Polling Frequency
   * Select Calendars
   * Enable Calendar Labels
+  * Enable Status Bar Notifications
+  * Status Bar Notification Settings
+   * Display When Blocked
+   * Notification Icon
+   * Notification Sound
+   * Vibrate Setting
+   * Vibrate Pattern
+   * Enable LED
+   * LED Color Setting
+   * LED Blink Setting
+   * Enable In-Call Sound
+   * Enable In-Call Vibrate
   * Event Reminder Settings
    * Event Settings
    * All-Day Event Settings
@@ -126,12 +159,6 @@ Notifications
    * Show/Hide Button Settings
     * Hide Dismiss Button
     * Hide View Button
-  * Vibrate Settings
-   * Enable Vibrations  
-  * Ringtone Settings
-   * Enable Ringtones     
-   * Select Ringtone  
-
 
 *_Screen Settings_*
 
@@ -139,26 +166,26 @@ Screen Settings
  * Turn Screen On
  * Dim Screen
  * Unlock Phone
+ * Enable Landscape Screen
  * Blur Screen Background
  * Dim Screen Background
  * Blur Screen Value
- * Enable Landscape Screen
 	
 *_Advanced Settings_*
 
 Advanced Settings
  * Enable Haptic Feedback
- * Wakelock Timeout
- * Keyguard Timeout
- * Reschedule Timeout
- * SMS-to-Email Gateway
+ * Screen Timeout
+ * SMS Loading Setting
  * SMS Timeout
+ * SMS TimeStamp Adjustment
  * MMS Timeout
  * Call Log Timeout
- * Ringtone Length
+ * SMS-to-Email Gateway
  * Reschedule Notifications
  * Reschedule Settings
   * Reschedule Timeout
+ * Clear Notifications On Exit
  * Export Preferences
  * Import Preferences
  
