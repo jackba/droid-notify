@@ -203,7 +203,7 @@
    	<string name="preference_calendar_enabled_title">Enable Calendar Event</string>
    	<string name="preference_calendar_enabled_summaryOn">Calendar Event notifications are enabled.</string>
    	<string name="preference_calendar_enabled_summaryOff">Calendar Event notifications are disabled.</string>
-   	<string name="preference_calendar_polling_frequency_title">Calendar Polling Frequency</string>
+   	<string name="preference_calendar_polling_frequency_title">Polling Frequency</string>
     <string name="preference_calendar_polling_frequency_summary">Define how often you want to read the calendar events?</string>
    	<string name="preference_calendar_selection_title">Select Calendars</string>
    	<string name="preference_calendar_selection_summary">Select the Calendars that you wish to be notified about.</string>
