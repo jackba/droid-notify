@@ -27,6 +27,7 @@ public class Notification {
 	
 	private boolean _debug = false;
 	private Context _context = null;
+	private SharedPreferences _preferences = null;
 	private String _sentFromAddress = null;
 	private String _messageBody = null;
 	private long _timeStamp;
@@ -46,7 +47,6 @@ public class Notification {
 	private long _calendarEventStartTime = 0;
 	private long _calendarEventEndTime = 0;
 	private boolean _allDay = false;
-	private SharedPreferences _preferences = null;
 	private long _callLogID = 0;
 	private String _lookupKey = null;
 	
@@ -251,6 +251,51 @@ public class Notification {
 	    	_calendarEventEndTime = eventEndTime;
 		}catch(Exception ex){
 			if (_debug) Log.v("Notification.Notification(Context context, String title, String messageBody, long eventStartTime, long eventEndTime, boolean allDay, String calendarName, long calendarID, long calendarEventID, int notificationType) ERROR: " + ex.toString());
+		}
+	}
+
+	/**
+	 * Class Constructor
+	 */
+	public Notification(Context context, String sentFromAddress, String messageBody, long timeStamp, long threadID, long contactID, String contactName, long photoID, long messageID, String title, String email, long calendarID, long calendarEventID, long calendarEventStartTime, long calendarEventEndTime, boolean allDay, long callLogID,  String lookupKey, int notificationType) {
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Notification.Notification(Context context, String sentFromAddress, String messageBody, long timeStamp, long threadID, long contactID, String contactName, long photoID, long messageID, String title, String email, long calendarID, long calendarEventID, long calendarEventStartTime, long calendarEventEndTime, boolean allDay, long callLogID,  String lookupKey, int notificationType)");
+		try{
+			_context = context;
+			_preferences = PreferenceManager.getDefaultSharedPreferences(_context);
+			_contactExists = false;
+			_contactPhotoExists = false;
+			_notificationType = notificationType;
+    		_sentFromAddress = sentFromAddress.toLowerCase();
+    		_messageBody = messageBody;
+    		_messageID = messageID;
+    		_threadID = threadID;
+    		_timeStamp = timeStamp;
+    		_contactID = contactID;
+    		if(contactName.equals("")){
+    			_contactName = null;
+    			_contactExists = false;
+    		}else{
+    			_contactName = contactName;
+    			_contactExists = true;
+    		}
+    		_photoID = photoID;
+    		if(photoID == 0){
+    			_contactPhotoExists = false;
+    		}else{
+    			_contactPhotoExists = true;
+    		}
+    		_title = title;
+    		_email = email;
+    		_calendarID = calendarID;
+    		_calendarEventID = calendarEventID;
+    		_calendarEventStartTime = calendarEventStartTime;
+    		_calendarEventEndTime = calendarEventEndTime;
+    		_allDay = allDay;
+    		_callLogID = callLogID;
+    		_lookupKey = lookupKey;
+		}catch(Exception ex){
+			if (_debug) Log.v("Notification.Notification(Context context, String sentFromAddress, String messageBody, long timeStamp, long threadID, long contactID, String contactName, long photoID, long messageID, String title, String email, long calendarID, long calendarEventID, long calendarEventStartTime, long calendarEventEndTime, boolean allDay, long callLogID,  String lookupKey, int notificationType) ERROR: " + ex.toString());
 		}
 	}
 	

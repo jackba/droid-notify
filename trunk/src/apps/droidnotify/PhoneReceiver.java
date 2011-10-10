@@ -30,7 +30,7 @@ public class PhoneReceiver extends BroadcastReceiver{
 	
 	/**
 	 * Receives a notification that the phone state changed.
-	 * This function starts the service that will handle the work or reschedules the work if the phone is in use.
+	 * This function starts the service that will handle the work or reschedules the work.
 	 * 
 	 * @param context - Application Context.
 	 * @param intent - Intent object that we are working with.

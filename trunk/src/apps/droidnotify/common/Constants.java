@@ -45,6 +45,14 @@ public class Constants {
 	public static final int NOTIFICATION_TYPE_TWITTER = 5;
 	public static final int NOTIFICATION_TYPE_FACEBOOK = 6;
 	
+	public static final int NOTIFICATION_TYPE_RESCHEDULE_PHONE = 100;
+	public static final int NOTIFICATION_TYPE_RESCHEDULE_SMS = 101;
+	public static final int NOTIFICATION_TYPE_RESCHEDULE_MMS = 102;
+	public static final int NOTIFICATION_TYPE_RESCHEDULE_CALENDAR = 103;
+	public static final int NOTIFICATION_TYPE_RESCHEDULE_GMAIL = 104;
+	public static final int NOTIFICATION_TYPE_RESCHEDULE_TWITTER = 105;
+	public static final int NOTIFICATION_TYPE_RESCHEDULE_FACEBOOK = 106;
+	
 	public static final int ADD_CONTACT_ACTIVITY = 1;
 	public static final int EDIT_CONTACT_ACTIVITY = 2;
 	public static final int VIEW_CONTACT_ACTIVITY = 3;
