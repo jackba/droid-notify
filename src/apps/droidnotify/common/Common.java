@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.TimeZone;
 
 import android.app.ActivityManager;
+import android.app.AlarmManager;
 import android.app.KeyguardManager;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -42,10 +43,12 @@ import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.telephony.SmsMessage;
 import android.widget.Toast;
+
 import apps.droidnotify.NotificationActivity;
 import apps.droidnotify.NotificationViewFlipper;
-import apps.droidnotify.R;
+import apps.droidnotify.RescheduleReceiver;
 import apps.droidnotify.log.Log;
+import apps.droidnotify.R;
 
 /**
  * This class is a collection of methods that are used more than once.
@@ -2212,6 +2215,58 @@ public class Common {
 	    	ledPatternArray[i] = blinkLength;
 	    }
 		return ledPatternArray;
+	}
+	
+	/**
+	 * Reschedule a notification.
+	 * 
+	 * @param context - The application context.
+	 * @param notification - The Notification to reschedule.
+	 */
+	public static void rescheduleNotification(Context context, apps.droidnotify.Notification notification, long rescheduleTime, int rescheduleNumber){
+		//Store the notification information into an ArrayList.
+		int notificationType = notification.getNotificationType();
+		switch(notificationType){
+			case Constants.NOTIFICATION_TYPE_SMS:{
+				notificationType = Constants.NOTIFICATION_TYPE_RESCHEDULE_SMS;
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_MMS:{
+				notificationType = Constants.NOTIFICATION_TYPE_RESCHEDULE_MMS;
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_PHONE:{
+				notificationType = Constants.NOTIFICATION_TYPE_RESCHEDULE_PHONE;
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_CALENDAR:{
+				notificationType = Constants.NOTIFICATION_TYPE_RESCHEDULE_CALENDAR;
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_GMAIL:{
+				notificationType = Constants.NOTIFICATION_TYPE_RESCHEDULE_GMAIL;
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_TWITTER:{
+				notificationType = Constants.NOTIFICATION_TYPE_RESCHEDULE_TWITTER;
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_FACEBOOK:{
+				notificationType = Constants.NOTIFICATION_TYPE_RESCHEDULE_FACEBOOK;
+				break;
+			}
+		}
+		String[] rescheduleNotificationInfo = new String[] {String.valueOf(notificationType), notification.getSentFromAddress(), notification.getMessageBody(), String.valueOf(notification.getTimeStamp()), String.valueOf(notification.getThreadID()), String.valueOf(notification.getContactID()), notification.getContactName(), String.valueOf(notification.getMessageID()), notification.getTitle(), notification.getEmail(), String.valueOf(notification.getCalendarID()), String.valueOf(notification.getCalendarEventID()), String.valueOf(notification.getCalendarEventStartTime()), String.valueOf(notification.getCalendarEventEndTime()), String.valueOf(notification.getAllDay()), String.valueOf(notification.getCallLogID()), notification.getLookupKey()};
+		AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+		Intent rescheduleIntent = new Intent(context, RescheduleReceiver.class);
+		Bundle rescheduleBundle = new Bundle();
+		rescheduleBundle.putStringArray("rescheduleNotificationInfo", rescheduleNotificationInfo);
+		rescheduleBundle.putInt("rescheduleNumber", rescheduleNumber);
+		rescheduleBundle.putInt("notificationType", notificationType);
+		rescheduleIntent.putExtras(rescheduleBundle);
+		rescheduleIntent.setAction("apps.droidnotify.VIEW/RescheduleNotification/" + String.valueOf(notification.getTimeStamp()));
+		PendingIntent reschedulePendingIntent = PendingIntent.getBroadcast(context, 0, rescheduleIntent, 0);
+		alarmManager.set(AlarmManager.RTC_WAKEUP, rescheduleTime, reschedulePendingIntent);
 	}
 	
 }
