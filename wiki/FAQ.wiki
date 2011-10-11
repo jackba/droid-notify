@@ -49,6 +49,10 @@ If you want to use GO SMS Pro, you must follow one of the two steps below in ord
 
 2) If you still want SMS GO Pro to disable other apps notifications you will need to follow these simple instructions. Uninstall GO SMS Pro, install Droid Notify THEN install GO SMS Pro. Basically, GO SMS Pro MUST be installed AFTER Droid Notify.
 
+-FINALLY-
+
+Make sure that you uncheck "run system persistent" in the SMS user options.
+
 ==Will email notifications be an added feature in Droid Notify?==
 
 Unfortunately, the answer is no.
