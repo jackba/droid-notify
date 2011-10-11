@@ -55,8 +55,8 @@ Make sure that you uncheck "run system persistent" in the SMS user options.
 
 ==Will email notifications be an added feature in Droid Notify?==
 
-Unfortunately, the answer is no.
+The answer is... it depends (possibly).
 
-Unfortunately, at this time the Email content on Android phones is secure and 3rd party apps cannot read the phones emails. The only solution to this is to develop an email client which is out of the scope of this project.
+At this time the Email content on Android phones is secure and 3rd party apps cannot read the phones emails. The only solution to this is to develop an email client which is out of the scope of this project.
 
 I will look into the Gmail api and see if we can read Gmail email as an alternative.
