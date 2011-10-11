@@ -6,6 +6,9 @@
 *v2.7* _Coming Soon..._
  *
 
+*v2.6.1* (October 12, 2011)
+ * Fixed a bug that caused the app to crash under certain circumstances.
+
 *v2.6* (October 7, 2011)
  * Added Status Bar Notifications
  * Re-Tooled the screen wakeup and release code.
