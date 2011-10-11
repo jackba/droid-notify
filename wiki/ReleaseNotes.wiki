@@ -10,7 +10,7 @@
  * Added Status Bar Notifications
  * Re-Tooled the screen wakeup and release code.
 
-*v2.5.1* (September 2, 2011)
+*v2.5.1* (August 30, 2011)
  * Fixed a bug that caused the app to crash. 
 
 *v2.5* (August 29, 2011)
