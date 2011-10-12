@@ -42,8 +42,8 @@ public class RescheduleReceiverService extends WakefulIntentService {
 		if (_debug) Log.v("RescheduleReceiverService.doWakefulWork()");
 		Context context = getApplicationContext();
 		Bundle bundle = intent.getExtras();
-		int rescheduleNumber = bundle.getInt("rescheduleNumber");
-		int notificationType = bundle.getInt("notificationType");
+		//int rescheduleNumber = bundle.getInt("rescheduleNumber");
+		//int notificationType = bundle.getInt("notificationType");
 		//Determine if the notification should be rescheduled or not.
 		
 		

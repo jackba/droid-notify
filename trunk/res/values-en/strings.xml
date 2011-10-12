@@ -378,9 +378,13 @@
     <string name="status_bar_notification_content_title_text_facebook">New Facebook Message</string>
     
     <string name="status_bar_notification_content_text_sms" formatted="false">New message from %s - %s.</string>
+    <string name="status_bar_notification_content_text_sms_null" formatted="false">New message.</string>
     <string name="status_bar_notification_content_text_mms" formatted="false">New message from %s - %s.</string>
+    <string name="status_bar_notification_content_text_mms_null" formatted="false">New message.</string>
     <string name="status_bar_notification_content_text_phone" formatted="false">Missed call from %s.</string>
+    <string name="status_bar_notification_content_text_phone_null" formatted="false">Missed call.</string>
     <string name="status_bar_notification_content_text_calendar" formatted="false">Calendar event - %s</string>
+    <string name="status_bar_notification_content_text_calendar_null" formatted="false">Calendar event.</string>
     <string name="status_bar_notification_content_text_gmail" formatted="false">New email %s - %s.</string>
     <string name="status_bar_notification_content_text_twitter" formatted="false">New twitter message from %s - %s.</string>
     <string name="status_bar_notification_content_text_facebook" formatted="false">New facebook message %s - %s.</string>
@@ -389,12 +393,16 @@
     <string name="status_bar_notification_ticker_text_unknown_contact_sms" formatted="false">New message -  %s.</string>
    	<string name="status_bar_notification_ticker_text_privacy_sms" formatted="false">New message from %s.</string>
    	<string name="status_bar_notification_ticker_text_privacy_unknown_contact_sms">New message.</string>
+   	<string name="status_bar_notification_ticker_text_sms_null" formatted="false">New message.</string>
     <string name="status_bar_notification_ticker_text_mms" formatted="false">New message from %s - %s.</string>
     <string name="status_bar_notification_ticker_text_unknown_contact_mms" formatted="false">New message - %s.</string>
    	<string name="status_bar_notification_ticker_text_privacy_mms" formatted="false">New message from %s.</string>
    	<string name="status_bar_notification_ticker_text_privacy_unknown_contact_mms">New message.</string>  
-    <string name="status_bar_notification_ticker_text_phone" formatted="false">Missed call from %s.</string>
+   	<string name="status_bar_notification_ticker_text_mms_null" formatted="false">New message.</string>
+    <string name="status_bar_notification_ticker_text_phone" formatted="false">Missed call from %s.</string>  
+    <string name="status_bar_notification_ticker_text_phone_null" formatted="false">Missed call.</string>
     <string name="status_bar_notification_ticker_text_calendar" formatted="false">Calendar event - %s</string>
+    <string name="status_bar_notification_ticker_text_calendar_null" formatted="false">Calendar event</string>
     
     <string name="status_bar_notifications_text">Status Bar Notifications</string>
     <string name="clear_status_bar_notifications_on_exit_title">Clear Notifications On Exit</string>

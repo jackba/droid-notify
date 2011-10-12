@@ -3,7 +3,6 @@ package apps.droidnotify;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import apps.droidnotify.common.Common;
 import apps.droidnotify.log.Log;
 
 public class ScreenManagementAlarmReceiver extends BroadcastReceiver {
@@ -30,9 +29,10 @@ public class ScreenManagementAlarmReceiver extends BroadcastReceiver {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("ScreenManagementAlarmReceiver.onReceive()");
 		try{
-			//Release the KeyguardLock & WakeLock
-			Common.clearKeyguardLock();
-			Common.clearWakeLock();
+			WakefulIntentService.acquireStaticLock(context);
+		    Intent screenManagementAlarmBroadcastReceiverServiceIntent = new Intent(context, ScreenManagementAlarmBroadcastReceiverService.class);
+		    screenManagementAlarmBroadcastReceiverServiceIntent.putExtras(intent.getExtras());
+			context.startService(screenManagementAlarmBroadcastReceiverServiceIntent);
 		}catch(Exception ex){
 			if (_debug) Log.v("ScreenManagementAlarmReceiver.onReceive() ERROR: " + ex.toString());
 		}

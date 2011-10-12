@@ -1059,7 +1059,7 @@ public class Common {
 	 */
 	public static void setStatusBarNotification(Context context, int notificationType, boolean callStateIdle, String sentFromContactName, String sentFromAddress, String message){
 		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.setStatusBarNotification()");
+		if (_debug) Log.v("Common.setStatusBarNotification() sentFromContactName: " + sentFromContactName + " sentFromAddress: " + sentFromAddress + " message: " + message);
 		try{
 			//Preference keys.
 			String POPUP_ENABLED_KEY = null;
@@ -1123,20 +1123,28 @@ public class Common {
 					ICON_ID = Constants.SMS_STATUS_BAR_NOTIFICATIONS_ICON_SETTING_KEY;
 					ICON_DEFAULT = Constants.SMS_STATUS_BAR_NOTIFICATIONS_ICON_DEFAULT;
 					contentTitle = context.getText(R.string.status_bar_notification_content_title_text_sms);
-					if(sentFromContactName == null){
-						sentFrom = sentFromAddress;
+					if(sentFromContactName == null || sentFromContactName.equals("")){
+						sentFrom = Common.formatPhoneNumber(context, sentFromAddress);
 					}else{
 						sentFrom = sentFromContactName;
 					}
-					contentText = context.getString(R.string.status_bar_notification_content_text_sms, sentFrom, message);
-					if(sentFromContactName == null){
-						tickerText = context.getString(R.string.status_bar_notification_ticker_text_unknown_contact_sms, message);
+					if( (sentFrom == null || sentFrom.equals("")) && (message == null || message.equals("")) ){
+						contentText = context.getString(R.string.status_bar_notification_content_text_sms_null);
+						tickerText = context.getString(R.string.status_bar_notification_ticker_text_sms_null);
+						//Content Intent
+						notificationContentIntent = new Intent(Intent.ACTION_MAIN);
+						notificationContentIntent.setType("vnd.android-dir/mms-sms");
 					}else{
-						tickerText = context.getString(R.string.status_bar_notification_ticker_text_sms, sentFromContactName, message);
+						contentText = context.getString(R.string.status_bar_notification_content_text_sms, sentFrom, message);
+						if(sentFromContactName == null || sentFromContactName.equals("")){
+							tickerText = context.getString(R.string.status_bar_notification_ticker_text_unknown_contact_sms, message);
+						}else{
+							tickerText = context.getString(R.string.status_bar_notification_ticker_text_sms, sentFromContactName, message);
+						}
+						//Content Intent
+						notificationContentIntent = new Intent(Intent.ACTION_VIEW);
+						notificationContentIntent.setData(Uri.parse("smsto:" + sentFromAddress));
 					}
-					//Content Intent
-					notificationContentIntent = new Intent(Intent.ACTION_VIEW);
-					notificationContentIntent.setData(Uri.parse("smsto:" + sentFromAddress));
 					//Delete Intent
 					notificationDeleteIntent = null;
 					//Content Intent
@@ -1166,20 +1174,28 @@ public class Common {
 					ICON_ID = Constants.MMS_STATUS_BAR_NOTIFICATIONS_ICON_SETTING_KEY;
 					ICON_DEFAULT = Constants.MMS_STATUS_BAR_NOTIFICATIONS_ICON_DEFAULT;
 					contentTitle = context.getText(R.string.status_bar_notification_content_title_text_mms);
-					if(sentFromContactName == null){
-						sentFrom = sentFromAddress;
+					if(sentFromContactName == null || sentFromContactName.equals("")){
+						sentFrom = Common.formatPhoneNumber(context, sentFromAddress);
 					}else{
 						sentFrom = sentFromContactName;
 					}
-					contentText = context.getString(R.string.status_bar_notification_content_text_mms, sentFrom, message);
-					if(sentFromContactName == null){
-						tickerText = context.getString(R.string.status_bar_notification_ticker_text_unknown_contact_mms, message);
+					if( (sentFrom == null || sentFrom.equals("")) && (message == null || message.equals("")) ){
+						contentText = context.getString(R.string.status_bar_notification_content_text_mms_null);
+						tickerText = context.getString(R.string.status_bar_notification_ticker_text_mms_null);
+						//Content Intent
+						notificationContentIntent = new Intent(Intent.ACTION_MAIN);
+						notificationContentIntent.setType("vnd.android-dir/mms-sms");
 					}else{
-						tickerText = context.getString(R.string.status_bar_notification_ticker_text_mms, sentFromContactName, message);
+						contentText = context.getString(R.string.status_bar_notification_content_text_mms, sentFrom, message);
+						if(sentFromContactName == null || sentFromContactName.equals("")){
+							tickerText = context.getString(R.string.status_bar_notification_ticker_text_unknown_contact_mms, message);
+						}else{
+							tickerText = context.getString(R.string.status_bar_notification_ticker_text_mms, sentFromContactName, message);
+						}
+						//Content Intent
+						notificationContentIntent = new Intent(Intent.ACTION_VIEW);
+						notificationContentIntent.setData(Uri.parse("smsto:" + sentFromAddress));
 					}
-					//Content Intent
-					notificationContentIntent = new Intent(Intent.ACTION_VIEW);
-					notificationContentIntent.setData(Uri.parse("smsto:" + sentFromAddress));
 					//Delete Intent
 					notificationDeleteIntent = null;
 					//Content Intent
@@ -1209,13 +1225,18 @@ public class Common {
 					ICON_ID = Constants.PHONE_STATUS_BAR_NOTIFICATIONS_ICON_SETTING_KEY;
 					ICON_DEFAULT = Constants.PHONE_STATUS_BAR_NOTIFICATIONS_ICON_DEFAULT;
 					contentTitle = context.getText(R.string.status_bar_notification_content_title_text_phone);
-					if(sentFromContactName == null){
-						sentFrom = sentFromAddress;
+					if(sentFromContactName == null || sentFromContactName.equals("")){
+						sentFrom = Common.formatPhoneNumber(context, sentFromAddress);
 					}else{
 						sentFrom = sentFromContactName;
 					}
-					contentText = context.getString(R.string.status_bar_notification_content_text_phone, sentFrom);
-					tickerText = context.getString(R.string.status_bar_notification_ticker_text_phone, sentFrom);
+					if(sentFrom == null || sentFrom.equals("")){
+						contentText = context.getString(R.string.status_bar_notification_content_text_phone_null);
+						tickerText = context.getString(R.string.status_bar_notification_ticker_text_phone_null);
+					}else{
+						contentText = context.getString(R.string.status_bar_notification_content_text_phone, sentFrom);
+						tickerText = context.getString(R.string.status_bar_notification_ticker_text_phone, sentFrom);
+					}
 					//Content Intent
 					notificationContentIntent =  new Intent(Intent.ACTION_VIEW);
 					notificationContentIntent.setType("vnd.android.cursor.dir/calls");
@@ -1248,8 +1269,13 @@ public class Common {
 					ICON_ID = Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_ICON_SETTING_KEY;
 					ICON_DEFAULT = Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_ICON_DEFAULT;
 					contentTitle = context.getText(R.string.status_bar_notification_content_title_text_calendar);
-					contentText = context.getString(R.string.status_bar_notification_content_text_calendar, message);
-					tickerText = context.getString(R.string.status_bar_notification_ticker_text_calendar, message);
+					if(message == null || message.equals("")){
+						contentText = context.getString(R.string.status_bar_notification_content_text_calendar_null);
+						tickerText = context.getString(R.string.status_bar_notification_ticker_text_calendar_null);
+					}else{
+						contentText = context.getString(R.string.status_bar_notification_content_text_calendar, message);
+						tickerText = context.getString(R.string.status_bar_notification_ticker_text_calendar, message);
+					}
 					//Content Intent
 					notificationContentIntent = new Intent(Intent.ACTION_VIEW);
 					notificationContentIntent.setClassName("com.android.calendar", "com.android.calendar.LaunchActivity");
@@ -1924,6 +1950,7 @@ public class Common {
 	 * @param context - The current context of this Activity.
 	 */
 	public static void acquireKeyguardLock(Context context){
+		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.acquireKeyguardLock()");
 		try{
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -1943,6 +1970,7 @@ public class Common {
 	 * Re-Enables the Keyguard for this Activity.
 	 */
 	public static void clearKeyguardLock(){
+		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.clearKeyguardLock()");
 		try{
 			if(_keyguardLock != null){
@@ -1950,6 +1978,185 @@ public class Common {
 			}
 		}catch(Exception ex){
 			if (_debug) Log.e("Common.clearKeyguardLock() ERROR: " + ex.toString());
+		}
+	}
+	
+	/**
+	 * Function to format phone numbers.
+	 * 
+	 * @param context - The current context of this Activity.
+	 * @param inputPhoneNumber - Phone number to be formatted.
+	 * 
+	 * @return String - Formatted phone number string.
+	 */
+	public static String formatPhoneNumber(Context context, String inputPhoneNumber){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.formatPhoneNumber()");
+		try{
+			if(inputPhoneNumber.equals("Private Number")){
+				return inputPhoneNumber;
+			}
+			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+			inputPhoneNumber = Common.removeFormatting(inputPhoneNumber);
+			StringBuilder outputPhoneNumber = new StringBuilder("");
+			int phoneNumberFormatPreference = Integer.parseInt(preferences.getString(Constants.PHONE_NUMBER_FORMAT_KEY, "1"));
+			switch(phoneNumberFormatPreference){
+				case Constants.PHONE_NUMBER_FORMAT_A:{
+					if(inputPhoneNumber.length() >= 10){
+						//Format ###-###-#### (e.g.123-456-7890)
+						outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 4, inputPhoneNumber.length()));
+						outputPhoneNumber.insert(0,"-");
+						outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 7, inputPhoneNumber.length() - 4));
+						outputPhoneNumber.insert(0,"-");
+						if(inputPhoneNumber.length() == 10){
+							outputPhoneNumber.insert(0,inputPhoneNumber.substring(0, inputPhoneNumber.length() - 7));
+						}else{
+							outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 10, inputPhoneNumber.length() - 7));
+							outputPhoneNumber.insert(0,"-");
+							outputPhoneNumber.insert(0,inputPhoneNumber.substring(0, inputPhoneNumber.length() - 10));
+						}
+					}else{
+						outputPhoneNumber.append(inputPhoneNumber);
+					}
+					break;
+				}
+				case Constants.PHONE_NUMBER_FORMAT_B:{
+					if(inputPhoneNumber.length() >= 10){
+						//Format ##-###-##### (e.g.12-345-67890)
+						outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 5, inputPhoneNumber.length()));
+						outputPhoneNumber.insert(0,"-");
+						outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 8, inputPhoneNumber.length() - 5));
+						outputPhoneNumber.insert(0,"-");
+						if(inputPhoneNumber.length() == 10){
+							outputPhoneNumber.insert(0,inputPhoneNumber.substring(0, inputPhoneNumber.length() - 8));
+						}else{
+							outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 10, inputPhoneNumber.length() - 8));
+							outputPhoneNumber.insert(0,"-");
+							outputPhoneNumber.insert(0,inputPhoneNumber.substring(0, inputPhoneNumber.length() - 10));
+						}
+					}else{
+						outputPhoneNumber.append(inputPhoneNumber);
+					}
+					break;
+				}
+				case Constants.PHONE_NUMBER_FORMAT_C:{
+					if(inputPhoneNumber.length() >= 10){
+						//Format ##-##-##-##-## (e.g.12-34-56-78-90)
+						outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 2, inputPhoneNumber.length()));
+						outputPhoneNumber.insert(0,"-");
+						outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 4, inputPhoneNumber.length() - 2));
+						outputPhoneNumber.insert(0,"-");
+						outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 6, inputPhoneNumber.length() - 4));
+						outputPhoneNumber.insert(0,"-");
+						outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 8, inputPhoneNumber.length() - 6));
+						outputPhoneNumber.insert(0,"-");
+						if(inputPhoneNumber.length() == 10){
+							outputPhoneNumber.insert(0,inputPhoneNumber.substring(0, inputPhoneNumber.length() - 8));
+						}else{
+							outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 10, inputPhoneNumber.length() - 8));
+							outputPhoneNumber.insert(0,"-");
+							outputPhoneNumber.insert(0,inputPhoneNumber.substring(0, inputPhoneNumber.length() - 10));
+						}
+					}else{
+						outputPhoneNumber.append(inputPhoneNumber);
+					}
+					break;
+				}
+				case Constants.PHONE_NUMBER_FORMAT_D:{
+					//Format ########## (e.g.1234567890)
+					outputPhoneNumber.append(inputPhoneNumber);
+					break;
+				}
+				case Constants.PHONE_NUMBER_FORMAT_E:{
+					if(inputPhoneNumber.length() >= 10){
+						//Format (###) ###-#### (e.g.(123) 456-7890)
+						outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 4, inputPhoneNumber.length()));
+						outputPhoneNumber.insert(0,"-");
+						outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 7, inputPhoneNumber.length() - 4));
+						outputPhoneNumber.insert(0,") ");
+						if(inputPhoneNumber.length() == 10){
+							outputPhoneNumber.insert(0,inputPhoneNumber.substring(0, inputPhoneNumber.length() - 7));
+							outputPhoneNumber.insert(0,"(");
+						}else{
+							outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 10, inputPhoneNumber.length() - 7));
+							outputPhoneNumber.insert(0," (");
+							outputPhoneNumber.insert(0,inputPhoneNumber.substring(0, inputPhoneNumber.length() - 10));
+						}
+					}else{
+						outputPhoneNumber.append(inputPhoneNumber);
+					}
+					break;
+				}
+				case Constants.PHONE_NUMBER_FORMAT_F:{
+					if(inputPhoneNumber.length() >= 10){
+						//Format ###-###-#### (e.g.123.456.7890)
+						outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 4, inputPhoneNumber.length()));
+						outputPhoneNumber.insert(0,".");
+						outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 7, inputPhoneNumber.length() - 4));
+						outputPhoneNumber.insert(0,".");
+						if(inputPhoneNumber.length() == 10){
+							outputPhoneNumber.insert(0,inputPhoneNumber.substring(0, inputPhoneNumber.length() - 7));
+						}else{
+							outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 10, inputPhoneNumber.length() - 7));
+							outputPhoneNumber.insert(0,".");
+							outputPhoneNumber.insert(0,inputPhoneNumber.substring(0, inputPhoneNumber.length() - 10));
+						}
+					}else{
+						outputPhoneNumber.append(inputPhoneNumber);
+					}
+					break;
+				}
+				case Constants.PHONE_NUMBER_FORMAT_G:{
+					if(inputPhoneNumber.length() >= 10){
+						//Format ##-###-##### (e.g.12.345.67890)
+						outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 5, inputPhoneNumber.length()));
+						outputPhoneNumber.insert(0,".");
+						outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 8, inputPhoneNumber.length() - 5));
+						outputPhoneNumber.insert(0,".");
+						if(inputPhoneNumber.length() == 10){
+							outputPhoneNumber.insert(0,inputPhoneNumber.substring(0, inputPhoneNumber.length() - 8));
+						}else{
+							outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 10, inputPhoneNumber.length() - 8));
+							outputPhoneNumber.insert(0,".");
+							outputPhoneNumber.insert(0,inputPhoneNumber.substring(0, inputPhoneNumber.length() - 10));
+						}
+					}else{
+						outputPhoneNumber.append(inputPhoneNumber);
+					}
+					break;
+				}
+				case Constants.PHONE_NUMBER_FORMAT_H:{
+					if(inputPhoneNumber.length() >= 10){
+						//Format ##-##-##-##-## (e.g.12.34.56.78.90)
+						outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 2, inputPhoneNumber.length()));
+						outputPhoneNumber.insert(0,".");
+						outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 4, inputPhoneNumber.length() - 2));
+						outputPhoneNumber.insert(0,".");
+						outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 6, inputPhoneNumber.length() - 4));
+						outputPhoneNumber.insert(0,".");
+						outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 8, inputPhoneNumber.length() - 6));
+						outputPhoneNumber.insert(0,".");
+						if(inputPhoneNumber.length() == 10){
+							outputPhoneNumber.insert(0,inputPhoneNumber.substring(0, inputPhoneNumber.length() - 8));
+						}else{
+							outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 10, inputPhoneNumber.length() - 8));
+							outputPhoneNumber.insert(0,".");
+							outputPhoneNumber.insert(0,inputPhoneNumber.substring(0, inputPhoneNumber.length() - 10));
+						}
+					}else{
+						outputPhoneNumber.append(inputPhoneNumber);
+					}
+					break;
+				}
+				default:{
+					outputPhoneNumber.append(inputPhoneNumber);
+					break;
+				}
+			}
+			return outputPhoneNumber.toString();
+		}catch(Exception ex){
+			if (_debug) Log.e("Common.formatPhoneNumber() ERROR: " + ex.toString());
+			return inputPhoneNumber;
 		}
 	}
 	

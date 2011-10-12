@@ -3,7 +3,7 @@
 	xmlns:android="http://schemas.android.com/apk/res/android" 
 	package="apps.droidnotify"
     android:versionCode="13"
-    android:versionName="2.7"
+    android:versionName="2.6.1"
     android:installLocation="internalOnly" >
 	<uses-sdk 
 		android:minSdkVersion="8" 
@@ -16,7 +16,7 @@
     <application 
     	android:icon="@drawable/ic_launcher_droidnotify"
     	android:label="@string/app_name_formatted"
-    	android:debuggable="true" >
+    	android:debuggable="false" >
         <activity 
         	android:name="apps.droidnotify.preferences.MainPreferenceActivity" 
         	android:label="@string/app_name_formatted"
@@ -36,7 +36,9 @@
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" /> 
             </intent-filter> 
         </receiver>
+        <service android:name="apps.droidnotify.SMSBroadcastReceiverService" />
         <receiver android:name="apps.droidnotify.SMSAlarmReceiver" />
+        <service android:name=".SMSAlarmBroadcastReceiverService" />
         <service android:name="apps.droidnotify.SMSReceiverService" />
 		<receiver android:name="apps.droidnotify.MMSReceiver"> 
 			<intent-filter
@@ -49,7 +51,9 @@
                 <action android:name="android.provider.Telephony.MMS_RECEIVED" /> 
             </intent-filter>
         </receiver>
+        <service android:name="apps.droidnotify.MMSBroadcastReceiverService" />
         <receiver android:name="apps.droidnotify.MMSAlarmReceiver" />
+        <service android:name=".MMSAlarmBroadcastReceiverService" />
         <service android:name="apps.droidnotify.MMSReceiverService" />
    		<receiver android:name="apps.droidnotify.PhoneReceiver" > 
             <intent-filter
@@ -57,7 +61,9 @@
                 <action android:name="android.intent.action.PHONE_STATE" />
             </intent-filter> 
         </receiver>
+        <service android:name="apps.droidnotify.PhoneBroadcastReceiverService" />
         <receiver android:name="apps.droidnotify.PhoneAlarmReceiver" />
+        <service android:name="apps.droidnotify.PhoneAlarmBroadcastReceiverService" />
        	<service android:name="apps.droidnotify.PhoneReceiverService" /> 
 		<receiver android:name="apps.droidnotify.OnBootReceiver" >
 			<intent-filter
@@ -65,12 +71,16 @@
 				<action android:name="android.intent.action.BOOT_COMPLETED" />
 			</intent-filter>
 		</receiver>
+        <service android:name="apps.droidnotify.OnBootBroadcastReceiverService" />
 		<receiver android:name="apps.droidnotify.CalendarAlarmReceiver" />
 		<service android:name="apps.droidnotify.CalendarAlarmReceiverService" />
 		<receiver android:name="apps.droidnotify.CalendarNotificationAlarmReceiver" />
+        <service android:name="apps.droidnotify.CalendarNotificationAlarmBroadcastReceiverService" />
 		<service android:name="apps.droidnotify.CalendarNotificationAlarmReceiverService" />
 		<receiver android:name="apps.droidnotify.ScreenManagementAlarmReceiver" />
+        <service android:name="apps.droidnotify.ScreenManagementAlarmBroadcastReceiverService" />
 		<receiver android:name="apps.droidnotify.RescheduleReceiver" />
+        <service android:name="apps.droidnotify.RescheduleBroadcastReceiverService" />
 		<service android:name="apps.droidnotify.RescheduleReceiverService" />
    		<activity 
    			android:name="apps.droidnotify.NotificationActivity" 
