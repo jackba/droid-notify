@@ -8,6 +8,8 @@
 
 *v2.6.1* (October 12, 2011)
  * Fixed a bug that caused the app to crash under certain circumstances.
+ * Fixed the contact name text-wrapping bug.
+ * Fixed the a bug which stopped some notification popups from appearing.
 
 *v2.6* (October 7, 2011)
  * Added Status Bar Notifications
