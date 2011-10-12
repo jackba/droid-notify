@@ -1134,6 +1134,8 @@ public class Common {
 						//Content Intent
 						notificationContentIntent = new Intent(Intent.ACTION_MAIN);
 						notificationContentIntent.setType("vnd.android-dir/mms-sms");
+						//For now, don't display empty status bar notifications.
+						return;
 					}else{
 						contentText = context.getString(R.string.status_bar_notification_content_text_sms, sentFrom, message);
 						if(sentFromContactName == null || sentFromContactName.equals("")){
@@ -1185,6 +1187,8 @@ public class Common {
 						//Content Intent
 						notificationContentIntent = new Intent(Intent.ACTION_MAIN);
 						notificationContentIntent.setType("vnd.android-dir/mms-sms");
+						//For now, don't display empty status bar notifications.
+						return;
 					}else{
 						contentText = context.getString(R.string.status_bar_notification_content_text_mms, sentFrom, message);
 						if(sentFromContactName == null || sentFromContactName.equals("")){
@@ -1233,6 +1237,8 @@ public class Common {
 					if(sentFrom == null || sentFrom.equals("")){
 						contentText = context.getString(R.string.status_bar_notification_content_text_phone_null);
 						tickerText = context.getString(R.string.status_bar_notification_ticker_text_phone_null);
+						//For now, don't display empty status bar notifications.
+						return;
 					}else{
 						contentText = context.getString(R.string.status_bar_notification_content_text_phone, sentFrom);
 						tickerText = context.getString(R.string.status_bar_notification_ticker_text_phone, sentFrom);
@@ -1272,6 +1278,8 @@ public class Common {
 					if(message == null || message.equals("")){
 						contentText = context.getString(R.string.status_bar_notification_content_text_calendar_null);
 						tickerText = context.getString(R.string.status_bar_notification_ticker_text_calendar_null);
+						//For now, don't display empty status bar notifications.
+						return;
 					}else{
 						contentText = context.getString(R.string.status_bar_notification_content_text_calendar, message);
 						tickerText = context.getString(R.string.status_bar_notification_ticker_text_calendar, message);

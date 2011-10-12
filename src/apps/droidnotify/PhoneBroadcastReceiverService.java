@@ -63,8 +63,15 @@ public class PhoneBroadcastReceiverService extends WakefulIntentService {
 			}
 		    //Check the state of the users phone.
 			TelephonyManager telemanager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-		    boolean callStateIdle = telemanager.getCallState() == TelephonyManager.CALL_STATE_IDLE;
-		    if(callStateIdle){
+		    int callState = telemanager.getCallState();
+		    if(callState == TelephonyManager.CALL_STATE_IDLE){
+		    	if(preferences.getInt(Constants.PREVIOUS_CALL_STATE_KEY, TelephonyManager.CALL_STATE_IDLE) != TelephonyManager.CALL_STATE_RINGING){
+		    		if (_debug) Log.v("PhoneBroadcastReceiverService.doWakefulWork() Previous call state not 'CALL_STATE_RINGING'. Exiting...");
+		    		setCallStateFlag(preferences, callState);
+		    		return;
+		    	}else{
+		    		if (_debug) Log.v("PhoneBroadcastReceiverService.doWakefulWork() Previous call state 'CALL_STATE_RINGING'. Missed Call Occurred");
+		    	}
 				//Schedule phone task x seconds after the broadcast.
 				//This time is set by the users advanced preferences. 5 seconds is the default value.
 				//This should allow enough time to pass for the phone log to be written to.
@@ -72,13 +79,28 @@ public class PhoneBroadcastReceiverService extends WakefulIntentService {
 				AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 				Intent phoneIntent = new Intent(context, PhoneAlarmReceiver.class);
 				PendingIntent phonePendingIntent = PendingIntent.getBroadcast(context, 0, phoneIntent, 0);
-				alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + timeoutInterval, phonePendingIntent);		
-		    }else{
+				alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + timeoutInterval, phonePendingIntent);
+		    }else if(callState == TelephonyManager.CALL_STATE_RINGING){
+		    	if (_debug) Log.v("PhoneBroadcastReceiverService.doWakefulWork() Phone Ringing. Exiting...");
+		    }else if(callState == TelephonyManager.CALL_STATE_OFFHOOK){
 		    	if (_debug) Log.v("PhoneBroadcastReceiverService.doWakefulWork() Phone Call In Progress. Exiting...");
-		    }		
+		    }else{
+		    	if (_debug) Log.v("PhoneBroadcastReceiverService.doWakefulWork() Unknown Call State. Exiting...");
+		    }
+		    setCallStateFlag(preferences, callState);
 	    }catch(Exception ex){
 			if (_debug) Log.e("PhoneBroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());
 		}
+	}
+	
+	/**
+	 * Set the phone state flag.
+	 */
+	private void setCallStateFlag(SharedPreferences preferences, int callState){
+		if (_debug) Log.v("PhoneBroadcastReceiverService.setCallStateFlag() callState: " + callState);
+		SharedPreferences.Editor editor = preferences.edit();
+		editor.putInt(Constants.PREVIOUS_CALL_STATE_KEY, callState);
+		editor.commit();
 	}
 		
 }
