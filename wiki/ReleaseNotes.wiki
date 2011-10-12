@@ -3,8 +3,12 @@
 
 = Release Notes =
 
-*v2.7* _Coming Soon..._
+*v2.8* _Coming Soon..._
  *
+
+*v2.7* _Coming Soon..._
+ * Fixed the "Hide Single Message Header" user preference option.
+ * 
 
 *v2.6.1* (October 12, 2011)
  * Fixed a bug that caused the app to crash under certain circumstances.
