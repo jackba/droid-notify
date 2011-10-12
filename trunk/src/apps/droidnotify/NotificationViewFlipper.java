@@ -397,8 +397,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 * @param view - The View that we will update.
 	 */
 	private void updateViewNavigationButtons(View view){
-    	if (_debug) Log.v("NotificationView.updateNavigationButtons()");
-    	boolean displayNotificationCount = false;
+    	if (_debug) Log.v("NotificationViewFlipper.updateNavigationButtons()");
 		Button previousButton = (Button) view.findViewById(R.id.previous_button);
 		TextView notificationCountTextView = (TextView) view.findViewById(R.id.notification_count_text_view);
 		Button nextButton = (Button) view.findViewById(R.id.next_button);
@@ -406,23 +405,21 @@ public class NotificationViewFlipper extends ViewFlipper {
     		previousButton.setVisibility(View.INVISIBLE);
     	}else{
     		previousButton.setVisibility(View.VISIBLE);
-    		displayNotificationCount = true;
     	}
+    	notificationCountTextView.setVisibility(View.VISIBLE);
     	notificationCountTextView.setText((_currentNotification + 1) + "/" + _totalNotifications);
     	nextButton.setEnabled(!isLastMessage());
     	if(isLastMessage()){
     		nextButton.setVisibility(View.INVISIBLE);
     	}else{
     		nextButton.setVisibility(View.VISIBLE);
-    		displayNotificationCount = true;
     	}
+    	//Hide notification header row if single notification.
     	if(_preferences.getBoolean(Constants.HIDE_SINGLE_MESSAGE_HEADER_KEY, false)){
-	    	if(!displayNotificationCount){
+	    	if(_notifications.size() == 1){
 	    		previousButton.setVisibility(View.GONE);
 	    		nextButton.setVisibility(View.GONE);
 	    		notificationCountTextView.setVisibility(View.GONE);
-	    	}else{
-	    		notificationCountTextView.setVisibility(View.VISIBLE);
 	    	}
     	}
 	}

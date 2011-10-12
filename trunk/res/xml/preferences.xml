@@ -62,7 +62,7 @@
 					android:summaryOff="@string/preference_button_icons_enabled_summaryOff" 
 					android:defaultValue="true" />
 				<CheckBoxPreference
-					android:key="hide_single_message_header" 
+					android:key="hide_single_message_header_enabled" 
 					android:title="@string/preference_hide_single_message_header_enabled_title" 
 					android:summaryOn="@string/preference_hide_single_message_header_enabled_summaryOn" 
 					android:summaryOff="@string/preference_hide_single_message_header_enabled_summaryOff" 
