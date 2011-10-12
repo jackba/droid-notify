@@ -1061,6 +1061,12 @@ public class Common {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.setStatusBarNotification() sentFromContactName: " + sentFromContactName + " sentFromAddress: " + sentFromAddress + " message: " + message);
 		try{
+			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+			//Stop if app is disabled.
+			if(!preferences.getBoolean(Constants.APP_ENABLED_KEY, true)){
+				if (_debug) Log.v("Common.setStatusBarNotification() App Disabled. Exiting...");
+				return;
+			}
 			//Preference keys.
 			String POPUP_ENABLED_KEY = null;
 			String ENABLED_KEY = null;
@@ -1317,7 +1323,6 @@ public class Common {
 			AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
 			boolean inNormalMode = audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL;
 			boolean inVibrateMode = audioManager.getRingerMode() == AudioManager.RINGER_MODE_VIBRATE;
-			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 			String notificationSound = null;
 			boolean soundEnabled = false;
 			boolean soundInCallEnabled = false;
@@ -1325,7 +1330,7 @@ public class Common {
 			boolean vibrateEnabled = false;
 			boolean vibrateInCallEnabled = false;
 			//Check if notifications are enabled or not.
-			if(!preferences.getBoolean(ENABLED_KEY, true) && !preferences.getBoolean(POPUP_ENABLED_KEY, true)){
+			if(!preferences.getBoolean(ENABLED_KEY, true) || !preferences.getBoolean(POPUP_ENABLED_KEY, true)){
 				if (_debug) Log.v("Common.setStatusBarNotification() Notifications Disabled: ENABLED_KEY " + ENABLED_KEY + " - Exiting...");
 				return;
 			}
