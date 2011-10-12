@@ -43,28 +43,18 @@ public class CalendarNotificationAlarmReceiverService extends WakefulIntentServi
 	 */
 	@Override
 	protected void doWakefulWork(Intent intent) {
-		_debug = Log.getDebug();
 		if (_debug) Log.v("CalendarNotificationAlarmReceiverService.doWakefulWork()");
-		startNotificationActivity(intent);
-	}
-	
-	//================================================================================
-	// Private Methods
-	//================================================================================
-	
-	/**
-	 * Display the notification for this Calendar Event.
-	 * 
-	 * @param intent - Intent object that we are working with.
-	 */
-	private void startNotificationActivity(Intent intent) {
-		Context context = getApplicationContext();
-    	Intent calendarIntent = new Intent(context, NotificationActivity.class);
-    	Bundle bundle = intent.getExtras();
-    	calendarIntent.putExtras(bundle);
-    	calendarIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-    	Common.acquirePartialWakeLock(context);
-    	context.startActivity(calendarIntent);
+		try{
+			Context context = getApplicationContext();
+	    	Intent calendarIntent = new Intent(context, NotificationActivity.class);
+	    	Bundle bundle = intent.getExtras();
+	    	calendarIntent.putExtras(bundle);
+	    	calendarIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+	    	Common.acquirePartialWakeLock(context);
+	    	context.startActivity(calendarIntent);
+		}catch(Exception ex){
+			if (_debug) Log.e("CalendarNotificationAlarmReceiverService.doWakefulWork() ERROR: " + ex.toString());
+		}
 	}
 	
 }

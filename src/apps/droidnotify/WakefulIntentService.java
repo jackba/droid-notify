@@ -112,7 +112,7 @@ abstract public class WakefulIntentService extends IntentService {
 		if (lockStatic==null) {
 			PowerManager mgr=(PowerManager)context.getSystemService(Context.POWER_SERVICE);
 			lockStatic=mgr.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, LOCK_NAME_STATIC);
-			lockStatic.setReferenceCounted(false);
+			lockStatic.setReferenceCounted(true);
 		}
 		return(lockStatic);
 	}

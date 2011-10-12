@@ -48,28 +48,31 @@ public class SMSReceiverService extends WakefulIntentService {
 	 */
 	@Override
 	protected void doWakefulWork(Intent intent) {
-		_debug = Log.getDebug();
 		if (_debug) Log.v("SMSReceiverService.doWakefulWork()");
-		Context context = getApplicationContext();
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-		ArrayList<String> smsArray = null;
-		if(preferences.getString(Constants.SMS_LOADING_SETTING_KEY, "0").equals(Constants.SMS_READ_FROM_INTENT)){
-			Bundle newSMSBundle = intent.getExtras();
-			smsArray = Common.getSMSMessagesFromIntent(context, newSMSBundle);
-		}else{
-			smsArray = Common.getSMSMessagesFromDisk(context);
-		}
-		if(smsArray.size() > 0){
-			Bundle bundle = new Bundle();
-			bundle.putInt("notificationType", Constants.NOTIFICATION_TYPE_SMS);
-			bundle.putStringArrayList("smsArrayList",smsArray);
-	    	Intent smsNotificationIntent = new Intent(context, NotificationActivity.class);
-	    	smsNotificationIntent.putExtras(bundle);
-	    	smsNotificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-	    	Common.acquirePartialWakeLock(context);
-	    	context.startActivity(smsNotificationIntent);
-		}else{
-			if (_debug) Log.v("SMSReceiverService.doWakefulWork() No new SMSs were found. Exiting...");
+		try{
+			Context context = getApplicationContext();
+			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+			ArrayList<String> smsArray = null;
+			if(preferences.getString(Constants.SMS_LOADING_SETTING_KEY, "0").equals(Constants.SMS_READ_FROM_INTENT)){
+				Bundle newSMSBundle = intent.getExtras();
+				smsArray = Common.getSMSMessagesFromIntent(context, newSMSBundle);
+			}else{
+				smsArray = Common.getSMSMessagesFromDisk(context);
+			}
+			if(smsArray.size() > 0){
+				Bundle bundle = new Bundle();
+				bundle.putInt("notificationType", Constants.NOTIFICATION_TYPE_SMS);
+				bundle.putStringArrayList("smsArrayList",smsArray);
+		    	Intent smsNotificationIntent = new Intent(context, NotificationActivity.class);
+		    	smsNotificationIntent.putExtras(bundle);
+		    	smsNotificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+		    	Common.acquirePartialWakeLock(context);
+		    	context.startActivity(smsNotificationIntent);
+			}else{
+				if (_debug) Log.v("SMSReceiverService.doWakefulWork() No new SMSs were found. Exiting...");
+			}
+		}catch(Exception ex){
+			if (_debug) Log.e("SMSReceiverService.doWakefulWork() ERROR: " + ex.toString());
 		}
 	}
 		

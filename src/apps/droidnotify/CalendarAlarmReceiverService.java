@@ -73,7 +73,6 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
 	 */
 	@Override
 	protected void doWakefulWork(Intent intent) {
-		_debug = Log.getDebug();
 		if (_debug) Log.v("CalendarAlarmReceiverService.doWakefulWork()");
 		Context context = getApplicationContext();
 		//Read the users calendar(s) and events.
@@ -94,6 +93,16 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
 		if (_debug) Log.v("CalendarAlarmReceiverService.readCalendars()");
 		//Determine the reminder interval based on the users preferences.
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		//Read preferences and exit if app is disabled.
+	    if(!preferences.getBoolean(Constants.APP_ENABLED_KEY, true)){
+			if (_debug) Log.v("CalendarAlarmReceiverService.readCalendars() App Disabled. Exiting...");
+			return;
+		}
+		//Read preferences and exit if calendar notifications are disabled.
+	    if(!preferences.getBoolean(Constants.CALENDAR_NOTIFICATIONS_ENABLED_KEY, true)){
+			if (_debug) Log.v("CalendarAlarmReceiverService.readCalendars() Calendar Notifications Disabled. Exiting... ");
+			return;
+		}
 		long reminderInterval = Long.parseLong(preferences.getString(Constants.CALENDAR_REMINDER_KEY, "15")) * 60 * 1000;
 		long reminderIntervalAllDay = Long.parseLong(preferences.getString(Constants.CALENDAR_REMINDER_ALL_DAY_KEY, "6")) * 60 * 60 * 1000;
 		long dayOfReminderIntervalAllDay = Long.parseLong(preferences.getString(Constants.CALENDAR_NOTIFY_DAY_OF_TIME_KEY, "12")) * 60 * 60 * 1000;

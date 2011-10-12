@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_width="fill_parent" 
     android:gravity="center_vertical|fill_horizontal"
-    android:background="@drawable/android_froyo_panel">
+    android:background="@drawable/dark_translucent_panel">
 	<RelativeLayout
     	android:id="@+id/header_navigation"
     	android:layout_width="wrap_content"
@@ -14,7 +14,7 @@
     	android:gravity="center"
     	android:padding="2dp">
 	    <Button
-	    	android:id="@+id/previous_button"
+	    	android:id="@+id/previous_button" 
 	     	android:layout_height="wrap_content"
 	     	android:layout_width="wrap_content"
 	      	android:layout_alignParentLeft="true"
@@ -26,14 +26,22 @@
 	    	android:layout_height="50dip"  
 	    	android:layout_width="wrap_content" 
 	    	android:layout_alignParentTop="true"
-	    	android:layout_toRightOf="@+id/previous_button" 
-	    	android:layout_toLeftOf="@+id/next_button"
+	    	android:layout_toRightOf="@+id/previous_button"
+	    	android:layout_toLeftOf="@+id/reschedule_button"
 	    	android:gravity="center"
 			android:focusable="true" 
 			android:clickable="true"
 	    	android:textAppearance="?android:attr/textAppearanceMedium" 
 	    	android:textColor="@color/white"
 	    	android:text="0/0"/>
+	    <ImageView 
+	    	android:id="@+id/reschedule_button" 
+	      	android:layout_height="wrap_content"
+	      	android:layout_width="wrap_content" 
+	    	android:layout_alignParentTop="true"
+	    	android:layout_toLeftOf="@+id/next_button"
+	    	android:layout_margin="10dip"
+			android:background="@drawable/ic_reschedule_white"/>
 	    <Button
 	    	android:id="@+id/next_button" 
 	      	android:layout_height="wrap_content"
@@ -61,7 +69,7 @@
 			android:focusable="true" 
 			android:clickable="true"
 			android:hapticFeedbackEnabled="true"
-			android:background="@drawable/froyo_list_selector_background">
+			android:background="@drawable/list_selector_background_blue">
 			<ImageView
 				android:id="@+id/contact_photo_image_view"
 				android:layout_height="wrap_content"
@@ -98,8 +106,8 @@
 						android:id="@+id/notification_info_text_view"
 						android:layout_height="wrap_content"
 						android:layout_width="wrap_content" 
-						android:layout_gravity="center_vertical"
-						android:textColorLink="@color/white"
+						android:layout_gravity="center_vertical" 
+	    				android:textColor="@color/white"
 						android:textAppearance="?android:attr/textAppearanceSmall"
 						android:paddingLeft="5dip"/>
 				</LinearLayout>
@@ -112,16 +120,16 @@
 					android:layout_gravity="left"
 					android:textAppearance="?android:attr/textAppearanceLarge"
 					android:maxLines="1" 
-					android:textStyle="bold"
-					android:textColorLink="@color/white" />
+					android:textStyle="bold" 
+	    			android:textColor="@color/white" />
 				<TextView
 					android:id="@+id/contact_number_text_view"
 					android:layout_height="wrap_content"
 					android:layout_width="wrap_content"
 					android:layout_gravity="left"
 					android:textAppearance="?android:attr/textAppearanceMedium"
-					android:maxLines="1"
-					android:textColorLink="@color/white"  />
+					android:maxLines="1" 
+	    			android:textColor="@color/white"  />
 			</LinearLayout>
 		</LinearLayout>
 		<TextView
@@ -151,26 +159,26 @@
 			android:layout_height="wrap_content" 
 			android:layout_width="fill_parent"
 			android:layout_weight="1" 
-			android:layout_marginLeft="2dip"
-			android:layout_marginRight="2dip"
+			android:layout_marginLeft="1dip"
+			android:layout_marginRight="1dip"
 			android:gravity="center_vertical|center_horizontal"
-			android:drawableLeft="@drawable/ic_delete_grey"
-			android:hapticFeedbackEnabled="true"
-			android:textColor="@color/black" 
-			android:background="@drawable/btn_froyo_android"
+			android:drawableLeft="@drawable/ic_delete_white"
+			android:hapticFeedbackEnabled="true" 
+	    	android:textColor="@color/white"
+			android:background="@drawable/btn_dark_translucent"
 			android:text="@string/dismiss_button_text" />
 		<Button
 			android:id="@+id/phone_call_button"  
 			android:layout_height="wrap_content" 
 			android:layout_width="fill_parent" 
 			android:layout_weight="1"
-			android:layout_marginLeft="2dip"
-			android:layout_marginRight="2dip"
+			android:layout_marginLeft="1dip"
+			android:layout_marginRight="1dip"
 			android:gravity="center_vertical|center_horizontal"
-			android:drawableLeft="@drawable/ic_call_green"
-			android:hapticFeedbackEnabled="true"
-			android:textColor="@color/black"
-			android:background="@drawable/btn_froyo_android"
+			android:drawableLeft="@drawable/ic_call_white"
+			android:hapticFeedbackEnabled="true" 
+	    	android:textColor="@color/white"
+			android:background="@drawable/btn_dark_translucent"
 			android:text="@string/call_button_text" />
 	</LinearLayout>
 	<LinearLayout 
@@ -185,39 +193,39 @@
 			android:layout_height="wrap_content" 
 			android:layout_width="fill_parent"
 			android:layout_weight="1" 
-			android:layout_marginLeft="2dip"
-			android:layout_marginRight="2dip"
+			android:layout_marginLeft="1dip"
+			android:layout_marginRight="1dip"
 			android:gravity="center_vertical|center_horizontal"
-			android:drawableLeft="@drawable/ic_delete_grey"
-			android:hapticFeedbackEnabled="true"
-			android:textColor="@color/black"
-			android:background="@drawable/btn_froyo_android"
+			android:drawableLeft="@drawable/ic_delete_white"
+			android:hapticFeedbackEnabled="true" 
+	    	android:textColor="@color/white"
+			android:background="@drawable/btn_dark_translucent"
 			android:text="@string/dismiss_button_text" />
 		<Button
 			android:id="@+id/sms_delete_button"  
 			android:layout_height="wrap_content" 
 			android:layout_width="fill_parent"
 			android:layout_weight="1" 
-			android:layout_marginLeft="2dip"
-			android:layout_marginRight="2dip"
+			android:layout_marginLeft="1dip"
+			android:layout_marginRight="1dip"
 			android:gravity="center_vertical|center_horizontal"
 			android:drawableLeft="@drawable/ic_delete_red"
-			android:hapticFeedbackEnabled="true"
-			android:textColor="@color/black" 
-			android:background="@drawable/btn_froyo_android"
+			android:hapticFeedbackEnabled="true" 
+	    	android:textColor="@color/white"
+			android:background="@drawable/btn_dark_translucent" 
 			android:text="@string/delete_button_text" />
 		<Button
 			android:id="@+id/sms_reply_button"  
 			android:layout_height="wrap_content" 
 			android:layout_width="fill_parent" 
 			android:layout_weight="1"
-			android:layout_marginLeft="2dip"
-			android:layout_marginRight="2dip"
+			android:layout_marginLeft="1dip"
+			android:layout_marginRight="1dip"
 			android:gravity="center_vertical|center_horizontal"
-			android:drawableLeft="@drawable/ic_conversation_grey_small"
-			android:hapticFeedbackEnabled="true"
-			android:textColor="@color/black"
-			android:background="@drawable/btn_froyo_android"
+			android:drawableLeft="@drawable/ic_conversation_white_small"
+			android:hapticFeedbackEnabled="true" 
+	    	android:textColor="@color/white"
+			android:background="@drawable/btn_dark_translucent"
 			android:text="@string/reply_button_text" />
 	</LinearLayout>
 	<LinearLayout 
@@ -232,26 +240,26 @@
 			android:layout_height="wrap_content" 
 			android:layout_width="fill_parent"
 			android:layout_weight="1" 
-			android:layout_marginLeft="2dip"
-			android:layout_marginRight="2dip"
+			android:layout_marginLeft="1dip"
+			android:layout_marginRight="1dip"
 			android:gravity="center_vertical|center_horizontal"
-			android:drawableLeft="@drawable/ic_delete_grey"
-			android:hapticFeedbackEnabled="true"
-			android:textColor="@color/black"
-			android:background="@drawable/btn_froyo_android"
+			android:drawableLeft="@drawable/ic_delete_white"
+			android:hapticFeedbackEnabled="true" 
+	    	android:textColor="@color/white"
+			android:background="@drawable/btn_dark_translucent" 
 			android:text="@string/dismiss_button_text" />
 		<Button
 			android:id="@+id/calendar_view_button"  
 			android:layout_height="wrap_content" 
 			android:layout_width="fill_parent" 
 			android:layout_weight="1"
-			android:layout_marginLeft="2dip"
-			android:layout_marginRight="2dip"
+			android:layout_marginLeft="1dip"
+			android:layout_marginRight="1dip"
 			android:gravity="center_vertical|center_horizontal"
-			android:drawableLeft="@drawable/ic_calendar_event_grey"
-			android:hapticFeedbackEnabled="true"
-			android:textColor="@color/black"
-			android:background="@drawable/btn_froyo_android"
+			android:drawableLeft="@drawable/ic_calendar_event_white"
+			android:hapticFeedbackEnabled="true" 
+	    	android:textColor="@color/white"
+			android:background="@drawable/btn_dark_translucent"
 			android:text="@string/view_button_text" />
 	</LinearLayout>
 </LinearLayout>

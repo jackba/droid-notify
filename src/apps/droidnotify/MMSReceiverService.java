@@ -46,21 +46,24 @@ public class MMSReceiverService extends WakefulIntentService {
 	 */
 	@Override
 	protected void doWakefulWork(Intent intent) {
-		_debug = Log.getDebug();
 		if (_debug) Log.v("MMSReceiverService.doWakefulWork()");
-		Context context = getApplicationContext();
-		ArrayList<String> mmsArray = Common.getMMSMessagesFromDisk(context);
-		if(mmsArray.size() > 0){
-			Bundle bundle = new Bundle();
-			bundle.putInt("notificationType", Constants.NOTIFICATION_TYPE_MMS);
-			bundle.putStringArrayList("mmsArrayList",mmsArray);
-	    	Intent mmsNotificationIntent = new Intent(context, NotificationActivity.class);
-	    	mmsNotificationIntent.putExtras(bundle);
-	    	mmsNotificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-	    	Common.acquirePartialWakeLock(context);
-	    	context.startActivity(mmsNotificationIntent);
-		}else{
-			if (_debug) Log.v("MMSReceiverService.doWakefulWork() No new MMSs were found. Exiting...");
+		try{
+			Context context = getApplicationContext();
+			ArrayList<String> mmsArray = Common.getMMSMessagesFromDisk(context);
+			if(mmsArray.size() > 0){
+				Bundle bundle = new Bundle();
+				bundle.putInt("notificationType", Constants.NOTIFICATION_TYPE_MMS);
+				bundle.putStringArrayList("mmsArrayList",mmsArray);
+		    	Intent mmsNotificationIntent = new Intent(context, NotificationActivity.class);
+		    	mmsNotificationIntent.putExtras(bundle);
+		    	mmsNotificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+		    	Common.acquirePartialWakeLock(context);
+		    	context.startActivity(mmsNotificationIntent);
+			}else{
+				if (_debug) Log.v("MMSReceiverService.doWakefulWork() No new MMSs were found. Exiting...");
+			}
+		}catch(Exception ex){
+			if (_debug) Log.e("MMSReceiverService.doWakefulWork() ERROR: " + ex.toString());
 		}
 	}
 	
