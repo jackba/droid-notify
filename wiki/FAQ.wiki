@@ -44,9 +44,9 @@ If the app is moved to the SD Card / External Storage, the functionality of the 
 
 If you want to use GO SMS Pro, you must follow the steps below in order for Droid Notify to work with SMS/MMS notifications.
 
-1) Uncheck/deselect the "Disable other apps notifications" option in the GO SMS Pro settings/preferences. If this option is checked/selected then Droid Notify may not work (i.e. SMS/MMS notifications may not be displayed).
+1) Uncheck/deselect the "Disable other message notifications" option in the GO SMS Pro settings/preferences (Settings->Advanced Tab->Receive Settings). If this option is checked/selected then Droid Notify may not work (i.e. SMS/MMS notifications may not be displayed).
 
-2) Uncheck/deselect "run system persistent" in the SMS user options. If this option is checked/selected then Droid Notify may not work (i.e. SMS/MMS notifications may not be displayed).
+2) Uncheck/deselect the "Enable Go SMS run persistently" option in the GO SMS Pro settings/preferences (Settings->Advanced Tab->Important Tips). If this option is checked/selected then Droid Notify may not work (i.e. SMS/MMS notifications may not be displayed).
 
 ==Known Issues with Pansi SMS & Droid Notify==
 
