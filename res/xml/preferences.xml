@@ -47,22 +47,6 @@
 					android:defaultValue="1"
 					android:entries="@array/phone_number_format_options"
 					android:entryValues="@array/phone_number_format_options_values" />
-				<apps.droidnotify.preferences.ImageListPreference
-					android:key="contact_placeholder"
-					android:title="@string/preference_contact_placeholder_image"
-					android:summary="@string/preference_contact_placeholder_image_summary"
-					android:entries="@array/contact_placeholder_options"
-					android:entryValues="@array/contact_placeholder_options_values"
-					android:defaultValue="0"
-					droidnotify:entryImages="@array/contact_placeholder_images" />
-				<apps.droidnotify.preferences.ImageListPreference
-					android:key="contact_photo_background"
-					android:title="@string/preference_contact_photo_background"
-					android:summary="@string/preference_contact_photo_background_summary"
-					android:entries="@array/contact_photo_background_options"
-					android:entryValues="@array/contact_photo_background_options_values"
-					android:defaultValue="0"
-					droidnotify:entryImages="@array/contact_photo_background_images" />
 				<CheckBoxPreference
 					android:key="button_icons_enabled" 
 					android:title="@string/preference_button_icons_enabled_title" 
@@ -75,6 +59,33 @@
 					android:summaryOn="@string/preference_hide_single_message_header_enabled_summaryOn" 
 					android:summaryOff="@string/preference_hide_single_message_header_enabled_summaryOff" 
 					android:defaultValue="false" />
+			</PreferenceCategory>
+			<PreferenceCategory
+					android:key="contact_photo_settings_category"
+					android:title="@string/contact_photo_settings_text">
+					<apps.droidnotify.preferences.ImageListPreference
+						android:key="contact_placeholder"
+						android:title="@string/preference_contact_placeholder_image"
+						android:summary="@string/preference_contact_placeholder_image_summary"
+						android:entries="@array/contact_placeholder_options"
+						android:entryValues="@array/contact_placeholder_options_values"
+						android:defaultValue="0"
+						droidnotify:entryImages="@array/contact_placeholder_images" />
+					<apps.droidnotify.preferences.ImageListPreference
+						android:key="contact_photo_background"
+						android:title="@string/preference_contact_photo_background"
+						android:summary="@string/preference_contact_photo_background_summary"
+						android:entries="@array/contact_photo_background_options"
+						android:entryValues="@array/contact_photo_background_options_values"
+						android:defaultValue="0"
+						droidnotify:entryImages="@array/contact_photo_background_images" />
+					<ListPreference
+						android:key="contact_photo_size"
+						android:title="@string/preference_contact_photo_size"
+						android:summary="@string/preference_contact_photo_size_summary"
+						android:defaultValue="80"
+						android:entries="@array/contact_photo_size_options"
+						android:entryValues="@array/contact_photo_size_options_values" />
 			</PreferenceCategory>
 			<PreferenceCategory
 				android:key="quick_reply_settings_category"
