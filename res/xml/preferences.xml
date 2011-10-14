@@ -52,9 +52,17 @@
 					android:title="@string/preference_contact_placeholder_image"
 					android:summary="@string/preference_contact_placeholder_image_summary"
 					android:entries="@array/contact_placeholder_options"
-					android:entryValues="@array/contact_placeholder_values"
+					android:entryValues="@array/contact_placeholder_options_values"
 					android:defaultValue="0"
 					droidnotify:entryImages="@array/contact_placeholder_images" />
+				<apps.droidnotify.preferences.ImageListPreference
+					android:key="contact_photo_background"
+					android:title="@string/preference_contact_photo_background"
+					android:summary="@string/preference_contact_photo_background_summary"
+					android:entries="@array/contact_photo_background_options"
+					android:entryValues="@array/contact_photo_background_options_values"
+					android:defaultValue="0"
+					droidnotify:entryImages="@array/contact_photo_background_images" />
 				<CheckBoxPreference
 					android:key="button_icons_enabled" 
 					android:title="@string/preference_button_icons_enabled_title" 
@@ -153,7 +161,7 @@
 							android:key="messaging_app_running_action_sms"
 							android:title="@string/messaging_app_running_action_text"
 							android:summary="@string/messaging_app_running_action_sms_summary"
-							android:defaultValue="0"
+							android:defaultValue="2"
 							android:entries="@array/messaging_app_running_action_options"
 							android:entryValues="@array/messaging_app_running_action_options_values"
 							android:dependency="sms_notifications_enabled" />
@@ -422,7 +430,7 @@
 							android:key="messaging_app_running_action_mms"
 							android:title="@string/messaging_app_running_action_text"
 							android:summary="@string/messaging_app_running_action_mms_summary"
-							android:defaultValue="0"
+							android:defaultValue="2"
 							android:entries="@array/messaging_app_running_action_options"
 							android:entryValues="@array/messaging_app_running_action_options_values"
 							android:dependency="mms_notifications_enabled" />
@@ -691,7 +699,7 @@
 							android:key="messaging_app_running_action_missed_call"
 							android:title="@string/messaging_app_running_action_text"
 							android:summary="@string/messaging_app_running_action_missed_call_summary"
-							android:defaultValue="0"
+							android:defaultValue="2"
 							android:entries="@array/messaging_app_running_action_options"
 							android:entryValues="@array/messaging_app_running_action_options_values"
 							android:dependency="missed_call_notifications_enabled" />
@@ -912,7 +920,7 @@
 							android:key="messaging_app_running_action_calendar"
 							android:title="@string/messaging_app_running_action_text"
 							android:summary="@string/messaging_app_running_action_calendar_summary"
-							android:defaultValue="0"
+							android:defaultValue="2"
 							android:entries="@array/messaging_app_running_action_options"
 							android:entryValues="@array/messaging_app_running_action_options_values"
 							android:dependency="calendar_notifications_enabled" />

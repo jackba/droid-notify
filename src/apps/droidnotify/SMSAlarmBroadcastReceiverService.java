@@ -66,14 +66,15 @@ public class SMSAlarmBroadcastReceiverService extends WakefulIntentService {
 		    boolean inMessagingApp = preferences.getBoolean(Constants.USER_IN_MESSAGING_APP_KEY, false);
 		    boolean blockingAppRunning = Common.isBlockingAppRunning(context);
 		    String blockingAppRuningAction = preferences.getString(Constants.SMS_BLOCKING_APP_RUNNING_ACTION_KEY, "0");
-		    if(!callStateIdle || inMessagingApp){
+		    //Reschedule notification based on the users preferences.
+		    if(!callStateIdle){
 		    	rescheduleNotification = true;
-		    }else{	    	
+		    }else if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_RESCHEDULE) && inMessagingApp){
+		    	//Messaging App is running.
+		    	rescheduleNotification = true;
+		    }else if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_RESCHEDULE) && blockingAppRunning){ 
 		    	//Blocking App is running.
-		    	if(blockingAppRunning){
-		    		//Reschedule notification based on the users preferences.
-				    rescheduleNotification = true;
-		    	}
+		    	rescheduleNotification = true;
 		    }
 		    if(!rescheduleNotification){
 				WakefulIntentService.acquireStaticLock(context);

@@ -65,7 +65,7 @@
 					android:title="@string/preference_contact_placeholder_image"
 					android:summary="@string/preference_contact_placeholder_image_summary"
 					android:entries="@array/contact_placeholder_options"
-					android:entryValues="@array/contact_placeholder_values"
+					android:entryValues="@array/contact_placeholder_options_values"
 					android:defaultValue="0"
 					droidnotify:entryImages="@array/contact_placeholder_images" />
 				<CheckBoxPreference

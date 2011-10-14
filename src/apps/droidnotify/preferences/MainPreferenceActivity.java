@@ -682,7 +682,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			buf.newLine();
 			buf.append("sms_display_unread_enabled|" + _preferences.getBoolean("sms_display_unread_enabled", false) + "|boolean");
 			buf.newLine();
-			buf.append("messaging_app_running_action_sms|" + _preferences.getString("messaging_app_running_action_sms", "0") + "|string");
+			buf.append("messaging_app_running_action_sms|" + _preferences.getString("messaging_app_running_action_sms", "2") + "|string");
 			buf.newLine();
 
 			//SMS Status Bar Notification Settings
@@ -749,7 +749,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			buf.newLine();
 			buf.append("mms_display_unread_enabled|" + _preferences.getBoolean("mms_display_unread_enabled", false) + "|boolean");
 			buf.newLine();
-			buf.append("messaging_app_running_action_mms|" + _preferences.getString("messaging_app_running_action_mms", "0") + "|string");
+			buf.append("messaging_app_running_action_mms|" + _preferences.getString("messaging_app_running_action_mms", "2") + "|string");
 			buf.newLine();
 			
 			//MMS Status Bar Notification Settings
@@ -816,7 +816,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			buf.newLine();
 			buf.append("missed_call_loading_settings|" + _preferences.getString("missed_call_loading_settings", "0") + "|string");
 			buf.newLine();
-			buf.append("messaging_app_running_action_missed_call|" + _preferences.getString("messaging_app_running_action_missed_call", "0") + "|string");
+			buf.append("messaging_app_running_action_missed_call|" + _preferences.getString("messaging_app_running_action_missed_call", "2") + "|string");
 			buf.newLine();
 			
 			//Missed Call Status Bar Notification Settings
@@ -871,7 +871,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			buf.newLine();
 			buf.append("calendar_notify_day_of_time|" + _preferences.getString("calendar_notify_day_of_time", "12") + "|string");
 			buf.newLine();
-			buf.append("messaging_app_running_action_calendar|" + _preferences.getString("messaging_app_running_action_calendar", "0") + "|string");
+			buf.append("messaging_app_running_action_calendar|" + _preferences.getString("messaging_app_running_action_calendar", "2") + "|string");
 			buf.newLine();
 			buf.append("calendar_polling_frequency|" + _preferences.getString("calendar_polling_frequency", "15") + "|string");
 			buf.newLine();

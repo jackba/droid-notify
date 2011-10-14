@@ -94,14 +94,15 @@ public class RescheduleBroadcastReceiverService extends WakefulIntentService {
 			    	break;
 			    }
 		    }
-		    if(!callStateIdle || inMessagingApp){
+		    //Reschedule notification based on the users preferences.
+		    if(!callStateIdle){
 		    	rescheduleNotification = true;
-		    }else{	    	
+		    }else if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_RESCHEDULE) && inMessagingApp){
+		    	//Messaging App is running.
+		    	rescheduleNotification = true;
+		    }else if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_RESCHEDULE) && blockingAppRunning){ 
 		    	//Blocking App is running.
-		    	if(blockingAppRunning){
-		    		//Reschedule notification based on the users preferences.
-				    rescheduleNotification = true;
-		    	}
+		    	rescheduleNotification = true;
 		    }
 		    if(!rescheduleNotification){
 				WakefulIntentService.acquireStaticLock(context);
