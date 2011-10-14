@@ -931,12 +931,20 @@ public class Common {
 	    	runningTaskInfo = runningTaskArrayIterator.next();
 	    	ComponentName runningTaskComponent = runningTaskInfo.baseActivity;
 	    	String runningTaskPackageName = runningTaskComponent.getPackageName();
-	        if (_debug) Log.v("Common.isBlockingAppRunning() runningTaskPackageName: " + runningTaskPackageName);
+	    	String runningTaskClassName = runningTaskComponent.getClassName();
+	        if (_debug) Log.v("Common.isBlockingAppRunning() runningTaskPackageName: " + runningTaskPackageName + " runningTaskClassName: " + runningTaskClassName);
 	        int messagingPackageNamesArraySize = Constants.BLOCKED_PACKAGE_NAMES_ARRAY.length;
 	        for(int i = 0; i < messagingPackageNamesArraySize; i++){
-	        	if (_debug) Log.v("Common.isBlockingAppRunning() MESSAGING_PACKAGE_NAMES_ARRAY[i]: " + Constants.BLOCKED_PACKAGE_NAMES_ARRAY[i]);
-		        if(Constants.BLOCKED_PACKAGE_NAMES_ARRAY[i].contains(runningTaskPackageName)){
-		        	return true;
+	        	if (_debug) Log.v("Common.isBlockingAppRunning() Checking BLOCKED_PACKAGE_NAMES_ARRAY[i]: " + Constants.BLOCKED_PACKAGE_NAMES_ARRAY[i]);
+	        	String[] blockedInfoArray = Constants.BLOCKED_PACKAGE_NAMES_ARRAY[i].split(",");
+		        if(blockedInfoArray[0].equals(runningTaskPackageName)){
+		        	if(blockedInfoArray.length > 1){
+		        		if(blockedInfoArray[1].equals(runningTaskClassName)){
+		        			return true;
+		        		}
+		        	}else{
+		        		return true;
+		        	}
 		        }
 	        }
 	    }
