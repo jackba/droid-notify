@@ -9,6 +9,7 @@
  * [FAQ#Is_Google_Voice_integrated_with_Droid_Notify? Is Google Voice integrated with Droid Notify?]
  * [FAQ#Can_Droid_Notify_be_moved_to_the_SD_card? Can Droid Notify be moved to the SD card?]
  * [FAQ#Known_Issues_with_Go_SMS_Pro_&_Droid_Notify Known Issues with Go SMS Pro & Droid Notify]
+ * [FAQ#Known_Issues_with_Pansi_SMS_&_Droid_Notify Known Issues with Pansi SMS & Droid Notify]
  * [FAQ#Will_email_notifications_be_an_added_feature_in_Droid_Notify? Will email notifications be an added feature in Droid Notify?]
 
 ----
@@ -41,17 +42,17 @@ If the app is moved to the SD Card / External Storage, the functionality of the 
 
 ==Known Issues with Go SMS Pro & Droid Notify==
 
-If you want to use GO SMS Pro, you must follow one of the two steps below in order for Droid Notify to work with SMS/MMS notifications. These steps will only work with Droid Notify Version 2.4 or greater.
+If you want to use GO SMS Pro, you must follow the steps below in order for Droid Notify to work with SMS/MMS notifications.
 
 1) Uncheck/deselect the "Disable other apps notifications" option in the GO SMS Pro settings/preferences. If this option is checked/selected then Droid Notify may not work (i.e. SMS/MMS notifications may not be displayed).
 
--OR-
+2) Uncheck/deselect "run system persistent" in the SMS user options. If this option is checked/selected then Droid Notify may not work (i.e. SMS/MMS notifications may not be displayed).
 
-2) If you still want SMS GO Pro to disable other apps notifications you will need to follow these simple instructions. Uninstall GO SMS Pro, install Droid Notify THEN install GO SMS Pro. Basically, GO SMS Pro MUST be installed AFTER Droid Notify.
+==Known Issues with Pansi SMS & Droid Notify==
 
--FINALLY-
+If you want to use GO SMS Pro, you must follow the steps below in order for Droid Notify to work with SMS/MMS notifications.
 
-Make sure that you uncheck "run system persistent" in the SMS user options.
+1) Uncheck/deselect the "Disable other message notifications" option in the Pansi SMS settings/preferences. If this option is checked/selected then Droid Notify may not work (i.e. SMS/MMS notifications may not be displayed).
 
 ==Will email notifications be an added feature in Droid Notify?==
 
