@@ -33,6 +33,7 @@ public class Constants {
     public static final String BUTTON_ICONS_KEY = "button_icons_enabled";
     public static final String CLEAR_STATUS_BAR_NOTIFICATIONS_ON_EXIT_KEY = "clear_status_bar_notifications_on_exit_enabled";
     public static final String PREVIOUS_CALL_STATE_KEY = "previous_call_state";
+    public static final String CONTACT_PHOTO_BACKGKROUND_KEY = "contact_photo_background";
 	
 	public static final String BLOCKING_APP_RUNNING_ACTION_RESCHEDULE = "0";
 	public static final String BLOCKING_APP_RUNNING_ACTION_IGNORE = "1";

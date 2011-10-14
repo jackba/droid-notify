@@ -492,6 +492,16 @@ public class NotificationView extends LinearLayout {
 					_photoImageView.setVisibility(View.GONE);
 					_photoProgressBar.setVisibility(View.GONE);
 					loadContactPhoto = false;
+				}else{
+					//Set Contact Photo Background
+					int contactPhotoBackground = Integer.parseInt(_preferences.getString(Constants.CONTACT_PHOTO_BACKGKROUND_KEY, "0"));
+					if(contactPhotoBackground == 1){
+						_photoImageView.setBackgroundResource(R.drawable.image_picture_frame_froyo);
+					}else if(contactPhotoBackground == 2){
+						_photoImageView.setBackgroundResource(R.drawable.image_picture_frame_gingerbread);
+					}else{
+						_photoImageView.setBackgroundResource(R.drawable.image_picture_frame_white);
+					}
 				}
 				//Show/Hide Contact Name
 				if(_preferences.getBoolean(Constants.SMS_HIDE_CONTACT_NAME_ENABLED_KEY, false)){
@@ -524,6 +534,16 @@ public class NotificationView extends LinearLayout {
 					_photoImageView.setVisibility(View.GONE);
 					_photoProgressBar.setVisibility(View.GONE);
 					loadContactPhoto = false;
+				}else{
+					//Set Contact Photo Background
+					int contactPhotoBackground = Integer.parseInt(_preferences.getString(Constants.CONTACT_PHOTO_BACKGKROUND_KEY, "0"));
+					if(contactPhotoBackground == 1){
+						_photoImageView.setBackgroundResource(R.drawable.image_picture_frame_froyo);
+					}else if(contactPhotoBackground == 2){
+						_photoImageView.setBackgroundResource(R.drawable.image_picture_frame_gingerbread);
+					}else{
+						_photoImageView.setBackgroundResource(R.drawable.image_picture_frame_white);
+					}
 				}
 				//Show/Hide Contact Name
 				if(_preferences.getBoolean(Constants.MMS_HIDE_CONTACT_NAME_ENABLED_KEY, false)){
@@ -550,6 +570,16 @@ public class NotificationView extends LinearLayout {
 					_photoImageView.setVisibility(View.GONE);
 					_photoProgressBar.setVisibility(View.GONE);
 					loadContactPhoto = false;
+				}else{
+					//Set Contact Photo Background
+					int contactPhotoBackground = Integer.parseInt(_preferences.getString(Constants.CONTACT_PHOTO_BACKGKROUND_KEY, "0"));
+					if(contactPhotoBackground == 1){
+						_photoImageView.setBackgroundResource(R.drawable.image_picture_frame_froyo);
+					}else if(contactPhotoBackground == 2){
+						_photoImageView.setBackgroundResource(R.drawable.image_picture_frame_gingerbread);
+					}else{
+						_photoImageView.setBackgroundResource(R.drawable.image_picture_frame_white);
+					}
 				}
 				//Show/Hide Contact Name
 				if(_preferences.getBoolean(Constants.PHONE_HIDE_CONTACT_NAME_ENABLED_KEY, false)){
@@ -1035,6 +1065,14 @@ public class NotificationView extends LinearLayout {
 		try{
 		    Bitmap bitmap = getContactImage(contactID);
 		    if(bitmap!=null){
+//		    	int contactPhotoBackground = Integer.parseInt(_preferences.getString(Constants.CONTACT_PHOTO_BACKGKROUND_KEY, "0"));
+//				if(contactPhotoBackground == 1){
+//					return Common.getRoundedCornerBitmap(bitmap, 5, true, Constants.SQUARE_IMAGE_SIZE - 10, Constants.SQUARE_IMAGE_SIZE - 10);
+//				}else if(contactPhotoBackground == 2){
+//					return Common.getRoundedCornerBitmap(bitmap, 5, true, Constants.SQUARE_IMAGE_SIZE - 10, Constants.SQUARE_IMAGE_SIZE - 10);
+//				}else{
+//					return Common.getRoundedCornerBitmap(bitmap, 5, true, Constants.SQUARE_IMAGE_SIZE - 10, Constants.SQUARE_IMAGE_SIZE - 10);
+//				}
 		    	return Common.getRoundedCornerBitmap(bitmap, 5, true, Constants.SQUARE_IMAGE_SIZE, Constants.SQUARE_IMAGE_SIZE);
 		    }else{
 		    	// Load the placeholder image if the contact has no photo.
@@ -1090,7 +1128,7 @@ public class NotificationView extends LinearLayout {
 			    	if (_debug) Log.v("Contact Photo Clicked()");
 			    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 			    	try{
-			    		ContactsContract.QuickContact.showQuickContact(_context, _photoImageView, Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_LOOKUP_URI, lookupKey), ContactsContract.QuickContact.MODE_SMALL, null);
+			    		ContactsContract.QuickContact.showQuickContact(_context, _photoImageView, Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_LOOKUP_URI, lookupKey), ContactsContract.QuickContact.MODE_MEDIUM, null);
 			    	}catch(Exception ex){
 			    		if (_debug) Log.e("Contact Photo Clicked ContactsContract.QuickContact.showQuickContact() Error: " + ex.toString());
 			    	}

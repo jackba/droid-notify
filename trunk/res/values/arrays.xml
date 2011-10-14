@@ -408,22 +408,7 @@
 	
 	<!-- Email Preferences Arrays --> 
 	
-	<!-- Other Preferences Arrays -->
-    <string-array name="notification_placeholder_image_options">
-		<item name="0">ic_contact_picture</item>
-		<item name="1">ic_contact_picture_1</item>
-		<item name="2">ic_contact_picture_2</item>
-		<item name="3">ic_contact_picture_3</item>
-		<item name="4">ic_contact_picture_4</item>
-	</string-array>
-	<string-array name="notification_placeholder_image_options_values">
-		<item name="0">ic_contact_picture</item>
-		<item name="1">ic_contact_picture_1</item>
-		<item name="2">ic_contact_picture_2</item>
-		<item name="3">ic_contact_picture_3</item>
-		<item name="4">ic_contact_picture_4</item>
-	</string-array>
-	
+	<!-- Other Preferences Arrays -->	
     <string-array name="reschedule_notification_timeout_options">
 		<item name="1">@string/s1_minute_text</item>
 		<item name="2">@string/s2_minutes_text</item>
@@ -492,6 +477,7 @@
 		<item name="1">1</item>
 		<item name="2">2</item>
 	</string-array>
+	
     <string-array name="message_body_font_size_options">
 		<item name="0">@string/size_8_text</item>
 		<item name="1">@string/size_9_text</item>
@@ -541,7 +527,7 @@
 		<item name="3"></item>
 		<item name="4"></item>
 	</string-array>
-	<string-array name="contact_placeholder_values">
+	<string-array name="contact_placeholder_options_values">
 		<item name="0">0</item>
 		<item name="1">1</item>
 		<item name="2">2</item>
@@ -554,6 +540,23 @@
 		<item name="2">@drawable/ic_contact_picture_3</item>
 		<item name="3">@drawable/ic_contact_picture_4</item>
 		<item name="4">@drawable/ic_contact_picture_5</item>
+	</array>
+
+	<!-- Contact Photo Background Arrays --> 
+	<string-array name="contact_photo_background_options">
+		<item name="0"></item>
+		<item name="1"></item>
+		<item name="2"></item>
+	</string-array>
+	<string-array name="contact_photo_background_options_values">
+		<item name="0">0</item>
+		<item name="1">1</item>
+		<item name="2">2</item>
+	</string-array>
+	<array name="contact_photo_background_images">
+		<item name="0">@drawable/contact_photo_background_white</item>
+		<item name="1">@drawable/contact_photo_background_froyo</item>
+		<item name="2">@drawable/contact_photo_background_gingerbread</item>
 	</array>
 	
 	<!-- App Theme Arrays --> 
