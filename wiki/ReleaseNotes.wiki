@@ -9,6 +9,7 @@
 *v2.7* _Coming Soon..._
  * Fixed the "Hide Single Message Header" user preference option.
  * Fixed a bug in which Status Bar Notifications were being displayed regardless of the user preferences.
+ * Fixed a bug in which the notifications were being blocked regardless of the user settings.
  * 
 
 *v2.6.1* (October 12, 2011)
