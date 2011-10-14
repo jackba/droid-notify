@@ -88,13 +88,17 @@ public class Constants {
 	// Pansi
 	// Text'n Drive
 	//
+	//---FORMAT = PACKAGE_NAME , CLASS_NAME---
+	//
 	public static final String[] BLOCKED_PACKAGE_NAMES_ARRAY = new String[]{
-		"com.android.mms", 
-		"com.handcent.nextsms", 
-		"com.jb.gosms", 
-		"com.pompeiicity.magictext", 
-		"com.p1.chompsms", 
-		"com.pansi.msg", 
+		"com.android.mms,com.android.mms.ui.ConversationList", 
+		"com.android.mms,com.android.mms.ui.ComposeMessageActivity",
+		"com.handcent.nextsms,com.handcent.sms.ui.ConversationExList",
+		"com.jb.gosms,com.jb.gosms.ui.mainscreen.GoSmsMainActivity",  
+		"com.p1.chompsms,com.p1.chompsms.activities.ConversationList", 
+		"com.pansi.msg,com.pansi.msg.ui.ConversationList", 
+		"com.pompeiicity.magictext,com.pompeiicity.magictext.SMSList",
+		"com.zlango.zms,com.zlango.zms.app.ConversationList",
 		"com.drivevox.drivevox" };
 	
 	//-----APP THEME CONSTANTS-----//
