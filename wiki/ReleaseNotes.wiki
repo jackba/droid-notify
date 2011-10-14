@@ -11,7 +11,7 @@
  * Fixed a bug in which Status Bar Notifications were being displayed regardless of the user preferences.
  * Fixed a bug in which the notifications were being blocked regardless of the user settings.
  * Added a user option to set the contact image background.
- * 
+ * Updated the "In Messaging App" feature so that the notifications are only blocked if you are in the "Compose Message" screen of a messaging app.
 
 *v2.6.1* (October 12, 2011)
  * Fixed a bug that caused the app to crash under certain circumstances.
