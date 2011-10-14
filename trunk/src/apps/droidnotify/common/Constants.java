@@ -29,11 +29,9 @@ public class Constants {
 	public static final String SCREEN_DIM_ENABLED_KEY = "screen_dim_enabled";
 	public static final String KEYGUARD_ENABLED_KEY = "keyguard_enabled";
 	public static final String HIDE_SINGLE_MESSAGE_HEADER_KEY = "hide_single_message_header_enabled";
-    public static final String CONTACT_PLACEHOLDER_KEY = "contact_placeholder";
     public static final String BUTTON_ICONS_KEY = "button_icons_enabled";
     public static final String CLEAR_STATUS_BAR_NOTIFICATIONS_ON_EXIT_KEY = "clear_status_bar_notifications_on_exit_enabled";
     public static final String PREVIOUS_CALL_STATE_KEY = "previous_call_state";
-    public static final String CONTACT_PHOTO_BACKGKROUND_KEY = "contact_photo_background";
 	
 	public static final String BLOCKING_APP_RUNNING_ACTION_RESCHEDULE = "0";
 	public static final String BLOCKING_APP_RUNNING_ACTION_IGNORE = "1";
@@ -73,7 +71,11 @@ public class Constants {
 	public static final int MESSAGE_TYPE_SMS = 1;
 	public static final int MESSAGE_TYPE_MMS = 2;
 	
-	public static final int SQUARE_IMAGE_SIZE = 80;
+	//-----CONTACT PHOTO CONSTANTS-----//
+    public static final String CONTACT_PLACEHOLDER_KEY = "contact_placeholder";
+    public static final String CONTACT_PHOTO_BACKGKROUND_KEY = "contact_photo_background";
+	public static final String CONTACT_PHOTO_SIZE_KEY = "contact_photo_size";
+	public static final String CONTACT_PHOTO_SIZE_DEFAULT = "80";
     
 	public static final int DIALOG_DELETE_MESSAGE = 0;
 	

@@ -66,7 +66,10 @@
     <string name="preference_contact_placeholder_image_summary">Select the placeholder image you would like to display for unknown contacts.</string>
     <string name="preference_contact_photo_background">Contact Photo Background</string>
     <string name="preference_contact_photo_background_summary">Select the background image you would like to display behind the contact photo.</string>
-
+    <string name="contact_photo_settings_text">Contact Photo Settings</string>
+	<string name="preference_contact_photo_size">Contact Photo Size</string>
+    <string name="preference_contact_photo_size_summary">Select the contact photo size.</string>
+    
    	<!-- About Strings -->
     <string name="about_text">About</string>
    	<string name="preference_about_summary">About Droid Notify</string>

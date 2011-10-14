@@ -660,6 +660,10 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			buf.newLine();
 			buf.append("contact_placeholder|" + _preferences.getString("contact_placeholder", "0") + "|string");
 			buf.newLine();
+			buf.append("contact_photo_background|" + _preferences.getString("contact_photo_background", "0") + "|string");
+			buf.newLine();
+			buf.append("contact_photo_size|" + _preferences.getString("contact_photo_size", "80") + "|string");
+			buf.newLine();	
 			buf.append("button_icons_enabled|" + _preferences.getBoolean("button_icons_enabled", true) + "|boolean");
 			buf.newLine();	
 			buf.append("hide_single_message_header_enabled|" + _preferences.getBoolean("hide_single_message_header_enabled", false) + "|boolean");

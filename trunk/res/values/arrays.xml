@@ -558,6 +558,54 @@
 		<item name="1">@drawable/contact_photo_background_froyo</item>
 		<item name="2">@drawable/contact_photo_background_gingerbread</item>
 	</array>
+
+	<!-- Contact Image Size Arrays --> 
+	<string-array name="contact_photo_size_options">
+		<item name="0">40px</item>
+		<item name="1">45px</item>
+		<item name="2">50px</item>
+		<item name="3">55px</item>
+		<item name="4">60px</item>
+		<item name="5">65px</item>
+		<item name="6">70px</item>
+		<item name="7">75px</item>
+		<item name="8">80px</item>
+		<item name="9">85px</item>
+		<item name="10">90px</item>
+		<item name="11">95px</item>
+		<item name="12">100px</item>
+		<item name="13">105px</item>
+		<item name="14">110px</item>
+		<item name="15">115px</item>
+		<item name="15">120px</item>
+		<item name="16">125px</item>
+		<item name="17">130px</item>
+		<item name="18">135px</item>
+		<item name="19">140px</item>
+	</string-array>
+	<string-array name="contact_photo_size_options_values">
+		<item name="0">40</item>
+		<item name="1">45</item>
+		<item name="2">50</item>
+		<item name="3">55</item>
+		<item name="4">60</item>
+		<item name="5">65</item>
+		<item name="6">70</item>
+		<item name="7">75</item>
+		<item name="8">80</item>
+		<item name="9">85</item>
+		<item name="10">90</item>
+		<item name="11">95</item>
+		<item name="12">100</item>
+		<item name="13">105</item>
+		<item name="14">110</item>
+		<item name="15">115</item>
+		<item name="15">120</item>
+		<item name="16">125</item>
+		<item name="17">130</item>
+		<item name="18">135</item>
+		<item name="19">140</item>
+	</string-array>
 	
 	<!-- App Theme Arrays --> 
 	<string-array name="theme_options">
