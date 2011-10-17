@@ -5,6 +5,7 @@
 
 *v2.8* _Coming Soon..._
  * Updated the MMS notifications. Added a "Click To View MMS Message" link in the notification since I am unable to parse MMS messages.
+ * Updated the user ringtone preferences to include all ringtones, not just notification ringtones types.
  * 
 
 *v2.7* (October 17, 2011)
