@@ -4,7 +4,7 @@
 	android:id="@+id/notification_linear_layout"
     android:orientation="vertical"
     android:layout_height="wrap_content"
-    android:layout_width="fill_parent" 
+    android:layout_width="fill_parent"
     android:gravity="center_vertical|fill_horizontal"
     android:background="@drawable/android_gingerbread_panel">
 	<RelativeLayout
