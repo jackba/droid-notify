@@ -1205,7 +1205,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			}
 			ListPreference quickReplySMSGateway = (ListPreference) findPreference(Constants.SMS_GATEWAY_KEY);
 			quickReplySMSGateway.setEnabled(quickReplySMSGatewayEnabled);
-			PreferenceScreen  quickReplyPreferenceScreen = (PreferenceScreen) findPreference(Constants.QUICK_REPLY_SETTINGS_SCREEN);
+			PreferenceScreen quickReplyPreferenceScreen = (PreferenceScreen) findPreference(Constants.QUICK_REPLY_SETTINGS_SCREEN);
 			quickReplyPreferenceScreen.setEnabled(quickReplySMSGatewayEnabled);
 		}catch(Exception ex){
 			if (_debug) Log.e("MainPreferenceActivity.updateQuickReplySettings() ERROR: " + ex.toString());

@@ -220,8 +220,8 @@
 			             			android:key="sms_notification_sound"
 									android:title="@string/preference_notification_sound_title"
 									android:summary="@string/preference_notification_sound_summary"
-									android:ringtoneType="notification"
-									android:showDefault="true"
+									android:ringtoneType="all"
+									android:showDefault="false"
 									android:showSilent="true"
 									android:defaultValue="content://settings/system/notification_sound" />
 							</PreferenceCategory>
@@ -489,8 +489,8 @@
 			             			android:key="mms_notification_sound"
 									android:title="@string/preference_notification_sound_title"
 									android:summary="@string/preference_notification_sound_summary"
-									android:ringtoneType="notification"
-									android:showDefault="true"
+									android:ringtoneType="all"
+									android:showDefault="false"
 									android:showSilent="true"
 									android:defaultValue="content://settings/system/notification_sound" />
 							</PreferenceCategory>
@@ -758,8 +758,8 @@
 			             			android:key="missed_call_notification_sound"
 									android:title="@string/preference_notification_sound_title"
 									android:summary="@string/preference_notification_sound_summary"
-									android:ringtoneType="notification"
-									android:showDefault="true"
+									android:ringtoneType="all"
+									android:showDefault="false"
 									android:showSilent="true"
 									android:defaultValue="content://settings/system/notification_sound" />
 							</PreferenceCategory>
@@ -999,8 +999,8 @@
 			             			android:key="calendar_notification_sound"
 									android:title="@string/preference_notification_sound_title"
 									android:summary="@string/preference_notification_sound_summary"
-									android:ringtoneType="notification"
-									android:showDefault="true"
+									android:ringtoneType="all"
+									android:showDefault="false"
 									android:showSilent="true"
 									android:defaultValue="content://settings/system/notification_sound" />
 							</PreferenceCategory>
@@ -1304,7 +1304,7 @@
 					android:dependency="missed_call_notifications_enabled" />
 			</PreferenceCategory>
 			<PreferenceCategory
-				android:key="advanced_mms_settings_category"
+				android:key="advanced_quick_reply_settings_category"
 				android:title="@string/quick_reply_settings_text">
 				<ListPreference
 					android:key="quick_reply_sms_gateway_settings"
