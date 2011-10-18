@@ -327,6 +327,14 @@
    	<!-- Phone Number Format Strings -->
    	<string name="preference_phone_number_format">Phone Number Format</string>
    	<string name="preference_phone_number_format_summary">Select the phone number format used to display phone numbers.</string>
+ 
+    <!-- Time Format Strings -->
+   	<string name="preference_time_format">Time Format</string>
+   	<string name="preference_time_format_summary">Select the desired time format.</string>
+ 
+     <!-- Date Format Strings -->
+   	<string name="preference_date_format">Date Format</string>
+   	<string name="preference_date_format_summary">Select the desired date format.</string>
    	
    	<!-- Test Notification Strings -->
     <string name="test_text">Test Notifications</string>
@@ -684,5 +692,15 @@
     <string name="always_text">Always</string>
 	<string name="never_text">Never</string>
 	<string name="only_when_in_vibrate_mode_text">Only when in vibrate mode</string>
+  
+    <string name="s12_hour_text">12 Hour</string>
+	<string name="s24_hour_text">24 Hour</string>
+	
+	<string name="date_format_1_text">12/31/2011</string>
+    <string name="date_format_2_text">12.31.2011</string>
+    <string name="date_format_3_text">December 31 2011</string>
+    <string name="date_format_4_text">31/12/2011</string>
+    <string name="date_format_5_text">31.12.2011</string>
+    <string name="date_format_6_text">31 December 2011</string>
     
 </resources>

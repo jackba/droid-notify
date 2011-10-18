@@ -47,6 +47,20 @@
 					android:defaultValue="1"
 					android:entries="@array/phone_number_format_options"
 					android:entryValues="@array/phone_number_format_options_values" />
+				<ListPreference
+					android:key="time_format_settings"
+					android:title="@string/preference_time_format"
+					android:summary="@string/preference_time_format_summary"
+					android:defaultValue="0"
+					android:entries="@array/time_format_options"
+					android:entryValues="@array/time_format_options_values" />
+				<ListPreference
+					android:key="date_format_settings"
+					android:title="@string/preference_date_format"
+					android:summary="@string/preference_date_format_summary"
+					android:defaultValue="0"
+					android:entries="@array/date_format_options"
+					android:entryValues="@array/date_format_options_values" />
 				<CheckBoxPreference
 					android:key="button_icons_enabled" 
 					android:title="@string/preference_button_icons_enabled_title" 

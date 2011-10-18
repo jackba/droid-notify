@@ -112,6 +112,34 @@ public class Constants {
 	public static final String HTC_SENSE_UI_THEME = "theme_htc";
 	public static final String XPERIA_THEME = "theme_xperia";
 	
+	//-----PHONE NUMBER FORMAT CONSTANTS-----//
+	public static final String PHONE_NUMBER_FORMAT_KEY = "phone_number_format_settings";
+	public static final String PHONE_NUMBER_FORMAT_DEFAULT = "1";
+	public static final int PHONE_NUMBER_FORMAT_A = 1;
+	public static final int PHONE_NUMBER_FORMAT_B = 2;
+	public static final int PHONE_NUMBER_FORMAT_C = 3;
+	public static final int PHONE_NUMBER_FORMAT_D = 4;
+	public static final int PHONE_NUMBER_FORMAT_E = 5;
+	public static final int PHONE_NUMBER_FORMAT_F = 6;
+	public static final int PHONE_NUMBER_FORMAT_G = 7;
+	public static final int PHONE_NUMBER_FORMAT_H = 8;
+	
+	//-----TIME FORMAT CONSTANTS-----//
+	public static final String TIME_FORMAT_KEY = "time_format_settings";
+	public static final String TIME_FORMAT_DEFAULT = "0";
+	public static final int TIME_FORMAT_12_HOUR = 0;
+	public static final int TIME_FORMAT_24_HOUR = 1;
+
+	//-----DATE FORMAT CONSTANTS-----//
+	public static final String DATE_FORMAT_KEY = "date_format_settings";
+	public static final String DATE_FORMAT_DEFAULT = "0";
+	public static final int DATE_FORMAT_A = 0;
+	public static final int DATE_FORMAT_B = 1;
+	public static final int DATE_FORMAT_C = 2;
+	public static final int DATE_FORMAT_D = 3;
+	public static final int DATE_FORMAT_E = 4;
+	public static final int DATE_FORMAT_F = 5;
+	
 	//-----QUICK REPLY CONSTANTS-----//
 	public static final String SMS_GATEWAY_KEY = "quick_reply_sms_gateway_settings";	
 	public static final String SAVE_MESSAGE_DRAFT_KEY = "quick_reply_save_draft_enabled";
@@ -197,7 +225,6 @@ public class Constants {
 	public static final String PHONE_HIDE_CONTACT_NUMBER_ENABLED_KEY = "missed_call_hide_contact_number_enabled";
 	public static final String PHONE_HIDE_CONTACT_PHOTO_ENABLED_KEY = "missed_call_hide_contact_photo_enabled";
 	public static final String PHONE_HIDE_CONTACT_NAME_ENABLED_KEY = "missed_call_hide_contact_name_enabled";
-	public static final String PHONE_NUMBER_FORMAT_KEY = "phone_number_format_settings";
 	public static final String PHONE_HIDE_DISMISS_BUTTON_KEY = "missed_call_hide_dismiss_button_enabled";
 	public static final String PHONE_HIDE_CALL_BUTTON_KEY = "missed_call_hide_call_button_enabled";
 	public static final String PHONE_NOTIFICATION_COUNT_ACTION_KEY = "missed_call_notification_count_action";
@@ -211,15 +238,6 @@ public class Constants {
 	public static final String PHONE_DISMISS_ACTION_DELETE = "1";
 	
 	public static final int PHONE_TYPE = android.provider.CallLog.Calls.MISSED_TYPE;
-
-	public static final int PHONE_NUMBER_FORMAT_A = 1;
-	public static final int PHONE_NUMBER_FORMAT_B = 2;
-	public static final int PHONE_NUMBER_FORMAT_C = 3;
-	public static final int PHONE_NUMBER_FORMAT_D = 4;
-	public static final int PHONE_NUMBER_FORMAT_E = 5;
-	public static final int PHONE_NUMBER_FORMAT_F = 6;
-	public static final int PHONE_NUMBER_FORMAT_G = 7;
-	public static final int PHONE_NUMBER_FORMAT_H = 8;
 	
 	//-----CALENDAR NOTIFICATION CONSTANTS-----//
 	public static final String CALENDAR_BLOCKING_APP_RUNNING_ACTION_KEY = "messaging_app_running_action_calendar";

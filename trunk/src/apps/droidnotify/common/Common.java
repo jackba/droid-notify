@@ -4,7 +4,9 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Method;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.TimeZone;
@@ -2019,160 +2021,95 @@ public class Common {
 			}
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 			inputPhoneNumber = Common.removeFormatting(inputPhoneNumber);
-			StringBuilder outputPhoneNumber = new StringBuilder("");
-			int phoneNumberFormatPreference = Integer.parseInt(preferences.getString(Constants.PHONE_NUMBER_FORMAT_KEY, "1"));
-			switch(phoneNumberFormatPreference){
-				case Constants.PHONE_NUMBER_FORMAT_A:{
-					if(inputPhoneNumber.length() >= 10){
-						//Format ###-###-#### (e.g.123-456-7890)
-						outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 4, inputPhoneNumber.length()));
-						outputPhoneNumber.insert(0,"-");
-						outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 7, inputPhoneNumber.length() - 4));
-						outputPhoneNumber.insert(0,"-");
-						if(inputPhoneNumber.length() == 10){
-							outputPhoneNumber.insert(0,inputPhoneNumber.substring(0, inputPhoneNumber.length() - 7));
-						}else{
-							outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 10, inputPhoneNumber.length() - 7));
-							outputPhoneNumber.insert(0,"-");
-							outputPhoneNumber.insert(0,inputPhoneNumber.substring(0, inputPhoneNumber.length() - 10));
-						}
+			StringBuilder outputPhoneNumber = new StringBuilder("");		
+			int phoneNumberFormatPreference = Integer.parseInt(preferences.getString(Constants.PHONE_NUMBER_FORMAT_KEY, Constants.PHONE_NUMBER_FORMAT_DEFAULT));
+			String numberSeparator = "-";
+			if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_F || phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_G | phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_H){
+				numberSeparator = ".";
+			}else if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_D){
+				numberSeparator = "";
+			}
+			if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_A || phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_F){
+				if(inputPhoneNumber.length() >= 10){
+					//Format ###-###-#### (e.g.123-456-7890)
+					//Format ###-###-#### (e.g.123.456.7890)
+					outputPhoneNumber.insert(0, inputPhoneNumber.substring(inputPhoneNumber.length() - 4, inputPhoneNumber.length()));
+					outputPhoneNumber.insert(0, numberSeparator);
+					outputPhoneNumber.insert(0, inputPhoneNumber.substring(inputPhoneNumber.length() - 7, inputPhoneNumber.length() - 4));
+					outputPhoneNumber.insert(0, numberSeparator);
+					if(inputPhoneNumber.length() == 10){
+						outputPhoneNumber.insert(0, inputPhoneNumber.substring(0, inputPhoneNumber.length() - 7));
 					}else{
-						outputPhoneNumber.append(inputPhoneNumber);
+						outputPhoneNumber.insert(0, inputPhoneNumber.substring(inputPhoneNumber.length() - 10, inputPhoneNumber.length() - 7));
+						outputPhoneNumber.insert(0, numberSeparator);
+						outputPhoneNumber.insert(0, inputPhoneNumber.substring(0, inputPhoneNumber.length() - 10));
 					}
-					break;
-				}
-				case Constants.PHONE_NUMBER_FORMAT_B:{
-					if(inputPhoneNumber.length() >= 10){
-						//Format ##-###-##### (e.g.12-345-67890)
-						outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 5, inputPhoneNumber.length()));
-						outputPhoneNumber.insert(0,"-");
-						outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 8, inputPhoneNumber.length() - 5));
-						outputPhoneNumber.insert(0,"-");
-						if(inputPhoneNumber.length() == 10){
-							outputPhoneNumber.insert(0,inputPhoneNumber.substring(0, inputPhoneNumber.length() - 8));
-						}else{
-							outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 10, inputPhoneNumber.length() - 8));
-							outputPhoneNumber.insert(0,"-");
-							outputPhoneNumber.insert(0,inputPhoneNumber.substring(0, inputPhoneNumber.length() - 10));
-						}
-					}else{
-						outputPhoneNumber.append(inputPhoneNumber);
-					}
-					break;
-				}
-				case Constants.PHONE_NUMBER_FORMAT_C:{
-					if(inputPhoneNumber.length() >= 10){
-						//Format ##-##-##-##-## (e.g.12-34-56-78-90)
-						outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 2, inputPhoneNumber.length()));
-						outputPhoneNumber.insert(0,"-");
-						outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 4, inputPhoneNumber.length() - 2));
-						outputPhoneNumber.insert(0,"-");
-						outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 6, inputPhoneNumber.length() - 4));
-						outputPhoneNumber.insert(0,"-");
-						outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 8, inputPhoneNumber.length() - 6));
-						outputPhoneNumber.insert(0,"-");
-						if(inputPhoneNumber.length() == 10){
-							outputPhoneNumber.insert(0,inputPhoneNumber.substring(0, inputPhoneNumber.length() - 8));
-						}else{
-							outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 10, inputPhoneNumber.length() - 8));
-							outputPhoneNumber.insert(0,"-");
-							outputPhoneNumber.insert(0,inputPhoneNumber.substring(0, inputPhoneNumber.length() - 10));
-						}
-					}else{
-						outputPhoneNumber.append(inputPhoneNumber);
-					}
-					break;
-				}
-				case Constants.PHONE_NUMBER_FORMAT_D:{
-					//Format ########## (e.g.1234567890)
+				}else{
 					outputPhoneNumber.append(inputPhoneNumber);
-					break;
 				}
-				case Constants.PHONE_NUMBER_FORMAT_E:{
-					if(inputPhoneNumber.length() >= 10){
-						//Format (###) ###-#### (e.g.(123) 456-7890)
-						outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 4, inputPhoneNumber.length()));
-						outputPhoneNumber.insert(0,"-");
-						outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 7, inputPhoneNumber.length() - 4));
-						outputPhoneNumber.insert(0,") ");
-						if(inputPhoneNumber.length() == 10){
-							outputPhoneNumber.insert(0,inputPhoneNumber.substring(0, inputPhoneNumber.length() - 7));
-							outputPhoneNumber.insert(0,"(");
-						}else{
-							outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 10, inputPhoneNumber.length() - 7));
-							outputPhoneNumber.insert(0," (");
-							outputPhoneNumber.insert(0,inputPhoneNumber.substring(0, inputPhoneNumber.length() - 10));
-						}
+			}else if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_B || phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_G){
+				if(inputPhoneNumber.length() >= 10){
+					//Format ##-###-##### (e.g.12-345-67890)
+					//Format ##-###-##### (e.g.12.345.67890)
+					outputPhoneNumber.insert(0, inputPhoneNumber.substring(inputPhoneNumber.length() - 5, inputPhoneNumber.length()));
+					outputPhoneNumber.insert(0, numberSeparator);
+					outputPhoneNumber.insert(0, inputPhoneNumber.substring(inputPhoneNumber.length() - 8, inputPhoneNumber.length() - 5));
+					outputPhoneNumber.insert(0, numberSeparator);
+					if(inputPhoneNumber.length() == 10){
+						outputPhoneNumber.insert(0, inputPhoneNumber.substring(0, inputPhoneNumber.length() - 8));
 					}else{
-						outputPhoneNumber.append(inputPhoneNumber);
+						outputPhoneNumber.insert(0, inputPhoneNumber.substring(inputPhoneNumber.length() - 10, inputPhoneNumber.length() - 8));
+						outputPhoneNumber.insert(0, numberSeparator);
+						outputPhoneNumber.insert(0, inputPhoneNumber.substring(0, inputPhoneNumber.length() - 10));
 					}
-					break;
-				}
-				case Constants.PHONE_NUMBER_FORMAT_F:{
-					if(inputPhoneNumber.length() >= 10){
-						//Format ###-###-#### (e.g.123.456.7890)
-						outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 4, inputPhoneNumber.length()));
-						outputPhoneNumber.insert(0,".");
-						outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 7, inputPhoneNumber.length() - 4));
-						outputPhoneNumber.insert(0,".");
-						if(inputPhoneNumber.length() == 10){
-							outputPhoneNumber.insert(0,inputPhoneNumber.substring(0, inputPhoneNumber.length() - 7));
-						}else{
-							outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 10, inputPhoneNumber.length() - 7));
-							outputPhoneNumber.insert(0,".");
-							outputPhoneNumber.insert(0,inputPhoneNumber.substring(0, inputPhoneNumber.length() - 10));
-						}
-					}else{
-						outputPhoneNumber.append(inputPhoneNumber);
-					}
-					break;
-				}
-				case Constants.PHONE_NUMBER_FORMAT_G:{
-					if(inputPhoneNumber.length() >= 10){
-						//Format ##-###-##### (e.g.12.345.67890)
-						outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 5, inputPhoneNumber.length()));
-						outputPhoneNumber.insert(0,".");
-						outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 8, inputPhoneNumber.length() - 5));
-						outputPhoneNumber.insert(0,".");
-						if(inputPhoneNumber.length() == 10){
-							outputPhoneNumber.insert(0,inputPhoneNumber.substring(0, inputPhoneNumber.length() - 8));
-						}else{
-							outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 10, inputPhoneNumber.length() - 8));
-							outputPhoneNumber.insert(0,".");
-							outputPhoneNumber.insert(0,inputPhoneNumber.substring(0, inputPhoneNumber.length() - 10));
-						}
-					}else{
-						outputPhoneNumber.append(inputPhoneNumber);
-					}
-					break;
-				}
-				case Constants.PHONE_NUMBER_FORMAT_H:{
-					if(inputPhoneNumber.length() >= 10){
-						//Format ##-##-##-##-## (e.g.12.34.56.78.90)
-						outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 2, inputPhoneNumber.length()));
-						outputPhoneNumber.insert(0,".");
-						outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 4, inputPhoneNumber.length() - 2));
-						outputPhoneNumber.insert(0,".");
-						outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 6, inputPhoneNumber.length() - 4));
-						outputPhoneNumber.insert(0,".");
-						outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 8, inputPhoneNumber.length() - 6));
-						outputPhoneNumber.insert(0,".");
-						if(inputPhoneNumber.length() == 10){
-							outputPhoneNumber.insert(0,inputPhoneNumber.substring(0, inputPhoneNumber.length() - 8));
-						}else{
-							outputPhoneNumber.insert(0,inputPhoneNumber.substring(inputPhoneNumber.length() - 10, inputPhoneNumber.length() - 8));
-							outputPhoneNumber.insert(0,".");
-							outputPhoneNumber.insert(0,inputPhoneNumber.substring(0, inputPhoneNumber.length() - 10));
-						}
-					}else{
-						outputPhoneNumber.append(inputPhoneNumber);
-					}
-					break;
-				}
-				default:{
+				}else{
 					outputPhoneNumber.append(inputPhoneNumber);
-					break;
 				}
+			}else if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_C || phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_H){
+				if(inputPhoneNumber.length() >= 10){
+					//Format ##-##-##-##-## (e.g.12-34-56-78-90)
+					//Format ##-##-##-##-## (e.g.12.34.56.78.90)
+					outputPhoneNumber.insert(0, inputPhoneNumber.substring(inputPhoneNumber.length() - 2, inputPhoneNumber.length()));
+					outputPhoneNumber.insert(0, numberSeparator);
+					outputPhoneNumber.insert(0, inputPhoneNumber.substring(inputPhoneNumber.length() - 4, inputPhoneNumber.length() - 2));
+					outputPhoneNumber.insert(0, numberSeparator);
+					outputPhoneNumber.insert(0, inputPhoneNumber.substring(inputPhoneNumber.length() - 6, inputPhoneNumber.length() - 4));
+					outputPhoneNumber.insert(0, numberSeparator);
+					outputPhoneNumber.insert(0, inputPhoneNumber.substring(inputPhoneNumber.length() - 8, inputPhoneNumber.length() - 6));
+					outputPhoneNumber.insert(0, numberSeparator);
+					if(inputPhoneNumber.length() == 10){
+						outputPhoneNumber.insert(0,inputPhoneNumber.substring(0, inputPhoneNumber.length() - 8));
+					}else{
+						outputPhoneNumber.insert(0, inputPhoneNumber.substring(inputPhoneNumber.length() - 10, inputPhoneNumber.length() - 8));
+						outputPhoneNumber.insert(0, numberSeparator);
+						outputPhoneNumber.insert(0, inputPhoneNumber.substring(0, inputPhoneNumber.length() - 10));
+					}
+				}else{
+					outputPhoneNumber.append(inputPhoneNumber);
+				}
+			}else if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_D){
+				//Format ########## (e.g.1234567890)
+				outputPhoneNumber.append(inputPhoneNumber);
+			}else if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_E){
+				if(inputPhoneNumber.length() >= 10){
+					//Format (###) ###-#### (e.g.(123) 456-7890)
+					outputPhoneNumber.insert(0, inputPhoneNumber.substring(inputPhoneNumber.length() - 4, inputPhoneNumber.length()));
+					outputPhoneNumber.insert(0, numberSeparator);
+					outputPhoneNumber.insert(0, inputPhoneNumber.substring(inputPhoneNumber.length() - 7, inputPhoneNumber.length() - 4));
+					outputPhoneNumber.insert(0, ") ");
+					if(inputPhoneNumber.length() == 10){
+						outputPhoneNumber.insert(0, inputPhoneNumber.substring(0, inputPhoneNumber.length() - 7));
+						outputPhoneNumber.insert(0, "(");
+					}else{
+						outputPhoneNumber.insert(0, inputPhoneNumber.substring(inputPhoneNumber.length() - 10, inputPhoneNumber.length() - 7));
+						outputPhoneNumber.insert(0, " (");
+						outputPhoneNumber.insert(0, inputPhoneNumber.substring(0, inputPhoneNumber.length() - 10));
+					}
+				}else{
+					outputPhoneNumber.append(inputPhoneNumber);
+				}
+			}else{
+				outputPhoneNumber.append(inputPhoneNumber);
 			}
 			return outputPhoneNumber.toString();
 		}catch(Exception ex){
@@ -2180,57 +2117,149 @@ public class Common {
 			return inputPhoneNumber;
 		}
 	}
-	
-//	/**
-//	 * Get the service center to use for a reply.
-//	 * 
-//	 * @param context
-//	 * @param threadID
-//	 * 
-//	 * @return String - The service center address of the message.
-//	 */
-//	private String getServiceCenterAddress(Context context, long threadID) {
-//		if (_debug) Log.v("Notification.loadServiceCenterAddress()");
-//		if (threadID == 0){
-//			if (_debug) Log.v("Notification.loadServiceCenterAddress() Thread ID provided is null: Exiting...");
-//			return null;
-//		} 
-//		try{
-//			final String[] projection = new String[] {"reply_path_present", "service_center"};
-//			final String selection = "thread_id = " + threadID ;
-//			final String[] selectionArgs = null;
-//			final String sortOrder = "date DESC";
-//			String serviceCenterAddress = null;
-//		    Cursor cursor = context.getContentResolver().query(
-//		    		Uri.parse("content://sms"),
-//		    		projection,
-//		    		selection,
-//					selectionArgs,
-//					sortOrder);
-//		    try{		    	
-////		    	for(int i=0; i<cursor.getColumnCount(); i++){
-////		    		if (_debug) Log.v("Notification.loadServiceCenterAddress() Cursor Column: " + cursor.getColumnName(i) + " Column Value: " + cursor.getString(i));
-////		    	}
-//		    	while (cursor.moveToNext()) { 
-//			    	serviceCenterAddress = cursor.getString(cursor.getColumnIndex("service_center"));
-//	    			if(serviceCenterAddress != null){
-//	    				return serviceCenterAddress;
-//	    			}
-//		    	}
-//		    }catch(Exception ex){
-//				if (_debug) Log.e("Notification.loadServiceCenterAddress() ERROR: " + ex.toString());
-//			}finally{
-//		    	if(cursor != null){
-//					cursor.close();
-//				}
-//		    }
-//		    _serviceCenterAddress = serviceCenterAddress;
-//		}catch(Exception ex){
-//			if (_debug) Log.e("Notification.loadServiceCenterAddress() ERROR: " + ex.toString());
-//		}	    
-//		return null;
-//	}
 
+	/**
+	 * Function to format timestamps.
+	 * 
+	 * @param context - The current context of this Activity.
+	 * @param inputTimestamp - The timestamp to be formatted.
+	 * 
+	 * @return String - Formatted time string.
+	 */
+	public static String formatTimestamp(Context context, long inputTimestamp){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.formatTimestamp()");
+		try{
+			if(inputTimestamp == 0){
+				return "";
+			}
+			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+			int timeFormatPreference = Integer.parseInt(preferences.getString(Constants.TIME_FORMAT_KEY, Constants.TIME_FORMAT_DEFAULT));
+			String timestampFormat = null;
+			if(timeFormatPreference == Constants.TIME_FORMAT_12_HOUR){
+				timestampFormat = "h:mma";
+			}else if(timeFormatPreference == Constants.TIME_FORMAT_24_HOUR){
+				timestampFormat = "H:mm";
+			}else{
+				timestampFormat = "h:mma";
+			}
+			SimpleDateFormat dateFormatted = new SimpleDateFormat(timestampFormat);
+			dateFormatted.setTimeZone(TimeZone.getDefault());
+			return dateFormatted.format(inputTimestamp);
+		}catch(Exception ex){
+			if (_debug) Log.e("Common.formatTimestamp() ERROR: " + ex.toString());
+			return "";
+		}
+	}
+
+	/**
+	 * Function to format dates.
+	 * 
+	 * @param context - The current context of this Activity.
+	 * @param inputTimestamp - The date to be formatted.
+	 * 
+	 * @return String - Formatted date string.
+	 */
+	public static String formatDate(Context context, Date inputDate){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.formatDate()");
+		try{
+			if(inputDate == null){
+				return "";
+			}
+			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+			int timeFormatPreference = Integer.parseInt(preferences.getString(Constants.TIME_FORMAT_KEY, Constants.TIME_FORMAT_DEFAULT));
+			int dateFormatPreference = Integer.parseInt(preferences.getString(Constants.DATE_FORMAT_KEY, Constants.DATE_FORMAT_DEFAULT));
+			String dateFormat = null;
+			String timeFormat = null;
+			switch(timeFormatPreference){
+				case Constants.TIME_FORMAT_12_HOUR:{
+					timeFormat = "h:mm a";
+					break;
+				}
+				case Constants.TIME_FORMAT_24_HOUR:{
+					timeFormat = "H:mm";
+					break;
+				}
+				default:{
+					timeFormat = "h:mm a";
+					break;
+				}
+			}
+			switch(dateFormatPreference){
+				case Constants.DATE_FORMAT_A:{
+					dateFormat = "M/d/yyyy " + timeFormat;
+					break;
+				}
+				case Constants.DATE_FORMAT_B:{
+					dateFormat = "M.d.yyyy " + timeFormat;
+					break;
+				}
+				case Constants.DATE_FORMAT_C:{
+					dateFormat = "MMMM d yyyy " + timeFormat;
+					break;
+				}
+				case Constants.DATE_FORMAT_D:{
+					dateFormat = "d/M/yyyy " + timeFormat;
+					break;
+				}
+				case Constants.DATE_FORMAT_E:{
+					dateFormat = "d.M.yyyy " + timeFormat;
+					break;
+				}
+				case Constants.DATE_FORMAT_F:{
+					dateFormat = "d MMMM yyyy " + timeFormat;
+					break;
+				}
+				default:{
+					dateFormat = "M/d/yyyy " + timeFormat;
+					break;
+				}
+			}
+			SimpleDateFormat dateFormatted = new SimpleDateFormat(dateFormat);
+			dateFormatted.setTimeZone(TimeZone.getDefault());
+			return dateFormatted.format(inputDate);
+		}catch(Exception ex){
+			if (_debug) Log.e("Common.formatDate() ERROR: " + ex.toString());
+			return "";
+		}
+	}
+
+	/**
+	 * Function to parse date parts from formated date strings.
+	 * 
+	 * @param context - The current context of this Activity.
+	 * @param inputFormattedDate - The formated date to be parsed.
+	 * 
+	 * @return String[] - Parsed date string.
+	 */
+	public static String[] parseDateInfo(Context context, String inputFormattedDate){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.parseDateInfo()");
+		try{
+			if(inputFormattedDate == null){
+				return null;
+			}
+			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+			int dateFormatPreference = Integer.parseInt(preferences.getString(Constants.DATE_FORMAT_KEY, Constants.DATE_FORMAT_DEFAULT));
+			String[] dateInfoArray = null;
+			if(dateFormatPreference == Constants.DATE_FORMAT_A || dateFormatPreference == Constants.DATE_FORMAT_B || dateFormatPreference == Constants.DATE_FORMAT_D || dateFormatPreference == Constants.DATE_FORMAT_E){
+				dateInfoArray = inputFormattedDate.split(" ");
+			}else if(dateFormatPreference == Constants.DATE_FORMAT_C || dateFormatPreference == Constants.DATE_FORMAT_F){
+				String[] dateInfoArrayTemp = inputFormattedDate.split(" ");
+				if(dateInfoArrayTemp.length < 5){
+					dateInfoArray = new String[]{dateInfoArrayTemp[0] + " " + dateInfoArrayTemp[1] + " " + dateInfoArrayTemp[2], dateInfoArrayTemp[3]};
+				}else{
+					dateInfoArray = new String[]{dateInfoArrayTemp[0] + " " + dateInfoArrayTemp[1] + " " + dateInfoArrayTemp[2], dateInfoArrayTemp[3], dateInfoArrayTemp[4]};
+				}
+			}
+			return dateInfoArray;
+		}catch(Exception ex){
+			if (_debug) Log.e("Common.parseDateInfo() ERROR: " + ex.toString());
+			return null;
+		}
+	}
+	
 	//================================================================================
 	// Private Methods
 	//================================================================================
@@ -2246,36 +2275,6 @@ public class Common {
 		if (_debug) Log.v("Common.removeStatusBarNotification()");
 		try{
 			NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-			switch(notificationType){
-				case Constants.NOTIFICATION_TYPE_SMS:{
-					
-					break;
-				}
-				case Constants.NOTIFICATION_TYPE_MMS:{
-	
-					break;
-				}
-				case Constants.NOTIFICATION_TYPE_PHONE:{
-					
-					break;
-				}
-				case Constants.NOTIFICATION_TYPE_CALENDAR:{
-	
-					break;
-				}
-				case Constants.NOTIFICATION_TYPE_GMAIL:{
-	
-					break;
-				}
-				case Constants.NOTIFICATION_TYPE_TWITTER:{
-	
-					break;
-				}
-				case Constants.NOTIFICATION_TYPE_FACEBOOK:{
-	
-					break;
-				}
-			}
 			notificationManager.cancel(notificationType);
 		}catch(Exception ex){
 			if (_debug) Log.e("Common.removeStatusBarNotification() ERROR: " + ex.toString());

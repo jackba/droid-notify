@@ -1,8 +1,6 @@
 package apps.droidnotify;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.TimeZone;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -568,7 +566,7 @@ public class Notification {
 	    	//Do nothing. There is no log to update for Calendar Events.
 	    }
 	    if(_notificationType == Constants.NOTIFICATION_TYPE_GMAIL){
-	    	setEmailRead(isViewed);
+	    	//TODO - Gmail
 	    }
 	}
 	
@@ -700,37 +698,6 @@ public class Notification {
 			if (_debug) Log.e("Notification.setMessageRead() ERROR: " + ex.toString());
 		}
 	}
-
-	/**
-	 * Set the Email message as read or unread depending on the input.
-	 * 
-	 * @param isViewed - Boolean, if true sets the message as viewed.
-	 */
-	private void setEmailRead(boolean isViewed){
-		if (_debug) Log.v("Notification.setEmailRead()");
-		try{
-			//TODO - Write This Function setEmailRead(boolean isViewed)
-//			if(_messageID == 0){
-//				if (_debug) Log.v("Notification.setMessageRead() Message ID == 0. Load Message ID");
-//				loadMessageID(_context, _threadID, _messageBody, _timeStamp);
-//			}
-//			ContentValues contentValues = new ContentValues();
-//			if(isViewed){
-//				contentValues.put("READ", 1);
-//			}else{
-//				contentValues.put("READ", 0);
-//			}
-//			String selection = null;
-//			String[] selectionArgs = null;
-//			_context.getContentResolver().update(
-//					Uri.parse("content://sms/" + messageID), 
-//		    		contentValues, 
-//		    		selection, 
-//		    		selectionArgs);
-		}catch(Exception ex){
-			if (_debug) Log.e("Notification.setEmailRead() ERROR: " + ex.toString());
-		}
-	}
 	
 	/**
 	 * Format/create the Calendar Event message.
@@ -744,32 +711,35 @@ public class Notification {
 	private String formatCalendarEventMessage(String messageBody, long eventStartTime, long eventEndTime, boolean allDay, String calendarName){
 		if (_debug) Log.v("Notification.formatCalendarEventMessage()");
 		String formattedMessage = "";
-		SimpleDateFormat eventDateFormatted = new SimpleDateFormat();
-		eventDateFormatted.setTimeZone(TimeZone.getDefault());
 		Date eventEndDate = new Date(eventEndTime);
 		Date eventStartDate = new Date(eventStartTime);
-		String[] startTimeInfo = eventDateFormatted.format(eventStartDate).split(" ");
-		String[] endTimeInfo = eventDateFormatted.format(eventEndDate).split(" ");
     	if(messageBody.equals("")){
+    		String startDateFormated = Common.formatDate(_context, eventStartDate);
+    		String endDateFormated = Common.formatDate(_context, eventEndDate);
     		try{
+    			String[] startDateInfo = Common.parseDateInfo(_context, startDateFormated);
+    			String[] endDateInfo = Common.parseDateInfo(_context, endDateFormated);
 	    		if(allDay){
-	    			formattedMessage = startTimeInfo[0] + " - All Day";
+	    			formattedMessage = startDateInfo[0] + " - All Day";
 	    		}else{
 	    			//Check if the event spans a single day or not.
-	    			if(startTimeInfo[0].equals(endTimeInfo[0]) && startTimeInfo.length == 3){
-	    				formattedMessage = startTimeInfo[0] + " " + startTimeInfo[1] + " " + startTimeInfo[2] +  " - " +  endTimeInfo[1] + " " + startTimeInfo[2];
+	    			if(startDateInfo[0].equals(endDateInfo[0]) && startDateInfo.length == 3){
+	    				if(startDateInfo.length < 3){
+	    					formattedMessage = startDateInfo[0] + " " + startDateInfo[1] + " - " + endDateInfo[1];
+	    				}else{
+	    					formattedMessage = startDateInfo[0] + " " + startDateInfo[1] + " " + startDateInfo[2] +  " - " + endDateInfo[1] + " " + startDateInfo[2];
+	    				}
 	    			}else{
-	    				formattedMessage = eventDateFormatted.format(eventStartDate) + " - " +  eventDateFormatted.format(eventEndDate);
+	    				formattedMessage = startDateFormated + " - " + endDateFormated;
 	    			}
 	    		}
     		}catch(Exception ex){
     			if (_debug) Log.e("Notification.formatCalendarEventMessage() ERROR: " + ex.toString());
-    			formattedMessage = eventDateFormatted.format(eventStartDate) + " - " +  eventDateFormatted.format(eventEndDate);
+    			formattedMessage = startDateFormated + " - " + endDateFormated;
     		}
     	}else{
     		formattedMessage = messageBody;
     	}
-    	_preferences = PreferenceManager.getDefaultSharedPreferences(_context);
     	if(_preferences.getBoolean(Constants.CALENDAR_LABELS_KEY, true)){
     		formattedMessage = "<b>" + calendarName + "</b><br/>" + formattedMessage;
     	}
