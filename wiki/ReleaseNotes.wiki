@@ -7,6 +7,7 @@
  * Updated the MMS notifications. Added a "Click To View MMS Message" link in the notification since I am unable to parse MMS messages.
  * Updated the user ringtone preferences to include all ringtones, not just notification ringtones types.
  * Added a user preference to display 12 or 24 hour time formats.
+ * Added a user preference for the date format.
  * 
  * Fixed other small UI items.
 
