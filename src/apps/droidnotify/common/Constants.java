@@ -140,6 +140,11 @@ public class Constants {
 	public static final int DATE_FORMAT_E = 4;
 	public static final int DATE_FORMAT_F = 5;
 	
+	//-----NOTIFICATION TYPE INFO CONSTANTS-----//
+	public static final String NOTIFICATION_TYPE_INFO_ICON_KEY = "notification_type_info_icon_enabled";
+	public static final String NOTIFICATION_TYPE_INFO_FONT_SIZE_KEY = "notification_type_info_font_size";
+	public static final String NOTIFICATION_TYPE_INFO_FONT_SIZE_DEFAULT = "14";	
+	
 	//-----QUICK REPLY CONSTANTS-----//
 	public static final String SMS_GATEWAY_KEY = "quick_reply_sms_gateway_settings";	
 	public static final String SAVE_MESSAGE_DRAFT_KEY = "quick_reply_save_draft_enabled";

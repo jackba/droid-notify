@@ -456,8 +456,7 @@ public class NotificationView extends LinearLayout {
 			_photoImageView.setVisibility(View.GONE);
 			_photoProgressBar.setVisibility(View.GONE);
 			//Set Message Body Font
-			float messagebodyfontSize = Float.parseFloat(_preferences.getString(Constants.CALENDAR_MESSAGE_BODY_FONT_SIZE, "14"));
-			_notificationDetailsTextView.setTextSize(messagebodyfontSize);
+			_notificationDetailsTextView.setTextSize(Float.parseFloat(_preferences.getString(Constants.CALENDAR_MESSAGE_BODY_FONT_SIZE, "14")));
 		}else{
 			_contactNameTextView.setText(notification.getContactName());
 			String sentFromAddress = notification.getSentFromAddress();
@@ -474,8 +473,7 @@ public class NotificationView extends LinearLayout {
 				_notificationDetailsTextView.setVisibility(View.GONE);
 			}else{
 				//Set Message Body Font
-				float messagebodyfontSize = Float.parseFloat(_preferences.getString(Constants.SMS_MESSAGE_BODY_FONT_SIZE_KEY, "14"));
-				_notificationDetailsTextView.setTextSize(messagebodyfontSize);
+				_notificationDetailsTextView.setTextSize(Float.parseFloat(_preferences.getString(Constants.SMS_MESSAGE_BODY_FONT_SIZE_KEY, "14")));
 			}
 			//Contact Display Settings
 			if(_preferences.getBoolean(Constants.SMS_HIDE_CONTACT_PANEL_ENABLED_KEY, false)){
@@ -516,8 +514,7 @@ public class NotificationView extends LinearLayout {
 				_notificationDetailsTextView.setVisibility(View.GONE);
 			}else{
 				//Set Message Body Font
-				float messagebodyfontSize = Float.parseFloat(_preferences.getString(Constants.MMS_MESSAGE_BODY_FONT_SIZE_KEY, "14"));
-				_notificationDetailsTextView.setTextSize(messagebodyfontSize);
+				_notificationDetailsTextView.setTextSize(Float.parseFloat(_preferences.getString(Constants.MMS_MESSAGE_BODY_FONT_SIZE_KEY, "14")));
 			}
 			//Contact Display Settings
 			if(_preferences.getBoolean(Constants.MMS_HIDE_CONTACT_PANEL_ENABLED_KEY, false)){
@@ -705,9 +702,15 @@ public class NotificationView extends LinearLayout {
 				break;
 			}
 		}   
-	    if(iconBitmap != null){
-	    	_notificationIconImageView.setImageBitmap(iconBitmap);
-	    }
+		if(_preferences.getBoolean(Constants.NOTIFICATION_TYPE_INFO_ICON_KEY, true)){
+		    if(iconBitmap != null){
+		    	_notificationIconImageView.setImageBitmap(iconBitmap);
+		    	_notificationIconImageView.setVisibility(View.VISIBLE);
+		    }
+		}else{
+			_notificationIconImageView.setVisibility(View.GONE);
+		}
+		_notificationInfoTextView.setTextSize(Float.parseFloat(_preferences.getString(Constants.NOTIFICATION_TYPE_INFO_FONT_SIZE_KEY, Constants.NOTIFICATION_TYPE_INFO_FONT_SIZE_DEFAULT)));
 	    _notificationInfoTextView.setText(receivedAtText);
 	}
 	
@@ -766,13 +769,6 @@ public class NotificationView extends LinearLayout {
 						return;
 					}
 				}
-				//Temporary Preferences Fix
-				//Remove In a month or two.
-				if(Integer.parseInt(_preferences.getString(Constants.SMS_REPLY_BUTTON_ACTION_KEY, "0")) > 1){
-					SharedPreferences.Editor editor = _preferences.edit();
-					editor.putString("SMS_REPLY_BUTTON_ACTION_KEY", "1");
-					editor.commit();
-				}
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_MMS:{
@@ -808,13 +804,6 @@ public class NotificationView extends LinearLayout {
 						Toast.makeText(_context, _context.getString(R.string.app_android_quick_reply_app_error), Toast.LENGTH_LONG).show();
 						return;
 					}
-				}
-				//Temporary Preferences Fix
-				//Remove In a month or two.
-				if(Integer.parseInt(_preferences.getString(Constants.MMS_REPLY_BUTTON_ACTION_KEY, "0")) > 1){
-					SharedPreferences.Editor editor = _preferences.edit();
-					editor.putString("MMS_REPLY_BUTTON_ACTION_KEY", "1");
-					editor.commit();
 				}
 				break;
 			}
