@@ -1,8 +1,6 @@
 package apps.droidnotify;
 
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.TimeZone;
 
 import android.content.ContentUris;
 import android.content.Context;
@@ -668,9 +666,7 @@ public class NotificationView extends LinearLayout {
 		if (_debug) Log.v("NotificationView.set_notificationTypeInfo()");
 		Bitmap iconBitmap = null;
 		// Update TextView that contains the image, contact info/calendar info, and timestamp for the Notification.
-		SimpleDateFormat dateFormatted = new SimpleDateFormat("h:mma");
-		dateFormatted.setTimeZone(TimeZone.getDefault());
-		String formattedTimestamp = dateFormatted.format(notification.getTimeStamp());
+		String formattedTimestamp = Common.formatTimestamp(_context, notification.getTimeStamp());
 	    String receivedAtText = "";
 		switch(_notificationType){
 			case Constants.NOTIFICATION_TYPE_PHONE:{
