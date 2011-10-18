@@ -339,7 +339,17 @@
    	<!-- Test Notification Strings -->
     <string name="test_text">Test Notifications</string>
    	<string name="test_app_text">Test Notifications</string>
-   	<string name="test_app_summary">A popup will appear with sample notifications.</string>
+   	<string name="test_app_summary">Click to display sample notifications.</string>
+
+	<!-- Notification Type Information Icon Strings -->
+    <string name="preference_notification_type_info_icon_enabled_title">Display Type Icon</string>
+   	<string name="preference_notification_type_info_icon_enabled_summaryOn">The notification type icon will be displayed.</string>
+   	<string name="preference_notification_type_info_icon_enabled_summaryOff">The notification type icon will not be displayed.</string>
+
+	<!-- Notification Type Information Strings -->
+    <string name="notification_type_info_settings_text">Notification Type Info Settings</string>
+   	<string name="preference_notification_type_info_size">Notification Type Font Size</string>
+   	<string name="preference_notification_type_info_size_summary">Select the font size of the notification type information text.</string>
 
     <!-- Rate App Strings -->
    	<string name="rate_app_text">Rate App</string>
@@ -618,6 +628,9 @@
   	<string name="s11_pm_text">11 PM</string>
   	<string name="s12_pm_text">12 PM</string>
   	 	
+  	<string name="size_5_text">Size 5</string>
+  	<string name="size_6_text">Size 6</string>
+  	<string name="size_7_text">Size 7</string>
   	<string name="size_8_text">Size 8</string> 	
   	<string name="size_9_text">Size 9</string> 	
   	<string name="size_10_text">Size 10</string>  	

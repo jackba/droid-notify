@@ -83,9 +83,6 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	    if(!_preferences.getBoolean(Constants.LANDSCAPE_SCREEN_ENABLED_KEY, false)){
 	    	this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 	    }
-	    //REMOVE THIS ON THE NEXT VERSION!--------------------------
-	    //fixPreferenceUpdatesTemp();
-	    //----------------------------------------------------------
 	    //addPreferencesFromResource(R.xml.preferences_new);
 	    addPreferencesFromResource(R.xml.preferences);
 	    _appVersion = getApplicationVersion();
@@ -671,6 +668,10 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			buf.append("contact_photo_background|" + _preferences.getString("contact_photo_background", "0") + "|string");
 			buf.newLine();
 			buf.append("contact_photo_size|" + _preferences.getString("contact_photo_size", "80") + "|string");
+			buf.newLine();
+			buf.append("notification_type_info_icon_enabled|" + _preferences.getBoolean("notification_type_info_icon_enabled", true) + "|boolean");
+			buf.newLine();
+			buf.append("notification_type_info_font_size|" + _preferences.getString("notification_type_info_font_size", "5") + "|string");
 			buf.newLine();
 			
 			//Quick Reply Settings
@@ -1421,128 +1422,5 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_NO_HISTORY);
 	    startActivity(intent);
 	}
-	
-//	/**
-//	 * Manually fix some of the users preferences due to updates to the user preferences.
-//	 */
-//	private void fixPreferenceUpdatesTemp(){
-//		if (_debug) Log.v("MainPreferenceActivity.fixPreferenceUpdatesTemp()");
-//		boolean fixPreferenceUpdates = _preferences.getBoolean("fixPreferenceUpdates", true);
-//		if(fixPreferenceUpdates) {
-//			try{
-//				//Notifications Enabled
-//				boolean smsNotificationsEnabled = true;
-//				boolean mmsNotificationsEnabled = true;
-//				boolean phoneNotificationsEnabled = true;
-//				boolean calendarNotificationsEnabled = true;
-//				
-//				//Sound Enabled
-//				boolean smsNotificationsSoundEnabled = true;
-//				boolean mmsNotificationsSoundEnabled = true;
-//				boolean phoneNotificationsSoundEnabled = true;
-//				boolean calendarNotificationsSoundEnabled = true;
-//				if(!_preferences.getBoolean("app_ringtones_enabled", false)){
-//					smsNotificationsSoundEnabled = false;
-//					mmsNotificationsSoundEnabled = false;
-//					phoneNotificationsSoundEnabled = false;
-//					calendarNotificationsSoundEnabled = false;
-//				}else{
-//					smsNotificationsSoundEnabled = _preferences.getBoolean("sms_ringtone_enabled", false);
-//					mmsNotificationsSoundEnabled = _preferences.getBoolean("mms_ringtone_enabled", false);
-//					phoneNotificationsSoundEnabled = _preferences.getBoolean("missed_call_ringtone_enabled", false);
-//					calendarNotificationsSoundEnabled = !_preferences.getBoolean("calendar_ringtone_enabled", false);
-//				}
-//				//Vibrate Enabled
-//				boolean smsNotificationsVibrateEnabled = true;
-//				boolean mmsNotificationsVibrateEnabled = true;
-//				boolean phoneNotificationsVibrateEnabled = true;
-//				boolean calendarNotificationsVibrateEnabled = true;
-//				if(!_preferences.getBoolean("app_vibrations_enabled", false)){
-//					smsNotificationsVibrateEnabled = false;
-//					mmsNotificationsVibrateEnabled = false;
-//					phoneNotificationsVibrateEnabled = false;
-//					calendarNotificationsVibrateEnabled = false;
-//				}else{
-//					smsNotificationsVibrateEnabled = _preferences.getBoolean("sms_vibrate_enabled", true);
-//					mmsNotificationsVibrateEnabled = !_preferences.getBoolean("mms_vibrate_enabled", true);
-//					phoneNotificationsVibrateEnabled = _preferences.getBoolean("missed_call_vibrate_enabled", true);
-//					calendarNotificationsVibrateEnabled = !_preferences.getBoolean("calendar_vibrate_enabled", true);
-//				}
-//				
-//				//Notifications Enabled
-//				if(!smsNotificationsSoundEnabled && !smsNotificationsVibrateEnabled) smsNotificationsEnabled = false;
-//				if(!mmsNotificationsSoundEnabled && !mmsNotificationsVibrateEnabled) mmsNotificationsEnabled = false;
-//				if(!phoneNotificationsSoundEnabled && !phoneNotificationsVibrateEnabled) phoneNotificationsEnabled = false;
-//				if(!calendarNotificationsSoundEnabled && !calendarNotificationsVibrateEnabled) calendarNotificationsEnabled = false;
-//
-//				SharedPreferences.Editor editor = _preferences.edit();
-//				editor.putBoolean("fixPreferenceUpdates", false);
-//				if(smsNotificationsEnabled){
-//					editor.putBoolean(Constants.SMS_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY, true);
-//				}else{
-//					editor.putBoolean(Constants.SMS_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY, false);
-//				}
-//				if(smsNotificationsSoundEnabled){
-//					editor.putString(Constants.SMS_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY, _preferences.getString("sms_ringtone_audio", Constants.STATUS_BAR_NOTIFICATIONS_RINGTONE_DEFAULT));
-//				}else{
-//					editor.putString(Constants.SMS_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY, "");
-//				}
-//				if(smsNotificationsVibrateEnabled){
-//					editor.putString(Constants.SMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_ALWAYS_VALUE);
-//				}else{
-//					editor.putString(Constants.SMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_NEVER_VALUE);
-//				}
-//				if(mmsNotificationsEnabled){
-//					editor.putBoolean(Constants.MMS_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY, true);
-//				}else{
-//					editor.putBoolean(Constants.MMS_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY, false);
-//				}
-//				if(smsNotificationsSoundEnabled){
-//					editor.putString(Constants.MMS_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY, _preferences.getString("mms_ringtone_audio", Constants.STATUS_BAR_NOTIFICATIONS_RINGTONE_DEFAULT));
-//				}else{
-//					editor.putString(Constants.MMS_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY, "");
-//				}
-//				if(smsNotificationsVibrateEnabled){
-//					editor.putString(Constants.MMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_ALWAYS_VALUE);
-//				}else{
-//					editor.putString(Constants.MMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_NEVER_VALUE);
-//				}
-//				if(phoneNotificationsEnabled){
-//					editor.putBoolean(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY, true);
-//				}else{
-//					editor.putBoolean(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY, false);
-//				}
-//				if(smsNotificationsSoundEnabled){
-//					editor.putString(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY, _preferences.getString("missed_call_ringtone_audio", Constants.STATUS_BAR_NOTIFICATIONS_RINGTONE_DEFAULT));
-//				}else{
-//					editor.putString(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY, "");
-//				}
-//				if(smsNotificationsVibrateEnabled){
-//					editor.putString(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_ALWAYS_VALUE);
-//				}else{
-//					editor.putString(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_NEVER_VALUE);
-//				}
-//				if(calendarNotificationsEnabled){
-//					editor.putBoolean(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY, true);
-//				}else{
-//					editor.putBoolean(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY, false);
-//				}
-//				if(smsNotificationsSoundEnabled){
-//					editor.putString(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY, _preferences.getString("calendar_ringtone_audio", Constants.STATUS_BAR_NOTIFICATIONS_RINGTONE_DEFAULT));
-//				}else{
-//					editor.putString(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY, "");
-//				}
-//				if(smsNotificationsVibrateEnabled){
-//					editor.putString(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_ALWAYS_VALUE);
-//				}else{
-//					editor.putString(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_NEVER_VALUE);
-//				}
-//				editor.commit();
-//				displayHTMLAlertDialog("---PLEASE READ---",R.drawable.ic_dialog_info, _context.getString(R.string.app_updated_text));
-//			}catch(Exception ex){
-// 	    		if (_debug) Log.e("MainPreferenceActivity.fixPreferenceUpdatesTemp() ERROR: " + ex.toString());
-//	    	}
-//		}
-//	}
 
 }
