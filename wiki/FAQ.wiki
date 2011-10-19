@@ -12,6 +12,8 @@
  * [FAQ#Known_Issues_with_Pansi_SMS_&_Droid_Notify Known Issues with Pansi SMS & Droid Notify]
  * [FAQ#Known_Issues_with_Zlango_Messaging_&_Droid_Notify Known Issues with Zlango Messaging & Droid Notify]
  * [FAQ#Will_email_notifications_be_an_added_feature_in_Droid_Notify? Will email notifications be an added feature in Droid Notify?]
+ * [FAQ#Will_Droid_Notify_display/notify_calendar_events_by_non_Android calendars? Will Droid Notify display/notify calendar events by non Android calendars?]
+
 
 ----
 
@@ -68,3 +70,10 @@ The answer is... it depends (possibly).
 At this time the Email content on Android phones is secure and 3rd party apps cannot read the phones emails. The only solution to this is to develop an email client which is out of the scope of this project.
 
 I will look into the Gmail api and see if we can read Gmail email as an alternative.
+
+
+==Will Droid Notify display/notify calendar events by non Android calendars?==
+
+The answer is... it depends.
+
+Developer apps have the ability to read the Google Calendar that is build into the Android OS. If the calendar app syncs all the information to the Google Calendar, then Droid Notify will read the Google Calendar and notify you of the events. On the other hand if the calendar app keeps it's own calendar, then developer apps can't access that data and so Droid Notify won't notify you of the calendar events.
