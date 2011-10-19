@@ -24,6 +24,7 @@ Basic Settings
  * Contact Placeholder Image
  * Contact Photo Background
  * Contact Photo Size
+ * Notification Body Font Size
  * Quick Reply Settings
   * Save Draft
   * Blur Screen Background
