@@ -5,6 +5,7 @@
 
 Test Notifications
 
+
 *_General Settings_*
 
 Enable Droid Notify
@@ -174,15 +175,15 @@ Screen Settings
  * Enable Landscape Screen
  * Blur Screen Background
  * Dim Screen Background
- * Blur Screen Value
+ * Dim Screen Value
 	
 *_Advanced Settings_*
 
 Advanced Settings
  * Enable Haptic Feedback
  * Screen Timeout
- * SMS Loading Setting
  * SMS Timeout
+ * SMS Loading Setting
  * SMS TimeStamp Adjustment
  * MMS Timeout
  * Call Log Timeout
