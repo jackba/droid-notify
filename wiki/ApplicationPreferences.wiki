@@ -53,9 +53,8 @@ Notifications
    * LED Blink Setting
    * Enable In-Call Sound
    * Enable In-Call Vibrate
-  * Message Body Settings
-   * Message Body Font Size
-   * Hide Message Body
+  * Notification Body Settings
+   * Hide Notification Body
   * Button Settings
    * Confirm Message Deletion
    * Dismiss Button Action
@@ -88,9 +87,8 @@ Notifications
    * LED Blink Setting
    * Enable In-Call Sound
    * Enable In-Call Vibrate
-  * Message Body Settings
-   * Message Body Font Size
-   * Hide Message Body
+  * Notification Body Settings
+   * Hide Notification Body
   * Button Settings
    * Confirm Message Deletion
    * Dismiss Button Action
@@ -158,8 +156,8 @@ Notifications
   * Event Reminder Settings
    * Event Settings
    * All-Day Event Settings
-  * Event Body Settings
-   * Event Text Font Size
+  * Notification Body Settings
+   * Hide Notification Body
   * Button Settings
    * Dismiss Button Action
    * Notification Count Action
