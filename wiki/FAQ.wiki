@@ -12,8 +12,8 @@
  * [FAQ#Known_Issues_with_Pansi_SMS_&_Droid_Notify Known Issues with Pansi SMS & Droid Notify]
  * [FAQ#Known_Issues_with_Zlango_Messaging_&_Droid_Notify Known Issues with Zlango Messaging & Droid Notify]
  * [FAQ#Will_email_notifications_be_an_added_feature_in_Droid_Notify? Will email notifications be an added feature in Droid Notify?]
- * [FAQ#Will_Droid_Notify_display_calendar_events_by_non_Android_calendars?  Will Droid Notify display calendar events by non Android calendars?]
-
+ * [FAQ#Will_Droid_Notify_display_calendar_events_by_non_Android_calendars? Will Droid Notify display calendar events by non Android calendars?]
+ * [FAQ#I_get_status_bar_notifications_but_no_popup,_why? I get status bar notifications but no popup, why?]
 
 ----
 
@@ -77,3 +77,7 @@ I will look into the Gmail api and see if we can read Gmail email as an alternat
 The answer is... it depends.
 
 Developer apps have the ability to read the Google Calendar that is build into the Android OS. If the calendar app syncs all the information to the Google Calendar, then Droid Notify will read the Google Calendar and notify you of the events. On the other hand if the calendar app keeps it's own calendar, then developer apps can't access that data and so Droid Notify won't notify you of the calendar events.
+
+==I get status bar notifications but no popup, why?==
+
+This issue is most likely due to the popup being blocked. Droid notify has 
