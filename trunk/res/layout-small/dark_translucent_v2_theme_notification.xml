@@ -125,6 +125,22 @@
 			</LinearLayout>
 		</LinearLayout>
 		<TextView
+			android:id="@+id/mms_link_text_view"
+			android:layout_height="wrap_content"
+			android:layout_width="fill_parent"
+			android:layout_gravity="center"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:gravity="center"
+			android:padding="15dip" 
+			android:selectAllOnFocus="true" 
+			android:textColor="@color/white"
+			android:focusable="true" 
+			android:clickable="true" 
+			android:hapticFeedbackEnabled="true"
+			android:textStyle="bold"
+			android:visibility="gone"
+			android:text="[Click Here To View MMS Message]" />
+		<TextView
 			android:id="@+id/notification_details_text_view"
 			android:layout_height="wrap_content"
 			android:layout_width="fill_parent"  

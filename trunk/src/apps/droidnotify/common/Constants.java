@@ -140,6 +140,10 @@ public class Constants {
 	public static final int DATE_FORMAT_E = 4;
 	public static final int DATE_FORMAT_F = 5;
 	
+	//-----MESSAGE BODY CONSTANTS-----//
+	public static final String NOTIFICATION_BODY_FONT_SIZE_KEY = "notification_body_font_size";
+	public static final String NOTIFICATION_BODY_FONT_SIZE_DEFAULT = "14";
+	
 	//-----NOTIFICATION TYPE INFO CONSTANTS-----//
 	public static final String NOTIFICATION_TYPE_INFO_ICON_KEY = "notification_type_info_icon_enabled";
 	public static final String NOTIFICATION_TYPE_INFO_FONT_SIZE_KEY = "notification_type_info_font_size";
@@ -176,13 +180,12 @@ public class Constants {
 	public static final String SMS_HIDE_CONTACT_PHOTO_ENABLED_KEY = "sms_hide_contact_photo_enabled";
 	public static final String SMS_HIDE_CONTACT_NAME_ENABLED_KEY = "sms_hide_contact_name_enabled";
 	public static final String SMS_HIDE_CONTACT_NUMBER_ENABLED_KEY = "sms_hide_contact_number_enabled"; 
+    public static final String SMS_HIDE_NOTIFICATION_BODY_KEY = "sms_hide_notification_body_enabled";
 	public static final String SMS_REPLY_BUTTON_ACTION_KEY = "sms_reply_button_action";
-	public static final String SMS_HIDE_MESSAGE_KEY = "sms_hide_message_body_enabled";
 	public static final String SMS_HIDE_DISMISS_BUTTON_KEY = "sms_hide_dismiss_button_enabled";
 	public static final String SMS_HIDE_DELETE_BUTTON_KEY = "sms_hide_delete_button_enabled";
 	public static final String SMS_HIDE_REPLY_BUTTON_KEY = "sms_hide_reply_button_enabled";
 	public static final String SMS_NOTIFICATION_COUNT_ACTION_KEY = "sms_notification_count_action";
-	public static final String SMS_MESSAGE_BODY_FONT_SIZE_KEY = "sms_message_body_font_size";
 	public static final String SMS_DISMISS_KEY = "sms_dismiss_button_action";
 	public static final String SMS_DISPLAY_UNREAD_KEY = "sms_display_unread_enabled";
 	public static final String SMS_CONFIRM_DELETION_KEY = "confirm_sms_deletion_enabled";
@@ -202,14 +205,13 @@ public class Constants {
 	public static final String MMS_HIDE_CONTACT_PANEL_ENABLED_KEY = "mms_hide_contact_panel_enabled";
 	public static final String MMS_HIDE_CONTACT_PHOTO_ENABLED_KEY = "mms_hide_contact_photo_enabled";
 	public static final String MMS_HIDE_CONTACT_NAME_ENABLED_KEY = "mms_hide_contact_name_enabled";
-	public static final String MMS_HIDE_CONTACT_NUMBER_ENABLED_KEY = "mms_hide_contact_number_enabled";	
+	public static final String MMS_HIDE_CONTACT_NUMBER_ENABLED_KEY = "mms_hide_contact_number_enabled";	 
+    public static final String MMS_HIDE_NOTIFICATION_BODY_KEY = "mms_hide_notification_body_enabled";
 	public static final String MMS_REPLY_BUTTON_ACTION_KEY = "mms_reply_button_action";
-	public static final String MMS_HIDE_MESSAGE_KEY = "mms_hide_message_body_enabled";
 	public static final String MMS_HIDE_DISMISS_BUTTON_KEY = "mms_hide_dismiss_button_enabled";
 	public static final String MMS_HIDE_DELETE_BUTTON_KEY = "mms_hide_delete_button_enabled";
 	public static final String MMS_HIDE_REPLY_BUTTON_KEY = "mms_hide_reply_button_enabled";
 	public static final String MMS_NOTIFICATION_COUNT_ACTION_KEY = "mms_notification_count_action";
-	public static final String MMS_MESSAGE_BODY_FONT_SIZE_KEY = "mms_message_body_font_size";
 	public static final String MMS_DISMISS_KEY = "mms_dismiss_button_action";
 	public static final String MMS_CONFIRM_DELETION_KEY = "confirm_mms_deletion_enabled";
 	public static final String MMS_DISPLAY_UNREAD_KEY = "mms_display_unread_enabled";
@@ -250,11 +252,11 @@ public class Constants {
 	public static final String CALENDAR_REMINDERS_ENABLED_KEY = "calendar_reminders_enabled"; 
     public static final String CALENDAR_REMINDER_KEY = "calendar_reminder_settings";
     public static final String CALENDAR_REMINDER_ALL_DAY_KEY = "calendar_reminder_all_day_settings";
-    public static final String CALENDAR_POLLING_FREQUENCY_KEY = "calendar_polling_frequency";
+    public static final String CALENDAR_POLLING_FREQUENCY_KEY = "calendar_polling_frequency"; 
+    public static final String CALENDAR_HIDE_NOTIFICATION_BODY_KEY = "calendar_hide_notification_body_enabled";
 	public static final String CALENDAR_HIDE_DISMISS_BUTTON_KEY = "calendar_hide_dismiss_button_enabled";
 	public static final String CALENDAR_HIDE_VIEW_BUTTON_KEY = "calendar_hide_view_button_enabled";
 	public static final String CALENDAR_NOTIFICATION_COUNT_ACTION_KEY = "calendar_notification_count_action";
-	public static final String CALENDAR_MESSAGE_BODY_FONT_SIZE = "calendar_message_body_font_size";
 	public static final String CALENDAR_LABELS_KEY = "calendar_labels_enabled";
 	public static final String CALENDAR_SELECTION_KEY = "calendar_selection";
 	

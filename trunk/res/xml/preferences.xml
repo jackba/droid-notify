@@ -67,16 +67,29 @@
 					android:summaryOn="@string/preference_button_icons_enabled_summaryOn" 
 					android:summaryOff="@string/preference_button_icons_enabled_summaryOff" 
 					android:defaultValue="true" />
+			</PreferenceCategory>
+			<PreferenceCategory
+				android:key="notification_header_settings_category"
+				android:title="@string/notification_header_settings_text">
 				<CheckBoxPreference
 					android:key="hide_single_message_header_enabled" 
 					android:title="@string/preference_hide_single_message_header_enabled_title" 
 					android:summaryOn="@string/preference_hide_single_message_header_enabled_summaryOn" 
 					android:summaryOff="@string/preference_hide_single_message_header_enabled_summaryOff" 
 					android:defaultValue="false" />
-			</PreferenceCategory>
-			<PreferenceCategory
-				android:key="contact_photo_settings_category"
-				android:title="@string/contact_photo_settings_text">
+				<CheckBoxPreference
+					android:key="notification_type_info_icon_enabled" 
+					android:title="@string/preference_notification_type_info_icon_enabled_title" 
+					android:summaryOn="@string/preference_notification_type_info_icon_enabled_summaryOn" 
+					android:summaryOff="@string/preference_notification_type_info_icon_enabled_summaryOff" 
+					android:defaultValue="true" />
+				<ListPreference
+					android:key="notification_type_info_font_size"
+					android:title="@string/preference_notification_type_info_size"
+					android:summary="@string/preference_notification_type_info_size_summary"
+					android:defaultValue="14"
+					android:entries="@array/font_size_options"
+					android:entryValues="@array/font_size_options_values" />
 				<apps.droidnotify.preferences.ImageListPreference
 					android:key="contact_placeholder"
 					android:title="@string/preference_contact_placeholder_image"
@@ -102,29 +115,22 @@
 					android:entryValues="@array/contact_photo_size_options_values" />
 			</PreferenceCategory>
 			<PreferenceCategory
-				android:key="notification_type_info_settings_category"
-				android:title="@string/notification_type_info_settings_text">
-				<CheckBoxPreference
-					android:key="notification_type_info_icon_enabled" 
-					android:title="@string/preference_notification_type_info_icon_enabled_title" 
-					android:summaryOn="@string/preference_notification_type_info_icon_enabled_summaryOn" 
-					android:summaryOff="@string/preference_notification_type_info_icon_enabled_summaryOff" 
-					android:defaultValue="true" />
-				<ListPreference
-					android:key="notification_type_info_font_size"
-					android:title="@string/preference_notification_type_info_size"
-					android:summary="@string/preference_notification_type_info_size_summary"
-					android:defaultValue="14"
-					android:entries="@array/message_body_font_size_options"
-					android:entryValues="@array/message_body_font_size_options_values" />
+				android:key="notification_body_settings_category"
+				android:title="@string/notification_body_settings_text">
+					<ListPreference
+						android:key="notification_body_font_size"
+						android:title="@string/preference_notification_body_font_size_title"
+						android:summary="@string/preference_notification_body_font_size_summary"
+						android:defaultValue="14"
+						android:entries="@array/font_size_options"
+						android:entryValues="@array/font_size_options_values" />
 			</PreferenceCategory>
 			<PreferenceCategory
 				android:key="quick_reply_settings_category"
 				android:title="@string/quick_reply_settings_text">
 				<PreferenceScreen
 					android:key="quick_reply_settings_screen"
-					android:title="@string/quick_reply_settings_text"
-					android:dependency="app_enabled">
+					android:title="@string/quick_reply_settings_text">
 					<CheckBoxPreference 
 						android:key="quick_reply_save_draft_enabled" 
 						android:title="@string/preference_save_draft_enabled_title" 
@@ -319,24 +325,17 @@
 						</PreferenceScreen>
 					</PreferenceCategory>
 					<PreferenceCategory
-						android:key="sms_message_body_settings_category"
-						android:title="@string/message_body_settings_text">	
+						android:key="sms_notification_body_settings_category"
+						android:title="@string/notification_body_settings_text">	
 						<PreferenceScreen
-							android:key="sms_message_body_settings_screen"
-							android:title="@string/message_body_settings_text"
-							android:dependency="sms_notifications_enabled">
-							<ListPreference
-								android:key="sms_message_body_font_size"
-								android:title="@string/preference_sms_message_body_font_size_title"
-								android:summary="@string/preference_sms_message_body_font_size_summary"
-								android:defaultValue="14"
-								android:entries="@array/message_body_font_size_options"
-								android:entryValues="@array/message_body_font_size_options_values" />	
+							android:key="sms_notification_body_settings_screen"
+							android:title="@string/notification_body_settings_text"
+							android:dependency="sms_notifications_enabled">	
 							<CheckBoxPreference 
-								android:key="sms_hide_message_body_enabled" 
-								android:title="@string/preference_sms_hide_message_body_enabled_title" 
-								android:summaryOn="@string/preference_sms_hide_message_body_enabled_summaryOn" 
-								android:summaryOff="@string/preference_sms_hide_message_body_enabled_summaryOff" 
+								android:key="sms_hide_notification_body_enabled" 
+								android:title="@string/preference_sms_hide_notification_body_enabled_title" 
+								android:summaryOn="@string/preference_sms_hide_notification_body_enabled_summaryOn" 
+								android:summaryOff="@string/preference_sms_hide_notification_body_enabled_summaryOff" 
 								android:defaultValue="false" />	
 						</PreferenceScreen>
 					</PreferenceCategory>
@@ -450,8 +449,7 @@
 				android:drawableLeft="@drawable/sms">
 				<PreferenceScreen
 					android:key="mms_notification_settings_screen"
-					android:title="@string/preference_mms_notifications"
-					android:dependency="app_enabled">
+					android:title="@string/preference_mms_notifications">
 					<PreferenceCategory
 						android:key="mms_basic_settings_category"
 						android:title="@string/basic_settings_text">
@@ -588,26 +586,19 @@
 						</PreferenceScreen>
 					</PreferenceCategory>
 					<PreferenceCategory
-						android:key="mms_message_body_settings_category"
-						android:title="@string/message_body_settings_text">	
-					<PreferenceScreen
-							android:key="mms_message_body_settings_screen"
-							android:title="@string/message_body_settings_text"
+						android:key="mms_notification_body_settings_category"
+						android:title="@string/notification_body_settings_text">	
+						<PreferenceScreen
+							android:key="mms_notification_body_settings_screen"
+							android:title="@string/notification_body_settings_text"
 							android:dependency="mms_notifications_enabled">	
-							<ListPreference
-								android:key="mms_message_body_font_size"
-								android:title="@string/preference_mms_message_body_font_size_title"
-								android:summary="@string/preference_mms_message_body_font_size_summary"
-								android:defaultValue="14"
-								android:entries="@array/message_body_font_size_options"
-								android:entryValues="@array/message_body_font_size_options_values" />	
 							<CheckBoxPreference 
-								android:key="mms_hide_message_body_enabled" 
-								android:title="@string/preference_mms_hide_message_body_enabled_title" 
-								android:summaryOn="@string/preference_mms_hide_message_body_enabled_summaryOn" 
-								android:summaryOff="@string/preference_mms_hide_message_body_enabled_summaryOff" 
-								android:defaultValue="false" />
-						</PreferenceScreen>	
+								android:key="mms_hide_notification_body_enabled" 
+								android:title="@string/preference_mms_hide_notification_body_enabled_title" 
+								android:summaryOn="@string/preference_mms_hide_notification_body_enabled_summaryOn" 
+								android:summaryOff="@string/preference_mms_hide_notification_body_enabled_summaryOff" 
+								android:defaultValue="false" />	
+						</PreferenceScreen>
 					</PreferenceCategory>
 					<PreferenceCategory
 						android:key="mms_button_settings_category"
@@ -718,8 +709,7 @@
 				android:title="@string/preference_missed_call_notifications">
 				<PreferenceScreen
 					android:key="missed_call_notification_settings_screen"
-					android:title="@string/preference_missed_call_notifications"
-					android:dependency="app_enabled">	
+					android:title="@string/preference_missed_call_notifications">	
 					<PreferenceCategory
 						android:key="missed_call_basic_settings_category"
 						android:title="@string/basic_settings_text">
@@ -939,8 +929,7 @@
 				android:title="@string/preference_calendar_notifications">
 				<PreferenceScreen
 					android:key="calendar_notification_settings_screen"
-					android:title="@string/preference_calendar_notifications"
-					android:dependency="app_enabled">
+					android:title="@string/preference_calendar_notifications">
 					<PreferenceCategory
 						android:key="calendar_basic_settings_category"
 						android:title="@string/basic_settings_text">
@@ -1096,6 +1085,21 @@
 										android:defaultValue="true" />
 							</PreferenceCategory>	
 						</PreferenceScreen>
+					</PreferenceCategory>
+					<PreferenceCategory
+						android:key="calendar_notification_body_settings_category"
+						android:title="@string/notification_body_settings_text">	
+						<PreferenceScreen
+							android:key="calendar_notification_body_settings_screen"
+							android:title="@string/notification_body_settings_text"
+							android:dependency="calendar_notifications_enabled">	
+							<CheckBoxPreference 
+								android:key="calendar_hide_notification_body_enabled" 
+								android:title="@string/preference_calendar_hide_notification_body_enabled_title" 
+								android:summaryOn="@string/preference_calendar_hide_notification_body_enabled_summaryOn" 
+								android:summaryOff="@string/preference_calendar_hide_notification_body_enabled_summaryOff" 
+								android:defaultValue="false" />	
+						</PreferenceScreen>
 					</PreferenceCategory>	
 					<PreferenceCategory
 						android:key="calendar_event_reminders_category"
@@ -1125,22 +1129,6 @@
 								android:defaultValue="6"
 								android:entries="@array/calendar_reminder_all_day_options"
 								android:entryValues="@array/calendar_reminder_all_day_options_values" />
-						</PreferenceScreen>
-					</PreferenceCategory>
-					<PreferenceCategory
-						android:key="calendar_message_body_settings_category"
-						android:title="@string/event_body_settings_text">		
-						<PreferenceScreen
-							android:key="calendar_message_body_settings_screen"
-							android:title="@string/event_body_settings_text"
-							android:dependency="calendar_notifications_enabled">	
-							<ListPreference
-								android:key="calendar_message_body_font_size"
-								android:title="@string/preference_calendar_event_body_font_size_title"
-								android:summary="@string/preference_calendar_event_body_font_size_summary"
-								android:defaultValue="14"
-								android:entries="@array/message_body_font_size_options"
-								android:entryValues="@array/message_body_font_size_options_values" />
 						</PreferenceScreen>
 					</PreferenceCategory>
 					<PreferenceCategory
@@ -1188,8 +1176,28 @@
 					</PreferenceCategory>
 				</PreferenceScreen>		
 			</PreferenceCategory>
+<!-- 
+			<PreferenceCategory
+				android:key="twitter_notification_settings_category"
+				android:title="@string/preference_twitter_notifications">
+				<PreferenceScreen
+					android:key="twitter__notification_settings_screen"
+					android:title="@string/preference_twitter_notifications">
+					<PreferenceCategory
+						android:key="twitter__basic_settings_category"
+						android:title="@string/basic_settings_text">
+						<CheckBoxPreference
+							android:key="twitter_enabled" 
+					       	android:title="@string/preference_twitter_enabled_title" 
+					       	android:summaryOn="@string/preference_appenabled_summaryOn" 
+					       	android:summaryOff="@string/preference_appenabled_summaryOff" 
+					       	android:defaultValue="false" />
+	    			</PreferenceCategory>
+				</PreferenceScreen>
+		  	</PreferenceCategory>
+ -->
 		</PreferenceScreen>
-  	</PreferenceCategory>
+  	</PreferenceCategory>   	
 	<PreferenceCategory
 		android:key="screen_settings_category"
 		android:title="@string/preference_screen_settings">

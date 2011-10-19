@@ -48,13 +48,35 @@
     <string name="advanced_settings_text">Advanced Settings</string>
    	<string name="notification_settings_text">Notification Settings</string>
     <string name="quick_reply_settings_text">Quick Reply Settings</string>
-    <string name="message_body_settings_text">Message Body Settings</string>
+    <string name="notification_body_settings_text">Notification Body Settings</string>
+    <string name="notification_header_settings_text">Notification Header Settings</string>
    	<string name="event_body_settings_text">Event Body Settings</string>
 
    	<!-- Delete Strings -->
    	<string name="delete_text">Delete</string>
     <string name="delete_message_dialog_text">This will delete the message from the phone.</string>
-    <string name="delete_thread_dialog_text">The entire thread will be deleted from the phone.</string>
+    <string name="delete_thread_dialog_text">The entire thread will be deleted from the phone.</string>  	
+    
+    <!-- Notification Body Strings -->
+   	<string name="preference_notification_body_font_size_title">Notification Body Font Size</string>
+   	<string name="preference_notification_body_font_size_summary">Select the font size you want to use when when displaying the notification body.</string>
+   	<string name="preference_sms_hide_notification_body_enabled_title">Hide Notification Body</string>
+    <string name="preference_sms_hide_notification_body_enabled_summaryOn">The notification body will not be visible in the popup.</string>
+	<string name="preference_sms_hide_notification_body_enabled_summaryOff">The notification body will be visible in the popup.</string>
+   	<string name="preference_mms_hide_notification_body_enabled_title">Hide Notification Body</string>
+    <string name="preference_mms_hide_notification_body_enabled_summaryOn">The notification body will not be visible in the popup.</string>
+	<string name="preference_mms_hide_notification_body_enabled_summaryOff">The notification body will be visible in the popup.</string>
+   	<string name="preference_calendar_hide_notification_body_enabled_title">Hide Notification Body</string>
+    <string name="preference_calendar_hide_notification_body_enabled_summaryOn">The notification body will not be visible in the popup.</string>
+	<string name="preference_calendar_hide_notification_body_enabled_summaryOff">The notification body will be visible in the popup.</string>
+  
+  	<!-- Notification Header Strings -->
+    <string name="preference_notification_type_info_icon_enabled_title">Display Type Icon</string>
+   	<string name="preference_notification_type_info_icon_enabled_summaryOn">The notification type icon will be displayed.</string>
+   	<string name="preference_notification_type_info_icon_enabled_summaryOff">The notification type icon will not be displayed.</string>
+    <string name="notification_type_info_settings_text">Type Info Settings</string>
+   	<string name="preference_notification_type_info_size">Type Font Size</string>
+   	<string name="preference_notification_type_info_size_summary">Select the font size of the notification type information text.</string>
     
    	<!-- Contact Strings -->
    	<string name="contact_display_settings_text">Contact Display Settings</string>
@@ -62,7 +84,7 @@
    	<string name="hide_contact_photo_text">Hide Contact Photo</string>
    	<string name="hide_contact_number_text">Hide Contact Number</string>
    	<string name="hide_contact_name_text">Hide Contact Name</string>
-    <string name="preference_contact_placeholder_image">Placeholder Image</string>
+    <string name="preference_contact_placeholder_image">Contact Placeholder Image</string>
     <string name="preference_contact_placeholder_image_summary">Select the placeholder image you would like to display for unknown contacts.</string>
     <string name="preference_contact_photo_background">Contact Photo Background</string>
     <string name="preference_contact_photo_background_summary">Select the background image you would like to display behind the contact photo.</string>
@@ -111,11 +133,6 @@
     <string name="preference_sms_display_unread_enabled_title">Load Unread SMS</string>
    	<string name="preference_sms_display_unread_enabled_summaryOn">All unread sms messages will be loaded when a new sms message arrives.</string>
    	<string name="preference_sms_display_unread_enabled_summaryOff">Only the current incoming message will be loaded.</string>	 	
-   	<string name="preference_sms_hide_message_body_enabled_title">Hide Message Body</string>
-   	<string name="preference_sms_hide_message_body_enabled_summaryOn">The message body will not be visible in the notification popup.</string>
-   	<string name="preference_sms_hide_message_body_enabled_summaryOff">The message body will be visible in the notification popup.</string>
-   	<string name="preference_sms_message_body_font_size_title">Message Body Font Size</string>
-   	<string name="preference_sms_message_body_font_size_summary">Select the font size you want to use when when displaying the message body.</string>
    	<string name="preference_sms_notifications">SMS Notifications</string>
    	<string name="preference_sms_dismiss_button_action_summary">Define what happens when you dismiss a SMS.</string>
    	<string name="preference_sms_delete_button_action_summary">Define what happens when you delete a SMS.</string>
@@ -235,7 +252,8 @@
    	<string name="preference_calendar_hide_contact_photo_enabled_summaryOn">The contact photo will not be displayed in Calendar notifications.</string>
    	<string name="preference_calendar_hide_contact_photo_enabled_summaryOff">The contact photo will be displayed in Calendar notifications.</string> 
    	
-   	<!-- Twitter Strings -->
+   	<!-- Twitter Strings -->	 	
+   	<string name="preference_twitter_notifications">Twitter Notifications</string>
    	<string name="preference_twitter_enabled_title">Enable Twitter</string>
    	<string name="twitter_authentication_text">Twitter Authentication</string>
    	<string name="twitter_authentication_message_text">The next screen will open a Twitter web page in a web browser. This web page will ask you to allow this application to have access to your twitter account. If you wish to proceed please click on the \"Continue\" button below.</string>
@@ -341,16 +359,6 @@
    	<string name="test_app_text">Test Notifications</string>
    	<string name="test_app_summary">Click to display sample notifications.</string>
 
-	<!-- Notification Type Information Icon Strings -->
-    <string name="preference_notification_type_info_icon_enabled_title">Display Type Icon</string>
-   	<string name="preference_notification_type_info_icon_enabled_summaryOn">The notification type icon will be displayed.</string>
-   	<string name="preference_notification_type_info_icon_enabled_summaryOff">The notification type icon will not be displayed.</string>
-
-	<!-- Notification Type Information Strings -->
-    <string name="notification_type_info_settings_text">Notification Type Info Settings</string>
-   	<string name="preference_notification_type_info_size">Notification Type Font Size</string>
-   	<string name="preference_notification_type_info_size_summary">Select the font size of the notification type information text.</string>
-
     <!-- Rate App Strings -->
    	<string name="rate_app_text">Rate App</string>
    	<string name="rate_app_summary">Rate this application.</string>
@@ -372,7 +380,7 @@
    	<string name="preference_export_preferences_finish_text">The application preferences have been exported.</string>
    	<string name="preference_export_preferences_error_text">The application preferences were not exported. Possible causes for this error include a missing SD Card or other SD card related issues which prevents this application from writing a file to the SD card location.</string>
     <string name="preference_import_preferences_title">Import Preferences</string>
-   	<string name="preference_import_preferences_summary">Import application preferences from your SD card.\n**YOU MUST RESTART THE PREFERENCES TO SEE THE PREFERENCE UPDATES**</string>
+   	<string name="preference_import_preferences_summary">Import application preferences from the SD card.\nThis screen will reload once the imported has completed.</string>
    	<string name="preference_import_preferences_progress_text">Importing Application Preferences...</string>
    	<string name="preference_import_preferences_finish_text">The application preferences have been imported.</string>
    	<string name="preference_import_preferences_error_text">The application preferences were not imported. Possible causes for this error include a missing preferences file, a missing SD Card or other SD card related issues which prevents this application from reading a file from the SD card location.</string>
