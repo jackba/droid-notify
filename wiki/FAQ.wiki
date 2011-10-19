@@ -12,7 +12,7 @@
  * [FAQ#Known_Issues_with_Pansi_SMS_&_Droid_Notify Known Issues with Pansi SMS & Droid Notify]
  * [FAQ#Known_Issues_with_Zlango_Messaging_&_Droid_Notify Known Issues with Zlango Messaging & Droid Notify]
  * [FAQ#Will_email_notifications_be_an_added_feature_in_Droid_Notify? Will email notifications be an added feature in Droid Notify?]
- * [FAQ#Will_Droid_Notify_display/notify_calendar_events_by_non_Android calendars? Will Droid Notify display/notify calendar events by non Android calendars?]
+ * [FAQ#Will_Droid_Notify_display/notify_calendar_events_by_non_Android_calendars? Will Droid Notify display/notify calendar events by non Android calendars?]
 
 
 ----
