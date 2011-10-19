@@ -15,9 +15,15 @@ Enable Droid Notify
 Basic Settings
  * Notification Theme
  * Phone Number Format
- * Placeholder Image
+ * Time Format
+ * Date Format
  * Display Button Icons
  * Hide Single Message Header
+ * Display Type Icon
+ * Type Font Size
+ * Contact Placeholder Image
+ * Contact Photo Background
+ * Contact Photo Size
  * Quick Reply Settings
   * Save Draft
   * Blur Screen Background
