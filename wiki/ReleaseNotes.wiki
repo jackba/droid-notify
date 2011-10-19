@@ -8,7 +8,7 @@
  * Updated the user ringtone preferences to include all ringtones, not just notification ringtones types.
  * Added a user preference to display 12 or 24 hour time formats.
  * Added a user preference for the date format.
- * 
+ * Added a user preference to customize the header items of notifications.
  * Fixed other small UI items.
 
 *v2.7* (October 17, 2011)
