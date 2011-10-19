@@ -478,7 +478,7 @@
 		<item name="2">2</item>
 	</string-array>
 	
-    <string-array name="message_body_font_size_options">
+    <string-array name="font_size_options">
 		<item name="0">@string/size_5_text</item>
 		<item name="1">@string/size_6_text</item>
 		<item name="2">@string/size_7_text</item>
@@ -501,7 +501,7 @@
 		<item name="19">@string/size_24_text</item>
 		<item name="20">@string/size_25_text</item>
 	</string-array>
-	<string-array name="message_body_font_size_options_values">
+	<string-array name="font_size_options_values">
 		<item name="0">5</item>
 		<item name="1">6</item>
 		<item name="2">7</item>

@@ -663,15 +663,17 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			buf.newLine();	
 			buf.append("hide_single_message_header_enabled|" + _preferences.getBoolean("hide_single_message_header_enabled", false) + "|boolean");
 			buf.newLine();	
+			buf.append("notification_type_info_icon_enabled|" + _preferences.getBoolean("notification_type_info_icon_enabled", true) + "|boolean");
+			buf.newLine();
+			buf.append("notification_type_info_font_size|" + _preferences.getString("notification_type_info_font_size", "5") + "|string");
+			buf.newLine();
 			buf.append("contact_placeholder|" + _preferences.getString("contact_placeholder", "0") + "|string");
 			buf.newLine();
 			buf.append("contact_photo_background|" + _preferences.getString("contact_photo_background", "0") + "|string");
 			buf.newLine();
 			buf.append("contact_photo_size|" + _preferences.getString("contact_photo_size", "80") + "|string");
 			buf.newLine();
-			buf.append("notification_type_info_icon_enabled|" + _preferences.getBoolean("notification_type_info_icon_enabled", true) + "|boolean");
-			buf.newLine();
-			buf.append("notification_type_info_font_size|" + _preferences.getString("notification_type_info_font_size", "5") + "|string");
+			buf.append("notification_body_font_size|" + _preferences.getString("notification_body_font_size", "14") + "|string");
 			buf.newLine();
 			
 			//Quick Reply Settings
@@ -724,9 +726,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			buf.append("sms_notification_in_call_vibrate_enabled|" + _preferences.getBoolean("sms_notification_in_call_vibrate_enabled", false) + "|boolean");
 			buf.newLine();
 
-			buf.append("sms_message_body_font_size|" + _preferences.getString("sms_message_body_font_size", "14") + "|string");
-			buf.newLine();
-			buf.append("sms_hide_message_body_enabled|" + _preferences.getBoolean("sms_hide_message_body_enabled", false) + "|boolean");
+			buf.append("sms_hide_notification_body_enabled|" + _preferences.getBoolean("sms_hide_notification_body_enabled", false) + "|boolean");
 			buf.newLine();
 			buf.append("confirm_sms_deletion_enabled|" + _preferences.getBoolean("confirm_sms_deletion_enabled", true) + "|boolean");
 			buf.newLine();
@@ -791,9 +791,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			buf.append("mms_notification_in_call_vibrate_enabled|" + _preferences.getBoolean("mms_notification_in_call_vibrate_enabled", false) + "|boolean");
 			buf.newLine();
 			
-			buf.append("mms_message_body_font_size|" + _preferences.getString("mms_message_body_font_size", "14") + "|string");
-			buf.newLine();
-			buf.append("mms_hide_message_body_enabled|" + _preferences.getBoolean("mms_hide_message_body_enabled", false) + "|boolean");
+			buf.append("mms_hide_notification_body_enabled|" + _preferences.getBoolean("mms_hide_notification_body_enabled", false) + "|boolean");
 			buf.newLine();
 			buf.append("confirm_mms_deletion_enabled|" + _preferences.getBoolean("confirm_mms_deletion_enabled", true) + "|boolean");
 			buf.newLine();
@@ -919,13 +917,13 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			buf.append("calendar_notification_in_call_vibrate_enabled|" + _preferences.getBoolean("calendar_notification_in_call_vibrate_enabled", false) + "|boolean");
 			buf.newLine();	
 			
+			buf.append("calendar_hide_notification_body_enabled|" + _preferences.getBoolean("calendar_hide_notification_body_enabled", false) + "|boolean");
+			buf.newLine();
 			buf.append("calendar_reminders_enabled|" + _preferences.getBoolean("calendar_reminders_enabled", true) + "|boolean");
 			buf.newLine();
 			buf.append("calendar_reminder_settings|" + _preferences.getString("calendar_reminder_settings", "15") + "|string");
 			buf.newLine();
 			buf.append("calendar_reminder_all_day_settings|" + _preferences.getString("calendar_reminder_all_day_settings", "6") + "|string");
-			buf.newLine();
-			buf.append("calendar_message_body_font_size|" + _preferences.getString("calendar_message_body_font_size", "14") + "|string");
 			buf.newLine();
 			buf.append("calendar_dismiss_button_action|" + _preferences.getString("calendar_dismiss_button_action", "") + "|string");
 			buf.newLine();
@@ -1021,6 +1019,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	        }else{
 	        	Toast.makeText(_context, _context.getString(R.string.preference_import_preferences_error_text), Toast.LENGTH_LONG).show();
 	        }
+	        reloadPreferenceActivity();
 	    }
 	}
 	
@@ -1421,6 +1420,21 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	    Intent intent = new Intent(_context, TwitterAuthenticationActivity.class);
 	    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_NO_HISTORY);
 	    startActivity(intent);
+	}
+	
+	//Reload Preference Activity
+	public void reloadPreferenceActivity() {
+		if (_debug) Log.v("MainPreferenceActivity.reloadPreferenceActivity()");
+		try{
+		    Intent intent = getIntent();
+		    overridePendingTransition(0, 0);
+		    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+		    finish();
+		    overridePendingTransition(0, 0);
+		    startActivity(intent);
+		}catch(Exception ex){
+			if (_debug) Log.e("MainPreferenceActivity.reloadPreferenceActivity() ERROR: " + ex.toString());
+		}
 	}
 
 }
