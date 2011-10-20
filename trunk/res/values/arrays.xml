@@ -500,6 +500,11 @@
 		<item name="18">@string/size_23_text</item>
 		<item name="19">@string/size_24_text</item>
 		<item name="20">@string/size_25_text</item>
+		<item name="21">@string/size_26_text</item>
+		<item name="22">@string/size_27_text</item>
+		<item name="23">@string/size_28_text</item>
+		<item name="24">@string/size_29_text</item>
+		<item name="25">@string/size_30_text</item>
 	</string-array>
 	<string-array name="font_size_options_values">
 		<item name="0">5</item>
@@ -523,6 +528,11 @@
 		<item name="18">23</item>
 		<item name="19">24</item>
 		<item name="20">25</item>
+		<item name="21">26</item>
+		<item name="22">27</item>
+		<item name="23">28</item>
+		<item name="24">29</item>
+		<item name="25">30</item>
 	</string-array>
 	
 	<!-- Contact Placeholder Image Arrays --> 

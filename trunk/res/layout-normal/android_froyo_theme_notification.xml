@@ -23,7 +23,7 @@
 	      	android:background="@drawable/btn_prev_arrow" />
 	    <TextView
 	    	android:id="@+id/notification_count_text_view"
-	    	android:layout_height="50dip"  
+	    	android:layout_height="50dp"  
 	    	android:layout_width="wrap_content" 
 	    	android:layout_alignParentTop="true"
 	    	android:layout_toRightOf="@+id/previous_button" 
@@ -74,7 +74,7 @@
 				android:layout_height="wrap_content"
 				android:layout_width="wrap_content"
 				android:layout_gravity="center_vertical|center_horizontal"
-				android:layout_margin="42dip"
+				android:layout_margin="42dp"
 				style="@android:style/Widget.ProgressBar.Small" />		
 			<LinearLayout
 				android:id="@+id/contact_info_wrapper_linear_layout"
@@ -82,7 +82,7 @@
 				android:layout_height="wrap_content"
 				android:layout_width="fill_parent"
 				android:layout_gravity="left"
-				android:paddingLeft="5dip">
+				android:paddingLeft="5dp">
 				<LinearLayout
 					android:id="@+id/contact_info_linear_layout"
 					android:layout_width="fill_parent"
@@ -101,7 +101,7 @@
 						android:layout_gravity="center_vertical"
 						android:textColorLink="@color/white"
 						android:textAppearance="?android:attr/textAppearanceSmall"
-						android:paddingLeft="5dip"/>
+						android:paddingLeft="5dp"/>
 				</LinearLayout>
 				<TextView
 					android:id="@+id/contact_name_text_view"
@@ -131,7 +131,7 @@
 			android:layout_gravity="center"
 			android:textAppearance="?android:attr/textAppearanceSmall"
 			android:gravity="center"
-			android:padding="15dip" 
+			android:padding="15dp" 
 			android:selectAllOnFocus="true" 
 			android:textColor="@color/white"
 			android:focusable="true" 
@@ -152,7 +152,7 @@
 			android:gravity="left" 
 			android:autoLink="all"
 			android:scrollbars="vertical"
-			android:padding="5dip" 
+			android:padding="5dp" 
 			android:selectAllOnFocus="true"/>
 	</LinearLayout>
 	<LinearLayout 
@@ -160,15 +160,15 @@
 		android:layout_height="wrap_content"
 		android:layout_width="fill_parent" 
 		android:layout_gravity="center_horizontal" 
-		android:padding="2dip" 
+		android:padding="2dp" 
 		android:gravity="center">
 		<Button
 			android:id="@+id/phone_dismiss_button"  
 			android:layout_height="wrap_content" 
 			android:layout_width="fill_parent"
 			android:layout_weight="1" 
-			android:layout_marginLeft="2dip"
-			android:layout_marginRight="2dip"
+			android:layout_marginLeft="2dp"
+			android:layout_marginRight="2dp"
 			android:gravity="center_vertical|center_horizontal"
 			android:drawableLeft="@drawable/ic_delete_grey"
 			android:hapticFeedbackEnabled="true"
@@ -180,8 +180,8 @@
 			android:layout_height="wrap_content" 
 			android:layout_width="fill_parent" 
 			android:layout_weight="1"
-			android:layout_marginLeft="2dip"
-			android:layout_marginRight="2dip"
+			android:layout_marginLeft="2dp"
+			android:layout_marginRight="2dp"
 			android:gravity="center_vertical|center_horizontal"
 			android:drawableLeft="@drawable/ic_call_green"
 			android:hapticFeedbackEnabled="true"
@@ -194,15 +194,15 @@
 		android:layout_height="wrap_content"
 		android:layout_width="fill_parent" 
 		android:layout_gravity="center_horizontal" 
-		android:padding="2dip" 
+		android:padding="2dp" 
 		android:gravity="center">
 		<Button
 			android:id="@+id/sms_dismiss_button"  
 			android:layout_height="wrap_content" 
 			android:layout_width="fill_parent"
 			android:layout_weight="1" 
-			android:layout_marginLeft="2dip"
-			android:layout_marginRight="2dip"
+			android:layout_marginLeft="2dp"
+			android:layout_marginRight="2dp"
 			android:gravity="center_vertical|center_horizontal"
 			android:drawableLeft="@drawable/ic_delete_grey"
 			android:hapticFeedbackEnabled="true"
@@ -214,8 +214,8 @@
 			android:layout_height="wrap_content" 
 			android:layout_width="fill_parent"
 			android:layout_weight="1" 
-			android:layout_marginLeft="2dip"
-			android:layout_marginRight="2dip"
+			android:layout_marginLeft="2dp"
+			android:layout_marginRight="2dp"
 			android:gravity="center_vertical|center_horizontal"
 			android:drawableLeft="@drawable/ic_delete_red"
 			android:hapticFeedbackEnabled="true"
@@ -227,8 +227,8 @@
 			android:layout_height="wrap_content" 
 			android:layout_width="fill_parent" 
 			android:layout_weight="1"
-			android:layout_marginLeft="2dip"
-			android:layout_marginRight="2dip"
+			android:layout_marginLeft="2dp"
+			android:layout_marginRight="2dp"
 			android:gravity="center_vertical|center_horizontal"
 			android:drawableLeft="@drawable/ic_conversation_grey_small"
 			android:hapticFeedbackEnabled="true"
@@ -241,15 +241,15 @@
 		android:layout_height="wrap_content"
 		android:layout_width="fill_parent" 
 		android:layout_gravity="center_horizontal" 
-		android:padding="2dip" 
+		android:padding="2dp" 
 		android:gravity="center">
 		<Button
 			android:id="@+id/calendar_dismiss_button"  
 			android:layout_height="wrap_content" 
 			android:layout_width="fill_parent"
 			android:layout_weight="1" 
-			android:layout_marginLeft="2dip"
-			android:layout_marginRight="2dip"
+			android:layout_marginLeft="2dp"
+			android:layout_marginRight="2dp"
 			android:gravity="center_vertical|center_horizontal"
 			android:drawableLeft="@drawable/ic_delete_grey"
 			android:hapticFeedbackEnabled="true"
@@ -261,8 +261,8 @@
 			android:layout_height="wrap_content" 
 			android:layout_width="fill_parent" 
 			android:layout_weight="1"
-			android:layout_marginLeft="2dip"
-			android:layout_marginRight="2dip"
+			android:layout_marginLeft="2dp"
+			android:layout_marginRight="2dp"
 			android:gravity="center_vertical|center_horizontal"
 			android:drawableLeft="@drawable/ic_calendar_event_grey"
 			android:hapticFeedbackEnabled="true"

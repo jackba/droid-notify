@@ -675,6 +675,14 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			buf.newLine();
 			buf.append("notification_body_font_size|" + _preferences.getString("notification_body_font_size", "14") + "|string");
 			buf.newLine();
+			buf.append("display_contact_name_enabled|" + _preferences.getBoolean("display_contact_name_enabled", true) + "|boolean");
+			buf.newLine();
+			buf.append("contact_name_font_size|" + _preferences.getString("contact_name_font_size", "22") + "|string");
+			buf.newLine();
+			buf.append("display_contact_number_enabled|" + _preferences.getBoolean("display_contact_number_enabled", true) + "|boolean");
+			buf.newLine();
+			buf.append("contact_number_font_size|" + _preferences.getString("contact_number_font_size", "18") + "|string");
+			buf.newLine();
 			
 			//Quick Reply Settings
 			buf.append("quick_reply_save_draft_enabled|" + _preferences.getBoolean("quick_reply_save_draft_enabled", true) + "|boolean");
@@ -1208,9 +1216,9 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 				quickReplySMSGatewayEnabled = true;
 			}
 			ListPreference quickReplySMSGateway = (ListPreference) findPreference(Constants.SMS_GATEWAY_KEY);
-			quickReplySMSGateway.setEnabled(quickReplySMSGatewayEnabled);
+			if(quickReplySMSGateway != null) quickReplySMSGateway.setEnabled(quickReplySMSGatewayEnabled);
 			PreferenceScreen quickReplyPreferenceScreen = (PreferenceScreen) findPreference(Constants.QUICK_REPLY_SETTINGS_SCREEN);
-			quickReplyPreferenceScreen.setEnabled(quickReplySMSGatewayEnabled);
+			if(quickReplyPreferenceScreen != null) quickReplyPreferenceScreen.setEnabled(quickReplySMSGatewayEnabled);
 		}catch(Exception ex){
 			if (_debug) Log.e("MainPreferenceActivity.updateQuickReplySettings() ERROR: " + ex.toString());
 		}

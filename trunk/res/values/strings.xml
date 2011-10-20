@@ -77,6 +77,16 @@
     <string name="notification_type_info_settings_text">Type Info Settings</string>
    	<string name="preference_notification_type_info_size">Type Font Size</string>
    	<string name="preference_notification_type_info_size_summary">Select the font size of the notification type information text.</string>
+   	<string name="preference_hide_contact_name_enabled_title">Display Contact Name</string>
+   	<string name="preference_hide_contact_name_enabled_summaryOn">The contact name will be displayed.</string>
+   	<string name="preference_hide_contact_name_enabled_summaryOff">The contact name will not be displayed.</string>
+   	<string name="preference_contact_name_font_size_title">Contact Name Font Size</string>
+   	<string name="preference_contact_name_font_size_summary">Select the font size of the contact name text.</string>
+   	<string name="preference_hide_contact_number_enabled_title">Display Contact Number</string>
+   	<string name="preference_hide_contact_number_enabled_summaryOn">The contact number will be displayed.</string>
+   	<string name="preference_hide_contact_number_enabled_summaryOff">The contact number will not be displayed.</string>
+   	<string name="preference_contact_number_font_size_title">Contact Number Font Size</string>
+   	<string name="preference_contact_number_font_size_summary">Select the font size of the contact number text.</string>   	
     
    	<!-- Contact Strings -->
    	<string name="contact_display_settings_text">Contact Display Settings</string>
@@ -380,7 +390,7 @@
    	<string name="preference_export_preferences_finish_text">The application preferences have been exported.</string>
    	<string name="preference_export_preferences_error_text">The application preferences were not exported. Possible causes for this error include a missing SD Card or other SD card related issues which prevents this application from writing a file to the SD card location.</string>
     <string name="preference_import_preferences_title">Import Preferences</string>
-   	<string name="preference_import_preferences_summary">Import application preferences from the SD card.\nThis screen will reload once the imported has completed.</string>
+   	<string name="preference_import_preferences_summary">Import application preferences from the SD card.\nThe preference screens will reload once the import has completed.</string>
    	<string name="preference_import_preferences_progress_text">Importing Application Preferences...</string>
    	<string name="preference_import_preferences_finish_text">The application preferences have been imported.</string>
    	<string name="preference_import_preferences_error_text">The application preferences were not imported. Possible causes for this error include a missing preferences file, a missing SD Card or other SD card related issues which prevents this application from reading a file from the SD card location.</string>
@@ -656,7 +666,12 @@
   	<string name="size_22_text">Size 22</string>   	
   	<string name="size_23_text">Size 23</string>   	
   	<string name="size_24_text">Size 24</string>   	
-  	<string name="size_25_text">Size 25</string> 
+  	<string name="size_25_text">Size 25</string>   	
+  	<string name="size_26_text">Size 26</string>   	
+  	<string name="size_27_text">Size 27</string>   	
+  	<string name="size_28_text">Size 28</string>   	
+  	<string name="size_29_text">Size 29</string>   	
+  	<string name="size_30_text">Size 30</string> 
   	
   	<string name="minus12_hours_text">-12 Hours</string>
   	<string name="minus11_hours_text">-11 Hours</string>

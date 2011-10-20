@@ -76,6 +76,16 @@ public class Constants {
     public static final String CONTACT_PHOTO_BACKGKROUND_KEY = "contact_photo_background";
 	public static final String CONTACT_PHOTO_SIZE_KEY = "contact_photo_size";
 	public static final String CONTACT_PHOTO_SIZE_DEFAULT = "80";
+	
+	//-----CONTACT NAME CONSTANTS-----//
+	public static final String CONTACT_NAME_DISPLAY_KEY = "display_contact_name_enabled";
+	public static final String CONTACT_NAME_SIZE_KEY = "contact_name_font_size";
+	public static final String CONTACT_NAME_SIZE_DEFAULT = "22";
+	
+	//-----CONTACT NUMBER CONSTANTS-----//
+	public static final String CONTACT_NUMBER_DISPLAY_KEY = "display_contact_number_enabled";
+	public static final String CONTACT_NUMBER_SIZE_KEY = "contact_number_font_size";
+	public static final String CONTACT_NUMBER_SIZE_DEFAULT = "18";
     
 	public static final int DIALOG_DELETE_MESSAGE = 0;
 	
