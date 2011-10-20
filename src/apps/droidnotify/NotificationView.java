@@ -16,6 +16,7 @@ import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.text.Html;
 import android.text.method.ScrollingMovementMethod;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.HapticFeedbackConstants;
 import android.view.View;
@@ -475,16 +476,28 @@ public class NotificationView extends LinearLayout {
 				_notificationDetailsTextView.setVisibility(View.GONE);
 			}else{
 				//Set Message Body Font
-				_notificationDetailsTextView.setTextSize(Float.parseFloat(_preferences.getString(Constants.NOTIFICATION_BODY_FONT_SIZE_KEY, Constants.NOTIFICATION_BODY_FONT_SIZE_DEFAULT)));
+				_notificationDetailsTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, Float.parseFloat(_preferences.getString(Constants.NOTIFICATION_BODY_FONT_SIZE_KEY, Constants.NOTIFICATION_BODY_FONT_SIZE_DEFAULT)));
 			}
 		}else{
-			_contactNameTextView.setText(notification.getContactName());
-			String sentFromAddress = notification.getSentFromAddress();
-		    if(sentFromAddress.contains("@")){
-		    	_contactNumberTextView.setText(sentFromAddress);
-		    }else{
-		    	_contactNumberTextView.setText(Common.formatPhoneNumber(_context, sentFromAddress));
-		    }
+			if(_preferences.getBoolean(Constants.CONTACT_NAME_DISPLAY_KEY, true)){
+				_contactNameTextView.setText(notification.getContactName());
+				_contactNameTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, Float.parseFloat(_preferences.getString(Constants.CONTACT_NAME_SIZE_KEY, Constants.CONTACT_NAME_SIZE_DEFAULT)));
+				_contactNameTextView.setVisibility(View.VISIBLE);
+			}else{
+				_contactNameTextView.setVisibility(View.GONE);
+			}		
+			if(_preferences.getBoolean(Constants.CONTACT_NUMBER_DISPLAY_KEY, true)){
+				String sentFromAddress = notification.getSentFromAddress();
+			    if(sentFromAddress.contains("@")){
+			    	_contactNumberTextView.setText(sentFromAddress);
+			    }else{
+			    	_contactNumberTextView.setText(Common.formatPhoneNumber(_context, sentFromAddress));
+			    }
+			    _contactNumberTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, Float.parseFloat(_preferences.getString(Constants.CONTACT_NUMBER_SIZE_KEY, Constants.CONTACT_NUMBER_SIZE_DEFAULT)));
+			    _contactNumberTextView.setVisibility(View.VISIBLE);
+			}else{
+				_contactNumberTextView.setVisibility(View.GONE);
+			}
 		    //Add the Quick Contact Android Widget to the Contact Photo.
 		    setupQuickContact();
 		}
@@ -494,7 +507,7 @@ public class NotificationView extends LinearLayout {
 				_notificationDetailsTextView.setVisibility(View.GONE);
 			}else{
 				//Set Message Body Font
-				_notificationDetailsTextView.setTextSize(Float.parseFloat(_preferences.getString(Constants.NOTIFICATION_BODY_FONT_SIZE_KEY, Constants.NOTIFICATION_BODY_FONT_SIZE_DEFAULT)));
+				_notificationDetailsTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, Float.parseFloat(_preferences.getString(Constants.NOTIFICATION_BODY_FONT_SIZE_KEY, Constants.NOTIFICATION_BODY_FONT_SIZE_DEFAULT)));
 			}
 			//Contact Display Settings
 			if(_preferences.getBoolean(Constants.SMS_HIDE_CONTACT_PANEL_ENABLED_KEY, false)){
@@ -537,7 +550,7 @@ public class NotificationView extends LinearLayout {
 				//Display MMS Link
 				_mmsLinkTextView.setVisibility(View.VISIBLE);
 				//Set Message Body Font
-				_mmsLinkTextView.setTextSize(Float.parseFloat(_preferences.getString(Constants.NOTIFICATION_BODY_FONT_SIZE_KEY, Constants.NOTIFICATION_BODY_FONT_SIZE_DEFAULT)));
+				_mmsLinkTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, Float.parseFloat(_preferences.getString(Constants.NOTIFICATION_BODY_FONT_SIZE_KEY, Constants.NOTIFICATION_BODY_FONT_SIZE_DEFAULT)));
 			}
 			//Contact Display Settings
 			if(_preferences.getBoolean(Constants.MMS_HIDE_CONTACT_PANEL_ENABLED_KEY, false)){
@@ -732,7 +745,7 @@ public class NotificationView extends LinearLayout {
 		}else{
 			_notificationIconImageView.setVisibility(View.GONE);
 		}
-		_notificationInfoTextView.setTextSize(Float.parseFloat(_preferences.getString(Constants.NOTIFICATION_TYPE_INFO_FONT_SIZE_KEY, Constants.NOTIFICATION_TYPE_INFO_FONT_SIZE_DEFAULT)));
+		_notificationInfoTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, Float.parseFloat(_preferences.getString(Constants.NOTIFICATION_TYPE_INFO_FONT_SIZE_KEY, Constants.NOTIFICATION_TYPE_INFO_FONT_SIZE_DEFAULT)));
 	    _notificationInfoTextView.setText(receivedAtText);
 	}
 	
