@@ -8,7 +8,7 @@
  * Updated the user ringtone preferences to include all ringtones, not just notification ringtones types.
  * Added user preferences to select time and date formats.
  * Added user preferences to customize the header items of notifications.
- * Fixed other small UI items.
+ * Fixed other small bugs & UI items.
 
 *v2.7* (October 17, 2011)
  * Fixed the "Hide Single Message Header" user preference option.
