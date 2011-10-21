@@ -37,13 +37,16 @@ import android.graphics.Bitmap.Config;
 import android.graphics.PorterDuff.Mode;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnCompletionListener;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.telephony.SmsMessage;
+import android.view.View;
 import android.widget.Toast;
 
 import apps.droidnotify.NotificationActivity;
@@ -65,10 +68,11 @@ public class Common {
     // Properties
     //================================================================================
 	
-	private static boolean _debug = false;
+	private static boolean _debug = false; 
+	private static Context _context = null; 
 	private static PowerManager.WakeLock _partialWakeLock = null;
 	private static PowerManager.WakeLock _wakeLock = null;
-	private static KeyguardLock _keyguardLock = null; 
+	private static KeyguardLock _keyguardLock = null;
 	
 	//================================================================================
 	// Public Methods
@@ -1071,6 +1075,7 @@ public class Common {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.setStatusBarNotification() sentFromContactName: " + sentFromContactName + " sentFromAddress: " + sentFromAddress + " message: " + message);
 		try{
+			_context = context;
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 			//Stop if app is disabled.
 			if(!preferences.getBoolean(Constants.APP_ENABLED_KEY, true)){
@@ -1329,7 +1334,6 @@ public class Common {
 			}
 			//Notification properties
 			Vibrator vibrator = null;
-			MediaPlayer mediaPlayer = null;
 			AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
 			boolean inNormalMode = audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL;
 			boolean inVibrateMode = audioManager.getRingerMode() == AudioManager.RINGER_MODE_VIBRATE;
@@ -1537,7 +1541,7 @@ public class Common {
 				}else{
 					try{
 						vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
-						vibrator.vibrate(vibrationPattern, 0);
+						vibrator.vibrate(vibrationPattern, -1);
 					}catch(Exception ex){
 						if (_debug) Log.e("Common.setStatusBarNotification() Notification Vibrator ERROR: " + ex.toString());
 					}
@@ -1554,12 +1558,11 @@ public class Common {
 				}
 			}else if(soundEnabled && !callStateIdle && soundInCallEnabled && inNormalMode){
 				try{
-					mediaPlayer = MediaPlayer.create(context,  Uri.parse(notificationSound));
-					mediaPlayer.setLooping(true);
-					mediaPlayer.start();
+					new playNotificationMediaFileAsyncTask().execute(notificationSound);
 				}catch(Exception ex){
 					if (_debug) Log.e("Common.setStatusBarNotification() Notification Sound Play ERROR: " + ex.toString());
 				}
+				
 			}
 			//Setup the notification LED lights
 			if(ledEnabled){
@@ -2494,6 +2497,52 @@ public class Common {
 		rescheduleIntent.setAction("apps.droidnotify.VIEW/RescheduleNotification/" + String.valueOf(notification.getTimeStamp()));
 		PendingIntent reschedulePendingIntent = PendingIntent.getBroadcast(context, 0, rescheduleIntent, 0);
 		alarmManager.set(AlarmManager.RTC_WAKEUP, rescheduleTime, reschedulePendingIntent);
+	}
+	
+	/**
+	 * Play a notification sound through the media player.
+	 * 
+	 * @author Camille Sévigny
+	 */
+	private static class playNotificationMediaFileAsyncTask extends AsyncTask<String, Void, Void> {
+	    
+	    /**
+	     * Do this work in the background.
+	     * 
+	     * @param params - The URI of the notification sound.
+	     */
+	    protected Void doInBackground(String... params) {
+			if (_debug) Log.v("Common.playNotificationMediaFileAsyncTask.doInBackground()");
+			MediaPlayer mediaPlayer = null;
+			try{
+				mediaPlayer = new MediaPlayer();
+				mediaPlayer.setLooping(false);
+				mediaPlayer.setDataSource(_context,  Uri.parse(params[0]));
+				mediaPlayer.prepare();
+				mediaPlayer.start();
+				mediaPlayer.setOnCompletionListener(new OnCompletionListener(){
+	                public void onCompletion(MediaPlayer mediaPlayer) {
+	                	mediaPlayer.release();
+	                	mediaPlayer = null;
+	                }
+				});	
+		    	return null;
+			}catch(Exception ex){
+				if (_debug) Log.e("Common.playNotificationMediaFileAsyncTask.doInBackground() ERROR: " + ex.toString());
+				mediaPlayer.release();
+            	mediaPlayer = null;
+				return null;
+			}
+	    }
+	    
+	    /**
+	     * Nothing needs to happen once the media file has been played.
+	     * 
+	     * @param result - Void.
+	     */
+	    protected void onPostExecute(Void result) {
+			if (_debug) Log.v("Common.playNotificationMediaFileAsyncTask.onPostExecute()");
+	    }
 	}
 	
 }
