@@ -8,6 +8,7 @@
  * Updated the user ringtone preferences to include all ringtones, not just notification ringtones types.
  * Added user preferences to select time and date formats.
  * Added user preferences to customize the header items of notifications.
+ * Fixed a bug in the In-Call settings that caused the sound and vibrations to repeat forever.
  * Fixed other small bugs & UI items.
 
 *v2.7* (October 17, 2011)
