@@ -3,7 +3,11 @@
 
 = Release Notes =
 
-*v2.8* _Coming Soon..._
+*v2.9* _Coming Soon..._
+ * 
+ * Fixed other small bugs
+
+*v2.8* (October 24, 2011)
  * Updated the MMS notifications. Added a "Click To View MMS Message" link in the notification since I am unable to parse MMS messages.
  * Updated the user ringtone preferences to include all ringtones, not just notification ringtones types.
  * Added user preferences to select time and date formats.
