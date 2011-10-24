@@ -299,9 +299,12 @@ public class NotificationActivity extends Activity {
 	 */
 	public void finishActivity() {
 		if (_debug) Log.v("NotificationActivity.finishActivity()");
-		//Release the KeyguardLock & WakeLock
-		Common.clearKeyguardLock();
-		Common.clearWakeLock();
+	    Common.clearKeyguardLock();
+	    setInReplyScreenFlag(false);
+		if(_preferences.getBoolean(Constants.CLEAR_STATUS_BAR_NOTIFICATIONS_ON_EXIT_KEY, false)){
+			Common.clearAllNotifications(_context);
+		}
+	    Common.clearWakeLock();
 	    // Finish the activity.
 	    finish();
 	}
@@ -753,6 +756,7 @@ public class NotificationActivity extends Activity {
 	protected void onStop() {
 	    super.onStop();
 	    if (_debug) Log.v("NotificationActivity.onStop()");
+	    finishActivity();
 	}
 	  
 	/**
