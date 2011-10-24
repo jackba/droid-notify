@@ -51,6 +51,7 @@ import android.widget.Toast;
 
 import apps.droidnotify.NotificationActivity;
 import apps.droidnotify.NotificationViewFlipper;
+import apps.droidnotify.QuickReplyActivity;
 import apps.droidnotify.RescheduleReceiver;
 import apps.droidnotify.log.Log;
 import apps.droidnotify.R;
@@ -575,11 +576,50 @@ public class Common {
 			}
 			Intent intent = new Intent(Intent.ACTION_CALL);
 	        intent.setData(Uri.parse("tel:" + phoneNumber));
+	        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 	        notificationActivity.startActivityForResult(intent, requestCode);
 		    return true;
 		}catch(Exception ex){
 			if (_debug) Log.e("Common.makePhoneCall() ERROR: " + ex.toString());
 			Toast.makeText(context, context.getString(R.string.app_android_phone_app_error), Toast.LENGTH_LONG).show();
+			return false;
+		}
+	}
+
+	/**
+	 * Start the intent for any android messaging application to send a reply.
+	 * 
+	 * @param context - Application Context.
+	 * @param notificationActivity - A reference to the parent activity.
+	 * @param phoneNumber - The phone number we want to send a message to.
+	 * @param requestCode - The request code we want returned.
+	 * 
+	 * @return boolean - Returns true if the activity can be started.
+	 */
+	public static boolean startMessagingQuickReplyActivity(Context context, NotificationActivity notificationActivity, String phoneNumber, String contactName, int requestCode){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.startMessagingQuickReplyActivity()");
+		if(phoneNumber == null){
+			Toast.makeText(context, context.getString(R.string.app_android_reply_messaging_address_error), Toast.LENGTH_LONG).show();
+			return false;
+		}
+		try{
+			Intent intent = new Intent(_context, QuickReplyActivity.class);
+	        //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+	        if (_debug) Log.v("NotificationView.replyToMessage() Put bundle in intent");
+		    intent.putExtra("smsPhoneNumber", phoneNumber);
+		    if(contactName != null && !contactName.equals( _context.getString(android.R.string.unknownName))){
+		    	intent.putExtra("smsName", contactName);
+		    }else{
+		    	intent.putExtra("smsName", "");
+		    }
+		    intent.putExtra("smsMessage", "");
+	        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+	        notificationActivity.startActivityForResult(intent, requestCode);
+	        return true;
+		}catch(Exception ex){
+			if (_debug) Log.e("Common.startMessagingQuickReplyActivity() ERROR: " + ex.toString());
+			Toast.makeText(context, context.getString(R.string.app_android_quick_reply_app_error), Toast.LENGTH_LONG).show();
 			return false;
 		}
 	}
@@ -606,6 +646,7 @@ public class Common {
 		    intent.setData(Uri.parse("smsto:" + phoneNumber));
 		    // Exit the app once the SMS is sent.
 		    intent.putExtra("compose_mode", true);
+	        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 	        notificationActivity.startActivityForResult(intent, requestCode);
 	        return true;
 		}catch(Exception ex){
@@ -635,6 +676,7 @@ public class Common {
 		try{
 			Intent intent = new Intent(Intent.ACTION_VIEW);
 		    intent.setData(Uri.parse("smsto:" + phoneNumber));
+	        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 	        notificationActivity.startActivityForResult(intent, requestCode);
 	        return true;
 		}catch(Exception ex){
@@ -660,6 +702,7 @@ public class Common {
 		try{
 			Intent intent = new Intent(Intent.ACTION_MAIN);
 		    intent.setType("vnd.android-dir/mms-sms");
+	        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 	        notificationActivity.startActivityForResult(intent, requestCode);
 	        return true;
 		}catch(Exception ex){
@@ -684,6 +727,7 @@ public class Common {
 		try{
 			Intent intent = new Intent(Intent.ACTION_VIEW);
 			intent.setType("vnd.android.cursor.dir/calls");
+	        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 			notificationActivity.startActivityForResult(intent, requestCode);
 			return true;
 		}catch(Exception ex){
@@ -714,6 +758,7 @@ public class Common {
 			Intent intent = new Intent(Intent.ACTION_VIEW);
 			Uri viewContactURI = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_URI, String.valueOf(contactID));
 		    intent.setData(viewContactURI);	
+	        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 		    notificationActivity.startActivityForResult(intent, requestCode);
 			return true;
 		}catch(Exception ex){
@@ -739,6 +784,7 @@ public class Common {
 			//Androids calendar app.
 			Intent intent = new Intent(Intent.ACTION_VIEW);
 			intent.setClassName("com.android.calendar", "com.android.calendar.LaunchActivity"); 
+	        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 			notificationActivity.startActivityForResult(intent, requestCode);
 			return true;
 		}catch(Exception e){
@@ -747,6 +793,7 @@ public class Common {
 				//HTC Sense UI calendar app.
 				Intent intent = new Intent(Intent.ACTION_MAIN); 
 				intent.setComponent(new ComponentName("com.htc.calendar", "com.htc.calendar.LaunchActivity"));
+		        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 				notificationActivity.startActivityForResult(intent, requestCode);
 				return true;
 			}catch(Exception ex){
@@ -773,6 +820,7 @@ public class Common {
 			//Androids calendar app.
 			Intent intent = new Intent(Intent.ACTION_EDIT);
 			intent.setType("vnd.android.cursor.item/event");
+	        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 			notificationActivity.startActivityForResult(intent, requestCode);
 			return true;
 		}catch(Exception e){
@@ -781,6 +829,7 @@ public class Common {
 				//HTC Sense UI calendar app.
 				Intent intent = new Intent(Intent.ACTION_EDIT);
 				intent.setComponent(new ComponentName("com.htc.calendar", "com.htc.calendar.EditEvent"));
+		        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 				notificationActivity.startActivityForResult(intent, requestCode);
 				return true;
 			}catch(Exception ex){
@@ -816,6 +865,7 @@ public class Common {
 			intent.setData(Uri.parse("content://com.android.calendar/events/" + String.valueOf(calendarEventID)));	
 			intent.putExtra(Constants.CALENDAR_EVENT_BEGIN_TIME, calendarEventStartTime);
 			intent.putExtra(Constants.CALENDAR_EVENT_END_TIME, calendarEventEndTime);
+	        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 			notificationActivity.startActivityForResult(intent, requestCode);
 			return true;
 		}catch(Exception ex){
@@ -850,6 +900,7 @@ public class Common {
 			intent.setData(Uri.parse("content://com.android.calendar/events/" + String.valueOf(calendarEventID)));	
 			intent.putExtra(Constants.CALENDAR_EVENT_BEGIN_TIME, calendarEventStartTime);
 			intent.putExtra(Constants.CALENDAR_EVENT_END_TIME, calendarEventEndTime);
+	        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 			notificationActivity.startActivityForResult(intent, requestCode);
 			return true;
 		}catch(Exception ex){
@@ -880,6 +931,7 @@ public class Common {
 			Intent intent = new Intent(Intent.ACTION_EDIT);
 			Uri viewContactURI = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_URI, String.valueOf(contactID));
 		    intent.setData(viewContactURI);	
+	        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 		    notificationActivity.startActivityForResult(intent, requestCode);
 			return true;
 		}catch(Exception ex){
@@ -910,6 +962,7 @@ public class Common {
 			}else{
 				intent.putExtra(ContactsContract.Intents.Insert.PHONE, sentFromAddress);
 			}
+	        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 		    notificationActivity.startActivityForResult(intent, requestCode);
 			return true;
 		}catch(Exception ex){
@@ -1604,7 +1657,7 @@ public class Common {
 	 * @param notificationType - The notification type.
 	 * @param totalNotifications - The total number of current notifications.
 	 */
-	public static void clearNotifications(Context context, NotificationViewFlipper notificationViewFlipper, int notificationType, int totalNotifications){
+	public static void clearNotification(Context context, NotificationViewFlipper notificationViewFlipper, int notificationType, int totalNotifications){
 		if(totalNotifications > 0){
 			if(!notificationViewFlipper.containsNotificationType(notificationType)){
 				removeStatusBarNotification(context, notificationType);

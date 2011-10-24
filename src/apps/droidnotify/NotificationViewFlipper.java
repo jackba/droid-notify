@@ -100,7 +100,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 		int notificationType = getActiveNotification().getNotificationType();
 		removeNotification(_currentNotification);
     	//Clear the status bar notification.
-    	Common.clearNotifications(_context, this, notificationType, _totalNotifications);
+    	Common.clearNotification(_context, this, notificationType, _totalNotifications);
 	}
 
 	/**
@@ -112,6 +112,16 @@ public class NotificationViewFlipper extends ViewFlipper {
 	public Notification getActiveNotification(){
 		if (_debug) Log.v("NotificationViewFlipper.getActiveMessage()");
 		return _notifications.get(_currentNotification);
+	}
+
+	/**
+	 * Return the total notification count.
+	 * 
+	 * @return int - The number of current notifications.
+	 */	
+	public int getTotalNotifications(){
+		if (_debug) Log.v("NotificationViewFlipper.getTotalNotifications()");
+		return _totalNotifications;
 	}
 	
 	/**

@@ -4,7 +4,6 @@ import java.io.InputStream;
 
 import android.content.ContentUris;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -779,29 +778,13 @@ public class NotificationView extends LinearLayout {
 						editor.putBoolean(Constants.USER_IN_MESSAGING_APP_KEY, true);
 						editor.commit();
 					}
-				}		
-				//Reply using the built in Quick Reply Activity.
-				if(_preferences.getString(Constants.SMS_REPLY_BUTTON_ACTION_KEY, "0").equals(Constants.SMS_QUICK_REPLY)){
-					try{
-						Intent intent = new Intent(_context, QuickReplyActivity.class);
-				        //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-				        if (_debug) Log.v("NotificationView.replyToMessage() Put bundle in intent");
-					    intent.putExtra("smsPhoneNumber", phoneNumber);
-					    if(_notification.getContactExists()){
-					    	intent.putExtra("smsName", _notification.getContactName());
-					    }else{
-					    	intent.putExtra("smsName", "");
-					    }
-					    intent.putExtra("smsMessage", "");
-				        _notificationActivity.startActivityForResult(intent, Constants.SEND_SMS_QUICK_REPLY_ACTIVITY);
+				}else if(_preferences.getString(Constants.SMS_REPLY_BUTTON_ACTION_KEY, "0").equals(Constants.SMS_QUICK_REPLY)){
+					//Reply using the built in Quick Reply Activity.
+					if(Common.startMessagingQuickReplyActivity(_context, _notificationActivity, phoneNumber, _notification.getContactName(), Constants.SEND_SMS_QUICK_REPLY_ACTIVITY)){	        
 						//Set "In Reply Screen" flag.
 						SharedPreferences.Editor editor = _preferences.edit();
 						editor.putBoolean(Constants.USER_IN_MESSAGING_APP_KEY, true);
 						editor.commit();
-					}catch(Exception ex){
-						if (_debug) Log.e("NotificationView.replyToMessage() Quick Reply ERROR: " + ex.toString());
-						Toast.makeText(_context, _context.getString(R.string.app_android_quick_reply_app_error), Toast.LENGTH_LONG).show();
-						return;
 					}
 				}
 				break;
@@ -815,29 +798,14 @@ public class NotificationView extends LinearLayout {
 						editor.putBoolean(Constants.USER_IN_MESSAGING_APP_KEY, true);
 						editor.commit();
 					}
-				}		
-				//Reply using the built in Quick Reply Activity.
-				if(_preferences.getString(Constants.MMS_REPLY_BUTTON_ACTION_KEY, "0").equals(Constants.MMS_QUICK_REPLY)){
-					try{
-						Intent intent = new Intent(_context, QuickReplyActivity.class);
-						//intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-				        if (_debug) Log.v("NotificationView.replyToMessage() Put bundle in intent");
-					    intent.putExtra("smsPhoneNumber", phoneNumber);
-					    if(_notification.getContactExists()){
-					    	intent.putExtra("smsName", _notification.getContactName());
-					    }else{
-					    	intent.putExtra("smsName", "");
-					    }
-					    intent.putExtra("smsMessage", "");
-				        _notificationActivity.startActivityForResult(intent, Constants.SEND_SMS_QUICK_REPLY_ACTIVITY);
+				}else if(_preferences.getString(Constants.MMS_REPLY_BUTTON_ACTION_KEY, "0").equals(Constants.MMS_QUICK_REPLY)){
+					//Reply using the built in Quick Reply Activity.
+					//Reply using the built in Quick Reply Activity.
+					if(Common.startMessagingQuickReplyActivity(_context, _notificationActivity, phoneNumber, _notification.getContactName(), Constants.SEND_SMS_QUICK_REPLY_ACTIVITY)){	        
 						//Set "In Reply Screen" flag.
 						SharedPreferences.Editor editor = _preferences.edit();
 						editor.putBoolean(Constants.USER_IN_MESSAGING_APP_KEY, true);
 						editor.commit();
-					}catch(Exception ex){
-						if (_debug) Log.e("NotificationView.replyToMessage() Quick Reply ERROR: " + ex.toString());
-						Toast.makeText(_context, _context.getString(R.string.app_android_quick_reply_app_error), Toast.LENGTH_LONG).show();
-						return;
 					}
 				}
 				break;
