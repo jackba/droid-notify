@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
@@ -38,10 +39,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-import apps.droidnotify.CalendarAlarmReceiver;
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
+import apps.droidnotify.receivers.CalendarAlarmReceiver;
 import apps.droidnotify.twitter.TwitterAuthenticationActivity;
 import apps.droidnotify.NotificationActivity;
 import apps.droidnotify.R;
@@ -1113,7 +1114,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
     		LayoutInflater layoutInflater = (LayoutInflater) _context.getSystemService(LAYOUT_INFLATER_SERVICE);
     		View view = layoutInflater.inflate(R.layout.html_alert_dialog, (ViewGroup) findViewById(R.id.content_scroll_view));		    		
     		TextView contentTextView = (TextView) view.findViewById(R.id.content_text_view);
-    		contentTextView.setText(Html.fromHtml(content));
+    		contentTextView.setText(Html.fromHtml(content.replace("&lt;", "<")));
     		contentTextView.setMovementMethod(LinkMovementMethod.getInstance());
     		AlertDialog.Builder builder = new AlertDialog.Builder(_context);
     		builder.setIcon(iconResource);

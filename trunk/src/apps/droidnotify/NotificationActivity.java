@@ -2,6 +2,7 @@ package apps.droidnotify;
 
 import java.util.ArrayList;
 
+
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
@@ -34,6 +35,7 @@ import apps.droidnotify.log.Log;
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
 import apps.droidnotify.preferences.MainPreferenceActivity;
+import apps.droidnotify.receivers.ScreenManagementAlarmReceiver;
 
 /**
  * This is the main activity that runs the notifications.

@@ -16,6 +16,9 @@ public class Constants {
 	public static final String MMS_NOTIFICATIONS_ENABLED_KEY = "mms_notifications_enabled";
 	public static final String PHONE_NOTIFICATIONS_ENABLED_KEY = "missed_call_notifications_enabled";
 	public static final String CALENDAR_NOTIFICATIONS_ENABLED_KEY = "calendar_notifications_enabled";
+	public static final String K9_NOTIFICATIONS_ENABLED_KEY = "k9_notifications_enabled";
+	public static final String TWITTER_NOTIFICATIONS_ENABLED_KEY = "twitter_call_notifications_enabled";
+	public static final String FACEBOOK_NOTIFICATIONS_ENABLED_KEY = "facebook_call_notifications_enabled";
 	public static final String HAPTIC_FEEDBACK_ENABLED_KEY = "haptic_feedback_enabled";
 	public static final String LANDSCAPE_SCREEN_ENABLED_KEY = "landscape_screen_enabled";	
 	public static final String BLUR_SCREEN_ENABLED_KEY = "blur_screen_background_enabled";
@@ -423,6 +426,9 @@ public class Constants {
 	
 	public static final String CALENDAR_STATUS_BAR_NOTIFICATIONS_ICON_SETTING_KEY = "notification_icon_calendar";
 	public static final String CALENDAR_STATUS_BAR_NOTIFICATIONS_ICON_DEFAULT = "status_bar_notification_calendar_blue";
+
+	//-----K9 STATUS BAR NOTIFICATION CONSTANTS-----//
+	public static final String K9_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY = "k9_status_bar_notifications_enabled";
 	
 	//-----GMAIL STATUS BAR NOTIFICATION CONSTANTS-----//
 	public static final String GMAIL_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY = "gmail_status_bar_notifications_enabled";
