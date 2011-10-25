@@ -3,9 +3,12 @@
 
 = Release Notes =
 
-*v2.9* _Coming Soon..._
+*v2.10* _Coming Soon..._
  * 
- * Fixed other small bugs
+
+*v2.9* (October 25, 2011)
+ * Added donation app to markets.
+ * Small bug fixes.
 
 *v2.8* (October 24, 2011)
  * Updated the MMS notifications. Added a "Click To View MMS Message" link in the notification since I am unable to parse MMS messages.
