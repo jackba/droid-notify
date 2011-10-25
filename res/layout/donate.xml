@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView 
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/content_scroll_view"
+    android:layout_height="fill_parent"
+    android:layout_width="fill_parent">
+	<LinearLayout
+		android:id="@+id/content_linear_layout"
+		android:layout_height="fill_parent"
+		android:layout_width="fill_parent"
+		android:orientation="vertical"
+		android:padding="5sp">
+		<TextView
+			android:id="@+id/content_text_view"
+			android:layout_height="wrap_content"
+			android:layout_width="fill_parent" 
+			android:textColor="@color/white" 
+			android:textColorLink="@color/white" 
+			android:autoLink="all"
+			android:scrollbars="vertical"
+			android:paddingLeft="5sp"
+			android:paddingRight="5sp"
+			android:paddingTop="5sp"
+			android:paddingBottom="10sp" 
+			android:text="@string/donate_description_text" />
+		<Button
+			android:id="@+id/donate_android_market_button"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:layout_gravity="center_horizontal"
+			android:text="@string/donate_via_android_market_text" />
+		<Button
+			android:id="@+id/donate_amazon_app_store_button"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:layout_gravity="center_horizontal"
+			android:text="@string/donate_via_amazon_app_store_text" />
+		<Button
+			android:id="@+id/donate_paypal_button"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:layout_gravity="center_horizontal"
+			android:text="@string/donate_via_paypal_text" />
+	</LinearLayout>
+</ScrollView>

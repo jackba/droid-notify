@@ -14,7 +14,16 @@
     <string name="cancel_text">Cancel</string>
     <string name="continue_text">Continue</string>
     <string name="dismiss_notification_text">Dismiss Notification</string>
-   	
+    
+    <!-- Donate To Project Strings -->
+    <string name="donate_text">Donate</string>
+    <string name="donate_to_droid_notify_text">Droid Notify Donations</string>
+    <string name="donate_summary">Donate to this project. Your donations help make the continued development and addition of new features possible.</string>
+    <string name="donate_description_text">Droid Notify is a free application that I develop in my spare time. Please consider donating to this project. Your donations help make the continued development and addition of new features possible.\n\nThank You!</string>
+   	<string name="donate_via_android_market_text">Donate via Android Market</string>
+   	<string name="donate_via_amazon_app_store_text">Donate via Amazon App Store</string>
+   	<string name="donate_via_paypal_text">Donate via PayPal</string>
+        
     <!-- Error Message Strings -->
     <string name="app_android_messaging_app_error">The Android Messaging application could not be started.</string>
 	<string name="app_android_phone_app_error">The Android Phone application could not be started.</string>
