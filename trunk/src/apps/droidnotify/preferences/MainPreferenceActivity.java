@@ -228,7 +228,6 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	@Override
 	protected Dialog onCreateDialog(int id) {
 		if (_debug) Log.v("MainPreferenceActivity.onCreateDialog()");
-		AlertDialog alertDialog = null;
 		switch (id) {
 	        /*
 	         * Donate dialog.
@@ -237,13 +236,19 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 				if (_debug) Log.v("MainPreferenceActivity.onCreateDialog() DIALOG_DONATE");
 				LayoutInflater factory = getLayoutInflater();
 		        final View donateView = factory.inflate(R.layout.donate, null);
+				AlertDialog.Builder builder = new AlertDialog.Builder(this);
+				builder.setView(donateView);
+				builder.setIcon(R.drawable.ic_launcher_droidnotify);
+				builder.setTitle(_context.getString(R.string.donate_to_droid_notify_text));
+				final AlertDialog alertDialog = builder.create();
 		        Button donateAndroidButton = (Button) donateView.findViewById(R.id.donate_android_market_button);
 		        if(Log.getShowAndroidRateAppLink()){
 			        donateAndroidButton.setOnClickListener(new OnClickListener(){
-			        	public void onClick(View v) {
+			        	public void onClick(View view) {
 			        		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.DONATE_APP_ANDROID_URL));			    	
 					    	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_NO_HISTORY);
 				    		startActivity(intent);
+				    		alertDialog.dismiss();
 			        	}
 			        });
 		        }else{
@@ -252,10 +257,11 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		        Button donateAmazonButton = (Button) donateView.findViewById(R.id.donate_amazon_app_store_button);
 		        if(Log.getShowAmazonRateAppLink()){
 			        donateAmazonButton.setOnClickListener(new OnClickListener(){
-				    	public void onClick(View v) {
+				    	public void onClick(View view) {
 			        		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.DONATE_APP_AMAZON_URL));			    	
 					    	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_NO_HISTORY);
 				    		startActivity(intent);
+				    		alertDialog.dismiss();
 				    	}
 				    });
 		        }else{
@@ -263,21 +269,17 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		        }
 		        Button donatePaypalButton = (Button) donateView.findViewById(R.id.donate_paypal_button);
 		        donatePaypalButton.setOnClickListener(new OnClickListener() {
-		          public void onClick(View v) {
+		          public void onClick(View view) {
 		        		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.DONATE_PAYPAL_URL));			    	
 				    	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_NO_HISTORY);
 			    		startActivity(intent);
+			    		alertDialog.dismiss();
 		          }
 		        });
-				AlertDialog.Builder builder = new AlertDialog.Builder(this);
-				builder.setView(donateView);
-				builder.setIcon(R.drawable.ic_launcher_droidnotify);
-				builder.setTitle(_context.getString(R.string.donate_to_droid_notify_text));
-				alertDialog = builder.create();
-				break;
+				return alertDialog;
 			}
 		}
-		return alertDialog;
+		return super.onCreateDialog(id);
 	}
 	
 	//================================================================================
