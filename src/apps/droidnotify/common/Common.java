@@ -11,6 +11,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.TimeZone;
 
+
 import android.app.ActivityManager;
 import android.app.AlarmManager;
 import android.app.KeyguardManager;
@@ -52,8 +53,8 @@ import android.widget.Toast;
 import apps.droidnotify.NotificationActivity;
 import apps.droidnotify.NotificationViewFlipper;
 import apps.droidnotify.QuickReplyActivity;
-import apps.droidnotify.RescheduleReceiver;
 import apps.droidnotify.log.Log;
+import apps.droidnotify.receivers.RescheduleReceiver;
 import apps.droidnotify.R;
 
 /**
