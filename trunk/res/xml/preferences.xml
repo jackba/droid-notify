@@ -1438,7 +1438,11 @@
     </PreferenceCategory>       	
 	<PreferenceCategory
 		android:key="app_feedback_category"
-		android:title="@string/feedback_text">
+		android:title="@string/feedback_text"> 	
+		<Preference
+            android:key="donate_to_project"
+        	android:title="@string/donate_text"
+          	android:summary="@string/donate_summary" />
 		<Preference
             android:key="email_developer"
         	android:title="@string/email_developer_text"

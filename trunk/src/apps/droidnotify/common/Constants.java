@@ -91,6 +91,7 @@ public class Constants {
 	public static final String CONTACT_NUMBER_SIZE_DEFAULT = "18";
     
 	public static final int DIALOG_DELETE_MESSAGE = 0;
+	public static final int DIALOG_DONATE = 100;
 	
 	//Staring Array of the top SMS Messaging Apps:
 	// Android Stock App
@@ -301,11 +302,15 @@ public class Constants {
 	//-----FACEBOOK NOTIFICATION CONSTANTS-----//
 	
 	
-	//-----APPLICATION RATING CONSTANTS-----//
+	//-----APPLICATION URL CONSTANTS-----//
 	//Android Market URL
 	public static final String RATE_APP_ANDROID_URL = "http://market.android.com/details?id=apps.droidnotify";
+	public static final String DONATE_APP_ANDROID_URL = "http://market.android.com/details?id=apps.droidnotifydonate";
 	//Amazon Appstore URL
 	public static final String RATE_APP_AMAZON_URL = "http://www.amazon.com/gp/mas/dl/android?p=apps.droidnotify";
+	public static final String DONATE_APP_AMAZON_URL = "http://www.amazon.com/gp/mas/dl/android?p=apps.droidnotifydonate";
+	//PayPal URL
+	public static final String DONATE_PAYPAL_URL = "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=43V2NJQH5BQAA";
 	
 	//-----EULA CONSTANTS-----//
 	public static final String RUN_ONCE_EULA = "runOnceEula";

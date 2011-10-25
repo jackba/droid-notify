@@ -7,9 +7,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-
-import android.app.AlarmManager;
+import android.app.Dialog;
 import android.app.AlertDialog;
+import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -36,7 +36,9 @@ import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import apps.droidnotify.common.Common;
@@ -215,6 +217,68 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	    super.onDestroy();
 	    if (_debug) Log.v("MainPreferenceActivity.onDestroy()");
 	}
+
+	/**
+	 * Create new Dialog.
+	 * 
+	 * @param id - ID of the Dialog that we want to display.
+	 * 
+	 * @return Dialog - Popup Dialog created.
+	 */
+	@Override
+	protected Dialog onCreateDialog(int id) {
+		if (_debug) Log.v("MainPreferenceActivity.onCreateDialog()");
+		AlertDialog alertDialog = null;
+		switch (id) {
+	        /*
+	         * Donate dialog.
+	         */
+			case Constants.DIALOG_DONATE:{
+				if (_debug) Log.v("MainPreferenceActivity.onCreateDialog() DIALOG_DONATE");
+				LayoutInflater factory = getLayoutInflater();
+		        final View donateView = factory.inflate(R.layout.donate, null);
+		        Button donateAndroidButton = (Button) donateView.findViewById(R.id.donate_android_market_button);
+		        if(Log.getShowAndroidRateAppLink()){
+			        donateAndroidButton.setOnClickListener(new OnClickListener(){
+			        	public void onClick(View v) {
+			        		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.DONATE_APP_ANDROID_URL));			    	
+					    	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_NO_HISTORY);
+				    		startActivity(intent);
+			        	}
+			        });
+		        }else{
+		        	donateAndroidButton.setVisibility(View.GONE);
+		        }
+		        Button donateAmazonButton = (Button) donateView.findViewById(R.id.donate_amazon_app_store_button);
+		        if(Log.getShowAmazonRateAppLink()){
+			        donateAmazonButton.setOnClickListener(new OnClickListener(){
+				    	public void onClick(View v) {
+			        		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.DONATE_APP_AMAZON_URL));			    	
+					    	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_NO_HISTORY);
+				    		startActivity(intent);
+				    	}
+				    });
+		        }else{
+		        	donateAmazonButton.setVisibility(View.GONE);
+		        }
+		        Button donatePaypalButton = (Button) donateView.findViewById(R.id.donate_paypal_button);
+		        donatePaypalButton.setOnClickListener(new OnClickListener() {
+		          public void onClick(View v) {
+		        		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.DONATE_PAYPAL_URL));			    	
+				    	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_NO_HISTORY);
+			    		startActivity(intent);
+		          }
+		        });
+				AlertDialog.Builder builder = new AlertDialog.Builder(this);
+				builder.setView(donateView);
+				builder.setIcon(R.drawable.ic_launcher_droidnotify);
+				builder.setTitle(_context.getString(R.string.donate_to_droid_notify_text));
+				alertDialog = builder.create();
+				break;
+			}
+		}
+		return alertDialog;
+	}
 	
 	//================================================================================
 	// Private Methods
@@ -311,14 +375,33 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		    	if (_debug) Log.v("Rate This App Button Clicked()");
 		    	try{
 			    	String rateAppURL = "";
-			    	if(Log.getShowAndroidRateAppLink()) rateAppURL = Constants.RATE_APP_ANDROID_URL;
-			    	if(Log.getShowAmazonRateAppLink()) rateAppURL = Constants.RATE_APP_AMAZON_URL;
+			    	if(Log.getShowAndroidRateAppLink()){
+			    		rateAppURL = Constants.RATE_APP_ANDROID_URL;
+			    	}else if(Log.getShowAmazonRateAppLink()){
+			    		rateAppURL = Constants.RATE_APP_AMAZON_URL;
+			    	}else{
+			    		rateAppURL = "";
+			    	}
 			    	Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(rateAppURL));			    	
-			    	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+			    	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_NO_HISTORY);
 		    		startActivity(intent);
 		    	}catch(Exception ex){
 	 	    		if (_debug) Log.e("MainPreferenceActivity.setupCustomPreferences() Rate This App Button ERROR: " + ex.toString());
 	 	    		Toast.makeText(_context, _context.getString(R.string.app_android_rate_app_error), Toast.LENGTH_SHORT).show();
+	 	    		return false;
+		    	}
+	            return true;
+           }
+		});
+		//Donate Preference/Button
+		Preference donatePref = (Preference)findPreference("donate_to_project");
+		donatePref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+        	public boolean onPreferenceClick(Preference preference) {
+		    	if (_debug) Log.v("Donate Button Clicked()");
+		    	try{
+		    		showDialog(Constants.DIALOG_DONATE);
+		    	}catch(Exception ex){
+	 	    		if (_debug) Log.e("MainPreferenceActivity.setupCustomPreferences() Donate Button ERROR: " + ex.toString());
 	 	    		return false;
 		    	}
 	            return true;
@@ -356,6 +439,36 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
         	public boolean onPreferenceClick(Preference preference) {
 		    	if (_debug) Log.v("License Button Clicked()");
 	            return displayHTMLAlertDialog(_context.getString(R.string.app_license),R.drawable.ic_dialog_info,_context.getString(R.string.eula_text));
+           }
+		});
+		//Export Preferences Preference/Button
+		Preference exportPreferencesPref = (Preference)findPreference("export_preferences");
+		exportPreferencesPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+        	public boolean onPreferenceClick(Preference preference) {
+		    	if (_debug) Log.v("Export Preferences Button Clicked()");
+		    	try{
+			    	//Run this process in the background in an AsyncTask.
+			    	new exportPreferencesAsyncTask().execute();
+		    	}catch(Exception ex){
+	 	    		if (_debug) Log.e("MainPreferenceActivity.setupCustomPreferences() Export Preferences Button ERROR: " + ex.toString());
+	 	    		return false;
+		    	}
+	            return true;
+           }
+		});
+		//Import Preferences Preference/Button
+		Preference importPreferencesPref = (Preference)findPreference("import_preferences");
+		importPreferencesPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+        	public boolean onPreferenceClick(Preference preference) {
+		    	if (_debug) Log.v("Import Preferences Button Clicked()");
+		    	try{
+			    	//Run this process in the background in an AsyncTask.
+			    	new importPreferencesAsyncTask().execute();
+		    	}catch(Exception ex){
+	 	    		if (_debug) Log.e("MainPreferenceActivity.setupCustomPreferences() Import Preferences Button ERROR: " + ex.toString());
+	 	    		return false;
+		    	}
+	            return true;
            }
 		});
 		//Email Developer Logs Preference/Button
@@ -407,36 +520,6 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	            return true;
            }
 		});
-		//Export Preferences Preference/Button
-		Preference exportPreferencesPref = (Preference)findPreference("export_preferences");
-		exportPreferencesPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-        	public boolean onPreferenceClick(Preference preference) {
-		    	if (_debug) Log.v("Export Preferences Button Clicked()");
-		    	try{
-			    	//Run this process in the background in an AsyncTask.
-			    	new exportPreferencesAsyncTask().execute();
-		    	}catch(Exception ex){
-	 	    		if (_debug) Log.e("MainPreferenceActivity.setupCustomPreferences() Export Preferences Button ERROR: " + ex.toString());
-	 	    		return false;
-		    	}
-	            return true;
-           }
-		});
-		//Import Preferences Preference/Button
-		Preference importPreferencesPref = (Preference)findPreference("import_preferences");
-		importPreferencesPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-        	public boolean onPreferenceClick(Preference preference) {
-		    	if (_debug) Log.v("Import Preferences Button Clicked()");
-		    	try{
-			    	//Run this process in the background in an AsyncTask.
-			    	new importPreferencesAsyncTask().execute();
-		    	}catch(Exception ex){
-	 	    		if (_debug) Log.e("MainPreferenceActivity.setupCustomPreferences() Import Preferences Button ERROR: " + ex.toString());
-	 	    		return false;
-		    	}
-	            return true;
-           }
-		});
 	}
 	
 	/**
@@ -460,8 +543,13 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	private void setupRateAppPreference(){
 		if (_debug) Log.v("MainPreferenceActivity.setupRateAppPreference()");
 		boolean showRateAppCategory = false;
-		if(Log.getShowAndroidRateAppLink()) showRateAppCategory = true;
-		if(Log.getShowAmazonRateAppLink()) showRateAppCategory = true;
+		if(Log.getShowAndroidRateAppLink()){
+			showRateAppCategory = true;
+		}else if(Log.getShowAmazonRateAppLink()){
+			showRateAppCategory = true;
+		}else{
+			showRateAppCategory = false;
+		}
 		if(!showRateAppCategory){
 			PreferenceScreen mainPreferences = this.getPreferenceScreen();
 			PreferenceCategory rateAppCategory = (PreferenceCategory) findPreference("rate_app_category");
