@@ -66,16 +66,17 @@ If you want to use Zlango Messaging, you must follow the steps below in order fo
 
 ==Will email notifications be an added feature in Droid Notify?==
 
-The answer is... it depends (possibly).
+The answer is...it depends...(possibly).
 
 At this time the Email content on Android phones is secure and 3rd party apps cannot read the phones emails. The only solution to this is to develop an email client which is out of the scope of this project.
 
 I will look into the Gmail api and see if we can read Gmail email as an alternative.
 
+I think that the K-9 and Kaiten email clients will gain support for notifications in the near future...stay tuned!
 
 ==Will Droid Notify display calendar events by non Android calendars?==
 
-The answer is... it depends.
+The answer is...it depends.
 
 Developer apps have the ability to read the Google Calendar that is build into the Android OS. If the calendar app syncs all the information to the Google Calendar, then Droid Notify will read the Google Calendar and notify you of the events. On the other hand if the calendar app keeps it's own calendar, then developer apps can't access that data and so Droid Notify won't notify you of the calendar events.
 
