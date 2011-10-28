@@ -59,6 +59,7 @@ public class NotificationView extends LinearLayout {
 	private LinearLayout _phoneButtonLinearLayout = null;
 	private LinearLayout _smsButtonLinearLayout = null;
 	private LinearLayout _calendarButtonLinearLayout = null;
+	private LinearLayout _emailButtonLinearLayout = null;
 	private LinearLayout _contactLinearLayout = null;
 	private ImageView _photoImageView = null;
 	private ProgressBar _photoProgressBar = null;
@@ -124,6 +125,7 @@ public class NotificationView extends LinearLayout {
 	    _phoneButtonLinearLayout = (LinearLayout) findViewById(R.id.phone_button_linear_layout);
 	    _smsButtonLinearLayout = (LinearLayout) findViewById(R.id.sms_button_linear_layout);
 	    _calendarButtonLinearLayout = (LinearLayout) findViewById(R.id.calendar_button_linear_layout);
+	    _emailButtonLinearLayout = (LinearLayout) findViewById(R.id.email_button_linear_layout);
 		_contactLinearLayout = (LinearLayout) findViewById(R.id.contact_wrapper_linear_layout);
 		_notificationViewFlipper = _notificationActivity.getNotificationViewFlipper();
 	}
@@ -139,6 +141,7 @@ public class NotificationView extends LinearLayout {
 			int phoneButtonLayoutVisibility = View.GONE;
 			int smsButtonLayoutVisibility = View.GONE;
 			int calendarButtonLayoutVisibility = View.GONE;
+			int emailButtonLayoutVisibility = View.GONE;
 			// Previous Button
 	    	final Button previousButton = (Button) findViewById(R.id.previous_button);
 			previousButton.setOnClickListener(new OnClickListener() {
@@ -176,6 +179,7 @@ public class NotificationView extends LinearLayout {
 			    	phoneButtonLayoutVisibility = View.VISIBLE;
 			    	smsButtonLayoutVisibility = View.GONE;
 			    	calendarButtonLayoutVisibility = View.GONE;
+			    	emailButtonLayoutVisibility = View.GONE;
 					// Dismiss Button
 			    	final Button phoneDismissButton = (Button) findViewById(R.id.phone_dismiss_button);
 			    	if(_preferences.getBoolean(Constants.PHONE_HIDE_DISMISS_BUTTON_KEY, false)){
@@ -243,6 +247,7 @@ public class NotificationView extends LinearLayout {
 			    	phoneButtonLayoutVisibility = View.GONE;
 			    	smsButtonLayoutVisibility = View.VISIBLE;
 			    	calendarButtonLayoutVisibility = View.GONE;
+			    	emailButtonLayoutVisibility = View.GONE;
 					// Dismiss Button
 			    	final Button smsDismissButton = (Button) findViewById(R.id.sms_dismiss_button);
 			    	if(_preferences.getBoolean(Constants.SMS_HIDE_DISMISS_BUTTON_KEY, false)){
@@ -334,6 +339,7 @@ public class NotificationView extends LinearLayout {
 			    	phoneButtonLayoutVisibility = View.GONE;
 			    	smsButtonLayoutVisibility = View.VISIBLE;
 			    	calendarButtonLayoutVisibility = View.GONE;
+			    	emailButtonLayoutVisibility = View.GONE;
 					// Dismiss Button
 			    	final Button mmsDismissButton = (Button) findViewById(R.id.sms_dismiss_button);
 			    	if(_preferences.getBoolean(Constants.MMS_HIDE_DISMISS_BUTTON_KEY, false)){
@@ -399,6 +405,7 @@ public class NotificationView extends LinearLayout {
 			    	phoneButtonLayoutVisibility = View.GONE;
 			    	smsButtonLayoutVisibility = View.GONE;
 			    	calendarButtonLayoutVisibility = View.VISIBLE;
+			    	emailButtonLayoutVisibility = View.GONE;
 					// Dismiss Button
 			    	final Button calendarDismissButton = (Button) findViewById(R.id.calendar_dismiss_button);
 			    	if(_preferences.getBoolean(Constants.CALENDAR_HIDE_DISMISS_BUTTON_KEY, false)){
@@ -462,10 +469,11 @@ public class NotificationView extends LinearLayout {
 					}
 					//Display the correct navigation buttons for each notification type.
 			    	phoneButtonLayoutVisibility = View.GONE;
-			    	smsButtonLayoutVisibility = View.VISIBLE;
+			    	smsButtonLayoutVisibility = View.GONE;
 			    	calendarButtonLayoutVisibility = View.GONE;
+			    	emailButtonLayoutVisibility = View.VISIBLE;
 					// Dismiss Button
-			    	final Button k9DismissButton = (Button) findViewById(R.id.sms_dismiss_button);
+			    	final Button k9DismissButton = (Button) findViewById(R.id.email_dismiss_button);
 			    	if(_preferences.getBoolean(Constants.K9_HIDE_DISMISS_BUTTON_KEY, false)){
 			    		k9DismissButton.setVisibility(View.GONE);
 			    	}else{
@@ -478,7 +486,7 @@ public class NotificationView extends LinearLayout {
 						});	
 			    	}
 					// Delete Button
-					final Button k9DeleteButton = (Button) findViewById(R.id.sms_delete_button);
+					final Button k9DeleteButton = (Button) findViewById(R.id.email_delete_button);
 					if(_preferences.getBoolean(Constants.K9_HIDE_DELETE_BUTTON_KEY, false)){
 						k9DeleteButton.setVisibility(View.GONE);
 			    	}else{
@@ -491,7 +499,7 @@ public class NotificationView extends LinearLayout {
 						});
 			    	}
 					// Reply Button
-					final Button k9ReplyButton = (Button) findViewById(R.id.sms_reply_button);
+					final Button k9ReplyButton = (Button) findViewById(R.id.email_reply_button);
 					if(_preferences.getBoolean(Constants.K9_HIDE_REPLY_BUTTON_KEY, false)){
 						k9ReplyButton.setVisibility(View.GONE);
 			    	}else{
@@ -515,6 +523,7 @@ public class NotificationView extends LinearLayout {
 			_phoneButtonLinearLayout.setVisibility(phoneButtonLayoutVisibility);
 	    	_smsButtonLinearLayout.setVisibility(smsButtonLayoutVisibility);
 	    	_calendarButtonLinearLayout.setVisibility(calendarButtonLayoutVisibility);
+	    	_emailButtonLinearLayout.setVisibility(emailButtonLayoutVisibility);
 		}catch(Exception ex){
 			if (_debug) Log.e("NotificationView.setupNotificationViewButtons() ERROR: " + ex.toString());
 		}
