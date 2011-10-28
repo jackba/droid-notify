@@ -32,7 +32,9 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
+import android.provider.Settings;
 import android.text.Html;
+import android.text.format.DateFormat;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -87,13 +89,14 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	    	this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 	    }
 	    //addPreferencesFromResource(R.xml.preferences_new);
+	    checkSystemDateTimeFormat();
 	    addPreferencesFromResource(R.xml.preferences);
 	    _appVersion = getApplicationVersion();
 	    setupCustomPreferences();
 	    runOnceCalendarAlarmManager();
 	    setupAppDebugMode(_debug);
 	    setupRateAppPreference();
-	    runOnceEula();
+	    runOnce();
 	}
     
 	/**
@@ -330,17 +333,16 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	/**
 	 * This displays the EULA to the user the first time the app is run.
 	 */
-	private void runOnceEula(){
-		if (_debug) Log.v("MainPreferenceActivity.runOnceEula()");
-		boolean runOnceEula = _preferences.getBoolean(Constants.RUN_ONCE_EULA, true);
-		if(runOnceEula) {
+	private void runOnce(){
+		if (_debug) Log.v("MainPreferenceActivity.runOnce()");
+		if(_preferences.getBoolean(Constants.RUN_ONCE_EULA, true)) {
 			try{
 				SharedPreferences.Editor editor = _preferences.edit();
 				editor.putBoolean(Constants.RUN_ONCE_EULA, false);
 				editor.commit();
 				displayHTMLAlertDialog(_context.getString(R.string.app_license),R.drawable.ic_dialog_info, _context.getString(R.string.eula_text));
 			}catch(Exception ex){
- 	    		if (_debug) Log.e("MainPreferenceActivity.runOnceEula() ERROR: " + ex.toString());
+ 	    		if (_debug) Log.e("MainPreferenceActivity.runOnceEula() EULA ERROR: " + ex.toString());
 	    	}
 		}
 	}
@@ -1416,7 +1418,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 				}
 			}
 		}catch(Exception ex){
-			if (_debug) Log.v("MainPreferenceActivity.updateStatusBarNotificationRingtone() ERROR: " + ex.toString());
+			if (_debug) Log.e("MainPreferenceActivity.updateStatusBarNotificationRingtone() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -1479,7 +1481,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 				}
 			}
 		}catch(Exception ex){
-			if (_debug) Log.v("MainPreferenceActivity.updateStatusBarNotificationVibrate() ERROR: " + ex.toString());
+			if (_debug) Log.e("MainPreferenceActivity.updateStatusBarNotificationVibrate() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -1505,8 +1507,49 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			CheckBoxPreference clearStatusBarNotificationsOnExitCheckBoxPreference = (CheckBoxPreference) findPreference(Constants.CLEAR_STATUS_BAR_NOTIFICATIONS_ON_EXIT_KEY);
 			clearStatusBarNotificationsOnExitCheckBoxPreference.setEnabled(enabled);
 		}catch(Exception ex){
-			if (_debug) Log.v("MainPreferenceActivity.updateClearStatusBarNotifications() ERROR: " + ex.toString());
+			if (_debug) Log.e("MainPreferenceActivity.updateClearStatusBarNotifications() ERROR: " + ex.toString());
 		}
+	}
+	
+	/**
+	 * A first time installation check and update of the Date & Time format settings.
+	 */
+	private void checkSystemDateTimeFormat(){
+		if (_debug) Log.v("MainPreferenceActivity.checkSystemDateTimeFormat() " + String.valueOf(DateFormat.getDateFormatOrder(_context)));
+		if(_preferences.getBoolean(Constants.RUN_ONCE_DATE_TIME_FORMAT, true)){
+			try{
+				SharedPreferences.Editor editor = _preferences.edit();
+				editor.putBoolean(Constants.RUN_ONCE_DATE_TIME_FORMAT, false);
+				String systemDateFormat = Settings.System.getString(_context.getContentResolver(), Settings.System.DATE_FORMAT);
+			    String systemHourFormat = Settings.System.getString(_context.getContentResolver(), Settings.System.TIME_12_24);
+			    if(systemDateFormat != null && !systemDateFormat.equals("")){
+			    	if(systemDateFormat.equals("MM-dd-yyyy")){
+			    		editor.putString(Constants.DATE_FORMAT_KEY, String.valueOf(Constants.DATE_FORMAT_0));
+			    	}else if(systemDateFormat.equals("dd-MM-yyyy")){
+			    		editor.putString(Constants.DATE_FORMAT_KEY, String.valueOf(Constants.DATE_FORMAT_6));
+			    	}else if(systemDateFormat.equals("yyyy-MM-dd")){
+			    		editor.putString(Constants.DATE_FORMAT_KEY, String.valueOf(Constants.DATE_FORMAT_12));
+			    	}
+			    }else{
+			    	systemDateFormat = String.valueOf(DateFormat.getDateFormatOrder(_context));
+			    	if(systemDateFormat.equals("Mdy")){
+			    		editor.putString(Constants.DATE_FORMAT_KEY, String.valueOf(Constants.DATE_FORMAT_0));
+			    	}else if(systemDateFormat.equals("dMy")){
+			    		editor.putString(Constants.DATE_FORMAT_KEY, String.valueOf(Constants.DATE_FORMAT_6));
+			    	}else if(systemDateFormat.equals("yMd")){
+			    		editor.putString(Constants.DATE_FORMAT_KEY, String.valueOf(Constants.DATE_FORMAT_12));
+			    	}
+			    }
+			    if(systemHourFormat.equals("12")){
+					editor.putString(Constants.TIME_FORMAT_KEY, String.valueOf(Constants.TIME_FORMAT_12_HOUR));
+			    }else{
+					editor.putString(Constants.TIME_FORMAT_KEY, String.valueOf(Constants.TIME_FORMAT_24_HOUR));
+			    }
+				editor.commit();
+			}catch(Exception ex){
+ 	    		if (_debug) Log.e("MainPreferenceActivity.checkSystemDateTimeFormat() ERROR: " + ex.toString());
+	    	}
+		}		
 	}
 	
 	/**

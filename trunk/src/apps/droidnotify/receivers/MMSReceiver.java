@@ -35,10 +35,7 @@ public class MMSReceiver extends BroadcastReceiver{
 		_debug = Log.getDebug();
 		if (_debug) Log.v("MMSReceiver.onReceive()");
 		try{
-			WakefulIntentService.acquireStaticLock(context);
-		    Intent mmsBroadcastReceiverServiceIntent = new Intent(context, MMSBroadcastReceiverService.class);
-			mmsBroadcastReceiverServiceIntent.putExtras(intent.getExtras());
-			context.startService(mmsBroadcastReceiverServiceIntent);
+			WakefulIntentService.sendWakefulWork(context, new Intent(context, MMSBroadcastReceiverService.class));
 		}catch(Exception ex){
 			if (_debug) Log.e("MMSReceiver.onReceive() ERROR: " + ex.toString());
 		}

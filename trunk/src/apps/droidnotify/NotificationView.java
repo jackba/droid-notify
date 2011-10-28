@@ -26,6 +26,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.view.MotionEvent;
+
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
@@ -444,6 +445,72 @@ public class NotificationView extends LinearLayout {
 		
 					break;
 				}
+				case Constants.NOTIFICATION_TYPE_K9:{
+					// Notification Count Text Button
+					int notificationCountAction = Integer.parseInt(_preferences.getString(Constants.K9_NOTIFICATION_COUNT_ACTION_KEY, "1"));
+					if(notificationCountAction == 0){
+						//Do Nothing.
+					}else{
+						_notificationCountTextView.setOnClickListener(new OnClickListener() {
+						    public void onClick(View view) {
+						    	if (_debug) Log.v("Notification Count Button Clicked()");
+						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+						    	//Common.startK9MailAppReplyActivity(_context, _notificationActivity, _notification.getK9EmailUri(), Constants.K9_VIEW_EMAIL_ACTIVITY);
+						    	Common.startK9EmailAppViewInboxActivity(_context, _notificationActivity, Constants.K9_VIEW_INBOX_ACTIVITY);
+						    }
+						});		
+					}
+					//Display the correct navigation buttons for each notification type.
+			    	phoneButtonLayoutVisibility = View.GONE;
+			    	smsButtonLayoutVisibility = View.VISIBLE;
+			    	calendarButtonLayoutVisibility = View.GONE;
+					// Dismiss Button
+			    	final Button k9DismissButton = (Button) findViewById(R.id.sms_dismiss_button);
+			    	if(_preferences.getBoolean(Constants.K9_HIDE_DISMISS_BUTTON_KEY, false)){
+			    		k9DismissButton.setVisibility(View.GONE);
+			    	}else{
+			    		k9DismissButton.setOnClickListener(new OnClickListener() {
+						    public void onClick(View view) {
+						    	if (_debug) Log.v("K9 Dismiss Button Clicked()");
+						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+						    	dismissNotification();
+						    }
+						});	
+			    	}
+					// Delete Button
+					final Button k9DeleteButton = (Button) findViewById(R.id.sms_delete_button);
+					if(_preferences.getBoolean(Constants.K9_HIDE_DELETE_BUTTON_KEY, false)){
+						k9DeleteButton.setVisibility(View.GONE);
+			    	}else{
+			    		k9DeleteButton.setOnClickListener(new OnClickListener() {
+						    public void onClick(View view) {
+						    	if (_debug) Log.v("MMS Delete Button Clicked()");
+						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+						    	showDeleteDialog();
+						    }
+						});
+			    	}
+					// Reply Button
+					final Button k9ReplyButton = (Button) findViewById(R.id.sms_reply_button);
+					if(_preferences.getBoolean(Constants.K9_HIDE_REPLY_BUTTON_KEY, false)){
+						k9ReplyButton.setVisibility(View.GONE);
+			    	}else{
+			    		k9ReplyButton.setOnClickListener(new OnClickListener() {
+						    public void onClick(View view) {
+						    	if (_debug) Log.v("K9 Reply Button Clicked()");
+						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+						    	replyToMessage(Constants.NOTIFICATION_TYPE_K9);
+						    }
+						});
+			    	}
+					//Remove the icons from the View's buttons, based on the user preferences.
+					if(!_preferences.getBoolean(Constants.BUTTON_ICONS_KEY, true)){
+						k9DismissButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
+						k9DeleteButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
+						k9ReplyButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
+					}
+					break;
+				}
 			}
 			_phoneButtonLinearLayout.setVisibility(phoneButtonLayoutVisibility);
 	    	_smsButtonLinearLayout.setVisibility(smsButtonLayoutVisibility);
@@ -501,7 +568,6 @@ public class NotificationView extends LinearLayout {
 		    setupQuickContact();
 		}
 		if(_notificationType == Constants.NOTIFICATION_TYPE_SMS){
-
 			if(_preferences.getBoolean(Constants.SMS_HIDE_NOTIFICATION_BODY_KEY, false)){
 				_notificationDetailsTextView.setVisibility(View.GONE);
 			}else{
@@ -619,6 +685,46 @@ public class NotificationView extends LinearLayout {
 					_contactNumberTextView.setVisibility(View.GONE);
 				}
 			}
+		}else if(_notificationType == Constants.NOTIFICATION_TYPE_K9){
+			if(_preferences.getBoolean(Constants.K9_HIDE_NOTIFICATION_BODY_KEY, false)){
+				_notificationDetailsTextView.setVisibility(View.GONE);
+			}else{
+				//Set Message Body Font
+				_notificationDetailsTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, Float.parseFloat(_preferences.getString(Constants.NOTIFICATION_BODY_FONT_SIZE_KEY, Constants.NOTIFICATION_BODY_FONT_SIZE_DEFAULT)));
+			}
+			//Contact Display Settings
+			if(_preferences.getBoolean(Constants.K9_HIDE_CONTACT_PANEL_ENABLED_KEY, false)){
+				_photoImageView.setVisibility(View.GONE);
+				_photoProgressBar.setVisibility(View.GONE);
+				_contactNameTextView.setVisibility(View.GONE);
+				_contactNumberTextView.setVisibility(View.GONE);
+				loadContactPhoto = false;
+			}else{
+				//Show/Hide Contact Photo
+				if(_preferences.getBoolean(Constants.K9_HIDE_CONTACT_PHOTO_ENABLED_KEY, false)){
+					_photoImageView.setVisibility(View.GONE);
+					_photoProgressBar.setVisibility(View.GONE);
+					loadContactPhoto = false;
+				}else{
+					//Set Contact Photo Background
+					int contactPhotoBackground = Integer.parseInt(_preferences.getString(Constants.CONTACT_PHOTO_BACKGKROUND_KEY, "0"));
+					if(contactPhotoBackground == 1){
+						_photoImageView.setBackgroundResource(R.drawable.image_picture_frame_froyo);
+					}else if(contactPhotoBackground == 2){
+						_photoImageView.setBackgroundResource(R.drawable.image_picture_frame_gingerbread);
+					}else{
+						_photoImageView.setBackgroundResource(R.drawable.image_picture_frame_white);
+					}
+				}
+				//Show/Hide Contact Name
+				if(_preferences.getBoolean(Constants.K9_HIDE_CONTACT_NAME_ENABLED_KEY, false)){
+					_contactNameTextView.setVisibility(View.GONE);
+				}
+				//Show/Hide Contact Number
+				if(_preferences.getBoolean(Constants.K9_HIDE_CONTACT_NUMBER_ENABLED_KEY, false)){
+					_contactNumberTextView.setVisibility(View.GONE);
+				}
+			}
 		}
 	    //Load the notification message.
 	    setNotificationMessage(notification);
@@ -666,15 +772,19 @@ public class NotificationView extends LinearLayout {
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_GMAIL:{
-				
+				notificationText = notification.getMessageBody();	
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_TWITTER:{
-	
+				notificationText = notification.getMessageBody();
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_FACEBOOK:{
-	
+				notificationText = notification.getMessageBody();
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_K9:{
+				notificationText = notification.getMessageBody();
 				break;
 			}
 		} 
@@ -721,8 +831,8 @@ public class NotificationView extends LinearLayout {
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_GMAIL:{
-		    	//iconBitmap = BitmapFactory.decodeResource(_context.getResources(), R.drawable.gmail);
-		    	//receivedAtText = _context.getString(R.string.email_at_text, formattedTimestamp.toLowerCase());
+		    	iconBitmap = BitmapFactory.decodeResource(_context.getResources(), R.drawable.ic_envelope_white);
+		    	receivedAtText = _context.getString(R.string.email_at_text, formattedTimestamp.toLowerCase());
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_TWITTER:{
@@ -733,6 +843,11 @@ public class NotificationView extends LinearLayout {
 			case Constants.NOTIFICATION_TYPE_FACEBOOK:{
 		    	//iconBitmap = BitmapFactory.decodeResource(_context.getResources(), R.drawable.facebook);
 		    	//receivedAtText = _context.getString(R.string.facebook_at_text, formattedTimestamp.toLowerCase());
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_K9:{
+		    	iconBitmap = BitmapFactory.decodeResource(_context.getResources(), R.drawable.ic_envelope_white);
+		    	receivedAtText = _context.getString(R.string.email_at_text, formattedTimestamp.toLowerCase());
 				break;
 			}
 		}   
@@ -808,6 +923,11 @@ public class NotificationView extends LinearLayout {
 						editor.commit();
 					}
 				}
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_K9:{
+				//Reply using any installed K9 email app.
+				Common.startK9MailAppReplyActivity(_context, _notificationActivity, _notification.getK9EmailUri(), Constants.K9_VIEW_EMAIL_ACTIVITY);
 				break;
 			}
 		}

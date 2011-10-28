@@ -48,6 +48,8 @@
     <string name="app_android_contacts_email_chooser_error">Error querying the contacts available email addresses.</string>
     <string name="app_android_no_number_found_error">No phone number could be found for this contact.</string>
     <string name="app_android_calendars_not_found_error">No calendars could be found on your phone.</string>
+    <string name="app_k9_reply_email_address_error">The email address does not appear to be valid. Reply to email failed.</string>
+    <string name="app_k9_email_app_error">The email application could not be started.</string>
 
 	<!-- Settings/Preference Strings -->
     <string name="app_settings_text">Settings</string>
@@ -64,7 +66,8 @@
    	<!-- Delete Strings -->
    	<string name="delete_text">Delete</string>
     <string name="delete_message_dialog_text">This will delete the message from the phone.</string>
-    <string name="delete_thread_dialog_text">The entire thread will be deleted from the phone.</string>  	
+    <string name="delete_thread_dialog_text">The entire thread will be deleted from the phone.</string>
+    <string name="delete_email_dialog_text">This will delete the email from the phone.</string>	
     
     <!-- Notification Body Strings -->
    	<string name="preference_notification_body_font_size_title">Notification Body Font Size</string>
@@ -278,6 +281,9 @@
    	<string name="twitter_authentication_message_text">The next screen will open a Twitter web page in a web browser. This web page will ask you to allow this application to have access to your twitter account. If you wish to proceed please click on the \"Continue\" button below.</string>
    	<string name="authenticating_text">Authenticating...</string>
 
+   	<!-- Email Strings -->
+   	<string name="email_at_text" formatted="false">New email at %s</string>
+   	    
    	<!-- Button Strings -->
    	<string name="view_mms_button_text">View MMS</string>
     <string name="view_button_text">View</string>
@@ -426,6 +432,7 @@
     <string name="status_bar_notification_content_title_text_gmail">New Email</string>
     <string name="status_bar_notification_content_title_text_twitter">New Twitter Message</string>
     <string name="status_bar_notification_content_title_text_facebook">New Facebook Message</string>
+    <string name="status_bar_notification_content_title_text_email">New Email</string>
     
     <string name="status_bar_notification_content_text_sms" formatted="false">New message from %s - %s.</string>
     <string name="status_bar_notification_content_text_sms_null" formatted="false">New message.</string>
@@ -438,6 +445,8 @@
     <string name="status_bar_notification_content_text_gmail" formatted="false">New email %s - %s.</string>
     <string name="status_bar_notification_content_text_twitter" formatted="false">New twitter message from %s - %s.</string>
     <string name="status_bar_notification_content_text_facebook" formatted="false">New facebook message %s - %s.</string>
+	<string name="status_bar_notification_content_text_email" formatted="false">New email from %s - %s.</string>
+    <string name="status_bar_notification_content_text_email_null" formatted="false">New email.</string>
     
     <string name="status_bar_notification_ticker_text_sms" formatted="false">New message from %s - %s.</string>
     <string name="status_bar_notification_ticker_text_unknown_contact_sms" formatted="false">New message -  %s.</string>
@@ -452,7 +461,12 @@
     <string name="status_bar_notification_ticker_text_phone" formatted="false">Missed call from %s.</string>  
     <string name="status_bar_notification_ticker_text_phone_null" formatted="false">Missed call.</string>
     <string name="status_bar_notification_ticker_text_calendar" formatted="false">Calendar event - %s</string>
-    <string name="status_bar_notification_ticker_text_calendar_null" formatted="false">Calendar event</string>
+    <string name="status_bar_notification_ticker_text_calendar_null" formatted="false">Calendar event.</string>
+    <string name="status_bar_notification_ticker_text_email" formatted="false">New email from %s - %s.</string>
+    <string name="status_bar_notification_ticker_text_unknown_contact_email" formatted="false">New email -  %s.</string>
+   	<string name="status_bar_notification_ticker_text_privacy_email" formatted="false">New email from %s.</string>
+   	<string name="status_bar_notification_ticker_text_privacy_unknown_contact_email">New email.</string>
+   	<string name="status_bar_notification_ticker_text_email_null" formatted="false">New email.</string>
     
     <string name="status_bar_notifications_text">Status Bar Notifications</string>
     <string name="clear_status_bar_notifications_on_exit_title">Clear Notifications On Exit</string>
@@ -743,9 +757,19 @@
 	
 	<string name="date_format_1_text">12/31/2011</string>
     <string name="date_format_2_text">12.31.2011</string>
-    <string name="date_format_3_text">December 31 2011</string>
-    <string name="date_format_4_text">31/12/2011</string>
-    <string name="date_format_5_text">31.12.2011</string>
-    <string name="date_format_6_text">31 December 2011</string>
+    <string name="date_format_3_text">Dec 31 2011</string>
+    <string name="date_format_4_text">Dec 31, 2011</string>
+    <string name="date_format_5_text">December 31 2011</string>
+    <string name="date_format_6_text">December 31, 2011</string>
+    <string name="date_format_7_text">31/12/2011</string>
+    <string name="date_format_8_text">31.12.2011</string>
+    <string name="date_format_9_text">31 Dec 2011</string>
+    <string name="date_format_10_text">31 Dec, 2011</string>
+    <string name="date_format_11_text">31 December 2011</string>
+    <string name="date_format_12_text">31 December, 2011</string>
+    <string name="date_format_13_text">2011/12/31</string>
+    <string name="date_format_14_text">2011.12.31</string>
+    <string name="date_format_15_text">2011 Dec 31</string>
+    <string name="date_format_16_text">2011 December 31</string>
     
 </resources>

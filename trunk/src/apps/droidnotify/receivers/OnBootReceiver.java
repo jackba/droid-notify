@@ -36,10 +36,7 @@ public class OnBootReceiver extends BroadcastReceiver {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("OnBootReceiver.onReceive()");
 		try{
-			WakefulIntentService.acquireStaticLock(context);
-		    Intent onBootBroadcastReceiverServiceIntent = new Intent(context, OnBootBroadcastReceiverService.class);
-		    onBootBroadcastReceiverServiceIntent.putExtras(intent.getExtras());
-			context.startService(onBootBroadcastReceiverServiceIntent);
+			WakefulIntentService.sendWakefulWork(context, new Intent(context, OnBootBroadcastReceiverService.class));
 		}catch(Exception ex){
 			if (_debug) Log.e("OnBootReceiver.onReceive() ERROR: " + ex.toString());
 		}

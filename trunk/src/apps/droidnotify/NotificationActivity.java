@@ -31,6 +31,7 @@ import android.view.ViewConfiguration;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
+
 import apps.droidnotify.log.Log;
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
@@ -348,6 +349,21 @@ public class NotificationActivity extends Activity {
 				}
 				break;
 			}
+			case Constants.NOTIFICATION_TYPE_K9:{
+				if(_preferences.getString(Constants.K9_DELETE_KEY, "0").equals(Constants.K9_DELETE_ACTION_NOTHING)){
+					//Remove the notification from the ViewFlipper
+					deleteMessage();
+				}else{
+					if(_preferences.getBoolean(Constants.K9_CONFIRM_DELETION_KEY, true)){
+						//Confirm deletion of the message.
+						showDialog(Constants.DIALOG_DELETE_MESSAGE);
+					}else{
+						//Remove the notification from the ViewFlipper.
+						deleteMessage();
+					}
+				}
+				break;
+			}
 		}
 	}
 	
@@ -623,6 +639,51 @@ public class NotificationActivity extends Activity {
 		    	}
 		        break;
 		    }
+		    case Constants.K9_VIEW_INBOX_ACTIVITY:{
+		    	if (resultCode == RESULT_OK) {
+		    		if (_debug) Log.v("NotificationActivity.onActivityResult() K9_VIEW_INBOX_ACTIVITY: RESULT_OK");
+		        	//Remove notification from ViewFlipper.
+		    		_notificationViewFlipper.removeActiveNotification();
+		    	}else if (resultCode == RESULT_CANCELED) {
+		    		if (_debug) Log.v("NotificationActivity.onActivityResult() K9_VIEW_INBOX_ACTIVITY: RESULT_CANCELED");
+		    		//Remove notification from ViewFlipper.
+					_notificationViewFlipper.removeActiveNotification();
+		    	}else{
+		    		if (_debug) Log.v("NotificationActivity.onActivityResult() K9_VIEW_INBOX_ACTIVITY: " + resultCode);
+		        	Toast.makeText(_context, _context.getString(R.string.app_k9_email_app_error) + " " + resultCode, Toast.LENGTH_LONG).show();
+		    	}
+		        break;
+		    }
+		    case Constants.K9_VIEW_EMAIL_ACTIVITY:{
+		    	if (resultCode == RESULT_OK) {
+		    		if (_debug) Log.v("NotificationActivity.onActivityResult() K9_VIEW_EMAIL_ACTIVITY: RESULT_OK");
+		        	//Remove notification from ViewFlipper.
+		    		_notificationViewFlipper.removeActiveNotification();
+		    	}else if (resultCode == RESULT_CANCELED) {
+		    		if (_debug) Log.v("NotificationActivity.onActivityResult() K9_VIEW_EMAIL_ACTIVITY: RESULT_CANCELED");
+		    		//Remove notification from ViewFlipper.
+					_notificationViewFlipper.removeActiveNotification();
+		    	}else{
+		    		if (_debug) Log.v("NotificationActivity.onActivityResult() K9_VIEW_EMAIL_ACTIVITY: " + resultCode);
+		        	Toast.makeText(_context, _context.getString(R.string.app_k9_email_app_error) + " " + resultCode, Toast.LENGTH_LONG).show();
+		    	}
+		        break;
+		    }
+		    case Constants.K9_SEND_EMAIL_ACTIVITY:{
+		    	if (resultCode == RESULT_OK) {
+		    		if (_debug) Log.v("NotificationActivity.onActivityResult() K9_SEND_EMAIL_ACTIVITY: RESULT_OK");
+		        	//Remove notification from ViewFlipper.
+		    		_notificationViewFlipper.removeActiveNotification();
+		    	}else if (resultCode == RESULT_CANCELED) {
+		    		if (_debug) Log.v("NotificationActivity.onActivityResult() K9_SEND_EMAIL_ACTIVITY: RESULT_CANCELED");
+		    		//Remove notification from ViewFlipper.
+					_notificationViewFlipper.removeActiveNotification();
+		    	}else{
+		    		if (_debug) Log.v("NotificationActivity.onActivityResult() K9_SEND_EMAIL_ACTIVITY: " + resultCode);
+		        	Toast.makeText(_context, _context.getString(R.string.app_k9_email_app_error) + " " + resultCode, Toast.LENGTH_LONG).show();
+		    	}
+		        break;
+		    }
 	    }
     }
 	
@@ -643,21 +704,14 @@ public class NotificationActivity extends Activity {
 	    int notificationType = extrasBundle.getInt("notificationType");
 	    if (_debug) Log.v("NotificationActivity.onCreate() Notification Type: " + notificationType);
 	    boolean turnScreenOn = _preferences.getBoolean(Constants.SCREEN_ENABLED_KEY, true);
-	    boolean unlockScreen = _preferences.getBoolean(Constants.KEYGUARD_ENABLED_KEY, true);
 	    //Don't rotate the Activity when the screen rotates based on the user preferences.
 	    if(!_preferences.getBoolean(Constants.LANDSCAPE_SCREEN_ENABLED_KEY, false)){
 	    	this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 	    }
-	    //Get main window for this Activity.
-	    Window mainWindow = getWindow();
 	    //Turn Screen On Flags
 	    if(turnScreenOn){
-	    	mainWindow.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-		    //Unlock Keyguard Flags
-		    if(unlockScreen){
-		    	mainWindow.addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD | 
-		    						WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
-		    }
+		    //Get main window for this Activity.
+		    Window mainWindow = getWindow();
 	    	//Set Background Blur Flags
 		    if(_preferences.getBoolean(Constants.BLUR_SCREEN_ENABLED_KEY, false)){
 		    	mainWindow.addFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
@@ -714,6 +768,11 @@ public class NotificationActivity extends Activity {
 		    	//TODO - Facebook
 				break;
 		    }
+			case Constants.NOTIFICATION_TYPE_K9:{
+				if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_K9");
+				setupK9EmailNotifications(extrasBundle);
+				break;
+		    }
 	    } 
 	    setInReplyScreenFlag(false);
 	    Common.acquireKeyguardLock(_context);
@@ -735,10 +794,10 @@ public class NotificationActivity extends Activity {
 	 */
 	@Override
 	protected void onResume() {
-	    super.onResume();
 	    _debug = Log.getDebug();
 	    if (_debug) Log.v("NotificationActivity.onResume()");
 	    Common.acquireWakeLock(_context);
+	    super.onResume();
 	}
 	  
 	/**
@@ -746,9 +805,9 @@ public class NotificationActivity extends Activity {
 	 */
 	@Override
 	protected void onPause() {
-	    super.onPause();
 	    if (_debug) Log.v("NotificationActivity.onPause()");
 	    Common.clearWakeLock();
+	    super.onPause();
 	}
 	  
 	/**
@@ -766,7 +825,6 @@ public class NotificationActivity extends Activity {
 	 */
 	@Override
 	protected void onDestroy() {
-	    super.onDestroy();
 	    if (_debug) Log.v("NotificationActivity.onDestroy()");
 	    Common.clearKeyguardLock();
 	    setInReplyScreenFlag(false);
@@ -774,6 +832,7 @@ public class NotificationActivity extends Activity {
 			Common.clearAllNotifications(_context);
 		}
 	    Common.clearWakeLock();
+	    super.onDestroy();
 	}
 
 	/**
@@ -810,6 +869,8 @@ public class NotificationActivity extends Activity {
 					}else if(_preferences.getString(Constants.MMS_DELETE_KEY, "0").equals(Constants.MMS_DELETE_ACTION_DELETE_THREAD)){
 						builder.setMessage(_context.getString(R.string.delete_thread_dialog_text));
 					}
+				}else if(notificationType == Constants.NOTIFICATION_TYPE_K9){
+					builder.setMessage(_context.getString(R.string.delete_email_dialog_text));
 				}
 				builder.setPositiveButton(R.string.delete_text, new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
@@ -881,6 +942,11 @@ public class NotificationActivity extends Activity {
 		    	//TODO - Facebook
 				break;
 			}
+			case Constants.NOTIFICATION_TYPE_K9:{
+				if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_K9");
+				setupK9EmailNotifications(extrasBundle);
+				break;
+		    }
 	    }
 	    Common.acquireKeyguardLock(_context);
 	    setScreenTimeoutAlarm();
@@ -917,8 +983,6 @@ public class NotificationActivity extends Activity {
 		Intent intent = new Intent(context, MainPreferenceActivity.class);
 		startActivity(intent);
 	}
-		
-
 	
 	/**
 	 * Function to create a test notification of each type.
@@ -934,17 +998,18 @@ public class NotificationActivity extends Activity {
 		Notification smsNotification = new Notification(_context, sentFromAddress, smsTestMesage, System.currentTimeMillis(), Constants.NOTIFICATION_TYPE_SMS);
 		notificationViewFlipper.addNotification(smsNotification);
 		//Display Status Bar Notification
-	    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_SMS, true, null, sentFromAddress, smsTestMesage);
+	    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_SMS, true, null, sentFromAddress, smsTestMesage, null);
 		//Add Missed Call Notification.
 		Notification missedCallNotification = new Notification(_context, 0, sentFromAddress, System.currentTimeMillis(), 0, "", 0, "", Constants.NOTIFICATION_TYPE_PHONE);
 		notificationViewFlipper.addNotification(missedCallNotification);
 		//Display Status Bar Notification
-	    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_PHONE, true, null, sentFromAddress, null);
+	    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_PHONE, true, null, sentFromAddress, null, null);
 		//Add Calendar Event Notification.
 		Notification calendarEventNotification = new Notification(_context, calendarTestEvent, "", System.currentTimeMillis(), System.currentTimeMillis() + (10 * 60 * 1000), false, calendarTextCalendar,  0, 0, Constants.NOTIFICATION_TYPE_CALENDAR);
 		notificationViewFlipper.addNotification(calendarEventNotification);	
 		//Display Status Bar Notification
-	    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_CALENDAR, true, null, null, calendarTestEvent);
+	    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_CALENDAR, true, null, null, calendarTestEvent, null);
+	    //TODO - Add K9 Test Message Here.
 	}
 	
 	/**
@@ -1162,7 +1227,7 @@ public class NotificationActivity extends Activity {
 			}
     		_notificationViewFlipper.addNotification(new Notification(_context, messageAddress, messageBody, messageID, threadID, timeStamp, contactID, contactName, photoID, lookupKey, Constants.NOTIFICATION_TYPE_SMS));
 		    //Display Status Bar Notification
-		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_SMS, true, contactName, messageAddress, messageBody);
+		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_SMS, true, contactName, messageAddress, messageBody, null);
 		}
 		if(loadAllNew){
 			//Load all unread SMS messages.
@@ -1227,7 +1292,7 @@ public class NotificationActivity extends Activity {
 			}
     		_notificationViewFlipper.addNotification(new Notification(_context, messageAddress, messageBody, messageID, threadID, timeStamp, contactID, contactName, photoID, lookupKey, Constants.NOTIFICATION_TYPE_MMS));
 		    //Display Status Bar Notification
-		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_MMS, true, contactName, messageAddress, messageBody);
+		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_MMS, true, contactName, messageAddress, messageBody, null);
 		}
 		if(loadAllNew){
 			//Load all unread MMS messages.
@@ -1527,10 +1592,11 @@ public class NotificationActivity extends Activity {
 			long photoID = 0;
 			String lookupKey = null;
 			try{
-				if(missedCallInfo.length < 3){
-					if (_debug) Log.e("NotificationActivity.setupMissedCalls() FATAL NOTIFICATION ERROR. missedCallInfo.length: " + missedCallInfo.length);
+				int missedCallInfoSize = missedCallInfo.length;
+				if(missedCallInfoSize < 3){
+					if (_debug) Log.e("NotificationActivity.setupMissedCalls() FATAL NOTIFICATION ERROR. missedCallInfo.length: " + missedCallInfoSize);
 					return false;
-				}else if( missedCallInfo.length == 3){
+				}else if( missedCallInfoSize == 3){
 					callLogID = Long.parseLong(missedCallInfo[0]);
 					phoneNumber = missedCallInfo[1];
 					timeStamp = Long.parseLong(missedCallInfo[2]);
@@ -1541,7 +1607,7 @@ public class NotificationActivity extends Activity {
 					contactID = Long.parseLong(missedCallInfo[3]);
 					contactName = missedCallInfo[4];
 					photoID = Long.parseLong(missedCallInfo[5]);
-					if(missedCallInfo.length < 7){
+					if(missedCallInfoSize < 7){
 						lookupKey = "";
 					}else{
 						lookupKey = missedCallInfo[6];
@@ -1552,7 +1618,7 @@ public class NotificationActivity extends Activity {
 			}
 			_notificationViewFlipper.addNotification(new Notification(_context, callLogID, phoneNumber, timeStamp, contactID, contactName, photoID, lookupKey, Constants.NOTIFICATION_TYPE_PHONE));		    
 			//Display Status Bar Notification
-		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_PHONE, true, contactName, phoneNumber, null);
+		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_PHONE, true, contactName, phoneNumber, null, null);
 		}
 	    return true;
 	}
@@ -1593,7 +1659,66 @@ public class NotificationActivity extends Activity {
 		}
 		_notificationViewFlipper.addNotification(new Notification(_context, title, messageBody, eventStartTime, eventEndTime, eventAllDay, calendarName, calendarID, eventID, Constants.NOTIFICATION_TYPE_CALENDAR));
 		//Display Status Bar Notification
-	    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_CALENDAR, true, null, null, title);
+	    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_CALENDAR, true, null, null, title, null);
+	}
+	
+	/**
+	 * Setup the K-9 Email notifications.
+	 * 
+	 * @param bundle - Activity bundle.
+	 */
+	private boolean setupK9EmailNotifications(Bundle bundle){
+		if (_debug) Log.v("NotificationActivity.setupK9EmailNotifications()");  
+		ArrayList<String> k9Array = bundle.getStringArrayList("k9ArrayList");
+		int k9Arraysize = k9Array.size();
+		for(int i=0; i<k9Arraysize ; i++){
+			String[] k9Info = k9Array.get(i).split("\\|");
+			String messageAddress = null;
+			String messageBody = null;
+			long messageID = 0;
+			long contactID = 0;
+			String contactName = null;
+			long photoID = 0;
+			String lookupKey = null;
+			long timeStamp = 0;
+			String k9EmailUri = null;
+			String k9EmailDelUri = null;
+			try{
+				int k9InfoSize = k9Info.length;
+				if(k9InfoSize < 6){
+					if (_debug) Log.e("NotificationActivity.setupK9EmailNotifications() FATAL NOTIFICATION ERROR. k9Info.length: " + k9InfoSize);
+					return false;
+				}else if(k9InfoSize == 6){
+					messageAddress = k9Info[0];
+					messageBody = k9Info[1];
+					messageID = Long.parseLong(k9Info[2]);
+					timeStamp = Long.parseLong(k9Info[3]);
+					k9EmailUri = k9Info[4];
+					k9EmailDelUri = k9Info[5];
+				}else{
+					messageAddress = k9Info[0];
+					messageBody = k9Info[1];
+					messageID = Long.parseLong(k9Info[2]);
+					timeStamp = Long.parseLong(k9Info[3]);
+					k9EmailUri = k9Info[4];
+					k9EmailDelUri = k9Info[5];
+					contactID = Long.parseLong(k9Info[6]);
+					contactName = k9Info[7];
+					photoID = Long.parseLong(k9Info[8]);
+					if(k9InfoSize < 10){
+						lookupKey = "";
+					}else{
+						lookupKey = k9Info[9];
+					}
+				}
+			}catch(Exception ex){
+				if (_debug) Log.e("NotificationActivity.setupK9EmailNotifications() ERROR: " + ex.toString());
+			}
+			_notificationViewFlipper.addNotification(new Notification(_context, messageAddress, messageBody, timeStamp, contactID, contactName, photoID, messageID, lookupKey, k9EmailUri, k9EmailDelUri, Constants.NOTIFICATION_TYPE_K9));		    
+			//Display Status Bar Notification
+		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_K9, true, contactName, messageAddress, messageBody, k9EmailUri);
+		}
+	    return true;
 	}
 	
 	/**
@@ -1660,6 +1785,21 @@ public class NotificationActivity extends Activity {
 				break;
 		    }
 			case Constants.NOTIFICATION_TYPE_GMAIL:{
+				MenuItem viewCalendarEventMenuItem = contextMenu.findItem(VIEW_CALENDAR_CONTEXT_MENU);
+				viewCalendarEventMenuItem.setVisible(false);
+		    	MenuItem addCalendarEventMenuItem = contextMenu.findItem(ADD_CALENDAR_EVENT_CONTEXT_MENU);
+		    	addCalendarEventMenuItem.setVisible(false);
+				MenuItem editCalendarEventMenuItem = contextMenu.findItem(EDIT_CALENDAR_EVENT_CONTEXT_MENU);
+				editCalendarEventMenuItem.setVisible(false);
+		    	MenuItem viewCallLogMenuItem = contextMenu.findItem(VIEW_CALL_LOG_CONTEXT_MENU);
+				viewCallLogMenuItem.setVisible(false);
+				MenuItem viewThreadMenuItem = contextMenu.findItem(VIEW_THREAD_CONTEXT_MENU);
+				viewThreadMenuItem.setVisible(false);
+				MenuItem messagingInboxMenuItem = contextMenu.findItem(MESSAGING_INBOX_CONTEXT_MENU);
+				messagingInboxMenuItem.setVisible(false);
+				break;
+		    }
+			case Constants.NOTIFICATION_TYPE_K9:{
 				MenuItem viewCalendarEventMenuItem = contextMenu.findItem(VIEW_CALENDAR_CONTEXT_MENU);
 				viewCalendarEventMenuItem.setVisible(false);
 		    	MenuItem addCalendarEventMenuItem = contextMenu.findItem(ADD_CALENDAR_EVENT_CONTEXT_MENU);

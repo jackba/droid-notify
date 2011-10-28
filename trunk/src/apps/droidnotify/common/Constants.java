@@ -47,6 +47,7 @@ public class Constants {
 	public static final int NOTIFICATION_TYPE_GMAIL = 4;
 	public static final int NOTIFICATION_TYPE_TWITTER = 5;
 	public static final int NOTIFICATION_TYPE_FACEBOOK = 6;
+	public static final int NOTIFICATION_TYPE_K9 = 7;
 	
 	public static final int NOTIFICATION_TYPE_RESCHEDULE_PHONE = 100;
 	public static final int NOTIFICATION_TYPE_RESCHEDULE_SMS = 101;
@@ -55,6 +56,7 @@ public class Constants {
 	public static final int NOTIFICATION_TYPE_RESCHEDULE_GMAIL = 104;
 	public static final int NOTIFICATION_TYPE_RESCHEDULE_TWITTER = 105;
 	public static final int NOTIFICATION_TYPE_RESCHEDULE_FACEBOOK = 106;
+	public static final int NOTIFICATION_TYPE_RESCHEDULE_K9 = 107;
 	
 	public static final int ADD_CONTACT_ACTIVITY = 1;
 	public static final int EDIT_CONTACT_ACTIVITY = 2;
@@ -70,6 +72,9 @@ public class Constants {
 	public static final int VIEW_CALENDAR_ACTIVITY = 12;
 	public static final int SEND_SMS_QUICK_REPLY_ACTIVITY = 13;
 	public static final int VIEW_CALL_LOG_ACTIVITY = 14;
+	public static final int K9_VIEW_INBOX_ACTIVITY = 15;
+	public static final int K9_VIEW_EMAIL_ACTIVITY = 16;
+	public static final int K9_SEND_EMAIL_ACTIVITY = 17;
 	
 	public static final int MESSAGE_TYPE_SMS = 1;
 	public static final int MESSAGE_TYPE_MMS = 2;
@@ -129,16 +134,17 @@ public class Constants {
 	//-----PHONE NUMBER FORMAT CONSTANTS-----//
 	public static final String PHONE_NUMBER_FORMAT_KEY = "phone_number_format_settings";
 	public static final String PHONE_NUMBER_FORMAT_DEFAULT = "1";
-	public static final int PHONE_NUMBER_FORMAT_A = 1;
-	public static final int PHONE_NUMBER_FORMAT_B = 2;
-	public static final int PHONE_NUMBER_FORMAT_C = 3;
-	public static final int PHONE_NUMBER_FORMAT_D = 4;
-	public static final int PHONE_NUMBER_FORMAT_E = 5;
-	public static final int PHONE_NUMBER_FORMAT_F = 6;
-	public static final int PHONE_NUMBER_FORMAT_G = 7;
-	public static final int PHONE_NUMBER_FORMAT_H = 8;
+	public static final int PHONE_NUMBER_FORMAT_1 = 1;
+	public static final int PHONE_NUMBER_FORMAT_2 = 2;
+	public static final int PHONE_NUMBER_FORMAT_3 = 3;
+	public static final int PHONE_NUMBER_FORMAT_4 = 4;
+	public static final int PHONE_NUMBER_FORMAT_5 = 5;
+	public static final int PHONE_NUMBER_FORMAT_6 = 6;
+	public static final int PHONE_NUMBER_FORMAT_7 = 7;
+	public static final int PHONE_NUMBER_FORMAT_8 = 8;
 	
 	//-----TIME FORMAT CONSTANTS-----//
+	public static final String RUN_ONCE_DATE_TIME_FORMAT = "runOnceDateTimeFormat";
 	public static final String TIME_FORMAT_KEY = "time_format_settings";
 	public static final String TIME_FORMAT_DEFAULT = "0";
 	public static final int TIME_FORMAT_12_HOUR = 0;
@@ -147,12 +153,22 @@ public class Constants {
 	//-----DATE FORMAT CONSTANTS-----//
 	public static final String DATE_FORMAT_KEY = "date_format_settings";
 	public static final String DATE_FORMAT_DEFAULT = "0";
-	public static final int DATE_FORMAT_A = 0;
-	public static final int DATE_FORMAT_B = 1;
-	public static final int DATE_FORMAT_C = 2;
-	public static final int DATE_FORMAT_D = 3;
-	public static final int DATE_FORMAT_E = 4;
-	public static final int DATE_FORMAT_F = 5;
+	public static final int DATE_FORMAT_0 = 0;
+	public static final int DATE_FORMAT_1 = 1;
+	public static final int DATE_FORMAT_2 = 2;
+	public static final int DATE_FORMAT_3 = 3;
+	public static final int DATE_FORMAT_4 = 4;
+	public static final int DATE_FORMAT_5 = 5;
+	public static final int DATE_FORMAT_6 = 6;
+	public static final int DATE_FORMAT_7 = 7;
+	public static final int DATE_FORMAT_8 = 8;
+	public static final int DATE_FORMAT_9 = 9;
+	public static final int DATE_FORMAT_10 = 10;
+	public static final int DATE_FORMAT_11 = 11;
+	public static final int DATE_FORMAT_12 = 12;
+	public static final int DATE_FORMAT_13 = 13;
+	public static final int DATE_FORMAT_14 = 14;
+	public static final int DATE_FORMAT_15 = 15;
 	
 	//-----MESSAGE BODY CONSTANTS-----//
 	public static final String NOTIFICATION_BODY_FONT_SIZE_KEY = "notification_body_font_size";
@@ -301,6 +317,26 @@ public class Constants {
 	
 	//-----FACEBOOK NOTIFICATION CONSTANTS-----//
 	
+	//-----K9 NOTIFICATION CONSTANTS-----//
+	public static final String K9_BLOCKING_APP_RUNNING_ACTION_KEY = "messaging_app_running_action_k9";
+	public static final String K9_DELETE_KEY = "k9_delete_button_action";
+	public static final String K9_HIDE_CONTACT_PANEL_ENABLED_KEY = "k9_hide_contact_panel_enabled";
+	public static final String K9_HIDE_CONTACT_PHOTO_ENABLED_KEY = "k9_hide_contact_photo_enabled";
+	public static final String K9_HIDE_CONTACT_NAME_ENABLED_KEY = "k9_hide_contact_name_enabled";
+	public static final String K9_HIDE_CONTACT_NUMBER_ENABLED_KEY = "k9_hide_contact_email_enabled"; 
+    public static final String K9_HIDE_NOTIFICATION_BODY_KEY = "k9_hide_notification_body_enabled";
+	public static final String K9_REPLY_BUTTON_ACTION_KEY = "k9_reply_button_action";
+	public static final String K9_HIDE_DISMISS_BUTTON_KEY = "k9_hide_dismiss_button_enabled";
+	public static final String K9_HIDE_DELETE_BUTTON_KEY = "k9_hide_delete_button_enabled";
+	public static final String K9_HIDE_REPLY_BUTTON_KEY = "k9_hide_reply_button_enabled";
+	public static final String K9_NOTIFICATION_COUNT_ACTION_KEY = "k9_notification_count_action";
+	public static final String K9_DISMISS_KEY = "k9_dismiss_button_action";
+	public static final String K9_DISPLAY_UNREAD_KEY = "k9_display_unread_enabled";
+	public static final String K9_CONFIRM_DELETION_KEY = "confirm_k9_deletion_enabled";
+	
+	public static final String K9_DISMISS_ACTION_MARK_READ = "0";
+	public static final String K9_DELETE_ACTION_DELETE_MESSAGE = "0";
+	public static final String K9_DELETE_ACTION_NOTHING = "2";	
 	
 	//-----APPLICATION URL CONSTANTS-----//
 	//Android Market URL
@@ -434,6 +470,29 @@ public class Constants {
 
 	//-----K9 STATUS BAR NOTIFICATION CONSTANTS-----//
 	public static final String K9_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY = "k9_status_bar_notifications_enabled";
+	
+	public static final String K9_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY = "k9_status_bar_notifications_show_when_blocked_enabled";
+
+	public static final String K9_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY = "k9_notification_sound";
+	
+	public static final String K9_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY = "k9_notification_vibrate_setting";
+	public static final String K9_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_KEY = "k9_notification_vibrate_pattern";
+	public static final String K9_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_VALUE_KEY = "k9_custom";
+	public static final String K9_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_KEY = "k9_notification_vibrate_pattern_custom";
+	
+	public static final String K9_STATUS_BAR_NOTIFICATIONS_LED_ENABLED_KEY = "k9_notification_led_enabled";
+	public static final String K9_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_KEY = "k9_notification_led_pattern";	
+	public static final String K9_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_VALUE_KEY = "k9_custom";
+	public static final String K9_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_KEY = "k9_notification_led_pattern_custom";
+	public static final String K9_STATUS_BAR_NOTIFICATIONS_LED_COLOR_KEY = "k9_notification_led_color";	
+	public static final String K9_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_VALUE_KEY = "k9_custom";
+	public static final String K9_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_KEY = "k9_notification_led_color_custom";
+	
+	public static final String K9_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY = "k9_notification_in_call_sound_enabled";
+	public static final String K9_STATUS_BAR_NOTIFICATIONS_IN_CALL_VIBRATE_ENABLED_KEY = "k9_notification_in_call_vibrate_enabled";	
+	
+	public static final String K9_STATUS_BAR_NOTIFICATIONS_ICON_SETTING_KEY = "notification_icon_email";
+	public static final String K9_STATUS_BAR_NOTIFICATIONS_ICON_DEFAULT = "status_bar_notification_email_white";
 	
 	//-----GMAIL STATUS BAR NOTIFICATION CONSTANTS-----//
 	public static final String GMAIL_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY = "gmail_status_bar_notifications_enabled";

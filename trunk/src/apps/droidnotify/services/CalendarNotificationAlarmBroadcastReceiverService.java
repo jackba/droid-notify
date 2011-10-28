@@ -81,10 +81,9 @@ public class CalendarNotificationAlarmBroadcastReceiverService extends WakefulIn
 		    	rescheduleNotification = true;
 		    }
 		    if(!rescheduleNotification){
-				WakefulIntentService.acquireStaticLock(context);
 				Intent calendarIntent = new Intent(context, CalendarNotificationAlarmReceiverService.class);
 				calendarIntent.putExtras(intent.getExtras());
-				context.startService(calendarIntent);
+				WakefulIntentService.sendWakefulWork(context, calendarIntent);
 		    }else{	    	
 		    	//Display the Status Bar Notification even though the popup is blocked based on the user preferences.
 		    	if(preferences.getBoolean(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true)){
@@ -99,7 +98,7 @@ public class CalendarNotificationAlarmBroadcastReceiverService extends WakefulIn
 						}
 			    	}
 					//Display Status Bar Notification
-				    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_CALENDAR, callStateIdle, null, null, title);
+				    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_CALENDAR, callStateIdle, null, null, title, null);
 		    	}
 		    	//Ignore notification based on the users preferences.
 		    	if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_IGNORE)){

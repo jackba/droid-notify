@@ -7,6 +7,11 @@ import apps.droidnotify.log.Log;
 import apps.droidnotify.services.ScreenManagementAlarmBroadcastReceiverService;
 import apps.droidnotify.services.WakefulIntentService;
 
+/**
+ * This class listens for a screen timeout alarm.
+ * 
+ * @author Camille Sévigny
+ */
 public class ScreenManagementAlarmReceiver extends BroadcastReceiver {
 	
 	//================================================================================
@@ -31,10 +36,9 @@ public class ScreenManagementAlarmReceiver extends BroadcastReceiver {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("ScreenManagementAlarmReceiver.onReceive()");
 		try{
-			WakefulIntentService.acquireStaticLock(context);
-		    Intent screenManagementAlarmBroadcastReceiverServiceIntent = new Intent(context, ScreenManagementAlarmBroadcastReceiverService.class);
+			Intent screenManagementAlarmBroadcastReceiverServiceIntent = new Intent(context, ScreenManagementAlarmBroadcastReceiverService.class);
 		    screenManagementAlarmBroadcastReceiverServiceIntent.putExtras(intent.getExtras());
-			context.startService(screenManagementAlarmBroadcastReceiverServiceIntent);
+			WakefulIntentService.sendWakefulWork(context, screenManagementAlarmBroadcastReceiverServiceIntent);
 		}catch(Exception ex){
 			if (_debug) Log.v("ScreenManagementAlarmReceiver.onReceive() ERROR: " + ex.toString());
 		}
