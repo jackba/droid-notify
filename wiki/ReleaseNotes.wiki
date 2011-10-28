@@ -4,7 +4,7 @@
 = Release Notes =
 
 *v2.10* _Coming Soon..._
- * Added a few more date formats as well as defaulted the app to follow the phone's system date format.
+ * Added a few more date formats as well as defaulted the app to follow the phones date format.
  * 
 
 *v2.9* (October 25, 2011)
