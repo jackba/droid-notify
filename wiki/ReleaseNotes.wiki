@@ -5,7 +5,7 @@
 
 *v2.10* _Coming Soon..._
  * Added a few more date formats as well as defaulted the app to follow the phones date format.
- * 
+ * Added the following translations: French,
 
 *v2.9* (October 25, 2011)
  * Added donation app to markets.
