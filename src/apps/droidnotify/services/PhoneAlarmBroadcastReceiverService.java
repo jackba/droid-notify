@@ -83,8 +83,7 @@ public class PhoneAlarmBroadcastReceiverService extends WakefulIntentService {
 		    	rescheduleNotification = true;
 		    }
 		    if(!rescheduleNotification){
-				WakefulIntentService.acquireStaticLock(context);
-				context.startService(new Intent(context, PhoneReceiverService.class));
+				WakefulIntentService.sendWakefulWork(context, new Intent(context, PhoneReceiverService.class));
 		    }else{
 		    	//Display the Status Bar Notification even though the popup is blocked based on the user preferences.
 		    	if(preferences.getBoolean(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true)){
@@ -102,7 +101,7 @@ public class PhoneAlarmBroadcastReceiverService extends WakefulIntentService {
 		    			}
 		    		}
 					//Display Status Bar Notification
-	    			Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_PHONE, callStateIdle, contactName, phoneNumber, null);
+	    			Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_PHONE, callStateIdle, contactName, phoneNumber, null, null);
 			    }
 		    	//Ignore notification based on the users preferences.
 		    	if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_IGNORE)){

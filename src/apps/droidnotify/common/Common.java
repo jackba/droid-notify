@@ -11,7 +11,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.TimeZone;
 
-
 import android.app.ActivityManager;
 import android.app.AlarmManager;
 import android.app.KeyguardManager;
@@ -22,6 +21,7 @@ import android.app.ActivityManager.RunningTaskInfo;
 import android.app.KeyguardManager.KeyguardLock;
 import android.content.ComponentName;
 import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -47,7 +47,6 @@ import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.telephony.SmsMessage;
-import android.view.View;
 import android.widget.Toast;
 
 import apps.droidnotify.NotificationActivity;
@@ -136,19 +135,19 @@ public class Common {
 	 */ 
 	public static String[] getContactsInfoByPhoneNumber(Context context, String incomingNumber){
 		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.loadContactsInfoByPhoneNumber()");
+		if (_debug) Log.v("Common.getContactsInfoByPhoneNumber()");
 		long _contactID = 0;
 		String _contactName = "";
 		long _photoID = 0;
 		String _lookupKey = "";
 		boolean _contactExists = false;
 		if (incomingNumber == null) {
-			if (_debug) Log.v("Common.loadContactsInfoByPhoneNumber() Phone number provided is null: Exiting...");
+			if (_debug) Log.v("Common.getContactsInfoByPhoneNumber() Phone number provided is null: Exiting...");
 			return null;
 		}
 		//Exit if the phone number is an email address.
 		if (incomingNumber.contains("@")) {
-			if (_debug) Log.v("Common.loadContactsInfoByPhoneNumber() Phone number provided appears to be an email address: Exiting...");
+			if (_debug) Log.v("Common.getContactsInfoByPhoneNumber() Phone number provided appears to be an email address: Exiting...");
 			return null;
 		}
 		try{
@@ -162,7 +161,7 @@ public class Common {
 					selection, 
 					selectionArgs, 
 					sortOrder);
-			if (_debug) Log.v("Common.loadContactsInfoByPhoneNumber() Searching Contacts");
+			if (_debug) Log.v("Common.getContactsInfoByPhoneNumber() Searching Contacts");
 			while (cursor.moveToNext()) { 
 				String contactID = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID)); 
 				String contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
@@ -199,7 +198,7 @@ public class Common {
 			cursor.close();
 			return new String[]{String.valueOf(_contactID), _contactName, String.valueOf(_photoID), _lookupKey};
 		}catch(Exception ex){
-			if (_debug) Log.e("Common.loadContactsInfoByPhoneNumber() ERROR: " + ex.toString());
+			if (_debug) Log.e("Common.getContactsInfoByPhoneNumber() ERROR: " + ex.toString());
 			return null;
 		}
 	}
@@ -214,18 +213,18 @@ public class Common {
 	 */ 
 	public static String[] getContactsInfoByEmail(Context context, String incomingEmail){
 		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.loadContactsInfoByEmail()");
+		if (_debug) Log.v("Common.getContactsInfoByEmail()");
 		long _contactID = 0;
 		String _contactName = "";
 		long _photoID = 0;
 		String _lookupKey = "";
 		boolean _contactExists = false;
 		if (incomingEmail == null) {
-			if (_debug) Log.v("Common.loadContactsInfoByEmail() Email provided is null: Exiting...");
+			if (_debug) Log.v("Common.getContactsInfoByEmail() Email provided is null: Exiting...");
 			return null;
 		}
 		if (!incomingEmail.contains("@")) {
-			if (_debug) Log.v("Common.loadContactsInfoByEmail() Email provided does not appear to be a valid email address: Exiting...");
+			if (_debug) Log.v("Common.getContactsInfoByEmail() Email provided does not appear to be a valid email address: Exiting...");
 			return null;
 		}
 		String contactID = null;
@@ -240,7 +239,7 @@ public class Common {
 					selection, 
 					selectionArgs, 
 					sortOrder);
-			if (_debug) Log.v("Common.loadContactsInfoByEmail() Searching contacts");
+			if (_debug) Log.v("Common.getContactsInfoByEmail() Searching contacts");
 			while (cursor.moveToNext()) { 
 				contactID = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID)); 
 				String contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
@@ -277,7 +276,82 @@ public class Common {
 			cursor.close();
 			return new String[]{String.valueOf(_contactID), _contactName, String.valueOf(_photoID), _lookupKey};
 		}catch(Exception ex){
-			if (_debug) Log.e("Common.loadContactsInfoByEmail() ERROR: " + ex.toString());
+			if (_debug) Log.e("Common.getContactsInfoByEmail() ERROR: " + ex.toString());
+			return null;
+		}
+	}
+
+	/**
+	 * Load the various contact info for this notification from an email.
+	 * 
+	 * @param context - Application Context.
+	 * @param incomingEmail - Notifications's email address.
+	 * 
+	 * @return String[] - String Array of the contact information.
+	 */ 
+	public static String[] getContactsInfoByName(Context context, String incomingName){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.getContactsInfoByName()");
+		long _contactID = 0;
+		String _contactName = "";
+		long _photoID = 0;
+		String _lookupKey = "";
+		String _contactEmail = "";
+		boolean _contactExists = false;
+		if (incomingName == null) {
+			if (_debug) Log.v("Common.getContactsInfoByName() Name provided is null: Exiting...");
+			return null;
+		}
+		String contactID = null;
+		try{
+			final String[] projection = null;
+			final String selection = ContactsContract.Contacts.DISPLAY_NAME + " = " + DatabaseUtils.sqlEscapeString(incomingName);
+			final String[] selectionArgs = null;
+			final String sortOrder = null;
+			Cursor cursor = context.getContentResolver().query(
+					ContactsContract.Contacts.CONTENT_URI,
+					projection, 
+					selection, 
+					selectionArgs, 
+					sortOrder);
+			if (_debug) Log.v("Common.getContactsInfoByName() Searching contacts");
+			while (cursor.moveToNext()) { 
+				contactID = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID)); 
+				String contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+				String photoID = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_ID)); 
+				String lookupKey = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY)); 
+				final String[] emailProjection = null;
+				final String emailSelection = ContactsContract.CommonDataKinds.Email.CONTACT_ID + " = " + contactID;
+				final String[] emailSelectionArgs = null;
+				final String emailSortOrder = null;
+                Cursor emailCursor = context.getContentResolver().query(
+                		ContactsContract.CommonDataKinds.Email.CONTENT_URI, 
+                		emailProjection,
+                		emailSelection, 
+                        emailSelectionArgs, 
+                        emailSortOrder);
+                if(emailCursor.moveToFirst()) {
+                	String contactEmail = emailCursor.getString(emailCursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA));
+                	if(contactEmail != null){
+                		_contactEmail = contactEmail;
+                	}
+					_contactID = Long.parseLong(contactID);
+	    		  	if(contactName != null){
+	    		  		_contactName = contactName;
+	    		  	}
+	    		  	if(photoID != null){
+	    			  	_photoID = Long.parseLong(photoID);
+	    		  	}
+	    		  	_lookupKey = lookupKey;
+	  		      	_contactExists = true;
+                }
+                emailCursor.close();
+                if(_contactExists) break;
+		   	}
+			cursor.close();
+			return new String[]{String.valueOf(_contactID), _contactName, _contactEmail, String.valueOf(_photoID), _lookupKey};
+		}catch(Exception ex){
+			if (_debug) Log.e("Common.getContactsInfoByName() ERROR: " + ex.toString());
 			return null;
 		}
 	}
@@ -692,7 +766,6 @@ public class Common {
 	 * 
 	 * @param context - Application Context.
 	 * @param notificationActivity - A reference to the parent activity.
-	 * @param phoneNumber - The phone number we want to send a message to.
 	 * @param requestCode - The request code we want returned.
 	 * 
 	 * @return boolean - Returns true if the activity can be started.
@@ -971,7 +1044,62 @@ public class Common {
 			Toast.makeText(context, context.getString(R.string.app_android_contacts_app_error), Toast.LENGTH_LONG).show();
 			return false;
 		}
-	}	
+	}
+
+	/**
+	 * Start the intent for anyK9 email application to view the email inbox.
+	 * 
+	 * @param context - Application Context.
+	 * @param notificationActivity - A reference to the parent activity.
+	 * @param requestCode - The request code we want returned.
+	 * 
+	 * @return boolean - Returns true if the activity can be started.
+	 */
+	public static boolean startK9EmailAppViewInboxActivity(Context context, NotificationActivity notificationActivity, int requestCode){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.startK9EmailAppViewInboxActivity()");
+		try{
+			Intent intent = new Intent(Intent.ACTION_VIEW);
+		    intent.setPackage("com.fsck.k9");
+	        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+	        notificationActivity.startActivityForResult(intent, requestCode);
+	        return true;
+		}catch(Exception ex){
+			if (_debug) Log.e("Common.startK9EmailAppViewInboxActivity() ERROR: " + ex.toString());
+			Toast.makeText(context, context.getString(R.string.app_k9_email_app_error), Toast.LENGTH_LONG).show();
+			return false;
+		}
+	}
+	
+	/**
+	 * Start the intent for any android messaging application to send a reply.
+	 * 
+	 * @param context - Application Context.
+	 * @param notificationActivity - A reference to the parent activity.
+	 * @param phoneNumber - The phone number we want to send a message to.
+	 * @param requestCode - The request code we want returned.
+	 * 
+	 * @return boolean - Returns true if the activity can be started.
+	 */
+	public static boolean startK9MailAppReplyActivity(Context context, NotificationActivity notificationActivity, String k9EmailUri, int requestCode){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.startK9MailAppReplyActivity()");
+		if(k9EmailUri == null || k9EmailUri.equals("")){
+			Toast.makeText(context, context.getString(R.string.app_k9_reply_email_address_error), Toast.LENGTH_LONG).show();
+			return false;
+		}
+		try{
+			Intent intent = new Intent(Intent.ACTION_VIEW);
+		    intent.setData(Uri.parse(k9EmailUri));
+	        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+	        notificationActivity.startActivityForResult(intent, requestCode);
+	        return true;
+		}catch(Exception ex){
+			if (_debug) Log.e("Common.startK9MailAppReplyActivity() ERROR: " + ex.toString());
+			Toast.makeText(context, context.getString(R.string.app_k9_email_app_error), Toast.LENGTH_LONG).show();
+			return false;
+		}
+	}
 	
 	/**
 	 * Determine if the users phone has a blocked app currently running on the phone.
@@ -1125,7 +1253,7 @@ public class Common {
 	 * @param calendarEventStartTime - The calendar event start time.
 	 * @param calendarEventEndTime - The calendar event end time.
 	 */
-	public static void setStatusBarNotification(Context context, int notificationType, boolean callStateIdle, String sentFromContactName, String sentFromAddress, String message){
+	public static void setStatusBarNotification(Context context, int notificationType, boolean callStateIdle, String sentFromContactName, String sentFromAddress, String message, String k9EmailUri){
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.setStatusBarNotification() sentFromContactName: " + sentFromContactName + " sentFromAddress: " + sentFromAddress + " message: " + message);
 		try{
@@ -1227,7 +1355,7 @@ public class Common {
 					//Content Intent
 					contentIntent = PendingIntent.getActivity(context, 0, notificationContentIntent, 0);
 					//Delete Intent
-					deleteIntent = null; //PendingIntent.getService(context, 0, notificationDeleteIntent, 0);
+					deleteIntent = null;
 					break;
 				}
 				case Constants.NOTIFICATION_TYPE_MMS:{
@@ -1280,7 +1408,7 @@ public class Common {
 					//Content Intent
 					contentIntent = PendingIntent.getActivity(context, 0, notificationContentIntent, 0);
 					//Delete Intent
-					deleteIntent = null; //PendingIntent.getService(context, 0, notificationDeleteIntent, 0);
+					deleteIntent = null;
 					break;
 				}
 				case Constants.NOTIFICATION_TYPE_PHONE:{
@@ -1326,7 +1454,7 @@ public class Common {
 					//Content Intent
 					contentIntent = PendingIntent.getActivity(context, 0, notificationContentIntent, 0);
 					//Delete Intent
-					deleteIntent = null; //PendingIntent.getService(context, 0, notificationDeleteIntent, 0);
+					deleteIntent = null;
 					break;
 				}
 				case Constants.NOTIFICATION_TYPE_CALENDAR:{
@@ -1367,7 +1495,7 @@ public class Common {
 					//Content Intent
 					contentIntent = PendingIntent.getActivity(context, 0, notificationContentIntent, 0);
 					//Delete Intent
-					deleteIntent = null; //PendingIntent.getService(context, 0, notificationDeleteIntent, 0);
+					deleteIntent = null;
 					break;
 				}
 				case Constants.NOTIFICATION_TYPE_GMAIL:{
@@ -1383,6 +1511,58 @@ public class Common {
 				case Constants.NOTIFICATION_TYPE_FACEBOOK:{
 					if (_debug) Log.v("Common.setStatusBarNotification() NOTIFICATION_TYPE_FACEBOOK");
 		
+					break;
+				}
+				case Constants.NOTIFICATION_TYPE_K9:{
+					if (_debug) Log.v("Common.setStatusBarNotification() NOTIFICATION_TYPE_K9");
+					POPUP_ENABLED_KEY = Constants.K9_NOTIFICATIONS_ENABLED_KEY;
+					ENABLED_KEY = Constants.K9_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY;
+					SOUND_SETTING_KEY = Constants.K9_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY;
+					IN_CALL_SOUND_ENABLED_KEY = Constants.K9_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY;
+					VIBRATE_SETTING_KEY = Constants.K9_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY;
+					IN_CALL_VIBRATE_ENABLED_KEY = Constants.K9_STATUS_BAR_NOTIFICATIONS_IN_CALL_VIBRATE_ENABLED_KEY;
+					VIBRATE_PATTERN_KEY = Constants.K9_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_KEY;
+					VIBRATE_PATTERN_CUSTOM_VALUE_KEY = Constants.K9_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_VALUE_KEY;
+					VIBRATE_PATTERN_CUSTOM_KEY = Constants.K9_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_KEY;
+					LED_ENABLED_KEY = Constants.K9_STATUS_BAR_NOTIFICATIONS_LED_ENABLED_KEY;
+					LED_COLOR_KEY = Constants.K9_STATUS_BAR_NOTIFICATIONS_LED_COLOR_KEY;
+					LED_COLOR_CUSTOM_VALUE_KEY = Constants.K9_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_VALUE_KEY;
+					LED_COLOR_CUSTOM_KEY = Constants.K9_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_KEY;
+					LED_PATTERN_KEY = Constants.K9_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_KEY;
+					LED_PATTERN_CUSTOM_VALUE_KEY = Constants.K9_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_VALUE_KEY;
+					LED_PATTERN_CUSTOM_KEY = Constants.K9_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_KEY;
+					ICON_ID = Constants.K9_STATUS_BAR_NOTIFICATIONS_ICON_SETTING_KEY;
+					ICON_DEFAULT = Constants.K9_STATUS_BAR_NOTIFICATIONS_ICON_DEFAULT;
+					contentTitle = context.getText(R.string.status_bar_notification_content_title_text_email);
+					if(sentFromContactName == null || sentFromContactName.equals("")){
+						sentFrom = Common.formatPhoneNumber(context, sentFromAddress);
+					}else{
+						sentFrom = sentFromContactName;
+					}
+					if( (sentFrom == null || sentFrom.equals("")) && (message == null || message.equals("")) ){
+						contentText = context.getString(R.string.status_bar_notification_content_text_email_null);
+						tickerText = context.getString(R.string.status_bar_notification_ticker_text_email_null);
+						//Content Intent
+						notificationContentIntent = null;
+						//For now, don't display empty status bar notifications.
+						return;
+					}else{
+						contentText = context.getString(R.string.status_bar_notification_content_text_email, sentFrom, message);
+						if(sentFromContactName == null || sentFromContactName.equals("")){
+							tickerText = context.getString(R.string.status_bar_notification_ticker_text_unknown_contact_email, message);
+						}else{
+							tickerText = context.getString(R.string.status_bar_notification_ticker_text_email, sentFromContactName, message);
+						}
+						//Content Intent
+						notificationContentIntent = new Intent(Intent.ACTION_VIEW);
+						notificationContentIntent.setData(Uri.parse(k9EmailUri));
+					}
+					//Delete Intent
+					notificationDeleteIntent = null;
+					//Content Intent
+					contentIntent = PendingIntent.getActivity(context, 0, notificationContentIntent, 0);
+					//Delete Intent
+					deleteIntent = null;
 					break;
 				}
 			}
@@ -1573,6 +1753,27 @@ public class Common {
 				}
 				case Constants.NOTIFICATION_TYPE_FACEBOOK:{
 		
+					break;
+				}
+				case Constants.NOTIFICATION_TYPE_K9:{
+//					if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_email_black")){
+//						icon = R.drawable.status_bar_notification_email_black;
+//					}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_email_blue")){
+//						icon = R.drawable.status_bar_notification_email_blue;
+//					}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_email_green")){
+//						icon = R.drawable.status_bar_notification_email_green;
+//					}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_email_grey")){
+//						icon = R.drawable.status_bar_notification_email_grey;
+//					}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_email_orange")){
+//						icon = R.drawable.status_bar_notification_email_orange;
+//					}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_email_red")){
+//						icon = R.drawable.status_bar_notification_email_red;
+//					}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_email_white")){
+//						icon = R.drawable.status_bar_notification_email_white;
+//					}else{
+//						//Default Value
+//						icon = R.drawable.status_bar_notification_email_white;
+//					}
 					break;
 				}
 			}
@@ -1782,12 +1983,12 @@ public class Common {
             messageBody = messageBodyBuilder.toString();
             if(messageBody.startsWith(sentFromAddress)){
             	messageBody = messageBody.substring(sentFromAddress.length()).replace("\n", "<br/>").trim();
-            }    
+            }
             if(messageSubject != null && !messageSubject.equals("")){
-				messageBody = "(" + messageSubject + ")" + messageBody.replace("\n", "<br/>").trim();
+				messageBody = "<b>" + messageSubject + "</b><br/>" + messageBody.replace("\n", "<br/>").trim();
 			}else{
 				messageBody = messageBody.replace("\n", "<br/>").trim();
-			}   
+			}
     		threadID = Common.getThreadID(context, sentFromAddress, Constants.NOTIFICATION_TYPE_SMS);
     		messageID = Common.getMessageID(context, threadID, messageBody, timeStamp, Constants.NOTIFICATION_TYPE_SMS);
     		String[] smsContactInfo = null;
@@ -1803,7 +2004,7 @@ public class Common {
 			}
     		return smsArray;
 		}catch(Exception ex){
-			if (_debug) Log.v("Common.getSMSMessagesFromIntent() ERROR: " + ex.toString());
+			if (_debug) Log.e("Common.getSMSMessagesFromIntent() ERROR: " + ex.toString());
 			return null;
 		}
 	}
@@ -1855,7 +2056,7 @@ public class Common {
 	    	}
 		}catch(Exception ex){
 			if (_debug) Log.e("Common.getMMSMessagesFromDisk() ERROR: " + ex.toString());
-		} finally {
+		}finally{
     		cursor.close();
     	}
 		return mmsArray;	
@@ -1929,6 +2130,76 @@ public class Common {
 		}
 	    return missedCallsArray;
 	}
+
+	/**
+	 * Parse the incoming SMS message directly.
+	 * 
+	 * @param context - The application context.
+	 * @param bundle - Bundle from the incoming intent.
+	 * 
+	 * @return ArrayList<String> - Returns an ArrayList of Strings that contain the sms information.
+	 */
+	public static ArrayList<String> getK9MessagesFromIntent(Context context, Bundle bundle){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.getK9MessagesFromIntent()");
+		ArrayList<String> k9Array = new ArrayList<String>();
+    	long timeStamp = 0;
+    	String sentFromAddress = null;
+    	String messageBody = null;
+    	String messageSubject = null;
+    	long messageID = 0;
+		String k9EmailUri = null;
+		String k9EmailDelUri = null;
+		try{
+            Date sentDate = (Date) bundle.get("com.fsck.k9.intent.extra.SENT_DATE");
+			timeStamp = sentDate.getTime();
+            messageSubject = bundle.getString("com.fsck.k9.intent.extra.SUBJECT").toLowerCase();
+            sentFromAddress = parseFromEmailAddress(bundle.getString("com.fsck.k9.intent.extra.FROM").toLowerCase());
+            if (_debug) Log.v("Common.getK9MessagesFromIntent() sentFromAddress: " + sentFromAddress);
+            //Get the message body.
+    		final String[] projection = new String[] {"_id", "date", "sender", "subject", "preview", "account", "uri", "delUri"};
+            final String selection = "date = " + timeStamp;
+    		final String[] selectionArgs = null;
+    		final String sortOrder = null;
+    		Cursor cursor = null;
+            try{
+    		    cursor = context.getContentResolver().query(
+    		    		Uri.parse("content://com.fsck.k9.messageprovider/inbox_messages/"),
+    		    		projection,
+    		    		selection,
+    					selectionArgs,
+    					sortOrder);
+    	    	if(cursor.moveToFirst()){
+		    		messageID = Long.parseLong(cursor.getString(cursor.getColumnIndex("_id")));
+		    		messageBody = cursor.getString(cursor.getColumnIndex("preview"));
+		    		k9EmailUri = cursor.getString(cursor.getColumnIndex("uri"));
+		    		k9EmailDelUri = cursor.getString(cursor.getColumnIndex("delUri"));
+    	    	}else{
+    	    		if (_debug) Log.v("Common.getK9MessagesFromIntent() No Email Found Matching Criteria!");
+    	    	}
+    		}catch(Exception ex){
+    			if (_debug) Log.e("Common.getK9MessagesFromIntent() CURSOR ERROR: " + ex.toString());
+    		}finally{
+        		cursor.close();
+    		}
+            if(messageSubject != null && !messageSubject.equals("")){
+				messageBody = "<b>" + messageSubject + "</b><br/>" + messageBody.replace("\n", "<br/>").trim();
+			}else{
+				messageBody = messageBody.replace("\n", "<br/>").trim();
+			}
+    		String[] k9ContactInfo = null;
+    		k9ContactInfo = Common.getContactsInfoByEmail(context, sentFromAddress);
+    		if(k9ContactInfo == null){
+				k9Array.add(sentFromAddress + "|" + messageBody + "|" + messageID + "|" + timeStamp + "|" + k9EmailUri + "|" + k9EmailDelUri);
+			}else{
+				k9Array.add(sentFromAddress + "|" + messageBody + "|" + messageID + "|" + timeStamp + "|" + k9EmailUri + "|" + k9EmailDelUri + "|" + k9ContactInfo[0] + "|" + k9ContactInfo[1] + "|" + k9ContactInfo[2] + "|" + k9ContactInfo[3]);
+			}
+    		return k9Array;
+		}catch(Exception ex){
+			if (_debug) Log.e("Common.getK9MessagesFromIntent() ERROR: " + ex.toString());
+			return null;
+		}
+	}
 	
 	/**
 	 * Aquire a global partial wakelock within this context.
@@ -1939,19 +2210,14 @@ public class Common {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.aquirePartialWakelock()");
 		try{
-			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 			if(_partialWakeLock == null){
-		    	PowerManager pm = (PowerManager)context.getSystemService(Context.POWER_SERVICE);
-		    	if(preferences.getBoolean(Constants.SCREEN_ENABLED_KEY, true)){
-		    		_partialWakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, Constants.DROID_NOTIFY_WAKELOCK);
-		    	}else{
-		    		_partialWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, Constants.DROID_NOTIFY_WAKELOCK);
-		    	}
+		    	PowerManager powerManager = (PowerManager)context.getSystemService(Context.POWER_SERVICE);
+		    	_partialWakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, Constants.DROID_NOTIFY_WAKELOCK);
 		    	_partialWakeLock.setReferenceCounted(false);
 			}
 			_partialWakeLock.acquire();
 		}catch(Exception ex){
-			if (_debug) Log.v("Common.aquirePartialWakelock() ERROR: " + ex.toString());
+			if (_debug) Log.e("Common.aquirePartialWakelock() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -1966,9 +2232,10 @@ public class Common {
 		try{
 	    	if(_partialWakeLock != null){
 	    		_partialWakeLock.release();
+	    		if(_debug) Log.v("Common.clearPartialWakelock() Partial Wakelock Released...Is it still held? " + _partialWakeLock.isHeld());
 	    	}
 		}catch(Exception ex){
-			if (_debug) Log.v("Common.clearPartialWakelock() ERROR: " + ex.toString());
+			if (_debug) Log.e("Common.clearPartialWakelock() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -1984,15 +2251,15 @@ public class Common {
 		try{
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 			if(_wakeLock == null){
-				PowerManager pm = (PowerManager)context.getSystemService(Context.POWER_SERVICE);
+				PowerManager powerManager = (PowerManager)context.getSystemService(Context.POWER_SERVICE);
 				if(preferences.getBoolean(Constants.SCREEN_ENABLED_KEY, true)){
 					if(preferences.getBoolean(Constants.SCREEN_DIM_ENABLED_KEY, true)){
-						_wakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, Constants.DROID_NOTIFY_WAKELOCK);
+						_wakeLock = powerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, Constants.DROID_NOTIFY_WAKELOCK);
 					}else{
-						_wakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, Constants.DROID_NOTIFY_WAKELOCK);
+						_wakeLock = powerManager.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, Constants.DROID_NOTIFY_WAKELOCK);
 					}
 				}else{
-					_wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, Constants.DROID_NOTIFY_WAKELOCK);
+					_wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, Constants.DROID_NOTIFY_WAKELOCK);
 				}
 				_wakeLock.setReferenceCounted(false);
 			}
@@ -2001,7 +2268,7 @@ public class Common {
 			}
 			Common.clearPartialWakeLock();
 		}catch(Exception ex){
-			if (_debug) Log.v("Common.aquireWakelock() ERROR: " + ex.toString());
+			if (_debug) Log.e("Common.aquireWakelock() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -2017,9 +2284,10 @@ public class Common {
 			Common.clearPartialWakeLock();
 	    	if(_wakeLock != null){
 	    		_wakeLock.release();
+	    		if(_debug) Log.v("Common.clearWakelock() Wakelock Released...Is it still held? " + _partialWakeLock.isHeld());
 	    	}
 		}catch(Exception ex){
-			if (_debug) Log.v("Common.clearWakelock() ERROR: " + ex.toString());
+			if (_debug) Log.e("Common.clearWakelock() ERROR: " + ex.toString());
 		}
 	}
 
@@ -2081,12 +2349,12 @@ public class Common {
 			StringBuilder outputPhoneNumber = new StringBuilder("");		
 			int phoneNumberFormatPreference = Integer.parseInt(preferences.getString(Constants.PHONE_NUMBER_FORMAT_KEY, Constants.PHONE_NUMBER_FORMAT_DEFAULT));
 			String numberSeparator = "-";
-			if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_F || phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_G | phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_H){
+			if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_6 || phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_7 | phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_8){
 				numberSeparator = ".";
-			}else if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_D){
+			}else if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_4){
 				numberSeparator = "";
 			}
-			if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_A || phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_F){
+			if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_1 || phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_6){
 				if(inputPhoneNumber.length() >= 10){
 					//Format ###-###-#### (e.g.123-456-7890)
 					//Format ###-###-#### (e.g.123.456.7890)
@@ -2104,7 +2372,7 @@ public class Common {
 				}else{
 					outputPhoneNumber.append(inputPhoneNumber);
 				}
-			}else if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_B || phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_G){
+			}else if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_2 || phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_7){
 				if(inputPhoneNumber.length() >= 10){
 					//Format ##-###-##### (e.g.12-345-67890)
 					//Format ##-###-##### (e.g.12.345.67890)
@@ -2122,7 +2390,7 @@ public class Common {
 				}else{
 					outputPhoneNumber.append(inputPhoneNumber);
 				}
-			}else if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_C || phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_H){
+			}else if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_3 || phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_8){
 				if(inputPhoneNumber.length() >= 10){
 					//Format ##-##-##-##-## (e.g.12-34-56-78-90)
 					//Format ##-##-##-##-## (e.g.12.34.56.78.90)
@@ -2144,10 +2412,10 @@ public class Common {
 				}else{
 					outputPhoneNumber.append(inputPhoneNumber);
 				}
-			}else if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_D){
+			}else if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_4){
 				//Format ########## (e.g.1234567890)
 				outputPhoneNumber.append(inputPhoneNumber);
-			}else if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_E){
+			}else if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_5){
 				if(inputPhoneNumber.length() >= 10){
 					//Format (###) ###-#### (e.g.(123) 456-7890)
 					outputPhoneNumber.insert(0, inputPhoneNumber.substring(inputPhoneNumber.length() - 4, inputPhoneNumber.length()));
@@ -2244,32 +2512,72 @@ public class Common {
 				}
 			}
 			switch(dateFormatPreference){
-				case Constants.DATE_FORMAT_A:{
-					dateFormat = "M/d/yyyy " + timeFormat;
+				case Constants.DATE_FORMAT_0:{
+					dateFormat = "M/d/yyyy" + " " + timeFormat;
 					break;
 				}
-				case Constants.DATE_FORMAT_B:{
-					dateFormat = "M.d.yyyy " + timeFormat;
+				case Constants.DATE_FORMAT_1:{
+					dateFormat = "M.d.yyyy" + " " + timeFormat;
 					break;
 				}
-				case Constants.DATE_FORMAT_C:{
-					dateFormat = "MMMM d yyyy " + timeFormat;
+				case Constants.DATE_FORMAT_2:{
+					dateFormat = "MMM d yyyy" + " " + timeFormat;
 					break;
 				}
-				case Constants.DATE_FORMAT_D:{
-					dateFormat = "d/M/yyyy " + timeFormat;
+				case Constants.DATE_FORMAT_3:{
+					dateFormat = "MMM d, yyyy" + " " + timeFormat;
 					break;
 				}
-				case Constants.DATE_FORMAT_E:{
-					dateFormat = "d.M.yyyy " + timeFormat;
+				case Constants.DATE_FORMAT_4:{
+					dateFormat = "MMMM d yyyy" + " " + timeFormat;
 					break;
 				}
-				case Constants.DATE_FORMAT_F:{
-					dateFormat = "d MMMM yyyy " + timeFormat;
+				case Constants.DATE_FORMAT_5:{
+					dateFormat = "MMMM d, yyyy" + " " + timeFormat;
+					break;
+				}
+				case Constants.DATE_FORMAT_6:{
+					dateFormat = "d/M/yyyy" + " " + timeFormat;
+					break;
+				}
+				case Constants.DATE_FORMAT_7:{
+					dateFormat = "d.M.yyyy" + " " + timeFormat;
+					break;
+				}
+				case Constants.DATE_FORMAT_8:{
+					dateFormat = "d MMM yyyy" + " " + timeFormat;
+					break;
+				}
+				case Constants.DATE_FORMAT_9:{
+					dateFormat = "d MMM, yyyy" + " " + timeFormat;
+					break;
+				}
+				case Constants.DATE_FORMAT_10:{
+					dateFormat = "d MMMM yyyy" + " " + timeFormat;
+					break;
+				}
+				case Constants.DATE_FORMAT_11:{
+					dateFormat = "d MMMM, yyyy" + " " + timeFormat;
+					break;
+				}
+				case Constants.DATE_FORMAT_12:{
+					dateFormat = "yyyy/M/d" + " " + timeFormat;
+					break;
+				}
+				case Constants.DATE_FORMAT_13:{
+					dateFormat = "yyyy.M.d" + " " + timeFormat;
+					break;
+				}
+				case Constants.DATE_FORMAT_14:{
+					dateFormat = "yyyy MMM d" + " " + timeFormat;
+					break;
+				}
+				case Constants.DATE_FORMAT_15:{
+					dateFormat = "yyyy MMMM d" + " " + " " + timeFormat;
 					break;
 				}
 				default:{
-					dateFormat = "M/d/yyyy " + timeFormat;
+					dateFormat = "M/d/yyyy" + " " + timeFormat;
 					break;
 				}
 			}
@@ -2300,9 +2608,11 @@ public class Common {
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 			int dateFormatPreference = Integer.parseInt(preferences.getString(Constants.DATE_FORMAT_KEY, Constants.DATE_FORMAT_DEFAULT));
 			String[] dateInfoArray = null;
-			if(dateFormatPreference == Constants.DATE_FORMAT_A || dateFormatPreference == Constants.DATE_FORMAT_B || dateFormatPreference == Constants.DATE_FORMAT_D || dateFormatPreference == Constants.DATE_FORMAT_E){
+			if(dateFormatPreference == Constants.DATE_FORMAT_0 || dateFormatPreference == Constants.DATE_FORMAT_1 || 
+			   dateFormatPreference == Constants.DATE_FORMAT_6 || dateFormatPreference == Constants.DATE_FORMAT_7 ||
+			   dateFormatPreference == Constants.DATE_FORMAT_12 || dateFormatPreference == Constants.DATE_FORMAT_13){
 				dateInfoArray = inputFormattedDate.split(" ");
-			}else if(dateFormatPreference == Constants.DATE_FORMAT_C || dateFormatPreference == Constants.DATE_FORMAT_F){
+			}else{
 				String[] dateInfoArrayTemp = inputFormattedDate.split(" ");
 				if(dateInfoArrayTemp.length < 5){
 					dateInfoArray = new String[]{dateInfoArrayTemp[0] + " " + dateInfoArrayTemp[1] + " " + dateInfoArrayTemp[2], dateInfoArrayTemp[3]};
@@ -2314,6 +2624,213 @@ public class Common {
 		}catch(Exception ex){
 			if (_debug) Log.e("Common.parseDateInfo() ERROR: " + ex.toString());
 			return null;
+		}
+	}
+	
+	/**
+	 * Deleta an entire SMS/MMS thread.
+	 * 
+	 * @param context - The current context of this Activity.
+	 * @param threadID - The Thread ID that we want to delete.
+	 * @param notificationType - The notification type.
+	 * 
+	 * @return boolean - Returns true if the thread was deleted successfully.
+	 */
+	public static boolean deleteMessageThread(Context context, long threadID, int notificationType){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.deleteMessageThread()");
+		try{
+			if(threadID == 0){
+				if (_debug) Log.v("Common.deleteMessageThread() Thread ID == 0: Exiting...");
+				return false;
+			}
+			if(notificationType == Constants.NOTIFICATION_TYPE_MMS){
+				_context.getContentResolver().delete(
+						Uri.parse("content://mms/conversations/" + String.valueOf(threadID)), 
+						null, 
+						null);
+			}else{
+				_context.getContentResolver().delete(
+						Uri.parse("content://sms/conversations/" + String.valueOf(threadID)), 
+						null, 
+						null);
+			}
+			return true;
+		}catch(Exception ex){
+			if (_debug) Log.e("Common.deleteMessageThread() ERROR: " + ex.toString());
+			return false;
+		}
+	}
+
+	/**
+	 * Delete a single SMS/MMS message.
+	 * 
+	 * @param context - The current context of this Activity.
+	 * @param messageID - The Message ID that we want to delete.
+	 * @param notificationType - The notification type.
+	 * 
+	 * @return boolean - Returns true if the message was deleted successfully.
+	 */
+	public static boolean deleteSingleMessage(Context context, long messageID, int notificationType){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.deleteSingleMessage()");
+		try{
+			if(messageID == 0){
+				if (_debug) Log.v("Common.deleteSingleMessage() Message ID == 0: Exiting...");
+				return false;
+			}
+			if(notificationType == Constants.NOTIFICATION_TYPE_MMS){
+				_context.getContentResolver().delete(
+						Uri.parse("content://mms/" + String.valueOf(messageID)),
+						null, 
+						null);
+			}else{
+				_context.getContentResolver().delete(
+						Uri.parse("content://sms/" + String.valueOf(messageID)),
+						null, 
+						null);
+			}
+			return true;
+		}catch(Exception ex){
+			if (_debug) Log.e("Common.deleteSingleMessage() ERROR: " + ex.toString());
+			return false;
+		}
+	}
+
+	/**
+	 * Mark a single SMS/MMS message as being read or not.
+	 * 
+	 * @param context - The current context of this Activity.
+	 * @param messageID - The Message ID that we want to alter.
+	 * @param notificationType - The notification type.
+	 * 
+	 * @return boolean - Returns true if the message was updated successfully.
+	 */
+	public static boolean setMessageRead(Context context, long messageID, boolean isViewed, int notificationType){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.setMessageRead()");
+		try{
+			if(messageID == 0){
+				if (_debug) Log.v("Common.setMessageRead() Message ID == 0: Exiting...");
+				return false;
+			}
+			ContentValues contentValues = new ContentValues();
+			if(isViewed){
+				contentValues.put("READ", 1);
+			}else{
+				contentValues.put("READ", 0);
+			}
+			String selection = null;
+			String[] selectionArgs = null;			
+			if(notificationType == Constants.NOTIFICATION_TYPE_MMS){
+				_context.getContentResolver().update(
+						Uri.parse("content://mms/" + messageID), 
+			    		contentValues, 
+			    		selection, 
+			    		selectionArgs);
+			}else{
+				_context.getContentResolver().update(
+						Uri.parse("content://sms/" + messageID), 
+			    		contentValues, 
+			    		selection, 
+			    		selectionArgs);
+			}
+			return true;
+		}catch(Exception ex){
+			if (_debug) Log.e("Common.setMessageRead() ERROR: " + ex.toString());
+			return false;
+		}
+	}
+	
+	/**
+	 * Delete a call long entry.
+	 * 
+	 * @param context - The current context of this Activity.
+	 * @param callLogID - The call log ID that we want to delete.
+	 * 
+	 * @return boolean - Returns true if the call log entry was deleted successfully.
+	 */
+	public static boolean deleteFromCallLog(Context context, long callLogID){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.deleteFromCallLog()");
+		try{
+			if(callLogID == 0){
+				if (_debug) Log.v("Common.deleteFromCallLog() Call Log ID == 0: Exiting...");
+				return false;
+			}
+			String selection = android.provider.CallLog.Calls._ID + " = " + callLogID;
+			String[] selectionArgs = null;
+			_context.getContentResolver().delete(
+					Uri.parse("content://call_log/calls"),
+					selection, 
+					selectionArgs);
+			return true;
+		}catch(Exception ex){
+			if (_debug) Log.e("Common.deleteFromCallLog() ERROR: " + ex.toString());
+			return false;
+		}
+	}
+	
+	/**
+	 * Mark a call log entry as being viewed.
+	 * 
+	 * @param context - The current context of this Activity.
+	 * @param callLogID - The call log ID that we want to delete.
+	 * 
+	 * @return boolean - Returns true if the call log entry was updated successfully.
+	 */
+	public static boolean setCallViewed(Context context, long callLogID, boolean isViewed){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.setCallViewed()");
+		try{
+			if(callLogID == 0){
+				if (_debug) Log.v("Common.setCallViewed() Call Log ID == 0: Exiting...");
+				return false;
+			}
+			ContentValues contentValues = new ContentValues();
+			if(isViewed){
+				contentValues.put(android.provider.CallLog.Calls.NEW, 0);
+			}else{
+				contentValues.put(android.provider.CallLog.Calls.NEW, 1);
+			}
+			String selection = android.provider.CallLog.Calls._ID + " = " + callLogID;
+			String[] selectionArgs = null;
+			_context.getContentResolver().update(
+					Uri.parse("content://call_log/calls"),
+					contentValues,
+					selection, 
+					selectionArgs);
+			return true;
+		}catch(Exception ex){
+			if (_debug) Log.e("Common.setCallViewed() ERROR: " + ex.toString());
+			return false;
+		}
+	}
+	
+	/**
+	 * Delete a K9 Email using it's own URI.
+	 * 
+	 * @param context - The current context of this Activity.
+	 * @param k9EmailDelUri - The URI provided to delete the email.
+	 */
+	public static void deleteK9Email(Context context, String k9EmailDelUri){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.deleteK9Email()");
+		try{
+			if(k9EmailDelUri == null || k9EmailDelUri.equals("")){
+				if (_debug) Log.v("Common.deleteK9Email() k9EmailDelUri == null/empty: Exiting...");
+				return;
+			}
+			String selection = null;
+			String[] selectionArgs = null;
+			_context.getContentResolver().delete(
+					Uri.parse(k9EmailDelUri),
+					selection, 
+					selectionArgs);
+			return;
+		}catch(Exception ex){
+			if (_debug) Log.e("Common.deleteK9Email() ERROR: " + ex.toString());
+			return;
 		}
 	}
 	
@@ -2540,7 +3057,7 @@ public class Common {
 				break;
 			}
 		}
-		String[] rescheduleNotificationInfo = new String[] {String.valueOf(notificationType), notification.getSentFromAddress(), notification.getMessageBody(), String.valueOf(notification.getTimeStamp()), String.valueOf(notification.getThreadID()), String.valueOf(notification.getContactID()), notification.getContactName(), String.valueOf(notification.getMessageID()), notification.getTitle(), notification.getEmail(), String.valueOf(notification.getCalendarID()), String.valueOf(notification.getCalendarEventID()), String.valueOf(notification.getCalendarEventStartTime()), String.valueOf(notification.getCalendarEventEndTime()), String.valueOf(notification.getAllDay()), String.valueOf(notification.getCallLogID()), notification.getLookupKey()};
+		String[] rescheduleNotificationInfo = new String[] {String.valueOf(notificationType), notification.getSentFromAddress(), notification.getMessageBody(), String.valueOf(notification.getTimeStamp()), String.valueOf(notification.getThreadID()), String.valueOf(notification.getContactID()), notification.getContactName(), String.valueOf(notification.getMessageID()), notification.getTitle(), String.valueOf(notification.getCalendarID()), String.valueOf(notification.getCalendarEventID()), String.valueOf(notification.getCalendarEventStartTime()), String.valueOf(notification.getCalendarEventEndTime()), String.valueOf(notification.getAllDay()), String.valueOf(notification.getCallLogID()), notification.getLookupKey()};
 		AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 		Intent rescheduleIntent = new Intent(context, RescheduleReceiver.class);
 		Bundle rescheduleBundle = new Bundle();
@@ -2597,6 +3114,33 @@ public class Common {
 	    protected void onPostExecute(Void result) {
 			if (_debug) Log.v("Common.playNotificationMediaFileAsyncTask.onPostExecute()");
 	    }
+	}
+	
+	/**
+	 * Parse an email address form a "FROM" email address.
+	 * 
+	 * @param inputFromAddress - The address we wish to parse.
+	 * 
+	 * @return String- The email address that we parsed/extracted.
+	 */
+	private static String parseFromEmailAddress(String inputFromAddress){
+		if (_debug) Log.v("Common.parseFromEmailAddress()");
+		try{
+			if(inputFromAddress == null || inputFromAddress.equals("")){
+				if (_debug) Log.v("Common.parseFromEmailAddress() InputFromAddress is null/empty. Exiting...");
+				return inputFromAddress;
+			}
+			String outputEmailAddress = null;
+			if(inputFromAddress.contains("<") && inputFromAddress.contains(">")){
+				outputEmailAddress = inputFromAddress.substring(inputFromAddress.indexOf("<") + 1, inputFromAddress.indexOf(">"));
+			}else{
+				 outputEmailAddress = inputFromAddress;
+			}
+			return outputEmailAddress;
+		}catch(Exception ex){
+			if (_debug) Log.e("Common.parseFromEmailAddress() ERROR: " + ex.toString());
+			return inputFromAddress;
+		}
 	}
 	
 }

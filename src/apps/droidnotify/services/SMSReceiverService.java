@@ -60,10 +60,10 @@ public class SMSReceiverService extends WakefulIntentService {
 			}else{
 				smsArray = Common.getSMSMessagesFromDisk(context);
 			}
-			if(smsArray.size() > 0){
+			if(smsArray != null && smsArray.size() > 0){
 				Bundle bundle = new Bundle();
 				bundle.putInt("notificationType", Constants.NOTIFICATION_TYPE_SMS);
-				bundle.putStringArrayList("smsArrayList",smsArray);
+				bundle.putStringArrayList("smsArrayList", smsArray);
 		    	Intent smsNotificationIntent = new Intent(context, NotificationActivity.class);
 		    	smsNotificationIntent.putExtras(bundle);
 		    	smsNotificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);

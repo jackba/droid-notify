@@ -51,10 +51,10 @@ public class MMSReceiverService extends WakefulIntentService {
 		try{
 			Context context = getApplicationContext();
 			ArrayList<String> mmsArray = Common.getMMSMessagesFromDisk(context);
-			if(mmsArray.size() > 0){
+			if(mmsArray != null && mmsArray.size() > 0){
 				Bundle bundle = new Bundle();
 				bundle.putInt("notificationType", Constants.NOTIFICATION_TYPE_MMS);
-				bundle.putStringArrayList("mmsArrayList",mmsArray);
+				bundle.putStringArrayList("mmsArrayList", mmsArray);
 		    	Intent mmsNotificationIntent = new Intent(context, NotificationActivity.class);
 		    	mmsNotificationIntent.putExtras(bundle);
 		    	mmsNotificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);

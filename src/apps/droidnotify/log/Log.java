@@ -18,6 +18,7 @@ public class Log {
     //================================================================================
 	
 	private static final String _logTag = "DroidNotify";
+	private static final boolean _debugFileOnDisk = false;
 	private static final boolean _debug = true;
 	private static final boolean _showAndroidRateAppLink = true;
 	private static final boolean _showAmazonRateAppLink = false;
@@ -70,7 +71,7 @@ public class Log {
 	public static void v(String msg) {
 		if(_debug){
 			android.util.Log.v(getLogTag(), msg);
-			writeToCustomLog(1,msg);
+			if(_debugFileOnDisk) writeToCustomLog(1,msg);
 		}
 	}
 	
@@ -82,7 +83,7 @@ public class Log {
 	public static void d(String msg) {
 		if(_debug){
 			android.util.Log.d(getLogTag(), msg);
-			writeToCustomLog(2,msg);
+			if(_debugFileOnDisk) writeToCustomLog(2,msg);
 		}
 	}	
 	
@@ -94,7 +95,7 @@ public class Log {
 	public static void i(String msg) {
 		if(_debug){
 			android.util.Log.i(getLogTag(), msg);
-			writeToCustomLog(3,msg);
+			if(_debugFileOnDisk) writeToCustomLog(3,msg);
 		}
 	}
 	
@@ -106,7 +107,7 @@ public class Log {
 	public static void w(String msg) {
 		if(_debug){
 			android.util.Log.w(getLogTag(), msg);
-			writeToCustomLog(4,msg);
+			if(_debugFileOnDisk) writeToCustomLog(4,msg);
 		}
 	}
 	
@@ -118,7 +119,7 @@ public class Log {
 	public static void e(String msg) {
 		if(_debug){
 			android.util.Log.e(getLogTag(), msg);
-			writeToCustomLog(5,msg);
+			if(_debugFileOnDisk) writeToCustomLog(5,msg);
 		}
 	}
   
@@ -155,7 +156,7 @@ public class Log {
 	        	logFilePath = Environment.getExternalStoragePublicDirectory("Droid Notify/Logs/D");
 	        	break;
 	        }
-	        case 3:{ 
+	        case 3:{
 	        	logFilePath = Environment.getExternalStoragePublicDirectory("Droid Notify/Logs/I");
 	        	break;
 	        }
@@ -171,7 +172,7 @@ public class Log {
 	    File logFile = new File(logFilePath, "DroidNotifyLog.txt");
 	    try{
 	    	logFilePath.mkdirs();
-			BufferedWriter buf = new BufferedWriter(new FileWriter(logFile, true)); 
+			BufferedWriter buf = new BufferedWriter(new FileWriter(logFile, true), msg.getBytes().length); 
 			buf.append(msg);
 			buf.newLine();
 			buf.close();

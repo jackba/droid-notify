@@ -10,6 +10,11 @@ import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
 import apps.droidnotify.receivers.CalendarAlarmReceiver;
 
+/**
+ * This class does the work of the BroadcastReceiver.
+ * 
+ * @author Camille Sévigny
+ */
 public class OnBootBroadcastReceiverService extends WakefulIntentService {
 	
 	//================================================================================

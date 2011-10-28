@@ -94,6 +94,9 @@ public class RescheduleBroadcastReceiverService extends WakefulIntentService {
 			    case Constants.NOTIFICATION_TYPE_RESCHEDULE_FACEBOOK:{
 			    	break;
 			    }
+			    case Constants.NOTIFICATION_TYPE_RESCHEDULE_K9:{
+			    	break;
+			    }
 		    }
 		    //Reschedule notification based on the users preferences.
 		    if(!callStateIdle){
@@ -106,10 +109,9 @@ public class RescheduleBroadcastReceiverService extends WakefulIntentService {
 		    	rescheduleNotification = true;
 		    }
 		    if(!rescheduleNotification){
-				WakefulIntentService.acquireStaticLock(context);
 				Intent rescheduleIntent = new Intent(context, RescheduleReceiverService.class);
 				rescheduleIntent.putExtras(intent.getExtras());
-				context.startService(rescheduleIntent);
+				WakefulIntentService.sendWakefulWork(context, rescheduleIntent);
 		    }else{
 		    	//Display the Status Bar Notification even though the popup is blocked based on the user preferences.
 		    	if(showBlockedNotificationStatusBarNotification){
@@ -123,19 +125,19 @@ public class RescheduleBroadcastReceiverService extends WakefulIntentService {
 	    			//Display Status Bar Notification
 					switch(notificationType){
 					    case Constants.NOTIFICATION_TYPE_RESCHEDULE_PHONE:{
-					    	Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_PHONE, callStateIdle, contactName, sentFromAddress, null);
+					    	Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_PHONE, callStateIdle, contactName, sentFromAddress, null, null);
 					    	break;
 					    }
 					    case Constants.NOTIFICATION_TYPE_RESCHEDULE_SMS:{
-					    	Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_SMS, callStateIdle, contactName, sentFromAddress, messageBody);
+					    	Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_SMS, callStateIdle, contactName, sentFromAddress, messageBody, null);
 					    	break;
 					    }
 					    case Constants.NOTIFICATION_TYPE_RESCHEDULE_MMS:{
-					    	Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_MMS, callStateIdle, contactName, sentFromAddress, messageBody);
+					    	Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_MMS, callStateIdle, contactName, sentFromAddress, messageBody, null);
 					    	break;
 					    }
 					    case Constants.NOTIFICATION_TYPE_RESCHEDULE_CALENDAR:{
-					    	Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_CALENDAR, callStateIdle, null, null, title);
+					    	Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_CALENDAR, callStateIdle, null, null, title, null);
 					    	break;
 					    }
 					    case Constants.NOTIFICATION_TYPE_RESCHEDULE_GMAIL:{
@@ -145,6 +147,10 @@ public class RescheduleBroadcastReceiverService extends WakefulIntentService {
 					    	break;
 					    }
 					    case Constants.NOTIFICATION_TYPE_RESCHEDULE_FACEBOOK:{
+					    	break;
+					    }
+					    case Constants.NOTIFICATION_TYPE_RESCHEDULE_K9:{
+					    	Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_CALENDAR, callStateIdle, null, null, title, null);
 					    	break;
 					    }
 					}

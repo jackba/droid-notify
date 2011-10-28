@@ -215,6 +215,18 @@ public class NotificationViewFlipper extends ViewFlipper {
 				}
 				break;
 			}
+			case Constants.NOTIFICATION_TYPE_K9:{
+				if(_preferences.getString(Constants.K9_DELETE_KEY, "0").equals(Constants.K9_DELETE_ACTION_NOTHING)){
+					//Remove the notification from the ViewFlipper
+					removeActiveNotification();
+				}else if(_preferences.getString(Constants.K9_DELETE_KEY, "0").equals(Constants.K9_DELETE_ACTION_DELETE_MESSAGE)){
+					//Delete the current message from the users phone.
+					notification.deleteMessage();
+					//Remove the notification from the ViewFlipper
+					removeActiveNotification();
+				}
+				break;
+			}
 		}
 	}
 	

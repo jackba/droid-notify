@@ -36,10 +36,7 @@ public class PhoneReceiver extends BroadcastReceiver{
 		_debug = Log.getDebug();
 		if (_debug) Log.v("PhoneReceiver.onReceive()");
 		try{
-			WakefulIntentService.acquireStaticLock(context);
-		    Intent phoneBroadcastReceiverServiceIntent = new Intent(context, PhoneBroadcastReceiverService.class);
-		    phoneBroadcastReceiverServiceIntent.putExtras(intent.getExtras());
-			context.startService(phoneBroadcastReceiverServiceIntent);
+			WakefulIntentService.sendWakefulWork(context, new Intent(context, PhoneBroadcastReceiverService.class));
 		}catch(Exception ex){
 			if (_debug) Log.e("PhoneReceiver.onReceive() ERROR: " + ex.toString());
 		}

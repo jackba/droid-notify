@@ -26,14 +26,14 @@ import apps.droidnotify.log.Log;
  */
 abstract public class WakefulIntentService extends IntentService {
 	
-	abstract void doWakefulWork(Intent intent);
+	abstract protected void doWakefulWork(Intent intent);
 
 	//================================================================================
     // Properties
     //================================================================================
 	
 	public static final String LOCK_NAME_STATIC = "app.droidnotify.wakefullintentservice";
-	private static PowerManager.WakeLock lockStatic = null;
+	private static volatile PowerManager.WakeLock _lockStatic = null;
 	private static boolean _debug = false;
 
 	//================================================================================
@@ -49,6 +49,7 @@ abstract public class WakefulIntentService extends IntentService {
 		super(name);
 		_debug = Log.getDebug();
 		if(_debug) Log.v("WakefulIntentService.WakefulIntentService()");
+	    setIntentRedelivery(true);
 	}
 
 	//================================================================================
@@ -56,17 +57,43 @@ abstract public class WakefulIntentService extends IntentService {
 	//================================================================================
 	
 	/**
-	 * Aquire the WakeLock.
+	 * 
 	 * 
 	 * @param context - Application Context.
+	 * @param intent - Intent object that we are working with.
 	 */
-	public static void acquireStaticLock(Context context) {
-		if(_debug) Log.v("WakefulIntentService.acquireStaticLock()");
-		try{
-			getLock(context).acquire();
-		}catch(Exception ex){
-			if(_debug) Log.v("WakefulIntentService.acquireStaticLock() ERROR: " + ex);
-		}
+	public static void sendWakefulWork(Context context, Intent intent) {
+		if(_debug) Log.v("WakefulIntentService.sendWakefulWork()");
+		getLock(context.getApplicationContext()).acquire();
+		context.startService(intent);
+	}
+	
+	/**
+	 * 
+	 * 
+	 * @param context - Application Context.
+	 * @param clsService
+	 */
+	public static void sendWakefulWork(Context context, Class<?> clsService) {
+		if(_debug) Log.v("WakefulIntentService.sendWakefulWork()");
+		sendWakefulWork(context, new Intent(context, clsService));
+	}
+	
+	/**
+	 * 
+	 * 
+	 * @param startId - The ID.
+	 * @param flags - The flags.
+	 * @param intent - Intent object that we are working with.
+	 */
+	@Override
+	public int onStartCommand(Intent intent, int flags, int startId) {
+		if(_debug) Log.v("WakefulIntentService.onStartCommand()");
+		if ((flags & START_FLAG_REDELIVERY) != 0) { // if crash restart...
+			getLock(this.getApplicationContext()).acquire();  // ...then quick grab the lock
+	    }
+	    super.onStartCommand(intent, flags, startId);
+	    return(START_REDELIVER_INTENT);
 	}
 
 	//================================================================================
@@ -76,7 +103,7 @@ abstract public class WakefulIntentService extends IntentService {
 	/**
 	 * Handles the intent that we are working with.
 	 * 
-	  * @param intent - Intent object that we are working with.
+	 * @param intent - Intent object that we are working with.
 	 */
 	@Override
 	final protected void onHandleIntent(Intent intent) {
@@ -86,13 +113,8 @@ abstract public class WakefulIntentService extends IntentService {
 		}catch(Exception ex){
 			if(_debug) Log.e("WakefulIntentService.onHandleIntent() ERROR: " + ex.toString());
 		}finally {
-			try{
-				if(_debug) Log.v("WakefulIntentService.onHandleIntent() Attempting to release the Wakelock");
-				getLock(this).release();
-				if(_debug) Log.v("WakefulIntentService.onHandleIntent() Wakelock Released");
-			}catch(Exception ex){
-				if(_debug) Log.e("WakefulIntentService.onHandleIntent() ERROR: " + ex.toString());
-			}
+			getLock(this.getApplicationContext()).release();
+			if(_debug) Log.v("WakefulIntentService.onHandleIntent() Wakelock Released...Is it still held? " + getLock(this.getApplicationContext()).isHeld());
 		}
 	}
 	
@@ -109,12 +131,12 @@ abstract public class WakefulIntentService extends IntentService {
 	 */
 	synchronized private static PowerManager.WakeLock getLock(Context context) {
 		if(_debug) Log.v("WakefulIntentService.getLock()");
-		if (lockStatic==null) {
-			PowerManager mgr=(PowerManager)context.getSystemService(Context.POWER_SERVICE);
-			lockStatic=mgr.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, LOCK_NAME_STATIC);
-			lockStatic.setReferenceCounted(true);
+		if (_lockStatic == null) {
+			PowerManager powerManager = (PowerManager)context.getSystemService(Context.POWER_SERVICE);
+			_lockStatic = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, LOCK_NAME_STATIC);
+			_lockStatic.setReferenceCounted(true);
 		}
-		return(lockStatic);
+		return(_lockStatic);
 	}
 	
 }

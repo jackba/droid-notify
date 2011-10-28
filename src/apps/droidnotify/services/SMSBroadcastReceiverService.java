@@ -15,6 +15,7 @@ import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
 import apps.droidnotify.receivers.SMSAlarmReceiver;
+import apps.droidnotify.receivers.SMSReceiver;
 
 /**
  * This class does the work of the BroadcastReceiver.
@@ -95,10 +96,9 @@ public class SMSBroadcastReceiverService extends WakefulIntentService {
 			    	rescheduleNotification = true;
 			    }
 			    if(!rescheduleNotification){
-					WakefulIntentService.acquireStaticLock(context);
 					Intent smsIntent = new Intent(context, SMSReceiverService.class);
 					smsIntent.putExtras(intent.getExtras());
-					context.startService(smsIntent);
+					WakefulIntentService.sendWakefulWork(context, smsIntent);
 			    }else{
 			    	//Display the Status Bar Notification even though the popup is blocked based on the user preferences.
 			    	if(preferences.getBoolean(Constants.SMS_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true)){
@@ -119,7 +119,7 @@ public class SMSBroadcastReceiverService extends WakefulIntentService {
 			    			}
 						}
 						//Display Status Bar Notification
-					    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_SMS, callStateIdle, contactName, messageAddress, messageBody);
+					    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_SMS, callStateIdle, contactName, messageAddress, messageBody, null);
 				    }
 			    	//Ignore notification based on the users preferences.
 			    	if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_IGNORE)){
@@ -128,15 +128,9 @@ public class SMSBroadcastReceiverService extends WakefulIntentService {
 			    	//Set alarm to go off x minutes from the current time as defined by the user preferences.
 			    	if(preferences.getBoolean(Constants.RESCHEDULE_NOTIFICATIONS_ENABLED_KEY, true)){
 				    	long rescheduleInterval = Long.parseLong(preferences.getString(Constants.RESCHEDULE_NOTIFICATION_TIMEOUT_KEY, "5")) * 60 * 1000;
-			    		if(rescheduleInterval == 0){
-			    			SharedPreferences.Editor editor = preferences.edit();
-			    			editor.putBoolean(Constants.RESCHEDULE_NOTIFICATIONS_ENABLED_KEY, false);
-			    			editor.commit();
-			    			return;
-			    		}
 			    		if (_debug) Log.v("SMSBroadcastReceiverService.doWakefulWork() Rescheduling notification. Rechedule in " + rescheduleInterval + "minutes.");
 						AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-						Intent smsIntent = new Intent(context, SMSReceiverService.class);
+						Intent smsIntent = new Intent(context, SMSReceiver.class);
 						smsIntent.putExtras(intent.getExtras());
 						smsIntent.setAction("apps.droidnotify.VIEW/SMSReschedule/" + System.currentTimeMillis());
 						PendingIntent smsPendingIntent = PendingIntent.getBroadcast(context, 0, smsIntent, 0);

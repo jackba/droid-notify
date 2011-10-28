@@ -35,10 +35,7 @@ public class PhoneAlarmReceiver extends BroadcastReceiver {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("PhoneAlarmReceiver.onReceive()");
 		try{
-			WakefulIntentService.acquireStaticLock(context);
-		    Intent phoneAlarmBroadcastReceiverServiceIntent = new Intent(context, PhoneAlarmBroadcastReceiverService.class);
-		    phoneAlarmBroadcastReceiverServiceIntent.putExtras(intent.getExtras());
-			context.startService(phoneAlarmBroadcastReceiverServiceIntent);
+			WakefulIntentService.sendWakefulWork(context, new Intent(context, PhoneAlarmBroadcastReceiverService.class));
 		}catch(Exception ex){
 			if (_debug) Log.e("PhoneAlarmReceiver.onReceive() ERROR: " + ex.toString());
 		}

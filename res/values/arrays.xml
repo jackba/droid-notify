@@ -745,6 +745,16 @@
 		<item name="3">@string/date_format_4_text</item>
 		<item name="4">@string/date_format_5_text</item>
 		<item name="5">@string/date_format_6_text</item>
+		<item name="6">@string/date_format_7_text</item>
+		<item name="7">@string/date_format_8_text</item>
+		<item name="8">@string/date_format_9_text</item>
+		<item name="9">@string/date_format_10_text</item>
+		<item name="10">@string/date_format_11_text</item>
+		<item name="11">@string/date_format_12_text</item>
+		<item name="12">@string/date_format_13_text</item>
+		<item name="13">@string/date_format_14_text</item>
+		<item name="14">@string/date_format_15_text</item>
+		<item name="15">@string/date_format_16_text</item>
 	</string-array>
 	<string-array name="date_format_options_values">
 		<item name="0">0</item>
@@ -753,6 +763,16 @@
 		<item name="3">3</item>
 		<item name="4">4</item>
 		<item name="5">5</item>
+		<item name="6">6</item>
+		<item name="7">7</item>
+		<item name="8">8</item>
+		<item name="9">9</item>
+		<item name="10">10</item>
+		<item name="11">11</item>
+		<item name="12">12</item>
+		<item name="13">13</item>
+		<item name="14">14</item>
+		<item name="15">15</item>
 	</string-array>	
 	
 	<!-- SMS/MMS TimeStamp Adjustment Arrays --> 

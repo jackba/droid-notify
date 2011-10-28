@@ -2,12 +2,11 @@ package apps.droidnotify;
 
 import java.util.Date;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.preference.PreferenceManager;
+
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
@@ -39,7 +38,6 @@ public class Notification {
 	private boolean _contactExists = false;
 	private boolean _contactPhotoExists = false;
 	private String _title = null;
-	private String _email = null;
 	private long _calendarID = 0;
 	private long _calendarEventID = 0;
 	private long _calendarEventStartTime = 0;
@@ -47,6 +45,8 @@ public class Notification {
 	private boolean _allDay = false;
 	private long _callLogID = 0;
 	private String _lookupKey = null;
+	private String _k9EmailUri = null;
+	private String _k9EmailDelUri = null;
 	
 	//================================================================================
 	// Constructors
@@ -137,7 +137,7 @@ public class Notification {
 					break;
 				}
 				case Constants.NOTIFICATION_TYPE_FACEBOOK:{
-					_title = "Fascebook";
+					_title = "Facebook";
 					break;
 				}
 			}
@@ -187,7 +187,11 @@ public class Notification {
 					break;
 				}
 				case Constants.NOTIFICATION_TYPE_FACEBOOK:{
-					_title = "Fascebook";
+					_title = "Facebook";
+					break;
+				}
+				case Constants.NOTIFICATION_TYPE_K9:{
+					_title = "Email";
 					break;
 				}
 			}
@@ -239,7 +243,7 @@ public class Notification {
 	    	_title = title;
 	    	_allDay = allDay;
 	    	if(notificationType == Constants.NOTIFICATION_TYPE_CALENDAR){
-	    		_messageBody = formatCalendarEventMessage(messageBody, eventStartTime, eventEndTime, allDay, calendarName).replace("\n", "<br/>").trim();
+	    		_messageBody = formatCalendarEventMessage(messageBody, eventStartTime, eventEndTime, allDay, calendarName);
 	    	}else{
 	    		_messageBody = messageBody;
 	    	}
@@ -255,9 +259,9 @@ public class Notification {
 	/**
 	 * Class Constructor
 	 */
-	public Notification(Context context, String sentFromAddress, String messageBody, long timeStamp, long threadID, long contactID, String contactName, long photoID, long messageID, String title, String email, long calendarID, long calendarEventID, long calendarEventStartTime, long calendarEventEndTime, boolean allDay, long callLogID,  String lookupKey, int notificationType) {
+	public Notification(Context context, String sentFromAddress, String messageBody, long timeStamp, long threadID, long contactID, String contactName, long photoID, long messageID, String title, long calendarID, long calendarEventID, long calendarEventStartTime, long calendarEventEndTime, boolean allDay, long callLogID,  String lookupKey, String k9EmailUri, String k9EmailDelUri, int notificationType) {
 		_debug = Log.getDebug();
-		if (_debug) Log.v("Notification.Notification(Context context, String sentFromAddress, String messageBody, long timeStamp, long threadID, long contactID, String contactName, long photoID, long messageID, String title, String email, long calendarID, long calendarEventID, long calendarEventStartTime, long calendarEventEndTime, boolean allDay, long callLogID,  String lookupKey, int notificationType)");
+		if (_debug) Log.v("Notification.Notification(Context context, String sentFromAddress, String messageBody, long timeStamp, long threadID, long contactID, String contactName, long photoID, long messageID, String title, String email, long calendarID, long calendarEventID, long calendarEventStartTime, long calendarEventEndTime, boolean allDay, long callLogID,  String lookupKey, String k9EmailUri, String k9EmailDelUri, int notificationType)");
 		try{
 			_context = context;
 			_preferences = PreferenceManager.getDefaultSharedPreferences(_context);
@@ -270,6 +274,8 @@ public class Notification {
     		_threadID = threadID;
     		_timeStamp = timeStamp;
     		_contactID = contactID;
+    		_k9EmailUri = k9EmailUri;
+    		_k9EmailDelUri = k9EmailDelUri;
     		if(contactName.equals("")){
     			_contactName = null;
     			_contactExists = false;
@@ -284,7 +290,6 @@ public class Notification {
     			_contactPhotoExists = true;
     		}
     		_title = title;
-    		_email = email;
     		_calendarID = calendarID;
     		_calendarEventID = calendarEventID;
     		_calendarEventStartTime = calendarEventStartTime;
@@ -293,7 +298,79 @@ public class Notification {
     		_callLogID = callLogID;
     		_lookupKey = lookupKey;
 		}catch(Exception ex){
-			if (_debug) Log.v("Notification.Notification(Context context, String sentFromAddress, String messageBody, long timeStamp, long threadID, long contactID, String contactName, long photoID, long messageID, String title, String email, long calendarID, long calendarEventID, long calendarEventStartTime, long calendarEventEndTime, boolean allDay, long callLogID,  String lookupKey, int notificationType) ERROR: " + ex.toString());
+			if (_debug) Log.v("Notification.Notification(Context context, String sentFromAddress, String messageBody, long timeStamp, long threadID, long contactID, String contactName, long photoID, long messageID, String title, String email, long calendarID, long calendarEventID, long calendarEventStartTime, long calendarEventEndTime, boolean allDay, long callLogID,  String lookupKey, String k9EmailUri, String k9EmailDelUri, int notificationType) ERROR: " + ex.toString());
+		}
+	}
+
+	/**
+	 * Class Constructor
+	 */
+	public Notification(Context context, String sentFromAddress, String messageBody, long timeStamp, long contactID, String contactName, long photoID, long messageID, String lookupKey, String k9EmailUri, String k9EmailDelUri, int notificationType) {
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Notification.Notification(Context context, String sentFromAddress, String messageBody, long timeStamp, long contactID, String contactName, long photoID, long messageID, String lookupKey, String k9EmailUri, String k9EmailDelUri, int notificationType)");
+		try{			
+			switch(notificationType){
+				case Constants.NOTIFICATION_TYPE_PHONE:{
+					_title = "Missed Call";
+					break;
+				}
+				case Constants.NOTIFICATION_TYPE_SMS:{
+					_title = "SMS Message";
+					break;
+				}
+				case Constants.NOTIFICATION_TYPE_MMS:{
+					_title = "MMS Message";	
+					break;
+				}
+				case Constants.NOTIFICATION_TYPE_CALENDAR:{
+					_title = "Calendar Event";
+					break;
+				}
+				case Constants.NOTIFICATION_TYPE_GMAIL:{
+					_title = "Email";
+					break;
+				}
+				case Constants.NOTIFICATION_TYPE_TWITTER:{
+					_title = "Twitter";
+					break;
+				}
+				case Constants.NOTIFICATION_TYPE_FACEBOOK:{
+					_title = "Facebook";
+					break;
+				}
+				case Constants.NOTIFICATION_TYPE_K9:{
+					_title = "Email";
+					break;
+				}
+			}
+			_context = context;
+			_preferences = PreferenceManager.getDefaultSharedPreferences(_context);
+			_contactExists = false;
+			_contactPhotoExists = false;
+			_notificationType = notificationType;
+    		_sentFromAddress = sentFromAddress.toLowerCase();
+    		_messageBody = messageBody;
+    		_messageID = messageID;
+    		_timeStamp = timeStamp;
+    		_contactID = contactID;
+    		_k9EmailUri = k9EmailUri;
+    		_k9EmailDelUri = k9EmailDelUri;
+    		if(contactName.equals("")){
+    			_contactName = null;
+    			_contactExists = false;
+    		}else{
+    			_contactName = contactName;
+    			_contactExists = true;
+    		}
+    		_photoID = photoID;
+    		if(photoID == 0){
+    			_contactPhotoExists = false;
+    		}else{
+    			_contactPhotoExists = true;
+    		}
+    		_lookupKey = lookupKey;
+		}catch(Exception ex){
+			if (_debug) Log.v("Notification.Notification(Context context, String sentFromAddress, String messageBody, long timeStamp, long contactID, String contactName, long photoID, long messageID, String lookupKey, String k9EmailUri, String k9EmailDelUri, int notificationType) ERROR: " + ex.toString());
 		}
 	}
 	
@@ -451,16 +528,6 @@ public class Notification {
 	public String getTitle() {
 		if (_debug) Log.v("Notification.getTitle() Title: " + _title);
   		return _title;
-	}
-	
-	/**
-	 * Get the email property.
-	 * 
-	 * @return email - Notification email.
-	 */
-	public String getEmail() {
-		if (_debug) Log.v("Notification.getEmail() Email: " + _email);
-  		return _email;
 	}	
 	
 	/**
@@ -532,6 +599,27 @@ public class Notification {
 		if (_debug) Log.v("Notification.getLookupKey() LookupKey: " + _lookupKey);
 	    return _lookupKey;
 	}	
+	
+	/**
+	 * Get the k9EmailUri property.
+	 * 
+	 * @return k9EmailUri - The k9 email URI.
+	 */
+	public String getK9EmailUri() {
+		if (_debug) Log.v("Notification.getK9EmailUri() K9EmailUri: " + _k9EmailUri);
+	    return _k9EmailUri;
+	}
+	
+	/**
+	 * Get the k9EmailDelUri property.
+	 * 
+	 * @return k9EmailDelUri - The k9 delete email URI.
+	 */
+	public String getK9EmailDelUri() {
+		if (_debug) Log.v("Notification.getK9EmailDelUri() K9EmailDelUri: " + _k9EmailDelUri);
+	    return _k9EmailDelUri;
+	}
+	
 	/**
 	 * Set this notification as being viewed on the users phone.
 	 * 
@@ -539,35 +627,54 @@ public class Notification {
 	 */
 	public void setViewed(boolean isViewed){
 		if (_debug) Log.v("Notification.setViewed()");
-    	if(_notificationType == Constants.NOTIFICATION_TYPE_PHONE){
-    		//Action is determined by the users preferences. 
-    		//Either mark the call log as viewed, delete the call log entry, or do nothing to the call log entry.
-    		if(_preferences.getString(Constants.PHONE_DISMISS_KEY, "0").equals(Constants.PHONE_DISMISS_ACTION_MARK_READ)){
-    			setCallViewed(isViewed);
-    		}else if(_preferences.getString(Constants.PHONE_DISMISS_KEY, "0").equals(Constants.PHONE_DISMISS_ACTION_DELETE)){
-    			deleteFromCallLog();
-    		}
-	    }
-    	if(_notificationType == Constants.NOTIFICATION_TYPE_SMS){
-    		//Action is determined by the users preferences. 
-    		//Either mark the message as viewed or do nothing to the message.
-    		if(_preferences.getString(Constants.SMS_DISMISS_KEY, "0").equals(Constants.SMS_DISMISS_ACTION_MARK_READ)){
-    			setMessageRead(isViewed);
-    		}
-    	}
-    	if(_notificationType == Constants.NOTIFICATION_TYPE_MMS){
-    		//Action is determined by the users preferences. 
-    		//Either mark the message as viewed or do nothing to the message.
-    		if(_preferences.getString(Constants.MMS_DISMISS_KEY, "0").equals(Constants.MMS_DISMISS_ACTION_MARK_READ)){
-    			setMessageRead(isViewed);
-    		}
-    	}
-	    if(_notificationType == Constants.NOTIFICATION_TYPE_CALENDAR){
-	    	//Do nothing. There is no log to update for Calendar Events.
-	    }
-	    if(_notificationType == Constants.NOTIFICATION_TYPE_GMAIL){
-	    	//TODO - Gmail
-	    }
+		switch(_notificationType){
+			case Constants.NOTIFICATION_TYPE_PHONE:{
+	    		//Action is determined by the users preferences. 
+	    		//Either mark the call log as viewed, delete the call log entry, or do nothing to the call log entry.
+	    		if(_preferences.getString(Constants.PHONE_DISMISS_KEY, "0").equals(Constants.PHONE_DISMISS_ACTION_MARK_READ)){
+	    			setCallViewed(isViewed);
+	    		}else if(_preferences.getString(Constants.PHONE_DISMISS_KEY, "0").equals(Constants.PHONE_DISMISS_ACTION_DELETE)){
+	    			deleteFromCallLog();
+	    		}
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_SMS:{
+	    		//Action is determined by the users preferences. 
+	    		//Either mark the message as viewed or do nothing to the message.
+	    		if(_preferences.getString(Constants.SMS_DISMISS_KEY, "0").equals(Constants.SMS_DISMISS_ACTION_MARK_READ)){
+	    			setMessageRead(isViewed);
+	    		}
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_MMS:{
+	    		//Action is determined by the users preferences. 
+	    		//Either mark the message as viewed or do nothing to the message.
+	    		if(_preferences.getString(Constants.MMS_DISMISS_KEY, "0").equals(Constants.MMS_DISMISS_ACTION_MARK_READ)){
+	    			setMessageRead(isViewed);
+	    		}
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_CALENDAR:{
+				//Do nothing. There is no log to update for Calendar Events.
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_GMAIL:{
+	
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_TWITTER:{
+	
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_FACEBOOK:{
+
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_K9:{
+
+				break;
+			}
+		}
 	}
 	
 	/**
@@ -579,45 +686,33 @@ public class Notification {
 		//Delete the single message, delete the entire thread, or do nothing.
 		boolean deleteThread = false;
 		boolean deleteMessage = false;
-		if(_notificationType == Constants.NOTIFICATION_TYPE_SMS){
-			if(_preferences.getString(Constants.SMS_DELETE_KEY, "0").equals(Constants.SMS_DELETE_ACTION_DELETE_MESSAGE)){
-				deleteThread = false;
-				deleteMessage = true;
-			}else if(_preferences.getString(Constants.SMS_DELETE_KEY, "0").equals(Constants.SMS_DELETE_ACTION_DELETE_THREAD)){
-				deleteThread = true;
-				deleteMessage = false;
-			}
-		}else if(_notificationType == Constants.NOTIFICATION_TYPE_MMS){
-			if(_preferences.getString(Constants.MMS_DELETE_KEY, "0").equals(Constants.MMS_DELETE_ACTION_DELETE_MESSAGE)){
-				deleteThread = false;
-				deleteMessage = true;
-			}else if(_preferences.getString(Constants.MMS_DELETE_KEY, "0").equals(Constants.MMS_DELETE_ACTION_DELETE_THREAD)){
-				deleteThread = true;
-				deleteMessage = false;
-			}
-		}
-		if(deleteMessage || deleteThread){
-			if(deleteThread){
-			try{
-				//Delete entire SMS thread.
-				_context.getContentResolver().delete(
-						Uri.parse("content://sms/conversations/" + getThreadID()), 
-						null, 
-						null);
-				}catch(Exception ex){
-					if (_debug) Log.e("Notification.deleteMessage() Delete Thread ERROR: " + ex.toString());
+		if(_notificationType == Constants.NOTIFICATION_TYPE_SMS || _notificationType == Constants.NOTIFICATION_TYPE_MMS){
+			if(_notificationType == Constants.NOTIFICATION_TYPE_SMS){
+				if(_preferences.getString(Constants.SMS_DELETE_KEY, "0").equals(Constants.SMS_DELETE_ACTION_DELETE_MESSAGE)){
+					deleteThread = false;
+					deleteMessage = true;
+				}else if(_preferences.getString(Constants.SMS_DELETE_KEY, "0").equals(Constants.SMS_DELETE_ACTION_DELETE_THREAD)){
+					deleteThread = true;
+					deleteMessage = false;
 				}
-			}else{
-				try{
-					//Delete single message.
-					_context.getContentResolver().delete(
-							Uri.parse("content://sms/" + getMessageID()),
-							null, 
-							null);
-				}catch(Exception ex){
-					if (_debug) Log.e("Notification.deleteMessageg() Delete Message ERROR: " + ex.toString());
+			}else if(_notificationType == Constants.NOTIFICATION_TYPE_MMS){
+				if(_preferences.getString(Constants.MMS_DELETE_KEY, "0").equals(Constants.MMS_DELETE_ACTION_DELETE_MESSAGE)){
+					deleteThread = false;
+					deleteMessage = true;
+				}else if(_preferences.getString(Constants.MMS_DELETE_KEY, "0").equals(Constants.MMS_DELETE_ACTION_DELETE_THREAD)){
+					deleteThread = true;
+					deleteMessage = false;
 				}
 			}
+			if(deleteMessage || deleteThread){
+				if(deleteThread){
+					Common.deleteMessageThread(_context, getThreadID(), _notificationType);
+				}else{
+					Common.deleteSingleMessage(_context, getMessageID(), _notificationType);
+				}
+			}
+		}else if(_notificationType == Constants.NOTIFICATION_TYPE_K9){
+			Common.deleteK9Email(_context, _k9EmailDelUri);
 		}
 	}
 	
@@ -632,23 +727,7 @@ public class Notification {
 	 */
 	private void setCallViewed(boolean isViewed){
 		if (_debug) Log.v("Notification.setCallViewed()");
-		ContentValues contentValues = new ContentValues();
-		if(isViewed){
-			contentValues.put(android.provider.CallLog.Calls.NEW, 0);
-		}else{
-			contentValues.put(android.provider.CallLog.Calls.NEW, 1);
-		}
-		String selection = android.provider.CallLog.Calls._ID + " = " + _callLogID;
-		String[] selectionArgs = null;
-		try{
-			_context.getContentResolver().update(
-					Uri.parse("content://call_log/calls"),
-					contentValues,
-					selection, 
-					selectionArgs);
-		}catch(Exception ex){
-			if (_debug) Log.e("Notification.setCallViewed() ERROR: " + ex.toString());
-		}
+		Common.setCallViewed(_context, _callLogID, isViewed);
 	}
 	
 	/**
@@ -656,47 +735,17 @@ public class Notification {
 	 */
 	private void deleteFromCallLog(){
 		if (_debug) Log.v("Notification.deleteFromCallLog()");
-		String selection = android.provider.CallLog.Calls._ID + " = " + _callLogID;
-		String[] selectionArgs = null;
-		try{
-			_context.getContentResolver().delete(
-					Uri.parse("content://call_log/calls"),
-					selection, 
-					selectionArgs);
-		}catch(Exception ex){
-			if (_debug) Log.e("Notification.deleteFromCallLog() ERROR: " + ex.toString());
-		}
+		Common.deleteFromCallLog(_context, _callLogID);
 	}
 
 	/**
 	 * Set the SMS/MMS message as read or unread depending on the input.
 	 * 
-	 * @param isViewed - Boolean, if true sets the message as viewed.
+	 * @param isViewed - Boolean, if true set the message as viewed.
 	 */
 	private void setMessageRead(boolean isViewed){
 		if(_debug)Log.v("Notification.setMessageRead()");
-		getMessageID();
-		if(_messageID == 0){
-			if (_debug) Log.v("Notification.setMessageRead() Message ID == 0: Exiting...");
-			return;
-		}
-		ContentValues contentValues = new ContentValues();
-		if(isViewed){
-			contentValues.put("READ", 1);
-		}else{
-			contentValues.put("READ", 0);
-		}
-		String selection = null;
-		String[] selectionArgs = null;
-		try{
-			_context.getContentResolver().update(
-					Uri.parse("content://sms/" + _messageID), 
-		    		contentValues, 
-		    		selection, 
-		    		selectionArgs);
-		}catch(Exception ex){
-			if (_debug) Log.e("Notification.setMessageRead() ERROR: " + ex.toString());
-		}
+		Common.setMessageRead(_context, getMessageID(), isViewed, _notificationType);
 	}
 	
 	/**
@@ -743,7 +792,7 @@ public class Notification {
     	if(_preferences.getBoolean(Constants.CALENDAR_LABELS_KEY, true)){
     		formattedMessage = "<b>" + calendarName + "</b><br/>" + formattedMessage;
     	}
-		return formattedMessage;
+		return formattedMessage.replace("\n", "<br/>").trim();
 	}	
 	
 }
