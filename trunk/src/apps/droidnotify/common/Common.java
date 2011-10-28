@@ -1299,7 +1299,10 @@ public class Common {
 			PendingIntent deleteIntent = null;
 			String sentFrom = null;
 			if(message != null && message.length() > 0){
-				message = message.replace("<br/><br/>", " ").replace("<br/>", " ");
+				message = message.replace("<br/><br/>", " ").replace("<br/>", " ")
+						.replace("<b>", "").replace("</b>", "")
+						.replace("<i>", "").replace("</i>", "")
+						.replace("<u>", "").replace("</u>", "");
 			}else{
 				message = "";
 			}
