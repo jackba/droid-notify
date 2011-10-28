@@ -967,6 +967,7 @@
 		<item name="4"></item>
 		<item name="5"></item>
 		<item name="6"></item>
+		<item name="17"></item>
 		<item name="7"></item>
 		<item name="8"></item>
 		<item name="9"></item>
@@ -986,6 +987,7 @@
 		<item name="4">status_bar_notification_sms_pink</item>
 		<item name="5">status_bar_notification_sms_purple</item>
 		<item name="6">status_bar_notification_sms_red</item>
+		<item name="17">status_bar_notification_sms_white</item>
 		<item name="7">status_bar_notification_sms_postcard_aqua</item>
 		<item name="8">status_bar_notification_sms_postcard_blue</item>
 		<item name="9">status_bar_notification_sms_postcard_green</item>
@@ -1005,6 +1007,7 @@
 		<item name="4">@drawable/status_bar_notification_sms_pink_preference</item>
 		<item name="5">@drawable/status_bar_notification_sms_purple_preference</item>
 		<item name="6">@drawable/status_bar_notification_sms_red_preference</item>
+		<item name="17">@drawable/status_bar_notification_sms_white_preference</item>
 		<item name="7">@drawable/status_bar_notification_sms_postcard_aqua_preference</item>
 		<item name="8">@drawable/status_bar_notification_sms_postcard_blue_preference</item>
 		<item name="9">@drawable/status_bar_notification_sms_postcard_green_preference</item>
@@ -1026,6 +1029,7 @@
 		<item name="4"></item>
 		<item name="5"></item>
 		<item name="6"></item>
+		<item name="17"></item>
 		<item name="7"></item>
 		<item name="8"></item>
 		<item name="9"></item>
@@ -1045,6 +1049,7 @@
 		<item name="4">status_bar_notification_sms_pink</item>
 		<item name="5">status_bar_notification_sms_purple</item>
 		<item name="6">status_bar_notification_sms_red</item>
+		<item name="17">status_bar_notification_sms_white</item>
 		<item name="7">status_bar_notification_sms_postcard_aqua</item>
 		<item name="8">status_bar_notification_sms_postcard_blue</item>
 		<item name="9">status_bar_notification_sms_postcard_green</item>
@@ -1064,6 +1069,7 @@
 		<item name="4">@drawable/status_bar_notification_sms_pink_preference</item>
 		<item name="5">@drawable/status_bar_notification_sms_purple_preference</item>
 		<item name="6">@drawable/status_bar_notification_sms_red_preference</item>
+		<item name="17">@drawable/status_bar_notification_sms_white_preference</item>
 		<item name="7">@drawable/status_bar_notification_sms_postcard_aqua_preference</item>
 		<item name="8">@drawable/status_bar_notification_sms_postcard_blue_preference</item>
 		<item name="9">@drawable/status_bar_notification_sms_postcard_green_preference</item>
@@ -1121,7 +1127,36 @@
 		<item name="4">@drawable/status_bar_notification_calendar_orange_preference</item>
 		<item name="5">@drawable/status_bar_notification_calendar_red_preference</item>
 	</array>
-	
+
+	<!-- Email Notification Icon Image Arrays --> 
+	<string-array name="notification_icon_options_email">
+		<item name="0"></item>
+		<item name="1"></item>
+		<item name="2"></item>
+		<item name="3"></item>
+		<item name="4"></item>
+		<item name="5"></item>
+		<item name="6"></item>
+	</string-array>
+	<string-array name="notification_icon_values_email">
+		<item name="0">status_bar_notification_email_black</item>
+		<item name="1">status_bar_notification_email_blue</item>
+		<item name="2">status_bar_notification_email_green</item>
+		<item name="3">status_bar_notification_email_grey</item>
+		<item name="4">status_bar_notification_email_orange</item>
+		<item name="5">status_bar_notification_email_red</item>
+		<item name="6">status_bar_notification_email_white</item>
+	</string-array>
+	<array name="notification_icon_images_email">
+		<item name="0">@drawable/status_bar_notification_email_black_preference</item>
+		<item name="1">@drawable/status_bar_notification_email_blue_preference</item>
+		<item name="2">@drawable/status_bar_notification_email_green_preference</item>
+		<item name="3">@drawable/status_bar_notification_email_grey_preference</item>
+		<item name="4">@drawable/status_bar_notification_email_orange_preference</item>
+		<item name="5">@drawable/status_bar_notification_email_red_preference</item>
+		<item name="6">@drawable/status_bar_notification_email_white_preference</item>
+	</array>
+	    	
 	<!-- Notification Vibrate Arrays --> 
 	<string-array name="vibrate_setting_options">
 		<item name="0">@string/always_text</item>
