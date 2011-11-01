@@ -86,7 +86,10 @@ public class Notification {
     		_threadID = threadID;
     		_timeStamp = timeStamp;
     		_contactID = contactID;
-    		if(contactName == null || contactName.equals("")){
+    		if(contactName == null){
+    			_contactName = null;
+    			_contactExists = false;
+    		}else if(contactName.equals("")){
     			_contactName = null;
     			_contactExists = false;
     		}else{
@@ -101,7 +104,7 @@ public class Notification {
     		}
     		_lookupKey = lookupKey;
 		}catch(Exception ex){
-			if (_debug) Log.v("Notification.Notification(Context contex, String sentFromAddress, String messageBody, long messageID, long threadID, long timeStamp, long contactID, String contactName, long photoID, String lookupKey, int notificationType) ERROR: " + ex.toString());
+			if (_debug) Log.e("Notification.Notification(Context contex, String sentFromAddress, String messageBody, long messageID, long threadID, long timeStamp, long contactID, String contactName, long photoID, String lookupKey, int notificationType) ERROR: " + ex.toString());
 		}
 	}
 	
@@ -151,7 +154,7 @@ public class Notification {
 			_sentFromAddress = sentFromAddress.toLowerCase();
 	        _messageBody = messageBody;
 		}catch(Exception ex){
-			if (_debug) Log.v("Notification.Notification(Context context, String phoneNumber, String messageBody, long timeStamp, int notificationType) ERROR: " + ex.toString());
+			if (_debug) Log.e("Notification.Notification(Context context, String phoneNumber, String messageBody, long timeStamp, int notificationType) ERROR: " + ex.toString());
 		}
 	}
 
@@ -209,7 +212,10 @@ public class Notification {
     		_timeStamp = timeStamp;
     		_contactID = contactID;
     		_callLogID = callLogID;
-    		if(contactName == null || contactName.equals("")){
+    		if(contactName == null){
+    			_contactName = null;
+    			_contactExists = false;
+    		}else if(contactName.equals("")){
     			_contactName = null;
     			_contactExists = false;
     		}else{
@@ -224,7 +230,7 @@ public class Notification {
     		}	
     		_lookupKey = lookupKey;
 		}catch(Exception ex){
-			if (_debug) Log.v("Notification.Notification(Context context, long callLogID, String sentFromAddress, long timeStamp, long contactID, String contactName, long photoID, String lookupKey, int notificationType) ERROR: " + ex.toString());
+			if (_debug) Log.e("Notification.Notification(Context context, long callLogID, String sentFromAddress, long timeStamp, long contactID, String contactName, long photoID, String lookupKey, int notificationType) ERROR: " + ex.toString());
 		}
 	}
 	
@@ -253,7 +259,7 @@ public class Notification {
 	    	_calendarEventStartTime = eventStartTime;
 	    	_calendarEventEndTime = eventEndTime;
 		}catch(Exception ex){
-			if (_debug) Log.v("Notification.Notification(Context context, String title, String messageBody, long eventStartTime, long eventEndTime, boolean allDay, String calendarName, long calendarID, long calendarEventID, int notificationType) ERROR: " + ex.toString());
+			if (_debug) Log.e("Notification.Notification(Context context, String title, String messageBody, long eventStartTime, long eventEndTime, boolean allDay, String calendarName, long calendarID, long calendarEventID, int notificationType) ERROR: " + ex.toString());
 		}
 	}
 
@@ -277,7 +283,10 @@ public class Notification {
     		_contactID = contactID;
     		_k9EmailUri = k9EmailUri;
     		_k9EmailDelUri = k9EmailDelUri;
-    		if(contactName == null || contactName.equals("")){
+    		if(contactName == null){
+    			_contactName = null;
+    			_contactExists = false;
+    		}else if(contactName.equals("")){
     			_contactName = null;
     			_contactExists = false;
     		}else{
@@ -300,7 +309,7 @@ public class Notification {
     		_lookupKey = lookupKey;
     		_rescheduleNumber = rescheduleNumber;
 		}catch(Exception ex){
-			if (_debug) Log.v("Notification.Notification(Context context, String sentFromAddress, String messageBody, long timeStamp, long threadID, long contactID, String contactName, long photoID, long messageID, String title, String email, long calendarID, long calendarEventID, long calendarEventStartTime, long calendarEventEndTime, boolean allDay, long callLogID,  String lookupKey, String k9EmailUri, String k9EmailDelUri, int rescheduleNumber, int notificationType) ERROR: " + ex.toString());
+			if (_debug) Log.e("Notification.Notification(Context context, String sentFromAddress, String messageBody, long timeStamp, long threadID, long contactID, String contactName, long photoID, long messageID, String title, String email, long calendarID, long calendarEventID, long calendarEventStartTime, long calendarEventEndTime, boolean allDay, long callLogID,  String lookupKey, String k9EmailUri, String k9EmailDelUri, int rescheduleNumber, int notificationType) ERROR: " + ex.toString());
 		}
 	}
 
@@ -357,7 +366,10 @@ public class Notification {
     		_contactID = contactID;
     		_k9EmailUri = k9EmailUri;
     		_k9EmailDelUri = k9EmailDelUri;
-    		if(contactName == null || contactName.equals("")){
+    		if(contactName == null){
+    			_contactName = null;
+    			_contactExists = false;
+    		}else if(contactName.equals("")){
     			_contactName = null;
     			_contactExists = false;
     		}else{
@@ -372,7 +384,7 @@ public class Notification {
     		}
     		_lookupKey = lookupKey;
 		}catch(Exception ex){
-			if (_debug) Log.v("Notification.Notification(Context context, String sentFromAddress, String messageBody, long timeStamp, long contactID, String contactName, long photoID, long messageID, String lookupKey, String k9EmailUri, String k9EmailDelUri, int notificationType) ERROR: " + ex.toString());
+			if (_debug) Log.e("Notification.Notification(Context context, String sentFromAddress, String messageBody, long timeStamp, long contactID, String contactName, long photoID, long messageID, String lookupKey, String k9EmailUri, String k9EmailDelUri, int notificationType) ERROR: " + ex.toString());
 		}
 	}
 	
@@ -774,7 +786,10 @@ public class Notification {
 		String formattedMessage = "";
 		Date eventEndDate = new Date(eventEndTime);
 		Date eventStartDate = new Date(eventStartTime);
-    	if(messageBody == null || messageBody.equals("")){
+		if(messageBody == null){
+			messageBody = "";	
+		}
+		if(messageBody.equals("")){
     		String startDateFormated = Common.formatDate(_context, eventStartDate);
     		String endDateFormated = Common.formatDate(_context, eventEndDate);
     		try{
