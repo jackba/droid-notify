@@ -95,10 +95,10 @@ public class NotificationViewFlipper extends ViewFlipper {
 	/**
 	 * Remove the current Notification.
 	 */
-	public void removeActiveNotification() {
+	public void removeActiveNotification(boolean reschedule) {
 		if (_debug) Log.v("NotificationViewFlipper.removeActiveNotification()");
 		int notificationType = getActiveNotification().getNotificationType();
-		removeNotification(_currentNotification);
+		removeNotification(_currentNotification, reschedule);
     	//Clear the status bar notification.
     	Common.clearNotification(_context, this, notificationType, _totalNotifications);
 	}
@@ -180,12 +180,12 @@ public class NotificationViewFlipper extends ViewFlipper {
 			case Constants.NOTIFICATION_TYPE_SMS:{
 				if(_preferences.getString(Constants.SMS_DELETE_KEY, "0").equals(Constants.SMS_DELETE_ACTION_NOTHING)){
 					//Remove the notification from the ViewFlipper
-					removeActiveNotification();
+					removeActiveNotification(false);
 				}else if(_preferences.getString(Constants.SMS_DELETE_KEY, "0").equals(Constants.SMS_DELETE_ACTION_DELETE_MESSAGE)){
 					//Delete the current message from the users phone.
 					notification.deleteMessage();
 					//Remove the notification from the ViewFlipper
-					removeActiveNotification();
+					removeActiveNotification(false);
 				}else if(_preferences.getString(Constants.SMS_DELETE_KEY, "0").equals(Constants.SMS_DELETE_ACTION_DELETE_THREAD)){
 					//Delete the current message from the users phone.
 					//The notification will remove ALL messages for this thread from the phone for us.
@@ -198,12 +198,12 @@ public class NotificationViewFlipper extends ViewFlipper {
 			case Constants.NOTIFICATION_TYPE_MMS:{
 				if(_preferences.getString(Constants.MMS_DELETE_KEY, "0").equals(Constants.MMS_DELETE_ACTION_NOTHING)){
 					//Remove the notification from the ViewFlipper
-					removeActiveNotification();
+					removeActiveNotification(false);
 				}else if(_preferences.getString(Constants.MMS_DELETE_KEY, "0").equals(Constants.MMS_DELETE_ACTION_DELETE_MESSAGE)){
 					//Delete the current message from the users phone.
 					notification.deleteMessage();
 					//Remove the notification from the ViewFlipper
-					removeActiveNotification();
+					removeActiveNotification(false);
 				}else if(_preferences.getString(Constants.MMS_DELETE_KEY, "0").equals(Constants.MMS_DELETE_ACTION_DELETE_THREAD)){
 					//Remove all Notifications with the thread ID.
 					removeNotifications(notification.getThreadID());
@@ -218,12 +218,12 @@ public class NotificationViewFlipper extends ViewFlipper {
 			case Constants.NOTIFICATION_TYPE_K9:{
 				if(_preferences.getString(Constants.K9_DELETE_KEY, "0").equals(Constants.K9_DELETE_ACTION_NOTHING)){
 					//Remove the notification from the ViewFlipper
-					removeActiveNotification();
+					removeActiveNotification(false);
 				}else if(_preferences.getString(Constants.K9_DELETE_KEY, "0").equals(Constants.K9_DELETE_ACTION_DELETE_MESSAGE)){
 					//Delete the current message from the users phone.
 					notification.deleteMessage();
 					//Remove the notification from the ViewFlipper
-					removeActiveNotification();
+					removeActiveNotification(false);
 				}
 				break;
 			}
@@ -296,14 +296,16 @@ public class NotificationViewFlipper extends ViewFlipper {
 	*
 	* @param notificationNumber - Int of the notificaiton to be removed.
 	*/
-	private void removeNotification(int notificationNumber) {
+	private void removeNotification(int notificationNumber, boolean reschedule) {
 		if (_debug) Log.v("NotificationViewFlipper.removeNotification() NotificationNumber: " + notificationNumber);
 		//Get the current notification object.
 		Notification notification = getNotification(notificationNumber);
 		if (_totalNotifications > 1) {
 			try{
 				//Set notification as being viewed in the phone.
-				setNotificationViewed(notification);
+				if(!reschedule){
+					setNotificationViewed(notification);
+				}
 				// Remove notification from the ArrayList.
 				_notifications.remove(notificationNumber);
 				// Fade out current notification.
@@ -457,7 +459,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 		//By removing items from the end, we don't have to worry about shifting index numbers as we would if we removed from the beginning.
 		for(int i = _totalNotifications - 1; i >= 0; i--){
 			if(getNotification(i).getThreadID() == threadID){
-				removeNotification(i);
+				removeNotification(i, false);
 			}
 		}
 	}

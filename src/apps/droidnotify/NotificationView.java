@@ -56,6 +56,7 @@ public class NotificationView extends LinearLayout {
 	private TextView _notificationDetailsTextView = null;
 	private TextView _mmsLinkTextView = null;
 	private ImageView _notificationIconImageView = null;
+	private ImageView _rescheduleImageView = null;
 	private LinearLayout _phoneButtonLinearLayout = null;
 	private LinearLayout _smsButtonLinearLayout = null;
 	private LinearLayout _calendarButtonLinearLayout = null;
@@ -112,15 +113,13 @@ public class NotificationView extends LinearLayout {
 		_contactNameTextView = (TextView) findViewById(R.id.contact_name_text_view);
 		_contactNumberTextView = (TextView) findViewById(R.id.contact_number_text_view);
 		_notificationCountTextView = (TextView) findViewById(R.id.notification_count_text_view);
-		//Automatically format the phone number in this text view.
-		//_contactNumberTextView.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
 		_notificationInfoTextView = (TextView) findViewById(R.id.notification_info_text_view);
 		_photoImageView = (ImageView) findViewById(R.id.contact_photo_image_view);
 		_photoProgressBar = (ProgressBar) findViewById(R.id.contact_photo_progress_bar);
-	    _notificationIconImageView = (ImageView) findViewById(R.id.notification_type_icon_image_view);    
+	    _notificationIconImageView = (ImageView) findViewById(R.id.notification_type_icon_image_view);  
+	    _rescheduleImageView = (ImageView) findViewById(R.id.reschedule_image_view);  
 		_notificationDetailsTextView = (TextView) findViewById(R.id.notification_details_text_view);
 		_notificationDetailsTextView.setMovementMethod(new ScrollingMovementMethod());
-		//_notificationDetailsTextView.setScrollbarFadingEnabled(false);
 		_mmsLinkTextView = (TextView) findViewById(R.id.mms_link_text_view);
 	    _phoneButtonLinearLayout = (LinearLayout) findViewById(R.id.phone_button_linear_layout);
 	    _smsButtonLinearLayout = (LinearLayout) findViewById(R.id.sms_button_linear_layout);
@@ -160,6 +159,17 @@ public class NotificationView extends LinearLayout {
 			    	_notificationViewFlipper.showNext();
 			    }
 			});	
+			//Reschedule Button
+			_rescheduleImageView.setOnClickListener(new OnClickListener() {
+			    public void onClick(View view) {
+			    	if (_debug) Log.v("Reschedule Button Clicked()");
+			    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+			    	//TODO - Add in preference for the reschedule time.
+			    	long rescheduleInterval = 30000;
+			    	Common.rescheduleNotification(_context, _notification, System.currentTimeMillis() + rescheduleInterval, _notification.getRescheduleNumber() + 0);
+			    	dismissNotification(true);
+			    }
+			});
 			switch(_notificationType){
 				case Constants.NOTIFICATION_TYPE_PHONE:{
 					// Notification Count Text Button
@@ -189,7 +199,7 @@ public class NotificationView extends LinearLayout {
 						    public void onClick(View v) {
 						    	if (_debug) Log.v("Dismiss Button Clicked()");
 						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-						    	dismissNotification();
+						    	dismissNotification(false);
 						    }
 						});
 			    	}
@@ -208,8 +218,8 @@ public class NotificationView extends LinearLayout {
 			    	}
 					//Remove the icons from the View's buttons, based on the user preferences.
 					if(!_preferences.getBoolean(Constants.BUTTON_ICONS_KEY, true)){
-						phoneDismissButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
-						phoneCallButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
+						phoneDismissButton.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+						phoneCallButton.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
 					}
 					break;
 				}
@@ -257,7 +267,7 @@ public class NotificationView extends LinearLayout {
 						    public void onClick(View view) {
 						    	if (_debug) Log.v("SMS Dismiss Button Clicked()");
 						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-						    	dismissNotification();
+						    	dismissNotification(false);
 						    }
 						});		
 			    	}
@@ -289,9 +299,9 @@ public class NotificationView extends LinearLayout {
 			    	}
 					//Remove the icons from the View's buttons, based on the user preferences.
 					if(!_preferences.getBoolean(Constants.BUTTON_ICONS_KEY, true)){
-						smsDismissButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
-						smsDeleteButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
-						smsReplyButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
+						smsDismissButton.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+						smsDeleteButton.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+						smsReplyButton.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
 					}
 					break;
 				}
@@ -349,7 +359,7 @@ public class NotificationView extends LinearLayout {
 						    public void onClick(View view) {
 						    	if (_debug) Log.v("MMS Dismiss Button Clicked()");
 						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-						    	dismissNotification();
+						    	dismissNotification(false);
 						    }
 						});	
 			    	}
@@ -381,9 +391,9 @@ public class NotificationView extends LinearLayout {
 			    	}
 					//Remove the icons from the View's buttons, based on the user preferences.
 					if(!_preferences.getBoolean(Constants.BUTTON_ICONS_KEY, true)){
-						mmsDismissButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
-						mmsDeleteButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
-						mmsReplyButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
+						mmsDismissButton.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+						mmsDeleteButton.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+						mmsReplyButton.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
 					}
 					break;
 				}
@@ -415,7 +425,7 @@ public class NotificationView extends LinearLayout {
 						    public void onClick(View view) {
 						    	if (_debug) Log.v("Calendar Dismiss Button Clicked()");
 						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-						    	dismissNotification();
+						    	dismissNotification(false);
 						    }
 						});	
 			    	}
@@ -435,8 +445,8 @@ public class NotificationView extends LinearLayout {
 			    	}
 					//Remove the icons from the View's buttons, based on the user preferences.
 					if(!_preferences.getBoolean(Constants.BUTTON_ICONS_KEY, true)){
-						calendarDismissButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
-						calendarViewButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
+						calendarDismissButton.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+						calendarViewButton.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
 					}
 					break;
 				}
@@ -481,7 +491,7 @@ public class NotificationView extends LinearLayout {
 						    public void onClick(View view) {
 						    	if (_debug) Log.v("K9 Dismiss Button Clicked()");
 						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-						    	dismissNotification();
+						    	dismissNotification(false);
 						    }
 						});	
 			    	}
@@ -513,9 +523,9 @@ public class NotificationView extends LinearLayout {
 			    	}
 					//Remove the icons from the View's buttons, based on the user preferences.
 					if(!_preferences.getBoolean(Constants.BUTTON_ICONS_KEY, true)){
-						k9DismissButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
-						k9DeleteButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
-						k9ReplyButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
+						k9DismissButton.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+						k9DeleteButton.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+						k9ReplyButton.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
 					}
 					break;
 				}
@@ -875,9 +885,9 @@ public class NotificationView extends LinearLayout {
 	/**
 	 * Remove the notification from the ViewFlipper.
 	 */
-	private void dismissNotification(){
+	private void dismissNotification(boolean reschedule){
 		if (_debug) Log.v("NotificationView.dismissNotification()");
-		_notificationViewFlipper.removeActiveNotification();
+		_notificationViewFlipper.removeActiveNotification(reschedule);
 	}
 	
 	/**

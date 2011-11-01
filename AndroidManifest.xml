@@ -74,6 +74,7 @@
         <service android:name="apps.droidnotify.services.OnBootBroadcastReceiverService" />     
         
 		<receiver android:name="apps.droidnotify.receivers.CalendarAlarmReceiver" />
+		<service android:name="apps.droidnotify.services.CalendarAlarmReceiverService" />
 		<receiver android:name="apps.droidnotify.receivers.CalendarNotificationAlarmReceiver" />
 		<service android:name="apps.droidnotify.services.CalendarNotificationAlarmReceiverService" />
 		

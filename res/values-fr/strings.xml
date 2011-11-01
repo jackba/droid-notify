@@ -13,6 +13,13 @@
   <string name="cancel_text">Annuler</string>
   <string name="continue_text">Continuer</string>
   <string name="dismiss_notification_text">Masquer la notification</string>
+  <string name="donate_text">Faire un don</string>
+  <string name="donate_to_droid_notify_text">Dons Droid Notify</string>
+  <string name="donate_summary">Faire un don pour ce projet. Vos dons permettent d\'assurer la maintenance du logiciel et d\'ajouter de nouvelles fonctionnalités.</string>
+  <string name="donate_description_text">Droid Notify est une application gratuite que je développe sur mon temps libre. Je vous prie d\'envisager de faire un don pour ce projet. Les dons permettent d\'assurer la maintenance du logiciel et d\'ajouter de nouvelles fonctionnalités.\n\nMerci beaucoup !</string>
+  <string name="donate_via_android_market_text">Faire un don via Android Market</string>
+  <string name="donate_via_amazon_app_store_text">Faire un don via Amazon App Store</string>
+  <string name="donate_via_paypal_text">Faire un don via Paypal</string>
   <string name="app_android_messaging_app_error">L\'application Messages d\'Android ne peut pas être démarrée.</string>
   <string name="app_android_phone_app_error">L\'application Téléphone d\'Android ne peut pas être démarrée.</string>
   <string name="app_android_call_log_error">L\'application Journal d\'appels d\'Android ne peut pas être démarrée.</string>
@@ -36,6 +43,8 @@
   <string name="app_android_contacts_email_chooser_error">Erreur de recherche des adresses mail des contacts.</string>
   <string name="app_android_no_number_found_error">Il n\'y a pas de numéro de téléphone pour ce contact.</string>
   <string name="app_android_calendars_not_found_error">Il n\'y a pas de calendrier dans votre téléphone.</string>
+  <string name="app_k9_reply_email_address_error">L\'adresse mail semble incorrecte. La réponse au mail n\'a pas pu être envoyée.</string>
+  <string name="app_k9_email_app_error">L\'application Email ne peut pas être démarrée.</string>
   <string name="app_settings_text">Paramètres</string>
   <string name="general_settings_text">Paramètres généraux</string>
   <string name="basic_settings_text">Paramètres de base</string>
@@ -43,39 +52,40 @@
   <string name="advanced_settings_text">Paramètres avancés</string>
   <string name="notification_settings_text">Paramètres notifications</string>
   <string name="quick_reply_settings_text">Paramètres réponse rapide</string>
-  <string name="notification_body_settings_text">Notification Body Settings</string>
-  <string name="notification_header_settings_text">Notification Header Settings</string>
+  <string name="notification_body_settings_text">Paramètres du corps de la notification</string>
+  <string name="notification_header_settings_text">Paramètres de l\'entête de la notification</string>
   <string name="event_body_settings_text">Corps de l\'évènement</string>
   <string name="delete_text">Supprimer</string>
   <string name="delete_message_dialog_text">Ceci va supprimer le message du téléphone.</string>
   <string name="delete_thread_dialog_text">L\'ensemble de la discussion va être supprimée du téléphone.</string>
-  <string name="preference_notification_body_font_size_title">Notification Body Font Size</string>
-  <string name="preference_notification_body_font_size_summary">Select the font size you want to use when when displaying the notification body.</string>
-  <string name="preference_sms_hide_notification_body_enabled_title">Hide Notification Body</string>
-  <string name="preference_sms_hide_notification_body_enabled_summaryOn">The notification body will not be visible in the popup.</string>
-  <string name="preference_sms_hide_notification_body_enabled_summaryOff">The notification body will be visible in the popup.</string>
-  <string name="preference_mms_hide_notification_body_enabled_title">Hide Notification Body</string>
-  <string name="preference_mms_hide_notification_body_enabled_summaryOn">The notification body will not be visible in the popup.</string>
-  <string name="preference_mms_hide_notification_body_enabled_summaryOff">The notification body will be visible in the popup.</string>
-  <string name="preference_calendar_hide_notification_body_enabled_title">Hide Notification Body</string>
-  <string name="preference_calendar_hide_notification_body_enabled_summaryOn">The notification body will not be visible in the popup.</string>
-  <string name="preference_calendar_hide_notification_body_enabled_summaryOff">The notification body will be visible in the popup.</string>
-  <string name="preference_notification_type_info_icon_enabled_title">Display Type Icon</string>
-  <string name="preference_notification_type_info_icon_enabled_summaryOn">The notification type icon will be displayed.</string>
-  <string name="preference_notification_type_info_icon_enabled_summaryOff">The notification type icon will not be displayed.</string>
-  <string name="notification_type_info_settings_text">Type Info Settings</string>
-  <string name="preference_notification_type_info_size">Type Font Size</string>
-  <string name="preference_notification_type_info_size_summary">Select the font size of the notification type information text.</string>
-  <string name="preference_hide_contact_name_enabled_title">Display Contact Name</string>
-  <string name="preference_hide_contact_name_enabled_summaryOn">The contact name will be displayed.</string>
-  <string name="preference_hide_contact_name_enabled_summaryOff">The contact name will not be displayed.</string>
-  <string name="preference_contact_name_font_size_title">Contact Name Font Size</string>
-  <string name="preference_contact_name_font_size_summary">Select the font size of the contact name text.</string>
-  <string name="preference_hide_contact_number_enabled_title">Display Contact Number</string>
-  <string name="preference_hide_contact_number_enabled_summaryOn">The contact number will be displayed.</string>
-  <string name="preference_hide_contact_number_enabled_summaryOff">The contact number will not be displayed.</string>
-  <string name="preference_contact_number_font_size_title">Contact Number Font Size</string>
-  <string name="preference_contact_number_font_size_summary">Select the font size of the contact number text.</string>
+  <string name="delete_email_dialog_text">Ceci va supprimer le mail du téléphone.</string>
+  <string name="preference_notification_body_font_size_title">Taille corps notification</string>
+  <string name="preference_notification_body_font_size_summary">Choix de la taille des caractères pour l\'affichage du corps de la notification.</string>
+  <string name="preference_sms_hide_notification_body_enabled_title">Masquer contenu notification</string>
+  <string name="preference_sms_hide_notification_body_enabled_summaryOn">Le corps de la notification ne sera pas affiché dans le popup.</string>
+  <string name="preference_sms_hide_notification_body_enabled_summaryOff">Le corps de la notification sera affiché dans le popup.</string>
+  <string name="preference_mms_hide_notification_body_enabled_title">Masquer contenu notification</string>
+  <string name="preference_mms_hide_notification_body_enabled_summaryOn">Le corps de la notification ne sera pas affiché dans le popup.</string>
+  <string name="preference_mms_hide_notification_body_enabled_summaryOff">Le corps de la notification sera affiché dans le popup.</string>
+  <string name="preference_calendar_hide_notification_body_enabled_title">Masquer contenu notification</string>
+  <string name="preference_calendar_hide_notification_body_enabled_summaryOn">Le corps de la notification ne sera pas affiché dans le popup.</string>
+  <string name="preference_calendar_hide_notification_body_enabled_summaryOff">Le corps de la notification sera affiché dans le popup.</string>
+  <string name="preference_notification_type_info_icon_enabled_title">Voir icone type</string>
+  <string name="preference_notification_type_info_icon_enabled_summaryOn">L\'icone type de la notification sera affiché dans le popup.</string>
+  <string name="preference_notification_type_info_icon_enabled_summaryOff">L\'icone type de la notification ne sera pas affiché dans le popup.</string>
+  <string name="notification_type_info_settings_text">Paramètres type de notification</string>
+  <string name="preference_notification_type_info_size">Taille caractères notification</string>
+  <string name="preference_notification_type_info_size_summary">Choix de la taille des caractères pour l\'affichage du type de notification.</string>
+  <string name="preference_hide_contact_name_enabled_title">Voir nom du contact</string>
+  <string name="preference_hide_contact_name_enabled_summaryOn">Le nom du contact sera affiché.</string>
+  <string name="preference_hide_contact_name_enabled_summaryOff">Le nom du contact ne sera pas affiché.</string>
+  <string name="preference_contact_name_font_size_title">Taille caractères nom</string>
+  <string name="preference_contact_name_font_size_summary">Choix de la taille des caractères pour l\'affichage du nom du contact.</string>
+  <string name="preference_hide_contact_number_enabled_title">Voir numéro du contact</string>
+  <string name="preference_hide_contact_number_enabled_summaryOn">Le numéro de téléphone du contact sera affiché.</string>
+  <string name="preference_hide_contact_number_enabled_summaryOff">Le numéro de téléphone du contact ne sera pas affiché.</string>
+  <string name="preference_contact_number_font_size_title">Taille caractères numéro</string>
+  <string name="preference_contact_number_font_size_summary">Choix de la taille des caractères pour l\'affichage du numéro de téléphone du contact.</string>
   <string name="contact_display_settings_text">Affichage du contact</string>
   <string name="hide_contact_panel_text">Ne rien afficher</string>
   <string name="hide_contact_photo_text">Masquer la photo</string>
@@ -83,11 +93,11 @@
   <string name="hide_contact_name_text">Masquer le nom</string>
   <string name="preference_contact_placeholder_image">Image par défaut</string>
   <string name="preference_contact_placeholder_image_summary">Choix de l\'image à afficher pour les contacts inconnus.</string>
-  <string name="preference_contact_photo_background">Contact Photo Background</string>
-  <string name="preference_contact_photo_background_summary">Select the background image you would like to display behind the contact photo.</string>
-  <string name="contact_photo_settings_text">Contact Photo Settings</string>
-  <string name="preference_contact_photo_size">Contact Photo Size</string>
-  <string name="preference_contact_photo_size_summary">Select the contact photo size.</string>
+  <string name="preference_contact_photo_background">Arrière-plan photo</string>
+  <string name="preference_contact_photo_background_summary">Choix de l\'image de fond qui sera affichée derrière la photo du contact.</string>
+  <string name="contact_photo_settings_text">Paramètres photo du contact</string>
+  <string name="preference_contact_photo_size">Taille de la photo</string>
+  <string name="preference_contact_photo_size_summary">Choix de la taille de la photo du contact.</string>
   <string name="about_text">A propos</string>
   <string name="preference_about_summary">A propos de Droid Notify</string>
   <string name="preference_about_text">&lt;b&gt;Créé par :&lt;/b&gt; Camille Sévigny&lt;br/&gt;&lt;b&gt;Email : &lt;/b&gt; &lt;a href=\"mailto:droidnotify@gmail.com\"&gt;droidnotify@gmail.com&lt;/a&gt;&lt;br/&gt;&lt;br/&gt;Droid Notify est une application qui affiche une boite de dialogue lors de l\'arrivée d\'un SMS/MMS, d\'un appel manqué, ou d\'un évènement du calendrier. L\'application utilise les fonctions de Messages, Téléphone et Calendrier de votre mobile. Les notifications affichent les informations du contact, comme son nom et sa photo, si le contact existe dans votre carnet d\'adresses.&lt;br/&gt;&lt;br/&gt;Si vous appréciez Droid Notify, merci de noter l\'application et de laisser un commentaire.&lt;br/&gt;&lt;br/&gt;Tous les commentaires, suggestions, ou reports de bug sont les bienvenus .&lt;br/&gt;&lt;br/&gt;&lt;b&gt;Traduction généré par:&lt;/b&gt; &lt;a href=\"http://www.crowdin.net/\"&gt;CrowdIn.net&lt;/a&gt;&lt;br/&gt;Traduction Francaise : Franky&lt;br/&gt;&lt;br/&gt;&lt;b&gt;© 2011 Camille Sévigny&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;</string>
@@ -234,11 +244,12 @@
   <string name="preference_calendar_event_body_font_size_summary">Choix de la taille des caractères pour l\'affichage des évènements.</string>
   <string name="preference_calendar_hide_contact_photo_enabled_summaryOn">La photo du contact ne sera pas affichée dans les notifications liées au calendrier.</string>
   <string name="preference_calendar_hide_contact_photo_enabled_summaryOff">La photo du contact sera affichée dans les notifications liées au calendrier.</string>
-  <string name="preference_twitter_notifications">Twitter Notifications</string>
+  <string name="preference_twitter_notifications">Notifications Twitter</string>
   <string name="preference_twitter_enabled_title">Activer Twitter</string>
   <string name="twitter_authentication_text">Authentification Twitter</string>
   <string name="twitter_authentication_message_text">L\'écran suivant ouvrira la page Internet de Twitter dans votre navigateur. Cette page vous demandera d\'accorder à cette application l\'autorisation d\'accéder à votre compte Twitter. Validez cette action en utilisant le bouton \"Continuer\" ci dessous.</string>
   <string name="authenticating_text">Authentification en cours...</string>
+  <string name="email_at_text" formatted="false">Nouveau mail à %s</string>
   <string name="view_mms_button_text">Voir MMS</string>
   <string name="view_button_text">Voir</string>
   <string name="close_button_text">Fermer</string>
@@ -318,10 +329,10 @@
   <string name="preference_keyguard_enabled_summaryOff">Le téléphone ne sera pas déverrouillé lors d\'une notification.</string>
   <string name="preference_phone_number_format">Format des numéros</string>
   <string name="preference_phone_number_format_summary">Choix du format d\'affichage des numéros de téléphone.</string>
-  <string name="preference_time_format">Time Format</string>
-  <string name="preference_time_format_summary">Select the desired time format.</string>
-  <string name="preference_date_format">Date Format</string>
-  <string name="preference_date_format_summary">Select the desired date format.</string>
+  <string name="preference_time_format">Format heure</string>
+  <string name="preference_time_format_summary">Choix du format souhaité pour l\'affichage des dates.</string>
+  <string name="preference_date_format">Format date</string>
+  <string name="preference_date_format_summary">Choix du format souhaité pour l\'affichage des heures.</string>
   <string name="test_text">Test notifications</string>
   <string name="test_app_text">Test notifications</string>
   <string name="test_app_summary">Affichage d\'exemples de fenêtre de notification (tient compte du paramétrage effectué).</string>
@@ -360,31 +371,39 @@
   <string name="status_bar_notification_content_title_text_gmail">Nouveau mail</string>
   <string name="status_bar_notification_content_title_text_twitter">Nouveau message Twitter</string>
   <string name="status_bar_notification_content_title_text_facebook">Nouveau message Facebook</string>
+  <string name="status_bar_notification_content_title_text_email">Nouveau Mail</string>
   <string name="status_bar_notification_content_text_sms" formatted="false">Nouveau message de %s - %s.</string>
-  <string name="status_bar_notification_content_text_sms_null" formatted="false">New message.</string>
+  <string name="status_bar_notification_content_text_sms_null" formatted="false">Nouveau message.</string>
   <string name="status_bar_notification_content_text_mms" formatted="false">Nouveau message de %s - %s.</string>
-  <string name="status_bar_notification_content_text_mms_null" formatted="false">New message.</string>
+  <string name="status_bar_notification_content_text_mms_null" formatted="false">Nouveau message.</string>
   <string name="status_bar_notification_content_text_phone" formatted="false">Appel manqué de %s.</string>
-  <string name="status_bar_notification_content_text_phone_null" formatted="false">Missed call.</string>
+  <string name="status_bar_notification_content_text_phone_null" formatted="false">Appel manqué.</string>
   <string name="status_bar_notification_content_text_calendar" formatted="false">Evènement calendrier - %s</string>
-  <string name="status_bar_notification_content_text_calendar_null" formatted="false">Calendar event.</string>
+  <string name="status_bar_notification_content_text_calendar_null" formatted="false">Evènement calendrier.</string>
   <string name="status_bar_notification_content_text_gmail" formatted="false">Nouveau mail %s - %s.</string>
   <string name="status_bar_notification_content_text_twitter" formatted="false">Nouveau message Twitter de %s - %s.</string>
   <string name="status_bar_notification_content_text_facebook" formatted="false">Nouveau message Facebook %s - %s.</string>
+  <string name="status_bar_notification_content_text_email" formatted="false">Nouveau mail de %s - %s.</string>
+  <string name="status_bar_notification_content_text_email_null" formatted="false">Nouveau mail.</string>
   <string name="status_bar_notification_ticker_text_sms" formatted="false">Nouveau message de %s - %s.</string>
   <string name="status_bar_notification_ticker_text_unknown_contact_sms" formatted="false">Nouveau message -  %s.</string>
   <string name="status_bar_notification_ticker_text_privacy_sms" formatted="false">Nouveau message de %s.</string>
   <string name="status_bar_notification_ticker_text_privacy_unknown_contact_sms">Nouveau message.</string>
-  <string name="status_bar_notification_ticker_text_sms_null" formatted="false">New message.</string>
+  <string name="status_bar_notification_ticker_text_sms_null" formatted="false">Nouveau message.</string>
   <string name="status_bar_notification_ticker_text_mms" formatted="false">Nouveau message de %s - %s.</string>
   <string name="status_bar_notification_ticker_text_unknown_contact_mms" formatted="false">Nouveau message - %s.</string>
   <string name="status_bar_notification_ticker_text_privacy_mms" formatted="false">Nouveau message de %s.</string>
   <string name="status_bar_notification_ticker_text_privacy_unknown_contact_mms">Nouveau message.</string>
-  <string name="status_bar_notification_ticker_text_mms_null" formatted="false">New message.</string>
+  <string name="status_bar_notification_ticker_text_mms_null" formatted="false">Nouveau message.</string>
   <string name="status_bar_notification_ticker_text_phone" formatted="false">Appel manqué de %s.</string>
-  <string name="status_bar_notification_ticker_text_phone_null" formatted="false">Missed call.</string>
+  <string name="status_bar_notification_ticker_text_phone_null" formatted="false">Appel manqué.</string>
   <string name="status_bar_notification_ticker_text_calendar" formatted="false">Evènement calendrier - %s</string>
-  <string name="status_bar_notification_ticker_text_calendar_null" formatted="false">Calendar event</string>
+  <string name="status_bar_notification_ticker_text_calendar_null" formatted="false">Evènement calendrier.</string>
+  <string name="status_bar_notification_ticker_text_email" formatted="false">Nouveau mail de %s - %s.</string>
+  <string name="status_bar_notification_ticker_text_unknown_contact_email" formatted="false">Nouveau mail -  %s.</string>
+  <string name="status_bar_notification_ticker_text_privacy_email" formatted="false">Nouveau mail de %s.</string>
+  <string name="status_bar_notification_ticker_text_privacy_unknown_contact_email">Nouveau mail.</string>
+  <string name="status_bar_notification_ticker_text_email_null" formatted="false">Nouveau mail.</string>
   <string name="status_bar_notifications_text">Notifications barre d\'état</string>
   <string name="clear_status_bar_notifications_on_exit_title">Purge de la barre d\'état</string>
   <string name="clear_status_bar_notifications_on_exit_summaryOn">Les notifications seront effacées de la barre d\'état quand les fenêtres de notification seront fermées.</string>
@@ -452,48 +471,48 @@
   <string name="reschedule_notification_text">Reporter la notification</string>
   <string name="ignore_notification_text">Ignorer la notification</string>
   <string name="show_notification_text">Voir la notification</string>
-  <string name="s1_second_text">1 seconde</string>
-  <string name="s2_seconds_text">2 secondes</string>
-  <string name="s3_seconds_text">3 secondes</string>
-  <string name="s4_seconds_text">4 secondes</string>
-  <string name="s5_seconds_text">5 secondes</string>
-  <string name="s6_seconds_text">6 secondes</string>
-  <string name="s7_seconds_text">7 secondes</string>
-  <string name="s8_seconds_text">8 secondes</string>
-  <string name="s9_seconds_text">9 secondes</string>
-  <string name="s10_seconds_text">10 secondes</string>
-  <string name="s15_seconds_text">15 secondes</string>
-  <string name="s20_seconds_text">20 secondes</string>
-  <string name="s25_seconds_text">25 secondes</string>
-  <string name="s30_seconds_text">30 secondes</string>
-  <string name="s40_seconds_text">40 secondes</string>
-  <string name="s45_seconds_text">45 secondes</string>
-  <string name="s50_seconds_text">50 secondes</string>
-  <string name="s60_seconds_text">60 secondes</string>
-  <string name="s1_minute_text">1 minute</string>
-  <string name="s2_minutes_text">2 minutes</string>
-  <string name="s3_minutes_text">3 minutes</string>
-  <string name="s4_minutes_text">4 minutes</string>
-  <string name="s5_minutes_text">5 minutes</string>
-  <string name="s10_minutes_text">10 minutes</string>
-  <string name="s15_minutes_text">15 minutes</string>
-  <string name="s20_minutes_text">20 minutes</string>
-  <string name="s25_minutes_text">25 minutes</string>
-  <string name="s30_minutes_text">30 minutes</string>
-  <string name="s45_minutes_text">45 minutes</string>
-  <string name="s1_hour_text">1 heure</string>
-  <string name="s2_hours_text">2 heures</string>
-  <string name="s3_hours_text">3 heures</string>
-  <string name="s4_hours_text">4 heures</string>
-  <string name="s5_hours_text">5 heures</string>
-  <string name="s6_hours_text">6 heures</string>
-  <string name="s7_hours_text">7 heures</string>
-  <string name="s8_hours_text">8 heures</string>
-  <string name="s9_hours_text">9 heures</string>
-  <string name="s10_hours_text">10 heures</string>
-  <string name="s11_hours_text">11 heures</string>
-  <string name="s12_hours_text">12 heures</string>
-  <string name="s24_hours_text">24 heures</string>
+  <string name="s1_second_text">1 Seconde</string>
+  <string name="s2_seconds_text">2 Secondes</string>
+  <string name="s3_seconds_text">3 Secondes</string>
+  <string name="s4_seconds_text">4 Secondes</string>
+  <string name="s5_seconds_text">5 Secondes</string>
+  <string name="s6_seconds_text">6 Secondes</string>
+  <string name="s7_seconds_text">7 Secondes</string>
+  <string name="s8_seconds_text">8 Secondes</string>
+  <string name="s9_seconds_text">9 Secondes</string>
+  <string name="s10_seconds_text">10 Secondes</string>
+  <string name="s15_seconds_text">15 Secondes</string>
+  <string name="s20_seconds_text">20 Secondes</string>
+  <string name="s25_seconds_text">25 Secondes</string>
+  <string name="s30_seconds_text">30 Secondes</string>
+  <string name="s40_seconds_text">40 Secondes</string>
+  <string name="s45_seconds_text">45 Secondes</string>
+  <string name="s50_seconds_text">50 Secondes</string>
+  <string name="s60_seconds_text">60 Secondes</string>
+  <string name="s1_minute_text">1 Minute</string>
+  <string name="s2_minutes_text">2 Minutes</string>
+  <string name="s3_minutes_text">3 Minutes</string>
+  <string name="s4_minutes_text">4 Minutes</string>
+  <string name="s5_minutes_text">5 Minutes</string>
+  <string name="s10_minutes_text">10 Minutes</string>
+  <string name="s15_minutes_text">15 Minutes</string>
+  <string name="s20_minutes_text">20 Minutes</string>
+  <string name="s25_minutes_text">25 Minutes</string>
+  <string name="s30_minutes_text">30 Minutes</string>
+  <string name="s45_minutes_text">45 Minutes</string>
+  <string name="s1_hour_text">1 Heure</string>
+  <string name="s2_hours_text">2 Heures</string>
+  <string name="s3_hours_text">3 Heures</string>
+  <string name="s4_hours_text">4 Heures</string>
+  <string name="s5_hours_text">5 Heures</string>
+  <string name="s6_hours_text">6 Heures</string>
+  <string name="s7_hours_text">7 Heures</string>
+  <string name="s8_hours_text">8 Heures</string>
+  <string name="s9_hours_text">9 Heures</string>
+  <string name="s10_hours_text">10 Heures</string>
+  <string name="s11_hours_text">11 Heures</string>
+  <string name="s12_hours_text">12 Heures</string>
+  <string name="s24_hours_text">24 Heures</string>
   <string name="s1_minute_before_text">1 minute avant</string>
   <string name="s5_minutes_before_text">5 minutes avant</string>
   <string name="s10_minutes_before_text">10 minutes avant</string>
@@ -530,33 +549,33 @@
   <string name="s22_hours_before_text">22 heures avant</string>
   <string name="s23_hours_before_text">23 heures avant</string>
   <string name="s24_hours_before_text">24 heures avant</string>
-  <string name="s1_am_text">1 AM</string>
-  <string name="s2_am_text">2 AM</string>
-  <string name="s3_am_text">3 AM</string>
-  <string name="s4_am_text">4 AM</string>
-  <string name="s5_am_text">5 AM</string>
-  <string name="s6_am_text">6 AM</string>
-  <string name="s7_am_text">7 AM</string>
-  <string name="s8_am_text">8 AM</string>
-  <string name="s9_am_text">9 AM</string>
-  <string name="s10_am_text">10 AM</string>
-  <string name="s11_am_text">11 AM</string>
-  <string name="s12_am_text">12 AM</string>
-  <string name="s1_pm_text">1 PM</string>
-  <string name="s2_pm_text">2 PM</string>
-  <string name="s3_pm_text">3 PM</string>
-  <string name="s4_pm_text">4 PM</string>
-  <string name="s5_pm_text">5 PM</string>
-  <string name="s6_pm_text">6 PM</string>
-  <string name="s7_pm_text">7 PM</string>
-  <string name="s8_pm_text">8 PM</string>
-  <string name="s9_pm_text">9 PM</string>
-  <string name="s10_pm_text">10 PM</string>
-  <string name="s11_pm_text">11 PM</string>
-  <string name="s12_pm_text">12 PM</string>
-  <string name="size_5_text">Size 5</string>
-  <string name="size_6_text">Size 6</string>
-  <string name="size_7_text">Size 7</string>
+  <string name="s1_am_text">1:00</string>
+  <string name="s2_am_text">2:00</string>
+  <string name="s3_am_text">3:00</string>
+  <string name="s4_am_text">4:00</string>
+  <string name="s5_am_text">5:00</string>
+  <string name="s6_am_text">6:00</string>
+  <string name="s7_am_text">7:00</string>
+  <string name="s8_am_text">8:00</string>
+  <string name="s9_am_text">9:00</string>
+  <string name="s10_am_text">10:00</string>
+  <string name="s11_am_text">11:00</string>
+  <string name="s12_am_text">12:00</string>
+  <string name="s1_pm_text">13:00</string>
+  <string name="s2_pm_text">14:00</string>
+  <string name="s3_pm_text">15:00</string>
+  <string name="s4_pm_text">16:00</string>
+  <string name="s5_pm_text">17:00</string>
+  <string name="s6_pm_text">18:00</string>
+  <string name="s7_pm_text">19:00</string>
+  <string name="s8_pm_text">20:00</string>
+  <string name="s9_pm_text">21:00</string>
+  <string name="s10_pm_text">22:00</string>
+  <string name="s11_pm_text">23:00</string>
+  <string name="s12_pm_text">0:00</string>
+  <string name="size_5_text">Taille 5</string>
+  <string name="size_6_text">Taille 6</string>
+  <string name="size_7_text">Taille 7</string>
   <string name="size_8_text">Taille 8</string>
   <string name="size_9_text">Taille 9</string>
   <string name="size_10_text">Taille 10</string>
@@ -575,42 +594,42 @@
   <string name="size_23_text">Taille 23</string>
   <string name="size_24_text">Taille 24</string>
   <string name="size_25_text">Taille 25</string>
-  <string name="size_26_text">Size 26</string>
-  <string name="size_27_text">Size 27</string>
-  <string name="size_28_text">Size 28</string>
-  <string name="size_29_text">Size 29</string>
-  <string name="size_30_text">Size 30</string>
-  <string name="minus12_hours_text">-12 heures</string>
-  <string name="minus11_hours_text">-11 heures</string>
-  <string name="minus10_hours_text">-10 heures</string>
-  <string name="minus9_hours_text">-9 heures</string>
-  <string name="minus8_hours_text">-8 heures</string>
-  <string name="minus7_hours_text">-7 heures</string>
-  <string name="minus6_hours_text">-6 heures</string>
-  <string name="minus5_hours_text">-5 heures</string>
-  <string name="minus4_hours_text">-4 heures</string>
-  <string name="minus3_hours_text">-3 heures</string>
-  <string name="minus2_hours_text">-2 heures</string>
-  <string name="minus1_hour_text">-1 heure</string>
-  <string name="zero_hours_text">0 heure</string>
-  <string name="plus1_hour_text">+1 heure</string>
-  <string name="plus2_hours_text">+2 heures</string>
-  <string name="plus3_hours_text">+3 heures</string>
-  <string name="plus4_hours_text">+4 heures</string>
-  <string name="plus5_hours_text">+5 heures</string>
-  <string name="plus6_hours_text">+6 heures</string>
-  <string name="plus7_hours_text">+7 heures</string>
-  <string name="plus8_hours_text">+8 heures</string>
-  <string name="plus9_hours_text">+9 heures</string>
-  <string name="plus10_hours_text">+10 heures</string>
-  <string name="plus11_hours_text">+11 heures</string>
-  <string name="plus12_hours_text">+12 heures</string>
+  <string name="size_26_text">Taille 26</string>
+  <string name="size_27_text">Taille 27</string>
+  <string name="size_28_text">Taille 28</string>
+  <string name="size_29_text">Taille 29</string>
+  <string name="size_30_text">Taille 30</string>
+  <string name="minus12_hours_text">-12 Heures</string>
+  <string name="minus11_hours_text">-11 Heures</string>
+  <string name="minus10_hours_text">-10 Heures</string>
+  <string name="minus9_hours_text">-9 Heures</string>
+  <string name="minus8_hours_text">-8 Heures</string>
+  <string name="minus7_hours_text">-7Heures</string>
+  <string name="minus6_hours_text">-6 Heures</string>
+  <string name="minus5_hours_text">-5 Heures</string>
+  <string name="minus4_hours_text">-4 Heures</string>
+  <string name="minus3_hours_text">-3 Heures</string>
+  <string name="minus2_hours_text">-2 Heures</string>
+  <string name="minus1_hour_text">-1 Heures</string>
+  <string name="zero_hours_text">0 Heure</string>
+  <string name="plus1_hour_text">+1 Heure</string>
+  <string name="plus2_hours_text">+2 Heures</string>
+  <string name="plus3_hours_text">+3 Heures</string>
+  <string name="plus4_hours_text">+4 Heures</string>
+  <string name="plus5_hours_text">+5 Heures</string>
+  <string name="plus6_hours_text">+6 Heures</string>
+  <string name="plus7_hours_text">+7 Heures</string>
+  <string name="plus8_hours_text">+8 Heures</string>
+  <string name="plus9_hours_text">+9 Heures</string>
+  <string name="plus10_hours_text">+10 Heures</string>
+  <string name="plus11_hours_text">+11 Heures</string>
+  <string name="plus12_hours_text">+12 Heures</string>
   <string name="sms_gateway_sprint_text">(USA) Sprint PCS / Virgin-Mobile</string>
   <string name="sms_gateway_tmobile_text">(USA) T-Mobile</string>
-  <string name="sms_gateway_att_text">(USA) AT&amp;T</string>
-  <string name="sms_gateway_att_b_text">(USA) AT&amp;T [alternate]</string>
+  <string name="sms_gateway_att_text">(USA) AT &amp; t</string>
+  <string name="sms_gateway_att_b_text">(USA) AT &amp; T [autre]</string>
   <string name="sms_gateway_aql_text">(UK) AQL</string>
-  <string name="sms_gateway_aql_b_text">(UK) AQL [alternate]</string>
+  <string name="sms_gateway_aql_b_text">(UK) AQL [autre]</string>
   <string name="sms_gateway_tmobile_b_text">(Croatie) T-Mobile</string>
   <string name="sms_gateway_ics_text">(Costa Rica) ICS</string>
   <string name="short_vibrate_text">Vibration courte</string>
@@ -630,12 +649,22 @@
   <string name="always_text">Toujours</string>
   <string name="never_text">Jamais</string>
   <string name="only_when_in_vibrate_mode_text">Seulement en mode vibreur</string>
-  <string name="s12_hour_text">12 Hour</string>
-  <string name="s24_hour_text">24 Hour</string>
+  <string name="s12_hour_text">12 heures</string>
+  <string name="s24_hour_text">24 heures</string>
   <string name="date_format_1_text">12/31/2011</string>
   <string name="date_format_2_text">12.31.2011</string>
-  <string name="date_format_3_text">Décembre 31 2011</string>
-  <string name="date_format_4_text">31/12/2011</string>
-  <string name="date_format_5_text">31.12.2011</string>
-  <string name="date_format_6_text">31 Décembre 2011</string>
+  <string name="date_format_3_text">Dec 31 2011</string>
+  <string name="date_format_4_text">Dec 31, 2011</string>
+  <string name="date_format_5_text">Décembre 31 2011</string>
+  <string name="date_format_6_text">Décembre 31, 2011</string>
+  <string name="date_format_7_text">31/12/2011</string>
+  <string name="date_format_8_text">31.12.2011</string>
+  <string name="date_format_9_text">31 Dec 2011</string>
+  <string name="date_format_10_text">31 Dec, 2011</string>
+  <string name="date_format_11_text">31 Décembre 2011</string>
+  <string name="date_format_12_text">31 Décembre, 2011</string>
+  <string name="date_format_13_text">2011/12/31</string>
+  <string name="date_format_14_text">2011.12.31</string>
+  <string name="date_format_15_text">2011 Dec 31</string>
+  <string name="date_format_16_text">2011 December 31</string>
 </resources>

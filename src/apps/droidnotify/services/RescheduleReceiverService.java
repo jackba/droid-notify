@@ -43,17 +43,24 @@ public class RescheduleReceiverService extends WakefulIntentService {
 		if (_debug) Log.v("RescheduleReceiverService.doWakefulWork()");
 		Context context = getApplicationContext();
 		Bundle bundle = intent.getExtras();
-		//int rescheduleNumber = bundle.getInt("rescheduleNumber");
-		//int notificationType = bundle.getInt("notificationType");
+		//TODO - Add user preference to set the max attempts.
+		int maxRescheduleAttempts = 100;
+		int rescheduleNumber = bundle.getInt("rescheduleNumber");
 		//Determine if the notification should be rescheduled or not.
-		
-		
-
-    	Intent rescheduleNotificationIntent = new Intent(context, NotificationActivity.class);
-    	rescheduleNotificationIntent.putExtras(bundle);
-    	rescheduleNotificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-    	Common.acquirePartialWakeLock(context);
-    	context.startActivity(rescheduleNotificationIntent);
+		boolean displayNotification = true;
+		if(maxRescheduleAttempts < 0){
+			//Infinite Attempts.
+			displayNotification = true;
+		}else if(rescheduleNumber > maxRescheduleAttempts){
+			displayNotification = false;
+		}
+		if(displayNotification){
+	    	Intent rescheduleNotificationIntent = new Intent(context, NotificationActivity.class);
+	    	rescheduleNotificationIntent.putExtras(bundle);
+	    	rescheduleNotificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+	    	Common.acquirePartialWakeLock(context);
+	    	context.startActivity(rescheduleNotificationIntent);
+		}
 	}
 		
 }

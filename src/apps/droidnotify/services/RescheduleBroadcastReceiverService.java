@@ -95,6 +95,8 @@ public class RescheduleBroadcastReceiverService extends WakefulIntentService {
 			    	break;
 			    }
 			    case Constants.NOTIFICATION_TYPE_RESCHEDULE_K9:{
+			    	blockingAppRuningAction = preferences.getString(Constants.K9_BLOCKING_APP_RUNNING_ACTION_KEY, "0");
+			    	showBlockedNotificationStatusBarNotification = preferences.getBoolean(Constants.K9_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true);
 			    	break;
 			    }
 		    }
@@ -118,10 +120,33 @@ public class RescheduleBroadcastReceiverService extends WakefulIntentService {
 		    		//Get the notification info.
 		    		Bundle rescheduleBundle = intent.getExtras();
 		    		String[] rescheduleNotificationInfo = rescheduleBundle.getStringArray("rescheduleNotificationInfo");
-					String sentFromAddress = rescheduleNotificationInfo[1];
+		    		//========================================================
+		    		//String[] Values:
+		    		//[0]-notificationType
+		    		//[1]-SentFromAddress
+		    		//[2]-MessageBody
+		    		//[3]-TimeStamp
+		    		//[4]-ThreadID
+		    		//[5]-ContactID
+		    		//[6]-ContactName
+		    		//[7]-MessageID
+		    		//[8]-Title
+		    		//[9]-CalendarID
+		    		//[10]-CalendarEventID
+		    		//[11]-CalendarEventStartTime
+		    		//[12]-CalendarEventEndTime
+		    		//[13]-AllDay
+		    		//[14]-CallLogID
+		    		//[15]-K9EmailUri
+		    		//[16]-K9EmailDelUri
+		    		//[17]-LookupKey
+		    		//[18]-PhotoID
+		    		//========================================================
+		    		String sentFromAddress = rescheduleNotificationInfo[1];
 					String messageBody = rescheduleNotificationInfo[2];
 					String contactName = rescheduleNotificationInfo[6];
 	    			String title = rescheduleNotificationInfo[8];
+	    			String k9EmailUri = rescheduleNotificationInfo[15];
 	    			//Display Status Bar Notification
 					switch(notificationType){
 					    case Constants.NOTIFICATION_TYPE_RESCHEDULE_PHONE:{
@@ -150,7 +175,7 @@ public class RescheduleBroadcastReceiverService extends WakefulIntentService {
 					    	break;
 					    }
 					    case Constants.NOTIFICATION_TYPE_RESCHEDULE_K9:{
-					    	Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_CALENDAR, callStateIdle, null, null, title, null);
+					    	Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_CALENDAR, callStateIdle, contactName, sentFromAddress, messageBody, k9EmailUri);
 					    	break;
 					    }
 					}

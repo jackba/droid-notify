@@ -2841,6 +2841,78 @@ public class Common {
 		}
 	}
 	
+	/**
+	 * Reschedule a notification.
+	 * 
+	 * @param context - The application context.
+	 * @param notification - The Notification to reschedule.
+	 * @param rescheduleTime - The time we want the notification to be rescheduled.
+	 * @param rescheduleNumber - The reschedule attempt (in case we need to keep track).
+	 */
+	public static void rescheduleNotification(Context context, apps.droidnotify.Notification notification, long rescheduleTime, int rescheduleNumber){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.rescheduleNotification()");
+		//Store the notification information into an ArrayList.
+		int notificationType = notification.getNotificationType();
+		notificationType = notificationType + 100;
+		//Get Notification Values.
+		//========================================================
+		//String[] Values:
+		//[0]-notificationType
+		//[1]-SentFromAddress
+		//[2]-MessageBody
+		//[3]-TimeStamp
+		//[4]-ThreadID
+		//[5]-ContactID
+		//[6]-ContactName
+		//[7]-MessageID
+		//[8]-Title
+		//[9]-CalendarID
+		//[10]-CalendarEventID
+		//[11]-CalendarEventStartTime
+		//[12]-CalendarEventEndTime
+		//[13]-AllDay
+		//[14]-CallLogID
+		//[15]-K9EmailUri
+		//[16]-K9EmailDelUri
+		//[17]-LookupKey
+		//[18]-PhotoID
+		//========================================================
+		String sentFromAddress = notification.getSentFromAddress();
+		String messageBody = notification.getMessageBody();
+		long timeStamp = notification.getTimeStamp();
+		long threadID = notification.getThreadID();
+		long contactID = notification.getContactID();
+		String contactName = notification.getContactName();
+		long messageID = notification.getMessageID();
+		String title = notification.getTitle();
+		long calendarID = notification.getCalendarID();
+		long calendarEventID = notification.getCalendarEventID();
+		long calendarEventStartTime = notification.getCalendarEventStartTime();
+		long calendarEventEndTime = notification.getCalendarEventEndTime();
+		String allDay = "0";
+		if(notification.getAllDay()){
+			allDay = "1";
+		}
+		long callLogID = notification.getCallLogID();
+		String k9EmailUri = notification.getK9EmailUri();
+		String k9EmailDelUri = notification.getK9EmailUri();
+		String lookupKey = notification.getLookupKey();
+		long photoID = notification.getPhotoID();
+		//Build Notification Information String Array.
+		String[] rescheduleNotificationInfo = new String[] {String.valueOf(notificationType), sentFromAddress, messageBody, String.valueOf(timeStamp), String.valueOf(threadID), String.valueOf(contactID), contactName, String.valueOf(messageID), title, String.valueOf(calendarID), String.valueOf(calendarEventID), String.valueOf(calendarEventStartTime), String.valueOf(calendarEventEndTime), allDay, String.valueOf(callLogID), k9EmailUri, k9EmailDelUri, lookupKey, String.valueOf(photoID)};
+		AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+		Intent rescheduleIntent = new Intent(context, RescheduleReceiver.class);
+		Bundle rescheduleBundle = new Bundle();
+		rescheduleBundle.putStringArray("rescheduleNotificationInfo", rescheduleNotificationInfo);
+		rescheduleBundle.putInt("rescheduleNumber", rescheduleNumber);
+		rescheduleBundle.putInt("notificationType", notificationType);
+		rescheduleIntent.putExtras(rescheduleBundle);
+		rescheduleIntent.setAction("apps.droidnotify.VIEW/RescheduleNotification/" + String.valueOf(notification.getTimeStamp()));
+		PendingIntent reschedulePendingIntent = PendingIntent.getBroadcast(context, 0, rescheduleIntent, 0);
+		alarmManager.set(AlarmManager.RTC_WAKEUP, rescheduleTime, reschedulePendingIntent);
+	}
+		
 	//================================================================================
 	// Private Methods
 	//================================================================================
@@ -3023,58 +3095,6 @@ public class Common {
 	    	ledPatternArray[i] = blinkLength;
 	    }
 		return ledPatternArray;
-	}
-	
-	/**
-	 * Reschedule a notification.
-	 * 
-	 * @param context - The application context.
-	 * @param notification - The Notification to reschedule.
-	 */
-	public static void rescheduleNotification(Context context, apps.droidnotify.Notification notification, long rescheduleTime, int rescheduleNumber){
-		//Store the notification information into an ArrayList.
-		int notificationType = notification.getNotificationType();
-		switch(notificationType){
-			case Constants.NOTIFICATION_TYPE_SMS:{
-				notificationType = Constants.NOTIFICATION_TYPE_RESCHEDULE_SMS;
-				break;
-			}
-			case Constants.NOTIFICATION_TYPE_MMS:{
-				notificationType = Constants.NOTIFICATION_TYPE_RESCHEDULE_MMS;
-				break;
-			}
-			case Constants.NOTIFICATION_TYPE_PHONE:{
-				notificationType = Constants.NOTIFICATION_TYPE_RESCHEDULE_PHONE;
-				break;
-			}
-			case Constants.NOTIFICATION_TYPE_CALENDAR:{
-				notificationType = Constants.NOTIFICATION_TYPE_RESCHEDULE_CALENDAR;
-				break;
-			}
-			case Constants.NOTIFICATION_TYPE_GMAIL:{
-				notificationType = Constants.NOTIFICATION_TYPE_RESCHEDULE_GMAIL;
-				break;
-			}
-			case Constants.NOTIFICATION_TYPE_TWITTER:{
-				notificationType = Constants.NOTIFICATION_TYPE_RESCHEDULE_TWITTER;
-				break;
-			}
-			case Constants.NOTIFICATION_TYPE_FACEBOOK:{
-				notificationType = Constants.NOTIFICATION_TYPE_RESCHEDULE_FACEBOOK;
-				break;
-			}
-		}
-		String[] rescheduleNotificationInfo = new String[] {String.valueOf(notificationType), notification.getSentFromAddress(), notification.getMessageBody(), String.valueOf(notification.getTimeStamp()), String.valueOf(notification.getThreadID()), String.valueOf(notification.getContactID()), notification.getContactName(), String.valueOf(notification.getMessageID()), notification.getTitle(), String.valueOf(notification.getCalendarID()), String.valueOf(notification.getCalendarEventID()), String.valueOf(notification.getCalendarEventStartTime()), String.valueOf(notification.getCalendarEventEndTime()), String.valueOf(notification.getAllDay()), String.valueOf(notification.getCallLogID()), notification.getLookupKey()};
-		AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-		Intent rescheduleIntent = new Intent(context, RescheduleReceiver.class);
-		Bundle rescheduleBundle = new Bundle();
-		rescheduleBundle.putStringArray("rescheduleNotificationInfo", rescheduleNotificationInfo);
-		rescheduleBundle.putInt("rescheduleNumber", rescheduleNumber);
-		rescheduleBundle.putInt("notificationType", notificationType);
-		rescheduleIntent.putExtras(rescheduleBundle);
-		rescheduleIntent.setAction("apps.droidnotify.VIEW/RescheduleNotification/" + String.valueOf(notification.getTimeStamp()));
-		PendingIntent reschedulePendingIntent = PendingIntent.getBroadcast(context, 0, rescheduleIntent, 0);
-		alarmManager.set(AlarmManager.RTC_WAKEUP, rescheduleTime, reschedulePendingIntent);
 	}
 	
 	/**
