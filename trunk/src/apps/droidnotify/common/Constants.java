@@ -48,7 +48,7 @@ public class Constants {
 	public static final int NOTIFICATION_TYPE_TWITTER = 5;
 	public static final int NOTIFICATION_TYPE_FACEBOOK = 6;
 	public static final int NOTIFICATION_TYPE_K9 = 7;
-	
+
 	public static final int NOTIFICATION_TYPE_RESCHEDULE_PHONE = 100;
 	public static final int NOTIFICATION_TYPE_RESCHEDULE_SMS = 101;
 	public static final int NOTIFICATION_TYPE_RESCHEDULE_MMS = 102;

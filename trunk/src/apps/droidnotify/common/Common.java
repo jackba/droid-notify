@@ -449,8 +449,11 @@ public class Common {
 		String messageURI = null;
 		if(messageType == Constants.MESSAGE_TYPE_SMS){
 			messageURI = "content://sms/inbox";
-		}else{
+		}else if(messageType == Constants.MESSAGE_TYPE_MMS){
 			messageURI = "content://mms/inbox";
+		}else{
+			if (_debug) Log.v("Common.getMessageID() Non SMS/MMS Message Type: Exiting...");
+			return 0;
 		}
 		if (messageBody == null){
 			if (_debug) Log.v("Common.getMessageID() Message body provided is null: Exiting...");
@@ -2291,7 +2294,7 @@ public class Common {
 			Common.clearPartialWakeLock();
 	    	if(_wakeLock != null){
 	    		_wakeLock.release();
-	    		if(_debug) Log.v("Common.clearWakelock() Wakelock Released...Is it still held? " + _partialWakeLock.isHeld());
+	    		if(_debug) Log.v("Common.clearWakelock() Wakelock Released...Is it still held? " + _wakeLock.isHeld());
 	    	}
 		}catch(Exception ex){
 			if (_debug) Log.e("Common.clearWakelock() ERROR: " + ex.toString());

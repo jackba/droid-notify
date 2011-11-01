@@ -772,10 +772,10 @@ public class NotificationActivity extends Activity {
 				if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_K9");
 				setupK9EmailNotifications(extrasBundle);
 				break;
-		    }  
+		    }
 		    case Constants.NOTIFICATION_TYPE_RESCHEDULE_PHONE:{
 		    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_PHONE");
-		    	setupMissedCalls(extrasBundle);
+		    	setupRescheduledNotification(extrasBundle);
 		    	break;
 		    }
 		    case Constants.NOTIFICATION_TYPE_RESCHEDULE_SMS:{
@@ -987,6 +987,11 @@ public class NotificationActivity extends Activity {
 				setupK9EmailNotifications(extrasBundle);
 				break;
 		    }
+	    	case Constants.NOTIFICATION_TYPE_RESCHEDULE_PHONE:{
+		    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_RESCHEDULE_PHONE");
+		    	setupRescheduledNotification(extrasBundle);
+		    	break;
+		    }
 		    case Constants.NOTIFICATION_TYPE_RESCHEDULE_SMS:{
 			    if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_RESCHEDULE_SMS");
 			    setupRescheduledNotification(extrasBundle);
@@ -1066,7 +1071,8 @@ public class NotificationActivity extends Activity {
 		if (_debug) Log.v("NotificationActivity.createTextNotifications()");
 		String sentFromAddress = "5555555555";
 		String smsTestMesage = "Droid Notify SMS Message Test";
-		String calendarTextCalendar = "Test Calendar";
+		String calendarTestCalendar = "Test Calendar";
+		String calendarTestTitle = "Calendar Event Test";
 		String calendarTestEvent = "Droid Notify Calendar Event Test";
 		NotificationViewFlipper notificationViewFlipper = _notificationViewFlipper;
 		//Add SMS Message Notification.
@@ -1080,7 +1086,7 @@ public class NotificationActivity extends Activity {
 		//Display Status Bar Notification
 	    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_PHONE, true, null, sentFromAddress, null, null);
 		//Add Calendar Event Notification.
-		Notification calendarEventNotification = new Notification(_context, calendarTestEvent, "", System.currentTimeMillis(), System.currentTimeMillis() + (10 * 60 * 1000), false, calendarTextCalendar,  0, 0, Constants.NOTIFICATION_TYPE_CALENDAR);
+		Notification calendarEventNotification = new Notification(_context, calendarTestEvent, calendarTestTitle, System.currentTimeMillis(), System.currentTimeMillis() + (10 * 60 * 1000), false, calendarTestCalendar,  0, 0, Constants.NOTIFICATION_TYPE_CALENDAR);
 		notificationViewFlipper.addNotification(calendarEventNotification);	
 		//Display Status Bar Notification
 	    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_CALENDAR, true, null, null, calendarTestEvent, null);
@@ -1802,6 +1808,7 @@ public class NotificationActivity extends Activity {
 	 * @param bundle - Activity bundle.
 	 */
 	private void setupRescheduledNotification(Bundle bundle){
+		if (_debug) Log.v("NotificationActivity.setupRescheduledNotification()");
 		int rescheduleNumber = bundle.getInt("rescheduleNumber");
 		String[] rescheduleNotificationInfo = bundle.getStringArray("rescheduleNotificationInfo");
 		//========================================================

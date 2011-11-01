@@ -550,7 +550,7 @@ public class NotificationView extends LinearLayout {
 	    // Set from, number, message etc. views.
 		if(_notificationType == Constants.NOTIFICATION_TYPE_CALENDAR){
 			String notificationTitle = notification.getTitle();
-	    	if(notificationTitle.equals("")){
+	    	if(notificationTitle == null || notificationTitle.equals("")){
 	    		notificationTitle = "No Title";
 	    	}
 			_contactNameTextView.setText(notificationTitle);
@@ -784,7 +784,7 @@ public class NotificationView extends LinearLayout {
 			}
 			case Constants.NOTIFICATION_TYPE_CALENDAR:{
 		    	String notificationTitle = notification.getTitle();
-		    	if(notificationTitle.equals("")){
+		    	if(notificationTitle == null || notificationTitle.equals("")){
 		    		notificationTitle = "No Title";
 		    	}
 		    	notificationText = "<i>" + notification.getMessageBody() + "</i><br/>" + notificationTitle;
