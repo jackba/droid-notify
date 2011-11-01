@@ -86,7 +86,7 @@ public class Notification {
     		_threadID = threadID;
     		_timeStamp = timeStamp;
     		_contactID = contactID;
-    		if(contactName.equals("")){
+    		if(contactName == null || contactName.equals("")){
     			_contactName = null;
     			_contactExists = false;
     		}else{
@@ -209,7 +209,7 @@ public class Notification {
     		_timeStamp = timeStamp;
     		_contactID = contactID;
     		_callLogID = callLogID;
-    		if(contactName.equals("")){
+    		if(contactName == null || contactName.equals("")){
     			_contactName = null;
     			_contactExists = false;
     		}else{
@@ -277,7 +277,7 @@ public class Notification {
     		_contactID = contactID;
     		_k9EmailUri = k9EmailUri;
     		_k9EmailDelUri = k9EmailDelUri;
-    		if(contactName.equals("")){
+    		if(contactName == null || contactName.equals("")){
     			_contactName = null;
     			_contactExists = false;
     		}else{
@@ -357,7 +357,7 @@ public class Notification {
     		_contactID = contactID;
     		_k9EmailUri = k9EmailUri;
     		_k9EmailDelUri = k9EmailDelUri;
-    		if(contactName.equals("")){
+    		if(contactName == null || contactName.equals("")){
     			_contactName = null;
     			_contactExists = false;
     		}else{
@@ -774,7 +774,7 @@ public class Notification {
 		String formattedMessage = "";
 		Date eventEndDate = new Date(eventEndTime);
 		Date eventStartDate = new Date(eventStartTime);
-    	if(messageBody.equals("")){
+    	if(messageBody == null || messageBody.equals("")){
     		String startDateFormated = Common.formatDate(_context, eventStartDate);
     		String endDateFormated = Common.formatDate(_context, eventEndDate);
     		try{
