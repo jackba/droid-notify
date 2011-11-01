@@ -22,18 +22,17 @@
 			android:hapticFeedbackEnabled="true"
 	      	android:background="@drawable/btn_prev_arrow" />
 	    <TextView
-	    	android:id="@+id/notification_count_text_view"
-	    	android:layout_height="50dp"  
-	    	android:layout_width="wrap_content" 
-	    	android:layout_alignParentTop="true"
-	    	android:layout_toRightOf="@+id/previous_button"
-	    	android:layout_toLeftOf="@+id/reschedule_button"
-	    	android:gravity="center"
-			android:focusable="true" 
-			android:clickable="true"
-	    	android:textAppearance="?android:attr/textAppearanceMedium" 
-	    	android:textColor="@color/white"
-	    	android:text="0/0"/>
+	        android:id="@+id/notification_count_text_view"
+	        android:layout_width="wrap_content"
+	        android:layout_height="50dp"
+	        android:layout_alignParentTop="true"
+	        android:layout_centerHorizontal="true"
+	        android:clickable="true"
+	        android:focusable="true"
+	        android:gravity="center"
+	        android:text="0/0"
+	        android:textAppearance="?android:attr/textAppearanceMedium"
+	        android:textColor="@color/white" />
 	    <ImageView 
 	    	android:id="@+id/reschedule_image_view" 
 	      	android:layout_height="wrap_content"
