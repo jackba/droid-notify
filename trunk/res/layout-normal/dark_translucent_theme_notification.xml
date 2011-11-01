@@ -4,8 +4,7 @@
 	android:id="@+id/notification_linear_layout"
     android:orientation="vertical"
     android:layout_height="wrap_content"
-    android:layout_width="fill_parent"  
-    android:minWidth="350dp"
+    android:layout_width="fill_parent" 
     android:gravity="center_vertical|fill_horizontal"
     android:background="@drawable/dark_translucent_panel">
 	<RelativeLayout
@@ -27,14 +26,22 @@
 	    	android:layout_height="50dp"  
 	    	android:layout_width="wrap_content" 
 	    	android:layout_alignParentTop="true"
-	    	android:layout_toRightOf="@+id/previous_button" 
-	    	android:layout_toLeftOf="@+id/next_button"
+	    	android:layout_toRightOf="@+id/previous_button"
+	    	android:layout_toLeftOf="@+id/reschedule_button"
 	    	android:gravity="center"
 			android:focusable="true" 
 			android:clickable="true"
 	    	android:textAppearance="?android:attr/textAppearanceMedium" 
 	    	android:textColor="@color/white"
 	    	android:text="0/0"/>
+	    <ImageView 
+	    	android:id="@+id/reschedule_image_view" 
+	      	android:layout_height="wrap_content"
+	      	android:layout_width="wrap_content" 
+	    	android:layout_alignParentTop="true"
+	    	android:layout_toLeftOf="@+id/next_button"
+	    	android:layout_margin="10dp"
+			android:background="@drawable/ic_reschedule_white"/>
 	    <Button
 	    	android:id="@+id/next_button" 
 	      	android:layout_height="wrap_content"

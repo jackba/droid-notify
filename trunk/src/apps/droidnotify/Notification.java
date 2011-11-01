@@ -47,6 +47,7 @@ public class Notification {
 	private String _lookupKey = null;
 	private String _k9EmailUri = null;
 	private String _k9EmailDelUri = null;
+	private int _rescheduleNumber = 0;
 	
 	//================================================================================
 	// Constructors
@@ -259,9 +260,9 @@ public class Notification {
 	/**
 	 * Class Constructor
 	 */
-	public Notification(Context context, String sentFromAddress, String messageBody, long timeStamp, long threadID, long contactID, String contactName, long photoID, long messageID, String title, long calendarID, long calendarEventID, long calendarEventStartTime, long calendarEventEndTime, boolean allDay, long callLogID,  String lookupKey, String k9EmailUri, String k9EmailDelUri, int notificationType) {
+	public Notification(Context context, String sentFromAddress, String messageBody, long timeStamp, long threadID, long contactID, String contactName, long photoID, long messageID, String title, long calendarID, long calendarEventID, long calendarEventStartTime, long calendarEventEndTime, boolean allDay, long callLogID,  String lookupKey, String k9EmailUri, String k9EmailDelUri, int rescheduleNumber, int notificationType) {
 		_debug = Log.getDebug();
-		if (_debug) Log.v("Notification.Notification(Context context, String sentFromAddress, String messageBody, long timeStamp, long threadID, long contactID, String contactName, long photoID, long messageID, String title, String email, long calendarID, long calendarEventID, long calendarEventStartTime, long calendarEventEndTime, boolean allDay, long callLogID,  String lookupKey, String k9EmailUri, String k9EmailDelUri, int notificationType)");
+		if (_debug) Log.v("Notification.Notification(Context context, String sentFromAddress, String messageBody, long timeStamp, long threadID, long contactID, String contactName, long photoID, long messageID, String title, String email, long calendarID, long calendarEventID, long calendarEventStartTime, long calendarEventEndTime, boolean allDay, long callLogID,  String lookupKey, String k9EmailUri, String k9EmailDelUri, int rescheduleNumber, int notificationType)");
 		try{
 			_context = context;
 			_preferences = PreferenceManager.getDefaultSharedPreferences(_context);
@@ -297,8 +298,9 @@ public class Notification {
     		_allDay = allDay;
     		_callLogID = callLogID;
     		_lookupKey = lookupKey;
+    		_rescheduleNumber = rescheduleNumber;
 		}catch(Exception ex){
-			if (_debug) Log.v("Notification.Notification(Context context, String sentFromAddress, String messageBody, long timeStamp, long threadID, long contactID, String contactName, long photoID, long messageID, String title, String email, long calendarID, long calendarEventID, long calendarEventStartTime, long calendarEventEndTime, boolean allDay, long callLogID,  String lookupKey, String k9EmailUri, String k9EmailDelUri, int notificationType) ERROR: " + ex.toString());
+			if (_debug) Log.v("Notification.Notification(Context context, String sentFromAddress, String messageBody, long timeStamp, long threadID, long contactID, String contactName, long photoID, long messageID, String title, String email, long calendarID, long calendarEventID, long calendarEventStartTime, long calendarEventEndTime, boolean allDay, long callLogID,  String lookupKey, String k9EmailUri, String k9EmailDelUri, int rescheduleNumber, int notificationType) ERROR: " + ex.toString());
 		}
 	}
 
@@ -618,6 +620,16 @@ public class Notification {
 	public String getK9EmailDelUri() {
 		if (_debug) Log.v("Notification.getK9EmailDelUri() K9EmailDelUri: " + _k9EmailDelUri);
 	    return _k9EmailDelUri;
+	}
+	
+	/**
+	 * Get the rescheduleNumber property.
+	 * 
+	 * @return rescheduleNumber - The current reschedule number.
+	 */
+	public int getRescheduleNumber() {
+		if (_debug) Log.v("Notification.getRescheduleNumber() RescheduleNumber: " + _rescheduleNumber);
+	    return _rescheduleNumber;
 	}
 	
 	/**

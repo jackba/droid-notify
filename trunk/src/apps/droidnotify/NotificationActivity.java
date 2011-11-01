@@ -283,7 +283,7 @@ public class NotificationActivity extends Activity {
 			case DISMISS_NOTIFICATION_CONTEXT_MENU:{
 				try{
 					//Remove notification from ViewFlipper.
-					_notificationViewFlipper.removeActiveNotification();
+					_notificationViewFlipper.removeActiveNotification(false);
 					return true;
 				}catch(Exception ex){
 					if (_debug) Log.e("NotificationActivity.onContextItemSelected() DISMISS_NOTIFICATION_CONTEXT_MENU ERROR: " + ex.toString());
@@ -428,11 +428,11 @@ public class NotificationActivity extends Activity {
 		    	if (resultCode == RESULT_OK) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() ADD_CONTACT_ACTIVITY: RESULT_OK");
 		        	//Remove notification from ViewFlipper.
-					_notificationViewFlipper.removeActiveNotification();
+					_notificationViewFlipper.removeActiveNotification(false);
 		    	}else if (resultCode == RESULT_CANCELED) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() ADD_CONTACT_ACTIVITY: RESULT_CANCELED");
 		    		//Remove notification from ViewFlipper.
-					_notificationViewFlipper.removeActiveNotification();
+					_notificationViewFlipper.removeActiveNotification(false);
 		    	}else{
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() ADD_CONTACT_ACTIVITY: " + resultCode);
 		        	Toast.makeText(_context, _context.getString(R.string.app_android_contacts_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
@@ -443,11 +443,11 @@ public class NotificationActivity extends Activity {
 		    	if (resultCode == RESULT_OK) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() EDIT_CONTACT_ACTIVITY: RESULT_OK");
 		        	//Remove notification from ViewFlipper.
-					_notificationViewFlipper.removeActiveNotification();
+					_notificationViewFlipper.removeActiveNotification(false);
 		    	}else if (resultCode == RESULT_CANCELED) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() EDIT_CONTACT_ACTIVITY: RESULT_CANCELED");
 		    		//Remove notification from ViewFlipper.
-					_notificationViewFlipper.removeActiveNotification();
+					_notificationViewFlipper.removeActiveNotification(false);
 		    	}else{
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() EDIT_CONTACT_ACTIVITY: " + resultCode);
 		        	Toast.makeText(_context, _context.getString(R.string.app_android_contacts_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
@@ -458,11 +458,11 @@ public class NotificationActivity extends Activity {
 		    	if (resultCode == RESULT_OK) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() VIEW_CONTACT_ACTIVITY: RESULT_OK");
 		        	//Remove notification from ViewFlipper.
-					_notificationViewFlipper.removeActiveNotification();
+					_notificationViewFlipper.removeActiveNotification(false);
 		    	}else if (resultCode == RESULT_CANCELED) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() VIEW_CONTACT_ACTIVITY: RESULT_CANCELED");
 		    		//Remove notification from ViewFlipper.
-					_notificationViewFlipper.removeActiveNotification();
+					_notificationViewFlipper.removeActiveNotification(false);
 		    	}else{
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() VIEW_CONTACT_ACTIVITY: " + resultCode);
 		        	Toast.makeText(_context, _context.getString(R.string.app_android_contacts_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
@@ -473,11 +473,11 @@ public class NotificationActivity extends Activity {
 		    	if (resultCode == RESULT_OK) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() SEND_SMS_ACTIVITY: RESULT_OK");
 		        	//Remove notification from ViewFlipper.
-					_notificationViewFlipper.removeActiveNotification();
+					_notificationViewFlipper.removeActiveNotification(false);
 		    	}else if (resultCode == RESULT_CANCELED) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() SEND_SMS_ACTIVITY: RESULT_CANCELED");
 		    		//Remove notification from ViewFlipper.
-					_notificationViewFlipper.removeActiveNotification();
+					_notificationViewFlipper.removeActiveNotification(false);
 		    	}else{
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() SEND_SMS_ACTIVITY: " + resultCode);
 		        	Toast.makeText(_context, _context.getString(R.string.app_android_messaging_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
@@ -489,11 +489,11 @@ public class NotificationActivity extends Activity {
 		    	if (resultCode == RESULT_OK) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() VIEW_SMS_MESSAGE_ACTIVITY: RESULT_OK");
 		        	//Remove notification from ViewFlipper.
-					_notificationViewFlipper.removeActiveNotification();
+					_notificationViewFlipper.removeActiveNotification(false);
 		    	}else if (resultCode == RESULT_CANCELED) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() VIEW_SMS_MESSAGE_ACTIVITY: RESULT_CANCELED");
 		    		//Remove notification from ViewFlipper.
-					_notificationViewFlipper.removeActiveNotification();
+					_notificationViewFlipper.removeActiveNotification(false);
 		    	}else{
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() VIEW_SMS_MESSAGE_ACTIVITY: " + resultCode);
 		        	Toast.makeText(_context, _context.getString(R.string.app_android_messaging_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
@@ -505,11 +505,11 @@ public class NotificationActivity extends Activity {
 		    	if (resultCode == RESULT_OK) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() VIEW_SMS_THREAD_ACTIVITY: RESULT_OK");
 		        	//Remove notification from ViewFlipper.
-					_notificationViewFlipper.removeActiveNotification();
+					_notificationViewFlipper.removeActiveNotification(false);
 		    	}else if (resultCode == RESULT_CANCELED) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() VIEW_SMS_THREAD_ACTIVITY: RESULT_CANCELED");
 		    		//Remove notification from ViewFlipper.
-					_notificationViewFlipper.removeActiveNotification();
+					_notificationViewFlipper.removeActiveNotification(false);
 		    	}else{
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() VIEW_SMS_THREAD_ACTIVITY: " + resultCode);
 		        	Toast.makeText(_context, _context.getString(R.string.app_android_messaging_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
@@ -521,11 +521,11 @@ public class NotificationActivity extends Activity {
 		    	if (resultCode == RESULT_OK) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() MESSAGING_ACTIVITY: RESULT_OK");
 		        	//Remove notification from ViewFlipper.
-					_notificationViewFlipper.removeActiveNotification();
+					_notificationViewFlipper.removeActiveNotification(false);
 		    	}else if (resultCode == RESULT_CANCELED) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() MESSAGING_ACTIVITY: RESULT_CANCELED");
 		    		//Remove notification from ViewFlipper.
-					_notificationViewFlipper.removeActiveNotification();
+					_notificationViewFlipper.removeActiveNotification(false);
 		    	}else{
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() MESSAGING_ACTIVITY: " + resultCode);
 		        	Toast.makeText(_context, _context.getString(R.string.app_android_messaging_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
@@ -537,11 +537,11 @@ public class NotificationActivity extends Activity {
 		    	if (resultCode == RESULT_OK) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() SEND_SMS_QUICK_REPLY_ACTIVITY: RESULT_OK");
 		        	//Remove notification from ViewFlipper.
-		    		_notificationViewFlipper.removeActiveNotification();
+		    		_notificationViewFlipper.removeActiveNotification(false);
 		    	}else if (resultCode == RESULT_CANCELED) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() SEND_SMS_QUICK_REPLY_ACTIVITY: RESULT_CANCELED");
 		    		//Remove notification from ViewFlipper.
-					//_notificationViewFlipper.removeActiveNotification();
+					//_notificationViewFlipper.removeActiveNotification(false);
 		    	}else{
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() SEND_SMS_QUICK_REPLY_ACTIVITY: " + resultCode);
 		        	Toast.makeText(_context, _context.getString(R.string.app_android_messaging_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
@@ -553,11 +553,11 @@ public class NotificationActivity extends Activity {
 		    	if (resultCode == RESULT_OK) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() CALL_ACTIVITY: RESULT_OK");
 		        	//Remove notification from ViewFlipper.
-					_notificationViewFlipper.removeActiveNotification();
+					_notificationViewFlipper.removeActiveNotification(false);
 		    	}else if (resultCode == RESULT_CANCELED) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() CALL_ACTIVITY: RESULT_CANCELED");
 		    		//Remove notification from ViewFlipper.
-					_notificationViewFlipper.removeActiveNotification();
+					_notificationViewFlipper.removeActiveNotification(false);
 		    	}else{
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() CALL_ACTIVITY: " + resultCode);
 		        	Toast.makeText(_context, _context.getString(R.string.app_android_phone_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
@@ -568,11 +568,11 @@ public class NotificationActivity extends Activity {
 		    	if (resultCode == RESULT_OK) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() ADD_CALENDAR_ACTIVITY: RESULT_OK");
 		        	//Remove notification from ViewFlipper.
-					_notificationViewFlipper.removeActiveNotification();
+					_notificationViewFlipper.removeActiveNotification(false);
 		    	}else if (resultCode == RESULT_CANCELED) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() ADD_CALENDAR_ACTIVITY: RESULT_CANCELED");
 		    		//Remove notification from ViewFlipper.
-					_notificationViewFlipper.removeActiveNotification();
+					_notificationViewFlipper.removeActiveNotification(false);
 		    	}else{
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() ADD_CALENDAR_ACTIVITY: " + resultCode);
 		        	Toast.makeText(_context, _context.getString(R.string.app_android_calendar_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
@@ -583,11 +583,11 @@ public class NotificationActivity extends Activity {
 		    	if (resultCode == RESULT_OK) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() EDIT_CALENDAR_ACTIVITY: RESULT_OK");
 		        	//Remove notification from ViewFlipper.
-					_notificationViewFlipper.removeActiveNotification();
+					_notificationViewFlipper.removeActiveNotification(false);
 		    	}else if (resultCode == RESULT_CANCELED) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() EDIT_CALENDAR_ACTIVITY: RESULT_CANCELED");
 		    		//Remove notification from ViewFlipper.
-					_notificationViewFlipper.removeActiveNotification();
+					_notificationViewFlipper.removeActiveNotification(false);
 		    	}else{
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() EDIT_CALENDAR_ACTIVITY: " + resultCode);
 		        	Toast.makeText(_context, _context.getString(R.string.app_android_calendar_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
@@ -598,11 +598,11 @@ public class NotificationActivity extends Activity {
 		    	if (resultCode == RESULT_OK) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() VIEW_CALENDAR_ACTIVITY: RESULT_OK");
 		        	//Remove notification from ViewFlipper.
-					_notificationViewFlipper.removeActiveNotification();
+					_notificationViewFlipper.removeActiveNotification(false);
 		    	}else if (resultCode == RESULT_CANCELED) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() VIEW_CALENDAR_ACTIVITY: RESULT_CANCELED");
 		    		//Remove notification from ViewFlipper.
-					_notificationViewFlipper.removeActiveNotification();
+					_notificationViewFlipper.removeActiveNotification(false);
 		    	}else{
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() VIEW_CALENDAR_ACTIVITY: " + resultCode);
 		        	Toast.makeText(_context, _context.getString(R.string.app_android_calendar_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
@@ -613,11 +613,11 @@ public class NotificationActivity extends Activity {
 		    	if (resultCode == RESULT_OK) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() VIEW_CALL_LOG_ACTIVITY: RESULT_OK");
 		        	//Remove notification from ViewFlipper.
-		    		_notificationViewFlipper.removeActiveNotification();
+		    		_notificationViewFlipper.removeActiveNotification(false);
 		    	}else if (resultCode == RESULT_CANCELED) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() VIEW_CALL_LOG_ACTIVITY: RESULT_CANCELED");
 		    		//Remove notification from ViewFlipper.
-					_notificationViewFlipper.removeActiveNotification();
+					_notificationViewFlipper.removeActiveNotification(false);
 		    	}else{
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() VIEW_CALL_LOG_ACTIVITY: " + resultCode);
 		        	Toast.makeText(_context, _context.getString(R.string.app_android_call_log_error) + " " + resultCode, Toast.LENGTH_LONG).show();
@@ -628,11 +628,11 @@ public class NotificationActivity extends Activity {
 		    	if (resultCode == RESULT_OK) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() CALENDAR_ACTIVITY: RESULT_OK");
 		        	//Remove notification from ViewFlipper.
-		    		_notificationViewFlipper.removeActiveNotification();
+		    		_notificationViewFlipper.removeActiveNotification(false);
 		    	}else if (resultCode == RESULT_CANCELED) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() CALENDAR_ACTIVITY: RESULT_CANCELED");
 		    		//Remove notification from ViewFlipper.
-					_notificationViewFlipper.removeActiveNotification();
+					_notificationViewFlipper.removeActiveNotification(false);
 		    	}else{
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() CALENDAR_ACTIVITY: " + resultCode);
 		        	Toast.makeText(_context, _context.getString(R.string.app_android_calendar_app_error) + " " + resultCode, Toast.LENGTH_LONG).show();
@@ -643,11 +643,11 @@ public class NotificationActivity extends Activity {
 		    	if (resultCode == RESULT_OK) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() K9_VIEW_INBOX_ACTIVITY: RESULT_OK");
 		        	//Remove notification from ViewFlipper.
-		    		_notificationViewFlipper.removeActiveNotification();
+		    		_notificationViewFlipper.removeActiveNotification(false);
 		    	}else if (resultCode == RESULT_CANCELED) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() K9_VIEW_INBOX_ACTIVITY: RESULT_CANCELED");
 		    		//Remove notification from ViewFlipper.
-					_notificationViewFlipper.removeActiveNotification();
+					_notificationViewFlipper.removeActiveNotification(false);
 		    	}else{
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() K9_VIEW_INBOX_ACTIVITY: " + resultCode);
 		        	Toast.makeText(_context, _context.getString(R.string.app_k9_email_app_error) + " " + resultCode, Toast.LENGTH_LONG).show();
@@ -658,11 +658,11 @@ public class NotificationActivity extends Activity {
 		    	if (resultCode == RESULT_OK) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() K9_VIEW_EMAIL_ACTIVITY: RESULT_OK");
 		        	//Remove notification from ViewFlipper.
-		    		_notificationViewFlipper.removeActiveNotification();
+		    		_notificationViewFlipper.removeActiveNotification(false);
 		    	}else if (resultCode == RESULT_CANCELED) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() K9_VIEW_EMAIL_ACTIVITY: RESULT_CANCELED");
 		    		//Remove notification from ViewFlipper.
-					_notificationViewFlipper.removeActiveNotification();
+					_notificationViewFlipper.removeActiveNotification(false);
 		    	}else{
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() K9_VIEW_EMAIL_ACTIVITY: " + resultCode);
 		        	Toast.makeText(_context, _context.getString(R.string.app_k9_email_app_error) + " " + resultCode, Toast.LENGTH_LONG).show();
@@ -673,11 +673,11 @@ public class NotificationActivity extends Activity {
 		    	if (resultCode == RESULT_OK) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() K9_SEND_EMAIL_ACTIVITY: RESULT_OK");
 		        	//Remove notification from ViewFlipper.
-		    		_notificationViewFlipper.removeActiveNotification();
+		    		_notificationViewFlipper.removeActiveNotification(false);
 		    	}else if (resultCode == RESULT_CANCELED) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() K9_SEND_EMAIL_ACTIVITY: RESULT_CANCELED");
 		    		//Remove notification from ViewFlipper.
-					_notificationViewFlipper.removeActiveNotification();
+					_notificationViewFlipper.removeActiveNotification(false);
 		    	}else{
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() K9_SEND_EMAIL_ACTIVITY: " + resultCode);
 		        	Toast.makeText(_context, _context.getString(R.string.app_k9_email_app_error) + " " + resultCode, Toast.LENGTH_LONG).show();
@@ -771,6 +771,46 @@ public class NotificationActivity extends Activity {
 			case Constants.NOTIFICATION_TYPE_K9:{
 				if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_K9");
 				setupK9EmailNotifications(extrasBundle);
+				break;
+		    }  
+		    case Constants.NOTIFICATION_TYPE_RESCHEDULE_PHONE:{
+		    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_PHONE");
+		    	setupMissedCalls(extrasBundle);
+		    	break;
+		    }
+		    case Constants.NOTIFICATION_TYPE_RESCHEDULE_SMS:{
+			    if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_RESCHEDULE_SMS");
+			    setupRescheduledNotification(extrasBundle);
+		    	break;
+		    }
+		    case Constants.NOTIFICATION_TYPE_RESCHEDULE_MMS:{
+		    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_RESCHEDULE_MMS");
+		    	setupRescheduledNotification(extrasBundle);
+		    	break;
+		    }
+		    case Constants.NOTIFICATION_TYPE_RESCHEDULE_CALENDAR:{
+		    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_RESCHEDULE_CALENDAR");
+		    	setupRescheduledNotification(extrasBundle);
+		    	break;
+			}
+		    case Constants.NOTIFICATION_TYPE_RESCHEDULE_GMAIL:{
+		    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_RESCHEDULE_GMAIL");
+		    	setupRescheduledNotification(extrasBundle);
+		    	break;
+		    }
+			case Constants.NOTIFICATION_TYPE_RESCHEDULE_TWITTER:{
+				if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_RESCHEDULE_TWITTER");
+				setupRescheduledNotification(extrasBundle);
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_RESCHEDULE_FACEBOOK:{
+				if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_RESCHEDULE_FACEBOOK");
+				setupRescheduledNotification(extrasBundle);
+				break;
+		    }
+			case Constants.NOTIFICATION_TYPE_RESCHEDULE_K9:{
+				if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_RESCHEDULE_K9");
+				setupRescheduledNotification(extrasBundle);
 				break;
 		    }
 	    } 
@@ -945,6 +985,41 @@ public class NotificationActivity extends Activity {
 			case Constants.NOTIFICATION_TYPE_K9:{
 				if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_K9");
 				setupK9EmailNotifications(extrasBundle);
+				break;
+		    }
+		    case Constants.NOTIFICATION_TYPE_RESCHEDULE_SMS:{
+			    if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_RESCHEDULE_SMS");
+			    setupRescheduledNotification(extrasBundle);
+		    	break;
+		    }
+		    case Constants.NOTIFICATION_TYPE_RESCHEDULE_MMS:{
+		    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_RESCHEDULE_MMS");
+		    	setupRescheduledNotification(extrasBundle);
+		    	break;
+		    }
+		    case Constants.NOTIFICATION_TYPE_RESCHEDULE_CALENDAR:{
+		    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_RESCHEDULE_CALENDAR");
+		    	setupRescheduledNotification(extrasBundle);
+		    	break;
+			}
+		    case Constants.NOTIFICATION_TYPE_RESCHEDULE_GMAIL:{
+		    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_RESCHEDULE_GMAIL");
+		    	setupRescheduledNotification(extrasBundle);
+		    	break;
+		    }
+			case Constants.NOTIFICATION_TYPE_RESCHEDULE_TWITTER:{
+				if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_RESCHEDULE_TWITTER");
+				setupRescheduledNotification(extrasBundle);
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_RESCHEDULE_FACEBOOK:{
+				if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_RESCHEDULE_FACEBOOK");
+				setupRescheduledNotification(extrasBundle);
+				break;
+		    }
+			case Constants.NOTIFICATION_TYPE_RESCHEDULE_K9:{
+				if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_RESCHEDULE_K9");
+				setupRescheduledNotification(extrasBundle);
 				break;
 		    }
 	    }
@@ -1719,6 +1794,97 @@ public class NotificationActivity extends Activity {
 		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_K9, true, contactName, messageAddress, messageBody, k9EmailUri);
 		}
 	    return true;
+	}
+	
+	/**
+	 * Setup a rescheduled notification.
+	 * 
+	 * @param bundle - Activity bundle.
+	 */
+	private void setupRescheduledNotification(Bundle bundle){
+		int rescheduleNumber = bundle.getInt("rescheduleNumber");
+		String[] rescheduleNotificationInfo = bundle.getStringArray("rescheduleNotificationInfo");
+		//========================================================
+		//String[] Values:
+		//[0]-notificationType
+		//[1]-SentFromAddress
+		//[2]-MessageBody
+		//[3]-TimeStamp
+		//[4]-ThreadID
+		//[5]-ContactID
+		//[6]-ContactName
+		//[7]-MessageID
+		//[8]-Title
+		//[9]-CalendarID
+		//[10]-CalendarEventID
+		//[11]-CalendarEventStartTime
+		//[12]-CalendarEventEndTime
+		//[13]-AllDay
+		//[14]-CallLogID
+		//[15]-K9EmailUri
+		//[16]-K9EmailDelUri
+		//[17]-LookupKey
+		//[18]-PhotoID
+		//========================================================
+		int notificationType = Integer.parseInt(rescheduleNotificationInfo[0]) - 100;
+		String sentFromAddress = rescheduleNotificationInfo[1];
+		String messageBody = rescheduleNotificationInfo[2];
+		long timeStamp = Long.parseLong(rescheduleNotificationInfo[3]);
+		long threadID = Long.parseLong(rescheduleNotificationInfo[4]);
+		long contactID = Long.parseLong(rescheduleNotificationInfo[5]);
+		String contactName = rescheduleNotificationInfo[6];
+		long messageID = Long.parseLong(rescheduleNotificationInfo[7]);
+		String title = rescheduleNotificationInfo[8];
+		long calendarID = Long.parseLong(rescheduleNotificationInfo[9]);
+		long calendarEventID = Long.parseLong(rescheduleNotificationInfo[10]);
+		long calendarEventStartTime = Long.parseLong(rescheduleNotificationInfo[11]);
+		long calendarEventEndTime = Long.parseLong(rescheduleNotificationInfo[12]);
+		boolean allDay = false;
+		if(rescheduleNotificationInfo[13].equals("1")){
+			allDay = true;
+		}
+		long callLogID = Long.parseLong(rescheduleNotificationInfo[14]);
+		String k9EmailUri = rescheduleNotificationInfo[15];
+		String k9EmailDelUri = rescheduleNotificationInfo[16];
+		String lookupKey = rescheduleNotificationInfo[17];
+		long photoID = Long.parseLong(rescheduleNotificationInfo[18]);
+		Notification rescheduleNotification = new Notification(_context, sentFromAddress, messageBody, timeStamp, threadID, contactID, contactName, photoID, messageID, title, calendarID, calendarEventID, calendarEventStartTime, calendarEventEndTime, allDay, callLogID,  lookupKey, k9EmailUri, k9EmailDelUri, rescheduleNumber, notificationType);
+		_notificationViewFlipper.addNotification(rescheduleNotification);
+		//Display Status Bar Notification
+	    switch(notificationType){
+	    	case Constants.NOTIFICATION_TYPE_PHONE:{
+	    		Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_PHONE, true, contactName, sentFromAddress, null, null);
+		    	break;
+		    }
+	    	case Constants.NOTIFICATION_TYPE_SMS:{
+	    		Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_SMS, true, contactName, sentFromAddress, messageBody, null);
+		    	break;
+		    }
+	    	case Constants.NOTIFICATION_TYPE_MMS:{
+	    		Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_SMS, true, contactName, sentFromAddress, messageBody, null);
+		    	break;
+		    }
+	    	case Constants.NOTIFICATION_TYPE_CALENDAR:{
+	    		Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_CALENDAR, true, null, null, title, null);
+		    	break;
+		    }
+	    	case Constants.NOTIFICATION_TYPE_GMAIL:{
+
+		    	break;
+		    }
+			case Constants.NOTIFICATION_TYPE_TWITTER:{
+
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_FACEBOOK:{
+
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_K9:{
+				Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_K9, true, contactName, sentFromAddress, messageBody, k9EmailUri);
+				break;
+		    }
+	    }
 	}
 	
 	/**
