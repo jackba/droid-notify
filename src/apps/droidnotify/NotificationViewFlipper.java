@@ -11,6 +11,7 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 import apps.droidnotify.common.Common;
@@ -424,6 +425,7 @@ public class NotificationViewFlipper extends ViewFlipper {
     	if (_debug) Log.v("NotificationViewFlipper.updateNavigationButtons()");
 		Button previousButton = (Button) view.findViewById(R.id.previous_button);
 		TextView notificationCountTextView = (TextView) view.findViewById(R.id.notification_count_text_view);
+		ImageView rescheduleImageView = (ImageView) view.findViewById(R.id.reschedule_image_view);
 		Button nextButton = (Button) view.findViewById(R.id.next_button);
     	if(isFirstMessage()){
     		previousButton.setVisibility(View.INVISIBLE);
@@ -431,6 +433,11 @@ public class NotificationViewFlipper extends ViewFlipper {
     		previousButton.setVisibility(View.VISIBLE);
     	}
     	notificationCountTextView.setVisibility(View.VISIBLE);
+    	if(_preferences.getBoolean(Constants.HIDE_RESCHEDULE_BUTTON_KEY, false)){
+    		rescheduleImageView.setVisibility(View.GONE);
+    	}else{    		
+    		rescheduleImageView.setVisibility(View.VISIBLE);
+    	}
     	notificationCountTextView.setText((_currentNotification + 1) + "/" + _totalNotifications);
     	nextButton.setEnabled(!isLastMessage());
     	if(isLastMessage()){
@@ -442,8 +449,9 @@ public class NotificationViewFlipper extends ViewFlipper {
     	if(_preferences.getBoolean(Constants.HIDE_SINGLE_MESSAGE_HEADER_KEY, false)){
 	    	if(_notifications.size() == 1){
 	    		previousButton.setVisibility(View.GONE);
-	    		nextButton.setVisibility(View.GONE);
 	    		notificationCountTextView.setVisibility(View.GONE);
+	    		rescheduleImageView.setVisibility(View.GONE);
+	    		nextButton.setVisibility(View.GONE);
 	    	}
     	}
 	}

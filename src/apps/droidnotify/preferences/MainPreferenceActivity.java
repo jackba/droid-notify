@@ -753,6 +753,8 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			buf.append("date_format_settings|" + _preferences.getString("date_format_settings", "0") + "|string");
 			buf.newLine();	
 			buf.append("button_icons_enabled|" + _preferences.getBoolean("button_icons_enabled", true) + "|boolean");
+			buf.newLine();		
+			buf.append("hide_reschedule_button_enabled|" + _preferences.getBoolean("hide_reschedule_button_enabled", false) + "|boolean");
 			buf.newLine();	
 			buf.append("hide_single_message_header_enabled|" + _preferences.getBoolean("hide_single_message_header_enabled", false) + "|boolean");
 			buf.newLine();	

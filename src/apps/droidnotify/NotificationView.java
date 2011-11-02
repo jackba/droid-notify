@@ -160,16 +160,20 @@ public class NotificationView extends LinearLayout {
 			    }
 			});	
 			//Reschedule Button
-			_rescheduleImageView.setOnClickListener(new OnClickListener() {
-			    public void onClick(View view) {
-			    	if (_debug) Log.v("Reschedule Button Clicked()");
-			    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-			    	//TODO - Add in preference for the reschedule time.
-			    	long rescheduleInterval = 30000;
-			    	Common.rescheduleNotification(_context, _notification, System.currentTimeMillis() + rescheduleInterval, _notification.getRescheduleNumber() + 0);
-			    	dismissNotification(true);
-			    }
-			});
+			if(_preferences.getBoolean(Constants.HIDE_RESCHEDULE_BUTTON_KEY, false)){
+				_rescheduleImageView.setVisibility(View.GONE);
+			}else{
+				_rescheduleImageView.setOnClickListener(new OnClickListener() {
+				    public void onClick(View view) {
+				    	if (_debug) Log.v("Reschedule Button Clicked()");
+				    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+				    	//TODO - Add in preference for the reschedule time.
+				    	long rescheduleInterval = 30000;
+				    	Common.rescheduleNotification(_context, _notification, System.currentTimeMillis() + rescheduleInterval, _notification.getRescheduleNumber() + 0);
+				    	dismissNotification(true);
+				    }
+				});
+			}
 			switch(_notificationType){
 				case Constants.NOTIFICATION_TYPE_PHONE:{
 					// Notification Count Text Button
