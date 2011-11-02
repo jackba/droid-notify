@@ -11,7 +11,7 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 import apps.droidnotify.common.Common;
@@ -423,20 +423,14 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 */
 	private void updateViewNavigationButtons(View view){
     	if (_debug) Log.v("NotificationViewFlipper.updateNavigationButtons()");
+		RelativeLayout headerRelativeLayout = (RelativeLayout) view.findViewById(R.id.header_navigation);
 		Button previousButton = (Button) view.findViewById(R.id.previous_button);
 		TextView notificationCountTextView = (TextView) view.findViewById(R.id.notification_count_text_view);
-		ImageView rescheduleImageView = (ImageView) view.findViewById(R.id.reschedule_image_view);
 		Button nextButton = (Button) view.findViewById(R.id.next_button);
     	if(isFirstMessage()){
     		previousButton.setVisibility(View.INVISIBLE);
     	}else{
     		previousButton.setVisibility(View.VISIBLE);
-    	}
-    	notificationCountTextView.setVisibility(View.VISIBLE);
-    	if(_preferences.getBoolean(Constants.HIDE_RESCHEDULE_BUTTON_KEY, false)){
-    		rescheduleImageView.setVisibility(View.GONE);
-    	}else{    		
-    		rescheduleImageView.setVisibility(View.VISIBLE);
     	}
     	notificationCountTextView.setText((_currentNotification + 1) + "/" + _totalNotifications);
     	nextButton.setEnabled(!isLastMessage());
@@ -448,10 +442,9 @@ public class NotificationViewFlipper extends ViewFlipper {
     	//Hide notification header row if single notification.
     	if(_preferences.getBoolean(Constants.HIDE_SINGLE_MESSAGE_HEADER_KEY, false)){
 	    	if(_notifications.size() == 1){
-	    		previousButton.setVisibility(View.GONE);
-	    		notificationCountTextView.setVisibility(View.GONE);
-	    		rescheduleImageView.setVisibility(View.GONE);
-	    		nextButton.setVisibility(View.GONE);
+	    		headerRelativeLayout.setVisibility(View.GONE);
+	    	}else{
+	    		headerRelativeLayout.setVisibility(View.VISIBLE);
 	    	}
     	}
 	}

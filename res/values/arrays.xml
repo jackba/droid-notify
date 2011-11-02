@@ -408,47 +408,118 @@
 	
 	<!-- Email Preferences Arrays --> 
 	
-	<!-- Other Preferences Arrays -->	
-    <string-array name="reschedule_notification_timeout_options">
-		<item name="1">@string/s1_minute_text</item>
-		<item name="2">@string/s2_minutes_text</item>
-		<item name="3">@string/s3_minutes_text</item>
-		<item name="4">@string/s4_minutes_text</item>
-		<item name="5">@string/s5_minutes_text</item>
-		<item name="6">@string/s10_minutes_text</item>
-		<item name="7">@string/s15_minutes_text</item>
-		<item name="8">@string/s30_minutes_text</item>
-		<item name="9">@string/s45_minutes_text</item>
-		<item name="10">1 Hour</item>
+	<!-- Reschedule Arrays -->
+    <string-array name="reschedule_time_options">
+		<item name="0">@string/s1_minute_text</item>
+		<item name="1">@string/s2_minutes_text</item>
+		<item name="2">@string/s3_minutes_text</item>
+		<item name="3">@string/s4_minutes_text</item>
+		<item name="4">@string/s5_minutes_text</item>
+		<item name="5">@string/s10_minutes_text</item>
+		<item name="6">@string/s15_minutes_text</item>
+		<item name="7">@string/s20_minutes_text</item>
+		<item name="8">@string/s25_minutes_text</item>
+		<item name="9">@string/s30_minutes_text</item>
+		<item name="10">@string/s35_minutes_text</item>
+		<item name="11">@string/s40_minutes_text</item>
+		<item name="12">@string/s45_minutes_text</item>
+		<item name="13">@string/s50_minutes_text</item>
+		<item name="14">@string/s55_minutes_text</item>
+		<item name="15">@string/s1_hour_text</item>
+		<item name="16">@string/s2_hours_text</item>
+		<item name="17">@string/s3_hours_text</item>
+		<item name="18">@string/s4_hours_text</item>
+		<item name="19">@string/s5_hours_text</item>
+		<item name="20">@string/s6_hours_text</item>
+		<item name="21">@string/s7_hours_text</item>
+		<item name="22">@string/s8_hours_text</item>
+		<item name="23">@string/s9_hours_text</item>
+		<item name="24">@string/s10_hours_text</item>
+		<item name="25">@string/s11_hours_text</item>
+		<item name="26">@string/s12_hours_text</item>
+		<item name="27">@string/s24_hours_text</item>
 	</string-array>
-	<string-array name="reschedule_notification_timeout_options_values">
-		<item name="1">1</item>
-		<item name="2">2</item>
-		<item name="3">3</item>
-		<item name="4">4</item>
-		<item name="5">5</item>
-		<item name="6">10</item>
-		<item name="7">15</item>
-		<item name="8">30</item>
-		<item name="9">45</item>
-		<item name="10">60</item>
+	<string-array name="reschedule_time_options_values">
+		<item name="0">1</item>
+		<item name="1">2</item>
+		<item name="2">3</item>
+		<item name="3">4</item>
+		<item name="4">5</item>
+		<item name="5">10</item>
+		<item name="6">15</item>
+		<item name="7">20</item>
+		<item name="8">25</item>
+		<item name="9">30</item>
+		<item name="10">35</item>
+		<item name="11">40</item>
+		<item name="12">45</item>
+		<item name="13">50</item>
+		<item name="14">55</item>
+		<item name="15">60</item>
+		<item name="16">120</item>
+		<item name="17">180</item>
+		<item name="18">240</item>
+		<item name="19">300</item>
+		<item name="20">360</item>
+		<item name="21">420</item>
+		<item name="22">480</item>
+		<item name="23">540</item>
+		<item name="24">600</item>
+		<item name="25">660</item>
+		<item name="26">720</item>
+		<item name="27">1440</item>
 	</string-array>
-	
+
+	<!-- Reminder Arrays -->
+    <string-array name="reminder_frequency_options">
+		<item name="0">1</item>
+		<item name="1">2</item>
+		<item name="2">3</item>
+		<item name="3">4</item>
+		<item name="4">5</item>
+		<item name="5">6</item>
+		<item name="6">7</item>
+		<item name="7">8</item>
+		<item name="8">9</item>
+		<item name="9">10</item>
+		<item name="10">15</item>
+		<item name="11">@string/keep_repeating_text</item>
+	</string-array>
+	<string-array name="reminder_frequency_options_values">
+		<item name="0">1</item>
+		<item name="1">2</item>
+		<item name="2">3</item>
+		<item name="3">4</item>
+		<item name="4">5</item>
+		<item name="5">6</item>
+		<item name="6">7</item>
+		<item name="7">8</item>
+		<item name="8">9</item>
+		<item name="9">10</item>
+		<item name="10">15</item>
+		<item name="11">-1</item>
+	</string-array>
+	    	
+	<!-- Screen Timeout Arrays -->
     <string-array name="screen_timeout_options">
 		<item name="0">@string/s10_seconds_text</item>
 		<item name="1">@string/s15_seconds_text</item>
 		<item name="2">@string/s20_seconds_text</item>
 		<item name="3">@string/s25_seconds_text</item>
 		<item name="4">@string/s30_seconds_text</item>
-		<item name="5">@string/s45_seconds_text</item>
-		<item name="6">@string/s1_minute_text</item>
-		<item name="7">@string/s2_minutes_text</item>
-		<item name="8">@string/s3_minutes_text</item>
-		<item name="9">@string/s4_minutes_text</item>
-		<item name="10">@string/s5_minutes_text</item>
-		<item name="11">@string/s10_minutes_text</item>
-		<item name="12">@string/s15_minutes_text</item>
-		<item name="13">@string/s30_minutes_text</item>
+		<item name="5">@string/s35_seconds_text</item>
+		<item name="6">@string/s40_seconds_text</item>
+		<item name="7">@string/s45_seconds_text</item>
+		<item name="8">@string/s50_seconds_text</item>
+		<item name="9">@string/s55_seconds_text</item>
+		<item name="10">@string/s1_minute_text</item>
+		<item name="11">@string/s2_minutes_text</item>
+		<item name="12">@string/s3_minutes_text</item>
+		<item name="13">@string/s4_minutes_text</item>
+		<item name="14">@string/s5_minutes_text</item>
+		<item name="15">@string/s10_minutes_text</item>
+		<item name="16">@string/s15_minutes_text</item>
+		<item name="17">@string/s30_minutes_text</item>
 	</string-array>
 	<string-array name="screen_timeout_options_values">
 		<item name="0">10</item>
@@ -456,15 +527,19 @@
 		<item name="2">20</item>
 		<item name="3">25</item>
 		<item name="4">30</item>
-		<item name="5">45</item>
-		<item name="6">60</item>
-		<item name="7">120</item>
-		<item name="8">180</item>
-		<item name="9">240</item>
-		<item name="10">300</item>
-		<item name="11">600</item>
-		<item name="12">9000</item>
-		<item name="13">1800</item>
+		<item name="5">35</item>
+		<item name="6">40</item>
+		<item name="7">45</item>
+		<item name="8">50</item>
+		<item name="9">55</item>
+		<item name="10">60</item>
+		<item name="11">120</item>
+		<item name="12">180</item>
+		<item name="13">240</item>
+		<item name="14">300</item>
+		<item name="15">600</item>
+		<item name="16">9000</item>
+		<item name="17">1800</item>
 	</string-array>
 
 	<string-array name="messaging_app_running_action_options">

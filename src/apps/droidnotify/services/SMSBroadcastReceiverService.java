@@ -127,7 +127,7 @@ public class SMSBroadcastReceiverService extends WakefulIntentService {
 			    	}
 			    	//Set alarm to go off x minutes from the current time as defined by the user preferences.
 			    	if(preferences.getBoolean(Constants.RESCHEDULE_NOTIFICATIONS_ENABLED_KEY, true)){
-				    	long rescheduleInterval = Long.parseLong(preferences.getString(Constants.RESCHEDULE_NOTIFICATION_TIMEOUT_KEY, "5")) * 60 * 1000;
+				    	long rescheduleInterval = Long.parseLong(preferences.getString(Constants.RESCHEDULE_BLOCKED_NOTIFICATION_TIMEOUT_KEY, Constants.RESCHEDULE_BLOCKED_NOTIFICATION_TIMEOUT_DEFAULT)) * 60 * 1000;
 			    		if (_debug) Log.v("SMSBroadcastReceiverService.doWakefulWork() Rescheduling notification. Rechedule in " + rescheduleInterval + "minutes.");
 						AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 						Intent smsIntent = new Intent(context, SMSReceiver.class);

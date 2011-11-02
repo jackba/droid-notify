@@ -167,8 +167,7 @@ public class NotificationView extends LinearLayout {
 				    public void onClick(View view) {
 				    	if (_debug) Log.v("Reschedule Button Clicked()");
 				    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-				    	//TODO - Add in preference for the reschedule time.
-				    	long rescheduleInterval = 30000;
+				    	long rescheduleInterval = Long.parseLong(_preferences.getString(Constants.RESCHEDULE_TIME_KEY, Constants.RESCHEDULE_TIME_DEFAULT)) * 60 * 1000;
 				    	Common.rescheduleNotification(_context, _notification, System.currentTimeMillis() + rescheduleInterval, _notification.getRescheduleNumber() + 0);
 				    	dismissNotification(true);
 				    }
