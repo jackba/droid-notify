@@ -476,7 +476,6 @@ public class NotificationView extends LinearLayout {
 						    public void onClick(View view) {
 						    	if (_debug) Log.v("Notification Count Button Clicked()");
 						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-						    	//Common.startK9MailAppReplyActivity(_context, _notificationActivity, _notification.getK9EmailUri(), Constants.K9_VIEW_EMAIL_ACTIVITY);
 						    	Common.startK9EmailAppViewInboxActivity(_context, _notificationActivity, Constants.K9_VIEW_INBOX_ACTIVITY);
 						    }
 						});		
