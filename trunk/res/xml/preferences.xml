@@ -160,6 +160,58 @@
 						android:entries="@array/font_size_options"
 						android:entryValues="@array/font_size_options_values" />
 			</PreferenceCategory>
+<!-- 
+			<PreferenceCategory
+				android:key="text_to_speech_settings_category"
+				android:title="@string/text_to_speech_settings_text">
+
+			</PreferenceCategory>
+ -->
+ <!--
+			<PreferenceCategory
+				android:key="reminder_settings_category"
+				android:title="@string/reminder_settings_text">
+				<CheckBoxPreference
+					android:key="reminders_enabled" 
+					android:title="@string/preference_reminders_enabled_title" 
+					android:summary="@string/preference_reminders_enabled_summary"
+					android:defaultValue="false" />
+				<PreferenceScreen
+					android:key="reminder_settings_screen"
+					android:title="@string/reminder_settings_text"
+					android:dependency="reminders_enabled">
+					<ListPreference
+						android:key="reminder_frequency"
+						android:title="@string/preference_reminder_frequency_text"
+						android:summary="@string/preference_reminder_frequency_summary"
+						android:defaultValue="5"
+						android:entries="@array/reminder_frequency_options"
+						android:entryValues="@array/reminder_frequency_options_values" />
+					<ListPreference
+						android:key="reminder_interval"
+						android:title="@string/preference_reminder_interval_text"
+						android:summary="@string/preference_reminder_interval_summary"
+						android:defaultValue="60"
+						android:entries="@array/reschedule_time_options"
+						android:entryValues="@array/reschedule_time_options_values" />
+				</PreferenceScreen>
+			</PreferenceCategory>
+ -->
+			<PreferenceCategory
+				android:key="reschedule_settings_category"
+				android:title="@string/reschedule_settings_text">
+				<PreferenceScreen
+					android:key="reschedule_settings_screen"
+					android:title="@string/reschedule_settings_text">
+					<ListPreference
+						android:key="reschedule_time"
+						android:title="@string/preference_reschedule_time_text"
+						android:summary="@string/preference_reschedule_time_summary"
+						android:defaultValue="60"
+						android:entries="@array/reschedule_time_options"
+						android:entryValues="@array/reschedule_time_options_values" />
+				</PreferenceScreen>
+			</PreferenceCategory>
 			<PreferenceCategory
 				android:key="quick_reply_settings_category"
 				android:title="@string/quick_reply_settings_text">
@@ -1398,16 +1450,16 @@
         			android:summaryOff="@string/preference_reschedule_notifications_enabled_summaryOff" 
         			android:defaultValue="true" />
 				<PreferenceScreen
-					android:key="reschedule_notifications_screen"
+					android:key="reschedule_blocked_notifications_screen"
 					android:title="@string/reschedule_settings_text"
 					android:dependency="reschedule_notifications_enabled">	
 					<ListPreference
-						android:key="reschedule_notification_timeout_settings"
-						android:title="@string/reschedule_tinmeout_text"
-						android:summary="@string/preference_reschedule_timeout_summary"
+						android:key="reschedule_blocked_notification_timeout"
+						android:title="@string/preference_reschedule_blocked_timeout_text"
+						android:summary="@string/preference_reschedule_blocked_timeout_summary"
 						android:defaultValue="5"
-						android:entries="@array/reschedule_notification_timeout_options"
-						android:entryValues="@array/reschedule_notification_timeout_options_values" />
+						android:entries="@array/reschedule_time_options"
+						android:entryValues="@array/reschedule_time_options_values" />
 				</PreferenceScreen>	
 			</PreferenceCategory>
 			<PreferenceCategory

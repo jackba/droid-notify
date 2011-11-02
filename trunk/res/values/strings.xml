@@ -418,9 +418,21 @@
    	<string name="preference_reschedule_notifications_enabled_summaryOn">The app will reschedule notifications if they are blocked (e.g. on a phone call, in a messaging app, etc...).</string>
    	<string name="preference_reschedule_notifications_enabled_summaryOff">The app will not reschedule notifications if they are blocked.</string>
     <string name="reschedule_settings_text">Reschedule Settings</string>
-    <string name="reschedule_tinmeout_text">Reschedule Timeout</string>
-   	<string name="preference_reschedule_timeout_summary">Define how long to wait before a notification is rescheduled.</string> 	
-   	
+    <string name="preference_reschedule_blocked_timeout_text">Blocked Notification Timeout</string>
+   	<string name="preference_reschedule_blocked_timeout_summary">Define how long to wait before a blocked notification is rescheduled.</string>    
+    <string name="preference_reschedule_time_text">Reschedule Time</string>
+   	<string name="preference_reschedule_time_summary">Define when to reschedule a notification.</string> 	
+
+   	<!-- Reminder Strings -->
+    <string name="reminder_settings_text">Reminder Settings</string>
+    <string name="preference_reminders_enabled_title">Enable Reminders</string>
+   	<string name="preference_reminders_enabled_summary">Remind you of unread notifications.</string>
+    <string name="preference_reminder_frequency_text">Reminder Frequency</string>
+   	<string name="preference_reminder_frequency_summary">Define the number of reminders to send.</string>    
+    <string name="preference_reminder_interval_text">Reminder Interval</string>
+   	<string name="preference_reminder_interval_summary">Define what interval to send reminders.</string>
+   	<string name="keep_repeating_text">Keep Repeating</string>
+   	    
    	<!-- Message Settings Strings -->
    	<string name="messaging_app_running_action_text">Messaging App Running Options</string>
     <string name="preference_hide_single_message_header_enabled_title">Hide Single Message Header</string>
@@ -578,9 +590,11 @@
    	<string name="s20_seconds_text">20 Seconds</string>
    	<string name="s25_seconds_text">25 Seconds</string>
    	<string name="s30_seconds_text">30 Seconds</string>
+   	<string name="s35_seconds_text">35 Seconds</string>
    	<string name="s40_seconds_text">40 Seconds</string>
    	<string name="s45_seconds_text">45 Seconds</string>
    	<string name="s50_seconds_text">50 Seconds</string>
+   	<string name="s55_seconds_text">55 Seconds</string>
    	<string name="s60_seconds_text">60 Seconds</string>
    	
 	<string name="s1_minute_text">1 Minute</string>
@@ -588,12 +602,20 @@
 	<string name="s3_minutes_text">3 Minutes</string>
 	<string name="s4_minutes_text">4 Minutes</string>
 	<string name="s5_minutes_text">5 Minutes</string>
+	<string name="s6_minutes_text">6 Minutes</string>
+	<string name="s7_minutes_text">7 Minutes</string>
+	<string name="s8_minutes_text">8 Minutes</string>
+	<string name="s9_minutes_text">9 Minutes</string>
 	<string name="s10_minutes_text">10 Minutes</string>
 	<string name="s15_minutes_text">15 Minutes</string>
 	<string name="s20_minutes_text">20 Minutes</string>
 	<string name="s25_minutes_text">25 Minutes</string>
 	<string name="s30_minutes_text">30 Minutes</string>
+	<string name="s35_minutes_text">35 Minutes</string>
+	<string name="s40_minutes_text">40 Minutes</string>
 	<string name="s45_minutes_text">45 Minutes</string>
+	<string name="s50_minutes_text">50 Minutes</string>
+	<string name="s55_minutes_text">55 Minutes</string>
 	
 	<string name="s1_hour_text">1 Hour</string>
    	<string name="s2_hours_text">2 Hours</string>

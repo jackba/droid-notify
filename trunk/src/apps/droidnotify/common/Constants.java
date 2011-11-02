@@ -25,8 +25,6 @@ public class Constants {
 	public static final String DIM_SCREEN_ENABLED_KEY = "dim_screen_background_enabled";
 	public static final String DIM_SCREEN_AMOUNT_KEY = "dim_screen_background_amount";
 	public static final String SCREEN_TIMEOUT_KEY = "screen_timeout_settings";
-	public static final String RESCHEDULE_NOTIFICATIONS_ENABLED_KEY = "reschedule_notifications_enabled";
-	public static final String RESCHEDULE_NOTIFICATION_TIMEOUT_KEY = "reschedule_notification_timeout_settings";
 	public static final String USER_IN_MESSAGING_APP_KEY = "user_in_messaging_app";
 	public static final String SCREEN_ENABLED_KEY = "screen_enabled";
 	public static final String SCREEN_DIM_ENABLED_KEY = "screen_dim_enabled";
@@ -79,6 +77,13 @@ public class Constants {
 	
 	public static final int MESSAGE_TYPE_SMS = 1;
 	public static final int MESSAGE_TYPE_MMS = 2;
+	
+	//-----RESCHEDULE CONSTANTS-----//
+	public static final String RESCHEDULE_NOTIFICATIONS_ENABLED_KEY = "reschedule_notifications_enabled";
+	public static final String RESCHEDULE_BLOCKED_NOTIFICATION_TIMEOUT_KEY = "reschedule_blocked_notification_timeout";
+	public static final String RESCHEDULE_BLOCKED_NOTIFICATION_TIMEOUT_DEFAULT = "5";
+	public static final String RESCHEDULE_TIME_KEY = "reschedule_time";
+	public static final String RESCHEDULE_TIME_DEFAULT = "60";
 	
 	//-----CONTACT PHOTO CONSTANTS-----//
     public static final String CONTACT_PLACEHOLDER_KEY = "contact_placeholder";
