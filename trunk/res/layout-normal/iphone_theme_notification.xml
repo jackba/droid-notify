@@ -8,11 +8,11 @@
     android:gravity="center_vertical|fill_horizontal"
     android:background="@drawable/iphone_panel">
 	<RelativeLayout
-    	android:id="@+id/header_navigation"
-    	android:layout_height="wrap_content"
-    	android:layout_width="fill_parent"
-    	android:gravity="center"
-    	android:padding="2dp">
+	    android:id="@+id/header_navigation"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:gravity="center"
+	    android:padding="2dp" >
 	    <Button
 	    	android:id="@+id/previous_button" 
 	     	android:layout_height="wrap_content"
@@ -24,7 +24,8 @@
 	    <TextView
 	        android:id="@+id/notification_count_text_view"
 	        android:layout_width="wrap_content"
-	        android:layout_height="50dp"
+	        android:layout_height="wrap_content"
+	        android:layout_alignBottom="@+id/reschedule_image_view"
 	        android:layout_alignParentTop="true"
 	        android:layout_centerHorizontal="true"
 	        android:clickable="true"
@@ -33,14 +34,15 @@
 	        android:text="0/0"
 	        android:textAppearance="?android:attr/textAppearanceMedium"
 	        android:textColor="@color/white" />
-	    <ImageView 
-	    	android:id="@+id/reschedule_image_view" 
-	      	android:layout_height="wrap_content"
-	      	android:layout_width="wrap_content" 
-	    	android:layout_alignParentTop="true"
-	    	android:layout_toLeftOf="@+id/next_button"
-	    	android:layout_margin="10dp"
-			android:background="@drawable/ic_reschedule_white"/>
+	    <ImageView
+	        android:id="@+id/reschedule_image_view"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignTop="@+id/next_button"
+	        android:layout_toLeftOf="@+id/next_button"
+	        android:layout_marginLeft="5dp"
+	        android:layout_marginRight="5dp"
+	        android:background="@drawable/ic_reschedule_white" />
 	    <Button
 	    	android:id="@+id/next_button" 
 	      	android:layout_height="wrap_content"
