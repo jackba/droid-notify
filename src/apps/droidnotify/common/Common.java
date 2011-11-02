@@ -1062,9 +1062,10 @@ public class Common {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.startK9EmailAppViewInboxActivity()");
 		try{
-			Intent intent = new Intent(Intent.ACTION_VIEW);
-		    intent.setPackage("com.fsck.k9");
-	        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+	        Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_LAUNCHER);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+            intent.setComponent(new ComponentName("com.fsck.k9", "com.fsck.k9.activity.Accounts"));
 	        notificationActivity.startActivityForResult(intent, requestCode);
 	        return true;
 		}catch(Exception ex){
