@@ -72,6 +72,12 @@
 				android:key="notification_header_settings_category"
 				android:title="@string/notification_header_settings_text">
 				<CheckBoxPreference
+					android:key="hide_reschedule_button_enabled" 
+					android:title="@string/preference_hide_reschedule_button_enabled_title" 
+					android:summaryOn="@string/preference_hide_reschedule_button_enabled_summaryOn" 
+					android:summaryOff="@string/preference_hide_reschedule_button_enabled_summaryOff" 
+					android:defaultValue="false" />
+				<CheckBoxPreference
 					android:key="hide_single_message_header_enabled" 
 					android:title="@string/preference_hide_single_message_header_enabled_title" 
 					android:summaryOn="@string/preference_hide_single_message_header_enabled_summaryOn" 

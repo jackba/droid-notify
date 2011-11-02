@@ -31,6 +31,7 @@ public class Constants {
 	public static final String SCREEN_ENABLED_KEY = "screen_enabled";
 	public static final String SCREEN_DIM_ENABLED_KEY = "screen_dim_enabled";
 	public static final String KEYGUARD_ENABLED_KEY = "keyguard_enabled";
+	public static final String HIDE_RESCHEDULE_BUTTON_KEY = "hide_reschedule_button_enabled";
 	public static final String HIDE_SINGLE_MESSAGE_HEADER_KEY = "hide_single_message_header_enabled";
     public static final String BUTTON_ICONS_KEY = "button_icons_enabled";
     public static final String CLEAR_STATUS_BAR_NOTIFICATIONS_ON_EXIT_KEY = "clear_status_bar_notifications_on_exit_enabled";

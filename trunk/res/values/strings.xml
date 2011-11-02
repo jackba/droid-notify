@@ -411,6 +411,9 @@
    	<string name="preference_import_preferences_error_text">The application preferences were not imported. Possible causes for this error include a missing preferences file, a missing SD Card or other SD card related issues which prevents this application from reading a file from the SD card location.</string>
 
    	<!-- Reschedule Strings -->
+   	<string name="preference_hide_reschedule_button_enabled_title">Hide Reschedule Button</string>
+   	<string name="preference_hide_reschedule_button_enabled_summaryOn">The reschedule button will not be shown.</string>
+   	<string name="preference_hide_reschedule_button_enabled_summaryOff">The reschedule button will be shown</string>
    	<string name="reschedule_notifications_text">Reschedule Notifications</string>
    	<string name="preference_reschedule_notifications_enabled_summaryOn">The app will reschedule notifications if they are blocked (e.g. on a phone call, in a messaging app, etc...).</string>
    	<string name="preference_reschedule_notifications_enabled_summaryOff">The app will not reschedule notifications if they are blocked.</string>
