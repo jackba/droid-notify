@@ -148,7 +148,7 @@
 					android:entries="@array/font_size_options"
 					android:entryValues="@array/font_size_options_values"
 					android:dependency="display_contact_number_enabled" />
-			</PreferenceCategory>
+			</PreferenceCategory>   
 			<PreferenceCategory
 				android:key="notification_body_settings_category"
 				android:title="@string/notification_body_settings_text">
@@ -159,7 +159,7 @@
 						android:defaultValue="14"
 						android:entries="@array/font_size_options"
 						android:entryValues="@array/font_size_options_values" />
-			</PreferenceCategory>
+			</PreferenceCategory>   
 <!-- 
 			<PreferenceCategory
 				android:key="text_to_speech_settings_category"
@@ -197,6 +197,32 @@
 				</PreferenceScreen>
 			</PreferenceCategory>
  -->
+			<PreferenceCategory
+				android:key="quiet_time_settings_category"
+				android:title="@string/preference_quiet_time_title">			
+				<PreferenceScreen
+					android:key="quiet_time_settings_screen"
+					android:title="@string/preference_quiet_time_title">	
+					<CheckBoxPreference
+						android:key="quiet_time_enabled" 
+						android:title="@string/preference_quiet_time_enabled_title" 
+						android:summary="@string/preference_quiet_time_enabled_summary" 
+						android:defaultValue="false" />
+					<ListPreference
+						android:key="quiet_time_of_week"
+						android:title="@string/preference_quiet_time_of_week_title"
+						android:summary="@string/preference_quiet_time_of_week_summary"
+						android:defaultValue="0"
+						android:entries="@array/quiet_time_of_week_options"
+						android:entryValues="@array/quiet_time_of_week_options_values"
+						android:dependency="quiet_time_enabled" />			
+					<Preference
+						android:key="quiet_time_blackout_period_settings"
+						android:title="@string/preference_quiet_time_quiet_period_title"
+						android:summary="@string/preference_quiet_time_quiet_period_summary"
+						android:dependency="quiet_time_enabled" />   
+			    </PreferenceScreen>
+			</PreferenceCategory>
 			<PreferenceCategory
 				android:key="reschedule_settings_category"
 				android:title="@string/reschedule_settings_text">

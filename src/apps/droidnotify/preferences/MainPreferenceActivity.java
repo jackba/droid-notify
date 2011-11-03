@@ -42,6 +42,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
@@ -366,7 +367,22 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		    		startActivity(intent);
 		    	}catch(Exception ex){
 	 	    		if (_debug) Log.e("MainPreferenceActivity.setupCustomPreferences() Test Notifications Button ERROR: " + ex.toString());
-	 	    		Toast.makeText(_context, _context.getString(R.string.app_android_test_app_error), Toast.LENGTH_SHORT).show();
+	 	    		Toast.makeText(_context, _context.getString(R.string.app_android_test_app_error), Toast.LENGTH_LONG).show();
+	 	    		return false;
+		    	}
+	            return true;
+           }
+		});
+		//Quiet Time Button
+		Preference quietTimePref = (Preference)findPreference("quiet_time_blackout_period_settings");
+		quietTimePref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+        	public boolean onPreferenceClick(Preference preference) {
+		    	if (_debug) Log.v("Quiet Time Button Clicked()");
+		    	try{
+		    		showQuietTimePeriodDialog();
+		    	}catch(Exception ex){
+	 	    		if (_debug) Log.e("MainPreferenceActivity.setupCustomPreferences() Quiet Time Button ERROR: " + ex.toString());
+	 	    		//Toast.makeText(_context, _context.getString(R.string.app_preference_quiet_time_error), Toast.LENGTH_LONG).show();
 	 	    		return false;
 		    	}
 	            return true;
@@ -391,7 +407,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		    		startActivity(intent);
 		    	}catch(Exception ex){
 	 	    		if (_debug) Log.e("MainPreferenceActivity.setupCustomPreferences() Rate This App Button ERROR: " + ex.toString());
-	 	    		Toast.makeText(_context, _context.getString(R.string.app_android_rate_app_error), Toast.LENGTH_SHORT).show();
+	 	    		Toast.makeText(_context, _context.getString(R.string.app_android_rate_app_error), Toast.LENGTH_LONG).show();
 	 	    		return false;
 		    	}
 	            return true;
@@ -423,7 +439,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		    		startActivity(intent);
 		    	}catch(Exception ex){
 	 	    		if (_debug) Log.e("MainPreferenceActivity.setupCustomPreferences() Email Developer Button ERROR: " + ex.toString());
-	 	    		Toast.makeText(_context, _context.getString(R.string.app_android_email_app_error), Toast.LENGTH_SHORT).show();
+	 	    		Toast.makeText(_context, _context.getString(R.string.app_android_email_app_error), Toast.LENGTH_LONG).show();
 	 	    		return false;
 		    	}
 	            return true;
@@ -503,7 +519,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		    		startActivity(intent);
 		    	}catch(Exception ex){
 	 	    		if (_debug) Log.e("MainPreferenceActivity.setupCustomPreferences() Email Developer Logs Button ERROR: " + ex.toString());
-	 	    		Toast.makeText(_context, _context.getString(R.string.app_android_email_app_error), Toast.LENGTH_SHORT).show();
+	 	    		Toast.makeText(_context, _context.getString(R.string.app_android_email_app_error), Toast.LENGTH_LONG).show();
 	 	    		return false;
 		    	}
 	            return true;
@@ -767,6 +783,14 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			buf.append("contact_photo_background|" + _preferences.getString("contact_photo_background", "0") + "|string");
 			buf.newLine();
 			buf.append("contact_photo_size|" + _preferences.getString("contact_photo_size", "80") + "|string");
+			buf.newLine();
+			buf.append(Constants.QUIET_TIME_ENABLED_KEY + "|" + _preferences.getBoolean(Constants.QUIET_TIME_ENABLED_KEY, false) + "|boolean");
+			buf.newLine();
+			buf.append(Constants.QUIET_TIME_OF_WEEK_KEY + "|" + _preferences.getString(Constants.QUIET_TIME_OF_WEEK_KEY, "0") + "|string");
+			buf.newLine();
+			buf.append(Constants.QUIET_TIME_START_TIME_KEY + "|" + _preferences.getString(Constants.QUIET_TIME_START_TIME_KEY, "") + "|string");
+			buf.newLine();
+			buf.append(Constants.QUIET_TIME_STOP_TIME_KEY + "|" + _preferences.getString(Constants.QUIET_TIME_STOP_TIME_KEY, "") + "|string");
 			buf.newLine();
 			buf.append("notification_body_font_size|" + _preferences.getString("notification_body_font_size", "14") + "|string");
 			buf.newLine();
@@ -1517,7 +1541,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	 * A first time installation check and update of the Date & Time format settings.
 	 */
 	private void checkSystemDateTimeFormat(){
-		if (_debug) Log.v("MainPreferenceActivity.checkSystemDateTimeFormat() " + String.valueOf(DateFormat.getDateFormatOrder(_context)));
+		if (_debug) Log.v("MainPreferenceActivity.checkSystemDateTimeFormat()");
 		if(_preferences.getBoolean(Constants.RUN_ONCE_DATE_TIME_FORMAT, true)){
 			try{
 				SharedPreferences.Editor editor = _preferences.edit();
@@ -1579,6 +1603,57 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		}catch(Exception ex){
 			if (_debug) Log.e("MainPreferenceActivity.reloadPreferenceActivity() ERROR: " + ex.toString());
 		}
+	}
+	
+	/**
+	 * Display the dialog window that allows the user to set the quiet time hours.
+	 */
+	private void showQuietTimePeriodDialog() {
+		if (_debug) Log.v("MainPreferenceActivity.showQuietTimePeriodDialog()");
+	    LayoutInflater inflater = (LayoutInflater) _context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	    View view = inflater.inflate(R.layout.quietimeperiodialog, null);
+		final TimePicker startTimePicker = (TimePicker) view.findViewById(R.id.start_time_picker);
+		final TimePicker stopTimePicker = (TimePicker) view.findViewById(R.id.stop_time_picker);
+		//Sets the view format based on the users time format preference.
+		if(_preferences.getString(Constants.TIME_FORMAT_KEY, Constants.TIME_FORMAT_DEFAULT).equals(Constants.TIME_FORMAT_24_HOUR)){
+			startTimePicker.setIs24HourView(true);
+			stopTimePicker.setIs24HourView(true);
+		}else{
+			startTimePicker.setIs24HourView(false);
+			stopTimePicker.setIs24HourView(false);
+		}
+		//Initialize the TimePickers
+		String startTime = _preferences.getString(Constants.QUIET_TIME_START_TIME_KEY, "");
+		String stopTime = _preferences.getString(Constants.QUIET_TIME_STOP_TIME_KEY, "");
+		if(!startTime.equals("")){
+			String[] startTimeArray = startTime.split("\\|");
+			if(startTimeArray.length == 2){
+				startTimePicker.setCurrentHour(Integer.parseInt(startTimeArray[0]));
+				startTimePicker.setCurrentMinute(Integer.parseInt(startTimeArray[1]));
+			}
+		}
+		if(!stopTime.equals("")){
+			String[] stopTimeArray = stopTime.split("\\|");
+			if(stopTimeArray.length == 2){
+				stopTimePicker.setCurrentHour(Integer.parseInt(stopTimeArray[0]));
+				stopTimePicker.setCurrentMinute(Integer.parseInt(stopTimeArray[1]));
+			}
+		}
+		//Build & Display Dialog
+		AlertDialog.Builder quietTimePeriodAlertBuilder = new AlertDialog.Builder(_context);
+		quietTimePeriodAlertBuilder.setIcon(R.drawable.ic_dialog_info);
+		quietTimePeriodAlertBuilder.setTitle(R.string.preference_quiet_time_quiet_period_title);
+		quietTimePeriodAlertBuilder.setView(view);
+		quietTimePeriodAlertBuilder.setPositiveButton(R.string.ok_text, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int whichButton) {
+				SharedPreferences.Editor editor = _preferences.edit();
+	        	editor.putString(Constants.QUIET_TIME_START_TIME_KEY, startTimePicker.getCurrentHour() + "|" + startTimePicker.getCurrentMinute());
+	        	editor.putString(Constants.QUIET_TIME_STOP_TIME_KEY, stopTimePicker.getCurrentHour() + "|" + stopTimePicker.getCurrentMinute());
+	            editor.commit();
+				Toast.makeText(_context, _context.getString(R.string.preference_quiet_time_period_set), Toast.LENGTH_LONG).show();
+			}
+		});
+		quietTimePeriodAlertBuilder.show();
 	}
 
 }

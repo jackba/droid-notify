@@ -10,11 +10,11 @@
 	        android:layout_height="wrap_content"
 	        android:layout_width="fill_parent"
 	        android:text="@string/preference_led_pattern_dialog"
-			android:layout_margin="10dip" />    
+			android:layout_margin="10dp" />    
 		<TableLayout
 			android:layout_height="wrap_content"
 			android:layout_width="fill_parent"
-			android:layout_marginLeft="10dip">
+			android:layout_marginLeft="10dp">
 			<TableRow>
 		      	<TextView
 			        android:layout_height="wrap_content"
@@ -23,8 +23,8 @@
 		      	<EditText
 			        android:id="@+id/ledPatternOnEditText"
 			        android:layout_height="wrap_content"
-			        android:layout_width="100dip"
-					android:layout_marginLeft="10dip"
+			        android:layout_width="100dp"
+					android:layout_marginLeft="10dp"
 			        android:maxLength="5"
 			        android:numeric="integer"
 			        android:selectAllOnFocus="true"
@@ -40,8 +40,8 @@
 		      	<EditText
 			        android:id="@+id/ledPatternOffEditText"
 			        android:layout_height="wrap_content"
-			        android:layout_width="100dip"
-					android:layout_marginLeft="10dip"
+			        android:layout_width="100dp"
+					android:layout_marginLeft="10dp"
 			        android:maxLength="5"
 			        android:numeric="integer"
 			        android:selectAllOnFocus="true"

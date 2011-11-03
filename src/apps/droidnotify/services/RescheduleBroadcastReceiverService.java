@@ -54,6 +54,11 @@ public class RescheduleBroadcastReceiverService extends WakefulIntentService {
 				if (_debug) Log.v("RescheduleBroadcastReceiverService.doWakefulWork() App Disabled. Exiting...");
 				return;
 			}
+			//Block the notification if it's quiet time.
+			if(Common.isQuietTime(context)){
+				if (_debug) Log.v("RescheduleBroadcastReceiverService.doWakefulWork() Quiet Time. Exiting...");
+				return;
+			}
 		    Bundle bundle = intent.getExtras();
 		    int notificationType = bundle.getInt("notificationType");
 		    //Check the state of the users phone.

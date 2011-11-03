@@ -9,16 +9,16 @@
 		<TextView
 			android:layout_height="wrap_content"
 			android:layout_width="fill_parent"
-			android:layout_marginLeft="5dip"
-			android:layout_marginRight="5dip"
-			android:paddingBottom="5dip"
+			android:layout_marginLeft="5dp"
+			android:layout_marginRight="5dp"
+			android:paddingBottom="5dp"
 			android:text="@string/preference_vibrate_pattern_dialog" />
 		<EditText
 			android:id="@+id/customVibrateEditText"
 			android:layout_height="wrap_content"
 			android:layout_width="fill_parent"
-			android:layout_marginLeft="5dip"
-			android:layout_marginRight="5dip"
+			android:layout_marginLeft="5dp"
+			android:layout_marginRight="5dp"
 			android:selectAllOnFocus="true"
 			android:imeOptions="actionDone"
 			android:maxLines="1" />
