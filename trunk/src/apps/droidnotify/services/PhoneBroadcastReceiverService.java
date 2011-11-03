@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
+import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
 import apps.droidnotify.receivers.PhoneAlarmReceiver;
@@ -55,6 +56,11 @@ public class PhoneBroadcastReceiverService extends WakefulIntentService {
 			//Read preferences and exit if app is disabled.
 		    if(!preferences.getBoolean(Constants.APP_ENABLED_KEY, true)){
 				if (_debug) Log.v("PhoneBroadcastReceiverService.doWakefulWork() App Disabled. Exiting...");
+				return;
+			}
+			//Block the notification if it's quiet time.
+			if(Common.isQuietTime(context)){
+				if (_debug) Log.v("PhoneBroadcastReceiverService.doWakefulWork() Quiet Time. Exiting...");
 				return;
 			}
 			//Read preferences and exit if missed call notifications are disabled.

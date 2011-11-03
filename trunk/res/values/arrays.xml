@@ -1243,5 +1243,17 @@
 		<item name="1">1</item>
 		<item name="2">2</item>
 	</string-array>	
-	
+
+	<!-- Quiet Time Arrays --> 
+	<string-array name="quiet_time_of_week_options">
+		<item name="0">@string/everyday_text</item>
+		<item name="1">@string/only_on_weekends_text</item>
+		<item name="2">@string/only_on_weekdays_text</item>
+	</string-array>
+	<string-array name="quiet_time_of_week_options_values">
+		<item name="0">0</item>
+		<item name="1">1</item>
+		<item name="2">2</item>
+	</string-array>	
+	    	
 </resources>

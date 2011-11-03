@@ -33,6 +33,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 
+import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
 import apps.droidnotify.receivers.CalendarNotificationAlarmReceiver;
@@ -99,6 +100,11 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
 			//Read preferences and exit if app is disabled.
 		    if(!preferences.getBoolean(Constants.APP_ENABLED_KEY, true)){
 				if (_debug) Log.v("CalendarAlarmReceiverService.readCalendars() App Disabled. Exiting...");
+				return;
+			}
+			//Block the notification if it's quiet time.
+			if(Common.isQuietTime(context)){
+				if (_debug) Log.v("CalendarAlarmReceiverService.readCalendars() Quiet Time. Exiting...");
 				return;
 			}
 			//Read preferences and exit if calendar notifications are disabled.

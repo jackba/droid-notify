@@ -50,6 +50,7 @@
     <string name="app_android_calendars_not_found_error">No calendars could be found on your phone.</string>
     <string name="app_k9_reply_email_address_error">The email address does not appear to be valid. Reply to email failed.</string>
     <string name="app_k9_email_app_error">The email application could not be started.</string>
+    <string name="app_preference_quiet_time_error">The Quiet Time preference could not be started.</string>
 
 	<!-- Settings/Preference Strings -->
     <string name="app_settings_text">Settings</string>
@@ -383,6 +384,22 @@
     <string name="test_text">Test Notifications</string>
    	<string name="test_app_text">Test Notifications</string>
    	<string name="test_app_summary">Click to display sample notifications.</string>
+   	
+    <!-- Quiet Time Preference Strings -->
+   	<string name="preference_quiet_time_title">Quiet Time Settings</string>
+   	<string name="preference_quiet_time_enabled_title">Enable Quiet Time</string> 
+   	<string name="preference_quiet_time_enabled_summary">Stop notifications during certain time periods.</string>
+   	<string name="preference_quiet_time_of_week_title">Time Of Week Settings</string> 
+   	<string name="preference_quiet_time_of_week_summary">Define when the Quiet Time will be observed.</string>
+   	<string name="everyday_text">Everyday</string>
+	<string name="only_on_weekends_text">Only during weekends.</string>
+	<string name="only_on_weekdays_text">Only during weekdays.</string>
+   	<string name="preference_quiet_time_quiet_period_title">Quiet Period Settings</string> 
+   	<string name="preference_quiet_time_quiet_period_summary">Define when the quiet time will be observed.</string> 
+   	<string name="preference_quiet_period_dialog_instructions">Select the time you would like the quiet period to start and stop.</string>
+	<string name="start_quiet_time_text">Start Quiet Time:</string>
+	<string name="stop_quiet_time_text">Stop Quiet Time:</string>
+	<string name="preference_quiet_time_period_set">The quiet time period is now set.</string>
 
     <!-- Rate App Strings -->
    	<string name="rate_app_text">Rate App</string>

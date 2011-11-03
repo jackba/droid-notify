@@ -14,5 +14,5 @@
 		android:gravity="left" 
 		android:autoLink="all"
 		android:scrollbars="vertical"
-		android:padding="5dip"/>
+		android:padding="5dp"/>
 </ScrollView>

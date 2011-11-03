@@ -56,6 +56,11 @@ public class SMSAlarmBroadcastReceiverService extends WakefulIntentService {
 				if (_debug) Log.v("SMSAlarmBroadcastReceiverService.doWakefulWork() App Disabled. Exiting...");
 				return;
 			}
+			//Block the notification if it's quiet time.
+			if(Common.isQuietTime(context)){
+				if (_debug) Log.v("SMSAlarmBroadcastReceiverService.doWakefulWork() Quiet Time. Exiting...");
+				return;
+			}
 			//Read preferences and exit if MMS notifications are disabled.
 		    if(!preferences.getBoolean(Constants.SMS_NOTIFICATIONS_ENABLED_KEY, true)){
 				if (_debug) Log.v("SMSAlarmBroadcastReceiverService.doWakefulWork() SMS Notifications Disabled. Exiting...");

@@ -9,7 +9,7 @@
 		android:layout_height="fill_parent"
 		android:layout_width="fill_parent"
 		android:orientation="vertical"
-		android:padding="5sp">
+		android:padding="5dp">
 		<TextView
 			android:id="@+id/content_text_view"
 			android:layout_height="wrap_content"
@@ -18,10 +18,10 @@
 			android:textColorLink="@color/white" 
 			android:autoLink="all"
 			android:scrollbars="vertical"
-			android:paddingLeft="5sp"
-			android:paddingRight="5sp"
-			android:paddingTop="5sp"
-			android:paddingBottom="10sp" 
+			android:paddingLeft="5dp"
+			android:paddingRight="5dp"
+			android:paddingTop="5dp"
+			android:paddingBottom="10dp" 
 			android:text="@string/donate_description_text" />
 		<Button
 			android:id="@+id/donate_android_market_button"

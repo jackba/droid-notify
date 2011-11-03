@@ -6,7 +6,9 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.TimeZone;
@@ -2916,7 +2918,67 @@ public class Common {
 		PendingIntent reschedulePendingIntent = PendingIntent.getBroadcast(context, 0, rescheduleIntent, 0);
 		alarmManager.set(AlarmManager.RTC_WAKEUP, rescheduleTime, reschedulePendingIntent);
 	}
-		
+	
+	/**
+	 * Determine if the current time falls during a defined quiet time.
+	 * 
+	 * @param context - The application context.
+	 * 
+	 * @return boolean - Returns true if Quiet Time is enabled and the current time falls within the defined tiem period.
+	 */
+	public static boolean isQuietTime(Context context){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.isQuietTime()");
+		_context = context;
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		if(preferences.getBoolean(Constants.QUIET_TIME_ENABLED_KEY, false)){
+			Calendar calendar = new GregorianCalendar();
+			if (_debug) Log.v("Common.isQuietTime() HOUR: " + calendar.get(Calendar.HOUR_OF_DAY));
+			String startTime = preferences.getString(Constants.QUIET_TIME_START_TIME_KEY, "");
+			String stopTime = preferences.getString(Constants.QUIET_TIME_STOP_TIME_KEY, "");
+			int hourStart = 0;
+			int minuteStart = 0;
+			int hourStop = 0;
+			int minueStop = 0;
+			if(startTime.equals("")){
+				return false;
+			}
+			if(stopTime.equals("")){
+				return false;
+			}
+			String[] startTimeArray = startTime.split("\\|");
+			if(startTimeArray.length != 2){
+				return false;
+			}
+			String[] stopTimeArray = stopTime.split("\\|");
+			if(stopTimeArray.length != 2){
+				return false;
+			}
+			hourStart = Integer.parseInt(startTimeArray[0]);
+			minuteStart = Integer.parseInt(startTimeArray[1]);
+			hourStop = Integer.parseInt(stopTimeArray[0]);
+			minueStop = Integer.parseInt(stopTimeArray[1]);
+			if(preferences.getString(Constants.QUIET_TIME_OF_WEEK_KEY, Constants.QUIET_TIME_EVERYDAY_VALUE).equals(Constants.QUIET_TIME_EVERYDAY_VALUE)){
+				return timeFallsWithinPeriod(calendar, hourStart, minuteStart, hourStop, minueStop);
+			}else if(preferences.getString(Constants.QUIET_TIME_OF_WEEK_KEY, Constants.QUIET_TIME_EVERYDAY_VALUE).equals(Constants.QUIET_TIME_ONLY_WEEKEND_VALUE)){
+				if(calendar.get(Calendar.DAY_OF_WEEK) == 1 || calendar.get(Calendar.DAY_OF_WEEK) == 7){
+					return timeFallsWithinPeriod(calendar, hourStart, minuteStart, hourStop, minueStop);
+				}else{
+					return false;
+				}
+			}else if(preferences.getString(Constants.QUIET_TIME_OF_WEEK_KEY, Constants.QUIET_TIME_EVERYDAY_VALUE).equals(Constants.QUIET_TIME_ONLY_WEEKDAY_VALUE)){
+				if(calendar.get(Calendar.DAY_OF_WEEK) == 2 || calendar.get(Calendar.DAY_OF_WEEK) == 3 || calendar.get(Calendar.DAY_OF_WEEK) == 4 || calendar.get(Calendar.DAY_OF_WEEK) == 5 || calendar.get(Calendar.DAY_OF_WEEK) == 6){
+					return timeFallsWithinPeriod(calendar, hourStart, minuteStart, hourStop, minueStop);
+				}else{
+					return false;
+				}
+			}else{
+				return false;
+			}
+		}
+		return false;
+	}
+	
 	//================================================================================
 	// Private Methods
 	//================================================================================
@@ -3171,6 +3233,70 @@ public class Common {
 		}catch(Exception ex){
 			if (_debug) Log.e("Common.parseFromEmailAddress() ERROR: " + ex.toString());
 			return inputFromAddress;
+		}
+	}
+	
+	/**
+	 * Determine if the current time falls within the period time.
+	 * 
+	 * @param calendar - The calendar we should use.
+	 * @param hourStart - The starting hour of the time period.
+	 * @param minuteStart - The starting minute of the time period.
+	 * @param hourStop - The ending hour of the time period.
+	 * @param minueStop - The ending minute of the time period.
+	 * 
+	 * @return boolean - Returns true if the current time falls within the period time.
+	 */
+	private static boolean timeFallsWithinPeriod(Calendar calendar, int hourStart, int minuteStart, int hourStop, int minuteStop){
+		if (_debug) Log.v("Common.timeFallsWithinPeriod()");
+		int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
+		int currentMinute = calendar.get(Calendar.MINUTE);
+		if(hourStart < hourStop){
+			//Time period is within the same day.
+			if(currentHour >= hourStart && currentHour <= hourStop){
+				if(currentHour == hourStart || currentHour == hourStop){
+					if(currentHour == hourStart){
+						if(currentMinute >= minuteStart){
+							return true;
+						}else{
+							return false;
+						}
+					}else{
+						if(currentMinute <= minuteStop){
+							return true;
+						}else{
+							return false;
+						}	
+					}
+				}else{
+					return true;
+				}
+			}else{
+				return false;
+			}
+		}else{
+			//Time period spans 2 days.
+			if(currentHour >= hourStart || currentHour <= hourStop){
+				if(currentHour == hourStart || currentHour == hourStop){
+					if(currentHour == hourStart){
+						if(currentMinute >= minuteStart){
+							return true;
+						}else{
+							return false;
+						}
+					}else{
+						if(currentMinute <= minuteStop){
+							return true;
+						}else{
+							return false;
+						}	
+					}
+				}else{
+					return true;
+				}
+			}else{
+				return false;
+			}
 		}
 	}
 	

@@ -175,6 +175,16 @@ public class Constants {
 	public static final int DATE_FORMAT_13 = 13;
 	public static final int DATE_FORMAT_14 = 14;
 	public static final int DATE_FORMAT_15 = 15;
+
+	//-----QUIET TIME CONSTANTS-----//
+	public static final String QUIET_TIME_ENABLED_KEY = "quiet_time_enabled";
+	public static final String QUIET_TIME_OF_WEEK_KEY = "quiet_time_of_week";
+	public static final String QUIET_TIME_EVERYDAY_VALUE = "0";
+	public static final String QUIET_TIME_ONLY_WEEKEND_VALUE  = "1";
+	public static final String QUIET_TIME_ONLY_WEEKDAY_VALUE  = "2";
+	public static final String QUIET_TIME_START_TIME_KEY  = "quiet_time_start_time";
+	public static final String QUIET_TIME_STOP_TIME_KEY  = "quiet_time_stop_time";
+	
 	
 	//-----MESSAGE BODY CONSTANTS-----//
 	public static final String NOTIFICATION_BODY_FONT_SIZE_KEY = "notification_body_font_size";

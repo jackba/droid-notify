@@ -2,15 +2,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:padding="2dip">
+    android:padding="2dp">
     <ImageView
         android:id="@+id/image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
     	android:layout_centerVertical="true"
-        android:layout_marginLeft="5dip"
-        android:layout_marginRight="5dip" />
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp" />
     <CheckedTextView  
         android:id="@+id/check"
         android:checkMark="@android:drawable/btn_radio"
@@ -21,5 +21,5 @@
         android:layout_centerVertical="true"
         android:gravity="left"
         android:textColor="@color/black"
-        android:textSize="15dip"/>
+        android:textSize="15dp"/>
 </RelativeLayout>
