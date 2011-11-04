@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+
 import apps.droidnotify.NotificationActivity;
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;

@@ -2,7 +2,6 @@ package apps.droidnotify;
 
 import java.util.ArrayList;
 
-
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
