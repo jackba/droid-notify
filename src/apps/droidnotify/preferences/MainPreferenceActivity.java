@@ -91,7 +91,6 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	    if(!_preferences.getBoolean(Constants.LANDSCAPE_SCREEN_ENABLED_KEY, false)){
 	    	this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 	    }
-	    //addPreferencesFromResource(R.xml.preferences_new);
 	    checkSystemDateTimeFormat();
 	    addPreferencesFromResource(R.xml.preferences);
 	    _appVersion = getApplicationVersion();
@@ -1288,7 +1287,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		if (_debug) Log.v("MainPreferenceActivity.setupImportPreferences()");
 		try{
 			Preference importPreference = (Preference) findPreference("import_preferences");
-			importPreference.setEnabled(checkPreferencesFileExists("Droid Notify/Preferences/", "DroidNotifyPreferences.txt"));
+			if(importPreference != null) importPreference.setEnabled(checkPreferencesFileExists("Droid Notify/Preferences/", "DroidNotifyPreferences.txt"));
 		}catch(Exception ex){
 			if (_debug) Log.e("MainPreferenceActivity.setupImportPreferences() ERROR: " + ex.toString());
 		}
@@ -1380,11 +1379,11 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		try{
 			boolean contactInfoDisplaySettingsEnabled = _preferences.getBoolean(Constants.SMS_HIDE_CONTACT_PANEL_ENABLED_KEY, false);
 			CheckBoxPreference hideContactPhoto = (CheckBoxPreference) findPreference(Constants.SMS_HIDE_CONTACT_PHOTO_ENABLED_KEY);
-			hideContactPhoto.setEnabled(!contactInfoDisplaySettingsEnabled);
+			if(hideContactPhoto != null) hideContactPhoto.setEnabled(!contactInfoDisplaySettingsEnabled);
 			CheckBoxPreference hideContactName = (CheckBoxPreference) findPreference(Constants.SMS_HIDE_CONTACT_NAME_ENABLED_KEY);
-			hideContactName.setEnabled(!contactInfoDisplaySettingsEnabled);
+			if(hideContactName != null) hideContactName.setEnabled(!contactInfoDisplaySettingsEnabled);
 			CheckBoxPreference hideContactNumber = (CheckBoxPreference) findPreference(Constants.SMS_HIDE_CONTACT_NUMBER_ENABLED_KEY);
-			hideContactNumber.setEnabled(!contactInfoDisplaySettingsEnabled);
+			if(hideContactNumber != null) hideContactNumber.setEnabled(!contactInfoDisplaySettingsEnabled);
 		}catch(Exception ex){
 			if (_debug) Log.e("MainPreferenceActivity.updateSMSContactInfoSetting() ERROR: " + ex.toString());
 		}
@@ -1398,11 +1397,11 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		try{
 			boolean contactInfoDisplaySettingsEnabled = _preferences.getBoolean(Constants.MMS_HIDE_CONTACT_PANEL_ENABLED_KEY, false);
 			CheckBoxPreference hideContactPhoto = (CheckBoxPreference) findPreference(Constants.MMS_HIDE_CONTACT_PHOTO_ENABLED_KEY);
-			hideContactPhoto.setEnabled(!contactInfoDisplaySettingsEnabled);
+			if(hideContactPhoto != null) hideContactPhoto.setEnabled(!contactInfoDisplaySettingsEnabled);
 			CheckBoxPreference hideContactName = (CheckBoxPreference) findPreference(Constants.MMS_HIDE_CONTACT_NAME_ENABLED_KEY);
-			hideContactName.setEnabled(!contactInfoDisplaySettingsEnabled);
+			if(hideContactName != null) hideContactName.setEnabled(!contactInfoDisplaySettingsEnabled);
 			CheckBoxPreference hideContactNumber = (CheckBoxPreference) findPreference(Constants.MMS_HIDE_CONTACT_NUMBER_ENABLED_KEY);
-			hideContactNumber.setEnabled(!contactInfoDisplaySettingsEnabled);
+			if(hideContactNumber != null) hideContactNumber.setEnabled(!contactInfoDisplaySettingsEnabled);
 		}catch(Exception ex){
 			if (_debug) Log.e("MainPreferenceActivity.updateMMSContactInfoSetting() ERROR: " + ex.toString());
 		}
@@ -1416,11 +1415,11 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		try{
 			boolean contactInfoDisplaySettingsEnabled = _preferences.getBoolean(Constants.PHONE_HIDE_CONTACT_PANEL_ENABLED_KEY, false);
 			CheckBoxPreference hideContactPhoto = (CheckBoxPreference) findPreference(Constants.PHONE_HIDE_CONTACT_PHOTO_ENABLED_KEY);
-			hideContactPhoto.setEnabled(!contactInfoDisplaySettingsEnabled);
+			if(hideContactPhoto != null) hideContactPhoto.setEnabled(!contactInfoDisplaySettingsEnabled);
 			CheckBoxPreference hideContactName = (CheckBoxPreference) findPreference(Constants.PHONE_HIDE_CONTACT_NAME_ENABLED_KEY);
-			hideContactName.setEnabled(!contactInfoDisplaySettingsEnabled);
+			if(hideContactName != null) hideContactName.setEnabled(!contactInfoDisplaySettingsEnabled);
 			CheckBoxPreference hideContactNumber = (CheckBoxPreference) findPreference(Constants.PHONE_HIDE_CONTACT_NUMBER_ENABLED_KEY);
-			hideContactNumber.setEnabled(!contactInfoDisplaySettingsEnabled);
+			if(hideContactNumber != null) hideContactNumber.setEnabled(!contactInfoDisplaySettingsEnabled);
 		}catch(Exception ex){
 			if (_debug) Log.e("MainPreferenceActivity.updatePhoneContactInfoSetting() ERROR: " + ex.toString());
 		}
@@ -1438,36 +1437,36 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 				case Constants.NOTIFICATION_TYPE_SMS:{
 					CheckBoxPreference  vibrateInCallCheckBoxPreference = (CheckBoxPreference) findPreference(Constants.SMS_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY);
 					if(_preferences.getString(Constants.SMS_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY, Constants.STATUS_BAR_NOTIFICATIONS_RINGTONE_DEFAULT).equals(Constants.STATUS_BAR_NOTIFICATIONS_RINGTONE_SILENT_VALUE)){
-						vibrateInCallCheckBoxPreference.setEnabled(false);
+						if(vibrateInCallCheckBoxPreference != null) vibrateInCallCheckBoxPreference.setEnabled(false);
 					}else{
-						vibrateInCallCheckBoxPreference.setEnabled(true);
+						if(vibrateInCallCheckBoxPreference != null) vibrateInCallCheckBoxPreference.setEnabled(true);
 					}
 					break;
 				}
 				case Constants.NOTIFICATION_TYPE_MMS:{
 					CheckBoxPreference  vibrateInCallCheckBoxPreference = (CheckBoxPreference) findPreference(Constants.MMS_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY);
 					if(_preferences.getString(Constants.MMS_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY, Constants.STATUS_BAR_NOTIFICATIONS_RINGTONE_DEFAULT).equals(Constants.STATUS_BAR_NOTIFICATIONS_RINGTONE_SILENT_VALUE)){
-						vibrateInCallCheckBoxPreference.setEnabled(false);
+						if(vibrateInCallCheckBoxPreference != null) vibrateInCallCheckBoxPreference.setEnabled(false);
 					}else{
-						vibrateInCallCheckBoxPreference.setEnabled(true);
+						if(vibrateInCallCheckBoxPreference != null) vibrateInCallCheckBoxPreference.setEnabled(true);
 					}
 					break;
 				}
 				case Constants.NOTIFICATION_TYPE_PHONE:{
 					CheckBoxPreference  vibrateInCallCheckBoxPreference = (CheckBoxPreference) findPreference(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY);
 					if(_preferences.getString(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY, Constants.STATUS_BAR_NOTIFICATIONS_RINGTONE_DEFAULT).equals(Constants.STATUS_BAR_NOTIFICATIONS_RINGTONE_SILENT_VALUE)){
-						vibrateInCallCheckBoxPreference.setEnabled(false);
+						if(vibrateInCallCheckBoxPreference != null) vibrateInCallCheckBoxPreference.setEnabled(false);
 					}else{
-						vibrateInCallCheckBoxPreference.setEnabled(true);
+						if(vibrateInCallCheckBoxPreference != null) vibrateInCallCheckBoxPreference.setEnabled(true);
 					}
 					break;
 				}
 				case Constants.NOTIFICATION_TYPE_CALENDAR:{
 					CheckBoxPreference  vibrateInCallCheckBoxPreference = (CheckBoxPreference) findPreference(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY);
 					if(_preferences.getString(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY, Constants.STATUS_BAR_NOTIFICATIONS_RINGTONE_DEFAULT).equals(Constants.STATUS_BAR_NOTIFICATIONS_RINGTONE_SILENT_VALUE)){
-						vibrateInCallCheckBoxPreference.setEnabled(false);
+						if(vibrateInCallCheckBoxPreference != null) vibrateInCallCheckBoxPreference.setEnabled(false);
 					}else{
-						vibrateInCallCheckBoxPreference.setEnabled(true);
+						if(vibrateInCallCheckBoxPreference != null) vibrateInCallCheckBoxPreference.setEnabled(true);
 					}
 					break;
 				}
@@ -1488,49 +1487,49 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			switch(notificationType){
 				case Constants.NOTIFICATION_TYPE_SMS:{
 					ListPreference vibratePatternListPreference = (ListPreference) findPreference(Constants.SMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_KEY);
-					CheckBoxPreference  vibrateInCallCheckBoxPreference = (CheckBoxPreference) findPreference(Constants.SMS_STATUS_BAR_NOTIFICATIONS_IN_CALL_VIBRATE_ENABLED_KEY);
+					CheckBoxPreference vibrateInCallCheckBoxPreference = (CheckBoxPreference) findPreference(Constants.SMS_STATUS_BAR_NOTIFICATIONS_IN_CALL_VIBRATE_ENABLED_KEY);
 					if(_preferences.getString(Constants.SMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_DEFAULT).equals(Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_NEVER_VALUE)){
-						vibratePatternListPreference.setEnabled(false);
-						vibrateInCallCheckBoxPreference.setEnabled(false);
+						if(vibratePatternListPreference != null) vibratePatternListPreference.setEnabled(false);
+						if(vibrateInCallCheckBoxPreference != null) vibrateInCallCheckBoxPreference.setEnabled(false);
 					}else{
-						vibratePatternListPreference.setEnabled(true);
-						vibrateInCallCheckBoxPreference.setEnabled(true);
+						if(vibratePatternListPreference != null) vibratePatternListPreference.setEnabled(true);
+						if(vibrateInCallCheckBoxPreference != null) vibrateInCallCheckBoxPreference.setEnabled(true);
 					}
 					break;
 				}
 				case Constants.NOTIFICATION_TYPE_MMS:{
 					ListPreference vibratePatternListPreference = (ListPreference) findPreference(Constants.MMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_KEY);
-					CheckBoxPreference  vibrateInCallCheckBoxPreference = (CheckBoxPreference) findPreference(Constants.MMS_STATUS_BAR_NOTIFICATIONS_IN_CALL_VIBRATE_ENABLED_KEY);
+					CheckBoxPreference vibrateInCallCheckBoxPreference = (CheckBoxPreference) findPreference(Constants.MMS_STATUS_BAR_NOTIFICATIONS_IN_CALL_VIBRATE_ENABLED_KEY);
 					if(_preferences.getString(Constants.MMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_DEFAULT).equals(Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_NEVER_VALUE)){
-						vibratePatternListPreference.setEnabled(false);
-						vibrateInCallCheckBoxPreference.setEnabled(false);
+						if(vibratePatternListPreference != null) vibratePatternListPreference.setEnabled(false);
+						if(vibrateInCallCheckBoxPreference != null) vibrateInCallCheckBoxPreference.setEnabled(false);
 					}else{
-						vibratePatternListPreference.setEnabled(true);
-						vibrateInCallCheckBoxPreference.setEnabled(true);
+						if(vibratePatternListPreference != null) vibratePatternListPreference.setEnabled(true);
+						if(vibrateInCallCheckBoxPreference != null) vibrateInCallCheckBoxPreference.setEnabled(true);
 					}
 					break;
 				}
 				case Constants.NOTIFICATION_TYPE_PHONE:{
 					ListPreference vibratePatternListPreference = (ListPreference) findPreference(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_KEY);
-					CheckBoxPreference  vibrateInCallCheckBoxPreference = (CheckBoxPreference) findPreference(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_IN_CALL_VIBRATE_ENABLED_KEY);
+					CheckBoxPreference vibrateInCallCheckBoxPreference = (CheckBoxPreference) findPreference(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_IN_CALL_VIBRATE_ENABLED_KEY);
 					if(_preferences.getString(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_DEFAULT).equals(Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_NEVER_VALUE)){
-						vibratePatternListPreference.setEnabled(false);
-						vibrateInCallCheckBoxPreference.setEnabled(false);
+						if(vibratePatternListPreference != null) vibratePatternListPreference.setEnabled(false);
+						if(vibrateInCallCheckBoxPreference != null) vibrateInCallCheckBoxPreference.setEnabled(false);
 					}else{
-						vibratePatternListPreference.setEnabled(true);
-						vibrateInCallCheckBoxPreference.setEnabled(true);
+						if(vibratePatternListPreference != null) vibratePatternListPreference.setEnabled(true);
+						if(vibrateInCallCheckBoxPreference != null) vibrateInCallCheckBoxPreference.setEnabled(true);
 					}
 					break;
 				}
 				case Constants.NOTIFICATION_TYPE_CALENDAR:{
 					ListPreference vibratePatternListPreference = (ListPreference) findPreference(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_KEY);
-					CheckBoxPreference  vibrateInCallCheckBoxPreference = (CheckBoxPreference) findPreference(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_IN_CALL_VIBRATE_ENABLED_KEY);
+					CheckBoxPreference vibrateInCallCheckBoxPreference = (CheckBoxPreference) findPreference(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_IN_CALL_VIBRATE_ENABLED_KEY);
 					if(_preferences.getString(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_DEFAULT).equals(Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_NEVER_VALUE)){
-						vibratePatternListPreference.setEnabled(false);
-						vibrateInCallCheckBoxPreference.setEnabled(false);
+						if(vibratePatternListPreference != null) vibratePatternListPreference.setEnabled(false);
+						if(vibrateInCallCheckBoxPreference != null) vibrateInCallCheckBoxPreference.setEnabled(false);
 					}else{
-						vibratePatternListPreference.setEnabled(true);
-						vibrateInCallCheckBoxPreference.setEnabled(true);
+						if(vibratePatternListPreference != null) vibratePatternListPreference.setEnabled(true);
+						if(vibrateInCallCheckBoxPreference != null) vibrateInCallCheckBoxPreference.setEnabled(true);
 					}
 					break;
 				}
@@ -1560,7 +1559,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 				enabled = true;
 			}	
 			CheckBoxPreference clearStatusBarNotificationsOnExitCheckBoxPreference = (CheckBoxPreference) findPreference(Constants.CLEAR_STATUS_BAR_NOTIFICATIONS_ON_EXIT_KEY);
-			clearStatusBarNotificationsOnExitCheckBoxPreference.setEnabled(enabled);
+			if(clearStatusBarNotificationsOnExitCheckBoxPreference != null) clearStatusBarNotificationsOnExitCheckBoxPreference.setEnabled(enabled);
 		}catch(Exception ex){
 			if (_debug) Log.e("MainPreferenceActivity.updateClearStatusBarNotifications() ERROR: " + ex.toString());
 		}
