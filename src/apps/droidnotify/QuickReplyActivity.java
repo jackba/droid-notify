@@ -97,14 +97,14 @@ public class QuickReplyActivity extends Activity {
 	    //Get main window for this Activity.
 	    Window mainWindow = getWindow(); 
 	    //Set Blur 
-	    if(_preferences.getBoolean(Constants.QUICK_REPLY_BLUR_SCREEN_ENABLED_KEY, false)){
+	    if(_preferences.getBoolean(Constants.QUICK_REPLY_BLUR_SCREEN_BACKGROUND_ENABLED_KEY, false)){
 	    	mainWindow.addFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
 	    }
 	    //Set Dim
-	    if(_preferences.getBoolean(Constants.QUICK_REPLY_DIM_SCREEN_ENABLED_KEY, true)){
+	    if(_preferences.getBoolean(Constants.QUICK_REPLY_DIM_SCREEN_BACKGROUND_ENABLED_KEY, true)){
 	    	mainWindow.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND); 
 		    WindowManager.LayoutParams params = mainWindow.getAttributes(); 
-		    int dimAmt = Integer.parseInt(_preferences.getString(Constants.QUICK_REPLY_DIM_SCREEN_AMOUNT_KEY, "50"));
+		    int dimAmt = Integer.parseInt(_preferences.getString(Constants.QUICK_REPLY_DIM_SCREEN_BACKGROUND_AMOUNT_KEY, "50"));
 		    params.dimAmount = dimAmt / 100f; 
 		    mainWindow.setAttributes(params); 
 	    }

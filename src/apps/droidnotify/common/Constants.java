@@ -21,9 +21,9 @@ public class Constants {
 	public static final String FACEBOOK_NOTIFICATIONS_ENABLED_KEY = "facebook_call_notifications_enabled";
 	public static final String HAPTIC_FEEDBACK_ENABLED_KEY = "haptic_feedback_enabled";
 	public static final String LANDSCAPE_SCREEN_ENABLED_KEY = "landscape_screen_enabled";	
-	public static final String BLUR_SCREEN_ENABLED_KEY = "blur_screen_background_enabled";
-	public static final String DIM_SCREEN_ENABLED_KEY = "dim_screen_background_enabled";
-	public static final String DIM_SCREEN_AMOUNT_KEY = "dim_screen_background_amount";
+	public static final String BLUR_SCREEN_BACKGROUND_ENABLED_KEY = "blur_screen_background_enabled";
+	public static final String DIM_SCREEN_BACKGROUND_ENABLED_KEY = "dim_screen_background_enabled";
+	public static final String DIM_SCREEN_BACKGROUND_AMOUNT_KEY = "dim_screen_background_amount";
 	public static final String SCREEN_TIMEOUT_KEY = "screen_timeout_settings";
 	public static final String USER_IN_MESSAGING_APP_KEY = "user_in_messaging_app";
 	public static final String SCREEN_ENABLED_KEY = "screen_enabled";
@@ -199,9 +199,9 @@ public class Constants {
 	public static final String SMS_GATEWAY_KEY = "quick_reply_sms_gateway_settings";	
 	public static final String SAVE_MESSAGE_DRAFT_KEY = "quick_reply_save_draft_enabled";
 	public static final String HIDE_CANCEL_BUTTON_KEY = "quick_reply_hide_cancel_button_enabled";
-	public static final String QUICK_REPLY_BLUR_SCREEN_ENABLED_KEY = "quick_reply_blur_screen_background_enabled";
-	public static final String QUICK_REPLY_DIM_SCREEN_ENABLED_KEY = "quick_reply_dim_screen_background_enabled";
-	public static final String QUICK_REPLY_DIM_SCREEN_AMOUNT_KEY = "quick_reply_dim_screen_background_amount";
+	public static final String QUICK_REPLY_BLUR_SCREEN_BACKGROUND_ENABLED_KEY = "quick_reply_blur_screen_background_enabled";
+	public static final String QUICK_REPLY_DIM_SCREEN_BACKGROUND_ENABLED_KEY = "quick_reply_dim_screen_background_enabled";
+	public static final String QUICK_REPLY_DIM_SCREEN_BACKGROUND_AMOUNT_KEY = "quick_reply_dim_screen_background_amount";
 
 	public static final String QUICK_REPLY_SETTINGS_SCREEN = "quick_reply_settings_screen";
 	

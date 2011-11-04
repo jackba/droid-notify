@@ -712,14 +712,14 @@ public class NotificationActivity extends Activity {
 		    //Get main window for this Activity.
 		    Window mainWindow = getWindow();
 	    	//Set Background Blur Flags
-		    if(_preferences.getBoolean(Constants.BLUR_SCREEN_ENABLED_KEY, false)){
+		    if(_preferences.getBoolean(Constants.BLUR_SCREEN_BACKGROUND_ENABLED_KEY, false)){
 		    	mainWindow.addFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
 		    }
 		    //Set Background Dim Flags
-		    if(_preferences.getBoolean(Constants.DIM_SCREEN_ENABLED_KEY, false)){
+		    if(_preferences.getBoolean(Constants.DIM_SCREEN_BACKGROUND_ENABLED_KEY, false)){
 		    	mainWindow.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND); 
 			    WindowManager.LayoutParams params = mainWindow.getAttributes(); 
-			    int dimAmt = Integer.parseInt(_preferences.getString(Constants.DIM_SCREEN_AMOUNT_KEY, "50"));
+			    int dimAmt = Integer.parseInt(_preferences.getString(Constants.DIM_SCREEN_BACKGROUND_AMOUNT_KEY, "50"));
 			    params.dimAmount = dimAmt / 100f; 
 			    mainWindow.setAttributes(params); 
 		    }
