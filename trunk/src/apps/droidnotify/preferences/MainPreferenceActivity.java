@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Map;
 
 import android.app.Dialog;
 import android.app.AlertDialog;
@@ -754,353 +755,380 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
     		}
     		preferencesFile.createNewFile();
     		//Write each preference to the text file.
-			BufferedWriter buf = new BufferedWriter(new FileWriter(preferencesFile, true)); 
+			BufferedWriter buf = new BufferedWriter(new FileWriter(preferencesFile, true)); 		
+			Map<String, ?> applicationPreferencesMap = _preferences.getAll();
+			for (Map.Entry<String, ?> entry : applicationPreferencesMap.entrySet()) {
+			    String key = entry.getKey();
+			    Object value = entry.getValue();
+			    if(value instanceof String){
+			    	buf.append(key + "|" + value + "|string");
+			    }else if(value instanceof Boolean){
+			    	buf.append(key + "|" + value + "|boolean");
+			    }else if(value instanceof Integer){
+			    	buf.append(key + "|" + value + "|int");
+			    }else if(value instanceof Long){
+			    	buf.append(key + "|" + value + "|long");
+			    }else if(value instanceof Float){
+			    	buf.append(key + "|" + value + "|float");
+			    }
+				buf.newLine();
+			}
 			
-			//General Settings
-			buf.append("app_enabled|" + _preferences.getBoolean("app_enabled", true) + "|boolean");
-			buf.newLine();
-
-			//Basic Settings
-			buf.append("app_theme|" + _preferences.getString("app_theme", "android_default") + "|string");
-			buf.newLine();
-			buf.append("phone_number_format_settings|" + _preferences.getString("phone_number_format_settings", "1") + "|string");
-			buf.newLine();
-			buf.append("time_format_settings|" + _preferences.getString("time_format_settings", "0") + "|string");
-			buf.newLine();
-			buf.append("date_format_settings|" + _preferences.getString("date_format_settings", "0") + "|string");
-			buf.newLine();	
-			buf.append("button_icons_enabled|" + _preferences.getBoolean("button_icons_enabled", true) + "|boolean");
-			buf.newLine();		
-			buf.append("hide_reschedule_button_enabled|" + _preferences.getBoolean("hide_reschedule_button_enabled", false) + "|boolean");
-			buf.newLine();	
-			buf.append("hide_single_message_header_enabled|" + _preferences.getBoolean("hide_single_message_header_enabled", false) + "|boolean");
-			buf.newLine();	
-			buf.append("notification_type_info_icon_enabled|" + _preferences.getBoolean("notification_type_info_icon_enabled", true) + "|boolean");
-			buf.newLine();
-			buf.append("notification_type_info_font_size|" + _preferences.getString("notification_type_info_font_size", "5") + "|string");
-			buf.newLine();
-			buf.append("contact_placeholder|" + _preferences.getString("contact_placeholder", "0") + "|string");
-			buf.newLine();
-			buf.append("contact_photo_background|" + _preferences.getString("contact_photo_background", "0") + "|string");
-			buf.newLine();
-			buf.append("contact_photo_size|" + _preferences.getString("contact_photo_size", "80") + "|string");
-			buf.newLine();
-			buf.append(Constants.QUIET_TIME_ENABLED_KEY + "|" + _preferences.getBoolean(Constants.QUIET_TIME_ENABLED_KEY, false) + "|boolean");
-			buf.newLine();
-			buf.append(Constants.QUIET_TIME_OF_WEEK_KEY + "|" + _preferences.getString(Constants.QUIET_TIME_OF_WEEK_KEY, "0") + "|string");
-			buf.newLine();
-			buf.append(Constants.QUIET_TIME_START_TIME_KEY + "|" + _preferences.getString(Constants.QUIET_TIME_START_TIME_KEY, "") + "|string");
-			buf.newLine();
-			buf.append(Constants.QUIET_TIME_STOP_TIME_KEY + "|" + _preferences.getString(Constants.QUIET_TIME_STOP_TIME_KEY, "") + "|string");
-			buf.newLine();
-			buf.append("notification_body_font_size|" + _preferences.getString("notification_body_font_size", "14") + "|string");
-			buf.newLine();
-			buf.append("display_contact_name_enabled|" + _preferences.getBoolean("display_contact_name_enabled", true) + "|boolean");
-			buf.newLine();
-			buf.append("contact_name_font_size|" + _preferences.getString("contact_name_font_size", "22") + "|string");
-			buf.newLine();
-			buf.append("display_contact_number_enabled|" + _preferences.getBoolean("display_contact_number_enabled", true) + "|boolean");
-			buf.newLine();
-			buf.append("contact_number_font_size|" + _preferences.getString("contact_number_font_size", "18") + "|string");
-			buf.newLine();
-			
-			//Quick Reply Settings
-			buf.append("quick_reply_save_draft_enabled|" + _preferences.getBoolean("quick_reply_save_draft_enabled", true) + "|boolean");
-			buf.newLine();
-			buf.append("quick_reply_blur_screen_background_enabled|" + _preferences.getBoolean("quick_reply_blur_screen_enabled", false) + "|boolean");
-			buf.newLine();
-			buf.append("quick_reply_dim_screen_background_enabled|" + _preferences.getBoolean("quick_reply_dim_screen_enabled", true) + "|boolean");
-			buf.newLine();
-			buf.append("quick_reply_dim_screen_background_amount_settings|" + _preferences.getString("quick_reply_dim_screen_amount_settings", "50") + "|string");
-			buf.newLine();
-			buf.append("quick_reply_hide_cancel_button_enabled|" + _preferences.getBoolean("quick_reply_hide_cancel_button_enabled", true) + "|boolean");
-			buf.newLine();	
-			
-			//SMS Notification Settings
-			buf.append("sms_notifications_enabled|" + _preferences.getBoolean("sms_notifications_enabled", true) + "|boolean");
-			buf.newLine();
-			buf.append("sms_display_unread_enabled|" + _preferences.getBoolean("sms_display_unread_enabled", false) + "|boolean");
-			buf.newLine();
-			buf.append("messaging_app_running_action_sms|" + _preferences.getString("messaging_app_running_action_sms", "2") + "|string");
-			buf.newLine();
-
-			//SMS Status Bar Notification Settings
-			buf.append("sms_status_bar_notifications_enabled|" + _preferences.getBoolean("sms_status_bar_notifications_enabled", true) + "|boolean");
-			buf.newLine();			
-			buf.append("sms_status_bar_notifications_show_when_blocked_enabled|" + _preferences.getBoolean("sms_status_bar_notifications_show_when_blocked_enabled", true) + "|boolean");
-			buf.newLine();			
-			buf.append("notification_icon_sms|" + _preferences.getString("notification_icon_sms", "status_bar_notification_sms_green_preference") + "|string");
-			buf.newLine();
-			buf.append("sms_notification_sound|" + _preferences.getString("sms_notification_sound", "content://settings/system/notification_sound") + "|string");
-			buf.newLine();
-			buf.append("sms_notification_vibrate_setting|" + _preferences.getString("sms_notification_vibrate_setting", "0") + "|string");
-			buf.newLine();
-			buf.append("sms_notification_vibrate_pattern|" + _preferences.getString("sms_notification_vibrate_pattern", "0,1200") + "|string");
-			buf.newLine();
-			buf.append("sms_notification_vibrate_pattern_custom|" + _preferences.getString("sms_notification_vibrate_pattern_custom", "0,1200") + "|string");
-			buf.newLine();
-			buf.append("sms_notification_led_enabled|" + _preferences.getBoolean("sms_notification_led_enabled", true) + "|boolean");
-			buf.newLine();
-			buf.append("sms_notification_led_color|" + _preferences.getString("sms_notification_led_color", "yellow") + "|string");
-			buf.newLine();
-			buf.append("sms_notification_led_color_custom|" + _preferences.getString("sms_notification_led_color_custom", "yellow") + "|string");
-			buf.newLine();
-			buf.append("sms_notification_led_pattern|" + _preferences.getString("sms_notification_led_pattern", "1000,1000") + "|string");
-			buf.newLine();
-			buf.append("sms_notification_led_pattern_custom|" + _preferences.getString("sms_notification_led_pattern_custom", "1000,1000") + "|string");
-			buf.newLine();
-			buf.append("sms_notification_in_call_sound_enabled|" + _preferences.getBoolean("sms_notification_in_call_sound_enabled", false) + "|boolean");
-			buf.newLine();
-			buf.append("sms_notification_in_call_vibrate_enabled|" + _preferences.getBoolean("sms_notification_in_call_vibrate_enabled", false) + "|boolean");
-			buf.newLine();
-
-			buf.append("sms_hide_notification_body_enabled|" + _preferences.getBoolean("sms_hide_notification_body_enabled", false) + "|boolean");
-			buf.newLine();
-			buf.append("confirm_sms_deletion_enabled|" + _preferences.getBoolean("confirm_sms_deletion_enabled", true) + "|boolean");
-			buf.newLine();
-			buf.append("sms_dismiss_button_action|" + _preferences.getString("sms_dismiss_button_action", "0") + "|string");
-			buf.newLine();
-			buf.append("sms_delete_button_action|" + _preferences.getString("sms_delete_button_action", "0") + "|string");
-			buf.newLine();
-			buf.append("sms_reply_button_action|" + _preferences.getString("sms_reply_button_action", "0") + "|string");
-			buf.newLine();
-			buf.append("sms_notification_count_action|" + _preferences.getString("sms_notification_count_action", "0") + "|string");
-			buf.newLine();
-			buf.append("sms_hide_dismiss_button_enabled|" + _preferences.getBoolean("sms_hide_dismiss_button_enabled", false) + "|boolean");
-			buf.newLine();
-			buf.append("sms_hide_delete_button_enabled|" + _preferences.getBoolean("sms_hide_delete_button_enabled", false) + "|boolean");
-			buf.newLine();
-			buf.append("sms_hide_reply_button_enabled|" + _preferences.getBoolean("sms_hide_reply_button_enabled", false) + "|boolean");
-			buf.newLine();	
-			buf.append("sms_hide_contact_panel_enabled|" + _preferences.getBoolean("sms_hide_contact_panel_enabled", false) + "|boolean");
-			buf.newLine();
-			buf.append("sms_hide_contact_photo_enabled|" + _preferences.getBoolean("sms_hide_contact_photo_enabled", false) + "|boolean");
-			buf.newLine();
-			buf.append("sms_hide_contact_name_enabled|" + _preferences.getBoolean("sms_hide_contact_name_enabled", false) + "|boolean");
-			buf.newLine();
-			buf.append("sms_hide_contact_number_enabled|" + _preferences.getBoolean("sms_hide_contact_number_enabled", false) + "|boolean");
-			buf.newLine();
-			
-			//MMS Notification Settings
-			buf.append("mms_notifications_enabled|" + _preferences.getBoolean("mms_notifications_enabled", true) + "|boolean");
-			buf.newLine();
-			buf.append("mms_display_unread_enabled|" + _preferences.getBoolean("mms_display_unread_enabled", false) + "|boolean");
-			buf.newLine();
-			buf.append("messaging_app_running_action_mms|" + _preferences.getString("messaging_app_running_action_mms", "2") + "|string");
-			buf.newLine();
-			
-			//MMS Status Bar Notification Settings
-			buf.append("mms_status_bar_notifications_enabled|" + _preferences.getBoolean("mms_status_bar_notifications_enabled", true) + "|boolean");
-			buf.newLine();			
-			buf.append("mms_status_bar_notifications_show_when_blocked_enabled|" + _preferences.getBoolean("mms_status_bar_notifications_show_when_blocked_enabled", true) + "|boolean");
-			buf.newLine();			
-			buf.append("notification_icon_mms|" + _preferences.getString("notification_icon_mms", "status_bar_notification_sms_green_preference") + "|string");
-			buf.newLine();
-			buf.append("mms_notification_sound|" + _preferences.getString("mms_notification_sound", "content://settings/system/notification_sound") + "|string");
-			buf.newLine();
-			buf.append("mms_notification_vibrate_setting|" + _preferences.getString("mms_notification_vibrate_setting", "0") + "|string");
-			buf.newLine();
-			buf.append("mms_notification_vibrate_pattern|" + _preferences.getString("mms_notification_vibrate_pattern", "0,1200") + "|string");
-			buf.newLine();
-			buf.append("mms_notification_vibrate_pattern_custom|" + _preferences.getString("mms_notification_vibrate_pattern_custom", "0,1200") + "|string");
-			buf.newLine();
-			buf.append("mms_notification_led_enabled|" + _preferences.getBoolean("mms_notification_led_enabled", true) + "|boolean");
-			buf.newLine();
-			buf.append("mms_notification_led_color|" + _preferences.getString("mms_notification_led_color", "yellow") + "|string");
-			buf.newLine();
-			buf.append("mms_notification_led_color_custom|" + _preferences.getString("mms_notification_led_color_custom", "yellow") + "|string");
-			buf.newLine();
-			buf.append("mms_notification_led_pattern|" + _preferences.getString("mms_notification_led_pattern", "1000,1000") + "|string");
-			buf.newLine();
-			buf.append("mms_notification_led_pattern_custom|" + _preferences.getString("mms_notification_led_pattern_custom", "1000,1000") + "|string");
-			buf.newLine();
-			buf.append("mms_notification_in_call_sound_enabled|" + _preferences.getBoolean("mms_notification_in_call_sound_enabled", false) + "|boolean");
-			buf.newLine();
-			buf.append("mms_notification_in_call_vibrate_enabled|" + _preferences.getBoolean("mms_notification_in_call_vibrate_enabled", false) + "|boolean");
-			buf.newLine();
-			
-			buf.append("mms_hide_notification_body_enabled|" + _preferences.getBoolean("mms_hide_notification_body_enabled", false) + "|boolean");
-			buf.newLine();
-			buf.append("confirm_mms_deletion_enabled|" + _preferences.getBoolean("confirm_mms_deletion_enabled", true) + "|boolean");
-			buf.newLine();
-			buf.append("mms_dismiss_button_action|" + _preferences.getString("mms_dismiss_button_action", "0") + "|string");
-			buf.newLine();
-			buf.append("mms_delete_button_action|" + _preferences.getString("mms_delete_button_action", "0") + "|string");
-			buf.newLine();
-			buf.append("mms_reply_button_action|" + _preferences.getString("mms_reply_button_action", "0") + "|string");
-			buf.newLine();
-			buf.append("mms_notification_count_action|" + _preferences.getString("mms_notification_count_action", "0") + "|string");
-			buf.newLine();
-			buf.append("mms_hide_dismiss_button_enabled|" + _preferences.getBoolean("mms_hide_dismiss_button_enabled", false) + "|boolean");
-			buf.newLine();
-			buf.append("mms_hide_delete_button_enabled|" + _preferences.getBoolean("mms_hide_delete_button_enabled", false) + "|boolean");
-			buf.newLine();
-			buf.append("mms_hide_reply_button_enabled|" + _preferences.getBoolean("mms_hide_reply_button_enabled", false) + "|boolean");
-			buf.newLine();	
-			buf.append("mms_hide_contact_panel_enabled|" + _preferences.getBoolean("mms_hide_contact_panel_enabled", false) + "|boolean");
-			buf.newLine();
-			buf.append("mms_hide_contact_photo_enabled|" + _preferences.getBoolean("mms_hide_contact_photo_enabled", false) + "|boolean");
-			buf.newLine();
-			buf.append("mms_hide_contact_name_enabled|" + _preferences.getBoolean("mms_hide_contact_name_enabled", false) + "|boolean");
-			buf.newLine();
-			buf.append("mms_hide_contact_number_enabled|" + _preferences.getBoolean("mms_hide_contact_number_enabled", false) + "|boolean");
-			buf.newLine();
-			
-			//Missed Call Notification Settings
-			buf.append("missed_call_notifications_enabled|" + _preferences.getBoolean("missed_call_notifications_enabled", true) + "|boolean");
-			buf.newLine();
-			buf.append("missed_call_loading_settings|" + _preferences.getString("missed_call_loading_settings", "0") + "|string");
-			buf.newLine();
-			buf.append("messaging_app_running_action_missed_call|" + _preferences.getString("messaging_app_running_action_missed_call", "2") + "|string");
-			buf.newLine();
-			
-			//Missed Call Status Bar Notification Settings
-			buf.append("missed_call_status_bar_notifications_enabled|" + _preferences.getBoolean("missed_call_status_bar_notifications_enabled", true) + "|boolean");
-			buf.newLine();			
-			buf.append("missed_call_status_bar_notifications_show_when_blocked_enabled|" + _preferences.getBoolean("missed_call_status_bar_notifications_show_when_blocked_enabled", true) + "|boolean");
-			buf.newLine();			
-			buf.append("notification_icon_missed_call|" + _preferences.getString("notification_icon_missed_call", "status_bar_notification_missed_call_black_preference") + "|string");
-			buf.newLine();
-			buf.append("missed_call_notification_sound|" + _preferences.getString("missed_call_notification_sound", "content://settings/system/notification_sound") + "|string");
-			buf.newLine();
-			buf.append("missed_call_notification_vibrate_setting|" + _preferences.getString("missed_call_notification_vibrate_setting", "0") + "|string");
-			buf.newLine();
-			buf.append("missed_call_notification_vibrate_pattern|" + _preferences.getString("missed_call_notification_vibrate_pattern", "0,1200") + "|string");
-			buf.newLine();
-			buf.append("missed_call_notification_vibrate_pattern_custom|" + _preferences.getString("missed_call_notification_vibrate_pattern_custom", "0,1200") + "|string");
-			buf.newLine();
-			buf.append("missed_call_notification_led_enabled|" + _preferences.getBoolean("missed_call_notification_led_enabled", true) + "|boolean");
-			buf.newLine();
-			buf.append("missed_call_notification_led_color|" + _preferences.getString("missed_call_notification_led_color", "yellow") + "|string");
-			buf.newLine();
-			buf.append("missed_call_notification_led_color_custom|" + _preferences.getString("missed_call_notification_led_color_custom", "yellow") + "|string");
-			buf.newLine();
-			buf.append("missed_call_notification_led_pattern|" + _preferences.getString("missed_call_notification_led_pattern", "1000,1000") + "|string");
-			buf.newLine();
-			buf.append("missed_call_notification_led_pattern_custom|" + _preferences.getString("missed_call_notification_led_pattern_custom", "1000,1000") + "|string");
-			buf.newLine();
-			buf.append("missed_call_notification_in_call_sound_enabled|" + _preferences.getBoolean("missed_call_notification_in_call_sound_enabled", false) + "|boolean");
-			buf.newLine();
-			buf.append("missed_call_notification_in_call_vibrate_enabled|" + _preferences.getBoolean("missed_call_notification_in_call_vibrate_enabled", false) + "|boolean");
-			buf.newLine();	
-			
-			buf.append("missed_call_dismiss_button_action|" + _preferences.getString("missed_call_dismiss_button_action", "0") + "|string");
-			buf.newLine();
-			buf.append("missed_call_notification_count_action|" + _preferences.getString("missed_call_notification_count_action", "0") + "|string");
-			buf.newLine();
-			buf.append("missed_call_hide_dismiss_button_enabled|" + _preferences.getBoolean("missed_call_hide_dismiss_button_enabled", false) + "|boolean");
-			buf.newLine();
-			buf.append("missed_call_hide_call_button_enabled|" + _preferences.getBoolean("missed_call_hide_call_button_enabled", false) + "|boolean");
-			buf.newLine();	
-			buf.append("missed_call_hide_contact_panel_enabled|" + _preferences.getBoolean("missed_call_hide_contact_panel_enabled", false) + "|boolean");
-			buf.newLine();
-			buf.append("missed_call_hide_contact_photo_enabled|" + _preferences.getBoolean("missed_call_hide_contact_photo_enabled", false) + "|boolean");
-			buf.newLine();
-			buf.append("missed_call_hide_contact_name_enabled|" + _preferences.getBoolean("missed_call_hide_contact_name_enabled", false) + "|boolean");
-			buf.newLine();
-			buf.append("missed_call_hide_contact_number_enabled|" + _preferences.getBoolean("missed_call_hide_contact_number_enabled", false) + "|boolean");
-			buf.newLine();
-			
-			//Calendar Notification Settings
-			buf.append("calendar_notifications_enabled|" + _preferences.getBoolean("calendar_notifications_enabled", true) + "|boolean");
-			buf.newLine();
-			buf.append("calendar_notify_day_of_time|" + _preferences.getString("calendar_notify_day_of_time", "12") + "|string");
-			buf.newLine();
-			buf.append("messaging_app_running_action_calendar|" + _preferences.getString("messaging_app_running_action_calendar", "2") + "|string");
-			buf.newLine();
-			buf.append("calendar_polling_frequency|" + _preferences.getString("calendar_polling_frequency", "15") + "|string");
-			buf.newLine();
-			buf.append("calendar_selection|" + _preferences.getString("calendar_selection", "0") + "|string");
-			buf.newLine();		
-			buf.append("calendar_labels_enabled|" + _preferences.getBoolean("calendar_labels_enabled", true) + "|boolean");
-			buf.newLine();	
-			
-			//Calendar Status Bar Notification Settings
-			buf.append("calendar_status_bar_notifications_enabled|" + _preferences.getBoolean("calendar_status_bar_notifications_enabled", true) + "|boolean");
-			buf.newLine();			
-			buf.append("calendar_status_bar_notifications_show_when_blocked_enabled|" + _preferences.getBoolean("calendar_status_bar_notifications_show_when_blocked_enabled", true) + "|boolean");
-			buf.newLine();			
-			buf.append("notification_icon_calendar|" + _preferences.getString("notification_icon_calendar", "status_bar_notification_calendar_blue_preference") + "|string");
-			buf.newLine();
-			buf.append("calendar_notification_sound|" + _preferences.getString("calendar_notification_sound", "content://settings/system/notification_sound") + "|string");
-			buf.newLine();
-			buf.append("calendar_notification_vibrate_setting|" + _preferences.getString("calendar_notification_vibrate_setting", "0") + "|string");
-			buf.newLine();
-			buf.append("calendar_notification_vibrate_pattern|" + _preferences.getString("calendar_notification_vibrate_pattern", "0,1200") + "|string");
-			buf.newLine();
-			buf.append("calendar_notification_vibrate_pattern_custom|" + _preferences.getString("calendar_notification_vibrate_pattern_custom", "0,1200") + "|string");
-			buf.newLine();
-			buf.append("calendar_notification_led_enabled|" + _preferences.getBoolean("calendar_notification_led_enabled", true) + "|boolean");
-			buf.newLine();
-			buf.append("calendar_notification_led_color|" + _preferences.getString("calendar_notification_led_color", "yellow") + "|string");
-			buf.newLine();
-			buf.append("calendar_notification_led_color_custom|" + _preferences.getString("calendar_notification_led_color_custom", "yellow") + "|string");
-			buf.newLine();
-			buf.append("calendar_notification_led_pattern|" + _preferences.getString("calendar_notification_led_pattern", "1000,1000") + "|string");
-			buf.newLine();
-			buf.append("calendar_notification_led_pattern_custom|" + _preferences.getString("calendar_notification_led_pattern_custom", "1000,1000") + "|string");
-			buf.newLine();
-			buf.append("calendar_notification_in_call_sound_enabled|" + _preferences.getBoolean("calendar_notification_in_call_sound_enabled", false) + "|boolean");
-			buf.newLine();
-			buf.append("calendar_notification_in_call_vibrate_enabled|" + _preferences.getBoolean("calendar_notification_in_call_vibrate_enabled", false) + "|boolean");
-			buf.newLine();	
-			
-			buf.append("calendar_hide_notification_body_enabled|" + _preferences.getBoolean("calendar_hide_notification_body_enabled", false) + "|boolean");
-			buf.newLine();
-			buf.append("calendar_reminders_enabled|" + _preferences.getBoolean("calendar_reminders_enabled", true) + "|boolean");
-			buf.newLine();
-			buf.append("calendar_reminder_settings|" + _preferences.getString("calendar_reminder_settings", "15") + "|string");
-			buf.newLine();
-			buf.append("calendar_reminder_all_day_settings|" + _preferences.getString("calendar_reminder_all_day_settings", "6") + "|string");
-			buf.newLine();
-			buf.append("calendar_dismiss_button_action|" + _preferences.getString("calendar_dismiss_button_action", "") + "|string");
-			buf.newLine();
-			buf.append("calendar_notification_count_action|" + _preferences.getString("calendar_notification_count_action", "0") + "|string");
-			buf.newLine();
-			buf.append("calendar_hide_dismiss_button_enabled|" + _preferences.getBoolean("calendar_hide_dismiss_button_enabled", false) + "|boolean");
-			buf.newLine();
-			buf.append("calendar_hide_view_button_enabled|" + _preferences.getBoolean("calendar_hide_view_button_enabled", false) + "|boolean");
-			buf.newLine();
-
-			//Screen Settings
-			buf.append("screen_enabled|" + _preferences.getBoolean("screen_enabled", true) + "|boolean");
-			buf.newLine();
-			buf.append("screen_dim_enabled|" + _preferences.getBoolean("screen_dim_enabled", true) + "|boolean");
-			buf.newLine();
-			buf.append("keyguard_enabled|" + _preferences.getBoolean("keyguard_enabled", true) + "|boolean");
-			buf.newLine();	
-			buf.append("landscape_screen_enabled|" + _preferences.getBoolean("landscape_screen_enabled", false) + "|boolean");
-			buf.newLine();
-			buf.append("blur_screen_background_enabled|" + _preferences.getBoolean("blur_screen_enabled", false) + "|boolean");
-			buf.newLine();
-			buf.append("dim_screen_background_enabled|" + _preferences.getBoolean("dim_screen_enabled", false) + "|boolean");
-			buf.newLine();
-			buf.append("dim_screen_background_amount_settings|" + _preferences.getString("dim_screen_amount_settings", "50") + "|string");
-			buf.newLine();
-
-			//Advanced Settings
-			buf.append("haptic_feedback_enabled|" + _preferences.getBoolean("haptic_feedback_enabled", true) + "|boolean");
-			buf.newLine();
-			buf.append("screen_timeout_settings|" + _preferences.getString("screen_timeout_settings", "300") + "|string");
-			buf.newLine();
-			buf.append("sms_timeout_settings|" + _preferences.getString("sms_timeout_settings", "10") + "|string");
-			buf.newLine();
-			buf.append("sms_loading_settings|" + _preferences.getString("sms_loading_settings", "0") + "|string");
-			buf.newLine();
-			buf.append("sms_timestamp_adjustment_settings|" + _preferences.getString("sms_timestamp_adjustment_settings", "0") + "|string");
-			buf.newLine();
-			buf.append("mms_timeout_settings|" + _preferences.getString("mms_timeout_settings", "40") + "|string");
-			buf.newLine();
-			buf.append("call_log_timeout_settings|" + _preferences.getString("call_log_timeout_settings", "5") + "|string");
-			buf.newLine();
-			buf.append("quick_reply_sms_gateway_settings|" + _preferences.getString("quick_reply_sms_gateway_settings", "1") + "|string");
-			buf.newLine();
-			buf.append("reschedule_notifications_enabled|" + _preferences.getBoolean("reschedule_notifications_enabled", true) + "|boolean");
-			buf.newLine();
-			buf.append("reschedule_notification_timeout_settings|" + _preferences.getString("reschedule_notification_timeout_settings", "5") + "|string");
-			buf.newLine();
-			buf.append("clear_status_bar_notifications_on_exit_enabled|" + _preferences.getBoolean("clear_status_bar_notifications_on_exit_enabled", false) + "|boolean");
-			buf.newLine();
+//			//General Settings
+//			buf.append(Constants.APP_ENABLED_KEY + "|" + _preferences.getBoolean(Constants.APP_ENABLED_KEY, true) + "|boolean");
+//			buf.newLine();
+//
+//			//Basic Settings
+//			buf.append(Constants.APP_THEME_KEY + "|" + _preferences.getString(Constants.APP_THEME_KEY, Constants.ANDROID_FROYO_THEME) + "|string");
+//			buf.newLine();
+//			buf.append(Constants.PHONE_NUMBER_FORMAT_KEY + "|" + _preferences.getString(Constants.PHONE_NUMBER_FORMAT_KEY, Constants.PHONE_NUMBER_FORMAT_DEFAULT) + "|string");
+//			buf.newLine();
+//			buf.append(Constants.TIME_FORMAT_KEY + "|" + _preferences.getString(Constants.TIME_FORMAT_KEY, Constants.TIME_FORMAT_DEFAULT) + "|string");
+//			buf.newLine();
+//			buf.append(Constants.DATE_FORMAT_KEY + "|" + _preferences.getString(Constants.DATE_FORMAT_KEY, Constants.DATE_FORMAT_DEFAULT) + "|string");
+//			buf.newLine();	
+//			buf.append(Constants.BUTTON_ICONS_KEY + "|" + _preferences.getBoolean(Constants.BUTTON_ICONS_KEY, true) + "|boolean");
+//			buf.newLine();		
+//			buf.append(Constants.HIDE_RESCHEDULE_BUTTON_KEY + "|" + _preferences.getBoolean(Constants.HIDE_RESCHEDULE_BUTTON_KEY, false) + "|boolean");
+//			buf.newLine();	
+//			buf.append(Constants.HIDE_SINGLE_MESSAGE_HEADER_KEY + "|" + _preferences.getBoolean(Constants.HIDE_SINGLE_MESSAGE_HEADER_KEY, false) + "|boolean");
+//			buf.newLine();	
+//			buf.append(Constants.NOTIFICATION_TYPE_INFO_ICON_KEY + "|" + _preferences.getBoolean(Constants.NOTIFICATION_TYPE_INFO_ICON_KEY, true) + "|boolean");
+//			buf.newLine();
+//			buf.append(Constants.NOTIFICATION_TYPE_INFO_FONT_SIZE_KEY + "|" + _preferences.getString(Constants.NOTIFICATION_TYPE_INFO_FONT_SIZE_KEY, Constants.NOTIFICATION_TYPE_INFO_FONT_SIZE_DEFAULT) + "|string");
+//			buf.newLine();
+//			buf.append(Constants.CONTACT_PLACEHOLDER_KEY + "|" + _preferences.getString(Constants.CONTACT_PLACEHOLDER_KEY, "0") + "|string");
+//			buf.newLine();
+//			buf.append(Constants.CONTACT_PHOTO_BACKGKROUND_KEY + "|" + _preferences.getString(Constants.CONTACT_PHOTO_BACKGKROUND_KEY, "0") + "|string");
+//			buf.newLine();
+//			buf.append(Constants.CONTACT_PHOTO_SIZE_KEY + "|" + _preferences.getString(Constants.CONTACT_PHOTO_SIZE_KEY, Constants.CONTACT_PHOTO_SIZE_DEFAULT) + "|string");
+//			buf.newLine();
+//			buf.append(Constants.QUIET_TIME_ENABLED_KEY + "|" + _preferences.getBoolean(Constants.QUIET_TIME_ENABLED_KEY, false) + "|boolean");
+//			buf.newLine();
+//			buf.append(Constants.QUIET_TIME_OF_WEEK_KEY + "|" + _preferences.getString(Constants.QUIET_TIME_OF_WEEK_KEY, "0") + "|string");
+//			buf.newLine();
+//			buf.append(Constants.QUIET_TIME_START_TIME_KEY + "|" + _preferences.getString(Constants.QUIET_TIME_START_TIME_KEY, "") + "|string");
+//			buf.newLine();
+//			buf.append(Constants.QUIET_TIME_STOP_TIME_KEY + "|" + _preferences.getString(Constants.QUIET_TIME_STOP_TIME_KEY, "") + "|string");
+//			buf.newLine();
+//			buf.append(Constants.NOTIFICATION_BODY_FONT_SIZE_KEY + "|" + _preferences.getString(Constants.NOTIFICATION_BODY_FONT_SIZE_KEY, Constants.NOTIFICATION_BODY_FONT_SIZE_DEFAULT) + "|string");
+//			buf.newLine();
+//			buf.append(Constants.CONTACT_NAME_DISPLAY_KEY + "|" + _preferences.getBoolean(Constants.CONTACT_NAME_DISPLAY_KEY, true) + "|boolean");
+//			buf.newLine();
+//			buf.append(Constants.CONTACT_NAME_SIZE_KEY + "|" + _preferences.getString(Constants.CONTACT_NAME_SIZE_KEY, Constants.CONTACT_NAME_SIZE_DEFAULT) + "|string");
+//			buf.newLine();
+//			buf.append(Constants.CONTACT_NUMBER_DISPLAY_KEY + "|" + _preferences.getBoolean(Constants.CONTACT_NUMBER_DISPLAY_KEY, true) + "|boolean");
+//			buf.newLine();
+//			buf.append(Constants.CONTACT_NUMBER_SIZE_KEY + "|" + _preferences.getString(Constants.CONTACT_NUMBER_SIZE_KEY, Constants.CONTACT_NUMBER_SIZE_DEFAULT) + "|string");
+//			buf.newLine();
+//			buf.append(Constants.QUIET_TIME_ENABLED_KEY + "|" + _preferences.getBoolean(Constants.QUIET_TIME_ENABLED_KEY, false) + "|boolean");
+//			buf.newLine();
+//			buf.append(Constants.QUIET_TIME_OF_WEEK_KEY + "|" + _preferences.getString(Constants.QUIET_TIME_OF_WEEK_KEY, Constants.QUIET_TIME_EVERYDAY_VALUE) + "|string");
+//			buf.newLine();
+//			buf.append(Constants.QUIET_TIME_START_TIME_KEY + "|" + _preferences.getString(Constants.QUIET_TIME_START_TIME_KEY, "") + "|string");
+//			buf.newLine();
+//			buf.append(Constants.QUIET_TIME_STOP_TIME_KEY + "|" + _preferences.getString(Constants.QUIET_TIME_STOP_TIME_KEY, "") + "|string");
+//			buf.newLine();
+//			buf.append(Constants.RESCHEDULE_TIME_KEY + "|" + _preferences.getString(Constants.RESCHEDULE_TIME_KEY, Constants.RESCHEDULE_TIME_DEFAULT) + "|string");
+//			buf.newLine();
+//			
+//			//Quick Reply Settings
+//			buf.append(Constants.SAVE_MESSAGE_DRAFT_KEY + "|" + _preferences.getBoolean(Constants.SAVE_MESSAGE_DRAFT_KEY, true) + "|boolean");
+//			buf.newLine();
+//			buf.append(Constants.QUICK_REPLY_BLUR_SCREEN_BACKGROUND_ENABLED_KEY + "|" + _preferences.getBoolean(Constants.QUICK_REPLY_BLUR_SCREEN_BACKGROUND_ENABLED_KEY, false) + "|boolean");
+//			buf.newLine();
+//			buf.append(Constants.QUICK_REPLY_DIM_SCREEN_BACKGROUND_ENABLED_KEY + "|" + _preferences.getBoolean(Constants.QUICK_REPLY_DIM_SCREEN_BACKGROUND_ENABLED_KEY, true) + "|boolean");
+//			buf.newLine();
+//			buf.append(Constants.QUICK_REPLY_DIM_SCREEN_BACKGROUND_AMOUNT_KEY + "|" + _preferences.getString(Constants.QUICK_REPLY_DIM_SCREEN_BACKGROUND_AMOUNT_KEY, "50") + "|string");
+//			buf.newLine();
+//			buf.append(Constants.HIDE_CANCEL_BUTTON_KEY + "|" + _preferences.getBoolean(Constants.HIDE_CANCEL_BUTTON_KEY, true) + "|boolean");
+//			buf.newLine();	
+//			
+//			//SMS Notification Settings
+//			buf.append(Constants.SMS_NOTIFICATIONS_ENABLED_KEY + "|" + _preferences.getBoolean(Constants.SMS_NOTIFICATIONS_ENABLED_KEY, true) + "|boolean");
+//			buf.newLine();
+//			buf.append(Constants.SMS_DISPLAY_UNREAD_KEY + "|" + _preferences.getBoolean(Constants.SMS_DISPLAY_UNREAD_KEY, false) + "|boolean");
+//			buf.newLine();
+//			buf.append(Constants.SMS_BLOCKING_APP_RUNNING_ACTION_KEY + "|" + _preferences.getString(Constants.SMS_BLOCKING_APP_RUNNING_ACTION_KEY, "2") + "|string");
+//			buf.newLine();
+//
+//			//SMS Status Bar Notification Settings
+//			buf.append("sms_status_bar_notifications_enabled|" + _preferences.getBoolean("sms_status_bar_notifications_enabled", true) + "|boolean");
+//			buf.newLine();			
+//			buf.append("sms_status_bar_notifications_show_when_blocked_enabled|" + _preferences.getBoolean("sms_status_bar_notifications_show_when_blocked_enabled", true) + "|boolean");
+//			buf.newLine();			
+//			buf.append("notification_icon_sms|" + _preferences.getString("notification_icon_sms", "status_bar_notification_sms_green_preference") + "|string");
+//			buf.newLine();
+//			buf.append("sms_notification_sound|" + _preferences.getString("sms_notification_sound", "content://settings/system/notification_sound") + "|string");
+//			buf.newLine();
+//			buf.append("sms_notification_vibrate_setting|" + _preferences.getString("sms_notification_vibrate_setting", "0") + "|string");
+//			buf.newLine();
+//			buf.append("sms_notification_vibrate_pattern|" + _preferences.getString("sms_notification_vibrate_pattern", "0,1200") + "|string");
+//			buf.newLine();
+//			buf.append("sms_notification_vibrate_pattern_custom|" + _preferences.getString("sms_notification_vibrate_pattern_custom", "0,1200") + "|string");
+//			buf.newLine();
+//			buf.append("sms_notification_led_enabled|" + _preferences.getBoolean("sms_notification_led_enabled", true) + "|boolean");
+//			buf.newLine();
+//			buf.append("sms_notification_led_color|" + _preferences.getString("sms_notification_led_color", "yellow") + "|string");
+//			buf.newLine();
+//			buf.append("sms_notification_led_color_custom|" + _preferences.getString("sms_notification_led_color_custom", "yellow") + "|string");
+//			buf.newLine();
+//			buf.append("sms_notification_led_pattern|" + _preferences.getString("sms_notification_led_pattern", "1000,1000") + "|string");
+//			buf.newLine();
+//			buf.append("sms_notification_led_pattern_custom|" + _preferences.getString("sms_notification_led_pattern_custom", "1000,1000") + "|string");
+//			buf.newLine();
+//			buf.append("sms_notification_in_call_sound_enabled|" + _preferences.getBoolean("sms_notification_in_call_sound_enabled", false) + "|boolean");
+//			buf.newLine();
+//			buf.append("sms_notification_in_call_vibrate_enabled|" + _preferences.getBoolean("sms_notification_in_call_vibrate_enabled", false) + "|boolean");
+//			buf.newLine();
+//
+//			buf.append("sms_hide_notification_body_enabled|" + _preferences.getBoolean("sms_hide_notification_body_enabled", false) + "|boolean");
+//			buf.newLine();
+//			buf.append("confirm_sms_deletion_enabled|" + _preferences.getBoolean("confirm_sms_deletion_enabled", true) + "|boolean");
+//			buf.newLine();
+//			buf.append("sms_dismiss_button_action|" + _preferences.getString("sms_dismiss_button_action", "0") + "|string");
+//			buf.newLine();
+//			buf.append("sms_delete_button_action|" + _preferences.getString("sms_delete_button_action", "0") + "|string");
+//			buf.newLine();
+//			buf.append("sms_reply_button_action|" + _preferences.getString("sms_reply_button_action", "0") + "|string");
+//			buf.newLine();
+//			buf.append("sms_notification_count_action|" + _preferences.getString("sms_notification_count_action", "0") + "|string");
+//			buf.newLine();
+//			buf.append("sms_hide_dismiss_button_enabled|" + _preferences.getBoolean("sms_hide_dismiss_button_enabled", false) + "|boolean");
+//			buf.newLine();
+//			buf.append("sms_hide_delete_button_enabled|" + _preferences.getBoolean("sms_hide_delete_button_enabled", false) + "|boolean");
+//			buf.newLine();
+//			buf.append("sms_hide_reply_button_enabled|" + _preferences.getBoolean("sms_hide_reply_button_enabled", false) + "|boolean");
+//			buf.newLine();	
+//			buf.append("sms_hide_contact_panel_enabled|" + _preferences.getBoolean("sms_hide_contact_panel_enabled", false) + "|boolean");
+//			buf.newLine();
+//			buf.append("sms_hide_contact_photo_enabled|" + _preferences.getBoolean("sms_hide_contact_photo_enabled", false) + "|boolean");
+//			buf.newLine();
+//			buf.append("sms_hide_contact_name_enabled|" + _preferences.getBoolean("sms_hide_contact_name_enabled", false) + "|boolean");
+//			buf.newLine();
+//			buf.append("sms_hide_contact_number_enabled|" + _preferences.getBoolean("sms_hide_contact_number_enabled", false) + "|boolean");
+//			buf.newLine();
+//			
+//			//MMS Notification Settings
+//			buf.append(Constants.MMS_NOTIFICATIONS_ENABLED_KEY + "|" + _preferences.getBoolean(Constants.MMS_NOTIFICATIONS_ENABLED_KEY, true) + "|boolean");
+//			buf.newLine();
+//			buf.append(Constants.MMS_DISPLAY_UNREAD_KEY + "|" + _preferences.getBoolean(Constants.MMS_DISPLAY_UNREAD_KEY, false) + "|boolean");
+//			buf.newLine();
+//			buf.append(Constants.MMS_BLOCKING_APP_RUNNING_ACTION_KEY + "|" + _preferences.getString(Constants.MMS_BLOCKING_APP_RUNNING_ACTION_KEY, "2") + "|string");
+//			buf.newLine();
+//			
+//			//MMS Status Bar Notification Settings
+//			buf.append("mms_status_bar_notifications_enabled|" + _preferences.getBoolean("mms_status_bar_notifications_enabled", true) + "|boolean");
+//			buf.newLine();			
+//			buf.append("mms_status_bar_notifications_show_when_blocked_enabled|" + _preferences.getBoolean("mms_status_bar_notifications_show_when_blocked_enabled", true) + "|boolean");
+//			buf.newLine();			
+//			buf.append("notification_icon_mms|" + _preferences.getString("notification_icon_mms", "status_bar_notification_sms_green_preference") + "|string");
+//			buf.newLine();
+//			buf.append("mms_notification_sound|" + _preferences.getString("mms_notification_sound", "content://settings/system/notification_sound") + "|string");
+//			buf.newLine();
+//			buf.append("mms_notification_vibrate_setting|" + _preferences.getString("mms_notification_vibrate_setting", "0") + "|string");
+//			buf.newLine();
+//			buf.append("mms_notification_vibrate_pattern|" + _preferences.getString("mms_notification_vibrate_pattern", "0,1200") + "|string");
+//			buf.newLine();
+//			buf.append("mms_notification_vibrate_pattern_custom|" + _preferences.getString("mms_notification_vibrate_pattern_custom", "0,1200") + "|string");
+//			buf.newLine();
+//			buf.append("mms_notification_led_enabled|" + _preferences.getBoolean("mms_notification_led_enabled", true) + "|boolean");
+//			buf.newLine();
+//			buf.append("mms_notification_led_color|" + _preferences.getString("mms_notification_led_color", "yellow") + "|string");
+//			buf.newLine();
+//			buf.append("mms_notification_led_color_custom|" + _preferences.getString("mms_notification_led_color_custom", "yellow") + "|string");
+//			buf.newLine();
+//			buf.append("mms_notification_led_pattern|" + _preferences.getString("mms_notification_led_pattern", "1000,1000") + "|string");
+//			buf.newLine();
+//			buf.append("mms_notification_led_pattern_custom|" + _preferences.getString("mms_notification_led_pattern_custom", "1000,1000") + "|string");
+//			buf.newLine();
+//			buf.append("mms_notification_in_call_sound_enabled|" + _preferences.getBoolean("mms_notification_in_call_sound_enabled", false) + "|boolean");
+//			buf.newLine();
+//			buf.append("mms_notification_in_call_vibrate_enabled|" + _preferences.getBoolean("mms_notification_in_call_vibrate_enabled", false) + "|boolean");
+//			buf.newLine();
+//			
+//			buf.append("mms_hide_notification_body_enabled|" + _preferences.getBoolean("mms_hide_notification_body_enabled", false) + "|boolean");
+//			buf.newLine();
+//			buf.append("confirm_mms_deletion_enabled|" + _preferences.getBoolean("confirm_mms_deletion_enabled", true) + "|boolean");
+//			buf.newLine();
+//			buf.append("mms_dismiss_button_action|" + _preferences.getString("mms_dismiss_button_action", "0") + "|string");
+//			buf.newLine();
+//			buf.append("mms_delete_button_action|" + _preferences.getString("mms_delete_button_action", "0") + "|string");
+//			buf.newLine();
+//			buf.append("mms_reply_button_action|" + _preferences.getString("mms_reply_button_action", "0") + "|string");
+//			buf.newLine();
+//			buf.append("mms_notification_count_action|" + _preferences.getString("mms_notification_count_action", "0") + "|string");
+//			buf.newLine();
+//			buf.append("mms_hide_dismiss_button_enabled|" + _preferences.getBoolean("mms_hide_dismiss_button_enabled", false) + "|boolean");
+//			buf.newLine();
+//			buf.append("mms_hide_delete_button_enabled|" + _preferences.getBoolean("mms_hide_delete_button_enabled", false) + "|boolean");
+//			buf.newLine();
+//			buf.append("mms_hide_reply_button_enabled|" + _preferences.getBoolean("mms_hide_reply_button_enabled", false) + "|boolean");
+//			buf.newLine();	
+//			buf.append("mms_hide_contact_panel_enabled|" + _preferences.getBoolean("mms_hide_contact_panel_enabled", false) + "|boolean");
+//			buf.newLine();
+//			buf.append("mms_hide_contact_photo_enabled|" + _preferences.getBoolean("mms_hide_contact_photo_enabled", false) + "|boolean");
+//			buf.newLine();
+//			buf.append("mms_hide_contact_name_enabled|" + _preferences.getBoolean("mms_hide_contact_name_enabled", false) + "|boolean");
+//			buf.newLine();
+//			buf.append("mms_hide_contact_number_enabled|" + _preferences.getBoolean("mms_hide_contact_number_enabled", false) + "|boolean");
+//			buf.newLine();
+//			
+//			//Missed Call Notification Settings
+//			buf.append(Constants.PHONE_NOTIFICATIONS_ENABLED_KEY + "|" + _preferences.getBoolean(Constants.PHONE_NOTIFICATIONS_ENABLED_KEY, true) + "|boolean");
+//			buf.newLine();
+//			buf.append("missed_call_loading_settings|" + _preferences.getString("missed_call_loading_settings", "0") + "|string");
+//			buf.newLine();
+//			buf.append(Constants.PHONE_BLOCKING_APP_RUNNING_ACTION_KEY + "|" + _preferences.getString(Constants.PHONE_BLOCKING_APP_RUNNING_ACTION_KEY, "2") + "|string");
+//			buf.newLine();
+//			
+//			//Missed Call Status Bar Notification Settings
+//			buf.append("missed_call_status_bar_notifications_enabled|" + _preferences.getBoolean("missed_call_status_bar_notifications_enabled", true) + "|boolean");
+//			buf.newLine();			
+//			buf.append("missed_call_status_bar_notifications_show_when_blocked_enabled|" + _preferences.getBoolean("missed_call_status_bar_notifications_show_when_blocked_enabled", true) + "|boolean");
+//			buf.newLine();			
+//			buf.append("notification_icon_missed_call|" + _preferences.getString("notification_icon_missed_call", "status_bar_notification_missed_call_black_preference") + "|string");
+//			buf.newLine();
+//			buf.append("missed_call_notification_sound|" + _preferences.getString("missed_call_notification_sound", "content://settings/system/notification_sound") + "|string");
+//			buf.newLine();
+//			buf.append("missed_call_notification_vibrate_setting|" + _preferences.getString("missed_call_notification_vibrate_setting", "0") + "|string");
+//			buf.newLine();
+//			buf.append("missed_call_notification_vibrate_pattern|" + _preferences.getString("missed_call_notification_vibrate_pattern", "0,1200") + "|string");
+//			buf.newLine();
+//			buf.append("missed_call_notification_vibrate_pattern_custom|" + _preferences.getString("missed_call_notification_vibrate_pattern_custom", "0,1200") + "|string");
+//			buf.newLine();
+//			buf.append("missed_call_notification_led_enabled|" + _preferences.getBoolean("missed_call_notification_led_enabled", true) + "|boolean");
+//			buf.newLine();
+//			buf.append("missed_call_notification_led_color|" + _preferences.getString("missed_call_notification_led_color", "yellow") + "|string");
+//			buf.newLine();
+//			buf.append("missed_call_notification_led_color_custom|" + _preferences.getString("missed_call_notification_led_color_custom", "yellow") + "|string");
+//			buf.newLine();
+//			buf.append("missed_call_notification_led_pattern|" + _preferences.getString("missed_call_notification_led_pattern", "1000,1000") + "|string");
+//			buf.newLine();
+//			buf.append("missed_call_notification_led_pattern_custom|" + _preferences.getString("missed_call_notification_led_pattern_custom", "1000,1000") + "|string");
+//			buf.newLine();
+//			buf.append("missed_call_notification_in_call_sound_enabled|" + _preferences.getBoolean("missed_call_notification_in_call_sound_enabled", false) + "|boolean");
+//			buf.newLine();
+//			buf.append("missed_call_notification_in_call_vibrate_enabled|" + _preferences.getBoolean("missed_call_notification_in_call_vibrate_enabled", false) + "|boolean");
+//			buf.newLine();	
+//			
+//			buf.append("missed_call_dismiss_button_action|" + _preferences.getString("missed_call_dismiss_button_action", "0") + "|string");
+//			buf.newLine();
+//			buf.append("missed_call_notification_count_action|" + _preferences.getString("missed_call_notification_count_action", "0") + "|string");
+//			buf.newLine();
+//			buf.append("missed_call_hide_dismiss_button_enabled|" + _preferences.getBoolean("missed_call_hide_dismiss_button_enabled", false) + "|boolean");
+//			buf.newLine();
+//			buf.append("missed_call_hide_call_button_enabled|" + _preferences.getBoolean("missed_call_hide_call_button_enabled", false) + "|boolean");
+//			buf.newLine();	
+//			buf.append("missed_call_hide_contact_panel_enabled|" + _preferences.getBoolean("missed_call_hide_contact_panel_enabled", false) + "|boolean");
+//			buf.newLine();
+//			buf.append("missed_call_hide_contact_photo_enabled|" + _preferences.getBoolean("missed_call_hide_contact_photo_enabled", false) + "|boolean");
+//			buf.newLine();
+//			buf.append("missed_call_hide_contact_name_enabled|" + _preferences.getBoolean("missed_call_hide_contact_name_enabled", false) + "|boolean");
+//			buf.newLine();
+//			buf.append("missed_call_hide_contact_number_enabled|" + _preferences.getBoolean("missed_call_hide_contact_number_enabled", false) + "|boolean");
+//			buf.newLine();
+//			
+//			//Calendar Notification Settings
+//			buf.append(Constants.CALENDAR_NOTIFICATIONS_ENABLED_KEY + "|" + _preferences.getBoolean(Constants.CALENDAR_NOTIFICATIONS_ENABLED_KEY, true) + "|boolean");
+//			buf.newLine();
+//			buf.append("calendar_notify_day_of_time|" + _preferences.getString("calendar_notify_day_of_time", "12") + "|string");
+//			buf.newLine();
+//			buf.append(Constants.CALENDAR_BLOCKING_APP_RUNNING_ACTION_KEY + "|" + _preferences.getString(Constants.CALENDAR_BLOCKING_APP_RUNNING_ACTION_KEY, "2") + "|string");
+//			buf.newLine();
+//			buf.append("calendar_polling_frequency|" + _preferences.getString("calendar_polling_frequency", "15") + "|string");
+//			buf.newLine();
+//			buf.append("calendar_selection|" + _preferences.getString("calendar_selection", "0") + "|string");
+//			buf.newLine();		
+//			buf.append("calendar_labels_enabled|" + _preferences.getBoolean("calendar_labels_enabled", true) + "|boolean");
+//			buf.newLine();	
+//			
+//			//Calendar Status Bar Notification Settings
+//			buf.append("calendar_status_bar_notifications_enabled|" + _preferences.getBoolean("calendar_status_bar_notifications_enabled", true) + "|boolean");
+//			buf.newLine();			
+//			buf.append("calendar_status_bar_notifications_show_when_blocked_enabled|" + _preferences.getBoolean("calendar_status_bar_notifications_show_when_blocked_enabled", true) + "|boolean");
+//			buf.newLine();			
+//			buf.append("notification_icon_calendar|" + _preferences.getString("notification_icon_calendar", "status_bar_notification_calendar_blue_preference") + "|string");
+//			buf.newLine();
+//			buf.append("calendar_notification_sound|" + _preferences.getString("calendar_notification_sound", "content://settings/system/notification_sound") + "|string");
+//			buf.newLine();
+//			buf.append("calendar_notification_vibrate_setting|" + _preferences.getString("calendar_notification_vibrate_setting", "0") + "|string");
+//			buf.newLine();
+//			buf.append("calendar_notification_vibrate_pattern|" + _preferences.getString("calendar_notification_vibrate_pattern", "0,1200") + "|string");
+//			buf.newLine();
+//			buf.append("calendar_notification_vibrate_pattern_custom|" + _preferences.getString("calendar_notification_vibrate_pattern_custom", "0,1200") + "|string");
+//			buf.newLine();
+//			buf.append("calendar_notification_led_enabled|" + _preferences.getBoolean("calendar_notification_led_enabled", true) + "|boolean");
+//			buf.newLine();
+//			buf.append("calendar_notification_led_color|" + _preferences.getString("calendar_notification_led_color", "yellow") + "|string");
+//			buf.newLine();
+//			buf.append("calendar_notification_led_color_custom|" + _preferences.getString("calendar_notification_led_color_custom", "yellow") + "|string");
+//			buf.newLine();
+//			buf.append("calendar_notification_led_pattern|" + _preferences.getString("calendar_notification_led_pattern", "1000,1000") + "|string");
+//			buf.newLine();
+//			buf.append("calendar_notification_led_pattern_custom|" + _preferences.getString("calendar_notification_led_pattern_custom", "1000,1000") + "|string");
+//			buf.newLine();
+//			buf.append("calendar_notification_in_call_sound_enabled|" + _preferences.getBoolean("calendar_notification_in_call_sound_enabled", false) + "|boolean");
+//			buf.newLine();
+//			buf.append("calendar_notification_in_call_vibrate_enabled|" + _preferences.getBoolean("calendar_notification_in_call_vibrate_enabled", false) + "|boolean");
+//			buf.newLine();	
+//			
+//			buf.append("calendar_hide_notification_body_enabled|" + _preferences.getBoolean("calendar_hide_notification_body_enabled", false) + "|boolean");
+//			buf.newLine();
+//			buf.append("calendar_reminders_enabled|" + _preferences.getBoolean("calendar_reminders_enabled", true) + "|boolean");
+//			buf.newLine();
+//			buf.append("calendar_reminder_settings|" + _preferences.getString("calendar_reminder_settings", "15") + "|string");
+//			buf.newLine();
+//			buf.append("calendar_reminder_all_day_settings|" + _preferences.getString("calendar_reminder_all_day_settings", "6") + "|string");
+//			buf.newLine();
+//			buf.append("calendar_dismiss_button_action|" + _preferences.getString("calendar_dismiss_button_action", "") + "|string");
+//			buf.newLine();
+//			buf.append("calendar_notification_count_action|" + _preferences.getString("calendar_notification_count_action", "0") + "|string");
+//			buf.newLine();
+//			buf.append("calendar_hide_dismiss_button_enabled|" + _preferences.getBoolean("calendar_hide_dismiss_button_enabled", false) + "|boolean");
+//			buf.newLine();
+//			buf.append("calendar_hide_view_button_enabled|" + _preferences.getBoolean("calendar_hide_view_button_enabled", false) + "|boolean");
+//			buf.newLine();
+//
+//			//Screen Settings
+//			buf.append(Constants.SCREEN_ENABLED_KEY + "|" + _preferences.getBoolean(Constants.SCREEN_ENABLED_KEY, true) + "|boolean");
+//			buf.newLine();
+//			buf.append(Constants.SCREEN_DIM_ENABLED_KEY + "|" + _preferences.getBoolean(Constants.SCREEN_DIM_ENABLED_KEY, true) + "|boolean");
+//			buf.newLine();
+//			buf.append(Constants.KEYGUARD_ENABLED_KEY + "|" + _preferences.getBoolean(Constants.KEYGUARD_ENABLED_KEY, true) + "|boolean");
+//			buf.newLine();	
+//			buf.append(Constants.LANDSCAPE_SCREEN_ENABLED_KEY + "|" + _preferences.getBoolean(Constants.LANDSCAPE_SCREEN_ENABLED_KEY, false) + "|boolean");
+//			buf.newLine();
+//			buf.append(Constants.BLUR_SCREEN_BACKGROUND_ENABLED_KEY + "|" + _preferences.getBoolean(Constants.BLUR_SCREEN_BACKGROUND_ENABLED_KEY, false) + "|boolean");
+//			buf.newLine();
+//			buf.append(Constants.DIM_SCREEN_BACKGROUND_ENABLED_KEY + "|" + _preferences.getBoolean(Constants.DIM_SCREEN_BACKGROUND_ENABLED_KEY, false) + "|boolean");
+//			buf.newLine();
+//			buf.append(Constants.DIM_SCREEN_BACKGROUND_AMOUNT_KEY + "|" + _preferences.getString(Constants.DIM_SCREEN_BACKGROUND_AMOUNT_KEY, "50") + "|string");
+//			buf.newLine();
+//
+//			//Advanced Settings
+//			buf.append(Constants.HAPTIC_FEEDBACK_ENABLED_KEY + "|" + _preferences.getBoolean(Constants.HAPTIC_FEEDBACK_ENABLED_KEY, true) + "|boolean");
+//			buf.newLine();
+//			buf.append(Constants.SCREEN_TIMEOUT_KEY + "|" + _preferences.getString(Constants.SCREEN_TIMEOUT_KEY, "300") + "|string");
+//			buf.newLine();
+//			buf.append(Constants.SMS_TIMEOUT_KEY + "|" + _preferences.getString(Constants.SMS_TIMEOUT_KEY, "10") + "|string");
+//			buf.newLine();
+//			buf.append(Constants.SMS_LOADING_SETTING_KEY + "|" + _preferences.getString(Constants.SMS_LOADING_SETTING_KEY, "0") + "|string");
+//			buf.newLine();
+//			buf.append(Constants.SMS_TIMESTAMP_ADJUSTMENT_KEY + "|" + _preferences.getString(Constants.SMS_TIMESTAMP_ADJUSTMENT_KEY, "0") + "|string");
+//			buf.newLine();
+//			buf.append(Constants.MMS_TIMEOUT_KEY + "|" + _preferences.getString(Constants.MMS_TIMEOUT_KEY, "40") + "|string");
+//			buf.newLine();
+//			buf.append(Constants.CALL_LOG_TIMEOUT_KEY + "|" + _preferences.getString(Constants.CALL_LOG_TIMEOUT_KEY, "5") + "|string");
+//			buf.newLine();
+//			buf.append(Constants.SMS_GATEWAY_KEY + "|" + _preferences.getString(Constants.SMS_GATEWAY_KEY, "1") + "|string");
+//			buf.newLine();
+//			buf.append(Constants.RESCHEDULE_NOTIFICATIONS_ENABLED_KEY + "|" + _preferences.getBoolean(Constants.RESCHEDULE_NOTIFICATIONS_ENABLED_KEY, true) + "|boolean");
+//			buf.newLine();
+//			buf.append(Constants.RESCHEDULE_BLOCKED_NOTIFICATION_TIMEOUT_KEY + "|" + _preferences.getString(Constants.RESCHEDULE_BLOCKED_NOTIFICATION_TIMEOUT_KEY, Constants.RESCHEDULE_BLOCKED_NOTIFICATION_TIMEOUT_DEFAULT) + "|string");
+//			buf.newLine();
+//			buf.append(Constants.CLEAR_STATUS_BAR_NOTIFICATIONS_ON_EXIT_KEY + "|" + _preferences.getBoolean(Constants.CLEAR_STATUS_BAR_NOTIFICATIONS_ON_EXIT_KEY, false) + "|boolean");
+//			buf.newLine();
 			
 			buf.close();
 		}catch (Exception ex){
