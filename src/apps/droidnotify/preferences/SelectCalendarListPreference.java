@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.preference.ListPreference;
 import android.util.AttributeSet;
 import android.widget.Toast;
+
 import apps.droidnotify.common.Common;
 import apps.droidnotify.log.Log;
 import apps.droidnotify.R;

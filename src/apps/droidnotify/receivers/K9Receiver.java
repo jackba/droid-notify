@@ -3,6 +3,7 @@ package apps.droidnotify.receivers;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+
 import apps.droidnotify.log.Log;
 import apps.droidnotify.services.K9BroadcastReceiverService;
 import apps.droidnotify.services.WakefulIntentService;
@@ -35,13 +36,13 @@ public class K9Receiver extends BroadcastReceiver{
 	public void onReceive(Context context, Intent intent){
 		_debug = Log.getDebug();
 		if (_debug) Log.v("K9Receiver.onReceive()");
-		try{
-			Intent k9BroadcastReceiverServiceIntent = new Intent(context, K9BroadcastReceiverService.class);
-		    k9BroadcastReceiverServiceIntent.putExtras(intent.getExtras());
-			WakefulIntentService.sendWakefulWork(context, k9BroadcastReceiverServiceIntent);
-		}catch(Exception ex){
-			if (_debug) Log.e("K9Receiver.onReceive() ERROR: " + ex.toString());
-		}
+//		try{
+//			Intent k9BroadcastReceiverServiceIntent = new Intent(context, K9BroadcastReceiverService.class);
+//		    k9BroadcastReceiverServiceIntent.putExtras(intent.getExtras());
+//			WakefulIntentService.sendWakefulWork(context, k9BroadcastReceiverServiceIntent);
+//		}catch(Exception ex){
+//			if (_debug) Log.e("K9Receiver.onReceive() ERROR: " + ex.toString());
+//		}
 	}
 
 }

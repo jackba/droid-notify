@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+
 import apps.droidnotify.NotificationActivity;
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
