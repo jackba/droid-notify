@@ -4,8 +4,9 @@
 = Release Notes =
 
 *v2.11* _Coming Soon..._
+ * 
 
-*v2.10* _Coming Soon..._
+*v2.10* (November 7, 2011)
  * Added a few more date formats as well as defaulted the app to follow the phones date format.
  * Added the following translations: French, Spanish
  * A "Reschedule" button has been added in Version 2.10. This is part 1 of the "reschedule" features that will be added.
