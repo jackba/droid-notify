@@ -53,7 +53,7 @@
   <string name="advanced_settings_text">Paramètres avancés</string>
   <string name="notification_settings_text">Paramètres notifications</string>
   <string name="quick_reply_settings_text">Paramètres réponse rapide</string>
-  <string name="notification_body_settings_text">Paramètres du corps de la notification</string>
+  <string name="notification_body_settings_text">Corps de la notification</string>
   <string name="notification_header_settings_text">Paramètres de l\'entête de la notification</string>
   <string name="event_body_settings_text">Corps de l\'évènement</string>
   <string name="delete_text">Supprimer</string>
@@ -62,13 +62,13 @@
   <string name="delete_email_dialog_text">Ceci va supprimer le mail du téléphone.</string>
   <string name="preference_notification_body_font_size_title">Taille corps notification</string>
   <string name="preference_notification_body_font_size_summary">Choix de la taille des caractères pour l\'affichage du corps de la notification.</string>
-  <string name="preference_sms_hide_notification_body_enabled_title">Masquer contenu notification</string>
+  <string name="preference_sms_hide_notification_body_enabled_title">Masquer corps notification</string>
   <string name="preference_sms_hide_notification_body_enabled_summaryOn">Le corps de la notification ne sera pas affiché dans le popup.</string>
   <string name="preference_sms_hide_notification_body_enabled_summaryOff">Le corps de la notification sera affiché dans le popup.</string>
-  <string name="preference_mms_hide_notification_body_enabled_title">Masquer contenu notification</string>
+  <string name="preference_mms_hide_notification_body_enabled_title">Masquer corps notification</string>
   <string name="preference_mms_hide_notification_body_enabled_summaryOn">Le corps de la notification ne sera pas affiché dans le popup.</string>
   <string name="preference_mms_hide_notification_body_enabled_summaryOff">Le corps de la notification sera affiché dans le popup.</string>
-  <string name="preference_calendar_hide_notification_body_enabled_title">Masquer contenu notification</string>
+  <string name="preference_calendar_hide_notification_body_enabled_title">Masquer corps notification</string>
   <string name="preference_calendar_hide_notification_body_enabled_summaryOn">Le corps de la notification ne sera pas affiché dans le popup.</string>
   <string name="preference_calendar_hide_notification_body_enabled_summaryOff">Le corps de la notification sera affiché dans le popup.</string>
   <string name="preference_notification_type_info_icon_enabled_title">Voir icone type</string>
@@ -101,7 +101,7 @@
   <string name="preference_contact_photo_size_summary">Choix de la taille de la photo du contact.</string>
   <string name="about_text">A propos</string>
   <string name="preference_about_summary">A propos de Droid Notify</string>
-  <string name="preference_about_text">&lt;b&gt;Créé par :&lt;/b&gt; Camille Sévigny&lt;br/&gt;&lt;b&gt;Email : &lt;/b&gt; &lt;a href=\"mailto:droidnotify@gmail.com\"&gt;droidnotify@gmail.com&lt;/a&gt;&lt;br/&gt;&lt;br/&gt;Droid Notify est une application qui affiche une boite de dialogue lors de l\'arrivée d\'un SMS/MMS, d\'un appel manqué, ou d\'un évènement du calendrier. L\'application utilise les fonctions de Messages, Téléphone et Calendrier de votre mobile. Les notifications affichent les informations du contact, comme son nom et sa photo, si le contact existe dans votre carnet d\'adresses.&lt;br/&gt;&lt;br/&gt;Si vous appréciez Droid Notify, merci de noter l\'application et de laisser un commentaire.&lt;br/&gt;&lt;br/&gt;Tous les commentaires, suggestions, ou reports de bug sont les bienvenus .&lt;br/&gt;&lt;br/&gt;&lt;b&gt;Traduction généré par:&lt;/b&gt; &lt;a href=\"http://www.crowdin.net/\"&gt;CrowdIn.net&lt;/a&gt;&lt;br/&gt;Traduction Francaise : Franky&lt;br/&gt;&lt;br/&gt;&lt;b&gt;© 2011 Camille Sévigny&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;</string>
+  <string name="preference_about_text">&lt;b&gt;Créé par :&lt;/b&gt; Camille Sévigny&lt;br/&gt;&lt;b&gt;Email : &lt;/b&gt; &lt;a href=\"mailto:droidnotify@gmail.com\"&gt;droidnotify@gmail.com&lt;/a&gt;&lt;br/&gt;&lt;br/&gt;Droid Notify est une application qui affiche une boite de dialogue lors de l\'arrivée d\'un SMS/MMS, d\'un appel manqué, ou d\'un évènement du calendrier. L\'application utilise les fonctions de Messages, Téléphone et Calendrier de votre mobile. Les notifications affichent les informations du contact, comme son nom et sa photo, si le contact existe dans votre carnet d\'adresses.&lt;br/&gt;&lt;br/&gt;Si vous appréciez Droid Notify, merci de noter l\'application et de laisser un commentaire.&lt;br/&gt;&lt;br/&gt;Tous les commentaires, suggestions, ou reports de bug sont les bienvenus .&lt;br/&gt;&lt;br/&gt;&lt;b&gt;Traduction généré par:&lt;/b&gt; &lt;a href=\"http://www.crowdin.net/\"&gt;CrowdIn.net&lt;/a&gt;&lt;br/&gt;Traduction Francaise : Franky&lt;br/&gt;Traduction Espagnole : Shaymelmed (shaben_translations@hotmail.com)&lt;br/&gt;Traduction Portugaise : Marcio Andrade (marcioaribeiro@hotmail.com.br)&lt;br/&gt;&lt;br/&gt;&lt;b&gt;© 2011 Camille Sévigny&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;</string>
   <string name="preference_haptic_feedback_title">Activer retour haptique</string>
   <string name="preference_haptic_feedback_summaryOn">Le retour haptique est activé. Le vibreur du téléphone sera activé lors de l\'utilisation de touches programmables ou avec certaines options.</string>
   <string name="preference_haptic_feedback_summaryOff">Le retour haptique n\'est pas activé. Le vibreur du téléphone ne sera pas activé lors de l\'utilisation de touches programmables ou avec certaines options.</string>
@@ -338,16 +338,16 @@
   <string name="test_app_text">Test notifications</string>
   <string name="test_app_summary">Affichage d\'exemples de fenêtre de notification (tient compte du paramétrage effectué).</string>
   <string name="preference_quiet_time_title">Paramètres de mise en veille</string>
-  <string name="preference_quiet_time_enabled_title">Activer Mise en veille</string>
+  <string name="preference_quiet_time_enabled_title">Activer la mise en veille</string>
   <string name="preference_quiet_time_enabled_summary">Stoppe les notifications pendant certaines périodes.</string>
-  <string name="preference_quiet_time_of_week_title">Paramètres heure de la journée</string>
-  <string name="preference_quiet_time_of_week_summary">Indique quand la mise en veille doit être effective.</string>
+  <string name="preference_quiet_time_of_week_title">Jours de mise en veille</string>
+  <string name="preference_quiet_time_of_week_summary">Indique les jours de mise en veille.</string>
   <string name="everyday_text">Chaque jour</string>
   <string name="only_on_weekends_text">Seulement les week-ends</string>
   <string name="only_on_weekdays_text">Seulement en semaine</string>
-  <string name="preference_quiet_time_quiet_period_title">Paramètres période de mise en veille</string>
-  <string name="preference_quiet_time_quiet_period_summary">Indique quand la mise en veille doit être effective.</string>
-  <string name="preference_quiet_period_dialog_instructions">Choix des heures de début et de fin de mise en veille.</string>
+  <string name="preference_quiet_time_quiet_period_title">Période de mise en veille</string>
+  <string name="preference_quiet_time_quiet_period_summary">Indique la période de mise en veille.</string>
+  <string name="preference_quiet_period_dialog_instructions">Sélectionnez l\'heure de début et de fin de la mise en veille.</string>
   <string name="start_quiet_time_text">Heure de début :</string>
   <string name="stop_quiet_time_text">Heure de fin :</string>
   <string name="preference_quiet_time_period_set">La période de mise en veille a été enregistrée.</string>
@@ -369,7 +369,7 @@
   <string name="preference_import_preferences_progress_text">Restauration de la configuration en cours...</string>
   <string name="preference_import_preferences_finish_text">Les réglages de l\'application ont bien été restaurés.</string>
   <string name="preference_import_preferences_error_text">Les réglages de l\'application n\'ont pas pu être restaurés. Causes possibles : absence de carte SD, carte SD mal insérée, défectueuse, etc...</string>
-  <string name="preference_hide_reschedule_button_enabled_title">Bouton Reporter</string>
+  <string name="preference_hide_reschedule_button_enabled_title">Cacher bouton Reporter</string>
   <string name="preference_hide_reschedule_button_enabled_summaryOn">Le bouton Reporter ne sera pas affiché.</string>
   <string name="preference_hide_reschedule_button_enabled_summaryOff">Le bouton Reporter sera affiché.</string>
   <string name="reschedule_notifications_text">Report des notifications</string>

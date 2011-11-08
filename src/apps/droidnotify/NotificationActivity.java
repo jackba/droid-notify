@@ -2016,7 +2016,7 @@ public class NotificationActivity extends Activity {
 	 * Cancel the screen timeout alarm.
 	 */
 	private void cancelScreenTimeout() {
-		if (_debug) Log.v("NotificationActivity.setScreenTimeoutAlarm()");
+		if (_debug) Log.v("NotificationActivity.cancelScreenTimeout()");
 		if (_screenTimeoutPendingIntent != null) {
 	    	AlarmManager alarmManager = (AlarmManager) _context.getSystemService(Context.ALARM_SERVICE);
 	    	alarmManager.cancel(_screenTimeoutPendingIntent);

@@ -759,9 +759,9 @@ public class Notification {
 	 * Sets the alarm that will remind the user with another popup of the notification.
 	 */
 	public void setReminder(){
-		if (_debug) Log.v("Notification.setReminder() _rescheduleNumber");
+		if (_debug) Log.v("Notification.setReminder()");
 		if(_preferences.getBoolean(Constants.REMINDERS_ENABLED_KEY, false)){
-			long rescheduleTime = System.currentTimeMillis() + Long.parseLong(_preferences.getString(Constants.REMINDER_INTERVAL_KEY, Constants.REMINDER_INTERVAL_DEFAULT));
+			long rescheduleTime = System.currentTimeMillis() + Long.parseLong(_preferences.getString(Constants.REMINDER_INTERVAL_KEY, Constants.REMINDER_INTERVAL_DEFAULT)) * 60 * 1000;
 			_reminderPendingIntent = Common.rescheduleNotification(_context, this, rescheduleTime, ++_rescheduleNumber);
 		}
 	}

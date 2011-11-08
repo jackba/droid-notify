@@ -290,7 +290,7 @@
 			android:text="@string/view_button_text" />
 	</LinearLayout>
 	<LinearLayout 
-		android:id="@+id/sms_button_linear_layout" 
+		android:id="@+id/email_button_linear_layout" 
 		android:layout_height="wrap_content"
 		android:layout_width="fill_parent" 
 		android:orientation="vertical" 

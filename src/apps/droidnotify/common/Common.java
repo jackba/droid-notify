@@ -1873,12 +1873,18 @@ public class Common {
 	 * @param totalNotifications - The total number of current notifications.
 	 */
 	public static void clearNotification(Context context, NotificationViewFlipper notificationViewFlipper, int notificationType, int totalNotifications){
-		if(totalNotifications > 0){
-			if(!notificationViewFlipper.containsNotificationType(notificationType)){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.clearNotification()");
+		try{
+			if(totalNotifications > 0){
+				if(!notificationViewFlipper.containsNotificationType(notificationType)){
+					removeStatusBarNotification(context, notificationType);
+				}
+			}else{
 				removeStatusBarNotification(context, notificationType);
 			}
-		}else{
-			removeStatusBarNotification(context, notificationType);
+		}catch(Exception ex){
+			if (_debug) Log.e("Common.clearNotification() ERROR: " + ex.toString());
 		}
 	}
 	
