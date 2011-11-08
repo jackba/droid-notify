@@ -99,7 +99,12 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 */
 	public void removeActiveNotification(boolean reschedule) {
 		if (_debug) Log.v("NotificationViewFlipper.removeActiveNotification()");
-		removeNotification(_currentNotification, reschedule);
+		removeNotification(_currentNotification, reschedule); 
+		Notification notification =  getActiveNotification();
+		//Clear the status bar notification.
+    	Common.clearNotification(_context, this, notification.getNotificationType(), _totalNotifications);
+    	//Cancel the notification reminder.
+    	notification.cancelReminder();
 	}
 
 	/**
@@ -296,14 +301,9 @@ public class NotificationViewFlipper extends ViewFlipper {
 	* @param notificationNumber - Int of the notificaiton to be removed.
 	*/
 	private void removeNotification(int notificationNumber, boolean reschedule) {
-		if (_debug) Log.v("NotificationViewFlipper.removeNotification() NotificationNumber: " + notificationNumber);
+		if (_debug) Log.v("NotificationViewFlipper.removeNotification()");
 		//Get the current notification object.
 		Notification notification = getNotification(notificationNumber);
-		int notificationType = notification.getNotificationType();
-    	//Clear the status bar notification.
-    	Common.clearNotification(_context, this, notificationType, _totalNotifications);
-    	//Cancel the notification reminder.
-    	notification.cancelReminder();
 		if (_totalNotifications > 1) {
 			try{
 				//Set notification as being viewed in the phone.
@@ -464,10 +464,16 @@ public class NotificationViewFlipper extends ViewFlipper {
 		//Must iterate backwards through this collection.
 		//By removing items from the end, we don't have to worry about shifting index numbers as we would if we removed from the beginning.
 		for(int i = _totalNotifications - 1; i >= 0; i--){
-			if(getNotification(i).getThreadID() == threadID){
+			Notification notification = getNotification(i);
+			if(notification.getThreadID() == threadID){
 				removeNotification(i, false);
+		    	//Cancel the notification reminder.
+		    	notification.cancelReminder();
 			}
-		}
+		}		
+		//Clear the status bar notification for SMS & MMS types.
+		Common.clearNotification(_context, this, Constants.NOTIFICATION_TYPE_SMS, _totalNotifications);
+    	Common.clearNotification(_context, this, Constants.NOTIFICATION_TYPE_MMS, _totalNotifications);
 	}
 	
 	/**
