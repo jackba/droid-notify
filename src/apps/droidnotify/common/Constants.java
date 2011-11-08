@@ -84,6 +84,13 @@ public class Constants {
 	public static final String RESCHEDULE_BLOCKED_NOTIFICATION_TIMEOUT_DEFAULT = "5";
 	public static final String RESCHEDULE_TIME_KEY = "reschedule_time";
 	public static final String RESCHEDULE_TIME_DEFAULT = "60";
+
+	//-----REMINDER CONSTANTS-----//
+	public static final String REMINDERS_ENABLED_KEY = "reminders_enabled";
+	public static final String REMINDER_FREQUENCY_KEY = "reminder_frequency";
+	public static final String REMINDER_FREQUENCY_DEFAULT = "5";
+	public static final String REMINDER_INTERVAL_KEY = "reminder_interval";
+	public static final String REMINDER_INTERVAL_DEFAULT = "60";
 	
 	//-----CONTACT PHOTO CONSTANTS-----//
     public static final String CONTACT_PLACEHOLDER_KEY = "contact_placeholder";

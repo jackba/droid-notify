@@ -99,10 +99,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 */
 	public void removeActiveNotification(boolean reschedule) {
 		if (_debug) Log.v("NotificationViewFlipper.removeActiveNotification()");
-		int notificationType = getActiveNotification().getNotificationType();
 		removeNotification(_currentNotification, reschedule);
-    	//Clear the status bar notification.
-    	Common.clearNotification(_context, this, notificationType, _totalNotifications);
 	}
 
 	/**
@@ -302,6 +299,11 @@ public class NotificationViewFlipper extends ViewFlipper {
 		if (_debug) Log.v("NotificationViewFlipper.removeNotification() NotificationNumber: " + notificationNumber);
 		//Get the current notification object.
 		Notification notification = getNotification(notificationNumber);
+		int notificationType = notification.getNotificationType();
+    	//Clear the status bar notification.
+    	Common.clearNotification(_context, this, notificationType, _totalNotifications);
+    	//Cancel the notification reminder.
+    	notification.cancelReminder();
 		if (_totalNotifications > 1) {
 			try{
 				//Set notification as being viewed in the phone.
@@ -338,7 +340,9 @@ public class NotificationViewFlipper extends ViewFlipper {
 		}else{	
 			try{
 				//Set notification as being viewed in the phone.
-				setNotificationViewed(notification);
+				if(!reschedule){
+					setNotificationViewed(notification);
+				}
 				// Set the total notifications to 0
 				_totalNotifications = 0;
 				//Close the ViewFlipper and finish the activity.

@@ -2,10 +2,13 @@ package apps.droidnotify.services;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 
 import apps.droidnotify.NotificationActivity;
 import apps.droidnotify.common.Common;
+import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
 
 public class RescheduleReceiverService extends WakefulIntentService {
@@ -40,12 +43,11 @@ public class RescheduleReceiverService extends WakefulIntentService {
 	 */
 	@Override
 	protected void doWakefulWork(Intent intent) {
-		_debug = Log.getDebug();
 		if (_debug) Log.v("RescheduleReceiverService.doWakefulWork()");
 		Context context = getApplicationContext();
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		Bundle bundle = intent.getExtras();
-		//TODO - Add user preference to set the max attempts.
-		int maxRescheduleAttempts = 100;
+		int maxRescheduleAttempts = Integer.parseInt(preferences.getString(Constants.REMINDER_FREQUENCY_KEY, Constants.REMINDER_FREQUENCY_DEFAULT));
 		int rescheduleNumber = bundle.getInt("rescheduleNumber");
 		//Determine if the notification should be rescheduled or not.
 		boolean displayNotification = true;
