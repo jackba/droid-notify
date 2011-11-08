@@ -2855,12 +2855,11 @@ public class Common {
 	 * @param rescheduleTime - The time we want the notification to be rescheduled.
 	 * @param rescheduleNumber - The reschedule attempt (in case we need to keep track).
 	 */
-	public static void rescheduleNotification(Context context, apps.droidnotify.Notification notification, long rescheduleTime, int rescheduleNumber){
+	public static PendingIntent rescheduleNotification(Context context, apps.droidnotify.Notification notification, long rescheduleTime, int rescheduleNumber){
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.rescheduleNotification()");
 		//Store the notification information into an ArrayList.
-		int notificationType = notification.getNotificationType();
-		notificationType = notificationType + 100;
+		int notificationType = notification.getNotificationType() + 100;
 		//Get Notification Values.
 		//========================================================
 		//String[] Values:
@@ -2912,11 +2911,13 @@ public class Common {
 		Bundle rescheduleBundle = new Bundle();
 		rescheduleBundle.putStringArray("rescheduleNotificationInfo", rescheduleNotificationInfo);
 		rescheduleBundle.putInt("rescheduleNumber", rescheduleNumber);
+		if (_debug) Log.v("Common.rescheduleNotification() rescheduleNumber: " + rescheduleNumber);
 		rescheduleBundle.putInt("notificationType", notificationType);
 		rescheduleIntent.putExtras(rescheduleBundle);
-		rescheduleIntent.setAction("apps.droidnotify.VIEW/RescheduleNotification/" + String.valueOf(notification.getTimeStamp()));
+		rescheduleIntent.setAction("apps.droidnotify.VIEW/RescheduleNotification/" + rescheduleNumber + "/" + String.valueOf(notification.getTimeStamp()));
 		PendingIntent reschedulePendingIntent = PendingIntent.getBroadcast(context, 0, rescheduleIntent, 0);
 		alarmManager.set(AlarmManager.RTC_WAKEUP, rescheduleTime, reschedulePendingIntent);
+		return reschedulePendingIntent;
 	}
 	
 	/**

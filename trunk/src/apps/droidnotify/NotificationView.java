@@ -127,6 +127,11 @@ public class NotificationView extends LinearLayout {
 	    _emailButtonLinearLayout = (LinearLayout) findViewById(R.id.email_button_linear_layout);
 		_contactLinearLayout = (LinearLayout) findViewById(R.id.contact_wrapper_linear_layout);
 		_notificationViewFlipper = _notificationActivity.getNotificationViewFlipper();
+		//Initialize The Button Views
+		_phoneButtonLinearLayout.setVisibility(View.GONE);
+    	_smsButtonLinearLayout.setVisibility(View.GONE);
+    	_calendarButtonLinearLayout.setVisibility(View.GONE);
+    	_emailButtonLinearLayout.setVisibility(View.GONE);
 	}
 
 	/**

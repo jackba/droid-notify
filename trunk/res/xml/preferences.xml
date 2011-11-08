@@ -167,7 +167,6 @@
 
 			</PreferenceCategory>
  -->
- <!--
 			<PreferenceCategory
 				android:key="reminder_settings_category"
 				android:title="@string/reminder_settings_text">
@@ -196,7 +195,6 @@
 						android:entryValues="@array/reschedule_time_options_values" />
 				</PreferenceScreen>
 			</PreferenceCategory>
- -->
 			<PreferenceCategory
 				android:key="quiet_time_settings_category"
 				android:title="@string/preference_quiet_time_title">	

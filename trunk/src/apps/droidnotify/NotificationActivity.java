@@ -71,7 +71,8 @@ public class NotificationActivity extends Activity {
 	private Context _context = null;
 	private NotificationViewFlipper _notificationViewFlipper = null;
 	private MotionEvent _downMotionEvent = null;
-	SharedPreferences _preferences = null;
+	private SharedPreferences _preferences = null;
+	private PendingIntent _screenTimeoutPendingIntent = null;
 
 	//================================================================================
 	// Public Methods
@@ -307,6 +308,7 @@ public class NotificationActivity extends Activity {
 			Common.clearAllNotifications(_context);
 		}
 	    Common.clearWakeLock();
+	    cancelScreenTimeout();
 	    // Finish the activity.
 	    finish();
 	}
@@ -702,27 +704,23 @@ public class NotificationActivity extends Activity {
 	    final Bundle extrasBundle = getIntent().getExtras();
 	    int notificationType = extrasBundle.getInt("notificationType");
 	    if (_debug) Log.v("NotificationActivity.onCreate() Notification Type: " + notificationType);
-	    boolean turnScreenOn = _preferences.getBoolean(Constants.SCREEN_ENABLED_KEY, true);
 	    //Don't rotate the Activity when the screen rotates based on the user preferences.
 	    if(!_preferences.getBoolean(Constants.LANDSCAPE_SCREEN_ENABLED_KEY, false)){
 	    	this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 	    }
-	    //Turn Screen On Flags
-	    if(turnScreenOn){
-		    //Get main window for this Activity.
-		    Window mainWindow = getWindow();
-	    	//Set Background Blur Flags
-		    if(_preferences.getBoolean(Constants.BLUR_SCREEN_BACKGROUND_ENABLED_KEY, false)){
-		    	mainWindow.addFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
-		    }
-		    //Set Background Dim Flags
-		    if(_preferences.getBoolean(Constants.DIM_SCREEN_BACKGROUND_ENABLED_KEY, false)){
-		    	mainWindow.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND); 
-			    WindowManager.LayoutParams params = mainWindow.getAttributes(); 
-			    int dimAmt = Integer.parseInt(_preferences.getString(Constants.DIM_SCREEN_BACKGROUND_AMOUNT_KEY, "50"));
-			    params.dimAmount = dimAmt / 100f; 
-			    mainWindow.setAttributes(params); 
-		    }
+	    //Get main window for this Activity.
+	    Window mainWindow = getWindow();
+    	//Set Background Blur Flags
+	    if(_preferences.getBoolean(Constants.BLUR_SCREEN_BACKGROUND_ENABLED_KEY, false)){
+	    	mainWindow.addFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
+	    }
+	    //Set Background Dim Flags
+	    if(_preferences.getBoolean(Constants.DIM_SCREEN_BACKGROUND_ENABLED_KEY, false)){
+	    	mainWindow.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND); 
+		    WindowManager.LayoutParams params = mainWindow.getAttributes(); 
+		    int dimAmt = Integer.parseInt(_preferences.getString(Constants.DIM_SCREEN_BACKGROUND_AMOUNT_KEY, "50"));
+		    params.dimAmount = dimAmt / 100f; 
+		    mainWindow.setAttributes(params); 
 	    }
 	    setContentView(R.layout.notificationwrapper);
 	    setupViews(notificationType);
@@ -871,6 +869,7 @@ public class NotificationActivity extends Activity {
 			Common.clearAllNotifications(_context);
 		}
 	    Common.clearWakeLock();
+	    cancelScreenTimeout();
 	    super.onDestroy();
 	}
 
@@ -1808,8 +1807,9 @@ public class NotificationActivity extends Activity {
 	 */
 	private void setupRescheduledNotification(Bundle bundle){
 		if (_debug) Log.v("NotificationActivity.setupRescheduledNotification()");
-		int rescheduleNumber = bundle.getInt("rescheduleNumber");
 		String[] rescheduleNotificationInfo = bundle.getStringArray("rescheduleNotificationInfo");
+		int rescheduleNumber = bundle.getInt("rescheduleNumber");
+		int notificationType = bundle.getInt("notificationType") - 100;
 		//========================================================
 		//String[] Values:
 		//[0]-notificationType
@@ -1832,7 +1832,7 @@ public class NotificationActivity extends Activity {
 		//[17]-LookupKey
 		//[18]-PhotoID
 		//========================================================
-		int notificationType = Integer.parseInt(rescheduleNotificationInfo[0]) - 100;
+		//int notificationType = Integer.parseInt(rescheduleNotificationInfo[0]) - 100;
 		String sentFromAddress = rescheduleNotificationInfo[1];
 		String messageBody = rescheduleNotificationInfo[2];
 		long timeStamp = Long.parseLong(rescheduleNotificationInfo[3]);
@@ -2008,8 +2008,21 @@ public class NotificationActivity extends Activity {
 		AlarmManager alarmManager = (AlarmManager) _context.getSystemService(Context.ALARM_SERVICE);
     	Intent intent = new Intent(_context, ScreenManagementAlarmReceiver.class);
     	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-    	PendingIntent pendingIntent = PendingIntent.getBroadcast(_context, 0, intent, 0);
-		alarmManager.set(AlarmManager.RTC_WAKEUP, scheduledAlarmTime, pendingIntent);
+    	_screenTimeoutPendingIntent = PendingIntent.getBroadcast(_context, 0, intent, 0);
+		alarmManager.set(AlarmManager.RTC_WAKEUP, scheduledAlarmTime, _screenTimeoutPendingIntent);
+	}
+	
+	/**
+	 * Cancel the screen timeout alarm.
+	 */
+	private void cancelScreenTimeout() {
+		if (_debug) Log.v("NotificationActivity.setScreenTimeoutAlarm()");
+		if (_screenTimeoutPendingIntent != null) {
+	    	AlarmManager alarmManager = (AlarmManager) _context.getSystemService(Context.ALARM_SERVICE);
+	    	alarmManager.cancel(_screenTimeoutPendingIntent);
+	    	_screenTimeoutPendingIntent.cancel();
+	    	_screenTimeoutPendingIntent = null;
+		}
 	}
 
 }

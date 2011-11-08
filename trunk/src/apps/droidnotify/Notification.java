@@ -2,6 +2,8 @@ package apps.droidnotify;
 
 import java.util.Date;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -48,6 +50,7 @@ public class Notification {
 	private String _k9EmailUri = null;
 	private String _k9EmailDelUri = null;
 	private int _rescheduleNumber = 0;
+	private PendingIntent _reminderPendingIntent = null;
 	
 	//================================================================================
 	// Constructors
@@ -58,7 +61,7 @@ public class Notification {
 	 */
 	public Notification(Context context, String sentFromAddress, String messageBody, long messageID, long threadID, long timeStamp, long contactID, String contactName, long photoID, String lookupKey, int notificationType) {
 		_debug = Log.getDebug();
-		if (_debug) Log.v("Notification.Notification(Context contex, String sentFromAddress, String messageBody, long messageID, long threadID, long timeStamp, long contactID, String contactName, long photoID, String lookupKey, int notificationType)");
+		if (_debug) Log.v("Notification.Notification() ==CONSTRUCTOR 1==");
 		try{
 			if(notificationType == Constants.NOTIFICATION_TYPE_PHONE){
 				_title = "Missed Call";
@@ -104,6 +107,7 @@ public class Notification {
     			_contactPhotoExists = true;
     		}
     		_lookupKey = lookupKey;
+    		setReminder();
 		}catch(Exception ex){
 			if (_debug) Log.e("Notification.Notification() ==CONSTRUCTOR 1== ERROR: " + ex.toString());
 		}
@@ -114,7 +118,7 @@ public class Notification {
 	 */
 	public Notification(Context context, String sentFromAddress, String messageBody, long timeStamp, int notificationType) {
 		_debug = Log.getDebug();
-		if (_debug) Log.v("Notification.Notification(Context context, String phoneNumber, String messageBody, long timeStamp, int notificationType)");
+		if (_debug) Log.v("Notification.Notification() ==CONSTRUCTOR 2==");
 		try{			
 			switch(notificationType){
 				case Constants.NOTIFICATION_TYPE_PHONE:{
@@ -158,6 +162,8 @@ public class Notification {
 				_sentFromAddress = null;
 			}
 	        _messageBody = messageBody;
+    		_lookupKey = null;
+    		setReminder();
 		}catch(Exception ex){
 			if (_debug) Log.e("Notification.Notification() ==CONSTRUCTOR 2== ERROR: " + ex.toString());
 		}
@@ -168,7 +174,7 @@ public class Notification {
 	 */
 	public Notification(Context context, long callLogID, String sentFromAddress, long timeStamp, long contactID, String contactName, long photoID, String lookupKey, int notificationType){
 		_debug = Log.getDebug();
-		if (_debug) Log.v("Notification.Notification(Context context, long callLogID, String sentFromAddress, long timeStamp, long contactID, string contactName, long photoID, String lookupKey, int notificationType)");
+		if (_debug) Log.v("Notification.Notification() ==CONSTRUCTOR 3==");
 		try{
 			switch(notificationType){
 				case Constants.NOTIFICATION_TYPE_PHONE:{
@@ -231,6 +237,7 @@ public class Notification {
     			_contactPhotoExists = true;
     		}	
     		_lookupKey = lookupKey;
+    		setReminder();
 		}catch(Exception ex){
 			if (_debug) Log.e("Notification.Notification() ==CONSTRUCTOR 3== ERROR: " + ex.toString());
 		}
@@ -241,7 +248,7 @@ public class Notification {
 	 */
 	public Notification(Context context, String title, String messageBody, long eventStartTime, long  eventEndTime, boolean allDay, String calendarName, long calendarID, long calendarEventID, int notificationType){
 		_debug = Log.getDebug();
-		if (_debug) Log.v("Notification.Notification(Context context, String title, String messageBody, long eventStartTime, long eventEndTime, boolean allDay, String calendarName, long calendarID, long calendarEventID, int notificationType)");
+		if (_debug) Log.v("Notification.Notification() ==CONSTRUCTOR 4==");
 		try{
 			_context = context;
 			_preferences = PreferenceManager.getDefaultSharedPreferences(_context);
@@ -260,6 +267,8 @@ public class Notification {
 	    	_calendarEventID = calendarEventID;
 	    	_calendarEventStartTime = eventStartTime;
 	    	_calendarEventEndTime = eventEndTime;
+    		_lookupKey = null;
+    		setReminder();
 		}catch(Exception ex){
 			if (_debug) Log.e("Notification.Notification() ==CONSTRUCTOR 4== ERROR: " + ex.toString());
 		}
@@ -270,7 +279,7 @@ public class Notification {
 	 */
 	public Notification(Context context, String sentFromAddress, String messageBody, long timeStamp, long threadID, long contactID, String contactName, long photoID, long messageID, String title, long calendarID, long calendarEventID, long calendarEventStartTime, long calendarEventEndTime, boolean allDay, long callLogID,  String lookupKey, String k9EmailUri, String k9EmailDelUri, int rescheduleNumber, int notificationType) {
 		_debug = Log.getDebug();
-		if (_debug) Log.v("Notification.Notification(Context context, String sentFromAddress, String messageBody, long timeStamp, long threadID, long contactID, String contactName, long photoID, long messageID, String title, String email, long calendarID, long calendarEventID, long calendarEventStartTime, long calendarEventEndTime, boolean allDay, long callLogID,  String lookupKey, String k9EmailUri, String k9EmailDelUri, int rescheduleNumber, int notificationType)");
+		if (_debug) Log.v("Notification.Notification() ==CONSTRUCTOR 5==");
 		try{
 			_context = context;
 			_preferences = PreferenceManager.getDefaultSharedPreferences(_context);
@@ -289,7 +298,6 @@ public class Notification {
     		_contactID = contactID;
     		_k9EmailUri = k9EmailUri;
     		_k9EmailDelUri = k9EmailDelUri;
-    		if (_debug) Log.v("Notification.Notification() 1");
     		if(contactName != null && !contactName.equals("")){
     			_contactName = contactName;
     			_contactExists = true;
@@ -297,7 +305,6 @@ public class Notification {
     			_contactName = null;
     			_contactExists = false;
     		}
-    		if (_debug) Log.v("Notification.Notification() 2");
     		_photoID = photoID;
     		if(photoID == 0){
     			_contactPhotoExists = false;
@@ -313,6 +320,7 @@ public class Notification {
     		_callLogID = callLogID;
     		_lookupKey = lookupKey;
     		_rescheduleNumber = rescheduleNumber;
+    		setReminder();
 		}catch(Exception ex){
 			if (_debug) Log.e("Notification.Notification() ==CONSTRUCTOR 5== ERROR: " + ex.toString());
 		}
@@ -323,7 +331,7 @@ public class Notification {
 	 */
 	public Notification(Context context, String sentFromAddress, String messageBody, long timeStamp, long contactID, String contactName, long photoID, long messageID, String lookupKey, String k9EmailUri, String k9EmailDelUri, int notificationType) {
 		_debug = Log.getDebug();
-		if (_debug) Log.v("Notification.Notification(Context context, String sentFromAddress, String messageBody, long timeStamp, long contactID, String contactName, long photoID, long messageID, String lookupKey, String k9EmailUri, String k9EmailDelUri, int notificationType)");
+		if (_debug) Log.v("Notification.Notification() ==CONSTRUCTOR 6==");
 		try{			
 			switch(notificationType){
 				case Constants.NOTIFICATION_TYPE_PHONE:{
@@ -389,6 +397,7 @@ public class Notification {
     			_contactPhotoExists = true;
     		}
     		_lookupKey = lookupKey;
+    		setReminder();
 		}catch(Exception ex){
 			if (_debug) Log.e("Notification.Notification() ==CONSTRUCTOR 6== ERROR: " + ex.toString());
 		}
@@ -743,6 +752,30 @@ public class Notification {
 			}
 		}else if(_notificationType == Constants.NOTIFICATION_TYPE_K9){
 			Common.deleteK9Email(_context, _k9EmailDelUri);
+		}
+	}
+	
+	/**
+	 * Sets the alarm that will remind the user with another popup of the notification.
+	 */
+	public void setReminder(){
+		if (_debug) Log.v("Notification.setReminder() _rescheduleNumber");
+		if(_preferences.getBoolean(Constants.REMINDERS_ENABLED_KEY, false)){
+			long rescheduleTime = System.currentTimeMillis() + Long.parseLong(_preferences.getString(Constants.REMINDER_INTERVAL_KEY, Constants.REMINDER_INTERVAL_DEFAULT));
+			_reminderPendingIntent = Common.rescheduleNotification(_context, this, rescheduleTime, ++_rescheduleNumber);
+		}
+	}
+	
+	/**
+	 * Cancel the reminder alarm.
+	 */
+	public void cancelReminder() {
+		if (_debug) Log.v("Notification.cancelReminder()");
+		if (_reminderPendingIntent != null) {
+	    	AlarmManager alarmManager = (AlarmManager) _context.getSystemService(Context.ALARM_SERVICE);
+	    	alarmManager.cancel(_reminderPendingIntent);
+	    	_reminderPendingIntent.cancel();
+	    	_reminderPendingIntent = null;
 		}
 	}
 	
