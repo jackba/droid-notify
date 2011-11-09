@@ -62,6 +62,22 @@ public class RescheduleBroadcastReceiverService extends WakefulIntentService {
 			}
 		    Bundle bundle = intent.getExtras();
 		    int notificationType = bundle.getInt("notificationType");
+			int rescheduleNumber = bundle.getInt("rescheduleNumber");
+			//Determine if the notification should be rescheduled or not.
+			boolean displayNotification = true;
+			if(preferences.getBoolean(Constants.REMINDERS_ENABLED_KEY, false)){	
+				int maxRescheduleAttempts = Integer.parseInt(preferences.getString(Constants.REMINDER_FREQUENCY_KEY, Constants.REMINDER_FREQUENCY_DEFAULT));
+				if(maxRescheduleAttempts < 0){
+					//Infinite Attempts.
+					displayNotification = true;
+				}else if(rescheduleNumber > maxRescheduleAttempts){
+					displayNotification = false;
+				}
+			}
+			if(!displayNotification){
+				if (_debug) Log.v("RescheduleBroadcastReceiverService.doWakefulWork() Rescheduling Disabled or Max reschedule attempts made. Exiting...");
+				return;
+			}
 		    //Check the state of the users phone.
 		    TelephonyManager telemanager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 		    boolean rescheduleNotification = false;
