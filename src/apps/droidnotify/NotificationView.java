@@ -571,13 +571,15 @@ public class NotificationView extends LinearLayout {
 				_notificationDetailsTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, Float.parseFloat(_preferences.getString(Constants.NOTIFICATION_BODY_FONT_SIZE_KEY, Constants.NOTIFICATION_BODY_FONT_SIZE_DEFAULT)));
 			}
 		}else{
+			//Show/Hide Contact Name
 			if(_preferences.getBoolean(Constants.CONTACT_NAME_DISPLAY_KEY, true)){
 				_contactNameTextView.setText(notification.getContactName());
 				_contactNameTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, Float.parseFloat(_preferences.getString(Constants.CONTACT_NAME_SIZE_KEY, Constants.CONTACT_NAME_SIZE_DEFAULT)));
 				_contactNameTextView.setVisibility(View.VISIBLE);
 			}else{
 				_contactNameTextView.setVisibility(View.GONE);
-			}		
+			}
+			//Show/Hide Contact Number
 			if(_preferences.getBoolean(Constants.CONTACT_NUMBER_DISPLAY_KEY, true)){
 				String sentFromAddress = notification.getSentFromAddress();
 			    if(sentFromAddress.contains("@")){
@@ -590,6 +592,22 @@ public class NotificationView extends LinearLayout {
 			}else{
 				_contactNumberTextView.setVisibility(View.GONE);
 			}
+			//Show/Hide Contact Photo
+			if(_preferences.getBoolean(Constants.CONTACT_PHOTO_DISPLAY_KEY, true)){
+				//Set Contact Photo Background
+				int contactPhotoBackground = Integer.parseInt(_preferences.getString(Constants.CONTACT_PHOTO_BACKGKROUND_KEY, "0"));
+				if(contactPhotoBackground == 1){
+					_photoImageView.setBackgroundResource(R.drawable.image_picture_frame_froyo);
+				}else if(contactPhotoBackground == 2){
+					_photoImageView.setBackgroundResource(R.drawable.image_picture_frame_gingerbread);
+				}else{
+					_photoImageView.setBackgroundResource(R.drawable.image_picture_frame_white);
+				}
+			}else{
+				_photoImageView.setVisibility(View.GONE);
+				_photoProgressBar.setVisibility(View.GONE);
+				loadContactPhoto = false;
+			}
 		    //Add the Quick Contact Android Widget to the Contact Photo.
 		    setupQuickContact();
 		}
@@ -599,39 +617,6 @@ public class NotificationView extends LinearLayout {
 			}else{
 				//Set Message Body Font
 				_notificationDetailsTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, Float.parseFloat(_preferences.getString(Constants.NOTIFICATION_BODY_FONT_SIZE_KEY, Constants.NOTIFICATION_BODY_FONT_SIZE_DEFAULT)));
-			}
-			//Contact Display Settings
-			if(_preferences.getBoolean(Constants.SMS_HIDE_CONTACT_PANEL_ENABLED_KEY, false)){
-				_photoImageView.setVisibility(View.GONE);
-				_photoProgressBar.setVisibility(View.GONE);
-				_contactNameTextView.setVisibility(View.GONE);
-				_contactNumberTextView.setVisibility(View.GONE);
-				loadContactPhoto = false;
-			}else{
-				//Show/Hide Contact Photo
-				if(_preferences.getBoolean(Constants.SMS_HIDE_CONTACT_PHOTO_ENABLED_KEY, false)){
-					_photoImageView.setVisibility(View.GONE);
-					_photoProgressBar.setVisibility(View.GONE);
-					loadContactPhoto = false;
-				}else{
-					//Set Contact Photo Background
-					int contactPhotoBackground = Integer.parseInt(_preferences.getString(Constants.CONTACT_PHOTO_BACKGKROUND_KEY, "0"));
-					if(contactPhotoBackground == 1){
-						_photoImageView.setBackgroundResource(R.drawable.image_picture_frame_froyo);
-					}else if(contactPhotoBackground == 2){
-						_photoImageView.setBackgroundResource(R.drawable.image_picture_frame_gingerbread);
-					}else{
-						_photoImageView.setBackgroundResource(R.drawable.image_picture_frame_white);
-					}
-				}
-				//Show/Hide Contact Name
-				if(_preferences.getBoolean(Constants.SMS_HIDE_CONTACT_NAME_ENABLED_KEY, false)){
-					_contactNameTextView.setVisibility(View.GONE);
-				}
-				//Show/Hide Contact Number
-				if(_preferences.getBoolean(Constants.SMS_HIDE_CONTACT_NUMBER_ENABLED_KEY, false)){
-					_contactNumberTextView.setVisibility(View.GONE);
-				}
 			}
 		}else if(_notificationType == Constants.NOTIFICATION_TYPE_MMS){
 			_notificationDetailsTextView.setVisibility(View.GONE);
@@ -643,113 +628,14 @@ public class NotificationView extends LinearLayout {
 				//Set Message Body Font
 				_mmsLinkTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, Float.parseFloat(_preferences.getString(Constants.NOTIFICATION_BODY_FONT_SIZE_KEY, Constants.NOTIFICATION_BODY_FONT_SIZE_DEFAULT)));
 			}
-			//Contact Display Settings
-			if(_preferences.getBoolean(Constants.MMS_HIDE_CONTACT_PANEL_ENABLED_KEY, false)){
-				_photoImageView.setVisibility(View.GONE);
-				_photoProgressBar.setVisibility(View.GONE);
-				_contactNameTextView.setVisibility(View.GONE);
-				_contactNumberTextView.setVisibility(View.GONE);
-				loadContactPhoto = false;
-			}else{
-				//Show/Hide Contact Photo
-				if(_preferences.getBoolean(Constants.MMS_HIDE_CONTACT_PHOTO_ENABLED_KEY, false)){
-					_photoImageView.setVisibility(View.GONE);
-					_photoProgressBar.setVisibility(View.GONE);
-					loadContactPhoto = false;
-				}else{
-					//Set Contact Photo Background
-					int contactPhotoBackground = Integer.parseInt(_preferences.getString(Constants.CONTACT_PHOTO_BACKGKROUND_KEY, "0"));
-					if(contactPhotoBackground == 1){
-						_photoImageView.setBackgroundResource(R.drawable.image_picture_frame_froyo);
-					}else if(contactPhotoBackground == 2){
-						_photoImageView.setBackgroundResource(R.drawable.image_picture_frame_gingerbread);
-					}else{
-						_photoImageView.setBackgroundResource(R.drawable.image_picture_frame_white);
-					}
-				}
-				//Show/Hide Contact Name
-				if(_preferences.getBoolean(Constants.MMS_HIDE_CONTACT_NAME_ENABLED_KEY, false)){
-					_contactNameTextView.setVisibility(View.GONE);
-				}
-				//Show/Hide Contact Number
-				if(_preferences.getBoolean(Constants.MMS_HIDE_CONTACT_NUMBER_ENABLED_KEY, false)){
-					_contactNumberTextView.setVisibility(View.GONE);
-				}
-			}
 		}else if(_notificationType == Constants.NOTIFICATION_TYPE_PHONE){
 			_notificationDetailsTextView.setVisibility(View.GONE);
-			//Contact Display Settings
-			if(_preferences.getBoolean(Constants.PHONE_HIDE_CONTACT_PANEL_ENABLED_KEY, false)){
-				_photoImageView.setVisibility(View.GONE);
-				_photoProgressBar.setVisibility(View.GONE);
-				_contactNameTextView.setVisibility(View.GONE);
-				_contactNumberTextView.setVisibility(View.GONE);
-				loadContactPhoto = false;
-			}else{
-				//Show/Hide Contact Photo
-				if(_preferences.getBoolean(Constants.PHONE_HIDE_CONTACT_PHOTO_ENABLED_KEY, false)){
-					_photoImageView.setVisibility(View.GONE);
-					_photoProgressBar.setVisibility(View.GONE);
-					loadContactPhoto = false;
-				}else{
-					//Set Contact Photo Background
-					int contactPhotoBackground = Integer.parseInt(_preferences.getString(Constants.CONTACT_PHOTO_BACKGKROUND_KEY, "0"));
-					if(contactPhotoBackground == 1){
-						_photoImageView.setBackgroundResource(R.drawable.image_picture_frame_froyo);
-					}else if(contactPhotoBackground == 2){
-						_photoImageView.setBackgroundResource(R.drawable.image_picture_frame_gingerbread);
-					}else{
-						_photoImageView.setBackgroundResource(R.drawable.image_picture_frame_white);
-					}
-				}
-				//Show/Hide Contact Name
-				if(_preferences.getBoolean(Constants.PHONE_HIDE_CONTACT_NAME_ENABLED_KEY, false)){
-					_contactNameTextView.setVisibility(View.GONE);
-				}
-				//Show/Hide Contact Number
-				if(_preferences.getBoolean(Constants.PHONE_HIDE_CONTACT_NUMBER_ENABLED_KEY, false)){
-					_contactNumberTextView.setVisibility(View.GONE);
-				}
-			}
 		}else if(_notificationType == Constants.NOTIFICATION_TYPE_K9){
 			if(_preferences.getBoolean(Constants.K9_HIDE_NOTIFICATION_BODY_KEY, false)){
 				_notificationDetailsTextView.setVisibility(View.GONE);
 			}else{
 				//Set Message Body Font
 				_notificationDetailsTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, Float.parseFloat(_preferences.getString(Constants.NOTIFICATION_BODY_FONT_SIZE_KEY, Constants.NOTIFICATION_BODY_FONT_SIZE_DEFAULT)));
-			}
-			//Contact Display Settings
-			if(_preferences.getBoolean(Constants.K9_HIDE_CONTACT_PANEL_ENABLED_KEY, false)){
-				_photoImageView.setVisibility(View.GONE);
-				_photoProgressBar.setVisibility(View.GONE);
-				_contactNameTextView.setVisibility(View.GONE);
-				_contactNumberTextView.setVisibility(View.GONE);
-				loadContactPhoto = false;
-			}else{
-				//Show/Hide Contact Photo
-				if(_preferences.getBoolean(Constants.K9_HIDE_CONTACT_PHOTO_ENABLED_KEY, false)){
-					_photoImageView.setVisibility(View.GONE);
-					_photoProgressBar.setVisibility(View.GONE);
-					loadContactPhoto = false;
-				}else{
-					//Set Contact Photo Background
-					int contactPhotoBackground = Integer.parseInt(_preferences.getString(Constants.CONTACT_PHOTO_BACKGKROUND_KEY, "0"));
-					if(contactPhotoBackground == 1){
-						_photoImageView.setBackgroundResource(R.drawable.image_picture_frame_froyo);
-					}else if(contactPhotoBackground == 2){
-						_photoImageView.setBackgroundResource(R.drawable.image_picture_frame_gingerbread);
-					}else{
-						_photoImageView.setBackgroundResource(R.drawable.image_picture_frame_white);
-					}
-				}
-				//Show/Hide Contact Name
-				if(_preferences.getBoolean(Constants.K9_HIDE_CONTACT_NAME_ENABLED_KEY, false)){
-					_contactNameTextView.setVisibility(View.GONE);
-				}
-				//Show/Hide Contact Number
-				if(_preferences.getBoolean(Constants.K9_HIDE_CONTACT_NUMBER_ENABLED_KEY, false)){
-					_contactNumberTextView.setVisibility(View.GONE);
-				}
 			}
 		}
 	    //Load the notification message.

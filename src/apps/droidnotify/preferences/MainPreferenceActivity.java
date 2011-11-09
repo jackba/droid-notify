@@ -120,18 +120,6 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		if(key.equals(Constants.MMS_REPLY_BUTTON_ACTION_KEY)){
 			//Quick Reply Settings
 			updateQuickReplySettings();
-		}
-		if(key.equals(Constants.SMS_HIDE_CONTACT_PANEL_ENABLED_KEY)){
-			//Update SMS Contact Info Display
-			updateSMSContactInfoSetting();
-		}
-		if(key.equals(Constants.MMS_HIDE_CONTACT_PANEL_ENABLED_KEY)){
-			//Update MMS Contact Info Display
-			updateMMSContactInfoSetting();
-		}
-		if(key.equals(Constants.PHONE_HIDE_CONTACT_PANEL_ENABLED_KEY)){
-			//Update Phone Contact Info Display
-			updatePhoneContactInfoSetting();
 		}	
 		//Update Status Bar Notification Preferences
 		if(key.equals(Constants.SMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY)){
@@ -1335,9 +1323,6 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	private void initPreferencesStates(){
 		if (_debug) Log.v("MainPreferenceActivity.initPreferencesStates()");
 		updateQuickReplySettings();
-		updateSMSContactInfoSetting();
-		updateMMSContactInfoSetting();
-		updatePhoneContactInfoSetting();
 		updateStatusBarNotificationVibrate(Constants.NOTIFICATION_TYPE_SMS);
 		updateStatusBarNotificationVibrate(Constants.NOTIFICATION_TYPE_MMS);
 		updateStatusBarNotificationVibrate(Constants.NOTIFICATION_TYPE_PHONE);
@@ -1368,60 +1353,6 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			if(quickReplyPreferenceScreen != null) quickReplyPreferenceScreen.setEnabled(quickReplySMSGatewayEnabled);
 		}catch(Exception ex){
 			if (_debug) Log.e("MainPreferenceActivity.updateQuickReplySettings() ERROR: " + ex.toString());
-		}
-	}
-	
-	/**
-	 * Updates the availability of the SMS Contact Info Settings.
-	 */
-	private void updateSMSContactInfoSetting(){
-		if (_debug) Log.v("MainPreferenceActivity.updateSMSContactInfoSetting()");
-		try{
-			boolean contactInfoDisplaySettingsEnabled = _preferences.getBoolean(Constants.SMS_HIDE_CONTACT_PANEL_ENABLED_KEY, false);
-			CheckBoxPreference hideContactPhoto = (CheckBoxPreference) findPreference(Constants.SMS_HIDE_CONTACT_PHOTO_ENABLED_KEY);
-			if(hideContactPhoto != null) hideContactPhoto.setEnabled(!contactInfoDisplaySettingsEnabled);
-			CheckBoxPreference hideContactName = (CheckBoxPreference) findPreference(Constants.SMS_HIDE_CONTACT_NAME_ENABLED_KEY);
-			if(hideContactName != null) hideContactName.setEnabled(!contactInfoDisplaySettingsEnabled);
-			CheckBoxPreference hideContactNumber = (CheckBoxPreference) findPreference(Constants.SMS_HIDE_CONTACT_NUMBER_ENABLED_KEY);
-			if(hideContactNumber != null) hideContactNumber.setEnabled(!contactInfoDisplaySettingsEnabled);
-		}catch(Exception ex){
-			if (_debug) Log.e("MainPreferenceActivity.updateSMSContactInfoSetting() ERROR: " + ex.toString());
-		}
-	}
-	
-	/**
-	 * Updates the availability of the MMS Contact Info Settings.
-	 */
-	private void updateMMSContactInfoSetting(){
-		if (_debug) Log.v("MainPreferenceActivity.updateMMSContactInfoSetting()");
-		try{
-			boolean contactInfoDisplaySettingsEnabled = _preferences.getBoolean(Constants.MMS_HIDE_CONTACT_PANEL_ENABLED_KEY, false);
-			CheckBoxPreference hideContactPhoto = (CheckBoxPreference) findPreference(Constants.MMS_HIDE_CONTACT_PHOTO_ENABLED_KEY);
-			if(hideContactPhoto != null) hideContactPhoto.setEnabled(!contactInfoDisplaySettingsEnabled);
-			CheckBoxPreference hideContactName = (CheckBoxPreference) findPreference(Constants.MMS_HIDE_CONTACT_NAME_ENABLED_KEY);
-			if(hideContactName != null) hideContactName.setEnabled(!contactInfoDisplaySettingsEnabled);
-			CheckBoxPreference hideContactNumber = (CheckBoxPreference) findPreference(Constants.MMS_HIDE_CONTACT_NUMBER_ENABLED_KEY);
-			if(hideContactNumber != null) hideContactNumber.setEnabled(!contactInfoDisplaySettingsEnabled);
-		}catch(Exception ex){
-			if (_debug) Log.e("MainPreferenceActivity.updateMMSContactInfoSetting() ERROR: " + ex.toString());
-		}
-	}
-	
-	/**
-	 * Updates the availability of the Phone Contact Info Settings.
-	 */
-	private void updatePhoneContactInfoSetting(){
-		if (_debug) Log.v("MainPreferenceActivity.updatePhoneContactInfoSetting()");
-		try{
-			boolean contactInfoDisplaySettingsEnabled = _preferences.getBoolean(Constants.PHONE_HIDE_CONTACT_PANEL_ENABLED_KEY, false);
-			CheckBoxPreference hideContactPhoto = (CheckBoxPreference) findPreference(Constants.PHONE_HIDE_CONTACT_PHOTO_ENABLED_KEY);
-			if(hideContactPhoto != null) hideContactPhoto.setEnabled(!contactInfoDisplaySettingsEnabled);
-			CheckBoxPreference hideContactName = (CheckBoxPreference) findPreference(Constants.PHONE_HIDE_CONTACT_NAME_ENABLED_KEY);
-			if(hideContactName != null) hideContactName.setEnabled(!contactInfoDisplaySettingsEnabled);
-			CheckBoxPreference hideContactNumber = (CheckBoxPreference) findPreference(Constants.PHONE_HIDE_CONTACT_NUMBER_ENABLED_KEY);
-			if(hideContactNumber != null) hideContactNumber.setEnabled(!contactInfoDisplaySettingsEnabled);
-		}catch(Exception ex){
-			if (_debug) Log.e("MainPreferenceActivity.updatePhoneContactInfoSetting() ERROR: " + ex.toString());
 		}
 	}
 	
