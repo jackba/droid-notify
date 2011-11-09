@@ -84,7 +84,25 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 */
 	public void addNotification(Notification notification) {
 		if (_debug) Log.v("NotificationViewFlipper.addNotification()");
-		if(!containsNotification(notification)){
+		//if(!containsNotification(notification)){
+		//	_notifications.add(notification);
+		//	_totalNotifications = _notifications.size();
+		//	addView(new NotificationView(_context, notification));
+		//	//Update the navigation information on the current View every time a new View is added.
+		//	final View nextView = this.getChildAt(_currentNotification);
+		//	updateViewNavigationButtons(nextView);
+		//}
+		boolean duplicateFound = false;
+		for (Notification currentNotification : _notifications) {
+			if(notification.getSentFromAddress().equals(currentNotification.getSentFromAddress()) && notification.getTimeStamp() == currentNotification.getTimeStamp()){
+				duplicateFound = true;
+				//Update Notification Information
+				currentNotification.setReminderPendingIntent(notification.getReminderPendingIntent());
+				currentNotification.setRescheduleNumber(notification.getRescheduleNumber());
+				break;
+			}
+		}
+		if(!duplicateFound){
 			_notifications.add(notification);
 			_totalNotifications = _notifications.size();
 			addView(new NotificationView(_context, notification));
@@ -99,8 +117,8 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 */
 	public void removeActiveNotification(boolean reschedule) {
 		if (_debug) Log.v("NotificationViewFlipper.removeActiveNotification()");
-		removeNotification(_currentNotification, reschedule); 
 		Notification notification =  getActiveNotification();
+		removeNotification(_currentNotification, reschedule);
 		//Clear the status bar notification.
     	Common.clearNotification(_context, this, notification.getNotificationType(), _totalNotifications);
     	//Cancel the notification reminder.
@@ -195,7 +213,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 					//The notification will remove ALL messages for this thread from the phone for us.
 					notification.deleteMessage();
 					//Remove all Notifications with the thread ID.
-					removeNotifications(notification.getThreadID());
+					removeNotificationsByThread(notification.getThreadID());
 				}
 				break;
 			}
@@ -209,13 +227,11 @@ public class NotificationViewFlipper extends ViewFlipper {
 					//Remove the notification from the ViewFlipper
 					removeActiveNotification(false);
 				}else if(_preferences.getString(Constants.MMS_DELETE_KEY, "0").equals(Constants.MMS_DELETE_ACTION_DELETE_THREAD)){
-					//Remove all Notifications with the thread ID.
-					removeNotifications(notification.getThreadID());
 					//Delete the current message from the users phone.
 					//The notification will remove ALL messages for this thread from the phone for us.
 					notification.deleteMessage();
 					//Remove all Notifications with the thread ID.
-					removeNotifications(notification.getThreadID());
+					removeNotificationsByThread(notification.getThreadID());
 				}
 				break;
 			}
@@ -459,7 +475,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 * 
 	 * @param threadID - Thread ID of the Notifications to be removed.
 	 */ 
-	private void removeNotifications(long threadID){
+	private void removeNotificationsByThread(long threadID){
 		if (_debug) Log.v("NotificationViewFlipper.removeNotifications() Thread ID: " + threadID);
 		//Must iterate backwards through this collection.
 		//By removing items from the end, we don't have to worry about shifting index numbers as we would if we removed from the beginning.
@@ -470,7 +486,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 		    	//Cancel the notification reminder.
 		    	notification.cancelReminder();
 			}
-		}		
+		}
 		//Clear the status bar notification for SMS & MMS types.
 		Common.clearNotification(_context, this, Constants.NOTIFICATION_TYPE_SMS, _totalNotifications);
     	Common.clearNotification(_context, this, Constants.NOTIFICATION_TYPE_MMS, _totalNotifications);
@@ -487,21 +503,21 @@ public class NotificationViewFlipper extends ViewFlipper {
 		notification.setViewed(true);
 	}
 	
-	/**
-	 * Checks the ViewFlipper's notification ArrayList and returns true if it contains this particular Notification.
-	 * 
-	 * @param newNotification - New Notification to compare.
-	 * 
-	 * @return boolean - Returns true if the ArrayList contains the passed in Notification.
-	 */
-	private boolean containsNotification(Notification newNotification) {
-		if (_debug) Log.v("NotificationViewFlipper.containsNotification()");
-		for (Notification currentNotification : _notifications) {
-			if(newNotification.getSentFromAddress() == currentNotification.getSentFromAddress() && newNotification.getTimeStamp() == currentNotification.getTimeStamp()){
-				return true;
-			}
-		}
-		return false;
-	}
+//	/**
+//	 * Checks the ViewFlipper's notification ArrayList and returns true if it contains this particular Notification.
+//	 * 
+//	 * @param newNotification - New Notification to compare.
+//	 * 
+//	 * @return boolean - Returns true if the ArrayList contains the passed in Notification.
+//	 */
+//	private boolean containsNotification(Notification newNotification) {
+//		if (_debug) Log.v("NotificationViewFlipper.containsNotification()");
+//		for (Notification currentNotification : _notifications) {
+//			if(newNotification.getSentFromAddress().equals(currentNotification.getSentFromAddress()) && newNotification.getTimeStamp() == currentNotification.getTimeStamp()){
+//				return true;
+//			}
+//		}
+//		return false;
+//	}
 	
 }
