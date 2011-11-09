@@ -80,12 +80,7 @@ Notifications
    * Show/Hide Button Settings
     * Hide Dismiss Button
     * Hide Delete Button
-    * Hide Reply Button
-  * Contact Display Settings
-   * Hide All Contact Info
-   * Hide Contact Photo
-   * Hide Contact Name
-   * Hide Contact Number  
+    * Hide Reply Button 
 
  * *_MMS Notifications_*
   * Enable MMS Notifications
@@ -114,12 +109,7 @@ Notifications
    * Show/Hide Button Settings
     * Hide Dismiss Button
     * Hide Delete Button
-    * Hide Reply Button
-  * Contact Display Settings
-   * Hide All Contact Info
-   * Hide Contact Photo
-   * Hide Contact Name
-   * Hide Contact Number       
+    * Hide Reply Button      
 
  * *_Missed Call Notifications_*
   * Enable Missed Call Notifications
@@ -142,12 +132,7 @@ Notifications
    * Notification Count Action
    * Show/Hide Button Settings
     * Hide Dismiss Button
-    * Hide Call Button
-  * Contact Display Settings
-   * Hide All Contact Info
-   * Hide Contact Photo
-   * Hide Contact Name
-   * Hide Contact Number      
+    * Hide Call Button     
 
  * *_Calendar Notifications_*
   * Enable Calendar Notifications
