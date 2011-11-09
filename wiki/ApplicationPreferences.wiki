@@ -1,5 +1,5 @@
 #summary Outline of the Application Preferences
-#labels Featured
+#labels uency
 
 = Application Preferences =
 
@@ -19,13 +19,28 @@ Basic Settings
  * Time Format
  * Date Format
  * Display Button Icons
+ * Hide Reschedule Button
  * Hide Single Message Header
  * Display Type Icon
  * Type Font Size
  * Contact Placeholder Image
  * Contact Photo Background
  * Contact Photo Size
+ * Display Contact Name
+ * Contact Name Size
+ * Display Contact Number
+ * Contact Number Size
  * Notification Body Font Size
+ * Enable Reminders
+ * Reminder Settings
+  * Reminder Frequency
+  * Reminder Interval
+ * Enable Quiet Time
+ * Quiet Time Settings
+  * Time Of Week Settings
+  * Quiet Period Settings
+ * Reschedule Settings
+  * Reschedule Time
  * Quick Reply Settings
   * Save Draft
   * Blur Screen Background
