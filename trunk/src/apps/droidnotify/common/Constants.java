@@ -93,6 +93,7 @@ public class Constants {
 	public static final String REMINDER_INTERVAL_DEFAULT = "60";
 	
 	//-----CONTACT PHOTO CONSTANTS-----//
+	public static final String CONTACT_PHOTO_DISPLAY_KEY = "display_contact_photo_enabled";
     public static final String CONTACT_PLACEHOLDER_KEY = "contact_placeholder";
     public static final String CONTACT_PHOTO_BACKGKROUND_KEY = "contact_photo_background";
 	public static final String CONTACT_PHOTO_SIZE_KEY = "contact_photo_size";
@@ -145,6 +146,7 @@ public class Constants {
 	public static final String XPERIA_THEME = "theme_xperia";
 	
 	//-----PHONE NUMBER FORMAT CONSTANTS-----//
+	public static final String PHONE_NUMBER_FORMAT_10_DIGITS_ONLY_KEY = "phone_number_format_10_digits_only";
 	public static final String PHONE_NUMBER_FORMAT_KEY = "phone_number_format_settings";
 	public static final String PHONE_NUMBER_FORMAT_DEFAULT = "1";
 	public static final int PHONE_NUMBER_FORMAT_1 = 1;
@@ -155,6 +157,9 @@ public class Constants {
 	public static final int PHONE_NUMBER_FORMAT_6 = 6;
 	public static final int PHONE_NUMBER_FORMAT_7 = 7;
 	public static final int PHONE_NUMBER_FORMAT_8 = 8;
+	public static final int PHONE_NUMBER_FORMAT_9 = 9;
+	public static final int PHONE_NUMBER_FORMAT_10 = 10;
+	public static final int PHONE_NUMBER_FORMAT_11 = 11;
 	
 	//-----TIME FORMAT CONSTANTS-----//
 	public static final String RUN_ONCE_DATE_TIME_FORMAT = "runOnceDateTimeFormat";
@@ -228,11 +233,7 @@ public class Constants {
 	public static final String SMS_TIMEOUT_KEY = "sms_timeout_settings";
 	public static final String SMS_DELETE_KEY = "sms_delete_button_action";	
 	public static final String SMS_TIMESTAMP_ADJUSTMENT_KEY = "sms_timestamp_adjustment_settings";
-	public static final String SMS_LOADING_SETTING_KEY = "sms_loading_settings";
-	public static final String SMS_HIDE_CONTACT_PANEL_ENABLED_KEY = "sms_hide_contact_panel_enabled";
-	public static final String SMS_HIDE_CONTACT_PHOTO_ENABLED_KEY = "sms_hide_contact_photo_enabled";
-	public static final String SMS_HIDE_CONTACT_NAME_ENABLED_KEY = "sms_hide_contact_name_enabled";
-	public static final String SMS_HIDE_CONTACT_NUMBER_ENABLED_KEY = "sms_hide_contact_number_enabled"; 
+	public static final String SMS_LOADING_SETTING_KEY = "sms_loading_settings"; 
     public static final String SMS_HIDE_NOTIFICATION_BODY_KEY = "sms_hide_notification_body_enabled";
 	public static final String SMS_REPLY_BUTTON_ACTION_KEY = "sms_reply_button_action";
 	public static final String SMS_HIDE_DISMISS_BUTTON_KEY = "sms_hide_dismiss_button_enabled";
@@ -255,10 +256,6 @@ public class Constants {
 	public static final String MMS_BLOCKING_APP_RUNNING_ACTION_KEY = "messaging_app_running_action_mms";
 	public static final String MMS_TIMEOUT_KEY = "mms_timeout_settings";
 	public static final String MMS_DELETE_KEY = "mms_delete_button_action";
-	public static final String MMS_HIDE_CONTACT_PANEL_ENABLED_KEY = "mms_hide_contact_panel_enabled";
-	public static final String MMS_HIDE_CONTACT_PHOTO_ENABLED_KEY = "mms_hide_contact_photo_enabled";
-	public static final String MMS_HIDE_CONTACT_NAME_ENABLED_KEY = "mms_hide_contact_name_enabled";
-	public static final String MMS_HIDE_CONTACT_NUMBER_ENABLED_KEY = "mms_hide_contact_number_enabled";	 
     public static final String MMS_HIDE_NOTIFICATION_BODY_KEY = "mms_hide_notification_body_enabled";
 	public static final String MMS_REPLY_BUTTON_ACTION_KEY = "mms_reply_button_action";
 	public static final String MMS_HIDE_DISMISS_BUTTON_KEY = "mms_hide_dismiss_button_enabled";
@@ -281,10 +278,6 @@ public class Constants {
 	public static final String PHONE_BLOCKING_APP_RUNNING_ACTION_KEY = "messaging_app_running_action_missed_call";
 	public static final String CALL_LOG_TIMEOUT_KEY = "call_log_timeout_settings";
 	public static final String PHONE_DISMISS_BUTTON_ACTION_KEY = "missed_call_loading_settings";
-	public static final String PHONE_HIDE_CONTACT_PANEL_ENABLED_KEY = "missed_call_hide_contact_panel_enabled";
-	public static final String PHONE_HIDE_CONTACT_NUMBER_ENABLED_KEY = "missed_call_hide_contact_number_enabled";
-	public static final String PHONE_HIDE_CONTACT_PHOTO_ENABLED_KEY = "missed_call_hide_contact_photo_enabled";
-	public static final String PHONE_HIDE_CONTACT_NAME_ENABLED_KEY = "missed_call_hide_contact_name_enabled";
 	public static final String PHONE_HIDE_DISMISS_BUTTON_KEY = "missed_call_hide_dismiss_button_enabled";
 	public static final String PHONE_HIDE_CALL_BUTTON_KEY = "missed_call_hide_call_button_enabled";
 	public static final String PHONE_NOTIFICATION_COUNT_ACTION_KEY = "missed_call_notification_count_action";
@@ -343,10 +336,6 @@ public class Constants {
 	//-----K9 NOTIFICATION CONSTANTS-----//
 	public static final String K9_BLOCKING_APP_RUNNING_ACTION_KEY = "messaging_app_running_action_k9";
 	public static final String K9_DELETE_KEY = "k9_delete_button_action";
-	public static final String K9_HIDE_CONTACT_PANEL_ENABLED_KEY = "k9_hide_contact_panel_enabled";
-	public static final String K9_HIDE_CONTACT_PHOTO_ENABLED_KEY = "k9_hide_contact_photo_enabled";
-	public static final String K9_HIDE_CONTACT_NAME_ENABLED_KEY = "k9_hide_contact_name_enabled";
-	public static final String K9_HIDE_CONTACT_NUMBER_ENABLED_KEY = "k9_hide_contact_email_enabled"; 
     public static final String K9_HIDE_NOTIFICATION_BODY_KEY = "k9_hide_notification_body_enabled";
 	public static final String K9_REPLY_BUTTON_ACTION_KEY = "k9_reply_button_action";
 	public static final String K9_HIDE_DISMISS_BUTTON_KEY = "k9_hide_dismiss_button_enabled";

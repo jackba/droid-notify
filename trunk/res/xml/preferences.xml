@@ -40,6 +40,11 @@
 					android:entryValues="@array/theme_values"
 					droidnotify:entryImages="@array/theme_images"
 					android:defaultValue="android" />
+				<CheckBoxPreference
+					android:key="phone_number_format_10_digits_only" 
+					android:title="@string/preference_phone_number_format_10_digits_only_title" 
+					android:summary="@string/preference_phone_number_format_10_digits_only_summary"
+					android:defaultValue="false" />
 				<ListPreference
 					android:key="phone_number_format_settings"
 					android:title="@string/preference_phone_number_format"
@@ -97,6 +102,12 @@
 					android:entries="@array/font_size_options"
 					android:entryValues="@array/font_size_options_values"
 					android:dependency="notification_type_info_icon_enabled" />
+				<CheckBoxPreference
+					android:key="display_contact_photo_enabled" 
+					android:title="@string/preference_display_contact_photo_title" 
+					android:summaryOn="@string/preference_display_contact_photo_summaryOn" 
+					android:summaryOff="@string/preference_display_contact_photo_summaryOff" 
+					android:defaultValue="true" />
 				<apps.droidnotify.preferences.ImageListPreference
 					android:key="contact_placeholder"
 					android:title="@string/preference_contact_placeholder_image"
@@ -104,7 +115,8 @@
 					android:entries="@array/contact_placeholder_options"
 					android:entryValues="@array/contact_placeholder_options_values"
 					android:defaultValue="0"
-					droidnotify:entryImages="@array/contact_placeholder_images" />
+					droidnotify:entryImages="@array/contact_placeholder_images"
+					android:dependency="display_contact_photo_enabled" />
 				<apps.droidnotify.preferences.ImageListPreference
 					android:key="contact_photo_background"
 					android:title="@string/preference_contact_photo_background"
@@ -112,14 +124,16 @@
 					android:entries="@array/contact_photo_background_options"
 					android:entryValues="@array/contact_photo_background_options_values"
 					android:defaultValue="0"
-					droidnotify:entryImages="@array/contact_photo_background_images" />
+					droidnotify:entryImages="@array/contact_photo_background_images"
+					android:dependency="display_contact_photo_enabled" />
 				<ListPreference
 					android:key="contact_photo_size"
 					android:title="@string/preference_contact_photo_size"
 					android:summary="@string/preference_contact_photo_size_summary"
 					android:defaultValue="80"
 					android:entries="@array/contact_photo_size_options"
-					android:entryValues="@array/contact_photo_size_options_values" />
+					android:entryValues="@array/contact_photo_size_options_values"
+					android:dependency="display_contact_photo_enabled" />
 				<CheckBoxPreference
 					android:key="display_contact_name_enabled" 
 					android:title="@string/preference_hide_contact_name_enabled_title" 
@@ -518,39 +532,6 @@
 							</PreferenceCategory>
 						</PreferenceScreen>	
 					</PreferenceCategory>
-					<PreferenceCategory
-						android:key="sms_contact_display_settings_category"
-						android:title="@string/contact_display_settings_text">
-						<PreferenceScreen
-							android:key="sms_contact_display_settings_screen"
-							android:title="@string/contact_display_settings_text"
-							android:dependency="sms_notifications_enabled">
-							<CheckBoxPreference 
-								android:key="sms_hide_contact_panel_enabled" 
-								android:title="@string/hide_contact_panel_text" 
-								android:summaryOn="@string/preference_sms_hide_contact_panel_enabled_summaryOn" 
-								android:summaryOff="@string/preference_sms_hide_contact_panel_enabled_summaryOff" 
-								android:defaultValue="false" />
-							<CheckBoxPreference 
-								android:key="sms_hide_contact_photo_enabled" 
-								android:title="@string/hide_contact_photo_text" 
-								android:summaryOn="@string/preference_sms_hide_contact_photo_enabled_summaryOn" 
-								android:summaryOff="@string/preference_sms_hide_contact_photo_enabled_summaryOff" 
-								android:defaultValue="false" />
-							<CheckBoxPreference 
-								android:key="sms_hide_contact_name_enabled" 
-								android:title="@string/hide_contact_name_text" 
-								android:summaryOn="@string/preference_sms_hide_contact_name_enabled_summaryOn" 
-								android:summaryOff="@string/preference_sms_hide_contact_name_enabled_summaryOff" 
-								android:defaultValue="false" />
-							<CheckBoxPreference 
-								android:key="sms_hide_contact_number_enabled" 
-								android:title="@string/hide_contact_number_text" 
-								android:summaryOn="@string/preference_sms_hide_contact_number_enabled_summaryOn" 
-								android:summaryOff="@string/preference_sms_hide_contact_number_enabled_summaryOff" 
-								android:defaultValue="false" />
-						</PreferenceScreen>
-					</PreferenceCategory>
 				</PreferenceScreen>		
 			</PreferenceCategory>
 			<PreferenceCategory
@@ -778,40 +759,7 @@
 								</PreferenceScreen>
 							</PreferenceCategory>
 						</PreferenceScreen>	
-					</PreferenceCategory>
-					<PreferenceCategory
-						android:key="mms_contact_display_settings_category"
-						android:title="@string/contact_display_settings_text">
-						<PreferenceScreen
-							android:key="mms_contact_display_settings_screen"
-							android:title="@string/contact_display_settings_text"
-							android:dependency="mms_notifications_enabled">
-							<CheckBoxPreference 
-								android:key="mms_hide_contact_panel_enabled" 
-								android:title="@string/hide_contact_panel_text" 
-								android:summaryOn="@string/preference_mms_hide_contact_panel_enabled_summaryOn" 
-								android:summaryOff="@string/preference_mms_hide_contact_panel_enabled_summaryOff" 
-								android:defaultValue="false" />
-							<CheckBoxPreference 
-								android:key="mms_hide_contact_photo_enabled" 
-								android:title="@string/hide_contact_photo_text" 
-								android:summaryOn="@string/preference_mms_hide_contact_photo_enabled_summaryOn" 
-								android:summaryOff="@string/preference_mms_hide_contact_photo_enabled_summaryOff" 
-								android:defaultValue="false" />
-							<CheckBoxPreference 
-								android:key="mms_hide_contact_name_enabled" 
-								android:title="@string/hide_contact_name_text" 
-								android:summaryOn="@string/preference_mms_hide_contact_name_enabled_summaryOn" 
-								android:summaryOff="@string/preference_mms_hide_contact_name_enabled_summaryOff" 
-								android:defaultValue="false" />
-							<CheckBoxPreference 
-								android:key="mms_hide_contact_number_enabled" 
-								android:title="@string/hide_contact_number_text" 
-								android:summaryOn="@string/preference_mms_hide_contact_number_enabled_summaryOn" 
-								android:summaryOff="@string/preference_mms_hide_contact_number_enabled_summaryOff" 
-								android:defaultValue="false" />
-						</PreferenceScreen>
-					</PreferenceCategory>
+					</PreferenceCategory>					
 				</PreferenceScreen>	
 			</PreferenceCategory>
 			<PreferenceCategory
@@ -998,39 +946,6 @@
 								</PreferenceScreen>
 							</PreferenceCategory>
 						</PreferenceScreen>	
-					</PreferenceCategory>	
-					<PreferenceCategory
-						android:key="missed_call_contact_display_settings_category"
-						android:title="@string/contact_display_settings_text">
-						<PreferenceScreen
-							android:key="missed_call_contact_display_settings_screen"
-							android:title="@string/contact_display_settings_text"
-							android:dependency="missed_call_notifications_enabled">
-							<CheckBoxPreference 
-								android:key="missed_call_hide_contact_panel_enabled" 
-								android:title="@string/hide_contact_panel_text" 
-								android:summaryOn="@string/preference_missed_call_hide_contact_panel_enabled_summaryOn" 
-								android:summaryOff="@string/preference_missed_call_hide_contact_panel_enabled_summaryOff" 
-								android:defaultValue="false" />
-							<CheckBoxPreference 
-								android:key="missed_call_hide_contact_photo_enabled" 
-								android:title="@string/hide_contact_photo_text" 
-								android:summaryOn="@string/preference_missed_call_hide_contact_photo_enabled_summaryOn" 
-								android:summaryOff="@string/preference_missed_call_hide_contact_photo_enabled_summaryOff" 
-								android:defaultValue="false" />
-							<CheckBoxPreference 
-								android:key="missed_call_hide_contact_name_enabled" 
-								android:title="@string/hide_contact_name_text" 
-								android:summaryOn="@string/preference_missed_call_hide_contact_name_enabled_summaryOn" 
-								android:summaryOff="@string/preference_missed_call_hide_contact_name_enabled_summaryOff" 
-								android:defaultValue="false" />
-							<CheckBoxPreference 
-								android:key="missed_call_hide_contact_number_enabled" 
-								android:title="@string/hide_contact_number_text" 
-								android:summaryOn="@string/preference_missed_call_hide_contact_number_enabled_summaryOn" 
-								android:summaryOff="@string/preference_missed_call_hide_contact_number_enabled_summaryOff" 
-								android:defaultValue="false" />
-						</PreferenceScreen>
 					</PreferenceCategory>
 				</PreferenceScreen>		
 			</PreferenceCategory>

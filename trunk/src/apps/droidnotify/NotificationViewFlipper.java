@@ -84,22 +84,24 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 */
 	public void addNotification(Notification notification) {
 		if (_debug) Log.v("NotificationViewFlipper.addNotification()");
-		//if(!containsNotification(notification)){
-		//	_notifications.add(notification);
-		//	_totalNotifications = _notifications.size();
-		//	addView(new NotificationView(_context, notification));
-		//	//Update the navigation information on the current View every time a new View is added.
-		//	final View nextView = this.getChildAt(_currentNotification);
-		//	updateViewNavigationButtons(nextView);
-		//}
 		boolean duplicateFound = false;
 		for (Notification currentNotification : _notifications) {
-			if(notification.getSentFromAddress().equals(currentNotification.getSentFromAddress()) && notification.getTimeStamp() == currentNotification.getTimeStamp()){
-				duplicateFound = true;
-				//Update Notification Information
-				currentNotification.setReminderPendingIntent(notification.getReminderPendingIntent());
-				currentNotification.setRescheduleNumber(notification.getRescheduleNumber());
-				break;
+			String notificationSentFromAddress = notification.getSentFromAddress();
+			String currentSentFromAddress = currentNotification.getSentFromAddress();
+			if(notification.getTimeStamp() == currentNotification.getTimeStamp()){
+				if(notificationSentFromAddress == null && currentSentFromAddress == null){
+					duplicateFound = true;
+					//Update Notification Information
+					currentNotification.setReminderPendingIntent(notification.getReminderPendingIntent());
+					currentNotification.setRescheduleNumber(notification.getRescheduleNumber());
+					break;
+				}else if(notificationSentFromAddress != null && currentSentFromAddress != null && notificationSentFromAddress.equals(currentSentFromAddress)){
+					duplicateFound = true;
+					//Update Notification Information
+					currentNotification.setReminderPendingIntent(notification.getReminderPendingIntent());
+					currentNotification.setRescheduleNumber(notification.getRescheduleNumber());
+					break; 
+				}
 			}
 		}
 		if(!duplicateFound){

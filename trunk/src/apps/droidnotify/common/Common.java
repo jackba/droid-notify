@@ -2370,10 +2370,12 @@ public class Common {
 			String numberSeparator = "-";
 			if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_6 || phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_7 | phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_8){
 				numberSeparator = ".";
+			}else if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_9 || phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_10 | phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_11){
+				numberSeparator = " ";
 			}else if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_4){
 				numberSeparator = "";
 			}
-			if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_1 || phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_6){
+			if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_1 || phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_6 || phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_9){
 				if(inputPhoneNumber.length() >= 10){
 					//Format ###-###-#### (e.g.123-456-7890)
 					//Format ###-###-#### (e.g.123.456.7890)
@@ -2386,12 +2388,16 @@ public class Common {
 					}else{
 						outputPhoneNumber.insert(0, inputPhoneNumber.substring(inputPhoneNumber.length() - 10, inputPhoneNumber.length() - 7));
 						outputPhoneNumber.insert(0, numberSeparator);
-						outputPhoneNumber.insert(0, inputPhoneNumber.substring(0, inputPhoneNumber.length() - 10));
+						if(preferences.getBoolean(Constants.PHONE_NUMBER_FORMAT_10_DIGITS_ONLY_KEY , false)){
+							outputPhoneNumber.insert(0, "0");
+						}else{
+							outputPhoneNumber.insert(0, inputPhoneNumber.substring(0, inputPhoneNumber.length() - 10));
+						}
 					}
 				}else{
 					outputPhoneNumber.append(inputPhoneNumber);
 				}
-			}else if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_2 || phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_7){
+			}else if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_2 || phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_7 || phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_10){
 				if(inputPhoneNumber.length() >= 10){
 					//Format ##-###-##### (e.g.12-345-67890)
 					//Format ##-###-##### (e.g.12.345.67890)
@@ -2404,12 +2410,16 @@ public class Common {
 					}else{
 						outputPhoneNumber.insert(0, inputPhoneNumber.substring(inputPhoneNumber.length() - 10, inputPhoneNumber.length() - 8));
 						outputPhoneNumber.insert(0, numberSeparator);
-						outputPhoneNumber.insert(0, inputPhoneNumber.substring(0, inputPhoneNumber.length() - 10));
+						if(preferences.getBoolean(Constants.PHONE_NUMBER_FORMAT_10_DIGITS_ONLY_KEY , false)){
+							outputPhoneNumber.insert(0, "0");
+						}else{
+							outputPhoneNumber.insert(0, inputPhoneNumber.substring(0, inputPhoneNumber.length() - 10));
+						}
 					}
 				}else{
 					outputPhoneNumber.append(inputPhoneNumber);
 				}
-			}else if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_3 || phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_8){
+			}else if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_3 || phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_8 || phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_11){
 				if(inputPhoneNumber.length() >= 10){
 					//Format ##-##-##-##-## (e.g.12-34-56-78-90)
 					//Format ##-##-##-##-## (e.g.12.34.56.78.90)
@@ -2426,7 +2436,11 @@ public class Common {
 					}else{
 						outputPhoneNumber.insert(0, inputPhoneNumber.substring(inputPhoneNumber.length() - 10, inputPhoneNumber.length() - 8));
 						outputPhoneNumber.insert(0, numberSeparator);
-						outputPhoneNumber.insert(0, inputPhoneNumber.substring(0, inputPhoneNumber.length() - 10));
+						if(preferences.getBoolean(Constants.PHONE_NUMBER_FORMAT_10_DIGITS_ONLY_KEY , false)){
+							outputPhoneNumber.insert(0, "0");
+						}else{
+							outputPhoneNumber.insert(0, inputPhoneNumber.substring(0, inputPhoneNumber.length() - 10));
+						}
 					}
 				}else{
 					outputPhoneNumber.append(inputPhoneNumber);
@@ -2447,7 +2461,11 @@ public class Common {
 					}else{
 						outputPhoneNumber.insert(0, inputPhoneNumber.substring(inputPhoneNumber.length() - 10, inputPhoneNumber.length() - 7));
 						outputPhoneNumber.insert(0, " (");
-						outputPhoneNumber.insert(0, inputPhoneNumber.substring(0, inputPhoneNumber.length() - 10));
+						if(preferences.getBoolean(Constants.PHONE_NUMBER_FORMAT_10_DIGITS_ONLY_KEY , false)){
+							outputPhoneNumber.insert(0, "0");
+						}else{
+							outputPhoneNumber.insert(0, inputPhoneNumber.substring(0, inputPhoneNumber.length() - 10));
+						}
 					}
 				}else{
 					outputPhoneNumber.append(inputPhoneNumber);
@@ -2907,7 +2925,7 @@ public class Common {
 		}
 		long callLogID = notification.getCallLogID();
 		String k9EmailUri = notification.getK9EmailUri();
-		String k9EmailDelUri = notification.getK9EmailUri();
+		String k9EmailDelUri = notification.getK9EmailDelUri();
 		String lookupKey = notification.getLookupKey();
 		long photoID = notification.getPhotoID();
 		//Build Notification Information String Array.
