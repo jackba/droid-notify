@@ -199,6 +199,7 @@ public class Constants {
 	
 	
 	//-----MESSAGE BODY CONSTANTS-----//
+	public static final String NOTIFICATION_BODY_CENTER_ALIGN_TEXT_KEY = "center_align_body_text";
 	public static final String NOTIFICATION_BODY_FONT_SIZE_KEY = "notification_body_font_size";
 	public static final String NOTIFICATION_BODY_FONT_SIZE_DEFAULT = "14";
 	

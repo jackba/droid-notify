@@ -166,13 +166,18 @@
 			<PreferenceCategory
 				android:key="notification_body_settings_category"
 				android:title="@string/notification_body_settings_text">
-					<ListPreference
-						android:key="notification_body_font_size"
-						android:title="@string/preference_notification_body_font_size_title"
-						android:summary="@string/preference_notification_body_font_size_summary"
-						android:defaultValue="14"
-						android:entries="@array/font_size_options"
-						android:entryValues="@array/font_size_options_values" />
+				<CheckBoxPreference
+					android:key="center_align_body_text" 
+					android:title="@string/preference_center_align_body_text_title" 
+					android:summary="@string/preference_center_align_body_text_summary"
+					android:defaultValue="false" />
+				<ListPreference
+					android:key="notification_body_font_size"
+					android:title="@string/preference_notification_body_font_size_title"
+					android:summary="@string/preference_notification_body_font_size_summary"
+					android:defaultValue="14"
+					android:entries="@array/font_size_options"
+					android:entryValues="@array/font_size_options_values" />
 			</PreferenceCategory>   
 <!-- 
 			<PreferenceCategory

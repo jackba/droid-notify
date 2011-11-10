@@ -60,6 +60,8 @@
   <string name="delete_message_dialog_text">Esto eliminará el mensaje desde el teléfono.</string>
   <string name="delete_thread_dialog_text">Se eliminará todo el tema desde el teléfono.</string>
   <string name="delete_email_dialog_text">Esto eliminará el correo del teléfono.</string>
+  <string name="preference_center_align_body_text_title">Center Align Body Text</string>
+  <string name="preference_center_align_body_text_summary">Center align the text of the notification body text.</string>
   <string name="preference_notification_body_font_size_title">Tamaño de la Fuente del Cuerpo de Notificación</string>
   <string name="preference_notification_body_font_size_summary">Seleccionar el tamaño de la fuente que se utilizará cuando se muestre una notificación.</string>
   <string name="preference_sms_hide_notification_body_enabled_title">Ocultar el cuerpo de la notificación</string>
@@ -77,6 +79,9 @@
   <string name="notification_type_info_settings_text">Configuración del tipo de información</string>
   <string name="preference_notification_type_info_size">Tamaño de la fuente de tipo</string>
   <string name="preference_notification_type_info_size_summary">Seleccione el tamaño de fuente del texto de información del tipo de notificación.</string>
+  <string name="preference_display_contact_photo_title">Display Contact Photo</string>
+  <string name="preference_display_contact_photo_summaryOn">The contact photo will be displayed.</string>
+  <string name="preference_display_contact_photo_summaryOff">The contact photo will not be displayed.</string>
   <string name="preference_hide_contact_name_enabled_title">Mostrar Nombre del Contacto</string>
   <string name="preference_hide_contact_name_enabled_summaryOn">Se mostrará el nombre del contacto.</string>
   <string name="preference_hide_contact_name_enabled_summaryOff">No se mostrará el nombre del contacto.</string>
@@ -87,11 +92,6 @@
   <string name="preference_hide_contact_number_enabled_summaryOff">No se mostrará el número de contacto.</string>
   <string name="preference_contact_number_font_size_title">Tamaño de la fuente del número del contacto</string>
   <string name="preference_contact_number_font_size_summary">Seleccionar el tamaño de la fuente del texto del nombre del contacto.</string>
-  <string name="contact_display_settings_text">Configuración de la visualización del contacto</string>
-  <string name="hide_contact_panel_text">Ocultar toda la información del contacto</string>
-  <string name="hide_contact_photo_text">Ocultar foto del contacto</string>
-  <string name="hide_contact_number_text">Ocultar número del contacto</string>
-  <string name="hide_contact_name_text">Ocultar Nombre del contacto</string>
   <string name="preference_contact_placeholder_image">Imagen del marcador de posición del contacto</string>
   <string name="preference_contact_placeholder_image_summary">Seleccionar la imagen de marcador de posición que te gustaría mostrar para los contactos desconocidos.</string>
   <string name="preference_contact_photo_background">Fondo de la foto del contacto</string>
@@ -146,14 +146,6 @@
   <string name="preference_sms_timeout">Tiempo de espera de SMS</string>
   <string name="preference_sms_timeout_summary">Definir el tiempo de espera tras recibir un SMS antes de consultar la bandeja de entrada de SMS para un nuevo mensaje.</string>
   <string name="messaging_app_running_action_sms_summary">Definir la acción cuando llega una notificación de SMS mientras se ejecuta una aplicación de mensajería.</string>
-  <string name="preference_sms_hide_contact_panel_enabled_summaryOn">No se mostrará el nombre del contacto para las notificaciones de SMS.</string>
-  <string name="preference_sms_hide_contact_panel_enabled_summaryOff">Se mostrará la información de contacto para notificaciones por SMS.</string>
-  <string name="preference_sms_hide_contact_photo_enabled_summaryOn">No se mostrará la foto del contacto para las notificaciones de SMS.</string>
-  <string name="preference_sms_hide_contact_photo_enabled_summaryOff">Se mostrará la foto del contacto para las notificaciones de SMS.</string>
-  <string name="preference_sms_hide_contact_name_enabled_summaryOn">No se mostrará el nombre del contacto para las notificaciones de SMS.</string>
-  <string name="preference_sms_hide_contact_name_enabled_summaryOff">Se mostrará el nombre del contacto para las notificaciones de SMS.</string>
-  <string name="preference_sms_hide_contact_number_enabled_summaryOn">No se mostrará el número del contacto para las notificaciones de SMS.</string>
-  <string name="preference_sms_hide_contact_number_enabled_summaryOff">Se mostrará el número del contacto para las notificaciones de SMS.</string>
   <string name="preference_sms_loading_title">Configuración de carga de SMS</string>
   <string name="preference_sms_loading_summary">Seleccionar cómo recuperar los mensajes SMS entrantes.</string>
   <string name="preference_sms_timestamp_adjustment_title">Ajuste de fecha y hora de los SMS</string>
@@ -179,14 +171,6 @@
   <string name="preference_mms_timeout">Tiempo de espera de MMS</string>
   <string name="preference_mms_timeout_summary">Definir el tiempo de espera tras recibir un MMS antes de consultar la bandeja de entrada de MMS para un nuevo mensaje.</string>
   <string name="messaging_app_running_action_mms_summary">Definir la acción cuando llega una notificación de MMS mientras se ejecuta una aplicación de mensajería.</string>
-  <string name="preference_mms_hide_contact_panel_enabled_summaryOn">No se mostrará la información del contacto para las notificaciones de MMS.</string>
-  <string name="preference_mms_hide_contact_panel_enabled_summaryOff">Se mostrará la información del contacto para las notificaciones de MMS.</string>
-  <string name="preference_mms_hide_contact_photo_enabled_summaryOn">No se mostrará la foto del contacto para las notificaciones de MMS.</string>
-  <string name="preference_mms_hide_contact_photo_enabled_summaryOff">Se mostrará la foto del contacto para las notificaciones de MMS.</string>
-  <string name="preference_mms_hide_contact_name_enabled_summaryOn">No se mostrará el nombre del contacto para las notificaciones de MMS.</string>
-  <string name="preference_mms_hide_contact_name_enabled_summaryOff">Se mostrará el nombre del contacto para las notificaciones de MMS.</string>
-  <string name="preference_mms_hide_contact_number_enabled_summaryOn">No se mostrará el número del contacto para las notificaciones de MMS.</string>
-  <string name="preference_mms_hide_contact_number_enabled_summaryOff">Se mostrará el número del contacto para las notificaciones de MMS.</string>
   <string name="preference_mms_timestamp_adjustment_title">Ajuste de fecha y hora de los MMS</string>
   <string name="preference_mms_timestamp_adjustment_summary">Algunos teléfonos/lugares pueden mostrar marcas de tiempo incorrectas. Utilice este ajuste para ajustar la fecha y hora de los mensajes MMS.</string>
   <string name="missed_call_at_text" formatted="false">Llamadas perdidas a las %s</string>
@@ -203,14 +187,6 @@
   <string name="preference_call_log_timeout">Tiempo de espera de Registro de Llamadas</string>
   <string name="preference_call_log_timeout_summary">Definir el tiempo de espera después de una llamada antes de consultar el registro de llamadas de una llamada perdida.</string>
   <string name="messaging_app_running_action_missed_call_summary">Definir la acción cuando llega un aviso de LLamada Perdida mientras se ejecuta una aplicación de mensajería.</string>
-  <string name="preference_missed_call_hide_contact_panel_enabled_summaryOn">No se mostrará la información del contacto para las notificaciones de llamadas perdidas.</string>
-  <string name="preference_missed_call_hide_contact_panel_enabled_summaryOff">Se mostrará la información del contacto para las notificaciones de llamadas perdidas.</string>
-  <string name="preference_missed_call_hide_contact_photo_enabled_summaryOn">No se mostrará la foto del contacto para las notificaciones de llamadas perdidas.</string>
-  <string name="preference_missed_call_hide_contact_photo_enabled_summaryOff">Se mostrará la foto del contacto para las notificaciones de llamadas perdidas.</string>
-  <string name="preference_missed_call_hide_contact_name_enabled_summaryOn">No se mostrará el nombre del contacto para las notificaciones de llamadas perdidas.</string>
-  <string name="preference_missed_call_hide_contact_name_enabled_summaryOff">Se mostrará el nombre del contacto para las notificaciones de llamadas perdidas.</string>
-  <string name="preference_missed_call_hide_contact_number_enabled_summaryOn">No se mostrará el número del contacto para las notificaciones de llamadas perdidas.</string>
-  <string name="preference_missed_call_hide_contact_number_enabled_summaryOff">Se mostrará el número del contacto para las notificaciones de llamadas perdidas</string>
   <string name="appointment_at_text" formatted="false">Cita a las %s</string>
   <string name="appointment_on_text" formatted="false">Cita el %s</string>
   <string name="event_on_text">Evento el %s</string>
@@ -243,8 +219,6 @@
   <string name="messaging_app_running_action_calendar_summary">Definir la acción cuando llega una notificación del Calendario mientras se ejecuta una aplicación de mensajería.</string>
   <string name="preference_calendar_event_body_font_size_title">Tamaño de la fuente del texto del evento</string>
   <string name="preference_calendar_event_body_font_size_summary">Seleccionar el tamaño de la fuente al mostrar el texto de un evento</string>
-  <string name="preference_calendar_hide_contact_photo_enabled_summaryOn">La foto de contacto no aparecerá en las notificaciones del Calendario.</string>
-  <string name="preference_calendar_hide_contact_photo_enabled_summaryOff">La foto de contacto aparecerá en las notificaciones del Calendario.</string>
   <string name="preference_twitter_notifications">Notificaciones de Twitter</string>
   <string name="preference_twitter_enabled_title">Activar Twitter</string>
   <string name="twitter_authentication_text">Autenticación de Twitter</string>
@@ -330,6 +304,8 @@
   <string name="preference_keyguard_enabled_summaryOff">El teléfono no se desbloqueará cuando se muestre una notificación.</string>
   <string name="preference_phone_number_format">Formato del Número de teléfono</string>
   <string name="preference_phone_number_format_summary">Seleccione el formato de número de teléfono utilizado para mostrar los números de teléfono.</string>
+  <string name="preference_phone_number_format_10_digits_only_title">Display 10 Digits</string>
+  <string name="preference_phone_number_format_10_digits_only_summary">Display only the first 10 digits of a phone number. If there are more than 10 digits, a \"0\" will be placed in front of the number.</string>
   <string name="preference_time_format">Formato de hora</string>
   <string name="preference_time_format_summary">Seleccionar el formato de hora deseado.</string>
   <string name="preference_date_format">Formato de fecha</string>
