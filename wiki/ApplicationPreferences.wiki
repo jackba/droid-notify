@@ -31,6 +31,7 @@ Basic Settings
  * Contact Name Size
  * Display Contact Number
  * Contact Number Size
+ * Center Align Body Text
  * Notification Body Font Size
  * Enable Reminders
  * Reminder Settings
