@@ -71,6 +71,8 @@
     <string name="delete_email_dialog_text">This will delete the email from the phone.</string>	
     
     <!-- Notification Body Strings -->
+    <string name="preference_center_align_body_text_title">Center Align Body Text</string>
+   	<string name="preference_center_align_body_text_summary">Center align the text of the notification body text.</string>
    	<string name="preference_notification_body_font_size_title">Notification Body Font Size</string>
    	<string name="preference_notification_body_font_size_summary">Select the font size you want to use when when displaying the notification body.</string>
    	<string name="preference_sms_hide_notification_body_enabled_title">Hide Notification Body</string>

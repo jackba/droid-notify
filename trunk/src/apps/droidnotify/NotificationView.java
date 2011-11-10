@@ -615,6 +615,7 @@ public class NotificationView extends LinearLayout {
 			if(_preferences.getBoolean(Constants.SMS_HIDE_NOTIFICATION_BODY_KEY, false)){
 				_notificationDetailsTextView.setVisibility(View.GONE);
 			}else{
+				_notificationDetailsTextView.setVisibility(View.VISIBLE);
 				//Set Message Body Font
 				_notificationDetailsTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, Float.parseFloat(_preferences.getString(Constants.NOTIFICATION_BODY_FONT_SIZE_KEY, Constants.NOTIFICATION_BODY_FONT_SIZE_DEFAULT)));
 			}
@@ -630,10 +631,17 @@ public class NotificationView extends LinearLayout {
 			}
 		}else if(_notificationType == Constants.NOTIFICATION_TYPE_PHONE){
 			_notificationDetailsTextView.setVisibility(View.GONE);
+		}else if(_notificationType == Constants.NOTIFICATION_TYPE_TWITTER){
+			
+		}else if(_notificationType == Constants.NOTIFICATION_TYPE_FACEBOOK){
+			
+		}else if(_notificationType == Constants.NOTIFICATION_TYPE_GMAIL){
+			
 		}else if(_notificationType == Constants.NOTIFICATION_TYPE_K9){
 			if(_preferences.getBoolean(Constants.K9_HIDE_NOTIFICATION_BODY_KEY, false)){
 				_notificationDetailsTextView.setVisibility(View.GONE);
 			}else{
+				_notificationDetailsTextView.setVisibility(View.VISIBLE);
 				//Set Message Body Font
 				_notificationDetailsTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, Float.parseFloat(_preferences.getString(Constants.NOTIFICATION_BODY_FONT_SIZE_KEY, Constants.NOTIFICATION_BODY_FONT_SIZE_DEFAULT)));
 			}
@@ -701,6 +709,11 @@ public class NotificationView extends LinearLayout {
 			}
 		} 
 	    _notificationDetailsTextView.setText(Html.fromHtml(notificationText));
+		if(_preferences.getBoolean(Constants.NOTIFICATION_BODY_CENTER_ALIGN_TEXT_KEY, false)){
+			notificationAlignment = Gravity.CENTER_HORIZONTAL;
+		}else{
+			notificationAlignment = Gravity.LEFT;
+		}
 	    _notificationDetailsTextView.setGravity(notificationAlignment);
 	}
 	
