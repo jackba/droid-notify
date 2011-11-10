@@ -10,6 +10,7 @@
  * Added the following translations: Portuguese
  * Updated translations.
  * Added notification reminders.
+ * Added preference to center the notification body text.
  * Small bug fixes.
 
 *v2.10* (November 7, 2011)
