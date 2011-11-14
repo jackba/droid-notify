@@ -20,6 +20,7 @@ import android.view.Gravity;
 import android.view.HapticFeedbackConstants;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -178,6 +179,15 @@ public class NotificationView extends LinearLayout {
 				    }
 				});
 			}
+			//TTS Button
+			final ImageButton ttsImageButton = (ImageButton) findViewById(R.id.tts_button);
+			ttsImageButton.setOnClickListener(new OnClickListener() {
+			    public void onClick(View view) {
+			    	if (_debug) Log.v("TTS Image Button Clicked()");
+			    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+			    	_notificationActivity.speak();
+			    }
+			});	
 			switch(_notificationType){
 				case Constants.NOTIFICATION_TYPE_PHONE:{
 					// Notification Count Text Button
@@ -554,12 +564,12 @@ public class NotificationView extends LinearLayout {
 	private void populateNotificationViewInfo(Notification notification) {
 		if (_debug) Log.v("NotificationView.populateNotificationViewInfo()");
 		boolean loadContactPhoto = true;
+		String notificationTitle = notification.getTitle();
+    	if(notificationTitle == null || notificationTitle.equals("")){
+    		notificationTitle = "No Title";
+    	}
 	    // Set from, number, message etc. views.
 		if(_notificationType == Constants.NOTIFICATION_TYPE_CALENDAR){
-			String notificationTitle = notification.getTitle();
-	    	if(notificationTitle == null || notificationTitle.equals("")){
-	    		notificationTitle = "No Title";
-	    	}
 			_contactNameTextView.setText(notificationTitle);
 			_contactNumberTextView.setVisibility(View.GONE);
 			_photoImageView.setVisibility(View.GONE);
@@ -684,11 +694,7 @@ public class NotificationView extends LinearLayout {
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_CALENDAR:{
-		    	String notificationTitle = notification.getTitle();
-		    	if(notificationTitle == null || notificationTitle.equals("")){
-		    		notificationTitle = "No Title";
-		    	}
-		    	notificationText = "<i>" + notification.getMessageBody() + "</i><br/>" + notificationTitle;
+		    	notificationText = notification.getMessageBody();
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_GMAIL:{

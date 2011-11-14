@@ -326,4 +326,16 @@
 			android:background="@drawable/btn_dark_translucent"
 			android:text="@string/reply_button_text" />
 	</LinearLayout>
+	<ImageButton
+		android:id="@+id/tts_button"
+		android:layout_height="wrap_content" 
+		android:layout_width="fill_parent" 
+		android:layout_weight="1"
+		android:layout_marginLeft="1dp"
+		android:layout_marginRight="1dp"
+		android:gravity="center_vertical|center_horizontal"
+		android:hapticFeedbackEnabled="true"
+		android:background="@drawable/btn_dark_translucent"
+		android:scaleType="center"
+		android:src="@drawable/tts" />
 </LinearLayout>

@@ -50,6 +50,7 @@
     <string name="app_android_calendars_not_found_error">No calendars could be found on your phone.</string>
     <string name="app_k9_reply_email_address_error">The email address does not appear to be valid. Reply to email failed.</string>
     <string name="app_k9_email_app_error">The email application could not be started.</string>
+    <string name="app_tts_error">The Text-To-Speech service could not be started.</string>
     <string name="app_preference_quiet_time_error">The Quiet Time preference could not be started.</string>
 
 	<!-- Settings/Preference Strings -->
@@ -214,8 +215,6 @@
    	<string name="messaging_app_running_action_missed_call_summary">Define action when a Missed Call notification comes in when a messaging app is currently running.</string> 
    	
    	<!-- Calendar Strings -->
-    <string name="appointment_at_text" formatted="false">Appointment at %s</string>
-    <string name="appointment_on_text" formatted="false">Appointment on %s</string>
     <string name="event_on_text">Event on %s</string>
     <string name="view_calendar_text">View Calendar</string>
     <string name="calendar_event_text">Calendar Event</string>
@@ -546,7 +545,11 @@
    	<string name="preference_notification_in_call_vibrate_enable_title">Enable In-Call Vibrate</string> 
    	<string name="preference_notification_in_call_vibrate_enable_summaryOn">Notifications will vibrate when you are in a phone call.</string>
    	<string name="preference_notification_in_call_vibrate_enable_summaryOff">Notifications will not vibrate when you are in a phone call.</string>
-   	
+   
+   	<!-- TTS Strings -->
+ 	<string name="preference_text_to_speech_enabled_title">Enable Text To Speech</string>
+   	<string name="preference_text_to_speech_enabled_summary">When enabled, a button will appear allowing you to use the built in Android Text-To-Speech engine.</string>
+   	    	
    	<!-- Array Strings -->
    	<string name="mark_as_read_text">Mark As Read</string>
     <string name="nothing_text">Nothing</string>

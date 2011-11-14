@@ -72,6 +72,11 @@
 					android:summaryOn="@string/preference_button_icons_enabled_summaryOn" 
 					android:summaryOff="@string/preference_button_icons_enabled_summaryOff" 
 					android:defaultValue="true" />
+				<CheckBoxPreference
+					android:key="text_to_speech_enabled" 
+					android:title="@string/preference_text_to_speech_enabled_title" 
+					android:summary="@string/preference_text_to_speech_enabled_summary"
+					android:defaultValue="false" />
 			</PreferenceCategory>
 			<PreferenceCategory
 				android:key="notification_header_settings_category"
