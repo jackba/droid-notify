@@ -570,4 +570,8 @@ public class Constants {
 	public static final String FACEBOOK_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY = "facebook_notification_in_call_sound_enabled";
 	public static final String FACEBOOK_STATUS_BAR_NOTIFICATIONS_IN_CALL_VIBRATE_ENABLED_KEY = "facebook_notification_in_call_vibrate_enabled";	
 	
+	//-----TEXT-TO-SPEECH CONSTANTS-----//
+	public static final String TEXT_TO_SPEECH_ENABLED_KEY = "text_to_speech_enabled";
+	public static final int TEXT_TO_SPEECH_ACTIVITY = 500;
+	
 }

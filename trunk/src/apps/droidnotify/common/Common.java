@@ -48,6 +48,7 @@ import android.os.PowerManager;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
+import android.speech.tts.TextToSpeech;
 import android.telephony.SmsMessage;
 import android.widget.Toast;
 
@@ -3002,6 +3003,24 @@ public class Common {
 			}
 		}
 		return false;
+	}
+	
+	/**
+	 * Wrapper function to speak a message using TTS.
+	 * 
+	 * @param context - The application context.
+	 * @param tts - The TTS Object.
+	 * @param text - The text to speak.
+	 * 
+	 * @return boolean - Return true if the Android TTS engine could be started.
+	 */
+	public static boolean speak(Context context, TextToSpeech tts, String text){
+		if (tts == null) {
+			return false;
+	    }else{
+	    	tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+	    	return true;
+	    }
 	}
 	
 	//================================================================================

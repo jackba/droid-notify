@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.preference.PreferenceManager;
+import android.speech.tts.TextToSpeech;
 
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
@@ -259,7 +260,7 @@ public class Notification {
 	    	_title = title;
 	    	_allDay = allDay;
 	    	if(notificationType == Constants.NOTIFICATION_TYPE_CALENDAR){
-	    		_messageBody = formatCalendarEventMessage(messageBody, eventStartTime, eventEndTime, allDay, calendarName);
+	    		_messageBody = formatCalendarEventMessage(title, messageBody, eventStartTime, eventEndTime, allDay, calendarName);
 	    	}else{
 	    		_messageBody = messageBody;
 	    	}
@@ -818,6 +819,81 @@ public class Notification {
 		}
 	}
 	
+	/**
+	 * SPeak the notification text using TTS.
+	 */
+	public void speak(TextToSpeech tts){
+		if (_debug) Log.v("Notification.speak()");
+		String messageToSpeak = null;
+		String formattedTimestamp = Common.formatTimestamp(_context, _timeStamp);
+		switch(_notificationType){
+			case Constants.NOTIFICATION_TYPE_PHONE:{
+				messageToSpeak = _context.getString(R.string.missed_call_at_text, formattedTimestamp.toLowerCase());
+				if(_contactName != null && !_contactName.equals(_context.getString(android.R.string.unknownName))){
+					messageToSpeak += ". From " + _contactName + ".";
+				}else{
+					messageToSpeak += ". From " + _sentFromAddress + ".";
+				}				
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_SMS:{
+				messageToSpeak = _context.getString(R.string.message_at_text, formattedTimestamp.toLowerCase());
+				if(_contactName != null && !_contactName.equals(_context.getString(android.R.string.unknownName))){
+					messageToSpeak += ". From " + _contactName + ". ";
+				}else{
+					messageToSpeak += ". From " + _sentFromAddress + ". ";
+				}
+				messageToSpeak += _messageBody;
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_MMS:{
+				messageToSpeak = _context.getString(R.string.message_at_text, formattedTimestamp.toLowerCase());
+				if(_contactName != null && !_contactName.equals(_context.getString(android.R.string.unknownName))){
+					messageToSpeak += ". From " + _contactName + ". ";
+				}else{
+					messageToSpeak += ". From " + _sentFromAddress + ". ";
+				}
+				messageToSpeak += _messageBody;
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_CALENDAR:{
+				messageToSpeak = _context.getString(R.string.calendar_event_text) + ". " + _messageBody.replace("<br/>", ". ").replace("<i>", "").replace("</i>", "").replace("<b>", "").replace("</b>", "");
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_GMAIL:{
+				messageToSpeak = _context.getString(R.string.message_at_text, formattedTimestamp.toLowerCase());
+				if(_contactName != null && !_contactName.equals(_context.getString(android.R.string.unknownName))){
+					messageToSpeak += ". From " + _contactName + ". ";
+				}else{
+					messageToSpeak += ". From " + _sentFromAddress + ". ";
+				}
+				messageToSpeak += _messageBody;
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_TWITTER:{
+
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_FACEBOOK:{
+
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_K9:{
+				messageToSpeak = _context.getString(R.string.message_at_text, formattedTimestamp.toLowerCase());
+				if(_contactName != null && !_contactName.equals(_context.getString(android.R.string.unknownName))){
+					messageToSpeak += ". From " + _contactName + ". ";
+				}else{
+					messageToSpeak += ". From " + _sentFromAddress + ". ";
+				}
+				messageToSpeak += _messageBody;
+				break;
+			}
+		}
+		if(messageToSpeak != null){
+			Common.speak(_context, tts, messageToSpeak);
+		}
+	}
+	
 	//================================================================================
 	// Private Methods
 	//================================================================================
@@ -859,41 +935,45 @@ public class Notification {
 	 * 
 	 * @return String - Returns the formatted Calendar Event message.
 	 */
-	private String formatCalendarEventMessage(String messageBody, long eventStartTime, long eventEndTime, boolean allDay, String calendarName){
+	private String formatCalendarEventMessage(String messageTitle, String messageBody, long eventStartTime, long eventEndTime, boolean allDay, String calendarName){
 		if (_debug) Log.v("Notification.formatCalendarEventMessage()");
 		String formattedMessage = "";
 		Date eventEndDate = new Date(eventEndTime);
 		Date eventStartDate = new Date(eventStartTime);
+		if(messageTitle == null || messageTitle.equals("No Title")){
+			messageTitle = "";
+		}else{
+			messageTitle = messageTitle + "<br/>";
+		}
 		if(messageBody == null){
 			messageBody = "";	
+		}else{
+			messageBody = "<br/>" + messageBody;
 		}
-		if(messageBody.equals("")){
-    		String startDateFormated = Common.formatDate(_context, eventStartDate);
-    		String endDateFormated = Common.formatDate(_context, eventEndDate);
-    		try{
-    			String[] startDateInfo = Common.parseDateInfo(_context, startDateFormated);
-    			String[] endDateInfo = Common.parseDateInfo(_context, endDateFormated);
-	    		if(allDay){
-	    			formattedMessage = startDateInfo[0] + " - All Day";
-	    		}else{
-	    			//Check if the event spans a single day or not.
-	    			if(startDateInfo[0].equals(endDateInfo[0]) && startDateInfo.length == 3){
-	    				if(startDateInfo.length < 3){
-	    					formattedMessage = startDateInfo[0] + " " + startDateInfo[1] + " - " + endDateInfo[1];
-	    				}else{
-	    					formattedMessage = startDateInfo[0] + " " + startDateInfo[1] + " " + startDateInfo[2] +  " - " + endDateInfo[1] + " " + startDateInfo[2];
-	    				}
-	    			}else{
-	    				formattedMessage = startDateFormated + " - " + endDateFormated;
-	    			}
-	    		}
-    		}catch(Exception ex){
-    			if (_debug) Log.e("Notification.formatCalendarEventMessage() ERROR: " + ex.toString());
-    			formattedMessage = startDateFormated + " - " + endDateFormated;
+		String startDateFormated = Common.formatDate(_context, eventStartDate);
+		String endDateFormated = Common.formatDate(_context, eventEndDate);
+		try{
+			String[] startDateInfo = Common.parseDateInfo(_context, startDateFormated);
+			String[] endDateInfo = Common.parseDateInfo(_context, endDateFormated);
+    		if(allDay){
+    			formattedMessage = startDateInfo[0] + " - All Day";
+    		}else{
+    			//Check if the event spans a single day or not.
+    			if(startDateInfo[0].equals(endDateInfo[0]) && startDateInfo.length == 3){
+    				if(startDateInfo.length < 3){
+    					formattedMessage = startDateInfo[0] + " " + startDateInfo[1] + " - " + endDateInfo[1];
+    				}else{
+    					formattedMessage = startDateInfo[0] + " " + startDateInfo[1] + " " + startDateInfo[2] +  " - " + endDateInfo[1] + " " + startDateInfo[2];
+    				}
+    			}else{
+    				formattedMessage = startDateFormated + " - " + endDateFormated;
+    			}
     		}
-    	}else{
-    		formattedMessage = messageBody;
-    	}
+    		formattedMessage =  messageTitle + formattedMessage + messageBody;
+		}catch(Exception ex){
+			if (_debug) Log.e("Notification.formatCalendarEventMessage() ERROR: " + ex.toString());
+			formattedMessage = startDateFormated + " - " + endDateFormated;
+		}
     	if(_preferences.getBoolean(Constants.CALENDAR_LABELS_KEY, true)){
     		formattedMessage = "<b>" + calendarName + "</b><br/>" + formattedMessage;
     	}

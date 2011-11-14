@@ -19,6 +19,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
+import android.speech.tts.TextToSpeech;
+import android.speech.tts.TextToSpeech.OnInitListener;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -73,6 +75,7 @@ public class NotificationActivity extends Activity {
 	private MotionEvent _downMotionEvent = null;
 	private SharedPreferences _preferences = null;
 	private PendingIntent _screenTimeoutPendingIntent = null;
+	private TextToSpeech _tts;
 
 	//================================================================================
 	// Public Methods
@@ -301,7 +304,10 @@ public class NotificationActivity extends Activity {
 	 * This closes this activity screen.
 	 */
 	public void finishActivity() {
-		if (_debug) Log.v("NotificationActivity.finishActivity()");
+		if (_debug) Log.v("NotificationActivity.finishActivity()");	    
+		if (_tts != null){
+	    	_tts.shutdown();
+	    }
 	    Common.clearKeyguardLock();
 	    setInReplyScreenFlag(false);
 		if(_preferences.getBoolean(Constants.CLEAR_STATUS_BAR_NOTIFICATIONS_ON_EXIT_KEY, false)){
@@ -411,6 +417,20 @@ public class NotificationActivity extends Activity {
 	    return super.dispatchTouchEvent(motionEvent);
 	}
 	
+	/**
+	 * Speak the notification message using TTS.
+	 */
+	public void speak(){
+		if (_debug) Log.v("NotificationActivity.speak()");
+		if(_tts == null){
+			setupTextToSpeech();
+		}else{
+			Notification activeNotification = _notificationViewFlipper.getActiveNotification();
+			activeNotification.speak(_tts);
+			activeNotification.cancelReminder();
+		}
+	}
+	
 	//================================================================================
 	// Protected Methods
 	//================================================================================
@@ -423,7 +443,7 @@ public class NotificationActivity extends Activity {
 	 * @param returnedIntent - The intent that was returned.
 	 */
 	protected void onActivityResult(int requestCode, int resultCode, Intent returnedIntent){
-		if (_debug) Log.v("NotificationActivity.onActivityResult( ) requestCode: " + requestCode + " resultCode: " + resultCode);
+		if (_debug) Log.v("NotificationActivity.onActivityResult() requestCode: " + requestCode + " resultCode: " + resultCode);
 	    switch(requestCode) {
 		    case Constants.ADD_CONTACT_ACTIVITY:{ 
 		    	if (resultCode == RESULT_OK) {
@@ -685,6 +705,17 @@ public class NotificationActivity extends Activity {
 		    	}
 		        break;
 		    }
+		    case Constants.TEXT_TO_SPEECH_ACTIVITY:{
+		        if(resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS){
+		            //Success, create the TTS instance
+		            _tts = new TextToSpeech(_context, ttsOnInitListener);
+		        }else{
+		            //Missing data, install it
+		            Intent installIntent = new Intent();
+		            installIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
+		            startActivity(installIntent);
+		        }
+		    }
 	    }
     }
 	
@@ -843,6 +874,9 @@ public class NotificationActivity extends Activity {
 	@Override
 	protected void onPause() {
 	    if (_debug) Log.v("NotificationActivity.onPause()");
+	    if (_tts != null){
+	    	_tts.shutdown();
+	    }
 	    Common.clearWakeLock();
 	    super.onPause();
 	}
@@ -863,6 +897,9 @@ public class NotificationActivity extends Activity {
 	@Override
 	protected void onDestroy() {
 	    if (_debug) Log.v("NotificationActivity.onDestroy()");
+	    if (_tts != null){
+	    	_tts.shutdown();
+	    }
 	    Common.clearKeyguardLock();
 	    setInReplyScreenFlag(false);
 		if(_preferences.getBoolean(Constants.CLEAR_STATUS_BAR_NOTIFICATIONS_ON_EXIT_KEY, false)){
@@ -1068,10 +1105,10 @@ public class NotificationActivity extends Activity {
 	private void createTestNotifications(){
 		if (_debug) Log.v("NotificationActivity.createTextNotifications()");
 		String sentFromAddress = "5555555555";
-		String smsTestMesage = "Droid Notify SMS Message Test";
+		String smsTestMesage = "SMS Message Test";
 		String calendarTestCalendar = "Test Calendar";
-		String calendarTestTitle = "Calendar Event Test";
-		String calendarTestEvent = "Droid Notify Calendar Event Test";
+		String calendarTestEvent = "Calendar Event Test";
+		String calendarTestEventBody = "This is a calendar event test.";
 		NotificationViewFlipper notificationViewFlipper = _notificationViewFlipper;
 		//Add SMS Message Notification.
 		Notification smsNotification = new Notification(_context, sentFromAddress, smsTestMesage, System.currentTimeMillis(), Constants.NOTIFICATION_TYPE_SMS);
@@ -1084,7 +1121,7 @@ public class NotificationActivity extends Activity {
 		//Display Status Bar Notification
 	    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_PHONE, true, null, sentFromAddress, null, null);
 		//Add Calendar Event Notification.
-		Notification calendarEventNotification = new Notification(_context, calendarTestEvent, calendarTestTitle, System.currentTimeMillis(), System.currentTimeMillis() + (10 * 60 * 1000), false, calendarTestCalendar,  0, 0, Constants.NOTIFICATION_TYPE_CALENDAR);
+		Notification calendarEventNotification = new Notification(_context, calendarTestEvent, calendarTestEventBody, System.currentTimeMillis(), System.currentTimeMillis() + (10 * 60 * 1000), false, calendarTestCalendar,  0, 0, Constants.NOTIFICATION_TYPE_CALENDAR);
 		notificationViewFlipper.addNotification(calendarEventNotification);	
 		//Display Status Bar Notification
 	    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_CALENDAR, true, null, null, calendarTestEvent, null);
@@ -2024,5 +2061,31 @@ public class NotificationActivity extends Activity {
 	    	_screenTimeoutPendingIntent = null;
 		}
 	}
-
+	
+	/**
+	 * Set up the phone for TTS.
+	 */
+	private void setupTextToSpeech(){
+		if (_debug) Log.v("NotificationActivity.setupTextToSpeech()");
+		Intent intent = new Intent();
+		intent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
+		startActivityForResult(intent, Constants.TEXT_TO_SPEECH_ACTIVITY);
+	}
+	
+	/**
+	 * The Android text-to-speech library OnInitListener
+	 */
+	private final OnInitListener ttsOnInitListener = new OnInitListener() {
+		public void onInit(int status){
+			if (_debug) Log.v("NotificationActivity.OnInitListener.onInit()");			
+			if(status == TextToSpeech.SUCCESS){
+				Notification activeNotification = _notificationViewFlipper.getActiveNotification();
+				activeNotification.speak(_tts);
+				activeNotification.cancelReminder();
+			}else{
+				Toast.makeText(_context, R.string.app_tts_error, Toast.LENGTH_LONG);
+			}
+    	}
+  	};
+	
 }
