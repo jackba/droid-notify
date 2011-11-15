@@ -4,16 +4,15 @@
 	android:id="@+id/notification_linear_layout"
     android:orientation="vertical"
     android:layout_height="wrap_content"
-    android:layout_width="fill_parent"  
-    android:minWidth="350dp"
+    android:layout_width="fill_parent" 
     android:gravity="center_vertical|fill_horizontal"
     android:background="@drawable/dark_translucent_panel">
 	<RelativeLayout
-    	android:id="@+id/header_navigation"
-    	android:layout_height="wrap_content"
-    	android:layout_width="fill_parent"
-    	android:gravity="center"
-    	android:padding="2dp">
+	    android:id="@+id/header_navigation"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:gravity="center"
+	    android:padding="2dp" >
 	    <Button
 	    	android:id="@+id/previous_button" 
 	     	android:layout_height="wrap_content"
@@ -23,18 +22,27 @@
 			android:hapticFeedbackEnabled="true"
 	      	android:background="@drawable/btn_prev_arrow" />
 	    <TextView
-	    	android:id="@+id/notification_count_text_view"
-	    	android:layout_height="50dp"  
-	    	android:layout_width="wrap_content" 
-	    	android:layout_alignParentTop="true"
-	    	android:layout_toRightOf="@+id/previous_button" 
-	    	android:layout_toLeftOf="@+id/next_button"
-	    	android:gravity="center"
-			android:focusable="true" 
-			android:clickable="true"
-	    	android:textAppearance="?android:attr/textAppearanceMedium" 
-	    	android:textColor="@color/white"
-	    	android:text="0/0"/>
+	        android:id="@+id/notification_count_text_view"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignBottom="@+id/reschedule_image_view"
+	        android:layout_alignParentTop="true"
+	        android:layout_centerHorizontal="true"
+	        android:clickable="true"
+	        android:focusable="true"
+	        android:gravity="center"
+	        android:text="0/0"
+	        android:textAppearance="?android:attr/textAppearanceMedium"
+	        android:textColor="@color/white" />
+	    <ImageView
+	        android:id="@+id/reschedule_image_view"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignTop="@+id/next_button"
+	        android:layout_toLeftOf="@+id/next_button"
+	        android:layout_marginLeft="5dp"
+	        android:layout_marginRight="5dp"
+	        android:background="@drawable/ic_reschedule_white" />
 	    <Button
 	    	android:id="@+id/next_button" 
 	      	android:layout_height="wrap_content"
@@ -318,4 +326,16 @@
 			android:background="@drawable/btn_dark_translucent"
 			android:text="@string/reply_button_text" />
 	</LinearLayout>
+	<ImageButton
+		android:id="@+id/tts_button"
+		android:layout_height="wrap_content" 
+		android:layout_width="fill_parent" 
+		android:layout_weight="1"
+		android:layout_marginLeft="1dp"
+		android:layout_marginRight="1dp"
+		android:gravity="center_vertical|center_horizontal"
+		android:hapticFeedbackEnabled="true"
+		android:background="@drawable/btn_dark_translucent"
+		android:scaleType="center"
+		android:src="@drawable/tts" />
 </LinearLayout>

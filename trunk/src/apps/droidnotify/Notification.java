@@ -857,7 +857,7 @@ public class Notification {
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_CALENDAR:{
-				messageToSpeak = _context.getString(R.string.calendar_event_text) + ". " + _messageBody.replace("<br/>", ". ").replace("<i>", "").replace("</i>", "").replace("<b>", "").replace("</b>", "");
+				messageToSpeak = _context.getString(R.string.calendar_event_text) + ". " + _messageBody;
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_GMAIL:{
@@ -890,7 +890,7 @@ public class Notification {
 			}
 		}
 		if(messageToSpeak != null){
-			Common.speak(_context, tts, messageToSpeak);
+			Common.speak(_context, tts, Common.removeHTML(messageToSpeak));
 		}
 	}
 	

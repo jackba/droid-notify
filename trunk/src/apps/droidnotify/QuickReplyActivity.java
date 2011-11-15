@@ -251,10 +251,8 @@ public class QuickReplyActivity extends Activity {
             	}
             }
         });
-	    if(_preferences.getBoolean(Constants.HIDE_CANCEL_BUTTON_KEY, true)){
-	    	_cancelButton.setVisibility(View.GONE);
-    	}else{
-		    _cancelButton.setOnClickListener(new View.OnClickListener(){
+	    if(_preferences.getBoolean(Constants.DISPLAY_QUICK_REPLY_CANCEL_BUTTON_KEY, false)){
+	    	_cancelButton.setOnClickListener(new View.OnClickListener(){
 	            public void onClick(View view) {
 	            	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 	            	//Set the result for this activity.
@@ -263,6 +261,8 @@ public class QuickReplyActivity extends Activity {
 	            	finish();                
 	            }
 	        });
+    	}else{
+    		_cancelButton.setVisibility(View.GONE);
     	}
 	}
 	
