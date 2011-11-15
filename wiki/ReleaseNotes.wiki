@@ -4,9 +4,10 @@
 = Release Notes =
 
 *v2.12* _Coming Soon..._
+ * Added Text-To-Speech (TTS) to notifications.
  * 
 
-*v2.11* _Coming Soon..._
+*v2.11* (November 14, 2011)
  * Added the following translations: Portuguese
  * Updated translations.
  * Added notification reminders.
