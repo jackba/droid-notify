@@ -268,6 +268,16 @@ public class NotificationViewFlipper extends ViewFlipper {
 		}
 		return false;
 	}
+	
+	/**
+	 * Reschedule a notification.
+	 */
+	public void rescheduleNotification(){
+		long rescheduleInterval = Long.parseLong(_preferences.getString(Constants.RESCHEDULE_TIME_KEY, Constants.RESCHEDULE_TIME_DEFAULT)) * 60 * 1000;
+		Notification notification = getActiveNotification();
+    	Common.rescheduleNotification(_context, notification, System.currentTimeMillis() + rescheduleInterval, notification.getRescheduleNumber() + 0);
+    	removeActiveNotification(true);
+	}
 
 	//================================================================================
 	// Private Methods

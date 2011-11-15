@@ -29,9 +29,7 @@ public class Constants {
 	public static final String SCREEN_ENABLED_KEY = "screen_enabled";
 	public static final String SCREEN_DIM_ENABLED_KEY = "screen_dim_enabled";
 	public static final String KEYGUARD_ENABLED_KEY = "keyguard_enabled";
-	public static final String HIDE_RESCHEDULE_BUTTON_KEY = "hide_reschedule_button_enabled";
 	public static final String HIDE_SINGLE_MESSAGE_HEADER_KEY = "hide_single_message_header_enabled";
-    public static final String BUTTON_ICONS_KEY = "button_icons_enabled";
     public static final String CLEAR_STATUS_BAR_NOTIFICATIONS_ON_EXIT_KEY = "clear_status_bar_notifications_on_exit_enabled";
     public static final String PREVIOUS_CALL_STATE_KEY = "previous_call_state";
 	
@@ -77,6 +75,16 @@ public class Constants {
 	
 	public static final int MESSAGE_TYPE_SMS = 1;
 	public static final int MESSAGE_TYPE_MMS = 2;
+	
+	//-----BUTTON CONSTANTS-----//
+	public static final String BUTTON_DISPLAY_STYLE_KEY = "button_display_style";
+	public static final String BUTTON_DISPLAY_STYLE_DEFAULT = "2";
+	public static final String BUTTON_DISPLAY_ICON_ONLY = "0";
+	public static final String BUTTON_DISPLAY_TEXT_ONLY = "1";
+	public static final String BUTTON_DISPLAY_BOTH_ICON_TEXT = "2";
+		
+    public static final String BUTTON_ICONS_KEY = "button_icons_enabled";
+	public static final String DISPLAY_RESCHEDULE_BUTTON_KEY = "display_reschedule_button";
 	
 	//-----RESCHEDULE CONSTANTS-----//
 	public static final String RESCHEDULE_NOTIFICATIONS_ENABLED_KEY = "reschedule_notifications_enabled";
@@ -211,7 +219,7 @@ public class Constants {
 	//-----QUICK REPLY CONSTANTS-----//
 	public static final String SMS_GATEWAY_KEY = "quick_reply_sms_gateway_settings";	
 	public static final String SAVE_MESSAGE_DRAFT_KEY = "quick_reply_save_draft_enabled";
-	public static final String HIDE_CANCEL_BUTTON_KEY = "quick_reply_hide_cancel_button_enabled";
+	public static final String DISPLAY_QUICK_REPLY_CANCEL_BUTTON_KEY = "display_quick_reply_cancel_button";
 	public static final String QUICK_REPLY_BLUR_SCREEN_BACKGROUND_ENABLED_KEY = "quick_reply_blur_screen_background_enabled";
 	public static final String QUICK_REPLY_DIM_SCREEN_BACKGROUND_ENABLED_KEY = "quick_reply_dim_screen_background_enabled";
 	public static final String QUICK_REPLY_DIM_SCREEN_BACKGROUND_AMOUNT_KEY = "quick_reply_dim_screen_background_amount";
@@ -232,14 +240,14 @@ public class Constants {
 	public static final String SMS_READ_FROM_DISK = "1";
 	public static final String SMS_BLOCKING_APP_RUNNING_ACTION_KEY = "messaging_app_running_action_sms";
 	public static final String SMS_TIMEOUT_KEY = "sms_timeout_settings";
-	public static final String SMS_DELETE_KEY = "sms_delete_button_action";	
+	public static final String SMS_DELETE_KEY = "sms_delete_button_action";
 	public static final String SMS_TIMESTAMP_ADJUSTMENT_KEY = "sms_timestamp_adjustment_settings";
 	public static final String SMS_LOADING_SETTING_KEY = "sms_loading_settings"; 
     public static final String SMS_HIDE_NOTIFICATION_BODY_KEY = "sms_hide_notification_body_enabled";
 	public static final String SMS_REPLY_BUTTON_ACTION_KEY = "sms_reply_button_action";
-	public static final String SMS_HIDE_DISMISS_BUTTON_KEY = "sms_hide_dismiss_button_enabled";
-	public static final String SMS_HIDE_DELETE_BUTTON_KEY = "sms_hide_delete_button_enabled";
-	public static final String SMS_HIDE_REPLY_BUTTON_KEY = "sms_hide_reply_button_enabled";
+	public static final String SMS_DISPLAY_DISMISS_BUTTON_KEY = "sms_display_dismiss_button";
+	public static final String SMS_DISPLAY_DELETE_BUTTON_KEY = "sms_display_delete_button";
+	public static final String SMS_DISPLAY_REPLY_BUTTON_KEY = "sms_display_reply_button";
 	public static final String SMS_NOTIFICATION_COUNT_ACTION_KEY = "sms_notification_count_action";
 	public static final String SMS_DISMISS_KEY = "sms_dismiss_button_action";
 	public static final String SMS_DISPLAY_UNREAD_KEY = "sms_display_unread_enabled";
@@ -259,9 +267,9 @@ public class Constants {
 	public static final String MMS_DELETE_KEY = "mms_delete_button_action";
     public static final String MMS_HIDE_NOTIFICATION_BODY_KEY = "mms_hide_notification_body_enabled";
 	public static final String MMS_REPLY_BUTTON_ACTION_KEY = "mms_reply_button_action";
-	public static final String MMS_HIDE_DISMISS_BUTTON_KEY = "mms_hide_dismiss_button_enabled";
-	public static final String MMS_HIDE_DELETE_BUTTON_KEY = "mms_hide_delete_button_enabled";
-	public static final String MMS_HIDE_REPLY_BUTTON_KEY = "mms_hide_reply_button_enabled";
+	public static final String MMS_DISPLAY_DISMISS_BUTTON_KEY = "mms_display_dismiss_button";
+	public static final String MMS_DISPLAY_DELETE_BUTTON_KEY = "mms_display_delete_button";
+	public static final String MMS_DISPLAY_REPLY_BUTTON_KEY = "mms_display_reply_button";
 	public static final String MMS_NOTIFICATION_COUNT_ACTION_KEY = "mms_notification_count_action";
 	public static final String MMS_DISMISS_KEY = "mms_dismiss_button_action";
 	public static final String MMS_CONFIRM_DELETION_KEY = "confirm_mms_deletion_enabled";
@@ -279,8 +287,8 @@ public class Constants {
 	public static final String PHONE_BLOCKING_APP_RUNNING_ACTION_KEY = "messaging_app_running_action_missed_call";
 	public static final String CALL_LOG_TIMEOUT_KEY = "call_log_timeout_settings";
 	public static final String PHONE_DISMISS_BUTTON_ACTION_KEY = "missed_call_loading_settings";
-	public static final String PHONE_HIDE_DISMISS_BUTTON_KEY = "missed_call_hide_dismiss_button_enabled";
-	public static final String PHONE_HIDE_CALL_BUTTON_KEY = "missed_call_hide_call_button_enabled";
+	public static final String PHONE_DISPLAY_DISMISS_BUTTON_KEY = "missed_call_display_dismiss_button";
+	public static final String PHONE_DISPLAY_CALL_BUTTON_KEY = "missed_call_display_call_button";
 	public static final String PHONE_NOTIFICATION_COUNT_ACTION_KEY = "missed_call_notification_count_action";
 	public static final String PHONE_DISMISS_KEY = "missed_call_dismiss_button_action";
 	
@@ -301,8 +309,8 @@ public class Constants {
     public static final String CALENDAR_REMINDER_ALL_DAY_KEY = "calendar_reminder_all_day_settings";
     public static final String CALENDAR_POLLING_FREQUENCY_KEY = "calendar_polling_frequency"; 
     public static final String CALENDAR_HIDE_NOTIFICATION_BODY_KEY = "calendar_hide_notification_body_enabled";
-	public static final String CALENDAR_HIDE_DISMISS_BUTTON_KEY = "calendar_hide_dismiss_button_enabled";
-	public static final String CALENDAR_HIDE_VIEW_BUTTON_KEY = "calendar_hide_view_button_enabled";
+	public static final String CALENDAR_DISPLAY_DISMISS_BUTTON_KEY = "calendar_display_dismiss_button";
+	public static final String CALENDAR_DISPLAY_VIEW_BUTTON_KEY = "calendar_display_view_button";
 	public static final String CALENDAR_NOTIFICATION_COUNT_ACTION_KEY = "calendar_notification_count_action";
 	public static final String CALENDAR_LABELS_KEY = "calendar_labels_enabled";
 	public static final String CALENDAR_SELECTION_KEY = "calendar_selection";
@@ -339,9 +347,9 @@ public class Constants {
 	public static final String K9_DELETE_KEY = "k9_delete_button_action";
     public static final String K9_HIDE_NOTIFICATION_BODY_KEY = "k9_hide_notification_body_enabled";
 	public static final String K9_REPLY_BUTTON_ACTION_KEY = "k9_reply_button_action";
-	public static final String K9_HIDE_DISMISS_BUTTON_KEY = "k9_hide_dismiss_button_enabled";
-	public static final String K9_HIDE_DELETE_BUTTON_KEY = "k9_hide_delete_button_enabled";
-	public static final String K9_HIDE_REPLY_BUTTON_KEY = "k9_hide_reply_button_enabled";
+	public static final String K9_DISPLAY_DISMISS_BUTTON_KEY = "k9_display_dismiss_button";
+	public static final String K9_DISPLAY_DELETE_BUTTON_KEY = "k9_display_delete_button";
+	public static final String K9_DISPLAY_REPLY_BUTTON_KEY = "k9_display_reply_button";
 	public static final String K9_NOTIFICATION_COUNT_ACTION_KEY = "k9_notification_count_action";
 	public static final String K9_DISMISS_KEY = "k9_dismiss_button_action";
 	public static final String K9_DISPLAY_UNREAD_KEY = "k9_display_unread_enabled";

@@ -547,6 +547,7 @@
    	<string name="preference_notification_in_call_vibrate_enable_summaryOff">Notifications will not vibrate when you are in a phone call.</string>
    
    	<!-- TTS Strings -->
+   	<string name="speak_notification_text">Speak Notification</string>
  	<string name="preference_text_to_speech_enabled_title">Enable Text To Speech</string>
    	<string name="preference_text_to_speech_enabled_summary">When enabled, a button will appear allowing you to use the built in Android Text-To-Speech engine.</string>
    	    	

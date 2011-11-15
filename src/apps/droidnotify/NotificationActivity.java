@@ -51,20 +51,22 @@ public class NotificationActivity extends Activity {
     //================================================================================
 	
 	private static final int MENU_ITEM_SETTINGS = R.id.app_settings;
-	private static final int CONTACT_WRAPPER_LINEAR_LAYOUT = R.id.contact_wrapper_linear_layout;	
-	private static final int VIEW_CONTACT_CONTEXT_MENU = R.id.view_contact_context_menu;
-	private static final int ADD_CONTACT_CONTEXT_MENU = R.id.add_contact_context_menu;
+	private static final int CONTACT_WRAPPER_LINEAR_LAYOUT = R.id.contact_wrapper_linear_layout;
+	private static final int ADD_CONTACT_CONTEXT_MENU = R.id.add_contact_context_menu;	
+	private static final int EDIT_CONTACT_CONTEXT_MENU = R.id.edit_contact_context_menu;
+	private static final int VIEW_CONTACT_CONTEXT_MENU = R.id.view_contact_context_menu;	
 	private static final int VIEW_CALL_LOG_CONTEXT_MENU = R.id.view_call_log_context_menu;
 	private static final int CALL_CONTACT_CONTEXT_MENU = R.id.call_contact_context_menu;
-	private static final int TEXT_CONTACT_CONTEXT_MENU = R.id.text_contact_context_menu;	
-	private static final int EDIT_CONTACT_CONTEXT_MENU = R.id.edit_contact_context_menu;
+	private static final int MESSAGING_INBOX_CONTEXT_MENU = R.id.messaging_inbox_context_menu;
+	private static final int VIEW_THREAD_CONTEXT_MENU = R.id.view_thread_context_menu;
+	private static final int TEXT_CONTACT_CONTEXT_MENU = R.id.text_contact_context_menu;
 	private static final int ADD_CALENDAR_EVENT_CONTEXT_MENU = R.id.add_calendar_event_context_menu;
 	private static final int EDIT_CALENDAR_EVENT_CONTEXT_MENU = R.id.edit_calendar_event_context_menu;
-	private static final int VIEW_THREAD_CONTEXT_MENU = R.id.view_thread_context_menu;
-	private static final int MESSAGING_INBOX_CONTEXT_MENU = R.id.messaging_inbox_context_menu;
-	private static final int DISMISS_NOTIFICATION_CONTEXT_MENU = R.id.dismiss_notification_context_menu;
 	private static final int VIEW_CALENDAR_CONTEXT_MENU = R.id.view_calendar_context_menu;
-		
+	private static final int RESCHEDULE_NOTIFICATION_CONTEXT_MENU = R.id.reschedule_notification_context_menu;
+	private static final int SPEAK_NOTIFICATION_CONTEXT_MENU = R.id.speak_notification_context_menu;
+	private static final int DISMISS_NOTIFICATION_CONTEXT_MENU = R.id.dismiss_notification_context_menu;
+
 	//================================================================================
     // Properties
     //================================================================================
@@ -75,7 +77,7 @@ public class NotificationActivity extends Activity {
 	private MotionEvent _downMotionEvent = null;
 	private SharedPreferences _preferences = null;
 	private PendingIntent _screenTimeoutPendingIntent = null;
-	private TextToSpeech _tts;
+	private TextToSpeech _tts = null;
 
 	//================================================================================
 	// Public Methods
@@ -155,13 +157,17 @@ public class NotificationActivity extends Activity {
 				menuInflater.inflate(R.menu.notificationcontextmenu, contextMenu);
 				//Remove menu options based on the NotificationType.
 				if(notification.getContactExists()){
-					MenuItem addMenuItem = contextMenu.findItem(ADD_CONTACT_CONTEXT_MENU);
-					addMenuItem.setVisible(false);
+					MenuItem addContactMenuItem = contextMenu.findItem(ADD_CONTACT_CONTEXT_MENU);
+					addContactMenuItem.setVisible(false);
 				}else{
-					MenuItem viewMenuItem = contextMenu.findItem(VIEW_CONTACT_CONTEXT_MENU);
-					viewMenuItem.setVisible(false);
-					MenuItem editMenuItem = contextMenu.findItem(EDIT_CONTACT_CONTEXT_MENU);
-					editMenuItem.setVisible(false);
+					MenuItem editContactMenuItem = contextMenu.findItem(EDIT_CONTACT_CONTEXT_MENU);
+					editContactMenuItem.setVisible(false);
+					MenuItem viewContactMenuItem = contextMenu.findItem(VIEW_CONTACT_CONTEXT_MENU);
+					viewContactMenuItem.setVisible(false);
+				}
+				if(!_preferences.getBoolean(Constants.TEXT_TO_SPEECH_ENABLED_KEY, false)){
+					MenuItem ttsMenuItem = contextMenu.findItem(SPEAK_NOTIFICATION_CONTEXT_MENU);
+					ttsMenuItem.setVisible(false);
 				}
 				setupContextMenus(contextMenu, notificationType);
 				break;
@@ -225,6 +231,22 @@ public class NotificationActivity extends Activity {
 					return false;
 				}
 			}
+			case MESSAGING_INBOX_CONTEXT_MENU:{
+				if(Common.startMessagingAppViewInboxActivity(_context, this, Constants.MESSAGING_ACTIVITY)){
+					setInReplyScreenFlag(true);
+					return true;
+				}else{
+					return false;
+				}
+			}
+			case VIEW_THREAD_CONTEXT_MENU:{
+				if(Common.startMessagingAppViewThreadActivity(_context, this, notification.getSentFromAddress(), Constants.VIEW_SMS_THREAD_ACTIVITY)){
+					setInReplyScreenFlag(true);
+					return true;
+				}else{
+					return false;
+				}
+			}
 			case TEXT_CONTACT_CONTEXT_MENU:{
 				try{
 					final String[] phoneNumberArray = getPhoneNumbers(notification);
@@ -258,30 +280,32 @@ public class NotificationActivity extends Activity {
 					return false;
 				}
 			}
-			case VIEW_THREAD_CONTEXT_MENU:{
-				if(Common.startMessagingAppViewThreadActivity(_context, this, notification.getSentFromAddress(), Constants.VIEW_SMS_THREAD_ACTIVITY)){
-					setInReplyScreenFlag(true);
-					return true;
-				}else{
-					return false;
-				}
-			}
-			case MESSAGING_INBOX_CONTEXT_MENU:{
-				if(Common.startMessagingAppViewInboxActivity(_context, this, Constants.MESSAGING_ACTIVITY)){
-					setInReplyScreenFlag(true);
-					return true;
-				}else{
-					return false;
-				}
-			}
-			case VIEW_CALENDAR_CONTEXT_MENU:{
-				return Common.startViewCalendarActivity(_context, this, Constants.CALENDAR_ACTIVITY);
-			}
 			case ADD_CALENDAR_EVENT_CONTEXT_MENU:{
 				return Common.startAddCalendarEventActivity(_context, this, Constants.ADD_CALENDAR_ACTIVITY);
 			}
 			case EDIT_CALENDAR_EVENT_CONTEXT_MENU:{
 				return Common.startEditCalendarEventActivity(_context, this, notification.getCalendarEventID(), notification.getCalendarEventStartTime(), notification.getCalendarEventEndTime(), Constants.EDIT_CALENDAR_ACTIVITY);
+			}
+			case VIEW_CALENDAR_CONTEXT_MENU:{
+				return Common.startViewCalendarActivity(_context, this, Constants.CALENDAR_ACTIVITY);
+			}
+			case RESCHEDULE_NOTIFICATION_CONTEXT_MENU:{
+				try{
+					_notificationViewFlipper.rescheduleNotification();
+					return true;
+				}catch(Exception ex){
+					if (_debug) Log.e("NotificationActivity.onContextItemSelected() RESCHEDULE_NOTIFICATION_CONTEXT_MENU ERROR: " + ex.toString());
+					return false;
+				}
+			}
+			case SPEAK_NOTIFICATION_CONTEXT_MENU:{
+				try{
+					speak();
+					return true;
+				}catch(Exception ex){
+					if (_debug) Log.e("NotificationActivity.onContextItemSelected() SPEAK_NOTIFICATION_CONTEXT_MENU ERROR: " + ex.toString());
+					return false;
+				}
 			}
 			case DISMISS_NOTIFICATION_CONTEXT_MENU:{
 				try{
@@ -875,7 +899,7 @@ public class NotificationActivity extends Activity {
 	protected void onPause() {
 	    if (_debug) Log.v("NotificationActivity.onPause()");
 	    if (_tts != null){
-	    	_tts.shutdown();
+	    	_tts.stop();
 	    }
 	    Common.clearWakeLock();
 	    super.onPause();
@@ -1940,36 +1964,36 @@ public class NotificationActivity extends Activity {
 		if (_debug) Log.v("NotificationActivity.setupContextMenus()");
 		switch(notificationType){
 			case Constants.NOTIFICATION_TYPE_PHONE:{
-				MenuItem viewCalendarEventMenuItem = contextMenu.findItem(VIEW_CALENDAR_CONTEXT_MENU);
-				viewCalendarEventMenuItem.setVisible(false);
 		    	MenuItem addCalendarEventMenuItem = contextMenu.findItem(ADD_CALENDAR_EVENT_CONTEXT_MENU);
 		    	addCalendarEventMenuItem.setVisible(false);
 				MenuItem editCalendarEventMenuItem = contextMenu.findItem(EDIT_CALENDAR_EVENT_CONTEXT_MENU);
 				editCalendarEventMenuItem.setVisible(false);
-				MenuItem viewThreadMenuItem = contextMenu.findItem(VIEW_THREAD_CONTEXT_MENU);
-				viewThreadMenuItem.setVisible(false);
+				MenuItem viewCalendarEventMenuItem = contextMenu.findItem(VIEW_CALENDAR_CONTEXT_MENU);
+				viewCalendarEventMenuItem.setVisible(false);
 				MenuItem messagingInboxMenuItem = contextMenu.findItem(MESSAGING_INBOX_CONTEXT_MENU);
 				messagingInboxMenuItem.setVisible(false);
+				MenuItem viewThreadMenuItem = contextMenu.findItem(VIEW_THREAD_CONTEXT_MENU);
+				viewThreadMenuItem.setVisible(false);
 				break;
 		    }
 			case Constants.NOTIFICATION_TYPE_SMS:{
-				MenuItem viewCalendarEventMenuItem = contextMenu.findItem(VIEW_CALENDAR_CONTEXT_MENU);
-				viewCalendarEventMenuItem.setVisible(false);
 		    	MenuItem addCalendarEventMenuItem = contextMenu.findItem(ADD_CALENDAR_EVENT_CONTEXT_MENU);
 		    	addCalendarEventMenuItem.setVisible(false);
 				MenuItem editCalendarEventMenuItem = contextMenu.findItem(EDIT_CALENDAR_EVENT_CONTEXT_MENU);
 				editCalendarEventMenuItem.setVisible(false);
+				MenuItem viewCalendarEventMenuItem = contextMenu.findItem(VIEW_CALENDAR_CONTEXT_MENU);
+				viewCalendarEventMenuItem.setVisible(false);
 				MenuItem viewCallLogMenuItem = contextMenu.findItem(VIEW_CALL_LOG_CONTEXT_MENU);
 				viewCallLogMenuItem.setVisible(false);
 				break;
 		    }
 			case Constants.NOTIFICATION_TYPE_MMS:{
-				MenuItem viewCalendarEventMenuItem = contextMenu.findItem(VIEW_CALENDAR_CONTEXT_MENU);
-				viewCalendarEventMenuItem.setVisible(false);
 		    	MenuItem addCalendarEventMenuItem = contextMenu.findItem(ADD_CALENDAR_EVENT_CONTEXT_MENU);
 		    	addCalendarEventMenuItem.setVisible(false);
 				MenuItem editCalendarEventMenuItem = contextMenu.findItem(EDIT_CALENDAR_EVENT_CONTEXT_MENU);
 				editCalendarEventMenuItem.setVisible(false);
+				MenuItem viewCalendarEventMenuItem = contextMenu.findItem(VIEW_CALENDAR_CONTEXT_MENU);
+				viewCalendarEventMenuItem.setVisible(false);
 		    	MenuItem viewCallLogMenuItem = contextMenu.findItem(VIEW_CALL_LOG_CONTEXT_MENU);
 				viewCallLogMenuItem.setVisible(false);
 				break;
@@ -1977,50 +2001,50 @@ public class NotificationActivity extends Activity {
 			case Constants.NOTIFICATION_TYPE_CALENDAR:{
 				MenuItem addContactMenuItem = contextMenu.findItem(ADD_CONTACT_CONTEXT_MENU);
 				addContactMenuItem.setVisible(false);
-		    	MenuItem viewContactMenuItem = contextMenu.findItem(VIEW_CONTACT_CONTEXT_MENU);
-		    	viewContactMenuItem.setVisible(false);
 				MenuItem editContactMenuItem = contextMenu.findItem(EDIT_CONTACT_CONTEXT_MENU);
 				editContactMenuItem.setVisible(false);
-				MenuItem textContactMenuItem = contextMenu.findItem(TEXT_CONTACT_CONTEXT_MENU);
-				textContactMenuItem.setVisible(false);
+		    	MenuItem viewContactMenuItem = contextMenu.findItem(VIEW_CONTACT_CONTEXT_MENU);
+		    	viewContactMenuItem.setVisible(false);
 				MenuItem viewCallLogMenuItem = contextMenu.findItem(VIEW_CALL_LOG_CONTEXT_MENU);
 				viewCallLogMenuItem.setVisible(false);
 				MenuItem callMenuItem = contextMenu.findItem(CALL_CONTACT_CONTEXT_MENU);
 				callMenuItem.setVisible(false);
-				MenuItem viewThreadMenuItem = contextMenu.findItem(VIEW_THREAD_CONTEXT_MENU);
-				viewThreadMenuItem.setVisible(false);
 				MenuItem messagingInboxMenuItem = contextMenu.findItem(MESSAGING_INBOX_CONTEXT_MENU);
 				messagingInboxMenuItem.setVisible(false);
+				MenuItem viewThreadMenuItem = contextMenu.findItem(VIEW_THREAD_CONTEXT_MENU);
+				viewThreadMenuItem.setVisible(false);
+				MenuItem textContactMenuItem = contextMenu.findItem(TEXT_CONTACT_CONTEXT_MENU);
+				textContactMenuItem.setVisible(false);
 				break;
 		    }
 			case Constants.NOTIFICATION_TYPE_GMAIL:{
-				MenuItem viewCalendarEventMenuItem = contextMenu.findItem(VIEW_CALENDAR_CONTEXT_MENU);
-				viewCalendarEventMenuItem.setVisible(false);
 		    	MenuItem addCalendarEventMenuItem = contextMenu.findItem(ADD_CALENDAR_EVENT_CONTEXT_MENU);
 		    	addCalendarEventMenuItem.setVisible(false);
 				MenuItem editCalendarEventMenuItem = contextMenu.findItem(EDIT_CALENDAR_EVENT_CONTEXT_MENU);
 				editCalendarEventMenuItem.setVisible(false);
+				MenuItem viewCalendarEventMenuItem = contextMenu.findItem(VIEW_CALENDAR_CONTEXT_MENU);
+				viewCalendarEventMenuItem.setVisible(false);
 		    	MenuItem viewCallLogMenuItem = contextMenu.findItem(VIEW_CALL_LOG_CONTEXT_MENU);
 				viewCallLogMenuItem.setVisible(false);
-				MenuItem viewThreadMenuItem = contextMenu.findItem(VIEW_THREAD_CONTEXT_MENU);
-				viewThreadMenuItem.setVisible(false);
 				MenuItem messagingInboxMenuItem = contextMenu.findItem(MESSAGING_INBOX_CONTEXT_MENU);
 				messagingInboxMenuItem.setVisible(false);
+				MenuItem viewThreadMenuItem = contextMenu.findItem(VIEW_THREAD_CONTEXT_MENU);
+				viewThreadMenuItem.setVisible(false);
 				break;
 		    }
 			case Constants.NOTIFICATION_TYPE_K9:{
-				MenuItem viewCalendarEventMenuItem = contextMenu.findItem(VIEW_CALENDAR_CONTEXT_MENU);
-				viewCalendarEventMenuItem.setVisible(false);
 		    	MenuItem addCalendarEventMenuItem = contextMenu.findItem(ADD_CALENDAR_EVENT_CONTEXT_MENU);
 		    	addCalendarEventMenuItem.setVisible(false);
 				MenuItem editCalendarEventMenuItem = contextMenu.findItem(EDIT_CALENDAR_EVENT_CONTEXT_MENU);
 				editCalendarEventMenuItem.setVisible(false);
+				MenuItem viewCalendarEventMenuItem = contextMenu.findItem(VIEW_CALENDAR_CONTEXT_MENU);
+				viewCalendarEventMenuItem.setVisible(false);
 		    	MenuItem viewCallLogMenuItem = contextMenu.findItem(VIEW_CALL_LOG_CONTEXT_MENU);
 				viewCallLogMenuItem.setVisible(false);
-				MenuItem viewThreadMenuItem = contextMenu.findItem(VIEW_THREAD_CONTEXT_MENU);
-				viewThreadMenuItem.setVisible(false);
 				MenuItem messagingInboxMenuItem = contextMenu.findItem(MESSAGING_INBOX_CONTEXT_MENU);
 				messagingInboxMenuItem.setVisible(false);
+				MenuItem viewThreadMenuItem = contextMenu.findItem(VIEW_THREAD_CONTEXT_MENU);
+				viewThreadMenuItem.setVisible(false);
 				break;
 		    }
 		}

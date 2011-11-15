@@ -3015,12 +3015,32 @@ public class Common {
 	 * @return boolean - Return true if the Android TTS engine could be started.
 	 */
 	public static boolean speak(Context context, TextToSpeech tts, String text){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.speak()");
 		if (tts == null) {
 			return false;
 	    }else{
 	    	tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
 	    	return true;
 	    }
+	}
+	
+	/**
+	 * Remove the HTML formatting from a string.
+	 * 
+	 * @param input - The string to remove the formatting from.
+	 * 
+	 * @return String - The output string without any html.
+	 */
+	public static String removeHTML(String input){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.removeHTML()");
+		String output = input;
+		output = output.replace("<br/>", ". ");
+		output = output.replace("<i>", "").replace("</i>", "");
+		output = output.replace("<b>", "").replace("</b>", "");
+		output = output.replace("<u>", "").replace("</u>", "");
+		return output;
 	}
 	
 	//================================================================================
@@ -3251,6 +3271,7 @@ public class Common {
 	    protected void onPostExecute(Void result) {
 			if (_debug) Log.v("Common.playNotificationMediaFileAsyncTask.onPostExecute()");
 	    }
+	    
 	}
 	
 	/**

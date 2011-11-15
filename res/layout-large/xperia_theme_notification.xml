@@ -34,15 +34,6 @@
 	        android:text="0/0"
 	        android:textAppearance="?android:attr/textAppearanceMedium"
 	        android:textColor="@color/white" />
-	    <ImageView
-	        android:id="@+id/reschedule_image_view"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_alignTop="@+id/next_button"
-	        android:layout_toLeftOf="@+id/next_button"
-	        android:layout_marginLeft="5dp"
-	        android:layout_marginRight="5dp"
-	        android:background="@drawable/ic_reschedule_white" />
 	    <Button
 	    	android:id="@+id/next_button" 
 	      	android:layout_height="wrap_content"
@@ -165,165 +156,249 @@
 			android:selectAllOnFocus="true"/>
 	</LinearLayout>
 	<LinearLayout 
-		android:id="@+id/phone_button_linear_layout" 
+		android:id="@+id/button_linear_layout" 
 		android:layout_height="wrap_content"
 		android:layout_width="fill_parent" 
 		android:layout_gravity="center_horizontal" 
 		android:padding="2dp" 
 		android:gravity="center">
-		<Button
-			android:id="@+id/phone_dismiss_button"  
-			android:layout_height="wrap_content" 
-			android:layout_width="fill_parent"
-			android:layout_weight="1" 
-			android:layout_marginLeft="1dp"
-			android:layout_marginRight="1dp"
-			android:gravity="center_vertical|center_horizontal"
-			android:drawableLeft="@drawable/ic_delete_black"
-			android:hapticFeedbackEnabled="true"
-			android:textColor="@color/black" 
-			android:background="@drawable/btn_xperia"
-			android:text="@string/dismiss_button_text" />
-		<Button
-			android:id="@+id/phone_call_button"  
+		<ImageButton
+			android:id="@+id/tts_button"
 			android:layout_height="wrap_content" 
 			android:layout_width="fill_parent" 
 			android:layout_weight="1"
 			android:layout_marginLeft="1dp"
 			android:layout_marginRight="1dp"
 			android:gravity="center_vertical|center_horizontal"
-			android:drawableLeft="@drawable/ic_call_green"
 			android:hapticFeedbackEnabled="true"
-			android:textColor="@color/black"
 			android:background="@drawable/btn_xperia"
+			android:scaleType="center"
+			android:src="@drawable/ic_tts_white" />
+		<Button
+			android:id="@+id/dismiss_button"  
+			android:layout_height="wrap_content" 
+			android:layout_width="fill_parent" 
+			android:layout_weight="1"
+			android:layout_marginLeft="1dp"
+			android:layout_marginRight="1dp"
+			android:gravity="center_vertical|center_horizontal"
+			android:hapticFeedbackEnabled="true"
+			android:background="@drawable/btn_xperia"
+			android:drawableLeft="@drawable/ic_delete_white" 
+	    	android:textColor="@color/white" 
+			android:text="@string/dismiss_button_text" />
+		<Button
+			android:id="@+id/delete_button"  
+			android:layout_height="wrap_content" 
+			android:layout_width="fill_parent" 
+			android:layout_weight="1"
+			android:layout_marginLeft="1dp"
+			android:layout_marginRight="1dp"
+			android:gravity="center_vertical|center_horizontal"
+			android:hapticFeedbackEnabled="true"
+			android:background="@drawable/btn_xperia"
+			android:drawableLeft="@drawable/ic_delete_red" 
+	    	android:textColor="@color/white" 
+			android:text="@string/delete_button_text" />
+		<Button
+			android:id="@+id/call_button"  
+			android:layout_height="wrap_content" 
+			android:layout_width="fill_parent" 
+			android:layout_weight="1"
+			android:layout_marginLeft="1dp"
+			android:layout_marginRight="1dp"
+			android:gravity="center_vertical|center_horizontal"
+			android:hapticFeedbackEnabled="true"
+			android:background="@drawable/btn_xperia"
+			android:drawableLeft="@drawable/ic_call_white" 
+	    	android:textColor="@color/white"
 			android:text="@string/call_button_text" />
-	</LinearLayout>
-	<LinearLayout 
-		android:id="@+id/sms_button_linear_layout" 
-		android:layout_height="wrap_content"
-		android:layout_width="fill_parent" 
-		android:layout_gravity="center_horizontal" 
-		android:padding="2dp" 
-		android:gravity="center">
 		<Button
-			android:id="@+id/sms_dismiss_button"  
-			android:layout_height="wrap_content" 
-			android:layout_width="fill_parent"
-			android:layout_weight="1" 
-			android:layout_marginLeft="1dp"
-			android:layout_marginRight="1dp"
-			android:gravity="center_vertical|center_horizontal"
-			android:drawableLeft="@drawable/ic_delete_black"
-			android:hapticFeedbackEnabled="true"
-			android:textColor="@color/black"
-			android:background="@drawable/btn_xperia"
-			android:text="@string/dismiss_button_text" />
-		<Button
-			android:id="@+id/sms_delete_button"  
-			android:layout_height="wrap_content" 
-			android:layout_width="fill_parent"
-			android:layout_weight="1" 
-			android:layout_marginLeft="1dp"
-			android:layout_marginRight="1dp"
-			android:gravity="center_vertical|center_horizontal"
-			android:drawableLeft="@drawable/ic_delete_red"
-			android:hapticFeedbackEnabled="true"
-			android:textColor="@color/black" 
-			android:background="@drawable/btn_xperia"
-			android:text="@string/delete_button_text" />
-		<Button
-			android:id="@+id/sms_reply_button"  
+			android:id="@+id/reply_sms_button"  
 			android:layout_height="wrap_content" 
 			android:layout_width="fill_parent" 
 			android:layout_weight="1"
 			android:layout_marginLeft="1dp"
 			android:layout_marginRight="1dp"
 			android:gravity="center_vertical|center_horizontal"
-			android:drawableLeft="@drawable/ic_conversation_black_small"
 			android:hapticFeedbackEnabled="true"
-			android:textColor="@color/black"
 			android:background="@drawable/btn_xperia"
+			android:drawableLeft="@drawable/ic_conversation_white_small" 
+	    	android:textColor="@color/white"
 			android:text="@string/reply_button_text" />
-	</LinearLayout>
-	<LinearLayout 
-		android:id="@+id/calendar_button_linear_layout" 
-		android:layout_height="wrap_content"
-		android:layout_width="fill_parent" 
-		android:layout_gravity="center_horizontal" 
-		android:padding="2dp" 
-		android:gravity="center">
 		<Button
-			android:id="@+id/calendar_dismiss_button"  
-			android:layout_height="wrap_content" 
-			android:layout_width="fill_parent"
-			android:layout_weight="1" 
-			android:layout_marginLeft="1dp"
-			android:layout_marginRight="1dp"
-			android:gravity="center_vertical|center_horizontal"
-			android:drawableLeft="@drawable/ic_delete_black"
-			android:hapticFeedbackEnabled="true"
-			android:textColor="@color/black"
-			android:background="@drawable/btn_xperia"
-			android:text="@string/dismiss_button_text" />
-		<Button
-			android:id="@+id/calendar_view_button"  
+			android:id="@+id/view_calendar_button"  
 			android:layout_height="wrap_content" 
 			android:layout_width="fill_parent" 
 			android:layout_weight="1"
 			android:layout_marginLeft="1dp"
 			android:layout_marginRight="1dp"
 			android:gravity="center_vertical|center_horizontal"
-			android:drawableLeft="@drawable/ic_calendar_event_black"
 			android:hapticFeedbackEnabled="true"
-			android:textColor="@color/black"
 			android:background="@drawable/btn_xperia"
+			android:drawableLeft="@drawable/ic_calendar_event_white" 
+	    	android:textColor="@color/white"
 			android:text="@string/view_button_text" />
-	</LinearLayout>
-	<LinearLayout 
-		android:id="@+id/email_button_linear_layout" 
-		android:layout_height="wrap_content"
-		android:layout_width="fill_parent" 
-		android:layout_gravity="center_horizontal" 
-		android:padding="2dp" 
-		android:gravity="center">
 		<Button
-			android:id="@+id/email_dismiss_button"  
-			android:layout_height="wrap_content" 
-			android:layout_width="fill_parent"
-			android:layout_weight="1" 
-			android:layout_marginLeft="1dp"
-			android:layout_marginRight="1dp"
-			android:gravity="center_vertical|center_horizontal"
-			android:drawableLeft="@drawable/ic_delete_black"
-			android:hapticFeedbackEnabled="true"
-			android:textColor="@color/black"
-			android:background="@drawable/btn_xperia"
-			android:text="@string/dismiss_button_text" />
-		<Button
-			android:id="@+id/email_delete_button"  
-			android:layout_height="wrap_content" 
-			android:layout_width="fill_parent"
-			android:layout_weight="1" 
-			android:layout_marginLeft="1dp"
-			android:layout_marginRight="1dp"
-			android:gravity="center_vertical|center_horizontal"
-			android:drawableLeft="@drawable/ic_delete_red"
-			android:hapticFeedbackEnabled="true"
-			android:textColor="@color/black" 
-			android:background="@drawable/btn_xperia"
-			android:text="@string/delete_button_text" />
-		<Button
-			android:id="@+id/email_reply_button"  
+			android:id="@+id/reply_email_button"  
 			android:layout_height="wrap_content" 
 			android:layout_width="fill_parent" 
 			android:layout_weight="1"
 			android:layout_marginLeft="1dp"
 			android:layout_marginRight="1dp"
 			android:gravity="center_vertical|center_horizontal"
-			android:drawableLeft="@drawable/ic_envelope_black"
 			android:hapticFeedbackEnabled="true"
-			android:textColor="@color/black"
 			android:background="@drawable/btn_xperia"
+			android:drawableLeft="@drawable/ic_envelope_white" 
+	    	android:textColor="@color/white"
 			android:text="@string/reply_button_text" />
+		<ImageButton
+			android:id="@+id/reschedule_button"  
+			android:layout_height="wrap_content" 
+			android:layout_width="fill_parent" 
+			android:layout_weight="1"
+			android:layout_marginLeft="1dp"
+			android:layout_marginRight="1dp"
+			android:gravity="center_vertical|center_horizontal"
+			android:hapticFeedbackEnabled="true"
+			android:background="@drawable/btn_xperia"
+			android:scaleType="center"
+			android:src="@drawable/ic_reschedule_white" />
+	</LinearLayout>
+	<LinearLayout 
+		android:id="@+id/image_button_linear_layout" 
+		android:layout_height="wrap_content"
+		android:layout_width="fill_parent" 
+		android:layout_gravity="center_horizontal" 
+		android:padding="2dp" 
+		android:gravity="center">
+		<ImageButton
+			android:id="@+id/tts_image_button"
+			android:layout_height="wrap_content" 
+			android:layout_width="fill_parent" 
+			android:layout_weight="1"
+			android:layout_marginLeft="1dp"
+			android:layout_marginRight="1dp"
+			android:gravity="center_vertical|center_horizontal"
+			android:hapticFeedbackEnabled="true"
+			android:background="@drawable/btn_xperia"
+			android:scaleType="center"
+			android:src="@drawable/ic_tts_white" />
+		<ImageButton
+			android:id="@+id/dismiss_image_button"  
+			android:layout_height="wrap_content" 
+			android:layout_width="fill_parent" 
+			android:layout_weight="1"
+			android:layout_marginLeft="1dp"
+			android:layout_marginRight="1dp"
+			android:gravity="center_vertical|center_horizontal"
+			android:hapticFeedbackEnabled="true"
+			android:background="@drawable/btn_xperia"
+			android:scaleType="center"
+			android:src="@drawable/ic_delete_white" />
+		<ImageButton
+			android:id="@+id/delete_image_button"  
+			android:layout_height="wrap_content" 
+			android:layout_width="fill_parent" 
+			android:layout_weight="1"
+			android:layout_marginLeft="1dp"
+			android:layout_marginRight="1dp"
+			android:gravity="center_vertical|center_horizontal"
+			android:hapticFeedbackEnabled="true"
+			android:background="@drawable/btn_xperia"
+			android:scaleType="center"
+			android:src="@drawable/ic_delete_red" />
+		<ImageButton
+			android:id="@+id/call_image_button"  
+			android:layout_height="wrap_content" 
+			android:layout_width="fill_parent" 
+			android:layout_weight="1"
+			android:layout_marginLeft="1dp"
+			android:layout_marginRight="1dp"
+			android:gravity="center_vertical|center_horizontal"
+			android:hapticFeedbackEnabled="true"
+			android:background="@drawable/btn_xperia"
+			android:scaleType="center"
+			android:src="@drawable/ic_call_white" />
+		<ImageButton
+			android:id="@+id/reply_sms_image_button"  
+			android:layout_height="wrap_content" 
+			android:layout_width="fill_parent" 
+			android:layout_weight="1"
+			android:layout_marginLeft="1dp"
+			android:layout_marginRight="1dp"
+			android:gravity="center_vertical|center_horizontal"
+			android:hapticFeedbackEnabled="true"
+			android:background="@drawable/btn_xperia"
+			android:scaleType="center"
+			android:src="@drawable/ic_conversation_white_small" />
+		<ImageButton
+			android:id="@+id/view_calendar_image_button"  
+			android:layout_height="wrap_content" 
+			android:layout_width="fill_parent" 
+			android:layout_weight="1"
+			android:layout_marginLeft="1dp"
+			android:layout_marginRight="1dp"
+			android:gravity="center_vertical|center_horizontal"
+			android:hapticFeedbackEnabled="true"
+			android:background="@drawable/btn_xperia"
+			android:scaleType="center"
+			android:src="@drawable/ic_calendar_event_white" />
+		<ImageButton
+			android:id="@+id/reply_email_image_button"  
+			android:layout_height="wrap_content" 
+			android:layout_width="fill_parent" 
+			android:layout_weight="1"
+			android:layout_marginLeft="1dp"
+			android:layout_marginRight="1dp"
+			android:gravity="center_vertical|center_horizontal"
+			android:hapticFeedbackEnabled="true"
+			android:background="@drawable/btn_xperia"
+			android:scaleType="center"
+			android:src="@drawable/ic_envelope_white" />
+		<ImageButton
+			android:id="@+id/reschedule_image_button"  
+			android:layout_height="wrap_content" 
+			android:layout_width="fill_parent" 
+			android:layout_weight="1"
+			android:layout_marginLeft="1dp"
+			android:layout_marginRight="1dp"
+			android:gravity="center_vertical|center_horizontal"
+			android:hapticFeedbackEnabled="true"
+			android:background="@drawable/btn_xperia"
+			android:scaleType="center"
+			android:src="@drawable/ic_reschedule_white" />
+	</LinearLayout>
+	<LinearLayout 
+		android:id="@+id/overflow_button_linear_layout" 
+		android:layout_height="wrap_content"
+		android:layout_width="fill_parent" 
+		android:layout_gravity="center_horizontal" 
+		android:padding="2dp" 
+		android:gravity="center">
+		<ImageButton
+			android:id="@+id/overflow_tts_image_button"
+			android:layout_height="wrap_content" 
+			android:layout_width="fill_parent" 
+			android:layout_weight="1"
+			android:layout_marginLeft="1dp"
+			android:layout_marginRight="1dp"
+			android:gravity="center_vertical|center_horizontal"
+			android:hapticFeedbackEnabled="true"
+			android:background="@drawable/btn_xperia"
+			android:scaleType="center"
+			android:src="@drawable/ic_tts_white" />
+		<ImageButton
+			android:id="@+id/overflow_reschedule_image_button"  
+			android:layout_height="wrap_content" 
+			android:layout_width="fill_parent" 
+			android:layout_weight="1"
+			android:layout_marginLeft="1dp"
+			android:layout_marginRight="1dp"
+			android:gravity="center_vertical|center_horizontal"
+			android:hapticFeedbackEnabled="true"
+			android:background="@drawable/btn_xperia"
+			android:scaleType="center"
+			android:src="@drawable/ic_reschedule_white" />
 	</LinearLayout>
 </LinearLayout>
