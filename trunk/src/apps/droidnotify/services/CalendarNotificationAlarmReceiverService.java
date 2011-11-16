@@ -52,7 +52,7 @@ public class CalendarNotificationAlarmReceiverService extends WakefulIntentServi
 	    	Bundle bundle = intent.getExtras();
 	    	calendarIntent.putExtras(bundle);
 	    	calendarIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-	    	Common.acquirePartialWakeLock(context);
+	    	Common.acquireWakeLock(context);
 	    	context.startActivity(calendarIntent);
 		}catch(Exception ex){
 			if (_debug) Log.e("CalendarNotificationAlarmReceiverService.doWakefulWork() ERROR: " + ex.toString());

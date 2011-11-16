@@ -32,69 +32,7 @@
             </intent-filter>
         </activity>
         
- 		<receiver android:name="apps.droidnotify.receivers.SMSReceiver"> 
-            <intent-filter android:priority="2147483647"> 
-                <action android:name="android.provider.Telephony.SMS_RECEIVED" /> 
-            </intent-filter> 
-        </receiver>
-        <service android:name="apps.droidnotify.services.SMSBroadcastReceiverService" />
-        <receiver android:name="apps.droidnotify.receivers.SMSAlarmReceiver" />
-        <service android:name="apps.droidnotify.services.SMSAlarmBroadcastReceiverService" />
-        <service android:name="apps.droidnotify.services.SMSReceiverService" />
-        
-		<receiver android:name="apps.droidnotify.receivers.MMSReceiver"> 
-			<intent-filter android:priority="2147483647">
-                <action android:name="android.provider.Telephony.WAP_PUSH_RECEIVED" />
-                <data android:mimeType="application/vnd.wap.mms-message" />
-            </intent-filter>
-            <intent-filter android:priority="2147483647"> 
-                <action android:name="android.provider.Telephony.MMS_RECEIVED" /> 
-            </intent-filter>
-        </receiver>
-        <service android:name="apps.droidnotify.services.MMSBroadcastReceiverService" />
-        <receiver android:name="apps.droidnotify.receivers.MMSAlarmReceiver" />
-        <service android:name="apps.droidnotify.services.MMSAlarmBroadcastReceiverService" />
-        <service android:name="apps.droidnotify.services.MMSReceiverService" />
-        
-   		<receiver android:name="apps.droidnotify.receivers.PhoneReceiver" > 
-            <intent-filter android:priority="2147483647"> 
-                <action android:name="android.intent.action.PHONE_STATE" />
-            </intent-filter> 
-        </receiver>
-        <service android:name="apps.droidnotify.services.PhoneBroadcastReceiverService" />
-        <receiver android:name="apps.droidnotify.receivers.PhoneAlarmReceiver" />
-        <service android:name="apps.droidnotify.services.PhoneAlarmBroadcastReceiverService" />
-       	<service android:name="apps.droidnotify.services.PhoneReceiverService" /> 
-       	
-		<receiver android:name="apps.droidnotify.receivers.OnBootReceiver" >
-			<intent-filter>
-				<action android:name="android.intent.action.BOOT_COMPLETED" />
-			</intent-filter>
-		</receiver>
-        <service android:name="apps.droidnotify.services.OnBootBroadcastReceiverService" />     
-        
-		<receiver android:name="apps.droidnotify.receivers.CalendarAlarmReceiver" />
-		<service android:name="apps.droidnotify.services.CalendarAlarmReceiverService" />
-		<receiver android:name="apps.droidnotify.receivers.CalendarNotificationAlarmReceiver" />
-		<service android:name="apps.droidnotify.services.CalendarNotificationAlarmReceiverService" />
-		
-		<receiver android:name="apps.droidnotify.receivers.ScreenManagementAlarmReceiver" />
-        <service android:name="apps.droidnotify.services.ScreenManagementAlarmBroadcastReceiverService" />
-        
-		<receiver android:name="apps.droidnotify.receivers.RescheduleReceiver" />
-        <service android:name="apps.droidnotify.services.RescheduleBroadcastReceiverService" />
-		<service android:name="apps.droidnotify.services.RescheduleReceiverService" />
-		
-		<receiver android:name="apps.droidnotify.receivers.K9Receiver">
-			<intent-filter android:priority="2147483647">
-				<action android:name="com.fsck.k9.intent.action.EMAIL_RECEIVED" />
-				<data android:scheme="email" android:host="messages" />
-			</intent-filter>
-		</receiver>
-		<service android:name="apps.droidnotify.services.K9BroadcastReceiverService" />
-		<service android:name="apps.droidnotify.services.K9ReceiverService" />
-		
-   		<activity 
+    	<activity 
    			android:name="apps.droidnotify.NotificationActivity" 
    			android:theme="@style/Theme.Transparent"
    			android:launchMode="singleTask"
@@ -120,8 +58,102 @@
 				<category android:name="android.intent.category.BROWSABLE" />
 				<data android:scheme="droidnotify-oauth-twitter" android:host="callback" />
 			</intent-filter>
-		</activity>
+		</activity>       
+
+        <service android:name="apps.droidnotify.services.SMSBroadcastReceiverService" />
+        <service android:name="apps.droidnotify.services.SMSAlarmBroadcastReceiverService" />
+        <service android:name="apps.droidnotify.services.SMSReceiverService" />
+ 
+        <service android:name="apps.droidnotify.services.MMSBroadcastReceiverService" />
+        <service android:name="apps.droidnotify.services.MMSAlarmBroadcastReceiverService" />
+        <service android:name="apps.droidnotify.services.MMSReceiverService" />
+        
+        <service android:name="apps.droidnotify.services.PhoneBroadcastReceiverService" />
+        <service android:name="apps.droidnotify.services.PhoneAlarmBroadcastReceiverService" />
+       	<service android:name="apps.droidnotify.services.PhoneReceiverService" /> 
+
+        <service android:name="apps.droidnotify.services.OnBootBroadcastReceiverService" />     
+
+		<service android:name="apps.droidnotify.services.CalendarAlarmReceiverService" />
+		<service android:name="apps.droidnotify.services.CalendarNotificationAlarmReceiverService" />
 		
+        <service android:name="apps.droidnotify.services.ScreenManagementAlarmBroadcastReceiverService" />
+
+        <service android:name="apps.droidnotify.services.RescheduleBroadcastReceiverService" />
+		<service android:name="apps.droidnotify.services.RescheduleReceiverService" />
+
+		<service android:name="apps.droidnotify.services.K9BroadcastReceiverService" />
+		<service android:name="apps.droidnotify.services.K9ReceiverService" />
+		
+		<receiver 
+		    	android:name="apps.droidnotify.receivers.SMSReceiver"
+		    	android:exported="true">           
+			<intent-filter android:priority="2147483647"> 
+	        	<action android:name="android.provider.Telephony.SMS_RECEIVED" /> 
+	        </intent-filter> 
+	    </receiver>
+        <receiver 
+            	android:name="apps.droidnotify.receivers.SMSAlarmReceiver"
+		    	android:exported="true" /> 
+           
+		<receiver 
+		    	android:name="apps.droidnotify.receivers.MMSReceiver"
+		    	android:exported="true"> 
+			<intent-filter android:priority="2147483647">
+                <action android:name="android.provider.Telephony.WAP_PUSH_RECEIVED" />
+                <data android:mimeType="application/vnd.wap.mms-message" />
+            </intent-filter>
+            <intent-filter android:priority="2147483647"> 
+                <action android:name="android.provider.Telephony.MMS_RECEIVED" /> 
+            </intent-filter>
+        </receiver>    
+        <receiver 
+            	android:name="apps.droidnotify.receivers.MMSAlarmReceiver"
+		    	android:exported="true" />
+   		
+   		<receiver 
+   		    	android:name="apps.droidnotify.receivers.PhoneReceiver"
+		    	android:exported="true" > 
+            <intent-filter android:priority="2147483647"> 
+                <action android:name="android.intent.action.PHONE_STATE" />
+            </intent-filter> 
+        </receiver>
+        <receiver 
+            	android:name="apps.droidnotify.receivers.PhoneAlarmReceiver"
+		    	android:exported="true" />
+        
+		<receiver 
+		    	android:name="apps.droidnotify.receivers.OnBootReceiver"
+		    	android:exported="true" >
+			<intent-filter>
+				<action android:name="android.intent.action.BOOT_COMPLETED" />
+			</intent-filter>
+		</receiver> 
+		       
+		<receiver 
+		    	android:name="apps.droidnotify.receivers.CalendarAlarmReceiver"
+		    	android:exported="true" />
+		<receiver 
+		    	android:name="apps.droidnotify.receivers.CalendarNotificationAlarmReceiver"
+		    	android:exported="true" />
+		
+		<receiver 
+		    	android:name="apps.droidnotify.receivers.ScreenManagementAlarmReceiver"
+		    	android:exported="true" />
+		
+		<receiver 
+		    	android:name="apps.droidnotify.receivers.RescheduleReceiver"
+		    	android:exported="true" />	
+		
+		<receiver 
+		    	android:name="apps.droidnotify.receivers.K9Receiver"
+		    	android:exported="true">
+			<intent-filter android:priority="2147483647">
+				<action android:name="com.fsck.k9.intent.action.EMAIL_RECEIVED" />
+				<data android:scheme="email" android:host="messages" />
+			</intent-filter>
+		</receiver>
+
     </application>
 	<uses-permission android:name="android.permission.CALL_PHONE" />
 	<uses-permission android:name="android.permission.DISABLE_KEYGUARD" />

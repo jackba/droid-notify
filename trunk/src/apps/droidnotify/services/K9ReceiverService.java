@@ -60,7 +60,7 @@ public class K9ReceiverService extends WakefulIntentService {
 		    	Intent k9NotificationIntent = new Intent(context, NotificationActivity.class);
 		    	k9NotificationIntent.putExtras(bundle);
 		    	k9NotificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-		    	Common.acquirePartialWakeLock(context);
+		    	Common.acquireWakeLock(context);
 		    	context.startActivity(k9NotificationIntent);
 			}else{
 				if (_debug) Log.v("K9ReceiverService.doWakefulWork() No new emails were found. Exiting...");

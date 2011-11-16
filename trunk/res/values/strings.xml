@@ -96,14 +96,12 @@
    	<string name="preference_display_contact_photo_title">Display Contact Photo</string>
    	<string name="preference_display_contact_photo_summaryOn">The contact photo will be displayed.</string>
    	<string name="preference_display_contact_photo_summaryOff">The contact photo will not be displayed.</string>
-   	<string name="preference_hide_contact_name_enabled_title">Display Contact Name</string>
-   	<string name="preference_hide_contact_name_enabled_summaryOn">The contact name will be displayed.</string>
-   	<string name="preference_hide_contact_name_enabled_summaryOff">The contact name will not be displayed.</string>
+   	<string name="preference_display_contact_name_title">Display Contact Name</string>
+   	<string name="preference_display_contact_name_summary">Display the contact name in the notification header.</string>
    	<string name="preference_contact_name_font_size_title">Contact Name Font Size</string>
    	<string name="preference_contact_name_font_size_summary">Select the font size of the contact name text.</string>
-   	<string name="preference_hide_contact_number_enabled_title">Display Contact Number</string>
-   	<string name="preference_hide_contact_number_enabled_summaryOn">The contact number will be displayed.</string>
-   	<string name="preference_hide_contact_number_enabled_summaryOff">The contact number will not be displayed.</string>
+   	<string name="preference_display_contact_number_title">Display Contact Number</string>
+   	<string name="preference_display_contact_number_summary">Display the contact number in the notification header.</string>
    	<string name="preference_contact_number_font_size_title">Contact Number Font Size</string>
    	<string name="preference_contact_number_font_size_summary">Select the font size of the contact number text.</string>   	
     <string name="preference_contact_placeholder_image">Contact Placeholder Image</string>
@@ -286,24 +284,18 @@
    	<string name="preference_button_icons_enabled_title">Display Button Icons</string>
    	<string name="preference_button_icons_enabled_summaryOn">Display icons buttons.</string>
    	<string name="preference_button_icons_enabled_summaryOff">Do not display icons on buttons.</string>
-    <string name="preference_hide_dismiss_button_enabled_title">Hide Dismiss Button</string>
-   	<string name="preference_hide_dismiss_button_enabled_summaryOn">The dismiss button will not be displayed.</string>
-   	<string name="preference_hide_dismiss_button_enabled_summaryOff">The dismiss button will be displayed.</string>	
-    <string name="preference_hide_delete_button_enabled_title">Hide Delete Button</string>
-   	<string name="preference_hide_delete_button_enabled_summaryOn">The delete button will not be displayed.</string>
-   	<string name="preference_hide_delete_button_enabled_summaryOff">The delete button will be displayed.</string>		
-   	<string name="preference_hide_reply_button_enabled_title">Hide Reply Button</string>
-   	<string name="preference_hide_reply_button_enabled_summaryOn">The reply button will not be displayed.</string>
-   	<string name="preference_hide_reply_button_enabled_summaryOff">The reply button will be displayed.</string>	
-   	<string name="preference_hide_call_button_enabled_title">Hide Call Button</string>
-   	<string name="preference_hide_call_button_enabled_summaryOn">The call button will not be displayed.</string>
-   	<string name="preference_hide_call_button_enabled_summaryOff">The call button will be displayed.</string>
-   	<string name="preference_hide_view_button_enabled_title">Hide View Button</string>
-   	<string name="preference_hide_view_button_enabled_summaryOn">The view button will not be displayed.</string>
-   	<string name="preference_hide_view_button_enabled_summaryOff">The view button will be displayed.</string>	
-    <string name="preference_hide_cancel_button_enabled_title">Hide Cancel Button</string>
-   	<string name="preference_hide_cancel_button_enabled_summaryOn">The cancel button will not be displayed.</string>
-   	<string name="preference_hide_cancel_button_enabled_summaryOff">The cancel button will be displayed.</string>
+    <string name="preference_display_dismiss_button_title">Display Dismiss Button</string>
+   	<string name="preference_display_dismiss_button_summary">Show the dismiss button.</string>
+    <string name="preference_display_delete_button_title">Display Delete Button</string>
+   	<string name="preference_display_delete_button_summary">Show the delete button.</string>	
+   	<string name="preference_display_reply_button_title">Display Reply Button</string>
+   	<string name="preference_display_reply_button_summary">Show the reply button.</string>	
+   	<string name="preference_display_call_button_title">Display Call Button</string>
+   	<string name="preference_display_call_button_summary">Show the call button.</string>
+   	<string name="preference_display_view_button_title">Display View Button</string>
+   	<string name="preference_display_view_button_summary">Show the view button.</string>	
+    <string name="preference_display_cancel_button_title">Display Cancel Button</string>
+   	<string name="preference_display_cancel_button_summary">Show the cancel button.</string>
     <string name="preference_dismiss_button_action">Dismiss Button Action</string>
    	<string name="preference_delete_button_action">Delete Button Action</string>
    	<string name="preference_reply_button_action">Reply Button Action</string>
@@ -368,7 +360,7 @@
 	<string name="only_on_weekends_text">Only during weekends.</string>
 	<string name="only_on_weekdays_text">Only during weekdays.</string>
    	<string name="preference_quiet_time_quiet_period_title">Quiet Period Settings</string> 
-   	<string name="preference_quiet_time_quiet_period_summary">Define when the quiet time will be observed.</string> 
+   	<string name="preference_quiet_time_quiet_period_summary">Define the Quiet Time time period.</string> 
    	<string name="preference_quiet_period_dialog_instructions">Select the time you would like the quiet period to start and stop.</string>
 	<string name="start_quiet_time_text">Start Quiet Time:</string>
 	<string name="stop_quiet_time_text">Stop Quiet Time:</string>
@@ -401,9 +393,8 @@
    	<string name="preference_import_preferences_error_text">The application preferences were not imported. Possible causes for this error include a missing preferences file, a missing SD Card or other SD card related issues which prevents this application from reading a file from the SD card location.</string>
 
    	<!-- Reschedule Strings -->
-   	<string name="preference_hide_reschedule_button_enabled_title">Hide Reschedule Button</string>
-   	<string name="preference_hide_reschedule_button_enabled_summaryOn">The reschedule button will not be shown.</string>
-   	<string name="preference_hide_reschedule_button_enabled_summaryOff">The reschedule button will be shown</string>
+   	<string name="preference_display_reschedule_button_title">Display Reschedule Button</string>
+   	<string name="preference_display_reschedule_button_summary">Display the reschedule button in the header.</string>
    	<string name="reschedule_notifications_text">Reschedule Notifications</string>
    	<string name="preference_reschedule_notifications_enabled_summaryOn">The app will reschedule notifications if they are blocked (e.g. on a phone call, in a messaging app, etc...).</string>
    	<string name="preference_reschedule_notifications_enabled_summaryOff">The app will not reschedule notifications if they are blocked.</string>
@@ -548,8 +539,8 @@
    
    	<!-- TTS Strings -->
    	<string name="speak_notification_text">Speak Notification</string>
- 	<string name="preference_text_to_speech_enabled_title">Enable Text To Speech</string>
-   	<string name="preference_text_to_speech_enabled_summary">When enabled, a button will appear allowing you to use the built in Android Text-To-Speech engine.</string>
+ 	<string name="preference_display_text_to_speech_button_title">Display Text To Speech Button</string>
+   	<string name="preference_display_text_to_speech_button_summary">Display the text-to-speech (TTS) button in the header.</string>
    	    	
    	<!-- Array Strings -->
    	<string name="mark_as_read_text">Mark As Read</string>
