@@ -72,20 +72,19 @@
 					android:summaryOn="@string/preference_button_icons_enabled_summaryOn" 
 					android:summaryOff="@string/preference_button_icons_enabled_summaryOff" 
 					android:defaultValue="true" />
-				<CheckBoxPreference
-					android:key="text_to_speech_enabled" 
-					android:title="@string/preference_text_to_speech_enabled_title" 
-					android:summary="@string/preference_text_to_speech_enabled_summary"
-					android:defaultValue="true" />
 			</PreferenceCategory>
 			<PreferenceCategory
 				android:key="notification_header_settings_category"
 				android:title="@string/notification_header_settings_text">
 				<CheckBoxPreference
+					android:key="display_text_to_speech_button" 
+					android:title="@string/preference_display_text_to_speech_button_title" 
+					android:summary="@string/preference_display_text_to_speech_button_summary"
+					android:defaultValue="true" />
+				<CheckBoxPreference
 					android:key="display_reschedule_button" 
-					android:title="@string/preference_hide_reschedule_button_enabled_title" 
-					android:summaryOn="@string/preference_hide_reschedule_button_enabled_summaryOn" 
-					android:summaryOff="@string/preference_hide_reschedule_button_enabled_summaryOff" 
+					android:title="@string/preference_display_reschedule_button_title" 
+					android:summary="@string/preference_display_reschedule_button_summary"
 					android:defaultValue="true" />
 				<CheckBoxPreference
 					android:key="hide_single_message_header_enabled" 
@@ -94,7 +93,7 @@
 					android:summaryOff="@string/preference_hide_single_message_header_enabled_summaryOff" 
 					android:defaultValue="false" />
 				<CheckBoxPreference
-					android:key="notification_type_info_icon_enabled" 
+					android:key="display_notification_type_info_icon" 
 					android:title="@string/preference_notification_type_info_icon_enabled_title" 
 					android:summaryOn="@string/preference_notification_type_info_icon_enabled_summaryOn" 
 					android:summaryOff="@string/preference_notification_type_info_icon_enabled_summaryOff" 
@@ -105,10 +104,9 @@
 					android:summary="@string/preference_notification_type_info_size_summary"
 					android:defaultValue="14"
 					android:entries="@array/font_size_options"
-					android:entryValues="@array/font_size_options_values"
-					android:dependency="notification_type_info_icon_enabled" />
+					android:entryValues="@array/font_size_options_values" />
 				<CheckBoxPreference
-					android:key="display_contact_photo_enabled" 
+					android:key="display_contact_photo" 
 					android:title="@string/preference_display_contact_photo_title" 
 					android:summaryOn="@string/preference_display_contact_photo_summaryOn" 
 					android:summaryOff="@string/preference_display_contact_photo_summaryOff" 
@@ -121,7 +119,7 @@
 					android:entryValues="@array/contact_placeholder_options_values"
 					android:defaultValue="0"
 					droidnotify:entryImages="@array/contact_placeholder_images"
-					android:dependency="display_contact_photo_enabled" />
+					android:dependency="display_contact_photo" />
 				<apps.droidnotify.preferences.ImageListPreference
 					android:key="contact_photo_background"
 					android:title="@string/preference_contact_photo_background"
@@ -130,7 +128,7 @@
 					android:entryValues="@array/contact_photo_background_options_values"
 					android:defaultValue="0"
 					droidnotify:entryImages="@array/contact_photo_background_images"
-					android:dependency="display_contact_photo_enabled" />
+					android:dependency="display_contact_photo" />
 				<ListPreference
 					android:key="contact_photo_size"
 					android:title="@string/preference_contact_photo_size"
@@ -138,12 +136,11 @@
 					android:defaultValue="80"
 					android:entries="@array/contact_photo_size_options"
 					android:entryValues="@array/contact_photo_size_options_values"
-					android:dependency="display_contact_photo_enabled" />
+					android:dependency="display_contact_photo" />
 				<CheckBoxPreference
-					android:key="display_contact_name_enabled" 
-					android:title="@string/preference_hide_contact_name_enabled_title" 
-					android:summaryOn="@string/preference_hide_contact_name_enabled_summaryOn" 
-					android:summaryOff="@string/preference_hide_contact_name_enabled_summaryOff" 
+					android:key="display_contact_name" 
+					android:title="@string/preference_display_contact_name_title" 
+					android:summary="@string/preference_display_contact_name_summary"
 					android:defaultValue="true" />
 				<ListPreference
 					android:key="contact_name_font_size"
@@ -152,12 +149,11 @@
 					android:defaultValue="22"
 					android:entries="@array/font_size_options"
 					android:entryValues="@array/font_size_options_values"
-					android:dependency="display_contact_name_enabled" />
+					android:dependency="display_contact_name" />
 				<CheckBoxPreference
-					android:key="display_contact_number_enabled" 
-					android:title="@string/preference_hide_contact_number_enabled_title" 
-					android:summaryOn="@string/preference_hide_contact_number_enabled_summaryOn" 
-					android:summaryOff="@string/preference_hide_contact_number_enabled_summaryOff" 
+					android:key="display_contact_number" 
+					android:title="@string/preference_display_contact_number_title" 
+					android:summary="@string/preference_display_contact_number_summary" 
 					android:defaultValue="true" />
 				<ListPreference
 					android:key="contact_number_font_size"
@@ -166,7 +162,7 @@
 					android:defaultValue="18"
 					android:entries="@array/font_size_options"
 					android:entryValues="@array/font_size_options_values"
-					android:dependency="display_contact_number_enabled" />
+					android:dependency="display_contact_number" />
 			</PreferenceCategory>   
 			<PreferenceCategory
 				android:key="notification_body_settings_category"
@@ -183,14 +179,7 @@
 					android:defaultValue="14"
 					android:entries="@array/font_size_options"
 					android:entryValues="@array/font_size_options_values" />
-			</PreferenceCategory>   
-<!-- 
-			<PreferenceCategory
-				android:key="text_to_speech_settings_category"
-				android:title="@string/text_to_speech_settings_text">
-
 			</PreferenceCategory>
- -->
 			<PreferenceCategory
 				android:key="reminder_settings_category"
 				android:title="@string/reminder_settings_text">
@@ -299,9 +288,8 @@
 							android:title="@string/show_hide_button_settings_text">
 							<CheckBoxPreference 
 								android:key="display_quick_reply_cancel_button" 
-								android:title="@string/preference_hide_cancel_button_enabled_title" 
-								android:summaryOn="@string/preference_hide_cancel_button_enabled_summaryOn" 
-								android:summaryOff="@string/preference_hide_cancel_button_enabled_summaryOff" 
+								android:title="@string/preference_display_cancel_button_title" 
+								android:summary="@string/preference_display_cancel_button_summary"
 								android:defaultValue="false" />
 						</PreferenceScreen>
 					</PreferenceCategory>
@@ -522,21 +510,18 @@
 									android:title="@string/show_hide_button_settings_text">
 									<CheckBoxPreference 
 										android:key="sms_display_dismiss_button" 
-										android:title="@string/preference_hide_dismiss_button_enabled_title" 
-										android:summaryOn="@string/preference_hide_dismiss_button_enabled_summaryOn" 
-										android:summaryOff="@string/preference_hide_dismiss_button_enabled_summaryOff" 
+										android:title="@string/preference_display_dismiss_button_title" 
+										android:summary="@string/preference_display_dismiss_button_summary"
 										android:defaultValue="true" />
 									<CheckBoxPreference 
 										android:key="sms_display_delete_button" 
-										android:title="@string/preference_hide_delete_button_enabled_title" 
-										android:summaryOn="@string/preference_hide_delete_button_enabled_summaryOn" 
-										android:summaryOff="@string/preference_hide_delete_button_enabled_summaryOff" 
+										android:title="@string/preference_display_delete_button_title" 
+										android:summary="@string/preference_display_delete_button_summary"
 										android:defaultValue="true" />
 									<CheckBoxPreference 
 										android:key="sms_display_reply_button" 
-										android:title="@string/preference_hide_reply_button_enabled_title" 
-										android:summaryOn="@string/preference_hide_reply_button_enabled_summaryOn" 
-										android:summaryOff="@string/preference_hide_reply_button_enabled_summaryOff" 
+										android:title="@string/preference_display_reply_button_title" 
+										android:summary="@string/preference_display_reply_button_summary"
 										android:defaultValue="true" />
 								</PreferenceScreen>
 							</PreferenceCategory>
@@ -750,21 +735,18 @@
 									android:title="@string/show_hide_button_settings_text">
 									<CheckBoxPreference 
 										android:key="mms_display_dismiss_button" 
-										android:title="@string/preference_hide_dismiss_button_enabled_title" 
-										android:summaryOn="@string/preference_hide_dismiss_button_enabled_summaryOn" 
-										android:summaryOff="@string/preference_hide_dismiss_button_enabled_summaryOff" 
+										android:title="@string/preference_display_dismiss_button_title" 
+										android:summary="@string/preference_display_dismiss_button_summary"
 										android:defaultValue="true" />
 									<CheckBoxPreference 
 										android:key="mms_display_delete_button" 
-										android:title="@string/preference_hide_delete_button_enabled_title" 
-										android:summaryOn="@string/preference_hide_delete_button_enabled_summaryOn" 
-										android:summaryOff="@string/preference_hide_delete_button_enabled_summaryOff" 
+										android:title="@string/preference_display_delete_button_title" 
+										android:summary="@string/preference_display_delete_button_summary"
 										android:defaultValue="true" />
 									<CheckBoxPreference 
 										android:key="mms_display_reply_button" 
-										android:title="@string/preference_hide_reply_button_enabled_title" 
-										android:summaryOn="@string/preference_hide_reply_button_enabled_summaryOn" 
-										android:summaryOff="@string/preference_hide_reply_button_enabled_summaryOff" 
+										android:title="@string/preference_display_reply_button_title" 
+										android:summary="@string/preference_display_reply_button_summary" 
 										android:defaultValue="true" />
 								</PreferenceScreen>
 							</PreferenceCategory>
@@ -943,15 +925,13 @@
 									android:title="@string/show_hide_button_settings_text">
 									<CheckBoxPreference 
 										android:key="missed_call_display_dismiss_button" 
-										android:title="@string/preference_hide_dismiss_button_enabled_title" 
-										android:summaryOn="@string/preference_hide_dismiss_button_enabled_summaryOn" 
-										android:summaryOff="@string/preference_hide_dismiss_button_enabled_summaryOff" 
+										android:title="@string/preference_display_dismiss_button_title" 
+										android:summary="@string/preference_display_dismiss_button_summary"
 										android:defaultValue="true" />
 									<CheckBoxPreference 
 										android:key="missed_call_display_call_button" 
-										android:title="@string/preference_hide_call_button_enabled_title" 
-										android:summaryOn="@string/preference_hide_call_button_enabled_summaryOn" 
-										android:summaryOff="@string/preference_hide_call_button_enabled_summaryOff" 
+										android:title="@string/preference_display_call_button_title" 
+										android:summary="@string/preference_display_call_button_summary"
 										android:defaultValue="true" />
 								</PreferenceScreen>
 							</PreferenceCategory>
@@ -1194,17 +1174,15 @@
 									android:key="calendar_show_hide_buttons_settings_screen"
 									android:title="@string/show_hide_button_settings_text">
 									<CheckBoxPreference 
-										android:key="calendar_hide_dismiss_button_enabled" 
-										android:title="@string/preference_hide_dismiss_button_enabled_title" 
-										android:summaryOn="@string/preference_hide_dismiss_button_enabled_summaryOn" 
-										android:summaryOff="@string/preference_hide_dismiss_button_enabled_summaryOff" 
-										android:defaultValue="false" />
+										android:key="calendar_display_dismiss_button" 
+										android:title="@string/preference_display_dismiss_button_title" 
+										android:summary="@string/preference_display_dismiss_button_summary"
+										android:defaultValue="true" />
 									<CheckBoxPreference 
-										android:key="calendar_hide_view_button_enabled" 
-										android:title="@string/preference_hide_view_button_enabled_title" 
-										android:summaryOn="@string/preference_hide_view_button_enabled_summaryOn" 
-										android:summaryOff="@string/preference_hide_view_button_enabled_summaryOff" 
-										android:defaultValue="false" />
+										android:key="calendar_display_view_button" 
+										android:title="@string/preference_display_view_button_title" 
+										android:summary="@string/preference_display_view_button_summary"
+										android:defaultValue="true" />
 								</PreferenceScreen>
 							</PreferenceCategory>
 						</PreferenceScreen>	

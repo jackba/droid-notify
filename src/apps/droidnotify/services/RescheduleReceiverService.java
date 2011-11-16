@@ -66,7 +66,7 @@ public class RescheduleReceiverService extends WakefulIntentService {
     	Intent rescheduleNotificationIntent = new Intent(context, NotificationActivity.class);
     	rescheduleNotificationIntent.putExtras(bundle);
     	rescheduleNotificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-    	Common.acquirePartialWakeLock(context);
+    	Common.acquireWakeLock(context);
     	context.startActivity(rescheduleNotificationIntent);
 	}
 		

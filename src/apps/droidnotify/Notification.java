@@ -737,9 +737,7 @@ public class Notification {
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_K9:{
-				//Action is determined by the users preferences. 
-	    		//Either mark the message as viewed or do nothing to the message.
-				
+				//Currently, there is no way to mark a K-9 Client message as being viewed.				
 				break;
 			}
 		}
@@ -824,50 +822,46 @@ public class Notification {
 	 */
 	public void speak(TextToSpeech tts){
 		if (_debug) Log.v("Notification.speak()");
-		String messageToSpeak = null;
+		StringBuilder messageToSpeak = new StringBuilder();
 		String formattedTimestamp = Common.formatTimestamp(_context, _timeStamp);
+		String sentFrom = null;
+		if(_notificationType != Constants.NOTIFICATION_TYPE_CALENDAR){
+			if(_contactName != null && !_contactName.equals(_context.getString(android.R.string.unknownName))){
+				sentFrom  = _contactName;
+			}else{
+				if(_sentFromAddress.contains("@")){
+					sentFrom = _sentFromAddress;
+				}else{
+					sentFrom = Common.formatPhoneNumber(_context, _sentFromAddress);
+				}
+			}
+		}
 		switch(_notificationType){
 			case Constants.NOTIFICATION_TYPE_PHONE:{
-				messageToSpeak = _context.getString(R.string.missed_call_at_text, formattedTimestamp.toLowerCase());
-				if(_contactName != null && !_contactName.equals(_context.getString(android.R.string.unknownName))){
-					messageToSpeak += ". From " + _contactName + ".";
-				}else{
-					messageToSpeak += ". From " + _sentFromAddress + ".";
-				}				
+				messageToSpeak.append(_context.getString(R.string.missed_call_at_text, formattedTimestamp.toLowerCase()));
+				messageToSpeak.append(". From " + sentFrom + ". ");
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_SMS:{
-				messageToSpeak = _context.getString(R.string.message_at_text, formattedTimestamp.toLowerCase());
-				if(_contactName != null && !_contactName.equals(_context.getString(android.R.string.unknownName))){
-					messageToSpeak += ". From " + _contactName + ". ";
-				}else{
-					messageToSpeak += ". From " + _sentFromAddress + ". ";
-				}
-				messageToSpeak += _messageBody;
+				messageToSpeak.append(_context.getString(R.string.message_at_text, formattedTimestamp.toLowerCase()));
+				messageToSpeak.append(". From " + sentFrom + ". ");
+				messageToSpeak.append(_messageBody);
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_MMS:{
-				messageToSpeak = _context.getString(R.string.message_at_text, formattedTimestamp.toLowerCase());
-				if(_contactName != null && !_contactName.equals(_context.getString(android.R.string.unknownName))){
-					messageToSpeak += ". From " + _contactName + ". ";
-				}else{
-					messageToSpeak += ". From " + _sentFromAddress + ". ";
-				}
-				messageToSpeak += _messageBody;
+				messageToSpeak.append(_context.getString(R.string.message_at_text, formattedTimestamp.toLowerCase()));
+				messageToSpeak.append(". From " + sentFrom + ". ");
+				messageToSpeak.append(_messageBody);
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_CALENDAR:{
-				messageToSpeak = _context.getString(R.string.calendar_event_text) + ". " + _messageBody;
+				messageToSpeak.append(_context.getString(R.string.calendar_event_text) + ". " + _messageBody);
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_GMAIL:{
-				messageToSpeak = _context.getString(R.string.message_at_text, formattedTimestamp.toLowerCase());
-				if(_contactName != null && !_contactName.equals(_context.getString(android.R.string.unknownName))){
-					messageToSpeak += ". From " + _contactName + ". ";
-				}else{
-					messageToSpeak += ". From " + _sentFromAddress + ". ";
-				}
-				messageToSpeak += _messageBody;
+				messageToSpeak.append(_context.getString(R.string.message_at_text, formattedTimestamp.toLowerCase()));
+				messageToSpeak.append(". From " + sentFrom + ". ");
+				messageToSpeak.append(_messageBody);
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_TWITTER:{
@@ -879,18 +873,14 @@ public class Notification {
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_K9:{
-				messageToSpeak = _context.getString(R.string.message_at_text, formattedTimestamp.toLowerCase());
-				if(_contactName != null && !_contactName.equals(_context.getString(android.R.string.unknownName))){
-					messageToSpeak += ". From " + _contactName + ". ";
-				}else{
-					messageToSpeak += ". From " + _sentFromAddress + ". ";
-				}
-				messageToSpeak += _messageBody;
+				messageToSpeak.append(_context.getString(R.string.email_at_text, formattedTimestamp.toLowerCase()));
+				messageToSpeak.append(". From " + sentFrom + ". ");
+				messageToSpeak.append(_messageBody);
 				break;
 			}
 		}
 		if(messageToSpeak != null){
-			Common.speak(_context, tts, Common.removeHTML(messageToSpeak));
+			Common.speak(_context, tts, Common.removeHTML(messageToSpeak.toString()));
 		}
 	}
 	

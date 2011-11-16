@@ -101,19 +101,19 @@ public class Constants {
 	public static final String REMINDER_INTERVAL_DEFAULT = "60";
 	
 	//-----CONTACT PHOTO CONSTANTS-----//
-	public static final String CONTACT_PHOTO_DISPLAY_KEY = "display_contact_photo_enabled";
+	public static final String CONTACT_PHOTO_DISPLAY_KEY = "display_contact_photo";
     public static final String CONTACT_PLACEHOLDER_KEY = "contact_placeholder";
     public static final String CONTACT_PHOTO_BACKGKROUND_KEY = "contact_photo_background";
 	public static final String CONTACT_PHOTO_SIZE_KEY = "contact_photo_size";
 	public static final String CONTACT_PHOTO_SIZE_DEFAULT = "80";
 	
 	//-----CONTACT NAME CONSTANTS-----//
-	public static final String CONTACT_NAME_DISPLAY_KEY = "display_contact_name_enabled";
+	public static final String CONTACT_NAME_DISPLAY_KEY = "display_contact_name";
 	public static final String CONTACT_NAME_SIZE_KEY = "contact_name_font_size";
 	public static final String CONTACT_NAME_SIZE_DEFAULT = "22";
 	
 	//-----CONTACT NUMBER CONSTANTS-----//
-	public static final String CONTACT_NUMBER_DISPLAY_KEY = "display_contact_number_enabled";
+	public static final String CONTACT_NUMBER_DISPLAY_KEY = "display_contact_number";
 	public static final String CONTACT_NUMBER_SIZE_KEY = "contact_number_font_size";
 	public static final String CONTACT_NUMBER_SIZE_DEFAULT = "18";
     
@@ -212,7 +212,7 @@ public class Constants {
 	public static final String NOTIFICATION_BODY_FONT_SIZE_DEFAULT = "14";
 	
 	//-----NOTIFICATION TYPE INFO CONSTANTS-----//
-	public static final String NOTIFICATION_TYPE_INFO_ICON_KEY = "notification_type_info_icon_enabled";
+	public static final String NOTIFICATION_TYPE_INFO_ICON_KEY = "display_notification_type_info_icon";
 	public static final String NOTIFICATION_TYPE_INFO_FONT_SIZE_KEY = "notification_type_info_font_size";
 	public static final String NOTIFICATION_TYPE_INFO_FONT_SIZE_DEFAULT = "14";	
 	
@@ -579,7 +579,7 @@ public class Constants {
 	public static final String FACEBOOK_STATUS_BAR_NOTIFICATIONS_IN_CALL_VIBRATE_ENABLED_KEY = "facebook_notification_in_call_vibrate_enabled";	
 	
 	//-----TEXT-TO-SPEECH CONSTANTS-----//
-	public static final String TEXT_TO_SPEECH_ENABLED_KEY = "text_to_speech_enabled";
+	public static final String DISPLAY_TEXT_TO_SPEECH_KEY = "display_text_to_speech_button";
 	public static final int TEXT_TO_SPEECH_ACTIVITY = 500;
 	
 }

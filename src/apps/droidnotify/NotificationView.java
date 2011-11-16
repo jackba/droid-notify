@@ -61,19 +61,14 @@ public class NotificationView extends LinearLayout {
 	private Button _nextButton = null;
 	private LinearLayout _buttonLinearLayout = null;
 	private LinearLayout _imageButtonLinearLayout = null;
-	private LinearLayout _overflowButtonLinearLayout = null;
-	private ImageButton _ttsButton = null;
-	private ImageButton _ttsImageButton = null;
-	private ImageButton _ttsImageButtonOverflow = null;
+	private ImageView _ttsButton = null;
 	private Button _dismissButton = null;
 	private Button _deleteButton = null;
 	private Button _callButton = null;
 	private Button _replySMSButton = null;
 	private Button _viewCalendarButton = null;
 	private Button _replyEmailButton = null;
-	private ImageButton _rescheduleButton = null;
-	private ImageButton _rescheduleImageButton = null;
-	private ImageButton _rescheduleImageButtonOverflow = null;
+	private ImageView _rescheduleButton = null;
 	private ImageButton _dismissImageButton = null;
 	private ImageButton _deleteImageButton = null;
 	private ImageButton _callImageButton = null;
@@ -141,13 +136,11 @@ public class NotificationView extends LinearLayout {
 		_mmsLinkTextView = (TextView) findViewById(R.id.mms_link_text_view);
 	    _buttonLinearLayout = (LinearLayout) findViewById(R.id.button_linear_layout);
 	    _imageButtonLinearLayout = (LinearLayout) findViewById(R.id.image_button_linear_layout);
-	    _overflowButtonLinearLayout = (LinearLayout) findViewById(R.id.overflow_button_linear_layout);
 		_contactLinearLayout = (LinearLayout) findViewById(R.id.contact_wrapper_linear_layout);
 		_notificationViewFlipper = _notificationActivity.getNotificationViewFlipper();
 		//Initialize The Button Views
 		_buttonLinearLayout.setVisibility(View.GONE);
     	_imageButtonLinearLayout.setVisibility(View.GONE);
-    	_overflowButtonLinearLayout.setVisibility(View.GONE);
 	}
 
 	/**
@@ -165,16 +158,10 @@ public class NotificationView extends LinearLayout {
 				usingImageButtons = true;
 				_buttonLinearLayout.setVisibility(View.GONE);
 		    	_imageButtonLinearLayout.setVisibility(View.VISIBLE);
-		    	_overflowButtonLinearLayout.setVisibility(View.GONE);
 			}else{
 				usingImageButtons = false;
 				_buttonLinearLayout.setVisibility(View.VISIBLE);
 		    	_imageButtonLinearLayout.setVisibility(View.GONE);
-				if(buttonDisplayStyle.equals(Constants.BUTTON_DISPLAY_BOTH_ICON_TEXT)){
-					_overflowButtonLinearLayout.setVisibility(View.VISIBLE);
-				}else{
-					_overflowButtonLinearLayout.setVisibility(View.GONE);
-				}
 			}
 			//Previous Button
 	    	_previousButton = (Button) findViewById(R.id.previous_button);
@@ -195,10 +182,8 @@ public class NotificationView extends LinearLayout {
 			    }
 			});
 			//TTS Button
-			_ttsButton = (ImageButton) findViewById(R.id.tts_button);
-			_ttsImageButton = (ImageButton) findViewById(R.id.tts_image_button);
-			_ttsImageButtonOverflow = (ImageButton) findViewById(R.id.overflow_tts_image_button);
-			if(_preferences.getBoolean(Constants.TEXT_TO_SPEECH_ENABLED_KEY, true)){
+			_ttsButton = (ImageView) findViewById(R.id.tts_button_image_view);
+			if(_preferences.getBoolean(Constants.DISPLAY_TEXT_TO_SPEECH_KEY, true)){
 				OnClickListener ttsButtonOnClickListener = new OnClickListener() {
 				    public void onClick(View view) {
 				    	if (_debug) Log.v("TTS Image Button Clicked()");
@@ -207,17 +192,11 @@ public class NotificationView extends LinearLayout {
 				    }
 				};
 				_ttsButton.setOnClickListener(ttsButtonOnClickListener);
-				_ttsImageButton.setOnClickListener(ttsButtonOnClickListener);
-				_ttsImageButtonOverflow.setOnClickListener(ttsButtonOnClickListener);
 			}else{
 				_ttsButton.setVisibility(View.GONE);
-				_ttsImageButton.setVisibility(View.GONE);
-				_ttsImageButtonOverflow.setVisibility(View.GONE);
 			}
 			//Reschedule Button
-			_rescheduleButton = (ImageButton) findViewById(R.id.reschedule_button); 
-			_rescheduleImageButton = (ImageButton) findViewById(R.id.reschedule_image_button); 
-			_rescheduleImageButtonOverflow = (ImageButton) findViewById(R.id.overflow_reschedule_image_button); 
+			_rescheduleButton = (ImageView) findViewById(R.id.reschedule_button_image_view);
 			if(_preferences.getBoolean(Constants.DISPLAY_RESCHEDULE_BUTTON_KEY, true)){
 				OnClickListener rescheduleButtonOnClickListener = new OnClickListener() {
 				    public void onClick(View view) {
@@ -227,37 +206,8 @@ public class NotificationView extends LinearLayout {
 				    }
 				};
 				_rescheduleButton.setOnClickListener(rescheduleButtonOnClickListener);
-				_rescheduleImageButton.setOnClickListener(rescheduleButtonOnClickListener);
-				_rescheduleImageButtonOverflow.setOnClickListener(rescheduleButtonOnClickListener);
 			}else{
-				_rescheduleButton.setVisibility(View.GONE); 
-				_rescheduleImageButton.setVisibility(View.GONE); 
-				_rescheduleImageButtonOverflow.setVisibility(View.GONE);
-			}
-			//Show/Hide the different versions of the Reschedule & TTS buttons.
-			if(usingImageButtons){
-				_ttsButton.setVisibility(View.GONE);
-				_ttsImageButton.setVisibility(View.VISIBLE);
-				_ttsImageButtonOverflow.setVisibility(View.GONE);
 				_rescheduleButton.setVisibility(View.GONE);
-				_rescheduleImageButton.setVisibility(View.VISIBLE);
-				_rescheduleImageButtonOverflow.setVisibility(View.GONE);
-			}else{
-				if(buttonDisplayStyle.equals(Constants.BUTTON_DISPLAY_BOTH_ICON_TEXT)){
-					_ttsButton.setVisibility(View.GONE);
-					_ttsImageButton.setVisibility(View.GONE);
-					_ttsImageButtonOverflow.setVisibility(View.VISIBLE);
-					_rescheduleButton.setVisibility(View.GONE);
-					_rescheduleImageButton.setVisibility(View.GONE);
-					_rescheduleImageButtonOverflow.setVisibility(View.VISIBLE);
-				}else{
-					_ttsButton.setVisibility(View.VISIBLE);
-					_ttsImageButton.setVisibility(View.GONE);
-					_ttsImageButtonOverflow.setVisibility(View.GONE);
-					_rescheduleButton.setVisibility(View.VISIBLE);
-					_rescheduleImageButton.setVisibility(View.GONE);
-					_rescheduleImageButtonOverflow.setVisibility(View.GONE);
-				}
 			}
 			//Buttons
 			_dismissButton = (Button) findViewById(R.id.dismiss_button);

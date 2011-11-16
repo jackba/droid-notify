@@ -21,6 +21,14 @@
 	      	android:layout_alignParentTop="true"
 			android:hapticFeedbackEnabled="true"
 	      	android:background="@drawable/btn_prev_arrow" />
+	    <ImageView
+	        android:id="@+id/tts_button_image_view"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignTop="@+id/previous_button"
+	        android:layout_toRightOf="@+id/previous_button"
+	        android:background="@drawable/ic_tts"
+	        android:padding="5dp" />
 	    <TextView
 	        android:id="@+id/notification_count_text_view"
 	        android:layout_width="wrap_content"
@@ -34,6 +42,15 @@
 	        android:text="0/0"
 	        android:textAppearance="?android:attr/textAppearanceMedium"
 	        android:textColor="@color/white" />
+		<ImageView
+		    android:id="@+id/reschedule_button_image_view"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_alignTop="@+id/next_button"
+		    android:layout_toLeftOf="@+id/next_button"
+		    android:layout_marginLeft="5dp"
+		    android:layout_marginRight="5dp"
+		    android:background="@drawable/ic_reschedule_white" />
 	    <Button
 	    	android:id="@+id/next_button" 
 	      	android:layout_height="wrap_content"
@@ -77,14 +94,14 @@
 				android:layout_margin="42dp"
 				style="@android:style/Widget.ProgressBar.Small" />		
 			<LinearLayout
-				android:id="@+id/contact_info_wrapper_linear_layout"
+				android:id="@+id/contact_info_linear_layout"
 				android:orientation="vertical"
 				android:layout_height="wrap_content"
-				android:layout_width="fill_parent"
+				android:layout_width="wrap_content"
 				android:layout_gravity="left"
 				android:paddingLeft="5dp">
 				<LinearLayout
-					android:id="@+id/contact_info_linear_layout"
+					android:id="@+id/notification_info_linear_layout"
 					android:layout_width="fill_parent"
 					android:layout_height="wrap_content"
 					android:orientation="horizontal" 
@@ -162,18 +179,6 @@
 		android:layout_gravity="center_horizontal" 
 		android:padding="2dp" 
 		android:gravity="center">
-		<ImageButton
-			android:id="@+id/tts_button"
-			android:layout_height="wrap_content" 
-			android:layout_width="fill_parent" 
-			android:layout_weight="1"
-			android:layout_marginLeft="1dp"
-			android:layout_marginRight="1dp"
-			android:gravity="center_vertical|center_horizontal"
-			android:hapticFeedbackEnabled="true"
-			android:background="@drawable/btn_dark_translucent"
-			android:scaleType="center"
-			android:src="@drawable/ic_tts_white" />
 		<Button
 			android:id="@+id/dismiss_button"  
 			android:layout_height="wrap_content" 
@@ -252,18 +257,6 @@
 			android:drawableLeft="@drawable/ic_envelope_white" 
 	    	android:textColor="@color/white"
 			android:text="@string/reply_button_text" />
-		<ImageButton
-			android:id="@+id/reschedule_button"  
-			android:layout_height="wrap_content" 
-			android:layout_width="fill_parent" 
-			android:layout_weight="1"
-			android:layout_marginLeft="1dp"
-			android:layout_marginRight="1dp"
-			android:gravity="center_vertical|center_horizontal"
-			android:hapticFeedbackEnabled="true"
-			android:background="@drawable/btn_dark_translucent"
-			android:scaleType="center"
-			android:src="@drawable/ic_reschedule_white" />
 	</LinearLayout>
 	<LinearLayout 
 		android:id="@+id/image_button_linear_layout" 
@@ -272,18 +265,6 @@
 		android:layout_gravity="center_horizontal" 
 		android:padding="2dp" 
 		android:gravity="center">
-		<ImageButton
-			android:id="@+id/tts_image_button"
-			android:layout_height="wrap_content" 
-			android:layout_width="fill_parent" 
-			android:layout_weight="1"
-			android:layout_marginLeft="1dp"
-			android:layout_marginRight="1dp"
-			android:gravity="center_vertical|center_horizontal"
-			android:hapticFeedbackEnabled="true"
-			android:background="@drawable/btn_dark_translucent"
-			android:scaleType="center"
-			android:src="@drawable/ic_tts_white" />
 		<ImageButton
 			android:id="@+id/dismiss_image_button"  
 			android:layout_height="wrap_content" 
@@ -356,49 +337,5 @@
 			android:background="@drawable/btn_dark_translucent"
 			android:scaleType="center"
 			android:src="@drawable/ic_envelope_white" />
-		<ImageButton
-			android:id="@+id/reschedule_image_button"  
-			android:layout_height="wrap_content" 
-			android:layout_width="fill_parent" 
-			android:layout_weight="1"
-			android:layout_marginLeft="1dp"
-			android:layout_marginRight="1dp"
-			android:gravity="center_vertical|center_horizontal"
-			android:hapticFeedbackEnabled="true"
-			android:background="@drawable/btn_dark_translucent"
-			android:scaleType="center"
-			android:src="@drawable/ic_reschedule_white" />
-	</LinearLayout>
-	<LinearLayout 
-		android:id="@+id/overflow_button_linear_layout" 
-		android:layout_height="wrap_content"
-		android:layout_width="fill_parent" 
-		android:layout_gravity="center_horizontal" 
-		android:padding="2dp" 
-		android:gravity="center">
-		<ImageButton
-			android:id="@+id/overflow_tts_image_button"
-			android:layout_height="wrap_content" 
-			android:layout_width="fill_parent" 
-			android:layout_weight="1"
-			android:layout_marginLeft="1dp"
-			android:layout_marginRight="1dp"
-			android:gravity="center_vertical|center_horizontal"
-			android:hapticFeedbackEnabled="true"
-			android:background="@drawable/btn_dark_translucent"
-			android:scaleType="center"
-			android:src="@drawable/ic_tts_white" />
-		<ImageButton
-			android:id="@+id/overflow_reschedule_image_button"  
-			android:layout_height="wrap_content" 
-			android:layout_width="fill_parent" 
-			android:layout_weight="1"
-			android:layout_marginLeft="1dp"
-			android:layout_marginRight="1dp"
-			android:gravity="center_vertical|center_horizontal"
-			android:hapticFeedbackEnabled="true"
-			android:background="@drawable/btn_dark_translucent"
-			android:scaleType="center"
-			android:src="@drawable/ic_reschedule_white" />
 	</LinearLayout>
 </LinearLayout>

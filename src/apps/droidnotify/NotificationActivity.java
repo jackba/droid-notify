@@ -165,10 +165,6 @@ public class NotificationActivity extends Activity {
 					MenuItem viewContactMenuItem = contextMenu.findItem(VIEW_CONTACT_CONTEXT_MENU);
 					viewContactMenuItem.setVisible(false);
 				}
-				if(!_preferences.getBoolean(Constants.TEXT_TO_SPEECH_ENABLED_KEY, false)){
-					MenuItem ttsMenuItem = contextMenu.findItem(SPEAK_NOTIFICATION_CONTEXT_MENU);
-					ttsMenuItem.setVisible(false);
-				}
 				setupContextMenus(contextMenu, notificationType);
 				break;
 			}
@@ -428,16 +424,22 @@ public class NotificationActivity extends Activity {
 	        	float deltaX = motionEvent.getX() - _downMotionEvent.getX();
 		        if(Math.abs(deltaX) > new ViewConfiguration().getScaledTouchSlop()  * 2){
 		        	if (deltaX < 0){
-	                   _notificationViewFlipper.showNext();
-	                   return true;
+		        		_notificationViewFlipper.showNext();
+	           	    	//Poke the screen timeout.
+	           	    	setScreenTimeoutAlarm();
+	           	    	return true;
 					}else if (deltaX > 0){
-	                   _notificationViewFlipper.showPrevious();
-	                   return true;
+						_notificationViewFlipper.showPrevious();
+	           	    	//Poke the screen timeout.
+	           	    	setScreenTimeoutAlarm();
+	           	    	return true;
 	               	}
 		        }
 	            break;
 	        }
 	    }
+	    //Poke the screen timeout.
+	    setScreenTimeoutAlarm();
 	    return super.dispatchTouchEvent(motionEvent);
 	}
 	
@@ -453,6 +455,19 @@ public class NotificationActivity extends Activity {
 			activeNotification.speak(_tts);
 			activeNotification.cancelReminder();
 		}
+	}
+	
+	/**
+	 * Sets the alarm that will clear the KeyguardLock & WakeLock.
+	 */
+	public void setScreenTimeoutAlarm(){
+		if (_debug) Log.v("NotificationActivity.setScreenTimeoutAlarm()");
+		long scheduledAlarmTime = System.currentTimeMillis() + (Long.parseLong(_preferences.getString(Constants.SCREEN_TIMEOUT_KEY, "300")) * 1000);
+		AlarmManager alarmManager = (AlarmManager) _context.getSystemService(Context.ALARM_SERVICE);
+    	Intent intent = new Intent(_context, ScreenManagementAlarmReceiver.class);
+    	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+    	_screenTimeoutPendingIntent = PendingIntent.getBroadcast(_context, 0, intent, 0);
+		alarmManager.set(AlarmManager.RTC_WAKEUP, scheduledAlarmTime, _screenTimeoutPendingIntent);
 	}
 	
 	//================================================================================
@@ -889,6 +904,7 @@ public class NotificationActivity extends Activity {
 	    _debug = Log.getDebug();
 	    if (_debug) Log.v("NotificationActivity.onResume()");
 	    Common.acquireWakeLock(_context);
+	    setScreenTimeoutAlarm();
 	    super.onResume();
 	}
 	  
@@ -901,6 +917,7 @@ public class NotificationActivity extends Activity {
 	    if (_tts != null){
 	    	_tts.stop();
 	    }
+	    cancelScreenTimeout();
 	    Common.clearWakeLock();
 	    super.onPause();
 	}
@@ -912,7 +929,9 @@ public class NotificationActivity extends Activity {
 	protected void onStop() {
 	    super.onStop();
 	    if (_debug) Log.v("NotificationActivity.onStop()");
-	    finishActivity();
+	    if(!_preferences.getBoolean(Constants.USER_IN_MESSAGING_APP_KEY, false)){
+	    	finishActivity();
+	    }
 	}
 	  
 	/**
@@ -1002,22 +1021,21 @@ public class NotificationActivity extends Activity {
 	    if (_debug) Log.v("NotificationActivity.onNewIntent()");
 	    Common.acquireWakeLock(_context);
 	    setIntent(intent);
-	    Bundle extrasBundle = getIntent().getExtras();
+	    final Bundle extrasBundle = getIntent().getExtras();
 	    int notificationType = extrasBundle.getInt("notificationType");
-	    if (_debug) Log.v("NotificationActivity.onNewIntent() Notification Type: " + notificationType);
 	    switch(notificationType){
 	    	case Constants.NOTIFICATION_TYPE_PHONE:{
-		    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_PHONE");
+		    	if (_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_PHONE");
 		    	setupMissedCalls(extrasBundle);
 		    	break;
 		    }
 	    	case Constants.NOTIFICATION_TYPE_SMS:{
-			    if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_SMS");
+			    if (_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_SMS");
 			    setupSMSMessages(extrasBundle, false);
 		    	break;
 		    }
 	    	case Constants.NOTIFICATION_TYPE_MMS:{
-		    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_MMS");
+		    	if (_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_MMS");
 		    	setupMMSMessages(extrasBundle, false);
 		    	break;
 		    }
@@ -1042,47 +1060,47 @@ public class NotificationActivity extends Activity {
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_K9:{
-				if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_K9");
+				if (_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_K9");
 				setupK9EmailNotifications(extrasBundle);
 				break;
 		    }
 	    	case Constants.NOTIFICATION_TYPE_RESCHEDULE_PHONE:{
-		    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_RESCHEDULE_PHONE");
+		    	if (_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_RESCHEDULE_PHONE");
 		    	setupRescheduledNotification(extrasBundle);
 		    	break;
 		    }
 		    case Constants.NOTIFICATION_TYPE_RESCHEDULE_SMS:{
-			    if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_RESCHEDULE_SMS");
+			    if (_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_RESCHEDULE_SMS");
 			    setupRescheduledNotification(extrasBundle);
 		    	break;
 		    }
 		    case Constants.NOTIFICATION_TYPE_RESCHEDULE_MMS:{
-		    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_RESCHEDULE_MMS");
+		    	if (_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_RESCHEDULE_MMS");
 		    	setupRescheduledNotification(extrasBundle);
 		    	break;
 		    }
 		    case Constants.NOTIFICATION_TYPE_RESCHEDULE_CALENDAR:{
-		    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_RESCHEDULE_CALENDAR");
+		    	if (_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_RESCHEDULE_CALENDAR");
 		    	setupRescheduledNotification(extrasBundle);
 		    	break;
 			}
 		    case Constants.NOTIFICATION_TYPE_RESCHEDULE_GMAIL:{
-		    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_RESCHEDULE_GMAIL");
+		    	if (_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_RESCHEDULE_GMAIL");
 		    	setupRescheduledNotification(extrasBundle);
 		    	break;
 		    }
 			case Constants.NOTIFICATION_TYPE_RESCHEDULE_TWITTER:{
-				if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_RESCHEDULE_TWITTER");
+				if (_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_RESCHEDULE_TWITTER");
 				setupRescheduledNotification(extrasBundle);
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_RESCHEDULE_FACEBOOK:{
-				if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_RESCHEDULE_FACEBOOK");
+				if (_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_RESCHEDULE_FACEBOOK");
 				setupRescheduledNotification(extrasBundle);
 				break;
 		    }
 			case Constants.NOTIFICATION_TYPE_RESCHEDULE_K9:{
-				if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_RESCHEDULE_K9");
+				if (_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_RESCHEDULE_K9");
 				setupRescheduledNotification(extrasBundle);
 				break;
 		    }
@@ -2058,19 +2076,6 @@ public class NotificationActivity extends Activity {
 		SharedPreferences.Editor editor = _preferences.edit();
 		editor.putBoolean(Constants.USER_IN_MESSAGING_APP_KEY, flag);
 		editor.commit();
-	}
-	
-	/**
-	 * Sets the alarm that will clear the KeyguardLock & WakeLock.
-	 */
-	private void setScreenTimeoutAlarm(){
-		if (_debug) Log.v("NotificationActivity.setScreenTimeoutAlarm()");
-		long scheduledAlarmTime = System.currentTimeMillis() + (Long.parseLong(_preferences.getString(Constants.SCREEN_TIMEOUT_KEY, "300")) * 1000);
-		AlarmManager alarmManager = (AlarmManager) _context.getSystemService(Context.ALARM_SERVICE);
-    	Intent intent = new Intent(_context, ScreenManagementAlarmReceiver.class);
-    	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-    	_screenTimeoutPendingIntent = PendingIntent.getBroadcast(_context, 0, intent, 0);
-		alarmManager.set(AlarmManager.RTC_WAKEUP, scheduledAlarmTime, _screenTimeoutPendingIntent);
 	}
 	
 	/**

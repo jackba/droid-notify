@@ -59,7 +59,7 @@ public class MMSReceiverService extends WakefulIntentService {
 		    	Intent mmsNotificationIntent = new Intent(context, NotificationActivity.class);
 		    	mmsNotificationIntent.putExtras(bundle);
 		    	mmsNotificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-		    	Common.acquirePartialWakeLock(context);
+		    	Common.acquireWakeLock(context);
 		    	context.startActivity(mmsNotificationIntent);
 			}else{
 				if (_debug) Log.v("MMSReceiverService.doWakefulWork() No new MMSs were found. Exiting...");

@@ -2252,7 +2252,6 @@ public class Common {
 		try{
 	    	if(_partialWakeLock != null){
 	    		_partialWakeLock.release();
-	    		if(_debug) Log.v("Common.clearPartialWakelock() Partial Wakelock Released...Is it still held? " + _partialWakeLock.isHeld());
 	    	}
 		}catch(Exception ex){
 			if (_debug) Log.e("Common.clearPartialWakelock() ERROR: " + ex.toString());
@@ -2270,7 +2269,7 @@ public class Common {
 		if (_debug) Log.v("Common.aquireWakelock()");
 		try{
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-			if(_wakeLock == null){
+			//if(_wakeLock == null){
 				PowerManager powerManager = (PowerManager)context.getSystemService(Context.POWER_SERVICE);
 				if(preferences.getBoolean(Constants.SCREEN_ENABLED_KEY, true)){
 					if(preferences.getBoolean(Constants.SCREEN_DIM_ENABLED_KEY, true)){
@@ -2282,7 +2281,7 @@ public class Common {
 					_wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, Constants.DROID_NOTIFY_WAKELOCK);
 				}
 				_wakeLock.setReferenceCounted(false);
-			}
+			//}
 			if(_wakeLock != null){
 				_wakeLock.acquire();
 			}
@@ -2304,7 +2303,6 @@ public class Common {
 			Common.clearPartialWakeLock();
 	    	if(_wakeLock != null){
 	    		_wakeLock.release();
-	    		if(_debug) Log.v("Common.clearWakelock() Wakelock Released...Is it still held? " + _wakeLock.isHeld());
 	    	}
 		}catch(Exception ex){
 			if (_debug) Log.e("Common.clearWakelock() ERROR: " + ex.toString());
@@ -2343,6 +2341,7 @@ public class Common {
 		try{
 			if(_keyguardLock != null){
 				_keyguardLock.reenableKeyguard();
+				_keyguardLock = null;
 			}
 		}catch(Exception ex){
 			if (_debug) Log.e("Common.clearKeyguardLock() ERROR: " + ex.toString());
