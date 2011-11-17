@@ -1147,27 +1147,58 @@ public class NotificationActivity extends Activity {
 	private void createTestNotifications(){
 		if (_debug) Log.v("NotificationActivity.createTextNotifications()");
 		String sentFromAddress = "5555555555";
-		String smsTestMesage = "SMS Message Test";
+		String smsTestMessage = "SMS Test Message";
+		String mmsTestMessage = "MMS Test Message";
 		String calendarTestCalendar = "Test Calendar";
 		String calendarTestEvent = "Calendar Event Test";
 		String calendarTestEventBody = "This is a calendar event test.";
+		String sentFromEmail = "test@gmail.com";
+		String emailTestMessage = "Email Test Message";
 		NotificationViewFlipper notificationViewFlipper = _notificationViewFlipper;
-		//Add SMS Message Notification.
-		Notification smsNotification = new Notification(_context, sentFromAddress, smsTestMesage, System.currentTimeMillis(), Constants.NOTIFICATION_TYPE_SMS);
-		notificationViewFlipper.addNotification(smsNotification);
-		//Display Status Bar Notification
-	    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_SMS, true, null, sentFromAddress, smsTestMesage, null);
-		//Add Missed Call Notification.
-		Notification missedCallNotification = new Notification(_context, 0, sentFromAddress, System.currentTimeMillis(), 0, "", 0, "", Constants.NOTIFICATION_TYPE_PHONE);
-		notificationViewFlipper.addNotification(missedCallNotification);
-		//Display Status Bar Notification
-	    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_PHONE, true, null, sentFromAddress, null, null);
-		//Add Calendar Event Notification.
-		Notification calendarEventNotification = new Notification(_context, calendarTestEvent, calendarTestEventBody, System.currentTimeMillis(), System.currentTimeMillis() + (10 * 60 * 1000), false, calendarTestCalendar,  0, 0, Constants.NOTIFICATION_TYPE_CALENDAR);
-		notificationViewFlipper.addNotification(calendarEventNotification);	
-		//Display Status Bar Notification
-	    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_CALENDAR, true, null, null, calendarTestEvent, null);
-	    //TODO - Add K9 Test Message Here.
+		boolean notificationDisplayed = false;
+		if(_preferences.getBoolean(Constants.SMS_NOTIFICATIONS_ENABLED_KEY, true)){
+			notificationDisplayed = true;
+			//Add SMS Message Notification.
+			Notification smsNotification = new Notification(_context, sentFromAddress, smsTestMessage, System.currentTimeMillis(), Constants.NOTIFICATION_TYPE_SMS);
+			notificationViewFlipper.addNotification(smsNotification);
+			//Display Status Bar Notification
+		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_SMS, true, null, sentFromAddress, smsTestMessage, null);
+		}
+		if(_preferences.getBoolean(Constants.MMS_NOTIFICATIONS_ENABLED_KEY, true)){
+			notificationDisplayed = true;
+			//Add SMS Message Notification.
+			Notification smsNotification = new Notification(_context, sentFromAddress, mmsTestMessage, System.currentTimeMillis(), Constants.NOTIFICATION_TYPE_MMS);
+			notificationViewFlipper.addNotification(smsNotification);
+			//Display Status Bar Notification
+		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_MMS, true, null, sentFromAddress, mmsTestMessage, null);
+		}
+	    if(_preferences.getBoolean(Constants.PHONE_NOTIFICATIONS_ENABLED_KEY, true)){
+			notificationDisplayed = true;
+			//Add Missed Call Notification.
+			Notification missedCallNotification = new Notification(_context, 0, sentFromAddress, System.currentTimeMillis(), 0, "", 0, "", Constants.NOTIFICATION_TYPE_PHONE);
+			notificationViewFlipper.addNotification(missedCallNotification);
+			//Display Status Bar Notification
+		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_PHONE, true, null, sentFromAddress, null, null);
+	    }
+	    if(_preferences.getBoolean(Constants.CALENDAR_NOTIFICATIONS_ENABLED_KEY, true)){
+			notificationDisplayed = true;
+		    //Add Calendar Event Notification.
+			Notification calendarEventNotification = new Notification(_context, calendarTestEvent, calendarTestEventBody, System.currentTimeMillis(), System.currentTimeMillis() + (10 * 60 * 1000), false, calendarTestCalendar,  0, 0, Constants.NOTIFICATION_TYPE_CALENDAR);
+			notificationViewFlipper.addNotification(calendarEventNotification);	
+			//Display Status Bar Notification
+		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_CALENDAR, true, null, null, calendarTestEvent, null);
+	    }
+	    if(_preferences.getBoolean(Constants.K9_NOTIFICATIONS_ENABLED_KEY, true)){
+			notificationDisplayed = true;
+			//Add K9 Message Notification.
+			Notification k9Notification = new Notification(_context, sentFromEmail, emailTestMessage, System.currentTimeMillis(), Constants.NOTIFICATION_TYPE_K9);
+			notificationViewFlipper.addNotification(k9Notification);
+			//Display Status Bar Notification
+		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_K9, true, null, sentFromEmail, emailTestMessage, null);
+	    }
+	    if(!notificationDisplayed){
+	    	Toast.makeText(_context, R.string.test_notifications_disabled_message, Toast.LENGTH_LONG);
+	    }
 	}
 	
 	/**

@@ -455,9 +455,9 @@
 							android:dependency="sms_notifications_enabled">	
 							<CheckBoxPreference 
 								android:key="sms_hide_notification_body_enabled" 
-								android:title="@string/preference_sms_hide_notification_body_enabled_title" 
-								android:summaryOn="@string/preference_sms_hide_notification_body_enabled_summaryOn" 
-								android:summaryOff="@string/preference_sms_hide_notification_body_enabled_summaryOff" 
+								android:title="@string/preference_hide_notification_body_enabled_title" 
+								android:summaryOn="@string/preference_hide_notification_body_enabled_summaryOn" 
+								android:summaryOff="@string/preference_hide_notification_body_enabled_summaryOff" 
 								android:defaultValue="false" />	
 						</PreferenceScreen>
 					</PreferenceCategory>
@@ -616,7 +616,7 @@
 									android:key="mms_notification_vibrate_setting"
 									android:title="@string/preference_vibrate_setting_title"
 									android:summary="@string/preference_vibrate_setting_summary"
-									android:defaultValue="14"
+									android:defaultValue="0"
 									android:entries="@array/vibrate_setting_options"
 									android:entryValues="@array/vibrate_setting_options_values" />
 								<apps.droidnotify.preferences.VibratePatternListPreference
@@ -680,9 +680,9 @@
 							android:dependency="mms_notifications_enabled">	
 							<CheckBoxPreference 
 								android:key="mms_hide_notification_body_enabled" 
-								android:title="@string/preference_mms_hide_notification_body_enabled_title" 
-								android:summaryOn="@string/preference_mms_hide_notification_body_enabled_summaryOn" 
-								android:summaryOff="@string/preference_mms_hide_notification_body_enabled_summaryOff" 
+								android:title="@string/preference_hide_notification_body_enabled_title" 
+								android:summaryOn="@string/preference_hide_notification_body_enabled_summaryOn" 
+								android:summaryOff="@string/preference_hide_notification_body_enabled_summaryOff" 
 								android:defaultValue="false" />	
 						</PreferenceScreen>
 					</PreferenceCategory>
@@ -841,7 +841,7 @@
 									android:key="missed_call_notification_vibrate_setting"
 									android:title="@string/preference_vibrate_setting_title"
 									android:summary="@string/preference_vibrate_setting_summary"
-									android:defaultValue="14"
+									android:defaultValue="0"
 									android:entries="@array/vibrate_setting_options"
 									android:entryValues="@array/vibrate_setting_options_values" />
 								<apps.droidnotify.preferences.VibratePatternListPreference
@@ -1046,7 +1046,7 @@
 									android:key="calendar_notification_vibrate_setting"
 									android:title="@string/preference_vibrate_setting_title"
 									android:summary="@string/preference_vibrate_setting_summary"
-									android:defaultValue="14"
+									android:defaultValue="0"
 									android:entries="@array/vibrate_setting_options"
 									android:entryValues="@array/vibrate_setting_options_values" />
 								<apps.droidnotify.preferences.VibratePatternListPreference
@@ -1110,9 +1110,9 @@
 							android:dependency="calendar_notifications_enabled">	
 							<CheckBoxPreference 
 								android:key="calendar_hide_notification_body_enabled" 
-								android:title="@string/preference_calendar_hide_notification_body_enabled_title" 
-								android:summaryOn="@string/preference_calendar_hide_notification_body_enabled_summaryOn" 
-								android:summaryOff="@string/preference_calendar_hide_notification_body_enabled_summaryOff" 
+								android:title="@string/preference_hide_notification_body_enabled_title" 
+								android:summaryOn="@string/preference_hide_notification_body_enabled_summaryOn" 
+								android:summaryOff="@string/preference_hide_notification_body_enabled_summaryOff" 
 								android:defaultValue="false" />	
 						</PreferenceScreen>
 					</PreferenceCategory>	
@@ -1186,8 +1186,225 @@
 								</PreferenceScreen>
 							</PreferenceCategory>
 						</PreferenceScreen>	
-					</PreferenceCategory>
+					</PreferenceCategory>	
 				</PreferenceScreen>		
+			</PreferenceCategory>
+			<PreferenceCategory
+				android:key="k9_notification_settings_category"
+				android:title="@string/preference_k9_notifications">
+				<PreferenceScreen
+					android:key="k9_notification_settings_screen"
+					android:title="@string/preference_k9_notifications">
+					<PreferenceCategory
+						android:key="k9_basic_settings_category"
+						android:title="@string/basic_settings_text">
+						<CheckBoxPreference 
+							android:key="k9_notifications_enabled" 
+							android:title="@string/preference_k9_enabled_title" 
+							android:summaryOn="@string/preference_k9_enabled_summaryOn" 
+							android:summaryOff="@string/preference_k9_enabled_summaryOff" 
+							android:defaultValue="true" />	
+						<ListPreference
+							android:key="messaging_app_running_action_k9"
+							android:title="@string/messaging_app_running_action_text"
+							android:summary="@string/messaging_app_running_action_mms_summary"
+							android:defaultValue="2"
+							android:entries="@array/messaging_app_running_action_options"
+							android:entryValues="@array/messaging_app_running_action_options_values"
+							android:dependency="k9_notifications_enabled" />
+					</PreferenceCategory>	
+					<PreferenceCategory
+						android:key="k9_notification_settings_category"
+						android:title="@string/preference_notification_settings">						
+						<CheckBoxPreference 
+							android:key="k9_status_bar_notifications_enabled" 
+							android:title="@string/preference_notifications_enabled_title" 
+							android:summaryOn="@string/preference_notifications_enabled_summaryOn" 
+							android:summaryOff="@string/preference_notifications_enabled_summaryOff" 
+							android:defaultValue="true"
+							android:dependency="k9_notifications_enabled" />		
+						<PreferenceScreen
+							android:key="k9_notification_settings_screen"
+							android:title="@string/preference_notification_settings"
+							android:summary="@string/preference_notification_settings_summary"
+							android:dependency="k9_status_bar_notifications_enabled">
+							<PreferenceCategory
+								android:key="k9_notification_general_settings_category"
+								android:title="@string/general_settings_text">						
+								<CheckBoxPreference 
+									android:key="k9_status_bar_notifications_show_when_blocked_enabled" 
+									android:title="@string/preference_notifications_show_when_blocked_enabled_title" 
+									android:summary="@string/preference_notifications_show_when_blocked_enabled_summary" 
+									android:defaultValue="true" />
+							</PreferenceCategory>
+							<PreferenceCategory
+								android:key="k9_notification_icon_settings_category"
+								android:title="@string/preference_notification_icon_settings_text">
+								<apps.droidnotify.preferences.ImageListPreference
+									android:key="notification_icon_k9"
+									android:title="@string/preference_notification_icon_text"
+									android:summary="@string/preference_notification_icon_summary"
+									android:entries="@array/notification_icon_options_email"
+									android:entryValues="@array/notification_icon_values_email"
+									droidnotify:entryImages="@array/notification_icon_images_email"
+									android:defaultValue="status_bar_notification_email_white" />
+							</PreferenceCategory>	
+					  		<PreferenceCategory
+								android:key="k9_notification_sound_settings_category"
+								android:title="@string/preference_notification_sound_settings_text">
+								<RingtonePreference
+			             			android:key="k9_notification_sound"
+									android:title="@string/preference_notification_sound_title"
+									android:summary="@string/preference_notification_sound_summary"
+									android:ringtoneType="all"
+									android:showDefault="false"
+									android:showSilent="true"
+									android:defaultValue="content://settings/system/notification_sound" />
+							</PreferenceCategory>
+							<PreferenceCategory
+								android:key="k9_notification_vibrate_settings_category"
+								android:title="@string/preference_notification_vibrate_settings_text">	
+								<ListPreference
+									android:key="k9_notification_vibrate_setting"
+									android:title="@string/preference_vibrate_setting_title"
+									android:summary="@string/preference_vibrate_setting_summary"
+									android:defaultValue="0"
+									android:entries="@array/vibrate_setting_options"
+									android:entryValues="@array/vibrate_setting_options_values" />
+								<apps.droidnotify.preferences.VibratePatternListPreference
+									android:key="k9_notification_vibrate_pattern"
+									android:title="@string/preference_vibrate_pattern_title"
+									android:summary="@string/preference_vibrate_pattern_summary"
+									android:entries="@array/preference_vibrate_pattern_options"
+									android:entryValues="@array/preference_vibrate_pattern_options_values_k9"
+									android:defaultValue="0,1200" />
+							</PreferenceCategory>
+					  		<PreferenceCategory
+								android:key="k9_notification_led_settings_category"
+								android:title="@string/preference_notification_led_settings_text">
+								<CheckBoxPreference 
+									android:key="k9_notification_led_enabled" 
+									android:title="@string/preference_led_enabled_title" 
+									android:summaryOn="@string/preference_led_enabled_summaryOn" 
+									android:summaryOff="@string/preference_led_enabled_summaryOff" 
+									android:defaultValue="true" />
+								<apps.droidnotify.preferences.LEDColorListPreference
+									android:key="k9_notification_led_color"
+									android:title="@string/preference_led_color_title"
+									android:summary="@string/preference_led_color_summary"
+									android:entries="@array/preference_led_color_options"
+									android:entryValues="@array/preference_led_color_options_values_k9"
+									android:defaultValue="yellow"
+									android:dependency="k9_notification_led_enabled" />
+								<apps.droidnotify.preferences.LEDPatternListPreference
+									android:key="k9_notification_led_pattern"
+									android:title="@string/preference_led_pattern_title"
+									android:summary="@string/preference_led_pattern_summary"
+									android:entries="@array/preference_led_pattern_options"
+									android:entryValues="@array/preference_led_pattern_options_values_k9"
+									android:defaultValue="1000,1000"
+									android:dependency="k9_notification_led_enabled" />
+							</PreferenceCategory>
+					  		<PreferenceCategory
+								android:key="k9_notification_in_call_settings_category"
+								android:title="@string/preference_notification_in_call_settings_text">
+								<CheckBoxPreference 
+										android:key="k9_notification_in_call_sound_enabled" 
+										android:title="@string/preference_notification_in_call_sound_enable_title" 
+										android:summaryOn="@string/preference_notification_in_call_sound_enable_summaryOn" 
+										android:summaryOff="@string/preference_notification_in_call_sound_enable_summaryOff" 
+										android:defaultValue="false" />
+								<CheckBoxPreference 
+										android:key="k9_notification_in_call_vibrate_enabled" 
+										android:title="@string/preference_notification_in_call_vibrate_enable_title" 
+										android:summaryOn="@string/preference_notification_in_call_vibrate_enable_summaryOn" 
+										android:summaryOff="@string/preference_notification_in_call_vibrate_enable_summaryOff" 
+										android:defaultValue="true" />
+							</PreferenceCategory>
+						</PreferenceScreen>
+					</PreferenceCategory>
+					<PreferenceCategory
+						android:key="k9_notification_body_settings_category"
+						android:title="@string/notification_body_settings_text">	
+						<PreferenceScreen
+							android:key="k9_notification_body_settings_screen"
+							android:title="@string/notification_body_settings_text"
+							android:dependency="k9_notifications_enabled">	
+							<CheckBoxPreference 
+								android:key="k9_hide_notification_body_enabled" 
+								android:title="@string/preference_hide_notification_body_enabled_title" 
+								android:summaryOn="@string/preference_hide_notification_body_enabled_summaryOn" 
+								android:summaryOff="@string/preference_hide_notification_body_enabled_summaryOff" 
+								android:defaultValue="false" />	
+						</PreferenceScreen>
+					</PreferenceCategory>
+					<PreferenceCategory
+						android:key="k9_button_settings_category"
+						android:title="@string/button_settings_text">
+						<PreferenceScreen
+							android:key="k9_button_settings_screen"
+							android:title="@string/button_settings_text"
+							android:dependency="k9_notifications_enabled">
+							<CheckBoxPreference
+								android:key="confirm_k9_deletion_enabled"
+								android:title="@string/preference_confirm_k9_deletion_enabled_title" 
+								android:summaryOn="@string/preference_confirm_k9_deletion_enabled_summaryOn" 
+								android:summaryOff="@string/preference_confirm_k9_deletion_enabled_summaryOff" 
+								android:defaultValue="true" />
+							<ListPreference
+								android:key="k9_dismiss_button_action"
+								android:title="@string/preference_dismiss_button_action"
+								android:summary="@string/preference_mms_dismiss_button_action_summary"
+								android:defaultValue="1"
+								android:entries="@array/k9_dismiss_button_options"
+								android:entryValues="@array/k9_dismiss_button_options_values"/>
+							<ListPreference
+								android:key="k9_delete_button_action"
+								android:title="@string/preference_delete_button_action"
+								android:summary="@string/preference_k9_delete_button_action_summary"
+								android:defaultValue="0"
+								android:entries="@array/k9_delete_button_options"
+								android:entryValues="@array/k9_delete_button_options_values"/>
+							<ListPreference
+								android:key="k9_reply_button_action"
+								android:title="@string/preference_reply_button_action"
+								android:summary="@string/preference_k9_reply_button_action_summary"
+								android:defaultValue="0"
+								android:entries="@array/k9_reply_button_options"
+								android:entryValues="@array/k9_reply_button_options_values"/>
+							<ListPreference
+								android:key="k9_notification_count_action"
+								android:title="@string/preference_notification_count_button_action"
+								android:summary="@string/preference_notification_count_button_action_summary"
+								android:defaultValue="0"
+								android:entries="@array/k9_notification_count_button_options"
+								android:entryValues="@array/k9_notification_count_button_options_values"/>	
+							<PreferenceCategory
+								android:key="k9_show_hide_buttons_settings_category"
+								android:title="@string/show_hide_button_settings_text">	
+								<PreferenceScreen
+									android:key="k9_show_hide_buttons_settings_screen"
+									android:title="@string/show_hide_button_settings_text">
+									<CheckBoxPreference 
+										android:key="k9_display_dismiss_button" 
+										android:title="@string/preference_display_dismiss_button_title" 
+										android:summary="@string/preference_display_dismiss_button_summary"
+										android:defaultValue="true" />
+									<CheckBoxPreference 
+										android:key="k9_display_delete_button" 
+										android:title="@string/preference_display_delete_button_title" 
+										android:summary="@string/preference_display_delete_button_summary"
+										android:defaultValue="true" />
+									<CheckBoxPreference 
+										android:key="k9_display_reply_button" 
+										android:title="@string/preference_display_reply_button_title" 
+										android:summary="@string/preference_display_reply_button_summary" 
+										android:defaultValue="true" />
+								</PreferenceScreen>
+							</PreferenceCategory>
+						</PreferenceScreen>	
+					</PreferenceCategory>					
+				</PreferenceScreen>	
 			</PreferenceCategory>
 <!-- 
 			<PreferenceCategory

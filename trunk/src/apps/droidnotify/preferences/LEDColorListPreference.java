@@ -90,25 +90,26 @@ public class LEDColorListPreference extends ListPreference implements OnSeekBarC
 			if (_preferences.getString(this.getKey(), Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT).equals(Constants.SMS_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_VALUE_KEY)) {
 				_notificationType = Constants.NOTIFICATION_TYPE_SMS;
 				showDialog();
-			}
-			if (_preferences.getString(this.getKey(), Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT).equals(Constants.MMS_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_VALUE_KEY)) {
+			}else if (_preferences.getString(this.getKey(), Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT).equals(Constants.MMS_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_VALUE_KEY)) {
+				_notificationType = Constants.NOTIFICATION_TYPE_MMS;
+				showDialog();
+			}else if (_preferences.getString(this.getKey(), Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT).equals(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_VALUE_KEY)) {
 				_notificationType = Constants.NOTIFICATION_TYPE_PHONE;
 				showDialog();
-			}
-			if (_preferences.getString(this.getKey(), Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT).equals(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_VALUE_KEY)) {
-				_notificationType = Constants.NOTIFICATION_TYPE_PHONE;
+			}else if (_preferences.getString(this.getKey(), Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT).equals(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_VALUE_KEY)) {
+				_notificationType = Constants.NOTIFICATION_TYPE_CALENDAR;
 				showDialog();
-			}
-			if (_preferences.getString(this.getKey(), Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT).equals(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_VALUE_KEY)) {
-				_notificationType = Constants.NOTIFICATION_TYPE_PHONE;
+			}else if (_preferences.getString(this.getKey(), Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT).equals(Constants.GMAIL_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_VALUE_KEY)) {
+				_notificationType = Constants.NOTIFICATION_TYPE_GMAIL;
 				showDialog();
-			}
-			if (_preferences.getString(this.getKey(), Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT).equals(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_VALUE_KEY)) {
-				_notificationType = Constants.NOTIFICATION_TYPE_PHONE;
+			}else if (_preferences.getString(this.getKey(), Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT).equals(Constants.TWITTER_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_VALUE_KEY)) {
+				_notificationType = Constants.NOTIFICATION_TYPE_TWITTER;
 				showDialog();
-			}
-			if (_preferences.getString(this.getKey(), Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT).equals(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_VALUE_KEY)) {
-				_notificationType = Constants.NOTIFICATION_TYPE_PHONE;
+			}else if (_preferences.getString(this.getKey(), Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT).equals(Constants.FACEBOOK_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_VALUE_KEY)) {
+				_notificationType = Constants.NOTIFICATION_TYPE_FACEBOOK;
+				showDialog();
+			}else if (_preferences.getString(this.getKey(), Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT).equals(Constants.K9_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_VALUE_KEY)) {
+				_notificationType = Constants.NOTIFICATION_TYPE_K9;
 				showDialog();
 			}
 		}
@@ -150,6 +151,9 @@ public class LEDColorListPreference extends ListPreference implements OnSeekBarC
 			    }
 			    case Constants.NOTIFICATION_TYPE_FACEBOOK:{
 			    	ledCustomColor = Color.parseColor(_preferences.getString(Constants.FACEBOOK_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_KEY, Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT));
+			    }
+			    case Constants.NOTIFICATION_TYPE_K9:{
+			    	ledCustomColor = Color.parseColor(_preferences.getString(Constants.K9_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_KEY, Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT));
 			    }
 		    }
 	    } catch (Exception ex) {
@@ -212,6 +216,9 @@ public class LEDColorListPreference extends ListPreference implements OnSeekBarC
 				    }
 				    case Constants.NOTIFICATION_TYPE_FACEBOOK:{
 				    	editor.putString(Constants.FACEBOOK_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_KEY, customLEDColor);
+				    }
+				    case Constants.NOTIFICATION_TYPE_K9:{
+				    	editor.putString(Constants.K9_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_KEY, customLEDColor);
 				    }
 			    }
 		        editor.commit();

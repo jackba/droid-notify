@@ -406,7 +406,40 @@
 		<item name="1">1</item>
 	</string-array>
 	
-	<!-- Email Preferences Arrays --> 
+	<!-- Gmail Preferences Arrays --> 
+
+	<!-- K9 Preferences Arrays --> 
+    <string-array name="k9_dismiss_button_options">
+		<item name="1">@string/nothing_text</item>
+	</string-array>
+	<string-array name="k9_dismiss_button_options_values">
+		<item name="1">1</item>
+	</string-array>
+	
+    <string-array name="k9_delete_button_options">
+		<item name="0">@string/delete_message_text</item>
+		<item name="1">@string/nothing_text</item>
+	</string-array>
+	<string-array name="k9_delete_button_options_values">
+		<item name="0">0</item>
+		<item name="1">1</item>
+	</string-array>
+	
+    <string-array name="k9_reply_button_options">
+    	<item name="0">@string/use_installed_email_app_text</item>
+	</string-array>
+	<string-array name="k9_reply_button_options_values">
+		<item name="0">0</item>
+	</string-array>
+	
+    <string-array name="k9_notification_count_button_options">
+    	<item name="0">@string/nothing_text</item>
+		<item name="1">@string/goto_inbox_text</item>
+	</string-array>
+	<string-array name="k9_notification_count_button_options_values">
+		<item name="0">0</item>
+		<item name="1">1</item>
+	</string-array>
 	
 	<!-- Reschedule Arrays -->
     <string-array name="reschedule_time_options">
@@ -953,6 +986,14 @@
 	    <item name="3">0,800,200,800,200,800,200</item>
 	    <item name="4">calendar_custom</item>
 	</string-array>
+	
+	<string-array name="preference_vibrate_pattern_options_values_k9">
+	    <item name="0">0,1200</item>
+    	<item name="1">0,2500</item>
+	    <item name="2">0,300,100,300,100,300,100</item>
+	    <item name="3">0,800,200,800,200,800,200</item>
+	    <item name="4">k9_custom</item>
+	</string-array>
 
 	<string-array name="preference_led_pattern_options">
 	   	<item name="fast_text">@string/fast_text</item>
@@ -987,6 +1028,13 @@
 	    <item name="1">1000,1000</item>
 	    <item name="2">3000,3000</item>
 	    <item name="3">calendar_custom</item>
+	</string-array>
+	
+	<string-array name="preference_led_pattern_options_values_k9">
+	    <item name="0">300,300</item>
+	    <item name="1">1000,1000</item>
+	    <item name="2">3000,3000</item>
+	    <item name="3">k9_custom</item>
 	</string-array>
   
   	<string-array name="preference_led_color_options">
@@ -1038,7 +1086,17 @@
 	    <item name="5">yellow</item>
 	    <item name="6">calendar_custom</item>
   	</string-array>
-  	
+ 
+  	<string-array name="preference_led_color_options_values_k9">
+	    <item name="0">red</item>
+	    <item name="1">blue</item>
+	    <item name="2">green</item>
+	    <item name="3">cyan</item>
+	    <item name="4">magenta</item>
+	    <item name="5">yellow</item>
+	    <item name="6">k9_custom</item>
+  	</string-array>
+  	    	
   	<!-- SMS Notification Icon Image Arrays --> 
 	<string-array name="notification_icon_options_sms">
 		<item name="0"></item>

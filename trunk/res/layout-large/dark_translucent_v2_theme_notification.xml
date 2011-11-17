@@ -9,8 +9,8 @@
     android:background="@drawable/dark_translucent_v2_panel">
 	<RelativeLayout
 	    android:id="@+id/header_navigation"
-	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
+	    android:layout_width="fill_parent"
 	    android:gravity="center"
 	    android:padding="2dp" >
 	    <Button
@@ -102,8 +102,8 @@
 				android:paddingLeft="5dp">
 				<LinearLayout
 					android:id="@+id/notification_info_linear_layout"
-					android:layout_width="fill_parent"
 					android:layout_height="wrap_content"
+					android:layout_width="fill_parent"
 					android:orientation="horizontal" 
 					android:layout_gravity="center_vertical">
 					<ImageView
@@ -118,12 +118,12 @@
 						android:layout_gravity="center_vertical" 
 	    				android:textColor="@color/white"
 						android:textAppearance="?android:attr/textAppearanceSmall"
-						android:paddingLeft="5dp"/>
+						android:paddingLeft="5dp" />
 				</LinearLayout>
 				<TextView
 					android:id="@+id/contact_name_text_view"
 					android:layout_height="wrap_content"
-					android:layout_width="wrap_content"
+					android:layout_width="fill_parent"
 		            android:singleLine="true"
 		            android:ellipsize="none"
 					android:layout_gravity="left"
@@ -134,11 +134,11 @@
 				<TextView
 					android:id="@+id/contact_number_text_view"
 					android:layout_height="wrap_content"
-					android:layout_width="wrap_content"
+					android:layout_width="fill_parent"
 					android:layout_gravity="left"
 					android:textAppearance="?android:attr/textAppearanceMedium"
 					android:maxLines="1" 
-	    			android:textColor="@color/white"  />
+	    			android:textColor="@color/white" />
 			</LinearLayout>
 		</LinearLayout>
 		<TextView
