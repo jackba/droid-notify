@@ -1564,8 +1564,12 @@ public class Common {
 							tickerText = context.getString(R.string.status_bar_notification_ticker_text_email, sentFromContactName, message);
 						}
 						//Content Intent
-						notificationContentIntent = new Intent(Intent.ACTION_VIEW);
-						notificationContentIntent.setData(Uri.parse(k9EmailUri));
+						if(k9EmailUri!= null){
+							notificationContentIntent = new Intent(Intent.ACTION_VIEW);
+							notificationContentIntent.setData(Uri.parse(k9EmailUri));
+						}else{
+							notificationContentIntent = null;
+						}
 					}
 					//Delete Intent
 					notificationDeleteIntent = null;

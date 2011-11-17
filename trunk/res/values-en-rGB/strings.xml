@@ -259,7 +259,6 @@
   <string name="delete_button_text">Delete</string>
   <string name="button_settings_text">Button Settings</string>
   <string name="show_hide_button_settings_text">Show/Hide Button Settings</string>
-  <string name="preference_button_icons_enabled_title">Display Button Icons</string>
   <string name="preference_button_icons_enabled_summaryOn">Display icons buttons.</string>
   <string name="preference_button_icons_enabled_summaryOff">Do not display icons on buttons.</string>
   <string name="preference_display_dismiss_button_title">Display Dismiss Button</string>
@@ -279,6 +278,11 @@
   <string name="preference_reply_button_action">Reply Button Action</string>
   <string name="preference_notification_count_button_action">Notification Count Action</string>
   <string name="preference_notification_count_button_action_summary">Define what happens when you click on the notification count text.</string>
+  <string name="preference_button_style_title">Button Style</string>
+  <string name="preference_button_style_summary">Choose the notification button style.</string>
+  <string name="button_style_icon_and_text_text">Icons and Text</string>
+  <string name="button_style_icon_only_text">Icons Only</string>
+  <string name="button_style_text_only_text">Text Only</string>
   <string name="general_screen_settings_text">Basic Screen Settings</string>
   <string name="notification_screen_settings_text">Notification Screen Settings</string>
   <string name="preference_screen_settings">Screen Settings</string>
