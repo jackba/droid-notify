@@ -9,8 +9,8 @@
     android:background="@drawable/htc_panel">
 	<RelativeLayout
 	    android:id="@+id/header_navigation"
-	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
+	    android:layout_width="fill_parent"
 	    android:gravity="center"
 	    android:padding="2dp" >
 	    <Button
@@ -21,6 +21,14 @@
 	      	android:layout_alignParentTop="true"
 			android:hapticFeedbackEnabled="true"
 	      	android:background="@drawable/btn_prev_arrow" />
+	    <ImageView
+	        android:id="@+id/tts_button_image_view"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignTop="@+id/previous_button"
+	        android:layout_toRightOf="@+id/previous_button"
+	        android:background="@drawable/ic_tts"
+	        android:padding="5dp" />
 	    <TextView
 	        android:id="@+id/notification_count_text_view"
 	        android:layout_width="wrap_content"
@@ -34,15 +42,15 @@
 	        android:text="0/0"
 	        android:textAppearance="?android:attr/textAppearanceMedium"
 	        android:textColor="@color/white" />
-	    <ImageView
-	        android:id="@+id/reschedule_image_view"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_alignTop="@+id/next_button"
-	        android:layout_toLeftOf="@+id/next_button"
-	        android:layout_marginLeft="5dp"
-	        android:layout_marginRight="5dp"
-	        android:background="@drawable/ic_reschedule_white" />
+		<ImageView
+		    android:id="@+id/reschedule_button_image_view"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_alignTop="@+id/next_button"
+		    android:layout_toLeftOf="@+id/next_button"
+		    android:layout_marginLeft="5dp"
+		    android:layout_marginRight="5dp"
+		    android:background="@drawable/ic_reschedule_white" />
 	    <Button
 	    	android:id="@+id/next_button" 
 	      	android:layout_height="wrap_content"
@@ -70,32 +78,32 @@
 			android:focusable="true" 
 			android:clickable="true"
 			android:hapticFeedbackEnabled="true"
-			android:background="@drawable/htc_list_selector_background">
+			android:background="@drawable/list_selector_background_blue">
 			<ImageView
 				android:id="@+id/contact_photo_image_view"
 				android:layout_height="wrap_content"
 				android:layout_width="wrap_content"
 				android:layout_gravity="center_vertical"
 				android:scaleType="center"
-				android:background="@drawable/image_picture_frame_white" />
+				android:background="@drawable/image_picture_frame_white" />	
 			<ProgressBar 
 				android:id="@+id/contact_photo_progress_bar" 
 				android:layout_height="wrap_content"
 				android:layout_width="wrap_content"
 				android:layout_gravity="center_vertical|center_horizontal"
 				android:layout_margin="42dp"
-				style="@android:style/Widget.ProgressBar.Small" />
+				style="@android:style/Widget.ProgressBar.Small" />		
 			<LinearLayout
-				android:id="@+id/contact_info_wrapper_linear_layout"
+				android:id="@+id/contact_info_linear_layout"
 				android:orientation="vertical"
 				android:layout_height="wrap_content"
-				android:layout_width="fill_parent"
+				android:layout_width="wrap_content"
 				android:layout_gravity="left"
 				android:paddingLeft="5dp">
 				<LinearLayout
-					android:id="@+id/contact_info_linear_layout"
-					android:layout_width="fill_parent"
+					android:id="@+id/notification_info_linear_layout"
 					android:layout_height="wrap_content"
+					android:layout_width="fill_parent"
 					android:orientation="horizontal" 
 					android:layout_gravity="center_vertical">
 					<ImageView
@@ -107,30 +115,30 @@
 						android:id="@+id/notification_info_text_view"
 						android:layout_height="wrap_content"
 						android:layout_width="wrap_content" 
-						android:layout_gravity="center_vertical"
-						android:textColorLink="@color/white"
+						android:layout_gravity="center_vertical" 
+	    				android:textColor="@color/white"
 						android:textAppearance="?android:attr/textAppearanceSmall"
-						android:paddingLeft="5dp"/>
+						android:paddingLeft="5dp" />
 				</LinearLayout>
 				<TextView
 					android:id="@+id/contact_name_text_view"
 					android:layout_height="wrap_content"
-					android:layout_width="wrap_content"
+					android:layout_width="fill_parent"
 		            android:singleLine="true"
 		            android:ellipsize="none"
 					android:layout_gravity="left"
 					android:textAppearance="?android:attr/textAppearanceLarge"
 					android:maxLines="1" 
-					android:textStyle="bold"
-					android:textColorLink="@color/white" />
+					android:textStyle="bold" 
+	    			android:textColor="@color/white" />
 				<TextView
 					android:id="@+id/contact_number_text_view"
 					android:layout_height="wrap_content"
-					android:layout_width="wrap_content"
+					android:layout_width="fill_parent"
 					android:layout_gravity="left"
 					android:textAppearance="?android:attr/textAppearanceMedium"
-					android:maxLines="1"
-					android:textColorLink="@color/white"  />
+					android:maxLines="1" 
+	    			android:textColor="@color/white" />
 			</LinearLayout>
 		</LinearLayout>
 		<TextView
@@ -165,41 +173,7 @@
 			android:selectAllOnFocus="true"/>
 	</LinearLayout>
 	<LinearLayout 
-		android:id="@+id/phone_button_linear_layout" 
-		android:layout_height="wrap_content"
-		android:layout_width="fill_parent" 
-		android:layout_gravity="center_horizontal" 
-		android:padding="2dp" 
-		android:gravity="center">
-		<Button
-			android:id="@+id/phone_dismiss_button"  
-			android:layout_height="wrap_content" 
-			android:layout_width="fill_parent"
-			android:layout_weight="1" 
-			android:layout_marginLeft="1dp"
-			android:layout_marginRight="1dp"
-			android:gravity="center_vertical|center_horizontal"
-			android:drawableLeft="@drawable/ic_delete_black"
-			android:hapticFeedbackEnabled="true"
-			android:textColor="@color/black" 
-			android:background="@drawable/btn_htc"
-			android:text="@string/dismiss_button_text" />
-		<Button
-			android:id="@+id/phone_call_button"  
-			android:layout_height="wrap_content" 
-			android:layout_width="fill_parent" 
-			android:layout_weight="1"
-			android:layout_marginLeft="1dp"
-			android:layout_marginRight="1dp"
-			android:gravity="center_vertical|center_horizontal"
-			android:drawableLeft="@drawable/ic_call_green"
-			android:hapticFeedbackEnabled="true"
-			android:textColor="@color/black"
-			android:background="@drawable/btn_htc"
-			android:text="@string/call_button_text" />
-	</LinearLayout>
-	<LinearLayout 
-		android:id="@+id/sms_button_linear_layout" 
+		android:id="@+id/button_linear_layout" 
 		android:layout_height="wrap_content"
 		android:layout_width="fill_parent" 
 		android:orientation="vertical" 
@@ -207,143 +181,177 @@
 		android:padding="2dp" 
 		android:gravity="center">
 		<Button
-			android:id="@+id/sms_reply_button"  
+			android:id="@+id/reply_sms_button"  
 			android:layout_height="wrap_content" 
 			android:layout_width="fill_parent" 
 			android:layout_weight="1"
 			android:layout_marginLeft="1dp"
 			android:layout_marginRight="1dp"
 			android:gravity="center_vertical|center_horizontal"
-			android:drawableLeft="@drawable/ic_conversation_black_small"
 			android:hapticFeedbackEnabled="true"
-			android:textColor="@color/black"
 			android:background="@drawable/btn_htc"
+			android:drawableLeft="@drawable/ic_conversation_black_small" 
+	    	android:textColor="@color/black"
 			android:text="@string/reply_button_text" />
-		<LinearLayout 
-			android:id="@+id/sms_button_linear_layout" 
-			android:layout_height="wrap_content"
+		<Button
+			android:id="@+id/reply_email_button"  
+			android:layout_height="wrap_content" 
 			android:layout_width="fill_parent" 
-			android:orientation="horizontal" 
+			android:layout_weight="1"
+			android:layout_marginLeft="1dp"
+			android:layout_marginRight="1dp"
+			android:gravity="center_vertical|center_horizontal"
+			android:hapticFeedbackEnabled="true"
+			android:background="@drawable/btn_htc"
+			android:drawableLeft="@drawable/ic_envelope_black" 
+	    	android:textColor="@color/black"
+			android:text="@string/reply_button_text" />	
+		<LinearLayout
+			android:layout_height="wrap_content"
+			android:layout_width="fill_parent"
 			android:layout_gravity="center_horizontal" 
 			android:padding="2dp" 
 			android:gravity="center">
 			<Button
-				android:id="@+id/sms_dismiss_button"  
+				android:id="@+id/dismiss_button"  
 				android:layout_height="wrap_content" 
-				android:layout_width="fill_parent"
-				android:layout_weight="1" 
+				android:layout_width="fill_parent" 
+				android:layout_weight="1"
 				android:layout_marginLeft="1dp"
 				android:layout_marginRight="1dp"
 				android:gravity="center_vertical|center_horizontal"
-				android:drawableLeft="@drawable/ic_delete_black"
 				android:hapticFeedbackEnabled="true"
-				android:textColor="@color/black"
 				android:background="@drawable/btn_htc"
+				android:drawableLeft="@drawable/ic_delete_black" 
+		    	android:textColor="@color/black" 
 				android:text="@string/dismiss_button_text" />
 			<Button
-				android:id="@+id/sms_delete_button"  
+				android:id="@+id/delete_button"  
 				android:layout_height="wrap_content" 
-				android:layout_width="fill_parent"
-				android:layout_weight="1" 
+				android:layout_width="fill_parent" 
+				android:layout_weight="1"
 				android:layout_marginLeft="1dp"
 				android:layout_marginRight="1dp"
 				android:gravity="center_vertical|center_horizontal"
-				android:drawableLeft="@drawable/ic_delete_red"
 				android:hapticFeedbackEnabled="true"
-				android:textColor="@color/black" 
 				android:background="@drawable/btn_htc"
+				android:drawableLeft="@drawable/ic_delete_red" 
+		    	android:textColor="@color/black" 
 				android:text="@string/delete_button_text" />
-		</LinearLayout>
+			<Button
+				android:id="@+id/call_button"  
+				android:layout_height="wrap_content" 
+				android:layout_width="fill_parent" 
+				android:layout_weight="1"
+				android:layout_marginLeft="1dp"
+				android:layout_marginRight="1dp"
+				android:gravity="center_vertical|center_horizontal"
+				android:hapticFeedbackEnabled="true"
+				android:background="@drawable/btn_htc"
+				android:drawableLeft="@drawable/ic_call_green" 
+		    	android:textColor="@color/black"
+				android:text="@string/call_button_text" />
+			<Button
+				android:id="@+id/view_calendar_button"  
+				android:layout_height="wrap_content" 
+				android:layout_width="fill_parent" 
+				android:layout_weight="1"
+				android:layout_marginLeft="1dp"
+				android:layout_marginRight="1dp"
+				android:gravity="center_vertical|center_horizontal"
+				android:hapticFeedbackEnabled="true"
+				android:background="@drawable/btn_htc"
+				android:drawableLeft="@drawable/ic_calendar_event_black" 
+		    	android:textColor="@color/black"
+				android:text="@string/view_button_text" />
+		</LinearLayout>  
 	</LinearLayout>
 	<LinearLayout 
-		android:id="@+id/calendar_button_linear_layout" 
-		android:layout_height="wrap_content"
-		android:layout_width="fill_parent" 
-		android:layout_gravity="center_horizontal" 
-		android:padding="2dp" 
-		android:gravity="center">
-		<Button
-			android:id="@+id/calendar_dismiss_button"  
-			android:layout_height="wrap_content" 
-			android:layout_width="fill_parent"
-			android:layout_weight="1" 
-			android:layout_marginLeft="1dp"
-			android:layout_marginRight="1dp"
-			android:gravity="center_vertical|center_horizontal"
-			android:drawableLeft="@drawable/ic_delete_black"
-			android:hapticFeedbackEnabled="true"
-			android:textColor="@color/black"
-			android:background="@drawable/btn_htc"
-			android:text="@string/dismiss_button_text" />
-		<Button
-			android:id="@+id/calendar_view_button"  
-			android:layout_height="wrap_content" 
-			android:layout_width="fill_parent" 
-			android:layout_weight="1"
-			android:layout_marginLeft="1dp"
-			android:layout_marginRight="1dp"
-			android:gravity="center_vertical|center_horizontal"
-			android:drawableLeft="@drawable/ic_calendar_event_black"
-			android:hapticFeedbackEnabled="true"
-			android:textColor="@color/black"
-			android:background="@drawable/btn_htc"
-			android:text="@string/view_button_text" />
-	</LinearLayout>
-	<LinearLayout 
-		android:id="@+id/email_button_linear_layout" 
+		android:id="@+id/image_button_linear_layout" 
 		android:layout_height="wrap_content"
 		android:layout_width="fill_parent" 
 		android:orientation="vertical" 
 		android:layout_gravity="center_horizontal" 
 		android:padding="2dp" 
 		android:gravity="center">
-		<Button
-			android:id="@+id/email_reply_button"  
+		<ImageButton
+			android:id="@+id/reply_sms_image_button"  
 			android:layout_height="wrap_content" 
 			android:layout_width="fill_parent" 
 			android:layout_weight="1"
 			android:layout_marginLeft="1dp"
 			android:layout_marginRight="1dp"
 			android:gravity="center_vertical|center_horizontal"
-			android:drawableLeft="@drawable/ic_envelope_black"
 			android:hapticFeedbackEnabled="true"
-			android:textColor="@color/black"
 			android:background="@drawable/btn_htc"
-			android:text="@string/reply_button_text" />
-		<LinearLayout 
-			android:id="@+id/email_button_bottom_linear_layout" 
-			android:layout_height="wrap_content"
+			android:scaleType="center"
+			android:src="@drawable/ic_conversation_black_small" />
+		<ImageButton
+			android:id="@+id/reply_email_image_button"  
+			android:layout_height="wrap_content" 
 			android:layout_width="fill_parent" 
-			android:orientation="horizontal" 
+			android:layout_weight="1"
+			android:layout_marginLeft="1dp"
+			android:layout_marginRight="1dp"
+			android:gravity="center_vertical|center_horizontal"
+			android:hapticFeedbackEnabled="true"
+			android:background="@drawable/btn_htc"
+			android:scaleType="center"
+			android:src="@drawable/ic_envelope_black" />	
+		<LinearLayout 
+			android:layout_height="wrap_content"
+			android:layout_width="fill_parent"
 			android:layout_gravity="center_horizontal" 
 			android:padding="2dp" 
 			android:gravity="center">
-			<Button
-				android:id="@+id/email_dismiss_button"  
+			<ImageButton
+				android:id="@+id/dismiss_image_button"  
 				android:layout_height="wrap_content" 
-				android:layout_width="fill_parent"
-				android:layout_weight="1" 
+				android:layout_width="fill_parent" 
+				android:layout_weight="1"
 				android:layout_marginLeft="1dp"
 				android:layout_marginRight="1dp"
 				android:gravity="center_vertical|center_horizontal"
-				android:drawableLeft="@drawable/ic_delete_black"
 				android:hapticFeedbackEnabled="true"
-				android:textColor="@color/black"
 				android:background="@drawable/btn_htc"
-				android:text="@string/dismiss_button_text" />
-			<Button
-				android:id="@+id/email_delete_button"  
+				android:scaleType="center"
+				android:src="@drawable/ic_delete_black" />
+			<ImageButton
+				android:id="@+id/delete_image_button"  
 				android:layout_height="wrap_content" 
-				android:layout_width="fill_parent"
-				android:layout_weight="1" 
+				android:layout_width="fill_parent" 
+				android:layout_weight="1"
 				android:layout_marginLeft="1dp"
 				android:layout_marginRight="1dp"
 				android:gravity="center_vertical|center_horizontal"
-				android:drawableLeft="@drawable/ic_delete_red"
 				android:hapticFeedbackEnabled="true"
-				android:textColor="@color/black" 
 				android:background="@drawable/btn_htc"
-				android:text="@string/delete_button_text" />
-		</LinearLayout>
+				android:scaleType="center"
+				android:src="@drawable/ic_delete_red" />
+			<ImageButton
+				android:id="@+id/call_image_button"  
+				android:layout_height="wrap_content" 
+				android:layout_width="fill_parent" 
+				android:layout_weight="1"
+				android:layout_marginLeft="1dp"
+				android:layout_marginRight="1dp"
+				android:gravity="center_vertical|center_horizontal"
+				android:hapticFeedbackEnabled="true"
+				android:background="@drawable/btn_htc"
+				android:scaleType="center"
+				android:src="@drawable/ic_call_green" />
+			<ImageButton
+				android:id="@+id/view_calendar_image_button"  
+				android:layout_height="wrap_content" 
+				android:layout_width="fill_parent" 
+				android:layout_weight="1"
+				android:layout_marginLeft="1dp"
+				android:layout_marginRight="1dp"
+				android:gravity="center_vertical|center_horizontal"
+				android:hapticFeedbackEnabled="true"
+				android:background="@drawable/btn_htc"
+				android:scaleType="center"
+				android:src="@drawable/ic_calendar_event_black" />
+		</LinearLayout>  
 	</LinearLayout>
 </LinearLayout>

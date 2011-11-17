@@ -52,6 +52,7 @@
     <string name="app_k9_email_app_error">The email application could not be started.</string>
     <string name="app_tts_error">The Text-To-Speech service could not be started.</string>
     <string name="app_preference_quiet_time_error">The Quiet Time preference could not be started.</string>
+    <string name="test_notifications_disabled_message">No test notifications can be displayed because no notifications have been enabled.</string>
 
 	<!-- Settings/Preference Strings -->
     <string name="app_settings_text">Settings</string>
@@ -76,15 +77,9 @@
    	<string name="preference_center_align_body_text_summary">Center align the text of the notification body text.</string>
    	<string name="preference_notification_body_font_size_title">Notification Body Font Size</string>
    	<string name="preference_notification_body_font_size_summary">Select the font size you want to use when when displaying the notification body.</string>
-   	<string name="preference_sms_hide_notification_body_enabled_title">Hide Notification Body</string>
-    <string name="preference_sms_hide_notification_body_enabled_summaryOn">The notification body will not be visible in the popup.</string>
-	<string name="preference_sms_hide_notification_body_enabled_summaryOff">The notification body will be visible in the popup.</string>
-   	<string name="preference_mms_hide_notification_body_enabled_title">Hide Notification Body</string>
-    <string name="preference_mms_hide_notification_body_enabled_summaryOn">The notification body will not be visible in the popup.</string>
-	<string name="preference_mms_hide_notification_body_enabled_summaryOff">The notification body will be visible in the popup.</string>
-   	<string name="preference_calendar_hide_notification_body_enabled_title">Hide Notification Body</string>
-    <string name="preference_calendar_hide_notification_body_enabled_summaryOn">The notification body will not be visible in the popup.</string>
-	<string name="preference_calendar_hide_notification_body_enabled_summaryOff">The notification body will be visible in the popup.</string>
+	<string name="preference_hide_notification_body_enabled_title">Hide Notification Body</string>
+    <string name="preference_hide_notification_body_enabled_summaryOn">The notification body will not be visible in the popup.</string>
+	<string name="preference_hide_notification_body_enabled_summaryOff">The notification body will be visible in the popup.</string>
   
   	<!-- Notification Header Strings -->
     <string name="preference_notification_type_info_icon_enabled_title">Display Type Icon</string>
@@ -253,7 +248,25 @@
 
    	<!-- Email Strings -->
    	<string name="email_at_text" formatted="false">New email at %s</string>
-   	    
+  
+   	<!-- K9 Strings -->
+   	<string name="preference_k9_enabled_title">Enable K-9 Email</string>
+   	<string name="preference_k9_enabled_summaryOn">K-9 Email notifications are enabled.</string>
+   	<string name="preference_k9_enabled_summaryOff">K-9 Email notifications are disabled.</string>
+   	<string name="preference_k9_hide_message_body_enabled_title">Hide Message Body</string>
+   	<string name="preference_k9_hide_message_body_enabled_summaryOn">The message body will not be visible in the notification popup.</string>
+   	<string name="preference_k9_hide_message_body_enabled_summaryOff">The message body will be visible in the notification popup.</string>
+   	<string name="preference_k9_message_body_font_size_title">Message Body Font Size</string>
+   	<string name="preference_k9_message_body_font_size_summary">Select the font size you want to use when when displaying the email body.</string>
+   	<string name="preference_k9_notifications">K-9 Email Notifications</string>
+   	<string name="preference_k9_dismiss_button_action_summary">Define what happens when you dismiss a K-9 email.</string>
+   	<string name="preference_k9_delete_button_action_summary">Define what happens when you delete a K-9 email.</string>
+   	<string name="preference_k9_reply_button_action_summary">Define what happens when you reply to a K-9 email.</string>
+	<string name="preference_confirm_k9_deletion_enabled_title">Confirm Message Deletion</string>
+   	<string name="preference_confirm_k9_deletion_enabled_summaryOn">A dialog box will display when you delete an email.</string>
+   	<string name="preference_confirm_k9_deletion_enabled_summaryOff">A dialog box will not display when you delete an email.</string>  	
+   	<string name="messaging_app_running_action_k9_summary">Define action when a MMS notification comes in when a messaging app is currently running.</string> 
+   	    	    
    	<!-- Button Strings -->
    	<string name="view_mms_button_text">View MMS</string>
     <string name="view_button_text">View</string>
@@ -555,6 +568,7 @@
 	<string name="get_recent_missed_calls_text">Get Recent Missed Calls</string>
 	<string name="get_all_missed_calls_text">Get All Missed Calls</string>
 	<string name="use_installed_messaging_app_text">Use Installed Messaging App</string>
+	<string name="use_installed_email_app_text">Use Installed Email App</string>
 	<string name="use_quick_reply_text">Use Quick Reply</string>
    	<string name="parse_sms_directly_text">Parse SMS Directly (Faster)</string>
 	<string name="read_sms_from_disk_text">Read SMS From Disk (Slower)</string>

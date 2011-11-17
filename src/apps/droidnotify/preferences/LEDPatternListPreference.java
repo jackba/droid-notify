@@ -80,25 +80,26 @@ public class LEDPatternListPreference extends ListPreference {
 			if (_preferences.getString(this.getKey(), Constants.STATUS_BAR_NOTIFICATIONS_LED_PATTERN_DEFAULT).equals(Constants.SMS_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_VALUE_KEY)) {
 				_notificationType = Constants.NOTIFICATION_TYPE_SMS;
 				showDialog();
-			}
-			if (_preferences.getString(this.getKey(), Constants.STATUS_BAR_NOTIFICATIONS_LED_PATTERN_DEFAULT).equals(Constants.MMS_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_VALUE_KEY)) {
+			}else if (_preferences.getString(this.getKey(), Constants.STATUS_BAR_NOTIFICATIONS_LED_PATTERN_DEFAULT).equals(Constants.MMS_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_VALUE_KEY)) {
+				_notificationType = Constants.NOTIFICATION_TYPE_MMS;
+				showDialog();
+			}else if (_preferences.getString(this.getKey(), Constants.STATUS_BAR_NOTIFICATIONS_LED_PATTERN_DEFAULT).equals(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_VALUE_KEY)) {
 				_notificationType = Constants.NOTIFICATION_TYPE_PHONE;
 				showDialog();
-			}
-			if (_preferences.getString(this.getKey(), Constants.STATUS_BAR_NOTIFICATIONS_LED_PATTERN_DEFAULT).equals(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_VALUE_KEY)) {
-				_notificationType = Constants.NOTIFICATION_TYPE_PHONE;
+			}else if (_preferences.getString(this.getKey(), Constants.STATUS_BAR_NOTIFICATIONS_LED_PATTERN_DEFAULT).equals(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_VALUE_KEY)) {
+				_notificationType = Constants.NOTIFICATION_TYPE_CALENDAR;
 				showDialog();
-			}
-			if (_preferences.getString(this.getKey(), Constants.STATUS_BAR_NOTIFICATIONS_LED_PATTERN_DEFAULT).equals(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_VALUE_KEY)) {
-				_notificationType = Constants.NOTIFICATION_TYPE_PHONE;
+			}else if (_preferences.getString(this.getKey(), Constants.STATUS_BAR_NOTIFICATIONS_LED_PATTERN_DEFAULT).equals(Constants.GMAIL_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_VALUE_KEY)) {
+				_notificationType = Constants.NOTIFICATION_TYPE_GMAIL;
 				showDialog();
-			}
-			if (_preferences.getString(this.getKey(), Constants.STATUS_BAR_NOTIFICATIONS_LED_PATTERN_DEFAULT).equals(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_VALUE_KEY)) {
-				_notificationType = Constants.NOTIFICATION_TYPE_PHONE;
+			}else if (_preferences.getString(this.getKey(), Constants.STATUS_BAR_NOTIFICATIONS_LED_PATTERN_DEFAULT).equals(Constants.TWITTER_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_VALUE_KEY)) {
+				_notificationType = Constants.NOTIFICATION_TYPE_TWITTER;
 				showDialog();
-			}
-			if (_preferences.getString(this.getKey(), Constants.STATUS_BAR_NOTIFICATIONS_LED_PATTERN_DEFAULT).equals(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_VALUE_KEY)) {
-				_notificationType = Constants.NOTIFICATION_TYPE_PHONE;
+			}else if (_preferences.getString(this.getKey(), Constants.STATUS_BAR_NOTIFICATIONS_LED_PATTERN_DEFAULT).equals(Constants.FACEBOOK_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_VALUE_KEY)) {
+				_notificationType = Constants.NOTIFICATION_TYPE_FACEBOOK;
+				showDialog();
+			}else if (_preferences.getString(this.getKey(), Constants.STATUS_BAR_NOTIFICATIONS_LED_PATTERN_DEFAULT).equals(Constants.K9_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_VALUE_KEY)) {
+				_notificationType = Constants.NOTIFICATION_TYPE_K9;
 				showDialog();
 			}
 		}
@@ -138,6 +139,9 @@ public class LEDPatternListPreference extends ListPreference {
 		    case Constants.NOTIFICATION_TYPE_FACEBOOK:{
 		    	ledCustomPattern = _preferences.getString(Constants.FACEBOOK_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_KEY, Constants.STATUS_BAR_NOTIFICATIONS_LED_PATTERN_DEFAULT);
 		    }
+		    case Constants.NOTIFICATION_TYPE_K9:{
+		    	ledCustomPattern = _preferences.getString(Constants.K9_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_KEY, Constants.STATUS_BAR_NOTIFICATIONS_LED_PATTERN_DEFAULT);
+		    }
 	    }
 	    String[] ledCustomPatternArray = ledCustomPattern.split(",");
 		final EditText customOnLEDPatternEditText = (EditText) view.findViewById(R.id.ledPatternOnEditText);
@@ -174,6 +178,9 @@ public class LEDPatternListPreference extends ListPreference {
 					    }
 					    case Constants.NOTIFICATION_TYPE_FACEBOOK:{
 					    	editor.putString(Constants.FACEBOOK_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_KEY, customLEDPattern);
+					    }
+					    case Constants.NOTIFICATION_TYPE_K9:{
+					    	editor.putString(Constants.K9_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_KEY, customLEDPattern);
 					    }
 				    }
 		            editor.commit();
