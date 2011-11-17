@@ -7,7 +7,9 @@
  * Added Text-To-Speech (TTS) to notifications.
  * Updated the notification buttons. Default to icons only, but this is customizable.
  * Small updates to the existing themes.
+ * Added support for K-9 mail clients.
  * 
+ * Small bug fixes.
 
 *v2.11* (November 14, 2011)
  * Added the following translations: Portuguese
