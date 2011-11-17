@@ -1291,7 +1291,7 @@ public class NotificationView extends LinearLayout {
 		    	// This is based on user preferences from a list of predefined images.
 		    	String contactPlaceholderImageID = _preferences.getString(Constants.CONTACT_PLACEHOLDER_KEY, "0");
 		    	//Default image resource.
-		    	int contactPlaceholderImageResourceID = R.drawable.ic_contact_picture_5;
+		    	int contactPlaceholderImageResourceID = R.drawable.ic_contact_picture_1;
 		    	if(contactPlaceholderImageID.equals("0")){
 		    		contactPlaceholderImageResourceID = R.drawable.ic_contact_picture_1;
 		    	}else if(contactPlaceholderImageID.equals("1")){
@@ -1302,6 +1302,8 @@ public class NotificationView extends LinearLayout {
 		    		contactPlaceholderImageResourceID = R.drawable.ic_contact_picture_4;
 		    	}else if(contactPlaceholderImageID.equals("4")){
 		    		contactPlaceholderImageResourceID = R.drawable.ic_contact_picture_5;
+		    	}else if(contactPlaceholderImageID.equals("5")){
+		    		contactPlaceholderImageResourceID = R.drawable.ic_contact_picture_6;
 		    	}
 		    	return Common.getRoundedCornerBitmap(BitmapFactory.decodeResource(_context.getResources(), contactPlaceholderImageResourceID), 5, true, contactPhotoSize, contactPhotoSize);
 		    }
