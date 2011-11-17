@@ -259,7 +259,6 @@
   <string name="delete_button_text">Eliminar</string>
   <string name="button_settings_text">Configuración de los botones</string>
   <string name="show_hide_button_settings_text">Mostrar/ocultar botón de Configuración</string>
-  <string name="preference_button_icons_enabled_title">Mostrar Iconos de Botones</string>
   <string name="preference_button_icons_enabled_summaryOn">Mostrar botones de iconos.</string>
   <string name="preference_button_icons_enabled_summaryOff">No mostrar iconos de botones.</string>
   <string name="preference_display_dismiss_button_title">Display Dismiss Button</string>
@@ -279,6 +278,11 @@
   <string name="preference_reply_button_action">Acción de botón de respuesta</string>
   <string name="preference_notification_count_button_action">Acción de Contador de Notificaciones</string>
   <string name="preference_notification_count_button_action_summary">Definir lo que ocurre cuando se hace clic sobre el texto de conteo de notificación.</string>
+  <string name="preference_button_style_title">Button Style</string>
+  <string name="preference_button_style_summary">Choose the notification button style.</string>
+  <string name="button_style_icon_and_text_text">Icons and Text</string>
+  <string name="button_style_icon_only_text">Icons Only</string>
+  <string name="button_style_text_only_text">Text Only</string>
   <string name="general_screen_settings_text">Configuración básica de la pantalla</string>
   <string name="notification_screen_settings_text">Configuración de la Pantalla de Notificación</string>
   <string name="preference_screen_settings">Configuración de la Pantalla</string>

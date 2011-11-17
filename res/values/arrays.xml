@@ -947,7 +947,19 @@
 		<item name="23">11</item>
 		<item name="24">12</item>
 	</string-array>
-	
+
+	<!-- Button Style Arrays --> 
+	<string-array name="button_display_style_options">
+		<item name="0">@string/button_style_icon_and_text_text</item>
+		<item name="1">@string/button_style_icon_only_text</item>
+		<item name="2">@string/button_style_text_only_text</item>
+	</string-array>
+	<string-array name="button_display_style_options_values">
+		<item name="0">0</item>
+		<item name="1">1</item>
+		<item name="2">2</item>
+	</string-array>
+	    	
 	<!-- STATUS_BAR_NOTIFICATION_ARRAYS -->
 	
 	<string-array name="preference_vibrate_pattern_options">

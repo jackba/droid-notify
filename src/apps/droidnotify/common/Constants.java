@@ -78,10 +78,10 @@ public class Constants {
 	
 	//-----BUTTON CONSTANTS-----//
 	public static final String BUTTON_DISPLAY_STYLE_KEY = "button_display_style";
-	public static final String BUTTON_DISPLAY_STYLE_DEFAULT = "2";
-	public static final String BUTTON_DISPLAY_ICON_ONLY = "0";
-	public static final String BUTTON_DISPLAY_TEXT_ONLY = "1";
-	public static final String BUTTON_DISPLAY_BOTH_ICON_TEXT = "2";
+	public static final String BUTTON_DISPLAY_STYLE_DEFAULT = "0";
+	public static final String BUTTON_DISPLAY_BOTH_ICON_TEXT = "0";
+	public static final String BUTTON_DISPLAY_ICON_ONLY = "1";
+	public static final String BUTTON_DISPLAY_TEXT_ONLY = "2";
 		
     public static final String BUTTON_ICONS_KEY = "button_icons_enabled";
 	public static final String DISPLAY_RESCHEDULE_BUTTON_KEY = "display_reschedule_button";
