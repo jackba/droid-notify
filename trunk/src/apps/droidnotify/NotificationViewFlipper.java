@@ -119,6 +119,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 */
 	public void removeActiveNotification(boolean reschedule) {
 		if (_debug) Log.v("NotificationViewFlipper.removeActiveNotification()");
+		_notificationActivity.stopTextToSpeechPlayback();
 		Notification notification =  getActiveNotification();
 		removeNotification(_currentNotification, reschedule);
 		//Clear the status bar notification.

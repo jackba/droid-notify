@@ -284,15 +284,15 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	 * This should run only once when the application is installed.
 	 */
 	private void runOnceCalendarAlarmManager(){
-		if (_debug) Log.v("MainPreferenceActivity.runOnceAlarmManager()");
+		if (_debug) Log.v("MainPreferenceActivity.runOnceCalendarAlarmManager()");
 		//Read preferences and exit if app is disabled.
 	    if(!_preferences.getBoolean(Constants.APP_ENABLED_KEY, true)){
-			if (_debug) Log.v("MainPreferenceActivity.runOnceAlarmManager() App Disabled. Exiting...");
+			if (_debug) Log.v("MainPreferenceActivity.runOnceCalendarAlarmManager() App Disabled. Exiting...");
 			return;
 		}
 		//Read preferences and exit if calendar notifications are disabled.
 	    if(!_preferences.getBoolean(Constants.CALENDAR_NOTIFICATIONS_ENABLED_KEY, true)){
-			if (_debug) Log.v("MainPreferenceActivity.runOnceAlarmManager() Calendar Notifications Disabled. Exiting... ");
+			if (_debug) Log.v("MainPreferenceActivity.runOnceCalendarAlarmManager() Calendar Notifications Disabled. Exiting... ");
 			return;
 		}
 		boolean runOnce = _preferences.getBoolean(Constants.RUN_ONCE_CALENDAR_ALARM, true);
@@ -300,8 +300,8 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			SharedPreferences.Editor editor = _preferences.edit();
 			editor.putBoolean(Constants.RUN_ONCE_CALENDAR_ALARM, false);
 			editor.commit();
-			startCalendarAlarmManager(SystemClock.elapsedRealtime() + (5 * 60 * 1000));
-       }
+			startCalendarAlarmManager(System.currentTimeMillis());
+		}
 	}
 	
 	/**

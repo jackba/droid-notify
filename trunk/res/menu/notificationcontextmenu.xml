@@ -34,6 +34,9 @@
 		android:id="@+id/view_calendar_context_menu"
         android:title="@string/view_calendar_text" />
 	<item 
+		android:id="@+id/view_k9_inbox_context_menu"
+        android:title="@string/email_inbox_text" />
+	<item 
 		android:id="@+id/reschedule_notification_context_menu"
         android:title="@string/reschedule_notification_text" />
 	<item 

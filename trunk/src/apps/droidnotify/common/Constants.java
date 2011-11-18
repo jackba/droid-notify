@@ -371,7 +371,7 @@ public class Constants {
 	
 	//-----EULA CONSTANTS-----//
 	public static final String RUN_ONCE_EULA = "runOnceEula";
-	public static final String RUN_ONCE_CALENDAR_ALARM = "runOnce_v_2_4";
+	public static final String RUN_ONCE_CALENDAR_ALARM = "runOnce_v_2_12";
 	
 	//-----STATUS BAR NOTIFICATION CONSTANTS-----//
 	public static final String STATUS_BAR_NOTIFICATIONS_RINGTONE_DEFAULT = "content://settings/system/notification_sound";

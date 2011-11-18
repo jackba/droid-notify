@@ -140,7 +140,9 @@
    	<string name="preference_quick_reply_sms_gateway">SMS-to-Email Gateway</string>
    	<string name="preference_quick_reply_sms_gateway_summary">Select your service provider from this list. If you can\'t find it you won\'t be able to send SMS messages to Email address\'s with the built in Quick Reply.</string>
    	  	
-   	<!-- SMS Strings -->	
+   	<!-- SMS Strings -->
+   	<string name="view_thread_text">View Thread</string>
+   	<string name="messaging_inbox_text">Messaging Inbox</string>
     <string name="message_at_text" formatted="false">New message at %s</string>
    	<string name="preference_sms_enabled_title">Enable SMS</string>
    	<string name="preference_sms_enabled_summaryOn">SMS notifications are enabled.</string>
@@ -192,6 +194,10 @@
    	<string name="preference_mms_timestamp_adjustment_summary">Some phones/locations may display incorrect timestamps. Use this setting to adjust the displayed timestamp for MMS messages.</string>
    	
    	<!-- Missed Call Strings -->
+   	<string name="view_mms_button_text">View MMS</string>
+   	<string name="call_button_text">Call</string>
+   	<string name="call_contact_text">Call Contact</string>
+   	<string name="view_call_log_text">View Call Log</string>
     <string name="missed_call_at_text" formatted="false">Missed call at %s</string>
     <string name="select_number_text">Select Number</string>
     <string name="select_number_to_call_text">Select Number to Call</string>
@@ -208,6 +214,8 @@
    	<string name="messaging_app_running_action_missed_call_summary">Define action when a Missed Call notification comes in when a messaging app is currently running.</string> 
    	
    	<!-- Calendar Strings -->
+   	<string name="add_calendar_event_text">Add Calendar Event</string>
+   	<string name="edit_calendar_event_text">Edit Calendar Event</string>
     <string name="event_on_text">Event on %s</string>
     <string name="view_calendar_text">View Calendar</string>
     <string name="calendar_event_text">Calendar Event</string>
@@ -248,6 +256,8 @@
 
    	<!-- Email Strings -->
    	<string name="email_at_text" formatted="false">New email at %s</string>
+    <string name="email_inbox_text">Email Inbox</string>
+    <string name="view_email_text">View Email</string>
   
    	<!-- K9 Strings -->
    	<string name="preference_k9_enabled_title">Enable K-9 Email</string>
@@ -267,35 +277,24 @@
    	<string name="preference_confirm_k9_deletion_enabled_summaryOff">A dialog box will not display when you delete an email.</string>  	
    	<string name="messaging_app_running_action_k9_summary">Define action when a MMS notification comes in when a messaging app is currently running.</string> 
    	    	    
+	<!-- Contact Strings -->
+   	<string name="view_contact_text">View Contact</string>
+   	<string name="add_contact_text">Add Contact</string>
+   	<string name="text_contact_text">Text Contact</string>
+   	<string name="edit_contact_text">Edit Contact</string>
+   	    
    	<!-- Button Strings -->
-   	<string name="view_mms_button_text">View MMS</string>
     <string name="view_button_text">View</string>
     <string name="close_button_text">Close</string>
     <string name="dismiss_button_text">Dismiss</string>
    	<string name="reply_button_text">Reply</string>
-   	<string name="quick_reply_button_text">Quick Reply</string>
-   	<string name="inbox_button_text">Inbox</string>
    	<string name="next_button_text">Next</string>
    	<string name="previous_button_text">Previous</string>
-   	<string name="unlock_button_text">Unlock</string>
    	<string name="send_button_text">Send</string>
    	<string name="cancel_button_text">Cancel</string>
-   	<string name="call_button_text">Call</string>
-   	<string name="view_contact_text">View Contact</string>
-   	<string name="add_contact_text">Add Contact</string>
-   	<string name="call_contact_text">Call Contact</string>
-   	<string name="view_call_log_text">View Call Log</string>
-   	<string name="text_contact_text">Text Contact</string>
-   	<string name="edit_contact_text">Edit Contact</string>
-   	<string name="add_calendar_event_text">Add Calendar Event</string>
-   	<string name="edit_calendar_event_text">Edit Calendar Event</string>
-   	<string name="view_thread_text">View Thread</string>
-   	<string name="messaging_inbox_text">Messaging Inbox</string>
    	<string name="delete_button_text">Delete</string>
    	<string name="button_settings_text">Button Settings</string>
-   	<string name="show_hide_button_settings_text">Show/Hide Button Settings</string> 
-   	<string name="preference_button_icons_enabled_summaryOn">Display icons buttons.</string>
-   	<string name="preference_button_icons_enabled_summaryOff">Do not display icons on buttons.</string>
+   	<string name="show_hide_button_settings_text">Show/Hide Button Settings</string>
     <string name="preference_display_dismiss_button_title">Display Dismiss Button</string>
    	<string name="preference_display_dismiss_button_summary">Show the dismiss button.</string>
     <string name="preference_display_delete_button_title">Display Delete Button</string>
@@ -567,7 +566,6 @@
     <string name="delete_message_text">Delete Message</string>
     <string name="delete_thread_text">Delete Thread</string>
 	<string name="view_message_text">View Message</string>
-	<string name="goto_inbox_text">Goto Inbox</string>
 	<string name="goto_calendar_text">Goto Calendar</string>
 	<string name="no_timeout_text">No Timeout</string>
 	<string name="get_latest_missed_call_text">Get Latest Missed Call</string>
