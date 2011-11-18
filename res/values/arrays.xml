@@ -35,7 +35,7 @@
     	<item name="0">@string/nothing_text</item>
 		<item name="1">@string/view_message_text</item>
 		<item name="2">@string/view_thread_text</item>
-		<item name="3">@string/goto_inbox_text</item>
+		<item name="3">@string/messaging_inbox_text</item>
 	</string-array>
 	<string-array name="sms_notification_count_button_options_values">
 		<item name="0">0</item>
@@ -141,7 +141,7 @@
     	<item name="0">@string/nothing_text</item>
 		<item name="1">@string/view_message_text</item>
 		<item name="2">@string/view_thread_text</item>
-		<item name="3">@string/goto_inbox_text</item>
+		<item name="3">@string/messaging_inbox_text</item>
 	</string-array>
 	<string-array name="mms_notification_count_button_options_values">
 		<item name="0">0</item>
@@ -434,7 +434,7 @@
 	
     <string-array name="k9_notification_count_button_options">
     	<item name="0">@string/nothing_text</item>
-		<item name="1">@string/goto_inbox_text</item>
+		<item name="1">@string/email_inbox_text</item>
 	</string-array>
 	<string-array name="k9_notification_count_button_options_values">
 		<item name="0">0</item>
