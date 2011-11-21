@@ -2,8 +2,8 @@
 <manifest 
 	xmlns:android="http://schemas.android.com/apk/res/android" 
 	package="apps.droidnotify"
-    android:versionCode="19"
-    android:versionName="2.12"
+    android:versionCode="20"
+    android:versionName="2.13"
     android:installLocation="internalOnly" >
 	<uses-sdk 
 		android:minSdkVersion="8" 
