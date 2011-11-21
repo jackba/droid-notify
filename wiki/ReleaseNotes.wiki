@@ -6,7 +6,7 @@
 *v2.13* _Coming Soon..._
  * 
 
-*v2.12* _Coming Soon..._
+*v2.12* (November 21, 2011)
  * Added Text-To-Speech (TTS) to notifications.
  * Updated the notification buttons. Default to icons only, but this is customizable.
  * Small updates to the existing themes.
