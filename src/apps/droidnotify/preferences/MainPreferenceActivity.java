@@ -1193,7 +1193,9 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	    startActivity(intent);
 	}
 	
-	//Reload Preference Activity
+	/**
+	 * Reload Preference Activity
+	 */
 	public void reloadPreferenceActivity() {
 		if (_debug) Log.v("MainPreferenceActivity.reloadPreferenceActivity()");
 		try{

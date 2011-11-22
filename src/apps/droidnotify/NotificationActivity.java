@@ -230,7 +230,6 @@ public class NotificationActivity extends Activity {
 			}
 			case MESSAGING_INBOX_CONTEXT_MENU:{
 				if(Common.startMessagingAppViewInboxActivity(_context, this, Constants.MESSAGING_ACTIVITY)){
-					setInReplyScreenFlag(true);
 					return true;
 				}else{
 					return false;
@@ -238,7 +237,6 @@ public class NotificationActivity extends Activity {
 			}
 			case VIEW_THREAD_CONTEXT_MENU:{
 				if(Common.startMessagingAppViewThreadActivity(_context, this, notification.getSentFromAddress(), Constants.VIEW_SMS_THREAD_ACTIVITY)){
-					setInReplyScreenFlag(true);
 					return true;
 				}else{
 					return false;
@@ -328,18 +326,17 @@ public class NotificationActivity extends Activity {
 	 * This closes this activity screen.
 	 */
 	public void finishActivity() {
-		if (_debug) Log.v("NotificationActivity.finishActivity()");	    
+		if (_debug) Log.v("NotificationActivity.finishActivity()");	
 		if (_tts != null){
 	    	_tts.shutdown();
 	    }
 	    Common.clearKeyguardLock();
-	    setInReplyScreenFlag(false);
 		if(_preferences.getBoolean(Constants.CLEAR_STATUS_BAR_NOTIFICATIONS_ON_EXIT_KEY, false)){
 			Common.clearAllNotifications(_context);
 		}
 	    Common.clearWakeLock();
 	    cancelScreenTimeout();
-	    // Finish the activity.
+	    //Finish the activity.
 	    finish();
 	}
   
@@ -478,7 +475,7 @@ public class NotificationActivity extends Activity {
 	 * Stops the playback of the TTS message.
 	 */
 	public void stopTextToSpeechPlayback(){
-		if (_debug) Log.v("NotificationActivity.stopTextToSpeechPlaybacke()");
+		if (_debug) Log.v("NotificationActivity.stopTextToSpeechPlayback()");
 	    if (_tts != null){
 	    	_tts.stop();
 	    }
@@ -496,9 +493,9 @@ public class NotificationActivity extends Activity {
 	 * @param returnedIntent - The intent that was returned.
 	 */
 	protected void onActivityResult(int requestCode, int resultCode, Intent returnedIntent){
-		if (_debug) Log.v("NotificationActivity.onActivityResult() requestCode: " + requestCode + " resultCode: " + resultCode);
+		if (_debug) Log.v("NotificationActivity.onActivityResult() RequestCode: " + requestCode + " ResultCode: " + resultCode);
 	    switch(requestCode) {
-		    case Constants.ADD_CONTACT_ACTIVITY:{ 
+		    case Constants.ADD_CONTACT_ACTIVITY:{
 		    	if (resultCode == RESULT_OK) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() ADD_CONTACT_ACTIVITY: RESULT_OK");
 		        	//Remove notification from ViewFlipper.
@@ -511,6 +508,7 @@ public class NotificationActivity extends Activity {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() ADD_CONTACT_ACTIVITY: " + resultCode);
 		        	Toast.makeText(_context, _context.getString(R.string.app_android_contacts_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
 		    	}
+		    	Common.setInLinkedAppFlag(_context, false);
 		        break;
 		    }
 		    case Constants.EDIT_CONTACT_ACTIVITY:{ 
@@ -526,6 +524,7 @@ public class NotificationActivity extends Activity {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() EDIT_CONTACT_ACTIVITY: " + resultCode);
 		        	Toast.makeText(_context, _context.getString(R.string.app_android_contacts_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
 		    	}
+		    	Common.setInLinkedAppFlag(_context, false);
 		        break;
 		    }
 		    case Constants.VIEW_CONTACT_ACTIVITY:{ 
@@ -541,6 +540,7 @@ public class NotificationActivity extends Activity {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() VIEW_CONTACT_ACTIVITY: " + resultCode);
 		        	Toast.makeText(_context, _context.getString(R.string.app_android_contacts_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
 		    	}
+		    	Common.setInLinkedAppFlag(_context, false);
 		        break;
 		    }
 		    case Constants.SEND_SMS_ACTIVITY:{ 
@@ -555,8 +555,8 @@ public class NotificationActivity extends Activity {
 		    	}else{
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() SEND_SMS_ACTIVITY: " + resultCode);
 		        	Toast.makeText(_context, _context.getString(R.string.app_android_messaging_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
-		    	}  
-		    	setInReplyScreenFlag(false);
+		    	}
+		    	Common.setInLinkedAppFlag(_context, false);
 		        break;
 		    }
 		    case Constants.VIEW_SMS_MESSAGE_ACTIVITY:{ 
@@ -571,8 +571,8 @@ public class NotificationActivity extends Activity {
 		    	}else{
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() VIEW_SMS_MESSAGE_ACTIVITY: " + resultCode);
 		        	Toast.makeText(_context, _context.getString(R.string.app_android_messaging_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
-		    	}  
-		    	setInReplyScreenFlag(false);
+		    	}
+		    	Common.setInLinkedAppFlag(_context, false);
 		        break;
 		    }
 		    case Constants.VIEW_SMS_THREAD_ACTIVITY:{ 
@@ -587,8 +587,8 @@ public class NotificationActivity extends Activity {
 		    	}else{
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() VIEW_SMS_THREAD_ACTIVITY: " + resultCode);
 		        	Toast.makeText(_context, _context.getString(R.string.app_android_messaging_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
-		    	}  
-		    	setInReplyScreenFlag(false);
+		    	}
+		    	Common.setInLinkedAppFlag(_context, false);
 		        break;
 		    }
 		    case Constants.MESSAGING_ACTIVITY:{ 
@@ -604,7 +604,7 @@ public class NotificationActivity extends Activity {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() MESSAGING_ACTIVITY: " + resultCode);
 		        	Toast.makeText(_context, _context.getString(R.string.app_android_messaging_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
 		    	}
-		    	setInReplyScreenFlag(false);
+		    	Common.setInLinkedAppFlag(_context, false);
 		        break;
 		    }
 		    case Constants.SEND_SMS_QUICK_REPLY_ACTIVITY:{ 
@@ -619,8 +619,8 @@ public class NotificationActivity extends Activity {
 		    	}else{
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() SEND_SMS_QUICK_REPLY_ACTIVITY: " + resultCode);
 		        	Toast.makeText(_context, _context.getString(R.string.app_android_messaging_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
-		    	}  
-		    	setInReplyScreenFlag(false);
+		    	}
+		    	Common.setInLinkedAppFlag(_context, false);
 		        break;
 		    }
 		    case Constants.CALL_ACTIVITY:{ 
@@ -636,6 +636,7 @@ public class NotificationActivity extends Activity {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() CALL_ACTIVITY: " + resultCode);
 		        	Toast.makeText(_context, _context.getString(R.string.app_android_phone_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
 		    	}
+		    	Common.setInLinkedAppFlag(_context, false);
 		        break;
 		    }
 		    case Constants.ADD_CALENDAR_ACTIVITY:{ 
@@ -651,6 +652,7 @@ public class NotificationActivity extends Activity {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() ADD_CALENDAR_ACTIVITY: " + resultCode);
 		        	Toast.makeText(_context, _context.getString(R.string.app_android_calendar_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
 		    	}
+		    	Common.setInLinkedAppFlag(_context, false);
 		        break;
 		    }
 		    case Constants.EDIT_CALENDAR_ACTIVITY:{ 
@@ -666,6 +668,7 @@ public class NotificationActivity extends Activity {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() EDIT_CALENDAR_ACTIVITY: " + resultCode);
 		        	Toast.makeText(_context, _context.getString(R.string.app_android_calendar_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
 		    	}
+		    	Common.setInLinkedAppFlag(_context, false);
 		        break;
 		    }
 		    case Constants.VIEW_CALENDAR_ACTIVITY:{ 
@@ -681,6 +684,7 @@ public class NotificationActivity extends Activity {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() VIEW_CALENDAR_ACTIVITY: " + resultCode);
 		        	Toast.makeText(_context, _context.getString(R.string.app_android_calendar_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
 		    	}
+		    	Common.setInLinkedAppFlag(_context, false);
 		        break;
 		    }
 		    case Constants.VIEW_CALL_LOG_ACTIVITY:{
@@ -696,6 +700,7 @@ public class NotificationActivity extends Activity {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() VIEW_CALL_LOG_ACTIVITY: " + resultCode);
 		        	Toast.makeText(_context, _context.getString(R.string.app_android_call_log_error) + " " + resultCode, Toast.LENGTH_LONG).show();
 		    	}
+		    	Common.setInLinkedAppFlag(_context, false);
 		        break;
 		    }
 		    case Constants.CALENDAR_ACTIVITY:{
@@ -711,6 +716,7 @@ public class NotificationActivity extends Activity {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() CALENDAR_ACTIVITY: " + resultCode);
 		        	Toast.makeText(_context, _context.getString(R.string.app_android_calendar_app_error) + " " + resultCode, Toast.LENGTH_LONG).show();
 		    	}
+		    	Common.setInLinkedAppFlag(_context, false);
 		        break;
 		    }
 		    case Constants.K9_VIEW_INBOX_ACTIVITY:{
@@ -726,6 +732,7 @@ public class NotificationActivity extends Activity {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() K9_VIEW_INBOX_ACTIVITY: " + resultCode);
 		        	Toast.makeText(_context, _context.getString(R.string.app_k9_email_app_error) + " " + resultCode, Toast.LENGTH_LONG).show();
 		    	}
+		    	Common.setInLinkedAppFlag(_context, false);
 		        break;
 		    }
 		    case Constants.K9_VIEW_EMAIL_ACTIVITY:{
@@ -741,6 +748,7 @@ public class NotificationActivity extends Activity {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() K9_VIEW_EMAIL_ACTIVITY: " + resultCode);
 		        	Toast.makeText(_context, _context.getString(R.string.app_k9_email_app_error) + " " + resultCode, Toast.LENGTH_LONG).show();
 		    	}
+		    	Common.setInLinkedAppFlag(_context, false);
 		        break;
 		    }
 		    case Constants.K9_SEND_EMAIL_ACTIVITY:{
@@ -756,6 +764,7 @@ public class NotificationActivity extends Activity {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() K9_SEND_EMAIL_ACTIVITY: " + resultCode);
 		        	Toast.makeText(_context, _context.getString(R.string.app_k9_email_app_error) + " " + resultCode, Toast.LENGTH_LONG).show();
 		    	}
+		    	Common.setInLinkedAppFlag(_context, false);
 		        break;
 		    }
 		    case Constants.TEXT_TO_SPEECH_ACTIVITY:{
@@ -784,6 +793,7 @@ public class NotificationActivity extends Activity {
 	    if (_debug) Log.v("NotificationActivity.onCreate()");
 	    _context = getApplicationContext();
 	    _preferences = PreferenceManager.getDefaultSharedPreferences(_context);
+	    Common.setInLinkedAppFlag(_context, false);
 	    Common.acquireWakeLock(_context);
 	    final Bundle extrasBundle = getIntent().getExtras();
 	    int notificationType = extrasBundle.getInt("notificationType");
@@ -894,8 +904,7 @@ public class NotificationActivity extends Activity {
 				setupRescheduledNotification(extrasBundle);
 				break;
 		    }
-	    } 
-	    setInReplyScreenFlag(false);
+	    }
 	    Common.acquireKeyguardLock(_context);
 	    setScreenTimeoutAlarm();
 	}
@@ -943,7 +952,9 @@ public class NotificationActivity extends Activity {
 	protected void onStop() {
 	    super.onStop();
 	    if (_debug) Log.v("NotificationActivity.onStop()");
-	    if(!_preferences.getBoolean(Constants.USER_IN_MESSAGING_APP_KEY, false)){
+	    if(Common.isUserInLinkedApp(_context)){
+	    
+	    }else{
 	    	finishActivity();
 	    }
 	}
@@ -958,7 +969,6 @@ public class NotificationActivity extends Activity {
 	    	_tts.shutdown();
 	    }
 	    Common.clearKeyguardLock();
-	    setInReplyScreenFlag(false);
 		if(_preferences.getBoolean(Constants.CLEAR_STATUS_BAR_NOTIFICATIONS_ON_EXIT_KEY, false)){
 			Common.clearAllNotifications(_context);
 		}
@@ -1033,6 +1043,12 @@ public class NotificationActivity extends Activity {
 	protected void onNewIntent(Intent intent) {
 	    super.onNewIntent(intent);
 	    if (_debug) Log.v("NotificationActivity.onNewIntent()");
+	    //Resend/Reschedule incoming notification. Fix for !@#$# Home Key Pressed action. 
+	    //This is needed when there is only a single notification and it was removed prior to this method being called.
+	    if(_notificationViewFlipper.getTotalNotifications() == 0){
+	    	Common.resendNotification(_context, intent);
+	    }
+	    Common.setInLinkedAppFlag(_context, false);
 	    Common.acquireWakeLock(_context);
 	    setIntent(intent);
 	    final Bundle extrasBundle = getIntent().getExtras();
@@ -1225,7 +1241,6 @@ public class NotificationActivity extends Activity {
 	private boolean sendSMSMessage(String phoneNumber){
 		if (_debug) Log.v("NotificationActivity.sendSMSMessage()");
 		if(Common.startMessagingAppReplyActivity(_context, this, phoneNumber, Constants.SEND_SMS_ACTIVITY)){
-			setInReplyScreenFlag(true);
 			return true;
 		}else{
 			return false;
@@ -2128,19 +2143,9 @@ public class NotificationActivity extends Activity {
 	}
 	
 	/**
-	 * Set the InReplyScreen flag.
-	 */
-	private void setInReplyScreenFlag(boolean flag){
-		if (_debug) Log.v("NotificationActivity.setInReplyScreenFlag()");
-		SharedPreferences.Editor editor = _preferences.edit();
-		editor.putBoolean(Constants.USER_IN_MESSAGING_APP_KEY, flag);
-		editor.commit();
-	}
-	
-	/**
 	 * Cancel the screen timeout alarm.
 	 */
-	private void cancelScreenTimeout() {
+	private void cancelScreenTimeout(){
 		if (_debug) Log.v("NotificationActivity.cancelScreenTimeout()");
 		if (_screenTimeoutPendingIntent != null) {
 	    	AlarmManager alarmManager = (AlarmManager) _context.getSystemService(Context.ALARM_SERVICE);

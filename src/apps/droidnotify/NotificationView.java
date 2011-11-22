@@ -998,41 +998,20 @@ public class NotificationView extends LinearLayout {
 			case Constants.NOTIFICATION_TYPE_SMS:{
 				//Reply using any installed SMS messaging app.
 				if(_preferences.getString(Constants.SMS_REPLY_BUTTON_ACTION_KEY, "0").equals(Constants.SMS_MESSAGING_APP_REPLY)){
-					if(Common.startMessagingAppReplyActivity(_context, _notificationActivity, phoneNumber, Constants.SEND_SMS_ACTIVITY)){
-						//Set "In Reply Screen" flag.
-						SharedPreferences.Editor editor = _preferences.edit();
-						editor.putBoolean(Constants.USER_IN_MESSAGING_APP_KEY, true);
-						editor.commit();
-					}
+					Common.startMessagingAppReplyActivity(_context, _notificationActivity, phoneNumber, Constants.SEND_SMS_ACTIVITY);
 				}else if(_preferences.getString(Constants.SMS_REPLY_BUTTON_ACTION_KEY, "0").equals(Constants.SMS_QUICK_REPLY)){
 					//Reply using the built in Quick Reply Activity.
-					if(Common.startMessagingQuickReplyActivity(_context, _notificationActivity, phoneNumber, _notification.getContactName(), Constants.SEND_SMS_QUICK_REPLY_ACTIVITY)){	        
-						//Set "In Reply Screen" flag.
-						SharedPreferences.Editor editor = _preferences.edit();
-						editor.putBoolean(Constants.USER_IN_MESSAGING_APP_KEY, true);
-						editor.commit();
-					}
+					Common.startMessagingQuickReplyActivity(_context, _notificationActivity, phoneNumber, _notification.getContactName(), Constants.SEND_SMS_QUICK_REPLY_ACTIVITY);        
 				}
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_MMS:{
 				//Reply using any installed SMS messaging app.
 				if(_preferences.getString(Constants.MMS_REPLY_BUTTON_ACTION_KEY, "0").equals(Constants.MMS_MESSAGING_APP_REPLY)){
-					if(Common.startMessagingAppReplyActivity(_context, _notificationActivity, phoneNumber, Constants.SEND_SMS_ACTIVITY)){
-						//Set "In Reply Screen" flag.
-						SharedPreferences.Editor editor = _preferences.edit();
-						editor.putBoolean(Constants.USER_IN_MESSAGING_APP_KEY, true);
-						editor.commit();
-					}
+					Common.startMessagingAppReplyActivity(_context, _notificationActivity, phoneNumber, Constants.SEND_SMS_ACTIVITY);
 				}else if(_preferences.getString(Constants.MMS_REPLY_BUTTON_ACTION_KEY, "0").equals(Constants.MMS_QUICK_REPLY)){
 					//Reply using the built in Quick Reply Activity.
-					//Reply using the built in Quick Reply Activity.
-					if(Common.startMessagingQuickReplyActivity(_context, _notificationActivity, phoneNumber, _notification.getContactName(), Constants.SEND_SMS_QUICK_REPLY_ACTIVITY)){	        
-						//Set "In Reply Screen" flag.
-						SharedPreferences.Editor editor = _preferences.edit();
-						editor.putBoolean(Constants.USER_IN_MESSAGING_APP_KEY, true);
-						editor.commit();
-					}
+					Common.startMessagingQuickReplyActivity(_context, _notificationActivity, phoneNumber, _notification.getContactName(), Constants.SEND_SMS_QUICK_REPLY_ACTIVITY);
 				}
 				break;
 			}
