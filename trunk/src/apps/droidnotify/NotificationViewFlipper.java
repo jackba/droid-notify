@@ -374,6 +374,11 @@ public class NotificationViewFlipper extends ViewFlipper {
 				}
 				// Set the total notifications to 0
 				_totalNotifications = 0;
+				_currentNotification = 0;
+				// Remove notification from the ArrayList.
+				//_notifications.remove(0);
+				// Remove the view from the ViewFlipper.
+				//removeViewAt(0);
 				//Close the ViewFlipper and finish the activity.
 				_notificationActivity.finishActivity();
 			}catch(Exception ex){

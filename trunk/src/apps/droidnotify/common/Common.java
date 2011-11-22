@@ -653,16 +653,19 @@ public class Common {
 		try{
 			if(phoneNumber == null){
 				Toast.makeText(context, context.getString(R.string.app_android_phone_number_format_error), Toast.LENGTH_LONG).show();
+				setInLinkedAppFlag(context, false);
 				return false;
 			}
 			Intent intent = new Intent(Intent.ACTION_CALL);
 	        intent.setData(Uri.parse("tel:" + phoneNumber));
 	        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 	        notificationActivity.startActivityForResult(intent, requestCode);
+	        setInLinkedAppFlag(context, true);
 		    return true;
 		}catch(Exception ex){
 			if (_debug) Log.e("Common.makePhoneCall() ERROR: " + ex.toString());
 			Toast.makeText(context, context.getString(R.string.app_android_phone_app_error), Toast.LENGTH_LONG).show();
+			setInLinkedAppFlag(context, false);
 			return false;
 		}
 	}
@@ -686,7 +689,6 @@ public class Common {
 		}
 		try{
 			Intent intent = new Intent(_context, QuickReplyActivity.class);
-	        //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
 	        if (_debug) Log.v("NotificationView.replyToMessage() Put bundle in intent");
 		    intent.putExtra("smsPhoneNumber", phoneNumber);
 		    if(contactName != null && !contactName.equals( _context.getString(android.R.string.unknownName))){
@@ -697,10 +699,12 @@ public class Common {
 		    intent.putExtra("smsMessage", "");
 	        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 	        notificationActivity.startActivityForResult(intent, requestCode);
+	        setInLinkedAppFlag(context, true);
 	        return true;
 		}catch(Exception ex){
 			if (_debug) Log.e("Common.startMessagingQuickReplyActivity() ERROR: " + ex.toString());
 			Toast.makeText(context, context.getString(R.string.app_android_quick_reply_app_error), Toast.LENGTH_LONG).show();
+			setInLinkedAppFlag(context, false);
 			return false;
 		}
 	}
@@ -729,10 +733,12 @@ public class Common {
 		    intent.putExtra("compose_mode", true);
 	        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 	        notificationActivity.startActivityForResult(intent, requestCode);
+	        setInLinkedAppFlag(context, true);
 	        return true;
 		}catch(Exception ex){
 			if (_debug) Log.e("Common.startMessagingAppReplyActivity() ERROR: " + ex.toString());
 			Toast.makeText(context, context.getString(R.string.app_android_messaging_app_error), Toast.LENGTH_LONG).show();
+			setInLinkedAppFlag(context, false);
 			return false;
 		}
 	}
@@ -759,10 +765,12 @@ public class Common {
 		    intent.setData(Uri.parse("smsto:" + phoneNumber));
 	        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 	        notificationActivity.startActivityForResult(intent, requestCode);
+	        setInLinkedAppFlag(context, true);
 	        return true;
 		}catch(Exception ex){
 			if (_debug) Log.e("Common.startMessagingAppViewThreadActivity() ERROR: " + ex.toString());
 			Toast.makeText(context, context.getString(R.string.app_android_messaging_app_error), Toast.LENGTH_LONG).show();
+			setInLinkedAppFlag(context, false);
 			return false;
 		}
 	}
@@ -784,10 +792,12 @@ public class Common {
 		    intent.setType("vnd.android-dir/mms-sms");
 	        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 	        notificationActivity.startActivityForResult(intent, requestCode);
+	        setInLinkedAppFlag(context, true);
 	        return true;
 		}catch(Exception ex){
 			if (_debug) Log.e("Common.startMessagingAppViewInboxActivity() ERROR: " + ex.toString());
 			Toast.makeText(context, context.getString(R.string.app_android_messaging_app_error), Toast.LENGTH_LONG).show();
+			setInLinkedAppFlag(context, false);
 			return false;
 		}
 	}
@@ -809,10 +819,12 @@ public class Common {
 			intent.setType("vnd.android.cursor.dir/calls");
 	        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 			notificationActivity.startActivityForResult(intent, requestCode);
+			setInLinkedAppFlag(context, true);
 			return true;
 		}catch(Exception ex){
 			if (_debug) Log.e("Common.startCallLogViewActivity() ERROR: " + ex.toString());
 			Toast.makeText(context, context.getString(R.string.app_android_call_log_error), Toast.LENGTH_LONG).show();
+			setInLinkedAppFlag(context, false);
 			return false;
 		}
 	}
@@ -840,10 +852,12 @@ public class Common {
 		    intent.setData(viewContactURI);	
 	        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 		    notificationActivity.startActivityForResult(intent, requestCode);
+		    setInLinkedAppFlag(context, true);
 			return true;
 		}catch(Exception ex){
 			if (_debug) Log.e("Common.startContactViewActivity() ERROR: " + ex.toString());
 			Toast.makeText(context, context.getString(R.string.app_android_contacts_app_error), Toast.LENGTH_LONG).show();
+			setInLinkedAppFlag(context, false);
 			return false;
 		}
 	}
@@ -866,6 +880,7 @@ public class Common {
 			intent.setClassName("com.android.calendar", "com.android.calendar.LaunchActivity"); 
 	        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 			notificationActivity.startActivityForResult(intent, requestCode);
+			setInLinkedAppFlag(context, true);
 			return true;
 		}catch(Exception e){
 			if (_debug) Log.e("Common.startAddCalendarEventActivity ERROR: " + e.toString());
@@ -875,10 +890,12 @@ public class Common {
 				intent.setComponent(new ComponentName("com.htc.calendar", "com.htc.calendar.LaunchActivity"));
 		        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 				notificationActivity.startActivityForResult(intent, requestCode);
+				setInLinkedAppFlag(context, true);
 				return true;
 			}catch(Exception ex){
 				if (_debug) Log.e("Common.startViewCalendarActivity() ERROR: " + ex.toString());
 				Toast.makeText(context, context.getString(R.string.app_android_calendar_app_error), Toast.LENGTH_LONG).show();
+				setInLinkedAppFlag(context, false);
 				return false;
 			}
 		}
@@ -902,6 +919,7 @@ public class Common {
 			intent.setType("vnd.android.cursor.item/event");
 	        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 			notificationActivity.startActivityForResult(intent, requestCode);
+			setInLinkedAppFlag(context, true);
 			return true;
 		}catch(Exception e){
 			if (_debug) Log.e("Common.startAddCalendarEventActivity ERROR: " + e.toString());
@@ -911,10 +929,12 @@ public class Common {
 				intent.setComponent(new ComponentName("com.htc.calendar", "com.htc.calendar.EditEvent"));
 		        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 				notificationActivity.startActivityForResult(intent, requestCode);
+				setInLinkedAppFlag(context, true);
 				return true;
 			}catch(Exception ex){
 				if (_debug) Log.e("Common.startAddCalendarEventActivity ERROR: " + ex.toString());
 				Toast.makeText(context, context.getString(R.string.app_android_calendar_app_error), Toast.LENGTH_LONG).show();
+				setInLinkedAppFlag(context, false);
 				return false;
 			}
 		}
@@ -938,19 +958,21 @@ public class Common {
 		try{
 			if(calendarEventID == 0){
 				Toast.makeText(context, context.getString(R.string.app_android_calendar_event_not_found_error), Toast.LENGTH_LONG).show();
+				setInLinkedAppFlag(context, false);
 				return false;
 			}
 			Intent intent = new Intent(Intent.ACTION_VIEW);
-			//Android 2.2+
 			intent.setData(Uri.parse("content://com.android.calendar/events/" + String.valueOf(calendarEventID)));	
 			intent.putExtra(Constants.CALENDAR_EVENT_BEGIN_TIME, calendarEventStartTime);
 			intent.putExtra(Constants.CALENDAR_EVENT_END_TIME, calendarEventEndTime);
 	        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 			notificationActivity.startActivityForResult(intent, requestCode);
+			setInLinkedAppFlag(context, true);
 			return true;
 		}catch(Exception ex){
 			if (_debug) Log.e("Common.startViewCalendarEventActivity ERROR: " + ex.toString());
 			Toast.makeText(context, context.getString(R.string.app_android_calendar_app_error), Toast.LENGTH_LONG).show();
+			setInLinkedAppFlag(context, false);
 			return false;
 		}
 	}
@@ -973,19 +995,21 @@ public class Common {
 		try{
 			if(calendarEventID == 0){
 				Toast.makeText(context, context.getString(R.string.app_android_calendar_event_not_found_error), Toast.LENGTH_LONG).show();
+				setInLinkedAppFlag(context, false);
 				return false;
 			}
 			Intent intent = new Intent(Intent.ACTION_EDIT);
-			//Android 2.2+
 			intent.setData(Uri.parse("content://com.android.calendar/events/" + String.valueOf(calendarEventID)));	
 			intent.putExtra(Constants.CALENDAR_EVENT_BEGIN_TIME, calendarEventStartTime);
 			intent.putExtra(Constants.CALENDAR_EVENT_END_TIME, calendarEventEndTime);
 	        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 			notificationActivity.startActivityForResult(intent, requestCode);
+			setInLinkedAppFlag(context, true);
 			return true;
 		}catch(Exception ex){
 			if (_debug) Log.e("Common.startEditCalendarEventActivity ERROR: " + ex.toString());
 			Toast.makeText(context, context.getString(R.string.app_android_calendar_app_error), Toast.LENGTH_LONG).show();
+			setInLinkedAppFlag(context, false);
 			return false;
 		}
 	}
@@ -1006,6 +1030,7 @@ public class Common {
 		try{
 			if(contactID == 0){
 				Toast.makeText(context, context.getString(R.string.app_android_contact_not_found_error), Toast.LENGTH_LONG).show();
+				setInLinkedAppFlag(context, false);
 				return false;
 			}
 			Intent intent = new Intent(Intent.ACTION_EDIT);
@@ -1013,10 +1038,12 @@ public class Common {
 		    intent.setData(viewContactURI);	
 	        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 		    notificationActivity.startActivityForResult(intent, requestCode);
+		    setInLinkedAppFlag(context, true);
 			return true;
 		}catch(Exception ex){
 			if (_debug) Log.e("Common.startContactEditActivity() ERROR: " + ex.toString());
 			Toast.makeText(context, context.getString(R.string.app_android_contacts_app_error), Toast.LENGTH_LONG).show();
+			setInLinkedAppFlag(context, false);
 			return false;
 		}
 	}	
@@ -1044,10 +1071,12 @@ public class Common {
 			}
 	        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 		    notificationActivity.startActivityForResult(intent, requestCode);
+		    setInLinkedAppFlag(context, true);
 			return true;
 		}catch(Exception ex){
 			if (_debug) Log.e("Common.startContactAddActivity() ERROR: " + ex.toString());
 			Toast.makeText(context, context.getString(R.string.app_android_contacts_app_error), Toast.LENGTH_LONG).show();
+			setInLinkedAppFlag(context, false);
 			return false;
 		}
 	}
@@ -1070,10 +1099,12 @@ public class Common {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
             intent.setComponent(new ComponentName("com.fsck.k9", "com.fsck.k9.activity.Accounts"));
 	        notificationActivity.startActivityForResult(intent, requestCode);
+	        setInLinkedAppFlag(context, true);
 	        return true;
 		}catch(Exception ex){
 			if (_debug) Log.e("Common.startK9EmailAppViewInboxActivity() ERROR: " + ex.toString());
 			Toast.makeText(context, context.getString(R.string.app_k9_email_app_error), Toast.LENGTH_LONG).show();
+			setInLinkedAppFlag(context, false);
 			return false;
 		}
 	}
@@ -1093,6 +1124,7 @@ public class Common {
 		if (_debug) Log.v("Common.startK9MailAppReplyActivity()");
 		if(k9EmailUri == null || k9EmailUri.equals("")){
 			Toast.makeText(context, context.getString(R.string.app_k9_reply_email_address_error), Toast.LENGTH_LONG).show();
+			setInLinkedAppFlag(context, false);
 			return false;
 		}
 		try{
@@ -1100,10 +1132,12 @@ public class Common {
 		    intent.setData(Uri.parse(k9EmailUri));
 	        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 	        notificationActivity.startActivityForResult(intent, requestCode);
+	        setInLinkedAppFlag(context, true);
 	        return true;
 		}catch(Exception ex){
 			if (_debug) Log.e("Common.startK9MailAppReplyActivity() ERROR: " + ex.toString());
 			Toast.makeText(context, context.getString(R.string.app_k9_email_app_error), Toast.LENGTH_LONG).show();
+			setInLinkedAppFlag(context, false);
 			return false;
 		}
 	}
@@ -2273,7 +2307,7 @@ public class Common {
 		if (_debug) Log.v("Common.aquireWakelock()");
 		try{
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-			//if(_wakeLock == null){
+			if(_wakeLock == null){
 				PowerManager powerManager = (PowerManager)context.getSystemService(Context.POWER_SERVICE);
 				if(preferences.getBoolean(Constants.SCREEN_ENABLED_KEY, true)){
 					if(preferences.getBoolean(Constants.SCREEN_DIM_ENABLED_KEY, true)){
@@ -2285,7 +2319,7 @@ public class Common {
 					_wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, Constants.DROID_NOTIFY_WAKELOCK);
 				}
 				_wakeLock.setReferenceCounted(false);
-			//}
+			}
 			if(_wakeLock != null){
 				_wakeLock.acquire();
 			}
@@ -2345,7 +2379,6 @@ public class Common {
 		try{
 			if(_keyguardLock != null){
 				_keyguardLock.reenableKeyguard();
-				_keyguardLock = null;
 			}
 		}catch(Exception ex){
 			if (_debug) Log.e("Common.clearKeyguardLock() ERROR: " + ex.toString());
@@ -3044,6 +3077,56 @@ public class Common {
 		output = output.replace("<b>", "").replace("</b>", "");
 		output = output.replace("<u>", "").replace("</u>", "");
 		return output;
+	}
+	
+	/**
+	 * Set the UserInLinkedApp flag.
+	 * 
+	 * @param context - The application context.
+	 * @param flag - Boolean flag to set.
+	 */
+	public static void setInLinkedAppFlag(Context context, boolean flag){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.setInLinkedAppFlag()");
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		SharedPreferences.Editor editor = preferences.edit();
+		editor.putBoolean(Constants.USER_IN_LINKED_APP_KEY, flag);
+		editor.commit();
+	}
+
+	/**
+	 * Get the UserInLinkedApp flag.
+	 * 
+	 * @param context - The application context.
+	 * 
+	 * @return boolean - The boolean flag to return.
+	 */
+	public static boolean isUserInLinkedApp(Context context){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.isUserInLinkedApp()");
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		return preferences.getBoolean(Constants.USER_IN_LINKED_APP_KEY, false);
+	}
+	
+	/**
+	 * This resends an intent to the main notification activity.
+	 * 
+	 * @param context - The application context.
+	 * @param intent - The intent to resend.
+	 */
+	public static void resendNotification(Context context, Intent intent){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.resendNotification()");
+		try{
+			Bundle bundle = intent.getExtras();
+	    	Intent smsNotificationIntent = new Intent(context, NotificationActivity.class);
+	    	smsNotificationIntent.putExtras(bundle);
+	    	smsNotificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+	    	Common.acquireWakeLock(context);
+	    	context.startActivity(smsNotificationIntent);
+		}catch(Exception ex){
+			if (_debug) Log.e("Common.resendNotification() ERROR: " + ex.toString());
+		}
 	}
 	
 	//================================================================================

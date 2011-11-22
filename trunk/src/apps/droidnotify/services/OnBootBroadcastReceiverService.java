@@ -22,7 +22,7 @@ public class OnBootBroadcastReceiverService extends WakefulIntentService {
     // Properties
     //================================================================================
 	
-	boolean _debug = false;
+	private boolean _debug = false;
 
 	//================================================================================
 	// Public Methods

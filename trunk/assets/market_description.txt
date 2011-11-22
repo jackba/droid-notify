@@ -1,7 +1,11 @@
+**PLEASE NOTE** THIS IS AN EXACT COPY OF THE FREE DROID NOTIFY APP. THIS APP IS HERE TO ACCEPT DONATIONS
+
 Don't miss what matters most, get notified!
 
-Never miss another Call, Text Message or Calendar Event again!
+Never miss another Call, Text Message, Email or Calendar Event again!
 
-This application will notify you of Missed Calls, incoming SMS/MMS Messages and upcoming Calendar Events. A popup notification will alert you when a call is missed, a text message arrives or a calendar event is scheduled. This app is extremely customizable with many options to suit your needs and style. Updates are frequent and new features are added based on user feedback.
+This application will notify you of Missed Calls, incoming Text Messages, upcoming Calendar Events and email via any K-9 email client (K-9 Mail, Kaiten, etc.) A popup notification will alert you when a call is missed, a text message arrives, a new email arrives or a calendar event is scheduled. This app is extremely customizable with many options to suit your needs and style. Updates are frequent and new features are added based on user feedback.
 
 An outline of the application preferences can be found here: http://code.google.com/p/droid-notify/wiki/ApplicationPreferences
+ 
+Development Website: http://code.google.com/p/droid-notify/
