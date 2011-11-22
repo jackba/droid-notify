@@ -4,6 +4,7 @@
 = Release Notes =
 
 *v2.13* _Coming Soon..._
+ * Fixed a small bug related to using the Home button.
  * 
 
 *v2.12* (November 21, 2011)
