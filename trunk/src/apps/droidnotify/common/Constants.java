@@ -132,6 +132,7 @@ public class Constants {
 	//---FORMAT = PACKAGE_NAME , CLASS_NAME---
 	//
 	public static final String[] BLOCKED_PACKAGE_NAMES_ARRAY = new String[]{
+		"apps.droidnotify,apps.droidnotify.QuickReplyActivity", 
 		"com.android.mms,com.android.mms.ui.ConversationList", 
 		"com.android.mms,com.android.mms.ui.ComposeMessageActivity",
 		"com.handcent.nextsms,com.handcent.sms.ui.ConversationExList",
@@ -512,7 +513,7 @@ public class Constants {
 	public static final String K9_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY = "k9_notification_in_call_sound_enabled";
 	public static final String K9_STATUS_BAR_NOTIFICATIONS_IN_CALL_VIBRATE_ENABLED_KEY = "k9_notification_in_call_vibrate_enabled";	
 	
-	public static final String K9_STATUS_BAR_NOTIFICATIONS_ICON_SETTING_KEY = "notification_icon_email";
+	public static final String K9_STATUS_BAR_NOTIFICATIONS_ICON_SETTING_KEY = "notification_icon_k9";
 	public static final String K9_STATUS_BAR_NOTIFICATIONS_ICON_DEFAULT = "status_bar_notification_email_white";
 	
 	//-----GMAIL STATUS BAR NOTIFICATION CONSTANTS-----//
