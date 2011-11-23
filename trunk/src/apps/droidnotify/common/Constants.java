@@ -332,6 +332,7 @@ public class Constants {
 
 	//-----TWITTER NOTIFICATION CONSTANTS-----//
 	public static final String TWITTER_ENABLED_KEY = "twitter_enabled";
+	public static final String TWITTER_POLLING_FREQUENCY_KEY = "twitter_polling_frequency";
 	
 	public static final String TWITTER_CONSUMER_KEY = "AhWe8llUXyaZhix1oyhCA";
 	public static final String TWITTER_CONSUMER_SECRET= "oFKn2cyLQanVESLWlwH0GK7twXisarFrClTfuZmVUI";

@@ -87,7 +87,9 @@
         <service android:name="apps.droidnotify.services.SMSAlarmBroadcastReceiverService" />
         <service android:name="apps.droidnotify.services.SMSBroadcastReceiverService" />
         <service android:name="apps.droidnotify.services.SMSReceiverService" />
-		       
+		    
+        <service android:name="apps.droidnotify.services.TwitterAlarmBroadcastReceiverService" />
+        
 		<receiver 
 		    android:name="apps.droidnotify.receivers.CalendarAlarmReceiver"
 		    android:exported="true" />
@@ -156,6 +158,10 @@
 	        	<action android:name="android.provider.Telephony.SMS_RECEIVED" /> 
 	        </intent-filter> 
 	    </receiver>
+	    
+		<receiver 
+		    android:name="apps.droidnotify.receivers.TwitterAlarmReceiver"
+		    android:exported="true" />
 
     </application>
 	<uses-permission android:name="android.permission.CALL_PHONE" />

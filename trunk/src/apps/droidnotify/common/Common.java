@@ -13,6 +13,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.TimeZone;
 
+import oauth.signpost.OAuth;
+import twitter4j.Twitter;
+import twitter4j.TwitterFactory;
+import twitter4j.auth.AccessToken;
+import twitter4j.conf.Configuration;
+import twitter4j.conf.ConfigurationBuilder;
+
 import android.app.ActivityManager;
 import android.app.AlarmManager;
 import android.app.KeyguardManager;
@@ -57,6 +64,7 @@ import apps.droidnotify.NotificationViewFlipper;
 import apps.droidnotify.QuickReplyActivity;
 import apps.droidnotify.log.Log;
 import apps.droidnotify.receivers.RescheduleReceiver;
+import apps.droidnotify.receivers.TwitterAlarmReceiver;
 import apps.droidnotify.R;
 
 /**
@@ -3126,6 +3134,62 @@ public class Common {
 	    	context.startActivity(smsNotificationIntent);
 		}catch(Exception ex){
 			if (_debug) Log.e("Common.resendNotification() ERROR: " + ex.toString());
+		}
+	}
+
+	/**
+	 * Determine if the user has authenticated their twitter account.
+	 *
+	 * @return boolean - Return true if the user preferences have Twitter authentication data & are able to log into Twitter.
+	 */
+	public static boolean isTwitterAuthenticated(Context context) {
+		if (_debug) Log.v("TwitterAuthenticationActivity.isTwitterAuthenticated()");	
+		try {
+			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+			String oauthToken = preferences.getString(OAuth.OAUTH_TOKEN, "");
+			String oauthTokenSecret = preferences.getString(OAuth.OAUTH_TOKEN_SECRET, "");
+			if (_debug) Log.v("TwitterAuthenticationActivity.isTwitterAuthenticated() oauthToken: " + oauthToken);	
+			if (_debug) Log.v("TwitterAuthenticationActivity.isTwitterAuthenticated() oauthTokenSecret: " + oauthTokenSecret);	
+			if(oauthToken.equals("") || oauthTokenSecret.equals("")){
+				return false;
+			}	
+			try {
+				ConfigurationBuilder configurationBuilder = new ConfigurationBuilder(); 
+				configurationBuilder.setOAuthConsumerKey(Constants.TWITTER_CONSUMER_KEY); 
+				configurationBuilder.setOAuthConsumerSecret(Constants.TWITTER_CONSUMER_SECRET); 
+				Configuration config =  configurationBuilder.build();  
+				AccessToken accessToken = new AccessToken(oauthToken, oauthTokenSecret);
+				TwitterFactory factory = new TwitterFactory(config);
+				Twitter twitter = factory.getInstance(accessToken); 
+				twitter.getAccountSettings();
+				return true;
+			} catch (Exception ex) {
+				if (_debug) Log.e("TwitterAuthenticationActivity.isTwitterAuthenticated() Twitter Authentication - ERROR: " + ex.toString());
+				return false;
+			}
+		} catch (Exception ex) {
+			if (_debug) Log.e("TwitterAuthenticationActivity.isTwitterAuthenticated() General - ERROR: " + ex.toString());
+			return false;
+		}
+	}
+	
+	/**
+	 * Start the Twitter Alarm Manager.
+	 * 
+	 * @param alarmStartTime - The time to start the alarm.
+	 */
+	public static void startTwitterAlarmManager(Context context, long alarmStartTime){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.startTwitterAlarmManager()");
+		try{
+			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+			AlarmManager alarmManager = (AlarmManager) _context.getSystemService(Context.ALARM_SERVICE);
+			Intent intent = new Intent(_context, TwitterAlarmReceiver.class);
+			PendingIntent pendingIntent = PendingIntent.getBroadcast(_context, 0, intent, 0);
+			long pollingFrequency = Long.parseLong(preferences.getString(Constants.TWITTER_POLLING_FREQUENCY_KEY, "15")) * 60 * 1000;
+			alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, alarmStartTime, pollingFrequency, pendingIntent);
+		}catch(Exception ex){
+			if (_debug) Log.e("Common.startTwitterAlarmManager() ERROR: " + ex.toString());
 		}
 	}
 	
