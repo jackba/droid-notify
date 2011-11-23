@@ -5,12 +5,6 @@ import oauth.signpost.OAuthProvider;
 import oauth.signpost.basic.DefaultOAuthProvider;
 import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
 
-import twitter4j.Twitter;
-import twitter4j.TwitterFactory;
-import twitter4j.auth.AccessToken;
-import twitter4j.conf.Configuration;
-import twitter4j.conf.ConfigurationBuilder;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -18,6 +12,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.view.HapticFeedbackConstants;
@@ -26,8 +21,10 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import apps.droidnotify.R;
+import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
 
@@ -52,10 +49,10 @@ public class TwitterAuthenticationActivity extends Activity {
 	//================================================================================	
 	
 	/**
-	 * 
+	 * This is called first when a user is authenticating and allow the app access to their Twitter account.
 	 */
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Twitter AuthenticationActivity.onCreate()");
@@ -65,7 +62,8 @@ public class TwitterAuthenticationActivity extends Activity {
 		setContentView(R.layout.twitter_authentication);
 		setupViews();
 		setupButtons();
-		if(isTwitterAuthenticated()){
+		if(Common.isTwitterAuthenticated(_context)){
+			Common.startTwitterAlarmManager(_context, SystemClock.currentThreadTimeMillis());
 			finish();
 		}else{
 			_mainLinearLayout.setVisibility(View.VISIBLE);
@@ -82,6 +80,7 @@ public class TwitterAuthenticationActivity extends Activity {
 	@Override
 	public void onNewIntent(Intent intent){
 		if (_debug) Log.v("TwitterAuthenticationActivity.onNewIntent()");
+		setIntent(intent);
 		_mainLinearLayout.setVisibility(View.GONE);
 		_progressBarLinearLayout.setVisibility(View.VISIBLE);
 		Uri uri = intent.getData();
@@ -89,16 +88,19 @@ public class TwitterAuthenticationActivity extends Activity {
 			if (_debug) Log.v("TwitterAuthenticationActivity.onNewIntent() URI: " + uri);
 			if (_debug) Log.v("TwitterAuthenticationActivity.onNewIntent() uri.getScheme(): " + uri.getScheme());
 			try {
-				// this will populate token and token_secret in consumer
+				//This will populate token and token_secret in consumer.
 				String oauthVerifier = uri.getQueryParameter(OAuth.OAUTH_VERIFIER);
 				_provider.retrieveAccessToken(_consumer, oauthVerifier);
 				Editor edit = _preferences.edit();
 				edit.putString(OAuth.OAUTH_TOKEN, _consumer.getToken());
 				edit.putString(OAuth.OAUTH_TOKEN_SECRET, _consumer.getTokenSecret());
 				edit.commit();
+				Common.startTwitterAlarmManager(_context, SystemClock.currentThreadTimeMillis());
 				finish();
 			} catch (Exception ex) {
 				if (_debug) Log.e("TwitterAuthenticationActivity.onNewIntent() ERROR: " + ex.toString());
+				Toast.makeText(_context, _context.getString(R.string.twitter_authentication_error), Toast.LENGTH_LONG).show();
+				finish();
 			}
 		}
 	}
@@ -219,48 +221,13 @@ public class TwitterAuthenticationActivity extends Activity {
 		if (_debug) Log.v("TwitterAuthenticationActivity.authenticateTwitterAccount()");
 		try {
 			_consumer = new CommonsHttpOAuthConsumer(Constants.TWITTER_CONSUMER_KEY, Constants.TWITTER_CONSUMER_SECRET);
-			_provider = new DefaultOAuthProvider("https://api.twitter.com/oauth/request_token", "https://api.twitter.com/oauth/access_token", "https://api.twitter.com/oauth/authorize");
+			_provider = new DefaultOAuthProvider(Constants.TWITTER_REQUEST_URL, Constants.TWITTER_AUTHORIZE_URL, Constants.TWITTER_ACCESS_URL);
 			String url = _provider.retrieveRequestToken(_consumer, Constants.TWITTER_CALLBACK_URL);
 			Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
 			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_NO_HISTORY);
 			startActivity(intent);
 		} catch (Exception ex) {
 			if (_debug) Log.e("TwitterAuthenticationActivity.authenticateTwitterAccount() ERROR: " + ex.toString());
-		}
-	}
-	
-	/**
-	 * Determine if the user has authenticated their twitter account.
-	 *
-	 * @return boolean - Return true if the user preferences have Twitter authentication data & are able to log into Twitter.
-	 */
-	private boolean isTwitterAuthenticated() {
-		if (_debug) Log.v("TwitterAuthenticationActivity.isTwitterAuthenticated()");	
-		try {
-			String oauthToken = _preferences.getString(OAuth.OAUTH_TOKEN, "");
-			String oauthTokenSecret = _preferences.getString(OAuth.OAUTH_TOKEN_SECRET, "");
-			if (_debug) Log.v("TwitterAuthenticationActivity.isTwitterAuthenticated() oauthToken: " + oauthToken);	
-			if (_debug) Log.v("TwitterAuthenticationActivity.isTwitterAuthenticated() oauthTokenSecret: " + oauthTokenSecret);	
-			if(oauthToken.equals("") || oauthTokenSecret.equals("")){
-				return false;
-			}	
-			try {
-				ConfigurationBuilder configurationBuilder = new ConfigurationBuilder(); 
-				configurationBuilder.setOAuthConsumerKey(Constants.TWITTER_CONSUMER_KEY); 
-				configurationBuilder.setOAuthConsumerSecret(Constants.TWITTER_CONSUMER_SECRET); 
-				Configuration config =  configurationBuilder.build();  
-				AccessToken accessToken = new AccessToken(oauthToken, oauthTokenSecret);
-				TwitterFactory factory = new TwitterFactory(config);
-				Twitter twitter = factory.getInstance(accessToken); 
-				twitter.getAccountSettings();
-				return true;
-			} catch (Exception ex) {
-				if (_debug) Log.e("TwitterAuthenticationActivity.isTwitterAuthenticated() Twitter Authentication - ERROR: " + ex.toString());
-				return false;
-			}
-		} catch (Exception ex) {
-			if (_debug) Log.e("TwitterAuthenticationActivity.isTwitterAuthenticated() General - ERROR: " + ex.toString());
-			return false;
 		}
 	}
 

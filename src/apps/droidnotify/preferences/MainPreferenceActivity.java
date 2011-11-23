@@ -109,61 +109,47 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	 */
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 		if (_debug) Log.v("MainPreferenceActivity.onSharedPreferenceChanged() Key: " + key);
-		//The polling time for the calendars was changed. Run the alarm manager with the updated polling time.
 		if(key.equals(Constants.CALENDAR_POLLING_FREQUENCY_KEY)){
-			startCalendarAlarmManager(SystemClock.elapsedRealtime() + (30 * 1000));
-		}
-		if(key.equals(Constants.SMS_REPLY_BUTTON_ACTION_KEY)){
+			//The polling time for the calendars was changed. Run the alarm manager with the updated polling time.
+			startCalendarAlarmManager(SystemClock.currentThreadTimeMillis());
+		}else if(key.equals(Constants.SMS_REPLY_BUTTON_ACTION_KEY)){
 			//Quick Reply Settings
 			updateQuickReplySettings();
-		}
-		if(key.equals(Constants.MMS_REPLY_BUTTON_ACTION_KEY)){
+		}else if(key.equals(Constants.MMS_REPLY_BUTTON_ACTION_KEY)){
 			//Quick Reply Settings
 			updateQuickReplySettings();
-		}	
-		//Update Status Bar Notification Preferences
-		if(key.equals(Constants.SMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY)){
+		}else if(key.equals(Constants.SMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY)){
 			updateStatusBarNotificationVibrate(Constants.NOTIFICATION_TYPE_SMS);
-		}
-		if(key.equals(Constants.MMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY)){
+		}else if(key.equals(Constants.MMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY)){
 			updateStatusBarNotificationVibrate(Constants.NOTIFICATION_TYPE_MMS);
-		}
-		if(key.equals(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY)){
+		}else if(key.equals(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY)){
 			updateStatusBarNotificationVibrate(Constants.NOTIFICATION_TYPE_PHONE);
-		}
-		if(key.equals(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY)){
+		}else if(key.equals(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY)){
 			updateStatusBarNotificationVibrate(Constants.NOTIFICATION_TYPE_CALENDAR);
-		}
-		if(key.equals(Constants.SMS_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY)){
+		}else if(key.equals(Constants.SMS_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY)){
 			updateStatusBarNotificationRingtone(Constants.NOTIFICATION_TYPE_SMS);
-		}
-		if(key.equals(Constants.MMS_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY)){
+		}else if(key.equals(Constants.MMS_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY)){
 			updateStatusBarNotificationRingtone(Constants.NOTIFICATION_TYPE_MMS);
-		}
-		if(key.equals(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY)){
+		}else if(key.equals(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY)){
 			updateStatusBarNotificationRingtone(Constants.NOTIFICATION_TYPE_PHONE);
-		}
-		if(key.equals(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY)){
+		}else if(key.equals(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY)){
 			updateStatusBarNotificationRingtone(Constants.NOTIFICATION_TYPE_CALENDAR);
-		}
-		if(key.equals(Constants.TWITTER_ENABLED_KEY)){
+		}else if(key.equals(Constants.SMS_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY)){
+			updateClearStatusBarNotifications();
+		}else if(key.equals(Constants.MMS_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY)){
+			updateClearStatusBarNotifications();
+		}else if(key.equals(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY)){
+			updateClearStatusBarNotifications();
+		}else if(key.equals(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY)){
+			updateClearStatusBarNotifications();
+		}else if(key.equals(Constants.TWITTER_ENABLED_KEY)){
 			if(_preferences.getBoolean(Constants.TWITTER_ENABLED_KEY, false)){
 				checkTwitterAuthentication();
 			}
-		}		
-		if(key.equals(Constants.SMS_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY)){
-			updateClearStatusBarNotifications();
-		}		
-		if(key.equals(Constants.MMS_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY)){
-			updateClearStatusBarNotifications();
-		}		
-		if(key.equals(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY)){
-			updateClearStatusBarNotifications();
-		}		
-		if(key.equals(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY)){
-			updateClearStatusBarNotifications();
+		}else if(key.equals(Constants.TWITTER_POLLING_FREQUENCY_KEY)){
+			//The polling time for Twitter was changed. Run the alarm manager with the updated polling time.
+			Common.startTwitterAlarmManager(_context, SystemClock.currentThreadTimeMillis());
 		}
-		
 	}
 
 	//================================================================================
@@ -180,7 +166,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	    if (_debug) Log.v("MainPreferenceActivity.onResume()");
 	    _preferences.registerOnSharedPreferenceChangeListener(this);
 	    setupImportPreferences();
-	    initPreferencesStates();   
+	    initPreferencesStates();
 	}
 	
 	/**
@@ -305,12 +291,12 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	}
 	
 	/**
-	 * Start the calendar Alarm Manager.
+	 * Start the Calendar Alarm Manager.
 	 * 
-	 * @param alarmStartTime - The time to start the calendar alarm.
+	 * @param alarmStartTime - The time to start the alarm.
 	 */
 	private void startCalendarAlarmManager(long alarmStartTime){
-		if (_debug) Log.v("MainPreferenceActivity.startCalendarAlarmManager() alarmStartTime: " + String.valueOf(alarmStartTime));
+		if (_debug) Log.v("MainPreferenceActivity.startCalendarAlarmManager()");
 		//Make sure that this user preference has been set and initialized.
 		initUserCalendarsPreference();
 		//Schedule the reading of the calendar events.
@@ -976,6 +962,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		updateStatusBarNotificationRingtone(Constants.NOTIFICATION_TYPE_PHONE);
 		updateStatusBarNotificationRingtone(Constants.NOTIFICATION_TYPE_CALENDAR);
 		updateClearStatusBarNotifications();
+		updateTwitterPreferences();
 	}
 	
 	/**
@@ -1189,7 +1176,6 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		if (_debug) Log.v("MainPreferenceActivity.checkTwitterAuthentication()");
 		//Setup User Twitter Authentication
 	    Intent intent = new Intent(_context, TwitterAuthenticationActivity.class);
-	    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_NO_HISTORY);
 	    startActivity(intent);
 	}
 	
@@ -1259,6 +1245,19 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			}
 		});
 		quietTimePeriodAlertBuilder.show();
+	}
+	
+	/**
+	 * Update the Twitter preferences.
+	 */
+	private void updateTwitterPreferences(){
+		if (_debug) Log.v("MainPreferenceActivity.updateTwitterPreferences()");
+		if(Common.isTwitterAuthenticated(_context)){
+			//Do Nothing
+		}else{
+			CheckBoxPreference twitterEnabledCheckBoxPreference = (CheckBoxPreference) findPreference(Constants.TWITTER_ENABLED_KEY);
+			if(twitterEnabledCheckBoxPreference != null) twitterEnabledCheckBoxPreference.setChecked(false);
+		}
 	}
 
 }
