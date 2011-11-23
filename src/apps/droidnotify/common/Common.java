@@ -1770,7 +1770,7 @@ public class Common {
 						icon = R.drawable.status_bar_notification_missed_call_red;
 					}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_missed_call_white")){
 						icon = R.drawable.status_bar_notification_missed_call_white;
-					}else {
+					}else{
 						//Default Value
 						icon = R.drawable.status_bar_notification_missed_call_black;
 					}
