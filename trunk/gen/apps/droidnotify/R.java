@@ -15,6 +15,10 @@ public final class R {
         public static final int translucent_exit=0x7f040003;
     }
     public static final class array {
+        /**  Button Style Arrays 
+         */
+        public static final int button_display_style_options=0x7f060053;
+        public static final int button_display_style_options_values=0x7f060054;
         public static final int calendar_all_day_notify_day_of_time_options=0x7f060026;
         public static final int calendar_all_day_notify_day_of_time_options_values=0x7f060027;
         public static final int calendar_dismiss_button_options=0x7f060020;
@@ -31,19 +35,43 @@ public final class R {
         public static final int calendar_reminder_options_values=0x7f060023;
         public static final int call_log_timeout_options=0x7f060018;
         public static final int call_log_timeout_options_values=0x7f060019;
-        public static final int contact_placeholder_images=0x7f060036;
+        public static final int contact_photo_background_images=0x7f060041;
+        /**  Contact Photo Background Arrays 
+         */
+        public static final int contact_photo_background_options=0x7f06003f;
+        public static final int contact_photo_background_options_values=0x7f060040;
+        /**  Contact Image Size Arrays 
+         */
+        public static final int contact_photo_size_options=0x7f060042;
+        public static final int contact_photo_size_options_values=0x7f060043;
+        public static final int contact_placeholder_images=0x7f06003e;
         /**  Contact Placeholder Image Arrays 
          */
-        public static final int contact_placeholder_options=0x7f060034;
-        public static final int contact_placeholder_values=0x7f060035;
+        public static final int contact_placeholder_options=0x7f06003c;
+        public static final int contact_placeholder_options_values=0x7f06003d;
+        /**  Date Format Arrays 
+         */
+        public static final int date_format_options=0x7f06004f;
+        public static final int date_format_options_values=0x7f060050;
         /**  Dim Screen Arrays 
          */
-        public static final int dim_screen_background_amount_options=0x7f06003a;
-        public static final int dim_screen_background_amount_options_values=0x7f06003b;
-        public static final int message_body_font_size_options=0x7f060032;
-        public static final int message_body_font_size_options_values=0x7f060033;
-        public static final int messaging_app_running_action_options=0x7f060030;
-        public static final int messaging_app_running_action_options_values=0x7f060031;
+        public static final int dim_screen_background_amount_options=0x7f060047;
+        public static final int dim_screen_background_amount_options_values=0x7f060048;
+        public static final int font_size_options=0x7f06003a;
+        public static final int font_size_options_values=0x7f06003b;
+        public static final int k9_delete_button_options=0x7f06002c;
+        public static final int k9_delete_button_options_values=0x7f06002d;
+        /**  Gmail Preferences Arrays 
+ K9 Preferences Arrays 
+         */
+        public static final int k9_dismiss_button_options=0x7f06002a;
+        public static final int k9_dismiss_button_options_values=0x7f06002b;
+        public static final int k9_notification_count_button_options=0x7f060030;
+        public static final int k9_notification_count_button_options_values=0x7f060031;
+        public static final int k9_reply_button_options=0x7f06002e;
+        public static final int k9_reply_button_options_values=0x7f06002f;
+        public static final int messaging_app_running_action_options=0x7f060038;
+        public static final int messaging_app_running_action_options_values=0x7f060039;
         /**  Missed Call Preferences Arrays 
          */
         public static final int missed_call_dismiss_button_options=0x7f060016;
@@ -64,60 +92,75 @@ public final class R {
         public static final int mms_reply_button_options_values=0x7f060011;
         public static final int mms_timeout_options=0x7f060012;
         public static final int mms_timeout_options_values=0x7f060013;
-        public static final int notification_icon_images_calendar=0x7f06005c;
-        public static final int notification_icon_images_mms=0x7f060056;
-        public static final int notification_icon_images_phone=0x7f060059;
-        public static final int notification_icon_images_sms=0x7f060053;
+        public static final int notification_icon_images_calendar=0x7f060072;
+        public static final int notification_icon_images_email=0x7f060075;
+        public static final int notification_icon_images_mms=0x7f06006c;
+        public static final int notification_icon_images_phone=0x7f06006f;
+        public static final int notification_icon_images_sms=0x7f060069;
         /**  Calendar Notification Icon Image Arrays 
          */
-        public static final int notification_icon_options_calendar=0x7f06005a;
+        public static final int notification_icon_options_calendar=0x7f060070;
+        /**  Email Notification Icon Image Arrays 
+         */
+        public static final int notification_icon_options_email=0x7f060073;
         /**  MMS Notification Icon Image Arrays 
          */
-        public static final int notification_icon_options_mms=0x7f060054;
+        public static final int notification_icon_options_mms=0x7f06006a;
         /**  Phone Notification Icon Image Arrays 
          */
-        public static final int notification_icon_options_phone=0x7f060057;
+        public static final int notification_icon_options_phone=0x7f06006d;
         /**  SMS Notification Icon Image Arrays 
          */
-        public static final int notification_icon_options_sms=0x7f060051;
-        public static final int notification_icon_values_calendar=0x7f06005b;
-        public static final int notification_icon_values_mms=0x7f060055;
-        public static final int notification_icon_values_phone=0x7f060058;
-        public static final int notification_icon_values_sms=0x7f060052;
-        /**  Email Preferences Arrays 
- Other Preferences Arrays 
-         */
-        public static final int notification_placeholder_image_options=0x7f06002a;
-        public static final int notification_placeholder_image_options_values=0x7f06002b;
+        public static final int notification_icon_options_sms=0x7f060067;
+        public static final int notification_icon_values_calendar=0x7f060071;
+        public static final int notification_icon_values_email=0x7f060074;
+        public static final int notification_icon_values_mms=0x7f06006b;
+        public static final int notification_icon_values_phone=0x7f06006e;
+        public static final int notification_icon_values_sms=0x7f060068;
         /**  Phone Number Format Arrays 
          */
-        public static final int phone_number_format_options=0x7f06003e;
-        public static final int phone_number_format_options_values=0x7f06003f;
-        public static final int preference_led_color_options=0x7f06004c;
-        public static final int preference_led_color_options_values_calendar=0x7f060050;
-        public static final int preference_led_color_options_values_missed_call=0x7f06004f;
-        public static final int preference_led_color_options_values_mms=0x7f06004e;
-        public static final int preference_led_color_options_values_sms=0x7f06004d;
-        public static final int preference_led_pattern_options=0x7f060047;
-        public static final int preference_led_pattern_options_values_calendar=0x7f06004b;
-        public static final int preference_led_pattern_options_values_missed_call=0x7f06004a;
-        public static final int preference_led_pattern_options_values_mms=0x7f060049;
-        public static final int preference_led_pattern_options_values_sms=0x7f060048;
+        public static final int phone_number_format_options=0x7f06004b;
+        public static final int phone_number_format_options_values=0x7f06004c;
+        public static final int preference_led_color_options=0x7f060061;
+        public static final int preference_led_color_options_values_calendar=0x7f060065;
+        public static final int preference_led_color_options_values_k9=0x7f060066;
+        public static final int preference_led_color_options_values_missed_call=0x7f060064;
+        public static final int preference_led_color_options_values_mms=0x7f060063;
+        public static final int preference_led_color_options_values_sms=0x7f060062;
+        public static final int preference_led_pattern_options=0x7f06005b;
+        public static final int preference_led_pattern_options_values_calendar=0x7f06005f;
+        public static final int preference_led_pattern_options_values_k9=0x7f060060;
+        public static final int preference_led_pattern_options_values_missed_call=0x7f06005e;
+        public static final int preference_led_pattern_options_values_mms=0x7f06005d;
+        public static final int preference_led_pattern_options_values_sms=0x7f06005c;
         /**  STATUS_BAR_NOTIFICATION_ARRAYS 
          */
-        public static final int preference_vibrate_pattern_options=0x7f060042;
-        public static final int preference_vibrate_pattern_options_values_calendar=0x7f060046;
-        public static final int preference_vibrate_pattern_options_values_missed_call=0x7f060045;
-        public static final int preference_vibrate_pattern_options_values_mms=0x7f060044;
-        public static final int preference_vibrate_pattern_options_values_sms=0x7f060043;
+        public static final int preference_vibrate_pattern_options=0x7f060055;
+        public static final int preference_vibrate_pattern_options_values_calendar=0x7f060059;
+        public static final int preference_vibrate_pattern_options_values_k9=0x7f06005a;
+        public static final int preference_vibrate_pattern_options_values_missed_call=0x7f060058;
+        public static final int preference_vibrate_pattern_options_values_mms=0x7f060057;
+        public static final int preference_vibrate_pattern_options_values_sms=0x7f060056;
         /**  SMS Gateway Arrays 
          */
-        public static final int quick_reply_sms_gateway_options=0x7f06003c;
-        public static final int quick_reply_sms_gateway_options_values=0x7f06003d;
-        public static final int reschedule_notification_timeout_options=0x7f06002c;
-        public static final int reschedule_notification_timeout_options_values=0x7f06002d;
-        public static final int screen_timeout_options=0x7f06002e;
-        public static final int screen_timeout_options_values=0x7f06002f;
+        public static final int quick_reply_sms_gateway_options=0x7f060049;
+        public static final int quick_reply_sms_gateway_options_values=0x7f06004a;
+        /**  Quiet Time Arrays 
+         */
+        public static final int quiet_time_of_week_options=0x7f060078;
+        public static final int quiet_time_of_week_options_values=0x7f060079;
+        /**  Reminder Arrays 
+         */
+        public static final int reminder_frequency_options=0x7f060034;
+        public static final int reminder_frequency_options_values=0x7f060035;
+        /**  Reschedule Arrays 
+         */
+        public static final int reschedule_time_options=0x7f060032;
+        public static final int reschedule_time_options_values=0x7f060033;
+        /**  Screen Timeout Arrays 
+         */
+        public static final int screen_timeout_options=0x7f060036;
+        public static final int screen_timeout_options_values=0x7f060037;
         public static final int sms_delete_button_options=0x7f060002;
         public static final int sms_delete_button_options_values=0x7f060003;
         /**  SMS Preferences Arrays 
@@ -132,19 +175,23 @@ public final class R {
         public static final int sms_reply_button_options_values=0x7f060005;
         public static final int sms_timeout_options=0x7f060008;
         public static final int sms_timeout_options_values=0x7f060009;
-        public static final int theme_images=0x7f060039;
+        public static final int theme_images=0x7f060046;
         /**  App Theme Arrays 
          */
-        public static final int theme_options=0x7f060037;
-        public static final int theme_values=0x7f060038;
+        public static final int theme_options=0x7f060044;
+        public static final int theme_values=0x7f060045;
+        /**  Time Format Arrays 
+         */
+        public static final int time_format_options=0x7f06004d;
+        public static final int time_format_options_values=0x7f06004e;
         /**  SMS/MMS TimeStamp Adjustment Arrays 
          */
-        public static final int timestamp_adjustment_options=0x7f060040;
-        public static final int timestamp_adjustment_options_values=0x7f060041;
+        public static final int timestamp_adjustment_options=0x7f060051;
+        public static final int timestamp_adjustment_options_values=0x7f060052;
         /**  Notification Vibrate Arrays 
          */
-        public static final int vibrate_setting_options=0x7f06005d;
-        public static final int vibrate_setting_options_values=0x7f06005e;
+        public static final int vibrate_setting_options=0x7f060076;
+        public static final int vibrate_setting_options_values=0x7f060077;
     }
     public static final class attr {
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
@@ -162,265 +209,330 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
     public static final class drawable {
         public static final int android_froyo_panel=0x7f020000;
         public static final int android_gingerbread_panel=0x7f020001;
-        public static final int blue=0x7f0200b9;
-        public static final int btn_dark_translucent=0x7f020002;
-        public static final int btn_dark_translucent_normal=0x7f020003;
-        public static final int btn_dark_translucent_pressed=0x7f020004;
-        public static final int btn_froyo_android=0x7f020005;
-        public static final int btn_froyo_default_normal=0x7f020006;
-        public static final int btn_froyo_default_normal_disable=0x7f020007;
-        public static final int btn_froyo_default_normal_disable_focused=0x7f020008;
-        public static final int btn_froyo_default_pressed=0x7f020009;
-        public static final int btn_froyo_default_selected=0x7f02000a;
-        public static final int btn_gingerbread_android=0x7f02000b;
-        public static final int btn_gingerbread_default_normal=0x7f02000c;
-        public static final int btn_gingerbread_default_normal_disable=0x7f02000d;
-        public static final int btn_gingerbread_default_normal_disable_focused=0x7f02000e;
-        public static final int btn_gingerbread_default_pressed=0x7f02000f;
-        public static final int btn_gingerbread_default_selected=0x7f020010;
-        public static final int btn_htc=0x7f020011;
-        public static final int btn_htc_default_normal=0x7f020012;
-        public static final int btn_htc_default_normal_disable=0x7f020013;
-        public static final int btn_htc_default_normal_disable_focused=0x7f020014;
-        public static final int btn_htc_default_pressed=0x7f020015;
-        public static final int btn_htc_default_selected=0x7f020016;
-        public static final int btn_iphone=0x7f020017;
-        public static final int btn_next_arrow=0x7f020018;
-        public static final int btn_prev_arrow=0x7f020019;
-        public static final int btn_xperia=0x7f02001a;
-        public static final int btn_xperia_default_normal=0x7f02001b;
-        public static final int btn_xperia_default_normal_disable=0x7f02001c;
-        public static final int btn_xperia_default_normal_disable_focused=0x7f02001d;
-        public static final int btn_xperia_default_pressed=0x7f02001e;
-        public static final int btn_xperia_default_selected=0x7f02001f;
-        public static final int calendar=0x7f020020;
-        public static final int calendar_original=0x7f020021;
-        public static final int dark_translucent_panel=0x7f020022;
-        public static final int dark_translucent_v2_panel=0x7f020023;
-        public static final int dark_translucent_v3_panel=0x7f020024;
-        public static final int divider_black=0x7f020025;
-        public static final int divider_grey=0x7f020026;
-        public static final int divider_white=0x7f020027;
-        public static final int email_original=0x7f020028;
-        public static final int froyo_list_selector_background=0x7f020029;
-        public static final int froyo_list_selector_background_disabled=0x7f02002a;
-        public static final int froyo_list_selector_background_focus=0x7f02002b;
-        public static final int froyo_list_selector_background_longpress=0x7f02002c;
-        public static final int froyo_list_selector_background_pressed=0x7f02002d;
-        public static final int froyo_list_selector_background_transition=0x7f02002e;
-        public static final int gingerbread_list_selector_background=0x7f02002f;
-        public static final int gingerbread_list_selector_background_disabled=0x7f020030;
-        public static final int gingerbread_list_selector_background_focus=0x7f020031;
-        public static final int gingerbread_list_selector_background_longpress=0x7f020032;
-        public static final int gingerbread_list_selector_background_pressed=0x7f020033;
-        public static final int gingerbread_list_selector_background_transition=0x7f020034;
-        public static final int green=0x7f0200ba;
-        public static final int htc_list_selector_background=0x7f020035;
-        public static final int htc_list_selector_background_disabled=0x7f020036;
-        public static final int htc_list_selector_background_focus=0x7f020037;
-        public static final int htc_list_selector_background_longpress=0x7f020038;
-        public static final int htc_list_selector_background_pressed=0x7f020039;
-        public static final int htc_list_selector_background_transition=0x7f02003a;
-        public static final int htc_panel=0x7f02003b;
-        public static final int ic_btn_find_next=0x7f02003c;
-        public static final int ic_btn_find_next_disabled=0x7f02003d;
-        public static final int ic_btn_find_next_pressed=0x7f02003e;
-        public static final int ic_btn_find_prev=0x7f02003f;
-        public static final int ic_btn_find_prev_disabled=0x7f020040;
-        public static final int ic_btn_find_prev_pressed=0x7f020041;
-        public static final int ic_calendar_event_black=0x7f020042;
-        public static final int ic_calendar_event_grey=0x7f020043;
-        public static final int ic_calendar_event_white=0x7f020044;
-        public static final int ic_call_green=0x7f020045;
-        public static final int ic_call_white=0x7f020046;
-        public static final int ic_contact_picture_1=0x7f020047;
-        public static final int ic_contact_picture_2=0x7f020048;
-        public static final int ic_contact_picture_3=0x7f020049;
-        public static final int ic_contact_picture_4=0x7f02004a;
-        public static final int ic_contact_picture_5=0x7f02004b;
-        public static final int ic_conversation_black_small=0x7f02004c;
-        public static final int ic_conversation_grey_small=0x7f02004d;
-        public static final int ic_conversation_white=0x7f02004e;
-        public static final int ic_conversation_white_small=0x7f02004f;
-        public static final int ic_delete_black=0x7f020050;
-        public static final int ic_delete_grey=0x7f020051;
-        public static final int ic_delete_red=0x7f020052;
-        public static final int ic_delete_white=0x7f020053;
-        public static final int ic_dialog_alert=0x7f020054;
-        public static final int ic_dialog_info=0x7f020055;
-        public static final int ic_envelope_black=0x7f020056;
-        public static final int ic_envelope_white=0x7f020057;
-        public static final int ic_launcher_droidnotify=0x7f020058;
-        public static final int ic_menu_preferences=0x7f020059;
-        public static final int ic_missed_call=0x7f02005a;
-        public static final int ic_missed_call_original=0x7f02005b;
-        public static final int ic_reschedule_black=0x7f02005c;
-        public static final int ic_reschedule_white=0x7f02005d;
-        public static final int image_picture_frame=0x7f02005e;
-        public static final int image_picture_frame_default=0x7f02005f;
-        public static final int image_picture_frame_pressed=0x7f020060;
-        public static final int image_picture_frame_selected=0x7f020061;
-        public static final int image_picture_frame_white=0x7f020062;
-        public static final int iphone_button=0x7f020063;
-        public static final int iphone_button_disabled=0x7f020064;
-        public static final int iphone_button_pressed=0x7f020065;
-        public static final int iphone_panel=0x7f020066;
-        public static final int list_selector_background_blue=0x7f020067;
-        public static final int list_selector_background_disabled_blue=0x7f020068;
-        public static final int list_selector_background_focus_blue=0x7f020069;
-        public static final int list_selector_background_longpress_blue=0x7f02006a;
-        public static final int list_selector_background_pressed_blue=0x7f02006b;
-        public static final int list_selector_background_transition_blue=0x7f02006c;
-        public static final int missed_call=0x7f02006d;
-        public static final int rect3000=0x7f02006e;
-        public static final int red=0x7f0200b8;
-        public static final int sms=0x7f02006f;
-        public static final int sms_original=0x7f020070;
-        public static final int status_bar_notification_calendar_black=0x7f020071;
-        public static final int status_bar_notification_calendar_black_preference=0x7f020072;
-        public static final int status_bar_notification_calendar_blue=0x7f020073;
-        public static final int status_bar_notification_calendar_blue_preference=0x7f020074;
-        public static final int status_bar_notification_calendar_green=0x7f020075;
-        public static final int status_bar_notification_calendar_green_preference=0x7f020076;
-        public static final int status_bar_notification_calendar_grey=0x7f020077;
-        public static final int status_bar_notification_calendar_grey_preference=0x7f020078;
-        public static final int status_bar_notification_calendar_orange=0x7f020079;
-        public static final int status_bar_notification_calendar_orange_preference=0x7f02007a;
-        public static final int status_bar_notification_calendar_red=0x7f02007b;
-        public static final int status_bar_notification_calendar_red_preference=0x7f02007c;
-        public static final int status_bar_notification_missed_call_black=0x7f02007d;
-        public static final int status_bar_notification_missed_call_black_preference=0x7f02007e;
-        public static final int status_bar_notification_missed_call_grey=0x7f02007f;
-        public static final int status_bar_notification_missed_call_grey_preference=0x7f020080;
-        public static final int status_bar_notification_missed_call_red=0x7f020081;
-        public static final int status_bar_notification_missed_call_red_preference=0x7f020082;
-        public static final int status_bar_notification_missed_call_white=0x7f020083;
-        public static final int status_bar_notification_missed_call_white_preference=0x7f020084;
-        public static final int status_bar_notification_sms_blue=0x7f020085;
-        public static final int status_bar_notification_sms_blue_preference=0x7f020086;
-        public static final int status_bar_notification_sms_green=0x7f020087;
-        public static final int status_bar_notification_sms_green_preference=0x7f020088;
-        public static final int status_bar_notification_sms_grey=0x7f020089;
-        public static final int status_bar_notification_sms_grey_preference=0x7f02008a;
-        public static final int status_bar_notification_sms_orange=0x7f02008b;
-        public static final int status_bar_notification_sms_orange_preference=0x7f02008c;
-        public static final int status_bar_notification_sms_pink=0x7f02008d;
-        public static final int status_bar_notification_sms_pink_preference=0x7f02008e;
-        public static final int status_bar_notification_sms_postcard_aqua=0x7f02008f;
-        public static final int status_bar_notification_sms_postcard_aqua_preference=0x7f020090;
-        public static final int status_bar_notification_sms_postcard_blue=0x7f020091;
-        public static final int status_bar_notification_sms_postcard_blue_preference=0x7f020092;
-        public static final int status_bar_notification_sms_postcard_green=0x7f020093;
-        public static final int status_bar_notification_sms_postcard_green_preference=0x7f020094;
-        public static final int status_bar_notification_sms_postcard_grey=0x7f020095;
-        public static final int status_bar_notification_sms_postcard_grey_preference=0x7f020096;
-        public static final int status_bar_notification_sms_postcard_orange=0x7f020097;
-        public static final int status_bar_notification_sms_postcard_orange_preference=0x7f020098;
-        public static final int status_bar_notification_sms_postcard_pink=0x7f020099;
-        public static final int status_bar_notification_sms_postcard_pink_preference=0x7f02009a;
-        public static final int status_bar_notification_sms_postcard_purple=0x7f02009b;
-        public static final int status_bar_notification_sms_postcard_purple_preference=0x7f02009c;
-        public static final int status_bar_notification_sms_postcard_red=0x7f02009d;
-        public static final int status_bar_notification_sms_postcard_red_preference=0x7f02009e;
-        public static final int status_bar_notification_sms_postcard_white=0x7f02009f;
-        public static final int status_bar_notification_sms_postcard_white_preference=0x7f0200a0;
-        public static final int status_bar_notification_sms_postcard_yellow=0x7f0200a1;
-        public static final int status_bar_notification_sms_postcard_yellow_preference=0x7f0200a2;
-        public static final int status_bar_notification_sms_purple=0x7f0200a3;
-        public static final int status_bar_notification_sms_purple_preference=0x7f0200a4;
-        public static final int status_bar_notification_sms_red=0x7f0200a5;
-        public static final int status_bar_notification_sms_red_preference=0x7f0200a6;
-        public static final int theme_android_froyo=0x7f0200a7;
-        public static final int theme_android_gingerbread=0x7f0200a8;
-        public static final int theme_dark_translucent=0x7f0200a9;
-        public static final int theme_htc=0x7f0200aa;
-        public static final int theme_iphone=0x7f0200ab;
-        public static final int theme_xperia=0x7f0200ac;
-        public static final int translucent_background_6=0x7f0200bc;
-        public static final int translucent_background_a=0x7f0200bd;
-        public static final int translucent_background_e=0x7f0200be;
-        public static final int transparent=0x7f0200bf;
-        public static final int twitter=0x7f0200ad;
-        public static final int white_background_no_border=0x7f0200ae;
-        public static final int white_background_no_border_pressed=0x7f0200af;
-        public static final int white_background_no_border_selected=0x7f0200b0;
-        public static final int xperia_list_selector_background=0x7f0200b1;
-        public static final int xperia_list_selector_background_disabled=0x7f0200b2;
-        public static final int xperia_list_selector_background_focus=0x7f0200b3;
-        public static final int xperia_list_selector_background_longpress=0x7f0200b4;
-        public static final int xperia_list_selector_background_pressed=0x7f0200b5;
-        public static final int xperia_list_selector_background_transition=0x7f0200b6;
-        public static final int xperia_panel=0x7f0200b7;
-        public static final int yellow=0x7f0200bb;
+        public static final int android_icecream_holo_dark=0x7f020002;
+        public static final int android_icecream_holo_light=0x7f020003;
+        public static final int blue=0x7f0200d9;
+        public static final int btn_dark_translucent=0x7f020004;
+        public static final int btn_dark_translucent_normal=0x7f020005;
+        public static final int btn_dark_translucent_pressed=0x7f020006;
+        public static final int btn_froyo_android=0x7f020007;
+        public static final int btn_froyo_default_normal=0x7f020008;
+        public static final int btn_froyo_default_normal_disable=0x7f020009;
+        public static final int btn_froyo_default_normal_disable_focused=0x7f02000a;
+        public static final int btn_froyo_default_pressed=0x7f02000b;
+        public static final int btn_froyo_default_selected=0x7f02000c;
+        public static final int btn_gingerbread_android=0x7f02000d;
+        public static final int btn_gingerbread_default_normal=0x7f02000e;
+        public static final int btn_gingerbread_default_normal_disable=0x7f02000f;
+        public static final int btn_gingerbread_default_normal_disable_focused=0x7f020010;
+        public static final int btn_gingerbread_default_pressed=0x7f020011;
+        public static final int btn_gingerbread_default_selected=0x7f020012;
+        public static final int btn_htc=0x7f020013;
+        public static final int btn_htc_default_normal=0x7f020014;
+        public static final int btn_htc_default_normal_disable=0x7f020015;
+        public static final int btn_htc_default_normal_disable_focused=0x7f020016;
+        public static final int btn_htc_default_pressed=0x7f020017;
+        public static final int btn_htc_default_selected=0x7f020018;
+        public static final int btn_iphone=0x7f020019;
+        public static final int btn_next_arrow=0x7f02001a;
+        public static final int btn_prev_arrow=0x7f02001b;
+        public static final int btn_xperia=0x7f02001c;
+        public static final int btn_xperia_default_normal=0x7f02001d;
+        public static final int btn_xperia_default_normal_disable=0x7f02001e;
+        public static final int btn_xperia_default_normal_disable_focused=0x7f02001f;
+        public static final int btn_xperia_default_pressed=0x7f020020;
+        public static final int btn_xperia_default_selected=0x7f020021;
+        public static final int calendar=0x7f020022;
+        public static final int calendar_original=0x7f020023;
+        public static final int contact_photo_background_froyo=0x7f020024;
+        public static final int contact_photo_background_gingerbread=0x7f020025;
+        public static final int contact_photo_background_white=0x7f020026;
+        public static final int dark_translucent_panel=0x7f020027;
+        public static final int dark_translucent_v2_panel=0x7f020028;
+        public static final int dark_translucent_v3_panel=0x7f020029;
+        public static final int dialog_full_holo_dark=0x7f02002a;
+        public static final int dialog_full_holo_light=0x7f02002b;
+        public static final int divider_black=0x7f02002c;
+        public static final int divider_grey=0x7f02002d;
+        public static final int divider_white=0x7f02002e;
+        public static final int email_original=0x7f02002f;
+        public static final int froyo_list_selector_background=0x7f020030;
+        public static final int froyo_list_selector_background_disabled=0x7f020031;
+        public static final int froyo_list_selector_background_focus=0x7f020032;
+        public static final int froyo_list_selector_background_longpress=0x7f020033;
+        public static final int froyo_list_selector_background_pressed=0x7f020034;
+        public static final int froyo_list_selector_background_transition=0x7f020035;
+        public static final int gingerbread_list_selector_background=0x7f020036;
+        public static final int gingerbread_list_selector_background_disabled=0x7f020037;
+        public static final int gingerbread_list_selector_background_focus=0x7f020038;
+        public static final int gingerbread_list_selector_background_longpress=0x7f020039;
+        public static final int gingerbread_list_selector_background_pressed=0x7f02003a;
+        public static final int gingerbread_list_selector_background_transition=0x7f02003b;
+        public static final int green=0x7f0200da;
+        public static final int htc_list_selector_background=0x7f02003c;
+        public static final int htc_list_selector_background_disabled=0x7f02003d;
+        public static final int htc_list_selector_background_focus=0x7f02003e;
+        public static final int htc_list_selector_background_longpress=0x7f02003f;
+        public static final int htc_list_selector_background_pressed=0x7f020040;
+        public static final int htc_list_selector_background_transition=0x7f020041;
+        public static final int htc_panel=0x7f020042;
+        public static final int ic_btn_find_next=0x7f020043;
+        public static final int ic_btn_find_next_disabled=0x7f020044;
+        public static final int ic_btn_find_next_pressed=0x7f020045;
+        public static final int ic_btn_find_prev=0x7f020046;
+        public static final int ic_btn_find_prev_disabled=0x7f020047;
+        public static final int ic_btn_find_prev_pressed=0x7f020048;
+        public static final int ic_calendar_event_black=0x7f020049;
+        public static final int ic_calendar_event_grey=0x7f02004a;
+        public static final int ic_calendar_event_white=0x7f02004b;
+        public static final int ic_call_green=0x7f02004c;
+        public static final int ic_call_white=0x7f02004d;
+        public static final int ic_contact_picture_1=0x7f02004e;
+        public static final int ic_contact_picture_2=0x7f02004f;
+        public static final int ic_contact_picture_3=0x7f020050;
+        public static final int ic_contact_picture_4=0x7f020051;
+        public static final int ic_contact_picture_5=0x7f020052;
+        public static final int ic_contact_picture_6=0x7f020053;
+        public static final int ic_conversation_black_small=0x7f020054;
+        public static final int ic_conversation_grey_small=0x7f020055;
+        public static final int ic_conversation_white=0x7f020056;
+        public static final int ic_conversation_white_small=0x7f020057;
+        public static final int ic_delete_black=0x7f020058;
+        public static final int ic_delete_grey=0x7f020059;
+        public static final int ic_delete_red=0x7f02005a;
+        public static final int ic_delete_white=0x7f02005b;
+        public static final int ic_dialog_alert=0x7f02005c;
+        public static final int ic_dialog_info=0x7f02005d;
+        public static final int ic_envelope_black=0x7f02005e;
+        public static final int ic_envelope_grey=0x7f02005f;
+        public static final int ic_envelope_white=0x7f020060;
+        public static final int ic_launcher_droidnotify=0x7f020061;
+        public static final int ic_menu_preferences=0x7f020062;
+        public static final int ic_missed_call=0x7f020063;
+        public static final int ic_missed_call_original=0x7f020064;
+        public static final int ic_reschedule_black=0x7f020065;
+        public static final int ic_reschedule_white=0x7f020066;
+        public static final int ic_tts=0x7f020067;
+        public static final int ic_tts_white=0x7f020068;
+        public static final int image_picture_frame=0x7f020069;
+        public static final int image_picture_frame_default=0x7f02006a;
+        public static final int image_picture_frame_froyo=0x7f02006b;
+        public static final int image_picture_frame_gingerbread=0x7f02006c;
+        public static final int image_picture_frame_pressed=0x7f02006d;
+        public static final int image_picture_frame_selected=0x7f02006e;
+        public static final int image_picture_frame_white=0x7f02006f;
+        public static final int iphone_button=0x7f020070;
+        public static final int iphone_button_disabled=0x7f020071;
+        public static final int iphone_button_pressed=0x7f020072;
+        public static final int iphone_panel=0x7f020073;
+        public static final int list_selector_background_blue=0x7f020074;
+        public static final int list_selector_background_disabled_blue=0x7f020075;
+        public static final int list_selector_background_focus_blue=0x7f020076;
+        public static final int list_selector_background_longpress_blue=0x7f020077;
+        public static final int list_selector_background_pressed_blue=0x7f020078;
+        public static final int list_selector_background_transition_blue=0x7f020079;
+        public static final int missed_call=0x7f02007a;
+        public static final int quickcontact_badge_froyo=0x7f02007b;
+        public static final int quickcontact_badge_gingerbread=0x7f02007c;
+        public static final int rect3000=0x7f02007d;
+        public static final int red=0x7f0200d8;
+        public static final int sms=0x7f02007e;
+        public static final int sms_original=0x7f02007f;
+        public static final int status_bar_notification_calendar_black=0x7f020080;
+        public static final int status_bar_notification_calendar_black_preference=0x7f020081;
+        public static final int status_bar_notification_calendar_blue=0x7f020082;
+        public static final int status_bar_notification_calendar_blue_preference=0x7f020083;
+        public static final int status_bar_notification_calendar_green=0x7f020084;
+        public static final int status_bar_notification_calendar_green_preference=0x7f020085;
+        public static final int status_bar_notification_calendar_grey=0x7f020086;
+        public static final int status_bar_notification_calendar_grey_preference=0x7f020087;
+        public static final int status_bar_notification_calendar_orange=0x7f020088;
+        public static final int status_bar_notification_calendar_orange_preference=0x7f020089;
+        public static final int status_bar_notification_calendar_red=0x7f02008a;
+        public static final int status_bar_notification_calendar_red_preference=0x7f02008b;
+        public static final int status_bar_notification_email_black=0x7f02008c;
+        public static final int status_bar_notification_email_black_preference=0x7f02008d;
+        public static final int status_bar_notification_email_blue=0x7f02008e;
+        public static final int status_bar_notification_email_blue_preference=0x7f02008f;
+        public static final int status_bar_notification_email_green=0x7f020090;
+        public static final int status_bar_notification_email_green_preference=0x7f020091;
+        public static final int status_bar_notification_email_grey=0x7f020092;
+        public static final int status_bar_notification_email_grey_preference=0x7f020093;
+        public static final int status_bar_notification_email_orange=0x7f020094;
+        public static final int status_bar_notification_email_orange_preference=0x7f020095;
+        public static final int status_bar_notification_email_red=0x7f020096;
+        public static final int status_bar_notification_email_red_preference=0x7f020097;
+        public static final int status_bar_notification_email_white=0x7f020098;
+        public static final int status_bar_notification_email_white_preference=0x7f020099;
+        public static final int status_bar_notification_missed_call_black=0x7f02009a;
+        public static final int status_bar_notification_missed_call_black_preference=0x7f02009b;
+        public static final int status_bar_notification_missed_call_grey=0x7f02009c;
+        public static final int status_bar_notification_missed_call_grey_preference=0x7f02009d;
+        public static final int status_bar_notification_missed_call_red=0x7f02009e;
+        public static final int status_bar_notification_missed_call_red_preference=0x7f02009f;
+        public static final int status_bar_notification_missed_call_white=0x7f0200a0;
+        public static final int status_bar_notification_missed_call_white_preference=0x7f0200a1;
+        public static final int status_bar_notification_sms_blue=0x7f0200a2;
+        public static final int status_bar_notification_sms_blue_preference=0x7f0200a3;
+        public static final int status_bar_notification_sms_green=0x7f0200a4;
+        public static final int status_bar_notification_sms_green_preference=0x7f0200a5;
+        public static final int status_bar_notification_sms_grey=0x7f0200a6;
+        public static final int status_bar_notification_sms_grey_preference=0x7f0200a7;
+        public static final int status_bar_notification_sms_orange=0x7f0200a8;
+        public static final int status_bar_notification_sms_orange_preference=0x7f0200a9;
+        public static final int status_bar_notification_sms_pink=0x7f0200aa;
+        public static final int status_bar_notification_sms_pink_preference=0x7f0200ab;
+        public static final int status_bar_notification_sms_postcard_aqua=0x7f0200ac;
+        public static final int status_bar_notification_sms_postcard_aqua_preference=0x7f0200ad;
+        public static final int status_bar_notification_sms_postcard_blue=0x7f0200ae;
+        public static final int status_bar_notification_sms_postcard_blue_preference=0x7f0200af;
+        public static final int status_bar_notification_sms_postcard_green=0x7f0200b0;
+        public static final int status_bar_notification_sms_postcard_green_preference=0x7f0200b1;
+        public static final int status_bar_notification_sms_postcard_grey=0x7f0200b2;
+        public static final int status_bar_notification_sms_postcard_grey_preference=0x7f0200b3;
+        public static final int status_bar_notification_sms_postcard_orange=0x7f0200b4;
+        public static final int status_bar_notification_sms_postcard_orange_preference=0x7f0200b5;
+        public static final int status_bar_notification_sms_postcard_pink=0x7f0200b6;
+        public static final int status_bar_notification_sms_postcard_pink_preference=0x7f0200b7;
+        public static final int status_bar_notification_sms_postcard_purple=0x7f0200b8;
+        public static final int status_bar_notification_sms_postcard_purple_preference=0x7f0200b9;
+        public static final int status_bar_notification_sms_postcard_red=0x7f0200ba;
+        public static final int status_bar_notification_sms_postcard_red_preference=0x7f0200bb;
+        public static final int status_bar_notification_sms_postcard_white=0x7f0200bc;
+        public static final int status_bar_notification_sms_postcard_white_preference=0x7f0200bd;
+        public static final int status_bar_notification_sms_postcard_yellow=0x7f0200be;
+        public static final int status_bar_notification_sms_postcard_yellow_preference=0x7f0200bf;
+        public static final int status_bar_notification_sms_purple=0x7f0200c0;
+        public static final int status_bar_notification_sms_purple_preference=0x7f0200c1;
+        public static final int status_bar_notification_sms_red=0x7f0200c2;
+        public static final int status_bar_notification_sms_red_preference=0x7f0200c3;
+        public static final int status_bar_notification_sms_white=0x7f0200c4;
+        public static final int status_bar_notification_sms_white_preference=0x7f0200c5;
+        public static final int theme_android_froyo=0x7f0200c6;
+        public static final int theme_android_gingerbread=0x7f0200c7;
+        public static final int theme_dark_translucent=0x7f0200c8;
+        public static final int theme_htc=0x7f0200c9;
+        public static final int theme_iphone=0x7f0200ca;
+        public static final int theme_xperia=0x7f0200cb;
+        public static final int translucent_background_6=0x7f0200dc;
+        public static final int translucent_background_a=0x7f0200dd;
+        public static final int translucent_background_e=0x7f0200de;
+        public static final int transparent=0x7f0200df;
+        public static final int tts=0x7f0200cc;
+        public static final int twitter=0x7f0200cd;
+        public static final int white_background_no_border=0x7f0200ce;
+        public static final int white_background_no_border_pressed=0x7f0200cf;
+        public static final int white_background_no_border_selected=0x7f0200d0;
+        public static final int xperia_list_selector_background=0x7f0200d1;
+        public static final int xperia_list_selector_background_disabled=0x7f0200d2;
+        public static final int xperia_list_selector_background_focus=0x7f0200d3;
+        public static final int xperia_list_selector_background_longpress=0x7f0200d4;
+        public static final int xperia_list_selector_background_pressed=0x7f0200d5;
+        public static final int xperia_list_selector_background_transition=0x7f0200d6;
+        public static final int xperia_panel=0x7f0200d7;
+        public static final int yellow=0x7f0200db;
     }
     public static final class id {
-        public static final int add_calendar_event_context_menu=0x7f0b003f;
-        public static final int add_contact_context_menu=0x7f0b0037;
-        public static final int app_settings=0x7f0b0042;
-        public static final int blueSeekBar=0x7f0b0029;
-        public static final int blueTextView=0x7f0b0028;
-        public static final int calendar_button_linear_layout=0x7f0b0017;
-        public static final int calendar_dismiss_button=0x7f0b0018;
-        public static final int calendar_view_button=0x7f0b0019;
-        public static final int call_contact_context_menu=0x7f0b003a;
-        public static final int cancel_button=0x7f0b0033;
-        public static final int characters_remaining_text_view=0x7f0b001f;
-        public static final int check=0x7f0b002d;
-        public static final int contact_info_linear_layout=0x7f0b000a;
-        public static final int contact_info_wrapper_linear_layout=0x7f0b0009;
-        public static final int contact_main_linear_layout=0x7f0b0005;
-        public static final int contact_name_text_view=0x7f0b000d;
-        public static final int contact_number_text_view=0x7f0b000e;
-        public static final int contact_photo_image_view=0x7f0b0007;
-        public static final int contact_photo_progress_bar=0x7f0b0008;
-        public static final int contact_wrapper_linear_layout=0x7f0b0006;
-        public static final int content_scroll_view=0x7f0b0021;
-        public static final int content_text_view=0x7f0b0022;
-        public static final int continue_button=0x7f0b0032;
-        public static final int customVibrateEditText=0x7f0b0035;
-        public static final int dismiss_notification_context_menu=0x7f0b0041;
-        public static final int edit_calendar_event_context_menu=0x7f0b0040;
-        public static final int edit_contact_context_menu=0x7f0b0038;
-        public static final int greenSeekBar=0x7f0b0027;
-        public static final int greenTextView=0x7f0b0026;
+        public static final int add_calendar_event_context_menu=0x7f0b005c;
+        public static final int add_contact_context_menu=0x7f0b0054;
+        public static final int app_settings=0x7f0b0063;
+        public static final int blueSeekBar=0x7f0b0045;
+        public static final int blueTextView=0x7f0b0044;
+        public static final int button_linear_layout=0x7f0b0014;
+        public static final int calendar_button_linear_layout=0x7f0b0031;
+        public static final int calendar_dismiss_button=0x7f0b0032;
+        public static final int calendar_view_button=0x7f0b0033;
+        public static final int call_button=0x7f0b0017;
+        public static final int call_contact_context_menu=0x7f0b0058;
+        public static final int call_image_button=0x7f0b001e;
+        public static final int cancel_button=0x7f0b0051;
+        public static final int characters_remaining_text_view=0x7f0b0027;
+        public static final int check=0x7f0b0049;
+        public static final int contact_info_linear_layout=0x7f0b000c;
+        public static final int contact_info_wrapper_linear_layout=0x7f0b0029;
+        public static final int contact_main_linear_layout=0x7f0b0008;
+        public static final int contact_name_text_view=0x7f0b0010;
+        public static final int contact_number_text_view=0x7f0b0011;
+        public static final int contact_photo_image_view=0x7f0b000a;
+        public static final int contact_photo_progress_bar=0x7f0b000b;
+        public static final int contact_wrapper_linear_layout=0x7f0b0009;
+        public static final int content_linear_layout=0x7f0b003a;
+        public static final int content_scroll_view=0x7f0b0039;
+        public static final int content_text_view=0x7f0b003b;
+        public static final int continue_button=0x7f0b0050;
+        public static final int customVibrateEditText=0x7f0b0053;
+        public static final int delete_button=0x7f0b0016;
+        public static final int delete_image_button=0x7f0b001d;
+        public static final int dismiss_button=0x7f0b0015;
+        public static final int dismiss_image_button=0x7f0b001c;
+        public static final int dismiss_notification_context_menu=0x7f0b0062;
+        public static final int donate_amazon_app_store_button=0x7f0b003d;
+        public static final int donate_android_market_button=0x7f0b003c;
+        public static final int donate_paypal_button=0x7f0b003e;
+        public static final int edit_calendar_event_context_menu=0x7f0b005d;
+        public static final int edit_contact_context_menu=0x7f0b0055;
+        public static final int email_button_linear_layout=0x7f0b0034;
+        public static final int email_delete_button=0x7f0b0036;
+        public static final int email_dismiss_button=0x7f0b0035;
+        public static final int email_reply_button=0x7f0b0037;
+        public static final int greenSeekBar=0x7f0b0043;
+        public static final int greenTextView=0x7f0b0042;
         public static final int header_navigation=0x7f0b0001;
-        public static final int image=0x7f0b002c;
-        public static final int ledPatternOffEditText=0x7f0b002b;
-        public static final int ledPatternOnEditText=0x7f0b002a;
-        public static final int main_layout_iphone_theme=0x7f0b002e;
-        public static final int main_linear_layout=0x7f0b0031;
-        public static final int message_edit_text=0x7f0b001d;
-        public static final int messaging_inbox_context_menu=0x7f0b003d;
-        public static final int next_button=0x7f0b0004;
-        public static final int notification_count_text_view=0x7f0b0003;
-        public static final int notification_details_text_view=0x7f0b000f;
-        public static final int notification_info_text_view=0x7f0b000c;
+        public static final int image=0x7f0b0048;
+        public static final int image_button_linear_layout=0x7f0b001b;
+        public static final int ledPatternOffEditText=0x7f0b0047;
+        public static final int ledPatternOnEditText=0x7f0b0046;
+        public static final int main_linear_layout=0x7f0b004f;
+        public static final int message_edit_text=0x7f0b0025;
+        public static final int messaging_inbox_context_menu=0x7f0b0059;
+        public static final int mms_link_text_view=0x7f0b0012;
+        public static final int next_button=0x7f0b0007;
+        public static final int notification_count_text_view=0x7f0b0004;
+        public static final int notification_details_text_view=0x7f0b0013;
+        public static final int notification_info_linear_layout=0x7f0b000d;
+        public static final int notification_info_text_view=0x7f0b000f;
         public static final int notification_linear_layout=0x7f0b0000;
-        public static final int notification_type_icon_image_view=0x7f0b000b;
-        public static final int notification_view_flipper=0x7f0b002f;
-        public static final int phone_button_linear_layout=0x7f0b0010;
-        public static final int phone_call_button=0x7f0b0012;
-        public static final int phone_dismiss_button=0x7f0b0011;
-        public static final int previewImageView=0x7f0b0023;
+        public static final int notification_type_icon_image_view=0x7f0b000e;
+        public static final int notification_view_flipper=0x7f0b004b;
+        public static final int notification_wrapper_linear_layout=0x7f0b004a;
+        public static final int phone_button_linear_layout=0x7f0b002a;
+        public static final int phone_call_button=0x7f0b002c;
+        public static final int phone_dismiss_button=0x7f0b002b;
+        public static final int previewImageView=0x7f0b003f;
         public static final int previous_button=0x7f0b0002;
-        public static final int progress_bar_linear_layout=0x7f0b0034;
-        public static final int quick_reply_cancel_button=0x7f0b0020;
-        public static final int quick_reply_linear_layout=0x7f0b001a;
-        public static final int quick_reply_send_button=0x7f0b001e;
-        public static final int quick_reply_title_text_view=0x7f0b001b;
-        public static final int redSeekBar=0x7f0b0025;
-        public static final int redTextView=0x7f0b0024;
-        public static final int send_to_text_view=0x7f0b001c;
-        public static final int sms_button_linear_layout=0x7f0b0013;
-        public static final int sms_delete_button=0x7f0b0015;
-        public static final int sms_dismiss_button=0x7f0b0014;
-        public static final int sms_reply_button=0x7f0b0016;
-        public static final int text_contact_context_menu=0x7f0b003b;
-        public static final int twitter_authentication_linear_layout=0x7f0b0030;
-        public static final int view_calendar_context_menu=0x7f0b003e;
-        public static final int view_call_log_context_menu=0x7f0b0036;
-        public static final int view_contact_context_menu=0x7f0b0039;
-        public static final int view_thread_context_menu=0x7f0b003c;
+        public static final int progress_bar_linear_layout=0x7f0b0052;
+        public static final int quick_reply_cancel_button=0x7f0b0028;
+        public static final int quick_reply_linear_layout=0x7f0b0022;
+        public static final int quick_reply_send_button=0x7f0b0026;
+        public static final int quick_reply_title_text_view=0x7f0b0023;
+        public static final int redSeekBar=0x7f0b0041;
+        public static final int redTextView=0x7f0b0040;
+        public static final int reply_email_button=0x7f0b001a;
+        public static final int reply_email_image_button=0x7f0b0021;
+        public static final int reply_sms_button=0x7f0b0018;
+        public static final int reply_sms_image_button=0x7f0b001f;
+        public static final int reschedule_button_image_view=0x7f0b0006;
+        public static final int reschedule_image_view=0x7f0b0005;
+        public static final int reschedule_notification_context_menu=0x7f0b0060;
+        public static final int send_to_text_view=0x7f0b0024;
+        public static final int sms_button_linear_layout=0x7f0b002d;
+        public static final int sms_delete_button=0x7f0b002f;
+        public static final int sms_dismiss_button=0x7f0b002e;
+        public static final int sms_reply_button=0x7f0b0030;
+        public static final int speak_notification_context_menu=0x7f0b0061;
+        public static final int start_time_picker=0x7f0b004c;
+        public static final int stop_time_picker=0x7f0b004d;
+        public static final int text_contact_context_menu=0x7f0b005b;
+        public static final int tts_button=0x7f0b0038;
+        public static final int tts_button_image_view=0x7f0b0003;
+        public static final int twitter_authentication_linear_layout=0x7f0b004e;
+        public static final int view_calendar_button=0x7f0b0019;
+        public static final int view_calendar_context_menu=0x7f0b005e;
+        public static final int view_calendar_image_button=0x7f0b0020;
+        public static final int view_call_log_context_menu=0x7f0b0057;
+        public static final int view_contact_context_menu=0x7f0b0056;
+        public static final int view_k9_inbox_context_menu=0x7f0b005f;
+        public static final int view_thread_context_menu=0x7f0b005a;
     }
     public static final class layout {
         public static final int android_froyo_theme_notification=0x7f030000;
@@ -428,24 +540,27 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int android_gingerbread_theme_notification=0x7f030002;
         public static final int android_gingerbread_theme_smsreply=0x7f030003;
         public static final int dark_translucent_theme_notification=0x7f030004;
-        public static final int dark_translucent_theme_smsreply=0x7f030005;
-        public static final int dark_translucent_v2_theme_notification=0x7f030006;
-        public static final int dark_translucent_v2_theme_smsreply=0x7f030007;
-        public static final int dark_translucent_v3_theme_notification=0x7f030008;
-        public static final int dark_translucent_v3_theme_smsreply=0x7f030009;
-        public static final int htc_theme_notification=0x7f03000a;
-        public static final int htc_theme_smsreply=0x7f03000b;
-        public static final int html_alert_dialog=0x7f03000c;
-        public static final int iphone_theme_notification=0x7f03000d;
-        public static final int iphone_theme_smsreply=0x7f03000e;
-        public static final int ledcolordialog=0x7f03000f;
-        public static final int ledpatterndialog=0x7f030010;
-        public static final int listitem=0x7f030011;
-        public static final int notificationwrapper=0x7f030012;
-        public static final int twitter_authentication=0x7f030013;
-        public static final int vibratepatterndialog=0x7f030014;
-        public static final int xperia_theme_notification=0x7f030015;
-        public static final int xperia_theme_smsreply=0x7f030016;
+        public static final int dark_translucent_theme_notification_old=0x7f030005;
+        public static final int dark_translucent_theme_smsreply=0x7f030006;
+        public static final int dark_translucent_v2_theme_notification=0x7f030007;
+        public static final int dark_translucent_v2_theme_smsreply=0x7f030008;
+        public static final int dark_translucent_v3_theme_notification=0x7f030009;
+        public static final int dark_translucent_v3_theme_smsreply=0x7f03000a;
+        public static final int donate=0x7f03000b;
+        public static final int htc_theme_notification=0x7f03000c;
+        public static final int htc_theme_smsreply=0x7f03000d;
+        public static final int html_alert_dialog=0x7f03000e;
+        public static final int iphone_theme_notification=0x7f03000f;
+        public static final int iphone_theme_smsreply=0x7f030010;
+        public static final int ledcolordialog=0x7f030011;
+        public static final int ledpatterndialog=0x7f030012;
+        public static final int listitem=0x7f030013;
+        public static final int notificationwrapper=0x7f030014;
+        public static final int quietimeperiodialog=0x7f030015;
+        public static final int twitter_authentication=0x7f030016;
+        public static final int vibratepatterndialog=0x7f030017;
+        public static final int xperia_theme_notification=0x7f030018;
+        public static final int xperia_theme_smsreply=0x7f030019;
     }
     public static final class menu {
         public static final int notificationcontextmenu=0x7f0a0000;
@@ -453,697 +568,789 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
     }
     public static final class string {
         /**  About Strings 
- About Strings 
          */
-        public static final int about_text=0x7f08003a;
-        public static final int add_calendar_event_text=0x7f0800e8;
-        public static final int add_contact_text=0x7f0800e3;
-        public static final int advanced_settings_text=0x7f08002b;
-        public static final int all_day_event_reminder_setting_text=0x7f0800c2;
-        public static final int all_day_event_reminders_text=0x7f0800c1;
-        public static final int always_text=0x7f080245;
-        public static final int app_android_calendar_app_error=0x7f080013;
-        public static final int app_android_calendar_event_not_found_error=0x7f08001d;
-        public static final int app_android_calendar_unknown_error=0x7f080020;
-        public static final int app_android_calendars_not_found_error=0x7f080026;
-        public static final int app_android_call_log_error=0x7f080012;
-        public static final int app_android_contact_not_found_error=0x7f08001c;
-        public static final int app_android_contacts_app_error=0x7f080015;
-        public static final int app_android_contacts_email_chooser_error=0x7f080024;
-        public static final int app_android_contacts_phone_number_chooser_error=0x7f080023;
-        public static final int app_android_contacts_unknown_error=0x7f080022;
-        public static final int app_android_email_app_error=0x7f080014;
-        public static final int app_android_email_unknown_error=0x7f080021;
-        public static final int app_android_message_not_found_error=0x7f080019;
+        public static final int about_text=0x7f080060;
+        /**  Calendar Strings 
+         */
+        public static final int add_calendar_event_text=0x7f0800be;
+        public static final int add_contact_text=0x7f0800f8;
+        public static final int advanced_settings_text=0x7f080037;
+        public static final int all_day_event_reminder_setting_text=0x7f0800d1;
+        public static final int all_day_event_reminders_text=0x7f0800d0;
+        public static final int always_text=0x7f08029d;
+        public static final int app_android_calendar_app_error=0x7f08001a;
+        public static final int app_android_calendar_event_not_found_error=0x7f080024;
+        public static final int app_android_calendar_unknown_error=0x7f080027;
+        public static final int app_android_calendars_not_found_error=0x7f08002d;
+        public static final int app_android_call_log_error=0x7f080019;
+        public static final int app_android_contact_not_found_error=0x7f080023;
+        public static final int app_android_contacts_app_error=0x7f08001c;
+        public static final int app_android_contacts_email_chooser_error=0x7f08002b;
+        public static final int app_android_contacts_phone_number_chooser_error=0x7f08002a;
+        public static final int app_android_contacts_unknown_error=0x7f080029;
+        public static final int app_android_email_app_error=0x7f08001b;
+        public static final int app_android_email_unknown_error=0x7f080028;
+        public static final int app_android_message_not_found_error=0x7f080020;
         /**  Error Message Strings 
- Error Message Strings 
          */
-        public static final int app_android_messaging_app_error=0x7f080010;
-        public static final int app_android_messaging_unknown_error=0x7f08001e;
-        public static final int app_android_no_number_found_error=0x7f080025;
-        public static final int app_android_phone_app_error=0x7f080011;
-        public static final int app_android_phone_number_format_error=0x7f08001a;
-        public static final int app_android_phone_unknown_error=0x7f08001f;
-        public static final int app_android_quick_reply_app_error=0x7f080016;
-        public static final int app_android_rate_app_error=0x7f080018;
-        public static final int app_android_reply_messaging_address_error=0x7f08001b;
-        public static final int app_android_test_app_error=0x7f080017;
+        public static final int app_android_messaging_app_error=0x7f080017;
+        public static final int app_android_messaging_unknown_error=0x7f080025;
+        public static final int app_android_no_number_found_error=0x7f08002c;
+        public static final int app_android_phone_app_error=0x7f080018;
+        public static final int app_android_phone_number_format_error=0x7f080021;
+        public static final int app_android_phone_unknown_error=0x7f080026;
+        public static final int app_android_quick_reply_app_error=0x7f08001d;
+        public static final int app_android_rate_app_error=0x7f08001f;
+        public static final int app_android_reply_messaging_address_error=0x7f080022;
+        public static final int app_android_test_app_error=0x7f08001e;
+        public static final int app_k9_email_app_error=0x7f08002f;
+        public static final int app_k9_reply_email_address_error=0x7f08002e;
         public static final int app_license=0x7f080002;
         public static final int app_name=0x7f080005;
         public static final int app_name_formatted=0x7f080006;
         /**  App Strings 
- App Strings 
          */
         public static final int app_name_formatted_version=0x7f080004;
+        public static final int app_preference_quiet_time_error=0x7f080031;
         /**  Settings/Preference Strings 
- Settings/Preference Strings 
          */
-        public static final int app_settings_text=0x7f080027;
-        /**  Calendar Strings 
- Calendar Strings 
-         */
-        public static final int appointment_at_text=0x7f0800af;
-        public static final int appointment_on_text=0x7f0800b0;
-        public static final int authenticating_text=0x7f0800d4;
-        public static final int basic_settings_text=0x7f080029;
-        public static final int blue_text=0x7f080240;
-        public static final int button_settings_text=0x7f0800ed;
-        public static final int calendar_event_text=0x7f0800b3;
-        public static final int call_button_text=0x7f0800e1;
-        public static final int call_contact_text=0x7f0800e4;
-        public static final int cancel_button_text=0x7f0800e0;
+        public static final int app_settings_text=0x7f080033;
+        public static final int app_tts_error=0x7f080030;
+        public static final int authenticating_text=0x7f0800e2;
+        public static final int basic_settings_text=0x7f080035;
+        public static final int blue_text=0x7f080298;
+        public static final int button_settings_text=0x7f080104;
+        public static final int button_style_icon_and_text_text=0x7f080119;
+        public static final int button_style_icon_only_text=0x7f08011a;
+        public static final int button_style_text_only_text=0x7f08011b;
+        public static final int calendar_event_text=0x7f0800c2;
+        public static final int call_button_text=0x7f0800ad;
+        public static final int call_contact_text=0x7f0800ae;
+        public static final int cancel_button_text=0x7f080102;
         public static final int cancel_text=0x7f08000d;
-        public static final int clear_status_bar_notifications_on_exit_summaryOff=0x7f08015e;
-        public static final int clear_status_bar_notifications_on_exit_summaryOn=0x7f08015d;
-        public static final int clear_status_bar_notifications_on_exit_title=0x7f08015c;
-        public static final int close_button_text=0x7f0800d7;
+        public static final int clear_status_bar_notifications_on_exit_summaryOff=0x7f0801a1;
+        public static final int clear_status_bar_notifications_on_exit_summaryOn=0x7f0801a0;
+        public static final int clear_status_bar_notifications_on_exit_title=0x7f08019f;
+        public static final int close_button_text=0x7f0800fc;
         public static final int close_text=0x7f08000c;
-        /**  Contact Strings 
- Contact Strings 
-         */
-        public static final int contact_display_settings_text=0x7f080033;
+        public static final int contact_photo_settings_text=0x7f08005d;
         public static final int continue_text=0x7f08000e;
-        public static final int custom_text=0x7f08023b;
-        public static final int cyan_text=0x7f080242;
-        public static final int delete_button_text=0x7f0800ec;
-        public static final int delete_message_dialog_text=0x7f080031;
-        public static final int delete_message_text=0x7f08018e;
+        public static final int custom_text=0x7f080293;
+        public static final int cyan_text=0x7f08029a;
+        public static final int date_format_10_text=0x7f0802ab;
+        public static final int date_format_11_text=0x7f0802ac;
+        public static final int date_format_12_text=0x7f0802ad;
+        public static final int date_format_13_text=0x7f0802ae;
+        public static final int date_format_14_text=0x7f0802af;
+        public static final int date_format_15_text=0x7f0802b0;
+        public static final int date_format_16_text=0x7f0802b1;
+        public static final int date_format_1_text=0x7f0802a2;
+        public static final int date_format_2_text=0x7f0802a3;
+        public static final int date_format_3_text=0x7f0802a4;
+        public static final int date_format_4_text=0x7f0802a5;
+        public static final int date_format_5_text=0x7f0802a6;
+        public static final int date_format_6_text=0x7f0802a7;
+        public static final int date_format_7_text=0x7f0802a8;
+        public static final int date_format_8_text=0x7f0802a9;
+        public static final int date_format_9_text=0x7f0802aa;
+        public static final int delete_button_text=0x7f080103;
+        public static final int delete_email_dialog_text=0x7f080040;
+        public static final int delete_message_dialog_text=0x7f08003e;
+        public static final int delete_message_text=0x7f0801d4;
         /**  Delete Strings 
- Delete Strings 
          */
-        public static final int delete_text=0x7f080030;
-        public static final int delete_thread_dialog_text=0x7f080032;
-        public static final int delete_thread_text=0x7f08018f;
-        public static final int dismiss_button_text=0x7f0800d8;
+        public static final int delete_text=0x7f08003d;
+        public static final int delete_thread_dialog_text=0x7f08003f;
+        public static final int delete_thread_text=0x7f0801d5;
+        public static final int dismiss_button_text=0x7f0800fd;
         public static final int dismiss_notification_text=0x7f08000f;
-        public static final int draft_saved_text=0x7f08004b;
-        public static final int edit_calendar_event_text=0x7f0800e9;
-        public static final int edit_contact_text=0x7f0800e7;
-        public static final int email_developer_summary=0x7f08012b;
-        public static final int email_developer_text=0x7f08012a;
+        public static final int donate_description_text=0x7f080013;
+        public static final int donate_summary=0x7f080012;
+        /**  Donate To Project Strings 
+         */
+        public static final int donate_text=0x7f080010;
+        public static final int donate_to_droid_notify_text=0x7f080011;
+        public static final int donate_via_amazon_app_store_text=0x7f080015;
+        public static final int donate_via_android_market_text=0x7f080014;
+        public static final int donate_via_paypal_text=0x7f080016;
+        public static final int draft_saved_text=0x7f080071;
+        public static final int edit_calendar_event_text=0x7f0800bf;
+        public static final int edit_contact_text=0x7f0800fa;
+        /**  Email Strings 
+         */
+        public static final int email_at_text=0x7f0800e4;
+        public static final int email_developer_summary=0x7f080152;
+        public static final int email_developer_text=0x7f080151;
+        public static final int email_inbox_text=0x7f0800e5;
         public static final int eula_text=0x7f080003;
-        public static final int event_body_settings_text=0x7f08002f;
-        public static final int event_on_text=0x7f0800b1;
-        public static final int event_reminder_settings_text=0x7f0800c0;
-        public static final int fast_text=0x7f08023c;
+        public static final int event_body_settings_text=0x7f08003c;
+        public static final int event_on_text=0x7f0800c0;
+        public static final int event_reminder_settings_text=0x7f0800cf;
+        public static final int everyday_text=0x7f080145;
+        public static final int fast_text=0x7f080294;
         /**  Feedback Strings 
- Feedback Strings 
          */
-        public static final int feedback_text=0x7f080129;
+        public static final int feedback_text=0x7f080150;
         /**  Screen Strings 
- Screen Strings 
          */
-        public static final int general_screen_settings_text=0x7f080109;
-        public static final int general_settings_text=0x7f080028;
-        public static final int get_all_missed_calls_text=0x7f080196;
-        public static final int get_latest_missed_call_text=0x7f080194;
-        public static final int get_recent_missed_calls_text=0x7f080195;
-        public static final int goto_calendar_text=0x7f080192;
-        public static final int goto_inbox_text=0x7f080191;
-        public static final int green_text=0x7f080241;
-        public static final int hide_contact_name_text=0x7f080037;
-        public static final int hide_contact_number_text=0x7f080036;
-        public static final int hide_contact_panel_text=0x7f080034;
-        public static final int hide_contact_photo_text=0x7f080035;
-        public static final int ignore_notification_text=0x7f08019c;
+        public static final int general_screen_settings_text=0x7f08011c;
+        public static final int general_settings_text=0x7f080034;
+        public static final int get_all_missed_calls_text=0x7f0801db;
+        public static final int get_latest_missed_call_text=0x7f0801d9;
+        public static final int get_recent_missed_calls_text=0x7f0801da;
+        public static final int goto_calendar_text=0x7f0801d7;
+        public static final int green_text=0x7f080299;
+        public static final int ignore_notification_text=0x7f0801e2;
         /**  Import/Export Strings 
- Import/Export Strings 
          */
-        public static final int import_export_text=0x7f08012e;
-        public static final int inbox_button_text=0x7f0800db;
+        public static final int import_export_text=0x7f080155;
+        public static final int keep_repeating_text=0x7f080171;
         public static final int license=0x7f080001;
         public static final int license_info=0x7f080000;
-        public static final int long_vibrate_text=0x7f080238;
-        public static final int magenta_text=0x7f080243;
+        public static final int long_vibrate_text=0x7f080290;
+        public static final int magenta_text=0x7f08029b;
         /**  Array Strings 
- Array Strings 
          */
-        public static final int mark_as_read_text=0x7f08018c;
-        /**  SMS Strings 
- SMS Strings 
-         */
-        public static final int message_at_text=0x7f080055;
-        public static final int message_body_settings_text=0x7f08002e;
-        public static final int message_delivered_text=0x7f080049;
-        public static final int message_error_text=0x7f080043;
-        public static final int message_not_delivered_text=0x7f08004a;
-        public static final int message_sent_error_generic_failure_text=0x7f080045;
-        public static final int message_sent_error_no_service_text=0x7f080046;
-        public static final int message_sent_error_null_pdu_text=0x7f080047;
-        public static final int message_sent_error_radio_off_text=0x7f080048;
-        public static final int message_sent_text=0x7f080044;
-        public static final int messaging_app_running_action_calendar_summary=0x7f0800cc;
-        public static final int messaging_app_running_action_missed_call_summary=0x7f0800a6;
-        public static final int messaging_app_running_action_mms_summary=0x7f08008e;
-        public static final int messaging_app_running_action_sms_summary=0x7f08006d;
+        public static final int mark_as_read_text=0x7f0801d2;
+        public static final int message_at_text=0x7f08007d;
+        public static final int message_delivered_text=0x7f08006f;
+        public static final int message_error_text=0x7f080069;
+        public static final int message_not_delivered_text=0x7f080070;
+        public static final int message_sent_error_generic_failure_text=0x7f08006b;
+        public static final int message_sent_error_no_service_text=0x7f08006c;
+        public static final int message_sent_error_null_pdu_text=0x7f08006d;
+        public static final int message_sent_error_radio_off_text=0x7f08006e;
+        public static final int message_sent_text=0x7f08006a;
+        public static final int messaging_app_running_action_calendar_summary=0x7f0800db;
+        public static final int messaging_app_running_action_k9_summary=0x7f0800f6;
+        public static final int messaging_app_running_action_missed_call_summary=0x7f0800bd;
+        public static final int messaging_app_running_action_mms_summary=0x7f0800a9;
+        public static final int messaging_app_running_action_sms_summary=0x7f080090;
         /**  Message Settings Strings 
- Message Settings Strings 
          */
-        public static final int messaging_app_running_action_text=0x7f08013f;
-        public static final int messaging_inbox_text=0x7f0800eb;
-        public static final int minus10_hours_text=0x7f080218;
-        public static final int minus11_hours_text=0x7f080217;
-        public static final int minus12_hours_text=0x7f080216;
-        public static final int minus1_hour_text=0x7f080221;
-        public static final int minus2_hours_text=0x7f080220;
-        public static final int minus3_hours_text=0x7f08021f;
-        public static final int minus4_hours_text=0x7f08021e;
-        public static final int minus5_hours_text=0x7f08021d;
-        public static final int minus6_hours_text=0x7f08021c;
-        public static final int minus7_hours_text=0x7f08021b;
-        public static final int minus8_hours_text=0x7f08021a;
-        public static final int minus9_hours_text=0x7f080219;
-        public static final int misc_settings_text=0x7f08002a;
-        /**  Missed Call Strings 
- Missed Call Strings 
-         */
-        public static final int missed_call_at_text=0x7f080099;
-        public static final int multiple_long_text=0x7f08023a;
-        public static final int multiple_short_text=0x7f080239;
-        public static final int never_text=0x7f080246;
-        public static final int next_button_text=0x7f0800dc;
-        public static final int no_timeout_text=0x7f080193;
-        public static final int normal_text=0x7f08023d;
-        public static final int nothing_text=0x7f08018d;
-        public static final int notification_screen_settings_text=0x7f08010a;
-        public static final int notification_settings_text=0x7f08002c;
+        public static final int messaging_app_running_action_text=0x7f080172;
+        public static final int messaging_inbox_text=0x7f08007c;
+        public static final int minus10_hours_text=0x7f080270;
+        public static final int minus11_hours_text=0x7f08026f;
+        public static final int minus12_hours_text=0x7f08026e;
+        public static final int minus1_hour_text=0x7f080279;
+        public static final int minus2_hours_text=0x7f080278;
+        public static final int minus3_hours_text=0x7f080277;
+        public static final int minus4_hours_text=0x7f080276;
+        public static final int minus5_hours_text=0x7f080275;
+        public static final int minus6_hours_text=0x7f080274;
+        public static final int minus7_hours_text=0x7f080273;
+        public static final int minus8_hours_text=0x7f080272;
+        public static final int minus9_hours_text=0x7f080271;
+        public static final int misc_settings_text=0x7f080036;
+        public static final int missed_call_at_text=0x7f0800b0;
+        public static final int multiple_long_text=0x7f080292;
+        public static final int multiple_short_text=0x7f080291;
+        public static final int never_text=0x7f08029e;
+        public static final int next_button_text=0x7f0800ff;
+        public static final int no_timeout_text=0x7f0801d8;
+        public static final int normal_text=0x7f080295;
+        public static final int nothing_text=0x7f0801d3;
+        public static final int notification_body_settings_text=0x7f08003a;
+        public static final int notification_header_settings_text=0x7f08003b;
+        public static final int notification_screen_settings_text=0x7f08011d;
+        public static final int notification_settings_text=0x7f080038;
+        public static final int notification_type_info_settings_text=0x7f08004b;
         public static final int ok_text=0x7f08000b;
-        public static final int only_when_in_vibrate_mode_text=0x7f080247;
-        public static final int parse_sms_directly_text=0x7f080199;
-        public static final int phone_number_error_text=0x7f080042;
-        public static final int plus10_hours_text=0x7f08022c;
-        public static final int plus11_hours_text=0x7f08022d;
-        public static final int plus12_hours_text=0x7f08022e;
-        public static final int plus1_hour_text=0x7f080223;
-        public static final int plus2_hours_text=0x7f080224;
-        public static final int plus3_hours_text=0x7f080225;
-        public static final int plus4_hours_text=0x7f080226;
-        public static final int plus5_hours_text=0x7f080227;
-        public static final int plus6_hours_text=0x7f080228;
-        public static final int plus7_hours_text=0x7f080229;
-        public static final int plus8_hours_text=0x7f08022a;
-        public static final int plus9_hours_text=0x7f08022b;
-        public static final int preference_about_summary=0x7f08003b;
-        public static final int preference_about_text=0x7f08003c;
+        public static final int only_on_weekdays_text=0x7f080147;
+        public static final int only_on_weekends_text=0x7f080146;
+        public static final int only_when_in_vibrate_mode_text=0x7f08029f;
+        public static final int parse_sms_directly_text=0x7f0801df;
+        public static final int phone_number_error_text=0x7f080068;
+        public static final int plus10_hours_text=0x7f080284;
+        public static final int plus11_hours_text=0x7f080285;
+        public static final int plus12_hours_text=0x7f080286;
+        public static final int plus1_hour_text=0x7f08027b;
+        public static final int plus2_hours_text=0x7f08027c;
+        public static final int plus3_hours_text=0x7f08027d;
+        public static final int plus4_hours_text=0x7f08027e;
+        public static final int plus5_hours_text=0x7f08027f;
+        public static final int plus6_hours_text=0x7f080280;
+        public static final int plus7_hours_text=0x7f080281;
+        public static final int plus8_hours_text=0x7f080282;
+        public static final int plus9_hours_text=0x7f080283;
+        public static final int preference_about_summary=0x7f080061;
+        public static final int preference_about_text=0x7f080062;
         public static final int preference_appenabled_summaryOff=0x7f080009;
         public static final int preference_appenabled_summaryOn=0x7f080008;
         public static final int preference_appenabled_title=0x7f080007;
-        public static final int preference_blur_screen_background_enabled_summaryOff=0x7f080114;
-        public static final int preference_blur_screen_background_enabled_summaryOn=0x7f080113;
-        public static final int preference_blur_screen_background_enabled_title=0x7f080112;
-        public static final int preference_button_icons_enabled_summaryOff=0x7f0800f1;
-        public static final int preference_button_icons_enabled_summaryOn=0x7f0800f0;
-        public static final int preference_button_icons_enabled_title=0x7f0800ef;
-        public static final int preference_calendar_all_day_notify_day_of_time_summary=0x7f0800c8;
-        public static final int preference_calendar_all_day_notify_day_of_time_title=0x7f0800c7;
-        public static final int preference_calendar_dismiss_button_action_summary=0x7f0800bf;
-        public static final int preference_calendar_enabled_summaryOff=0x7f0800b6;
-        public static final int preference_calendar_enabled_summaryOn=0x7f0800b5;
-        public static final int preference_calendar_enabled_title=0x7f0800b4;
-        public static final int preference_calendar_event_body_font_size_summary=0x7f0800ce;
-        public static final int preference_calendar_event_body_font_size_title=0x7f0800cd;
-        public static final int preference_calendar_hide_contact_photo_enabled_summaryOff=0x7f0800d0;
-        public static final int preference_calendar_hide_contact_photo_enabled_summaryOn=0x7f0800cf;
-        public static final int preference_calendar_labels_enabled_summaryOff=0x7f0800bd;
-        public static final int preference_calendar_labels_enabled_summaryOn=0x7f0800bc;
-        public static final int preference_calendar_labels_enabled_title=0x7f0800bb;
-        public static final int preference_calendar_notifications=0x7f0800be;
-        public static final int preference_calendar_polling_frequency_summary=0x7f0800b8;
-        public static final int preference_calendar_polling_frequency_title=0x7f0800b7;
-        public static final int preference_calendar_reminders_enabled_summaryOff=0x7f0800cb;
-        public static final int preference_calendar_reminders_enabled_summaryOn=0x7f0800ca;
-        public static final int preference_calendar_reminders_enabled_title=0x7f0800c9;
-        public static final int preference_calendar_selection_summary=0x7f0800ba;
-        public static final int preference_calendar_selection_title=0x7f0800b9;
-        public static final int preference_call_log_timeout=0x7f0800a4;
-        public static final int preference_call_log_timeout_summary=0x7f0800a5;
-        public static final int preference_confirm_mms_deletion_enabled_summaryOff=0x7f08008b;
-        public static final int preference_confirm_mms_deletion_enabled_summaryOn=0x7f08008a;
-        public static final int preference_confirm_mms_deletion_enabled_title=0x7f080089;
-        public static final int preference_confirm_sms_deletion_enabled_summaryOff=0x7f08006a;
-        public static final int preference_confirm_sms_deletion_enabled_summaryOn=0x7f080069;
-        public static final int preference_confirm_sms_deletion_enabled_title=0x7f080068;
-        public static final int preference_contact_placeholder_image=0x7f080038;
-        public static final int preference_contact_placeholder_image_summary=0x7f080039;
-        public static final int preference_delete_button_action=0x7f080105;
-        public static final int preference_dim_screen_background_amount=0x7f080118;
-        public static final int preference_dim_screen_background_amount_summary=0x7f080119;
-        public static final int preference_dim_screen_background_enabled_summaryOff=0x7f080117;
-        public static final int preference_dim_screen_background_enabled_summaryOn=0x7f080116;
-        public static final int preference_dim_screen_background_enabled_title=0x7f080115;
-        public static final int preference_dismiss_button_action=0x7f080104;
-        public static final int preference_event_reminder_all_day_settings=0x7f0800c5;
-        public static final int preference_event_reminder_all_day_summary=0x7f0800c6;
-        public static final int preference_event_reminder_settings=0x7f0800c3;
-        public static final int preference_event_reminder_summary=0x7f0800c4;
-        public static final int preference_export_preferences_error_text=0x7f080133;
-        public static final int preference_export_preferences_finish_text=0x7f080132;
-        public static final int preference_export_preferences_progress_text=0x7f080131;
-        public static final int preference_export_preferences_summary=0x7f080130;
-        public static final int preference_export_preferences_title=0x7f08012f;
-        public static final int preference_haptic_feedback_summaryOff=0x7f08003f;
-        public static final int preference_haptic_feedback_summaryOn=0x7f08003e;
-        /**  Haptic Feedback Strings 
- Haptic Feedback Strings 
+        public static final int preference_blur_screen_background_enabled_summaryOff=0x7f080127;
+        public static final int preference_blur_screen_background_enabled_summaryOn=0x7f080126;
+        public static final int preference_blur_screen_background_enabled_title=0x7f080125;
+        public static final int preference_button_style_summary=0x7f080118;
+        /**  Button Style Strings 
          */
-        public static final int preference_haptic_feedback_title=0x7f08003d;
-        public static final int preference_hide_call_button_enabled_summaryOff=0x7f0800fd;
-        public static final int preference_hide_call_button_enabled_summaryOn=0x7f0800fc;
-        public static final int preference_hide_call_button_enabled_title=0x7f0800fb;
-        public static final int preference_hide_cancel_button_enabled_summaryOff=0x7f080103;
-        public static final int preference_hide_cancel_button_enabled_summaryOn=0x7f080102;
-        public static final int preference_hide_cancel_button_enabled_title=0x7f080101;
-        public static final int preference_hide_delete_button_enabled_summaryOff=0x7f0800f7;
-        public static final int preference_hide_delete_button_enabled_summaryOn=0x7f0800f6;
-        public static final int preference_hide_delete_button_enabled_title=0x7f0800f5;
-        public static final int preference_hide_dismiss_button_enabled_summaryOff=0x7f0800f4;
-        public static final int preference_hide_dismiss_button_enabled_summaryOn=0x7f0800f3;
-        public static final int preference_hide_dismiss_button_enabled_title=0x7f0800f2;
-        public static final int preference_hide_reply_button_enabled_summaryOff=0x7f0800fa;
-        public static final int preference_hide_reply_button_enabled_summaryOn=0x7f0800f9;
-        public static final int preference_hide_reply_button_enabled_title=0x7f0800f8;
-        public static final int preference_hide_single_message_header_enabled_summaryOff=0x7f080142;
-        public static final int preference_hide_single_message_header_enabled_summaryOn=0x7f080141;
-        public static final int preference_hide_single_message_header_enabled_title=0x7f080140;
-        public static final int preference_hide_view_button_enabled_summaryOff=0x7f080100;
-        public static final int preference_hide_view_button_enabled_summaryOn=0x7f0800ff;
-        public static final int preference_hide_view_button_enabled_title=0x7f0800fe;
-        public static final int preference_import_preferences_error_text=0x7f080138;
-        public static final int preference_import_preferences_finish_text=0x7f080137;
-        public static final int preference_import_preferences_progress_text=0x7f080136;
-        public static final int preference_import_preferences_summary=0x7f080135;
-        public static final int preference_import_preferences_title=0x7f080134;
-        public static final int preference_keyguard_enabled_summaryOff=0x7f080121;
-        public static final int preference_keyguard_enabled_summaryOn=0x7f080120;
-        /**  Keyguard Strings 
- Keyguard Strings 
+        public static final int preference_button_style_title=0x7f080117;
+        public static final int preference_calendar_all_day_notify_day_of_time_summary=0x7f0800d7;
+        public static final int preference_calendar_all_day_notify_day_of_time_title=0x7f0800d6;
+        public static final int preference_calendar_dismiss_button_action_summary=0x7f0800ce;
+        public static final int preference_calendar_enabled_summaryOff=0x7f0800c5;
+        public static final int preference_calendar_enabled_summaryOn=0x7f0800c4;
+        public static final int preference_calendar_enabled_title=0x7f0800c3;
+        public static final int preference_calendar_event_body_font_size_summary=0x7f0800dd;
+        public static final int preference_calendar_event_body_font_size_title=0x7f0800dc;
+        public static final int preference_calendar_labels_enabled_summaryOff=0x7f0800cc;
+        public static final int preference_calendar_labels_enabled_summaryOn=0x7f0800cb;
+        public static final int preference_calendar_labels_enabled_title=0x7f0800ca;
+        public static final int preference_calendar_notifications=0x7f0800cd;
+        public static final int preference_calendar_polling_frequency_summary=0x7f0800c7;
+        public static final int preference_calendar_polling_frequency_title=0x7f0800c6;
+        public static final int preference_calendar_reminders_enabled_summaryOff=0x7f0800da;
+        public static final int preference_calendar_reminders_enabled_summaryOn=0x7f0800d9;
+        public static final int preference_calendar_reminders_enabled_title=0x7f0800d8;
+        public static final int preference_calendar_selection_summary=0x7f0800c9;
+        public static final int preference_calendar_selection_title=0x7f0800c8;
+        public static final int preference_call_log_timeout=0x7f0800bb;
+        public static final int preference_call_log_timeout_summary=0x7f0800bc;
+        public static final int preference_center_align_body_text_summary=0x7f080042;
+        /**  Notification Body Strings 
          */
-        public static final int preference_keyguard_enabled_title=0x7f08011f;
-        public static final int preference_landscape_screen_enabled_summaryOff=0x7f08011c;
-        public static final int preference_landscape_screen_enabled_summaryOn=0x7f08011b;
-        public static final int preference_landscape_screen_enabled_title=0x7f08011a;
-        public static final int preference_led_color_blue=0x7f080183;
-        public static final int preference_led_color_green=0x7f080182;
-        /**  Status Bar Notification Custom LED Color Dialog Strings 
- Status Bar Notification Custom LED Color Dialog Strings 
+        public static final int preference_center_align_body_text_title=0x7f080041;
+        public static final int preference_confirm_k9_deletion_enabled_summaryOff=0x7f0800f5;
+        public static final int preference_confirm_k9_deletion_enabled_summaryOn=0x7f0800f4;
+        public static final int preference_confirm_k9_deletion_enabled_title=0x7f0800f3;
+        public static final int preference_confirm_mms_deletion_enabled_summaryOff=0x7f0800a6;
+        public static final int preference_confirm_mms_deletion_enabled_summaryOn=0x7f0800a5;
+        public static final int preference_confirm_mms_deletion_enabled_title=0x7f0800a4;
+        public static final int preference_confirm_sms_deletion_enabled_summaryOff=0x7f08008d;
+        public static final int preference_confirm_sms_deletion_enabled_summaryOn=0x7f08008c;
+        public static final int preference_confirm_sms_deletion_enabled_title=0x7f08008b;
+        public static final int preference_contact_name_font_size_summary=0x7f080054;
+        public static final int preference_contact_name_font_size_title=0x7f080053;
+        public static final int preference_contact_number_font_size_summary=0x7f080058;
+        public static final int preference_contact_number_font_size_title=0x7f080057;
+        public static final int preference_contact_photo_background=0x7f08005b;
+        public static final int preference_contact_photo_background_summary=0x7f08005c;
+        public static final int preference_contact_photo_size=0x7f08005e;
+        public static final int preference_contact_photo_size_summary=0x7f08005f;
+        public static final int preference_contact_placeholder_image=0x7f080059;
+        public static final int preference_contact_placeholder_image_summary=0x7f08005a;
+        /**  Date Format Strings 
          */
-        public static final int preference_led_color_red=0x7f080181;
-        public static final int preference_led_color_set=0x7f080184;
-        public static final int preference_led_color_summary=0x7f080180;
-        /**  Status Bar Notification LED Color Strings 
- Status Bar Notification LED Color Strings 
-         */
-        public static final int preference_led_color_title=0x7f08017f;
-        public static final int preference_led_enabled_summaryOff=0x7f080177;
-        /**  Status Bar Notification LED Pattern Strings 
- Status Bar Notification LED Pattern Strings 
-         */
-        public static final int preference_led_enabled_summaryOn=0x7f080176;
-        public static final int preference_led_enabled_title=0x7f080175;
-        /**  Status Bar Notification Custom LED Pattern Dialog Strings 
- Status Bar Notification Custom LED Pattern Dialog Strings 
-         */
-        public static final int preference_led_pattern_dialog=0x7f08017a;
-        public static final int preference_led_pattern_error=0x7f08017e;
-        public static final int preference_led_pattern_off=0x7f08017c;
-        public static final int preference_led_pattern_on=0x7f08017b;
-        public static final int preference_led_pattern_set=0x7f08017d;
-        public static final int preference_led_pattern_summary=0x7f080179;
-        public static final int preference_led_pattern_title=0x7f080178;
-        public static final int preference_missed_call_dismiss_button_action_summary=0x7f0800a1;
-        public static final int preference_missed_call_enabled_summaryOff=0x7f08009f;
-        public static final int preference_missed_call_enabled_summaryOn=0x7f08009e;
-        public static final int preference_missed_call_enabled_title=0x7f08009d;
-        public static final int preference_missed_call_hide_contact_name_enabled_summaryOff=0x7f0800ac;
-        public static final int preference_missed_call_hide_contact_name_enabled_summaryOn=0x7f0800ab;
-        public static final int preference_missed_call_hide_contact_number_enabled_summaryOff=0x7f0800ae;
-        public static final int preference_missed_call_hide_contact_number_enabled_summaryOn=0x7f0800ad;
-        public static final int preference_missed_call_hide_contact_panel_enabled_summaryOff=0x7f0800a8;
-        public static final int preference_missed_call_hide_contact_panel_enabled_summaryOn=0x7f0800a7;
-        public static final int preference_missed_call_hide_contact_photo_enabled_summaryOff=0x7f0800aa;
-        public static final int preference_missed_call_hide_contact_photo_enabled_summaryOn=0x7f0800a9;
-        public static final int preference_missed_call_loading_summary=0x7f0800a3;
-        public static final int preference_missed_call_loading_title=0x7f0800a2;
-        public static final int preference_missed_call_notifications=0x7f0800a0;
-        public static final int preference_mms_delete_button_action_summary=0x7f080087;
-        public static final int preference_mms_dismiss_button_action_summary=0x7f080086;
-        public static final int preference_mms_display_unread_enabled_summaryOff=0x7f08007f;
-        public static final int preference_mms_display_unread_enabled_summaryOn=0x7f08007e;
-        public static final int preference_mms_display_unread_enabled_title=0x7f08007d;
-        public static final int preference_mms_enabled_summaryOff=0x7f08007c;
-        public static final int preference_mms_enabled_summaryOn=0x7f08007b;
-        /**  MMS Strings 
- MMS Strings 
-         */
-        public static final int preference_mms_enabled_title=0x7f08007a;
-        public static final int preference_mms_hide_contact_name_enabled_summaryOff=0x7f080094;
-        public static final int preference_mms_hide_contact_name_enabled_summaryOn=0x7f080093;
-        public static final int preference_mms_hide_contact_number_enabled_summaryOff=0x7f080096;
-        public static final int preference_mms_hide_contact_number_enabled_summaryOn=0x7f080095;
-        public static final int preference_mms_hide_contact_panel_enabled_summaryOff=0x7f080090;
-        public static final int preference_mms_hide_contact_panel_enabled_summaryOn=0x7f08008f;
-        public static final int preference_mms_hide_contact_photo_enabled_summaryOff=0x7f080092;
-        public static final int preference_mms_hide_contact_photo_enabled_summaryOn=0x7f080091;
-        public static final int preference_mms_hide_message_body_enabled_summaryOff=0x7f080082;
-        public static final int preference_mms_hide_message_body_enabled_summaryOn=0x7f080081;
-        public static final int preference_mms_hide_message_body_enabled_title=0x7f080080;
-        public static final int preference_mms_message_body_font_size_summary=0x7f080084;
-        public static final int preference_mms_message_body_font_size_title=0x7f080083;
-        public static final int preference_mms_notifications=0x7f080085;
-        public static final int preference_mms_reply_button_action_summary=0x7f080088;
-        public static final int preference_mms_timeout=0x7f08008c;
-        public static final int preference_mms_timeout_summary=0x7f08008d;
-        public static final int preference_mms_timestamp_adjustment_summary=0x7f080098;
-        public static final int preference_mms_timestamp_adjustment_title=0x7f080097;
-        public static final int preference_notification_count_button_action=0x7f080107;
-        public static final int preference_notification_count_button_action_summary=0x7f080108;
-        /**  Status Bar Notification Icon Strings 
- Status Bar Notification Icon Strings 
-         */
-        public static final int preference_notification_icon_settings_text=0x7f080166;
-        public static final int preference_notification_icon_summary=0x7f080168;
-        public static final int preference_notification_icon_text=0x7f080167;
-        /**  Status Bar Notification In Call Strings 
- Status Bar Notification In Call Strings 
-         */
-        public static final int preference_notification_in_call_settings_text=0x7f080185;
-        public static final int preference_notification_in_call_sound_enable_summaryOff=0x7f080188;
-        public static final int preference_notification_in_call_sound_enable_summaryOn=0x7f080187;
-        public static final int preference_notification_in_call_sound_enable_title=0x7f080186;
-        public static final int preference_notification_in_call_vibrate_enable_summaryOff=0x7f08018b;
-        public static final int preference_notification_in_call_vibrate_enable_summaryOn=0x7f08018a;
-        public static final int preference_notification_in_call_vibrate_enable_title=0x7f080189;
-        /**  Status Bar Notification LED Strings 
- Status Bar Notification LED Strings 
-         */
-        public static final int preference_notification_led_settings_text=0x7f080174;
-        public static final int preference_notification_settings=0x7f080164;
-        public static final int preference_notification_settings_summary=0x7f080165;
-        /**  Status Bar Notification Sound Strings 
- Status Bar Notification Sound Strings 
-         */
-        public static final int preference_notification_sound_settings_text=0x7f080169;
-        public static final int preference_notification_sound_summary=0x7f08016b;
-        public static final int preference_notification_sound_title=0x7f08016a;
-        /**  Status Bar Notification Vibrate Strings 
- Status Bar Notification Vibrate Strings 
-         */
-        public static final int preference_notification_vibrate_settings_text=0x7f08016c;
-        public static final int preference_notifications_enabled_summaryOff=0x7f080161;
-        public static final int preference_notifications_enabled_summaryOn=0x7f080160;
-        public static final int preference_notifications_enabled_title=0x7f08015f;
-        public static final int preference_notifications_show_when_blocked_enabled_summary=0x7f080163;
-        public static final int preference_notifications_show_when_blocked_enabled_title=0x7f080162;
-        /**  Phone Number Format Strings 
- Phone Number Format Strings 
-         */
-        public static final int preference_phone_number_format=0x7f080122;
-        public static final int preference_phone_number_format_summary=0x7f080123;
-        public static final int preference_quick_reply_blur_screen_background_enabled_summaryOff=0x7f08004d;
-        public static final int preference_quick_reply_blur_screen_background_enabled_summaryOn=0x7f08004c;
-        public static final int preference_quick_reply_dim_screen_background_enabled_summaryOff=0x7f08004f;
-        public static final int preference_quick_reply_dim_screen_background_enabled_summaryOn=0x7f08004e;
-        public static final int preference_quick_reply_sms_gateway=0x7f080053;
-        public static final int preference_quick_reply_sms_gateway_summary=0x7f080054;
-        public static final int preference_reply_button_action=0x7f080106;
-        public static final int preference_reschedule_notifications_enabled_summaryOff=0x7f08013b;
-        public static final int preference_reschedule_notifications_enabled_summaryOn=0x7f08013a;
-        public static final int preference_reschedule_timeout_summary=0x7f08013e;
-        public static final int preference_save_draft_enabled_summaryOff=0x7f080052;
-        public static final int preference_save_draft_enabled_summaryOn=0x7f080051;
-        public static final int preference_save_draft_enabled_title=0x7f080050;
-        public static final int preference_screen_dim_enabled_summaryOff=0x7f080111;
-        public static final int preference_screen_dim_enabled_summaryOn=0x7f080110;
-        public static final int preference_screen_dim_enabled_title=0x7f08010f;
-        public static final int preference_screen_enabled_summaryOff=0x7f08010e;
-        public static final int preference_screen_enabled_summaryOn=0x7f08010d;
-        public static final int preference_screen_enabled_title=0x7f08010c;
-        public static final int preference_screen_settings=0x7f08010b;
-        public static final int preference_screen_timeout=0x7f08011d;
-        public static final int preference_screen_timeout_summary=0x7f08011e;
-        public static final int preference_sms_delete_button_action_summary=0x7f080063;
-        public static final int preference_sms_dismiss_button_action_summary=0x7f080062;
-        public static final int preference_sms_display_unread_enabled_summaryOff=0x7f08005b;
-        public static final int preference_sms_display_unread_enabled_summaryOn=0x7f08005a;
-        public static final int preference_sms_display_unread_enabled_title=0x7f080059;
-        public static final int preference_sms_enabled_summaryOff=0x7f080058;
-        public static final int preference_sms_enabled_summaryOn=0x7f080057;
-        public static final int preference_sms_enabled_title=0x7f080056;
-        public static final int preference_sms_hide_contact_name_enabled_summaryOff=0x7f080073;
-        public static final int preference_sms_hide_contact_name_enabled_summaryOn=0x7f080072;
-        public static final int preference_sms_hide_contact_number_enabled_summaryOff=0x7f080075;
-        public static final int preference_sms_hide_contact_number_enabled_summaryOn=0x7f080074;
-        public static final int preference_sms_hide_contact_panel_enabled_summaryOff=0x7f08006f;
-        public static final int preference_sms_hide_contact_panel_enabled_summaryOn=0x7f08006e;
-        public static final int preference_sms_hide_contact_photo_enabled_summaryOff=0x7f080071;
-        public static final int preference_sms_hide_contact_photo_enabled_summaryOn=0x7f080070;
-        public static final int preference_sms_hide_message_body_enabled_summaryOff=0x7f08005e;
-        public static final int preference_sms_hide_message_body_enabled_summaryOn=0x7f08005d;
-        public static final int preference_sms_hide_message_body_enabled_title=0x7f08005c;
-        public static final int preference_sms_loading_summary=0x7f080077;
-        public static final int preference_sms_loading_title=0x7f080076;
-        public static final int preference_sms_message_body_font_size_summary=0x7f080060;
-        public static final int preference_sms_message_body_font_size_title=0x7f08005f;
-        public static final int preference_sms_notifications=0x7f080061;
-        public static final int preference_sms_reply_button_action_summary=0x7f080064;
-        public static final int preference_sms_ringtone_enabled_summaryOff=0x7f080067;
-        public static final int preference_sms_ringtone_enabled_summaryOn=0x7f080066;
-        public static final int preference_sms_ringtone_enabled_title=0x7f080065;
-        public static final int preference_sms_timeout=0x7f08006b;
-        public static final int preference_sms_timeout_summary=0x7f08006c;
-        public static final int preference_sms_timestamp_adjustment_summary=0x7f080079;
-        public static final int preference_sms_timestamp_adjustment_title=0x7f080078;
-        public static final int preference_theme_summary=0x7f08012d;
-        /**  Twitter Strings 
- Twitter Strings 
-         */
-        public static final int preference_twitter_enabled_title=0x7f0800d1;
-        /**  Status Bar Notification Custom Vibrate Dialog Strings 
- Status Bar Notification Custom Vibrate Dialog Strings 
-         */
-        public static final int preference_vibrate_pattern_dialog=0x7f080171;
-        public static final int preference_vibrate_pattern_error=0x7f080173;
-        public static final int preference_vibrate_pattern_set=0x7f080172;
-        public static final int preference_vibrate_pattern_summary=0x7f080170;
-        public static final int preference_vibrate_pattern_title=0x7f08016f;
-        public static final int preference_vibrate_setting_summary=0x7f08016e;
-        public static final int preference_vibrate_setting_title=0x7f08016d;
-        public static final int previous_button_text=0x7f0800dd;
-        /**  Quick Reply Strings 
- Quick Reply Strings 
-         */
-        public static final int quick_reply=0x7f080040;
-        public static final int quick_reply_button_text=0x7f0800da;
-        public static final int quick_reply_settings_text=0x7f08002d;
-        public static final int rate_app_summary=0x7f080128;
-        /**  Rate App Strings 
- Rate App Strings 
-         */
-        public static final int rate_app_text=0x7f080127;
-        public static final int read_sms_from_disk_text=0x7f08019a;
-        public static final int red_text=0x7f08023f;
-        public static final int reply_button_text=0x7f0800d9;
-        public static final int reschedule_notification_text=0x7f08019b;
+        public static final int preference_date_format=0x7f08013b;
+        public static final int preference_date_format_summary=0x7f08013c;
+        public static final int preference_delete_button_action=0x7f080113;
+        public static final int preference_dim_screen_background_amount=0x7f08012b;
+        public static final int preference_dim_screen_background_amount_summary=0x7f08012c;
+        public static final int preference_dim_screen_background_enabled_summaryOff=0x7f08012a;
+        public static final int preference_dim_screen_background_enabled_summaryOn=0x7f080129;
+        public static final int preference_dim_screen_background_enabled_title=0x7f080128;
+        public static final int preference_dismiss_button_action=0x7f080112;
+        public static final int preference_display_call_button_summary=0x7f08010d;
+        public static final int preference_display_call_button_title=0x7f08010c;
+        public static final int preference_display_cancel_button_summary=0x7f080111;
+        public static final int preference_display_cancel_button_title=0x7f080110;
+        public static final int preference_display_contact_name_summary=0x7f080052;
+        public static final int preference_display_contact_name_title=0x7f080051;
+        public static final int preference_display_contact_number_summary=0x7f080056;
+        public static final int preference_display_contact_number_title=0x7f080055;
+        public static final int preference_display_contact_photo_summaryOff=0x7f080050;
+        public static final int preference_display_contact_photo_summaryOn=0x7f08004f;
+        public static final int preference_display_contact_photo_title=0x7f08004e;
+        public static final int preference_display_delete_button_summary=0x7f080109;
+        public static final int preference_display_delete_button_title=0x7f080108;
+        public static final int preference_display_dismiss_button_summary=0x7f080107;
+        public static final int preference_display_dismiss_button_title=0x7f080106;
+        public static final int preference_display_reply_button_summary=0x7f08010b;
+        public static final int preference_display_reply_button_title=0x7f08010a;
+        public static final int preference_display_reschedule_button_summary=0x7f080161;
         /**  Reschedule Strings 
- Reschedule Strings 
          */
-        public static final int reschedule_notifications_text=0x7f080139;
-        public static final int reschedule_settings_text=0x7f08013c;
-        public static final int reschedule_tinmeout_text=0x7f08013d;
-        public static final int s10_am_text=0x7f0801f5;
-        public static final int s10_hours_before_text=0x7f0801dd;
-        public static final int s10_hours_text=0x7f0801c4;
-        public static final int s10_minutes_before_text=0x7f0801ca;
-        public static final int s10_minutes_text=0x7f0801b5;
-        public static final int s10_pm_text=0x7f080201;
-        public static final int s10_seconds_text=0x7f0801a7;
-        public static final int s11_am_text=0x7f0801f6;
-        public static final int s11_hours_before_text=0x7f0801de;
-        public static final int s11_hours_text=0x7f0801c5;
-        public static final int s11_pm_text=0x7f080202;
-        public static final int s12_am_text=0x7f0801f7;
-        public static final int s12_hours_before_text=0x7f0801df;
-        public static final int s12_hours_text=0x7f0801c6;
-        public static final int s12_pm_text=0x7f080203;
-        public static final int s13_hours_before_text=0x7f0801e0;
-        public static final int s14_hours_before_text=0x7f0801e1;
-        public static final int s15_hours_before_text=0x7f0801e2;
-        public static final int s15_minutes_before_text=0x7f0801cb;
-        public static final int s15_minutes_text=0x7f0801b6;
-        public static final int s15_seconds_text=0x7f0801a8;
-        public static final int s16_hours_before_text=0x7f0801e3;
-        public static final int s17_hours_before_text=0x7f0801e4;
-        public static final int s18_hours_before_text=0x7f0801e5;
-        public static final int s19_hours_before_text=0x7f0801e6;
-        public static final int s1_am_text=0x7f0801ec;
-        public static final int s1_hour_before_text=0x7f0801d4;
-        public static final int s1_hour_text=0x7f0801bb;
-        public static final int s1_minute_before_text=0x7f0801c8;
-        public static final int s1_minute_text=0x7f0801b0;
-        public static final int s1_pm_text=0x7f0801f8;
-        public static final int s1_second_text=0x7f08019e;
-        public static final int s20_hours_before_text=0x7f0801e7;
-        public static final int s20_minutes_before_text=0x7f0801cc;
-        public static final int s20_minutes_text=0x7f0801b7;
-        public static final int s20_seconds_text=0x7f0801a9;
-        public static final int s21_hours_before_text=0x7f0801e8;
-        public static final int s22_hours_before_text=0x7f0801e9;
-        public static final int s23_hours_before_text=0x7f0801ea;
-        public static final int s24_hours_before_text=0x7f0801eb;
-        public static final int s24_hours_text=0x7f0801c7;
-        public static final int s25_minutes_before_text=0x7f0801cd;
-        public static final int s25_minutes_text=0x7f0801b8;
-        public static final int s25_seconds_text=0x7f0801aa;
-        public static final int s2_am_text=0x7f0801ed;
-        public static final int s2_hours_before_text=0x7f0801d5;
-        public static final int s2_hours_text=0x7f0801bc;
-        public static final int s2_minutes_text=0x7f0801b1;
-        public static final int s2_pm_text=0x7f0801f9;
-        public static final int s2_seconds_text=0x7f08019f;
-        public static final int s30_minutes_before_text=0x7f0801ce;
-        public static final int s30_minutes_text=0x7f0801b9;
-        public static final int s30_seconds_text=0x7f0801ab;
-        public static final int s35_minutes_before_text=0x7f0801cf;
-        public static final int s3_am_text=0x7f0801ee;
-        public static final int s3_hours_before_text=0x7f0801d6;
-        public static final int s3_hours_text=0x7f0801bd;
-        public static final int s3_minutes_text=0x7f0801b2;
-        public static final int s3_pm_text=0x7f0801fa;
-        public static final int s3_seconds_text=0x7f0801a0;
-        public static final int s40_minutes_before_text=0x7f0801d0;
-        public static final int s40_seconds_text=0x7f0801ac;
-        public static final int s45_minutes_before_text=0x7f0801d1;
-        public static final int s45_minutes_text=0x7f0801ba;
-        public static final int s45_seconds_text=0x7f0801ad;
-        public static final int s4_am_text=0x7f0801ef;
-        public static final int s4_hours_before_text=0x7f0801d7;
-        public static final int s4_hours_text=0x7f0801be;
-        public static final int s4_minutes_text=0x7f0801b3;
-        public static final int s4_pm_text=0x7f0801fb;
-        public static final int s4_seconds_text=0x7f0801a1;
-        public static final int s50_minutes_before_text=0x7f0801d2;
-        public static final int s50_seconds_text=0x7f0801ae;
-        public static final int s55_minutes_before_text=0x7f0801d3;
-        public static final int s5_am_text=0x7f0801f0;
-        public static final int s5_hours_before_text=0x7f0801d8;
-        public static final int s5_hours_text=0x7f0801bf;
-        public static final int s5_minutes_before_text=0x7f0801c9;
-        public static final int s5_minutes_text=0x7f0801b4;
-        public static final int s5_pm_text=0x7f0801fc;
-        public static final int s5_seconds_text=0x7f0801a2;
-        public static final int s60_seconds_text=0x7f0801af;
-        public static final int s6_am_text=0x7f0801f1;
-        public static final int s6_hours_before_text=0x7f0801d9;
-        public static final int s6_hours_text=0x7f0801c0;
-        public static final int s6_pm_text=0x7f0801fd;
-        public static final int s6_seconds_text=0x7f0801a3;
-        public static final int s7_am_text=0x7f0801f2;
-        public static final int s7_hours_before_text=0x7f0801da;
-        public static final int s7_hours_text=0x7f0801c1;
-        public static final int s7_pm_text=0x7f0801fe;
-        public static final int s7_seconds_text=0x7f0801a4;
-        public static final int s8_am_text=0x7f0801f3;
-        public static final int s8_hours_before_text=0x7f0801db;
-        public static final int s8_hours_text=0x7f0801c2;
-        public static final int s8_pm_text=0x7f0801ff;
-        public static final int s8_seconds_text=0x7f0801a5;
-        public static final int s9_am_text=0x7f0801f4;
-        public static final int s9_hours_before_text=0x7f0801dc;
-        public static final int s9_hours_text=0x7f0801c3;
-        public static final int s9_pm_text=0x7f080200;
-        public static final int s9_seconds_text=0x7f0801a6;
-        public static final int select_number_text=0x7f08009a;
-        public static final int select_number_to_call_text=0x7f08009b;
-        public static final int select_number_to_text_text=0x7f08009c;
-        public static final int send_button_text=0x7f0800df;
-        public static final int short_vibrate_text=0x7f080237;
-        public static final int show_hide_button_settings_text=0x7f0800ee;
-        public static final int show_notification_text=0x7f08019d;
-        public static final int size_10_text=0x7f080206;
-        public static final int size_11_text=0x7f080207;
-        public static final int size_12_text=0x7f080208;
-        public static final int size_13_text=0x7f080209;
-        public static final int size_14_text=0x7f08020a;
-        public static final int size_15_text=0x7f08020b;
-        public static final int size_16_text=0x7f08020c;
-        public static final int size_17_text=0x7f08020d;
-        public static final int size_18_text=0x7f08020e;
-        public static final int size_19_text=0x7f08020f;
-        public static final int size_20_text=0x7f080210;
-        public static final int size_21_text=0x7f080211;
-        public static final int size_22_text=0x7f080212;
-        public static final int size_23_text=0x7f080213;
-        public static final int size_24_text=0x7f080214;
-        public static final int size_25_text=0x7f080215;
-        public static final int size_8_text=0x7f080204;
-        public static final int size_9_text=0x7f080205;
-        public static final int slow_text=0x7f08023e;
-        public static final int sms_gateway_aql_b_text=0x7f080234;
-        public static final int sms_gateway_aql_text=0x7f080233;
-        public static final int sms_gateway_att_b_text=0x7f080232;
-        public static final int sms_gateway_att_text=0x7f080231;
-        public static final int sms_gateway_ics_text=0x7f080236;
-        public static final int sms_gateway_sprint_text=0x7f08022f;
-        public static final int sms_gateway_tmobile_b_text=0x7f080235;
-        public static final int sms_gateway_tmobile_text=0x7f080230;
-        public static final int status_bar_notification_content_text_calendar=0x7f08014d;
-        public static final int status_bar_notification_content_text_facebook=0x7f080150;
-        public static final int status_bar_notification_content_text_gmail=0x7f08014e;
-        public static final int status_bar_notification_content_text_mms=0x7f08014b;
-        public static final int status_bar_notification_content_text_phone=0x7f08014c;
-        public static final int status_bar_notification_content_text_sms=0x7f08014a;
-        public static final int status_bar_notification_content_text_twitter=0x7f08014f;
-        public static final int status_bar_notification_content_title_text_calendar=0x7f080146;
-        public static final int status_bar_notification_content_title_text_facebook=0x7f080149;
-        public static final int status_bar_notification_content_title_text_gmail=0x7f080147;
-        public static final int status_bar_notification_content_title_text_mms=0x7f080144;
-        public static final int status_bar_notification_content_title_text_phone=0x7f080145;
+        public static final int preference_display_reschedule_button_title=0x7f080160;
+        public static final int preference_display_text_to_speech_button_summary=0x7f0801d1;
+        public static final int preference_display_text_to_speech_button_title=0x7f0801d0;
+        public static final int preference_display_view_button_summary=0x7f08010f;
+        public static final int preference_display_view_button_title=0x7f08010e;
+        public static final int preference_event_reminder_all_day_settings=0x7f0800d4;
+        public static final int preference_event_reminder_all_day_summary=0x7f0800d5;
+        public static final int preference_event_reminder_settings=0x7f0800d2;
+        public static final int preference_event_reminder_summary=0x7f0800d3;
+        public static final int preference_export_preferences_error_text=0x7f08015a;
+        public static final int preference_export_preferences_finish_text=0x7f080159;
+        public static final int preference_export_preferences_progress_text=0x7f080158;
+        public static final int preference_export_preferences_summary=0x7f080157;
+        public static final int preference_export_preferences_title=0x7f080156;
+        public static final int preference_haptic_feedback_summaryOff=0x7f080065;
+        public static final int preference_haptic_feedback_summaryOn=0x7f080064;
+        /**  Haptic Feedback Strings 
+         */
+        public static final int preference_haptic_feedback_title=0x7f080063;
+        public static final int preference_hide_notification_body_enabled_summaryOff=0x7f080047;
+        public static final int preference_hide_notification_body_enabled_summaryOn=0x7f080046;
+        public static final int preference_hide_notification_body_enabled_title=0x7f080045;
+        public static final int preference_hide_single_message_header_enabled_summaryOff=0x7f080175;
+        public static final int preference_hide_single_message_header_enabled_summaryOn=0x7f080174;
+        public static final int preference_hide_single_message_header_enabled_title=0x7f080173;
+        public static final int preference_import_preferences_error_text=0x7f08015f;
+        public static final int preference_import_preferences_finish_text=0x7f08015e;
+        public static final int preference_import_preferences_progress_text=0x7f08015d;
+        public static final int preference_import_preferences_summary=0x7f08015c;
+        public static final int preference_import_preferences_title=0x7f08015b;
+        public static final int preference_k9_delete_button_action_summary=0x7f0800f1;
+        public static final int preference_k9_dismiss_button_action_summary=0x7f0800f0;
+        public static final int preference_k9_enabled_summaryOff=0x7f0800e9;
+        public static final int preference_k9_enabled_summaryOn=0x7f0800e8;
+        /**  K9 Strings 
+         */
+        public static final int preference_k9_enabled_title=0x7f0800e7;
+        public static final int preference_k9_hide_message_body_enabled_summaryOff=0x7f0800ec;
+        public static final int preference_k9_hide_message_body_enabled_summaryOn=0x7f0800eb;
+        public static final int preference_k9_hide_message_body_enabled_title=0x7f0800ea;
+        public static final int preference_k9_message_body_font_size_summary=0x7f0800ee;
+        public static final int preference_k9_message_body_font_size_title=0x7f0800ed;
+        public static final int preference_k9_notifications=0x7f0800ef;
+        public static final int preference_k9_reply_button_action_summary=0x7f0800f2;
+        public static final int preference_keyguard_enabled_summaryOff=0x7f080134;
+        public static final int preference_keyguard_enabled_summaryOn=0x7f080133;
+        /**  Keyguard Strings 
+         */
+        public static final int preference_keyguard_enabled_title=0x7f080132;
+        public static final int preference_landscape_screen_enabled_summaryOff=0x7f08012f;
+        public static final int preference_landscape_screen_enabled_summaryOn=0x7f08012e;
+        public static final int preference_landscape_screen_enabled_title=0x7f08012d;
+        public static final int preference_led_color_blue=0x7f0801c6;
+        public static final int preference_led_color_green=0x7f0801c5;
+        /**  Status Bar Notification Custom LED Color Dialog Strings 
+         */
+        public static final int preference_led_color_red=0x7f0801c4;
+        public static final int preference_led_color_set=0x7f0801c7;
+        public static final int preference_led_color_summary=0x7f0801c3;
+        /**  Status Bar Notification LED Color Strings 
+         */
+        public static final int preference_led_color_title=0x7f0801c2;
+        public static final int preference_led_enabled_summaryOff=0x7f0801ba;
+        /**  Status Bar Notification LED Pattern Strings 
+         */
+        public static final int preference_led_enabled_summaryOn=0x7f0801b9;
+        public static final int preference_led_enabled_title=0x7f0801b8;
+        /**  Status Bar Notification Custom LED Pattern Dialog Strings 
+         */
+        public static final int preference_led_pattern_dialog=0x7f0801bd;
+        public static final int preference_led_pattern_error=0x7f0801c1;
+        public static final int preference_led_pattern_off=0x7f0801bf;
+        public static final int preference_led_pattern_on=0x7f0801be;
+        public static final int preference_led_pattern_set=0x7f0801c0;
+        public static final int preference_led_pattern_summary=0x7f0801bc;
+        public static final int preference_led_pattern_title=0x7f0801bb;
+        public static final int preference_missed_call_dismiss_button_action_summary=0x7f0800b8;
+        public static final int preference_missed_call_enabled_summaryOff=0x7f0800b6;
+        public static final int preference_missed_call_enabled_summaryOn=0x7f0800b5;
+        public static final int preference_missed_call_enabled_title=0x7f0800b4;
+        public static final int preference_missed_call_loading_summary=0x7f0800ba;
+        public static final int preference_missed_call_loading_title=0x7f0800b9;
+        public static final int preference_missed_call_notifications=0x7f0800b7;
+        public static final int preference_mms_delete_button_action_summary=0x7f0800a2;
+        public static final int preference_mms_dismiss_button_action_summary=0x7f0800a1;
+        public static final int preference_mms_display_unread_enabled_summaryOff=0x7f08009a;
+        public static final int preference_mms_display_unread_enabled_summaryOn=0x7f080099;
+        public static final int preference_mms_display_unread_enabled_title=0x7f080098;
+        public static final int preference_mms_enabled_summaryOff=0x7f080097;
+        public static final int preference_mms_enabled_summaryOn=0x7f080096;
+        /**  MMS Strings 
+         */
+        public static final int preference_mms_enabled_title=0x7f080095;
+        public static final int preference_mms_hide_message_body_enabled_summaryOff=0x7f08009d;
+        public static final int preference_mms_hide_message_body_enabled_summaryOn=0x7f08009c;
+        public static final int preference_mms_hide_message_body_enabled_title=0x7f08009b;
+        public static final int preference_mms_message_body_font_size_summary=0x7f08009f;
+        public static final int preference_mms_message_body_font_size_title=0x7f08009e;
+        public static final int preference_mms_notifications=0x7f0800a0;
+        public static final int preference_mms_reply_button_action_summary=0x7f0800a3;
+        public static final int preference_mms_timeout=0x7f0800a7;
+        public static final int preference_mms_timeout_summary=0x7f0800a8;
+        public static final int preference_mms_timestamp_adjustment_summary=0x7f0800ab;
+        public static final int preference_mms_timestamp_adjustment_title=0x7f0800aa;
+        public static final int preference_notification_body_font_size_summary=0x7f080044;
+        public static final int preference_notification_body_font_size_title=0x7f080043;
+        public static final int preference_notification_count_button_action=0x7f080115;
+        public static final int preference_notification_count_button_action_summary=0x7f080116;
+        /**  Status Bar Notification Icon Strings 
+         */
+        public static final int preference_notification_icon_settings_text=0x7f0801a9;
+        public static final int preference_notification_icon_summary=0x7f0801ab;
+        public static final int preference_notification_icon_text=0x7f0801aa;
+        /**  Status Bar Notification In Call Strings 
+         */
+        public static final int preference_notification_in_call_settings_text=0x7f0801c8;
+        public static final int preference_notification_in_call_sound_enable_summaryOff=0x7f0801cb;
+        public static final int preference_notification_in_call_sound_enable_summaryOn=0x7f0801ca;
+        public static final int preference_notification_in_call_sound_enable_title=0x7f0801c9;
+        public static final int preference_notification_in_call_vibrate_enable_summaryOff=0x7f0801ce;
+        public static final int preference_notification_in_call_vibrate_enable_summaryOn=0x7f0801cd;
+        public static final int preference_notification_in_call_vibrate_enable_title=0x7f0801cc;
+        /**  Status Bar Notification LED Strings 
+         */
+        public static final int preference_notification_led_settings_text=0x7f0801b7;
+        public static final int preference_notification_settings=0x7f0801a7;
+        public static final int preference_notification_settings_summary=0x7f0801a8;
+        /**  Status Bar Notification Sound Strings 
+         */
+        public static final int preference_notification_sound_settings_text=0x7f0801ac;
+        public static final int preference_notification_sound_summary=0x7f0801ae;
+        public static final int preference_notification_sound_title=0x7f0801ad;
+        public static final int preference_notification_type_info_icon_enabled_summaryOff=0x7f08004a;
+        public static final int preference_notification_type_info_icon_enabled_summaryOn=0x7f080049;
+        /**  Notification Header Strings 
+         */
+        public static final int preference_notification_type_info_icon_enabled_title=0x7f080048;
+        public static final int preference_notification_type_info_size=0x7f08004c;
+        public static final int preference_notification_type_info_size_summary=0x7f08004d;
+        /**  Status Bar Notification Vibrate Strings 
+         */
+        public static final int preference_notification_vibrate_settings_text=0x7f0801af;
+        public static final int preference_notifications_enabled_summaryOff=0x7f0801a4;
+        public static final int preference_notifications_enabled_summaryOn=0x7f0801a3;
+        public static final int preference_notifications_enabled_title=0x7f0801a2;
+        public static final int preference_notifications_show_when_blocked_enabled_summary=0x7f0801a6;
+        public static final int preference_notifications_show_when_blocked_enabled_title=0x7f0801a5;
+        /**  Phone Number Format Strings 
+         */
+        public static final int preference_phone_number_format=0x7f080135;
+        public static final int preference_phone_number_format_10_digits_only_summary=0x7f080138;
+        public static final int preference_phone_number_format_10_digits_only_title=0x7f080137;
+        public static final int preference_phone_number_format_summary=0x7f080136;
+        public static final int preference_quick_reply_blur_screen_background_enabled_summaryOff=0x7f080073;
+        public static final int preference_quick_reply_blur_screen_background_enabled_summaryOn=0x7f080072;
+        public static final int preference_quick_reply_dim_screen_background_enabled_summaryOff=0x7f080075;
+        public static final int preference_quick_reply_dim_screen_background_enabled_summaryOn=0x7f080074;
+        public static final int preference_quick_reply_sms_gateway=0x7f080079;
+        public static final int preference_quick_reply_sms_gateway_summary=0x7f08007a;
+        public static final int preference_quiet_period_dialog_instructions=0x7f08014a;
+        public static final int preference_quiet_time_enabled_summary=0x7f080142;
+        public static final int preference_quiet_time_enabled_title=0x7f080141;
+        public static final int preference_quiet_time_of_week_summary=0x7f080144;
+        public static final int preference_quiet_time_of_week_title=0x7f080143;
+        public static final int preference_quiet_time_period_set=0x7f08014d;
+        public static final int preference_quiet_time_quiet_period_summary=0x7f080149;
+        public static final int preference_quiet_time_quiet_period_title=0x7f080148;
+        /**  Quiet Time Preference Strings 
+         */
+        public static final int preference_quiet_time_title=0x7f080140;
+        public static final int preference_reminder_frequency_summary=0x7f08016e;
+        public static final int preference_reminder_frequency_text=0x7f08016d;
+        public static final int preference_reminder_interval_summary=0x7f080170;
+        public static final int preference_reminder_interval_text=0x7f08016f;
+        public static final int preference_reminders_enabled_summary=0x7f08016c;
+        public static final int preference_reminders_enabled_title=0x7f08016b;
+        public static final int preference_reply_button_action=0x7f080114;
+        public static final int preference_reschedule_blocked_timeout_summary=0x7f080167;
+        public static final int preference_reschedule_blocked_timeout_text=0x7f080166;
+        public static final int preference_reschedule_notifications_enabled_summaryOff=0x7f080164;
+        public static final int preference_reschedule_notifications_enabled_summaryOn=0x7f080163;
+        public static final int preference_reschedule_time_summary=0x7f080169;
+        public static final int preference_reschedule_time_text=0x7f080168;
+        public static final int preference_save_draft_enabled_summaryOff=0x7f080078;
+        public static final int preference_save_draft_enabled_summaryOn=0x7f080077;
+        public static final int preference_save_draft_enabled_title=0x7f080076;
+        public static final int preference_screen_dim_enabled_summaryOff=0x7f080124;
+        public static final int preference_screen_dim_enabled_summaryOn=0x7f080123;
+        public static final int preference_screen_dim_enabled_title=0x7f080122;
+        public static final int preference_screen_enabled_summaryOff=0x7f080121;
+        public static final int preference_screen_enabled_summaryOn=0x7f080120;
+        public static final int preference_screen_enabled_title=0x7f08011f;
+        public static final int preference_screen_settings=0x7f08011e;
+        public static final int preference_screen_timeout=0x7f080130;
+        public static final int preference_screen_timeout_summary=0x7f080131;
+        public static final int preference_sms_delete_button_action_summary=0x7f080086;
+        public static final int preference_sms_dismiss_button_action_summary=0x7f080085;
+        public static final int preference_sms_display_unread_enabled_summaryOff=0x7f080083;
+        public static final int preference_sms_display_unread_enabled_summaryOn=0x7f080082;
+        public static final int preference_sms_display_unread_enabled_title=0x7f080081;
+        public static final int preference_sms_enabled_summaryOff=0x7f080080;
+        public static final int preference_sms_enabled_summaryOn=0x7f08007f;
+        public static final int preference_sms_enabled_title=0x7f08007e;
+        public static final int preference_sms_loading_summary=0x7f080092;
+        public static final int preference_sms_loading_title=0x7f080091;
+        public static final int preference_sms_notifications=0x7f080084;
+        public static final int preference_sms_reply_button_action_summary=0x7f080087;
+        public static final int preference_sms_ringtone_enabled_summaryOff=0x7f08008a;
+        public static final int preference_sms_ringtone_enabled_summaryOn=0x7f080089;
+        public static final int preference_sms_ringtone_enabled_title=0x7f080088;
+        public static final int preference_sms_timeout=0x7f08008e;
+        public static final int preference_sms_timeout_summary=0x7f08008f;
+        public static final int preference_sms_timestamp_adjustment_summary=0x7f080094;
+        public static final int preference_sms_timestamp_adjustment_title=0x7f080093;
+        public static final int preference_theme_summary=0x7f080154;
+        /**  Time Format Strings 
+         */
+        public static final int preference_time_format=0x7f080139;
+        public static final int preference_time_format_summary=0x7f08013a;
+        public static final int preference_twitter_enabled_title=0x7f0800df;
+        /**  Twitter Strings 
+         */
+        public static final int preference_twitter_notifications=0x7f0800de;
+        /**  Status Bar Notification Custom Vibrate Dialog Strings 
+         */
+        public static final int preference_vibrate_pattern_dialog=0x7f0801b4;
+        public static final int preference_vibrate_pattern_error=0x7f0801b6;
+        public static final int preference_vibrate_pattern_set=0x7f0801b5;
+        public static final int preference_vibrate_pattern_summary=0x7f0801b3;
+        public static final int preference_vibrate_pattern_title=0x7f0801b2;
+        public static final int preference_vibrate_setting_summary=0x7f0801b1;
+        public static final int preference_vibrate_setting_title=0x7f0801b0;
+        public static final int previous_button_text=0x7f080100;
+        /**  Quick Reply Strings 
+         */
+        public static final int quick_reply=0x7f080066;
+        public static final int quick_reply_settings_text=0x7f080039;
+        public static final int rate_app_summary=0x7f08014f;
+        /**  Rate App Strings 
+         */
+        public static final int rate_app_text=0x7f08014e;
+        public static final int read_sms_from_disk_text=0x7f0801e0;
+        public static final int red_text=0x7f080297;
+        /**  Reminder Strings 
+         */
+        public static final int reminder_settings_text=0x7f08016a;
+        public static final int reply_button_text=0x7f0800fe;
+        public static final int reschedule_notification_text=0x7f0801e1;
+        public static final int reschedule_notifications_text=0x7f080162;
+        public static final int reschedule_settings_text=0x7f080165;
+        public static final int s10_am_text=0x7f080245;
+        public static final int s10_hours_before_text=0x7f08022d;
+        public static final int s10_hours_text=0x7f080214;
+        public static final int s10_minutes_before_text=0x7f08021a;
+        public static final int s10_minutes_text=0x7f080201;
+        public static final int s10_pm_text=0x7f080251;
+        public static final int s10_seconds_text=0x7f0801ed;
+        public static final int s11_am_text=0x7f080246;
+        public static final int s11_hours_before_text=0x7f08022e;
+        public static final int s11_hours_text=0x7f080215;
+        public static final int s11_pm_text=0x7f080252;
+        public static final int s12_am_text=0x7f080247;
+        public static final int s12_hour_text=0x7f0802a0;
+        public static final int s12_hours_before_text=0x7f08022f;
+        public static final int s12_hours_text=0x7f080216;
+        public static final int s12_pm_text=0x7f080253;
+        public static final int s13_hours_before_text=0x7f080230;
+        public static final int s14_hours_before_text=0x7f080231;
+        public static final int s15_hours_before_text=0x7f080232;
+        public static final int s15_minutes_before_text=0x7f08021b;
+        public static final int s15_minutes_text=0x7f080202;
+        public static final int s15_seconds_text=0x7f0801ee;
+        public static final int s16_hours_before_text=0x7f080233;
+        public static final int s17_hours_before_text=0x7f080234;
+        public static final int s18_hours_before_text=0x7f080235;
+        public static final int s19_hours_before_text=0x7f080236;
+        public static final int s1_am_text=0x7f08023c;
+        public static final int s1_hour_before_text=0x7f080224;
+        public static final int s1_hour_text=0x7f08020b;
+        public static final int s1_minute_before_text=0x7f080218;
+        public static final int s1_minute_text=0x7f0801f8;
+        public static final int s1_pm_text=0x7f080248;
+        public static final int s1_second_text=0x7f0801e4;
+        public static final int s20_hours_before_text=0x7f080237;
+        public static final int s20_minutes_before_text=0x7f08021c;
+        public static final int s20_minutes_text=0x7f080203;
+        public static final int s20_seconds_text=0x7f0801ef;
+        public static final int s21_hours_before_text=0x7f080238;
+        public static final int s22_hours_before_text=0x7f080239;
+        public static final int s23_hours_before_text=0x7f08023a;
+        public static final int s24_hour_text=0x7f0802a1;
+        public static final int s24_hours_before_text=0x7f08023b;
+        public static final int s24_hours_text=0x7f080217;
+        public static final int s25_minutes_before_text=0x7f08021d;
+        public static final int s25_minutes_text=0x7f080204;
+        public static final int s25_seconds_text=0x7f0801f0;
+        public static final int s2_am_text=0x7f08023d;
+        public static final int s2_hours_before_text=0x7f080225;
+        public static final int s2_hours_text=0x7f08020c;
+        public static final int s2_minutes_text=0x7f0801f9;
+        public static final int s2_pm_text=0x7f080249;
+        public static final int s2_seconds_text=0x7f0801e5;
+        public static final int s30_minutes_before_text=0x7f08021e;
+        public static final int s30_minutes_text=0x7f080205;
+        public static final int s30_seconds_text=0x7f0801f1;
+        public static final int s35_minutes_before_text=0x7f08021f;
+        public static final int s35_minutes_text=0x7f080206;
+        public static final int s35_seconds_text=0x7f0801f2;
+        public static final int s3_am_text=0x7f08023e;
+        public static final int s3_hours_before_text=0x7f080226;
+        public static final int s3_hours_text=0x7f08020d;
+        public static final int s3_minutes_text=0x7f0801fa;
+        public static final int s3_pm_text=0x7f08024a;
+        public static final int s3_seconds_text=0x7f0801e6;
+        public static final int s40_minutes_before_text=0x7f080220;
+        public static final int s40_minutes_text=0x7f080207;
+        public static final int s40_seconds_text=0x7f0801f3;
+        public static final int s45_minutes_before_text=0x7f080221;
+        public static final int s45_minutes_text=0x7f080208;
+        public static final int s45_seconds_text=0x7f0801f4;
+        public static final int s4_am_text=0x7f08023f;
+        public static final int s4_hours_before_text=0x7f080227;
+        public static final int s4_hours_text=0x7f08020e;
+        public static final int s4_minutes_text=0x7f0801fb;
+        public static final int s4_pm_text=0x7f08024b;
+        public static final int s4_seconds_text=0x7f0801e7;
+        public static final int s50_minutes_before_text=0x7f080222;
+        public static final int s50_minutes_text=0x7f080209;
+        public static final int s50_seconds_text=0x7f0801f5;
+        public static final int s55_minutes_before_text=0x7f080223;
+        public static final int s55_minutes_text=0x7f08020a;
+        public static final int s55_seconds_text=0x7f0801f6;
+        public static final int s5_am_text=0x7f080240;
+        public static final int s5_hours_before_text=0x7f080228;
+        public static final int s5_hours_text=0x7f08020f;
+        public static final int s5_minutes_before_text=0x7f080219;
+        public static final int s5_minutes_text=0x7f0801fc;
+        public static final int s5_pm_text=0x7f08024c;
+        public static final int s5_seconds_text=0x7f0801e8;
+        public static final int s60_seconds_text=0x7f0801f7;
+        public static final int s6_am_text=0x7f080241;
+        public static final int s6_hours_before_text=0x7f080229;
+        public static final int s6_hours_text=0x7f080210;
+        public static final int s6_minutes_text=0x7f0801fd;
+        public static final int s6_pm_text=0x7f08024d;
+        public static final int s6_seconds_text=0x7f0801e9;
+        public static final int s7_am_text=0x7f080242;
+        public static final int s7_hours_before_text=0x7f08022a;
+        public static final int s7_hours_text=0x7f080211;
+        public static final int s7_minutes_text=0x7f0801fe;
+        public static final int s7_pm_text=0x7f08024e;
+        public static final int s7_seconds_text=0x7f0801ea;
+        public static final int s8_am_text=0x7f080243;
+        public static final int s8_hours_before_text=0x7f08022b;
+        public static final int s8_hours_text=0x7f080212;
+        public static final int s8_minutes_text=0x7f0801ff;
+        public static final int s8_pm_text=0x7f08024f;
+        public static final int s8_seconds_text=0x7f0801eb;
+        public static final int s9_am_text=0x7f080244;
+        public static final int s9_hours_before_text=0x7f08022c;
+        public static final int s9_hours_text=0x7f080213;
+        public static final int s9_minutes_text=0x7f080200;
+        public static final int s9_pm_text=0x7f080250;
+        public static final int s9_seconds_text=0x7f0801ec;
+        public static final int select_number_text=0x7f0800b1;
+        public static final int select_number_to_call_text=0x7f0800b2;
+        public static final int select_number_to_text_text=0x7f0800b3;
+        public static final int send_button_text=0x7f080101;
+        public static final int short_vibrate_text=0x7f08028f;
+        public static final int show_hide_button_settings_text=0x7f080105;
+        public static final int show_notification_text=0x7f0801e3;
+        public static final int size_10_text=0x7f080259;
+        public static final int size_11_text=0x7f08025a;
+        public static final int size_12_text=0x7f08025b;
+        public static final int size_13_text=0x7f08025c;
+        public static final int size_14_text=0x7f08025d;
+        public static final int size_15_text=0x7f08025e;
+        public static final int size_16_text=0x7f08025f;
+        public static final int size_17_text=0x7f080260;
+        public static final int size_18_text=0x7f080261;
+        public static final int size_19_text=0x7f080262;
+        public static final int size_20_text=0x7f080263;
+        public static final int size_21_text=0x7f080264;
+        public static final int size_22_text=0x7f080265;
+        public static final int size_23_text=0x7f080266;
+        public static final int size_24_text=0x7f080267;
+        public static final int size_25_text=0x7f080268;
+        public static final int size_26_text=0x7f080269;
+        public static final int size_27_text=0x7f08026a;
+        public static final int size_28_text=0x7f08026b;
+        public static final int size_29_text=0x7f08026c;
+        public static final int size_30_text=0x7f08026d;
+        public static final int size_5_text=0x7f080254;
+        public static final int size_6_text=0x7f080255;
+        public static final int size_7_text=0x7f080256;
+        public static final int size_8_text=0x7f080257;
+        public static final int size_9_text=0x7f080258;
+        public static final int slow_text=0x7f080296;
+        public static final int sms_gateway_aql_b_text=0x7f08028c;
+        public static final int sms_gateway_aql_text=0x7f08028b;
+        public static final int sms_gateway_att_b_text=0x7f08028a;
+        public static final int sms_gateway_att_text=0x7f080289;
+        public static final int sms_gateway_ics_text=0x7f08028e;
+        public static final int sms_gateway_sprint_text=0x7f080287;
+        public static final int sms_gateway_tmobile_b_text=0x7f08028d;
+        public static final int sms_gateway_tmobile_text=0x7f080288;
+        /**  TTS Strings 
+         */
+        public static final int speak_notification_text=0x7f0801cf;
+        public static final int start_quiet_time_text=0x7f08014b;
+        public static final int status_bar_notification_content_text_calendar=0x7f080184;
+        public static final int status_bar_notification_content_text_calendar_null=0x7f080185;
+        public static final int status_bar_notification_content_text_email=0x7f080189;
+        public static final int status_bar_notification_content_text_email_null=0x7f08018a;
+        public static final int status_bar_notification_content_text_facebook=0x7f080188;
+        public static final int status_bar_notification_content_text_gmail=0x7f080186;
+        public static final int status_bar_notification_content_text_mms=0x7f080180;
+        public static final int status_bar_notification_content_text_mms_null=0x7f080181;
+        public static final int status_bar_notification_content_text_phone=0x7f080182;
+        public static final int status_bar_notification_content_text_phone_null=0x7f080183;
+        public static final int status_bar_notification_content_text_sms=0x7f08017e;
+        public static final int status_bar_notification_content_text_sms_null=0x7f08017f;
+        public static final int status_bar_notification_content_text_twitter=0x7f080187;
+        public static final int status_bar_notification_content_title_text_calendar=0x7f080179;
+        public static final int status_bar_notification_content_title_text_email=0x7f08017d;
+        public static final int status_bar_notification_content_title_text_facebook=0x7f08017c;
+        public static final int status_bar_notification_content_title_text_gmail=0x7f08017a;
+        public static final int status_bar_notification_content_title_text_mms=0x7f080177;
+        public static final int status_bar_notification_content_title_text_phone=0x7f080178;
         /**  Status Bar Notification Strings 
- Status Bar Notification Strings 
          */
-        public static final int status_bar_notification_content_title_text_sms=0x7f080143;
-        public static final int status_bar_notification_content_title_text_twitter=0x7f080148;
-        public static final int status_bar_notification_ticker_text_calendar=0x7f08015a;
-        public static final int status_bar_notification_ticker_text_mms=0x7f080155;
-        public static final int status_bar_notification_ticker_text_phone=0x7f080159;
-        public static final int status_bar_notification_ticker_text_privacy_mms=0x7f080157;
-        public static final int status_bar_notification_ticker_text_privacy_sms=0x7f080153;
-        public static final int status_bar_notification_ticker_text_privacy_unknown_contact_mms=0x7f080158;
-        public static final int status_bar_notification_ticker_text_privacy_unknown_contact_sms=0x7f080154;
-        public static final int status_bar_notification_ticker_text_sms=0x7f080151;
-        public static final int status_bar_notification_ticker_text_unknown_contact_mms=0x7f080156;
-        public static final int status_bar_notification_ticker_text_unknown_contact_sms=0x7f080152;
-        public static final int status_bar_notifications_text=0x7f08015b;
-        public static final int subject_text=0x7f080041;
-        public static final int test_app_summary=0x7f080126;
-        public static final int test_app_text=0x7f080125;
+        public static final int status_bar_notification_content_title_text_sms=0x7f080176;
+        public static final int status_bar_notification_content_title_text_twitter=0x7f08017b;
+        public static final int status_bar_notification_ticker_text_calendar=0x7f080197;
+        public static final int status_bar_notification_ticker_text_calendar_null=0x7f080198;
+        public static final int status_bar_notification_ticker_text_email=0x7f080199;
+        public static final int status_bar_notification_ticker_text_email_null=0x7f08019d;
+        public static final int status_bar_notification_ticker_text_mms=0x7f080190;
+        public static final int status_bar_notification_ticker_text_mms_null=0x7f080194;
+        public static final int status_bar_notification_ticker_text_phone=0x7f080195;
+        public static final int status_bar_notification_ticker_text_phone_null=0x7f080196;
+        public static final int status_bar_notification_ticker_text_privacy_email=0x7f08019b;
+        public static final int status_bar_notification_ticker_text_privacy_mms=0x7f080192;
+        public static final int status_bar_notification_ticker_text_privacy_sms=0x7f08018d;
+        public static final int status_bar_notification_ticker_text_privacy_unknown_contact_email=0x7f08019c;
+        public static final int status_bar_notification_ticker_text_privacy_unknown_contact_mms=0x7f080193;
+        public static final int status_bar_notification_ticker_text_privacy_unknown_contact_sms=0x7f08018e;
+        public static final int status_bar_notification_ticker_text_sms=0x7f08018b;
+        public static final int status_bar_notification_ticker_text_sms_null=0x7f08018f;
+        public static final int status_bar_notification_ticker_text_unknown_contact_email=0x7f08019a;
+        public static final int status_bar_notification_ticker_text_unknown_contact_mms=0x7f080191;
+        public static final int status_bar_notification_ticker_text_unknown_contact_sms=0x7f08018c;
+        public static final int status_bar_notifications_text=0x7f08019e;
+        public static final int stop_quiet_time_text=0x7f08014c;
+        public static final int subject_text=0x7f080067;
+        public static final int test_app_summary=0x7f08013f;
+        public static final int test_app_text=0x7f08013e;
+        public static final int test_notifications_disabled_message=0x7f080032;
         /**  Test Notification Strings 
- Test Notification Strings 
          */
-        public static final int test_text=0x7f080124;
-        public static final int text_contact_text=0x7f0800e6;
+        public static final int test_text=0x7f08013d;
+        public static final int text_contact_text=0x7f0800f9;
         /**  Theme Strings 
- Theme Strings 
          */
-        public static final int theme_text=0x7f08012c;
+        public static final int theme_text=0x7f080153;
         public static final int to_text=0x7f08000a;
-        public static final int twitter_authentication_message_text=0x7f0800d3;
-        public static final int twitter_authentication_text=0x7f0800d2;
-        public static final int unlock_button_text=0x7f0800de;
-        public static final int use_installed_messaging_app_text=0x7f080197;
-        public static final int use_quick_reply_text=0x7f080198;
-        public static final int view_button_text=0x7f0800d6;
-        public static final int view_calendar_text=0x7f0800b2;
-        public static final int view_call_log_text=0x7f0800e5;
-        public static final int view_contact_text=0x7f0800e2;
-        public static final int view_message_text=0x7f080190;
+        public static final int twitter_authentication_error=0x7f0800e3;
+        public static final int twitter_authentication_message_text=0x7f0800e1;
+        public static final int twitter_authentication_text=0x7f0800e0;
+        public static final int use_installed_email_app_text=0x7f0801dd;
+        public static final int use_installed_messaging_app_text=0x7f0801dc;
+        public static final int use_quick_reply_text=0x7f0801de;
         /**  Button Strings 
- Button Strings 
          */
-        public static final int view_mms_button_text=0x7f0800d5;
-        public static final int view_thread_text=0x7f0800ea;
-        public static final int yellow_text=0x7f080244;
-        public static final int zero_hours_text=0x7f080222;
+        public static final int view_button_text=0x7f0800fb;
+        public static final int view_calendar_text=0x7f0800c1;
+        public static final int view_call_log_text=0x7f0800af;
+        /**  Contact Strings 
+         */
+        public static final int view_contact_text=0x7f0800f7;
+        public static final int view_email_text=0x7f0800e6;
+        public static final int view_message_text=0x7f0801d6;
+        /**  Missed Call Strings 
+         */
+        public static final int view_mms_button_text=0x7f0800ac;
+        /**  SMS Strings 
+         */
+        public static final int view_thread_text=0x7f08007b;
+        public static final int yellow_text=0x7f08029c;
+        public static final int zero_hours_text=0x7f08027a;
     }
     public static final class style {
         public static final int Animation=0x7f090003;
@@ -1154,7 +1361,6 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
     }
     public static final class xml {
         public static final int preferences=0x7f050000;
-        public static final int preferences_new=0x7f050001;
     }
     public static final class styleable {
         /** Attributes that can be used with a ImageListPreference.

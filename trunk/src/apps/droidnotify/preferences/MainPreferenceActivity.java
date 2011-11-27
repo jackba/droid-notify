@@ -1174,7 +1174,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	 */
 	private void checkTwitterAuthentication(){
 		if (_debug) Log.v("MainPreferenceActivity.checkTwitterAuthentication()");
-		//Setup User Twitter Authentication
+		//Setup User Twitter Account
 	    Intent intent = new Intent(_context, TwitterAuthenticationActivity.class);
 	    startActivity(intent);
 	}
