@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.TimeZone;
 
 import oauth.signpost.OAuth;
+import twitter4j.DirectMessage;
+import twitter4j.ResponseList;
 import twitter4j.Twitter;
 import twitter4j.TwitterFactory;
 import twitter4j.auth.AccessToken;
@@ -696,10 +698,10 @@ public class Common {
 			return false;
 		}
 		try{
-			Intent intent = new Intent(_context, QuickReplyActivity.class);
+			Intent intent = new Intent(context, QuickReplyActivity.class);
 	        if (_debug) Log.v("NotificationView.replyToMessage() Put bundle in intent");
 		    intent.putExtra("smsPhoneNumber", phoneNumber);
-		    if(contactName != null && !contactName.equals( _context.getString(android.R.string.unknownName))){
+		    if(contactName != null && !contactName.equals( context.getString(android.R.string.unknownName))){
 		    	intent.putExtra("smsName", contactName);
 		    }else{
 		    	intent.putExtra("smsName", "");
@@ -2203,7 +2205,7 @@ public class Common {
 	 * @param context - The application context.
 	 * @param bundle - Bundle from the incoming intent.
 	 * 
-	 * @return ArrayList<String> - Returns an ArrayList of Strings that contain the sms information.
+	 * @return ArrayList<String> - Returns an ArrayList of Strings that contain the K9 information.
 	 */
 	public static ArrayList<String> getK9MessagesFromIntent(Context context, Bundle bundle){
 		_debug = Log.getDebug();
@@ -2263,6 +2265,55 @@ public class Common {
     		return k9Array;
 		}catch(Exception ex){
 			if (_debug) Log.e("Common.getK9MessagesFromIntent() ERROR: " + ex.toString());
+			return null;
+		}
+	}
+	
+	/**
+	 * Process the Twitter notifications. Read account and notify as needed.
+	 * 
+	 * @param context - The application context.
+	 * 
+	 * @return ArrayList<String> - Returns an ArrayList of Strings that contain the Twitter information.
+	 */
+	public static ArrayList<String> getTwitterDirectMessages(Context context){
+		if (_debug) Log.v("Common.getTwitterDirectMessages()");
+		try{
+			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+			if(preferences.getBoolean(Constants.TWITTER_DIRECT_MESSAGES_ENABLED_KEY, true)){
+				//----------------------------------------------------------------------------
+				String oauthToken = preferences.getString(OAuth.OAUTH_TOKEN, "");
+				String oauthTokenSecret = preferences.getString(OAuth.OAUTH_TOKEN_SECRET, "");
+				ConfigurationBuilder configurationBuilder = new ConfigurationBuilder(); 
+				configurationBuilder.setOAuthConsumerKey(Constants.TWITTER_CONSUMER_KEY); 
+				configurationBuilder.setOAuthConsumerSecret(Constants.TWITTER_CONSUMER_SECRET); 
+				Configuration configuration =  configurationBuilder.build();  
+				AccessToken accessToken = new AccessToken(oauthToken, oauthTokenSecret);
+				TwitterFactory twitterFactory = new TwitterFactory(configuration);
+				Twitter twitter = twitterFactory.getInstance(accessToken);
+				//----------------------------------------------------------------------------
+			    ResponseList <DirectMessage> messages = twitter.getDirectMessages();
+			    ArrayList<String> twitterArray = new ArrayList<String>();
+				for(DirectMessage message: messages){
+					String messageBody = message.getText();
+					long messageID = message.getId();
+					long timeStamp = message.getCreatedAt().getTime();
+			    	String sentFromAddress = message.getSenderScreenName();
+		    		//String[] twitterContactInfo = null;
+		    		//twitterContactInfo = null; //Common.getContactsInfoByEmail(context, sentFromAddress);
+		    		//if(twitterContactInfo == null){
+		    			twitterArray.add(sentFromAddress + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + timeStamp);
+					//}else{
+					//	twitterArray.add(sentFromAddress + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + timeStamp + "|" + twitterContactInfo[0] + "|" + twitterContactInfo[1] + "|" + twitterContactInfo[2] + "|" + twitterContactInfo[3]);
+					//}
+		    		if (_debug) Log.v("Common.getTwitterDirectMessages() MESSAGE: " + messageBody);
+				}
+				return twitterArray;
+			}else{
+				return null;
+			}
+		}catch(Exception ex){
+			if (_debug) Log.e("Common.getTwitterDirectMessages() ERROR: " + ex.toString());
 			return null;
 		}
 	}
@@ -2727,12 +2778,12 @@ public class Common {
 				return false;
 			}
 			if(notificationType == Constants.NOTIFICATION_TYPE_MMS){
-				_context.getContentResolver().delete(
+				context.getContentResolver().delete(
 						Uri.parse("content://mms/conversations/" + String.valueOf(threadID)), 
 						null, 
 						null);
 			}else{
-				_context.getContentResolver().delete(
+				context.getContentResolver().delete(
 						Uri.parse("content://sms/conversations/" + String.valueOf(threadID)), 
 						null, 
 						null);
@@ -2762,12 +2813,12 @@ public class Common {
 				return false;
 			}
 			if(notificationType == Constants.NOTIFICATION_TYPE_MMS){
-				_context.getContentResolver().delete(
+				context.getContentResolver().delete(
 						Uri.parse("content://mms/" + String.valueOf(messageID)),
 						null, 
 						null);
 			}else{
-				_context.getContentResolver().delete(
+				context.getContentResolver().delete(
 						Uri.parse("content://sms/" + String.valueOf(messageID)),
 						null, 
 						null);
@@ -2805,13 +2856,13 @@ public class Common {
 			String selection = null;
 			String[] selectionArgs = null;			
 			if(notificationType == Constants.NOTIFICATION_TYPE_MMS){
-				_context.getContentResolver().update(
+				context.getContentResolver().update(
 						Uri.parse("content://mms/" + messageID), 
 			    		contentValues, 
 			    		selection, 
 			    		selectionArgs);
 			}else{
-				_context.getContentResolver().update(
+				context.getContentResolver().update(
 						Uri.parse("content://sms/" + messageID), 
 			    		contentValues, 
 			    		selection, 
@@ -2842,7 +2893,7 @@ public class Common {
 			}
 			String selection = android.provider.CallLog.Calls._ID + " = " + callLogID;
 			String[] selectionArgs = null;
-			_context.getContentResolver().delete(
+			context.getContentResolver().delete(
 					Uri.parse("content://call_log/calls"),
 					selection, 
 					selectionArgs);
@@ -2877,7 +2928,7 @@ public class Common {
 			}
 			String selection = android.provider.CallLog.Calls._ID + " = " + callLogID;
 			String[] selectionArgs = null;
-			_context.getContentResolver().update(
+			context.getContentResolver().update(
 					Uri.parse("content://call_log/calls"),
 					contentValues,
 					selection, 
@@ -2905,7 +2956,7 @@ public class Common {
 			}
 			String selection = null;
 			String[] selectionArgs = null;
-			_context.getContentResolver().delete(
+			context.getContentResolver().delete(
 					Uri.parse(k9EmailDelUri),
 					selection, 
 					selectionArgs);
@@ -3157,10 +3208,10 @@ public class Common {
 				ConfigurationBuilder configurationBuilder = new ConfigurationBuilder(); 
 				configurationBuilder.setOAuthConsumerKey(Constants.TWITTER_CONSUMER_KEY); 
 				configurationBuilder.setOAuthConsumerSecret(Constants.TWITTER_CONSUMER_SECRET); 
-				Configuration config =  configurationBuilder.build();  
+				Configuration configuration =  configurationBuilder.build();  
 				AccessToken accessToken = new AccessToken(oauthToken, oauthTokenSecret);
-				TwitterFactory factory = new TwitterFactory(config);
-				Twitter twitter = factory.getInstance(accessToken); 
+				TwitterFactory twitterFactory = new TwitterFactory(configuration);
+				Twitter twitter = twitterFactory.getInstance(accessToken); 
 				twitter.getAccountSettings();
 				return true;
 			} catch (Exception ex) {
@@ -3183,9 +3234,9 @@ public class Common {
 		if (_debug) Log.v("Common.startTwitterAlarmManager()");
 		try{
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-			AlarmManager alarmManager = (AlarmManager) _context.getSystemService(Context.ALARM_SERVICE);
-			Intent intent = new Intent(_context, TwitterAlarmReceiver.class);
-			PendingIntent pendingIntent = PendingIntent.getBroadcast(_context, 0, intent, 0);
+			AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+			Intent intent = new Intent(context, TwitterAlarmReceiver.class);
+			PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
 			long pollingFrequency = Long.parseLong(preferences.getString(Constants.TWITTER_POLLING_FREQUENCY_KEY, "15")) * 60 * 1000;
 			alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, alarmStartTime, pollingFrequency, pendingIntent);
 		}catch(Exception ex){

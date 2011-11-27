@@ -12,7 +12,6 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.view.HapticFeedbackConstants;
@@ -63,7 +62,7 @@ public class TwitterAuthenticationActivity extends Activity {
 		setupViews();
 		setupButtons();
 		if(Common.isTwitterAuthenticated(_context)){
-			Common.startTwitterAlarmManager(_context, SystemClock.currentThreadTimeMillis());
+			Common.startTwitterAlarmManager(_context, System.currentTimeMillis());
 			finish();
 		}else{
 			_mainLinearLayout.setVisibility(View.VISIBLE);
@@ -85,17 +84,19 @@ public class TwitterAuthenticationActivity extends Activity {
 		_progressBarLinearLayout.setVisibility(View.VISIBLE);
 		Uri uri = intent.getData();
 		if (uri != null && uri.getScheme().equals(Constants.TWITTER_CALLBACK_SCHEME)) {
-			if (_debug) Log.v("TwitterAuthenticationActivity.onNewIntent() URI: " + uri);
-			if (_debug) Log.v("TwitterAuthenticationActivity.onNewIntent() uri.getScheme(): " + uri.getScheme());
+			//if (_debug) Log.v("TwitterAuthenticationActivity.onNewIntent() URI: " + uri);
+			//if (_debug) Log.v("TwitterAuthenticationActivity.onNewIntent() uri.getScheme(): " + uri.getScheme());
+			//if (_debug) Log.v("TwitterAuthenticationActivity.onNewIntent() uri.uri.getHost(): " + uri.getHost());
 			try {
 				//This will populate token and token_secret in consumer.
 				String oauthVerifier = uri.getQueryParameter(OAuth.OAUTH_VERIFIER);
+				//if (_debug) Log.v("TwitterAuthenticationActivity.onNewIntent() oauthVerifier: " + oauthVerifier);
 				_provider.retrieveAccessToken(_consumer, oauthVerifier);
 				Editor edit = _preferences.edit();
 				edit.putString(OAuth.OAUTH_TOKEN, _consumer.getToken());
 				edit.putString(OAuth.OAUTH_TOKEN_SECRET, _consumer.getTokenSecret());
 				edit.commit();
-				Common.startTwitterAlarmManager(_context, SystemClock.currentThreadTimeMillis());
+				Common.startTwitterAlarmManager(_context, System.currentTimeMillis());
 				finish();
 			} catch (Exception ex) {
 				if (_debug) Log.e("TwitterAuthenticationActivity.onNewIntent() ERROR: " + ex.toString());
@@ -217,7 +218,7 @@ public class TwitterAuthenticationActivity extends Activity {
 	/**
 	 * Open the browser and asks the user to authorize the app.
 	 */
-	private void authenticateTwitterAccount() {
+	private void authenticateTwitterAccount(){
 		if (_debug) Log.v("TwitterAuthenticationActivity.authenticateTwitterAccount()");
 		try {
 			_consumer = new CommonsHttpOAuthConsumer(Constants.TWITTER_CONSUMER_KEY, Constants.TWITTER_CONSUMER_SECRET);
