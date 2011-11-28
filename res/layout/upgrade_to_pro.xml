@@ -3,7 +3,8 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:id="@+id/content_scroll_view"
     android:layout_height="fill_parent"
-    android:layout_width="fill_parent">
+    android:layout_width="fill_parent"
+    android:padding="5dp">
 	<LinearLayout
 		android:id="@+id/content_linear_layout"
 		android:layout_height="fill_parent"
@@ -21,25 +22,11 @@
 			android:paddingLeft="5dp"
 			android:paddingRight="5dp"
 			android:paddingTop="5dp"
-			android:paddingBottom="10dp" 
-			android:text="@string/donate_description_text" />
+			android:paddingBottom="10dp" />
 		<Button
-			android:id="@+id/donate_android_market_button"
+			android:id="@+id/content_button"
 			android:layout_height="wrap_content"
 			android:layout_width="wrap_content"
-			android:layout_gravity="center_horizontal"
-			android:text="@string/donate_via_android_market_text" />
-		<Button
-			android:id="@+id/donate_amazon_app_store_button"
-			android:layout_height="wrap_content"
-			android:layout_width="wrap_content"
-			android:layout_gravity="center_horizontal"
-			android:text="@string/donate_via_amazon_app_store_text" />
-		<Button
-			android:id="@+id/donate_paypal_button"
-			android:layout_height="wrap_content"
-			android:layout_width="wrap_content"
-			android:layout_gravity="center_horizontal"
-			android:text="@string/donate_via_paypal_text" />
+			android:layout_gravity="center_horizontal" />
 	</LinearLayout>
 </ScrollView>

@@ -113,7 +113,7 @@ public class NotificationView extends LinearLayout {
 	private void initLayoutItems(Context context) {
 		if (_debug) Log.v("NotificationView.initLayoutItems()");
 		//Set based on the theme. This is set in the user preferences.
-		String applicationThemeSetting = _preferences.getString(Constants.APP_THEME_KEY, Constants.ANDROID_FROYO_THEME);
+		String applicationThemeSetting = _preferences.getString(Constants.APP_THEME_KEY, Constants.APP_THEME_DEFAULT);
 		int themeResource = R.layout.android_froyo_theme_notification;
 		if(applicationThemeSetting.equals(Constants.ANDROID_FROYO_THEME)) themeResource = R.layout.android_froyo_theme_notification;
 		if(applicationThemeSetting.equals(Constants.ANDROID_GINGERBREAD_THEME)) themeResource = R.layout.android_gingerbread_theme_notification;
@@ -1069,7 +1069,7 @@ public class NotificationView extends LinearLayout {
 	     		switch (motionEvent.getAction()){
 		     		case MotionEvent.ACTION_DOWN:{
 		     			if (_debug) Log.v("NotificationView.initLongPressView() ACTION_DOWN");
-		                String applicationThemeSetting = _preferences.getString(Constants.APP_THEME_KEY, Constants.ANDROID_FROYO_THEME);
+		                String applicationThemeSetting = _preferences.getString(Constants.APP_THEME_KEY, Constants.APP_THEME_DEFAULT);
 		        		int listSelectorBackgroundResource = R.drawable.froyo_list_selector_background_transition;
 		        		int contactWrapperTextColorResource = R.color.black;
 		         		//Set View background.
@@ -1117,7 +1117,7 @@ public class NotificationView extends LinearLayout {
 			        }
 		     		case MotionEvent.ACTION_UP:{
 		     			if (_debug) Log.v("NotificationView.initLongPressView() ACTION_UP");
-		         		String applicationThemeSetting = _preferences.getString(Constants.APP_THEME_KEY, Constants.ANDROID_FROYO_THEME);
+		         		String applicationThemeSetting = _preferences.getString(Constants.APP_THEME_KEY, Constants.APP_THEME_DEFAULT);
 		        		int listSelectorBackgroundResource = R.drawable.froyo_list_selector_background_transition;
 		        		int contactWrapperTextColorResource = R.color.white;
 		         		//Set View background.
@@ -1162,7 +1162,7 @@ public class NotificationView extends LinearLayout {
 		     		}
 		     		case MotionEvent.ACTION_CANCEL:{
 		     			if (_debug) Log.v("NotificationView.initLongPressView() ACTION_CANCEL");
-		         		String applicationThemeSetting = _preferences.getString(Constants.APP_THEME_KEY, Constants.ANDROID_FROYO_THEME);
+		         		String applicationThemeSetting = _preferences.getString(Constants.APP_THEME_KEY, Constants.APP_THEME_DEFAULT);
 		        		int listSelectorBackgroundResource = R.drawable.froyo_list_selector_background_transition;
 		        		int contactWrapperTextColorResource = R.color.white;
 		         		//Set View background.

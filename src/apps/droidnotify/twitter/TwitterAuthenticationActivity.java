@@ -57,6 +57,8 @@ public class TwitterAuthenticationActivity extends Activity {
 		if (_debug) Log.v("Twitter AuthenticationActivity.onCreate()");
 	    _context = getApplicationContext();
 	    _preferences = PreferenceManager.getDefaultSharedPreferences(_context);
+		_consumer = new CommonsHttpOAuthConsumer(Constants.TWITTER_CONSUMER_KEY, Constants.TWITTER_CONSUMER_SECRET);
+		_provider = new DefaultOAuthProvider(Constants.TWITTER_REQUEST_URL, Constants.TWITTER_AUTHORIZE_URL, Constants.TWITTER_ACCESS_URL);
 	    requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.twitter_authentication);
 		setupViews();
@@ -84,13 +86,15 @@ public class TwitterAuthenticationActivity extends Activity {
 		_progressBarLinearLayout.setVisibility(View.VISIBLE);
 		Uri uri = intent.getData();
 		if (uri != null && uri.getScheme().equals(Constants.TWITTER_CALLBACK_SCHEME)) {
-			//if (_debug) Log.v("TwitterAuthenticationActivity.onNewIntent() URI: " + uri);
-			//if (_debug) Log.v("TwitterAuthenticationActivity.onNewIntent() uri.getScheme(): " + uri.getScheme());
-			//if (_debug) Log.v("TwitterAuthenticationActivity.onNewIntent() uri.uri.getHost(): " + uri.getHost());
 			try {
+				if(_consumer == null){
+					_consumer = new CommonsHttpOAuthConsumer(Constants.TWITTER_CONSUMER_KEY, Constants.TWITTER_CONSUMER_SECRET);
+				}
+				if(_provider == null){
+					_provider = new DefaultOAuthProvider(Constants.TWITTER_REQUEST_URL, Constants.TWITTER_AUTHORIZE_URL, Constants.TWITTER_ACCESS_URL);
+				}
 				//This will populate token and token_secret in consumer.
 				String oauthVerifier = uri.getQueryParameter(OAuth.OAUTH_VERIFIER);
-				//if (_debug) Log.v("TwitterAuthenticationActivity.onNewIntent() oauthVerifier: " + oauthVerifier);
 				_provider.retrieveAccessToken(_consumer, oauthVerifier);
 				Editor edit = _preferences.edit();
 				edit.putString(OAuth.OAUTH_TOKEN, _consumer.getToken());
@@ -221,8 +225,6 @@ public class TwitterAuthenticationActivity extends Activity {
 	private void authenticateTwitterAccount(){
 		if (_debug) Log.v("TwitterAuthenticationActivity.authenticateTwitterAccount()");
 		try {
-			_consumer = new CommonsHttpOAuthConsumer(Constants.TWITTER_CONSUMER_KEY, Constants.TWITTER_CONSUMER_SECRET);
-			_provider = new DefaultOAuthProvider(Constants.TWITTER_REQUEST_URL, Constants.TWITTER_AUTHORIZE_URL, Constants.TWITTER_ACCESS_URL);
 			String url = _provider.retrieveRequestToken(_consumer, Constants.TWITTER_CALLBACK_URL);
 			Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
 			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_NO_HISTORY);

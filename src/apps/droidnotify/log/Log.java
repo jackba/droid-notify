@@ -18,6 +18,7 @@ public class Log {
     //================================================================================
 	
 	private static final String _logTag = "DroidNotify";
+	private static final boolean _appProVersion = true;
 	private static final boolean _debugFileOnDisk = false;
 	private static final boolean _debug = true;
 	private static final boolean _showAndroidRateAppLink = true;
@@ -61,6 +62,15 @@ public class Log {
 	 */
 	public static boolean getShowAmazonRateAppLink(){
 		return _showAmazonRateAppLink;
+	}
+
+	/**
+	 *  Get appProVersionproperty.
+	 *  
+	 *  @return boolean - Returns true if this is setup as the Pro Version app.
+	 */
+	public static boolean getAppProVersion(){
+		return _appProVersion;
 	}
 	
 	/**

@@ -117,8 +117,18 @@ public class Constants {
 	public static final String CONTACT_NUMBER_SIZE_KEY = "contact_number_font_size";
 	public static final String CONTACT_NUMBER_SIZE_DEFAULT = "18";
     
+	
+	//-----DIALOG CONSTANTS-----//
 	public static final int DIALOG_DELETE_MESSAGE = 0;
+
 	public static final int DIALOG_DONATE = 100;
+	public static final int DIALOG_UPGRADE = 101;
+	public static final int DIALOG_FEATURE_AVAILABLE_WITH_PRO_VERSION_GMAIL = 201;
+	public static final int DIALOG_FEATURE_AVAILABLE_WITH_PRO_VERSION_TWITTER = 201;
+	public static final int DIALOG_FEATURE_AVAILABLE_WITH_PRO_VERSION_FACEBOOK = 202;
+	
+	//-----UPGRADE CONSTATNS-----//
+	public static final String UPGRADE_TO_PRO_PREFERENCE_KEY = "upgrade_app_to_pro";
 	
 	//Staring Array of the top SMS Messaging Apps:
 	// Android Stock App
@@ -153,6 +163,8 @@ public class Constants {
 	public static final String DARK_TRANSLUCENT_V3_THEME = "dark_translucent_v3";
 	public static final String HTC_SENSE_UI_THEME = "theme_htc";
 	public static final String XPERIA_THEME = "theme_xperia";
+	
+	public static final String APP_THEME_DEFAULT = DARK_TRANSLUCENT_THEME;
 	
 	//-----PHONE NUMBER FORMAT CONSTANTS-----//
 	public static final String PHONE_NUMBER_FORMAT_10_DIGITS_ONLY_KEY = "phone_number_format_10_digits_only";
@@ -235,6 +247,12 @@ public class Constants {
 	public static final int SMS_EMAIL_GATEWAY_6 = 6;
 	public static final int SMS_EMAIL_GATEWAY_7 = 7;
 	public static final int SMS_EMAIL_GATEWAY_8 = 8;
+	
+	//-----PREFERENCE SCREEN CONSTANTS-----//
+	public static final String PREFERENCE_SCREEN_NOTIFICATION_SETTINGS_KEY = "notifications_settings_screen";
+	public static final String PREFERENCE_CATEGORY_APP_FEEDBACK_KEY = "app_feedback_category";
+	public static final String PREFERENCE_CATEGORY_APP_LICENSE_KEY = "app_license_category";
+	public static final String PREFERENCE_RATE_APP_KEY = "rate_app";
 	
 	//-----SMS NOTIFICATION CONSTANTS-----//
 	public static final String SMS_READ_FROM_INTENT = "0";
@@ -331,6 +349,10 @@ public class Constants {
 	public static final String GMAIL_NOTIFICATION_COUNT_ACTION_KEY = "gmail_notification_count_action";	
 
 	//-----TWITTER NOTIFICATION CONSTANTS-----//
+	public static final String TWITTER_PRO_PREFERENCE_CATEGORY_KEY = "twitter_notification_settings_category";
+	public static final String TWITTER_PRO_PLACEHOLDER_PREFERENCE_KEY = "twitter_notification_settings_placeholder_preference";
+	public static final String TWITTER_PRO_PREFERENCE_SCREEN_KEY = "twitter_notification_settings_screen";
+	
 	public static final String TWITTER_ENABLED_KEY = "twitter_enabled";
 	public static final String TWITTER_DIRECT_MESSAGES_ENABLED_KEY = "twitter_direct_messages_enabled";
 	public static final String TWITTER_POLLING_FREQUENCY_KEY = "twitter_polling_frequency";
@@ -364,13 +386,13 @@ public class Constants {
 	
 	//-----APPLICATION URL CONSTANTS-----//
 	//Android Market URL
-	public static final String RATE_APP_ANDROID_URL = "http://market.android.com/details?id=apps.droidnotify";
-	public static final String DONATE_APP_ANDROID_URL = "http://market.android.com/details?id=apps.droidnotifydonate";
+	public static final String APP_ANDROID_URL = "http://market.android.com/details?id=apps.droidnotify";
+	public static final String APP_PRO_ANDROID_URL = "http://market.android.com/details?id=apps.droidnotifydonate";
 	//Amazon Appstore URL
-	public static final String RATE_APP_AMAZON_URL = "http://www.amazon.com/gp/mas/dl/android?p=apps.droidnotify";
-	public static final String DONATE_APP_AMAZON_URL = "http://www.amazon.com/gp/mas/dl/android?p=apps.droidnotifydonate";
+	public static final String APP_AMAZON_URL = "http://www.amazon.com/gp/mas/dl/android?p=apps.droidnotify";
+	public static final String APP_PRO_AMAZON_URL = "http://www.amazon.com/gp/mas/dl/android?p=apps.droidnotifydonate";
 	//PayPal URL
-	public static final String DONATE_PAYPAL_URL = "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=43V2NJQH5BQAA";
+	public static final String APP_PAYPAL_URL = "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=43V2NJQH5BQAA";
 	
 	//-----EULA CONSTANTS-----//
 	public static final String RUN_ONCE_EULA = "runOnceEula";

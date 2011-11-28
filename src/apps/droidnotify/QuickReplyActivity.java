@@ -109,7 +109,7 @@ public class QuickReplyActivity extends Activity {
 		    mainWindow.setAttributes(params); 
 	    }
 	    //Set based on the theme. This is set in the user preferences.
-		String applicationThemeSetting = _preferences.getString(Constants.APP_THEME_KEY, Constants.ANDROID_FROYO_THEME);
+		String applicationThemeSetting = _preferences.getString(Constants.APP_THEME_KEY, Constants.APP_THEME_DEFAULT);
 		int themeResource = R.layout.android_froyo_theme_notification;
 		if(applicationThemeSetting.equals(Constants.ANDROID_FROYO_THEME)) themeResource = R.layout.android_froyo_theme_smsreply;
 		if(applicationThemeSetting.equals(Constants.ANDROID_GINGERBREAD_THEME)) themeResource = R.layout.android_gingerbread_theme_smsreply;

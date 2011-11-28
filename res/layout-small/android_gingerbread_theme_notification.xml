@@ -156,7 +156,7 @@
 			android:hapticFeedbackEnabled="true"
 			android:textStyle="bold"
 			android:visibility="gone"
-			android:text="[Click Here To View MMS Message]" />
+			android:text="@string/mms_click_here_to_view" />
 		<TextView
 			android:id="@+id/notification_details_text_view"
 			android:layout_height="wrap_content"
