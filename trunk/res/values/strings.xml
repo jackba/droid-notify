@@ -3,8 +3,14 @@
 
 	<!-- App Strings -->
 	<string name="app_name_formatted_version">Droid Notify v%s</string>
+	<string name="app_name_basic_formatted_version">Droid Notify Basic v%s</string>
+	<string name="app_name_pro_formatted_version">Droid Notify Pro v%s</string>
 	<string name="app_name">DroidNotify</string>
+	<string name="app_name_basic">DroidNotifyBasic</string>
+	<string name="app_name_pro">DroidNotifyPro</string>
     <string name="app_name_formatted">Droid Notify</string>
+    <string name="app_name_basic_formatted">Droid Notify Basic</string>
+    <string name="app_name_pro_formatted">Droid Notify Pro</string>
     <string name="preference_appenabled_title">Enable Droid Notify</string>
    	<string name="preference_appenabled_summaryOn">Droid Notify is enabled.</string>
    	<string name="preference_appenabled_summaryOff">Droid Notify is disabled.</string>
@@ -19,10 +25,19 @@
     <string name="donate_text">Donate</string>
     <string name="donate_to_droid_notify_text">Droid Notify Donations</string>
     <string name="donate_summary">Donate to this project. Your donations help make the continued development and addition of new features possible.</string>
-    <string name="donate_description_text">Droid Notify is a free application that I develop in my spare time. Please consider donating to this project. Your donations help make the continued development and addition of new features possible.\n\nThank You!</string>
+    <string name="donate_description_text">Please consider donating to this project. Your donations help make the continued development and addition of new features possible.\n\nThank You!</string>
    	<string name="donate_via_android_market_text">Donate via Android Market</string>
    	<string name="donate_via_amazon_app_store_text">Donate via Amazon App Store</string>
    	<string name="donate_via_paypal_text">Donate via PayPal</string>
+   	
+   	<!-- Pro Version Only Strings -->
+    <string name="app_feature_pro_only">This feature is only available in the pro version.</string>
+    <string name="upgrade_description_text">This feature is only available in the pro version. If you would like to upgrade now and purchase the pro version please click on the button below.</string>
+    <string name="upgrade_no_market_description_text">This feature is only available in the pro version. Please upgrade the app to access this feature.</string>
+    <string name="upgrade_to_droid_notify_pro_text">Upgrade to Pro</string>
+    <string name="upgrade_to_droid_notify_pro_text_summary">Upgrade to Droid Notify Pro. Unlock the full potential of this application.</string>
+    <string name="upgrade_now_text">Upgrade Now</string>
+    <string name="upgrade_direct_description_text">Please consider upgrading to the pro version of this app. If you would like to upgrade now and purchase the pro version please click on the button below.\n\nYour support helps make the continued development and addition of new features possible.\n\nThank You!</string>
         
     <!-- Error Message Strings -->
     <string name="app_android_messaging_app_error">The Android Messaging application could not be started.</string>
@@ -192,7 +207,8 @@
    	<string name="messaging_app_running_action_mms_summary">Define action when a MMS notification comes in when a messaging app is currently running.</string> 
    	<string name="preference_mms_timestamp_adjustment_title">MMS TimeStamp Adjustment</string>
    	<string name="preference_mms_timestamp_adjustment_summary">Some phones/locations may display incorrect timestamps. Use this setting to adjust the displayed timestamp for MMS messages.</string>
-   	
+   	<string name="mms_click_here_to_view">[Click Here To View MMS Message]</string>
+   	    
    	<!-- Missed Call Strings -->
    	<string name="view_mms_button_text">View MMS</string>
    	<string name="call_button_text">Call</string>

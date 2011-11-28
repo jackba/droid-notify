@@ -69,6 +69,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
     private Context _context = null;
     private SharedPreferences _preferences = null;
     private String _appVersion = null;
+    private boolean _appProVersion = false;
 	
 	//================================================================================
 	// Public Methods
@@ -83,6 +84,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	    _debug = Log.getDebug();
+	    _appProVersion = Log.getAppProVersion();
 	    if (_debug) Log.v("MainPreferenceActivity.onCreate()");
 	    _context = MainPreferenceActivity.this;
 	    _preferences = PreferenceManager.getDefaultSharedPreferences(_context);
@@ -98,6 +100,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	    runOnceCalendarAlarmManager();
 	    setupAppDebugMode(_debug);
 	    setupRateAppPreference();
+	    setupAppVersion(_appProVersion);
 	    runOnce();
 	}
     
@@ -211,50 +214,96 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	        /*
 	         * Donate dialog.
 	         */
-			case Constants.DIALOG_DONATE:{
+			case Constants.DIALOG_UPGRADE:{
 				if (_debug) Log.v("MainPreferenceActivity.onCreateDialog() DIALOG_DONATE");
 				LayoutInflater factory = getLayoutInflater();
-		        final View donateView = factory.inflate(R.layout.donate, null);
+		        final View upgradeToProView = factory.inflate(R.layout.upgrade_to_pro, null);
 				AlertDialog.Builder builder = new AlertDialog.Builder(this);
-				builder.setView(donateView);
+				builder.setView(upgradeToProView);
 				builder.setIcon(R.drawable.ic_launcher_droidnotify);
-				builder.setTitle(_context.getString(R.string.donate_to_droid_notify_text));
+				if(Log.getShowAndroidRateAppLink()){
+					builder.setTitle(_context.getString(R.string.upgrade_to_droid_notify_pro_text));
+		        }else if(Log.getShowAmazonRateAppLink()){
+					builder.setTitle(_context.getString(R.string.upgrade_to_droid_notify_pro_text));
+		        }else{
+					builder.setTitle(_context.getString(R.string.donate_to_droid_notify_text));
+		        }
 				final AlertDialog alertDialog = builder.create();
-		        Button donateAndroidButton = (Button) donateView.findViewById(R.id.donate_android_market_button);
+				TextView contentTextView = (TextView) upgradeToProView.findViewById(R.id.content_text_view);
+		        Button contentButton = (Button) upgradeToProView.findViewById(R.id.content_button);
 		        if(Log.getShowAndroidRateAppLink()){
-			        donateAndroidButton.setOnClickListener(new OnClickListener(){
+		        	contentButton.setOnClickListener(new OnClickListener(){
 			        	public void onClick(View view) {
-			        		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.DONATE_APP_ANDROID_URL));			    	
+			        		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.APP_PRO_ANDROID_URL));			    	
 					    	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_NO_HISTORY);
 				    		startActivity(intent);
 				    		alertDialog.dismiss();
 			        	}
 			        });
-		        }else{
-		        	donateAndroidButton.setVisibility(View.GONE);
-		        }
-		        Button donateAmazonButton = (Button) donateView.findViewById(R.id.donate_amazon_app_store_button);
-		        if(Log.getShowAmazonRateAppLink()){
-			        donateAmazonButton.setOnClickListener(new OnClickListener(){
+		        	contentButton.setText(_context.getString(R.string.upgrade_now_text));
+			        contentTextView.setText(_context.getString(R.string.upgrade_direct_description_text));
+		        }else if(Log.getShowAmazonRateAppLink()){
+		        	contentButton.setOnClickListener(new OnClickListener(){
 				    	public void onClick(View view) {
-			        		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.DONATE_APP_AMAZON_URL));			    	
+			        		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.APP_PRO_AMAZON_URL));			    	
 					    	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_NO_HISTORY);
 				    		startActivity(intent);
 				    		alertDialog.dismiss();
 				    	}
 				    });
+		        	contentButton.setText(_context.getString(R.string.upgrade_now_text));
+			        contentTextView.setText(_context.getString(R.string.upgrade_direct_description_text));
 		        }else{
-		        	donateAmazonButton.setVisibility(View.GONE);
+		        	contentButton.setOnClickListener(new OnClickListener() {
+						public void onClick(View view) {
+							Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.APP_PAYPAL_URL));			    	
+							intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_NO_HISTORY);
+							startActivity(intent);
+							alertDialog.dismiss();
+						}
+			        });
+		        	contentButton.setText(_context.getString(R.string.donate_via_paypal_text));
+			        contentTextView.setText(_context.getString(R.string.donate_description_text));
 		        }
-		        Button donatePaypalButton = (Button) donateView.findViewById(R.id.donate_paypal_button);
-		        donatePaypalButton.setOnClickListener(new OnClickListener() {
-		          public void onClick(View view) {
-		        		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.DONATE_PAYPAL_URL));			    	
-				    	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_NO_HISTORY);
-			    		startActivity(intent);
-			    		alertDialog.dismiss();
-		          }
-		        });
+				return alertDialog;
+			}
+			case Constants.DIALOG_FEATURE_AVAILABLE_WITH_PRO_VERSION_TWITTER:{
+				if (_debug) Log.v("MainPreferenceActivity.onCreateDialog() DIALOG_FEATURE_AVAILABLE_WITH_PRO_VERSION");
+				LayoutInflater factory = getLayoutInflater();
+		        final View upgradeToProView = factory.inflate(R.layout.upgrade_to_pro, null);
+				AlertDialog.Builder builder = new AlertDialog.Builder(this);
+				builder.setView(upgradeToProView);
+				builder.setIcon(R.drawable.twitter);
+				builder.setTitle(_context.getString(R.string.upgrade_to_droid_notify_pro_text));
+				final AlertDialog alertDialog = builder.create();
+				TextView contentTextView = (TextView) upgradeToProView.findViewById(R.id.content_text_view);
+		        Button contentButton = (Button) upgradeToProView.findViewById(R.id.content_button);
+		        if(Log.getShowAndroidRateAppLink()){
+		        	contentButton.setOnClickListener(new OnClickListener(){
+			        	public void onClick(View view) {
+			        		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.APP_PRO_ANDROID_URL));			    	
+					    	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_NO_HISTORY);
+				    		startActivity(intent);
+				    		alertDialog.dismiss();
+			        	}
+			        });
+		        	contentButton.setText(_context.getString(R.string.upgrade_now_text));
+			        contentTextView.setText(_context.getString(R.string.upgrade_description_text));
+		        }else if(Log.getShowAmazonRateAppLink()){
+		        	contentButton.setOnClickListener(new OnClickListener(){
+				    	public void onClick(View view) {
+			        		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.APP_PRO_AMAZON_URL));			    	
+					    	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_NO_HISTORY);
+				    		startActivity(intent);
+				    		alertDialog.dismiss();
+				    	}
+				    });
+		        	contentButton.setText(_context.getString(R.string.upgrade_now_text));
+			        contentTextView.setText(_context.getString(R.string.upgrade_description_text));
+		        }else{
+		        	contentButton.setVisibility(View.GONE);
+			        contentTextView.setText(_context.getString(R.string.upgrade_no_market_description_text));
+		        }
 				return alertDialog;
 			}
 		}
@@ -312,7 +361,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	 */
 	private void runOnce(){
 		if (_debug) Log.v("MainPreferenceActivity.runOnce()");
-		if(_preferences.getBoolean(Constants.RUN_ONCE_EULA, true)) {
+		if(!_appProVersion && _preferences.getBoolean(Constants.RUN_ONCE_EULA, true)) {
 			try{
 				SharedPreferences.Editor editor = _preferences.edit();
 				editor.putBoolean(Constants.RUN_ONCE_EULA, false);
@@ -333,7 +382,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		Preference testAppPref = (Preference)findPreference("test_app");
 		testAppPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
         	public boolean onPreferenceClick(Preference preference) {
-		    	if (_debug) Log.v("Test Notifications Button Clicked()");
+		    	if (_debug) Log.v("MainPreferenceActivity() Test Notifications Button Clicked()");
 		    	Bundle bundle = new Bundle();
 				bundle.putInt("notificationType", Constants.NOTIFICATION_TYPE_TEST);
 		    	Intent intent = new Intent(_context, NotificationActivity.class);
@@ -342,7 +391,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		    	try{
 		    		startActivity(intent);
 		    	}catch(Exception ex){
-	 	    		if (_debug) Log.e("MainPreferenceActivity.setupCustomPreferences() Test Notifications Button ERROR: " + ex.toString());
+	 	    		if (_debug) Log.e("MainPreferenceActivity() Test Notifications Button ERROR: " + ex.toString());
 	 	    		Toast.makeText(_context, _context.getString(R.string.app_android_test_app_error), Toast.LENGTH_LONG).show();
 	 	    		return false;
 		    	}
@@ -353,11 +402,11 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		Preference quietTimePref = (Preference)findPreference("quiet_time_blackout_period_settings");
 		quietTimePref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
         	public boolean onPreferenceClick(Preference preference) {
-		    	if (_debug) Log.v("Quiet Time Button Clicked()");
+		    	if (_debug) Log.v("MainPreferenceActivity() Quiet Time Button Clicked()");
 		    	try{
 		    		showQuietTimePeriodDialog();
 		    	}catch(Exception ex){
-	 	    		if (_debug) Log.e("MainPreferenceActivity.setupCustomPreferences() Quiet Time Button ERROR: " + ex.toString());
+	 	    		if (_debug) Log.e("MainPreferenceActivity() Quiet Time Button ERROR: " + ex.toString());
 	 	    		//Toast.makeText(_context, _context.getString(R.string.app_preference_quiet_time_error), Toast.LENGTH_LONG).show();
 	 	    		return false;
 		    	}
@@ -368,13 +417,21 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		Preference rateAppPref = (Preference)findPreference("rate_app");
 		rateAppPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
         	public boolean onPreferenceClick(Preference preference) {
-		    	if (_debug) Log.v("Rate This App Button Clicked()");
+		    	if (_debug) Log.v("MainPreferenceActivity() Rate This App Button Clicked()");
 		    	try{
 			    	String rateAppURL = "";
 			    	if(Log.getShowAndroidRateAppLink()){
-			    		rateAppURL = Constants.RATE_APP_ANDROID_URL;
+			    		if(_appProVersion){
+			    			rateAppURL = Constants.APP_PRO_ANDROID_URL;
+			    		}else{
+			    			rateAppURL = Constants.APP_ANDROID_URL;
+			    		}
 			    	}else if(Log.getShowAmazonRateAppLink()){
-			    		rateAppURL = Constants.RATE_APP_AMAZON_URL;
+			    		if(_appProVersion){
+			    			rateAppURL = Constants.APP_PRO_AMAZON_URL;
+			    		}else{
+			    			rateAppURL = Constants.APP_AMAZON_URL;
+			    		}
 			    	}else{
 			    		rateAppURL = "";
 			    	}
@@ -382,22 +439,22 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			    	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_NO_HISTORY);
 		    		startActivity(intent);
 		    	}catch(Exception ex){
-	 	    		if (_debug) Log.e("MainPreferenceActivity.setupCustomPreferences() Rate This App Button ERROR: " + ex.toString());
+	 	    		if (_debug) Log.e("MainPreferenceActivity() Rate This App Button ERROR: " + ex.toString());
 	 	    		Toast.makeText(_context, _context.getString(R.string.app_android_rate_app_error), Toast.LENGTH_LONG).show();
 	 	    		return false;
 		    	}
 	            return true;
            }
 		});
-		//Donate Preference/Button
-		Preference donatePref = (Preference)findPreference("donate_to_project");
-		donatePref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+		//Upgrade Preference/Button
+		Preference upgradePreference = (Preference)findPreference(Constants.UPGRADE_TO_PRO_PREFERENCE_KEY);
+		upgradePreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
         	public boolean onPreferenceClick(Preference preference) {
-		    	if (_debug) Log.v("Donate Button Clicked()");
+		    	if (_debug) Log.v("MainPreferenceActivity() Upgrade Button Clicked()");
 		    	try{
-		    		showDialog(Constants.DIALOG_DONATE);
+		    		showDialog(Constants.DIALOG_UPGRADE);
 		    	}catch(Exception ex){
-	 	    		if (_debug) Log.e("MainPreferenceActivity.setupCustomPreferences() Donate Button ERROR: " + ex.toString());
+	 	    		if (_debug) Log.e("MainPreferenceActivity() Upgrade Button ERROR: " + ex.toString());
 	 	    		return false;
 		    	}
 	            return true;
@@ -407,14 +464,14 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		Preference emailDeveloperPref = (Preference)findPreference("email_developer");
 		emailDeveloperPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
         	public boolean onPreferenceClick(Preference preference) {
-		    	if (_debug) Log.v("Email Developer Button Clicked()");
+		    	if (_debug) Log.v("MainPreferenceActivity() Email Developer Button Clicked()");
 		    	try{
 			    	Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:droidnotify@gmail.com"));
 			    	intent.putExtra("subject", "Droid Notify App Feedback");
 			    	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
 		    		startActivity(intent);
 		    	}catch(Exception ex){
-	 	    		if (_debug) Log.e("MainPreferenceActivity.setupCustomPreferences() Email Developer Button ERROR: " + ex.toString());
+	 	    		if (_debug) Log.e("MainPreferenceActivity() Email Developer Button ERROR: " + ex.toString());
 	 	    		Toast.makeText(_context, _context.getString(R.string.app_android_email_app_error), Toast.LENGTH_LONG).show();
 	 	    		return false;
 		    	}
@@ -425,15 +482,19 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		Preference aboutPreferencesPref = (Preference)findPreference("application_about");
 		aboutPreferencesPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
         	public boolean onPreferenceClick(Preference preference) {
-		    	if (_debug) Log.v("About Button Clicked()");
-		    	return displayHTMLAlertDialog(_context.getString(R.string.app_name_formatted_version, _appVersion),R.drawable.ic_launcher_droidnotify,_context.getString(R.string.preference_about_text));
-           }
+		    	if (_debug) Log.v("MainPreferenceActivity() About Button Clicked()");
+		    	if(Log.getAppProVersion()){
+		    		return displayHTMLAlertDialog(_context.getString(R.string.app_name_pro_formatted_version, _appVersion),R.drawable.ic_launcher_droidnotify,_context.getString(R.string.preference_about_text));
+		    	}else{
+		    		return displayHTMLAlertDialog(_context.getString(R.string.app_name_basic_formatted_version, _appVersion),R.drawable.ic_launcher_droidnotify,_context.getString(R.string.preference_about_text));
+		    	}
+        	}
 		});
 		//License Preference/Button
 		Preference licensePreferencesPref = (Preference)findPreference("application_license");
 		licensePreferencesPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
         	public boolean onPreferenceClick(Preference preference) {
-		    	if (_debug) Log.v("License Button Clicked()");
+		    	if (_debug) Log.v("MainPreferenceActivity() License Button Clicked()");
 	            return displayHTMLAlertDialog(_context.getString(R.string.app_license),R.drawable.ic_dialog_info,_context.getString(R.string.eula_text));
            }
 		});
@@ -441,12 +502,12 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		Preference exportPreferencesPref = (Preference)findPreference("export_preferences");
 		exportPreferencesPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
         	public boolean onPreferenceClick(Preference preference) {
-		    	if (_debug) Log.v("Export Preferences Button Clicked()");
+		    	if (_debug) Log.v("MainPreferenceActivity() Export Preferences Button Clicked()");
 		    	try{
 			    	//Run this process in the background in an AsyncTask.
 			    	new exportPreferencesAsyncTask().execute();
 		    	}catch(Exception ex){
-	 	    		if (_debug) Log.e("MainPreferenceActivity.setupCustomPreferences() Export Preferences Button ERROR: " + ex.toString());
+	 	    		if (_debug) Log.e("MainPreferenceActivity() Export Preferences Button ERROR: " + ex.toString());
 	 	    		return false;
 		    	}
 	            return true;
@@ -456,12 +517,12 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		Preference importPreferencesPref = (Preference)findPreference("import_preferences");
 		importPreferencesPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
         	public boolean onPreferenceClick(Preference preference) {
-		    	if (_debug) Log.v("Import Preferences Button Clicked()");
+		    	if (_debug) Log.v("MainPreferenceActivity() Import Preferences Button Clicked()");
 		    	try{
 			    	//Run this process in the background in an AsyncTask.
 			    	new importPreferencesAsyncTask().execute();
 		    	}catch(Exception ex){
-	 	    		if (_debug) Log.e("MainPreferenceActivity.setupCustomPreferences() Import Preferences Button ERROR: " + ex.toString());
+	 	    		if (_debug) Log.e("MainPreferenceActivity() Import Preferences Button ERROR: " + ex.toString());
 	 	    		return false;
 		    	}
 	            return true;
@@ -471,7 +532,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		Preference emailDeveloperLogsPref = (Preference)findPreference("email_logs");
 		emailDeveloperLogsPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
         	public boolean onPreferenceClick(Preference preference) {
-		    	if (_debug) Log.v("Email Developer Logs Button Clicked()");
+		    	if (_debug) Log.v("MainPreferenceActivity() Email Developer Logs Button Clicked()");
 		    	try{
 			    	Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:droidnotify@gmail.com"));
 			    	intent.putExtra("subject", "Droid Notify App Logs");
@@ -494,7 +555,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			    	if(logFileE.exists()) intent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///mnt/sdcard/Droid Notify/Logs/E/DroidNotifyLog.txt"));
 		    		startActivity(intent);
 		    	}catch(Exception ex){
-	 	    		if (_debug) Log.e("MainPreferenceActivity.setupCustomPreferences() Email Developer Logs Button ERROR: " + ex.toString());
+	 	    		if (_debug) Log.e("MainPreferenceActivity() Email Developer Logs Button ERROR: " + ex.toString());
 	 	    		Toast.makeText(_context, _context.getString(R.string.app_android_email_app_error), Toast.LENGTH_LONG).show();
 	 	    		return false;
 		    	}
@@ -505,12 +566,12 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		Preference clearDeveloperLogsPref = (Preference)findPreference("clear_logs");
 		clearDeveloperLogsPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
         	public boolean onPreferenceClick(Preference preference) {
-		    	if (_debug) Log.v("Clear Developer Logs Button Clicked()");
+		    	if (_debug) Log.v("MainPreferenceActivity() Clear Developer Logs Button Clicked()");
 		    	try{
 			    	//Run this process in the background in an AsyncTask.
 			    	new clearDeveloperLogAsyncTask().execute();
 		    	}catch(Exception ex){
-	 	    		if (_debug) Log.e("MainPreferenceActivity.setupCustomPreferences() Clear Developer Logs Button ERROR: " + ex.toString());
+	 	    		if (_debug) Log.e("MainPreferenceActivity() Clear Developer Logs Button ERROR: " + ex.toString());
 	 	    		return false;
 		    	}
 	            return true;
@@ -547,9 +608,50 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			showRateAppCategory = false;
 		}
 		if(!showRateAppCategory){
-			PreferenceScreen mainPreferences = this.getPreferenceScreen();
-			PreferenceCategory rateAppCategory = (PreferenceCategory) findPreference("rate_app_category");
-			mainPreferences.removePreference(rateAppCategory);
+			PreferenceCategory appFeedbackPreferenceCategory = (PreferenceCategory) findPreference(Constants.PREFERENCE_CATEGORY_APP_FEEDBACK_KEY);
+			Preference rateAppPreference = (Preference) findPreference(Constants.PREFERENCE_RATE_APP_KEY);
+			appFeedbackPreferenceCategory.removePreference(rateAppPreference);
+		}
+	}
+	
+	/**
+	 * Set up the app vased on whether or not this is the Pro Version or not.
+	 * 
+	 * @param appProVersion
+	 */
+	private void setupAppVersion(boolean appProVersion){
+		if (_debug) Log.v("MainPreferenceActivity.setupAppVersion()");
+		PreferenceScreen mainPreferences = this.getPreferenceScreen();
+		PreferenceCategory notificationPreferenceCategory = (PreferenceCategory) findPreference(Constants.TWITTER_PRO_PREFERENCE_CATEGORY_KEY);
+		Preference twitterProPlaceholderPreference = (Preference) findPreference(Constants.TWITTER_PRO_PLACEHOLDER_PREFERENCE_KEY);
+		PreferenceScreen twitterProPreferenceScreen = (PreferenceScreen) findPreference(Constants.TWITTER_PRO_PREFERENCE_SCREEN_KEY);
+		PreferenceCategory appFeedbackPreferenceCategory = (PreferenceCategory) findPreference(Constants.PREFERENCE_CATEGORY_APP_FEEDBACK_KEY);
+		Preference upgradeToProPreference = (Preference) findPreference(Constants.UPGRADE_TO_PRO_PREFERENCE_KEY);
+		PreferenceCategory appLicensePreferenceCategory = (PreferenceCategory) findPreference(Constants.PREFERENCE_CATEGORY_APP_LICENSE_KEY);
+		if(appProVersion){
+			//Remove the Twitter placeholder preference category.
+			notificationPreferenceCategory.removePreference(twitterProPlaceholderPreference);
+			//Remove the Upgrade button.
+			appFeedbackPreferenceCategory.removePreference(upgradeToProPreference);
+			//Remove the Liscense button.
+			mainPreferences.removePreference(appLicensePreferenceCategory);
+		}else{
+			//Remove the Twitter preference preference category.
+			notificationPreferenceCategory.removePreference(twitterProPreferenceScreen);
+			//Setup the Twitter placeholder preference button.
+			twitterProPlaceholderPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+	        	public boolean onPreferenceClick(Preference preference) {
+			    	if (_debug) Log.v("Twitter Pro Placeholder Button Clicked()");
+			    	try{
+				    	//Display Pro Version Only Popup
+			    		showDialog(Constants.DIALOG_FEATURE_AVAILABLE_WITH_PRO_VERSION_TWITTER);
+			    	}catch(Exception ex){
+		 	    		if (_debug) Log.e("MainPreferenceActivity() Twitter Pro Placeholder Button ERROR: " + ex.toString());
+		 	    		return false;
+			    	}
+		            return true;
+	           }
+			});
 		}
 	}
 	

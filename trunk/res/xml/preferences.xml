@@ -39,7 +39,7 @@
 					android:entries="@array/theme_options"
 					android:entryValues="@array/theme_values"
 					droidnotify:entryImages="@array/theme_images"
-					android:defaultValue="android" />
+					android:defaultValue="dark_translucent" />
 				<CheckBoxPreference
 					android:key="phone_number_format_10_digits_only" 
 					android:title="@string/preference_phone_number_format_10_digits_only_title" 
@@ -1412,11 +1412,15 @@
 			<PreferenceCategory
 				android:key="twitter_notification_settings_category"
 				android:title="@string/preference_twitter_notifications">
+		  		<Preference
+		            android:key="twitter_notification_settings_placeholder_preference"
+		        	android:title="@string/preference_twitter_notifications"
+		          	android:summary="@string/app_feature_pro_only" />
 				<PreferenceScreen
-					android:key="twitter__notification_settings_screen"
+					android:key="twitter_notification_settings_screen"
 					android:title="@string/preference_twitter_notifications">
 					<PreferenceCategory
-						android:key="twitter__basic_settings_category"
+						android:key="twitter_basic_settings_category"
 						android:title="@string/basic_settings_text">
 						<CheckBoxPreference
 							android:key="twitter_enabled"
@@ -1630,22 +1634,18 @@
 					android:summary="@string/preference_import_preferences_summary" />	
 			</PreferenceCategory>	
 		</PreferenceScreen>
-	</PreferenceCategory>
+	</PreferenceCategory>       	
 	<PreferenceCategory
-		android:key="rate_app_category"
-		android:title="@string/rate_app_text">
+		android:key="app_feedback_category"
+		android:title="@string/feedback_text">
 		<Preference
             android:key="rate_app"
         	android:title="@string/rate_app_text"
           	android:summary="@string/rate_app_summary" />
-    </PreferenceCategory>       	
-	<PreferenceCategory
-		android:key="app_feedback_category"
-		android:title="@string/feedback_text"> 	
 		<Preference
-            android:key="donate_to_project"
-        	android:title="@string/donate_text"
-          	android:summary="@string/donate_summary" />
+            android:key="upgrade_app_to_pro"
+        	android:title="@string/upgrade_to_droid_notify_pro_text"
+          	android:summary="@string/upgrade_to_droid_notify_pro_text_summary" />
 		<Preference
             android:key="email_developer"
         	android:title="@string/email_developer_text"
