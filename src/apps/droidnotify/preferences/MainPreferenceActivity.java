@@ -349,11 +349,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		//Make sure that this user preference has been set and initialized.
 		initUserCalendarsPreference();
 		//Schedule the reading of the calendar events.
-		AlarmManager alarmManager = (AlarmManager) _context.getSystemService(Context.ALARM_SERVICE);
-		Intent intent = new Intent(_context, CalendarAlarmReceiver.class);
-		PendingIntent pendingIntent = PendingIntent.getBroadcast(_context, 0, intent, 0);
-		long pollingFrequency = Long.parseLong(_preferences.getString(Constants.CALENDAR_POLLING_FREQUENCY_KEY, "15")) * 60 * 1000;
-		alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, alarmStartTime, pollingFrequency, pendingIntent);
+		Common.startCalendarAlarmManager(_context, alarmStartTime);
 	}
 	
 	/**

@@ -377,6 +377,21 @@ public class NotificationActivity extends Activity {
 				}
 				break;
 			}
+			case Constants.NOTIFICATION_TYPE_TWITTER:{
+				if(_preferences.getString(Constants.TWITTER_DELETE_KEY, "0").equals(Constants.TWITTER_DELETE_ACTION_NOTHING)){
+					//Remove the notification from the ViewFlipper
+					deleteMessage();
+				}else{
+					if(_preferences.getBoolean(Constants.TWITTER_CONFIRM_DELETION_KEY, true)){
+						//Confirm deletion of the message.
+						showDialog(Constants.DIALOG_DELETE_MESSAGE);
+					}else{
+						//Remove the notification from the ViewFlipper.
+						deleteMessage();
+					}
+				}
+				break;
+			}
 			case Constants.NOTIFICATION_TYPE_K9:{
 				if(_preferences.getString(Constants.K9_DELETE_KEY, "0").equals(Constants.K9_DELETE_ACTION_NOTHING)){
 					//Remove the notification from the ViewFlipper
@@ -719,6 +734,38 @@ public class NotificationActivity extends Activity {
 		    	Common.setInLinkedAppFlag(_context, false);
 		        break;
 		    }
+		    case Constants.TWITTER_VIEW_INBOX_ACTIVITY:{
+		    	if (resultCode == RESULT_OK) {
+		    		if (_debug) Log.v("NotificationActivity.onActivityResult() TWITTER_VIEW_INBOX_ACTIVITY: RESULT_OK");
+		        	//Remove notification from ViewFlipper.
+		    		_notificationViewFlipper.removeActiveNotification(false);
+		    	}else if (resultCode == RESULT_CANCELED) {
+		    		if (_debug) Log.v("NotificationActivity.onActivityResult() TWITTER_VIEW_INBOX_ACTIVITY: RESULT_CANCELED");
+		    		//Remove notification from ViewFlipper.
+					_notificationViewFlipper.removeActiveNotification(false);
+		    	}else{
+		    		if (_debug) Log.v("NotificationActivity.onActivityResult() TWITTER_VIEW_INBOX_ACTIVITY: " + resultCode);
+		        	Toast.makeText(_context, _context.getString(R.string.app_k9_email_app_error) + " " + resultCode, Toast.LENGTH_LONG).show();
+		    	}
+		    	Common.setInLinkedAppFlag(_context, false);
+		        break;
+		    }
+		    case Constants.TWITTER_VIEW_MESSAGE_ACTIVITY:{
+		    	if (resultCode == RESULT_OK) {
+		    		if (_debug) Log.v("NotificationActivity.onActivityResult() TWITTER_VIEW_MESSAGE_ACTIVITY: RESULT_OK");
+		        	//Remove notification from ViewFlipper.
+		    		_notificationViewFlipper.removeActiveNotification(false);
+		    	}else if (resultCode == RESULT_CANCELED) {
+		    		if (_debug) Log.v("NotificationActivity.onActivityResult() TWITTER_VIEW_MESSAGE_ACTIVITY: RESULT_CANCELED");
+		    		//Remove notification from ViewFlipper.
+					_notificationViewFlipper.removeActiveNotification(false);
+		    	}else{
+		    		if (_debug) Log.v("NotificationActivity.onActivityResult() TWITTER_VIEW_MESSAGE_ACTIVITY: " + resultCode);
+		        	Toast.makeText(_context, _context.getString(R.string.app_twitter_app_error) + " " + resultCode, Toast.LENGTH_LONG).show();
+		    	}
+		    	Common.setInLinkedAppFlag(_context, false);
+		        break;
+		    }
 		    case Constants.K9_VIEW_INBOX_ACTIVITY:{
 		    	if (resultCode == RESULT_OK) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() K9_VIEW_INBOX_ACTIVITY: RESULT_OK");
@@ -851,7 +898,7 @@ public class NotificationActivity extends Activity {
 		    }
 			case Constants.NOTIFICATION_TYPE_TWITTER:{
 				if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_TWITTER");
-		    	//TODO - Twitter
+				setupTwitterMessages(extrasBundle);
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_FACEBOOK:{
@@ -1011,6 +1058,8 @@ public class NotificationActivity extends Activity {
 					}else if(_preferences.getString(Constants.MMS_DELETE_KEY, "0").equals(Constants.MMS_DELETE_ACTION_DELETE_THREAD)){
 						builder.setMessage(_context.getString(R.string.delete_thread_dialog_text));
 					}
+				}else if(notificationType == Constants.NOTIFICATION_TYPE_TWITTER){
+						builder.setMessage(_context.getString(R.string.delete_twitter_direct_message_dialog_text));
 				}else if(notificationType == Constants.NOTIFICATION_TYPE_K9){
 					builder.setMessage(_context.getString(R.string.delete_email_dialog_text));
 				}
@@ -1081,7 +1130,7 @@ public class NotificationActivity extends Activity {
 		    }
 			case Constants.NOTIFICATION_TYPE_TWITTER:{
 				if (_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_TWITTER");
-		    	//TODO - Twitter
+				setupTwitterMessages(extrasBundle);
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_FACEBOOK:{
@@ -1182,6 +1231,8 @@ public class NotificationActivity extends Activity {
 		String calendarTestCalendar = "Test Calendar";
 		String calendarTestEvent = "Calendar Event Test";
 		String calendarTestEventBody = "This is a calendar event test.";
+		String sentFromTwitter = "tweetest";
+		String twitterTestMessage = "Twitter Test Direct Message";
 		String sentFromEmail = "test@gmail.com";
 		String emailTestMessage = "Email Test Message";
 		NotificationViewFlipper notificationViewFlipper = _notificationViewFlipper;
@@ -1217,6 +1268,14 @@ public class NotificationActivity extends Activity {
 			notificationViewFlipper.addNotification(calendarEventNotification);	
 			//Display Status Bar Notification
 		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_CALENDAR, true, null, null, calendarTestEvent, null);
+	    }
+	    if(_preferences.getBoolean(Constants.TWITTER_NOTIFICATIONS_ENABLED_KEY, true)){
+			notificationDisplayed = true;
+			//Add Twitter Message Notification.
+			Notification twitterNotification = new Notification(_context, sentFromTwitter, emailTestMessage, System.currentTimeMillis(), Constants.NOTIFICATION_TYPE_TWITTER);
+			notificationViewFlipper.addNotification(twitterNotification);
+			//Display Status Bar Notification
+		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_TWITTER, true, null, sentFromTwitter, twitterTestMessage, null);
 	    }
 	    if(_preferences.getBoolean(Constants.K9_NOTIFICATIONS_ENABLED_KEY, true)){
 			notificationDisplayed = true;
@@ -1832,7 +1891,8 @@ public class NotificationActivity extends Activity {
 					}
 				}
 			}catch(Exception ex){
-				if (_debug) Log.e("NotificationActivity.setupMissedCalls() ERROR: " + ex.toString());
+				if (_debug) Log.e("NotificationActivity.setupMissedCalls() ERROR: " + ex.toString()); 
+				return false;
 			}
 			_notificationViewFlipper.addNotification(new Notification(_context, callLogID, phoneNumber, timeStamp, contactID, contactName, photoID, lookupKey, Constants.NOTIFICATION_TYPE_PHONE));		    
 			//Display Status Bar Notification
@@ -1845,8 +1905,10 @@ public class NotificationActivity extends Activity {
 	 * Setup the Calendar Event notifications.
 	 * 
 	 * @param bundle - Activity bundle.
+	 * 
+	 * @return boolean - Returns true if the notification did not have an error.
 	 */
-	private void setupCalendarEventNotifications(Bundle bundle){
+	private boolean setupCalendarEventNotifications(Bundle bundle){
 		if (_debug) Log.v("NotificationActivity.setupCalendarEventNotifications()");  
 		String calenderEventInfo[] = (String[]) bundle.getStringArray("calenderEventInfo");
 		String title = null;
@@ -1860,7 +1922,7 @@ public class NotificationActivity extends Activity {
 		try{
 			if(calenderEventInfo.length < 8){
 				if (_debug) Log.e("NotificationActivity.setupCalendarEventNotifications() FATAL NOTIFICATION ERROR. calenderEventInfo.length: " + calenderEventInfo.length);
-				return ;
+				return false;
 			}else{
 				title = calenderEventInfo[0];
 				messageBody = calenderEventInfo[1];
@@ -1873,17 +1935,20 @@ public class NotificationActivity extends Activity {
 			}
 		}catch(Exception ex){
 			if (_debug) Log.e("NotificationActivity.setupCalendarEventNotifications() Error: " + ex.toString());  
-			return;
+			return false;
 		}
 		_notificationViewFlipper.addNotification(new Notification(_context, title, messageBody, eventStartTime, eventEndTime, eventAllDay, calendarName, calendarID, eventID, Constants.NOTIFICATION_TYPE_CALENDAR));
 		//Display Status Bar Notification
 	    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_CALENDAR, true, null, null, title, null);
+	    return true;
 	}
 	
 	/**
 	 * Setup the K-9 Email notifications.
 	 * 
 	 * @param bundle - Activity bundle.
+	 * 
+	 * @return boolean - Returns true if the notification did not have an error.
 	 */
 	private boolean setupK9EmailNotifications(Bundle bundle){
 		if (_debug) Log.v("NotificationActivity.setupK9EmailNotifications()");  
@@ -1930,11 +1995,68 @@ public class NotificationActivity extends Activity {
 					}
 				}
 			}catch(Exception ex){
-				if (_debug) Log.e("NotificationActivity.setupK9EmailNotifications() ERROR: " + ex.toString());
+				if (_debug) Log.e("NotificationActivity.setupK9EmailNotifications() ERROR: " + ex.toString()); 
+				return false;
 			}
 			_notificationViewFlipper.addNotification(new Notification(_context, messageAddress, messageBody, timeStamp, contactID, contactName, photoID, messageID, lookupKey, k9EmailUri, k9EmailDelUri, Constants.NOTIFICATION_TYPE_K9));		    
 			//Display Status Bar Notification
 		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_K9, true, contactName, messageAddress, messageBody, k9EmailUri);
+		}
+	    return true;
+	}
+	
+	/**
+	 * Setup the Twitter Email notifications.
+	 * 
+	 * @param bundle - Activity bundle.
+	 * 
+	 * @return boolean - Returns true if the notification did not have an error.
+	 */
+	private boolean setupTwitterMessages(Bundle bundle){
+		if (_debug) Log.v("NotificationActivity.setupTwitterMessages()");  
+		ArrayList<String> twitterArray = bundle.getStringArrayList("twitterArrayList");
+		int twitterArraysize = twitterArray.size(); 
+		for(int i=0; i<twitterArraysize ; i++){
+			String[] twitterInfo = twitterArray.get(i).split("\\|");
+			String messageAddress = null;
+			String messageBody = null;
+			long messageID = 0;
+			long timeStamp = 0;
+			long contactID = 0;
+			String contactName = null;
+			long photoID = 0;
+			String lookupKey = null;
+			try{
+				int twitterInfoSize = twitterInfo.length;
+				if(twitterInfoSize < 4){
+					if (_debug) Log.e("NotificationActivity.setupTwitterMessages() FATAL NOTIFICATION ERROR. twitterInfoSize.length: " + twitterInfoSize);
+					return false;
+				}else if(twitterInfoSize == 4){
+					messageAddress = twitterInfo[0];
+					messageBody = twitterInfo[1];
+					messageID = Long.parseLong(twitterInfo[2]);
+					timeStamp = Long.parseLong(twitterInfo[3]);
+				}else{
+					messageAddress = twitterInfo[0];
+					messageBody = twitterInfo[1];
+					messageID = Long.parseLong(twitterInfo[2]);
+					timeStamp = Long.parseLong(twitterInfo[3]);
+					contactID = Long.parseLong(twitterInfo[4]);
+					contactName = twitterInfo[5];
+					photoID = Long.parseLong(twitterInfo[6]);
+					if(twitterInfoSize < 8){
+						lookupKey = "";
+					}else{
+						lookupKey = twitterInfo[7];
+					}
+				}
+			}catch(Exception ex){
+				if (_debug) Log.e("NotificationActivity.setupTwitterMessages() ERROR: " + ex.toString()); 
+				return false;
+			}
+			_notificationViewFlipper.addNotification(new Notification(_context, messageAddress, messageBody, timeStamp, contactID, contactName, photoID, messageID, lookupKey, null, null, Constants.NOTIFICATION_TYPE_TWITTER));		    
+			//Display Status Bar Notification
+		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_TWITTER, true, contactName, messageAddress, messageBody, null);
 		}
 	    return true;
 	}
@@ -2014,15 +2136,15 @@ public class NotificationActivity extends Activity {
 		    	break;
 		    }
 	    	case Constants.NOTIFICATION_TYPE_GMAIL:{
-
+	    		Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_GMAIL, true, contactName, sentFromAddress, messageBody, null);
 		    	break;
 		    }
 			case Constants.NOTIFICATION_TYPE_TWITTER:{
-
+				Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_TWITTER, true, contactName, sentFromAddress, messageBody, null);
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_FACEBOOK:{
-
+				Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_FACEBOOK, true, contactName, sentFromAddress, messageBody, null);
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_K9:{
@@ -2116,6 +2238,48 @@ public class NotificationActivity extends Activity {
 				messagingInboxMenuItem.setVisible(false);
 				MenuItem viewThreadMenuItem = contextMenu.findItem(VIEW_THREAD_CONTEXT_MENU);
 				viewThreadMenuItem.setVisible(false);
+				MenuItem viewK9EmailInboxMenuItem = contextMenu.findItem(VIEW_K9_INBOX_CONTEXT_MENU);
+				viewK9EmailInboxMenuItem.setVisible(false);
+				break;
+		    }
+			case Constants.NOTIFICATION_TYPE_TWITTER:{
+		    	MenuItem addCalendarEventMenuItem = contextMenu.findItem(ADD_CALENDAR_EVENT_CONTEXT_MENU);
+		    	addCalendarEventMenuItem.setVisible(false);
+				MenuItem editCalendarEventMenuItem = contextMenu.findItem(EDIT_CALENDAR_EVENT_CONTEXT_MENU);
+				editCalendarEventMenuItem.setVisible(false);
+				MenuItem viewCalendarEventMenuItem = contextMenu.findItem(VIEW_CALENDAR_CONTEXT_MENU);
+				viewCalendarEventMenuItem.setVisible(false);
+		    	MenuItem viewCallLogMenuItem = contextMenu.findItem(VIEW_CALL_LOG_CONTEXT_MENU);
+				viewCallLogMenuItem.setVisible(false);
+				MenuItem callMenuItem = contextMenu.findItem(CALL_CONTACT_CONTEXT_MENU);
+				callMenuItem.setVisible(false);
+				MenuItem messagingInboxMenuItem = contextMenu.findItem(MESSAGING_INBOX_CONTEXT_MENU);
+				messagingInboxMenuItem.setVisible(false);
+				MenuItem viewThreadMenuItem = contextMenu.findItem(VIEW_THREAD_CONTEXT_MENU);
+				viewThreadMenuItem.setVisible(false);
+				MenuItem textContactMenuItem = contextMenu.findItem(TEXT_CONTACT_CONTEXT_MENU);
+				textContactMenuItem.setVisible(false);
+				MenuItem viewK9EmailInboxMenuItem = contextMenu.findItem(VIEW_K9_INBOX_CONTEXT_MENU);
+				viewK9EmailInboxMenuItem.setVisible(false);
+				break;
+		    }
+			case Constants.NOTIFICATION_TYPE_FACEBOOK:{
+		    	MenuItem addCalendarEventMenuItem = contextMenu.findItem(ADD_CALENDAR_EVENT_CONTEXT_MENU);
+		    	addCalendarEventMenuItem.setVisible(false);
+				MenuItem editCalendarEventMenuItem = contextMenu.findItem(EDIT_CALENDAR_EVENT_CONTEXT_MENU);
+				editCalendarEventMenuItem.setVisible(false);
+				MenuItem viewCalendarEventMenuItem = contextMenu.findItem(VIEW_CALENDAR_CONTEXT_MENU);
+				viewCalendarEventMenuItem.setVisible(false);
+		    	MenuItem viewCallLogMenuItem = contextMenu.findItem(VIEW_CALL_LOG_CONTEXT_MENU);
+				viewCallLogMenuItem.setVisible(false);
+				MenuItem callMenuItem = contextMenu.findItem(CALL_CONTACT_CONTEXT_MENU);
+				callMenuItem.setVisible(false);
+				MenuItem messagingInboxMenuItem = contextMenu.findItem(MESSAGING_INBOX_CONTEXT_MENU);
+				messagingInboxMenuItem.setVisible(false);
+				MenuItem viewThreadMenuItem = contextMenu.findItem(VIEW_THREAD_CONTEXT_MENU);
+				viewThreadMenuItem.setVisible(false);
+				MenuItem textContactMenuItem = contextMenu.findItem(TEXT_CONTACT_CONTEXT_MENU);
+				textContactMenuItem.setVisible(false);
 				MenuItem viewK9EmailInboxMenuItem = contextMenu.findItem(VIEW_K9_INBOX_CONTEXT_MENU);
 				viewK9EmailInboxMenuItem.setVisible(false);
 				break;

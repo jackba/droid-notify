@@ -238,6 +238,18 @@ public class NotificationViewFlipper extends ViewFlipper {
 				}
 				break;
 			}
+			case Constants.NOTIFICATION_TYPE_TWITTER:{
+				if(_preferences.getString(Constants.TWITTER_DELETE_KEY, "0").equals(Constants.TWITTER_DELETE_ACTION_NOTHING)){
+					//Remove the notification from the ViewFlipper
+					removeActiveNotification(false);
+				}else if(_preferences.getString(Constants.TWITTER_DELETE_KEY, "0").equals(Constants.TWITTER_DELETE_ACTION_DELETE_MESSAGE)){
+					//Delete the current message from the users phone.
+					notification.deleteMessage();
+					//Remove the notification from the ViewFlipper
+					removeActiveNotification(false);
+				}
+				break;
+			}
 			case Constants.NOTIFICATION_TYPE_K9:{
 				if(_preferences.getString(Constants.K9_DELETE_KEY, "0").equals(Constants.K9_DELETE_ACTION_NOTHING)){
 					//Remove the notification from the ViewFlipper
@@ -375,10 +387,6 @@ public class NotificationViewFlipper extends ViewFlipper {
 				// Set the total notifications to 0
 				_totalNotifications = 0;
 				_currentNotification = 0;
-				// Remove notification from the ArrayList.
-				//_notifications.remove(0);
-				// Remove the view from the ViewFlipper.
-				//removeViewAt(0);
 				//Close the ViewFlipper and finish the activity.
 				_notificationActivity.finishActivity();
 			}catch(Exception ex){

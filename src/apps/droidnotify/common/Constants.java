@@ -72,6 +72,8 @@ public class Constants {
 	public static final int K9_VIEW_INBOX_ACTIVITY = 15;
 	public static final int K9_VIEW_EMAIL_ACTIVITY = 16;
 	public static final int K9_SEND_EMAIL_ACTIVITY = 17;
+	public static final int TWITTER_VIEW_INBOX_ACTIVITY = 18;
+	public static final int TWITTER_VIEW_MESSAGE_ACTIVITY = 19;
 	
 	public static final int MESSAGE_TYPE_SMS = 1;
 	public static final int MESSAGE_TYPE_MMS = 2;
@@ -364,6 +366,19 @@ public class Constants {
 	public static final String TWITTER_AUTHORIZE_URL = "http://api.twitter.com/oauth/access_token";
 	public static final String TWITTER_CALLBACK_SCHEME = "droidnotify-oauth-twitter";
 	public static final String TWITTER_CALLBACK_URL = TWITTER_CALLBACK_SCHEME + "://callback";
+
+	public static final String TWITTER_DELETE_KEY = "twitter_delete_button_action";
+	public static final String TWITTER_CONFIRM_DELETION_KEY = "twitter_confirm_deletion_enabled";
+	
+	public static final String TWITTER_DISMISS_ACTION_MARK_READ = "0";
+	public static final String TWITTER_DELETE_ACTION_DELETE_MESSAGE = "0";
+	public static final String TWITTER_DELETE_ACTION_NOTHING = "2";	
+
+    public static final String TWITTER_HIDE_NOTIFICATION_BODY_KEY = "twitter_hide_notification_body_enabled";
+	public static final String TWITTER_DISPLAY_DISMISS_BUTTON_KEY = "twitter_display_dismiss_button";
+	public static final String TWITTER_DISPLAY_DELETE_BUTTON_KEY = "twitter_display_delete_button";
+	public static final String TWITTER_DISPLAY_REPLY_BUTTON_KEY = "twitter_display_reply_button";
+	public static final String TWITTER_NOTIFICATION_COUNT_ACTION_KEY = "twitter_notification_count_action";
 	
 	//-----FACEBOOK NOTIFICATION CONSTANTS-----//
 	
@@ -377,7 +392,6 @@ public class Constants {
 	public static final String K9_DISPLAY_REPLY_BUTTON_KEY = "k9_display_reply_button";
 	public static final String K9_NOTIFICATION_COUNT_ACTION_KEY = "k9_notification_count_action";
 	public static final String K9_DISMISS_KEY = "k9_dismiss_button_action";
-	public static final String K9_DISPLAY_UNREAD_KEY = "k9_display_unread_enabled";
 	public static final String K9_CONFIRM_DELETION_KEY = "confirm_k9_deletion_enabled";
 	
 	public static final String K9_DISMISS_ACTION_MARK_READ = "0";
@@ -543,9 +557,9 @@ public class Constants {
 	//-----GMAIL STATUS BAR NOTIFICATION CONSTANTS-----//
 	public static final String GMAIL_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY = "gmail_status_bar_notifications_enabled";
 	
-	public static final String GMAIL_STATUS_BAR_NOTIFICATIONS_SOUND_KEY = "gmail_notification_sound";
+	public static final String GMAIL_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY = "gmail_notification_sound";
 	
-	public static final String GMAIL_STATUS_BAR_NOTIFICATIONS_VIBRATE_ENABLED_KEY = "gmail_notification_vibrate_enabled";
+	public static final String GMAIL_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY = "gmail_notification_vibrate_setting";
 	public static final String GMAIL_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_KEY = "gmail_notification_vibrate_pattern";
 	public static final String GMAIL_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_VALUE_KEY = "gmail_custom";
 	public static final String GMAIL_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_KEY = "gmail_notification_vibrate_pattern_custom";
@@ -564,9 +578,9 @@ public class Constants {
 	//-----TWITTER STATUS BAR NOTIFICATION CONSTANTS-----//
 	public static final String TWITTER_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY = "twitter_status_bar_notifications_enabled";
 	
-	public static final String TWITTER_STATUS_BAR_NOTIFICATIONS_SOUND_KEY = "twitter_notification_sound";
+	public static final String TWITTER_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY = "twitter_notification_sound";
 	
-	public static final String TWITTER_STATUS_BAR_NOTIFICATIONS_VIBRATE_ENABLED_KEY = "twitter_notification_vibrate_enabled";
+	public static final String TWITTER_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY = "twitter_notification_vibrate_setting";
 	public static final String TWITTER_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_KEY = "twitter_notification_vibrate_pattern";
 	public static final String TWITTER_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_VALUE_KEY = "twitter_custom";
 	public static final String TWITTER_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_KEY = "twitter_notification_vibrate_pattern_custom";
@@ -581,6 +595,9 @@ public class Constants {
 	
 	public static final String TWITTER_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY = "twitter_notification_in_call_sound_enabled";
 	public static final String TWITTER_STATUS_BAR_NOTIFICATIONS_IN_CALL_VIBRATE_ENABLED_KEY = "twitter_notification_in_call_vibrate_enabled";	
+	
+	public static final String TWITTER_STATUS_BAR_NOTIFICATIONS_ICON_SETTING_KEY = "notification_icon_twitter";
+	public static final String TWITTER_STATUS_BAR_NOTIFICATIONS_ICON_DEFAULT = "status_bar_notification_twitter_blue";
 	
 	//-----FACEBOOK STATUS BAR NOTIFICATION CONSTANTS-----//
 	public static final String FACEBOOK_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY = "facebook_status_bar_notifications_enabled";
