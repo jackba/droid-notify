@@ -63,12 +63,13 @@
     <string name="app_android_contacts_email_chooser_error">Error querying the contacts available email addresses.</string>
     <string name="app_android_no_number_found_error">No phone number could be found for this contact.</string>
     <string name="app_android_calendars_not_found_error">No calendars could be found on your phone.</string>
-    <string name="app_k9_reply_email_address_error">The email address does not appear to be valid. Reply to email failed.</string>
-    <string name="app_k9_email_app_error">The email application could not be started.</string>
+    <string name="app_reply_email_address_error">The email address does not appear to be valid. Reply to email failed.</string>
+    <string name="app_email_app_error">The email application could not be started.</string>
     <string name="app_tts_error">The Text-To-Speech service could not be started.</string>
     <string name="app_preference_quiet_time_error">The Quiet Time preference could not be started.</string>
     <string name="test_notifications_disabled_message">No test notifications can be displayed because no notifications have been enabled.</string>
-
+    <string name="app_twitter_app_error">The twitter application could not be started.</string>
+    
 	<!-- Settings/Preference Strings -->
     <string name="app_settings_text">Settings</string>
     <string name="general_settings_text">General Settings</string>  	
@@ -86,6 +87,7 @@
     <string name="delete_message_dialog_text">This will delete the message from the phone.</string>
     <string name="delete_thread_dialog_text">The entire thread will be deleted from the phone.</string>
     <string name="delete_email_dialog_text">This will delete the email from the phone.</string>	
+    <string name="delete_twitter_direct_message_dialog_text">This will delete the direct message from your twitter account.</string>	
     
     <!-- Notification Body Strings -->
     <string name="preference_center_align_body_text_title">Center Align Body Text</string>
@@ -743,29 +745,53 @@
   	<string name="size_30_text">Size 30</string> 
   	
   	<string name="minus12_hours_text">-12 Hours</string>
+  	<string name="minus11_30_hours_text">-11.5 Hours</string>
   	<string name="minus11_hours_text">-11 Hours</string>
+  	<string name="minus10_30_hours_text">-10.5 Hours</string>
   	<string name="minus10_hours_text">-10 Hours</string>
+  	<string name="minus9_30_hours_text">-9.5 Hours</string>
   	<string name="minus9_hours_text">-9 Hours</string>
+  	<string name="minus8_30_hours_text">-8.5 Hours</string>
   	<string name="minus8_hours_text">-8 Hours</string>
+  	<string name="minus7_30_hours_text">-7.5 Hours</string>
   	<string name="minus7_hours_text">-7 Hours</string>
+  	<string name="minus6_30_hours_text">-6.5 Hours</string>
   	<string name="minus6_hours_text">-6 Hours</string>
+  	<string name="minus5_30_hours_text">-5.5 Hours</string>
   	<string name="minus5_hours_text">-5 Hours</string>
+  	<string name="minus4_30_hours_text">-4.5 Hours</string>
   	<string name="minus4_hours_text">-4 Hours</string>
+  	<string name="minus3_30_hours_text">-3.5 Hours</string>
   	<string name="minus3_hours_text">-3 Hours</string>
+  	<string name="minus2_30_hours_text">-2.5 Hours</string>
   	<string name="minus2_hours_text">-2 Hours</string>
+  	<string name="minus1_30_hours_text">-1.5 Hours</string>
   	<string name="minus1_hour_text">-1 Hour</string>
+  	<string name="minus30_minutes_text">-0.5 Hours</string>
   	<string name="zero_hours_text">0 Hours</string>
+  	<string name="plus30_minutes_text">+0.5 Hours</string>
   	<string name="plus1_hour_text">+1 Hour</string>
+  	<string name="plus1_30_hours_text">+1.5 Hours</string>
   	<string name="plus2_hours_text">+2 Hours</string>
+  	<string name="plus2_30_hours_text">+2.5 Hours</string>
   	<string name="plus3_hours_text">+3 Hours</string>
+  	<string name="plus3_30_hours_text">+3.5 Hours</string>
   	<string name="plus4_hours_text">+4 Hours</string>
+  	<string name="plus4_30_hours_text">+4.5 Hours</string>
   	<string name="plus5_hours_text">+5 Hours</string>
+  	<string name="plus5_30_hours_text">+5.5 Hours</string>
   	<string name="plus6_hours_text">+6 Hours</string>
+  	<string name="plus6_30_hours_text">+6.5 Hours</string>
   	<string name="plus7_hours_text">+7 Hours</string>
+  	<string name="plus7_30_hours_text">+7.5 Hours</string>
   	<string name="plus8_hours_text">+8 Hours</string>
+  	<string name="plus8_30_hours_text">+8.5 Hours</string>
   	<string name="plus9_hours_text">+9 Hours</string>
+  	<string name="plus9_30_hours_text">+9.5 Hours</string>
   	<string name="plus10_hours_text">+10 Hours</string>
+  	<string name="plus10_30_hours_text">+10.5 Hours</string>
   	<string name="plus11_hours_text">+11 Hours</string>
+  	<string name="plus11_30_hours_text">+11.5 Hours</string>
   	<string name="plus12_hours_text">+12 Hours</string>
   	
  	<string name="sms_gateway_sprint_text">(USA) Sprint PCS / Virgin-Mobile</string>

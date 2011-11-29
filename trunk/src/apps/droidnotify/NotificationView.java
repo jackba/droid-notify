@@ -626,11 +626,104 @@ public class NotificationView extends LinearLayout {
 					break;
 				}
 				case Constants.NOTIFICATION_TYPE_TWITTER:{
-		
+					// Notification Count Text Button
+					int notificationCountAction = Integer.parseInt(_preferences.getString(Constants.TWITTER_NOTIFICATION_COUNT_ACTION_KEY, "1"));
+					if(notificationCountAction == 0){
+						//Do Nothing.
+					}else{
+						_notificationCountTextView.setOnClickListener(new OnClickListener() {
+						    public void onClick(View view) {
+						    	if (_debug) Log.v("Notification Count Button Clicked()");
+						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+						    	Common.startTwitterAppViewInboxActivity(_context, _notificationActivity, Constants.TWITTER_VIEW_INBOX_ACTIVITY);
+						    }
+						});		
+					}
+					if(usingImageButtons){
+						// Dismiss Button
+				    	if(_preferences.getBoolean(Constants.TWITTER_DISPLAY_DISMISS_BUTTON_KEY, true)){
+				    		_dismissImageButton.setOnClickListener(new OnClickListener() {
+							    public void onClick(View view) {
+							    	if (_debug) Log.v("Twitter Dismiss Button Clicked()");
+							    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+							    	dismissNotification(false);
+							    }
+							});	
+				    	}else{
+				    		_dismissImageButton.setVisibility(View.GONE);
+				    	}
+						// Delete Button
+						if(_preferences.getBoolean(Constants.TWITTER_DISPLAY_DELETE_BUTTON_KEY, true)){
+				    		_deleteImageButton.setOnClickListener(new OnClickListener() {
+							    public void onClick(View view) {
+							    	if (_debug) Log.v("Twitter Delete Button Clicked()");
+							    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+							    	showDeleteDialog();
+							    }
+							});
+				    	}else{
+							_deleteImageButton.setVisibility(View.GONE);
+				    	}
+						// Reply Button
+						if(_preferences.getBoolean(Constants.TWITTER_DISPLAY_REPLY_BUTTON_KEY, true)){
+				    		_replyEmailImageButton.setOnClickListener(new OnClickListener() {
+							    public void onClick(View view) {
+							    	if (_debug) Log.v("Twitter Reply Button Clicked()");
+							    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+							    	replyToMessage(Constants.NOTIFICATION_TYPE_TWITTER);
+							    }
+							});
+				    	}else{
+							_replyEmailImageButton.setVisibility(View.GONE);
+				    	}
+					}else{
+						// Dismiss Button
+				    	if(_preferences.getBoolean(Constants.TWITTER_DISPLAY_DISMISS_BUTTON_KEY, true)){
+				    		_dismissButton.setOnClickListener(new OnClickListener() {
+							    public void onClick(View view) {
+							    	if (_debug) Log.v("Twitter Dismiss Button Clicked()");
+							    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+							    	dismissNotification(false);
+							    }
+							});	
+				    	}else{
+				    		_dismissButton.setVisibility(View.GONE);
+				    	}
+						// Delete Button
+						if(_preferences.getBoolean(Constants.TWITTER_DISPLAY_DELETE_BUTTON_KEY, true)){
+				    		_deleteButton.setOnClickListener(new OnClickListener() {
+							    public void onClick(View view) {
+							    	if (_debug) Log.v("Twitter Delete Button Clicked()");
+							    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+							    	showDeleteDialog();
+							    }
+							});
+				    	}else{
+							_deleteButton.setVisibility(View.GONE);
+				    	}
+						// Reply Button
+						if(_preferences.getBoolean(Constants.TWITTER_DISPLAY_REPLY_BUTTON_KEY, true)){
+				    		_replyEmailButton.setOnClickListener(new OnClickListener() {
+							    public void onClick(View view) {
+							    	if (_debug) Log.v("Twitter Reply Button Clicked()");
+							    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+							    	replyToMessage(Constants.NOTIFICATION_TYPE_TWITTER);
+							    }
+							});
+				    	}else{
+							_replyEmailButton.setVisibility(View.GONE);
+				    	}
+					}
+					_callButton.setVisibility(View.GONE);
+					_replySMSButton.setVisibility(View.GONE);
+					_viewCalendarButton.setVisibility(View.GONE);
+					_callImageButton.setVisibility(View.GONE);
+					_replySMSImageButton.setVisibility(View.GONE);
+					_viewCalendarImageButton.setVisibility(View.GONE);
 					break;
 				}
 				case Constants.NOTIFICATION_TYPE_FACEBOOK:{
-		
+
 					break;
 				}
 				case Constants.NOTIFICATION_TYPE_K9:{
@@ -664,7 +757,7 @@ public class NotificationView extends LinearLayout {
 						if(_preferences.getBoolean(Constants.K9_DISPLAY_DELETE_BUTTON_KEY, true)){
 				    		_deleteImageButton.setOnClickListener(new OnClickListener() {
 							    public void onClick(View view) {
-							    	if (_debug) Log.v("MMS Delete Button Clicked()");
+							    	if (_debug) Log.v("K9 Delete Button Clicked()");
 							    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 							    	showDeleteDialog();
 							    }
@@ -701,7 +794,7 @@ public class NotificationView extends LinearLayout {
 						if(_preferences.getBoolean(Constants.K9_DISPLAY_DELETE_BUTTON_KEY, true)){
 				    		_deleteButton.setOnClickListener(new OnClickListener() {
 							    public void onClick(View view) {
-							    	if (_debug) Log.v("MMS Delete Button Clicked()");
+							    	if (_debug) Log.v("K9 Delete Button Clicked()");
 							    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 							    	showDeleteDialog();
 							    }
@@ -760,6 +853,7 @@ public class NotificationView extends LinearLayout {
 				//Set Message Body Font
 				_notificationDetailsTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, Float.parseFloat(_preferences.getString(Constants.NOTIFICATION_BODY_FONT_SIZE_KEY, Constants.NOTIFICATION_BODY_FONT_SIZE_DEFAULT)));
 			}
+			loadContactPhoto = false;
 		}else{
 			//Show/Hide Contact Name
 			if(_preferences.getBoolean(Constants.CONTACT_NAME_DISPLAY_KEY, true)){
@@ -822,7 +916,13 @@ public class NotificationView extends LinearLayout {
 		}else if(_notificationType == Constants.NOTIFICATION_TYPE_PHONE){
 			_notificationDetailsTextView.setVisibility(View.GONE);
 		}else if(_notificationType == Constants.NOTIFICATION_TYPE_TWITTER){
-			
+			if(_preferences.getBoolean(Constants.TWITTER_HIDE_NOTIFICATION_BODY_KEY, false)){
+				_notificationDetailsTextView.setVisibility(View.GONE);
+			}else{
+				_notificationDetailsTextView.setVisibility(View.VISIBLE);
+				//Set Message Body Font
+				_notificationDetailsTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, Float.parseFloat(_preferences.getString(Constants.NOTIFICATION_BODY_FONT_SIZE_KEY, Constants.NOTIFICATION_BODY_FONT_SIZE_DEFAULT)));
+			}
 		}else if(_notificationType == Constants.NOTIFICATION_TYPE_FACEBOOK){
 			
 		}else if(_notificationType == Constants.NOTIFICATION_TYPE_GMAIL){
@@ -843,11 +943,9 @@ public class NotificationView extends LinearLayout {
 	    //Add context menu items.
 	    setupContextMenus();
 	    //Load the image from the users contacts.
-	    if(_notificationType != Constants.NOTIFICATION_TYPE_CALENDAR){
-	    	if(loadContactPhoto){
-	    		new setNotificationContactImageAsyncTask().execute(notification.getContactID());
-	    	}
-	    }
+    	if(loadContactPhoto){
+    		new setNotificationContactImageAsyncTask().execute(notification.getContactID());
+    	}
 	}
 	
 	/**
@@ -948,7 +1046,7 @@ public class NotificationView extends LinearLayout {
 			}
 			case Constants.NOTIFICATION_TYPE_TWITTER:{
 		    	iconBitmap = BitmapFactory.decodeResource(_context.getResources(), R.drawable.twitter);
-		    	//receivedAtText = _context.getString(R.string.twitter_at_text, formattedTimestamp.toLowerCase());
+		    	receivedAtText = _context.getString(R.string.message_at_text, formattedTimestamp.toLowerCase());
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_FACEBOOK:{
@@ -1013,6 +1111,11 @@ public class NotificationView extends LinearLayout {
 					//Reply using the built in Quick Reply Activity.
 					Common.startMessagingQuickReplyActivity(_context, _notificationActivity, phoneNumber, _notification.getContactName(), Constants.SEND_SMS_QUICK_REPLY_ACTIVITY);
 				}
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_TWITTER:{
+				//Reply using any installed Twitter app.
+				Common.startTwitterAppReplyActivity(_context, _notificationActivity, Constants.TWITTER_VIEW_MESSAGE_ACTIVITY);
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_K9:{
@@ -1283,6 +1386,10 @@ public class NotificationView extends LinearLayout {
 		    		contactPlaceholderImageResourceID = R.drawable.ic_contact_picture_5;
 		    	}else if(contactPlaceholderImageID.equals("5")){
 		    		contactPlaceholderImageResourceID = R.drawable.ic_contact_picture_6;
+		    	}
+		    	//Set custom image for Twitter notifications.
+		    	if(_notification.getNotificationType() == Constants.NOTIFICATION_TYPE_TWITTER){
+		    		contactPlaceholderImageResourceID = R.drawable.twitter_contact_placeholder;
 		    	}
 		    	return Common.getRoundedCornerBitmap(BitmapFactory.decodeResource(_context.getResources(), contactPlaceholderImageResourceID), 5, true, contactPhotoSize, contactPhotoSize);
 		    }

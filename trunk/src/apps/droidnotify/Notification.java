@@ -63,22 +63,41 @@ public class Notification {
 	public Notification(Context context, String sentFromAddress, String messageBody, long messageID, long threadID, long timeStamp, long contactID, String contactName, long photoID, String lookupKey, int notificationType) {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Notification.Notification() ==CONSTRUCTOR 1==");
-		try{
-			if(notificationType == Constants.NOTIFICATION_TYPE_PHONE){
-				_title = "Missed Call";
-		    }
-			if(notificationType == Constants.NOTIFICATION_TYPE_SMS){
-				_title = "SMS Message";
+		try{			
+			switch(notificationType){
+				case Constants.NOTIFICATION_TYPE_PHONE:{
+					_title = "Missed Call";
+					break;
+				}
+				case Constants.NOTIFICATION_TYPE_SMS:{
+					_title = "SMS Message";
+					break;
+				}
+				case Constants.NOTIFICATION_TYPE_MMS:{
+					_title = "MMS Message";	
+					break;
+				}
+				case Constants.NOTIFICATION_TYPE_CALENDAR:{
+					_title = "Calendar Event";
+					break;
+				}
+				case Constants.NOTIFICATION_TYPE_GMAIL:{
+					_title = "Email";
+					break;
+				}
+				case Constants.NOTIFICATION_TYPE_TWITTER:{
+					_title = "Twitter";
+					break;
+				}
+				case Constants.NOTIFICATION_TYPE_FACEBOOK:{
+					_title = "Facebook";
+					break;
+				}
+				case Constants.NOTIFICATION_TYPE_K9:{
+					_title = "Email";
+					break;
+				}
 			}
-			if(notificationType == Constants.NOTIFICATION_TYPE_MMS){
-				_title = "MMS Message";	
-		    }
-		    if(notificationType == Constants.NOTIFICATION_TYPE_CALENDAR){
-		    	_title = "Calendar Event";
-		    }
-		    if(notificationType == Constants.NOTIFICATION_TYPE_GMAIL){
-		    	_title = "Email";
-		    }
 			_context = context;
 			_preferences = PreferenceManager.getDefaultSharedPreferences(_context);
 			_contactExists = false;
@@ -100,6 +119,9 @@ public class Notification {
     		}else{
     			_contactName = null;
     			_contactExists = false;
+    			if(notificationType == Constants.NOTIFICATION_TYPE_TWITTER){
+    				_contactName = _sentFromAddress;
+    			}
     		}
     		_photoID = photoID;
     		if(photoID == 0){
@@ -144,10 +166,15 @@ public class Notification {
 				}
 				case Constants.NOTIFICATION_TYPE_TWITTER:{
 					_title = "Twitter";
+					_contactName = _sentFromAddress;
 					break;
 				}
 				case Constants.NOTIFICATION_TYPE_FACEBOOK:{
 					_title = "Facebook";
+					break;
+				}
+				case Constants.NOTIFICATION_TYPE_K9:{
+					_title = "Email";
 					break;
 				}
 			}
@@ -216,10 +243,14 @@ public class Notification {
 			_contactExists = false;
 			_contactPhotoExists = false;
 			_notificationType = notificationType;
-			if(Common.isPrivateUnknownNumber(sentFromAddress)){
-				_sentFromAddress = "Private Number";
+			if(sentFromAddress != null && !sentFromAddress.equals("")){
+				if(Common.isPrivateUnknownNumber(sentFromAddress)){
+					_sentFromAddress = "Private Number";
+				}else{
+					_sentFromAddress = sentFromAddress.toLowerCase();
+				}
 			}else{
-				_sentFromAddress = sentFromAddress.toLowerCase();
+				_sentFromAddress = null;
 			}
     		_timeStamp = timeStamp;
     		_contactID = contactID;
@@ -230,6 +261,9 @@ public class Notification {
     		}else{
     			_contactName = null;
     			_contactExists = false;
+    			if(notificationType == Constants.NOTIFICATION_TYPE_TWITTER){
+    				_contactName = _sentFromAddress;
+    			}
     		}
     		_photoID = photoID;
     		if(photoID == 0){
@@ -305,6 +339,9 @@ public class Notification {
     		}else{
     			_contactName = null;
     			_contactExists = false;
+    			if(notificationType == Constants.NOTIFICATION_TYPE_TWITTER){
+    				_contactName = _sentFromAddress;
+    			}
     		}
     		_photoID = photoID;
     		if(photoID == 0){
@@ -378,6 +415,7 @@ public class Notification {
 			}else{
 				_sentFromAddress = null;
 			}
+			if (_debug) Log.v("Notification.Notification() ==CONSTRUCTOR 6== _sentFromAddress: " + _sentFromAddress);
     		_messageBody = messageBody;
     		_messageID = messageID;
     		_timeStamp = timeStamp;
@@ -390,6 +428,9 @@ public class Notification {
     		}else{
     			_contactName = null;
     			_contactExists = false;
+    			if(notificationType == Constants.NOTIFICATION_TYPE_TWITTER){
+    				_contactName = _sentFromAddress;
+    			}
     		}
     		_photoID = photoID;
     		if(photoID == 0){
@@ -415,6 +456,9 @@ public class Notification {
 	 */
 	public String getSentFromAddress() {
 		if (_debug) Log.v("Notification.getSentFromAddress() SentFromAddress: " + _sentFromAddress);
+		if (_sentFromAddress == null) {
+			_sentFromAddress = _context.getString(android.R.string.unknownName);
+	    }
 		return _sentFromAddress;
 	}
 	
@@ -729,7 +773,7 @@ public class Notification {
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_TWITTER:{
-	
+				//Currently, there is no way to mark a Twitter message as being viewed.
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_FACEBOOK:{
@@ -777,6 +821,8 @@ public class Notification {
 					Common.deleteSingleMessage(_context, getMessageID(), _notificationType);
 				}
 			}
+		}else if(_notificationType == Constants.NOTIFICATION_TYPE_TWITTER){
+			Common.deleteTwitterDirectMessage(_context, _messageID);
 		}else if(_notificationType == Constants.NOTIFICATION_TYPE_K9){
 			Common.deleteK9Email(_context, _k9EmailDelUri);
 		}
@@ -859,17 +905,21 @@ public class Notification {
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_GMAIL:{
-				messageToSpeak.append(_context.getString(R.string.message_at_text, formattedTimestamp.toLowerCase()));
+				messageToSpeak.append(_context.getString(R.string.email_at_text, formattedTimestamp.toLowerCase()));
 				messageToSpeak.append(". From " + sentFrom + ". ");
 				messageToSpeak.append(_messageBody);
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_TWITTER:{
-
+				messageToSpeak.append(_context.getString(R.string.message_at_text, formattedTimestamp.toLowerCase()));
+				messageToSpeak.append(". From " + sentFrom + ". ");
+				messageToSpeak.append(_messageBody);
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_FACEBOOK:{
-
+				messageToSpeak.append(_context.getString(R.string.message_at_text, formattedTimestamp.toLowerCase()));
+				messageToSpeak.append(". From " + sentFrom + ". ");
+				messageToSpeak.append(_messageBody);
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_K9:{
