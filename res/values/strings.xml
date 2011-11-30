@@ -271,8 +271,15 @@
    	<string name="twitter_authentication_text">Twitter Authentication</string>
    	<string name="twitter_authentication_message_text">The next screen will open a Twitter web page in a web browser. This web page will ask you to allow this application to have access to your twitter account. If you wish to proceed please click on the \"Continue\" button below.</string>
    	<string name="authenticating_text">Authenticating...</string>
-   	<string name="twitter_authentication_error">We were not able to authenticate or access your twitter account at this time. Please try again later.</string>
+   	<string name="twitter_authentication_error">We were not able to authenticate or access your Twitter account at this time. Please try again later.</string>
 
+  	<!-- Facebook Strings -->	 	
+   	<string name="preference_facebook_notifications">Facebook Notifications</string>
+   	<string name="preference_facebook_enabled_title">Enable Facebook</string>
+   	<string name="facebook_authentication_text">Facebook Authentication</string>
+   	<string name="facebook_authentication_error">We were not able to authenticate or access your Facebook account at this time. Please try again later.</string>
+   	    	    
+   	    
    	<!-- Email Strings -->
    	<string name="email_at_text" formatted="false">New email at %s</string>
     <string name="email_inbox_text">Email Inbox</string>

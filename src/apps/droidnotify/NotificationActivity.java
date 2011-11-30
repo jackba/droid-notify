@@ -873,22 +873,30 @@ public class NotificationActivity extends Activity {
 		    }    
 		    case Constants.NOTIFICATION_TYPE_PHONE:{
 		    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_PHONE");
-		    	setupMissedCalls(extrasBundle);
+		    	if(!setupMissedCalls(extrasBundle)){
+					finishActivity();
+				}
 		    	break;
 		    }
 		    case Constants.NOTIFICATION_TYPE_SMS:{
 			    if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_SMS");
-			    setupSMSMessages(extrasBundle, true);
+			    if(!setupSMSMessages(extrasBundle, true)){
+					finishActivity();
+				}
 		    	break;
 		    }
 		    case Constants.NOTIFICATION_TYPE_MMS:{
 		    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_MMS");
-		    	setupMMSMessages(extrasBundle, true);
+		    	if(!setupMMSMessages(extrasBundle, true)){
+					finishActivity();
+				}
 		    	break;
 		    }
 		    case Constants.NOTIFICATION_TYPE_CALENDAR:{
 		    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_CALENDAR");
-		    	setupCalendarEventNotifications(extrasBundle);
+		    	if(!setupCalendarEventNotifications(extrasBundle)){
+					finishActivity();
+				}
 		    	break;
 			}
 		    case Constants.NOTIFICATION_TYPE_GMAIL:{
@@ -898,7 +906,9 @@ public class NotificationActivity extends Activity {
 		    }
 			case Constants.NOTIFICATION_TYPE_TWITTER:{
 				if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_TWITTER");
-				setupTwitterMessages(extrasBundle);
+				if(!setupTwitterMessages(extrasBundle)){
+					finishActivity();
+				}
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_FACEBOOK:{
@@ -908,7 +918,9 @@ public class NotificationActivity extends Activity {
 		    }
 			case Constants.NOTIFICATION_TYPE_K9:{
 				if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_K9");
-				setupK9EmailNotifications(extrasBundle);
+				if(!setupK9EmailNotifications(extrasBundle)){
+					finishActivity();
+				}
 				break;
 		    }
 		    case Constants.NOTIFICATION_TYPE_RESCHEDULE_PHONE:{
@@ -1456,7 +1468,7 @@ public class NotificationActivity extends Activity {
 	 *
 	 * @param bundle - Activity bundle.
 	 */
-	private void setupSMSMessages(Bundle bundle, boolean loadAllNew) {
+	private boolean setupSMSMessages(Bundle bundle, boolean loadAllNew) {
 		if (_debug) Log.v("NotificationActivity.setupSMSMessages()"); 
 		ArrayList<String> smsArray = bundle.getStringArrayList("smsArrayList");
 		String currentMessageBody = null;
@@ -1475,7 +1487,7 @@ public class NotificationActivity extends Activity {
 			try{
 				if(smsInfo.length < 5){
 					if (_debug) Log.e("NotificationActivity.setupSMSMessages() FATAL NOTIFICATION ERROR. smsInfo.length: " + smsInfo.length);
-					return;
+					return false;
 				}else if(smsInfo.length == 5){ 
 					messageAddress = smsInfo[0];
 					messageBody = smsInfo[1];
@@ -1501,6 +1513,7 @@ public class NotificationActivity extends Activity {
 				}
 			}catch(Exception ex){
 				if (_debug) Log.e("NotificationActivity.setupSMSMessages() ERROR: " + ex.toString());
+				return false;
 			}
     		_notificationViewFlipper.addNotification(new Notification(_context, messageAddress, messageBody, messageID, threadID, timeStamp, contactID, contactName, photoID, lookupKey, Constants.NOTIFICATION_TYPE_SMS));
 		    //Display Status Bar Notification
@@ -1516,6 +1529,7 @@ public class NotificationActivity extends Activity {
 				}
 		    }
 		}
+		return true;
 	}
 	
 	/**
@@ -1523,7 +1537,7 @@ public class NotificationActivity extends Activity {
 	 *
 	 * @param bundle - Activity bundle.
 	 */
-	private void setupMMSMessages(Bundle bundle, boolean loadAllNew) {
+	private boolean setupMMSMessages(Bundle bundle, boolean loadAllNew) {
 		if (_debug) Log.v("NotificationActivity.setupMMSMessages()"); 
 		ArrayList<String> mmsArray = bundle.getStringArrayList("mmsArrayList");
 		for(String mmsArrayItem : mmsArray){
@@ -1540,7 +1554,7 @@ public class NotificationActivity extends Activity {
 			try{
 				if(mmsInfo.length < 5){
 					if (_debug) Log.e("NotificationActivity.setupMMSMessages() FATAL NOTIFICATION ERROR. mmsInfo.length: " + mmsInfo.length);
-					return;
+					return false;
 				}else if( mmsInfo.length == 5){
 					messageAddress = mmsInfo[0];
 					messageBody = mmsInfo[1];
@@ -1566,6 +1580,7 @@ public class NotificationActivity extends Activity {
 				}
 			}catch(Exception ex){
 				if (_debug) Log.e("NotificationActivity.setupMMSMessages() ERROR: " + ex.toString());
+				return false;
 			}
     		_notificationViewFlipper.addNotification(new Notification(_context, messageAddress, messageBody, messageID, threadID, timeStamp, contactID, contactName, photoID, lookupKey, Constants.NOTIFICATION_TYPE_MMS));
 		    //Display Status Bar Notification
@@ -1577,6 +1592,7 @@ public class NotificationActivity extends Activity {
 				new getAllUnreadMMSMessagesAsyncTask().execute();
 		    }
 		}
+		return true;
 	}
 
 	/**

@@ -7,20 +7,22 @@
 	android:layout_width="wrap_content"
 	android:padding="10dp">
 	<TextView
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_marginRight="5dp"
-		android:layout_marginLeft="5dp"
-		android:textAppearance="?android:attr/textAppearanceMedium" 
-		android:textColor="@color/white"
-		android:drawableLeft="@drawable/twitter"
-		android:text="@string/twitter_authentication_text"
-		android:drawablePadding="5dp" 
-		android:gravity="center_horizontal"/>
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_gravity="center_horizontal"
+	    android:gravity="center_horizontal|center_vertical"
+	    android:layout_marginLeft="5dp"
+	    android:layout_marginRight="5dp"
+	    android:drawableLeft="@drawable/twitter"
+	    android:drawablePadding="5dp"
+	    android:text="@string/twitter_authentication_text"
+	    android:textAppearance="?android:attr/textAppearanceMedium"
+	    android:textColor="@color/white" />
 	<ImageView
 		android:src="@drawable/divider_white"
 		android:layout_height="1dp"  
-		android:layout_width="fill_parent"/>
+		android:layout_width="fill_parent"
+		android:layout_margin="2dp" />
 	<LinearLayout 
 		android:id="@+id/main_linear_layout"
 		android:orientation="vertical"
@@ -63,23 +65,28 @@
 				android:text="@string/cancel_text" />
 		</LinearLayout>
 	</LinearLayout>
-	<LinearLayout 
-		android:id="@+id/progress_bar_linear_layout"
-		android:orientation="horizontal"
-		android:layout_height="wrap_content"
-		android:layout_width="wrap_content"
-		android:layout_margin="5dp">
-		<ProgressBar
+	<LinearLayout
+	    android:id="@+id/progress_bar_linear_layout"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_gravity="center_horizontal"
+	    android:layout_margin="5dp"
+	    android:gravity="center_vertical"
+	    android:orientation="horizontal">
+		<ProgressBar 
+			android:id="@+id/progress_bar"
      		android:layout_width="wrap_content" 
      		android:layout_height="wrap_content"
      		android:layout_marginRight="6dp"
 			android:indeterminate="true" />
-		<TextView
+		<TextView 
+			android:id="@+id/progress_bar_text_view"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
+			android:paddingLeft="5dp"
 			android:textAppearance="?android:attr/textAppearanceSmall" 
 			android:textColor="@color/white"
 			android:text="@string/authenticating_text"
-			android:gravity="center_horizontal"/>
+			android:gravity="center_horizontal" />
 	</LinearLayout>
 </LinearLayout>
