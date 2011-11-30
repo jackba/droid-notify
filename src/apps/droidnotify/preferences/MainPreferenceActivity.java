@@ -680,26 +680,29 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	private void setupAppVersion(boolean appProVersion){
 		if (_debug) Log.v("MainPreferenceActivity.setupAppVersion()");
 		PreferenceScreen mainPreferences = this.getPreferenceScreen();
-		PreferenceCategory notificationPreferenceCategory = (PreferenceCategory) findPreference(Constants.TWITTER_PRO_PREFERENCE_CATEGORY_KEY);
+		Preference upgradeToProPreference = (Preference) findPreference(Constants.UPGRADE_TO_PRO_PREFERENCE_KEY);
+		PreferenceCategory appLicensePreferenceCategory = (PreferenceCategory) findPreference(Constants.PREFERENCE_CATEGORY_APP_LICENSE_KEY);
+		//Twitter
+		PreferenceCategory twitterNotificationPreferenceCategory = (PreferenceCategory) findPreference(Constants.TWITTER_PRO_PREFERENCE_CATEGORY_KEY);
 		Preference twitterProPlaceholderPreference = (Preference) findPreference(Constants.TWITTER_PRO_PLACEHOLDER_PREFERENCE_KEY);
 		PreferenceScreen twitterProPreferenceScreen = (PreferenceScreen) findPreference(Constants.TWITTER_PRO_PREFERENCE_SCREEN_KEY);
+		//Facebook
+		PreferenceCategory facebookNotificationPreferenceCategory = (PreferenceCategory) findPreference(Constants.FACEBOOK_PRO_PREFERENCE_CATEGORY_KEY);
 		Preference facebookProPlaceholderPreference = (Preference) findPreference(Constants.FACEBOOK_PRO_PLACEHOLDER_PREFERENCE_KEY);
 		PreferenceScreen facebookProPreferenceScreen = (PreferenceScreen) findPreference(Constants.FACEBOOK_PRO_PREFERENCE_SCREEN_KEY);
 		PreferenceCategory appFeedbackPreferenceCategory = (PreferenceCategory) findPreference(Constants.PREFERENCE_CATEGORY_APP_FEEDBACK_KEY);
-		Preference upgradeToProPreference = (Preference) findPreference(Constants.UPGRADE_TO_PRO_PREFERENCE_KEY);
-		PreferenceCategory appLicensePreferenceCategory = (PreferenceCategory) findPreference(Constants.PREFERENCE_CATEGORY_APP_LICENSE_KEY);
 		if(appProVersion){
 			//Remove the Twitter placeholder preference category.
-			notificationPreferenceCategory.removePreference(twitterProPlaceholderPreference);
+			twitterNotificationPreferenceCategory.removePreference(twitterProPlaceholderPreference);
 			//Remove the Facebook placeholder preference category.
-			notificationPreferenceCategory.removePreference(facebookProPlaceholderPreference);
+			facebookNotificationPreferenceCategory.removePreference(facebookProPlaceholderPreference);
 			//Remove the Upgrade button.
 			appFeedbackPreferenceCategory.removePreference(upgradeToProPreference);
 			//Remove the Liscense button.
 			mainPreferences.removePreference(appLicensePreferenceCategory);
 		}else{
 			//Remove the Twitter preference preference category.
-			notificationPreferenceCategory.removePreference(twitterProPreferenceScreen);
+			twitterNotificationPreferenceCategory.removePreference(twitterProPreferenceScreen);
 			//Setup the Twitter placeholder preference button.
 			twitterProPlaceholderPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 	        	public boolean onPreferenceClick(Preference preference) {
@@ -715,7 +718,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	           }
 			});
 			//Remove the Faacebook preference preference category.
-			notificationPreferenceCategory.removePreference(facebookProPreferenceScreen);
+			facebookNotificationPreferenceCategory.removePreference(facebookProPreferenceScreen);
 			//Setup the Facebook placeholder preference button.
 			facebookProPlaceholderPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 	        	public boolean onPreferenceClick(Preference preference) {
