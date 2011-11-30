@@ -12,6 +12,11 @@ import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
 
+/**
+ * This class handles the polling of the users Facebook account.
+ * 
+ * @author Camille Sévigny
+ */
 public class TwitterAlarmBroadcastReceiverService extends WakefulIntentService {
 	
 	//================================================================================

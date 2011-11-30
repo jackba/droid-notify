@@ -1407,8 +1407,6 @@
 					</PreferenceCategory>					
 				</PreferenceScreen>	
 			</PreferenceCategory>
-<!-- 
--->
 			<PreferenceCategory
 				android:key="twitter_notification_settings_category"
 				android:title="@string/preference_twitter_notifications">
@@ -1425,13 +1423,34 @@
 						<CheckBoxPreference
 							android:key="twitter_enabled"
 					       	android:title="@string/preference_twitter_enabled_title" 
-					       	android:summaryOn="@string/preference_appenabled_summaryOn" 
-					       	android:summaryOff="@string/preference_appenabled_summaryOff" 
+					       	android:summaryOn="@string/preference_twitter_enabled_summaryOn" 
+					       	android:summaryOff="@string/preference_twitter_enabled_summaryOff" 
 					       	android:defaultValue="false" />
 	    			</PreferenceCategory>
 				</PreferenceScreen>
 		  	</PreferenceCategory>
- 
+ 			<PreferenceCategory
+				android:key="facebook_notification_settings_category"
+				android:title="@string/preference_facebook_notifications">
+		  		<Preference
+		            android:key="facebook_notification_settings_placeholder_preference"
+		        	android:title="@string/preference_facebook_notifications"
+		          	android:summary="@string/app_feature_pro_only" />
+				<PreferenceScreen
+					android:key="facebook_notification_settings_screen"
+					android:title="@string/preference_facebook_notifications">
+					<PreferenceCategory
+						android:key="facebook_basic_settings_category"
+						android:title="@string/basic_settings_text">
+						<CheckBoxPreference
+							android:key="facebook_enabled"
+					       	android:title="@string/preference_facebook_enabled_title" 
+					       	android:summaryOn="@string/preference_facebook_enabled_summaryOn" 
+					       	android:summaryOff="@string/preference_facebook_enabled_summaryOff" 
+					       	android:defaultValue="false" />
+	    			</PreferenceCategory>
+				</PreferenceScreen>
+		  	</PreferenceCategory>
 		</PreferenceScreen>
   	</PreferenceCategory>   	
 	<PreferenceCategory
