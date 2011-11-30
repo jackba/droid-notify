@@ -680,7 +680,6 @@ public class Common {
 			ContentResolver contentResolver = context.getContentResolver();
 			// Fetch a list of all calendars synced with the device, their display names and whether the user has them selected for display.
 			String contentProvider = "";
-			//Android 2.2+
 			contentProvider = "content://com.android.calendar";
 			cursor = contentResolver.query(
 				Uri.parse(contentProvider + "/calendars"), 
@@ -3419,7 +3418,7 @@ public class Common {
 	}
 	
 	/**
-	 * Start the Calendar Alarm Manager. 
+	 * Start the Calendar recurring alarm.
 	 * 
 	 * @param context - The application context.
 	 * @param alarmStartTime - The time to start the alarm.
@@ -3440,7 +3439,25 @@ public class Common {
 	}
 	
 	/**
-	 * Start the Twitter Alarm Manager.
+	 * Cancel the Calendar recurring alarm. 
+	 * 
+	 * @param context - The application context.
+	 */
+	public static void cancelCalendarAlarmManager(Context context){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.cancelCalendarAlarmManager()");
+		try{
+			AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+			Intent intent = new Intent(context, CalendarAlarmReceiver.class);
+			PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+			alarmManager.cancel(pendingIntent);
+		}catch(Exception ex){
+			if (_debug) Log.e("Common.cancelCalendarAlarmManager() ERROR: " + ex.toString());
+		}
+	}
+	
+	/**
+	 * Start the Twitter recurring alarm.
 	 *  
 	 * @param context - The application context.
 	 * @param alarmStartTime - The time to start the alarm.
@@ -3461,6 +3478,24 @@ public class Common {
 	}
 	
 	/**
+	 * Cancel the Twitter recurring alarm.
+	 *  
+	 * @param context - The application context.
+	 */
+	public static void cancelTwitterAlarmManager(Context context){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.cancelTwitterAlarmManager()");
+		try{
+			AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+			Intent intent = new Intent(context, TwitterAlarmReceiver.class);
+			PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+			alarmManager.cancel(pendingIntent);
+		}catch(Exception ex){
+			if (_debug) Log.e("Common.cancelTwitterAlarmManager() ERROR: " + ex.toString());
+		}
+	}
+	
+	/**
 	 * Initialize and return a Twitter object.
 	 * 
 	 * @param context - The application context.
@@ -3472,8 +3507,12 @@ public class Common {
 		if (_debug) Log.v("Common.getTwitter()");
 		try{
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-			String oauthToken = preferences.getString(OAuth.OAUTH_TOKEN, "");
-			String oauthTokenSecret = preferences.getString(OAuth.OAUTH_TOKEN_SECRET, "");
+			String oauthToken = preferences.getString(OAuth.OAUTH_TOKEN, null);
+			String oauthTokenSecret = preferences.getString(OAuth.OAUTH_TOKEN_SECRET, null);
+			if(oauthToken == null || oauthTokenSecret == null){
+				if (_debug) Log.v("Common.getTwitter() Oauth Values Are Null. Exiting...");
+				return null;
+			}
 			ConfigurationBuilder configurationBuilder = new ConfigurationBuilder(); 
 			configurationBuilder.setOAuthConsumerKey(Constants.TWITTER_CONSUMER_KEY); 
 			configurationBuilder.setOAuthConsumerSecret(Constants.TWITTER_CONSUMER_SECRET); 

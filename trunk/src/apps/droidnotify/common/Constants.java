@@ -12,13 +12,6 @@ public class Constants {
 	public static final String DROID_NOTIFY_KEYGUARD = "DROID_NOTIFY_KEYGUARD";
 	
 	public static final String APP_ENABLED_KEY = "app_enabled";
-	public static final String SMS_NOTIFICATIONS_ENABLED_KEY = "sms_notifications_enabled";
-	public static final String MMS_NOTIFICATIONS_ENABLED_KEY = "mms_notifications_enabled";
-	public static final String PHONE_NOTIFICATIONS_ENABLED_KEY = "missed_call_notifications_enabled";
-	public static final String CALENDAR_NOTIFICATIONS_ENABLED_KEY = "calendar_notifications_enabled";
-	public static final String K9_NOTIFICATIONS_ENABLED_KEY = "k9_notifications_enabled";
-	public static final String TWITTER_NOTIFICATIONS_ENABLED_KEY = "twitter_call_notifications_enabled";
-	public static final String FACEBOOK_NOTIFICATIONS_ENABLED_KEY = "facebook_call_notifications_enabled";
 	public static final String HAPTIC_FEEDBACK_ENABLED_KEY = "haptic_feedback_enabled";
 	public static final String LANDSCAPE_SCREEN_ENABLED_KEY = "landscape_screen_enabled";	
 	public static final String BLUR_SCREEN_BACKGROUND_ENABLED_KEY = "blur_screen_background_enabled";
@@ -257,6 +250,7 @@ public class Constants {
 	public static final String PREFERENCE_RATE_APP_KEY = "rate_app";
 	
 	//-----SMS NOTIFICATION CONSTANTS-----//
+	public static final String SMS_NOTIFICATIONS_ENABLED_KEY = "sms_notifications_enabled";
 	public static final String SMS_READ_FROM_INTENT = "0";
 	public static final String SMS_READ_FROM_DISK = "1";
 	public static final String SMS_BLOCKING_APP_RUNNING_ACTION_KEY = "messaging_app_running_action_sms";
@@ -283,6 +277,7 @@ public class Constants {
 	public static final String SMS_QUICK_REPLY = "1";
 	
 	//-----MMS NOTIFICATION CONSTANTS-----//
+	public static final String MMS_NOTIFICATIONS_ENABLED_KEY = "mms_notifications_enabled";
 	public static final String MMS_BLOCKING_APP_RUNNING_ACTION_KEY = "messaging_app_running_action_mms";
 	public static final String MMS_TIMEOUT_KEY = "mms_timeout_settings";
 	public static final String MMS_DELETE_KEY = "mms_delete_button_action";
@@ -305,6 +300,7 @@ public class Constants {
 	public static final String MMS_QUICK_REPLY = "1";	
 
 	//-----MISSED CALL NOTIFICATION CONSTANTS-----//
+	public static final String PHONE_NOTIFICATIONS_ENABLED_KEY = "missed_call_notifications_enabled";
 	public static final String PHONE_BLOCKING_APP_RUNNING_ACTION_KEY = "messaging_app_running_action_missed_call";
 	public static final String CALL_LOG_TIMEOUT_KEY = "call_log_timeout_settings";
 	public static final String PHONE_DISMISS_BUTTON_ACTION_KEY = "missed_call_loading_settings";
@@ -323,6 +319,7 @@ public class Constants {
 	public static final int PHONE_TYPE = android.provider.CallLog.Calls.MISSED_TYPE;
 	
 	//-----CALENDAR NOTIFICATION CONSTANTS-----//
+	public static final String CALENDAR_NOTIFICATIONS_ENABLED_KEY = "calendar_notifications_enabled";
 	public static final String CALENDAR_BLOCKING_APP_RUNNING_ACTION_KEY = "messaging_app_running_action_calendar";
 	public static final String CALENDAR_NOTIFY_DAY_OF_TIME_KEY = "calendar_notify_day_of_time";
 	public static final String CALENDAR_REMINDERS_ENABLED_KEY = "calendar_reminders_enabled"; 
@@ -355,7 +352,7 @@ public class Constants {
 	public static final String TWITTER_PRO_PLACEHOLDER_PREFERENCE_KEY = "twitter_notification_settings_placeholder_preference";
 	public static final String TWITTER_PRO_PREFERENCE_SCREEN_KEY = "twitter_notification_settings_screen";
 	
-	public static final String TWITTER_ENABLED_KEY = "twitter_enabled";
+	public static final String TWITTER_NOTIFICATIONS_ENABLED_KEY = "twitter_enabled";
 	public static final String TWITTER_DIRECT_MESSAGES_ENABLED_KEY = "twitter_direct_messages_enabled";
 	public static final String TWITTER_POLLING_FREQUENCY_KEY = "twitter_polling_frequency";
 	
@@ -381,8 +378,20 @@ public class Constants {
 	public static final String TWITTER_NOTIFICATION_COUNT_ACTION_KEY = "twitter_notification_count_action";
 	
 	//-----FACEBOOK NOTIFICATION CONSTANTS-----//
+	public static final String FACEBOOK_PRO_PREFERENCE_CATEGORY_KEY = "facebook_notification_settings_category";
+	public static final String FACEBOOK_PRO_PLACEHOLDER_PREFERENCE_KEY = "facebook_notification_settings_placeholder_preference";
+	public static final String FACEBOOK_PRO_PREFERENCE_SCREEN_KEY = "facebook_notification_settings_screen";
+	
+	public static final String FACEBOOK_NOTIFICATIONS_ENABLED_KEY = "facebook_enabled";
+	public static final String FACEBOOK_DIRECT_MESSAGES_ENABLED_KEY = "facebook_direct_messages_enabled";
+	public static final String FACEBOOK_POLLING_FREQUENCY_KEY = "facebook_polling_frequency";
+	
+	public static final String FACEBOOK_APP_ID = "259676884089873";
+	public static final String FACEBOOK_ACCESS_TOKEN_KEY = "facebook_access_token";
+	public static final String FACEBOOK_ACCESS_EXPIRES_KEY = "facebook_access_expires";
 	
 	//-----K9 NOTIFICATION CONSTANTS-----//
+	public static final String K9_NOTIFICATIONS_ENABLED_KEY = "k9_notifications_enabled";
 	public static final String K9_BLOCKING_APP_RUNNING_ACTION_KEY = "messaging_app_running_action_k9";
 	public static final String K9_DELETE_KEY = "k9_delete_button_action";
     public static final String K9_HIDE_NOTIFICATION_BODY_KEY = "k9_hide_notification_body_enabled";

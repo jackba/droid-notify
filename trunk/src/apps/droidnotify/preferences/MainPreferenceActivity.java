@@ -10,8 +10,6 @@ import java.util.Map;
 
 import android.app.Dialog;
 import android.app.AlertDialog;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -48,8 +46,8 @@ import android.widget.Toast;
 
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
+import apps.droidnotify.facebook.FacebookAuthenticationActivity;
 import apps.droidnotify.log.Log;
-import apps.droidnotify.receivers.CalendarAlarmReceiver;
 import apps.droidnotify.twitter.TwitterAuthenticationActivity;
 import apps.droidnotify.NotificationActivity;
 import apps.droidnotify.R;
@@ -102,7 +100,10 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	    setupRateAppPreference();
 	    setupAppVersion(_appProVersion);
 	    runOnce();
+	    checkFacebookAuthentication();
 	}
+	
+
     
 	/**
 	 * When a SharedPreference is changed this registered function is called.
@@ -112,7 +113,15 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	 */
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 		if (_debug) Log.v("MainPreferenceActivity.onSharedPreferenceChanged() Key: " + key);
-		if(key.equals(Constants.CALENDAR_POLLING_FREQUENCY_KEY)){
+		if(key.equals(Constants.CALENDAR_NOTIFICATIONS_ENABLED_KEY)){
+			if(_preferences.getBoolean(Constants.CALENDAR_NOTIFICATIONS_ENABLED_KEY, false)){
+				//Setup Calendar recurring alarm.
+				Common.startCalendarAlarmManager(_context, SystemClock.currentThreadTimeMillis());
+			}else{
+				//Cancel the twitter recurring alarm.
+				Common.cancelCalendarAlarmManager(_context);
+			}
+		}else if(key.equals(Constants.CALENDAR_POLLING_FREQUENCY_KEY)){
 			//The polling time for the calendars was changed. Run the alarm manager with the updated polling time.
 			startCalendarAlarmManager(SystemClock.currentThreadTimeMillis());
 		}else if(key.equals(Constants.SMS_REPLY_BUTTON_ACTION_KEY)){
@@ -145,9 +154,13 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			updateClearStatusBarNotifications();
 		}else if(key.equals(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY)){
 			updateClearStatusBarNotifications();
-		}else if(key.equals(Constants.TWITTER_ENABLED_KEY)){
-			if(_preferences.getBoolean(Constants.TWITTER_ENABLED_KEY, false)){
+		}else if(key.equals(Constants.TWITTER_NOTIFICATIONS_ENABLED_KEY)){
+			if(_preferences.getBoolean(Constants.TWITTER_NOTIFICATIONS_ENABLED_KEY, false)){
+				//Setup Twitter recurring alarm.
 				checkTwitterAuthentication();
+			}else{
+				//Cancel the twitter recurring alarm.
+				Common.cancelTwitterAlarmManager(_context);
 			}
 		}else if(key.equals(Constants.TWITTER_POLLING_FREQUENCY_KEY)){
 			//The polling time for Twitter was changed. Run the alarm manager with the updated polling time.
@@ -1267,7 +1280,18 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	}
 	
 	/**
-	 * Check if the user has already authorizes us to use access his twitter account.
+	 * Check if the user has already authorized us to use access his Facebook account.
+	 * Launch authorization activity if not.
+	 */
+	private void checkFacebookAuthentication(){
+		if (_debug) Log.v("MainPreferenceActivity.checkFacebookAuthentication()");
+		//Setup User Facebook Account
+	    Intent intent = new Intent(_context, FacebookAuthenticationActivity.class);
+	    startActivity(intent);
+	}
+	
+	/**
+	 * Check if the user has already authorized us to use access his Twitter account.
 	 * Launch authorization activity if not.
 	 */
 	private void checkTwitterAuthentication(){
@@ -1353,7 +1377,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		if(Common.isTwitterAuthenticated(_context)){
 			//Do Nothing
 		}else{
-			CheckBoxPreference twitterEnabledCheckBoxPreference = (CheckBoxPreference) findPreference(Constants.TWITTER_ENABLED_KEY);
+			CheckBoxPreference twitterEnabledCheckBoxPreference = (CheckBoxPreference) findPreference(Constants.TWITTER_NOTIFICATIONS_ENABLED_KEY);
 			if(twitterEnabledCheckBoxPreference != null) twitterEnabledCheckBoxPreference.setChecked(false);
 		}
 	}

@@ -9,7 +9,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Vibrator;
@@ -27,6 +26,11 @@ import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
 
+/**
+ * This is the Twitter authorization Activity.
+ * 
+ * @author Camille Sévigny
+ */
 public class TwitterAuthenticationActivity extends Activity {
 	
 	//================================================================================
@@ -54,13 +58,13 @@ public class TwitterAuthenticationActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		_debug = Log.getDebug();
-		if (_debug) Log.v("Twitter AuthenticationActivity.onCreate()");
+		if (_debug) Log.v("TwitterAuthenticationActivity.onCreate()");
 	    _context = getApplicationContext();
 	    _preferences = PreferenceManager.getDefaultSharedPreferences(_context);
-		_consumer = new CommonsHttpOAuthConsumer(Constants.TWITTER_CONSUMER_KEY, Constants.TWITTER_CONSUMER_SECRET);
-		_provider = new DefaultOAuthProvider(Constants.TWITTER_REQUEST_URL, Constants.TWITTER_AUTHORIZE_URL, Constants.TWITTER_ACCESS_URL);
 	    requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.twitter_authentication);
+		_consumer = new CommonsHttpOAuthConsumer(Constants.TWITTER_CONSUMER_KEY, Constants.TWITTER_CONSUMER_SECRET);
+		_provider = new DefaultOAuthProvider(Constants.TWITTER_REQUEST_URL, Constants.TWITTER_AUTHORIZE_URL, Constants.TWITTER_ACCESS_URL);
 		setupViews();
 		setupButtons();
 		if(Common.isTwitterAuthenticated(_context)){
@@ -96,7 +100,7 @@ public class TwitterAuthenticationActivity extends Activity {
 				//This will populate token and token_secret in consumer.
 				String oauthVerifier = uri.getQueryParameter(OAuth.OAUTH_VERIFIER);
 				_provider.retrieveAccessToken(_consumer, oauthVerifier);
-				Editor edit = _preferences.edit();
+				SharedPreferences.Editor edit = _preferences.edit();
 				edit.putString(OAuth.OAUTH_TOKEN, _consumer.getToken());
 				edit.putString(OAuth.OAUTH_TOKEN_SECRET, _consumer.getTokenSecret());
 				edit.commit();
