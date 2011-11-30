@@ -99,8 +99,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	    setupAppDebugMode(_debug);
 	    setupRateAppPreference();
 	    setupAppVersion(_appProVersion);
-	    runOnce();
-	    checkFacebookAuthentication();
+	    runOnce();	    
 	}
 	
 
@@ -159,12 +158,23 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 				//Setup Twitter recurring alarm.
 				checkTwitterAuthentication();
 			}else{
-				//Cancel the twitter recurring alarm.
+				//Cancel the Twitter recurring alarm.
 				Common.cancelTwitterAlarmManager(_context);
 			}
 		}else if(key.equals(Constants.TWITTER_POLLING_FREQUENCY_KEY)){
 			//The polling time for Twitter was changed. Run the alarm manager with the updated polling time.
 			Common.startTwitterAlarmManager(_context, SystemClock.currentThreadTimeMillis());
+		}else if(key.equals(Constants.FACEBOOK_NOTIFICATIONS_ENABLED_KEY)){
+			if(_preferences.getBoolean(Constants.FACEBOOK_NOTIFICATIONS_ENABLED_KEY, false)){
+				//Setup Facebook recurring alarm.
+				checkFacebookAuthentication();
+			}else{
+				//Cancel the Facebook recurring alarm.
+				Common.cancelFacebookAlarmManager(_context);
+			}
+		}else if(key.equals(Constants.FACEBOOK_POLLING_FREQUENCY_KEY)){
+			//The polling time for Twitter was changed. Run the alarm manager with the updated polling time.
+			Common.startFacebookAlarmManager(_context, SystemClock.currentThreadTimeMillis());
 		}
 	}
 
@@ -281,12 +291,51 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 				return alertDialog;
 			}
 			case Constants.DIALOG_FEATURE_AVAILABLE_WITH_PRO_VERSION_TWITTER:{
-				if (_debug) Log.v("MainPreferenceActivity.onCreateDialog() DIALOG_FEATURE_AVAILABLE_WITH_PRO_VERSION");
+				if (_debug) Log.v("MainPreferenceActivity.onCreateDialog() DIALOG_FEATURE_AVAILABLE_WITH_PRO_VERSION_TWITTER");
 				LayoutInflater factory = getLayoutInflater();
 		        final View upgradeToProView = factory.inflate(R.layout.upgrade_to_pro, null);
 				AlertDialog.Builder builder = new AlertDialog.Builder(this);
 				builder.setView(upgradeToProView);
 				builder.setIcon(R.drawable.twitter);
+				builder.setTitle(_context.getString(R.string.upgrade_to_droid_notify_pro_text));
+				final AlertDialog alertDialog = builder.create();
+				TextView contentTextView = (TextView) upgradeToProView.findViewById(R.id.content_text_view);
+		        Button contentButton = (Button) upgradeToProView.findViewById(R.id.content_button);
+		        if(Log.getShowAndroidRateAppLink()){
+		        	contentButton.setOnClickListener(new OnClickListener(){
+			        	public void onClick(View view) {
+			        		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.APP_PRO_ANDROID_URL));			    	
+					    	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_NO_HISTORY);
+				    		startActivity(intent);
+				    		alertDialog.dismiss();
+			        	}
+			        });
+		        	contentButton.setText(_context.getString(R.string.upgrade_now_text));
+			        contentTextView.setText(_context.getString(R.string.upgrade_description_text));
+		        }else if(Log.getShowAmazonRateAppLink()){
+		        	contentButton.setOnClickListener(new OnClickListener(){
+				    	public void onClick(View view) {
+			        		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.APP_PRO_AMAZON_URL));			    	
+					    	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_NO_HISTORY);
+				    		startActivity(intent);
+				    		alertDialog.dismiss();
+				    	}
+				    });
+		        	contentButton.setText(_context.getString(R.string.upgrade_now_text));
+			        contentTextView.setText(_context.getString(R.string.upgrade_description_text));
+		        }else{
+		        	contentButton.setVisibility(View.GONE);
+			        contentTextView.setText(_context.getString(R.string.upgrade_no_market_description_text));
+		        }
+				return alertDialog;
+			}
+			case Constants.DIALOG_FEATURE_AVAILABLE_WITH_PRO_VERSION_FACEBOOK:{
+				if (_debug) Log.v("MainPreferenceActivity.onCreateDialog() DIALOG_FEATURE_AVAILABLE_WITH_PRO_VERSION_FACEBOOK");
+				LayoutInflater factory = getLayoutInflater();
+		        final View upgradeToProView = factory.inflate(R.layout.upgrade_to_pro, null);
+				AlertDialog.Builder builder = new AlertDialog.Builder(this);
+				builder.setView(upgradeToProView);
+				builder.setIcon(R.drawable.facebook);
 				builder.setTitle(_context.getString(R.string.upgrade_to_droid_notify_pro_text));
 				final AlertDialog alertDialog = builder.create();
 				TextView contentTextView = (TextView) upgradeToProView.findViewById(R.id.content_text_view);
@@ -634,12 +683,16 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		PreferenceCategory notificationPreferenceCategory = (PreferenceCategory) findPreference(Constants.TWITTER_PRO_PREFERENCE_CATEGORY_KEY);
 		Preference twitterProPlaceholderPreference = (Preference) findPreference(Constants.TWITTER_PRO_PLACEHOLDER_PREFERENCE_KEY);
 		PreferenceScreen twitterProPreferenceScreen = (PreferenceScreen) findPreference(Constants.TWITTER_PRO_PREFERENCE_SCREEN_KEY);
+		Preference facebookProPlaceholderPreference = (Preference) findPreference(Constants.FACEBOOK_PRO_PLACEHOLDER_PREFERENCE_KEY);
+		PreferenceScreen facebookProPreferenceScreen = (PreferenceScreen) findPreference(Constants.FACEBOOK_PRO_PREFERENCE_SCREEN_KEY);
 		PreferenceCategory appFeedbackPreferenceCategory = (PreferenceCategory) findPreference(Constants.PREFERENCE_CATEGORY_APP_FEEDBACK_KEY);
 		Preference upgradeToProPreference = (Preference) findPreference(Constants.UPGRADE_TO_PRO_PREFERENCE_KEY);
 		PreferenceCategory appLicensePreferenceCategory = (PreferenceCategory) findPreference(Constants.PREFERENCE_CATEGORY_APP_LICENSE_KEY);
 		if(appProVersion){
 			//Remove the Twitter placeholder preference category.
 			notificationPreferenceCategory.removePreference(twitterProPlaceholderPreference);
+			//Remove the Facebook placeholder preference category.
+			notificationPreferenceCategory.removePreference(facebookProPlaceholderPreference);
 			//Remove the Upgrade button.
 			appFeedbackPreferenceCategory.removePreference(upgradeToProPreference);
 			//Remove the Liscense button.
@@ -656,6 +709,22 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			    		showDialog(Constants.DIALOG_FEATURE_AVAILABLE_WITH_PRO_VERSION_TWITTER);
 			    	}catch(Exception ex){
 		 	    		if (_debug) Log.e("MainPreferenceActivity() Twitter Pro Placeholder Button ERROR: " + ex.toString());
+		 	    		return false;
+			    	}
+		            return true;
+	           }
+			});
+			//Remove the Faacebook preference preference category.
+			notificationPreferenceCategory.removePreference(facebookProPreferenceScreen);
+			//Setup the Facebook placeholder preference button.
+			facebookProPlaceholderPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+	        	public boolean onPreferenceClick(Preference preference) {
+			    	if (_debug) Log.v("Facebook Pro Placeholder Button Clicked()");
+			    	try{
+				    	//Display Pro Version Only Popup
+			    		showDialog(Constants.DIALOG_FEATURE_AVAILABLE_WITH_PRO_VERSION_FACEBOOK);
+			    	}catch(Exception ex){
+		 	    		if (_debug) Log.e("MainPreferenceActivity() Facebook Pro Placeholder Button ERROR: " + ex.toString());
 		 	    		return false;
 			    	}
 		            return true;

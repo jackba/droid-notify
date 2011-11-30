@@ -71,6 +71,8 @@
 		<service android:name="apps.droidnotify.services.CalendarAlarmReceiverService" />
 		<service android:name="apps.droidnotify.services.CalendarNotificationAlarmBroadcastReceiverService" />
 		<service android:name="apps.droidnotify.services.CalendarNotificationAlarmReceiverService" />
+		
+		<service android:name="apps.droidnotify.services.FacebookAlarmBroadcastReceiverService" />
 
 		<service android:name="apps.droidnotify.services.K9BroadcastReceiverService" />
 		<service android:name="apps.droidnotify.services.K9ReceiverService" />
@@ -102,6 +104,10 @@
 		<receiver 
 		    android:name="apps.droidnotify.receivers.CalendarNotificationAlarmReceiver"
 		    android:exported="true" />	
+		    
+		<receiver 
+		    android:name="apps.droidnotify.receivers.FacebookAlarmReceiver"
+		    android:exported="true" />
 		
 		<receiver 
 		    android:name="apps.droidnotify.receivers.K9Receiver"

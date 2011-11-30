@@ -268,6 +268,8 @@
    	<!-- Twitter Strings -->	 	
    	<string name="preference_twitter_notifications">Twitter Notifications</string>
    	<string name="preference_twitter_enabled_title">Enable Twitter</string>
+   	<string name="preference_twitter_enabled_summaryOn">Twitter notifications are enabled.</string>
+   	<string name="preference_twitter_enabled_summaryOff">Twitter notifications are disabled.</string>
    	<string name="twitter_authentication_text">Twitter Authentication</string>
    	<string name="twitter_authentication_message_text">The next screen will open a Twitter web page in a web browser. This web page will ask you to allow this application to have access to your twitter account. If you wish to proceed please click on the \"Continue\" button below.</string>
    	<string name="authenticating_text">Authenticating...</string>
@@ -276,6 +278,8 @@
   	<!-- Facebook Strings -->	 	
    	<string name="preference_facebook_notifications">Facebook Notifications</string>
    	<string name="preference_facebook_enabled_title">Enable Facebook</string>
+   	<string name="preference_facebook_enabled_summaryOn">Facebook notifications are enabled.</string>
+   	<string name="preference_facebook_enabled_summaryOff">Facebook notifications are disabled.</string>
    	<string name="facebook_authentication_text">Facebook Authentication</string>
    	<string name="facebook_authentication_error">We were not able to authenticate or access your Facebook account at this time. Please try again later.</string>
    	    	    

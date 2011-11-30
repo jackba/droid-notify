@@ -67,6 +67,7 @@ import apps.droidnotify.NotificationViewFlipper;
 import apps.droidnotify.QuickReplyActivity;
 import apps.droidnotify.log.Log;
 import apps.droidnotify.receivers.CalendarAlarmReceiver;
+import apps.droidnotify.receivers.FacebookAlarmReceiver;
 import apps.droidnotify.receivers.RescheduleReceiver;
 import apps.droidnotify.receivers.TwitterAlarmReceiver;
 import apps.droidnotify.R;
@@ -3525,6 +3526,45 @@ public class Common {
 			if (_debug) Log.e("Common.getTwitter() ERROR: " + ex.toString());
 			return null;
 		}	
+	}
+	
+	/**
+	 * Start the Facebook recurring alarm.
+	 *  
+	 * @param context - The application context.
+	 * @param alarmStartTime - The time to start the alarm.
+	 */
+	public static void startFacebookAlarmManager(Context context, long alarmStartTime){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.startFacebookAlarmManager()");
+		try{
+			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+			AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+			Intent intent = new Intent(context, FacebookAlarmReceiver.class);
+			PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+			long pollingFrequency = Long.parseLong(preferences.getString(Constants.FACEBOOK_POLLING_FREQUENCY_KEY, "15")) * 60 * 1000;
+			alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, alarmStartTime, pollingFrequency, pendingIntent);
+		}catch(Exception ex){
+			if (_debug) Log.e("Common.startFacebookAlarmManager() ERROR: " + ex.toString());
+		}
+	}
+	
+	/**
+	 * Cancel the Facebook recurring alarm.
+	 *  
+	 * @param context - The application context.
+	 */
+	public static void cancelFacebookAlarmManager(Context context){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.cancelFacebookAlarmManager()");
+		try{
+			AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+			Intent intent = new Intent(context, FacebookAlarmReceiver.class);
+			PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+			alarmManager.cancel(pendingIntent);
+		}catch(Exception ex){
+			if (_debug) Log.e("Common.cancelFacebookAlarmManager() ERROR: " + ex.toString());
+		}
 	}
 	
 	//================================================================================
