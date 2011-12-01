@@ -87,7 +87,8 @@
     <string name="delete_message_dialog_text">This will delete the message from the phone.</string>
     <string name="delete_thread_dialog_text">The entire thread will be deleted from the phone.</string>
     <string name="delete_email_dialog_text">This will delete the email from the phone.</string>	
-    <string name="delete_twitter_direct_message_dialog_text">This will delete the direct message from your twitter account.</string>	
+    <string name="delete_twitter_direct_message_dialog_text">This will delete the direct message from your Twitter account.</string>	
+    <string name="delete_facebook_notification_dialog_text">This will delete the notification from your Facebook account.</string>
     
     <!-- Notification Body Strings -->
     <string name="preference_center_align_body_text_title">Center Align Body Text</string>
@@ -157,10 +158,15 @@
    	<string name="preference_quick_reply_sms_gateway">SMS-to-Email Gateway</string>
    	<string name="preference_quick_reply_sms_gateway_summary">Select your service provider from this list. If you can\'t find it you won\'t be able to send SMS messages to Email address\'s with the built in Quick Reply.</string>
    	  	
+   	<!-- New Item At Strings -->
+    <string name="message_at_text" formatted="false">New message at %s</string>
+   	<string name="email_at_text" formatted="false">New email at %s</string>
+    <string name="missed_call_at_text" formatted="false">Missed call at %s</string>
+    <string name="notification_at_text" formatted="false">New notification at %s</string>
+   	    
    	<!-- SMS Strings -->
    	<string name="view_thread_text">View Thread</string>
    	<string name="messaging_inbox_text">Messaging Inbox</string>
-    <string name="message_at_text" formatted="false">New message at %s</string>
    	<string name="preference_sms_enabled_title">Enable SMS</string>
    	<string name="preference_sms_enabled_summaryOn">SMS notifications are enabled.</string>
    	<string name="preference_sms_enabled_summaryOff">SMS notifications are disabled.</string>
@@ -216,7 +222,6 @@
    	<string name="call_button_text">Call</string>
    	<string name="call_contact_text">Call Contact</string>
    	<string name="view_call_log_text">View Call Log</string>
-    <string name="missed_call_at_text" formatted="false">Missed call at %s</string>
     <string name="select_number_text">Select Number</string>
     <string name="select_number_to_call_text">Select Number to Call</string>
     <string name="select_number_to_text_text">Select Number to Text</string>
@@ -285,7 +290,6 @@
    	    	    
    	    
    	<!-- Email Strings -->
-   	<string name="email_at_text" formatted="false">New email at %s</string>
     <string name="email_inbox_text">Email Inbox</string>
     <string name="view_email_text">View Email</string>
   

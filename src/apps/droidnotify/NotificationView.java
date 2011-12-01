@@ -723,7 +723,101 @@ public class NotificationView extends LinearLayout {
 					break;
 				}
 				case Constants.NOTIFICATION_TYPE_FACEBOOK:{
-
+					// Notification Count Text Button
+					int notificationCountAction = Integer.parseInt(_preferences.getString(Constants.FACEBOOK_NOTIFICATION_COUNT_ACTION_KEY, "1"));
+					if(notificationCountAction == 0){
+						//Do Nothing.
+					}else{
+						_notificationCountTextView.setOnClickListener(new OnClickListener() {
+						    public void onClick(View view) {
+						    	if (_debug) Log.v("Notification Count Button Clicked()");
+						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+						    	//TODO
+						    	//Common.startTwitterAppViewInboxActivity(_context, _notificationActivity, Constants.FACEBOOK_VIEW_INBOX_ACTIVITY);
+						    }
+						});		
+					}
+					if(usingImageButtons){
+						// Dismiss Button
+				    	if(_preferences.getBoolean(Constants.FACEBOOK_DISPLAY_DISMISS_BUTTON_KEY, true)){
+				    		_dismissImageButton.setOnClickListener(new OnClickListener() {
+							    public void onClick(View view) {
+							    	if (_debug) Log.v("Facebook Dismiss Button Clicked()");
+							    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+							    	dismissNotification(false);
+							    }
+							});	
+				    	}else{
+				    		_dismissImageButton.setVisibility(View.GONE);
+				    	}
+						// Delete Button
+						if(_preferences.getBoolean(Constants.FACEBOOK_DISPLAY_DELETE_BUTTON_KEY, true)){
+				    		_deleteImageButton.setOnClickListener(new OnClickListener() {
+							    public void onClick(View view) {
+							    	if (_debug) Log.v("Facebook Delete Button Clicked()");
+							    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+							    	showDeleteDialog();
+							    }
+							});
+				    	}else{
+							_deleteImageButton.setVisibility(View.GONE);
+				    	}
+						// Reply Button
+						if(_preferences.getBoolean(Constants.FACEBOOK_DISPLAY_REPLY_BUTTON_KEY, true)){
+				    		_replyEmailImageButton.setOnClickListener(new OnClickListener() {
+							    public void onClick(View view) {
+							    	if (_debug) Log.v("Facebook Reply Button Clicked()");
+							    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+							    	replyToMessage(Constants.NOTIFICATION_TYPE_FACEBOOK);
+							    }
+							});
+				    	}else{
+							_replyEmailImageButton.setVisibility(View.GONE);
+				    	}
+					}else{
+						// Dismiss Button
+				    	if(_preferences.getBoolean(Constants.FACEBOOK_DISPLAY_DISMISS_BUTTON_KEY, true)){
+				    		_dismissButton.setOnClickListener(new OnClickListener() {
+							    public void onClick(View view) {
+							    	if (_debug) Log.v("Facebook Dismiss Button Clicked()");
+							    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+							    	dismissNotification(false);
+							    }
+							});	
+				    	}else{
+				    		_dismissButton.setVisibility(View.GONE);
+				    	}
+						// Delete Button
+						if(_preferences.getBoolean(Constants.FACEBOOK_DISPLAY_DELETE_BUTTON_KEY, true)){
+				    		_deleteButton.setOnClickListener(new OnClickListener() {
+							    public void onClick(View view) {
+							    	if (_debug) Log.v("Facebook Delete Button Clicked()");
+							    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+							    	showDeleteDialog();
+							    }
+							});
+				    	}else{
+							_deleteButton.setVisibility(View.GONE);
+				    	}
+						// Reply Button
+						if(_preferences.getBoolean(Constants.FACEBOOK_DISPLAY_REPLY_BUTTON_KEY, true)){
+				    		_replyEmailButton.setOnClickListener(new OnClickListener() {
+							    public void onClick(View view) {
+							    	if (_debug) Log.v("Facebook Reply Button Clicked()");
+							    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+							    	replyToMessage(Constants.NOTIFICATION_TYPE_FACEBOOK);
+							    }
+							});
+				    	}else{
+							_replyEmailButton.setVisibility(View.GONE);
+				    	}
+					}
+					_callButton.setVisibility(View.GONE);
+					_replySMSButton.setVisibility(View.GONE);
+					_viewCalendarButton.setVisibility(View.GONE);
+					_callImageButton.setVisibility(View.GONE);
+					_replySMSImageButton.setVisibility(View.GONE);
+					_viewCalendarImageButton.setVisibility(View.GONE);
 					break;
 				}
 				case Constants.NOTIFICATION_TYPE_K9:{
@@ -869,7 +963,12 @@ public class NotificationView extends LinearLayout {
 			    if(sentFromAddress.contains("@")){
 			    	_contactNumberTextView.setText(sentFromAddress);
 			    }else{
-			    	_contactNumberTextView.setText(Common.formatPhoneNumber(_context, sentFromAddress));
+			    	if(_notificationType == Constants.NOTIFICATION_TYPE_TWITTER || _notificationType == Constants.NOTIFICATION_TYPE_FACEBOOK){
+			    		_contactNumberTextView.setText(sentFromAddress);
+			    	}else{
+			    		_contactNumberTextView.setText(Common.formatPhoneNumber(_context, sentFromAddress));
+			    	}
+			    	
 			    }
 			    _contactNumberTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, Float.parseFloat(_preferences.getString(Constants.CONTACT_NUMBER_SIZE_KEY, Constants.CONTACT_NUMBER_SIZE_DEFAULT)));
 			    _contactNumberTextView.setVisibility(View.VISIBLE);
@@ -924,7 +1023,13 @@ public class NotificationView extends LinearLayout {
 				_notificationDetailsTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, Float.parseFloat(_preferences.getString(Constants.NOTIFICATION_BODY_FONT_SIZE_KEY, Constants.NOTIFICATION_BODY_FONT_SIZE_DEFAULT)));
 			}
 		}else if(_notificationType == Constants.NOTIFICATION_TYPE_FACEBOOK){
-			
+			if(_preferences.getBoolean(Constants.FACEBOOK_HIDE_NOTIFICATION_BODY_KEY, false)){
+				_notificationDetailsTextView.setVisibility(View.GONE);
+			}else{
+				_notificationDetailsTextView.setVisibility(View.VISIBLE);
+				//Set Message Body Font
+				_notificationDetailsTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, Float.parseFloat(_preferences.getString(Constants.NOTIFICATION_BODY_FONT_SIZE_KEY, Constants.NOTIFICATION_BODY_FONT_SIZE_DEFAULT)));
+			}
 		}else if(_notificationType == Constants.NOTIFICATION_TYPE_GMAIL){
 			
 		}else if(_notificationType == Constants.NOTIFICATION_TYPE_K9){
@@ -1046,12 +1151,20 @@ public class NotificationView extends LinearLayout {
 			}
 			case Constants.NOTIFICATION_TYPE_TWITTER:{
 		    	iconBitmap = BitmapFactory.decodeResource(_context.getResources(), R.drawable.twitter);
-		    	receivedAtText = _context.getString(R.string.message_at_text, formattedTimestamp.toLowerCase());
+		    	int notificationSubType = _notification.getNotificationSubType();
+			    if(notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE){
+			    	receivedAtText = _context.getString(R.string.message_at_text, formattedTimestamp.toLowerCase());
+		    	}	
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_FACEBOOK:{
-		    	//iconBitmap = BitmapFactory.decodeResource(_context.getResources(), R.drawable.facebook);
-		    	//receivedAtText = _context.getString(R.string.facebook_at_text, formattedTimestamp.toLowerCase());
+		    	iconBitmap = BitmapFactory.decodeResource(_context.getResources(), R.drawable.facebook);
+		    	int notificationSubType = _notification.getNotificationSubType();
+			    if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION){
+			    	receivedAtText = _context.getString(R.string.notification_at_text, formattedTimestamp.toLowerCase());
+			    }else if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE){
+			    	receivedAtText = _context.getString(R.string.message_at_text, formattedTimestamp.toLowerCase());
+		    	}		    	
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_K9:{
@@ -1115,7 +1228,19 @@ public class NotificationView extends LinearLayout {
 			}
 			case Constants.NOTIFICATION_TYPE_TWITTER:{
 				//Reply using any installed Twitter app.
-				Common.startTwitterAppReplyActivity(_context, _notificationActivity, Constants.TWITTER_VIEW_MESSAGE_ACTIVITY);
+				int notificationSubType = _notification.getNotificationSubType();
+			    if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE){	
+					Common.startTwitterAppReplyActivity(_context, _notificationActivity, Constants.TWITTER_VIEW_MESSAGE_ACTIVITY);
+		    	}
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_FACEBOOK:{
+		    	int notificationSubType = _notification.getNotificationSubType();
+			    if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION){
+			    	//TODO
+		    	}else if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE){
+		    		//TODO
+		    	}	
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_K9:{
@@ -1387,10 +1512,14 @@ public class NotificationView extends LinearLayout {
 		    	}else if(contactPlaceholderImageID.equals("5")){
 		    		contactPlaceholderImageResourceID = R.drawable.ic_contact_picture_6;
 		    	}
-		    	//Set custom image for Twitter notifications.
-		    	if(_notification.getNotificationType() == Constants.NOTIFICATION_TYPE_TWITTER){
-		    		contactPlaceholderImageResourceID = R.drawable.twitter_contact_placeholder;
-		    	}
+//		    	//Set custom image for Twitter notifications.
+//		    	if(_notification.getNotificationType() == Constants.NOTIFICATION_TYPE_TWITTER){
+//		    		contactPlaceholderImageResourceID = R.drawable.twitter_contact_placeholder;
+//		    	}
+//		    	//Set custom image for Facebook notifications.
+//		    	if(_notification.getNotificationType() == Constants.NOTIFICATION_TYPE_FACEBOOK){
+//		    		contactPlaceholderImageResourceID = R.drawable.facebook_contact_placeholder;
+//		    	}
 		    	return Common.getRoundedCornerBitmap(BitmapFactory.decodeResource(_context.getResources(), contactPlaceholderImageResourceID), 5, true, contactPhotoSize, contactPhotoSize);
 		    }
 		}catch(Exception ex){

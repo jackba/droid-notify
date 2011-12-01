@@ -52,6 +52,7 @@ public class Notification {
 	private String _k9EmailDelUri = null;
 	private int _rescheduleNumber = 0;
 	private PendingIntent _reminderPendingIntent = null;
+	private int _notificationSubType = 0;
 	
 	//================================================================================
 	// Constructors
@@ -119,9 +120,6 @@ public class Notification {
     		}else{
     			_contactName = null;
     			_contactExists = false;
-    			if(notificationType == Constants.NOTIFICATION_TYPE_TWITTER){
-    				_contactName = _sentFromAddress;
-    			}
     		}
     		_photoID = photoID;
     		if(photoID == 0){
@@ -261,9 +259,6 @@ public class Notification {
     		}else{
     			_contactName = null;
     			_contactExists = false;
-    			if(notificationType == Constants.NOTIFICATION_TYPE_TWITTER){
-    				_contactName = _sentFromAddress;
-    			}
     		}
     		_photoID = photoID;
     		if(photoID == 0){
@@ -339,9 +334,6 @@ public class Notification {
     		}else{
     			_contactName = null;
     			_contactExists = false;
-    			if(notificationType == Constants.NOTIFICATION_TYPE_TWITTER){
-    				_contactName = _sentFromAddress;
-    			}
     		}
     		_photoID = photoID;
     		if(photoID == 0){
@@ -367,7 +359,7 @@ public class Notification {
 	/**
 	 * Class Constructor
 	 */
-	public Notification(Context context, String sentFromAddress, String messageBody, long timeStamp, long contactID, String contactName, long photoID, long messageID, String lookupKey, String k9EmailUri, String k9EmailDelUri, int notificationType) {
+	public Notification(Context context, String sentFromAddress, String messageBody, long timeStamp, long contactID, String contactName, long photoID, long messageID, String lookupKey, String k9EmailUri, String k9EmailDelUri, int notificationType, int notificationSubType) {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Notification.Notification() ==CONSTRUCTOR 6==");
 		try{			
@@ -410,6 +402,7 @@ public class Notification {
 			_contactExists = false;
 			_contactPhotoExists = false;
 			_notificationType = notificationType;
+			_notificationSubType = notificationSubType;
 			if(sentFromAddress != null && !sentFromAddress.equals("")){
 				_sentFromAddress = sentFromAddress.toLowerCase();
 			}else{
@@ -428,9 +421,6 @@ public class Notification {
     		}else{
     			_contactName = null;
     			_contactExists = false;
-    			if(notificationType == Constants.NOTIFICATION_TYPE_TWITTER){
-    				_contactName = _sentFromAddress;
-    			}
     		}
     		_photoID = photoID;
     		if(photoID == 0){
@@ -559,6 +549,16 @@ public class Notification {
 	public int getNotificationType() {
 		if (_debug) Log.v("Notification.getNotificationType() NotificationType: " + _notificationType);
 		return _notificationType;
+	}
+	
+	/**
+	 * Get the notificationSubType property.
+	 * 
+	 * @return notificationType - The type of notification this is.
+	 */
+	public int getNotificationSubType() {
+		if (_debug) Log.v("Notification.getNotificationSubType() NotificationSubType: " + _notificationSubType);
+		return _notificationSubType;
 	}
 	
 	/**
@@ -777,7 +777,7 @@ public class Notification {
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_FACEBOOK:{
-
+				//TODO - Mark Facebook As Being Viewed
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_K9:{
@@ -822,7 +822,9 @@ public class Notification {
 				}
 			}
 		}else if(_notificationType == Constants.NOTIFICATION_TYPE_TWITTER){
-			Common.deleteTwitterDirectMessage(_context, _messageID);
+			Common.deleteTwitterItem(_context, this);
+		}else if(_notificationType == Constants.NOTIFICATION_TYPE_FACEBOOK){
+			Common.deleteFacebookItem(_context, this);
 		}else if(_notificationType == Constants.NOTIFICATION_TYPE_K9){
 			Common.deleteK9Email(_context, _k9EmailDelUri);
 		}

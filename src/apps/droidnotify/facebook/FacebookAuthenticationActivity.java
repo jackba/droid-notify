@@ -12,7 +12,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.Window;
+import android.widget.Toast;
 import apps.droidnotify.R;
+import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
 
@@ -52,10 +54,10 @@ public class FacebookAuthenticationActivity extends Activity {
 	    /*
          * Get existing access_token if any
          */
-        String access_token = _preferences.getString(Constants.FACEBOOK_ACCESS_TOKEN_KEY, null);
+        String accessToken = _preferences.getString(Constants.FACEBOOK_ACCESS_TOKEN_KEY, null);
         long expires = _preferences.getLong(Constants.FACEBOOK_ACCESS_EXPIRES_KEY, 0);
-        if(access_token != null) {
-        	_facebook.setAccessToken(access_token);
+        if(accessToken != null) {
+        	_facebook.setAccessToken(accessToken);
         }
         if(expires != 0) {
         	_facebook.setAccessExpires(expires);
@@ -65,25 +67,37 @@ public class FacebookAuthenticationActivity extends Activity {
          */
         if(!_facebook.isSessionValid()) {
 
-            _facebook.authorize(this, new String[] {}, new DialogListener() {
+        	String permissions[] = new String[] {"manage_notifications", "read_mailbox"};
+            _facebook.authorize(this, permissions, new DialogListener() {
 
                 public void onComplete(Bundle values) {
                     SharedPreferences.Editor editor = _preferences.edit();
                     editor.putString(Constants.FACEBOOK_ACCESS_TOKEN_KEY, _facebook.getAccessToken());
                     editor.putLong(Constants.FACEBOOK_ACCESS_EXPIRES_KEY, _facebook.getAccessExpires());
                     editor.commit();
+                    Common.startFacebookAlarmManager(_context, System.currentTimeMillis());
                     finish();
                 }
     
-                public void onFacebookError(FacebookError error) {}
+                public void onFacebookError(FacebookError error){
+                	Toast.makeText(_context, _context.getString(R.string.facebook_authentication_error), Toast.LENGTH_LONG).show();
+                	finish();
+                }
     
-                public void onError(DialogError e) {}
+                public void onError(DialogError e){
+                	Toast.makeText(_context, _context.getString(R.string.facebook_authentication_error), Toast.LENGTH_LONG).show();
+                	finish();
+                }
     
-                public void onCancel() {}
+                public void onCancel(){
+                	Toast.makeText(_context, _context.getString(R.string.facebook_authentication_error), Toast.LENGTH_LONG).show();
+                	finish();
+                }
                 
             });
             
         }else{
+        	Common.startFacebookAlarmManager(_context, System.currentTimeMillis());
             finish();
         }
 	}
