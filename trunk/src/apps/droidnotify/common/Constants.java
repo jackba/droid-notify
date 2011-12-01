@@ -29,6 +29,7 @@ public class Constants {
 	public static final String BLOCKING_APP_RUNNING_ACTION_RESCHEDULE = "0";
 	public static final String BLOCKING_APP_RUNNING_ACTION_IGNORE = "1";
 	
+	//-----NOTIFICATION TYPE CONSTANTS-----//
 	public static final int NOTIFICATION_TYPE_TEST = -1;
 	public static final int NOTIFICATION_TYPE_PHONE = 0;
 	public static final int NOTIFICATION_TYPE_SMS = 1;
@@ -39,6 +40,11 @@ public class Constants {
 	public static final int NOTIFICATION_TYPE_FACEBOOK = 6;
 	public static final int NOTIFICATION_TYPE_K9 = 7;
 
+	//-----NOTIFICATION SUB-TYPE CONSTANTS-----//
+	public static final int NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE = 100;
+	public static final int NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION = 110;
+	public static final int NOTIFICATION_TYPE_FACEBOOK_MESSAGE = 111;		
+	
 	public static final int NOTIFICATION_TYPE_RESCHEDULE_PHONE = 100;
 	public static final int NOTIFICATION_TYPE_RESCHEDULE_SMS = 101;
 	public static final int NOTIFICATION_TYPE_RESCHEDULE_MMS = 102;
@@ -390,6 +396,19 @@ public class Constants {
 	public static final String FACEBOOK_ACCESS_TOKEN_KEY = "facebook_access_token";
 	public static final String FACEBOOK_ACCESS_EXPIRES_KEY = "facebook_access_expires";
 	
+	public static final String FACEBOOK_DELETE_KEY = "facebook_delete_button_action";
+	public static final String FACEBOOK_CONFIRM_DELETION_KEY = "facebook_confirm_deletion_enabled";
+	
+	public static final String FACEBOOK_DISMISS_ACTION_MARK_READ = "0";
+	public static final String FACEBOOK_DELETE_ACTION_DELETE_MESSAGE = "0";
+	public static final String FACEBOOK_DELETE_ACTION_NOTHING = "2";	
+
+    public static final String FACEBOOK_HIDE_NOTIFICATION_BODY_KEY = "facebook_hide_notification_body_enabled";
+	public static final String FACEBOOK_DISPLAY_DISMISS_BUTTON_KEY = "facebook_display_dismiss_button";
+	public static final String FACEBOOK_DISPLAY_DELETE_BUTTON_KEY = "facebook_display_delete_button";
+	public static final String FACEBOOK_DISPLAY_REPLY_BUTTON_KEY = "facebook_display_reply_button";
+	public static final String FACEBOOK_NOTIFICATION_COUNT_ACTION_KEY = "facebook_notification_count_action";
+	
 	//-----K9 NOTIFICATION CONSTANTS-----//
 	public static final String K9_NOTIFICATIONS_ENABLED_KEY = "k9_notifications_enabled";
 	public static final String K9_BLOCKING_APP_RUNNING_ACTION_KEY = "messaging_app_running_action_k9";
@@ -628,6 +647,9 @@ public class Constants {
 	
 	public static final String FACEBOOK_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY = "facebook_notification_in_call_sound_enabled";
 	public static final String FACEBOOK_STATUS_BAR_NOTIFICATIONS_IN_CALL_VIBRATE_ENABLED_KEY = "facebook_notification_in_call_vibrate_enabled";	
+	
+	public static final String FACEBOOK_STATUS_BAR_NOTIFICATIONS_ICON_SETTING_KEY = "notification_icon_facebook";
+	public static final String FACEBOOK_STATUS_BAR_NOTIFICATIONS_ICON_DEFAULT = "status_bar_notification_facebook_blue";
 	
 	//-----TEXT-TO-SPEECH CONSTANTS-----//
 	public static final String DISPLAY_TEXT_TO_SPEECH_KEY = "display_text_to_speech_button";

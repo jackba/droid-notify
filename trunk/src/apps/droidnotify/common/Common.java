@@ -13,6 +13,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.TimeZone;
 
+import com.facebook.android.Facebook;
+
 import oauth.signpost.OAuth;
 import twitter4j.DirectMessage;
 import twitter4j.ResponseList;
@@ -2468,9 +2470,9 @@ public class Common {
 		    		String[] twitterContactInfo = null;
 		    		twitterContactInfo = Common.getContactsInfoByTwitterID(context, twitterID);
 		    		if(twitterContactInfo == null){
-		    			twitterArray.add(sentFromAddress + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + timeStamp);
+		    			twitterArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE) + "|" + sentFromAddress + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + timeStamp);
 					}else{
-						twitterArray.add(sentFromAddress + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + timeStamp + "|" + twitterContactInfo[0] + "|" + twitterContactInfo[1] + "|" + twitterContactInfo[2] + "|" + twitterContactInfo[3]);
+						twitterArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE) + "|" + sentFromAddress + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + timeStamp + "|" + twitterContactInfo[0] + "|" + twitterContactInfo[1] + "|" + twitterContactInfo[2] + "|" + twitterContactInfo[3]);
 					}
 				}
 				return twitterArray;
@@ -3133,6 +3135,27 @@ public class Common {
 	}
 	
 	/**
+	 * Delete a Twitter item.
+	 * 
+	 * @param context - The current context of this Activity.
+	 * @param messageID - The message ID that we want to delete.
+	 */
+	public static void deleteTwitterItem(Context context, apps.droidnotify.Notification notification){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.deleteTwitterItem()");
+		try{
+			switch(notification.getNotificationSubType()){
+				case Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE:{
+					deleteTwitterDirectMessage(context, notification.getMessageID());
+					return;
+				}
+			}
+		}catch(Exception ex){
+			if (_debug) Log.e("Common.deleteTwitterItem() ERROR: " + ex.toString());
+		}
+	}
+	
+	/**
 	 * Delete a Twitter Direct Message.
 	 * 
 	 * @param context - The current context of this Activity.
@@ -3156,6 +3179,31 @@ public class Common {
 		}catch(Exception ex){
 			if (_debug) Log.e("Common.deleteTwitterDirectMessage() ERROR: " + ex.toString());
 			return;
+		}
+	}
+	
+	/**
+	 * Delete a Facebook item.
+	 * 
+	 * @param context - The current context of this Activity.
+	 * @param messageID - The message ID that we want to delete.
+	 */
+	public static void deleteFacebookItem(Context context, apps.droidnotify.Notification notification){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.deleteFacebookItem()");
+		try{
+			switch(notification.getNotificationSubType()){
+				case Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION:{
+					//deleteFacebookNotification(context, notification.getMessageID());
+					return;
+				}
+				case Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE:{
+					//deleteFacebookMessage(context, notification.getMessageID());
+					return;
+				}
+			}
+		}catch(Exception ex){
+			if (_debug) Log.e("Common.deleteFacebookItem() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -3381,39 +3429,63 @@ public class Common {
 	}
 
 	/**
-	 * Determine if the user has authenticated their twitter account. 
+	 * Determine if the user has authenticated their Twitter account. 
 	 * 
 	 * @param context - The application context.
 	 *
-	 * @return boolean - Return true if the user preferences have Twitter authentication data & are able to log into Twitter.
+	 * @return boolean - Return true if the user preferences have Twitter authentication data.
 	 */
 	public static boolean isTwitterAuthenticated(Context context) {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.isTwitterAuthenticated()");	
 		try {
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-			String oauthToken = preferences.getString(OAuth.OAUTH_TOKEN, "");
-			String oauthTokenSecret = preferences.getString(OAuth.OAUTH_TOKEN_SECRET, "");
-			if (_debug) Log.v("Common.isTwitterAuthenticated() oauthToken: " + oauthToken);	
-			if (_debug) Log.v("Common.isTwitterAuthenticated() oauthTokenSecret: " + oauthTokenSecret);	
-			if(oauthToken.equals("") || oauthTokenSecret.equals("")){
+			String oauthToken = preferences.getString(OAuth.OAUTH_TOKEN, null);
+			String oauthTokenSecret = preferences.getString(OAuth.OAUTH_TOKEN_SECRET, null);
+			if(oauthToken == null || oauthTokenSecret == null){
 				if (_debug) Log.v("Common.isTwitterAuthenticated() Twitter stored authentication details are null. Exiting...");
 				return false;
-			}	
-			try {
-				Twitter twitter = getTwitter(context);
-				if(twitter == null){
-					if (_debug) Log.v("Common.isTwitterAuthenticated() Twitter object is null. Exiting...");
-					return false;
-				} 
-				twitter.getAccountSettings();
-				return true;
-			} catch (Exception ex) {
-				if (_debug) Log.e("Common.isTwitterAuthenticated() Twitter Authentication - ERROR: " + ex.toString());
-				return false;
 			}
+			//try {
+			//	Twitter twitter = getTwitter(context);
+			//	if(twitter == null){
+			//		if (_debug) Log.v("Common.isTwitterAuthenticated() Twitter object is null. Exiting...");
+			//		return false;
+			//	} 
+			//	twitter.getAccountSettings();
+			//	return true;
+			//} catch (Exception ex) {
+			//	if (_debug) Log.e("Common.isTwitterAuthenticated() Twitter Authentication - ERROR: " + ex.toString());
+			//	return false;
+			//}
+			return true;
 		} catch (Exception ex) {
 			if (_debug) Log.e("Common.isTwitterAuthenticated() ERROR: " + ex.toString());
+			return false;
+		}
+	}
+	
+	/**
+	 * Determine if the user has authenticated their Facebook account. 
+	 * 
+	 * @param context - The application context.
+	 *
+	 * @return boolean - Return true if the user preferences have Facebook authentication data.
+	 */
+	public static boolean isFacebookAuthenticated(Context context) {
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.isFacebookAuthenticated()");	
+		try {
+			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+			String accessToken = preferences.getString(Constants.FACEBOOK_ACCESS_TOKEN_KEY, null);
+			//long expires = preferences.getLong(Constants.FACEBOOK_ACCESS_EXPIRES_KEY, 0);	
+			if(accessToken == null){
+				if (_debug) Log.v("Common.isFacebookAuthenticated() Facebook stored authentication details are null. Exiting...");
+				return false;
+			}	
+			return true;
+		} catch (Exception ex) {
+			if (_debug) Log.e("Common.isFacebookAuthenticated() ERROR: " + ex.toString());
 			return false;
 		}
 	}
@@ -3511,7 +3583,7 @@ public class Common {
 			String oauthToken = preferences.getString(OAuth.OAUTH_TOKEN, null);
 			String oauthTokenSecret = preferences.getString(OAuth.OAUTH_TOKEN_SECRET, null);
 			if(oauthToken == null || oauthTokenSecret == null){
-				if (_debug) Log.v("Common.getTwitter() Oauth Values Are Null. Exiting...");
+				if (_debug) Log.v("Common.getTwitter() Oauth values are null. Exiting...");
 				return null;
 			}
 			ConfigurationBuilder configurationBuilder = new ConfigurationBuilder(); 
@@ -3527,6 +3599,44 @@ public class Common {
 			return null;
 		}	
 	}
+
+	/**
+	 * Initialize and return a Facebook object.
+	 * 
+	 * @param context - The application context.
+	 * 
+	 * @return Twitter - The initialized Facebook object or null.
+	 */
+	public static Facebook getFacebook(Context context){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.getFacebook()");
+		try{
+			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+			Facebook facebook = new Facebook(Constants.FACEBOOK_APP_ID);
+		    String accessToken = preferences.getString(Constants.FACEBOOK_ACCESS_TOKEN_KEY, null);
+		    long expires = preferences.getLong(Constants.FACEBOOK_ACCESS_EXPIRES_KEY, 0);
+		    if(accessToken == null){
+				if (_debug) Log.v("Common.getTwitter() AccessToken is null. Exiting...");
+				return null;
+			}
+		    if(accessToken != null) {
+		    	facebook.setAccessToken(accessToken);
+		    }
+		    if(expires != 0) {
+		    	facebook.setAccessExpires(expires);
+		    }
+		    if(!facebook.isSessionValid()){
+		    	if (_debug) Log.v("Common.getFacebook() Facebook object is not valid. Exiting...");
+		    	return null;
+		    }
+			return facebook;
+		}catch(Exception ex){
+			if (_debug) Log.e("Common.getFacebook() ERROR: " + ex.toString());
+			return null;
+		}	
+	}
+	
+
 	
 	/**
 	 * Start the Facebook recurring alarm.

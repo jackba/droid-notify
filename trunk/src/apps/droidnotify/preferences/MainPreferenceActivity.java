@@ -1146,6 +1146,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		updateStatusBarNotificationRingtone(Constants.NOTIFICATION_TYPE_CALENDAR);
 		updateClearStatusBarNotifications();
 		updateTwitterPreferences();
+		updateFacebookPreferences();
 	}
 	
 	/**
@@ -1454,4 +1455,17 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		}
 	}
 
+	/**
+	 * Update the Facebook preferences.
+	 */
+	private void updateFacebookPreferences(){
+		if (_debug) Log.v("MainPreferenceActivity.updateFacebookPreferences()");
+		if(Common.isFacebookAuthenticated(_context)){
+			//Do Nothing
+		}else{
+			CheckBoxPreference facebookEnabledCheckBoxPreference = (CheckBoxPreference) findPreference(Constants.FACEBOOK_NOTIFICATIONS_ENABLED_KEY);
+			if(facebookEnabledCheckBoxPreference != null) facebookEnabledCheckBoxPreference.setChecked(false);
+		}
+	}
+	
 }
