@@ -47,8 +47,10 @@ import android.widget.Toast;
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
 import apps.droidnotify.facebook.FacebookAuthenticationActivity;
+import apps.droidnotify.facebook.FacebookCommon;
 import apps.droidnotify.log.Log;
 import apps.droidnotify.twitter.TwitterAuthenticationActivity;
+import apps.droidnotify.twitter.TwitterCommon;
 import apps.droidnotify.NotificationActivity;
 import apps.droidnotify.R;
 
@@ -159,22 +161,22 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 				checkTwitterAuthentication();
 			}else{
 				//Cancel the Twitter recurring alarm.
-				Common.cancelTwitterAlarmManager(_context);
+				TwitterCommon.cancelTwitterAlarmManager(_context);
 			}
 		}else if(key.equals(Constants.TWITTER_POLLING_FREQUENCY_KEY)){
 			//The polling time for Twitter was changed. Run the alarm manager with the updated polling time.
-			Common.startTwitterAlarmManager(_context, SystemClock.currentThreadTimeMillis());
+			TwitterCommon.startTwitterAlarmManager(_context, SystemClock.currentThreadTimeMillis());
 		}else if(key.equals(Constants.FACEBOOK_NOTIFICATIONS_ENABLED_KEY)){
 			if(_preferences.getBoolean(Constants.FACEBOOK_NOTIFICATIONS_ENABLED_KEY, false)){
 				//Setup Facebook recurring alarm.
 				checkFacebookAuthentication();
 			}else{
 				//Cancel the Facebook recurring alarm.
-				Common.cancelFacebookAlarmManager(_context);
+				FacebookCommon.cancelFacebookAlarmManager(_context);
 			}
 		}else if(key.equals(Constants.FACEBOOK_POLLING_FREQUENCY_KEY)){
 			//The polling time for Twitter was changed. Run the alarm manager with the updated polling time.
-			Common.startFacebookAlarmManager(_context, SystemClock.currentThreadTimeMillis());
+			FacebookCommon.startFacebookAlarmManager(_context, SystemClock.currentThreadTimeMillis());
 		}
 	}
 
@@ -1447,7 +1449,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	 */
 	private void updateTwitterPreferences(){
 		if (_debug) Log.v("MainPreferenceActivity.updateTwitterPreferences()");
-		if(Common.isTwitterAuthenticated(_context)){
+		if(TwitterCommon.isTwitterAuthenticated(_context)){
 			//Do Nothing
 		}else{
 			CheckBoxPreference twitterEnabledCheckBoxPreference = (CheckBoxPreference) findPreference(Constants.TWITTER_NOTIFICATIONS_ENABLED_KEY);
@@ -1460,7 +1462,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	 */
 	private void updateFacebookPreferences(){
 		if (_debug) Log.v("MainPreferenceActivity.updateFacebookPreferences()");
-		if(Common.isFacebookAuthenticated(_context)){
+		if(FacebookCommon.isFacebookAuthenticated(_context)){
 			//Do Nothing
 		}else{
 			CheckBoxPreference facebookEnabledCheckBoxPreference = (CheckBoxPreference) findPreference(Constants.FACEBOOK_NOTIFICATIONS_ENABLED_KEY);

@@ -1,5 +1,7 @@
 package apps.droidnotify;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.ContentValues;
@@ -13,6 +15,7 @@ import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.telephony.SmsManager;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.view.HapticFeedbackConstants;
 import android.view.View;
@@ -27,6 +30,7 @@ import android.widget.Toast;
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
+import apps.droidnotify.twitter.TwitterCommon;
 
 /**
  * This is the quick reply activity that is used to send sms messages.
@@ -43,8 +47,9 @@ public class QuickReplyActivity extends Activity {
 	private static final int CANCEL_BUTTON = R.id.quick_reply_cancel_button;
 	private static final int SEND_TO_TEXT_VIEW = R.id.send_to_text_view;
 	private static final int MESSAGE_EDIT_TEXT = R.id.message_edit_text;
-	private static final int CHARACTERS_REMAINING_TEXT_TEXT = R.id.characters_remaining_text_view;
-
+	private static final int CHARACTERS_REMAINING_TEXT_VIEW = R.id.characters_remaining_text_view;
+	private static final int TITLE_TEXT_VIEW = R.id.quick_reply_title_text_view;
+	
 	//================================================================================
     // Properties
     //================================================================================
@@ -54,12 +59,16 @@ public class QuickReplyActivity extends Activity {
 	private Button _sendButton = null;
 	private Button _cancelButton = null;
 	private TextView _sendToTextView  = null;
-	private TextView _charactersRemaining = null;
+	private TextView _charactersRemainingTextView = null;
+	private TextView _titleTextView = null;
 	private EditText _messageEditText = null;
-	private String _phoneNumber = null;
+	private long _sendToID = 0;
+	private String _sendTo = null;
 	private String _name = null;
 	private SharedPreferences _preferences = null;
 	private boolean _messageSent = false;
+	private int _notificationType = 0;
+	private int _notificationSubType = 0;
 
 	//================================================================================
 	// Public Methods
@@ -126,7 +135,30 @@ public class QuickReplyActivity extends Activity {
 	    _cancelButton = (Button)findViewById(CANCEL_BUTTON);
 	    _sendToTextView = (TextView)findViewById(SEND_TO_TEXT_VIEW);
 	    _messageEditText = (EditText)findViewById(MESSAGE_EDIT_TEXT);
-	    _charactersRemaining = (TextView)findViewById(CHARACTERS_REMAINING_TEXT_TEXT);
+	    _charactersRemainingTextView = (TextView)findViewById(CHARACTERS_REMAINING_TEXT_VIEW);
+	    _titleTextView = (TextView)findViewById(TITLE_TEXT_VIEW);
+	    //Update the mesage size limit based on the reply type.
+		InputFilter[] FilterArray = new InputFilter[1];
+	    switch(_notificationType){
+	    	case Constants.NOTIFICATION_TYPE_SMS:{
+		    	break;
+		    }
+			case Constants.NOTIFICATION_TYPE_TWITTER:{	   
+				if(_notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE){
+		    		FilterArray[0] = new InputFilter.LengthFilter(140);
+		    		_messageEditText.setFilters(FilterArray);
+				}
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_FACEBOOK:{	    		
+				if(_notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION){
+					//Do Nothing										
+				}else if(_notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE){
+					//Do Nothing										
+				}
+				break;
+			}
+	    }
 	    //Add a TextWatcher.
 	    _messageEditText.addTextChangedListener(new TextWatcher() {
 	    	public void afterTextChanged(Editable s){
@@ -137,13 +169,47 @@ public class QuickReplyActivity extends Activity {
 	    	}
 	    	public void onTextChanged(CharSequence s, int start, int before, int count){
 	    		//Enable the Send button if there is text in the EditText layout.
+	    		int maxCharacters = -1;
+	    		int characterBundleAmount = 160;
+	    		boolean useCharacterBundles = false;
 	    		if(s.length() > 0){
 	    			_sendButton.setEnabled(true);
 	    		}else{
 	    			_sendButton.setEnabled(false);
 	    		}
-	    		int charactersRemaining = 160 - s.length();
-	    		_charactersRemaining.setText(String.valueOf(charactersRemaining));
+	    		switch(_notificationType){
+			    	case Constants.NOTIFICATION_TYPE_SMS:{
+			    		maxCharacters = -1;
+			    		characterBundleAmount = 160;
+			    		useCharacterBundles = true;
+				    	break;
+				    }
+					case Constants.NOTIFICATION_TYPE_TWITTER:{	   
+						if(_notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE){
+							maxCharacters = 140;
+							characterBundleAmount = 140;
+							useCharacterBundles = false;
+						}
+						break;
+					}
+					case Constants.NOTIFICATION_TYPE_FACEBOOK:{	    		
+						if(_notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION){
+							//Do Nothing										
+						}else if(_notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE){
+							//Do Nothing										
+						}
+						break;
+					}
+			    }
+	    		int charactersRemaining = maxCharacters - s.length();
+	    		int numberOfBundles = s.length() / characterBundleAmount;
+	    		String charactersRemainingText = null;
+	    		if(useCharacterBundles){
+		    		charactersRemainingText = String.valueOf(numberOfBundles) + "/" + String.valueOf(charactersRemaining);
+	    		}else{
+	    			charactersRemainingText = String.valueOf(charactersRemaining);
+	    		}
+	    		_charactersRemainingTextView.setText(charactersRemainingText);
 	    	}
 	    });
 	    //Get name and phone number from the Bundle.
@@ -218,21 +284,77 @@ public class QuickReplyActivity extends Activity {
 	 */
 	private void parseQuickReplyParameters(Bundle bundle){
 		if (_debug) Log.v("QuickReplyActivity.parseQuickReplyParameters()");
-		_phoneNumber = bundle.getString("smsPhoneNumber");
-		_name = bundle.getString("smsName");
-		String message = bundle.getString("smsMessage");
-		if(_phoneNumber == null){
-			if (_debug) Log.v("QuickReplyActivity.parseQuickReplyParameters() Send To number is null. Exiting...");
-			return;
-		}
-		if(!_name.equals("")){
-			_sendToTextView.setText("To: " + _name + " (" + _phoneNumber + ")");
-		}else{
-			_sendToTextView.setText("To: " + _phoneNumber);
-		}		
-		if(message != null){
-			_messageEditText.setText(message);
-		}
+		_notificationType = bundle.getInt("notificationType");
+		_notificationSubType = bundle.getInt("notificationSubType");
+		switch(_notificationType){
+	    	case Constants.NOTIFICATION_TYPE_SMS:{
+	    		_sendTo = bundle.getString("sendTo");
+	    		_name = bundle.getString("name");
+	    		String message = bundle.getString("message");
+	    		if(_sendTo == null){
+	    			if (_debug) Log.v("QuickReplyActivity.parseQuickReplyParameters() Send To number is null. Exiting...");
+	    			return;
+	    		}
+	    		if(!_name.equals("")){
+	    			_sendToTextView.setText("To: " + _name + " (" + _sendTo + ")");
+	    		}else{
+	    			_sendToTextView.setText("To: " + _sendTo);
+	    		}		
+	    		if(message != null){
+	    			_messageEditText.setText(message);
+	    		}
+	    		_titleTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_conversation_white, 0, 0, 0);
+		    	break;
+		    }
+			case Constants.NOTIFICATION_TYPE_TWITTER:{
+				_sendToID = bundle.getLong("sendToID");
+				_sendTo = bundle.getString("sendTo");
+	    		_name = bundle.getString("name");
+	    		String message = bundle.getString("message");
+	    		if(_sendTo == null){
+	    			if (_debug) Log.v("QuickReplyActivity.parseQuickReplyParameters() Send To number is null. Exiting...");
+	    			return;
+	    		}
+	    		if(!_name.equals("")){
+	    			_sendToTextView.setText("To: " + _name + " (" + _sendTo + ")");
+	    		}else{
+	    			_sendToTextView.setText("To: " + _sendTo);
+	    		}		
+	    		if(message != null){
+	    			_messageEditText.setText(message);
+	    		}		   
+				if(_notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE){
+					//Do Nothing
+				}
+				_titleTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.twitter, 0, 0, 0);
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_FACEBOOK:{
+				_sendToID = bundle.getLong("sendToID");
+				_sendTo = bundle.getString("sendTo");
+	    		_name = bundle.getString("name");
+	    		String message = bundle.getString("message");
+	    		if(_sendTo == null){
+	    			if (_debug) Log.v("QuickReplyActivity.parseQuickReplyParameters() Send To number is null. Exiting...");
+	    			return;
+	    		}
+	    		if(!_name.equals("")){
+	    			_sendToTextView.setText("To: " + _name + " (" + _sendTo + ")");
+	    		}else{
+	    			_sendToTextView.setText("To: " + _sendTo);
+	    		}		
+	    		if(message != null){
+	    			_messageEditText.setText(message);
+	    		}		    		
+				if(_notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION){
+					//Do Nothing										
+				}else if(_notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE){
+					//Do Nothing										
+				}
+				_titleTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.twitter, 0, 0, 0);
+				break;
+			}
+	    }
 	}
 	
 	/**
@@ -243,7 +365,7 @@ public class QuickReplyActivity extends Activity {
 	    _sendButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view) {
             	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-            	if(sendSMSMessage()){
+            	if(sendQuickReply()){
 	                //Set the result for this activity.
 	                setResult(RESULT_OK);
 	                //Finish Activity.
@@ -271,20 +393,72 @@ public class QuickReplyActivity extends Activity {
 	 * 
 	 * @return boolean - Returns true if the message was sent.
 	 */
-	private boolean sendSMSMessage(){
-		if (_debug) Log.v("QuickReplyActivity.sendSMSMessage()");
-        String message = _messageEditText.getText().toString();                 
-        if(_phoneNumber.length()>0 && message.length()>0){                
-            sendSMS(_phoneNumber, message);  
-            return true;
-        }else{
-        	if(_phoneNumber.length()<= 0){
-        		Toast.makeText(getBaseContext(), getString(R.string.phone_number_error_text), Toast.LENGTH_LONG).show();
-        	}else if(message.length()<= 0){
-        		Toast.makeText(getBaseContext(), getString(R.string.message_error_text), Toast.LENGTH_LONG).show();
-        	}
-        	return false;
-        }
+	private boolean sendQuickReply(){
+		if (_debug) Log.v("QuickReplyActivity.sendQuickReply()");
+        String message = _messageEditText.getText().toString(); 
+		switch(_notificationType){
+	    	case Constants.NOTIFICATION_TYPE_SMS:{
+	            if(_sendTo.length()>0 && message.length()>0){                
+	                if(sendSMS(_sendTo, message)){
+        				_messageSent = true;
+        				return true;
+            		}else{
+            			return false;
+            		}
+	            }else{
+	            	if(_sendTo.length()<= 0){
+	            		Toast.makeText(getBaseContext(), getString(R.string.phone_number_error_text), Toast.LENGTH_LONG).show();
+	            	}else if(message.length()<= 0){
+	            		Toast.makeText(getBaseContext(), getString(R.string.message_error_text), Toast.LENGTH_LONG).show();
+	            	}
+	            	return false;
+	            }
+		    }
+			case Constants.NOTIFICATION_TYPE_TWITTER:{
+	            if(_sendTo.length()>0 && message.length()>0){ 
+	            	if(_notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE){
+	            		if(TwitterCommon.sendTwitterDirectMessage(_context, _sendToID, message)){
+	        				_messageSent = true;
+	        				return true;
+	            		}else{
+	            			return false;
+	            		}
+	            	}else{
+	            		return false;
+	            	}
+	            }else{
+	            	if(_sendTo.length()<= 0){
+	            		Toast.makeText(getBaseContext(), getString(R.string.address_error_text), Toast.LENGTH_LONG).show();
+	            	}else if(message.length()<= 0){
+	            		Toast.makeText(getBaseContext(), getString(R.string.message_error_text), Toast.LENGTH_LONG).show();
+	            	}
+	            	return false;
+	            }
+			}
+			case Constants.NOTIFICATION_TYPE_FACEBOOK:{
+				if(_sendTo.length()>0 && message.length()>0){  
+					if(_notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION){
+						
+
+		                return true;
+					}else if(_notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE){
+						
+
+		                return true;
+					} else{
+	            		return false;
+	            	}
+	            }else{
+	            	if(_sendTo.length()<= 0){
+	            		Toast.makeText(getBaseContext(), getString(R.string.address_error_text), Toast.LENGTH_LONG).show();
+	            	}else if(message.length()<= 0){
+	            		Toast.makeText(getBaseContext(), getString(R.string.message_error_text), Toast.LENGTH_LONG).show();
+	            	}
+	            	return false;
+	            }
+			}
+		}
+        return false;
 	}
 	
 	/**
@@ -293,7 +467,7 @@ public class QuickReplyActivity extends Activity {
 	 * @param phoneNumber - The phone number we are sending the message to.
 	 * @param message - The message we are sending.
 	 */
-	private void sendSMS(String smsAddress, String message){   
+	private boolean sendSMS(String smsAddress, String message){   
 		if (_debug) Log.v("QuickReplyActivity.sendSMS()");
 //      final String SMS_SENT = "SMS_SENT";
 //      final String SMS_DELIVERED = "SMS_DELIVERED";
@@ -359,70 +533,76 @@ public class QuickReplyActivity extends Activity {
 		    		// (USA) Sprint PCS - 6245 [address message]
 		    		String smsToEmailGatewayNumber = "6245";
 		    		sms.sendTextMessage(smsToEmailGatewayNumber, null, smsAddress + " " + message, sentPI, deliveredPI);
+		    		break;
 		    	}
 		    	case Constants.SMS_EMAIL_GATEWAY_2:{
 		    		// (USA) T-Mobile - 500 [address text | address/subject/text | address#subject#text]
 		    		String smsToEmailGatewayNumber = "500";
 		    		sms.sendTextMessage(smsToEmailGatewayNumber, null, smsAddress + " " + message, sentPI, deliveredPI);
+		    		break;
 		    	}
 		    	case Constants.SMS_EMAIL_GATEWAY_3:{
 		    		// (USA) AT&T - 121 [address text | address (subject) text]
 		    		String smsToEmailGatewayNumber = "121";
 		    		sms.sendTextMessage(smsToEmailGatewayNumber, null, smsAddress + " " + message, sentPI, deliveredPI);
+		    		break;
 		    	}
 		    	case Constants.SMS_EMAIL_GATEWAY_4:{
 		    		// (USA) AT&T - 111 [address text | address (subject) text]
 		    		String smsToEmailGatewayNumber = "111";
 		    		sms.sendTextMessage(smsToEmailGatewayNumber, null, smsAddress + " " + message, sentPI, deliveredPI);
+		    		break;
 		    	}
 		    	case Constants.SMS_EMAIL_GATEWAY_5:{
 		    		// (UK) AQL - 447766 [address text]
 		    		String smsToEmailGatewayNumber = "447766";
 		    		sms.sendTextMessage(smsToEmailGatewayNumber, null, smsAddress + " " + message, sentPI, deliveredPI);
+		    		break;
 		    	}
 		    	case Constants.SMS_EMAIL_GATEWAY_6:{
 		    		// (UK) AQL - 404142 [address text]
 		    		String smsToEmailGatewayNumber = "404142";
 		    		sms.sendTextMessage(smsToEmailGatewayNumber, null, smsAddress + " " + message, sentPI, deliveredPI);
+		    		break;
 		    	}
 		    	case Constants.SMS_EMAIL_GATEWAY_7:{
 		    		// (USA) AT&T - 121 [address text | address (subject) text]
 		    		String smsToEmailGatewayNumber = "121";
 		    		sms.sendTextMessage(smsToEmailGatewayNumber, null, smsAddress + " " + message, sentPI, deliveredPI);
+		    		break;
 		    	}
 		    	case Constants.SMS_EMAIL_GATEWAY_8:{
 		    		// (Croatia) T-Mobile - 100 [address#subject#text]
 		    		String smsToEmailGatewayNumber = "100";
 		    		sms.sendTextMessage(smsToEmailGatewayNumber, null, smsAddress + "##" + message, sentPI, deliveredPI);
+		    		break;
 		    	}
 		    	default:{
 		    		sms.sendTextMessage(smsAddress, null, message, sentPI, deliveredPI);
+		    		break;
 		    	}
-		    	try{
-		        	//Store the message in the Sent folder so that it shows in Messaging apps.
-		            ContentValues values = new ContentValues();
-		            values.put("address", smsAddress);
-		            values.put("body", message);
-		            getContentResolver().insert(Uri.parse("content://sms/sent"), values);
-		    	}catch(Exception ex){
-		    		if (_debug) Log.e("QuickReplyActivity.sendSMS() Insert Into Sent Foler ERROR: " + ex.toString());
-		    	}
-			}        	
+			}   	
 		}else{
 			//Send to regular text message number.
-			sms.sendTextMessage(smsAddress, null, message, sentPI, deliveredPI);
-			try{
-		    	//Store the message in the Sent folder so that it shows in Messaging apps.
-		        ContentValues values = new ContentValues();
-		        values.put("address", smsAddress);
-		        values.put("body", message);
-		        values.put("date", String.valueOf(System.currentTimeMillis()));
-		        getContentResolver().insert(Uri.parse("content://sms/sent"), values);
-			}catch(Exception ex){
-				if (_debug) Log.e("QuickReplyActivity.sendSMS() Insert Into Sent Foler ERROR: " + ex.toString());
+			//Split message before sending using multiparts.
+			if(_preferences.getBoolean(Constants.SMS_SPLIT_MESSAGE_KEY, false)){
+				
+			}else{
+				ArrayList<String> parts = sms.divideMessage(message);
+			    sms.sendMultipartTextMessage(smsAddress, null, parts, null, null);
 			}
-			_messageSent = true;
 		}
+    	try{
+        	//Store the message in the Sent folder so that it shows in Messaging apps.
+            ContentValues values = new ContentValues();
+            values.put("address", smsAddress);
+            values.put("body", message);
+            getContentResolver().insert(Uri.parse("content://sms/sent"), values);
+    	}catch(Exception ex){
+    		if (_debug) Log.e("QuickReplyActivity.sendSMS() Insert Into Sent Foler ERROR: " + ex.toString());
+    		return false;
+    	}
+		return true; 
     }
 	
 	/**
@@ -486,13 +666,14 @@ public class QuickReplyActivity extends Activity {
 	 * Save the message as a draft.
 	 */
 	private void saveMessageDraft(){
+		if (_debug) Log.v("QuickReplyActivity.saveMessageDraft()");
 		if(_messageSent){
 			return;
 		}
 		if(_preferences.getBoolean(Constants.SAVE_MESSAGE_DRAFT_KEY, true)){
 			try{
 				Context context = getBaseContext();
-				String address = _phoneNumber;
+				String address = _sendTo;
 				String message = _messageEditText.getText().toString().trim();
 				if(!message.equals("")){
 			    	//Store the message in the draft folder so that it shows in Messaging apps.

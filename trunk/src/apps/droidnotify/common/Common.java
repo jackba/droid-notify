@@ -13,18 +13,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.TimeZone;
 
-import com.facebook.android.Facebook;
-
-import oauth.signpost.OAuth;
-import twitter4j.DirectMessage;
-import twitter4j.ResponseList;
-import twitter4j.Twitter;
-import twitter4j.TwitterFactory;
-import twitter4j.User;
-import twitter4j.auth.AccessToken;
-import twitter4j.conf.Configuration;
-import twitter4j.conf.ConfigurationBuilder;
-
 import android.app.ActivityManager;
 import android.app.AlarmManager;
 import android.app.KeyguardManager;
@@ -69,9 +57,7 @@ import apps.droidnotify.NotificationViewFlipper;
 import apps.droidnotify.QuickReplyActivity;
 import apps.droidnotify.log.Log;
 import apps.droidnotify.receivers.CalendarAlarmReceiver;
-import apps.droidnotify.receivers.FacebookAlarmReceiver;
 import apps.droidnotify.receivers.RescheduleReceiver;
-import apps.droidnotify.receivers.TwitterAlarmReceiver;
 import apps.droidnotify.R;
 
 /**
@@ -299,64 +285,7 @@ public class Common {
 		}
 	}
 	
-	/**
-	 * Load the various contact info for this notification from a phoneNumber.
-	 * 
-	 * @param context - Application Context.
-	 * @param twitterID - The twitter ID of the person we are searching for.
-	 * 
-	 * @return String[] - String Array of the contact information.
-	 */ 
-	public static String[] getContactsInfoByTwitterID(Context context, long twitterID){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.getContactsInfoByTwitterID()");
-		long _contactID = 0;
-		String _contactName = "";
-		long _photoID = 0;
-		String _lookupKey = "";
-		if (twitterID == 0) {
-			if (_debug) Log.v("Common.getContactsInfoByTwitterID() Twitter ID provided is 0. Exiting...");
-			return null;
-		}
-		Twitter twitter = getTwitter(context);
-		if(twitter == null){
-			if (_debug) Log.v("Common.getContactsInfoByTwitterID() Twitter object is null. Exiting...");
-			return null;
-		}
-		try{
-			User twitterUser = twitter.showUser(twitterID);
-			String twitterName = twitterUser.getName();
-			final String[] projection = null;
-			final String selection = null;
-			final String[] selectionArgs = null;
-			final String sortOrder = null;
-			Cursor cursor = context.getContentResolver().query(
-					ContactsContract.Contacts.CONTENT_URI,
-					projection, 
-					selection, 
-					selectionArgs, 
-					sortOrder);
-			if (_debug) Log.v("Common.getContactsInfoByTwitterID() Searching Contacts");
-			while (cursor.moveToNext()) { 
-				String contactID = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID)); 
-				String contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-				String photoID = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_ID)); 
-				String lookupKey = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY)); 
-				if(contactName.equals(twitterName)){
-					_contactID = Long.parseLong(contactID);
-					_contactName = contactName;
-					_photoID = Long.parseLong(photoID);
-					_lookupKey = lookupKey;					
-					break;
-				}
-		   	}
-			cursor.close();
-			return new String[]{String.valueOf(_contactID), _contactName, String.valueOf(_photoID), _lookupKey};
-		}catch(Exception ex){
-			if (_debug) Log.e("Common.getContactsInfoByTwitterID() ERROR: " + ex.toString());
-			return null;
-		}
-	}
+
 
 	/**
 	 * Load the various contact info for this notification from an email.
@@ -746,7 +675,7 @@ public class Common {
 	}
 
 	/**
-	 * Start the intent for any android messaging application to send a reply.
+	 * Start the intent for the Quick Reply activity send a reply.
 	 * 
 	 * @param context - Application Context.
 	 * @param notificationActivity - A reference to the parent activity.
@@ -755,23 +684,27 @@ public class Common {
 	 * 
 	 * @return boolean - Returns true if the activity can be started.
 	 */
-	public static boolean startMessagingQuickReplyActivity(Context context, NotificationActivity notificationActivity, String phoneNumber, String contactName, int requestCode){
+	public static boolean startMessagingQuickReplyActivity(Context context, NotificationActivity notificationActivity, int requestCode, String sendTo, String name){
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.startMessagingQuickReplyActivity()");
-		if(phoneNumber == null){
+		if(sendTo == null){
 			Toast.makeText(context, context.getString(R.string.app_android_reply_messaging_address_error), Toast.LENGTH_LONG).show();
 			return false;
 		}
 		try{
 			Intent intent = new Intent(context, QuickReplyActivity.class);
 	        if (_debug) Log.v("NotificationView.replyToMessage() Put bundle in intent");
-		    intent.putExtra("smsPhoneNumber", phoneNumber);
-		    if(contactName != null && !contactName.equals( context.getString(android.R.string.unknownName))){
-		    	intent.putExtra("smsName", contactName);
+	        Bundle bundle = new Bundle();
+	        bundle.putInt("notificationType", Constants.NOTIFICATION_TYPE_SMS);
+	        bundle.putInt("notificationSubType", 0);
+	        bundle.putString("sendTo", sendTo);
+		    if(name != null && !name.equals( context.getString(android.R.string.unknownName))){
+		    	bundle.putString("name", name);
 		    }else{
-		    	intent.putExtra("smsName", "");
+		    	bundle.putString("name", "");
 		    }
-		    intent.putExtra("smsMessage", "");
+		    bundle.putString("message", "");
+		    intent.putExtras(bundle);
 	        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 	        notificationActivity.startActivityForResult(intent, requestCode);
 	        setInLinkedAppFlag(context, true);
@@ -1212,62 +1145,6 @@ public class Common {
 		}catch(Exception ex){
 			if (_debug) Log.e("Common.startK9MailAppReplyActivity() ERROR: " + ex.toString());
 			Toast.makeText(context, context.getString(R.string.app_email_app_error), Toast.LENGTH_LONG).show();
-			setInLinkedAppFlag(context, false);
-			return false;
-		}
-	}
-	
-	/**
-	 * Start the intent for any Twitter application to view the direct message inbox.
-	 * 
-	 * @param context - Application Context.
-	 * @param notificationActivity - A reference to the parent activity.
-	 * @param requestCode - The request code we want returned.
-	 * 
-	 * @return boolean - Returns true if the activity can be started.
-	 */
-	public static boolean startTwitterAppViewInboxActivity(Context context, NotificationActivity notificationActivity, int requestCode){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.startTwitterAppViewInboxActivity()");
-		try{
-			Intent intent = new Intent(Intent.ACTION_SEND); 
-			//intent.putExtra(Intent.EXTRA_TEXT, ""); 
-			//intent.setType("application/twitter");
-			intent.setType("text/plain");
-	        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-			notificationActivity.startActivityForResult(intent, requestCode);
-	        return true;
-		}catch(Exception ex){
-			if (_debug) Log.e("Common.startTwitterAppViewInboxActivity() ERROR: " + ex.toString());
-			Toast.makeText(context, context.getString(R.string.app_twitter_app_error), Toast.LENGTH_LONG).show();
-			setInLinkedAppFlag(context, false);
-			return false;
-		}
-	}
-	
-	/**
-	 * Start the intent for any android messaging application to send a reply.
-	 * 
-	 * @param context - Application Context.
-	 * @param notificationActivity - A reference to the parent activity.
-	 * @param requestCode - The request code we want returned.
-	 * 
-	 * @return boolean - Returns true if the activity can be started.
-	 */
-	public static boolean startTwitterAppReplyActivity(Context context, NotificationActivity notificationActivity, int requestCode){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.startTwitterAppReplyActivity()");
-		try{
-			Intent intent = new Intent(Intent.ACTION_SEND); 
-			//intent.putExtra(Intent.EXTRA_TEXT, ""); 
-			//intent.setType("application/twitter");
-			intent.setType("text/plain");
-	        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-			notificationActivity.startActivityForResult(intent, requestCode); 
-	        return true;
-		}catch(Exception ex){
-			if (_debug) Log.e("Common.startTwitterAppReplyActivity() ERROR: " + ex.toString());
-			Toast.makeText(context, context.getString(R.string.app_twitter_app_error), Toast.LENGTH_LONG).show();
 			setInLinkedAppFlag(context, false);
 			return false;
 		}
@@ -2441,49 +2318,7 @@ public class Common {
 		}
 	}
 	
-	/**
-	 * Process the Twitter notifications. Read account and notify as needed.
-	 * 
-	 * @param context - The application context.
-	 * 
-	 * @return ArrayList<String> - Returns an ArrayList of Strings that contain the Twitter information.
-	 */
-	public static ArrayList<String> getTwitterDirectMessages(Context context){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.getTwitterDirectMessages()");
-		try{
-			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-			if(preferences.getBoolean(Constants.TWITTER_DIRECT_MESSAGES_ENABLED_KEY, true)){
-				Twitter twitter = getTwitter(context);
-				if(twitter == null){
-					if (_debug) Log.v("Common.getTwitterDirectMessages() Twitter object is null. Exiting...");
-					return null;
-				}
-			    ResponseList <DirectMessage> messages = twitter.getDirectMessages();
-			    ArrayList<String> twitterArray = new ArrayList<String>();
-				for(DirectMessage message: messages){
-					String messageBody = message.getText();
-					long messageID = message.getId();
-					long timeStamp = message.getCreatedAt().getTime();
-			    	String sentFromAddress = message.getSenderScreenName();
-			    	long twitterID = message.getSenderId();
-		    		String[] twitterContactInfo = null;
-		    		twitterContactInfo = Common.getContactsInfoByTwitterID(context, twitterID);
-		    		if(twitterContactInfo == null){
-		    			twitterArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE) + "|" + sentFromAddress + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + timeStamp);
-					}else{
-						twitterArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE) + "|" + sentFromAddress + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + timeStamp + "|" + twitterContactInfo[0] + "|" + twitterContactInfo[1] + "|" + twitterContactInfo[2] + "|" + twitterContactInfo[3]);
-					}
-				}
-				return twitterArray;
-			}else{
-				return null;
-			}
-		}catch(Exception ex){
-			if (_debug) Log.e("Common.getTwitterDirectMessages() ERROR: " + ex.toString());
-			return null;
-		}
-	}
+
 	
 	/**
 	 * Aquire a global partial wakelock within this context.
@@ -3135,79 +2970,6 @@ public class Common {
 	}
 	
 	/**
-	 * Delete a Twitter item.
-	 * 
-	 * @param context - The current context of this Activity.
-	 * @param messageID - The message ID that we want to delete.
-	 */
-	public static void deleteTwitterItem(Context context, apps.droidnotify.Notification notification){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.deleteTwitterItem()");
-		try{
-			switch(notification.getNotificationSubType()){
-				case Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE:{
-					deleteTwitterDirectMessage(context, notification.getMessageID());
-					return;
-				}
-			}
-		}catch(Exception ex){
-			if (_debug) Log.e("Common.deleteTwitterItem() ERROR: " + ex.toString());
-		}
-	}
-	
-	/**
-	 * Delete a Twitter Direct Message.
-	 * 
-	 * @param context - The current context of this Activity.
-	 * @param messageID - The message ID that we want to delete.
-	 */
-	public static void deleteTwitterDirectMessage(Context context, long messageID){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.deleteTwitterDirectMessage()");
-		try{
-			if(messageID == 0){
-				if (_debug) Log.v("Common.deleteTwitterDirectMessage() messageID == 0. Exiting...");
-				return;
-			}
-			Twitter twitter = getTwitter(context);
-			if(twitter == null){
-				if (_debug) Log.v("Common.deleteTwitterDirectMessage() Twitter object is null. Exiting...");
-				return;
-			}
-			twitter.destroyDirectMessage(messageID);
-			return;
-		}catch(Exception ex){
-			if (_debug) Log.e("Common.deleteTwitterDirectMessage() ERROR: " + ex.toString());
-			return;
-		}
-	}
-	
-	/**
-	 * Delete a Facebook item.
-	 * 
-	 * @param context - The current context of this Activity.
-	 * @param messageID - The message ID that we want to delete.
-	 */
-	public static void deleteFacebookItem(Context context, apps.droidnotify.Notification notification){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.deleteFacebookItem()");
-		try{
-			switch(notification.getNotificationSubType()){
-				case Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION:{
-					//deleteFacebookNotification(context, notification.getMessageID());
-					return;
-				}
-				case Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE:{
-					//deleteFacebookMessage(context, notification.getMessageID());
-					return;
-				}
-			}
-		}catch(Exception ex){
-			if (_debug) Log.e("Common.deleteFacebookItem() ERROR: " + ex.toString());
-		}
-	}
-	
-	/**
 	 * Reschedule a notification.
 	 * 
 	 * @param context - The application context.
@@ -3427,68 +3189,6 @@ public class Common {
 			if (_debug) Log.e("Common.resendNotification() ERROR: " + ex.toString());
 		}
 	}
-
-	/**
-	 * Determine if the user has authenticated their Twitter account. 
-	 * 
-	 * @param context - The application context.
-	 *
-	 * @return boolean - Return true if the user preferences have Twitter authentication data.
-	 */
-	public static boolean isTwitterAuthenticated(Context context) {
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.isTwitterAuthenticated()");	
-		try {
-			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-			String oauthToken = preferences.getString(OAuth.OAUTH_TOKEN, null);
-			String oauthTokenSecret = preferences.getString(OAuth.OAUTH_TOKEN_SECRET, null);
-			if(oauthToken == null || oauthTokenSecret == null){
-				if (_debug) Log.v("Common.isTwitterAuthenticated() Twitter stored authentication details are null. Exiting...");
-				return false;
-			}
-			//try {
-			//	Twitter twitter = getTwitter(context);
-			//	if(twitter == null){
-			//		if (_debug) Log.v("Common.isTwitterAuthenticated() Twitter object is null. Exiting...");
-			//		return false;
-			//	} 
-			//	twitter.getAccountSettings();
-			//	return true;
-			//} catch (Exception ex) {
-			//	if (_debug) Log.e("Common.isTwitterAuthenticated() Twitter Authentication - ERROR: " + ex.toString());
-			//	return false;
-			//}
-			return true;
-		} catch (Exception ex) {
-			if (_debug) Log.e("Common.isTwitterAuthenticated() ERROR: " + ex.toString());
-			return false;
-		}
-	}
-	
-	/**
-	 * Determine if the user has authenticated their Facebook account. 
-	 * 
-	 * @param context - The application context.
-	 *
-	 * @return boolean - Return true if the user preferences have Facebook authentication data.
-	 */
-	public static boolean isFacebookAuthenticated(Context context) {
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.isFacebookAuthenticated()");	
-		try {
-			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-			String accessToken = preferences.getString(Constants.FACEBOOK_ACCESS_TOKEN_KEY, null);
-			//long expires = preferences.getLong(Constants.FACEBOOK_ACCESS_EXPIRES_KEY, 0);	
-			if(accessToken == null){
-				if (_debug) Log.v("Common.isFacebookAuthenticated() Facebook stored authentication details are null. Exiting...");
-				return false;
-			}	
-			return true;
-		} catch (Exception ex) {
-			if (_debug) Log.e("Common.isFacebookAuthenticated() ERROR: " + ex.toString());
-			return false;
-		}
-	}
 	
 	/**
 	 * Start the Calendar recurring alarm.
@@ -3526,154 +3226,6 @@ public class Common {
 			alarmManager.cancel(pendingIntent);
 		}catch(Exception ex){
 			if (_debug) Log.e("Common.cancelCalendarAlarmManager() ERROR: " + ex.toString());
-		}
-	}
-	
-	/**
-	 * Start the Twitter recurring alarm.
-	 *  
-	 * @param context - The application context.
-	 * @param alarmStartTime - The time to start the alarm.
-	 */
-	public static void startTwitterAlarmManager(Context context, long alarmStartTime){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.startTwitterAlarmManager()");
-		try{
-			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-			AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-			Intent intent = new Intent(context, TwitterAlarmReceiver.class);
-			PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
-			long pollingFrequency = Long.parseLong(preferences.getString(Constants.TWITTER_POLLING_FREQUENCY_KEY, "15")) * 60 * 1000;
-			alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, alarmStartTime, pollingFrequency, pendingIntent);
-		}catch(Exception ex){
-			if (_debug) Log.e("Common.startTwitterAlarmManager() ERROR: " + ex.toString());
-		}
-	}
-	
-	/**
-	 * Cancel the Twitter recurring alarm.
-	 *  
-	 * @param context - The application context.
-	 */
-	public static void cancelTwitterAlarmManager(Context context){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.cancelTwitterAlarmManager()");
-		try{
-			AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-			Intent intent = new Intent(context, TwitterAlarmReceiver.class);
-			PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
-			alarmManager.cancel(pendingIntent);
-		}catch(Exception ex){
-			if (_debug) Log.e("Common.cancelTwitterAlarmManager() ERROR: " + ex.toString());
-		}
-	}
-	
-	/**
-	 * Initialize and return a Twitter object.
-	 * 
-	 * @param context - The application context.
-	 * 
-	 * @return Twitter - The initialized Twitter object or null.
-	 */
-	public static Twitter getTwitter(Context context){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.getTwitter()");
-		try{
-			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-			String oauthToken = preferences.getString(OAuth.OAUTH_TOKEN, null);
-			String oauthTokenSecret = preferences.getString(OAuth.OAUTH_TOKEN_SECRET, null);
-			if(oauthToken == null || oauthTokenSecret == null){
-				if (_debug) Log.v("Common.getTwitter() Oauth values are null. Exiting...");
-				return null;
-			}
-			ConfigurationBuilder configurationBuilder = new ConfigurationBuilder(); 
-			configurationBuilder.setOAuthConsumerKey(Constants.TWITTER_CONSUMER_KEY); 
-			configurationBuilder.setOAuthConsumerSecret(Constants.TWITTER_CONSUMER_SECRET); 
-			Configuration configuration =  configurationBuilder.build();  
-			AccessToken accessToken = new AccessToken(oauthToken, oauthTokenSecret);
-			TwitterFactory twitterFactory = new TwitterFactory(configuration);
-			Twitter twitter = twitterFactory.getInstance(accessToken);
-			return twitter;
-		}catch(Exception ex){
-			if (_debug) Log.e("Common.getTwitter() ERROR: " + ex.toString());
-			return null;
-		}	
-	}
-
-	/**
-	 * Initialize and return a Facebook object.
-	 * 
-	 * @param context - The application context.
-	 * 
-	 * @return Twitter - The initialized Facebook object or null.
-	 */
-	public static Facebook getFacebook(Context context){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.getFacebook()");
-		try{
-			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-			Facebook facebook = new Facebook(Constants.FACEBOOK_APP_ID);
-		    String accessToken = preferences.getString(Constants.FACEBOOK_ACCESS_TOKEN_KEY, null);
-		    long expires = preferences.getLong(Constants.FACEBOOK_ACCESS_EXPIRES_KEY, 0);
-		    if(accessToken == null){
-				if (_debug) Log.v("Common.getTwitter() AccessToken is null. Exiting...");
-				return null;
-			}
-		    if(accessToken != null) {
-		    	facebook.setAccessToken(accessToken);
-		    }
-		    if(expires != 0) {
-		    	facebook.setAccessExpires(expires);
-		    }
-		    if(!facebook.isSessionValid()){
-		    	if (_debug) Log.v("Common.getFacebook() Facebook object is not valid. Exiting...");
-		    	return null;
-		    }
-			return facebook;
-		}catch(Exception ex){
-			if (_debug) Log.e("Common.getFacebook() ERROR: " + ex.toString());
-			return null;
-		}	
-	}
-	
-
-	
-	/**
-	 * Start the Facebook recurring alarm.
-	 *  
-	 * @param context - The application context.
-	 * @param alarmStartTime - The time to start the alarm.
-	 */
-	public static void startFacebookAlarmManager(Context context, long alarmStartTime){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.startFacebookAlarmManager()");
-		try{
-			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-			AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-			Intent intent = new Intent(context, FacebookAlarmReceiver.class);
-			PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
-			long pollingFrequency = Long.parseLong(preferences.getString(Constants.FACEBOOK_POLLING_FREQUENCY_KEY, "15")) * 60 * 1000;
-			alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, alarmStartTime, pollingFrequency, pendingIntent);
-		}catch(Exception ex){
-			if (_debug) Log.e("Common.startFacebookAlarmManager() ERROR: " + ex.toString());
-		}
-	}
-	
-	/**
-	 * Cancel the Facebook recurring alarm.
-	 *  
-	 * @param context - The application context.
-	 */
-	public static void cancelFacebookAlarmManager(Context context){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.cancelFacebookAlarmManager()");
-		try{
-			AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-			Intent intent = new Intent(context, FacebookAlarmReceiver.class);
-			PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
-			alarmManager.cancel(pendingIntent);
-		}catch(Exception ex){
-			if (_debug) Log.e("Common.cancelFacebookAlarmManager() ERROR: " + ex.toString());
 		}
 	}
 	
