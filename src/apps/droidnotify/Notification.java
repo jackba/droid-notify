@@ -12,7 +12,9 @@ import android.speech.tts.TextToSpeech;
 
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
+import apps.droidnotify.facebook.FacebookCommon;
 import apps.droidnotify.log.Log;
+import apps.droidnotify.twitter.TwitterCommon;
 
 /**
  * This is the Notification class that holds all the information about all notifications we will display to the user.
@@ -29,6 +31,7 @@ public class Notification {
 	private Context _context = null;
 	private SharedPreferences _preferences = null;
 	private String _sentFromAddress = null;
+	private long _sentFromID = 0;
 	private String _messageBody = null;
 	private long _timeStamp;
 	private long _threadID = 0;
@@ -359,7 +362,7 @@ public class Notification {
 	/**
 	 * Class Constructor
 	 */
-	public Notification(Context context, String sentFromAddress, String messageBody, long timeStamp, long contactID, String contactName, long photoID, long messageID, String lookupKey, String k9EmailUri, String k9EmailDelUri, int notificationType, int notificationSubType) {
+	public Notification(Context context, String sentFromAddress, long sentFromID, String messageBody, long timeStamp, long contactID, String contactName, long photoID, long messageID, String lookupKey, String k9EmailUri, String k9EmailDelUri, int notificationType, int notificationSubType) {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Notification.Notification() ==CONSTRUCTOR 6==");
 		try{			
@@ -408,6 +411,7 @@ public class Notification {
 			}else{
 				_sentFromAddress = null;
 			}
+			_sentFromID = sentFromID;
 			if (_debug) Log.v("Notification.Notification() ==CONSTRUCTOR 6== _sentFromAddress: " + _sentFromAddress);
     		_messageBody = messageBody;
     		_messageID = messageID;
@@ -442,7 +446,7 @@ public class Notification {
 	/**
 	 * Get the sentFromAddress property.
 	 * 
-	 * @return sentFromAddress - Contact's address that sent the message/call.
+	 * @return sentFromAddress - Persons address that sent the item.
 	 */
 	public String getSentFromAddress() {
 		if (_debug) Log.v("Notification.getSentFromAddress() SentFromAddress: " + _sentFromAddress);
@@ -450,6 +454,16 @@ public class Notification {
 			_sentFromAddress = _context.getString(android.R.string.unknownName);
 	    }
 		return _sentFromAddress;
+	}
+
+	/**
+	 * Get the sentFromID property.
+	 * 
+	 * @return sentFromID - Persons ID that sent the item.
+	 */
+	public long getSentFromID() {
+		if (_debug) Log.v("Notification.getSentFromID() SentFromID: " + _sentFromID);
+		return _sentFromID;
 	}
 	
 	/**
@@ -822,9 +836,9 @@ public class Notification {
 				}
 			}
 		}else if(_notificationType == Constants.NOTIFICATION_TYPE_TWITTER){
-			Common.deleteTwitterItem(_context, this);
+			TwitterCommon.deleteTwitterItem(_context, this);
 		}else if(_notificationType == Constants.NOTIFICATION_TYPE_FACEBOOK){
-			Common.deleteFacebookItem(_context, this);
+			FacebookCommon.deleteFacebookItem(_context, this);
 		}else if(_notificationType == Constants.NOTIFICATION_TYPE_K9){
 			Common.deleteK9Email(_context, _k9EmailDelUri);
 		}

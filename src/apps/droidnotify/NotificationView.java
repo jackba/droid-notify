@@ -31,6 +31,7 @@ import android.view.MotionEvent;
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
+import apps.droidnotify.twitter.TwitterCommon;
 
 /**
  * This class is the view which the ViewFlipper displays for each notification.
@@ -635,7 +636,7 @@ public class NotificationView extends LinearLayout {
 						    public void onClick(View view) {
 						    	if (_debug) Log.v("Notification Count Button Clicked()");
 						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-						    	Common.startTwitterAppViewInboxActivity(_context, _notificationActivity, Constants.TWITTER_VIEW_INBOX_ACTIVITY);
+						    	TwitterCommon.startTwitterAppViewInboxActivity(_context, _notificationActivity, Constants.TWITTER_VIEW_INBOX_ACTIVITY);
 						    }
 						});		
 					}
@@ -1212,7 +1213,7 @@ public class NotificationView extends LinearLayout {
 					Common.startMessagingAppReplyActivity(_context, _notificationActivity, phoneNumber, Constants.SEND_SMS_ACTIVITY);
 				}else if(_preferences.getString(Constants.SMS_REPLY_BUTTON_ACTION_KEY, "0").equals(Constants.SMS_QUICK_REPLY)){
 					//Reply using the built in Quick Reply Activity.
-					Common.startMessagingQuickReplyActivity(_context, _notificationActivity, phoneNumber, _notification.getContactName(), Constants.SEND_SMS_QUICK_REPLY_ACTIVITY);        
+					Common.startMessagingQuickReplyActivity(_context, _notificationActivity, Constants.SEND_SMS_QUICK_REPLY_ACTIVITY, phoneNumber, _notification.getContactName());        
 				}
 				break;
 			}
@@ -1222,15 +1223,15 @@ public class NotificationView extends LinearLayout {
 					Common.startMessagingAppReplyActivity(_context, _notificationActivity, phoneNumber, Constants.SEND_SMS_ACTIVITY);
 				}else if(_preferences.getString(Constants.MMS_REPLY_BUTTON_ACTION_KEY, "0").equals(Constants.MMS_QUICK_REPLY)){
 					//Reply using the built in Quick Reply Activity.
-					Common.startMessagingQuickReplyActivity(_context, _notificationActivity, phoneNumber, _notification.getContactName(), Constants.SEND_SMS_QUICK_REPLY_ACTIVITY);
+					Common.startMessagingQuickReplyActivity(_context, _notificationActivity, Constants.SEND_SMS_QUICK_REPLY_ACTIVITY, phoneNumber, _notification.getContactName());
 				}
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_TWITTER:{
 				//Reply using any installed Twitter app.
 				int notificationSubType = _notification.getNotificationSubType();
-			    if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE){	
-					Common.startTwitterAppReplyActivity(_context, _notificationActivity, Constants.TWITTER_VIEW_MESSAGE_ACTIVITY);
+			    if(notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE){
+			    	TwitterCommon.startTwitterQuickReplyActivity(_context, _notificationActivity, Constants.SEND_TWITTER_QUICK_REPLY_ACTIVITY, _notification.getSentFromID(), _notification.getSentFromAddress(), _notification.getContactName());
 		    	}
 				break;
 			}

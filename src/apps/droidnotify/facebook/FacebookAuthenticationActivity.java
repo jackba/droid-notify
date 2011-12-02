@@ -14,7 +14,6 @@ import android.preference.PreferenceManager;
 import android.view.Window;
 import android.widget.Toast;
 import apps.droidnotify.R;
-import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
 
@@ -75,7 +74,7 @@ public class FacebookAuthenticationActivity extends Activity {
                     editor.putString(Constants.FACEBOOK_ACCESS_TOKEN_KEY, _facebook.getAccessToken());
                     editor.putLong(Constants.FACEBOOK_ACCESS_EXPIRES_KEY, _facebook.getAccessExpires());
                     editor.commit();
-                    Common.startFacebookAlarmManager(_context, System.currentTimeMillis());
+                    FacebookCommon.startFacebookAlarmManager(_context, System.currentTimeMillis());
                     finish();
                 }
     
@@ -97,7 +96,7 @@ public class FacebookAuthenticationActivity extends Activity {
             });
             
         }else{
-        	Common.startFacebookAlarmManager(_context, System.currentTimeMillis());
+        	FacebookCommon.startFacebookAlarmManager(_context, System.currentTimeMillis());
             finish();
         }
 	}

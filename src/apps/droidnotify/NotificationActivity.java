@@ -1307,7 +1307,7 @@ public class NotificationActivity extends Activity {
 	    if(_preferences.getBoolean(Constants.TWITTER_NOTIFICATIONS_ENABLED_KEY, true)){
 			notificationDisplayed = true;
 			//Add Twitter Message Notification.
-			Notification twitterNotification = new Notification(_context, sentFromTwitter, twitterTestMessage, System.currentTimeMillis(), 0, sentFromTwitterName, 0, 0, null, null, null, Constants.NOTIFICATION_TYPE_TWITTER, Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE);
+			Notification twitterNotification = new Notification(_context, sentFromTwitter, 0, twitterTestMessage, System.currentTimeMillis(), 0, sentFromTwitterName, 0, 0, null, null, null, Constants.NOTIFICATION_TYPE_TWITTER, Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE);
 			notificationViewFlipper.addNotification(twitterNotification);
 			//Display Status Bar Notification
 		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_TWITTER, true, null, sentFromTwitter, twitterTestMessage, null);
@@ -1315,7 +1315,7 @@ public class NotificationActivity extends Activity {
 	    if(_preferences.getBoolean(Constants.FACEBOOK_NOTIFICATIONS_ENABLED_KEY, true)){
 			notificationDisplayed = true;
 			//Add Facebook Message Notification.
-			Notification facebookNotification = new Notification(_context, sentFromFacebook, facebookTestMessage, System.currentTimeMillis(), 0, sentFromFacebookName, 0, 0, null, null, null, Constants.NOTIFICATION_TYPE_FACEBOOK, Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION);
+			Notification facebookNotification = new Notification(_context, sentFromFacebook, 0, facebookTestMessage, System.currentTimeMillis(), 0, sentFromFacebookName, 0, 0, null, null, null, Constants.NOTIFICATION_TYPE_FACEBOOK, Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION);
 			notificationViewFlipper.addNotification(facebookNotification);
 			//Display Status Bar Notification
 		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_FACEBOOK, true, null, sentFromFacebook, facebookTestMessage, null);
@@ -2003,7 +2003,7 @@ public class NotificationActivity extends Activity {
 		int k9Arraysize = k9Array.size();
 		for(int i=0; i<k9Arraysize ; i++){
 			String[] k9Info = k9Array.get(i).split("\\|");
-			String messageAddress = null;
+			String sentFromAddress = null;
 			String messageBody = null;
 			long messageID = 0;
 			long contactID = 0;
@@ -2019,14 +2019,14 @@ public class NotificationActivity extends Activity {
 					if (_debug) Log.e("NotificationActivity.setupK9EmailNotifications() FATAL NOTIFICATION ERROR. k9Info.length: " + k9InfoSize);
 					return false;
 				}else if(k9InfoSize == 6){
-					messageAddress = k9Info[0];
+					sentFromAddress = k9Info[0];
 					messageBody = k9Info[1];
 					messageID = Long.parseLong(k9Info[2]);
 					timeStamp = Long.parseLong(k9Info[3]);
 					k9EmailUri = k9Info[4];
 					k9EmailDelUri = k9Info[5];
 				}else{
-					messageAddress = k9Info[0];
+					sentFromAddress = k9Info[0];
 					messageBody = k9Info[1];
 					messageID = Long.parseLong(k9Info[2]);
 					timeStamp = Long.parseLong(k9Info[3]);
@@ -2045,9 +2045,9 @@ public class NotificationActivity extends Activity {
 				if (_debug) Log.e("NotificationActivity.setupK9EmailNotifications() ERROR: " + ex.toString()); 
 				return false;
 			}
-			_notificationViewFlipper.addNotification(new Notification(_context, messageAddress, messageBody, timeStamp, contactID, contactName, photoID, messageID, lookupKey, k9EmailUri, k9EmailDelUri, Constants.NOTIFICATION_TYPE_K9, 0));		    
+			_notificationViewFlipper.addNotification(new Notification(_context, sentFromAddress, 0, messageBody, timeStamp, contactID, contactName, photoID, messageID, lookupKey, k9EmailUri, k9EmailDelUri, Constants.NOTIFICATION_TYPE_K9, 0));		    
 			//Display Status Bar Notification
-		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_K9, true, contactName, messageAddress, messageBody, k9EmailUri);
+		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_K9, true, contactName, sentFromAddress, messageBody, k9EmailUri);
 		}
 	    return true;
 	}
@@ -2065,7 +2065,8 @@ public class NotificationActivity extends Activity {
 		int twitterArraysize = twitterArray.size(); 
 		for(int i=0; i<twitterArraysize ; i++){
 			String[] twitterInfo = twitterArray.get(i).split("\\|");
-			String messageAddress = null;
+			String sentFromAddress = null;
+			long sentFromID = 0;
 			String messageBody = null;
 			long messageID = 0;
 			long timeStamp = 0;
@@ -2081,32 +2082,34 @@ public class NotificationActivity extends Activity {
 					return false;
 				}else if(twitterInfoSize == 4){
 					notificationSubType = Integer.parseInt(twitterInfo[0]);
-					messageAddress = twitterInfo[1];
-					messageBody = twitterInfo[2];
-					messageID = Long.parseLong(twitterInfo[3]);
-					timeStamp = Long.parseLong(twitterInfo[4]);
+					sentFromAddress = twitterInfo[1];
+					sentFromID = Long.parseLong(twitterInfo[2]);
+					messageBody = twitterInfo[3];
+					messageID = Long.parseLong(twitterInfo[4]);
+					timeStamp = Long.parseLong(twitterInfo[5]);
 				}else{
 					notificationSubType = Integer.parseInt(twitterInfo[0]);
-					messageAddress = twitterInfo[1];
-					messageBody = twitterInfo[2];
-					messageID = Long.parseLong(twitterInfo[3]);
-					timeStamp = Long.parseLong(twitterInfo[4]);
-					contactID = Long.parseLong(twitterInfo[5]);
-					contactName = twitterInfo[6];
-					photoID = Long.parseLong(twitterInfo[7]);
-					if(twitterInfoSize < 9){
+					sentFromAddress = twitterInfo[1];
+					sentFromID = Long.parseLong(twitterInfo[2]);
+					messageBody = twitterInfo[3];
+					messageID = Long.parseLong(twitterInfo[4]);
+					timeStamp = Long.parseLong(twitterInfo[5]);
+					contactID = Long.parseLong(twitterInfo[6]);
+					contactName = twitterInfo[7];
+					photoID = Long.parseLong(twitterInfo[8]);
+					if(twitterInfoSize < 10){
 						lookupKey = "";
 					}else{
-						lookupKey = twitterInfo[8];
+						lookupKey = twitterInfo[9];
 					}
 				}
 			}catch(Exception ex){
 				if (_debug) Log.e("NotificationActivity.setupTwitterMessages() ERROR: " + ex.toString()); 
 				return false;
 			}
-			_notificationViewFlipper.addNotification(new Notification(_context, messageAddress, messageBody, timeStamp, contactID, contactName, photoID, messageID, lookupKey, null, null, Constants.NOTIFICATION_TYPE_TWITTER, notificationSubType));		    
+			_notificationViewFlipper.addNotification(new Notification(_context, sentFromAddress, sentFromID, messageBody, timeStamp, contactID, contactName, photoID, messageID, lookupKey, null, null, Constants.NOTIFICATION_TYPE_TWITTER, notificationSubType));		    
 			//Display Status Bar Notification
-		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_TWITTER, true, contactName, messageAddress, messageBody, null);
+		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_TWITTER, true, contactName, sentFromAddress, messageBody, null);
 		}
 	    return true;
 	}
@@ -2124,7 +2127,8 @@ public class NotificationActivity extends Activity {
 		int facebookArraysize = facebookArray.size(); 
 		for(int i=0; i<facebookArraysize ; i++){
 			String[] facebookInfo = facebookArray.get(i).split("\\|");
-			String messageAddress = null;
+			String sentFromAddress = null;
+			long sentFromID = 0;
 			String messageBody = null;
 			long messageID = 0;
 			long timeStamp = 0;
@@ -2140,32 +2144,34 @@ public class NotificationActivity extends Activity {
 					return false;
 				}else if(facebookInfoSize == 4){
 					notificationSubType = Integer.parseInt(facebookInfo[0]);
-					messageAddress = facebookInfo[1];
-					messageBody = facebookInfo[2];
-					messageID = Long.parseLong(facebookInfo[3]);
-					timeStamp = Long.parseLong(facebookInfo[4]);
+					sentFromAddress = facebookInfo[1];
+					sentFromID = Long.parseLong(facebookInfo[2]);
+					messageBody = facebookInfo[3];
+					messageID = Long.parseLong(facebookInfo[4]);
+					timeStamp = Long.parseLong(facebookInfo[5]);
 				}else{
 					notificationSubType = Integer.parseInt(facebookInfo[0]);
-					messageAddress = facebookInfo[1];
-					messageBody = facebookInfo[2];
-					messageID = Long.parseLong(facebookInfo[3]);
-					timeStamp = Long.parseLong(facebookInfo[4]);
-					contactID = Long.parseLong(facebookInfo[5]);
-					contactName = facebookInfo[6];
-					photoID = Long.parseLong(facebookInfo[7]);
-					if(facebookInfoSize < 9){
+					sentFromAddress = facebookInfo[1];
+					sentFromID = Long.parseLong(facebookInfo[2]);
+					messageBody = facebookInfo[3];
+					messageID = Long.parseLong(facebookInfo[4]);
+					timeStamp = Long.parseLong(facebookInfo[5]);
+					contactID = Long.parseLong(facebookInfo[6]);
+					contactName = facebookInfo[7];
+					photoID = Long.parseLong(facebookInfo[8]);
+					if(facebookInfoSize < 10){
 						lookupKey = "";
 					}else{
-						lookupKey = facebookInfo[8];
+						lookupKey = facebookInfo[9];
 					}
 				}
 			}catch(Exception ex){
 				if (_debug) Log.e("NotificationActivity.setupFacebookMessages() ERROR: " + ex.toString()); 
 				return false;
 			}
-			_notificationViewFlipper.addNotification(new Notification(_context, messageAddress, messageBody, timeStamp, contactID, contactName, photoID, messageID, lookupKey, null, null, Constants.NOTIFICATION_TYPE_FACEBOOK, notificationSubType));		    
+			_notificationViewFlipper.addNotification(new Notification(_context, sentFromAddress, sentFromID, messageBody, timeStamp, contactID, contactName, photoID, messageID, lookupKey, null, null, Constants.NOTIFICATION_TYPE_FACEBOOK, notificationSubType));		    
 			//Display Status Bar Notification
-		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_FACEBOOK, true, contactName, messageAddress, messageBody, null);
+		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_FACEBOOK, true, contactName, sentFromAddress, messageBody, null);
 		}
 	    return true;
 	}

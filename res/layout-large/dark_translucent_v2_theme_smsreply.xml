@@ -43,7 +43,6 @@
 			android:layout_height="150dip" 
 			android:layout_width="200dip"
 			android:maxLines="3"
-			android:maxLength="160"
 			android:inputType="textShortMessage|textAutoCorrect|textCapSentences|textMultiLine"
 			android:imeOptions="actionSend|flagNoEnterAction" 
 			android:gravity="left|top"/>

@@ -22,7 +22,6 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import apps.droidnotify.R;
-import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
 
@@ -67,8 +66,8 @@ public class TwitterAuthenticationActivity extends Activity {
 		_provider = new DefaultOAuthProvider(Constants.TWITTER_REQUEST_URL, Constants.TWITTER_AUTHORIZE_URL, Constants.TWITTER_ACCESS_URL);
 		setupViews();
 		setupButtons();
-		if(Common.isTwitterAuthenticated(_context)){
-			Common.startTwitterAlarmManager(_context, System.currentTimeMillis());
+		if(TwitterCommon.isTwitterAuthenticated(_context)){
+			TwitterCommon.startTwitterAlarmManager(_context, System.currentTimeMillis());
 			finish();
 		}else{
 			_mainLinearLayout.setVisibility(View.VISIBLE);
@@ -104,7 +103,7 @@ public class TwitterAuthenticationActivity extends Activity {
 				edit.putString(OAuth.OAUTH_TOKEN, _consumer.getToken());
 				edit.putString(OAuth.OAUTH_TOKEN_SECRET, _consumer.getTokenSecret());
 				edit.commit();
-				Common.startTwitterAlarmManager(_context, System.currentTimeMillis());
+				TwitterCommon.startTwitterAlarmManager(_context, System.currentTimeMillis());
 				finish();
 			} catch (Exception ex) {
 				if (_debug) Log.e("TwitterAuthenticationActivity.onNewIntent() ERROR: " + ex.toString());

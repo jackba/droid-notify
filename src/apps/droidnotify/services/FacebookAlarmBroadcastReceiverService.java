@@ -12,9 +12,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import apps.droidnotify.NotificationActivity;
+
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
+import apps.droidnotify.facebook.FacebookCommon;
 import apps.droidnotify.log.Log;
 
 /**
@@ -79,7 +80,7 @@ public class FacebookAlarmBroadcastReceiverService extends WakefulIntentService 
 				return;
 			}
 		    //Get Facebook Object.
-		    _facebook = Common.getFacebook(_context);
+		    _facebook = FacebookCommon.getFacebook(_context);
 		    if(_facebook == null){
 		    	if (_debug) Log.v("FacebookAlarmBroadcastReceiverService.doWakefulWork() Facebook object is null. Exiting... ");
 		    	return;

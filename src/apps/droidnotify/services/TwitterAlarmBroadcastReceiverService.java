@@ -7,10 +7,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+
 import apps.droidnotify.NotificationActivity;
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
+import apps.droidnotify.twitter.TwitterCommon;
 
 /**
  * This class handles the polling of the users Facebook account.
@@ -69,18 +71,31 @@ public class TwitterAlarmBroadcastReceiverService extends WakefulIntentService {
 				if (_debug) Log.v("TwitterAlarmBroadcastReceiverService.doWakefulWork() Twitter Notifications Disabled. Exiting... ");
 				return;
 			}
-		    ArrayList<String> twitterArray = Common.getTwitterDirectMessages(context);
-		    if(twitterArray != null && twitterArray.size() > 0){
+		    ArrayList<String> twitterDirectMessageArray = TwitterCommon.getTwitterDirectMessages(context);
+		    if(twitterDirectMessageArray != null && twitterDirectMessageArray.size() > 0){
 				Bundle bundle = new Bundle();
 				bundle.putInt("notificationType", Constants.NOTIFICATION_TYPE_TWITTER);
-				bundle.putStringArrayList("twitterArrayList", twitterArray);
+				bundle.putStringArrayList("twitterArrayList", twitterDirectMessageArray);
 		    	Intent twitterNotificationIntent = new Intent(context, NotificationActivity.class);
 		    	twitterNotificationIntent.putExtras(bundle);
 		    	twitterNotificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
 		    	Common.acquireWakeLock(context);
 		    	context.startActivity(twitterNotificationIntent);
 			}else{
-				if (_debug) Log.v("TwitterAlarmBroadcastReceiverService.doWakefulWork() No new Twitter Direct Messages were found. Exiting...");
+				if (_debug) Log.v("TwitterAlarmBroadcastReceiverService.doWakefulWork() No Twitter Direct Messages were found. Exiting...");
+			}
+		    ArrayList<String> twitterMentionArray = TwitterCommon.getTwitterMentions(context);
+		    if(twitterMentionArray != null && twitterMentionArray.size() > 0){
+				Bundle bundle = new Bundle();
+				bundle.putInt("notificationType", Constants.NOTIFICATION_TYPE_TWITTER);
+				bundle.putStringArrayList("twitterArrayList", twitterMentionArray);
+		    	Intent twitterNotificationIntent = new Intent(context, NotificationActivity.class);
+		    	twitterNotificationIntent.putExtras(bundle);
+		    	twitterNotificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+		    	Common.acquireWakeLock(context);
+		    	context.startActivity(twitterNotificationIntent);
+			}else{
+				if (_debug) Log.v("TwitterAlarmBroadcastReceiverService.doWakefulWork() No Twitter Mentions were found. Exiting...");
 			}
 		}catch(Exception ex){
 			if (_debug) Log.e("TwitterAlarmBroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());

@@ -42,6 +42,7 @@ public class Constants {
 
 	//-----NOTIFICATION SUB-TYPE CONSTANTS-----//
 	public static final int NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE = 100;
+	public static final int NOTIFICATION_TYPE_TWITTER_MENTION = 101;
 	public static final int NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION = 110;
 	public static final int NOTIFICATION_TYPE_FACEBOOK_MESSAGE = 111;		
 	
@@ -73,6 +74,7 @@ public class Constants {
 	public static final int K9_SEND_EMAIL_ACTIVITY = 17;
 	public static final int TWITTER_VIEW_INBOX_ACTIVITY = 18;
 	public static final int TWITTER_VIEW_MESSAGE_ACTIVITY = 19;
+	public static final int SEND_TWITTER_QUICK_REPLY_ACTIVITY = 20;
 	
 	public static final int MESSAGE_TYPE_SMS = 1;
 	public static final int MESSAGE_TYPE_MMS = 2;
@@ -282,6 +284,8 @@ public class Constants {
 	public static final String SMS_MESSAGING_APP_REPLY = "0";
 	public static final String SMS_QUICK_REPLY = "1";
 	
+	public static final String SMS_SPLIT_MESSAGE_KEY = "sms_split_message";
+	
 	//-----MMS NOTIFICATION CONSTANTS-----//
 	public static final String MMS_NOTIFICATIONS_ENABLED_KEY = "mms_notifications_enabled";
 	public static final String MMS_BLOCKING_APP_RUNNING_ACTION_KEY = "messaging_app_running_action_mms";
@@ -359,8 +363,9 @@ public class Constants {
 	public static final String TWITTER_PRO_PREFERENCE_SCREEN_KEY = "twitter_notification_settings_screen";
 	
 	public static final String TWITTER_NOTIFICATIONS_ENABLED_KEY = "twitter_enabled";
-	public static final String TWITTER_DIRECT_MESSAGES_ENABLED_KEY = "twitter_direct_messages_enabled";
 	public static final String TWITTER_POLLING_FREQUENCY_KEY = "twitter_polling_frequency";
+	public static final String TWITTER_DIRECT_MESSAGES_ENABLED_KEY = "twitter_direct_messages_enabled";
+	public static final String TWITTER_MENTIONS_ENABLED_KEY = "twitter_mentions_enabled";
 	
 	public static final String TWITTER_CONSUMER_KEY = "AhWe8llUXyaZhix1oyhCA";
 	public static final String TWITTER_CONSUMER_SECRET= "oFKn2cyLQanVESLWlwH0GK7twXisarFrClTfuZmVUI";
