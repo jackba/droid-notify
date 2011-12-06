@@ -70,6 +70,8 @@
     <string name="test_notifications_disabled_message">No test notifications can be displayed because no notifications have been enabled.</string>
     <string name="app_twitter_app_error">The twitter application could not be started.</string>
     <string name="app_quick_reply_address_error">The quick reply address does not appear to be valid. Quick Reply launch failed.</string>
+    <string name="twitter_send_direct_mesage_error">The Twitter Direct Message could not be sent.</string>
+    <string name="twitter_send_tweet_error">The Tweet/Status Update could not be sent.</string>
     
 	<!-- Settings/Preference Strings -->
     <string name="app_settings_text">Settings</string>
@@ -164,7 +166,12 @@
     <string name="message_at_text" formatted="false">New message at %s</string>
    	<string name="email_at_text" formatted="false">New email at %s</string>
     <string name="missed_call_at_text" formatted="false">Missed call at %s</string>
-    <string name="notification_at_text" formatted="false">New notification at %s</string>
+    <string name="mention_at_text" formatted="false">New mention at %s</string>        
+    <string name="follower_at_text" formatted="false">New follower at %s</string>        
+    <string name="retweet_at_text" formatted="false">New retweet at %s</string>       
+    <string name="reply_tweet_at_text" formatted="false">New reply tweet at %s</string>
+    <string name="notification_at_text" formatted="false">New notification at %s</string>    
+    <string name="friend_request_at_text" formatted="false">New friend request at %s</string>
    	    
    	<!-- SMS Strings -->
    	<string name="view_thread_text">View Thread</string>
@@ -186,8 +193,7 @@
    	<string name="preference_confirm_sms_deletion_enabled_summaryOn">A dialog box will display when you delete a message.</string>
    	<string name="preference_confirm_sms_deletion_enabled_summaryOff">A dialog box will not display when you delete a message.</string> 
    	<string name="preference_sms_timeout">SMS Timeout</string>
-   	<string name="preference_sms_timeout_summary">Define how long to wait after a SMS is received before querying the SMS inbox for a new message.</string>    	
-   	<string name="messaging_app_running_action_sms_summary">Define action when a SMS notification comes in when a messaging app is currently running.</string> 
+   	<string name="preference_sms_timeout_summary">Define how long to wait after a SMS is received before querying the SMS inbox for a new message.</string>
    	<string name="preference_sms_loading_title">SMS Loading Setting</string>
    	<string name="preference_sms_loading_summary">Select how the application retrieves incoming SMS messages.</string>
    	<string name="preference_sms_timestamp_adjustment_title">SMS TimeStamp Adjustment</string>
@@ -213,8 +219,7 @@
    	<string name="preference_confirm_mms_deletion_enabled_summaryOn">A dialog box will display when you delete a message.</string>
    	<string name="preference_confirm_mms_deletion_enabled_summaryOff">A dialog box will not display when you delete a message.</string>
    	<string name="preference_mms_timeout">MMS Timeout</string>
-   	<string name="preference_mms_timeout_summary">Define how long to wait after a MMS is received before querying the MMS inbox for a new message.</string>   	
-   	<string name="messaging_app_running_action_mms_summary">Define action when a MMS notification comes in when a messaging app is currently running.</string> 
+   	<string name="preference_mms_timeout_summary">Define how long to wait after a MMS is received before querying the MMS inbox for a new message.</string>
    	<string name="preference_mms_timestamp_adjustment_title">MMS TimeStamp Adjustment</string>
    	<string name="preference_mms_timestamp_adjustment_summary">Some phones/locations may display incorrect timestamps. Use this setting to adjust the displayed timestamp for MMS messages.</string>
    	<string name="mms_click_here_to_view">[Click Here To View MMS Message]</string>
@@ -235,8 +240,7 @@
    	<string name="preference_missed_call_loading_title">Loading Settings</string>
    	<string name="preference_missed_call_loading_summary">Define what calls to load when a missed call is received.</string>
    	<string name="preference_call_log_timeout">Call Log Timeout</string>
-   	<string name="preference_call_log_timeout_summary">Define how long to wait after a call before querying the call log for a missed call.</string>   	
-   	<string name="messaging_app_running_action_missed_call_summary">Define action when a Missed Call notification comes in when a messaging app is currently running.</string> 
+   	<string name="preference_call_log_timeout_summary">Define how long to wait after a call before querying the call log for a missed call.</string> 
    	
    	<!-- Calendar Strings -->
    	<string name="add_calendar_event_text">Add Calendar Event</string>
@@ -267,8 +271,7 @@
     <string name="preference_calendar_all_day_notify_day_of_time_summary">For All-Day events, when do you want to be reminded of the event?</string>
     <string name="preference_calendar_reminders_enabled_title">Send Event Reminders</string>
    	<string name="preference_calendar_reminders_enabled_summaryOn">A reminder notification will be sent before the calendar event occurs.</string>
-   	<string name="preference_calendar_reminders_enabled_summaryOff">No reminder will be sent before the calendar event occurs.</string>   	
-   	<string name="messaging_app_running_action_calendar_summary">Define action when a Calendar notification comes in when a messaging app is currently running.</string>
+   	<string name="preference_calendar_reminders_enabled_summaryOff">No reminder will be sent before the calendar event occurs.</string>
    	<string name="preference_calendar_event_body_font_size_title">Event Text Font Size</string>
    	<string name="preference_calendar_event_body_font_size_summary">Select the font size you want to use when when displaying the event text.</string> 
    	
@@ -310,8 +313,7 @@
    	<string name="preference_k9_reply_button_action_summary">Define what happens when you reply to a K-9 email.</string>
 	<string name="preference_confirm_k9_deletion_enabled_title">Confirm Message Deletion</string>
    	<string name="preference_confirm_k9_deletion_enabled_summaryOn">A dialog box will display when you delete an email.</string>
-   	<string name="preference_confirm_k9_deletion_enabled_summaryOff">A dialog box will not display when you delete an email.</string>  	
-   	<string name="messaging_app_running_action_k9_summary">Define action when a MMS notification comes in when a messaging app is currently running.</string> 
+   	<string name="preference_confirm_k9_deletion_enabled_summaryOff">A dialog box will not display when you delete an email.</string>
    	    	    
 	<!-- Contact Strings -->
    	<string name="view_contact_text">View Contact</string>
@@ -469,11 +471,15 @@
    	<string name="keep_repeating_text">Keep Repeating</string>
    	    
    	<!-- Message Settings Strings -->
-   	<string name="messaging_app_running_action_text">Messaging App Running Options</string>
     <string name="preference_hide_single_message_header_enabled_title">Hide Single Message Header</string>
    	<string name="preference_hide_single_message_header_enabled_summaryOn">The notifications will not display the header text (e.g. 1/1) when a single message is displayed.</string>
    	<string name="preference_hide_single_message_header_enabled_summaryOff">The notifications will display the header text (e.g. 1/1) when a single message is displayed.</string>
    	
+   	<!-- Blocking App Settings Strings --> 
+   	<string name="reschedule_blocked_notifications_text">Reschedule Blocked Notifications</string>
+   	<string name="blocking_app_running_action_text">Blocking Notification Options</string>   	
+   	<string name="blocking_app_running_action_summary">Define what to do when a notification comes in while a blocking app is running.</string> 
+   	    
     <!-- Status Bar Notification Strings -->
     <string name="status_bar_notification_content_title_text_sms">New Message</string>
     <string name="status_bar_notification_content_title_text_mms">New Message</string>
@@ -598,6 +604,7 @@
    	    	
    	<!-- Array Strings -->
    	<string name="mark_as_read_text">Mark As Read</string>
+   	<string name="delete_from_call_log_text">Delete From Call Log</string>
     <string name="nothing_text">Nothing</string>
     <string name="delete_message_text">Delete Message</string>
     <string name="delete_thread_text">Delete Thread</string>

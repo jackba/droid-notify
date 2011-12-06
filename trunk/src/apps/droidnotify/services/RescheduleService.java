@@ -6,12 +6,11 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 
-import apps.droidnotify.NotificationActivity;
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
 
-public class RescheduleReceiverService extends WakefulIntentService {
+public class RescheduleService extends WakefulIntentService {
 	
 	//================================================================================
     // Properties
@@ -26,10 +25,10 @@ public class RescheduleReceiverService extends WakefulIntentService {
 	/**
 	 * Class Constructor.
 	 */
-	public RescheduleReceiverService() {
-		super("RescheduleReceiverService");
+	public RescheduleService() {
+		super("RescheduleService");
 		_debug = Log.getDebug();
-		if (_debug) Log.v("RescheduleReceiverService.RescheduleReceiverService()");
+		if (_debug) Log.v("RescheduleService.RescheduleService()");
 	}
 
 	//================================================================================
@@ -43,7 +42,7 @@ public class RescheduleReceiverService extends WakefulIntentService {
 	 */
 	@Override
 	protected void doWakefulWork(Intent intent) {
-		if (_debug) Log.v("RescheduleReceiverService.doWakefulWork()");
+		if (_debug) Log.v("RescheduleService.doWakefulWork()");
 		Context context = getApplicationContext();
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);	
 	    Bundle bundle = intent.getExtras();
@@ -60,14 +59,10 @@ public class RescheduleReceiverService extends WakefulIntentService {
 			}
 		}
 		if(!displayNotification){
-			if (_debug) Log.v("RescheduleBroadcastReceiverService.doWakefulWork() Rescheduling Disabled or Max reschedule attempts made. Exiting...");
+			if (_debug) Log.v("RescheduleService.doWakefulWork() Rescheduling Disabled or Max reschedule attempts made. Exiting...");
 			return;
 		}
-    	Intent rescheduleNotificationIntent = new Intent(context, NotificationActivity.class);
-    	rescheduleNotificationIntent.putExtras(bundle);
-    	rescheduleNotificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-    	Common.acquireWakeLock(context);
-    	context.startActivity(rescheduleNotificationIntent);
+    	Common.startNotificationActivity(context, bundle);
 	}
 		
 }

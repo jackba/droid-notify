@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import apps.droidnotify.NotificationActivity;
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
@@ -16,7 +15,7 @@ import apps.droidnotify.log.Log;
  * 
  * @author Camille Sévigny
  */
-public class K9ReceiverService extends WakefulIntentService {
+public class K9Service extends WakefulIntentService {
 	
 	//================================================================================
     // Properties
@@ -31,10 +30,10 @@ public class K9ReceiverService extends WakefulIntentService {
 	/**
 	 * Class Constructor.
 	 */
-	public K9ReceiverService() {
-		super("K9ReceiverService");
+	public K9Service() {
+		super("K9Service");
 		_debug = Log.getDebug();
-		if (_debug) Log.v("K9ReceiverService.K9ReceiverService()");
+		if (_debug) Log.v("K9Service.K9Service()");
 	}
 
 	//================================================================================
@@ -48,7 +47,7 @@ public class K9ReceiverService extends WakefulIntentService {
 	 */
 	@Override
 	protected void doWakefulWork(Intent intent) {
-		if (_debug) Log.v("K9ReceiverService.doWakefulWork()");
+		if (_debug) Log.v("K9Service.doWakefulWork()");
 		try{
 			Context context = getApplicationContext();
 			Bundle newK9Bundle = intent.getExtras();
@@ -57,16 +56,12 @@ public class K9ReceiverService extends WakefulIntentService {
 				Bundle bundle = new Bundle();
 				bundle.putInt("notificationType", Constants.NOTIFICATION_TYPE_K9);
 				bundle.putStringArrayList("k9ArrayList", k9Array);
-		    	Intent k9NotificationIntent = new Intent(context, NotificationActivity.class);
-		    	k9NotificationIntent.putExtras(bundle);
-		    	k9NotificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-		    	Common.acquireWakeLock(context);
-		    	context.startActivity(k9NotificationIntent);
+		    	Common.startNotificationActivity(context, bundle);
 			}else{
-				if (_debug) Log.v("K9ReceiverService.doWakefulWork() No new emails were found. Exiting...");
+				if (_debug) Log.v("K9Service.doWakefulWork() No new emails were found. Exiting...");
 			}
 		}catch(Exception ex){
-			if (_debug) Log.e("K9ReceiverService.doWakefulWork() ERROR: " + ex.toString());
+			if (_debug) Log.e("K9Service.doWakefulWork() ERROR: " + ex.toString());
 		}
 	}
 		

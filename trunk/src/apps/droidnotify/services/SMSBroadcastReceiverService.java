@@ -88,7 +88,7 @@ public class SMSBroadcastReceiverService extends WakefulIntentService {
 			    boolean rescheduleNotification = false;
 			    boolean callStateIdle = telemanager.getCallState() == TelephonyManager.CALL_STATE_IDLE;
 			    boolean blockingAppRunning = Common.isBlockingAppRunning(context);
-			    String blockingAppRuningAction = preferences.getString(Constants.SMS_BLOCKING_APP_RUNNING_ACTION_KEY, "0");
+			    String blockingAppRuningAction = preferences.getString(Constants.SMS_BLOCKING_APP_RUNNING_ACTION_KEY, Constants.BLOCKING_APP_RUNNING_ACTION_SHOW);
 			    //Reschedule notification based on the users preferences.
 			    if(!callStateIdle){
 			    	rescheduleNotification = true;
@@ -97,7 +97,7 @@ public class SMSBroadcastReceiverService extends WakefulIntentService {
 			    	rescheduleNotification = true;
 			    }
 			    if(!rescheduleNotification){
-					Intent smsIntent = new Intent(context, SMSReceiverService.class);
+					Intent smsIntent = new Intent(context, SMSService.class);
 					smsIntent.putExtras(intent.getExtras());
 					WakefulIntentService.sendWakefulWork(context, smsIntent);
 			    }else{
@@ -133,7 +133,7 @@ public class SMSBroadcastReceiverService extends WakefulIntentService {
 						AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 						Intent smsIntent = new Intent(context, SMSReceiver.class);
 						smsIntent.putExtras(intent.getExtras());
-						smsIntent.setAction("apps.droidnotify.VIEW/SMSReschedule/" + System.currentTimeMillis());
+						smsIntent.setAction("apps.droidnotify.VIEW/SMSReschedule/" + String.valueOf(System.currentTimeMillis()));
 						PendingIntent smsPendingIntent = PendingIntent.getBroadcast(context, 0, smsIntent, 0);
 						alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + rescheduleInterval, smsPendingIntent);
 			    	}

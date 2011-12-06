@@ -71,7 +71,7 @@ public class MMSAlarmBroadcastReceiverService extends WakefulIntentService {
 		    boolean rescheduleNotification = false;
 		    boolean callStateIdle = telemanager.getCallState() == TelephonyManager.CALL_STATE_IDLE;
 		    boolean blockingAppRunning = Common.isBlockingAppRunning(context);
-		    String blockingAppRuningAction = preferences.getString(Constants.MMS_BLOCKING_APP_RUNNING_ACTION_KEY, "0");
+		    String blockingAppRuningAction = preferences.getString(Constants.MMS_BLOCKING_APP_RUNNING_ACTION_KEY, Constants.BLOCKING_APP_RUNNING_ACTION_SHOW);
 		    //Reschedule notification based on the users preferences.
 		    if(!callStateIdle){
 		    	rescheduleNotification = true;
@@ -80,7 +80,7 @@ public class MMSAlarmBroadcastReceiverService extends WakefulIntentService {
 		    	rescheduleNotification = true;
 		    }
 		    if(!rescheduleNotification){
-				WakefulIntentService.sendWakefulWork(context, new Intent(context, MMSReceiverService.class));
+				WakefulIntentService.sendWakefulWork(context, new Intent(context, MMSService.class));
 		    }else{	    	
 		    	//Display the Status Bar Notification even though the popup is blocked based on the user preferences.
 		    	if(preferences.getBoolean(Constants.MMS_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true)){
@@ -118,7 +118,7 @@ public class MMSAlarmBroadcastReceiverService extends WakefulIntentService {
 		    		if (_debug) Log.v("MMSAlarmBroadcastReceiverService.doWakefulWork() Rescheduling notification. Rechedule in " + rescheduleInterval + "minutes.");
 					AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 					Intent phoneIntent = new Intent(context, MMSAlarmReceiver.class);
-					phoneIntent.setAction("apps.droidnotify.VIEW/MMSReschedule/" + System.currentTimeMillis());
+					phoneIntent.setAction("apps.droidnotify.VIEW/MMSReschedule/" + String.valueOf(System.currentTimeMillis()));
 					PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, phoneIntent, 0);
 					alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + rescheduleInterval, pendingIntent);
 		    	}

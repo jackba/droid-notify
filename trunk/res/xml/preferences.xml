@@ -329,12 +329,12 @@
 							android:defaultValue="false"
 							android:dependency="sms_notifications_enabled" />		
 						<ListPreference
-							android:key="messaging_app_running_action_sms"
-							android:title="@string/messaging_app_running_action_text"
-							android:summary="@string/messaging_app_running_action_sms_summary"
+							android:key="blocking_app_running_action_sms"
+							android:title="@string/blocking_app_running_action_text"
+							android:summary="@string/blocking_app_running_action_summary"
 							android:defaultValue="2"
-							android:entries="@array/messaging_app_running_action_options"
-							android:entryValues="@array/messaging_app_running_action_options_values"
+							android:entries="@array/blocking_app_running_action_options"
+							android:entryValues="@array/blocking_app_running_action_options_values"
 							android:dependency="sms_notifications_enabled" />
 					</PreferenceCategory>
 					<PreferenceCategory
@@ -554,12 +554,12 @@
 							android:defaultValue="false"
 							android:dependency="mms_notifications_enabled" />	
 						<ListPreference
-							android:key="messaging_app_running_action_mms"
-							android:title="@string/messaging_app_running_action_text"
-							android:summary="@string/messaging_app_running_action_mms_summary"
+							android:key="blocking_app_running_action_mms"
+							android:title="@string/blocking_app_running_action_text"
+							android:summary="@string/blocking_app_running_action_summary"
 							android:defaultValue="2"
-							android:entries="@array/messaging_app_running_action_options"
-							android:entryValues="@array/messaging_app_running_action_options_values"
+							android:entries="@array/blocking_app_running_action_options"
+							android:entryValues="@array/blocking_app_running_action_options_values"
 							android:dependency="mms_notifications_enabled" />
 					</PreferenceCategory>	
 					<PreferenceCategory
@@ -779,12 +779,12 @@
 							android:entryValues="@array/missed_call_loading_options_values"
 							android:dependency="missed_call_notifications_enabled" />	
 						<ListPreference
-							android:key="messaging_app_running_action_missed_call"
-							android:title="@string/messaging_app_running_action_text"
-							android:summary="@string/messaging_app_running_action_missed_call_summary"
+							android:key="blocking_app_running_action_missed_call"
+							android:title="@string/blocking_app_running_action_text"
+							android:summary="@string/blocking_app_running_action_summary"
 							android:defaultValue="2"
-							android:entries="@array/messaging_app_running_action_options"
-							android:entryValues="@array/messaging_app_running_action_options_values"
+							android:entries="@array/blocking_app_running_action_options"
+							android:entryValues="@array/blocking_app_running_action_options_values"
 							android:dependency="missed_call_notifications_enabled" />
 					</PreferenceCategory>	
 					<PreferenceCategory
@@ -964,12 +964,12 @@
 							android:entryValues="@array/calendar_all_day_notify_day_of_time_options_values"
 							android:dependency="calendar_notifications_enabled" />		
 						<ListPreference
-							android:key="messaging_app_running_action_calendar"
-							android:title="@string/messaging_app_running_action_text"
-							android:summary="@string/messaging_app_running_action_calendar_summary"
+							android:key="blocking_app_running_action_calendar"
+							android:title="@string/blocking_app_running_action_text"
+							android:summary="@string/blocking_app_running_action_summary"
 							android:defaultValue="2"
-							android:entries="@array/messaging_app_running_action_options"
-							android:entryValues="@array/messaging_app_running_action_options_values"
+							android:entries="@array/blocking_app_running_action_options"
+							android:entryValues="@array/blocking_app_running_action_options_values"
 							android:dependency="calendar_notifications_enabled" />
 						<ListPreference
 							android:key="calendar_polling_frequency"
@@ -1206,12 +1206,12 @@
 							android:summaryOff="@string/preference_k9_enabled_summaryOff" 
 							android:defaultValue="true" />	
 						<ListPreference
-							android:key="messaging_app_running_action_k9"
-							android:title="@string/messaging_app_running_action_text"
-							android:summary="@string/messaging_app_running_action_mms_summary"
+							android:key="blocking_app_running_action_k9"
+							android:title="@string/blocking_app_running_action_text"
+							android:summary="@string/blocking_app_running_action_summary"
 							android:defaultValue="2"
-							android:entries="@array/messaging_app_running_action_options"
-							android:entryValues="@array/messaging_app_running_action_options_values"
+							android:entries="@array/blocking_app_running_action_options"
+							android:entryValues="@array/blocking_app_running_action_options_values"
 							android:dependency="k9_notifications_enabled" />
 					</PreferenceCategory>	
 					<PreferenceCategory
@@ -1609,18 +1609,18 @@
 					android:entryValues="@array/quick_reply_sms_gateway_options_values" />
 			</PreferenceCategory>
 			<PreferenceCategory
-				android:key="reschedule_settings_category"
+				android:key="reschedule_blocked_notifications_category"
 				android:title="@string/reschedule_settings_text">
 				<CheckBoxPreference
-					android:key="reschedule_notifications_enabled" 
-        			android:title="@string/reschedule_notifications_text" 
+					android:key="reschedule_blocked_notifications" 
+        			android:title="@string/reschedule_blocked_notifications_text" 
         			android:summaryOn="@string/preference_reschedule_notifications_enabled_summaryOn" 
         			android:summaryOff="@string/preference_reschedule_notifications_enabled_summaryOff" 
         			android:defaultValue="true" />
 				<PreferenceScreen
 					android:key="reschedule_blocked_notifications_screen"
 					android:title="@string/reschedule_settings_text"
-					android:dependency="reschedule_notifications_enabled">	
+					android:dependency="reschedule_blocked_notifications">	
 					<ListPreference
 						android:key="reschedule_blocked_notification_timeout"
 						android:title="@string/preference_reschedule_blocked_timeout_text"

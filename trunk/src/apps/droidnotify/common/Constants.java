@@ -28,6 +28,7 @@ public class Constants {
 	
 	public static final String BLOCKING_APP_RUNNING_ACTION_RESCHEDULE = "0";
 	public static final String BLOCKING_APP_RUNNING_ACTION_IGNORE = "1";
+	public static final String BLOCKING_APP_RUNNING_ACTION_SHOW = "2";
 	
 	//-----NOTIFICATION TYPE CONSTANTS-----//
 	public static final int NOTIFICATION_TYPE_TEST = -1;
@@ -38,14 +39,9 @@ public class Constants {
 	public static final int NOTIFICATION_TYPE_GMAIL = 4;
 	public static final int NOTIFICATION_TYPE_TWITTER = 5;
 	public static final int NOTIFICATION_TYPE_FACEBOOK = 6;
-	public static final int NOTIFICATION_TYPE_K9 = 7;
-
-	//-----NOTIFICATION SUB-TYPE CONSTANTS-----//
-	public static final int NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE = 100;
-	public static final int NOTIFICATION_TYPE_TWITTER_MENTION = 101;
-	public static final int NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION = 110;
-	public static final int NOTIFICATION_TYPE_FACEBOOK_MESSAGE = 111;		
+	public static final int NOTIFICATION_TYPE_K9 = 7;	
 	
+	//-----NOTIFICATION RESCHEDULE CONSTANTS-----//
 	public static final int NOTIFICATION_TYPE_RESCHEDULE_PHONE = 100;
 	public static final int NOTIFICATION_TYPE_RESCHEDULE_SMS = 101;
 	public static final int NOTIFICATION_TYPE_RESCHEDULE_MMS = 102;
@@ -54,6 +50,17 @@ public class Constants {
 	public static final int NOTIFICATION_TYPE_RESCHEDULE_TWITTER = 105;
 	public static final int NOTIFICATION_TYPE_RESCHEDULE_FACEBOOK = 106;
 	public static final int NOTIFICATION_TYPE_RESCHEDULE_K9 = 107;
+
+	//-----NOTIFICATION SUB-TYPE CONSTANTS-----//
+	public static final int NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE = 200;
+	public static final int NOTIFICATION_TYPE_TWITTER_MENTION = 201;
+	public static final int NOTIFICATION_TYPE_TWITTER_FOLLOWER = 202;
+	public static final int NOTIFICATION_TYPE_TWITTER_RETWEET = 203;
+	public static final int NOTIFICATION_TYPE_TWITTER_REPLY_TWEET = 204;
+	
+	public static final int NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION = 210;
+	public static final int NOTIFICATION_TYPE_FACEBOOK_MESSAGE = 211;
+	public static final int NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST = 212;
 	
 	public static final int ADD_CONTACT_ACTIVITY = 1;
 	public static final int EDIT_CONTACT_ACTIVITY = 2;
@@ -90,7 +97,7 @@ public class Constants {
 	public static final String DISPLAY_RESCHEDULE_BUTTON_KEY = "display_reschedule_button";
 	
 	//-----RESCHEDULE CONSTANTS-----//
-	public static final String RESCHEDULE_NOTIFICATIONS_ENABLED_KEY = "reschedule_notifications_enabled";
+	public static final String RESCHEDULE_NOTIFICATIONS_ENABLED_KEY = "reschedule_blocked_notifications";
 	public static final String RESCHEDULE_BLOCKED_NOTIFICATION_TIMEOUT_KEY = "reschedule_blocked_notification_timeout";
 	public static final String RESCHEDULE_BLOCKED_NOTIFICATION_TIMEOUT_DEFAULT = "5";
 	public static final String RESCHEDULE_TIME_KEY = "reschedule_time";
@@ -261,7 +268,7 @@ public class Constants {
 	public static final String SMS_NOTIFICATIONS_ENABLED_KEY = "sms_notifications_enabled";
 	public static final String SMS_READ_FROM_INTENT = "0";
 	public static final String SMS_READ_FROM_DISK = "1";
-	public static final String SMS_BLOCKING_APP_RUNNING_ACTION_KEY = "messaging_app_running_action_sms";
+	public static final String SMS_BLOCKING_APP_RUNNING_ACTION_KEY = "blocking_app_running_action_sms";
 	public static final String SMS_TIMEOUT_KEY = "sms_timeout_settings";
 	public static final String SMS_DELETE_KEY = "sms_delete_button_action";
 	public static final String SMS_TIMESTAMP_ADJUSTMENT_KEY = "sms_timestamp_adjustment_settings";
@@ -288,7 +295,7 @@ public class Constants {
 	
 	//-----MMS NOTIFICATION CONSTANTS-----//
 	public static final String MMS_NOTIFICATIONS_ENABLED_KEY = "mms_notifications_enabled";
-	public static final String MMS_BLOCKING_APP_RUNNING_ACTION_KEY = "messaging_app_running_action_mms";
+	public static final String MMS_BLOCKING_APP_RUNNING_ACTION_KEY = "blocking_app_running_action_mms";
 	public static final String MMS_TIMEOUT_KEY = "mms_timeout_settings";
 	public static final String MMS_DELETE_KEY = "mms_delete_button_action";
     public static final String MMS_HIDE_NOTIFICATION_BODY_KEY = "mms_hide_notification_body_enabled";
@@ -311,7 +318,7 @@ public class Constants {
 
 	//-----MISSED CALL NOTIFICATION CONSTANTS-----//
 	public static final String PHONE_NOTIFICATIONS_ENABLED_KEY = "missed_call_notifications_enabled";
-	public static final String PHONE_BLOCKING_APP_RUNNING_ACTION_KEY = "messaging_app_running_action_missed_call";
+	public static final String PHONE_BLOCKING_APP_RUNNING_ACTION_KEY = "blocking_app_running_action_missed_call";
 	public static final String CALL_LOG_TIMEOUT_KEY = "call_log_timeout_settings";
 	public static final String PHONE_DISMISS_BUTTON_ACTION_KEY = "missed_call_loading_settings";
 	public static final String PHONE_DISPLAY_DISMISS_BUTTON_KEY = "missed_call_display_dismiss_button";
@@ -330,7 +337,7 @@ public class Constants {
 	
 	//-----CALENDAR NOTIFICATION CONSTANTS-----//
 	public static final String CALENDAR_NOTIFICATIONS_ENABLED_KEY = "calendar_notifications_enabled";
-	public static final String CALENDAR_BLOCKING_APP_RUNNING_ACTION_KEY = "messaging_app_running_action_calendar";
+	public static final String CALENDAR_BLOCKING_APP_RUNNING_ACTION_KEY = "blocking_app_running_action_calendar";
 	public static final String CALENDAR_NOTIFY_DAY_OF_TIME_KEY = "calendar_notify_day_of_time";
 	public static final String CALENDAR_REMINDERS_ENABLED_KEY = "calendar_reminders_enabled"; 
     public static final String CALENDAR_REMINDER_KEY = "calendar_reminder_settings";
@@ -366,6 +373,11 @@ public class Constants {
 	public static final String TWITTER_POLLING_FREQUENCY_KEY = "twitter_polling_frequency";
 	public static final String TWITTER_DIRECT_MESSAGES_ENABLED_KEY = "twitter_direct_messages_enabled";
 	public static final String TWITTER_MENTIONS_ENABLED_KEY = "twitter_mentions_enabled";
+	public static final String TWITTER_FOLOWERS_ENABLED_KEY = "twitter_followers_enabled";
+	public static final String TWITTER_RETWEETS_ENABLED_KEY = "twitter_retweets_enabled";
+	public static final String TWITTER_REPLY_TWEETS_ENABLED_KEY = "twitter_reply_tweets_enabled";
+	
+	public static final String TWITTER_BLOCKING_APP_RUNNING_ACTION_KEY = "blocking_app_running_action_twitter";
 	
 	public static final String TWITTER_CONSUMER_KEY = "AhWe8llUXyaZhix1oyhCA";
 	public static final String TWITTER_CONSUMER_SECRET= "oFKn2cyLQanVESLWlwH0GK7twXisarFrClTfuZmVUI";
@@ -395,7 +407,10 @@ public class Constants {
 	
 	public static final String FACEBOOK_NOTIFICATIONS_ENABLED_KEY = "facebook_enabled";
 	public static final String FACEBOOK_DIRECT_MESSAGES_ENABLED_KEY = "facebook_direct_messages_enabled";
+	public static final String FACEBOOK_FRIEND_REQUESTS_ENABLED_KEY = "twitter_friend_requests_enabled";
 	public static final String FACEBOOK_POLLING_FREQUENCY_KEY = "facebook_polling_frequency";
+	
+	public static final String FACEBOOK_BLOCKING_APP_RUNNING_ACTION_KEY = "blocking_app_running_action_facebook";
 	
 	public static final String FACEBOOK_APP_ID = "259676884089873";
 	public static final String FACEBOOK_ACCESS_TOKEN_KEY = "facebook_access_token";
@@ -416,7 +431,7 @@ public class Constants {
 	
 	//-----K9 NOTIFICATION CONSTANTS-----//
 	public static final String K9_NOTIFICATIONS_ENABLED_KEY = "k9_notifications_enabled";
-	public static final String K9_BLOCKING_APP_RUNNING_ACTION_KEY = "messaging_app_running_action_k9";
+	public static final String K9_BLOCKING_APP_RUNNING_ACTION_KEY = "blocking_app_running_action_k9";
 	public static final String K9_DELETE_KEY = "k9_delete_button_action";
     public static final String K9_HIDE_NOTIFICATION_BODY_KEY = "k9_hide_notification_body_enabled";
 	public static final String K9_REPLY_BUTTON_ACTION_KEY = "k9_reply_button_action";
@@ -561,6 +576,22 @@ public class Constants {
 	public static final String CALENDAR_STATUS_BAR_NOTIFICATIONS_ICON_SETTING_KEY = "notification_icon_calendar";
 	public static final String CALENDAR_STATUS_BAR_NOTIFICATIONS_ICON_DEFAULT = "status_bar_notification_calendar_blue";
 
+	//-----TWITTER STATUS BAR NOTIFICATION CONSTANTS-----//
+	public static final String TWITTER_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY = "twitter_status_bar_notifications_show_when_blocked_enabled";
+	
+	
+	
+	
+	
+	
+	//-----FACEBOOK STATUS BAR NOTIFICATION CONSTANTS-----//
+	public static final String FACEBOOK_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY = "facebook_status_bar_notifications_show_when_blocked_enabled";
+	
+	
+	
+	
+	
+	
 	//-----K9 STATUS BAR NOTIFICATION CONSTANTS-----//
 	public static final String K9_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY = "k9_status_bar_notifications_enabled";
 	

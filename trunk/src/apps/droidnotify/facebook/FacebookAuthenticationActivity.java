@@ -66,7 +66,7 @@ public class FacebookAuthenticationActivity extends Activity {
          */
         if(!_facebook.isSessionValid()) {
 
-        	String permissions[] = new String[] {"manage_notifications", "read_mailbox"};
+        	String permissions[] = new String[] {"manage_notifications", "read_mailbox", "read_requests"};
             _facebook.authorize(this, permissions, new DialogListener() {
 
                 public void onComplete(Bundle values) {

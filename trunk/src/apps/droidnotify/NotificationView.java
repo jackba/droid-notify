@@ -632,13 +632,13 @@ public class NotificationView extends LinearLayout {
 					if(notificationCountAction == 0){
 						//Do Nothing.
 					}else{
-						_notificationCountTextView.setOnClickListener(new OnClickListener() {
-						    public void onClick(View view) {
-						    	if (_debug) Log.v("Notification Count Button Clicked()");
-						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-						    	TwitterCommon.startTwitterAppViewInboxActivity(_context, _notificationActivity, Constants.TWITTER_VIEW_INBOX_ACTIVITY);
-						    }
-						});		
+//						_notificationCountTextView.setOnClickListener(new OnClickListener() {
+//						    public void onClick(View view) {
+//						    	if (_debug) Log.v("Notification Count Button Clicked()");
+//						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+//						    	TwitterCommon.startTwitterAppViewInboxActivity(_context, _notificationActivity, Constants.TWITTER_VIEW_INBOX_ACTIVITY);
+//						    }
+//						});		
 					}
 					if(usingImageButtons){
 						// Dismiss Button
@@ -1155,6 +1155,14 @@ public class NotificationView extends LinearLayout {
 		    	int notificationSubType = _notification.getNotificationSubType();
 			    if(notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE){
 			    	receivedAtText = _context.getString(R.string.message_at_text, formattedTimestamp.toLowerCase());
+		    	}else if(notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_MENTION){
+			    	receivedAtText = _context.getString(R.string.mention_at_text, formattedTimestamp.toLowerCase());
+		    	}else if(notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_FOLLOWER){
+			    	receivedAtText = _context.getString(R.string.follower_at_text, formattedTimestamp.toLowerCase());
+		    	}else if(notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_RETWEET){
+			    	receivedAtText = _context.getString(R.string.retweet_at_text, formattedTimestamp.toLowerCase());
+		    	}else if(notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_REPLY_TWEET){
+			    	receivedAtText = _context.getString(R.string.reply_tweet_at_text, formattedTimestamp.toLowerCase());
 		    	}	
 				break;
 			}
@@ -1165,7 +1173,9 @@ public class NotificationView extends LinearLayout {
 			    	receivedAtText = _context.getString(R.string.notification_at_text, formattedTimestamp.toLowerCase());
 			    }else if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE){
 			    	receivedAtText = _context.getString(R.string.message_at_text, formattedTimestamp.toLowerCase());
-		    	}		    	
+		    	}else if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST){
+			    	receivedAtText = _context.getString(R.string.friend_request_at_text, formattedTimestamp.toLowerCase());
+		    	}
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_K9:{
@@ -1232,7 +1242,15 @@ public class NotificationView extends LinearLayout {
 				int notificationSubType = _notification.getNotificationSubType();
 			    if(notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE){
 			    	TwitterCommon.startTwitterQuickReplyActivity(_context, _notificationActivity, Constants.SEND_TWITTER_QUICK_REPLY_ACTIVITY, _notification.getSentFromID(), _notification.getSentFromAddress(), _notification.getContactName());
-		    	}
+		    	}else if(notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_MENTION){
+		    		TwitterCommon.startTwitterQuickReplyActivity(_context, _notificationActivity, Constants.SEND_TWITTER_QUICK_REPLY_ACTIVITY, _notification.getSentFromID(), _notification.getSentFromAddress(), _notification.getContactName());
+		    	}else if(notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_FOLLOWER){
+		    		//TODO
+		    	}else if(notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_RETWEET){
+		    		//TODO
+		    	}else if(notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_REPLY_TWEET){
+		    		//TODO
+		    	}	
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_FACEBOOK:{
@@ -1241,7 +1259,9 @@ public class NotificationView extends LinearLayout {
 			    	//TODO
 		    	}else if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE){
 		    		//TODO
-		    	}	
+		    	}else if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST){
+		    		//TODO
+		    	}
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_K9:{

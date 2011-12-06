@@ -87,22 +87,22 @@ public class RescheduleBroadcastReceiverService extends WakefulIntentService {
 		    boolean showBlockedNotificationStatusBarNotification = false;
 		    switch(notificationType){
 			    case Constants.NOTIFICATION_TYPE_RESCHEDULE_PHONE:{
-			    	blockingAppRuningAction = preferences.getString(Constants.PHONE_BLOCKING_APP_RUNNING_ACTION_KEY, "0");
+			    	blockingAppRuningAction = preferences.getString(Constants.PHONE_BLOCKING_APP_RUNNING_ACTION_KEY, Constants.BLOCKING_APP_RUNNING_ACTION_SHOW);
 			    	showBlockedNotificationStatusBarNotification = preferences.getBoolean(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true);
 			    	break;
 			    }
 			    case Constants.NOTIFICATION_TYPE_RESCHEDULE_SMS:{
-			    	blockingAppRuningAction = preferences.getString(Constants.SMS_BLOCKING_APP_RUNNING_ACTION_KEY, "0");
+			    	blockingAppRuningAction = preferences.getString(Constants.SMS_BLOCKING_APP_RUNNING_ACTION_KEY, Constants.BLOCKING_APP_RUNNING_ACTION_SHOW);
 			    	showBlockedNotificationStatusBarNotification = preferences.getBoolean(Constants.SMS_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true);
 			    	break;
 			    }
 			    case Constants.NOTIFICATION_TYPE_RESCHEDULE_MMS:{
-			    	blockingAppRuningAction = preferences.getString(Constants.MMS_BLOCKING_APP_RUNNING_ACTION_KEY, "0");
+			    	blockingAppRuningAction = preferences.getString(Constants.MMS_BLOCKING_APP_RUNNING_ACTION_KEY, Constants.BLOCKING_APP_RUNNING_ACTION_SHOW);
 			    	showBlockedNotificationStatusBarNotification = preferences.getBoolean(Constants.MMS_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true);
 			    	break;
 			    }
 			    case Constants.NOTIFICATION_TYPE_RESCHEDULE_CALENDAR:{
-			    	blockingAppRuningAction = preferences.getString(Constants.CALENDAR_BLOCKING_APP_RUNNING_ACTION_KEY, "0");
+			    	blockingAppRuningAction = preferences.getString(Constants.CALENDAR_BLOCKING_APP_RUNNING_ACTION_KEY, Constants.BLOCKING_APP_RUNNING_ACTION_SHOW);
 			    	showBlockedNotificationStatusBarNotification = preferences.getBoolean(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true);
 			    	break;
 			    }
@@ -110,13 +110,17 @@ public class RescheduleBroadcastReceiverService extends WakefulIntentService {
 			    	break;
 			    }
 			    case Constants.NOTIFICATION_TYPE_RESCHEDULE_TWITTER:{
+			    	blockingAppRuningAction = preferences.getString(Constants.TWITTER_BLOCKING_APP_RUNNING_ACTION_KEY, Constants.BLOCKING_APP_RUNNING_ACTION_SHOW);
+			    	showBlockedNotificationStatusBarNotification = preferences.getBoolean(Constants.TWITTER_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true);
 			    	break;
 			    }
 			    case Constants.NOTIFICATION_TYPE_RESCHEDULE_FACEBOOK:{
+			    	blockingAppRuningAction = preferences.getString(Constants.FACEBOOK_BLOCKING_APP_RUNNING_ACTION_KEY, Constants.BLOCKING_APP_RUNNING_ACTION_SHOW);
+			    	showBlockedNotificationStatusBarNotification = preferences.getBoolean(Constants.FACEBOOK_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true);
 			    	break;
 			    }
 			    case Constants.NOTIFICATION_TYPE_RESCHEDULE_K9:{
-			    	blockingAppRuningAction = preferences.getString(Constants.K9_BLOCKING_APP_RUNNING_ACTION_KEY, "0");
+			    	blockingAppRuningAction = preferences.getString(Constants.K9_BLOCKING_APP_RUNNING_ACTION_KEY, Constants.BLOCKING_APP_RUNNING_ACTION_SHOW);
 			    	showBlockedNotificationStatusBarNotification = preferences.getBoolean(Constants.K9_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true);
 			    	break;
 			    }
@@ -129,7 +133,7 @@ public class RescheduleBroadcastReceiverService extends WakefulIntentService {
 		    	rescheduleNotification = true;
 		    }
 		    if(!rescheduleNotification){
-				Intent rescheduleIntent = new Intent(context, RescheduleReceiverService.class);
+				Intent rescheduleIntent = new Intent(context, RescheduleService.class);
 				rescheduleIntent.putExtras(intent.getExtras());
 				WakefulIntentService.sendWakefulWork(context, rescheduleIntent);
 		    }else{
@@ -187,9 +191,11 @@ public class RescheduleBroadcastReceiverService extends WakefulIntentService {
 					    	break;
 					    }
 					    case Constants.NOTIFICATION_TYPE_RESCHEDULE_TWITTER:{
+					    	Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_CALENDAR, callStateIdle, contactName, sentFromAddress, messageBody, null);
 					    	break;
 					    }
 					    case Constants.NOTIFICATION_TYPE_RESCHEDULE_FACEBOOK:{
+					    	Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_CALENDAR, callStateIdle, contactName, sentFromAddress, messageBody, null);
 					    	break;
 					    }
 					    case Constants.NOTIFICATION_TYPE_RESCHEDULE_K9:{
@@ -209,7 +215,7 @@ public class RescheduleBroadcastReceiverService extends WakefulIntentService {
 					AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 					Intent rescheduleIntent = new Intent(context, RescheduleReceiver.class);
 					rescheduleIntent.putExtras(intent.getExtras());
-					rescheduleIntent.setAction("apps.droidnotify.VIEW/RescheduleReschedule/" + System.currentTimeMillis());
+					rescheduleIntent.setAction("apps.droidnotify.VIEW/RescheduleReschedule/" + String.valueOf(notificationType) + "/" + String.valueOf(System.currentTimeMillis()));
 					PendingIntent reschedulePendingIntent = PendingIntent.getBroadcast(context, 0, rescheduleIntent, 0);
 					alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + rescheduleInterval, reschedulePendingIntent);
 		    	}

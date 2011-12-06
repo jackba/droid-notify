@@ -72,7 +72,7 @@ public class K9BroadcastReceiverService extends WakefulIntentService {
 		    boolean rescheduleNotification = false;
 		    boolean callStateIdle = telemanager.getCallState() == TelephonyManager.CALL_STATE_IDLE;
 		    boolean blockingAppRunning = Common.isBlockingAppRunning(context);
-		    String blockingAppRuningAction = preferences.getString(Constants.K9_BLOCKING_APP_RUNNING_ACTION_KEY, "0");
+		    String blockingAppRuningAction = preferences.getString(Constants.K9_BLOCKING_APP_RUNNING_ACTION_KEY, Constants.BLOCKING_APP_RUNNING_ACTION_SHOW);
 		    //Reschedule notification based on the users preferences.
 		    if(!callStateIdle){
 		    	rescheduleNotification = true;
@@ -81,7 +81,7 @@ public class K9BroadcastReceiverService extends WakefulIntentService {
 		    	rescheduleNotification = true;
 		    }
 		    if(!rescheduleNotification){
-				Intent k9Intent = new Intent(context, K9ReceiverService.class);
+				Intent k9Intent = new Intent(context, K9Service.class);
 				k9Intent.putExtras(intent.getExtras());
 				WakefulIntentService.sendWakefulWork(context, k9Intent);
 		    }else{
@@ -119,7 +119,7 @@ public class K9BroadcastReceiverService extends WakefulIntentService {
 					AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 					Intent k9Intent = new Intent(context, K9Receiver.class);
 					k9Intent.putExtras(intent.getExtras());
-					k9Intent.setAction("apps.droidnotify.VIEW/K9Reschedule/" + System.currentTimeMillis());
+					k9Intent.setAction("apps.droidnotify.VIEW/K9Reschedule/" + String.valueOf(System.currentTimeMillis()));
 					PendingIntent k9PendingIntent = PendingIntent.getBroadcast(context, 0, k9Intent, 0);
 					alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + rescheduleInterval, k9PendingIntent);
 		    	}

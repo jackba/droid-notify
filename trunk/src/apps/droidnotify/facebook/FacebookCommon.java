@@ -1,5 +1,10 @@
 package apps.droidnotify.facebook;
 
+import java.util.ArrayList;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import com.facebook.android.Facebook;
 
 import android.app.AlarmManager;
@@ -7,6 +12,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 
 import apps.droidnotify.common.Constants;
@@ -117,6 +123,25 @@ public class FacebookCommon {
 	}
 	
 	/**
+	 * Start a single Facebook alarm.
+	 *  
+	 * @param context - The application context.
+	 * @param alarmStartTime - The time to start the alarm.
+	 */
+	public static void setFacebookAlarm(Context context, long alarmStartTime){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("FacebookCommon.setFacebookAlarm()");
+		try{
+			AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+			Intent intent = new Intent(context, FacebookAlarmReceiver.class);
+			PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+			alarmManager.set(AlarmManager.RTC_WAKEUP, alarmStartTime, pendingIntent);
+		}catch(Exception ex){
+			if (_debug) Log.e("FacebookCommon.setFacebookAlarm() ERROR: " + ex.toString());
+		}
+	}
+	
+	/**
 	 * Start the Facebook recurring alarm.
 	 *  
 	 * @param context - The application context.
@@ -153,6 +178,67 @@ public class FacebookCommon {
 		}catch(Exception ex){
 			if (_debug) Log.e("FacebookCommon.cancelFacebookAlarmManager() ERROR: " + ex.toString());
 		}
+	}
+	
+	/**
+	 * Poll Facebook for notifications.
+	 * 
+	 * @param accessToken - The Facebook acess token.
+	 * @param facebook - The Facebook Object.
+	 */
+	public static ArrayList<String> getFacebookNotifications(String accessToken, Facebook facebook){
+		if (_debug) Log.v("FacebookService.getFacebookNotifications()");
+        try{
+        	ArrayList<String> facebookArray = new ArrayList<String>();
+        	Bundle bundle = new Bundle();
+            bundle.putString(Facebook.TOKEN, accessToken);
+        	String result = facebook.request("me/notifications", bundle, "GET");
+        	if (_debug) Log.v("FacebookService.getFacebookNotifications() Result: " + result);
+        	JSONObject jsonResults = new JSONObject(result);
+        	JSONArray jsonDataArray = jsonResults.getJSONArray("data");
+        	int jsonDataArraySize = jsonDataArray.length();
+        	for (int i=0;i<jsonDataArraySize;i++){
+        	    JSONObject jsonNotificationData = jsonDataArray.getJSONObject(i);
+        	    if (_debug) Log.v("FacebookService.getFacebookNotifications() Title: " + jsonNotificationData.getString("title"));
+        	}
+        	return facebookArray;
+        }catch(Exception ex){
+        	if (_debug) Log.e("FacebookService.getFacebookNotifications() ERROR: " + ex.toString());
+        	return null;
+        }
+	}
+
+	/**
+	 * Poll Facebook for friend requests.
+	 * 
+	 * @param accessToken - The Facebook acess token.
+	 * @param facebook - The Facebook Object.
+	 */
+	public static ArrayList<String> getFacebookFriendRequests(String accessToken, Facebook facebook){
+		if (_debug) Log.v("FacebookService.getFacebookFriendRequests()");
+        try{
+        	ArrayList<String> facebookArray = new ArrayList<String>();
+        	Bundle bundle = new Bundle();
+            bundle.putString(Facebook.TOKEN, accessToken);
+        	String result = facebook.request("me/friendrequests", bundle, "GET");
+        	if (_debug) Log.v("FacebookService.getFacebookFriendRequests() Result: " + result);
+        	JSONObject jsonResults = new JSONObject(result);
+        	JSONObject jsonSummaryData = jsonResults.getJSONObject("summary");
+        	if (_debug) Log.v("FacebookService.getFacebookFriendRequests() TotalCount: " + jsonSummaryData.getInt("total_count"));
+        	if (_debug) Log.v("FacebookService.getFacebookFriendRequests() UnreadCount: " + jsonSummaryData.getInt("unread_count"));
+        	JSONArray jsonDataArray = jsonResults.getJSONArray("data");
+        	int jsonDataArraySize = jsonDataArray.length();
+        	for (int i=0;i<jsonDataArraySize;i++){
+        	    JSONObject jsonNotificationData = jsonDataArray.getJSONObject(i);
+        	    JSONObject jsonFromData = jsonNotificationData.getJSONObject("from");
+        	    if (_debug) Log.v("FacebookService.getFacebookFriendRequests() Title: " + jsonFromData.getString("name"));
+        	    if (_debug) Log.v("FacebookService.getFacebookFriendRequests() ID: " + jsonFromData.getString("id"));
+        	}
+        	return facebookArray;
+        }catch(Exception ex){
+        	if (_debug) Log.e("FacebookService.getFacebookFriendRequests() ERROR: " + ex.toString());
+        	return null;
+        }
 	}
 	
 }
