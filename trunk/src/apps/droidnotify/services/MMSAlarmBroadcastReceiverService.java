@@ -100,7 +100,7 @@ public class MMSAlarmBroadcastReceiverService extends WakefulIntentService {
 		    			}
 		    		}
 					//Display Status Bar Notification
-				    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_MMS, callStateIdle, contactName, messageAddress, messageBody, null);
+				    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_MMS, 0, callStateIdle, contactName, messageAddress, messageBody, null);
 			    }
 		    	//Ignore notification based on the users preferences.
 		    	if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_IGNORE)){

@@ -470,10 +470,9 @@
 							android:title="@string/button_settings_text"
 							android:dependency="sms_notifications_enabled">
 							<CheckBoxPreference
-								android:key="confirm_sms_deletion_enabled" 
-								android:title="@string/preference_confirm_sms_deletion_enabled_title" 
-								android:summaryOn="@string/preference_confirm_sms_deletion_enabled_summaryOn" 
-								android:summaryOff="@string/preference_confirm_sms_deletion_enabled_summaryOff" 
+								android:key="confirm_sms_deletion" 
+								android:title="@string/preference_confirm_deletion_title" 
+								android:summary="@string/preference_confirm_deletion_summary"
 								android:defaultValue="true" />
 							<ListPreference
 								android:key="sms_dismiss_button_action"
@@ -695,10 +694,9 @@
 							android:title="@string/button_settings_text"
 							android:dependency="mms_notifications_enabled">
 							<CheckBoxPreference
-								android:key="confirm_mms_deletion_enabled" 
-								android:title="@string/preference_confirm_mms_deletion_enabled_title" 
-								android:summaryOn="@string/preference_confirm_mms_deletion_enabled_summaryOn" 
-								android:summaryOff="@string/preference_confirm_mms_deletion_enabled_summaryOff" 
+								android:key="confirm_mms_deletion" 
+								android:title="@string/preference_confirm_deletion_title" 
+								android:summary="@string/preference_confirm_deletion_summary"
 								android:defaultValue="true" />
 							<ListPreference
 								android:key="mms_dismiss_button_action"
@@ -973,11 +971,11 @@
 							android:dependency="calendar_notifications_enabled" />
 						<ListPreference
 							android:key="calendar_polling_frequency"
-							android:title="@string/preference_calendar_polling_frequency_title"
+							android:title="@string/preference_polling_frequency"
 							android:summary="@string/preference_calendar_polling_frequency_summary"
 							android:defaultValue="15"
-							android:entries="@array/calendar_polling_frequency_options"
-							android:entryValues="@array/calendar_polling_frequency_options_values"
+							android:entries="@array/polling_frequency_options"
+							android:entryValues="@array/polling_frequency_options_values"
 							android:dependency="calendar_notifications_enabled" />
 						<apps.droidnotify.preferences.SelectCalendarListPreference
 							android:key="calendar_selection"
@@ -1347,10 +1345,9 @@
 							android:title="@string/button_settings_text"
 							android:dependency="k9_notifications_enabled">
 							<CheckBoxPreference
-								android:key="confirm_k9_deletion_enabled"
-								android:title="@string/preference_confirm_k9_deletion_enabled_title" 
-								android:summaryOn="@string/preference_confirm_k9_deletion_enabled_summaryOn" 
-								android:summaryOff="@string/preference_confirm_k9_deletion_enabled_summaryOff" 
+								android:key="confirm_k9_deletion" 
+								android:title="@string/preference_confirm_deletion_title" 
+								android:summary="@string/preference_confirm_deletion_summary"
 								android:defaultValue="true" />
 							<ListPreference
 								android:key="k9_dismiss_button_action"
@@ -1426,7 +1423,231 @@
 					       	android:summaryOn="@string/preference_twitter_enabled_summaryOn" 
 					       	android:summaryOff="@string/preference_twitter_enabled_summaryOff" 
 					       	android:defaultValue="false" />
-	    			</PreferenceCategory>
+						<CheckBoxPreference
+							android:key="twitter_direct_messages_enabled"
+					       	android:title="@string/preference_twitter_direct_messages_enabled_title" 
+					       	android:summary="@string/preference_twitter_direct_messages_enabled_summary" 
+					       	android:defaultValue="true"
+							android:dependency="twitter_enabled" />
+						<CheckBoxPreference
+							android:key="twitter_mentions_enabled"
+					       	android:title="@string/preference_twitter_mentions_enabled_title" 
+					       	android:summary="@string/preference_twitter_mentions_enabled_summary"
+					       	android:defaultValue="true"
+							android:dependency="twitter_enabled" />
+						<ListPreference
+							android:key="blocking_app_running_action_twitter"
+							android:title="@string/blocking_app_running_action_text"
+							android:summary="@string/blocking_app_running_action_summary"
+							android:defaultValue="2"
+							android:entries="@array/blocking_app_running_action_options"
+							android:entryValues="@array/blocking_app_running_action_options_values"
+							android:dependency="twitter_enabled" />
+						<ListPreference
+							android:key="twitter_preferred_client"
+							android:title="@string/preference_choose_client_title"
+							android:summary="@string/preference_choose_client_summary"
+							android:defaultValue="com.twitter.android"
+							android:entries="@array/twitter_client_options"
+							android:entryValues="@array/twitter_client_options_values"
+							android:dependency="twitter_enabled" />
+						<ListPreference
+							android:key="twitter_polling_frequency"
+							android:title="@string/preference_polling_frequency"
+							android:summary="@string/preference_twitter_polling_frequency_summary"
+							android:defaultValue="60"
+							android:entries="@array/polling_frequency_options"
+							android:entryValues="@array/polling_frequency_options_values"
+							android:dependency="twitter_enabled" />
+					</PreferenceCategory>
+					<PreferenceCategory
+						android:key="twitter_notification_settings_category"
+						android:title="@string/preference_notification_settings">						
+						<CheckBoxPreference 
+							android:key="twitter_status_bar_notifications_enabled" 
+							android:title="@string/preference_notifications_enabled_title" 
+							android:summaryOn="@string/preference_notifications_enabled_summaryOn" 
+							android:summaryOff="@string/preference_notifications_enabled_summaryOff" 
+							android:defaultValue="true"
+							android:dependency="twitter_enabled" />		
+						<PreferenceScreen
+							android:key="twitter_notification_settings_screen"
+							android:title="@string/preference_notification_settings"
+							android:summary="@string/preference_notification_settings_summary"
+							android:dependency="twitter_status_bar_notifications_enabled">
+							<PreferenceCategory
+								android:key="twitter_notification_general_settings_category"
+								android:title="@string/general_settings_text">						
+								<CheckBoxPreference 
+									android:key="twitter_status_bar_notifications_show_when_blocked_enabled" 
+									android:title="@string/preference_notifications_show_when_blocked_enabled_title" 
+									android:summary="@string/preference_notifications_show_when_blocked_enabled_summary" 
+									android:defaultValue="true" />
+							</PreferenceCategory>
+							<PreferenceCategory
+								android:key="twitter_notification_icon_settings_category"
+								android:title="@string/preference_notification_icon_settings_text">
+								<apps.droidnotify.preferences.ImageListPreference
+									android:key="notification_icon_twitter"
+									android:title="@string/preference_notification_icon_text"
+									android:summary="@string/preference_notification_icon_summary"
+									android:entries="@array/notification_icon_options_twitter"
+									android:entryValues="@array/notification_icon_values_twitter"
+									droidnotify:entryImages="@array/notification_icon_images_twitter"
+									android:defaultValue="status_bar_notification_twitter_grey" />
+							</PreferenceCategory>	
+					  		<PreferenceCategory
+								android:key="twitter_notification_sound_settings_category"
+								android:title="@string/preference_notification_sound_settings_text">
+								<RingtonePreference
+			             			android:key="twitter_notification_sound"
+									android:title="@string/preference_notification_sound_title"
+									android:summary="@string/preference_notification_sound_summary"
+									android:ringtoneType="all"
+									android:showDefault="false"
+									android:showSilent="true"
+									android:defaultValue="content://settings/system/notification_sound" />
+							</PreferenceCategory>
+							<PreferenceCategory
+								android:key="twitter_notification_vibrate_settings_category"
+								android:title="@string/preference_notification_vibrate_settings_text">	
+								<ListPreference
+									android:key="twitter_notification_vibrate_setting"
+									android:title="@string/preference_vibrate_setting_title"
+									android:summary="@string/preference_vibrate_setting_summary"
+									android:defaultValue="0"
+									android:entries="@array/vibrate_setting_options"
+									android:entryValues="@array/vibrate_setting_options_values" />									
+								<apps.droidnotify.preferences.VibratePatternListPreference
+									android:key="twitter_notification_vibrate_pattern"
+									android:title="@string/preference_vibrate_pattern_title"
+									android:summary="@string/preference_vibrate_pattern_summary"
+									android:entries="@array/preference_vibrate_pattern_options"
+									android:entryValues="@array/preference_vibrate_pattern_options_values_twitter"
+									android:defaultValue="0,1200" />
+							</PreferenceCategory>	
+					  		<PreferenceCategory
+								android:key="twitter_notification_led_settings_category"
+								android:title="@string/preference_notification_led_settings_text">
+								<CheckBoxPreference 
+									android:key="twitter_notification_led_enabled" 
+									android:title="@string/preference_led_enabled_title" 
+									android:summaryOn="@string/preference_led_enabled_summaryOn" 
+									android:summaryOff="@string/preference_led_enabled_summaryOff" 
+									android:defaultValue="true" />
+								<apps.droidnotify.preferences.LEDColorListPreference
+									android:key="twitter_notification_led_color"
+									android:title="@string/preference_led_color_title"
+									android:summary="@string/preference_led_color_summary"
+									android:entries="@array/preference_led_color_options"
+									android:entryValues="@array/preference_led_color_options_values_twitter"
+									android:defaultValue="yellow"
+									android:dependency="twitter_notification_led_enabled" />
+								<apps.droidnotify.preferences.LEDPatternListPreference
+									android:key="twitter_notification_led_pattern"
+									android:title="@string/preference_led_pattern_title"
+									android:summary="@string/preference_led_pattern_summary"
+									android:entries="@array/preference_led_pattern_options"
+									android:entryValues="@array/preference_led_pattern_options_values_twitter"
+									android:defaultValue="1000,1000"
+									android:dependency="twitter_notification_led_enabled" />
+							</PreferenceCategory>
+					  		<PreferenceCategory
+								android:key="twitter_notification_in_call_settings_category"
+								android:title="@string/preference_notification_in_call_settings_text">
+								<CheckBoxPreference 
+										android:key="twitter_notification_in_call_sound_enabled" 
+										android:title="@string/preference_notification_in_call_sound_enable_title" 
+										android:summaryOn="@string/preference_notification_in_call_sound_enable_summaryOn" 
+										android:summaryOff="@string/preference_notification_in_call_sound_enable_summaryOff" 
+										android:defaultValue="false" />
+								<CheckBoxPreference 
+										android:key="twitter_notification_in_call_vibrate_enabled" 
+										android:title="@string/preference_notification_in_call_vibrate_enable_title" 
+										android:summaryOn="@string/preference_notification_in_call_vibrate_enable_summaryOn" 
+										android:summaryOff="@string/preference_notification_in_call_vibrate_enable_summaryOff" 
+										android:defaultValue="true" />
+							</PreferenceCategory>
+						</PreferenceScreen>
+					</PreferenceCategory>
+					<PreferenceCategory
+						android:key="twitter_notification_body_settings_category"
+						android:title="@string/notification_body_settings_text">	
+						<PreferenceScreen
+							android:key="twitter_notification_body_settings_screen"
+							android:title="@string/notification_body_settings_text"
+							android:dependency="twitter_enabled">	
+							<CheckBoxPreference 
+								android:key="twitter_hide_notification_body_enabled" 
+								android:title="@string/preference_hide_notification_body_enabled_title" 
+								android:summaryOn="@string/preference_hide_notification_body_enabled_summaryOn" 
+								android:summaryOff="@string/preference_hide_notification_body_enabled_summaryOff" 
+								android:defaultValue="false" />	
+						</PreferenceScreen>
+					</PreferenceCategory>
+					<PreferenceCategory
+						android:key="twitter_button_settings_category"
+						android:title="@string/button_settings_text">
+						<PreferenceScreen
+							android:key="twitter_button_settings_screen"
+							android:title="@string/button_settings_text"
+							android:dependency="twitter_enabled">
+							<CheckBoxPreference
+								android:key="confirm_twitter_deletion" 
+								android:title="@string/preference_confirm_deletion_title" 
+								android:summary="@string/preference_confirm_deletion_summary"
+								android:defaultValue="true" />
+							<ListPreference
+								android:key="twitter_delete_button_action"
+								android:title="@string/preference_delete_button_action"
+								android:summary="@string/preference_delete_button_action_summary"
+								android:defaultValue="0"
+								android:entries="@array/twitter_delete_button_options"
+								android:entryValues="@array/twitter_delete_button_options_values"/>
+							<ListPreference
+								android:key="twitter_reply_button_action"
+								android:title="@string/preference_reply_button_action"
+								android:summary="@string/preference_reply_button_action_summary"
+								android:defaultValue="0"
+								android:entries="@array/twitter_reply_button_options"
+								android:entryValues="@array/twitter_reply_button_options_values"/>
+							<ListPreference
+								android:key="twitter_notification_count_action"
+								android:title="@string/preference_notification_count_button_action"
+								android:summary="@string/preference_notification_count_button_action_summary"
+								android:defaultValue="0"
+								android:entries="@array/twitter_notification_count_button_options"
+								android:entryValues="@array/twitter_notification_count_button_options_values"/>	
+							<PreferenceCategory
+								android:key="twitter_show_hide_buttons_settings_category"
+								android:title="@string/show_hide_button_settings_text">	
+								<PreferenceScreen
+									android:key="twitter_show_hide_buttons_settings_screen"
+									android:title="@string/show_hide_button_settings_text">
+									<CheckBoxPreference 
+										android:key="twitter_display_dismiss_button" 
+										android:title="@string/preference_display_dismiss_button_title" 
+										android:summary="@string/preference_display_dismiss_button_summary"
+										android:defaultValue="true" />
+									<CheckBoxPreference 
+										android:key="twitter_display_delete_button" 
+										android:title="@string/preference_display_delete_button_title" 
+										android:summary="@string/preference_display_delete_button_summary"
+										android:defaultValue="true" />
+									<CheckBoxPreference 
+										android:key="twitter_display_reply_button" 
+										android:title="@string/preference_display_reply_button_title" 
+										android:summary="@string/preference_display_reply_button_summary"
+										android:defaultValue="true" />
+									<CheckBoxPreference 
+										android:key="twitter_display_view_button" 
+										android:title="@string/preference_display_view_button_title" 
+										android:summary="@string/preference_display_view_button_summary"
+										android:defaultValue="true" />
+								</PreferenceScreen>
+							</PreferenceCategory>
+						</PreferenceScreen>	
+					</PreferenceCategory>
 				</PreferenceScreen>
 		  	</PreferenceCategory>
  			<PreferenceCategory

@@ -600,6 +600,7 @@ public class Common {
 
 	/**
 	 * Read the phones Calendars and return the information on them.
+	 * @param context - The 
 	 * 
 	 * @return String - A string of the available Calendars. Specially formatted string with the Calendar information.
 	 */
@@ -649,7 +650,12 @@ public class Common {
 	/**
 	 * Place a phone call.
 	 * 
-	 * @param phoneNumber - The phone number we want to send a place a call to.
+	 * @param context - Application Context.
+	 * @param notificationActivity - A reference to the parent activity.
+	 * @param phoneNumber - The phone number we want to send a message to.
+	 * @param requestCode - The request code we want returned.
+	 * 
+	 * @return boolean - Returns true if the application can be launched.
 	 */
 	public static boolean makePhoneCall(Context context, NotificationActivity notificationActivity, String phoneNumber, int requestCode){
 		_debug = Log.getDebug();
@@ -679,8 +685,9 @@ public class Common {
 	 * 
 	 * @param context - Application Context.
 	 * @param notificationActivity - A reference to the parent activity.
-	 * @param phoneNumber - The phone number we want to send a message to.
 	 * @param requestCode - The request code we want returned.
+	 * @param sendTo - The number/address/screen name we want to send a reply to.
+	 * @param name - The name of the contact we are sending a reply to.
 	 * 
 	 * @return boolean - Returns true if the activity can be started.
 	 */
@@ -722,21 +729,21 @@ public class Common {
 	 * 
 	 * @param context - Application Context.
 	 * @param notificationActivity - A reference to the parent activity.
-	 * @param phoneNumber - The phone number we want to send a message to.
+	 * @param phoneNumber - The number/address/screen name we want to send a message to.
 	 * @param requestCode - The request code we want returned.
 	 * 
 	 * @return boolean - Returns true if the activity can be started.
 	 */
-	public static boolean startMessagingAppReplyActivity(Context context, NotificationActivity notificationActivity, String phoneNumber, int requestCode){
+	public static boolean startMessagingAppReplyActivity(Context context, NotificationActivity notificationActivity, String sendTo, int requestCode){
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.startMessagingAppReplyActivity()");
-		if(phoneNumber == null){
+		if(sendTo == null){
 			Toast.makeText(context, context.getString(R.string.app_android_reply_messaging_address_error), Toast.LENGTH_LONG).show();
 			return false;
 		}
 		try{
 			Intent intent = new Intent(Intent.ACTION_SENDTO);
-		    intent.setData(Uri.parse("smsto:" + phoneNumber));
+		    intent.setData(Uri.parse("smsto:" + sendTo));
 		    // Exit the app once the SMS is sent.
 		    intent.putExtra("compose_mode", true);
 	        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
@@ -1302,7 +1309,7 @@ public class Common {
 	 * @param calendarEventStartTime - The calendar event start time.
 	 * @param calendarEventEndTime - The calendar event end time.
 	 */
-	public static void setStatusBarNotification(Context context, int notificationType, boolean callStateIdle, String sentFromContactName, String sentFromAddress, String message, String k9EmailUri){
+	public static void setStatusBarNotification(Context context, int notificationType, int notificationSubType, boolean callStateIdle, String sentFromContactName, String sentFromAddress, String message, String k9EmailUri){
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.setStatusBarNotification() sentFromContactName: " + sentFromContactName + " sentFromAddress: " + sentFromAddress + " message: " + message);
 		try{
@@ -1582,26 +1589,34 @@ public class Common {
 						sentFrom = sentFromContactName;
 					}
 					if( (sentFrom == null || sentFrom.equals("")) && (message == null || message.equals("")) ){
-						contentText = context.getString(R.string.status_bar_notification_content_text_email_null);
-						tickerText = context.getString(R.string.status_bar_notification_ticker_text_email_null);
+						if(notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE){
+							contentText = context.getString(R.string.status_bar_notification_content_text_twitter_direct_message_null);
+							tickerText = context.getString(R.string.status_bar_notification_ticker_text_twitter_direct_message_null);
+						}else if(notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_MENTION){
+							contentText = context.getString(R.string.status_bar_notification_content_text_twitter_mention_null);
+							tickerText = context.getString(R.string.status_bar_notification_ticker_text_twitter_mention_null);
+						}
 						//Content Intent
 						notificationContentIntent = null;
 						//For now, don't display empty status bar notifications.
 						return;
 					}else{
-						contentText = context.getString(R.string.status_bar_notification_content_text_email, sentFrom, message);
-						if(sentFromContactName == null || sentFromContactName.equals("")){
-							tickerText = context.getString(R.string.status_bar_notification_ticker_text_unknown_contact_email, message);
-						}else{
-							tickerText = context.getString(R.string.status_bar_notification_ticker_text_email, sentFromContactName, message);
+						if(notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE){
+							contentText = context.getString(R.string.status_bar_notification_content_text_twitter_direct_message, sentFrom, message);
+							if(sentFromContactName == null || sentFromContactName.equals("")){
+								tickerText = context.getString(R.string.status_bar_notification_ticker_text_unknown_contact_twitter_direct_message, message);
+							}else{
+								tickerText = context.getString(R.string.status_bar_notification_ticker_text_twitter_direct_message, sentFromContactName, message);
+							}
+						}else if(notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_MENTION){
+							contentText = context.getString(R.string.status_bar_notification_content_text_twitter_mention, sentFrom, message);
+							if(sentFromContactName == null || sentFromContactName.equals("")){
+								tickerText = context.getString(R.string.status_bar_notification_ticker_text_unknown_contact_twitter_mention, message);
+							}else{
+								tickerText = context.getString(R.string.status_bar_notification_ticker_text_twitter_mention, sentFromContactName, message);
+							}
 						}
-						//Content Intent
-						//if(k9EmailUri!= null){
-						//	notificationContentIntent = new Intent(Intent.ACTION_VIEW);
-						//	notificationContentIntent.setData(Uri.parse(k9EmailUri));
-						//}else{
-							notificationContentIntent = null;
-						//}
+						notificationContentIntent = null;
 					}
 					//Delete Intent
 					notificationDeleteIntent = null;
@@ -1859,7 +1874,12 @@ public class Common {
 					break;
 				}
 				case Constants.NOTIFICATION_TYPE_TWITTER:{
-		
+					if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_twitter_grey")){
+						icon = R.drawable.status_bar_notification_twitter_grey;
+					}else{
+						//Default Value
+						icon = R.drawable.status_bar_notification_twitter_grey;
+					}
 					break;
 				}
 				case Constants.NOTIFICATION_TYPE_FACEBOOK:{
@@ -2976,6 +2996,8 @@ public class Common {
 	 * @param notification - The Notification to reschedule.
 	 * @param rescheduleTime - The time we want the notification to be rescheduled.
 	 * @param rescheduleNumber - The reschedule attempt (in case we need to keep track).
+	 * 
+	 * @return PendingIntent - The Pending Intent used in the Alarm Manager.
 	 */
 	public static PendingIntent rescheduleNotification(Context context, apps.droidnotify.Notification notification, long rescheduleTime, int rescheduleNumber){
 		_debug = Log.getDebug();
@@ -3004,6 +3026,7 @@ public class Common {
 		//[16]-K9EmailDelUri
 		//[17]-LookupKey
 		//[18]-PhotoID
+		//[19]-NotificationSubType
 		//========================================================
 		String sentFromAddress = notification.getSentFromAddress();
 		String messageBody = notification.getMessageBody();
@@ -3026,8 +3049,9 @@ public class Common {
 		String k9EmailDelUri = notification.getK9EmailDelUri();
 		String lookupKey = notification.getLookupKey();
 		long photoID = notification.getPhotoID();
+		int notificationSubType = notification.getNotificationSubType();
 		//Build Notification Information String Array.
-		String[] rescheduleNotificationInfo = new String[] {String.valueOf(notificationType), sentFromAddress, messageBody, String.valueOf(timeStamp), String.valueOf(threadID), String.valueOf(contactID), contactName, String.valueOf(messageID), title, String.valueOf(calendarID), String.valueOf(calendarEventID), String.valueOf(calendarEventStartTime), String.valueOf(calendarEventEndTime), allDay, String.valueOf(callLogID), k9EmailUri, k9EmailDelUri, lookupKey, String.valueOf(photoID)};
+		String[] rescheduleNotificationInfo = new String[] {String.valueOf(notificationType), sentFromAddress, messageBody, String.valueOf(timeStamp), String.valueOf(threadID), String.valueOf(contactID), contactName, String.valueOf(messageID), title, String.valueOf(calendarID), String.valueOf(calendarEventID), String.valueOf(calendarEventStartTime), String.valueOf(calendarEventEndTime), allDay, String.valueOf(callLogID), k9EmailUri, k9EmailDelUri, lookupKey, String.valueOf(photoID), String.valueOf(notificationSubType)};
 		AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 		Intent rescheduleIntent = new Intent(context, RescheduleReceiver.class);
 		Bundle rescheduleBundle = new Bundle();
@@ -3204,7 +3228,7 @@ public class Common {
 			AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 			Intent intent = new Intent(context, CalendarAlarmReceiver.class);
 			PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
-			long pollingFrequency = Long.parseLong(preferences.getString(Constants.CALENDAR_POLLING_FREQUENCY_KEY, "15")) * 60 * 1000;
+			long pollingFrequency = Long.parseLong(preferences.getString(Constants.CALENDAR_POLLING_FREQUENCY_KEY, Constants.CALENDAR_POLLING_FREQUENCY_DEFAULT)) * 60 * 1000;
 			alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, alarmStartTime, pollingFrequency, pendingIntent);
 		}catch(Exception ex){
 			if (_debug) Log.e("Common.startCalendarAlarmManager() ERROR: " + ex.toString());

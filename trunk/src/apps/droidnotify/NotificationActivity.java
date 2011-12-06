@@ -749,7 +749,7 @@ public class NotificationActivity extends Activity {
 		    	Common.setInLinkedAppFlag(_context, false);
 		        break;
 		    }
-		    case Constants.TWITTER_VIEW_INBOX_ACTIVITY:{
+		    case Constants.TWITTER_OPEN_APP_ACTIVITY:{
 		    	if (resultCode == RESULT_OK) {
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() TWITTER_VIEW_INBOX_ACTIVITY: RESULT_OK");
 		        	//Remove notification from ViewFlipper.
@@ -1266,10 +1266,10 @@ public class NotificationActivity extends Activity {
 		String sentFromTwitterName = "Tweet User";
 		String twitterTestMessage = "Twitter Test Direct Message";
 		String twitterTestMention = "Twitter Test Mention";
-		String sentFromFacebook = "Facebooktest";
-		String sentFromFacebookName = "Facebook User";
-		String facebookTestNotification = "Facebook Test Notification";
-		String facebookTestFriendRequest = "Facebook Test Friend Request";
+//		String sentFromFacebook = "Facebooktest";
+//		String sentFromFacebookName = "Facebook User";
+//		String facebookTestNotification = "Facebook Test Notification";
+//		String facebookTestFriendRequest = "Facebook Test Friend Request";
 		//String facebookTestMessage = "Facebook Test Message";
 		String sentFromEmail = "test@gmail.com";
 		String emailTestMessage = "Email Test Message";
@@ -1281,7 +1281,7 @@ public class NotificationActivity extends Activity {
 			Notification smsNotification = new Notification(_context, sentFromAddress, smsTestMessage, System.currentTimeMillis(), Constants.NOTIFICATION_TYPE_SMS);
 			notificationViewFlipper.addNotification(smsNotification);
 			//Display Status Bar Notification
-		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_SMS, true, null, sentFromAddress, smsTestMessage, null);
+		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_SMS, 0, true, null, sentFromAddress, smsTestMessage, null);
 		}
 		if(_preferences.getBoolean(Constants.MMS_NOTIFICATIONS_ENABLED_KEY, true)){
 			notificationDisplayed = true;
@@ -1289,7 +1289,7 @@ public class NotificationActivity extends Activity {
 			Notification smsNotification = new Notification(_context, sentFromAddress, mmsTestMessage, System.currentTimeMillis(), Constants.NOTIFICATION_TYPE_MMS);
 			notificationViewFlipper.addNotification(smsNotification);
 			//Display Status Bar Notification
-		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_MMS, true, null, sentFromAddress, mmsTestMessage, null);
+		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_MMS, 0, true, null, sentFromAddress, mmsTestMessage, null);
 		}
 	    if(_preferences.getBoolean(Constants.PHONE_NOTIFICATIONS_ENABLED_KEY, true)){
 			notificationDisplayed = true;
@@ -1297,7 +1297,7 @@ public class NotificationActivity extends Activity {
 			Notification missedCallNotification = new Notification(_context, 0, sentFromAddress, System.currentTimeMillis(), 0, "", 0, "", Constants.NOTIFICATION_TYPE_PHONE);
 			notificationViewFlipper.addNotification(missedCallNotification);
 			//Display Status Bar Notification
-		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_PHONE, true, null, sentFromAddress, null, null);
+		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_PHONE, 0, true, null, sentFromAddress, null, null);
 	    }
 	    if(_preferences.getBoolean(Constants.CALENDAR_NOTIFICATIONS_ENABLED_KEY, true)){
 			notificationDisplayed = true;
@@ -1305,7 +1305,7 @@ public class NotificationActivity extends Activity {
 			Notification calendarEventNotification = new Notification(_context, calendarTestEvent, calendarTestEventBody, System.currentTimeMillis(), System.currentTimeMillis() + (10 * 60 * 1000), false, calendarTestCalendar,  0, 0, Constants.NOTIFICATION_TYPE_CALENDAR);
 			notificationViewFlipper.addNotification(calendarEventNotification);	
 			//Display Status Bar Notification
-		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_CALENDAR, true, null, null, calendarTestEvent, null);
+		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_CALENDAR, 0, true, null, null, calendarTestEvent, null);
 	    }
 	    if(_preferences.getBoolean(Constants.TWITTER_NOTIFICATIONS_ENABLED_KEY, true)){
 	    	if(_preferences.getBoolean(Constants.TWITTER_DIRECT_MESSAGES_ENABLED_KEY, true)){
@@ -1314,7 +1314,7 @@ public class NotificationActivity extends Activity {
 				Notification twitterNotification = new Notification(_context, sentFromTwitter, 0, twitterTestMessage, System.currentTimeMillis(), 0, sentFromTwitterName, 0, 0, null, null, null, Constants.NOTIFICATION_TYPE_TWITTER, Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE);
 				notificationViewFlipper.addNotification(twitterNotification);
 				//Display Status Bar Notification
-			    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_TWITTER, true, null, sentFromTwitter, twitterTestMessage, null);
+			    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_TWITTER, Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE, true, null, sentFromTwitter, twitterTestMessage, null);
 	    	}
 	    	if(_preferences.getBoolean(Constants.TWITTER_MENTIONS_ENABLED_KEY, true)){
 				notificationDisplayed = true;
@@ -1322,50 +1322,50 @@ public class NotificationActivity extends Activity {
 				Notification twitterNotification = new Notification(_context, sentFromTwitter, 0, twitterTestMention, System.currentTimeMillis(), 0, sentFromTwitterName, 0, 0, null, null, null, Constants.NOTIFICATION_TYPE_TWITTER, Constants.NOTIFICATION_TYPE_TWITTER_MENTION);
 				notificationViewFlipper.addNotification(twitterNotification);
 				//Display Status Bar Notification
-			    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_TWITTER, true, null, sentFromTwitter, twitterTestMention, null);
+			    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_TWITTER, Constants.NOTIFICATION_TYPE_TWITTER_MENTION, true, null, sentFromTwitter, twitterTestMention, null);
 	    	}
-	    	if(_preferences.getBoolean(Constants.TWITTER_FOLOWERS_ENABLED_KEY, true)){
-				notificationDisplayed = true;
-				//Add Twitter Message Notification.
-				Notification twitterNotification = new Notification(_context, sentFromTwitter, 0, twitterTestMention, System.currentTimeMillis(), 0, sentFromTwitterName, 0, 0, null, null, null, Constants.NOTIFICATION_TYPE_TWITTER, Constants.NOTIFICATION_TYPE_TWITTER_FOLLOWER);
-				notificationViewFlipper.addNotification(twitterNotification);
-				//Display Status Bar Notification
-			    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_TWITTER, true, null, sentFromTwitter, twitterTestMention, null);
-	    	}
-	    	if(_preferences.getBoolean(Constants.TWITTER_RETWEETS_ENABLED_KEY, true)){
-				notificationDisplayed = true;
-				//Add Twitter Message Notification.
-				Notification twitterNotification = new Notification(_context, sentFromTwitter, 0, twitterTestMention, System.currentTimeMillis(), 0, sentFromTwitterName, 0, 0, null, null, null, Constants.NOTIFICATION_TYPE_TWITTER, Constants.NOTIFICATION_TYPE_TWITTER_RETWEET);
-				notificationViewFlipper.addNotification(twitterNotification);
-				//Display Status Bar Notification
-			    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_TWITTER, true, null, sentFromTwitter, twitterTestMention, null);
-	    	}
-	    	if(_preferences.getBoolean(Constants.TWITTER_REPLY_TWEETS_ENABLED_KEY, true)){
-				notificationDisplayed = true;
-				//Add Twitter Message Notification.
-				Notification twitterNotification = new Notification(_context, sentFromTwitter, 0, twitterTestMention, System.currentTimeMillis(), 0, sentFromTwitterName, 0, 0, null, null, null, Constants.NOTIFICATION_TYPE_TWITTER, Constants.NOTIFICATION_TYPE_TWITTER_REPLY_TWEET);
-				notificationViewFlipper.addNotification(twitterNotification);
-				//Display Status Bar Notification
-			    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_TWITTER, true, null, sentFromTwitter, twitterTestMention, null);
-	    	}
+//	    	if(_preferences.getBoolean(Constants.TWITTER_FOLOWERS_ENABLED_KEY, true)){
+//				notificationDisplayed = true;
+//				//Add Twitter Message Notification.
+//				Notification twitterNotification = new Notification(_context, sentFromTwitter, 0, twitterTestMention, System.currentTimeMillis(), 0, sentFromTwitterName, 0, 0, null, null, null, Constants.NOTIFICATION_TYPE_TWITTER, Constants.NOTIFICATION_TYPE_TWITTER_FOLLOWER);
+//				notificationViewFlipper.addNotification(twitterNotification);
+//				//Display Status Bar Notification
+//			    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_TWITTER, Constants.NOTIFICATION_TYPE_TWITTER_FOLLOWER, true, null, sentFromTwitter, twitterTestMention, null);
+//	    	}
+//	    	if(_preferences.getBoolean(Constants.TWITTER_RETWEETS_ENABLED_KEY, true)){
+//				notificationDisplayed = true;
+//				//Add Twitter Message Notification.
+//				Notification twitterNotification = new Notification(_context, sentFromTwitter, 0, twitterTestMention, System.currentTimeMillis(), 0, sentFromTwitterName, 0, 0, null, null, null, Constants.NOTIFICATION_TYPE_TWITTER, Constants.NOTIFICATION_TYPE_TWITTER_RETWEET);
+//				notificationViewFlipper.addNotification(twitterNotification);
+//				//Display Status Bar Notification
+//			    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_TWITTER, Constants.NOTIFICATION_TYPE_TWITTER_RETWEET, true, null, sentFromTwitter, twitterTestMention, null);
+//	    	}
+//	    	if(_preferences.getBoolean(Constants.TWITTER_REPLY_TWEETS_ENABLED_KEY, true)){
+//				notificationDisplayed = true;
+//				//Add Twitter Message Notification.
+//				Notification twitterNotification = new Notification(_context, sentFromTwitter, 0, twitterTestMention, System.currentTimeMillis(), 0, sentFromTwitterName, 0, 0, null, null, null, Constants.NOTIFICATION_TYPE_TWITTER, Constants.NOTIFICATION_TYPE_TWITTER_REPLY_TWEET);
+//				notificationViewFlipper.addNotification(twitterNotification);
+//				//Display Status Bar Notification
+//			    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_TWITTER, Constants.NOTIFICATION_TYPE_TWITTER_REPLY_TWEET, true, null, sentFromTwitter, twitterTestMention, null);
+//	    	}
 	    }
 	    if(_preferences.getBoolean(Constants.FACEBOOK_NOTIFICATIONS_ENABLED_KEY, true)){
-	    	if(_preferences.getBoolean(Constants.FACEBOOK_DIRECT_MESSAGES_ENABLED_KEY, true)){
-				notificationDisplayed = true;
-				//Add Facebook Message Notification.
-				Notification facebookNotification = new Notification(_context, sentFromFacebook, 0, facebookTestNotification, System.currentTimeMillis(), 0, sentFromFacebookName, 0, 0, null, null, null, Constants.NOTIFICATION_TYPE_FACEBOOK, Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION);
-				notificationViewFlipper.addNotification(facebookNotification);
-				//Display Status Bar Notification
-			    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_FACEBOOK, true, null, sentFromFacebook, facebookTestNotification, null);
-	    	}
-		    if(_preferences.getBoolean(Constants.FACEBOOK_FRIEND_REQUESTS_ENABLED_KEY, true)){
-		    	notificationDisplayed = true;
-				//Add Facebook Message Notification.
-				Notification facebookNotification = new Notification(_context, sentFromFacebook, 0, facebookTestFriendRequest, System.currentTimeMillis(), 0, sentFromFacebookName, 0, 0, null, null, null, Constants.NOTIFICATION_TYPE_FACEBOOK, Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST);
-				notificationViewFlipper.addNotification(facebookNotification);
-				//Display Status Bar Notification
-			    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_FACEBOOK, true, null, sentFromFacebook, facebookTestFriendRequest, null);
-	    	}
+//	    	if(_preferences.getBoolean(Constants.FACEBOOK_USER_NOTIFICATIONS_ENABLED_KEY, true)){
+//				notificationDisplayed = true;
+//				//Add Facebook Message Notification.
+//				Notification facebookNotification = new Notification(_context, sentFromFacebook, 0, facebookTestNotification, System.currentTimeMillis(), 0, sentFromFacebookName, 0, 0, null, null, null, Constants.NOTIFICATION_TYPE_FACEBOOK, Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION);
+//				notificationViewFlipper.addNotification(facebookNotification);
+//				//Display Status Bar Notification
+//			    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_FACEBOOK, Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION, true, null, sentFromFacebook, facebookTestNotification, null);
+//	    	}
+//		    if(_preferences.getBoolean(Constants.FACEBOOK_FRIEND_REQUESTS_ENABLED_KEY, true)){
+//		    	notificationDisplayed = true;
+//				//Add Facebook Message Notification.
+//				Notification facebookNotification = new Notification(_context, sentFromFacebook, 0, facebookTestFriendRequest, System.currentTimeMillis(), 0, sentFromFacebookName, 0, 0, null, null, null, Constants.NOTIFICATION_TYPE_FACEBOOK, Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST);
+//				notificationViewFlipper.addNotification(facebookNotification);
+//				//Display Status Bar Notification
+//			    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_FACEBOOK, Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST, true, null, sentFromFacebook, facebookTestFriendRequest, null);
+//	    	}
 	    }
 	    if(_preferences.getBoolean(Constants.K9_NOTIFICATIONS_ENABLED_KEY, true)){
 			notificationDisplayed = true;
@@ -1373,7 +1373,7 @@ public class NotificationActivity extends Activity {
 			Notification k9Notification = new Notification(_context, sentFromEmail, emailTestMessage, System.currentTimeMillis(), Constants.NOTIFICATION_TYPE_K9);
 			notificationViewFlipper.addNotification(k9Notification);
 			//Display Status Bar Notification
-		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_K9, true, null, sentFromEmail, emailTestMessage, null);
+		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_K9, 0, true, null, sentFromEmail, emailTestMessage, null);
 	    }
 	    if(!notificationDisplayed){
 	    	Toast.makeText(_context, R.string.test_notifications_disabled_message, Toast.LENGTH_LONG);
@@ -1595,7 +1595,7 @@ public class NotificationActivity extends Activity {
 			}
     		_notificationViewFlipper.addNotification(new Notification(_context, messageAddress, messageBody, messageID, threadID, timeStamp, contactID, contactName, photoID, lookupKey, Constants.NOTIFICATION_TYPE_SMS));
 		    //Display Status Bar Notification
-		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_SMS, true, contactName, messageAddress, messageBody, null);
+		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_SMS, 0, true, contactName, messageAddress, messageBody, null);
 		}
 		if(loadAllNew){
 			//Load all unread SMS messages.
@@ -1662,7 +1662,7 @@ public class NotificationActivity extends Activity {
 			}
     		_notificationViewFlipper.addNotification(new Notification(_context, messageAddress, messageBody, messageID, threadID, timeStamp, contactID, contactName, photoID, lookupKey, Constants.NOTIFICATION_TYPE_MMS));
 		    //Display Status Bar Notification
-		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_MMS, true, contactName, messageAddress, messageBody, null);
+		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_MMS, 0, true, contactName, messageAddress, messageBody, null);
 		}
 		if(loadAllNew){
 			//Load all unread MMS messages.
@@ -1990,7 +1990,7 @@ public class NotificationActivity extends Activity {
 			}
 			_notificationViewFlipper.addNotification(new Notification(_context, callLogID, phoneNumber, timeStamp, contactID, contactName, photoID, lookupKey, Constants.NOTIFICATION_TYPE_PHONE));		    
 			//Display Status Bar Notification
-		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_PHONE, true, contactName, phoneNumber, null, null);
+		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_PHONE, 0, true, contactName, phoneNumber, null, null);
 		}
 	    return true;
 	}
@@ -2033,7 +2033,7 @@ public class NotificationActivity extends Activity {
 		}
 		_notificationViewFlipper.addNotification(new Notification(_context, title, messageBody, eventStartTime, eventEndTime, eventAllDay, calendarName, calendarID, eventID, Constants.NOTIFICATION_TYPE_CALENDAR));
 		//Display Status Bar Notification
-	    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_CALENDAR, true, null, null, title, null);
+	    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_CALENDAR, 0, true, null, null, title, null);
 	    return true;
 	}
 	
@@ -2094,7 +2094,7 @@ public class NotificationActivity extends Activity {
 			}
 			_notificationViewFlipper.addNotification(new Notification(_context, sentFromAddress, 0, messageBody, timeStamp, contactID, contactName, photoID, messageID, lookupKey, k9EmailUri, k9EmailDelUri, Constants.NOTIFICATION_TYPE_K9, 0));		    
 			//Display Status Bar Notification
-		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_K9, true, contactName, sentFromAddress, messageBody, k9EmailUri);
+		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_K9, 0, true, contactName, sentFromAddress, messageBody, k9EmailUri);
 		}
 	    return true;
 	}
@@ -2156,7 +2156,7 @@ public class NotificationActivity extends Activity {
 			}
 			_notificationViewFlipper.addNotification(new Notification(_context, sentFromAddress, sentFromID, messageBody, timeStamp, contactID, contactName, photoID, messageID, lookupKey, null, null, Constants.NOTIFICATION_TYPE_TWITTER, notificationSubType));		    
 			//Display Status Bar Notification
-		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_TWITTER, true, contactName, sentFromAddress, messageBody, null);
+		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_TWITTER, notificationSubType, true, contactName, sentFromAddress, messageBody, null);
 		}
 	    return true;
 	}
@@ -2218,7 +2218,7 @@ public class NotificationActivity extends Activity {
 			}
 			_notificationViewFlipper.addNotification(new Notification(_context, sentFromAddress, sentFromID, messageBody, timeStamp, contactID, contactName, photoID, messageID, lookupKey, null, null, Constants.NOTIFICATION_TYPE_FACEBOOK, notificationSubType));		    
 			//Display Status Bar Notification
-		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_FACEBOOK, true, contactName, sentFromAddress, messageBody, null);
+		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_FACEBOOK, notificationSubType, true, contactName, sentFromAddress, messageBody, null);
 		}
 	    return true;
 	}
@@ -2254,6 +2254,7 @@ public class NotificationActivity extends Activity {
 		//[16]-K9EmailDelUri
 		//[17]-LookupKey
 		//[18]-PhotoID
+		//[19]-NotificationSubType
 		//========================================================
 		//int notificationType = Integer.parseInt(rescheduleNotificationInfo[0]) - 100;
 		String sentFromAddress = rescheduleNotificationInfo[1];
@@ -2277,40 +2278,41 @@ public class NotificationActivity extends Activity {
 		String k9EmailDelUri = rescheduleNotificationInfo[16];
 		String lookupKey = rescheduleNotificationInfo[17];
 		long photoID = Long.parseLong(rescheduleNotificationInfo[18]);
-		Notification rescheduleNotification = new Notification(_context, sentFromAddress, messageBody, timeStamp, threadID, contactID, contactName, photoID, messageID, title, calendarID, calendarEventID, calendarEventStartTime, calendarEventEndTime, allDay, callLogID,  lookupKey, k9EmailUri, k9EmailDelUri, rescheduleNumber, notificationType);
+		int notificationSubType = Integer.parseInt(rescheduleNotificationInfo[19]);
+		Notification rescheduleNotification = new Notification(_context, sentFromAddress, messageBody, timeStamp, threadID, contactID, contactName, photoID, messageID, title, calendarID, calendarEventID, calendarEventStartTime, calendarEventEndTime, allDay, callLogID,  lookupKey, k9EmailUri, k9EmailDelUri, rescheduleNumber, notificationType, notificationSubType);
 		_notificationViewFlipper.addNotification(rescheduleNotification);
 		//Display Status Bar Notification
 	    switch(notificationType){
 	    	case Constants.NOTIFICATION_TYPE_PHONE:{
-	    		Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_PHONE, true, contactName, sentFromAddress, null, null);
+	    		Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_PHONE, 0, true, contactName, sentFromAddress, null, null);
 		    	break;
 		    }
 	    	case Constants.NOTIFICATION_TYPE_SMS:{
-	    		Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_SMS, true, contactName, sentFromAddress, messageBody, null);
+	    		Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_SMS, 0, true, contactName, sentFromAddress, messageBody, null);
 		    	break;
 		    }
 	    	case Constants.NOTIFICATION_TYPE_MMS:{
-	    		Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_SMS, true, contactName, sentFromAddress, messageBody, null);
+	    		Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_SMS, 0, true, contactName, sentFromAddress, messageBody, null);
 		    	break;
 		    }
 	    	case Constants.NOTIFICATION_TYPE_CALENDAR:{
-	    		Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_CALENDAR, true, null, null, title, null);
+	    		Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_CALENDAR, 0, true, null, null, title, null);
 		    	break;
 		    }
 	    	case Constants.NOTIFICATION_TYPE_GMAIL:{
-	    		Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_GMAIL, true, contactName, sentFromAddress, messageBody, null);
+	    		Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_GMAIL, 0, true, contactName, sentFromAddress, messageBody, null);
 		    	break;
 		    }
 			case Constants.NOTIFICATION_TYPE_TWITTER:{
-				Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_TWITTER, true, contactName, sentFromAddress, messageBody, null);
+				Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_TWITTER, notificationSubType, true, contactName, sentFromAddress, messageBody, null);
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_FACEBOOK:{
-				Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_FACEBOOK, true, contactName, sentFromAddress, messageBody, null);
+				Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_FACEBOOK, notificationSubType, true, contactName, sentFromAddress, messageBody, null);
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_K9:{
-				Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_K9, true, contactName, sentFromAddress, messageBody, k9EmailUri);
+				Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_K9, 0, true, contactName, sentFromAddress, messageBody, k9EmailUri);
 				break;
 		    }
 	    }

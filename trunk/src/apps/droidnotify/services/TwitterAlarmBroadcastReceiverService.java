@@ -113,7 +113,7 @@ public class TwitterAlarmBroadcastReceiverService extends WakefulIntentService {
 								if(arraySize >= 8) contactName = twitterInfo[7];
 			    			}
 							//Display Status Bar Notification
-						    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE, callStateIdle, contactName, messageAddress, messageBody, null);
+						    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_TWITTER, Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE, callStateIdle, contactName, messageAddress, messageBody, null);
 				    	}
 					}else{
 						if (_debug) Log.v("TwitterAlarmBroadcastReceiverService.doWakefulWork() No Twitter Direct Messages were found. Exiting...");
@@ -131,7 +131,7 @@ public class TwitterAlarmBroadcastReceiverService extends WakefulIntentService {
 								if(arraySize >= 8) contactName = twitterInfo[7];
 			    			}
 							//Display Status Bar Notification
-						    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_TWITTER_MENTION, callStateIdle, contactName, messageAddress, messageBody, null);
+						    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_TWITTER, Constants.NOTIFICATION_TYPE_TWITTER_MENTION, callStateIdle, contactName, messageAddress, messageBody, null);
 				    	}
 					}else{
 						if (_debug) Log.v("TwitterAlarmBroadcastReceiverService.doWakefulWork() No Twitter Mentions were found. Exiting...");
