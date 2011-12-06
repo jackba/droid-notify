@@ -3,24 +3,24 @@
 
     <!-- SMS Preferences Arrays --> 
     <string-array name="sms_dismiss_button_options">
-		<item name="0">@string/mark_as_read_text</item>
-		<item name="1">@string/nothing_text</item>
+		<item name="0">@string/nothing_text</item>
+		<item name="1">@string/mark_as_read_text</item>
 	</string-array>
 	
 	<string-array name="sms_dismiss_button_options_values">
-		<item name="0">0</item>
-		<item name="1">1</item>
+		<item name="0">1</item>
+		<item name="1">0</item>
 	</string-array>
     <string-array name="sms_delete_button_options">
+		<item name="2">@string/nothing_text</item>
 		<item name="0">@string/delete_message_text</item>
 		<item name="1">@string/delete_thread_text</item>
-		<item name="2">@string/nothing_text</item>
 	</string-array>
 	
 	<string-array name="sms_delete_button_options_values">
-		<item name="0">0</item>
-		<item name="1">1</item>
-		<item name="2">2</item>
+		<item name="0">2</item>
+		<item name="1">0</item>
+		<item name="2">1</item>
 	</string-array>
     <string-array name="sms_reply_button_options">
     	<item name="0">@string/use_installed_messaging_app_text</item>
@@ -90,12 +90,12 @@
 		
 	<!-- MMS Preferences Arrays --> 
     <string-array name="mms_dismiss_button_options">
-		<item name="0">@string/mark_as_read_text</item>
-		<item name="1">@string/nothing_text</item>
+		<item name="0">@string/nothing_text</item>
+		<item name="1">@string/mark_as_read_text</item>
 	</string-array>
 	<string-array name="mms_dismiss_button_options_values">
-		<item name="0">0</item>
-		<item name="1">1</item>
+		<item name="0">1</item>
+		<item name="1">0</item>
 	</string-array>
 	
     <string-array name="mms_delete_button_options">
@@ -152,14 +152,14 @@
 	
 	<!-- Missed Call Preferences Arrays --> 
     <string-array name="missed_call_dismiss_button_options">
-		<item name="0">@string/mark_as_read_text</item>
-		<item name="1">@string/delete_from_call_log_text</item>
-		<item name="2">@string/nothing_text</item>
+		<item name="0">@string/nothing_text</item>
+		<item name="1">@string/mark_as_read_text</item>
+		<item name="2">@string/delete_from_call_log_text</item>
 	</string-array>
 	<string-array name="missed_call_dismiss_button_options_values">
-		<item name="0">0</item>
-		<item name="1">1</item>
-		<item name="2">2</item>
+		<item name="0">2</item>
+		<item name="1">0</item>
+		<item name="2">1</item>
 	</string-array>
 	
     <string-array name="call_log_timeout_options">
@@ -210,7 +210,7 @@
 	</string-array>
 	
 	<!-- Calendar Event Preferences Arrays --> 
-    <string-array name="calendar_polling_frequency_options">
+    <string-array name="polling_frequency_options">
 		<item name="0">@string/s5_minutes_text</item>
 		<item name="1">@string/s10_minutes_text</item>
 		<item name="2">@string/s15_minutes_text</item>
@@ -232,7 +232,7 @@
 		<item name="18">@string/s12_hours_text</item>
 		<item name="19">@string/s24_hours_text</item>
 	</string-array>
-	<string-array name="calendar_polling_frequency_options_values">
+	<string-array name="polling_frequency_options_values">
 		<item name="0">5</item>
 		<item name="1">10</item>
 		<item name="2">15</item>
@@ -417,12 +417,12 @@
 	</string-array>
 	
     <string-array name="k9_delete_button_options">
-		<item name="0">@string/delete_message_text</item>
-		<item name="1">@string/nothing_text</item>
+		<item name="0">@string/nothing_text</item>
+		<item name="1">@string/delete_message_text</item>
 	</string-array>
 	<string-array name="k9_delete_button_options_values">
-		<item name="0">0</item>
-		<item name="1">1</item>
+		<item name="0">1</item>
+		<item name="1">0</item>
 	</string-array>
 	
     <string-array name="k9_reply_button_options">
@@ -440,7 +440,35 @@
 		<item name="0">0</item>
 		<item name="1">1</item>
 	</string-array>
-	
+
+	<!-- Twitter Preferences Arrays -->	
+    <string-array name="twitter_delete_button_options">
+		<item name="0">@string/nothing_text</item>
+		<item name="1">@string/delete_message_text</item>
+	</string-array>
+	<string-array name="twitter_delete_button_options_values">
+		<item name="0">1</item>
+		<item name="1">0</item>
+	</string-array>
+
+    <string-array name="twitter_reply_button_options">
+    	<item name="0">@string/use_quick_reply_text</item>
+    	<item name="1">@string/use_preferred_client</item>
+	</string-array>
+	<string-array name="twitter_reply_button_options_values">
+		<item name="0">0</item>
+		<item name="1">1</item>
+	</string-array>
+	    	
+    <string-array name="twitter_notification_count_button_options">
+    	<item name="0">@string/nothing_text</item>
+		<item name="1">@string/launch_twitter_app</item>
+	</string-array>
+	<string-array name="twitter_notification_count_button_options_values">
+		<item name="0">0</item>
+		<item name="1">1</item>
+	</string-array>
+		
 	<!-- Reschedule Arrays -->
     <string-array name="reschedule_time_options">
 		<item name="0">@string/s1_minute_text</item>
@@ -1010,6 +1038,7 @@
 	    	
 	<!-- STATUS_BAR_NOTIFICATION_ARRAYS -->
 	
+	<!-- Vibrate Pattern Arrays --> 
 	<string-array name="preference_vibrate_pattern_options">
 		<item name="0">@string/short_vibrate_text</item>
 		<item name="1">@string/long_vibrate_text</item>
@@ -1057,7 +1086,24 @@
 	    <item name="3">0,800,200,800,200,800,200</item>
 	    <item name="4">k9_custom</item>
 	</string-array>
+	
+	<string-array name="preference_vibrate_pattern_options_values_twitter">
+	    <item name="0">0,1200</item>
+    	<item name="1">0,2500</item>
+	    <item name="2">0,300,100,300,100,300,100</item>
+	    <item name="3">0,800,200,800,200,800,200</item>
+	    <item name="4">twitter_custom</item>
+	</string-array>
+	
+	<string-array name="preference_vibrate_pattern_options_values_facebook">
+	    <item name="0">0,1200</item>
+    	<item name="1">0,2500</item>
+	    <item name="2">0,300,100,300,100,300,100</item>
+	    <item name="3">0,800,200,800,200,800,200</item>
+	    <item name="4">facebook_custom</item>
+	</string-array>
 
+	<!-- LED Pattern Arrays --> 
 	<string-array name="preference_led_pattern_options">
 	   	<item name="fast_text">@string/fast_text</item>
 	    <item name="normal_text">@string/normal_text</item>
@@ -1099,7 +1145,22 @@
 	    <item name="2">3000,3000</item>
 	    <item name="3">k9_custom</item>
 	</string-array>
-  
+	
+	<string-array name="preference_led_pattern_options_values_twitter">
+	    <item name="0">300,300</item>
+	    <item name="1">1000,1000</item>
+	    <item name="2">3000,3000</item>
+	    <item name="3">twitter_custom</item>
+	</string-array>
+	
+	<string-array name="preference_led_pattern_options_values_facebook">
+	    <item name="0">300,300</item>
+	    <item name="1">1000,1000</item>
+	    <item name="2">3000,3000</item>
+	    <item name="3">facebook_custom</item>
+	</string-array>
+
+	<!-- LED Color Arrays --> 
   	<string-array name="preference_led_color_options">
 	   	<item name="0">@string/red_text</item>
 	    <item name="1">@string/blue_text</item>
@@ -1159,7 +1220,29 @@
 	    <item name="5">yellow</item>
 	    <item name="6">k9_custom</item>
   	</string-array>
-  	    	
+ 
+  	<string-array name="preference_led_color_options_values_twitter">
+	    <item name="0">red</item>
+	    <item name="1">blue</item>
+	    <item name="2">green</item>
+	    <item name="3">cyan</item>
+	    <item name="4">magenta</item>
+	    <item name="5">yellow</item>
+	    <item name="6">twitter_custom</item>
+  	</string-array>
+  	
+  	<string-array name="preference_led_color_options_values_facebook">
+	    <item name="0">red</item>
+	    <item name="1">blue</item>
+	    <item name="2">green</item>
+	    <item name="3">cyan</item>
+	    <item name="4">magenta</item>
+	    <item name="5">yellow</item>
+	    <item name="6">facebook_custom</item>
+  	</string-array>
+
+  	<!-- Notification Icon Arrays --> 
+  	    		    	
   	<!-- SMS Notification Icon Image Arrays --> 
 	<string-array name="notification_icon_options_sms">
 		<item name="0"></item>
@@ -1358,7 +1441,18 @@
 		<item name="5">@drawable/status_bar_notification_email_red_preference</item>
 		<item name="6">@drawable/status_bar_notification_email_white_preference</item>
 	</array>
-	    	
+
+	<!-- Twitter Notification Icon Image Arrays --> 
+	<string-array name="notification_icon_options_twitter">
+		<item name="0"></item>
+	</string-array>
+	<string-array name="notification_icon_values_twitter">
+		<item name="0">status_bar_notification_twitter_grey</item>
+	</string-array>
+	<array name="notification_icon_images_twitter">
+		<item name="0">@drawable/status_bar_notification_twitter_grey_preference</item>
+	</array>
+	    	    	
 	<!-- Notification Vibrate Arrays --> 
 	<string-array name="vibrate_setting_options">
 		<item name="0">@string/always_text</item>
@@ -1382,5 +1476,55 @@
 		<item name="1">1</item>
 		<item name="2">2</item>
 	</string-array>	
+	
+	<!-- Twitter Client Arrays
+		//"com.hootsuite.droid.full" //HootSuite
+		//"com.levelup.touiteur" //Plume
+		//"com.levelup.touiteurpremium" //Plume Premium
+		//"com.seesmic" //Seesmic
+		//"com.thedeck.android.app" //TweetDeck
+		//"com.handmark.tweetcaster" //TweetCaster
+		//"com.handmark.tweetcaster.pink.premium" //TweetCaster Pink
+		//"com.handmark.tweetcaster.premium" // TweetCaster Pro
+		//"to.tanimo.android.twitterride" //TweetsRide
+		//"jp.r246.twicca" //Twicca
+		//"com.twidroydlegacy" //Twidroyd Legacy
+		//"com.twitter.android" //Twitter
+		//"com.twidroid" //Ubersocial aka Twidroyd
+	 -->
+	<string-array name="twitter_client_options">
+		<item name="0">@string/hootsuite</item>
+		<item name="1">@string/plume</item>
+		<item name="2">@string/plume_premium</item>
+		<item name="3">@string/seesmic</item>
+		<item name="4">@string/tweetdeck</item>
+		<item name="5">@string/tweetcaster</item>
+		<item name="6">@string/tweetcaster_pink</item>
+		<item name="7">@string/tweetcaster_pro</item>
+		<item name="8">@string/tweetsride</item>
+		<item name="9">@string/twicca</item>
+		<item name="10">@string/twidroyd_legacy</item>
+		<item name="11">@string/twitter</item>
+		<item name="12">@string/ubersocial</item>
+	</string-array>
+	<string-array name="twitter_client_options_values">
+		<item name="0">com.hootsuite.droid.full</item>
+		<item name="1">com.levelup.touiteur</item>
+		<item name="2">com.levelup.touiteurpremium</item>
+		<item name="3">com.seesmic</item>
+		<item name="4">com.thedeck.android.app</item>
+		<item name="5">com.handmark.tweetcaster</item>
+		<item name="6">com.handmark.tweetcaster.pink.premium</item>
+		<item name="7">com.handmark.tweetcaster.premium</item>
+		<item name="8">to.tanimo.android.twitterride</item>
+		<item name="9">jp.r246.twicca</item>
+		<item name="10">com.twidroydlegacy</item>
+		<item name="11">com.twitter.android</item>
+		<item name="12">com.twidroid</item>
+	</string-array>
+	 
+	 <!-- Facebook Client Arrays -->
+	 
+	 
 	    	
 </resources>

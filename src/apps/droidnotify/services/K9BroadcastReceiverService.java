@@ -106,7 +106,7 @@ public class K9BroadcastReceiverService extends WakefulIntentService {
 		    			}
 					}
 					//Display Status Bar Notification
-				    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_K9, callStateIdle, contactName, messageAddress, messageBody, k9EmailUri);
+				    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_K9, 0, callStateIdle, contactName, messageAddress, messageBody, k9EmailUri);
 			    }
 		    	//Ignore notification based on the users preferences.
 		    	if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_IGNORE)){

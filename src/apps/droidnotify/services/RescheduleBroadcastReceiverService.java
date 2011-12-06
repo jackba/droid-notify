@@ -163,43 +163,45 @@ public class RescheduleBroadcastReceiverService extends WakefulIntentService {
 		    		//[16]-K9EmailDelUri
 		    		//[17]-LookupKey
 		    		//[18]-PhotoID
+		    		//[19]-NotificationSubType
 		    		//========================================================
 		    		String sentFromAddress = rescheduleNotificationInfo[1];
 					String messageBody = rescheduleNotificationInfo[2];
 					String contactName = rescheduleNotificationInfo[6];
 	    			String title = rescheduleNotificationInfo[8];
 	    			String k9EmailUri = rescheduleNotificationInfo[15];
+	    			int notificationSubType = Integer.parseInt(rescheduleNotificationInfo[19]);
 	    			//Display Status Bar Notification
 					switch(notificationType){
 					    case Constants.NOTIFICATION_TYPE_RESCHEDULE_PHONE:{
-					    	Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_PHONE, callStateIdle, contactName, sentFromAddress, null, null);
+					    	Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_PHONE, 0, callStateIdle, contactName, sentFromAddress, null, null);
 					    	break;
 					    }
 					    case Constants.NOTIFICATION_TYPE_RESCHEDULE_SMS:{
-					    	Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_SMS, callStateIdle, contactName, sentFromAddress, messageBody, null);
+					    	Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_SMS, 0, callStateIdle, contactName, sentFromAddress, messageBody, null);
 					    	break;
 					    }
 					    case Constants.NOTIFICATION_TYPE_RESCHEDULE_MMS:{
-					    	Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_MMS, callStateIdle, contactName, sentFromAddress, messageBody, null);
+					    	Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_MMS, 0, callStateIdle, contactName, sentFromAddress, messageBody, null);
 					    	break;
 					    }
 					    case Constants.NOTIFICATION_TYPE_RESCHEDULE_CALENDAR:{
-					    	Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_CALENDAR, callStateIdle, null, null, title, null);
+					    	Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_CALENDAR, 0, callStateIdle, null, null, title, null);
 					    	break;
 					    }
 					    case Constants.NOTIFICATION_TYPE_RESCHEDULE_GMAIL:{
 					    	break;
 					    }
 					    case Constants.NOTIFICATION_TYPE_RESCHEDULE_TWITTER:{
-					    	Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_CALENDAR, callStateIdle, contactName, sentFromAddress, messageBody, null);
+					    	Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_TWITTER, notificationSubType, callStateIdle, contactName, sentFromAddress, messageBody, null);
 					    	break;
 					    }
 					    case Constants.NOTIFICATION_TYPE_RESCHEDULE_FACEBOOK:{
-					    	Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_CALENDAR, callStateIdle, contactName, sentFromAddress, messageBody, null);
+					    	Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_FACEBOOK, notificationSubType, callStateIdle, contactName, sentFromAddress, messageBody, null);
 					    	break;
 					    }
 					    case Constants.NOTIFICATION_TYPE_RESCHEDULE_K9:{
-					    	Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_CALENDAR, callStateIdle, contactName, sentFromAddress, messageBody, k9EmailUri);
+					    	Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_K9, 0, callStateIdle, contactName, sentFromAddress, messageBody, k9EmailUri);
 					    	break;
 					    }
 					}

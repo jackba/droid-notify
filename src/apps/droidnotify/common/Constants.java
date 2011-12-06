@@ -79,7 +79,7 @@ public class Constants {
 	public static final int K9_VIEW_INBOX_ACTIVITY = 15;
 	public static final int K9_VIEW_EMAIL_ACTIVITY = 16;
 	public static final int K9_SEND_EMAIL_ACTIVITY = 17;
-	public static final int TWITTER_VIEW_INBOX_ACTIVITY = 18;
+	public static final int TWITTER_OPEN_APP_ACTIVITY = 18;
 	public static final int TWITTER_VIEW_MESSAGE_ACTIVITY = 19;
 	public static final int SEND_TWITTER_QUICK_REPLY_ACTIVITY = 20;
 	
@@ -281,7 +281,7 @@ public class Constants {
 	public static final String SMS_NOTIFICATION_COUNT_ACTION_KEY = "sms_notification_count_action";
 	public static final String SMS_DISMISS_KEY = "sms_dismiss_button_action";
 	public static final String SMS_DISPLAY_UNREAD_KEY = "sms_display_unread_enabled";
-	public static final String SMS_CONFIRM_DELETION_KEY = "confirm_sms_deletion_enabled";
+	public static final String SMS_CONFIRM_DELETION_KEY = "confirm_sms_deletion";
 	
 	public static final String SMS_DISMISS_ACTION_MARK_READ = "0";
 	public static final String SMS_DELETE_ACTION_DELETE_MESSAGE = "0";
@@ -305,7 +305,7 @@ public class Constants {
 	public static final String MMS_DISPLAY_REPLY_BUTTON_KEY = "mms_display_reply_button";
 	public static final String MMS_NOTIFICATION_COUNT_ACTION_KEY = "mms_notification_count_action";
 	public static final String MMS_DISMISS_KEY = "mms_dismiss_button_action";
-	public static final String MMS_CONFIRM_DELETION_KEY = "confirm_mms_deletion_enabled";
+	public static final String MMS_CONFIRM_DELETION_KEY = "confirm_mms_deletion";
 	public static final String MMS_DISPLAY_UNREAD_KEY = "mms_display_unread_enabled";
 	
 	public static final String MMS_DISMISS_ACTION_MARK_READ = "0";
@@ -343,6 +343,7 @@ public class Constants {
     public static final String CALENDAR_REMINDER_KEY = "calendar_reminder_settings";
     public static final String CALENDAR_REMINDER_ALL_DAY_KEY = "calendar_reminder_all_day_settings";
     public static final String CALENDAR_POLLING_FREQUENCY_KEY = "calendar_polling_frequency"; 
+    public static final String CALENDAR_POLLING_FREQUENCY_DEFAULT = "15"; 
     public static final String CALENDAR_HIDE_NOTIFICATION_BODY_KEY = "calendar_hide_notification_body_enabled";
 	public static final String CALENDAR_DISPLAY_DISMISS_BUTTON_KEY = "calendar_display_dismiss_button";
 	public static final String CALENDAR_DISPLAY_VIEW_BUTTON_KEY = "calendar_display_view_button";
@@ -370,7 +371,8 @@ public class Constants {
 	public static final String TWITTER_PRO_PREFERENCE_SCREEN_KEY = "twitter_notification_settings_screen";
 	
 	public static final String TWITTER_NOTIFICATIONS_ENABLED_KEY = "twitter_enabled";
-	public static final String TWITTER_POLLING_FREQUENCY_KEY = "twitter_polling_frequency";
+	public static final String TWITTER_POLLING_FREQUENCY_KEY = "twitter_polling_frequency"; 
+    public static final String TWITTER_POLLING_FREQUENCY_DEFAULT = "60"; 
 	public static final String TWITTER_DIRECT_MESSAGES_ENABLED_KEY = "twitter_direct_messages_enabled";
 	public static final String TWITTER_MENTIONS_ENABLED_KEY = "twitter_mentions_enabled";
 	public static final String TWITTER_FOLOWERS_ENABLED_KEY = "twitter_followers_enabled";
@@ -388,9 +390,8 @@ public class Constants {
 	public static final String TWITTER_CALLBACK_URL = TWITTER_CALLBACK_SCHEME + "://callback";
 
 	public static final String TWITTER_DELETE_KEY = "twitter_delete_button_action";
-	public static final String TWITTER_CONFIRM_DELETION_KEY = "twitter_confirm_deletion_enabled";
+	public static final String TWITTER_CONFIRM_DELETION_KEY = "twitter_confirm_deletion";
 	
-	public static final String TWITTER_DISMISS_ACTION_MARK_READ = "0";
 	public static final String TWITTER_DELETE_ACTION_DELETE_MESSAGE = "0";
 	public static final String TWITTER_DELETE_ACTION_NOTHING = "2";	
 
@@ -400,13 +401,18 @@ public class Constants {
 	public static final String TWITTER_DISPLAY_REPLY_BUTTON_KEY = "twitter_display_reply_button";
 	public static final String TWITTER_NOTIFICATION_COUNT_ACTION_KEY = "twitter_notification_count_action";
 	
+	public static final String TWITTER_PREFERRED_CLIENT_KEY = "twitter_preferred_client";
+	public static final String TWITTER_PREFERRED_CLIENT_DEFAULT = "com.twitter.android";
+	public static final String TWITTER_USE_QUICK_REPLY = "0";
+	public static final String TWITTER_USE_PREFERRED_CLIENT = "1";
+	
 	//-----FACEBOOK NOTIFICATION CONSTANTS-----//
 	public static final String FACEBOOK_PRO_PREFERENCE_CATEGORY_KEY = "facebook_notification_settings_category";
 	public static final String FACEBOOK_PRO_PLACEHOLDER_PREFERENCE_KEY = "facebook_notification_settings_placeholder_preference";
 	public static final String FACEBOOK_PRO_PREFERENCE_SCREEN_KEY = "facebook_notification_settings_screen";
 	
 	public static final String FACEBOOK_NOTIFICATIONS_ENABLED_KEY = "facebook_enabled";
-	public static final String FACEBOOK_DIRECT_MESSAGES_ENABLED_KEY = "facebook_direct_messages_enabled";
+	public static final String FACEBOOK_USER_NOTIFICATIONS_ENABLED_KEY = "facebook_user_notifications_enabled";
 	public static final String FACEBOOK_FRIEND_REQUESTS_ENABLED_KEY = "twitter_friend_requests_enabled";
 	public static final String FACEBOOK_POLLING_FREQUENCY_KEY = "facebook_polling_frequency";
 	
@@ -417,7 +423,7 @@ public class Constants {
 	public static final String FACEBOOK_ACCESS_EXPIRES_KEY = "facebook_access_expires";
 	
 	public static final String FACEBOOK_DELETE_KEY = "facebook_delete_button_action";
-	public static final String FACEBOOK_CONFIRM_DELETION_KEY = "facebook_confirm_deletion_enabled";
+	public static final String FACEBOOK_CONFIRM_DELETION_KEY = "facebook_confirm_deletion";
 	
 	public static final String FACEBOOK_DISMISS_ACTION_MARK_READ = "0";
 	public static final String FACEBOOK_DELETE_ACTION_DELETE_MESSAGE = "0";
@@ -440,7 +446,7 @@ public class Constants {
 	public static final String K9_DISPLAY_REPLY_BUTTON_KEY = "k9_display_reply_button";
 	public static final String K9_NOTIFICATION_COUNT_ACTION_KEY = "k9_notification_count_action";
 	public static final String K9_DISMISS_KEY = "k9_dismiss_button_action";
-	public static final String K9_CONFIRM_DELETION_KEY = "confirm_k9_deletion_enabled";
+	public static final String K9_CONFIRM_DELETION_KEY = "confirm_k9_deletion";
 	
 	public static final String K9_DISMISS_ACTION_MARK_READ = "0";
 	public static final String K9_DELETE_ACTION_DELETE_MESSAGE = "0";
@@ -575,22 +581,6 @@ public class Constants {
 	
 	public static final String CALENDAR_STATUS_BAR_NOTIFICATIONS_ICON_SETTING_KEY = "notification_icon_calendar";
 	public static final String CALENDAR_STATUS_BAR_NOTIFICATIONS_ICON_DEFAULT = "status_bar_notification_calendar_blue";
-
-	//-----TWITTER STATUS BAR NOTIFICATION CONSTANTS-----//
-	public static final String TWITTER_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY = "twitter_status_bar_notifications_show_when_blocked_enabled";
-	
-	
-	
-	
-	
-	
-	//-----FACEBOOK STATUS BAR NOTIFICATION CONSTANTS-----//
-	public static final String FACEBOOK_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY = "facebook_status_bar_notifications_show_when_blocked_enabled";
-	
-	
-	
-	
-	
 	
 	//-----K9 STATUS BAR NOTIFICATION CONSTANTS-----//
 	public static final String K9_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY = "k9_status_bar_notifications_enabled";
@@ -642,6 +632,8 @@ public class Constants {
 	//-----TWITTER STATUS BAR NOTIFICATION CONSTANTS-----//
 	public static final String TWITTER_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY = "twitter_status_bar_notifications_enabled";
 	
+	public static final String TWITTER_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY = "twitter_status_bar_notifications_show_when_blocked_enabled";
+	
 	public static final String TWITTER_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY = "twitter_notification_sound";
 	
 	public static final String TWITTER_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY = "twitter_notification_vibrate_setting";
@@ -665,6 +657,8 @@ public class Constants {
 	
 	//-----FACEBOOK STATUS BAR NOTIFICATION CONSTANTS-----//
 	public static final String FACEBOOK_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY = "facebook_status_bar_notifications_enabled";
+	
+	public static final String FACEBOOK_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY = "facebook_status_bar_notifications_show_when_blocked_enabled";
 	
 	public static final String FACEBOOK_STATUS_BAR_NOTIFICATIONS_SOUND_KEY = "facebook_notification_sound";
 	

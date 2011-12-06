@@ -310,7 +310,7 @@ public class Notification {
 	/**
 	 * Class Constructor
 	 */
-	public Notification(Context context, String sentFromAddress, String messageBody, long timeStamp, long threadID, long contactID, String contactName, long photoID, long messageID, String title, long calendarID, long calendarEventID, long calendarEventStartTime, long calendarEventEndTime, boolean allDay, long callLogID,  String lookupKey, String k9EmailUri, String k9EmailDelUri, int rescheduleNumber, int notificationType) {
+	public Notification(Context context, String sentFromAddress, String messageBody, long timeStamp, long threadID, long contactID, String contactName, long photoID, long messageID, String title, long calendarID, long calendarEventID, long calendarEventStartTime, long calendarEventEndTime, boolean allDay, long callLogID,  String lookupKey, String k9EmailUri, String k9EmailDelUri, int rescheduleNumber, int notificationType, int notificationSubType) {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Notification.Notification() ==CONSTRUCTOR 5==");
 		try{
@@ -353,6 +353,7 @@ public class Notification {
     		_callLogID = callLogID;
     		_lookupKey = lookupKey;
     		_rescheduleNumber = rescheduleNumber;
+    		_notificationSubType = notificationSubType;
     		setReminder();
 		}catch(Exception ex){
 			if (_debug) Log.e("Notification.Notification() ==CONSTRUCTOR 5== ERROR: " + ex.toString());

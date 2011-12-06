@@ -152,6 +152,7 @@ public class NotificationView extends LinearLayout {
 	private void setupNotificationViewButtons(Notification notification) {
 		if (_debug) Log.v("NotificationView.setupNotificationViewButtons()");
 		try{
+			int notificationSubType = _notification.getNotificationSubType();
 			boolean usingImageButtons = true;
 			String buttonDisplayStyle = _preferences.getString(Constants.BUTTON_DISPLAY_STYLE_KEY, Constants.BUTTON_DISPLAY_STYLE_DEFAULT);
 			//Show the LinearLayout of the specified button style (ImageButton vs Button)
@@ -632,13 +633,13 @@ public class NotificationView extends LinearLayout {
 					if(notificationCountAction == 0){
 						//Do Nothing.
 					}else{
-//						_notificationCountTextView.setOnClickListener(new OnClickListener() {
-//						    public void onClick(View view) {
-//						    	if (_debug) Log.v("Notification Count Button Clicked()");
-//						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-//						    	TwitterCommon.startTwitterAppViewInboxActivity(_context, _notificationActivity, Constants.TWITTER_VIEW_INBOX_ACTIVITY);
-//						    }
-//						});		
+						_notificationCountTextView.setOnClickListener(new OnClickListener() {
+						    public void onClick(View view) {
+						    	if (_debug) Log.v("Notification Count Button Clicked()");
+						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+						    	TwitterCommon.startTwitterAppActivity(_context, _notificationActivity, Constants.TWITTER_OPEN_APP_ACTIVITY);
+						    }
+						});		
 					}
 					if(usingImageButtons){
 						// Dismiss Button
@@ -652,18 +653,22 @@ public class NotificationView extends LinearLayout {
 							});	
 				    	}else{
 				    		_dismissImageButton.setVisibility(View.GONE);
-				    	}
-						// Delete Button
-						if(_preferences.getBoolean(Constants.TWITTER_DISPLAY_DELETE_BUTTON_KEY, true)){
-				    		_deleteImageButton.setOnClickListener(new OnClickListener() {
-							    public void onClick(View view) {
-							    	if (_debug) Log.v("Twitter Delete Button Clicked()");
-							    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-							    	showDeleteDialog();
-							    }
-							});
-				    	}else{
-							_deleteImageButton.setVisibility(View.GONE);
+				    	}		
+				    	// Delete Button
+				    	if(notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_MENTION){
+				    		_deleteImageButton.setVisibility(View.GONE);
+				    	}else{							
+							if(_preferences.getBoolean(Constants.TWITTER_DISPLAY_DELETE_BUTTON_KEY, true)){
+					    		_deleteImageButton.setOnClickListener(new OnClickListener() {
+								    public void onClick(View view) {
+								    	if (_debug) Log.v("Twitter Delete Button Clicked()");
+								    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+								    	showDeleteDialog();
+								    }
+								});
+					    	}else{
+								_deleteImageButton.setVisibility(View.GONE);
+					    	}
 				    	}
 						// Reply Button
 						if(_preferences.getBoolean(Constants.TWITTER_DISPLAY_REPLY_BUTTON_KEY, true)){
@@ -689,18 +694,22 @@ public class NotificationView extends LinearLayout {
 							});	
 				    	}else{
 				    		_dismissButton.setVisibility(View.GONE);
-				    	}
-						// Delete Button
-						if(_preferences.getBoolean(Constants.TWITTER_DISPLAY_DELETE_BUTTON_KEY, true)){
-				    		_deleteButton.setOnClickListener(new OnClickListener() {
-							    public void onClick(View view) {
-							    	if (_debug) Log.v("Twitter Delete Button Clicked()");
-							    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-							    	showDeleteDialog();
-							    }
-							});
+				    	}		
+				    	// Delete Button
+				    	if(notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_MENTION){
+				    		_deleteButton.setVisibility(View.GONE);
 				    	}else{
-							_deleteButton.setVisibility(View.GONE);
+							if(_preferences.getBoolean(Constants.TWITTER_DISPLAY_DELETE_BUTTON_KEY, true)){
+					    		_deleteButton.setOnClickListener(new OnClickListener() {
+								    public void onClick(View view) {
+								    	if (_debug) Log.v("Twitter Delete Button Clicked()");
+								    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+								    	showDeleteDialog();
+								    }
+								});
+					    	}else{
+								_deleteButton.setVisibility(View.GONE);
+					    	}
 				    	}
 						// Reply Button
 						if(_preferences.getBoolean(Constants.TWITTER_DISPLAY_REPLY_BUTTON_KEY, true)){
@@ -1241,9 +1250,9 @@ public class NotificationView extends LinearLayout {
 				//Reply using any installed Twitter app.
 				int notificationSubType = _notification.getNotificationSubType();
 			    if(notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE){
-			    	TwitterCommon.startTwitterQuickReplyActivity(_context, _notificationActivity, Constants.SEND_TWITTER_QUICK_REPLY_ACTIVITY, _notification.getSentFromID(), _notification.getSentFromAddress(), _notification.getContactName());
+			    	TwitterCommon.startTwitterQuickReplyActivity(_context, _notificationActivity, Constants.SEND_TWITTER_QUICK_REPLY_ACTIVITY, _notification.getSentFromID(), _notification.getSentFromAddress(), _notification.getContactName(), Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE);
 		    	}else if(notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_MENTION){
-		    		TwitterCommon.startTwitterQuickReplyActivity(_context, _notificationActivity, Constants.SEND_TWITTER_QUICK_REPLY_ACTIVITY, _notification.getSentFromID(), _notification.getSentFromAddress(), _notification.getContactName());
+		    		TwitterCommon.startTwitterQuickReplyActivity(_context, _notificationActivity, Constants.SEND_TWITTER_QUICK_REPLY_ACTIVITY, _notification.getSentFromID(), _notification.getSentFromAddress(), _notification.getContactName(), Constants.NOTIFICATION_TYPE_TWITTER_MENTION);
 		    	}else if(notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_FOLLOWER){
 		    		//TODO
 		    	}else if(notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_RETWEET){

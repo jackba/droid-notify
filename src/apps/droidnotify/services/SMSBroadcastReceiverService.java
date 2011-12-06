@@ -120,7 +120,7 @@ public class SMSBroadcastReceiverService extends WakefulIntentService {
 			    			}
 						}
 						//Display Status Bar Notification
-					    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_SMS, callStateIdle, contactName, messageAddress, messageBody, null);
+					    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_SMS, 0, callStateIdle, contactName, messageAddress, messageBody, null);
 				    }
 			    	//Ignore notification based on the users preferences.
 			    	if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_IGNORE)){

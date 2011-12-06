@@ -20,16 +20,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.media.MediaPlayer;
-import android.media.MediaPlayer.OnCompletionListener;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.widget.Toast;
 
-import apps.droidnotify.Notification;
 import apps.droidnotify.NotificationActivity;
 import apps.droidnotify.QuickReplyActivity;
 import apps.droidnotify.R;
@@ -257,6 +253,35 @@ public class TwitterCommon {
 			return;
 		}
 	}	
+	
+	/**
+	 * Launch a Twitter application.
+	 * 
+	 * @param context - Application Context.
+	 * @param notificationActivity - A reference to the parent activity.
+	 * @param requestCode - The request code we want returned.
+	 * 
+	 * @return boolean - Returns true if the application can be launched.
+	 */
+	public static boolean startTwitterAppActivity(Context context, NotificationActivity notificationActivity, int requestCode){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("TwitterCommon.startTwitterAppActivity()");
+		try{
+			//Intent intent = new Intent(Intent.ACTION_MAIN);
+			//intent.setComponent(new ComponentName("com.twitter.android","com.twitter.android.HomeTabActivity"));
+			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+			String packageName = preferences.getString(Constants.TWITTER_PREFERRED_CLIENT_KEY, Constants.TWITTER_PREFERRED_CLIENT_DEFAULT);
+			Intent intent = notificationActivity.getPackageManager().getLaunchIntentForPackage(packageName);		
+	        notificationActivity.startActivityForResult(intent, requestCode);
+	        Common.setInLinkedAppFlag(context, true);
+		    return true;
+		}catch(Exception ex){
+			if (_debug) Log.e("TwitterCommon.startTwitterAppActivity() ERROR: " + ex.toString());
+			Toast.makeText(context, context.getString(R.string.app_twitter_app_error), Toast.LENGTH_LONG).show();
+			Common.setInLinkedAppFlag(context, false);
+			return false;
+		}
+	}
 
 	/**
 	 * Start the intent for the Quick Reply activity send a reply.
@@ -268,7 +293,7 @@ public class TwitterCommon {
 	 * 
 	 * @return boolean - Returns true if the activity can be started.
 	 */
-	public static boolean startTwitterQuickReplyActivity(Context context, NotificationActivity notificationActivity, int requestCode, long sendToID, String sendTo, String name){
+	public static boolean startTwitterQuickReplyActivity(Context context, NotificationActivity notificationActivity, int requestCode, long sendToID, String sendTo, String name, int notificationSubType){
 		_debug = Log.getDebug();
 		if (_debug) Log.v("TwitterCommon.startTwitterQuickReplyActivity()");
 		if(sendToID == 0){
@@ -280,7 +305,7 @@ public class TwitterCommon {
 	        if (_debug) Log.v("NotificationView.replyToMessage() Put bundle in intent");
 	        Bundle bundle = new Bundle();
 	        bundle.putInt("notificationType", Constants.NOTIFICATION_TYPE_TWITTER);
-	        bundle.putInt("notificationSubType", Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE);
+	        bundle.putInt("notificationSubType", notificationSubType);
 	        bundle.putLong("sendToID", sendToID);
 	        bundle.putString("sendTo", sendTo);
 		    if(name != null && !name.equals(context.getString(android.R.string.unknownName))){
@@ -314,8 +339,8 @@ public class TwitterCommon {
 	public static boolean sendTwitterDirectMessage(Context context, long userID, String message){
 		_debug = Log.getDebug();
 		if (_debug) Log.v("TwitterCommon.sendTwitterDirectMessage()");
-		_context = context;
 		try{
+			_context = context;
 			new sendTwitterDirectMessageAsyncTask().execute(String.valueOf(userID), message);
 			return true;
 		}catch(Exception ex){
@@ -339,6 +364,7 @@ public class TwitterCommon {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("TwitterCommon.sendTweet()");
 		try{
+			_context = context;
 			new sendTweetAsyncTask().execute(String.valueOf(userID), message, String.valueOf(isReply));
 			return true;
 		}catch(Exception ex){
@@ -361,7 +387,7 @@ public class TwitterCommon {
 			AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 			Intent intent = new Intent(context, TwitterAlarmReceiver.class);
 			PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
-			long pollingFrequency = Long.parseLong(preferences.getString(Constants.TWITTER_POLLING_FREQUENCY_KEY, "15")) * 60 * 1000;
+			long pollingFrequency = Long.parseLong(preferences.getString(Constants.TWITTER_POLLING_FREQUENCY_KEY, Constants.TWITTER_POLLING_FREQUENCY_DEFAULT)) * 60 * 1000;
 			alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, alarmStartTime, pollingFrequency, pendingIntent);
 		}catch(Exception ex){
 			if (_debug) Log.e("TwitterCommon.startTwitterAlarmManager() ERROR: " + ex.toString());

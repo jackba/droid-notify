@@ -103,7 +103,7 @@ public class PhoneAlarmBroadcastReceiverService extends WakefulIntentService {
 		    			}
 		    		}
 					//Display Status Bar Notification
-	    			Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_PHONE, callStateIdle, contactName, phoneNumber, null, null);
+	    			Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_PHONE, 0, callStateIdle, contactName, phoneNumber, null, null);
 			    }
 		    	//Ignore notification based on the users preferences.
 		    	if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_IGNORE)){

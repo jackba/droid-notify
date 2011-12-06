@@ -172,7 +172,11 @@
     <string name="reply_tweet_at_text" formatted="false">New reply tweet at %s</string>
     <string name="notification_at_text" formatted="false">New notification at %s</string>    
     <string name="friend_request_at_text" formatted="false">New friend request at %s</string>
-   	    
+   	   
+    <!-- Message Deleting Strings -->
+    <string name="preference_confirm_deletion_title">Confirm Deletion</string>
+   	<string name="preference_confirm_deletion_summary">Display a confirmation dialog box when you delete an item.</string>
+        
    	<!-- SMS Strings -->
    	<string name="view_thread_text">View Thread</string>
    	<string name="messaging_inbox_text">Messaging Inbox</string>
@@ -183,15 +187,9 @@
    	<string name="preference_sms_display_unread_enabled_summaryOn">All unread sms messages will be loaded when a new sms message arrives.</string>
    	<string name="preference_sms_display_unread_enabled_summaryOff">Only the current incoming message will be loaded.</string>	 	
    	<string name="preference_sms_notifications">SMS Notifications</string>
-   	<string name="preference_sms_dismiss_button_action_summary">Define what happens when you dismiss a SMS.</string>
-   	<string name="preference_sms_delete_button_action_summary">Define what happens when you delete a SMS.</string>
-   	<string name="preference_sms_reply_button_action_summary">Define what happens when you reply to a SMS.</string>
     <string name="preference_sms_ringtone_enabled_title">Enable Ringtone</string>
    	<string name="preference_sms_ringtone_enabled_summaryOn">SMS notifications will play a ringtone on arrival.</string>
    	<string name="preference_sms_ringtone_enabled_summaryOff">SMS notifications will not play a ringtone on arrival.</string>
-   	<string name="preference_confirm_sms_deletion_enabled_title">Confirm Message Deletion</string>
-   	<string name="preference_confirm_sms_deletion_enabled_summaryOn">A dialog box will display when you delete a message.</string>
-   	<string name="preference_confirm_sms_deletion_enabled_summaryOff">A dialog box will not display when you delete a message.</string> 
    	<string name="preference_sms_timeout">SMS Timeout</string>
    	<string name="preference_sms_timeout_summary">Define how long to wait after a SMS is received before querying the SMS inbox for a new message.</string>
    	<string name="preference_sms_loading_title">SMS Loading Setting</string>
@@ -212,12 +210,6 @@
    	<string name="preference_mms_message_body_font_size_title">Message Body Font Size</string>
    	<string name="preference_mms_message_body_font_size_summary">Select the font size you want to use when when displaying the message body.</string>
    	<string name="preference_mms_notifications">MMS Notifications</string>
-   	<string name="preference_mms_dismiss_button_action_summary">Define what happens when you dismiss a MMS.</string>
-   	<string name="preference_mms_delete_button_action_summary">Define what happens when you delete a MMS.</string>
-   	<string name="preference_mms_reply_button_action_summary">Define what happens when you reply to a MMS.</string>
-	<string name="preference_confirm_mms_deletion_enabled_title">Confirm Message Deletion</string>
-   	<string name="preference_confirm_mms_deletion_enabled_summaryOn">A dialog box will display when you delete a message.</string>
-   	<string name="preference_confirm_mms_deletion_enabled_summaryOff">A dialog box will not display when you delete a message.</string>
    	<string name="preference_mms_timeout">MMS Timeout</string>
    	<string name="preference_mms_timeout_summary">Define how long to wait after a MMS is received before querying the MMS inbox for a new message.</string>
    	<string name="preference_mms_timestamp_adjustment_title">MMS TimeStamp Adjustment</string>
@@ -236,7 +228,6 @@
    	<string name="preference_missed_call_enabled_summaryOn">Missed Call notifications are enabled.</string>
    	<string name="preference_missed_call_enabled_summaryOff">Missed Call notifications are disabled.</string>
    	<string name="preference_missed_call_notifications">Missed Call Notifications</string>
-   	<string name="preference_missed_call_dismiss_button_action_summary">Define what happens when you dismiss a Missed Call.</string>
    	<string name="preference_missed_call_loading_title">Loading Settings</string>
    	<string name="preference_missed_call_loading_summary">Define what calls to load when a missed call is received.</string>
    	<string name="preference_call_log_timeout">Call Log Timeout</string>
@@ -251,15 +242,13 @@
    	<string name="preference_calendar_enabled_title">Enable Calendar Event</string>
    	<string name="preference_calendar_enabled_summaryOn">Calendar Event notifications are enabled.</string>
    	<string name="preference_calendar_enabled_summaryOff">Calendar Event notifications are disabled.</string>
-   	<string name="preference_calendar_polling_frequency_title">Polling Frequency</string>
-    <string name="preference_calendar_polling_frequency_summary">Define how often you want to read the calendar events?</string>
+    <string name="preference_calendar_polling_frequency_summary">How often you want to read the calendar events?</string>
    	<string name="preference_calendar_selection_title">Select Calendars</string>
    	<string name="preference_calendar_selection_summary">Select the Calendars that you wish to be notified about.</string>
    	<string name="preference_calendar_labels_enabled_title">Enable Calendar Labels</string>
    	<string name="preference_calendar_labels_enabled_summaryOn">The name of the Calendar that the event belongs to will be displayed in the notification. (Useful if you have more than one Calendar)</string>
    	<string name="preference_calendar_labels_enabled_summaryOff">The name of the Calendar that the event belongs to will not be displayed in the notification. (Useful if you have more than one Calendar)</string>
    	<string name="preference_calendar_notifications">Calendar Notifications</string>
-   	<string name="preference_calendar_dismiss_button_action_summary">Define what happens when you dismiss a Calendar Event.</string>
    	<string name="event_reminder_settings_text">Event Reminder Settings</string>
    	<string name="all_day_event_reminders_text">All-Day Event Reminders</string>
    	<string name="all_day_event_reminder_setting_text">All-Day Event Settings</string>
@@ -280,10 +269,15 @@
    	<string name="preference_twitter_enabled_title">Enable Twitter</string>
    	<string name="preference_twitter_enabled_summaryOn">Twitter notifications are enabled.</string>
    	<string name="preference_twitter_enabled_summaryOff">Twitter notifications are disabled.</string>
+   	<string name="preference_twitter_direct_messages_enabled_title">Enable Twitter Direct Messages</string>
+   	<string name="preference_twitter_direct_messages_enabled_summary">Twitter Direct Message notifications are enabled.</string>
+   	<string name="preference_twitter_mentions_enabled_title">Enable Twitter Mentions</string>
+   	<string name="preference_twitter_mentions_enabled_summary">Twitter Mention notifications are enabled.</string>
    	<string name="twitter_authentication_text">Twitter Authentication</string>
    	<string name="twitter_authentication_message_text">The next screen will open a Twitter web page in a web browser. This web page will ask you to allow this application to have access to your twitter account. If you wish to proceed please click on the \"Continue\" button below.</string>
    	<string name="authenticating_text">Authenticating...</string>
    	<string name="twitter_authentication_error">We were not able to authenticate or access your Twitter account at this time. Please try again later.</string>
+   	<string name="preference_twitter_polling_frequency_summary">How often you want to read your Twitter account?</string>
 
   	<!-- Facebook Strings -->	 	
    	<string name="preference_facebook_notifications">Facebook Notifications</string>
@@ -292,7 +286,6 @@
    	<string name="preference_facebook_enabled_summaryOff">Facebook notifications are disabled.</string>
    	<string name="facebook_authentication_text">Facebook Authentication</string>
    	<string name="facebook_authentication_error">We were not able to authenticate or access your Facebook account at this time. Please try again later.</string>
-   	    	    
    	    
    	<!-- Email Strings -->
     <string name="email_inbox_text">Email Inbox</string>
@@ -308,13 +301,10 @@
    	<string name="preference_k9_message_body_font_size_title">Message Body Font Size</string>
    	<string name="preference_k9_message_body_font_size_summary">Select the font size you want to use when when displaying the email body.</string>
    	<string name="preference_k9_notifications">K-9 Email Notifications</string>
-   	<string name="preference_k9_dismiss_button_action_summary">Define what happens when you dismiss a K-9 email.</string>
-   	<string name="preference_k9_delete_button_action_summary">Define what happens when you delete a K-9 email.</string>
-   	<string name="preference_k9_reply_button_action_summary">Define what happens when you reply to a K-9 email.</string>
-	<string name="preference_confirm_k9_deletion_enabled_title">Confirm Message Deletion</string>
-   	<string name="preference_confirm_k9_deletion_enabled_summaryOn">A dialog box will display when you delete an email.</string>
-   	<string name="preference_confirm_k9_deletion_enabled_summaryOff">A dialog box will not display when you delete an email.</string>
-   	    	    
+   	    	   
+   	<!-- Polling Strings -->   
+   	<string name="preference_polling_frequency">Polling Frequency</string>
+   	    
 	<!-- Contact Strings -->
    	<string name="view_contact_text">View Contact</string>
    	<string name="add_contact_text">Add Contact</string>
@@ -345,12 +335,23 @@
    	<string name="preference_display_view_button_summary">Show the view button.</string>	
     <string name="preference_display_cancel_button_title">Display Cancel Button</string>
    	<string name="preference_display_cancel_button_summary">Show the cancel button.</string>
-    <string name="preference_dismiss_button_action">Dismiss Button Action</string>
-   	<string name="preference_delete_button_action">Delete Button Action</string>
+   	
+   	<!-- Button Action Strings -->    
    	<string name="preference_reply_button_action">Reply Button Action</string>
+   	<string name="preference_reply_button_action_summary">Define what happens when you reply to an item.</string>
+    
+   	<string name="preference_delete_button_action">Delete Button Action</string>
+   	<string name="preference_delete_button_action_summary">Define what happens when you delete an item.</string>
+   	    
+   	<string name="preference_dismiss_button_action">Dismiss Button Action</string>
+   	<string name="preference_dismiss_button_action_summary">Define what happens when you dismiss an item.</string>
+
+   	<string name="preference_view_button_action">View Button Action</string>
+   	<string name="preference_view_button_action_summary">Define what happens when you view an item.</string>
+   	    
    	<string name="preference_notification_count_button_action">Notification Count Action</string>
    	<string name="preference_notification_count_button_action_summary">Define what happens when you click on the notification count text.</string>
-    
+   	    	    
     <!-- Button Style Strings -->
     <string name="preference_button_style_title">Button Style</string>
    	<string name="preference_button_style_summary">Choose the notification button style.</string> 
@@ -498,8 +499,10 @@
     <string name="status_bar_notification_content_text_phone_null" formatted="false">Missed call.</string>
     <string name="status_bar_notification_content_text_calendar" formatted="false">Calendar event - %s</string>
     <string name="status_bar_notification_content_text_calendar_null" formatted="false">Calendar event.</string>
-    <string name="status_bar_notification_content_text_gmail" formatted="false">New email %s - %s.</string>
-    <string name="status_bar_notification_content_text_twitter" formatted="false">New twitter message from %s - %s.</string>
+    <string name="status_bar_notification_content_text_twitter_direct_message" formatted="false">New twitter direct message from %s - %s.</string>
+    <string name="status_bar_notification_content_text_twitter_direct_message_null" formatted="false">New twitter direct message.</string>    
+    <string name="status_bar_notification_content_text_twitter_mention" formatted="false">New twitter mention from %s - %s.</string>
+    <string name="status_bar_notification_content_text_twitter_mention_null" formatted="false">New twitter mention.</string>
     <string name="status_bar_notification_content_text_facebook" formatted="false">New facebook message %s - %s.</string>
 	<string name="status_bar_notification_content_text_email" formatted="false">New email from %s - %s.</string>
     <string name="status_bar_notification_content_text_email_null" formatted="false">New email.</string>
@@ -507,21 +510,30 @@
     <string name="status_bar_notification_ticker_text_sms" formatted="false">New message from %s - %s.</string>
     <string name="status_bar_notification_ticker_text_unknown_contact_sms" formatted="false">New message -  %s.</string>
    	<string name="status_bar_notification_ticker_text_privacy_sms" formatted="false">New message from %s.</string>
-   	<string name="status_bar_notification_ticker_text_privacy_unknown_contact_sms">New message.</string>
    	<string name="status_bar_notification_ticker_text_sms_null" formatted="false">New message.</string>
+   	
     <string name="status_bar_notification_ticker_text_mms" formatted="false">New message from %s - %s.</string>
     <string name="status_bar_notification_ticker_text_unknown_contact_mms" formatted="false">New message - %s.</string>
    	<string name="status_bar_notification_ticker_text_privacy_mms" formatted="false">New message from %s.</string>
-   	<string name="status_bar_notification_ticker_text_privacy_unknown_contact_mms">New message.</string>  
    	<string name="status_bar_notification_ticker_text_mms_null" formatted="false">New message.</string>
+   	
     <string name="status_bar_notification_ticker_text_phone" formatted="false">Missed call from %s.</string>  
     <string name="status_bar_notification_ticker_text_phone_null" formatted="false">Missed call.</string>
+    
     <string name="status_bar_notification_ticker_text_calendar" formatted="false">Calendar event - %s</string>
     <string name="status_bar_notification_ticker_text_calendar_null" formatted="false">Calendar event.</string>
+    
+    <string name="status_bar_notification_ticker_text_twitter_direct_message" formatted="false">New twitter direct message from %s - %s.</string>
+    <string name="status_bar_notification_ticker_text_unknown_contact_twitter_direct_message" formatted="false">New twitter direct message -  %s.</string>
+    <string name="status_bar_notification_ticker_text_twitter_direct_message_null" formatted="false">New twitter direct message.</string>    
+    
+    <string name="status_bar_notification_ticker_text_twitter_mention" formatted="false">New twitter mention from %s - %s.</string>
+    <string name="status_bar_notification_ticker_text_unknown_contact_twitter_mention" formatted="false">New twitter mention -  %s.</string>
+    <string name="status_bar_notification_ticker_text_twitter_mention_null" formatted="false">New twitter mention.</string>
+    
     <string name="status_bar_notification_ticker_text_email" formatted="false">New email from %s - %s.</string>
     <string name="status_bar_notification_ticker_text_unknown_contact_email" formatted="false">New email -  %s.</string>
    	<string name="status_bar_notification_ticker_text_privacy_email" formatted="false">New email from %s.</string>
-   	<string name="status_bar_notification_ticker_text_privacy_unknown_contact_email">New email.</string>
    	<string name="status_bar_notification_ticker_text_email_null" formatted="false">New email.</string>
     
     <string name="status_bar_notifications_text">Status Bar Notifications</string>
@@ -867,5 +879,40 @@
     <string name="date_format_14_text">2011.12.31</string>
     <string name="date_format_15_text">2011 Dec 31</string>
     <string name="date_format_16_text">2011 December 31</string>
+  
+    <!-- Choose Client Strings -->
+	<string name="use_preferred_client">Use Preferred Client</string>
+   	<string name="preference_choose_client_title">Select Preferred Client</string>
+   	<string name="preference_choose_client_summary">Choose the client that you prefer to use. This client will be used by the application when appropriate.</string>
+   	<string name="launch_twitter_app">Launch Twitter App.</string>
+        
+    <!-- Twitter Client Names Strings -->    
+    <string name="hootsuite">HootSuite</string>
+	<string name="plume">Plume</string>
+	<string name="plume_premium">Plume Premium</string>
+	<string name="seesmic">Seesmic</string>
+	<string name="tweetdeck">TweetDeck</string>
+	<string name="tweetcaster">TweetCaster</string>
+	<string name="tweetcaster_pink">TweetCaster Pink</string>
+	<string name="tweetcaster_pro">TweetCaster Pro</string>
+	<string name="tweetsride">TweetsRide</string>
+	<string name="twicca">Twicca</string>
+	<string name="twidroyd_legacy">Twidroyd Legacy</string>
+	<string name="twitter">Twitter</string>
+	<string name="ubersocial">Ubersocial (formerly Twidroyd Pro)</string>
+	
+    <string name="use_hootsuite">Use HootSuite</string>
+	<string name="use_plume">Use Plume</string>
+	<string name="use_plume_premium">Use Plume Premium</string>
+	<string name="use_seesmic">Use Seesmic</string>
+	<string name="use_tweetdeck">Use TweetDeck</string>
+	<string name="use_tweetcaster">Use TweetCaster</string>
+	<string name="use_tweetcaster_pink">Use TweetCaster Pink</string>
+	<string name="use_tweetcaster_pro">Use TweetCaster Pro</string>
+	<string name="use_tweetsride">Use TweetsRide</string>
+	<string name="use_twicca">Use Twicca</string>
+	<string name="use_twidroyd_legacy">Use Twidroyd Legacy</string>
+	<string name="use_twitter">Use Twitter</string>
+	<string name="use_ubersocial">Use Ubersocial (formerly Twidroyd Pro)</string>
     
 </resources>

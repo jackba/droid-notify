@@ -100,7 +100,7 @@ public class CalendarNotificationAlarmBroadcastReceiverService extends WakefulIn
 						}
 			    	}
 					//Display Status Bar Notification
-				    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_CALENDAR, callStateIdle, null, null, title, null);
+				    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_CALENDAR, 0, callStateIdle, null, null, title, null);
 		    	}
 		    	//Ignore notification based on the users preferences.
 		    	if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_IGNORE)){
