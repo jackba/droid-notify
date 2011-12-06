@@ -12,29 +12,29 @@ import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
 
 /**
- * This class handles scheduled Missed Call notifications that we want to display.
+ * This class handles the work of processing incoming MMS messages.
  * 
  * @author Camille Sévigny
  */
-public class PhoneReceiverService extends WakefulIntentService {
+public class MMSService extends WakefulIntentService {
 	
 	//================================================================================
     // Properties
     //================================================================================
 	
-	private boolean _debug = false;
+	boolean _debug = false;
 
 	//================================================================================
 	// Public Methods
 	//================================================================================
 	
 	/**
-	 * Class Constructor
+	 * Class Constructor.
 	 */
-	public PhoneReceiverService() {
-		super("PhoneReceiverService");
+	public MMSService() {
+		super("MMSReceiverService");
 		_debug = Log.getDebug();
-		if (_debug) Log.v("PhoneReceiverService.PhoneReceiverService()");
+		if (_debug) Log.v("MMSReceiverService.MMSReceiverService()");
 	}
 
 	//================================================================================
@@ -42,30 +42,30 @@ public class PhoneReceiverService extends WakefulIntentService {
 	//================================================================================
 	
 	/**
-	 * Display the notification for this Missed Call.
+	 * Do the work for the service inside this function.
 	 * 
 	 * @param intent - Intent object that we are working with.
 	 */
 	@Override
 	protected void doWakefulWork(Intent intent) {
-		if (_debug) Log.v("PhoneReceiverService.doWakefulWork()");
+		if (_debug) Log.v("MMSReceiverService.doWakefulWork()");
 		try{
 			Context context = getApplicationContext();
-			ArrayList<String> missedCallsArray = Common.getMissedCalls(context);
-			if(missedCallsArray != null && missedCallsArray.size() > 0){
+			ArrayList<String> mmsArray = Common.getMMSMessagesFromDisk(context);
+			if(mmsArray != null && mmsArray.size() > 0){
 				Bundle bundle = new Bundle();
-				bundle.putInt("notificationType", Constants.NOTIFICATION_TYPE_PHONE);
-				bundle.putStringArrayList("missedCallsArrayList", missedCallsArray);
-		    	Intent phoneNotificationIntent = new Intent(context, NotificationActivity.class);
-		    	phoneNotificationIntent.putExtras(bundle);
-		    	phoneNotificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+				bundle.putInt("notificationType", Constants.NOTIFICATION_TYPE_MMS);
+				bundle.putStringArrayList("mmsArrayList", mmsArray);
+		    	Intent mmsNotificationIntent = new Intent(context, NotificationActivity.class);
+		    	mmsNotificationIntent.putExtras(bundle);
+		    	mmsNotificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
 		    	Common.acquireWakeLock(context);
-		    	context.startActivity(phoneNotificationIntent);
+		    	context.startActivity(mmsNotificationIntent);
 			}else{
-				if (_debug) Log.v("PhoneReceiverService.doWakefulWork() No missed calls were found. Exiting...");
+				if (_debug) Log.v("MMSReceiverService.doWakefulWork() No new MMSs were found. Exiting...");
 			}
 		}catch(Exception ex){
-			if (_debug) Log.e("PhoneReceiverService.doWakefulWork() ERROR: " + ex.toString());
+			if (_debug) Log.e("MMSReceiverService.doWakefulWork() ERROR: " + ex.toString());
 		}
 	}
 	

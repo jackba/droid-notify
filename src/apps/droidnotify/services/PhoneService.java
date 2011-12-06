@@ -1,24 +1,26 @@
 package apps.droidnotify.services;
 
+import java.util.ArrayList;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import apps.droidnotify.NotificationActivity;
 import apps.droidnotify.common.Common;
+import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
 
 /**
- * This class handles scheduled Calendar Event notifications that we want to display.
+ * This class handles scheduled Missed Call notifications that we want to display.
  * 
  * @author Camille Sévigny
  */
-public class CalendarNotificationAlarmReceiverService extends WakefulIntentService {
+public class PhoneService extends WakefulIntentService {
 	
 	//================================================================================
     // Properties
     //================================================================================
-
+	
 	private boolean _debug = false;
 
 	//================================================================================
@@ -26,12 +28,12 @@ public class CalendarNotificationAlarmReceiverService extends WakefulIntentServi
 	//================================================================================
 	
 	/**
-	 * Class Constructor.
+	 * Class Constructor
 	 */
-	public CalendarNotificationAlarmReceiverService() {
-		super("CalendarNotificationAlarmReceiverService");
+	public PhoneService() {
+		super("PhoneService");
 		_debug = Log.getDebug();
-		if (_debug) Log.v("CalendarNotificationAlarmReceiverService.CalendarNotificationAlarmReceiverService()");
+		if (_debug) Log.v("PhoneService.PhoneService()");
 	}
 
 	//================================================================================
@@ -39,23 +41,26 @@ public class CalendarNotificationAlarmReceiverService extends WakefulIntentServi
 	//================================================================================
 	
 	/**
-	 * Display the notification for this Calendar Event.
+	 * Display the notification for this Missed Call.
 	 * 
 	 * @param intent - Intent object that we are working with.
 	 */
 	@Override
 	protected void doWakefulWork(Intent intent) {
-		if (_debug) Log.v("CalendarNotificationAlarmReceiverService.doWakefulWork()");
+		if (_debug) Log.v("PhoneService.doWakefulWork()");
 		try{
 			Context context = getApplicationContext();
-	    	Intent calendarIntent = new Intent(context, NotificationActivity.class);
-	    	Bundle bundle = intent.getExtras();
-	    	calendarIntent.putExtras(bundle);
-	    	calendarIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-	    	Common.acquireWakeLock(context);
-	    	context.startActivity(calendarIntent);
+			ArrayList<String> missedCallsArray = Common.getMissedCalls(context);
+			if(missedCallsArray != null && missedCallsArray.size() > 0){
+				Bundle bundle = new Bundle();
+				bundle.putInt("notificationType", Constants.NOTIFICATION_TYPE_PHONE);
+				bundle.putStringArrayList("missedCallsArrayList", missedCallsArray);
+				Common.startNotificationActivity(context, bundle);
+			}else{
+				if (_debug) Log.v("PhoneService.doWakefulWork() No missed calls were found. Exiting...");
+			}
 		}catch(Exception ex){
-			if (_debug) Log.e("CalendarNotificationAlarmReceiverService.doWakefulWork() ERROR: " + ex.toString());
+			if (_debug) Log.e("PhoneService.doWakefulWork() ERROR: " + ex.toString());
 		}
 	}
 	

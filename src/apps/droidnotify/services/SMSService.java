@@ -8,7 +8,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 
-import apps.droidnotify.NotificationActivity;
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
@@ -18,7 +17,7 @@ import apps.droidnotify.log.Log;
  * 
  * @author Camille Sévigny
  */
-public class SMSReceiverService extends WakefulIntentService {
+public class SMSService extends WakefulIntentService {
 	
 	//================================================================================
     // Properties
@@ -33,10 +32,10 @@ public class SMSReceiverService extends WakefulIntentService {
 	/**
 	 * Class Constructor.
 	 */
-	public SMSReceiverService() {
-		super("SMSReceiverService");
+	public SMSService() {
+		super("SMSService");
 		_debug = Log.getDebug();
-		if (_debug) Log.v("SMSReceiverService.SMSReceiverService()");
+		if (_debug) Log.v("SMSService.SMSService()");
 	}
 
 	//================================================================================
@@ -50,7 +49,7 @@ public class SMSReceiverService extends WakefulIntentService {
 	 */
 	@Override
 	protected void doWakefulWork(Intent intent) {
-		if (_debug) Log.v("SMSReceiverService.doWakefulWork()");
+		if (_debug) Log.v("SMSService.doWakefulWork()");
 		try{
 			Context context = getApplicationContext();
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -65,16 +64,12 @@ public class SMSReceiverService extends WakefulIntentService {
 				Bundle bundle = new Bundle();
 				bundle.putInt("notificationType", Constants.NOTIFICATION_TYPE_SMS);
 				bundle.putStringArrayList("smsArrayList", smsArray);
-		    	Intent smsNotificationIntent = new Intent(context, NotificationActivity.class);
-		    	smsNotificationIntent.putExtras(bundle);
-		    	smsNotificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-		    	Common.acquireWakeLock(context);
-		    	context.startActivity(smsNotificationIntent);
+		    	Common.startNotificationActivity(context, bundle);
 			}else{
-				if (_debug) Log.v("SMSReceiverService.doWakefulWork() No new SMSs were found. Exiting...");
+				if (_debug) Log.v("SMSService.doWakefulWork() No new SMSs were found. Exiting...");
 			}
 		}catch(Exception ex){
-			if (_debug) Log.e("SMSReceiverService.doWakefulWork() ERROR: " + ex.toString());
+			if (_debug) Log.e("SMSService.doWakefulWork() ERROR: " + ex.toString());
 		}
 	}
 		

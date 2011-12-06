@@ -74,7 +74,7 @@ public class CalendarNotificationAlarmBroadcastReceiverService extends WakefulIn
 		    boolean rescheduleNotification = false;
 		    boolean callStateIdle = telemanager.getCallState() == TelephonyManager.CALL_STATE_IDLE;
 		    boolean blockingAppRunning = Common.isBlockingAppRunning(context);
-		    String blockingAppRuningAction = preferences.getString(Constants.CALENDAR_BLOCKING_APP_RUNNING_ACTION_KEY, "0");
+		    String blockingAppRuningAction = preferences.getString(Constants.CALENDAR_BLOCKING_APP_RUNNING_ACTION_KEY, Constants.BLOCKING_APP_RUNNING_ACTION_SHOW);
 		    //Reschedule notification based on the users preferences.
 		    if(!callStateIdle){
 		    	rescheduleNotification = true;
@@ -83,7 +83,7 @@ public class CalendarNotificationAlarmBroadcastReceiverService extends WakefulIn
 		    	rescheduleNotification = true;
 		    }
 		    if(!rescheduleNotification){
-				Intent calendarIntent = new Intent(context, CalendarNotificationAlarmReceiverService.class);
+				Intent calendarIntent = new Intent(context, CalendarService.class);
 				calendarIntent.putExtras(intent.getExtras());
 				WakefulIntentService.sendWakefulWork(context, calendarIntent);
 		    }else{	    	
@@ -119,7 +119,7 @@ public class CalendarNotificationAlarmBroadcastReceiverService extends WakefulIn
 					AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 					Intent calendarIntent = new Intent(context, CalendarNotificationAlarmReceiver.class);
 					calendarIntent.putExtras(intent.getExtras());
-					calendarIntent.setAction("apps.droidnotify.VIEW/CalendarReschedule/" + System.currentTimeMillis());
+					calendarIntent.setAction("apps.droidnotify.VIEW/CalendarReschedule/" + String.valueOf(System.currentTimeMillis()));
 					PendingIntent calendarPendingIntent = PendingIntent.getBroadcast(context, 0, calendarIntent, 0);
 					alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + rescheduleInterval, calendarPendingIntent);
 		    	}

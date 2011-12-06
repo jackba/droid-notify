@@ -144,10 +144,8 @@ public class QuickReplyActivity extends Activity {
 		    	break;
 		    }
 			case Constants.NOTIFICATION_TYPE_TWITTER:{	   
-				if(_notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE){
-		    		FilterArray[0] = new InputFilter.LengthFilter(140);
-		    		_messageEditText.setFilters(FilterArray);
-				}
+				FilterArray[0] = new InputFilter.LengthFilter(140);
+		    	_messageEditText.setFilters(FilterArray);
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_FACEBOOK:{	    		
@@ -185,11 +183,9 @@ public class QuickReplyActivity extends Activity {
 				    	break;
 				    }
 					case Constants.NOTIFICATION_TYPE_TWITTER:{	   
-						if(_notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE){
-							maxCharacters = 140;
-							characterBundleAmount = 140;
-							useCharacterBundles = false;
-						}
+						maxCharacters = 140;
+						characterBundleAmount = 140;
+						useCharacterBundles = false;
 						break;
 					}
 					case Constants.NOTIFICATION_TYPE_FACEBOOK:{	    		
@@ -292,13 +288,13 @@ public class QuickReplyActivity extends Activity {
 	    		_name = bundle.getString("name");
 	    		String message = bundle.getString("message");
 	    		if(_sendTo == null){
-	    			if (_debug) Log.v("QuickReplyActivity.parseQuickReplyParameters() Send To number is null. Exiting...");
+	    			if (_debug) Log.v("QuickReplyActivity.parseQuickReplyParameters() Send To value is null. Exiting...");
 	    			return;
 	    		}
 	    		if(!_name.equals("")){
-	    			_sendToTextView.setText("To: " + _name + " (" + _sendTo + ")");
+	    			_sendToTextView.setText(_context.getString(R.string.to_text) + ": " + _name + " (" + _sendTo + ")");
 	    		}else{
-	    			_sendToTextView.setText("To: " + _sendTo);
+	    			_sendToTextView.setText(_context.getString(R.string.to_text) + ": " + _sendTo);
 	    		}		
 	    		if(message != null){
 	    			_messageEditText.setText(message);
@@ -312,13 +308,13 @@ public class QuickReplyActivity extends Activity {
 	    		_name = bundle.getString("name");
 	    		String message = bundle.getString("message");
 	    		if(_sendTo == null){
-	    			if (_debug) Log.v("QuickReplyActivity.parseQuickReplyParameters() Send To number is null. Exiting...");
+	    			if (_debug) Log.v("QuickReplyActivity.parseQuickReplyParameters() Send To value is null. Exiting...");
 	    			return;
 	    		}
 	    		if(!_name.equals("")){
-	    			_sendToTextView.setText("To: " + _name + " (" + _sendTo + ")");
+	    			_sendToTextView.setText(_context.getString(R.string.to_text) + ": " + _name + " (" + _sendTo + ")");
 	    		}else{
-	    			_sendToTextView.setText("To: " + _sendTo);
+	    			_sendToTextView.setText(_context.getString(R.string.to_text) + ": " + _sendTo);
 	    		}		
 	    		if(message != null){
 	    			_messageEditText.setText(message);
@@ -335,13 +331,13 @@ public class QuickReplyActivity extends Activity {
 	    		_name = bundle.getString("name");
 	    		String message = bundle.getString("message");
 	    		if(_sendTo == null){
-	    			if (_debug) Log.v("QuickReplyActivity.parseQuickReplyParameters() Send To number is null. Exiting...");
+	    			if (_debug) Log.v("QuickReplyActivity.parseQuickReplyParameters() Send To value is null. Exiting...");
 	    			return;
 	    		}
 	    		if(!_name.equals("")){
-	    			_sendToTextView.setText("To: " + _name + " (" + _sendTo + ")");
+	    			_sendToTextView.setText(_context.getString(R.string.to_text) + ": " + _name + " (" + _sendTo + ")");
 	    		}else{
-	    			_sendToTextView.setText("To: " + _sendTo);
+	    			_sendToTextView.setText(_context.getString(R.string.to_text) + ": " + _sendTo);
 	    		}		
 	    		if(message != null){
 	    			_messageEditText.setText(message);
@@ -418,6 +414,13 @@ public class QuickReplyActivity extends Activity {
 	            if(_sendTo.length()>0 && message.length()>0){ 
 	            	if(_notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE){
 	            		if(TwitterCommon.sendTwitterDirectMessage(_context, _sendToID, message)){
+	        				_messageSent = true;
+	        				return true;
+	            		}else{
+	            			return false;
+	            		}
+	            	}else if(_notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_MENTION){
+	            		if(TwitterCommon.sendTweet(_context, _sendToID, message, true)){
 	        				_messageSent = true;
 	        				return true;
 	            		}else{
@@ -669,25 +672,28 @@ public class QuickReplyActivity extends Activity {
 		if (_debug) Log.v("QuickReplyActivity.saveMessageDraft()");
 		if(_messageSent){
 			return;
-		}
-		if(_preferences.getBoolean(Constants.SAVE_MESSAGE_DRAFT_KEY, true)){
-			try{
-				Context context = getBaseContext();
-				String address = _sendTo;
-				String message = _messageEditText.getText().toString().trim();
-				if(!message.equals("")){
-			    	//Store the message in the draft folder so that it shows in Messaging apps.
-			        ContentValues values = new ContentValues();
-			        values.put("address", address);
-			        values.put("body", message);
-			        values.put("date", String.valueOf(System.currentTimeMillis()));
-			        values.put("type", "3");
-			        values.put("thread_id", String.valueOf(Common.getThreadID(context, address, 1)));
-			        getContentResolver().insert(Uri.parse("content://sms/draft"), values);
-			        Toast.makeText(context, getString(R.string.draft_saved_text), Toast.LENGTH_SHORT).show();
+		}else{
+			if(_notificationType == Constants.NOTIFICATION_TYPE_SMS || _notificationType == Constants.NOTIFICATION_TYPE_MMS){
+				if(_preferences.getBoolean(Constants.SAVE_MESSAGE_DRAFT_KEY, true)){
+					try{
+						Context context = getBaseContext();
+						String address = _sendTo;
+						String message = _messageEditText.getText().toString().trim();
+						if(!message.equals("")){
+					    	//Store the message in the draft folder so that it shows in Messaging apps.
+					        ContentValues values = new ContentValues();
+					        values.put("address", address);
+					        values.put("body", message);
+					        values.put("date", String.valueOf(System.currentTimeMillis()));
+					        values.put("type", "3");
+					        values.put("thread_id", String.valueOf(Common.getThreadID(context, address, 1)));
+					        getContentResolver().insert(Uri.parse("content://sms/draft"), values);
+					        Toast.makeText(context, getString(R.string.draft_saved_text), Toast.LENGTH_SHORT).show();
+						}
+					}catch(Exception ex){
+						if (_debug) Log.e("QuickReplyActivity.sendSMS() Insert Into Sent Foler ERROR: " + ex.toString());
+					}
 				}
-			}catch(Exception ex){
-				if (_debug) Log.e("QuickReplyActivity.sendSMS() Insert Into Sent Foler ERROR: " + ex.toString());
 			}
 		}
 	}

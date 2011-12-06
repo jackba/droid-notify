@@ -3229,6 +3229,29 @@ public class Common {
 		}
 	}
 	
+	/**
+	 * Start the Notification Activity and send it the provided bundle.
+	 * 
+	 * @param context - The application context.
+	 * @param bundle - The bundle to send to the activity.
+	 * 
+	 * @return boolean - Returns true if the activity was started successfully.
+	 */
+	public static boolean startNotificationActivity(Context context, Bundle bundle){
+		if (_debug) Log.v("TwitterService.startNotificationActivity()");
+		try{
+			Intent notificationIntent = new Intent(context, NotificationActivity.class);
+	    	notificationIntent.putExtras(bundle);
+	    	notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+	    	Common.acquireWakeLock(context);
+	    	context.startActivity(notificationIntent);	
+	    	return true;
+		}catch(Exception ex){
+			if (_debug) Log.e("TwitterService.startNotificationActivity() ERROR: " + ex.toString());
+			return false;
+		}
+	}
+	
 	//================================================================================
 	// Private Methods
 	//================================================================================

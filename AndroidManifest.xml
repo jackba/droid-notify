@@ -70,33 +70,35 @@
 
 		<service android:name="apps.droidnotify.services.CalendarAlarmReceiverService" />
 		<service android:name="apps.droidnotify.services.CalendarNotificationAlarmBroadcastReceiverService" />
-		<service android:name="apps.droidnotify.services.CalendarNotificationAlarmReceiverService" />
+		<service android:name="apps.droidnotify.services.CalendarService" />
 		
 		<service android:name="apps.droidnotify.services.FacebookAlarmBroadcastReceiverService" />
+		<service android:name="apps.droidnotify.services.FacebookService" />
 
 		<service android:name="apps.droidnotify.services.K9BroadcastReceiverService" />
-		<service android:name="apps.droidnotify.services.K9ReceiverService" />
+		<service android:name="apps.droidnotify.services.K9Service" />
  
         <service android:name="apps.droidnotify.services.MMSAlarmBroadcastReceiverService" />
         <service android:name="apps.droidnotify.services.MMSBroadcastReceiverService" />
-        <service android:name="apps.droidnotify.services.MMSReceiverService" /> 
+        <service android:name="apps.droidnotify.services.MMSService" /> 
 
         <service android:name="apps.droidnotify.services.OnBootBroadcastReceiverService" />
         
         <service android:name="apps.droidnotify.services.PhoneAlarmBroadcastReceiverService" />
         <service android:name="apps.droidnotify.services.PhoneBroadcastReceiverService" />
-       	<service android:name="apps.droidnotify.services.PhoneReceiverService" />
+       	<service android:name="apps.droidnotify.services.PhoneService" />
 
         <service android:name="apps.droidnotify.services.RescheduleBroadcastReceiverService" />
-		<service android:name="apps.droidnotify.services.RescheduleReceiverService" />
+		<service android:name="apps.droidnotify.services.RescheduleService" />
        	
         <service android:name="apps.droidnotify.services.ScreenManagementAlarmBroadcastReceiverService" />
 		
         <service android:name="apps.droidnotify.services.SMSAlarmBroadcastReceiverService" />
         <service android:name="apps.droidnotify.services.SMSBroadcastReceiverService" />
-        <service android:name="apps.droidnotify.services.SMSReceiverService" />
+        <service android:name="apps.droidnotify.services.SMSService" />
 		    
         <service android:name="apps.droidnotify.services.TwitterAlarmBroadcastReceiverService" />
+        <service android:name="apps.droidnotify.services.TwitterService" />
         
 		<receiver 
 		    android:name="apps.droidnotify.receivers.CalendarAlarmReceiver"

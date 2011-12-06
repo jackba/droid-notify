@@ -153,7 +153,7 @@
 	<!-- Missed Call Preferences Arrays --> 
     <string-array name="missed_call_dismiss_button_options">
 		<item name="0">@string/mark_as_read_text</item>
-		<item name="1">Delete From Call Log</item>
+		<item name="1">@string/delete_from_call_log_text</item>
 		<item name="2">@string/nothing_text</item>
 	</string-array>
 	<string-array name="missed_call_dismiss_button_options_values">
@@ -575,12 +575,12 @@
 		<item name="17">1800</item>
 	</string-array>
 
-	<string-array name="messaging_app_running_action_options">
+	<string-array name="blocking_app_running_action_options">
     	<item name="0">@string/reschedule_notification_text</item>
 		<item name="1">@string/ignore_notification_text</item>
 		<item name="2">@string/show_notification_text</item>
 	</string-array>
-	<string-array name="messaging_app_running_action_options_values">
+	<string-array name="blocking_app_running_action_options_values">
 		<item name="0">0</item>
 		<item name="1">1</item>
 		<item name="2">2</item>

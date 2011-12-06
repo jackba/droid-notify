@@ -6,6 +6,7 @@ import oauth.signpost.OAuth;
 
 import twitter4j.DirectMessage;
 import twitter4j.ResponseList;
+import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterFactory;
 import twitter4j.User;
@@ -19,11 +20,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnCompletionListener;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.widget.Toast;
 
+import apps.droidnotify.Notification;
 import apps.droidnotify.NotificationActivity;
 import apps.droidnotify.QuickReplyActivity;
 import apps.droidnotify.R;
@@ -44,6 +50,7 @@ public class TwitterCommon {
     //================================================================================
 	
 	private static boolean _debug = false; 
+	private static Context _context = null;
 	
 	//================================================================================
 	// Public Methods
@@ -56,37 +63,27 @@ public class TwitterCommon {
 	 * 
 	 * @return ArrayList<String> - Returns an ArrayList of Strings that contain the Twitter information.
 	 */
-	public static ArrayList<String> getTwitterDirectMessages(Context context){
+	public static ArrayList<String> getTwitterDirectMessages(Context context, Twitter twitter){
 		_debug = Log.getDebug();
 		if (_debug) Log.v("TwitterCommon.getTwitterDirectMessages()");
 		try{
-			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-			if(preferences.getBoolean(Constants.TWITTER_DIRECT_MESSAGES_ENABLED_KEY, true)){
-				Twitter twitter = getTwitter(context);
-				if(twitter == null){
-					if (_debug) Log.v("TwitterCommon.getTwitterDirectMessages() Twitter object is null. Exiting...");
-					return null;
+		    ResponseList <DirectMessage> messages = twitter.getDirectMessages();
+		    ArrayList<String> twitterArray = new ArrayList<String>();
+			for(DirectMessage message: messages){
+				String messageBody = message.getText();
+				long messageID = message.getId();
+				long timeStamp = message.getCreatedAt().getTime();
+		    	String sentFromAddress = message.getSenderScreenName();
+		    	long twitterID = message.getSenderId();
+	    		String[] twitterContactInfo = null;
+	    		twitterContactInfo = getContactInfoByTwitterID(context, twitterID);
+	    		if(twitterContactInfo == null){
+	    			twitterArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE) + "|" + sentFromAddress + "|" + twitterID + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + timeStamp);
+				}else{
+					twitterArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE) + "|" + sentFromAddress + "|" + twitterID + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + timeStamp + "|" + twitterContactInfo[0] + "|" + twitterContactInfo[1] + "|" + twitterContactInfo[2] + "|" + twitterContactInfo[3]);
 				}
-			    ResponseList <DirectMessage> messages = twitter.getDirectMessages();
-			    ArrayList<String> twitterArray = new ArrayList<String>();
-				for(DirectMessage message: messages){
-					String messageBody = message.getText();
-					long messageID = message.getId();
-					long timeStamp = message.getCreatedAt().getTime();
-			    	String sentFromAddress = message.getSenderScreenName();
-			    	long twitterID = message.getSenderId();
-		    		String[] twitterContactInfo = null;
-		    		twitterContactInfo = getContactsInfoByTwitterID(context, twitterID);
-		    		if(twitterContactInfo == null){
-		    			twitterArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE) + "|" + sentFromAddress + "|" + twitterID + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + timeStamp);
-					}else{
-						twitterArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE) + "|" + sentFromAddress + "|" + twitterID + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + timeStamp + "|" + twitterContactInfo[0] + "|" + twitterContactInfo[1] + "|" + twitterContactInfo[2] + "|" + twitterContactInfo[3]);
-					}
-				}
-				return twitterArray;
-			}else{
-				return null;
 			}
+			return twitterArray;
 		}catch(Exception ex){
 			if (_debug) Log.e("TwitterCommon.getTwitterDirectMessages() ERROR: " + ex.toString());
 			return null;
@@ -100,37 +97,26 @@ public class TwitterCommon {
 	 * 
 	 * @return ArrayList<String> - Returns an ArrayList of Strings that contain the Twitter information.
 	 */
-	public static ArrayList<String> getTwitterMentions(Context context){
+	public static ArrayList<String> getTwitterMentions(Context context, Twitter twitter){
 		_debug = Log.getDebug();
 		if (_debug) Log.v("TwitterCommon.getTwitterMentions()");
 		try{
-			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-			if(preferences.getBoolean(Constants.TWITTER_MENTIONS_ENABLED_KEY, true)){
-				Twitter twitter = getTwitter(context);
-				if(twitter == null){
-					if (_debug) Log.v("TwitterCommon.getTwitterMentions() Twitter object is null. Exiting...");
-					return null;
+			ResponseList<Status> mentions = twitter.getMentions();
+		    ArrayList<String> twitterArray = new ArrayList<String>();
+				for(Status mention: mentions){
+					String mentionText = mention.getText();
+					long mentionID = mention.getId();
+					long timeStamp = mention.getCreatedAt().getTime();
+			    	User twitterUser = mention.getUser();
+		    		String[] twitterContactInfo = null;
+		    		twitterContactInfo = getContactInfoByTwitterUser(context, twitterUser);
+		    		if(twitterContactInfo == null){
+		    			twitterArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_TWITTER_MENTION) + "|" + twitterUser.getScreenName() + "|" + twitterUser.getId() + "|" + mentionText.replace("\n", "<br/>") + "|" + mentionID + "|" + timeStamp);
+					}else{
+						twitterArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_TWITTER_MENTION) + "|" + twitterUser.getScreenName() + "|" + twitterUser.getId() + "|" + mentionText.replace("\n", "<br/>") + "|" + mentionID + "|" + timeStamp + "|" + twitterContactInfo[0] + "|" + twitterContactInfo[1] + "|" + twitterContactInfo[2] + "|" + twitterContactInfo[3]);
+					}
 				}
-			    ResponseList <DirectMessage> messages = twitter.getDirectMessages();
-			    ArrayList<String> twitterArray = new ArrayList<String>();
-//				for(DirectMessage message: messages){
-//					String messageBody = message.getText();
-//					long messageID = message.getId();
-//					long timeStamp = message.getCreatedAt().getTime();
-//			    	String sentFromAddress = message.getSenderScreenName();
-//			    	long twitterID = message.getSenderId();
-//		    		String[] twitterContactInfo = null;
-//		    		twitterContactInfo = getContactsInfoByTwitterID(context, twitterID);
-//		    		if(twitterContactInfo == null){
-//		    			twitterArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE) + "|" + sentFromAddress + "|" + twitterID + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + timeStamp);
-//					}else{
-//						twitterArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE) + "|" + sentFromAddress + "|" + twitterID + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + timeStamp + "|" + twitterContactInfo[0] + "|" + twitterContactInfo[1] + "|" + twitterContactInfo[2] + "|" + twitterContactInfo[3]);
-//					}
-//				}
-				return twitterArray;
-			}else{
-				return null;
-			}
+			return twitterArray;
 		}catch(Exception ex){
 			if (_debug) Log.e("TwitterCommon.getTwitterMentions() ERROR: " + ex.toString());
 			return null;
@@ -145,24 +131,52 @@ public class TwitterCommon {
 	 * 
 	 * @return String[] - String Array of the contact information.
 	 */ 
-	public static String[] getContactsInfoByTwitterID(Context context, long twitterID){
+	public static String[] 	getContactInfoByTwitterID(Context context, long twitterID){
 		_debug = Log.getDebug();
-		if (_debug) Log.v("TwitterCommon.getContactsInfoByTwitterID()");
-		long _contactID = 0;
-		String _contactName = "";
-		long _photoID = 0;
-		String _lookupKey = "";
+		if (_debug) Log.v("TwitterCommon.getContactInfoByTwitterID()");
 		if (twitterID == 0) {
-			if (_debug) Log.v("TwitterCommon.getContactsInfoByTwitterID() Twitter ID provided is 0. Exiting...");
+			if (_debug) Log.v("TwitterCommon.getContactInfoByTwitterID() Twitter ID provided is 0. Exiting...");
 			return null;
 		}
 		Twitter twitter = getTwitter(context);
 		if(twitter == null){
-			if (_debug) Log.v("TwitterCommon.getContactsInfoByTwitterID() Twitter object is null. Exiting...");
+			if (_debug) Log.v("TwitterCommon.getContactInfoByTwitterID() Twitter object is null. Exiting...");
 			return null;
 		}
 		try{
 			User twitterUser = twitter.showUser(twitterID);
+			return getContactInfoByTwitterUser(context, twitterUser);
+		}catch(Exception ex){
+			if (_debug) Log.e("TwitterCommon.getContactInfoByTwitterID() ERROR: " + ex.toString());
+			return null;
+		}
+	}
+
+	/**
+	 * Load the various contact info for this notification from a phoneNumber.
+	 * 
+	 * @param context - Application Context.
+	 * @param twitterID - The twitter ID of the person we are searching for.
+	 * 
+	 * @return String[] - String Array of the contact information.
+	 */ 
+	public static String[] getContactInfoByTwitterUser(Context context, User twitterUser){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("TwitterCommon.getContactInfoByTwitterUser()");
+		long _contactID = 0;
+		String _contactName = "";
+		long _photoID = 0;
+		String _lookupKey = "";
+		if (twitterUser == null) {
+			if (_debug) Log.v("TwitterCommon.getContactInfoByTwitterUser() Twitter User provided is null. Exiting...");
+			return null;
+		}
+		Twitter twitter = getTwitter(context);
+		if(twitter == null){
+			if (_debug) Log.v("TwitterCommon.getContactInfoByTwitterUser() Twitter object is null. Exiting...");
+			return null;
+		}
+		try{
 			String twitterName = twitterUser.getName();
 			final String[] projection = null;
 			final String selection = null;
@@ -174,7 +188,7 @@ public class TwitterCommon {
 					selection, 
 					selectionArgs, 
 					sortOrder);
-			if (_debug) Log.v("TwitterCommon.getContactsInfoByTwitterID() Searching Contacts");
+			if (_debug) Log.v("TwitterCommon.getContactInfoByTwitterUser() Searching Contacts");
 			while (cursor.moveToNext()) { 
 				String contactID = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID)); 
 				String contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
@@ -191,7 +205,7 @@ public class TwitterCommon {
 			cursor.close();
 			return new String[]{String.valueOf(_contactID), _contactName, String.valueOf(_photoID), _lookupKey};
 		}catch(Exception ex){
-			if (_debug) Log.e("TwitterCommon.getContactsInfoByTwitterID() ERROR: " + ex.toString());
+			if (_debug) Log.e("TwitterCommon.getContactInfoByTwitterUser() ERROR: " + ex.toString());
 			return null;
 		}
 	}
@@ -243,34 +257,6 @@ public class TwitterCommon {
 			return;
 		}
 	}	
-	
-	/**
-	 * Start the intent for any Twitter application to view the direct message inbox.
-	 * 
-	 * @param context - Application Context.
-	 * @param notificationActivity - A reference to the parent activity.
-	 * @param requestCode - The request code we want returned.
-	 * 
-	 * @return boolean - Returns true if the activity can be started.
-	 */
-	public static boolean startTwitterAppViewInboxActivity(Context context, NotificationActivity notificationActivity, int requestCode){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("TwitterCommon.startTwitterAppViewInboxActivity()");
-		try{
-			Intent intent = new Intent(Intent.ACTION_SEND); 
-			//intent.putExtra(Intent.EXTRA_TEXT, ""); 
-			//intent.setType("application/twitter");
-			intent.setType("text/plain");
-	        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-			notificationActivity.startActivityForResult(intent, requestCode);
-	        return true;
-		}catch(Exception ex){
-			if (_debug) Log.e("TwitterCommon.startTwitterAppViewInboxActivity() ERROR: " + ex.toString());
-			Toast.makeText(context, context.getString(R.string.app_twitter_app_error), Toast.LENGTH_LONG).show();
-			Common.setInLinkedAppFlag(context, false);
-			return false;
-		}
-	}	
 
 	/**
 	 * Start the intent for the Quick Reply activity send a reply.
@@ -316,20 +302,47 @@ public class TwitterCommon {
 		}
 	}
 	
-	
+	/**
+	 * Send a Twitter Direct Message to a user.
+	 * 
+	 * @param context - Application Context.
+	 * @param userID - The ID of the user we are sending the message to.
+	 * @param message - The message we want to send.
+	 * 
+	 * @return boolean - Returns true if the message was sent successfully.
+	 */
 	public static boolean sendTwitterDirectMessage(Context context, long userID, String message){
 		_debug = Log.getDebug();
 		if (_debug) Log.v("TwitterCommon.sendTwitterDirectMessage()");
-		Twitter twitter = getTwitter(context);
-		if(twitter == null){
-			if (_debug) Log.v("TwitterCommon.sendTwitterDirectMessage() Twitter object is null. Exiting...");
-			return false;
-		} 
+		_context = context;
 		try{
-			twitter.sendDirectMessage(userID, message);
+			new sendTwitterDirectMessageAsyncTask().execute(String.valueOf(userID), message);
 			return true;
 		}catch(Exception ex){
 			if (_debug) Log.v("TwitterCommon.sendTwitterDirectMessage() ERROR: " + ex.toString());
+			return false;
+		}
+	}
+
+	/**
+	 * Send a Tweet/Update User Status. 
+	 * This can be an update or a reply.
+	 * 
+	 * @param context - Application Context.
+	 * @param userID - The ID of the user we are sending the message to.
+	 * @param message - The message we want to send.
+	 * @param isReply - Boolean to state whether this is a reply to a user or not.
+	 * 
+	 * @return boolean - Returns true if the message was sent successfully.
+	 */
+	public static boolean sendTweet(Context context, long userID, String message, boolean isReply){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("TwitterCommon.sendTweet()");
+		try{
+			new sendTweetAsyncTask().execute(String.valueOf(userID), message, String.valueOf(isReply));
+			return true;
+		}catch(Exception ex){
+			if (_debug) Log.v("TwitterCommon.sendTweet() ERROR: " + ex.toString());
 			return false;
 		}
 	}
@@ -352,6 +365,26 @@ public class TwitterCommon {
 			alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, alarmStartTime, pollingFrequency, pendingIntent);
 		}catch(Exception ex){
 			if (_debug) Log.e("TwitterCommon.startTwitterAlarmManager() ERROR: " + ex.toString());
+		}
+	}
+	
+	/**
+	 * Start a single Twitter alarm.
+	 *  
+	 * @param context - The application context.
+	 * @param alarmStartTime - The time to start the alarm.
+	 */
+	public static void setTwitterAlarm(Context context, long alarmStartTime){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("TwitterCommon.setTwitterAlarm()");
+		try{
+			AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+			Intent intent = new Intent(context, TwitterAlarmReceiver.class);
+			intent.setAction("apps.droidnotify.VIEW/TwitterReschedule/" + String.valueOf(System.currentTimeMillis()));
+			PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+			alarmManager.set(AlarmManager.RTC_WAKEUP, alarmStartTime, pendingIntent);
+		}catch(Exception ex){
+			if (_debug) Log.e("TwitterCommon.setTwitterAlarm() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -440,6 +473,105 @@ public class TwitterCommon {
 			if (_debug) Log.e("TwitterCommon.getTwitter() ERROR: " + ex.toString());
 			return null;
 		}	
+	}
+
+	//================================================================================
+	// Private Methods
+	//================================================================================
+	
+	/**
+	 * Send a Twitter Direct Message in the background.
+	 * 
+	 * @author Camille Sévigny
+	 */
+	private static class sendTwitterDirectMessageAsyncTask extends AsyncTask<String, Void, Boolean> {
+	    
+	    /**
+	     * Do this work in the background.
+	     * 
+	     * @param params - The User ID & Message to send.
+	     */
+	    protected Boolean doInBackground(String... params) {
+			if (_debug) Log.v("TwitterCommon.sendTwitterDirectMessageAsyncTask.doInBackground()");
+			try{
+				Twitter twitter = getTwitter(_context);
+				if(twitter == null){
+					if (_debug) Log.v("TwitterCommon.sendTwitterDirectMessageAsyncTask.doInBackground() Twitter object is null. Exiting...");
+					return false;
+				}
+				twitter.sendDirectMessage(Long.parseLong(params[0]), params[1]);
+				return true;
+			}catch(Exception ex){
+				if (_debug) Log.e("TwitterCommon.sendTwitterDirectMessageAsyncTask.doInBackground() ERROR: " + ex.toString());
+				return false;
+			}
+	    }
+	    
+	    /**
+	     * Display a message if the Twitter Direct Message encountered an error.
+	     * 
+	     * @param result - Void.
+	     */
+	    protected void onPostExecute(Boolean result) {
+			if (_debug) Log.v("TwitterCommon.sendTwitterDirectMessageAsyncTask.onPostExecute()");
+			if(result){
+				//Do Nothing
+			}else{
+				Toast.makeText(_context, _context.getString(R.string.twitter_send_direct_mesage_error), Toast.LENGTH_LONG).show();
+			}
+	    }
+	    
+	}
+	
+	/**
+	 * Send a Tweet in the background.
+	 * 
+	 * @author Camille Sévigny
+	 */
+	private static class sendTweetAsyncTask extends AsyncTask<String, Void, Boolean> {
+	    
+	    /**
+	     * Do this work in the background.
+	     * 
+	     * @param params - The User ID & Message to send.
+	     */
+	    protected Boolean doInBackground(String... params) {
+			if (_debug) Log.v("TwitterCommon.sendTweetAsyncTask.doInBackground()");
+			try{
+				Twitter twitter = getTwitter(_context);
+				if(twitter == null){
+					if (_debug) Log.v("TwitterCommon.sendTweetAsyncTask.doInBackground() Twitter object is null. Exiting...");
+					return false;
+				}
+				if(Boolean.parseBoolean(params[2])){
+					String twitterUserScreenName = twitter.showUser(Long.parseLong(params[0])).getScreenName();
+					if (_debug) Log.v("TwitterCommon.sendTweetAsyncTask.doInBackground() Message: " + "@" + twitterUserScreenName + " " + params[1]);
+					twitter.updateStatus("@" + twitterUserScreenName + " " + params[1]);
+				}else{
+					if (_debug) Log.v("TwitterCommon.sendTweetAsyncTask.doInBackground() Mesage: " + params[1]);
+					twitter.updateStatus(params[1]);
+				}
+				return true;
+			}catch(Exception ex){
+				if (_debug) Log.e("TwitterCommon.sendTweetAsyncTask.doInBackground() ERROR: " + ex.toString());
+				return false;
+			}
+	    }
+	    
+	    /**
+	     * Display a message if the Twitter Direct Message encountered an error.
+	     * 
+	     * @param result - Void.
+	     */
+	    protected void onPostExecute(Boolean result) {
+			if (_debug) Log.v("TwitterCommon.sendTweetAsyncTask.onPostExecute()");
+			if(result){
+				//Do Nothing
+			}else{
+				Toast.makeText(_context, _context.getString(R.string.twitter_send_tweet_error), Toast.LENGTH_LONG).show();
+			}
+	    }
+	    
 	}
 	
 }

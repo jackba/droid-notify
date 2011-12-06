@@ -2,16 +2,11 @@ package apps.droidnotify.services;
 
 import java.util.ArrayList;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import com.facebook.android.Facebook;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.telephony.TelephonyManager;
 
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
@@ -30,11 +25,6 @@ public class FacebookAlarmBroadcastReceiverService extends WakefulIntentService 
     //================================================================================
 	
 	private boolean _debug = false;
-	private Context _context = null;
-	private SharedPreferences _preferences = null;
-	private Facebook _facebook = null;
-	private String _accessToken = null;
-	private ArrayList<String> _facebookArray = null;
 
 	//================================================================================
 	// Public Methods
@@ -62,94 +52,96 @@ public class FacebookAlarmBroadcastReceiverService extends WakefulIntentService 
 	protected void doWakefulWork(Intent intent) {
 		if (_debug) Log.v("FacebookAlarmBroadcastReceiverService.doWakefulWork()");
 		try{
-			_context = getApplicationContext();
-			_preferences = PreferenceManager.getDefaultSharedPreferences(_context);
+			Context context = getApplicationContext();
+			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 			//Read preferences and exit if app is disabled.
-		    if(!_preferences.getBoolean(Constants.APP_ENABLED_KEY, true)){
+		    if(!preferences.getBoolean(Constants.APP_ENABLED_KEY, true)){
 				if (_debug) Log.v("FacebookAlarmBroadcastReceiverService.doWakefulWork() App Disabled. Exiting...");
 				return;
 			}
 			//Block the notification if it's quiet time.
-			if(Common.isQuietTime(_context)){
+			if(Common.isQuietTime(context)){
 				if (_debug) Log.v("FacebookAlarmBroadcastReceiverService.doWakefulWork() Quiet Time. Exiting...");
 				return;
 			}
 			//Read preferences and exit if Facebook notifications are disabled.
-		    if(!_preferences.getBoolean(Constants.FACEBOOK_NOTIFICATIONS_ENABLED_KEY, true)){
+		    if(!preferences.getBoolean(Constants.FACEBOOK_NOTIFICATIONS_ENABLED_KEY, true)){
 				if (_debug) Log.v("FacebookAlarmBroadcastReceiverService.doWakefulWork() Facebook Notifications Disabled. Exiting... ");
 				return;
 			}
-		    //Get Facebook Object.
-		    _facebook = FacebookCommon.getFacebook(_context);
-		    if(_facebook == null){
-		    	if (_debug) Log.v("FacebookAlarmBroadcastReceiverService.doWakefulWork() Facebook object is null. Exiting... ");
-		    	return;
+		  //Check the state of the users phone.
+		    TelephonyManager telemanager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+		    boolean rescheduleNotification = false;
+		    boolean callStateIdle = telemanager.getCallState() == TelephonyManager.CALL_STATE_IDLE;
+		    boolean blockingAppRunning = Common.isBlockingAppRunning(context);
+		    String blockingAppRuningAction = preferences.getString(Constants.FACEBOOK_BLOCKING_APP_RUNNING_ACTION_KEY, Constants.BLOCKING_APP_RUNNING_ACTION_SHOW);
+		    //Reschedule notification based on the users preferences.
+		    if(!callStateIdle){
+		    	rescheduleNotification = true;
+		    }else if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_RESCHEDULE) && blockingAppRunning){ 
+		    	//Blocking App is running.
+		    	rescheduleNotification = true;
 		    }
-		    _accessToken = _preferences.getString(Constants.FACEBOOK_ACCESS_TOKEN_KEY, null);
-		    _facebookArray = new ArrayList<String>();
-		    //Get Facebook Messages.
-		    getFacebookNotifications();
-		    //Get Facebook Friend Requests.
-		    getFacebookFriendRequests();
-		    if(_facebookArray != null && _facebookArray.size() > 0){
-//				Bundle bundle = new Bundle();
-//				bundle.putInt("notificationType", Constants.NOTIFICATION_TYPE_FACEBOOK);
-//				bundle.putStringArrayList("facebookArrayList", _facebookArray);
-//		    	Intent facebookNotificationIntent = new Intent(_context, NotificationActivity.class);
-//		    	facebookNotificationIntent.putExtras(bundle);
-//		    	facebookNotificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-//		    	Common.acquireWakeLock(_context);
-//		    	_context.startActivity(facebookNotificationIntent);
-			}else{
-				if (_debug) Log.v("FacebookAlarmBroadcastReceiverService.doWakefulWork() No new Facebook notifications were found. Exiting...");
-			}
+		    if(!rescheduleNotification){
+				WakefulIntentService.sendWakefulWork(context, new Intent(context, FacebookService.class));
+		    }else{
+		    	//Display the Status Bar Notification even though the popup is blocked based on the user preferences.
+		    	if(preferences.getBoolean(Constants.FACEBOOK_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true)){
+		    		//Get the Facebook message info.
+					String contactName = null;
+					String messageAddress = null;
+					String messageBody = null;
+//					ArrayList<String> facebookDirectMessageArray = FacebookCommon.getFacebookNotifications(context);
+//				    if(facebookDirectMessageArray != null && facebookDirectMessageArray.size() > 0){
+//				    	int facebookDirectMessageArraySize = facebookDirectMessageArray.size();
+//				    	for(int i=0; i<facebookDirectMessageArraySize; i++ ){
+//				    		String facebookArrayItem = facebookDirectMessageArray.get(i);
+//							String[] facebookInfo = facebookArrayItem.split("\\|");
+//			    			int arraySize = facebookInfo.length;
+//			    			if(arraySize > 0){
+//								if(arraySize >= 1) messageAddress = facebookInfo[1];
+//								if(arraySize >= 2) messageBody = facebookInfo[3];
+//								if(arraySize >= 8) contactName = facebookInfo[7];
+//			    			}
+//							//Display Status Bar Notification
+//						    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_FACEBOOK_DIRECT_MESSAGE, callStateIdle, contactName, messageAddress, messageBody, null);
+//				    	}
+//					}else{
+//						if (_debug) Log.v("FacebookAlarmBroadcastReceiverService.doWakefulWork() No Facebook Direct Messages were found. Exiting...");
+//					}
+//				    ArrayList<String> facebookMentionArray = FacebookCommon.getFacebookMentions(context);
+//				    if(facebookMentionArray != null && facebookMentionArray.size() > 0){
+//				    	int facebookMentionArraySize = facebookMentionArray.size();
+//				    	for(int i=0; i<facebookMentionArraySize; i++ ){
+//				    		String facebookArrayItem = facebookMentionArray.get(i);
+//							String[] facebookInfo = facebookArrayItem.split("\\|");
+//			    			int arraySize = facebookInfo.length;
+//			    			if(arraySize > 0){
+//								if(arraySize >= 1) messageAddress = facebookInfo[1];
+//								if(arraySize >= 2) messageBody = facebookInfo[3];
+//								if(arraySize >= 8) contactName = facebookInfo[7];
+//			    			}
+//							//Display Status Bar Notification
+//						    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_FACEBOOK_MENTION, callStateIdle, contactName, messageAddress, messageBody, null);
+//				    	}
+//					}else{
+//						if (_debug) Log.v("FacebookAlarmBroadcastReceiverService.doWakefulWork() No Facebook Mentions were found. Exiting...");
+//					}
+			    }
+		    	//Ignore notification based on the users preferences.
+		    	if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_IGNORE)){
+		    		return;
+		    	}
+		    	//Set alarm to go off x minutes from the current time as defined by the user preferences.
+		    	if(preferences.getBoolean(Constants.RESCHEDULE_NOTIFICATIONS_ENABLED_KEY, true)){
+		    		long rescheduleInterval = Long.parseLong(preferences.getString(Constants.RESCHEDULE_BLOCKED_NOTIFICATION_TIMEOUT_KEY, Constants.RESCHEDULE_BLOCKED_NOTIFICATION_TIMEOUT_DEFAULT)) * 60 * 1000;
+		    		if (_debug) Log.v("FacebookAlarmBroadcastReceiverService.doWakefulWork() Rescheduling notification. Rechedule in " + rescheduleInterval + "minutes.");					
+					FacebookCommon.setFacebookAlarm(context, System.currentTimeMillis() + rescheduleInterval);
+		    	}
+		    }
 		}catch(Exception ex){
 			if (_debug) Log.e("FacebookAlarmBroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());
 		}
-	}
-	
-	/**
-	 * Poll Facebook for any new and unread notifications.
-	 */
-	private void getFacebookNotifications(){
-		if (_debug) Log.v("FacebookAlarmBroadcastReceiverService.getFacebookNotifications()");
-        try{
-        	Bundle bundle = new Bundle();
-            bundle.putString(Facebook.TOKEN, _accessToken);
-        	String result = _facebook.request("me/notifications", bundle, "GET");
-        	JSONObject jsonObjectResults = new JSONObject(result);
-        	JSONArray jsonNotificationDataArray = jsonObjectResults.getJSONArray("data");
-        	for (int i=0;i<jsonNotificationDataArray.length();i++)
-        	{
-        	    JSONObject jsonNotificationData = jsonNotificationDataArray.getJSONObject(i);
-        	    if (_debug) Log.v("FacebookAlarmBroadcastReceiverService.getFacebookNotifications() Title: " + jsonNotificationData.getString("title"));
-
-        	}
-        }catch(Exception ex){
-        	if (_debug) Log.e("FacebookAlarmBroadcastReceiverService.getFacebookNotifications() ERROR: " + ex.toString());
-        }
-	}
-
-	/**
-	 * Poll Facebook for any new friend requests.
-	 */
-	private void getFacebookFriendRequests(){
-		if (_debug) Log.v("FacebookAlarmBroadcastReceiverService.getFacebookFriendRequests()");
-        try{
-        	Bundle bundle = new Bundle();
-            bundle.putString(Facebook.TOKEN, _accessToken);
-//        	String result = _facebook.request("me/notifications", bundle, "GET");
-//        	JSONObject jsonObjectResults = new JSONObject(result);
-//        	JSONArray jsonNotificationDataArray = jsonObjectResults.getJSONArray("data");
-//        	for (int i=0;i<jsonNotificationDataArray.length();i++)
-//        	{
-//        	    JSONObject jsonNotificationData = jsonNotificationDataArray.getJSONObject(i);
-//        	    if (_debug) Log.v("FacebookAlarmBroadcastReceiverService.getFacebookNotifications() Title: " + jsonNotificationData.getString("title"));
-//
-//        	}
-        }catch(Exception ex){
-        	if (_debug) Log.e("FacebookAlarmBroadcastReceiverService.getFacebookFriendRequests() ERROR: " + ex.toString());
-        }
 	}
 		
 }
