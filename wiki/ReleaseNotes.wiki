@@ -8,7 +8,9 @@
  * Made some updates to the Quick Reply activity.
  * Added Twitter notifications to the Pro version of the app.
  * Added Facebook notifications to the Pro version of the app.
+ * Updated some of the icons and graphics. Added more placeholder contact images.
  * 
+ * Small bug fixes.
 
 *v2.12* (November 21, 2011)
  * Added Text-To-Speech (TTS) to notifications.
