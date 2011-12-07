@@ -263,6 +263,7 @@ public class Constants {
 	public static final String PREFERENCE_CATEGORY_APP_FEEDBACK_KEY = "app_feedback_category";
 	public static final String PREFERENCE_CATEGORY_APP_LICENSE_KEY = "app_license_category";
 	public static final String PREFERENCE_RATE_APP_KEY = "rate_app";
+	public static final String ADVANCED_PREFERENCE_SCREEN_KEY = "advanced_settings_screen";
 	
 	//-----SMS NOTIFICATION CONSTANTS-----//
 	public static final String SMS_NOTIFICATIONS_ENABLED_KEY = "sms_notifications_enabled";
