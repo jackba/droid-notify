@@ -80,8 +80,7 @@ public class Constants {
 	public static final int K9_VIEW_EMAIL_ACTIVITY = 16;
 	public static final int K9_SEND_EMAIL_ACTIVITY = 17;
 	public static final int TWITTER_OPEN_APP_ACTIVITY = 18;
-	public static final int TWITTER_VIEW_MESSAGE_ACTIVITY = 19;
-	public static final int SEND_TWITTER_QUICK_REPLY_ACTIVITY = 20;
+	public static final int SEND_TWITTER_QUICK_REPLY_ACTIVITY = 19;
 	
 	public static final int MESSAGE_TYPE_SMS = 1;
 	public static final int MESSAGE_TYPE_MMS = 2;

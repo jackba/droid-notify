@@ -760,23 +760,7 @@ public class NotificationActivity extends Activity {
 					_notificationViewFlipper.removeActiveNotification(false);
 		    	}else{
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() TWITTER_VIEW_INBOX_ACTIVITY: " + resultCode);
-		        	Toast.makeText(_context, _context.getString(R.string.app_k9_email_app_error) + " " + resultCode, Toast.LENGTH_LONG).show();
-		    	}
-		    	Common.setInLinkedAppFlag(_context, false);
-		        break;
-		    }
-		    case Constants.TWITTER_VIEW_MESSAGE_ACTIVITY:{
-		    	if (resultCode == RESULT_OK) {
-		    		if (_debug) Log.v("NotificationActivity.onActivityResult() TWITTER_VIEW_MESSAGE_ACTIVITY: RESULT_OK");
-		        	//Remove notification from ViewFlipper.
-		    		_notificationViewFlipper.removeActiveNotification(false);
-		    	}else if (resultCode == RESULT_CANCELED) {
-		    		if (_debug) Log.v("NotificationActivity.onActivityResult() TWITTER_VIEW_MESSAGE_ACTIVITY: RESULT_CANCELED");
-		    		//Remove notification from ViewFlipper.
-					_notificationViewFlipper.removeActiveNotification(false);
-		    	}else{
-		    		if (_debug) Log.v("NotificationActivity.onActivityResult() TWITTER_VIEW_MESSAGE_ACTIVITY: " + resultCode);
-		        	Toast.makeText(_context, _context.getString(R.string.app_twitter_app_error) + " " + resultCode, Toast.LENGTH_LONG).show();
+		        	Toast.makeText(_context, _context.getString(R.string.app_email_app_error) + " " + resultCode, Toast.LENGTH_LONG).show();
 		    	}
 		    	Common.setInLinkedAppFlag(_context, false);
 		        break;
@@ -792,7 +776,7 @@ public class NotificationActivity extends Activity {
 					_notificationViewFlipper.removeActiveNotification(false);
 		    	}else{
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() K9_VIEW_INBOX_ACTIVITY: " + resultCode);
-		        	Toast.makeText(_context, _context.getString(R.string.app_k9_email_app_error) + " " + resultCode, Toast.LENGTH_LONG).show();
+		        	Toast.makeText(_context, _context.getString(R.string.app_email_app_error) + " " + resultCode, Toast.LENGTH_LONG).show();
 		    	}
 		    	Common.setInLinkedAppFlag(_context, false);
 		        break;
@@ -808,7 +792,7 @@ public class NotificationActivity extends Activity {
 					_notificationViewFlipper.removeActiveNotification(false);
 		    	}else{
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() K9_VIEW_EMAIL_ACTIVITY: " + resultCode);
-		        	Toast.makeText(_context, _context.getString(R.string.app_k9_email_app_error) + " " + resultCode, Toast.LENGTH_LONG).show();
+		        	Toast.makeText(_context, _context.getString(R.string.app_email_app_error) + " " + resultCode, Toast.LENGTH_LONG).show();
 		    	}
 		    	Common.setInLinkedAppFlag(_context, false);
 		        break;
@@ -824,7 +808,7 @@ public class NotificationActivity extends Activity {
 					_notificationViewFlipper.removeActiveNotification(false);
 		    	}else{
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() K9_SEND_EMAIL_ACTIVITY: " + resultCode);
-		        	Toast.makeText(_context, _context.getString(R.string.app_k9_email_app_error) + " " + resultCode, Toast.LENGTH_LONG).show();
+		        	Toast.makeText(_context, _context.getString(R.string.app_email_app_error) + " " + resultCode, Toast.LENGTH_LONG).show();
 		    	}
 		    	Common.setInLinkedAppFlag(_context, false);
 		        break;
