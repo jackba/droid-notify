@@ -220,6 +220,7 @@ public class Constants {
 	public static final int DATE_FORMAT_15 = 15;
 
 	//-----QUIET TIME CONSTANTS-----//
+	public static final String QUIET_TIME_BLACKOUT_PERIOD_SETTINGS_KEY = "quiet_time_blackout_period_settings";
 	public static final String QUIET_TIME_ENABLED_KEY = "quiet_time_enabled";
 	public static final String QUIET_TIME_OF_WEEK_KEY = "quiet_time_of_week";
 	public static final String QUIET_TIME_EVERYDAY_VALUE = "0";
@@ -406,6 +407,13 @@ public class Constants {
 	public static final String TWITTER_USE_QUICK_REPLY = "0";
 	public static final String TWITTER_USE_PREFERRED_CLIENT = "1";
 	
+	public static final String TWITTER_DIRECT_MESSAGE_DATE_FILTER_KEY = "twitter_direct_message_date_filter";
+	public static final String TWITTER_MENTION_DATE_FILTER_KEY = "twitter_mention_date_filter";
+	
+	public static final String TWITTER_CLEAR_AUTHENTICATION_DATA_KEY = "clear_twitter_authentication";
+	
+	public static final String TWITTER_ADVANCED_SETTINGS_CATEGORY_KEY = "advanced_twitter_settings_category";
+	
 	//-----FACEBOOK NOTIFICATION CONSTANTS-----//
 	public static final String FACEBOOK_PRO_PREFERENCE_CATEGORY_KEY = "facebook_notification_settings_category";
 	public static final String FACEBOOK_PRO_PLACEHOLDER_PREFERENCE_KEY = "facebook_notification_settings_placeholder_preference";
@@ -434,6 +442,10 @@ public class Constants {
 	public static final String FACEBOOK_DISPLAY_DELETE_BUTTON_KEY = "facebook_display_delete_button";
 	public static final String FACEBOOK_DISPLAY_REPLY_BUTTON_KEY = "facebook_display_reply_button";
 	public static final String FACEBOOK_NOTIFICATION_COUNT_ACTION_KEY = "facebook_notification_count_action";
+	
+	public static final String FACEBOOK_ADVANCED_SETTINGS_CATEGORY_KEY = "advanced_facebook_settings_category";
+	
+	public static final String FACEBOOK_CLEAR_AUTHENTICATION_DATA_KEY = "clear_facebook_authentication";
 	
 	//-----K9 NOTIFICATION CONSTANTS-----//
 	public static final String K9_NOTIFICATIONS_ENABLED_KEY = "k9_notifications_enabled";

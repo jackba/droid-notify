@@ -668,7 +668,7 @@ public class Common {
 			}
 			Intent intent = new Intent(Intent.ACTION_CALL);
 	        intent.setData(Uri.parse("tel:" + phoneNumber));
-	        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+	        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 	        notificationActivity.startActivityForResult(intent, requestCode);
 	        setInLinkedAppFlag(context, true);
 		    return true;
@@ -712,7 +712,7 @@ public class Common {
 		    }
 		    bundle.putString("message", "");
 		    intent.putExtras(bundle);
-	        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+	        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 	        notificationActivity.startActivityForResult(intent, requestCode);
 	        setInLinkedAppFlag(context, true);
 	        return true;
@@ -746,7 +746,7 @@ public class Common {
 		    intent.setData(Uri.parse("smsto:" + sendTo));
 		    // Exit the app once the SMS is sent.
 		    intent.putExtra("compose_mode", true);
-	        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+	        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 	        notificationActivity.startActivityForResult(intent, requestCode);
 	        setInLinkedAppFlag(context, true);
 	        return true;
@@ -778,7 +778,7 @@ public class Common {
 		try{
 			Intent intent = new Intent(Intent.ACTION_VIEW);
 		    intent.setData(Uri.parse("smsto:" + phoneNumber));
-	        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+	        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 	        notificationActivity.startActivityForResult(intent, requestCode);
 	        setInLinkedAppFlag(context, true);
 	        return true;
@@ -805,7 +805,7 @@ public class Common {
 		try{
 			Intent intent = new Intent(Intent.ACTION_MAIN);
 		    intent.setType("vnd.android-dir/mms-sms");
-	        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+	        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 	        notificationActivity.startActivityForResult(intent, requestCode);
 	        setInLinkedAppFlag(context, true);
 	        return true;
@@ -832,7 +832,7 @@ public class Common {
 		try{
 			Intent intent = new Intent(Intent.ACTION_VIEW);
 			intent.setType("vnd.android.cursor.dir/calls");
-	        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+	        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 			notificationActivity.startActivityForResult(intent, requestCode);
 			setInLinkedAppFlag(context, true);
 			return true;
@@ -865,7 +865,7 @@ public class Common {
 			Intent intent = new Intent(Intent.ACTION_VIEW);
 			Uri viewContactURI = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_URI, String.valueOf(contactID));
 		    intent.setData(viewContactURI);	
-	        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+	        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 		    notificationActivity.startActivityForResult(intent, requestCode);
 		    setInLinkedAppFlag(context, true);
 			return true;
@@ -893,7 +893,7 @@ public class Common {
 			//Androids calendar app.
 			Intent intent = new Intent(Intent.ACTION_VIEW);
 			intent.setClassName("com.android.calendar", "com.android.calendar.LaunchActivity"); 
-	        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+	        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 			notificationActivity.startActivityForResult(intent, requestCode);
 			setInLinkedAppFlag(context, true);
 			return true;
@@ -903,7 +903,7 @@ public class Common {
 				//HTC Sense UI calendar app.
 				Intent intent = new Intent(Intent.ACTION_MAIN); 
 				intent.setComponent(new ComponentName("com.htc.calendar", "com.htc.calendar.LaunchActivity"));
-		        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+		        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 				notificationActivity.startActivityForResult(intent, requestCode);
 				setInLinkedAppFlag(context, true);
 				return true;
@@ -932,7 +932,7 @@ public class Common {
 			//Androids calendar app.
 			Intent intent = new Intent(Intent.ACTION_EDIT);
 			intent.setType("vnd.android.cursor.item/event");
-	        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+	        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 			notificationActivity.startActivityForResult(intent, requestCode);
 			setInLinkedAppFlag(context, true);
 			return true;
@@ -942,7 +942,7 @@ public class Common {
 				//HTC Sense UI calendar app.
 				Intent intent = new Intent(Intent.ACTION_EDIT);
 				intent.setComponent(new ComponentName("com.htc.calendar", "com.htc.calendar.EditEvent"));
-		        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+		        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 				notificationActivity.startActivityForResult(intent, requestCode);
 				setInLinkedAppFlag(context, true);
 				return true;
@@ -980,7 +980,7 @@ public class Common {
 			intent.setData(Uri.parse("content://com.android.calendar/events/" + String.valueOf(calendarEventID)));	
 			intent.putExtra(Constants.CALENDAR_EVENT_BEGIN_TIME, calendarEventStartTime);
 			intent.putExtra(Constants.CALENDAR_EVENT_END_TIME, calendarEventEndTime);
-	        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+	        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 			notificationActivity.startActivityForResult(intent, requestCode);
 			setInLinkedAppFlag(context, true);
 			return true;
@@ -1017,7 +1017,7 @@ public class Common {
 			intent.setData(Uri.parse("content://com.android.calendar/events/" + String.valueOf(calendarEventID)));	
 			intent.putExtra(Constants.CALENDAR_EVENT_BEGIN_TIME, calendarEventStartTime);
 			intent.putExtra(Constants.CALENDAR_EVENT_END_TIME, calendarEventEndTime);
-	        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+	        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 			notificationActivity.startActivityForResult(intent, requestCode);
 			setInLinkedAppFlag(context, true);
 			return true;
@@ -1051,7 +1051,7 @@ public class Common {
 			Intent intent = new Intent(Intent.ACTION_EDIT);
 			Uri viewContactURI = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_URI, String.valueOf(contactID));
 		    intent.setData(viewContactURI);	
-	        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+	        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 		    notificationActivity.startActivityForResult(intent, requestCode);
 		    setInLinkedAppFlag(context, true);
 			return true;
@@ -1084,7 +1084,7 @@ public class Common {
 			}else{
 				intent.putExtra(ContactsContract.Intents.Insert.PHONE, sentFromAddress);
 			}
-	        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+	        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 		    notificationActivity.startActivityForResult(intent, requestCode);
 		    setInLinkedAppFlag(context, true);
 			return true;
@@ -1111,7 +1111,7 @@ public class Common {
 		try{
 	        Intent intent = new Intent(Intent.ACTION_MAIN);
             intent.addCategory(Intent.CATEGORY_LAUNCHER);
-	        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+	        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
             intent.setComponent(new ComponentName("com.fsck.k9", "com.fsck.k9.activity.Accounts"));
 	        notificationActivity.startActivityForResult(intent, requestCode);
 	        setInLinkedAppFlag(context, true);
@@ -1145,7 +1145,7 @@ public class Common {
 		try{
 			Intent intent = new Intent(Intent.ACTION_VIEW);
 		    intent.setData(Uri.parse(k9EmailUri));
-	        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+	        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 	        notificationActivity.startActivityForResult(intent, requestCode);
 	        setInLinkedAppFlag(context, true);
 	        return true;
@@ -1386,7 +1386,11 @@ public class Common {
 					ICON_DEFAULT = Constants.SMS_STATUS_BAR_NOTIFICATIONS_ICON_DEFAULT;
 					contentTitle = context.getText(R.string.status_bar_notification_content_title_text_sms);
 					if(sentFromContactName == null || sentFromContactName.equals("")){
-						sentFrom = Common.formatPhoneNumber(context, sentFromAddress);
+						if(sentFromAddress.contains("@")){
+							sentFrom = sentFromAddress;
+						}else{
+							sentFrom = Common.formatPhoneNumber(context, sentFromAddress);
+						}	
 					}else{
 						sentFrom = sentFromContactName;
 					}
@@ -1439,7 +1443,11 @@ public class Common {
 					ICON_DEFAULT = Constants.MMS_STATUS_BAR_NOTIFICATIONS_ICON_DEFAULT;
 					contentTitle = context.getText(R.string.status_bar_notification_content_title_text_mms);
 					if(sentFromContactName == null || sentFromContactName.equals("")){
-						sentFrom = Common.formatPhoneNumber(context, sentFromAddress);
+						if(sentFromAddress.contains("@")){
+							sentFrom = sentFromAddress;
+						}else{
+							sentFrom = Common.formatPhoneNumber(context, sentFromAddress);
+						}						
 					}else{
 						sentFrom = sentFromContactName;
 					}
@@ -1582,9 +1590,13 @@ public class Common {
 					LED_PATTERN_CUSTOM_KEY = Constants.TWITTER_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_KEY;
 					ICON_ID = Constants.TWITTER_STATUS_BAR_NOTIFICATIONS_ICON_SETTING_KEY;
 					ICON_DEFAULT = Constants.TWITTER_STATUS_BAR_NOTIFICATIONS_ICON_DEFAULT;
-					contentTitle = context.getText(R.string.status_bar_notification_content_title_text_email);
+					if(notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE){
+						contentTitle = context.getText(R.string.status_bar_notification_content_title_text_twitter_direct_message);
+					}else if(notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_MENTION){
+						contentTitle = context.getText(R.string.status_bar_notification_content_title_text_twitter_mention);
+					}
 					if(sentFromContactName == null || sentFromContactName.equals("")){
-						sentFrom = Common.formatPhoneNumber(context, sentFromAddress);
+						sentFrom = sentFromAddress;
 					}else{
 						sentFrom = sentFromContactName;
 					}
@@ -1653,7 +1665,7 @@ public class Common {
 					ICON_DEFAULT = Constants.K9_STATUS_BAR_NOTIFICATIONS_ICON_DEFAULT;
 					contentTitle = context.getText(R.string.status_bar_notification_content_title_text_email);
 					if(sentFromContactName == null || sentFromContactName.equals("")){
-						sentFrom = Common.formatPhoneNumber(context, sentFromAddress);
+						sentFrom = sentFromAddress;
 					}else{
 						sentFrom = sentFromContactName;
 					}

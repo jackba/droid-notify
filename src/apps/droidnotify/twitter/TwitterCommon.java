@@ -1,6 +1,7 @@
 package apps.droidnotify.twitter;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import oauth.signpost.OAuth;
 
@@ -63,22 +64,43 @@ public class TwitterCommon {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("TwitterCommon.getTwitterDirectMessages()");
 		try{
+			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+			//Retrieve the date filter.
+			Calendar today = Calendar.getInstance();
+			today.set(Calendar.MILLISECOND, 0);
+			today.set(Calendar.SECOND, 0);
+			today.set(Calendar.MINUTE, 0);
+			today.set(Calendar.HOUR_OF_DAY, 0);
+			long currentDateTime = today.getTimeInMillis();
+			long dateFilter = preferences.getLong(Constants.TWITTER_DIRECT_MESSAGE_DATE_FILTER_KEY, currentDateTime);		
+			long maxDateTime = 0;
 		    ResponseList <DirectMessage> messages = twitter.getDirectMessages();
 		    ArrayList<String> twitterArray = new ArrayList<String>();
 			for(DirectMessage message: messages){
-				String messageBody = message.getText();
-				long messageID = message.getId();
 				long timeStamp = message.getCreatedAt().getTime();
-		    	String sentFromAddress = message.getSenderScreenName();
-		    	long twitterID = message.getSenderId();
-	    		String[] twitterContactInfo = null;
-	    		twitterContactInfo = getContactInfoByTwitterID(context, twitterID);
-	    		if(twitterContactInfo == null){
-	    			twitterArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE) + "|" + sentFromAddress + "|" + twitterID + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + timeStamp);
-				}else{
-					twitterArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE) + "|" + sentFromAddress + "|" + twitterID + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + timeStamp + "|" + twitterContactInfo[0] + "|" + twitterContactInfo[1] + "|" + twitterContactInfo[2] + "|" + twitterContactInfo[3]);
+				if(timeStamp > maxDateTime){
+					maxDateTime = timeStamp;
 				}
+//				if(timeStamp > dateFilter){
+					String messageBody = message.getText();
+					long messageID = message.getId();					
+			    	String sentFromAddress = message.getSenderScreenName();
+			    	long twitterID = message.getSenderId();
+		    		String[] twitterContactInfo = null;
+		    		twitterContactInfo = getContactInfoByTwitterID(context, twitterID);
+		    		if(twitterContactInfo == null){
+		    			twitterArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE) + "|" + sentFromAddress + "|" + twitterID + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + timeStamp);
+					}else{
+						twitterArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE) + "|" + sentFromAddress + "|" + twitterID + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + timeStamp + "|" + twitterContactInfo[0] + "|" + twitterContactInfo[1] + "|" + twitterContactInfo[2] + "|" + twitterContactInfo[3]);
+					}
+//				}
 			}
+			//Store the max date in the preferences.
+			//Don't load any messages that are older than this date next time around.
+			SharedPreferences.Editor editor = preferences.edit();
+			editor.putLong(Constants.TWITTER_DIRECT_MESSAGE_DATE_FILTER_KEY, maxDateTime);
+			editor.commit();
+			//Return array.
 			return twitterArray;
 		}catch(Exception ex){
 			if (_debug) Log.e("TwitterCommon.getTwitterDirectMessages() ERROR: " + ex.toString());
@@ -97,12 +119,26 @@ public class TwitterCommon {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("TwitterCommon.getTwitterMentions()");
 		try{
+			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+			//Retrieve the date filter.
+			Calendar today = Calendar.getInstance();
+			today.set(Calendar.MILLISECOND, 0);
+			today.set(Calendar.SECOND, 0);
+			today.set(Calendar.MINUTE, 0);
+			today.set(Calendar.HOUR_OF_DAY, 0);
+			long currentDateTime = today.getTimeInMillis();
+			long dateFilter = preferences.getLong(Constants.TWITTER_MENTION_DATE_FILTER_KEY, currentDateTime);		
+			long maxDateTime = 0;
 			ResponseList<Status> mentions = twitter.getMentions();
 		    ArrayList<String> twitterArray = new ArrayList<String>();
-				for(Status mention: mentions){
+			for(Status mention: mentions){
+				long timeStamp = mention.getCreatedAt().getTime();
+				if(timeStamp > maxDateTime){
+					maxDateTime = timeStamp;
+				}
+//				if(timeStamp > dateFilter){
 					String mentionText = mention.getText();
 					long mentionID = mention.getId();
-					long timeStamp = mention.getCreatedAt().getTime();
 			    	User twitterUser = mention.getUser();
 		    		String[] twitterContactInfo = null;
 		    		twitterContactInfo = getContactInfoByTwitterUser(context, twitterUser);
@@ -111,7 +147,14 @@ public class TwitterCommon {
 					}else{
 						twitterArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_TWITTER_MENTION) + "|" + twitterUser.getScreenName() + "|" + twitterUser.getId() + "|" + mentionText.replace("\n", "<br/>") + "|" + mentionID + "|" + timeStamp + "|" + twitterContactInfo[0] + "|" + twitterContactInfo[1] + "|" + twitterContactInfo[2] + "|" + twitterContactInfo[3]);
 					}
-				}
+//				}
+			}
+			//Store the max date in the preferences.
+			//Don't load any messages that are older than this date next time around.
+			SharedPreferences.Editor editor = preferences.edit();
+			editor.putLong(Constants.TWITTER_MENTION_DATE_FILTER_KEY, maxDateTime);
+			editor.commit();
+			//Return array.
 			return twitterArray;
 		}catch(Exception ex){
 			if (_debug) Log.e("TwitterCommon.getTwitterMentions() ERROR: " + ex.toString());
@@ -271,7 +314,8 @@ public class TwitterCommon {
 			//intent.setComponent(new ComponentName("com.twitter.android","com.twitter.android.HomeTabActivity"));
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 			String packageName = preferences.getString(Constants.TWITTER_PREFERRED_CLIENT_KEY, Constants.TWITTER_PREFERRED_CLIENT_DEFAULT);
-			Intent intent = notificationActivity.getPackageManager().getLaunchIntentForPackage(packageName);		
+			Intent intent = notificationActivity.getPackageManager().getLaunchIntentForPackage(packageName);
+			intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 	        notificationActivity.startActivityForResult(intent, requestCode);
 	        Common.setInLinkedAppFlag(context, true);
 		    return true;

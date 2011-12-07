@@ -477,21 +477,21 @@
 							<ListPreference
 								android:key="sms_dismiss_button_action"
 								android:title="@string/preference_dismiss_button_action"
-								android:summary="@string/preference_sms_dismiss_button_action_summary"
+								android:summary="@string/preference_dismiss_button_action_summary"
 								android:defaultValue="0"
 								android:entries="@array/sms_dismiss_button_options"
 								android:entryValues="@array/sms_dismiss_button_options_values"/>
 							<ListPreference
 								android:key="sms_delete_button_action"
 								android:title="@string/preference_delete_button_action"
-								android:summary="@string/preference_sms_delete_button_action_summary"
+								android:summary="@string/preference_delete_button_action_summary"
 								android:defaultValue="0"
 								android:entries="@array/sms_delete_button_options"
 								android:entryValues="@array/sms_delete_button_options_values"/>
 							<ListPreference
 								android:key="sms_reply_button_action"
 								android:title="@string/preference_reply_button_action"
-								android:summary="@string/preference_sms_reply_button_action_summary"
+								android:summary="@string/preference_reply_button_action_summary"
 								android:defaultValue="0"
 								android:entries="@array/sms_reply_button_options"
 								android:entryValues="@array/sms_reply_button_options_values"/>
@@ -701,21 +701,21 @@
 							<ListPreference
 								android:key="mms_dismiss_button_action"
 								android:title="@string/preference_dismiss_button_action"
-								android:summary="@string/preference_mms_dismiss_button_action_summary"
+								android:summary="@string/preference_dismiss_button_action_summary"
 								android:defaultValue="0"
 								android:entries="@array/mms_dismiss_button_options"
 								android:entryValues="@array/mms_dismiss_button_options_values"/>
 							<ListPreference
 								android:key="mms_delete_button_action"
 								android:title="@string/preference_delete_button_action"
-								android:summary="@string/preference_mms_delete_button_action_summary"
+								android:summary="@string/preference_delete_button_action_summary"
 								android:defaultValue="0"
 								android:entries="@array/mms_delete_button_options"
 								android:entryValues="@array/mms_delete_button_options_values"/>
 							<ListPreference
 								android:key="mms_reply_button_action"
 								android:title="@string/preference_reply_button_action"
-								android:summary="@string/preference_mms_reply_button_action_summary"
+								android:summary="@string/preference_reply_button_action_summary"
 								android:defaultValue="0"
 								android:entries="@array/mms_reply_button_options"
 								android:entryValues="@array/mms_reply_button_options_values"/>
@@ -905,7 +905,7 @@
 							<ListPreference
 								android:key="missed_call_dismiss_button_action"
 								android:title="@string/preference_dismiss_button_action"
-								android:summary="@string/preference_missed_call_dismiss_button_action_summary"
+								android:summary="@string/preference_dismiss_button_action_summary"
 								android:defaultValue="0"
 								android:entries="@array/missed_call_dismiss_button_options"
 								android:entryValues="@array/missed_call_dismiss_button_options_values"/>
@@ -1155,7 +1155,7 @@
 							<ListPreference
 								android:key="calendar_dismiss_button_action"
 								android:title="@string/preference_dismiss_button_action"
-								android:summary="@string/preference_calendar_dismiss_button_action_summary"
+								android:summary="@string/preference_dismiss_button_action_summary"
 								android:defaultValue="0"
 								android:entries="@array/calendar_dismiss_button_options"
 								android:entryValues="@array/calendar_dismiss_button_options_values"/>
@@ -1352,21 +1352,21 @@
 							<ListPreference
 								android:key="k9_dismiss_button_action"
 								android:title="@string/preference_dismiss_button_action"
-								android:summary="@string/preference_mms_dismiss_button_action_summary"
+								android:summary="@string/preference_dismiss_button_action_summary"
 								android:defaultValue="1"
 								android:entries="@array/k9_dismiss_button_options"
 								android:entryValues="@array/k9_dismiss_button_options_values"/>
 							<ListPreference
 								android:key="k9_delete_button_action"
 								android:title="@string/preference_delete_button_action"
-								android:summary="@string/preference_k9_delete_button_action_summary"
+								android:summary="@string/preference_delete_button_action_summary"
 								android:defaultValue="0"
 								android:entries="@array/k9_delete_button_options"
 								android:entryValues="@array/k9_delete_button_options_values"/>
 							<ListPreference
 								android:key="k9_reply_button_action"
 								android:title="@string/preference_reply_button_action"
-								android:summary="@string/preference_k9_reply_button_action_summary"
+								android:summary="@string/preference_reply_button_action_summary"
 								android:defaultValue="0"
 								android:entries="@array/k9_reply_button_options"
 								android:entryValues="@array/k9_reply_button_options_values"/>
@@ -1807,7 +1807,7 @@
 					android:dependency="mms_notifications_enabled" />
 			</PreferenceCategory>
 			<PreferenceCategory
-				android:key="advanced_mms_settings_category"
+				android:key="advanced_missed_call_settings_category"
 				android:title="@string/preference_missed_call_notifications">
 				<ListPreference
 					android:key="call_log_timeout_settings"
@@ -1817,6 +1817,22 @@
 					android:entries="@array/call_log_timeout_options"
 					android:entryValues="@array/call_log_timeout_options_values"
 					android:dependency="missed_call_notifications_enabled" />
+			</PreferenceCategory>
+			<PreferenceCategory
+				android:key="advanced_twitter_settings_category"
+				android:title="@string/preference_twitter_notifications">
+				<Preference
+					android:key="clear_twitter_authentication"
+					android:title="@string/preference_clear_twitter_authentication_data"
+					android:summary="@string/preference_clear_twitter_authentication_data_summary" />
+			</PreferenceCategory>
+			<PreferenceCategory
+				android:key="advanced_facebook_settings_category"
+				android:title="@string/preference_facebook_notifications">
+				<Preference
+					android:key="clear_facebook_authentication"
+					android:title="@string/preference_clear_facebook_authentication_data"
+					android:summary="@string/preference_clear_facebook_authentication_data_summary" />
 			</PreferenceCategory>
 			<PreferenceCategory
 				android:key="advanced_quick_reply_settings_category"
