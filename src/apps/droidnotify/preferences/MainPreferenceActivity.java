@@ -506,7 +506,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
            }
 		});
 		//Rate This App Preference/Button
-		Preference rateAppPref = (Preference)findPreference("rate_app");
+		Preference rateAppPref = (Preference)findPreference(Constants.PREFERENCE_RATE_APP_KEY);
 		rateAppPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
         	public boolean onPreferenceClick(Preference preference) {
 		    	if (_debug) Log.v("MainPreferenceActivity() Rate This App Button Clicked()");
@@ -714,6 +714,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	private void setupAppVersion(boolean appProVersion){
 		if (_debug) Log.v("MainPreferenceActivity.setupAppVersion()");
 		PreferenceScreen mainPreferences = this.getPreferenceScreen();
+		PreferenceScreen advancedPreferences = (PreferenceScreen) findPreference(Constants.ADVANCED_PREFERENCE_SCREEN_KEY);
 		Preference upgradeToProPreference = (Preference) findPreference(Constants.UPGRADE_TO_PRO_PREFERENCE_KEY);		
 		PreferenceCategory appLicensePreferenceCategory = (PreferenceCategory) findPreference(Constants.PREFERENCE_CATEGORY_APP_LICENSE_KEY);
 		PreferenceCategory appFeedbackPreferenceCategory = (PreferenceCategory) findPreference(Constants.PREFERENCE_CATEGORY_APP_FEEDBACK_KEY);
@@ -723,12 +724,10 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		PreferenceCategory twitterNotificationPreferenceCategory = (PreferenceCategory) findPreference(Constants.TWITTER_PRO_PREFERENCE_CATEGORY_KEY);
 		Preference twitterProPlaceholderPreference = (Preference) findPreference(Constants.TWITTER_PRO_PLACEHOLDER_PREFERENCE_KEY);
 		PreferenceScreen twitterProPreferenceScreen = (PreferenceScreen) findPreference(Constants.TWITTER_PRO_PREFERENCE_SCREEN_KEY);
-		Preference clearTwitterAuthenticationDataPreference = (Preference)findPreference(Constants.TWITTER_CLEAR_AUTHENTICATION_DATA_KEY);
 		//Facebook
 		PreferenceCategory facebookNotificationPreferenceCategory = (PreferenceCategory) findPreference(Constants.FACEBOOK_PRO_PREFERENCE_CATEGORY_KEY);
 		Preference facebookProPlaceholderPreference = (Preference) findPreference(Constants.FACEBOOK_PRO_PLACEHOLDER_PREFERENCE_KEY);
 		PreferenceScreen facebookProPreferenceScreen = (PreferenceScreen) findPreference(Constants.FACEBOOK_PRO_PREFERENCE_SCREEN_KEY);
-		Preference clearFacebookAuthenticationDataPreference = (Preference)findPreference(Constants.FACEBOOK_CLEAR_AUTHENTICATION_DATA_KEY);
 		if(appProVersion){
 			//Remove the Twitter placeholder preference category.
 			twitterNotificationPreferenceCategory.removePreference(twitterProPlaceholderPreference);
@@ -741,7 +740,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		}else{
 			//Remove the Twitter preference preference category.
 			twitterNotificationPreferenceCategory.removePreference(twitterProPreferenceScreen);
-			advancedTwitterSettingsPreferenceCategory.removePreference(clearTwitterAuthenticationDataPreference);
+			advancedPreferences.removePreference(advancedTwitterSettingsPreferenceCategory);
 			//Setup the Twitter placeholder preference button.
 			twitterProPlaceholderPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 	        	public boolean onPreferenceClick(Preference preference) {
@@ -758,7 +757,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			});
 			//Remove the Faacebook preference preference category.
 			facebookNotificationPreferenceCategory.removePreference(facebookProPreferenceScreen);
-			advancedFacebookSettingsPreferenceCategory.removePreference(clearFacebookAuthenticationDataPreference);
+			advancedPreferences.removePreference(advancedFacebookSettingsPreferenceCategory);
 			//Setup the Facebook placeholder preference button.
 			facebookProPlaceholderPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 	        	public boolean onPreferenceClick(Preference preference) {
