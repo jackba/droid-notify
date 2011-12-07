@@ -498,7 +498,9 @@
     <string name="status_bar_notification_content_title_text_calendar">Calendar Event Reminder</string>
     <string name="status_bar_notification_content_title_text_twitter_direct_message">New Twitter Direct Message</string>
     <string name="status_bar_notification_content_title_text_twitter_mention">New Twitter Mention</string>
-    <string name="status_bar_notification_content_title_text_facebook">New Facebook Message</string>
+    <string name="status_bar_notification_content_title_text_facebook_notification">New Facebook Notification</string>
+    <string name="status_bar_notification_content_title_text_facebook_friend_request">New Facebook Friend Request</string>
+    <string name="status_bar_notification_content_title_text_facebook_message">New Facebook Message</string>
     <string name="status_bar_notification_content_title_text_email">New Email</string>
     
     <string name="status_bar_notification_content_text_sms" formatted="false">New message from %s - %s.</string>
@@ -509,11 +511,14 @@
     <string name="status_bar_notification_content_text_phone_null" formatted="false">Missed call.</string>
     <string name="status_bar_notification_content_text_calendar" formatted="false">Calendar event - %s</string>
     <string name="status_bar_notification_content_text_calendar_null" formatted="false">Calendar event.</string>
-    <string name="status_bar_notification_content_text_twitter_direct_message" formatted="false">New twitter direct message from %s - %s.</string>
-    <string name="status_bar_notification_content_text_twitter_direct_message_null" formatted="false">New twitter direct message.</string>    
-    <string name="status_bar_notification_content_text_twitter_mention" formatted="false">New twitter mention from %s - %s.</string>
-    <string name="status_bar_notification_content_text_twitter_mention_null" formatted="false">New twitter mention.</string>
-    <string name="status_bar_notification_content_text_facebook" formatted="false">New facebook message %s - %s.</string>
+    <string name="status_bar_notification_content_text_twitter_direct_message" formatted="false">New Twitter Direct Message from %s - %s.</string>
+    <string name="status_bar_notification_content_text_twitter_direct_message_null" formatted="false">New Twitter Direct Message.</string>    
+    <string name="status_bar_notification_content_text_twitter_mention" formatted="false">New Twitter Mention from %s - %s.</string>
+    <string name="status_bar_notification_content_text_twitter_mention_null" formatted="false">New Twitter Mention.</string>
+    <string name="status_bar_notification_content_text_facebook_notification" formatted="false">New Facebook Notification from %s - %s.</string>
+    <string name="status_bar_notification_content_text_facebook_notification_null" formatted="false">New Facebook Notification.</string>
+    <string name="status_bar_notification_content_text_facebook_friend_request" formatted="false">New Facebook Friend Request from %s - %s.</string>
+    <string name="status_bar_notification_content_text_facebook_friend_request_null" formatted="false">New Facebook Friend Request.</string>
 	<string name="status_bar_notification_content_text_email" formatted="false">New email from %s - %s.</string>
     <string name="status_bar_notification_content_text_email_null" formatted="false">New email.</string>
     
@@ -533,14 +538,22 @@
     <string name="status_bar_notification_ticker_text_calendar" formatted="false">Calendar event - %s</string>
     <string name="status_bar_notification_ticker_text_calendar_null" formatted="false">Calendar event.</string>
     
-    <string name="status_bar_notification_ticker_text_twitter_direct_message" formatted="false">New twitter direct message from %s - %s.</string>
-    <string name="status_bar_notification_ticker_text_unknown_contact_twitter_direct_message" formatted="false">New twitter direct message -  %s.</string>
-    <string name="status_bar_notification_ticker_text_twitter_direct_message_null" formatted="false">New twitter direct message.</string>    
+    <string name="status_bar_notification_ticker_text_twitter_direct_message" formatted="false">New Twitter Direct Message from %s - %s.</string>
+    <string name="status_bar_notification_ticker_text_unknown_contact_twitter_direct_message" formatted="false">New Twitter Direct Message -  %s.</string>
+    <string name="status_bar_notification_ticker_text_twitter_direct_message_null" formatted="false">New Twitter Direct Message.</string>    
     
-    <string name="status_bar_notification_ticker_text_twitter_mention" formatted="false">New twitter mention from %s - %s.</string>
-    <string name="status_bar_notification_ticker_text_unknown_contact_twitter_mention" formatted="false">New twitter mention -  %s.</string>
-    <string name="status_bar_notification_ticker_text_twitter_mention_null" formatted="false">New twitter mention.</string>
-    
+    <string name="status_bar_notification_ticker_text_twitter_mention" formatted="false">New Twitter Mention from %s - %s.</string>
+    <string name="status_bar_notification_ticker_text_unknown_contact_twitter_mention" formatted="false">New Twitter Mention -  %s.</string>
+    <string name="status_bar_notification_ticker_text_twitter_mention_null" formatted="false">New Twitter Mention.</string>
+ 
+    <string name="status_bar_notification_ticker_text_facebook_notification" formatted="false">New Facebook Notification from %s - %s.</string>
+    <string name="status_bar_notification_ticker_text_unknown_contact_facebook_notification" formatted="false">New Facebook Notification -  %s.</string>
+    <string name="status_bar_notification_ticker_text_facebook_notification_null" formatted="false">New Facebook Notification.</string>
+ 
+    <string name="status_bar_notification_ticker_text_facebook_friend_request" formatted="false">New Facebook Friend Request from %s - %s.</string>
+    <string name="status_bar_notification_ticker_text_unknown_contact_facebook_friend_request" formatted="false">New Facebook Friend Request -  %s.</string>
+    <string name="status_bar_notification_ticker_text_facebook_friend_request_null" formatted="false">New Facebook Friend Request.</string>
+        
     <string name="status_bar_notification_ticker_text_email" formatted="false">New email from %s - %s.</string>
     <string name="status_bar_notification_ticker_text_unknown_contact_email" formatted="false">New email -  %s.</string>
    	<string name="status_bar_notification_ticker_text_privacy_email" formatted="false">New email from %s.</string>

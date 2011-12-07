@@ -237,7 +237,7 @@ public class NotificationView extends LinearLayout {
 			switch(_notificationType){
 				case Constants.NOTIFICATION_TYPE_PHONE:{
 					// Notification Count Text Button
-					int notificationCountAction = Integer.parseInt(_preferences.getString(Constants.PHONE_NOTIFICATION_COUNT_ACTION_KEY, "0"));
+					int notificationCountAction = Integer.parseInt(_preferences.getString(Constants.PHONE_NOTIFICATION_COUNT_ACTION_KEY, Constants.NOTIFICATION_COUNT_ACTION_NOTHING));
 					if(notificationCountAction == 0){
 						//Do Nothing.
 					}else if(notificationCountAction == 1){
@@ -312,7 +312,7 @@ public class NotificationView extends LinearLayout {
 				}
 				case Constants.NOTIFICATION_TYPE_SMS:{
 					// Notification Count Text Button
-					int notificationCountAction = Integer.parseInt(_preferences.getString(Constants.SMS_NOTIFICATION_COUNT_ACTION_KEY, "0"));
+					int notificationCountAction = Integer.parseInt(_preferences.getString(Constants.SMS_NOTIFICATION_COUNT_ACTION_KEY, Constants.NOTIFICATION_COUNT_ACTION_NOTHING));
 					if(notificationCountAction == 0){
 						//Do Nothing.
 					}else if(notificationCountAction == 1){
@@ -425,7 +425,7 @@ public class NotificationView extends LinearLayout {
 				}
 				case Constants.NOTIFICATION_TYPE_MMS:{
 					// Notification Count Text Button
-					int notificationCountAction = Integer.parseInt(_preferences.getString(Constants.MMS_NOTIFICATION_COUNT_ACTION_KEY, "0"));
+					int notificationCountAction = Integer.parseInt(_preferences.getString(Constants.MMS_NOTIFICATION_COUNT_ACTION_KEY, Constants.NOTIFICATION_COUNT_ACTION_NOTHING));
 					if(notificationCountAction == 0){
 						//Do Nothing.
 					}else if(notificationCountAction == 1){
@@ -548,7 +548,7 @@ public class NotificationView extends LinearLayout {
 				}
 				case Constants.NOTIFICATION_TYPE_CALENDAR:{
 					// Notification Count Text Button
-					int notificationCountAction = Integer.parseInt(_preferences.getString(Constants.CALENDAR_NOTIFICATION_COUNT_ACTION_KEY, "0"));
+					int notificationCountAction = Integer.parseInt(_preferences.getString(Constants.CALENDAR_NOTIFICATION_COUNT_ACTION_KEY, Constants.NOTIFICATION_COUNT_ACTION_NOTHING));
 					if(notificationCountAction == 0){
 						//Do Nothing.
 					}else if(notificationCountAction == 1){
@@ -629,7 +629,7 @@ public class NotificationView extends LinearLayout {
 				}
 				case Constants.NOTIFICATION_TYPE_TWITTER:{
 					// Notification Count Text Button
-					int notificationCountAction = Integer.parseInt(_preferences.getString(Constants.TWITTER_NOTIFICATION_COUNT_ACTION_KEY, "1"));
+					int notificationCountAction = Integer.parseInt(_preferences.getString(Constants.TWITTER_NOTIFICATION_COUNT_ACTION_KEY, Constants.TWITTER_NOTIFICATION_COUNT_ACTION_LAUNCH_TWITTER_APP));
 					if(notificationCountAction == 0){
 						//Do Nothing.
 					}else{
@@ -734,7 +734,7 @@ public class NotificationView extends LinearLayout {
 				}
 				case Constants.NOTIFICATION_TYPE_FACEBOOK:{
 					// Notification Count Text Button
-					int notificationCountAction = Integer.parseInt(_preferences.getString(Constants.FACEBOOK_NOTIFICATION_COUNT_ACTION_KEY, "1"));
+					int notificationCountAction = Integer.parseInt(_preferences.getString(Constants.FACEBOOK_NOTIFICATION_COUNT_ACTION_KEY, Constants.FACEBOOK_NOTIFICATION_COUNT_ACTION_LAUNCH_FACEBOOK_APP));
 					if(notificationCountAction == 0){
 						//Do Nothing.
 					}else{
@@ -832,7 +832,7 @@ public class NotificationView extends LinearLayout {
 				}
 				case Constants.NOTIFICATION_TYPE_K9:{
 					// Notification Count Text Button
-					int notificationCountAction = Integer.parseInt(_preferences.getString(Constants.K9_NOTIFICATION_COUNT_ACTION_KEY, "1"));
+					int notificationCountAction = Integer.parseInt(_preferences.getString(Constants.K9_NOTIFICATION_COUNT_ACTION_KEY, Constants.K9_NOTIFICATION_COUNT_ACTION_K9_INBOX));
 					if(notificationCountAction == 0){
 						//Do Nothing.
 					}else{
@@ -1526,7 +1526,7 @@ public class NotificationView extends LinearLayout {
 		    }else{
 		    	// Load the placeholder image if the contact has no photo.
 		    	// This is based on user preferences from a list of predefined images.
-		    	String contactPlaceholderImageID = _preferences.getString(Constants.CONTACT_PLACEHOLDER_KEY, "0");
+		    	String contactPlaceholderImageID = _preferences.getString(Constants.CONTACT_PLACEHOLDER_KEY, Constants.CONTACT_PLACEHOLDER_DEFAULT);
 		    	//Default image resource.
 		    	int contactPlaceholderImageResourceID = R.drawable.ic_contact_picture_1;
 		    	if(contactPlaceholderImageID.equals("0")){
@@ -1541,15 +1541,17 @@ public class NotificationView extends LinearLayout {
 		    		contactPlaceholderImageResourceID = R.drawable.ic_contact_picture_5;
 		    	}else if(contactPlaceholderImageID.equals("5")){
 		    		contactPlaceholderImageResourceID = R.drawable.ic_contact_picture_6;
+		    	}else if(contactPlaceholderImageID.equals("6")){
+		    		contactPlaceholderImageResourceID = R.drawable.ic_contact_picture_7;
+		    	}else if(contactPlaceholderImageID.equals("7")){
+		    		contactPlaceholderImageResourceID = R.drawable.ic_contact_picture_8;
+		    	}else if(contactPlaceholderImageID.equals("8")){
+		    		contactPlaceholderImageResourceID = R.drawable.ic_contact_picture_9;
+		    	}else if(contactPlaceholderImageID.equals("9")){
+		    		contactPlaceholderImageResourceID = R.drawable.ic_contact_picture_10;
+		    	}else if(contactPlaceholderImageID.equals("10")){
+		    		contactPlaceholderImageResourceID = R.drawable.ic_contact_picture_11;
 		    	}
-//		    	//Set custom image for Twitter notifications.
-//		    	if(_notification.getNotificationType() == Constants.NOTIFICATION_TYPE_TWITTER){
-//		    		contactPlaceholderImageResourceID = R.drawable.twitter_contact_placeholder;
-//		    	}
-//		    	//Set custom image for Facebook notifications.
-//		    	if(_notification.getNotificationType() == Constants.NOTIFICATION_TYPE_FACEBOOK){
-//		    		contactPlaceholderImageResourceID = R.drawable.facebook_contact_placeholder;
-//		    	}
 		    	return Common.getRoundedCornerBitmap(BitmapFactory.decodeResource(_context.getResources(), contactPlaceholderImageResourceID), 5, true, contactPhotoSize, contactPhotoSize);
 		    }
 		}catch(Exception ex){

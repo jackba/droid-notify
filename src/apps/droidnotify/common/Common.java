@@ -58,6 +58,7 @@ import apps.droidnotify.QuickReplyActivity;
 import apps.droidnotify.log.Log;
 import apps.droidnotify.receivers.CalendarAlarmReceiver;
 import apps.droidnotify.receivers.RescheduleReceiver;
+import apps.droidnotify.twitter.TwitterCommon;
 import apps.droidnotify.R;
 
 /**
@@ -1628,7 +1629,7 @@ public class Common {
 								tickerText = context.getString(R.string.status_bar_notification_ticker_text_twitter_mention, sentFromContactName, message);
 							}
 						}
-						notificationContentIntent = null;
+						notificationContentIntent = TwitterCommon.getTwitterAppActivityIntent(context);
 					}
 					//Delete Intent
 					notificationDeleteIntent = null;
@@ -1640,7 +1641,70 @@ public class Common {
 				}
 				case Constants.NOTIFICATION_TYPE_FACEBOOK:{
 					if (_debug) Log.v("Common.setStatusBarNotification() NOTIFICATION_TYPE_FACEBOOK");
-		
+					POPUP_ENABLED_KEY = Constants.FACEBOOK_NOTIFICATIONS_ENABLED_KEY;
+					ENABLED_KEY = Constants.FACEBOOK_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY;
+					SOUND_SETTING_KEY = Constants.FACEBOOK_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY;
+					IN_CALL_SOUND_ENABLED_KEY = Constants.FACEBOOK_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY;
+					VIBRATE_SETTING_KEY = Constants.FACEBOOK_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY;
+					IN_CALL_VIBRATE_ENABLED_KEY = Constants.FACEBOOK_STATUS_BAR_NOTIFICATIONS_IN_CALL_VIBRATE_ENABLED_KEY;
+					VIBRATE_PATTERN_KEY = Constants.FACEBOOK_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_KEY;
+					VIBRATE_PATTERN_CUSTOM_VALUE_KEY = Constants.FACEBOOK_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_VALUE_KEY;
+					VIBRATE_PATTERN_CUSTOM_KEY = Constants.FACEBOOK_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_KEY;
+					LED_ENABLED_KEY = Constants.FACEBOOK_STATUS_BAR_NOTIFICATIONS_LED_ENABLED_KEY;
+					LED_COLOR_KEY = Constants.FACEBOOK_STATUS_BAR_NOTIFICATIONS_LED_COLOR_KEY;
+					LED_COLOR_CUSTOM_VALUE_KEY = Constants.FACEBOOK_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_VALUE_KEY;
+					LED_COLOR_CUSTOM_KEY = Constants.FACEBOOK_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_KEY;
+					LED_PATTERN_KEY = Constants.FACEBOOK_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_KEY;
+					LED_PATTERN_CUSTOM_VALUE_KEY = Constants.FACEBOOK_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_VALUE_KEY;
+					LED_PATTERN_CUSTOM_KEY = Constants.FACEBOOK_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_KEY;
+					ICON_ID = Constants.FACEBOOK_STATUS_BAR_NOTIFICATIONS_ICON_SETTING_KEY;
+					ICON_DEFAULT = Constants.FACEBOOK_STATUS_BAR_NOTIFICATIONS_ICON_DEFAULT;
+					if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION){
+						contentTitle = context.getText(R.string.status_bar_notification_content_title_text_facebook_notification);
+					}else if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST){
+						contentTitle = context.getText(R.string.status_bar_notification_content_title_text_facebook_friend_request);
+					}
+					if(sentFromContactName == null || sentFromContactName.equals("")){
+						sentFrom = sentFromAddress;
+					}else{
+						sentFrom = sentFromContactName;
+					}
+					if( (sentFrom == null || sentFrom.equals("")) && (message == null || message.equals("")) ){
+						if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION){
+							contentText = context.getString(R.string.status_bar_notification_content_text_facebook_notification_null);
+							tickerText = context.getString(R.string.status_bar_notification_ticker_text_facebook_notification_null);
+						}else if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST){
+							contentText = context.getString(R.string.status_bar_notification_content_text_facebook_friend_request_null);
+							tickerText = context.getString(R.string.status_bar_notification_ticker_text_facebook_friend_request_null);
+						}
+						//Content Intent
+						notificationContentIntent = null;
+						//For now, don't display empty status bar notifications.
+						return;
+					}else{
+						if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION){
+							contentText = context.getString(R.string.status_bar_notification_content_text_facebook_notification, sentFrom, message);
+							if(sentFromContactName == null || sentFromContactName.equals("")){
+								tickerText = context.getString(R.string.status_bar_notification_ticker_text_unknown_contact_facebook_notification, message);
+							}else{
+								tickerText = context.getString(R.string.status_bar_notification_ticker_text_facebook_notification, sentFromContactName, message);
+							}
+						}else if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST){
+							contentText = context.getString(R.string.status_bar_notification_content_text_facebook_friend_request, sentFrom, message);
+							if(sentFromContactName == null || sentFromContactName.equals("")){
+								tickerText = context.getString(R.string.status_bar_notification_ticker_text_unknown_contact_facebook_friend_request, message);
+							}else{
+								tickerText = context.getString(R.string.status_bar_notification_ticker_text_facebook_friend_request, sentFromContactName, message);
+							}
+						}
+						notificationContentIntent = null;
+					}
+					//Delete Intent
+					notificationDeleteIntent = null;
+					//Content Intent
+					contentIntent = PendingIntent.getActivity(context, 0, notificationContentIntent, 0);
+					//Delete Intent
+					deleteIntent = null;
 					break;
 				}
 				case Constants.NOTIFICATION_TYPE_K9:{
@@ -1895,7 +1959,14 @@ public class Common {
 					break;
 				}
 				case Constants.NOTIFICATION_TYPE_FACEBOOK:{
-		
+					if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_facebook_grey")){
+						icon = R.drawable.status_bar_notification_facebook_grey;
+					}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_facebook_message_grey")){
+						icon = R.drawable.status_bar_notification_facebook_message_grey;
+					}else{
+						//Default Value
+						icon = R.drawable.status_bar_notification_facebook_grey;
+					}
 					break;
 				}
 				case Constants.NOTIFICATION_TYPE_K9:{
