@@ -679,6 +679,11 @@
 		<item name="3"></item>
 		<item name="4"></item>
 		<item name="5"></item>
+		<item name="6"></item>
+		<item name="7"></item>
+		<item name="8"></item>
+		<item name="9"></item>
+		<item name="10"></item>
 	</string-array>
 	<string-array name="contact_placeholder_options_values">
 		<item name="0">0</item>
@@ -687,6 +692,11 @@
 		<item name="3">3</item>
 		<item name="4">4</item>
 		<item name="5">5</item>
+		<item name="6">6</item>
+		<item name="7">7</item>
+		<item name="8">8</item>
+		<item name="9">9</item>
+		<item name="10">10</item>
 	</string-array>
 	<array name="contact_placeholder_images">
 		<item name="0">@drawable/ic_contact_picture_1</item>
@@ -695,6 +705,11 @@
 		<item name="3">@drawable/ic_contact_picture_4</item>
 		<item name="4">@drawable/ic_contact_picture_5</item>
 		<item name="5">@drawable/ic_contact_picture_6</item>
+		<item name="6">@drawable/ic_contact_picture_7</item>
+		<item name="7">@drawable/ic_contact_picture_8</item>
+		<item name="8">@drawable/ic_contact_picture_9</item>
+		<item name="9">@drawable/ic_contact_picture_10</item>
+		<item name="10">@drawable/ic_contact_picture_11</item>
 	</array>
 
 	<!-- Contact Photo Background Arrays --> 
@@ -1452,7 +1467,21 @@
 	<array name="notification_icon_images_twitter">
 		<item name="0">@drawable/status_bar_notification_twitter_grey_preference</item>
 	</array>
-	    	    	
+
+	<!-- Facebook Notification Icon Image Arrays --> 
+	<string-array name="notification_icon_options_facebook">
+		<item name="0"></item>
+		<item name="1"></item>
+	</string-array>
+	<string-array name="notification_icon_values_facebook">
+		<item name="0">status_bar_notification_facebook_grey</item>
+		<item name="1">status_bar_notification_facebook_message_grey</item>
+	</string-array>
+	<array name="notification_icon_images_facebook">
+		<item name="0">@drawable/status_bar_notification_facebook_grey_preference</item>
+		<item name="1">@drawable/status_bar_notification_facebook_message_grey_preference</item>
+	</array>
+	    	    	    	
 	<!-- Notification Vibrate Arrays --> 
 	<string-array name="vibrate_setting_options">
 		<item name="0">@string/always_text</item>

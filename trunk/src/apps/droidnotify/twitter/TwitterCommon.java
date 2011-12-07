@@ -81,7 +81,7 @@ public class TwitterCommon {
 				if(timeStamp > maxDateTime){
 					maxDateTime = timeStamp;
 				}
-//				if(timeStamp > dateFilter){
+				if(timeStamp > dateFilter){
 					String messageBody = message.getText();
 					long messageID = message.getId();					
 			    	String sentFromAddress = message.getSenderScreenName();
@@ -93,7 +93,7 @@ public class TwitterCommon {
 					}else{
 						twitterArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE) + "|" + sentFromAddress + "|" + twitterID + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + timeStamp + "|" + twitterContactInfo[0] + "|" + twitterContactInfo[1] + "|" + twitterContactInfo[2] + "|" + twitterContactInfo[3]);
 					}
-//				}
+				}
 			}
 			//Store the max date in the preferences.
 			//Don't load any messages that are older than this date next time around.
@@ -136,7 +136,7 @@ public class TwitterCommon {
 				if(timeStamp > maxDateTime){
 					maxDateTime = timeStamp;
 				}
-//				if(timeStamp > dateFilter){
+				if(timeStamp > dateFilter){
 					String mentionText = mention.getText();
 					long mentionID = mention.getId();
 			    	User twitterUser = mention.getUser();
@@ -147,7 +147,7 @@ public class TwitterCommon {
 					}else{
 						twitterArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_TWITTER_MENTION) + "|" + twitterUser.getScreenName() + "|" + twitterUser.getId() + "|" + mentionText.replace("\n", "<br/>") + "|" + mentionID + "|" + timeStamp + "|" + twitterContactInfo[0] + "|" + twitterContactInfo[1] + "|" + twitterContactInfo[2] + "|" + twitterContactInfo[3]);
 					}
-//				}
+				}
 			}
 			//Store the max date in the preferences.
 			//Don't load any messages that are older than this date next time around.
@@ -314,7 +314,7 @@ public class TwitterCommon {
 			//intent.setComponent(new ComponentName("com.twitter.android","com.twitter.android.HomeTabActivity"));
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 			String packageName = preferences.getString(Constants.TWITTER_PREFERRED_CLIENT_KEY, Constants.TWITTER_PREFERRED_CLIENT_DEFAULT);
-			Intent intent = notificationActivity.getPackageManager().getLaunchIntentForPackage(packageName);
+			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
 			intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 	        notificationActivity.startActivityForResult(intent, requestCode);
 	        Common.setInLinkedAppFlag(context, true);
@@ -327,6 +327,29 @@ public class TwitterCommon {
 		}
 	}
 
+	/**
+	 * Get the Intent to launch a Twitter application.
+	 * 
+	 * @param context - Application Context.
+	 * @param notificationActivity - A reference to the parent activity.
+	 * 
+	 * @return Intent - Returns the Intent.
+	 */
+	public static Intent getTwitterAppActivityIntent(Context context){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("TwitterCommon.getTwitterAppActivityIntent()");
+		try{
+			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+			String packageName = preferences.getString(Constants.TWITTER_PREFERRED_CLIENT_KEY, Constants.TWITTER_PREFERRED_CLIENT_DEFAULT);
+			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
+			intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+	        return intent;
+		}catch(Exception ex){
+			if (_debug) Log.e("TwitterCommon.getTwitterAppActivityIntent() ERROR: " + ex.toString());
+			return null;
+		}
+	}
+	
 	/**
 	 * Start the intent for the Quick Reply activity send a reply.
 	 * 

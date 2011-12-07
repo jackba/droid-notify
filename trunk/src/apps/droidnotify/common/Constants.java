@@ -112,6 +112,7 @@ public class Constants {
 	//-----CONTACT PHOTO CONSTANTS-----//
 	public static final String CONTACT_PHOTO_DISPLAY_KEY = "display_contact_photo";
     public static final String CONTACT_PLACEHOLDER_KEY = "contact_placeholder";
+    public static final String CONTACT_PLACEHOLDER_DEFAULT = "0";
     public static final String CONTACT_PHOTO_BACKGKROUND_KEY = "contact_photo_background";
 	public static final String CONTACT_PHOTO_SIZE_KEY = "contact_photo_size";
 	public static final String CONTACT_PHOTO_SIZE_DEFAULT = "80";
@@ -265,6 +266,9 @@ public class Constants {
 	public static final String PREFERENCE_RATE_APP_KEY = "rate_app";
 	public static final String ADVANCED_PREFERENCE_SCREEN_KEY = "advanced_settings_screen";
 	
+	//-----NOTIFICATION COUNT CONSTANTS-----//
+	public static final String NOTIFICATION_COUNT_ACTION_NOTHING = "0";
+	
 	//-----SMS NOTIFICATION CONSTANTS-----//
 	public static final String SMS_NOTIFICATIONS_ENABLED_KEY = "sms_notifications_enabled";
 	public static final String SMS_READ_FROM_INTENT = "0";
@@ -401,6 +405,7 @@ public class Constants {
 	public static final String TWITTER_DISPLAY_DELETE_BUTTON_KEY = "twitter_display_delete_button";
 	public static final String TWITTER_DISPLAY_REPLY_BUTTON_KEY = "twitter_display_reply_button";
 	public static final String TWITTER_NOTIFICATION_COUNT_ACTION_KEY = "twitter_notification_count_action";
+	public static final String TWITTER_NOTIFICATION_COUNT_ACTION_LAUNCH_TWITTER_APP = "1";
 	
 	public static final String TWITTER_PREFERRED_CLIENT_KEY = "twitter_preferred_client";
 	public static final String TWITTER_PREFERRED_CLIENT_DEFAULT = "com.twitter.android";
@@ -442,6 +447,7 @@ public class Constants {
 	public static final String FACEBOOK_DISPLAY_DELETE_BUTTON_KEY = "facebook_display_delete_button";
 	public static final String FACEBOOK_DISPLAY_REPLY_BUTTON_KEY = "facebook_display_reply_button";
 	public static final String FACEBOOK_NOTIFICATION_COUNT_ACTION_KEY = "facebook_notification_count_action";
+	public static final String FACEBOOK_NOTIFICATION_COUNT_ACTION_LAUNCH_FACEBOOK_APP = "1";
 	
 	public static final String FACEBOOK_ADVANCED_SETTINGS_CATEGORY_KEY = "advanced_facebook_settings_category";
 	
@@ -457,6 +463,7 @@ public class Constants {
 	public static final String K9_DISPLAY_DELETE_BUTTON_KEY = "k9_display_delete_button";
 	public static final String K9_DISPLAY_REPLY_BUTTON_KEY = "k9_display_reply_button";
 	public static final String K9_NOTIFICATION_COUNT_ACTION_KEY = "k9_notification_count_action";
+	public static final String K9_NOTIFICATION_COUNT_ACTION_K9_INBOX = "1";
 	public static final String K9_DISMISS_KEY = "k9_dismiss_button_action";
 	public static final String K9_CONFIRM_DELETION_KEY = "confirm_k9_deletion";
 	
@@ -672,9 +679,9 @@ public class Constants {
 	
 	public static final String FACEBOOK_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY = "facebook_status_bar_notifications_show_when_blocked_enabled";
 	
-	public static final String FACEBOOK_STATUS_BAR_NOTIFICATIONS_SOUND_KEY = "facebook_notification_sound";
+	public static final String FACEBOOK_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY = "facebook_notification_sound";
 	
-	public static final String FACEBOOK_STATUS_BAR_NOTIFICATIONS_VIBRATE_ENABLED_KEY = "facebook_notification_vibrate_enabled";
+	public static final String FACEBOOK_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY = "facebook_notification_vibrate_setting";
 	public static final String FACEBOOK_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_KEY = "facebook_notification_vibrate_pattern";
 	public static final String FACEBOOK_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_VALUE_KEY = "facebook_custom";
 	public static final String FACEBOOK_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_KEY = "facebook_notification_vibrate_pattern_custom";
