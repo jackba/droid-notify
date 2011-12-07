@@ -1410,6 +1410,12 @@
 		<item name="3"></item>
 		<item name="4"></item>
 		<item name="5"></item>
+		<item name="6"></item>
+		<item name="7"></item>
+		<item name="8"></item>
+		<item name="9"></item>
+		<item name="10"></item>
+		<item name="11"></item>
 	</string-array>
 	<string-array name="notification_icon_values_calendar">
 		<item name="0">status_bar_notification_calendar_black</item>
@@ -1418,6 +1424,12 @@
 		<item name="3">status_bar_notification_calendar_grey</item>
 		<item name="4">status_bar_notification_calendar_orange</item>
 		<item name="5">status_bar_notification_calendar_red</item>
+		<item name="6">status_bar_notification_calendar_glass_blue</item>
+		<item name="7">status_bar_notification_calendar_glass_green</item>
+		<item name="8">status_bar_notification_calendar_glass_grey</item>
+		<item name="9">status_bar_notification_calendar_glass_orange</item>
+		<item name="10">status_bar_notification_calendar_glass_red</item>
+		<item name="11">status_bar_notification_calendar_glass_yellow</item>
 	</string-array>
 	<array name="notification_icon_images_calendar">
 		<item name="0">@drawable/status_bar_notification_calendar_black_preference</item>
@@ -1426,6 +1438,12 @@
 		<item name="3">@drawable/status_bar_notification_calendar_grey_preference</item>
 		<item name="4">@drawable/status_bar_notification_calendar_orange_preference</item>
 		<item name="5">@drawable/status_bar_notification_calendar_red_preference</item>
+		<item name="6">@drawable/status_bar_notification_calendar_glass_blue_preference</item>
+		<item name="7">@drawable/status_bar_notification_calendar_glass_green_preference</item>
+		<item name="8">@drawable/status_bar_notification_calendar_glass_grey_preference</item>
+		<item name="9">@drawable/status_bar_notification_calendar_glass_orange_preference</item>
+		<item name="10">@drawable/status_bar_notification_calendar_glass_red_preference</item>
+		<item name="11">@drawable/status_bar_notification_calendar_glass_yellow_preference</item>
 	</array>
 
 	<!-- Email Notification Icon Image Arrays --> 
