@@ -8,6 +8,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Map;
 
+import oauth.signpost.OAuth;
+
 import android.app.Dialog;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -459,7 +461,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
            }
 		});
 		//Quiet Time Button
-		Preference quietTimePref = (Preference)findPreference("quiet_time_blackout_period_settings");
+		Preference quietTimePref = (Preference)findPreference(Constants.QUIET_TIME_BLACKOUT_PERIOD_SETTINGS_KEY);
 		quietTimePref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
         	public boolean onPreferenceClick(Preference preference) {
 		    	if (_debug) Log.v("MainPreferenceActivity() Quiet Time Button Clicked()");
@@ -468,6 +470,36 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		    	}catch(Exception ex){
 	 	    		if (_debug) Log.e("MainPreferenceActivity() Quiet Time Button ERROR: " + ex.toString());
 	 	    		//Toast.makeText(_context, _context.getString(R.string.app_preference_quiet_time_error), Toast.LENGTH_LONG).show();
+	 	    		return false;
+		    	}
+	            return true;
+           }
+		});
+		//Clear Twitter Authentication Data Preference/Button
+		Preference clearTwitterAuthenticationDataPref = (Preference)findPreference(Constants.TWITTER_CLEAR_AUTHENTICATION_DATA_KEY);
+		clearTwitterAuthenticationDataPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+        	public boolean onPreferenceClick(Preference preference) {
+		    	if (_debug) Log.v("MainPreferenceActivity() Clear Twitter Authentication Data Button Clicked()");
+		    	try{
+			    	//Run this process in the background in an AsyncTask.
+			    	new clearTwitterAuthenticationDataAsyncTask().execute();
+		    	}catch(Exception ex){
+	 	    		if (_debug) Log.e("MainPreferenceActivity() Clear Twitter Authentication Data Button ERROR: " + ex.toString());
+	 	    		return false;
+		    	}
+	            return true;
+           }
+		});
+		//Clear Facebook Authentication Data Preference/Button
+		Preference clearFacebookAuthenticationDataPref = (Preference)findPreference(Constants.FACEBOOK_CLEAR_AUTHENTICATION_DATA_KEY);
+		clearFacebookAuthenticationDataPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+        	public boolean onPreferenceClick(Preference preference) {
+		    	if (_debug) Log.v("MainPreferenceActivity() Clear Facebook Authentication Data Button Clicked()");
+		    	try{
+			    	//Run this process in the background in an AsyncTask.
+			    	new clearFacebookAuthenticationDataAsyncTask().execute();
+		    	}catch(Exception ex){
+	 	    		if (_debug) Log.e("MainPreferenceActivity() Clear Facebook Authentication Data Button ERROR: " + ex.toString());
 	 	    		return false;
 		    	}
 	            return true;
@@ -682,17 +714,21 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	private void setupAppVersion(boolean appProVersion){
 		if (_debug) Log.v("MainPreferenceActivity.setupAppVersion()");
 		PreferenceScreen mainPreferences = this.getPreferenceScreen();
-		Preference upgradeToProPreference = (Preference) findPreference(Constants.UPGRADE_TO_PRO_PREFERENCE_KEY);
+		Preference upgradeToProPreference = (Preference) findPreference(Constants.UPGRADE_TO_PRO_PREFERENCE_KEY);		
 		PreferenceCategory appLicensePreferenceCategory = (PreferenceCategory) findPreference(Constants.PREFERENCE_CATEGORY_APP_LICENSE_KEY);
+		PreferenceCategory appFeedbackPreferenceCategory = (PreferenceCategory) findPreference(Constants.PREFERENCE_CATEGORY_APP_FEEDBACK_KEY);
+		PreferenceCategory advancedTwitterSettingsPreferenceCategory = (PreferenceCategory) findPreference(Constants.TWITTER_ADVANCED_SETTINGS_CATEGORY_KEY);
+		PreferenceCategory advancedFacebookSettingsPreferenceCategory = (PreferenceCategory) findPreference(Constants.FACEBOOK_ADVANCED_SETTINGS_CATEGORY_KEY);
 		//Twitter
 		PreferenceCategory twitterNotificationPreferenceCategory = (PreferenceCategory) findPreference(Constants.TWITTER_PRO_PREFERENCE_CATEGORY_KEY);
 		Preference twitterProPlaceholderPreference = (Preference) findPreference(Constants.TWITTER_PRO_PLACEHOLDER_PREFERENCE_KEY);
 		PreferenceScreen twitterProPreferenceScreen = (PreferenceScreen) findPreference(Constants.TWITTER_PRO_PREFERENCE_SCREEN_KEY);
+		Preference clearTwitterAuthenticationDataPreference = (Preference)findPreference(Constants.TWITTER_CLEAR_AUTHENTICATION_DATA_KEY);
 		//Facebook
 		PreferenceCategory facebookNotificationPreferenceCategory = (PreferenceCategory) findPreference(Constants.FACEBOOK_PRO_PREFERENCE_CATEGORY_KEY);
 		Preference facebookProPlaceholderPreference = (Preference) findPreference(Constants.FACEBOOK_PRO_PLACEHOLDER_PREFERENCE_KEY);
 		PreferenceScreen facebookProPreferenceScreen = (PreferenceScreen) findPreference(Constants.FACEBOOK_PRO_PREFERENCE_SCREEN_KEY);
-		PreferenceCategory appFeedbackPreferenceCategory = (PreferenceCategory) findPreference(Constants.PREFERENCE_CATEGORY_APP_FEEDBACK_KEY);
+		Preference clearFacebookAuthenticationDataPreference = (Preference)findPreference(Constants.FACEBOOK_CLEAR_AUTHENTICATION_DATA_KEY);
 		if(appProVersion){
 			//Remove the Twitter placeholder preference category.
 			twitterNotificationPreferenceCategory.removePreference(twitterProPlaceholderPreference);
@@ -705,6 +741,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		}else{
 			//Remove the Twitter preference preference category.
 			twitterNotificationPreferenceCategory.removePreference(twitterProPreferenceScreen);
+			advancedTwitterSettingsPreferenceCategory.removePreference(clearTwitterAuthenticationDataPreference);
 			//Setup the Twitter placeholder preference button.
 			twitterProPlaceholderPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 	        	public boolean onPreferenceClick(Preference preference) {
@@ -721,6 +758,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			});
 			//Remove the Faacebook preference preference category.
 			facebookNotificationPreferenceCategory.removePreference(facebookProPreferenceScreen);
+			advancedFacebookSettingsPreferenceCategory.removePreference(clearFacebookAuthenticationDataPreference);
 			//Setup the Facebook placeholder preference button.
 			facebookProPlaceholderPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 	        	public boolean onPreferenceClick(Preference preference) {
@@ -1468,6 +1506,90 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			CheckBoxPreference facebookEnabledCheckBoxPreference = (CheckBoxPreference) findPreference(Constants.FACEBOOK_NOTIFICATIONS_ENABLED_KEY);
 			if(facebookEnabledCheckBoxPreference != null) facebookEnabledCheckBoxPreference.setChecked(false);
 		}
+	}
+	
+	/**
+	 * Clear the Twitter authentication data as a background task.
+	 * 
+	 * @author Camille Sévigny
+	 */
+	private class clearTwitterAuthenticationDataAsyncTask extends AsyncTask<Void, Void, Void> {
+		//ProgressDialog to display while the task is running.
+		private ProgressDialog dialog;
+		/**
+		 * Setup the Progress Dialog.
+		 */
+	    protected void onPreExecute() {
+			if (_debug) Log.v("MainPreferenceActivity.clearTwitterAuthenticationDataAsyncTask.onPreExecute()");
+	        dialog = ProgressDialog.show(MainPreferenceActivity.this, "", _context.getString(R.string.reset_data), true);
+	    }
+	    /**
+	     * Do this work in the background.
+	     * 
+	     * @param params
+	     */
+	    protected Void doInBackground(Void... params) {
+			if (_debug) Log.v("MainPreferenceActivity.clearTwitterAuthenticationDataAsyncTask.doInBackground()");
+			SharedPreferences.Editor editor = _preferences.edit();
+			editor.putString(OAuth.OAUTH_TOKEN, null);
+			editor.putString(OAuth.OAUTH_TOKEN_SECRET, null);
+			editor.commit();
+            CheckBoxPreference twitterEnabledCheckBoxPreference = (CheckBoxPreference) findPreference(Constants.TWITTER_NOTIFICATIONS_ENABLED_KEY);
+			if(twitterEnabledCheckBoxPreference != null) twitterEnabledCheckBoxPreference.setChecked(false);
+	    	return null;
+	    }
+	    /**
+	     * Stop the Progress Dialog and do any post background work.
+	     * 
+	     * @param result
+	     */
+	    protected void onPostExecute(Void res) {
+			if (_debug) Log.v("MainPreferenceActivity.clearTwitterAuthenticationDataAsyncTask.onPostExecute()");
+	        dialog.dismiss();
+	    	Toast.makeText(_context, _context.getString(R.string.twitter_authentication_data_cleared), Toast.LENGTH_LONG).show();
+	    }
+	}
+	
+	/**
+	 * Clear the Facebook authentication data as a background task.
+	 * 
+	 * @author Camille Sévigny
+	 */
+	private class clearFacebookAuthenticationDataAsyncTask extends AsyncTask<Void, Void, Void> {
+		//ProgressDialog to display while the task is running.
+		private ProgressDialog dialog;
+		/**
+		 * Setup the Progress Dialog.
+		 */
+	    protected void onPreExecute() {
+			if (_debug) Log.v("MainPreferenceActivity.clearFacebookAuthenticationDataAsyncTask.onPreExecute()");
+	        dialog = ProgressDialog.show(MainPreferenceActivity.this, "", _context.getString(R.string.reset_data), true);
+	    }
+	    /**
+	     * Do this work in the background.
+	     * 
+	     * @param params
+	     */
+	    protected Void doInBackground(Void... params) {
+			if (_debug) Log.v("MainPreferenceActivity.clearFacebookAuthenticationDataAsyncTask.doInBackground()");
+			SharedPreferences.Editor editor = _preferences.edit();
+            editor.putString(Constants.FACEBOOK_ACCESS_TOKEN_KEY, null);
+            editor.putLong(Constants.FACEBOOK_ACCESS_EXPIRES_KEY, 0);
+            editor.commit();
+            CheckBoxPreference facebookEnabledCheckBoxPreference = (CheckBoxPreference) findPreference(Constants.FACEBOOK_NOTIFICATIONS_ENABLED_KEY);
+			if(facebookEnabledCheckBoxPreference != null) facebookEnabledCheckBoxPreference.setChecked(false);
+	    	return null;
+	    }
+	    /**
+	     * Stop the Progress Dialog and do any post background work.
+	     * 
+	     * @param result
+	     */
+	    protected void onPostExecute(Void res) {
+			if (_debug) Log.v("MainPreferenceActivity.clearFacebookAuthenticationDataAsyncTask.onPostExecute()");
+	        dialog.dismiss();
+	    	Toast.makeText(_context, _context.getString(R.string.facebook_authentication_data_cleared), Toast.LENGTH_LONG).show();
+	    }
 	}
 	
 }

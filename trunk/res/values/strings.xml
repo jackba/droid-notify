@@ -15,11 +15,13 @@
    	<string name="preference_appenabled_summaryOn">Droid Notify is enabled.</string>
    	<string name="preference_appenabled_summaryOff">Droid Notify is disabled.</string>
     <string name="to_text">To</string>
+    <string name="from_text">From</string>
     <string name="ok_text">OK</string>
     <string name="close_text">Close</string>
     <string name="cancel_text">Cancel</string>
     <string name="continue_text">Continue</string>
     <string name="dismiss_notification_text">Dismiss Notification</string>
+    <string name="reset_data">Resetting data...</string>
     
     <!-- Donate To Project Strings -->
     <string name="donate_text">Donate</string>
@@ -278,7 +280,12 @@
    	<string name="authenticating_text">Authenticating...</string>
    	<string name="twitter_authentication_error">We were not able to authenticate or access your Twitter account at this time. Please try again later.</string>
    	<string name="preference_twitter_polling_frequency_summary">How often you want to read your Twitter account?</string>
+   	<string name="preference_clear_twitter_authentication_data">Reset Twitter Data</string>
+   	<string name="preference_clear_twitter_authentication_data_summary">Clear the Twitter authentication data.</string>
+   	<string name="twitter_authentication_data_cleared">The Twitter authentication data has been cleared.</string>
 
+   	    
+   	    
   	<!-- Facebook Strings -->	 	
    	<string name="preference_facebook_notifications">Facebook Notifications</string>
    	<string name="preference_facebook_enabled_title">Enable Facebook</string>
@@ -286,6 +293,9 @@
    	<string name="preference_facebook_enabled_summaryOff">Facebook notifications are disabled.</string>
    	<string name="facebook_authentication_text">Facebook Authentication</string>
    	<string name="facebook_authentication_error">We were not able to authenticate or access your Facebook account at this time. Please try again later.</string>
+   	<string name="preference_clear_facebook_authentication_data">Reset Facebook Data</string>
+   	<string name="preference_clear_facebook_authentication_data_summary">Clear the Facebook authentication data.</string>
+   	<string name="facebook_authentication_data_cleared">The Facebook authentication data has been cleared.</string>
    	    
    	<!-- Email Strings -->
     <string name="email_inbox_text">Email Inbox</string>
@@ -486,8 +496,8 @@
     <string name="status_bar_notification_content_title_text_mms">New Message</string>
     <string name="status_bar_notification_content_title_text_phone">Missed Call</string>
     <string name="status_bar_notification_content_title_text_calendar">Calendar Event Reminder</string>
-    <string name="status_bar_notification_content_title_text_gmail">New Email</string>
-    <string name="status_bar_notification_content_title_text_twitter">New Twitter Message</string>
+    <string name="status_bar_notification_content_title_text_twitter_direct_message">New Twitter Direct Message</string>
+    <string name="status_bar_notification_content_title_text_twitter_mention">New Twitter Mention</string>
     <string name="status_bar_notification_content_title_text_facebook">New Facebook Message</string>
     <string name="status_bar_notification_content_title_text_email">New Email</string>
     

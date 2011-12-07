@@ -99,10 +99,10 @@ public class TwitterAuthenticationActivity extends Activity {
 				//This will populate token and token_secret in consumer.
 				String oauthVerifier = uri.getQueryParameter(OAuth.OAUTH_VERIFIER);
 				_provider.retrieveAccessToken(_consumer, oauthVerifier);
-				SharedPreferences.Editor edit = _preferences.edit();
-				edit.putString(OAuth.OAUTH_TOKEN, _consumer.getToken());
-				edit.putString(OAuth.OAUTH_TOKEN_SECRET, _consumer.getTokenSecret());
-				edit.commit();
+				SharedPreferences.Editor editor = _preferences.edit();
+				editor.putString(OAuth.OAUTH_TOKEN, _consumer.getToken());
+				editor.putString(OAuth.OAUTH_TOKEN_SECRET, _consumer.getTokenSecret());
+				editor.commit();
 				TwitterCommon.startTwitterAlarmManager(_context, System.currentTimeMillis());
 				finish();
 			} catch (Exception ex) {
