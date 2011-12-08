@@ -932,12 +932,8 @@ public class Notification {
 					messageToSpeak.append(_context.getString(R.string.message_at_text, formattedTimestamp.toLowerCase()));
 				}else if(_notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_MENTION){
 					messageToSpeak.append(_context.getString(R.string.mention_at_text, formattedTimestamp.toLowerCase()));
-				}else if(_notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_FOLLOWER){
-					messageToSpeak.append(_context.getString(R.string.follower_at_text, formattedTimestamp.toLowerCase()));
-				}else if(_notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_RETWEET){
-					messageToSpeak.append(_context.getString(R.string.retweet_at_text, formattedTimestamp.toLowerCase()));
-				}else if(_notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_REPLY_TWEET){
-					messageToSpeak.append(_context.getString(R.string.reply_tweet_at_text, formattedTimestamp.toLowerCase()));
+				}else if(_notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_FOLLOWER_REQUEST){
+					messageToSpeak.append(_context.getString(R.string.follower_request_at_text, formattedTimestamp.toLowerCase()));
 				}
 				messageToSpeak.append(". " + _context.getString(R.string.from_text) + " " + sentFrom + ". ");
 				messageToSpeak.append(_messageBody);				

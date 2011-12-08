@@ -6,6 +6,7 @@ import java.util.Calendar;
 import oauth.signpost.OAuth;
 
 import twitter4j.DirectMessage;
+import twitter4j.IDs;
 import twitter4j.ResponseList;
 import twitter4j.Status;
 import twitter4j.Twitter;
@@ -162,6 +163,41 @@ public class TwitterCommon {
 		}
 	}
 	
+	/**
+	 * Get Twitter Followers. Read account and notify as needed.
+	 * 
+	 * @param context - The application context.
+	 * 
+	 * @return ArrayList<String> - Returns an ArrayList of Strings that contain the Twitter information.
+	 */
+	public static ArrayList<String> getTwitterFollowerRequests(Context context, Twitter twitter){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("TwitterCommon.getTwitterFollowers()");
+		try{
+			IDs followerRequests = twitter.getIncomingFriendships(-1);
+		    ArrayList<String> twitterArray = new ArrayList<String>();
+		    long[] followerIDs = followerRequests.getIDs();
+			for(long followerID: followerIDs){
+				long timeStamp = System.currentTimeMillis();
+		    	User twitterUser = twitter.showUser(followerID);
+		    	String twitterScreenName = twitterUser.getScreenName();
+		    	String twitterName = twitterUser.getName();
+				String followerMessage = context.getString(R.string.twitter_following_request, twitterName, twitterScreenName);
+	    		String[] twitterContactInfo = null;
+	    		twitterContactInfo = getContactInfoByTwitterUser(context, twitterUser);
+	    		if(twitterContactInfo == null){
+	    			twitterArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_TWITTER_FOLLOWER_REQUEST) + "|" + twitterScreenName + "|" + followerID + "|" + followerMessage + "|0|" + timeStamp);
+				}else{
+					twitterArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_TWITTER_FOLLOWER_REQUEST) + "|" + twitterScreenName + "|" + followerID + "|" + followerMessage + "|0|" + timeStamp + "|" + twitterContactInfo[0] + "|" + twitterContactInfo[1] + "|" + twitterContactInfo[2] + "|" + twitterContactInfo[3]);
+				}
+			}
+			//Return array.
+			return twitterArray;
+		}catch(Exception ex){
+			if (_debug) Log.e("TwitterCommon.getTwitterFollowers() ERROR: " + ex.toString());
+			return null;
+		}
+	}	
 	/**
 	 * Load the various contact info for this notification from a phoneNumber.
 	 * 

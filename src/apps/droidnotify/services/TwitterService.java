@@ -84,6 +84,17 @@ public class TwitterService extends WakefulIntentService {
 					if (_debug) Log.v("TwitterService.doWakefulWork() No Twitter Mentions were found. Exiting...");
 				}
 			}
+			if(preferences.getBoolean(Constants.TWITTER_FOLLOWER_REQUESTS_ENABLED_KEY, true)){
+				ArrayList<String> twitterFollowerRequestArray = TwitterCommon.getTwitterFollowerRequests(context, twitter);
+			    if(twitterFollowerRequestArray != null && twitterFollowerRequestArray.size() > 0){
+					Bundle bundle = new Bundle();
+					bundle.putInt("notificationType", Constants.NOTIFICATION_TYPE_TWITTER);
+					bundle.putStringArrayList("twitterArrayList", twitterFollowerRequestArray);
+					Common.startNotificationActivity(context, bundle);
+				}else{
+					if (_debug) Log.v("TwitterService.doWakefulWork() No Twitter Follower Requests were found. Exiting...");
+				}
+			}
 		}catch(Exception ex){
 			if (_debug) Log.e("TwitterService.doWakefulWork() ERROR: " + ex.toString());
 		}

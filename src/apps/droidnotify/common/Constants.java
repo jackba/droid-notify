@@ -54,9 +54,7 @@ public class Constants {
 	//-----NOTIFICATION SUB-TYPE CONSTANTS-----//
 	public static final int NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE = 200;
 	public static final int NOTIFICATION_TYPE_TWITTER_MENTION = 201;
-	public static final int NOTIFICATION_TYPE_TWITTER_FOLLOWER = 202;
-	public static final int NOTIFICATION_TYPE_TWITTER_RETWEET = 203;
-	public static final int NOTIFICATION_TYPE_TWITTER_REPLY_TWEET = 204;
+	public static final int NOTIFICATION_TYPE_TWITTER_FOLLOWER_REQUEST = 202;
 	
 	public static final int NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION = 210;
 	public static final int NOTIFICATION_TYPE_FACEBOOK_MESSAGE = 211;
@@ -380,7 +378,7 @@ public class Constants {
     public static final String TWITTER_POLLING_FREQUENCY_DEFAULT = "60"; 
 	public static final String TWITTER_DIRECT_MESSAGES_ENABLED_KEY = "twitter_direct_messages_enabled";
 	public static final String TWITTER_MENTIONS_ENABLED_KEY = "twitter_mentions_enabled";
-	public static final String TWITTER_FOLOWERS_ENABLED_KEY = "twitter_followers_enabled";
+	public static final String TWITTER_FOLLOWER_REQUESTS_ENABLED_KEY = "twitter_follower_requests_enabled";
 	public static final String TWITTER_RETWEETS_ENABLED_KEY = "twitter_retweets_enabled";
 	public static final String TWITTER_REPLY_TWEETS_ENABLED_KEY = "twitter_reply_tweets_enabled";
 	

@@ -655,7 +655,7 @@ public class NotificationView extends LinearLayout {
 				    		_dismissImageButton.setVisibility(View.GONE);
 				    	}		
 				    	// Delete Button
-				    	if(notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_MENTION){
+				    	if(notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_MENTION || notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_FOLLOWER_REQUEST){
 				    		_deleteImageButton.setVisibility(View.GONE);
 				    	}else{							
 							if(_preferences.getBoolean(Constants.TWITTER_DISPLAY_DELETE_BUTTON_KEY, true)){
@@ -671,16 +671,20 @@ public class NotificationView extends LinearLayout {
 					    	}
 				    	}
 						// Reply Button
-						if(_preferences.getBoolean(Constants.TWITTER_DISPLAY_REPLY_BUTTON_KEY, true)){
-				    		_replyEmailImageButton.setOnClickListener(new OnClickListener() {
-							    public void onClick(View view) {
-							    	if (_debug) Log.v("Twitter Reply Button Clicked()");
-							    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-							    	replyToMessage(Constants.NOTIFICATION_TYPE_TWITTER);
-							    }
-							});
-				    	}else{
-							_replyEmailImageButton.setVisibility(View.GONE);
+				    	if(notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_FOLLOWER_REQUEST){
+				    		_replyEmailImageButton.setVisibility(View.GONE);
+				    	}else{	
+							if(_preferences.getBoolean(Constants.TWITTER_DISPLAY_REPLY_BUTTON_KEY, true)){
+					    		_replyEmailImageButton.setOnClickListener(new OnClickListener() {
+								    public void onClick(View view) {
+								    	if (_debug) Log.v("Twitter Reply Button Clicked()");
+								    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+								    	replyToMessage(Constants.NOTIFICATION_TYPE_TWITTER);
+								    }
+								});
+					    	}else{
+								_replyEmailImageButton.setVisibility(View.GONE);
+					    	}
 				    	}
 					}else{
 						// Dismiss Button
@@ -696,7 +700,7 @@ public class NotificationView extends LinearLayout {
 				    		_dismissButton.setVisibility(View.GONE);
 				    	}		
 				    	// Delete Button
-				    	if(notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_MENTION){
+				    	if(notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_MENTION || notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_FOLLOWER_REQUEST){
 				    		_deleteButton.setVisibility(View.GONE);
 				    	}else{
 							if(_preferences.getBoolean(Constants.TWITTER_DISPLAY_DELETE_BUTTON_KEY, true)){
@@ -712,16 +716,20 @@ public class NotificationView extends LinearLayout {
 					    	}
 				    	}
 						// Reply Button
-						if(_preferences.getBoolean(Constants.TWITTER_DISPLAY_REPLY_BUTTON_KEY, true)){
-				    		_replyEmailButton.setOnClickListener(new OnClickListener() {
-							    public void onClick(View view) {
-							    	if (_debug) Log.v("Twitter Reply Button Clicked()");
-							    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-							    	replyToMessage(Constants.NOTIFICATION_TYPE_TWITTER);
-							    }
-							});
-				    	}else{
-							_replyEmailButton.setVisibility(View.GONE);
+				    	if(notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_FOLLOWER_REQUEST){
+				    		_replyEmailButton.setVisibility(View.GONE);
+				    	}else{	
+							if(_preferences.getBoolean(Constants.TWITTER_DISPLAY_REPLY_BUTTON_KEY, true)){
+					    		_replyEmailButton.setOnClickListener(new OnClickListener() {
+								    public void onClick(View view) {
+								    	if (_debug) Log.v("Twitter Reply Button Clicked()");
+								    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+								    	replyToMessage(Constants.NOTIFICATION_TYPE_TWITTER);
+								    }
+								});
+					    	}else{
+								_replyEmailButton.setVisibility(View.GONE);
+					    	}
 				    	}
 					}
 					_callButton.setVisibility(View.GONE);
@@ -1166,13 +1174,9 @@ public class NotificationView extends LinearLayout {
 			    	receivedAtText = _context.getString(R.string.message_at_text, formattedTimestamp.toLowerCase());
 		    	}else if(notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_MENTION){
 			    	receivedAtText = _context.getString(R.string.mention_at_text, formattedTimestamp.toLowerCase());
-		    	}else if(notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_FOLLOWER){
-			    	receivedAtText = _context.getString(R.string.follower_at_text, formattedTimestamp.toLowerCase());
-		    	}else if(notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_RETWEET){
-			    	receivedAtText = _context.getString(R.string.retweet_at_text, formattedTimestamp.toLowerCase());
-		    	}else if(notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_REPLY_TWEET){
-			    	receivedAtText = _context.getString(R.string.reply_tweet_at_text, formattedTimestamp.toLowerCase());
-		    	}	
+		    	}else if(notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_FOLLOWER_REQUEST){
+			    	receivedAtText = _context.getString(R.string.follower_request_at_text, formattedTimestamp.toLowerCase());
+		    	}
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_FACEBOOK:{
@@ -1253,13 +1257,7 @@ public class NotificationView extends LinearLayout {
 			    	TwitterCommon.startTwitterQuickReplyActivity(_context, _notificationActivity, Constants.SEND_TWITTER_QUICK_REPLY_ACTIVITY, _notification.getSentFromID(), _notification.getSentFromAddress(), _notification.getContactName(), Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE);
 		    	}else if(notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_MENTION){
 		    		TwitterCommon.startTwitterQuickReplyActivity(_context, _notificationActivity, Constants.SEND_TWITTER_QUICK_REPLY_ACTIVITY, _notification.getSentFromID(), _notification.getSentFromAddress(), _notification.getContactName(), Constants.NOTIFICATION_TYPE_TWITTER_MENTION);
-		    	}else if(notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_FOLLOWER){
-		    		//TODO
-		    	}else if(notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_RETWEET){
-		    		//TODO
-		    	}else if(notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_REPLY_TWEET){
-		    		//TODO
-		    	}	
+		    	}
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_FACEBOOK:{
