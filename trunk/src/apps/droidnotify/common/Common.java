@@ -1862,6 +1862,24 @@ public class Common {
 						icon = R.drawable.status_bar_notification_sms_postcard_white;
 					}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_sms_postcard_yellow")){
 						icon = R.drawable.status_bar_notification_sms_postcard_yellow;
+					}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_sms_postcard_glass_aqua")){
+						icon = R.drawable.status_bar_notification_sms_postcard_glass_aqua;
+					}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_sms_postcard_glass_blue")){
+						icon = R.drawable.status_bar_notification_sms_postcard_glass_blue;
+					}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_sms_postcard_glass_green")){
+						icon = R.drawable.status_bar_notification_sms_postcard_glass_green;
+					}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_sms_postcard_glass_orange")){
+						icon = R.drawable.status_bar_notification_sms_postcard_glass_orange;
+					}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_sms_postcard_glass_pink")){
+						icon = R.drawable.status_bar_notification_sms_postcard_glass_pink;
+					}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_sms_postcard_glass_purple")){
+						icon = R.drawable.status_bar_notification_sms_postcard_glass_purple;
+					}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_sms_postcard_glass_red")){
+						icon = R.drawable.status_bar_notification_sms_postcard_glass_red;
+					}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_sms_postcard_glass_white")){
+						icon = R.drawable.status_bar_notification_sms_postcard_glass_white;
+					}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_sms_postcard_glass_yellow")){
+						icon = R.drawable.status_bar_notification_sms_postcard_glass_yellow;
 					}else{
 						//Default Value
 						icon = R.drawable.status_bar_notification_sms_green;
@@ -1884,7 +1902,7 @@ public class Common {
 					}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_sms_red")){
 						icon = R.drawable.status_bar_notification_sms_red;
 					}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_sms_white")){
-						icon = R.drawable.status_bar_notification_sms_white;
+							icon = R.drawable.status_bar_notification_sms_white;
 					}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_sms_postcard_aqua")){
 						icon = R.drawable.status_bar_notification_sms_postcard_aqua;
 					}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_sms_postcard_blue")){
@@ -1905,6 +1923,24 @@ public class Common {
 						icon = R.drawable.status_bar_notification_sms_postcard_white;
 					}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_sms_postcard_yellow")){
 						icon = R.drawable.status_bar_notification_sms_postcard_yellow;
+					}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_sms_postcard_glass_aqua")){
+						icon = R.drawable.status_bar_notification_sms_postcard_glass_aqua;
+					}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_sms_postcard_glass_blue")){
+						icon = R.drawable.status_bar_notification_sms_postcard_glass_blue;
+					}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_sms_postcard_glass_green")){
+						icon = R.drawable.status_bar_notification_sms_postcard_glass_green;
+					}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_sms_postcard_glass_orange")){
+						icon = R.drawable.status_bar_notification_sms_postcard_glass_orange;
+					}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_sms_postcard_glass_pink")){
+						icon = R.drawable.status_bar_notification_sms_postcard_glass_pink;
+					}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_sms_postcard_glass_purple")){
+						icon = R.drawable.status_bar_notification_sms_postcard_glass_purple;
+					}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_sms_postcard_glass_red")){
+						icon = R.drawable.status_bar_notification_sms_postcard_glass_red;
+					}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_sms_postcard_glass_white")){
+						icon = R.drawable.status_bar_notification_sms_postcard_glass_white;
+					}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_sms_postcard_glass_yellow")){
+						icon = R.drawable.status_bar_notification_sms_postcard_glass_yellow;
 					}else{
 						//Default Value
 						icon = R.drawable.status_bar_notification_sms_green;
@@ -1920,6 +1956,8 @@ public class Common {
 						icon = R.drawable.status_bar_notification_missed_call_red;
 					}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_missed_call_white")){
 						icon = R.drawable.status_bar_notification_missed_call_white;
+					}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_missed_call_glass_red")){
+						icon = R.drawable.status_bar_notification_missed_call_glass_red;
 					}else{
 						//Default Value
 						icon = R.drawable.status_bar_notification_missed_call_black;
@@ -1939,6 +1977,18 @@ public class Common {
 						icon = R.drawable.status_bar_notification_calendar_orange;
 					}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_calendar_red")){
 						icon = R.drawable.status_bar_notification_calendar_red;
+					}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_calendar_glass_blue")){
+						icon = R.drawable.status_bar_notification_calendar_glass_blue;
+					}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_calendar_glass_green")){
+						icon = R.drawable.status_bar_notification_calendar_glass_green;
+					}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_calendar_glass_grey")){
+						icon = R.drawable.status_bar_notification_calendar_glass_grey;
+					}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_calendar_glass_orange")){
+						icon = R.drawable.status_bar_notification_calendar_glass_orange;
+					}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_calendar_glass_red")){
+						icon = R.drawable.status_bar_notification_calendar_glass_red;
+					}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_calendar_glass_yellow")){
+						icon = R.drawable.status_bar_notification_calendar_glass_yellow;
 					}else{
 						//Default Value
 						icon = R.drawable.status_bar_notification_calendar_blue;
@@ -1984,6 +2034,20 @@ public class Common {
 						icon = R.drawable.status_bar_notification_email_red;
 					}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_email_white")){
 						icon = R.drawable.status_bar_notification_email_white;
+					}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_email_glass_black")){
+						icon = R.drawable.status_bar_notification_email_glass_black;
+					}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_email_glass_blue")){
+						icon = R.drawable.status_bar_notification_email_glass_blue;
+					}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_email_glass_green")){
+						icon = R.drawable.status_bar_notification_email_glass_green;
+					}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_email_glass_orange")){
+						icon = R.drawable.status_bar_notification_email_glass_orange;
+					}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_email_glass_red")){
+						icon = R.drawable.status_bar_notification_email_glass_red;
+					}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_email_glass_white")){
+						icon = R.drawable.status_bar_notification_email_glass_white;
+					}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_email_glass_yellow")){
+						icon = R.drawable.status_bar_notification_email_glass_yellow;
 					}else{
 						//Default Value
 						icon = R.drawable.status_bar_notification_email_white;
