@@ -1278,6 +1278,15 @@
 		<item name="14"></item>
 		<item name="15"></item>
 		<item name="16"></item>
+		<item name="17"></item>
+		<item name="18"></item>
+		<item name="19"></item>
+		<item name="20"></item>
+		<item name="21"></item>
+		<item name="22"></item>
+		<item name="23"></item>
+		<item name="24"></item>
+		<item name="25"></item>
 	</string-array>
 	<string-array name="notification_icon_values_sms">
 		<item name="0">status_bar_notification_sms_blue</item>
@@ -1298,6 +1307,15 @@
 		<item name="14">status_bar_notification_sms_postcard_red</item>
 		<item name="15">status_bar_notification_sms_postcard_white</item>
 		<item name="16">status_bar_notification_sms_postcard_yellow</item>
+		<item name="17">status_bar_notification_sms_postcard_glass_aqua</item>
+		<item name="18">status_bar_notification_sms_postcard_glass_blue</item>
+		<item name="19">status_bar_notification_sms_postcard_glass_green</item>
+		<item name="20">status_bar_notification_sms_postcard_glass_orange</item>
+		<item name="21">status_bar_notification_sms_postcard_glass_pink</item>
+		<item name="22">status_bar_notification_sms_postcard_glass_purple</item>
+		<item name="23">status_bar_notification_sms_postcard_glass_red</item>
+		<item name="24">status_bar_notification_sms_postcard_glass_white</item>
+		<item name="25">status_bar_notification_sms_postcard_glass_yellow</item>
 	</string-array>
 	<array name="notification_icon_images_sms">
 		<item name="0">@drawable/status_bar_notification_sms_blue_preference</item>
@@ -1318,6 +1336,15 @@
 		<item name="14">@drawable/status_bar_notification_sms_postcard_red_preference</item>
 		<item name="15">@drawable/status_bar_notification_sms_postcard_white_preference</item>
 		<item name="16">@drawable/status_bar_notification_sms_postcard_yellow_preference</item>
+		<item name="17">@drawable/status_bar_notification_sms_postcard_glass_aqua_preference</item>
+		<item name="18">@drawable/status_bar_notification_sms_postcard_glass_blue_preference</item>
+		<item name="19">@drawable/status_bar_notification_sms_postcard_glass_green_preference</item>
+		<item name="20">@drawable/status_bar_notification_sms_postcard_glass_orange_preference</item>
+		<item name="21">@drawable/status_bar_notification_sms_postcard_glass_pink_preference</item>
+		<item name="22">@drawable/status_bar_notification_sms_postcard_glass_purple_preference</item>
+		<item name="23">@drawable/status_bar_notification_sms_postcard_glass_red_preference</item>
+		<item name="24">@drawable/status_bar_notification_sms_postcard_glass_white_preference</item>
+		<item name="25">@drawable/status_bar_notification_sms_postcard_glass_yellow_preference</item>
 	</array>
 	
 	<!-- MMS Notification Icon Image Arrays --> 
@@ -1340,6 +1367,15 @@
 		<item name="14"></item>
 		<item name="15"></item>
 		<item name="16"></item>
+		<item name="17"></item>
+		<item name="18"></item>
+		<item name="19"></item>
+		<item name="20"></item>
+		<item name="21"></item>
+		<item name="22"></item>
+		<item name="23"></item>
+		<item name="24"></item>
+		<item name="25"></item>
 	</string-array>
 	<string-array name="notification_icon_values_mms">
 		<item name="0">status_bar_notification_sms_blue</item>
@@ -1360,6 +1396,15 @@
 		<item name="14">status_bar_notification_sms_postcard_red</item>
 		<item name="15">status_bar_notification_sms_postcard_white</item>
 		<item name="16">status_bar_notification_sms_postcard_yellow</item>
+		<item name="17">status_bar_notification_sms_postcard_glass_aqua</item>
+		<item name="18">status_bar_notification_sms_postcard_glass_blue</item>
+		<item name="19">status_bar_notification_sms_postcard_glass_green</item>
+		<item name="20">status_bar_notification_sms_postcard_glass_orange</item>
+		<item name="21">status_bar_notification_sms_postcard_glass_pink</item>
+		<item name="22">status_bar_notification_sms_postcard_glass_purple</item>
+		<item name="23">status_bar_notification_sms_postcard_glass_red</item>
+		<item name="24">status_bar_notification_sms_postcard_glass_white</item>
+		<item name="25">status_bar_notification_sms_postcard_glass_yellow</item>
 	</string-array>
 	<array name="notification_icon_images_mms">
 		<item name="0">@drawable/status_bar_notification_sms_blue_preference</item>
@@ -1380,6 +1425,15 @@
 		<item name="14">@drawable/status_bar_notification_sms_postcard_red_preference</item>
 		<item name="15">@drawable/status_bar_notification_sms_postcard_white_preference</item>
 		<item name="16">@drawable/status_bar_notification_sms_postcard_yellow_preference</item>
+		<item name="17">@drawable/status_bar_notification_sms_postcard_glass_aqua_preference</item>
+		<item name="18">@drawable/status_bar_notification_sms_postcard_glass_blue_preference</item>
+		<item name="19">@drawable/status_bar_notification_sms_postcard_glass_green_preference</item>
+		<item name="20">@drawable/status_bar_notification_sms_postcard_glass_orange_preference</item>
+		<item name="21">@drawable/status_bar_notification_sms_postcard_glass_pink_preference</item>
+		<item name="22">@drawable/status_bar_notification_sms_postcard_glass_purple_preference</item>
+		<item name="23">@drawable/status_bar_notification_sms_postcard_glass_red_preference</item>
+		<item name="24">@drawable/status_bar_notification_sms_postcard_glass_white_preference</item>
+		<item name="25">@drawable/status_bar_notification_sms_postcard_glass_yellow_preference</item>
 	</array>
 	
 	<!-- Phone Notification Icon Image Arrays --> 
@@ -1388,18 +1442,21 @@
 		<item name="1"></item>
 		<item name="2"></item>
 		<item name="3"></item>
+		<item name="4"></item>
 	</string-array>
 	<string-array name="notification_icon_values_phone">
 		<item name="0">status_bar_notification_missed_call_black</item>
 		<item name="1">status_bar_notification_missed_call_grey</item>
 		<item name="2">status_bar_notification_missed_call_red</item>
 		<item name="3">status_bar_notification_missed_call_white</item>
+		<item name="4">status_bar_notification_missed_call_glass_red</item>
 	</string-array>
 	<array name="notification_icon_images_phone">
 		<item name="0">@drawable/status_bar_notification_missed_call_black_preference</item>
 		<item name="1">@drawable/status_bar_notification_missed_call_grey_preference</item>
 		<item name="2">@drawable/status_bar_notification_missed_call_red_preference</item>
 		<item name="3">@drawable/status_bar_notification_missed_call_white_preference</item>
+		<item name="4">@drawable/status_bar_notification_missed_call_glass_red_preference</item>
 	</array>
 	
 	<!-- Calendar Notification Icon Image Arrays --> 
@@ -1455,6 +1512,13 @@
 		<item name="4"></item>
 		<item name="5"></item>
 		<item name="6"></item>
+		<item name="7"></item>
+		<item name="8"></item>
+		<item name="9"></item>
+		<item name="10"></item>
+		<item name="11"></item>
+		<item name="12"></item>
+		<item name="13"></item>
 	</string-array>
 	<string-array name="notification_icon_values_email">
 		<item name="0">status_bar_notification_email_black</item>
@@ -1464,6 +1528,13 @@
 		<item name="4">status_bar_notification_email_orange</item>
 		<item name="5">status_bar_notification_email_red</item>
 		<item name="6">status_bar_notification_email_white</item>
+		<item name="7">status_bar_notification_email_glass_black</item>
+		<item name="8">status_bar_notification_email_glass_blue</item>
+		<item name="9">status_bar_notification_email_glass_green</item>
+		<item name="10">status_bar_notification_email_glass_orange</item>
+		<item name="11">status_bar_notification_email_glass_red</item>
+		<item name="12">status_bar_notification_email_glass_white</item>
+		<item name="13">status_bar_notification_email_glass_yellow</item>
 	</string-array>
 	<array name="notification_icon_images_email">
 		<item name="0">@drawable/status_bar_notification_email_black_preference</item>
@@ -1473,6 +1544,13 @@
 		<item name="4">@drawable/status_bar_notification_email_orange_preference</item>
 		<item name="5">@drawable/status_bar_notification_email_red_preference</item>
 		<item name="6">@drawable/status_bar_notification_email_white_preference</item>
+		<item name="7">@drawable/status_bar_notification_email_glass_black_preference</item>
+		<item name="8">@drawable/status_bar_notification_email_glass_blue_preference</item>
+		<item name="9">@drawable/status_bar_notification_email_glass_green_preference</item>
+		<item name="10">@drawable/status_bar_notification_email_glass_orange_preference</item>
+		<item name="11">@drawable/status_bar_notification_email_glass_red_preference</item>
+		<item name="12">@drawable/status_bar_notification_email_glass_white_preference</item>
+		<item name="13">@drawable/status_bar_notification_email_glass_yellow_preference</item>
 	</array>
 
 	<!-- Twitter Notification Icon Image Arrays --> 
