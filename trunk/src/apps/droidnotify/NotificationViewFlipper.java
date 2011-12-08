@@ -37,6 +37,14 @@ public class NotificationViewFlipper extends ViewFlipper {
 	private int _totalNotifications = 0;
 	private SharedPreferences _preferences = null;
 	private NotificationActivity _notificationActivity = null;
+	private int _smsCount = 0;
+	private int _mmsCount = 0;
+	private int _missedCallCount = 0;
+	private int _calendarCount = 0;
+	private int _gmailCount = 0;
+	private int _twitterCount = 0;
+	private int _facebookCount = 0;
+	private int _k9Count = 0;
 
 	//================================================================================
 	// Constructors
@@ -45,7 +53,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 	/**
 	 * Class Constructor.
 	 */
-	public NotificationViewFlipper(Context context) {
+	public NotificationViewFlipper(Context context){
 		super(context);
 		_debug = Log.getDebug();
 		if (_debug) Log.v("NotificationViewFlipper.NotificationViewFlipper()");
@@ -60,7 +68,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 	/**
 	 * Class Constructor.
 	 */	
-	public  NotificationViewFlipper(Context context, AttributeSet attributes) {
+	public  NotificationViewFlipper(Context context, AttributeSet attributes){
 		super(context, attributes);
 		_debug = Log.getDebug();
 		if (_debug) Log.v("NotificationViewFlipper.NotificationViewFlipper()");
@@ -82,10 +90,10 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 * 
 	 * @param notification - Notification to add to the ArrayList.
 	 */
-	public void addNotification(Notification notification) {
+	public void addNotification(Notification notification){
 		if (_debug) Log.v("NotificationViewFlipper.addNotification()");
 		boolean duplicateFound = false;
-		for (Notification currentNotification : _notifications) {
+		for (Notification currentNotification : _notifications){
 			String notificationSentFromAddress = notification.getSentFromAddress();
 			String currentSentFromAddress = currentNotification.getSentFromAddress();
 			if(notification.getTimeStamp() == currentNotification.getTimeStamp()){
@@ -111,13 +119,48 @@ public class NotificationViewFlipper extends ViewFlipper {
 			//Update the navigation information on the current View every time a new View is added.
 			final View nextView = this.getChildAt(_currentNotification);
 			updateViewNavigationButtons(nextView);
+			//Update specific type counts.
+			switch(notification.getNotificationType()){
+				case Constants.NOTIFICATION_TYPE_PHONE:{
+					_missedCallCount++;
+					break;
+				}
+				case Constants.NOTIFICATION_TYPE_SMS:{
+					_smsCount++;
+					break;
+				}
+				case Constants.NOTIFICATION_TYPE_MMS:{
+					_mmsCount++;
+					break;
+				}
+				case Constants.NOTIFICATION_TYPE_CALENDAR:{
+					_calendarCount++;
+					break;
+				}
+				case Constants.NOTIFICATION_TYPE_GMAIL:{
+					_gmailCount++;
+					break;
+				}
+				case Constants.NOTIFICATION_TYPE_TWITTER:{
+					_twitterCount++;
+					break;
+				}
+				case Constants.NOTIFICATION_TYPE_FACEBOOK:{
+					_facebookCount++;
+					break;
+				}
+				case Constants.NOTIFICATION_TYPE_K9:{
+					_k9Count++;
+					break;
+				}
+			}
 		}
 	}
 
 	/**
 	 * Remove the current Notification.
 	 */
-	public void removeActiveNotification(boolean reschedule) {
+	public void removeActiveNotification(boolean reschedule){
 		if (_debug) Log.v("NotificationViewFlipper.removeActiveNotification()");
 		_notificationActivity.stopTextToSpeechPlayback();
 		Notification notification =  getActiveNotification();
@@ -153,9 +196,9 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 * Show the next Notification/View in the list.
 	 */
 	@Override
-	public void showNext() {
+	public void showNext(){
 		if (_debug) Log.v("NotificationViewFlipper.showNext()");
-		if (_currentNotification < _totalNotifications - 1) {
+		if (_currentNotification < _totalNotifications - 1){
 			_currentNotification += 1;
 			setInAnimation(inFromRightAnimation());
 			setOutAnimation(outToLeftAnimation());
@@ -171,9 +214,9 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 * Show the previous Notification/View in the list.
 	 */
 	@Override
-	public void showPrevious() {
+	public void showPrevious(){
 		if (_debug) Log.v("NotificationViewFlipper.showPrevious()");
-		if (_currentNotification > 0) {
+		if (_currentNotification > 0){
 			_currentNotification -= 1;
 			setInAnimation(inFromLeftAnimation());
 			setOutAnimation(outToRightAnimation());
@@ -274,7 +317,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 */
 	public boolean containsNotificationType(int notificationType){
 		if (_debug) Log.v("NotificationViewFlipper.containsAnyNotificationType()");
-		for (Notification currentNotification : _notifications) {
+		for (Notification currentNotification : _notifications){
 			if(currentNotification.getNotificationType() == notificationType){
 				return true;
 			}
@@ -292,6 +335,86 @@ public class NotificationViewFlipper extends ViewFlipper {
     	removeActiveNotification(true);
 	}
 
+	/**
+	 * Get the smsCount property.
+	 * 
+	 * @return smsCount - The current count value.
+	 */
+	public int getSMSCount(){
+		if (_debug) Log.v("Notification.getSMSCount() SMSCount: " + _smsCount);
+		return _smsCount;
+	}
+
+	/**
+	 * Get the mmsCount property.
+	 * 
+	 * @return mmsCount - The current count value.
+	 */
+	public int getMMSCount(){
+		if (_debug) Log.v("Notification.getMMSCount() MMSCount: " + _mmsCount);
+		return _mmsCount;
+	}
+
+	/**
+	 * Get the missedCallCount property.
+	 * 
+	 * @return missedCallCount - The current count value.
+	 */
+	public int getMissedCallCount(){
+		if (_debug) Log.v("Notification.getMissedCallCount() MissedCallCount: " + _missedCallCount);
+		return _missedCallCount;
+	}
+
+	/**
+	 * Get the calendarCount property.
+	 * 
+	 * @return calendarCount - The current count value.
+	 */
+	public int getCalendarCount(){
+		if (_debug) Log.v("Notification.getCalendarCount() CalendarCount: " + _calendarCount);
+		return _calendarCount;
+	}
+
+	/**
+	 * Get the gmailCount property.
+	 * 
+	 * @return gmailCount - The current count value.
+	 */
+	public int getGmailCount(){
+		if (_debug) Log.v("Notification.getGmailCount() GmailCount: " + _gmailCount);
+		return _gmailCount;
+	}
+
+	/**
+	 * Get the twitterCount property.
+	 * 
+	 * @return twitterCount - The current count value.
+	 */
+	public int getTwitterCount(){
+		if (_debug) Log.v("Notification.getTwitterCount() TwitterCount: " + _twitterCount);
+		return _twitterCount;
+	}
+
+	/**
+	 * Get the facebookCount property.
+	 * 
+	 * @return facebookCount - The current count value.
+	 */
+	public int getFacebookCount(){
+		if (_debug) Log.v("Notification.getFacebookCount() FacebookCount: " + _facebookCount);
+		return _facebookCount;
+	}
+
+	/**
+	 * Get the k9Count property.
+	 * 
+	 * @return k9Count - The current count value.
+	 */
+	public int getK9Count(){
+		if (_debug) Log.v("Notification.getK9Count() K9Count: " + _k9Count);
+		return _k9Count;
+	}
+	
 	//================================================================================
 	// Private Methods
 	//================================================================================
@@ -341,11 +464,11 @@ public class NotificationViewFlipper extends ViewFlipper {
 	*
 	* @param notificationNumber - Int of the notificaiton to be removed.
 	*/
-	private void removeNotification(int notificationNumber, boolean reschedule) {
+	private void removeNotification(int notificationNumber, boolean reschedule){
 		if (_debug) Log.v("NotificationViewFlipper.removeNotification()");
 		//Get the current notification object.
 		Notification notification = getNotification(notificationNumber);
-		if (_totalNotifications > 1) {
+		if (_totalNotifications > 1){
 			try{
 				//Set notification as being viewed in the phone.
 				if(!reschedule){
@@ -358,11 +481,11 @@ public class NotificationViewFlipper extends ViewFlipper {
 				// Update total notifications count.
 				_totalNotifications = _notifications.size();
 				// If we removed the last notification then set current notification to the last one.
-				if (notificationNumber >= _totalNotifications) {
+				if (notificationNumber >= _totalNotifications){
 					_currentNotification = _totalNotifications - 1;
 				}
 				// If this is the last notification, slide in from left.
-				if (notificationNumber == (_totalNotifications)) {
+				if (notificationNumber == (_totalNotifications)){
 					setInAnimation(inFromLeftAnimation());
 					//Update the navigation information on the previous view before we switch to it.
 					final View previousView = this.getChildAt(notificationNumber - 1);
@@ -393,6 +516,41 @@ public class NotificationViewFlipper extends ViewFlipper {
 				if (_debug) Log.v("NotificationViewFlipper.removeNotification() [TotalNotification <= 1] ERROR: " + ex.toString());
 			}
 		}
+    	//Update specific type counts.
+		switch(notification.getNotificationType()){
+			case Constants.NOTIFICATION_TYPE_PHONE:{
+				_missedCallCount--;
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_SMS:{
+				_smsCount--;
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_MMS:{
+				_mmsCount--;
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_CALENDAR:{
+				_calendarCount--;
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_GMAIL:{
+				_gmailCount--;
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_TWITTER:{
+				_twitterCount--;
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_FACEBOOK:{
+				_facebookCount--;
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_K9:{
+				_k9Count--;
+				break;
+			}
+		}
 	}
 	
 	/**
@@ -400,7 +558,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 * 
 	 * @return Animation - Returns the Animation object.
 	 */
-	private Animation inFromRightAnimation() {
+	private Animation inFromRightAnimation(){
 		if (_debug) Log.v("NotificationViewFlipper.inFromRightAnimation()");
 		Animation inFromRight = new TranslateAnimation(
 		Animation.RELATIVE_TO_PARENT, +1.0f,
@@ -417,7 +575,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 * 
 	 * @return Animation - Returns the Animation object.
 	 */
-	private Animation outToLeftAnimation() {
+	private Animation outToLeftAnimation(){
 		if (_debug) Log.v("NotificationViewFlipper.outToLeftAnimation()");
 		Animation outtoLeft = new TranslateAnimation(
 		Animation.RELATIVE_TO_PARENT, 0.0f,
@@ -434,7 +592,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 * 
 	 * @return Animation - Returns the Animation object.
 	 */
-	private Animation inFromLeftAnimation() {
+	private Animation inFromLeftAnimation(){
 		if (_debug) Log.v("NotificationViewFlipper.inFromLeftAnimation()");
 		Animation inFromLeft = new TranslateAnimation(
 		Animation.RELATIVE_TO_PARENT, -1.0f,
@@ -451,7 +609,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 * 
 	 * @return Animation - Returns the Animation object.
 	 */
-	private Animation outToRightAnimation() {
+	private Animation outToRightAnimation(){
 		if (_debug) Log.v("NotificationViewFlipper.outToRightAnimation()");
 		Animation outtoRight = new TranslateAnimation(
 		Animation.RELATIVE_TO_PARENT, 0.0f,
@@ -536,9 +694,9 @@ public class NotificationViewFlipper extends ViewFlipper {
 //	 * 
 //	 * @return boolean - Returns true if the ArrayList contains the passed in Notification.
 //	 */
-//	private boolean containsNotification(Notification newNotification) {
+//	private boolean containsNotification(Notification newNotification){
 //		if (_debug) Log.v("NotificationViewFlipper.containsNotification()");
-//		for (Notification currentNotification : _notifications) {
+//		for (Notification currentNotification : _notifications){
 //			if(newNotification.getSentFromAddress().equals(currentNotification.getSentFromAddress()) && newNotification.getTimeStamp() == currentNotification.getTimeStamp()){
 //				return true;
 //			}

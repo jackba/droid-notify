@@ -169,9 +169,7 @@
    	<string name="email_at_text" formatted="false">New email at %s</string>
     <string name="missed_call_at_text" formatted="false">Missed call at %s</string>
     <string name="mention_at_text" formatted="false">New mention at %s</string>        
-    <string name="follower_at_text" formatted="false">New follower at %s</string>        
-    <string name="retweet_at_text" formatted="false">New retweet at %s</string>       
-    <string name="reply_tweet_at_text" formatted="false">New reply tweet at %s</string>
+    <string name="follower_request_at_text" formatted="false">New follower request at %s</string>
     <string name="notification_at_text" formatted="false">New notification at %s</string>    
     <string name="friend_request_at_text" formatted="false">New friend request at %s</string>
    	   
@@ -272,9 +270,11 @@
    	<string name="preference_twitter_enabled_summaryOn">Twitter notifications are enabled.</string>
    	<string name="preference_twitter_enabled_summaryOff">Twitter notifications are disabled.</string>
    	<string name="preference_twitter_direct_messages_enabled_title">Enable Twitter Direct Messages</string>
-   	<string name="preference_twitter_direct_messages_enabled_summary">Twitter Direct Message notifications are enabled.</string>
+   	<string name="preference_twitter_direct_messages_enabled_summary">Enable Twitter Direct Message notifications.</string>
    	<string name="preference_twitter_mentions_enabled_title">Enable Twitter Mentions</string>
-   	<string name="preference_twitter_mentions_enabled_summary">Twitter Mention notifications are enabled.</string>
+   	<string name="preference_twitter_mentions_enabled_summary">Enable Twitter Mention notifications.</string>
+   	<string name="preference_twitter_follower_requests_enabled_title">Enable Twitter Follower Requests</string>
+   	<string name="preference_twitter_follower_requests_enabled_summary">Enable Twitter Follower Requests notifications.</string>
    	<string name="twitter_authentication_text">Twitter Authentication</string>
    	<string name="twitter_authentication_message_text">The next screen will open a Twitter web page in a web browser. This web page will ask you to allow this application to have access to your twitter account. If you wish to proceed please click on the \"Continue\" button below.</string>
    	<string name="authenticating_text">Authenticating...</string>
@@ -283,8 +283,7 @@
    	<string name="preference_clear_twitter_authentication_data">Reset Twitter Data</string>
    	<string name="preference_clear_twitter_authentication_data_summary">Clear the Twitter authentication data.</string>
    	<string name="twitter_authentication_data_cleared">The Twitter authentication data has been cleared.</string>
-
-   	    
+	<string name="twitter_following_request" formatted="false">%s (@%s) has requested to follow you on Twitter!</string>   	    
    	    
   	<!-- Facebook Strings -->	 	
    	<string name="preference_facebook_notifications">Facebook Notifications</string>

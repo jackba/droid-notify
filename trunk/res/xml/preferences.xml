@@ -1435,6 +1435,12 @@
 					       	android:summary="@string/preference_twitter_mentions_enabled_summary"
 					       	android:defaultValue="true"
 							android:dependency="twitter_enabled" />
+						<CheckBoxPreference
+							android:key="twitter_follower_requests_enabled"
+					       	android:title="@string/preference_twitter_follower_requests_enabled_title" 
+					       	android:summary="@string/preference_twitter_follower_requests_enabled_summary"
+					       	android:defaultValue="true"
+							android:dependency="twitter_enabled" />
 						<ListPreference
 							android:key="blocking_app_running_action_twitter"
 							android:title="@string/blocking_app_running_action_text"

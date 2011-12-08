@@ -1250,6 +1250,7 @@ public class NotificationActivity extends Activity {
 		String sentFromTwitterName = "Tweet User";
 		String twitterTestMessage = "Twitter Test Direct Message";
 		String twitterTestMention = "Twitter Test Mention";
+		String twitterTestFollowerRequest = "Twitter Test Follower Request";
 //		String sentFromFacebook = "Facebooktest";
 //		String sentFromFacebookName = "Facebook User";
 //		String facebookTestNotification = "Facebook Test Notification";
@@ -1308,14 +1309,14 @@ public class NotificationActivity extends Activity {
 				//Display Status Bar Notification
 			    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_TWITTER, Constants.NOTIFICATION_TYPE_TWITTER_MENTION, true, null, sentFromTwitter, twitterTestMention, null);
 	    	}
-//	    	if(_preferences.getBoolean(Constants.TWITTER_FOLOWERS_ENABLED_KEY, true)){
-//				notificationDisplayed = true;
-//				//Add Twitter Message Notification.
-//				Notification twitterNotification = new Notification(_context, sentFromTwitter, 0, twitterTestMention, System.currentTimeMillis(), 0, sentFromTwitterName, 0, 0, null, null, null, Constants.NOTIFICATION_TYPE_TWITTER, Constants.NOTIFICATION_TYPE_TWITTER_FOLLOWER);
-//				notificationViewFlipper.addNotification(twitterNotification);
-//				//Display Status Bar Notification
-//			    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_TWITTER, Constants.NOTIFICATION_TYPE_TWITTER_FOLLOWER, true, null, sentFromTwitter, twitterTestMention, null);
-//	    	}
+	    	if(_preferences.getBoolean(Constants.TWITTER_FOLLOWER_REQUESTS_ENABLED_KEY, true)){
+				notificationDisplayed = true;
+				//Add Twitter Message Notification.
+				Notification twitterNotification = new Notification(_context, sentFromTwitter, 0, twitterTestFollowerRequest, System.currentTimeMillis(), 0, sentFromTwitterName, 0, 0, null, null, null, Constants.NOTIFICATION_TYPE_TWITTER, Constants.NOTIFICATION_TYPE_TWITTER_FOLLOWER_REQUEST);
+				notificationViewFlipper.addNotification(twitterNotification);
+				//Display Status Bar Notification
+			    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_TWITTER, Constants.NOTIFICATION_TYPE_TWITTER_FOLLOWER_REQUEST, true, null, sentFromTwitter, twitterTestFollowerRequest, null);
+	    	}
 //	    	if(_preferences.getBoolean(Constants.TWITTER_RETWEETS_ENABLED_KEY, true)){
 //				notificationDisplayed = true;
 //				//Add Twitter Message Notification.

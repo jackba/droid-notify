@@ -100,41 +100,65 @@ public class TwitterAlarmBroadcastReceiverService extends WakefulIntentService {
 						if (_debug) Log.v("TwitterAlarmBroadcastReceiverService.doWakefulWork() Twitter object is null. Exiting...");
 						return;
 					}
-					ArrayList<String> twitterDirectMessageArray = TwitterCommon.getTwitterDirectMessages(context, twitter);
-				    if(twitterDirectMessageArray != null && twitterDirectMessageArray.size() > 0){
-				    	int twitterDirectMessageArraySize = twitterDirectMessageArray.size();
-				    	for(int i=0; i<twitterDirectMessageArraySize; i++ ){
-				    		String twitterArrayItem = twitterDirectMessageArray.get(i);
-							String[] twitterInfo = twitterArrayItem.split("\\|");
-			    			int arraySize = twitterInfo.length;
-			    			if(arraySize > 0){
-								if(arraySize >= 1) messageAddress = twitterInfo[1];
-								if(arraySize >= 2) messageBody = twitterInfo[3];
-								if(arraySize >= 8) contactName = twitterInfo[7];
-			    			}
-							//Display Status Bar Notification
-						    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_TWITTER, Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE, callStateIdle, contactName, messageAddress, messageBody, null);
-				    	}
-					}else{
-						if (_debug) Log.v("TwitterAlarmBroadcastReceiverService.doWakefulWork() No Twitter Direct Messages were found. Exiting...");
+					if(preferences.getBoolean(Constants.TWITTER_DIRECT_MESSAGES_ENABLED_KEY, true)){
+						ArrayList<String> twitterDirectMessageArray = TwitterCommon.getTwitterDirectMessages(context, twitter);
+					    if(twitterDirectMessageArray != null && twitterDirectMessageArray.size() > 0){
+					    	int twitterDirectMessageArraySize = twitterDirectMessageArray.size();
+					    	for(int i=0; i<twitterDirectMessageArraySize; i++ ){
+					    		String twitterArrayItem = twitterDirectMessageArray.get(i);
+								String[] twitterInfo = twitterArrayItem.split("\\|");
+				    			int arraySize = twitterInfo.length;
+				    			if(arraySize > 0){
+									if(arraySize >= 1) messageAddress = twitterInfo[1];
+									if(arraySize >= 2) messageBody = twitterInfo[3];
+									if(arraySize >= 8) contactName = twitterInfo[7];
+				    			}
+								//Display Status Bar Notification
+							    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_TWITTER, Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE, callStateIdle, contactName, messageAddress, messageBody, null);
+					    	}
+						}else{
+							if (_debug) Log.v("TwitterAlarmBroadcastReceiverService.doWakefulWork() No Twitter Direct Messages were found. Exiting...");
+						}
 					}
-				    ArrayList<String> twitterMentionArray = TwitterCommon.getTwitterMentions(context, twitter);
-				    if(twitterMentionArray != null && twitterMentionArray.size() > 0){
-				    	int twitterMentionArraySize = twitterMentionArray.size();
-				    	for(int i=0; i<twitterMentionArraySize; i++ ){
-				    		String twitterArrayItem = twitterMentionArray.get(i);
-							String[] twitterInfo = twitterArrayItem.split("\\|");
-			    			int arraySize = twitterInfo.length;
-			    			if(arraySize > 0){
-								if(arraySize >= 1) messageAddress = twitterInfo[1];
-								if(arraySize >= 2) messageBody = twitterInfo[3];
-								if(arraySize >= 8) contactName = twitterInfo[7];
-			    			}
-							//Display Status Bar Notification
-						    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_TWITTER, Constants.NOTIFICATION_TYPE_TWITTER_MENTION, callStateIdle, contactName, messageAddress, messageBody, null);
-				    	}
-					}else{
-						if (_debug) Log.v("TwitterAlarmBroadcastReceiverService.doWakefulWork() No Twitter Mentions were found. Exiting...");
+					if(preferences.getBoolean(Constants.TWITTER_MENTIONS_ENABLED_KEY, true)){
+					    ArrayList<String> twitterMentionArray = TwitterCommon.getTwitterMentions(context, twitter);
+					    if(twitterMentionArray != null && twitterMentionArray.size() > 0){
+					    	int twitterMentionArraySize = twitterMentionArray.size();
+					    	for(int i=0; i<twitterMentionArraySize; i++ ){
+					    		String twitterArrayItem = twitterMentionArray.get(i);
+								String[] twitterInfo = twitterArrayItem.split("\\|");
+				    			int arraySize = twitterInfo.length;
+				    			if(arraySize > 0){
+									if(arraySize >= 1) messageAddress = twitterInfo[1];
+									if(arraySize >= 2) messageBody = twitterInfo[3];
+									if(arraySize >= 8) contactName = twitterInfo[7];
+				    			}
+								//Display Status Bar Notification
+							    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_TWITTER, Constants.NOTIFICATION_TYPE_TWITTER_MENTION, callStateIdle, contactName, messageAddress, messageBody, null);
+					    	}
+						}else{
+							if (_debug) Log.v("TwitterAlarmBroadcastReceiverService.doWakefulWork() No Twitter Mentions were found. Exiting...");
+						}
+					}
+					if(preferences.getBoolean(Constants.TWITTER_FOLLOWER_REQUESTS_ENABLED_KEY, true)){
+					    ArrayList<String> twitterFollowerRequestArray = TwitterCommon.getTwitterFollowerRequests(context, twitter);
+					    if(twitterFollowerRequestArray != null && twitterFollowerRequestArray.size() > 0){
+					    	int twitterFollowerRequestArraySize = twitterFollowerRequestArray.size();
+					    	for(int i=0; i<twitterFollowerRequestArraySize; i++ ){
+					    		String twitterArrayItem = twitterFollowerRequestArray.get(i);
+								String[] twitterInfo = twitterArrayItem.split("\\|");
+				    			int arraySize = twitterInfo.length;
+				    			if(arraySize > 0){
+									if(arraySize >= 1) messageAddress = twitterInfo[1];
+									if(arraySize >= 2) messageBody = twitterInfo[3];
+									if(arraySize >= 8) contactName = twitterInfo[7];
+				    			}
+								//Display Status Bar Notification
+							    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_TWITTER, Constants.NOTIFICATION_TYPE_TWITTER_FOLLOWER_REQUEST, callStateIdle, contactName, messageAddress, messageBody, null);
+					    	}
+						}else{
+							if (_debug) Log.v("TwitterAlarmBroadcastReceiverService.doWakefulWork() No Twitter Follower Requests were found. Exiting...");
+						}
 					}
 			    }
 		    	//Ignore notification based on the users preferences.
