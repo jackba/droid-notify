@@ -38,6 +38,7 @@ import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
 import apps.droidnotify.preferences.MainPreferenceActivity;
 import apps.droidnotify.receivers.ScreenManagementAlarmReceiver;
+import apps.droidnotify.twitter.TwitterCommon;
 
 /**
  * This is the main activity that runs the notifications.
@@ -50,6 +51,7 @@ public class NotificationActivity extends Activity {
     // Constants
     //================================================================================
 	
+	//Context Menu Constants
 	private static final int MENU_ITEM_SETTINGS = R.id.app_settings;
 	private static final int CONTACT_WRAPPER_LINEAR_LAYOUT = R.id.contact_wrapper_linear_layout;
 	private static final int ADD_CONTACT_CONTEXT_MENU = R.id.add_contact_context_menu;	
@@ -64,6 +66,8 @@ public class NotificationActivity extends Activity {
 	private static final int EDIT_CALENDAR_EVENT_CONTEXT_MENU = R.id.edit_calendar_event_context_menu;
 	private static final int VIEW_CALENDAR_CONTEXT_MENU = R.id.view_calendar_context_menu;
 	private static final int VIEW_K9_INBOX_CONTEXT_MENU = R.id.view_k9_inbox_context_menu;
+	private static final int OPEN_TWITTER_APP_CONTEXT_MENU = R.id.open_twitter_app_context_menu;
+	private static final int OPEN_FACEBOOK_APP_CONTEXT_MENU = R.id.open_facebook_app_context_menu;
 	private static final int RESCHEDULE_NOTIFICATION_CONTEXT_MENU = R.id.reschedule_notification_context_menu;
 	private static final int SPEAK_NOTIFICATION_CONTEXT_MENU = R.id.speak_notification_context_menu;
 	private static final int DISMISS_NOTIFICATION_CONTEXT_MENU = R.id.dismiss_notification_context_menu;
@@ -286,6 +290,12 @@ public class NotificationActivity extends Activity {
 			}
 			case VIEW_K9_INBOX_CONTEXT_MENU:{
 				return Common.startK9EmailAppViewInboxActivity(_context, this, Constants.K9_VIEW_EMAIL_ACTIVITY);
+			}
+			case OPEN_TWITTER_APP_CONTEXT_MENU:{
+				return TwitterCommon.startTwitterAppActivity(_context, this, Constants.TWITTER_OPEN_APP_ACTIVITY);
+			}
+			case OPEN_FACEBOOK_APP_CONTEXT_MENU:{
+				//return FacebookCommon.startFacebookAppActivity(_context, this, Constants.FACEBOOK_OPEN_APP_ACTIVITY);
 			}
 			case RESCHEDULE_NOTIFICATION_CONTEXT_MENU:{
 				try{
@@ -2325,6 +2335,10 @@ public class NotificationActivity extends Activity {
 				viewThreadMenuItem.setVisible(false);
 				MenuItem viewK9EmailInboxMenuItem = contextMenu.findItem(VIEW_K9_INBOX_CONTEXT_MENU);
 				viewK9EmailInboxMenuItem.setVisible(false);
+				MenuItem openTwitterAppMenuItem = contextMenu.findItem(OPEN_TWITTER_APP_CONTEXT_MENU);
+				openTwitterAppMenuItem.setVisible(false);
+				MenuItem openFacebookAppMenuItem = contextMenu.findItem(OPEN_FACEBOOK_APP_CONTEXT_MENU);
+				openFacebookAppMenuItem.setVisible(false);
 				break;
 		    }
 			case Constants.NOTIFICATION_TYPE_SMS:{
@@ -2338,6 +2352,10 @@ public class NotificationActivity extends Activity {
 				viewCallLogMenuItem.setVisible(false);
 				MenuItem viewK9EmailInboxMenuItem = contextMenu.findItem(VIEW_K9_INBOX_CONTEXT_MENU);
 				viewK9EmailInboxMenuItem.setVisible(false);
+				MenuItem openTwitterAppMenuItem = contextMenu.findItem(OPEN_TWITTER_APP_CONTEXT_MENU);
+				openTwitterAppMenuItem.setVisible(false);
+				MenuItem openFacebookAppMenuItem = contextMenu.findItem(OPEN_FACEBOOK_APP_CONTEXT_MENU);
+				openFacebookAppMenuItem.setVisible(false);
 				break;
 		    }
 			case Constants.NOTIFICATION_TYPE_MMS:{
@@ -2351,6 +2369,10 @@ public class NotificationActivity extends Activity {
 				viewCallLogMenuItem.setVisible(false);
 				MenuItem viewK9EmailInboxMenuItem = contextMenu.findItem(VIEW_K9_INBOX_CONTEXT_MENU);
 				viewK9EmailInboxMenuItem.setVisible(false);
+				MenuItem openTwitterAppMenuItem = contextMenu.findItem(OPEN_TWITTER_APP_CONTEXT_MENU);
+				openTwitterAppMenuItem.setVisible(false);
+				MenuItem openFacebookAppMenuItem = contextMenu.findItem(OPEN_FACEBOOK_APP_CONTEXT_MENU);
+				openFacebookAppMenuItem.setVisible(false);
 				break;
 		    }
 			case Constants.NOTIFICATION_TYPE_CALENDAR:{
@@ -2372,6 +2394,10 @@ public class NotificationActivity extends Activity {
 				textContactMenuItem.setVisible(false);
 				MenuItem viewK9EmailInboxMenuItem = contextMenu.findItem(VIEW_K9_INBOX_CONTEXT_MENU);
 				viewK9EmailInboxMenuItem.setVisible(false);
+				MenuItem openTwitterAppMenuItem = contextMenu.findItem(OPEN_TWITTER_APP_CONTEXT_MENU);
+				openTwitterAppMenuItem.setVisible(false);
+				MenuItem openFacebookAppMenuItem = contextMenu.findItem(OPEN_FACEBOOK_APP_CONTEXT_MENU);
+				openFacebookAppMenuItem.setVisible(false);
 				break;
 		    }
 			case Constants.NOTIFICATION_TYPE_GMAIL:{
@@ -2389,6 +2415,10 @@ public class NotificationActivity extends Activity {
 				viewThreadMenuItem.setVisible(false);
 				MenuItem viewK9EmailInboxMenuItem = contextMenu.findItem(VIEW_K9_INBOX_CONTEXT_MENU);
 				viewK9EmailInboxMenuItem.setVisible(false);
+				MenuItem openTwitterAppMenuItem = contextMenu.findItem(OPEN_TWITTER_APP_CONTEXT_MENU);
+				openTwitterAppMenuItem.setVisible(false);
+				MenuItem openFacebookAppMenuItem = contextMenu.findItem(OPEN_FACEBOOK_APP_CONTEXT_MENU);
+				openFacebookAppMenuItem.setVisible(false);
 				break;
 		    }
 			case Constants.NOTIFICATION_TYPE_TWITTER:{
@@ -2410,6 +2440,8 @@ public class NotificationActivity extends Activity {
 				textContactMenuItem.setVisible(false);
 				MenuItem viewK9EmailInboxMenuItem = contextMenu.findItem(VIEW_K9_INBOX_CONTEXT_MENU);
 				viewK9EmailInboxMenuItem.setVisible(false);
+				MenuItem openFacebookAppMenuItem = contextMenu.findItem(OPEN_FACEBOOK_APP_CONTEXT_MENU);
+				openFacebookAppMenuItem.setVisible(false);
 				break;
 		    }
 			case Constants.NOTIFICATION_TYPE_FACEBOOK:{
@@ -2431,6 +2463,8 @@ public class NotificationActivity extends Activity {
 				textContactMenuItem.setVisible(false);
 				MenuItem viewK9EmailInboxMenuItem = contextMenu.findItem(VIEW_K9_INBOX_CONTEXT_MENU);
 				viewK9EmailInboxMenuItem.setVisible(false);
+				MenuItem openTwitterAppMenuItem = contextMenu.findItem(OPEN_TWITTER_APP_CONTEXT_MENU);
+				openTwitterAppMenuItem.setVisible(false);
 				break;
 		    }
 			case Constants.NOTIFICATION_TYPE_K9:{
@@ -2450,6 +2484,10 @@ public class NotificationActivity extends Activity {
 				viewThreadMenuItem.setVisible(false);
 				MenuItem textContactMenuItem = contextMenu.findItem(TEXT_CONTACT_CONTEXT_MENU);
 				textContactMenuItem.setVisible(false);
+				MenuItem openTwitterAppMenuItem = contextMenu.findItem(OPEN_TWITTER_APP_CONTEXT_MENU);
+				openTwitterAppMenuItem.setVisible(false);
+				MenuItem openFacebookAppMenuItem = contextMenu.findItem(OPEN_FACEBOOK_APP_CONTEXT_MENU);
+				openFacebookAppMenuItem.setVisible(false);
 				break;
 		    }
 		}

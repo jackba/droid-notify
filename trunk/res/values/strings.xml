@@ -284,7 +284,8 @@
    	<string name="preference_clear_twitter_authentication_data">Reset Twitter Data</string>
    	<string name="preference_clear_twitter_authentication_data_summary">Clear the Twitter authentication data.</string>
    	<string name="twitter_authentication_data_cleared">The Twitter authentication data has been cleared.</string>
-	<string name="twitter_following_request" formatted="false">%s (@%s) has requested to follow you on Twitter!</string>   	    
+	<string name="twitter_following_request" formatted="false">%s (@%s) has requested to follow you on Twitter!</string>   	 
+	<string name="open_twitter_app_text">Open Twitter App</string>
    	    
   	<!-- Facebook Strings -->	 	
    	<string name="preference_facebook_notifications">Facebook Notifications</string>
@@ -295,7 +296,8 @@
    	<string name="facebook_authentication_error">We were not able to authenticate or access your Facebook account at this time. Please try again later.</string>
    	<string name="preference_clear_facebook_authentication_data">Reset Facebook Data</string>
    	<string name="preference_clear_facebook_authentication_data_summary">Clear the Facebook authentication data.</string>
-   	<string name="facebook_authentication_data_cleared">The Facebook authentication data has been cleared.</string>
+   	<string name="facebook_authentication_data_cleared">The Facebook authentication data has been cleared.</string>   	 
+	<string name="open_facebook_app_text">Open Facebook App</string>
    	    
    	<!-- Email Strings -->
     <string name="email_inbox_text">Email Inbox</string>
@@ -498,6 +500,7 @@
     <string name="status_bar_notification_content_title_text_calendar">Calendar Event Reminder</string>
     <string name="status_bar_notification_content_title_text_twitter_direct_message">New Twitter Direct Message</string>
     <string name="status_bar_notification_content_title_text_twitter_mention">New Twitter Mention</string>
+    <string name="status_bar_notification_content_title_text_twitter_follower_request">New Twitter Follower Request</string>
     <string name="status_bar_notification_content_title_text_facebook_notification">New Facebook Notification</string>
     <string name="status_bar_notification_content_title_text_facebook_friend_request">New Facebook Friend Request</string>
     <string name="status_bar_notification_content_title_text_facebook_message">New Facebook Message</string>
@@ -514,7 +517,9 @@
     <string name="status_bar_notification_content_text_twitter_direct_message" formatted="false">New Twitter Direct Message from %s - %s.</string>
     <string name="status_bar_notification_content_text_twitter_direct_message_null" formatted="false">New Twitter Direct Message.</string>    
     <string name="status_bar_notification_content_text_twitter_mention" formatted="false">New Twitter Mention from %s - %s.</string>
-    <string name="status_bar_notification_content_text_twitter_mention_null" formatted="false">New Twitter Mention.</string>
+    <string name="status_bar_notification_content_text_twitter_mention_null" formatted="false">New Twitter Mention.</string>    
+    <string name="status_bar_notification_content_text_twitter_follower_request" formatted="false">New Twitter Follower Request from %s - %s.</string>
+    <string name="status_bar_notification_content_text_twitter_follower_request_null" formatted="false">New Twitter Follower Request.</string>
     <string name="status_bar_notification_content_text_facebook_notification" formatted="false">New Facebook Notification from %s - %s.</string>
     <string name="status_bar_notification_content_text_facebook_notification_null" formatted="false">New Facebook Notification.</string>
     <string name="status_bar_notification_content_text_facebook_friend_request" formatted="false">New Facebook Friend Request from %s - %s.</string>
@@ -545,7 +550,11 @@
     <string name="status_bar_notification_ticker_text_twitter_mention" formatted="false">New Twitter Mention from %s - %s.</string>
     <string name="status_bar_notification_ticker_text_unknown_contact_twitter_mention" formatted="false">New Twitter Mention -  %s.</string>
     <string name="status_bar_notification_ticker_text_twitter_mention_null" formatted="false">New Twitter Mention.</string>
- 
+    
+    <string name="status_bar_notification_ticker_text_twitter_follower_request" formatted="false">New Twitter Follower Request from %s - %s.</string>
+    <string name="status_bar_notification_ticker_text_unknown_contact_twitter_follower_request" formatted="false">New Twitter Follower Request -  %s.</string>
+    <string name="status_bar_notification_ticker_text_twitter_follower_request_null" formatted="false">New Twitter Follower Request.</string>
+     
     <string name="status_bar_notification_ticker_text_facebook_notification" formatted="false">New Facebook Notification from %s - %s.</string>
     <string name="status_bar_notification_ticker_text_unknown_contact_facebook_notification" formatted="false">New Facebook Notification -  %s.</string>
     <string name="status_bar_notification_ticker_text_facebook_notification_null" formatted="false">New Facebook Notification.</string>

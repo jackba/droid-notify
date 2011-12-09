@@ -1595,6 +1595,8 @@ public class Common {
 						contentTitle = context.getText(R.string.status_bar_notification_content_title_text_twitter_direct_message);
 					}else if(notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_MENTION){
 						contentTitle = context.getText(R.string.status_bar_notification_content_title_text_twitter_mention);
+					}else if(notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_FOLLOWER_REQUEST){
+						contentTitle = context.getText(R.string.status_bar_notification_content_title_text_twitter_follower_request);
 					}
 					if(sentFromContactName == null || sentFromContactName.equals("")){
 						sentFrom = sentFromAddress;
@@ -1608,6 +1610,9 @@ public class Common {
 						}else if(notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_MENTION){
 							contentText = context.getString(R.string.status_bar_notification_content_text_twitter_mention_null);
 							tickerText = context.getString(R.string.status_bar_notification_ticker_text_twitter_mention_null);
+						}else if(notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_FOLLOWER_REQUEST){
+							contentText = context.getString(R.string.status_bar_notification_content_text_twitter_follower_request_null);
+							tickerText = context.getString(R.string.status_bar_notification_ticker_text_twitter_follower_request_null);
 						}
 						//Content Intent
 						notificationContentIntent = null;
@@ -1627,6 +1632,13 @@ public class Common {
 								tickerText = context.getString(R.string.status_bar_notification_ticker_text_unknown_contact_twitter_mention, message);
 							}else{
 								tickerText = context.getString(R.string.status_bar_notification_ticker_text_twitter_mention, sentFromContactName, message);
+							}
+						}else if(notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_FOLLOWER_REQUEST){
+							contentText = context.getString(R.string.status_bar_notification_content_text_twitter_follower_request, sentFrom, message);
+							if(sentFromContactName == null || sentFromContactName.equals("")){
+								tickerText = context.getString(R.string.status_bar_notification_ticker_text_unknown_contact_twitter_follower_request, message);
+							}else{
+								tickerText = context.getString(R.string.status_bar_notification_ticker_text_twitter_follower_request, sentFromContactName, message);
 							}
 						}
 						notificationContentIntent = TwitterCommon.getTwitterAppActivityIntent(context);

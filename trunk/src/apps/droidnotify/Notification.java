@@ -117,12 +117,15 @@ public class Notification {
     		_threadID = threadID;
     		_timeStamp = timeStamp;
     		_contactID = contactID;
+    		if(_contactID == 0){
+    			_contactExists = false;
+    		}else{
+    			_contactExists = true;
+    		}
     		if(contactName != null && !contactName.equals("")){
     			_contactName = contactName;
-    			_contactExists = true;
     		}else{
     			_contactName = null;
-    			_contactExists = false;
     		}
     		_photoID = photoID;
     		if(photoID == 0){
@@ -255,13 +258,16 @@ public class Notification {
 			}
     		_timeStamp = timeStamp;
     		_contactID = contactID;
+    		if(_contactID == 0){
+    			_contactExists = false;
+    		}else{
+    			_contactExists = true;
+    		}
     		_callLogID = callLogID;
     		if(contactName != null && !contactName.equals("")){
     			_contactName = contactName;
-    			_contactExists = true;
     		}else{
     			_contactName = null;
-    			_contactExists = false;
     		}
     		_photoID = photoID;
     		if(photoID == 0){
@@ -329,14 +335,17 @@ public class Notification {
     		_threadID = threadID;
     		_timeStamp = timeStamp;
     		_contactID = contactID;
+    		if(_contactID == 0){
+    			_contactExists = false;
+    		}else{
+    			_contactExists = true;
+    		}
     		_k9EmailUri = k9EmailUri;
     		_k9EmailDelUri = k9EmailDelUri;
     		if(contactName != null && !contactName.equals("")){
     			_contactName = contactName;
-    			_contactExists = true;
     		}else{
-    			_contactName = null;
-    			_contactExists = false;
+    			_contactName = null;    			
     		}
     		_photoID = photoID;
     		if(photoID == 0){
@@ -418,14 +427,17 @@ public class Notification {
     		_messageID = messageID;
     		_timeStamp = timeStamp;
     		_contactID = contactID;
+    		if(_contactID == 0){
+    			_contactExists = false;
+    		}else{
+    			_contactExists = true;
+    		}
     		_k9EmailUri = k9EmailUri;
     		_k9EmailDelUri = k9EmailDelUri;
     		if(contactName != null && !contactName.equals("")){
     			_contactName = contactName;
-    			_contactExists = true;
     		}else{
-    			_contactName = null;
-    			_contactExists = false;
+    			_contactName = null;    			
     		}
     		_photoID = photoID;
     		if(photoID == 0){
