@@ -72,7 +72,7 @@ At this time the Email content on Android phones is secure and 3rd party apps ca
 
 I will look into the Gmail api and see if we can read Gmail email as an alternative.
 
-I think that the K-9 and Kaiten email clients will gain support for notifications in the near future...stay tuned!
+K-9 and Kaiten email clients are now supported but you will need to have a K-9 mail client (K-9 Mail, Kaiten, etc.) on your phone for those notifications to work. 
 
 ==Will Droid Notify display calendar events by non Android calendars?==
 
