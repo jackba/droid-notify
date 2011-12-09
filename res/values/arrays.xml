@@ -1556,26 +1556,32 @@
 	<!-- Twitter Notification Icon Image Arrays --> 
 	<string-array name="notification_icon_options_twitter">
 		<item name="0"></item>
+		<item name="1"></item>
+		<item name="2"></item>
+		<item name="3"></item>
 	</string-array>
 	<string-array name="notification_icon_values_twitter">
-		<item name="0">status_bar_notification_twitter_grey</item>
+		<item name="0">status_bar_notification_twitter_bird_blue</item>
+		<item name="1">status_bar_notification_twitter_blue</item>
+		<item name="2">status_bar_notification_twitter_grey</item>
+		<item name="3">status_bar_notification_twitter_t_blue</item>
 	</string-array>
 	<array name="notification_icon_images_twitter">
-		<item name="0">@drawable/status_bar_notification_twitter_grey_preference</item>
+		<item name="0">@drawable/status_bar_notification_twitter_bird_blue_preference</item>
+		<item name="1">@drawable/status_bar_notification_twitter_blue_preference</item>
+		<item name="2">@drawable/status_bar_notification_twitter_grey_preference</item>
+		<item name="3">@drawable/status_bar_notification_twitter_t_blue_preference</item>
 	</array>
 
 	<!-- Facebook Notification Icon Image Arrays --> 
 	<string-array name="notification_icon_options_facebook">
 		<item name="0"></item>
-		<item name="1"></item>
 	</string-array>
 	<string-array name="notification_icon_values_facebook">
 		<item name="0">status_bar_notification_facebook_grey</item>
-		<item name="1">status_bar_notification_facebook_message_grey</item>
 	</string-array>
 	<array name="notification_icon_images_facebook">
 		<item name="0">@drawable/status_bar_notification_facebook_grey_preference</item>
-		<item name="1">@drawable/status_bar_notification_facebook_message_grey_preference</item>
 	</array>
 	    	    	    	
 	<!-- Notification Vibrate Arrays --> 

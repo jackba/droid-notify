@@ -1175,7 +1175,7 @@ public class NotificationView extends LinearLayout {
 		    	}else if(notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_MENTION){
 			    	receivedAtText = _context.getString(R.string.mention_at_text, formattedTimestamp.toLowerCase());
 		    	}else if(notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_FOLLOWER_REQUEST){
-			    	receivedAtText = _context.getString(R.string.follower_request_at_text, formattedTimestamp.toLowerCase());
+			    	receivedAtText = _context.getString(R.string.follower_request_text);
 		    	}
 				break;
 			}

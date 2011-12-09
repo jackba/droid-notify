@@ -933,7 +933,7 @@ public class Notification {
 				}else if(_notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_MENTION){
 					messageToSpeak.append(_context.getString(R.string.mention_at_text, formattedTimestamp.toLowerCase()));
 				}else if(_notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_FOLLOWER_REQUEST){
-					messageToSpeak.append(_context.getString(R.string.follower_request_at_text, formattedTimestamp.toLowerCase()));
+					messageToSpeak.append(_context.getString(R.string.follower_request_text));
 				}
 				messageToSpeak.append(". " + _context.getString(R.string.from_text) + " " + sentFrom + ". ");
 				messageToSpeak.append(_messageBody);				
