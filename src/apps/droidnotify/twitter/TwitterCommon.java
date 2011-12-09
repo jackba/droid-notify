@@ -347,12 +347,7 @@ public class TwitterCommon {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("TwitterCommon.startTwitterAppActivity()");
 		try{
-			//Intent intent = new Intent(Intent.ACTION_MAIN);
-			//intent.setComponent(new ComponentName("com.twitter.android","com.twitter.android.HomeTabActivity"));
-			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-			String packageName = preferences.getString(Constants.TWITTER_PREFERRED_CLIENT_KEY, Constants.TWITTER_PREFERRED_CLIENT_DEFAULT);
-			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
-			intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+			Intent intent = getTwitterAppActivityIntent(context);
 	        notificationActivity.startActivityForResult(intent, requestCode);
 	        Common.setInLinkedAppFlag(context, true);
 		    return true;
