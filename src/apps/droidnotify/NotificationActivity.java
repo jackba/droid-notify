@@ -761,15 +761,15 @@ public class NotificationActivity extends Activity {
 		    }
 		    case Constants.TWITTER_OPEN_APP_ACTIVITY:{
 		    	if (resultCode == RESULT_OK) {
-		    		if (_debug) Log.v("NotificationActivity.onActivityResult() TWITTER_VIEW_INBOX_ACTIVITY: RESULT_OK");
+		    		if (_debug) Log.v("NotificationActivity.onActivityResult() TWITTER_OPEN_APP_ACTIVITY: RESULT_OK");
 		        	//Remove notification from ViewFlipper.
 		    		_notificationViewFlipper.removeActiveNotification(false);
 		    	}else if (resultCode == RESULT_CANCELED) {
-		    		if (_debug) Log.v("NotificationActivity.onActivityResult() TWITTER_VIEW_INBOX_ACTIVITY: RESULT_CANCELED");
+		    		if (_debug) Log.v("NotificationActivity.onActivityResult() TWITTER_OPEN_APP_ACTIVITY: RESULT_CANCELED");
 		    		//Remove notification from ViewFlipper.
 					_notificationViewFlipper.removeActiveNotification(false);
 		    	}else{
-		    		if (_debug) Log.v("NotificationActivity.onActivityResult() TWITTER_VIEW_INBOX_ACTIVITY: " + resultCode);
+		    		if (_debug) Log.v("NotificationActivity.onActivityResult() TWITTER_OPEN_APP_ACTIVITY: " + resultCode);
 		        	Toast.makeText(_context, _context.getString(R.string.app_email_app_error) + " " + resultCode, Toast.LENGTH_LONG).show();
 		    	}
 		    	Common.setInLinkedAppFlag(_context, false);

@@ -70,7 +70,10 @@
     <string name="app_tts_error">The Text-To-Speech service could not be started.</string>
     <string name="app_preference_quiet_time_error">The Quiet Time preference could not be started.</string>
     <string name="test_notifications_disabled_message">No test notifications can be displayed because no notifications have been enabled.</string>
-    <string name="app_twitter_app_error">The twitter application could not be started.</string>
+    <string name="twitter_app_error">The Twitter application could not be started.</string>
+    <string name="twitter_app_not_found_error">The Twitter application could not be found. Try selecting a different preferred Twitter client.</string>
+    <string name="facebook_app_error">The Facebook application could not be started.</string>
+    <string name="facebook_app_not_found_error">The Facebook application could not be found. Try selecting a different preferred Facebook client.</string>
     <string name="app_quick_reply_address_error">The quick reply address does not appear to be valid. Quick Reply launch failed.</string>
     <string name="twitter_send_direct_mesage_error">The Twitter Direct Message could not be sent.</string>
     <string name="twitter_send_tweet_error">The Tweet/Status Update could not be sent.</string>
