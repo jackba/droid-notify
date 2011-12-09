@@ -2,6 +2,8 @@ package apps.droidnotify.services;
 
 import java.util.ArrayList;
 
+import com.facebook.android.Facebook;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -69,7 +71,7 @@ public class FacebookAlarmBroadcastReceiverService extends WakefulIntentService 
 				if (_debug) Log.v("FacebookAlarmBroadcastReceiverService.doWakefulWork() Facebook Notifications Disabled. Exiting... ");
 				return;
 			}
-		  //Check the state of the users phone.
+		    //Check the state of the users phone.
 		    TelephonyManager telemanager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 		    boolean rescheduleNotification = false;
 		    boolean callStateIdle = telemanager.getCallState() == TelephonyManager.CALL_STATE_IDLE;
@@ -84,49 +86,61 @@ public class FacebookAlarmBroadcastReceiverService extends WakefulIntentService 
 		    }
 		    if(!rescheduleNotification){
 				WakefulIntentService.sendWakefulWork(context, new Intent(context, FacebookService.class));
-		    }else{
+		    }else{			    
 		    	//Display the Status Bar Notification even though the popup is blocked based on the user preferences.
 		    	if(preferences.getBoolean(Constants.FACEBOOK_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true)){
-		    		//Get the Facebook message info.
+		    		//Get the Twitter message info.
 					String contactName = null;
 					String messageAddress = null;
 					String messageBody = null;
-//					ArrayList<String> facebookDirectMessageArray = FacebookCommon.getFacebookNotifications(context);
-//				    if(facebookDirectMessageArray != null && facebookDirectMessageArray.size() > 0){
-//				    	int facebookDirectMessageArraySize = facebookDirectMessageArray.size();
-//				    	for(int i=0; i<facebookDirectMessageArraySize; i++ ){
-//				    		String facebookArrayItem = facebookDirectMessageArray.get(i);
-//							String[] facebookInfo = facebookArrayItem.split("\\|");
-//			    			int arraySize = facebookInfo.length;
-//			    			if(arraySize > 0){
-//								if(arraySize >= 1) messageAddress = facebookInfo[1];
-//								if(arraySize >= 2) messageBody = facebookInfo[3];
-//								if(arraySize >= 8) contactName = facebookInfo[7];
-//			    			}
-//							//Display Status Bar Notification
-//						    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_FACEBOOK_DIRECT_MESSAGE, callStateIdle, contactName, messageAddress, messageBody, null);
-//				    	}
-//					}else{
-//						if (_debug) Log.v("FacebookAlarmBroadcastReceiverService.doWakefulWork() No Facebook Direct Messages were found. Exiting...");
-//					}
-//				    ArrayList<String> facebookMentionArray = FacebookCommon.getFacebookMentions(context);
-//				    if(facebookMentionArray != null && facebookMentionArray.size() > 0){
-//				    	int facebookMentionArraySize = facebookMentionArray.size();
-//				    	for(int i=0; i<facebookMentionArraySize; i++ ){
-//				    		String facebookArrayItem = facebookMentionArray.get(i);
-//							String[] facebookInfo = facebookArrayItem.split("\\|");
-//			    			int arraySize = facebookInfo.length;
-//			    			if(arraySize > 0){
-//								if(arraySize >= 1) messageAddress = facebookInfo[1];
-//								if(arraySize >= 2) messageBody = facebookInfo[3];
-//								if(arraySize >= 8) contactName = facebookInfo[7];
-//			    			}
-//							//Display Status Bar Notification
-//						    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_FACEBOOK_MENTION, callStateIdle, contactName, messageAddress, messageBody, null);
-//				    	}
-//					}else{
-//						if (_debug) Log.v("FacebookAlarmBroadcastReceiverService.doWakefulWork() No Facebook Mentions were found. Exiting...");
-//					}
+					//Get Twitter Object
+				    //Get Facebook Object
+					Facebook facebook = FacebookCommon.getFacebook(context);
+				    if(facebook == null){
+				    	if (_debug) Log.v("FacebookService.doWakefulWork() Facebook object is null. Exiting... ");
+				    	return;
+				    }
+					String accessToken = preferences.getString(Constants.FACEBOOK_ACCESS_TOKEN_KEY, null);
+					if(preferences.getBoolean(Constants.FACEBOOK_NOTIFICATIONS_ENABLED_KEY, true)){
+						ArrayList<String> facebookNotificationArray = FacebookCommon.getFacebookNotifications(accessToken, facebook);
+					    if(facebookNotificationArray != null && facebookNotificationArray.size() > 0){
+					    	int facebookNotificationArraySize = facebookNotificationArray.size();
+					    	for(int i=0; i<facebookNotificationArraySize; i++ ){
+					    		String facebookArrayItem = facebookNotificationArray.get(i);
+								String[] facebookInfo = facebookArrayItem.split("\\|");
+				    			int arraySize = facebookInfo.length;
+				    			if(arraySize > 0){
+									if(arraySize >= 1) messageAddress = facebookInfo[1];
+									if(arraySize >= 2) messageBody = facebookInfo[3];
+									if(arraySize >= 8) contactName = facebookInfo[7];
+				    			}
+								//Display Status Bar Notification
+							    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_FACEBOOK, Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION, callStateIdle, contactName, messageAddress, messageBody, null);
+					    	}
+						}else{
+							if (_debug) Log.v("FacebookAlarmBroadcastReceiverService.doWakefulWork() No Facebook Nnotifications were found. Exiting...");
+						}
+					}
+					if(preferences.getBoolean(Constants.FACEBOOK_FRIEND_REQUESTS_ENABLED_KEY, true)){
+					    ArrayList<String> facebookFriendRequestArray = FacebookCommon.getFacebookFriendRequests(accessToken, facebook);
+					    if(facebookFriendRequestArray != null && facebookFriendRequestArray.size() > 0){
+					    	int facebookFriendRequestArraySize = facebookFriendRequestArray.size();
+					    	for(int i=0; i<facebookFriendRequestArraySize; i++ ){
+					    		String facebookArrayItem = facebookFriendRequestArray.get(i);
+								String[] facebookInfo = facebookArrayItem.split("\\|");
+				    			int arraySize = facebookInfo.length;
+				    			if(arraySize > 0){
+									if(arraySize >= 1) messageAddress = facebookInfo[1];
+									if(arraySize >= 2) messageBody = facebookInfo[3];
+									if(arraySize >= 8) contactName = facebookInfo[7];
+				    			}
+								//Display Status Bar Notification
+							    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_FACEBOOK, Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST, callStateIdle, contactName, messageAddress, messageBody, null);
+					    	}
+						}else{
+							if (_debug) Log.v("FacebookAlarmBroadcastReceiverService.doWakefulWork() No Facebook Friend Requests were found. Exiting...");
+						}
+					}
 			    }
 		    	//Ignore notification based on the users preferences.
 		    	if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_IGNORE)){
