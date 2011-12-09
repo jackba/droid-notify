@@ -2000,8 +2000,14 @@ public class Common {
 					break;
 				}
 				case Constants.NOTIFICATION_TYPE_TWITTER:{
-					if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_twitter_grey")){
+					if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_twitter_bird_blue")){
+						icon = R.drawable.status_bar_notification_twitter_bird_blue;
+					}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_twitter_blue")){
+						icon = R.drawable.status_bar_notification_twitter_blue;
+					}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_twitter_grey")){
 						icon = R.drawable.status_bar_notification_twitter_grey;
+					}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_twitter_t_blue")){
+						icon = R.drawable.status_bar_notification_twitter_t_blue;
 					}else{
 						//Default Value
 						icon = R.drawable.status_bar_notification_twitter_grey;
@@ -2011,8 +2017,6 @@ public class Common {
 				case Constants.NOTIFICATION_TYPE_FACEBOOK:{
 					if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_facebook_grey")){
 						icon = R.drawable.status_bar_notification_facebook_grey;
-					}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_facebook_message_grey")){
-						icon = R.drawable.status_bar_notification_facebook_message_grey;
 					}else{
 						//Default Value
 						icon = R.drawable.status_bar_notification_facebook_grey;

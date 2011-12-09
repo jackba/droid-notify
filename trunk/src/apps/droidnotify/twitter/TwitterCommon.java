@@ -178,7 +178,8 @@ public class TwitterCommon {
 		    ArrayList<String> twitterArray = new ArrayList<String>();
 		    long[] followerIDs = followerRequests.getIDs();
 			for(long followerID: followerIDs){
-				long timeStamp = System.currentTimeMillis();
+				long timeStamp = 0;
+				long followerRequestID = 0;
 		    	User twitterUser = twitter.showUser(followerID);
 		    	String twitterScreenName = twitterUser.getScreenName();
 		    	String twitterName = twitterUser.getName();
@@ -186,9 +187,9 @@ public class TwitterCommon {
 	    		String[] twitterContactInfo = null;
 	    		twitterContactInfo = getContactInfoByTwitterUser(context, twitterUser);
 	    		if(twitterContactInfo == null){
-	    			twitterArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_TWITTER_FOLLOWER_REQUEST) + "|" + twitterScreenName + "|" + followerID + "|" + followerMessage + "|0|" + timeStamp);
+	    			twitterArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_TWITTER_FOLLOWER_REQUEST) + "|" + twitterScreenName + "|" + followerID + "|" + followerMessage + "|" + followerRequestID + "|" + timeStamp);
 				}else{
-					twitterArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_TWITTER_FOLLOWER_REQUEST) + "|" + twitterScreenName + "|" + followerID + "|" + followerMessage + "|0|" + timeStamp + "|" + twitterContactInfo[0] + "|" + twitterContactInfo[1] + "|" + twitterContactInfo[2] + "|" + twitterContactInfo[3]);
+					twitterArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_TWITTER_FOLLOWER_REQUEST) + "|" + twitterScreenName + "|" + followerID + "|" + followerMessage + "|" + followerRequestID + "|" + timeStamp + "|" + twitterContactInfo[0] + "|" + twitterContactInfo[1] + "|" + twitterContactInfo[2] + "|" + twitterContactInfo[3]);
 				}
 			}
 			//Return array.

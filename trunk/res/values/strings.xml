@@ -170,6 +170,7 @@
     <string name="missed_call_at_text" formatted="false">Missed call at %s</string>
     <string name="mention_at_text" formatted="false">New mention at %s</string>        
     <string name="follower_request_at_text" formatted="false">New follower request at %s</string>
+    <string name="follower_request_text" formatted="false">New follower request</string>
     <string name="notification_at_text" formatted="false">New notification at %s</string>    
     <string name="friend_request_at_text" formatted="false">New friend request at %s</string>
    	   
