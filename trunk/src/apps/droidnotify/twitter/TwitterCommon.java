@@ -348,12 +348,18 @@ public class TwitterCommon {
 		if (_debug) Log.v("TwitterCommon.startTwitterAppActivity()");
 		try{
 			Intent intent = getTwitterAppActivityIntent(context);
+			if(intent == null){
+				if (_debug) Log.v("TwitterCommon.startTwitterAppActivity() Application Not Found");
+				Toast.makeText(context, context.getString(R.string.twitter_app_not_found_error), Toast.LENGTH_LONG).show();
+				Common.setInLinkedAppFlag(context, false);
+				return false;
+			}
 	        notificationActivity.startActivityForResult(intent, requestCode);
 	        Common.setInLinkedAppFlag(context, true);
 		    return true;
 		}catch(Exception ex){
 			if (_debug) Log.e("TwitterCommon.startTwitterAppActivity() ERROR: " + ex.toString());
-			Toast.makeText(context, context.getString(R.string.app_twitter_app_error), Toast.LENGTH_LONG).show();
+			Toast.makeText(context, context.getString(R.string.twitter_app_error), Toast.LENGTH_LONG).show();
 			Common.setInLinkedAppFlag(context, false);
 			return false;
 		}
