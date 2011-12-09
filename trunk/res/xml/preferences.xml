@@ -1202,7 +1202,7 @@
 							android:title="@string/preference_k9_enabled_title" 
 							android:summaryOn="@string/preference_k9_enabled_summaryOn" 
 							android:summaryOff="@string/preference_k9_enabled_summaryOff" 
-							android:defaultValue="true" />	
+							android:defaultValue="true" />
 						<ListPreference
 							android:key="blocking_app_running_action_k9"
 							android:title="@string/blocking_app_running_action_text"
