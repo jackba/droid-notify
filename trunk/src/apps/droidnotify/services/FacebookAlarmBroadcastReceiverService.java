@@ -102,7 +102,7 @@ public class FacebookAlarmBroadcastReceiverService extends WakefulIntentService 
 				    }
 					String accessToken = preferences.getString(Constants.FACEBOOK_ACCESS_TOKEN_KEY, null);
 					if(preferences.getBoolean(Constants.FACEBOOK_NOTIFICATIONS_ENABLED_KEY, true)){
-						ArrayList<String> facebookNotificationArray = FacebookCommon.getFacebookNotifications(accessToken, facebook);
+						ArrayList<String> facebookNotificationArray = FacebookCommon.getFacebookNotifications(context, accessToken, facebook);
 					    if(facebookNotificationArray != null && facebookNotificationArray.size() > 0){
 					    	int facebookNotificationArraySize = facebookNotificationArray.size();
 					    	for(int i=0; i<facebookNotificationArraySize; i++ ){
@@ -122,7 +122,7 @@ public class FacebookAlarmBroadcastReceiverService extends WakefulIntentService 
 						}
 					}
 					if(preferences.getBoolean(Constants.FACEBOOK_FRIEND_REQUESTS_ENABLED_KEY, true)){
-					    ArrayList<String> facebookFriendRequestArray = FacebookCommon.getFacebookFriendRequests(accessToken, facebook);
+					    ArrayList<String> facebookFriendRequestArray = FacebookCommon.getFacebookFriendRequests(context, accessToken, facebook);
 					    if(facebookFriendRequestArray != null && facebookFriendRequestArray.size() > 0){
 					    	int facebookFriendRequestArraySize = facebookFriendRequestArray.size();
 					    	for(int i=0; i<facebookFriendRequestArraySize; i++ ){

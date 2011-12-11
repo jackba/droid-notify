@@ -79,11 +79,13 @@ public class FacebookAuthenticationActivity extends Activity {
                 }
     
                 public void onFacebookError(FacebookError error){
+                	if (_debug) Log.v("FacebookAuthenticationActivity.onCreate() ERROR: " + error.toString());
                 	Toast.makeText(_context, _context.getString(R.string.facebook_authentication_error), Toast.LENGTH_LONG).show();
                 	finish();
                 }
-    
+
                 public void onError(DialogError e){
+                	if (_debug) Log.v("FacebookAuthenticationActivity.onCreate() ERROR: " + e.toString());
                 	Toast.makeText(_context, _context.getString(R.string.facebook_authentication_error), Toast.LENGTH_LONG).show();
                 	finish();
                 }

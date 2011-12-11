@@ -87,8 +87,7 @@ public class TwitterCommon {
 					long messageID = message.getId();					
 			    	String sentFromAddress = message.getSenderScreenName();
 			    	long twitterID = message.getSenderId();
-		    		String[] twitterContactInfo = null;
-		    		twitterContactInfo = getContactInfoByTwitterID(context, twitterID);
+		    		String[] twitterContactInfo = getContactInfoByTwitterID(context, twitterID);
 		    		if(twitterContactInfo == null){
 		    			twitterArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE) + "|" + sentFromAddress + "|" + twitterID + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + timeStamp);
 					}else{
@@ -141,8 +140,7 @@ public class TwitterCommon {
 					String mentionText = mention.getText();
 					long mentionID = mention.getId();
 			    	User twitterUser = mention.getUser();
-		    		String[] twitterContactInfo = null;
-		    		twitterContactInfo = getContactInfoByTwitterUser(context, twitterUser);
+		    		String[] twitterContactInfo = getContactInfoByTwitterUser(context, twitterUser);
 		    		if(twitterContactInfo == null){
 		    			twitterArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_TWITTER_MENTION) + "|" + twitterUser.getScreenName() + "|" + twitterUser.getId() + "|" + mentionText.replace("\n", "<br/>") + "|" + mentionID + "|" + timeStamp);
 					}else{
@@ -184,8 +182,7 @@ public class TwitterCommon {
 		    	String twitterScreenName = twitterUser.getScreenName();
 		    	String twitterName = twitterUser.getName();
 				String followerMessage = context.getString(R.string.twitter_following_request, twitterName, twitterScreenName);
-	    		String[] twitterContactInfo = null;
-	    		twitterContactInfo = getContactInfoByTwitterUser(context, twitterUser);
+	    		String[] twitterContactInfo = getContactInfoByTwitterUser(context, twitterUser);
 	    		if(twitterContactInfo == null){
 	    			twitterArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_TWITTER_FOLLOWER_REQUEST) + "|" + twitterScreenName + "|" + followerID + "|" + followerMessage + "|" + followerRequestID + "|" + timeStamp);
 				}else{
@@ -232,7 +229,7 @@ public class TwitterCommon {
 	 * Load the various contact info for this notification from a phoneNumber.
 	 * 
 	 * @param context - Application Context.
-	 * @param twitterID - The twitter ID of the person we are searching for.
+	 * @param twitterID - The Twitter ID of the person we are searching for.
 	 * 
 	 * @return String[] - String Array of the contact information.
 	 */ 

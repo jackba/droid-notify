@@ -1,5 +1,6 @@
 package apps.droidnotify.facebook;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
@@ -15,6 +16,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 
+import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
 import apps.droidnotify.receivers.FacebookAlarmReceiver;
@@ -186,7 +188,7 @@ public class FacebookCommon {
 	 * @param accessToken - The Facebook acess token.
 	 * @param facebook - The Facebook Object.
 	 */
-	public static ArrayList<String> getFacebookNotifications(String accessToken, Facebook facebook){
+	public static ArrayList<String> getFacebookNotifications(Context context, String accessToken, Facebook facebook){
 		if (_debug) Log.v("FacebookService.getFacebookNotifications()");
         try{
         	ArrayList<String> facebookArray = new ArrayList<String>();
@@ -199,7 +201,19 @@ public class FacebookCommon {
         	int jsonDataArraySize = jsonDataArray.length();
         	for (int i=0;i<jsonDataArraySize;i++){
         	    JSONObject jsonNotificationData = jsonDataArray.getJSONObject(i);
-        	    if (_debug) Log.v("FacebookService.getFacebookNotifications() Title: " + jsonNotificationData.getString("title"));
+        	    long timeStamp = parseFacebookDatTime(jsonNotificationData.getString("created_time"));
+        	    String notificationText = jsonNotificationData.getString("title");
+        	    String notificationExternalLink = jsonNotificationData.getString("link");
+				String notificationID = jsonNotificationData.getString("id");
+				JSONObject fromFacebookUser = jsonNotificationData.getJSONObject("from");
+				String fromFacebookName = fromFacebookUser.getString("name");
+				String fromFacebookID = fromFacebookUser.getString("id");				
+	    		String[] facebookContactInfo = Common.getContactsInfoByName(context, fromFacebookName);
+	    		if(facebookContactInfo == null){
+	    			facebookArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION) + "|" + fromFacebookName + "|" + fromFacebookID + "|" + notificationText.replace("\n", "<br/>") + "|" + notificationID + "|" + timeStamp);
+				}else{
+					facebookArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION) + "|" + fromFacebookName + "|" + fromFacebookID + "|" + notificationText.replace("\n", "<br/>") + "|" + notificationID + "|" + timeStamp + "|" + facebookContactInfo[0] + "|" + facebookContactInfo[1] + "|" + facebookContactInfo[2] + "|" + facebookContactInfo[3]);
+				}	    		
         	}
         	return facebookArray;
         }catch(Exception ex){
@@ -214,7 +228,7 @@ public class FacebookCommon {
 	 * @param accessToken - The Facebook acess token.
 	 * @param facebook - The Facebook Object.
 	 */
-	public static ArrayList<String> getFacebookFriendRequests(String accessToken, Facebook facebook){
+	public static ArrayList<String> getFacebookFriendRequests(Context context, String accessToken, Facebook facebook){
 		if (_debug) Log.v("FacebookService.getFacebookFriendRequests()");
         try{
         	ArrayList<String> facebookArray = new ArrayList<String>();
@@ -230,15 +244,47 @@ public class FacebookCommon {
         	int jsonDataArraySize = jsonDataArray.length();
         	for (int i=0;i<jsonDataArraySize;i++){
         	    JSONObject jsonNotificationData = jsonDataArray.getJSONObject(i);
-        	    JSONObject jsonFromData = jsonNotificationData.getJSONObject("from");
-        	    if (_debug) Log.v("FacebookService.getFacebookFriendRequests() Title: " + jsonFromData.getString("name"));
-        	    if (_debug) Log.v("FacebookService.getFacebookFriendRequests() ID: " + jsonFromData.getString("id"));
+        	    long timeStamp = parseFacebookDatTime(jsonNotificationData.getString("created_time"));
+				String notificationID = "0";
+				JSONObject fromFacebookUser = jsonNotificationData.getJSONObject("from");
+				String fromFacebookName = fromFacebookUser.getString("name");
+				String fromFacebookID = fromFacebookUser.getString("id");
+        	    String friendRequestText = "You have a new Facebook Friend Request from " + fromFacebookName;
+	    		String[] facebookContactInfo = Common.getContactsInfoByName(context, fromFacebookName);
+	    		if(facebookContactInfo == null){
+	    			facebookArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION) + "|" + fromFacebookName + "|" + fromFacebookID + "|" + friendRequestText + "|" + notificationID + "|" + timeStamp);
+				}else{
+					facebookArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION) + "|" + fromFacebookName + "|" + fromFacebookID + "|" + friendRequestText + "|" + notificationID + "|" + timeStamp + "|" + facebookContactInfo[0] + "|" + facebookContactInfo[1] + "|" + facebookContactInfo[2] + "|" + facebookContactInfo[3]);
+				}
         	}
         	return facebookArray;
         }catch(Exception ex){
         	if (_debug) Log.e("FacebookService.getFacebookFriendRequests() ERROR: " + ex.toString());
         	return null;
         }
+	}
+
+	//================================================================================
+	// Private Methods
+	//================================================================================
+	
+	/**
+	 * 
+	 * @param inputDateTime
+	 * 
+	 * @return
+	 */
+	private static long parseFacebookDatTime(String inputDateTime){
+		if (_debug) Log.v("FacebookCommon.parseFacebookDatTime()");
+		try {
+		    long timeMillis = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss+SSSS")
+		        .parse(inputDateTime)
+		        .getTime();
+		    return timeMillis;
+		}catch (Exception ex){
+			if (_debug) Log.v("FacebookCommon.parseFacebookDatTime() ERROR: " + ex.toString());
+		    return 0;
+		}
 	}
 	
 }

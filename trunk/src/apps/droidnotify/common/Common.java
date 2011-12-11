@@ -286,8 +286,6 @@ public class Common {
 		}
 	}
 	
-
-
 	/**
 	 * Load the various contact info for this notification from an email.
 	 * 
