@@ -68,7 +68,7 @@ public class FacebookService extends WakefulIntentService {
 		    _accessToken = _preferences.getString(Constants.FACEBOOK_ACCESS_TOKEN_KEY, null);
 		    //Get Facebook Notifications.
 		    if(_preferences.getBoolean(Constants.FACEBOOK_NOTIFICATIONS_ENABLED_KEY, true)){
-			    ArrayList<String> facebookNotificationArray = FacebookCommon.getFacebookNotifications(_accessToken, _facebook);
+			    ArrayList<String> facebookNotificationArray = FacebookCommon.getFacebookNotifications(_context, _accessToken, _facebook);
 			    if(facebookNotificationArray != null && facebookNotificationArray.size() > 0){
 					Bundle bundle = new Bundle();
 					bundle.putInt("notificationType", Constants.NOTIFICATION_TYPE_FACEBOOK);
@@ -80,7 +80,7 @@ public class FacebookService extends WakefulIntentService {
 		    }
 		    //Get Facebook Friend Requests.
 		    if(_preferences.getBoolean(Constants.FACEBOOK_FRIEND_REQUESTS_ENABLED_KEY, true)){
-			    ArrayList<String> facebookFriendRequestArray = FacebookCommon.getFacebookFriendRequests(_accessToken, _facebook);
+			    ArrayList<String> facebookFriendRequestArray = FacebookCommon.getFacebookFriendRequests(_context, _accessToken, _facebook);
 			    if(facebookFriendRequestArray != null && facebookFriendRequestArray.size() > 0){
 					Bundle bundle = new Bundle();
 					bundle.putInt("notificationType", Constants.NOTIFICATION_TYPE_FACEBOOK);
