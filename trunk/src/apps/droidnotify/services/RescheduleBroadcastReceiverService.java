@@ -164,6 +164,7 @@ public class RescheduleBroadcastReceiverService extends WakefulIntentService {
 		    		//[17]-LookupKey
 		    		//[18]-PhotoID
 		    		//[19]-NotificationSubType
+		    		//[20]-MessageStringID
 		    		//========================================================
 		    		String sentFromAddress = rescheduleNotificationInfo[1];
 					String messageBody = rescheduleNotificationInfo[2];

@@ -30,6 +30,7 @@ import android.view.MotionEvent;
 
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
+import apps.droidnotify.facebook.FacebookCommon;
 import apps.droidnotify.log.Log;
 import apps.droidnotify.twitter.TwitterCommon;
 
@@ -750,8 +751,7 @@ public class NotificationView extends LinearLayout {
 						    public void onClick(View view) {
 						    	if (_debug) Log.v("Notification Count Button Clicked()");
 						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-						    	//TODO
-						    	//Common.startTwitterAppViewInboxActivity(_context, _notificationActivity, Constants.FACEBOOK_VIEW_INBOX_ACTIVITY);
+						    	FacebookCommon.startFacebookAppActivity(_context, _notificationActivity, Constants.FACEBOOK_OPEN_APP_ACTIVITY);
 						    }
 						});		
 					}
@@ -769,29 +769,37 @@ public class NotificationView extends LinearLayout {
 				    		_dismissImageButton.setVisibility(View.GONE);
 				    	}
 						// Delete Button
-						if(_preferences.getBoolean(Constants.FACEBOOK_DISPLAY_DELETE_BUTTON_KEY, true)){
-				    		_deleteImageButton.setOnClickListener(new OnClickListener() {
-							    public void onClick(View view) {
-							    	if (_debug) Log.v("Facebook Delete Button Clicked()");
-							    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-							    	showDeleteDialog();
-							    }
-							});
-				    	}else{
+						if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION || notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST || notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE){
 							_deleteImageButton.setVisibility(View.GONE);
-				    	}
+						}else{	
+							if(_preferences.getBoolean(Constants.FACEBOOK_DISPLAY_DELETE_BUTTON_KEY, true)){
+					    		_deleteImageButton.setOnClickListener(new OnClickListener() {
+								    public void onClick(View view) {
+								    	if (_debug) Log.v("Facebook Delete Button Clicked()");
+								    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+								    	showDeleteDialog();
+								    }
+								});
+					    	}else{
+								_deleteImageButton.setVisibility(View.GONE);
+					    	}
+						}
 						// Reply Button
-						if(_preferences.getBoolean(Constants.FACEBOOK_DISPLAY_REPLY_BUTTON_KEY, true)){
-				    		_replyEmailImageButton.setOnClickListener(new OnClickListener() {
-							    public void onClick(View view) {
-							    	if (_debug) Log.v("Facebook Reply Button Clicked()");
-							    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-							    	replyToMessage(Constants.NOTIFICATION_TYPE_FACEBOOK);
-							    }
-							});
-				    	}else{
+						if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION || notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST || notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE){
 							_replyEmailImageButton.setVisibility(View.GONE);
-				    	}
+						}else{						
+							if(_preferences.getBoolean(Constants.FACEBOOK_DISPLAY_REPLY_BUTTON_KEY, true)){
+					    		_replyEmailImageButton.setOnClickListener(new OnClickListener() {
+								    public void onClick(View view) {
+								    	if (_debug) Log.v("Facebook Reply Button Clicked()");
+								    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+								    	replyToMessage(Constants.NOTIFICATION_TYPE_FACEBOOK);
+								    }
+								});
+					    	}else{
+								_replyEmailImageButton.setVisibility(View.GONE);
+					    	}
+						}
 					}else{
 						// Dismiss Button
 				    	if(_preferences.getBoolean(Constants.FACEBOOK_DISPLAY_DISMISS_BUTTON_KEY, true)){
@@ -806,30 +814,38 @@ public class NotificationView extends LinearLayout {
 				    		_dismissButton.setVisibility(View.GONE);
 				    	}
 						// Delete Button
-						if(_preferences.getBoolean(Constants.FACEBOOK_DISPLAY_DELETE_BUTTON_KEY, true)){
-				    		_deleteButton.setOnClickListener(new OnClickListener() {
-							    public void onClick(View view) {
-							    	if (_debug) Log.v("Facebook Delete Button Clicked()");
-							    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-							    	showDeleteDialog();
-							    }
-							});
-				    	}else{
+						if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION || notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST || notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE){
 							_deleteButton.setVisibility(View.GONE);
-				    	}
+						}else{	
+							if(_preferences.getBoolean(Constants.FACEBOOK_DISPLAY_DELETE_BUTTON_KEY, true)){
+					    		_deleteButton.setOnClickListener(new OnClickListener() {
+								    public void onClick(View view) {
+								    	if (_debug) Log.v("Facebook Delete Button Clicked()");
+								    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+								    	showDeleteDialog();
+								    }
+								});
+					    	}else{
+								_deleteButton.setVisibility(View.GONE);
+					    	}
+						}
 						// Reply Button
-						if(_preferences.getBoolean(Constants.FACEBOOK_DISPLAY_REPLY_BUTTON_KEY, true)){
-				    		_replyEmailButton.setOnClickListener(new OnClickListener() {
-							    public void onClick(View view) {
-							    	if (_debug) Log.v("Facebook Reply Button Clicked()");
-							    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-							    	replyToMessage(Constants.NOTIFICATION_TYPE_FACEBOOK);
-							    }
-							});
-				    	}else{
+						if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION || notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST || notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE){
 							_replyEmailButton.setVisibility(View.GONE);
-				    	}
-					}
+						}else{	
+							if(_preferences.getBoolean(Constants.FACEBOOK_DISPLAY_REPLY_BUTTON_KEY, true)){
+					    		_replyEmailButton.setOnClickListener(new OnClickListener() {
+								    public void onClick(View view) {
+								    	if (_debug) Log.v("Facebook Reply Button Clicked()");
+								    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+								    	replyToMessage(Constants.NOTIFICATION_TYPE_FACEBOOK);
+								    }
+								});
+					    	}else{
+								_replyEmailButton.setVisibility(View.GONE);
+					    	}
+						}
+					}					
 					_callButton.setVisibility(View.GONE);
 					_replySMSButton.setVisibility(View.GONE);
 					_viewCalendarButton.setVisibility(View.GONE);

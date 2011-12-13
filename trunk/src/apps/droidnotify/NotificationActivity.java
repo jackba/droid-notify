@@ -36,6 +36,7 @@ import android.widget.Toast;
 import apps.droidnotify.log.Log;
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
+import apps.droidnotify.facebook.FacebookCommon;
 import apps.droidnotify.preferences.MainPreferenceActivity;
 import apps.droidnotify.receivers.ScreenManagementAlarmReceiver;
 import apps.droidnotify.twitter.TwitterCommon;
@@ -295,7 +296,7 @@ public class NotificationActivity extends Activity {
 				return TwitterCommon.startTwitterAppActivity(_context, this, Constants.TWITTER_OPEN_APP_ACTIVITY);
 			}
 			case OPEN_FACEBOOK_APP_CONTEXT_MENU:{
-				//return FacebookCommon.startFacebookAppActivity(_context, this, Constants.FACEBOOK_OPEN_APP_ACTIVITY);
+				return FacebookCommon.startFacebookAppActivity(_context, this, Constants.FACEBOOK_OPEN_APP_ACTIVITY);
 			}
 			case RESCHEDULE_NOTIFICATION_CONTEXT_MENU:{
 				try{
@@ -403,18 +404,18 @@ public class NotificationActivity extends Activity {
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_FACEBOOK:{
-				if(_preferences.getString(Constants.TWITTER_DELETE_KEY, "0").equals(Constants.TWITTER_DELETE_ACTION_NOTHING)){
-					//Remove the notification from the ViewFlipper
-					deleteMessage();
-				}else{
-					if(_preferences.getBoolean(Constants.TWITTER_CONFIRM_DELETION_KEY, true)){
-						//Confirm deletion of the message.
-						showDialog(Constants.DIALOG_DELETE_MESSAGE);
-					}else{
-						//Remove the notification from the ViewFlipper.
-						deleteMessage();
-					}
-				}
+				//if(_preferences.getString(Constants.FACEBOOK_DELETE_KEY, "0").equals(Constants.FACEBOOK_DELETE_ACTION_NOTHING)){
+				//	//Remove the notification from the ViewFlipper
+				//	deleteMessage();
+				//}else{
+				//	if(_preferences.getBoolean(Constants.FACEBOOK_CONFIRM_DELETION_KEY, true)){
+				//		//Confirm deletion of the message.
+				//		showDialog(Constants.DIALOG_DELETE_MESSAGE);
+				//	}else{
+				//		//Remove the notification from the ViewFlipper.
+				//		deleteMessage();
+				//	}
+				//}
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_K9:{
@@ -770,7 +771,23 @@ public class NotificationActivity extends Activity {
 					_notificationViewFlipper.removeActiveNotification(false);
 		    	}else{
 		    		if (_debug) Log.v("NotificationActivity.onActivityResult() TWITTER_OPEN_APP_ACTIVITY: " + resultCode);
-		        	Toast.makeText(_context, _context.getString(R.string.app_email_app_error) + " " + resultCode, Toast.LENGTH_LONG).show();
+		        	Toast.makeText(_context, _context.getString(R.string.twitter_app_error) + " " + resultCode, Toast.LENGTH_LONG).show();
+		    	}
+		    	Common.setInLinkedAppFlag(_context, false);
+		        break;
+		    }
+		    case Constants.FACEBOOK_OPEN_APP_ACTIVITY:{
+		    	if (resultCode == RESULT_OK) {
+		    		if (_debug) Log.v("NotificationActivity.onActivityResult() FACEBOOK_OPEN_APP_ACTIVITY: RESULT_OK");
+		        	//Remove notification from ViewFlipper.
+		    		_notificationViewFlipper.removeActiveNotification(false);
+		    	}else if (resultCode == RESULT_CANCELED) {
+		    		if (_debug) Log.v("NotificationActivity.onActivityResult() FACEBOOK_OPEN_APP_ACTIVITY: RESULT_CANCELED");
+		    		//Remove notification from ViewFlipper.
+					_notificationViewFlipper.removeActiveNotification(false);
+		    	}else{
+		    		if (_debug) Log.v("NotificationActivity.onActivityResult() FACEBOOK_OPEN_APP_ACTIVITY: " + resultCode);
+		        	Toast.makeText(_context, _context.getString(R.string.facebook_app_error) + " " + resultCode, Toast.LENGTH_LONG).show();
 		    	}
 		    	Common.setInLinkedAppFlag(_context, false);
 		        break;
@@ -825,10 +842,10 @@ public class NotificationActivity extends Activity {
 		    }
 		    case Constants.TEXT_TO_SPEECH_ACTIVITY:{
 		        if(resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS){
-		            //Success, create the TTS instance
+		            //Success, create the TTS instance.
 		            _tts = new TextToSpeech(_context, ttsOnInitListener);
 		        }else{
-		            //Missing data, install it
+		            //Missing data, install it.
 		            Intent installIntent = new Intent();
 		            installIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
 		            startActivity(installIntent);
@@ -910,7 +927,7 @@ public class NotificationActivity extends Activity {
 			}
 		    case Constants.NOTIFICATION_TYPE_GMAIL:{
 		    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_GMAIL");
-		    	//TODO - Email
+
 		    	break;
 		    }
 			case Constants.NOTIFICATION_TYPE_TWITTER:{
@@ -1058,6 +1075,7 @@ public class NotificationActivity extends Activity {
 	protected Dialog onCreateDialog(int id) {
 		if (_debug) Log.v("NotificationActivity.onCreateDialog()");
 		int notificationType = _notificationViewFlipper.getActiveNotification().getNotificationType();
+		int notificationSubType = _notificationViewFlipper.getActiveNotification().getNotificationSubType();
 		AlertDialog alertDialog = null;
 		switch (id) {
 	        /*
@@ -1082,9 +1100,21 @@ public class NotificationActivity extends Activity {
 						builder.setMessage(_context.getString(R.string.delete_thread_dialog_text));
 					}
 				}else if(notificationType == Constants.NOTIFICATION_TYPE_TWITTER){
+					if(notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE){
 						builder.setMessage(_context.getString(R.string.delete_twitter_direct_message_dialog_text));
+					}else if(notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_MENTION){
+						
+					}else if(notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_FOLLOWER_REQUEST){
+						
+					}					
 				}else if(notificationType == Constants.NOTIFICATION_TYPE_FACEBOOK){
-					builder.setMessage(_context.getString(R.string.delete_facebook_notification_dialog_text));
+					if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION){
+						builder.setMessage(_context.getString(R.string.delete_facebook_notification_dialog_text));
+					}else if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST){
+						
+					}else if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE){
+						builder.setMessage(_context.getString(R.string.delete_facebook_message_dialog_text));
+					}					
 				}else if(notificationType == Constants.NOTIFICATION_TYPE_K9){
 					builder.setMessage(_context.getString(R.string.delete_email_dialog_text));
 				}
@@ -1150,7 +1180,7 @@ public class NotificationActivity extends Activity {
 		    }
 	    	case Constants.NOTIFICATION_TYPE_GMAIL:{
 		    	if (_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_GMAIL");
-		    	//TODO - Gmail
+
 		    	break;
 		    }
 			case Constants.NOTIFICATION_TYPE_TWITTER:{
@@ -1261,11 +1291,11 @@ public class NotificationActivity extends Activity {
 		String twitterTestMessage = "Twitter Test Direct Message";
 		String twitterTestMention = "Twitter Test Mention";
 		String twitterTestFollowerRequest = "Twitter Test Follower Request";
-//		String sentFromFacebook = "Facebooktest";
-//		String sentFromFacebookName = "Facebook User";
-//		String facebookTestNotification = "Facebook Test Notification";
-//		String facebookTestFriendRequest = "Facebook Test Friend Request";
-		//String facebookTestMessage = "Facebook Test Message";
+		String sentFromFacebook = "Facebooktest";
+		String sentFromFacebookName = "Facebook User";
+		String facebookTestNotification = "Facebook Test Notification";
+		String facebookTestFriendRequest = "Facebook Test Friend Request";
+		String facebookTestMessage = "Facebook Test Message";
 		String sentFromEmail = "test@gmail.com";
 		String emailTestMessage = "Email Test Message";
 		NotificationViewFlipper notificationViewFlipper = _notificationViewFlipper;
@@ -1306,7 +1336,7 @@ public class NotificationActivity extends Activity {
 	    	if(_preferences.getBoolean(Constants.TWITTER_DIRECT_MESSAGES_ENABLED_KEY, true)){
 				notificationDisplayed = true;
 				//Add Twitter Message Notification.
-				Notification twitterNotification = new Notification(_context, sentFromTwitter, 0, twitterTestMessage, System.currentTimeMillis(), 0, sentFromTwitterName, 0, 0, null, null, null, Constants.NOTIFICATION_TYPE_TWITTER, Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE);
+				Notification twitterNotification = new Notification(_context, sentFromTwitter, 0, twitterTestMessage, System.currentTimeMillis(), 0, sentFromTwitterName, 0, 0, null, null, null, null, Constants.NOTIFICATION_TYPE_TWITTER, Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE);
 				notificationViewFlipper.addNotification(twitterNotification);
 				//Display Status Bar Notification
 			    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_TWITTER, Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE, true, null, sentFromTwitter, twitterTestMessage, null);
@@ -1314,7 +1344,7 @@ public class NotificationActivity extends Activity {
 	    	if(_preferences.getBoolean(Constants.TWITTER_MENTIONS_ENABLED_KEY, true)){
 				notificationDisplayed = true;
 				//Add Twitter Message Notification.
-				Notification twitterNotification = new Notification(_context, sentFromTwitter, 0, twitterTestMention, System.currentTimeMillis(), 0, sentFromTwitterName, 0, 0, null, null, null, Constants.NOTIFICATION_TYPE_TWITTER, Constants.NOTIFICATION_TYPE_TWITTER_MENTION);
+				Notification twitterNotification = new Notification(_context, sentFromTwitter, 0, twitterTestMention, System.currentTimeMillis(), 0, sentFromTwitterName, 0, 0, null, null, null, null, Constants.NOTIFICATION_TYPE_TWITTER, Constants.NOTIFICATION_TYPE_TWITTER_MENTION);
 				notificationViewFlipper.addNotification(twitterNotification);
 				//Display Status Bar Notification
 			    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_TWITTER, Constants.NOTIFICATION_TYPE_TWITTER_MENTION, true, null, sentFromTwitter, twitterTestMention, null);
@@ -1322,45 +1352,37 @@ public class NotificationActivity extends Activity {
 	    	if(_preferences.getBoolean(Constants.TWITTER_FOLLOWER_REQUESTS_ENABLED_KEY, true)){
 				notificationDisplayed = true;
 				//Add Twitter Message Notification.
-				Notification twitterNotification = new Notification(_context, sentFromTwitter, 0, twitterTestFollowerRequest, System.currentTimeMillis(), 0, sentFromTwitterName, 0, 0, null, null, null, Constants.NOTIFICATION_TYPE_TWITTER, Constants.NOTIFICATION_TYPE_TWITTER_FOLLOWER_REQUEST);
+				Notification twitterNotification = new Notification(_context, sentFromTwitter, 0, twitterTestFollowerRequest, System.currentTimeMillis(), 0, sentFromTwitterName, 0, 0, null, null, null, null, Constants.NOTIFICATION_TYPE_TWITTER, Constants.NOTIFICATION_TYPE_TWITTER_FOLLOWER_REQUEST);
 				notificationViewFlipper.addNotification(twitterNotification);
 				//Display Status Bar Notification
 			    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_TWITTER, Constants.NOTIFICATION_TYPE_TWITTER_FOLLOWER_REQUEST, true, null, sentFromTwitter, twitterTestFollowerRequest, null);
 	    	}
-//	    	if(_preferences.getBoolean(Constants.TWITTER_RETWEETS_ENABLED_KEY, true)){
-//				notificationDisplayed = true;
-//				//Add Twitter Message Notification.
-//				Notification twitterNotification = new Notification(_context, sentFromTwitter, 0, twitterTestMention, System.currentTimeMillis(), 0, sentFromTwitterName, 0, 0, null, null, null, Constants.NOTIFICATION_TYPE_TWITTER, Constants.NOTIFICATION_TYPE_TWITTER_RETWEET);
-//				notificationViewFlipper.addNotification(twitterNotification);
-//				//Display Status Bar Notification
-//			    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_TWITTER, Constants.NOTIFICATION_TYPE_TWITTER_RETWEET, true, null, sentFromTwitter, twitterTestMention, null);
-//	    	}
-//	    	if(_preferences.getBoolean(Constants.TWITTER_REPLY_TWEETS_ENABLED_KEY, true)){
-//				notificationDisplayed = true;
-//				//Add Twitter Message Notification.
-//				Notification twitterNotification = new Notification(_context, sentFromTwitter, 0, twitterTestMention, System.currentTimeMillis(), 0, sentFromTwitterName, 0, 0, null, null, null, Constants.NOTIFICATION_TYPE_TWITTER, Constants.NOTIFICATION_TYPE_TWITTER_REPLY_TWEET);
-//				notificationViewFlipper.addNotification(twitterNotification);
-//				//Display Status Bar Notification
-//			    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_TWITTER, Constants.NOTIFICATION_TYPE_TWITTER_REPLY_TWEET, true, null, sentFromTwitter, twitterTestMention, null);
-//	    	}
 	    }
 	    if(_preferences.getBoolean(Constants.FACEBOOK_NOTIFICATIONS_ENABLED_KEY, true)){
-//	    	if(_preferences.getBoolean(Constants.FACEBOOK_USER_NOTIFICATIONS_ENABLED_KEY, true)){
-//				notificationDisplayed = true;
-//				//Add Facebook Message Notification.
-//				Notification facebookNotification = new Notification(_context, sentFromFacebook, 0, facebookTestNotification, System.currentTimeMillis(), 0, sentFromFacebookName, 0, 0, null, null, null, Constants.NOTIFICATION_TYPE_FACEBOOK, Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION);
-//				notificationViewFlipper.addNotification(facebookNotification);
-//				//Display Status Bar Notification
-//			    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_FACEBOOK, Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION, true, null, sentFromFacebook, facebookTestNotification, null);
-//	    	}
-//		    if(_preferences.getBoolean(Constants.FACEBOOK_FRIEND_REQUESTS_ENABLED_KEY, true)){
-//		    	notificationDisplayed = true;
-//				//Add Facebook Message Notification.
-//				Notification facebookNotification = new Notification(_context, sentFromFacebook, 0, facebookTestFriendRequest, System.currentTimeMillis(), 0, sentFromFacebookName, 0, 0, null, null, null, Constants.NOTIFICATION_TYPE_FACEBOOK, Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST);
-//				notificationViewFlipper.addNotification(facebookNotification);
-//				//Display Status Bar Notification
-//			    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_FACEBOOK, Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST, true, null, sentFromFacebook, facebookTestFriendRequest, null);
-//	    	}
+	    	if(_preferences.getBoolean(Constants.FACEBOOK_USER_NOTIFICATIONS_ENABLED_KEY, true)){
+				notificationDisplayed = true;
+				//Add Facebook Message Notification.
+				Notification facebookNotification = new Notification(_context, sentFromFacebook, 0, facebookTestNotification, System.currentTimeMillis(), 0, sentFromFacebookName, 0, 0, null, null, null, null, Constants.NOTIFICATION_TYPE_FACEBOOK, Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION);
+				notificationViewFlipper.addNotification(facebookNotification);
+				//Display Status Bar Notification
+			    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_FACEBOOK, Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION, true, null, sentFromFacebook, facebookTestNotification, null);
+	    	}
+		    if(_preferences.getBoolean(Constants.FACEBOOK_FRIEND_REQUESTS_ENABLED_KEY, true)){
+		    	notificationDisplayed = true;
+				//Add Facebook Message Notification.
+				Notification facebookNotification = new Notification(_context, sentFromFacebook, 0, facebookTestFriendRequest, System.currentTimeMillis(), 0, sentFromFacebookName, 0, 0, null, null, null, null, Constants.NOTIFICATION_TYPE_FACEBOOK, Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST);
+				notificationViewFlipper.addNotification(facebookNotification);
+				//Display Status Bar Notification
+			    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_FACEBOOK, Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST, true, null, sentFromFacebook, facebookTestFriendRequest, null);
+	    	}
+		    if(_preferences.getBoolean(Constants.FACEBOOK_MESSAGES_ENABLED_KEY, true)){
+		    	notificationDisplayed = true;
+				//Add Facebook Message Notification.
+				Notification facebookNotification = new Notification(_context, sentFromFacebook, 0, facebookTestMessage, System.currentTimeMillis(), 0, sentFromFacebookName, 0, 0, null, null, null, null, Constants.NOTIFICATION_TYPE_FACEBOOK, Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE);
+				notificationViewFlipper.addNotification(facebookNotification);
+				//Display Status Bar Notification
+			    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_FACEBOOK, Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST, true, null, sentFromFacebook, facebookTestMessage, null);
+	    	}
 	    }
 	    if(_preferences.getBoolean(Constants.K9_NOTIFICATIONS_ENABLED_KEY, true)){
 			notificationDisplayed = true;
@@ -2087,7 +2109,7 @@ public class NotificationActivity extends Activity {
 				if (_debug) Log.e("NotificationActivity.setupK9EmailNotifications() ERROR: " + ex.toString()); 
 				return false;
 			}
-			_notificationViewFlipper.addNotification(new Notification(_context, sentFromAddress, 0, messageBody, timeStamp, contactID, contactName, photoID, messageID, lookupKey, k9EmailUri, k9EmailDelUri, Constants.NOTIFICATION_TYPE_K9, 0));		    
+			_notificationViewFlipper.addNotification(new Notification(_context, sentFromAddress, 0, messageBody, timeStamp, contactID, contactName, photoID, messageID, null, lookupKey, k9EmailUri, k9EmailDelUri, Constants.NOTIFICATION_TYPE_K9, 0));		    
 			//Display Status Bar Notification
 		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_K9, 0, true, contactName, sentFromAddress, messageBody, k9EmailUri);
 		}
@@ -2149,7 +2171,7 @@ public class NotificationActivity extends Activity {
 				if (_debug) Log.e("NotificationActivity.setupTwitterMessages() ERROR: " + ex.toString()); 
 				return false;
 			}
-			_notificationViewFlipper.addNotification(new Notification(_context, sentFromAddress, sentFromID, messageBody, timeStamp, contactID, contactName, photoID, messageID, lookupKey, null, null, Constants.NOTIFICATION_TYPE_TWITTER, notificationSubType));		    
+			_notificationViewFlipper.addNotification(new Notification(_context, sentFromAddress, sentFromID, messageBody, timeStamp, contactID, contactName, photoID, messageID, null, lookupKey, null, null, Constants.NOTIFICATION_TYPE_TWITTER, notificationSubType));		    
 			//Display Status Bar Notification
 		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_TWITTER, notificationSubType, true, contactName, sentFromAddress, messageBody, null);
 		}
@@ -2172,7 +2194,7 @@ public class NotificationActivity extends Activity {
 			String sentFromAddress = null;
 			long sentFromID = 0;
 			String messageBody = null;
-			long messageID = 0;
+			String messageStringID = null;
 			long timeStamp = 0;
 			long contactID = 0;
 			String contactName = null;
@@ -2189,14 +2211,14 @@ public class NotificationActivity extends Activity {
 					sentFromAddress = facebookInfo[1];
 					sentFromID = Long.parseLong(facebookInfo[2]);
 					messageBody = facebookInfo[3];
-					messageID = Long.parseLong(facebookInfo[4]);
+					messageStringID = facebookInfo[4];
 					timeStamp = Long.parseLong(facebookInfo[5]);
 				}else{
 					notificationSubType = Integer.parseInt(facebookInfo[0]);
 					sentFromAddress = facebookInfo[1];
 					sentFromID = Long.parseLong(facebookInfo[2]);
 					messageBody = facebookInfo[3];
-					messageID = Long.parseLong(facebookInfo[4]);
+					messageStringID = facebookInfo[4];
 					timeStamp = Long.parseLong(facebookInfo[5]);
 					contactID = Long.parseLong(facebookInfo[6]);
 					contactName = facebookInfo[7];
@@ -2211,7 +2233,7 @@ public class NotificationActivity extends Activity {
 				if (_debug) Log.e("NotificationActivity.setupFacebookMessages() ERROR: " + ex.toString()); 
 				return false;
 			}
-			_notificationViewFlipper.addNotification(new Notification(_context, sentFromAddress, sentFromID, messageBody, timeStamp, contactID, contactName, photoID, messageID, lookupKey, null, null, Constants.NOTIFICATION_TYPE_FACEBOOK, notificationSubType));		    
+			_notificationViewFlipper.addNotification(new Notification(_context, sentFromAddress, sentFromID, messageBody, timeStamp, contactID, contactName, photoID, 0, messageStringID, lookupKey, null, null, Constants.NOTIFICATION_TYPE_FACEBOOK, notificationSubType));		    
 			//Display Status Bar Notification
 		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_FACEBOOK, notificationSubType, true, contactName, sentFromAddress, messageBody, null);
 		}
@@ -2250,6 +2272,7 @@ public class NotificationActivity extends Activity {
 		//[17]-LookupKey
 		//[18]-PhotoID
 		//[19]-NotificationSubType
+		//[20]-MessageStringID
 		//========================================================
 		//int notificationType = Integer.parseInt(rescheduleNotificationInfo[0]) - 100;
 		String sentFromAddress = rescheduleNotificationInfo[1];
@@ -2274,7 +2297,8 @@ public class NotificationActivity extends Activity {
 		String lookupKey = rescheduleNotificationInfo[17];
 		long photoID = Long.parseLong(rescheduleNotificationInfo[18]);
 		int notificationSubType = Integer.parseInt(rescheduleNotificationInfo[19]);
-		Notification rescheduleNotification = new Notification(_context, sentFromAddress, messageBody, timeStamp, threadID, contactID, contactName, photoID, messageID, title, calendarID, calendarEventID, calendarEventStartTime, calendarEventEndTime, allDay, callLogID,  lookupKey, k9EmailUri, k9EmailDelUri, rescheduleNumber, notificationType, notificationSubType);
+		String messageStringID = rescheduleNotificationInfo[20];
+		Notification rescheduleNotification = new Notification(_context, sentFromAddress, messageBody, timeStamp, threadID, contactID, contactName, photoID, messageID, messageStringID, title, calendarID, calendarEventID, calendarEventStartTime, calendarEventEndTime, allDay, callLogID,  lookupKey, k9EmailUri, k9EmailDelUri, rescheduleNumber, notificationType, notificationSubType);
 		_notificationViewFlipper.addNotification(rescheduleNotification);
 		//Display Status Bar Notification
 	    switch(notificationType){

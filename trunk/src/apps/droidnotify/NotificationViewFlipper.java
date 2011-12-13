@@ -687,21 +687,4 @@ public class NotificationViewFlipper extends ViewFlipper {
 		notification.setViewed(true);
 	}
 	
-//	/**
-//	 * Checks the ViewFlipper's notification ArrayList and returns true if it contains this particular Notification.
-//	 * 
-//	 * @param newNotification - New Notification to compare.
-//	 * 
-//	 * @return boolean - Returns true if the ArrayList contains the passed in Notification.
-//	 */
-//	private boolean containsNotification(Notification newNotification){
-//		if (_debug) Log.v("NotificationViewFlipper.containsNotification()");
-//		for (Notification currentNotification : _notifications){
-//			if(newNotification.getSentFromAddress().equals(currentNotification.getSentFromAddress()) && newNotification.getTimeStamp() == currentNotification.getTimeStamp()){
-//				return true;
-//			}
-//		}
-//		return false;
-//	}
-	
 }

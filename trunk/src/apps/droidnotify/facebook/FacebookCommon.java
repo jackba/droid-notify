@@ -13,16 +13,20 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.widget.Toast;
 
+import apps.droidnotify.NotificationActivity;
+import apps.droidnotify.R;
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
 import apps.droidnotify.receivers.FacebookAlarmReceiver;
 
 /**
- * This class is a collection of Twitter methods.
+ * This class is a collection of Facebook methods.
  * 
  * @author Camille Sévigny
  */
@@ -33,6 +37,8 @@ public class FacebookCommon {
     //================================================================================
 	
 	private static boolean _debug = false; 
+	private static Context _context = null;
+	private static SharedPreferences _preferences = null;
 	
 	//================================================================================
 	// Public Methods
@@ -50,11 +56,15 @@ public class FacebookCommon {
 		try{
 			switch(notification.getNotificationSubType()){
 				case Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION:{
-					//deleteFacebookNotification(context, notification.getMessageID());
+					//There is no way to delete a Facebook Notification.
 					return;
 				}
 				case Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE:{
-					//deleteFacebookMessage(context, notification.getMessageID());
+					//There is no way to delete a Facebook Message.
+					return;
+				}
+				case Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST:{
+					//There is no way to delete a Facebook Friend Request.
 					return;
 				}
 			}
@@ -183,27 +193,87 @@ public class FacebookCommon {
 	}
 	
 	/**
+	 * Launch a Facebook application.
+	 * 
+	 * @param context - Application Context.
+	 * @param notificationActivity - A reference to the parent activity.
+	 * @param requestCode - The request code we want returned.
+	 * 
+	 * @return boolean - Returns true if the application can be launched.
+	 */
+	public static boolean startFacebookAppActivity(Context context, NotificationActivity notificationActivity, int requestCode){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("FacebookCommon.startFacebookAppActivity()");
+		try{
+			Intent intent = getFacebookAppActivityIntent(context);
+			if(intent == null){
+				if (_debug) Log.v("FacebookCommon.startFacebookAppActivity() Application Not Found");
+				Toast.makeText(context, context.getString(R.string.facebook_app_not_found_error), Toast.LENGTH_LONG).show();
+				Common.setInLinkedAppFlag(context, false);
+				return false;
+			}
+	        notificationActivity.startActivityForResult(intent, requestCode);
+	        Common.setInLinkedAppFlag(context, true);
+		    return true;
+		}catch(Exception ex){
+			if (_debug) Log.e("FacebookCommon.startFacebookAppActivity() ERROR: " + ex.toString());
+			Toast.makeText(context, context.getString(R.string.facebook_app_error), Toast.LENGTH_LONG).show();
+			Common.setInLinkedAppFlag(context, false);
+			return false;
+		}
+	}
+
+	/**
+	 * Get the Intent to launch a Facebook application.
+	 * 
+	 * @param context - Application Context.
+	 * @param notificationActivity - A reference to the parent activity.
+	 * 
+	 * @return Intent - Returns the Intent.
+	 */
+	public static Intent getFacebookAppActivityIntent(Context context){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("FacebookCommon.getFacebookAppActivityIntent()");
+		try{
+			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+			String packageName = preferences.getString(Constants.FACEBOOK_PREFERRED_CLIENT_KEY, Constants.FACEBOOK_PREFERRED_CLIENT_DEFAULT);
+			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
+			intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+	        return intent;
+		}catch(Exception ex){
+			if (_debug) Log.e("FacebookCommon.getFacebookAppActivityIntent() ERROR: " + ex.toString());
+			return null;
+		}
+	}
+	
+	/**
 	 * Poll Facebook for notifications.
 	 * 
-	 * @param accessToken - The Facebook acess token.
+	 * @param accessToken - The Facebook access token.
 	 * @param facebook - The Facebook Object.
 	 */
 	public static ArrayList<String> getFacebookNotifications(Context context, String accessToken, Facebook facebook){
-		if (_debug) Log.v("FacebookService.getFacebookNotifications()");
+		_debug = Log.getDebug();
+		if (_debug) Log.v("FacebookCommon.getFacebookNotifications()");
         try{
         	ArrayList<String> facebookArray = new ArrayList<String>();
         	Bundle bundle = new Bundle();
             bundle.putString(Facebook.TOKEN, accessToken);
         	String result = facebook.request("me/notifications", bundle, "GET");
-        	if (_debug) Log.v("FacebookService.getFacebookNotifications() Result: " + result);
+        	//if (_debug) Log.v("FacebookCommon.getFacebookNotifications() Result: " + result);
         	JSONObject jsonResults = new JSONObject(result);
         	JSONArray jsonDataArray = jsonResults.getJSONArray("data");
         	int jsonDataArraySize = jsonDataArray.length();
         	for (int i=0;i<jsonDataArraySize;i++){
         	    JSONObject jsonNotificationData = jsonDataArray.getJSONObject(i);
-        	    long timeStamp = parseFacebookDatTime(jsonNotificationData.getString("created_time"));
+        	    long timeStamp = 0;
+        	    try{
+        	    	timeStamp = parseFacebookDatTime(jsonNotificationData.getString("updated_time"));
+        	    }catch(Exception ex){
+        	    	timeStamp = parseFacebookDatTime(jsonNotificationData.getString("created_time"));
+        	    }
         	    String notificationText = jsonNotificationData.getString("title");
-        	    String notificationExternalLink = jsonNotificationData.getString("link");
+        	    //String notificationExternalLink = jsonNotificationData.getString("link");
 				String notificationID = jsonNotificationData.getString("id");
 				JSONObject fromFacebookUser = jsonNotificationData.getJSONObject("from");
 				String fromFacebookName = fromFacebookUser.getString("name");
@@ -217,7 +287,7 @@ public class FacebookCommon {
         	}
         	return facebookArray;
         }catch(Exception ex){
-        	if (_debug) Log.e("FacebookService.getFacebookNotifications() ERROR: " + ex.toString());
+        	if (_debug) Log.e("FacebookCommon.getFacebookNotifications() ERROR: " + ex.toString());
         	return null;
         }
 	}
@@ -225,45 +295,159 @@ public class FacebookCommon {
 	/**
 	 * Poll Facebook for friend requests.
 	 * 
-	 * @param accessToken - The Facebook acess token.
+	 * @param accessToken - The Facebook access token.
 	 * @param facebook - The Facebook Object.
 	 */
 	public static ArrayList<String> getFacebookFriendRequests(Context context, String accessToken, Facebook facebook){
-		if (_debug) Log.v("FacebookService.getFacebookFriendRequests()");
+		_debug = Log.getDebug();
+		if (_debug) Log.v("FacebookCommon.getFacebookFriendRequests()");
         try{
         	ArrayList<String> facebookArray = new ArrayList<String>();
         	Bundle bundle = new Bundle();
             bundle.putString(Facebook.TOKEN, accessToken);
         	String result = facebook.request("me/friendrequests", bundle, "GET");
-        	if (_debug) Log.v("FacebookService.getFacebookFriendRequests() Result: " + result);
+        	//if (_debug) Log.v("FacebookCommon.getFacebookFriendRequests() Result: " + result);
         	JSONObject jsonResults = new JSONObject(result);
-        	JSONObject jsonSummaryData = jsonResults.getJSONObject("summary");
-        	if (_debug) Log.v("FacebookService.getFacebookFriendRequests() TotalCount: " + jsonSummaryData.getInt("total_count"));
-        	if (_debug) Log.v("FacebookService.getFacebookFriendRequests() UnreadCount: " + jsonSummaryData.getInt("unread_count"));
         	JSONArray jsonDataArray = jsonResults.getJSONArray("data");
         	int jsonDataArraySize = jsonDataArray.length();
         	for (int i=0;i<jsonDataArraySize;i++){
-        	    JSONObject jsonNotificationData = jsonDataArray.getJSONObject(i);
-        	    long timeStamp = parseFacebookDatTime(jsonNotificationData.getString("created_time"));
-				String notificationID = "0";
-				JSONObject fromFacebookUser = jsonNotificationData.getJSONObject("from");
+        	    JSONObject jsonFriendRequestData = jsonDataArray.getJSONObject(i);
+        	    long timeStamp = 0;
+        	    try{
+        	    	timeStamp = parseFacebookDatTime(jsonFriendRequestData.getString("updated_time"));
+        	    }catch(Exception ex){
+        	    	timeStamp = parseFacebookDatTime(jsonFriendRequestData.getString("created_time"));
+        	    }
+				String friendRequestID = "0";
+				JSONObject fromFacebookUser = jsonFriendRequestData.getJSONObject("from");
 				String fromFacebookName = fromFacebookUser.getString("name");
 				String fromFacebookID = fromFacebookUser.getString("id");
         	    String friendRequestText = "You have a new Facebook Friend Request from " + fromFacebookName;
 	    		String[] facebookContactInfo = Common.getContactsInfoByName(context, fromFacebookName);
 	    		if(facebookContactInfo == null){
-	    			facebookArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION) + "|" + fromFacebookName + "|" + fromFacebookID + "|" + friendRequestText + "|" + notificationID + "|" + timeStamp);
+	    			facebookArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST) + "|" + fromFacebookName + "|" + fromFacebookID + "|" + friendRequestText + "|" + friendRequestID + "|" + timeStamp);
 				}else{
-					facebookArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION) + "|" + fromFacebookName + "|" + fromFacebookID + "|" + friendRequestText + "|" + notificationID + "|" + timeStamp + "|" + facebookContactInfo[0] + "|" + facebookContactInfo[1] + "|" + facebookContactInfo[2] + "|" + facebookContactInfo[3]);
+					facebookArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST) + "|" + fromFacebookName + "|" + fromFacebookID + "|" + friendRequestText + "|" + friendRequestID + "|" + timeStamp + "|" + facebookContactInfo[0] + "|" + facebookContactInfo[1] + "|" + facebookContactInfo[2] + "|" + facebookContactInfo[3]);
 				}
         	}
         	return facebookArray;
         }catch(Exception ex){
-        	if (_debug) Log.e("FacebookService.getFacebookFriendRequests() ERROR: " + ex.toString());
+        	if (_debug) Log.e("FacebookCommon.getFacebookFriendRequests() ERROR: " + ex.toString());
         	return null;
         }
 	}
 
+	/**
+	 * Poll Facebook for messages.
+	 * 
+	 * @param accessToken - The Facebook access token.
+	 * @param facebook - The Facebook Object.
+	 */
+	public static ArrayList<String> getFacebookMessages(Context context, String accessToken, Facebook facebook){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("FacebookCommon.getFacebookMessages()");
+        try{
+        	ArrayList<String> facebookArray = new ArrayList<String>();
+        	Bundle bundle = new Bundle();
+            bundle.putString(Facebook.TOKEN, accessToken);
+        	String result = facebook.request("me/inbox", bundle, "GET");
+        	//if (_debug) Log.v("FacebookCommon.getFacebookMessages() Result: " + result);
+        	JSONObject jsonResults = new JSONObject(result);
+        	JSONArray jsonDataArray = jsonResults.getJSONArray("data");
+        	int jsonDataArraySize = jsonDataArray.length();
+        	for (int i=0;i<jsonDataArraySize;i++){
+        	    JSONObject jsonMessageData = jsonDataArray.getJSONObject(i);
+        	    int unreadFlag = jsonMessageData.getInt("unread");
+        	    //int unseenFlag = jsonMessageData.getInt("unseen");
+				JSONObject fromFacebookUser = jsonMessageData.getJSONObject("from");
+				String fromFacebookName = fromFacebookUser.getString("name");
+				String fromFacebookID = fromFacebookUser.getString("id");
+	    		String[] facebookContactInfo = Common.getContactsInfoByName(context, fromFacebookName);
+				//Original/Start message details.
+        	    long originalTimeStamp = 0;
+        	    try{
+        	    	originalTimeStamp = parseFacebookDatTime(jsonMessageData.getString("updated_time"));
+        	    }catch(Exception ex){
+        	    	originalTimeStamp = parseFacebookDatTime(jsonMessageData.getString("created_time"));
+        	    }
+        	    String originalMessageStringID = jsonMessageData.getString("id");
+        	    String originalMessageText = jsonMessageData.getString("message");
+        	    if(unreadFlag > 0){
+					boolean commentsExist = true;
+					JSONObject messageComments = null;
+					try{
+						messageComments = jsonMessageData.getJSONObject("comments");
+					}catch(Exception ex){
+						messageComments = null;
+						commentsExist = false;
+					}
+					if(commentsExist){
+						//Multiple messages in thread.
+		        	    JSONArray jsonCommentsDataArray = messageComments.getJSONArray("data");
+	        	    	//Get latest/most recent message details.
+	        	    	int jsonCommentsDataArraySize = jsonCommentsDataArray.length();
+	        	    	for(int j=jsonCommentsDataArraySize - 1;j>=(jsonCommentsDataArraySize-unreadFlag);j--){
+	        	    		JSONObject jsonCommentMessageData = jsonCommentsDataArray.getJSONObject(i);
+	        	    		String messageStringID = jsonCommentMessageData.getString("id");
+	        	    		String messageText = jsonCommentMessageData.getString("message");
+	        	    		long timeStamp = parseFacebookDatTime(jsonCommentMessageData.getString("created_time"));
+				    		if(facebookContactInfo == null){
+				    			facebookArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE) + "|" + fromFacebookName + "|" + fromFacebookID + "|" + messageText + "|" + messageStringID + "|" + timeStamp);
+							}else{
+								facebookArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE) + "|" + fromFacebookName + "|" + fromFacebookID + "|" + messageText + "|" + messageStringID + "|" + timeStamp + "|" + facebookContactInfo[0] + "|" + facebookContactInfo[1] + "|" + facebookContactInfo[2] + "|" + facebookContactInfo[3]);
+							}			        	    
+		        	    }
+					}else{
+						//Single message.
+						long timeStamp = originalTimeStamp;
+						String messageStringID = originalMessageStringID;
+	    	    		String messageText = originalMessageText;
+			    		if(facebookContactInfo == null){
+			    			facebookArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE) + "|" + fromFacebookName + "|" + fromFacebookID + "|" + messageText + "|" + messageStringID + "|" + timeStamp);
+						}else{
+							facebookArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE) + "|" + fromFacebookName + "|" + fromFacebookID + "|" + messageText + "|" + messageStringID + "|" + timeStamp + "|" + facebookContactInfo[0] + "|" + facebookContactInfo[1] + "|" + facebookContactInfo[2] + "|" + facebookContactInfo[3]);
+						}
+					}
+        		}
+        	}
+        	return facebookArray;
+        }catch(Exception ex){
+        	if (_debug) Log.e("FacebookCommon.getFacebookMessages() ERROR: " + ex.toString());
+        	return null;
+        }
+	}
+	
+	/**
+	 * Mark a single FAcebook notification as being read or not.
+	 * 
+	 * @param context - The current context of this Activity.
+	 * @param notificationID - The Notification ID that we want to alter.
+	 * @param isViewed - The boolean value indicating if it was read or not.
+	 * 
+	 * @return boolean - Returns true if the notification was updated successfully.
+	 */
+	public static boolean setFacebookNotificationRead(Context context, String notificationID, boolean isViewed){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("FacebookCommon.setFacebookNotificationRead()");
+		try{
+			if(notificationID == null || notificationID.equals("")){
+				if (_debug) Log.v("FacebookCommon.setFacebookNotificationRead() Notification ID == null/empty. Exiting...");
+				return false;
+			}
+			_context = context;
+			_preferences = PreferenceManager.getDefaultSharedPreferences(context);
+			String unreadParameter = "1";
+			if(isViewed){
+				unreadParameter = "0";
+			}
+			new setFacebookNotificationReadAsyncTask().execute(unreadParameter, notificationID);
+			return true;
+		}catch(Exception ex){
+			if (_debug) Log.e("FacebookCommon.setFacebookNotificationRead() ERROR: " + ex.toString());
+			return false;
+		}
+	}
+	
 	//================================================================================
 	// Private Methods
 	//================================================================================
@@ -285,6 +469,61 @@ public class FacebookCommon {
 			if (_debug) Log.v("FacebookCommon.parseFacebookDatTime() ERROR: " + ex.toString());
 		    return 0;
 		}
+	}
+	
+	/**
+	 * Mark a notification post as being read or not through the Facebook SDK/API.
+	 * 
+	 * @author Camille Sévigny
+	 */
+	private static class setFacebookNotificationReadAsyncTask extends AsyncTask<String, Void, Boolean> {
+	    
+	    /**
+	     * Do this work in the background.
+	     * 
+	     * @param params - The boolean value to set the notification flag with.
+	     */
+	    protected Boolean doInBackground(String... params) {
+			if (_debug) Log.v("FacebookCommon.setFacebookNotificationReadAsyncTask.doInBackground()");
+			try{
+			    //Get Facebook Object
+			    Facebook facebook = FacebookCommon.getFacebook(_context);
+			    if(facebook == null){
+			    	if (_debug) Log.v("FacebookCommon.setFacebookNotificationReadAsyncTask.doInBackground() Facebook object is null. Exiting... ");
+			    	return false;
+			    }
+				String unreadParameter = params[0];
+				String notificationID = params[1];
+			    String accessToken = _preferences.getString(Constants.FACEBOOK_ACCESS_TOKEN_KEY, null);
+	        	Bundle parameters = new Bundle();
+	        	parameters.putString(Facebook.TOKEN, accessToken);
+	        	parameters.putString("unread", unreadParameter);
+	        	String result = facebook.request(notificationID, parameters, "POST");
+	        	if (result == null || result.equals("") || result.equals("false")) {
+	        		if (_debug) Log.v("FacebookCommon.setFacebookNotificationReadAsyncTask.doInBackground() Facebook API Post Failed. API Response: " + result);
+	            	return false;
+	        	}
+	        	return true;
+			}catch(Exception ex){
+				if (_debug) Log.e("FacebookCommon.setFacebookNotificationReadAsyncTask.doInBackground() ERROR: " + ex.toString());
+		    	return false;
+			}
+	    }
+	    
+	    /**
+	     * Display a message if the Notification update encountered an error.
+	     * 
+	     * @param result - Boolean indicating success.
+	     */
+	    protected void onPostExecute(Boolean result) {
+			if (_debug) Log.v("FacebookCommon.setFacebookNotificationReadAsyncTask.onPostExecute() RESULT: " + result);
+			if(result){
+				//Do Nothing
+			}else{
+				//Toast.makeText(_context, _context.getString(R.string.facebook_update_notification_read_status_error), Toast.LENGTH_LONG).show();
+			}
+	    }
+	    
 	}
 	
 }

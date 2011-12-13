@@ -41,6 +41,7 @@ public class Notification {
 	private Bitmap _photoImg = null;
 	private int _notificationType = 0;
 	private long _messageID = 0;
+	private String _messageStringID = null;
 	private boolean _contactExists = false;
 	private boolean _contactPhotoExists = false;
 	private String _title = null;
@@ -108,7 +109,11 @@ public class Notification {
 			_contactPhotoExists = false;
 			_notificationType = notificationType;
 			if(sentFromAddress != null && !sentFromAddress.equals("")){
-				_sentFromAddress = sentFromAddress.toLowerCase();
+				if(_notificationType == Constants.NOTIFICATION_TYPE_FACEBOOK){
+					_sentFromAddress = sentFromAddress;
+				}else{
+					_sentFromAddress = sentFromAddress.toLowerCase();
+				}
 			}else{
 				_sentFromAddress = null;
 			}
@@ -189,7 +194,11 @@ public class Notification {
 			_notificationType = notificationType;
 	        _timeStamp = timeStamp;
 			if(sentFromAddress != null && !sentFromAddress.equals("")){
-				_sentFromAddress = sentFromAddress.toLowerCase();
+				if(_notificationType == Constants.NOTIFICATION_TYPE_FACEBOOK){
+					_sentFromAddress = sentFromAddress;
+				}else{
+					_sentFromAddress = sentFromAddress.toLowerCase();
+				}
 			}else{
 				_sentFromAddress = null;
 			}
@@ -251,7 +260,11 @@ public class Notification {
 				if(Common.isPrivateUnknownNumber(sentFromAddress)){
 					_sentFromAddress = "Private Number";
 				}else{
-					_sentFromAddress = sentFromAddress.toLowerCase();
+					if(_notificationType == Constants.NOTIFICATION_TYPE_FACEBOOK){
+						_sentFromAddress = sentFromAddress;
+					}else{
+						_sentFromAddress = sentFromAddress.toLowerCase();
+					}
 				}
 			}else{
 				_sentFromAddress = null;
@@ -316,7 +329,7 @@ public class Notification {
 	/**
 	 * Class Constructor
 	 */
-	public Notification(Context context, String sentFromAddress, String messageBody, long timeStamp, long threadID, long contactID, String contactName, long photoID, long messageID, String title, long calendarID, long calendarEventID, long calendarEventStartTime, long calendarEventEndTime, boolean allDay, long callLogID,  String lookupKey, String k9EmailUri, String k9EmailDelUri, int rescheduleNumber, int notificationType, int notificationSubType) {
+	public Notification(Context context, String sentFromAddress, String messageBody, long timeStamp, long threadID, long contactID, String contactName, long photoID, long messageID, String messageStringID, String title, long calendarID, long calendarEventID, long calendarEventStartTime, long calendarEventEndTime, boolean allDay, long callLogID,  String lookupKey, String k9EmailUri, String k9EmailDelUri, int rescheduleNumber, int notificationType, int notificationSubType) {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Notification.Notification() ==CONSTRUCTOR 5==");
 		try{
@@ -326,12 +339,17 @@ public class Notification {
 			_contactPhotoExists = false;
 			_notificationType = notificationType;
 			if(sentFromAddress != null && !sentFromAddress.equals("")){
-				_sentFromAddress = sentFromAddress.toLowerCase();
+				if(_notificationType == Constants.NOTIFICATION_TYPE_FACEBOOK){
+					_sentFromAddress = sentFromAddress;
+				}else{
+					_sentFromAddress = sentFromAddress.toLowerCase();
+				}
 			}else{
 				_sentFromAddress = null;
 			}
     		_messageBody = messageBody;
     		_messageID = messageID;
+    		_messageStringID = messageStringID;
     		_threadID = threadID;
     		_timeStamp = timeStamp;
     		_contactID = contactID;
@@ -372,7 +390,7 @@ public class Notification {
 	/**
 	 * Class Constructor
 	 */
-	public Notification(Context context, String sentFromAddress, long sentFromID, String messageBody, long timeStamp, long contactID, String contactName, long photoID, long messageID, String lookupKey, String k9EmailUri, String k9EmailDelUri, int notificationType, int notificationSubType) {
+	public Notification(Context context, String sentFromAddress, long sentFromID, String messageBody, long timeStamp, long contactID, String contactName, long photoID, long messageID, String messageStringID, String lookupKey, String k9EmailUri, String k9EmailDelUri, int notificationType, int notificationSubType) {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Notification.Notification() ==CONSTRUCTOR 6==");
 		try{			
@@ -417,7 +435,11 @@ public class Notification {
 			_notificationType = notificationType;
 			_notificationSubType = notificationSubType;
 			if(sentFromAddress != null && !sentFromAddress.equals("")){
-				_sentFromAddress = sentFromAddress.toLowerCase();
+				if(_notificationType == Constants.NOTIFICATION_TYPE_FACEBOOK){
+					_sentFromAddress = sentFromAddress;
+				}else{
+					_sentFromAddress = sentFromAddress.toLowerCase();
+				}
 			}else{
 				_sentFromAddress = null;
 			}
@@ -425,6 +447,7 @@ public class Notification {
 			if (_debug) Log.v("Notification.Notification() ==CONSTRUCTOR 6== _sentFromAddress: " + _sentFromAddress);
     		_messageBody = messageBody;
     		_messageID = messageID;
+    		_messageStringID = messageStringID;
     		_timeStamp = timeStamp;
     		_contactID = contactID;
     		if(_contactID == 0){
@@ -485,7 +508,7 @@ public class Notification {
 	 * @return messageBody - Notification's message.
 	 */
 	public String getMessageBody() {
-		if (_debug) Log.v("Notification.getMessageBody()");
+		if (_debug) Log.v("Notification.getMessageBody() Message Body: " + _messageBody);
 		if (_messageBody == null) {
 			_messageBody = "";
 	    }
@@ -508,8 +531,10 @@ public class Notification {
 	 * @return threadID - SMS/MMS Message thread id.
 	 */
 	public long getThreadID() {
-		if(_threadID == 0){
-			_threadID = Common.getThreadID(_context, _sentFromAddress, _notificationType);
+		if(_notificationType == Constants.NOTIFICATION_TYPE_SMS || _notificationType == Constants.NOTIFICATION_TYPE_MMS){
+			if(_threadID == 0){
+				_threadID = Common.getThreadID(_context, _sentFromAddress, _notificationType);
+			}
 		}
 		if (_debug) Log.v("Notification.getThreadID() ThreadID: " + _threadID);
 	    return _threadID;
@@ -591,14 +616,26 @@ public class Notification {
 	/**
 	 * Get the messageID property.
 	 * 
-	 * @return messageID - The message id of the SMS/MMS message.
+	 * @return messageID - The message id of the notification message.
 	 */
 	public long getMessageID() {
-		if(_messageID == 0){
-			_messageID = Common.getMessageID(_context, getThreadID(), _messageBody, _timeStamp, _notificationType);
+		if(_notificationType == Constants.NOTIFICATION_TYPE_SMS || _notificationType == Constants.NOTIFICATION_TYPE_MMS){
+			if(_messageID == 0){
+				_messageID = Common.getMessageID(_context, getThreadID(), _messageBody, _timeStamp, _notificationType);
+			}
 		}
 		if (_debug) Log.v("Notification.getMessageID() MessageID: " + _messageID);
   		return _messageID;
+	}
+	
+	/**
+	 * Get the messageStringID property.
+	 * 
+	 * @return messageStringID - The string message id of the notification message.
+	 */
+	public String getMessageStringID() {
+		if (_debug) Log.v("Notification.getMessageStringID() MessageStringID: " + _messageStringID);
+  		return _messageStringID;
 	}
 	
 	/**
@@ -800,11 +837,24 @@ public class Notification {
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_TWITTER:{
-				//Currently, there is no way to mark a Twitter message as being viewed.
+				//Currently, there is no way to mark a Twitter message or friend request as being viewed.
+				//if(_notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE){
+				//	
+				//}else if(_notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_MENTION){
+				//	
+				//}else if(_notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_FRIEND_REQUEST){
+				//	
+				//}
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_FACEBOOK:{
-				//TODO - Mark Facebook As Being Viewed
+				if(_notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION){
+					FacebookCommon.setFacebookNotificationRead(_context, _messageStringID, isViewed);
+				}else if(_notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST){
+					//The Facebook API doesn't allow marking Friend Requests as being viewed.
+				}else if(_notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE){
+					//The Facebook API doesn't allow marking Messages as being viewed.
+				}
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_K9:{

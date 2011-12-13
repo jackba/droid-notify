@@ -68,7 +68,7 @@ public class TwitterAlarmBroadcastReceiverService extends WakefulIntentService {
 				return;
 			}
 			//Read preferences and exit if Twitter notifications are disabled.
-		    if(!preferences.getBoolean(Constants.TWITTER_NOTIFICATIONS_ENABLED_KEY, true)){
+		    if(!preferences.getBoolean(Constants.TWITTER_NOTIFICATIONS_ENABLED_KEY, false)){
 				if (_debug) Log.v("TwitterAlarmBroadcastReceiverService.doWakefulWork() Twitter Notifications Disabled. Exiting... ");
 				return;
 			}

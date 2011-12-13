@@ -105,8 +105,6 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	    setupAppVersion(_appProVersion);
 	    runOnce();	    
 	}
-	
-
     
 	/**
 	 * When a SharedPreference is changed this registered function is called.
@@ -121,17 +119,17 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 				//Setup Calendar recurring alarm.
 				Common.startCalendarAlarmManager(_context, SystemClock.currentThreadTimeMillis());
 			}else{
-				//Cancel the twitter recurring alarm.
+				//Cancel the Calendar recurring alarm.
 				Common.cancelCalendarAlarmManager(_context);
 			}
 		}else if(key.equals(Constants.CALENDAR_POLLING_FREQUENCY_KEY)){
 			//The polling time for the calendars was changed. Run the alarm manager with the updated polling time.
 			startCalendarAlarmManager(SystemClock.currentThreadTimeMillis());
 		}else if(key.equals(Constants.SMS_REPLY_BUTTON_ACTION_KEY)){
-			//Quick Reply Settings
 			updateQuickReplySettings();
 		}else if(key.equals(Constants.MMS_REPLY_BUTTON_ACTION_KEY)){
-			//Quick Reply Settings
+			updateQuickReplySettings();
+		}else if(key.equals(Constants.TWITTER_REPLY_BUTTON_ACTION_KEY)){
 			updateQuickReplySettings();
 		}else if(key.equals(Constants.SMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY)){
 			updateStatusBarNotificationVibrate(Constants.NOTIFICATION_TYPE_SMS);
@@ -141,6 +139,12 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			updateStatusBarNotificationVibrate(Constants.NOTIFICATION_TYPE_PHONE);
 		}else if(key.equals(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY)){
 			updateStatusBarNotificationVibrate(Constants.NOTIFICATION_TYPE_CALENDAR);
+		}else if(key.equals(Constants.TWITTER_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY)){
+			updateStatusBarNotificationVibrate(Constants.NOTIFICATION_TYPE_TWITTER);
+		}else if(key.equals(Constants.FACEBOOK_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY)){
+			updateStatusBarNotificationVibrate(Constants.NOTIFICATION_TYPE_FACEBOOK);
+		}else if(key.equals(Constants.K9_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY)){
+			updateStatusBarNotificationVibrate(Constants.NOTIFICATION_TYPE_K9);
 		}else if(key.equals(Constants.SMS_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY)){
 			updateStatusBarNotificationRingtone(Constants.NOTIFICATION_TYPE_SMS);
 		}else if(key.equals(Constants.MMS_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY)){
@@ -149,6 +153,12 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			updateStatusBarNotificationRingtone(Constants.NOTIFICATION_TYPE_PHONE);
 		}else if(key.equals(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY)){
 			updateStatusBarNotificationRingtone(Constants.NOTIFICATION_TYPE_CALENDAR);
+		}else if(key.equals(Constants.TWITTER_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY)){
+			updateStatusBarNotificationRingtone(Constants.NOTIFICATION_TYPE_TWITTER);
+		}else if(key.equals(Constants.FACEBOOK_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY)){
+			updateStatusBarNotificationRingtone(Constants.NOTIFICATION_TYPE_FACEBOOK);
+		}else if(key.equals(Constants.K9_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY)){
+			updateStatusBarNotificationRingtone(Constants.NOTIFICATION_TYPE_K9);
 		}else if(key.equals(Constants.SMS_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY)){
 			updateClearStatusBarNotifications();
 		}else if(key.equals(Constants.MMS_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY)){
@@ -156,6 +166,12 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		}else if(key.equals(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY)){
 			updateClearStatusBarNotifications();
 		}else if(key.equals(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY)){
+			updateClearStatusBarNotifications();
+		}else if(key.equals(Constants.TWITTER_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY)){
+			updateClearStatusBarNotifications();
+		}else if(key.equals(Constants.FACEBOOK_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY)){
+			updateClearStatusBarNotifications();
+		}else if(key.equals(Constants.K9_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY)){
 			updateClearStatusBarNotifications();
 		}else if(key.equals(Constants.TWITTER_NOTIFICATIONS_ENABLED_KEY)){
 			if(_preferences.getBoolean(Constants.TWITTER_NOTIFICATIONS_ENABLED_KEY, false)){
@@ -1179,10 +1195,16 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		updateStatusBarNotificationVibrate(Constants.NOTIFICATION_TYPE_MMS);
 		updateStatusBarNotificationVibrate(Constants.NOTIFICATION_TYPE_PHONE);
 		updateStatusBarNotificationVibrate(Constants.NOTIFICATION_TYPE_CALENDAR);
+		updateStatusBarNotificationVibrate(Constants.NOTIFICATION_TYPE_TWITTER);
+		updateStatusBarNotificationVibrate(Constants.NOTIFICATION_TYPE_FACEBOOK);
+		updateStatusBarNotificationVibrate(Constants.NOTIFICATION_TYPE_K9);
 		updateStatusBarNotificationRingtone(Constants.NOTIFICATION_TYPE_SMS);
 		updateStatusBarNotificationRingtone(Constants.NOTIFICATION_TYPE_MMS);
 		updateStatusBarNotificationRingtone(Constants.NOTIFICATION_TYPE_PHONE);
 		updateStatusBarNotificationRingtone(Constants.NOTIFICATION_TYPE_CALENDAR);
+		updateStatusBarNotificationRingtone(Constants.NOTIFICATION_TYPE_TWITTER);
+		updateStatusBarNotificationRingtone(Constants.NOTIFICATION_TYPE_FACEBOOK);
+		updateStatusBarNotificationRingtone(Constants.NOTIFICATION_TYPE_K9);
 		updateClearStatusBarNotifications();
 		updateTwitterPreferences();
 		updateFacebookPreferences();
@@ -1194,17 +1216,23 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	private void updateQuickReplySettings(){
 		if (_debug) Log.v("MainPreferenceActivity.updateQuickReplySettings()");
 		try{
+			boolean quickReplyEnabled = false;
 			boolean quickReplySMSGatewayEnabled = false;
 			if(_preferences.getString(Constants.SMS_REPLY_BUTTON_ACTION_KEY, "0").equals("1")){
+				quickReplyEnabled = true;
 				quickReplySMSGatewayEnabled = true;
 			}
 			if(_preferences.getString(Constants.MMS_REPLY_BUTTON_ACTION_KEY, "0").equals("1")){
+				quickReplyEnabled = true;
 				quickReplySMSGatewayEnabled = true;
+			}
+			if(_preferences.getString(Constants.TWITTER_REPLY_BUTTON_ACTION_KEY, "0").equals("1")){
+				quickReplyEnabled = true;
 			}
 			ListPreference quickReplySMSGateway = (ListPreference) findPreference(Constants.SMS_GATEWAY_KEY);
 			if(quickReplySMSGateway != null) quickReplySMSGateway.setEnabled(quickReplySMSGatewayEnabled);
 			PreferenceScreen quickReplyPreferenceScreen = (PreferenceScreen) findPreference(Constants.QUICK_REPLY_SETTINGS_SCREEN);
-			if(quickReplyPreferenceScreen != null) quickReplyPreferenceScreen.setEnabled(quickReplySMSGatewayEnabled);
+			if(quickReplyPreferenceScreen != null) quickReplyPreferenceScreen.setEnabled(quickReplyEnabled);
 		}catch(Exception ex){
 			if (_debug) Log.e("MainPreferenceActivity.updateQuickReplySettings() ERROR: " + ex.toString());
 		}
@@ -1249,6 +1277,33 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 				case Constants.NOTIFICATION_TYPE_CALENDAR:{
 					CheckBoxPreference  vibrateInCallCheckBoxPreference = (CheckBoxPreference) findPreference(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY);
 					if(_preferences.getString(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY, Constants.STATUS_BAR_NOTIFICATIONS_RINGTONE_DEFAULT).equals(Constants.STATUS_BAR_NOTIFICATIONS_RINGTONE_SILENT_VALUE)){
+						if(vibrateInCallCheckBoxPreference != null) vibrateInCallCheckBoxPreference.setEnabled(false);
+					}else{
+						if(vibrateInCallCheckBoxPreference != null) vibrateInCallCheckBoxPreference.setEnabled(true);
+					}
+					break;
+				}
+				case Constants.NOTIFICATION_TYPE_TWITTER:{
+					CheckBoxPreference  vibrateInCallCheckBoxPreference = (CheckBoxPreference) findPreference(Constants.TWITTER_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY);
+					if(_preferences.getString(Constants.TWITTER_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY, Constants.STATUS_BAR_NOTIFICATIONS_RINGTONE_DEFAULT).equals(Constants.STATUS_BAR_NOTIFICATIONS_RINGTONE_SILENT_VALUE)){
+						if(vibrateInCallCheckBoxPreference != null) vibrateInCallCheckBoxPreference.setEnabled(false);
+					}else{
+						if(vibrateInCallCheckBoxPreference != null) vibrateInCallCheckBoxPreference.setEnabled(true);
+					}
+					break;
+				}
+				case Constants.NOTIFICATION_TYPE_FACEBOOK:{
+					CheckBoxPreference  vibrateInCallCheckBoxPreference = (CheckBoxPreference) findPreference(Constants.FACEBOOK_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY);
+					if(_preferences.getString(Constants.FACEBOOK_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY, Constants.STATUS_BAR_NOTIFICATIONS_RINGTONE_DEFAULT).equals(Constants.STATUS_BAR_NOTIFICATIONS_RINGTONE_SILENT_VALUE)){
+						if(vibrateInCallCheckBoxPreference != null) vibrateInCallCheckBoxPreference.setEnabled(false);
+					}else{
+						if(vibrateInCallCheckBoxPreference != null) vibrateInCallCheckBoxPreference.setEnabled(true);
+					}
+					break;
+				}
+				case Constants.NOTIFICATION_TYPE_K9:{
+					CheckBoxPreference  vibrateInCallCheckBoxPreference = (CheckBoxPreference) findPreference(Constants.K9_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY);
+					if(_preferences.getString(Constants.K9_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY, Constants.STATUS_BAR_NOTIFICATIONS_RINGTONE_DEFAULT).equals(Constants.STATUS_BAR_NOTIFICATIONS_RINGTONE_SILENT_VALUE)){
 						if(vibrateInCallCheckBoxPreference != null) vibrateInCallCheckBoxPreference.setEnabled(false);
 					}else{
 						if(vibrateInCallCheckBoxPreference != null) vibrateInCallCheckBoxPreference.setEnabled(true);
@@ -1318,6 +1373,42 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 					}
 					break;
 				}
+				case Constants.NOTIFICATION_TYPE_TWITTER:{
+					ListPreference vibratePatternListPreference = (ListPreference) findPreference(Constants.TWITTER_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_KEY);
+					CheckBoxPreference vibrateInCallCheckBoxPreference = (CheckBoxPreference) findPreference(Constants.TWITTER_STATUS_BAR_NOTIFICATIONS_IN_CALL_VIBRATE_ENABLED_KEY);
+					if(_preferences.getString(Constants.TWITTER_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_DEFAULT).equals(Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_NEVER_VALUE)){
+						if(vibratePatternListPreference != null) vibratePatternListPreference.setEnabled(false);
+						if(vibrateInCallCheckBoxPreference != null) vibrateInCallCheckBoxPreference.setEnabled(false);
+					}else{
+						if(vibratePatternListPreference != null) vibratePatternListPreference.setEnabled(true);
+						if(vibrateInCallCheckBoxPreference != null) vibrateInCallCheckBoxPreference.setEnabled(true);
+					}
+					break;
+				}
+				case Constants.NOTIFICATION_TYPE_FACEBOOK:{
+					ListPreference vibratePatternListPreference = (ListPreference) findPreference(Constants.FACEBOOK_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_KEY);
+					CheckBoxPreference vibrateInCallCheckBoxPreference = (CheckBoxPreference) findPreference(Constants.FACEBOOK_STATUS_BAR_NOTIFICATIONS_IN_CALL_VIBRATE_ENABLED_KEY);
+					if(_preferences.getString(Constants.FACEBOOK_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_DEFAULT).equals(Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_NEVER_VALUE)){
+						if(vibratePatternListPreference != null) vibratePatternListPreference.setEnabled(false);
+						if(vibrateInCallCheckBoxPreference != null) vibrateInCallCheckBoxPreference.setEnabled(false);
+					}else{
+						if(vibratePatternListPreference != null) vibratePatternListPreference.setEnabled(true);
+						if(vibrateInCallCheckBoxPreference != null) vibrateInCallCheckBoxPreference.setEnabled(true);
+					}
+					break;
+				}
+				case Constants.NOTIFICATION_TYPE_K9:{
+					ListPreference vibratePatternListPreference = (ListPreference) findPreference(Constants.K9_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_KEY);
+					CheckBoxPreference vibrateInCallCheckBoxPreference = (CheckBoxPreference) findPreference(Constants.K9_STATUS_BAR_NOTIFICATIONS_IN_CALL_VIBRATE_ENABLED_KEY);
+					if(_preferences.getString(Constants.K9_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_DEFAULT).equals(Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_NEVER_VALUE)){
+						if(vibratePatternListPreference != null) vibratePatternListPreference.setEnabled(false);
+						if(vibrateInCallCheckBoxPreference != null) vibrateInCallCheckBoxPreference.setEnabled(false);
+					}else{
+						if(vibratePatternListPreference != null) vibratePatternListPreference.setEnabled(true);
+						if(vibrateInCallCheckBoxPreference != null) vibrateInCallCheckBoxPreference.setEnabled(true);
+					}
+					break;
+				}
 			}
 		}catch(Exception ex){
 			if (_debug) Log.e("MainPreferenceActivity.updateStatusBarNotificationVibrate() ERROR: " + ex.toString());
@@ -1325,7 +1416,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	}
 	
 	/**
-	 * Updates the Clear Status Bar Notofication preference based on the Status Bar Notification Settings.
+	 * Updates the Clear Status Bar Notification preference based on the Status Bar Notification Settings.
 	 */
 	private void updateClearStatusBarNotifications(){
 		if (_debug) Log.v("MainPreferenceActivity.updateClearStatusBarNotifications()");
@@ -1342,7 +1433,16 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			}	
 			if(_preferences.getBoolean(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY, true) && _preferences.getBoolean(Constants.CALENDAR_NOTIFICATIONS_ENABLED_KEY, true)){
 				enabled = true;
+			}		
+			if(_preferences.getBoolean(Constants.TWITTER_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY, true) && _preferences.getBoolean(Constants.TWITTER_NOTIFICATIONS_ENABLED_KEY, true)){
+				enabled = true;
 			}	
+			if(_preferences.getBoolean(Constants.FACEBOOK_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY, true) && _preferences.getBoolean(Constants.FACEBOOK_NOTIFICATIONS_ENABLED_KEY, true)){
+				enabled = true;
+			}	
+			if(_preferences.getBoolean(Constants.K9_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY, true) && _preferences.getBoolean(Constants.K9_NOTIFICATIONS_ENABLED_KEY, true)){
+				enabled = true;
+			}
 			CheckBoxPreference clearStatusBarNotificationsOnExitCheckBoxPreference = (CheckBoxPreference) findPreference(Constants.CLEAR_STATUS_BAR_NOTIFICATIONS_ON_EXIT_KEY);
 			if(clearStatusBarNotificationsOnExitCheckBoxPreference != null) clearStatusBarNotificationsOnExitCheckBoxPreference.setEnabled(enabled);
 		}catch(Exception ex){

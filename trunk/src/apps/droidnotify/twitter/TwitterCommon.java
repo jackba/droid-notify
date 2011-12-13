@@ -314,16 +314,12 @@ public class TwitterCommon {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("TwitterCommon.deleteTwitterDirectMessage()");
 		try{
+			_context = context;
 			if(messageID == 0){
 				if (_debug) Log.v("TwitterCommon.deleteTwitterDirectMessage() messageID == 0. Exiting...");
 				return;
 			}
-			Twitter twitter = getTwitter(context);
-			if(twitter == null){
-				if (_debug) Log.v("TwitterCommon.deleteTwitterDirectMessage() Twitter object is null. Exiting...");
-				return;
-			}
-			twitter.destroyDirectMessage(messageID);
+			new deleteTwitterDirectMessageAsyncTask().execute(messageID);
 			return;
 		}catch(Exception ex){
 			if (_debug) Log.e("TwitterCommon.deleteTwitterDirectMessage() ERROR: " + ex.toString());
@@ -552,18 +548,6 @@ public class TwitterCommon {
 				if (_debug) Log.v("TwitterCommon.isTwitterAuthenticated() Twitter stored authentication details are null. Exiting...");
 				return false;
 			}
-			//try {
-			//	Twitter twitter = getTwitter(context);
-			//	if(twitter == null){
-			//		if (_debug) Log.v("TwitterCommon.isTwitterAuthenticated() Twitter object is null. Exiting...");
-			//		return false;
-			//	} 
-			//	twitter.getAccountSettings();
-			//	return true;
-			//} catch (Exception ex) {
-			//	if (_debug) Log.e("TwitterCommon.isTwitterAuthenticated() Twitter Authentication - ERROR: " + ex.toString());
-			//	return false;
-			//}
 			return true;
 		} catch (Exception ex) {
 			if (_debug) Log.e("TwitterCommon.isTwitterAuthenticated() ERROR: " + ex.toString());
@@ -638,10 +622,10 @@ public class TwitterCommon {
 	    /**
 	     * Display a message if the Twitter Direct Message encountered an error.
 	     * 
-	     * @param result - Void.
+	     * @param result - Boolean indicating success.
 	     */
 	    protected void onPostExecute(Boolean result) {
-			if (_debug) Log.v("TwitterCommon.sendTwitterDirectMessageAsyncTask.onPostExecute()");
+			if (_debug) Log.v("TwitterCommon.sendTwitterDirectMessageAsyncTask.onPostExecute() RESULT: " + result);
 			if(result){
 				//Do Nothing
 			}else{
@@ -689,14 +673,59 @@ public class TwitterCommon {
 	    /**
 	     * Display a message if the Twitter Direct Message encountered an error.
 	     * 
-	     * @param result - Void.
+	     * @param result - Boolean indicating success.
 	     */
 	    protected void onPostExecute(Boolean result) {
-			if (_debug) Log.v("TwitterCommon.sendTweetAsyncTask.onPostExecute()");
+			if (_debug) Log.v("TwitterCommon.sendTweetAsyncTask.onPostExecute() RESULT: " + result);
 			if(result){
 				//Do Nothing
 			}else{
 				Toast.makeText(_context, _context.getString(R.string.twitter_send_tweet_error), Toast.LENGTH_LONG).show();
+			}
+	    }
+	    
+	}
+	
+	/**
+	 * Delete a Twitter Direct Message in the background.
+	 * 
+	 * @author Camille Sévigny
+	 */
+	private static class deleteTwitterDirectMessageAsyncTask extends AsyncTask<Long, Void, Boolean> {
+	    
+	    /**
+	     * Do this work in the background.
+	     * 
+	     * @param params - The Message ID to delete.
+	     */
+	    protected Boolean doInBackground(Long... params) {
+			if (_debug) Log.v("TwitterCommon.deleteTwitterDirectMessageAsyncTask.doInBackground()");
+			try{
+				Twitter twitter = getTwitter(_context);
+				if(twitter == null){
+					if (_debug) Log.v("TwitterCommon.deleteTwitterDirectMessageAsyncTask.doInBackground() Twitter object is null. Exiting...");
+					return false;
+				}
+				long messageID = params[0];
+				twitter.destroyDirectMessage(messageID);
+				return true;
+			}catch(Exception ex){
+				if (_debug) Log.e("TwitterCommon.deleteTwitterDirectMessageAsyncTask.doInBackground() ERROR: " + ex.toString());
+				return false;
+			}
+	    }
+	    
+	    /**
+	     * Display a message if the deleting of the Twitter Direct Message encountered an error.
+	     * 
+	     * @param result - Boolean indicating success.
+	     */
+	    protected void onPostExecute(Boolean result) {
+			if (_debug) Log.v("TwitterCommon.deleteTwitterDirectMessageAsyncTask.onPostExecute() RESULT: " + result);
+			if(result){
+				//Do Nothing
+			}else{
+				//Toast.makeText(_context, _context.getString(R.string.twitter_delete_direct_message_error), Toast.LENGTH_LONG).show();
 			}
 	    }
 	    

@@ -67,7 +67,7 @@ public class FacebookService extends WakefulIntentService {
 			_preferences = PreferenceManager.getDefaultSharedPreferences(_context);
 		    _accessToken = _preferences.getString(Constants.FACEBOOK_ACCESS_TOKEN_KEY, null);
 		    //Get Facebook Notifications.
-		    if(_preferences.getBoolean(Constants.FACEBOOK_NOTIFICATIONS_ENABLED_KEY, true)){
+		    if(_preferences.getBoolean(Constants.FACEBOOK_USER_NOTIFICATIONS_ENABLED_KEY, true)){
 			    ArrayList<String> facebookNotificationArray = FacebookCommon.getFacebookNotifications(_context, _accessToken, _facebook);
 			    if(facebookNotificationArray != null && facebookNotificationArray.size() > 0){
 					Bundle bundle = new Bundle();
@@ -88,6 +88,18 @@ public class FacebookService extends WakefulIntentService {
 			    	Common.startNotificationActivity(_context, bundle);
 				}else{
 					if (_debug) Log.v("FacebookService.doWakefulWork() No Facebook Friend Requests were found. Exiting...");
+				}
+		    }
+		    //Get Facebook Messages.
+		    if(_preferences.getBoolean(Constants.FACEBOOK_MESSAGES_ENABLED_KEY, true)){
+			    ArrayList<String> facebookMessageArray = FacebookCommon.getFacebookMessages(_context, _accessToken, _facebook);
+			    if(facebookMessageArray != null && facebookMessageArray.size() > 0){
+					Bundle bundle = new Bundle();
+					bundle.putInt("notificationType", Constants.NOTIFICATION_TYPE_FACEBOOK);
+					bundle.putStringArrayList("facebookArrayList", facebookMessageArray);
+			    	Common.startNotificationActivity(_context, bundle);
+				}else{
+					if (_debug) Log.v("FacebookService.doWakefulWork() No Facebook Messages were found. Exiting...");
 				}
 		    }
 		}catch(Exception ex){
