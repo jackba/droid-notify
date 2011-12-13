@@ -1675,11 +1675,207 @@
 					       	android:summaryOn="@string/preference_facebook_enabled_summaryOn" 
 					       	android:summaryOff="@string/preference_facebook_enabled_summaryOff" 
 					       	android:defaultValue="false" />
-	    			</PreferenceCategory>
+						<CheckBoxPreference
+							android:key="facebook_user_notifications_enabled"
+					       	android:title="@string/preference_facebook_user_notifications_enabled_title" 
+					       	android:summary="@string/preference_facebook_user_notifications_enabled_summary" 
+					       	android:defaultValue="true"
+							android:dependency="facebook_enabled" />
+						<CheckBoxPreference
+							android:key="facebook_friend_requests_enabled"
+					       	android:title="@string/preference_facebook_friend_requests_enabled_title" 
+					       	android:summary="@string/preference_facebook_friend_requests_enabled_summary"
+					       	android:defaultValue="true"
+							android:dependency="facebook_enabled" />
+						<CheckBoxPreference
+							android:key="facebook_messages_enabled"
+					       	android:title="@string/preference_facebook_messages_enabled_title" 
+					       	android:summary="@string/preference_facebook_messages_enabled_summary"
+					       	android:defaultValue="true"
+							android:dependency="facebook_enabled" />
+						<ListPreference
+							android:key="blocking_app_running_action_facebook"
+							android:title="@string/blocking_app_running_action_text"
+							android:summary="@string/blocking_app_running_action_summary"
+							android:defaultValue="2"
+							android:entries="@array/blocking_app_running_action_options"
+							android:entryValues="@array/blocking_app_running_action_options_values"
+							android:dependency="facebook_enabled" />
+						<ListPreference
+							android:key="facebook_preferred_client"
+							android:title="@string/preference_choose_client_title"
+							android:summary="@string/preference_choose_client_summary"
+							android:defaultValue="com.facebook.katana"
+							android:entries="@array/facebook_client_options"
+							android:entryValues="@array/facebook_client_options_values"
+							android:dependency="facebook_enabled" />
+						<ListPreference
+							android:key="facebook_polling_frequency"
+							android:title="@string/preference_polling_frequency"
+							android:summary="@string/preference_facebook_polling_frequency_summary"
+							android:defaultValue="60"
+							android:entries="@array/polling_frequency_options"
+							android:entryValues="@array/polling_frequency_options_values"
+							android:dependency="facebook_enabled" />
+					</PreferenceCategory>
+					<PreferenceCategory
+						android:key="facebook_notification_settings_category"
+						android:title="@string/preference_notification_settings">						
+						<CheckBoxPreference 
+							android:key="facebook_status_bar_notifications_enabled" 
+							android:title="@string/preference_notifications_enabled_title" 
+							android:summaryOn="@string/preference_notifications_enabled_summaryOn" 
+							android:summaryOff="@string/preference_notifications_enabled_summaryOff" 
+							android:defaultValue="true"
+							android:dependency="facebook_enabled" />		
+						<PreferenceScreen
+							android:key="facebook_notification_settings_screen"
+							android:title="@string/preference_notification_settings"
+							android:summary="@string/preference_notification_settings_summary"
+							android:dependency="facebook_status_bar_notifications_enabled">
+							<PreferenceCategory
+								android:key="facebook_notification_general_settings_category"
+								android:title="@string/general_settings_text">						
+								<CheckBoxPreference 
+									android:key="facebook_status_bar_notifications_show_when_blocked_enabled" 
+									android:title="@string/preference_notifications_show_when_blocked_enabled_title" 
+									android:summary="@string/preference_notifications_show_when_blocked_enabled_summary" 
+									android:defaultValue="true" />
+							</PreferenceCategory>
+							<PreferenceCategory
+								android:key="facebook_notification_icon_settings_category"
+								android:title="@string/preference_notification_icon_settings_text">
+								<apps.droidnotify.preferences.ImageListPreference
+									android:key="notification_icon_facebook"
+									android:title="@string/preference_notification_icon_text"
+									android:summary="@string/preference_notification_icon_summary"
+									android:entries="@array/notification_icon_options_facebook"
+									android:entryValues="@array/notification_icon_values_facebook"
+									droidnotify:entryImages="@array/notification_icon_images_facebook"
+									android:defaultValue="status_bar_notification_facebook_blue" />
+							</PreferenceCategory>	
+					  		<PreferenceCategory
+								android:key="facebook_notification_sound_settings_category"
+								android:title="@string/preference_notification_sound_settings_text">
+								<RingtonePreference
+			             			android:key="facebook_notification_sound"
+									android:title="@string/preference_notification_sound_title"
+									android:summary="@string/preference_notification_sound_summary"
+									android:ringtoneType="all"
+									android:showDefault="false"
+									android:showSilent="true"
+									android:defaultValue="content://settings/system/notification_sound" />
+							</PreferenceCategory>
+							<PreferenceCategory
+								android:key="facebook_notification_vibrate_settings_category"
+								android:title="@string/preference_notification_vibrate_settings_text">	
+								<ListPreference
+									android:key="facebook_notification_vibrate_setting"
+									android:title="@string/preference_vibrate_setting_title"
+									android:summary="@string/preference_vibrate_setting_summary"
+									android:defaultValue="0"
+									android:entries="@array/vibrate_setting_options"
+									android:entryValues="@array/vibrate_setting_options_values" />									
+								<apps.droidnotify.preferences.VibratePatternListPreference
+									android:key="facebook_notification_vibrate_pattern"
+									android:title="@string/preference_vibrate_pattern_title"
+									android:summary="@string/preference_vibrate_pattern_summary"
+									android:entries="@array/preference_vibrate_pattern_options"
+									android:entryValues="@array/preference_vibrate_pattern_options_values_facebook"
+									android:defaultValue="0,1200" />
+							</PreferenceCategory>	
+					  		<PreferenceCategory
+								android:key="facebook_notification_led_settings_category"
+								android:title="@string/preference_notification_led_settings_text">
+								<CheckBoxPreference 
+									android:key="facebook_notification_led_enabled" 
+									android:title="@string/preference_led_enabled_title" 
+									android:summaryOn="@string/preference_led_enabled_summaryOn" 
+									android:summaryOff="@string/preference_led_enabled_summaryOff" 
+									android:defaultValue="true" />
+								<apps.droidnotify.preferences.LEDColorListPreference
+									android:key="facebook_notification_led_color"
+									android:title="@string/preference_led_color_title"
+									android:summary="@string/preference_led_color_summary"
+									android:entries="@array/preference_led_color_options"
+									android:entryValues="@array/preference_led_color_options_values_facebook"
+									android:defaultValue="yellow"
+									android:dependency="facebook_notification_led_enabled" />
+								<apps.droidnotify.preferences.LEDPatternListPreference
+									android:key="facebook_notification_led_pattern"
+									android:title="@string/preference_led_pattern_title"
+									android:summary="@string/preference_led_pattern_summary"
+									android:entries="@array/preference_led_pattern_options"
+									android:entryValues="@array/preference_led_pattern_options_values_facebook"
+									android:defaultValue="1000,1000"
+									android:dependency="facebook_notification_led_enabled" />
+							</PreferenceCategory>
+					  		<PreferenceCategory
+								android:key="facebook_notification_in_call_settings_category"
+								android:title="@string/preference_notification_in_call_settings_text">
+								<CheckBoxPreference 
+										android:key="facebook_notification_in_call_sound_enabled" 
+										android:title="@string/preference_notification_in_call_sound_enable_title" 
+										android:summaryOn="@string/preference_notification_in_call_sound_enable_summaryOn" 
+										android:summaryOff="@string/preference_notification_in_call_sound_enable_summaryOff" 
+										android:defaultValue="false" />
+								<CheckBoxPreference 
+										android:key="facebook_notification_in_call_vibrate_enabled" 
+										android:title="@string/preference_notification_in_call_vibrate_enable_title" 
+										android:summaryOn="@string/preference_notification_in_call_vibrate_enable_summaryOn" 
+										android:summaryOff="@string/preference_notification_in_call_vibrate_enable_summaryOff" 
+										android:defaultValue="true" />
+							</PreferenceCategory>
+						</PreferenceScreen>
+					</PreferenceCategory>
+					<PreferenceCategory
+						android:key="facebook_notification_body_settings_category"
+						android:title="@string/notification_body_settings_text">	
+						<PreferenceScreen
+							android:key="facebook_notification_body_settings_screen"
+							android:title="@string/notification_body_settings_text"
+							android:dependency="facebook_enabled">	
+							<CheckBoxPreference 
+								android:key="facebook_hide_notification_body_enabled" 
+								android:title="@string/preference_hide_notification_body_enabled_title" 
+								android:summaryOn="@string/preference_hide_notification_body_enabled_summaryOn" 
+								android:summaryOff="@string/preference_hide_notification_body_enabled_summaryOff" 
+								android:defaultValue="false" />	
+						</PreferenceScreen>
+					</PreferenceCategory>
+					<PreferenceCategory
+						android:key="facebook_button_settings_category"
+						android:title="@string/button_settings_text">
+						<PreferenceScreen
+							android:key="facebook_button_settings_screen"
+							android:title="@string/button_settings_text"
+							android:dependency="facebook_enabled">
+							<ListPreference
+								android:key="facebook_notification_count_action"
+								android:title="@string/preference_notification_count_button_action"
+								android:summary="@string/preference_notification_count_button_action_summary"
+								android:defaultValue="0"
+								android:entries="@array/facebook_notification_count_button_options"
+								android:entryValues="@array/facebook_notification_count_button_options_values"/>	
+							<PreferenceCategory
+								android:key="facebook_show_hide_buttons_settings_category"
+								android:title="@string/show_hide_button_settings_text">	
+								<PreferenceScreen
+									android:key="facebook_show_hide_buttons_settings_screen"
+									android:title="@string/show_hide_button_settings_text">
+									<CheckBoxPreference 
+										android:key="facebook_display_dismiss_button" 
+										android:title="@string/preference_display_dismiss_button_title" 
+										android:summary="@string/preference_display_dismiss_button_summary"
+										android:defaultValue="true" />
+								</PreferenceScreen>								
+							</PreferenceCategory>							
+						</PreferenceScreen>							
+					</PreferenceCategory>
 				</PreferenceScreen>
-		  	</PreferenceCategory>
+		  	</PreferenceCategory>  
 		</PreferenceScreen>
-  	</PreferenceCategory>   	
+  	</PreferenceCategory>	    	
 	<PreferenceCategory
 		android:key="screen_settings_category"
 		android:title="@string/preference_screen_settings">

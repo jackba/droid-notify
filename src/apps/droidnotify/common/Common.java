@@ -301,13 +301,10 @@ public class Common {
 		String _contactName = "";
 		long _photoID = 0;
 		String _lookupKey = "";
-		String _contactEmail = "";
-		boolean _contactExists = false;
 		if (incomingName == null) {
 			if (_debug) Log.v("Common.getContactsInfoByName() Name provided is null: Exiting...");
 			return null;
 		}
-		String contactID = null;
 		try{
 			final String[] projection = null;
 			final String selection = ContactsContract.Contacts.DISPLAY_NAME + " = " + DatabaseUtils.sqlEscapeString(incomingName);
@@ -321,40 +318,13 @@ public class Common {
 					sortOrder);
 			if (_debug) Log.v("Common.getContactsInfoByName() Searching contacts");
 			while (cursor.moveToNext()) { 
-				contactID = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID)); 
-				String contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-				String photoID = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_ID)); 
-				String lookupKey = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY)); 
-				final String[] emailProjection = null;
-				final String emailSelection = ContactsContract.CommonDataKinds.Email.CONTACT_ID + " = " + contactID;
-				final String[] emailSelectionArgs = null;
-				final String emailSortOrder = null;
-                Cursor emailCursor = context.getContentResolver().query(
-                		ContactsContract.CommonDataKinds.Email.CONTENT_URI, 
-                		emailProjection,
-                		emailSelection, 
-                        emailSelectionArgs, 
-                        emailSortOrder);
-                if(emailCursor.moveToFirst()) {
-                	String contactEmail = emailCursor.getString(emailCursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA));
-                	if(contactEmail != null){
-                		_contactEmail = contactEmail;
-                	}
-					_contactID = Long.parseLong(contactID);
-	    		  	if(contactName != null){
-	    		  		_contactName = contactName;
-	    		  	}
-	    		  	if(photoID != null){
-	    			  	_photoID = Long.parseLong(photoID);
-	    		  	}
-	    		  	_lookupKey = lookupKey;
-	  		      	_contactExists = true;
-                }
-                emailCursor.close();
-                if(_contactExists) break;
+				_contactID = Long.parseLong(cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID))); 
+				_contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+				_photoID = Long.parseLong(cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_ID))); 
+				_lookupKey = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY));
 		   	}
 			cursor.close();
-			return new String[]{String.valueOf(_contactID), _contactName, _contactEmail, String.valueOf(_photoID), _lookupKey};
+			return new String[]{String.valueOf(_contactID), _contactName, String.valueOf(_photoID), _lookupKey};
 		}catch(Exception ex){
 			if (_debug) Log.e("Common.getContactsInfoByName() ERROR: " + ex.toString());
 			return null;
@@ -3018,6 +2988,7 @@ public class Common {
 	 * 
 	 * @param context - The current context of this Activity.
 	 * @param messageID - The Message ID that we want to alter.
+	 * @param isViewed - The boolean value indicating if it was read or not.
 	 * @param notificationType - The notification type.
 	 * 
 	 * @return boolean - Returns true if the message was updated successfully.
@@ -3188,6 +3159,7 @@ public class Common {
 		//[17]-LookupKey
 		//[18]-PhotoID
 		//[19]-NotificationSubType
+		//[20]-MessageStringID
 		//========================================================
 		String sentFromAddress = notification.getSentFromAddress();
 		String messageBody = notification.getMessageBody();
@@ -3211,14 +3183,14 @@ public class Common {
 		String lookupKey = notification.getLookupKey();
 		long photoID = notification.getPhotoID();
 		int notificationSubType = notification.getNotificationSubType();
+		String messageStringID = notification.getMessageStringID();
 		//Build Notification Information String Array.
-		String[] rescheduleNotificationInfo = new String[] {String.valueOf(notificationType), sentFromAddress, messageBody, String.valueOf(timeStamp), String.valueOf(threadID), String.valueOf(contactID), contactName, String.valueOf(messageID), title, String.valueOf(calendarID), String.valueOf(calendarEventID), String.valueOf(calendarEventStartTime), String.valueOf(calendarEventEndTime), allDay, String.valueOf(callLogID), k9EmailUri, k9EmailDelUri, lookupKey, String.valueOf(photoID), String.valueOf(notificationSubType)};
+		String[] rescheduleNotificationInfo = new String[] {String.valueOf(notificationType), sentFromAddress, messageBody, String.valueOf(timeStamp), String.valueOf(threadID), String.valueOf(contactID), contactName, String.valueOf(messageID), title, String.valueOf(calendarID), String.valueOf(calendarEventID), String.valueOf(calendarEventStartTime), String.valueOf(calendarEventEndTime), allDay, String.valueOf(callLogID), k9EmailUri, k9EmailDelUri, lookupKey, String.valueOf(photoID), String.valueOf(notificationSubType), messageStringID};
 		AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 		Intent rescheduleIntent = new Intent(context, RescheduleReceiver.class);
 		Bundle rescheduleBundle = new Bundle();
 		rescheduleBundle.putStringArray("rescheduleNotificationInfo", rescheduleNotificationInfo);
 		rescheduleBundle.putInt("rescheduleNumber", rescheduleNumber);
-		if (_debug) Log.v("Common.rescheduleNotification() rescheduleNumber: " + rescheduleNumber);
 		rescheduleBundle.putInt("notificationType", notificationType);
 		rescheduleIntent.putExtras(rescheduleBundle);
 		rescheduleIntent.setAction("apps.droidnotify.VIEW/RescheduleNotification/" + rescheduleNumber + "/" + String.valueOf(notification.getTimeStamp()));

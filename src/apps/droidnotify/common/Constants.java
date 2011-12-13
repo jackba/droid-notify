@@ -418,6 +418,9 @@ public class Constants {
 	
 	public static final String TWITTER_ADVANCED_SETTINGS_CATEGORY_KEY = "advanced_twitter_settings_category";
 	
+	public static final String TWITTER_REPLY_BUTTON_ACTION_KEY = "twitter_reply_button_action";
+	public static final String TWITTER_DELETE_BUTTON_ACTION_KEY = "twitter_delete_button_action";
+	
 	//-----FACEBOOK NOTIFICATION CONSTANTS-----//
 	public static final String FACEBOOK_PRO_PREFERENCE_CATEGORY_KEY = "facebook_notification_settings_category";
 	public static final String FACEBOOK_PRO_PLACEHOLDER_PREFERENCE_KEY = "facebook_notification_settings_placeholder_preference";
@@ -425,7 +428,8 @@ public class Constants {
 	
 	public static final String FACEBOOK_NOTIFICATIONS_ENABLED_KEY = "facebook_enabled";
 	public static final String FACEBOOK_USER_NOTIFICATIONS_ENABLED_KEY = "facebook_user_notifications_enabled";
-	public static final String FACEBOOK_FRIEND_REQUESTS_ENABLED_KEY = "twitter_friend_requests_enabled";
+	public static final String FACEBOOK_FRIEND_REQUESTS_ENABLED_KEY = "facebook_friend_requests_enabled";
+	public static final String FACEBOOK_MESSAGES_ENABLED_KEY = "facebook_messages_enabled";
 	public static final String FACEBOOK_POLLING_FREQUENCY_KEY = "facebook_polling_frequency";
 	
 	public static final String FACEBOOK_BLOCKING_APP_RUNNING_ACTION_KEY = "blocking_app_running_action_facebook";
@@ -438,8 +442,6 @@ public class Constants {
 	public static final String FACEBOOK_CONFIRM_DELETION_KEY = "facebook_confirm_deletion";
 	
 	public static final String FACEBOOK_DISMISS_ACTION_MARK_READ = "0";
-	public static final String FACEBOOK_DELETE_ACTION_DELETE_MESSAGE = "0";
-	public static final String FACEBOOK_DELETE_ACTION_NOTHING = "2";	
 
     public static final String FACEBOOK_HIDE_NOTIFICATION_BODY_KEY = "facebook_hide_notification_body_enabled";
 	public static final String FACEBOOK_DISPLAY_DISMISS_BUTTON_KEY = "facebook_display_dismiss_button";
@@ -451,6 +453,11 @@ public class Constants {
 	public static final String FACEBOOK_ADVANCED_SETTINGS_CATEGORY_KEY = "advanced_facebook_settings_category";
 	
 	public static final String FACEBOOK_CLEAR_AUTHENTICATION_DATA_KEY = "clear_facebook_authentication";
+	
+	public static final String FACEBOOK_PREFERRED_CLIENT_KEY = "facebook_preferred_client";
+	public static final String FACEBOOK_PREFERRED_CLIENT_DEFAULT = "com.facebook.katana";
+	public static final String FACEBOOK_USE_QUICK_REPLY = "0";
+	public static final String FACEBOOK_USE_PREFERRED_CLIENT = "1";
 	
 	//-----K9 NOTIFICATION CONSTANTS-----//
 	public static final String K9_NOTIFICATIONS_ENABLED_KEY = "k9_notifications_enabled";

@@ -67,7 +67,7 @@ public class FacebookAlarmBroadcastReceiverService extends WakefulIntentService 
 				return;
 			}
 			//Read preferences and exit if Facebook notifications are disabled.
-		    if(!preferences.getBoolean(Constants.FACEBOOK_NOTIFICATIONS_ENABLED_KEY, true)){
+		    if(!preferences.getBoolean(Constants.FACEBOOK_NOTIFICATIONS_ENABLED_KEY, false)){
 				if (_debug) Log.v("FacebookAlarmBroadcastReceiverService.doWakefulWork() Facebook Notifications Disabled. Exiting... ");
 				return;
 			}
@@ -101,7 +101,7 @@ public class FacebookAlarmBroadcastReceiverService extends WakefulIntentService 
 				    	return;
 				    }
 					String accessToken = preferences.getString(Constants.FACEBOOK_ACCESS_TOKEN_KEY, null);
-					if(preferences.getBoolean(Constants.FACEBOOK_NOTIFICATIONS_ENABLED_KEY, true)){
+					if(preferences.getBoolean(Constants.FACEBOOK_USER_NOTIFICATIONS_ENABLED_KEY, true)){
 						ArrayList<String> facebookNotificationArray = FacebookCommon.getFacebookNotifications(context, accessToken, facebook);
 					    if(facebookNotificationArray != null && facebookNotificationArray.size() > 0){
 					    	int facebookNotificationArraySize = facebookNotificationArray.size();
@@ -136,6 +136,26 @@ public class FacebookAlarmBroadcastReceiverService extends WakefulIntentService 
 				    			}
 								//Display Status Bar Notification
 							    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_FACEBOOK, Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST, callStateIdle, contactName, messageAddress, messageBody, null);
+					    	}
+						}else{
+							if (_debug) Log.v("FacebookAlarmBroadcastReceiverService.doWakefulWork() No Facebook Friend Requests were found. Exiting...");
+						}
+					}
+					if(preferences.getBoolean(Constants.FACEBOOK_MESSAGES_ENABLED_KEY, true)){
+					    ArrayList<String> facebookMessageArray = FacebookCommon.getFacebookMessages(context, accessToken, facebook);
+					    if(facebookMessageArray != null && facebookMessageArray.size() > 0){
+					    	int facebookFriendRequestArraySize = facebookMessageArray.size();
+					    	for(int i=0; i<facebookFriendRequestArraySize; i++ ){
+					    		String facebookArrayItem = facebookMessageArray.get(i);
+								String[] facebookInfo = facebookArrayItem.split("\\|");
+				    			int arraySize = facebookInfo.length;
+				    			if(arraySize > 0){
+									if(arraySize >= 1) messageAddress = facebookInfo[1];
+									if(arraySize >= 2) messageBody = facebookInfo[3];
+									if(arraySize >= 8) contactName = facebookInfo[7];
+				    			}
+								//Display Status Bar Notification
+							    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_FACEBOOK, Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE, callStateIdle, contactName, messageAddress, messageBody, null);
 					    	}
 						}else{
 							if (_debug) Log.v("FacebookAlarmBroadcastReceiverService.doWakefulWork() No Facebook Friend Requests were found. Exiting...");
