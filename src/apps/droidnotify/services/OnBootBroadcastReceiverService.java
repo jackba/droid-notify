@@ -7,7 +7,9 @@ import android.preference.PreferenceManager;
 
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
+import apps.droidnotify.facebook.FacebookCommon;
 import apps.droidnotify.log.Log;
+import apps.droidnotify.twitter.TwitterCommon;
 
 /**
  * This class does the work of the BroadcastReceiver.
@@ -55,12 +57,18 @@ public class OnBootBroadcastReceiverService extends WakefulIntentService {
 				if (_debug) Log.v("OnBootBroadcastReceiverService.doWakefulWork() App Disabled. Exiting...");
 				return;
 			}
-			//Read preferences and exit if calendar notifications are disabled.
-		    if(!preferences.getBoolean(Constants.CALENDAR_NOTIFICATIONS_ENABLED_KEY, true)){
-				if (_debug) Log.v("OnBootBroadcastReceiverService.doWakefulWork() Calendar Notifications Disabled. Exiting...");
-				return;
+			//Start Calendar Alarms
+		    if(preferences.getBoolean(Constants.CALENDAR_NOTIFICATIONS_ENABLED_KEY, true)){
+		    	Common.startCalendarAlarmManager(context, System.currentTimeMillis() + (5 * 60 * 1000));
 			}
-		    Common.startCalendarAlarmManager(context, System.currentTimeMillis() + (5 * 60 * 1000));
+		    //Start Twitter Alarms
+		    if(preferences.getBoolean(Constants.TWITTER_NOTIFICATIONS_ENABLED_KEY, true)){
+		    	TwitterCommon.startTwitterAlarmManager(context, System.currentTimeMillis() + (5 * 60 * 1000));
+			}
+		    //Start Facebook Alarms
+		    if(preferences.getBoolean(Constants.FACEBOOK_NOTIFICATIONS_ENABLED_KEY, true)){
+		    	FacebookCommon.startFacebookAlarmManager(context, System.currentTimeMillis() + (5 * 60 * 1000));
+			}
 		}catch(Exception ex){
 			if (_debug) Log.e("OnBootBroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());
 		}
