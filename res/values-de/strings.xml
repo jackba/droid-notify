@@ -63,7 +63,10 @@
   <string name="app_tts_error">The Text-To-Speech service could not be started.</string>
   <string name="app_preference_quiet_time_error">The Quiet Time preference could not be started.</string>
   <string name="test_notifications_disabled_message">No test notifications can be displayed because no notifications have been enabled.</string>
-  <string name="app_twitter_app_error">The twitter application could not be started.</string>
+  <string name="twitter_app_error">The Twitter application could not be started.</string>
+  <string name="twitter_app_not_found_error">The Twitter application could not be found. Try selecting a different preferred Twitter client.</string>
+  <string name="facebook_app_error">The Facebook application could not be started.</string>
+  <string name="facebook_app_not_found_error">The Facebook application could not be found. Try selecting a different preferred Facebook client.</string>
   <string name="app_quick_reply_address_error">The quick reply address does not appear to be valid. Quick Reply launch failed.</string>
   <string name="twitter_send_direct_mesage_error">The Twitter Direct Message could not be sent.</string>
   <string name="twitter_send_tweet_error">The Tweet/Status Update could not be sent.</string>
@@ -83,6 +86,7 @@
   <string name="delete_email_dialog_text">This will delete the email from the phone.</string>
   <string name="delete_twitter_direct_message_dialog_text">This will delete the direct message from your Twitter account.</string>
   <string name="delete_facebook_notification_dialog_text">This will delete the notification from your Facebook account.</string>
+  <string name="delete_facebook_message_dialog_text">This will delete the message from your Facebook account.</string>
   <string name="preference_center_align_body_text_title">Center Align Body Text</string>
   <string name="preference_center_align_body_text_summary">Center align the text of the notification body text.</string>
   <string name="preference_notification_body_font_size_title">Notification Body Font Size</string>
@@ -146,9 +150,8 @@
   <string name="email_at_text" formatted="false">New email at %s</string>
   <string name="missed_call_at_text" formatted="false">Anruf in Abwesenheit um %s</string>
   <string name="mention_at_text" formatted="false">New mention at %s</string>
-  <string name="follower_at_text" formatted="false">New follower at %s</string>
-  <string name="retweet_at_text" formatted="false">New retweet at %s</string>
-  <string name="reply_tweet_at_text" formatted="false">New reply tweet at %s</string>
+  <string name="follower_request_at_text" formatted="false">New follower request at %s</string>
+  <string name="follower_request_text" formatted="false">New follower request</string>
   <string name="notification_at_text" formatted="false">New notification at %s</string>
   <string name="friend_request_at_text" formatted="false">New friend request at %s</string>
   <string name="preference_confirm_deletion_title">Confirm Deletion</string>
@@ -237,9 +240,11 @@
   <string name="preference_twitter_enabled_summaryOn">Twitter notifications are enabled.</string>
   <string name="preference_twitter_enabled_summaryOff">Twitter notifications are disabled.</string>
   <string name="preference_twitter_direct_messages_enabled_title">Enable Twitter Direct Messages</string>
-  <string name="preference_twitter_direct_messages_enabled_summary">Twitter Direct Message notifications are enabled.</string>
+  <string name="preference_twitter_direct_messages_enabled_summary">Enable Twitter Direct Message notifications.</string>
   <string name="preference_twitter_mentions_enabled_title">Enable Twitter Mentions</string>
-  <string name="preference_twitter_mentions_enabled_summary">Twitter Mention notifications are enabled.</string>
+  <string name="preference_twitter_mentions_enabled_summary">Enable Twitter Mention notifications.</string>
+  <string name="preference_twitter_follower_requests_enabled_title">Enable Twitter Follower Requests</string>
+  <string name="preference_twitter_follower_requests_enabled_summary">Enable Twitter Follower Requests notifications.</string>
   <string name="twitter_authentication_text">Twitter-Authentifizierung</string>
   <string name="twitter_authentication_message_text">Auf dem nächsten Bildschirm wird eine Twitter-Webseite in einem Webbrowser geöffnet. Auf dieser Webseite müssen sie dieser App den Zugriff auf ihren Twitter-Account gewähren. Wenn Sie fortfahren möchten, klicken Sie bitte auf die Schaltfläche \"Weiter\".</string>
   <string name="authenticating_text">Authentifizieren...</string>
@@ -248,15 +253,25 @@
   <string name="preference_clear_twitter_authentication_data">Reset Twitter Data</string>
   <string name="preference_clear_twitter_authentication_data_summary">Clear the Twitter authentication data.</string>
   <string name="twitter_authentication_data_cleared">The Twitter authentication data has been cleared.</string>
+  <string name="twitter_following_request" formatted="false">%s (@%s) has requested to follow you on Twitter!</string>
+  <string name="open_twitter_app_text">Open Twitter App</string>
   <string name="preference_facebook_notifications">Facebook Notifications</string>
   <string name="preference_facebook_enabled_title">Enable Facebook</string>
   <string name="preference_facebook_enabled_summaryOn">Facebook notifications are enabled.</string>
   <string name="preference_facebook_enabled_summaryOff">Facebook notifications are disabled.</string>
+  <string name="preference_facebook_user_notifications_enabled_title">Enable Facebook Notifications</string>
+  <string name="preference_facebook_user_notifications_enabled_summary">Enable Facebook Notification notifications.</string>
+  <string name="preference_facebook_messages_enabled_title">Enable Facebook Messages</string>
+  <string name="preference_facebook_messages_enabled_summary">Enable Facebook Message notifications.</string>
+  <string name="preference_facebook_friend_requests_enabled_title">Enable Facebook Friend Requests</string>
+  <string name="preference_facebook_friend_requests_enabled_summary">Enable Facebook Friend Request notifications.</string>
   <string name="facebook_authentication_text">Facebook Authentication</string>
   <string name="facebook_authentication_error">We were not able to authenticate or access your Facebook account at this time. Please try again later.</string>
   <string name="preference_clear_facebook_authentication_data">Reset Facebook Data</string>
   <string name="preference_clear_facebook_authentication_data_summary">Clear the Facebook authentication data.</string>
   <string name="facebook_authentication_data_cleared">The Facebook authentication data has been cleared.</string>
+  <string name="open_facebook_app_text">Open Facebook App</string>
+  <string name="preference_facebook_polling_frequency_summary">How often you want to read your Facebook account?</string>
   <string name="email_inbox_text">Email Inbox</string>
   <string name="view_email_text">View Email</string>
   <string name="preference_k9_enabled_title">Enable K-9 Email</string>
@@ -409,7 +424,10 @@
   <string name="status_bar_notification_content_title_text_calendar">Calendar Event Reminder</string>
   <string name="status_bar_notification_content_title_text_twitter_direct_message">New Twitter Direct Message</string>
   <string name="status_bar_notification_content_title_text_twitter_mention">New Twitter Mention</string>
-  <string name="status_bar_notification_content_title_text_facebook">Neue Facebook-Nachricht</string>
+  <string name="status_bar_notification_content_title_text_twitter_follower_request">New Twitter Follower Request</string>
+  <string name="status_bar_notification_content_title_text_facebook_notification">New Facebook Notification</string>
+  <string name="status_bar_notification_content_title_text_facebook_friend_request">New Facebook Friend Request</string>
+  <string name="status_bar_notification_content_title_text_facebook_message">New Facebook Message</string>
   <string name="status_bar_notification_content_title_text_email">New Email</string>
   <string name="status_bar_notification_content_text_sms" formatted="false">New message from %s - %s.</string>
   <string name="status_bar_notification_content_text_sms_null" formatted="false">New message.</string>
@@ -419,11 +437,18 @@
   <string name="status_bar_notification_content_text_phone_null" formatted="false">Verpasster Anruf</string>
   <string name="status_bar_notification_content_text_calendar" formatted="false">Calendar event - %s</string>
   <string name="status_bar_notification_content_text_calendar_null" formatted="false">Calendar event.</string>
-  <string name="status_bar_notification_content_text_twitter_direct_message" formatted="false">New twitter direct message from %s - %s.</string>
-  <string name="status_bar_notification_content_text_twitter_direct_message_null" formatted="false">New twitter direct message.</string>
-  <string name="status_bar_notification_content_text_twitter_mention" formatted="false">New twitter mention from %s - %s.</string>
-  <string name="status_bar_notification_content_text_twitter_mention_null" formatted="false">New twitter mention.</string>
-  <string name="status_bar_notification_content_text_facebook" formatted="false">New facebook message %s - %s.</string>
+  <string name="status_bar_notification_content_text_twitter_direct_message" formatted="false">New Twitter Direct Message from %s - %s.</string>
+  <string name="status_bar_notification_content_text_twitter_direct_message_null" formatted="false">New Twitter Direct Message.</string>
+  <string name="status_bar_notification_content_text_twitter_mention" formatted="false">New Twitter Mention from %s - %s.</string>
+  <string name="status_bar_notification_content_text_twitter_mention_null" formatted="false">New Twitter Mention.</string>
+  <string name="status_bar_notification_content_text_twitter_follower_request" formatted="false">New Twitter Follower Request from %s - %s.</string>
+  <string name="status_bar_notification_content_text_twitter_follower_request_null" formatted="false">New Twitter Follower Request.</string>
+  <string name="status_bar_notification_content_text_facebook_notification" formatted="false">New Facebook Notification from %s - %s.</string>
+  <string name="status_bar_notification_content_text_facebook_notification_null" formatted="false">New Facebook Notification.</string>
+  <string name="status_bar_notification_content_text_facebook_friend_request" formatted="false">New Facebook Friend Request from %s - %s.</string>
+  <string name="status_bar_notification_content_text_facebook_friend_request_null" formatted="false">New Facebook Friend Request.</string>
+  <string name="status_bar_notification_content_text_facebook_message" formatted="false">New Facebook Message from %s - %s.</string>
+  <string name="status_bar_notification_content_text_facebook_message_null" formatted="false">New Facebook Message.</string>
   <string name="status_bar_notification_content_text_email" formatted="false">New email from %s - %s.</string>
   <string name="status_bar_notification_content_text_email_null" formatted="false">New email.</string>
   <string name="status_bar_notification_ticker_text_sms" formatted="false">New message from %s - %s.</string>
@@ -438,12 +463,24 @@
   <string name="status_bar_notification_ticker_text_phone_null" formatted="false">Verpasster Anruf</string>
   <string name="status_bar_notification_ticker_text_calendar" formatted="false">Calendar event - %s</string>
   <string name="status_bar_notification_ticker_text_calendar_null" formatted="false">Calendar event.</string>
-  <string name="status_bar_notification_ticker_text_twitter_direct_message" formatted="false">New twitter direct message from %s - %s.</string>
-  <string name="status_bar_notification_ticker_text_unknown_contact_twitter_direct_message" formatted="false">New twitter direct message -  %s.</string>
-  <string name="status_bar_notification_ticker_text_twitter_direct_message_null" formatted="false">New twitter direct message.</string>
-  <string name="status_bar_notification_ticker_text_twitter_mention" formatted="false">New twitter mention from %s - %s.</string>
-  <string name="status_bar_notification_ticker_text_unknown_contact_twitter_mention" formatted="false">New twitter mention -  %s.</string>
-  <string name="status_bar_notification_ticker_text_twitter_mention_null" formatted="false">New twitter mention.</string>
+  <string name="status_bar_notification_ticker_text_twitter_direct_message" formatted="false">New Twitter Direct Message from %s - %s.</string>
+  <string name="status_bar_notification_ticker_text_unknown_contact_twitter_direct_message" formatted="false">New Twitter Direct Message -  %s.</string>
+  <string name="status_bar_notification_ticker_text_twitter_direct_message_null" formatted="false">New Twitter Direct Message.</string>
+  <string name="status_bar_notification_ticker_text_twitter_mention" formatted="false">New Twitter Mention from %s - %s.</string>
+  <string name="status_bar_notification_ticker_text_unknown_contact_twitter_mention" formatted="false">New Twitter Mention -  %s.</string>
+  <string name="status_bar_notification_ticker_text_twitter_mention_null" formatted="false">New Twitter Mention.</string>
+  <string name="status_bar_notification_ticker_text_twitter_follower_request" formatted="false">New Twitter Follower Request from %s - %s.</string>
+  <string name="status_bar_notification_ticker_text_unknown_contact_twitter_follower_request" formatted="false">New Twitter Follower Request -  %s.</string>
+  <string name="status_bar_notification_ticker_text_twitter_follower_request_null" formatted="false">New Twitter Follower Request.</string>
+  <string name="status_bar_notification_ticker_text_facebook_notification" formatted="false">New Facebook Notification from %s - %s.</string>
+  <string name="status_bar_notification_ticker_text_unknown_contact_facebook_notification" formatted="false">New Facebook Notification -  %s.</string>
+  <string name="status_bar_notification_ticker_text_facebook_notification_null" formatted="false">New Facebook Notification.</string>
+  <string name="status_bar_notification_ticker_text_facebook_friend_request" formatted="false">New Facebook Friend Request from %s - %s.</string>
+  <string name="status_bar_notification_ticker_text_unknown_contact_facebook_friend_request" formatted="false">New Facebook Friend Request -  %s.</string>
+  <string name="status_bar_notification_ticker_text_facebook_friend_request_null" formatted="false">New Facebook Friend Request.</string>
+  <string name="status_bar_notification_ticker_text_facebook_message" formatted="false">New Facebook Message from %s - %s.</string>
+  <string name="status_bar_notification_ticker_text_unknown_contact_facebook_message" formatted="false">New Facebook Message -  %s.</string>
+  <string name="status_bar_notification_ticker_text_facebook_message_null" formatted="false">New Facebook Message.</string>
   <string name="status_bar_notification_ticker_text_email" formatted="false">New email from %s - %s.</string>
   <string name="status_bar_notification_ticker_text_unknown_contact_email" formatted="false">New email -  %s.</string>
   <string name="status_bar_notification_ticker_text_privacy_email" formatted="false">New email from %s.</string>
@@ -752,7 +789,8 @@
   <string name="use_preferred_client">Use Preferred Client</string>
   <string name="preference_choose_client_title">Select Preferred Client</string>
   <string name="preference_choose_client_summary">Choose the client that you prefer to use. This client will be used by the application when appropriate.</string>
-  <string name="launch_twitter_app">Launch Twitter App.</string>
+  <string name="launch_twitter_app">Launch Twitter App</string>
+  <string name="launch_facebook_app">Launch Facebook App</string>
   <string name="hootsuite">HootSuite</string>
   <string name="plume">Plume</string>
   <string name="plume_premium">Plume Premium</string>
@@ -779,4 +817,10 @@
   <string name="use_twidroyd_legacy">Use Twidroyd Legacy</string>
   <string name="use_twitter">Use Twitter</string>
   <string name="use_ubersocial">Use Ubersocial (formerly Twidroyd Pro)</string>
+  <string name="facebook">Facebook</string>
+  <string name="friendCaster_for_facebook">FriendCaster for Facebook</string>
+  <string name="friendCaster_pro_for_facebook">FriendCaster Pro for Facebook</string>
+  <string name="use_facebook">Use Facebook</string>
+  <string name="use_friendCaster_for_facebook">Use FriendCaster for Facebook</string>
+  <string name="use_friendCaster_pro_for_facebook">Use FriendCaster Pro for Facebook</string>
 </resources>

@@ -14,13 +14,13 @@
   <string name="preference_appenabled_summaryOn">Droid Notify מאופשר.</string>
   <string name="preference_appenabled_summaryOff">Droid Notify מבוטל.</string>
   <string name="to_text">ל</string>
-  <string name="from_text">From</string>
+  <string name="from_text">מ</string>
   <string name="ok_text">אישור</string>
   <string name="close_text">סגור</string>
   <string name="cancel_text">ביטול</string>
   <string name="continue_text">המשך</string>
   <string name="dismiss_notification_text">בטל התראה</string>
-  <string name="reset_data">Resetting data...</string>
+  <string name="reset_data">מאפס נתונים...</string>
   <string name="donate_text">תרום</string>
   <string name="donate_to_droid_notify_text">תרומות Droid Notify</string>
   <string name="donate_summary">תרום לפרוייקט הזה. התרומות שלך עוזרות לעשות את ההתפתחות הממושכת ותוספות של מאפיינים חדשים אפשרית.</string>
@@ -63,7 +63,10 @@
   <string name="app_tts_error">שירות טקסט לדיבור לא יכול להתחיל.</string>
   <string name="app_preference_quiet_time_error">העדפות זמן שקט לא יכלו להתחיל.</string>
   <string name="test_notifications_disabled_message">ניסוי ההתראות לא יכולות להיות מוצגות כי לא אופשרו שום התראות.</string>
-  <string name="app_twitter_app_error">אפליקצית הטוויטר לא יכולה להתחיל.</string>
+  <string name="twitter_app_error">אפליקצית הטוויטר לא יכולה להתחיל.</string>
+  <string name="twitter_app_not_found_error">אפליקצית הטוויטר לא יכולה להימצא. נסה לבחור בלקוח טוויטר מועדף שונה.</string>
+  <string name="facebook_app_error">אפליקצית הפייסבוק לא יכולה להתחיל.</string>
+  <string name="facebook_app_not_found_error">אפליקצית הפייסבוק לא יכולה להימצא. נסה לבחור בלקוח פייסבוק מועדף שונה.</string>
   <string name="app_quick_reply_address_error">כתובת התשובה המהירה לא מופיעה כברת תוקף. הפעלת תשובה מהירה נכשלה.</string>
   <string name="twitter_send_direct_mesage_error">הודעת הטוויטר הישירה לא יכולה להישלח.</string>
   <string name="twitter_send_tweet_error">הציוץ/עדכון סטטוס לא יכול להישלח.</string>
@@ -83,6 +86,7 @@
   <string name="delete_email_dialog_text">זה ימחק את הדוא\"ל מהטלפון.</string>
   <string name="delete_twitter_direct_message_dialog_text">זה ימחק את ההודעה הישירה מחשבון הטוויטר שלך.</string>
   <string name="delete_facebook_notification_dialog_text">זה ימחק את ההתראה מחשבון הפייסבוק שלך.</string>
+  <string name="delete_facebook_message_dialog_text">זה ימחוק את ההודעה מחשבון הפייסבוק שלך.</string>
   <string name="preference_center_align_body_text_title">סדר במרכז את תוכן הטקסט</string>
   <string name="preference_center_align_body_text_summary">סדר במרכז את תוכן הטקסט של ההתראה.</string>
   <string name="preference_notification_body_font_size_title">גודל גופן תוכן התראה</string>
@@ -146,9 +150,8 @@
   <string name="email_at_text" formatted="false">דוא\"ל חדש ב %s</string>
   <string name="missed_call_at_text" formatted="false">שיחה שלא נענתה ב %s</string>
   <string name="mention_at_text" formatted="false">תזכיר חדש ב %s</string>
-  <string name="follower_at_text" formatted="false">מעריץ חדש ב %s</string>
-  <string name="retweet_at_text" formatted="false">ציוץ חדש ב %s</string>
-  <string name="reply_tweet_at_text" formatted="false">ציוץ תשובה חדש ב %s</string>
+  <string name="follower_request_at_text" formatted="false">בקשת מעקב חדשה ב %s</string>
+  <string name="follower_request_text" formatted="false">בקשת מעקב חדשה</string>
   <string name="notification_at_text" formatted="false">התראה חדשה ב %s</string>
   <string name="friend_request_at_text" formatted="false">בקשת חברות חדשה ב %s</string>
   <string name="preference_confirm_deletion_title">אשר מחיקה</string>
@@ -237,26 +240,38 @@
   <string name="preference_twitter_enabled_summaryOn">התראות טוויטר מאופשרות.</string>
   <string name="preference_twitter_enabled_summaryOff">התראות טוויטר מבוטלות.</string>
   <string name="preference_twitter_direct_messages_enabled_title">אפשר הודעות ישירות של טוויטר</string>
-  <string name="preference_twitter_direct_messages_enabled_summary">התראות של הודעות ישירות של טוויטר מאופשר.</string>
+  <string name="preference_twitter_direct_messages_enabled_summary">אפשר התראות הודעה ישירה של טוויטר.</string>
   <string name="preference_twitter_mentions_enabled_title">אפשר תזכורות טוויטר</string>
-  <string name="preference_twitter_mentions_enabled_summary">התראות תזכורות של טוויטר מאופשר.</string>
+  <string name="preference_twitter_mentions_enabled_summary">אפשר התראות תזכורת של טוויטר.</string>
+  <string name="preference_twitter_follower_requests_enabled_title">אפשר בקשות מעקב של טוויטר</string>
+  <string name="preference_twitter_follower_requests_enabled_summary">אפשר התראות בקשת מעקב של טוויטר.</string>
   <string name="twitter_authentication_text">אימות טוויטר</string>
   <string name="twitter_authentication_message_text">המסך הבא יפתח עמוד אינטרנט של טוויטר בדפדפן האינטרנט. דף האינטרנט הזה ישאל אותך אם להיות בעל גישה לחשבון הטוויטר שלך. אם אתה רוצה להמשיך אנא לחץ על הכפתור \"המשך\" מתחת.</string>
   <string name="authenticating_text">לאמת...</string>
   <string name="twitter_authentication_error">אנחנו לא יכולים לאמת או לגשת לחשבון הטוויטר שלך כרגע. אנא נסה שוב מאוחר יותר.</string>
   <string name="preference_twitter_polling_frequency_summary">באיזו תדירות אתה רוצה לקרוא את חשבון הטוויטר שלך?</string>
-  <string name="preference_clear_twitter_authentication_data">Reset Twitter Data</string>
-  <string name="preference_clear_twitter_authentication_data_summary">Clear the Twitter authentication data.</string>
-  <string name="twitter_authentication_data_cleared">The Twitter authentication data has been cleared.</string>
+  <string name="preference_clear_twitter_authentication_data">אפס נתוני טוויטר</string>
+  <string name="preference_clear_twitter_authentication_data_summary">נקה את אימות נתוני טוויטר.</string>
+  <string name="twitter_authentication_data_cleared">אימות הנתונים של טוויטר נוקו.</string>
+  <string name="twitter_following_request" formatted="false">%s (@%s) ביקש לעקוב אחריך בטוויטר!</string>
+  <string name="open_twitter_app_text">פתח את אפליקצית טוויטר</string>
   <string name="preference_facebook_notifications">התראות פייסבוק</string>
   <string name="preference_facebook_enabled_title">אפשר פייסבוק</string>
   <string name="preference_facebook_enabled_summaryOn">התראות פייסבוק מאופשרות.</string>
   <string name="preference_facebook_enabled_summaryOff">התראות פייסבוק מבוטלות.</string>
+  <string name="preference_facebook_user_notifications_enabled_title">אפשר התראות פייסבוק</string>
+  <string name="preference_facebook_user_notifications_enabled_summary">אפשר התראת התראות של פייסבוק.</string>
+  <string name="preference_facebook_messages_enabled_title">אפשר הודעות פייסבוק</string>
+  <string name="preference_facebook_messages_enabled_summary">אפשר התראות הודעה של פייסבוק.</string>
+  <string name="preference_facebook_friend_requests_enabled_title">אפשר בקשות חברות של פייסבוק</string>
+  <string name="preference_facebook_friend_requests_enabled_summary">אפשר התראות בקשת חברות של פייסבוק.</string>
   <string name="facebook_authentication_text">אימות פייסבוק</string>
   <string name="facebook_authentication_error">אנחנו לא יכולים לאמת או לגשת לחשבון הפייסבוק שלך כרגע. אנא נסה שוב מאוחר יותר.</string>
-  <string name="preference_clear_facebook_authentication_data">Reset Facebook Data</string>
-  <string name="preference_clear_facebook_authentication_data_summary">Clear the Facebook authentication data.</string>
-  <string name="facebook_authentication_data_cleared">The Facebook authentication data has been cleared.</string>
+  <string name="preference_clear_facebook_authentication_data">אפס נתוני פייסבוק</string>
+  <string name="preference_clear_facebook_authentication_data_summary">נקה את אימות נתוני פייסבוק.</string>
+  <string name="facebook_authentication_data_cleared">אימות הנתונים של פייסבוק נוקו.</string>
+  <string name="open_facebook_app_text">פתח את אפליקצית פייסבוק</string>
+  <string name="preference_facebook_polling_frequency_summary">באיזו תדירות אתה רוצה לקרוא את החשבון הפייסבוק שלך?</string>
   <string name="email_inbox_text">תיבת דוא\"ל נכנס</string>
   <string name="view_email_text">הצג דוא\"ל</string>
   <string name="preference_k9_enabled_title">אפשר K-9 Email</string>
@@ -407,10 +422,13 @@
   <string name="status_bar_notification_content_title_text_mms">הודעה חדשה</string>
   <string name="status_bar_notification_content_title_text_phone">שיחה שלא נענתה</string>
   <string name="status_bar_notification_content_title_text_calendar">תזכורת אירוע לוח שנה</string>
-  <string name="status_bar_notification_content_title_text_twitter_direct_message">New Twitter Direct Message</string>
-  <string name="status_bar_notification_content_title_text_twitter_mention">New Twitter Mention</string>
-  <string name="status_bar_notification_content_title_text_facebook">הודעת פייסבוק חדשה</string>
-  <string name="status_bar_notification_content_title_text_email">New Email</string>
+  <string name="status_bar_notification_content_title_text_twitter_direct_message">הודעת טוויטר ישירה חדשה</string>
+  <string name="status_bar_notification_content_title_text_twitter_mention">תזכורת טוויטר חדשה</string>
+  <string name="status_bar_notification_content_title_text_twitter_follower_request">בקשת מעקב טוויטר חדשה</string>
+  <string name="status_bar_notification_content_title_text_facebook_notification">התראת פייסבוק חדשה</string>
+  <string name="status_bar_notification_content_title_text_facebook_friend_request">בקשת חברות פייסבוק חדשה</string>
+  <string name="status_bar_notification_content_title_text_facebook_message">הודעת פייסבוק חדשה</string>
+  <string name="status_bar_notification_content_title_text_email">דוא\"ל חדש</string>
   <string name="status_bar_notification_content_text_sms" formatted="false">הודעה חדשה מ %s - %s.</string>
   <string name="status_bar_notification_content_text_sms_null" formatted="false">הודעה חדשה.</string>
   <string name="status_bar_notification_content_text_mms" formatted="false">הודעה חדשה מ %s - %s.</string>
@@ -419,11 +437,18 @@
   <string name="status_bar_notification_content_text_phone_null" formatted="false">שיחה שלא נענתה.</string>
   <string name="status_bar_notification_content_text_calendar" formatted="false">אירוע לוח שנה - %s</string>
   <string name="status_bar_notification_content_text_calendar_null" formatted="false">אירוע לוח שנה.</string>
-  <string name="status_bar_notification_content_text_twitter_direct_message" formatted="false">הודעה ישירה של טוויטר מ %s - %s.</string>
-  <string name="status_bar_notification_content_text_twitter_direct_message_null" formatted="false">הודעה ישירה של טוויטר.</string>
+  <string name="status_bar_notification_content_text_twitter_direct_message" formatted="false">הודעת טוויטר ישירה חדשה מ %s - %s.</string>
+  <string name="status_bar_notification_content_text_twitter_direct_message_null" formatted="false">הודעת טוויטר ישירה חדשה.</string>
   <string name="status_bar_notification_content_text_twitter_mention" formatted="false">תזכורת טוויטר חדשה מ %s - %s.</string>
   <string name="status_bar_notification_content_text_twitter_mention_null" formatted="false">תזכורת טוויטר חדשה.</string>
-  <string name="status_bar_notification_content_text_facebook" formatted="false">הודעת פייסבוק חדשה %s - %s.</string>
+  <string name="status_bar_notification_content_text_twitter_follower_request" formatted="false">בקשת מעקב טוויטר חדשה מ %s - %s.</string>
+  <string name="status_bar_notification_content_text_twitter_follower_request_null" formatted="false">בקשת מעקב טוויטר חדשה.</string>
+  <string name="status_bar_notification_content_text_facebook_notification" formatted="false">התראת פייסבוק חדשה מ %s - %s.</string>
+  <string name="status_bar_notification_content_text_facebook_notification_null" formatted="false">התראת פייסבוק חדשה.</string>
+  <string name="status_bar_notification_content_text_facebook_friend_request" formatted="false">בקשת חברות פייסבוק חדשה מ %s - %s.</string>
+  <string name="status_bar_notification_content_text_facebook_friend_request_null" formatted="false">בקשת חברות פייסבוק חדשה.</string>
+  <string name="status_bar_notification_content_text_facebook_message" formatted="false">הודעת פייסבוק חדשה מ %s - %s.</string>
+  <string name="status_bar_notification_content_text_facebook_message_null" formatted="false">הודעת פייסבוק חדשה.</string>
   <string name="status_bar_notification_content_text_email" formatted="false">דוא\"ל חדש מ %s - %s.</string>
   <string name="status_bar_notification_content_text_email_null" formatted="false">דוא\"ל חדש.</string>
   <string name="status_bar_notification_ticker_text_sms" formatted="false">הודעה חדשה מ %s - %s.</string>
@@ -438,12 +463,24 @@
   <string name="status_bar_notification_ticker_text_phone_null" formatted="false">שיחה שלא נענתה.</string>
   <string name="status_bar_notification_ticker_text_calendar" formatted="false">אירוע לוח שנה - %s</string>
   <string name="status_bar_notification_ticker_text_calendar_null" formatted="false">אירוע לוח שנה.</string>
-  <string name="status_bar_notification_ticker_text_twitter_direct_message" formatted="false">הודעה ישירה של טוויטר מ %s - %s.</string>
-  <string name="status_bar_notification_ticker_text_unknown_contact_twitter_direct_message" formatted="false">הודעה ישירה חדשה של טוויטר - %s.</string>
-  <string name="status_bar_notification_ticker_text_twitter_direct_message_null" formatted="false">הודעה ישירה של טוויטר.</string>
+  <string name="status_bar_notification_ticker_text_twitter_direct_message" formatted="false">הודעת טוויטר ישירה חדשה מ %s - %s.</string>
+  <string name="status_bar_notification_ticker_text_unknown_contact_twitter_direct_message" formatted="false">הודעת טוויטר ישירה חדשה - %s.</string>
+  <string name="status_bar_notification_ticker_text_twitter_direct_message_null" formatted="false">הודעת טוויטר ישירה חדשה.</string>
   <string name="status_bar_notification_ticker_text_twitter_mention" formatted="false">תזכורת טוויטר חדשה מ %s - %s.</string>
   <string name="status_bar_notification_ticker_text_unknown_contact_twitter_mention" formatted="false">תזכורת טוויטר חדשה - %s.</string>
   <string name="status_bar_notification_ticker_text_twitter_mention_null" formatted="false">תזכורת טוויטר חדשה.</string>
+  <string name="status_bar_notification_ticker_text_twitter_follower_request" formatted="false">בקשת מעקב טוויטר חדשה מ %s - %s.</string>
+  <string name="status_bar_notification_ticker_text_unknown_contact_twitter_follower_request" formatted="false">בקשת מעקב טוויטר חדשה - %s.</string>
+  <string name="status_bar_notification_ticker_text_twitter_follower_request_null" formatted="false">בקשת מעקב טוויטר חדשה.</string>
+  <string name="status_bar_notification_ticker_text_facebook_notification" formatted="false">התראת פייסבוק חדשה מ %s - %s.</string>
+  <string name="status_bar_notification_ticker_text_unknown_contact_facebook_notification" formatted="false">התראת פייסבוק חדשה - %s.</string>
+  <string name="status_bar_notification_ticker_text_facebook_notification_null" formatted="false">התראת פייסבוק חדשה.</string>
+  <string name="status_bar_notification_ticker_text_facebook_friend_request" formatted="false">בקשת חברות פייסבוק חדשה מ %s - %s.</string>
+  <string name="status_bar_notification_ticker_text_unknown_contact_facebook_friend_request" formatted="false">בקשת חברות פייסבוק חדשה - %s.</string>
+  <string name="status_bar_notification_ticker_text_facebook_friend_request_null" formatted="false">בקשת חברות פייסבוק חדשה.</string>
+  <string name="status_bar_notification_ticker_text_facebook_message" formatted="false">הודעת פייסבוק חדשה מ %s - %s.</string>
+  <string name="status_bar_notification_ticker_text_unknown_contact_facebook_message" formatted="false">הודעת פייסבוק חדשה - %s.</string>
+  <string name="status_bar_notification_ticker_text_facebook_message_null" formatted="false">הודעת פייסבוק חדשה.</string>
   <string name="status_bar_notification_ticker_text_email" formatted="false">דוא\"ל חדש מ %s - %s.</string>
   <string name="status_bar_notification_ticker_text_unknown_contact_email" formatted="false">דוא\"ל חדש - %s.</string>
   <string name="status_bar_notification_ticker_text_privacy_email" formatted="false">דוא\"ל חדש מ %s.</string>
@@ -752,7 +789,8 @@
   <string name="use_preferred_client">שימוש לקוח מועדף</string>
   <string name="preference_choose_client_title">בחר לקוח מועדף</string>
   <string name="preference_choose_client_summary">בחר בלקוח שאתה מעדיף להשתמש. הלקוח הזה ישתמש על ידי האפליקציה כאשר מתאים.</string>
-  <string name="launch_twitter_app">הפעל אפליקצית טוויטר.</string>
+  <string name="launch_twitter_app">הפעל את אפליקצית טוויטר</string>
+  <string name="launch_facebook_app">הפעל את אפליקצית פייסבוק</string>
   <string name="hootsuite">HootSuite</string>
   <string name="plume">Plume</string>
   <string name="plume_premium">Plume Premium</string>
@@ -779,4 +817,10 @@
   <string name="use_twidroyd_legacy">השתמש ב Twidroyd Legacy</string>
   <string name="use_twitter">השתמש בטוויטר</string>
   <string name="use_ubersocial">השתמש ב Ubersocial (formerly Twidroyd Pro)</string>
+  <string name="facebook">פייסבוק</string>
+  <string name="friendCaster_for_facebook">זירת חברים של פייסבוק</string>
+  <string name="friendCaster_pro_for_facebook">זירת חברים מלאה של פייסבוק</string>
+  <string name="use_facebook">השתמש בפייסבוק</string>
+  <string name="use_friendCaster_for_facebook">השתמש בזירת חברים של פייסבוק</string>
+  <string name="use_friendCaster_pro_for_facebook">השתמש בזירת חברים מלאה של פייסבוק</string>
 </resources>
