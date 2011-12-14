@@ -55,6 +55,7 @@ import android.widget.Toast;
 import apps.droidnotify.NotificationActivity;
 import apps.droidnotify.NotificationViewFlipper;
 import apps.droidnotify.QuickReplyActivity;
+import apps.droidnotify.facebook.FacebookCommon;
 import apps.droidnotify.log.Log;
 import apps.droidnotify.receivers.CalendarAlarmReceiver;
 import apps.droidnotify.receivers.RescheduleReceiver;
@@ -1643,6 +1644,8 @@ public class Common {
 						contentTitle = context.getText(R.string.status_bar_notification_content_title_text_facebook_notification);
 					}else if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST){
 						contentTitle = context.getText(R.string.status_bar_notification_content_title_text_facebook_friend_request);
+					}else if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE){
+						contentTitle = context.getText(R.string.status_bar_notification_content_title_text_facebook_message);
 					}
 					if(sentFromContactName == null || sentFromContactName.equals("")){
 						sentFrom = sentFromAddress;
@@ -1656,6 +1659,9 @@ public class Common {
 						}else if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST){
 							contentText = context.getString(R.string.status_bar_notification_content_text_facebook_friend_request_null);
 							tickerText = context.getString(R.string.status_bar_notification_ticker_text_facebook_friend_request_null);
+						}else if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE){
+							contentText = context.getString(R.string.status_bar_notification_content_text_facebook_message_null);
+							tickerText = context.getString(R.string.status_bar_notification_ticker_text_facebook_message_null);
 						}
 						//Content Intent
 						notificationContentIntent = null;
@@ -1676,8 +1682,15 @@ public class Common {
 							}else{
 								tickerText = context.getString(R.string.status_bar_notification_ticker_text_facebook_friend_request, sentFromContactName, message);
 							}
+						}else if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE){
+							contentText = context.getString(R.string.status_bar_notification_content_text_facebook_message, sentFrom, message);
+							if(sentFromContactName == null || sentFromContactName.equals("")){
+								tickerText = context.getString(R.string.status_bar_notification_ticker_text_unknown_contact_facebook_message, message);
+							}else{
+								tickerText = context.getString(R.string.status_bar_notification_ticker_text_facebook_message, sentFromContactName, message);
+							}
 						}
-						notificationContentIntent = null;
+						notificationContentIntent = FacebookCommon.getFacebookAppActivityIntent(context);
 					}
 					//Delete Intent
 					notificationDeleteIntent = null;
@@ -1990,16 +2003,18 @@ public class Common {
 						icon = R.drawable.status_bar_notification_twitter_t_blue;
 					}else{
 						//Default Value
-						icon = R.drawable.status_bar_notification_twitter_grey;
+						icon = R.drawable.status_bar_notification_twitter_blue;
 					}
 					break;
 				}
 				case Constants.NOTIFICATION_TYPE_FACEBOOK:{
 					if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_facebook_grey")){
 						icon = R.drawable.status_bar_notification_facebook_grey;
+					}else if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_facebook_blue")){
+						icon = R.drawable.status_bar_notification_facebook_blue;
 					}else{
 						//Default Value
-						icon = R.drawable.status_bar_notification_facebook_grey;
+						icon = R.drawable.status_bar_notification_facebook_blue;
 					}
 					break;
 				}

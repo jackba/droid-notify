@@ -83,11 +83,6 @@
 					android:summary="@string/preference_display_text_to_speech_button_summary"
 					android:defaultValue="true" />
 				<CheckBoxPreference
-					android:key="display_reschedule_button" 
-					android:title="@string/preference_display_reschedule_button_title" 
-					android:summary="@string/preference_display_reschedule_button_summary"
-					android:defaultValue="true" />
-				<CheckBoxPreference
 					android:key="hide_single_message_header_enabled" 
 					android:title="@string/preference_hide_single_message_header_enabled_title" 
 					android:summaryOn="@string/preference_hide_single_message_header_enabled_summaryOn" 
@@ -182,6 +177,27 @@
 					android:entryValues="@array/font_size_options_values" />
 			</PreferenceCategory>
 			<PreferenceCategory
+				android:key="reschedule_settings_category"
+				android:title="@string/reschedule_settings_text">
+				<CheckBoxPreference
+					android:key="display_reschedule_button" 
+					android:title="@string/preference_display_reschedule_button_title" 
+					android:summary="@string/preference_display_reschedule_button_summary"
+					android:defaultValue="true" />
+				<PreferenceScreen
+					android:key="reschedule_settings_screen"
+					android:title="@string/reschedule_settings_text"
+					android:dependency="display_reschedule_button">
+					<ListPreference
+						android:key="reschedule_time"
+						android:title="@string/preference_reschedule_time_text"
+						android:summary="@string/preference_reschedule_time_summary"
+						android:defaultValue="60"
+						android:entries="@array/reschedule_time_options"
+						android:entryValues="@array/reschedule_time_options_values" />
+				</PreferenceScreen>
+			</PreferenceCategory>
+			<PreferenceCategory
 				android:key="reminder_settings_category"
 				android:title="@string/reminder_settings_text">
 				<CheckBoxPreference
@@ -233,21 +249,6 @@
 						android:title="@string/preference_quiet_time_quiet_period_title"
 						android:summary="@string/preference_quiet_time_quiet_period_summary" />   
 			    </PreferenceScreen>
-			</PreferenceCategory>
-			<PreferenceCategory
-				android:key="reschedule_settings_category"
-				android:title="@string/reschedule_settings_text">
-				<PreferenceScreen
-					android:key="reschedule_settings_screen"
-					android:title="@string/reschedule_settings_text">
-					<ListPreference
-						android:key="reschedule_time"
-						android:title="@string/preference_reschedule_time_text"
-						android:summary="@string/preference_reschedule_time_summary"
-						android:defaultValue="60"
-						android:entries="@array/reschedule_time_options"
-						android:entryValues="@array/reschedule_time_options_values" />
-				</PreferenceScreen>
 			</PreferenceCategory>
 			<PreferenceCategory
 				android:key="quick_reply_settings_category"
@@ -1500,7 +1501,7 @@
 									android:entries="@array/notification_icon_options_twitter"
 									android:entryValues="@array/notification_icon_values_twitter"
 									droidnotify:entryImages="@array/notification_icon_images_twitter"
-									android:defaultValue="status_bar_notification_twitter_grey" />
+									android:defaultValue="status_bar_notification_twitter_blue" />
 							</PreferenceCategory>	
 					  		<PreferenceCategory
 								android:key="twitter_notification_sound_settings_category"
