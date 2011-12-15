@@ -2,8 +2,6 @@ package apps.droidnotify.services;
 
 import java.util.ArrayList;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -79,6 +77,8 @@ public class K9BroadcastReceiverService extends WakefulIntentService {
 		    }else if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_RESCHEDULE) && blockingAppRunning){ 
 		    	//Blocking App is running.
 		    	rescheduleNotification = true;
+		    }else if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_SHOW)){
+		    	rescheduleNotification = false;
 		    }
 		    if(!rescheduleNotification){
 				Intent k9Intent = new Intent(context, K9Service.class);
@@ -113,16 +113,11 @@ public class K9BroadcastReceiverService extends WakefulIntentService {
 		    		return;
 		    	}
 		    	//Set alarm to go off x minutes from the current time as defined by the user preferences.
-		    	if(preferences.getBoolean(Constants.RESCHEDULE_NOTIFICATIONS_ENABLED_KEY, true)){
-		    		long rescheduleInterval = Long.parseLong(preferences.getString(Constants.RESCHEDULE_BLOCKED_NOTIFICATION_TIMEOUT_KEY, Constants.RESCHEDULE_BLOCKED_NOTIFICATION_TIMEOUT_DEFAULT)) * 60 * 1000;
-		    		if (_debug) Log.v("K9BroadcastReceiverService.doWakefulWork() Rescheduling notification. Rechedule in " + rescheduleInterval + "minutes.");
-					AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-					Intent k9Intent = new Intent(context, K9Receiver.class);
-					k9Intent.putExtras(intent.getExtras());
-					k9Intent.setAction("apps.droidnotify.VIEW/K9Reschedule/" + String.valueOf(System.currentTimeMillis()));
-					PendingIntent k9PendingIntent = PendingIntent.getBroadcast(context, 0, k9Intent, 0);
-					alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + rescheduleInterval, k9PendingIntent);
-		    	}
+		    	long rescheduleInterval = Long.parseLong(preferences.getString(Constants.RESCHEDULE_BLOCKED_NOTIFICATION_TIMEOUT_KEY, Constants.RESCHEDULE_BLOCKED_NOTIFICATION_TIMEOUT_DEFAULT)) * 60 * 1000;
+	    		if (_debug) Log.v("K9BroadcastReceiverService.doWakefulWork() Rescheduling notification. Rechedule in " + rescheduleInterval + "minutes.");				
+				String intentActionText = "apps.droidnotify.alarm/K9ReceiverAlarm/" + String.valueOf(System.currentTimeMillis());
+				long alarmTime = System.currentTimeMillis() + rescheduleInterval;
+				Common.startAlarm(context, K9Receiver.class, null, intentActionText, alarmTime);
 		    }
 		}catch(Exception ex){
 			if (_debug) Log.e("K9BroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());

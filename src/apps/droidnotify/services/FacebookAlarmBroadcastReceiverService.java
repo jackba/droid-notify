@@ -83,6 +83,8 @@ public class FacebookAlarmBroadcastReceiverService extends WakefulIntentService 
 		    }else if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_RESCHEDULE) && blockingAppRunning){ 
 		    	//Blocking App is running.
 		    	rescheduleNotification = true;
+		    }else if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_SHOW)){
+		    	rescheduleNotification = false;
 		    }
 		    if(!rescheduleNotification){
 				WakefulIntentService.sendWakefulWork(context, new Intent(context, FacebookService.class));
@@ -167,11 +169,9 @@ public class FacebookAlarmBroadcastReceiverService extends WakefulIntentService 
 		    		return;
 		    	}
 		    	//Set alarm to go off x minutes from the current time as defined by the user preferences.
-		    	if(preferences.getBoolean(Constants.RESCHEDULE_NOTIFICATIONS_ENABLED_KEY, true)){
-		    		long rescheduleInterval = Long.parseLong(preferences.getString(Constants.RESCHEDULE_BLOCKED_NOTIFICATION_TIMEOUT_KEY, Constants.RESCHEDULE_BLOCKED_NOTIFICATION_TIMEOUT_DEFAULT)) * 60 * 1000;
-		    		if (_debug) Log.v("FacebookAlarmBroadcastReceiverService.doWakefulWork() Rescheduling notification. Rechedule in " + rescheduleInterval + "minutes.");					
-					FacebookCommon.setFacebookAlarm(context, System.currentTimeMillis() + rescheduleInterval);
-		    	}
+		    	long rescheduleInterval = Long.parseLong(preferences.getString(Constants.RESCHEDULE_BLOCKED_NOTIFICATION_TIMEOUT_KEY, Constants.RESCHEDULE_BLOCKED_NOTIFICATION_TIMEOUT_DEFAULT)) * 60 * 1000;
+	    		if (_debug) Log.v("FacebookAlarmBroadcastReceiverService.doWakefulWork() Rescheduling notification. Rechedule in " + rescheduleInterval + "minutes.");					
+				FacebookCommon.setFacebookAlarm(context, System.currentTimeMillis() + rescheduleInterval);
 		    }
 		}catch(Exception ex){
 			if (_debug) Log.e("FacebookAlarmBroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());

@@ -1,7 +1,5 @@
 package apps.droidnotify.services;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -81,6 +79,8 @@ public class CalendarNotificationAlarmBroadcastReceiverService extends WakefulIn
 		    }else if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_RESCHEDULE) && blockingAppRunning){ 
 		    	//Blocking App is running.
 		    	rescheduleNotification = true;
+		    }else if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_SHOW)){
+		    	rescheduleNotification = false;
 		    }
 		    if(!rescheduleNotification){
 				Intent calendarIntent = new Intent(context, CalendarService.class);
@@ -108,21 +108,10 @@ public class CalendarNotificationAlarmBroadcastReceiverService extends WakefulIn
 		    	}
 		    	// Set alarm to go off x minutes from the current time as defined by the user preferences.
 		    	long rescheduleInterval = Long.parseLong(preferences.getString(Constants.RESCHEDULE_BLOCKED_NOTIFICATION_TIMEOUT_KEY, Constants.RESCHEDULE_BLOCKED_NOTIFICATION_TIMEOUT_DEFAULT)) * 60 * 1000;
-		    	if(preferences.getBoolean(Constants.RESCHEDULE_NOTIFICATIONS_ENABLED_KEY, true)){
-		    		if(rescheduleInterval == 0){
-		    			SharedPreferences.Editor editor = preferences.edit();
-		    			editor.putBoolean(Constants.RESCHEDULE_NOTIFICATIONS_ENABLED_KEY, false);
-		    			editor.commit();
-		    			return;
-		    		}
-		    		if (_debug) Log.v("CalendarNotificationAlarmBroadcastReceiverService.onReceive() Rescheduling notification. Rechedule in " + rescheduleInterval + "minutes.");
-					AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-					Intent calendarIntent = new Intent(context, CalendarNotificationAlarmReceiver.class);
-					calendarIntent.putExtras(intent.getExtras());
-					calendarIntent.setAction("apps.droidnotify.VIEW/CalendarReschedule/" + String.valueOf(System.currentTimeMillis()));
-					PendingIntent calendarPendingIntent = PendingIntent.getBroadcast(context, 0, calendarIntent, 0);
-					alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + rescheduleInterval, calendarPendingIntent);
-		    	}
+	    		if (_debug) Log.v("CalendarNotificationAlarmBroadcastReceiverService.onReceive() Rescheduling notification. Rechedule in " + rescheduleInterval + "minutes.");					
+				String intentActionText = "apps.droidnotify.alarm/CalendarNotificationAlarmReceiverAlarm/" + String.valueOf(System.currentTimeMillis());
+				long alarmTime = System.currentTimeMillis() + rescheduleInterval;
+				Common.startAlarm(context, CalendarNotificationAlarmReceiver.class, intent.getExtras(), intentActionText, alarmTime);
 		    }
 		}catch(Exception ex){
 			if (_debug) Log.e("CalendarNotificationAlarmBroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());

@@ -59,6 +59,7 @@ import apps.droidnotify.facebook.FacebookCommon;
 import apps.droidnotify.log.Log;
 import apps.droidnotify.receivers.CalendarAlarmReceiver;
 import apps.droidnotify.receivers.RescheduleReceiver;
+import apps.droidnotify.receivers.SMSReceiver;
 import apps.droidnotify.twitter.TwitterCommon;
 import apps.droidnotify.R;
 
@@ -3410,7 +3411,7 @@ public class Common {
 	 * @return boolean - Returns true if the activity was started successfully.
 	 */
 	public static boolean startNotificationActivity(Context context, Bundle bundle){
-		if (_debug) Log.v("TwitterService.startNotificationActivity()");
+		if (_debug) Log.v("Common.startNotificationActivity()");
 		try{
 			Intent notificationIntent = new Intent(context, NotificationActivity.class);
 	    	notificationIntent.putExtras(bundle);
@@ -3419,10 +3420,37 @@ public class Common {
 	    	context.startActivity(notificationIntent);	
 	    	return true;
 		}catch(Exception ex){
-			if (_debug) Log.e("TwitterService.startNotificationActivity() ERROR: " + ex.toString());
+			if (_debug) Log.e("Common.startNotificationActivity() ERROR: " + ex.toString());
 			return false;
 		}
 	}
+	
+	/**
+	 * Start an alarm with the given parameters. This is mainly used to reschedule notifications.
+	 * 
+	 * @param context - The application context.
+	 * @param className - The name of the receiver class.
+	 * @param extrasBundle - The extras information to pass to the recevier class.
+	 * @param actionText - The text that differentiates this alarm from other alarms.
+	 * @param rescheduleTime - The time the alarm should go off.
+	 */
+	public static void startAlarm(Context context, Class<?> className, Bundle extrasBundle, String actionText, long alarmTime){
+		if (_debug) Log.v("Common.startAlarm()");
+		try{
+			AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+			Intent intent = new Intent(context, SMSReceiver.class);
+			if(extrasBundle != null){
+				intent.putExtras(extrasBundle);
+			}
+			if(actionText != null){
+				intent.setAction(actionText);
+			}
+			PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+			alarmManager.set(AlarmManager.RTC_WAKEUP, alarmTime, pendingIntent);
+		}catch(Exception ex){
+			if (_debug) Log.e("Common.startAlarm() ERROR: " + ex.toString());
+		}
+	}	
 	
 	//================================================================================
 	// Private Methods

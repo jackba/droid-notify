@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.TimeZone;
 
 import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
@@ -219,19 +218,10 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
 	private void scheduleCalendarNotification(Context context, long scheduledAlarmTime, String title, String eventStartTime, String eventEndTime, String eventAllDay, String calendarName, String calendarID, String eventID, String intentAction){
 		if (_debug) Log.v("CalendarAlarmReceiverService.scheduleCalendarNotification()");
 		try{
-			AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-	    	Intent calendarNotificationIntent = new Intent(context, CalendarNotificationAlarmReceiver.class);
 	    	Bundle bundle = new Bundle();
 	    	bundle.putInt("notificationType", Constants.NOTIFICATION_TYPE_CALENDAR);
 	    	bundle.putStringArray("calenderEventInfo",new String[]{title, "", eventStartTime, eventEndTime, eventAllDay, calendarName, calendarID, eventID});
-	    	calendarNotificationIntent.putExtras(bundle);
-	    	calendarNotificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-	    	//Set the Action attribute for the scheduled intent. 
-	    	//Add custom attributes based on the CalendarID and CalendarEventID in order to tell the AlarmManager that these are different intents (which they are of course).
-	    	//If you don't do this the alarms will over write each other because the AlarmManager will think they are the same intents being rescheduled.
-	    	calendarNotificationIntent.setAction(intentAction);
-	    	PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, calendarNotificationIntent, 0);
-			alarmManager.set(AlarmManager.RTC_WAKEUP, scheduledAlarmTime, pendingIntent);
+			Common.startAlarm(context, CalendarNotificationAlarmReceiver.class, bundle, intentAction, scheduledAlarmTime);
 		}catch(Exception ex){
 			if (_debug) Log.v("CalendarAlarmReceiverService.scheduleCalendarNotification() ERROR: " + ex.toString());
 		}

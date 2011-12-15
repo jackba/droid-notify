@@ -1,7 +1,5 @@
 package apps.droidnotify.services;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -72,10 +70,9 @@ public class MMSBroadcastReceiverService extends WakefulIntentService {
 			//This time is set by the users advanced preferences. 40 seconds is the default value.
 			//This should allow enough time to pass for the mms inbox to be written to.
 			long timeoutInterval = Long.parseLong(preferences.getString(Constants.MMS_TIMEOUT_KEY, "40")) * 1000;
-			AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-			Intent mmsIntent = new Intent(context, MMSAlarmReceiver.class);
-			PendingIntent mmsPendingIntent = PendingIntent.getBroadcast(context, 0, mmsIntent, 0);
-			alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + timeoutInterval, mmsPendingIntent);	
+			String intentActionText = "apps.droidnotify.alarm/MMSAlarmReceiverAlarm/" + String.valueOf(System.currentTimeMillis());
+			long alarmTime = System.currentTimeMillis() + timeoutInterval;
+			Common.startAlarm(context, MMSAlarmReceiver.class, null, intentActionText, alarmTime);
 		}catch(Exception ex){
 			if (_debug) Log.e("MMSBroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());
 		}

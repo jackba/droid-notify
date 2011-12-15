@@ -1,7 +1,5 @@
 package apps.droidnotify.services;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -84,10 +82,9 @@ public class PhoneBroadcastReceiverService extends WakefulIntentService {
 				//This time is set by the users advanced preferences. 5 seconds is the default value.
 				//This should allow enough time to pass for the phone log to be written to.
 				long timeoutInterval = Long.parseLong(preferences.getString(Constants.CALL_LOG_TIMEOUT_KEY, "5")) * 1000;
-				AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-				Intent phoneIntent = new Intent(context, PhoneAlarmReceiver.class);
-				PendingIntent phonePendingIntent = PendingIntent.getBroadcast(context, 0, phoneIntent, 0);
-				alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + timeoutInterval, phonePendingIntent);
+				String intentActionText = "apps.droidnotify.alarm/PhoneAlarmReceiverAlarm/" + String.valueOf(System.currentTimeMillis());
+				long alarmTime = System.currentTimeMillis() + timeoutInterval;
+				Common.startAlarm(context, PhoneAlarmReceiver.class, null, intentActionText, alarmTime);
 		    }else if(callState == TelephonyManager.CALL_STATE_RINGING){
 		    	if (_debug) Log.v("PhoneBroadcastReceiverService.doWakefulWork() Phone Ringing. Exiting...");
 		    }else if(callState == TelephonyManager.CALL_STATE_OFFHOOK){
