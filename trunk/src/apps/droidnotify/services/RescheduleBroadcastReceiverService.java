@@ -1,7 +1,5 @@
 package apps.droidnotify.services;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -212,16 +210,11 @@ public class RescheduleBroadcastReceiverService extends WakefulIntentService {
 		    		return;
 		    	}
 		    	//Set alarm to go off x minutes from the current time as defined by the user preferences.
-		    	if(preferences.getBoolean(Constants.RESCHEDULE_NOTIFICATIONS_ENABLED_KEY, true)){
-		    		long rescheduleInterval = Long.parseLong(preferences.getString(Constants.RESCHEDULE_BLOCKED_NOTIFICATION_TIMEOUT_KEY, Constants.RESCHEDULE_BLOCKED_NOTIFICATION_TIMEOUT_DEFAULT)) * 60 * 1000;
-		    		if (_debug) Log.v("RescheduleBroadcastReceiverService.doWakefulWork() Rescheduling notification. Rechedule in " + rescheduleInterval + "minutes.");
-					AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-					Intent rescheduleIntent = new Intent(context, RescheduleReceiver.class);
-					rescheduleIntent.putExtras(intent.getExtras());
-					rescheduleIntent.setAction("apps.droidnotify.VIEW/RescheduleReschedule/" + String.valueOf(notificationType) + "/" + String.valueOf(System.currentTimeMillis()));
-					PendingIntent reschedulePendingIntent = PendingIntent.getBroadcast(context, 0, rescheduleIntent, 0);
-					alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + rescheduleInterval, reschedulePendingIntent);
-		    	}
+		    	long rescheduleInterval = Long.parseLong(preferences.getString(Constants.RESCHEDULE_BLOCKED_NOTIFICATION_TIMEOUT_KEY, Constants.RESCHEDULE_BLOCKED_NOTIFICATION_TIMEOUT_DEFAULT)) * 60 * 1000;
+	    		if (_debug) Log.v("RescheduleBroadcastReceiverService.doWakefulWork() Rescheduling notification. Rechedule in " + rescheduleInterval + "minutes.");					
+				String intentActionText = "apps.droidnotify.alarm/RescheduleReceiverAlarm/" + String.valueOf(notificationType) + "/" + String.valueOf(System.currentTimeMillis());
+				long rescheduleTime = System.currentTimeMillis() + rescheduleInterval;
+				Common.startAlarm(context, RescheduleReceiver.class, intent.getExtras(), intentActionText, rescheduleTime);
 		    }
 		}catch(Exception ex){
 			if (_debug) Log.e("RescheduleBroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());

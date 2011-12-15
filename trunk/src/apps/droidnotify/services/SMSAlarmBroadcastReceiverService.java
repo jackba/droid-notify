@@ -2,8 +2,6 @@ package apps.droidnotify.services;
 
 import java.util.ArrayList;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -78,6 +76,8 @@ public class SMSAlarmBroadcastReceiverService extends WakefulIntentService {
 		    }else if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_RESCHEDULE) && blockingAppRunning){ 
 		    	//Blocking App is running.
 		    	rescheduleNotification = true;
+		    }else if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_SHOW)){
+		    	rescheduleNotification = false;
 		    }
 		    if(!rescheduleNotification){
 				WakefulIntentService.sendWakefulWork(context, new Intent(context, SMSService.class));
@@ -108,20 +108,10 @@ public class SMSAlarmBroadcastReceiverService extends WakefulIntentService {
 		    	}
 		    	// Set alarm to go off x minutes from the current time as defined by the user preferences.
 		    	long rescheduleInterval = Long.parseLong(preferences.getString(Constants.RESCHEDULE_BLOCKED_NOTIFICATION_TIMEOUT_KEY, Constants.RESCHEDULE_BLOCKED_NOTIFICATION_TIMEOUT_DEFAULT)) * 60 * 1000;
-		    	if(preferences.getBoolean(Constants.RESCHEDULE_NOTIFICATIONS_ENABLED_KEY, true)){
-		    		if(rescheduleInterval == 0){
-		    			SharedPreferences.Editor editor = preferences.edit();
-		    			editor.putBoolean(Constants.RESCHEDULE_NOTIFICATIONS_ENABLED_KEY, false);
-		    			editor.commit();
-		    			return;
-		    		}
-		    		if (_debug) Log.v("SMSAlarmBroadcastReceiverService.doWakefulWork() Rescheduling notification. Rechedule in " + rescheduleInterval + "minutes.");
-					AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-					Intent phoneIntent = new Intent(context, SMSAlarmReceiver.class);
-					phoneIntent.setAction("apps.droidnotify.VIEW/SMSReschedule/" + String.valueOf(System.currentTimeMillis()));
-					PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, phoneIntent, 0);
-					alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + rescheduleInterval, pendingIntent);
-		    	}
+	    		if (_debug) Log.v("SMSAlarmBroadcastReceiverService.doWakefulWork() Rescheduling notification. Rechedule in " + rescheduleInterval + "minutes.");					
+				String intentActionText = "apps.droidnotify.alarm/SMSAlarmReceiverAlarm/" + String.valueOf(System.currentTimeMillis());
+				long rescheduleTime = System.currentTimeMillis() + rescheduleInterval;
+				Common.startAlarm(context, SMSAlarmReceiver.class, null, intentActionText, rescheduleTime);
 		    }
 		}catch(Exception ex){
 			if (_debug) Log.e("SMSAlarmBroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());

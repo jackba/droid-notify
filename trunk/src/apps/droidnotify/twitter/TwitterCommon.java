@@ -502,11 +502,8 @@ public class TwitterCommon {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("TwitterCommon.setTwitterAlarm()");
 		try{
-			AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-			Intent intent = new Intent(context, TwitterAlarmReceiver.class);
-			intent.setAction("apps.droidnotify.VIEW/TwitterReschedule/" + String.valueOf(System.currentTimeMillis()));
-			PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
-			alarmManager.set(AlarmManager.RTC_WAKEUP, alarmStartTime, pendingIntent);
+			String intentActionText = "apps.droidnotify.alarm/TwitterAlarmReceiverAlarm/" + String.valueOf(System.currentTimeMillis());
+			Common.startAlarm(context, TwitterAlarmReceiver.class, null, intentActionText, alarmStartTime);
 		}catch(Exception ex){
 			if (_debug) Log.e("TwitterCommon.setTwitterAlarm() ERROR: " + ex.toString());
 		}

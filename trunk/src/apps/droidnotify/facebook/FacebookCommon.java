@@ -86,7 +86,6 @@ public class FacebookCommon {
 		try {
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 			String accessToken = preferences.getString(Constants.FACEBOOK_ACCESS_TOKEN_KEY, null);
-			//long expires = preferences.getLong(Constants.FACEBOOK_ACCESS_EXPIRES_KEY, 0);	
 			if(accessToken == null){
 				if (_debug) Log.v("FacebookCommon.isFacebookAuthenticated() Facebook stored authentication details are null. Exiting...");
 				return false;
@@ -112,17 +111,16 @@ public class FacebookCommon {
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 			Facebook facebook = new Facebook(Constants.FACEBOOK_APP_ID);
 		    String accessToken = preferences.getString(Constants.FACEBOOK_ACCESS_TOKEN_KEY, null);
-		    long expires = preferences.getLong(Constants.FACEBOOK_ACCESS_EXPIRES_KEY, 0);
+	        long expires = preferences.getLong(Constants.FACEBOOK_ACCESS_EXPIRES_KEY, 0);
 		    if(accessToken == null){
 				if (_debug) Log.v("FacebookCommon.getFacebook() AccessToken is null. Exiting...");
 				return null;
-			}
-		    if(accessToken != null) {
+			}else{
 		    	facebook.setAccessToken(accessToken);
 		    }
-		    if(expires != 0) {
-		    	facebook.setAccessExpires(expires);
-		    }
+	        if(expires != 0) {
+	            facebook.setAccessExpires(expires);
+	        }
 		    if(!facebook.isSessionValid()){
 		    	if (_debug) Log.v("FacebookCommon.getFacebook() Facebook object is not valid. Exiting...");
 		    	return null;
@@ -143,11 +141,9 @@ public class FacebookCommon {
 	public static void setFacebookAlarm(Context context, long alarmStartTime){
 		_debug = Log.getDebug();
 		if (_debug) Log.v("FacebookCommon.setFacebookAlarm()");
-		try{
-			AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-			Intent intent = new Intent(context, FacebookAlarmReceiver.class);
-			PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
-			alarmManager.set(AlarmManager.RTC_WAKEUP, alarmStartTime, pendingIntent);
+		try{			
+			String intentActionText = "apps.droidnotify.alarm/FacebookAlarmReceiverAlarm/" + String.valueOf(System.currentTimeMillis());
+			Common.startAlarm(context, FacebookAlarmReceiver.class, null, intentActionText, alarmStartTime);
 		}catch(Exception ex){
 			if (_debug) Log.e("FacebookCommon.setFacebookAlarm() ERROR: " + ex.toString());
 		}
@@ -262,14 +258,23 @@ public class FacebookCommon {
         	String result = facebook.request("me/notifications", bundle, "GET");
         	//if (_debug) Log.v("FacebookCommon.getFacebookNotifications() Result: " + result);
         	JSONObject jsonResults = new JSONObject(result);
+        	if(jsonResults.has("error")){
+        		JSONObject jsonError = jsonResults.getJSONObject("error");
+        		if (_debug) Log.e("FacebookCommon.getFacebookNotifications() FACAEBOOK API ERROR: " + jsonError.getString("message"));
+        		return null;
+        	}
+        	if(!jsonResults.has("data")){
+        		if (_debug) Log.v("FacebookCommon.getFacebookNotifications() No data in the DATA array found. Exiting...");
+        		return null;
+        	}
         	JSONArray jsonDataArray = jsonResults.getJSONArray("data");
         	int jsonDataArraySize = jsonDataArray.length();
         	for (int i=0;i<jsonDataArraySize;i++){
         	    JSONObject jsonNotificationData = jsonDataArray.getJSONObject(i);
         	    long timeStamp = 0;
-        	    try{
+        	    if(jsonNotificationData.has("updated_time")){
         	    	timeStamp = parseFacebookDatTime(jsonNotificationData.getString("updated_time"));
-        	    }catch(Exception ex){
+        	    }else if(jsonNotificationData.has("created_time")){
         	    	timeStamp = parseFacebookDatTime(jsonNotificationData.getString("created_time"));
         	    }
         	    String notificationText = jsonNotificationData.getString("title");
@@ -308,14 +313,23 @@ public class FacebookCommon {
         	String result = facebook.request("me/friendrequests", bundle, "GET");
         	//if (_debug) Log.v("FacebookCommon.getFacebookFriendRequests() Result: " + result);
         	JSONObject jsonResults = new JSONObject(result);
+        	if(jsonResults.has("error")){
+        		JSONObject jsonError = jsonResults.getJSONObject("error");
+        		if (_debug) Log.e("FacebookCommon.getFacebookNotifications() FACAEBOOK API ERROR: " + jsonError.getString("message"));
+        		return null;
+        	}
+        	if(!jsonResults.has("data")){
+        		if (_debug) Log.v("FacebookCommon.getFacebookFriendRequests() No data in the DATA array found. Exiting...");
+        		return null;
+        	}
         	JSONArray jsonDataArray = jsonResults.getJSONArray("data");
         	int jsonDataArraySize = jsonDataArray.length();
         	for (int i=0;i<jsonDataArraySize;i++){
         	    JSONObject jsonFriendRequestData = jsonDataArray.getJSONObject(i);
         	    long timeStamp = 0;
-        	    try{
+        	    if(jsonFriendRequestData.has("updated_time")){
         	    	timeStamp = parseFacebookDatTime(jsonFriendRequestData.getString("updated_time"));
-        	    }catch(Exception ex){
+        	    }else if(jsonFriendRequestData.has("created_time")){
         	    	timeStamp = parseFacebookDatTime(jsonFriendRequestData.getString("created_time"));
         	    }
 				String friendRequestID = "0";
@@ -353,6 +367,15 @@ public class FacebookCommon {
         	String result = facebook.request("me/inbox", bundle, "GET");
         	//if (_debug) Log.v("FacebookCommon.getFacebookMessages() Result: " + result);
         	JSONObject jsonResults = new JSONObject(result);
+        	if(jsonResults.has("error")){
+        		JSONObject jsonError = jsonResults.getJSONObject("error");
+        		if (_debug) Log.e("FacebookCommon.getFacebookNotifications() FACAEBOOK API ERROR: " + jsonError.getString("message"));
+        		return null;
+        	}
+        	if(!jsonResults.has("data")){
+        		if (_debug) Log.v("FacebookCommon.getFacebookMessages() No data in the DATA array found. Exiting...");
+        		return null;
+        	}
         	JSONArray jsonDataArray = jsonResults.getJSONArray("data");
         	int jsonDataArraySize = jsonDataArray.length();
         	for (int i=0;i<jsonDataArraySize;i++){
@@ -364,10 +387,10 @@ public class FacebookCommon {
 				String fromFacebookID = fromFacebookUser.getString("id");
 	    		String[] facebookContactInfo = Common.getContactsInfoByName(context, fromFacebookName);
 				//Original/Start message details.
-        	    long originalTimeStamp = 0;
-        	    try{
+        	    long originalTimeStamp = 0;       	    
+        	    if(jsonMessageData.has("updated_time")){
         	    	originalTimeStamp = parseFacebookDatTime(jsonMessageData.getString("updated_time"));
-        	    }catch(Exception ex){
+        	    }else if(jsonMessageData.has("created_time")){
         	    	originalTimeStamp = parseFacebookDatTime(jsonMessageData.getString("created_time"));
         	    }
         	    String originalMessageStringID = jsonMessageData.getString("id");
@@ -375,9 +398,10 @@ public class FacebookCommon {
         	    if(unreadFlag > 0){
 					boolean commentsExist = true;
 					JSONObject messageComments = null;
-					try{
+					if(jsonMessageData.has("comments")){
 						messageComments = jsonMessageData.getJSONObject("comments");
-					}catch(Exception ex){
+						commentsExist = true;
+					}else{
 						messageComments = null;
 						commentsExist = false;
 					}

@@ -59,14 +59,14 @@ public class FacebookAuthenticationActivity extends Activity {
         	_facebook.setAccessToken(accessToken);
         }
         if(expires != 0) {
-        	_facebook.setAccessExpires(expires);
+            _facebook.setAccessExpires(expires);
         }
         /*
          * Only call authorize if the access_token has expired.
          */
         if(!_facebook.isSessionValid()) {
 
-        	String permissions[] = new String[] {"manage_notifications", "read_mailbox", "read_requests"};
+        	String permissions[] = new String[] {"offline_access", "manage_notifications", "read_mailbox", "read_requests"};
             _facebook.authorize(this, permissions, new DialogListener() {
 
                 public void onComplete(Bundle values) {
