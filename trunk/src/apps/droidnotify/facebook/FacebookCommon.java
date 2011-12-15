@@ -382,20 +382,20 @@ public class FacebookCommon {
         	    JSONObject jsonMessageData = jsonDataArray.getJSONObject(i);
         	    int unreadFlag = jsonMessageData.getInt("unread");
         	    //int unseenFlag = jsonMessageData.getInt("unseen");
-				JSONObject fromFacebookUser = jsonMessageData.getJSONObject("from");
-				String fromFacebookName = fromFacebookUser.getString("name");
-				String fromFacebookID = fromFacebookUser.getString("id");
-	    		String[] facebookContactInfo = Common.getContactsInfoByName(context, fromFacebookName);
-				//Original/Start message details.
-        	    long originalTimeStamp = 0;       	    
-        	    if(jsonMessageData.has("updated_time")){
-        	    	originalTimeStamp = parseFacebookDatTime(jsonMessageData.getString("updated_time"));
-        	    }else if(jsonMessageData.has("created_time")){
-        	    	originalTimeStamp = parseFacebookDatTime(jsonMessageData.getString("created_time"));
-        	    }
-        	    String originalMessageStringID = jsonMessageData.getString("id");
-        	    String originalMessageText = jsonMessageData.getString("message");
         	    if(unreadFlag > 0){
+    				JSONObject fromFacebookUser = jsonMessageData.getJSONObject("from");
+    				String fromFacebookName = fromFacebookUser.getString("name");
+    				String fromFacebookID = fromFacebookUser.getString("id");
+    				//Original/Start message details.
+            	    long originalTimeStamp = 0;       	    
+            	    if(jsonMessageData.has("updated_time")){
+            	    	originalTimeStamp = parseFacebookDatTime(jsonMessageData.getString("updated_time"));
+            	    }else if(jsonMessageData.has("created_time")){
+            	    	originalTimeStamp = parseFacebookDatTime(jsonMessageData.getString("created_time"));
+            	    }
+            	    String originalMessageStringID = jsonMessageData.getString("id");
+            	    String originalMessageText = jsonMessageData.getString("message");
+    	    		String[] facebookContactInfo = Common.getContactsInfoByName(context, fromFacebookName);
 					boolean commentsExist = true;
 					JSONObject messageComments = null;
 					if(jsonMessageData.has("comments")){
