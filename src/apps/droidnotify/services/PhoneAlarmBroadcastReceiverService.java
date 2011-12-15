@@ -71,20 +71,21 @@ public class PhoneAlarmBroadcastReceiverService extends WakefulIntentService {
 			}
 		    //Check the state of the users phone.
 			TelephonyManager telemanager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-		    boolean rescheduleNotification = false;
+		    boolean notificationIsBlocked = false;
+		    boolean rescheduleNotification = true;
 		    boolean callStateIdle = telemanager.getCallState() == TelephonyManager.CALL_STATE_IDLE;
 		    boolean blockingAppRunning = Common.isBlockingAppRunning(context);
 		    String blockingAppRuningAction = preferences.getString(Constants.PHONE_BLOCKING_APP_RUNNING_ACTION_KEY, Constants.BLOCKING_APP_RUNNING_ACTION_SHOW);
 		    //Reschedule notification based on the users preferences.
 		    if(!callStateIdle){
-		    	rescheduleNotification = true;
+		    	notificationIsBlocked = true;
 		    }else if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_RESCHEDULE) && blockingAppRunning){ 
 		    	//Blocking App is running.
-		    	rescheduleNotification = true;
+		    	notificationIsBlocked = true;
 		    }else if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_SHOW)){
-		    	rescheduleNotification = false;
+		    	notificationIsBlocked = false;
 		    }
-		    if(!rescheduleNotification){
+		    if(!notificationIsBlocked){
 				WakefulIntentService.sendWakefulWork(context, new Intent(context, PhoneService.class));
 		    }else{
 		    	//Display the Status Bar Notification even though the popup is blocked based on the user preferences.
@@ -107,14 +108,17 @@ public class PhoneAlarmBroadcastReceiverService extends WakefulIntentService {
 			    }
 		    	//Ignore notification based on the users preferences.
 		    	if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_IGNORE)){
+		    		rescheduleNotification = false;
 		    		return;
 		    	}
-		    	// Set alarm to go off x minutes from the current time as defined by the user preferences.
-		    	long rescheduleInterval = Long.parseLong(preferences.getString(Constants.RESCHEDULE_BLOCKED_NOTIFICATION_TIMEOUT_KEY, Constants.RESCHEDULE_BLOCKED_NOTIFICATION_TIMEOUT_DEFAULT)) * 60 * 1000;
-	    		if (_debug) Log.v("PhoneAlarmBroadcastReceiverService.doWakefulWork() Rescheduling notification. Rechedule in " + rescheduleInterval + "minutes.");					
-				String intentActionText = "apps.droidnotify.alarm/PhoneAlarmReceiverAlarm/" + String.valueOf(System.currentTimeMillis());
-				long alarmTime = System.currentTimeMillis() + rescheduleInterval;
-				Common.startAlarm(context, PhoneAlarmReceiver.class, null, intentActionText, alarmTime);
+		    	if(rescheduleNotification){
+			    	// Set alarm to go off x minutes from the current time as defined by the user preferences.
+			    	long rescheduleInterval = Long.parseLong(preferences.getString(Constants.RESCHEDULE_BLOCKED_NOTIFICATION_TIMEOUT_KEY, Constants.RESCHEDULE_BLOCKED_NOTIFICATION_TIMEOUT_DEFAULT)) * 60 * 1000;
+		    		if (_debug) Log.v("PhoneAlarmBroadcastReceiverService.doWakefulWork() Rescheduling notification. Rechedule in " + rescheduleInterval + "minutes.");					
+					String intentActionText = "apps.droidnotify.alarm/PhoneAlarmReceiverAlarm/" + String.valueOf(System.currentTimeMillis());
+					long alarmTime = System.currentTimeMillis() + rescheduleInterval;
+					Common.startAlarm(context, PhoneAlarmReceiver.class, null, intentActionText, alarmTime);
+		    	}
 		    }
 	    }catch(Exception ex){
 			if (_debug) Log.e("PhoneAlarmBroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());
