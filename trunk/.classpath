@@ -7,5 +7,7 @@
 	<classpathentry kind="lib" path="lib/signpost-core-1.2.1.1.jar"/>
 	<classpathentry kind="lib" path="lib/twitter4j-core-android-2.2.4.jar"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
+	<classpathentry kind="lib" path="lib/commons-codec-1.3.jar"/>
+	<classpathentry kind="lib" path="lib/linkedin-j-android.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

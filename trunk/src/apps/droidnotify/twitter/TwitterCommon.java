@@ -195,7 +195,8 @@ public class TwitterCommon {
 			if (_debug) Log.e("TwitterCommon.getTwitterFollowers() ERROR: " + ex.toString());
 			return null;
 		}
-	}	
+	}
+	
 	/**
 	 * Load the various contact info for this notification from a phoneNumber.
 	 * 

@@ -17,6 +17,20 @@
     	android:icon="@drawable/ic_launcher_droidnotify"
     	android:label="@string/app_name_formatted"
     	android:debuggable="true" >
+			
+		<activity 
+			android:name="apps.droidnotify.linkedin.LinkedInAuthenticationActivity"
+			android:theme="@android:style/Theme.Dialog"
+			android:launchMode="singleTask">
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<category android:name="android.intent.category.BROWSABLE" />
+				<data 
+				    android:scheme="droidnotify-oauth-linkedin" 
+				    android:host="callback" />
+			</intent-filter>
+		</activity>
     	
         <activity 
         	android:name="apps.droidnotify.preferences.MainPreferenceActivity" 
