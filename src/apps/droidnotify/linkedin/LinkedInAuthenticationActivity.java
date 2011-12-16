@@ -43,7 +43,7 @@ public class LinkedInAuthenticationActivity extends Activity {
     // Properties
     //================================================================================
 	
-	private LinkedInOAuthService oauthService;
+
 	private boolean _debug = false;
 	private Context _context = null;
 	private SharedPreferences _preferences = null;
@@ -51,6 +51,10 @@ public class LinkedInAuthenticationActivity extends Activity {
 	private LinearLayout _progressBarLinearLayout = null;
 	private Button _continueButton = null;
 	private Button _cancelButton = null;
+	private LinkedInOAuthService _oAuthService = null;
+	private LinkedInApiClientFactory _clientFactory = null;
+	private LinkedInRequestToken _linkedInToken = null;
+	private LinkedInApiClient _linkedInClient = null;
 	  
 	//================================================================================
 	// Public Methods
@@ -69,14 +73,10 @@ public class LinkedInAuthenticationActivity extends Activity {
 	    requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.linkedin_authentication);
 		
-		final LinkedInOAuthService oAuthService = LinkedInOAuthServiceFactory.getInstance().createLinkedInOAuthService(Constants.LINKEDIN_CONSUMER_KEY, Constants.LINKEDIN_CONSUMER_SECRET);
-        final LinkedInApiClientFactory factory = LinkedInApiClientFactory.newInstance(Constants.CONSUMER_KEY, Constants.CONSUMER_SECRET);
-        LinkedInRequestToken liToken;
-        LinkedInApiClient client;		
-		
-		
-		_consumer = new CommonsHttpOAuthConsumer(Constants.LINKEDIN_CONSUMER_KEY, Constants.LINKEDIN_CONSUMER_SECRET);
-		_provider = new DefaultOAuthProvider(Constants.LINKEDIN_REQUEST_URL, Constants.LINKEDIN_AUTHORIZE_URL, Constants.LINKEDIN_ACCESS_URL);
+		_oAuthService = LinkedInOAuthServiceFactory.getInstance().createLinkedInOAuthService(Constants.LINKEDIN_CONSUMER_KEY, Constants.LINKEDIN_CONSUMER_SECRET);
+		_clientFactory = LinkedInApiClientFactory.newInstance(Constants.LINKEDIN_CONSUMER_KEY, Constants.LINKEDIN_CONSUMER_SECRET);
+        _linkedInToken = _oAuthService.getOAuthRequestToken();
+
 		setupViews();
 		setupButtons();
 //		if(LinkedInCommon.isLinkedInAuthenticated(_context)){
@@ -101,26 +101,20 @@ public class LinkedInAuthenticationActivity extends Activity {
 		_mainLinearLayout.setVisibility(View.GONE);
 		_progressBarLinearLayout.setVisibility(View.VISIBLE);
 		Uri uri = intent.getData();
-		if (uri != null && uri.getScheme().equals(Constants.TWITTER_CALLBACK_SCHEME)) {
+		if (uri != null && uri.getScheme().equals(Constants.LINKEDIN_CALLBACK_SCHEME)) {
 			try {
-				if(_consumer == null){
-					_consumer = new CommonsHttpOAuthConsumer(Constants.TWITTER_CONSUMER_KEY, Constants.TWITTER_CONSUMER_SECRET);
-				}
-				if(_provider == null){
-					_provider = new DefaultOAuthProvider(Constants.TWITTER_REQUEST_URL, Constants.TWITTER_AUTHORIZE_URL, Constants.TWITTER_ACCESS_URL);
-				}
 				//This will populate token and token_secret in consumer.
 				String oauthVerifier = uri.getQueryParameter(OAuth.OAUTH_VERIFIER);
-				_provider.retrieveAccessToken(_consumer, oauthVerifier);
-				SharedPreferences.Editor editor = _preferences.edit();
-				editor.putString(OAuth.OAUTH_TOKEN, _consumer.getToken());
-				editor.putString(OAuth.OAUTH_TOKEN_SECRET, _consumer.getTokenSecret());
-				editor.commit();
-				LinkedInCommon.startLinkedInAlarmManager(_context, System.currentTimeMillis());
+				LinkedInAccessToken accessToken = _oAuthService.getOAuthAccessToken(_linkedInToken, oauthVerifier);				
+//				SharedPreferences.Editor editor = _preferences.edit();
+//				editor.putString(OAuth.OAUTH_TOKEN, _consumer.getToken());
+//				editor.putString(OAuth.OAUTH_TOKEN_SECRET, _consumer.getTokenSecret());
+//				editor.commit();
+//				LinkedInCommon.startLinkedInAlarmManager(_context, System.currentTimeMillis());				
 				finish();
 			} catch (Exception ex) {
 				if (_debug) Log.e("LinkedInAuthenticationActivity.onNewIntent() ERROR: " + ex.toString());
-				Toast.makeText(_context, _context.getString(R.string.twitter_authentication_error), Toast.LENGTH_LONG).show();
+				Toast.makeText(_context, _context.getString(R.string.linkedin_authentication_error), Toast.LENGTH_LONG).show();
 				finish();
 			}
 		}
@@ -240,8 +234,8 @@ public class LinkedInAuthenticationActivity extends Activity {
 	 */
 	private void authenticateLinkedInAccount(){
 		if (_debug) Log.v("LinkedInAuthenticationActivity.authenticateLinkedInAccount()");
-		try {
-			String url = _provider.retrieveRequestToken(_consumer, Constants.TWITTER_CALLBACK_URL);
+		try {			
+			String url = _linkedInToken.getAuthorizationUrl();
 			Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
 			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_NO_HISTORY);
 			startActivity(intent);

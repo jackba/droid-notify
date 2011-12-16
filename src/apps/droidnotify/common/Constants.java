@@ -484,9 +484,6 @@ public class Constants {
 	//-----LINKEDIN NOTIFICATION CONSTANTS-----//
 	public static final String LINKEDIN_CONSUMER_KEY = "i1ktinzc0j0c";
 	public static final String LINKEDIN_CONSUMER_SECRET= "IaqaWiDaHxY0X0v3";
- 	public static final String LINKEDIN_REQUEST_URL = "http://api.twitter.com/oauth/request_token";
-	public static final String LINKEDIN_ACCESS_URL = "http://api.twitter.com/oauth/authorize";
-	public static final String LINKEDIN_AUTHORIZE_URL = "http://api.twitter.com/oauth/access_token";
 	public static final String LINKEDIN_CALLBACK_SCHEME = "droidnotify-oauth-linkedin";
 	public static final String LINKEDIN_CALLBACK_URL = TWITTER_CALLBACK_SCHEME + "://callback";
 	
