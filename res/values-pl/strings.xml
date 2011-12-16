@@ -120,7 +120,9 @@
   <string name="preference_contact_photo_size_summary">Wybierz rozmiar zdjęcia kontaktu.</string>
   <string name="about_text">O...</string>
   <string name="preference_about_summary">O Droid Notify</string>
-  <string name="preference_about_text">&lt;b&gt;Stworzony przez:&lt;/b&gt; Camille Sévigny&lt;br/&gt;&lt;b&gt;Email:&lt;/b&gt; &lt;a href=mailto:droidnotify@gmail.com&gt;droidnotify@gmail.com&lt;/a&gt;&lt;br/&gt;&lt;br/&gt;Droid Notify to aplikacja pokazująca wyskakujące powiadomenia gdy zostanie odebrany SMS/MMS, wystapi nieodebrane połączenie lub termin kalendarza. Powiadomienie przekieruje ciebie do wiadomosci, rejestru połaczeń lub kalendarza. Powiadomienia wyświetlają również informacje o kontakcie (jeśli dostępne) takie jak nazwa i zdjęcie.&lt;br/&gt;&lt;br/&gt;Jeśli spodobał się tobie Droid Notify, zagłosuj na aplikację i zostaw komentarz.&lt;br/&gt;&lt;br/&gt;Wysyłaj komentarze e-mailem, sugestie lub informacje o błędach.&lt;br/&gt;&lt;br/&gt;&lt;b&gt;Tłumaczenia przy użyciu:&lt;/b&gt; &lt;a href=http://www.crowdin.net/&gt;CrowdIn.net&lt;/a&gt;&lt;br/&gt;Tłumaczenie francuskie: Franky&lt;br/&gt;Tłumaczenie hiszpańskie: Shaymelmed (shaben_translations@hotmail.com)&lt;br/&gt;Tłumaczenie portugalskie: Marcio Andrade (marcioaribeiro@hotmail.com.br)&lt;br/&gt;Tłumaczenie polskie: dracoAG (draco.pl@gmail.com)&lt;br/&gt;&lt;br/&gt;&lt;b&gt;© 2011 Camille Sévigny&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;</string>
+  <string name="preference_about_text">&lt;b&gt;Stworzony przez:&lt;/b&gt; Camille Sévigny&lt;br/&gt;&lt;b&gt;Email:&lt;/b&gt; &lt;a href=\"mailto:droidnotify@gmail.com\"&gt;droidnotify@gmail.com&lt;/a&gt;&lt;br/&gt;&lt;br/&gt;Droid Notify to aplikacja pokazująca wyskakujące powiadomenia gdy zostanie odebrany SMS/MMS, wystapi nieodebrane połączenie lub termin kalendarza. Powiadomienie przekieruje ciebie do wiadomosci, rejestru połaczeń lub kalendarza. Powiadomienia wyświetlają również informacje o kontakcie (jeśli dostępne) takie jak nazwa i zdjęcie.&lt;br/&gt;&lt;br/&gt;Jeśli spodobał się tobie Droid Notify, zagłosuj na aplikację i zostaw komentarz.&lt;br/&gt;&lt;br/&gt;Wysyłaj komentarze e-mailem, sugestie lub informacje o błędach.&lt;br/&gt;&lt;br/&gt;&lt;b&gt;Tłumaczenia przy użyciu:&lt;/b&gt; &lt;a href=\"http://www.crowdin.net/\"&gt;CrowdIn.net&lt;/a&gt;&lt;br/&gt;</string>
+  <string name="preference_translated_by_text">Tłumaczenie francuskie: Franky&lt;br/&gt;Tłumaczenie hebrajskie: Benjo26&lt;br/&gt;Tłumaczenie polskie: Draco (draco.pl@gmail.com)&lt;br/&gt;Tłumaczenie portugalskie: Marcio Andrade (marcioaribeiro@hotmail.com.br)&lt;br/&gt;Tłumaczenie hiszpańskie: Shaymelmed (shaben_translations@hotmail.com)&lt;br/&gt;&lt;br/&gt;</string>
+  <string name="preference_copyright_text">&lt;b&gt;© 2011 Camille Sévigny&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;</string>
   <string name="preference_haptic_feedback_title">Włącz reakcję na dotyk</string>
   <string name="preference_haptic_feedback_summaryOn">Reakcja na dotyk jest włączona gdy używasz przycisków programowych i interacji interfejsu użytkownika.</string>
   <string name="preference_haptic_feedback_summaryOff">Reakcja na dotyk jest wyłączona.</string>
@@ -447,8 +449,8 @@
   <string name="status_bar_notification_content_text_facebook_notification_null" formatted="false">Nowe powiadomienie na Facebooku.</string>
   <string name="status_bar_notification_content_text_facebook_friend_request" formatted="false">Nowe zaproszenie na Facebooku od %s - %s.</string>
   <string name="status_bar_notification_content_text_facebook_friend_request_null" formatted="false">Nowe zaproszenie na Facebooku.</string>
-  <string name="status_bar_notification_content_text_facebook_message" formatted="false">New Facebook Message from %s - %s.</string>
-  <string name="status_bar_notification_content_text_facebook_message_null" formatted="false">New Facebook Message.</string>
+  <string name="status_bar_notification_content_text_facebook_message" formatted="false">Nowa wiadomość na Facebooku od %s - %s.</string>
+  <string name="status_bar_notification_content_text_facebook_message_null" formatted="false">Nowa wiadomość na Facebooku.</string>
   <string name="status_bar_notification_content_text_email" formatted="false">Nowa wiadomość email od %s - %s.</string>
   <string name="status_bar_notification_content_text_email_null" formatted="false">Nowa wiadomość email.</string>
   <string name="status_bar_notification_ticker_text_sms" formatted="false">Nowa wiadomość od %s - %s.</string>
@@ -478,9 +480,9 @@
   <string name="status_bar_notification_ticker_text_facebook_friend_request" formatted="false">Nowe zaproszenie na Facebooku od %s - %s.</string>
   <string name="status_bar_notification_ticker_text_unknown_contact_facebook_friend_request" formatted="false">Nowe zaproszenie na Facebooku - %s.</string>
   <string name="status_bar_notification_ticker_text_facebook_friend_request_null" formatted="false">Nowe zaproszenie na Facebooku.</string>
-  <string name="status_bar_notification_ticker_text_facebook_message" formatted="false">New Facebook Message from %s - %s.</string>
-  <string name="status_bar_notification_ticker_text_unknown_contact_facebook_message" formatted="false">New Facebook Message -  %s.</string>
-  <string name="status_bar_notification_ticker_text_facebook_message_null" formatted="false">New Facebook Message.</string>
+  <string name="status_bar_notification_ticker_text_facebook_message" formatted="false">Nowa wiadomość na Facebooku od %s - %s.</string>
+  <string name="status_bar_notification_ticker_text_unknown_contact_facebook_message" formatted="false">Nowa wiadomość na Facebooku - %s.</string>
+  <string name="status_bar_notification_ticker_text_facebook_message_null" formatted="false">Nowa wiadomość na Facebooku.</string>
   <string name="status_bar_notification_ticker_text_email" formatted="false">Nowa wiadomość email od %s - %s.</string>
   <string name="status_bar_notification_ticker_text_unknown_contact_email" formatted="false">Nowa wiadomość email - %s.</string>
   <string name="status_bar_notification_ticker_text_privacy_email" formatted="false">Nowa wiadomość email od %s.</string>

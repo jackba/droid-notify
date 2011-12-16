@@ -1040,9 +1040,11 @@ public class NotificationActivity extends Activity {
 	    super.onStop();
 	    if (_debug) Log.v("NotificationActivity.onStop()");
 	    if(Common.isUserInLinkedApp(_context)){
-	    
+	    	//Do Nothing.
 	    }else{
-	    	finishActivity();
+	    	if(_preferences.getBoolean(Constants.APPLICATION_CLOSE_WHEN_PUSHED_TO_BACKGROUND_KEY, false)){
+	    		finishActivity();
+	    	}
 	    }
 	}
 	  

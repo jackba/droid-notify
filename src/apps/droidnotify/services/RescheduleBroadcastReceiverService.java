@@ -126,7 +126,12 @@ public class RescheduleBroadcastReceiverService extends WakefulIntentService {
 		    }
 		    //Reschedule notification based on the users preferences.
 		    if(!callStateIdle){
-		    	notificationIsBlocked = true;
+		    	notificationIsBlocked = true;		    	
+		    	if(preferences.getBoolean(Constants.IN_CALL_RESCHEDULING_ENABLED_KEY, false)){
+		    		rescheduleNotification = true;
+		    	}else{
+		    		rescheduleNotification = false;
+		    	}
 		    }else if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_RESCHEDULE) && blockingAppRunning){ 
 		    	//Blocking App is running.
 		    	notificationIsBlocked = true;

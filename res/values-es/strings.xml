@@ -14,7 +14,7 @@
   <string name="preference_appenabled_summaryOn">Droid Notify está activado.</string>
   <string name="preference_appenabled_summaryOff">Droid Notify está desactivado.</string>
   <string name="to_text">Para</string>
-  <string name="from_text">From</string>
+  <string name="from_text">De</string>
   <string name="ok_text">Aceptar</string>
   <string name="close_text">Cerrar</string>
   <string name="cancel_text">Cancelar</string>
@@ -120,7 +120,9 @@
   <string name="preference_contact_photo_size_summary">Seleccionar el tamaño de la foto del contacto.</string>
   <string name="about_text">Acerca de</string>
   <string name="preference_about_summary">Acerca de Droid Notify</string>
-  <string name="preference_about_text">&lt;b&gt;Creado por:&lt;/b&gt; Camille Sévigny&lt;br/&gt;&lt;b&gt;Email:&lt;/b&gt; &lt;a href=\"mailto:droidnotify@gmail.com\"&gt;droidnotify@gmail.com&lt;/a&gt;&lt;br/&gt;&lt;br/&gt;Droid Notify es una aplicación que muestra una ventana emergente cuando se recibe un SMS/MMS, una Llamada Perdida o se avisa sobre un Evento del Calendario. Las notificaciones se enlazan con tu aplicación de mensajería, tu teléfono y tu calendario. Las notificaciones también muestran la información (disponible) del contacto como por ejemplo de quién es y la foto de dicho contacto si estuviese disponible.&lt;br/&gt;&lt;br/&gt;Si te gusta Droid Notify, por favor puntúa esta aplicación y deja un comentario.&lt;br/&gt;&lt;br/&gt;No dudes en mandarme un correo con comentarios, sugerencias o errores.&lt;br/&gt;&lt;br/&gt;&lt;b&gt;Traducciones de:&lt;/b&gt; &lt;a href=\"http://www.crowdin.net/\"&gt;CrowdIn.net&lt;/a&gt;&lt;br/&gt;Traducción en Francés de: Franky&lt;br/&gt;Traducción en Español de: Shaymelmed (shaben_translations@hotmail.com)&lt;br/&gt;Traducción en Portugués de: Marcio Andrade (marcioaribeiro@hotmail.com.br)&lt;br/&gt;&lt;br/&gt;&lt;b&gt;© 2011 Camille Sévigny&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;</string>
+  <string name="preference_about_text">&lt;b&gt;Created by:&lt;/b&gt; Camille Sévigny&lt;br/&gt;&lt;b&gt;Email:&lt;/b&gt; &lt;a href=\"mailto:droidnotify@gmail.com\"&gt;droidnotify@gmail.com&lt;/a&gt;&lt;br/&gt;&lt;br/&gt;Droid Notify is an application that shows a popup dialog when a SMS/MMS message is received, a Missed Call is received, a new Email is received or a Calendar Event occurs. There are also more advanced features and support for other notifications in the pro version of this application.  The notifications link to your messaging app, your phone and your calendar. The notifications also display the contact information (if available) such as who it\'s from and contact photo if available.&lt;br/&gt;&lt;br/&gt;If you like Droid Notify, please rate this application and leave a comment.&lt;br/&gt;&lt;br/&gt;Feel free to email comments, suggestions or bugs.&lt;br/&gt;&lt;br/&gt;&lt;b&gt;Translations powered by:&lt;/b&gt; &lt;a href=\"http://www.crowdin.net/\"&gt;CrowdIn.net&lt;/a&gt;&lt;br/&gt;</string>
+  <string name="preference_translated_by_text">Traducción en Francés de: Franky&lt;br/&gt;Traducción en Hebreo de: Benjo26&lt;br/&gt;Traducción en Polaco de: Draco (draco.pl@gmail.com)&lt;br/&gt;Traducción en Portugués de: Marcio Andrade (marcioaribeiro@hotmail.com.br)&lt;br/&gt;Traducción en Español de: Shaymelmed (shaben_translations@hotmail.com)&lt;br/&gt;&lt;br/&gt;</string>
+  <string name="preference_copyright_text">&lt;b&gt;© 2011 Camille Sévigny&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;</string>
   <string name="preference_haptic_feedback_title">Activar el Feedback Háptico</string>
   <string name="preference_haptic_feedback_summaryOn">El Feedback háptico está desactivado. Vibrar al presionar las teclas programables y sobre ciertas interacciones del IU.</string>
   <string name="preference_haptic_feedback_summaryOff">El Feedback está desactivado.</string>
@@ -256,7 +258,7 @@
   <string name="twitter_following_request" formatted="false">%s (@%s) has requested to follow you on Twitter!</string>
   <string name="open_twitter_app_text">Open Twitter App</string>
   <string name="preference_facebook_notifications">Facebook Notifications</string>
-  <string name="preference_facebook_enabled_title">Enable Facebook</string>
+  <string name="preference_facebook_enabled_title">Activar Facebook</string>
   <string name="preference_facebook_enabled_summaryOn">Facebook notifications are enabled.</string>
   <string name="preference_facebook_enabled_summaryOff">Facebook notifications are disabled.</string>
   <string name="preference_facebook_user_notifications_enabled_title">Enable Facebook Notifications</string>
@@ -803,24 +805,24 @@
   <string name="twicca">Twicca</string>
   <string name="twidroyd_legacy">Twidroyd Legacy</string>
   <string name="twitter">Twitter</string>
-  <string name="ubersocial">Ubersocial (formerly Twidroyd Pro)</string>
-  <string name="use_hootsuite">Use HootSuite</string>
-  <string name="use_plume">Use Plume</string>
-  <string name="use_plume_premium">Use Plume Premium</string>
-  <string name="use_seesmic">Use Seesmic</string>
-  <string name="use_tweetdeck">Use TweetDeck</string>
-  <string name="use_tweetcaster">Use TweetCaster</string>
-  <string name="use_tweetcaster_pink">Use TweetCaster Pink</string>
-  <string name="use_tweetcaster_pro">Use TweetCaster Pro</string>
-  <string name="use_tweetsride">Use TweetsRide</string>
-  <string name="use_twicca">Use Twicca</string>
-  <string name="use_twidroyd_legacy">Use Twidroyd Legacy</string>
-  <string name="use_twitter">Use Twitter</string>
-  <string name="use_ubersocial">Use Ubersocial (formerly Twidroyd Pro)</string>
+  <string name="ubersocial">Ubersocial (anteriormente Twidroyd Pro)</string>
+  <string name="use_hootsuite">Utilizar HootSuite</string>
+  <string name="use_plume">Utilizar Plume</string>
+  <string name="use_plume_premium">Utilizar Plume Premium</string>
+  <string name="use_seesmic">Utilizar Seesmic</string>
+  <string name="use_tweetdeck">Utilizar TweetDeck</string>
+  <string name="use_tweetcaster">Utilizar TweetCaster</string>
+  <string name="use_tweetcaster_pink">Utilizar TweetCaster Pink</string>
+  <string name="use_tweetcaster_pro">Utilizar TweetCaster Pro</string>
+  <string name="use_tweetsride">Utilizar TweetsRide</string>
+  <string name="use_twicca">Utilizar Twicca</string>
+  <string name="use_twidroyd_legacy">Utilizar Twidroyd Legacy</string>
+  <string name="use_twitter">Utilizar Twitter</string>
+  <string name="use_ubersocial">Utilizar Ubersocial (anteriormente Twidroyd Pro)</string>
   <string name="facebook">Facebook</string>
-  <string name="friendCaster_for_facebook">FriendCaster for Facebook</string>
-  <string name="friendCaster_pro_for_facebook">FriendCaster Pro for Facebook</string>
-  <string name="use_facebook">Use Facebook</string>
-  <string name="use_friendCaster_for_facebook">Use FriendCaster for Facebook</string>
-  <string name="use_friendCaster_pro_for_facebook">Use FriendCaster Pro for Facebook</string>
+  <string name="friendCaster_for_facebook">FriendCaster para Facebook</string>
+  <string name="friendCaster_pro_for_facebook">FriendCaster Pro para Facebook</string>
+  <string name="use_facebook">Utilizar Facebook</string>
+  <string name="use_friendCaster_for_facebook">Utilizar FriendCaster para Facebook</string>
+  <string name="use_friendCaster_pro_for_facebook">Utilizar FriendCaster Pro para Facebook</string>
 </resources>
