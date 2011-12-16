@@ -283,7 +283,7 @@
    	<string name="preference_twitter_follower_requests_enabled_title">Enable Twitter Follower Requests</string>
    	<string name="preference_twitter_follower_requests_enabled_summary">Enable Twitter Follower Requests notifications.</string>
    	<string name="twitter_authentication_text">Twitter Authentication</string>
-   	<string name="twitter_authentication_message_text">The next screen will open a Twitter web page in a web browser. This web page will ask you to allow this application to have access to your twitter account. If you wish to proceed please click on the \"Continue\" button below.</string>
+   	<string name="twitter_authentication_message_text">The next screen will open a Twitter web page in a web browser. This web page will ask you to allow this application to have access to your Twitter account. If you wish to proceed please click on the \"Continue\" button below.</string>
    	<string name="authenticating_text">Authenticating...</string>
    	<string name="twitter_authentication_error">We were not able to authenticate or access your Twitter account at this time. Please try again later.</string>
    	<string name="preference_twitter_polling_frequency_summary">How often you want to read your Twitter account?</string>
@@ -314,7 +314,11 @@
 	<string name="open_facebook_app_text">Open Facebook App</string>
    	    
 	<string name="preference_facebook_polling_frequency_summary">How often you want to read your Facebook account?</string>
-	    
+
+	<!-- LinkedIn Strings -->
+	<string name="linkedin_authentication_text">LinkedIn Authentication</string>
+   	<string name="linkedin_authentication_message_text">The next screen will open a LinkedIn web page in a web browser. This web page will ask you to allow this application to have access to your LinkedIn account. If you wish to proceed please click on the \"Continue\" button below.</string>
+	    	    
    	<!-- Email Strings -->
     <string name="email_inbox_text">Email Inbox</string>
     <string name="view_email_text">View Email</string>
