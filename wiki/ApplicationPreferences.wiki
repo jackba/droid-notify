@@ -60,7 +60,7 @@ Notifications
  * *_SMS Notifications_*
   * Enable SMS Notifications
   * Load Unread SMS Messages
-  * Messaging App Running
+  * Blocking Notification Options
   * Enable Status Bar Notifications
   * Status Bar Notification Settings
    * Display When Blocked
@@ -76,20 +76,20 @@ Notifications
   * Notification Body Settings
    * Hide Notification Body
   * Button Settings
-   * Confirm Message Deletion
+   * Confirm Deletion
    * Dismiss Button Action
    * Delete Button Action
    * Reply Button Action
    * Notification Count Action
    * Show/Hide Button Settings
-    * Hide Dismiss Button
-    * Hide Delete Button
-    * Hide Reply Button 
+    * Display Dismiss Button
+    * Display Delete Button
+    * Display Reply Button 
 
  * *_MMS Notifications_*
   * Enable MMS Notifications
   * Load Unread MMS Messages
-  * Messaging App Running
+  * Blocking Notification Options
   * Enable Status Bar Notifications
   * Status Bar Notification Settings
    * Display When Blocked
@@ -105,20 +105,20 @@ Notifications
   * Notification Body Settings
    * Hide Notification Body
   * Button Settings
-   * Confirm Message Deletion
+   * Confirm Deletion
    * Dismiss Button Action
    * Delete Button Action
    * Reply Button Action
    * Notification Count Action
    * Show/Hide Button Settings
-    * Hide Dismiss Button
-    * Hide Delete Button
-    * Hide Reply Button      
+    * Display Dismiss Button
+    * Display Delete Button
+    * Display Reply Button      
 
  * *_Missed Call Notifications_*
   * Enable Missed Call Notifications
   * Loading Settings
-  * Messaging App Running
+  * Blocking Notification Options
   * Enable Status Bar Notifications
   * Status Bar Notification Settings
    * Display When Blocked
@@ -135,15 +135,15 @@ Notifications
    * Dismiss Button Action
    * Notification Count Action
    * Show/Hide Button Settings
-    * Hide Dismiss Button
-    * Hide Call Button     
+    * Display Dismiss Button
+    * Display Call Button     
 
  * *_Calendar Notifications_*
   * Enable Calendar Notifications
   * All-Day Notification Time
-  * Messaging App Running
+  * Blocking Notification Options
   * Send Event Reminders
-  * Calendar Polling Frequency
+  * Polling Frequency
   * Select Calendars
   * Enable Calendar Labels
   * Enable Status Bar Notifications
@@ -158,17 +158,18 @@ Notifications
    * LED Blink Setting
    * Enable In-Call Sound
    * Enable In-Call Vibrate
+  * Notification Body Settings
+   * Hide Notification Body
+  * Send Event Reminders
   * Event Reminder Settings
    * Event Settings
    * All-Day Event Settings
-  * Notification Body Settings
-   * Hide Notification Body
   * Button Settings
    * Dismiss Button Action
    * Notification Count Action
    * Show/Hide Button Settings
-    * Hide Dismiss Button
-    * Hide View Button
+    * Display Dismiss Button
+    * Display View Button
 
 *_Screen Settings_*
 
