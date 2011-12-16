@@ -710,4 +710,10 @@ public class Constants {
 	public static final String DISPLAY_TEXT_TO_SPEECH_KEY = "display_text_to_speech_button";
 	public static final int TEXT_TO_SPEECH_ACTIVITY = 500;
 	
+	//-----APPLICATION PUSHED TO BACKGROUND CONSTANTS-----//
+	public static final String APPLICATION_CLOSE_WHEN_PUSHED_TO_BACKGROUND_KEY = "close_app_when_pushed_to_background";
+	
+	//-----IN-CALL SETTINGS CONSTANTS-----//
+	public static final String IN_CALL_RESCHEDULING_ENABLED_KEY = "in_call_rescheduling_enabled";
+	
 }

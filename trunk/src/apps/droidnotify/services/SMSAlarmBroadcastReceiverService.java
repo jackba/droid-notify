@@ -73,7 +73,12 @@ public class SMSAlarmBroadcastReceiverService extends WakefulIntentService {
 		    String blockingAppRuningAction = preferences.getString(Constants.SMS_BLOCKING_APP_RUNNING_ACTION_KEY, Constants.BLOCKING_APP_RUNNING_ACTION_SHOW);
 		    //Reschedule notification based on the users preferences.
 		    if(!callStateIdle){
-		    	notificationIsBlocked = true;
+		    	notificationIsBlocked = true;		    	
+		    	if(preferences.getBoolean(Constants.IN_CALL_RESCHEDULING_ENABLED_KEY, false)){
+		    		rescheduleNotification = true;
+		    	}else{
+		    		rescheduleNotification = false;
+		    	}
 		    }else if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_RESCHEDULE) && blockingAppRunning){ 
 		    	//Blocking App is running.
 		    	notificationIsBlocked = true;
