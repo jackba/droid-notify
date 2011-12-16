@@ -171,6 +171,93 @@ Notifications
     * Display Dismiss Button
     * Display View Button
 
+ * *_K9 Email Notifications_*
+  * Enable K9 Email
+  * Blocking Notification Options
+  * Enable Status Bar Notifications
+  * Status Bar Notification Settings
+   * Display When Blocked
+   * Notification Icon
+   * Notification Sound
+   * Vibrate Setting
+   * Vibrate Pattern
+   * Enable LED
+   * LED Color Setting
+   * LED Blink Setting
+   * Enable In-Call Sound
+   * Enable In-Call Vibrate
+  * Notification Body Settings
+   * Hide Notification Body
+  * Button Settings
+   * Confirm Deletion
+   * Dismiss Button Action
+   * Delete Button Action
+   * Reply Button Action
+   * Notification Count Action
+   * Show/Hide Button Settings
+    * Display Dismiss Button
+    * Display Delete Button
+    * Display Reply Button 
+
+ * *_Twitter Notifications_*
+  * Enable Twitter
+  * Enable Twitter Direct Messages
+  * Enable Twitter Mentions
+  * Enable Twitter Follower Requests
+  * Blocking Notification Options
+  * Select Preferred Client
+  * Polling Frequency
+  * Enable Status Bar Notifications
+  * Status Bar Notification Settings
+   * Display When Blocked
+   * Notification Icon
+   * Notification Sound
+   * Vibrate Setting
+   * Vibrate Pattern
+   * Enable LED
+   * LED Color Setting
+   * LED Blink Setting
+   * Enable In-Call Sound
+   * Enable In-Call Vibrate
+  * Notification Body Settings
+   * Hide Notification Body
+  * Button Settings
+   * Confirm Deletion
+   * Delete Button Action
+   * Reply Button Action
+   * Notification Count Action
+   * Show/Hide Button Settings
+    * Display Dismiss Button
+    * Display Delete Button
+    * Display Reply Button 
+	
+ * *_Facebook Notifications_*
+  * Enable Facebook
+  * Enable Facebook Notifications
+  * Enable Facebook Friend Requests
+  * Enable Facebook Messages
+  * Blocking Notification Options
+  * Select Preferred Client
+  * Polling Frequency
+  * Enable Status Bar Notifications
+  * Status Bar Notification Settings
+   * Display When Blocked
+   * Notification Icon
+   * Notification Sound
+   * Vibrate Setting
+   * Vibrate Pattern
+   * Enable LED
+   * LED Color Setting
+   * LED Blink Setting
+   * Enable In-Call Sound
+   * Enable In-Call Vibrate
+  * Notification Body Settings
+   * Hide Notification Body
+  * Button Settings
+   * Notification Count Action
+   * Show/Hide Button Settings
+    * Display Dismiss Button
+	
 *_Screen Settings_*
 
 Screen Settings	
