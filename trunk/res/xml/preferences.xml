@@ -1646,11 +1646,6 @@
 										android:title="@string/preference_display_reply_button_title" 
 										android:summary="@string/preference_display_reply_button_summary"
 										android:defaultValue="true" />
-									<CheckBoxPreference 
-										android:key="twitter_display_view_button" 
-										android:title="@string/preference_display_view_button_title" 
-										android:summary="@string/preference_display_view_button_summary"
-										android:defaultValue="true" />
 								</PreferenceScreen>
 							</PreferenceCategory>
 						</PreferenceScreen>	
