@@ -264,7 +264,7 @@ Screen Settings
  * Turn Screen On
  * Dim Screen
  * Unlock Phone
- * Enable Landscape Screen
+ * Enable Landscape Mode
  * Blur Screen Background
  * Dim Screen Background
  * Dim Screen Value
@@ -279,20 +279,16 @@ Advanced Settings
  * SMS TimeStamp Adjustment
  * MMS Timeout
  * Call Log Timeout
+ * Reset Twitter Data
+ * Reset Facebook Data
  * SMS-to-Email Gateway
- * Reschedule Notifications
- * Reschedule Settings
-  * Reschedule Timeout
  * Clear Notifications On Exit
  * Export Preferences
  * Import Preferences
  
-*_Rate App_*
-
-Rate App
-
 *_Feedback_*
 
+Rate App
 Email Developer
 
 *_About_*
