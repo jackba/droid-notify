@@ -3,13 +3,16 @@
 
 = Release Notes =
 
+*v2.14* _Coming Soon..._
+ * 
+
 *v2.13* _Coming Soon..._
  * Fixed a small bug related to using the Home button.
  * Made some updates to the Quick Reply activity.
  * Added Twitter notifications to the Pro version of the app.
  * Added Facebook notifications to the Pro version of the app.
  * Updated some of the icons and graphics. Added more placeholder contact images.
- * 
+ * Added/updated Translations: French, Spanish, German, Polish, Portuguese & Hebrew.
  * Small bug fixes.
 
 *v2.12* (November 21, 2011)
