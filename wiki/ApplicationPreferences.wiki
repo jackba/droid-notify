@@ -15,11 +15,12 @@ Enable Droid Notify
 
 Basic Settings
  * Notification Theme
+ * Display 10 Digits
  * Phone Number Format
  * Time Format
  * Date Format
- * Display Button Icons
- * Hide Reschedule Button
+ * Button Style
+ * Display Text To Speech Button
  * Hide Single Message Header
  * Display Type Icon
  * Type Font Size
@@ -28,11 +29,14 @@ Basic Settings
  * Contact Photo Background
  * Contact Photo Size
  * Display Contact Name
- * Contact Name Size
+ * Contact Name Font Size
  * Display Contact Number
- * Contact Number Size
+ * Contact Number Font Size
  * Center Align Body Text
  * Notification Body Font Size
+ * Display Reschedule Button
+ * Reschedule Settings
+  * Reschedule Time
  * Enable Reminders
  * Reminder Settings
   * Reminder Frequency
@@ -41,8 +45,6 @@ Basic Settings
  * Quiet Time Settings
   * Time Of Week Settings
   * Quiet Period Settings
- * Reschedule Settings
-  * Reschedule Time
  * Quick Reply Settings
   * Save Draft
   * Blur Screen Background
