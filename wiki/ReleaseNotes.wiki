@@ -6,7 +6,7 @@
 *v2.15* _Coming Soon..._
  * 
 
-*v2.14* _Coming Soon..._
+*v2.14* (December 16, 2011)
  * Fixed a small bug related to using the Home button.
  * Made some updates to the Quick Reply activity.
  * Added Twitter notifications to the Pro version of the app.
@@ -15,8 +15,8 @@
  * Added/updated Translations: French, Spanish, German, Polish, Portuguese & Hebrew.
  * Small bug fixes.
 
-*v2.13*
- * Internal Release
+*v2.13* (November 22, 2011)
+ * Fixed crash bug in Pro version.
 
 *v2.12* (November 21, 2011)
  * Added Text-To-Speech (TTS) to notifications.
