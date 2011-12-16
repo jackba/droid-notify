@@ -289,6 +289,7 @@ Advanced Settings
 *_Feedback_*
 
 Rate App
+
 Email Developer
 
 *_About_*
