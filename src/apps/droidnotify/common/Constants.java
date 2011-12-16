@@ -7,6 +7,10 @@ package apps.droidnotify.common;
  */
 public class Constants {
 	
+	//-----RUNONCE CONSTANTS-----//
+	public static final String RUN_ONCE_EULA = "RUNONCE_EULA";
+	public static final String RUN_ONCE_CALENDAR_ALARM = "RUNONCE_CALENAR_V_2_14";
+	
 	//-----GENERAL APP CONSTANTS-----//
 	public static final String DROID_NOTIFY_WAKELOCK = "DROID_NOTIFY_WAKELOCK";
 	public static final String DROID_NOTIFY_KEYGUARD = "DROID_NOTIFY_KEYGUARD";
@@ -486,10 +490,6 @@ public class Constants {
 	public static final String APP_PRO_AMAZON_URL = "http://www.amazon.com/gp/mas/dl/android?p=apps.droidnotifydonate";
 	//PayPal URL
 	public static final String APP_PAYPAL_URL = "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=43V2NJQH5BQAA";
-	
-	//-----EULA CONSTANTS-----//
-	public static final String RUN_ONCE_EULA = "runOnceEula";
-	public static final String RUN_ONCE_CALENDAR_ALARM = "runOnce_v_2_12";
 	
 	//-----STATUS BAR NOTIFICATION CONSTANTS-----//
 	public static final String STATUS_BAR_NOTIFICATIONS_RINGTONE_DEFAULT = "content://settings/system/notification_sound";

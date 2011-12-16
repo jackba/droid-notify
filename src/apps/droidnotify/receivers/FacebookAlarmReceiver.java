@@ -36,7 +36,11 @@ public class FacebookAlarmReceiver extends BroadcastReceiver {
 	public void onReceive(Context context, Intent intent) {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("FacebookAlarmReceiver.onReceive()");
-		try{
+		try{			
+			if(!Log.getAppProVersion()){
+				if (_debug) Log.v("FacebookAlarmReceiver.onReceive() BASIC APP VERSION. Exiting...");
+				return;
+			}
 			WakefulIntentService.sendWakefulWork(context, new Intent(context, FacebookAlarmBroadcastReceiverService.class));
 		}catch(Exception ex){
 			if (_debug) Log.e("FacebookAlarmReceiver.onReceive() ERROR: " + ex.toString());

@@ -37,6 +37,10 @@ public class TwitterAlarmReceiver extends BroadcastReceiver {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("TwitterAlarmReceiver.onReceive()");
 		try{
+			if(!Log.getAppProVersion()){
+				if (_debug) Log.v("TwitterAlarmReceiver.onReceive() BASIC APP VERSION. Exiting...");
+				return;
+			}
 			WakefulIntentService.sendWakefulWork(context, new Intent(context, TwitterAlarmBroadcastReceiverService.class));
 		}catch(Exception ex){
 			if (_debug) Log.e("TwitterAlarmReceiver.onReceive() ERROR: " + ex.toString());
