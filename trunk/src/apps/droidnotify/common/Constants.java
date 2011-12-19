@@ -9,7 +9,7 @@ public class Constants {
 	
 	//-----RUNONCE CONSTANTS-----//
 	public static final String RUN_ONCE_EULA = "RUNONCE_EULA";
-	public static final String RUN_ONCE_CALENDAR_ALARM = "RUNONCE_CALENAR_V_2_14";
+	public static final String RUN_ONCE_CALENDAR_ALARM = "RUNONCE_CALENDAR_V_2_16";
 	
 	//-----GENERAL APP CONSTANTS-----//
 	public static final String DROID_NOTIFY_WAKELOCK = "DROID_NOTIFY_WAKELOCK";
@@ -139,6 +139,7 @@ public class Constants {
 	public static final int DIALOG_FEATURE_AVAILABLE_WITH_PRO_VERSION_GMAIL = 201;
 	public static final int DIALOG_FEATURE_AVAILABLE_WITH_PRO_VERSION_TWITTER = 201;
 	public static final int DIALOG_FEATURE_AVAILABLE_WITH_PRO_VERSION_FACEBOOK = 202;
+	public static final int DIALOG_FEATURE_AVAILABLE_WITH_PRO_VERSION_LINKEDIN = 203;
 	
 	//-----UPGRADE CONSTATNS-----//
 	public static final String UPGRADE_TO_PRO_PREFERENCE_KEY = "upgrade_app_to_pro";
@@ -484,6 +485,10 @@ public class Constants {
 	public static final String K9_DELETE_ACTION_NOTHING = "2";	
 	
 	//-----LINKEDIN NOTIFICATION CONSTANTS-----//
+	public static final String LINKEDIN_PRO_PREFERENCE_CATEGORY_KEY = "linkedin_notification_settings_category";
+	public static final String LINKEDIN_PRO_PLACEHOLDER_PREFERENCE_KEY = "linkedin_notification_settings_placeholder_preference";
+	public static final String LINKEDIN_PRO_PREFERENCE_SCREEN_KEY = "linkedin_notification_settings_screen";
+	
 	public static final String LINKEDIN_NOTIFICATIONS_ENABLED_KEY = "linkedin_enabled";	
 	public static final String LINKEDIN_POLLING_FREQUENCY_KEY = "linkedin_polling_frequency"; 
     public static final String LINKEDIN_POLLING_FREQUENCY_DEFAULT = "60"; 
@@ -494,6 +499,11 @@ public class Constants {
 	public static final String LINKEDIN_CALLBACK_URL = LINKEDIN_CALLBACK_SCHEME + "://callback";
 	public static final String LINKEDIN_OAUTH_TOKEN = "linkedin_oauth_token";
 	public static final String LINKEDIN_OAUTH_TOKEN_SECRET = "linkedin_oauth_token_secret";
+	
+	public static final String LINKEDIN_BLOCKING_APP_RUNNING_ACTION_KEY = "blocking_app_running_action_linkedin";
+	
+	public static final String LINKEDIN_ADVANCED_SETTINGS_CATEGORY_KEY = "advanced_linkedin_settings_category";	
+	public static final String LINKEDIN_CLEAR_AUTHENTICATION_DATA_KEY = "clear_linkedin_authentication";
 	
 	//-----APPLICATION URL CONSTANTS-----//
 	//Android Market URL
@@ -719,6 +729,11 @@ public class Constants {
 	
 	public static final String FACEBOOK_STATUS_BAR_NOTIFICATIONS_ICON_SETTING_KEY = "notification_icon_facebook";
 	public static final String FACEBOOK_STATUS_BAR_NOTIFICATIONS_ICON_DEFAULT = "status_bar_notification_facebook_blue";
+
+	//-----LINKEDIN STATUS BAR NOTIFICATION CONSTANTS-----//
+	public static final String LINKEDIN_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY = "linkedin_status_bar_notifications_enabled";
+	
+	public static final String LINKEDIN_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY = "linkedin_status_bar_notifications_show_when_blocked_enabled";
 	
 	//-----TEXT-TO-SPEECH CONSTANTS-----//
 	public static final String DISPLAY_TEXT_TO_SPEECH_KEY = "display_text_to_speech_button";

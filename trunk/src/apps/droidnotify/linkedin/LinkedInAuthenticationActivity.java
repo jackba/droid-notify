@@ -102,7 +102,7 @@ public class LinkedInAuthenticationActivity extends Activity {
 				editor.putString(Constants.LINKEDIN_OAUTH_TOKEN, accessToken.getToken());
 				editor.putString(Constants.LINKEDIN_OAUTH_TOKEN_SECRET, accessToken.getTokenSecret());
 				editor.commit();
-				//LinkedInCommon.startLinkedInAlarmManager(_context, System.currentTimeMillis());				
+				LinkedInCommon.startLinkedInAlarmManager(_context, System.currentTimeMillis());				
 				finish();
 			} catch (Exception ex) {
 				Log.e("LinkedInAuthenticationActivity.onNewIntent() ERROR: " + ex.toString());
