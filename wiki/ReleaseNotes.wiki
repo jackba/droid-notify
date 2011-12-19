@@ -3,8 +3,13 @@
 
 = Release Notes =
 
-*v2.15* _Coming Soon..._
+*v2.16* _Coming Soon..._
  * 
+
+*v2.15* _Coming Soon..._
+ * Bug fix that prevented all but SMS notifications from appearing.
+ * Facebook Authentication issue resolved.
+ * Other small bug fixes.
 
 *v2.14* (December 16, 2011)
  * Fixed a small bug related to using the Home button.
