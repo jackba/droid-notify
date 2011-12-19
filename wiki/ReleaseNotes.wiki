@@ -6,7 +6,7 @@
 *v2.16* _Coming Soon..._
  * 
 
-*v2.15* _Coming Soon..._
+*v2.15* (December 19, 2011)
  * Bug fix that prevented all but SMS notifications from appearing.
  * Facebook Authentication issue resolved.
  * Other small bug fixes.
