@@ -315,7 +315,11 @@
    	    
 	<string name="preference_facebook_polling_frequency_summary">How often you want to read your Facebook account?</string>
 
-	<!-- LinkedIn Strings -->
+	<!-- LinkedIn Strings -->	 	
+   	<string name="preference_linkedin_notifications">LinkedIn Notifications</string>
+   	<string name="preference_linkedin_enabled_title">Enable LinkedIn</string>
+   	<string name="preference_linkedin_enabled_summaryOn">LinkedIn notifications are enabled.</string>
+   	<string name="preference_linkedin_enabled_summaryOff">LinkedIn notifications are disabled.</string>
 	<string name="linkedin_authentication_text">LinkedIn Authentication</string>
    	<string name="linkedin_authentication_message_text">The next screen will open a LinkedIn web page in a web browser. This web page will ask you to allow this application to have access to your LinkedIn account. If you wish to proceed please click on the \"Continue\" button below.</string>
 	<string name="linkedin_authentication_error">We were not able to authenticate or access your LinkedIn account at this time. Please try again later.</string>
