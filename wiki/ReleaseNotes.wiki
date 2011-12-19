@@ -4,6 +4,7 @@
 = Release Notes =
 
 *v2.16* _Coming Soon..._
+ * Remove the INTERNET permission on the Basic version of the app.
  * 
 
 *v2.15* (December 19, 2011)
