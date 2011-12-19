@@ -319,7 +319,12 @@
 	<string name="linkedin_authentication_text">LinkedIn Authentication</string>
    	<string name="linkedin_authentication_message_text">The next screen will open a LinkedIn web page in a web browser. This web page will ask you to allow this application to have access to your LinkedIn account. If you wish to proceed please click on the \"Continue\" button below.</string>
 	<string name="linkedin_authentication_error">We were not able to authenticate or access your LinkedIn account at this time. Please try again later.</string>
-	    	    
+
+   	<string name="preference_linkedin_polling_frequency_summary">How often you want to read your LinkedIn account?</string>
+   	<string name="preference_clear_linkedin_authentication_data">Reset LinkedIn Data</string>
+   	<string name="preference_clear_linkedin_authentication_data_summary">Clear the LinkedIn authentication data.</string>
+   	<string name="linkedin_authentication_data_cleared">The LinkedIn authentication data has been cleared.</string>
+   	
    	<!-- Email Strings -->
     <string name="email_inbox_text">Email Inbox</string>
     <string name="view_email_text">View Email</string>

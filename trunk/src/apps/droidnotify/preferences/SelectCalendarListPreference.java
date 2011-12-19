@@ -9,7 +9,7 @@ import android.preference.ListPreference;
 import android.util.AttributeSet;
 import android.widget.Toast;
 
-import apps.droidnotify.common.Common;
+import apps.droidnotify.calendar.CalendarCommon;
 import apps.droidnotify.log.Log;
 import apps.droidnotify.R;
 
@@ -93,7 +93,7 @@ public class SelectCalendarListPreference extends ListPreference {
     @Override
     protected void onPrepareDialogBuilder(Builder builder) {
     	if (Log.getDebug()) Log.v("SelectCalendarListPreference.onPrepareDialogBuilder()");
-    	String availableCalendarsInfo = Common.getAvailableCalendars(_context);
+    	String availableCalendarsInfo = CalendarCommon.getAvailableCalendars(_context);
     	if(availableCalendarsInfo == null){
     		Toast.makeText(_context, _context.getString(R.string.app_android_calendars_not_found_error), Toast.LENGTH_LONG).show();
     		return;

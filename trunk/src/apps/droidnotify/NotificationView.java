@@ -28,10 +28,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.view.MotionEvent;
 
+import apps.droidnotify.calendar.CalendarCommon;
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
 import apps.droidnotify.facebook.FacebookCommon;
 import apps.droidnotify.log.Log;
+import apps.droidnotify.phone.PhoneCommon;
+import apps.droidnotify.sms.SMSCommon;
 import apps.droidnotify.twitter.TwitterCommon;
 
 /**
@@ -246,7 +249,7 @@ public class NotificationView extends LinearLayout {
 						    public void onClick(View view) {
 						    	if (_debug) Log.v("Notification Count Button Clicked()");
 						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-						    	Common.startCallLogViewActivity(_context, _notificationActivity, Constants.VIEW_CALL_LOG_ACTIVITY);
+						    	PhoneCommon.startCallLogViewActivity(_context, _notificationActivity, Constants.VIEW_CALL_LOG_ACTIVITY);
 						    }
 						});			
 					}
@@ -269,7 +272,7 @@ public class NotificationView extends LinearLayout {
 							    public void onClick(View v) {
 							    	if (_debug) Log.v("Call Button Clicked()");
 							    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-							    	Common.makePhoneCall(_context, _notificationActivity, _notification.getSentFromAddress(), Constants.CALL_ACTIVITY);
+							    	PhoneCommon.makePhoneCall(_context, _notificationActivity, _notification.getSentFromAddress(), Constants.CALL_ACTIVITY);
 							    }
 							});
 				    	}else{
@@ -294,7 +297,7 @@ public class NotificationView extends LinearLayout {
 							    public void onClick(View v) {
 							    	if (_debug) Log.v("Call Button Clicked()");
 							    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-							    	Common.makePhoneCall(_context, _notificationActivity, _notification.getSentFromAddress(), Constants.CALL_ACTIVITY);
+							    	PhoneCommon.makePhoneCall(_context, _notificationActivity, _notification.getSentFromAddress(), Constants.CALL_ACTIVITY);
 							    }
 							});
 				    	}else{
@@ -321,7 +324,7 @@ public class NotificationView extends LinearLayout {
 						    public void onClick(View view) {
 						    	if (_debug) Log.v("Notification Count Button Clicked()");
 						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-						    	Common.startMessagingAppViewThreadActivity(_context, _notificationActivity, _notification.getSentFromAddress(), Constants.VIEW_SMS_MESSAGE_ACTIVITY);
+						    	SMSCommon.startMessagingAppViewThreadActivity(_context, _notificationActivity, _notification.getSentFromAddress(), Constants.VIEW_SMS_MESSAGE_ACTIVITY);
 						    }
 						});	
 					}else if(notificationCountAction == 2){
@@ -329,7 +332,7 @@ public class NotificationView extends LinearLayout {
 						    public void onClick(View view) {
 						    	if (_debug) Log.v("Notification Count Button Clicked()");
 						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-						    	Common.startMessagingAppViewThreadActivity(_context, _notificationActivity, _notification.getSentFromAddress(), Constants.VIEW_SMS_THREAD_ACTIVITY);
+						    	SMSCommon.startMessagingAppViewThreadActivity(_context, _notificationActivity, _notification.getSentFromAddress(), Constants.VIEW_SMS_THREAD_ACTIVITY);
 						    }
 						});	
 					}else if(notificationCountAction == 3){
@@ -337,7 +340,7 @@ public class NotificationView extends LinearLayout {
 						    public void onClick(View view) {
 						    	if (_debug) Log.v("Notification Count Button Clicked()");
 						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-						    	Common.startMessagingAppViewInboxActivity(_context, _notificationActivity, Constants.MESSAGING_ACTIVITY);
+						    	SMSCommon.startMessagingAppViewInboxActivity(_context, _notificationActivity, Constants.MESSAGING_ACTIVITY);
 						    }
 						});		
 					}
@@ -434,7 +437,7 @@ public class NotificationView extends LinearLayout {
 						    public void onClick(View view) {
 						    	if (_debug) Log.v("Notification Count Button Clicked()");
 						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-						    	Common.startMessagingAppViewThreadActivity(_context, _notificationActivity, _notification.getSentFromAddress(), Constants.VIEW_SMS_MESSAGE_ACTIVITY);
+						    	SMSCommon.startMessagingAppViewThreadActivity(_context, _notificationActivity, _notification.getSentFromAddress(), Constants.VIEW_SMS_MESSAGE_ACTIVITY);
 						    }
 						});	
 					}else if(notificationCountAction == 2){
@@ -442,7 +445,7 @@ public class NotificationView extends LinearLayout {
 						    public void onClick(View view) {
 						    	if (_debug) Log.v("Notification Count Button Clicked()");
 						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-						    	Common.startMessagingAppViewThreadActivity(_context, _notificationActivity, _notification.getSentFromAddress(), Constants.VIEW_SMS_THREAD_ACTIVITY);
+						    	SMSCommon.startMessagingAppViewThreadActivity(_context, _notificationActivity, _notification.getSentFromAddress(), Constants.VIEW_SMS_THREAD_ACTIVITY);
 						    }
 						});	
 					}else if(notificationCountAction == 3){
@@ -450,7 +453,7 @@ public class NotificationView extends LinearLayout {
 						    public void onClick(View view) {
 						    	if (_debug) Log.v("Notification Count Button Clicked()");
 						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-						    	Common.startMessagingAppViewInboxActivity(_context, _notificationActivity, Constants.MESSAGING_ACTIVITY);
+						    	SMSCommon.startMessagingAppViewInboxActivity(_context, _notificationActivity, Constants.MESSAGING_ACTIVITY);
 						    }
 						});		
 					}
@@ -460,7 +463,7 @@ public class NotificationView extends LinearLayout {
 						    public void onClick(View view) {
 						    	if (_debug) Log.v("Notification MMS Link Clicked()");
 						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-						    	Common.startMessagingAppViewThreadActivity(_context, _notificationActivity, _notification.getSentFromAddress(), Constants.VIEW_SMS_MESSAGE_ACTIVITY);
+						    	SMSCommon.startMessagingAppViewThreadActivity(_context, _notificationActivity, _notification.getSentFromAddress(), Constants.VIEW_SMS_MESSAGE_ACTIVITY);
 						    }
 						});
 					}
@@ -557,7 +560,7 @@ public class NotificationView extends LinearLayout {
 						    public void onClick(View view) {
 						    	if (_debug) Log.v("Notification Count Button Clicked()");
 						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-						    	Common.startViewCalendarActivity(_context, _notificationActivity, Constants.CALENDAR_ACTIVITY);
+						    	CalendarCommon.startViewCalendarActivity(_context, _notificationActivity, Constants.CALENDAR_ACTIVITY);
 						    }
 						});			
 					}
@@ -581,7 +584,7 @@ public class NotificationView extends LinearLayout {
 							    	if (_debug) Log.v("Calendar View Button Clicked()");
 							    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 							    	//viewCalendarEvent();
-							    	Common.startViewCalendarEventActivity(_context, _notificationActivity, _notification.getCalendarEventID(), _notification.getCalendarEventStartTime(), _notification.getCalendarEventEndTime(), Constants.VIEW_CALENDAR_ACTIVITY);
+							    	CalendarCommon.startViewCalendarEventActivity(_context, _notificationActivity, _notification.getCalendarEventID(), _notification.getCalendarEventStartTime(), _notification.getCalendarEventEndTime(), Constants.VIEW_CALENDAR_ACTIVITY);
 							    }
 							});
 				    	}else{
@@ -607,7 +610,7 @@ public class NotificationView extends LinearLayout {
 							    	if (_debug) Log.v("Calendar View Button Clicked()");
 							    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 							    	//viewCalendarEvent();
-							    	Common.startViewCalendarEventActivity(_context, _notificationActivity, _notification.getCalendarEventID(), _notification.getCalendarEventStartTime(), _notification.getCalendarEventEndTime(), Constants.VIEW_CALENDAR_ACTIVITY);
+							    	CalendarCommon.startViewCalendarEventActivity(_context, _notificationActivity, _notification.getCalendarEventID(), _notification.getCalendarEventStartTime(), _notification.getCalendarEventEndTime(), Constants.VIEW_CALENDAR_ACTIVITY);
 							    }
 							});
 				    	}else{
@@ -1000,7 +1003,7 @@ public class NotificationView extends LinearLayout {
 			    	if(_notificationType == Constants.NOTIFICATION_TYPE_TWITTER || _notificationType == Constants.NOTIFICATION_TYPE_FACEBOOK){
 			    		_contactNumberTextView.setText(sentFromAddress);
 			    	}else{
-			    		_contactNumberTextView.setText(Common.formatPhoneNumber(_context, sentFromAddress));
+			    		_contactNumberTextView.setText(PhoneCommon.formatPhoneNumber(_context, sentFromAddress));
 			    	}
 			    	
 			    }
@@ -1249,20 +1252,20 @@ public class NotificationView extends LinearLayout {
 			case Constants.NOTIFICATION_TYPE_SMS:{
 				//Reply using any installed SMS messaging app.
 				if(_preferences.getString(Constants.SMS_REPLY_BUTTON_ACTION_KEY, "0").equals(Constants.SMS_MESSAGING_APP_REPLY)){
-					Common.startMessagingAppReplyActivity(_context, _notificationActivity, phoneNumber, Constants.SEND_SMS_ACTIVITY);
+					SMSCommon.startMessagingAppReplyActivity(_context, _notificationActivity, phoneNumber, Constants.SEND_SMS_ACTIVITY);
 				}else if(_preferences.getString(Constants.SMS_REPLY_BUTTON_ACTION_KEY, "0").equals(Constants.SMS_QUICK_REPLY)){
 					//Reply using the built in Quick Reply Activity.
-					Common.startMessagingQuickReplyActivity(_context, _notificationActivity, Constants.SEND_SMS_QUICK_REPLY_ACTIVITY, phoneNumber, _notification.getContactName());        
+					SMSCommon.startMessagingQuickReplyActivity(_context, _notificationActivity, Constants.SEND_SMS_QUICK_REPLY_ACTIVITY, phoneNumber, _notification.getContactName());        
 				}
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_MMS:{
 				//Reply using any installed SMS messaging app.
 				if(_preferences.getString(Constants.MMS_REPLY_BUTTON_ACTION_KEY, "0").equals(Constants.MMS_MESSAGING_APP_REPLY)){
-					Common.startMessagingAppReplyActivity(_context, _notificationActivity, phoneNumber, Constants.SEND_SMS_ACTIVITY);
+					SMSCommon.startMessagingAppReplyActivity(_context, _notificationActivity, phoneNumber, Constants.SEND_SMS_ACTIVITY);
 				}else if(_preferences.getString(Constants.MMS_REPLY_BUTTON_ACTION_KEY, "0").equals(Constants.MMS_QUICK_REPLY)){
 					//Reply using the built in Quick Reply Activity.
-					Common.startMessagingQuickReplyActivity(_context, _notificationActivity, Constants.SEND_SMS_QUICK_REPLY_ACTIVITY, phoneNumber, _notification.getContactName());
+					SMSCommon.startMessagingQuickReplyActivity(_context, _notificationActivity, Constants.SEND_SMS_QUICK_REPLY_ACTIVITY, phoneNumber, _notification.getContactName());
 				}
 				break;
 			}

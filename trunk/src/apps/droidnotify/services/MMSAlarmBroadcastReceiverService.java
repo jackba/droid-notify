@@ -12,6 +12,7 @@ import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
 import apps.droidnotify.receivers.MMSAlarmReceiver;
+import apps.droidnotify.sms.SMSCommon;
 
 public class MMSAlarmBroadcastReceiverService extends WakefulIntentService {
 	
@@ -94,7 +95,7 @@ public class MMSAlarmBroadcastReceiverService extends WakefulIntentService {
 					String messageAddress = null;
 					String messageBody = null;
 					String contactName = null;
-		    		ArrayList<String> mmsArray = Common.getMMSMessagesFromDisk(context);
+		    		ArrayList<String> mmsArray = SMSCommon.getMMSMessagesFromDisk(context);
 		    		if((mmsArray != null) && (mmsArray.size() > 0)){
 			    		String mmsArrayItem = mmsArray.get(0);
 						String[] mmsInfo = mmsArrayItem.split("\\|");

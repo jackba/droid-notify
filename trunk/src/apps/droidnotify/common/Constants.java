@@ -396,6 +396,8 @@ public class Constants {
 	public static final String TWITTER_AUTHORIZE_URL = "http://api.twitter.com/oauth/access_token";
 	public static final String TWITTER_CALLBACK_SCHEME = "droidnotify-oauth-twitter";
 	public static final String TWITTER_CALLBACK_URL = TWITTER_CALLBACK_SCHEME + "://callback";
+	public static final String TWITTER_OAUTH_TOKEN = "twitter_oauth_token";
+	public static final String TWITTER_OAUTH_TOKEN_SECRET = "twitter_oauth_token_secret";
 
 	public static final String TWITTER_DELETE_KEY = "twitter_delete_button_action";
 	public static final String TWITTER_CONFIRM_DELETION_KEY = "twitter_confirm_deletion";
@@ -482,10 +484,16 @@ public class Constants {
 	public static final String K9_DELETE_ACTION_NOTHING = "2";	
 	
 	//-----LINKEDIN NOTIFICATION CONSTANTS-----//
+	public static final String LINKEDIN_NOTIFICATIONS_ENABLED_KEY = "linkedin_enabled";	
+	public static final String LINKEDIN_POLLING_FREQUENCY_KEY = "linkedin_polling_frequency"; 
+    public static final String LINKEDIN_POLLING_FREQUENCY_DEFAULT = "60"; 
+	
 	public static final String LINKEDIN_CONSUMER_KEY = "i1ktinzc0j0c";
 	public static final String LINKEDIN_CONSUMER_SECRET= "IaqaWiDaHxY0X0v3";
 	public static final String LINKEDIN_CALLBACK_SCHEME = "droidnotify-oauth-linkedin";
-	public static final String LINKEDIN_CALLBACK_URL = TWITTER_CALLBACK_SCHEME + "://callback";
+	public static final String LINKEDIN_CALLBACK_URL = LINKEDIN_CALLBACK_SCHEME + "://callback";
+	public static final String LINKEDIN_OAUTH_TOKEN = "linkedin_oauth_token";
+	public static final String LINKEDIN_OAUTH_TOKEN_SECRET = "linkedin_oauth_token_secret";
 	
 	//-----APPLICATION URL CONSTANTS-----//
 	//Android Market URL

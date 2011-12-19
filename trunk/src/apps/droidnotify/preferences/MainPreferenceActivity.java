@@ -8,8 +8,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Map;
 
-import oauth.signpost.OAuth;
-
 import android.app.Dialog;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -46,10 +44,11 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import apps.droidnotify.common.Common;
+import apps.droidnotify.calendar.CalendarCommon;
 import apps.droidnotify.common.Constants;
 import apps.droidnotify.facebook.FacebookAuthenticationActivity;
 import apps.droidnotify.facebook.FacebookCommon;
+import apps.droidnotify.linkedin.LinkedInAuthenticationActivity;
 import apps.droidnotify.log.Log;
 import apps.droidnotify.twitter.TwitterAuthenticationActivity;
 import apps.droidnotify.twitter.TwitterCommon;
@@ -103,7 +102,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	    setupAppDebugMode(_debug);
 	    setupRateAppPreference();
 	    setupAppVersion(_appProVersion);
-	    runOnce();	    
+	    runOnce();
 	}
     
 	/**
@@ -117,10 +116,10 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		if(key.equals(Constants.CALENDAR_NOTIFICATIONS_ENABLED_KEY)){
 			if(_preferences.getBoolean(Constants.CALENDAR_NOTIFICATIONS_ENABLED_KEY, false)){
 				//Setup Calendar recurring alarm.
-				Common.startCalendarAlarmManager(_context, SystemClock.currentThreadTimeMillis());
+				CalendarCommon.startCalendarAlarmManager(_context, SystemClock.currentThreadTimeMillis());
 			}else{
 				//Cancel the Calendar recurring alarm.
-				Common.cancelCalendarAlarmManager(_context);
+				CalendarCommon.cancelCalendarAlarmManager(_context);
 			}
 		}else if(key.equals(Constants.CALENDAR_POLLING_FREQUENCY_KEY)){
 			//The polling time for the calendars was changed. Run the alarm manager with the updated polling time.
@@ -431,7 +430,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		//Make sure that this user preference has been set and initialized.
 		initUserCalendarsPreference();
 		//Schedule the reading of the calendar events.
-		Common.startCalendarAlarmManager(_context, alarmStartTime);
+		CalendarCommon.startCalendarAlarmManager(_context, alarmStartTime);
 	}
 	
 	/**
@@ -627,6 +626,8 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
         	public boolean onPreferenceClick(Preference preference) {
 		    	if (_debug) Log.v("MainPreferenceActivity() Import Preferences Button Clicked()");
 		    	try{
+		    		//Unregister SharedPreferenceChange Listener.
+		    		_preferences.unregisterOnSharedPreferenceChangeListener(MainPreferenceActivity.this);
 			    	//Run this process in the background in an AsyncTask.
 			    	new importPreferencesAsyncTask().execute();
 		    	}catch(Exception ex){
@@ -1090,7 +1091,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	 */
 	private void initUserCalendarsPreference(){
 		if (_debug) Log.v("MainPreferenceActivity.initUserCalendarsPreference()");
-    	String availableCalendarsInfo = Common.getAvailableCalendars(_context);
+    	String availableCalendarsInfo = CalendarCommon.getAvailableCalendars(_context);
     	if(availableCalendarsInfo == null){
     		return;
     	}
@@ -1434,10 +1435,10 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			if(_preferences.getBoolean(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY, true) && _preferences.getBoolean(Constants.CALENDAR_NOTIFICATIONS_ENABLED_KEY, true)){
 				enabled = true;
 			}		
-			if(_preferences.getBoolean(Constants.TWITTER_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY, true) && _preferences.getBoolean(Constants.TWITTER_NOTIFICATIONS_ENABLED_KEY, true)){
+			if(_preferences.getBoolean(Constants.TWITTER_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY, true) && _preferences.getBoolean(Constants.TWITTER_NOTIFICATIONS_ENABLED_KEY, false)){
 				enabled = true;
 			}	
-			if(_preferences.getBoolean(Constants.FACEBOOK_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY, true) && _preferences.getBoolean(Constants.FACEBOOK_NOTIFICATIONS_ENABLED_KEY, true)){
+			if(_preferences.getBoolean(Constants.FACEBOOK_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY, true) && _preferences.getBoolean(Constants.FACEBOOK_NOTIFICATIONS_ENABLED_KEY, false)){
 				enabled = true;
 			}	
 			if(_preferences.getBoolean(Constants.K9_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY, true) && _preferences.getBoolean(Constants.K9_NOTIFICATIONS_ENABLED_KEY, true)){
@@ -1492,6 +1493,17 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	}
 	
 	/**
+	 * Check if the user has already authorized us to use access his Twitter account.
+	 * Launch authorization activity if not.
+	 */
+	private void checkTwitterAuthentication(){
+		if (_debug) Log.v("MainPreferenceActivity.checkTwitterAuthentication()");
+		//Setup User Twitter Account
+	    Intent intent = new Intent(_context, TwitterAuthenticationActivity.class);
+	    startActivity(intent);
+	}
+	
+	/**
 	 * Check if the user has already authorized us to use access his Facebook account.
 	 * Launch authorization activity if not.
 	 */
@@ -1503,13 +1515,13 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	}
 	
 	/**
-	 * Check if the user has already authorized us to use access his Twitter account.
+	 * Check if the user has already authorized us to use access his LinkedIn account.
 	 * Launch authorization activity if not.
 	 */
-	private void checkTwitterAuthentication(){
-		if (_debug) Log.v("MainPreferenceActivity.checkTwitterAuthentication()");
+	private void checkLinkedInAuthentication(){
+		if (_debug) Log.v("MainPreferenceActivity.checkLinkedInAuthentication()");
 		//Setup User Twitter Account
-	    Intent intent = new Intent(_context, TwitterAuthenticationActivity.class);
+	    Intent intent = new Intent(_context, LinkedInAuthenticationActivity.class);
 	    startActivity(intent);
 	}
 	
@@ -1591,6 +1603,8 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		}else{
 			CheckBoxPreference twitterEnabledCheckBoxPreference = (CheckBoxPreference) findPreference(Constants.TWITTER_NOTIFICATIONS_ENABLED_KEY);
 			if(twitterEnabledCheckBoxPreference != null) twitterEnabledCheckBoxPreference.setChecked(false);
+			//Cancel any Twitter alarms that are still out there.
+			TwitterCommon.cancelTwitterAlarmManager(_context);
 		}
 	}
 
@@ -1604,6 +1618,8 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		}else{
 			CheckBoxPreference facebookEnabledCheckBoxPreference = (CheckBoxPreference) findPreference(Constants.FACEBOOK_NOTIFICATIONS_ENABLED_KEY);
 			if(facebookEnabledCheckBoxPreference != null) facebookEnabledCheckBoxPreference.setChecked(false);
+			//Cancel any Facebook alarms that are still out there.
+			FacebookCommon.cancelFacebookAlarmManager(_context);
 		}
 	}
 	
@@ -1630,8 +1646,8 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	    protected Void doInBackground(Void... params) {
 			if (_debug) Log.v("MainPreferenceActivity.clearTwitterAuthenticationDataAsyncTask.doInBackground()");
 			SharedPreferences.Editor editor = _preferences.edit();
-			editor.putString(OAuth.OAUTH_TOKEN, null);
-			editor.putString(OAuth.OAUTH_TOKEN_SECRET, null);
+			editor.putString(Constants.TWITTER_OAUTH_TOKEN, null);
+			editor.putString(Constants.TWITTER_OAUTH_TOKEN_SECRET, null);
 			editor.commit();
             CheckBoxPreference twitterEnabledCheckBoxPreference = (CheckBoxPreference) findPreference(Constants.TWITTER_NOTIFICATIONS_ENABLED_KEY);
 			if(twitterEnabledCheckBoxPreference != null) twitterEnabledCheckBoxPreference.setChecked(false);
@@ -1688,6 +1704,48 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			if (_debug) Log.v("MainPreferenceActivity.clearFacebookAuthenticationDataAsyncTask.onPostExecute()");
 	        dialog.dismiss();
 	    	Toast.makeText(_context, _context.getString(R.string.facebook_authentication_data_cleared), Toast.LENGTH_LONG).show();
+	    }
+	}
+	
+	/**
+	 * Clear the LinkedIn authentication data as a background task.
+	 * 
+	 * @author Camille Sévigny
+	 */
+	private class clearLinkedInAuthenticationDataAsyncTask extends AsyncTask<Void, Void, Void> {
+		//ProgressDialog to display while the task is running.
+		private ProgressDialog dialog;
+		/**
+		 * Setup the Progress Dialog.
+		 */
+	    protected void onPreExecute() {
+			if (_debug) Log.v("MainPreferenceActivity.clearLinkedInAuthenticationDataAsyncTask.onPreExecute()");
+	        dialog = ProgressDialog.show(MainPreferenceActivity.this, "", _context.getString(R.string.reset_data), true);
+	    }
+	    /**
+	     * Do this work in the background.
+	     * 
+	     * @param params
+	     */
+	    protected Void doInBackground(Void... params) {
+			if (_debug) Log.v("MainPreferenceActivity.clearLinkedInAuthenticationDataAsyncTask.doInBackground()");
+			SharedPreferences.Editor editor = _preferences.edit();
+			editor.putString(Constants.LINKEDIN_OAUTH_TOKEN, null);
+			editor.putString(Constants.LINKEDIN_OAUTH_TOKEN_SECRET, null);
+			editor.commit();
+            CheckBoxPreference linkedInEnabledCheckBoxPreference = (CheckBoxPreference) findPreference(Constants.LINKEDIN_NOTIFICATIONS_ENABLED_KEY);
+			if(linkedInEnabledCheckBoxPreference != null) linkedInEnabledCheckBoxPreference.setChecked(false);
+	    	return null;
+	    }
+	    /**
+	     * Stop the Progress Dialog and do any post background work.
+	     * 
+	     * @param result
+	     */
+	    protected void onPostExecute(Void res) {
+			if (_debug) Log.v("MainPreferenceActivity.clearLinkedInAuthenticationDataAsyncTask.onPostExecute()");
+	        dialog.dismiss();
+	    	Toast.makeText(_context, _context.getString(R.string.linkedin_authentication_data_cleared), Toast.LENGTH_LONG).show();
 	    }
 	}
 	

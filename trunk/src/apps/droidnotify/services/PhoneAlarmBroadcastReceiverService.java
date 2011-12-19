@@ -11,6 +11,7 @@ import android.telephony.TelephonyManager;
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
+import apps.droidnotify.phone.PhoneCommon;
 import apps.droidnotify.receivers.PhoneAlarmReceiver;
 
 /**
@@ -98,7 +99,7 @@ public class PhoneAlarmBroadcastReceiverService extends WakefulIntentService {
 			    	//Get the missed call info.
 	    			String phoneNumber = null;
 	    			String contactName = null;
-		    		ArrayList<String> missedCallsArray = Common.getMissedCalls(context);
+		    		ArrayList<String> missedCallsArray = PhoneCommon.getMissedCalls(context);
 		    		if((missedCallsArray != null) && (missedCallsArray.size() > 0)){
 			    		String missedCallArrayItem = missedCallsArray.get(0);
 		    			String[] missedCallInfo = missedCallArrayItem.split("\\|");

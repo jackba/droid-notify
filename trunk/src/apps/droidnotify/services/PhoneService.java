@@ -9,6 +9,7 @@ import android.os.Bundle;
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
+import apps.droidnotify.phone.PhoneCommon;
 
 /**
  * This class handles scheduled Missed Call notifications that we want to display.
@@ -50,7 +51,7 @@ public class PhoneService extends WakefulIntentService {
 		if (_debug) Log.v("PhoneService.doWakefulWork()");
 		try{
 			Context context = getApplicationContext();
-			ArrayList<String> missedCallsArray = Common.getMissedCalls(context);
+			ArrayList<String> missedCallsArray = PhoneCommon.getMissedCalls(context);
 			if(missedCallsArray != null && missedCallsArray.size() > 0){
 				Bundle bundle = new Bundle();
 				bundle.putInt("notificationType", Constants.NOTIFICATION_TYPE_PHONE);

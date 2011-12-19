@@ -10,6 +10,7 @@ import apps.droidnotify.NotificationActivity;
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
+import apps.droidnotify.sms.SMSCommon;
 
 /**
  * This class handles the work of processing incoming MMS messages.
@@ -51,7 +52,7 @@ public class MMSService extends WakefulIntentService {
 		if (_debug) Log.v("MMSReceiverService.doWakefulWork()");
 		try{
 			Context context = getApplicationContext();
-			ArrayList<String> mmsArray = Common.getMMSMessagesFromDisk(context);
+			ArrayList<String> mmsArray = SMSCommon.getMMSMessagesFromDisk(context);
 			if(mmsArray != null && mmsArray.size() > 0){
 				Bundle bundle = new Bundle();
 				bundle.putInt("notificationType", Constants.NOTIFICATION_TYPE_MMS);
