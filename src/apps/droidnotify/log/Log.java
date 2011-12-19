@@ -18,7 +18,7 @@ public class Log {
     //================================================================================
 	
 	private static final String _logTag = "DroidNotify";
-	private static final boolean _appProVersion = true;
+	private static final boolean _appProVersion = false;
 	private static final boolean _debugFileOnDisk = false;
 	private static final boolean _debug = true;
 	private static final boolean _showAndroidRateAppLink = true;

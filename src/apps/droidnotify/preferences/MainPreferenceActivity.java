@@ -1196,19 +1196,21 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		updateStatusBarNotificationVibrate(Constants.NOTIFICATION_TYPE_MMS);
 		updateStatusBarNotificationVibrate(Constants.NOTIFICATION_TYPE_PHONE);
 		updateStatusBarNotificationVibrate(Constants.NOTIFICATION_TYPE_CALENDAR);
-		updateStatusBarNotificationVibrate(Constants.NOTIFICATION_TYPE_TWITTER);
-		updateStatusBarNotificationVibrate(Constants.NOTIFICATION_TYPE_FACEBOOK);
 		updateStatusBarNotificationVibrate(Constants.NOTIFICATION_TYPE_K9);
 		updateStatusBarNotificationRingtone(Constants.NOTIFICATION_TYPE_SMS);
 		updateStatusBarNotificationRingtone(Constants.NOTIFICATION_TYPE_MMS);
 		updateStatusBarNotificationRingtone(Constants.NOTIFICATION_TYPE_PHONE);
 		updateStatusBarNotificationRingtone(Constants.NOTIFICATION_TYPE_CALENDAR);
-		updateStatusBarNotificationRingtone(Constants.NOTIFICATION_TYPE_TWITTER);
-		updateStatusBarNotificationRingtone(Constants.NOTIFICATION_TYPE_FACEBOOK);
 		updateStatusBarNotificationRingtone(Constants.NOTIFICATION_TYPE_K9);
 		updateClearStatusBarNotifications();
-		updateTwitterPreferences();
-		updateFacebookPreferences();
+		if(_appProVersion){
+			updateStatusBarNotificationVibrate(Constants.NOTIFICATION_TYPE_TWITTER);
+			updateStatusBarNotificationVibrate(Constants.NOTIFICATION_TYPE_FACEBOOK);
+			updateStatusBarNotificationRingtone(Constants.NOTIFICATION_TYPE_TWITTER);
+			updateStatusBarNotificationRingtone(Constants.NOTIFICATION_TYPE_FACEBOOK);
+			updateTwitterPreferences();
+			updateFacebookPreferences();
+		}
 	}
 	
 	/**
