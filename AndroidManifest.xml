@@ -92,6 +92,9 @@
 		<service android:name="apps.droidnotify.services.K9BroadcastReceiverService" />
 		<service android:name="apps.droidnotify.services.K9Service" />
  
+		<service android:name="apps.droidnotify.services.LinkedInAlarmBroadcastReceiverService" />
+		<service android:name="apps.droidnotify.services.LinkedInService" />
+		
         <service android:name="apps.droidnotify.services.MMSAlarmBroadcastReceiverService" />
         <service android:name="apps.droidnotify.services.MMSBroadcastReceiverService" />
         <service android:name="apps.droidnotify.services.MMSService" /> 
@@ -133,7 +136,11 @@
 				<data android:scheme="email" android:host="messages" />
 			</intent-filter>
 		</receiver> 
-		    
+	
+		<receiver 
+		    android:name="apps.droidnotify.receivers.LinkedInAlarmReceiver"
+		    android:exported="true" />
+		    	    
         <receiver 
             android:name="apps.droidnotify.receivers.MMSAlarmReceiver"
 		    android:exported="true" />

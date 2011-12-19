@@ -101,7 +101,6 @@ public class FacebookAlarmBroadcastReceiverService extends WakefulIntentService 
 					String contactName = null;
 					String messageAddress = null;
 					String messageBody = null;
-					//Get Twitter Object
 				    //Get Facebook Object
 					Facebook facebook = FacebookCommon.getFacebook(context);
 				    if(facebook == null){

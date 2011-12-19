@@ -26,7 +26,7 @@ public class FacebookAlarmReceiver extends BroadcastReceiver {
 	//================================================================================
 	
 	/**
-	 * Receives a notification of a Calendar Event.
+	 * Receives a notification of a Facebook alarm.
 	 * This function starts the service that will handle the work or reschedules the work if the phone is in use.
 	 * 
 	 * @param context - Application Context.

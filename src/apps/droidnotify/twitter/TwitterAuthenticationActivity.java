@@ -110,6 +110,10 @@ public class TwitterAuthenticationActivity extends Activity {
 				Toast.makeText(_context, _context.getString(R.string.twitter_authentication_error), Toast.LENGTH_LONG).show();
 				finish();
 			}
+		}else{
+			Log.e("TwitterAuthenticationActivity.onNewIntent() RESPONSE ERROR");
+			Toast.makeText(_context, _context.getString(R.string.twitter_authentication_error), Toast.LENGTH_LONG).show();
+			finish();
 		}
 	}
 	
