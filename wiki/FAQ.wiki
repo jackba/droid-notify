@@ -82,7 +82,7 @@ Developer apps have the ability to read the Google Calendar that is build into t
 
 ==I get status bar notifications but no popup, why?==
 
-This issue is most likely due to the popup being blocked. Being in a phone call blocks the popup, but there is also an option to block the popup if you are composing a message in a messaging app. You can change this setting here (Settings->Notification Settings->SMS/MMS/Missed Call/Calendar Notifications->Messaging App Running). Select the option "Show Notification". This will ensure that the popup is not blocked.
+This issue is most likely due to the popup being blocked. Being in a phone call blocks the popup, but there is also an option to block the popup if you are composing a message in a messaging app. You can change this setting here (Settings->Notification Settings->SMS/MMS/Missed Call/Calendar Notifications, Etc.->Blocking Notification Options). Select the option "Show Notification". This will ensure that the popup is not blocked.
 
 ==Can I help translate this application?==
 
