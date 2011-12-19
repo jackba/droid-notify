@@ -14,6 +14,8 @@ import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
 import apps.droidnotify.facebook.FacebookCommon;
 import apps.droidnotify.log.Log;
+import apps.droidnotify.phone.PhoneCommon;
+import apps.droidnotify.sms.SMSCommon;
 import apps.droidnotify.twitter.TwitterCommon;
 
 /**
@@ -257,7 +259,7 @@ public class Notification {
 			_contactPhotoExists = false;
 			_notificationType = notificationType;
 			if(sentFromAddress != null && !sentFromAddress.equals("")){
-				if(Common.isPrivateUnknownNumber(sentFromAddress)){
+				if(PhoneCommon.isPrivateUnknownNumber(sentFromAddress)){
 					_sentFromAddress = "Private Number";
 				}else{
 					if(_notificationType == Constants.NOTIFICATION_TYPE_FACEBOOK){
@@ -533,7 +535,7 @@ public class Notification {
 	public long getThreadID() {
 		if(_notificationType == Constants.NOTIFICATION_TYPE_SMS || _notificationType == Constants.NOTIFICATION_TYPE_MMS){
 			if(_threadID == 0){
-				_threadID = Common.getThreadID(_context, _sentFromAddress, _notificationType);
+				_threadID = SMSCommon.getThreadID(_context, _sentFromAddress, _notificationType);
 			}
 		}
 		if (_debug) Log.v("Notification.getThreadID() ThreadID: " + _threadID);
@@ -621,7 +623,7 @@ public class Notification {
 	public long getMessageID() {
 		if(_notificationType == Constants.NOTIFICATION_TYPE_SMS || _notificationType == Constants.NOTIFICATION_TYPE_MMS){
 			if(_messageID == 0){
-				_messageID = Common.getMessageID(_context, getThreadID(), _messageBody, _timeStamp, _notificationType);
+				_messageID = SMSCommon.getMessageID(_context, getThreadID(), _messageBody, _timeStamp, _notificationType);
 			}
 		}
 		if (_debug) Log.v("Notification.getMessageID() MessageID: " + _messageID);
@@ -893,9 +895,9 @@ public class Notification {
 			}
 			if(deleteMessage || deleteThread){
 				if(deleteThread){
-					Common.deleteMessageThread(_context, getThreadID(), _notificationType);
+					SMSCommon.deleteMessageThread(_context, getThreadID(), _notificationType);
 				}else{
-					Common.deleteSingleMessage(_context, getMessageID(), _notificationType);
+					SMSCommon.deleteSingleMessage(_context, getMessageID(), _notificationType);
 				}
 			}
 		}else if(_notificationType == Constants.NOTIFICATION_TYPE_TWITTER){
@@ -957,7 +959,7 @@ public class Notification {
 				if(_sentFromAddress.contains("@")){
 					sentFrom = _sentFromAddress;
 				}else{
-					sentFrom = Common.formatPhoneNumber(_context, _sentFromAddress);
+					sentFrom = PhoneCommon.formatPhoneNumber(_context, _sentFromAddress);
 				}
 			}
 		}
@@ -1034,7 +1036,7 @@ public class Notification {
 	 */
 	private void setCallViewed(boolean isViewed){
 		if (_debug) Log.v("Notification.setCallViewed()");
-		Common.setCallViewed(_context, _callLogID, isViewed);
+		PhoneCommon.setCallViewed(_context, _callLogID, isViewed);
 	}
 	
 	/**
@@ -1042,7 +1044,7 @@ public class Notification {
 	 */
 	private void deleteFromCallLog(){
 		if (_debug) Log.v("Notification.deleteFromCallLog()");
-		Common.deleteFromCallLog(_context, _callLogID);
+		PhoneCommon.deleteFromCallLog(_context, _callLogID);
 	}
 
 	/**
@@ -1052,7 +1054,7 @@ public class Notification {
 	 */
 	private void setMessageRead(boolean isViewed){
 		if(_debug)Log.v("Notification.setMessageRead()");
-		Common.setMessageRead(_context, getMessageID(), isViewed, _notificationType);
+		SMSCommon.setMessageRead(_context, getMessageID(), isViewed, _notificationType);
 	}
 	
 	/**

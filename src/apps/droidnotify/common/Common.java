@@ -1,9 +1,5 @@
 package apps.droidnotify.common;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -22,8 +18,6 @@ import android.app.PendingIntent;
 import android.app.ActivityManager.RunningTaskInfo;
 import android.app.KeyguardManager.KeyguardLock;
 import android.content.ComponentName;
-import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -49,17 +43,14 @@ import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.speech.tts.TextToSpeech;
-import android.telephony.SmsMessage;
 import android.widget.Toast;
 
 import apps.droidnotify.NotificationActivity;
 import apps.droidnotify.NotificationViewFlipper;
-import apps.droidnotify.QuickReplyActivity;
 import apps.droidnotify.facebook.FacebookCommon;
 import apps.droidnotify.log.Log;
-import apps.droidnotify.receivers.CalendarAlarmReceiver;
+import apps.droidnotify.phone.PhoneCommon;
 import apps.droidnotify.receivers.RescheduleReceiver;
-import apps.droidnotify.receivers.SMSReceiver;
 import apps.droidnotify.twitter.TwitterCommon;
 import apps.droidnotify.R;
 
@@ -186,7 +177,7 @@ public class Common {
 						phoneSortOrder); 
 				while (phoneCursor.moveToNext()) { 
 					String contactNumber = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-					if(isPhoneNumberEqual(contactNumber, incomingNumber)){
+					if(PhoneCommon.isPhoneNumberEqual(contactNumber, incomingNumber)){
 						_contactID = Long.parseLong(contactID);
 		    		  	if(contactName != null){
 		    		  		_contactName = contactName;
@@ -357,465 +348,6 @@ public class Common {
 	}
 	
 	/**
-	 * Load the SMS/MMS thread id for this notification.
-	 * 
-	 * @param context - Application Context.
-	 * @param phoneNumber - Notifications's phone number.
-	 */
-	public static long getThreadID(Context context, String address, int messageType){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.getThreadIdByAddress()");
-		String messageURI = "content://sms/inbox";
-		if(messageType == Constants.MESSAGE_TYPE_SMS){
-			messageURI = "content://sms/inbox";
-		}else if(messageType == Constants.MESSAGE_TYPE_MMS){
-			//messageURI = "content://mms/inbox";
-			messageURI = "content://sms/inbox";
-		}
-		long threadID = 0;
-		if (address == null){
-			if (_debug) Log.v("Common.getThreadID() Address provided is null: Exiting...");
-			return 0;
-		}
-		if (address == ""){
-			if (_debug) Log.v("Common.getThreadID() Address provided is empty: Exiting...");
-			return 0;
-		}
-		try{
-			final String[] projection = new String[] { "_id", "thread_id" };
-			final String selection = "address = " + DatabaseUtils.sqlEscapeString(address);
-			final String[] selectionArgs = null;
-			final String sortOrder = null;
-			Cursor cursor = null;
-			try {
-		    	cursor = context.getContentResolver().query(
-		    		Uri.parse(messageURI),
-		    		projection,
-		    		selection,
-					selectionArgs,
-					sortOrder);
-		    	if (cursor != null) {
-		    		if (cursor.moveToFirst()) {
-		    			threadID = cursor.getLong(cursor.getColumnIndex("thread_id"));
-		    			if (_debug) Log.v("Common.getThreadID() Thread ID Found: " + threadID);
-		    		}
-		    	}
-	    	}catch(Exception e){
-		    		Log.e("Common.getThreadID() EXCEPTION: " + e.toString());
-	    	} finally {
-	    		if(cursor != null){
-					cursor.close();
-				}
-	    	}
-	    	return threadID;
-		}catch(Exception ex){
-			Log.e("Common.getThreadID() ERROR: " + ex.toString());
-			return 0;
-		}
-	}
-	
-	/**
-	 * Load the SMS/MMS message id for this notification.
-	 * 
-	 * @param context - Application Context.
-	 * @param threadId - Notifications's threadID.
-	 * @param timestamp - Notifications's timeStamp.
-	 */
-	public static long getMessageID(Context context, long threadID, String messageBody, long timeStamp, int messageType) {
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.getMessageID()");
-		String messageURI = null;
-		if(messageType == Constants.MESSAGE_TYPE_SMS){
-			messageURI = "content://sms/inbox";
-		}else if(messageType == Constants.MESSAGE_TYPE_MMS){
-			//messageURI = "content://mms/inbox";
-			messageURI = "content://sms/inbox";
-		}else{
-			if (_debug) Log.v("Common.getMessageID() Non SMS/MMS Message Type: Exiting...");
-			return 0;
-		}
-		if (messageBody == null){
-			if (_debug) Log.v("Common.getMessageID() Message body provided is null: Exiting...");
-			return 0;
-		} 
-		long messageID = 0;
-		try{
-			final String[] projection = new String[] { "_id, body"};
-			final String selection;
-			if(threadID == 0){
-				selection = null;
-			}
-			else{
-				selection = "thread_id = " + threadID ;
-			}
-			final String[] selectionArgs = null;
-			final String sortOrder = null;
-		    Cursor cursor = null;
-		    try{
-		    	cursor = context.getContentResolver().query(
-		    		Uri.parse(messageURI),
-		    		projection,
-		    		selection,
-					selectionArgs,
-					sortOrder);
-			    while (cursor.moveToNext()) { 
-		    		if(cursor.getString(cursor.getColumnIndex("body")).replace("\n", "<br/>").trim().equals(messageBody)){
-		    			messageID = cursor.getLong(cursor.getColumnIndex("_id"));
-		    			if (_debug) Log.v("Common.getMessageID() Message ID Found: " + messageID);
-		    			break;
-		    		}
-			    }
-		    }catch(Exception ex){
-				Log.e("Common.getMessageID() ERROR: " + ex.toString());
-			}finally{
-				if(cursor != null){
-					cursor.close();
-				}
-		    }
-		    return messageID;
-		}catch(Exception ex){
-			Log.e("Common.loadMessageID() ERROR: " + ex.toString());
-			return 0;
-		}
-	}
-
-	/**
-	 * Gets the address of the MMS message.
-	 * 
-	 * @param messageID - The MMS message ID.
-	 * 
-	 * @return String - The phone or email address of the MMS message.
-	 */
-	public static String getMMSAddress(Context context, String messageID) {
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.getMMSAddress()");
-		final String[] projection = new String[] {"address"};
-		final String selection = "msg_id = " + messageID;
-		final String[] selectionArgs = null;
-		final String sortOrder = null;
-		String messageAddress = null;
-		Cursor cursor = null;
-        try{
-		    cursor = context.getContentResolver().query(
-		    		Uri.parse("content://mms/" + messageID + "/addr"),
-		    		projection,
-		    		selection,
-					selectionArgs,
-					sortOrder);
-		    while(cursor.moveToNext()){
-		    	messageAddress = cursor.getString(cursor.getColumnIndex("address"));
-	            break;
-	        }
-		}catch(Exception ex){
-			Log.e("Common.getMMSAddress() ERROR: " + ex.toString());
-		} finally {
-			if(cursor != null){
-				cursor.close();
-			}
-    	}	   
-	    return messageAddress;
-	}
-	
-	/**
-	 * Read the message text of the MMS message.
-	 * 
-	 * @param messageID - The MMS message ID.
-	 * 
-	 * @return String - The message text of the MMS message.
-	 */
-	public static String getMMSText(Context context, String messageID) {
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.getMMSText()");
-		final String[] projection = new String[] {"_id", "ct", "_data", "text"};
-		final String selection = "mid = " + messageID;
-		final String[] selectionArgs = null;
-		final String sortOrder = null;
-		StringBuilder messageText = new StringBuilder();
-		Cursor cursor = null;
-        try{
-		    cursor = context.getContentResolver().query(
-		    		Uri.parse("content://mms/part"),
-		    		projection,
-		    		selection,
-					selectionArgs,
-					sortOrder);
-		    while(cursor.moveToNext()){
-		        String partId = cursor.getString(cursor.getColumnIndex("_id"));
-		        String contentType = cursor.getString(cursor.getColumnIndex("ct"));
-		        String text = cursor.getString(cursor.getColumnIndex("text"));
-		        if(text != null){
-	            	if(!messageText.toString().equals("")){
-	            		messageText.append(" ");
-	            	}
-			        messageText.append(text);
-		        }
-		        if (contentType.equals("text/plain")) {
-		            String data = cursor.getString(cursor.getColumnIndex("_data"));
-		            if (data != null) {
-		            	if(!messageText.toString().equals("")){
-		            		messageText.append(" ");
-		            	}
-		            	messageText.append(getMMSTextFromPart(context, partId));
-		            }
-		        }
-	        }
-		}catch(Exception ex){
-			Log.e("Common.getMMSText ERROR: " + ex.toString());
-		} finally {
-			if(cursor != null){
-				cursor.close();
-			}
-    	}	   
-	    return messageText.toString();  
-	}
-
-	/**
-	 * Read the phones Calendars and return the information on them.
-	 * @param context - The 
-	 * 
-	 * @return String - A string of the available Calendars. Specially formatted string with the Calendar information.
-	 */
-	public static String getAvailableCalendars(Context context){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.getAvailableCalendars()");
-		StringBuilder calendarsInfo = new StringBuilder();
-		Cursor cursor = null;
-		try{
-			ContentResolver contentResolver = context.getContentResolver();
-			// Fetch a list of all calendars synced with the device, their display names and whether the user has them selected for display.
-			String contentProvider = "";
-			contentProvider = "content://com.android.calendar";
-			cursor = contentResolver.query(
-				Uri.parse(contentProvider + "/calendars"), 
-				new String[] { Constants.CALENDAR_ID, Constants.CALENDAR_DISPLAY_NAME, Constants.CALENDAR_SELECTED },
-				null,
-				null,
-				null);
-			while (cursor.moveToNext()) {
-				final String calendarID = cursor.getString(cursor.getColumnIndex(Constants.CALENDAR_ID));
-				final String calendarDisplayName = cursor.getString(cursor.getColumnIndex(Constants.CALENDAR_DISPLAY_NAME));
-				final Boolean calendarSelected = !cursor.getString(cursor.getColumnIndex(Constants.CALENDAR_SELECTED)).equals("0");
-				if(calendarSelected){
-					if (_debug) Log.v("Id: " + calendarID + " Display Name: " + calendarDisplayName + " Selected: " + calendarSelected);
-					if(!calendarsInfo.toString().equals("")){
-						calendarsInfo.append(",");
-					}
-					calendarsInfo.append(calendarID + "|" + calendarDisplayName);
-				}
-			}	
-		}catch(Exception ex){
-			Log.e("Common.getAvailableCalendars() ERROR: " + ex.toString());
-			return null;
-		}finally{
-			if(cursor != null){
-				cursor.close();
-			}
-		}
-		if(calendarsInfo.toString().equals("")){
-			return null;
-		}else{
-			return calendarsInfo.toString();
-		}
-	}
-	
-	/**
-	 * Place a phone call.
-	 * 
-	 * @param context - Application Context.
-	 * @param notificationActivity - A reference to the parent activity.
-	 * @param phoneNumber - The phone number we want to send a message to.
-	 * @param requestCode - The request code we want returned.
-	 * 
-	 * @return boolean - Returns true if the application can be launched.
-	 */
-	public static boolean makePhoneCall(Context context, NotificationActivity notificationActivity, String phoneNumber, int requestCode){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.makePhoneCall()");
-		try{
-			if(phoneNumber == null){
-				Toast.makeText(context, context.getString(R.string.app_android_phone_number_format_error), Toast.LENGTH_LONG).show();
-				setInLinkedAppFlag(context, false);
-				return false;
-			}
-			Intent intent = new Intent(Intent.ACTION_CALL);
-	        intent.setData(Uri.parse("tel:" + phoneNumber));
-	        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-	        notificationActivity.startActivityForResult(intent, requestCode);
-	        setInLinkedAppFlag(context, true);
-		    return true;
-		}catch(Exception ex){
-			Log.e("Common.makePhoneCall() ERROR: " + ex.toString());
-			Toast.makeText(context, context.getString(R.string.app_android_phone_app_error), Toast.LENGTH_LONG).show();
-			setInLinkedAppFlag(context, false);
-			return false;
-		}
-	}
-
-	/**
-	 * Start the intent for the Quick Reply activity send a reply.
-	 * 
-	 * @param context - Application Context.
-	 * @param notificationActivity - A reference to the parent activity.
-	 * @param requestCode - The request code we want returned.
-	 * @param sendTo - The number/address/screen name we want to send a reply to.
-	 * @param name - The name of the contact we are sending a reply to.
-	 * 
-	 * @return boolean - Returns true if the activity can be started.
-	 */
-	public static boolean startMessagingQuickReplyActivity(Context context, NotificationActivity notificationActivity, int requestCode, String sendTo, String name){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.startMessagingQuickReplyActivity()");
-		if(sendTo == null){
-			Toast.makeText(context, context.getString(R.string.app_android_reply_messaging_address_error), Toast.LENGTH_LONG).show();
-			return false;
-		}
-		try{
-			Intent intent = new Intent(context, QuickReplyActivity.class);
-	        if (_debug) Log.v("NotificationView.replyToMessage() Put bundle in intent");
-	        Bundle bundle = new Bundle();
-	        bundle.putInt("notificationType", Constants.NOTIFICATION_TYPE_SMS);
-	        bundle.putInt("notificationSubType", 0);
-	        bundle.putString("sendTo", sendTo);
-		    if(name != null && !name.equals( context.getString(android.R.string.unknownName))){
-		    	bundle.putString("name", name);
-		    }else{
-		    	bundle.putString("name", "");
-		    }
-		    bundle.putString("message", "");
-		    intent.putExtras(bundle);
-	        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-	        notificationActivity.startActivityForResult(intent, requestCode);
-	        setInLinkedAppFlag(context, true);
-	        return true;
-		}catch(Exception ex){
-			Log.e("Common.startMessagingQuickReplyActivity() ERROR: " + ex.toString());
-			Toast.makeText(context, context.getString(R.string.app_android_quick_reply_app_error), Toast.LENGTH_LONG).show();
-			setInLinkedAppFlag(context, false);
-			return false;
-		}
-	}
-	
-	/**
-	 * Start the intent for any android messaging application to send a reply.
-	 * 
-	 * @param context - Application Context.
-	 * @param notificationActivity - A reference to the parent activity.
-	 * @param phoneNumber - The number/address/screen name we want to send a message to.
-	 * @param requestCode - The request code we want returned.
-	 * 
-	 * @return boolean - Returns true if the activity can be started.
-	 */
-	public static boolean startMessagingAppReplyActivity(Context context, NotificationActivity notificationActivity, String sendTo, int requestCode){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.startMessagingAppReplyActivity()");
-		if(sendTo == null){
-			Toast.makeText(context, context.getString(R.string.app_android_reply_messaging_address_error), Toast.LENGTH_LONG).show();
-			return false;
-		}
-		try{
-			Intent intent = new Intent(Intent.ACTION_SENDTO);
-		    intent.setData(Uri.parse("smsto:" + sendTo));
-		    // Exit the app once the SMS is sent.
-		    intent.putExtra("compose_mode", true);
-	        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-	        notificationActivity.startActivityForResult(intent, requestCode);
-	        setInLinkedAppFlag(context, true);
-	        return true;
-		}catch(Exception ex){
-			Log.e("Common.startMessagingAppReplyActivity() ERROR: " + ex.toString());
-			Toast.makeText(context, context.getString(R.string.app_android_messaging_app_error), Toast.LENGTH_LONG).show();
-			setInLinkedAppFlag(context, false);
-			return false;
-		}
-	}
-
-	/**
-	 * Start the intent for any android messaging application to view the message thread.
-	 * 
-	 * @param context - Application Context.
-	 * @param notificationActivity - A reference to the parent activity.
-	 * @param phoneNumber - The phone number we want to send a message to.
-	 * @param requestCode - The request code we want returned.
-	 * 
-	 * @return boolean - Returns true if the activity can be started.
-	 */
-	public static boolean startMessagingAppViewThreadActivity(Context context, NotificationActivity notificationActivity, String phoneNumber, int requestCode){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.startMessagingAppViewThreadActivity()");
-		if(phoneNumber == null){
-			Toast.makeText(context, context.getString(R.string.app_android_reply_messaging_address_error), Toast.LENGTH_LONG).show();
-			return false;
-		}
-		try{
-			Intent intent = new Intent(Intent.ACTION_VIEW);
-		    intent.setData(Uri.parse("smsto:" + phoneNumber));
-	        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-	        notificationActivity.startActivityForResult(intent, requestCode);
-	        setInLinkedAppFlag(context, true);
-	        return true;
-		}catch(Exception ex){
-			Log.e("Common.startMessagingAppViewThreadActivity() ERROR: " + ex.toString());
-			Toast.makeText(context, context.getString(R.string.app_android_messaging_app_error), Toast.LENGTH_LONG).show();
-			setInLinkedAppFlag(context, false);
-			return false;
-		}
-	}
-
-	/**
-	 * Start the intent for any android messaging application to view the messaging inbox.
-	 * 
-	 * @param context - Application Context.
-	 * @param notificationActivity - A reference to the parent activity.
-	 * @param requestCode - The request code we want returned.
-	 * 
-	 * @return boolean - Returns true if the activity can be started.
-	 */
-	public static boolean startMessagingAppViewInboxActivity(Context context, NotificationActivity notificationActivity, int requestCode){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.startMessagingAppViewInboxActivity()");
-		try{
-			Intent intent = new Intent(Intent.ACTION_MAIN);
-		    intent.setType("vnd.android-dir/mms-sms");
-	        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-	        notificationActivity.startActivityForResult(intent, requestCode);
-	        setInLinkedAppFlag(context, true);
-	        return true;
-		}catch(Exception ex){
-			Log.e("Common.startMessagingAppViewInboxActivity() ERROR: " + ex.toString());
-			Toast.makeText(context, context.getString(R.string.app_android_messaging_app_error), Toast.LENGTH_LONG).show();
-			setInLinkedAppFlag(context, false);
-			return false;
-		}
-	}
-	
-	/**
-	 * Start the intent to view the phones call log.
-	 * 
-	 * @param context - Application Context.
-	 * @param notificationActivity - A reference to the parent activity.
-	 * @param requestCode - The request code we want returned.
-	 * 
-	 * @return boolean - Returns true if the activity can be started.
-	 */
-	public static boolean startCallLogViewActivity(Context context, NotificationActivity notificationActivity, int requestCode){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.startCallLogViewActivity()");
-		try{
-			Intent intent = new Intent(Intent.ACTION_VIEW);
-			intent.setType("vnd.android.cursor.dir/calls");
-	        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-			notificationActivity.startActivityForResult(intent, requestCode);
-			setInLinkedAppFlag(context, true);
-			return true;
-		}catch(Exception ex){
-			Log.e("Common.startCallLogViewActivity() ERROR: " + ex.toString());
-			Toast.makeText(context, context.getString(R.string.app_android_call_log_error), Toast.LENGTH_LONG).show();
-			setInLinkedAppFlag(context, false);
-			return false;
-		}
-	}
-	
-	/**
 	 * Start the intent to view a contact.
 	 * 
 	 * @param context - Application Context.
@@ -843,158 +375,6 @@ public class Common {
 		}catch(Exception ex){
 			Log.e("Common.startContactViewActivity() ERROR: " + ex.toString());
 			Toast.makeText(context, context.getString(R.string.app_android_contacts_app_error), Toast.LENGTH_LONG).show();
-			setInLinkedAppFlag(context, false);
-			return false;
-		}
-	}
-	
-	/**
-	 * Start the intent to start the calendar app.
-	 * 
-	 * @param context - Application Context.
-	 * @param notificationActivity - A reference to the parent activity.
-	 * @param requestCode - The request code we want returned.
-	 * 
-	 * @return boolean - Returns true if the activity can be started.
-	 */
-	public static boolean startViewCalendarActivity(Context context, NotificationActivity notificationActivity, int requestCode){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.startViewCalendarActivity()");
-		try{
-			//Androids calendar app.
-			Intent intent = new Intent(Intent.ACTION_VIEW);
-			intent.setClassName("com.android.calendar", "com.android.calendar.LaunchActivity"); 
-	        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-			notificationActivity.startActivityForResult(intent, requestCode);
-			setInLinkedAppFlag(context, true);
-			return true;
-		}catch(Exception e){
-			Log.e("Common.startAddCalendarEventActivity ERROR: " + e.toString());
-			try{
-				//HTC Sense UI calendar app.
-				Intent intent = new Intent(Intent.ACTION_MAIN); 
-				intent.setComponent(new ComponentName("com.htc.calendar", "com.htc.calendar.LaunchActivity"));
-		        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-				notificationActivity.startActivityForResult(intent, requestCode);
-				setInLinkedAppFlag(context, true);
-				return true;
-			}catch(Exception ex){
-				Log.e("Common.startViewCalendarActivity() ERROR: " + ex.toString());
-				Toast.makeText(context, context.getString(R.string.app_android_calendar_app_error), Toast.LENGTH_LONG).show();
-				setInLinkedAppFlag(context, false);
-				return false;
-			}
-		}
-	}
-	
-	/**
-	 * Start the intent to add an event to the calendar app.
-	 * 
-	 * @param context - Application Context.
-	 * @param notificationActivity - A reference to the parent activity.
-	 * @param requestCode - The request code we want returned.
-	 * 
-	 * @return boolean - Returns true if the activity can be started.
-	 */
-	public static boolean startAddCalendarEventActivity(Context context, NotificationActivity notificationActivity, int requestCode){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.startAddCalendarEventActivity()");
-		try{
-			//Androids calendar app.
-			Intent intent = new Intent(Intent.ACTION_EDIT);
-			intent.setType("vnd.android.cursor.item/event");
-	        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-			notificationActivity.startActivityForResult(intent, requestCode);
-			setInLinkedAppFlag(context, true);
-			return true;
-		}catch(Exception e){
-			Log.e("Common.startAddCalendarEventActivity ERROR: " + e.toString());
-			try{
-				//HTC Sense UI calendar app.
-				Intent intent = new Intent(Intent.ACTION_EDIT);
-				intent.setComponent(new ComponentName("com.htc.calendar", "com.htc.calendar.EditEvent"));
-		        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-				notificationActivity.startActivityForResult(intent, requestCode);
-				setInLinkedAppFlag(context, true);
-				return true;
-			}catch(Exception ex){
-				Log.e("Common.startAddCalendarEventActivity ERROR: " + ex.toString());
-				Toast.makeText(context, context.getString(R.string.app_android_calendar_app_error), Toast.LENGTH_LONG).show();
-				setInLinkedAppFlag(context, false);
-				return false;
-			}
-		}
-	}
-	
-	/**
-	 * Start the intent to view an event to the calendar app.
-	 * 
-	 * @param context - Application Context.
-	 * @param notificationActivity - A reference to the parent activity.
-	 * @param calendarEventID - The id of the calendar event.
-	 * @param calendarEventStartTime - The start time of the calendar event.
-	 * @param calendarEventEndTime - The end time of the calendar event.
-	 * @param requestCode - The request code we want returned.
-	 * 
-	 * @return boolean - Returns true if the activity can be started.
-	 */
-	public static boolean startViewCalendarEventActivity(Context context, NotificationActivity notificationActivity, long calendarEventID, long calendarEventStartTime, long calendarEventEndTime, int requestCode){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.startViewCalendarEventActivity()");
-		try{
-			if(calendarEventID == 0){
-				Toast.makeText(context, context.getString(R.string.app_android_calendar_event_not_found_error), Toast.LENGTH_LONG).show();
-				setInLinkedAppFlag(context, false);
-				return false;
-			}
-			Intent intent = new Intent(Intent.ACTION_VIEW);
-			intent.setData(Uri.parse("content://com.android.calendar/events/" + String.valueOf(calendarEventID)));	
-			intent.putExtra(Constants.CALENDAR_EVENT_BEGIN_TIME, calendarEventStartTime);
-			intent.putExtra(Constants.CALENDAR_EVENT_END_TIME, calendarEventEndTime);
-	        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-			notificationActivity.startActivityForResult(intent, requestCode);
-			setInLinkedAppFlag(context, true);
-			return true;
-		}catch(Exception ex){
-			Log.e("Common.startViewCalendarEventActivity ERROR: " + ex.toString());
-			Toast.makeText(context, context.getString(R.string.app_android_calendar_app_error), Toast.LENGTH_LONG).show();
-			setInLinkedAppFlag(context, false);
-			return false;
-		}
-	}
-	
-	/**
-	 * Start the intent to edit an event to the calendar app.
-	 * 
-	 * @param context - Application Context.
-	 * @param notificationActivity - A reference to the parent activity.
-	 * @param calendarEventID - The id of the calendar event.
-	 * @param calendarEventStartTime - The start time of the calendar event.
-	 * @param calendarEventEndTime - The end time of the calendar event.
-	 * @param requestCode - The request code we want returned.
-	 * 
-	 * @return boolean - Returns true if the activity can be started.
-	 */
-	public static boolean startEditCalendarEventActivity(Context context, NotificationActivity notificationActivity, long calendarEventID, long calendarEventStartTime, long calendarEventEndTime, int requestCode){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.startEditCalendarEventActivity()");
-		try{
-			if(calendarEventID == 0){
-				Toast.makeText(context, context.getString(R.string.app_android_calendar_event_not_found_error), Toast.LENGTH_LONG).show();
-				setInLinkedAppFlag(context, false);
-				return false;
-			}
-			Intent intent = new Intent(Intent.ACTION_EDIT);
-			intent.setData(Uri.parse("content://com.android.calendar/events/" + String.valueOf(calendarEventID)));	
-			intent.putExtra(Constants.CALENDAR_EVENT_BEGIN_TIME, calendarEventStartTime);
-			intent.putExtra(Constants.CALENDAR_EVENT_END_TIME, calendarEventEndTime);
-	        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-			notificationActivity.startActivityForResult(intent, requestCode);
-			setInLinkedAppFlag(context, true);
-			return true;
-		}catch(Exception ex){
-			Log.e("Common.startEditCalendarEventActivity ERROR: " + ex.toString());
-			Toast.makeText(context, context.getString(R.string.app_android_calendar_app_error), Toast.LENGTH_LONG).show();
 			setInLinkedAppFlag(context, false);
 			return false;
 		}
@@ -1167,47 +547,6 @@ public class Common {
 	}
 	
 	/**
-	 * Remove all non-numeric items from the phone number.
-	 * 
-	 * @param phoneNumber - String of original phone number.
-	 * 
-	 * @return String - String of phone number with no formatting.
-	 */
-	public static String removeFormatting(String phoneNumber){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.removeFormatting()");
-		phoneNumber = phoneNumber.replace("-", "");
-		phoneNumber = phoneNumber.replace("+", "");
-		phoneNumber = phoneNumber.replace("(", "");
-		phoneNumber = phoneNumber.replace(")", "");
-		phoneNumber = phoneNumber.replace(" ", "");
-		return phoneNumber.trim();
-	}
-	
-	/**
-	 * Determines if the incoming number is a Private or Unknown number.
-	 * 
-	 * @param incomingNumber - The incoming phone number.
-	 * 
-	 * @return boolean - Returns true if the number is a Private number or Unknown number.
-	 */
-	public static boolean isPrivateUnknownNumber(String incomingNumber){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.isPrivateUnknownNumber() incomingNumber: " + incomingNumber);
-		try{
-			if(incomingNumber.length() > 4){
-				return false;
-			}
-			int convertedNumber = Integer.parseInt(incomingNumber);
-			if(convertedNumber < 1) return true;
-		}catch(Exception ex){
-			if (_debug) Log.v("Common.isPrivateUnknownNumber() Integer Parse Error");
-			return false;
-		}
-		return false;
-	}
-	
-	/**
 	 * Convert a GMT timestamp to the phones local time.
 	 * 
 	 * @param inputTimestamp - GMT timestamp we want to convert.
@@ -1223,48 +562,6 @@ public class Common {
 	    long outputTimeStamp = inputTimeStamp - offset + timeStampAdjustment;
 	    if (_debug) Log.v("Common.convertGMTToLocalTime() OutputTimeStamp: " + outputTimeStamp);
 	    return outputTimeStamp;
-	}
-	
-	/**
-	 * Cancel the stock missed call notification.
-	 * 
-	 * @return boolean - Returns true if the stock missed call notification was cancelled.
-	 */
-	public static boolean cancelStockMissedCallNotification(){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.cancelStockMissedCallNotification()");
-		try{
-	        Class serviceManagerClass = Class.forName("android.os.ServiceManager");
-	        Method getServiceMethod = serviceManagerClass.getMethod("getService", String.class);
-	        Object phoneService = getServiceMethod.invoke(null, "phone");
-	        Class ITelephonyClass = Class.forName("com.android.internal.telephony.ITelephony");
-	        Class ITelephonyStubClass = null;
-	        for(Class clazz : ITelephonyClass.getDeclaredClasses()){
-	            if (clazz.getSimpleName().equals("Stub")){
-	                ITelephonyStubClass = clazz;
-	                break;
-	            }
-	        }
-	        if (ITelephonyStubClass != null) {
-	            Class IBinderClass = Class.forName("android.os.IBinder");
-	            Method asInterfaceMethod = ITelephonyStubClass.getDeclaredMethod("asInterface", IBinderClass);
-	            Object iTelephony = asInterfaceMethod.invoke(null, phoneService);
-	            if (iTelephony != null){
-	                Method cancelMissedCallsNotificationMethod = iTelephony.getClass().getMethod("cancelMissedCallsNotification");
-	                cancelMissedCallsNotificationMethod.invoke(iTelephony);
-	            }else{
-	            	Log.e("Telephony service is null, can't call cancelMissedCallsNotification.");
-	    	    	return false;
-	            }
-	        }else{
-	            if (_debug) Log.v("Unable to locate ITelephony.Stub class.");
-		    	return false;
-	        }
-	        return true;
-	    }catch (Exception ex){
-	    	Log.e("Common.cancelStockMissedCallNotification() ERROR: " + ex.toString());
-	    	return false;
-	    }
 	}
 	
 	/**
@@ -1294,6 +591,7 @@ public class Common {
 			//Preference keys.
 			String POPUP_ENABLED_KEY = null;
 			String ENABLED_KEY = null;
+			boolean POPUP_ENABLED_DEFAULT = true;
 			String SOUND_SETTING_KEY = null;
 			String RINGTONE_DEFAULT = Constants.STATUS_BAR_NOTIFICATIONS_RINGTONE_DEFAULT;;
 			String IN_CALL_SOUND_ENABLED_KEY = null;
@@ -1338,6 +636,7 @@ public class Common {
 				case Constants.NOTIFICATION_TYPE_SMS:{
 					if (_debug) Log.v("Common.setStatusBarNotification() NOTIFICATION_TYPE_SMS");
 					POPUP_ENABLED_KEY = Constants.SMS_NOTIFICATIONS_ENABLED_KEY;
+					POPUP_ENABLED_DEFAULT = true;
 					ENABLED_KEY = Constants.SMS_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY;
 					SOUND_SETTING_KEY = Constants.SMS_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY;
 					IN_CALL_SOUND_ENABLED_KEY = Constants.SMS_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY;
@@ -1360,7 +659,7 @@ public class Common {
 						if(sentFromAddress.contains("@")){
 							sentFrom = sentFromAddress;
 						}else{
-							sentFrom = Common.formatPhoneNumber(context, sentFromAddress);
+							sentFrom = PhoneCommon.formatPhoneNumber(context, sentFromAddress);
 						}	
 					}else{
 						sentFrom = sentFromContactName;
@@ -1395,6 +694,7 @@ public class Common {
 				case Constants.NOTIFICATION_TYPE_MMS:{
 					if (_debug) Log.v("Common.setStatusBarNotification() NOTIFICATION_TYPE_MMS");
 					POPUP_ENABLED_KEY = Constants.MMS_NOTIFICATIONS_ENABLED_KEY;
+					POPUP_ENABLED_DEFAULT = true;
 					ENABLED_KEY = Constants.MMS_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY;
 					SOUND_SETTING_KEY = Constants.MMS_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY;
 					IN_CALL_SOUND_ENABLED_KEY = Constants.MMS_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY;
@@ -1417,7 +717,7 @@ public class Common {
 						if(sentFromAddress.contains("@")){
 							sentFrom = sentFromAddress;
 						}else{
-							sentFrom = Common.formatPhoneNumber(context, sentFromAddress);
+							sentFrom = PhoneCommon.formatPhoneNumber(context, sentFromAddress);
 						}						
 					}else{
 						sentFrom = sentFromContactName;
@@ -1452,6 +752,7 @@ public class Common {
 				case Constants.NOTIFICATION_TYPE_PHONE:{
 					if (_debug) Log.v("Common.setStatusBarNotification() NOTIFICATION_TYPE_PHONE");
 					POPUP_ENABLED_KEY = Constants.PHONE_NOTIFICATIONS_ENABLED_KEY;
+					POPUP_ENABLED_DEFAULT = true;
 					ENABLED_KEY = Constants.PHONE_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY;
 					SOUND_SETTING_KEY = Constants.PHONE_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY;
 					IN_CALL_SOUND_ENABLED_KEY = Constants.PHONE_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY;
@@ -1471,7 +772,7 @@ public class Common {
 					ICON_DEFAULT = Constants.PHONE_STATUS_BAR_NOTIFICATIONS_ICON_DEFAULT;
 					contentTitle = context.getText(R.string.status_bar_notification_content_title_text_phone);
 					if(sentFromContactName == null || sentFromContactName.equals("")){
-						sentFrom = Common.formatPhoneNumber(context, sentFromAddress);
+						sentFrom = PhoneCommon.formatPhoneNumber(context, sentFromAddress);
 					}else{
 						sentFrom = sentFromContactName;
 					}
@@ -1498,6 +799,7 @@ public class Common {
 				case Constants.NOTIFICATION_TYPE_CALENDAR:{
 					if (_debug) Log.v("Common.setStatusBarNotification() NOTIFICATION_TYPE_CALENDAR");
 					POPUP_ENABLED_KEY = Constants.CALENDAR_NOTIFICATIONS_ENABLED_KEY;
+					POPUP_ENABLED_DEFAULT = true;
 					ENABLED_KEY = Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY;
 					SOUND_SETTING_KEY = Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY;
 					IN_CALL_SOUND_ENABLED_KEY = Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY;
@@ -1544,6 +846,7 @@ public class Common {
 				case Constants.NOTIFICATION_TYPE_TWITTER:{
 					if (_debug) Log.v("Common.setStatusBarNotification() NOTIFICATION_TYPE_TWITTER");
 					POPUP_ENABLED_KEY = Constants.TWITTER_NOTIFICATIONS_ENABLED_KEY;
+					POPUP_ENABLED_DEFAULT = false;
 					ENABLED_KEY = Constants.TWITTER_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY;
 					SOUND_SETTING_KEY = Constants.TWITTER_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY;
 					IN_CALL_SOUND_ENABLED_KEY = Constants.TWITTER_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY;
@@ -1624,6 +927,7 @@ public class Common {
 				case Constants.NOTIFICATION_TYPE_FACEBOOK:{
 					if (_debug) Log.v("Common.setStatusBarNotification() NOTIFICATION_TYPE_FACEBOOK");
 					POPUP_ENABLED_KEY = Constants.FACEBOOK_NOTIFICATIONS_ENABLED_KEY;
+					POPUP_ENABLED_DEFAULT = false;
 					ENABLED_KEY = Constants.FACEBOOK_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY;
 					SOUND_SETTING_KEY = Constants.FACEBOOK_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY;
 					IN_CALL_SOUND_ENABLED_KEY = Constants.FACEBOOK_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY;
@@ -1704,6 +1008,7 @@ public class Common {
 				case Constants.NOTIFICATION_TYPE_K9:{
 					if (_debug) Log.v("Common.setStatusBarNotification() NOTIFICATION_TYPE_K9");
 					POPUP_ENABLED_KEY = Constants.K9_NOTIFICATIONS_ENABLED_KEY;
+					POPUP_ENABLED_DEFAULT = true;
 					ENABLED_KEY = Constants.K9_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY;
 					SOUND_SETTING_KEY = Constants.K9_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY;
 					IN_CALL_SOUND_ENABLED_KEY = Constants.K9_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY;
@@ -1770,7 +1075,7 @@ public class Common {
 			boolean vibrateEnabled = false;
 			boolean vibrateInCallEnabled = false;
 			//Check if notifications are enabled or not.
-			if(!preferences.getBoolean(ENABLED_KEY, true) || !preferences.getBoolean(POPUP_ENABLED_KEY, true)){
+			if(!preferences.getBoolean(ENABLED_KEY, true) || !preferences.getBoolean(POPUP_ENABLED_KEY, POPUP_ENABLED_DEFAULT)){
 				if (_debug) Log.v("Common.setStatusBarNotification() Notifications Disabled: ENABLED_KEY " + ENABLED_KEY + " - Exiting...");
 				return;
 			}
@@ -2122,7 +1427,7 @@ public class Common {
 			notificationManager.notify(notificationType, notification);
 			//Remove the stock status bar notification.
 			if(notificationType == Constants.NOTIFICATION_TYPE_PHONE){
-				cancelStockMissedCallNotification();
+				PhoneCommon.cancelStockMissedCallNotification();
 			}
 		}catch(Exception ex){
 			Log.e("Common.setStatusBarNotification() ERROR: " + ex.toString());
@@ -2167,252 +1472,6 @@ public class Common {
 		}catch(Exception ex){
 			Log.e("Common.clearAllNotifications() ERROR: " + ex.toString());
 		}
-	}
-
-	/**
-	 * Function to query the sms inbox and check for any new messages.
-	 * 
-	 * @param context - The application context.
-	 * 
-	 * @return ArrayList<String> - Returns an ArrayList of Strings that contain the sms information.
-	 */
-	public static ArrayList<String> getSMSMessagesFromDisk(Context context){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.getSMSMessagesFromDisk()");
-		ArrayList<String> smsArray = new ArrayList<String>();
-		final String[] projection = new String[] { "_id", "thread_id", "address", "person", "date", "body"};
-		final String selection = "read = 0";
-		final String[] selectionArgs = null;
-		final String sortOrder = null;
-		Cursor cursor = null;
-        try{
-		    cursor = context.getContentResolver().query(
-		    		Uri.parse("content://sms/inbox"),
-		    		projection,
-		    		selection,
-					selectionArgs,
-					sortOrder);
-		    while (cursor.moveToNext()) { 
-		    	long messageID = cursor.getLong(cursor.getColumnIndex("_id"));
-		    	long threadID = cursor.getLong(cursor.getColumnIndex("thread_id"));
-		    	String messageBody = cursor.getString(cursor.getColumnIndex("body"));
-		    	String sentFromAddress = cursor.getString(cursor.getColumnIndex("address"));
-	            if(sentFromAddress.contains("@")){
-	            	sentFromAddress = Common.removeEmailFormatting(sentFromAddress);
-	            }
-		    	long timeStamp = cursor.getLong(cursor.getColumnIndex("date"));
-	    		String[] smsContactInfo = null;
-	    		if(sentFromAddress.contains("@")){
-		    		smsContactInfo = Common.getContactsInfoByEmail(context, sentFromAddress);
-		    	}else{
-		    		smsContactInfo = Common.getContactsInfoByPhoneNumber(context, sentFromAddress);
-		    	}
-	    		if(smsContactInfo == null){
-					smsArray.add(sentFromAddress + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + threadID + "|" + timeStamp);
-				}else{
-					smsArray.add(sentFromAddress + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + threadID + "|" + timeStamp + "|" + smsContactInfo[0] + "|" + smsContactInfo[1] + "|" + smsContactInfo[2] + "|" + smsContactInfo[3]);
-				}
-		    	break;
-		    }
-		}catch(Exception ex){
-			Log.e("Common.getSMSMessagesFromDisk() ERROR: " + ex.toString());
-		} finally {
-    		cursor.close();
-    	}
-		return smsArray;	
-	}
-	
-	/**
-	 * Parse the incoming SMS message directly.
-	 * 
-	 * @param context - The application context.
-	 * @param bundle - Bundle from the incoming intent.
-	 * 
-	 * @return ArrayList<String> - Returns an ArrayList of Strings that contain the sms information.
-	 */
-	public static ArrayList<String> getSMSMessagesFromIntent(Context context, Bundle bundle){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.getSMSMessagesFromIntent()");
-		ArrayList<String> smsArray = new ArrayList<String>();
-    	long timeStamp = 0;
-    	String sentFromAddress = null;
-    	String messageBody = null;
-    	StringBuilder messageBodyBuilder = null;
-    	String messageSubject = null;
-    	long threadID = 0;
-    	long messageID = 0;
-		try{
-			SmsMessage[] msgs = null;
-            Object[] pdus = (Object[]) bundle.get("pdus");
-            msgs = new SmsMessage[pdus.length];
-            for (int i=0; i<msgs.length; i++){
-                msgs[i] = SmsMessage.createFromPdu((byte[])pdus[i]);                
-            }
-            SmsMessage sms = msgs[0];
-            timeStamp = sms.getTimestampMillis();
-            //Adjust the timestamp to the localized time of the users phone.
-            timeStamp = Common.convertGMTToLocalTime(context, timeStamp);
-            sentFromAddress = sms.getDisplayOriginatingAddress().toLowerCase();
-            if(sentFromAddress.contains("@")){
-            	sentFromAddress = Common.removeEmailFormatting(sentFromAddress);
-            }
-            messageSubject = sms.getPseudoSubject();
-            messageBodyBuilder = new StringBuilder();
-            //Get the entire message body from the new message.
-    		  int messagesLength = msgs.length;
-            for (int i = 0; i < messagesLength; i++){                
-            	//messageBody.append(msgs[i].getMessageBody().toString());
-            	messageBodyBuilder.append(msgs[i].getDisplayMessageBody().toString());
-            }   
-            messageBody = messageBodyBuilder.toString();
-            if(messageBody.startsWith(sentFromAddress)){
-            	messageBody = messageBody.substring(sentFromAddress.length()).replace("\n", "<br/>").trim();
-            }
-            if(messageSubject != null && !messageSubject.equals("")){
-				messageBody = "<b>" + messageSubject + "</b><br/>" + messageBody.replace("\n", "<br/>").trim();
-			}else{
-				messageBody = messageBody.replace("\n", "<br/>").trim();
-			}
-    		threadID = Common.getThreadID(context, sentFromAddress, Constants.NOTIFICATION_TYPE_SMS);
-    		messageID = Common.getMessageID(context, threadID, messageBody, timeStamp, Constants.NOTIFICATION_TYPE_SMS);
-    		String[] smsContactInfo = null;
-    		if(sentFromAddress.contains("@")){
-	    		smsContactInfo = Common.getContactsInfoByEmail(context, sentFromAddress);
-	    	}else{
-	    		smsContactInfo = Common.getContactsInfoByPhoneNumber(context, sentFromAddress);
-	    	}
-    		if(smsContactInfo == null){
-				smsArray.add(sentFromAddress + "|" + messageBody + "|" + messageID + "|" + threadID + "|" + timeStamp);
-			}else{
-				smsArray.add(sentFromAddress + "|" + messageBody + "|" + messageID + "|" + threadID + "|" + timeStamp + "|" + smsContactInfo[0] + "|" + smsContactInfo[1] + "|" + smsContactInfo[2] + "|" + smsContactInfo[3]);
-			}
-    		return smsArray;
-		}catch(Exception ex){
-			Log.e("Common.getSMSMessagesFromIntent() ERROR: " + ex.toString());
-			return null;
-		}
-	}
-	
-	/**
-	 * Function to query the mms inbox and check for any new messages.
-	 * 
-	 * @param context - The application context.
-	 * 
-	 * @return ArrayList<String> - Returns an ArrayList of Strings that contain the mms information.
-	 */
-	public static ArrayList<String> getMMSMessagesFromDisk(Context context){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.getMMSMessagesFromDisk()");
-		ArrayList<String> mmsArray = new ArrayList<String>();
-		final String[] projection = new String[] {"_id", "thread_id", "date"};
-		final String selection = "read = 0";
-		final String[] selectionArgs = null;
-		final String sortOrder = "date DESC";
-		Cursor cursor = null;
-        try{
-		    cursor = context.getContentResolver().query(
-		    		Uri.parse("content://mms/inbox"),
-		    		projection,
-		    		selection,
-					selectionArgs,
-					sortOrder);
-	    	while (cursor.moveToNext()) {		    	
-	    		String messageID = cursor.getString(cursor.getColumnIndex("_id"));
-	    		String threadID = cursor.getString(cursor.getColumnIndex("thread_id"));
-		    	String timeStamp = cursor.getString(cursor.getColumnIndex("date"));
-		    	String sentFromAddress = Common.getMMSAddress(context, messageID);
-		    	if(sentFromAddress.contains("@")){
-	            	sentFromAddress = Common.removeEmailFormatting(sentFromAddress);
-	            }
-		    	String messageBody = Common.getMMSText(context, messageID);
-		    	String[] mmsContactInfo = null;
-		    	if(sentFromAddress.contains("@")){
-		    		mmsContactInfo = Common.getContactsInfoByEmail(context, sentFromAddress);
-		    	}else{
-		    		mmsContactInfo = Common.getContactsInfoByPhoneNumber(context, sentFromAddress);
-		    	}
-				if(mmsContactInfo == null){
-					mmsArray.add(sentFromAddress + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + threadID + "|" + timeStamp);
-				}else{
-					mmsArray.add(sentFromAddress + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + threadID + "|" + timeStamp + "|" + mmsContactInfo[0] + "|" + mmsContactInfo[1] + "|" + mmsContactInfo[2] + "|" + mmsContactInfo[3]);
-				}
-		    	break;
-	    	}
-		}catch(Exception ex){
-			Log.e("Common.getMMSMessagesFromDisk() ERROR: " + ex.toString());
-		}finally{
-    		cursor.close();
-    	}
-		return mmsArray;	
-	}
-	
-	/**
-	 * Function to query the call log and check for any missed calls.
-	 * 
-	 * @param context - The application context.
-	 * 
-	 * @return ArrayList<String> - Returns an ArrayList of Strings that contain the missed call information.
-	 */
-	public static ArrayList<String> getMissedCalls(Context context){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.getMissedCalls()");
-		Boolean missedCallFound = false;
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-		String missedCallPreference = preferences.getString(Constants.PHONE_DISMISS_BUTTON_ACTION_KEY, "0");
-		ArrayList<String> missedCallsArray = new ArrayList<String>();
-		final String[] projection = null;
-		final String selection = null;
-		final String[] selectionArgs = null;
-		final String sortOrder = android.provider.CallLog.Calls.DATE + " DESC";
-		Cursor cursor = null;
-		try{
-		    cursor = context.getContentResolver().query(
-		    		Uri.parse("content://call_log/calls"),
-		    		projection,
-		    		selection,
-					selectionArgs,
-					sortOrder);
-	    	while (cursor.moveToNext()) { 
-	    		String callLogID = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls._ID));
-	    		String callNumber = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.NUMBER));
-	    		String callDate = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.DATE));
-	    		String callType = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.TYPE));
-	    		String isCallNew = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.NEW));
-	    		if(Integer.parseInt(callType) == Constants.PHONE_TYPE && Integer.parseInt(isCallNew) > 0){
-    				if (_debug) Log.v("Common.getMissedCalls() Missed Call Found: " + callNumber);
-    				String[] missedCallContactInfo = null;
-    				if(Common.isPrivateUnknownNumber(callNumber)){
-    					if (_debug) Log.v("Common.getMissedCalls() Is a private or unknown number.");
-    				}else{
-    					missedCallContactInfo = Common.getContactsInfoByPhoneNumber(context, callNumber);
-    				}
-    				if(missedCallContactInfo == null){
-    					missedCallsArray.add(callLogID + "|" + callNumber + "|" + callDate);
-    				}else{
-    					missedCallsArray.add(callLogID + "|" + callNumber + "|" + callDate + "|" + missedCallContactInfo[0] + "|" + missedCallContactInfo[1] + "|" + missedCallContactInfo[2] + "|" + missedCallContactInfo[3]);
-    				}
-    				if(missedCallPreference.equals(Constants.PHONE_GET_LATEST)){
-    					if (_debug) Log.v("Common.getMissedCalls() Missed call found - Exiting");
-    					break;
-    				}
-    				missedCallFound = true;
-    			}else{
-    				if(missedCallPreference.equals(Constants.PHONE_GET_RECENT)){
-    					if (_debug) Log.v("Common.getMissedCalls() Found first non-missed call - Exiting");
-    					break;
-    				}
-    			}
-	    		if(!missedCallFound){
-	    			if (_debug) Log.v("Common.getMissedCalls() Missed call not found - Exiting");
-	    			break;
-	    		}
-	    	}
-		}catch(Exception ex){
-			Log.e("Common.getMissedCalls() ERROR: " + ex.toString());
-		}finally{
-			cursor.close();
-		}
-	    return missedCallsArray;
 	}
 
 	/**
@@ -2484,8 +1543,6 @@ public class Common {
 			return null;
 		}
 	}
-	
-
 	
 	/**
 	 * Aquire a global partial wakelock within this context.
@@ -2610,138 +1667,6 @@ public class Common {
 			}
 		}catch(Exception ex){
 			Log.e("Common.clearKeyguardLock() ERROR: " + ex.toString());
-		}
-	}
-	
-	/**
-	 * Function to format phone numbers.
-	 * 
-	 * @param context - The current context of this Activity.
-	 * @param inputPhoneNumber - Phone number to be formatted.
-	 * 
-	 * @return String - Formatted phone number string.
-	 */
-	public static String formatPhoneNumber(Context context, String inputPhoneNumber){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.formatPhoneNumber()");
-		try{
-			if(inputPhoneNumber.equals("Private Number")){
-				return inputPhoneNumber;
-			}
-			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-			inputPhoneNumber = Common.removeFormatting(inputPhoneNumber);
-			StringBuilder outputPhoneNumber = new StringBuilder("");		
-			int phoneNumberFormatPreference = Integer.parseInt(preferences.getString(Constants.PHONE_NUMBER_FORMAT_KEY, Constants.PHONE_NUMBER_FORMAT_DEFAULT));
-			String numberSeparator = "-";
-			if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_6 || phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_7 | phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_8){
-				numberSeparator = ".";
-			}else if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_9 || phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_10 | phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_11){
-				numberSeparator = " ";
-			}else if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_4){
-				numberSeparator = "";
-			}
-			if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_1 || phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_6 || phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_9){
-				if(inputPhoneNumber.length() >= 10){
-					//Format ###-###-#### (e.g.123-456-7890)
-					//Format ###-###-#### (e.g.123.456.7890)
-					outputPhoneNumber.insert(0, inputPhoneNumber.substring(inputPhoneNumber.length() - 4, inputPhoneNumber.length()));
-					outputPhoneNumber.insert(0, numberSeparator);
-					outputPhoneNumber.insert(0, inputPhoneNumber.substring(inputPhoneNumber.length() - 7, inputPhoneNumber.length() - 4));
-					outputPhoneNumber.insert(0, numberSeparator);
-					if(inputPhoneNumber.length() == 10){
-						outputPhoneNumber.insert(0, inputPhoneNumber.substring(0, inputPhoneNumber.length() - 7));
-					}else{
-						outputPhoneNumber.insert(0, inputPhoneNumber.substring(inputPhoneNumber.length() - 10, inputPhoneNumber.length() - 7));
-						outputPhoneNumber.insert(0, numberSeparator);
-						if(preferences.getBoolean(Constants.PHONE_NUMBER_FORMAT_10_DIGITS_ONLY_KEY , false)){
-							outputPhoneNumber.insert(0, "0");
-						}else{
-							outputPhoneNumber.insert(0, inputPhoneNumber.substring(0, inputPhoneNumber.length() - 10));
-						}
-					}
-				}else{
-					outputPhoneNumber.append(inputPhoneNumber);
-				}
-			}else if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_2 || phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_7 || phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_10){
-				if(inputPhoneNumber.length() >= 10){
-					//Format ##-###-##### (e.g.12-345-67890)
-					//Format ##-###-##### (e.g.12.345.67890)
-					outputPhoneNumber.insert(0, inputPhoneNumber.substring(inputPhoneNumber.length() - 5, inputPhoneNumber.length()));
-					outputPhoneNumber.insert(0, numberSeparator);
-					outputPhoneNumber.insert(0, inputPhoneNumber.substring(inputPhoneNumber.length() - 8, inputPhoneNumber.length() - 5));
-					outputPhoneNumber.insert(0, numberSeparator);
-					if(inputPhoneNumber.length() == 10){
-						outputPhoneNumber.insert(0, inputPhoneNumber.substring(0, inputPhoneNumber.length() - 8));
-					}else{
-						outputPhoneNumber.insert(0, inputPhoneNumber.substring(inputPhoneNumber.length() - 10, inputPhoneNumber.length() - 8));
-						outputPhoneNumber.insert(0, numberSeparator);
-						if(preferences.getBoolean(Constants.PHONE_NUMBER_FORMAT_10_DIGITS_ONLY_KEY , false)){
-							outputPhoneNumber.insert(0, "0");
-						}else{
-							outputPhoneNumber.insert(0, inputPhoneNumber.substring(0, inputPhoneNumber.length() - 10));
-						}
-					}
-				}else{
-					outputPhoneNumber.append(inputPhoneNumber);
-				}
-			}else if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_3 || phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_8 || phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_11){
-				if(inputPhoneNumber.length() >= 10){
-					//Format ##-##-##-##-## (e.g.12-34-56-78-90)
-					//Format ##-##-##-##-## (e.g.12.34.56.78.90)
-					outputPhoneNumber.insert(0, inputPhoneNumber.substring(inputPhoneNumber.length() - 2, inputPhoneNumber.length()));
-					outputPhoneNumber.insert(0, numberSeparator);
-					outputPhoneNumber.insert(0, inputPhoneNumber.substring(inputPhoneNumber.length() - 4, inputPhoneNumber.length() - 2));
-					outputPhoneNumber.insert(0, numberSeparator);
-					outputPhoneNumber.insert(0, inputPhoneNumber.substring(inputPhoneNumber.length() - 6, inputPhoneNumber.length() - 4));
-					outputPhoneNumber.insert(0, numberSeparator);
-					outputPhoneNumber.insert(0, inputPhoneNumber.substring(inputPhoneNumber.length() - 8, inputPhoneNumber.length() - 6));
-					outputPhoneNumber.insert(0, numberSeparator);
-					if(inputPhoneNumber.length() == 10){
-						outputPhoneNumber.insert(0,inputPhoneNumber.substring(0, inputPhoneNumber.length() - 8));
-					}else{
-						outputPhoneNumber.insert(0, inputPhoneNumber.substring(inputPhoneNumber.length() - 10, inputPhoneNumber.length() - 8));
-						outputPhoneNumber.insert(0, numberSeparator);
-						if(preferences.getBoolean(Constants.PHONE_NUMBER_FORMAT_10_DIGITS_ONLY_KEY , false)){
-							outputPhoneNumber.insert(0, "0");
-						}else{
-							outputPhoneNumber.insert(0, inputPhoneNumber.substring(0, inputPhoneNumber.length() - 10));
-						}
-					}
-				}else{
-					outputPhoneNumber.append(inputPhoneNumber);
-				}
-			}else if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_4){
-				//Format ########## (e.g.1234567890)
-				outputPhoneNumber.append(inputPhoneNumber);
-			}else if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_5){
-				if(inputPhoneNumber.length() >= 10){
-					//Format (###) ###-#### (e.g.(123) 456-7890)
-					outputPhoneNumber.insert(0, inputPhoneNumber.substring(inputPhoneNumber.length() - 4, inputPhoneNumber.length()));
-					outputPhoneNumber.insert(0, numberSeparator);
-					outputPhoneNumber.insert(0, inputPhoneNumber.substring(inputPhoneNumber.length() - 7, inputPhoneNumber.length() - 4));
-					outputPhoneNumber.insert(0, ") ");
-					if(inputPhoneNumber.length() == 10){
-						outputPhoneNumber.insert(0, inputPhoneNumber.substring(0, inputPhoneNumber.length() - 7));
-						outputPhoneNumber.insert(0, "(");
-					}else{
-						outputPhoneNumber.insert(0, inputPhoneNumber.substring(inputPhoneNumber.length() - 10, inputPhoneNumber.length() - 7));
-						outputPhoneNumber.insert(0, " (");
-						if(preferences.getBoolean(Constants.PHONE_NUMBER_FORMAT_10_DIGITS_ONLY_KEY , false)){
-							outputPhoneNumber.insert(0, "0");
-						}else{
-							outputPhoneNumber.insert(0, inputPhoneNumber.substring(0, inputPhoneNumber.length() - 10));
-						}
-					}
-				}else{
-					outputPhoneNumber.append(inputPhoneNumber);
-				}
-			}else{
-				outputPhoneNumber.append(inputPhoneNumber);
-			}
-			return outputPhoneNumber.toString();
-		}catch(Exception ex){
-			Log.e("Common.formatPhoneNumber() ERROR: " + ex.toString());
-			return inputPhoneNumber;
 		}
 	}
 
@@ -2926,187 +1851,6 @@ public class Common {
 		}catch(Exception ex){
 			Log.e("Common.parseDateInfo() ERROR: " + ex.toString());
 			return null;
-		}
-	}
-	
-	/**
-	 * Deleta an entire SMS/MMS thread.
-	 * 
-	 * @param context - The current context of this Activity.
-	 * @param threadID - The Thread ID that we want to delete.
-	 * @param notificationType - The notification type.
-	 * 
-	 * @return boolean - Returns true if the thread was deleted successfully.
-	 */
-	public static boolean deleteMessageThread(Context context, long threadID, int notificationType){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.deleteMessageThread()");
-		try{
-			if(threadID == 0){
-				if (_debug) Log.v("Common.deleteMessageThread() Thread ID == 0. Exiting...");
-				return false;
-			}
-			if(notificationType == Constants.NOTIFICATION_TYPE_MMS){
-				context.getContentResolver().delete(
-						Uri.parse("content://mms/conversations/" + String.valueOf(threadID)), 
-						null, 
-						null);
-			}else{
-				context.getContentResolver().delete(
-						Uri.parse("content://sms/conversations/" + String.valueOf(threadID)), 
-						null, 
-						null);
-			}
-			return true;
-		}catch(Exception ex){
-			Log.e("Common.deleteMessageThread() ERROR: " + ex.toString());
-			return false;
-		}
-	}
-
-	/**
-	 * Delete a single SMS/MMS message.
-	 * 
-	 * @param context - The current context of this Activity.
-	 * @param messageID - The Message ID that we want to delete.
-	 * @param notificationType - The notification type.
-	 * 
-	 * @return boolean - Returns true if the message was deleted successfully.
-	 */
-	public static boolean deleteSingleMessage(Context context, long messageID, int notificationType){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.deleteSingleMessage()");
-		try{
-			if(messageID == 0){
-				if (_debug) Log.v("Common.deleteSingleMessage() Message ID == 0. Exiting...");
-				return false;
-			}
-			if(notificationType == Constants.NOTIFICATION_TYPE_MMS){
-				context.getContentResolver().delete(
-						Uri.parse("content://mms/" + String.valueOf(messageID)),
-						null, 
-						null);
-			}else{
-				context.getContentResolver().delete(
-						Uri.parse("content://sms/" + String.valueOf(messageID)),
-						null, 
-						null);
-			}
-			return true;
-		}catch(Exception ex){
-			Log.e("Common.deleteSingleMessage() ERROR: " + ex.toString());
-			return false;
-		}
-	}
-
-	/**
-	 * Mark a single SMS/MMS message as being read or not.
-	 * 
-	 * @param context - The current context of this Activity.
-	 * @param messageID - The Message ID that we want to alter.
-	 * @param isViewed - The boolean value indicating if it was read or not.
-	 * @param notificationType - The notification type.
-	 * 
-	 * @return boolean - Returns true if the message was updated successfully.
-	 */
-	public static boolean setMessageRead(Context context, long messageID, boolean isViewed, int notificationType){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.setMessageRead()");
-		try{
-			if(messageID == 0){
-				if (_debug) Log.v("Common.setMessageRead() Message ID == 0. Exiting...");
-				return false;
-			}
-			ContentValues contentValues = new ContentValues();
-			if(isViewed){
-				contentValues.put("READ", 1);
-			}else{
-				contentValues.put("READ", 0);
-			}
-			String selection = null;
-			String[] selectionArgs = null;			
-			if(notificationType == Constants.NOTIFICATION_TYPE_MMS){
-				context.getContentResolver().update(
-						Uri.parse("content://mms/" + messageID), 
-			    		contentValues, 
-			    		selection, 
-			    		selectionArgs);
-			}else{
-				context.getContentResolver().update(
-						Uri.parse("content://sms/" + messageID), 
-			    		contentValues, 
-			    		selection, 
-			    		selectionArgs);
-			}
-			return true;
-		}catch(Exception ex){
-			Log.e("Common.setMessageRead() ERROR: " + ex.toString());
-			return false;
-		}
-	}
-	
-	/**
-	 * Delete a call long entry.
-	 * 
-	 * @param context - The current context of this Activity.
-	 * @param callLogID - The call log ID that we want to delete.
-	 * 
-	 * @return boolean - Returns true if the call log entry was deleted successfully.
-	 */
-	public static boolean deleteFromCallLog(Context context, long callLogID){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.deleteFromCallLog()");
-		try{
-			if(callLogID == 0){
-				if (_debug) Log.v("Common.deleteFromCallLog() Call Log ID == 0. Exiting...");
-				return false;
-			}
-			String selection = android.provider.CallLog.Calls._ID + " = " + callLogID;
-			String[] selectionArgs = null;
-			context.getContentResolver().delete(
-					Uri.parse("content://call_log/calls"),
-					selection, 
-					selectionArgs);
-			return true;
-		}catch(Exception ex){
-			Log.e("Common.deleteFromCallLog() ERROR: " + ex.toString());
-			return false;
-		}
-	}
-	
-	/**
-	 * Mark a call log entry as being viewed.
-	 * 
-	 * @param context - The current context of this Activity.
-	 * @param callLogID - The call log ID that we want to delete.
-	 * 
-	 * @return boolean - Returns true if the call log entry was updated successfully.
-	 */
-	public static boolean setCallViewed(Context context, long callLogID, boolean isViewed){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.setCallViewed()");
-		try{
-			if(callLogID == 0){
-				if (_debug) Log.v("Common.setCallViewed() Call Log ID == 0. Exiting...");
-				return false;
-			}
-			ContentValues contentValues = new ContentValues();
-			if(isViewed){
-				contentValues.put(android.provider.CallLog.Calls.NEW, 0);
-			}else{
-				contentValues.put(android.provider.CallLog.Calls.NEW, 1);
-			}
-			String selection = android.provider.CallLog.Calls._ID + " = " + callLogID;
-			String[] selectionArgs = null;
-			context.getContentResolver().update(
-					Uri.parse("content://call_log/calls"),
-					contentValues,
-					selection, 
-					selectionArgs);
-			return true;
-		}catch(Exception ex){
-			Log.e("Common.setCallViewed() ERROR: " + ex.toString());
-			return false;
 		}
 	}
 	
@@ -3364,45 +2108,6 @@ public class Common {
 	}
 	
 	/**
-	 * Start the Calendar recurring alarm.
-	 * 
-	 * @param context - The application context.
-	 * @param alarmStartTime - The time to start the alarm.
-	 */
-	public static void startCalendarAlarmManager(Context context, long alarmStartTime){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.startCalendarAlarmManager()");
-		try{
-			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-			AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-			Intent intent = new Intent(context, CalendarAlarmReceiver.class);
-			PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
-			long pollingFrequency = Long.parseLong(preferences.getString(Constants.CALENDAR_POLLING_FREQUENCY_KEY, Constants.CALENDAR_POLLING_FREQUENCY_DEFAULT)) * 60 * 1000;
-			alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, alarmStartTime, pollingFrequency, pendingIntent);
-		}catch(Exception ex){
-			Log.e("Common.startCalendarAlarmManager() ERROR: " + ex.toString());
-		}
-	}
-	
-	/**
-	 * Cancel the Calendar recurring alarm. 
-	 * 
-	 * @param context - The application context.
-	 */
-	public static void cancelCalendarAlarmManager(Context context){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.cancelCalendarAlarmManager()");
-		try{
-			AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-			Intent intent = new Intent(context, CalendarAlarmReceiver.class);
-			PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
-			alarmManager.cancel(pendingIntent);
-		}catch(Exception ex){
-			Log.e("Common.cancelCalendarAlarmManager() ERROR: " + ex.toString());
-		}
-	}
-	
-	/**
 	 * Start the Notification Activity and send it the provided bundle.
 	 * 
 	 * @param context - The application context.
@@ -3471,93 +2176,6 @@ public class Common {
 		}catch(Exception ex){
 			Log.e("Common.removeStatusBarNotification() ERROR: " + ex.toString());
 		}
-	}
-	
-	/**
-	 * Read the message text of the MMS message.
-	 * 
-	 * @param messageID - The MMS message ID.
-	 * 
-	 * @return String - The message text of the MMS message.
-	 */
-	private static String getMMSTextFromPart(Context context, String messageID) {
-		if (_debug) Log.v("Common.getMMSTextFromPart()");
-	    InputStream inputStream = null;
-	    StringBuilder messageText = new StringBuilder();
-	    try {
-	    	inputStream = context.getContentResolver().openInputStream(Uri.parse("content://mms/part/" + messageID));
-	        if (inputStream != null) {
-	            InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
-	            BufferedReader reader = new BufferedReader(inputStreamReader);
-	            String temp = reader.readLine();
-	            while (temp != null) {
-	            	messageText.append(temp);
-	                temp = reader.readLine();
-	            }
-	        }
-	    } catch (Exception ex) {
-	    	Log.e("Common.getMMSTextFromPart() ERROR: " + ex.toString());
-	    }finally {
-	    	try{
-	    		inputStream.close();
-	    	}catch(Exception ex){
-	    		Log.e("Common.getMMSTextFromPart() ERROR: " + ex.toString());
-	    	}
-	    }
-	    return messageText.toString();
-	}
-	
-	/**
-	 * Compares the two strings. 
-	 * If the second string is larger and ends with the first string, return true.
-	 * If the first string is larger and ends with the second string, return true.
-	 * 
-	 * @param contactNumber - The address books phone number.
-	 * @param incomingNumber - The incoming phone number.
-	 * 
-	 * @return - boolean - 	 If the second string is larger ends with the first string, return true.
-	 *                       If the first string is larger ends with the second string, return true.
-	 */
-	private static boolean isPhoneNumberEqual(String contactNumber, String incomingNumber){
-		if (_debug) Log.v("Common.isPhoneNumberEqual()");
-		//Remove any formatting from each number.
-		contactNumber = removeFormatting(contactNumber);
-		incomingNumber = removeFormatting(incomingNumber);
-		//Remove any leading zero's from each number.
-		contactNumber = removeLeadingZero(contactNumber);
-		incomingNumber = removeLeadingZero(incomingNumber);	
-		int contactNumberLength = contactNumber.length();
-		int incomingNumberLength = incomingNumber.length();
-		//Iterate through the ends of both strings...backwards from the end of the string.
-		if(contactNumberLength <= incomingNumberLength){
-			for(int i = 0; i < contactNumberLength; i++){
-				if(contactNumber.charAt(contactNumberLength - 1 - i) != incomingNumber.charAt(incomingNumberLength - 1 - i)){
-					return false;
-				}
-			}
-		}else{
-			for(int i = incomingNumberLength - 1; i >= 0 ; i--){
-				if(contactNumber.charAt(contactNumberLength - 1 - i) != incomingNumber.charAt(incomingNumberLength - 1 - i)){
-					return false;
-				}
-			}
-		}
-		return true;
-	}
-	
-	/**
-	 * Remove the leading zero from a string.
-	 * 
-	 * @param inputNumber - The number to remove the leading zero from.
-	 * 
-	 * @return String - The number after we have removed the leading zero.
-	 */
-	private static String removeLeadingZero(String inputNumber){
-		if (_debug) Log.v("Common.removeLeadingZero() InputNumber: " + inputNumber);
-		if(inputNumber.subSequence(0, 1).equals("0")){
-			return inputNumber.substring(1);
-		}
-		return inputNumber;
 	}
 	
 	/**

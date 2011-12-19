@@ -27,9 +27,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
+import apps.droidnotify.sms.SMSCommon;
 import apps.droidnotify.twitter.TwitterCommon;
 
 /**
@@ -686,7 +686,7 @@ public class QuickReplyActivity extends Activity {
 					        values.put("body", message);
 					        values.put("date", String.valueOf(System.currentTimeMillis()));
 					        values.put("type", "3");
-					        values.put("thread_id", String.valueOf(Common.getThreadID(context, address, 1)));
+					        values.put("thread_id", String.valueOf(SMSCommon.getThreadID(context, address, 1)));
 					        getContentResolver().insert(Uri.parse("content://sms/draft"), values);
 					        Toast.makeText(context, getString(R.string.draft_saved_text), Toast.LENGTH_SHORT).show();
 						}

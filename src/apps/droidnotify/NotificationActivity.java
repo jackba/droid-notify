@@ -34,11 +34,14 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import apps.droidnotify.log.Log;
+import apps.droidnotify.calendar.CalendarCommon;
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
 import apps.droidnotify.facebook.FacebookCommon;
+import apps.droidnotify.phone.PhoneCommon;
 import apps.droidnotify.preferences.MainPreferenceActivity;
 import apps.droidnotify.receivers.ScreenManagementAlarmReceiver;
+import apps.droidnotify.sms.SMSCommon;
 import apps.droidnotify.twitter.TwitterCommon;
 
 /**
@@ -198,7 +201,7 @@ public class NotificationActivity extends Activity {
 				return Common.startContactViewActivity(_context, this, notification.getContactID(), Constants.VIEW_CONTACT_ACTIVITY);
 			}
 			case VIEW_CALL_LOG_CONTEXT_MENU:{
-				return Common.startCallLogViewActivity(_context, this, Constants.VIEW_CALL_LOG_ACTIVITY);
+				return PhoneCommon.startCallLogViewActivity(_context, this, Constants.VIEW_CALL_LOG_ACTIVITY);
 			}
 			case CALL_CONTACT_CONTEXT_MENU:{
 				try{
@@ -234,14 +237,14 @@ public class NotificationActivity extends Activity {
 				}
 			}
 			case MESSAGING_INBOX_CONTEXT_MENU:{
-				if(Common.startMessagingAppViewInboxActivity(_context, this, Constants.MESSAGING_ACTIVITY)){
+				if(SMSCommon.startMessagingAppViewInboxActivity(_context, this, Constants.MESSAGING_ACTIVITY)){
 					return true;
 				}else{
 					return false;
 				}
 			}
 			case VIEW_THREAD_CONTEXT_MENU:{
-				if(Common.startMessagingAppViewThreadActivity(_context, this, notification.getSentFromAddress(), Constants.VIEW_SMS_THREAD_ACTIVITY)){
+				if(SMSCommon.startMessagingAppViewThreadActivity(_context, this, notification.getSentFromAddress(), Constants.VIEW_SMS_THREAD_ACTIVITY)){
 					return true;
 				}else{
 					return false;
@@ -281,13 +284,13 @@ public class NotificationActivity extends Activity {
 				}
 			}
 			case ADD_CALENDAR_EVENT_CONTEXT_MENU:{
-				return Common.startAddCalendarEventActivity(_context, this, Constants.ADD_CALENDAR_ACTIVITY);
+				return CalendarCommon.startAddCalendarEventActivity(_context, this, Constants.ADD_CALENDAR_ACTIVITY);
 			}
 			case EDIT_CALENDAR_EVENT_CONTEXT_MENU:{
-				return Common.startEditCalendarEventActivity(_context, this, notification.getCalendarEventID(), notification.getCalendarEventStartTime(), notification.getCalendarEventEndTime(), Constants.EDIT_CALENDAR_ACTIVITY);
+				return CalendarCommon.startEditCalendarEventActivity(_context, this, notification.getCalendarEventID(), notification.getCalendarEventStartTime(), notification.getCalendarEventEndTime(), Constants.EDIT_CALENDAR_ACTIVITY);
 			}
 			case VIEW_CALENDAR_CONTEXT_MENU:{
-				return Common.startViewCalendarActivity(_context, this, Constants.CALENDAR_ACTIVITY);
+				return CalendarCommon.startViewCalendarActivity(_context, this, Constants.CALENDAR_ACTIVITY);
 			}
 			case VIEW_K9_INBOX_CONTEXT_MENU:{
 				return Common.startK9EmailAppViewInboxActivity(_context, this, Constants.K9_VIEW_EMAIL_ACTIVITY);
@@ -1282,6 +1285,7 @@ public class NotificationActivity extends Activity {
 	 */
 	private void createTestNotifications(){
 		if (_debug) Log.v("NotificationActivity.createTextNotifications()");
+		boolean appProVersion =  Log.getAppProVersion();
 		String sentFromAddress = "5555555555";
 		String smsTestMessage = "SMS Test Message";
 		String mmsTestMessage = "MMS Test Message";
@@ -1334,7 +1338,7 @@ public class NotificationActivity extends Activity {
 			//Display Status Bar Notification
 		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_CALENDAR, 0, true, null, null, calendarTestEvent, null);
 	    }
-	    if(_preferences.getBoolean(Constants.TWITTER_NOTIFICATIONS_ENABLED_KEY, true)){
+	    if(appProVersion && _preferences.getBoolean(Constants.TWITTER_NOTIFICATIONS_ENABLED_KEY, false)){
 	    	if(_preferences.getBoolean(Constants.TWITTER_DIRECT_MESSAGES_ENABLED_KEY, true)){
 				notificationDisplayed = true;
 				//Add Twitter Message Notification.
@@ -1360,7 +1364,7 @@ public class NotificationActivity extends Activity {
 			    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_TWITTER, Constants.NOTIFICATION_TYPE_TWITTER_FOLLOWER_REQUEST, true, null, sentFromTwitter, twitterTestFollowerRequest, null);
 	    	}
 	    }
-	    if(_preferences.getBoolean(Constants.FACEBOOK_NOTIFICATIONS_ENABLED_KEY, true)){
+	    if(appProVersion && _preferences.getBoolean(Constants.FACEBOOK_NOTIFICATIONS_ENABLED_KEY, false)){
 	    	if(_preferences.getBoolean(Constants.FACEBOOK_USER_NOTIFICATIONS_ENABLED_KEY, true)){
 				notificationDisplayed = true;
 				//Add Facebook Message Notification.
@@ -1408,7 +1412,7 @@ public class NotificationActivity extends Activity {
 	 */
 	private boolean sendSMSMessage(String phoneNumber){
 		if (_debug) Log.v("NotificationActivity.sendSMSMessage()");
-		if(Common.startMessagingAppReplyActivity(_context, this, phoneNumber, Constants.SEND_SMS_ACTIVITY)){
+		if(SMSCommon.startMessagingAppReplyActivity(_context, this, phoneNumber, Constants.SEND_SMS_ACTIVITY)){
 			return true;
 		}else{
 			return false;
@@ -1422,7 +1426,7 @@ public class NotificationActivity extends Activity {
 	 */
 	private boolean makePhoneCall(String phoneNumber){
 		if (_debug) Log.v("NotificationActivity.makePhoneCall()");
-		return Common.makePhoneCall(_context, this, phoneNumber, Constants.CALL_ACTIVITY);
+		return PhoneCommon.makePhoneCall(_context, this, phoneNumber, Constants.CALL_ACTIVITY);
 	}	
 	
 	/**
@@ -1936,11 +1940,11 @@ public class NotificationActivity extends Activity {
 		    		String messageID = cursor.getString(cursor.getColumnIndex("_id"));
 		    		String threadID = cursor.getString(cursor.getColumnIndex("thread_id"));
 			    	String timeStamp = cursor.getString(cursor.getColumnIndex("date"));
-			    	String sentFromAddress = Common.getMMSAddress(context, messageID);
+			    	String sentFromAddress = SMSCommon.getMMSAddress(context, messageID);
 		            if(sentFromAddress.contains("@")){
 		            	sentFromAddress = Common.removeEmailFormatting(sentFromAddress);
 		            }
-			    	String messageBody = Common.getMMSText(context, messageID);
+			    	String messageBody = SMSCommon.getMMSText(context, messageID);
 			    	String[] mmsContactInfo = null;
 			    	if(sentFromAddress.contains("@")){
 			    		mmsContactInfo = Common.getContactsInfoByEmail(context, sentFromAddress);

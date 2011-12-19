@@ -100,8 +100,8 @@ public class TwitterAuthenticationActivity extends Activity {
 				String oauthVerifier = uri.getQueryParameter(OAuth.OAUTH_VERIFIER);
 				_provider.retrieveAccessToken(_consumer, oauthVerifier);
 				SharedPreferences.Editor editor = _preferences.edit();
-				editor.putString(OAuth.OAUTH_TOKEN, _consumer.getToken());
-				editor.putString(OAuth.OAUTH_TOKEN_SECRET, _consumer.getTokenSecret());
+				editor.putString(Constants.TWITTER_OAUTH_TOKEN, _consumer.getToken());
+				editor.putString(Constants.TWITTER_OAUTH_TOKEN_SECRET, _consumer.getTokenSecret());
 				editor.commit();
 				TwitterCommon.startTwitterAlarmManager(_context, System.currentTimeMillis());
 				finish();

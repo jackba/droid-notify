@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import apps.droidnotify.common.Common;
+import apps.droidnotify.calendar.CalendarCommon;
 import apps.droidnotify.common.Constants;
 import apps.droidnotify.facebook.FacebookCommon;
 import apps.droidnotify.log.Log;
@@ -59,14 +59,14 @@ public class OnBootBroadcastReceiverService extends WakefulIntentService {
 			}
 			//Start Calendar Alarms
 		    if(preferences.getBoolean(Constants.CALENDAR_NOTIFICATIONS_ENABLED_KEY, true)){
-		    	Common.startCalendarAlarmManager(context, System.currentTimeMillis() + (5 * 60 * 1000));
+		    	CalendarCommon.startCalendarAlarmManager(context, System.currentTimeMillis() + (5 * 60 * 1000));
 			}
 		    //Start Twitter Alarms
-		    if(preferences.getBoolean(Constants.TWITTER_NOTIFICATIONS_ENABLED_KEY, true)){
+		    if(preferences.getBoolean(Constants.TWITTER_NOTIFICATIONS_ENABLED_KEY, false)){
 		    	TwitterCommon.startTwitterAlarmManager(context, System.currentTimeMillis() + (5 * 60 * 1000));
 			}
 		    //Start Facebook Alarms
-		    if(preferences.getBoolean(Constants.FACEBOOK_NOTIFICATIONS_ENABLED_KEY, true)){
+		    if(preferences.getBoolean(Constants.FACEBOOK_NOTIFICATIONS_ENABLED_KEY, false)){
 		    	FacebookCommon.startFacebookAlarmManager(context, System.currentTimeMillis() + (5 * 60 * 1000));
 			}
 		}catch(Exception ex){

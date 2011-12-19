@@ -14,6 +14,7 @@ import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
 import apps.droidnotify.receivers.SMSAlarmReceiver;
 import apps.droidnotify.receivers.SMSReceiver;
+import apps.droidnotify.sms.SMSCommon;
 
 /**
  * This class does the work of the BroadcastReceiver.
@@ -113,7 +114,7 @@ public class SMSBroadcastReceiverService extends WakefulIntentService {
 						String messageBody = null;
 						String contactName = null;
 			    		Bundle bundle = intent.getExtras();
-			    		ArrayList<String> smsArray = Common.getSMSMessagesFromIntent(context, bundle);
+			    		ArrayList<String> smsArray = SMSCommon.getSMSMessagesFromIntent(context, bundle);
 						if((smsArray != null) && (smsArray.size() > 0)){
 				    		String smsArrayItem = smsArray.get(0);
 							String[] smsInfo = smsArrayItem.split("\\|");

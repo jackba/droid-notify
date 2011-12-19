@@ -11,6 +11,7 @@ import android.preference.PreferenceManager;
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
+import apps.droidnotify.sms.SMSCommon;
 
 /**
  * This class handles the work of processing incoming SMS messages.
@@ -56,9 +57,9 @@ public class SMSService extends WakefulIntentService {
 			ArrayList<String> smsArray = null;
 			if(preferences.getString(Constants.SMS_LOADING_SETTING_KEY, "0").equals(Constants.SMS_READ_FROM_INTENT)){
 				Bundle newSMSBundle = intent.getExtras();
-				smsArray = Common.getSMSMessagesFromIntent(context, newSMSBundle);
+				smsArray = SMSCommon.getSMSMessagesFromIntent(context, newSMSBundle);
 			}else{
-				smsArray = Common.getSMSMessagesFromDisk(context);
+				smsArray = SMSCommon.getSMSMessagesFromDisk(context);
 			}
 			if(smsArray != null && smsArray.size() > 0){
 				Bundle bundle = new Bundle();

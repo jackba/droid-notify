@@ -13,9 +13,9 @@
 	    android:gravity="center_horizontal|center_vertical"
 	    android:layout_marginLeft="5dp"
 	    android:layout_marginRight="5dp"
-	    android:drawableLeft="@drawable/twitter"
+	    android:drawableLeft="@drawable/linkedin"
 	    android:drawablePadding="5dp"
-	    android:text="@string/twitter_authentication_text"
+	    android:text="@string/linkedin_authentication_text"
 	    android:textAppearance="?android:attr/textAppearanceMedium"
 	    android:textColor="@color/white" />
 	<ImageView
@@ -37,7 +37,7 @@
 			android:gravity="left" 
 			android:autoLink="all"
 			android:padding="5dp"
-			android:text="@string/twitter_authentication_message_text"/>
+			android:text="@string/linkedin_authentication_message_text"/>
 		<LinearLayout 
 			android:layout_height="wrap_content"
 			android:layout_width="fill_parent" 

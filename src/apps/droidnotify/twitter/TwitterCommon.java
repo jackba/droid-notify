@@ -3,8 +3,6 @@ package apps.droidnotify.twitter;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import oauth.signpost.OAuth;
-
 import twitter4j.DirectMessage;
 import twitter4j.IDs;
 import twitter4j.ResponseList;
@@ -540,8 +538,8 @@ public class TwitterCommon {
 		if (_debug) Log.v("TwitterCommon.isTwitterAuthenticated()");	
 		try {
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-			String oauthToken = preferences.getString(OAuth.OAUTH_TOKEN, null);
-			String oauthTokenSecret = preferences.getString(OAuth.OAUTH_TOKEN_SECRET, null);
+			String oauthToken = preferences.getString(Constants.TWITTER_OAUTH_TOKEN, null);
+			String oauthTokenSecret = preferences.getString(Constants.TWITTER_OAUTH_TOKEN_SECRET, null);
 			if(oauthToken == null || oauthTokenSecret == null){
 				if (_debug) Log.v("TwitterCommon.isTwitterAuthenticated() Twitter stored authentication details are null. Exiting...");
 				return false;
@@ -565,8 +563,8 @@ public class TwitterCommon {
 		if (_debug) Log.v("TwitterCommon.getTwitter()");
 		try{
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-			String oauthToken = preferences.getString(OAuth.OAUTH_TOKEN, null);
-			String oauthTokenSecret = preferences.getString(OAuth.OAUTH_TOKEN_SECRET, null);
+			String oauthToken = preferences.getString(Constants.TWITTER_OAUTH_TOKEN, null);
+			String oauthTokenSecret = preferences.getString(Constants.TWITTER_OAUTH_TOKEN_SECRET, null);
 			if(oauthToken == null || oauthTokenSecret == null){
 				if (_debug) Log.v("TwitterCommon.getTwitter() Oauth values are null. Exiting...");
 				return null;
