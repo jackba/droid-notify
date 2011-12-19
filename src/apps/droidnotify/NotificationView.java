@@ -953,7 +953,7 @@ public class NotificationView extends LinearLayout {
 				}
 			}
 		}catch(Exception ex){
-			if (_debug) Log.e("NotificationView.setupNotificationViewButtons() ERROR: " + ex.toString());
+			Log.e("NotificationView.setupNotificationViewButtons() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -1569,7 +1569,7 @@ public class NotificationView extends LinearLayout {
 		    	return Common.getRoundedCornerBitmap(BitmapFactory.decodeResource(_context.getResources(), contactPlaceholderImageResourceID), 5, true, contactPhotoSize, contactPhotoSize);
 		    }
 		}catch(Exception ex){
-			if (_debug) Log.e("NotificationView.getNotificationContactImage() ERROR: " + ex.toString());
+			Log.e("NotificationView.getNotificationContactImage() ERROR: " + ex.toString());
 			return null;
 		}
 	}
@@ -1593,7 +1593,7 @@ public class NotificationView extends LinearLayout {
 				return null;
 			}
 		}catch(Exception ex){
-			if (_debug) Log.e("NotificationView.getContactImage() ERROR: " + ex.toString());
+			Log.e("NotificationView.getContactImage() ERROR: " + ex.toString());
 			return null;
 		}
 	}
@@ -1611,7 +1611,7 @@ public class NotificationView extends LinearLayout {
 			    	try{
 			    		ContactsContract.QuickContact.showQuickContact(_context, _photoImageView, Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_LOOKUP_URI, lookupKey), ContactsContract.QuickContact.MODE_MEDIUM, null);
 			    	}catch(Exception ex){
-			    		if (_debug) Log.e("Contact Photo Clicked ContactsContract.QuickContact.showQuickContact() Error: " + ex.toString());
+			    		Log.e("Contact Photo Clicked ContactsContract.QuickContact.showQuickContact() Error: " + ex.toString());
 			    	}
 			    }
 			});

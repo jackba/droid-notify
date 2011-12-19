@@ -96,7 +96,7 @@ public class TwitterService extends WakefulIntentService {
 				}
 			}
 		}catch(Exception ex){
-			if (_debug) Log.e("TwitterService.doWakefulWork() ERROR: " + ex.toString());
+			Log.e("TwitterService.doWakefulWork() ERROR: " + ex.toString());
 		}
 	}
 		

@@ -228,7 +228,7 @@ public class RescheduleBroadcastReceiverService extends WakefulIntentService {
 		    	}
 		    }
 		}catch(Exception ex){
-			if (_debug) Log.e("RescheduleBroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());
+			Log.e("RescheduleBroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());
 		}
 	}
 		

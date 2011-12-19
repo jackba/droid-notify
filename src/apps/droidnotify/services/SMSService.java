@@ -69,7 +69,7 @@ public class SMSService extends WakefulIntentService {
 				if (_debug) Log.v("SMSService.doWakefulWork() No new SMSs were found. Exiting...");
 			}
 		}catch(Exception ex){
-			if (_debug) Log.e("SMSService.doWakefulWork() ERROR: " + ex.toString());
+			Log.e("SMSService.doWakefulWork() ERROR: " + ex.toString());
 		}
 	}
 		

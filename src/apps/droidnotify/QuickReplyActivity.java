@@ -602,7 +602,7 @@ public class QuickReplyActivity extends Activity {
             values.put("body", message);
             getContentResolver().insert(Uri.parse("content://sms/sent"), values);
     	}catch(Exception ex){
-    		if (_debug) Log.e("QuickReplyActivity.sendSMS() Insert Into Sent Foler ERROR: " + ex.toString());
+    		Log.e("QuickReplyActivity.sendSMS() Insert Into Sent Foler ERROR: " + ex.toString());
     		return false;
     	}
 		return true; 
@@ -629,7 +629,7 @@ public class QuickReplyActivity extends Activity {
 				}
 			}
 		}catch(Exception ex){
-			if (_debug) Log.e("QuickReplyActivity.customPerformHapticFeedback() ERROR: " + ex.toString());
+			Log.e("QuickReplyActivity.customPerformHapticFeedback() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -661,7 +661,7 @@ public class QuickReplyActivity extends Activity {
 				}
 			}
 		}catch(Exception ex){
-			if (_debug) Log.e("QuickReplyActivity.showSoftKeyboard() ERROR: " + ex.toString());
+			Log.e("QuickReplyActivity.showSoftKeyboard() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -691,7 +691,7 @@ public class QuickReplyActivity extends Activity {
 					        Toast.makeText(context, getString(R.string.draft_saved_text), Toast.LENGTH_SHORT).show();
 						}
 					}catch(Exception ex){
-						if (_debug) Log.e("QuickReplyActivity.sendSMS() Insert Into Sent Foler ERROR: " + ex.toString());
+						Log.e("QuickReplyActivity.sendSMS() Insert Into Sent Foler ERROR: " + ex.toString());
 					}
 				}
 			}

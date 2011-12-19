@@ -11,7 +11,6 @@ import android.widget.CheckedTextView;
 import android.widget.ImageView;
 
 import apps.droidnotify.common.Common;
-import apps.droidnotify.log.Log;
 import apps.droidnotify.R;
 
 /**
@@ -25,7 +24,6 @@ public class ImageArrayAdapterRounded extends ArrayAdapter<CharSequence> {
     // Properties
     //================================================================================
 
-	private boolean _debug = false;
 	private LayoutInflater _inflater = null;
 	private int _index = 0;
 	private int[] _resourceIds = null;
@@ -45,8 +43,6 @@ public class ImageArrayAdapterRounded extends ArrayAdapter<CharSequence> {
 	 */
 	public ImageArrayAdapterRounded(Context context, int textViewResourceId, CharSequence[] objects, int[] ids, int i) {
 		super(context, textViewResourceId, objects);
-	    _debug = Log.getDebug();
-		if (_debug) Log.v("ImageArrayAdapterRounded.ImageArrayAdapterRounded()");
 		_inflater = ((Activity)context).getLayoutInflater();
 		_index = i;
 		_resourceIds = ids;
@@ -64,7 +60,6 @@ public class ImageArrayAdapterRounded extends ArrayAdapter<CharSequence> {
 	 * @param parent - ViewGroup
 	 */
 	public View getView(int position, View currentView, ViewGroup parent) {
-		if (_debug) Log.v("ImageArrayAdapterRounded.getView()");
 		final ViewHolder viewHolder;
 		if (currentView == null) {
 			currentView = _inflater.inflate(R.layout.listitem, parent, false);

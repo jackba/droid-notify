@@ -43,7 +43,7 @@ public class TwitterAlarmReceiver extends BroadcastReceiver {
 			}
 			WakefulIntentService.sendWakefulWork(context, new Intent(context, TwitterAlarmBroadcastReceiverService.class));
 		}catch(Exception ex){
-			if (_debug) Log.e("TwitterAlarmReceiver.onReceive() ERROR: " + ex.toString());
+			Log.e("TwitterAlarmReceiver.onReceive() ERROR: " + ex.toString());
 		}
 	}
 	

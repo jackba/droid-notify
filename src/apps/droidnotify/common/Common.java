@@ -127,7 +127,7 @@ public class Common {
 		        return output;
 			}
 		}catch(Exception ex){
-			if (_debug) Log.e("Common.getRoundedCornerBitmap() ERROR: " + ex.toString());
+			Log.e("Common.getRoundedCornerBitmap() ERROR: " + ex.toString());
 			return null;
 		}
 	}
@@ -205,7 +205,7 @@ public class Common {
 			cursor.close();
 			return new String[]{String.valueOf(_contactID), _contactName, String.valueOf(_photoID), _lookupKey};
 		}catch(Exception ex){
-			if (_debug) Log.e("Common.getContactsInfoByPhoneNumber() ERROR: " + ex.toString());
+			Log.e("Common.getContactsInfoByPhoneNumber() ERROR: " + ex.toString());
 			return null;
 		}
 	}
@@ -283,7 +283,7 @@ public class Common {
 			cursor.close();
 			return new String[]{String.valueOf(_contactID), _contactName, String.valueOf(_photoID), _lookupKey};
 		}catch(Exception ex){
-			if (_debug) Log.e("Common.getContactsInfoByEmail() ERROR: " + ex.toString());
+			Log.e("Common.getContactsInfoByEmail() ERROR: " + ex.toString());
 			return null;
 		}
 	}
@@ -328,7 +328,7 @@ public class Common {
 			cursor.close();
 			return new String[]{String.valueOf(_contactID), _contactName, String.valueOf(_photoID), _lookupKey};
 		}catch(Exception ex){
-			if (_debug) Log.e("Common.getContactsInfoByName() ERROR: " + ex.toString());
+			Log.e("Common.getContactsInfoByName() ERROR: " + ex.toString());
 			return null;
 		}
 	}
@@ -401,7 +401,7 @@ public class Common {
 		    		}
 		    	}
 	    	}catch(Exception e){
-		    		if (_debug) Log.e("Common.getThreadID() EXCEPTION: " + e.toString());
+		    		Log.e("Common.getThreadID() EXCEPTION: " + e.toString());
 	    	} finally {
 	    		if(cursor != null){
 					cursor.close();
@@ -409,7 +409,7 @@ public class Common {
 	    	}
 	    	return threadID;
 		}catch(Exception ex){
-			if (_debug) Log.e("Common.getThreadID() ERROR: " + ex.toString());
+			Log.e("Common.getThreadID() ERROR: " + ex.toString());
 			return 0;
 		}
 	}
@@ -466,7 +466,7 @@ public class Common {
 		    		}
 			    }
 		    }catch(Exception ex){
-				if (_debug) Log.e("Common.getMessageID() ERROR: " + ex.toString());
+				Log.e("Common.getMessageID() ERROR: " + ex.toString());
 			}finally{
 				if(cursor != null){
 					cursor.close();
@@ -474,7 +474,7 @@ public class Common {
 		    }
 		    return messageID;
 		}catch(Exception ex){
-			if (_debug) Log.e("Common.loadMessageID() ERROR: " + ex.toString());
+			Log.e("Common.loadMessageID() ERROR: " + ex.toString());
 			return 0;
 		}
 	}
@@ -507,7 +507,7 @@ public class Common {
 	            break;
 	        }
 		}catch(Exception ex){
-			if (_debug) Log.e("Common.getMMSAddress() ERROR: " + ex.toString());
+			Log.e("Common.getMMSAddress() ERROR: " + ex.toString());
 		} finally {
 			if(cursor != null){
 				cursor.close();
@@ -560,7 +560,7 @@ public class Common {
 		        }
 	        }
 		}catch(Exception ex){
-			if (_debug) Log.e("Common.getMMSText ERROR: " + ex.toString());
+			Log.e("Common.getMMSText ERROR: " + ex.toString());
 		} finally {
 			if(cursor != null){
 				cursor.close();
@@ -604,7 +604,7 @@ public class Common {
 				}
 			}	
 		}catch(Exception ex){
-			if (_debug) Log.e("Common.getAvailableCalendars() ERROR: " + ex.toString());
+			Log.e("Common.getAvailableCalendars() ERROR: " + ex.toString());
 			return null;
 		}finally{
 			if(cursor != null){
@@ -644,7 +644,7 @@ public class Common {
 	        setInLinkedAppFlag(context, true);
 		    return true;
 		}catch(Exception ex){
-			if (_debug) Log.e("Common.makePhoneCall() ERROR: " + ex.toString());
+			Log.e("Common.makePhoneCall() ERROR: " + ex.toString());
 			Toast.makeText(context, context.getString(R.string.app_android_phone_app_error), Toast.LENGTH_LONG).show();
 			setInLinkedAppFlag(context, false);
 			return false;
@@ -688,7 +688,7 @@ public class Common {
 	        setInLinkedAppFlag(context, true);
 	        return true;
 		}catch(Exception ex){
-			if (_debug) Log.e("Common.startMessagingQuickReplyActivity() ERROR: " + ex.toString());
+			Log.e("Common.startMessagingQuickReplyActivity() ERROR: " + ex.toString());
 			Toast.makeText(context, context.getString(R.string.app_android_quick_reply_app_error), Toast.LENGTH_LONG).show();
 			setInLinkedAppFlag(context, false);
 			return false;
@@ -722,7 +722,7 @@ public class Common {
 	        setInLinkedAppFlag(context, true);
 	        return true;
 		}catch(Exception ex){
-			if (_debug) Log.e("Common.startMessagingAppReplyActivity() ERROR: " + ex.toString());
+			Log.e("Common.startMessagingAppReplyActivity() ERROR: " + ex.toString());
 			Toast.makeText(context, context.getString(R.string.app_android_messaging_app_error), Toast.LENGTH_LONG).show();
 			setInLinkedAppFlag(context, false);
 			return false;
@@ -754,7 +754,7 @@ public class Common {
 	        setInLinkedAppFlag(context, true);
 	        return true;
 		}catch(Exception ex){
-			if (_debug) Log.e("Common.startMessagingAppViewThreadActivity() ERROR: " + ex.toString());
+			Log.e("Common.startMessagingAppViewThreadActivity() ERROR: " + ex.toString());
 			Toast.makeText(context, context.getString(R.string.app_android_messaging_app_error), Toast.LENGTH_LONG).show();
 			setInLinkedAppFlag(context, false);
 			return false;
@@ -781,7 +781,7 @@ public class Common {
 	        setInLinkedAppFlag(context, true);
 	        return true;
 		}catch(Exception ex){
-			if (_debug) Log.e("Common.startMessagingAppViewInboxActivity() ERROR: " + ex.toString());
+			Log.e("Common.startMessagingAppViewInboxActivity() ERROR: " + ex.toString());
 			Toast.makeText(context, context.getString(R.string.app_android_messaging_app_error), Toast.LENGTH_LONG).show();
 			setInLinkedAppFlag(context, false);
 			return false;
@@ -808,7 +808,7 @@ public class Common {
 			setInLinkedAppFlag(context, true);
 			return true;
 		}catch(Exception ex){
-			if (_debug) Log.e("Common.startCallLogViewActivity() ERROR: " + ex.toString());
+			Log.e("Common.startCallLogViewActivity() ERROR: " + ex.toString());
 			Toast.makeText(context, context.getString(R.string.app_android_call_log_error), Toast.LENGTH_LONG).show();
 			setInLinkedAppFlag(context, false);
 			return false;
@@ -841,7 +841,7 @@ public class Common {
 		    setInLinkedAppFlag(context, true);
 			return true;
 		}catch(Exception ex){
-			if (_debug) Log.e("Common.startContactViewActivity() ERROR: " + ex.toString());
+			Log.e("Common.startContactViewActivity() ERROR: " + ex.toString());
 			Toast.makeText(context, context.getString(R.string.app_android_contacts_app_error), Toast.LENGTH_LONG).show();
 			setInLinkedAppFlag(context, false);
 			return false;
@@ -869,7 +869,7 @@ public class Common {
 			setInLinkedAppFlag(context, true);
 			return true;
 		}catch(Exception e){
-			if (_debug) Log.e("Common.startAddCalendarEventActivity ERROR: " + e.toString());
+			Log.e("Common.startAddCalendarEventActivity ERROR: " + e.toString());
 			try{
 				//HTC Sense UI calendar app.
 				Intent intent = new Intent(Intent.ACTION_MAIN); 
@@ -879,7 +879,7 @@ public class Common {
 				setInLinkedAppFlag(context, true);
 				return true;
 			}catch(Exception ex){
-				if (_debug) Log.e("Common.startViewCalendarActivity() ERROR: " + ex.toString());
+				Log.e("Common.startViewCalendarActivity() ERROR: " + ex.toString());
 				Toast.makeText(context, context.getString(R.string.app_android_calendar_app_error), Toast.LENGTH_LONG).show();
 				setInLinkedAppFlag(context, false);
 				return false;
@@ -908,7 +908,7 @@ public class Common {
 			setInLinkedAppFlag(context, true);
 			return true;
 		}catch(Exception e){
-			if (_debug) Log.e("Common.startAddCalendarEventActivity ERROR: " + e.toString());
+			Log.e("Common.startAddCalendarEventActivity ERROR: " + e.toString());
 			try{
 				//HTC Sense UI calendar app.
 				Intent intent = new Intent(Intent.ACTION_EDIT);
@@ -918,7 +918,7 @@ public class Common {
 				setInLinkedAppFlag(context, true);
 				return true;
 			}catch(Exception ex){
-				if (_debug) Log.e("Common.startAddCalendarEventActivity ERROR: " + ex.toString());
+				Log.e("Common.startAddCalendarEventActivity ERROR: " + ex.toString());
 				Toast.makeText(context, context.getString(R.string.app_android_calendar_app_error), Toast.LENGTH_LONG).show();
 				setInLinkedAppFlag(context, false);
 				return false;
@@ -956,7 +956,7 @@ public class Common {
 			setInLinkedAppFlag(context, true);
 			return true;
 		}catch(Exception ex){
-			if (_debug) Log.e("Common.startViewCalendarEventActivity ERROR: " + ex.toString());
+			Log.e("Common.startViewCalendarEventActivity ERROR: " + ex.toString());
 			Toast.makeText(context, context.getString(R.string.app_android_calendar_app_error), Toast.LENGTH_LONG).show();
 			setInLinkedAppFlag(context, false);
 			return false;
@@ -993,7 +993,7 @@ public class Common {
 			setInLinkedAppFlag(context, true);
 			return true;
 		}catch(Exception ex){
-			if (_debug) Log.e("Common.startEditCalendarEventActivity ERROR: " + ex.toString());
+			Log.e("Common.startEditCalendarEventActivity ERROR: " + ex.toString());
 			Toast.makeText(context, context.getString(R.string.app_android_calendar_app_error), Toast.LENGTH_LONG).show();
 			setInLinkedAppFlag(context, false);
 			return false;
@@ -1027,7 +1027,7 @@ public class Common {
 		    setInLinkedAppFlag(context, true);
 			return true;
 		}catch(Exception ex){
-			if (_debug) Log.e("Common.startContactEditActivity() ERROR: " + ex.toString());
+			Log.e("Common.startContactEditActivity() ERROR: " + ex.toString());
 			Toast.makeText(context, context.getString(R.string.app_android_contacts_app_error), Toast.LENGTH_LONG).show();
 			setInLinkedAppFlag(context, false);
 			return false;
@@ -1060,7 +1060,7 @@ public class Common {
 		    setInLinkedAppFlag(context, true);
 			return true;
 		}catch(Exception ex){
-			if (_debug) Log.e("Common.startContactAddActivity() ERROR: " + ex.toString());
+			Log.e("Common.startContactAddActivity() ERROR: " + ex.toString());
 			Toast.makeText(context, context.getString(R.string.app_android_contacts_app_error), Toast.LENGTH_LONG).show();
 			setInLinkedAppFlag(context, false);
 			return false;
@@ -1088,7 +1088,7 @@ public class Common {
 	        setInLinkedAppFlag(context, true);
 	        return true;
 		}catch(Exception ex){
-			if (_debug) Log.e("Common.startK9EmailAppViewInboxActivity() ERROR: " + ex.toString());
+			Log.e("Common.startK9EmailAppViewInboxActivity() ERROR: " + ex.toString());
 			Toast.makeText(context, context.getString(R.string.app_email_app_error), Toast.LENGTH_LONG).show();
 			setInLinkedAppFlag(context, false);
 			return false;
@@ -1121,7 +1121,7 @@ public class Common {
 	        setInLinkedAppFlag(context, true);
 	        return true;
 		}catch(Exception ex){
-			if (_debug) Log.e("Common.startK9MailAppReplyActivity() ERROR: " + ex.toString());
+			Log.e("Common.startK9MailAppReplyActivity() ERROR: " + ex.toString());
 			Toast.makeText(context, context.getString(R.string.app_email_app_error), Toast.LENGTH_LONG).show();
 			setInLinkedAppFlag(context, false);
 			return false;
@@ -1253,7 +1253,7 @@ public class Common {
 	                Method cancelMissedCallsNotificationMethod = iTelephony.getClass().getMethod("cancelMissedCallsNotification");
 	                cancelMissedCallsNotificationMethod.invoke(iTelephony);
 	            }else{
-	            	if (_debug) Log.e("Telephony service is null, can't call cancelMissedCallsNotification.");
+	            	Log.e("Telephony service is null, can't call cancelMissedCallsNotification.");
 	    	    	return false;
 	            }
 	        }else{
@@ -1262,7 +1262,7 @@ public class Common {
 	        }
 	        return true;
 	    }catch (Exception ex){
-	    	if (_debug) Log.e("Common.cancelStockMissedCallNotification() ERROR: " + ex.toString());
+	    	Log.e("Common.cancelStockMissedCallNotification() ERROR: " + ex.toString());
 	    	return false;
 	    }
 	}
@@ -2076,7 +2076,7 @@ public class Common {
 						vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
 						vibrator.vibrate(vibrationPattern, -1);
 					}catch(Exception ex){
-						if (_debug) Log.e("Common.setStatusBarNotification() Notification Vibrator ERROR: " + ex.toString());
+						Log.e("Common.setStatusBarNotification() Notification Vibrator ERROR: " + ex.toString());
 					}
 				}
 			}
@@ -2086,14 +2086,14 @@ public class Common {
 				try{
 					notification.sound = Uri.parse(notificationSound);
 				}catch(Exception ex){
-					if (_debug) Log.e("Common.setStatusBarNotification() Notification Sound Set ERROR: " + ex.toString());
+					Log.e("Common.setStatusBarNotification() Notification Sound Set ERROR: " + ex.toString());
 					notification.defaults |= Notification.DEFAULT_SOUND;
 				}
 			}else if(soundEnabled && !callStateIdle && soundInCallEnabled && inNormalMode){
 				try{
 					new playNotificationMediaFileAsyncTask().execute(notificationSound);
 				}catch(Exception ex){
-					if (_debug) Log.e("Common.setStatusBarNotification() Notification Sound Play ERROR: " + ex.toString());
+					Log.e("Common.setStatusBarNotification() Notification Sound Play ERROR: " + ex.toString());
 				}
 				
 			}
@@ -2125,7 +2125,7 @@ public class Common {
 				cancelStockMissedCallNotification();
 			}
 		}catch(Exception ex){
-			if (_debug) Log.e("Common.setStatusBarNotification() ERROR: " + ex.toString());
+			Log.e("Common.setStatusBarNotification() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -2149,7 +2149,7 @@ public class Common {
 				removeStatusBarNotification(context, notificationType);
 			}
 		}catch(Exception ex){
-			if (_debug) Log.e("Common.clearNotification() ERROR: " + ex.toString());
+			Log.e("Common.clearNotification() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -2165,7 +2165,7 @@ public class Common {
 			NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 			notificationManager.cancelAll();
 		}catch(Exception ex){
-			if (_debug) Log.e("Common.clearAllNotifications() ERROR: " + ex.toString());
+			Log.e("Common.clearAllNotifications() ERROR: " + ex.toString());
 		}
 	}
 
@@ -2215,7 +2215,7 @@ public class Common {
 		    	break;
 		    }
 		}catch(Exception ex){
-			if (_debug) Log.e("Common.getSMSMessagesFromDisk() ERROR: " + ex.toString());
+			Log.e("Common.getSMSMessagesFromDisk() ERROR: " + ex.toString());
 		} finally {
     		cursor.close();
     	}
@@ -2288,7 +2288,7 @@ public class Common {
 			}
     		return smsArray;
 		}catch(Exception ex){
-			if (_debug) Log.e("Common.getSMSMessagesFromIntent() ERROR: " + ex.toString());
+			Log.e("Common.getSMSMessagesFromIntent() ERROR: " + ex.toString());
 			return null;
 		}
 	}
@@ -2339,7 +2339,7 @@ public class Common {
 		    	break;
 	    	}
 		}catch(Exception ex){
-			if (_debug) Log.e("Common.getMMSMessagesFromDisk() ERROR: " + ex.toString());
+			Log.e("Common.getMMSMessagesFromDisk() ERROR: " + ex.toString());
 		}finally{
     		cursor.close();
     	}
@@ -2408,7 +2408,7 @@ public class Common {
 	    		}
 	    	}
 		}catch(Exception ex){
-			if (_debug) Log.e("Common.getMissedCalls() ERROR: " + ex.toString());
+			Log.e("Common.getMissedCalls() ERROR: " + ex.toString());
 		}finally{
 			cursor.close();
 		}
@@ -2462,7 +2462,7 @@ public class Common {
     	    		if (_debug) Log.v("Common.getK9MessagesFromIntent() No Email Found Matching Criteria!");
     	    	}
     		}catch(Exception ex){
-    			if (_debug) Log.e("Common.getK9MessagesFromIntent() CURSOR ERROR: " + ex.toString());
+    			Log.e("Common.getK9MessagesFromIntent() CURSOR ERROR: " + ex.toString());
     		}finally{
         		cursor.close();
     		}
@@ -2480,7 +2480,7 @@ public class Common {
 			}
     		return k9Array;
 		}catch(Exception ex){
-			if (_debug) Log.e("Common.getK9MessagesFromIntent() ERROR: " + ex.toString());
+			Log.e("Common.getK9MessagesFromIntent() ERROR: " + ex.toString());
 			return null;
 		}
 	}
@@ -2503,7 +2503,7 @@ public class Common {
 			}
 			_partialWakeLock.acquire();
 		}catch(Exception ex){
-			if (_debug) Log.e("Common.aquirePartialWakelock() ERROR: " + ex.toString());
+			Log.e("Common.aquirePartialWakelock() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -2520,7 +2520,7 @@ public class Common {
 	    		_partialWakeLock.release();
 	    	}
 		}catch(Exception ex){
-			if (_debug) Log.e("Common.clearPartialWakelock() ERROR: " + ex.toString());
+			Log.e("Common.clearPartialWakelock() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -2553,7 +2553,7 @@ public class Common {
 			}
 			Common.clearPartialWakeLock();
 		}catch(Exception ex){
-			if (_debug) Log.e("Common.aquireWakelock() ERROR: " + ex.toString());
+			Log.e("Common.aquireWakelock() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -2571,7 +2571,7 @@ public class Common {
 	    		_wakeLock.release();
 	    	}
 		}catch(Exception ex){
-			if (_debug) Log.e("Common.clearWakelock() ERROR: " + ex.toString());
+			Log.e("Common.clearWakelock() ERROR: " + ex.toString());
 		}
 	}
 
@@ -2594,7 +2594,7 @@ public class Common {
 				_keyguardLock.disableKeyguard();
 			}
 		}catch(Exception ex){
-			if (_debug) Log.e("Common.acquireKeyguardLock() ERROR: " + ex.toString());
+			Log.e("Common.acquireKeyguardLock() ERROR: " + ex.toString());
 		}
 	}
 
@@ -2609,7 +2609,7 @@ public class Common {
 				_keyguardLock.reenableKeyguard();
 			}
 		}catch(Exception ex){
-			if (_debug) Log.e("Common.clearKeyguardLock() ERROR: " + ex.toString());
+			Log.e("Common.clearKeyguardLock() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -2740,7 +2740,7 @@ public class Common {
 			}
 			return outputPhoneNumber.toString();
 		}catch(Exception ex){
-			if (_debug) Log.e("Common.formatPhoneNumber() ERROR: " + ex.toString());
+			Log.e("Common.formatPhoneNumber() ERROR: " + ex.toString());
 			return inputPhoneNumber;
 		}
 	}
@@ -2774,7 +2774,7 @@ public class Common {
 			dateFormatted.setTimeZone(TimeZone.getDefault());
 			return dateFormatted.format(inputTimestamp);
 		}catch(Exception ex){
-			if (_debug) Log.e("Common.formatTimestamp() ERROR: " + ex.toString());
+			Log.e("Common.formatTimestamp() ERROR: " + ex.toString());
 			return "";
 		}
 	}
@@ -2887,7 +2887,7 @@ public class Common {
 			dateFormatted.setTimeZone(TimeZone.getDefault());
 			return dateFormatted.format(inputDate);
 		}catch(Exception ex){
-			if (_debug) Log.e("Common.formatDate() ERROR: " + ex.toString());
+			Log.e("Common.formatDate() ERROR: " + ex.toString());
 			return "";
 		}
 	}
@@ -2924,7 +2924,7 @@ public class Common {
 			}
 			return dateInfoArray;
 		}catch(Exception ex){
-			if (_debug) Log.e("Common.parseDateInfo() ERROR: " + ex.toString());
+			Log.e("Common.parseDateInfo() ERROR: " + ex.toString());
 			return null;
 		}
 	}
@@ -2959,7 +2959,7 @@ public class Common {
 			}
 			return true;
 		}catch(Exception ex){
-			if (_debug) Log.e("Common.deleteMessageThread() ERROR: " + ex.toString());
+			Log.e("Common.deleteMessageThread() ERROR: " + ex.toString());
 			return false;
 		}
 	}
@@ -2994,7 +2994,7 @@ public class Common {
 			}
 			return true;
 		}catch(Exception ex){
-			if (_debug) Log.e("Common.deleteSingleMessage() ERROR: " + ex.toString());
+			Log.e("Common.deleteSingleMessage() ERROR: " + ex.toString());
 			return false;
 		}
 	}
@@ -3040,7 +3040,7 @@ public class Common {
 			}
 			return true;
 		}catch(Exception ex){
-			if (_debug) Log.e("Common.setMessageRead() ERROR: " + ex.toString());
+			Log.e("Common.setMessageRead() ERROR: " + ex.toString());
 			return false;
 		}
 	}
@@ -3069,7 +3069,7 @@ public class Common {
 					selectionArgs);
 			return true;
 		}catch(Exception ex){
-			if (_debug) Log.e("Common.deleteFromCallLog() ERROR: " + ex.toString());
+			Log.e("Common.deleteFromCallLog() ERROR: " + ex.toString());
 			return false;
 		}
 	}
@@ -3105,7 +3105,7 @@ public class Common {
 					selectionArgs);
 			return true;
 		}catch(Exception ex){
-			if (_debug) Log.e("Common.setCallViewed() ERROR: " + ex.toString());
+			Log.e("Common.setCallViewed() ERROR: " + ex.toString());
 			return false;
 		}
 	}
@@ -3132,7 +3132,7 @@ public class Common {
 					selectionArgs);
 			return;
 		}catch(Exception ex){
-			if (_debug) Log.e("Common.deleteK9Email() ERROR: " + ex.toString());
+			Log.e("Common.deleteK9Email() ERROR: " + ex.toString());
 			return;
 		}
 	}
@@ -3359,7 +3359,7 @@ public class Common {
 	    	Common.acquireWakeLock(context);
 	    	context.startActivity(smsNotificationIntent);
 		}catch(Exception ex){
-			if (_debug) Log.e("Common.resendNotification() ERROR: " + ex.toString());
+			Log.e("Common.resendNotification() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -3380,7 +3380,7 @@ public class Common {
 			long pollingFrequency = Long.parseLong(preferences.getString(Constants.CALENDAR_POLLING_FREQUENCY_KEY, Constants.CALENDAR_POLLING_FREQUENCY_DEFAULT)) * 60 * 1000;
 			alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, alarmStartTime, pollingFrequency, pendingIntent);
 		}catch(Exception ex){
-			if (_debug) Log.e("Common.startCalendarAlarmManager() ERROR: " + ex.toString());
+			Log.e("Common.startCalendarAlarmManager() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -3398,7 +3398,7 @@ public class Common {
 			PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
 			alarmManager.cancel(pendingIntent);
 		}catch(Exception ex){
-			if (_debug) Log.e("Common.cancelCalendarAlarmManager() ERROR: " + ex.toString());
+			Log.e("Common.cancelCalendarAlarmManager() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -3420,7 +3420,7 @@ public class Common {
 	    	context.startActivity(notificationIntent);	
 	    	return true;
 		}catch(Exception ex){
-			if (_debug) Log.e("Common.startNotificationActivity() ERROR: " + ex.toString());
+			Log.e("Common.startNotificationActivity() ERROR: " + ex.toString());
 			return false;
 		}
 	}
@@ -3438,7 +3438,7 @@ public class Common {
 		if (_debug) Log.v("Common.startAlarm()");
 		try{
 			AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-			Intent intent = new Intent(context, SMSReceiver.class);
+			Intent intent = new Intent(context, className);
 			if(extrasBundle != null){
 				intent.putExtras(extrasBundle);
 			}
@@ -3448,7 +3448,7 @@ public class Common {
 			PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
 			alarmManager.set(AlarmManager.RTC_WAKEUP, alarmTime, pendingIntent);
 		}catch(Exception ex){
-			if (_debug) Log.e("Common.startAlarm() ERROR: " + ex.toString());
+			Log.e("Common.startAlarm() ERROR: " + ex.toString());
 		}
 	}	
 	
@@ -3469,7 +3469,7 @@ public class Common {
 			NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 			notificationManager.cancel(notificationType);
 		}catch(Exception ex){
-			if (_debug) Log.e("Common.removeStatusBarNotification() ERROR: " + ex.toString());
+			Log.e("Common.removeStatusBarNotification() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -3496,12 +3496,12 @@ public class Common {
 	            }
 	        }
 	    } catch (Exception ex) {
-	    	if (_debug) Log.e("Common.getMMSTextFromPart() ERROR: " + ex.toString());
+	    	Log.e("Common.getMMSTextFromPart() ERROR: " + ex.toString());
 	    }finally {
 	    	try{
 	    		inputStream.close();
 	    	}catch(Exception ex){
-	    		if (_debug) Log.e("Common.getMMSTextFromPart() ERROR: " + ex.toString());
+	    		Log.e("Common.getMMSTextFromPart() ERROR: " + ex.toString());
 	    	}
 	    }
 	    return messageText.toString();
@@ -3580,7 +3580,7 @@ public class Common {
 	    	try {
 	    		vibrateLength = Long.parseLong(vibratePatternStringArray[i].trim());
 	    	} catch (Exception ex) {
-	    		if (_debug) Log.e("Common.parseVibratePattern() ERROR: " + ex.toString());
+	    		Log.e("Common.parseVibratePattern() ERROR: " + ex.toString());
 	    		return null;
 	    	}
 	    	if(vibrateLength < 0){
@@ -3622,7 +3622,7 @@ public class Common {
 	    	try {
 	    		blinkLength = Integer.parseInt(ledPatternStringArray[i].trim());
 	    	} catch (Exception ex) {
-	    		if (_debug) Log.e("Common.parseLEDPattern() ERROR: " + ex.toString());
+	    		Log.e("Common.parseLEDPattern() ERROR: " + ex.toString());
 	    		return null;
 	    	}
 	    	if(blinkLength < 0){
@@ -3665,7 +3665,7 @@ public class Common {
 				});	
 		    	return null;
 			}catch(Exception ex){
-				if (_debug) Log.e("Common.playNotificationMediaFileAsyncTask.doInBackground() ERROR: " + ex.toString());
+				Log.e("Common.playNotificationMediaFileAsyncTask.doInBackground() ERROR: " + ex.toString());
 				mediaPlayer.release();
             	mediaPlayer = null;
 				return null;
@@ -3705,7 +3705,7 @@ public class Common {
 			}
 			return outputEmailAddress;
 		}catch(Exception ex){
-			if (_debug) Log.e("Common.parseFromEmailAddress() ERROR: " + ex.toString());
+			Log.e("Common.parseFromEmailAddress() ERROR: " + ex.toString());
 			return inputFromAddress;
 		}
 	}

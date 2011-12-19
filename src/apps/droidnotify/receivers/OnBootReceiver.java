@@ -39,7 +39,7 @@ public class OnBootReceiver extends BroadcastReceiver {
 		try{
 			WakefulIntentService.sendWakefulWork(context, new Intent(context, OnBootBroadcastReceiverService.class));
 		}catch(Exception ex){
-			if (_debug) Log.e("OnBootReceiver.onReceive() ERROR: " + ex.toString());
+			Log.e("OnBootReceiver.onReceive() ERROR: " + ex.toString());
 		}
 	}
 

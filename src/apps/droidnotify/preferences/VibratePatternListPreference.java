@@ -14,7 +14,6 @@ import android.widget.Toast;
 
 import apps.droidnotify.R;
 import apps.droidnotify.common.Constants;
-import apps.droidnotify.log.Log;
 
 /**
  * A custom ListPreference class that handles custom vibrate pattern selection/creation.
@@ -27,7 +26,6 @@ public class VibratePatternListPreference extends ListPreference {
     // Properties
     //================================================================================
 
-    private boolean _debug = false;
     private Context _context = null;
     private SharedPreferences _preferences = null;
     private int _notificationType = -2;
@@ -43,8 +41,6 @@ public class VibratePatternListPreference extends ListPreference {
 	 */
 	public VibratePatternListPreference(Context context) {
 		super(context);
-	    _debug = Log.getDebug();
-	    if (_debug) Log.v("VibratePatternListPreference.VibratePatternListPreference()");
 		_context = context;
 		_preferences = PreferenceManager.getDefaultSharedPreferences(_context);
 	}
@@ -57,8 +53,6 @@ public class VibratePatternListPreference extends ListPreference {
 	 */
 	public VibratePatternListPreference(Context context, AttributeSet attrs) {
 		super(context, attrs);
-	    _debug = Log.getDebug();
-	    if (_debug) Log.v("VibratePatternListPreference.VibratePatternListPreference()");
 		_context = context;
 		_preferences = PreferenceManager.getDefaultSharedPreferences(_context);
 	}
@@ -75,7 +69,6 @@ public class VibratePatternListPreference extends ListPreference {
 	@Override
 	protected void onDialogClosed(boolean result) {
 		super.onDialogClosed(result);
-		if (_debug) Log.v("VibratePatternListPreference.onDialogClosed()");
 		if (result) {
 			if (_preferences.getString(this.getKey(), Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_DEFAULT).equals(Constants.SMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_VALUE_KEY)) {
 				_notificationType = Constants.NOTIFICATION_TYPE_SMS;
@@ -113,7 +106,6 @@ public class VibratePatternListPreference extends ListPreference {
 	 * Display the dialog window that allows the user to enter the vibrate pattern they wish to have.
 	 */
 	private void showDialog() {
-		if (_debug) Log.v("VibratePatternListPreference.showDialog()");
 	    LayoutInflater inflater = (LayoutInflater) _context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	    View view = inflater.inflate(R.layout.vibratepatterndialog, null);
 	    final EditText customVibratePatternEditText = (EditText) view.findViewById(R.id.customVibrateEditText);
@@ -196,7 +188,6 @@ public class VibratePatternListPreference extends ListPreference {
 	 * @return boolean - Returns True if the vibrate pattern is valid.
 	 */
 	private boolean validateVibratePattern(String vibratePattern){
-		if (_debug) Log.v("VibratePatternListPreference.parseVibratePattern()");
 		String[] vibratePatternArray = vibratePattern.split(",");
 		int arraySize = vibratePatternArray.length;
 	    for (int i = 0; i < arraySize; i++) {

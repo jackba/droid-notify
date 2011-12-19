@@ -106,7 +106,7 @@ public class TwitterAuthenticationActivity extends Activity {
 				TwitterCommon.startTwitterAlarmManager(_context, System.currentTimeMillis());
 				finish();
 			} catch (Exception ex) {
-				if (_debug) Log.e("TwitterAuthenticationActivity.onNewIntent() ERROR: " + ex.toString());
+				Log.e("TwitterAuthenticationActivity.onNewIntent() ERROR: " + ex.toString());
 				Toast.makeText(_context, _context.getString(R.string.twitter_authentication_error), Toast.LENGTH_LONG).show();
 				finish();
 			}
@@ -233,7 +233,7 @@ public class TwitterAuthenticationActivity extends Activity {
 			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_NO_HISTORY);
 			startActivity(intent);
 		} catch (Exception ex) {
-			if (_debug) Log.e("TwitterAuthenticationActivity.authenticateTwitterAccount() ERROR: " + ex.toString());
+			Log.e("TwitterAuthenticationActivity.authenticateTwitterAccount() ERROR: " + ex.toString());
 		}
 	}
 

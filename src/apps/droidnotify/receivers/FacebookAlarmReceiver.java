@@ -43,7 +43,7 @@ public class FacebookAlarmReceiver extends BroadcastReceiver {
 			}
 			WakefulIntentService.sendWakefulWork(context, new Intent(context, FacebookAlarmBroadcastReceiverService.class));
 		}catch(Exception ex){
-			if (_debug) Log.e("FacebookAlarmReceiver.onReceive() ERROR: " + ex.toString());
+			Log.e("FacebookAlarmReceiver.onReceive() ERROR: " + ex.toString());
 		}
 	}
 	

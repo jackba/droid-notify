@@ -38,7 +38,7 @@ public class PhoneAlarmReceiver extends BroadcastReceiver {
 		try{
 			WakefulIntentService.sendWakefulWork(context, new Intent(context, PhoneAlarmBroadcastReceiverService.class));
 		}catch(Exception ex){
-			if (_debug) Log.e("PhoneAlarmReceiver.onReceive() ERROR: " + ex.toString());
+			Log.e("PhoneAlarmReceiver.onReceive() ERROR: " + ex.toString());
 		}
 	}
 

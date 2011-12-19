@@ -183,7 +183,7 @@ public class FacebookAlarmBroadcastReceiverService extends WakefulIntentService 
 		    	}
 		    }
 		}catch(Exception ex){
-			if (_debug) Log.e("FacebookAlarmBroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());
+			Log.e("FacebookAlarmBroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());
 		}
 	}
 		

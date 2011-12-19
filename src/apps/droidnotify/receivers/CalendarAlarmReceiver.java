@@ -39,7 +39,7 @@ public class CalendarAlarmReceiver extends BroadcastReceiver {
 		try{
 			WakefulIntentService.sendWakefulWork(context, new Intent(context, CalendarAlarmReceiverService.class));
 		}catch(Exception ex){
-			if (_debug) Log.e("CalendarAlarmReceiver.onReceive() ERROR: " + ex.toString());
+			Log.e("CalendarAlarmReceiver.onReceive() ERROR: " + ex.toString());
 		}
 	}
 	

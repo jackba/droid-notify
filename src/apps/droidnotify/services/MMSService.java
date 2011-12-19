@@ -65,7 +65,7 @@ public class MMSService extends WakefulIntentService {
 				if (_debug) Log.v("MMSReceiverService.doWakefulWork() No new MMSs were found. Exiting...");
 			}
 		}catch(Exception ex){
-			if (_debug) Log.e("MMSReceiverService.doWakefulWork() ERROR: " + ex.toString());
+			Log.e("MMSReceiverService.doWakefulWork() ERROR: " + ex.toString());
 		}
 	}
 	

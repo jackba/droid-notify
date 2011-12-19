@@ -41,7 +41,7 @@ public class RescheduleReceiver extends BroadcastReceiver{
 		    rescheduleBroadcastReceiverServiceIntent.putExtras(intent.getExtras());
 			WakefulIntentService.sendWakefulWork(context, rescheduleBroadcastReceiverServiceIntent);
 		}catch(Exception ex){
-			if (_debug) Log.e("RescheduleReceiver.onReceive() ERROR: " + ex.toString());
+			Log.e("RescheduleReceiver.onReceive() ERROR: " + ex.toString());
 		}
 	}
 

@@ -103,7 +103,7 @@ public class FacebookService extends WakefulIntentService {
 				}
 		    }
 		}catch(Exception ex){
-			if (_debug) Log.e("FacebookService.doWakefulWork() ERROR: " + ex.toString());
+			Log.e("FacebookService.doWakefulWork() ERROR: " + ex.toString());
 		}
 	}
 		

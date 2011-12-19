@@ -74,7 +74,7 @@ public class MMSBroadcastReceiverService extends WakefulIntentService {
 			long alarmTime = System.currentTimeMillis() + timeoutInterval;
 			Common.startAlarm(context, MMSAlarmReceiver.class, null, intentActionText, alarmTime);
 		}catch(Exception ex){
-			if (_debug) Log.e("MMSBroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());
+			Log.e("MMSBroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());
 		}
 	}
 		
