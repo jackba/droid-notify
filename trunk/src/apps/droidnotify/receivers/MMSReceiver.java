@@ -38,7 +38,7 @@ public class MMSReceiver extends BroadcastReceiver{
 		try{
 			WakefulIntentService.sendWakefulWork(context, new Intent(context, MMSBroadcastReceiverService.class));
 		}catch(Exception ex){
-			if (_debug) Log.e("MMSReceiver.onReceive() ERROR: " + ex.toString());
+			Log.e("MMSReceiver.onReceive() ERROR: " + ex.toString());
 		}
 	}
 

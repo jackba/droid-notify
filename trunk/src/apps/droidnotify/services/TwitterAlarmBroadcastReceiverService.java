@@ -182,7 +182,7 @@ public class TwitterAlarmBroadcastReceiverService extends WakefulIntentService {
 		    	}
 		    }
 		}catch(Exception ex){
-			if (_debug) Log.e("TwitterAlarmBroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());
+			Log.e("TwitterAlarmBroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());
 		}
 	}
 		

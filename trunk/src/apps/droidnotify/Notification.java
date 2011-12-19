@@ -141,7 +141,7 @@ public class Notification {
     		_lookupKey = lookupKey;
     		setReminder();
 		}catch(Exception ex){
-			if (_debug) Log.e("Notification.Notification() ==CONSTRUCTOR 1== ERROR: " + ex.toString());
+			Log.e("Notification.Notification() ==CONSTRUCTOR 1== ERROR: " + ex.toString());
 		}
 	}
 	
@@ -206,7 +206,7 @@ public class Notification {
     		_lookupKey = null;
     		setReminder();
 		}catch(Exception ex){
-			if (_debug) Log.e("Notification.Notification() ==CONSTRUCTOR 2== ERROR: " + ex.toString());
+			Log.e("Notification.Notification() ==CONSTRUCTOR 2== ERROR: " + ex.toString());
 		}
 	}
 
@@ -291,7 +291,7 @@ public class Notification {
     		_lookupKey = lookupKey;
     		setReminder();
 		}catch(Exception ex){
-			if (_debug) Log.e("Notification.Notification() ==CONSTRUCTOR 3== ERROR: " + ex.toString());
+			Log.e("Notification.Notification() ==CONSTRUCTOR 3== ERROR: " + ex.toString());
 		}
 	}
 	
@@ -322,7 +322,7 @@ public class Notification {
     		_lookupKey = null;
     		setReminder();
 		}catch(Exception ex){
-			if (_debug) Log.e("Notification.Notification() ==CONSTRUCTOR 4== ERROR: " + ex.toString());
+			Log.e("Notification.Notification() ==CONSTRUCTOR 4== ERROR: " + ex.toString());
 		}
 	}
 
@@ -383,7 +383,7 @@ public class Notification {
     		_notificationSubType = notificationSubType;
     		setReminder();
 		}catch(Exception ex){
-			if (_debug) Log.e("Notification.Notification() ==CONSTRUCTOR 5== ERROR: " + ex.toString());
+			Log.e("Notification.Notification() ==CONSTRUCTOR 5== ERROR: " + ex.toString());
 		}
 	}
 
@@ -471,7 +471,7 @@ public class Notification {
     		_lookupKey = lookupKey;
     		setReminder();
 		}catch(Exception ex){
-			if (_debug) Log.e("Notification.Notification() ==CONSTRUCTOR 6== ERROR: " + ex.toString());
+			Log.e("Notification.Notification() ==CONSTRUCTOR 6== ERROR: " + ex.toString());
 		}
 	}
 	
@@ -1100,7 +1100,7 @@ public class Notification {
     		}
     		formattedMessage =  messageTitle + formattedMessage + messageBody;
 		}catch(Exception ex){
-			if (_debug) Log.e("Notification.formatCalendarEventMessage() ERROR: " + ex.toString());
+			Log.e("Notification.formatCalendarEventMessage() ERROR: " + ex.toString());
 			formattedMessage = startDateFormated + " - " + endDateFormated;
 		}
     	if(_preferences.getBoolean(Constants.CALENDAR_LABELS_KEY, true)){

@@ -50,7 +50,7 @@ public class CalendarService extends WakefulIntentService {
 	    	Bundle bundle = intent.getExtras();
 	    	Common.startNotificationActivity(context, bundle);
 		}catch(Exception ex){
-			if (_debug) Log.e("CalendarService.doWakefulWork() ERROR: " + ex.toString());
+			Log.e("CalendarService.doWakefulWork() ERROR: " + ex.toString());
 		}
 	}
 	

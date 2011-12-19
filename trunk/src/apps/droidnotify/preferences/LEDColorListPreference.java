@@ -18,7 +18,6 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 
 import apps.droidnotify.R;
 import apps.droidnotify.common.Constants;
-import apps.droidnotify.log.Log;
 
 /**
  * A custom ListPreference class that handles custom LED color selection/creation.
@@ -31,7 +30,6 @@ public class LEDColorListPreference extends ListPreference implements OnSeekBarC
     // Properties
     //================================================================================
 
-    private boolean _debug = false;
     private Context _context = null;
     private SharedPreferences _preferences = null;
     private int _notificationType = -2;
@@ -54,8 +52,6 @@ public class LEDColorListPreference extends ListPreference implements OnSeekBarC
 	 */
 	public LEDColorListPreference(Context context) {
 		super(context);
-	    _debug = Log.getDebug();
-	    if (_debug) Log.v("LEDColorListPreference.LEDColorListPreference()");
 		_context = context;
 		_preferences = PreferenceManager.getDefaultSharedPreferences(_context);
 	}
@@ -67,8 +63,6 @@ public class LEDColorListPreference extends ListPreference implements OnSeekBarC
 	 */
 	public LEDColorListPreference(Context context, AttributeSet attrs) {
 		  super(context, attrs);
-		    _debug = Log.getDebug();
-		    if (_debug) Log.v("LEDColorListPreference.LEDColorListPreference()");
 			_context = context;
 			_preferences = PreferenceManager.getDefaultSharedPreferences(_context);
 	}
@@ -85,7 +79,6 @@ public class LEDColorListPreference extends ListPreference implements OnSeekBarC
 	@Override
 	protected void onDialogClosed(boolean result) {
 		super.onDialogClosed(result);
-		if (_debug) Log.v("LEDColorListPreference.onDialogClosed()");
 		if (result) {
 			if (_preferences.getString(this.getKey(), Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT).equals(Constants.SMS_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_VALUE_KEY)) {
 				_notificationType = Constants.NOTIFICATION_TYPE_SMS;
@@ -123,7 +116,6 @@ public class LEDColorListPreference extends ListPreference implements OnSeekBarC
 	 * Display the dialog window that allows the user to enter the led color they wish to have.
 	 */
 	private void showDialog() {
-		if (_debug) Log.v("LEDColorListPreference.showDialog()");
 	    LayoutInflater inflater = (LayoutInflater) _context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	    View view = inflater.inflate(R.layout.ledcolordialog, null);
 	    
@@ -236,7 +228,6 @@ public class LEDColorListPreference extends ListPreference implements OnSeekBarC
 	 * @param fromTouch - True if the value was changed by a touch event.
 	 */
 	public void onProgressChanged(SeekBar seekbar, int progress, boolean fromTouch) {
-		if (_debug) Log.v("LEDColorListPreference.onProgressChanged()");
 		TextView textView = null;
 		if(seekbar.equals(redSeekBar)){
 			textView = redTextView;
@@ -256,7 +247,6 @@ public class LEDColorListPreference extends ListPreference implements OnSeekBarC
 	 * @param progress
 	 */
 	private void updateTextView(TextView textView, int progress) {
-		if (_debug) Log.v("LEDColorListPreference.updateTextView()");
 	    textView.setText(String.valueOf(progress));
 	}
 
@@ -264,7 +254,6 @@ public class LEDColorListPreference extends ListPreference implements OnSeekBarC
 	 * Updater the color ImageView preview window using the values of the current seek bars.
 	 */
   	private void updateColorImageView() {
-		if (_debug) Log.v("LEDColorListPreference.updateColorImageView()");
   		previewImageView.setBackgroundColor(Color.rgb(redSeekBar.getProgress(), greenSeekBar.getProgress(), blueSeekBar.getProgress()));
   	}
 

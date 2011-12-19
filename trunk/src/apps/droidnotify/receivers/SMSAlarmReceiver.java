@@ -40,7 +40,7 @@ public class SMSAlarmReceiver extends BroadcastReceiver {
 		    smsAlarmBroadcastReceiverServiceIntent.putExtras(intent.getExtras());
 			WakefulIntentService.sendWakefulWork(context, smsAlarmBroadcastReceiverServiceIntent);
 		}catch(Exception ex){
-			if (_debug) Log.e("SMSAlarmReceiver.onReceive() ERROR: " + ex.toString());
+			Log.e("SMSAlarmReceiver.onReceive() ERROR: " + ex.toString());
 		}
 	}
 

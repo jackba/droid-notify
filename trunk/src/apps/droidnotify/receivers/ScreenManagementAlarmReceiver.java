@@ -41,7 +41,7 @@ public class ScreenManagementAlarmReceiver extends BroadcastReceiver {
 		    screenManagementAlarmBroadcastReceiverServiceIntent.putExtras(intent.getExtras());
 			WakefulIntentService.sendWakefulWork(context, screenManagementAlarmBroadcastReceiverServiceIntent);
 		}catch(Exception ex){
-			if (_debug) Log.v("ScreenManagementAlarmReceiver.onReceive() ERROR: " + ex.toString());
+			Log.e("ScreenManagementAlarmReceiver.onReceive() ERROR: " + ex.toString());
 		}
 	}
 	

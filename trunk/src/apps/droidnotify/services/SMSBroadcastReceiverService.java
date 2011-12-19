@@ -143,7 +143,7 @@ public class SMSBroadcastReceiverService extends WakefulIntentService {
 			    }
 			}
 		}catch(Exception ex){
-			if (_debug) Log.e("SMSBroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());
+			Log.e("SMSBroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());
 		}
 	}
 		

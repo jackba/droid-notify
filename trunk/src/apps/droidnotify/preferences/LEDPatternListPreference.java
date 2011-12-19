@@ -14,7 +14,6 @@ import android.widget.Toast;
 
 import apps.droidnotify.R;
 import apps.droidnotify.common.Constants;
-import apps.droidnotify.log.Log;
 
 /**
  * A custom ListPreference class that handles custom LED pattern selection/creation.
@@ -27,7 +26,6 @@ public class LEDPatternListPreference extends ListPreference {
     // Properties
     //================================================================================
 
-    private boolean _debug = false;
     private Context _context = null;
     private SharedPreferences _preferences = null;
     private int _notificationType = -2;
@@ -43,8 +41,6 @@ public class LEDPatternListPreference extends ListPreference {
 	 */
 	public LEDPatternListPreference(Context context) {
 		super(context);
-	    _debug = Log.getDebug();
-	    if (_debug) Log.v("LEDPatternListPreference.LEDPatternListPreference()");
 		_context = context;
 		_preferences = PreferenceManager.getDefaultSharedPreferences(_context);
 	}
@@ -57,8 +53,6 @@ public class LEDPatternListPreference extends ListPreference {
 	 */
 	public LEDPatternListPreference(Context context, AttributeSet attrs) {
 		super(context, attrs);
-	    _debug = Log.getDebug();
-	    if (_debug) Log.v("LEDPatternListPreference.LEDPatternListPreference()");
 		_context = context;
 		_preferences = PreferenceManager.getDefaultSharedPreferences(_context);
 	}
@@ -75,7 +69,6 @@ public class LEDPatternListPreference extends ListPreference {
 	@Override
 	protected void onDialogClosed(boolean result) {
 		super.onDialogClosed(result);
-		if (_debug) Log.v("LEDPatternListPreference.onDialogClosed()");
 		if (result) {
 			if (_preferences.getString(this.getKey(), Constants.STATUS_BAR_NOTIFICATIONS_LED_PATTERN_DEFAULT).equals(Constants.SMS_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_VALUE_KEY)) {
 				_notificationType = Constants.NOTIFICATION_TYPE_SMS;
@@ -113,7 +106,6 @@ public class LEDPatternListPreference extends ListPreference {
 	 * Display the dialog window that allows the user to enter the vibrate pattern they wish to have.
 	 */
 	private void showDialog() {
-		if (_debug) Log.v("LEDPatternListPreference.showDialog()");
 	    LayoutInflater inflater = (LayoutInflater) _context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	    View view = inflater.inflate(R.layout.ledpatterndialog, null);
 	    String ledCustomPattern = null;
@@ -201,7 +193,6 @@ public class LEDPatternListPreference extends ListPreference {
 	 * @return boolean - Returns True if the led pattern is valid.
 	 */
 	private boolean validateLEDPattern(String ledPattern){
-		if (_debug) Log.v("LEDPatternListPreference.parseLEDPattern()");
 		String[] ledPatternArray = ledPattern.split(",");
 		int arraySize = ledPatternArray.length;
 	    for (int i = 0; i < arraySize; i++) {

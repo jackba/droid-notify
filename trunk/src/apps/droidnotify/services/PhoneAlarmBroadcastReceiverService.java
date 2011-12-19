@@ -126,7 +126,7 @@ public class PhoneAlarmBroadcastReceiverService extends WakefulIntentService {
 		    	}
 		    }
 	    }catch(Exception ex){
-			if (_debug) Log.e("PhoneAlarmBroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());
+			Log.e("PhoneAlarmBroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());
 		}
 	}
 		

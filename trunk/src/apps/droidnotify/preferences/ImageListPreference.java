@@ -7,7 +7,6 @@ import android.preference.ListPreference;
 import android.util.AttributeSet;
 import android.widget.ListAdapter;
 
-import apps.droidnotify.log.Log;
 import apps.droidnotify.R;
 
 /**
@@ -22,7 +21,6 @@ public class ImageListPreference extends ListPreference {
     // Properties
     //================================================================================
 	
-	private boolean _debug = false;
 	private int[] _resourceIds = null;
 
 	//================================================================================
@@ -38,8 +36,6 @@ public class ImageListPreference extends ListPreference {
 	 */
 	public ImageListPreference(Context context, AttributeSet attrs) {
 		super(context, attrs);
-	    _debug = Log.getDebug();
-		if (_debug) Log.v("ImageListPreference.ImageListPreference()");
 		TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ImageListPreference);
 		String[] imageNames = context.getResources().getStringArray(typedArray.getResourceId(typedArray.getIndexCount()-1, -1));
 		_resourceIds = new int[imageNames.length];
@@ -58,7 +54,6 @@ public class ImageListPreference extends ListPreference {
 	 * 
 	 */
 	protected void onPrepareDialogBuilder(Builder builder) {
-		if (Log.getDebug()) Log.v("ImageListPreference.onPrepareDialogBuilder()");
 		int index = findIndexOfValue(getSharedPreferences().getString(getKey(), "0"));
 		ListAdapter listAdapter = null;
 		//Only round the corners of the Theme images.

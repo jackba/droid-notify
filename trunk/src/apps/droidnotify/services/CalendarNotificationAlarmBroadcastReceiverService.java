@@ -123,7 +123,7 @@ public class CalendarNotificationAlarmBroadcastReceiverService extends WakefulIn
 		    	}
 		    }
 		}catch(Exception ex){
-			if (_debug) Log.e("CalendarNotificationAlarmBroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());
+			Log.e("CalendarNotificationAlarmBroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());
 		}
 	}
 		

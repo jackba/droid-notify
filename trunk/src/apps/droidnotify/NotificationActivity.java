@@ -228,7 +228,7 @@ public class NotificationActivity extends Activity {
 						return true;
 					}
 				}catch(Exception ex){
-					if (_debug) Log.e("NotificationActivity.onContextItemSelected() CALL_CONTACT_CONTEXT_MENU ERROR: " + ex.toString());
+					Log.e("NotificationActivity.onContextItemSelected() CALL_CONTACT_CONTEXT_MENU ERROR: " + ex.toString());
 					Toast.makeText(_context, _context.getString(R.string.app_android_contacts_phone_number_chooser_error), Toast.LENGTH_LONG).show();
 					return false;
 				}
@@ -275,7 +275,7 @@ public class NotificationActivity extends Activity {
 						return true;
 					}
 				}catch(Exception ex){
-					if (_debug) Log.e("NotificationActivity.onContextItemSelected() TEXT_CONTACT_CONTEXT_MENU ERROR: " + ex.toString());
+					Log.e("NotificationActivity.onContextItemSelected() TEXT_CONTACT_CONTEXT_MENU ERROR: " + ex.toString());
 					Toast.makeText(_context, _context.getString(R.string.app_android_contacts_phone_number_chooser_error), Toast.LENGTH_LONG).show();
 					return false;
 				}
@@ -303,7 +303,7 @@ public class NotificationActivity extends Activity {
 					_notificationViewFlipper.rescheduleNotification();
 					return true;
 				}catch(Exception ex){
-					if (_debug) Log.e("NotificationActivity.onContextItemSelected() RESCHEDULE_NOTIFICATION_CONTEXT_MENU ERROR: " + ex.toString());
+					Log.e("NotificationActivity.onContextItemSelected() RESCHEDULE_NOTIFICATION_CONTEXT_MENU ERROR: " + ex.toString());
 					return false;
 				}
 			}
@@ -312,7 +312,7 @@ public class NotificationActivity extends Activity {
 					speak();
 					return true;
 				}catch(Exception ex){
-					if (_debug) Log.e("NotificationActivity.onContextItemSelected() SPEAK_NOTIFICATION_CONTEXT_MENU ERROR: " + ex.toString());
+					Log.e("NotificationActivity.onContextItemSelected() SPEAK_NOTIFICATION_CONTEXT_MENU ERROR: " + ex.toString());
 					return false;
 				}
 			}
@@ -322,7 +322,7 @@ public class NotificationActivity extends Activity {
 					_notificationViewFlipper.removeActiveNotification(false);
 					return true;
 				}catch(Exception ex){
-					if (_debug) Log.e("NotificationActivity.onContextItemSelected() DISMISS_NOTIFICATION_CONTEXT_MENU ERROR: " + ex.toString());
+					Log.e("NotificationActivity.onContextItemSelected() DISMISS_NOTIFICATION_CONTEXT_MENU ERROR: " + ex.toString());
 					return false;
 				}
 			}
@@ -1547,7 +1547,7 @@ public class NotificationActivity extends Activity {
 				phoneCursor.close(); 
 				return phoneNumberArray.toArray(new String[]{});
 			}catch(Exception ex){
-				if (_debug) Log.e("NotificationActivity.getPhoneNumbers() ERROR: " + ex.toString());
+				Log.e("NotificationActivity.getPhoneNumbers() ERROR: " + ex.toString());
 				return null;
 			}
 		}else{
@@ -1583,7 +1583,7 @@ public class NotificationActivity extends Activity {
 			long timeStamp = 0;
 			try{
 				if(smsInfo.length < 5){
-					if (_debug) Log.e("NotificationActivity.setupSMSMessages() FATAL NOTIFICATION ERROR. smsInfo.length: " + smsInfo.length);
+					Log.e("NotificationActivity.setupSMSMessages() FATAL NOTIFICATION ERROR. smsInfo.length: " + smsInfo.length);
 					return false;
 				}else if(smsInfo.length == 5){ 
 					messageAddress = smsInfo[0];
@@ -1609,7 +1609,7 @@ public class NotificationActivity extends Activity {
 					currentMessageID = String.valueOf(messageID);
 				}
 			}catch(Exception ex){
-				if (_debug) Log.e("NotificationActivity.setupSMSMessages() ERROR: " + ex.toString());
+				Log.e("NotificationActivity.setupSMSMessages() ERROR: " + ex.toString());
 				return false;
 			}
     		_notificationViewFlipper.addNotification(new Notification(_context, messageAddress, messageBody, messageID, threadID, timeStamp, contactID, contactName, photoID, lookupKey, Constants.NOTIFICATION_TYPE_SMS));
@@ -1650,7 +1650,7 @@ public class NotificationActivity extends Activity {
 			long timeStamp = 0;
 			try{
 				if(mmsInfo.length < 5){
-					if (_debug) Log.e("NotificationActivity.setupMMSMessages() FATAL NOTIFICATION ERROR. mmsInfo.length: " + mmsInfo.length);
+					Log.e("NotificationActivity.setupMMSMessages() FATAL NOTIFICATION ERROR. mmsInfo.length: " + mmsInfo.length);
 					return false;
 				}else if( mmsInfo.length == 5){
 					messageAddress = mmsInfo[0];
@@ -1676,7 +1676,7 @@ public class NotificationActivity extends Activity {
 					}
 				}
 			}catch(Exception ex){
-				if (_debug) Log.e("NotificationActivity.setupMMSMessages() ERROR: " + ex.toString());
+				Log.e("NotificationActivity.setupMMSMessages() ERROR: " + ex.toString());
 				return false;
 			}
     		_notificationViewFlipper.addNotification(new Notification(_context, messageAddress, messageBody, messageID, threadID, timeStamp, contactID, contactName, photoID, lookupKey, Constants.NOTIFICATION_TYPE_MMS));
@@ -1733,7 +1733,7 @@ public class NotificationActivity extends Activity {
 				long timeStamp = 0;
 				try{
 					if(smsInfo.length < 5){
-						if (_debug) Log.e("NotificationActivity.getAllUnreadSMSMessagesAsyncTask.onPostExecute() FATAL NOTIFICATION ERROR. smsInfo.length: " + smsInfo.length);
+						Log.e("NotificationActivity.getAllUnreadSMSMessagesAsyncTask.onPostExecute() FATAL NOTIFICATION ERROR. smsInfo.length: " + smsInfo.length);
 						return;
 					}else if( smsInfo.length == 5){ 
 						messageAddress = smsInfo[0];
@@ -1757,7 +1757,7 @@ public class NotificationActivity extends Activity {
 						}
 					}
 				}catch(Exception ex){
-					if (_debug) Log.e("NotificationActivity.getAllUnreadSMSMessagesAsyncTask.onPostExecute() ERROR: " + ex.toString());
+					Log.e("NotificationActivity.getAllUnreadSMSMessagesAsyncTask.onPostExecute() ERROR: " + ex.toString());
 				}
 	    		_notificationViewFlipper.addNotification(new Notification(_context, messageAddress, messageBody, messageID, threadID, timeStamp, contactID, contactName, photoID, lookupKey, Constants.NOTIFICATION_TYPE_SMS));
 			}
@@ -1830,7 +1830,7 @@ public class NotificationActivity extends Activity {
 		    	}
 		    }
 		}catch(Exception ex){
-			if (_debug) Log.e("NotificationActivity.getAllUnreadSMSMessages() ERROR: " + ex.toString());
+			Log.e("NotificationActivity.getAllUnreadSMSMessages() ERROR: " + ex.toString());
 		} finally {
     		cursor.close();
     	}
@@ -1874,7 +1874,7 @@ public class NotificationActivity extends Activity {
 				long timeStamp = 0;
 				try{
 					if(mmsInfo.length < 5){
-						if (_debug) Log.e("NotificationActivity.getAllUnreadMMSMessagesAsyncTask.onPostExecute() FATAL NOTIFICATION ERROR. mmsInfo.length: " + mmsInfo.length);
+						Log.e("NotificationActivity.getAllUnreadMMSMessagesAsyncTask.onPostExecute() FATAL NOTIFICATION ERROR. mmsInfo.length: " + mmsInfo.length);
 						return;
 					}else if( mmsInfo.length == 5){ 
 						messageAddress = mmsInfo[0];
@@ -1900,7 +1900,7 @@ public class NotificationActivity extends Activity {
 						}
 					}
 				}catch(Exception ex){
-					if (_debug) Log.e("NotificationActivity.getAllUnreadMMSMessagesAsyncTask.onPostExecute() ERROR: " + ex.toString());
+					Log.e("NotificationActivity.getAllUnreadMMSMessagesAsyncTask.onPostExecute() ERROR: " + ex.toString());
 				}
 	    		_notificationViewFlipper.addNotification(new Notification(_context, messageAddress, messageBody, messageID, threadID, timeStamp, contactID, contactName, photoID, lookupKey, Constants.NOTIFICATION_TYPE_SMS));
 			}
@@ -1956,7 +1956,7 @@ public class NotificationActivity extends Activity {
 				isFirst = false;
 	    	}
 		}catch(Exception ex){
-			if (_debug) Log.e("MMSReceiverService.getMMSMessages() ERROR: " + ex.toString());
+			Log.e("MMSReceiverService.getMMSMessages() ERROR: " + ex.toString());
 		} finally {
     		cursor.close();
     	}
@@ -1984,7 +1984,7 @@ public class NotificationActivity extends Activity {
 			try{
 				int missedCallInfoSize = missedCallInfo.length;
 				if(missedCallInfoSize < 3){
-					if (_debug) Log.e("NotificationActivity.setupMissedCalls() FATAL NOTIFICATION ERROR. missedCallInfo.length: " + missedCallInfoSize);
+					Log.e("NotificationActivity.setupMissedCalls() FATAL NOTIFICATION ERROR. missedCallInfo.length: " + missedCallInfoSize);
 					return false;
 				}else if( missedCallInfoSize == 3){
 					callLogID = Long.parseLong(missedCallInfo[0]);
@@ -2004,7 +2004,7 @@ public class NotificationActivity extends Activity {
 					}
 				}
 			}catch(Exception ex){
-				if (_debug) Log.e("NotificationActivity.setupMissedCalls() ERROR: " + ex.toString()); 
+				Log.e("NotificationActivity.setupMissedCalls() ERROR: " + ex.toString()); 
 				return false;
 			}
 			_notificationViewFlipper.addNotification(new Notification(_context, callLogID, phoneNumber, timeStamp, contactID, contactName, photoID, lookupKey, Constants.NOTIFICATION_TYPE_PHONE));		    
@@ -2034,7 +2034,7 @@ public class NotificationActivity extends Activity {
 		long eventID = 0;
 		try{
 			if(calenderEventInfo.length < 8){
-				if (_debug) Log.e("NotificationActivity.setupCalendarEventNotifications() FATAL NOTIFICATION ERROR. calenderEventInfo.length: " + calenderEventInfo.length);
+				Log.e("NotificationActivity.setupCalendarEventNotifications() FATAL NOTIFICATION ERROR. calenderEventInfo.length: " + calenderEventInfo.length);
 				return false;
 			}else{
 				title = calenderEventInfo[0];
@@ -2047,7 +2047,7 @@ public class NotificationActivity extends Activity {
 				eventID = Long.parseLong(calenderEventInfo[7]);
 			}
 		}catch(Exception ex){
-			if (_debug) Log.e("NotificationActivity.setupCalendarEventNotifications() Error: " + ex.toString());  
+			Log.e("NotificationActivity.setupCalendarEventNotifications() Error: " + ex.toString());  
 			return false;
 		}
 		_notificationViewFlipper.addNotification(new Notification(_context, title, messageBody, eventStartTime, eventEndTime, eventAllDay, calendarName, calendarID, eventID, Constants.NOTIFICATION_TYPE_CALENDAR));
@@ -2082,7 +2082,7 @@ public class NotificationActivity extends Activity {
 			try{
 				int k9InfoSize = k9Info.length;
 				if(k9InfoSize < 6){
-					if (_debug) Log.e("NotificationActivity.setupK9EmailNotifications() FATAL NOTIFICATION ERROR. k9Info.length: " + k9InfoSize);
+					Log.e("NotificationActivity.setupK9EmailNotifications() FATAL NOTIFICATION ERROR. k9Info.length: " + k9InfoSize);
 					return false;
 				}else if(k9InfoSize == 6){
 					sentFromAddress = k9Info[0];
@@ -2108,7 +2108,7 @@ public class NotificationActivity extends Activity {
 					}
 				}
 			}catch(Exception ex){
-				if (_debug) Log.e("NotificationActivity.setupK9EmailNotifications() ERROR: " + ex.toString()); 
+				Log.e("NotificationActivity.setupK9EmailNotifications() ERROR: " + ex.toString()); 
 				return false;
 			}
 			_notificationViewFlipper.addNotification(new Notification(_context, sentFromAddress, 0, messageBody, timeStamp, contactID, contactName, photoID, messageID, null, lookupKey, k9EmailUri, k9EmailDelUri, Constants.NOTIFICATION_TYPE_K9, 0));		    
@@ -2144,7 +2144,7 @@ public class NotificationActivity extends Activity {
 			try{
 				int twitterInfoSize = twitterInfo.length;
 				if(twitterInfoSize < 4){
-					if (_debug) Log.e("NotificationActivity.setupTwitterMessages() FATAL NOTIFICATION ERROR. twitterInfoSize.length: " + twitterInfoSize);
+					Log.e("NotificationActivity.setupTwitterMessages() FATAL NOTIFICATION ERROR. twitterInfoSize.length: " + twitterInfoSize);
 					return false;
 				}else if(twitterInfoSize == 4){
 					notificationSubType = Integer.parseInt(twitterInfo[0]);
@@ -2170,7 +2170,7 @@ public class NotificationActivity extends Activity {
 					}
 				}
 			}catch(Exception ex){
-				if (_debug) Log.e("NotificationActivity.setupTwitterMessages() ERROR: " + ex.toString()); 
+				Log.e("NotificationActivity.setupTwitterMessages() ERROR: " + ex.toString()); 
 				return false;
 			}
 			_notificationViewFlipper.addNotification(new Notification(_context, sentFromAddress, sentFromID, messageBody, timeStamp, contactID, contactName, photoID, messageID, null, lookupKey, null, null, Constants.NOTIFICATION_TYPE_TWITTER, notificationSubType));		    
@@ -2206,7 +2206,7 @@ public class NotificationActivity extends Activity {
 			try{
 				int facebookInfoSize = facebookInfo.length;
 				if(facebookInfoSize < 4){
-					if (_debug) Log.e("NotificationActivity.setupFacebookMessages() FATAL NOTIFICATION ERROR. facebookInfoSize.length: " + facebookInfoSize);
+					Log.e("NotificationActivity.setupFacebookMessages() FATAL NOTIFICATION ERROR. facebookInfoSize.length: " + facebookInfoSize);
 					return false;
 				}else if(facebookInfoSize == 4){
 					notificationSubType = Integer.parseInt(facebookInfo[0]);
@@ -2232,7 +2232,7 @@ public class NotificationActivity extends Activity {
 					}
 				}
 			}catch(Exception ex){
-				if (_debug) Log.e("NotificationActivity.setupFacebookMessages() ERROR: " + ex.toString()); 
+				Log.e("NotificationActivity.setupFacebookMessages() ERROR: " + ex.toString()); 
 				return false;
 			}
 			_notificationViewFlipper.addNotification(new Notification(_context, sentFromAddress, sentFromID, messageBody, timeStamp, contactID, contactName, photoID, 0, messageStringID, lookupKey, null, null, Constants.NOTIFICATION_TYPE_FACEBOOK, notificationSubType));		    

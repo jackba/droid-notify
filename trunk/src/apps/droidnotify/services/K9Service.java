@@ -61,7 +61,7 @@ public class K9Service extends WakefulIntentService {
 				if (_debug) Log.v("K9Service.doWakefulWork() No new emails were found. Exiting...");
 			}
 		}catch(Exception ex){
-			if (_debug) Log.e("K9Service.doWakefulWork() ERROR: " + ex.toString());
+			Log.e("K9Service.doWakefulWork() ERROR: " + ex.toString());
 		}
 	}
 		

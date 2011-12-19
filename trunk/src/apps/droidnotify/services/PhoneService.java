@@ -60,7 +60,7 @@ public class PhoneService extends WakefulIntentService {
 				if (_debug) Log.v("PhoneService.doWakefulWork() No missed calls were found. Exiting...");
 			}
 		}catch(Exception ex){
-			if (_debug) Log.e("PhoneService.doWakefulWork() ERROR: " + ex.toString());
+			Log.e("PhoneService.doWakefulWork() ERROR: " + ex.toString());
 		}
 	}
 	

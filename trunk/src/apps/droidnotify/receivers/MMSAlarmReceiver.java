@@ -38,7 +38,7 @@ public class MMSAlarmReceiver extends BroadcastReceiver {
 		try{
 			WakefulIntentService.sendWakefulWork(context, new Intent(context, MMSAlarmBroadcastReceiverService.class));
 		}catch(Exception ex){
-			if (_debug) Log.e("MMSAlarmReceiver.onReceive() ERROR: " + ex.toString());
+			Log.e("MMSAlarmReceiver.onReceive() ERROR: " + ex.toString());
 		}
 	}
 

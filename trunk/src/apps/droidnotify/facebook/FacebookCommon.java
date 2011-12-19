@@ -69,7 +69,7 @@ public class FacebookCommon {
 				}
 			}
 		}catch(Exception ex){
-			if (_debug) Log.e("FacebookCommon.deleteFacebookItem() ERROR: " + ex.toString());
+			Log.e("FacebookCommon.deleteFacebookItem() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -92,7 +92,7 @@ public class FacebookCommon {
 			}	
 			return true;
 		} catch (Exception ex) {
-			if (_debug) Log.e("FacebookCommon.isFacebookAuthenticated() ERROR: " + ex.toString());
+			Log.e("FacebookCommon.isFacebookAuthenticated() ERROR: " + ex.toString());
 			return false;
 		}
 	}
@@ -127,7 +127,7 @@ public class FacebookCommon {
 		    }
 			return facebook;
 		}catch(Exception ex){
-			if (_debug) Log.e("FacebookCommon.getFacebook() ERROR: " + ex.toString());
+			Log.e("FacebookCommon.getFacebook() ERROR: " + ex.toString());
 			return null;
 		}	
 	}
@@ -145,7 +145,7 @@ public class FacebookCommon {
 			String intentActionText = "apps.droidnotify.alarm/FacebookAlarmReceiverAlarm/" + String.valueOf(System.currentTimeMillis());
 			Common.startAlarm(context, FacebookAlarmReceiver.class, null, intentActionText, alarmStartTime);
 		}catch(Exception ex){
-			if (_debug) Log.e("FacebookCommon.setFacebookAlarm() ERROR: " + ex.toString());
+			Log.e("FacebookCommon.setFacebookAlarm() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -166,7 +166,7 @@ public class FacebookCommon {
 			long pollingFrequency = Long.parseLong(preferences.getString(Constants.FACEBOOK_POLLING_FREQUENCY_KEY, "15")) * 60 * 1000;
 			alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, alarmStartTime, pollingFrequency, pendingIntent);
 		}catch(Exception ex){
-			if (_debug) Log.e("FacebookCommon.startFacebookAlarmManager() ERROR: " + ex.toString());
+			Log.e("FacebookCommon.startFacebookAlarmManager() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -184,7 +184,7 @@ public class FacebookCommon {
 			PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
 			alarmManager.cancel(pendingIntent);
 		}catch(Exception ex){
-			if (_debug) Log.e("FacebookCommon.cancelFacebookAlarmManager() ERROR: " + ex.toString());
+			Log.e("FacebookCommon.cancelFacebookAlarmManager() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -212,7 +212,7 @@ public class FacebookCommon {
 	        Common.setInLinkedAppFlag(context, true);
 		    return true;
 		}catch(Exception ex){
-			if (_debug) Log.e("FacebookCommon.startFacebookAppActivity() ERROR: " + ex.toString());
+			Log.e("FacebookCommon.startFacebookAppActivity() ERROR: " + ex.toString());
 			Toast.makeText(context, context.getString(R.string.facebook_app_error), Toast.LENGTH_LONG).show();
 			Common.setInLinkedAppFlag(context, false);
 			return false;
@@ -237,7 +237,7 @@ public class FacebookCommon {
 			intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 	        return intent;
 		}catch(Exception ex){
-			if (_debug) Log.e("FacebookCommon.getFacebookAppActivityIntent() ERROR: " + ex.toString());
+			Log.e("FacebookCommon.getFacebookAppActivityIntent() ERROR: " + ex.toString());
 			return null;
 		}
 	}
@@ -260,7 +260,7 @@ public class FacebookCommon {
         	JSONObject jsonResults = new JSONObject(result);
         	if(jsonResults.has("error")){
         		JSONObject jsonError = jsonResults.getJSONObject("error");
-        		if (_debug) Log.e("FacebookCommon.getFacebookNotifications() FACAEBOOK API ERROR: " + jsonError.getString("message"));
+        		Log.e("FacebookCommon.getFacebookNotifications() FACAEBOOK API ERROR: " + jsonError.getString("message"));
         		return null;
         	}
         	if(!jsonResults.has("data")){
@@ -292,7 +292,7 @@ public class FacebookCommon {
         	}
         	return facebookArray;
         }catch(Exception ex){
-        	if (_debug) Log.e("FacebookCommon.getFacebookNotifications() ERROR: " + ex.toString());
+        	Log.e("FacebookCommon.getFacebookNotifications() ERROR: " + ex.toString());
         	return null;
         }
 	}
@@ -315,7 +315,7 @@ public class FacebookCommon {
         	JSONObject jsonResults = new JSONObject(result);
         	if(jsonResults.has("error")){
         		JSONObject jsonError = jsonResults.getJSONObject("error");
-        		if (_debug) Log.e("FacebookCommon.getFacebookNotifications() FACAEBOOK API ERROR: " + jsonError.getString("message"));
+        		Log.e("FacebookCommon.getFacebookNotifications() FACAEBOOK API ERROR: " + jsonError.getString("message"));
         		return null;
         	}
         	if(!jsonResults.has("data")){
@@ -346,7 +346,7 @@ public class FacebookCommon {
         	}
         	return facebookArray;
         }catch(Exception ex){
-        	if (_debug) Log.e("FacebookCommon.getFacebookFriendRequests() ERROR: " + ex.toString());
+        	Log.e("FacebookCommon.getFacebookFriendRequests() ERROR: " + ex.toString());
         	return null;
         }
 	}
@@ -369,7 +369,7 @@ public class FacebookCommon {
         	JSONObject jsonResults = new JSONObject(result);
         	if(jsonResults.has("error")){
         		JSONObject jsonError = jsonResults.getJSONObject("error");
-        		if (_debug) Log.e("FacebookCommon.getFacebookNotifications() FACAEBOOK API ERROR: " + jsonError.getString("message"));
+        		Log.e("FacebookCommon.getFacebookNotifications() FACAEBOOK API ERROR: " + jsonError.getString("message"));
         		return null;
         	}
         	if(!jsonResults.has("data")){
@@ -436,7 +436,7 @@ public class FacebookCommon {
         	}
         	return facebookArray;
         }catch(Exception ex){
-        	if (_debug) Log.e("FacebookCommon.getFacebookMessages() ERROR: " + ex.toString());
+        	Log.e("FacebookCommon.getFacebookMessages() ERROR: " + ex.toString());
         	return null;
         }
 	}
@@ -467,7 +467,7 @@ public class FacebookCommon {
 			new setFacebookNotificationReadAsyncTask().execute(unreadParameter, notificationID);
 			return true;
 		}catch(Exception ex){
-			if (_debug) Log.e("FacebookCommon.setFacebookNotificationRead() ERROR: " + ex.toString());
+			Log.e("FacebookCommon.setFacebookNotificationRead() ERROR: " + ex.toString());
 			return false;
 		}
 	}
@@ -529,7 +529,7 @@ public class FacebookCommon {
 	        	}
 	        	return true;
 			}catch(Exception ex){
-				if (_debug) Log.e("FacebookCommon.setFacebookNotificationReadAsyncTask.doInBackground() ERROR: " + ex.toString());
+				Log.e("FacebookCommon.setFacebookNotificationReadAsyncTask.doInBackground() ERROR: " + ex.toString());
 		    	return false;
 			}
 	    }

@@ -123,7 +123,7 @@ public class MMSAlarmBroadcastReceiverService extends WakefulIntentService {
 		    	}
 		    }
 		}catch(Exception ex){
-			if (_debug) Log.e("MMSAlarmBroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());
+			Log.e("MMSAlarmBroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());
 		}
 	}
 		

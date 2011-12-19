@@ -190,18 +190,18 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
 							}
 						}
 					}catch(Exception ex){
-						if (_debug) Log.e("CalendarAlarmReceiverService.readCalendars() Event Query ERROR: " + ex.toString());
+						Log.e("CalendarAlarmReceiverService.readCalendars() Event Query ERROR: " + ex.toString());
 					}finally{
 						eventCursor.close();
 					}
 				}
 			}catch(Exception ex){
-				if (_debug) Log.e("CalendarAlarmReceiverService.readCalendars() Calendar Query ERROR: " + ex.toString());
+				Log.e("CalendarAlarmReceiverService.readCalendars() Calendar Query ERROR: " + ex.toString());
 			}finally{
 				cursor.close();
 			}
 		}catch(Exception ex){
-			if (_debug) Log.v("CalendarAlarmReceiverService.readCalendars() ERROR: " + ex.toString());
+			Log.e("CalendarAlarmReceiverService.readCalendars() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -223,7 +223,7 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
 	    	bundle.putStringArray("calenderEventInfo",new String[]{title, "", eventStartTime, eventEndTime, eventAllDay, calendarName, calendarID, eventID});
 			Common.startAlarm(context, CalendarNotificationAlarmReceiver.class, bundle, intentAction, scheduledAlarmTime);
 		}catch(Exception ex){
-			if (_debug) Log.v("CalendarAlarmReceiverService.scheduleCalendarNotification() ERROR: " + ex.toString());
+			Log.e("CalendarAlarmReceiverService.scheduleCalendarNotification() ERROR: " + ex.toString());
 		}
 	}
 		

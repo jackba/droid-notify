@@ -103,7 +103,7 @@ public class TwitterCommon {
 			//Return array.
 			return twitterArray;
 		}catch(Exception ex){
-			if (_debug) Log.e("TwitterCommon.getTwitterDirectMessages() ERROR: " + ex.toString());
+			Log.e("TwitterCommon.getTwitterDirectMessages() ERROR: " + ex.toString());
 			return null;
 		}
 	}
@@ -156,7 +156,7 @@ public class TwitterCommon {
 			//Return array.
 			return twitterArray;
 		}catch(Exception ex){
-			if (_debug) Log.e("TwitterCommon.getTwitterMentions() ERROR: " + ex.toString());
+			Log.e("TwitterCommon.getTwitterMentions() ERROR: " + ex.toString());
 			return null;
 		}
 	}
@@ -192,7 +192,7 @@ public class TwitterCommon {
 			//Return array.
 			return twitterArray;
 		}catch(Exception ex){
-			if (_debug) Log.e("TwitterCommon.getTwitterFollowers() ERROR: " + ex.toString());
+			Log.e("TwitterCommon.getTwitterFollowers() ERROR: " + ex.toString());
 			return null;
 		}
 	}
@@ -221,7 +221,7 @@ public class TwitterCommon {
 			User twitterUser = twitter.showUser(twitterID);
 			return getContactInfoByTwitterUser(context, twitterUser);
 		}catch(Exception ex){
-			if (_debug) Log.e("TwitterCommon.getContactInfoByTwitterID() ERROR: " + ex.toString());
+			Log.e("TwitterCommon.getContactInfoByTwitterID() ERROR: " + ex.toString());
 			return null;
 		}
 	}
@@ -279,7 +279,7 @@ public class TwitterCommon {
 			cursor.close();
 			return new String[]{String.valueOf(_contactID), _contactName, String.valueOf(_photoID), _lookupKey};
 		}catch(Exception ex){
-			if (_debug) Log.e("TwitterCommon.getContactInfoByTwitterUser() ERROR: " + ex.toString());
+			Log.e("TwitterCommon.getContactInfoByTwitterUser() ERROR: " + ex.toString());
 			return null;
 		}
 	}
@@ -301,7 +301,7 @@ public class TwitterCommon {
 				}
 			}
 		}catch(Exception ex){
-			if (_debug) Log.e("TwitterCommon.deleteTwitterItem() ERROR: " + ex.toString());
+			Log.e("TwitterCommon.deleteTwitterItem() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -323,7 +323,7 @@ public class TwitterCommon {
 			new deleteTwitterDirectMessageAsyncTask().execute(messageID);
 			return;
 		}catch(Exception ex){
-			if (_debug) Log.e("TwitterCommon.deleteTwitterDirectMessage() ERROR: " + ex.toString());
+			Log.e("TwitterCommon.deleteTwitterDirectMessage() ERROR: " + ex.toString());
 			return;
 		}
 	}	
@@ -352,7 +352,7 @@ public class TwitterCommon {
 	        Common.setInLinkedAppFlag(context, true);
 		    return true;
 		}catch(Exception ex){
-			if (_debug) Log.e("TwitterCommon.startTwitterAppActivity() ERROR: " + ex.toString());
+			Log.e("TwitterCommon.startTwitterAppActivity() ERROR: " + ex.toString());
 			Toast.makeText(context, context.getString(R.string.twitter_app_error), Toast.LENGTH_LONG).show();
 			Common.setInLinkedAppFlag(context, false);
 			return false;
@@ -377,7 +377,7 @@ public class TwitterCommon {
 			intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 	        return intent;
 		}catch(Exception ex){
-			if (_debug) Log.e("TwitterCommon.getTwitterAppActivityIntent() ERROR: " + ex.toString());
+			Log.e("TwitterCommon.getTwitterAppActivityIntent() ERROR: " + ex.toString());
 			return null;
 		}
 	}
@@ -419,7 +419,7 @@ public class TwitterCommon {
 	        Common.setInLinkedAppFlag(context, true);
 	        return true;
 		}catch(Exception ex){
-			if (_debug) Log.e("TwitterCommon.startTwitterQuickReplyActivity() ERROR: " + ex.toString());
+			Log.e("TwitterCommon.startTwitterQuickReplyActivity() ERROR: " + ex.toString());
 			Toast.makeText(context, context.getString(R.string.app_android_quick_reply_app_error), Toast.LENGTH_LONG).show();
 			Common.setInLinkedAppFlag(context, false);
 			return false;
@@ -489,7 +489,7 @@ public class TwitterCommon {
 			long pollingFrequency = Long.parseLong(preferences.getString(Constants.TWITTER_POLLING_FREQUENCY_KEY, Constants.TWITTER_POLLING_FREQUENCY_DEFAULT)) * 60 * 1000;
 			alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, alarmStartTime, pollingFrequency, pendingIntent);
 		}catch(Exception ex){
-			if (_debug) Log.e("TwitterCommon.startTwitterAlarmManager() ERROR: " + ex.toString());
+			Log.e("TwitterCommon.startTwitterAlarmManager() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -506,7 +506,7 @@ public class TwitterCommon {
 			String intentActionText = "apps.droidnotify.alarm/TwitterAlarmReceiverAlarm/" + String.valueOf(System.currentTimeMillis());
 			Common.startAlarm(context, TwitterAlarmReceiver.class, null, intentActionText, alarmStartTime);
 		}catch(Exception ex){
-			if (_debug) Log.e("TwitterCommon.setTwitterAlarm() ERROR: " + ex.toString());
+			Log.e("TwitterCommon.setTwitterAlarm() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -524,7 +524,7 @@ public class TwitterCommon {
 			PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
 			alarmManager.cancel(pendingIntent);
 		}catch(Exception ex){
-			if (_debug) Log.e("TwitterCommon.cancelTwitterAlarmManager() ERROR: " + ex.toString());
+			Log.e("TwitterCommon.cancelTwitterAlarmManager() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -548,7 +548,7 @@ public class TwitterCommon {
 			}
 			return true;
 		} catch (Exception ex) {
-			if (_debug) Log.e("TwitterCommon.isTwitterAuthenticated() ERROR: " + ex.toString());
+			Log.e("TwitterCommon.isTwitterAuthenticated() ERROR: " + ex.toString());
 			return false;
 		}
 	}
@@ -580,7 +580,7 @@ public class TwitterCommon {
 			Twitter twitter = twitterFactory.getInstance(accessToken);
 			return twitter;
 		}catch(Exception ex){
-			if (_debug) Log.e("TwitterCommon.getTwitter() ERROR: " + ex.toString());
+			Log.e("TwitterCommon.getTwitter() ERROR: " + ex.toString());
 			return null;
 		}	
 	}
@@ -612,7 +612,7 @@ public class TwitterCommon {
 				twitter.sendDirectMessage(Long.parseLong(params[0]), params[1]);
 				return true;
 			}catch(Exception ex){
-				if (_debug) Log.e("TwitterCommon.sendTwitterDirectMessageAsyncTask.doInBackground() ERROR: " + ex.toString());
+				Log.e("TwitterCommon.sendTwitterDirectMessageAsyncTask.doInBackground() ERROR: " + ex.toString());
 				return false;
 			}
 	    }
@@ -663,7 +663,7 @@ public class TwitterCommon {
 				}
 				return true;
 			}catch(Exception ex){
-				if (_debug) Log.e("TwitterCommon.sendTweetAsyncTask.doInBackground() ERROR: " + ex.toString());
+				Log.e("TwitterCommon.sendTweetAsyncTask.doInBackground() ERROR: " + ex.toString());
 				return false;
 			}
 	    }
@@ -708,7 +708,7 @@ public class TwitterCommon {
 				twitter.destroyDirectMessage(messageID);
 				return true;
 			}catch(Exception ex){
-				if (_debug) Log.e("TwitterCommon.deleteTwitterDirectMessageAsyncTask.doInBackground() ERROR: " + ex.toString());
+				Log.e("TwitterCommon.deleteTwitterDirectMessageAsyncTask.doInBackground() ERROR: " + ex.toString());
 				return false;
 			}
 	    }

@@ -446,7 +446,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 				editor.commit();
 				displayHTMLAlertDialog(_context.getString(R.string.app_license),R.drawable.ic_dialog_info, _context.getString(R.string.eula_text));
 			}catch(Exception ex){
- 	    		if (_debug) Log.e("MainPreferenceActivity.runOnceEula() EULA ERROR: " + ex.toString());
+ 	    		Log.e("MainPreferenceActivity.runOnceEula() EULA ERROR: " + ex.toString());
 	    	}
 		}
 	}
@@ -469,7 +469,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		    	try{
 		    		startActivity(intent);
 		    	}catch(Exception ex){
-	 	    		if (_debug) Log.e("MainPreferenceActivity() Test Notifications Button ERROR: " + ex.toString());
+	 	    		Log.e("MainPreferenceActivity() Test Notifications Button ERROR: " + ex.toString());
 	 	    		Toast.makeText(_context, _context.getString(R.string.app_android_test_app_error), Toast.LENGTH_LONG).show();
 	 	    		return false;
 		    	}
@@ -484,7 +484,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		    	try{
 		    		showQuietTimePeriodDialog();
 		    	}catch(Exception ex){
-	 	    		if (_debug) Log.e("MainPreferenceActivity() Quiet Time Button ERROR: " + ex.toString());
+	 	    		Log.e("MainPreferenceActivity() Quiet Time Button ERROR: " + ex.toString());
 	 	    		//Toast.makeText(_context, _context.getString(R.string.app_preference_quiet_time_error), Toast.LENGTH_LONG).show();
 	 	    		return false;
 		    	}
@@ -500,7 +500,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			    	//Run this process in the background in an AsyncTask.
 			    	new clearTwitterAuthenticationDataAsyncTask().execute();
 		    	}catch(Exception ex){
-	 	    		if (_debug) Log.e("MainPreferenceActivity() Clear Twitter Authentication Data Button ERROR: " + ex.toString());
+	 	    		Log.e("MainPreferenceActivity() Clear Twitter Authentication Data Button ERROR: " + ex.toString());
 	 	    		return false;
 		    	}
 	            return true;
@@ -515,7 +515,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			    	//Run this process in the background in an AsyncTask.
 			    	new clearFacebookAuthenticationDataAsyncTask().execute();
 		    	}catch(Exception ex){
-	 	    		if (_debug) Log.e("MainPreferenceActivity() Clear Facebook Authentication Data Button ERROR: " + ex.toString());
+	 	    		Log.e("MainPreferenceActivity() Clear Facebook Authentication Data Button ERROR: " + ex.toString());
 	 	    		return false;
 		    	}
 	            return true;
@@ -547,7 +547,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			    	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_NO_HISTORY);
 		    		startActivity(intent);
 		    	}catch(Exception ex){
-	 	    		if (_debug) Log.e("MainPreferenceActivity() Rate This App Button ERROR: " + ex.toString());
+	 	    		Log.e("MainPreferenceActivity() Rate This App Button ERROR: " + ex.toString());
 	 	    		Toast.makeText(_context, _context.getString(R.string.app_android_rate_app_error), Toast.LENGTH_LONG).show();
 	 	    		return false;
 		    	}
@@ -562,7 +562,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		    	try{
 		    		showDialog(Constants.DIALOG_UPGRADE);
 		    	}catch(Exception ex){
-	 	    		if (_debug) Log.e("MainPreferenceActivity() Upgrade Button ERROR: " + ex.toString());
+	 	    		Log.e("MainPreferenceActivity() Upgrade Button ERROR: " + ex.toString());
 	 	    		return false;
 		    	}
 	            return true;
@@ -579,7 +579,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			    	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
 		    		startActivity(intent);
 		    	}catch(Exception ex){
-	 	    		if (_debug) Log.e("MainPreferenceActivity() Email Developer Button ERROR: " + ex.toString());
+	 	    		Log.e("MainPreferenceActivity() Email Developer Button ERROR: " + ex.toString());
 	 	    		Toast.makeText(_context, _context.getString(R.string.app_android_email_app_error), Toast.LENGTH_LONG).show();
 	 	    		return false;
 		    	}
@@ -615,7 +615,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			    	//Run this process in the background in an AsyncTask.
 			    	new exportPreferencesAsyncTask().execute();
 		    	}catch(Exception ex){
-	 	    		if (_debug) Log.e("MainPreferenceActivity() Export Preferences Button ERROR: " + ex.toString());
+	 	    		Log.e("MainPreferenceActivity() Export Preferences Button ERROR: " + ex.toString());
 	 	    		return false;
 		    	}
 	            return true;
@@ -630,7 +630,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			    	//Run this process in the background in an AsyncTask.
 			    	new importPreferencesAsyncTask().execute();
 		    	}catch(Exception ex){
-	 	    		if (_debug) Log.e("MainPreferenceActivity() Import Preferences Button ERROR: " + ex.toString());
+	 	    		Log.e("MainPreferenceActivity() Import Preferences Button ERROR: " + ex.toString());
 	 	    		return false;
 		    	}
 	            return true;
@@ -663,7 +663,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			    	if(logFileE.exists()) intent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///mnt/sdcard/Droid Notify/Logs/E/DroidNotifyLog.txt"));
 		    		startActivity(intent);
 		    	}catch(Exception ex){
-	 	    		if (_debug) Log.e("MainPreferenceActivity() Email Developer Logs Button ERROR: " + ex.toString());
+	 	    		Log.e("MainPreferenceActivity() Email Developer Logs Button ERROR: " + ex.toString());
 	 	    		Toast.makeText(_context, _context.getString(R.string.app_android_email_app_error), Toast.LENGTH_LONG).show();
 	 	    		return false;
 		    	}
@@ -679,7 +679,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			    	//Run this process in the background in an AsyncTask.
 			    	new clearDeveloperLogAsyncTask().execute();
 		    	}catch(Exception ex){
-	 	    		if (_debug) Log.e("MainPreferenceActivity() Clear Developer Logs Button ERROR: " + ex.toString());
+	 	    		Log.e("MainPreferenceActivity() Clear Developer Logs Button ERROR: " + ex.toString());
 	 	    		return false;
 		    	}
 	            return true;
@@ -765,7 +765,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 				    	//Display Pro Version Only Popup
 			    		showDialog(Constants.DIALOG_FEATURE_AVAILABLE_WITH_PRO_VERSION_TWITTER);
 			    	}catch(Exception ex){
-		 	    		if (_debug) Log.e("MainPreferenceActivity() Twitter Pro Placeholder Button ERROR: " + ex.toString());
+		 	    		Log.e("MainPreferenceActivity() Twitter Pro Placeholder Button ERROR: " + ex.toString());
 		 	    		return false;
 			    	}
 		            return true;
@@ -782,7 +782,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 				    	//Display Pro Version Only Popup
 			    		showDialog(Constants.DIALOG_FEATURE_AVAILABLE_WITH_PRO_VERSION_FACEBOOK);
 			    	}catch(Exception ex){
-		 	    		if (_debug) Log.e("MainPreferenceActivity() Facebook Pro Placeholder Button ERROR: " + ex.toString());
+		 	    		Log.e("MainPreferenceActivity() Facebook Pro Placeholder Button ERROR: " + ex.toString());
 		 	    		return false;
 			    	}
 		            return true;
@@ -838,11 +838,11 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		    //We can read and write the media. Do nothing.
 		} else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
 		    // We can only read the media.
-			if (_debug) Log.e("MainPreferenceActivity.clearDeveloperLogs() External Storage Read Only State");
+			Log.e("MainPreferenceActivity.clearDeveloperLogs() External Storage Read Only State");
 		    return;
 		} else {
 		    // Something else is wrong. It may be one of many other states, but all we need to know is we can neither read nor write
-			if (_debug) Log.e("MainPreferenceActivity.clearDeveloperLogs() External Storage Can't Write Or Read State");
+			Log.e("MainPreferenceActivity.clearDeveloperLogs() External Storage Can't Write Or Read State");
 		    return;
 		}
 		try{
@@ -860,39 +860,39 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	    		try{
 	    			logFileV.delete();
 	    		}catch (Exception ex){
-	    			if (_debug) Log.e("MainPreferenceActivity.clearDeveloperLogs() LogFileV ERROR: " + ex.toString());
+	    			Log.e("MainPreferenceActivity.clearDeveloperLogs() LogFileV ERROR: " + ex.toString());
 				}
 	    	}
 	    	if(logFileD.exists()){
 	    		try{
 	    			logFileD.delete();
 	    		}catch (Exception ex){
-	    			if (_debug) Log.e("MainPreferenceActivity.clearDeveloperLogs() LogFileD ERROR: " + ex.toString());
+	    			Log.e("MainPreferenceActivity.clearDeveloperLogs() LogFileD ERROR: " + ex.toString());
 				}
 	    	}
 	    	if(logFileI.exists()){
 	    		try{
 	    			logFileI.delete();
 	    		}catch (Exception ex){
-	    			if (_debug) Log.e("MainPreferenceActivity.clearDeveloperLogs() LogFileI ERROR: " + ex.toString());
+	    			Log.e("MainPreferenceActivity.clearDeveloperLogs() LogFileI ERROR: " + ex.toString());
 				}
 	    	}
 	    	if(logFileW.exists()){
 	    		try{
 	    			logFileW.delete();
 	    		}catch (Exception ex){
-	    			if (_debug) Log.e("MainPreferenceActivity.clearDeveloperLogs() LogFileW ERROR: " + ex.toString());
+	    			Log.e("MainPreferenceActivity.clearDeveloperLogs() LogFileW ERROR: " + ex.toString());
 				}
 	    	}
 	    	if(logFileE.exists()){
 	    		try{
 	    			logFileE.delete();
 	    		}catch (Exception ex){
-	    			if (_debug) Log.e("MainPreferenceActivity.clearDeveloperLogs() LogFileE ERROR: " + ex.toString());
+	    			Log.e("MainPreferenceActivity.clearDeveloperLogs() LogFileE ERROR: " + ex.toString());
 				}
 	    	}
     	}catch (Exception ex){
-			if (_debug) Log.e("MainPreferenceActivity.clearDeveloperLogs() ERROR: " + ex.toString());
+			Log.e("MainPreferenceActivity.clearDeveloperLogs() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -950,11 +950,11 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		    //We can read and write the media. Do nothing.
 		} else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
 		    // We can only read the media.
-			if (_debug) Log.e("MainPreferenceActivity.exportApplicationPreferences() External Storage Read Only State");
+			Log.e("MainPreferenceActivity.exportApplicationPreferences() External Storage Read Only State");
 		    return false;
 		} else {
 		    // Something else is wrong. It may be one of many other states, but all we need to know is we can neither read nor write
-			if (_debug) Log.e("MainPreferenceActivity.exportApplicationPreferences() External Storage Can't Write Or Read State");
+			Log.e("MainPreferenceActivity.exportApplicationPreferences() External Storage Can't Write Or Read State");
 		    return false;
 		}
     	File preferencesFilePath = Environment.getExternalStoragePublicDirectory("Droid Notify/Preferences");
@@ -987,7 +987,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			}
 			buf.close();
 		}catch (Exception ex){
-			if (_debug) Log.e("MainPreferenceActivity.exportApplicationPreferences() Wrtie File ERROR: " + ex.toString());
+			Log.e("MainPreferenceActivity.exportApplicationPreferences() Wrtie File ERROR: " + ex.toString());
 			return false;
 		}
 		return true;
@@ -1049,7 +1049,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		    // We can only read the media. Do nothing.
 		} else {
 		    // Something else is wrong. It may be one of many other states, but all we need to know is we can neither read nor write
-			if (_debug) Log.e("MainPreferenceActivity.importApplicationPreferences() External Storage Can't Write Or Read State");
+			Log.e("MainPreferenceActivity.importApplicationPreferences() External Storage Can't Write Or Read State");
 		    return false;
 		}
     	if (!checkPreferencesFileExists("Droid Notify/Preferences/", "DroidNotifyPreferences.txt")){
@@ -1078,7 +1078,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
     	    }
     		editor.commit();
     	}catch (IOException ex) {
-    		if (_debug) Log.e("MainPreferenceActivity.importApplicationPreferences() ERROR: " + ex.toString());
+    		Log.e("MainPreferenceActivity.importApplicationPreferences() ERROR: " + ex.toString());
     		return false;
     	}
 		return true;
@@ -1130,7 +1130,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
     		AlertDialog alertDialog = builder.create();
     		alertDialog.show();
     	}catch(Exception ex){
-	    		if (_debug) Log.e("MainPreferenceActivity.displayHTMLAlertDialog() ERROR: " + ex.toString());
+	    		Log.e("MainPreferenceActivity.displayHTMLAlertDialog() ERROR: " + ex.toString());
 	    		return false;
     	}
 		return true;
@@ -1145,7 +1145,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			Preference importPreference = (Preference) findPreference("import_preferences");
 			if(importPreference != null) importPreference.setEnabled(checkPreferencesFileExists("Droid Notify/Preferences/", "DroidNotifyPreferences.txt"));
 		}catch(Exception ex){
-			if (_debug) Log.e("MainPreferenceActivity.setupImportPreferences() ERROR: " + ex.toString());
+			Log.e("MainPreferenceActivity.setupImportPreferences() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -1234,7 +1234,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			PreferenceScreen quickReplyPreferenceScreen = (PreferenceScreen) findPreference(Constants.QUICK_REPLY_SETTINGS_SCREEN);
 			if(quickReplyPreferenceScreen != null) quickReplyPreferenceScreen.setEnabled(quickReplyEnabled);
 		}catch(Exception ex){
-			if (_debug) Log.e("MainPreferenceActivity.updateQuickReplySettings() ERROR: " + ex.toString());
+			Log.e("MainPreferenceActivity.updateQuickReplySettings() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -1312,7 +1312,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 				}
 			}
 		}catch(Exception ex){
-			if (_debug) Log.e("MainPreferenceActivity.updateStatusBarNotificationRingtone() ERROR: " + ex.toString());
+			Log.e("MainPreferenceActivity.updateStatusBarNotificationRingtone() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -1411,7 +1411,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 				}
 			}
 		}catch(Exception ex){
-			if (_debug) Log.e("MainPreferenceActivity.updateStatusBarNotificationVibrate() ERROR: " + ex.toString());
+			Log.e("MainPreferenceActivity.updateStatusBarNotificationVibrate() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -1446,7 +1446,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			CheckBoxPreference clearStatusBarNotificationsOnExitCheckBoxPreference = (CheckBoxPreference) findPreference(Constants.CLEAR_STATUS_BAR_NOTIFICATIONS_ON_EXIT_KEY);
 			if(clearStatusBarNotificationsOnExitCheckBoxPreference != null) clearStatusBarNotificationsOnExitCheckBoxPreference.setEnabled(enabled);
 		}catch(Exception ex){
-			if (_debug) Log.e("MainPreferenceActivity.updateClearStatusBarNotifications() ERROR: " + ex.toString());
+			Log.e("MainPreferenceActivity.updateClearStatusBarNotifications() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -1486,7 +1486,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			    }
 				editor.commit();
 			}catch(Exception ex){
- 	    		if (_debug) Log.e("MainPreferenceActivity.checkSystemDateTimeFormat() ERROR: " + ex.toString());
+ 	    		Log.e("MainPreferenceActivity.checkSystemDateTimeFormat() ERROR: " + ex.toString());
 	    	}
 		}		
 	}
@@ -1526,7 +1526,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		    overridePendingTransition(0, 0);
 		    startActivity(intent);
 		}catch(Exception ex){
-			if (_debug) Log.e("MainPreferenceActivity.reloadPreferenceActivity() ERROR: " + ex.toString());
+			Log.e("MainPreferenceActivity.reloadPreferenceActivity() ERROR: " + ex.toString());
 		}
 	}
 	

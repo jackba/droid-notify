@@ -43,7 +43,7 @@ public class ScreenManagementAlarmBroadcastReceiverService extends WakefulIntent
 			Common.clearKeyguardLock();
 			Common.clearWakeLock();
 		}catch(Exception ex){
-			if (_debug) Log.e("ScreenManagementAlarmBroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());
+			Log.e("ScreenManagementAlarmBroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());
 		}
 	}
 		

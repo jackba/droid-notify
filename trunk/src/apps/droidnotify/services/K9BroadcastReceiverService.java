@@ -129,7 +129,7 @@ public class K9BroadcastReceiverService extends WakefulIntentService {
 		    	}
 		    }
 		}catch(Exception ex){
-			if (_debug) Log.e("K9BroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());
+			Log.e("K9BroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());
 		}
 	}
 		

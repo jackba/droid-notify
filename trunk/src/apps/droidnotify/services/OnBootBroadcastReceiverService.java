@@ -70,7 +70,7 @@ public class OnBootBroadcastReceiverService extends WakefulIntentService {
 		    	FacebookCommon.startFacebookAlarmManager(context, System.currentTimeMillis() + (5 * 60 * 1000));
 			}
 		}catch(Exception ex){
-			if (_debug) Log.e("OnBootBroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());
+			Log.e("OnBootBroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());
 		}
 	}
 		
