@@ -37,6 +37,7 @@ import apps.droidnotify.log.Log;
 import apps.droidnotify.calendar.CalendarCommon;
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
+import apps.droidnotify.email.EmailCommon;
 import apps.droidnotify.facebook.FacebookCommon;
 import apps.droidnotify.phone.PhoneCommon;
 import apps.droidnotify.preferences.MainPreferenceActivity;
@@ -293,7 +294,7 @@ public class NotificationActivity extends Activity {
 				return CalendarCommon.startViewCalendarActivity(_context, this, Constants.CALENDAR_ACTIVITY);
 			}
 			case VIEW_K9_INBOX_CONTEXT_MENU:{
-				return Common.startK9EmailAppViewInboxActivity(_context, this, Constants.K9_VIEW_EMAIL_ACTIVITY);
+				return EmailCommon.startK9EmailAppViewInboxActivity(_context, this, notification.getNotificationSubType(), Constants.K9_VIEW_EMAIL_ACTIVITY);
 			}
 			case OPEN_TWITTER_APP_CONTEXT_MENU:{
 				return TwitterCommon.startTwitterAppActivity(_context, this, Constants.TWITTER_OPEN_APP_ACTIVITY);
@@ -2083,39 +2084,42 @@ public class NotificationActivity extends Activity {
 			long timeStamp = 0;
 			String k9EmailUri = null;
 			String k9EmailDelUri = null;
+			int notificationSubType = 0;
 			try{
 				int k9InfoSize = k9Info.length;
-				if(k9InfoSize < 6){
+				if(k9InfoSize < 7){
 					Log.e("NotificationActivity.setupK9EmailNotifications() FATAL NOTIFICATION ERROR. k9Info.length: " + k9InfoSize);
 					return false;
-				}else if(k9InfoSize == 6){
-					sentFromAddress = k9Info[0];
-					messageBody = k9Info[1];
-					messageID = Long.parseLong(k9Info[2]);
-					timeStamp = Long.parseLong(k9Info[3]);
-					k9EmailUri = k9Info[4];
-					k9EmailDelUri = k9Info[5];
+				}else if(k9InfoSize == 7){
+					notificationSubType = Integer.parseInt(k9Info[0]);
+					sentFromAddress = k9Info[1];
+					messageBody = k9Info[2];
+					messageID = Long.parseLong(k9Info[3]);
+					timeStamp = Long.parseLong(k9Info[4]);
+					k9EmailUri = k9Info[5];
+					k9EmailDelUri = k9Info[6];
 				}else{
-					sentFromAddress = k9Info[0];
-					messageBody = k9Info[1];
-					messageID = Long.parseLong(k9Info[2]);
-					timeStamp = Long.parseLong(k9Info[3]);
-					k9EmailUri = k9Info[4];
-					k9EmailDelUri = k9Info[5];
-					contactID = Long.parseLong(k9Info[6]);
-					contactName = k9Info[7];
-					photoID = Long.parseLong(k9Info[8]);
-					if(k9InfoSize < 10){
+					notificationSubType = Integer.parseInt(k9Info[0]);
+					sentFromAddress = k9Info[1];
+					messageBody = k9Info[2];
+					messageID = Long.parseLong(k9Info[3]);
+					timeStamp = Long.parseLong(k9Info[4]);
+					k9EmailUri = k9Info[5];
+					k9EmailDelUri = k9Info[6];
+					contactID = Long.parseLong(k9Info[7]);
+					contactName = k9Info[8];
+					photoID = Long.parseLong(k9Info[9]);
+					if(k9InfoSize < 11){
 						lookupKey = "";
 					}else{
-						lookupKey = k9Info[9];
+						lookupKey = k9Info[10];
 					}
 				}
 			}catch(Exception ex){
 				Log.e("NotificationActivity.setupK9EmailNotifications() ERROR: " + ex.toString()); 
 				return false;
 			}
-			_notificationViewFlipper.addNotification(new Notification(_context, sentFromAddress, 0, messageBody, timeStamp, contactID, contactName, photoID, messageID, null, lookupKey, k9EmailUri, k9EmailDelUri, Constants.NOTIFICATION_TYPE_K9, 0));		    
+			_notificationViewFlipper.addNotification(new Notification(_context, sentFromAddress, 0, messageBody, timeStamp, contactID, contactName, photoID, messageID, null, lookupKey, k9EmailUri, k9EmailDelUri, Constants.NOTIFICATION_TYPE_K9, notificationSubType));		    
 			//Display Status Bar Notification
 		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_K9, 0, true, contactName, sentFromAddress, messageBody, k9EmailUri);
 		}

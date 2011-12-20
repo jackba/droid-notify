@@ -12,6 +12,7 @@ import android.speech.tts.TextToSpeech;
 
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
+import apps.droidnotify.email.EmailCommon;
 import apps.droidnotify.facebook.FacebookCommon;
 import apps.droidnotify.log.Log;
 import apps.droidnotify.phone.PhoneCommon;
@@ -905,7 +906,7 @@ public class Notification {
 		}else if(_notificationType == Constants.NOTIFICATION_TYPE_FACEBOOK){
 			FacebookCommon.deleteFacebookItem(_context, this);
 		}else if(_notificationType == Constants.NOTIFICATION_TYPE_K9){
-			Common.deleteK9Email(_context, _k9EmailDelUri);
+			EmailCommon.deleteK9Email(_context, _k9EmailDelUri, _notificationSubType);
 		}
 	}
 	

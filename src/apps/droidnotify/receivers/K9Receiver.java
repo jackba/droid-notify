@@ -39,6 +39,7 @@ public class K9Receiver extends BroadcastReceiver{
 		try{
 			Intent k9BroadcastReceiverServiceIntent = new Intent(context, K9BroadcastReceiverService.class);
 		    k9BroadcastReceiverServiceIntent.putExtras(intent.getExtras());
+		    k9BroadcastReceiverServiceIntent.setAction(intent.getAction());
 			WakefulIntentService.sendWakefulWork(context, k9BroadcastReceiverServiceIntent);
 		}catch(Exception ex){
 			Log.e("K9Receiver.onReceive() ERROR: " + ex.toString());
