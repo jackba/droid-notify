@@ -1,5 +1,15 @@
 package apps.droidnotify.linkedin;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.google.code.linkedinapi.client.LinkedInApiClient;
+import com.google.code.linkedinapi.client.LinkedInApiClientFactory;
+import com.google.code.linkedinapi.client.oauth.LinkedInAccessToken;
+import com.google.code.linkedinapi.schema.Network;
+import com.google.code.linkedinapi.schema.Update;
+import com.google.code.linkedinapi.schema.Updates;
+
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -29,80 +39,46 @@ public class LinkedInCommon {
 	// Public Methods
 	//================================================================================
 		
-//	/**
-//	 * Get LinkedIn Direct Messages. Read account and notify as needed.
-//	 * 
-//	 * @param context - The application context.
-//	 * 
-//	 * @return ArrayList<String> - Returns an ArrayList of Strings that contain the LinkedIn information.
-//	 */
-//	public static ArrayList<String> getLinkedInDirectMessages(Context context, LinkedIn LINKEDIN){
-//		_debug = Log.getDebug();
-//		if (_debug) Log.v("LinkedInCommon.getLinkedInDirectMessages()");
-//		try{
-//			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-//			//Retrieve the date filter.
-//			Calendar today = Calendar.getInstance();
-//			today.set(Calendar.MILLISECOND, 0);
-//			today.set(Calendar.SECOND, 0);
-//			today.set(Calendar.MINUTE, 0);
-//			today.set(Calendar.HOUR_OF_DAY, 0);
-//			long currentDateTime = today.getTimeInMillis();
-//			long dateFilter = preferences.getLong(Constants.LINKEDIN_DIRECT_MESSAGE_DATE_FILTER_KEY, currentDateTime);		
-//			long maxDateTime = 0;
-//		    ResponseList <DirectMessage> messages = LINKEDIN.getDirectMessages();
-//		    ArrayList<String> LINKEDINArray = new ArrayList<String>();
-//			for(DirectMessage message: messages){
-//				long timeStamp = message.getCreatedAt().getTime();
-//				if(timeStamp > maxDateTime){
-//					maxDateTime = timeStamp;
-//				}
-//				if(timeStamp > dateFilter){
-//					String messageBody = message.getText();
-//					long messageID = message.getId();					
-//			    	String sentFromAddress = message.getSenderScreenName();
-//			    	long LINKEDINID = message.getSenderId();
-//		    		String[] LINKEDINContactInfo = getContactInfoByLinkedInID(context, LINKEDINID);
-//		    		if(LINKEDINContactInfo == null){
-//		    			LINKEDINArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_LINKEDIN_DIRECT_MESSAGE) + "|" + sentFromAddress + "|" + LINKEDINID + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + timeStamp);
-//					}else{
-//						LINKEDINArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_LINKEDIN_DIRECT_MESSAGE) + "|" + sentFromAddress + "|" + LINKEDINID + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + timeStamp + "|" + LINKEDINContactInfo[0] + "|" + LINKEDINContactInfo[1] + "|" + LINKEDINContactInfo[2] + "|" + LINKEDINContactInfo[3]);
-//					}
-//				}
-//			}
-//			//Store the max date in the preferences.
-//			//Don't load any messages that are older than this date next time around.
-//			SharedPreferences.Editor editor = preferences.edit();
-//			editor.putLong(Constants.LINKEDIN_DIRECT_MESSAGE_DATE_FILTER_KEY, maxDateTime);
-//			editor.commit();
-//			//Return array.
-//			return LINKEDINArray;
-//		}catch(Exception ex){
-//			if (_debug) Log.e("LinkedInCommon.getLinkedInDirectMessages() ERROR: " + ex.toString());
-//			return null;
-//		}
-//	}
-	
-//	/**
-//	 * Delete a LinkedIn item.
-//	 * 
-//	 * @param context - The current context of this Activity.
-//	 * @param messageID - The message ID that we want to delete.
-//	 */
-//	public static void deleteLinkedInItem(Context context, apps.droidnotify.Notification notification){
-//		_debug = Log.getDebug();
-//		if (_debug) Log.v("LinkedInCommon.deleteLinkedInItem()");
-//		try{
-//			switch(notification.getNotificationSubType()){
-//				case Constants.NOTIFICATION_TYPE_LINKEDIN_DIRECT_MESSAGE:{
-//					deleteLinkedInDirectMessage(context, notification.getMessageID());
-//					return;
-//				}
-//			}
-//		}catch(Exception ex){
-//			if (_debug) Log.e("LinkedInCommon.deleteLinkedInItem() ERROR: " + ex.toString());
-//		}
-//	}
+	/**
+	 * Get LinkedIn Updates. Read account and notify as needed.
+	 * 
+	 * @param context - The application context.
+	 * 
+	 * @return ArrayList<String> - Returns an ArrayList of Strings that contain the LinkedIn information.
+	 */
+	public static ArrayList<String> getLinkedInupdates(Context context, LinkedInApiClient linkedInClient){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("LinkedInCommon.getLinkedInupdates()");
+		try{
+		    Network results = linkedInClient.getUserUpdates();
+		    Updates updateResults = results.getUpdates();
+		    List<Update> updateList = updateResults.getUpdateList();
+		    ArrayList<String> linkedInArray = new ArrayList<String>();
+		    int updateListSize = updateList.size();
+		    for(int i = 1; i< updateListSize; i++){
+		    	Update linkedInUpdate = updateList.get(i);
+		    	if (_debug) Log.v("LinkedInCommon.getLinkedInupdates() linkedInUpdate.getTimestamp(): " + linkedInUpdate.getTimestamp());
+				long timeStamp = linkedInUpdate.getTimestamp();
+				
+
+//				String messageBody = message.getText();
+//				long messageID = message.getId();					
+//		    	String sentFromAddress = message.getSenderScreenName();
+//		    	long linkedInID = message.getSenderId();
+//	    		String[] linkedInContactInfo = getContactInfoByLinkedInID(context, linkedInID);
+//	    		if(linkedInContactInfo == null){
+//	    			linkedInArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_LINKEDIN_UPDATE) + "|" + sentFromAddress + "|" + linkedInID + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + timeStamp);
+//				}else{
+//					linkedInArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_LINKEDIN_UPDATE) + "|" + sentFromAddress + "|" + linkedInID + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + timeStamp + "|" + linkedInContactInfo[0] + "|" + linkedInContactInfo[1] + "|" + linkedInContactInfo[2] + "|" + linkedInContactInfo[3]);
+//				}			
+			}
+			//Return array.
+			return linkedInArray;
+		}catch(Exception ex){
+			if (_debug) Log.e("LinkedInCommon.getLinkedInupdates() ERROR: " + ex.toString());
+			return null;
+		}
+	}
 	
 //	/**
 //	 * Launch a LinkedIn application.
@@ -283,42 +259,34 @@ public class LinkedInCommon {
 		}
 	}
 	
-//	/**
-//	 * Initialize and return a LinkedIn object.
-//	 * 
-//	 * @param context - The application context.
-//	 * 
-//	 * @return LinkedIn - The initialized LinkedIn object or null.
-//	 */
-//	public static LinkedIn getLinkedIn(Context context){
-//		_debug = Log.getDebug();
-//		if (_debug) Log.v("LinkedInCommon.getLinkedIn()");
-//		try{
-//			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-//			String oauthToken = preferences.getString(Constants.LINKEDIN_OAUTH_TOKEN, null);
-//			String oauthTokenSecret = preferences.getString(Constants.LINKEDIN_OAUTH_TOKEN_SECRET, null);
-//			if(oauthToken == null || oauthTokenSecret == null){
-//				if (_debug) Log.v("LinkedInCommon.getLinkedIn() Oauth values are null. Exiting...");
-//				return null;
-//			}
-//			ConfigurationBuilder configurationBuilder = new ConfigurationBuilder(); 
-//			configurationBuilder.setOAuthConsumerKey(Constants.LINKEDIN_CONSUMER_KEY); 
-//			configurationBuilder.setOAuthConsumerSecret(Constants.LINKEDIN_CONSUMER_SECRET); 
-//			Configuration configuration =  configurationBuilder.build();  
-//			AccessToken accessToken = new AccessToken(oauthToken, oauthTokenSecret);
-//			LinkedInFactory LINKEDINFactory = new LinkedInFactory(configuration);
-//			LinkedIn LINKEDIN = LINKEDINFactory.getInstance(accessToken);
-//			return LINKEDIN;
-//		}catch(Exception ex){
-//			if (_debug) Log.e("LinkedInCommon.getLinkedIn() ERROR: " + ex.toString());
-//			return null;
-//		}	
-//	}
-
-	//================================================================================
-	// Private Methods
-	//================================================================================
-	
-
+	/**
+	 * Initialize and return a LinkedIn client object.
+	 * 
+	 * @param context - The application context.
+	 * 
+	 * @return LinkedIn - The initialized LinkedIn client object or null.
+	 */
+	public static LinkedInApiClient getLinkedIn(Context context){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("LinkedInCommon.getLinkedIn()");
+		try{
+			LinkedInApiClientFactory clientFactory = null;
+			LinkedInApiClient linkedInClient = null;
+			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+			String oauthToken = preferences.getString(Constants.LINKEDIN_OAUTH_TOKEN, null);
+			String oauthTokenSecret = preferences.getString(Constants.LINKEDIN_OAUTH_TOKEN_SECRET, null);
+			if(oauthToken == null || oauthTokenSecret == null){
+				if (_debug) Log.v("LinkedInCommon.getLinkedIn() Oauth values are null. Exiting...");
+				return null;
+			}
+			clientFactory = LinkedInApiClientFactory.newInstance(Constants.LINKEDIN_CONSUMER_KEY, Constants.LINKEDIN_CONSUMER_SECRET);
+			LinkedInAccessToken accessToken = new LinkedInAccessToken(oauthToken, oauthTokenSecret);
+			linkedInClient =  clientFactory.createLinkedInApiClient(accessToken);
+			return linkedInClient;
+		}catch(Exception ex){
+			if (_debug) Log.e("LinkedInCommon.getLinkedIn() ERROR: " + ex.toString());
+			return null;
+		}	
+	}
 	
 }

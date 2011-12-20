@@ -48,8 +48,6 @@ public class LinkedInAuthenticationActivity extends Activity {
 	private Button _cancelButton = null;
 	private LinkedInOAuthService _oAuthService = null;
 	private LinkedInRequestToken _linkedInToken = null;
-	//private LinkedInApiClientFactory _clientFactory = null;
-	//private LinkedInApiClient _linkedInClient = null;
 	  
 	//================================================================================
 	// Public Methods
@@ -69,7 +67,6 @@ public class LinkedInAuthenticationActivity extends Activity {
 		setContentView(R.layout.linkedin_authentication);
 		_oAuthService = LinkedInOAuthServiceFactory.getInstance().createLinkedInOAuthService(Constants.LINKEDIN_CONSUMER_KEY, Constants.LINKEDIN_CONSUMER_SECRET);
         _linkedInToken = _oAuthService.getOAuthRequestToken(Constants.LINKEDIN_CALLBACK_URL);
-		//_clientFactory = LinkedInApiClientFactory.newInstance(Constants.LINKEDIN_CONSUMER_KEY, Constants.LINKEDIN_CONSUMER_SECRET);
 		setupViews();
 		setupButtons();
 		if(LinkedInCommon.isLinkedInAuthenticated(_context)){

@@ -44,6 +44,7 @@ public class Constants {
 	public static final int NOTIFICATION_TYPE_TWITTER = 5;
 	public static final int NOTIFICATION_TYPE_FACEBOOK = 6;
 	public static final int NOTIFICATION_TYPE_K9 = 7;	
+	public static final int NOTIFICATION_TYPE_LINKEDIN = 8;
 	
 	//-----NOTIFICATION RESCHEDULE CONSTANTS-----//
 	public static final int NOTIFICATION_TYPE_RESCHEDULE_PHONE = 100;
@@ -54,6 +55,7 @@ public class Constants {
 	public static final int NOTIFICATION_TYPE_RESCHEDULE_TWITTER = 105;
 	public static final int NOTIFICATION_TYPE_RESCHEDULE_FACEBOOK = 106;
 	public static final int NOTIFICATION_TYPE_RESCHEDULE_K9 = 107;
+	public static final int NOTIFICATION_TYPE_RESCHEDULE_LINKEDIN = 108;
 
 	//-----NOTIFICATION SUB-TYPE CONSTANTS-----//
 	public static final int NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE = 200;
@@ -63,6 +65,8 @@ public class Constants {
 	public static final int NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION = 210;
 	public static final int NOTIFICATION_TYPE_FACEBOOK_MESSAGE = 211;
 	public static final int NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST = 212;
+	
+	public static final int NOTIFICATION_TYPE_LINKEDIN_UPDATE = 220;
 	
 	public static final int ADD_CONTACT_ACTIVITY = 1;
 	public static final int EDIT_CONTACT_ACTIVITY = 2;
@@ -490,6 +494,7 @@ public class Constants {
 	public static final String LINKEDIN_PRO_PREFERENCE_SCREEN_KEY = "linkedin_notification_settings_screen";
 	
 	public static final String LINKEDIN_NOTIFICATIONS_ENABLED_KEY = "linkedin_enabled";	
+	public static final String LINKEDIN_UPDATES_ENABLED_KEY = "linkedin_updates_enabled";	
 	public static final String LINKEDIN_POLLING_FREQUENCY_KEY = "linkedin_polling_frequency"; 
     public static final String LINKEDIN_POLLING_FREQUENCY_DEFAULT = "60"; 
 	
