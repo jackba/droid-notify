@@ -1273,10 +1273,18 @@ public class NotificationView extends LinearLayout {
 				//Reply using any installed Twitter app.
 				int notificationSubType = _notification.getNotificationSubType();
 			    if(notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE){
-			    	TwitterCommon.startTwitterQuickReplyActivity(_context, _notificationActivity, Constants.SEND_TWITTER_QUICK_REPLY_ACTIVITY, _notification.getSentFromID(), _notification.getSentFromAddress(), _notification.getContactName(), Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE);
-		    	}else if(notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_MENTION){
-		    		TwitterCommon.startTwitterQuickReplyActivity(_context, _notificationActivity, Constants.SEND_TWITTER_QUICK_REPLY_ACTIVITY, _notification.getSentFromID(), _notification.getSentFromAddress(), _notification.getContactName(), Constants.NOTIFICATION_TYPE_TWITTER_MENTION);
-		    	}
+			    	if(_preferences.getString(Constants.TWITTER_REPLY_BUTTON_ACTION_KEY, Constants.TWITTER_USE_QUICK_REPLY).equals(Constants.TWITTER_USE_QUICK_REPLY)){
+			    		TwitterCommon.startTwitterQuickReplyActivity(_context, _notificationActivity, Constants.SEND_TWITTER_QUICK_REPLY_ACTIVITY, _notification.getSentFromID(), _notification.getSentFromAddress(), _notification.getContactName(), Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE);
+			    	}else{
+			    		TwitterCommon.startTwitterAppActivity(_context, _notificationActivity, Constants.TWITTER_OPEN_APP_ACTIVITY);
+			    	}
+			    }else if(notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_MENTION){
+			    	if(_preferences.getString(Constants.TWITTER_REPLY_BUTTON_ACTION_KEY, Constants.TWITTER_USE_QUICK_REPLY).equals(Constants.TWITTER_USE_QUICK_REPLY)){
+			    		TwitterCommon.startTwitterQuickReplyActivity(_context, _notificationActivity, Constants.SEND_TWITTER_QUICK_REPLY_ACTIVITY, _notification.getSentFromID(), _notification.getSentFromAddress(), _notification.getContactName(), Constants.NOTIFICATION_TYPE_TWITTER_MENTION);
+			    	}else{
+			    		TwitterCommon.startTwitterAppActivity(_context, _notificationActivity, Constants.TWITTER_OPEN_APP_ACTIVITY);
+			    	}
+			    }
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_FACEBOOK:{

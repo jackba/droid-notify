@@ -2,6 +2,8 @@ package apps.droidnotify.services;
 
 import java.util.ArrayList;
 
+import com.google.code.linkedinapi.client.LinkedInApiClient;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -95,32 +97,31 @@ public class LinkedInAlarmBroadcastReceiverService extends WakefulIntentService 
 					String messageAddress = null;
 					String messageBody = null;
 				    //Get LinkedIn Object
-//					Facebook facebook = FacebookCommon.getFacebook(context);
-//				    if(facebook == null){
-//				    	if (_debug) Log.v("FacebookService.doWakefulWork() Facebook object is null. Exiting... ");
-//				    	return;
-//				    }
-//					String accessToken = preferences.getString(Constants.FACEBOOK_ACCESS_TOKEN_KEY, null);
-//					if(preferences.getBoolean(Constants.FACEBOOK_USER_NOTIFICATIONS_ENABLED_KEY, true)){
-//						ArrayList<String> facebookNotificationArray = LinkedInCommon.getLinkedInMessages(context, accessToken, facebook);
-//					    if(facebookNotificationArray != null && facebookNotificationArray.size() > 0){
-//					    	int facebookNotificationArraySize = facebookNotificationArray.size();
-//					    	for(int i=0; i<facebookNotificationArraySize; i++ ){
-//					    		String facebookArrayItem = facebookNotificationArray.get(i);
-//								String[] facebookInfo = facebookArrayItem.split("\\|");
-//				    			int arraySize = facebookInfo.length;
-//				    			if(arraySize > 0){
-//									if(arraySize >= 1) messageAddress = facebookInfo[1];
-//									if(arraySize >= 2) messageBody = facebookInfo[3];
-//									if(arraySize >= 8) contactName = facebookInfo[7];
-//				    			}
-//								//Display Status Bar Notification
-//							    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_FACEBOOK, Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION, callStateIdle, contactName, messageAddress, messageBody, null);
-//					    	}
-//						}else{
-//							if (_debug) Log.v("LinkedInAlarmBroadcastReceiverService.doWakefulWork() No Facebook Nnotifications were found. Exiting...");
-//						}
-//					}
+					LinkedInApiClient linkedInClient = LinkedInCommon.getLinkedIn(context);
+				    if(linkedInClient == null){
+				    	if (_debug) Log.v("LinkedInAlarmBroadcastReceiverService.doWakefulWork() LinkedInClient object is null. Exiting... ");
+				    	return;
+				    }
+				    if(preferences.getBoolean(Constants.LINKEDIN_UPDATES_ENABLED_KEY, true)){
+					    ArrayList<String> linkedInUpdateArray = LinkedInCommon.getLinkedInupdates(context, linkedInClient);
+					    if(linkedInUpdateArray != null && linkedInUpdateArray.size() > 0){
+					    	int linkedInUpdateArraySize = linkedInUpdateArray.size();
+					    	for(int i=0; i<linkedInUpdateArraySize; i++ ){
+					    		String facebookArrayItem = linkedInUpdateArray.get(i);
+								String[] facebookInfo = facebookArrayItem.split("\\|");
+				    			int arraySize = facebookInfo.length;
+				    			if(arraySize > 0){
+									if(arraySize >= 1) messageAddress = facebookInfo[1];
+									if(arraySize >= 2) messageBody = facebookInfo[3];
+									if(arraySize >= 8) contactName = facebookInfo[7];
+				    			}
+								//Display Status Bar Notification
+							    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_LINKEDIN, Constants.NOTIFICATION_TYPE_LINKEDIN_UPDATE, callStateIdle, contactName, messageAddress, messageBody, null);
+					    	}
+						}else{
+							if (_debug) Log.v("LinkedInAlarmBroadcastReceiverService.doWakefulWork() No Facebook Nnotifications were found. Exiting...");
+						}
+					}
 			    }
 		    	//Ignore notification based on the users preferences.
 		    	if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_IGNORE)){
