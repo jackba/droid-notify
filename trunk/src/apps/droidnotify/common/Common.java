@@ -446,68 +446,6 @@ public class Common {
 			return false;
 		}
 	}
-
-	/**
-	 * Start the intent for any K9 email application to view the email inbox.
-	 * 
-	 * @param context - Application Context.
-	 * @param notificationActivity - A reference to the parent activity.
-	 * @param requestCode - The request code we want returned.
-	 * 
-	 * @return boolean - Returns true if the activity can be started.
-	 */
-	public static boolean startK9EmailAppViewInboxActivity(Context context, NotificationActivity notificationActivity, int requestCode){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.startK9EmailAppViewInboxActivity()");
-		try{
-	        Intent intent = new Intent(Intent.ACTION_MAIN);
-            intent.addCategory(Intent.CATEGORY_LAUNCHER);
-	        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-            intent.setComponent(new ComponentName("com.fsck.k9", "com.fsck.k9.activity.Accounts"));
-	        notificationActivity.startActivityForResult(intent, requestCode);
-	        setInLinkedAppFlag(context, true);
-	        return true;
-		}catch(Exception ex){
-			Log.e("Common.startK9EmailAppViewInboxActivity() ERROR: " + ex.toString());
-			Toast.makeText(context, context.getString(R.string.app_email_app_error), Toast.LENGTH_LONG).show();
-			setInLinkedAppFlag(context, false);
-			return false;
-		}
-	}
-	
-	/**
-	 * Start the intent for any android K9 email application to send a reply.
-	 * 
-	 * @param context - Application Context.
-	 * @param notificationActivity - A reference to the parent activity.
-	 * @param k9EmailURI - The k9 email uri that is built for the k-9 clients.
-	 * @param requestCode - The request code we want returned.
-	 * 
-	 * @return boolean - Returns true if the activity can be started.
-	 */
-	public static boolean startK9MailAppReplyActivity(Context context, NotificationActivity notificationActivity, String k9EmailUri, int requestCode){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.startK9MailAppReplyActivity()");
-		if(k9EmailUri == null || k9EmailUri.equals("")){
-			Toast.makeText(context, context.getString(R.string.app_reply_email_address_error), Toast.LENGTH_LONG).show();
-			setInLinkedAppFlag(context, false);
-			return false;
-		}
-		try{
-			Intent intent = new Intent(Intent.ACTION_VIEW);
-		    intent.setData(Uri.parse(k9EmailUri));
-	        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-	        notificationActivity.startActivityForResult(intent, requestCode);
-	        setInLinkedAppFlag(context, true);
-	        return true;
-		}catch(Exception ex){
-			Log.e("Common.startK9MailAppReplyActivity() ERROR: " + ex.toString());
-			Toast.makeText(context, context.getString(R.string.app_email_app_error), Toast.LENGTH_LONG).show();
-			setInLinkedAppFlag(context, false);
-			return false;
-		}
-	}
-	
 	/**
 	 * Determine if the users phone has a blocked app currently running on the phone.
 	 * 
@@ -1473,76 +1411,6 @@ public class Common {
 			Log.e("Common.clearAllNotifications() ERROR: " + ex.toString());
 		}
 	}
-
-	/**
-	 * Parse the incoming SMS message directly.
-	 * 
-	 * @param context - The application context.
-	 * @param bundle - Bundle from the incoming intent.
-	 * 
-	 * @return ArrayList<String> - Returns an ArrayList of Strings that contain the K9 information.
-	 */
-	public static ArrayList<String> getK9MessagesFromIntent(Context context, Bundle bundle){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.getK9MessagesFromIntent()");
-		ArrayList<String> k9Array = new ArrayList<String>();
-    	long timeStamp = 0;
-    	String sentFromAddress = null;
-    	String messageBody = null;
-    	String messageSubject = null;
-    	long messageID = 0;
-		String k9EmailUri = null;
-		String k9EmailDelUri = null;
-		try{
-            Date sentDate = (Date) bundle.get("com.fsck.k9.intent.extra.SENT_DATE");
-			timeStamp = sentDate.getTime();
-            messageSubject = bundle.getString("com.fsck.k9.intent.extra.SUBJECT").toLowerCase();
-            sentFromAddress = parseFromEmailAddress(bundle.getString("com.fsck.k9.intent.extra.FROM").toLowerCase());
-            if (_debug) Log.v("Common.getK9MessagesFromIntent() sentFromAddress: " + sentFromAddress);
-            //Get the message body.
-    		final String[] projection = new String[] {"_id", "date", "sender", "subject", "preview", "account", "uri", "delUri"};
-            final String selection = "date = " + timeStamp;
-    		final String[] selectionArgs = null;
-    		final String sortOrder = null;
-    		Cursor cursor = null;
-            try{
-    		    cursor = context.getContentResolver().query(
-    		    		Uri.parse("content://com.fsck.k9.messageprovider/inbox_messages/"),
-    		    		projection,
-    		    		selection,
-    					selectionArgs,
-    					sortOrder);
-    	    	if(cursor.moveToFirst()){
-		    		messageID = Long.parseLong(cursor.getString(cursor.getColumnIndex("_id")));
-		    		messageBody = cursor.getString(cursor.getColumnIndex("preview"));
-		    		k9EmailUri = cursor.getString(cursor.getColumnIndex("uri"));
-		    		k9EmailDelUri = cursor.getString(cursor.getColumnIndex("delUri"));
-    	    	}else{
-    	    		if (_debug) Log.v("Common.getK9MessagesFromIntent() No Email Found Matching Criteria!");
-    	    	}
-    		}catch(Exception ex){
-    			Log.e("Common.getK9MessagesFromIntent() CURSOR ERROR: " + ex.toString());
-    		}finally{
-        		cursor.close();
-    		}
-            if(messageSubject != null && !messageSubject.equals("")){
-				messageBody = "<b>" + messageSubject + "</b><br/>" + messageBody.replace("\n", "<br/>").trim();
-			}else{
-				messageBody = messageBody.replace("\n", "<br/>").trim();
-			}
-    		String[] k9ContactInfo = null;
-    		k9ContactInfo = Common.getContactsInfoByEmail(context, sentFromAddress);
-    		if(k9ContactInfo == null){
-				k9Array.add(sentFromAddress + "|" + messageBody + "|" + messageID + "|" + timeStamp + "|" + k9EmailUri + "|" + k9EmailDelUri);
-			}else{
-				k9Array.add(sentFromAddress + "|" + messageBody + "|" + messageID + "|" + timeStamp + "|" + k9EmailUri + "|" + k9EmailDelUri + "|" + k9ContactInfo[0] + "|" + k9ContactInfo[1] + "|" + k9ContactInfo[2] + "|" + k9ContactInfo[3]);
-			}
-    		return k9Array;
-		}catch(Exception ex){
-			Log.e("Common.getK9MessagesFromIntent() ERROR: " + ex.toString());
-			return null;
-		}
-	}
 	
 	/**
 	 * Aquire a global partial wakelock within this context.
@@ -1851,33 +1719,6 @@ public class Common {
 		}catch(Exception ex){
 			Log.e("Common.parseDateInfo() ERROR: " + ex.toString());
 			return null;
-		}
-	}
-	
-	/**
-	 * Delete a K9 Email using it's own URI.
-	 * 
-	 * @param context - The current context of this Activity.
-	 * @param k9EmailDelUri - The URI provided to delete the email.
-	 */
-	public static void deleteK9Email(Context context, String k9EmailDelUri){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.deleteK9Email()");
-		try{
-			if(k9EmailDelUri == null || k9EmailDelUri.equals("")){
-				if (_debug) Log.v("Common.deleteK9Email() k9EmailDelUri == null/empty. Exiting...");
-				return;
-			}
-			String selection = null;
-			String[] selectionArgs = null;
-			context.getContentResolver().delete(
-					Uri.parse(k9EmailDelUri),
-					selection, 
-					selectionArgs);
-			return;
-		}catch(Exception ex){
-			Log.e("Common.deleteK9Email() ERROR: " + ex.toString());
-			return;
 		}
 	}
 	
@@ -2299,33 +2140,6 @@ public class Common {
 			if (_debug) Log.v("Common.playNotificationMediaFileAsyncTask.onPostExecute()");
 	    }
 	    
-	}
-	
-	/**
-	 * Parse an email address form a "FROM" email address.
-	 * 
-	 * @param inputFromAddress - The address we wish to parse.
-	 * 
-	 * @return String- The email address that we parsed/extracted.
-	 */
-	private static String parseFromEmailAddress(String inputFromAddress){
-		if (_debug) Log.v("Common.parseFromEmailAddress()");
-		try{
-			if(inputFromAddress == null || inputFromAddress.equals("")){
-				if (_debug) Log.v("Common.parseFromEmailAddress() InputFromAddress is null/empty. Exiting...");
-				return inputFromAddress;
-			}
-			String outputEmailAddress = null;
-			if(inputFromAddress.contains("<") && inputFromAddress.contains(">")){
-				outputEmailAddress = inputFromAddress.substring(inputFromAddress.indexOf("<") + 1, inputFromAddress.indexOf(">"));
-			}else{
-				 outputEmailAddress = inputFromAddress;
-			}
-			return outputEmailAddress;
-		}catch(Exception ex){
-			Log.e("Common.parseFromEmailAddress() ERROR: " + ex.toString());
-			return inputFromAddress;
-		}
 	}
 	
 	/**

@@ -68,6 +68,9 @@ public class Constants {
 	
 	public static final int NOTIFICATION_TYPE_LINKEDIN_UPDATE = 220;
 	
+	public static final int NOTIFICATION_TYPE_K9_MAIL = 230;
+	public static final int NOTIFICATION_TYPE_KAITEN_MAIL = 231;
+	
 	public static final int ADD_CONTACT_ACTIVITY = 1;
 	public static final int EDIT_CONTACT_ACTIVITY = 2;
 	public static final int VIEW_CONTACT_ACTIVITY = 3;
@@ -471,6 +474,9 @@ public class Constants {
 	public static final String FACEBOOK_USE_PREFERRED_CLIENT = "1";
 	
 	//-----K9 NOTIFICATION CONSTANTS-----//
+	public static final String INTENT_ACTION_K9 = "com.fsck.k9.intent.action.EMAIL_RECEIVED";
+	public static final String INTENT_ACTION_KAITEN = "com.kaitenmail.intent.action.EMAIL_RECEIVED";
+	
 	public static final String K9_NOTIFICATIONS_ENABLED_KEY = "k9_notifications_enabled";
 	public static final String K9_BLOCKING_APP_RUNNING_ACTION_KEY = "blocking_app_running_action_k9";
 	public static final String K9_DELETE_KEY = "k9_delete_button_action";

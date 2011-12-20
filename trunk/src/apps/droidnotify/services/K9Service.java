@@ -8,6 +8,7 @@ import android.os.Bundle;
 
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
+import apps.droidnotify.email.EmailCommon;
 import apps.droidnotify.log.Log;
 
 /**
@@ -50,12 +51,12 @@ public class K9Service extends WakefulIntentService {
 		if (_debug) Log.v("K9Service.doWakefulWork()");
 		try{
 			Context context = getApplicationContext();
-			Bundle newK9Bundle = intent.getExtras();
-			ArrayList<String> k9Array = Common.getK9MessagesFromIntent(context, newK9Bundle);
-			if(k9Array != null && k9Array.size() > 0){
+			Bundle newEmailBundle = intent.getExtras();
+			ArrayList<String> emailArray = EmailCommon.getK9MessagesFromIntent(context, newEmailBundle, intent.getAction());
+			if(emailArray != null && emailArray.size() > 0){
 				Bundle bundle = new Bundle();
 				bundle.putInt("notificationType", Constants.NOTIFICATION_TYPE_K9);
-				bundle.putStringArrayList("k9ArrayList", k9Array);
+				bundle.putStringArrayList("k9ArrayList", emailArray);
 		    	Common.startNotificationActivity(context, bundle);
 			}else{
 				if (_debug) Log.v("K9Service.doWakefulWork() No new emails were found. Exiting...");

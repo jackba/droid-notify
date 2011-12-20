@@ -31,6 +31,7 @@ import android.view.MotionEvent;
 import apps.droidnotify.calendar.CalendarCommon;
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
+import apps.droidnotify.email.EmailCommon;
 import apps.droidnotify.facebook.FacebookCommon;
 import apps.droidnotify.log.Log;
 import apps.droidnotify.phone.PhoneCommon;
@@ -788,7 +789,7 @@ public class NotificationView extends LinearLayout {
 					    	}
 						}
 						// Reply Button
-						if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION || notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST || notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE){
+						if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION){
 							_replyEmailImageButton.setVisibility(View.GONE);
 						}else{						
 							if(_preferences.getBoolean(Constants.FACEBOOK_DISPLAY_REPLY_BUTTON_KEY, true)){
@@ -833,7 +834,7 @@ public class NotificationView extends LinearLayout {
 					    	}
 						}
 						// Reply Button
-						if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION || notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST || notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE){
+						if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION){
 							_replyEmailButton.setVisibility(View.GONE);
 						}else{	
 							if(_preferences.getBoolean(Constants.FACEBOOK_DISPLAY_REPLY_BUTTON_KEY, true)){
@@ -867,7 +868,7 @@ public class NotificationView extends LinearLayout {
 						    public void onClick(View view) {
 						    	if (_debug) Log.v("Notification Count Button Clicked()");
 						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-						    	Common.startK9EmailAppViewInboxActivity(_context, _notificationActivity, Constants.K9_VIEW_INBOX_ACTIVITY);
+						    	EmailCommon.startK9EmailAppViewInboxActivity(_context, _notificationActivity, _notificationActivity.getNotificationViewFlipper().getActiveNotification().getNotificationSubType(), Constants.K9_VIEW_INBOX_ACTIVITY);
 						    }
 						});		
 					}
@@ -1250,8 +1251,8 @@ public class NotificationView extends LinearLayout {
 		}
 		switch(notificationType){
 			case Constants.NOTIFICATION_TYPE_SMS:{
-				//Reply using any installed SMS messaging app.
 				if(_preferences.getString(Constants.SMS_REPLY_BUTTON_ACTION_KEY, "0").equals(Constants.SMS_MESSAGING_APP_REPLY)){
+					//Reply using any installed SMS messaging app.
 					SMSCommon.startMessagingAppReplyActivity(_context, _notificationActivity, phoneNumber, Constants.SEND_SMS_ACTIVITY);
 				}else if(_preferences.getString(Constants.SMS_REPLY_BUTTON_ACTION_KEY, "0").equals(Constants.SMS_QUICK_REPLY)){
 					//Reply using the built in Quick Reply Activity.
@@ -1260,8 +1261,8 @@ public class NotificationView extends LinearLayout {
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_MMS:{
-				//Reply using any installed SMS messaging app.
 				if(_preferences.getString(Constants.MMS_REPLY_BUTTON_ACTION_KEY, "0").equals(Constants.MMS_MESSAGING_APP_REPLY)){
+					//Reply using any installed SMS messaging app.
 					SMSCommon.startMessagingAppReplyActivity(_context, _notificationActivity, phoneNumber, Constants.SEND_SMS_ACTIVITY);
 				}else if(_preferences.getString(Constants.MMS_REPLY_BUTTON_ACTION_KEY, "0").equals(Constants.MMS_QUICK_REPLY)){
 					//Reply using the built in Quick Reply Activity.
@@ -1270,7 +1271,6 @@ public class NotificationView extends LinearLayout {
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_TWITTER:{
-				//Reply using any installed Twitter app.
 				int notificationSubType = _notification.getNotificationSubType();
 			    if(notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE){
 			    	if(_preferences.getString(Constants.TWITTER_REPLY_BUTTON_ACTION_KEY, Constants.TWITTER_USE_QUICK_REPLY).equals(Constants.TWITTER_USE_QUICK_REPLY)){
@@ -1289,18 +1289,16 @@ public class NotificationView extends LinearLayout {
 			}
 			case Constants.NOTIFICATION_TYPE_FACEBOOK:{
 		    	int notificationSubType = _notification.getNotificationSubType();
-			    if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION){
-			    	//TODO
-		    	}else if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE){
-		    		//TODO
+			    if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE){
+			    	FacebookCommon.startFacebookAppActivity(_context, _notificationActivity, Constants.FACEBOOK_OPEN_APP_ACTIVITY);
 		    	}else if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST){
-		    		//TODO
+		    		FacebookCommon.startFacebookAppActivity(_context, _notificationActivity, Constants.FACEBOOK_OPEN_APP_ACTIVITY);
 		    	}
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_K9:{
 				//Reply using any installed K9 email app.
-				Common.startK9MailAppReplyActivity(_context, _notificationActivity, _notification.getK9EmailUri(), Constants.K9_VIEW_EMAIL_ACTIVITY);
+				EmailCommon.startK9MailAppReplyActivity(_context, _notificationActivity, _notification.getK9EmailUri(), _notification.getNotificationSubType(), Constants.K9_VIEW_EMAIL_ACTIVITY);
 				break;
 			}
 		}
