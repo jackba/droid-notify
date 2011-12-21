@@ -123,6 +123,8 @@ public class NotificationView extends LinearLayout {
 		int themeResource = R.layout.android_froyo_theme_notification;
 		if(applicationThemeSetting.equals(Constants.ANDROID_FROYO_THEME)) themeResource = R.layout.android_froyo_theme_notification;
 		if(applicationThemeSetting.equals(Constants.ANDROID_GINGERBREAD_THEME)) themeResource = R.layout.android_gingerbread_theme_notification;
+		if(applicationThemeSetting.equals(Constants.ANDROID_ICECREAM_HOLO_DARK_THEME)) themeResource = R.layout.android_icecream_holo_dark_theme_notification;
+		if(applicationThemeSetting.equals(Constants.ANDROID_ICECREAM_HOLO_LIGHT_THEME)) themeResource = R.layout.android_icecream_holo_light_theme_notification;
 		if(applicationThemeSetting.equals(Constants.IPHONE_THEME)) themeResource = R.layout.iphone_theme_notification;
 		if(applicationThemeSetting.equals(Constants.DARK_TRANSLUCENT_THEME)) themeResource = R.layout.dark_translucent_theme_notification;
 		if(applicationThemeSetting.equals(Constants.DARK_TRANSLUCENT_V2_THEME)) themeResource = R.layout.dark_translucent_v2_theme_notification;
