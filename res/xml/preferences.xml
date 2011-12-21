@@ -1876,7 +1876,6 @@
 				</PreferenceScreen>
 		  	</PreferenceCategory>
 <!--
--->  	
 		  	<PreferenceCategory
 				android:key="linkedin_notification_settings_category"
 				android:title="@string/preference_linkedin_notifications">
@@ -1899,8 +1898,7 @@
 					</PreferenceCategory>
 				</PreferenceScreen>
 		  	</PreferenceCategory>
-					       	
-		  	  
+-->  	 
 		</PreferenceScreen>
   	</PreferenceCategory>	    	
 	<PreferenceCategory
@@ -2063,6 +2061,7 @@
 					android:title="@string/preference_clear_facebook_authentication_data"
 					android:summary="@string/preference_clear_facebook_authentication_data_summary" />
 			</PreferenceCategory>
+<!--
 			<PreferenceCategory
 				android:key="advanced_linkedin_settings_category"
 				android:title="@string/preference_linkedin_notifications">
@@ -2071,6 +2070,7 @@
 					android:title="@string/preference_clear_linkedin_authentication_data"
 					android:summary="@string/preference_clear_linkedin_authentication_data_summary" />
 			</PreferenceCategory>
+-->	
 			<PreferenceCategory
 				android:key="advanced_quick_reply_settings_category"
 				android:title="@string/quick_reply_settings_text">

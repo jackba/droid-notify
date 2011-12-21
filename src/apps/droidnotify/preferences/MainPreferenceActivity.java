@@ -532,21 +532,21 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	            return true;
            }
 		});
-		//Clear LinkedIn Authentication Data Preference/Button
-		Preference clearLinkedInAuthenticationDataPref = (Preference)findPreference(Constants.LINKEDIN_CLEAR_AUTHENTICATION_DATA_KEY);
-		clearLinkedInAuthenticationDataPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-        	public boolean onPreferenceClick(Preference preference) {
-		    	if (_debug) Log.v("MainPreferenceActivity() Clear LinkedIn Authentication Data Button Clicked()");
-		    	try{
-			    	//Run this process in the background in an AsyncTask.
-			    	new clearLinkedInAuthenticationDataAsyncTask().execute();
-		    	}catch(Exception ex){
-	 	    		Log.e("MainPreferenceActivity() Clear LinkedIn Authentication Data Button ERROR: " + ex.toString());
-	 	    		return false;
-		    	}
-	            return true;
-           }
-		});
+//		//Clear LinkedIn Authentication Data Preference/Button
+//		Preference clearLinkedInAuthenticationDataPref = (Preference)findPreference(Constants.LINKEDIN_CLEAR_AUTHENTICATION_DATA_KEY);
+//		clearLinkedInAuthenticationDataPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+//        	public boolean onPreferenceClick(Preference preference) {
+//		    	if (_debug) Log.v("MainPreferenceActivity() Clear LinkedIn Authentication Data Button Clicked()");
+//		    	try{
+//			    	//Run this process in the background in an AsyncTask.
+//			    	new clearLinkedInAuthenticationDataAsyncTask().execute();
+//		    	}catch(Exception ex){
+//	 	    		Log.e("MainPreferenceActivity() Clear LinkedIn Authentication Data Button ERROR: " + ex.toString());
+//	 	    		return false;
+//		    	}
+//	            return true;
+//           }
+//		});
 		//Rate This App Preference/Button
 		Preference rateAppPref = (Preference)findPreference(Constants.PREFERENCE_RATE_APP_KEY);
 		rateAppPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
@@ -764,7 +764,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		PreferenceCategory appFeedbackPreferenceCategory = (PreferenceCategory) findPreference(Constants.PREFERENCE_CATEGORY_APP_FEEDBACK_KEY);
 		PreferenceCategory advancedTwitterSettingsPreferenceCategory = (PreferenceCategory) findPreference(Constants.TWITTER_ADVANCED_SETTINGS_CATEGORY_KEY);
 		PreferenceCategory advancedFacebookSettingsPreferenceCategory = (PreferenceCategory) findPreference(Constants.FACEBOOK_ADVANCED_SETTINGS_CATEGORY_KEY);
-		PreferenceCategory advancedLinkedInSettingsPreferenceCategory = (PreferenceCategory) findPreference(Constants.LINKEDIN_ADVANCED_SETTINGS_CATEGORY_KEY);
+//		PreferenceCategory advancedLinkedInSettingsPreferenceCategory = (PreferenceCategory) findPreference(Constants.LINKEDIN_ADVANCED_SETTINGS_CATEGORY_KEY);
 		//Twitter
 		PreferenceCategory twitterNotificationPreferenceCategory = (PreferenceCategory) findPreference(Constants.TWITTER_PRO_PREFERENCE_CATEGORY_KEY);
 		Preference twitterProPlaceholderPreference = (Preference) findPreference(Constants.TWITTER_PRO_PLACEHOLDER_PREFERENCE_KEY);
@@ -774,16 +774,16 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		Preference facebookProPlaceholderPreference = (Preference) findPreference(Constants.FACEBOOK_PRO_PLACEHOLDER_PREFERENCE_KEY);
 		PreferenceScreen facebookProPreferenceScreen = (PreferenceScreen) findPreference(Constants.FACEBOOK_PRO_PREFERENCE_SCREEN_KEY);
 		//LinkedIn
-		PreferenceCategory linkedInNotificationPreferenceCategory = (PreferenceCategory) findPreference(Constants.LINKEDIN_PRO_PREFERENCE_CATEGORY_KEY);
-		Preference linkedInProPlaceholderPreference = (Preference) findPreference(Constants.LINKEDIN_PRO_PLACEHOLDER_PREFERENCE_KEY);
-		PreferenceScreen linkedInProPreferenceScreen = (PreferenceScreen) findPreference(Constants.LINKEDIN_PRO_PREFERENCE_SCREEN_KEY);
+//		PreferenceCategory linkedInNotificationPreferenceCategory = (PreferenceCategory) findPreference(Constants.LINKEDIN_PRO_PREFERENCE_CATEGORY_KEY);
+//		Preference linkedInProPlaceholderPreference = (Preference) findPreference(Constants.LINKEDIN_PRO_PLACEHOLDER_PREFERENCE_KEY);
+//		PreferenceScreen linkedInProPreferenceScreen = (PreferenceScreen) findPreference(Constants.LINKEDIN_PRO_PREFERENCE_SCREEN_KEY);
 		if(appProVersion){
 			//Remove the Twitter placeholder preference category.
 			twitterNotificationPreferenceCategory.removePreference(twitterProPlaceholderPreference);
 			//Remove the Facebook placeholder preference category.
 			facebookNotificationPreferenceCategory.removePreference(facebookProPlaceholderPreference);
 			//Remove the LinkedIn placeholder preference category.
-			linkedInNotificationPreferenceCategory.removePreference(linkedInProPlaceholderPreference);
+//			linkedInNotificationPreferenceCategory.removePreference(linkedInProPlaceholderPreference);
 			//Remove the Upgrade button.
 			appFeedbackPreferenceCategory.removePreference(upgradeToProPreference);
 			//Remove the Liscense button.
@@ -823,23 +823,23 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		            return true;
 	           }
 			});
-			//Remove the LinkedIn preference preference category.
-			linkedInNotificationPreferenceCategory.removePreference(linkedInProPreferenceScreen);
-			advancedPreferences.removePreference(advancedLinkedInSettingsPreferenceCategory);
-			//Setup the LinkedIn placeholder preference button.
-			linkedInProPlaceholderPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-	        	public boolean onPreferenceClick(Preference preference) {
-			    	if (_debug) Log.v("LinkedIn Pro Placeholder Button Clicked()");
-			    	try{
-				    	//Display Pro Version Only Popup
-			    		showDialog(Constants.DIALOG_FEATURE_AVAILABLE_WITH_PRO_VERSION_LINKEDIN);
-			    	}catch(Exception ex){
-		 	    		Log.e("MainPreferenceActivity() LinkedIn Pro Placeholder Button ERROR: " + ex.toString());
-		 	    		return false;
-			    	}
-		            return true;
-	           }
-			});
+//			//Remove the LinkedIn preference preference category.
+//			linkedInNotificationPreferenceCategory.removePreference(linkedInProPreferenceScreen);
+//			advancedPreferences.removePreference(advancedLinkedInSettingsPreferenceCategory);
+//			//Setup the LinkedIn placeholder preference button.
+//			linkedInProPlaceholderPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+//	        	public boolean onPreferenceClick(Preference preference) {
+//			    	if (_debug) Log.v("LinkedIn Pro Placeholder Button Clicked()");
+//			    	try{
+//				    	//Display Pro Version Only Popup
+//			    		showDialog(Constants.DIALOG_FEATURE_AVAILABLE_WITH_PRO_VERSION_LINKEDIN);
+//			    	}catch(Exception ex){
+//		 	    		Log.e("MainPreferenceActivity() LinkedIn Pro Placeholder Button ERROR: " + ex.toString());
+//		 	    		return false;
+//			    	}
+//		            return true;
+//	           }
+//			});
 		}
 	}
 	
