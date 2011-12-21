@@ -791,32 +791,38 @@
 	<string-array name="theme_options">
 		<item name="0">Android Froyo</item>
 		<item name="1">Android Gingerbread</item>
-		<item name="2">iPhone</item>
-		<item name="3">Dark Translucent</item>
-		<item name="4">Dark Translucent V2</item>
-		<item name="5">Dark Translucent V3</item>
-		<item name="6">HTC Sense UI</item>
-		<item name="7">Xperia</item>
+		<item name="2">Android Ice Cream Dark</item>
+		<item name="3">Android Ice Cream Light</item>
+		<item name="4">iPhone</item>
+		<item name="5">Dark Translucent</item>
+		<item name="6">Dark Translucent V2</item>
+		<item name="7">Dark Translucent V3</item>
+		<item name="8">HTC Sense UI</item>
+		<item name="9">Xperia</item>
 	</string-array>
 	<string-array name="theme_values">
 		<item name="0">android</item>
 		<item name="1">android_dark</item>
-		<item name="2">iphone</item>
-		<item name="3">dark_translucent</item>
-		<item name="4">dark_translucent_v2</item>
-		<item name="5">dark_translucent_v3</item>
-		<item name="6">theme_htc</item>
-		<item name="7">theme_xperia</item>
+		<item name="2">android_icecream_holo_dark</item>
+		<item name="3">android_icecream_holo_light</item>
+		<item name="4">iphone</item>
+		<item name="5">dark_translucent</item>
+		<item name="6">dark_translucent_v2</item>
+		<item name="7">dark_translucent_v3</item>
+		<item name="8">theme_htc</item>
+		<item name="9">theme_xperia</item>
 	</string-array>
 	<array name="theme_images">
 		<item name="0">@drawable/theme_android_froyo</item>
 		<item name="1">@drawable/theme_android_gingerbread</item>
-		<item name="2">@drawable/theme_iphone</item>
-		<item name="3">@drawable/theme_dark_translucent</item>
-		<item name="4">@drawable/theme_dark_translucent</item>
+		<item name="2">@drawable/theme_android_icecream_holo_dark</item>
+		<item name="3">@drawable/theme_android_icecream_holo_light</item>
+		<item name="4">@drawable/theme_iphone</item>
 		<item name="5">@drawable/theme_dark_translucent</item>
-		<item name="6">@drawable/theme_htc</item>
-		<item name="7">@drawable/theme_xperia</item>
+		<item name="6">@drawable/theme_dark_translucent</item>
+		<item name="7">@drawable/theme_dark_translucent</item>
+		<item name="8">@drawable/theme_htc</item>
+		<item name="9">@drawable/theme_xperia</item>
 	</array>
 	
 	<!-- Dim Screen Arrays --> 
