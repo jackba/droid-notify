@@ -170,7 +170,8 @@ public class EmailCommon {
 	        return true;
 		}catch(Exception ex){
 			Log.e("Common.startK9MailAppReplyActivity() ERROR: " + ex.toString());
-			Toast.makeText(context, context.getString(R.string.app_email_app_error), Toast.LENGTH_LONG).show();
+			startK9EmailAppViewInboxActivity(context, notificationActivity, notificationSubType, requestCode);
+			//Toast.makeText(context, context.getString(R.string.app_email_app_error), Toast.LENGTH_LONG).show();
 			Common.setInLinkedAppFlag(context, false);
 			return false;
 		}
