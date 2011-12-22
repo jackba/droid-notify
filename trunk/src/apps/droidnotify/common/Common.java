@@ -52,6 +52,7 @@ import apps.droidnotify.log.Log;
 import apps.droidnotify.phone.PhoneCommon;
 import apps.droidnotify.receivers.RescheduleReceiver;
 import apps.droidnotify.twitter.TwitterCommon;
+import apps.droidnotify.common.Constants;
 import apps.droidnotify.R;
 
 /**
@@ -989,7 +990,16 @@ public class Common {
 							notificationContentIntent = new Intent(Intent.ACTION_VIEW);
 							notificationContentIntent.setData(Uri.parse(k9EmailUri));
 						}else{
-							notificationContentIntent = null;
+							notificationContentIntent = new Intent(Intent.ACTION_MAIN);
+							notificationContentIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+							notificationContentIntent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);	   
+					        String packageName = "com.fsck.k9";
+							if(notificationSubType == Constants.NOTIFICATION_TYPE_KAITEN_MAIL){
+								packageName = "com.kaitenmail";
+							}else if(notificationSubType == Constants.NOTIFICATION_TYPE_K9_MAIL){
+								packageName = "com.fsck.k9";
+							}
+							notificationContentIntent.setComponent(new ComponentName(packageName, packageName + ".activity.Accounts"));  
 						}
 					}
 					//Delete Intent
