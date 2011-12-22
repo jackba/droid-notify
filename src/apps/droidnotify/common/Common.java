@@ -2024,7 +2024,7 @@ public class Common {
 			ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 			if(connectivityManager == null){
 				if (_debug) Log.v("Common.isOnline() ConnectivityManager is null. Exiting...");
-				return true;
+				return false;
 			}
 			NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
 			if(networkInfo == null){
