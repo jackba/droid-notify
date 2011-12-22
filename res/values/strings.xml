@@ -77,6 +77,7 @@
     <string name="app_quick_reply_address_error">The quick reply address does not appear to be valid. Quick Reply launch failed.</string>
     <string name="twitter_send_direct_mesage_error">The Twitter Direct Message could not be sent.</string>
     <string name="twitter_send_tweet_error">The Tweet/Status Update could not be sent.</string>
+    <string name="not_online_error">The application cannot gain online access at this time. Please try again later.</string>
     
 	<!-- Settings/Preference Strings -->
     <string name="app_settings_text">Settings</string>

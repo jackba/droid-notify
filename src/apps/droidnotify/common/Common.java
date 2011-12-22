@@ -35,6 +35,8 @@ import android.graphics.PorterDuff.Mode;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -2007,6 +2009,34 @@ public class Common {
 			Log.e("Common.startAlarm() ERROR: " + ex.toString());
 		}
 	}	
+	
+	/**
+	 * Checks if the users phone is online or not.
+	 * 
+	 * @param context - The application context.
+	 * 
+	 * @return boolean - Returns true if the user is online.
+	 */
+	public static boolean isOnline(Context context) {
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.isOnline()");
+		try{
+			ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+			if(connectivityManager == null){
+				if (_debug) Log.v("Common.isOnline() ConnectivityManager is null. Exiting...");
+				return true;
+			}
+			NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+			if(networkInfo == null){
+				if (_debug) Log.v("Common.isOnline() NetworkInfo is null. Exiting...");
+				return false;
+			}
+			return networkInfo.isConnected();
+		 }catch(Exception ex){
+			Log.e("Common.isOnline() ERROR: " + ex.toString());
+			return false;
+		}
+	}
 	
 	//================================================================================
 	// Private Methods

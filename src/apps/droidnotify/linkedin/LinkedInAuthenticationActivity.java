@@ -234,6 +234,8 @@ public class LinkedInAuthenticationActivity extends Activity {
 			startActivity(intent);
 		} catch (Exception ex) {
 			Log.e("LinkedInAuthenticationActivity.authenticateLinkedInAccount() ERROR: " + ex.toString());
+			Toast.makeText(_context, _context.getString(R.string.twitter_authentication_error), Toast.LENGTH_LONG).show();
+			finish();
 		}
 	}
 
