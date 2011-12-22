@@ -124,7 +124,6 @@ public class NotificationView extends LinearLayout {
 		if(applicationThemeSetting.equals(Constants.ANDROID_FROYO_THEME)) themeResource = R.layout.android_froyo_theme_notification;
 		if(applicationThemeSetting.equals(Constants.ANDROID_GINGERBREAD_THEME)) themeResource = R.layout.android_gingerbread_theme_notification;
 		if(applicationThemeSetting.equals(Constants.ANDROID_ICECREAM_HOLO_DARK_THEME)) themeResource = R.layout.android_icecream_holo_dark_theme_notification;
-		if(applicationThemeSetting.equals(Constants.ANDROID_ICECREAM_HOLO_LIGHT_THEME)) themeResource = R.layout.android_icecream_holo_light_theme_notification;
 		if(applicationThemeSetting.equals(Constants.IPHONE_THEME)) themeResource = R.layout.iphone_theme_notification;
 		if(applicationThemeSetting.equals(Constants.DARK_TRANSLUCENT_THEME)) themeResource = R.layout.dark_translucent_theme_notification;
 		if(applicationThemeSetting.equals(Constants.DARK_TRANSLUCENT_V2_THEME)) themeResource = R.layout.dark_translucent_v2_theme_notification;
@@ -1353,38 +1352,33 @@ public class NotificationView extends LinearLayout {
 		     		case MotionEvent.ACTION_DOWN:{
 		     			if (_debug) Log.v("NotificationView.initLongPressView() ACTION_DOWN");
 		                String applicationThemeSetting = _preferences.getString(Constants.APP_THEME_KEY, Constants.APP_THEME_DEFAULT);
-		        		int listSelectorBackgroundResource = R.drawable.froyo_list_selector_background_transition;
+		        		int listSelectorBackgroundResource = R.drawable.list_selector_background_transition_blue;
 		        		int contactWrapperTextColorResource = R.color.black;
-		         		//Set View background.
 		        		if(applicationThemeSetting.equals(Constants.ANDROID_FROYO_THEME)){
 		        			listSelectorBackgroundResource = R.drawable.froyo_list_selector_background_transition;
 		        			contactWrapperTextColorResource = R.color.black;
-		        		}
-		        		if(applicationThemeSetting.equals(Constants.ANDROID_GINGERBREAD_THEME)){
+		        		}else if(applicationThemeSetting.equals(Constants.ANDROID_GINGERBREAD_THEME)){
 		        			listSelectorBackgroundResource = R.drawable.gingerbread_list_selector_background_transition;
 		        			contactWrapperTextColorResource = R.color.black;
-		        		}
-		        		if(applicationThemeSetting.equals(Constants.IPHONE_THEME)){
+		        		}else if(applicationThemeSetting.equals(Constants.ANDROID_ICECREAM_HOLO_DARK_THEME)){
+		        			listSelectorBackgroundResource = R.drawable.icecream_holo_dark_list_selector_background_transition;
+		        			contactWrapperTextColorResource = R.color.black;
+		        		}else if(applicationThemeSetting.equals(Constants.IPHONE_THEME)){
 		        			listSelectorBackgroundResource = R.drawable.list_selector_background_transition_blue;
 		        			contactWrapperTextColorResource = R.color.black;
-		        		}
-		        		if(applicationThemeSetting.equals(Constants.DARK_TRANSLUCENT_THEME)){
+		        		}else if(applicationThemeSetting.equals(Constants.DARK_TRANSLUCENT_THEME)){
 		        			listSelectorBackgroundResource = R.drawable.list_selector_background_transition_blue;
 		        			contactWrapperTextColorResource = R.color.black;
-		        		}
-		        		if(applicationThemeSetting.equals(Constants.DARK_TRANSLUCENT_V2_THEME)){
+		        		}else if(applicationThemeSetting.equals(Constants.DARK_TRANSLUCENT_V2_THEME)){
 		        			listSelectorBackgroundResource = R.drawable.list_selector_background_transition_blue;
 		        			contactWrapperTextColorResource = R.color.black;
-		        		}
-		        		if(applicationThemeSetting.equals(Constants.DARK_TRANSLUCENT_V3_THEME)){
+		        		}else if(applicationThemeSetting.equals(Constants.DARK_TRANSLUCENT_V3_THEME)){
 		        			listSelectorBackgroundResource = R.drawable.list_selector_background_transition_blue;
 		        			contactWrapperTextColorResource = R.color.black;
-		        		}
-		        		if(applicationThemeSetting.equals(Constants.HTC_SENSE_UI_THEME)){
+		        		}else if(applicationThemeSetting.equals(Constants.HTC_SENSE_UI_THEME)){
 		        			listSelectorBackgroundResource = R.drawable.htc_list_selector_background_transition;
 		        			contactWrapperTextColorResource = R.color.black;
-		        		}	
-		        		if(applicationThemeSetting.equals(Constants.XPERIA_THEME)){
+		        		}else if(applicationThemeSetting.equals(Constants.XPERIA_THEME)){
 		        			listSelectorBackgroundResource = R.drawable.xperia_list_selector_background_transition;
 		        			contactWrapperTextColorResource = R.color.black;
 		        		}		        		
@@ -1392,7 +1386,6 @@ public class NotificationView extends LinearLayout {
 	        			view.setBackgroundDrawable(transition);
 		                transition.setCrossFadeEnabled(true);
 		                transition.startTransition(300);
-		                //Set Views children font color.
 		                _notificationInfoTextView.setTextColor(_context.getResources().getColor(contactWrapperTextColorResource));
 		                _contactNameTextView.setTextColor(_context.getResources().getColor(contactWrapperTextColorResource));
 		                _contactNumberTextView.setTextColor(_context.getResources().getColor(contactWrapperTextColorResource));
@@ -1401,43 +1394,37 @@ public class NotificationView extends LinearLayout {
 		     		case MotionEvent.ACTION_UP:{
 		     			if (_debug) Log.v("NotificationView.initLongPressView() ACTION_UP");
 		         		String applicationThemeSetting = _preferences.getString(Constants.APP_THEME_KEY, Constants.APP_THEME_DEFAULT);
-		        		int listSelectorBackgroundResource = R.drawable.froyo_list_selector_background_transition;
+		        		int listSelectorBackgroundResource = R.drawable.list_selector_background_blue;
 		        		int contactWrapperTextColorResource = R.color.white;
-		         		//Set View background.
 		        		if(applicationThemeSetting.equals(Constants.ANDROID_FROYO_THEME)){
 		        			listSelectorBackgroundResource = R.drawable.froyo_list_selector_background;
 		        			contactWrapperTextColorResource = R.color.white;
-		        		}
-		        		if(applicationThemeSetting.equals(Constants.ANDROID_GINGERBREAD_THEME)){
+		        		}else if(applicationThemeSetting.equals(Constants.ANDROID_GINGERBREAD_THEME)){
 		        			listSelectorBackgroundResource = R.drawable.gingerbread_list_selector_background;
 		        			contactWrapperTextColorResource = R.color.white;
-		        		}
-		        		if(applicationThemeSetting.equals(Constants.IPHONE_THEME)){
+		        		}else if(applicationThemeSetting.equals(Constants.ANDROID_ICECREAM_HOLO_DARK_THEME)){
+		        			listSelectorBackgroundResource = R.drawable.icecream_holo_dark_list_selector_background;
+		        			contactWrapperTextColorResource = R.color.white;
+		        		}else if(applicationThemeSetting.equals(Constants.IPHONE_THEME)){
 		        			listSelectorBackgroundResource = R.drawable.list_selector_background_blue;
 		        			contactWrapperTextColorResource = R.color.white;
-		        		}
-		        		if(applicationThemeSetting.equals(Constants.DARK_TRANSLUCENT_THEME)){
+		        		}else if(applicationThemeSetting.equals(Constants.DARK_TRANSLUCENT_THEME)){
 		        			listSelectorBackgroundResource = R.drawable.list_selector_background_blue;
 		        			contactWrapperTextColorResource = R.color.white;
-		        		}
-		        		if(applicationThemeSetting.equals(Constants.DARK_TRANSLUCENT_V2_THEME)){
+		        		}else if(applicationThemeSetting.equals(Constants.DARK_TRANSLUCENT_V2_THEME)){
 		        			listSelectorBackgroundResource = R.drawable.list_selector_background_blue;
 		        			contactWrapperTextColorResource = R.color.white;
-		        		}
-		        		if(applicationThemeSetting.equals(Constants.DARK_TRANSLUCENT_V3_THEME)){
+		        		}else if(applicationThemeSetting.equals(Constants.DARK_TRANSLUCENT_V3_THEME)){
 		        			listSelectorBackgroundResource = R.drawable.list_selector_background_blue;
 		        			contactWrapperTextColorResource = R.color.white;
-		        		}
-		        		if(applicationThemeSetting.equals(Constants.HTC_SENSE_UI_THEME)){
+		        		}else if(applicationThemeSetting.equals(Constants.HTC_SENSE_UI_THEME)){
 		        			listSelectorBackgroundResource = R.drawable.htc_list_selector_background;
 		        			contactWrapperTextColorResource = R.color.white;
-		        		}
-		        		if(applicationThemeSetting.equals(Constants.XPERIA_THEME)){
+		        		}else if(applicationThemeSetting.equals(Constants.XPERIA_THEME)){
 		        			listSelectorBackgroundResource = R.drawable.xperia_list_selector_background;
 		        			contactWrapperTextColorResource = R.color.white;
 		        		}
 		                view.setBackgroundResource(listSelectorBackgroundResource);
-		                //Set Views children font color.
 		                _notificationInfoTextView.setTextColor(_context.getResources().getColor(contactWrapperTextColorResource));
 		                _contactNameTextView.setTextColor(_context.getResources().getColor(contactWrapperTextColorResource));
 		                _contactNumberTextView.setTextColor(_context.getResources().getColor(contactWrapperTextColorResource)); 
@@ -1446,43 +1433,37 @@ public class NotificationView extends LinearLayout {
 		     		case MotionEvent.ACTION_CANCEL:{
 		     			if (_debug) Log.v("NotificationView.initLongPressView() ACTION_CANCEL");
 		         		String applicationThemeSetting = _preferences.getString(Constants.APP_THEME_KEY, Constants.APP_THEME_DEFAULT);
-		        		int listSelectorBackgroundResource = R.drawable.froyo_list_selector_background_transition;
+		        		int listSelectorBackgroundResource = R.drawable.list_selector_background_blue;
 		        		int contactWrapperTextColorResource = R.color.white;
-		         		//Set View background.
 		        		if(applicationThemeSetting.equals(Constants.ANDROID_FROYO_THEME)){
 		        			listSelectorBackgroundResource = R.drawable.froyo_list_selector_background;
 		        			contactWrapperTextColorResource = R.color.white;
-		        		}
-		        		if(applicationThemeSetting.equals(Constants.ANDROID_GINGERBREAD_THEME)){
+		        		}else if(applicationThemeSetting.equals(Constants.ANDROID_GINGERBREAD_THEME)){
 		        			listSelectorBackgroundResource = R.drawable.gingerbread_list_selector_background;
 		        			contactWrapperTextColorResource = R.color.white;
-		        		}
-		        		if(applicationThemeSetting.equals(Constants.IPHONE_THEME)){
+		        		}else if(applicationThemeSetting.equals(Constants.ANDROID_ICECREAM_HOLO_DARK_THEME)){
+		        			listSelectorBackgroundResource = R.drawable.icecream_holo_dark_list_selector_background;
+		        			contactWrapperTextColorResource = R.color.white;
+		        		}else if(applicationThemeSetting.equals(Constants.IPHONE_THEME)){
 		        			listSelectorBackgroundResource = R.drawable.list_selector_background_blue;
 		        			contactWrapperTextColorResource = R.color.white;
-		        		}
-		        		if(applicationThemeSetting.equals(Constants.DARK_TRANSLUCENT_THEME)){
+		        		}else if(applicationThemeSetting.equals(Constants.DARK_TRANSLUCENT_THEME)){
 		        			listSelectorBackgroundResource = R.drawable.list_selector_background_blue;
 		        			contactWrapperTextColorResource = R.color.white;
-		        		}
-		        		if(applicationThemeSetting.equals(Constants.DARK_TRANSLUCENT_V2_THEME)){
+		        		}else if(applicationThemeSetting.equals(Constants.DARK_TRANSLUCENT_V2_THEME)){
 		        			listSelectorBackgroundResource = R.drawable.list_selector_background_blue;
 		        			contactWrapperTextColorResource = R.color.white;
-		        		}
-		        		if(applicationThemeSetting.equals(Constants.DARK_TRANSLUCENT_V3_THEME)){
+		        		}else if(applicationThemeSetting.equals(Constants.DARK_TRANSLUCENT_V3_THEME)){
 		        			listSelectorBackgroundResource = R.drawable.list_selector_background_blue;
 		        			contactWrapperTextColorResource = R.color.white;
-		        		}
-		        		if(applicationThemeSetting.equals(Constants.HTC_SENSE_UI_THEME)){
+		        		}else if(applicationThemeSetting.equals(Constants.HTC_SENSE_UI_THEME)){
 		        			listSelectorBackgroundResource = R.drawable.htc_list_selector_background;
 		        			contactWrapperTextColorResource = R.color.white;
-		        		}
-		        		if(applicationThemeSetting.equals(Constants.XPERIA_THEME)){
+		        		}else if(applicationThemeSetting.equals(Constants.XPERIA_THEME)){
 		        			listSelectorBackgroundResource = R.drawable.xperia_list_selector_background;
 		        			contactWrapperTextColorResource = R.color.white;
 		        		}
 		                view.setBackgroundResource(listSelectorBackgroundResource);
-		                //Set Views children font color.
 		                _notificationInfoTextView.setTextColor(_context.getResources().getColor(contactWrapperTextColorResource));
 		                _contactNameTextView.setTextColor(_context.getResources().getColor(contactWrapperTextColorResource));
 		                _contactNumberTextView.setTextColor(_context.getResources().getColor(contactWrapperTextColorResource)); 
