@@ -31,7 +31,6 @@ import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
 import apps.droidnotify.sms.SMSCommon;
 import apps.droidnotify.twitter.TwitterCommon;
-import apps.droidnotify.R;
 
 /**
  * This is the quick reply activity that is used to send sms messages.
@@ -190,17 +189,14 @@ public class QuickReplyActivity extends Activity {
 						useCharacterBundles = false;
 						break;
 					}
-					case Constants.NOTIFICATION_TYPE_FACEBOOK:{	    		
-						if(_notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION){
-							//Do Nothing										
-						}else if(_notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE){
-							//Do Nothing										
-						}
-						break;
-					}
 			    }
-	    		int charactersRemaining = maxCharacters - s.length();
 	    		int numberOfBundles = s.length() / characterBundleAmount;
+	    		int charactersRemaining = 0;
+	    		if(maxCharacters == -1){
+	    			charactersRemaining = characterBundleAmount - (s.length() - (numberOfBundles * characterBundleAmount));
+	    		}else{
+	    			charactersRemaining = maxCharacters - (s.length() - (numberOfBundles * maxCharacters));
+	    		}
 	    		String charactersRemainingText = null;
 	    		if(useCharacterBundles){
 		    		charactersRemainingText = String.valueOf(numberOfBundles) + "/" + String.valueOf(charactersRemaining);
