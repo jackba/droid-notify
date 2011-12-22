@@ -7,6 +7,7 @@
  * Remove the INTERNET permission on the Basic version of the app.
  * Fixed Kaiten Mail notifications. A bug prevented them from displaying.
  * Added new Ice Cream theme.
+ * Fixed character count bug in Quick Reply activity.
 
 *v2.15* (December 19, 2011)
  * Bug fix that prevented all but SMS notifications from appearing.
