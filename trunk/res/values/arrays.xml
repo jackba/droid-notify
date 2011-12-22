@@ -791,11 +791,11 @@
 	<string-array name="theme_options">
 		<item name="0">Android Froyo</item>
 		<item name="1">Android Gingerbread</item>
-		<item name="2">Android Ice Cream Dark</item>
+		<item name="2">Android Ice Cream</item>
 		<item name="3">iPhone</item>
-		<item name="4">Dark Translucent</item>
-		<item name="5">Dark Translucent V2</item>
-		<item name="6">Dark Translucent V3</item>
+		<item name="4">Default Translucent</item>
+		<item name="5">Default Dark</item>
+		<item name="6">Default Solid</item>
 		<item name="7">HTC Sense UI</item>
 		<item name="8">Xperia</item>
 	</string-array>

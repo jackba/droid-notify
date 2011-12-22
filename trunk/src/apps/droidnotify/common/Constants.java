@@ -179,7 +179,6 @@ public class Constants {
 	public static final String ANDROID_FROYO_THEME = "android";
 	public static final String ANDROID_GINGERBREAD_THEME = "android_dark";
 	public static final String ANDROID_ICECREAM_HOLO_DARK_THEME = "android_icecream_holo_dark";
-	public static final String ANDROID_ICECREAM_HOLO_LIGHT_THEME = "android_icecream_holo_light";
 	public static final String IPHONE_THEME = "iphone";
 	public static final String DARK_TRANSLUCENT_THEME = "dark_translucent";
 	public static final String DARK_TRANSLUCENT_V2_THEME = "dark_translucent_v2";

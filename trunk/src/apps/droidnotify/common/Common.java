@@ -995,7 +995,11 @@ public class Common {
 					//Delete Intent
 					notificationDeleteIntent = null;
 					//Content Intent
-					contentIntent = PendingIntent.getActivity(context, 0, notificationContentIntent, 0);
+					if(notificationContentIntent == null){
+						contentIntent = null;
+					}else{
+						contentIntent = PendingIntent.getActivity(context, 0, notificationContentIntent, 0);
+					}
 					//Delete Intent
 					deleteIntent = null;
 					break;
