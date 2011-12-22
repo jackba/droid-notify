@@ -53,6 +53,7 @@ import apps.droidnotify.linkedin.LinkedInCommon;
 import apps.droidnotify.log.Log;
 import apps.droidnotify.twitter.TwitterAuthenticationActivity;
 import apps.droidnotify.twitter.TwitterCommon;
+import apps.droidnotify.common.Common;
 import apps.droidnotify.NotificationActivity;
 import apps.droidnotify.R;
 
@@ -1550,10 +1551,16 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	 * Launch authorization activity if not.
 	 */
 	private void checkTwitterAuthentication(){
-		if (_debug) Log.v("MainPreferenceActivity.checkTwitterAuthentication()");
-		//Setup User Twitter Account
-	    Intent intent = new Intent(_context, TwitterAuthenticationActivity.class);
-	    startActivity(intent);
+		if (_debug) Log.v("MainPreferenceActivity.checkTwitterAuthentication()");		
+		if(Common.isOnline(_context)){
+			//Setup User Twitter Account
+		    Intent intent = new Intent(_context, TwitterAuthenticationActivity.class);
+		    startActivity(intent);
+		}else{
+			Toast.makeText(_context, _context.getString(R.string.not_online_error), Toast.LENGTH_LONG).show();
+			CheckBoxPreference twitterEnabledCheckBoxPreference = (CheckBoxPreference) findPreference(Constants.TWITTER_NOTIFICATIONS_ENABLED_KEY);
+			if(twitterEnabledCheckBoxPreference != null) twitterEnabledCheckBoxPreference.setChecked(false);
+		}
 	}
 	
 	/**
@@ -1562,9 +1569,15 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	 */
 	private void checkFacebookAuthentication(){
 		if (_debug) Log.v("MainPreferenceActivity.checkFacebookAuthentication()");
-		//Setup User Facebook Account
-	    Intent intent = new Intent(_context, FacebookAuthenticationActivity.class);
-	    startActivity(intent);
+		if(Common.isOnline(_context)){
+			//Setup User Facebook Account
+		    Intent intent = new Intent(_context, FacebookAuthenticationActivity.class);
+		    startActivity(intent);
+		}else{
+			Toast.makeText(_context, _context.getString(R.string.not_online_error), Toast.LENGTH_LONG).show();
+			CheckBoxPreference facebookEnabledCheckBoxPreference = (CheckBoxPreference) findPreference(Constants.FACEBOOK_NOTIFICATIONS_ENABLED_KEY);
+			if(facebookEnabledCheckBoxPreference != null) facebookEnabledCheckBoxPreference.setChecked(false);
+		}
 	}
 	
 	/**
@@ -1573,9 +1586,15 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	 */
 	private void checkLinkedInAuthentication(){
 		if (_debug) Log.v("MainPreferenceActivity.checkLinkedInAuthentication()");
-		//Setup User Twitter Account
-	    Intent intent = new Intent(_context, LinkedInAuthenticationActivity.class);
-	    startActivity(intent);
+		if(Common.isOnline(_context)){
+			//Setup User LinkedInAccount
+		    Intent intent = new Intent(_context, LinkedInAuthenticationActivity.class);
+		    startActivity(intent);
+		}else{
+			Toast.makeText(_context, _context.getString(R.string.not_online_error), Toast.LENGTH_LONG).show();
+			//CheckBoxPreference linkedInEnabledCheckBoxPreference = (CheckBoxPreference) findPreference(Constants.LINKEDIN_NOTIFICATIONS_ENABLED_KEY);
+			//if(linkedInEnabledCheckBoxPreference != null) linkedInEnabledCheckBoxPreference.setChecked(false);
+		}
 	}
 	
 	/**
