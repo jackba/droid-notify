@@ -34,6 +34,7 @@ Basic Settings
  * Contact Number Font Size
  * Center Align Body Text
  * Notification Body Font Size
+ * Notification Body Max Lines
  * Display Reschedule Button
  * Reschedule Settings
   * Reschedule Time
