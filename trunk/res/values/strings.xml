@@ -108,6 +108,8 @@
 	<string name="preference_hide_notification_body_enabled_title">Hide Notification Body</string>
     <string name="preference_hide_notification_body_enabled_summaryOn">The notification body will not be visible in the popup.</string>
 	<string name="preference_hide_notification_body_enabled_summaryOff">The notification body will be visible in the popup.</string>
+   	<string name="preference_notification_body_max_lines_title">Notification Body Max Lines</string>
+   	<string name="preference_notification_body_max_lines_summary">Select the maximum lines that will display in the notification body.</string>
   
   	<!-- Notification Header Strings -->
     <string name="preference_notification_type_info_icon_enabled_title">Display Type Icon</string>
