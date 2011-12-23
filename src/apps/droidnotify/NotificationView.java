@@ -974,6 +974,10 @@ public class NotificationView extends LinearLayout {
     	if(notificationTitle == null || notificationTitle.equals("")){
     		notificationTitle = "No Title";
     	}
+		//Set the max lines property of the notification body.
+		_notificationDetailsTextView.setMaxLines(Integer.parseInt(_preferences.getString(Constants.NOTIFICATION_BODY_MAX_LINES_KEY, Constants.NOTIFICATION_BODY_MAX_LINES_DEFAULT)));
+		//Set the font size property of the notification body.
+		_notificationDetailsTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, Float.parseFloat(_preferences.getString(Constants.NOTIFICATION_BODY_FONT_SIZE_KEY, Constants.NOTIFICATION_BODY_FONT_SIZE_DEFAULT)));
 	    // Set from, number, message etc. views.
 		if(_notificationType == Constants.NOTIFICATION_TYPE_CALENDAR){
 			_contactNameTextView.setText(notificationTitle);
@@ -983,8 +987,7 @@ public class NotificationView extends LinearLayout {
 			if(_preferences.getBoolean(Constants.CALENDAR_HIDE_NOTIFICATION_BODY_KEY, false)){
 				_notificationDetailsTextView.setVisibility(View.GONE);
 			}else{
-				//Set Message Body Font
-				_notificationDetailsTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, Float.parseFloat(_preferences.getString(Constants.NOTIFICATION_BODY_FONT_SIZE_KEY, Constants.NOTIFICATION_BODY_FONT_SIZE_DEFAULT)));
+				_notificationDetailsTextView.setVisibility(View.VISIBLE);
 			}
 			loadContactPhoto = false;
 		}else{
@@ -1006,8 +1009,7 @@ public class NotificationView extends LinearLayout {
 			    		_contactNumberTextView.setText(sentFromAddress);
 			    	}else{
 			    		_contactNumberTextView.setText(PhoneCommon.formatPhoneNumber(_context, sentFromAddress));
-			    	}
-			    	
+			    	}			    	
 			    }
 			    _contactNumberTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, Float.parseFloat(_preferences.getString(Constants.CONTACT_NUMBER_SIZE_KEY, Constants.CONTACT_NUMBER_SIZE_DEFAULT)));
 			    _contactNumberTextView.setVisibility(View.VISIBLE);
@@ -1038,8 +1040,6 @@ public class NotificationView extends LinearLayout {
 				_notificationDetailsTextView.setVisibility(View.GONE);
 			}else{
 				_notificationDetailsTextView.setVisibility(View.VISIBLE);
-				//Set Message Body Font
-				_notificationDetailsTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, Float.parseFloat(_preferences.getString(Constants.NOTIFICATION_BODY_FONT_SIZE_KEY, Constants.NOTIFICATION_BODY_FONT_SIZE_DEFAULT)));
 			}
 		}else if(_notificationType == Constants.NOTIFICATION_TYPE_MMS){
 			_notificationDetailsTextView.setVisibility(View.GONE);
@@ -1057,17 +1057,13 @@ public class NotificationView extends LinearLayout {
 			if(_preferences.getBoolean(Constants.TWITTER_HIDE_NOTIFICATION_BODY_KEY, false)){
 				_notificationDetailsTextView.setVisibility(View.GONE);
 			}else{
-				_notificationDetailsTextView.setVisibility(View.VISIBLE);
-				//Set Message Body Font
-				_notificationDetailsTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, Float.parseFloat(_preferences.getString(Constants.NOTIFICATION_BODY_FONT_SIZE_KEY, Constants.NOTIFICATION_BODY_FONT_SIZE_DEFAULT)));
+				_notificationDetailsTextView.setVisibility(View.VISIBLE);				
 			}
 		}else if(_notificationType == Constants.NOTIFICATION_TYPE_FACEBOOK){
 			if(_preferences.getBoolean(Constants.FACEBOOK_HIDE_NOTIFICATION_BODY_KEY, false)){
 				_notificationDetailsTextView.setVisibility(View.GONE);
 			}else{
 				_notificationDetailsTextView.setVisibility(View.VISIBLE);
-				//Set Message Body Font
-				_notificationDetailsTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, Float.parseFloat(_preferences.getString(Constants.NOTIFICATION_BODY_FONT_SIZE_KEY, Constants.NOTIFICATION_BODY_FONT_SIZE_DEFAULT)));
 			}
 		}else if(_notificationType == Constants.NOTIFICATION_TYPE_GMAIL){
 			
@@ -1076,8 +1072,6 @@ public class NotificationView extends LinearLayout {
 				_notificationDetailsTextView.setVisibility(View.GONE);
 			}else{
 				_notificationDetailsTextView.setVisibility(View.VISIBLE);
-				//Set Message Body Font
-				_notificationDetailsTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, Float.parseFloat(_preferences.getString(Constants.NOTIFICATION_BODY_FONT_SIZE_KEY, Constants.NOTIFICATION_BODY_FONT_SIZE_DEFAULT)));
 			}
 		}
 	    //Load the notification message.

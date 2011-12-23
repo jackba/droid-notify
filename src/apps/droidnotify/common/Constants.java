@@ -247,6 +247,9 @@ public class Constants {
 	public static final String NOTIFICATION_BODY_FONT_SIZE_KEY = "notification_body_font_size";
 	public static final String NOTIFICATION_BODY_FONT_SIZE_DEFAULT = "14";
 	
+	public static final String NOTIFICATION_BODY_MAX_LINES_KEY = "notification_body_max_lines";
+	public static final String NOTIFICATION_BODY_MAX_LINES_DEFAULT = "5";
+	
 	//-----NOTIFICATION TYPE INFO CONSTANTS-----//
 	public static final String NOTIFICATION_TYPE_INFO_ICON_KEY = "display_notification_type_info_icon";
 	public static final String NOTIFICATION_TYPE_INFO_FONT_SIZE_KEY = "notification_type_info_font_size";

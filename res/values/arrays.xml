@@ -680,6 +680,63 @@
 		<item name="24">29</item>
 		<item name="25">30</item>
 	</string-array>
+
+    <string-array name="max_lines_options">
+		<item name="0">5</item>
+		<item name="1">6</item>
+		<item name="2">7</item>
+		<item name="3">8</item>
+		<item name="4">9</item>
+		<item name="5">10</item>
+		<item name="6">11</item>
+		<item name="7">12</item>
+		<item name="8">13</item>
+		<item name="9">14</item>
+		<item name="10">15</item>
+		<item name="11">16</item>
+		<item name="12">17</item>
+		<item name="13">18</item>
+		<item name="14">19</item>
+		<item name="15">20</item>
+		<item name="16">21</item>
+		<item name="17">22</item>
+		<item name="18">23</item>
+		<item name="19">24</item>
+		<item name="20">25</item>
+		<item name="21">26</item>
+		<item name="22">27</item>
+		<item name="23">28</item>
+		<item name="24">29</item>
+		<item name="25">30</item>
+	</string-array>
+	<string-array name="max_lines_options_values">
+		<item name="0">5</item>
+		<item name="1">6</item>
+		<item name="2">7</item>
+		<item name="3">8</item>
+		<item name="4">9</item>
+		<item name="5">10</item>
+		<item name="6">11</item>
+		<item name="7">12</item>
+		<item name="8">13</item>
+		<item name="9">14</item>
+		<item name="10">15</item>
+		<item name="11">16</item>
+		<item name="12">17</item>
+		<item name="13">18</item>
+		<item name="14">19</item>
+		<item name="15">20</item>
+		<item name="16">21</item>
+		<item name="17">22</item>
+		<item name="18">23</item>
+		<item name="19">24</item>
+		<item name="20">25</item>
+		<item name="21">26</item>
+		<item name="22">27</item>
+		<item name="23">28</item>
+		<item name="24">29</item>
+		<item name="25">30</item>
+	</string-array>
 	
 	<!-- Contact Placeholder Image Arrays --> 
 	<string-array name="contact_placeholder_options">
