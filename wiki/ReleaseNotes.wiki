@@ -12,7 +12,8 @@
  * Added new Ice Cream theme.
  * Fixed character count bug in Quick Reply activity.
  * Fixed incorrect Facebook times being displayed.
- * 
+ * Added an option to fix SMS timestamps depending on if the incoming time is UTC or local.
+ * Added option to specify the maximum lines that are displayed in the notifications.
 
 *v2.15* (December 19, 2011)
  * Bug fix that prevented all but SMS notifications from appearing.
