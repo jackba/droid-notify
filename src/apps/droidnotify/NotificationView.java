@@ -1160,20 +1160,22 @@ public class NotificationView extends LinearLayout {
 		if (_debug) Log.v("NotificationView.set_notificationTypeInfo()");
 		Bitmap iconBitmap = null;
 		// Update TextView that contains the image, contact info/calendar info, and timestamp for the Notification.
-		String formattedTimestamp = Common.formatTimestamp(_context, notification.getTimeStamp());
 	    String receivedAtText = "";
 		switch(_notificationType){
 			case Constants.NOTIFICATION_TYPE_PHONE:{
+				String formattedTimestamp = Common.formatTimestamp(_context, notification.getTimeStamp(), false);
 		    	iconBitmap = BitmapFactory.decodeResource(_context.getResources(), R.drawable.ic_missed_call);
 		    	receivedAtText = _context.getString(R.string.missed_call_at_text, formattedTimestamp.toLowerCase());
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_SMS:{
+				String formattedTimestamp = Common.formatTimestamp(_context, notification.getTimeStamp(), _preferences.getBoolean(Constants.SMS_TIME_IS_UTC_KEY, false));
 		    	iconBitmap = BitmapFactory.decodeResource(_context.getResources(), R.drawable.sms);
 		    	receivedAtText = _context.getString(R.string.message_at_text, formattedTimestamp.toLowerCase());
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_MMS:{
+				String formattedTimestamp = Common.formatTimestamp(_context, notification.getTimeStamp(), false);
 		    	iconBitmap = BitmapFactory.decodeResource(_context.getResources(), R.drawable.sms);
 		    	receivedAtText = _context.getString(R.string.message_at_text, formattedTimestamp.toLowerCase());
 				break;
@@ -1184,11 +1186,13 @@ public class NotificationView extends LinearLayout {
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_GMAIL:{
+				String formattedTimestamp = Common.formatTimestamp(_context, notification.getTimeStamp(), false);
 		    	iconBitmap = BitmapFactory.decodeResource(_context.getResources(), R.drawable.ic_envelope_white);
 		    	receivedAtText = _context.getString(R.string.email_at_text, formattedTimestamp.toLowerCase());
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_TWITTER:{
+				String formattedTimestamp = Common.formatTimestamp(_context, notification.getTimeStamp(), false);
 		    	iconBitmap = BitmapFactory.decodeResource(_context.getResources(), R.drawable.twitter);
 		    	int notificationSubType = _notification.getNotificationSubType();
 			    if(notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE){
@@ -1201,6 +1205,7 @@ public class NotificationView extends LinearLayout {
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_FACEBOOK:{
+				String formattedTimestamp = Common.formatTimestamp(_context, notification.getTimeStamp(), true);
 		    	iconBitmap = BitmapFactory.decodeResource(_context.getResources(), R.drawable.facebook);
 		    	int notificationSubType = _notification.getNotificationSubType();
 			    if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION){
@@ -1213,11 +1218,12 @@ public class NotificationView extends LinearLayout {
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_K9:{
+				String formattedTimestamp = Common.formatTimestamp(_context, notification.getTimeStamp(), false);
 		    	iconBitmap = BitmapFactory.decodeResource(_context.getResources(), R.drawable.ic_envelope_white);
 		    	receivedAtText = _context.getString(R.string.email_at_text, formattedTimestamp.toLowerCase());
 				break;
 			}
-		}   
+		}
 		if(_preferences.getBoolean(Constants.NOTIFICATION_TYPE_INFO_ICON_KEY, true)){
 		    if(iconBitmap != null){
 		    	_notificationIconImageView.setImageBitmap(iconBitmap);

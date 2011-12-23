@@ -185,6 +185,9 @@
     <string name="preference_confirm_deletion_title">Confirm Deletion</string>
    	<string name="preference_confirm_deletion_summary">Display a confirmation dialog box when you delete an item.</string>
         
+    <!-- UTC Time Strings -->
+    <string name="preference_time_is_utc_title">Time Is In UTC</string>
+        
    	<!-- SMS Strings -->
    	<string name="view_thread_text">View Thread</string>
    	<string name="messaging_inbox_text">Messaging Inbox</string>
@@ -204,7 +207,8 @@
    	<string name="preference_sms_loading_summary">Select how the application retrieves incoming SMS messages.</string>
    	<string name="preference_sms_timestamp_adjustment_title">SMS TimeStamp Adjustment</string>
    	<string name="preference_sms_timestamp_adjustment_summary">Some phones/locations may display incorrect timestamps. Use this setting to adjust the displayed timestamp for SMS messages.</string>
-   	
+    <string name="preference_sms_time_is_utc_summary">Check this optoin if the incoming SMS message timestamp is in UTC. (This may fix incorrect message times in the notifications)</string> 
+    	
    	<!-- MMS Strings -->
    	<string name="preference_mms_enabled_title">Enable MMS</string>
    	<string name="preference_mms_enabled_summaryOn">MMS notifications are enabled.</string>

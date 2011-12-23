@@ -1558,7 +1558,7 @@ public class Common {
 	 * 
 	 * @return String - Formatted time string.
 	 */
-	public static String formatTimestamp(Context context, long inputTimestamp){
+	public static String formatTimestamp(Context context, long inputTimestamp, boolean isTimeUTC){
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.formatTimestamp()");
 		try{
@@ -1567,6 +1567,7 @@ public class Common {
 			}
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 			int timeFormatPreference = Integer.parseInt(preferences.getString(Constants.TIME_FORMAT_KEY, Constants.TIME_FORMAT_DEFAULT));
+			String displayTime = null;
 			String timestampFormat = null;
 			if(timeFormatPreference == Constants.TIME_FORMAT_12_HOUR){
 				timestampFormat = "h:mma";
@@ -1575,9 +1576,25 @@ public class Common {
 			}else{
 				timestampFormat = "h:mma";
 			}
-			SimpleDateFormat dateFormatted = new SimpleDateFormat(timestampFormat);
-			dateFormatted.setTimeZone(TimeZone.getDefault());
-			return dateFormatted.format(inputTimestamp);
+			SimpleDateFormat dateFormatted = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+			if(isTimeUTC){
+				//Convert to UTC format.
+				dateFormatted.setTimeZone(TimeZone.getTimeZone("UTC"));
+				Date utcOriginalDate = new Date(inputTimestamp);
+				Calendar calendar = Calendar.getInstance();
+				calendar.setTime(utcOriginalDate);
+				if (_debug) Log.v("Common.formatTimestamp() utcOriginalDate: " + utcOriginalDate);
+				Date timestampDateUTC = dateFormatted.parse(calendar.get(Calendar.MONTH)  + "/" + calendar.get(Calendar.DAY_OF_WEEK)  + "/" + calendar.get(Calendar.YEAR) + " " + calendar.get(Calendar.HOUR_OF_DAY)  + ":" + calendar.get(Calendar.MINUTE)  + ":" + calendar.get(Calendar.SECOND) );
+				//Convert to Local format.
+				dateFormatted.setTimeZone(TimeZone.getDefault());
+				dateFormatted.applyPattern(timestampFormat);
+				displayTime = dateFormatted.format(timestampDateUTC);
+			}else{
+				dateFormatted.setTimeZone(TimeZone.getDefault());
+				dateFormatted.applyPattern(timestampFormat);
+				displayTime = dateFormatted.format(inputTimestamp);
+			}
+			return displayTime;
 		}catch(Exception ex){
 			Log.e("Common.formatTimestamp() ERROR: " + ex.toString());
 			return "";
