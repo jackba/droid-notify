@@ -323,6 +323,12 @@
 							android:summaryOff="@string/preference_sms_enabled_summaryOff" 
 							android:defaultValue="true" />
 						<CheckBoxPreference 
+							android:key="sms_time_is_utc" 
+							android:title="@string/preference_time_is_utc_title" 
+							android:summary="@string/preference_sms_time_is_utc_summary"
+							android:defaultValue="false"
+							android:dependency="sms_notifications_enabled" />
+						<CheckBoxPreference 
 							android:key="sms_display_unread_enabled" 
 							android:title="@string/preference_sms_display_unread_enabled_title" 
 							android:summaryOn="@string/preference_sms_display_unread_enabled_summaryOn" 

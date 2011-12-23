@@ -234,6 +234,10 @@ public class FacebookCommon {
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 			String packageName = preferences.getString(Constants.FACEBOOK_PREFERRED_CLIENT_KEY, Constants.FACEBOOK_PREFERRED_CLIENT_DEFAULT);
 			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
+			if(intent == null){
+				if (_debug) Log.v("FacebookCommon.getFacebookAppActivityIntent() Package '" + packageName + "' Not Found. Exiting...");
+				return null;
+			}
 			intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 	        return intent;
 		}catch(Exception ex){

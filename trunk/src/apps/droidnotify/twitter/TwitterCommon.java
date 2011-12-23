@@ -372,6 +372,10 @@ public class TwitterCommon {
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 			String packageName = preferences.getString(Constants.TWITTER_PREFERRED_CLIENT_KEY, Constants.TWITTER_PREFERRED_CLIENT_DEFAULT);
 			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
+			if(intent == null){
+				if (_debug) Log.v("TwitterCommon.getTwitterAppActivityIntent() Package '" + packageName + "' Not Found. Exiting...");
+				return null;
+			}
 			intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 	        return intent;
 		}catch(Exception ex){

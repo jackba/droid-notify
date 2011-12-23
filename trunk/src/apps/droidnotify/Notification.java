@@ -951,7 +951,6 @@ public class Notification {
 	public void speak(TextToSpeech tts){
 		if (_debug) Log.v("Notification.speak()");
 		StringBuilder messageToSpeak = new StringBuilder();
-		String formattedTimestamp = Common.formatTimestamp(_context, _timeStamp);
 		String sentFrom = null;
 		if(_notificationType != Constants.NOTIFICATION_TYPE_CALENDAR){
 			if(_contactName != null && !_contactName.equals(_context.getString(android.R.string.unknownName))){
@@ -966,17 +965,20 @@ public class Notification {
 		}
 		switch(_notificationType){
 			case Constants.NOTIFICATION_TYPE_PHONE:{
+				String formattedTimestamp = Common.formatTimestamp(_context, _timeStamp, false);
 				messageToSpeak.append(_context.getString(R.string.missed_call_at_text, formattedTimestamp.toLowerCase()));
 				messageToSpeak.append(". " + _context.getString(R.string.from_text) + " " + sentFrom + ". ");
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_SMS:{
+				String formattedTimestamp = Common.formatTimestamp(_context, _timeStamp, _preferences.getBoolean(Constants.SMS_TIME_IS_UTC_KEY, false));
 				messageToSpeak.append(_context.getString(R.string.message_at_text, formattedTimestamp.toLowerCase()));
 				messageToSpeak.append(". " + _context.getString(R.string.from_text) + " " + sentFrom + ". ");
 				messageToSpeak.append(_messageBody);
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_MMS:{
+				String formattedTimestamp = Common.formatTimestamp(_context, _timeStamp, false);
 				messageToSpeak.append(_context.getString(R.string.message_at_text, formattedTimestamp.toLowerCase()));
 				messageToSpeak.append(". " + _context.getString(R.string.from_text) + " " + sentFrom + ". ");
 				messageToSpeak.append(_messageBody);
@@ -987,12 +989,14 @@ public class Notification {
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_GMAIL:{
+				String formattedTimestamp = Common.formatTimestamp(_context, _timeStamp, false);
 				messageToSpeak.append(_context.getString(R.string.email_at_text, formattedTimestamp.toLowerCase()));
 				messageToSpeak.append(". " + _context.getString(R.string.from_text) + " " + sentFrom + ". ");
 				messageToSpeak.append(_messageBody);
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_TWITTER:{
+				String formattedTimestamp = Common.formatTimestamp(_context, _timeStamp, false);
 				if(_notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE){
 					messageToSpeak.append(_context.getString(R.string.message_at_text, formattedTimestamp.toLowerCase()));
 				}else if(_notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_MENTION){
@@ -1005,6 +1009,7 @@ public class Notification {
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_FACEBOOK:{
+				String formattedTimestamp = Common.formatTimestamp(_context, _timeStamp, true);
 				if(_notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION){
 					messageToSpeak.append(_context.getString(R.string.notification_at_text, formattedTimestamp.toLowerCase()));
 				}else if(_notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST){
@@ -1015,6 +1020,7 @@ public class Notification {
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_K9:{
+				String formattedTimestamp = Common.formatTimestamp(_context, _timeStamp, false);
 				messageToSpeak.append(_context.getString(R.string.email_at_text, formattedTimestamp.toLowerCase()));
 				messageToSpeak.append(". " + _context.getString(R.string.from_text) + " " + sentFrom + ". ");
 				messageToSpeak.append(_messageBody);

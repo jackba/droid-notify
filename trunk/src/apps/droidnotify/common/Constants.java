@@ -310,6 +310,8 @@ public class Constants {
 	
 	public static final String SMS_SPLIT_MESSAGE_KEY = "sms_split_message";
 	
+	public static final String SMS_TIME_IS_UTC_KEY = "sms_time_is_utc";
+	
 	//-----MMS NOTIFICATION CONSTANTS-----//
 	public static final String MMS_NOTIFICATIONS_ENABLED_KEY = "mms_notifications_enabled";
 	public static final String MMS_BLOCKING_APP_RUNNING_ACTION_KEY = "blocking_app_running_action_mms";
