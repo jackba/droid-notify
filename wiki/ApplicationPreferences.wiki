@@ -60,6 +60,7 @@ Basic Settings
 Notifications
  * *_SMS Notifications_*
   * Enable SMS Notifications
+  * Time Is In UTC
   * Load Unread SMS Messages
   * Blocking Notification Options
   * Enable Status Bar Notifications
