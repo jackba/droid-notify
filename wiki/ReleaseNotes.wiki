@@ -6,7 +6,7 @@
 *v2.17* _Coming Soon..._
  * 
 
-*v2.16* _Coming Soon..._
+*v2.16* (December 23, 2011)
  * Remove the INTERNET permission on the Basic version of the app.
  * Fixed Kaiten Mail notifications. A bug prevented them from displaying.
  * Added new Ice Cream theme.
