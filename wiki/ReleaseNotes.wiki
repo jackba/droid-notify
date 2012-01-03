@@ -1,4 +1,4 @@
-#summary App Version Summaries & Changelog
+#summary Application Version Summaries & Changelog
 #labels Featured
 
 = Release Notes =
@@ -6,6 +6,7 @@
 *v2.17* _Coming Soon..._
  * Fixed a contact recognition bug.
  * Slight updates to the user preferences.
+ * Updated translations.
  * 
 
 *v2.16* (December 23, 2011)
