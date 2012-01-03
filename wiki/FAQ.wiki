@@ -15,6 +15,7 @@
  * [FAQ#Will_Droid_Notify_display_calendar_events_by_non_Android_calendars? Will Droid Notify display calendar events by non Android calendars?]
  * [FAQ#I_get_status_bar_notifications_but_no_popup,_why? I get status bar notifications but no popup, why?]
  * [FAQ#Can_I_help_translate_this_application? Can I help translate this application?]
+ * [FAQ#The_SMS_timestamp_is_not_correct. What can I do? The SMS timestamp is not correct. What can I do?]
 
 ----
 
@@ -87,3 +88,13 @@ This issue is most likely due to the popup being blocked. Being in a phone call 
 ==Can I help translate this application?==
 
 Yes! I would encourage anyone who speaks English and any other language to help translate this application. Currently, I am trying out a collaborative translation tool powered by Translations powered by [http://www.crowdin.net/ CrowdIn.Net]. Email me if you would like to help translate this application (droidnotify@gmail.com).
+
+==The SMS timestamp is not correct. What can I do?==
+
+This is a problem because depending on the cell carrier, SMS messages will be delivered with a timestamp in either UTC time or in local time. By default, the app expects the incoming timestamp to be in local time. 
+
+There are two ways to correct his. 
+ 
+1) Tell the app that the incoming SMS messages are in UTC time and not local time. Settings->Notification Settings->SMS Settings->Time Is In UTC....Check this box to tell the app that incoming SMS timestamps are in UTC.
+
+2) Manually adjust the time via an Advanced Sertting. Settings->Advanced Settings->SMS Timeout Adjustment...Set the adjustment time here.
