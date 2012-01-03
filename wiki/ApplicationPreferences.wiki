@@ -1,4 +1,4 @@
-#summary Outline of the Application Preferences
+#summary Application Preferences Outline
 #labels uency
 
 = Application Preferences =
@@ -192,7 +192,6 @@ Notifications
    * Hide Notification Body
   * Button Settings
    * Confirm Deletion
-   * Dismiss Button Action
    * Delete Button Action
    * Reply Button Action
    * Notification Count Action
