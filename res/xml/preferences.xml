@@ -1363,6 +1363,7 @@
 								android:title="@string/preference_confirm_deletion_title" 
 								android:summary="@string/preference_confirm_deletion_summary"
 								android:defaultValue="true" />
+						<!--
 							<ListPreference
 								android:key="k9_dismiss_button_action"
 								android:title="@string/preference_dismiss_button_action"
@@ -1370,6 +1371,7 @@
 								android:defaultValue="1"
 								android:entries="@array/k9_dismiss_button_options"
 								android:entryValues="@array/k9_dismiss_button_options_values"/>
+						-->  
 							<ListPreference
 								android:key="k9_delete_button_action"
 								android:title="@string/preference_delete_button_action"

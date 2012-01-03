@@ -94,6 +94,12 @@ public class Constants {
 	
 	public static final int MESSAGE_TYPE_SMS = 1;
 	public static final int MESSAGE_TYPE_MMS = 2;
+
+	//-----VIEW FLIPPER CONSTANTS-----//
+	public static final String VIEW_NOTIFICATION_ORDER = "view_notification_order";
+	public static final String NEWEST_FIRST = "0";
+	public static final String OLDER_FIRST = "1";
+	public static final String DISPLAY_NEWEST_NOTIFICATION = "display_newest_notification";
 	
 	//-----BUTTON CONSTANTS-----//
 	public static final String BUTTON_DISPLAY_STYLE_KEY = "button_display_style";

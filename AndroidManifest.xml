@@ -229,4 +229,5 @@
 	<uses-feature android:name="android.hardware.telephony" />
 	<uses-permission android:name="com.fsck.k9.permission.READ_MESSAGES" />
 	<uses-permission android:name="com.fsck.k9.permission.DELETE_MESSAGES" />
+	<uses-permission android:name="thinkpanda.permission.CLEAR_MISSED_CALL"/>
 </manifest>

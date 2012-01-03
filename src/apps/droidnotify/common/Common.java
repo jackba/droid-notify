@@ -1377,7 +1377,7 @@ public class Common {
 			notificationManager.notify(notificationType, notification);
 			//Remove the stock status bar notification.
 			if(notificationType == Constants.NOTIFICATION_TYPE_PHONE){
-				PhoneCommon.cancelStockMissedCallNotification();
+				PhoneCommon.clearStockMissedCallNotification(context);
 			}
 		}catch(Exception ex){
 			Log.e("Common.setStatusBarNotification() ERROR: " + ex.toString());
