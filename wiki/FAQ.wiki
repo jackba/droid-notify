@@ -1,4 +1,4 @@
-#summary Frequently asked questions
+#summary Frequently Asked Questions
 #labels Featured
 
 = Droid Notify - Frequently Asked Questions =
