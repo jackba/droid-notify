@@ -1,4 +1,4 @@
-#summary Summary Of App Versions
+#summary App Version Summaries & Changelog
 #labels Featured
 
 = Release Notes =
