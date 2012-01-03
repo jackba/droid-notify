@@ -113,12 +113,28 @@ public class NotificationViewFlipper extends ViewFlipper {
 			}
 		}
 		if(!duplicateFound){
-			_notifications.add(notification);
-			_totalNotifications = _notifications.size();
-			addView(new NotificationView(_context, notification));
+			if(_preferences.getString(Constants.VIEW_NOTIFICATION_ORDER, Constants.NEWEST_FIRST).equals(Constants.OLDER_FIRST)){
+				_notifications.add(notification);
+				_totalNotifications = _notifications.size();
+				addView(new NotificationView(_context, notification));
+				if(_preferences.getBoolean(Constants.DISPLAY_NEWEST_NOTIFICATION, true)){
+					setDisplayedChild(_totalNotifications - 1);
+				}else{
+					setDisplayedChild(0);
+				}
+			}else{
+				_notifications.add(0, notification);
+				_totalNotifications = _notifications.size();
+				addView(new NotificationView(_context, notification), 0);
+				if(_preferences.getBoolean(Constants.DISPLAY_NEWEST_NOTIFICATION, true)){
+					setDisplayedChild(0);
+				}else{
+					setDisplayedChild(_totalNotifications - 1);
+				}
+			}
 			//Update the navigation information on the current View every time a new View is added.
-			final View nextView = this.getChildAt(_currentNotification);
-			updateViewNavigationButtons(nextView);
+			final View currentView = this.getChildAt(0);
+			updateViewNavigationButtons(currentView);
 			//Update specific type counts.
 			switch(notification.getNotificationType()){
 				case Constants.NOTIFICATION_TYPE_PHONE:{
