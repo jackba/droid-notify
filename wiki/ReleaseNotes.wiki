@@ -7,6 +7,7 @@
  * Fixed a contact recognition bug.
  * Slight updates to the user preferences.
  * Updated translations.
+ * Added support for the "NotiGo" utility.
  * 
 
 *v2.16* (December 23, 2011)
