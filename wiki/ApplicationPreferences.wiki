@@ -1,5 +1,5 @@
 #summary Application Preferences Outline
-#labels uency
+#labels Featured
 
 = Application Preferences =
 
