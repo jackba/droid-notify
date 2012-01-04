@@ -95,9 +95,9 @@ public class QuickReplyActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle bundle) {
 		super.onCreate(bundle);
+	    _context = getApplicationContext();
 		_debug = Log.getDebug();
 	    if (_debug) Log.v("QuickReplyActivity.onCreate()");
-	    _context = getApplicationContext();
 	    _preferences = PreferenceManager.getDefaultSharedPreferences(_context);
 	    //Don't rotate the Activity when the screen rotates based on the user preferences.
 	    if(!_preferences.getBoolean(Constants.LANDSCAPE_SCREEN_ENABLED_KEY, false)){
@@ -221,7 +221,6 @@ public class QuickReplyActivity extends Activity {
 	@Override
 	protected void onStart() {
 		super.onStart();
-		_debug = Log.getDebug();
 	    if (_debug) Log.v("QuickReplyActivity.onStart()");
 	    setFocus();
 	}
@@ -232,7 +231,6 @@ public class QuickReplyActivity extends Activity {
 	@Override
 	protected void onResume() {
 	    super.onResume();
-	    _debug = Log.getDebug();
 	    if (_debug) Log.v("QuickReplyActivity.onResume()");
 	    setFocus();
 	}

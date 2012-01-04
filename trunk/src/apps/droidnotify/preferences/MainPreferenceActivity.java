@@ -86,10 +86,10 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
+	    _context = MainPreferenceActivity.this;
 	    _debug = Log.getDebug();
 	    _appProVersion = Log.getAppProVersion();
 	    if (_debug) Log.v("MainPreferenceActivity.onCreate()");
-	    _context = MainPreferenceActivity.this;
 	    _preferences = PreferenceManager.getDefaultSharedPreferences(_context);
 	    _preferences.registerOnSharedPreferenceChangeListener(this);
 	    //Don't rotate the Activity when the screen rotates based on the user preferences.
@@ -207,6 +207,8 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		}else if(key.equals(Constants.LINKEDIN_POLLING_FREQUENCY_KEY)){
 			//The polling time for LinkedIn was changed. Run the alarm manager with the updated polling time.
 			LinkedInCommon.startLinkedInAlarmManager(_context, SystemClock.currentThreadTimeMillis());
+		}else if(key.equals(Constants.DEBUG)){
+			Log.setDebug(_preferences.getBoolean(Constants.DEBUG, false));
 		}
 	}
 
@@ -220,7 +222,6 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	@Override
 	protected void onResume() {
 	    super.onResume();
-	    _debug = Log.getDebug();
 	    if (_debug) Log.v("MainPreferenceActivity.onResume()");
 	    _preferences.registerOnSharedPreferenceChangeListener(this);
 	    setupImportPreferences();

@@ -180,7 +180,7 @@ public class Common {
 						phoneSortOrder); 
 				while (phoneCursor.moveToNext()) { 
 					String contactNumber = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-					if(PhoneCommon.isPhoneNumberEqual(contactNumber, incomingNumber)){
+					if(PhoneCommon.isPhoneNumberEqual(context, contactNumber, incomingNumber)){
 						_contactID = Long.parseLong(contactID);
 		    		  	if(contactName != null){
 		    		  		_contactName = contactName;

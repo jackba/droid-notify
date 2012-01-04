@@ -260,7 +260,7 @@ public class Notification {
 			_contactPhotoExists = false;
 			_notificationType = notificationType;
 			if(sentFromAddress != null && !sentFromAddress.equals("")){
-				if(PhoneCommon.isPrivateUnknownNumber(sentFromAddress)){
+				if(PhoneCommon.isPrivateUnknownNumber(context, sentFromAddress)){
 					_sentFromAddress = "Private Number";
 				}else{
 					if(_notificationType == Constants.NOTIFICATION_TYPE_FACEBOOK){

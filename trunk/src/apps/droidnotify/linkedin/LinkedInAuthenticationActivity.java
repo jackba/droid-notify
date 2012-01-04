@@ -59,9 +59,9 @@ public class LinkedInAuthenticationActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
+	    _context = getApplicationContext();
 		_debug = Log.getDebug();
 		if (_debug) Log.v("LinkedInAuthenticationActivity.onCreate()");
-	    _context = getApplicationContext();
 	    _preferences = PreferenceManager.getDefaultSharedPreferences(_context);
 	    requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.linkedin_authentication);
@@ -123,7 +123,6 @@ public class LinkedInAuthenticationActivity extends Activity {
 	@Override
 	protected void onStart() {
 		super.onStart();
-		_debug = Log.getDebug();
 	    if (_debug) Log.v("LinkedInAuthenticationActivity.onStart()");
 	}
 	  
@@ -133,7 +132,6 @@ public class LinkedInAuthenticationActivity extends Activity {
 	@Override
 	protected void onResume() {
 	    super.onResume();
-	    _debug = Log.getDebug();
 	    if (_debug) Log.v("LinkedInAuthenticationActivity.onResume()");
 	}
 	  

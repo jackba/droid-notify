@@ -90,6 +90,11 @@
     <string name="notification_body_settings_text">Notification Body Settings</string>
     <string name="notification_header_settings_text">Notification Header Settings</string>
    	<string name="event_body_settings_text">Event Body Settings</string>
+   	
+   	<!-- Debug Strings -->
+   	<string name="debug_settings_text">Debug Settings</string>
+	<string name="preference_debug_log_title">Turn On Debug Mode</string>
+	<string name="preference_debug_log_summary">When in debug mode the application will log diagnostic information.</string>
 
    	<!-- Delete Strings -->
    	<string name="delete_text">Delete</string>
@@ -209,8 +214,8 @@
    	<string name="preference_sms_loading_summary">Select how the application retrieves incoming SMS messages.</string>
    	<string name="preference_sms_timestamp_adjustment_title">SMS TimeStamp Adjustment</string>
    	<string name="preference_sms_timestamp_adjustment_summary">Some phones/locations may display incorrect timestamps. Use this setting to adjust the displayed timestamp for SMS messages.</string>
-    <string name="preference_sms_time_is_utc_summary">Check this optoin if the incoming SMS message timestamp is in UTC. (This may fix incorrect message times in the notifications)</string> 
-    	
+    	<string name="preference_sms_time_is_utc_summary">Check this optoin if the incoming SMS message timestamp is in UTC. (This may fix incorrect message times in the notifications)</string> 
+   	
    	<!-- MMS Strings -->
    	<string name="preference_mms_enabled_title">Enable MMS</string>
    	<string name="preference_mms_enabled_summaryOn">MMS notifications are enabled.</string>

@@ -26,8 +26,9 @@ public class SelectCalendarListPreference extends ListPreference {
     // Properties
     //================================================================================
 	
-    private boolean[] _clickedDialogEntryIndices = null;
+	private boolean _debug = false;
     private Context _context = null;
+    private boolean[] _clickedDialogEntryIndices = null;
 
 	//================================================================================
 	// Constructors
@@ -40,8 +41,9 @@ public class SelectCalendarListPreference extends ListPreference {
      */
     public SelectCalendarListPreference(Context context) {
         this(context, null);
-        if (Log.getDebug()) Log.v("SelectCalendarListPreference(Context context)");
-        _context = getContext();
+        _debug = Log.getDebug();
+        if (_debug) Log.v("SelectCalendarListPreference(Context context)");
+        _context = context;
     }
     
     /**
@@ -52,8 +54,9 @@ public class SelectCalendarListPreference extends ListPreference {
      */
     public SelectCalendarListPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
-        if (Log.getDebug()) Log.v("SelectCalendarListPreference(Context context, AttributeSet attrs)");
-        _context = getContext();
+        _debug = Log.getDebug();
+        if (_debug) Log.v("SelectCalendarListPreference(Context context, AttributeSet attrs)");
+        _context = context;
     }
  
 	//================================================================================
@@ -68,7 +71,7 @@ public class SelectCalendarListPreference extends ListPreference {
     @Override
     public void setEntries(CharSequence[] entries) {
     	super.setEntries(entries);
-    	if (Log.getDebug()) Log.v("SelectCalendarListPreference.setEntries()");
+    	if (_debug) Log.v("SelectCalendarListPreference.setEntries()");
     	_clickedDialogEntryIndices = new boolean[entries.length];
     }
  
@@ -80,7 +83,7 @@ public class SelectCalendarListPreference extends ListPreference {
     @Override
     public void setEntryValues(CharSequence[] entryValues) {
     	super.setEntryValues(entryValues);
-    	if (Log.getDebug()) Log.v("SelectCalendarListPreference.setEntryValues()");
+    	if (_debug) Log.v("SelectCalendarListPreference.setEntryValues()");
     	_clickedDialogEntryIndices = new boolean[entryValues.length];
     }
     
@@ -92,7 +95,7 @@ public class SelectCalendarListPreference extends ListPreference {
      */
     @Override
     protected void onPrepareDialogBuilder(Builder builder) {
-    	if (Log.getDebug()) Log.v("SelectCalendarListPreference.onPrepareDialogBuilder()");
+    	if (_debug) Log.v("SelectCalendarListPreference.onPrepareDialogBuilder()");
     	String availableCalendarsInfo = CalendarCommon.getAvailableCalendars(_context);
     	if(availableCalendarsInfo == null){
     		Toast.makeText(_context, _context.getString(R.string.app_android_calendars_not_found_error), Toast.LENGTH_LONG).show();
@@ -131,7 +134,7 @@ public class SelectCalendarListPreference extends ListPreference {
      * @return String[] - An array of parsed values.
      */
     private String[] parseStoredValue(String value) {
-    	if (Log.getDebug()) Log.v("SelectCalendarListPreference.parseStoredValue() value: " + value);
+    	if (_debug) Log.v("SelectCalendarListPreference.parseStoredValue() value: " + value);
     	if(value == null){
     		return null;
     	}else if(value.equals("")){
@@ -145,7 +148,7 @@ public class SelectCalendarListPreference extends ListPreference {
      * Read the stored preference value and set the current ListPreference to the values stored.
      */
     private void restoreCheckedEntries() {
-    	if (Log.getDebug()) Log.v("SelectCalendarListPreference.restoreCheckedEntries()");
+    	if (_debug) Log.v("SelectCalendarListPreference.restoreCheckedEntries()");
     	CharSequence[] entryValues = getEntryValues();
     	String[] preferenceValues = parseStoredValue(getValue());
     	if (preferenceValues != null) {
@@ -178,7 +181,7 @@ public class SelectCalendarListPreference extends ListPreference {
      */
 	@Override
     protected void onDialogClosed(boolean positiveResult) {
-		if (Log.getDebug()) Log.v("SelectCalendarListPreference.onDialogClosed()");
+		if (_debug) Log.v("SelectCalendarListPreference.onDialogClosed()");
     	CharSequence[] entryValues = getEntryValues();
         if (positiveResult && entryValues != null) {
         	StringBuffer value = new StringBuffer();
