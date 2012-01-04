@@ -56,9 +56,9 @@ public class TwitterAuthenticationActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
+	    _context = getApplicationContext();
 		_debug = Log.getDebug();
 		if (_debug) Log.v("TwitterAuthenticationActivity.onCreate()");
-	    _context = getApplicationContext();
 	    _preferences = PreferenceManager.getDefaultSharedPreferences(_context);
 	    requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.twitter_authentication);
@@ -127,7 +127,6 @@ public class TwitterAuthenticationActivity extends Activity {
 	@Override
 	protected void onStart() {
 		super.onStart();
-		_debug = Log.getDebug();
 	    if (_debug) Log.v("TwitterAuthenticationActivity.onStart()");
 	}
 	  
@@ -137,7 +136,6 @@ public class TwitterAuthenticationActivity extends Activity {
 	@Override
 	protected void onResume() {
 	    super.onResume();
-	    _debug = Log.getDebug();
 	    if (_debug) Log.v("TwitterAuthenticationActivity.onResume()");
 	}
 	  

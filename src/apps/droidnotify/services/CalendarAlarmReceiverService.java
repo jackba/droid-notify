@@ -62,9 +62,8 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
 	@Override
 	protected void doWakefulWork(Intent intent) {
 		if (_debug) Log.v("CalendarAlarmReceiverService.doWakefulWork()");
-		Context context = getApplicationContext();
 		//Read the users calendar(s) and events.
-		readCalendars(context);
+		readCalendars(getApplicationContext());
 	}
 
 	//================================================================================

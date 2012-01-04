@@ -2142,6 +2142,20 @@
 					android:key="import_preferences"
 					android:title="@string/preference_import_preferences_title"
 					android:summary="@string/preference_import_preferences_summary" />	
+			</PreferenceCategory>
+			<PreferenceCategory
+				android:key="debug_settings_category"
+				android:title="@string/debug_settings_text">
+				<PreferenceScreen
+					android:key="debug_settings_screen"
+					android:title="@string/debug_settings_text"
+					android:dependency="app_enabled">
+					<CheckBoxPreference
+						android:key="debug_log_enabled" 
+			        	android:title="@string/preference_debug_log_title" 
+			        	android:summary="@string/preference_debug_log_summary"
+			        	android:defaultValue="false" />
+				</PreferenceScreen>
 			</PreferenceCategory>	
 		</PreferenceScreen>
 	</PreferenceCategory>       	

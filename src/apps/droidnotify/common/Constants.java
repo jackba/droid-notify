@@ -7,6 +7,9 @@ package apps.droidnotify.common;
  */
 public class Constants {
 	
+	//-----DEBUG CONSTANTS-----//
+	public static final String DEBUG = "debug_log_enabled";
+	
 	//-----RUNONCE CONSTANTS-----//
 	public static final String RUN_ONCE_EULA = "RUNONCE_EULA";
 	public static final String RUN_ONCE_CALENDAR_ALARM = "RUNONCE_CALENDAR_V_2_16";

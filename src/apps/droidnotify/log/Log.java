@@ -20,7 +20,7 @@ public class Log {
 	private static final String _logTag = "DroidNotify";
 	private static final boolean _appProVersion = false;
 	private static final boolean _debugFileOnDisk = false;
-	private static final boolean _debug = true;
+	private static boolean _debug = true;
 	private static final boolean _showAndroidRateAppLink = true;
 	private static final boolean _showAmazonRateAppLink = false;
 
@@ -43,7 +43,16 @@ public class Log {
 	 *  @return boolean - Returns true if the log class is set to log entries.
 	 */
 	public static boolean getDebug(){
-		return _debug;
+		return _debug;		
+	}
+
+	/**
+	 *  Set debug property.
+	 *  
+	 *  @param debug - The value we want to set the debug flag to.
+	 */
+	public static void setDebug(boolean debug){
+		_debug = debug;		
 	}
 
 	/**

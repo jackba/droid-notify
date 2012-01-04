@@ -866,9 +866,9 @@ public class NotificationActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle bundle) {
 		super.onCreate(bundle);
+	    _context = getApplicationContext();
 		_debug = Log.getDebug();
 	    if (_debug) Log.v("NotificationActivity.onCreate()");
-	    _context = getApplicationContext();
 	    _preferences = PreferenceManager.getDefaultSharedPreferences(_context);
 	    Common.setInLinkedAppFlag(_context, false);
 	    Common.acquireWakeLock(_context);
@@ -1006,7 +1006,6 @@ public class NotificationActivity extends Activity {
 	@Override
 	protected void onStart() {
 		super.onStart();
-		_debug = Log.getDebug();
 	    if (_debug) Log.v("NotificationActivity.onStart()");
 	}
 	  
@@ -1015,7 +1014,6 @@ public class NotificationActivity extends Activity {
 	 */
 	@Override
 	protected void onResume() {
-	    _debug = Log.getDebug();
 	    if (_debug) Log.v("NotificationActivity.onResume()");
 	    Common.acquireWakeLock(_context);
 	    setScreenTimeoutAlarm();

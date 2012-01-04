@@ -65,7 +65,7 @@ public class PhoneCommon {
 	    		if(Integer.parseInt(callType) == Constants.PHONE_TYPE && Integer.parseInt(isCallNew) > 0){
     				if (_debug) Log.v("PhoneCommon.getMissedCalls() Missed Call Found: " + callNumber);
     				String[] missedCallContactInfo = null;
-    				if(isPrivateUnknownNumber(callNumber)){
+    				if(isPrivateUnknownNumber(context, callNumber)){
     					if (_debug) Log.v("PhoneCommon.getMissedCalls() Is a private or unknown number.");
     				}else{
     					missedCallContactInfo = Common.getContactsInfoByPhoneNumber(context, callNumber);
@@ -231,7 +231,7 @@ public class PhoneCommon {
 	 * 
 	 * @return boolean - Returns true if the number is a Private number or Unknown number.
 	 */
-	public static boolean isPrivateUnknownNumber(String incomingNumber){
+	public static boolean isPrivateUnknownNumber(Context context, String incomingNumber){
 		_debug = Log.getDebug();
 		if (_debug) Log.v("PhoneCommon.isPrivateUnknownNumber() incomingNumber: " + incomingNumber);
 		try{
@@ -438,7 +438,7 @@ public class PhoneCommon {
 	 * @return - boolean - 	 If the second string is larger ends with the first string, return true.
 	 *                       If the first string is larger ends with the second string, return true.
 	 */
-	public static boolean isPhoneNumberEqual(String contactNumber, String incomingNumber){
+	public static boolean isPhoneNumberEqual(Context context, String contactNumber, String incomingNumber){
 		_debug = Log.getDebug();
 		if (_debug) Log.v("PhoneCommon.isPhoneNumberEqual()");
 		if(contactNumber == null || incomingNumber == null){
