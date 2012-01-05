@@ -21,6 +21,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.graphics.Bitmap;
@@ -49,6 +50,7 @@ import android.widget.Toast;
 
 import apps.droidnotify.NotificationActivity;
 import apps.droidnotify.NotificationViewFlipper;
+import apps.droidnotify.email.EmailCommon;
 import apps.droidnotify.facebook.FacebookCommon;
 import apps.droidnotify.log.Log;
 import apps.droidnotify.phone.PhoneCommon;
@@ -258,7 +260,7 @@ public class Common {
                         emailSortOrder);
                 while (emailCursor.moveToNext()) {
                 	String contactEmail = emailCursor.getString(emailCursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA));
-                	if(removeEmailFormatting(incomingEmail).equals(removeEmailFormatting(contactEmail))){
+                	if(EmailCommon.removeEmailFormatting(incomingEmail).equals(EmailCommon.removeEmailFormatting(contactEmail))){
 						_contactID = Long.parseLong(contactID);
 		    		  	if(contactName != null){
 		    		  		_contactName = contactName;
@@ -325,29 +327,6 @@ public class Common {
 			Log.e("Common.getContactsInfoByName() ERROR: " + ex.toString());
 			return null;
 		}
-	}
-	
-	/**
-	 * Remove formatting from email addresses.
-	 * 
-	 * @param address - String of original email address.
-	 * 
-	 * @return String - String of email address with no formatting.
-	 */
-	public static String removeEmailFormatting(String address){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.removeEmailFormatting() Email Address: " + address);
-		if(address.contains("<") && address.contains(">")){
-			address = address.substring(address.indexOf("<") + 1,address.indexOf(">"));
-		}
-		if(address.contains("(") && address.contains(")")){
-			address = address.substring(address.indexOf("(") + 1,address.indexOf(")"));
-		}
-		if(address.contains("[") && address.contains("]")){
-			address = address.substring(address.indexOf("[") + 1,address.indexOf("]"));
-		}
-		if (_debug) Log.v("Common.removeEmailFormatting() Formatted Email Address: " + address);
-		return address.toLowerCase().trim();
 	}
 	
 	/**
@@ -468,10 +447,10 @@ public class Common {
 	    	ComponentName runningTaskComponent = runningTaskInfo.baseActivity;
 	    	String runningTaskPackageName = runningTaskComponent.getPackageName();
 	    	String runningTaskClassName = runningTaskComponent.getClassName();
-	        if (_debug) Log.v("Common.isBlockingAppRunning() runningTaskPackageName: " + runningTaskPackageName + " runningTaskClassName: " + runningTaskClassName);
+	        //if (_debug) Log.v("Common.isBlockingAppRunning() runningTaskPackageName: " + runningTaskPackageName + " runningTaskClassName: " + runningTaskClassName);
 	        int messagingPackageNamesArraySize = Constants.BLOCKED_PACKAGE_NAMES_ARRAY.length;
 	        for(int i = 0; i < messagingPackageNamesArraySize; i++){
-	        	if (_debug) Log.v("Common.isBlockingAppRunning() Checking BLOCKED_PACKAGE_NAMES_ARRAY[i]: " + Constants.BLOCKED_PACKAGE_NAMES_ARRAY[i]);
+	        	//if (_debug) Log.v("Common.isBlockingAppRunning() Checking BLOCKED_PACKAGE_NAMES_ARRAY[i]: " + Constants.BLOCKED_PACKAGE_NAMES_ARRAY[i]);
 	        	String[] blockedInfoArray = Constants.BLOCKED_PACKAGE_NAMES_ARRAY[i].split(",");
 		        if(blockedInfoArray[0].equals(runningTaskPackageName)){
 		        	if(blockedInfoArray.length > 1){
@@ -496,12 +475,13 @@ public class Common {
 	 */
 	public static long convertGMTToLocalTime(Context context, long inputTimeStamp){
 		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.convertGMTToLocalTime() InputTimeStamp: " + inputTimeStamp);
+		if (_debug) Log.v("Common.convertGMTToLocalTime()");
+		//if (_debug) Log.v("Common.convertGMTToLocalTime() InputTimeStamp: " + inputTimeStamp);
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 	    long offset = TimeZone.getDefault().getOffset(inputTimeStamp);
 		long timeStampAdjustment = Long.parseLong(preferences.getString(Constants.SMS_TIMESTAMP_ADJUSTMENT_KEY, "0")) * 60 * 60 * 1000;
 	    long outputTimeStamp = inputTimeStamp - offset + timeStampAdjustment;
-	    if (_debug) Log.v("Common.convertGMTToLocalTime() OutputTimeStamp: " + outputTimeStamp);
+	    //if (_debug) Log.v("Common.convertGMTToLocalTime() OutputTimeStamp: " + outputTimeStamp);
 	    return outputTimeStamp;
 	}
 	
@@ -520,7 +500,8 @@ public class Common {
 	 */
 	public static void setStatusBarNotification(Context context, int notificationType, int notificationSubType, boolean callStateIdle, String sentFromContactName, String sentFromAddress, String message, String k9EmailUri){
 		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.setStatusBarNotification() sentFromContactName: " + sentFromContactName + " sentFromAddress: " + sentFromAddress + " message: " + message);
+		if (_debug) Log.v("Common.setStatusBarNotification()");
+		//if (_debug) Log.v("Common.setStatusBarNotification() sentFromContactName: " + sentFromContactName + " sentFromAddress: " + sentFromAddress + " message: " + message);
 		try{
 			_context = context;
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -2052,6 +2033,24 @@ public class Common {
 		 }catch(Exception ex){
 			Log.e("Common.isOnline() ERROR: " + ex.toString());
 			return false;
+		}
+	}
+	
+	/**
+	 * Read the Application info and return the app version number.
+	 * 
+	 * @param context - The application context.
+	 * 
+	 * @return String - The version number of the application.
+	 */
+	public static String getApplicationVersion(Context context){
+		if (_debug) Log.v("Common.getApplicationVersion()");
+		PackageInfo packageInfo = null;
+		try{
+			packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+			return packageInfo.versionName;
+		}catch(Exception ex){
+			return "";
 		}
 	}
 	

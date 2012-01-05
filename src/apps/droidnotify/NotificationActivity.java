@@ -1796,7 +1796,7 @@ public class NotificationActivity extends Activity {
 		    	String messageBody = cursor.getString(cursor.getColumnIndex("body"));
 		    	String sentFromAddress = cursor.getString(cursor.getColumnIndex("address"));
 		    	if(sentFromAddress.contains("@")){
-	            	sentFromAddress = Common.removeEmailFormatting(sentFromAddress);
+	            	sentFromAddress = EmailCommon.removeEmailFormatting(sentFromAddress);
 	            }
 		    	long timeStamp = cursor.getLong(cursor.getColumnIndex("date"));
 		    	if(messageIDFilter == 0 && messageBodyFilter == null){
@@ -1941,7 +1941,7 @@ public class NotificationActivity extends Activity {
 			    	String timeStamp = cursor.getString(cursor.getColumnIndex("date"));
 			    	String sentFromAddress = SMSCommon.getMMSAddress(context, messageID);
 		            if(sentFromAddress.contains("@")){
-		            	sentFromAddress = Common.removeEmailFormatting(sentFromAddress);
+		            	sentFromAddress = EmailCommon.removeEmailFormatting(sentFromAddress);
 		            }
 			    	String messageBody = SMSCommon.getMMSText(context, messageID);
 			    	String[] mmsContactInfo = null;

@@ -19,6 +19,7 @@ import apps.droidnotify.QuickReplyActivity;
 import apps.droidnotify.R;
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
+import apps.droidnotify.email.EmailCommon;
 import apps.droidnotify.log.Log;
 
 /**
@@ -67,7 +68,7 @@ public class SMSCommon {
 		    	String messageBody = cursor.getString(cursor.getColumnIndex("body"));
 		    	String sentFromAddress = cursor.getString(cursor.getColumnIndex("address"));
 	            if(sentFromAddress.contains("@")){
-	            	sentFromAddress = Common.removeEmailFormatting(sentFromAddress);
+	            	sentFromAddress = EmailCommon.removeEmailFormatting(sentFromAddress);
 	            }
 		    	long timeStamp = cursor.getLong(cursor.getColumnIndex("date"));
 	    		String[] smsContactInfo = null;
@@ -123,7 +124,7 @@ public class SMSCommon {
             timeStamp = Common.convertGMTToLocalTime(context, timeStamp);
             sentFromAddress = sms.getDisplayOriginatingAddress().toLowerCase();
             if(sentFromAddress.contains("@")){
-            	sentFromAddress = Common.removeEmailFormatting(sentFromAddress);
+            	sentFromAddress = EmailCommon.removeEmailFormatting(sentFromAddress);
             }
             messageSubject = sms.getPseudoSubject();
             messageBodyBuilder = new StringBuilder();
@@ -191,7 +192,7 @@ public class SMSCommon {
 		    	String timeStamp = cursor.getString(cursor.getColumnIndex("date"));
 		    	String sentFromAddress = getMMSAddress(context, messageID);
 		    	if(sentFromAddress.contains("@")){
-	            	sentFromAddress = Common.removeEmailFormatting(sentFromAddress);
+	            	sentFromAddress = EmailCommon.removeEmailFormatting(sentFromAddress);
 	            }
 		    	String messageBody = getMMSText(context, messageID);
 		    	String[] mmsContactInfo = null;

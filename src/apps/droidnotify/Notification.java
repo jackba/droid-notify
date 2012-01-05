@@ -488,7 +488,8 @@ public class Notification {
 	 * @return sentFromAddress - Persons address that sent the item.
 	 */
 	public String getSentFromAddress() {
-		if (_debug) Log.v("Notification.getSentFromAddress() SentFromAddress: " + _sentFromAddress);
+		if (_debug) Log.v("Notification.getSentFromAddress()");
+		//if (_debug) Log.v("Notification.getSentFromAddress() SentFromAddress: " + _sentFromAddress);
 		if (_sentFromAddress == null) {
 			_sentFromAddress = _context.getString(android.R.string.unknownName);
 	    }
@@ -511,7 +512,8 @@ public class Notification {
 	 * @return messageBody - Notification's message.
 	 */
 	public String getMessageBody() {
-		if (_debug) Log.v("Notification.getMessageBody() Message Body: " + _messageBody);
+		if (_debug) Log.v("Notification.getMessageBody()");
+		//if (_debug) Log.v("Notification.getMessageBody() Message Body: " + _messageBody);
 		if (_messageBody == null) {
 			_messageBody = "";
 	    }
@@ -559,7 +561,8 @@ public class Notification {
 	 * @return contactName - Contact's display name.
 	 */
 	public String getContactName() {
-		if (_debug) Log.v("Notification.getContactName() ContactName: " + _contactName);
+		if (_debug) Log.v("Notification.getContactName()");
+		//if (_debug) Log.v("Notification.getContactName() ContactName: " + _contactName);
 		if (_contactName == null) {
 			_contactName = _context.getString(android.R.string.unknownName);
 	    }
@@ -667,7 +670,8 @@ public class Notification {
 	 * @return title - Notification title.
 	 */
 	public String getTitle() {
-		if (_debug) Log.v("Notification.getTitle() Title: " + _title);
+		if (_debug) Log.v("Notification.getTitle()");
+		//if (_debug) Log.v("Notification.getTitle() Title: " + _title);
   		return _title;
 	}	
 	

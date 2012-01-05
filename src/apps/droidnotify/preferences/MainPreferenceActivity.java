@@ -17,7 +17,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.pm.ActivityInfo;
-import android.content.pm.PackageInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -98,7 +97,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	    }
 	    checkSystemDateTimeFormat();
 	    addPreferencesFromResource(R.xml.preferences);
-	    _appVersion = getApplicationVersion();
+	    _appVersion = Common.getApplicationVersion(_context);
 	    setupCustomPreferences();
 	    runOnceCalendarAlarmManager();
 	    setupAppDebugMode(_debug);
@@ -602,10 +601,10 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
         	public boolean onPreferenceClick(Preference preference) {
 		    	if (_debug) Log.v("MainPreferenceActivity() Email Developer Button Clicked()");
 		    	try{
-			    	Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:droidnotify@gmail.com"));
-			    	intent.putExtra("subject", "Droid Notify App Feedback");
-			    	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-		    		startActivity(intent);
+			    	Intent sendEmailIntent = new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:droidnotify@gmail.com"));
+			    	sendEmailIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+			    	sendEmailIntent.putExtra(Intent.EXTRA_SUBJECT, "Droid Notify App Feedback");
+		    		startActivity(sendEmailIntent);
 		    	}catch(Exception ex){
 	 	    		Log.e("MainPreferenceActivity() Email Developer Button ERROR: " + ex.toString());
 	 	    		Toast.makeText(_context, _context.getString(R.string.app_android_email_app_error), Toast.LENGTH_LONG).show();
@@ -1220,22 +1219,6 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			}
 		}catch(Exception ex){
 			return false;
-		}
-	}
-	
-	/**
-	 * Read the Application info and return the app version number.
-	 * 
-	 * @return String - The version number of the aplication.
-	 */
-	private String getApplicationVersion(){
-		if (_debug) Log.v("MainPreferenceActivity.getApplicationVersion()");
-		PackageInfo packageInfo = null;
-		try{
-			packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-			return packageInfo.versionName;
-		}catch(Exception ex){
-			return "";
 		}
 	}
 	
