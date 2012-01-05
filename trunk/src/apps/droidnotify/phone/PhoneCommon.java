@@ -252,6 +252,7 @@ public class PhoneCommon {
 	 * 
 	 * @return boolean - Returns true if the stock missed call notification was cancelled.
 	 */
+	@SuppressWarnings("rawtypes")
 	public static boolean clearStockMissedCallNotification(Context context){
 		_debug = Log.getDebug();
 		if (_debug) Log.v("PhoneCommon.clearStockMissedCallNotification()");

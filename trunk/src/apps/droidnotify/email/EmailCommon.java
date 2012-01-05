@@ -204,6 +204,30 @@ public class EmailCommon {
 		}
 	}
 	
+	/**
+	 * Remove formatting from email addresses.
+	 * 
+	 * @param address - String of original email address.
+	 * 
+	 * @return String - String of email address with no formatting.
+	 */
+	public static String removeEmailFormatting(String address){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.removeEmailFormatting()");
+		//if (_debug) Log.v("Common.removeEmailFormatting() Email Address: " + address);
+		if(address.contains("<") && address.contains(">")){
+			address = address.substring(address.indexOf("<") + 1,address.indexOf(">"));
+		}
+		if(address.contains("(") && address.contains(")")){
+			address = address.substring(address.indexOf("(") + 1,address.indexOf(")"));
+		}
+		if(address.contains("[") && address.contains("]")){
+			address = address.substring(address.indexOf("[") + 1,address.indexOf("]"));
+		}
+		//if (_debug) Log.v("Common.removeEmailFormatting() Formatted Email Address: " + address);
+		return address.toLowerCase().trim();
+	}
+	
 	//================================================================================
 	// Private Methods
 	//================================================================================

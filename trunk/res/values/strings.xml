@@ -79,6 +79,12 @@
     <string name="twitter_send_tweet_error">The Tweet/Status Update could not be sent.</string>
     <string name="not_online_error">The application cannot gain online access at this time. Please try again later.</string>
     
+    <!-- Log File Strings -->
+    <string name="log_file_error_title">Log File Error</string>
+    <string name="log_file_acquiring_system_logs">Acquiring system logs...</string>
+    <string name="log_file_retrieval_failure">Failed to retrieve system logs.</string>
+    <string name="log_file_device_info" formatted="false">Droid Notify Version: %s\nDevice Model: %s\nFirmware Version: %s\nBuild Number: %s\n</string>   
+    
 	<!-- Settings/Preference Strings -->
     <string name="app_settings_text">Settings</string>
     <string name="general_settings_text">General Settings</string>  	
