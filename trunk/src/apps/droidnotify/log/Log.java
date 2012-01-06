@@ -1,9 +1,6 @@
 package apps.droidnotify.log;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
@@ -15,7 +12,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.os.Environment;
 
 import apps.droidnotify.R;
 import apps.droidnotify.common.Common;
@@ -40,7 +36,6 @@ public class Log {
 	
 	private static final String _logTag = "DroidNotify";
 	private static final boolean _appProVersion = false;
-	private static final boolean _debugFileOnDisk = false;
 	private static boolean _debug = true;
 	private static final boolean _showAndroidRateAppLink = true;
 	private static final boolean _showAmazonRateAppLink = false;
@@ -115,7 +110,6 @@ public class Log {
 	public static void v(String msg) {
 		if(_debug){
 			android.util.Log.v(_logTag, msg);
-			if(_debugFileOnDisk) writeToCustomLog(1,msg);
 		}
 	}
 	
@@ -127,7 +121,6 @@ public class Log {
 	public static void d(String msg) {
 		if(_debug){
 			android.util.Log.d(_logTag, msg);
-			if(_debugFileOnDisk) writeToCustomLog(2,msg);
 		}
 	}	
 	
@@ -139,7 +132,6 @@ public class Log {
 	public static void i(String msg) {
 		if(_debug){
 			android.util.Log.i(_logTag, msg);
-			if(_debugFileOnDisk) writeToCustomLog(3,msg);
 		}
 	}
 	
@@ -151,7 +143,6 @@ public class Log {
 	public static void w(String msg) {
 		if(_debug){
 			android.util.Log.w(_logTag, msg);
-			if(_debugFileOnDisk) writeToCustomLog(4,msg);
 		}
 	}
 	
@@ -163,14 +154,13 @@ public class Log {
 	public static void e(String msg) {
 		if(_debug){
 			android.util.Log.e(_logTag, msg);
-			if(_debugFileOnDisk) writeToCustomLog(5,msg);
 		}
 	}
 	
 	/**
+	 * Read the logs from the users phone and email them to the developer.
 	 * 
-	 * 
-	 * @param context
+	 * @param context - The application context.
 	 */
     @SuppressWarnings("unchecked")
 	public static void collectAndSendLog(Context context){
@@ -229,64 +219,6 @@ public class Log {
 	//================================================================================
 	// Private Methods
 	//================================================================================
-	
-	/**
-	 *  Writes a custom log file to the SD card of the phone.
-	 * 
-	 * @param text - String value to append to the custom log.
-	 */
-	private static void writeToCustomLog(int logType, String msg){
-		//Check state of external storage.
-		String state = Environment.getExternalStorageState();
-		if(Environment.MEDIA_MOUNTED.equals(state)){
-		    //We can read and write the media. Do nothing.
-		}else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)){
-		    // We can only read the media.
-			android.util.Log.v(_logTag, "Log.writeToCustomLog() External Storage Read Only State");
-		    return;
-		}else{
-		    // Something else is wrong. It may be one of many other states, but all we need to know is we can neither read nor write
-			android.util.Log.v(_logTag, "Log.writeToCustomLog() External Storage Can't Write Or Read State");
-		    return;
-		}
-		File logFilePath = null;
-		switch (logType) {
-	        case 1:{
-	        	logFilePath = Environment.getExternalStoragePublicDirectory("Droid Notify/Logs/V");
-	        	break;
-			}
-	        case 2:{
-	        	logFilePath = Environment.getExternalStoragePublicDirectory("Droid Notify/Logs/D");
-	        	break;
-	        }
-	        case 3:{
-	        	logFilePath = Environment.getExternalStoragePublicDirectory("Droid Notify/Logs/I");
-	        	break;
-	        }
-	        case 4:{ 
-	        	logFilePath = Environment.getExternalStoragePublicDirectory("Droid Notify/Logs/W");
-	        	break;
-	        }
-	        case 5:{
-	        	logFilePath = Environment.getExternalStoragePublicDirectory("Droid Notify/Logs/E");
-	        	break;
-	        }
-		}
-	    File logFile = new File(logFilePath, "DroidNotifyLog.txt");
-	    try{
-	    	logFilePath.mkdirs();
-			BufferedWriter buf = new BufferedWriter(new FileWriter(logFile, true), msg.getBytes().length); 
-			buf.append(msg);
-			buf.newLine();
-			buf.close();
-		}catch (Exception ex){
-			android.util.Log.e(_logTag, "Log.writeToCustomLog WRITE ERROR: " + ex.toString());
-		}
-	}
-	
-	//================================================================================
-    // Read System Log Methods
-    //================================================================================
 
     /*
      * 
@@ -294,7 +226,7 @@ public class Log {
     private class CollectLogTask extends AsyncTask<ArrayList<String>, Void, StringBuilder>{
         
         /**
-         * 
+         * Do this work before the background task starts.
          */  	
         @Override
         protected void onPreExecute(){
@@ -302,9 +234,11 @@ public class Log {
             showProgressDialog(_context.getString(R.string.log_file_acquiring_system_logs));
         }
         
-        /**
-         * 
-         */
+	    /**
+	     * Do this work in the background.
+	     * 
+	     * @param params - An ArrayList of the command line parameters to use.
+	     */
         @Override
         protected StringBuilder doInBackground(ArrayList<String>... params){
     		if(_debug) android.util.Log.v(_logTag, "CollectLogTask.doInBackground()");
@@ -330,9 +264,11 @@ public class Log {
             return log;
         }
 
-        /**
-         * 
-         */
+	    /**
+	     * Do this work after the background has finished.
+	     * 
+	     * @param StringBuilder - A StringBuilder of the log file that was pulled from the phone.
+	     */
         @Override
         protected void onPostExecute(StringBuilder log){
     		if(_debug) android.util.Log.v(_logTag, "CollectLogTask.onPostExecute()");
@@ -350,9 +286,9 @@ public class Log {
 		    	sendEmailIntent.putExtra(Intent.EXTRA_SUBJECT, "Droid Notify Debug Logs");
 	    		sendEmailIntent.putExtra(Intent.EXTRA_TEXT, log.toString());
 	    		_context.startActivity(sendEmailIntent);
-                dismissProgressDialog();
+	    		_progressDialog.dismiss();
             }else{
-                dismissProgressDialog();
+            	_progressDialog.dismiss();
                 showErrorDialog(_context.getString(R.string.log_file_retrieval_failure));
             }
         }
@@ -360,8 +296,9 @@ public class Log {
     }
     
     /**
+     * Display an error dialog to the user.
      * 
-     * @param errorMessage
+     * @param errorMessage - The error message to display to the user.
      */
 	private void showErrorDialog(String errorMessage){
 		if(_debug) android.util.Log.v(_logTag, "Log.showErrorDialog()");
@@ -378,8 +315,9 @@ public class Log {
     }
     
 	/**
+	 * Display a progress dialog window to the user.
 	 * 
-	 * @param message
+	 * @param message - The message to display to the user while the dialog is running.
 	 */
     private void showProgressDialog(String message){
     	if(_debug) android.util.Log.v(_logTag, "Log.showProgressDialog()");
@@ -396,18 +334,7 @@ public class Log {
     }
     
     /**
-     * 
-     */
-    private void dismissProgressDialog(){
-    	if(_debug) android.util.Log.v(_logTag, "Log.dismissProgressDialog()");
-        if (null != _progressDialog && _progressDialog.isShowing()){
-            _progressDialog.dismiss();
-            _progressDialog = null;
-        }
-    }
-    
-    /**
-     * 
+     * Can cell the Collect Log Async Task.
      */
     private void cancellCollectLogTask(){
     	if(_debug) android.util.Log.v(_logTag, "Log.cancellCollectLogTask()");
