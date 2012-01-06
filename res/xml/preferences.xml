@@ -2155,6 +2155,10 @@
 			        	android:title="@string/preference_debug_log_title" 
 			        	android:summary="@string/preference_debug_log_summary"
 			        	android:defaultValue="false" />
+					<Preference
+			            android:key="send_debug_logs"
+			        	android:title="@string/send_debug_logs_text"
+			          	android:summary="@string/send_debug_logs_summary" />
 				</PreferenceScreen>
 			</PreferenceCategory>	
 		</PreferenceScreen>
@@ -2190,17 +2194,5 @@
             android:key="application_license" 
         	android:title="@string/license"
           	android:summary="@string/app_license" />
-	</PreferenceCategory>
-	<PreferenceCategory
-		android:key="app_debug_category"
-		android:title="Debug Purposes Only">
-  		<Preference
-            android:key="email_logs"
-        	android:title="Send Developer Logs"
-          	android:summary="Use this button to automatically email the developer the application logs that are stored on your phone." />
-		<Preference
-            android:key="clear_logs"
-        	android:title="Clear Developer Logs"
-          	android:summary="Use this button to clear the application logs that are stored on your phone." />
 	</PreferenceCategory>
 </PreferenceScreen>
