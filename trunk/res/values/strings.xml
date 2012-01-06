@@ -83,7 +83,9 @@
     <string name="log_file_error_title">Log File Error</string>
     <string name="log_file_acquiring_system_logs">Acquiring system logs...</string>
     <string name="log_file_retrieval_failure">Failed to retrieve system logs.</string>
-    <string name="log_file_device_info" formatted="false">Droid Notify Version: %s\nDevice Model: %s\nFirmware Version: %s\nBuild Number: %s\n</string>   
+    <string name="log_file_device_info" formatted="false">Droid Notify Version: %s\nDevice Model: %s\nFirmware Version: %s\nBuild Number: %s\n</string>
+    <string name="send_debug_logs_text">Send Debug Logs</string>
+	<string name="send_debug_logs_summary">Send the debug logs to the developer.</string>    
     
 	<!-- Settings/Preference Strings -->
     <string name="app_settings_text">Settings</string>

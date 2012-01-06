@@ -123,10 +123,10 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
 				while (cursor.moveToNext()) {
 					final String calendarID = cursor.getString(cursor.getColumnIndex(Constants.CALENDAR_ID));
 					final String calendarDisplayName = cursor.getString(cursor.getColumnIndex(Constants.CALENDAR_DISPLAY_NAME));
-					final Boolean calendarSelected = !cursor.getString(cursor.getColumnIndex(Constants.CALENDAR_SELECTED)).equals("0");
-					if (_debug) Log.v("CalendarAlarmReceiverService.readCalendars() FOUND CALENDAR - Id: " + calendarID + " Display Name: " + calendarDisplayName + " Selected: " + calendarSelected);
+					//final Boolean calendarSelected = !cursor.getString(cursor.getColumnIndex(Constants.CALENDAR_SELECTED)).equals("0");
+					//if (_debug) Log.v("CalendarAlarmReceiverService.readCalendars() FOUND CALENDAR - Id: " + calendarID + " Display Name: " + calendarDisplayName + " Selected: " + calendarSelected);
 					if(calendarsArray.contains(calendarID)){
-						if (_debug) Log.v("CalendarAlarmReceiverService.readCalendars() CHECKING CALENDAR -  Id: " + calendarID + " Display Name: " + calendarDisplayName + " Selected: " + calendarSelected);
+						//if (_debug) Log.v("CalendarAlarmReceiverService.readCalendars() CHECKING CALENDAR -  Id: " + calendarID + " Display Name: " + calendarDisplayName + " Selected: " + calendarSelected);
 						calendarIds.put(calendarID, calendarDisplayName);
 					}
 				}	
@@ -156,7 +156,7 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
 							long eventStartTime = eventCursor.getLong(eventCursor.getColumnIndex(Constants.CALENDAR_INSTANCE_BEGIN));
 							long eventEndTime = eventCursor.getLong(eventCursor.getColumnIndex(Constants.CALENDAR_INSTANCE_END));
 							final Boolean allDay = !eventCursor.getString(eventCursor.getColumnIndex(Constants.CALENDAR_EVENT_ALL_DAY)).equals("0");
-							if (_debug) Log.v("CalendarAlarmReceiverService.readCalendars() Event ID: " + eventID + " Title: " + eventTitle + " Begin: " + eventStartTime + " End: " + eventEndTime + " All Day: " + allDay);
+							//if (_debug) Log.v("CalendarAlarmReceiverService.readCalendars() Event ID: " + eventID + " Title: " + eventTitle + " Begin: " + eventStartTime + " End: " + eventEndTime + " All Day: " + allDay);
 							long timezoneOffsetValue =  TimeZone.getDefault().getOffset(System.currentTimeMillis());
 							//For all any event in the past, don't schedule them.
 							long currentSystemTime = System.currentTimeMillis();

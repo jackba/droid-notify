@@ -100,7 +100,6 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	    _appVersion = Common.getApplicationVersion(_context);
 	    setupCustomPreferences();
 	    runOnceCalendarAlarmManager();
-	    setupAppDebugMode(_debug);
 	    setupRateAppPreference();
 	    setupAppVersion(_appProVersion);
 	    runOnce();
@@ -665,70 +664,15 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	            return true;
            }
 		});
-		//Email Developer Logs Preference/Button
-		Preference emailDeveloperLogsPref = (Preference)findPreference("email_logs");
-		emailDeveloperLogsPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+		//Send Debug Logs Preference/Button
+		Preference sendDebugLogsPreference = (Preference)findPreference("send_debug_logs");
+		sendDebugLogsPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
         	public boolean onPreferenceClick(Preference preference) {
-		    	if (_debug) Log.v("MainPreferenceActivity() Email Developer Logs Button Clicked()");
-		    	try{
-			    	Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:droidnotify@gmail.com"));
-			    	intent.putExtra("subject", "Droid Notify App Logs");
-			    	intent.putExtra("body", "");
-			    	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-					File logFilePathV = Environment.getExternalStoragePublicDirectory("Droid Notify/Logs/V");
-					File logFileV = new File(logFilePathV, "DroidNotifyLog.txt");
-					File logFilePathD = Environment.getExternalStoragePublicDirectory("Droid Notify/Logs/D");
-					File logFileD = new File(logFilePathD, "DroidNotifyLog.txt");
-					File logFilePathI = Environment.getExternalStoragePublicDirectory("Droid Notify/Logs/I");
-					File logFileI = new File(logFilePathI, "DroidNotifyLog.txt");
-					File logFilePathW = Environment.getExternalStoragePublicDirectory("Droid Notify/Logs/W");
-					File logFileW = new File(logFilePathW, "DroidNotifyLog.txt");
-					File logFilePathE = Environment.getExternalStoragePublicDirectory("Droid Notify/Logs/E");
-					File logFileE = new File(logFilePathE, "DroidNotifyLog.txt");
-			    	if(logFileV.exists()) intent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///mnt/sdcard/Droid Notify/Logs/V/DroidNotifyLog.txt"));
-			    	if(logFileD.exists()) intent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///mnt/sdcard/Droid Notify/Logs/D/DroidNotifyLog.txt"));
-			    	if(logFileI.exists()) intent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///mnt/sdcard/Droid Notify/Logs/I/DroidNotifyLog.txt"));
-			    	if(logFileW.exists()) intent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///mnt/sdcard/Droid Notify/Logs/W/DroidNotifyLog.txt"));
-			    	if(logFileE.exists()) intent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///mnt/sdcard/Droid Notify/Logs/E/DroidNotifyLog.txt"));
-		    		startActivity(intent);
-		    	}catch(Exception ex){
-	 	    		Log.e("MainPreferenceActivity() Email Developer Logs Button ERROR: " + ex.toString());
-	 	    		Toast.makeText(_context, _context.getString(R.string.app_android_email_app_error), Toast.LENGTH_LONG).show();
-	 	    		return false;
-		    	}
+		    	if (_debug) Log.v("MainPreferenceActivity() Send Debug Logs Button Clicked()");
+		    	Log.collectAndSendLog(_context);
 	            return true;
            }
 		});
-		//Clear Developer Logs Preference/Button
-		Preference clearDeveloperLogsPref = (Preference)findPreference("clear_logs");
-		clearDeveloperLogsPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-        	public boolean onPreferenceClick(Preference preference) {
-		    	if (_debug) Log.v("MainPreferenceActivity() Clear Developer Logs Button Clicked()");
-		    	try{
-			    	//Run this process in the background in an AsyncTask.
-			    	new clearDeveloperLogAsyncTask().execute();
-		    	}catch(Exception ex){
-	 	    		Log.e("MainPreferenceActivity() Clear Developer Logs Button ERROR: " + ex.toString());
-	 	    		return false;
-		    	}
-	            return true;
-           }
-		});
-	}
-	
-	/**
-	 * Sets up some options if the app is in debug mode.
-	 * Hides or shows some tools on the preference screen to assist the developer debug the app.
-	 * 
-	 * @param inDebugMode
-	 */
-	private void setupAppDebugMode(boolean inDebugMode){
-		if (_debug) Log.v("MainPreferenceActivity.setupAppDebugMode()");
-		if(!inDebugMode){
-			PreferenceScreen mainPreferences = this.getPreferenceScreen();
-			PreferenceCategory debugPreferenceCategory = (PreferenceCategory) findPreference("app_debug_category");
-			mainPreferences.removePreference(debugPreferenceCategory);
-		}
 	}
 	
 	/**
@@ -841,111 +785,6 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 //		            return true;
 //	           }
 //			});
-		}
-	}
-	
-	/**
-	 * Clear the developer logs as a background task.
-	 * 
-	 * @author Camille Sévigny
-	 */
-	private class clearDeveloperLogAsyncTask extends AsyncTask<Void, Void, Void> {
-		//ProgressDialog to display while the task is running.
-		private ProgressDialog dialog;
-		/**
-		 * Setup the Progress Dialog.
-		 */
-	    protected void onPreExecute() {
-			if (_debug) Log.v("MainPreferenceActivity.clearDeveloperLogAsyncTask.onPreExecute()");
-	        dialog = ProgressDialog.show(MainPreferenceActivity.this, "", "Clearing Application Logs...", true);
-	    }
-	    /**
-	     * Do this work in the background.
-	     * 
-	     * @param params
-	     */
-	    protected Void doInBackground(Void... params) {
-			if (_debug) Log.v("MainPreferenceActivity.clearDeveloperLogAsyncTask.doInBackground()");
-	    	clearDeveloperLogs();
-	    	return null;
-	    }
-	    /**
-	     * Stop the Progress Dialog and do any post background work.
-	     * 
-	     * @param result
-	     */
-	    protected void onPostExecute(Void res) {
-			if (_debug) Log.v("MainPreferenceActivity.clearDeveloperLogAsyncTask.onPostExecute()");
-	        dialog.dismiss();
-	    	Toast.makeText(_context, "The application logs have been cleared.", Toast.LENGTH_LONG).show();
-	    }
-	}
-	
-	/**
-	 * Clear the developer logs on the SD card.
-	 */
-	private void clearDeveloperLogs(){
-		if (_debug) Log.v("MainPreferenceActivity.clearDeveloperLogs()");
-		String state = Environment.getExternalStorageState();
-		if (Environment.MEDIA_MOUNTED.equals(state)) {
-		    //We can read and write the media. Do nothing.
-		} else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
-		    // We can only read the media.
-			Log.e("MainPreferenceActivity.clearDeveloperLogs() External Storage Read Only State");
-		    return;
-		} else {
-		    // Something else is wrong. It may be one of many other states, but all we need to know is we can neither read nor write
-			Log.e("MainPreferenceActivity.clearDeveloperLogs() External Storage Can't Write Or Read State");
-		    return;
-		}
-		try{
-			File logFilePathV = Environment.getExternalStoragePublicDirectory("Droid Notify/Logs/V");
-			File logFileV = new File(logFilePathV, "DroidNotifyLog.txt");
-			File logFilePathD = Environment.getExternalStoragePublicDirectory("Droid Notify/Logs/D");
-			File logFileD = new File(logFilePathD, "DroidNotifyLog.txt");
-			File logFilePathI = Environment.getExternalStoragePublicDirectory("Droid Notify/Logs/I");
-			File logFileI = new File(logFilePathI, "DroidNotifyLog.txt");
-			File logFilePathW = Environment.getExternalStoragePublicDirectory("Droid Notify/Logs/W");
-			File logFileW = new File(logFilePathW, "DroidNotifyLog.txt");
-			File logFilePathE = Environment.getExternalStoragePublicDirectory("Droid Notify/Logs/E");
-			File logFileE = new File(logFilePathE, "DroidNotifyLog.txt");
-	    	if(logFileV.exists()){
-	    		try{
-	    			logFileV.delete();
-	    		}catch (Exception ex){
-	    			Log.e("MainPreferenceActivity.clearDeveloperLogs() LogFileV ERROR: " + ex.toString());
-				}
-	    	}
-	    	if(logFileD.exists()){
-	    		try{
-	    			logFileD.delete();
-	    		}catch (Exception ex){
-	    			Log.e("MainPreferenceActivity.clearDeveloperLogs() LogFileD ERROR: " + ex.toString());
-				}
-	    	}
-	    	if(logFileI.exists()){
-	    		try{
-	    			logFileI.delete();
-	    		}catch (Exception ex){
-	    			Log.e("MainPreferenceActivity.clearDeveloperLogs() LogFileI ERROR: " + ex.toString());
-				}
-	    	}
-	    	if(logFileW.exists()){
-	    		try{
-	    			logFileW.delete();
-	    		}catch (Exception ex){
-	    			Log.e("MainPreferenceActivity.clearDeveloperLogs() LogFileW ERROR: " + ex.toString());
-				}
-	    	}
-	    	if(logFileE.exists()){
-	    		try{
-	    			logFileE.delete();
-	    		}catch (Exception ex){
-	    			Log.e("MainPreferenceActivity.clearDeveloperLogs() LogFileE ERROR: " + ex.toString());
-				}
-	    	}
-    	}catch (Exception ex){
-			Log.e("MainPreferenceActivity.clearDeveloperLogs() ERROR: " + ex.toString());
 		}
 	}
 	
