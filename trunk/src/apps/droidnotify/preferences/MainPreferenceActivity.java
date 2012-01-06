@@ -1602,46 +1602,46 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	    }
 	}
 	
-	/**
-	 * Clear the LinkedIn authentication data as a background task.
-	 * 
-	 * @author Camille Sévigny
-	 */
-	private class clearLinkedInAuthenticationDataAsyncTask extends AsyncTask<Void, Void, Void> {
-		//ProgressDialog to display while the task is running.
-		private ProgressDialog dialog;
-		/**
-		 * Setup the Progress Dialog.
-		 */
-	    protected void onPreExecute() {
-			if (_debug) Log.v("MainPreferenceActivity.clearLinkedInAuthenticationDataAsyncTask.onPreExecute()");
-	        dialog = ProgressDialog.show(MainPreferenceActivity.this, "", _context.getString(R.string.reset_data), true);
-	    }
-	    /**
-	     * Do this work in the background.
-	     * 
-	     * @param params
-	     */
-	    protected Void doInBackground(Void... params) {
-			if (_debug) Log.v("MainPreferenceActivity.clearLinkedInAuthenticationDataAsyncTask.doInBackground()");
-			SharedPreferences.Editor editor = _preferences.edit();
-			editor.putString(Constants.LINKEDIN_OAUTH_TOKEN, null);
-			editor.putString(Constants.LINKEDIN_OAUTH_TOKEN_SECRET, null);
-			editor.commit();
-            CheckBoxPreference linkedInEnabledCheckBoxPreference = (CheckBoxPreference) findPreference(Constants.LINKEDIN_NOTIFICATIONS_ENABLED_KEY);
-			if(linkedInEnabledCheckBoxPreference != null) linkedInEnabledCheckBoxPreference.setChecked(false);
-	    	return null;
-	    }
-	    /**
-	     * Stop the Progress Dialog and do any post background work.
-	     * 
-	     * @param result
-	     */
-	    protected void onPostExecute(Void res) {
-			if (_debug) Log.v("MainPreferenceActivity.clearLinkedInAuthenticationDataAsyncTask.onPostExecute()");
-	        dialog.dismiss();
-	    	Toast.makeText(_context, _context.getString(R.string.linkedin_authentication_data_cleared), Toast.LENGTH_LONG).show();
-	    }
-	}
+//	/**
+//	 * Clear the LinkedIn authentication data as a background task.
+//	 * 
+//	 * @author Camille Sévigny
+//	 */
+//	private class clearLinkedInAuthenticationDataAsyncTask extends AsyncTask<Void, Void, Void> {
+//		//ProgressDialog to display while the task is running.
+//		private ProgressDialog dialog;
+//		/**
+//		 * Setup the Progress Dialog.
+//		 */
+//	    protected void onPreExecute() {
+//			if (_debug) Log.v("MainPreferenceActivity.clearLinkedInAuthenticationDataAsyncTask.onPreExecute()");
+//	        dialog = ProgressDialog.show(MainPreferenceActivity.this, "", _context.getString(R.string.reset_data), true);
+//	    }
+//	    /**
+//	     * Do this work in the background.
+//	     * 
+//	     * @param params
+//	     */
+//	    protected Void doInBackground(Void... params) {
+//			if (_debug) Log.v("MainPreferenceActivity.clearLinkedInAuthenticationDataAsyncTask.doInBackground()");
+//			SharedPreferences.Editor editor = _preferences.edit();
+//			editor.putString(Constants.LINKEDIN_OAUTH_TOKEN, null);
+//			editor.putString(Constants.LINKEDIN_OAUTH_TOKEN_SECRET, null);
+//			editor.commit();
+//            CheckBoxPreference linkedInEnabledCheckBoxPreference = (CheckBoxPreference) findPreference(Constants.LINKEDIN_NOTIFICATIONS_ENABLED_KEY);
+//			if(linkedInEnabledCheckBoxPreference != null) linkedInEnabledCheckBoxPreference.setChecked(false);
+//	    	return null;
+//	    }
+//	    /**
+//	     * Stop the Progress Dialog and do any post background work.
+//	     * 
+//	     * @param result
+//	     */
+//	    protected void onPostExecute(Void res) {
+//			if (_debug) Log.v("MainPreferenceActivity.clearLinkedInAuthenticationDataAsyncTask.onPostExecute()");
+//	        dialog.dismiss();
+//	    	Toast.makeText(_context, _context.getString(R.string.linkedin_authentication_data_cleared), Toast.LENGTH_LONG).show();
+//	    }
+//	}
 	
 }
