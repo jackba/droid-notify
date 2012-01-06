@@ -58,7 +58,7 @@ public class LinkedInCommon {
 		    for(int i = 1; i< updateListSize; i++){
 		    	Update linkedInUpdate = updateList.get(i);
 		    	if (_debug) Log.v("LinkedInCommon.getLinkedInupdates() linkedInUpdate.getTimestamp(): " + linkedInUpdate.getTimestamp());
-				long timeStamp = linkedInUpdate.getTimestamp();
+//				long timeStamp = linkedInUpdate.getTimestamp();
 				
 
 //				String messageBody = message.getText();
