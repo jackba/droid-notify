@@ -3,12 +3,15 @@
 
 = Release Notes =
 
-*v2.17* _Coming Soon..._
+*v2.18* _Coming Soon..._
+ * 
+
+*v2.17* (January 9, 2011)
  * Fixed a contact recognition bug.
  * Slight updates to the user preferences.
  * Updated translations.
  * Added support for the "NotiGo" utility.
- * 
+ * Added a Debug logging option to help users with unexpected problems.
 
 *v2.16* (December 23, 2011)
  * Remove the INTERNET permission on the Basic version of the app.
