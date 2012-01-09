@@ -212,6 +212,9 @@ public class Constants {
 	public static final int PHONE_NUMBER_FORMAT_9 = 9;
 	public static final int PHONE_NUMBER_FORMAT_10 = 10;
 	public static final int PHONE_NUMBER_FORMAT_11 = 11;
+	public static final int PHONE_NUMBER_FORMAT_12 = 12;
+	public static final int PHONE_NUMBER_FORMAT_13 = 13;
+	public static final int PHONE_NUMBER_FORMAT_14 = 14;
 	
 	//-----TIME FORMAT CONSTANTS-----//
 	public static final String RUN_ONCE_DATE_TIME_FORMAT = "runOnceDateTimeFormat";
