@@ -21,6 +21,7 @@ import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
 import apps.droidnotify.email.EmailCommon;
 import apps.droidnotify.log.Log;
+import apps.droidnotify.phone.PhoneCommon;
 
 /**
  * This class is a collection of SMS/MMS methods.
@@ -67,9 +68,7 @@ public class SMSCommon {
 		    	long threadID = cursor.getLong(cursor.getColumnIndex("thread_id"));
 		    	String messageBody = cursor.getString(cursor.getColumnIndex("body"));
 		    	String sentFromAddress = cursor.getString(cursor.getColumnIndex("address"));
-	            if(sentFromAddress.contains("@")){
-	            	sentFromAddress = EmailCommon.removeEmailFormatting(sentFromAddress);
-	            }
+		    	sentFromAddress = sentFromAddress.contains("@") ? EmailCommon.removeEmailFormatting(sentFromAddress) : PhoneCommon.removePhoneNumberFormatting(sentFromAddress);
 		    	long timeStamp = cursor.getLong(cursor.getColumnIndex("date"));
 	    		String[] smsContactInfo = null;
 	    		if(sentFromAddress.contains("@")){
@@ -123,9 +122,7 @@ public class SMSCommon {
             //Adjust the timestamp to the localized time of the users phone.
             timeStamp = Common.convertGMTToLocalTime(context, timeStamp);
             sentFromAddress = sms.getDisplayOriginatingAddress().toLowerCase();
-            if(sentFromAddress.contains("@")){
-            	sentFromAddress = EmailCommon.removeEmailFormatting(sentFromAddress);
-            }
+            sentFromAddress = sentFromAddress.contains("@") ? EmailCommon.removeEmailFormatting(sentFromAddress) : PhoneCommon.removePhoneNumberFormatting(sentFromAddress);
             messageSubject = sms.getPseudoSubject();
             messageBodyBuilder = new StringBuilder();
             //Get the entire message body from the new message.
@@ -191,16 +188,10 @@ public class SMSCommon {
 	    		String threadID = cursor.getString(cursor.getColumnIndex("thread_id"));
 		    	String timeStamp = cursor.getString(cursor.getColumnIndex("date"));
 		    	String sentFromAddress = getMMSAddress(context, messageID);
-		    	if(sentFromAddress.contains("@")){
-	            	sentFromAddress = EmailCommon.removeEmailFormatting(sentFromAddress);
-	            }
+		    	sentFromAddress = sentFromAddress.contains("@") ? EmailCommon.removeEmailFormatting(sentFromAddress) : PhoneCommon.removePhoneNumberFormatting(sentFromAddress);
 		    	String messageBody = getMMSText(context, messageID);
 		    	String[] mmsContactInfo = null;
-		    	if(sentFromAddress.contains("@")){
-		    		mmsContactInfo = Common.getContactsInfoByEmail(context, sentFromAddress);
-		    	}else{
-		    		mmsContactInfo = Common.getContactsInfoByPhoneNumber(context, sentFromAddress);
-		    	}
+		    	mmsContactInfo = sentFromAddress.contains("@") ? Common.getContactsInfoByEmail(context, sentFromAddress) : Common.getContactsInfoByPhoneNumber(context, sentFromAddress);
 				if(mmsContactInfo == null){
 					mmsArray.add(sentFromAddress + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + threadID + "|" + timeStamp);
 				}else{
@@ -233,12 +224,8 @@ public class SMSCommon {
 			messageURI = "content://sms/inbox";
 		}
 		long threadID = 0;
-		if (address == null){
-			if (_debug) Log.v("Common.getThreadID() Address provided is null: Exiting...");
-			return 0;
-		}
-		if (address == ""){
-			if (_debug) Log.v("Common.getThreadID() Address provided is empty: Exiting...");
+		if (address == null|| address.equals("")){
+			if (_debug) Log.v("Common.getThreadID() Address provided is null or empty: Exiting...");
 			return 0;
 		}
 		try{
@@ -517,16 +504,16 @@ public class SMSCommon {
 	 * 
 	 * @return boolean - Returns true if the activity can be started.
 	 */
-	public static boolean startMessagingAppReplyActivity(Context context, NotificationActivity notificationActivity, String sendTo, int requestCode){
+	public static boolean startMessagingAppReplyActivity(Context context, NotificationActivity notificationActivity, String phoneNumber, int requestCode){
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.startMessagingAppReplyActivity()");
-		if(sendTo == null){
+		if(phoneNumber == null){
 			Toast.makeText(context, context.getString(R.string.app_android_reply_messaging_address_error), Toast.LENGTH_LONG).show();
 			return false;
 		}
 		try{
 			Intent intent = new Intent(Intent.ACTION_SENDTO);
-		    intent.setData(Uri.parse("smsto:" + sendTo));
+		    intent.setData(Uri.parse("smsto:" + PhoneCommon.removePhoneNumberFormatting(phoneNumber)));
 		    // Exit the app once the SMS is sent.
 		    intent.putExtra("compose_mode", true);
 	        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
@@ -560,7 +547,7 @@ public class SMSCommon {
 		}
 		try{
 			Intent intent = new Intent(Intent.ACTION_VIEW);
-		    intent.setData(Uri.parse("smsto:" + phoneNumber));
+		    intent.setData(Uri.parse("smsto:" + PhoneCommon.removePhoneNumberFormatting(phoneNumber)));
 	        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 	        notificationActivity.startActivityForResult(intent, requestCode);
 	        Common.setInLinkedAppFlag(context, true);

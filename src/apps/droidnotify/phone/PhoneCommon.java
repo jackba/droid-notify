@@ -312,18 +312,18 @@ public class PhoneCommon {
 				return inputPhoneNumber;
 			}
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-			inputPhoneNumber = removeFormatting(inputPhoneNumber);
+			inputPhoneNumber = removePhoneNumberFormatting(inputPhoneNumber);
 			StringBuilder outputPhoneNumber = new StringBuilder("");		
 			int phoneNumberFormatPreference = Integer.parseInt(preferences.getString(Constants.PHONE_NUMBER_FORMAT_KEY, Constants.PHONE_NUMBER_FORMAT_DEFAULT));
 			String numberSeparator = "-";
-			if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_6 || phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_7 | phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_8){
+			if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_7 || phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_8 || phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_9 || phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_10){
 				numberSeparator = ".";
-			}else if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_9 || phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_10 | phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_11){
+			}else if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_11 || phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_12 || phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_13 || phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_14){
 				numberSeparator = " ";
-			}else if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_4){
+			}else if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_5){
 				numberSeparator = "";
 			}
-			if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_1 || phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_6 || phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_9){
+			if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_1 || phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_7 || phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_11){
 				if(inputPhoneNumber.length() >= 10){
 					//Format ###-###-#### (e.g.123-456-7890)
 					//Format ###-###-#### (e.g.123.456.7890)
@@ -345,7 +345,7 @@ public class PhoneCommon {
 				}else{
 					outputPhoneNumber.append(inputPhoneNumber);
 				}
-			}else if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_2 || phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_7 || phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_10){
+			}else if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_2 || phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_8 || phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_12){
 				if(inputPhoneNumber.length() >= 10){
 					//Format ##-###-##### (e.g.12-345-67890)
 					//Format ##-###-##### (e.g.12.345.67890)
@@ -367,7 +367,31 @@ public class PhoneCommon {
 				}else{
 					outputPhoneNumber.append(inputPhoneNumber);
 				}
-			}else if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_3 || phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_8 || phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_11){
+			}else if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_3 || phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_9 || phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_13){
+				if(inputPhoneNumber.length() >= 10){
+					//Format ##-###-##### (e.g.01-234-567890)
+					//Format ##-###-##### (e.g.01.234.567890)
+					outputPhoneNumber.insert(0, inputPhoneNumber.substring(inputPhoneNumber.length() - 6, inputPhoneNumber.length()));
+					outputPhoneNumber.insert(0, numberSeparator);
+					outputPhoneNumber.insert(0, inputPhoneNumber.substring(inputPhoneNumber.length() - 9, inputPhoneNumber.length() - 6));
+					outputPhoneNumber.insert(0, numberSeparator);
+					if(inputPhoneNumber.length() == 10){
+						outputPhoneNumber.insert(0, inputPhoneNumber.substring(0, inputPhoneNumber.length() - 9));
+					}else if(inputPhoneNumber.length() == 11){
+						outputPhoneNumber.insert(0, inputPhoneNumber.substring(0, inputPhoneNumber.length() - 9));
+					}else{
+						outputPhoneNumber.insert(0, inputPhoneNumber.substring(inputPhoneNumber.length() - 11, inputPhoneNumber.length() - 9));
+						outputPhoneNumber.insert(0, numberSeparator);
+						if(preferences.getBoolean(Constants.PHONE_NUMBER_FORMAT_10_DIGITS_ONLY_KEY , false)){
+							outputPhoneNumber.insert(0, "0");
+						}else{
+							outputPhoneNumber.insert(0, inputPhoneNumber.substring(0, inputPhoneNumber.length() - 11));
+						}
+					}
+				}else{
+					outputPhoneNumber.append(inputPhoneNumber);
+				}
+			}else if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_4 || phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_10 || phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_14){
 				if(inputPhoneNumber.length() >= 10){
 					//Format ##-##-##-##-## (e.g.12-34-56-78-90)
 					//Format ##-##-##-##-## (e.g.12.34.56.78.90)
@@ -393,10 +417,10 @@ public class PhoneCommon {
 				}else{
 					outputPhoneNumber.append(inputPhoneNumber);
 				}
-			}else if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_4){
+			}else if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_5){
 				//Format ########## (e.g.1234567890)
 				outputPhoneNumber.append(inputPhoneNumber);
-			}else if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_5){
+			}else if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_6){
 				if(inputPhoneNumber.length() >= 10){
 					//Format (###) ###-#### (e.g.(123) 456-7890)
 					outputPhoneNumber.insert(0, inputPhoneNumber.substring(inputPhoneNumber.length() - 4, inputPhoneNumber.length()));
@@ -439,7 +463,7 @@ public class PhoneCommon {
 	 * @return - boolean - 	 If the second string is larger ends with the first string, return true.
 	 *                       If the first string is larger ends with the second string, return true.
 	 */
-	public static boolean isPhoneNumberEqual(Context context, String contactNumber, String incomingNumber){
+	public static boolean isPhoneNumberEqual(String contactNumber, String incomingNumber){
 		_debug = Log.getDebug();
 		if (_debug) Log.v("PhoneCommon.isPhoneNumberEqual()");
 		if(contactNumber == null || incomingNumber == null){
@@ -447,8 +471,8 @@ public class PhoneCommon {
 			return false;
 		}
 		//Remove any formatting from each number.
-		contactNumber = removeFormatting(contactNumber);
-		incomingNumber = removeFormatting(incomingNumber);
+		contactNumber = removePhoneNumberFormatting(contactNumber);
+		incomingNumber = removePhoneNumberFormatting(incomingNumber);
 		//Remove any leading zero's from each number.
 		contactNumber = removeLeadingZero(contactNumber);
 		incomingNumber = removeLeadingZero(incomingNumber);	
@@ -475,10 +499,6 @@ public class PhoneCommon {
 		return true;
 	}
 	
-	//================================================================================
-	// Private Methods
-	//================================================================================
-	
 	/**
 	 * Remove all non-numeric items from the phone number.
 	 * 
@@ -486,8 +506,8 @@ public class PhoneCommon {
 	 * 
 	 * @return String - String of phone number with no formatting.
 	 */
-	private static String removeFormatting(String phoneNumber){
-		if (_debug) Log.v("PhoneCommon.removeFormatting()");
+	public static String removePhoneNumberFormatting(String phoneNumber){
+		if (_debug) Log.v("PhoneCommon.removePhoneNumberFormatting()");
 		phoneNumber = phoneNumber.replace(" ", "");
 		phoneNumber = phoneNumber.replace("-", "");
 		phoneNumber = phoneNumber.replace(".", "");
@@ -500,6 +520,10 @@ public class PhoneCommon {
 		phoneNumber = phoneNumber.replace("X", "");
 		return phoneNumber.trim();
 	}
+	
+	//================================================================================
+	// Private Methods
+	//================================================================================
 	
 	/**
 	 * Remove the leading zero from a string.

@@ -39,7 +39,7 @@ public class EmailCommon {
 	 */
 	public static ArrayList<String> getK9MessagesFromIntent(Context context, Bundle bundle, String intentAction){
 		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.getK9MessagesFromIntent() intentAction: " + intentAction);
+		if (_debug) Log.v("EmailCommon.getK9MessagesFromIntent() intentAction: " + intentAction + ":");
 		ArrayList<String> k9Array = new ArrayList<String>();
     	long timeStamp = 0;
     	String sentFromAddress = null;
@@ -59,16 +59,18 @@ public class EmailCommon {
 				notificationSubType = Constants.NOTIFICATION_TYPE_K9_MAIL;
 				packageName = "com.fsck.k9";
 			}
+			if (_debug) Log.v("EmailCommon.getK9MessagesFromIntent() Email PackageName: " + packageName);
 			sentDate = (Date) bundle.get(packageName + ".intent.extra.SENT_DATE");
             messageSubject = bundle.getString(packageName + ".intent.extra.SUBJECT").toLowerCase();
             sentFromAddress = parseFromEmailAddress(bundle.getString(packageName + ".intent.extra.FROM").toLowerCase());
 			timeStamp = sentDate.getTime();
-            if (_debug) Log.v("Common.getK9MessagesFromIntent() sentFromAddress: " + sentFromAddress);
+            //if (_debug) Log.v("EmailCommon.getK9MessagesFromIntent() sentFromAddress: " + sentFromAddress);
             //Get the message body.
     		final String[] projection = new String[] {"_id", "date", "sender", "subject", "preview", "account", "uri", "delUri"};
             final String selection = "date = " + timeStamp;
     		final String[] selectionArgs = null;
     		final String sortOrder = null;
+    		boolean emailFoundFlag = false;
     		Cursor cursor = null;
             try{
     		    cursor = context.getContentResolver().query(
@@ -82,14 +84,18 @@ public class EmailCommon {
 		    		messageBody = cursor.getString(cursor.getColumnIndex("preview"));
 		    		k9EmailUri = cursor.getString(cursor.getColumnIndex("uri"));
 		    		k9EmailDelUri = cursor.getString(cursor.getColumnIndex("delUri"));
+		    		emailFoundFlag = true;
     	    	}else{
-    	    		if (_debug) Log.v("Common.getK9MessagesFromIntent() No Email Found Matching Criteria!");
+    	    		if (_debug) Log.v("EmailCommon.getK9MessagesFromIntent() No Email Found Using The Following URI! URI: 'content://" + packageName + ".messageprovider/inbox_messages/'");
     	    	}
     		}catch(Exception ex){
-    			Log.e("Common.getK9MessagesFromIntent() CURSOR ERROR: " + ex.toString());
+    			Log.e("EmailCommon.getK9MessagesFromIntent() CURSOR ERROR: " + ex.toString());
     		}finally{
         		cursor.close();
     		}
+            if(emailFoundFlag == false){
+            	return null;
+            }
             if(messageSubject != null && !messageSubject.equals("")){
 				messageBody = "<b>" + messageSubject + "</b><br/>" + messageBody.replace("\n", "<br/>").trim();
 			}else{
@@ -104,7 +110,7 @@ public class EmailCommon {
 			}
     		return k9Array;
 		}catch(Exception ex){
-			Log.e("Common.getK9MessagesFromIntent() ERROR: " + ex.toString());
+			Log.e("EmailCommon.getK9MessagesFromIntent() ERROR: " + ex.toString());
 			return null;
 		}
 	}
@@ -120,7 +126,7 @@ public class EmailCommon {
 	 */
 	public static boolean startK9EmailAppViewInboxActivity(Context context, NotificationActivity notificationActivity, int notificationSubType, int requestCode){
 		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.startK9EmailAppViewInboxActivity()");
+		if (_debug) Log.v("EmailCommon.startK9EmailAppViewInboxActivity()");
 		try{
 	        Intent intent = new Intent(Intent.ACTION_MAIN);
             intent.addCategory(Intent.CATEGORY_LAUNCHER);
@@ -155,7 +161,7 @@ public class EmailCommon {
 	 */
 	public static boolean startK9MailAppReplyActivity(Context context, NotificationActivity notificationActivity, String k9EmailUri, int notificationSubType, int requestCode){
 		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.startK9MailAppReplyActivity()");
+		if (_debug) Log.v("EmailCommon.startK9MailAppReplyActivity()");
 		if(k9EmailUri == null || k9EmailUri.equals("")){
 			Toast.makeText(context, context.getString(R.string.app_reply_email_address_error), Toast.LENGTH_LONG).show();
 			Common.setInLinkedAppFlag(context, false);
@@ -169,7 +175,7 @@ public class EmailCommon {
 	        Common.setInLinkedAppFlag(context, true);
 	        return true;
 		}catch(Exception ex){
-			Log.e("Common.startK9MailAppReplyActivity() ERROR: " + ex.toString());
+			Log.e("EmailCommon.startK9MailAppReplyActivity() ERROR: " + ex.toString());
 			startK9EmailAppViewInboxActivity(context, notificationActivity, notificationSubType, requestCode);
 			//Toast.makeText(context, context.getString(R.string.app_email_app_error), Toast.LENGTH_LONG).show();
 			Common.setInLinkedAppFlag(context, false);
@@ -185,10 +191,10 @@ public class EmailCommon {
 	 */
 	public static void deleteK9Email(Context context, String k9EmailDelUri, int notificationSubType){
 		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.deleteK9Email()");
+		if (_debug) Log.v("EmailCommon.deleteK9Email()");
 		try{
 			if(k9EmailDelUri == null || k9EmailDelUri.equals("")){
-				if (_debug) Log.v("Common.deleteK9Email() k9EmailDelUri == null/empty. Exiting...");
+				if (_debug) Log.v("EmailCommon.deleteK9Email() k9EmailDelUri == null/empty. Exiting...");
 				return;
 			}
 			String selection = null;
@@ -199,7 +205,7 @@ public class EmailCommon {
 					selectionArgs);
 			return;
 		}catch(Exception ex){
-			Log.e("Common.deleteK9Email() ERROR: " + ex.toString());
+			Log.e("EmailCommon.deleteK9Email() ERROR: " + ex.toString());
 			return;
 		}
 	}
@@ -213,8 +219,8 @@ public class EmailCommon {
 	 */
 	public static String removeEmailFormatting(String address){
 		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.removeEmailFormatting()");
-		//if (_debug) Log.v("Common.removeEmailFormatting() Email Address: " + address);
+		if (_debug) Log.v("EmailCommon.removeEmailFormatting()");
+		//if (_debug) Log.v("EmailCommon.removeEmailFormatting() Email Address: " + address);
 		if(address.contains("<") && address.contains(">")){
 			address = address.substring(address.indexOf("<") + 1,address.indexOf(">"));
 		}
@@ -224,7 +230,7 @@ public class EmailCommon {
 		if(address.contains("[") && address.contains("]")){
 			address = address.substring(address.indexOf("[") + 1,address.indexOf("]"));
 		}
-		//if (_debug) Log.v("Common.removeEmailFormatting() Formatted Email Address: " + address);
+		//if (_debug) Log.v("EmailCommon.removeEmailFormatting() Formatted Email Address: " + address);
 		return address.toLowerCase().trim();
 	}
 	
@@ -240,10 +246,10 @@ public class EmailCommon {
 	 * @return String- The email address that we parsed/extracted.
 	 */
 	private static String parseFromEmailAddress(String inputFromAddress){
-		if (_debug) Log.v("Common.parseFromEmailAddress()");
+		if (_debug) Log.v("EmailCommon.parseFromEmailAddress()");
 		try{
 			if(inputFromAddress == null || inputFromAddress.equals("")){
-				if (_debug) Log.v("Common.parseFromEmailAddress() InputFromAddress is null/empty. Exiting...");
+				if (_debug) Log.v("EmailCommon.parseFromEmailAddress() InputFromAddress is null/empty. Exiting...");
 				return inputFromAddress;
 			}
 			String outputEmailAddress = null;
@@ -254,7 +260,7 @@ public class EmailCommon {
 			}
 			return outputEmailAddress;
 		}catch(Exception ex){
-			Log.e("Common.parseFromEmailAddress() ERROR: " + ex.toString());
+			Log.e("EmailCommon.parseFromEmailAddress() ERROR: " + ex.toString());
 			return inputFromAddress;
 		}
 	}

@@ -933,15 +933,18 @@
 	<string-array name="phone_number_format_options">
 		<item name="0">123-456-7890</item>
 		<item name="1">12-345-67890</item>
-		<item name="2">12-34-56-78-90</item>
-		<item name="3">1234567890</item>
-		<item name="4">(123) 456-7890</item>
-		<item name="5">123.456.7890</item>
-		<item name="6">12.345.67890</item>
-		<item name="7">12.34.56.78.90</item>
-		<item name="8">123 456 7890</item>
-		<item name="9">12 345 67890</item>
-		<item name="10">12 34 56 78 90</item>
+		<item name="2">01-234-567890</item>
+		<item name="3">12-34-56-78-90</item>
+		<item name="4">1234567890</item>
+		<item name="5">(123) 456-7890</item>
+		<item name="6">123.456.7890</item>
+		<item name="7">12.345.67890</item>
+		<item name="8">01.234.567890</item>
+		<item name="9">12.34.56.78.90</item>
+		<item name="10">123 456 7890</item>
+		<item name="11">12 345 67890</item>
+		<item name="12">01 234 567890</item>
+		<item name="13">12 34 56 78 90</item>
 	</string-array>
 	<string-array name="phone_number_format_options_values">
 		<item name="0">1</item>
@@ -955,6 +958,9 @@
 		<item name="8">9</item>
 		<item name="9">10</item>
 		<item name="10">11</item>
+		<item name="11">12</item>
+		<item name="12">13</item>
+		<item name="13">14</item>
 	</string-array>	
 	
 	<!-- Time Format Arrays --> 

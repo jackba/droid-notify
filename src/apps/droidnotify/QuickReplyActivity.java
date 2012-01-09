@@ -31,6 +31,8 @@ import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
 import apps.droidnotify.sms.SMSCommon;
 import apps.droidnotify.twitter.TwitterCommon;
+import apps.droidnotify.email.EmailCommon;
+import apps.droidnotify.phone.PhoneCommon;
 
 /**
  * This is the quick reply activity that is used to send sms messages.
@@ -682,7 +684,8 @@ public class QuickReplyActivity extends Activity {
 					        values.put("body", message);
 					        values.put("date", String.valueOf(System.currentTimeMillis()));
 					        values.put("type", "3");
-					        values.put("thread_id", String.valueOf(SMSCommon.getThreadID(context, address, 1)));
+					        String messageAddress = address.contains("@") ? EmailCommon.removeEmailFormatting(address) : PhoneCommon.removePhoneNumberFormatting(address);
+					        values.put("thread_id", String.valueOf(SMSCommon.getThreadID(context, messageAddress, 1)));
 					        getContentResolver().insert(Uri.parse("content://sms/draft"), values);
 					        Toast.makeText(context, getString(R.string.draft_saved_text), Toast.LENGTH_SHORT).show();
 						}
