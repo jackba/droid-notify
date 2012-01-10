@@ -89,6 +89,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	    _debug = Log.getDebug();
 	    _appProVersion = Log.getAppProVersion();
 	    if (_debug) Log.v("MainPreferenceActivity.onCreate()");
+	    Common.setApplicationLanguage(_context, this);
 	    _preferences = PreferenceManager.getDefaultSharedPreferences(_context);
 	    _preferences.registerOnSharedPreferenceChangeListener(this);
 	    //Don't rotate the Activity when the screen rotates based on the user preferences.
@@ -124,12 +125,6 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		}else if(key.equals(Constants.CALENDAR_POLLING_FREQUENCY_KEY)){
 			//The polling time for the calendars was changed. Run the alarm manager with the updated polling time.
 			startCalendarAlarmManager(SystemClock.currentThreadTimeMillis());
-		}else if(key.equals(Constants.SMS_REPLY_BUTTON_ACTION_KEY)){
-			updateQuickReplySettings();
-		}else if(key.equals(Constants.MMS_REPLY_BUTTON_ACTION_KEY)){
-			updateQuickReplySettings();
-		}else if(key.equals(Constants.TWITTER_REPLY_BUTTON_ACTION_KEY)){
-			updateQuickReplySettings();
 		}else if(key.equals(Constants.SMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY)){
 			updateStatusBarNotificationVibrate(Constants.NOTIFICATION_TYPE_SMS);
 		}else if(key.equals(Constants.MMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY)){
@@ -207,6 +202,8 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			LinkedInCommon.startLinkedInAlarmManager(_context, SystemClock.currentThreadTimeMillis());
 		}else if(key.equals(Constants.DEBUG)){
 			Log.setDebug(_preferences.getBoolean(Constants.DEBUG, false));
+		}else if(key.equals(Constants.LANGUAGE_KEY)){
+			reloadPreferenceActivity();
 		}
 	}
 
@@ -1066,7 +1063,6 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	 */
 	private void initPreferencesStates(){
 		if (_debug) Log.v("MainPreferenceActivity.initPreferencesStates()");
-		updateQuickReplySettings();
 		updateStatusBarNotificationVibrate(Constants.NOTIFICATION_TYPE_SMS);
 		updateStatusBarNotificationVibrate(Constants.NOTIFICATION_TYPE_MMS);
 		updateStatusBarNotificationVibrate(Constants.NOTIFICATION_TYPE_PHONE);
@@ -1085,34 +1081,6 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			updateStatusBarNotificationRingtone(Constants.NOTIFICATION_TYPE_FACEBOOK);
 			updateTwitterPreferences();
 			updateFacebookPreferences();
-		}
-	}
-	
-	/**
-	 * Updates the availability of the Quick Reply SMS Gateway Setting.
-	 */
-	private void updateQuickReplySettings(){
-		if (_debug) Log.v("MainPreferenceActivity.updateQuickReplySettings()");
-		try{
-			boolean quickReplyEnabled = false;
-			boolean quickReplySMSGatewayEnabled = false;
-			if(_preferences.getString(Constants.SMS_REPLY_BUTTON_ACTION_KEY, "0").equals("1")){
-				quickReplyEnabled = true;
-				quickReplySMSGatewayEnabled = true;
-			}
-			if(_preferences.getString(Constants.MMS_REPLY_BUTTON_ACTION_KEY, "0").equals("1")){
-				quickReplyEnabled = true;
-				quickReplySMSGatewayEnabled = true;
-			}
-			if(_preferences.getString(Constants.TWITTER_REPLY_BUTTON_ACTION_KEY, "0").equals("1")){
-				quickReplyEnabled = true;
-			}
-			ListPreference quickReplySMSGateway = (ListPreference) findPreference(Constants.SMS_GATEWAY_KEY);
-			if(quickReplySMSGateway != null) quickReplySMSGateway.setEnabled(quickReplySMSGatewayEnabled);
-			PreferenceScreen quickReplyPreferenceScreen = (PreferenceScreen) findPreference(Constants.QUICK_REPLY_SETTINGS_SCREEN);
-			if(quickReplyPreferenceScreen != null) quickReplyPreferenceScreen.setEnabled(quickReplyEnabled);
-		}catch(Exception ex){
-			Log.e("MainPreferenceActivity.updateQuickReplySettings() ERROR: " + ex.toString());
 		}
 	}
 	

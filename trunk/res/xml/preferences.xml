@@ -21,6 +21,13 @@
         	android:summaryOn="@string/preference_appenabled_summaryOn" 
         	android:summaryOff="@string/preference_appenabled_summaryOff"
         	android:defaultValue="true" />
+		<ListPreference
+			android:key="language_setting"
+			android:title="@string/preference_language_title"
+			android:summary="@string/preference_language_summary"
+			android:defaultValue="phone_default"
+			android:entries="@array/language_options"
+			android:entryValues="@array/language_options_values" />
   	</PreferenceCategory>
 	<PreferenceCategory
 		android:key="basic_settings_category"

@@ -869,6 +869,7 @@ public class NotificationActivity extends Activity {
 	    _context = getApplicationContext();
 		_debug = Log.getDebug();
 	    if (_debug) Log.v("NotificationActivity.onCreate()");
+	    Common.setApplicationLanguage(_context, this);
 	    _preferences = PreferenceManager.getDefaultSharedPreferences(_context);
 	    Common.setInLinkedAppFlag(_context, false);
 	    Common.acquireWakeLock(_context);

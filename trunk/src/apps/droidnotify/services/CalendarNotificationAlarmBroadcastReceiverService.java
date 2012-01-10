@@ -72,21 +72,13 @@ public class CalendarNotificationAlarmBroadcastReceiverService extends WakefulIn
 		    boolean notificationIsBlocked = false;
 		    boolean rescheduleNotification = true;
 		    boolean callStateIdle = telemanager.getCallState() == TelephonyManager.CALL_STATE_IDLE;
-		    boolean blockingAppRunning = Common.isBlockingAppRunning(context);
 		    String blockingAppRuningAction = preferences.getString(Constants.CALENDAR_BLOCKING_APP_RUNNING_ACTION_KEY, Constants.BLOCKING_APP_RUNNING_ACTION_SHOW);
 		    //Reschedule notification based on the users preferences.
 		    if(!callStateIdle){
 		    	notificationIsBlocked = true;		    	
-		    	if(preferences.getBoolean(Constants.IN_CALL_RESCHEDULING_ENABLED_KEY, false)){
-		    		rescheduleNotification = true;
-		    	}else{
-		    		rescheduleNotification = false;
-		    	}
-		    }else if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_RESCHEDULE) && blockingAppRunning){ 
-		    	//Blocking App is running.
-		    	notificationIsBlocked = true;
-		    }else if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_SHOW)){
-		    	notificationIsBlocked = false;
+		    	rescheduleNotification = preferences.getBoolean(Constants.IN_CALL_RESCHEDULING_ENABLED_KEY, false);
+		    }else{		    	
+		    	notificationIsBlocked = Common.isNotificationBlocked(context, blockingAppRuningAction);
 		    }
 		    if(!notificationIsBlocked){
 				Intent calendarIntent = new Intent(context, CalendarService.class);

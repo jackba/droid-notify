@@ -97,7 +97,11 @@ public class Constants {
 	
 	public static final int MESSAGE_TYPE_SMS = 1;
 	public static final int MESSAGE_TYPE_MMS = 2;
-
+	
+	//-----LANGUAGE CONSTANTS-----//	
+	public static final String LANGUAGE_KEY = "language_setting";
+	public static final String LANGUAGE_DEFAULT = "phone_default";
+	
 	//-----VIEW FLIPPER CONSTANTS-----//
 	public static final String VIEW_NOTIFICATION_ORDER = "view_notification_order";
 	public static final String NEWEST_FIRST = "0";
