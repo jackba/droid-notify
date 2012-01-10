@@ -178,6 +178,7 @@ public class PhoneCommon {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("PhoneCommon.makePhoneCall()");
 		try{
+			phoneNumber = PhoneCommon.removePhoneNumberFormatting(phoneNumber);
 			if(phoneNumber == null){
 				Toast.makeText(context, context.getString(R.string.app_android_phone_number_format_error), Toast.LENGTH_LONG).show();
 				Common.setInLinkedAppFlag(context, false);
@@ -233,7 +234,7 @@ public class PhoneCommon {
 	 */
 	public static boolean isPrivateUnknownNumber(Context context, String incomingNumber){
 		_debug = Log.getDebug();
-		if (_debug) Log.v("PhoneCommon.isPrivateUnknownNumber() incomingNumber: " + incomingNumber);
+		if (_debug) Log.v("PhoneCommon.isPrivateUnknownNumber() IncomingNumber: " + incomingNumber);
 		try{
 			if(incomingNumber.length() > 4){
 				return false;

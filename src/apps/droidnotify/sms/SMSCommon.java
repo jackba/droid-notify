@@ -216,6 +216,7 @@ public class SMSCommon {
 	public static long getThreadID(Context context, String address, int messageType){
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.getThreadIdByAddress()");
+		address = address.contains("@") ? EmailCommon.removeEmailFormatting(address) : PhoneCommon.removePhoneNumberFormatting(address);
 		String messageURI = "content://sms/inbox";
 		if(messageType == Constants.MESSAGE_TYPE_SMS){
 			messageURI = "content://sms/inbox";
@@ -225,7 +226,7 @@ public class SMSCommon {
 		}
 		long threadID = 0;
 		if (address == null|| address.equals("")){
-			if (_debug) Log.v("Common.getThreadID() Address provided is null or empty: Exiting...");
+			if (_debug) Log.v("Common.getThreadID() Address provided is null or empty. Exiting...");
 			return 0;
 		}
 		try{
@@ -244,7 +245,7 @@ public class SMSCommon {
 		    	if (cursor != null) {
 		    		if (cursor.moveToFirst()) {
 		    			threadID = cursor.getLong(cursor.getColumnIndex("thread_id"));
-		    			if (_debug) Log.v("Common.getThreadID() Thread ID Found: " + threadID);
+		    			if (_debug) Log.v("Common.getThreadID() Thread ID Found. THREAD_ID =  " + threadID);
 		    		}
 		    	}
 	    	}catch(Exception e){
@@ -254,6 +255,9 @@ public class SMSCommon {
 					cursor.close();
 				}
 	    	}
+		    if(threadID == 0){
+		    	if (_debug) Log.v("Common.getMessageID() Thread ID NOT Found: ADDRESS = " + address + " MESSAGE_TYPE = " + messageType);
+		    }
 	    	return threadID;
 		}catch(Exception ex){
 			Log.e("Common.getThreadID() ERROR: " + ex.toString());
@@ -278,11 +282,11 @@ public class SMSCommon {
 			//messageURI = "content://mms/inbox";
 			messageURI = "content://sms/inbox";
 		}else{
-			if (_debug) Log.v("Common.getMessageID() Non SMS/MMS Message Type: Exiting...");
+			if (_debug) Log.v("Common.getMessageID() Non SMS/MMS Message Type. Exiting...");
 			return 0;
 		}
 		if (messageBody == null){
-			if (_debug) Log.v("Common.getMessageID() Message body provided is null: Exiting...");
+			if (_debug) Log.v("Common.getMessageID() Message body provided is null. Exiting...");
 			return 0;
 		} 
 		long messageID = 0;
@@ -308,7 +312,7 @@ public class SMSCommon {
 			    while (cursor.moveToNext()) { 
 		    		if(cursor.getString(cursor.getColumnIndex("body")).replace("\n", "<br/>").trim().equals(messageBody)){
 		    			messageID = cursor.getLong(cursor.getColumnIndex("_id"));
-		    			if (_debug) Log.v("Common.getMessageID() Message ID Found: " + messageID);
+		    			if (_debug) Log.v("Common.getMessageID() Message ID Found. MESSAGE_ID = " + messageID);
 		    			break;
 		    		}
 			    }
@@ -318,6 +322,9 @@ public class SMSCommon {
 				if(cursor != null){
 					cursor.close();
 				}
+		    }
+		    if(messageID == 0){
+		    	if (_debug) Log.v("Common.getMessageID() Message ID NOT Found: THREAD_ID = " + threadID + " MESSAGE_BODY = " + messageBody);
 		    }
 		    return messageID;
 		}catch(Exception ex){

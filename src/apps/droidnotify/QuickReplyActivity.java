@@ -27,6 +27,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
 import apps.droidnotify.sms.SMSCommon;
@@ -100,6 +101,7 @@ public class QuickReplyActivity extends Activity {
 	    _context = getApplicationContext();
 		_debug = Log.getDebug();
 	    if (_debug) Log.v("QuickReplyActivity.onCreate()");
+	    Common.setApplicationLanguage(_context, this);
 	    _preferences = PreferenceManager.getDefaultSharedPreferences(_context);
 	    //Don't rotate the Activity when the screen rotates based on the user preferences.
 	    if(!_preferences.getBoolean(Constants.LANDSCAPE_SCREEN_ENABLED_KEY, false)){

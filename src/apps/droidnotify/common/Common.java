@@ -7,8 +7,10 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.TimeZone;
 
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.AlarmManager;
 import android.app.KeyguardManager;
@@ -22,6 +24,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.graphics.Bitmap;
@@ -48,15 +52,15 @@ import android.provider.ContactsContract;
 import android.speech.tts.TextToSpeech;
 import android.widget.Toast;
 
+import apps.droidnotify.email.EmailCommon;
+import apps.droidnotify.common.Constants;
 import apps.droidnotify.NotificationActivity;
 import apps.droidnotify.NotificationViewFlipper;
-import apps.droidnotify.email.EmailCommon;
 import apps.droidnotify.facebook.FacebookCommon;
 import apps.droidnotify.log.Log;
 import apps.droidnotify.phone.PhoneCommon;
 import apps.droidnotify.receivers.RescheduleReceiver;
 import apps.droidnotify.twitter.TwitterCommon;
-import apps.droidnotify.common.Constants;
 import apps.droidnotify.R;
 
 /**
@@ -80,6 +84,34 @@ public class Common {
 	
 	//================================================================================
 	// Public Methods
+	//================================================================================
+	
+	//================================================================================
+	// Debug Methods
+	//================================================================================
+	
+	/**
+	 * Read/Display the content provider columns. This outputs to the log file the information.
+	 * 
+	 * @param context - Application Context.
+	 * @param contentProviderURI - The URI we want to read.
+	 */
+	public static void debugReadContentProviderColumns(Context context, String contentProviderURI) {
+	    try{
+		    Cursor conversations = context.getContentResolver().query(Uri.parse(contentProviderURI), null, null, null, null);
+		    while (conversations.moveToNext()) { 
+		    	for(int i=0;i<conversations.getColumnCount();i++){
+		    		Log.v("Common.debugReadContentProviderColumns() " + conversations.getColumnName(i) + " = " + conversations.getString(i));
+		    	}
+		    	break;
+		    }
+	    }catch(Exception ex){
+	    	Log.e("Common.debugReadContentProviderColumns()  ERROR:" + ex.toString());
+	    }
+	}
+
+	//================================================================================
+	// Application Methods
 	//================================================================================
 	
 	/**
@@ -428,6 +460,36 @@ public class Common {
 			return false;
 		}
 	}
+	
+	/**
+	 * Determine if a notification should be shown or blocked.
+	 * 
+	 * @param context - Application Context.
+	 * @param blockingAppRuningAction - The action to perform based on the user preferences.
+	 * 
+	 * @return boolean - Returns true if a the notification should be blocked.
+	 */
+	public static boolean isNotificationBlocked(Context context, String blockingAppRuningAction){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.isNotificationBlocked()");
+		boolean blockedFlag = false;
+	    boolean blockingAppRunning = Common.isBlockingAppRunning(context);
+	    if(blockingAppRunning){
+			if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_RESCHEDULE)){ 
+				blockedFlag = true;
+		    }else if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_SHOW)){
+		    	blockedFlag = false;
+		    }else if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_IGNORE)){
+		    	blockedFlag = true;
+		    }
+			blockedFlag = false;
+	    }else{
+	    	blockedFlag = false;
+	    }
+	    if (_debug) Log.v("Common.isNotificationBlocked() BlockedFlag: " + blockedFlag);
+	    return blockedFlag;
+	}
+	
 	/**
 	 * Determine if the users phone has a blocked app currently running on the phone.
 	 * 
@@ -450,10 +512,11 @@ public class Common {
 	        //if (_debug) Log.v("Common.isBlockingAppRunning() runningTaskPackageName: " + runningTaskPackageName + " runningTaskClassName: " + runningTaskClassName);
 	        int messagingPackageNamesArraySize = Constants.BLOCKED_PACKAGE_NAMES_ARRAY.length;
 	        for(int i = 0; i < messagingPackageNamesArraySize; i++){
-	        	//if (_debug) Log.v("Common.isBlockingAppRunning() Checking BLOCKED_PACKAGE_NAMES_ARRAY[i]: " + Constants.BLOCKED_PACKAGE_NAMES_ARRAY[i]);
 	        	String[] blockedInfoArray = Constants.BLOCKED_PACKAGE_NAMES_ARRAY[i].split(",");
 		        if(blockedInfoArray[0].equals(runningTaskPackageName)){
+		        	if (_debug) Log.v("Common.isBlockingAppRunning() blockedInfoArray[0]: " + blockedInfoArray[0] + " runningTaskPackageName: " + runningTaskPackageName);
 		        	if(blockedInfoArray.length > 1){
+		        		if (_debug) Log.v("Common.isBlockingAppRunning() blockedInfoArray[1]: " + blockedInfoArray[1] + " runningTaskClassName: " + runningTaskClassName);
 		        		if(blockedInfoArray[1].equals(runningTaskClassName)){
 		        			return true;
 		        		}
@@ -515,7 +578,7 @@ public class Common {
 			String ENABLED_KEY = null;
 			boolean POPUP_ENABLED_DEFAULT = true;
 			String SOUND_SETTING_KEY = null;
-			String RINGTONE_DEFAULT = Constants.STATUS_BAR_NOTIFICATIONS_RINGTONE_DEFAULT;;
+			String RINGTONE_DEFAULT = Constants.STATUS_BAR_NOTIFICATIONS_RINGTONE_DEFAULT;
 			String IN_CALL_SOUND_ENABLED_KEY = null;
 			String VIBRATE_SETTING_KEY = null;
 			String VIBRATE_ALWAYS_VALUE = Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_ALWAYS_VALUE;
@@ -1967,6 +2030,7 @@ public class Common {
 	 * @return boolean - Returns true if the activity was started successfully.
 	 */
 	public static boolean startNotificationActivity(Context context, Bundle bundle){
+		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.startNotificationActivity()");
 		try{
 			Intent notificationIntent = new Intent(context, NotificationActivity.class);
@@ -1991,6 +2055,7 @@ public class Common {
 	 * @param rescheduleTime - The time the alarm should go off.
 	 */
 	public static void startAlarm(Context context, Class<?> className, Bundle extrasBundle, String actionText, long alarmTime){
+		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.startAlarm()");
 		try{
 			AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
@@ -2044,6 +2109,7 @@ public class Common {
 	 * @return String - The version number of the application.
 	 */
 	public static String getApplicationVersion(Context context){
+		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.getApplicationVersion()");
 		PackageInfo packageInfo = null;
 		try{
@@ -2051,6 +2117,32 @@ public class Common {
 			return packageInfo.versionName;
 		}catch(Exception ex){
 			return "";
+		}
+	}
+	
+	/**
+	 * Set the application language.
+	 * 
+	 * @param context - The application context.
+	 */
+	public static void setApplicationLanguage(Context context, Activity activity){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.setApplicationLanguage()");
+		try{
+			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+			String appLanguage = preferences.getString(Constants.LANGUAGE_KEY, Constants.LANGUAGE_DEFAULT);
+			Locale locale = null;
+			if(appLanguage.equals(Constants.LANGUAGE_DEFAULT)){				
+				locale = new Locale(Resources.getSystem().getConfiguration().locale.getLanguage());
+			}else{
+				locale = new Locale(appLanguage);
+			} 
+            Locale.setDefault(locale);
+            Configuration config = new Configuration();
+            config.locale = locale;
+            activity.getBaseContext().getResources().updateConfiguration(config, activity.getBaseContext().getResources().getDisplayMetrics());
+		}catch(Exception ex){
+			Log.e("Common.setApplicationLanguage() ERROR: " + ex.toString());
 		}
 	}
 	

@@ -1,27 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+	<!-- Language Preferences Arrays --> 
+	<string-array name="language_options">
+		<item name="0">@string/phone_default_language</item>
+		<item name="1">English (US)</item>
+		<item name="2">English (UK)</item>
+		<item name="3">Française</item>
+		<item name="4">Deutsch</item>
+		<item name="5">עברית (he)</item>
+		<item name="6">עברית (iw)</item>
+		<item name="7">Polski</item>
+		<item name="8">Português</item>
+		<item name="9">Español</item>
+	</string-array>
+	<string-array name="language_options_values">
+		<item name="0">phone_default</item>
+		<item name="1">en</item>
+		<item name="2">en-rGB</item>
+		<item name="3">fr</item>
+		<item name="4">de</item>
+		<item name="5">he</item>
+		<item name="6">iw</item>
+		<item name="7">pl</item>
+		<item name="8">pt</item>
+		<item name="9">es</item>
+	</string-array>
+
     <!-- SMS Preferences Arrays --> 
     <string-array name="sms_dismiss_button_options">
 		<item name="0">@string/nothing_text</item>
 		<item name="1">@string/mark_as_read_text</item>
-	</string-array>
-	
+	</string-array>	
 	<string-array name="sms_dismiss_button_options_values">
 		<item name="0">1</item>
 		<item name="1">0</item>
 	</string-array>
+	
     <string-array name="sms_delete_button_options">
 		<item name="2">@string/nothing_text</item>
 		<item name="0">@string/delete_message_text</item>
 		<item name="1">@string/delete_thread_text</item>
-	</string-array>
-	
+	</string-array>	
 	<string-array name="sms_delete_button_options_values">
 		<item name="0">2</item>
 		<item name="1">0</item>
 		<item name="2">1</item>
 	</string-array>
+	
     <string-array name="sms_reply_button_options">
     	<item name="0">@string/use_installed_messaging_app_text</item>
 		<item name="1">@string/use_quick_reply_text</item>
