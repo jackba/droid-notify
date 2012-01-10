@@ -4,7 +4,9 @@
 = Release Notes =
 
 *v2.19* _Coming Soon..._
+ * Added option to change the language of the app.
  * 
+ * Small bug fixes.
 
 *v2.18* _Coming Soon..._
  * Pro Version critical bug fix which stopped the pro features from working properly.
