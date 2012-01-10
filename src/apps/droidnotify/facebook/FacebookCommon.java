@@ -414,8 +414,8 @@ public class FacebookCommon {
 		        	    JSONArray jsonCommentsDataArray = messageComments.getJSONArray("data");
 	        	    	//Get latest/most recent message details.
 	        	    	int jsonCommentsDataArraySize = jsonCommentsDataArray.length();
-	        	    	for(int j=jsonCommentsDataArraySize - 1;j>=(jsonCommentsDataArraySize-unreadFlag);j--){
-	        	    		JSONObject jsonCommentMessageData = jsonCommentsDataArray.getJSONObject(i);
+	        	    	for(int j=jsonCommentsDataArraySize;j>=jsonCommentsDataArraySize-unreadFlag;j--){
+	        	    		JSONObject jsonCommentMessageData = jsonCommentsDataArray.getJSONObject(i-1);
 	        	    		String messageStringID = jsonCommentMessageData.getString("id");
 	        	    		String messageText = jsonCommentMessageData.getString("message");
 	        	    		long timeStamp = parseFacebookDatTime(jsonCommentMessageData.getString("created_time"));
