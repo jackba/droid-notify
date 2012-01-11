@@ -5,8 +5,9 @@
 
 *v2.19* _Coming Soon..._
  * Added option to change the language of the app.
- * Fixed Facebook Messages bug which displayed incorrect messages from the message thread.
- * Fixed Facebook Messages bug which displayed the incorrect FROM user.
+ * Fixed a Facebook Messages bug which displayed incorrect messages from the message thread.
+ * Fixed a Facebook Messages bug which displayed the incorrect FROM user.
+ * Fixed a bug that prevented some contacts from being matched correctly.
  * 
  * Small bug fixes.
 
