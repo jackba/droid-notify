@@ -5,6 +5,7 @@
 
 *v2.19* _Coming Soon..._
  * Added option to change the language of the app.
+ * Fixed Facebook Messages notifications bug.
  * 
  * Small bug fixes.
 
