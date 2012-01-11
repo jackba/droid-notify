@@ -855,6 +855,20 @@ public class NotificationActivity extends Activity {
 		            startActivity(installIntent);
 		        }
 		    }
+		    case Constants.BROWSER_ACTIVITY:{
+		    	if (resultCode == RESULT_OK) {
+		    		if (_debug) Log.v("NotificationActivity.onActivityResult() BROWSER_ACTIVITY: RESULT_OK");
+		    		_notificationViewFlipper.removeActiveNotification(false);
+		    	}else if (resultCode == RESULT_CANCELED) {
+		    		if (_debug) Log.v("NotificationActivity.onActivityResult() BROWSER_ACTIVITY: RESULT_CANCELED");
+					_notificationViewFlipper.removeActiveNotification(false);
+		    	}else{
+		    		if (_debug) Log.v("NotificationActivity.onActivityResult() BROWSER_ACTIVITY: " + resultCode);
+		        	Toast.makeText(_context, _context.getString(R.string.browser_app_error) + " " + resultCode, Toast.LENGTH_LONG).show();
+		    	}
+		    	Common.setInLinkedAppFlag(_context, false);
+		        break;
+		    }
 	    }
     }
 	
@@ -937,14 +951,14 @@ public class NotificationActivity extends Activity {
 		    }
 			case Constants.NOTIFICATION_TYPE_TWITTER:{
 				if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_TWITTER");
-				if(!setupTwitterMessages(extrasBundle)){
+				if(!setupTwitterNotifications(extrasBundle)){
 					finishActivity();
 				}
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_FACEBOOK:{
 				if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_FACEBOOK");
-				if(!setupFacebookMessages(extrasBundle)){
+				if(!setupFacebookNotifications(extrasBundle)){
 					finishActivity();
 				}
 				break;
@@ -1190,12 +1204,12 @@ public class NotificationActivity extends Activity {
 		    }
 			case Constants.NOTIFICATION_TYPE_TWITTER:{
 				if (_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_TWITTER");
-				setupTwitterMessages(extrasBundle);
+				setupTwitterNotifications(extrasBundle);
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_FACEBOOK:{
 				if (_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_FACEBOOK");
-				setupFacebookMessages(extrasBundle);
+				setupFacebookNotifications(extrasBundle);
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_K9:{
@@ -1342,7 +1356,7 @@ public class NotificationActivity extends Activity {
 	    	if(_preferences.getBoolean(Constants.TWITTER_DIRECT_MESSAGES_ENABLED_KEY, true)){
 				notificationDisplayed = true;
 				//Add Twitter Message Notification.
-				Notification twitterNotification = new Notification(_context, sentFromTwitter, 0, twitterTestMessage, System.currentTimeMillis(), 0, sentFromTwitterName, 0, 0, null, null, null, null, Constants.NOTIFICATION_TYPE_TWITTER, Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE);
+				Notification twitterNotification = new Notification(_context, sentFromTwitter, 0, twitterTestMessage, System.currentTimeMillis(), 0, sentFromTwitterName, 0, 0, null, null, null, null, null, Constants.NOTIFICATION_TYPE_TWITTER, Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE);
 				notificationViewFlipper.addNotification(twitterNotification);
 				//Display Status Bar Notification
 			    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_TWITTER, Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE, true, null, sentFromTwitter, twitterTestMessage, null);
@@ -1350,7 +1364,7 @@ public class NotificationActivity extends Activity {
 	    	if(_preferences.getBoolean(Constants.TWITTER_MENTIONS_ENABLED_KEY, true)){
 				notificationDisplayed = true;
 				//Add Twitter Message Notification.
-				Notification twitterNotification = new Notification(_context, sentFromTwitter, 0, twitterTestMention, System.currentTimeMillis(), 0, sentFromTwitterName, 0, 0, null, null, null, null, Constants.NOTIFICATION_TYPE_TWITTER, Constants.NOTIFICATION_TYPE_TWITTER_MENTION);
+				Notification twitterNotification = new Notification(_context, sentFromTwitter, 0, twitterTestMention, System.currentTimeMillis(), 0, sentFromTwitterName, 0, 0, null, null, null, null, null, Constants.NOTIFICATION_TYPE_TWITTER, Constants.NOTIFICATION_TYPE_TWITTER_MENTION);
 				notificationViewFlipper.addNotification(twitterNotification);
 				//Display Status Bar Notification
 			    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_TWITTER, Constants.NOTIFICATION_TYPE_TWITTER_MENTION, true, null, sentFromTwitter, twitterTestMention, null);
@@ -1358,7 +1372,7 @@ public class NotificationActivity extends Activity {
 	    	if(_preferences.getBoolean(Constants.TWITTER_FOLLOWER_REQUESTS_ENABLED_KEY, true)){
 				notificationDisplayed = true;
 				//Add Twitter Message Notification.
-				Notification twitterNotification = new Notification(_context, sentFromTwitter, 0, twitterTestFollowerRequest, System.currentTimeMillis(), 0, sentFromTwitterName, 0, 0, null, null, null, null, Constants.NOTIFICATION_TYPE_TWITTER, Constants.NOTIFICATION_TYPE_TWITTER_FOLLOWER_REQUEST);
+				Notification twitterNotification = new Notification(_context, sentFromTwitter, 0, twitterTestFollowerRequest, System.currentTimeMillis(), 0, sentFromTwitterName, 0, 0, null, null, null, null, null, Constants.NOTIFICATION_TYPE_TWITTER, Constants.NOTIFICATION_TYPE_TWITTER_FOLLOWER_REQUEST);
 				notificationViewFlipper.addNotification(twitterNotification);
 				//Display Status Bar Notification
 			    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_TWITTER, Constants.NOTIFICATION_TYPE_TWITTER_FOLLOWER_REQUEST, true, null, sentFromTwitter, twitterTestFollowerRequest, null);
@@ -1368,7 +1382,7 @@ public class NotificationActivity extends Activity {
 	    	if(_preferences.getBoolean(Constants.FACEBOOK_USER_NOTIFICATIONS_ENABLED_KEY, true)){
 				notificationDisplayed = true;
 				//Add Facebook Message Notification.
-				Notification facebookNotification = new Notification(_context, sentFromFacebook, 0, facebookTestNotification, System.currentTimeMillis(), 0, sentFromFacebookName, 0, 0, null, null, null, null, Constants.NOTIFICATION_TYPE_FACEBOOK, Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION);
+				Notification facebookNotification = new Notification(_context, sentFromFacebook, 0, facebookTestNotification, System.currentTimeMillis(), 0, sentFromFacebookName, 0, 0, null, null, null, null, null, Constants.NOTIFICATION_TYPE_FACEBOOK, Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION);
 				notificationViewFlipper.addNotification(facebookNotification);
 				//Display Status Bar Notification
 			    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_FACEBOOK, Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION, true, null, sentFromFacebook, facebookTestNotification, null);
@@ -1376,7 +1390,7 @@ public class NotificationActivity extends Activity {
 		    if(_preferences.getBoolean(Constants.FACEBOOK_FRIEND_REQUESTS_ENABLED_KEY, true)){
 		    	notificationDisplayed = true;
 				//Add Facebook Message Notification.
-				Notification facebookNotification = new Notification(_context, sentFromFacebook, 0, facebookTestFriendRequest, System.currentTimeMillis(), 0, sentFromFacebookName, 0, 0, null, null, null, null, Constants.NOTIFICATION_TYPE_FACEBOOK, Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST);
+				Notification facebookNotification = new Notification(_context, sentFromFacebook, 0, facebookTestFriendRequest, System.currentTimeMillis(), 0, sentFromFacebookName, 0, 0, null, null, null, null, null, Constants.NOTIFICATION_TYPE_FACEBOOK, Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST);
 				notificationViewFlipper.addNotification(facebookNotification);
 				//Display Status Bar Notification
 			    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_FACEBOOK, Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST, true, null, sentFromFacebook, facebookTestFriendRequest, null);
@@ -1384,7 +1398,7 @@ public class NotificationActivity extends Activity {
 		    if(_preferences.getBoolean(Constants.FACEBOOK_MESSAGES_ENABLED_KEY, true)){
 		    	notificationDisplayed = true;
 				//Add Facebook Message Notification.
-				Notification facebookNotification = new Notification(_context, sentFromFacebook, 0, facebookTestMessage, System.currentTimeMillis(), 0, sentFromFacebookName, 0, 0, null, null, null, null, Constants.NOTIFICATION_TYPE_FACEBOOK, Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE);
+				Notification facebookNotification = new Notification(_context, sentFromFacebook, 0, facebookTestMessage, System.currentTimeMillis(), 0, sentFromFacebookName, 0, 0, null, null, null, null, null, Constants.NOTIFICATION_TYPE_FACEBOOK, Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE);
 				notificationViewFlipper.addNotification(facebookNotification);
 				//Display Status Bar Notification
 			    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_FACEBOOK, Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST, true, null, sentFromFacebook, facebookTestMessage, null);
@@ -2118,7 +2132,7 @@ public class NotificationActivity extends Activity {
 				Log.e("NotificationActivity.setupK9EmailNotifications() ERROR: " + ex.toString()); 
 				return false;
 			}
-			_notificationViewFlipper.addNotification(new Notification(_context, sentFromAddress, 0, messageBody, timeStamp, contactID, contactName, photoID, messageID, null, lookupKey, k9EmailUri, k9EmailDelUri, Constants.NOTIFICATION_TYPE_K9, notificationSubType));		    
+			_notificationViewFlipper.addNotification(new Notification(_context, sentFromAddress, 0, messageBody, timeStamp, contactID, contactName, photoID, messageID, null, lookupKey, k9EmailUri, k9EmailDelUri, null, Constants.NOTIFICATION_TYPE_K9, notificationSubType));		    
 			//Display Status Bar Notification
 		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_K9, 0, true, contactName, sentFromAddress, messageBody, k9EmailUri);
 		}
@@ -2132,7 +2146,7 @@ public class NotificationActivity extends Activity {
 	 * 
 	 * @return boolean - Returns true if the notification did not have an error.
 	 */
-	private boolean setupTwitterMessages(Bundle bundle){
+	private boolean setupTwitterNotifications(Bundle bundle){
 		if (_debug) Log.v("NotificationActivity.setupTwitterMessages()");  
 		ArrayList<String> twitterArray = bundle.getStringArrayList("twitterArrayList");
 		int twitterArraysize = twitterArray.size(); 
@@ -2180,7 +2194,7 @@ public class NotificationActivity extends Activity {
 				Log.e("NotificationActivity.setupTwitterMessages() ERROR: " + ex.toString()); 
 				return false;
 			}
-			_notificationViewFlipper.addNotification(new Notification(_context, sentFromAddress, sentFromID, messageBody, timeStamp, contactID, contactName, photoID, messageID, null, lookupKey, null, null, Constants.NOTIFICATION_TYPE_TWITTER, notificationSubType));		    
+			_notificationViewFlipper.addNotification(new Notification(_context, sentFromAddress, sentFromID, messageBody, timeStamp, contactID, contactName, photoID, messageID, null, lookupKey, null, null, null, Constants.NOTIFICATION_TYPE_TWITTER, notificationSubType));		    
 			//Display Status Bar Notification
 		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_TWITTER, notificationSubType, true, contactName, sentFromAddress, messageBody, null);
 		}
@@ -2194,7 +2208,7 @@ public class NotificationActivity extends Activity {
 	 * 
 	 * @return boolean - Returns true if the notification did not have an error.
 	 */
-	private boolean setupFacebookMessages(Bundle bundle){
+	private boolean setupFacebookNotifications(Bundle bundle){
 		if (_debug) Log.v("NotificationActivity.setupFacebookMessages()");  
 		ArrayList<String> facebookArray = bundle.getStringArrayList("facebookArrayList");
 		int facebookArraysize = facebookArray.size(); 
@@ -2210,39 +2224,42 @@ public class NotificationActivity extends Activity {
 			long photoID = 0;
 			String lookupKey = null;
 			int notificationSubType = 0;
+			String linkURL = null;
 			try{
 				int facebookInfoSize = facebookInfo.length;
-				if(facebookInfoSize < 4){
+				if(facebookInfoSize < 5){
 					Log.e("NotificationActivity.setupFacebookMessages() FATAL NOTIFICATION ERROR. facebookInfoSize.length: " + facebookInfoSize);
 					return false;
-				}else if(facebookInfoSize == 4){
+				}else if(facebookInfoSize == 5){
 					notificationSubType = Integer.parseInt(facebookInfo[0]);
 					sentFromAddress = facebookInfo[1];
 					sentFromID = Long.parseLong(facebookInfo[2]);
 					messageBody = facebookInfo[3];
 					messageStringID = facebookInfo[4];
-					timeStamp = Long.parseLong(facebookInfo[5]);
+					linkURL = facebookInfo[5];
+					timeStamp = Long.parseLong(facebookInfo[6]);
 				}else{
 					notificationSubType = Integer.parseInt(facebookInfo[0]);
 					sentFromAddress = facebookInfo[1];
 					sentFromID = Long.parseLong(facebookInfo[2]);
 					messageBody = facebookInfo[3];
 					messageStringID = facebookInfo[4];
-					timeStamp = Long.parseLong(facebookInfo[5]);
-					contactID = Long.parseLong(facebookInfo[6]);
-					contactName = facebookInfo[7];
-					photoID = Long.parseLong(facebookInfo[8]);
-					if(facebookInfoSize < 10){
+					linkURL = facebookInfo[5];
+					timeStamp = Long.parseLong(facebookInfo[6]);
+					contactID = Long.parseLong(facebookInfo[7]);
+					contactName = facebookInfo[8];
+					photoID = Long.parseLong(facebookInfo[9]);
+					if(facebookInfoSize < 11){
 						lookupKey = "";
 					}else{
-						lookupKey = facebookInfo[9];
+						lookupKey = facebookInfo[10];
 					}
 				}
 			}catch(Exception ex){
 				Log.e("NotificationActivity.setupFacebookMessages() ERROR: " + ex.toString()); 
 				return false;
 			}
-			_notificationViewFlipper.addNotification(new Notification(_context, sentFromAddress, sentFromID, messageBody, timeStamp, contactID, contactName, photoID, 0, messageStringID, lookupKey, null, null, Constants.NOTIFICATION_TYPE_FACEBOOK, notificationSubType));		    
+			_notificationViewFlipper.addNotification(new Notification(_context, sentFromAddress, sentFromID, messageBody, timeStamp, contactID, contactName, photoID, 0, messageStringID, lookupKey, null, null, linkURL, Constants.NOTIFICATION_TYPE_FACEBOOK, notificationSubType));		    
 			//Display Status Bar Notification
 		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_FACEBOOK, notificationSubType, true, contactName, sentFromAddress, messageBody, null);
 		}

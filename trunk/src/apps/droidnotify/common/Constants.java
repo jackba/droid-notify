@@ -94,6 +94,7 @@ public class Constants {
 	public static final int TWITTER_OPEN_APP_ACTIVITY = 18;
 	public static final int SEND_TWITTER_QUICK_REPLY_ACTIVITY = 19;
 	public static final int FACEBOOK_OPEN_APP_ACTIVITY = 20;
+	public static final int BROWSER_ACTIVITY = 21;
 	
 	public static final int MESSAGE_TYPE_SMS = 1;
 	public static final int MESSAGE_TYPE_MMS = 2;

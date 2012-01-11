@@ -78,6 +78,8 @@
     <string name="twitter_send_direct_mesage_error">The Twitter Direct Message could not be sent.</string>
     <string name="twitter_send_tweet_error">The Tweet/Status Update could not be sent.</string>
     <string name="not_online_error">The application cannot gain online access at this time. Please try again later.</string>
+    <string name="url_link_not_found_error">The URL link could not be found.</string>
+    <string name="browser_app_error">The web browser application could not be started.</string>
     
     <!-- Log File Strings -->
     <string name="log_file_error_title">Log File Error</string>
