@@ -8,6 +8,7 @@
  * Fixed a Facebook Messages bug which displayed incorrect messages from the message thread.
  * Fixed a Facebook Messages bug which displayed the incorrect FROM user.
  * Fixed a bug that prevented some contacts from being matched correctly.
+ * Added a "View" button to Facebook notifications type popups.
  * 
  * Small bug fixes.
 
