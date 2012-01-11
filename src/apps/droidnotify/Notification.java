@@ -60,6 +60,7 @@ public class Notification {
 	private int _rescheduleNumber = 0;
 	private PendingIntent _reminderPendingIntent = null;
 	private int _notificationSubType = 0;
+	private String _linkURL = null;
 	
 	//================================================================================
 	// Constructors
@@ -393,41 +394,49 @@ public class Notification {
 	/**
 	 * Class Constructor
 	 */
-	public Notification(Context context, String sentFromAddress, long sentFromID, String messageBody, long timeStamp, long contactID, String contactName, long photoID, long messageID, String messageStringID, String lookupKey, String k9EmailUri, String k9EmailDelUri, int notificationType, int notificationSubType) {
+	public Notification(Context context, String sentFromAddress, long sentFromID, String messageBody, long timeStamp, long contactID, String contactName, long photoID, long messageID, String messageStringID, String lookupKey, String k9EmailUri, String k9EmailDelUri, String linkURL, int notificationType, int notificationSubType) {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Notification.Notification() ==CONSTRUCTOR 6==");
 		try{			
 			switch(notificationType){
 				case Constants.NOTIFICATION_TYPE_PHONE:{
 					_title = "Missed Call";
+					_linkURL = linkURL;
 					break;
 				}
 				case Constants.NOTIFICATION_TYPE_SMS:{
 					_title = "SMS Message";
+					_linkURL = linkURL;
 					break;
 				}
 				case Constants.NOTIFICATION_TYPE_MMS:{
 					_title = "MMS Message";	
+					_linkURL = linkURL;
 					break;
 				}
 				case Constants.NOTIFICATION_TYPE_CALENDAR:{
 					_title = "Calendar Event";
+					_linkURL = linkURL;
 					break;
 				}
 				case Constants.NOTIFICATION_TYPE_GMAIL:{
 					_title = "Email";
+					_linkURL = linkURL;
 					break;
 				}
 				case Constants.NOTIFICATION_TYPE_TWITTER:{
 					_title = "Twitter";
+					_linkURL = linkURL;
 					break;
 				}
 				case Constants.NOTIFICATION_TYPE_FACEBOOK:{
 					_title = "Facebook";
+					_linkURL = linkURL.replace("http://www.facebook.com/", "http://m.facebook.com/");
 					break;
 				}
 				case Constants.NOTIFICATION_TYPE_K9:{
 					_title = "Email";
+					_linkURL = linkURL;
 					break;
 				}
 			}
@@ -471,7 +480,7 @@ public class Notification {
     		}else{
     			_contactPhotoExists = true;
     		}
-    		_lookupKey = lookupKey;
+    		_lookupKey = lookupKey;    		
     		setReminder();
 		}catch(Exception ex){
 			Log.e("Notification.Notification() ==CONSTRUCTOR 6== ERROR: " + ex.toString());
@@ -799,6 +808,16 @@ public class Notification {
 	public void setReminderPendingIntent(PendingIntent pendingIntent) {
 		if (_debug) Log.v("Notification.setReminderPendingIntent()");
 		_reminderPendingIntent = pendingIntent;
+	}
+	
+	/**
+	 * Get the linkURL property.
+	 * 
+	 * @return linkURL - The URL link.
+	 */
+	public String getLinkURL() {
+		if (_debug) Log.v("Notification.getLinkURL() LinkURL: " + _linkURL);
+	    return _linkURL;
 	}
 	
 	/**

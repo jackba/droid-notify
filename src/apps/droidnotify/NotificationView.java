@@ -94,7 +94,7 @@ public class NotificationView extends LinearLayout {
      */	
 	public NotificationView(Context context,  Notification notification) {
 	    super(context);
-	    _debug = Log.getDebug();
+	    _debug = Log.getDebug();;
 	    if (_debug) Log.v("NotificationView.NotificationView()");
 	    _context = context;
 	    _preferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -805,6 +805,18 @@ public class NotificationView extends LinearLayout {
 								_replyEmailImageButton.setVisibility(View.GONE);
 					    	}
 						}
+						// View Button
+						if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST || notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE){
+							_viewCalendarImageButton.setVisibility(View.GONE);
+						}else{
+							_viewCalendarImageButton.setOnClickListener(new OnClickListener() {
+							    public void onClick(View view) {
+							    	if (_debug) Log.v("Facebook View Button Clicked()");
+							    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+							    	viewNotificationLinkURL();
+							    }
+							});
+						}
 					}else{
 						// Dismiss Button
 				    	if(_preferences.getBoolean(Constants.FACEBOOK_DISPLAY_DISMISS_BUTTON_KEY, true)){
@@ -850,13 +862,23 @@ public class NotificationView extends LinearLayout {
 								_replyEmailButton.setVisibility(View.GONE);
 					    	}
 						}
-					}					
+						// View Button
+						if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST || notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE){
+							_viewCalendarButton.setVisibility(View.GONE);
+						}else{
+							_viewCalendarButton.setOnClickListener(new OnClickListener() {
+							    public void onClick(View view) {
+							    	if (_debug) Log.v("Facebook View Button Clicked()");
+							    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+							    	viewNotificationLinkURL();
+							    }
+							});
+						}
+					}				
 					_callButton.setVisibility(View.GONE);
 					_replySMSButton.setVisibility(View.GONE);
-					_viewCalendarButton.setVisibility(View.GONE);
 					_callImageButton.setVisibility(View.GONE);
 					_replySMSImageButton.setVisibility(View.GONE);
-					_viewCalendarImageButton.setVisibility(View.GONE);
 					break;
 				}
 				case Constants.NOTIFICATION_TYPE_K9:{
@@ -1303,6 +1325,13 @@ public class NotificationView extends LinearLayout {
 				break;
 			}
 		}
+	}
+	
+	/**
+	 * Launches a browser to the notification link URL.
+	 */
+	private void viewNotificationLinkURL(){
+		Common.startBrowserActivity(_context, _notificationActivity, _notification.getLinkURL(), Constants.BROWSER_ACTIVITY);
 	}
  
 	/**

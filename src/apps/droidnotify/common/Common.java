@@ -317,22 +317,22 @@ public class Common {
 	}
 	
 	/**
-	 * Load the various contact info for this notification from an email.
+	 * Load the various contact info for this notification from a display name.
 	 * 
 	 * @param context - Application Context.
-	 * @param incomingEmail - Notifications's email address.
+	 * @param incomingName - The name to search the contacts by.
 	 * 
 	 * @return String[] - String Array of the contact information.
 	 */ 
 	public static String[] getContactsInfoByName(Context context, String incomingName){
 		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.getContactsInfoByName()");
+		if (_debug) Log.v("Common.getContactsInfoByName() IncomingName: " + incomingName);
 		long _contactID = 0;
 		String _contactName = "";
 		long _photoID = 0;
 		String _lookupKey = "";
-		if (incomingName == null) {
-			if (_debug) Log.v("Common.getContactsInfoByName() Name provided is null: Exiting...");
+		if (incomingName == null || incomingName.equals("")) {
+			if (_debug) Log.v("Common.getContactsInfoByName() Name provided is null or empty: Exiting...");
 			return null;
 		}
 		try{
@@ -346,11 +346,14 @@ public class Common {
 					selection, 
 					selectionArgs, 
 					sortOrder);
-			if (_debug) Log.v("Common.getContactsInfoByName() Searching contacts");
-			while (cursor.moveToNext()) { 
+			if (_debug) Log.v("Common.getContactsInfoByName() Searching contacts...");
+			while (cursor.moveToNext()){
 				_contactID = Long.parseLong(cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID))); 
 				_contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-				_photoID = Long.parseLong(cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_ID))); 
+				String photoID = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_ID));
+				if(photoID != null){
+					_photoID = Long.parseLong(photoID); 
+				}
 				_lookupKey = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY));
 		   	}
 			cursor.close();
@@ -2143,6 +2146,38 @@ public class Common {
             activity.getBaseContext().getResources().updateConfiguration(config, activity.getBaseContext().getResources().getDisplayMetrics());
 		}catch(Exception ex){
 			Log.e("Common.setApplicationLanguage() ERROR: " + ex.toString());
+		}
+	}
+	
+	/**
+	 * Open a URL in a browser application.
+	 * 
+	 * @param context - The application context.
+	 * @param notificationActivity - A reference to the parent activity. 
+	 * @param linkURL - The URL we want to browser to open.
+	 * @param requestCode - The request code we want returned.
+	 * 
+	 * @return boolean - Returns true if the activity can be started.
+	 */
+	public static boolean startBrowserActivity(Context context, NotificationActivity notificationActivity, String linkURL, int requestCode){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.startBrowserActivity() LinkURL: " + linkURL);
+		try{
+			if(linkURL == null || linkURL.equals("")){
+				Toast.makeText(context, context.getString(R.string.url_link_not_found_error), Toast.LENGTH_LONG).show();
+				return false;
+			}
+			Intent browserIntent = new Intent(Intent.ACTION_VIEW);	
+			browserIntent.setData(Uri.parse(linkURL));
+			browserIntent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+			notificationActivity.startActivityForResult(browserIntent, requestCode);
+			setInLinkedAppFlag(context, true);
+			return true;
+		}catch(Exception ex){
+			Log.e("Common.startBrowserActivity() ERROR: " + ex.toString());
+			Toast.makeText(context, context.getString(R.string.browser_app_error), Toast.LENGTH_LONG).show();
+			setInLinkedAppFlag(context, false);
+			return false;
 		}
 	}
 	
