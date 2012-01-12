@@ -434,7 +434,7 @@ public class Notification {
 					if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION){
 						_linkURL = linkURL.replace("http://www.facebook.com/", "http://m.facebook.com/");
 					}else if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST){
-						
+						_linkURL = linkURL;
 					}else if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE){
 						_linkURL = "https://m.facebook.com/messages/read?action=read&tid=id." + messageStringID.substring(0, messageStringID.indexOf("_"));
 					}
