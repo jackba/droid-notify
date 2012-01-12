@@ -158,7 +158,7 @@ public class NotificationView extends LinearLayout {
 	private void setupNotificationViewButtons(Notification notification) {
 		if (_debug) Log.v("NotificationView.setupNotificationViewButtons()");
 		try{
-			int notificationSubType = _notification.getNotificationSubType();
+			final int notificationSubType = _notification.getNotificationSubType();
 			boolean usingImageButtons = true;
 			String buttonDisplayStyle = _preferences.getString(Constants.BUTTON_DISPLAY_STYLE_KEY, Constants.BUTTON_DISPLAY_STYLE_DEFAULT);
 			//Show the LinearLayout of the specified button style (ImageButton vs Button)
@@ -773,22 +773,6 @@ public class NotificationView extends LinearLayout {
 				    	}else{
 				    		_dismissImageButton.setVisibility(View.GONE);
 				    	}
-						// Delete Button
-						if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION || notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST || notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE){
-							_deleteImageButton.setVisibility(View.GONE);
-						}else{	
-							if(_preferences.getBoolean(Constants.FACEBOOK_DISPLAY_DELETE_BUTTON_KEY, true)){
-					    		_deleteImageButton.setOnClickListener(new OnClickListener() {
-								    public void onClick(View view) {
-								    	if (_debug) Log.v("Facebook Delete Button Clicked()");
-								    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-								    	showDeleteDialog();
-								    }
-								});
-					    	}else{
-								_deleteImageButton.setVisibility(View.GONE);
-					    	}
-						}
 						// Reply Button
 						if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION){
 							_replyEmailImageButton.setVisibility(View.GONE);
@@ -806,17 +790,13 @@ public class NotificationView extends LinearLayout {
 					    	}
 						}
 						// View Button
-						if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST || notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE){
-							_viewCalendarImageButton.setVisibility(View.GONE);
-						}else{
-							_viewCalendarImageButton.setOnClickListener(new OnClickListener() {
-							    public void onClick(View view) {
-							    	if (_debug) Log.v("Facebook View Button Clicked()");
-							    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-							    	viewNotificationLinkURL();
-							    }
-							});
-						}
+						_viewCalendarImageButton.setOnClickListener(new OnClickListener() {
+						    public void onClick(View view) {
+						    	if (_debug) Log.v("Facebook View Button Clicked()");
+						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+						    	viewNotificationLinkURL();
+						    }
+						});
 					}else{
 						// Dismiss Button
 				    	if(_preferences.getBoolean(Constants.FACEBOOK_DISPLAY_DISMISS_BUTTON_KEY, true)){
@@ -830,22 +810,6 @@ public class NotificationView extends LinearLayout {
 				    	}else{
 				    		_dismissButton.setVisibility(View.GONE);
 				    	}
-						// Delete Button
-						if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION || notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST || notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE){
-							_deleteButton.setVisibility(View.GONE);
-						}else{	
-							if(_preferences.getBoolean(Constants.FACEBOOK_DISPLAY_DELETE_BUTTON_KEY, true)){
-					    		_deleteButton.setOnClickListener(new OnClickListener() {
-								    public void onClick(View view) {
-								    	if (_debug) Log.v("Facebook Delete Button Clicked()");
-								    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-								    	showDeleteDialog();
-								    }
-								});
-					    	}else{
-								_deleteButton.setVisibility(View.GONE);
-					    	}
-						}
 						// Reply Button
 						if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION){
 							_replyEmailButton.setVisibility(View.GONE);
@@ -863,20 +827,18 @@ public class NotificationView extends LinearLayout {
 					    	}
 						}
 						// View Button
-						if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST || notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE){
-							_viewCalendarButton.setVisibility(View.GONE);
-						}else{
-							_viewCalendarButton.setOnClickListener(new OnClickListener() {
-							    public void onClick(View view) {
-							    	if (_debug) Log.v("Facebook View Button Clicked()");
-							    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-							    	viewNotificationLinkURL();
-							    }
-							});
-						}
-					}				
+						_viewCalendarButton.setOnClickListener(new OnClickListener() {
+						    public void onClick(View view) {
+						    	if (_debug) Log.v("Facebook View Button Clicked()");
+						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+						    	viewNotificationLinkURL();
+						    }
+						});
+					}
+					_deleteButton.setVisibility(View.GONE);
 					_callButton.setVisibility(View.GONE);
 					_replySMSButton.setVisibility(View.GONE);
+					_deleteImageButton.setVisibility(View.GONE);
 					_callImageButton.setVisibility(View.GONE);
 					_replySMSImageButton.setVisibility(View.GONE);
 					break;
@@ -1329,6 +1291,7 @@ public class NotificationView extends LinearLayout {
 	
 	/**
 	 * Launches a browser to the notification link URL.
+	 * @param notificationSubType 
 	 */
 	private void viewNotificationLinkURL(){
 		Common.startBrowserActivity(_context, _notificationActivity, _notification.getLinkURL(), Constants.BROWSER_ACTIVITY);

@@ -431,7 +431,13 @@ public class Notification {
 				}
 				case Constants.NOTIFICATION_TYPE_FACEBOOK:{
 					_title = "Facebook";
-					_linkURL = linkURL.replace("http://www.facebook.com/", "http://m.facebook.com/");
+					if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION){
+						_linkURL = linkURL.replace("http://www.facebook.com/", "http://m.facebook.com/");
+					}else if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST){
+						
+					}else if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE){
+						_linkURL = "https://m.facebook.com/messages/read?action=read&tid=id." + messageStringID.substring(0, messageStringID.indexOf("_"));
+					}
 					break;
 				}
 				case Constants.NOTIFICATION_TYPE_K9:{
