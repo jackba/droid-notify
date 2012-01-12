@@ -774,7 +774,7 @@ public class NotificationView extends LinearLayout {
 				    		_dismissImageButton.setVisibility(View.GONE);
 				    	}
 						// Reply Button
-						if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION){
+						if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION || notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST){
 							_replyEmailImageButton.setVisibility(View.GONE);
 						}else{						
 							if(_preferences.getBoolean(Constants.FACEBOOK_DISPLAY_REPLY_BUTTON_KEY, true)){
@@ -790,13 +790,23 @@ public class NotificationView extends LinearLayout {
 					    	}
 						}
 						// View Button
-						_viewCalendarImageButton.setOnClickListener(new OnClickListener() {
-						    public void onClick(View view) {
-						    	if (_debug) Log.v("Facebook View Button Clicked()");
-						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-						    	viewNotificationLinkURL();
-						    }
-						});
+						if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST){
+							_viewCalendarImageButton.setOnClickListener(new OnClickListener() {
+							    public void onClick(View view) {
+							    	if (_debug) Log.v("Facebook View Button Clicked()");
+							    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+							    	FacebookCommon.startFacebookAppActivity(_context, _notificationActivity, Constants.FACEBOOK_OPEN_APP_ACTIVITY);
+							    }
+							});
+						}else{
+							_viewCalendarImageButton.setOnClickListener(new OnClickListener() {
+							    public void onClick(View view) {
+							    	if (_debug) Log.v("Facebook View Button Clicked()");
+							    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+							    	viewNotificationLinkURL();
+							    }
+							});
+						}
 					}else{
 						// Dismiss Button
 				    	if(_preferences.getBoolean(Constants.FACEBOOK_DISPLAY_DISMISS_BUTTON_KEY, true)){
@@ -811,7 +821,7 @@ public class NotificationView extends LinearLayout {
 				    		_dismissButton.setVisibility(View.GONE);
 				    	}
 						// Reply Button
-						if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION){
+						if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION || notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST){
 							_replyEmailButton.setVisibility(View.GONE);
 						}else{	
 							if(_preferences.getBoolean(Constants.FACEBOOK_DISPLAY_REPLY_BUTTON_KEY, true)){
@@ -827,13 +837,23 @@ public class NotificationView extends LinearLayout {
 					    	}
 						}
 						// View Button
-						_viewCalendarButton.setOnClickListener(new OnClickListener() {
-						    public void onClick(View view) {
-						    	if (_debug) Log.v("Facebook View Button Clicked()");
-						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-						    	viewNotificationLinkURL();
-						    }
-						});
+						if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST){
+							_viewCalendarButton.setOnClickListener(new OnClickListener() {
+							    public void onClick(View view) {
+							    	if (_debug) Log.v("Facebook View Button Clicked()");
+							    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+									FacebookCommon.startFacebookAppActivity(_context, _notificationActivity, Constants.FACEBOOK_OPEN_APP_ACTIVITY);
+							    }
+							});
+						}else{
+							_viewCalendarButton.setOnClickListener(new OnClickListener() {
+							    public void onClick(View view) {
+							    	if (_debug) Log.v("Facebook View Button Clicked()");
+							    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+							    	viewNotificationLinkURL();
+							    }
+							});
+						}						
 					}
 					_deleteButton.setVisibility(View.GONE);
 					_callButton.setVisibility(View.GONE);
