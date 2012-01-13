@@ -286,6 +286,9 @@ Advanced Settings
  * Clear Notifications On Exit
  * Export Preferences
  * Import Preferences
+ * Debug Settings
+  * Turn On Debug Mode
+  * Send Debug Logs
  
 *_Feedback_*
 
