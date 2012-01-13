@@ -73,6 +73,7 @@ public class NotificationView extends LinearLayout {
 	private Button _callButton = null;
 	private Button _replySMSButton = null;
 	private Button _viewCalendarButton = null;
+	private Button _viewFacebookButton = null;
 	private Button _replyEmailButton = null;
 	private ImageView _rescheduleButton = null;
 	private ImageButton _dismissImageButton = null;
@@ -80,6 +81,7 @@ public class NotificationView extends LinearLayout {
 	private ImageButton _callImageButton = null;
 	private ImageButton _replySMSImageButton = null;
 	private ImageButton _viewCalendarImageButton = null;
+	private ImageButton _viewFacebookImageButton = null;
 	private ImageButton _replyEmailImageButton = null;
 	private LinearLayout _contactLinearLayout = null;
 	private ImageView _photoImageView = null;
@@ -223,6 +225,7 @@ public class NotificationView extends LinearLayout {
 			_callButton = (Button) findViewById(R.id.call_button);
 			_replySMSButton = (Button) findViewById(R.id.reply_sms_button);
 			_viewCalendarButton = (Button) findViewById(R.id.view_calendar_button);
+			_viewFacebookButton = (Button) findViewById(R.id.view_facebook_button);
 			_replyEmailButton = (Button) findViewById(R.id.reply_email_button);
 			//Image Buttons
 			_dismissImageButton = (ImageButton) findViewById(R.id.dismiss_image_button);
@@ -230,6 +233,7 @@ public class NotificationView extends LinearLayout {
 			_callImageButton = (ImageButton) findViewById(R.id.call_image_button);
 			_replySMSImageButton = (ImageButton) findViewById(R.id.reply_sms_image_button);
 			_viewCalendarImageButton = (ImageButton) findViewById(R.id.view_calendar_image_button);
+			_viewFacebookImageButton = (ImageButton) findViewById(R.id.view_facebook_image_button);
 			_replyEmailImageButton = (ImageButton) findViewById(R.id.reply_email_image_button);
 			//Remove the icons from the View's buttons, based on the user preferences.
 			if(buttonDisplayStyle.equals(Constants.BUTTON_DISPLAY_TEXT_ONLY)){
@@ -238,6 +242,7 @@ public class NotificationView extends LinearLayout {
 				_callButton.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
 				_replySMSButton.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
 				_viewCalendarButton.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+				_viewFacebookButton.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
 				_replyEmailButton.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
 			}
 			switch(_notificationType){
@@ -309,10 +314,12 @@ public class NotificationView extends LinearLayout {
 					_deleteButton.setVisibility(View.GONE);
 					_replySMSButton.setVisibility(View.GONE);
 					_viewCalendarButton.setVisibility(View.GONE);
+					_viewFacebookButton.setVisibility(View.GONE);
 					_replyEmailButton.setVisibility(View.GONE);
 					_deleteImageButton.setVisibility(View.GONE);
 					_replySMSImageButton.setVisibility(View.GONE);
 					_viewCalendarImageButton.setVisibility(View.GONE);
+					_viewFacebookImageButton.setVisibility(View.GONE);
 					_replyEmailImageButton.setVisibility(View.GONE);
 					break;
 				}
@@ -423,9 +430,11 @@ public class NotificationView extends LinearLayout {
 					}
 					_callButton.setVisibility(View.GONE);
 					_viewCalendarButton.setVisibility(View.GONE);
+					_viewFacebookButton.setVisibility(View.GONE);
 					_replyEmailButton.setVisibility(View.GONE);
 					_callImageButton.setVisibility(View.GONE);
 					_viewCalendarImageButton.setVisibility(View.GONE);
+					_viewFacebookImageButton.setVisibility(View.GONE);
 					_replyEmailImageButton.setVisibility(View.GONE);
 					break;
 				}
@@ -546,9 +555,11 @@ public class NotificationView extends LinearLayout {
 					}
 					_callButton.setVisibility(View.GONE);
 					_viewCalendarButton.setVisibility(View.GONE);
+					_viewFacebookButton.setVisibility(View.GONE);
 					_replyEmailButton.setVisibility(View.GONE);
 					_callImageButton.setVisibility(View.GONE);
 					_viewCalendarImageButton.setVisibility(View.GONE);
+					_viewFacebookImageButton.setVisibility(View.GONE);
 					_replyEmailImageButton.setVisibility(View.GONE);
 					break;
 				}
@@ -623,10 +634,12 @@ public class NotificationView extends LinearLayout {
 					_callButton.setVisibility(View.GONE);
 					_replySMSButton.setVisibility(View.GONE);
 					_replyEmailButton.setVisibility(View.GONE);
+					_viewFacebookButton.setVisibility(View.GONE);
 					_deleteImageButton.setVisibility(View.GONE);
 					_callImageButton.setVisibility(View.GONE);
 					_replySMSImageButton.setVisibility(View.GONE);
 					_replyEmailImageButton.setVisibility(View.GONE);
+					_viewFacebookImageButton.setVisibility(View.GONE);
 					break;
 				}
 				case Constants.NOTIFICATION_TYPE_GMAIL:{
@@ -741,9 +754,11 @@ public class NotificationView extends LinearLayout {
 					_callButton.setVisibility(View.GONE);
 					_replySMSButton.setVisibility(View.GONE);
 					_viewCalendarButton.setVisibility(View.GONE);
+					_viewFacebookButton.setVisibility(View.GONE);
 					_callImageButton.setVisibility(View.GONE);
 					_replySMSImageButton.setVisibility(View.GONE);
 					_viewCalendarImageButton.setVisibility(View.GONE);
+					_viewFacebookImageButton.setVisibility(View.GONE);
 					break;
 				}
 				case Constants.NOTIFICATION_TYPE_FACEBOOK:{
@@ -791,7 +806,7 @@ public class NotificationView extends LinearLayout {
 						}
 						// View Button
 						if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST){
-							_viewCalendarImageButton.setOnClickListener(new OnClickListener() {
+							_viewFacebookImageButton.setOnClickListener(new OnClickListener() {
 							    public void onClick(View view) {
 							    	if (_debug) Log.v("Facebook View Button Clicked()");
 							    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
@@ -799,7 +814,7 @@ public class NotificationView extends LinearLayout {
 							    }
 							});
 						}else{
-							_viewCalendarImageButton.setOnClickListener(new OnClickListener() {
+							_viewFacebookImageButton.setOnClickListener(new OnClickListener() {
 							    public void onClick(View view) {
 							    	if (_debug) Log.v("Facebook View Button Clicked()");
 							    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
@@ -838,7 +853,7 @@ public class NotificationView extends LinearLayout {
 						}
 						// View Button
 						if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST){
-							_viewCalendarButton.setOnClickListener(new OnClickListener() {
+							_viewFacebookButton.setOnClickListener(new OnClickListener() {
 							    public void onClick(View view) {
 							    	if (_debug) Log.v("Facebook View Button Clicked()");
 							    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
@@ -846,7 +861,7 @@ public class NotificationView extends LinearLayout {
 							    }
 							});
 						}else{
-							_viewCalendarButton.setOnClickListener(new OnClickListener() {
+							_viewFacebookButton.setOnClickListener(new OnClickListener() {
 							    public void onClick(View view) {
 							    	if (_debug) Log.v("Facebook View Button Clicked()");
 							    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
@@ -858,9 +873,11 @@ public class NotificationView extends LinearLayout {
 					_deleteButton.setVisibility(View.GONE);
 					_callButton.setVisibility(View.GONE);
 					_replySMSButton.setVisibility(View.GONE);
+					_viewCalendarButton.setVisibility(View.GONE);
 					_deleteImageButton.setVisibility(View.GONE);
 					_callImageButton.setVisibility(View.GONE);
 					_replySMSImageButton.setVisibility(View.GONE);
+					_viewCalendarImageButton.setVisibility(View.GONE);
 					break;
 				}
 				case Constants.NOTIFICATION_TYPE_K9:{
@@ -955,9 +972,11 @@ public class NotificationView extends LinearLayout {
 					_callButton.setVisibility(View.GONE);
 					_replySMSButton.setVisibility(View.GONE);
 					_viewCalendarButton.setVisibility(View.GONE);
+					_viewFacebookButton.setVisibility(View.GONE);
 					_callImageButton.setVisibility(View.GONE);
 					_replySMSImageButton.setVisibility(View.GONE);
 					_viewCalendarImageButton.setVisibility(View.GONE);
+					_viewFacebookImageButton.setVisibility(View.GONE);
 					break;
 				}
 			}
