@@ -70,6 +70,18 @@
   <string name="app_quick_reply_address_error">כתובת התשובה המהירה לא מופיעה כברת תוקף. הפעלת תשובה מהירה נכשלה.</string>
   <string name="twitter_send_direct_mesage_error">הודעת הטוויטר הישירה לא יכולה להישלח.</string>
   <string name="twitter_send_tweet_error">הציוץ/עדכון סטטוס לא יכול להישלח.</string>
+  <string name="not_online_error">האפליקצילא יכולה לקבל גישה מקוונת כעת. נא נסה שוב מאוחר יותר.</string>
+  <string name="url_link_not_found_error">The URL link could not be found.</string>
+  <string name="browser_app_error">The web browser application could not be started.</string>
+  <string name="log_file_error_title">שגיאת קובץ של יומן רישום</string>
+  <string name="log_file_acquiring_system_logs">השג יומני רישום של המערכת...</string>
+  <string name="log_file_retrieval_failure">נכשל באחזור יומני רישום של המערכת.</string>
+  <string name="log_file_device_info" formatted="false">גירסת Droid Notify: %s\nדגם מכשיר: %s\nגירסת קושחה: %s\nמבנה מספר: %s\n</string>
+  <string name="send_debug_logs_text">שלח יומני רישום של איתור באגים</string>
+  <string name="send_debug_logs_summary">שלח את יומני הרישום של איתור באגים למפתח.</string>
+  <string name="preference_language_title">Language</string>
+  <string name="preference_language_summary">Select the application language.</string>
+  <string name="phone_default_language">Phone Default Language</string>
   <string name="app_settings_text">הגדרות</string>
   <string name="general_settings_text">הגדרות כלליות</string>
   <string name="basic_settings_text">הגדרות בסיסיות</string>
@@ -80,6 +92,9 @@
   <string name="notification_body_settings_text">הגדרות תוכן התראה</string>
   <string name="notification_header_settings_text">הגדרות כותרת התראה</string>
   <string name="event_body_settings_text">הגדרות תוכן אירוע</string>
+  <string name="debug_settings_text">הגדרות איתור באגים</string>
+  <string name="preference_debug_log_title">הפעל מצב איתור באגים</string>
+  <string name="preference_debug_log_summary">בעת מצב איתור באגים היישום יבצע רישום אבחון מידע.</string>
   <string name="delete_text">מחק</string>
   <string name="delete_message_dialog_text">זה ימחק את ההודעה מהטלפון.</string>
   <string name="delete_thread_dialog_text">שרשור ההודעות ימחק מהטלפון.</string>
@@ -94,6 +109,8 @@
   <string name="preference_hide_notification_body_enabled_title">הסתר תוכן התראה</string>
   <string name="preference_hide_notification_body_enabled_summaryOn">תוכן ההתראה לא יוצג בחלון הקופץ.</string>
   <string name="preference_hide_notification_body_enabled_summaryOff">תוכן ההתראה יוצג בחלון הקופץ.</string>
+  <string name="preference_notification_body_max_lines_title">מקסימום שורות בתוכן ההתראה</string>
+  <string name="preference_notification_body_max_lines_summary">בחר את מספר השורות המרבי שיוצגו בתוכן התראה.</string>
   <string name="preference_notification_type_info_icon_enabled_title">הצג סוג סמל</string>
   <string name="preference_notification_type_info_icon_enabled_summaryOn">סוג סמל ההתראה יוצג.</string>
   <string name="preference_notification_type_info_icon_enabled_summaryOff">סוג סמל ההתראה לא יוצג.</string>
@@ -122,7 +139,7 @@
   <string name="preference_about_summary">אודות About Droid</string>
   <string name="preference_about_text">&lt;b&gt;נוצר ע\"י:&lt;/b&gt; Camille Sévigny&lt;br/&gt;&lt;b&gt;דוא\"ל:&lt;/b&gt; &lt;a href=\"mailto:droidnotify@gmail.com\"&gt;droidnotify@gmail.com&lt;/a&gt;&lt;br/&gt;&lt;br/&gt;Droid Notify היא אפליקציה שמציגה דו שיח של חלון קופץ כאשר הודעה/הודעת מולטימדיה מתקבלת, שיחה שלא נענתה התקבלה, דוא\"ל חדש התקבל או אירוע בלוח השנה קורה. יש גם עוד אפשרויות מתקדמות ותמיכה בהתראות אחרות בגירסה המלאה של האפליקציה הזו. ההתראות מקושרות לאפליקצית ההודעות שלך, הטלפון שלך ולוח השנה שלך. ההתראות גם מציגות את מידע איש הקשר (אם ניתן להשיג) כמו ממי זה הגיע ותמונת איש קשר אם זמין.&lt;br/&gt;&lt;br/&gt;אם אתה אוהב את Droid Notify, אנא דרג את האפליקציה והשאר הערה.&lt;br/&gt;&lt;br/&gt;הרגש חופשי לשלוח הערות, הצעות או באגים.&lt;br/&gt;&lt;br/&gt;&lt;b&gt;לתרגומים בקר ב:&lt;/b&gt; &lt;a href=\"http://www.crowdin.net/\"&gt;CrowdIn.net&lt;/a&gt;&lt;br/&gt;</string>
   <string name="preference_translated_by_text">תרגום צרפתית: Franky&lt;br/&gt;תרגום עברית: Benjo26&lt;br/&gt;תרגום פולנית: Draco (draco.pl@gmail.com)&lt;br/&gt;תרגום פורטוגזית: Marcio Andrade (marcioaribeiro@hotmail.com.br)&lt;br/&gt;תרגום ספרדית: Shaymelmed (shaben_translations@hotmail.com)&lt;br/&gt;&lt;br/&gt;</string>
-  <string name="preference_copyright_text">&lt;b&gt;© 2011 Camille Sévigny&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;</string>
+  <string name="preference_copyright_text">&lt;b&gt;© 2012 Camille Sévigny&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;</string>
   <string name="preference_haptic_feedback_title">אפשר משוב</string>
   <string name="preference_haptic_feedback_summaryOn">משוב מאופשר. רטוט כאשר אתה לוחץ על מקש מתוכנת ובאינטראקציות UI מסוימות.</string>
   <string name="preference_haptic_feedback_summaryOff">משוב מבוטל.</string>
@@ -158,6 +175,7 @@
   <string name="friend_request_at_text" formatted="false">בקשת חברות חדשה ב %s</string>
   <string name="preference_confirm_deletion_title">אשר מחיקה</string>
   <string name="preference_confirm_deletion_summary">הצג קופסת דיאלוג אישור כשאתה מוחק פריט.</string>
+  <string name="preference_time_is_utc_title">הזמן הוא ב- UTC</string>
   <string name="view_thread_text">הצג שיחה</string>
   <string name="messaging_inbox_text">תיבת העברת הודעות נכנסות</string>
   <string name="preference_sms_enabled_title">אפשר הודעה</string>
@@ -176,6 +194,7 @@
   <string name="preference_sms_loading_summary">בחר איך האפליקציה טוענת הודעות נכנסות.</string>
   <string name="preference_sms_timestamp_adjustment_title">התאמת סוג זמן הודעות</string>
   <string name="preference_sms_timestamp_adjustment_summary">כמה טלפונים/מיקומים יכולים להציג סוגי זמנים לא נכונים. השתמש בהגדרה הזו כדי להציג סוג זמן להודעות.</string>
+  <string name="preference_sms_time_is_utc_summary">בדוק אופציה זו אם חותמת הזמן עבור הודעת SMS נכנסות ב- UTC. (זה עשוי לתקן הודעה שגויה בזמני התראות)</string>
   <string name="preference_mms_enabled_title">אפשר מולטימדיה</string>
   <string name="preference_mms_enabled_summaryOn">התראות מולטימדיה מאופשרות.</string>
   <string name="preference_mms_enabled_summaryOff">התראות מולטימדיה מבוטלות.</string>
@@ -248,7 +267,7 @@
   <string name="preference_twitter_follower_requests_enabled_title">אפשר בקשות מעקב של טוויטר</string>
   <string name="preference_twitter_follower_requests_enabled_summary">אפשר התראות בקשת מעקב של טוויטר.</string>
   <string name="twitter_authentication_text">אימות טוויטר</string>
-  <string name="twitter_authentication_message_text">המסך הבא יפתח עמוד אינטרנט של טוויטר בדפדפן האינטרנט. דף האינטרנט הזה ישאל אותך אם להיות בעל גישה לחשבון הטוויטר שלך. אם אתה רוצה להמשיך אנא לחץ על הכפתור \"המשך\" מתחת.</string>
+  <string name="twitter_authentication_message_text">המסך הבא ייפתח דף אינטרנט טוויטר בדפדפן האינטרנט. דף אינטרנט זה יבקש ממך לאפשר לאפליקציה גישה אל חשבון הטוויטר שלך. אם ברצונך להמשיך נא לחץ על לחצן \'המשך\' שלהלן.</string>
   <string name="authenticating_text">לאמת...</string>
   <string name="twitter_authentication_error">אנחנו לא יכולים לאמת או לגשת לחשבון הטוויטר שלך כרגע. אנא נסה שוב מאוחר יותר.</string>
   <string name="preference_twitter_polling_frequency_summary">באיזו תדירות אתה רוצה לקרוא את חשבון הטוויטר שלך?</string>
@@ -274,6 +293,17 @@
   <string name="facebook_authentication_data_cleared">אימות הנתונים של פייסבוק נוקו.</string>
   <string name="open_facebook_app_text">פתח את אפליקצית פייסבוק</string>
   <string name="preference_facebook_polling_frequency_summary">באיזו תדירות אתה רוצה לקרוא את החשבון הפייסבוק שלך?</string>
+  <string name="preference_linkedin_notifications">מאפייני התראות</string>
+  <string name="preference_linkedin_enabled_title">אפשר LinkedIn</string>
+  <string name="preference_linkedin_enabled_summaryOn">התראות LinkedIn זמינים.</string>
+  <string name="preference_linkedin_enabled_summaryOff">התראות LinkedIn לא זמינים.</string>
+  <string name="linkedin_authentication_text">מאפייני אימות</string>
+  <string name="linkedin_authentication_message_text">המסך הבא ייפתח דף אינטרנט LinkedIn בדפדפן האינטרנט. דף אינטרנט זה יבקש ממך לאפשר לאפליקציה גישה אל חשבון ה LinkedIn שלך. אם ברצונך להמשיך נא לחץ על לחצן \'המשך\' שלהלן.</string>
+  <string name="linkedin_authentication_error">לא הצלחנו לאמת או לגשת לחשבון LinkedIn שלך בשלב זה. נא נסה שוב מאוחר יותר.</string>
+  <string name="preference_linkedin_polling_frequency_summary">באיזו תדירות ברצונך לקרוא את חשבון LinkedIn שלך?</string>
+  <string name="preference_clear_linkedin_authentication_data">אפס נתוני LinkedIn</string>
+  <string name="preference_clear_linkedin_authentication_data_summary">נקה נתוני אימות של LinkedIn.</string>
+  <string name="linkedin_authentication_data_cleared">נתוני אימות של LinkedIn נוקו.</string>
   <string name="email_inbox_text">תיבת דוא\"ל נכנס</string>
   <string name="view_email_text">הצג דוא\"ל</string>
   <string name="preference_k9_enabled_title">אפשר K-9 Email</string>
