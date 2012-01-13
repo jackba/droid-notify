@@ -70,6 +70,18 @@
   <string name="app_quick_reply_address_error">The quick reply address does not appear to be valid. Quick Reply launch failed.</string>
   <string name="twitter_send_direct_mesage_error">The Twitter Direct Message could not be sent.</string>
   <string name="twitter_send_tweet_error">The Tweet/Status Update could not be sent.</string>
+  <string name="not_online_error">The application cannot gain online access at this time. Please try again later.</string>
+  <string name="url_link_not_found_error">The URL link could not be found.</string>
+  <string name="browser_app_error">The web browser application could not be started.</string>
+  <string name="log_file_error_title">Log File Error</string>
+  <string name="log_file_acquiring_system_logs">Acquiring system logs...</string>
+  <string name="log_file_retrieval_failure">Failed to retrieve system logs.</string>
+  <string name="log_file_device_info" formatted="false">Droid Notify Version: %s\nDevice Model: %s\nFirmware Version: %s\nBuild Number: %s\n</string>
+  <string name="send_debug_logs_text">Send Debug Logs</string>
+  <string name="send_debug_logs_summary">Send the debug logs to the developer.</string>
+  <string name="preference_language_title">Language</string>
+  <string name="preference_language_summary">Select the application language.</string>
+  <string name="phone_default_language">Phone Default Language</string>
   <string name="app_settings_text">Settings</string>
   <string name="general_settings_text">General Settings</string>
   <string name="basic_settings_text">Basic Settings</string>
@@ -80,6 +92,9 @@
   <string name="notification_body_settings_text">Notification Body Settings</string>
   <string name="notification_header_settings_text">Notification Header Settings</string>
   <string name="event_body_settings_text">Event Body Settings</string>
+  <string name="debug_settings_text">Debug Settings</string>
+  <string name="preference_debug_log_title">Turn On Debug Mode</string>
+  <string name="preference_debug_log_summary">When in debug mode the application will log diagnostic information.</string>
   <string name="delete_text">Delete</string>
   <string name="delete_message_dialog_text">This will delete the message from the phone.</string>
   <string name="delete_thread_dialog_text">The entire thread will be deleted from the phone.</string>
@@ -94,6 +109,8 @@
   <string name="preference_hide_notification_body_enabled_title">Hide Notification Body</string>
   <string name="preference_hide_notification_body_enabled_summaryOn">The notification body will not be visible in the popup.</string>
   <string name="preference_hide_notification_body_enabled_summaryOff">The notification body will be visible in the popup.</string>
+  <string name="preference_notification_body_max_lines_title">Notification Body Max Lines</string>
+  <string name="preference_notification_body_max_lines_summary">Select the maximum lines that will display in the notification body.</string>
   <string name="preference_notification_type_info_icon_enabled_title">Display Type Icon</string>
   <string name="preference_notification_type_info_icon_enabled_summaryOn">The notification type icon will be displayed.</string>
   <string name="preference_notification_type_info_icon_enabled_summaryOff">The notification type icon will not be displayed.</string>
@@ -122,7 +139,7 @@
   <string name="preference_about_summary">About Droid Notify</string>
   <string name="preference_about_text">&lt;b&gt;Created by:&lt;/b&gt; Camille Sévigny&lt;br/&gt;&lt;b&gt;Email:&lt;/b&gt; &lt;a href=\"mailto:droidnotify@gmail.com\"&gt;droidnotify@gmail.com&lt;/a&gt;&lt;br/&gt;&lt;br/&gt;Droid Notify is an application that shows a popup dialog when a SMS/MMS message is received, a Missed Call is received, a new Email is received or a Calendar Event occurs. There are also more advanced features and support for other notifications in the pro version of this application.  The notifications link to your messaging app, your phone and your calendar. The notifications also display the contact information (if available) such as who it\'s from and contact photo if available.&lt;br/&gt;&lt;br/&gt;If you like Droid Notify, please rate this application and leave a comment.&lt;br/&gt;&lt;br/&gt;Feel free to email comments, suggestions or bugs.&lt;br/&gt;&lt;br/&gt;&lt;b&gt;Translations powered by:&lt;/b&gt; &lt;a href=\"http://www.crowdin.net/\"&gt;CrowdIn.net&lt;/a&gt;&lt;br/&gt;</string>
   <string name="preference_translated_by_text">French Translation: Franky&lt;br/&gt;Hebrew Translation: Benjo26&lt;br/&gt;Polish Translation: Draco (draco.pl@gmail.com)&lt;br/&gt;Portuguese Translation: Marcio Andrade (marcioaribeiro@hotmail.com.br)&lt;br/&gt;Spanish Translation: Shaymelmed (shaben_translations@hotmail.com)&lt;br/&gt;&lt;br/&gt;</string>
-  <string name="preference_copyright_text">&lt;b&gt;© 2011 Camille Sévigny&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;</string>
+  <string name="preference_copyright_text">&lt;b&gt;© 2012 Camille Sévigny&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;</string>
   <string name="preference_haptic_feedback_title">Enable Haptic Feedback</string>
   <string name="preference_haptic_feedback_summaryOn">Haptic Feedback is enabled. Vibrate when pressing soft keys and on certain UI interactions.</string>
   <string name="preference_haptic_feedback_summaryOff">Haptic Feedback is disabled.</string>
@@ -158,6 +175,7 @@
   <string name="friend_request_at_text" formatted="false">New friend request at %s</string>
   <string name="preference_confirm_deletion_title">Confirm Deletion</string>
   <string name="preference_confirm_deletion_summary">Display a confirmation dialog box when you delete an item.</string>
+  <string name="preference_time_is_utc_title">Time Is In UTC</string>
   <string name="view_thread_text">View Thread</string>
   <string name="messaging_inbox_text">Messaging Inbox</string>
   <string name="preference_sms_enabled_title">Enable SMS</string>
@@ -176,6 +194,7 @@
   <string name="preference_sms_loading_summary">Select how the application retrieves incoming SMS messages.</string>
   <string name="preference_sms_timestamp_adjustment_title">SMS TimeStamp Adjustment</string>
   <string name="preference_sms_timestamp_adjustment_summary">Some phones/locations may display incorrect timestamps. Use this setting to adjust the displayed timestamp for SMS messages.</string>
+  <string name="preference_sms_time_is_utc_summary">Check this optoin if the incoming SMS message timestamp is in UTC. (This may fix incorrect message times in the notifications)</string>
   <string name="preference_mms_enabled_title">Enable MMS</string>
   <string name="preference_mms_enabled_summaryOn">MMS notifications are enabled.</string>
   <string name="preference_mms_enabled_summaryOff">MMS notifications are disabled.</string>
@@ -248,7 +267,7 @@
   <string name="preference_twitter_follower_requests_enabled_title">Enable Twitter Follower Requests</string>
   <string name="preference_twitter_follower_requests_enabled_summary">Enable Twitter Follower Requests notifications.</string>
   <string name="twitter_authentication_text">Twitter Authentication</string>
-  <string name="twitter_authentication_message_text">The next screen will open a Twitter web page in a web browser. This web page will ask you to allow this application to have access to your twitter account. If you wish to proceed please click on the \"Continue\" button below.</string>
+  <string name="twitter_authentication_message_text">The next screen will open a Twitter web page in a web browser. This web page will ask you to allow this application to have access to your Twitter account. If you wish to proceed please click on the \"Continue\" button below.</string>
   <string name="authenticating_text">Authenticating...</string>
   <string name="twitter_authentication_error">We were not able to authenticate or access your Twitter account at this time. Please try again later.</string>
   <string name="preference_twitter_polling_frequency_summary">How often you want to read your Twitter account?</string>
@@ -274,6 +293,17 @@
   <string name="facebook_authentication_data_cleared">The Facebook authentication data has been cleared.</string>
   <string name="open_facebook_app_text">Open Facebook App</string>
   <string name="preference_facebook_polling_frequency_summary">How often you want to read your Facebook account?</string>
+  <string name="preference_linkedin_notifications">LinkedIn Notifications</string>
+  <string name="preference_linkedin_enabled_title">Enable LinkedIn</string>
+  <string name="preference_linkedin_enabled_summaryOn">LinkedIn notifications are enabled.</string>
+  <string name="preference_linkedin_enabled_summaryOff">LinkedIn notifications are disabled.</string>
+  <string name="linkedin_authentication_text">LinkedIn Authentication</string>
+  <string name="linkedin_authentication_message_text">The next screen will open a LinkedIn web page in a web browser. This web page will ask you to allow this application to have access to your LinkedIn account. If you wish to proceed please click on the \"Continue\" button below.</string>
+  <string name="linkedin_authentication_error">We were not able to authenticate or access your LinkedIn account at this time. Please try again later.</string>
+  <string name="preference_linkedin_polling_frequency_summary">How often you want to read your LinkedIn account?</string>
+  <string name="preference_clear_linkedin_authentication_data">Reset LinkedIn Data</string>
+  <string name="preference_clear_linkedin_authentication_data_summary">Clear the LinkedIn authentication data.</string>
+  <string name="linkedin_authentication_data_cleared">The LinkedIn authentication data has been cleared.</string>
   <string name="email_inbox_text">Email Inbox</string>
   <string name="view_email_text">View Email</string>
   <string name="preference_k9_enabled_title">Enable K-9 Email</string>

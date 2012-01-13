@@ -70,6 +70,18 @@
   <string name="app_quick_reply_address_error">Adresat szybkiej odpowiedzi jest nieprawidłowy. Wysyłanie szybkiej odpowiedzi nieudane.</string>
   <string name="twitter_send_direct_mesage_error">Wiadomość na Twitterze nie może zostać wysłana.</string>
   <string name="twitter_send_tweet_error">Nowy Tweet nie może być wysłany.</string>
+  <string name="not_online_error">Aplikacja nie może uzyskać dostępu online w tej chwili. Spróbuj ponownie później.</string>
+  <string name="url_link_not_found_error">The URL link could not be found.</string>
+  <string name="browser_app_error">The web browser application could not be started.</string>
+  <string name="log_file_error_title">Błąd pliku dziennika zdarzeń</string>
+  <string name="log_file_acquiring_system_logs">Uzyskiwanie dostępu do dziennika zdarzeń systemowych...</string>
+  <string name="log_file_retrieval_failure">Nie można uzyskać dostępu do dziennika zdarzeń.</string>
+  <string name="log_file_device_info" formatted="false">Wersja Droid Notify: %s\nModel telefonu: %s\nWersja oprogramowania: %s\nNumer kompilacji: %s\n</string>
+  <string name="send_debug_logs_text">Wyślij dziennik zdarzeń debugowania</string>
+  <string name="send_debug_logs_summary">Wyślij dziennik zdarzeń debugowania do producenta aplikacji.</string>
+  <string name="preference_language_title">Język</string>
+  <string name="preference_language_summary">Wybierz język aplikacji.</string>
+  <string name="phone_default_language">Domyślny język telefonu</string>
   <string name="app_settings_text">Ustawienia</string>
   <string name="general_settings_text">Ustawienia ogólne</string>
   <string name="basic_settings_text">Ustawienia podstawowe</string>
@@ -80,6 +92,9 @@
   <string name="notification_body_settings_text">Ustawienia treści powiadomień</string>
   <string name="notification_header_settings_text">Ustawienia nagłowka powiadomień</string>
   <string name="event_body_settings_text">Ustawienia treści</string>
+  <string name="debug_settings_text">Ustawienia debugowania</string>
+  <string name="preference_debug_log_title">Włącz tryb debugowania</string>
+  <string name="preference_debug_log_summary">Gdy tryb debugowania jest włączony, aplikacja będzie rejestrować informacje diagnostyczne.</string>
   <string name="delete_text">Usuń</string>
   <string name="delete_message_dialog_text">Wiadomość zostanie wykasowana z telefonu.</string>
   <string name="delete_thread_dialog_text">Cały wątek zostanie wykasowany z telefonu.</string>
@@ -94,6 +109,8 @@
   <string name="preference_hide_notification_body_enabled_title">Ukryj treść powiadomień</string>
   <string name="preference_hide_notification_body_enabled_summaryOn">Treść powiadomienia nie będzie wyświetlana.</string>
   <string name="preference_hide_notification_body_enabled_summaryOff">Treść powiadomienia będzie wyświetlana normalnie.</string>
+  <string name="preference_notification_body_max_lines_title">Maksymalna liczba wierszy powiadomienia</string>
+  <string name="preference_notification_body_max_lines_summary">Ustaw maksymalną liczbę wyświetlanych linii w treści powiadomienia.</string>
   <string name="preference_notification_type_info_icon_enabled_title">Wyświetlaj ikonę powiadomień</string>
   <string name="preference_notification_type_info_icon_enabled_summaryOn">Ikona powiadomień będzie wyświetlana.</string>
   <string name="preference_notification_type_info_icon_enabled_summaryOff">Ikona powiadomień nie będzie wyświetlana.</string>
@@ -122,7 +139,7 @@
   <string name="preference_about_summary">O Droid Notify</string>
   <string name="preference_about_text">&lt;b&gt;Stworzony przez:&lt;/b&gt; Camille Sévigny&lt;br/&gt;&lt;b&gt;Email:&lt;/b&gt; &lt;a href=\"mailto:droidnotify@gmail.com\"&gt;droidnotify@gmail.com&lt;/a&gt;&lt;br/&gt;&lt;br/&gt;Droid Notify to aplikacja pokazująca wyskakujące powiadomenia gdy zostanie odebrany SMS/MMS, wystapi nieodebrane połączenie lub termin kalendarza. Powiadomienie przekieruje ciebie do wiadomosci, rejestru połaczeń lub kalendarza. Powiadomienia wyświetlają również informacje o kontakcie (jeśli dostępne) takie jak nazwa i zdjęcie.&lt;br/&gt;&lt;br/&gt;Jeśli spodobał się tobie Droid Notify, zagłosuj na aplikację i zostaw komentarz.&lt;br/&gt;&lt;br/&gt;Wysyłaj komentarze e-mailem, sugestie lub informacje o błędach.&lt;br/&gt;&lt;br/&gt;&lt;b&gt;Tłumaczenia przy użyciu:&lt;/b&gt; &lt;a href=\"http://www.crowdin.net/\"&gt;CrowdIn.net&lt;/a&gt;&lt;br/&gt;</string>
   <string name="preference_translated_by_text">Tłumaczenie francuskie: Franky&lt;br/&gt;Tłumaczenie hebrajskie: Benjo26&lt;br/&gt;Tłumaczenie polskie: Draco (draco.pl@gmail.com)&lt;br/&gt;Tłumaczenie portugalskie: Marcio Andrade (marcioaribeiro@hotmail.com.br)&lt;br/&gt;Tłumaczenie hiszpańskie: Shaymelmed (shaben_translations@hotmail.com)&lt;br/&gt;&lt;br/&gt;</string>
-  <string name="preference_copyright_text">&lt;b&gt;© 2011 Camille Sévigny&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;</string>
+  <string name="preference_copyright_text">&lt;b&gt;© 2012 Camille Sévigny&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;</string>
   <string name="preference_haptic_feedback_title">Włącz reakcję na dotyk</string>
   <string name="preference_haptic_feedback_summaryOn">Reakcja na dotyk jest włączona gdy używasz przycisków programowych i interacji interfejsu użytkownika.</string>
   <string name="preference_haptic_feedback_summaryOff">Reakcja na dotyk jest wyłączona.</string>
@@ -158,6 +175,7 @@
   <string name="friend_request_at_text" formatted="false">Nowe zaproszenie na %s</string>
   <string name="preference_confirm_deletion_title">Potwierdź usunięcie</string>
   <string name="preference_confirm_deletion_summary">Wyświetla okienko z potwierdzeniem usunięcia elementu.</string>
+  <string name="preference_time_is_utc_title">Czas w formacie UTC</string>
   <string name="view_thread_text">Pokaż wątek</string>
   <string name="messaging_inbox_text">Skrzynka odbiorcza</string>
   <string name="preference_sms_enabled_title">Włącz obsługę SMS</string>
@@ -172,10 +190,11 @@
   <string name="preference_sms_ringtone_enabled_summaryOff">Dźwięk powiadomienia nie będzie odtwarzany po nadejściu nowej wiadomości.</string>
   <string name="preference_sms_timeout">Opóźnienie sprawdzania SMS</string>
   <string name="preference_sms_timeout_summary">Zdefiniuj jaki czas po odbiorze nowej wiadomości czekać aby odpytać aplikację o nowe wiadomości.</string>
-  <string name="preference_sms_loading_title">Ustawienia pokazywana SMS</string>
+  <string name="preference_sms_loading_title">Ustawienia pokazywania SMS</string>
   <string name="preference_sms_loading_summary">Wybierz sposób w jaki aplikacja odczytuje nowe wiadomości.</string>
   <string name="preference_sms_timestamp_adjustment_title">Korekta czasów dla SMS</string>
   <string name="preference_sms_timestamp_adjustment_summary">Niektóre telefony/lokalizacje mogą powodować nieprawidłowe wyświetlanie czasów wiadomości. Użyj tej funkcji aby skorygować te czasy na prawidłowe.</string>
+  <string name="preference_sms_time_is_utc_summary">Ustaw jeśli czas nadejścia SMS jest w formacie UTC. (Naprawia błędne wyświetlanie czasów w oknie powiadomień)</string>
   <string name="preference_mms_enabled_title">Włącz obsługę MMS</string>
   <string name="preference_mms_enabled_summaryOn">Powiadomienia dla MMS są włączone.</string>
   <string name="preference_mms_enabled_summaryOff">Powiadomienia dla MMS są włączone.</string>
@@ -274,6 +293,17 @@
   <string name="facebook_authentication_data_cleared">Dane logowania do Facebooka zostały usunięte.</string>
   <string name="open_facebook_app_text">Uruchom Facebooka</string>
   <string name="preference_facebook_polling_frequency_summary">Jak często chcesz odczytywać dane z Facebooka?</string>
+  <string name="preference_linkedin_notifications">Powiadomienia LinkedIn</string>
+  <string name="preference_linkedin_enabled_title">Włącz obsługę LinkedIn</string>
+  <string name="preference_linkedin_enabled_summaryOn">Powiadomienia LinkedIn są włączone.</string>
+  <string name="preference_linkedin_enabled_summaryOff">Powiadomienia LinkedIn są wyłączone.</string>
+  <string name="linkedin_authentication_text">Logowanie do LinkedIn</string>
+  <string name="linkedin_authentication_message_text">W oknie przeglądarki zostanie otworzona strona LinkedIn. Ta strona zapyta o umożliwienie dostępu do twojego konta LinkedIn. Jeśli chcesz kontynuować kliknij przycisk \"Dalej\".</string>
+  <string name="linkedin_authentication_error">Nie można zalogować się do twojego konta LinkedIn. Spróbuj ponownie później.</string>
+  <string name="preference_linkedin_polling_frequency_summary">Jak często chcesz odczytywać dane z LinkedIn?</string>
+  <string name="preference_clear_linkedin_authentication_data">Wyczyść dane LinkedIn</string>
+  <string name="preference_clear_linkedin_authentication_data_summary">Wyczyść dane logowania LinkedIn.</string>
+  <string name="linkedin_authentication_data_cleared">Dane logowania do LinkedIn zostały usunięte.</string>
   <string name="email_inbox_text">Skrzynka odbiorcza email</string>
   <string name="view_email_text">Pokaż Email</string>
   <string name="preference_k9_enabled_title">Włącz obsługę K-9 Email</string>
@@ -349,7 +379,7 @@
   <string name="preference_landscape_screen_enabled_summaryOn">Ekran będzie się obracał do trybu landscape gdy telefon zostanie obrócony.</string>
   <string name="preference_landscape_screen_enabled_summaryOff">Ekran nie będzie się obracał do trybu landscape gdy telefon zostanie obrócony.</string>
   <string name="preference_screen_timeout">Czas wygaszenia ekranu</string>
-  <string name="preference_screen_timeout_summary">Zdefiniuj po jakim czasie ekran zostanie wygaszony po wyświetlenia powiadomienia. Im czas krótszy tym żywotność baterii będzie większa.</string>
+  <string name="preference_screen_timeout_summary">Zdefiniuj po jakim czasie ekran zostanie wygaszony po wyświetleniu powiadomienia. Im czas krótszy tym żywotność baterii będzie większa.</string>
   <string name="preference_keyguard_enabled_title">Odblokuj ekran</string>
   <string name="preference_keyguard_enabled_summaryOn">Ekran zostanie odblokowany przy wyświetlaniu powiadomienia.</string>
   <string name="preference_keyguard_enabled_summaryOff">Ekran nie zostanie odblokowany przy wyświetlaniu powiadomienia.</string>
@@ -559,7 +589,7 @@ Przykład:
   <string name="use_installed_email_app_text">Użyj zainstalowanej aplikacji poczty</string>
   <string name="use_quick_reply_text">Użyj szybkiej odpowiedzi</string>
   <string name="parse_sms_directly_text">Przekaż SMS bezpośrednio (szybsze)</string>
-  <string name="read_sms_from_disk_text">Przeczytaj SMS z dysku (wolniejsze)</string>
+  <string name="read_sms_from_disk_text">Przeczytaj SMS z pamięci (wolniejsze)</string>
   <string name="reschedule_notification_text">Rozplanuj powiadomienia</string>
   <string name="ignore_notification_text">Ignoruj powiadomienia</string>
   <string name="show_notification_text">Pokaż powiadomienia</string>

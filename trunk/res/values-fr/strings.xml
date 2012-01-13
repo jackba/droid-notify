@@ -34,7 +34,7 @@
   <string name="upgrade_to_droid_notify_pro_text">Acquérir version Pro</string>
   <string name="upgrade_to_droid_notify_pro_text_summary">Mise à niveau vers Droid Notify Pro. Cette version permet de débloquer toutes les fonctionnalités de l\'application.</string>
   <string name="upgrade_now_text">Mettre à niveau</string>
-  <string name="upgrade_direct_description_text">Passez à le version Pro de l\'application. Si vous souhaitez faire la mise à niveau maintenant et acheter la version Pro, cliquez sur le bouton ci-dessous.\n\nVotre participation permettra d\'assurer la maintenance du logiciel et l\'ajout de nouvelles fonctionnalités.\n\n Merci !</string>
+  <string name="upgrade_direct_description_text">Passez à la version Pro de l\'application. Si vous souhaitez faire la mise à niveau maintenant et acheter la version Pro, cliquez sur le bouton ci-dessous.\n\nVotre participation permettra d\'assurer la maintenance du logiciel et l\'ajout de nouvelles fonctionnalités.\n\n Merci !</string>
   <string name="app_android_messaging_app_error">L\'application Messages d\'Android ne peut pas être démarrée.</string>
   <string name="app_android_phone_app_error">L\'application Téléphone d\'Android ne peut pas être démarrée.</string>
   <string name="app_android_call_log_error">L\'application Journal d\'appels d\'Android ne peut pas être démarrée.</string>
@@ -70,6 +70,18 @@
   <string name="app_quick_reply_address_error">L\'adresse pour la réponse rapide ne semble pas être valide. L\'envoi de la réponse a échoué.</string>
   <string name="twitter_send_direct_mesage_error">Le message Twitter ne peut pas être envoyé.</string>
   <string name="twitter_send_tweet_error">La mise à jour du Tweet ou du statut ne peut pas être envoyée.</string>
+  <string name="not_online_error">L\'application ne peut pas avoir l\'accès en ligne pour le moment. Veuillez réessayer plus tard.</string>
+  <string name="url_link_not_found_error">The URL link could not be found.</string>
+  <string name="browser_app_error">The web browser application could not be started.</string>
+  <string name="log_file_error_title">Fichier d\'erreur</string>
+  <string name="log_file_acquiring_system_logs">Lecture des journaux système...</string>
+  <string name="log_file_retrieval_failure">Impossible de récupérer les journaux système.</string>
+  <string name="log_file_device_info" formatted="false">Version de Droid notifier : %s\nModèle appareil : %s\nVersion du firmware : %s\nNuméro de version: %s\n</string>
+  <string name="send_debug_logs_text">Envoyer fichiers de débogage</string>
+  <string name="send_debug_logs_summary">Envoie les fichiers de débogage au développeur.</string>
+  <string name="preference_language_title">Langue</string>
+  <string name="preference_language_summary">Choix de la langue de l\'application.</string>
+  <string name="phone_default_language">Langue par défaut du téléphone</string>
   <string name="app_settings_text">Paramètres</string>
   <string name="general_settings_text">Paramètres généraux</string>
   <string name="basic_settings_text">Paramètres de base</string>
@@ -80,6 +92,9 @@
   <string name="notification_body_settings_text">Corps de la notification</string>
   <string name="notification_header_settings_text">Paramètres de l\'entête de la notification</string>
   <string name="event_body_settings_text">Corps de l\'évènement</string>
+  <string name="debug_settings_text">Paramètres débogueur</string>
+  <string name="preference_debug_log_title">Activer le débogueur</string>
+  <string name="preference_debug_log_summary">Quand le débogueur est activé, l\'application enregistre des informations de diagnostic.</string>
   <string name="delete_text">Supprimer</string>
   <string name="delete_message_dialog_text">Ceci va supprimer le message du téléphone.</string>
   <string name="delete_thread_dialog_text">L\'ensemble de la discussion va être supprimée du téléphone.</string>
@@ -94,6 +109,8 @@
   <string name="preference_hide_notification_body_enabled_title">Masquer corps notification</string>
   <string name="preference_hide_notification_body_enabled_summaryOn">Le corps de la notification ne sera pas visible dans le popup.</string>
   <string name="preference_hide_notification_body_enabled_summaryOff">Le corps de la notification sera visible dans le popup.</string>
+  <string name="preference_notification_body_max_lines_title">Nombre de lignes maxi notification</string>
+  <string name="preference_notification_body_max_lines_summary">Choix du nombre maximum de lignes à afficher dans le corps de la notification.</string>
   <string name="preference_notification_type_info_icon_enabled_title">Voir l\'icone type</string>
   <string name="preference_notification_type_info_icon_enabled_summaryOn">L\'icone type de la notification sera affiché dans le popup.</string>
   <string name="preference_notification_type_info_icon_enabled_summaryOff">L\'icone type de la notification ne sera pas affiché dans le popup.</string>
@@ -122,7 +139,7 @@
   <string name="preference_about_summary">A propos de Droid Notify</string>
   <string name="preference_about_text">&lt;b&gt;Créé par :&lt;/b&gt; Camille Sévigny&lt;br/&gt;&lt;b&gt;Email:&lt;/b&gt; &lt;a href=\"mailto:droidnotify@gmail.com\"&gt;droidnotify@gmail.com&lt;/a&gt;&lt;br/&gt;&lt;br/&gt;Droid Notify est une application qui affiche un popup lors de l\'arrivée d\'un message SMS/MMS, d\'un appel manqué, d\'un mail, ou encore lors de l\'échéance d\'un évènement du calendrier. Beaucoup d\'autres fonctionnalités et notifications sont disponibles dans la version Pro de l\'application. Les notifications fonctionnent avec les applications de votre téléphone comme l\'envoi des messages ou le calendrier. Elles affichent les informations des contacts (si elles existent) comme le nom ou la photo.&lt;br/&gt;&lt;br/&gt;Si vous aimez Droid Notify, merci de noter cette application et de laisser un commentaire.&lt;br/&gt;&lt;br/&gt;Tous les commentaires, suggestions ou reports de bug sont également les bienvenus par mail.&lt;br/&gt;&lt;br/&gt;&lt;b&gt;Traductions réalisées grâce à :&lt;/b&gt; &lt;a href=\"http://www.crowdin.net/\"&gt;CrowdIn.net&lt;/a&gt;&lt;br/&gt;</string>
   <string name="preference_translated_by_text">Traduction Francaise : Franky&lt;br/&gt;Traduction Hébreu : Benjo26&lt;br/&gt;Traduction Polonaise : Draco (draco.pl@gmail.com)&lt;br/&gt;Traduction Traduction Portugaise : Marcio Andrade (marcioaribeiro@hotmail.com.br)&lt;br/&gt;Espagnole : Shaymelmed (shaben_translations@hotmail.com)&lt;br/&gt;&lt;br/&gt;&lt;b&gt;</string>
-  <string name="preference_copyright_text">&lt;b&gt;© 2011 Camille Sévigny&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;</string>
+  <string name="preference_copyright_text">&lt;b&gt;© 2012 Camille Sévigny&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;</string>
   <string name="preference_haptic_feedback_title">Activer retour haptique</string>
   <string name="preference_haptic_feedback_summaryOn">Le retour haptique est activé. Le vibreur du téléphone sera activé lors de l\'utilisation de touches programmables ou avec certaines options.</string>
   <string name="preference_haptic_feedback_summaryOff">Le retour haptique n\'est pas activé. Le vibreur du téléphone ne sera pas activé lors de l\'utilisation de touches programmables ou avec certaines options.</string>
@@ -158,6 +175,7 @@
   <string name="friend_request_at_text" formatted="false">Nouvelle demande d\'ami à %s</string>
   <string name="preference_confirm_deletion_title">Confirmer suppression</string>
   <string name="preference_confirm_deletion_summary">Affiche une boîte de dialogue pour confirmer la suppression d\'un élément.</string>
+  <string name="preference_time_is_utc_title">L\'heure est au format UTC</string>
   <string name="view_thread_text">Voir la discussion</string>
   <string name="messaging_inbox_text">Boite de réception Messages</string>
   <string name="preference_sms_enabled_title">Activer les SMS</string>
@@ -176,6 +194,7 @@
   <string name="preference_sms_loading_summary">Choisir comment l\'application doit rechercher les SMS entrants.</string>
   <string name="preference_sms_timestamp_adjustment_title">Horodatage des SMS</string>
   <string name="preference_sms_timestamp_adjustment_summary">Certains téléphones peuvent mal afficher les date et heure des messages. Utilisez cette option pour régler l\'horodatage des SMS.</string>
+  <string name="preference_sms_time_is_utc_summary">Choisissez cette option si l\'horodatage des messages SMS est au format UTC. (Cela peut corriger les heures incorrectes dans les notifications)</string>
   <string name="preference_mms_enabled_title">Activer les MMS</string>
   <string name="preference_mms_enabled_summaryOn">Les notifications MMS sont activées.</string>
   <string name="preference_mms_enabled_summaryOff">Les notifications MMS ne sont pas activées.</string>
@@ -248,7 +267,7 @@
   <string name="preference_twitter_follower_requests_enabled_title">Activer les demandes d\'abonné Twitter</string>
   <string name="preference_twitter_follower_requests_enabled_summary">Active les notifications de demande d\'abonné Twitter.</string>
   <string name="twitter_authentication_text">Authentification Twitter</string>
-  <string name="twitter_authentication_message_text">L\'écran suivant ouvrira la page Internet de Twitter dans votre navigateur. Cette page vous demandera d\'accorder à cette application l\'autorisation d\'accéder à votre compte Twitter. Validez cette action en utilisant le bouton \"Continuer\" ci dessous.</string>
+  <string name="twitter_authentication_message_text">L\'écran suivant ouvrira la page web de Twitter dans votre navigateur web. Cette page vous demandera l\'autorisation d\'accéder à votre compte Twitter. Pour continuer, cliquez sur le bouton \"Continuer\" ci-dessous.</string>
   <string name="authenticating_text">Authentification en cours...</string>
   <string name="twitter_authentication_error">Nous ne pouvons pas accéder à votre compte Twitter dans l\'immédiat. Veuillez réessayer plus tard.</string>
   <string name="preference_twitter_polling_frequency_summary">A quelle fréquence voulez-vous lire votre compte Twitter ?</string>
@@ -274,6 +293,17 @@
   <string name="facebook_authentication_data_cleared">Les données d\'authentification de Facebook ont été effacées.</string>
   <string name="open_facebook_app_text">Ouvrir l\'application Facebook</string>
   <string name="preference_facebook_polling_frequency_summary">A quelle fréquence voulez-vous lire votre compte Facebook ?</string>
+  <string name="preference_linkedin_notifications">Notifications LinkedIn</string>
+  <string name="preference_linkedin_enabled_title">Activer LinkedIn</string>
+  <string name="preference_linkedin_enabled_summaryOn">Les notifications LinkedIn sont activées.</string>
+  <string name="preference_linkedin_enabled_summaryOff">Les notifications de LinkedIn ne sont pas activées.</string>
+  <string name="linkedin_authentication_text">Authentification LinkedIn</string>
+  <string name="linkedin_authentication_message_text">L\'écran suivant ouvrira la page web de LinkedIn dans votre navigateur web. Cette page vous demandera l\'autorisation d\'accéder à votre compte LinkedIn. Pour continuer, cliquez sur le bouton \"Continuer\" ci-dessous.</string>
+  <string name="linkedin_authentication_error">Nous ne pouvons pas accéder à votre compte LinkedIn dans l\'immédiat. Veuillez réessayer plus tard.</string>
+  <string name="preference_linkedin_polling_frequency_summary">A quelle fréquence voulez-vous lire votre compte LinkedIn ?</string>
+  <string name="preference_clear_linkedin_authentication_data">Réinitialiser données LinkedIn</string>
+  <string name="preference_clear_linkedin_authentication_data_summary">Efface les données d\'authentification de LinkedIn.</string>
+  <string name="linkedin_authentication_data_cleared">Les données d\'authentification de LinkedIn ont été effacées.</string>
   <string name="email_inbox_text">Boite mail</string>
   <string name="view_email_text">Voir mail</string>
   <string name="preference_k9_enabled_title">Activer mail K-9</string>
