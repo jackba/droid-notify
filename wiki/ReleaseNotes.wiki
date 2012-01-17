@@ -3,8 +3,12 @@
 
 = Release Notes =
 
-*v2.20* _Coming Soon..._
+*v2.21* _Coming Soon..._
  * 
+
+*v2.20* (January 17, 2011)
+ * Fixed crash related to Facebook Notifications.
+ * Small bug fixes.
 
 *v2.19* (January 13, 2011)
  * Added option to change the language of the app.
