@@ -540,6 +540,10 @@ public class Constants {
 	public static final String LINKEDIN_ADVANCED_SETTINGS_CATEGORY_KEY = "advanced_linkedin_settings_category";	
 	public static final String LINKEDIN_CLEAR_AUTHENTICATION_DATA_KEY = "clear_linkedin_authentication";
 	
+	//-----GOOGLEPLUS NOTIFICATION CONSTANTS-----//
+	public static final String GOOGLEPLUS_CONSUMER_KEY = "503968671076.apps.googleusercontent.com";
+	public static final String GOOGLEPLUS_CONSUMER_SECRET= "a8q_wS-TG11-vV96vMl8zHic";
+	
 	//-----APPLICATION URL CONSTANTS-----//
 	//Android Market URL
 	public static final String APP_ANDROID_URL = "http://market.android.com/details?id=apps.droidnotify";
