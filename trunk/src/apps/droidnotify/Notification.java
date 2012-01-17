@@ -401,48 +401,48 @@ public class Notification {
 			switch(notificationType){
 				case Constants.NOTIFICATION_TYPE_PHONE:{
 					_title = "Missed Call";
-					_linkURL = linkURL;
+					if(_linkURL != null) _linkURL = linkURL;
 					break;
 				}
 				case Constants.NOTIFICATION_TYPE_SMS:{
 					_title = "SMS Message";
-					_linkURL = linkURL;
+					if(_linkURL != null) _linkURL = linkURL;
 					break;
 				}
 				case Constants.NOTIFICATION_TYPE_MMS:{
 					_title = "MMS Message";	
-					_linkURL = linkURL;
+					if(_linkURL != null) _linkURL = linkURL;
 					break;
 				}
 				case Constants.NOTIFICATION_TYPE_CALENDAR:{
 					_title = "Calendar Event";
-					_linkURL = linkURL;
+					if(_linkURL != null) _linkURL = linkURL;
 					break;
 				}
 				case Constants.NOTIFICATION_TYPE_GMAIL:{
 					_title = "Email";
-					_linkURL = linkURL;
+					if(_linkURL != null) _linkURL = linkURL;
 					break;
 				}
 				case Constants.NOTIFICATION_TYPE_TWITTER:{
 					_title = "Twitter";
-					_linkURL = linkURL;
+					if(_linkURL != null) _linkURL = linkURL;
 					break;
 				}
 				case Constants.NOTIFICATION_TYPE_FACEBOOK:{
 					_title = "Facebook";
 					if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION){
-						_linkURL = linkURL.replace("http://www.facebook.com/", "http://m.facebook.com/");
+						if(_linkURL != null) _linkURL = linkURL.replace("http://www.facebook.com/", "http://m.facebook.com/");
 					}else if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST){
-						_linkURL = linkURL;
+						if(_linkURL != null) _linkURL = linkURL;
 					}else if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE){
-						_linkURL = "https://m.facebook.com/messages/read?action=read&tid=id." + messageStringID.substring(0, messageStringID.indexOf("_"));
+						if(_linkURL != null) _linkURL = "https://m.facebook.com/messages/read?action=read&tid=id." + messageStringID.substring(0, messageStringID.indexOf("_"));
 					}
 					break;
 				}
 				case Constants.NOTIFICATION_TYPE_K9:{
 					_title = "Email";
-					_linkURL = linkURL;
+					if(_linkURL != null) _linkURL = linkURL;
 					break;
 				}
 			}

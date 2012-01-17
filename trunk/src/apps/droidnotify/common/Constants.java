@@ -483,6 +483,7 @@ public class Constants {
     public static final String FACEBOOK_HIDE_NOTIFICATION_BODY_KEY = "facebook_hide_notification_body_enabled";
 	public static final String FACEBOOK_DISPLAY_DISMISS_BUTTON_KEY = "facebook_display_dismiss_button";
 	public static final String FACEBOOK_DISPLAY_DELETE_BUTTON_KEY = "facebook_display_delete_button";
+	public static final String FACEBOOK_DISPLAY_VIEW_BUTTON_KEY = "facebook_display_view_button";
 	public static final String FACEBOOK_DISPLAY_REPLY_BUTTON_KEY = "facebook_display_reply_button";
 	public static final String FACEBOOK_NOTIFICATION_COUNT_ACTION_KEY = "facebook_notification_count_action";
 	public static final String FACEBOOK_NOTIFICATION_COUNT_ACTION_LAUNCH_FACEBOOK_APP = "1";
