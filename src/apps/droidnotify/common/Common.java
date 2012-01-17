@@ -2159,12 +2159,12 @@ public class Common {
 	 * 
 	 * @return boolean - Returns true if the activity can be started.
 	 */
-	public static boolean startBrowserActivity(Context context, NotificationActivity notificationActivity, String linkURL, int requestCode){
+	public static boolean startBrowserActivity(Context context, NotificationActivity notificationActivity, String linkURL, int requestCode, boolean displayErrors){
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.startBrowserActivity() LinkURL: " + linkURL);
 		try{
 			if(linkURL == null || linkURL.equals("")){
-				Toast.makeText(context, context.getString(R.string.url_link_not_found_error), Toast.LENGTH_LONG).show();
+				if(displayErrors) Toast.makeText(context, context.getString(R.string.url_link_not_found_error), Toast.LENGTH_LONG).show();
 				return false;
 			}
 			Intent browserIntent = new Intent(Intent.ACTION_VIEW);	
@@ -2175,7 +2175,7 @@ public class Common {
 			return true;
 		}catch(Exception ex){
 			Log.e("Common.startBrowserActivity() ERROR: " + ex.toString());
-			Toast.makeText(context, context.getString(R.string.browser_app_error), Toast.LENGTH_LONG).show();
+			if(displayErrors) Toast.makeText(context, context.getString(R.string.browser_app_error), Toast.LENGTH_LONG).show();
 			setInLinkedAppFlag(context, false);
 			return false;
 		}

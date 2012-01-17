@@ -805,23 +805,27 @@ public class NotificationView extends LinearLayout {
 					    	}
 						}
 						// View Button
-						if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST){
-							_viewFacebookImageButton.setOnClickListener(new OnClickListener() {
-							    public void onClick(View view) {
-							    	if (_debug) Log.v("Facebook View Button Clicked()");
-							    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-							    	FacebookCommon.startFacebookAppActivity(_context, _notificationActivity, Constants.FACEBOOK_OPEN_APP_ACTIVITY);
-							    }
-							});
-						}else{
-							_viewFacebookImageButton.setOnClickListener(new OnClickListener() {
-							    public void onClick(View view) {
-							    	if (_debug) Log.v("Facebook View Button Clicked()");
-							    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-							    	viewNotificationLinkURL();
-							    }
-							});
-						}
+						if(_preferences.getBoolean(Constants.FACEBOOK_DISPLAY_VIEW_BUTTON_KEY, true)){
+							if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST){
+								_viewFacebookImageButton.setOnClickListener(new OnClickListener() {
+								    public void onClick(View view) {
+								    	if (_debug) Log.v("Facebook View Button Clicked()");
+								    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+								    	FacebookCommon.startFacebookAppActivity(_context, _notificationActivity, Constants.FACEBOOK_OPEN_APP_ACTIVITY);
+								    }
+								});
+							}else{
+								_viewFacebookImageButton.setOnClickListener(new OnClickListener() {
+								    public void onClick(View view) {
+								    	if (_debug) Log.v("Facebook View Button Clicked()");
+								    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+								    	viewNotificationLinkURL();
+								    }
+								});
+							}
+				    	}else{
+				    		_viewFacebookImageButton.setVisibility(View.GONE);
+				    	}						
 					}else{
 						// Dismiss Button
 				    	if(_preferences.getBoolean(Constants.FACEBOOK_DISPLAY_DISMISS_BUTTON_KEY, true)){
@@ -852,23 +856,27 @@ public class NotificationView extends LinearLayout {
 					    	}
 						}
 						// View Button
-						if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST){
-							_viewFacebookButton.setOnClickListener(new OnClickListener() {
-							    public void onClick(View view) {
-							    	if (_debug) Log.v("Facebook View Button Clicked()");
-							    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-									FacebookCommon.startFacebookAppActivity(_context, _notificationActivity, Constants.FACEBOOK_OPEN_APP_ACTIVITY);
-							    }
-							});
-						}else{
-							_viewFacebookButton.setOnClickListener(new OnClickListener() {
-							    public void onClick(View view) {
-							    	if (_debug) Log.v("Facebook View Button Clicked()");
-							    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-							    	viewNotificationLinkURL();
-							    }
-							});
-						}						
+						if(_preferences.getBoolean(Constants.FACEBOOK_DISPLAY_VIEW_BUTTON_KEY, true)){
+							if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST){
+								_viewFacebookButton.setOnClickListener(new OnClickListener() {
+								    public void onClick(View view) {
+								    	if (_debug) Log.v("Facebook View Button Clicked()");
+								    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+								    	FacebookCommon.startFacebookAppActivity(_context, _notificationActivity, Constants.FACEBOOK_OPEN_APP_ACTIVITY);
+								    }
+								});
+							}else{
+								_viewFacebookButton.setOnClickListener(new OnClickListener() {
+								    public void onClick(View view) {
+								    	if (_debug) Log.v("Facebook View Button Clicked()");
+								    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+								    	viewNotificationLinkURL();
+								    }
+								});
+							}
+				    	}else{
+				    		_viewFacebookButton.setVisibility(View.GONE);
+				    	}						
 					}
 					_deleteButton.setVisibility(View.GONE);
 					_callButton.setVisibility(View.GONE);
@@ -1294,6 +1302,12 @@ public class NotificationView extends LinearLayout {
 				}
 				break;
 			}
+			case Constants.NOTIFICATION_TYPE_CALENDAR:{			
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_PHONE:{			
+				break;
+			}
 			case Constants.NOTIFICATION_TYPE_TWITTER:{
 				int notificationSubType = _notification.getNotificationSubType();
 			    if(notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE){
@@ -1333,7 +1347,46 @@ public class NotificationView extends LinearLayout {
 	 * @param notificationSubType 
 	 */
 	private void viewNotificationLinkURL(){
-		Common.startBrowserActivity(_context, _notificationActivity, _notification.getLinkURL(), Constants.BROWSER_ACTIVITY);
+		int notificationType = _notification.getNotificationType();
+		//int notificationSubType = _notification.getNotificationSubType();
+		switch(notificationType){
+			case Constants.NOTIFICATION_TYPE_SMS:{
+				Common.startBrowserActivity(_context, _notificationActivity, _notification.getLinkURL(), Constants.BROWSER_ACTIVITY, true);
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_MMS:{
+				Common.startBrowserActivity(_context, _notificationActivity, _notification.getLinkURL(), Constants.BROWSER_ACTIVITY, true);
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_CALENDAR:{
+				Common.startBrowserActivity(_context, _notificationActivity, _notification.getLinkURL(), Constants.BROWSER_ACTIVITY, true);
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_PHONE:{
+				Common.startBrowserActivity(_context, _notificationActivity, _notification.getLinkURL(), Constants.BROWSER_ACTIVITY, true);			
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_TWITTER:{
+				if(Common.startBrowserActivity(_context, _notificationActivity, _notification.getLinkURL(), Constants.BROWSER_ACTIVITY, false)){
+					//Do Nothing.
+				}else{
+					TwitterCommon.startTwitterAppActivity(_context, _notificationActivity, Constants.TWITTER_OPEN_APP_ACTIVITY);				
+				}	
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_FACEBOOK:{
+				if(Common.startBrowserActivity(_context, _notificationActivity, _notification.getLinkURL(), Constants.BROWSER_ACTIVITY, false)){
+					//Do Nothing.
+				}else{
+					FacebookCommon.startFacebookAppActivity(_context, _notificationActivity, Constants.FACEBOOK_OPEN_APP_ACTIVITY);				
+				}
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_K9:{
+				Common.startBrowserActivity(_context, _notificationActivity, _notification.getLinkURL(), Constants.BROWSER_ACTIVITY, true);
+				break;
+			}
+		}
 	}
  
 	/**
