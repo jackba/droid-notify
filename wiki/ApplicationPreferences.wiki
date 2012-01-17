@@ -258,6 +258,8 @@ Notifications
    * Notification Count Action
    * Show/Hide Button Settings
     * Display Dismiss Button
+    * Display View Button
+    * Display Reply Button
 	
 *_Screen Settings_*
 
