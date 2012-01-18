@@ -8,11 +8,14 @@ import java.util.ArrayList;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.telephony.SmsMessage;
+import android.telephony.SmsMessage.MessageClass;
 import android.widget.Toast;
 import apps.droidnotify.NotificationActivity;
 import apps.droidnotify.QuickReplyActivity;
@@ -102,6 +105,7 @@ public class SMSCommon {
 	public static ArrayList<String> getSMSMessagesFromIntent(Context context, Bundle bundle){
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.getSMSMessagesFromIntent()");
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		ArrayList<String> smsArray = new ArrayList<String>();
     	long timeStamp = 0;
     	String sentFromAddress = null;
@@ -118,6 +122,13 @@ public class SMSCommon {
                 msgs[i] = SmsMessage.createFromPdu((byte[])pdus[i]);                
             }
             SmsMessage sms = msgs[0];
+            //Handle Flash SMS AKA Class 0 Messages
+            MessageClass messageClass = sms.getMessageClass();
+            if(messageClass.equals(MessageClass.CLASS_0)){
+            	if(preferences.getBoolean(Constants.SMS_IGNORE_CLASS_0_MESSAGES_KEY, false)){
+            		return null;
+            	}
+            }
             timeStamp = sms.getTimestampMillis();
             //Adjust the timestamp to the localized time of the users phone.
             timeStamp = Common.convertGMTToLocalTime(context, timeStamp);

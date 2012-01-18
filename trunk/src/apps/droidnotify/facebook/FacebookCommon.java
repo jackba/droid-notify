@@ -13,6 +13,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -234,6 +235,12 @@ public class FacebookCommon {
 		try{
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 			String packageName = preferences.getString(Constants.FACEBOOK_PREFERRED_CLIENT_KEY, Constants.FACEBOOK_PREFERRED_CLIENT_DEFAULT);
+			if(packageName.startsWith("http://")){
+				Intent browserIntent = new Intent(Intent.ACTION_VIEW);	
+				browserIntent.setData(Uri.parse(packageName));
+				browserIntent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+				return browserIntent;
+			}
 			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
 			if(intent == null){
 				if (_debug) Log.v("FacebookCommon.getFacebookAppActivityIntent() Package '" + packageName + "' Not Found. Exiting...");

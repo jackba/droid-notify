@@ -56,6 +56,7 @@ public class NotificationView extends LinearLayout {
 	private int _notificationType = 0;
 	private NotificationActivity _notificationActivity = null;
 	private SharedPreferences _preferences = null;
+	private LinearLayout _notificationWindowLinearLayout = null;
 	private TextView _contactNameTextView = null;
 	private TextView _contactNumberTextView = null;
 	private TextView _notificationCountTextView = null;
@@ -133,6 +134,7 @@ public class NotificationView extends LinearLayout {
 		if(applicationThemeSetting.equals(Constants.HTC_SENSE_UI_THEME)) themeResource = R.layout.htc_theme_notification;
 		if(applicationThemeSetting.equals(Constants.XPERIA_THEME)) themeResource = R.layout.xperia_theme_notification;
 		View.inflate(context, themeResource, this);
+		_notificationWindowLinearLayout = (LinearLayout) findViewById(R.id.notification_linear_layout);
 		_contactNameTextView = (TextView) findViewById(R.id.contact_name_text_view);
 		_contactNumberTextView = (TextView) findViewById(R.id.contact_number_text_view);
 		_notificationCountTextView = (TextView) findViewById(R.id.notification_count_text_view);
@@ -147,9 +149,7 @@ public class NotificationView extends LinearLayout {
 	    _imageButtonLinearLayout = (LinearLayout) findViewById(R.id.image_button_linear_layout);
 		_contactLinearLayout = (LinearLayout) findViewById(R.id.contact_wrapper_linear_layout);
 		_notificationViewFlipper = _notificationActivity.getNotificationViewFlipper();
-		//Initialize The Button Views
-		_buttonLinearLayout.setVisibility(View.GONE);
-    	_imageButtonLinearLayout.setVisibility(View.GONE);
+		setNotificationLayoutProperties();
 	}
 
 	/**
@@ -1402,7 +1402,10 @@ public class NotificationView extends LinearLayout {
 	 */
 	private void setupContextMenus(){
 		if (_debug) Log.v("NotificationView.setupContextMenus()"); 
-	    _notificationActivity.registerForContextMenu(_contactLinearLayout);
+		if(_preferences.getBoolean(Constants.CONTEXT_MENU_DISABLED_KEY, false)){
+			return;
+		}
+		_notificationActivity.registerForContextMenu(_contactLinearLayout);
 	}
 
 	/**
@@ -1430,6 +1433,9 @@ public class NotificationView extends LinearLayout {
 	 */
 	private void initLongPressView(){
 		if (_debug) Log.v("NotificationView.initLongPressView()");	
+		if(_preferences.getBoolean(Constants.CONTEXT_MENU_DISABLED_KEY, false)){
+			return;
+		}
 		OnTouchListener contactWrapperOnTouchListener = new OnTouchListener() {
 			public boolean onTouch(View view, MotionEvent motionEvent){
 	     		switch (motionEvent.getAction()){
@@ -1678,6 +1684,10 @@ public class NotificationView extends LinearLayout {
 	 * Add the QuickContact widget to the Contact Photo. This is added to the OnClick event of the photo.
 	 */
 	private void setupQuickContact(){
+		if (_debug) Log.v("NotificationView.setupQuickContact()");
+		if(_preferences.getBoolean(Constants.QUICK_CONTACT_DISABLED_KEY, false)){
+			return;
+		}
 		final String lookupKey = _notification.getLookupKey();
 		if(lookupKey != null && !lookupKey.equals("")){
 			_photoImageView.setOnClickListener(new OnClickListener() {
@@ -1692,6 +1702,28 @@ public class NotificationView extends LinearLayout {
 			    }
 			});
 		}
+	}
+	
+	/**
+	 * Set properties on the Notification popup window.
+	 */
+	private void setNotificationLayoutProperties(){
+		if (_debug) Log.v("NotificationView.setNotificationLayoutProperties()");
+		//Initialize The Button Views
+		_buttonLinearLayout.setVisibility(View.GONE);
+    	_imageButtonLinearLayout.setVisibility(View.GONE);
+    	//Remove the clickable attribute to the notification header.
+		if(_preferences.getBoolean(Constants.CONTEXT_MENU_DISABLED_KEY, false)){
+			_contactLinearLayout.setClickable(false);
+		}
+		//Set the width padding based on the user preferences.
+		int windowPaddingTop = 0;
+		int windowPaddingBottom = 0;
+		int windowPaddingLeft = Integer.parseInt(_preferences.getString(Constants.POPUP_WINDOW_WIDTH_PADDING_KEY, "0"));
+		int windowPaddingRight = windowPaddingLeft;
+		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+		layoutParams.setMargins(windowPaddingLeft, windowPaddingTop, windowPaddingRight, windowPaddingBottom);
+		_notificationWindowLinearLayout.setLayoutParams(layoutParams);
 	}
 	
 }

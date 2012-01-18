@@ -119,6 +119,13 @@ public class Constants {
     public static final String BUTTON_ICONS_KEY = "button_icons_enabled";
 	public static final String DISPLAY_RESCHEDULE_BUTTON_KEY = "display_reschedule_button";
 	
+	//-----CONTEXT MENU CONSTANTS-----//
+	public static final String CONTEXT_MENU_DISABLED_KEY = "disable_context_menu";
+
+	//-----QUICK CONTACT CONSTANTS-----//
+	public static final String QUICK_CONTACT_DISABLED_KEY = "disable_quick_contact";
+	
+	
 	//-----RESCHEDULE CONSTANTS-----//
 	public static final String RESCHEDULE_NOTIFICATIONS_ENABLED_KEY = "reschedule_blocked_notifications";
 	public static final String RESCHEDULE_BLOCKED_NOTIFICATION_TIMEOUT_KEY = "reschedule_blocked_notification_timeout";
@@ -783,5 +790,11 @@ public class Constants {
 	
 	//-----IN-CALL SETTINGS CONSTANTS-----//
 	public static final String IN_CALL_RESCHEDULING_ENABLED_KEY = "in_call_rescheduling_enabled";
+	
+	//-----POPUP FORMATTING CONSTANTS-----//
+	public static final String POPUP_WINDOW_WIDTH_PADDING_KEY = "popup_width_padding";
+	
+	//-----FLASH SMS CONSTANTS-----//
+	public static final String SMS_IGNORE_CLASS_0_MESSAGES_KEY = "sms_ignore_class_0_messages";	
 	
 }

@@ -24,6 +24,114 @@
 		<item name="7">pt</item>
 		<item name="8">es</item>
 	</string-array>
+
+	<!-- Window Width Padding Preferences Arrays --> 
+	<string-array name="popup_width_padding_options">
+		<item name="0">0</item>
+		<item name="1">1</item>
+		<item name="2">2</item>
+		<item name="3">3</item>
+		<item name="4">4</item>
+		<item name="5">5</item>
+		<item name="6">6</item>
+		<item name="7">7</item>
+		<item name="8">8</item>
+		<item name="9">9</item>
+		<item name="10">10</item>
+		<item name="11">11</item>
+		<item name="12">12</item>
+		<item name="13">13</item>
+		<item name="14">14</item>
+		<item name="15">15</item>
+		<item name="16">16</item>
+		<item name="17">17</item>
+		<item name="18">18</item>
+		<item name="19">19</item>
+		<item name="20">20</item>
+		<item name="21">21</item>
+		<item name="22">22</item>
+		<item name="23">23</item>
+		<item name="24">24</item>
+		<item name="25">25</item>
+		<item name="26">26</item>
+		<item name="27">27</item>
+		<item name="28">28</item>
+		<item name="29">29</item>
+		<item name="30">30</item>
+		<item name="31">31</item>
+		<item name="32">32</item>
+		<item name="33">33</item>
+		<item name="34">34</item>
+		<item name="35">35</item>
+		<item name="36">36</item>
+		<item name="37">37</item>
+		<item name="38">38</item>
+		<item name="39">39</item>
+		<item name="40">40</item>
+		<item name="41">41</item>
+		<item name="42">42</item>
+		<item name="43">43</item>
+		<item name="44">44</item>
+		<item name="45">45</item>
+		<item name="46">46</item>
+		<item name="47">47</item>
+		<item name="48">48</item>
+		<item name="49">49</item>
+		<item name="50">50</item>
+	</string-array>
+	<string-array name="popup_width_padding_options_values">
+		<item name="0">0</item>
+		<item name="1">1</item>
+		<item name="2">2</item>
+		<item name="3">3</item>
+		<item name="4">4</item>
+		<item name="5">5</item>
+		<item name="6">6</item>
+		<item name="7">7</item>
+		<item name="8">8</item>
+		<item name="9">9</item>
+		<item name="10">10</item>
+		<item name="11">11</item>
+		<item name="12">12</item>
+		<item name="13">13</item>
+		<item name="14">14</item>
+		<item name="15">15</item>
+		<item name="16">16</item>
+		<item name="17">17</item>
+		<item name="18">18</item>
+		<item name="19">19</item>
+		<item name="20">20</item>
+		<item name="21">21</item>
+		<item name="22">22</item>
+		<item name="23">23</item>
+		<item name="24">24</item>
+		<item name="25">25</item>
+		<item name="26">26</item>
+		<item name="27">27</item>
+		<item name="28">28</item>
+		<item name="29">29</item>
+		<item name="30">30</item>
+		<item name="31">31</item>
+		<item name="32">32</item>
+		<item name="33">33</item>
+		<item name="34">34</item>
+		<item name="35">35</item>
+		<item name="36">36</item>
+		<item name="37">37</item>
+		<item name="38">38</item>
+		<item name="39">39</item>
+		<item name="40">40</item>
+		<item name="41">41</item>
+		<item name="42">42</item>
+		<item name="43">43</item>
+		<item name="44">44</item>
+		<item name="45">45</item>
+		<item name="46">46</item>
+		<item name="47">47</item>
+		<item name="48">48</item>
+		<item name="49">49</item>
+		<item name="50">50</item>
+	</string-array>
 	
     <!-- SMS Preferences Arrays --> 
     <string-array name="sms_dismiss_button_options">
@@ -1739,7 +1847,8 @@
 		<item name="9">@string/twicca</item>
 		<item name="10">@string/twidroyd_legacy</item>
 		<item name="11">@string/twitter</item>
-		<item name="12">@string/ubersocial</item>
+		<item name="12">@string/twitter_web_mobile</item>
+		<item name="13">@string/ubersocial</item>
 	</string-array>
 	<string-array name="twitter_client_options_values">
 		<item name="0">com.hootsuite.droid.full</item>
@@ -1754,11 +1863,13 @@
 		<item name="9">jp.r246.twicca</item>
 		<item name="10">com.twidroydlegacy</item>
 		<item name="11">com.twitter.android</item>
-		<item name="12">com.twidroid</item>
+		<item name="12">http://mobile.twitter.com</item>
+		<item name="13">com.twidroid</item>
 	</string-array>
 	 
 	<!-- FACEBOOK Client Arrays
 		//"com.facebook.katana" //Facebook
+		//"com.krm.fbm" //FBM for Facebook
 		//"uk.co.senab.blueNotifyFree" //FriendCaster for Facebook
 		//"uk.co.senab.blueNotify" //FriendCaster Pro for Facebook
 		//"com.seesmic" //Seesmic
@@ -1766,18 +1877,21 @@
 	 -->
 	<string-array name="facebook_client_options">
 		<item name="0">@string/facebook</item>
-		<item name="1">@string/friendCaster_for_facebook</item>
-		<item name="2">@string/friendCaster_pro_for_facebook</item>
-		<item name="3">@string/seesmic</item>
-		<item name="4">@string/tweetdeck</item>
+		<item name="1">@string/facebook_web_mobile</item>
+		<item name="2">@string/fbm_for_facebook</item>
+		<item name="3">@string/friendCaster_for_facebook</item>
+		<item name="4">@string/friendCaster_pro_for_facebook</item>
+		<item name="5">@string/seesmic</item>
+		<item name="6">@string/tweetdeck</item>
 	</string-array>
 	<string-array name="facebook_client_options_values">
 		<item name="0">com.facebook.katana</item>
-		<item name="1">uk.co.senab.blueNotifyFree</item>
-		<item name="2">uk.co.senab.blueNotify</item>
-		<item name="3">com.seesmic</item>
-		<item name="4">com.thedeck.android.app</item>
-	</string-array>	 
-	 
+		<item name="1">http://m.facebook.com</item>
+		<item name="2">com.krm.fbm</item>
+		<item name="3">uk.co.senab.blueNotifyFree</item>
+		<item name="4">uk.co.senab.blueNotify</item>
+		<item name="5">com.seesmic</item>
+		<item name="6">com.thedeck.android.app</item>
+	</string-array>
 	    	
 </resources>

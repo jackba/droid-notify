@@ -20,6 +20,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -371,6 +372,12 @@ public class TwitterCommon {
 		try{
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 			String packageName = preferences.getString(Constants.TWITTER_PREFERRED_CLIENT_KEY, Constants.TWITTER_PREFERRED_CLIENT_DEFAULT);
+			if(packageName.startsWith("http://")){
+				Intent browserIntent = new Intent(Intent.ACTION_VIEW);	
+				browserIntent.setData(Uri.parse(packageName));
+				browserIntent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+				return browserIntent;
+			}
 			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
 			if(intent == null){
 				if (_debug) Log.v("TwitterCommon.getTwitterAppActivityIntent() Package '" + packageName + "' Not Found. Exiting...");
