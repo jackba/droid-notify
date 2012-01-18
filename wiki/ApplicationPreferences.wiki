@@ -20,19 +20,23 @@ Basic Settings
  * Time Format
  * Date Format
  * Button Style
+ * Popup Width Padding
  * Display Text To Speech Button
  * Hide Single Message Header
  * Display Type Icon
  * Type Font Size
- * Display Contact Photo
- * Contact Placeholder Image
- * Contact Photo Background
- * Contact Photo Size
  * Display Contact Name
  * Contact Name Font Size
  * Display Contact Number
  * Contact Number Font Size
+ * Disable Context Menu
+ * Display Contact Photo
+ * Contact Placeholder Image
+ * Contact Photo Background
+ * Contact Photo Size
+ * Disable Photo Menu
  * Center Align Body Text
+ * Disable 
  * Notification Body Font Size
  * Notification Body Max Lines
  * Display Reschedule Button
@@ -276,6 +280,7 @@ Screen Settings
 
 Advanced Settings
  * Enable Haptic Feedback
+ * Close In Background
  * Screen Timeout
  * SMS Timeout
  * SMS Loading Setting
