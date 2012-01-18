@@ -150,6 +150,7 @@ public class Constants {
 	
 	//-----CONTACT NAME CONSTANTS-----//
 	public static final String CONTACT_NAME_DISPLAY_KEY = "display_contact_name";
+	public static final String CONTACT_NAME_HIDE_UNKNOWN_KEY = "hide_unknown_contact_name";
 	public static final String CONTACT_NAME_SIZE_KEY = "contact_name_font_size";
 	public static final String CONTACT_NAME_SIZE_DEFAULT = "22";
 	

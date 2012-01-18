@@ -120,6 +120,12 @@
 					android:title="@string/preference_display_contact_name_title" 
 					android:summary="@string/preference_display_contact_name_summary"
 					android:defaultValue="true" />
+				<CheckBoxPreference
+					android:key="hide_unknown_contact_name" 
+					android:title="@string/preference_hide_unknown_contact_name_title" 
+					android:summary="@string/preference_hide_unknown_contact_name_summary"
+					android:defaultValue="false"
+					android:dependency="display_contact_name" />
 				<ListPreference
 					android:key="contact_name_font_size"
 					android:title="@string/preference_contact_name_font_size_title"
