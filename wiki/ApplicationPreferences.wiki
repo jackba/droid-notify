@@ -64,6 +64,7 @@ Basic Settings
 Notifications
  * *_SMS Notifications_*
   * Enable SMS Notifications
+  * Ignore Class 0 Messages
   * Time Is In UTC
   * Load Unread SMS Messages
   * Blocking Notification Options
