@@ -159,7 +159,9 @@
    	<string name="preference_display_contact_photo_summaryOn">The contact photo will be displayed.</string>
    	<string name="preference_display_contact_photo_summaryOff">The contact photo will not be displayed.</string>
    	<string name="preference_display_contact_name_title">Display Contact Name</string>
-   	<string name="preference_display_contact_name_summary">Display the contact name in the notification header.</string>
+   	<string name="preference_display_contact_name_summary">Display the contact name in the notification header.</string>   	
+   	<string name="preference_hide_unknown_contact_name_title">Hide Unknown Contact Name</string>
+   	<string name="preference_hide_unknown_contact_name_summary">Hide the contact name if it is unknown.</string>   	
    	<string name="preference_contact_name_font_size_title">Contact Name Font Size</string>
    	<string name="preference_contact_name_font_size_summary">Select the font size of the contact name text.</string>
    	<string name="preference_display_contact_number_title">Display Contact Number</string>

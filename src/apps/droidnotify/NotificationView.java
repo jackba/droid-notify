@@ -1023,8 +1023,23 @@ public class NotificationView extends LinearLayout {
 			loadContactPhoto = false;
 		}else{
 			//Show/Hide Contact Name
+			boolean displayContactNameText = true;
+			String contactName = notification.getContactName();
 			if(_preferences.getBoolean(Constants.CONTACT_NAME_DISPLAY_KEY, true)){
-				_contactNameTextView.setText(notification.getContactName());
+				if(_preferences.getBoolean(Constants.CONTACT_NAME_HIDE_UNKNOWN_KEY, false)){
+					if(contactName.equals(_context.getString(android.R.string.unknownName))){
+						displayContactNameText = false;
+					}else{
+						displayContactNameText = true;
+					}
+				}else{
+					displayContactNameText = true;
+				}
+			}else{
+				displayContactNameText = false;
+			}
+			if(displayContactNameText){
+				_contactNameTextView.setText(contactName);
 				_contactNameTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, Float.parseFloat(_preferences.getString(Constants.CONTACT_NAME_SIZE_KEY, Constants.CONTACT_NAME_SIZE_DEFAULT)));
 				_contactNameTextView.setVisibility(View.VISIBLE);
 			}else{
