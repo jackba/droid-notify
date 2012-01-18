@@ -93,6 +93,22 @@
     <string name="preference_language_title">Language</string>
     <string name="preference_language_summary">Select the application language.</string>
     <string name="phone_default_language">Phone Default Language</string>
+ 
+    <!-- Context Menu Strings -->
+    <string name="preference_disable_context_menu_title">Disable Context Menu</string>
+    <string name="preference_disable_context_menu_summary">Disable the context menu that is attached to notification headers.</string>
+    
+    <!-- Quick Contact Strings -->
+    <string name="preference_disable_quick_contact_title">Disable Photo Menu</string>
+    <string name="preference_disable_quick_contact_summary">Disable the quick contact menu that is attached to notification photos.</string>   
+  
+    <!-- App In Background Strings -->
+    <string name="preference_close_app_when_pushed_to_background_title">Close In Background</string>
+    <string name="preference_close_app_when_pushed_to_background_summary">Close the application when it is pushed to the background.</string> 
+  
+    <!-- Popup Width Strings -->
+    <string name="preference_popup_width_padding_title">Popup Width Padding</string>
+    <string name="preference_popup_width_padding_summary">Select the window width padding amount.</string> 
     
 	<!-- Settings/Preference Strings -->
     <string name="app_settings_text">Settings</string>
@@ -104,6 +120,7 @@
     <string name="quick_reply_settings_text">Quick Reply Settings</string>
     <string name="notification_body_settings_text">Notification Body Settings</string>
     <string name="notification_header_settings_text">Notification Header Settings</string>
+    <string name="notification_photo_settings_text">Notification Photo Settings</string>
    	<string name="event_body_settings_text">Event Body Settings</string>
    	
    	<!-- Debug Strings -->
@@ -373,6 +390,10 @@
    	    	   
    	<!-- Polling Strings -->   
    	<string name="preference_polling_frequency">Polling Frequency</string>
+   	
+    <!-- SMS Class 0 Message Strings -->   
+   	<string name="preference_ignore_class_0_messages_title">Ignore Class 0 Messages</string>    
+   	<string name="preference_ignore_class_0_messages_summary">Ignore Flash SMS Messages AKA Class 0 Messages</string> 	
    	    
 	<!-- Contact Strings -->
    	<string name="view_contact_text">View Contact</string>
@@ -1000,7 +1021,8 @@
 	<string name="tweetsride">TweetsRide</string>
 	<string name="twicca">Twicca</string>
 	<string name="twidroyd_legacy">Twidroyd Legacy</string>
-	<string name="twitter">Twitter</string>
+	<string name="twitter">Twitter</string>   
+	<string name="twitter_web_mobile">Twitter Web Mobile (http://mobile.twitter.com)</string>
 	<string name="ubersocial">Ubersocial (formerly Twidroyd Pro)</string>
 	
     <string name="use_hootsuite">Use HootSuite</string>
@@ -1014,16 +1036,15 @@
 	<string name="use_tweetsride">Use TweetsRide</string>
 	<string name="use_twicca">Use Twicca</string>
 	<string name="use_twidroyd_legacy">Use Twidroyd Legacy</string>
-	<string name="use_twitter">Use Twitter</string>
+	<string name="use_twitter">Use Twitter</string>   
+	<string name="use_twitter_web_mobile">Use Twitter Web Mobile (http://mobile.twitter.com)</string>
 	<string name="use_ubersocial">Use Ubersocial (formerly Twidroyd Pro)</string>
 	
 	<!-- Facebook Client Names Strings -->   
-	<string name="facebook">Facebook</string>
+	<string name="facebook">Facebook</string>   
+	<string name="facebook_web_mobile">Facebook Web Mobile (http://m.facebook.com)</string>   
+	<string name="fbm_for_facebook">FBM for Facebook</string>
 	<string name="friendCaster_for_facebook">FriendCaster for Facebook</string>
 	<string name="friendCaster_pro_for_facebook">FriendCaster Pro for Facebook</string>
-	  
-	<string name="use_facebook">Use Facebook</string>
-	<string name="use_friendCaster_for_facebook">Use FriendCaster for Facebook</string>
-	<string name="use_friendCaster_pro_for_facebook">Use FriendCaster Pro for Facebook</string>
     
 </resources>

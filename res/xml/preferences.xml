@@ -80,6 +80,13 @@
 					android:defaultValue="0"
 					android:entries="@array/button_display_style_options"
 					android:entryValues="@array/button_display_style_options_values" />
+				<ListPreference
+					android:key="popup_width_padding"
+					android:title="@string/preference_popup_width_padding_title"
+					android:summary="@string/preference_popup_width_padding_summary"
+					android:defaultValue="0"
+					android:entries="@array/popup_width_padding_options"
+					android:entryValues="@array/popup_width_padding_options_values" />
 			</PreferenceCategory>
 			<PreferenceCategory
 				android:key="notification_header_settings_category"
@@ -108,6 +115,41 @@
 					android:defaultValue="14"
 					android:entries="@array/font_size_options"
 					android:entryValues="@array/font_size_options_values" />
+				<CheckBoxPreference
+					android:key="display_contact_name" 
+					android:title="@string/preference_display_contact_name_title" 
+					android:summary="@string/preference_display_contact_name_summary"
+					android:defaultValue="true" />
+				<ListPreference
+					android:key="contact_name_font_size"
+					android:title="@string/preference_contact_name_font_size_title"
+					android:summary="@string/preference_contact_name_font_size_summary"
+					android:defaultValue="22"
+					android:entries="@array/font_size_options"
+					android:entryValues="@array/font_size_options_values"
+					android:dependency="display_contact_name" />
+				<CheckBoxPreference
+					android:key="display_contact_number" 
+					android:title="@string/preference_display_contact_number_title" 
+					android:summary="@string/preference_display_contact_number_summary" 
+					android:defaultValue="true" />
+				<ListPreference
+					android:key="contact_number_font_size"
+					android:title="@string/preference_contact_number_font_size_title"
+					android:summary="@string/preference_contact_number_font_size_summary"
+					android:defaultValue="18"
+					android:entries="@array/font_size_options"
+					android:entryValues="@array/font_size_options_values"
+					android:dependency="display_contact_number" />
+				<CheckBoxPreference
+					android:key="disable_context_menu" 
+					android:title="@string/preference_disable_context_menu_title" 
+					android:summary="@string/preference_disable_context_menu_summary"
+					android:defaultValue="false" />
+			</PreferenceCategory>
+			<PreferenceCategory
+				android:key="notification_photo_settings_category"
+				android:title="@string/notification_photo_settings_text">
 				<CheckBoxPreference
 					android:key="display_contact_photo" 
 					android:title="@string/preference_display_contact_photo_title" 
@@ -139,34 +181,14 @@
 					android:defaultValue="80"
 					android:entries="@array/contact_photo_size_options"
 					android:entryValues="@array/contact_photo_size_options_values"
+					android:dependency="display_contact_photo" />	    
+				<CheckBoxPreference
+					android:key="disable_quick_contact" 
+					android:title="@string/preference_disable_quick_contact_title" 
+					android:summary="@string/preference_disable_quick_contact_summary"
+					android:defaultValue="false"
 					android:dependency="display_contact_photo" />
-				<CheckBoxPreference
-					android:key="display_contact_name" 
-					android:title="@string/preference_display_contact_name_title" 
-					android:summary="@string/preference_display_contact_name_summary"
-					android:defaultValue="true" />
-				<ListPreference
-					android:key="contact_name_font_size"
-					android:title="@string/preference_contact_name_font_size_title"
-					android:summary="@string/preference_contact_name_font_size_summary"
-					android:defaultValue="22"
-					android:entries="@array/font_size_options"
-					android:entryValues="@array/font_size_options_values"
-					android:dependency="display_contact_name" />
-				<CheckBoxPreference
-					android:key="display_contact_number" 
-					android:title="@string/preference_display_contact_number_title" 
-					android:summary="@string/preference_display_contact_number_summary" 
-					android:defaultValue="true" />
-				<ListPreference
-					android:key="contact_number_font_size"
-					android:title="@string/preference_contact_number_font_size_title"
-					android:summary="@string/preference_contact_number_font_size_summary"
-					android:defaultValue="18"
-					android:entries="@array/font_size_options"
-					android:entryValues="@array/font_size_options_values"
-					android:dependency="display_contact_number" />
-			</PreferenceCategory>   
+			</PreferenceCategory>
 			<PreferenceCategory
 				android:key="notification_body_settings_category"
 				android:title="@string/notification_body_settings_text">
@@ -336,6 +358,12 @@
 							android:summaryOn="@string/preference_sms_enabled_summaryOn" 
 							android:summaryOff="@string/preference_sms_enabled_summaryOff" 
 							android:defaultValue="true" />
+						<CheckBoxPreference 
+							android:key="sms_ignore_class_0_messages" 
+							android:title="@string/preference_ignore_class_0_messages_title" 
+							android:summary="@string/preference_ignore_class_0_messages_summary"
+							android:defaultValue="false"
+							android:dependency="sms_notifications_enabled" />
 						<CheckBoxPreference 
 							android:key="sms_time_is_utc" 
 							android:title="@string/preference_time_is_utc_title" 
@@ -2007,6 +2035,12 @@
 		        	android:summaryOn="@string/preference_haptic_feedback_summaryOn" 
 		        	android:summaryOff="@string/preference_haptic_feedback_summaryOff" 
 		        	android:defaultValue="true"
+		        	android:dependency="app_enabled" />
+				<CheckBoxPreference
+					android:key="close_app_when_pushed_to_background" 
+		        	android:title="@string/preference_close_app_when_pushed_to_background_title" 
+		        	android:summary="@string/preference_close_app_when_pushed_to_background_summary" 
+		        	android:defaultValue="false"
 		        	android:dependency="app_enabled" />
 			</PreferenceCategory>
 	        <PreferenceCategory

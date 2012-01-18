@@ -146,6 +146,9 @@ public class NotificationActivity extends Activity {
 	public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenuInfo contextMenuInfo) {
 	    super.onCreateContextMenu(contextMenu, view, contextMenuInfo);
 	    if (_debug) Log.v("NotificationActivity.onCreateContextMenu()");
+	    if(_preferences.getBoolean(Constants.CONTEXT_MENU_DISABLED_KEY, false)){
+	    	return;
+	    }
 	    switch (view.getId()) {
 	        /*
 	         * Contact info/photo ConextMenu.
