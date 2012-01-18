@@ -4,7 +4,10 @@
 = Release Notes =
 
 *v2.21* _Coming Soon..._
+ * Added a few new user preferences (Disable context menus, Set Popup Width Padding and a few more.)
  * 
+ * Small bug fixes.
+ * Updated translations.
 
 *v2.20* (January 17, 2011)
  * Fixed crash related to Facebook Notifications.
