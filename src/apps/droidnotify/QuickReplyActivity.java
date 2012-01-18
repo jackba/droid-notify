@@ -592,6 +592,7 @@ public class QuickReplyActivity extends Activity {
 				
 			}else{
 				ArrayList<String> parts = sms.divideMessage(message);
+				if (_debug) Log.v("QuickReplyActivity.sendSMS() Sending SMS Message. Send To Address: " + smsAddress);
 			    sms.sendMultipartTextMessage(smsAddress, null, parts, null, null);
 			}
 		}
