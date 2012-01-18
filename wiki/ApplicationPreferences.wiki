@@ -26,6 +26,7 @@ Basic Settings
  * Display Type Icon
  * Type Font Size
  * Display Contact Name
+ * Hide Unknown Contact Name
  * Contact Name Font Size
  * Display Contact Number
  * Contact Number Font Size
