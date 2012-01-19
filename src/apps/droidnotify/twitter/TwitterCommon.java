@@ -19,14 +19,13 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.provider.ContactsContract;
 import android.widget.Toast;
 
+import apps.droidnotify.Notification;
 import apps.droidnotify.NotificationActivity;
 import apps.droidnotify.QuickReplyActivity;
 import apps.droidnotify.R;
@@ -86,11 +85,17 @@ public class TwitterCommon {
 					long messageID = message.getId();					
 			    	String sentFromAddress = message.getSenderScreenName();
 			    	long twitterID = message.getSenderId();
-		    		String[] twitterContactInfo = getContactInfoByTwitterID(context, twitterID);
-		    		if(twitterContactInfo == null){
+		    		Bundle twitterContactInfoBundle = getContactInfoByTwitterID(context, twitterID);
+		    		if(twitterContactInfoBundle == null){
 		    			twitterArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE) + "|" + sentFromAddress + "|" + twitterID + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + timeStamp);
 					}else{
-						twitterArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE) + "|" + sentFromAddress + "|" + twitterID + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + timeStamp + "|" + twitterContactInfo[0] + "|" + twitterContactInfo[1] + "|" + twitterContactInfo[2] + "|" + twitterContactInfo[3]);
+						long contactID = twitterContactInfoBundle.getLong(Constants.BUNDLE_CONTACT_ID, 0);
+						String contactName = twitterContactInfoBundle.getString(Constants.BUNDLE_CONTACT_NAME);
+						if(contactName == null) contactName = "";
+						long photoID = twitterContactInfoBundle.getLong(Constants.BUNDLE_PHOTO_ID, 0);
+						String lookupKey = twitterContactInfoBundle.getString(Constants.BUNDLE_LOOKUP_KEY);
+						if(lookupKey == null) lookupKey = "";
+						twitterArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE) + "|" + sentFromAddress + "|" + twitterID + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + timeStamp + "|" + contactID + "|" + contactName + "|" + photoID + "|" + lookupKey);
 					}
 				}
 			}
@@ -139,11 +144,17 @@ public class TwitterCommon {
 					String mentionText = mention.getText();
 					long mentionID = mention.getId();
 			    	User twitterUser = mention.getUser();
-		    		String[] twitterContactInfo = getContactInfoByTwitterUser(context, twitterUser);
-		    		if(twitterContactInfo == null){
+		    		Bundle twitterContactInfoBundle = getContactInfoByTwitterUser(context, twitterUser);
+		    		if(twitterContactInfoBundle == null){
 		    			twitterArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_TWITTER_MENTION) + "|" + twitterUser.getScreenName() + "|" + twitterUser.getId() + "|" + mentionText.replace("\n", "<br/>") + "|" + mentionID + "|" + timeStamp);
 					}else{
-						twitterArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_TWITTER_MENTION) + "|" + twitterUser.getScreenName() + "|" + twitterUser.getId() + "|" + mentionText.replace("\n", "<br/>") + "|" + mentionID + "|" + timeStamp + "|" + twitterContactInfo[0] + "|" + twitterContactInfo[1] + "|" + twitterContactInfo[2] + "|" + twitterContactInfo[3]);
+						long contactID = twitterContactInfoBundle.getLong(Constants.BUNDLE_CONTACT_ID, 0);
+						String contactName = twitterContactInfoBundle.getString(Constants.BUNDLE_CONTACT_NAME);
+						if(contactName == null) contactName = "";
+						long photoID = twitterContactInfoBundle.getLong(Constants.BUNDLE_PHOTO_ID, 0);
+						String lookupKey = twitterContactInfoBundle.getString(Constants.BUNDLE_LOOKUP_KEY);
+						if(lookupKey == null) lookupKey = "";
+						twitterArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_TWITTER_MENTION) + "|" + twitterUser.getScreenName() + "|" + twitterUser.getId() + "|" + mentionText.replace("\n", "<br/>") + "|" + mentionID + "|" + timeStamp + "|" + contactID + "|" + contactName + "|" + photoID + "|" + lookupKey);
 					}
 				}
 			}
@@ -181,11 +192,17 @@ public class TwitterCommon {
 		    	String twitterScreenName = twitterUser.getScreenName();
 		    	String twitterName = twitterUser.getName();
 				String followerMessage = context.getString(R.string.twitter_following_request, twitterName, twitterScreenName);
-	    		String[] twitterContactInfo = getContactInfoByTwitterUser(context, twitterUser);
-	    		if(twitterContactInfo == null){
+	    		Bundle twitterContactInfoBundle = getContactInfoByTwitterUser(context, twitterUser);
+	    		if(twitterContactInfoBundle == null){
 	    			twitterArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_TWITTER_FOLLOWER_REQUEST) + "|" + twitterScreenName + "|" + followerID + "|" + followerMessage + "|" + followerRequestID + "|" + timeStamp);
 				}else{
-					twitterArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_TWITTER_FOLLOWER_REQUEST) + "|" + twitterScreenName + "|" + followerID + "|" + followerMessage + "|" + followerRequestID + "|" + timeStamp + "|" + twitterContactInfo[0] + "|" + twitterContactInfo[1] + "|" + twitterContactInfo[2] + "|" + twitterContactInfo[3]);
+					long contactID = twitterContactInfoBundle.getLong(Constants.BUNDLE_CONTACT_ID, 0);
+					String contactName = twitterContactInfoBundle.getString(Constants.BUNDLE_CONTACT_NAME);
+					if(contactName == null) contactName = "";
+					long photoID = twitterContactInfoBundle.getLong(Constants.BUNDLE_PHOTO_ID, 0);
+					String lookupKey = twitterContactInfoBundle.getString(Constants.BUNDLE_LOOKUP_KEY);
+					if(lookupKey == null) lookupKey = "";
+					twitterArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_TWITTER_FOLLOWER_REQUEST) + "|" + twitterScreenName + "|" + followerID + "|" + followerMessage + "|" + followerRequestID + "|" + timeStamp + "|" + contactID + "|" + contactName + "|" + photoID + "|" + lookupKey);
 				}
 			}
 			//Return array.
@@ -197,15 +214,15 @@ public class TwitterCommon {
 	}
 	
 	/**
-	 * Load the various contact info for this notification from a phoneNumber.
+	 * Get various contact info for a given Twitter ID.
 	 * 
 	 * @param context - Application Context.
-	 * @param twitterID - The twitter ID of the person we are searching for.
+	 * @param twitterID - The Twitter ID of the person we are searching for.
 	 * 
-	 * @return String[] - String Array of the contact information.
+	 * @return Bundle - Returns a Bundle of the contact information.
 	 */ 
-	public static String[] 	getContactInfoByTwitterID(Context context, long twitterID){
-		_debug = Log.getDebug();
+	public static Bundle 	getContactInfoByTwitterID(Context context, long twitterID){
+		_debug = Log.getDebug();;
 		if (_debug) Log.v("TwitterCommon.getContactInfoByTwitterID()");
 		if (twitterID == 0) {
 			if (_debug) Log.v("TwitterCommon.getContactInfoByTwitterID() Twitter ID provided is 0. Exiting...");
@@ -226,57 +243,23 @@ public class TwitterCommon {
 	}
 
 	/**
-	 * Load the various contact info for this notification from a phoneNumber.
+	 * Get various contact info for a given Twitter User object.
 	 * 
 	 * @param context - Application Context.
-	 * @param twitterID - The Twitter ID of the person we are searching for.
+	 * @param twitterUser - The Twitter User object of the person we are searching for.
 	 * 
-	 * @return String[] - String Array of the contact information.
+	 * @return Bundle - Returns a Bundle of the contact information.
 	 */ 
-	public static String[] getContactInfoByTwitterUser(Context context, User twitterUser){
-		_debug = Log.getDebug();
+	public static Bundle getContactInfoByTwitterUser(Context context, User twitterUser){
+		_debug = Log.getDebug();;
 		if (_debug) Log.v("TwitterCommon.getContactInfoByTwitterUser()");
-		long _contactID = 0;
-		String _contactName = "";
-		long _photoID = 0;
-		String _lookupKey = "";
 		if (twitterUser == null) {
 			if (_debug) Log.v("TwitterCommon.getContactInfoByTwitterUser() Twitter User provided is null. Exiting...");
 			return null;
 		}
-		Twitter twitter = getTwitter(context);
-		if(twitter == null){
-			if (_debug) Log.v("TwitterCommon.getContactInfoByTwitterUser() Twitter object is null. Exiting...");
-			return null;
-		}
 		try{
 			String twitterName = twitterUser.getName();
-			final String[] projection = null;
-			final String selection = null;
-			final String[] selectionArgs = null;
-			final String sortOrder = null;
-			Cursor cursor = context.getContentResolver().query(
-					ContactsContract.Contacts.CONTENT_URI,
-					projection, 
-					selection, 
-					selectionArgs, 
-					sortOrder);
-			if (_debug) Log.v("TwitterCommon.getContactInfoByTwitterUser() Searching Contacts");
-			while (cursor.moveToNext()) { 
-				String contactID = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID)); 
-				String contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-				String photoID = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_ID)); 
-				String lookupKey = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY)); 
-				if(contactName.equals(twitterName)){
-					_contactID = Long.parseLong(contactID);
-					_contactName = contactName;
-					_photoID = Long.parseLong(photoID);
-					_lookupKey = lookupKey;					
-					break;
-				}
-		   	}
-			cursor.close();
-			return new String[]{String.valueOf(_contactID), _contactName, String.valueOf(_photoID), _lookupKey};
+			return Common.getContactsInfoByName(context, twitterName);
 		}catch(Exception ex){
 			Log.e("TwitterCommon.getContactInfoByTwitterUser() ERROR: " + ex.toString());
 			return null;
@@ -289,7 +272,7 @@ public class TwitterCommon {
 	 * @param context - The current context of this Activity.
 	 * @param messageID - The message ID that we want to delete.
 	 */
-	public static void deleteTwitterItem(Context context, apps.droidnotify.Notification notification){
+	public static void deleteTwitterItem(Context context, Notification notification){
 		_debug = Log.getDebug();
 		if (_debug) Log.v("TwitterCommon.deleteTwitterItem()");
 		try{

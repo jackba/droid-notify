@@ -161,28 +161,29 @@ public class Common {
 	}
 	
 	/**
-	 * Load the various contact info for this notification from a phoneNumber.
+	 * Get various contact info for a given phoneNumber.
 	 * 
 	 * @param context - Application Context.
-	 * @param phoneNumber - Notifications's phone number.
+	 * @param incomingNumber -  - The phoneNumber to search the contacts by.
 	 * 
-	 * @return String[] - String Array of the contact information.
+	 * @return Bundle - Returns a Bundle of the contact information.
 	 */ 
-	public static String[] getContactsInfoByPhoneNumber(Context context, String incomingNumber){
+	public static Bundle getContactsInfoByPhoneNumber(Context context, String incomingNumber){
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.getContactsInfoByPhoneNumber()");
-		long _contactID = 0;
-		String _contactName = "";
-		long _photoID = 0;
-		String _lookupKey = "";
-		boolean _contactExists = false;
+		Bundle contactInfoBundle = new Bundle();
+		long contactID = 0;
+		String contactName = "";
+		long photoID = 0;
+		String lookupKey = "";
+		boolean contactExists = false;
 		if (incomingNumber == null) {
-			if (_debug) Log.v("Common.getContactsInfoByPhoneNumber() Phone number provided is null: Exiting...");
+			if (_debug) Log.v("Common.getContactsInfoByPhoneNumber() Phone number provided is null. Exiting...");
 			return null;
 		}
 		//Exit if the phone number is an email address.
 		if (incomingNumber.contains("@")) {
-			if (_debug) Log.v("Common.getContactsInfoByPhoneNumber() Phone number provided appears to be an email address: Exiting...");
+			if (_debug) Log.v("Common.getContactsInfoByPhoneNumber() Phone number provided appears to be an email address. Exiting...");
 			return null;
 		}
 		try{
@@ -196,14 +197,14 @@ public class Common {
 					selection, 
 					selectionArgs, 
 					sortOrder);
-			if (_debug) Log.v("Common.getContactsInfoByPhoneNumber() Searching Contacts");
+			if (_debug) Log.v("Common.getContactsInfoByPhoneNumber() Searching Contacts...");
 			while (cursor.moveToNext()) { 
-				String contactID = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID)); 
-				String contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-				String photoID = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_ID)); 
-				String lookupKey = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY)); 
+				String contactIDTmp = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID)); 
+				String contactNameTmp = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+				String photoIDTmp = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_ID)); 
+				String lookupKeyTmp = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY)); 
 				final String[] phoneProjection = null;
-				final String phoneSelection = ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = " + contactID;
+				final String phoneSelection = ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = " + contactIDTmp;
 				final String[] phoneSelectionArgs = null;
 				final String phoneSortOrder = null;
 				Cursor phoneCursor = context.getContentResolver().query(
@@ -213,25 +214,27 @@ public class Common {
 						phoneSelectionArgs, 
 						phoneSortOrder); 
 				while (phoneCursor.moveToNext()) { 
-					String contactNumber = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-					if(PhoneCommon.isPhoneNumberEqual(contactNumber, incomingNumber)){
-						_contactID = Long.parseLong(contactID);
-		    		  	if(contactName != null){
-		    		  		_contactName = contactName;
+					String contactNumberTmp = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+					if(PhoneCommon.isPhoneNumberEqual(contactNumberTmp, incomingNumber)){
+						contactID = Long.parseLong(contactIDTmp);
+		    		  	contactName = contactNameTmp;
+		    		  	if(photoIDTmp != null){
+		    			  	photoID = Long.parseLong(photoIDTmp);
 		    		  	}
-		    		  	if(photoID != null){
-		    			  	_photoID = Long.parseLong(photoID);
-		    		  	}
-		    		  	_lookupKey = lookupKey;
-		  		      	_contactExists = true;
+		    		  	lookupKey = lookupKeyTmp;
+		  		      	contactExists = true;
 		  		      	break;
 					}
 				}
 				phoneCursor.close(); 
-				if(_contactExists) break;
+				if(contactExists) break;
 		   	}
 			cursor.close();
-			return new String[]{String.valueOf(_contactID), _contactName, String.valueOf(_photoID), _lookupKey};
+			if(contactID != 0) contactInfoBundle.putLong(Constants.BUNDLE_CONTACT_ID, contactID);
+			if(contactName != null) contactInfoBundle.putString(Constants.BUNDLE_CONTACT_NAME, contactName);
+			if(photoID != 0) contactInfoBundle.putLong(Constants.BUNDLE_PHOTO_ID, photoID);
+			if(lookupKey != null) contactInfoBundle.putString(Constants.BUNDLE_LOOKUP_KEY, lookupKey);
+			return contactInfoBundle;
 		}catch(Exception ex){
 			Log.e("Common.getContactsInfoByPhoneNumber() ERROR: " + ex.toString());
 			return null;
@@ -239,30 +242,30 @@ public class Common {
 	}
 	
 	/**
-	 * Load the various contact info for this notification from an email.
+	 * Get various contact info for a given email.
 	 * 
 	 * @param context - Application Context.
-	 * @param incomingEmail - Notifications's email address.
+	 * @param incomingEmail - The email to search the contacts by.
 	 * 
-	 * @return String[] - String Array of the contact information.
+	 * @return Bundle - Returns a Bundle of the contact information.
 	 */ 
-	public static String[] getContactsInfoByEmail(Context context, String incomingEmail){
+	public static Bundle getContactsInfoByEmail(Context context, String incomingEmail){
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.getContactsInfoByEmail()");
-		long _contactID = 0;
-		String _contactName = "";
-		long _photoID = 0;
-		String _lookupKey = "";
-		boolean _contactExists = false;
+		Bundle contactInfoBundle = new Bundle();
+		long contactID = 0;
+		String contactName = "";
+		long photoID = 0;
+		String lookupKey = "";
+		boolean contactExists = false;
 		if (incomingEmail == null) {
-			if (_debug) Log.v("Common.getContactsInfoByEmail() Email provided is null: Exiting...");
+			if (_debug) Log.v("Common.getContactsInfoByEmail() Email provided is null. Exiting...");
 			return null;
 		}
 		if (!incomingEmail.contains("@")) {
-			if (_debug) Log.v("Common.getContactsInfoByEmail() Email provided does not appear to be a valid email address: Exiting...");
+			if (_debug) Log.v("Common.getContactsInfoByEmail() Email provided does not appear to be a valid email address. Exiting...");
 			return null;
 		}
-		String contactID = null;
 		try{
 			final String[] projection = null;
 			final String selection = null;
@@ -274,14 +277,14 @@ public class Common {
 					selection, 
 					selectionArgs, 
 					sortOrder);
-			if (_debug) Log.v("Common.getContactsInfoByEmail() Searching contacts");
+			if (_debug) Log.v("Common.getContactsInfoByEmail() Searching Contacts...");
 			while (cursor.moveToNext()) { 
-				contactID = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID)); 
-				String contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-				String photoID = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_ID)); 
-				String lookupKey = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY)); 
+				String contactIDTmp = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID)); 
+				String contactNameTmp = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+				String photoIDTmp = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_ID)); 
+				String lookupKeyTmp = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY));
 				final String[] emailProjection = null;
-				final String emailSelection = ContactsContract.CommonDataKinds.Email.CONTACT_ID + " = " + contactID;
+				final String emailSelection = ContactsContract.CommonDataKinds.Email.CONTACT_ID + " = " + contactIDTmp;
 				final String[] emailSelectionArgs = null;
 				final String emailSortOrder = null;
                 Cursor emailCursor = context.getContentResolver().query(
@@ -291,25 +294,27 @@ public class Common {
                         emailSelectionArgs, 
                         emailSortOrder);
                 while (emailCursor.moveToNext()) {
-                	String contactEmail = emailCursor.getString(emailCursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA));
-                	if(EmailCommon.removeEmailFormatting(incomingEmail).equals(EmailCommon.removeEmailFormatting(contactEmail))){
-						_contactID = Long.parseLong(contactID);
-		    		  	if(contactName != null){
-		    		  		_contactName = contactName;
+                	String contactEmailTmp = emailCursor.getString(emailCursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA));
+                	if(EmailCommon.removeEmailFormatting(incomingEmail).equals(EmailCommon.removeEmailFormatting(contactEmailTmp))){
+						contactID = Long.parseLong(contactIDTmp);
+		    		  	contactName = contactNameTmp;
+		    		  	if(photoIDTmp != null){
+		    			  	photoID = Long.parseLong(photoIDTmp);
 		    		  	}
-		    		  	if(photoID != null){
-		    			  	_photoID = Long.parseLong(photoID);
-		    		  	}
-		    		  	_lookupKey = lookupKey;
-		  		      	_contactExists = true;
+		    		  	lookupKey = lookupKeyTmp;
+		  		      	contactExists = true;
 		  		      	break;
 					}
                 }
                 emailCursor.close();
-                if(_contactExists) break;
+                if(contactExists) break;
 		   	}
 			cursor.close();
-			return new String[]{String.valueOf(_contactID), _contactName, String.valueOf(_photoID), _lookupKey};
+			if(contactID != 0) contactInfoBundle.putLong(Constants.BUNDLE_CONTACT_ID, contactID);
+			if(contactName != null) contactInfoBundle.putString(Constants.BUNDLE_CONTACT_NAME, contactName);
+			if(photoID != 0) contactInfoBundle.putLong(Constants.BUNDLE_PHOTO_ID, photoID);
+			if(lookupKey != null) contactInfoBundle.putString(Constants.BUNDLE_LOOKUP_KEY, lookupKey);
+			return contactInfoBundle;
 		}catch(Exception ex){
 			Log.e("Common.getContactsInfoByEmail() ERROR: " + ex.toString());
 			return null;
@@ -317,22 +322,23 @@ public class Common {
 	}
 	
 	/**
-	 * Load the various contact info for this notification from a display name.
+	 * Get various contact info for a given name.
 	 * 
 	 * @param context - Application Context.
 	 * @param incomingName - The name to search the contacts by.
 	 * 
-	 * @return String[] - String Array of the contact information.
+	 * @return Bundle - Returns a Bundle of the contact information.
 	 */ 
-	public static String[] getContactsInfoByName(Context context, String incomingName){
+	public static Bundle getContactsInfoByName(Context context, String incomingName){
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.getContactsInfoByName() IncomingName: " + incomingName);
-		long _contactID = 0;
-		String _contactName = "";
-		long _photoID = 0;
-		String _lookupKey = "";
+		Bundle contactInfoBundle = new Bundle();
+		long contactID = 0;
+		String contactName = "";
+		long photoID = 0;
+		String lookupKey = "";
 		if (incomingName == null || incomingName.equals("")) {
-			if (_debug) Log.v("Common.getContactsInfoByName() Name provided is null or empty: Exiting...");
+			if (_debug) Log.v("Common.getContactsInfoByName() Name provided is null or empty. Exiting...");
 			return null;
 		}
 		try{
@@ -346,18 +352,23 @@ public class Common {
 					selection, 
 					selectionArgs, 
 					sortOrder);
-			if (_debug) Log.v("Common.getContactsInfoByName() Searching contacts...");
+			if (_debug) Log.v("Common.getContactsInfoByName() Searching Contacts...");
 			while (cursor.moveToNext()){
-				_contactID = Long.parseLong(cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID))); 
-				_contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-				String photoID = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_ID));
-				if(photoID != null){
-					_photoID = Long.parseLong(photoID); 
+				contactID = Long.parseLong(cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID))); 
+				contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+				String photoIDtmp = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_ID));
+				if(photoIDtmp != null){
+					photoID = Long.parseLong(photoIDtmp); 
 				}
-				_lookupKey = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY));
+				lookupKey = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY));
+				break;
 		   	}
 			cursor.close();
-			return new String[]{String.valueOf(_contactID), _contactName, String.valueOf(_photoID), _lookupKey};
+			if(contactID != 0) contactInfoBundle.putLong(Constants.BUNDLE_CONTACT_ID, contactID);
+			if(contactName != null) contactInfoBundle.putString(Constants.BUNDLE_CONTACT_NAME, contactName);
+			if(photoID != 0) contactInfoBundle.putLong(Constants.BUNDLE_PHOTO_ID, photoID);
+			if(lookupKey != null) contactInfoBundle.putString(Constants.BUNDLE_LOOKUP_KEY, lookupKey);
+			return contactInfoBundle;
 		}catch(Exception ex){
 			Log.e("Common.getContactsInfoByName() ERROR: " + ex.toString());
 			return null;
@@ -2179,6 +2190,66 @@ public class Common {
 			setInLinkedAppFlag(context, false);
 			return false;
 		}
+	}
+	
+	/**
+	 * Return a bundle that contains all the notification information provided.
+	 * 
+	 * @param sentFromAddress
+	 * @param sentFromID
+	 * @param messageBody
+	 * @param timeStamp
+	 * @param threadID
+	 * @param contactID
+	 * @param contactName
+	 * @param photoID
+	 * @param notificationType
+	 * @param messageID
+	 * @param messageStringID
+	 * @param title
+	 * @param calendarID
+	 * @param calendarEventID
+	 * @param calendarEventStartTime
+	 * @param calendarEventEndTime
+	 * @param allDay
+	 * @param callLogID
+	 * @param lookupKey
+	 * @param k9EmailUri
+	 * @param k9EmailDelUri
+	 * @param rescheduleNumber
+	 * @param notificationSubType
+	 * @param linkURL
+	 * 
+	 * @return Bundle - A Bundle that contains all the information provided.
+	 */
+	public static Bundle createNotificationBundle(String sentFromAddress, long sentFromID, String messageBody, long timeStamp, long threadID, long contactID, String contactName, long photoID, int notificationType, long messageID, String messageStringID, String title, long calendarID, long calendarEventID, long calendarEventStartTime, long calendarEventEndTime, String calendarName, boolean allDay, long callLogID, String lookupKey, String k9EmailUri, String k9EmailDelUri, int rescheduleNumber, int notificationSubType, String linkURL){
+		Bundle notificationBundle = new Bundle();		
+		if(sentFromAddress != null) notificationBundle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, sentFromAddress);
+		if(sentFromID != 0) notificationBundle.putLong(Constants.BUNDLE_SENT_FROM_ID, sentFromID);
+		if(messageBody != null) notificationBundle.putString(Constants.BUNDLE_MESSAGE_BODY, messageBody);
+		if(timeStamp != 0) notificationBundle.putLong(Constants.BUNDLE_TIMESTAMP, timeStamp);
+		if(threadID != 0) notificationBundle.putLong(Constants.BUNDLE_THREAD_ID, threadID);
+		if(contactID != 0) notificationBundle.putLong(Constants.BUNDLE_CONTACT_ID, contactID);
+		if(contactName != null) notificationBundle.putString(Constants.BUNDLE_CONTACT_NAME, contactName);
+		if(photoID != 0) notificationBundle.putLong(Constants.BUNDLE_PHOTO_ID, photoID);
+		if(notificationType != 0) notificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, notificationType);
+		if(messageID != 0) notificationBundle.putLong(Constants.BUNDLE_MESSAGE_ID, messageID);
+		if(messageStringID != null) notificationBundle.putString(Constants.BUNDLE_MESSAGE_STRING_ID, messageStringID);
+		if(title != null) notificationBundle.putString(Constants.BUNDLE_TITLE, title);
+		if(calendarID != 0) notificationBundle.putLong(Constants.BUNDLE_CALENDAR_ID, calendarID);
+		if(calendarEventID != 0) notificationBundle.putLong(Constants.BUNDLE_CALENDAR_EVENT_ID, calendarEventID);
+		if(calendarEventStartTime != 0) notificationBundle.putLong(Constants.BUNDLE_CALENDAR_EVENT_START_TIME, calendarEventStartTime);
+		if(calendarEventEndTime != 0) notificationBundle.putLong(Constants.BUNDLE_CALENDAR_EVENT_END_TIME, calendarEventEndTime);
+		if(calendarName != null) notificationBundle.putString(Constants.BUNDLE_CALENDAR_NAME, calendarName);
+		notificationBundle.putBoolean(Constants.BUNDLE_ALL_DAY, allDay);
+		if(callLogID != 0) notificationBundle.putLong(Constants.BUNDLE_CALL_LOG_ID, callLogID);
+		if(lookupKey != null) notificationBundle.putString(Constants.BUNDLE_LOOKUP_KEY, lookupKey);
+		if(k9EmailUri != null) notificationBundle.putString(Constants.BUNDLE_K9_EMAIL_URI, k9EmailUri);
+		if(k9EmailDelUri != null) notificationBundle.putString(Constants.BUNDLE_K9_EMAIL_DEL_URI, k9EmailDelUri);
+		if(rescheduleNumber != 0) notificationBundle.putInt(Constants.BUNDLE_RESCHEDULE_NUMBER, rescheduleNumber);
+		if(notificationSubType != 0) notificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, notificationSubType);
+		if(linkURL != null) notificationBundle.putString(Constants.BUNDLE_LINK_URL, linkURL);
+		return notificationBundle;
 	}
 	
 	//================================================================================

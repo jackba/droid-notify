@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.speech.tts.TextToSpeech;
 
@@ -52,6 +53,7 @@ public class Notification {
 	private long _calendarEventID = 0;
 	private long _calendarEventStartTime = 0;
 	private long _calendarEventEndTime = 0;
+	private String _calendarName = null;
 	private boolean _allDay = false;
 	private long _callLogID = 0;
 	private String _lookupKey = null;
@@ -66,6 +68,116 @@ public class Notification {
 	// Constructors
 	//================================================================================
 
+	/**
+	 * Class Constructor
+	 */
+	public Notification(Context context, Bundle notificationBundle){		
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Notification.Notification() ==BUNDLE CONSTRUCTOR==");
+		try{
+			//Extract information from the provided Bundle.
+			_sentFromAddress = notificationBundle.getString(Constants.BUNDLE_SENT_FROM_ADDRESS);
+			_sentFromID = notificationBundle.getLong(Constants.BUNDLE_SENT_FROM_ID, 0);
+			_messageBody = notificationBundle.getString(Constants.BUNDLE_MESSAGE_BODY);
+			_timeStamp = notificationBundle.getLong(Constants.BUNDLE_TIMESTAMP, 0);
+			_threadID = notificationBundle.getLong(Constants.BUNDLE_THREAD_ID, 0);
+			_contactID = notificationBundle.getLong(Constants.BUNDLE_CONTACT_ID, 0);
+			_contactName = notificationBundle.getString(Constants.BUNDLE_CONTACT_NAME);
+			_photoID = notificationBundle.getLong(Constants.BUNDLE_PHOTO_ID, 0);
+			_notificationType = notificationBundle.getInt(Constants.BUNDLE_NOTIFICATION_TYPE, 0);
+			_messageID = notificationBundle.getLong(Constants.BUNDLE_MESSAGE_ID, 0);
+			_messageStringID = notificationBundle.getString(Constants.BUNDLE_MESSAGE_STRING_ID);
+			_title = notificationBundle.getString(Constants.BUNDLE_TITLE);
+			_calendarID = notificationBundle.getLong(Constants.BUNDLE_CALENDAR_ID, 0);
+			_calendarEventID = notificationBundle.getLong(Constants.BUNDLE_CALENDAR_EVENT_ID, 0);
+			_calendarEventStartTime = notificationBundle.getLong(Constants.BUNDLE_CALENDAR_EVENT_START_TIME, 0);
+			_calendarEventEndTime = notificationBundle.getLong(Constants.BUNDLE_CALENDAR_EVENT_END_TIME, 0);
+			_calendarName = notificationBundle.getString(Constants.BUNDLE_CALENDAR_NAME);
+			_allDay = notificationBundle.getBoolean(Constants.BUNDLE_ALL_DAY, false);
+			_callLogID = notificationBundle.getLong(Constants.BUNDLE_CALL_LOG_ID, 0);
+			_lookupKey = notificationBundle.getString(Constants.BUNDLE_LOOKUP_KEY);
+			_k9EmailUri = notificationBundle.getString(Constants.BUNDLE_K9_EMAIL_URI);
+			_k9EmailDelUri = notificationBundle.getString(Constants.BUNDLE_K9_EMAIL_DEL_URI);
+			_rescheduleNumber = notificationBundle.getInt(Constants.BUNDLE_RESCHEDULE_NUMBER, 0);
+			_notificationSubType = notificationBundle.getInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, 0);
+			_linkURL = notificationBundle.getString(Constants.BUNDLE_LINK_URL);
+			
+			//Customize the Notification based on what was provided.
+			if(_title == null){
+				switch(_notificationType){
+					case Constants.NOTIFICATION_TYPE_PHONE:{
+						_title = "Missed Call";
+						break;
+					}
+					case Constants.NOTIFICATION_TYPE_SMS:{
+						_title = "SMS Message";
+						break;
+					}
+					case Constants.NOTIFICATION_TYPE_MMS:{
+						_title = "MMS Message";	
+						break;
+					}
+					case Constants.NOTIFICATION_TYPE_CALENDAR:{
+						_title = "Calendar Event";
+						break;
+					}
+					case Constants.NOTIFICATION_TYPE_GMAIL:{
+						_title = "Email";
+						break;
+					}
+					case Constants.NOTIFICATION_TYPE_TWITTER:{
+						_title = "Twitter";
+						break;
+					}
+					case Constants.NOTIFICATION_TYPE_FACEBOOK:{
+						_title = "Facebook";
+						break;
+					}
+					case Constants.NOTIFICATION_TYPE_K9:{
+						_title = "Email";
+						break;
+					}
+				}
+			}
+			
+			if(_sentFromAddress != null && !_sentFromAddress.equals("")){
+				if(_notificationType != Constants.NOTIFICATION_TYPE_FACEBOOK){
+					_sentFromAddress = _sentFromAddress.toLowerCase();
+					if(_notificationType == Constants.NOTIFICATION_TYPE_PHONE){
+						if(PhoneCommon.isPrivateUnknownNumber(context, _sentFromAddress)) _sentFromAddress = "Private Number";
+					}
+				}else{
+					
+				}
+			}else{
+				_sentFromAddress = null;
+			}
+			
+			if(_contactID == 0){
+				_contactExists = false;
+			}else{
+				_contactExists = true;
+			}
+			
+			if(_contactName.equals("")) _contactName = null;
+			
+			if(_photoID == 0){
+				_contactPhotoExists = false;
+			}else{
+				_contactPhotoExists = true;
+			}	
+			
+			if(_notificationType == Constants.NOTIFICATION_TYPE_CALENDAR){
+	    		_messageBody = formatCalendarEventMessage(_title, _messageBody, _calendarEventStartTime, _calendarEventEndTime, _allDay, _calendarName);
+	    	}
+			
+			setReminder();
+			
+		}catch(Exception ex){
+			Log.e("Notification.Notification() ==BUNDLE CONSTRUCTOR== ERROR: " + ex.toString());
+		}
+	}
+	
 	/**
 	 * Class Constructor
 	 */
@@ -468,7 +580,6 @@ public class Notification {
 				_sentFromAddress = null;
 			}
 			_sentFromID = sentFromID;
-			if (_debug) Log.v("Notification.Notification() ==CONSTRUCTOR 6== _sentFromAddress: " + _sentFromAddress);
     		_messageBody = messageBody;
     		_messageID = messageID;
     		_messageStringID = messageStringID;

@@ -101,12 +101,17 @@ public class EmailCommon {
 			}else{
 				messageBody = messageBody.replace("\n", "<br/>").trim();
 			}
-    		String[] k9ContactInfo = null;
-    		k9ContactInfo = Common.getContactsInfoByEmail(context, sentFromAddress);
-    		if(k9ContactInfo == null){
+    		Bundle k9ContactInfoBundle = Common.getContactsInfoByEmail(context, sentFromAddress);
+    		if(k9ContactInfoBundle == null){
 				k9Array.add(String.valueOf(notificationSubType) + "|" + sentFromAddress + "|" + messageBody + "|" + messageID + "|" + timeStamp + "|" + k9EmailUri + "|" + k9EmailDelUri);
 			}else{
-				k9Array.add(String.valueOf(notificationSubType) + "|" + sentFromAddress + "|" + messageBody + "|" + messageID + "|" + timeStamp + "|" + k9EmailUri + "|" + k9EmailDelUri + "|" + k9ContactInfo[0] + "|" + k9ContactInfo[1] + "|" + k9ContactInfo[2] + "|" + k9ContactInfo[3]);
+				long contactID = k9ContactInfoBundle.getLong(Constants.BUNDLE_CONTACT_ID, 0);
+				String contactName = k9ContactInfoBundle.getString(Constants.BUNDLE_CONTACT_NAME);
+				if(contactName == null) contactName = "";
+				long photoID = k9ContactInfoBundle.getLong(Constants.BUNDLE_PHOTO_ID, 0);
+				String lookupKey = k9ContactInfoBundle.getString(Constants.BUNDLE_LOOKUP_KEY);
+				if(lookupKey == null) lookupKey = "";
+				k9Array.add(String.valueOf(notificationSubType) + "|" + sentFromAddress + "|" + messageBody + "|" + messageID + "|" + timeStamp + "|" + k9EmailUri + "|" + k9EmailDelUri + "|" + contactID + "|" + contactName + "|" + photoID + "|" + lookupKey);
 			}
     		return k9Array;
 		}catch(Exception ex){

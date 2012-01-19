@@ -7,6 +7,33 @@ package apps.droidnotify.common;
  */
 public class Constants {
 	
+	//-----NOTIFICATIION BUNDLE CONSTANTS-----//
+	public static final String BUNDLE_SENT_FROM_ADDRESS = "sentFromAddress";
+	public static final String BUNDLE_SENT_FROM_ID  = "sentFromID";
+	public static final String BUNDLE_MESSAGE_BODY  = "messageBody";
+	public static final String BUNDLE_TIMESTAMP  = "timeStamp";
+	public static final String BUNDLE_THREAD_ID  = "threadID";
+	public static final String BUNDLE_CONTACT_ID  = "contactID";
+	public static final String BUNDLE_CONTACT_NAME  = "contactName";
+	public static final String BUNDLE_PHOTO_ID  = "photoID";
+	public static final String BUNDLE_NOTIFICATION_TYPE  = "notificationType";
+	public static final String BUNDLE_MESSAGE_ID  = "messageID";
+	public static final String BUNDLE_MESSAGE_STRING_ID  = "messageStringID";
+	public static final String BUNDLE_TITLE  = "title";
+	public static final String BUNDLE_CALENDAR_ID  = "calendarID";
+	public static final String BUNDLE_CALENDAR_EVENT_ID  = "calendarEventID";
+	public static final String BUNDLE_CALENDAR_EVENT_START_TIME  = "calendarEventStartTime";
+	public static final String BUNDLE_CALENDAR_EVENT_END_TIME  = "calendarEventEndTime";
+	public static final String BUNDLE_CALENDAR_NAME  = "calendarName";
+	public static final String BUNDLE_ALL_DAY  = "allDay";
+	public static final String BUNDLE_CALL_LOG_ID  = "callLogID";
+	public static final String BUNDLE_LOOKUP_KEY  = "lookupKey";
+	public static final String BUNDLE_K9_EMAIL_URI  = "k9EmailUri";
+	public static final String BUNDLE_K9_EMAIL_DEL_URI  = "k9EmailDelUri";
+	public static final String BUNDLE_RESCHEDULE_NUMBER  = "rescheduleNumber";
+	public static final String BUNDLE_NOTIFICATION_SUB_TYPE  = "notificationSubType";
+	public static final String BUNDLE_LINK_URL  = "linkURL";
+	
 	//-----DEBUG CONSTANTS-----//
 	public static final String DEBUG = "debug_log_enabled";
 	

@@ -295,11 +295,17 @@ public class FacebookCommon {
 				JSONObject fromFacebookUser = jsonNotificationData.getJSONObject("from");
 				String fromFacebookName = fromFacebookUser.getString("name");
 				String fromFacebookID = fromFacebookUser.getString("id");
-	    		String[] facebookContactInfo = Common.getContactsInfoByName(context, fromFacebookName);
-	    		if(facebookContactInfo == null){
+	    		Bundle facebookContactInfoBundle = Common.getContactsInfoByName(context, fromFacebookName);
+	    		if(facebookContactInfoBundle == null){
 	    			facebookArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION) + "|" + fromFacebookName + "|" + fromFacebookID + "|" + notificationText.replace("\n", "<br/>") + "|" + notificationID + "|" + notificationExternalLinkURL + "|" + timeStamp);
 				}else{
-					facebookArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION) + "|" + fromFacebookName + "|" + fromFacebookID + "|" + notificationText.replace("\n", "<br/>") + "|" + notificationID + "|" + notificationExternalLinkURL + "|" + timeStamp + "|" + facebookContactInfo[0] + "|" + facebookContactInfo[1] + "|" + facebookContactInfo[2] + "|" + facebookContactInfo[3]);
+					long contactID = facebookContactInfoBundle.getLong(Constants.BUNDLE_CONTACT_ID, 0);
+					String contactName = facebookContactInfoBundle.getString(Constants.BUNDLE_CONTACT_NAME);
+					if(contactName == null) contactName = "";
+					long photoID = facebookContactInfoBundle.getLong(Constants.BUNDLE_PHOTO_ID, 0);
+					String lookupKey = facebookContactInfoBundle.getString(Constants.BUNDLE_LOOKUP_KEY);
+					if(lookupKey == null) lookupKey = "";
+					facebookArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION) + "|" + fromFacebookName + "|" + fromFacebookID + "|" + notificationText.replace("\n", "<br/>") + "|" + notificationID + "|" + notificationExternalLinkURL + "|" + timeStamp + "|" + contactID + "|" + contactName + "|" + photoID + "|" + lookupKey);
 				}	    		
         	}
         	return facebookArray;
@@ -349,11 +355,17 @@ public class FacebookCommon {
 				String fromFacebookName = fromFacebookUser.getString("name");
 				String fromFacebookID = fromFacebookUser.getString("id");
         	    String friendRequestText = "You have a new Facebook Friend Request from " + fromFacebookName;
-	    		String[] facebookContactInfo = Common.getContactsInfoByName(context, fromFacebookName);
-	    		if(facebookContactInfo == null){
+        	    Bundle facebookContactInfoBundle = Common.getContactsInfoByName(context, fromFacebookName);
+	    		if(facebookContactInfoBundle == null){
 	    			facebookArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST) + "|" + fromFacebookName + "|" + fromFacebookID + "|" + friendRequestText + "|" + friendRequestID + "||" + timeStamp);
 				}else{
-					facebookArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST) + "|" + fromFacebookName + "|" + fromFacebookID + "|" + friendRequestText + "|" + friendRequestID + "||" + timeStamp + "|" + facebookContactInfo[0] + "|" + facebookContactInfo[1] + "|" + facebookContactInfo[2] + "|" + facebookContactInfo[3]);
+					long contactID = facebookContactInfoBundle.getLong(Constants.BUNDLE_CONTACT_ID, 0);
+					String contactName = facebookContactInfoBundle.getString(Constants.BUNDLE_CONTACT_NAME);
+					if(contactName == null) contactName = "";
+					long photoID = facebookContactInfoBundle.getLong(Constants.BUNDLE_PHOTO_ID, 0);
+					String lookupKey = facebookContactInfoBundle.getString(Constants.BUNDLE_LOOKUP_KEY);
+					if(lookupKey == null) lookupKey = "";
+					facebookArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST) + "|" + fromFacebookName + "|" + fromFacebookID + "|" + friendRequestText + "|" + friendRequestID + "||" + timeStamp + "|" + contactID + "|" + contactName + "|" + photoID + "|" + lookupKey);
 				}
         	}
         	return facebookArray;
@@ -430,11 +442,17 @@ public class FacebookCommon {
 	        	    		JSONObject fromFacebookUser = jsonCommentMessageData.getJSONObject("from");
 	        				String fromFacebookName = fromFacebookUser.getString("name");
 	        				String fromFacebookID = fromFacebookUser.getString("id");
-		    	    		String[] facebookContactInfo = Common.getContactsInfoByName(context, fromFacebookName);
-				    		if(facebookContactInfo == null){
+	                	    Bundle facebookContactInfoBundle = Common.getContactsInfoByName(context, fromFacebookName);
+	        	    		if(facebookContactInfoBundle == null){
 				    			facebookArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE) + "|" + fromFacebookName + "|" + fromFacebookID + "|" + messageText + "|" + messageStringID + "||" + timeStamp);
 							}else{
-								facebookArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE) + "|" + fromFacebookName + "|" + fromFacebookID + "|" + messageText + "|" + messageStringID + "||" + timeStamp + "|" + facebookContactInfo[0] + "|" + facebookContactInfo[1] + "|" + facebookContactInfo[2] + "|" + facebookContactInfo[3]);
+								long contactID = facebookContactInfoBundle.getLong(Constants.BUNDLE_CONTACT_ID, 0);
+								String contactName = facebookContactInfoBundle.getString(Constants.BUNDLE_CONTACT_NAME);
+								if(contactName == null) contactName = "";
+								long photoID = facebookContactInfoBundle.getLong(Constants.BUNDLE_PHOTO_ID, 0);
+								String lookupKey = facebookContactInfoBundle.getString(Constants.BUNDLE_LOOKUP_KEY);
+								if(lookupKey == null) lookupKey = "";
+								facebookArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE) + "|" + fromFacebookName + "|" + fromFacebookID + "|" + messageText + "|" + messageStringID + "||" + timeStamp + "|" + contactID + "|" + contactName + "|" + photoID + "|" + lookupKey);
 							}			        	    
 		        	    }
 					}else{
@@ -445,11 +463,17 @@ public class FacebookCommon {
         	    		//Sent From User Info
 	    	    		String fromFacebookName = originalFromFacebookName;
 	    	    		String fromFacebookID = originalFromFacebookID;
-	    	    		String[] facebookContactInfo = Common.getContactsInfoByName(context, fromFacebookName);
-			    		if(facebookContactInfo == null){
+	            	    Bundle facebookContactInfoBundle = Common.getContactsInfoByName(context, fromFacebookName);
+	    	    		if(facebookContactInfoBundle == null){
 			    			facebookArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE) + "|" + fromFacebookName + "|" + fromFacebookID + "|" + messageText + "|" + messageStringID + "||" + timeStamp);
 						}else{
-							facebookArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE) + "|" + fromFacebookName + "|" + fromFacebookID + "|" + messageText + "|" + messageStringID + "||" + timeStamp + "|" + facebookContactInfo[0] + "|" + facebookContactInfo[1] + "|" + facebookContactInfo[2] + "|" + facebookContactInfo[3]);
+							long contactID = facebookContactInfoBundle.getLong(Constants.BUNDLE_CONTACT_ID, 0);
+							String contactName = facebookContactInfoBundle.getString(Constants.BUNDLE_CONTACT_NAME);
+							if(contactName == null) contactName = "";
+							long photoID = facebookContactInfoBundle.getLong(Constants.BUNDLE_PHOTO_ID, 0);
+							String lookupKey = facebookContactInfoBundle.getString(Constants.BUNDLE_LOOKUP_KEY);
+							if(lookupKey == null) lookupKey = "";
+							facebookArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE) + "|" + fromFacebookName + "|" + fromFacebookID + "|" + messageText + "|" + messageStringID + "||" + timeStamp + "|" + contactID + "|" + contactName + "|" + photoID + "|" + lookupKey);
 						}
 					}
         		}
