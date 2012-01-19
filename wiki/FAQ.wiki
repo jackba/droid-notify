@@ -16,7 +16,7 @@
  * [FAQ#I_get_status_bar_notifications_but_no_popup,_why? I get status bar notifications but no popup, why?]
  * [FAQ#Can_I_help_translate_this_application? Can I help translate this application?]
  * [FAQ#The_SMS_timestamp_is_not_correct._What_can_I_do? The SMS timestamp is not correct. What can I do?]
- * [FAQ#Known_Issues_With_Phones_Running_HTC_Sens_UI Known Issues With Phones Running HTC Sense UI]
+ * [FAQ#Known_Issues_With_Phones_Running_HTC_Sense_UI Known Issues With Phones Running HTC Sense UI]
 
 
 ----
