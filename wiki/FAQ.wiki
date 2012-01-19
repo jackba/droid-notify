@@ -105,7 +105,14 @@ There are two ways to correct his.
 
 ==Known Issues With Phones Running HTC Sense UI==
 
-HTC has built on top of the stock Android OS a custom UI called HTC Sense. Almost all HRC Android devices run this custom UI. Here are some known issue with this OS and Droid Notify:
+HTC has built on top of the stock Android OS a custom UI called Sense UI. Almost all HRC Android devices run this custom UI. Here are some known issue with this OS and Droid Notify:
 
 
-1) SMS Unread Count not updating. Unfortunately, HTC Sense UI does not have a way for 3rd party apps to refresh the counter so when Droid Notify updates the SMS data, the counter is not aware of it. Until they provide a way for 3rd party apps to refresh this icon, this will remain an issue on those devices.
+1) SMS Unread Count not updating. Unfortunately, Sense UI does not have a way for 3rd party apps to refresh the counter so when Droid Notify updates the SMS data, the counter is not aware of it. Until they provide a way for 3rd party apps to refresh this icon, this will remain an issue on those devices.
+
+==Known Issues With Phones Running Samsung Touchwiz UI==
+
+Samsung has built on top of the stock Android OS a custom UI called Touchwiz. Almost all Samsung Android devices run this custom UI. Here are some known issue with this OS and Droid Notify:
+
+
+1) SMS Unread Count not updating. Unfortunately, Samsung Touchwiz does not have a way for 3rd party apps to refresh the counter so when Droid Notify updates the SMS data, the counter is not aware of it. Until they provide a way for 3rd party apps to refresh this icon, this will remain an issue on those devices.
