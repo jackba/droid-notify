@@ -100,3 +100,12 @@ There are two ways to correct his.
 1) Tell the app that the incoming SMS messages are in UTC time and not local time. Settings->Notification Settings->SMS Settings->Time Is In UTC....Check this box to tell the app that incoming SMS timestamps are in UTC.
 
 2) Manually adjust the time via an Advanced Sertting. Settings->Advanced Settings->SMS Timeout Adjustment...Set the adjustment time here.
+
+==Known Issues With Phones Running HTC Sense UI==
+
+HTC has built on top of the stock Android OS a custom UI called HTC Sense. Almost all HRC Android devices run this custom UI. Here are some known issue with this OS and Droid Notify:
+
+
+1) SMS Unread Count not updating. Unfortunately, HTC Sense UI does not have a way for 3rd party apps to refresh the counter so when Droid Notify updates the SMS data, the counter is not aware of it. Until they provide a way for 3rd party apps to refresh this icon, this will remain an issue on those devices.
+
+
