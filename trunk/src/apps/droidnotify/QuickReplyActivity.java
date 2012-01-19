@@ -687,7 +687,7 @@ public class QuickReplyActivity extends Activity {
 					        values.put("body", message);
 					        values.put("date", String.valueOf(System.currentTimeMillis()));
 					        values.put("type", "3");
-					        String messageAddress = address.contains("@") ? EmailCommon.removeEmailFormatting(address) : PhoneCommon.removePhoneNumberFormatting(address, false);
+					        String messageAddress = address.contains("@") ? EmailCommon.removeEmailFormatting(address) : PhoneCommon.removePhoneNumberFormatting(address);
 					        values.put("thread_id", String.valueOf(SMSCommon.getThreadID(context, messageAddress, 1)));
 					        getContentResolver().insert(Uri.parse("content://sms/draft"), values);
 					        Toast.makeText(context, getString(R.string.draft_saved_text), Toast.LENGTH_SHORT).show();

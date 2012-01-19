@@ -31,7 +31,7 @@
   <string name="app_feature_pro_only">Cette fonction est disponible uniquement dans la version Pro.</string>
   <string name="upgrade_description_text">Cette fonction est disponible uniquement dans la version Pro. Si vous voulez faire la mise à niveau maintenant et acheter la version Pro, veuillez cliquer sur le bouton ci-dessous.</string>
   <string name="upgrade_no_market_description_text">Cette fonction est disponible uniquement dans la version Pro. Veuillez faire la mise à niveau pour pouvoir l\'utiliser.</string>
-  <string name="upgrade_to_droid_notify_pro_text">Acquérir version Pro</string>
+  <string name="upgrade_to_droid_notify_pro_text">Mise à niveau version Pro</string>
   <string name="upgrade_to_droid_notify_pro_text_summary">Mise à niveau vers Droid Notify Pro. Cette version permet de débloquer toutes les fonctionnalités de l\'application.</string>
   <string name="upgrade_now_text">Mettre à niveau</string>
   <string name="upgrade_direct_description_text">Passez à la version Pro de l\'application. Si vous souhaitez faire la mise à niveau maintenant et acheter la version Pro, cliquez sur le bouton ci-dessous.\n\nVotre participation permettra d\'assurer la maintenance du logiciel et l\'ajout de nouvelles fonctionnalités.\n\n Merci !</string>
@@ -71,8 +71,8 @@
   <string name="twitter_send_direct_mesage_error">Le message Twitter ne peut pas être envoyé.</string>
   <string name="twitter_send_tweet_error">La mise à jour du Tweet ou du statut ne peut pas être envoyée.</string>
   <string name="not_online_error">L\'application ne peut pas avoir l\'accès en ligne pour le moment. Veuillez réessayer plus tard.</string>
-  <string name="url_link_not_found_error">The URL link could not be found.</string>
-  <string name="browser_app_error">The web browser application could not be started.</string>
+  <string name="url_link_not_found_error">L\'adresse URL n\'a pas été trouvée.</string>
+  <string name="browser_app_error">L\'application du navigateur Internet de peut pas être démarrée.</string>
   <string name="log_file_error_title">Fichier d\'erreur</string>
   <string name="log_file_acquiring_system_logs">Lecture des journaux système...</string>
   <string name="log_file_retrieval_failure">Impossible de récupérer les journaux système.</string>
@@ -82,6 +82,14 @@
   <string name="preference_language_title">Langue</string>
   <string name="preference_language_summary">Choix de la langue de l\'application.</string>
   <string name="phone_default_language">Langue par défaut du téléphone</string>
+  <string name="preference_disable_context_menu_title">Désactiver menu contextuel</string>
+  <string name="preference_disable_context_menu_summary">Désactive le menu contextuel des notifications.</string>
+  <string name="preference_disable_quick_contact_title">Désactiver menu photo</string>
+  <string name="preference_disable_quick_contact_summary">Désactive le menu contact rapide lié aux photos des notifications.</string>
+  <string name="preference_close_app_when_pushed_to_background_title">Fermer en arrière-plan</string>
+  <string name="preference_close_app_when_pushed_to_background_summary">Ferme l\'application lorsqu\'elle est en arrière-plan.</string>
+  <string name="preference_popup_width_padding_title">Remplissage popup</string>
+  <string name="preference_popup_width_padding_summary">Choix de la valeur de remplissage pour la largeur de la fenêtre.</string>
   <string name="app_settings_text">Paramètres</string>
   <string name="general_settings_text">Paramètres généraux</string>
   <string name="basic_settings_text">Paramètres de base</string>
@@ -91,6 +99,7 @@
   <string name="quick_reply_settings_text">Paramètres réponse rapide</string>
   <string name="notification_body_settings_text">Corps de la notification</string>
   <string name="notification_header_settings_text">Paramètres de l\'entête de la notification</string>
+  <string name="notification_photo_settings_text">Paramètres photo notification</string>
   <string name="event_body_settings_text">Corps de l\'évènement</string>
   <string name="debug_settings_text">Paramètres débogueur</string>
   <string name="preference_debug_log_title">Activer le débogueur</string>
@@ -122,6 +131,8 @@
   <string name="preference_display_contact_photo_summaryOff">La photo du contact ne sera pas affichée.</string>
   <string name="preference_display_contact_name_title">Voir nom du contact</string>
   <string name="preference_display_contact_name_summary">Affiche le nom du contact dans l\'entête de la notification.</string>
+  <string name="preference_hide_unknown_contact_name_title">Hide Unknown Contact Name</string>
+  <string name="preference_hide_unknown_contact_name_summary">Hide the contact name if it is unknown.</string>
   <string name="preference_contact_name_font_size_title">Taille caractères nom</string>
   <string name="preference_contact_name_font_size_summary">Choix de la taille des caractères pour l\'affichage du nom du contact.</string>
   <string name="preference_display_contact_number_title">Voir numéro du contact</string>
@@ -316,6 +327,8 @@
   <string name="preference_k9_message_body_font_size_summary">Choix de la taille des caractères pour l\'affichage du mail.</string>
   <string name="preference_k9_notifications">Notifications mail K-9</string>
   <string name="preference_polling_frequency">Fréquence de scrutation</string>
+  <string name="preference_ignore_class_0_messages_title">Ignorer les messages de classe 0</string>
+  <string name="preference_ignore_class_0_messages_summary">Ignorer les messages flash SMS AKA de classe 0</string>
   <string name="view_contact_text">Voir contact</string>
   <string name="add_contact_text">Ajout contact</string>
   <string name="text_contact_text">Texte contact</string>
@@ -567,8 +580,8 @@
   <string name="preference_notification_in_call_vibrate_enable_summaryOn">Le vibreur sera activé lors d\'une notification en cours d\'appel.</string>
   <string name="preference_notification_in_call_vibrate_enable_summaryOff">Le vibreur ne sera pas activé lors d\'une notification en cours d\'appel.</string>
   <string name="speak_notification_text">Notification vocale</string>
-  <string name="preference_display_text_to_speech_button_title">Voir bouton Synthèse vocale</string>
-  <string name="preference_display_text_to_speech_button_summary">Affiche le bouton de synthèse vocale (TTS) dans l\'entête.</string>
+  <string name="preference_display_text_to_speech_button_title">Bouton Synthèse vocale</string>
+  <string name="preference_display_text_to_speech_button_summary">Affiche le bouton de synthèse vocale dans la fenêtre de notification.</string>
   <string name="mark_as_read_text">Marquer comme lu</string>
   <string name="delete_from_call_log_text">Supprimer du journal d\'appel</string>
   <string name="nothing_text">Rien</string>
@@ -835,6 +848,7 @@
   <string name="twicca">Twicca</string>
   <string name="twidroyd_legacy">Twidroyd Legacy</string>
   <string name="twitter">Twitter</string>
+  <string name="twitter_web_mobile">Twitter Mobile (http://mobile.twitter.com)</string>
   <string name="ubersocial">Ubersocial (ancien Twidroyd Pro)</string>
   <string name="use_hootsuite">Utiliser HootSuite</string>
   <string name="use_plume">Utiliser Plume</string>
@@ -848,11 +862,11 @@
   <string name="use_twicca">Utiliser Twicca</string>
   <string name="use_twidroyd_legacy">Utiliser Twidroyd Legacy</string>
   <string name="use_twitter">Utiliser Twitter</string>
+  <string name="use_twitter_web_mobile">Utiliser Twitter Mobile (http://mobile.twitter.com)</string>
   <string name="use_ubersocial">Utiliser Ubersocial (ancien Twidroyd Pro)</string>
   <string name="facebook">Facebook</string>
+  <string name="facebook_web_mobile">Facebook Mobile (http://m.facebook.com)</string>
+  <string name="fbm_for_facebook">PMP pour Facebook</string>
   <string name="friendCaster_for_facebook">FriendCaster pour Facebook</string>
   <string name="friendCaster_pro_for_facebook">FriendCaster Pro pour Facebook</string>
-  <string name="use_facebook">Utilisez Facebook</string>
-  <string name="use_friendCaster_for_facebook">Utilisez FriendCaster pour Facebook</string>
-  <string name="use_friendCaster_pro_for_facebook">Utilisez FriendCaster Pro pour Facebook</string>
 </resources>

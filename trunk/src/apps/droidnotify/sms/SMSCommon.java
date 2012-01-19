@@ -71,7 +71,7 @@ public class SMSCommon {
 		    	long threadID = cursor.getLong(cursor.getColumnIndex("thread_id"));
 		    	String messageBody = cursor.getString(cursor.getColumnIndex("body"));
 		    	String sentFromAddress = cursor.getString(cursor.getColumnIndex("address"));
-		    	sentFromAddress = sentFromAddress.contains("@") ? EmailCommon.removeEmailFormatting(sentFromAddress) : PhoneCommon.removePhoneNumberFormatting(sentFromAddress, false);
+		    	sentFromAddress = sentFromAddress.contains("@") ? EmailCommon.removeEmailFormatting(sentFromAddress) : PhoneCommon.removePhoneNumberFormatting(sentFromAddress);
 		    	long timeStamp = cursor.getLong(cursor.getColumnIndex("date"));
 	    		String[] smsContactInfo = null;
 	    		if(sentFromAddress.contains("@")){
@@ -133,7 +133,7 @@ public class SMSCommon {
             //Adjust the timestamp to the localized time of the users phone.
             timeStamp = Common.convertGMTToLocalTime(context, timeStamp);
             sentFromAddress = sms.getDisplayOriginatingAddress().toLowerCase();
-            sentFromAddress = sentFromAddress.contains("@") ? EmailCommon.removeEmailFormatting(sentFromAddress) : PhoneCommon.removePhoneNumberFormatting(sentFromAddress, false);
+            sentFromAddress = sentFromAddress.contains("@") ? EmailCommon.removeEmailFormatting(sentFromAddress) : PhoneCommon.removePhoneNumberFormatting(sentFromAddress);
             messageSubject = sms.getPseudoSubject();
             messageBodyBuilder = new StringBuilder();
             //Get the entire message body from the new message.
@@ -199,7 +199,7 @@ public class SMSCommon {
 	    		String threadID = cursor.getString(cursor.getColumnIndex("thread_id"));
 		    	String timeStamp = cursor.getString(cursor.getColumnIndex("date"));
 		    	String sentFromAddress = getMMSAddress(context, messageID);
-		    	sentFromAddress = sentFromAddress.contains("@") ? EmailCommon.removeEmailFormatting(sentFromAddress) : PhoneCommon.removePhoneNumberFormatting(sentFromAddress, false);
+		    	sentFromAddress = sentFromAddress.contains("@") ? EmailCommon.removeEmailFormatting(sentFromAddress) : PhoneCommon.removePhoneNumberFormatting(sentFromAddress);
 		    	String messageBody = getMMSText(context, messageID);
 		    	String[] mmsContactInfo = null;
 		    	mmsContactInfo = sentFromAddress.contains("@") ? Common.getContactsInfoByEmail(context, sentFromAddress) : Common.getContactsInfoByPhoneNumber(context, sentFromAddress);
@@ -227,7 +227,7 @@ public class SMSCommon {
 	public static long getThreadID(Context context, String address, int messageType){
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.getThreadIdByAddress()");
-		address = address.contains("@") ? EmailCommon.removeEmailFormatting(address) : PhoneCommon.removePhoneNumberFormatting(address, true);
+		address = address.contains("@") ? EmailCommon.removeEmailFormatting(address) : PhoneCommon.removePhoneNumberFormatting(address);
 		String messageURI = "content://sms/inbox";
 		if(messageType == Constants.MESSAGE_TYPE_SMS){
 			messageURI = "content://sms/inbox";
@@ -531,7 +531,7 @@ public class SMSCommon {
 		}
 		try{
 			Intent intent = new Intent(Intent.ACTION_SENDTO);
-		    intent.setData(Uri.parse("smsto:" + PhoneCommon.removePhoneNumberFormatting(phoneNumber, false)));
+		    intent.setData(Uri.parse("smsto:" + PhoneCommon.removePhoneNumberFormatting(phoneNumber)));
 		    // Exit the app once the SMS is sent.
 		    intent.putExtra("compose_mode", true);
 	        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
@@ -565,7 +565,7 @@ public class SMSCommon {
 		}
 		try{
 			Intent intent = new Intent(Intent.ACTION_VIEW);
-		    intent.setData(Uri.parse("smsto:" + PhoneCommon.removePhoneNumberFormatting(phoneNumber, false)));
+		    intent.setData(Uri.parse("smsto:" + PhoneCommon.removePhoneNumberFormatting(phoneNumber)));
 	        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 	        notificationActivity.startActivityForResult(intent, requestCode);
 	        Common.setInLinkedAppFlag(context, true);
