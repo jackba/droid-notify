@@ -426,7 +426,13 @@ public class Notification {
 				}
 				case Constants.NOTIFICATION_TYPE_TWITTER:{
 					_title = "Twitter";
-					if(_linkURL != null) _linkURL = linkURL;
+					if(notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE){
+						if(sentFromAddress != null) _linkURL = String.format("https://mobile.twitter.com/%s/messages", sentFromAddress);
+					}else if(notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_FOLLOWER_REQUEST){
+						if(_linkURL != null) _linkURL = linkURL;
+					}else if(notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_MENTION){
+						_linkURL = "https://mobile.twitter.com/replies";
+					}
 					break;
 				}
 				case Constants.NOTIFICATION_TYPE_FACEBOOK:{
@@ -436,7 +442,7 @@ public class Notification {
 					}else if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST){
 						if(_linkURL != null) _linkURL = linkURL;
 					}else if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE){
-						if(_linkURL != null) _linkURL = "https://m.facebook.com/messages/read?action=read&tid=id." + messageStringID.substring(0, messageStringID.indexOf("_"));
+						if(messageStringID != null) _linkURL = String.format("https://m.facebook.com/messages/read?action=read&tid=id.%s", messageStringID.substring(0, messageStringID.indexOf("_")));
 					}
 					break;
 				}
