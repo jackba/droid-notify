@@ -16,6 +16,8 @@
  * [FAQ#I_get_status_bar_notifications_but_no_popup,_why? I get status bar notifications but no popup, why?]
  * [FAQ#Can_I_help_translate_this_application? Can I help translate this application?]
  * [FAQ#The_SMS_timestamp_is_not_correct._What_can_I_do? The SMS timestamp is not correct. What can I do?]
+ * [FAQ#Known_Issues_With_Phones_Running_HTC_Sens_UI Known Issues With Phones Running HTC Sense UI]
+
 
 ----
 
@@ -107,5 +109,3 @@ HTC has built on top of the stock Android OS a custom UI called HTC Sense. Almos
 
 
 1) SMS Unread Count not updating. Unfortunately, HTC Sense UI does not have a way for 3rd party apps to refresh the counter so when Droid Notify updates the SMS data, the counter is not aware of it. Until they provide a way for 3rd party apps to refresh this icon, this will remain an issue on those devices.
-
-
