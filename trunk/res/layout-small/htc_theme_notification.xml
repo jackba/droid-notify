@@ -264,6 +264,19 @@
 		    	android:textColor="@color/black"
 				android:text="@string/view_button_text" />
 			<Button
+				android:id="@+id/view_twitter_button"  
+				android:layout_height="wrap_content" 
+				android:layout_width="fill_parent" 
+				android:layout_weight="1"
+				android:layout_marginLeft="1dp"
+				android:layout_marginRight="1dp"
+				android:gravity="center_vertical|center_horizontal"
+				android:hapticFeedbackEnabled="true"
+				android:background="@drawable/btn_htc"
+				android:drawableLeft="@drawable/ic_view_twitter" 
+		    	android:textColor="@color/black"
+				android:text="@string/view_button_text" />
+			<Button
 				android:id="@+id/view_facebook_button"  
 				android:layout_height="wrap_content" 
 				android:layout_width="fill_parent" 
@@ -364,6 +377,18 @@
 				android:background="@drawable/btn_htc"
 				android:scaleType="center"
 				android:src="@drawable/ic_calendar_event_black" />
+			<ImageButton
+				android:id="@+id/view_twitter_image_button"  
+				android:layout_height="wrap_content" 
+				android:layout_width="fill_parent" 
+				android:layout_weight="1"
+				android:layout_marginLeft="1dp"
+				android:layout_marginRight="1dp"
+				android:gravity="center_vertical|center_horizontal"
+				android:hapticFeedbackEnabled="true"
+				android:background="@drawable/btn_htc"
+				android:scaleType="center"
+				android:src="@drawable/ic_view_twitter" />	
 			<ImageButton
 				android:id="@+id/view_facebook_image_button"  
 				android:layout_height="wrap_content" 

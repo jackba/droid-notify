@@ -446,6 +446,7 @@ public class Constants {
 
     public static final String TWITTER_HIDE_NOTIFICATION_BODY_KEY = "twitter_hide_notification_body_enabled";
 	public static final String TWITTER_DISPLAY_DISMISS_BUTTON_KEY = "twitter_display_dismiss_button";
+	public static final String TWITTER_DISPLAY_VIEW_BUTTON_KEY = "twitter_display_view_button";
 	public static final String TWITTER_DISPLAY_DELETE_BUTTON_KEY = "twitter_display_delete_button";
 	public static final String TWITTER_DISPLAY_REPLY_BUTTON_KEY = "twitter_display_reply_button";
 	public static final String TWITTER_NOTIFICATION_COUNT_ACTION_KEY = "twitter_notification_count_action";
