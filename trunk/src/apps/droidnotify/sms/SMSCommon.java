@@ -73,16 +73,17 @@ public class SMSCommon {
 		    	String sentFromAddress = cursor.getString(cursor.getColumnIndex("address"));
 		    	sentFromAddress = sentFromAddress.contains("@") ? EmailCommon.removeEmailFormatting(sentFromAddress) : PhoneCommon.removePhoneNumberFormatting(sentFromAddress);
 		    	long timeStamp = cursor.getLong(cursor.getColumnIndex("date"));
-	    		String[] smsContactInfo = null;
-	    		if(sentFromAddress.contains("@")){
-		    		smsContactInfo = Common.getContactsInfoByEmail(context, sentFromAddress);
-		    	}else{
-		    		smsContactInfo = Common.getContactsInfoByPhoneNumber(context, sentFromAddress);
-		    	}
-	    		if(smsContactInfo == null){
+		    	Bundle smsContactInfoBundle = sentFromAddress.contains("@") ? Common.getContactsInfoByEmail(context, sentFromAddress) : Common.getContactsInfoByPhoneNumber(context, sentFromAddress);
+	    		if(smsContactInfoBundle == null){
 					smsArray.add(sentFromAddress + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + threadID + "|" + timeStamp);
 				}else{
-					smsArray.add(sentFromAddress + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + threadID + "|" + timeStamp + "|" + smsContactInfo[0] + "|" + smsContactInfo[1] + "|" + smsContactInfo[2] + "|" + smsContactInfo[3]);
+					long contactID = smsContactInfoBundle.getLong(Constants.BUNDLE_CONTACT_ID, 0);
+					String contactName = smsContactInfoBundle.getString(Constants.BUNDLE_CONTACT_NAME);
+					if(contactName == null) contactName = "";
+					long photoID = smsContactInfoBundle.getLong(Constants.BUNDLE_PHOTO_ID, 0);
+					String lookupKey = smsContactInfoBundle.getString(Constants.BUNDLE_LOOKUP_KEY);
+					if(lookupKey == null) lookupKey = "";
+					smsArray.add(sentFromAddress + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + threadID + "|" + timeStamp + "|" + contactID + "|" + contactName + "|" + photoID + "|" + lookupKey);
 				}
 		    	break;
 		    }
@@ -153,16 +154,17 @@ public class SMSCommon {
 			}
     		threadID = getThreadID(context, sentFromAddress, Constants.NOTIFICATION_TYPE_SMS);
     		messageID = getMessageID(context, threadID, messageBody, timeStamp, Constants.NOTIFICATION_TYPE_SMS);
-    		String[] smsContactInfo = null;
-    		if(sentFromAddress.contains("@")){
-	    		smsContactInfo = Common.getContactsInfoByEmail(context, sentFromAddress);
-	    	}else{
-	    		smsContactInfo = Common.getContactsInfoByPhoneNumber(context, sentFromAddress);
-	    	}
-    		if(smsContactInfo == null){
+    		Bundle smsContactInfoBundle = sentFromAddress.contains("@") ? Common.getContactsInfoByEmail(context, sentFromAddress) : Common.getContactsInfoByPhoneNumber(context, sentFromAddress);
+    		if(smsContactInfoBundle == null){
 				smsArray.add(sentFromAddress + "|" + messageBody + "|" + messageID + "|" + threadID + "|" + timeStamp);
 			}else{
-				smsArray.add(sentFromAddress + "|" + messageBody + "|" + messageID + "|" + threadID + "|" + timeStamp + "|" + smsContactInfo[0] + "|" + smsContactInfo[1] + "|" + smsContactInfo[2] + "|" + smsContactInfo[3]);
+				long contactID = smsContactInfoBundle.getLong(Constants.BUNDLE_CONTACT_ID, 0);
+				String contactName = smsContactInfoBundle.getString(Constants.BUNDLE_CONTACT_NAME);
+				if(contactName == null) contactName = "";
+				long photoID = smsContactInfoBundle.getLong(Constants.BUNDLE_PHOTO_ID, 0);
+				String lookupKey = smsContactInfoBundle.getString(Constants.BUNDLE_LOOKUP_KEY);
+				if(lookupKey == null) lookupKey = "";
+				smsArray.add(sentFromAddress + "|" + messageBody + "|" + messageID + "|" + threadID + "|" + timeStamp + "|" + contactID + "|" + contactName + "|" + photoID + "|" + lookupKey);
 			}
     		return smsArray;
 		}catch(Exception ex){
@@ -201,12 +203,17 @@ public class SMSCommon {
 		    	String sentFromAddress = getMMSAddress(context, messageID);
 		    	sentFromAddress = sentFromAddress.contains("@") ? EmailCommon.removeEmailFormatting(sentFromAddress) : PhoneCommon.removePhoneNumberFormatting(sentFromAddress);
 		    	String messageBody = getMMSText(context, messageID);
-		    	String[] mmsContactInfo = null;
-		    	mmsContactInfo = sentFromAddress.contains("@") ? Common.getContactsInfoByEmail(context, sentFromAddress) : Common.getContactsInfoByPhoneNumber(context, sentFromAddress);
-				if(mmsContactInfo == null){
+		    	Bundle mmsContactInfoBundle = sentFromAddress.contains("@") ? Common.getContactsInfoByEmail(context, sentFromAddress) : Common.getContactsInfoByPhoneNumber(context, sentFromAddress);
+				if(mmsContactInfoBundle == null){
 					mmsArray.add(sentFromAddress + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + threadID + "|" + timeStamp);
 				}else{
-					mmsArray.add(sentFromAddress + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + threadID + "|" + timeStamp + "|" + mmsContactInfo[0] + "|" + mmsContactInfo[1] + "|" + mmsContactInfo[2] + "|" + mmsContactInfo[3]);
+					long contactID = mmsContactInfoBundle.getLong(Constants.BUNDLE_CONTACT_ID, 0);
+					String contactName = mmsContactInfoBundle.getString(Constants.BUNDLE_CONTACT_NAME);
+					if(contactName == null) contactName = "";
+					long photoID = mmsContactInfoBundle.getLong(Constants.BUNDLE_PHOTO_ID, 0);
+					String lookupKey = mmsContactInfoBundle.getString(Constants.BUNDLE_LOOKUP_KEY);
+					if(lookupKey == null) lookupKey = "";
+					mmsArray.add(sentFromAddress + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + threadID + "|" + timeStamp + "|" + contactID + "|" + contactName + "|" + photoID + "|" + lookupKey);
 				}
 		    	break;
 	    	}

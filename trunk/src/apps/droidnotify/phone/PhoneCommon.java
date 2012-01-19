@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.widget.Toast;
 
@@ -64,16 +65,22 @@ public class PhoneCommon {
 	    		String isCallNew = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.NEW));
 	    		if(Integer.parseInt(callType) == Constants.PHONE_TYPE && Integer.parseInt(isCallNew) > 0){
     				if (_debug) Log.v("PhoneCommon.getMissedCalls() Missed Call Found: " + callNumber);
-    				String[] missedCallContactInfo = null;
+    				Bundle missedCallContactInfoBundle = null;
     				if(isPrivateUnknownNumber(context, callNumber)){
     					if (_debug) Log.v("PhoneCommon.getMissedCalls() Is a private or unknown number.");
     				}else{
-    					missedCallContactInfo = Common.getContactsInfoByPhoneNumber(context, callNumber);
+    					missedCallContactInfoBundle = Common.getContactsInfoByPhoneNumber(context, callNumber);
     				}
-    				if(missedCallContactInfo == null){
+    				if(missedCallContactInfoBundle == null){
     					missedCallsArray.add(callLogID + "|" + callNumber + "|" + callDate);
     				}else{
-    					missedCallsArray.add(callLogID + "|" + callNumber + "|" + callDate + "|" + missedCallContactInfo[0] + "|" + missedCallContactInfo[1] + "|" + missedCallContactInfo[2] + "|" + missedCallContactInfo[3]);
+    					long contactID = missedCallContactInfoBundle.getLong(Constants.BUNDLE_CONTACT_ID, 0);
+    					String contactName = missedCallContactInfoBundle.getString(Constants.BUNDLE_CONTACT_NAME);
+    					if(contactName == null) contactName = "";
+    					long photoID = missedCallContactInfoBundle.getLong(Constants.BUNDLE_PHOTO_ID, 0);
+    					String lookupKey = missedCallContactInfoBundle.getString(Constants.BUNDLE_LOOKUP_KEY);
+    					if(lookupKey == null) lookupKey = "";
+    					missedCallsArray.add(callLogID + "|" + callNumber + "|" + callDate + "|" + contactID + "|" + contactName + "|" + photoID + "|" + lookupKey);
     				}
     				if(missedCallPreference.equals(Constants.PHONE_GET_LATEST)){
     					if (_debug) Log.v("PhoneCommon.getMissedCalls() Missed call found - Exiting");
