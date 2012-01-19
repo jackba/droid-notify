@@ -17,7 +17,7 @@
  * [FAQ#Can_I_help_translate_this_application? Can I help translate this application?]
  * [FAQ#The_SMS_timestamp_is_not_correct._What_can_I_do? The SMS timestamp is not correct. What can I do?]
  * [FAQ#Known_Issues_With_Phones_Running_HTC_Sense_UI Known Issues With Phones Running HTC Sense UI]
-
+ * [FAQ#Known_Issues_With_Phones_Running_Samsung_Touchwiz_UI Known Issues With Phones Running Samsung Touchwiz UI]
 
 ----
 
