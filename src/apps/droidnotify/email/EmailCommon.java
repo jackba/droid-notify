@@ -1,6 +1,5 @@
 package apps.droidnotify.email;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 import android.content.ComponentName;
@@ -35,12 +34,12 @@ public class EmailCommon {
 	 * @param context - The application context.
 	 * @param bundle - Bundle from the incoming intent.
 	 * 
-	 * @return ArrayList<String> - Returns an ArrayList of Strings that contain the K9 information.
+	 * @return Bundle - Returns a Bundle that contain the K9 notification information.
 	 */
-	public static ArrayList<String> getK9MessagesFromIntent(Context context, Bundle bundle, String intentAction){
+	public static Bundle getK9MessagesFromIntent(Context context, Bundle bundle, String intentAction){
 		_debug = Log.getDebug();
 		if (_debug) Log.v("EmailCommon.getK9MessagesFromIntent() intentAction: " + intentAction + ":");
-		ArrayList<String> k9Array = new ArrayList<String>();
+		Bundle k9NotificationBundle = new Bundle();
     	long timeStamp = 0;
     	String sentFromAddress = null;
     	String messageBody = null;
@@ -103,17 +102,32 @@ public class EmailCommon {
 			}
     		Bundle k9ContactInfoBundle = Common.getContactsInfoByEmail(context, sentFromAddress);
     		if(k9ContactInfoBundle == null){
-				k9Array.add(String.valueOf(notificationSubType) + "|" + sentFromAddress + "|" + messageBody + "|" + messageID + "|" + timeStamp + "|" + k9EmailUri + "|" + k9EmailDelUri);
+				//Basic Notification Information.
+    			k9NotificationBundle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, sentFromAddress);
+    			k9NotificationBundle.putString(Constants.BUNDLE_MESSAGE_BODY, messageBody);
+    			k9NotificationBundle.putLong(Constants.BUNDLE_MESSAGE_ID, messageID);
+    			k9NotificationBundle.putLong(Constants.BUNDLE_TIMESTAMP, timeStamp);
+    			k9NotificationBundle.putString(Constants.BUNDLE_K9_EMAIL_URI, k9EmailUri);
+    			k9NotificationBundle.putString(Constants.BUNDLE_K9_EMAIL_DEL_URI, k9EmailDelUri);
+    			k9NotificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_K9);
+    			k9NotificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, notificationSubType);
 			}else{
-				long contactID = k9ContactInfoBundle.getLong(Constants.BUNDLE_CONTACT_ID, 0);
-				String contactName = k9ContactInfoBundle.getString(Constants.BUNDLE_CONTACT_NAME);
-				if(contactName == null) contactName = "";
-				long photoID = k9ContactInfoBundle.getLong(Constants.BUNDLE_PHOTO_ID, 0);
-				String lookupKey = k9ContactInfoBundle.getString(Constants.BUNDLE_LOOKUP_KEY);
-				if(lookupKey == null) lookupKey = "";
-				k9Array.add(String.valueOf(notificationSubType) + "|" + sentFromAddress + "|" + messageBody + "|" + messageID + "|" + timeStamp + "|" + k9EmailUri + "|" + k9EmailDelUri + "|" + contactID + "|" + contactName + "|" + photoID + "|" + lookupKey);
+				//Basic Notification Information.
+    			k9NotificationBundle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, sentFromAddress);
+    			k9NotificationBundle.putString(Constants.BUNDLE_MESSAGE_BODY, messageBody);
+    			k9NotificationBundle.putLong(Constants.BUNDLE_MESSAGE_ID, messageID);
+    			k9NotificationBundle.putLong(Constants.BUNDLE_TIMESTAMP, timeStamp);
+    			k9NotificationBundle.putString(Constants.BUNDLE_K9_EMAIL_URI, k9EmailUri);
+    			k9NotificationBundle.putString(Constants.BUNDLE_K9_EMAIL_DEL_URI, k9EmailDelUri);
+    			k9NotificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_K9);
+    			k9NotificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, notificationSubType);
+    			//Contact Information.
+    			k9NotificationBundle.putLong(Constants.BUNDLE_CONTACT_ID, k9ContactInfoBundle.getLong(Constants.BUNDLE_CONTACT_ID, 0));
+    			k9NotificationBundle.putString(Constants.BUNDLE_CONTACT_NAME, k9ContactInfoBundle.getString(Constants.BUNDLE_CONTACT_NAME));
+    			k9NotificationBundle.putLong(Constants.BUNDLE_PHOTO_ID, k9ContactInfoBundle.getLong(Constants.BUNDLE_PHOTO_ID, 0));
+    			k9NotificationBundle.putString(Constants.BUNDLE_LOOKUP_KEY, k9ContactInfoBundle.getString(Constants.BUNDLE_LOOKUP_KEY));
 			}
-    		return k9Array;
+    		return k9NotificationBundle;
 		}catch(Exception ex){
 			Log.e("EmailCommon.getK9MessagesFromIntent() ERROR: " + ex.toString());
 			return null;

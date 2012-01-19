@@ -1,7 +1,5 @@
 package apps.droidnotify.services;
 
-import java.util.ArrayList;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -88,25 +86,10 @@ public class K9BroadcastReceiverService extends WakefulIntentService {
 		    	//Display the Status Bar Notification even though the popup is blocked based on the user preferences.
 		    	if(preferences.getBoolean(Constants.K9_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true)){
 		    		//Get the k9 email info.
-					String messageAddress = null;
-					String messageBody = null;
-					String contactName = null;
-					String k9EmailUri = null;
 		    		Bundle bundle = intent.getExtras();
-		    		ArrayList<String> emailArray = EmailCommon.getK9MessagesFromIntent(context, bundle, intent.getAction());
-					if((emailArray != null) && (emailArray.size() > 0)){
-			    		String emailArrayItem = emailArray.get(0);
-						String[] emailInfo = emailArrayItem.split("\\|");
-		    			int arraySize = emailInfo.length;
-		    			if(arraySize > 0){
-							if(arraySize >= 2) messageAddress = emailInfo[1];
-							if(arraySize >= 3) messageBody = emailInfo[2];
-							if(arraySize >= 6) k9EmailUri = emailInfo[5];
-							if(arraySize >= 9) contactName = emailInfo[8];
-		    			}
-					}
+		    		Bundle emailNotificationBundle = EmailCommon.getK9MessagesFromIntent(context, bundle, intent.getAction());
 					//Display Status Bar Notification
-				    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_K9, 0, callStateIdle, contactName, messageAddress, messageBody, k9EmailUri);
+				    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_K9, 0, callStateIdle, emailNotificationBundle.getString(Constants.BUNDLE_CONTACT_NAME), emailNotificationBundle.getString(Constants.BUNDLE_SENT_FROM_ADDRESS), emailNotificationBundle.getString(Constants.BUNDLE_MESSAGE_BODY), emailNotificationBundle.getString(Constants.BUNDLE_K9_EMAIL_URI));
 			    }
 		    	//Ignore notification based on the users preferences.
 		    	if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_IGNORE)){
