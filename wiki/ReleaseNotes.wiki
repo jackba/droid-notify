@@ -3,10 +3,13 @@
 
 = Release Notes =
 
-*v2.21* _Coming Soon..._
+*v2.22* _Coming Soon..._
+ * 
+
+*v2.21* (January 19, 2011)
  * Added a few new user preferences (Disable context menus, Set Popup Width Padding and a few more.)
  * Added user option to ignore Class 0 SMS Messages AKA Flash SMS Messages.
- * 
+ * Fixed critical bug that prevents SMS messages from being sent.
  * Small bug fixes.
  * Updated translations.
 
