@@ -71,8 +71,8 @@
   <string name="twitter_send_direct_mesage_error">Não foi possível enviar a mensagem direta do Twitter.</string>
   <string name="twitter_send_tweet_error">Não foi possível enviar a atualização de status do Twitter.</string>
   <string name="not_online_error">O aplicativo não consegue ter acesso on-line neste momento. Por favor, tente novamente mais tarde.</string>
-  <string name="url_link_not_found_error">The URL link could not be found.</string>
-  <string name="browser_app_error">The web browser application could not be started.</string>
+  <string name="url_link_not_found_error">Não foi possível encontrar o link da URL.</string>
+  <string name="browser_app_error">Não foi possível iniciar o navegador da web.</string>
   <string name="log_file_error_title">Arquivar log de erros</string>
   <string name="log_file_acquiring_system_logs">Obtendo logs...</string>
   <string name="log_file_retrieval_failure">Falha ao recuperar os logs do sistema.</string>
@@ -82,6 +82,14 @@
   <string name="preference_language_title">Idioma</string>
   <string name="preference_language_summary">Selecionar o idioma do aplicativo.</string>
   <string name="phone_default_language">Linguagem padrão do telefone</string>
+  <string name="preference_disable_context_menu_title">﻿Desativar o menu de contexto</string>
+  <string name="preference_disable_context_menu_summary">Desative o menu de contexto anexado aos cabeçalhos de notificação.</string>
+  <string name="preference_disable_quick_contact_title">﻿Desativar o menu de foto</string>
+  <string name="preference_disable_quick_contact_summary">Desativar o menu rápido na foto do contato na notificação.</string>
+  <string name="preference_close_app_when_pushed_to_background_title">Fechar em segundo plano</string>
+  <string name="preference_close_app_when_pushed_to_background_summary">Fechar o aplicativo quando ele é jogado para segundo plano.</string>
+  <string name="preference_popup_width_padding_title">Largura do Popup</string>
+  <string name="preference_popup_width_padding_summary">﻿Selecione a quantidade de preenchimento de largura da janela.</string>
   <string name="app_settings_text">Configurações</string>
   <string name="general_settings_text">Configurações gerais</string>
   <string name="basic_settings_text">Configurações básicas</string>
@@ -91,6 +99,7 @@
   <string name="quick_reply_settings_text">Configurações de resposta rápida</string>
   <string name="notification_body_settings_text">Configurações do corpo da notificação</string>
   <string name="notification_header_settings_text">Configurações do cabeçalho da notificação</string>
+  <string name="notification_photo_settings_text">Configurações da foto na notificação</string>
   <string name="event_body_settings_text">Configurações de corpo do evento</string>
   <string name="debug_settings_text">Configurações de depuração</string>
   <string name="preference_debug_log_title">Ativar o modo de depuração</string>
@@ -122,6 +131,8 @@
   <string name="preference_display_contact_photo_summaryOff">A foto do contato não será exibida.</string>
   <string name="preference_display_contact_name_title">Exibir Nome do Contato</string>
   <string name="preference_display_contact_name_summary">Exibir o nome do contato no cabeçalho da notificação.</string>
+  <string name="preference_hide_unknown_contact_name_title">Ocultar nome de contato quando desconhecido</string>
+  <string name="preference_hide_unknown_contact_name_summary">Ocultar o nome do contato se ele for desconhecido.</string>
   <string name="preference_contact_name_font_size_title">Tamanho da fonte do nome de contato</string>
   <string name="preference_contact_name_font_size_summary">Selecione o tamanho da fonte do texto nome do contato.</string>
   <string name="preference_display_contact_number_title">Mostrar o Número do Contato</string>
@@ -316,6 +327,8 @@
   <string name="preference_k9_message_body_font_size_summary">Selecione o tamanho da fonte que deseja exibir o corpo da mensagem de email.</string>
   <string name="preference_k9_notifications">Notificações de Email do K-9</string>
   <string name="preference_polling_frequency">Frequência de atualização</string>
+  <string name="preference_ignore_class_0_messages_title">Ignorar mensagens de classe 0</string>
+  <string name="preference_ignore_class_0_messages_summary">﻿Ignorar as mensagens SMS Flash vulgo SMS classe 0</string>
   <string name="view_contact_text">Ver Contato</string>
   <string name="add_contact_text">Adicionar Contato</string>
   <string name="text_contact_text">Digitar um SMS</string>
@@ -835,6 +848,7 @@
   <string name="twicca">Twicca</string>
   <string name="twidroyd_legacy">Twidroyd Legacy</string>
   <string name="twitter">Twitter</string>
+  <string name="twitter_web_mobile">Site Móvel do Twitter (http://mobile.twitter.com)</string>
   <string name="ubersocial">Ubersocial (anteriormente Twidroyd Pro)</string>
   <string name="use_hootsuite">Usar HootSuite</string>
   <string name="use_plume">Usar Plume</string>
@@ -848,11 +862,11 @@
   <string name="use_twicca">Usar Twicca</string>
   <string name="use_twidroyd_legacy">Usar Twidroyd Legacy</string>
   <string name="use_twitter">Usar o Twitter</string>
+  <string name="use_twitter_web_mobile">Usar o Site Móvel do Twitter (http://mobile.twitter.com)</string>
   <string name="use_ubersocial">Usar Ubersocial (antigo Twidroyd Pro)</string>
   <string name="facebook">Facebook</string>
+  <string name="facebook_web_mobile">Site Móvel do Facebook (http://m.facebook.com)</string>
+  <string name="fbm_for_facebook">FBM para Facebook</string>
   <string name="friendCaster_for_facebook">FriendCaster para Facebook</string>
   <string name="friendCaster_pro_for_facebook">FriendCaster Pro para Facebook</string>
-  <string name="use_facebook">Usar Facebook</string>
-  <string name="use_friendCaster_for_facebook">Usar FriendCaster para Facebook</string>
-  <string name="use_friendCaster_pro_for_facebook">Usar FriendCaster Pro para Facebook</string>
 </resources>

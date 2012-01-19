@@ -24,7 +24,7 @@
   <string name="donate_text">Wparcie</string>
   <string name="donate_to_droid_notify_text">Wsparcie Droid Notify</string>
   <string name="donate_summary">Wesprzyj ten projekt. Twoje wparcie pomoże kontynuować ten projekt i dodawanie nowych funkcjonalności.</string>
-  <string name="donate_description_text">Droid Notify to darmowa aplikacja więc ja rozwijam w wolnym czasie. Rozważ wparcie tego projektu. Twoje wparcie pomoże kontynuować ten projekt i dodawanie nowych funkcjonalności. Dziękuję!</string>
+  <string name="donate_description_text">Droid Notify to darmowa aplikacja więc ja rozwijam w wolnym czasie. Rozważ wparcie tego projektu. Twoje wparcie pomoże kontynuować ten projekt i dodawanie nowych funkcjonalności.\n\nDziękuję!</string>
   <string name="donate_via_android_market_text">Wparcie przez Android Market</string>
   <string name="donate_via_amazon_app_store_text">Wparcie przez Amazon App Store</string>
   <string name="donate_via_paypal_text">Wparcie przez PayPal</string>
@@ -34,7 +34,7 @@
   <string name="upgrade_to_droid_notify_pro_text">Aktualizuj do wersji Pro</string>
   <string name="upgrade_to_droid_notify_pro_text_summary">Aktualizuj do Droid Notify Pro. Odblokuj wszystkie funkcjonalności aplikacji.</string>
   <string name="upgrade_now_text">Aktualizuj teraz</string>
-  <string name="upgrade_direct_description_text">Rozważ zaktualizowanie aplikacji do wersji Pro. Jeśli chcesz zaktualizować teraz kliknij na przycisk poniżej.\n\nTwoje wsparcie pomoże kontynować projekt i dodawanie nowych funcjonalności.\n\n\Dziękuję!</string>
+  <string name="upgrade_direct_description_text">Rozważ zaktualizowanie aplikacji do wersji Pro. Jeśli chcesz zaktualizować teraz kliknij na przycisk poniżej.\n\nTwoje wsparcie pomoże kontynować projekt i dodawanie nowych funcjonalności.\n\nDziękuję!</string>
   <string name="app_android_messaging_app_error">Aplikacja Wiadomości nie może być uruchomiona.</string>
   <string name="app_android_phone_app_error">Aplikacja Telefon nie może być uruchomiona.</string>
   <string name="app_android_call_log_error">Aplikacja Połączenia nie może być uruchomiona.</string>
@@ -71,8 +71,8 @@
   <string name="twitter_send_direct_mesage_error">Wiadomość na Twitterze nie może zostać wysłana.</string>
   <string name="twitter_send_tweet_error">Nowy Tweet nie może być wysłany.</string>
   <string name="not_online_error">Aplikacja nie może uzyskać dostępu online w tej chwili. Spróbuj ponownie później.</string>
-  <string name="url_link_not_found_error">The URL link could not be found.</string>
-  <string name="browser_app_error">The web browser application could not be started.</string>
+  <string name="url_link_not_found_error">Nie znaleziono adresu URL.</string>
+  <string name="browser_app_error">Przeglądarka internetowa nie może być uruchomiona.</string>
   <string name="log_file_error_title">Błąd pliku dziennika zdarzeń</string>
   <string name="log_file_acquiring_system_logs">Uzyskiwanie dostępu do dziennika zdarzeń systemowych...</string>
   <string name="log_file_retrieval_failure">Nie można uzyskać dostępu do dziennika zdarzeń.</string>
@@ -82,6 +82,14 @@
   <string name="preference_language_title">Język</string>
   <string name="preference_language_summary">Wybierz język aplikacji.</string>
   <string name="phone_default_language">Domyślny język telefonu</string>
+  <string name="preference_disable_context_menu_title">Wyłącz menu kontekstowe</string>
+  <string name="preference_disable_context_menu_summary">Wyłącza menu kontekstowe związane z nagłówkami powiadomień.</string>
+  <string name="preference_disable_quick_contact_title">Wyłącz menu zdjęć</string>
+  <string name="preference_disable_quick_contact_summary">Wyłącza menu kontaktów związane ze zdjęciami w oknie powiadomień.</string>
+  <string name="preference_close_app_when_pushed_to_background_title">Zamknij, jeśli w tle</string>
+  <string name="preference_close_app_when_pushed_to_background_summary">Zamyka aplikację jeśli została uruchomiona w tle.</string>
+  <string name="preference_popup_width_padding_title">Szerokość okna powiadomień</string>
+  <string name="preference_popup_width_padding_summary">Ustaw szerokość okna powiadomień.</string>
   <string name="app_settings_text">Ustawienia</string>
   <string name="general_settings_text">Ustawienia ogólne</string>
   <string name="basic_settings_text">Ustawienia podstawowe</string>
@@ -91,6 +99,7 @@
   <string name="quick_reply_settings_text">Ustawienia Szybkiej Odpowiedzi</string>
   <string name="notification_body_settings_text">Ustawienia treści powiadomień</string>
   <string name="notification_header_settings_text">Ustawienia nagłowka powiadomień</string>
+  <string name="notification_photo_settings_text">Ustawienia zdjęć powiadomień</string>
   <string name="event_body_settings_text">Ustawienia treści</string>
   <string name="debug_settings_text">Ustawienia debugowania</string>
   <string name="preference_debug_log_title">Włącz tryb debugowania</string>
@@ -122,6 +131,8 @@
   <string name="preference_display_contact_photo_summaryOff">Zdjęcie kontaktu nie będzie wyświetlane.</string>
   <string name="preference_display_contact_name_title">Wyświetl nazwę kontaktu</string>
   <string name="preference_display_contact_name_summary">Nazwa kontaktu będzie wyświetlana w nagłówku powiadomienia.</string>
+  <string name="preference_hide_unknown_contact_name_title">Ukryj nazwę nieznanego kontaktu</string>
+  <string name="preference_hide_unknown_contact_name_summary">Ukryj nazwę kontaktu gdy jest nieznany.</string>
   <string name="preference_contact_name_font_size_title">Rozmiar czcionki nazwy kontaktu</string>
   <string name="preference_contact_name_font_size_summary">Wybierz rozmiar czcionki nazwy kontaktu.</string>
   <string name="preference_display_contact_number_title">Wyświetl numer kontaktu</string>
@@ -316,6 +327,8 @@
   <string name="preference_k9_message_body_font_size_summary">Wybierz rozmiar czcionki tekstu z tekstem wiadomości w oknie powiadomienia.</string>
   <string name="preference_k9_notifications">Powiadomienia K-9 Email</string>
   <string name="preference_polling_frequency">Częstotliwość sprawdzania</string>
+  <string name="preference_ignore_class_0_messages_title">Ignoruj wiadomości klasy 0</string>
+  <string name="preference_ignore_class_0_messages_summary">Ignoruj SMSy typu FLASH (klasa 0)</string>
   <string name="view_contact_text">Pokaż kontakt</string>
   <string name="add_contact_text">Dodaj kontakt</string>
   <string name="text_contact_text">Adresat wiadomości</string>
@@ -840,6 +853,7 @@ Przykład:
   <string name="twicca">Twicca</string>
   <string name="twidroyd_legacy">Twidroyd Legacy</string>
   <string name="twitter">Twitter</string>
+  <string name="twitter_web_mobile">Mobilna Sieć Twitter (http://mobile.twitter.com)</string>
   <string name="ubersocial">Ubersocial (poprzednio Twidroyd Pro)</string>
   <string name="use_hootsuite">Użyj HootSuite</string>
   <string name="use_plume">Użyj HootSuite</string>
@@ -853,11 +867,11 @@ Przykład:
   <string name="use_twicca">Użyj Twicca</string>
   <string name="use_twidroyd_legacy">Użyj Twidroyd Legacy</string>
   <string name="use_twitter">Użyj Twitter</string>
+  <string name="use_twitter_web_mobile">Używaj Mobilnej Sieci Twitter (http://mobile.twitter.com)</string>
   <string name="use_ubersocial">Użyj Ubersocial (poprzednio Twidroyd Pro)</string>
   <string name="facebook">Facebook</string>
+  <string name="facebook_web_mobile">Mobilna Sieć Facebook (http://m.facebook.com)</string>
+  <string name="fbm_for_facebook">FBM dla Facebooka</string>
   <string name="friendCaster_for_facebook">FriendCaster dla Facebooka</string>
   <string name="friendCaster_pro_for_facebook">FriendCaster Pro dla Facebooka</string>
-  <string name="use_facebook">Używaj Facebooka</string>
-  <string name="use_friendCaster_for_facebook">Używaj FriendCaster jako klienta Facebooka</string>
-  <string name="use_friendCaster_pro_for_facebook">Używaj FriendCaster Pro jako klienta Facebooka</string>
 </resources>

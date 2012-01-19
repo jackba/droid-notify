@@ -178,7 +178,7 @@ public class PhoneCommon {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("PhoneCommon.makePhoneCall()");
 		try{
-			phoneNumber = PhoneCommon.removePhoneNumberFormatting(phoneNumber, false);
+			phoneNumber = PhoneCommon.removePhoneNumberFormatting(phoneNumber);
 			if(phoneNumber == null){
 				Toast.makeText(context, context.getString(R.string.app_android_phone_number_format_error), Toast.LENGTH_LONG).show();
 				Common.setInLinkedAppFlag(context, false);
@@ -313,7 +313,7 @@ public class PhoneCommon {
 				return inputPhoneNumber;
 			}
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-			inputPhoneNumber = removePhoneNumberFormatting(inputPhoneNumber, true);
+			inputPhoneNumber = PhoneCommon.removePhoneNumberFormatting(inputPhoneNumber);
 			StringBuilder outputPhoneNumber = new StringBuilder("");		
 			int phoneNumberFormatPreference = Integer.parseInt(preferences.getString(Constants.PHONE_NUMBER_FORMAT_KEY, Constants.PHONE_NUMBER_FORMAT_DEFAULT));
 			String numberSeparator = "-";
@@ -472,8 +472,8 @@ public class PhoneCommon {
 			return false;
 		}
 		//Remove any formatting from each number.
-		contactNumber = removePhoneNumberFormatting(contactNumber, true);
-		incomingNumber = removePhoneNumberFormatting(incomingNumber, true);
+		contactNumber = PhoneCommon.removePhoneNumberFormatting(contactNumber);
+		incomingNumber = PhoneCommon.removePhoneNumberFormatting(incomingNumber);
 		//Remove any leading zero's from each number.
 		contactNumber = removeLeadingZero(contactNumber);
 		incomingNumber = removeLeadingZero(incomingNumber);	
@@ -507,7 +507,7 @@ public class PhoneCommon {
 	 * 
 	 * @return String - String of phone number with no formatting.
 	 */
-	public static String removePhoneNumberFormatting(String phoneNumber, boolean stripcountryCode){
+	public static String removePhoneNumberFormatting(String phoneNumber){
 		if (_debug) Log.v("PhoneCommon.removePhoneNumberFormatting()");
 		phoneNumber = phoneNumber.replace(" ", "");
 		phoneNumber = phoneNumber.replace("-", "");
@@ -518,7 +518,6 @@ public class PhoneCommon {
 		phoneNumber = phoneNumber.replace("/", "");
 		phoneNumber = phoneNumber.replace("x", "");
 		phoneNumber = phoneNumber.replace("X", "");
-		if(stripcountryCode) phoneNumber = phoneNumber.replace("+", "");
 		return phoneNumber.trim();
 	}
 	
