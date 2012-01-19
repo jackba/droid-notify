@@ -999,11 +999,12 @@ public class Notification {
 			case Constants.NOTIFICATION_TYPE_FACEBOOK:{
 				if(_notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION){
 					FacebookCommon.setFacebookNotificationRead(_context, _messageStringID, isViewed);
-				}else if(_notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST){
-					//The Facebook API doesn't allow marking Friend Requests as being viewed.
-				}else if(_notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE){
-					//The Facebook API doesn't allow marking Messages as being viewed.
 				}
+				//else if(_notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST){
+				//	//The Facebook API doesn't allow marking Friend Requests as being viewed.
+				//}else if(_notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE){
+				//	//The Facebook API doesn't allow marking Messages as being viewed.
+				//}
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_K9:{

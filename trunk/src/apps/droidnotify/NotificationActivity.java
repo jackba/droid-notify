@@ -968,7 +968,7 @@ public class NotificationActivity extends Activity {
 		    }
 			case Constants.NOTIFICATION_TYPE_K9:{
 				if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_K9");
-				if(!setupK9EmailNotifications(extrasBundle)){
+				if(!setupBundleNotifications(extrasBundle, Constants.BUNDLE_NAME_K9)){
 					finishActivity();
 				}
 				break;
@@ -1217,7 +1217,7 @@ public class NotificationActivity extends Activity {
 			}
 			case Constants.NOTIFICATION_TYPE_K9:{
 				if (_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_K9");
-				setupK9EmailNotifications(extrasBundle);
+				setupBundleNotifications(extrasBundle, Constants.BUNDLE_NAME_K9);
 				break;
 		    }
 	    	case Constants.NOTIFICATION_TYPE_RESCHEDULE_PHONE:{
@@ -2081,67 +2081,23 @@ public class NotificationActivity extends Activity {
 	}
 	
 	/**
-	 * Setup the K-9 Email notifications.
+	 * Setup the Bundle notification.
 	 * 
 	 * @param bundle - Activity bundle.
 	 * 
-	 * @return boolean - Returns true if the notification did not have an error.
+	 * @return boolean - Returns true if the method did not encounter an error.
 	 */
-	private boolean setupK9EmailNotifications(Bundle bundle){
-		if (_debug) Log.v("NotificationActivity.setupK9EmailNotifications()");  
-		ArrayList<String> k9Array = bundle.getStringArrayList("k9ArrayList");
-		int k9Arraysize = k9Array.size();
-		for(int i=0; i<k9Arraysize ; i++){
-			String[] k9Info = k9Array.get(i).split("\\|");
-			String sentFromAddress = null;
-			String messageBody = null;
-			long messageID = 0;
-			long contactID = 0;
-			String contactName = null;
-			long photoID = 0;
-			String lookupKey = null;
-			long timeStamp = 0;
-			String k9EmailUri = null;
-			String k9EmailDelUri = null;
-			int notificationSubType = 0;
-			try{
-				int k9InfoSize = k9Info.length;
-				if(k9InfoSize < 7){
-					Log.e("NotificationActivity.setupK9EmailNotifications() FATAL NOTIFICATION ERROR. k9Info.length: " + k9InfoSize);
-					return false;
-				}else if(k9InfoSize == 7){
-					notificationSubType = Integer.parseInt(k9Info[0]);
-					sentFromAddress = k9Info[1];
-					messageBody = k9Info[2];
-					messageID = Long.parseLong(k9Info[3]);
-					timeStamp = Long.parseLong(k9Info[4]);
-					k9EmailUri = k9Info[5];
-					k9EmailDelUri = k9Info[6];
-				}else{
-					notificationSubType = Integer.parseInt(k9Info[0]);
-					sentFromAddress = k9Info[1];
-					messageBody = k9Info[2];
-					messageID = Long.parseLong(k9Info[3]);
-					timeStamp = Long.parseLong(k9Info[4]);
-					k9EmailUri = k9Info[5];
-					k9EmailDelUri = k9Info[6];
-					contactID = Long.parseLong(k9Info[7]);
-					contactName = k9Info[8];
-					photoID = Long.parseLong(k9Info[9]);
-					if(k9InfoSize < 11){
-						lookupKey = "";
-					}else{
-						lookupKey = k9Info[10];
-					}
-				}
-			}catch(Exception ex){
-				Log.e("NotificationActivity.setupK9EmailNotifications() ERROR: " + ex.toString()); 
-				return false;
-			}
-			_notificationViewFlipper.addNotification(new Notification(_context, sentFromAddress, 0, messageBody, timeStamp, contactID, contactName, photoID, messageID, null, lookupKey, k9EmailUri, k9EmailDelUri, null, Constants.NOTIFICATION_TYPE_K9, notificationSubType));		    
-			//Display Status Bar Notification
-		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_K9, 0, true, contactName, sentFromAddress, messageBody, k9EmailUri);
+	private boolean setupBundleNotifications(Bundle bundle, String notificationBundleName){
+		if (_debug) Log.v("NotificationActivity.setupBundleNotifications()");  
+		Bundle notificationBundle = bundle.getBundle(notificationBundleName);
+		if(notificationBundle == null){
+			if (_debug) Log.v("NotificationActivity.setupBundleNotifications() Bundle is null. Exiting..."); 
+			return false;
 		}
+		//Create and Add Notification to ViewFlipper.
+		_notificationViewFlipper.addNotification(new Notification(_context, notificationBundle));		    
+		//Display Status Bar Notification
+	    Common.setStatusBarNotification(_context, notificationBundle.getInt(Constants.BUNDLE_NOTIFICATION_TYPE, 0), 0, true, notificationBundle.getString(Constants.BUNDLE_CONTACT_NAME), notificationBundle.getString(Constants.BUNDLE_SENT_FROM_ADDRESS), notificationBundle.getString(Constants.BUNDLE_MESSAGE_BODY), notificationBundle.getString(Constants.BUNDLE_K9_EMAIL_URI));
 	    return true;
 	}
 	

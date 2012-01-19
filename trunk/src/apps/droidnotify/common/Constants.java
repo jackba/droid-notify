@@ -34,6 +34,8 @@ public class Constants {
 	public static final String BUNDLE_NOTIFICATION_SUB_TYPE  = "notificationSubType";
 	public static final String BUNDLE_LINK_URL  = "linkURL";
 	
+	public static final String BUNDLE_NAME_K9 = "k9NotificationBundle";
+	
 	//-----DEBUG CONSTANTS-----//
 	public static final String DEBUG = "debug_log_enabled";
 	
