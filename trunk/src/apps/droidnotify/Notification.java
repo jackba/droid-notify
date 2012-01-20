@@ -43,7 +43,7 @@ public class Notification {
 	private String _contactName = null;
 	private long _photoID = 0;
 	private Bitmap _photoImg = null;
-	private int _notificationType = 0;
+	private int _notificationType = -1;
 	private long _messageID = 0;
 	private String _messageStringID = null;
 	private boolean _contactExists = false;
@@ -61,7 +61,7 @@ public class Notification {
 	private String _k9EmailDelUri = null;
 	private int _rescheduleNumber = 0;
 	private PendingIntent _reminderPendingIntent = null;
-	private int _notificationSubType = 0;
+	private int _notificationSubType = -1;
 	private String _linkURL = null;
 	
 	//================================================================================
@@ -75,6 +75,11 @@ public class Notification {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Notification.Notification() ==BUNDLE CONSTRUCTOR==");
 		try{
+			_context = context;
+			_preferences = PreferenceManager.getDefaultSharedPreferences(context);
+			_contactExists = false;
+			_contactPhotoExists = false;
+			
 			//Extract information from the provided Bundle.
 			_sentFromAddress = notificationBundle.getString(Constants.BUNDLE_SENT_FROM_ADDRESS);
 			_sentFromID = notificationBundle.getLong(Constants.BUNDLE_SENT_FROM_ID, 0);
@@ -84,7 +89,7 @@ public class Notification {
 			_contactID = notificationBundle.getLong(Constants.BUNDLE_CONTACT_ID, 0);
 			_contactName = notificationBundle.getString(Constants.BUNDLE_CONTACT_NAME);
 			_photoID = notificationBundle.getLong(Constants.BUNDLE_PHOTO_ID, 0);
-			_notificationType = notificationBundle.getInt(Constants.BUNDLE_NOTIFICATION_TYPE, 0);
+			_notificationType = notificationBundle.getInt(Constants.BUNDLE_NOTIFICATION_TYPE, -1);
 			_messageID = notificationBundle.getLong(Constants.BUNDLE_MESSAGE_ID, 0);
 			_messageStringID = notificationBundle.getString(Constants.BUNDLE_MESSAGE_STRING_ID);
 			_title = notificationBundle.getString(Constants.BUNDLE_TITLE);
@@ -99,58 +104,53 @@ public class Notification {
 			_k9EmailUri = notificationBundle.getString(Constants.BUNDLE_K9_EMAIL_URI);
 			_k9EmailDelUri = notificationBundle.getString(Constants.BUNDLE_K9_EMAIL_DEL_URI);
 			_rescheduleNumber = notificationBundle.getInt(Constants.BUNDLE_RESCHEDULE_NUMBER, 0);
-			_notificationSubType = notificationBundle.getInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, 0);
+			_notificationSubType = notificationBundle.getInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, -1);
 			_linkURL = notificationBundle.getString(Constants.BUNDLE_LINK_URL);
 			
 			//Customize the Notification based on what was provided.
-			if(_title == null){
-				switch(_notificationType){
-					case Constants.NOTIFICATION_TYPE_PHONE:{
-						_title = "Missed Call";
-						break;
-					}
-					case Constants.NOTIFICATION_TYPE_SMS:{
-						_title = "SMS Message";
-						break;
-					}
-					case Constants.NOTIFICATION_TYPE_MMS:{
-						_title = "MMS Message";	
-						break;
-					}
-					case Constants.NOTIFICATION_TYPE_CALENDAR:{
-						_title = "Calendar Event";
-						break;
-					}
-					case Constants.NOTIFICATION_TYPE_GMAIL:{
-						_title = "Email";
-						break;
-					}
-					case Constants.NOTIFICATION_TYPE_TWITTER:{
-						_title = "Twitter";
-						break;
-					}
-					case Constants.NOTIFICATION_TYPE_FACEBOOK:{
-						_title = "Facebook";
-						break;
-					}
-					case Constants.NOTIFICATION_TYPE_K9:{
-						_title = "Email";
-						break;
-					}
-				}
-			}
+			if(_sentFromAddress != null && _sentFromAddress.equals("")) _sentFromAddress = null;
 			
-			if(_sentFromAddress != null && !_sentFromAddress.equals("")){
-				if(_notificationType != Constants.NOTIFICATION_TYPE_FACEBOOK){
-					_sentFromAddress = _sentFromAddress.toLowerCase();
-					if(_notificationType == Constants.NOTIFICATION_TYPE_PHONE){
-						if(PhoneCommon.isPrivateUnknownNumber(context, _sentFromAddress)) _sentFromAddress = "Private Number";
-					}
-				}else{
-					
+			switch(_notificationType){
+				case Constants.NOTIFICATION_TYPE_PHONE:{
+					if(_title == null) _title = "Missed Call";
+					if(PhoneCommon.isPrivateUnknownNumber(context, _sentFromAddress)) _sentFromAddress = context.getString(R.string.private_number_text);
+					if(_sentFromAddress != null) _sentFromAddress = _sentFromAddress.toLowerCase();
+					break;
 				}
-			}else{
-				_sentFromAddress = null;
+				case Constants.NOTIFICATION_TYPE_SMS:{
+					if(_title == null) _title = "SMS Message";
+					if(_sentFromAddress != null) _sentFromAddress = _sentFromAddress.toLowerCase();
+					break;
+				}
+				case Constants.NOTIFICATION_TYPE_MMS:{
+					if(_title == null) _title = "MMS Message";	
+					if(_sentFromAddress != null) _sentFromAddress = _sentFromAddress.toLowerCase();
+					break;
+				}
+				case Constants.NOTIFICATION_TYPE_CALENDAR:{
+					if(_title == null) _title = "Calendar Event";
+					_messageBody = formatCalendarEventMessage(_title, _messageBody, _calendarEventStartTime, _calendarEventEndTime, _allDay, _calendarName);
+					if(_sentFromAddress != null) _sentFromAddress = _sentFromAddress.toLowerCase();
+					break;
+				}
+				case Constants.NOTIFICATION_TYPE_GMAIL:{
+					if(_title == null) _title = "Email";
+					if(_sentFromAddress != null) _sentFromAddress = _sentFromAddress.toLowerCase();
+					break;
+				}
+				case Constants.NOTIFICATION_TYPE_TWITTER:{
+					if(_title == null) _title = "Twitter";
+					break;
+				}
+				case Constants.NOTIFICATION_TYPE_FACEBOOK:{
+					if(_title == null) _title = "Facebook";
+					break;
+				}
+				case Constants.NOTIFICATION_TYPE_K9:{
+					if(_title == null) _title = "Email";
+					if(_sentFromAddress != null) _sentFromAddress = _sentFromAddress.toLowerCase();
+					break;
+				}
 			}
 			
 			if(_contactID == 0){
@@ -159,17 +159,13 @@ public class Notification {
 				_contactExists = true;
 			}
 			
-			if(_contactName.equals("")) _contactName = null;
+			if(_contactName != null && _contactName.equals("")) _contactName = null;
 			
 			if(_photoID == 0){
 				_contactPhotoExists = false;
 			}else{
 				_contactPhotoExists = true;
-			}	
-			
-			if(_notificationType == Constants.NOTIFICATION_TYPE_CALENDAR){
-	    		_messageBody = formatCalendarEventMessage(_title, _messageBody, _calendarEventStartTime, _calendarEventEndTime, _allDay, _calendarName);
-	    	}
+			}
 			
 			setReminder();
 			
@@ -374,7 +370,7 @@ public class Notification {
 			_notificationType = notificationType;
 			if(sentFromAddress != null && !sentFromAddress.equals("")){
 				if(PhoneCommon.isPrivateUnknownNumber(context, sentFromAddress)){
-					_sentFromAddress = "Private Number";
+					_sentFromAddress = context.getString(R.string.private_number_text);
 				}else{
 					if(_notificationType == Constants.NOTIFICATION_TYPE_FACEBOOK){
 						_sentFromAddress = sentFromAddress;

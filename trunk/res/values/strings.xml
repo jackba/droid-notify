@@ -251,6 +251,7 @@
     	<string name="preference_sms_time_is_utc_summary">Check this optoin if the incoming SMS message timestamp is in UTC. (This may fix incorrect message times in the notifications)</string> 
    	
    	<!-- MMS Strings -->
+   	<string name="view_mms_button_text">View MMS</string>
    	<string name="preference_mms_enabled_title">Enable MMS</string>
    	<string name="preference_mms_enabled_summaryOn">MMS notifications are enabled.</string>
    	<string name="preference_mms_enabled_summaryOff">MMS notifications are disabled.</string>
@@ -270,7 +271,7 @@
    	<string name="mms_click_here_to_view">[Click Here To View MMS Message]</string>
    	    
    	<!-- Missed Call Strings -->
-   	<string name="view_mms_button_text">View MMS</string>
+   	<string name="private_number_text">Private Number</string>
    	<string name="call_button_text">Call</string>
    	<string name="call_contact_text">Call Contact</string>
    	<string name="view_call_log_text">View Call Log</string>
@@ -284,7 +285,7 @@
    	<string name="preference_missed_call_loading_title">Loading Settings</string>
    	<string name="preference_missed_call_loading_summary">Define what calls to load when a missed call is received.</string>
    	<string name="preference_call_log_timeout">Call Log Timeout</string>
-   	<string name="preference_call_log_timeout_summary">Define how long to wait after a call before querying the call log for a missed call.</string> 
+   	<string name="preference_call_log_timeout_summary">Define how long to wait after a call before querying the call log for a missed call.</string>  
    	
    	<!-- Calendar Strings -->
    	<string name="add_calendar_event_text">Add Calendar Event</string>
@@ -361,6 +362,8 @@
    	    
 	<string name="preference_facebook_polling_frequency_summary">How often you want to read your Facebook account?</string>
 
+	<string name="facebook_new_friend_request_from">You have a new Facebook Friend Request from</string>
+	    
 	<!-- LinkedIn Strings -->	 	
    	<string name="preference_linkedin_notifications">LinkedIn Notifications</string>
    	<string name="preference_linkedin_enabled_title">Enable LinkedIn</string>

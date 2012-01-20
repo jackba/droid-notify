@@ -66,7 +66,7 @@ public class TwitterService extends WakefulIntentService {
 				ArrayList<String> twitterDirectMessageArray = TwitterCommon.getTwitterDirectMessages(context, twitter);
 			    if(twitterDirectMessageArray != null && twitterDirectMessageArray.size() > 0){
 					Bundle bundle = new Bundle();
-					bundle.putInt("notificationType", Constants.NOTIFICATION_TYPE_TWITTER);
+					bundle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_TWITTER);
 					bundle.putStringArrayList("twitterArrayList", twitterDirectMessageArray);
 					Common.startNotificationActivity(context, bundle);
 				}else{
@@ -77,7 +77,7 @@ public class TwitterService extends WakefulIntentService {
 			    ArrayList<String> twitterMentionArray = TwitterCommon.getTwitterMentions(context, twitter);
 			    if(twitterMentionArray != null && twitterMentionArray.size() > 0){
 					Bundle bundle = new Bundle();
-					bundle.putInt("notificationType", Constants.NOTIFICATION_TYPE_TWITTER);
+					bundle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_TWITTER);
 					bundle.putStringArrayList("twitterArrayList", twitterMentionArray);
 					Common.startNotificationActivity(context, bundle);
 				}else{
@@ -88,7 +88,7 @@ public class TwitterService extends WakefulIntentService {
 				ArrayList<String> twitterFollowerRequestArray = TwitterCommon.getTwitterFollowerRequests(context, twitter);
 			    if(twitterFollowerRequestArray != null && twitterFollowerRequestArray.size() > 0){
 					Bundle bundle = new Bundle();
-					bundle.putInt("notificationType", Constants.NOTIFICATION_TYPE_TWITTER);
+					bundle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_TWITTER);
 					bundle.putStringArrayList("twitterArrayList", twitterFollowerRequestArray);
 					Common.startNotificationActivity(context, bundle);
 				}else{

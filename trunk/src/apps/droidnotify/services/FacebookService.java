@@ -1,7 +1,5 @@
 package apps.droidnotify.services;
 
-import java.util.ArrayList;
-
 import com.facebook.android.Facebook;
 
 import android.content.Context;
@@ -68,11 +66,11 @@ public class FacebookService extends WakefulIntentService {
 		    _accessToken = _preferences.getString(Constants.FACEBOOK_ACCESS_TOKEN_KEY, null);
 		    //Get Facebook Notifications.
 		    if(_preferences.getBoolean(Constants.FACEBOOK_USER_NOTIFICATIONS_ENABLED_KEY, true)){
-			    ArrayList<String> facebookNotificationArray = FacebookCommon.getFacebookNotifications(_context, _accessToken, _facebook);
-			    if(facebookNotificationArray != null && facebookNotificationArray.size() > 0){
+		    	Bundle facebookNotificationNotificationBundle = FacebookCommon.getFacebookNotifications(_context, _accessToken, _facebook);
+			    if(facebookNotificationNotificationBundle != null){
 					Bundle bundle = new Bundle();
-					bundle.putInt("notificationType", Constants.NOTIFICATION_TYPE_FACEBOOK);
-					bundle.putStringArrayList("facebookArrayList", facebookNotificationArray);
+					bundle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_FACEBOOK);
+					bundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME, facebookNotificationNotificationBundle);
 			    	Common.startNotificationActivity(_context, bundle);
 				}else{
 					if (_debug) Log.v("FacebookService.doWakefulWork() No Facebook Notifications were found. Exiting...");
@@ -80,11 +78,11 @@ public class FacebookService extends WakefulIntentService {
 		    }
 		    //Get Facebook Friend Requests.
 		    if(_preferences.getBoolean(Constants.FACEBOOK_FRIEND_REQUESTS_ENABLED_KEY, true)){
-			    ArrayList<String> facebookFriendRequestArray = FacebookCommon.getFacebookFriendRequests(_context, _accessToken, _facebook);
-			    if(facebookFriendRequestArray != null && facebookFriendRequestArray.size() > 0){
+		    	Bundle facebookFriendRequestNotificationBundle = FacebookCommon.getFacebookFriendRequests(_context, _accessToken, _facebook);
+			    if(facebookFriendRequestNotificationBundle != null){
 					Bundle bundle = new Bundle();
-					bundle.putInt("notificationType", Constants.NOTIFICATION_TYPE_FACEBOOK);
-					bundle.putStringArrayList("facebookArrayList", facebookFriendRequestArray);
+					bundle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_FACEBOOK);
+					bundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME, facebookFriendRequestNotificationBundle);
 			    	Common.startNotificationActivity(_context, bundle);
 				}else{
 					if (_debug) Log.v("FacebookService.doWakefulWork() No Facebook Friend Requests were found. Exiting...");
@@ -92,11 +90,11 @@ public class FacebookService extends WakefulIntentService {
 		    }
 		    //Get Facebook Messages.
 		    if(_preferences.getBoolean(Constants.FACEBOOK_MESSAGES_ENABLED_KEY, true)){
-			    ArrayList<String> facebookMessageArray = FacebookCommon.getFacebookMessages(_context, _accessToken, _facebook);
-			    if(facebookMessageArray != null && facebookMessageArray.size() > 0){
+			    Bundle facebookMessageNotificationBundle = FacebookCommon.getFacebookMessages(_context, _accessToken, _facebook);
+			    if(facebookMessageNotificationBundle != null){
 					Bundle bundle = new Bundle();
-					bundle.putInt("notificationType", Constants.NOTIFICATION_TYPE_FACEBOOK);
-					bundle.putStringArrayList("facebookArrayList", facebookMessageArray);
+					bundle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_FACEBOOK);
+					bundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME, facebookMessageNotificationBundle);
 			    	Common.startNotificationActivity(_context, bundle);
 				}else{
 					if (_debug) Log.v("FacebookService.doWakefulWork() No Facebook Messages were found. Exiting...");

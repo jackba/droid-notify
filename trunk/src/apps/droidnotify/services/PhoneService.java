@@ -1,7 +1,5 @@
 package apps.droidnotify.services;
 
-import java.util.ArrayList;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -51,11 +49,11 @@ public class PhoneService extends WakefulIntentService {
 		if (_debug) Log.v("PhoneService.doWakefulWork()");
 		try{
 			Context context = getApplicationContext();
-			ArrayList<String> missedCallsArray = PhoneCommon.getMissedCalls(context);
-			if(missedCallsArray != null && missedCallsArray.size() > 0){
+			Bundle missedCallNotificationBundle = PhoneCommon.getMissedCalls(context);
+			if(missedCallNotificationBundle != null){
 				Bundle bundle = new Bundle();
-				bundle.putInt("notificationType", Constants.NOTIFICATION_TYPE_PHONE);
-				bundle.putStringArrayList("missedCallsArrayList", missedCallsArray);
+				bundle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_PHONE);
+				bundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME, missedCallNotificationBundle);
 				Common.startNotificationActivity(context, bundle);
 			}else{
 				if (_debug) Log.v("PhoneService.doWakefulWork() No missed calls were found. Exiting...");

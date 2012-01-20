@@ -1,7 +1,6 @@
 package apps.droidnotify.phone;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -32,19 +31,20 @@ public class PhoneCommon {
 	//================================================================================
 
 	/**
-	 * Function to query the call log and check for any missed calls.
+	 * Query the call log and check for any missed calls.
 	 * 
 	 * @param context - The application context.
 	 * 
-	 * @return ArrayList<String> - Returns an ArrayList of Strings that contain the missed call information.
+	 * @return Bundle - Returns a Bundle that contain the missed call notification information.
 	 */
-	public static ArrayList<String> getMissedCalls(Context context){
+	public static Bundle getMissedCalls(Context context){
 		_debug = Log.getDebug();
 		if (_debug) Log.v("PhoneCommon.getMissedCalls()");
+		Bundle missedCallNotificationBundle = new Bundle();
+		int bundleCount = 0;
 		Boolean missedCallFound = false;
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		String missedCallPreference = preferences.getString(Constants.PHONE_DISMISS_BUTTON_ACTION_KEY, "0");
-		ArrayList<String> missedCallsArray = new ArrayList<String>();
 		final String[] projection = null;
 		final String selection = null;
 		final String[] selectionArgs = null;
@@ -64,6 +64,8 @@ public class PhoneCommon {
 	    		String callType = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.TYPE));
 	    		String isCallNew = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.NEW));
 	    		if(Integer.parseInt(callType) == Constants.PHONE_TYPE && Integer.parseInt(isCallNew) > 0){
+	    			Bundle missedCallNotificationBundleSingle = new Bundle();
+    				bundleCount++;
     				if (_debug) Log.v("PhoneCommon.getMissedCalls() Missed Call Found: " + callNumber);
     				Bundle missedCallContactInfoBundle = null;
     				if(isPrivateUnknownNumber(context, callNumber)){
@@ -71,17 +73,25 @@ public class PhoneCommon {
     				}else{
     					missedCallContactInfoBundle = Common.getContactsInfoByPhoneNumber(context, callNumber);
     				}
-    				if(missedCallContactInfoBundle == null){
-    					missedCallsArray.add(callLogID + "|" + callNumber + "|" + callDate);
-    				}else{
-    					long contactID = missedCallContactInfoBundle.getLong(Constants.BUNDLE_CONTACT_ID, 0);
-    					String contactName = missedCallContactInfoBundle.getString(Constants.BUNDLE_CONTACT_NAME);
-    					if(contactName == null) contactName = "";
-    					long photoID = missedCallContactInfoBundle.getLong(Constants.BUNDLE_PHOTO_ID, 0);
-    					String lookupKey = missedCallContactInfoBundle.getString(Constants.BUNDLE_LOOKUP_KEY);
-    					if(lookupKey == null) lookupKey = "";
-    					missedCallsArray.add(callLogID + "|" + callNumber + "|" + callDate + "|" + contactID + "|" + contactName + "|" + photoID + "|" + lookupKey);
+    				if(missedCallContactInfoBundle == null){				
+    					//Basic Notification Information.
+    					missedCallNotificationBundleSingle.putLong(Constants.BUNDLE_CALL_LOG_ID, Long.parseLong(callLogID));
+    					missedCallNotificationBundleSingle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, callNumber);
+    					missedCallNotificationBundleSingle.putLong(Constants.BUNDLE_TIMESTAMP, Long.parseLong(callDate));
+    					missedCallNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_PHONE);
+    				}else{				
+    					//Basic Notification Information.
+    					missedCallNotificationBundleSingle.putLong(Constants.BUNDLE_CALL_LOG_ID, Long.parseLong(callLogID));
+    					missedCallNotificationBundleSingle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, callNumber);
+    					missedCallNotificationBundleSingle.putLong(Constants.BUNDLE_TIMESTAMP, Long.parseLong(callDate));
+    					missedCallNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_PHONE);
+    	    			//Contact Information.
+    					missedCallNotificationBundleSingle.putLong(Constants.BUNDLE_CONTACT_ID, missedCallContactInfoBundle.getLong(Constants.BUNDLE_CONTACT_ID, 0));
+    					missedCallNotificationBundleSingle.putString(Constants.BUNDLE_CONTACT_NAME, missedCallContactInfoBundle.getString(Constants.BUNDLE_CONTACT_NAME));
+    					missedCallNotificationBundleSingle.putLong(Constants.BUNDLE_PHOTO_ID, missedCallContactInfoBundle.getLong(Constants.BUNDLE_PHOTO_ID, 0));
+    					missedCallNotificationBundleSingle.putString(Constants.BUNDLE_LOOKUP_KEY, missedCallContactInfoBundle.getString(Constants.BUNDLE_LOOKUP_KEY));
     				}
+    				missedCallNotificationBundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_" + String.valueOf(bundleCount), missedCallNotificationBundleSingle);
     				if(missedCallPreference.equals(Constants.PHONE_GET_LATEST)){
     					if (_debug) Log.v("PhoneCommon.getMissedCalls() Missed call found - Exiting");
     					break;
@@ -98,12 +108,13 @@ public class PhoneCommon {
 	    			break;
 	    		}
 	    	}
+			missedCallNotificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_BUNDLE_COUNT, bundleCount);
 		}catch(Exception ex){
 			Log.e("PhoneCommon.getMissedCalls() ERROR: " + ex.toString());
 		}finally{
 			cursor.close();
 		}
-	    return missedCallsArray;
+	    return missedCallNotificationBundle;
 	}
 	
 	/**
@@ -243,7 +254,11 @@ public class PhoneCommon {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("PhoneCommon.isPrivateUnknownNumber() IncomingNumber: " + incomingNumber);
 		try{
-			if(incomingNumber.length() > 4){
+			if(incomingNumber == null){
+				if (_debug) Log.v("PhoneCommon.isPrivateUnknownNumber() IncomingNumber is null. Exiting...");
+				return false;
+			}else if(incomingNumber.length() > 4){
+				if (_debug) Log.v("PhoneCommon.isPrivateUnknownNumber() IncomingNumber is >4 digits. Exiting...");
 				return false;
 			}
 			int convertedNumber = Integer.parseInt(incomingNumber);
@@ -316,7 +331,11 @@ public class PhoneCommon {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("PhoneCommon.formatPhoneNumber()");
 		try{
-			if(inputPhoneNumber.equals("Private Number")){
+			if(inputPhoneNumber == null){
+				if (_debug) Log.v("PhoneCommon.formatPhoneNumber() InputPhoneNumber is null. exiting...");
+				return null;
+			}
+			if(inputPhoneNumber.equals(context.getString(R.string.private_number_text))){
 				return inputPhoneNumber;
 			}
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);

@@ -63,7 +63,7 @@ public class SMSService extends WakefulIntentService {
 			}
 			if(smsArray != null && smsArray.size() > 0){
 				Bundle bundle = new Bundle();
-				bundle.putInt("notificationType", Constants.NOTIFICATION_TYPE_SMS);
+				bundle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_SMS);
 				bundle.putStringArrayList("smsArrayList", smsArray);
 		    	Common.startNotificationActivity(context, bundle);
 			}else{

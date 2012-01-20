@@ -59,8 +59,8 @@ public class RescheduleBroadcastReceiverService extends WakefulIntentService {
 				return;
 			}
 		    Bundle bundle = intent.getExtras();
-		    int notificationType = bundle.getInt("notificationType");
-			int rescheduleNumber = bundle.getInt("rescheduleNumber");
+		    int notificationType = bundle.getInt(Constants.BUNDLE_NOTIFICATION_TYPE);
+			int rescheduleNumber = bundle.getInt(Constants.BUNDLE_RESCHEDULE_NUMBER);
 			//Determine if the notification should be rescheduled or not.
 			boolean displayNotification = true;
 			if(preferences.getBoolean(Constants.REMINDERS_ENABLED_KEY, false)){	

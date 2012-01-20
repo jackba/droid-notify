@@ -1,10 +1,9 @@
 package apps.droidnotify.services;
 
-import java.util.ArrayList;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 
@@ -89,21 +88,15 @@ public class PhoneAlarmBroadcastReceiverService extends WakefulIntentService {
 		    	//Display the Status Bar Notification even though the popup is blocked based on the user preferences.
 		    	if(preferences.getBoolean(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true)){
 			    	//Get the missed call info.
-	    			String phoneNumber = null;
-	    			String contactName = null;
-		    		ArrayList<String> missedCallsArray = PhoneCommon.getMissedCalls(context);
-		    		if((missedCallsArray != null) && (missedCallsArray.size() > 0)){
-			    		String missedCallArrayItem = missedCallsArray.get(0);
-		    			String[] missedCallInfo = missedCallArrayItem.split("\\|");
-		    			int arraySize = missedCallInfo.length;
-		    			if(arraySize > 0){
-			    			if(arraySize >= 2) phoneNumber = missedCallInfo[1];
-			    			if(arraySize >= 5) contactName = missedCallInfo[4];
-		    			}
-		    		}
-					//Display Status Bar Notification
-	    			Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_PHONE, 0, callStateIdle, contactName, phoneNumber, null, null);
-			    }
+	    			Bundle missedCallNotificationBundle = PhoneCommon.getMissedCalls(context);	 
+	    			if(missedCallNotificationBundle != null){
+		    			Bundle missedCallNotificationBundleSingle = missedCallNotificationBundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_1");
+						if(missedCallNotificationBundleSingle != null){
+			    			//Display Status Bar Notification
+			    			Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_PHONE, 0, callStateIdle, missedCallNotificationBundleSingle.getString(Constants.BUNDLE_CONTACT_NAME), missedCallNotificationBundleSingle.getString(Constants.BUNDLE_SENT_FROM_ADDRESS), null, null);
+						}
+					}
+	    		}
 		    	//Ignore notification based on the users preferences.
 		    	if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_IGNORE)){
 		    		rescheduleNotification = false;

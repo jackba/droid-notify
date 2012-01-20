@@ -1,12 +1,11 @@
 package apps.droidnotify.services;
 
-import java.util.ArrayList;
-
 import com.facebook.android.Facebook;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 
@@ -89,10 +88,6 @@ public class FacebookAlarmBroadcastReceiverService extends WakefulIntentService 
 		    }else{			    
 		    	//Display the Status Bar Notification even though the popup is blocked based on the user preferences.
 		    	if(preferences.getBoolean(Constants.FACEBOOK_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true)){
-		    		//Get the Twitter message info.
-					String contactName = null;
-					String messageAddress = null;
-					String messageBody = null;
 				    //Get Facebook Object
 					Facebook facebook = FacebookCommon.getFacebook(context);
 				    if(facebook == null){
@@ -101,77 +96,59 @@ public class FacebookAlarmBroadcastReceiverService extends WakefulIntentService 
 				    }
 					String accessToken = preferences.getString(Constants.FACEBOOK_ACCESS_TOKEN_KEY, null);
 					if(preferences.getBoolean(Constants.FACEBOOK_USER_NOTIFICATIONS_ENABLED_KEY, true)){
-						ArrayList<String> facebookNotificationArray = FacebookCommon.getFacebookNotifications(context, accessToken, facebook);
-					    if(facebookNotificationArray != null && facebookNotificationArray.size() > 0){
-					    	int facebookNotificationArraySize = facebookNotificationArray.size();
-					    	for(int i=0; i<facebookNotificationArraySize; i++ ){
-					    		String facebookArrayItem = facebookNotificationArray.get(i);
-								String[] facebookInfo = facebookArrayItem.split("\\|");
-				    			int arraySize = facebookInfo.length;
-				    			if(arraySize > 0){
-									if(arraySize >= 1) messageAddress = facebookInfo[1];
-									if(arraySize >= 2) messageBody = facebookInfo[3];
-									if(arraySize >= 8) contactName = facebookInfo[7];
+						Bundle facebookNotificationNotificationBundle = FacebookCommon.getFacebookNotifications(context, accessToken, facebook);
+					    if(facebookNotificationNotificationBundle != null){
+							//Loop through all the bundles that were sent through.
+							int bundleCount = facebookNotificationNotificationBundle.getInt(Constants.BUNDLE_NOTIFICATION_BUNDLE_COUNT);
+							for(int i=1;i<=bundleCount;i++){
+								Bundle facebookNotificationNotificationBundleSingle = facebookNotificationNotificationBundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_" + String.valueOf(i));
+				    			if(facebookNotificationNotificationBundleSingle != null){
+									//Display Status Bar Notification
+								    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_FACEBOOK, Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION, callStateIdle, facebookNotificationNotificationBundleSingle.getString(Constants.BUNDLE_CONTACT_NAME), facebookNotificationNotificationBundleSingle.getString(Constants.BUNDLE_SENT_FROM_ADDRESS), facebookNotificationNotificationBundleSingle.getString(Constants.BUNDLE_MESSAGE_BODY), null);
 				    			}
-								//Display Status Bar Notification
-							    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_FACEBOOK, Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION, callStateIdle, contactName, messageAddress, messageBody, null);
-					    	}
-						}else{
-							if (_debug) Log.v("FacebookAlarmBroadcastReceiverService.doWakefulWork() No Facebook Nnotifications were found. Exiting...");
+							}			    			
 						}
 					}
 					if(preferences.getBoolean(Constants.FACEBOOK_FRIEND_REQUESTS_ENABLED_KEY, true)){
-					    ArrayList<String> facebookFriendRequestArray = FacebookCommon.getFacebookFriendRequests(context, accessToken, facebook);
-					    if(facebookFriendRequestArray != null && facebookFriendRequestArray.size() > 0){
-					    	int facebookFriendRequestArraySize = facebookFriendRequestArray.size();
-					    	for(int i=0; i<facebookFriendRequestArraySize; i++ ){
-					    		String facebookArrayItem = facebookFriendRequestArray.get(i);
-								String[] facebookInfo = facebookArrayItem.split("\\|");
-				    			int arraySize = facebookInfo.length;
-				    			if(arraySize > 0){
-									if(arraySize >= 1) messageAddress = facebookInfo[1];
-									if(arraySize >= 2) messageBody = facebookInfo[3];
-									if(arraySize >= 8) contactName = facebookInfo[7];
+					    Bundle facebookFriendRequestNotificationBundle = FacebookCommon.getFacebookFriendRequests(context, accessToken, facebook);
+					    if(facebookFriendRequestNotificationBundle != null){
+							//Loop through all the bundles that were sent through.
+							int bundleCount = facebookFriendRequestNotificationBundle.getInt(Constants.BUNDLE_NOTIFICATION_BUNDLE_COUNT);
+							for(int i=1;i<=bundleCount;i++){
+								Bundle facebookFriendRequestNotificationBundleSingle = facebookFriendRequestNotificationBundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_" + String.valueOf(i));
+				    			if(facebookFriendRequestNotificationBundleSingle != null){
+									//Display Status Bar Notification
+								    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_FACEBOOK, Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST, callStateIdle, facebookFriendRequestNotificationBundleSingle.getString(Constants.BUNDLE_CONTACT_NAME), facebookFriendRequestNotificationBundleSingle.getString(Constants.BUNDLE_SENT_FROM_ADDRESS), facebookFriendRequestNotificationBundleSingle.getString(Constants.BUNDLE_MESSAGE_BODY), null);
 				    			}
-								//Display Status Bar Notification
-							    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_FACEBOOK, Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST, callStateIdle, contactName, messageAddress, messageBody, null);
-					    	}
-						}else{
-							if (_debug) Log.v("FacebookAlarmBroadcastReceiverService.doWakefulWork() No Facebook Friend Requests were found. Exiting...");
+							}			    			
 						}
 					}
 					if(preferences.getBoolean(Constants.FACEBOOK_MESSAGES_ENABLED_KEY, true)){
-					    ArrayList<String> facebookMessageArray = FacebookCommon.getFacebookMessages(context, accessToken, facebook);
-					    if(facebookMessageArray != null && facebookMessageArray.size() > 0){
-					    	int facebookFriendRequestArraySize = facebookMessageArray.size();
-					    	for(int i=0; i<facebookFriendRequestArraySize; i++ ){
-					    		String facebookArrayItem = facebookMessageArray.get(i);
-								String[] facebookInfo = facebookArrayItem.split("\\|");
-				    			int arraySize = facebookInfo.length;
-				    			if(arraySize > 0){
-									if(arraySize >= 1) messageAddress = facebookInfo[1];
-									if(arraySize >= 2) messageBody = facebookInfo[3];
-									if(arraySize >= 8) contactName = facebookInfo[7];
+					    Bundle facebookMessageNotificationBundle = FacebookCommon.getFacebookMessages(context, accessToken, facebook);
+					    if(facebookMessageNotificationBundle != null){
+							//Loop through all the bundles that were sent through.
+							int bundleCount = facebookMessageNotificationBundle.getInt(Constants.BUNDLE_NOTIFICATION_BUNDLE_COUNT);
+							for(int i=1;i<=bundleCount;i++){
+								Bundle facebookMessageNotificationBundleSingle = facebookMessageNotificationBundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_" + String.valueOf(i));
+				    			if(facebookMessageNotificationBundleSingle != null){
+									//Display Status Bar Notification
+								    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_FACEBOOK, Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE, callStateIdle, facebookMessageNotificationBundleSingle.getString(Constants.BUNDLE_CONTACT_NAME), facebookMessageNotificationBundleSingle.getString(Constants.BUNDLE_SENT_FROM_ADDRESS), facebookMessageNotificationBundleSingle.getString(Constants.BUNDLE_MESSAGE_BODY), null);
 				    			}
-								//Display Status Bar Notification
-							    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_FACEBOOK, Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE, callStateIdle, contactName, messageAddress, messageBody, null);
-					    	}
-						}else{
-							if (_debug) Log.v("FacebookAlarmBroadcastReceiverService.doWakefulWork() No Facebook Friend Requests were found. Exiting...");
+							}			    			
 						}
-					}
+				    }
+			    	//Ignore notification based on the users preferences.
+			    	if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_IGNORE)){
+			    		rescheduleNotification = false;
+			    		return;
+			    	}
+			    	if(rescheduleNotification){
+				    	//Set alarm to go off x minutes from the current time as defined by the user preferences.
+				    	long rescheduleInterval = Long.parseLong(preferences.getString(Constants.RESCHEDULE_BLOCKED_NOTIFICATION_TIMEOUT_KEY, Constants.RESCHEDULE_BLOCKED_NOTIFICATION_TIMEOUT_DEFAULT)) * 60 * 1000;
+			    		if (_debug) Log.v("FacebookAlarmBroadcastReceiverService.doWakefulWork() Rescheduling notification. Rechedule in " + rescheduleInterval + "minutes.");					
+						FacebookCommon.setFacebookAlarm(context, System.currentTimeMillis() + rescheduleInterval);
+			    	}
 			    }
-		    	//Ignore notification based on the users preferences.
-		    	if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_IGNORE)){
-		    		rescheduleNotification = false;
-		    		return;
-		    	}
-		    	if(rescheduleNotification){
-			    	//Set alarm to go off x minutes from the current time as defined by the user preferences.
-			    	long rescheduleInterval = Long.parseLong(preferences.getString(Constants.RESCHEDULE_BLOCKED_NOTIFICATION_TIMEOUT_KEY, Constants.RESCHEDULE_BLOCKED_NOTIFICATION_TIMEOUT_DEFAULT)) * 60 * 1000;
-		    		if (_debug) Log.v("FacebookAlarmBroadcastReceiverService.doWakefulWork() Rescheduling notification. Rechedule in " + rescheduleInterval + "minutes.");					
-					FacebookCommon.setFacebookAlarm(context, System.currentTimeMillis() + rescheduleInterval);
-		    	}
 		    }
 		}catch(Exception ex){
 			Log.e("FacebookAlarmBroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());

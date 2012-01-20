@@ -55,7 +55,7 @@ public class MMSService extends WakefulIntentService {
 			ArrayList<String> mmsArray = SMSCommon.getMMSMessagesFromDisk(context);
 			if(mmsArray != null && mmsArray.size() > 0){
 				Bundle bundle = new Bundle();
-				bundle.putInt("notificationType", Constants.NOTIFICATION_TYPE_MMS);
+				bundle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_MMS);
 				bundle.putStringArrayList("mmsArrayList", mmsArray);
 		    	Intent mmsNotificationIntent = new Intent(context, NotificationActivity.class);
 		    	mmsNotificationIntent.putExtras(bundle);
