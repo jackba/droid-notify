@@ -1986,7 +1986,7 @@ public class NotificationActivity extends Activity {
     	}
 		return mmsArray;
 	}
-	
+		
 	/**
 	 * Setup the Twitter notifications.
 	 * 
@@ -2065,7 +2065,7 @@ public class NotificationActivity extends Activity {
 				return false;
 			}
 			//Loop through all the bundles that were sent through.
-			int bundleCount = bundle.getInt(Constants.BUNDLE_NOTIFICATION_BUNDLE_COUNT, -1);
+			int bundleCount = notificationBundle.getInt(Constants.BUNDLE_NOTIFICATION_BUNDLE_COUNT, -1);
 			if(bundleCount <= 0){
 				if (_debug) Log.e("NotificationActivity.setupBundleNotifications() Bundle does not contain a notification!!! " + bundleCount);
 				return false;
