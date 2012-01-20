@@ -42,11 +42,11 @@ Unfortunately, the answer is no.
 
 Google Voice is a private app and does not have an open API so currently there is no way to tap into its SMS messages or other data that it uses. I will continue to monitor the app and look for any API's that will allow Droid Notify to communicate with it or its data, but at this time it's not possible. The only solution is to enable the Google voice option to forward your Google Voice activity to you via SMS messages.
 
-==Is WhatsApp integrated with Droid Notify?==
+==Is !WhatsApp integrated with Droid Notify?==
 
 Unfortunately, the answer is no.
 
-WhatsApp is a private app and does not have an open API so currently there is no way to tap into its SMS messages or other data that it uses. I will continue to monitor the app and look for any API's that will allow Droid Notify to communicate with it or its data, but at this time it's not possible.
+!WhatsApp is a private app and does not have an open API so currently there is no way to tap into its SMS messages or other data that it uses. I will continue to monitor the app and look for any API's that will allow Droid Notify to communicate with it or its data, but at this time it's not possible.
 
 ==Can Droid Notify be moved to the SD card?==
 
