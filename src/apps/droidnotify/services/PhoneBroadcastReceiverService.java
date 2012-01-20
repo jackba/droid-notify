@@ -97,6 +97,10 @@ public class PhoneBroadcastReceiverService extends WakefulIntentService {
 			Log.e("PhoneBroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());
 		}
 	}
+
+	//================================================================================
+	// Private Methods
+	//================================================================================
 	
 	/**
 	 * Set the phone state flag.

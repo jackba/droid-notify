@@ -53,8 +53,8 @@ public class K9Service extends WakefulIntentService {
 			Bundle emailNotificationBundle = EmailCommon.getK9MessagesFromIntent(context, newEmailBundle, intent.getAction());
 			if(emailNotificationBundle != null){
 				Bundle bundle = new Bundle();
-				bundle.putInt("notificationType", Constants.NOTIFICATION_TYPE_K9);
-				bundle.putBundle("k9NotificationBundle", emailNotificationBundle);
+				bundle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_K9);
+				bundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME, emailNotificationBundle);
 		    	Common.startNotificationActivity(context, bundle);
 			}else{
 				if (_debug) Log.v("K9Service.doWakefulWork() No new emails were found. Exiting...");

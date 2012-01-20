@@ -166,23 +166,43 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
 									eventStartTime = eventStartTime  - timezoneOffsetValue;
 									eventEndTime = eventEndTime  - timezoneOffsetValue;
 									//Schedule the notification for the event time.
-									scheduleCalendarNotification(context, eventStartTime + dayOfReminderIntervalAllDay, eventTitle, Long.toString(eventStartTime), Long.toString(eventEndTime), Boolean.toString(allDay), calendarName, calendarID.toString(), eventID, "apps.droidnotify.VIEW/" + calendarID + "/" + eventID);
+									Bundle calendarEventNotificationBundleSingle = new Bundle();
+									calendarEventNotificationBundleSingle.putString(Constants.BUNDLE_TITLE, eventTitle);
+									calendarEventNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_BODY, eventTitle);
+									calendarEventNotificationBundleSingle.putLong(Constants.BUNDLE_CALENDAR_EVENT_START_TIME, eventStartTime);
+									calendarEventNotificationBundleSingle.putLong(Constants.BUNDLE_CALENDAR_EVENT_END_TIME, eventEndTime);
+									calendarEventNotificationBundleSingle.putBoolean(Constants.BUNDLE_ALL_DAY, allDay);
+									calendarEventNotificationBundleSingle.putString(Constants.BUNDLE_CALENDAR_NAME, calendarName);
+									calendarEventNotificationBundleSingle.putLong(Constants.BUNDLE_CALENDAR_ID, Long.parseLong(calendarID));
+									calendarEventNotificationBundleSingle.putLong(Constants.BUNDLE_CALENDAR_EVENT_ID, Long.parseLong(eventID));
+									calendarEventNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_CALENDAR);
+									scheduleCalendarNotification(context, eventStartTime + dayOfReminderIntervalAllDay, calendarEventNotificationBundleSingle, "apps.droidnotify.VIEW/" + calendarID + "/" + eventID);
 									//Schedule the reminder notification if it is enabled.
 									if(preferences.getBoolean(Constants.CALENDAR_REMINDERS_ENABLED_KEY,true)){
 										//Only schedule the all day event if the current time is before the notification time.
 										if((eventStartTime - reminderIntervalAllDay) > currentSystemTime){
-											scheduleCalendarNotification(context, eventStartTime - reminderIntervalAllDay, eventTitle, Long.toString(eventStartTime), Long.toString(eventEndTime), Boolean.toString(allDay), calendarName, calendarID.toString(), eventID, "apps.droidnotify.VIEW/" + calendarID + "/" + eventID + "/REMINDER");
+											scheduleCalendarNotification(context, eventStartTime - reminderIntervalAllDay, calendarEventNotificationBundleSingle, "apps.droidnotify.VIEW/" + calendarID + "/" + eventID + "/REMINDER");
 										}
 									}
 								}else{
 									//Schedule non-all-day events.
 									//Schedule the notification for the event time.
-									scheduleCalendarNotification(context, eventStartTime, eventTitle, Long.toString(eventStartTime), Long.toString(eventEndTime), Boolean.toString(allDay), calendarName, calendarID.toString(), eventID, "apps.droidnotify.VIEW/" + calendarID + "/" + eventID);
+									Bundle calendarEventNotificationBundleSingle = new Bundle();
+									calendarEventNotificationBundleSingle.putString(Constants.BUNDLE_TITLE, eventTitle);
+									calendarEventNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_BODY, eventTitle);
+									calendarEventNotificationBundleSingle.putLong(Constants.BUNDLE_CALENDAR_EVENT_START_TIME, eventStartTime);
+									calendarEventNotificationBundleSingle.putLong(Constants.BUNDLE_CALENDAR_EVENT_END_TIME, eventEndTime);
+									calendarEventNotificationBundleSingle.putBoolean(Constants.BUNDLE_ALL_DAY, allDay);
+									calendarEventNotificationBundleSingle.putString(Constants.BUNDLE_CALENDAR_NAME, calendarName);
+									calendarEventNotificationBundleSingle.putLong(Constants.BUNDLE_CALENDAR_ID, Long.parseLong(calendarID));
+									calendarEventNotificationBundleSingle.putLong(Constants.BUNDLE_CALENDAR_EVENT_ID, Long.parseLong(eventID));
+									calendarEventNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_CALENDAR);
+									scheduleCalendarNotification(context, eventStartTime, calendarEventNotificationBundleSingle, "apps.droidnotify.VIEW/" + calendarID + "/" + eventID);
 									//Schedule the reminder notification if it is enabled.
 									if(preferences.getBoolean(Constants.CALENDAR_REMINDERS_ENABLED_KEY,true)){
 										//Only schedule the event if the current time is before the notification time.
 										if((eventStartTime - reminderInterval) > currentSystemTime){
-											scheduleCalendarNotification(context, eventStartTime - reminderInterval, eventTitle, Long.toString(eventStartTime), Long.toString(eventEndTime), Boolean.toString(allDay), calendarName, calendarID.toString(), eventID, "apps.droidnotify.VIEW/" + calendarID + "/" + eventID + "/REMINDER");
+											scheduleCalendarNotification(context, eventStartTime - reminderInterval, calendarEventNotificationBundleSingle, "apps.droidnotify.VIEW/" + calendarID + "/" + eventID + "/REMINDER");
 										}
 									}
 								}
@@ -214,12 +234,15 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
 	 * @param calendarID - Calendar ID of the Calendar Event.
 	 * @param eventID - Event ID of the Calendar Event.
 	 */
-	private void scheduleCalendarNotification(Context context, long scheduledAlarmTime, String title, String eventStartTime, String eventEndTime, String eventAllDay, String calendarName, String calendarID, String eventID, String intentAction){
+	private void scheduleCalendarNotification(Context context, long scheduledAlarmTime, Bundle calendarEventNotificationBundleSingle, String intentAction){
 		if (_debug) Log.v("CalendarAlarmReceiverService.scheduleCalendarNotification()");
 		try{
+	    	Bundle calendarEventNotificationBundle = new Bundle();
+	    	calendarEventNotificationBundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_1", calendarEventNotificationBundleSingle);
+	    	calendarEventNotificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_BUNDLE_COUNT, 1);
 	    	Bundle bundle = new Bundle();
-	    	bundle.putInt("notificationType", Constants.NOTIFICATION_TYPE_CALENDAR);
-	    	bundle.putStringArray("calenderEventInfo",new String[]{title, "", eventStartTime, eventEndTime, eventAllDay, calendarName, calendarID, eventID});
+	    	bundle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_CALENDAR);
+	    	bundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME, calendarEventNotificationBundle);	    	
 			Common.startAlarm(context, CalendarNotificationAlarmReceiver.class, bundle, intentAction, scheduledAlarmTime);
 		}catch(Exception ex){
 			Log.e("CalendarAlarmReceiverService.scheduleCalendarNotification() ERROR: " + ex.toString());

@@ -2025,11 +2025,11 @@ public class Common {
 		if (_debug) Log.v("Common.resendNotification()");
 		try{
 			Bundle bundle = intent.getExtras();
-	    	Intent smsNotificationIntent = new Intent(context, NotificationActivity.class);
-	    	smsNotificationIntent.putExtras(bundle);
-	    	smsNotificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+	    	Intent notificationIntent = new Intent(context, NotificationActivity.class);
+	    	notificationIntent.putExtras(bundle);
+	    	notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
 	    	Common.acquireWakeLock(context);
-	    	context.startActivity(smsNotificationIntent);
+	    	context.startActivity(notificationIntent);
 		}catch(Exception ex){
 			Log.e("Common.resendNotification() ERROR: " + ex.toString());
 		}

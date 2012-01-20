@@ -69,7 +69,7 @@ public class LinkedInService extends WakefulIntentService {
 			    ArrayList<String> linkedInUpdateArray = LinkedInCommon.getLinkedInupdates(_context, linkedInClient);
 			    if(linkedInUpdateArray != null && linkedInUpdateArray.size() > 0){
 					Bundle bundle = new Bundle();
-					bundle.putInt("notificationType", Constants.NOTIFICATION_TYPE_LINKEDIN);
+					bundle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_LINKEDIN);
 					bundle.putStringArrayList("linkedInArrayList", linkedInUpdateArray);
 			    	Common.startNotificationActivity(_context, bundle);
 				}else{

@@ -88,9 +88,14 @@ public class K9BroadcastReceiverService extends WakefulIntentService {
 		    		//Get the k9 email info.
 		    		Bundle bundle = intent.getExtras();
 		    		Bundle emailNotificationBundle = EmailCommon.getK9MessagesFromIntent(context, bundle, intent.getAction());
-					//Display Status Bar Notification
-				    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_K9, 0, callStateIdle, emailNotificationBundle.getString(Constants.BUNDLE_CONTACT_NAME), emailNotificationBundle.getString(Constants.BUNDLE_SENT_FROM_ADDRESS), emailNotificationBundle.getString(Constants.BUNDLE_MESSAGE_BODY), emailNotificationBundle.getString(Constants.BUNDLE_K9_EMAIL_URI));
-			    }
+		    		if(emailNotificationBundle != null){
+		    			Bundle emailNotificationBundleSingle = emailNotificationBundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_1");
+		    			if(emailNotificationBundleSingle != null){
+							//Display Status Bar Notification
+						    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_K9, 0, callStateIdle, emailNotificationBundleSingle.getString(Constants.BUNDLE_CONTACT_NAME), emailNotificationBundleSingle.getString(Constants.BUNDLE_SENT_FROM_ADDRESS), emailNotificationBundleSingle.getString(Constants.BUNDLE_MESSAGE_BODY), emailNotificationBundleSingle.getString(Constants.BUNDLE_K9_EMAIL_URI));
+		    			}
+		    		}
+		    	}
 		    	//Ignore notification based on the users preferences.
 		    	if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_IGNORE)){
 		    		rescheduleNotification = false;

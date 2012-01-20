@@ -891,7 +891,7 @@ public class NotificationActivity extends Activity {
 	    Common.setInLinkedAppFlag(_context, false);
 	    Common.acquireWakeLock(_context);
 	    final Bundle extrasBundle = getIntent().getExtras();
-	    int notificationType = extrasBundle.getInt("notificationType");
+	    int notificationType = extrasBundle.getInt(Constants.BUNDLE_NOTIFICATION_TYPE);
 	    if (_debug) Log.v("NotificationActivity.onCreate() Notification Type: " + notificationType);
 	    //Don't rotate the Activity when the screen rotates based on the user preferences.
 	    if(!_preferences.getBoolean(Constants.LANDSCAPE_SCREEN_ENABLED_KEY, false)){
@@ -921,7 +921,7 @@ public class NotificationActivity extends Activity {
 		    }    
 		    case Constants.NOTIFICATION_TYPE_PHONE:{
 		    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_PHONE");
-		    	if(!setupMissedCalls(extrasBundle)){
+		    	if(!setupBundleNotifications(extrasBundle)){
 					finishActivity();
 				}
 		    	break;
@@ -942,7 +942,7 @@ public class NotificationActivity extends Activity {
 		    }
 		    case Constants.NOTIFICATION_TYPE_CALENDAR:{
 		    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_CALENDAR");
-		    	if(!setupCalendarEventNotifications(extrasBundle)){
+		    	if(!setupBundleNotifications(extrasBundle)){
 					finishActivity();
 				}
 		    	break;
@@ -961,14 +961,14 @@ public class NotificationActivity extends Activity {
 			}
 			case Constants.NOTIFICATION_TYPE_FACEBOOK:{
 				if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_FACEBOOK");
-				if(!setupFacebookNotifications(extrasBundle)){
+				if(!setupBundleNotifications(extrasBundle)){
 					finishActivity();
 				}
 				break;
 		    }
 			case Constants.NOTIFICATION_TYPE_K9:{
 				if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_K9");
-				if(!setupBundleNotifications(extrasBundle, Constants.BUNDLE_NAME_K9)){
+				if(!setupBundleNotifications(extrasBundle)){
 					finishActivity();
 				}
 				break;
@@ -1182,7 +1182,7 @@ public class NotificationActivity extends Activity {
 	    switch(notificationType){
 	    	case Constants.NOTIFICATION_TYPE_PHONE:{
 		    	if (_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_PHONE");
-		    	setupMissedCalls(extrasBundle);
+		    	setupBundleNotifications(extrasBundle);
 		    	break;
 		    }
 	    	case Constants.NOTIFICATION_TYPE_SMS:{
@@ -1197,7 +1197,7 @@ public class NotificationActivity extends Activity {
 		    }
 	    	case Constants.NOTIFICATION_TYPE_CALENDAR:{
 		    	if (_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_CALENDAR");
-			    setupCalendarEventNotifications(extrasBundle);
+			    setupBundleNotifications(extrasBundle);
 		    	break;
 		    }
 	    	case Constants.NOTIFICATION_TYPE_GMAIL:{
@@ -1212,12 +1212,12 @@ public class NotificationActivity extends Activity {
 			}
 			case Constants.NOTIFICATION_TYPE_FACEBOOK:{
 				if (_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_FACEBOOK");
-				setupFacebookNotifications(extrasBundle);
+				setupBundleNotifications(extrasBundle);
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_K9:{
 				if (_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_K9");
-				setupBundleNotifications(extrasBundle, Constants.BUNDLE_NAME_K9);
+				setupBundleNotifications(extrasBundle);
 				break;
 		    }
 	    	case Constants.NOTIFICATION_TYPE_RESCHEDULE_PHONE:{
@@ -1988,120 +1988,6 @@ public class NotificationActivity extends Activity {
 	}
 	
 	/**
-	 * Setup the missed calls notifications.
-	 * 
-	 * @param bundle - Activity bundle.
-	 */
-	private boolean setupMissedCalls(Bundle bundle){
-		if (_debug) Log.v("NotificationActivity.setupMissedCalls()"); 
-		ArrayList<String> missedCallsArray = bundle.getStringArrayList("missedCallsArrayList");
-		int missedCallArraysize = missedCallsArray.size();
-		for(int i=0; i<missedCallArraysize ; i++){
-			String[] missedCallInfo = missedCallsArray.get(i).split("\\|");
-			long callLogID = 0;
-			String phoneNumber = null;
-			long timeStamp = 0;
-			long contactID = 0;
-			String contactName = null;
-			long photoID = 0;
-			String lookupKey = null;
-			try{
-				int missedCallInfoSize = missedCallInfo.length;
-				if(missedCallInfoSize < 3){
-					Log.e("NotificationActivity.setupMissedCalls() FATAL NOTIFICATION ERROR. missedCallInfo.length: " + missedCallInfoSize);
-					return false;
-				}else if( missedCallInfoSize == 3){
-					callLogID = Long.parseLong(missedCallInfo[0]);
-					phoneNumber = missedCallInfo[1];
-					timeStamp = Long.parseLong(missedCallInfo[2]);
-				}else{
-					callLogID = Long.parseLong(missedCallInfo[0]);
-					phoneNumber = missedCallInfo[1];
-					timeStamp = Long.parseLong(missedCallInfo[2]);
-					contactID = Long.parseLong(missedCallInfo[3]);
-					contactName = missedCallInfo[4];
-					photoID = Long.parseLong(missedCallInfo[5]);
-					if(missedCallInfoSize < 7){
-						lookupKey = "";
-					}else{
-						lookupKey = missedCallInfo[6];
-					}
-				}
-			}catch(Exception ex){
-				Log.e("NotificationActivity.setupMissedCalls() ERROR: " + ex.toString()); 
-				return false;
-			}
-			_notificationViewFlipper.addNotification(new Notification(_context, callLogID, phoneNumber, timeStamp, contactID, contactName, photoID, lookupKey, Constants.NOTIFICATION_TYPE_PHONE));		    
-			//Display Status Bar Notification
-		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_PHONE, 0, true, contactName, phoneNumber, null, null);
-		}
-	    return true;
-	}
-	
-	/**
-	 * Setup the Calendar Event notifications.
-	 * 
-	 * @param bundle - Activity bundle.
-	 * 
-	 * @return boolean - Returns true if the notification did not have an error.
-	 */
-	private boolean setupCalendarEventNotifications(Bundle bundle){
-		if (_debug) Log.v("NotificationActivity.setupCalendarEventNotifications()");  
-		String calenderEventInfo[] = (String[]) bundle.getStringArray("calenderEventInfo");
-		String title = null;
-		String messageBody = null;
-		long eventStartTime = 0; 
-		long eventEndTime = 0;
-		boolean eventAllDay = false; 
-		String calendarName = null;
-		long calendarID = 0; 
-		long eventID = 0;
-		try{
-			if(calenderEventInfo.length < 8){
-				Log.e("NotificationActivity.setupCalendarEventNotifications() FATAL NOTIFICATION ERROR. calenderEventInfo.length: " + calenderEventInfo.length);
-				return false;
-			}else{
-				title = calenderEventInfo[0];
-				messageBody = calenderEventInfo[1];
-				eventStartTime = Long.parseLong(calenderEventInfo[2]); 
-				eventEndTime = Long.parseLong(calenderEventInfo[3]);
-				eventAllDay = Boolean.parseBoolean(calenderEventInfo[4]); 
-				calendarName = calenderEventInfo[5];
-				calendarID = Long.parseLong(calenderEventInfo[6]); 
-				eventID = Long.parseLong(calenderEventInfo[7]);
-			}
-		}catch(Exception ex){
-			Log.e("NotificationActivity.setupCalendarEventNotifications() Error: " + ex.toString());  
-			return false;
-		}
-		_notificationViewFlipper.addNotification(new Notification(_context, title, messageBody, eventStartTime, eventEndTime, eventAllDay, calendarName, calendarID, eventID, Constants.NOTIFICATION_TYPE_CALENDAR));
-		//Display Status Bar Notification
-	    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_CALENDAR, 0, true, null, null, title, null);
-	    return true;
-	}
-	
-	/**
-	 * Setup the Bundle notification.
-	 * 
-	 * @param bundle - Activity bundle.
-	 * 
-	 * @return boolean - Returns true if the method did not encounter an error.
-	 */
-	private boolean setupBundleNotifications(Bundle bundle, String notificationBundleName){
-		if (_debug) Log.v("NotificationActivity.setupBundleNotifications()");  
-		Bundle notificationBundle = bundle.getBundle(notificationBundleName);
-		if(notificationBundle == null){
-			if (_debug) Log.v("NotificationActivity.setupBundleNotifications() Bundle is null. Exiting..."); 
-			return false;
-		}
-		//Create and Add Notification to ViewFlipper.
-		_notificationViewFlipper.addNotification(new Notification(_context, notificationBundle));		    
-		//Display Status Bar Notification
-	    Common.setStatusBarNotification(_context, notificationBundle.getInt(Constants.BUNDLE_NOTIFICATION_TYPE, 0), 0, true, notificationBundle.getString(Constants.BUNDLE_CONTACT_NAME), notificationBundle.getString(Constants.BUNDLE_SENT_FROM_ADDRESS), notificationBundle.getString(Constants.BUNDLE_MESSAGE_BODY), notificationBundle.getString(Constants.BUNDLE_K9_EMAIL_URI));
-	    return true;
-	}
-	
-	/**
 	 * Setup the Twitter notifications.
 	 * 
 	 * @param bundle - Activity bundle.
@@ -2164,68 +2050,38 @@ public class NotificationActivity extends Activity {
 	}
 	
 	/**
-	 * Setup the Facebook notifications.
+	 * Setup the Bundle notification.
 	 * 
 	 * @param bundle - Activity bundle.
 	 * 
-	 * @return boolean - Returns true if the notification did not have an error.
+	 * @return boolean - Returns true if the method did not encounter an error.
 	 */
-	private boolean setupFacebookNotifications(Bundle bundle){
-		if (_debug) Log.v("NotificationActivity.setupFacebookMessages()");  
-		ArrayList<String> facebookArray = bundle.getStringArrayList("facebookArrayList");
-		int facebookArraysize = facebookArray.size(); 
-		for(int i=0; i<facebookArraysize ; i++){
-			String[] facebookInfo = facebookArray.get(i).split("\\|");
-			String sentFromAddress = null;
-			long sentFromID = 0;
-			String messageBody = null;
-			String messageStringID = null;
-			long timeStamp = 0;
-			long contactID = 0;
-			String contactName = null;
-			long photoID = 0;
-			String lookupKey = null;
-			int notificationSubType = 0;
-			String linkURL = null;
-			try{
-				int facebookInfoSize = facebookInfo.length;
-				if(facebookInfoSize < 5){
-					Log.e("NotificationActivity.setupFacebookMessages() FATAL NOTIFICATION ERROR. facebookInfoSize.length: " + facebookInfoSize);
-					return false;
-				}else if(facebookInfoSize == 5){
-					notificationSubType = Integer.parseInt(facebookInfo[0]);
-					sentFromAddress = facebookInfo[1];
-					sentFromID = Long.parseLong(facebookInfo[2]);
-					messageBody = facebookInfo[3];
-					messageStringID = facebookInfo[4];
-					linkURL = facebookInfo[5];
-					timeStamp = Long.parseLong(facebookInfo[6]);
-				}else{
-					notificationSubType = Integer.parseInt(facebookInfo[0]);
-					sentFromAddress = facebookInfo[1];
-					sentFromID = Long.parseLong(facebookInfo[2]);
-					messageBody = facebookInfo[3];
-					messageStringID = facebookInfo[4];
-					linkURL = facebookInfo[5];
-					timeStamp = Long.parseLong(facebookInfo[6]);
-					contactID = Long.parseLong(facebookInfo[7]);
-					contactName = facebookInfo[8];
-					photoID = Long.parseLong(facebookInfo[9]);
-					if(facebookInfoSize < 11){
-						lookupKey = "";
-					}else{
-						lookupKey = facebookInfo[10];
-					}
-				}
-			}catch(Exception ex){
-				Log.e("NotificationActivity.setupFacebookMessages() ERROR: " + ex.toString()); 
+	private boolean setupBundleNotifications(Bundle bundle){
+		if (_debug) Log.v("NotificationActivity.setupBundleNotifications()");
+		try{
+			Bundle notificationBundle = bundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME);
+			if(notificationBundle == null){
+				if (_debug) Log.v("NotificationActivity.setupBundleNotifications() Bundle is null. Exiting..."); 
 				return false;
 			}
-			_notificationViewFlipper.addNotification(new Notification(_context, sentFromAddress, sentFromID, messageBody, timeStamp, contactID, contactName, photoID, 0, messageStringID, lookupKey, null, null, linkURL, Constants.NOTIFICATION_TYPE_FACEBOOK, notificationSubType));		    
-			//Display Status Bar Notification
-		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_FACEBOOK, notificationSubType, true, contactName, sentFromAddress, messageBody, null);
+			//Loop through all the bundles that were sent through.
+			int bundleCount = bundle.getInt(Constants.BUNDLE_NOTIFICATION_BUNDLE_COUNT, -1);
+			if(bundleCount <= 0){
+				if (_debug) Log.e("NotificationActivity.setupBundleNotifications() Bundle does not contain a notification!!! " + bundleCount);
+				return false;
+			}
+			for(int i=1;i<=bundleCount;i++){
+				Bundle notificationBundleSingle = notificationBundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_" + String.valueOf(i));
+				//Create and Add Notification to ViewFlipper.
+				_notificationViewFlipper.addNotification(new Notification(_context, notificationBundleSingle));
+				//Display Status Bar Notification
+			    Common.setStatusBarNotification(_context, notificationBundleSingle.getInt(Constants.BUNDLE_NOTIFICATION_TYPE, -1), -1, true, notificationBundleSingle.getString(Constants.BUNDLE_CONTACT_NAME), notificationBundleSingle.getString(Constants.BUNDLE_SENT_FROM_ADDRESS), notificationBundleSingle.getString(Constants.BUNDLE_MESSAGE_BODY), notificationBundleSingle.getString(Constants.BUNDLE_K9_EMAIL_URI));
+			}
+		    return true;
+		}catch(Exception ex){
+			if (_debug) Log.v("NotificationActivity.setupBundleNotifications() ERROR: " + ex.toString());
+			return false;
 		}
-	    return true;
 	}
 	
 	/**
@@ -2236,8 +2092,8 @@ public class NotificationActivity extends Activity {
 	private void setupRescheduledNotification(Bundle bundle){
 		if (_debug) Log.v("NotificationActivity.setupRescheduledNotification()");
 		String[] rescheduleNotificationInfo = bundle.getStringArray("rescheduleNotificationInfo");
-		int rescheduleNumber = bundle.getInt("rescheduleNumber");
-		int notificationType = bundle.getInt("notificationType") - 100;
+		int rescheduleNumber = bundle.getInt(Constants.BUNDLE_RESCHEDULE_NUMBER);
+		int notificationType = bundle.getInt(Constants.BUNDLE_NOTIFICATION_TYPE) - 100;
 		//========================================================
 		//String[] Values:
 		//[0]-notificationType

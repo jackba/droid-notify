@@ -89,16 +89,14 @@ public class CalendarNotificationAlarmBroadcastReceiverService extends WakefulIn
 		    	if(preferences.getBoolean(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true)){
 			    	//Get the missed call info.
 			    	Bundle bundle = intent.getExtras();
-					String title = null;
-			    	String calenderEventInfo[] = (String[]) bundle.getStringArray("calenderEventInfo");
-			    	if((calenderEventInfo != null) && (calenderEventInfo.length > 0)){
-						int arraySize = calenderEventInfo.length;
-						if(arraySize > 0){
-							if(arraySize >= 1) title = calenderEventInfo[0];
-						}
-			    	}
-					//Display Status Bar Notification
-				    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_CALENDAR, 0, callStateIdle, null, null, title, null);
+		    		Bundle calendarEventNotificationBundle = bundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME);
+		    		if(calendarEventNotificationBundle != null){
+		    			Bundle calendarEventNotificationBundleSingle = calendarEventNotificationBundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_1");
+		    			if(calendarEventNotificationBundleSingle != null){
+							//Display Status Bar Notification
+						    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_CALENDAR, -1, callStateIdle, null, null, calendarEventNotificationBundleSingle.getString(Constants.BUNDLE_MESSAGE_BODY), null);
+		    			}
+		    		}
 		    	}
 		    	//Ignore notification based on the users preferences.
 		    	if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_IGNORE)){
