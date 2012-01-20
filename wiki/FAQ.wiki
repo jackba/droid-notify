@@ -7,6 +7,7 @@
  * [FAQ#The_notification_icon_isn't_removed_when_I_dismiss_or_acknowledge_the_new_message,_why? The notification icon isn't removed when I dismiss or acknowledge the new message, why?]
  * [FAQ#The_contact_photo_in_the_notification_doesn't_display_the_user's_Facebook_photo_even_though_it_shows_in_the_system_contacts,_why? The contact photo in the notification doesn't display the user's Facebook photo even though it shows in the system contacts, why?]
  * [FAQ#Is_Google_Voice_integrated_with_Droid_Notify? Is Google Voice integrated with Droid Notify?]
+ * [FAQ#Is_WhatsApp_integrated_with_Droid_Notify? Is WhatsApp integrated with Droid Notify?]
  * [FAQ#Can_Droid_Notify_be_moved_to_the_SD_card? Can Droid Notify be moved to the SD card?]
  * [FAQ#Known_Issues_with_Go_SMS_Pro_&_Droid_Notify Known Issues with Go SMS Pro & Droid Notify]
  * [FAQ#Known_Issues_with_Pansi_SMS_&_Droid_Notify Known Issues with Pansi SMS & Droid Notify]
@@ -40,6 +41,12 @@ Unfortunately the Facebook app doesn't allow Developer Apps to access the photos
 Unfortunately, the answer is no.
 
 Google Voice is a private app and does not have an open API so currently there is no way to tap into its SMS messages or other data that it uses. I will continue to monitor the app and look for any API's that will allow Droid Notify to communicate with it or its data, but at this time it's not possible. The only solution is to enable the Google voice option to forward your Google Voice activity to you via SMS messages.
+
+==Is WhatsApp integrated with Droid Notify?==
+
+Unfortunately, the answer is no.
+
+WhatsApp is a private app and does not have an open API so currently there is no way to tap into its SMS messages or other data that it uses. I will continue to monitor the app and look for any API's that will allow Droid Notify to communicate with it or its data, but at this time it's not possible.
 
 ==Can Droid Notify be moved to the SD card?==
 
