@@ -50,10 +50,11 @@ public class SMSCommon {
 	 * 
 	 * @return ArrayList<String> - Returns an ArrayList of Strings that contain the sms information.
 	 */
-	public static ArrayList<String> getSMSMessagesFromDisk(Context context){
+	public static Bundle getSMSMessagesFromDisk(Context context){
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.getSMSMessagesFromDisk()");
-		ArrayList<String> smsArray = new ArrayList<String>();
+		Bundle smsNotificationBundle = new Bundle();
+		int bundleCount = 0;
 		final String[] projection = new String[] { "_id", "thread_id", "address", "person", "date", "body"};
 		final String selection = "read = 0";
 		final String[] selectionArgs = null;
@@ -66,7 +67,9 @@ public class SMSCommon {
 		    		selection,
 					selectionArgs,
 					sortOrder);
-		    while (cursor.moveToNext()) { 
+		    while (cursor.moveToNext()) {
+	    		Bundle smsNotificationBundleSingle = new Bundle();
+	    		bundleCount++;
 		    	long messageID = cursor.getLong(cursor.getColumnIndex("_id"));
 		    	long threadID = cursor.getLong(cursor.getColumnIndex("thread_id"));
 		    	String messageBody = cursor.getString(cursor.getColumnIndex("body"));
@@ -85,14 +88,16 @@ public class SMSCommon {
 					if(lookupKey == null) lookupKey = "";
 					smsArray.add(sentFromAddress + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + threadID + "|" + timeStamp + "|" + contactID + "|" + contactName + "|" + photoID + "|" + lookupKey);
 				}
+	    		smsNotificationBundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_" + String.valueOf(bundleCount), smsNotificationBundleSingle);
 		    	break;
 		    }
+		    smsNotificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_BUNDLE_COUNT, bundleCount);
 		}catch(Exception ex){
 			Log.e("Common.getSMSMessagesFromDisk() ERROR: " + ex.toString());
 		} finally {
     		cursor.close();
     	}
-		return smsArray;	
+		return smsNotificationBundle;	
 	}
 	
 	/**
