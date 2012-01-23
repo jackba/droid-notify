@@ -41,16 +41,16 @@ public class PhoneCommon {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("PhoneCommon.getMissedCalls()");
 		Bundle missedCallNotificationBundle = new Bundle();
-		int bundleCount = 0;
-		Boolean missedCallFound = false;
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-		String missedCallPreference = preferences.getString(Constants.PHONE_DISMISS_BUTTON_ACTION_KEY, "0");
-		final String[] projection = null;
-		final String selection = null;
-		final String[] selectionArgs = null;
-		final String sortOrder = android.provider.CallLog.Calls.DATE + " DESC";
 		Cursor cursor = null;
 		try{
+			int bundleCount = 0;
+			Boolean missedCallFound = false;
+			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+			String missedCallPreference = preferences.getString(Constants.PHONE_DISMISS_BUTTON_ACTION_KEY, "0");
+			final String[] projection = null;
+			final String selection = null;
+			final String[] selectionArgs = null;
+			final String sortOrder = android.provider.CallLog.Calls.DATE + " DESC";
 		    cursor = context.getContentResolver().query(
 		    		Uri.parse("content://call_log/calls"),
 		    		projection,
@@ -111,6 +111,7 @@ public class PhoneCommon {
 			missedCallNotificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_BUNDLE_COUNT, bundleCount);
 		}catch(Exception ex){
 			Log.e("PhoneCommon.getMissedCalls() ERROR: " + ex.toString());
+			missedCallNotificationBundle = null;
 		}finally{
 			cursor.close();
 		}

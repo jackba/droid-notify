@@ -1,10 +1,9 @@
 package apps.droidnotify.services;
 
-import java.util.ArrayList;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 
@@ -83,23 +82,14 @@ public class SMSAlarmBroadcastReceiverService extends WakefulIntentService {
 		    }else{
 		    	//Display the Status Bar Notification even though the popup is blocked based on the user preferences.
 		    	if(preferences.getBoolean(Constants.SMS_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true)){
-		    		//Get the sms message info.
-					String messageAddress = null;
-					String messageBody = null;
-					String contactName = null;
-		    		ArrayList<String> smsArray = SMSCommon.getSMSMessagesFromDisk(context);
-		    		if((smsArray != null) && (smsArray.size() > 0)){
-			    		String smsArrayItem = smsArray.get(0);
-						String[] smsInfo = smsArrayItem.split("\\|");
-		    			int arraySize = smsInfo.length;
-		    			if(arraySize > 0){
-							if(arraySize >= 1) messageAddress = smsInfo[0];
-							if(arraySize >= 2) messageBody = smsInfo[1];
-							if(arraySize >= 7) contactName = smsInfo[6];
+		    		Bundle smsNotificationBundle = SMSCommon.getSMSMessagesFromDisk(context);
+		    		if(smsNotificationBundle != null){
+		    			Bundle smsNotificationBundleSingle = smsNotificationBundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_1");
+		    			if(smsNotificationBundleSingle != null){
+							//Display Status Bar Notification
+						    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_SMS, 0, callStateIdle, smsNotificationBundleSingle.getString(Constants.BUNDLE_CONTACT_NAME), smsNotificationBundleSingle.getString(Constants.BUNDLE_SENT_FROM_ADDRESS), smsNotificationBundleSingle.getString(Constants.BUNDLE_MESSAGE_BODY), null);
 		    			}
-		    		}
-					//Display Status Bar Notification
-				    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_SMS, 0, callStateIdle, contactName, messageAddress, messageBody, null);
+		    		}				    
 			    }
 		    	//Ignore notification based on the users preferences.
 		    	if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_IGNORE)){

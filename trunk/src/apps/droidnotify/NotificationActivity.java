@@ -928,15 +928,23 @@ public class NotificationActivity extends Activity {
 		    }
 		    case Constants.NOTIFICATION_TYPE_SMS:{
 			    if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_SMS");
-			    if(!setupSMSMessages(extrasBundle, true)){
+			    if(!setupBundleNotifications(extrasBundle)){
 					finishActivity();
+				}else{
+					if(_preferences.getBoolean(Constants.SMS_DISPLAY_UNREAD_KEY, false)){
+						new getAllUnreadSMSMessagesAsyncTask().execute();
+				    }
 				}
 		    	break;
 		    }
 		    case Constants.NOTIFICATION_TYPE_MMS:{
 		    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_MMS");
-		    	if(!setupMMSMessages(extrasBundle, true)){
+		    	if(!setupBundleNotifications(extrasBundle)){
 					finishActivity();
+				}else{
+					if(_preferences.getBoolean(Constants.MMS_DISPLAY_UNREAD_KEY, false)){
+						new getAllUnreadMMSMessagesAsyncTask().execute();
+				    }
 				}
 		    	break;
 		    }
@@ -1187,12 +1195,12 @@ public class NotificationActivity extends Activity {
 		    }
 	    	case Constants.NOTIFICATION_TYPE_SMS:{
 			    if (_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_SMS");
-			    setupSMSMessages(extrasBundle, false);
+			    setupBundleNotifications(extrasBundle);
 		    	break;
 		    }
 	    	case Constants.NOTIFICATION_TYPE_MMS:{
 		    	if (_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_MMS");
-		    	setupMMSMessages(extrasBundle, false);
+		    	setupBundleNotifications(extrasBundle);
 		    	break;
 		    }
 	    	case Constants.NOTIFICATION_TYPE_CALENDAR:{
@@ -1315,7 +1323,6 @@ public class NotificationActivity extends Activity {
 		String twitterTestMention = "Twitter Test Mention";
 		String twitterTestFollowerRequest = "Twitter Test Follower Request";
 		String sentFromFacebook = "Facebooktest";
-		String sentFromFacebookName = "Facebook User";
 		String facebookTestNotification = "Facebook Test Notification";
 		String facebookTestFriendRequest = "Facebook Test Friend Request";
 		String facebookTestMessage = "Facebook Test Message";
@@ -1326,40 +1333,69 @@ public class NotificationActivity extends Activity {
 		if(_preferences.getBoolean(Constants.SMS_NOTIFICATIONS_ENABLED_KEY, true)){
 			notificationDisplayed = true;
 			//Add SMS Message Notification.
-			Notification smsNotification = new Notification(_context, sentFromAddress, smsTestMessage, System.currentTimeMillis(), Constants.NOTIFICATION_TYPE_SMS);
+			Bundle testNotificationBundle = new Bundle();
+			testNotificationBundle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, sentFromAddress);
+			testNotificationBundle.putString(Constants.BUNDLE_MESSAGE_BODY, smsTestMessage);
+			testNotificationBundle.putLong(Constants.BUNDLE_TIMESTAMP, System.currentTimeMillis());
+			testNotificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_SMS);
+			Notification smsNotification = new Notification(_context, testNotificationBundle);
 			notificationViewFlipper.addNotification(smsNotification);
 			//Display Status Bar Notification
-		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_SMS, 0, true, null, sentFromAddress, smsTestMessage, null);
+		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_SMS, -1, true, null, sentFromAddress, smsTestMessage, null);
 		}
 		if(_preferences.getBoolean(Constants.MMS_NOTIFICATIONS_ENABLED_KEY, true)){
 			notificationDisplayed = true;
-			//Add SMS Message Notification.
-			Notification smsNotification = new Notification(_context, sentFromAddress, mmsTestMessage, System.currentTimeMillis(), Constants.NOTIFICATION_TYPE_MMS);
-			notificationViewFlipper.addNotification(smsNotification);
+			//Add MMS Message Notification.
+			Bundle testNotificationBundle = new Bundle();
+			testNotificationBundle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, sentFromAddress);
+			testNotificationBundle.putString(Constants.BUNDLE_MESSAGE_BODY, mmsTestMessage);
+			testNotificationBundle.putLong(Constants.BUNDLE_TIMESTAMP, System.currentTimeMillis());
+			testNotificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_MMS);
+			Notification mmsNotification = new Notification(_context, testNotificationBundle);
+			notificationViewFlipper.addNotification(mmsNotification);
 			//Display Status Bar Notification
-		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_MMS, 0, true, null, sentFromAddress, mmsTestMessage, null);
+		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_MMS, -1, true, null, sentFromAddress, mmsTestMessage, null);
 		}
 	    if(_preferences.getBoolean(Constants.PHONE_NOTIFICATIONS_ENABLED_KEY, true)){
 			notificationDisplayed = true;
 			//Add Missed Call Notification.
-			Notification missedCallNotification = new Notification(_context, 0, sentFromAddress, System.currentTimeMillis(), 0, "", 0, "", Constants.NOTIFICATION_TYPE_PHONE);
+			Bundle testNotificationBundle = new Bundle();
+			testNotificationBundle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, sentFromAddress);
+			testNotificationBundle.putLong(Constants.BUNDLE_TIMESTAMP, System.currentTimeMillis());
+			testNotificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_PHONE);
+			Notification missedCallNotification = new Notification(_context, testNotificationBundle);
 			notificationViewFlipper.addNotification(missedCallNotification);
 			//Display Status Bar Notification
-		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_PHONE, 0, true, null, sentFromAddress, null, null);
+		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_PHONE, -1, true, null, sentFromAddress, null, null);
 	    }
 	    if(_preferences.getBoolean(Constants.CALENDAR_NOTIFICATIONS_ENABLED_KEY, true)){
 			notificationDisplayed = true;
 		    //Add Calendar Event Notification.
-			Notification calendarEventNotification = new Notification(_context, calendarTestEvent, calendarTestEventBody, System.currentTimeMillis(), System.currentTimeMillis() + (10 * 60 * 1000), false, calendarTestCalendar,  0, 0, Constants.NOTIFICATION_TYPE_CALENDAR);
+			Bundle testNotificationBundle = new Bundle();
+			testNotificationBundle.putString(Constants.BUNDLE_TITLE, calendarTestEvent);
+			testNotificationBundle.putString(Constants.BUNDLE_MESSAGE_BODY, calendarTestEventBody);
+			testNotificationBundle.putLong(Constants.BUNDLE_CALENDAR_EVENT_START_TIME, System.currentTimeMillis());
+			testNotificationBundle.putLong(Constants.BUNDLE_CALENDAR_EVENT_END_TIME, System.currentTimeMillis() + (10 * 60 * 1000));
+			testNotificationBundle.putBoolean(Constants.BUNDLE_ALL_DAY, false);
+			testNotificationBundle.putString(Constants.BUNDLE_CALENDAR_NAME, calendarTestCalendar);
+			testNotificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_CALENDAR);
+			Notification calendarEventNotification = new Notification(_context, testNotificationBundle);
 			notificationViewFlipper.addNotification(calendarEventNotification);	
 			//Display Status Bar Notification
-		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_CALENDAR, 0, true, null, null, calendarTestEvent, null);
+		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_CALENDAR, -1, true, null, null, calendarTestEvent, null);
 	    }
 	    if(appProVersion && _preferences.getBoolean(Constants.TWITTER_NOTIFICATIONS_ENABLED_KEY, false)){
 	    	if(_preferences.getBoolean(Constants.TWITTER_DIRECT_MESSAGES_ENABLED_KEY, true)){
 				notificationDisplayed = true;
 				//Add Twitter Message Notification.
-				Notification twitterNotification = new Notification(_context, sentFromTwitter, 0, twitterTestMessage, System.currentTimeMillis(), 0, sentFromTwitterName, 0, 0, null, null, null, null, null, Constants.NOTIFICATION_TYPE_TWITTER, Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE);
+				Bundle testNotificationBundle = new Bundle();
+    			testNotificationBundle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, sentFromTwitter);
+    			testNotificationBundle.putString(Constants.BUNDLE_CONTACT_NAME, sentFromTwitterName);
+    			testNotificationBundle.putString(Constants.BUNDLE_MESSAGE_BODY, twitterTestMessage);
+    			testNotificationBundle.putLong(Constants.BUNDLE_TIMESTAMP, System.currentTimeMillis());	    			
+    			testNotificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_TWITTER);
+    			testNotificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE);
+				Notification twitterNotification = new Notification(_context, testNotificationBundle);
 				notificationViewFlipper.addNotification(twitterNotification);
 				//Display Status Bar Notification
 			    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_TWITTER, Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE, true, null, sentFromTwitter, twitterTestMessage, null);
@@ -1367,7 +1403,14 @@ public class NotificationActivity extends Activity {
 	    	if(_preferences.getBoolean(Constants.TWITTER_MENTIONS_ENABLED_KEY, true)){
 				notificationDisplayed = true;
 				//Add Twitter Message Notification.
-				Notification twitterNotification = new Notification(_context, sentFromTwitter, 0, twitterTestMention, System.currentTimeMillis(), 0, sentFromTwitterName, 0, 0, null, null, null, null, null, Constants.NOTIFICATION_TYPE_TWITTER, Constants.NOTIFICATION_TYPE_TWITTER_MENTION);
+				Bundle testNotificationBundle = new Bundle();
+    			testNotificationBundle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, sentFromTwitter);
+    			testNotificationBundle.putString(Constants.BUNDLE_CONTACT_NAME, sentFromTwitterName);
+    			testNotificationBundle.putString(Constants.BUNDLE_MESSAGE_BODY, twitterTestMention);
+    			testNotificationBundle.putLong(Constants.BUNDLE_TIMESTAMP, System.currentTimeMillis());	    			
+    			testNotificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_TWITTER);
+    			testNotificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, Constants.NOTIFICATION_TYPE_TWITTER_MENTION);
+				Notification twitterNotification = new Notification(_context, testNotificationBundle);
 				notificationViewFlipper.addNotification(twitterNotification);
 				//Display Status Bar Notification
 			    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_TWITTER, Constants.NOTIFICATION_TYPE_TWITTER_MENTION, true, null, sentFromTwitter, twitterTestMention, null);
@@ -1375,7 +1418,14 @@ public class NotificationActivity extends Activity {
 	    	if(_preferences.getBoolean(Constants.TWITTER_FOLLOWER_REQUESTS_ENABLED_KEY, true)){
 				notificationDisplayed = true;
 				//Add Twitter Message Notification.
-				Notification twitterNotification = new Notification(_context, sentFromTwitter, 0, twitterTestFollowerRequest, System.currentTimeMillis(), 0, sentFromTwitterName, 0, 0, null, null, null, null, null, Constants.NOTIFICATION_TYPE_TWITTER, Constants.NOTIFICATION_TYPE_TWITTER_FOLLOWER_REQUEST);
+				Bundle testNotificationBundle = new Bundle();
+    			testNotificationBundle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, sentFromTwitter);
+    			testNotificationBundle.putString(Constants.BUNDLE_CONTACT_NAME, sentFromTwitterName);
+    			testNotificationBundle.putString(Constants.BUNDLE_MESSAGE_BODY, twitterTestFollowerRequest);
+    			testNotificationBundle.putLong(Constants.BUNDLE_TIMESTAMP, System.currentTimeMillis());	    			
+    			testNotificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_TWITTER);
+    			testNotificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, Constants.NOTIFICATION_TYPE_TWITTER_FOLLOWER_REQUEST);
+				Notification twitterNotification = new Notification(_context, testNotificationBundle);
 				notificationViewFlipper.addNotification(twitterNotification);
 				//Display Status Bar Notification
 			    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_TWITTER, Constants.NOTIFICATION_TYPE_TWITTER_FOLLOWER_REQUEST, true, null, sentFromTwitter, twitterTestFollowerRequest, null);
@@ -1385,7 +1435,13 @@ public class NotificationActivity extends Activity {
 	    	if(_preferences.getBoolean(Constants.FACEBOOK_USER_NOTIFICATIONS_ENABLED_KEY, true)){
 				notificationDisplayed = true;
 				//Add Facebook Message Notification.
-				Notification facebookNotification = new Notification(_context, sentFromFacebook, 0, facebookTestNotification, System.currentTimeMillis(), 0, sentFromFacebookName, 0, 0, null, null, null, null, null, Constants.NOTIFICATION_TYPE_FACEBOOK, Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION);
+				Bundle testNotificationBundle = new Bundle();
+    			testNotificationBundle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, sentFromFacebook);
+    			testNotificationBundle.putString(Constants.BUNDLE_MESSAGE_BODY, facebookTestNotification);
+    			testNotificationBundle.putLong(Constants.BUNDLE_TIMESTAMP, System.currentTimeMillis());	    			
+    			testNotificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_FACEBOOK);
+    			testNotificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION);
+				Notification facebookNotification = new Notification(_context, testNotificationBundle);
 				notificationViewFlipper.addNotification(facebookNotification);
 				//Display Status Bar Notification
 			    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_FACEBOOK, Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION, true, null, sentFromFacebook, facebookTestNotification, null);
@@ -1393,7 +1449,13 @@ public class NotificationActivity extends Activity {
 		    if(_preferences.getBoolean(Constants.FACEBOOK_FRIEND_REQUESTS_ENABLED_KEY, true)){
 		    	notificationDisplayed = true;
 				//Add Facebook Message Notification.
-				Notification facebookNotification = new Notification(_context, sentFromFacebook, 0, facebookTestFriendRequest, System.currentTimeMillis(), 0, sentFromFacebookName, 0, 0, null, null, null, null, null, Constants.NOTIFICATION_TYPE_FACEBOOK, Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST);
+				Bundle testNotificationBundle = new Bundle();
+    			testNotificationBundle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, sentFromFacebook);
+    			testNotificationBundle.putString(Constants.BUNDLE_MESSAGE_BODY, facebookTestFriendRequest);
+    			testNotificationBundle.putLong(Constants.BUNDLE_TIMESTAMP, System.currentTimeMillis());
+    			testNotificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_FACEBOOK);
+    			testNotificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST);
+				Notification facebookNotification = new Notification(_context, testNotificationBundle);
 				notificationViewFlipper.addNotification(facebookNotification);
 				//Display Status Bar Notification
 			    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_FACEBOOK, Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST, true, null, sentFromFacebook, facebookTestFriendRequest, null);
@@ -1401,7 +1463,13 @@ public class NotificationActivity extends Activity {
 		    if(_preferences.getBoolean(Constants.FACEBOOK_MESSAGES_ENABLED_KEY, true)){
 		    	notificationDisplayed = true;
 				//Add Facebook Message Notification.
-				Notification facebookNotification = new Notification(_context, sentFromFacebook, 0, facebookTestMessage, System.currentTimeMillis(), 0, sentFromFacebookName, 0, 0, null, null, null, null, null, Constants.NOTIFICATION_TYPE_FACEBOOK, Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE);
+				Bundle testNotificationBundle = new Bundle();
+    			testNotificationBundle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, sentFromFacebook);
+    			testNotificationBundle.putString(Constants.BUNDLE_MESSAGE_BODY, facebookTestMessage);
+    			testNotificationBundle.putLong(Constants.BUNDLE_TIMESTAMP, System.currentTimeMillis());
+    			testNotificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_FACEBOOK);
+    			testNotificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST);
+				Notification facebookNotification = new Notification(_context, testNotificationBundle);
 				notificationViewFlipper.addNotification(facebookNotification);
 				//Display Status Bar Notification
 			    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_FACEBOOK, Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST, true, null, sentFromFacebook, facebookTestMessage, null);
@@ -1410,10 +1478,16 @@ public class NotificationActivity extends Activity {
 	    if(_preferences.getBoolean(Constants.K9_NOTIFICATIONS_ENABLED_KEY, true)){
 			notificationDisplayed = true;
 			//Add K9 Message Notification.
-			Notification k9Notification = new Notification(_context, sentFromEmail, emailTestMessage, System.currentTimeMillis(), Constants.NOTIFICATION_TYPE_K9);
+			Bundle testNotificationBundle = new Bundle();
+			testNotificationBundle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, sentFromEmail);
+			testNotificationBundle.putString(Constants.BUNDLE_MESSAGE_BODY, emailTestMessage);
+			testNotificationBundle.putLong(Constants.BUNDLE_TIMESTAMP, System.currentTimeMillis());
+			testNotificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_K9);
+			testNotificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, Constants.NOTIFICATION_TYPE_K9_MAIL);
+			Notification k9Notification = new Notification(_context, testNotificationBundle);
 			notificationViewFlipper.addNotification(k9Notification);
 			//Display Status Bar Notification
-		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_K9, 0, true, null, sentFromEmail, emailTestMessage, null);
+		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_K9, -1, true, null, sentFromEmail, emailTestMessage, null);
 	    }
 	    if(!notificationDisplayed){
 	    	Toast.makeText(_context, R.string.test_notifications_disabled_message, Toast.LENGTH_LONG);
@@ -1582,155 +1656,23 @@ public class NotificationActivity extends Activity {
 	}
 
 	/**
-	 * Get new SMS messages.
-	 *
-	 * @param bundle - Activity bundle.
-	 */
-	private boolean setupSMSMessages(Bundle bundle, boolean loadAllNew) {
-		if (_debug) Log.v("NotificationActivity.setupSMSMessages()"); 
-		ArrayList<String> smsArray = bundle.getStringArrayList("smsArrayList");
-		String currentMessageBody = null;
-		String currentMessageID = "0";
-		for(String smsArrayItem : smsArray){
-			String[] smsInfo = smsArrayItem.split("\\|");
-			String messageAddress = null;
-			String messageBody = null;
-			long messageID = 0;
-			long threadID = 0;
-			long contactID = 0;
-			String contactName = null;
-			long photoID = 0;
-			String lookupKey = null;
-			long timeStamp = 0;
-			try{
-				if(smsInfo.length < 5){
-					Log.e("NotificationActivity.setupSMSMessages() FATAL NOTIFICATION ERROR. smsInfo.length: " + smsInfo.length);
-					return false;
-				}else if(smsInfo.length == 5){ 
-					messageAddress = smsInfo[0];
-					messageBody = smsInfo[1];
-					messageID = Long.parseLong(smsInfo[2]);
-					threadID = Long.parseLong(smsInfo[3]);
-					timeStamp = Long.parseLong(smsInfo[4]);
-				}else{ 
-					messageAddress = smsInfo[0];
-					messageBody = smsInfo[1];
-					messageID = Long.parseLong(smsInfo[2]);
-					threadID = Long.parseLong(smsInfo[3]);
-					timeStamp = Long.parseLong(smsInfo[4]);
-					contactID = Long.parseLong(smsInfo[5]);
-					contactName = smsInfo[6];
-					photoID = Long.parseLong(smsInfo[7]);
-					if(smsInfo.length < 9){
-						lookupKey = "";
-					}else{
-						lookupKey = smsInfo[8];
-					}
-					currentMessageBody = messageBody;
-					currentMessageID = String.valueOf(messageID);
-				}
-			}catch(Exception ex){
-				Log.e("NotificationActivity.setupSMSMessages() ERROR: " + ex.toString());
-				return false;
-			}
-    		_notificationViewFlipper.addNotification(new Notification(_context, messageAddress, messageBody, messageID, threadID, timeStamp, contactID, contactName, photoID, lookupKey, Constants.NOTIFICATION_TYPE_SMS));
-		    //Display Status Bar Notification
-		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_SMS, 0, true, contactName, messageAddress, messageBody, null);
-		}
-		if(loadAllNew){
-			//Load all unread SMS messages.
-			if(_preferences.getBoolean(Constants.SMS_DISPLAY_UNREAD_KEY, false)){
-				if(_preferences.getString(Constants.SMS_LOADING_SETTING_KEY, "0").equals(Constants.SMS_READ_FROM_INTENT)){
-					new getAllUnreadSMSMessagesAsyncTask().execute(currentMessageID, currentMessageBody);
-				}else{
-					new getAllUnreadSMSMessagesAsyncTask().execute();
-				}
-		    }
-		}
-		return true;
-	}
-	
-	/**
-	 * Get new MMS messages.
-	 *
-	 * @param bundle - Activity bundle.
-	 */
-	private boolean setupMMSMessages(Bundle bundle, boolean loadAllNew) {
-		if (_debug) Log.v("NotificationActivity.setupMMSMessages()"); 
-		ArrayList<String> mmsArray = bundle.getStringArrayList("mmsArrayList");
-		for(String mmsArrayItem : mmsArray){
-			String[] mmsInfo = mmsArrayItem.split("\\|");
-			String messageAddress = null;
-			String messageBody = null;
-			long messageID = 0;
-			long threadID = 0;
-			long contactID = 0;
-			String contactName = null;
-			long photoID = 0;
-			String lookupKey = null;
-			long timeStamp = 0;
-			try{
-				if(mmsInfo.length < 5){
-					Log.e("NotificationActivity.setupMMSMessages() FATAL NOTIFICATION ERROR. mmsInfo.length: " + mmsInfo.length);
-					return false;
-				}else if( mmsInfo.length == 5){
-					messageAddress = mmsInfo[0];
-					messageBody = mmsInfo[1];
-					messageID = Long.parseLong(mmsInfo[2]);
-					threadID = Long.parseLong(mmsInfo[3]);
-					//The timestamp is in seconds and not milliseconds. You must multiply by 1000. :)
-					timeStamp = Long.parseLong(mmsInfo[4]) * 1000;
-				}else{
-					messageAddress = mmsInfo[0];
-					messageBody = mmsInfo[1];
-					messageID = Long.parseLong(mmsInfo[2]);
-					threadID = Long.parseLong(mmsInfo[3]);
-					//The timestamp is in seconds and not milliseconds. You must multiply by 1000. :)
-					timeStamp = Long.parseLong(mmsInfo[4]) * 1000;
-					contactID = Long.parseLong(mmsInfo[5]);
-					contactName = mmsInfo[6];
-					photoID = Long.parseLong(mmsInfo[7]);
-					if(mmsInfo.length < 9){
-						lookupKey = "";
-					}else{
-						lookupKey = mmsInfo[8];
-					}
-				}
-			}catch(Exception ex){
-				Log.e("NotificationActivity.setupMMSMessages() ERROR: " + ex.toString());
-				return false;
-			}
-    		_notificationViewFlipper.addNotification(new Notification(_context, messageAddress, messageBody, messageID, threadID, timeStamp, contactID, contactName, photoID, lookupKey, Constants.NOTIFICATION_TYPE_MMS));
-		    //Display Status Bar Notification
-		    Common.setStatusBarNotification(_context, Constants.NOTIFICATION_TYPE_MMS, 0, true, contactName, messageAddress, messageBody, null);
-		}
-		if(loadAllNew){
-			//Load all unread MMS messages.
-			if(_preferences.getBoolean(Constants.MMS_DISPLAY_UNREAD_KEY, false)){
-				new getAllUnreadMMSMessagesAsyncTask().execute();
-		    }
-		}
-		return true;
-	}
-
-	/**
 	 * Get unread SMS messages in the background.
 	 * 
 	 * @author Camille Sévigny
 	 */
-	private class getAllUnreadSMSMessagesAsyncTask extends AsyncTask<String, Void, ArrayList<String>> {
+	private class getAllUnreadSMSMessagesAsyncTask extends AsyncTask<String, Void, Bundle> {
 	    
 		/**
 	     * Do this work in the background.
 	     * 
 	     * @param params - The contact's id.
 	     */
-	    protected ArrayList<String> doInBackground(String... params) {
+	    protected Bundle doInBackground(String... params) {
 			if (_debug) Log.v("NotificationActivity.getAllUnreadSMSMessagesAsyncTask.doInBackground()");
 			if(_preferences.getString(Constants.SMS_LOADING_SETTING_KEY, "0").equals(Constants.SMS_READ_FROM_INTENT)){
-				return getAllUnreadSMSMessages(Long.parseLong(params[0]), params[1]);
+				return SMSCommon.getAllUnreadSMSMessages(_context, Long.parseLong(params[0]), params[1]);
 			}else{
-				return getAllUnreadSMSMessages(0, null);
+				return SMSCommon.getAllUnreadSMSMessages(_context, 0, null);
 			}
 	    }
 	    
@@ -1739,125 +1681,10 @@ public class NotificationActivity extends Activity {
 	     * 
 	     * @param result - The image of the contact.
 	     */
-	    protected void onPostExecute(ArrayList<String> smsArray) {
+	    protected void onPostExecute(Bundle smsnotificationBundle) {
 			if (_debug) Log.v("NotificationActivity.getAllUnreadSMSMessagesAsyncTask.onPostExecute()");		
-			for(String smsArrayItem : smsArray){
-				String[] smsInfo = smsArrayItem.split("\\|");
-				String messageAddress = null;
-				String messageBody = null;
-				long messageID = 0;
-				long threadID = 0;
-				long contactID = 0;
-				String contactName = null;
-				long photoID = 0;
-				String lookupKey = null;
-				long timeStamp = 0;
-				try{
-					if(smsInfo.length < 5){
-						Log.e("NotificationActivity.getAllUnreadSMSMessagesAsyncTask.onPostExecute() FATAL NOTIFICATION ERROR. smsInfo.length: " + smsInfo.length);
-						return;
-					}else if( smsInfo.length == 5){ 
-						messageAddress = smsInfo[0];
-						messageBody = smsInfo[1];
-						messageID = Long.parseLong(smsInfo[2]);
-						threadID = Long.parseLong(smsInfo[3]);
-						timeStamp = Long.parseLong(smsInfo[4]);
-					}else{ 
-						messageAddress = smsInfo[0];
-						messageBody = smsInfo[1];
-						messageID = Long.parseLong(smsInfo[2]);
-						threadID = Long.parseLong(smsInfo[3]);
-						timeStamp = Long.parseLong(smsInfo[4]);
-						contactID = Long.parseLong(smsInfo[5]);
-						contactName = smsInfo[6];
-						photoID = Long.parseLong(smsInfo[7]);
-						if(smsInfo.length < 9){
-							lookupKey = "";
-						}else{
-							lookupKey = smsInfo[8];
-						}
-					}
-				}catch(Exception ex){
-					Log.e("NotificationActivity.getAllUnreadSMSMessagesAsyncTask.onPostExecute() ERROR: " + ex.toString());
-				}
-	    		_notificationViewFlipper.addNotification(new Notification(_context, messageAddress, messageBody, messageID, threadID, timeStamp, contactID, contactName, photoID, lookupKey, Constants.NOTIFICATION_TYPE_SMS));
-			}
+			setupBundleNotifications(smsnotificationBundle);
 	    }
-	}
-
-	/**
-	 * Get all unread Messages and load them.
-	 * 
-	 * @param messageIDFilter - Long value of the currently incoming SMS message.
-	 * @param messagebodyFilter - String value of the currently incoming SMS message.
-	 */
-	private ArrayList<String> getAllUnreadSMSMessages(long messageIDFilter, String messageBodyFilter){
-		if (_debug) Log.v("NotificationActivity.getAllUnreadSMSMessages()" );
-		Context context = getApplicationContext();
-		ArrayList<String> smsArray = new ArrayList<String>();
-		final String[] projection = new String[] { "_id", "thread_id", "address", "person", "date", "body"};
-		final String selection = "read = 0";
-		final String[] selectionArgs = null;
-		final String sortOrder = null;
-		Cursor cursor = null;
-		boolean isFirst = true;
-        try{
-		    cursor = _context.getContentResolver().query(
-		    		Uri.parse("content://sms/inbox"),
-		    		projection,
-		    		selection,
-					selectionArgs,
-					sortOrder);
-		    while (cursor.moveToNext()) { 
-		    	long messageID = cursor.getLong(cursor.getColumnIndex("_id"));
-		    	long threadID = cursor.getLong(cursor.getColumnIndex("thread_id"));
-		    	String messageBody = cursor.getString(cursor.getColumnIndex("body"));
-		    	String sentFromAddress = cursor.getString(cursor.getColumnIndex("address"));
-		    	if(sentFromAddress.contains("@")){
-	            	sentFromAddress = EmailCommon.removeEmailFormatting(sentFromAddress);
-	            }
-		    	long timeStamp = cursor.getLong(cursor.getColumnIndex("date"));
-		    	if(messageIDFilter == 0 && messageBodyFilter == null){
-		    		//Do not grab the first unread SMS message.
-		    		if(!isFirst){
-		    			Bundle smsContactInfoBundle = sentFromAddress.contains("@") ? Common.getContactsInfoByEmail(context, sentFromAddress) : Common.getContactsInfoByPhoneNumber(context, sentFromAddress);
-			    		if(smsContactInfoBundle == null){
-							smsArray.add(sentFromAddress + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + threadID + "|" + timeStamp);
-						}else{
-							long contactID = smsContactInfoBundle.getLong(Constants.BUNDLE_CONTACT_ID, 0);
-							String contactName = smsContactInfoBundle.getString(Constants.BUNDLE_CONTACT_NAME);
-							if(contactName == null) contactName = "";
-							long photoID = smsContactInfoBundle.getLong(Constants.BUNDLE_PHOTO_ID, 0);
-							String lookupKey = smsContactInfoBundle.getString(Constants.BUNDLE_LOOKUP_KEY);
-							if(lookupKey == null) lookupKey = "";
-							smsArray.add(sentFromAddress + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + threadID + "|" + timeStamp + "|" + contactID + "|" + contactName + "|" + photoID + "|" + lookupKey);
-						}
-		    		}
-					isFirst = false;
-		    	}else{
-                    //Don't load the message that corresponds to the messageIDFilter or messageBodyFilter.
-                    if(messageID != messageIDFilter && !messageBody.replace("\n", "<br/>").trim().equals(messageBodyFilter.replace("\n", "<br/>").trim())){
-                    	Bundle smsContactInfoBundle = sentFromAddress.contains("@") ? Common.getContactsInfoByEmail(context, sentFromAddress) : Common.getContactsInfoByPhoneNumber(context, sentFromAddress);
-                        if(smsContactInfoBundle == null){
-                        	smsArray.add(sentFromAddress + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + threadID + "|" + timeStamp);
-                        }else{
-							long contactID = smsContactInfoBundle.getLong(Constants.BUNDLE_CONTACT_ID, 0);
-							String contactName = smsContactInfoBundle.getString(Constants.BUNDLE_CONTACT_NAME);
-							if(contactName == null) contactName = "";
-							long photoID = smsContactInfoBundle.getLong(Constants.BUNDLE_PHOTO_ID, 0);
-							String lookupKey = smsContactInfoBundle.getString(Constants.BUNDLE_LOOKUP_KEY);
-							if(lookupKey == null) lookupKey = "";
-							smsArray.add(sentFromAddress + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + threadID + "|" + timeStamp + "|" + contactID + "|" + contactName + "|" + photoID + "|" + lookupKey);
-                        }
-                    }
-		    	}
-		    }
-		}catch(Exception ex){
-			Log.e("NotificationActivity.getAllUnreadSMSMessages() ERROR: " + ex.toString());
-		} finally {
-    		cursor.close();
-    	}
-		return smsArray;
 	}
 
 	/**
@@ -1865,16 +1692,16 @@ public class NotificationActivity extends Activity {
 	 * 
 	 * @author Camille Sévigny
 	 */
-	private class getAllUnreadMMSMessagesAsyncTask extends AsyncTask<Void, Void, ArrayList<String>> {
+	private class getAllUnreadMMSMessagesAsyncTask extends AsyncTask<Void, Void, Bundle> {
 	    
 		/**
 	     * Do this work in the background.
 	     * 
 	     * @param params - The contact's id.
 	     */
-	    protected ArrayList<String> doInBackground(Void...params) {
+	    protected Bundle doInBackground(Void...params) {
 			if (_debug) Log.v("NotificationActivity.getAllUnreadMMSMessagesAsyncTask.doInBackground()");
-	    	return getAllUnreadMMSMessages();
+	    	return SMSCommon.getAllUnreadMMSMessages(_context);
 	    }
 	    
 	    /**
@@ -1882,109 +1709,10 @@ public class NotificationActivity extends Activity {
 	     * 
 	     * @param result - The image of the contact.
 	     */
-	    protected void onPostExecute(ArrayList<String> mmsArray) {
+	    protected void onPostExecute(Bundle mmsnotificationBundle) {
 			if (_debug) Log.v("NotificationActivity.getAllUnreadMMSMessagesAsyncTask.onPostExecute()");
-			for(String mmsArrayItem : mmsArray){
-				String[] mmsInfo = mmsArrayItem.split("\\|");
-				String messageAddress = null;
-				String messageBody = null;
-				long messageID = 0;
-				long threadID = 0;
-				long contactID = 0;
-				String contactName = null;
-				long photoID = 0;
-				String lookupKey = null;
-				long timeStamp = 0;
-				try{
-					if(mmsInfo.length < 5){
-						Log.e("NotificationActivity.getAllUnreadMMSMessagesAsyncTask.onPostExecute() FATAL NOTIFICATION ERROR. mmsInfo.length: " + mmsInfo.length);
-						return;
-					}else if( mmsInfo.length == 5){ 
-						messageAddress = mmsInfo[0];
-						messageBody = mmsInfo[1];
-						messageID = Long.parseLong(mmsInfo[2]);
-						threadID = Long.parseLong(mmsInfo[3]);
-						//The timestamp is in seconds and not milliseconds. You must multiply by 1000. :)
-						timeStamp = Long.parseLong(mmsInfo[4]) * 1000;
-					}else{ 
-						messageAddress = mmsInfo[0];
-						messageBody = mmsInfo[1];
-						messageID = Long.parseLong(mmsInfo[2]);
-						threadID = Long.parseLong(mmsInfo[3]);
-						//The timestamp is in seconds and not milliseconds. You must multiply by 1000. :)
-						timeStamp = Long.parseLong(mmsInfo[4]) * 1000;
-						contactID = Long.parseLong(mmsInfo[5]);
-						contactName = mmsInfo[6];
-						photoID = Long.parseLong(mmsInfo[7]);
-						if(mmsInfo.length < 9){
-							lookupKey = "";
-						}else{
-							lookupKey = mmsInfo[8];
-						}
-					}
-				}catch(Exception ex){
-					Log.e("NotificationActivity.getAllUnreadMMSMessagesAsyncTask.onPostExecute() ERROR: " + ex.toString());
-				}
-	    		_notificationViewFlipper.addNotification(new Notification(_context, messageAddress, messageBody, messageID, threadID, timeStamp, contactID, contactName, photoID, lookupKey, Constants.NOTIFICATION_TYPE_SMS));
-			}
+			setupBundleNotifications(mmsnotificationBundle);
 	    }
-	}
-	
-	/**
-	 * Get all unread Messages and load them.
-	 * 
-	 * @param messageIDFilter - Long value of the currently incoming SMS message.
-	 * @param messagebodyFilter - String value of the currently incoming SMS message.
-	 */
-	private ArrayList<String> getAllUnreadMMSMessages(){
-		if (_debug) Log.v("NotificationActivity.getAllUnreadMMSMessages()");
-		Context context = getApplicationContext();
-		ArrayList<String> mmsArray = new ArrayList<String>();
-		final String[] projection = new String[] {"_id", "thread_id", "date"};
-		final String selection = "read = 0";
-		final String[] selectionArgs = null;
-		final String sortOrder = "date DESC";
-		Cursor cursor = null;
-		boolean isFirst = true;
-        try{
-		    cursor = context.getContentResolver().query(
-		    		Uri.parse("content://mms/inbox"),
-		    		projection,
-		    		selection,
-					selectionArgs,
-					sortOrder);
-	    	while (cursor.moveToNext()) {
-	    		//Do not grab the first unread MMS message.
-	    		if(!isFirst){
-		    		String messageID = cursor.getString(cursor.getColumnIndex("_id"));
-		    		String threadID = cursor.getString(cursor.getColumnIndex("thread_id"));
-			    	String timeStamp = cursor.getString(cursor.getColumnIndex("date"));
-			    	String sentFromAddress = SMSCommon.getMMSAddress(context, messageID);
-		            if(sentFromAddress.contains("@")){
-		            	sentFromAddress = EmailCommon.removeEmailFormatting(sentFromAddress);
-		            }
-			    	String messageBody = SMSCommon.getMMSText(context, messageID);
-			    	Bundle mmsContactInfoBundle = sentFromAddress.contains("@") ? Common.getContactsInfoByEmail(context, sentFromAddress) : Common.getContactsInfoByPhoneNumber(context, sentFromAddress);
-					if(mmsContactInfoBundle == null){
-						mmsArray.add(sentFromAddress + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + threadID + "|" + timeStamp);
-					}else{
-						long contactID = mmsContactInfoBundle.getLong(Constants.BUNDLE_CONTACT_ID, 0);
-						String contactName = mmsContactInfoBundle.getString(Constants.BUNDLE_CONTACT_NAME);
-						if(contactName == null) contactName = "";
-						long photoID = mmsContactInfoBundle.getLong(Constants.BUNDLE_PHOTO_ID, 0);
-						String lookupKey = mmsContactInfoBundle.getString(Constants.BUNDLE_LOOKUP_KEY);
-						if(lookupKey == null) lookupKey = "";
-						mmsArray.add(sentFromAddress + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + threadID + "|" + timeStamp + "|" + contactID + "|" + contactName + "|" + photoID + "|" + lookupKey);
-					}
-		    	}
-				isFirst = false;
-	    	}
-		}catch(Exception ex){
-			Log.e("MMSReceiverService.getMMSMessages() ERROR: " + ex.toString());
-		} finally {
-    		cursor.close();
-    	}
-		return mmsArray;
 	}
 		
 	/**

@@ -1,7 +1,5 @@
 package apps.droidnotify.services;
 
-import java.util.ArrayList;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -52,11 +50,11 @@ public class MMSService extends WakefulIntentService {
 		if (_debug) Log.v("MMSReceiverService.doWakefulWork()");
 		try{
 			Context context = getApplicationContext();
-			ArrayList<String> mmsArray = SMSCommon.getMMSMessagesFromDisk(context);
-			if(mmsArray != null && mmsArray.size() > 0){
+			Bundle mmsNotificationBundle = SMSCommon.getMMSMessagesFromDisk(context);
+			if(mmsNotificationBundle != null){
 				Bundle bundle = new Bundle();
 				bundle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_MMS);
-				bundle.putStringArrayList("mmsArrayList", mmsArray);
+				bundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME, mmsNotificationBundle);
 		    	Intent mmsNotificationIntent = new Intent(context, NotificationActivity.class);
 		    	mmsNotificationIntent.putExtras(bundle);
 		    	mmsNotificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);

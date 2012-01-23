@@ -1,7 +1,5 @@
 package apps.droidnotify;
 
-import java.util.Date;
-
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -11,6 +9,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.speech.tts.TextToSpeech;
 
+import apps.droidnotify.calendar.CalendarCommon;
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
 import apps.droidnotify.email.EmailCommon;
@@ -129,7 +128,7 @@ public class Notification {
 				}
 				case Constants.NOTIFICATION_TYPE_CALENDAR:{
 					if(_title == null) _title = "Calendar Event";
-					_messageBody = formatCalendarEventMessage(_title, _messageBody, _calendarEventStartTime, _calendarEventEndTime, _allDay, _calendarName);
+					_messageBody = CalendarCommon.formatCalendarEventMessage(_context, _title, _calendarEventStartTime, _calendarEventEndTime, _allDay, _calendarName);
 					if(_sentFromAddress != null) _sentFromAddress = _sentFromAddress.toLowerCase();
 					break;
 				}
@@ -171,257 +170,6 @@ public class Notification {
 			
 		}catch(Exception ex){
 			Log.e("Notification.Notification() ==BUNDLE CONSTRUCTOR== ERROR: " + ex.toString());
-		}
-	}
-	
-	/**
-	 * Class Constructor
-	 */
-	public Notification(Context context, String sentFromAddress, String messageBody, long messageID, long threadID, long timeStamp, long contactID, String contactName, long photoID, String lookupKey, int notificationType) {
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Notification.Notification() ==CONSTRUCTOR 1==");
-		try{			
-			switch(notificationType){
-				case Constants.NOTIFICATION_TYPE_PHONE:{
-					_title = "Missed Call";
-					break;
-				}
-				case Constants.NOTIFICATION_TYPE_SMS:{
-					_title = "SMS Message";
-					break;
-				}
-				case Constants.NOTIFICATION_TYPE_MMS:{
-					_title = "MMS Message";	
-					break;
-				}
-				case Constants.NOTIFICATION_TYPE_CALENDAR:{
-					_title = "Calendar Event";
-					break;
-				}
-				case Constants.NOTIFICATION_TYPE_GMAIL:{
-					_title = "Email";
-					break;
-				}
-				case Constants.NOTIFICATION_TYPE_TWITTER:{
-					_title = "Twitter";
-					break;
-				}
-				case Constants.NOTIFICATION_TYPE_FACEBOOK:{
-					_title = "Facebook";
-					break;
-				}
-				case Constants.NOTIFICATION_TYPE_K9:{
-					_title = "Email";
-					break;
-				}
-			}
-			_context = context;
-			_preferences = PreferenceManager.getDefaultSharedPreferences(_context);
-			_contactExists = false;
-			_contactPhotoExists = false;
-			_notificationType = notificationType;
-			if(sentFromAddress != null && !sentFromAddress.equals("")){
-				if(_notificationType == Constants.NOTIFICATION_TYPE_FACEBOOK){
-					_sentFromAddress = sentFromAddress;
-				}else{
-					_sentFromAddress = sentFromAddress.toLowerCase();
-				}
-			}else{
-				_sentFromAddress = null;
-			}
-    		_messageBody = messageBody;
-    		_messageID = messageID;
-    		_threadID = threadID;
-    		_timeStamp = timeStamp;
-    		_contactID = contactID;
-    		if(_contactID == 0){
-    			_contactExists = false;
-    		}else{
-    			_contactExists = true;
-    		}
-    		if(contactName != null && !contactName.equals("")){
-    			_contactName = contactName;
-    		}else{
-    			_contactName = null;
-    		}
-    		_photoID = photoID;
-    		if(photoID == 0){
-    			_contactPhotoExists = false;
-    		}else{
-    			_contactPhotoExists = true;
-    		}
-    		_lookupKey = lookupKey;
-    		setReminder();
-		}catch(Exception ex){
-			Log.e("Notification.Notification() ==CONSTRUCTOR 1== ERROR: " + ex.toString());
-		}
-	}
-
-	/**
-	 * Class Constructor
-	 */
-	public Notification(Context context, String sentFromAddress, String messageBody, long timeStamp, long threadID, long contactID, String contactName, long photoID, long messageID, String messageStringID, String title, long calendarID, long calendarEventID, long calendarEventStartTime, long calendarEventEndTime, boolean allDay, long callLogID,  String lookupKey, String k9EmailUri, String k9EmailDelUri, int rescheduleNumber, int notificationType, int notificationSubType) {
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Notification.Notification() ==CONSTRUCTOR 5==");
-		try{
-			_context = context;
-			_preferences = PreferenceManager.getDefaultSharedPreferences(_context);
-			_contactExists = false;
-			_contactPhotoExists = false;
-			_notificationType = notificationType;
-			if(sentFromAddress != null && !sentFromAddress.equals("")){
-				if(_notificationType == Constants.NOTIFICATION_TYPE_FACEBOOK){
-					_sentFromAddress = sentFromAddress;
-				}else{
-					_sentFromAddress = sentFromAddress.toLowerCase();
-				}
-			}else{
-				_sentFromAddress = null;
-			}
-    		_messageBody = messageBody;
-    		_messageID = messageID;
-    		_messageStringID = messageStringID;
-    		_threadID = threadID;
-    		_timeStamp = timeStamp;
-    		_contactID = contactID;
-    		if(_contactID == 0){
-    			_contactExists = false;
-    		}else{
-    			_contactExists = true;
-    		}
-    		_k9EmailUri = k9EmailUri;
-    		_k9EmailDelUri = k9EmailDelUri;
-    		if(contactName != null && !contactName.equals("")){
-    			_contactName = contactName;
-    		}else{
-    			_contactName = null;    			
-    		}
-    		_photoID = photoID;
-    		if(photoID == 0){
-    			_contactPhotoExists = false;
-    		}else{
-    			_contactPhotoExists = true;
-    		}
-    		_title = title;
-    		_calendarID = calendarID;
-    		_calendarEventID = calendarEventID;
-    		_calendarEventStartTime = calendarEventStartTime;
-    		_calendarEventEndTime = calendarEventEndTime;
-    		_allDay = allDay;
-    		_callLogID = callLogID;
-    		_lookupKey = lookupKey;
-    		_rescheduleNumber = rescheduleNumber;
-    		_notificationSubType = notificationSubType;
-    		setReminder();
-		}catch(Exception ex){
-			Log.e("Notification.Notification() ==CONSTRUCTOR 5== ERROR: " + ex.toString());
-		}
-	}
-
-	/**
-	 * Class Constructor
-	 */
-	public Notification(Context context, String sentFromAddress, long sentFromID, String messageBody, long timeStamp, long contactID, String contactName, long photoID, long messageID, String messageStringID, String lookupKey, String k9EmailUri, String k9EmailDelUri, String linkURL, int notificationType, int notificationSubType) {
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Notification.Notification() ==CONSTRUCTOR 6==");
-		try{			
-			switch(notificationType){
-				case Constants.NOTIFICATION_TYPE_PHONE:{
-					_title = "Missed Call";
-					if(_linkURL != null) _linkURL = linkURL;
-					break;
-				}
-				case Constants.NOTIFICATION_TYPE_SMS:{
-					_title = "SMS Message";
-					if(_linkURL != null) _linkURL = linkURL;
-					break;
-				}
-				case Constants.NOTIFICATION_TYPE_MMS:{
-					_title = "MMS Message";	
-					if(_linkURL != null) _linkURL = linkURL;
-					break;
-				}
-				case Constants.NOTIFICATION_TYPE_CALENDAR:{
-					_title = "Calendar Event";
-					if(_linkURL != null) _linkURL = linkURL;
-					break;
-				}
-				case Constants.NOTIFICATION_TYPE_GMAIL:{
-					_title = "Email";
-					if(_linkURL != null) _linkURL = linkURL;
-					break;
-				}
-				case Constants.NOTIFICATION_TYPE_TWITTER:{
-					_title = "Twitter";
-					if(notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE){
-						if(sentFromAddress != null) _linkURL = String.format("https://mobile.twitter.com/%s/messages", sentFromAddress);
-					}else if(notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_FOLLOWER_REQUEST){
-						if(_linkURL != null) _linkURL = linkURL;
-					}else if(notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_MENTION){
-						_linkURL = "https://mobile.twitter.com/replies";
-					}
-					break;
-				}
-				case Constants.NOTIFICATION_TYPE_FACEBOOK:{
-					_title = "Facebook";
-					if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION){
-						if(_linkURL != null) _linkURL = linkURL.replace("http://www.facebook.com/", "http://m.facebook.com/");
-					}else if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST){
-						if(_linkURL != null) _linkURL = linkURL;
-					}else if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE){
-						if(messageStringID != null) _linkURL = String.format("https://m.facebook.com/messages/read?action=read&tid=id.%s", messageStringID.substring(0, messageStringID.indexOf("_")));
-					}
-					break;
-				}
-				case Constants.NOTIFICATION_TYPE_K9:{
-					_title = "Email";
-					if(_linkURL != null) _linkURL = linkURL;
-					break;
-				}
-			}
-			_context = context;
-			_preferences = PreferenceManager.getDefaultSharedPreferences(_context);
-			_contactExists = false;
-			_contactPhotoExists = false;
-			_notificationType = notificationType;
-			_notificationSubType = notificationSubType;
-			if(sentFromAddress != null && !sentFromAddress.equals("")){
-				if(_notificationType == Constants.NOTIFICATION_TYPE_FACEBOOK){
-					_sentFromAddress = sentFromAddress;
-				}else{
-					_sentFromAddress = sentFromAddress.toLowerCase();
-				}
-			}else{
-				_sentFromAddress = null;
-			}
-			_sentFromID = sentFromID;
-    		_messageBody = messageBody;
-    		_messageID = messageID;
-    		_messageStringID = messageStringID;
-    		_timeStamp = timeStamp;
-    		_contactID = contactID;
-    		if(_contactID == 0){
-    			_contactExists = false;
-    		}else{
-    			_contactExists = true;
-    		}
-    		_k9EmailUri = k9EmailUri;
-    		_k9EmailDelUri = k9EmailDelUri;
-    		if(contactName != null && !contactName.equals("")){
-    			_contactName = contactName;
-    		}else{
-    			_contactName = null;    			
-    		}
-    		_photoID = photoID;
-    		if(photoID == 0){
-    			_contactPhotoExists = false;
-    		}else{
-    			_contactPhotoExists = true;
-    		}
-    		_lookupKey = lookupKey;    		
-    		setReminder();
-		}catch(Exception ex){
-			Log.e("Notification.Notification() ==CONSTRUCTOR 6== ERROR: " + ex.toString());
 		}
 	}
 	
@@ -1025,59 +773,5 @@ public class Notification {
 		if(_debug)Log.v("Notification.setMessageRead()");
 		SMSCommon.setMessageRead(_context, getMessageID(), isViewed, _notificationType);
 	}
-	
-	/**
-	 * Format/create the Calendar Event message.
-	 * 
-	 * @param eventStartTime - Calendar Event's start time.
-	 * @param eventEndTime - Calendar Event's end time.
-	 * @param allDay - Boolean, true if the Calendar Event is all day.
-	 * 
-	 * @return String - Returns the formatted Calendar Event message.
-	 */
-	private String formatCalendarEventMessage(String messageTitle, String messageBody, long eventStartTime, long eventEndTime, boolean allDay, String calendarName){
-		if (_debug) Log.v("Notification.formatCalendarEventMessage()");
-		String formattedMessage = "";
-		Date eventEndDate = new Date(eventEndTime);
-		Date eventStartDate = new Date(eventStartTime);
-		if(messageTitle == null || messageTitle.equals("No Title")){
-			messageTitle = "";
-		}else{
-			messageTitle = messageTitle + "<br/>";
-		}
-		if(messageBody == null){
-			messageBody = "";	
-		}else{
-			messageBody = "<br/>" + messageBody;
-		}
-		String startDateFormated = Common.formatDate(_context, eventStartDate);
-		String endDateFormated = Common.formatDate(_context, eventEndDate);
-		try{
-			String[] startDateInfo = Common.parseDateInfo(_context, startDateFormated);
-			String[] endDateInfo = Common.parseDateInfo(_context, endDateFormated);
-    		if(allDay){
-    			formattedMessage = startDateInfo[0] + " - All Day";
-    		}else{
-    			//Check if the event spans a single day or not.
-    			if(startDateInfo[0].equals(endDateInfo[0]) && startDateInfo.length == 3){
-    				if(startDateInfo.length < 3){
-    					formattedMessage = startDateInfo[0] + " " + startDateInfo[1] + " - " + endDateInfo[1];
-    				}else{
-    					formattedMessage = startDateInfo[0] + " " + startDateInfo[1] + " " + startDateInfo[2] +  " - " + endDateInfo[1] + " " + startDateInfo[2];
-    				}
-    			}else{
-    				formattedMessage = startDateFormated + " - " + endDateFormated;
-    			}
-    		}
-    		formattedMessage =  messageTitle + formattedMessage + messageBody;
-		}catch(Exception ex){
-			Log.e("Notification.formatCalendarEventMessage() ERROR: " + ex.toString());
-			formattedMessage = startDateFormated + " - " + endDateFormated;
-		}
-    	if(_preferences.getBoolean(Constants.CALENDAR_LABELS_KEY, true)){
-    		formattedMessage = "<b>" + calendarName + "</b><br/>" + formattedMessage;
-    	}
-		return formattedMessage.replace("\n", "<br/>").trim();
-	}	
 	
 }
