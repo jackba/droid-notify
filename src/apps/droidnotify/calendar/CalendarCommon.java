@@ -1,5 +1,7 @@
 package apps.droidnotify.calendar;
 
+import java.util.Date;
+
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.ComponentName;
@@ -274,5 +276,57 @@ public class CalendarCommon {
 			Log.e("Common.cancelCalendarAlarmManager() ERROR: " + ex.toString());
 		}
 	}
+	
+	/**
+	 * Format/create the Calendar Event message.
+	 * 
+	 * @param context - The application context.
+	 * @param eventStartTime - Calendar Event's start time.
+	 * @param eventEndTime - Calendar Event's end time.
+	 * @param allDay - Boolean, true if the Calendar Event is all day.
+	 * 
+	 * @return String - Returns the formatted Calendar Event message.
+	 */
+	public static String formatCalendarEventMessage(Context context, String messageTitle, long eventStartTime, long eventEndTime, boolean allDay, String calendarName){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Notification.formatCalendarEventMessage()");
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		String formattedMessage = "";
+		Date eventEndDate = new Date(eventEndTime);
+		Date eventStartDate = new Date(eventStartTime);
+		if(messageTitle == null || messageTitle.equals("No Title")){
+			messageTitle = "";
+		}else{
+			messageTitle = messageTitle + "<br/>";
+		}
+		String startDateFormated = Common.formatDate(context, eventStartDate);
+		String endDateFormated = Common.formatDate(context, eventEndDate);
+		try{
+			String[] startDateInfo = Common.parseDateInfo(context, startDateFormated);
+			String[] endDateInfo = Common.parseDateInfo(context, endDateFormated);
+    		if(allDay){
+    			formattedMessage = startDateInfo[0] + " - All Day";
+    		}else{
+    			//Check if the event spans a single day or not.
+    			if(startDateInfo[0].equals(endDateInfo[0]) && startDateInfo.length == 3){
+    				if(startDateInfo.length < 3){
+    					formattedMessage = startDateInfo[0] + " " + startDateInfo[1] + " - " + endDateInfo[1];
+    				}else{
+    					formattedMessage = startDateInfo[0] + " " + startDateInfo[1] + " " + startDateInfo[2] +  " - " + endDateInfo[1] + " " + startDateInfo[2];
+    				}
+    			}else{
+    				formattedMessage = startDateFormated + " - " + endDateFormated;
+    			}
+    		}
+    		formattedMessage =  messageTitle + formattedMessage;
+		}catch(Exception ex){
+			Log.e("Notification.formatCalendarEventMessage() ERROR: " + ex.toString());
+			formattedMessage = startDateFormated + " - " + endDateFormated;
+		}
+    	if(preferences.getBoolean(Constants.CALENDAR_LABELS_KEY, true)){
+    		formattedMessage = "<b>" + calendarName + "</b><br/>" + formattedMessage;
+    	}
+		return formattedMessage.replace("\n", "<br/>").trim();
+	}	
 	
 }

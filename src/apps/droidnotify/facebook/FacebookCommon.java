@@ -44,6 +44,321 @@ public class FacebookCommon {
 	//================================================================================
 	// Public Methods
 	//================================================================================
+
+	/**
+	 * Poll Facebook for Notifications.
+	 * 
+	 * @param accessToken - The Facebook access token.
+	 * @param facebook - The Facebook Object.
+	 */
+	public static Bundle getFacebookNotifications(Context context, String accessToken, Facebook facebook){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("FacebookCommon.getFacebookNotifications()");
+        try{
+        	Bundle facebookNotificationNotificationBundle = new Bundle();
+        	int bundleCount = 0;
+        	Bundle facebookAPIBundle = new Bundle();
+        	facebookAPIBundle.putString(Facebook.TOKEN, accessToken);
+        	String result = facebook.request("me/notifications", facebookAPIBundle, "GET");
+        	//if (_debug) Log.v("FacebookCommon.getFacebookNotifications() Result: " + result);
+        	JSONObject jsonResults = new JSONObject(result);
+        	if(jsonResults.has("error")){
+        		JSONObject jsonError = jsonResults.getJSONObject("error");
+        		Log.e("FacebookCommon.getFacebookNotifications() FACAEBOOK API ERROR: " + jsonError.getString("message"));
+        		return null;
+        	}
+        	if(!jsonResults.has("data")){
+        		if (_debug) Log.v("FacebookCommon.getFacebookNotifications() No data in the DATA array found. Exiting...");
+        		return null;
+        	}
+        	JSONArray jsonDataArray = jsonResults.getJSONArray("data");
+        	int jsonDataArraySize = jsonDataArray.length();
+        	if(jsonDataArraySize == 0){
+        		if (_debug) Log.v("FacebookCommon.getFacebookNotifications() The data array size is 0. Exiting...");
+        		return null;
+        	}
+        	for (int i=0;i<jsonDataArraySize;i++){
+        		Bundle facebookNotificationNotificationBundleSingle = new Bundle();
+        		bundleCount++;
+        	    JSONObject jsonNotificationData = jsonDataArray.getJSONObject(i);
+        	    long timeStamp = 0;
+        	    if(jsonNotificationData.has("updated_time")){
+        	    	timeStamp = parseFacebookDateTime(jsonNotificationData.getString("updated_time"));
+        	    }else if(jsonNotificationData.has("created_time")){
+        	    	timeStamp = parseFacebookDateTime(jsonNotificationData.getString("created_time"));
+        	    }
+        	    String notificationText = jsonNotificationData.getString("title");
+        	    String notificationExternalLinkURL = jsonNotificationData.getString("link");
+				String notificationID = jsonNotificationData.getString("id");
+				JSONObject fromFacebookUser = jsonNotificationData.getJSONObject("from");
+				String fromFacebookName = fromFacebookUser.getString("name");
+				String fromFacebookID = fromFacebookUser.getString("id");
+	    		Bundle facebookContactInfoBundle = Common.getContactsInfoByName(context, fromFacebookName);
+	    		if(facebookContactInfoBundle == null){
+					//Basic Notification Information.
+	    			facebookNotificationNotificationBundleSingle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, fromFacebookName);
+	    			facebookNotificationNotificationBundleSingle.putLong(Constants.BUNDLE_SENT_FROM_ID, Long.parseLong(fromFacebookID));
+	    			facebookNotificationNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_BODY, notificationText.replace("\n", "<br/>"));
+	    			facebookNotificationNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_STRING_ID, notificationID);
+	    			facebookNotificationNotificationBundleSingle.putString(Constants.BUNDLE_LINK_URL, notificationExternalLinkURL);
+	    			facebookNotificationNotificationBundleSingle.putLong(Constants.BUNDLE_TIMESTAMP, timeStamp);	    			
+	    			facebookNotificationNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_FACEBOOK);
+	    			facebookNotificationNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION);
+				}else{
+					//Basic Notification Information.
+	    			facebookNotificationNotificationBundleSingle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, fromFacebookName);
+	    			facebookNotificationNotificationBundleSingle.putLong(Constants.BUNDLE_SENT_FROM_ID, Long.parseLong(fromFacebookID));
+	    			facebookNotificationNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_BODY, notificationText.replace("\n", "<br/>"));
+	    			facebookNotificationNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_STRING_ID, notificationID);
+	    			facebookNotificationNotificationBundleSingle.putString(Constants.BUNDLE_LINK_URL, notificationExternalLinkURL);
+	    			facebookNotificationNotificationBundleSingle.putLong(Constants.BUNDLE_TIMESTAMP, timeStamp);	    			
+	    			facebookNotificationNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_FACEBOOK);
+	    			facebookNotificationNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION);
+	    			//Contact Information.
+					facebookNotificationNotificationBundleSingle.putLong(Constants.BUNDLE_CONTACT_ID, facebookContactInfoBundle.getLong(Constants.BUNDLE_CONTACT_ID, 0));
+					facebookNotificationNotificationBundleSingle.putString(Constants.BUNDLE_CONTACT_NAME, facebookContactInfoBundle.getString(Constants.BUNDLE_CONTACT_NAME));
+					facebookNotificationNotificationBundleSingle.putLong(Constants.BUNDLE_PHOTO_ID, facebookContactInfoBundle.getLong(Constants.BUNDLE_PHOTO_ID, 0));
+					facebookNotificationNotificationBundleSingle.putString(Constants.BUNDLE_LOOKUP_KEY, facebookContactInfoBundle.getString(Constants.BUNDLE_LOOKUP_KEY));
+				}
+	    		facebookNotificationNotificationBundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_" + String.valueOf(bundleCount), facebookNotificationNotificationBundleSingle);
+        	}
+        	facebookNotificationNotificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_BUNDLE_COUNT, bundleCount);
+        	return facebookNotificationNotificationBundle;
+        }catch(Exception ex){
+        	Log.e("FacebookCommon.getFacebookNotifications() ERROR: " + ex.toString());
+        	return null;
+        }
+	}
+
+	/**
+	 * Poll Facebook for Friend Requests.
+	 * 
+	 * @param accessToken - The Facebook access token.
+	 * @param facebook - The Facebook Object.
+	 */
+	public static Bundle getFacebookFriendRequests(Context context, String accessToken, Facebook facebook){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("FacebookCommon.getFacebookFriendRequests()");
+        try{
+        	Bundle facebookFriendRequestNotificationBundle = new Bundle();
+        	int bundleCount = 0;
+        	Bundle facebookAPIBundle = new Bundle();
+        	facebookAPIBundle.putString(Facebook.TOKEN, accessToken);
+        	String result = facebook.request("me/friendrequests", facebookAPIBundle, "GET");
+        	//if (_debug) Log.v("FacebookCommon.getFacebookFriendRequests() Result: " + result);
+        	JSONObject jsonResults = new JSONObject(result);
+        	if(jsonResults.has("error")){
+        		JSONObject jsonError = jsonResults.getJSONObject("error");
+        		Log.e("FacebookCommon.getFacebookNotifications() FACAEBOOK API ERROR: " + jsonError.getString("message"));
+        		return null;
+        	}
+        	if(!jsonResults.has("data")){
+        		if (_debug) Log.v("FacebookCommon.getFacebookFriendRequests() No data in the DATA array found. Exiting...");
+        		return null;
+        	}
+        	JSONArray jsonDataArray = jsonResults.getJSONArray("data");
+        	int jsonDataArraySize = jsonDataArray.length();
+        	if(jsonDataArraySize == 0){
+        		if (_debug) Log.v("FacebookCommon.getFacebookFriendRequests() The data array size is 0. Exiting...");
+        		return null;
+        	}
+        	for (int i=0;i<jsonDataArraySize;i++){
+        		Bundle facebookFriendRequestNotificationBundleSingle = new Bundle();
+        		bundleCount++;
+        	    JSONObject jsonFriendRequestData = jsonDataArray.getJSONObject(i);
+        	    long timeStamp = 0;
+        	    if(jsonFriendRequestData.has("updated_time")){
+        	    	timeStamp = parseFacebookDateTime(jsonFriendRequestData.getString("updated_time"));
+        	    }else if(jsonFriendRequestData.has("created_time")){
+        	    	timeStamp = parseFacebookDateTime(jsonFriendRequestData.getString("created_time"));
+        	    }
+				String friendRequestID = "0";
+				JSONObject fromFacebookUser = jsonFriendRequestData.getJSONObject("from");
+				String fromFacebookName = fromFacebookUser.getString("name");
+				String fromFacebookID = fromFacebookUser.getString("id");
+        	    String friendRequestText = context.getString(R.string.facebook_new_friend_request_from) + " " + fromFacebookName;
+        	    Bundle facebookContactInfoBundle = Common.getContactsInfoByName(context, fromFacebookName);
+	    		if(facebookContactInfoBundle == null){
+					//Basic Notification Information.
+	    			facebookFriendRequestNotificationBundleSingle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, fromFacebookName);
+	    			facebookFriendRequestNotificationBundleSingle.putLong(Constants.BUNDLE_SENT_FROM_ID, Long.parseLong(fromFacebookID));
+	    			facebookFriendRequestNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_BODY, friendRequestText);
+	    			facebookFriendRequestNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_STRING_ID, friendRequestID);
+	    			facebookFriendRequestNotificationBundleSingle.putLong(Constants.BUNDLE_TIMESTAMP, timeStamp);
+	    			facebookFriendRequestNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_FACEBOOK);
+	    			facebookFriendRequestNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST);
+	    		}else{
+					//Basic Notification Information.
+	    			facebookFriendRequestNotificationBundleSingle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, fromFacebookName);
+	    			facebookFriendRequestNotificationBundleSingle.putLong(Constants.BUNDLE_SENT_FROM_ID, Long.parseLong(fromFacebookID));
+	    			facebookFriendRequestNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_BODY, friendRequestText);
+	    			facebookFriendRequestNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_STRING_ID, friendRequestID);
+	    			facebookFriendRequestNotificationBundleSingle.putLong(Constants.BUNDLE_TIMESTAMP, timeStamp);
+	    			facebookFriendRequestNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_FACEBOOK);
+	    			facebookFriendRequestNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST);
+	    			//Contact Information.
+					facebookFriendRequestNotificationBundleSingle.putLong(Constants.BUNDLE_CONTACT_ID, facebookContactInfoBundle.getLong(Constants.BUNDLE_CONTACT_ID, 0));
+					facebookFriendRequestNotificationBundleSingle.putString(Constants.BUNDLE_CONTACT_NAME, facebookContactInfoBundle.getString(Constants.BUNDLE_CONTACT_NAME));
+					facebookFriendRequestNotificationBundleSingle.putLong(Constants.BUNDLE_PHOTO_ID, facebookContactInfoBundle.getLong(Constants.BUNDLE_PHOTO_ID, 0));
+					facebookFriendRequestNotificationBundleSingle.putString(Constants.BUNDLE_LOOKUP_KEY, facebookContactInfoBundle.getString(Constants.BUNDLE_LOOKUP_KEY));
+				}
+	    		facebookFriendRequestNotificationBundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_" + String.valueOf(bundleCount), facebookFriendRequestNotificationBundleSingle);
+        	}
+        	facebookFriendRequestNotificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_BUNDLE_COUNT, bundleCount);
+        	return facebookFriendRequestNotificationBundle;
+        }catch(Exception ex){
+        	Log.e("FacebookCommon.getFacebookFriendRequests() ERROR: " + ex.toString());
+        	return null;
+        }
+	}
+
+	/**
+	 * Poll Facebook for Messages.
+	 * 
+	 * @param accessToken - The Facebook access token.
+	 * @param facebook - The Facebook Object.
+	 */
+	public static Bundle getFacebookMessages(Context context, String accessToken, Facebook facebook){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("FacebookCommon.getFacebookMessages()");
+        try{
+        	Bundle facebookMessageNotificationBundle = new Bundle();
+        	int bundleCount = 0;
+        	Bundle facebookAPIBundle = new Bundle();
+        	facebookAPIBundle.putString(Facebook.TOKEN, accessToken);
+        	String result = facebook.request("me/inbox", facebookAPIBundle, "GET");
+        	//if (_debug) Log.v("FacebookCommon.getFacebookMessages() Result: " + result);
+        	JSONObject jsonResults = new JSONObject(result);
+        	if(jsonResults.has("error")){
+        		JSONObject jsonError = jsonResults.getJSONObject("error");
+        		Log.e("FacebookCommon.getFacebookNotifications() FACAEBOOK API ERROR: " + jsonError.getString("message"));
+        		return null;
+        	}
+        	if(!jsonResults.has("data")){
+        		if (_debug) Log.v("FacebookCommon.getFacebookMessages() No data in the DATA array found. Exiting...");
+        		return null;
+        	}
+        	JSONArray jsonDataArray = jsonResults.getJSONArray("data");
+        	int jsonDataArraySize = jsonDataArray.length();
+        	if(jsonDataArraySize == 0){
+        		if (_debug) Log.v("FacebookCommon.getFacebookMessages() The data array size is 0. Exiting...");
+        		return null;
+        	}
+        	for (int i=0;i<jsonDataArraySize;i++){
+        	    JSONObject jsonMessageData = jsonDataArray.getJSONObject(i);
+        	    int unreadFlag = jsonMessageData.getInt("unread");
+        	    //int unseenFlag = jsonMessageData.getInt("unseen");
+        	    if(unreadFlag > 0){
+    				JSONObject originalFromFacebookUser = jsonMessageData.getJSONObject("from");
+    				String originalFromFacebookName = originalFromFacebookUser.getString("name");
+    				String originalFromFacebookID = originalFromFacebookUser.getString("id");
+    				//Original/Start message details.
+            	    long originalTimeStamp = 0;       	    
+            	    if(jsonMessageData.has("updated_time")){
+            	    	originalTimeStamp = parseFacebookDateTime(jsonMessageData.getString("updated_time"));
+            	    }else if(jsonMessageData.has("created_time")){
+            	    	originalTimeStamp = parseFacebookDateTime(jsonMessageData.getString("created_time"));
+            	    }
+            	    String originalMessageStringID = jsonMessageData.getString("id");
+            	    String originalMessageText = jsonMessageData.getString("message");
+					boolean commentsExist = true;
+					JSONObject messageComments = null;
+					if(jsonMessageData.has("comments")){
+						messageComments = jsonMessageData.getJSONObject("comments");
+						commentsExist = true;
+					}else{
+						messageComments = null;
+						commentsExist = false;
+					}
+					if(commentsExist){
+						//Multiple messages in thread.
+		        	    JSONArray jsonCommentsDataArray = messageComments.getJSONArray("data");
+	        	    	//Get latest/most recent message details.
+	        	    	int jsonCommentsDataArraySize = jsonCommentsDataArray.length();
+	        	    	for(int j=jsonCommentsDataArraySize-unreadFlag;j<jsonCommentsDataArraySize;j++){
+	                		Bundle facebookMessageNotificationBundleSingle = new Bundle();
+	                		bundleCount++;
+	        	    		JSONObject jsonCommentMessageData = jsonCommentsDataArray.getJSONObject(j);
+	        	    		long timeStamp = parseFacebookDateTime(jsonCommentMessageData.getString("created_time"));
+	        	    		String messageStringID = jsonCommentMessageData.getString("id");
+	        	    		String messageText = jsonCommentMessageData.getString("message");
+	        	    		//Sent From User Info
+	        	    		JSONObject fromFacebookUser = jsonCommentMessageData.getJSONObject("from");
+	        				String fromFacebookName = fromFacebookUser.getString("name");
+	        				String fromFacebookID = fromFacebookUser.getString("id");
+	                	    Bundle facebookContactInfoBundle = Common.getContactsInfoByName(context, fromFacebookName);
+	        	    		if(facebookContactInfoBundle == null){
+	        					//Basic Notification Information.
+	        	    			facebookMessageNotificationBundleSingle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, fromFacebookName);
+	        	    			facebookMessageNotificationBundleSingle.putLong(Constants.BUNDLE_SENT_FROM_ID, Long.parseLong(fromFacebookID));
+	        	    			facebookMessageNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_BODY, messageText);
+	        	    			facebookMessageNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_STRING_ID, messageStringID);
+	        	    			facebookMessageNotificationBundleSingle.putLong(Constants.BUNDLE_TIMESTAMP, timeStamp);
+	        	    			facebookMessageNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_FACEBOOK);
+	        	    			facebookMessageNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE);
+				    		}else{
+	        					//Basic Notification Information.
+	        	    			facebookMessageNotificationBundleSingle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, fromFacebookName);
+	        	    			facebookMessageNotificationBundleSingle.putLong(Constants.BUNDLE_SENT_FROM_ID, Long.parseLong(fromFacebookID));
+	        	    			facebookMessageNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_BODY, messageText);
+	        	    			facebookMessageNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_STRING_ID, messageStringID);
+	        	    			facebookMessageNotificationBundleSingle.putLong(Constants.BUNDLE_TIMESTAMP, timeStamp);
+	        	    			facebookMessageNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_FACEBOOK);
+	        	    			facebookMessageNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE);
+	        	    			//Contact Information.
+	        	    			facebookMessageNotificationBundleSingle.putLong(Constants.BUNDLE_CONTACT_ID, facebookContactInfoBundle.getLong(Constants.BUNDLE_CONTACT_ID, 0));
+	        	    			facebookMessageNotificationBundleSingle.putString(Constants.BUNDLE_CONTACT_NAME, facebookContactInfoBundle.getString(Constants.BUNDLE_CONTACT_NAME));
+	        	    			facebookMessageNotificationBundleSingle.putLong(Constants.BUNDLE_PHOTO_ID, facebookContactInfoBundle.getLong(Constants.BUNDLE_PHOTO_ID, 0));
+	        	    			facebookMessageNotificationBundleSingle.putString(Constants.BUNDLE_LOOKUP_KEY, facebookContactInfoBundle.getString(Constants.BUNDLE_LOOKUP_KEY));
+							}
+		            	    facebookMessageNotificationBundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_" + String.valueOf(bundleCount), facebookMessageNotificationBundleSingle);			        	    
+		        	    }
+					}else{
+		        		Bundle facebookMessageNotificationBundleSingle = new Bundle();
+		        		bundleCount++;
+						//Single message.
+						long timeStamp = originalTimeStamp;
+						String messageStringID = originalMessageStringID;
+	    	    		String messageText = originalMessageText;
+        	    		//Sent From User Info
+	    	    		String fromFacebookName = originalFromFacebookName;
+	    	    		String fromFacebookID = originalFromFacebookID;
+	            	    Bundle facebookContactInfoBundle = Common.getContactsInfoByName(context, fromFacebookName);
+	    	    		if(facebookContactInfoBundle == null){
+        					//Basic Notification Information.
+        	    			facebookMessageNotificationBundleSingle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, fromFacebookName);
+        	    			facebookMessageNotificationBundleSingle.putLong(Constants.BUNDLE_SENT_FROM_ID, Long.parseLong(fromFacebookID));
+        	    			facebookMessageNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_BODY, messageText);
+        	    			facebookMessageNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_STRING_ID, messageStringID);
+        	    			facebookMessageNotificationBundleSingle.putLong(Constants.BUNDLE_TIMESTAMP, timeStamp);
+        	    			facebookMessageNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_FACEBOOK);
+        	    			facebookMessageNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE);
+			    		}else{
+        					//Basic Notification Information.
+        	    			facebookMessageNotificationBundleSingle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, fromFacebookName);
+        	    			facebookMessageNotificationBundleSingle.putLong(Constants.BUNDLE_SENT_FROM_ID, Long.parseLong(fromFacebookID));
+        	    			facebookMessageNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_BODY, messageText);
+        	    			facebookMessageNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_STRING_ID, messageStringID);
+        	    			facebookMessageNotificationBundleSingle.putLong(Constants.BUNDLE_TIMESTAMP, timeStamp);
+        	    			facebookMessageNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_FACEBOOK);
+        	    			facebookMessageNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE);
+        	    			//Contact Information.
+        	    			facebookMessageNotificationBundleSingle.putLong(Constants.BUNDLE_CONTACT_ID, facebookContactInfoBundle.getLong(Constants.BUNDLE_CONTACT_ID, 0));
+        	    			facebookMessageNotificationBundleSingle.putString(Constants.BUNDLE_CONTACT_NAME, facebookContactInfoBundle.getString(Constants.BUNDLE_CONTACT_NAME));
+        	    			facebookMessageNotificationBundleSingle.putLong(Constants.BUNDLE_PHOTO_ID, facebookContactInfoBundle.getLong(Constants.BUNDLE_PHOTO_ID, 0));
+        	    			facebookMessageNotificationBundleSingle.putString(Constants.BUNDLE_LOOKUP_KEY, facebookContactInfoBundle.getString(Constants.BUNDLE_LOOKUP_KEY));
+						}
+	            	    facebookMessageNotificationBundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_" + String.valueOf(bundleCount), facebookMessageNotificationBundleSingle);
+					}
+				}
+        	}
+        	facebookMessageNotificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_BUNDLE_COUNT, bundleCount);
+        	return facebookMessageNotificationBundle;
+        }catch(Exception ex){
+        	Log.e("FacebookCommon.getFacebookMessages() ERROR: " + ex.toString());
+        	return null;
+        }
+	}
 	
 	/**
 	 * Delete a Facebook item.
@@ -251,309 +566,6 @@ public class FacebookCommon {
 			Log.e("FacebookCommon.getFacebookAppActivityIntent() ERROR: " + ex.toString());
 			return null;
 		}
-	}
-	
-	/**
-	 * Poll Facebook for Notifications.
-	 * 
-	 * @param accessToken - The Facebook access token.
-	 * @param facebook - The Facebook Object.
-	 */
-	public static Bundle getFacebookNotifications(Context context, String accessToken, Facebook facebook){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("FacebookCommon.getFacebookNotifications()");
-        try{
-        	Bundle facebookNotificationNotificationBundle = new Bundle();
-        	int bundleCount = 0;
-        	Bundle facebookAPIBundle = new Bundle();
-        	facebookAPIBundle.putString(Facebook.TOKEN, accessToken);
-        	String result = facebook.request("me/notifications", facebookAPIBundle, "GET");
-        	//if (_debug) Log.v("FacebookCommon.getFacebookNotifications() Result: " + result);
-        	JSONObject jsonResults = new JSONObject(result);
-        	if(jsonResults.has("error")){
-        		JSONObject jsonError = jsonResults.getJSONObject("error");
-        		Log.e("FacebookCommon.getFacebookNotifications() FACAEBOOK API ERROR: " + jsonError.getString("message"));
-        		return null;
-        	}
-        	if(!jsonResults.has("data")){
-        		if (_debug) Log.v("FacebookCommon.getFacebookNotifications() No data in the DATA array found. Exiting...");
-        		return null;
-        	}
-        	JSONArray jsonDataArray = jsonResults.getJSONArray("data");
-        	int jsonDataArraySize = jsonDataArray.length();
-        	for (int i=0;i<jsonDataArraySize;i++){
-        		Bundle facebookNotificationNotificationBundleSingle = new Bundle();
-        		bundleCount++;
-        	    JSONObject jsonNotificationData = jsonDataArray.getJSONObject(i);
-        	    long timeStamp = 0;
-        	    if(jsonNotificationData.has("updated_time")){
-        	    	timeStamp = parseFacebookDateTime(jsonNotificationData.getString("updated_time"));
-        	    }else if(jsonNotificationData.has("created_time")){
-        	    	timeStamp = parseFacebookDateTime(jsonNotificationData.getString("created_time"));
-        	    }
-        	    String notificationText = jsonNotificationData.getString("title");
-        	    String notificationExternalLinkURL = jsonNotificationData.getString("link");
-				String notificationID = jsonNotificationData.getString("id");
-				JSONObject fromFacebookUser = jsonNotificationData.getJSONObject("from");
-				String fromFacebookName = fromFacebookUser.getString("name");
-				String fromFacebookID = fromFacebookUser.getString("id");
-	    		Bundle facebookContactInfoBundle = Common.getContactsInfoByName(context, fromFacebookName);
-	    		if(facebookContactInfoBundle == null){
-					//Basic Notification Information.
-	    			facebookNotificationNotificationBundleSingle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, fromFacebookName);
-	    			facebookNotificationNotificationBundleSingle.putLong(Constants.BUNDLE_SENT_FROM_ID, Long.parseLong(fromFacebookID));
-	    			facebookNotificationNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_BODY, notificationText.replace("\n", "<br/>"));
-	    			facebookNotificationNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_STRING_ID, notificationID);
-	    			facebookNotificationNotificationBundleSingle.putString(Constants.BUNDLE_LINK_URL, notificationExternalLinkURL);
-	    			facebookNotificationNotificationBundleSingle.putLong(Constants.BUNDLE_TIMESTAMP, timeStamp);	    			
-	    			facebookNotificationNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_FACEBOOK);
-	    			facebookNotificationNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION);//facebookArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION) + "|" + fromFacebookName + "|" + fromFacebookID + "|" + notificationText.replace("\n", "<br/>") + "|" + notificationID + "|" + notificationExternalLinkURL + "|" + timeStamp);
-				}else{
-					//Basic Notification Information.
-	    			facebookNotificationNotificationBundleSingle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, fromFacebookName);
-	    			facebookNotificationNotificationBundleSingle.putLong(Constants.BUNDLE_SENT_FROM_ID, Long.parseLong(fromFacebookID));
-	    			facebookNotificationNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_BODY, notificationText.replace("\n", "<br/>"));
-	    			facebookNotificationNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_STRING_ID, notificationID);
-	    			facebookNotificationNotificationBundleSingle.putString(Constants.BUNDLE_LINK_URL, notificationExternalLinkURL);
-	    			facebookNotificationNotificationBundleSingle.putLong(Constants.BUNDLE_TIMESTAMP, timeStamp);	    			
-	    			facebookNotificationNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_FACEBOOK);
-	    			facebookNotificationNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION);
-	    			//Contact Information.
-					facebookNotificationNotificationBundleSingle.putLong(Constants.BUNDLE_CONTACT_ID, facebookContactInfoBundle.getLong(Constants.BUNDLE_CONTACT_ID, 0));
-					facebookNotificationNotificationBundleSingle.putString(Constants.BUNDLE_CONTACT_NAME, facebookContactInfoBundle.getString(Constants.BUNDLE_CONTACT_NAME));
-					facebookNotificationNotificationBundleSingle.putLong(Constants.BUNDLE_PHOTO_ID, facebookContactInfoBundle.getLong(Constants.BUNDLE_PHOTO_ID, 0));
-					facebookNotificationNotificationBundleSingle.putString(Constants.BUNDLE_LOOKUP_KEY, facebookContactInfoBundle.getString(Constants.BUNDLE_LOOKUP_KEY));
-				}
-	    		facebookNotificationNotificationBundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_" + String.valueOf(bundleCount), facebookNotificationNotificationBundleSingle);
-        	}
-        	facebookNotificationNotificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_BUNDLE_COUNT, bundleCount);
-        	return facebookNotificationNotificationBundle;
-        }catch(Exception ex){
-        	Log.e("FacebookCommon.getFacebookNotifications() ERROR: " + ex.toString());
-        	return null;
-        }
-	}
-
-	/**
-	 * Poll Facebook for Friend Requests.
-	 * 
-	 * @param accessToken - The Facebook access token.
-	 * @param facebook - The Facebook Object.
-	 */
-	public static Bundle getFacebookFriendRequests(Context context, String accessToken, Facebook facebook){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("FacebookCommon.getFacebookFriendRequests()");
-        try{
-        	Bundle facebookFriendRequestNotificationBundle = new Bundle();
-        	int bundleCount = 0;
-        	Bundle facebookAPIBundle = new Bundle();
-        	facebookAPIBundle.putString(Facebook.TOKEN, accessToken);
-        	String result = facebook.request("me/friendrequests", facebookAPIBundle, "GET");
-        	//if (_debug) Log.v("FacebookCommon.getFacebookFriendRequests() Result: " + result);
-        	JSONObject jsonResults = new JSONObject(result);
-        	if(jsonResults.has("error")){
-        		JSONObject jsonError = jsonResults.getJSONObject("error");
-        		Log.e("FacebookCommon.getFacebookNotifications() FACAEBOOK API ERROR: " + jsonError.getString("message"));
-        		return null;
-        	}
-        	if(!jsonResults.has("data")){
-        		if (_debug) Log.v("FacebookCommon.getFacebookFriendRequests() No data in the DATA array found. Exiting...");
-        		return null;
-        	}
-        	JSONArray jsonDataArray = jsonResults.getJSONArray("data");
-        	int jsonDataArraySize = jsonDataArray.length();
-        	for (int i=0;i<jsonDataArraySize;i++){
-        		Bundle facebookFriendRequestNotificationBundleSingle = new Bundle();
-        		bundleCount++;
-        	    JSONObject jsonFriendRequestData = jsonDataArray.getJSONObject(i);
-        	    long timeStamp = 0;
-        	    if(jsonFriendRequestData.has("updated_time")){
-        	    	timeStamp = parseFacebookDateTime(jsonFriendRequestData.getString("updated_time"));
-        	    }else if(jsonFriendRequestData.has("created_time")){
-        	    	timeStamp = parseFacebookDateTime(jsonFriendRequestData.getString("created_time"));
-        	    }
-				String friendRequestID = "0";
-				JSONObject fromFacebookUser = jsonFriendRequestData.getJSONObject("from");
-				String fromFacebookName = fromFacebookUser.getString("name");
-				String fromFacebookID = fromFacebookUser.getString("id");
-        	    String friendRequestText = context.getString(R.string.facebook_new_friend_request_from) + " " + fromFacebookName;
-        	    Bundle facebookContactInfoBundle = Common.getContactsInfoByName(context, fromFacebookName);
-	    		if(facebookContactInfoBundle == null){
-					//Basic Notification Information.
-	    			facebookFriendRequestNotificationBundleSingle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, fromFacebookName);
-	    			facebookFriendRequestNotificationBundleSingle.putLong(Constants.BUNDLE_SENT_FROM_ID, Long.parseLong(fromFacebookID));
-	    			facebookFriendRequestNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_BODY, friendRequestText);
-	    			facebookFriendRequestNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_STRING_ID, friendRequestID);
-	    			facebookFriendRequestNotificationBundleSingle.putLong(Constants.BUNDLE_TIMESTAMP, timeStamp);
-	    			facebookFriendRequestNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_FACEBOOK);
-	    			facebookFriendRequestNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST);//facebookArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST) + "|" + fromFacebookName + "|" + fromFacebookID + "|" + friendRequestText + "|" + friendRequestID + "||" + timeStamp);
-				}else{
-					//Basic Notification Information.
-	    			facebookFriendRequestNotificationBundleSingle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, fromFacebookName);
-	    			facebookFriendRequestNotificationBundleSingle.putLong(Constants.BUNDLE_SENT_FROM_ID, Long.parseLong(fromFacebookID));
-	    			facebookFriendRequestNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_BODY, friendRequestText);
-	    			facebookFriendRequestNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_STRING_ID, friendRequestID);
-	    			facebookFriendRequestNotificationBundleSingle.putLong(Constants.BUNDLE_TIMESTAMP, timeStamp);
-	    			facebookFriendRequestNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_FACEBOOK);
-	    			facebookFriendRequestNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST);
-	    			//Contact Information.
-					facebookFriendRequestNotificationBundleSingle.putLong(Constants.BUNDLE_CONTACT_ID, facebookContactInfoBundle.getLong(Constants.BUNDLE_CONTACT_ID, 0));
-					facebookFriendRequestNotificationBundleSingle.putString(Constants.BUNDLE_CONTACT_NAME, facebookContactInfoBundle.getString(Constants.BUNDLE_CONTACT_NAME));
-					facebookFriendRequestNotificationBundleSingle.putLong(Constants.BUNDLE_PHOTO_ID, facebookContactInfoBundle.getLong(Constants.BUNDLE_PHOTO_ID, 0));
-					facebookFriendRequestNotificationBundleSingle.putString(Constants.BUNDLE_LOOKUP_KEY, facebookContactInfoBundle.getString(Constants.BUNDLE_LOOKUP_KEY));
-				}
-	    		facebookFriendRequestNotificationBundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_" + String.valueOf(bundleCount), facebookFriendRequestNotificationBundleSingle);
-        	}
-        	facebookFriendRequestNotificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_BUNDLE_COUNT, bundleCount);
-        	return facebookFriendRequestNotificationBundle;
-        }catch(Exception ex){
-        	Log.e("FacebookCommon.getFacebookFriendRequests() ERROR: " + ex.toString());
-        	return null;
-        }
-	}
-
-	/**
-	 * Poll Facebook for Messages.
-	 * 
-	 * @param accessToken - The Facebook access token.
-	 * @param facebook - The Facebook Object.
-	 */
-	public static Bundle getFacebookMessages(Context context, String accessToken, Facebook facebook){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("FacebookCommon.getFacebookMessages()");
-        try{
-        	Bundle facebookMessageNotificationBundle = new Bundle();
-        	int bundleCount = 0;
-        	Bundle facebookAPIBundle = new Bundle();
-        	facebookAPIBundle.putString(Facebook.TOKEN, accessToken);
-        	String result = facebook.request("me/inbox", facebookAPIBundle, "GET");
-        	//if (_debug) Log.v("FacebookCommon.getFacebookMessages() Result: " + result);
-        	JSONObject jsonResults = new JSONObject(result);
-        	if(jsonResults.has("error")){
-        		JSONObject jsonError = jsonResults.getJSONObject("error");
-        		Log.e("FacebookCommon.getFacebookNotifications() FACAEBOOK API ERROR: " + jsonError.getString("message"));
-        		return null;
-        	}
-        	if(!jsonResults.has("data")){
-        		if (_debug) Log.v("FacebookCommon.getFacebookMessages() No data in the DATA array found. Exiting...");
-        		return null;
-        	}
-        	JSONArray jsonDataArray = jsonResults.getJSONArray("data");
-        	int jsonDataArraySize = jsonDataArray.length();
-        	for (int i=0;i<jsonDataArraySize;i++){
-        	    JSONObject jsonMessageData = jsonDataArray.getJSONObject(i);
-        	    int unreadFlag = jsonMessageData.getInt("unread");
-        	    //int unseenFlag = jsonMessageData.getInt("unseen");
-        	    if(unreadFlag > 0){
-    				JSONObject originalFromFacebookUser = jsonMessageData.getJSONObject("from");
-    				String originalFromFacebookName = originalFromFacebookUser.getString("name");
-    				String originalFromFacebookID = originalFromFacebookUser.getString("id");
-    				//Original/Start message details.
-            	    long originalTimeStamp = 0;       	    
-            	    if(jsonMessageData.has("updated_time")){
-            	    	originalTimeStamp = parseFacebookDateTime(jsonMessageData.getString("updated_time"));
-            	    }else if(jsonMessageData.has("created_time")){
-            	    	originalTimeStamp = parseFacebookDateTime(jsonMessageData.getString("created_time"));
-            	    }
-            	    String originalMessageStringID = jsonMessageData.getString("id");
-            	    String originalMessageText = jsonMessageData.getString("message");
-					boolean commentsExist = true;
-					JSONObject messageComments = null;
-					if(jsonMessageData.has("comments")){
-						messageComments = jsonMessageData.getJSONObject("comments");
-						commentsExist = true;
-					}else{
-						messageComments = null;
-						commentsExist = false;
-					}
-					if(commentsExist){
-						//Multiple messages in thread.
-		        	    JSONArray jsonCommentsDataArray = messageComments.getJSONArray("data");
-	        	    	//Get latest/most recent message details.
-	        	    	int jsonCommentsDataArraySize = jsonCommentsDataArray.length();
-	        	    	for(int j=jsonCommentsDataArraySize-unreadFlag;j<jsonCommentsDataArraySize;j++){
-	                		Bundle facebookMessageNotificationBundleSingle = new Bundle();
-	                		bundleCount++;
-	        	    		JSONObject jsonCommentMessageData = jsonCommentsDataArray.getJSONObject(j);
-	        	    		long timeStamp = parseFacebookDateTime(jsonCommentMessageData.getString("created_time"));
-	        	    		String messageStringID = jsonCommentMessageData.getString("id");
-	        	    		String messageText = jsonCommentMessageData.getString("message");
-	        	    		//Sent From User Info
-	        	    		JSONObject fromFacebookUser = jsonCommentMessageData.getJSONObject("from");
-	        				String fromFacebookName = fromFacebookUser.getString("name");
-	        				String fromFacebookID = fromFacebookUser.getString("id");
-	                	    Bundle facebookContactInfoBundle = Common.getContactsInfoByName(context, fromFacebookName);
-	        	    		if(facebookContactInfoBundle == null){
-	        					//Basic Notification Information.
-	        	    			facebookMessageNotificationBundleSingle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, fromFacebookName);
-	        	    			facebookMessageNotificationBundleSingle.putLong(Constants.BUNDLE_SENT_FROM_ID, Long.parseLong(fromFacebookID));
-	        	    			facebookMessageNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_BODY, messageText);
-	        	    			facebookMessageNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_STRING_ID, messageStringID);
-	        	    			facebookMessageNotificationBundleSingle.putLong(Constants.BUNDLE_TIMESTAMP, timeStamp);
-	        	    			facebookMessageNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_FACEBOOK);
-	        	    			facebookMessageNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE);
-				    		}else{
-	        					//Basic Notification Information.
-	        	    			facebookMessageNotificationBundleSingle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, fromFacebookName);
-	        	    			facebookMessageNotificationBundleSingle.putLong(Constants.BUNDLE_SENT_FROM_ID, Long.parseLong(fromFacebookID));
-	        	    			facebookMessageNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_BODY, messageText);
-	        	    			facebookMessageNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_STRING_ID, messageStringID);
-	        	    			facebookMessageNotificationBundleSingle.putLong(Constants.BUNDLE_TIMESTAMP, timeStamp);
-	        	    			facebookMessageNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_FACEBOOK);
-	        	    			facebookMessageNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE);
-	        	    			//Contact Information.
-	        	    			facebookMessageNotificationBundleSingle.putLong(Constants.BUNDLE_CONTACT_ID, facebookContactInfoBundle.getLong(Constants.BUNDLE_CONTACT_ID, 0));
-	        	    			facebookMessageNotificationBundleSingle.putString(Constants.BUNDLE_CONTACT_NAME, facebookContactInfoBundle.getString(Constants.BUNDLE_CONTACT_NAME));
-	        	    			facebookMessageNotificationBundleSingle.putLong(Constants.BUNDLE_PHOTO_ID, facebookContactInfoBundle.getLong(Constants.BUNDLE_PHOTO_ID, 0));
-	        	    			facebookMessageNotificationBundleSingle.putString(Constants.BUNDLE_LOOKUP_KEY, facebookContactInfoBundle.getString(Constants.BUNDLE_LOOKUP_KEY));
-							}
-		            	    facebookMessageNotificationBundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_" + String.valueOf(bundleCount), facebookMessageNotificationBundleSingle);			        	    
-		        	    }
-					}else{
-		        		Bundle facebookMessageNotificationBundleSingle = new Bundle();
-		        		bundleCount++;
-						//Single message.
-						long timeStamp = originalTimeStamp;
-						String messageStringID = originalMessageStringID;
-	    	    		String messageText = originalMessageText;
-        	    		//Sent From User Info
-	    	    		String fromFacebookName = originalFromFacebookName;
-	    	    		String fromFacebookID = originalFromFacebookID;
-	            	    Bundle facebookContactInfoBundle = Common.getContactsInfoByName(context, fromFacebookName);
-	    	    		if(facebookContactInfoBundle == null){
-        					//Basic Notification Information.
-        	    			facebookMessageNotificationBundleSingle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, fromFacebookName);
-        	    			facebookMessageNotificationBundleSingle.putLong(Constants.BUNDLE_SENT_FROM_ID, Long.parseLong(fromFacebookID));
-        	    			facebookMessageNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_BODY, messageText);
-        	    			facebookMessageNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_STRING_ID, messageStringID);
-        	    			facebookMessageNotificationBundleSingle.putLong(Constants.BUNDLE_TIMESTAMP, timeStamp);
-        	    			facebookMessageNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_FACEBOOK);
-        	    			facebookMessageNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE);
-			    		}else{
-        					//Basic Notification Information.
-        	    			facebookMessageNotificationBundleSingle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, fromFacebookName);
-        	    			facebookMessageNotificationBundleSingle.putLong(Constants.BUNDLE_SENT_FROM_ID, Long.parseLong(fromFacebookID));
-        	    			facebookMessageNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_BODY, messageText);
-        	    			facebookMessageNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_STRING_ID, messageStringID);
-        	    			facebookMessageNotificationBundleSingle.putLong(Constants.BUNDLE_TIMESTAMP, timeStamp);
-        	    			facebookMessageNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_FACEBOOK);
-        	    			facebookMessageNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE);
-        	    			//Contact Information.
-        	    			facebookMessageNotificationBundleSingle.putLong(Constants.BUNDLE_CONTACT_ID, facebookContactInfoBundle.getLong(Constants.BUNDLE_CONTACT_ID, 0));
-        	    			facebookMessageNotificationBundleSingle.putString(Constants.BUNDLE_CONTACT_NAME, facebookContactInfoBundle.getString(Constants.BUNDLE_CONTACT_NAME));
-        	    			facebookMessageNotificationBundleSingle.putLong(Constants.BUNDLE_PHOTO_ID, facebookContactInfoBundle.getLong(Constants.BUNDLE_PHOTO_ID, 0));
-        	    			facebookMessageNotificationBundleSingle.putString(Constants.BUNDLE_LOOKUP_KEY, facebookContactInfoBundle.getString(Constants.BUNDLE_LOOKUP_KEY));
-						}
-	            	    facebookMessageNotificationBundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_" + String.valueOf(bundleCount), facebookMessageNotificationBundleSingle);
-					}
-				}
-        	}
-        	facebookMessageNotificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_BUNDLE_COUNT, bundleCount);
-        	return facebookMessageNotificationBundle;
-        }catch(Exception ex){
-        	Log.e("FacebookCommon.getFacebookMessages() ERROR: " + ex.toString());
-        	return null;
-        }
 	}
 	
 	/**

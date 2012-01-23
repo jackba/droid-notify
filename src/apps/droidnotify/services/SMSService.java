@@ -1,7 +1,5 @@
 package apps.droidnotify.services;
 
-import java.util.ArrayList;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -54,17 +52,17 @@ public class SMSService extends WakefulIntentService {
 		try{
 			Context context = getApplicationContext();
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-			ArrayList<String> smsArray = null;
+			Bundle smsNotificationBundle = null;
 			if(preferences.getString(Constants.SMS_LOADING_SETTING_KEY, "0").equals(Constants.SMS_READ_FROM_INTENT)){
 				Bundle newSMSBundle = intent.getExtras();
-				smsArray = SMSCommon.getSMSMessagesFromIntent(context, newSMSBundle);
+				smsNotificationBundle = SMSCommon.getSMSMessagesFromIntent(context, newSMSBundle);
 			}else{
-				smsArray = SMSCommon.getSMSMessagesFromDisk(context);
+				smsNotificationBundle = SMSCommon.getSMSMessagesFromDisk(context);
 			}
-			if(smsArray != null && smsArray.size() > 0){
+			if(smsNotificationBundle != null){
 				Bundle bundle = new Bundle();
 				bundle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_SMS);
-				bundle.putStringArrayList("smsArrayList", smsArray);
+				bundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME, smsNotificationBundle);
 		    	Common.startNotificationActivity(context, bundle);
 			}else{
 				if (_debug) Log.v("SMSService.doWakefulWork() No new SMSs were found. Exiting...");
