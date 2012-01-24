@@ -53,7 +53,7 @@ public class NotificationView extends LinearLayout {
 	private Context _context = null;
 	private NotificationViewFlipper _notificationViewFlipper = null;
 	private Notification _notification = null;
-	private int _notificationType = 0;
+	private int _notificationType = -1;
 	private NotificationActivity _notificationActivity = null;
 	private SharedPreferences _preferences = null;
 	private LinearLayout _notificationWindowLinearLayout = null;
@@ -1708,6 +1708,10 @@ public class NotificationView extends LinearLayout {
 	private Bitmap getContactImage(long contactID){
 		if (_debug) Log.v("NotificationView.getContactImage()");
 		try{
+			if(contactID < 0){
+				if (_debug) Log.v("NotificationView.getContactImage() ContactID < 0. Exiting...");
+				return null;
+			}
 			Uri uri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, contactID);
 			InputStream input = ContactsContract.Contacts.openContactPhotoInputStream(_context.getContentResolver(), uri);
 			Bitmap contactPhotoBitmap = BitmapFactory.decodeStream(input);
