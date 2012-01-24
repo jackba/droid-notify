@@ -3,6 +3,9 @@
 
 = Release Notes =
 
+*v2.23* _Coming Soon..._
+ * 
+
 *v2.22* _Coming Soon..._
  * Re-wrote code to improve efficiency and application file size.
  * Added a "View" button to Twitter notifications.
