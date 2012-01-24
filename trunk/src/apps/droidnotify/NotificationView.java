@@ -1096,17 +1096,16 @@ public class NotificationView extends LinearLayout {
 			    if(sentFromAddress.contains("@")){
 			    	_contactNumberTextView.setText(sentFromAddress);
 			    }else{
-			    	if(_notificationType == Constants.NOTIFICATION_TYPE_TWITTER || _notificationType == Constants.NOTIFICATION_TYPE_FACEBOOK){
+			    	if(_notificationType == Constants.NOTIFICATION_TYPE_TWITTER){
 			    		_contactNumberTextView.setText(sentFromAddress);
+			    	}else if(_notificationType == Constants.NOTIFICATION_TYPE_FACEBOOK){
+			    		_contactNumberTextView.setVisibility(View.GONE);
 			    	}else{
 			    		_contactNumberTextView.setText(PhoneCommon.formatPhoneNumber(_context, sentFromAddress));
 			    	}			    	
 			    }
 			    _contactNumberTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, Float.parseFloat(_preferences.getString(Constants.CONTACT_NUMBER_SIZE_KEY, Constants.CONTACT_NUMBER_SIZE_DEFAULT)));
 			    _contactNumberTextView.setVisibility(View.VISIBLE);
-			    if(_notificationType == Constants.NOTIFICATION_TYPE_FACEBOOK){
-			    	_contactNumberTextView.setVisibility(View.GONE);
-			    }
 			}else{
 				_contactNumberTextView.setVisibility(View.GONE);
 			}
