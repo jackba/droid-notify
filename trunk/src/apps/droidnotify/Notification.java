@@ -58,7 +58,7 @@ public class Notification {
 	private String _lookupKey = null;
 	private String _k9EmailUri = null;
 	private String _k9EmailDelUri = null;
-	private int _rescheduleNumber = -1;
+	private int _rescheduleNumber = 0;
 	private PendingIntent _reminderPendingIntent = null;
 	private int _notificationSubType = -1;
 	private String _linkURL = null;
@@ -102,7 +102,7 @@ public class Notification {
 			_lookupKey = notificationBundle.getString(Constants.BUNDLE_LOOKUP_KEY);
 			_k9EmailUri = notificationBundle.getString(Constants.BUNDLE_K9_EMAIL_URI);
 			_k9EmailDelUri = notificationBundle.getString(Constants.BUNDLE_K9_EMAIL_DEL_URI);
-			_rescheduleNumber = notificationBundle.getInt(Constants.BUNDLE_RESCHEDULE_NUMBER, -1);
+			_rescheduleNumber = notificationBundle.getInt(Constants.BUNDLE_RESCHEDULE_NUMBER, 0);
 			_notificationSubType = notificationBundle.getInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, -1);
 			_linkURL = notificationBundle.getString(Constants.BUNDLE_LINK_URL);
 			
