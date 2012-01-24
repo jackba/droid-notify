@@ -1,6 +1,5 @@
 package apps.droidnotify.twitter;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 
 import twitter4j.DirectMessage;
@@ -59,11 +58,13 @@ public class TwitterCommon {
 	 * 
 	 * @return ArrayList<String> - Returns an ArrayList of Strings that contain the Twitter information.
 	 */
-	public static ArrayList<String> getTwitterDirectMessages(Context context, Twitter twitter){
+	public static Bundle getTwitterDirectMessages(Context context, Twitter twitter){
 		_debug = Log.getDebug();
 		if (_debug) Log.v("TwitterCommon.getTwitterDirectMessages()");
 		try{
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+			Bundle twitterDirectMessageNotificationBundle = new Bundle();
+        	int bundleCount = 0;
 			//Retrieve the date filter.
 			Calendar today = Calendar.getInstance();
 			today.set(Calendar.MILLISECOND, 0);
@@ -73,39 +74,61 @@ public class TwitterCommon {
 			long currentDateTime = today.getTimeInMillis();
 			long dateFilter = preferences.getLong(Constants.TWITTER_DIRECT_MESSAGE_DATE_FILTER_KEY, currentDateTime);		
 			long maxDateTime = 0;
-		    ResponseList <DirectMessage> messages = twitter.getDirectMessages();
-		    ArrayList<String> twitterArray = new ArrayList<String>();
+		    ResponseList <DirectMessage> messages = twitter.getDirectMessages();		    
 			for(DirectMessage message: messages){
 				long timeStamp = message.getCreatedAt().getTime();
 				if(timeStamp > maxDateTime){
 					maxDateTime = timeStamp;
 				}
 				if(timeStamp > dateFilter){
+	        		Bundle twitterDirectMessageNotificationBundleSingle = new Bundle();
+	        		bundleCount++;
 					String messageBody = message.getText();
 					long messageID = message.getId();					
 			    	String sentFromAddress = message.getSenderScreenName();
 			    	long twitterID = message.getSenderId();
 		    		Bundle twitterContactInfoBundle = getContactInfoByTwitterID(context, twitterID);
 		    		if(twitterContactInfoBundle == null){
-		    			twitterArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE) + "|" + sentFromAddress + "|" + twitterID + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + timeStamp);
+						//Basic Notification Information.
+		    			twitterDirectMessageNotificationBundleSingle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, sentFromAddress);
+		    			twitterDirectMessageNotificationBundleSingle.putLong(Constants.BUNDLE_SENT_FROM_ID, twitterID);
+		    			twitterDirectMessageNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_BODY, messageBody.replace("\n", "<br/>"));
+		    			twitterDirectMessageNotificationBundleSingle.putLong(Constants.BUNDLE_MESSAGE_ID, messageID);
+		    			twitterDirectMessageNotificationBundleSingle.putString(Constants.BUNDLE_LINK_URL, "http://mobile.twitter.com/" + sentFromAddress + "/messages");
+		    			twitterDirectMessageNotificationBundleSingle.putLong(Constants.BUNDLE_TIMESTAMP, timeStamp);	    			
+		    			twitterDirectMessageNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_TWITTER);
+		    			twitterDirectMessageNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE);
 					}else{
-						long contactID = twitterContactInfoBundle.getLong(Constants.BUNDLE_CONTACT_ID, 0);
-						String contactName = twitterContactInfoBundle.getString(Constants.BUNDLE_CONTACT_NAME);
-						if(contactName == null) contactName = "";
-						long photoID = twitterContactInfoBundle.getLong(Constants.BUNDLE_PHOTO_ID, 0);
-						String lookupKey = twitterContactInfoBundle.getString(Constants.BUNDLE_LOOKUP_KEY);
-						if(lookupKey == null) lookupKey = "";
-						twitterArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE) + "|" + sentFromAddress + "|" + twitterID + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + timeStamp + "|" + contactID + "|" + contactName + "|" + photoID + "|" + lookupKey);
+						//Basic Notification Information.
+		    			twitterDirectMessageNotificationBundleSingle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, sentFromAddress);
+		    			twitterDirectMessageNotificationBundleSingle.putLong(Constants.BUNDLE_SENT_FROM_ID, twitterID);
+		    			twitterDirectMessageNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_BODY, messageBody.replace("\n", "<br/>"));
+		    			twitterDirectMessageNotificationBundleSingle.putLong(Constants.BUNDLE_MESSAGE_ID, messageID);
+		    			twitterDirectMessageNotificationBundleSingle.putString(Constants.BUNDLE_LINK_URL, "http://mobile.twitter.com/" + sentFromAddress + "/messages");
+		    			twitterDirectMessageNotificationBundleSingle.putLong(Constants.BUNDLE_TIMESTAMP, timeStamp);	    			
+		    			twitterDirectMessageNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_TWITTER);
+		    			twitterDirectMessageNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE);
+		    			//Contact Information.
+						twitterDirectMessageNotificationBundleSingle.putLong(Constants.BUNDLE_CONTACT_ID, twitterContactInfoBundle.getLong(Constants.BUNDLE_CONTACT_ID, -1));
+						twitterDirectMessageNotificationBundleSingle.putString(Constants.BUNDLE_CONTACT_NAME, twitterContactInfoBundle.getString(Constants.BUNDLE_CONTACT_NAME));
+						twitterDirectMessageNotificationBundleSingle.putLong(Constants.BUNDLE_PHOTO_ID, twitterContactInfoBundle.getLong(Constants.BUNDLE_PHOTO_ID, -1));
+						twitterDirectMessageNotificationBundleSingle.putString(Constants.BUNDLE_LOOKUP_KEY, twitterContactInfoBundle.getString(Constants.BUNDLE_LOOKUP_KEY));
 					}
+		    		twitterDirectMessageNotificationBundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_" + String.valueOf(bundleCount), twitterDirectMessageNotificationBundleSingle);
 				}
 			}
+			if(bundleCount <= 0){
+				if (_debug) Log.v("TwitterCommon.getTwitterDirectMessages() No Twitter Direct Messages Found. Exiting...");
+				return null;
+			}
+			twitterDirectMessageNotificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_BUNDLE_COUNT, bundleCount);
 			//Store the max date in the preferences.
 			//Don't load any messages that are older than this date next time around.
 			SharedPreferences.Editor editor = preferences.edit();
 			editor.putLong(Constants.TWITTER_DIRECT_MESSAGE_DATE_FILTER_KEY, maxDateTime);
 			editor.commit();
 			//Return array.
-			return twitterArray;
+			return twitterDirectMessageNotificationBundle;
 		}catch(Exception ex){
 			Log.e("TwitterCommon.getTwitterDirectMessages() ERROR: " + ex.toString());
 			return null;
@@ -119,52 +142,78 @@ public class TwitterCommon {
 	 * 
 	 * @return ArrayList<String> - Returns an ArrayList of Strings that contain the Twitter information.
 	 */
-	public static ArrayList<String> getTwitterMentions(Context context, Twitter twitter){
+	public static Bundle getTwitterMentions(Context context, Twitter twitter){
 		_debug = Log.getDebug();
 		if (_debug) Log.v("TwitterCommon.getTwitterMentions()");
 		try{
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+			Bundle twitterMentionNotificationBundle = new Bundle();
+        	int bundleCount = 0;
 			//Retrieve the date filter.
 			Calendar today = Calendar.getInstance();
-			today.set(Calendar.MILLISECOND, 0);
-			today.set(Calendar.SECOND, 0);
-			today.set(Calendar.MINUTE, 0);
-			today.set(Calendar.HOUR_OF_DAY, 0);
+			today.set(Calendar.MILLISECOND, -1);
+			today.set(Calendar.SECOND, -1);
+			today.set(Calendar.MINUTE, -1);
+			today.set(Calendar.HOUR_OF_DAY, -1);
 			long currentDateTime = today.getTimeInMillis();
 			long dateFilter = preferences.getLong(Constants.TWITTER_MENTION_DATE_FILTER_KEY, currentDateTime);		
 			long maxDateTime = 0;
 			ResponseList<Status> mentions = twitter.getMentions();
-		    ArrayList<String> twitterArray = new ArrayList<String>();
 			for(Status mention: mentions){
 				long timeStamp = mention.getCreatedAt().getTime();
 				if(timeStamp > maxDateTime){
 					maxDateTime = timeStamp;
 				}
 				if(timeStamp > dateFilter){
+	        		Bundle twitterMentionNotificationBundleSingle = new Bundle();
+	        		bundleCount++;
 					String mentionText = mention.getText();
 					long mentionID = mention.getId();
 			    	User twitterUser = mention.getUser();
 		    		Bundle twitterContactInfoBundle = getContactInfoByTwitterUser(context, twitterUser);
 		    		if(twitterContactInfoBundle == null){
-		    			twitterArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_TWITTER_MENTION) + "|" + twitterUser.getScreenName() + "|" + twitterUser.getId() + "|" + mentionText.replace("\n", "<br/>") + "|" + mentionID + "|" + timeStamp);
-					}else{
-						long contactID = twitterContactInfoBundle.getLong(Constants.BUNDLE_CONTACT_ID, 0);
-						String contactName = twitterContactInfoBundle.getString(Constants.BUNDLE_CONTACT_NAME);
-						if(contactName == null) contactName = "";
-						long photoID = twitterContactInfoBundle.getLong(Constants.BUNDLE_PHOTO_ID, 0);
-						String lookupKey = twitterContactInfoBundle.getString(Constants.BUNDLE_LOOKUP_KEY);
-						if(lookupKey == null) lookupKey = "";
-						twitterArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_TWITTER_MENTION) + "|" + twitterUser.getScreenName() + "|" + twitterUser.getId() + "|" + mentionText.replace("\n", "<br/>") + "|" + mentionID + "|" + timeStamp + "|" + contactID + "|" + contactName + "|" + photoID + "|" + lookupKey);
+						String sentFromAddress = twitterUser.getScreenName();
+						//Basic Notification Information.
+		    			twitterMentionNotificationBundleSingle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, sentFromAddress);
+		    			twitterMentionNotificationBundleSingle.putLong(Constants.BUNDLE_SENT_FROM_ID, twitterUser.getId());
+		    			twitterMentionNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_BODY, mentionText.replace("\n", "<br/>"));
+		    			twitterMentionNotificationBundleSingle.putLong(Constants.BUNDLE_MESSAGE_ID, mentionID);
+		    			twitterMentionNotificationBundleSingle.putString(Constants.BUNDLE_LINK_URL, "http://mobile.twitter.com/replies");
+		    			twitterMentionNotificationBundleSingle.putLong(Constants.BUNDLE_TIMESTAMP, timeStamp);	    			
+		    			twitterMentionNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_TWITTER);
+		    			twitterMentionNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, Constants.NOTIFICATION_TYPE_TWITTER_MENTION);
+		    		}else{
+						String sentFromAddress = twitterUser.getScreenName();
+						//Basic Notification Information.
+		    			twitterMentionNotificationBundleSingle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, sentFromAddress);
+		    			twitterMentionNotificationBundleSingle.putLong(Constants.BUNDLE_SENT_FROM_ID, twitterUser.getId());
+		    			twitterMentionNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_BODY, mentionText.replace("\n", "<br/>"));
+		    			twitterMentionNotificationBundleSingle.putLong(Constants.BUNDLE_MESSAGE_ID, mentionID);
+		    			twitterMentionNotificationBundleSingle.putString(Constants.BUNDLE_LINK_URL, "http://mobile.twitter.com/replies");
+		    			twitterMentionNotificationBundleSingle.putLong(Constants.BUNDLE_TIMESTAMP, timeStamp);	    			
+		    			twitterMentionNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_TWITTER);
+		    			twitterMentionNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, Constants.NOTIFICATION_TYPE_TWITTER_MENTION);
+		    			//Contact Information.
+						twitterMentionNotificationBundleSingle.putLong(Constants.BUNDLE_CONTACT_ID, twitterContactInfoBundle.getLong(Constants.BUNDLE_CONTACT_ID, -1));
+						twitterMentionNotificationBundleSingle.putString(Constants.BUNDLE_CONTACT_NAME, twitterContactInfoBundle.getString(Constants.BUNDLE_CONTACT_NAME));
+						twitterMentionNotificationBundleSingle.putLong(Constants.BUNDLE_PHOTO_ID, twitterContactInfoBundle.getLong(Constants.BUNDLE_PHOTO_ID, -1));
+						twitterMentionNotificationBundleSingle.putString(Constants.BUNDLE_LOOKUP_KEY, twitterContactInfoBundle.getString(Constants.BUNDLE_LOOKUP_KEY));
 					}
+		    		twitterMentionNotificationBundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_" + String.valueOf(bundleCount), twitterMentionNotificationBundleSingle);
 				}
 			}
+			if(bundleCount <= 0){
+				if (_debug) Log.v("TwitterCommon.getTwitterMentions() No Twitter Mentions Found. Exiting...");
+				return null;
+			}
+			twitterMentionNotificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_BUNDLE_COUNT, bundleCount);
 			//Store the max date in the preferences.
 			//Don't load any messages that are older than this date next time around.
 			SharedPreferences.Editor editor = preferences.edit();
 			editor.putLong(Constants.TWITTER_MENTION_DATE_FILTER_KEY, maxDateTime);
 			editor.commit();
 			//Return array.
-			return twitterArray;
+			return twitterMentionNotificationBundle;
 		}catch(Exception ex){
 			Log.e("TwitterCommon.getTwitterMentions() ERROR: " + ex.toString());
 			return null;
@@ -178,14 +227,17 @@ public class TwitterCommon {
 	 * 
 	 * @return ArrayList<String> - Returns an ArrayList of Strings that contain the Twitter information.
 	 */
-	public static ArrayList<String> getTwitterFollowerRequests(Context context, Twitter twitter){
+	public static Bundle getTwitterFollowerRequests(Context context, Twitter twitter){
 		_debug = Log.getDebug();
 		if (_debug) Log.v("TwitterCommon.getTwitterFollowers()");
 		try{
+			Bundle twitterFollowerRequestNotificationBundle = new Bundle();
+        	int bundleCount = 0;
 			IDs followerRequests = twitter.getIncomingFriendships(-1);
-		    ArrayList<String> twitterArray = new ArrayList<String>();
 		    long[] followerIDs = followerRequests.getIDs();
 			for(long followerID: followerIDs){
+        		Bundle twitterFollowerRequestNotificationBundleSingle = new Bundle();
+        		bundleCount++;
 				long timeStamp = 0;
 				long followerRequestID = 0;
 		    	User twitterUser = twitter.showUser(followerID);
@@ -194,19 +246,40 @@ public class TwitterCommon {
 				String followerMessage = context.getString(R.string.twitter_following_request, twitterName, twitterScreenName);
 	    		Bundle twitterContactInfoBundle = getContactInfoByTwitterUser(context, twitterUser);
 	    		if(twitterContactInfoBundle == null){
-	    			twitterArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_TWITTER_FOLLOWER_REQUEST) + "|" + twitterScreenName + "|" + followerID + "|" + followerMessage + "|" + followerRequestID + "|" + timeStamp);
+					//Basic Notification Information.
+	    			twitterFollowerRequestNotificationBundleSingle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, twitterScreenName);
+	    			twitterFollowerRequestNotificationBundleSingle.putLong(Constants.BUNDLE_SENT_FROM_ID, followerID);
+	    			twitterFollowerRequestNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_BODY, followerMessage);
+	    			twitterFollowerRequestNotificationBundleSingle.putLong(Constants.BUNDLE_MESSAGE_ID, followerRequestID);
+	    			twitterFollowerRequestNotificationBundleSingle.putString(Constants.BUNDLE_LINK_URL, "http://mobile.twitter.com");
+	    			twitterFollowerRequestNotificationBundleSingle.putLong(Constants.BUNDLE_TIMESTAMP, timeStamp);	    			
+	    			twitterFollowerRequestNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_TWITTER);
+	    			twitterFollowerRequestNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, Constants.NOTIFICATION_TYPE_TWITTER_FOLLOWER_REQUEST);
 				}else{
-					long contactID = twitterContactInfoBundle.getLong(Constants.BUNDLE_CONTACT_ID, 0);
-					String contactName = twitterContactInfoBundle.getString(Constants.BUNDLE_CONTACT_NAME);
-					if(contactName == null) contactName = "";
-					long photoID = twitterContactInfoBundle.getLong(Constants.BUNDLE_PHOTO_ID, 0);
-					String lookupKey = twitterContactInfoBundle.getString(Constants.BUNDLE_LOOKUP_KEY);
-					if(lookupKey == null) lookupKey = "";
-					twitterArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_TWITTER_FOLLOWER_REQUEST) + "|" + twitterScreenName + "|" + followerID + "|" + followerMessage + "|" + followerRequestID + "|" + timeStamp + "|" + contactID + "|" + contactName + "|" + photoID + "|" + lookupKey);
+					//Basic Notification Information.
+	    			twitterFollowerRequestNotificationBundleSingle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, twitterScreenName);
+	    			twitterFollowerRequestNotificationBundleSingle.putLong(Constants.BUNDLE_SENT_FROM_ID, followerID);
+	    			twitterFollowerRequestNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_BODY, followerMessage);
+	    			twitterFollowerRequestNotificationBundleSingle.putLong(Constants.BUNDLE_MESSAGE_ID, followerRequestID);
+	    			twitterFollowerRequestNotificationBundleSingle.putString(Constants.BUNDLE_LINK_URL, "http://mobile.twitter.com");
+	    			twitterFollowerRequestNotificationBundleSingle.putLong(Constants.BUNDLE_TIMESTAMP, timeStamp);	    			
+	    			twitterFollowerRequestNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_TWITTER);
+	    			twitterFollowerRequestNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, Constants.NOTIFICATION_TYPE_TWITTER_FOLLOWER_REQUEST);
+	    			//Contact Information.
+					twitterFollowerRequestNotificationBundleSingle.putLong(Constants.BUNDLE_CONTACT_ID, twitterContactInfoBundle.getLong(Constants.BUNDLE_CONTACT_ID, 0));
+					twitterFollowerRequestNotificationBundleSingle.putString(Constants.BUNDLE_CONTACT_NAME, twitterContactInfoBundle.getString(Constants.BUNDLE_CONTACT_NAME));
+					twitterFollowerRequestNotificationBundleSingle.putLong(Constants.BUNDLE_PHOTO_ID, twitterContactInfoBundle.getLong(Constants.BUNDLE_PHOTO_ID, 0));
+					twitterFollowerRequestNotificationBundleSingle.putString(Constants.BUNDLE_LOOKUP_KEY, twitterContactInfoBundle.getString(Constants.BUNDLE_LOOKUP_KEY));
 				}
+	    		twitterFollowerRequestNotificationBundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_" + String.valueOf(bundleCount), twitterFollowerRequestNotificationBundleSingle);
 			}
+			if(bundleCount <= 0){
+				if (_debug) Log.v("TwitterCommon.getTwitterFollowers() No Twitter Follower Requests Found. Exiting...");
+				return null;
+			}
+			twitterFollowerRequestNotificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_BUNDLE_COUNT, bundleCount);
 			//Return array.
-			return twitterArray;
+			return twitterFollowerRequestNotificationBundle;
 		}catch(Exception ex){
 			Log.e("TwitterCommon.getTwitterFollowers() ERROR: " + ex.toString());
 			return null;
@@ -221,7 +294,7 @@ public class TwitterCommon {
 	 * 
 	 * @return Bundle - Returns a Bundle of the contact information.
 	 */ 
-	public static Bundle 	getContactInfoByTwitterID(Context context, long twitterID){
+	public static Bundle getContactInfoByTwitterID(Context context, long twitterID){
 		_debug = Log.getDebug();;
 		if (_debug) Log.v("TwitterCommon.getContactInfoByTwitterID()");
 		if (twitterID == 0) {
@@ -575,6 +648,23 @@ public class TwitterCommon {
 			Log.e("TwitterCommon.getTwitter() ERROR: " + ex.toString());
 			return null;
 		}	
+	}
+	
+	/**
+	 * Determine if the user has selected the Mobile Webpage as the client or not.
+	 * 
+	 * @param context - The application context.
+	 * 
+	 * @return boolean - return true if user has selected the Mobile Webpage as the client.
+	 */
+	public static boolean isUsingClientWeb(Context context){
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		String packageName = preferences.getString(Constants.TWITTER_PREFERRED_CLIENT_KEY, Constants.TWITTER_PREFERRED_CLIENT_DEFAULT);
+		if(packageName.startsWith("http://")){
+			return true;
+		}else{
+			return false;
+		}		
 	}
 
 	//================================================================================

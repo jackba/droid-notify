@@ -6,7 +6,7 @@ package apps.droidnotify.common;
  * @author Camille Sévigny
  */
 public class Constants {
-	
+
 	//-----NOTIFICATIION BUNDLE CONSTANTS-----//
 	public static final String BUNDLE_SENT_FROM_ADDRESS = "sentFromAddress";
 	public static final String BUNDLE_SENT_FROM_ID  = "sentFromID";
@@ -132,12 +132,18 @@ public class Constants {
 	//-----LANGUAGE CONSTANTS-----//	
 	public static final String LANGUAGE_KEY = "language_setting";
 	public static final String LANGUAGE_DEFAULT = "phone_default";
-	
+
 	//-----VIEW FLIPPER CONSTANTS-----//
 	public static final String VIEW_NOTIFICATION_ORDER = "view_notification_order";
 	public static final String NEWEST_FIRST = "0";
 	public static final String OLDER_FIRST = "1";
 	public static final String DISPLAY_NEWEST_NOTIFICATION = "display_newest_notification";
+	
+	//-----CONTEXT MENU CONSTANTS-----//
+	public static final String CONTEXT_MENU_DISABLED_KEY = "disable_context_menu";
+
+	//-----QUICK CONTACT CONSTANTS-----//
+	public static final String QUICK_CONTACT_DISABLED_KEY = "disable_quick_contact";
 	
 	//-----BUTTON CONSTANTS-----//
 	public static final String BUTTON_DISPLAY_STYLE_KEY = "button_display_style";
@@ -148,13 +154,6 @@ public class Constants {
 		
     public static final String BUTTON_ICONS_KEY = "button_icons_enabled";
 	public static final String DISPLAY_RESCHEDULE_BUTTON_KEY = "display_reschedule_button";
-	
-	//-----CONTEXT MENU CONSTANTS-----//
-	public static final String CONTEXT_MENU_DISABLED_KEY = "disable_context_menu";
-
-	//-----QUICK CONTACT CONSTANTS-----//
-	public static final String QUICK_CONTACT_DISABLED_KEY = "disable_quick_contact";
-	
 	
 	//-----RESCHEDULE CONSTANTS-----//
 	public static final String RESCHEDULE_NOTIFICATIONS_ENABLED_KEY = "reschedule_blocked_notifications";
@@ -187,8 +186,7 @@ public class Constants {
 	//-----CONTACT NUMBER CONSTANTS-----//
 	public static final String CONTACT_NUMBER_DISPLAY_KEY = "display_contact_number";
 	public static final String CONTACT_NUMBER_SIZE_KEY = "contact_number_font_size";
-	public static final String CONTACT_NUMBER_SIZE_DEFAULT = "18";
-    
+	public static final String CONTACT_NUMBER_SIZE_DEFAULT = "18";    
 	
 	//-----DIALOG CONSTANTS-----//
 	public static final int DIALOG_DELETE_MESSAGE = 0;
@@ -215,7 +213,7 @@ public class Constants {
 	//---FORMAT = PACKAGE_NAME , CLASS_NAME---
 	//
 	public static final String[] BLOCKED_PACKAGE_NAMES_ARRAY = new String[]{
-		"apps.droidnotify,apps.droidnotify.QuickReplyActivity", 
+		"apps.droidnotifydonate,apps.droidnotifydonate.QuickReplyActivity", 
 		"com.android.mms,com.android.mms.ui.ConversationList", 
 		"com.android.mms,com.android.mms.ui.ComposeMessageActivity",
 		"com.handcent.nextsms,com.handcent.sms.ui.ConversationExList",
@@ -295,7 +293,6 @@ public class Constants {
 	public static final String QUIET_TIME_ONLY_WEEKDAY_VALUE  = "2";
 	public static final String QUIET_TIME_START_TIME_KEY  = "quiet_time_start_time";
 	public static final String QUIET_TIME_STOP_TIME_KEY  = "quiet_time_stop_time";
-	
 	
 	//-----MESSAGE BODY CONSTANTS-----//
 	public static final String NOTIFICATION_BODY_CENTER_ALIGN_TEXT_KEY = "center_align_body_text";
@@ -483,7 +480,7 @@ public class Constants {
 	public static final String TWITTER_NOTIFICATION_COUNT_ACTION_LAUNCH_TWITTER_APP = "1";
 	
 	public static final String TWITTER_PREFERRED_CLIENT_KEY = "twitter_preferred_client";
-	public static final String TWITTER_PREFERRED_CLIENT_DEFAULT = "com.twitter.android";
+	public static final String TWITTER_PREFERRED_CLIENT_DEFAULT = "http://mobile.twitter.com";
 	public static final String TWITTER_USE_QUICK_REPLY = "0";
 	public static final String TWITTER_USE_PREFERRED_CLIENT = "1";
 	
@@ -532,7 +529,7 @@ public class Constants {
 	public static final String FACEBOOK_CLEAR_AUTHENTICATION_DATA_KEY = "clear_facebook_authentication";
 	
 	public static final String FACEBOOK_PREFERRED_CLIENT_KEY = "facebook_preferred_client";
-	public static final String FACEBOOK_PREFERRED_CLIENT_DEFAULT = "com.facebook.katana";
+	public static final String FACEBOOK_PREFERRED_CLIENT_DEFAULT = "http://m.facebook.com";
 	public static final String FACEBOOK_USE_QUICK_REPLY = "0";
 	public static final String FACEBOOK_USE_PREFERRED_CLIENT = "1";
 	

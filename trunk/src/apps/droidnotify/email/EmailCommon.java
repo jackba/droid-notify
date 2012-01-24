@@ -125,9 +125,9 @@ public class EmailCommon {
     			k9NotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_K9);
     			k9NotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, notificationSubType);
     			//Contact Information.
-    			k9NotificationBundleSingle.putLong(Constants.BUNDLE_CONTACT_ID, k9ContactInfoBundle.getLong(Constants.BUNDLE_CONTACT_ID, 0));
+    			k9NotificationBundleSingle.putLong(Constants.BUNDLE_CONTACT_ID, k9ContactInfoBundle.getLong(Constants.BUNDLE_CONTACT_ID, -1));
     			k9NotificationBundleSingle.putString(Constants.BUNDLE_CONTACT_NAME, k9ContactInfoBundle.getString(Constants.BUNDLE_CONTACT_NAME));
-    			k9NotificationBundleSingle.putLong(Constants.BUNDLE_PHOTO_ID, k9ContactInfoBundle.getLong(Constants.BUNDLE_PHOTO_ID, 0));
+    			k9NotificationBundleSingle.putLong(Constants.BUNDLE_PHOTO_ID, k9ContactInfoBundle.getLong(Constants.BUNDLE_PHOTO_ID, -1));
     			k9NotificationBundleSingle.putString(Constants.BUNDLE_LOOKUP_KEY, k9ContactInfoBundle.getString(Constants.BUNDLE_LOOKUP_KEY));
 			}
     		k9NotificationBundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_" + String.valueOf(bundleCount), k9NotificationBundleSingle);

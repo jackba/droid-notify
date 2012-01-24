@@ -86,9 +86,9 @@ public class PhoneCommon {
     					missedCallNotificationBundleSingle.putLong(Constants.BUNDLE_TIMESTAMP, Long.parseLong(callDate));
     					missedCallNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_PHONE);
     	    			//Contact Information.
-    					missedCallNotificationBundleSingle.putLong(Constants.BUNDLE_CONTACT_ID, missedCallContactInfoBundle.getLong(Constants.BUNDLE_CONTACT_ID, 0));
+    					missedCallNotificationBundleSingle.putLong(Constants.BUNDLE_CONTACT_ID, missedCallContactInfoBundle.getLong(Constants.BUNDLE_CONTACT_ID, -1));
     					missedCallNotificationBundleSingle.putString(Constants.BUNDLE_CONTACT_NAME, missedCallContactInfoBundle.getString(Constants.BUNDLE_CONTACT_NAME));
-    					missedCallNotificationBundleSingle.putLong(Constants.BUNDLE_PHOTO_ID, missedCallContactInfoBundle.getLong(Constants.BUNDLE_PHOTO_ID, 0));
+    					missedCallNotificationBundleSingle.putLong(Constants.BUNDLE_PHOTO_ID, missedCallContactInfoBundle.getLong(Constants.BUNDLE_PHOTO_ID, -1));
     					missedCallNotificationBundleSingle.putString(Constants.BUNDLE_LOOKUP_KEY, missedCallContactInfoBundle.getString(Constants.BUNDLE_LOOKUP_KEY));
     				}
     				missedCallNotificationBundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_" + String.valueOf(bundleCount), missedCallNotificationBundleSingle);

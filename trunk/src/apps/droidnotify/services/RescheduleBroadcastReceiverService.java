@@ -59,23 +59,7 @@ public class RescheduleBroadcastReceiverService extends WakefulIntentService {
 				return;
 			}
 		    Bundle bundle = intent.getExtras();
-		    int notificationType = bundle.getInt(Constants.BUNDLE_NOTIFICATION_TYPE);
-			int rescheduleNumber = bundle.getInt(Constants.BUNDLE_RESCHEDULE_NUMBER);
-			//Determine if the notification should be rescheduled or not.
-			boolean displayNotification = true;
-			if(preferences.getBoolean(Constants.REMINDERS_ENABLED_KEY, false)){	
-				int maxRescheduleAttempts = Integer.parseInt(preferences.getString(Constants.REMINDER_FREQUENCY_KEY, Constants.REMINDER_FREQUENCY_DEFAULT));
-				if(maxRescheduleAttempts < 0){
-					//Infinite Attempts.
-					displayNotification = true;
-				}else if(rescheduleNumber > maxRescheduleAttempts){
-					displayNotification = false;
-				}
-			}
-			if(!displayNotification){
-				if (_debug) Log.v("RescheduleBroadcastReceiverService.doWakefulWork() Rescheduling Disabled or Max reschedule attempts made. Exiting...");
-				return;
-			}
+		    int notificationType = bundle.getInt(Constants.BUNDLE_NOTIFICATION_TYPE) - 100;
 		    //Check the state of the users phone.
 		    TelephonyManager telemanager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 		    boolean notificationIsBlocked = false;
@@ -139,72 +123,19 @@ public class RescheduleBroadcastReceiverService extends WakefulIntentService {
 		    	if(showBlockedNotificationStatusBarNotification){
 		    		//Get the notification info.
 		    		Bundle rescheduleBundle = intent.getExtras();
-		    		String[] rescheduleNotificationInfo = rescheduleBundle.getStringArray("rescheduleNotificationInfo");
-		    		//========================================================
-		    		//String[] Values:
-		    		//[0]-notificationType
-		    		//[1]-SentFromAddress
-		    		//[2]-MessageBody
-		    		//[3]-TimeStamp
-		    		//[4]-ThreadID
-		    		//[5]-ContactID
-		    		//[6]-ContactName
-		    		//[7]-MessageID
-		    		//[8]-Title
-		    		//[9]-CalendarID
-		    		//[10]-CalendarEventID
-		    		//[11]-CalendarEventStartTime
-		    		//[12]-CalendarEventEndTime
-		    		//[13]-AllDay
-		    		//[14]-CallLogID
-		    		//[15]-K9EmailUri
-		    		//[16]-K9EmailDelUri
-		    		//[17]-LookupKey
-		    		//[18]-PhotoID
-		    		//[19]-NotificationSubType
-		    		//[20]-MessageStringID
-		    		//========================================================
-		    		String sentFromAddress = rescheduleNotificationInfo[1];
-					String messageBody = rescheduleNotificationInfo[2];
-					String contactName = rescheduleNotificationInfo[6];
-	    			String title = rescheduleNotificationInfo[8];
-	    			String k9EmailUri = rescheduleNotificationInfo[15];
-	    			int notificationSubType = Integer.parseInt(rescheduleNotificationInfo[19]);
-	    			//Display Status Bar Notification
-					switch(notificationType){
-					    case Constants.NOTIFICATION_TYPE_RESCHEDULE_PHONE:{
-					    	Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_PHONE, 0, callStateIdle, contactName, sentFromAddress, null, null);
-					    	break;
-					    }
-					    case Constants.NOTIFICATION_TYPE_RESCHEDULE_SMS:{
-					    	Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_SMS, 0, callStateIdle, contactName, sentFromAddress, messageBody, null);
-					    	break;
-					    }
-					    case Constants.NOTIFICATION_TYPE_RESCHEDULE_MMS:{
-					    	Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_MMS, 0, callStateIdle, contactName, sentFromAddress, messageBody, null);
-					    	break;
-					    }
-					    case Constants.NOTIFICATION_TYPE_RESCHEDULE_CALENDAR:{
-					    	Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_CALENDAR, 0, callStateIdle, null, null, title, null);
-					    	break;
-					    }
-					    case Constants.NOTIFICATION_TYPE_RESCHEDULE_GMAIL:{
-					    	break;
-					    }
-					    case Constants.NOTIFICATION_TYPE_RESCHEDULE_TWITTER:{
-					    	Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_TWITTER, notificationSubType, callStateIdle, contactName, sentFromAddress, messageBody, null);
-					    	break;
-					    }
-					    case Constants.NOTIFICATION_TYPE_RESCHEDULE_FACEBOOK:{
-					    	Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_FACEBOOK, notificationSubType, callStateIdle, contactName, sentFromAddress, messageBody, null);
-					    	break;
-					    }
-					    case Constants.NOTIFICATION_TYPE_RESCHEDULE_K9:{
-					    	Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_K9, 0, callStateIdle, contactName, sentFromAddress, messageBody, k9EmailUri);
-					    	break;
-					    }
+					Bundle rescheduleNotificationBundle = rescheduleBundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME);
+				    if(rescheduleNotificationBundle != null){
+						//Loop through all the bundles that were sent through.
+						int bundleCount = rescheduleNotificationBundle.getInt(Constants.BUNDLE_NOTIFICATION_BUNDLE_COUNT);
+						for(int i=1;i<=bundleCount;i++){
+							Bundle rescheduleNotificationBundleSingle = rescheduleNotificationBundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_" + String.valueOf(i));
+			    			if(rescheduleNotificationBundleSingle != null){
+								//Display Status Bar Notification
+							    Common.setStatusBarNotification(context, rescheduleNotificationBundleSingle.getInt(Constants.BUNDLE_NOTIFICATION_TYPE), rescheduleNotificationBundleSingle.getInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE), callStateIdle, rescheduleNotificationBundleSingle.getString(Constants.BUNDLE_CONTACT_NAME), rescheduleNotificationBundleSingle.getString(Constants.BUNDLE_SENT_FROM_ADDRESS), rescheduleNotificationBundleSingle.getString(Constants.BUNDLE_MESSAGE_BODY), rescheduleNotificationBundleSingle.getString(Constants.BUNDLE_K9_EMAIL_URI), rescheduleNotificationBundleSingle.getString(Constants.BUNDLE_LINK_URL));
+			    			}
+						}			    			
 					}
-		    	}
+		    	}		    	
 		    	//Ignore notification based on the users preferences.
 		    	if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_IGNORE)){
 		    		rescheduleNotification = false;

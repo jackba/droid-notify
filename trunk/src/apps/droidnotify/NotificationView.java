@@ -719,16 +719,24 @@ public class NotificationView extends LinearLayout {
 					    	}
 				    	}
 						// View Button
-						if(_preferences.getBoolean(Constants.TWITTER_DISPLAY_VIEW_BUTTON_KEY, true)){
-							_viewTwitterImageButton.setOnClickListener(new OnClickListener() {
-							    public void onClick(View view) {
-							    	if (_debug) Log.v("Twitter View Button Clicked()");
-							    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-							    	viewNotificationLinkURL();
-							    }
-							});							
-				    	}else{
+				    	if(notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE){
 				    		_viewTwitterImageButton.setVisibility(View.GONE);
+				    	}else{				    		
+							if(_preferences.getBoolean(Constants.TWITTER_DISPLAY_VIEW_BUTTON_KEY, true)){
+								_viewTwitterImageButton.setOnClickListener(new OnClickListener() {
+								    public void onClick(View view) {
+								    	if (_debug) Log.v("Twitter View Button Clicked()");
+								    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+								    	if(TwitterCommon.isUsingClientWeb(_context)){
+								    		viewNotificationLinkURL();
+								    	}else{
+								    		TwitterCommon.startTwitterAppActivity(_context, _notificationActivity, Constants.TWITTER_OPEN_APP_ACTIVITY);
+								    	}
+								    }
+								});
+					    	}else{
+					    		_viewTwitterImageButton.setVisibility(View.GONE);
+					    	}
 				    	}
 					}else{
 						// Dismiss Button
@@ -776,16 +784,24 @@ public class NotificationView extends LinearLayout {
 					    	}
 				    	}
 						// View Button
-						if(_preferences.getBoolean(Constants.TWITTER_DISPLAY_VIEW_BUTTON_KEY, true)){
-							_viewTwitterButton.setOnClickListener(new OnClickListener() {
-							    public void onClick(View view) {
-							    	if (_debug) Log.v("Twitter View Button Clicked()");
-							    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-							    	viewNotificationLinkURL();
-							    }
-							});							
-				    	}else{
+				    	if(notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE){
 				    		_viewTwitterButton.setVisibility(View.GONE);
+				    	}else{
+							if(_preferences.getBoolean(Constants.TWITTER_DISPLAY_VIEW_BUTTON_KEY, true)){
+								_viewTwitterButton.setOnClickListener(new OnClickListener() {
+								    public void onClick(View view) {
+								    	if (_debug) Log.v("Twitter View Button Clicked()");
+								    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+								    	if(TwitterCommon.isUsingClientWeb(_context)){
+								    		viewNotificationLinkURL();
+								    	}else{
+								    		TwitterCommon.startTwitterAppActivity(_context, _notificationActivity, Constants.TWITTER_OPEN_APP_ACTIVITY);
+								    	}
+								    }
+								});							
+					    	}else{
+					    		_viewTwitterButton.setVisibility(View.GONE);
+					    	}
 				    	}
 					}
 					_callButton.setVisibility(View.GONE);
@@ -843,23 +859,17 @@ public class NotificationView extends LinearLayout {
 						}
 						// View Button
 						if(_preferences.getBoolean(Constants.FACEBOOK_DISPLAY_VIEW_BUTTON_KEY, true)){
-							if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST){
-								_viewFacebookImageButton.setOnClickListener(new OnClickListener() {
-								    public void onClick(View view) {
-								    	if (_debug) Log.v("Facebook View Button Clicked()");
-								    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-								    	FacebookCommon.startFacebookAppActivity(_context, _notificationActivity, Constants.FACEBOOK_OPEN_APP_ACTIVITY);
-								    }
-								});
-							}else{
-								_viewFacebookImageButton.setOnClickListener(new OnClickListener() {
-								    public void onClick(View view) {
-								    	if (_debug) Log.v("Facebook View Button Clicked()");
-								    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-								    	viewNotificationLinkURL();
-								    }
-								});
-							}
+							_viewFacebookImageButton.setOnClickListener(new OnClickListener() {
+							    public void onClick(View view) {
+							    	if (_debug) Log.v("Facebook View Button Clicked()");
+							    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+							    	if(FacebookCommon.isUsingClientWeb(_context)){
+							    		viewNotificationLinkURL();
+							    	}else{
+							    		FacebookCommon.startFacebookAppActivity(_context, _notificationActivity, Constants.FACEBOOK_OPEN_APP_ACTIVITY);
+							    	}								    	
+							    }
+							});
 				    	}else{
 				    		_viewFacebookImageButton.setVisibility(View.GONE);
 				    	}						
@@ -894,23 +904,17 @@ public class NotificationView extends LinearLayout {
 						}
 						// View Button
 						if(_preferences.getBoolean(Constants.FACEBOOK_DISPLAY_VIEW_BUTTON_KEY, true)){
-							if(notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST){
-								_viewFacebookButton.setOnClickListener(new OnClickListener() {
-								    public void onClick(View view) {
-								    	if (_debug) Log.v("Facebook View Button Clicked()");
-								    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-								    	FacebookCommon.startFacebookAppActivity(_context, _notificationActivity, Constants.FACEBOOK_OPEN_APP_ACTIVITY);
-								    }
-								});
-							}else{
-								_viewFacebookButton.setOnClickListener(new OnClickListener() {
-								    public void onClick(View view) {
-								    	if (_debug) Log.v("Facebook View Button Clicked()");
-								    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-								    	viewNotificationLinkURL();
-								    }
-								});
-							}
+							_viewFacebookButton.setOnClickListener(new OnClickListener() {
+							    public void onClick(View view) {
+							    	if (_debug) Log.v("Facebook View Button Clicked()");
+							    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+							    	if(FacebookCommon.isUsingClientWeb(_context)){
+							    		viewNotificationLinkURL();
+							    	}else{
+							    		FacebookCommon.startFacebookAppActivity(_context, _notificationActivity, Constants.FACEBOOK_OPEN_APP_ACTIVITY);
+							    	}
+							    }
+							});
 				    	}else{
 				    		_viewFacebookButton.setVisibility(View.GONE);
 				    	}						
@@ -1100,6 +1104,9 @@ public class NotificationView extends LinearLayout {
 			    }
 			    _contactNumberTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, Float.parseFloat(_preferences.getString(Constants.CONTACT_NUMBER_SIZE_KEY, Constants.CONTACT_NUMBER_SIZE_DEFAULT)));
 			    _contactNumberTextView.setVisibility(View.VISIBLE);
+			    if(_notificationType == Constants.NOTIFICATION_TYPE_FACEBOOK){
+			    	_contactNumberTextView.setVisibility(View.GONE);
+			    }
 			}else{
 				_contactNumberTextView.setVisibility(View.GONE);
 			}
@@ -1404,7 +1411,6 @@ public class NotificationView extends LinearLayout {
 	 */
 	private void viewNotificationLinkURL(){
 		int notificationType = _notification.getNotificationType();
-		//int notificationSubType = _notification.getNotificationSubType();
 		switch(notificationType){
 			case Constants.NOTIFICATION_TYPE_TWITTER:{
 				if(Common.startBrowserActivity(_context, _notificationActivity, _notification.getLinkURL(), Constants.BROWSER_ACTIVITY, false)){

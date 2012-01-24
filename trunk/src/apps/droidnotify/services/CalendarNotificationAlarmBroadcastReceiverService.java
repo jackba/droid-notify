@@ -94,7 +94,7 @@ public class CalendarNotificationAlarmBroadcastReceiverService extends WakefulIn
 		    			Bundle calendarEventNotificationBundleSingle = calendarEventNotificationBundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_1");
 		    			if(calendarEventNotificationBundleSingle != null){
 							//Display Status Bar Notification
-						    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_CALENDAR, -1, callStateIdle, null, null, calendarEventNotificationBundleSingle.getString(Constants.BUNDLE_MESSAGE_BODY), null);
+						    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_CALENDAR, -1, callStateIdle, null, null, calendarEventNotificationBundleSingle.getString(Constants.BUNDLE_MESSAGE_BODY), null, null);
 		    			}
 		    		}
 		    	}

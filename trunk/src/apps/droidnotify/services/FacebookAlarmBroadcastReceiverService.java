@@ -91,7 +91,7 @@ public class FacebookAlarmBroadcastReceiverService extends WakefulIntentService 
 				    //Get Facebook Object
 					Facebook facebook = FacebookCommon.getFacebook(context);
 				    if(facebook == null){
-				    	if (_debug) Log.v("FacebookService.doWakefulWork() Facebook object is null. Exiting... ");
+				    	if (_debug) Log.v("FacebookAlarmBroadcastReceiverService.doWakefulWork() Facebook object is null. Exiting... ");
 				    	return;
 				    }
 					String accessToken = preferences.getString(Constants.FACEBOOK_ACCESS_TOKEN_KEY, null);
@@ -104,9 +104,11 @@ public class FacebookAlarmBroadcastReceiverService extends WakefulIntentService 
 								Bundle facebookNotificationNotificationBundleSingle = facebookNotificationNotificationBundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_" + String.valueOf(i));
 				    			if(facebookNotificationNotificationBundleSingle != null){
 									//Display Status Bar Notification
-								    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_FACEBOOK, Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION, callStateIdle, facebookNotificationNotificationBundleSingle.getString(Constants.BUNDLE_CONTACT_NAME), facebookNotificationNotificationBundleSingle.getString(Constants.BUNDLE_SENT_FROM_ADDRESS), facebookNotificationNotificationBundleSingle.getString(Constants.BUNDLE_MESSAGE_BODY), null);
+								    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_FACEBOOK, Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION, callStateIdle, facebookNotificationNotificationBundleSingle.getString(Constants.BUNDLE_CONTACT_NAME), facebookNotificationNotificationBundleSingle.getString(Constants.BUNDLE_SENT_FROM_ADDRESS), facebookNotificationNotificationBundleSingle.getString(Constants.BUNDLE_MESSAGE_BODY), null, facebookNotificationNotificationBundleSingle.getString(Constants.BUNDLE_LINK_URL));
 				    			}
 							}			    			
+						}else{
+							if (_debug) Log.v("FacebookAlarmBroadcastReceiverService.doWakefulWork() No Facebook Notifications were found. Exiting...");
 						}
 					}
 					if(preferences.getBoolean(Constants.FACEBOOK_FRIEND_REQUESTS_ENABLED_KEY, true)){
@@ -118,9 +120,11 @@ public class FacebookAlarmBroadcastReceiverService extends WakefulIntentService 
 								Bundle facebookFriendRequestNotificationBundleSingle = facebookFriendRequestNotificationBundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_" + String.valueOf(i));
 				    			if(facebookFriendRequestNotificationBundleSingle != null){
 									//Display Status Bar Notification
-								    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_FACEBOOK, Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST, callStateIdle, facebookFriendRequestNotificationBundleSingle.getString(Constants.BUNDLE_CONTACT_NAME), facebookFriendRequestNotificationBundleSingle.getString(Constants.BUNDLE_SENT_FROM_ADDRESS), facebookFriendRequestNotificationBundleSingle.getString(Constants.BUNDLE_MESSAGE_BODY), null);
+								    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_FACEBOOK, Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST, callStateIdle, facebookFriendRequestNotificationBundleSingle.getString(Constants.BUNDLE_CONTACT_NAME), facebookFriendRequestNotificationBundleSingle.getString(Constants.BUNDLE_SENT_FROM_ADDRESS), facebookFriendRequestNotificationBundleSingle.getString(Constants.BUNDLE_MESSAGE_BODY), null, facebookFriendRequestNotificationBundleSingle.getString(Constants.BUNDLE_LINK_URL));
 				    			}
 							}			    			
+						}else{
+							if (_debug) Log.v("FacebookAlarmBroadcastReceiverService.doWakefulWork() No Facebook Friend Requests were found. Exiting...");
 						}
 					}
 					if(preferences.getBoolean(Constants.FACEBOOK_MESSAGES_ENABLED_KEY, true)){
@@ -132,9 +136,11 @@ public class FacebookAlarmBroadcastReceiverService extends WakefulIntentService 
 								Bundle facebookMessageNotificationBundleSingle = facebookMessageNotificationBundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_" + String.valueOf(i));
 				    			if(facebookMessageNotificationBundleSingle != null){
 									//Display Status Bar Notification
-								    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_FACEBOOK, Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE, callStateIdle, facebookMessageNotificationBundleSingle.getString(Constants.BUNDLE_CONTACT_NAME), facebookMessageNotificationBundleSingle.getString(Constants.BUNDLE_SENT_FROM_ADDRESS), facebookMessageNotificationBundleSingle.getString(Constants.BUNDLE_MESSAGE_BODY), null);
+								    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_FACEBOOK, Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE, callStateIdle, facebookMessageNotificationBundleSingle.getString(Constants.BUNDLE_CONTACT_NAME), facebookMessageNotificationBundleSingle.getString(Constants.BUNDLE_SENT_FROM_ADDRESS), facebookMessageNotificationBundleSingle.getString(Constants.BUNDLE_MESSAGE_BODY), null, facebookMessageNotificationBundleSingle.getString(Constants.BUNDLE_LINK_URL));
 				    			}
 							}			    			
+						}else{
+							if (_debug) Log.v("FacebookAlarmBroadcastReceiverService.doWakefulWork() No Facebook Messages were found. Exiting...");
 						}
 				    }
 			    	//Ignore notification based on the users preferences.

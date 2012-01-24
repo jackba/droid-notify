@@ -1510,7 +1510,7 @@
 							android:key="twitter_preferred_client"
 							android:title="@string/preference_choose_client_title"
 							android:summary="@string/preference_choose_client_summary"
-							android:defaultValue="com.twitter.android"
+							android:defaultValue="http://mobile.twitter.com"
 							android:entries="@array/twitter_client_options"
 							android:entryValues="@array/twitter_client_options_values"
 							android:dependency="twitter_enabled" />
@@ -1762,7 +1762,7 @@
 							android:key="facebook_preferred_client"
 							android:title="@string/preference_choose_client_title"
 							android:summary="@string/preference_choose_client_summary"
-							android:defaultValue="com.facebook.katana"
+							android:defaultValue="http://m.facebook.com"
 							android:entries="@array/facebook_client_options"
 							android:entryValues="@array/facebook_client_options_values"
 							android:dependency="facebook_enabled" />
