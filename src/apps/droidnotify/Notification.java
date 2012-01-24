@@ -34,31 +34,31 @@ public class Notification {
 	private Context _context = null;
 	private SharedPreferences _preferences = null;
 	private String _sentFromAddress = null;
-	private long _sentFromID = 0;
+	private long _sentFromID = -1;
 	private String _messageBody = null;
 	private long _timeStamp;
-	private long _threadID = 0;
-	private long _contactID = 0;
+	private long _threadID = -1;
+	private long _contactID = -1;
 	private String _contactName = null;
-	private long _photoID = 0;
+	private long _photoID = -1;
 	private Bitmap _photoImg = null;
 	private int _notificationType = -1;
-	private long _messageID = 0;
+	private long _messageID = -1;
 	private String _messageStringID = null;
 	private boolean _contactExists = false;
 	private boolean _contactPhotoExists = false;
 	private String _title = null;
-	private long _calendarID = 0;
-	private long _calendarEventID = 0;
-	private long _calendarEventStartTime = 0;
-	private long _calendarEventEndTime = 0;
+	private long _calendarID = -1;
+	private long _calendarEventID = -1;
+	private long _calendarEventStartTime = -1;
+	private long _calendarEventEndTime = -1;
 	private String _calendarName = null;
 	private boolean _allDay = false;
-	private long _callLogID = 0;
+	private long _callLogID = -1;
 	private String _lookupKey = null;
 	private String _k9EmailUri = null;
 	private String _k9EmailDelUri = null;
-	private int _rescheduleNumber = 0;
+	private int _rescheduleNumber = -1;
 	private PendingIntent _reminderPendingIntent = null;
 	private int _notificationSubType = -1;
 	private String _linkURL = null;
@@ -153,7 +153,7 @@ public class Notification {
 				}
 			}
 			
-			if(_contactID <= 0){
+			if(_contactID < 0){
 				_contactExists = false;
 			}else{
 				_contactExists = true;
@@ -161,7 +161,7 @@ public class Notification {
 			
 			if(_contactName != null && _contactName.equals("")) _contactName = null;
 			
-			if(_photoID <= 0){
+			if(_photoID < 0){
 				_contactPhotoExists = false;
 			}else{
 				_contactPhotoExists = true;
@@ -269,7 +269,7 @@ public class Notification {
 	 */
 	public long getThreadID() {
 		if(_notificationType == Constants.NOTIFICATION_TYPE_SMS || _notificationType == Constants.NOTIFICATION_TYPE_MMS){
-			if(_threadID == 0){
+			if(_threadID < 0){
 				_threadID = SMSCommon.getThreadID(_context, _sentFromAddress, _notificationType);
 			}
 		}
@@ -358,7 +358,7 @@ public class Notification {
 	 */
 	public long getMessageID() {
 		if(_notificationType == Constants.NOTIFICATION_TYPE_SMS || _notificationType == Constants.NOTIFICATION_TYPE_MMS){
-			if(_messageID == 0){
+			if(_messageID < 0){
 				_messageID = SMSCommon.getMessageID(_context, getThreadID(), _messageBody, _timeStamp, _notificationType);
 			}
 		}
@@ -403,7 +403,6 @@ public class Notification {
 	 */
 	public String getTitle() {
 		if (_debug) Log.v("Notification.getTitle()");
-		//if (_debug) Log.v("Notification.getTitle() Title: " + _title);
   		return _title;
 	}	
 	
