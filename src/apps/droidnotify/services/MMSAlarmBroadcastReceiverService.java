@@ -87,7 +87,7 @@ public class MMSAlarmBroadcastReceiverService extends WakefulIntentService {
 		    			Bundle mmsNotificationBundleSingle = mmsNotificationBundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_1");
 		    			if(mmsNotificationBundleSingle != null){
 							//Display Status Bar Notification
-						    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_MMS, 0, callStateIdle, mmsNotificationBundleSingle.getString(Constants.BUNDLE_CONTACT_NAME), mmsNotificationBundleSingle.getString(Constants.BUNDLE_SENT_FROM_ADDRESS), mmsNotificationBundleSingle.getString(Constants.BUNDLE_MESSAGE_BODY), null);
+						    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_MMS, 0, callStateIdle, mmsNotificationBundleSingle.getString(Constants.BUNDLE_CONTACT_NAME), mmsNotificationBundleSingle.getString(Constants.BUNDLE_SENT_FROM_ADDRESS), mmsNotificationBundleSingle.getString(Constants.BUNDLE_MESSAGE_BODY), null, null);
 		    			}
 		    		}
 			    }

@@ -100,7 +100,7 @@ public class FacebookCommon {
 	    			facebookNotificationNotificationBundleSingle.putLong(Constants.BUNDLE_SENT_FROM_ID, Long.parseLong(fromFacebookID));
 	    			facebookNotificationNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_BODY, notificationText.replace("\n", "<br/>"));
 	    			facebookNotificationNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_STRING_ID, notificationID);
-	    			facebookNotificationNotificationBundleSingle.putString(Constants.BUNDLE_LINK_URL, notificationExternalLinkURL);
+	    			facebookNotificationNotificationBundleSingle.putString(Constants.BUNDLE_LINK_URL, notificationExternalLinkURL.replace("http://www.facebook.com/", "http://m.facebook.com/"));
 	    			facebookNotificationNotificationBundleSingle.putLong(Constants.BUNDLE_TIMESTAMP, timeStamp);	    			
 	    			facebookNotificationNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_FACEBOOK);
 	    			facebookNotificationNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION);
@@ -110,18 +110,22 @@ public class FacebookCommon {
 	    			facebookNotificationNotificationBundleSingle.putLong(Constants.BUNDLE_SENT_FROM_ID, Long.parseLong(fromFacebookID));
 	    			facebookNotificationNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_BODY, notificationText.replace("\n", "<br/>"));
 	    			facebookNotificationNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_STRING_ID, notificationID);
-	    			facebookNotificationNotificationBundleSingle.putString(Constants.BUNDLE_LINK_URL, notificationExternalLinkURL);
+	    			facebookNotificationNotificationBundleSingle.putString(Constants.BUNDLE_LINK_URL, notificationExternalLinkURL.replace("http://www.facebook.com/", "http://m.facebook.com/"));
 	    			facebookNotificationNotificationBundleSingle.putLong(Constants.BUNDLE_TIMESTAMP, timeStamp);	    			
 	    			facebookNotificationNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_FACEBOOK);
 	    			facebookNotificationNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION);
 	    			//Contact Information.
-					facebookNotificationNotificationBundleSingle.putLong(Constants.BUNDLE_CONTACT_ID, facebookContactInfoBundle.getLong(Constants.BUNDLE_CONTACT_ID, 0));
+					facebookNotificationNotificationBundleSingle.putLong(Constants.BUNDLE_CONTACT_ID, facebookContactInfoBundle.getLong(Constants.BUNDLE_CONTACT_ID, -1));
 					facebookNotificationNotificationBundleSingle.putString(Constants.BUNDLE_CONTACT_NAME, facebookContactInfoBundle.getString(Constants.BUNDLE_CONTACT_NAME));
-					facebookNotificationNotificationBundleSingle.putLong(Constants.BUNDLE_PHOTO_ID, facebookContactInfoBundle.getLong(Constants.BUNDLE_PHOTO_ID, 0));
+					facebookNotificationNotificationBundleSingle.putLong(Constants.BUNDLE_PHOTO_ID, facebookContactInfoBundle.getLong(Constants.BUNDLE_PHOTO_ID, -1));
 					facebookNotificationNotificationBundleSingle.putString(Constants.BUNDLE_LOOKUP_KEY, facebookContactInfoBundle.getString(Constants.BUNDLE_LOOKUP_KEY));
 				}
 	    		facebookNotificationNotificationBundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_" + String.valueOf(bundleCount), facebookNotificationNotificationBundleSingle);
         	}
+			if(bundleCount <= 0){
+				if (_debug) Log.v("FacebookCommon.getFacebookNotifications() No Facebook Notifications Found. Exiting...");
+				return null;
+			}
         	facebookNotificationNotificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_BUNDLE_COUNT, bundleCount);
         	return facebookNotificationNotificationBundle;
         }catch(Exception ex){
@@ -184,6 +188,7 @@ public class FacebookCommon {
 	    			facebookFriendRequestNotificationBundleSingle.putLong(Constants.BUNDLE_SENT_FROM_ID, Long.parseLong(fromFacebookID));
 	    			facebookFriendRequestNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_BODY, friendRequestText);
 	    			facebookFriendRequestNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_STRING_ID, friendRequestID);
+	    			facebookFriendRequestNotificationBundleSingle.putString(Constants.BUNDLE_LINK_URL, "http://m.facebok.com");
 	    			facebookFriendRequestNotificationBundleSingle.putLong(Constants.BUNDLE_TIMESTAMP, timeStamp);
 	    			facebookFriendRequestNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_FACEBOOK);
 	    			facebookFriendRequestNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST);
@@ -193,17 +198,22 @@ public class FacebookCommon {
 	    			facebookFriendRequestNotificationBundleSingle.putLong(Constants.BUNDLE_SENT_FROM_ID, Long.parseLong(fromFacebookID));
 	    			facebookFriendRequestNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_BODY, friendRequestText);
 	    			facebookFriendRequestNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_STRING_ID, friendRequestID);
+	    			facebookFriendRequestNotificationBundleSingle.putString(Constants.BUNDLE_LINK_URL, "http://m.facebok.com");
 	    			facebookFriendRequestNotificationBundleSingle.putLong(Constants.BUNDLE_TIMESTAMP, timeStamp);
 	    			facebookFriendRequestNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_FACEBOOK);
 	    			facebookFriendRequestNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST);
 	    			//Contact Information.
-					facebookFriendRequestNotificationBundleSingle.putLong(Constants.BUNDLE_CONTACT_ID, facebookContactInfoBundle.getLong(Constants.BUNDLE_CONTACT_ID, 0));
+					facebookFriendRequestNotificationBundleSingle.putLong(Constants.BUNDLE_CONTACT_ID, facebookContactInfoBundle.getLong(Constants.BUNDLE_CONTACT_ID, -1));
 					facebookFriendRequestNotificationBundleSingle.putString(Constants.BUNDLE_CONTACT_NAME, facebookContactInfoBundle.getString(Constants.BUNDLE_CONTACT_NAME));
-					facebookFriendRequestNotificationBundleSingle.putLong(Constants.BUNDLE_PHOTO_ID, facebookContactInfoBundle.getLong(Constants.BUNDLE_PHOTO_ID, 0));
+					facebookFriendRequestNotificationBundleSingle.putLong(Constants.BUNDLE_PHOTO_ID, facebookContactInfoBundle.getLong(Constants.BUNDLE_PHOTO_ID, -1));
 					facebookFriendRequestNotificationBundleSingle.putString(Constants.BUNDLE_LOOKUP_KEY, facebookContactInfoBundle.getString(Constants.BUNDLE_LOOKUP_KEY));
 				}
 	    		facebookFriendRequestNotificationBundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_" + String.valueOf(bundleCount), facebookFriendRequestNotificationBundleSingle);
         	}
+			if(bundleCount <= 0){
+				if (_debug) Log.v("FacebookCommon.getFacebookNotifications() No Facebook Friend Requests Found. Exiting...");
+				return null;
+			}
         	facebookFriendRequestNotificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_BUNDLE_COUNT, bundleCount);
         	return facebookFriendRequestNotificationBundle;
         }catch(Exception ex){
@@ -293,6 +303,11 @@ public class FacebookCommon {
 	        	    			facebookMessageNotificationBundleSingle.putLong(Constants.BUNDLE_SENT_FROM_ID, Long.parseLong(fromFacebookID));
 	        	    			facebookMessageNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_BODY, messageText);
 	        	    			facebookMessageNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_STRING_ID, messageStringID);
+	        	    			if(messageStringID == null){
+	        	    				facebookMessageNotificationBundleSingle.putString(Constants.BUNDLE_LINK_URL, "https://m.facebook.com");
+	        	    			}else{
+	        	    				facebookMessageNotificationBundleSingle.putString(Constants.BUNDLE_LINK_URL, "https://m.facebook.com/messages/read?action=read&tid=id." + messageStringID.substring(0, messageStringID.indexOf("_")));
+	        	    			}
 	        	    			facebookMessageNotificationBundleSingle.putLong(Constants.BUNDLE_TIMESTAMP, timeStamp);
 	        	    			facebookMessageNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_FACEBOOK);
 	        	    			facebookMessageNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE);
@@ -302,13 +317,18 @@ public class FacebookCommon {
 	        	    			facebookMessageNotificationBundleSingle.putLong(Constants.BUNDLE_SENT_FROM_ID, Long.parseLong(fromFacebookID));
 	        	    			facebookMessageNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_BODY, messageText);
 	        	    			facebookMessageNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_STRING_ID, messageStringID);
+	        	    			if(messageStringID == null){
+	        	    				facebookMessageNotificationBundleSingle.putString(Constants.BUNDLE_LINK_URL, "https://m.facebook.com");
+	        	    			}else{
+	        	    				facebookMessageNotificationBundleSingle.putString(Constants.BUNDLE_LINK_URL, "https://m.facebook.com/messages/read?action=read&tid=id." + messageStringID.substring(0, messageStringID.indexOf("_")));
+	        	    			}
 	        	    			facebookMessageNotificationBundleSingle.putLong(Constants.BUNDLE_TIMESTAMP, timeStamp);
 	        	    			facebookMessageNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_FACEBOOK);
 	        	    			facebookMessageNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE);
 	        	    			//Contact Information.
-	        	    			facebookMessageNotificationBundleSingle.putLong(Constants.BUNDLE_CONTACT_ID, facebookContactInfoBundle.getLong(Constants.BUNDLE_CONTACT_ID, 0));
+	        	    			facebookMessageNotificationBundleSingle.putLong(Constants.BUNDLE_CONTACT_ID, facebookContactInfoBundle.getLong(Constants.BUNDLE_CONTACT_ID, -1));
 	        	    			facebookMessageNotificationBundleSingle.putString(Constants.BUNDLE_CONTACT_NAME, facebookContactInfoBundle.getString(Constants.BUNDLE_CONTACT_NAME));
-	        	    			facebookMessageNotificationBundleSingle.putLong(Constants.BUNDLE_PHOTO_ID, facebookContactInfoBundle.getLong(Constants.BUNDLE_PHOTO_ID, 0));
+	        	    			facebookMessageNotificationBundleSingle.putLong(Constants.BUNDLE_PHOTO_ID, facebookContactInfoBundle.getLong(Constants.BUNDLE_PHOTO_ID, -1));
 	        	    			facebookMessageNotificationBundleSingle.putString(Constants.BUNDLE_LOOKUP_KEY, facebookContactInfoBundle.getString(Constants.BUNDLE_LOOKUP_KEY));
 							}
 		            	    facebookMessageNotificationBundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_" + String.valueOf(bundleCount), facebookMessageNotificationBundleSingle);			        	    
@@ -330,6 +350,11 @@ public class FacebookCommon {
         	    			facebookMessageNotificationBundleSingle.putLong(Constants.BUNDLE_SENT_FROM_ID, Long.parseLong(fromFacebookID));
         	    			facebookMessageNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_BODY, messageText);
         	    			facebookMessageNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_STRING_ID, messageStringID);
+        	    			if(messageStringID == null){
+        	    				facebookMessageNotificationBundleSingle.putString(Constants.BUNDLE_LINK_URL, "https://m.facebook.com");
+        	    			}else{
+        	    				facebookMessageNotificationBundleSingle.putString(Constants.BUNDLE_LINK_URL, "https://m.facebook.com/messages/read?action=read&tid=id." + messageStringID.substring(0, messageStringID.indexOf("_")));
+        	    			}
         	    			facebookMessageNotificationBundleSingle.putLong(Constants.BUNDLE_TIMESTAMP, timeStamp);
         	    			facebookMessageNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_FACEBOOK);
         	    			facebookMessageNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE);
@@ -339,19 +364,28 @@ public class FacebookCommon {
         	    			facebookMessageNotificationBundleSingle.putLong(Constants.BUNDLE_SENT_FROM_ID, Long.parseLong(fromFacebookID));
         	    			facebookMessageNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_BODY, messageText);
         	    			facebookMessageNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_STRING_ID, messageStringID);
+        	    			if(messageStringID == null){
+        	    				facebookMessageNotificationBundleSingle.putString(Constants.BUNDLE_LINK_URL, "https://m.facebook.com");
+        	    			}else{
+        	    				facebookMessageNotificationBundleSingle.putString(Constants.BUNDLE_LINK_URL, "https://m.facebook.com/messages/read?action=read&tid=id." + messageStringID.substring(0, messageStringID.indexOf("_")));
+        	    			}
         	    			facebookMessageNotificationBundleSingle.putLong(Constants.BUNDLE_TIMESTAMP, timeStamp);
         	    			facebookMessageNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_FACEBOOK);
         	    			facebookMessageNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE);
         	    			//Contact Information.
-        	    			facebookMessageNotificationBundleSingle.putLong(Constants.BUNDLE_CONTACT_ID, facebookContactInfoBundle.getLong(Constants.BUNDLE_CONTACT_ID, 0));
+        	    			facebookMessageNotificationBundleSingle.putLong(Constants.BUNDLE_CONTACT_ID, facebookContactInfoBundle.getLong(Constants.BUNDLE_CONTACT_ID, -1));
         	    			facebookMessageNotificationBundleSingle.putString(Constants.BUNDLE_CONTACT_NAME, facebookContactInfoBundle.getString(Constants.BUNDLE_CONTACT_NAME));
-        	    			facebookMessageNotificationBundleSingle.putLong(Constants.BUNDLE_PHOTO_ID, facebookContactInfoBundle.getLong(Constants.BUNDLE_PHOTO_ID, 0));
+        	    			facebookMessageNotificationBundleSingle.putLong(Constants.BUNDLE_PHOTO_ID, facebookContactInfoBundle.getLong(Constants.BUNDLE_PHOTO_ID, -1));
         	    			facebookMessageNotificationBundleSingle.putString(Constants.BUNDLE_LOOKUP_KEY, facebookContactInfoBundle.getString(Constants.BUNDLE_LOOKUP_KEY));
 						}
 	            	    facebookMessageNotificationBundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_" + String.valueOf(bundleCount), facebookMessageNotificationBundleSingle);
 					}
 				}
         	}
+			if(bundleCount <= 0){
+				if (_debug) Log.v("FacebookCommon.getFacebookNotifications() No Facebook Messages Found. Exiting...");
+				return null;
+			}
         	facebookMessageNotificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_BUNDLE_COUNT, bundleCount);
         	return facebookMessageNotificationBundle;
         }catch(Exception ex){
@@ -597,6 +631,23 @@ public class FacebookCommon {
 			Log.e("FacebookCommon.setFacebookNotificationRead() ERROR: " + ex.toString());
 			return false;
 		}
+	}
+	
+	/**
+	 * Determine if the user has selected the Mobile Webpage as the client or not.
+	 * 
+	 * @param context - The application context.
+	 * 
+	 * @return boolean - return true if user has selected the Mobile Webpage as the client.
+	 */
+	public static boolean isUsingClientWeb(Context context){
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		String packageName = preferences.getString(Constants.FACEBOOK_PREFERRED_CLIENT_KEY, Constants.FACEBOOK_PREFERRED_CLIENT_DEFAULT);
+		if(packageName.startsWith("http://")){
+			return true;
+		}else{
+			return false;
+		}		
 	}
 	
 	//================================================================================

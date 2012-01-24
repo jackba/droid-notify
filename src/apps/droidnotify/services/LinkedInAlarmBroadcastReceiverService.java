@@ -108,7 +108,7 @@ public class LinkedInAlarmBroadcastReceiverService extends WakefulIntentService 
 									if(arraySize >= 8) contactName = facebookInfo[7];
 				    			}
 								//Display Status Bar Notification
-							    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_LINKEDIN, Constants.NOTIFICATION_TYPE_LINKEDIN_UPDATE, callStateIdle, contactName, messageAddress, messageBody, null);
+							    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_LINKEDIN, Constants.NOTIFICATION_TYPE_LINKEDIN_UPDATE, callStateIdle, contactName, messageAddress, messageBody, null, null);
 					    	}
 						}else{
 							if (_debug) Log.v("LinkedInAlarmBroadcastReceiverService.doWakefulWork() No Facebook Nnotifications were found. Exiting...");

@@ -81,28 +81,28 @@ public class Notification {
 			
 			//Extract information from the provided Bundle.
 			_sentFromAddress = notificationBundle.getString(Constants.BUNDLE_SENT_FROM_ADDRESS);
-			_sentFromID = notificationBundle.getLong(Constants.BUNDLE_SENT_FROM_ID, 0);
+			_sentFromID = notificationBundle.getLong(Constants.BUNDLE_SENT_FROM_ID, -1);
 			_messageBody = notificationBundle.getString(Constants.BUNDLE_MESSAGE_BODY);
-			_timeStamp = notificationBundle.getLong(Constants.BUNDLE_TIMESTAMP, 0);
-			_threadID = notificationBundle.getLong(Constants.BUNDLE_THREAD_ID, 0);
-			_contactID = notificationBundle.getLong(Constants.BUNDLE_CONTACT_ID, 0);
+			_timeStamp = notificationBundle.getLong(Constants.BUNDLE_TIMESTAMP, -1);
+			_threadID = notificationBundle.getLong(Constants.BUNDLE_THREAD_ID, -1);
+			_contactID = notificationBundle.getLong(Constants.BUNDLE_CONTACT_ID, -1);
 			_contactName = notificationBundle.getString(Constants.BUNDLE_CONTACT_NAME);
-			_photoID = notificationBundle.getLong(Constants.BUNDLE_PHOTO_ID, 0);
+			_photoID = notificationBundle.getLong(Constants.BUNDLE_PHOTO_ID, -1);
 			_notificationType = notificationBundle.getInt(Constants.BUNDLE_NOTIFICATION_TYPE, -1);
-			_messageID = notificationBundle.getLong(Constants.BUNDLE_MESSAGE_ID, 0);
+			_messageID = notificationBundle.getLong(Constants.BUNDLE_MESSAGE_ID, -1);
 			_messageStringID = notificationBundle.getString(Constants.BUNDLE_MESSAGE_STRING_ID);
 			_title = notificationBundle.getString(Constants.BUNDLE_TITLE);
-			_calendarID = notificationBundle.getLong(Constants.BUNDLE_CALENDAR_ID, 0);
-			_calendarEventID = notificationBundle.getLong(Constants.BUNDLE_CALENDAR_EVENT_ID, 0);
-			_calendarEventStartTime = notificationBundle.getLong(Constants.BUNDLE_CALENDAR_EVENT_START_TIME, 0);
-			_calendarEventEndTime = notificationBundle.getLong(Constants.BUNDLE_CALENDAR_EVENT_END_TIME, 0);
+			_calendarID = notificationBundle.getLong(Constants.BUNDLE_CALENDAR_ID, -1);
+			_calendarEventID = notificationBundle.getLong(Constants.BUNDLE_CALENDAR_EVENT_ID, -1);
+			_calendarEventStartTime = notificationBundle.getLong(Constants.BUNDLE_CALENDAR_EVENT_START_TIME, -1);
+			_calendarEventEndTime = notificationBundle.getLong(Constants.BUNDLE_CALENDAR_EVENT_END_TIME, -1);
 			_calendarName = notificationBundle.getString(Constants.BUNDLE_CALENDAR_NAME);
 			_allDay = notificationBundle.getBoolean(Constants.BUNDLE_ALL_DAY, false);
-			_callLogID = notificationBundle.getLong(Constants.BUNDLE_CALL_LOG_ID, 0);
+			_callLogID = notificationBundle.getLong(Constants.BUNDLE_CALL_LOG_ID, -1);
 			_lookupKey = notificationBundle.getString(Constants.BUNDLE_LOOKUP_KEY);
 			_k9EmailUri = notificationBundle.getString(Constants.BUNDLE_K9_EMAIL_URI);
 			_k9EmailDelUri = notificationBundle.getString(Constants.BUNDLE_K9_EMAIL_DEL_URI);
-			_rescheduleNumber = notificationBundle.getInt(Constants.BUNDLE_RESCHEDULE_NUMBER, 0);
+			_rescheduleNumber = notificationBundle.getInt(Constants.BUNDLE_RESCHEDULE_NUMBER, -1);
 			_notificationSubType = notificationBundle.getInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, -1);
 			_linkURL = notificationBundle.getString(Constants.BUNDLE_LINK_URL);
 			
@@ -143,6 +143,7 @@ public class Notification {
 				}
 				case Constants.NOTIFICATION_TYPE_FACEBOOK:{
 					if(_title == null) _title = "Facebook";
+					if(_contactID <= 0) _calendarName = _sentFromAddress;
 					break;
 				}
 				case Constants.NOTIFICATION_TYPE_K9:{
@@ -152,7 +153,7 @@ public class Notification {
 				}
 			}
 			
-			if(_contactID == 0){
+			if(_contactID <= 0){
 				_contactExists = false;
 			}else{
 				_contactExists = true;
@@ -160,7 +161,7 @@ public class Notification {
 			
 			if(_contactName != null && _contactName.equals("")) _contactName = null;
 			
-			if(_photoID == 0){
+			if(_photoID <= 0){
 				_contactPhotoExists = false;
 			}else{
 				_contactPhotoExists = true;
@@ -176,6 +177,42 @@ public class Notification {
 	//================================================================================
 	// Public Methods
 	//================================================================================
+	
+	/**
+	 * Get a Bundle that contains all the Notification information.
+	 * 
+	 * @return Bundle - Returns a bundle that contains all of the Notification information.
+	 */
+	public Bundle getNotificationBundle(){
+		if (_debug) Log.v("Notification.getNotificationBundle()");
+		Bundle notificationBundle = new Bundle();
+		notificationBundle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, _sentFromAddress);
+		notificationBundle.putLong(Constants.BUNDLE_SENT_FROM_ID, _sentFromID);
+		notificationBundle.putString(Constants.BUNDLE_MESSAGE_BODY, _messageBody);
+		notificationBundle.putLong(Constants.BUNDLE_TIMESTAMP, _timeStamp);
+		notificationBundle.putLong(Constants.BUNDLE_THREAD_ID, _threadID);
+		notificationBundle.putLong(Constants.BUNDLE_CONTACT_ID, _contactID);
+		notificationBundle.putString(Constants.BUNDLE_CONTACT_NAME, _contactName);
+		notificationBundle.putLong(Constants.BUNDLE_PHOTO_ID, _photoID);
+		notificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, _notificationType);
+		notificationBundle.putLong(Constants.BUNDLE_MESSAGE_ID, _messageID);
+		notificationBundle.putString(Constants.BUNDLE_MESSAGE_STRING_ID, _messageStringID);
+		notificationBundle.putString(Constants.BUNDLE_TITLE, _title);
+		notificationBundle.putLong(Constants.BUNDLE_CALENDAR_ID, _calendarID);
+		notificationBundle.putLong(Constants.BUNDLE_CALENDAR_EVENT_ID, _calendarEventID);
+		notificationBundle.putLong(Constants.BUNDLE_CALENDAR_EVENT_START_TIME, _calendarEventStartTime);
+		notificationBundle.putLong(Constants.BUNDLE_CALENDAR_EVENT_END_TIME, _calendarEventEndTime);
+		notificationBundle.putString(Constants.BUNDLE_CALENDAR_NAME, _calendarName);
+		notificationBundle.putBoolean(Constants.BUNDLE_ALL_DAY, _allDay);
+		notificationBundle.putLong(Constants.BUNDLE_CALL_LOG_ID, _callLogID);
+		notificationBundle.putString(Constants.BUNDLE_LOOKUP_KEY, _lookupKey);
+		notificationBundle.putString(Constants.BUNDLE_K9_EMAIL_URI, _k9EmailUri);
+		notificationBundle.putString(Constants.BUNDLE_K9_EMAIL_DEL_URI, _k9EmailDelUri);
+		notificationBundle.putInt(Constants.BUNDLE_RESCHEDULE_NUMBER, _rescheduleNumber);
+		notificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, _notificationSubType);
+		notificationBundle.putString(Constants.BUNDLE_LINK_URL, _linkURL);
+		return notificationBundle;
+	}
 	
 	/**
 	 * Get the sentFromAddress property.

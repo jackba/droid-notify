@@ -1,7 +1,5 @@
 package apps.droidnotify.services;
 
-import java.util.ArrayList;
-
 import twitter4j.Twitter;
 
 import android.content.Context;
@@ -63,33 +61,33 @@ public class TwitterService extends WakefulIntentService {
 			}
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 			if(preferences.getBoolean(Constants.TWITTER_DIRECT_MESSAGES_ENABLED_KEY, true)){
-				ArrayList<String> twitterDirectMessageArray = TwitterCommon.getTwitterDirectMessages(context, twitter);
-			    if(twitterDirectMessageArray != null && twitterDirectMessageArray.size() > 0){
+				Bundle twitterDirectMessageNotificationBundle = TwitterCommon.getTwitterDirectMessages(context, twitter);
+			    if(twitterDirectMessageNotificationBundle != null){
 					Bundle bundle = new Bundle();
 					bundle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_TWITTER);
-					bundle.putStringArrayList("twitterArrayList", twitterDirectMessageArray);
+					bundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME, twitterDirectMessageNotificationBundle);
 					Common.startNotificationActivity(context, bundle);
 				}else{
 					if (_debug) Log.v("TwitterService.doWakefulWork() No Twitter Direct Messages were found. Exiting...");
 				}
 			}
 			if(preferences.getBoolean(Constants.TWITTER_MENTIONS_ENABLED_KEY, true)){
-			    ArrayList<String> twitterMentionArray = TwitterCommon.getTwitterMentions(context, twitter);
-			    if(twitterMentionArray != null && twitterMentionArray.size() > 0){
+				Bundle twitterMentionNotificationBundle = TwitterCommon.getTwitterMentions(context, twitter);
+			    if(twitterMentionNotificationBundle != null){
 					Bundle bundle = new Bundle();
 					bundle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_TWITTER);
-					bundle.putStringArrayList("twitterArrayList", twitterMentionArray);
+					bundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME, twitterMentionNotificationBundle);
 					Common.startNotificationActivity(context, bundle);
 				}else{
 					if (_debug) Log.v("TwitterService.doWakefulWork() No Twitter Mentions were found. Exiting...");
 				}
 			}
 			if(preferences.getBoolean(Constants.TWITTER_FOLLOWER_REQUESTS_ENABLED_KEY, true)){
-				ArrayList<String> twitterFollowerRequestArray = TwitterCommon.getTwitterFollowerRequests(context, twitter);
-			    if(twitterFollowerRequestArray != null && twitterFollowerRequestArray.size() > 0){
+				Bundle twitterFollowerRequestNotificationBundle = TwitterCommon.getTwitterFollowerRequests(context, twitter);
+			    if(twitterFollowerRequestNotificationBundle != null){
 					Bundle bundle = new Bundle();
 					bundle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_TWITTER);
-					bundle.putStringArrayList("twitterArrayList", twitterFollowerRequestArray);
+					bundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME, twitterFollowerRequestNotificationBundle);
 					Common.startNotificationActivity(context, bundle);
 				}else{
 					if (_debug) Log.v("TwitterService.doWakefulWork() No Twitter Follower Requests were found. Exiting...");

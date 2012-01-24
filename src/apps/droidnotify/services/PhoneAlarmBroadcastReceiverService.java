@@ -93,7 +93,7 @@ public class PhoneAlarmBroadcastReceiverService extends WakefulIntentService {
 		    			Bundle missedCallNotificationBundleSingle = missedCallNotificationBundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_1");
 						if(missedCallNotificationBundleSingle != null){
 			    			//Display Status Bar Notification
-			    			Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_PHONE, 0, callStateIdle, missedCallNotificationBundleSingle.getString(Constants.BUNDLE_CONTACT_NAME), missedCallNotificationBundleSingle.getString(Constants.BUNDLE_SENT_FROM_ADDRESS), null, null);
+			    			Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_PHONE, 0, callStateIdle, missedCallNotificationBundleSingle.getString(Constants.BUNDLE_CONTACT_NAME), missedCallNotificationBundleSingle.getString(Constants.BUNDLE_SENT_FROM_ADDRESS), null, null, null);
 						}
 					}
 	    		}

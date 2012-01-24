@@ -575,7 +575,7 @@ public class Common {
 	 * @param calendarEventStartTime - The calendar event start time.
 	 * @param calendarEventEndTime - The calendar event end time.
 	 */
-	public static void setStatusBarNotification(Context context, int notificationType, int notificationSubType, boolean callStateIdle, String sentFromContactName, String sentFromAddress, String message, String k9EmailUri){
+	public static void setStatusBarNotification(Context context, int notificationType, int notificationSubType, boolean callStateIdle, String sentFromContactName, String sentFromAddress, String message, String k9EmailUri, String linkURL){
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.setStatusBarNotification()");
 		//if (_debug) Log.v("Common.setStatusBarNotification() sentFromContactName: " + sentFromContactName + " sentFromAddress: " + sentFromAddress + " message: " + message);
@@ -913,7 +913,15 @@ public class Common {
 								tickerText = context.getString(R.string.status_bar_notification_ticker_text_twitter_follower_request, sentFromContactName, message);
 							}
 						}
-						notificationContentIntent = TwitterCommon.getTwitterAppActivityIntent(context);
+				    	if(TwitterCommon.isUsingClientWeb(_context)){
+				    		if(linkURL == null){
+				    			notificationContentIntent = TwitterCommon.getTwitterAppActivityIntent(context);
+				    		}else{
+				    			notificationContentIntent = getBrowserActivityIntent(linkURL);
+				    		}
+				    	}else{
+							notificationContentIntent = TwitterCommon.getTwitterAppActivityIntent(context);
+				    	}
 					}
 					//Delete Intent
 					notificationDeleteIntent = null;
@@ -994,7 +1002,15 @@ public class Common {
 								tickerText = context.getString(R.string.status_bar_notification_ticker_text_facebook_message, sentFromContactName, message);
 							}
 						}
-						notificationContentIntent = FacebookCommon.getFacebookAppActivityIntent(context);
+				    	if(FacebookCommon.isUsingClientWeb(_context)){
+				    		if(linkURL == null){
+				    			notificationContentIntent = FacebookCommon.getFacebookAppActivityIntent(context);
+				    		}else{
+				    			notificationContentIntent = getBrowserActivityIntent(linkURL);
+				    		}
+				    	}else{
+				    		notificationContentIntent = FacebookCommon.getFacebookAppActivityIntent(context);
+				    	}						
 					}
 					//Delete Intent
 					notificationDeleteIntent = null;
@@ -1822,62 +1838,74 @@ public class Common {
 	public static PendingIntent rescheduleNotification(Context context, apps.droidnotify.Notification notification, long rescheduleTime, int rescheduleNumber){
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.rescheduleNotification()");
-		//Store the notification information into an ArrayList.
+		//Store the notification information into a Bundle
 		int notificationType = notification.getNotificationType() + 100;
-		//Get Notification Values.
-		//========================================================
-		//String[] Values:
-		//[0]-notificationType
-		//[1]-SentFromAddress
-		//[2]-MessageBody
-		//[3]-TimeStamp
-		//[4]-ThreadID
-		//[5]-ContactID
-		//[6]-ContactName
-		//[7]-MessageID
-		//[8]-Title
-		//[9]-CalendarID
-		//[10]-CalendarEventID
-		//[11]-CalendarEventStartTime
-		//[12]-CalendarEventEndTime
-		//[13]-AllDay
-		//[14]-CallLogID
-		//[15]-K9EmailUri
-		//[16]-K9EmailDelUri
-		//[17]-LookupKey
-		//[18]-PhotoID
-		//[19]-NotificationSubType
-		//[20]-MessageStringID
-		//========================================================
-		String sentFromAddress = notification.getSentFromAddress();
-		String messageBody = notification.getMessageBody();
-		long timeStamp = notification.getTimeStamp();
-		long threadID = notification.getThreadID();
-		long contactID = notification.getContactID();
-		String contactName = notification.getContactName();
-		long messageID = notification.getMessageID();
-		String title = notification.getTitle();
-		long calendarID = notification.getCalendarID();
-		long calendarEventID = notification.getCalendarEventID();
-		long calendarEventStartTime = notification.getCalendarEventStartTime();
-		long calendarEventEndTime = notification.getCalendarEventEndTime();
-		String allDay = "0";
-		if(notification.getAllDay()){
-			allDay = "1";
-		}
-		long callLogID = notification.getCallLogID();
-		String k9EmailUri = notification.getK9EmailUri();
-		String k9EmailDelUri = notification.getK9EmailDelUri();
-		String lookupKey = notification.getLookupKey();
-		long photoID = notification.getPhotoID();
-		int notificationSubType = notification.getNotificationSubType();
-		String messageStringID = notification.getMessageStringID();
-		//Build Notification Information String Array.
-		String[] rescheduleNotificationInfo = new String[] {String.valueOf(notificationType), sentFromAddress, messageBody, String.valueOf(timeStamp), String.valueOf(threadID), String.valueOf(contactID), contactName, String.valueOf(messageID), title, String.valueOf(calendarID), String.valueOf(calendarEventID), String.valueOf(calendarEventStartTime), String.valueOf(calendarEventEndTime), allDay, String.valueOf(callLogID), k9EmailUri, k9EmailDelUri, lookupKey, String.valueOf(photoID), String.valueOf(notificationSubType), messageStringID};
+		
+		
+		
+//		//Get Notification Values.
+//		//========================================================
+//		//String[] Values:
+//		//[0]-notificationType
+//		//[1]-SentFromAddress
+//		//[2]-MessageBody
+//		//[3]-TimeStamp
+//		//[4]-ThreadID
+//		//[5]-ContactID
+//		//[6]-ContactName
+//		//[7]-MessageID
+//		//[8]-Title
+//		//[9]-CalendarID
+//		//[10]-CalendarEventID
+//		//[11]-CalendarEventStartTime
+//		//[12]-CalendarEventEndTime
+//		//[13]-AllDay
+//		//[14]-CallLogID
+//		//[15]-K9EmailUri
+//		//[16]-K9EmailDelUri
+//		//[17]-LookupKey
+//		//[18]-PhotoID
+//		//[19]-NotificationSubType
+//		//[20]-MessageStringID
+//		//========================================================		
+//		String sentFromAddress = notification.getSentFromAddress();
+//		String messageBody = notification.getMessageBody();
+//		long timeStamp = notification.getTimeStamp();
+//		long threadID = notification.getThreadID();
+//		long contactID = notification.getContactID();
+//		String contactName = notification.getContactName();
+//		long messageID = notification.getMessageID();
+//		String title = notification.getTitle();
+//		long calendarID = notification.getCalendarID();
+//		long calendarEventID = notification.getCalendarEventID();
+//		long calendarEventStartTime = notification.getCalendarEventStartTime();
+//		long calendarEventEndTime = notification.getCalendarEventEndTime();
+//		String allDay = "0";
+//		if(notification.getAllDay()){
+//			allDay = "1";
+//		}
+//		long callLogID = notification.getCallLogID();
+//		String k9EmailUri = notification.getK9EmailUri();
+//		String k9EmailDelUri = notification.getK9EmailDelUri();
+//		String lookupKey = notification.getLookupKey();
+//		long photoID = notification.getPhotoID();
+//		int notificationSubType = notification.getNotificationSubType();
+//		String messageStringID = notification.getMessageStringID();
+//		//Build Notification Information String Array.
+//		String[] rescheduleNotificationInfo = new String[] {String.valueOf(notificationType), sentFromAddress, messageBody, String.valueOf(timeStamp), String.valueOf(threadID), String.valueOf(contactID), contactName, String.valueOf(messageID), title, String.valueOf(calendarID), String.valueOf(calendarEventID), String.valueOf(calendarEventStartTime), String.valueOf(calendarEventEndTime), allDay, String.valueOf(callLogID), k9EmailUri, k9EmailDelUri, lookupKey, String.valueOf(photoID), String.valueOf(notificationSubType), messageStringID};
+		
+		
+		
+		
+		
+		Bundle rescheduleNotificationBundle = new Bundle();
+		rescheduleNotificationBundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_1", notification.getNotificationBundle());
+		rescheduleNotificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_BUNDLE_COUNT, 1);
+		
 		AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 		Intent rescheduleIntent = new Intent(context, RescheduleReceiver.class);
 		Bundle rescheduleBundle = new Bundle();
-		rescheduleBundle.putStringArray("rescheduleNotificationInfo", rescheduleNotificationInfo);
+		rescheduleBundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME, rescheduleNotificationBundle);
 		rescheduleBundle.putInt("rescheduleNumber", rescheduleNumber);
 		rescheduleBundle.putInt("notificationType", notificationType);
 		rescheduleIntent.putExtras(rescheduleBundle);
@@ -2189,6 +2217,27 @@ public class Common {
 			if(displayErrors) Toast.makeText(context, context.getString(R.string.browser_app_error), Toast.LENGTH_LONG).show();
 			setInLinkedAppFlag(context, false);
 			return false;
+		}
+	}
+
+	/**
+	 * Get the Intent to launch a Browser application.
+	 * 
+	 * @param linkURL - The URL we want to browser to open.
+	 * 
+	 * @return Intent - Returns the Intent.
+	 */
+	public static Intent getBrowserActivityIntent(String linkURL){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.getBrowserActivityIntent()");
+		try{
+			Intent browserIntent = new Intent(Intent.ACTION_VIEW);	
+			browserIntent.setData(Uri.parse(linkURL));
+			browserIntent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+	        return browserIntent;
+		}catch(Exception ex){
+			Log.e("Common.getBrowserActivityIntent() ERROR: " + ex.toString());
+			return null;
 		}
 	}
 	

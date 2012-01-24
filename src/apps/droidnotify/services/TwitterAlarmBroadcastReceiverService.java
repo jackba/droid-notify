@@ -1,12 +1,11 @@
 package apps.droidnotify.services;
 
-import java.util.ArrayList;
-
 import twitter4j.Twitter;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 
@@ -91,9 +90,6 @@ public class TwitterAlarmBroadcastReceiverService extends WakefulIntentService {
 		    	//Display the Status Bar Notification even though the popup is blocked based on the user preferences.
 		    	if(preferences.getBoolean(Constants.TWITTER_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true)){
 		    		//Get the Twitter message info.
-					String contactName = null;
-					String messageAddress = null;
-					String messageBody = null;
 					//Get Twitter Object
 					Twitter twitter = TwitterCommon.getTwitter(context);
 					if(twitter == null){
@@ -101,61 +97,49 @@ public class TwitterAlarmBroadcastReceiverService extends WakefulIntentService {
 						return;
 					}
 					if(preferences.getBoolean(Constants.TWITTER_DIRECT_MESSAGES_ENABLED_KEY, true)){
-						ArrayList<String> twitterDirectMessageArray = TwitterCommon.getTwitterDirectMessages(context, twitter);
-					    if(twitterDirectMessageArray != null && twitterDirectMessageArray.size() > 0){
-					    	int twitterDirectMessageArraySize = twitterDirectMessageArray.size();
-					    	for(int i=0; i<twitterDirectMessageArraySize; i++ ){
-					    		String twitterArrayItem = twitterDirectMessageArray.get(i);
-								String[] twitterInfo = twitterArrayItem.split("\\|");
-				    			int arraySize = twitterInfo.length;
-				    			if(arraySize > 0){
-									if(arraySize >= 1) messageAddress = twitterInfo[1];
-									if(arraySize >= 2) messageBody = twitterInfo[3];
-									if(arraySize >= 8) contactName = twitterInfo[7];
+						Bundle twitterDirectMessageNotificationBundle = TwitterCommon.getTwitterDirectMessages(context, twitter);
+					    if(twitterDirectMessageNotificationBundle != null){
+							//Loop through all the bundles that were sent through.
+							int bundleCount = twitterDirectMessageNotificationBundle.getInt(Constants.BUNDLE_NOTIFICATION_BUNDLE_COUNT);
+							for(int i=1;i<=bundleCount;i++){
+								Bundle twitterDirectMessageNotificationBundleSingle = twitterDirectMessageNotificationBundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_" + String.valueOf(i));
+				    			if(twitterDirectMessageNotificationBundleSingle != null){
+									//Display Status Bar Notification
+								    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_TWITTER, Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE, callStateIdle, twitterDirectMessageNotificationBundleSingle.getString(Constants.BUNDLE_CONTACT_NAME), twitterDirectMessageNotificationBundleSingle.getString(Constants.BUNDLE_SENT_FROM_ADDRESS), twitterDirectMessageNotificationBundleSingle.getString(Constants.BUNDLE_MESSAGE_BODY), null, twitterDirectMessageNotificationBundleSingle.getString(Constants.BUNDLE_LINK_URL));
 				    			}
-								//Display Status Bar Notification
-							    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_TWITTER, Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE, callStateIdle, contactName, messageAddress, messageBody, null);
-					    	}
+							}			    			
 						}else{
 							if (_debug) Log.v("TwitterAlarmBroadcastReceiverService.doWakefulWork() No Twitter Direct Messages were found. Exiting...");
 						}
 					}
 					if(preferences.getBoolean(Constants.TWITTER_MENTIONS_ENABLED_KEY, true)){
-					    ArrayList<String> twitterMentionArray = TwitterCommon.getTwitterMentions(context, twitter);
-					    if(twitterMentionArray != null && twitterMentionArray.size() > 0){
-					    	int twitterMentionArraySize = twitterMentionArray.size();
-					    	for(int i=0; i<twitterMentionArraySize; i++ ){
-					    		String twitterArrayItem = twitterMentionArray.get(i);
-								String[] twitterInfo = twitterArrayItem.split("\\|");
-				    			int arraySize = twitterInfo.length;
-				    			if(arraySize > 0){
-									if(arraySize >= 1) messageAddress = twitterInfo[1];
-									if(arraySize >= 2) messageBody = twitterInfo[3];
-									if(arraySize >= 8) contactName = twitterInfo[7];
+						Bundle twitterMentionNotificationBundle = TwitterCommon.getTwitterMentions(context, twitter);
+					    if(twitterMentionNotificationBundle != null){
+							//Loop through all the bundles that were sent through.
+							int bundleCount = twitterMentionNotificationBundle.getInt(Constants.BUNDLE_NOTIFICATION_BUNDLE_COUNT);
+							for(int i=1;i<=bundleCount;i++){
+								Bundle twitterMentionNotificationBundleSingle = twitterMentionNotificationBundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_" + String.valueOf(i));
+				    			if(twitterMentionNotificationBundleSingle != null){
+									//Display Status Bar Notification
+								    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_TWITTER, Constants.NOTIFICATION_TYPE_TWITTER_MENTION, callStateIdle, twitterMentionNotificationBundleSingle.getString(Constants.BUNDLE_CONTACT_NAME), twitterMentionNotificationBundleSingle.getString(Constants.BUNDLE_SENT_FROM_ADDRESS), twitterMentionNotificationBundleSingle.getString(Constants.BUNDLE_MESSAGE_BODY), null, twitterMentionNotificationBundleSingle.getString(Constants.BUNDLE_LINK_URL));
 				    			}
-								//Display Status Bar Notification
-							    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_TWITTER, Constants.NOTIFICATION_TYPE_TWITTER_MENTION, callStateIdle, contactName, messageAddress, messageBody, null);
-					    	}
+							}			    			
 						}else{
 							if (_debug) Log.v("TwitterAlarmBroadcastReceiverService.doWakefulWork() No Twitter Mentions were found. Exiting...");
 						}
 					}
 					if(preferences.getBoolean(Constants.TWITTER_FOLLOWER_REQUESTS_ENABLED_KEY, true)){
-					    ArrayList<String> twitterFollowerRequestArray = TwitterCommon.getTwitterFollowerRequests(context, twitter);
-					    if(twitterFollowerRequestArray != null && twitterFollowerRequestArray.size() > 0){
-					    	int twitterFollowerRequestArraySize = twitterFollowerRequestArray.size();
-					    	for(int i=0; i<twitterFollowerRequestArraySize; i++ ){
-					    		String twitterArrayItem = twitterFollowerRequestArray.get(i);
-								String[] twitterInfo = twitterArrayItem.split("\\|");
-				    			int arraySize = twitterInfo.length;
-				    			if(arraySize > 0){
-									if(arraySize >= 1) messageAddress = twitterInfo[1];
-									if(arraySize >= 2) messageBody = twitterInfo[3];
-									if(arraySize >= 8) contactName = twitterInfo[7];
+						Bundle twitterFollowerRequestNotificationBundle = TwitterCommon.getTwitterFollowerRequests(context, twitter);
+					    if(twitterFollowerRequestNotificationBundle != null){
+							//Loop through all the bundles that were sent through.
+							int bundleCount = twitterFollowerRequestNotificationBundle.getInt(Constants.BUNDLE_NOTIFICATION_BUNDLE_COUNT);
+							for(int i=1;i<=bundleCount;i++){
+								Bundle twitterFollowerRequestNotificationBundleSingle = twitterFollowerRequestNotificationBundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_" + String.valueOf(i));
+				    			if(twitterFollowerRequestNotificationBundleSingle != null){
+									//Display Status Bar Notification
+								    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_TWITTER, Constants.NOTIFICATION_TYPE_TWITTER_FOLLOWER_REQUEST, callStateIdle, twitterFollowerRequestNotificationBundleSingle.getString(Constants.BUNDLE_CONTACT_NAME), twitterFollowerRequestNotificationBundleSingle.getString(Constants.BUNDLE_SENT_FROM_ADDRESS), twitterFollowerRequestNotificationBundleSingle.getString(Constants.BUNDLE_MESSAGE_BODY), null, twitterFollowerRequestNotificationBundleSingle.getString(Constants.BUNDLE_LINK_URL));
 				    			}
-								//Display Status Bar Notification
-							    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_TWITTER, Constants.NOTIFICATION_TYPE_TWITTER_FOLLOWER_REQUEST, callStateIdle, contactName, messageAddress, messageBody, null);
-					    	}
+							}			    			
 						}else{
 							if (_debug) Log.v("TwitterAlarmBroadcastReceiverService.doWakefulWork() No Twitter Follower Requests were found. Exiting...");
 						}
