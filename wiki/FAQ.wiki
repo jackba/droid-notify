@@ -19,6 +19,7 @@
  * [FAQ#The_SMS_timestamp_is_not_correct._What_can_I_do? The SMS timestamp is not correct. What can I do?]
  * [FAQ#Known_Issues_With_Phones_Running_HTC_Sense_UI Known Issues With Phones Running HTC Sense UI]
  * [FAQ#Known_Issues_With_Phones_Running_Samsung_Touchwiz_UI Known Issues With Phones Running Samsung Touchwiz UI]
+ * [FAQ#Can_Droid_Notify_Popups_Display_Over_The_Lock_Screen? Can Droid Notify Popups Display Over The Lock Screen?]
 
 ----
 
@@ -123,3 +124,11 @@ Samsung has built on top of the stock Android OS a custom UI called Touchwiz. Al
 
 
 1) SMS Unread Count not updating. Unfortunately, Samsung Touchwiz does not have a way for 3rd party apps to refresh the counter so when Droid Notify updates the SMS data, the counter is not aware of it. Until they provide a way for 3rd party apps to refresh this icon, this will remain an issue on those devices.
+
+==Can Droid Notify Popups Display Over The Lock Screen?==
+
+The answer is...it depends.
+
+If you are using the stock Android OS lock screen, the answer is no. It is not possible to display information over the lock screen. If you are using a 3rd party lockscreen app, then the answer is yes (with conditions...you cannot be in security mode).
+
+Here is why: Unfortunately, apps cannot be displayed over lock screens. This is a common misconception among Android users. Android has a built in lock screen and it's not possible to keep the phone locked while displaying information over it. With Android you can unlock or lock the phone, there is no state which is locked, but displaying information on the screen like a popup. There are 3rd party apps which are lock screen replacements but they are apps and are NOT part of the Android OS. When they are running, they DO NOT lock your phone, they are an app that is faking the process. Displaying information over a 3rd party lock screen occurs because your phone is never locked. Displaying an app over another app is perfectly normal and that is what you see when you see a popup over a 3rd party lock screen app.
