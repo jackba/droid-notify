@@ -154,6 +154,7 @@ Notifications
   * Polling Frequency
   * Select Calendars
   * Enable Calendar Labels
+  * Refresh Calendar Alarms
   * Enable Status Bar Notifications
   * Status Bar Notification Settings
    * Display When Blocked
@@ -283,6 +284,7 @@ Screen Settings
 Advanced Settings
  * Enable Haptic Feedback
  * Close In Background
+ * Ignore Linked Apps
  * Screen Timeout
  * SMS Timeout
  * SMS Loading Setting
