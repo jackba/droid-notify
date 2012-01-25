@@ -105,6 +105,8 @@
     <!-- App In Background Strings -->
     <string name="preference_close_app_when_pushed_to_background_title">Close In Background</string>
     <string name="preference_close_app_when_pushed_to_background_summary">Close the application when it is pushed to the background.</string> 
+    <string name="preference_ignore_linked_apps_when_pushed_to_background_title">Ignore Linked Apps</string>
+    <string name="preference_ignore_linked_apps_when_pushed_to_background_summary">Ignore linked apps when closing the application.</string> 
   
     <!-- Popup Width Strings -->
     <string name="preference_popup_width_padding_title">Popup Width Padding</string>
@@ -285,7 +287,7 @@
    	<string name="preference_missed_call_loading_title">Loading Settings</string>
    	<string name="preference_missed_call_loading_summary">Define what calls to load when a missed call is received.</string>
    	<string name="preference_call_log_timeout">Call Log Timeout</string>
-   	<string name="preference_call_log_timeout_summary">Define how long to wait after a call before querying the call log for a missed call.</string>  
+   	<string name="preference_call_log_timeout_summary">Define how long to wait after a call before querying the call log for a missed call.</string> 
    	
    	<!-- Calendar Strings -->
    	<string name="add_calendar_event_text">Add Calendar Event</string>
@@ -316,8 +318,13 @@
    	<string name="preference_calendar_reminders_enabled_summaryOn">A reminder notification will be sent before the calendar event occurs.</string>
    	<string name="preference_calendar_reminders_enabled_summaryOff">No reminder will be sent before the calendar event occurs.</string>
    	<string name="preference_calendar_event_body_font_size_title">Event Text Font Size</string>
-   	<string name="preference_calendar_event_body_font_size_summary">Select the font size you want to use when when displaying the event text.</string> 
+   	<string name="preference_calendar_event_body_font_size_summary">Select the font size you want to use when when displaying the event text.</string>
    	
+   	<string name="preference_calendar_refresh_title">Refresh Calendar Alarms</string>
+   	<string name="preference_calendar_refresh_summary">Manually reschedule the calendar events.</string>
+   	<string name="reading_calendar_data">Reading Calendar Data...</string>
+   	<string name="calendar_data_refreshed">Your calendar events have been read and alarms refreshed.</string>
+
    	<!-- Twitter Strings -->	 	
    	<string name="preference_twitter_notifications">Twitter Notifications</string>
    	<string name="preference_twitter_enabled_title">Enable Twitter</string>
@@ -363,7 +370,7 @@
 	<string name="preference_facebook_polling_frequency_summary">How often you want to read your Facebook account?</string>
 
 	<string name="facebook_new_friend_request_from">You have a new Facebook Friend Request from</string>
-	    
+
 	<!-- LinkedIn Strings -->	 	
    	<string name="preference_linkedin_notifications">LinkedIn Notifications</string>
    	<string name="preference_linkedin_enabled_title">Enable LinkedIn</string>

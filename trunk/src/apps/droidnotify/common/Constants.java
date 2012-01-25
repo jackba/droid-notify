@@ -42,7 +42,7 @@ public class Constants {
 	
 	//-----RUNONCE CONSTANTS-----//
 	public static final String RUN_ONCE_EULA = "RUNONCE_EULA";
-	public static final String RUN_ONCE_CALENDAR_ALARM = "RUNONCE_CALENDAR_V_2_16";
+	public static final String RUN_ONCE_CALENDAR_ALARM = "RUNONCE_CALENDAR_V_2_29";
 	
 	//-----GENERAL APP CONSTANTS-----//
 	public static final String DROID_NOTIFY_WAKELOCK = "DROID_NOTIFY_WAKELOCK";
@@ -424,6 +424,7 @@ public class Constants {
 	public static final String CALENDAR_NOTIFICATION_COUNT_ACTION_KEY = "calendar_notification_count_action";
 	public static final String CALENDAR_LABELS_KEY = "calendar_labels_enabled";
 	public static final String CALENDAR_SELECTION_KEY = "calendar_selection";
+	public static final String CALENDAR_REFRESH_KEY = "calendar_refresh";
 	
 	public static final String CALENDAR_ID = "_id";
 	public static final String CALENDAR_EVENT_ID = "event_id"; 
@@ -494,6 +495,8 @@ public class Constants {
 	public static final String TWITTER_REPLY_BUTTON_ACTION_KEY = "twitter_reply_button_action";
 	public static final String TWITTER_DELETE_BUTTON_ACTION_KEY = "twitter_delete_button_action";
 	
+	public static final String TWITTER_REFRESH_KEY = "twitter_refresh";
+	
 	//-----FACEBOOK NOTIFICATION CONSTANTS-----//
 	public static final String FACEBOOK_PRO_PREFERENCE_CATEGORY_KEY = "facebook_notification_settings_category";
 	public static final String FACEBOOK_PRO_PLACEHOLDER_PREFERENCE_KEY = "facebook_notification_settings_placeholder_preference";
@@ -532,6 +535,8 @@ public class Constants {
 	public static final String FACEBOOK_PREFERRED_CLIENT_DEFAULT = "http://m.facebook.com";
 	public static final String FACEBOOK_USE_QUICK_REPLY = "0";
 	public static final String FACEBOOK_USE_PREFERRED_CLIENT = "1";
+	
+	public static final String FACEBOOK_REFRESH_KEY = "facebook_refresh";
 	
 	//-----K9 NOTIFICATION CONSTANTS-----//
 	public static final String INTENT_ACTION_K9 = "com.fsck.k9.intent.action.EMAIL_RECEIVED";
@@ -816,6 +821,7 @@ public class Constants {
 	
 	//-----APPLICATION PUSHED TO BACKGROUND CONSTANTS-----//
 	public static final String APPLICATION_CLOSE_WHEN_PUSHED_TO_BACKGROUND_KEY = "close_app_when_pushed_to_background";
+	public static final String IGNORE_LINKED_APPS_WHEN_PUSHED_TO_BACKGROUND_KEY = "ignore_linked_apps_when_pushed_to_background";
 	
 	//-----IN-CALL SETTINGS CONSTANTS-----//
 	public static final String IN_CALL_RESCHEDULING_ENABLED_KEY = "in_call_rescheduling_enabled";

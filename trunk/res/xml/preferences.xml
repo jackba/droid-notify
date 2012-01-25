@@ -1044,6 +1044,11 @@
 							android:summaryOff="@string/preference_calendar_labels_enabled_summaryOff" 
 							android:defaultValue="true"
 							android:dependency="calendar_notifications_enabled" />
+						<Preference 
+							android:key="calendar_refresh" 
+							android:title="@string/preference_calendar_refresh_title" 
+							android:summary="@string/preference_calendar_refresh_summary" 
+							android:dependency="calendar_notifications_enabled" />
 					</PreferenceCategory>
 					<PreferenceCategory
 						android:key="calendar_notification_settings_category"
@@ -2053,6 +2058,12 @@
 		        	android:summary="@string/preference_close_app_when_pushed_to_background_summary" 
 		        	android:defaultValue="false"
 		        	android:dependency="app_enabled" />
+				<CheckBoxPreference
+					android:key="ignore_linked_apps_when_pushed_to_background" 
+		        	android:title="@string/preference_ignore_linked_apps_when_pushed_to_background_title" 
+		        	android:summary="@string/preference_ignore_linked_apps_when_pushed_to_background_summary" 
+		        	android:defaultValue="false"
+		        	android:dependency="close_app_when_pushed_to_background" />
 			</PreferenceCategory>
 	        <PreferenceCategory
 				android:key="screen_settings_category"

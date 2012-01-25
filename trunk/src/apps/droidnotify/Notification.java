@@ -143,7 +143,7 @@ public class Notification {
 				}
 				case Constants.NOTIFICATION_TYPE_FACEBOOK:{
 					if(_title == null) _title = "Facebook";
-					if(_contactID < 0) _calendarName = _sentFromAddress;
+					if(_contactID < 0) _contactName = _sentFromAddress;
 					break;
 				}
 				case Constants.NOTIFICATION_TYPE_K9:{
