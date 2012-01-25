@@ -9,6 +9,8 @@
 *v2.22* _Coming Soon..._
  * Re-wrote code to improve efficiency and application file size.
  * Added a "View" button to Twitter notifications.
+ * Fixed a Facebook Message bug.
+ * Added a few more user preferences.
  * Small bug fixes.
  * Updated translations.
 
