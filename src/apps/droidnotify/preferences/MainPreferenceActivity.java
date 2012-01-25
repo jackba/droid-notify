@@ -484,6 +484,21 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	            return true;
            }
 		});
+		//Calendar Refresh Button
+		Preference calendarRefreshPref = (Preference)findPreference(Constants.CALENDAR_REFRESH_KEY);
+		calendarRefreshPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+        	public boolean onPreferenceClick(Preference preference) {
+		    	if (_debug) Log.v("MainPreferenceActivity() Calendar Refresh Button Clicked()");
+		    	try{
+			    	//Run this process in the background in an AsyncTask.
+			    	new calendarRefreshAsyncTask().execute();
+		    	}catch(Exception ex){
+	 	    		Log.e("MainPreferenceActivity() Calendar Refresh Button ERROR: " + ex.toString());
+	 	    		return false;
+		    	}
+	            return true;
+           }
+		});
 		//Quiet Time Button
 		Preference quietTimePref = (Preference)findPreference(Constants.QUIET_TIME_BLACKOUT_PERIOD_SETTINGS_KEY);
 		quietTimePref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
@@ -1485,7 +1500,44 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			FacebookCommon.cancelFacebookAlarmManager(_context);
 		}
 	}
-	
+
+	/**
+	 * Refresh the Calendar event alarms as a background task.
+	 * 
+	 * @author Camille Sévigny
+	 */
+	private class calendarRefreshAsyncTask extends AsyncTask<Void, Void, Void> {
+		//ProgressDialog to display while the task is running.
+		private ProgressDialog dialog;
+		/**
+		 * Setup the Progress Dialog.
+		 */
+	    protected void onPreExecute() {
+			if (_debug) Log.v("MainPreferenceActivity.calendarRefreshAsyncTask.onPreExecute()");
+	        dialog = ProgressDialog.show(MainPreferenceActivity.this, "", _context.getString(R.string.reading_calendar_data), true);
+	    }
+	    /**
+	     * Do this work in the background.
+	     * 
+	     * @param params
+	     */
+	    protected Void doInBackground(Void... params) {
+			if (_debug) Log.v("MainPreferenceActivity.calendarRefreshAsyncTask.doInBackground()");
+			CalendarCommon.readCalendars(_context);
+	    	return null;
+	    }
+	    /**
+	     * Stop the Progress Dialog and do any post background work.
+	     * 
+	     * @param result
+	     */
+	    protected void onPostExecute(Void res) {
+			if (_debug) Log.v("MainPreferenceActivity.calendarRefreshAsyncTask.onPostExecute()");
+	        dialog.dismiss();
+	    	Toast.makeText(_context, _context.getString(R.string.calendar_data_refreshed), Toast.LENGTH_LONG).show();
+	    }
+	}
+		
 	/**
 	 * Clear the Twitter authentication data as a background task.
 	 * 

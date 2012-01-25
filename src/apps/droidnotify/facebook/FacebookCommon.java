@@ -281,7 +281,7 @@ public class FacebookCommon {
 						commentsExist = false;
 					}
 					if(commentsExist){
-						//Multiple messages in thread.
+						//Multiple messages in thread. Either a first reply to a sent message or a thread of messages.
 		        	    JSONArray jsonCommentsDataArray = messageComments.getJSONArray("data");
 	        	    	//Get latest/most recent message details.
 	        	    	int jsonCommentsDataArraySize = jsonCommentsDataArray.length();
@@ -334,6 +334,7 @@ public class FacebookCommon {
 		            	    facebookMessageNotificationBundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_" + String.valueOf(bundleCount), facebookMessageNotificationBundleSingle);			        	    
 		        	    }
 					}else{
+						//First incoming message from someone.
 		        		Bundle facebookMessageNotificationBundleSingle = new Bundle();
 		        		bundleCount++;
 						//Single message.
@@ -353,7 +354,7 @@ public class FacebookCommon {
         	    			if(messageStringID == null){
         	    				facebookMessageNotificationBundleSingle.putString(Constants.BUNDLE_LINK_URL, "https://m.facebook.com");
         	    			}else{
-        	    				facebookMessageNotificationBundleSingle.putString(Constants.BUNDLE_LINK_URL, "https://m.facebook.com/messages/read?action=read&tid=id." + messageStringID.substring(0, messageStringID.indexOf("_")));
+        	    				facebookMessageNotificationBundleSingle.putString(Constants.BUNDLE_LINK_URL, "https://m.facebook.com/messages/read?action=read&tid=id." + messageStringID);
         	    			}
         	    			facebookMessageNotificationBundleSingle.putLong(Constants.BUNDLE_TIMESTAMP, timeStamp);
         	    			facebookMessageNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_FACEBOOK);
@@ -367,7 +368,7 @@ public class FacebookCommon {
         	    			if(messageStringID == null){
         	    				facebookMessageNotificationBundleSingle.putString(Constants.BUNDLE_LINK_URL, "https://m.facebook.com");
         	    			}else{
-        	    				facebookMessageNotificationBundleSingle.putString(Constants.BUNDLE_LINK_URL, "https://m.facebook.com/messages/read?action=read&tid=id." + messageStringID.substring(0, messageStringID.indexOf("_")));
+        	    				facebookMessageNotificationBundleSingle.putString(Constants.BUNDLE_LINK_URL, "https://m.facebook.com/messages/read?action=read&tid=id." + messageStringID);
         	    			}
         	    			facebookMessageNotificationBundleSingle.putLong(Constants.BUNDLE_TIMESTAMP, timeStamp);
         	    			facebookMessageNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_FACEBOOK);
