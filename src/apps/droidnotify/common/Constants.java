@@ -495,7 +495,7 @@ public class Constants {
 	public static final String TWITTER_REPLY_BUTTON_ACTION_KEY = "twitter_reply_button_action";
 	public static final String TWITTER_DELETE_BUTTON_ACTION_KEY = "twitter_delete_button_action";
 	
-	public static final String TWITTER_REFRESH_KEY = "twitter_refresh";
+	public static final String TWITTER_MANUAL_POLL_KEY = "twitter_manual_poll";
 	
 	//-----FACEBOOK NOTIFICATION CONSTANTS-----//
 	public static final String FACEBOOK_PRO_PREFERENCE_CATEGORY_KEY = "facebook_notification_settings_category";
@@ -536,7 +536,7 @@ public class Constants {
 	public static final String FACEBOOK_USE_QUICK_REPLY = "0";
 	public static final String FACEBOOK_USE_PREFERRED_CLIENT = "1";
 	
-	public static final String FACEBOOK_REFRESH_KEY = "facebook_refresh";
+	public static final String FACEBOOK_MANUAL_POLL_KEY = "facebook_manual_poll";
 	
 	//-----K9 NOTIFICATION CONSTANTS-----//
 	public static final String INTENT_ACTION_K9 = "com.fsck.k9.intent.action.EMAIL_RECEIVED";

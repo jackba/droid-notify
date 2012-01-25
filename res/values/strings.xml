@@ -346,6 +346,11 @@
    	<string name="twitter_authentication_data_cleared">The Twitter authentication data has been cleared.</string>
 	<string name="twitter_following_request" formatted="false">%s (@%s) has requested to follow you on Twitter!</string>   	 
 	<string name="open_twitter_app_text">Open Twitter App</string>
+
+   	<string name="preference_twitter_manual_poll_title">Read Twitter Account</string>
+   	<string name="preference_twitter_manual_poll_summary">Manually read Twitter account and display notifications.</string>
+   	<string name="reading_twitter_account">Reading Twitter Account...</string>
+   	<string name="twitter_account_read">Your Twitter account has been read and notifications created.</string>
    	    
   	<!-- Facebook Strings -->	 	
    	<string name="preference_facebook_notifications">Facebook Notifications</string>
@@ -370,6 +375,11 @@
 	<string name="preference_facebook_polling_frequency_summary">How often you want to read your Facebook account?</string>
 
 	<string name="facebook_new_friend_request_from">You have a new Facebook Friend Request from</string>
+
+   	<string name="preference_facebook_manual_poll_title">Read Facebook Account</string>
+   	<string name="preference_facebook_manual_poll_summary">Manually read Facebook account and display notifications.</string>
+   	<string name="reading_facebook_account">Reading Facebook Account...</string>
+   	<string name="facebook_account_read">Your Facebook account has been read and notifications created.</string>
 
 	<!-- LinkedIn Strings -->	 	
    	<string name="preference_linkedin_notifications">LinkedIn Notifications</string>

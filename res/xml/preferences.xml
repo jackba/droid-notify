@@ -1527,6 +1527,11 @@
 							android:entries="@array/polling_frequency_options"
 							android:entryValues="@array/polling_frequency_options_values"
 							android:dependency="twitter_enabled" />
+						<Preference 
+							android:key="twitter_manual_poll" 
+							android:title="@string/preference_twitter_manual_poll_title" 
+							android:summary="@string/preference_twitter_manual_poll_summary" 
+							android:dependency="twitter_enabled" />
 					</PreferenceCategory>
 					<PreferenceCategory
 						android:key="twitter_notification_settings_category"
@@ -1778,6 +1783,11 @@
 							android:defaultValue="60"
 							android:entries="@array/polling_frequency_options"
 							android:entryValues="@array/polling_frequency_options_values"
+							android:dependency="facebook_enabled" />
+						<Preference 
+							android:key="facebook_manual_poll" 
+							android:title="@string/preference_facebook_manual_poll_title" 
+							android:summary="@string/preference_facebook_manual_poll_summary" 
 							android:dependency="facebook_enabled" />
 					</PreferenceCategory>
 					<PreferenceCategory
