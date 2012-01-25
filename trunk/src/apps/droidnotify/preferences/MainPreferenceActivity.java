@@ -499,6 +499,38 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	            return true;
            }
 		});
+		//Twitter Manual Poll Button
+		Preference twitterManualPollPref = (Preference)findPreference(Constants.TWITTER_MANUAL_POLL_KEY);
+		twitterManualPollPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+        	public boolean onPreferenceClick(Preference preference) {
+		    	if (_debug) Log.v("MainPreferenceActivity() Twitter Manual Poll Button Clicked()");
+		    	try{
+			    	//Start the Twitter polling service.
+		    		TwitterCommon.startTwitterAlarmManager(_context, SystemClock.currentThreadTimeMillis());
+		    		Toast.makeText(_context, _context.getString(R.string.reading_twitter_account), Toast.LENGTH_LONG).show();
+		    	}catch(Exception ex){
+	 	    		Log.e("MainPreferenceActivity() Twitter Manual Poll Button ERROR: " + ex.toString());
+	 	    		return false;
+		    	}
+	            return true;
+           }
+		});
+		//Facebook Manual Poll Button
+		Preference facebookManualPollPref = (Preference)findPreference(Constants.FACEBOOK_MANUAL_POLL_KEY);
+		facebookManualPollPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+        	public boolean onPreferenceClick(Preference preference) {
+		    	if (_debug) Log.v("MainPreferenceActivity() Facebook Manual Poll Button Clicked()");
+		    	try{
+			    	//Start the Facebook polling service.
+		    		FacebookCommon.startFacebookAlarmManager(_context, SystemClock.currentThreadTimeMillis());
+		    		Toast.makeText(_context, _context.getString(R.string.reading_facebook_account), Toast.LENGTH_LONG).show();
+		    	}catch(Exception ex){
+	 	    		Log.e("MainPreferenceActivity() Facebook Manual Poll Button ERROR: " + ex.toString());
+	 	    		return false;
+		    	}
+	            return true;
+           }
+		});
 		//Quiet Time Button
 		Preference quietTimePref = (Preference)findPreference(Constants.QUIET_TIME_BLACKOUT_PERIOD_SETTINGS_KEY);
 		quietTimePref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
@@ -1537,7 +1569,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	    	Toast.makeText(_context, _context.getString(R.string.calendar_data_refreshed), Toast.LENGTH_LONG).show();
 	    }
 	}
-		
+	
 	/**
 	 * Clear the Twitter authentication data as a background task.
 	 * 

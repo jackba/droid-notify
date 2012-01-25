@@ -105,6 +105,8 @@
     <!-- App In Background Strings -->
     <string name="preference_close_app_when_pushed_to_background_title">Close In Background</string>
     <string name="preference_close_app_when_pushed_to_background_summary">Close the application when it is pushed to the background.</string> 
+    <string name="preference_ignore_linked_apps_when_pushed_to_background_title">Ignore Linked Apps</string>
+    <string name="preference_ignore_linked_apps_when_pushed_to_background_summary">Ignore linked apps when closing the application.</string> 
   
     <!-- Popup Width Strings -->
     <string name="preference_popup_width_padding_title">Popup Width Padding</string>
@@ -251,6 +253,7 @@
     	<string name="preference_sms_time_is_utc_summary">Check this optoin if the incoming SMS message timestamp is in UTC. (This may fix incorrect message times in the notifications)</string> 
    	
    	<!-- MMS Strings -->
+   	<string name="view_mms_button_text">View MMS</string>
    	<string name="preference_mms_enabled_title">Enable MMS</string>
    	<string name="preference_mms_enabled_summaryOn">MMS notifications are enabled.</string>
    	<string name="preference_mms_enabled_summaryOff">MMS notifications are disabled.</string>
@@ -270,7 +273,7 @@
    	<string name="mms_click_here_to_view">[Click Here To View MMS Message]</string>
    	    
    	<!-- Missed Call Strings -->
-   	<string name="view_mms_button_text">View MMS</string>
+   	<string name="private_number_text">Private Number</string>
    	<string name="call_button_text">Call</string>
    	<string name="call_contact_text">Call Contact</string>
    	<string name="view_call_log_text">View Call Log</string>
@@ -315,8 +318,13 @@
    	<string name="preference_calendar_reminders_enabled_summaryOn">A reminder notification will be sent before the calendar event occurs.</string>
    	<string name="preference_calendar_reminders_enabled_summaryOff">No reminder will be sent before the calendar event occurs.</string>
    	<string name="preference_calendar_event_body_font_size_title">Event Text Font Size</string>
-   	<string name="preference_calendar_event_body_font_size_summary">Select the font size you want to use when when displaying the event text.</string> 
+   	<string name="preference_calendar_event_body_font_size_summary">Select the font size you want to use when when displaying the event text.</string>
    	
+   	<string name="preference_calendar_refresh_title">Refresh Calendar Alarms</string>
+   	<string name="preference_calendar_refresh_summary">Manually reschedule the calendar events.</string>
+   	<string name="reading_calendar_data">Reading Calendar Data...</string>
+   	<string name="calendar_data_refreshed">Your calendar events have been read and alarms refreshed.</string>
+
    	<!-- Twitter Strings -->	 	
    	<string name="preference_twitter_notifications">Twitter Notifications</string>
    	<string name="preference_twitter_enabled_title">Enable Twitter</string>
@@ -338,6 +346,11 @@
    	<string name="twitter_authentication_data_cleared">The Twitter authentication data has been cleared.</string>
 	<string name="twitter_following_request" formatted="false">%s (@%s) has requested to follow you on Twitter!</string>   	 
 	<string name="open_twitter_app_text">Open Twitter App</string>
+
+   	<string name="preference_twitter_manual_poll_title">Read Twitter Account</string>
+   	<string name="preference_twitter_manual_poll_summary">Manually read Twitter account and display notifications.</string>
+   	<string name="reading_twitter_account">Reading Twitter Account...</string>
+   	<string name="twitter_account_read">Your Twitter account has been read and notifications created.</string>
    	    
   	<!-- Facebook Strings -->	 	
    	<string name="preference_facebook_notifications">Facebook Notifications</string>
@@ -360,6 +373,13 @@
 	<string name="open_facebook_app_text">Open Facebook App</string>
    	    
 	<string name="preference_facebook_polling_frequency_summary">How often you want to read your Facebook account?</string>
+
+	<string name="facebook_new_friend_request_from">You have a new Facebook Friend Request from</string>
+
+   	<string name="preference_facebook_manual_poll_title">Read Facebook Account</string>
+   	<string name="preference_facebook_manual_poll_summary">Manually read Facebook account and display notifications.</string>
+   	<string name="reading_facebook_account">Reading Facebook Account...</string>
+   	<string name="facebook_account_read">Your Facebook account has been read and notifications created.</string>
 
 	<!-- LinkedIn Strings -->	 	
    	<string name="preference_linkedin_notifications">LinkedIn Notifications</string>
