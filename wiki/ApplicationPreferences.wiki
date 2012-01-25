@@ -212,6 +212,7 @@ Notifications
   * Enable Twitter Direct Messages
   * Enable Twitter Mentions
   * Enable Twitter Follower Requests
+  * Read Twitter Account
   * Blocking Notification Options
   * Select Preferred Client
   * Polling Frequency
@@ -244,6 +245,7 @@ Notifications
   * Enable Facebook Notifications
   * Enable Facebook Friend Requests
   * Enable Facebook Messages
+  * Read Facebook Account
   * Blocking Notification Options
   * Select Preferred Client
   * Polling Frequency
