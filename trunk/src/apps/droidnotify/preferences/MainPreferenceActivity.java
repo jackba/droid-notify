@@ -452,7 +452,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 				SharedPreferences.Editor editor = _preferences.edit();
 				editor.putBoolean(Constants.RUN_ONCE_EULA, false);
 				editor.commit();
-				displayHTMLAlertDialog(_context.getString(R.string.app_license),R.drawable.ic_dialog_info, _context.getString(R.string.eula_text));
+				displayHTMLAlertDialog(_context.getString(R.string.app_license),android.R.drawable.ic_dialog_info, _context.getString(R.string.eula_text));
 			}catch(Exception ex){
  	    		Log.e("MainPreferenceActivity.runOnceEula() EULA ERROR: " + ex.toString());
 	    	}
@@ -673,7 +673,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		licensePreferencesPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
         	public boolean onPreferenceClick(Preference preference) {
 		    	if (_debug) Log.v("MainPreferenceActivity() License Button Clicked()");
-	            return displayHTMLAlertDialog(_context.getString(R.string.app_license),R.drawable.ic_dialog_info,_context.getString(R.string.eula_text));
+	            return displayHTMLAlertDialog(_context.getString(R.string.app_license),android.R.drawable.ic_dialog_info,_context.getString(R.string.eula_text));
            }
 		});
 		//Export Preferences Preference/Button
@@ -1488,7 +1488,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		}
 		//Build & Display Dialog
 		AlertDialog.Builder quietTimePeriodAlertBuilder = new AlertDialog.Builder(_context);
-		quietTimePeriodAlertBuilder.setIcon(R.drawable.ic_dialog_info);
+		quietTimePeriodAlertBuilder.setIcon(android.R.drawable.ic_dialog_info);
 		quietTimePeriodAlertBuilder.setTitle(R.string.preference_quiet_time_quiet_period_title);
 		quietTimePeriodAlertBuilder.setView(view);
 		quietTimePeriodAlertBuilder.setPositiveButton(R.string.ok_text, new DialogInterface.OnClickListener() {

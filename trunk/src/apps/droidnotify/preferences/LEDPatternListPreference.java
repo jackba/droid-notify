@@ -141,7 +141,7 @@ public class LEDPatternListPreference extends ListPreference {
 		customOnLEDPatternEditText.setText(ledCustomPatternArray[0]);
 		customOffLEDPatternEditText.setText(ledCustomPatternArray[1]);
 		AlertDialog.Builder ledPatternAlertBuilder = new AlertDialog.Builder(_context);
-		ledPatternAlertBuilder.setIcon(R.drawable.ic_dialog_info);
+		ledPatternAlertBuilder.setIcon(android.R.drawable.ic_dialog_info);
 		ledPatternAlertBuilder.setTitle(R.string.preference_led_pattern_title);
 		ledPatternAlertBuilder.setView(view);
 		ledPatternAlertBuilder.setPositiveButton(R.string.ok_text, new DialogInterface.OnClickListener() {
