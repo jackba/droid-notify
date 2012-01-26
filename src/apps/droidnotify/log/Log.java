@@ -305,7 +305,7 @@ public class Log {
         new AlertDialog.Builder(_context)
         .setTitle(_context.getString(R.string.log_file_error_title))
         .setMessage(errorMessage)
-        .setIcon(R.drawable.ic_dialog_alert)
+        .setIcon(android.R.drawable.ic_dialog_alert)
         .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener(){
             public void onClick(DialogInterface dialog, int whichButton){
                 dialog.dismiss();

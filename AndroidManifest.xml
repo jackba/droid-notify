@@ -128,7 +128,7 @@
 		    android:name="apps.droidnotify.receivers.FacebookAlarmReceiver"
 		    android:exported="true" />
 		
-		<receiver 
+		<receiver
 		    android:name="apps.droidnotify.receivers.K9Receiver"
 		    android:exported="true">
 			<intent-filter android:priority="2147483647">
@@ -138,6 +138,10 @@
 			<intent-filter android:priority="2147483647">
 				<action android:name="com.kaitenmail.intent.action.EMAIL_RECEIVED" />
 				<data android:scheme="email" android:host="messages" />
+			</intent-filter>
+			<intent-filter android:priority="2147483647">
+				<action android:name="com.kaitenmail.intent.action.EMAIL_RECEIVED" />
+				<data android:scheme="email" android:host="kaitenmail.com" />
 			</intent-filter>
 		</receiver> 
 	

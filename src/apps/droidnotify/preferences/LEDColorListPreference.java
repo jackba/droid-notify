@@ -179,7 +179,7 @@ public class LEDColorListPreference extends ListPreference implements OnSeekBarC
 	
 		//Build and display the Dialog window
 		AlertDialog.Builder ledColorAlertBuilder = new AlertDialog.Builder(_context);
-		ledColorAlertBuilder.setIcon(R.drawable.ic_dialog_info);
+		ledColorAlertBuilder.setIcon(android.R.drawable.ic_dialog_info);
 		ledColorAlertBuilder.setTitle(R.string.preference_led_color_title);
 		ledColorAlertBuilder.setView(view);
 		ledColorAlertBuilder.setPositiveButton(R.string.ok_text, new DialogInterface.OnClickListener() {

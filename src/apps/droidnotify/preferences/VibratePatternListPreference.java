@@ -136,7 +136,7 @@ public class VibratePatternListPreference extends ListPreference {
 		    }
 	    }
 	    AlertDialog.Builder vibratePatternAlertBuilder = new AlertDialog.Builder(_context);
-	    vibratePatternAlertBuilder.setIcon(R.drawable.ic_dialog_info);
+	    vibratePatternAlertBuilder.setIcon(android.R.drawable.ic_dialog_info);
 	    vibratePatternAlertBuilder.setTitle(R.string.preference_vibrate_pattern_title);
 	    vibratePatternAlertBuilder.setView(view);
 	    vibratePatternAlertBuilder.setPositiveButton(R.string.ok_text, new DialogInterface.OnClickListener() {
