@@ -619,6 +619,7 @@ public class Common {
 			CharSequence contentText = null;
 			Intent notificationContentIntent = null;
 			PendingIntent contentIntent = null;
+			@SuppressWarnings("unused")
 			Intent notificationDeleteIntent = null;
 			PendingIntent deleteIntent = null;
 			String sentFrom = null;
