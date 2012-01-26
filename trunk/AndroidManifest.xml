@@ -133,15 +133,9 @@
 		    android:exported="true">
 			<intent-filter android:priority="2147483647">
 				<action android:name="com.fsck.k9.intent.action.EMAIL_RECEIVED" />
-				<data android:scheme="email" android:host="messages" />
 			</intent-filter>
 			<intent-filter android:priority="2147483647">
 				<action android:name="com.kaitenmail.intent.action.EMAIL_RECEIVED" />
-				<data android:scheme="email" android:host="messages" />
-			</intent-filter>
-			<intent-filter android:priority="2147483647">
-				<action android:name="com.kaitenmail.intent.action.EMAIL_RECEIVED" />
-				<data android:scheme="email" android:host="kaitenmail.com" />
 			</intent-filter>
 		</receiver> 
 	
