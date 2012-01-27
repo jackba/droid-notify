@@ -10,8 +10,9 @@
 		<item name="4">Deutsch</item>
 		<item name="5">עברית</item>
 		<item name="6">Polski</item>
-		<item name="7">Português</item>
-		<item name="8">Español</item>
+		<item name="7">Português Brasileiro</item>
+		<item name="8">Português</item>
+		<item name="9">Español</item>
 	</string-array>
 	<string-array name="language_options_values">
 		<item name="0">phone_default</item>
@@ -21,8 +22,9 @@
 		<item name="4">de</item>
 		<item name="5">he</item>
 		<item name="6">pl</item>
-		<item name="7">pt</item>
-		<item name="8">es</item>
+		<item name="7">pt-rBR</item>
+		<item name="8">pt</item>
+		<item name="9">es</item>
 	</string-array>
 
 	<!-- Window Width Padding Preferences Arrays --> 

@@ -83,7 +83,7 @@
   <string name="preference_language_summary">Selecionar o idioma do aplicativo.</string>
   <string name="phone_default_language">Linguagem padrão do telefone</string>
   <string name="preference_disable_context_menu_title">﻿Desativar o menu de contexto</string>
-  <string name="preference_disable_context_menu_summary">Desative o menu de contexto anexado aos cabeçalhos de notificação.</string>
+  <string name="preference_disable_context_menu_summary">Desativar o menu de contexto anexado aos cabeçalhos de notificação.</string>
   <string name="preference_disable_quick_contact_title">﻿Desativar o menu de foto</string>
   <string name="preference_disable_quick_contact_summary">Desativar o menu rápido na foto do contato na notificação.</string>
   <string name="preference_close_app_when_pushed_to_background_title">Fechar em segundo plano</string>
@@ -116,7 +116,7 @@
   <string name="preference_center_align_body_text_title">Centralizar Corpo do Texto</string>
   <string name="preference_center_align_body_text_summary">Alinhar no centro da tela o texto da mensagem de notificação.</string>
   <string name="preference_notification_body_font_size_title">Tamanho de fonte do corpo de notificação</string>
-  <string name="preference_notification_body_font_size_summary">Selecione o tamanho da fonte para usar quando exibindo o corpo de notificação.</string>
+  <string name="preference_notification_body_font_size_summary">Selecione o tamanho da fonte para exibir o corpo de notificação.</string>
   <string name="preference_hide_notification_body_enabled_title">Ocultar o Corpo da Notificação</string>
   <string name="preference_hide_notification_body_enabled_summaryOn">O corpo da notificação não será visível no popup.</string>
   <string name="preference_hide_notification_body_enabled_summaryOff">O corpo da notificação será visível no popup.</string>
@@ -150,8 +150,8 @@
   <string name="preference_contact_photo_size_summary">Selecione o tamanho da foto do contato.</string>
   <string name="about_text">Sobre</string>
   <string name="preference_about_summary">Sobre o Droid Notify</string>
-  <string name="preference_about_text">&lt;b&gt;Created by:&lt;/b&gt; Camille Sévigny&lt;br/&gt;&lt;b&gt;Email:&lt;/b&gt; &lt;a href=\"mailto:droidnotify@gmail.com\"&gt;droidnotify@gmail.com&lt;/a&gt;&lt;br/&gt;&lt;br/&gt;Droid Notify is an application that shows a popup dialog when a SMS/MMS message is received, a Missed Call is received, a new Email is received or a Calendar Event occurs. There are also more advanced features and support for other notifications in the pro version of this application.  The notifications link to your messaging app, your phone and your calendar. The notifications also display the contact information (if available) such as who it\'s from and contact photo if available.&lt;br/&gt;&lt;br/&gt;If you like Droid Notify, please rate this application and leave a comment.&lt;br/&gt;&lt;br/&gt;Feel free to email comments, suggestions or bugs.&lt;br/&gt;&lt;br/&gt;&lt;b&gt;Translations powered by:&lt;/b&gt; &lt;a href=\"http://www.crowdin.net/\"&gt;CrowdIn.net&lt;/a&gt;&lt;br/&gt;</string>
-  <string name="preference_translated_by_text">Tradução Francesa: Franky&lt;br/&gt;Tradução Hebraico: Benjo26&lt;br/&gt;Tradução Polaco: Draco (draco.pl@gmail.com)&lt;br/&gt;Tradução Portuguesa: Marcio Andrade (marcioaribeiro@hotmail.com.br)&lt;br/&gt;Tradução Espanhol: Shaymelmed (shaben_translations@hotmail.com)&lt;br/&gt;&lt;br/&gt;</string>
+  <string name="preference_about_text">&lt;b&gt;Criado por:&lt;/b&gt; Camille Sévigny&lt;br/&gt;&lt;b&gt;Email:&lt;/b&gt; &lt;a href=\"mailto:droidnotify@gmail.com\"&gt;droidnotify@gmail.com&lt;/a&gt;&lt;br/&gt;&lt;br/&gt;Droid Notify é um aplicativo que exibe um popup quando um SMS/MMS é recebido, uma chamada é perdida, um email chega ou evento de calendário ocorre. Existem ainda recursos avançados e suporte para outras notificações tais como Facebook na versão PRO. As notificações te levam para o aplicativo que as originam se assim quiser. As notificações também exibem informações do contato (quando disponíveis).&lt;br/&gt;&lt;br/&gt;Se você gosta do Droid Notify, classifique o aplicativo e deixe um comentário.&lt;br/&gt;&lt;br/&gt;Sinta-se livre para enviar comentários, sugestões ou bugs.&lt;br/&gt;&lt;br/&gt;&lt;b&gt;Traduções powered by:&lt;/b&gt; &lt;a href=\"http://www.crowdin.net/\"&gt;CrowdIn.net&lt;/a&gt;&lt;br/&gt;</string>
+  <string name="preference_translated_by_text">Tradução Francesa: Franky&lt;br/&gt;Tradução Hebraico: Benjo26&lt;br/&gt;Tradução Polaco: Draco (draco.pl@gmail.com)&lt;br/&gt;Tradução Português do Brasil: Marcio Andrade (marcioaribeiro@hotmail.com.br)&lt;br/&gt;Tradução Espanhol: Shaymelmed (shaben_translations@hotmail.com)&lt;br/&gt;&lt;br/&gt;</string>
   <string name="preference_copyright_text">&lt;b&gt;© 2012 Camille Sévigny&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;</string>
   <string name="preference_haptic_feedback_title">Habilitar o feedback tátil</string>
   <string name="preference_haptic_feedback_summaryOn">Feedback tátil está habilitado. Vibra ao pressionar as teclas de função e em certas interações da interface do usuário.</string>
@@ -171,8 +171,8 @@
   <string name="draft_saved_text">Mensagem salva como rascunho.</string>
   <string name="preference_quick_reply_blur_screen_background_enabled_summaryOn">O plano de fundo da tela irá esmaecer quando a janela de resposta rápida é mostrada.</string>
   <string name="preference_quick_reply_blur_screen_background_enabled_summaryOff">O plano de fundo da tela não irá esmaecer quando a janela de resposta rápida é mostrada.</string>
-  <string name="preference_quick_reply_dim_screen_background_enabled_summaryOn">O plano de fundo da tela irá esmaecer quando a janela de resposta rápida é mostrada.</string>
-  <string name="preference_quick_reply_dim_screen_background_enabled_summaryOff">O plano de fundo da tela não irá esmaecer quando a janela de resposta rápida é mostrada.</string>
+  <string name="preference_quick_reply_dim_screen_background_enabled_summaryOn">O plano de fundo da tela irá escurecer quando a janela de resposta rápida é mostrada.</string>
+  <string name="preference_quick_reply_dim_screen_background_enabled_summaryOff">O plano de fundo da tela não irá escurecer quando a janela de resposta rápida é mostrada.</string>
   <string name="preference_save_draft_enabled_title">Salvar rascunho</string>
   <string name="preference_save_draft_enabled_summaryOn">Um rascunho da mensagem será salvo se a mensagem não for enviada.</string>
   <string name="preference_save_draft_enabled_summaryOff">Um rascunho da mensagem não será salvo.</string>
@@ -191,7 +191,7 @@
   <string name="preference_time_is_utc_title">Horários estão em padrão UTC</string>
   <string name="view_thread_text">Ver Conversa</string>
   <string name="messaging_inbox_text">Caixa de entrada de mensagens</string>
-  <string name="preference_sms_enabled_title">Habilitar o SMS</string>
+  <string name="preference_sms_enabled_title">Habilitar SMS</string>
   <string name="preference_sms_enabled_summaryOn">As notificações SMS estão habilitadas.</string>
   <string name="preference_sms_enabled_summaryOff">As notificações SMS estão desabilitadas.</string>
   <string name="preference_sms_display_unread_enabled_title">Carregar SMS\'s não lidos</string>
@@ -296,7 +296,7 @@
   <string name="open_twitter_app_text">Abrir o app Twitter</string>
   <string name="preference_twitter_manual_poll_title">Ler Conta do Twitter</string>
   <string name="preference_twitter_manual_poll_summary">Ler manualmente a conta do Twitter e exibir notificações.</string>
-  <string name="reading_twitter_account">Lendo conta no Twitter...</string>
+  <string name="reading_twitter_account">Lendo Conta do Twitter...</string>
   <string name="twitter_account_read">Sua conta do Twitter foi lida e as notificações criadas.</string>
   <string name="preference_facebook_notifications">Notificações do Facebook</string>
   <string name="preference_facebook_enabled_title">Ativar o Facebook</string>
@@ -336,10 +336,10 @@
   <string name="preference_k9_enabled_title">Habilitar o K-9</string>
   <string name="preference_k9_enabled_summaryOn">As notificações de email do K-9 são habilitadas.</string>
   <string name="preference_k9_enabled_summaryOff">As notificações de email do K-9 são desabilitadas.</string>
-  <string name="preference_k9_hide_message_body_enabled_title">Ocultar o Corpo da Mensagem</string>
+  <string name="preference_k9_hide_message_body_enabled_title">Ocultar o corpo da mensagem</string>
   <string name="preference_k9_hide_message_body_enabled_summaryOn">O corpo da mensagem não será visível no popup de notificação.</string>
   <string name="preference_k9_hide_message_body_enabled_summaryOff">O corpo da mensagem será visível no popup de notificação.</string>
-  <string name="preference_k9_message_body_font_size_title">Tamanho de Fonte do Corpo da Mensagem</string>
+  <string name="preference_k9_message_body_font_size_title">Tamanho de fonte do corpo de mensagem</string>
   <string name="preference_k9_message_body_font_size_summary">Selecione o tamanho da fonte que deseja exibir o corpo da mensagem de email.</string>
   <string name="preference_k9_notifications">Notificações de Email do K-9</string>
   <string name="preference_polling_frequency">Frequência de atualização</string>
@@ -408,7 +408,7 @@
   <string name="preference_landscape_screen_enabled_summaryOn">A tela irá girar quando o telefone é girado.</string>
   <string name="preference_landscape_screen_enabled_summaryOff">A tela não irá girar quando o telefone é girado.</string>
   <string name="preference_screen_timeout">Tempo limite da tela</string>
-  <string name="preference_screen_timeout_summary">Defina quanto tempo esperar antes de bloquear a tela após uma notificação ser mostrada. Quanto menor for o tempo de espera, menos energia da bateria é usada.</string>
+  <string name="preference_screen_timeout_summary">Defina quanto tempo esperar antes de bloquear a tela após uma notificação ser mostrada. Quanto menor for o tempo, menor o consumo.</string>
   <string name="preference_keyguard_enabled_title">Desbloquear o telefone</string>
   <string name="preference_keyguard_enabled_summaryOn">Telefone vai desbloquear quando uma notificação é exibida.</string>
   <string name="preference_keyguard_enabled_summaryOff">Telefone não vai desbloquear quando uma notificação é exibida.</string>
@@ -490,9 +490,9 @@
   <string name="status_bar_notification_content_title_text_facebook_friend_request">Nova solicitação de amizade no Facebook</string>
   <string name="status_bar_notification_content_title_text_facebook_message">Nova mensagem do Facebook</string>
   <string name="status_bar_notification_content_title_text_email">Novo e-mail</string>
-  <string name="status_bar_notification_content_text_sms" formatted="false">Nova mensagem de %s - %s.</string>
+  <string name="status_bar_notification_content_text_sms" formatted="false">Nova mensagem de %s-%s.</string>
   <string name="status_bar_notification_content_text_sms_null" formatted="false">Nova mensagem.</string>
-  <string name="status_bar_notification_content_text_mms" formatted="false">Nova mensagem de %s - %s.</string>
+  <string name="status_bar_notification_content_text_mms" formatted="false">Nova mensagem de %s-%s.</string>
   <string name="status_bar_notification_content_text_mms_null" formatted="false">Nova mensagem.</string>
   <string name="status_bar_notification_content_text_phone" formatted="false">Chamada não atendida de %s.</string>
   <string name="status_bar_notification_content_text_phone_null" formatted="false">Chamada não atendida.</string>
@@ -516,7 +516,7 @@
   <string name="status_bar_notification_ticker_text_unknown_contact_sms" formatted="false">Nova mensagem - %s.</string>
   <string name="status_bar_notification_ticker_text_privacy_sms" formatted="false">Nova mensagem de %s.</string>
   <string name="status_bar_notification_ticker_text_sms_null" formatted="false">Nova mensagem.</string>
-  <string name="status_bar_notification_ticker_text_mms" formatted="false">Nova mensagem de %s - %s.</string>
+  <string name="status_bar_notification_ticker_text_mms" formatted="false">Nova mensagem de %s-%s.</string>
   <string name="status_bar_notification_ticker_text_unknown_contact_mms" formatted="false">Nova mensagem-%s.</string>
   <string name="status_bar_notification_ticker_text_privacy_mms" formatted="false">Nova mensagem de %s.</string>
   <string name="status_bar_notification_ticker_text_mms_null" formatted="false">Nova mensagem.</string>
@@ -554,7 +554,7 @@
   <string name="preference_notifications_enabled_summaryOn">Notificações da barra de status serão exibidas.</string>
   <string name="preference_notifications_enabled_summaryOff">Notificações da barra de status não serão exibidas.</string>
   <string name="preference_notifications_show_when_blocked_enabled_title">Exibir quando bloqueado</string>
-  <string name="preference_notifications_show_when_blocked_enabled_summary">Exibir notificações da barra de status, mesmo se o popup é bloqueado (exemplo, quando em uma chamada de telefone, mensagens, etc.).</string>
+  <string name="preference_notifications_show_when_blocked_enabled_summary">Exibir notificações da barra de status, mesmo se o popup for bloqueado (exemplo, quando em uma chamada de telefone, mensagens, etc.).</string>
   <string name="preference_notification_settings">Configurações de notificação da barra de status</string>
   <string name="preference_notification_settings_summary">Personalizar notificações da barra de status</string>
   <string name="preference_notification_icon_settings_text">Configurações do ícone de notificação</string>

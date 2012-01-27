@@ -88,6 +88,8 @@
   <string name="preference_disable_quick_contact_summary">Désactive le menu contact rapide lié aux photos des notifications.</string>
   <string name="preference_close_app_when_pushed_to_background_title">Fermer en arrière-plan</string>
   <string name="preference_close_app_when_pushed_to_background_summary">Ferme l\'application lorsqu\'elle est en arrière-plan.</string>
+  <string name="preference_ignore_linked_apps_when_pushed_to_background_title">Ignorer applications liées</string>
+  <string name="preference_ignore_linked_apps_when_pushed_to_background_summary">Ignore les applications liées lors de la fermeture de l\'application.</string>
   <string name="preference_popup_width_padding_title">Remplissage popup</string>
   <string name="preference_popup_width_padding_summary">Choix de la valeur de remplissage pour la largeur de la fenêtre.</string>
   <string name="app_settings_text">Paramètres</string>
@@ -131,8 +133,8 @@
   <string name="preference_display_contact_photo_summaryOff">La photo du contact ne sera pas affichée.</string>
   <string name="preference_display_contact_name_title">Voir nom du contact</string>
   <string name="preference_display_contact_name_summary">Affiche le nom du contact dans l\'entête de la notification.</string>
-  <string name="preference_hide_unknown_contact_name_title">Hide Unknown Contact Name</string>
-  <string name="preference_hide_unknown_contact_name_summary">Hide the contact name if it is unknown.</string>
+  <string name="preference_hide_unknown_contact_name_title">Masquer contact inconnu</string>
+  <string name="preference_hide_unknown_contact_name_summary">Masque le nom de contact s\'il est inconnu.</string>
   <string name="preference_contact_name_font_size_title">Taille caractères nom</string>
   <string name="preference_contact_name_font_size_summary">Choix de la taille des caractères pour l\'affichage du nom du contact.</string>
   <string name="preference_display_contact_number_title">Voir numéro du contact</string>
@@ -206,6 +208,7 @@
   <string name="preference_sms_timestamp_adjustment_title">Horodatage des SMS</string>
   <string name="preference_sms_timestamp_adjustment_summary">Certains téléphones peuvent mal afficher les date et heure des messages. Utilisez cette option pour régler l\'horodatage des SMS.</string>
   <string name="preference_sms_time_is_utc_summary">Choisissez cette option si l\'horodatage des messages SMS est au format UTC. (Cela peut corriger les heures incorrectes dans les notifications)</string>
+  <string name="view_mms_button_text">Voir MMS</string>
   <string name="preference_mms_enabled_title">Activer les MMS</string>
   <string name="preference_mms_enabled_summaryOn">Les notifications MMS sont activées.</string>
   <string name="preference_mms_enabled_summaryOff">Les notifications MMS ne sont pas activées.</string>
@@ -223,7 +226,7 @@
   <string name="preference_mms_timestamp_adjustment_title">Horodatage des MMS</string>
   <string name="preference_mms_timestamp_adjustment_summary">Certains téléphones peuvent mal afficher les date et heure des messages. Utilisez cette option pour régler l\'horodatage des MMS.</string>
   <string name="mms_click_here_to_view">[Voir le message MMS]</string>
-  <string name="view_mms_button_text">Voir MMS</string>
+  <string name="private_number_text">Numéro privé</string>
   <string name="call_button_text">Appeler</string>
   <string name="call_contact_text">Appel contact</string>
   <string name="view_call_log_text">Voir appel</string>
@@ -267,6 +270,10 @@
   <string name="preference_calendar_reminders_enabled_summaryOff">Il n\'y aura pas de rappel avant l\'évènement du calendrier.</string>
   <string name="preference_calendar_event_body_font_size_title">Taille des caractères</string>
   <string name="preference_calendar_event_body_font_size_summary">Choix de la taille des caractères pour l\'affichage des évènements.</string>
+  <string name="preference_calendar_refresh_title">Rafraichir alarmes calendrier</string>
+  <string name="preference_calendar_refresh_summary">Rafraichissement manuel des événements du calendrier.</string>
+  <string name="reading_calendar_data">Lecture des données du calendrier...</string>
+  <string name="calendar_data_refreshed">Les évènements de votre calendrier ont été lus et les alarmes actualisées.</string>
   <string name="preference_twitter_notifications">Notifications Twitter</string>
   <string name="preference_twitter_enabled_title">Activer Twitter</string>
   <string name="preference_twitter_enabled_summaryOn">Les notifications Twitter sont activées.</string>
@@ -287,6 +294,10 @@
   <string name="twitter_authentication_data_cleared">Les données d\'authentification de Twitter ont été effacées.</string>
   <string name="twitter_following_request" formatted="false">Demande d\'abonnement Twitter de %s (@%s) !</string>
   <string name="open_twitter_app_text">Ouvrir l\'application Twitter</string>
+  <string name="preference_twitter_manual_poll_title">Lire le compte Twitter</string>
+  <string name="preference_twitter_manual_poll_summary">Interrogation manuelle de votre compte Twitter et affichage des notifications.</string>
+  <string name="reading_twitter_account">Lecture du compte Twitter...</string>
+  <string name="twitter_account_read">Votre compte Twitter a été lu et les notifications créées.</string>
   <string name="preference_facebook_notifications">Notifications Facebook</string>
   <string name="preference_facebook_enabled_title">Activer Facebook</string>
   <string name="preference_facebook_enabled_summaryOn">Les notifications Facebook sont activées.</string>
@@ -304,6 +315,11 @@
   <string name="facebook_authentication_data_cleared">Les données d\'authentification de Facebook ont été effacées.</string>
   <string name="open_facebook_app_text">Ouvrir l\'application Facebook</string>
   <string name="preference_facebook_polling_frequency_summary">A quelle fréquence voulez-vous lire votre compte Facebook ?</string>
+  <string name="facebook_new_friend_request_from">Vous avez une nouvelle demande d\'ami Facebook de</string>
+  <string name="preference_facebook_manual_poll_title">Lire le compte Facebook</string>
+  <string name="preference_facebook_manual_poll_summary">Interrogation manuelle de votre compte Facebook et affichage des notifications.</string>
+  <string name="reading_facebook_account">Lecture du compte Facebook...</string>
+  <string name="facebook_account_read">Votre compte Facebook a été lu et les notifications créées.</string>
   <string name="preference_linkedin_notifications">Notifications LinkedIn</string>
   <string name="preference_linkedin_enabled_title">Activer LinkedIn</string>
   <string name="preference_linkedin_enabled_summaryOn">Les notifications LinkedIn sont activées.</string>
