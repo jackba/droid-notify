@@ -6,7 +6,7 @@
 *v2.23* _Coming Soon..._
  * 
 
-*v2.22* _Coming Soon..._
+*v2.22* (January 27, 2012)
  * Re-wrote code to improve efficiency and application file size.
  * Added a "View" button to Twitter notifications.
  * Fixed a Facebook Message bug.
@@ -14,18 +14,18 @@
  * Small bug fixes.
  * Updated translations.
 
-*v2.21* (January 19, 2011)
+*v2.21* (January 19, 2012)
  * Added a few new user preferences (Disable context menus, Set Popup Width Padding and a few more.)
  * Added user option to ignore Class 0 SMS Messages AKA Flash SMS Messages.
  * Fixed critical bug that prevents SMS messages from being sent.
  * Small bug fixes.
  * Updated translations.
 
-*v2.20* (January 17, 2011)
+*v2.20* (January 17, 2012)
  * Fixed crash related to Facebook Notifications.
  * Small bug fixes.
 
-*v2.19* (January 13, 2011)
+*v2.19* (January 13, 2012)
  * Added option to change the language of the app.
  * Fixed a Facebook Messages bug which displayed incorrect messages from the message thread.
  * Fixed a Facebook Messages bug which displayed the incorrect FROM user.
@@ -33,10 +33,10 @@
  * Added a "View" button to Facebook notifications.
  * Small bug fixes.
 
-*v2.18* (January 10, 2011)
+*v2.18* (January 10, 2012)
  * Pro Version critical bug fix which stopped the pro features from working properly.
 
-*v2.17* (January 9, 2011)
+*v2.17* (January 9, 2012)
  * Fixed a contact recognition bug.
  * Slight updates to the user preferences.
  * Updated translations.
