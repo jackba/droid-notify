@@ -24,7 +24,7 @@
   <string name="donate_text">Donar</string>
   <string name="donate_to_droid_notify_text">Donaciones a Droid Notify</string>
   <string name="donate_summary">Donar a este proyecto. Las donaciones ayudan a seguir desarrollándolo y hacen posible que se añadan nuevas características. </string>
-  <string name="donate_description_text">Please consider donating to this project. Your donations help make the continued development and addition of new features possible.\n\nThank You!</string>
+  <string name="donate_description_text">Considere la posibilidad de donar a este proyecto. Sus donaciones ayudan a hacer el desarrollo continuo y la adición de nuevas características possible.\n\nThank usted!</string>
   <string name="donate_via_android_market_text">Donar a través de Android Market</string>
   <string name="donate_via_amazon_app_store_text">Donar a través de Amazon App Store</string>
   <string name="donate_via_paypal_text">Donar a través de PayPal</string>
@@ -34,7 +34,7 @@
   <string name="upgrade_to_droid_notify_pro_text">Actualizar a Pro</string>
   <string name="upgrade_to_droid_notify_pro_text_summary">Actualización a Droid Notificar Pro. Liberar todo el potencial de esta aplicación.</string>
   <string name="upgrade_now_text">Actualizar Ahora</string>
-  <string name="upgrade_direct_description_text">Please consider upgrading to the pro version of this app. If you would like to upgrade now and purchase the pro version please click on the button below.\n\nYour support helps make the continued development and addition of new features possible.\n\nThank You!</string>
+  <string name="upgrade_direct_description_text">Considere la posibilidad de actualizar a la versión pro de esta aplicación. Si desea actualizar ahora y compra la versión pro haga clic en el botón below.\n\nYour apoyo ayuda a hacer el desarrollo continuo y la adición de nuevas características possible.\n\nThank le!</string>
   <string name="app_android_messaging_app_error">No se pudo iniciar la aplicación de Mensajería Android.</string>
   <string name="app_android_phone_app_error">No se pudo iniciar la aplicación de teléfono Android.</string>
   <string name="app_android_call_log_error">No se pudo iniciar la aplicación de Registro de Llamadas Android.</string>
@@ -58,38 +58,40 @@
   <string name="app_android_contacts_email_chooser_error">Error al consultar los direcciones de correo electrónico disponibles de los contactos.</string>
   <string name="app_android_no_number_found_error">No se puede encontrar ningún número de teléfono para este contacto.</string>
   <string name="app_android_calendars_not_found_error">No se pudo encontrar ningún calendario en el teléfono.</string>
-  <string name="app_reply_email_address_error">The email address does not appear to be valid. Reply to email failed.</string>
-  <string name="app_email_app_error">The email application could not be started.</string>
+  <string name="app_reply_email_address_error">La dirección de correo electrónico no parece ser válida No se pudo responder al correo.</string>
+  <string name="app_email_app_error">No se pudo iniciar la aplicación de correo electrónico.</string>
   <string name="app_tts_error">No se pudo iniciar el servicio de texto a voz.</string>
   <string name="app_preference_quiet_time_error">No se pudo iniciar la preferencia de Tiempo de Silencio.</string>
   <string name="test_notifications_disabled_message">No se mostrará ninguna notificación de prueba porque no se ha activado ninguna.</string>
-  <string name="twitter_app_error">The Twitter application could not be started.</string>
-  <string name="twitter_app_not_found_error">The Twitter application could not be found. Try selecting a different preferred Twitter client.</string>
-  <string name="facebook_app_error">The Facebook application could not be started.</string>
-  <string name="facebook_app_not_found_error">The Facebook application could not be found. Try selecting a different preferred Facebook client.</string>
-  <string name="app_quick_reply_address_error">The quick reply address does not appear to be valid. Quick Reply launch failed.</string>
-  <string name="twitter_send_direct_mesage_error">The Twitter Direct Message could not be sent.</string>
-  <string name="twitter_send_tweet_error">The Tweet/Status Update could not be sent.</string>
-  <string name="not_online_error">The application cannot gain online access at this time. Please try again later.</string>
+  <string name="twitter_app_error">La aplicación de Twitter no se pudo iniciar.</string>
+  <string name="twitter_app_not_found_error">La aplicación de Twitter no se pudo encontrar. Trate de seleccionar un cliente de Twitter diferentes preferido.</string>
+  <string name="facebook_app_error">﻿No se pudo iniciar la aplicación de Facebook.</string>
+  <string name="facebook_app_not_found_error">La aplicación de Facebook no se pudo encontrar. Trate de seleccionar un cliente diferente preferido Facebook.</string>
+  <string name="app_quick_reply_address_error">No fuimos capaces de autenticar o acceder a tu cuenta de Twitter en este momento Inténtalo de nuevo más tarde.</string>
+  <string name="twitter_send_direct_mesage_error">No se pudo enviar el mensaje directo en Twitter.</string>
+  <string name="twitter_send_tweet_error">No se pudo enviar el Tweet/Estado de actualización.</string>
+  <string name="not_online_error">La aplicación no puede obtener acceso en línea en este momento. Por favor, inténtelo de nuevo más tarde.</string>
   <string name="url_link_not_found_error">El enlace URL no pudo ser encontrado.</string>
-  <string name="browser_app_error">The web browser application could not be started.</string>
-  <string name="log_file_error_title">Log File Error</string>
-  <string name="log_file_acquiring_system_logs">Acquiring system logs...</string>
-  <string name="log_file_retrieval_failure">Failed to retrieve system logs.</string>
-  <string name="log_file_device_info" formatted="false">Droid Notify Version: %s\nDevice Model: %s\nFirmware Version: %s\nBuild Number: %s\n</string>
-  <string name="send_debug_logs_text">Send Debug Logs</string>
-  <string name="send_debug_logs_summary">Send the debug logs to the developer.</string>
+  <string name="browser_app_error">La aplicación del navegador web, no se pudo iniciar.</string>
+  <string name="log_file_error_title">Registro de Errores de Archivos</string>
+  <string name="log_file_acquiring_system_logs">La adquisición de los registros del sistema ...</string>
+  <string name="log_file_retrieval_failure">No se pudo recuperar los registros del sistema.</string>
+  <string name="log_file_device_info" formatted="false">Droide Notifiqueme Versión: %s\nDevice Modelo: %s\nVersion nFirmware: %s\nNúmero nBuild: %s\n</string>
+  <string name="send_debug_logs_text">Enviar Registros de Depuración</string>
+  <string name="send_debug_logs_summary">﻿Enviar los registros de depuración para el desarrollador.</string>
   <string name="preference_language_title">Idioma</string>
-  <string name="preference_language_summary">Select the application language.</string>
-  <string name="phone_default_language">Phone Default Language</string>
+  <string name="preference_language_summary">﻿Seleccione el idioma de la aplicación.</string>
+  <string name="phone_default_language">﻿Idioma por Defecto del Teléfono</string>
   <string name="preference_disable_context_menu_title">Deshabilitar el Menú Contextual</string>
-  <string name="preference_disable_context_menu_summary">Disable the context menu that is attached to notification headers.</string>
+  <string name="preference_disable_context_menu_summary">Desactivar el menú contextual que se une a las cabeceras de la notificación.</string>
   <string name="preference_disable_quick_contact_title">Deshabilitar el Menú Foto</string>
-  <string name="preference_disable_quick_contact_summary">Disable the quick contact menu that is attached to notification photos.</string>
-  <string name="preference_close_app_when_pushed_to_background_title">Close In Background</string>
-  <string name="preference_close_app_when_pushed_to_background_summary">Close the application when it is pushed to the background.</string>
-  <string name="preference_popup_width_padding_title">Popup Width Padding</string>
-  <string name="preference_popup_width_padding_summary">Select the window width padding amount.</string>
+  <string name="preference_disable_quick_contact_summary">Desactivar el menú de contacto rápida que se adjunta a las fotos de notificación.</string>
+  <string name="preference_close_app_when_pushed_to_background_title">Cerrar Antecedentes</string>
+  <string name="preference_close_app_when_pushed_to_background_summary">Cerrar la aplicación cuando se empuja a un segundo plano.</string>
+  <string name="preference_ignore_linked_apps_when_pushed_to_background_title">﻿Omitir Aplicaciones Vinculadas</string>
+  <string name="preference_ignore_linked_apps_when_pushed_to_background_summary">﻿Omitir aplicaciones vinculadas al cerrar la aplicación.</string>
+  <string name="preference_popup_width_padding_title">El Relleno Emergente Ancho</string>
+  <string name="preference_popup_width_padding_summary">Seleccione la anchura de la ventana la cantidad de relleno.</string>
   <string name="app_settings_text">Configuración</string>
   <string name="general_settings_text">Configuración general</string>
   <string name="basic_settings_text">Configuración básica</string>
@@ -99,17 +101,17 @@
   <string name="quick_reply_settings_text">Configuración de respuesta rápida</string>
   <string name="notification_body_settings_text">Configuración del cuerpo de la notificación</string>
   <string name="notification_header_settings_text">Configuración del encabezado de la notificación</string>
-  <string name="notification_photo_settings_text">Notification Photo Settings</string>
+  <string name="notification_photo_settings_text">Notificación de Fotos Configuración</string>
   <string name="event_body_settings_text">Configuración del cuerpo de evento</string>
   <string name="debug_settings_text">Configuración de depuración</string>
-  <string name="preference_debug_log_title">Turn On Debug Mode</string>
-  <string name="preference_debug_log_summary">When in debug mode the application will log diagnostic information.</string>
+  <string name="preference_debug_log_title">﻿Activar el Modo de Depuración</string>
+  <string name="preference_debug_log_summary">﻿Cuando en depurar la aplicación modo registrará información de diagnóstico.</string>
   <string name="delete_text">Eliminar</string>
   <string name="delete_message_dialog_text">Esto eliminará el mensaje desde el teléfono.</string>
   <string name="delete_thread_dialog_text">Se eliminará todo el tema desde el teléfono.</string>
   <string name="delete_email_dialog_text">Esto eliminará el correo del teléfono.</string>
-  <string name="delete_twitter_direct_message_dialog_text">This will delete the direct message from your Twitter account.</string>
-  <string name="delete_facebook_notification_dialog_text">This will delete the notification from your Facebook account.</string>
+  <string name="delete_twitter_direct_message_dialog_text">Esto eliminará el mensaje directo de su cuenta de Twitter.</string>
+  <string name="delete_facebook_notification_dialog_text">Esto eliminará la notificación de su cuenta de Facebook.</string>
   <string name="delete_facebook_message_dialog_text">Esto eliminará el mensaje desde su cuenta de Facebook.</string>
   <string name="preference_center_align_body_text_title">Centrar texto</string>
   <string name="preference_center_align_body_text_summary">Centrar el texto del texto de notificación.</string>
@@ -118,8 +120,8 @@
   <string name="preference_hide_notification_body_enabled_title">Ocultar el Cuerpo de la Notificación</string>
   <string name="preference_hide_notification_body_enabled_summaryOn">El cuerpo de notificación no será visible en la ventana emergente.</string>
   <string name="preference_hide_notification_body_enabled_summaryOff">El cuerpo de notificación será visible en la ventana emergente.</string>
-  <string name="preference_notification_body_max_lines_title">Notification Body Max Lines</string>
-  <string name="preference_notification_body_max_lines_summary">Select the maximum lines that will display in the notification body.</string>
+  <string name="preference_notification_body_max_lines_title">﻿Líneas de Notificación Cuerpo Max</string>
+  <string name="preference_notification_body_max_lines_summary">Seleccione el máximo de líneas que se mostrarán en el organismo de notificación.</string>
   <string name="preference_notification_type_info_icon_enabled_title">Mostrar el Icono de Tipo</string>
   <string name="preference_notification_type_info_icon_enabled_summaryOn">Se mostrará el icono de tipo de notificación.</string>
   <string name="preference_notification_type_info_icon_enabled_summaryOff">No se mostrará el icono de tipo de notificación.</string>
@@ -131,7 +133,7 @@
   <string name="preference_display_contact_photo_summaryOff">No se mostrará la foto del contacto.</string>
   <string name="preference_display_contact_name_title">Mostrar Nombre del Contacto</string>
   <string name="preference_display_contact_name_summary">Mostrar el nombre del contacto en el encabezado de la notificación.</string>
-  <string name="preference_hide_unknown_contact_name_title">Hide Unknown Contact Name</string>
+  <string name="preference_hide_unknown_contact_name_title">Ocultar Nombre de Contacto Desconocido</string>
   <string name="preference_hide_unknown_contact_name_summary">Ocultar el nombre del contacto si se desconoce.</string>
   <string name="preference_contact_name_font_size_title">Tamaño de la fuente del nombre del contacto</string>
   <string name="preference_contact_name_font_size_summary">Seleccionar el tamaño de la fuente del texto de nombre de contacto</string>
@@ -157,7 +159,7 @@
   <string name="quick_reply">Respuesta rápida</string>
   <string name="subject_text">Asunto:</string>
   <string name="phone_number_error_text">Introduzca un número para enviar el mensaje.</string>
-  <string name="address_error_text">Please enter an address to send the message to.</string>
+  <string name="address_error_text">Introduzca una dirección para enviar el mensaje.</string>
   <string name="message_error_text">Escribe un mensaje para enviar.</string>
   <string name="message_sent_text">Mensaje enviado.</string>
   <string name="message_sent_error_generic_failure_text">Mensaje no enviado: error Genérico.</string>
@@ -180,13 +182,13 @@
   <string name="email_at_text" formatted="false">Nuevo correo a las %s</string>
   <string name="missed_call_at_text" formatted="false">Llamadas perdidas a las %s</string>
   <string name="mention_at_text" formatted="false">Nueva mención en %s</string>
-  <string name="follower_request_at_text" formatted="false">New follower request at %s</string>
-  <string name="follower_request_text" formatted="false">New follower request</string>
+  <string name="follower_request_at_text" formatted="false">﻿Nueva Solicitud de Seguidor en %s</string>
+  <string name="follower_request_text" formatted="false">Solicitud de Nuevo Seguidor</string>
   <string name="notification_at_text" formatted="false">Nueva notificación en %s</string>
   <string name="friend_request_at_text" formatted="false">Nueva solicitud de amigo en %s</string>
   <string name="preference_confirm_deletion_title">Confirmar Eliminación</string>
-  <string name="preference_confirm_deletion_summary">Display a confirmation dialog box when you delete an item.</string>
-  <string name="preference_time_is_utc_title">Time Is In UTC</string>
+  <string name="preference_confirm_deletion_summary">Mostrar un cuadro de diálogo de confirmación cuando se elimina un elemento.</string>
+  <string name="preference_time_is_utc_title">El tiempo está en UTC</string>
   <string name="view_thread_text">Ver Tema</string>
   <string name="messaging_inbox_text">Bandeja de entrada</string>
   <string name="preference_sms_enabled_title">Activar SMS</string>
@@ -205,7 +207,8 @@
   <string name="preference_sms_loading_summary">Seleccionar cómo recuperar los mensajes SMS entrantes.</string>
   <string name="preference_sms_timestamp_adjustment_title">Ajuste de fecha y hora de los SMS</string>
   <string name="preference_sms_timestamp_adjustment_summary">Algunos teléfono/lugares pueden mostrar marcas de tiempo incorrectas. Utiliza este ajuste para ajustar la fecha y hora de los mensajes SMS.</string>
-  <string name="preference_sms_time_is_utc_summary">Check this optoin if the incoming SMS message timestamp is in UTC. (This may fix incorrect message times in the notifications)</string>
+  <string name="preference_sms_time_is_utc_summary">﻿Compruebe este optoin si es de la marca de mensaje SMS entrante en UTC. (Esto podrá fijar tiempos mensajes incorrectos en las notificaciones)</string>
+  <string name="view_mms_button_text">Ver MMS</string>
   <string name="preference_mms_enabled_title">Activar MMS</string>
   <string name="preference_mms_enabled_summaryOn">Las notificaciones de MMS están activadas.</string>
   <string name="preference_mms_enabled_summaryOff">Las notificaciones de MMS están desactivadas.</string>
@@ -223,7 +226,7 @@
   <string name="preference_mms_timestamp_adjustment_title">Ajuste de fecha y hora de los MMS</string>
   <string name="preference_mms_timestamp_adjustment_summary">Algunos teléfonos/lugares pueden mostrar marcas de tiempo incorrectas. Utilice este ajuste para ajustar la fecha y hora de los mensajes MMS.</string>
   <string name="mms_click_here_to_view">[Haga clic aquí para ver mensaje MMS]</string>
-  <string name="view_mms_button_text">Ver MMS</string>
+  <string name="private_number_text">Número Privado</string>
   <string name="call_button_text">Llamada</string>
   <string name="call_contact_text">Llamar a un Contacto</string>
   <string name="view_call_log_text">Ver Registro de Llamadas</string>
@@ -246,7 +249,7 @@
   <string name="preference_calendar_enabled_title">Activar el Evento del Calendario</string>
   <string name="preference_calendar_enabled_summaryOn">Las notificaciones del Evento del Calendario están activadas.</string>
   <string name="preference_calendar_enabled_summaryOff">Las notificaciones del Evento del Calendario están desactivadas.</string>
-  <string name="preference_calendar_polling_frequency_summary">How often you want to read the calendar events?</string>
+  <string name="preference_calendar_polling_frequency_summary">¿Con qué frecuencia desea leer los eventos de calendario?</string>
   <string name="preference_calendar_selection_title">Seleccionar Calendarios</string>
   <string name="preference_calendar_selection_summary">Seleccionar los Calendarios que se notificarán.</string>
   <string name="preference_calendar_labels_enabled_title">Activar Etiquetas del Calendario</string>
@@ -267,54 +270,67 @@
   <string name="preference_calendar_reminders_enabled_summaryOff">No se enviará ningún aviso antes de que se produzca el evento del calendario</string>
   <string name="preference_calendar_event_body_font_size_title">Tamaño de la fuente del texto del evento</string>
   <string name="preference_calendar_event_body_font_size_summary">Seleccionar el tamaño de la fuente al mostrar el texto de un evento</string>
+  <string name="preference_calendar_refresh_title">﻿Actualización Calendario Alarmas</string>
+  <string name="preference_calendar_refresh_summary">﻿Reprogramar manualmente los eventos de calendario.</string>
+  <string name="reading_calendar_data">Lectura de Datos de Calendario ...</string>
+  <string name="calendar_data_refreshed">Los eventos del calendario se han leído y actualiza las alarmas.</string>
   <string name="preference_twitter_notifications">Notificaciones de Twitter</string>
   <string name="preference_twitter_enabled_title">Activar Twitter</string>
   <string name="preference_twitter_enabled_summaryOn">Las notificaciones de Twitter están habilitadas.</string>
   <string name="preference_twitter_enabled_summaryOff">Las notificaciones de Twitter están deshabilitadas.</string>
-  <string name="preference_twitter_direct_messages_enabled_title">Enable Twitter Direct Messages</string>
-  <string name="preference_twitter_direct_messages_enabled_summary">Enable Twitter Direct Message notifications.</string>
-  <string name="preference_twitter_mentions_enabled_title">Enable Twitter Mentions</string>
-  <string name="preference_twitter_mentions_enabled_summary">Enable Twitter Mention notifications.</string>
-  <string name="preference_twitter_follower_requests_enabled_title">Enable Twitter Follower Requests</string>
-  <string name="preference_twitter_follower_requests_enabled_summary">Enable Twitter Follower Requests notifications.</string>
+  <string name="preference_twitter_direct_messages_enabled_title">Activar Mensajes Directos de Twitter</string>
+  <string name="preference_twitter_direct_messages_enabled_summary">Activar Notificaciones de Twitter Mensaje Directo.</string>
+  <string name="preference_twitter_mentions_enabled_title">Habilitar Menciones de Twitter</string>
+  <string name="preference_twitter_mentions_enabled_summary">Activar Notificaciones de Twitter Mención.</string>
+  <string name="preference_twitter_follower_requests_enabled_title">Habilitar las Solicitudes de Twitter Follower</string>
+  <string name="preference_twitter_follower_requests_enabled_summary">Activar Notificaciones de Twitter Seguidor Solicitudes.</string>
   <string name="twitter_authentication_text">Autenticación de Twitter</string>
-  <string name="twitter_authentication_message_text">The next screen will open a Twitter web page in a web browser. This web page will ask you to allow this application to have access to your Twitter account. If you wish to proceed please click on the \"Continue\" button below.</string>
+  <string name="twitter_authentication_message_text">﻿La siguiente pantalla abrirá una página web de Twitter en un explorador web. Esta página web le pedirá que permite esta aplicación tener acceso a su cuenta de Twitter. Si desea continuar, haga clic en el botón \"Continuar\".</string>
   <string name="authenticating_text">Autenticando...</string>
   <string name="twitter_authentication_error">No fuimos capaces de autenticar o acceder a tu cuenta de Twitter en este momento. Inténtalo de nuevo más tarde.</string>
-  <string name="preference_twitter_polling_frequency_summary">How often you want to read your Twitter account?</string>
-  <string name="preference_clear_twitter_authentication_data">Reset Twitter Data</string>
-  <string name="preference_clear_twitter_authentication_data_summary">Clear the Twitter authentication data.</string>
-  <string name="twitter_authentication_data_cleared">The Twitter authentication data has been cleared.</string>
-  <string name="twitter_following_request" formatted="false">%s (@%s) has requested to follow you on Twitter!</string>
+  <string name="preference_twitter_polling_frequency_summary">¿Con qué frecuencia desea leer su cuenta de Twitter?</string>
+  <string name="preference_clear_twitter_authentication_data">Restaurar los Datos de Twitter</string>
+  <string name="preference_clear_twitter_authentication_data_summary">Borrar los datos de autenticación de Twitter.</string>
+  <string name="twitter_authentication_data_cleared">Se ha borrado los datos de autenticación de Twitter.</string>
+  <string name="twitter_following_request" formatted="false">%s (@%s) ha solicitado a seguirte en Twitter!</string>
   <string name="open_twitter_app_text">Abrir Twitter App</string>
+  <string name="preference_twitter_manual_poll_title">Lee Cuenta de Twitter</string>
+  <string name="preference_twitter_manual_poll_summary">Manual de lectura cuenta de Twitter y las notificaciones de la pantalla.</string>
+  <string name="reading_twitter_account">Lectura Cuenta de Twitter ...</string>
+  <string name="twitter_account_read">Su cuenta de Twitter que se ha leído y ha creado las notificaciones.</string>
   <string name="preference_facebook_notifications">Notificaciones de Facebook</string>
   <string name="preference_facebook_enabled_title">Activar Facebook</string>
   <string name="preference_facebook_enabled_summaryOn">Las notificaciones de Facebook están habilitadas.</string>
   <string name="preference_facebook_enabled_summaryOff">Las notificaciones de Facebook están deshabilitadas.</string>
-  <string name="preference_facebook_user_notifications_enabled_title">Enable Facebook Notifications</string>
-  <string name="preference_facebook_user_notifications_enabled_summary">Enable Facebook Notification notifications.</string>
-  <string name="preference_facebook_messages_enabled_title">Enable Facebook Messages</string>
-  <string name="preference_facebook_messages_enabled_summary">Enable Facebook Message notifications.</string>
-  <string name="preference_facebook_friend_requests_enabled_title">Enable Facebook Friend Requests</string>
-  <string name="preference_facebook_friend_requests_enabled_summary">Enable Facebook Friend Request notifications.</string>
+  <string name="preference_facebook_user_notifications_enabled_title">Activar Notificaciones de Facebook</string>
+  <string name="preference_facebook_user_notifications_enabled_summary">Activar Notificaciones de Facebook Notificación.</string>
+  <string name="preference_facebook_messages_enabled_title">﻿Activar los Mensajes de Facebook</string>
+  <string name="preference_facebook_messages_enabled_summary">Activar Notificaciones de Facebook Mensajes.</string>
+  <string name="preference_facebook_friend_requests_enabled_title">Activar Solicitudes de Amigo Facebook</string>
+  <string name="preference_facebook_friend_requests_enabled_summary">Activar Notificaciones de Solicitudes de Amigo Facebook.</string>
   <string name="facebook_authentication_text">Autenticación de Facebook</string>
-  <string name="facebook_authentication_error">We were not able to authenticate or access your Facebook account at this time. Please try again later.</string>
-  <string name="preference_clear_facebook_authentication_data">Reset Facebook Data</string>
-  <string name="preference_clear_facebook_authentication_data_summary">Clear the Facebook authentication data.</string>
-  <string name="facebook_authentication_data_cleared">The Facebook authentication data has been cleared.</string>
+  <string name="facebook_authentication_error">No fuimos capaces de autenticar o acceder a tu cuenta de Facebook en este momento. Inténtalo de nuevo más tarde.</string>
+  <string name="preference_clear_facebook_authentication_data">Restaurar los Datos de Facebook</string>
+  <string name="preference_clear_facebook_authentication_data_summary">Borrar los datos de autenticación de Facebook.</string>
+  <string name="facebook_authentication_data_cleared">﻿Se ha borrado los datos de autenticación de Facebook.</string>
   <string name="open_facebook_app_text">Abrir Facebook App</string>
-  <string name="preference_facebook_polling_frequency_summary">How often you want to read your Facebook account?</string>
+  <string name="preference_facebook_polling_frequency_summary">¿Con qué frecuencia usted quiere leer tu cuenta de Facebook?</string>
+  <string name="facebook_new_friend_request_from">﻿Tienes un Nuevo Facebook Amigo Solicitar</string>
+  <string name="preference_facebook_manual_poll_title">Lee Cuenta de Facebook</string>
+  <string name="preference_facebook_manual_poll_summary">Manual de lectura cuenta de Facebook y las notificaciones de la pantalla.</string>
+  <string name="reading_facebook_account">﻿Cuenta de Facebook de Lectura...</string>
+  <string name="facebook_account_read">Tu cuenta de Facebook ha sido leído y creó las notificaciones.</string>
   <string name="preference_linkedin_notifications">Notificaciones de LinkedIn</string>
   <string name="preference_linkedin_enabled_title">Habilitar LinkedIn</string>
-  <string name="preference_linkedin_enabled_summaryOn">LinkedIn notifications are enabled.</string>
-  <string name="preference_linkedin_enabled_summaryOff">LinkedIn notifications are disabled.</string>
-  <string name="linkedin_authentication_text">LinkedIn Authentication</string>
-  <string name="linkedin_authentication_message_text">The next screen will open a LinkedIn web page in a web browser. This web page will ask you to allow this application to have access to your LinkedIn account. If you wish to proceed please click on the \"Continue\" button below.</string>
-  <string name="linkedin_authentication_error">We were not able to authenticate or access your LinkedIn account at this time. Please try again later.</string>
-  <string name="preference_linkedin_polling_frequency_summary">How often you want to read your LinkedIn account?</string>
-  <string name="preference_clear_linkedin_authentication_data">Reset LinkedIn Data</string>
-  <string name="preference_clear_linkedin_authentication_data_summary">Clear the LinkedIn authentication data.</string>
-  <string name="linkedin_authentication_data_cleared">The LinkedIn authentication data has been cleared.</string>
+  <string name="preference_linkedin_enabled_summaryOn">Las notificaciones de LinkedIn están habilitadas.</string>
+  <string name="preference_linkedin_enabled_summaryOff">Las notificaciones de LinkedIn están deshabilitadas.</string>
+  <string name="linkedin_authentication_text">Autenticación de LinkedIn</string>
+  <string name="linkedin_authentication_message_text">La siguiente pantalla se abrirá una página web de LinkedIn en un navegador web. Esta página web le pedirá que permitir que esta aplicación tiene acceso a tu cuenta de LinkedIn. Si desea continuar haga clic en el botón &quot;Continuar&quot; a continuación.</string>
+  <string name="linkedin_authentication_error">No fuimos capaces de autenticar o acceder a tu cuenta de LinkedIN en este momento Inténtalo de nuevo más tarde.</string>
+  <string name="preference_linkedin_polling_frequency_summary">¿Con qué frecuencia usted quiere leer tu cuenta de LinkedIn?</string>
+  <string name="preference_clear_linkedin_authentication_data">Restablecer Datos de LinkedIn</string>
+  <string name="preference_clear_linkedin_authentication_data_summary">﻿Borrar los datos de autenticación de LinkedIn.</string>
+  <string name="linkedin_authentication_data_cleared">﻿Se ha borrado los datos de autenticación de LinkedIn.</string>
   <string name="email_inbox_text">Bandeja de entrada de correo</string>
   <string name="view_email_text">Consultar correo</string>
   <string name="preference_k9_enabled_title">Activar correo electrónico K-9</string>
@@ -326,9 +342,9 @@
   <string name="preference_k9_message_body_font_size_title">Tamaño de Fuente del Cuerpo del Mensaje</string>
   <string name="preference_k9_message_body_font_size_summary">Seleccionar el tamaño de la fuente del cuerpo del mensaje.</string>
   <string name="preference_k9_notifications">Notificaciones de correo electrónico de K-9</string>
-  <string name="preference_polling_frequency">Polling Frequency</string>
-  <string name="preference_ignore_class_0_messages_title">Ignore Class 0 Messages</string>
-  <string name="preference_ignore_class_0_messages_summary">Ignore Flash SMS Messages AKA Class 0 Messages</string>
+  <string name="preference_polling_frequency">Frecuencia de Votación</string>
+  <string name="preference_ignore_class_0_messages_title">No Haga Caso de Mensajes 0</string>
+  <string name="preference_ignore_class_0_messages_summary">No haga caso de mensajes SMS de destello de clase AKA caso de mensajes 0</string>
   <string name="view_contact_text">Ver Contacto</string>
   <string name="add_contact_text">Añadir contacto</string>
   <string name="text_contact_text">Texto del Contacto</string>
@@ -357,13 +373,13 @@
   <string name="preference_display_cancel_button_title">Mostrar el Botón de Cancelar</string>
   <string name="preference_display_cancel_button_summary">Mostrar el botón de cancelar.</string>
   <string name="preference_reply_button_action">Acción de botón de respuesta</string>
-  <string name="preference_reply_button_action_summary">Define what happens when you reply to an item.</string>
+  <string name="preference_reply_button_action_summary">Definir lo que sucede al responder a un tema.</string>
   <string name="preference_delete_button_action">Eliminar el Botón de Acción</string>
-  <string name="preference_delete_button_action_summary">Define what happens when you delete an item.</string>
+  <string name="preference_delete_button_action_summary">Definir lo que ocurre cuando se borra un elemento.</string>
   <string name="preference_dismiss_button_action">Rechazar el Botón Acción</string>
-  <string name="preference_dismiss_button_action_summary">Define what happens when you dismiss an item.</string>
-  <string name="preference_view_button_action">View Button Action</string>
-  <string name="preference_view_button_action_summary">Define what happens when you view an item.</string>
+  <string name="preference_dismiss_button_action_summary">Definir qué ocurre al despedir a un elemento.</string>
+  <string name="preference_view_button_action">Ver Botón Acción</string>
+  <string name="preference_view_button_action_summary">Definir lo que ocurre cuando se ve un elemento.</string>
   <string name="preference_notification_count_button_action">Acción de Contador de Notificaciones</string>
   <string name="preference_notification_count_button_action_summary">Definir lo que ocurre cuando se hace clic sobre el texto de conteo de notificación.</string>
   <string name="preference_button_style_title">Estilo del botón</string>
@@ -460,17 +476,17 @@
   <string name="preference_hide_single_message_header_enabled_title">Ocultar encabezado del mensaje único</string>
   <string name="preference_hide_single_message_header_enabled_summaryOn">Las notificaciones no mostrarán el texto de encabezado (p.ej. 1/1) cuando se muestre un mensaje.</string>
   <string name="preference_hide_single_message_header_enabled_summaryOff">Las notificaciones mostrarán el texto de encabezado (pej 1/1) cuando se muestre un mensaje.</string>
-  <string name="reschedule_blocked_notifications_text">Reschedule Blocked Notifications</string>
-  <string name="blocking_app_running_action_text">Blocking Notification Options</string>
-  <string name="blocking_app_running_action_summary">Define what to do when a notification comes in while a blocking app is running.</string>
+  <string name="reschedule_blocked_notifications_text">Reprogramar Notificaciones Bloqueadas</string>
+  <string name="blocking_app_running_action_text">Bloqueo Opciones de Notificación</string>
+  <string name="blocking_app_running_action_summary">Definir qué hacer cuando llega una notificación mientras se ejecuta una aplicación de bloqueo.</string>
   <string name="status_bar_notification_content_title_text_sms">Nuevo mensaje</string>
   <string name="status_bar_notification_content_title_text_mms">Nuevo mensaje</string>
   <string name="status_bar_notification_content_title_text_phone">Llamada perdida</string>
   <string name="status_bar_notification_content_title_text_calendar">Aviso de Evento del Calendario</string>
   <string name="status_bar_notification_content_title_text_twitter_direct_message">Nuevo Mensaje Directo de Twitter</string>
-  <string name="status_bar_notification_content_title_text_twitter_mention">New Twitter Mention</string>
-  <string name="status_bar_notification_content_title_text_twitter_follower_request">New Twitter Follower Request</string>
-  <string name="status_bar_notification_content_title_text_facebook_notification">New Facebook Notification</string>
+  <string name="status_bar_notification_content_title_text_twitter_mention">Nueva Mención de Twitter</string>
+  <string name="status_bar_notification_content_title_text_twitter_follower_request">Nueva Solicitud de Twitter Seguidor</string>
+  <string name="status_bar_notification_content_title_text_facebook_notification">Nueva Notificación de Facebook</string>
   <string name="status_bar_notification_content_title_text_facebook_friend_request">Nueva Solicitud de Amigo Facebook</string>
   <string name="status_bar_notification_content_title_text_facebook_message">Nuevo Mensaje de Facebook</string>
   <string name="status_bar_notification_content_title_text_email">Nuevo correo electrónico</string>
@@ -482,17 +498,17 @@
   <string name="status_bar_notification_content_text_phone_null" formatted="false">Llamada perdida.</string>
   <string name="status_bar_notification_content_text_calendar" formatted="false">Evento del Calendario - %s</string>
   <string name="status_bar_notification_content_text_calendar_null" formatted="false">Evento del Calendario.</string>
-  <string name="status_bar_notification_content_text_twitter_direct_message" formatted="false">New Twitter Direct Message from %s - %s.</string>
-  <string name="status_bar_notification_content_text_twitter_direct_message_null" formatted="false">New Twitter Direct Message.</string>
-  <string name="status_bar_notification_content_text_twitter_mention" formatted="false">New Twitter Mention from %s - %s.</string>
-  <string name="status_bar_notification_content_text_twitter_mention_null" formatted="false">New Twitter Mention.</string>
-  <string name="status_bar_notification_content_text_twitter_follower_request" formatted="false">New Twitter Follower Request from %s - %s.</string>
-  <string name="status_bar_notification_content_text_twitter_follower_request_null" formatted="false">New Twitter Follower Request.</string>
+  <string name="status_bar_notification_content_text_twitter_direct_message" formatted="false">Nueva de Twitter Mensaje Directo de %s - %s.</string>
+  <string name="status_bar_notification_content_text_twitter_direct_message_null" formatted="false">Nueva de Twitter Mensaje Directo.</string>
+  <string name="status_bar_notification_content_text_twitter_mention" formatted="false">Nueva Mención de Twitter desde %s - %s.</string>
+  <string name="status_bar_notification_content_text_twitter_mention_null" formatted="false">Nueva Mención de Twitter.</string>
+  <string name="status_bar_notification_content_text_twitter_follower_request" formatted="false">Nueva Solicitud de Twitter Seguidor de %s - %s.</string>
+  <string name="status_bar_notification_content_text_twitter_follower_request_null" formatted="false">Nueva Solicitud de Twitter Seguidor.</string>
   <string name="status_bar_notification_content_text_facebook_notification" formatted="false">Nueva Notificación de Facebook de %s - %s.</string>
   <string name="status_bar_notification_content_text_facebook_notification_null" formatted="false">Nueva Notificación de Facebook.</string>
-  <string name="status_bar_notification_content_text_facebook_friend_request" formatted="false">New Facebook Friend Request from %s - %s.</string>
-  <string name="status_bar_notification_content_text_facebook_friend_request_null" formatted="false">New Facebook Friend Request.</string>
-  <string name="status_bar_notification_content_text_facebook_message" formatted="false">New Facebook Message from %s - %s.</string>
+  <string name="status_bar_notification_content_text_facebook_friend_request" formatted="false">Nueva Solicitud de Amistad de Facebook desde %s - %s.</string>
+  <string name="status_bar_notification_content_text_facebook_friend_request_null" formatted="false">Nueva Solicitud de Amistad de Facebook.</string>
+  <string name="status_bar_notification_content_text_facebook_message" formatted="false">Nuevo Mensaje de Facebook de %s - %s.</string>
   <string name="status_bar_notification_content_text_facebook_message_null" formatted="false">Nuevo Mensaje de Facebook.</string>
   <string name="status_bar_notification_content_text_email" formatted="false">Nuevo correo de %s - %s.</string>
   <string name="status_bar_notification_content_text_email_null" formatted="false">Nuevo correo electrónico.</string>
@@ -508,23 +524,23 @@
   <string name="status_bar_notification_ticker_text_phone_null" formatted="false">Llamada perdida.</string>
   <string name="status_bar_notification_ticker_text_calendar" formatted="false">Evento del Calendario - %s</string>
   <string name="status_bar_notification_ticker_text_calendar_null" formatted="false">Evento del Calendario.</string>
-  <string name="status_bar_notification_ticker_text_twitter_direct_message" formatted="false">New Twitter Direct Message from %s - %s.</string>
-  <string name="status_bar_notification_ticker_text_unknown_contact_twitter_direct_message" formatted="false">New Twitter Direct Message -  %s.</string>
-  <string name="status_bar_notification_ticker_text_twitter_direct_message_null" formatted="false">New Twitter Direct Message.</string>
-  <string name="status_bar_notification_ticker_text_twitter_mention" formatted="false">New Twitter Mention from %s - %s.</string>
-  <string name="status_bar_notification_ticker_text_unknown_contact_twitter_mention" formatted="false">New Twitter Mention -  %s.</string>
-  <string name="status_bar_notification_ticker_text_twitter_mention_null" formatted="false">New Twitter Mention.</string>
-  <string name="status_bar_notification_ticker_text_twitter_follower_request" formatted="false">New Twitter Follower Request from %s - %s.</string>
-  <string name="status_bar_notification_ticker_text_unknown_contact_twitter_follower_request" formatted="false">New Twitter Follower Request -  %s.</string>
-  <string name="status_bar_notification_ticker_text_twitter_follower_request_null" formatted="false">New Twitter Follower Request.</string>
+  <string name="status_bar_notification_ticker_text_twitter_direct_message" formatted="false">Nueva de Twitter Mensaje Directo de %s - %s.</string>
+  <string name="status_bar_notification_ticker_text_unknown_contact_twitter_direct_message" formatted="false">Nueva de Twitter Mensaje Directo - %s.</string>
+  <string name="status_bar_notification_ticker_text_twitter_direct_message_null" formatted="false">Nueva de Twitter Mensaje Directo.</string>
+  <string name="status_bar_notification_ticker_text_twitter_mention" formatted="false">Nueva Mención de Twitter desde %s - %s.</string>
+  <string name="status_bar_notification_ticker_text_unknown_contact_twitter_mention" formatted="false">Nueva Mención de Twitter - %s.</string>
+  <string name="status_bar_notification_ticker_text_twitter_mention_null" formatted="false">Nueva Mención de Twitter.</string>
+  <string name="status_bar_notification_ticker_text_twitter_follower_request" formatted="false">Nueva Solicitud de Twitter Seguidor de %s - %s.</string>
+  <string name="status_bar_notification_ticker_text_unknown_contact_twitter_follower_request" formatted="false">Nueva Solicitud de Twitter Seguidor - %s.</string>
+  <string name="status_bar_notification_ticker_text_twitter_follower_request_null" formatted="false">Nueva Solicitud de Twitter Seguidor.</string>
   <string name="status_bar_notification_ticker_text_facebook_notification" formatted="false">Nueva Notificación de Facebook de %s - %s.</string>
   <string name="status_bar_notification_ticker_text_unknown_contact_facebook_notification" formatted="false">Nueva Notificación de Facebook -  %s.</string>
   <string name="status_bar_notification_ticker_text_facebook_notification_null" formatted="false">Nueva Notificación de Facebook.</string>
-  <string name="status_bar_notification_ticker_text_facebook_friend_request" formatted="false">New Facebook Friend Request from %s - %s.</string>
-  <string name="status_bar_notification_ticker_text_unknown_contact_facebook_friend_request" formatted="false">New Facebook Friend Request -  %s.</string>
-  <string name="status_bar_notification_ticker_text_facebook_friend_request_null" formatted="false">New Facebook Friend Request.</string>
-  <string name="status_bar_notification_ticker_text_facebook_message" formatted="false">New Facebook Message from %s - %s.</string>
-  <string name="status_bar_notification_ticker_text_unknown_contact_facebook_message" formatted="false">New Facebook Message -  %s.</string>
+  <string name="status_bar_notification_ticker_text_facebook_friend_request" formatted="false">Nueva Solicitud de Amistad de Facebook desde %s - %s.</string>
+  <string name="status_bar_notification_ticker_text_unknown_contact_facebook_friend_request" formatted="false">Nueva Solicitud de Amistad de Facebook - %s.</string>
+  <string name="status_bar_notification_ticker_text_facebook_friend_request_null" formatted="false">Nueva Solicitud de Amistad de Facebook.</string>
+  <string name="status_bar_notification_ticker_text_facebook_message" formatted="false">Nuevo Mensaje de Facebook de %s - %s.</string>
+  <string name="status_bar_notification_ticker_text_unknown_contact_facebook_message" formatted="false">Nuevo Mensaje de Facebook - %s.</string>
   <string name="status_bar_notification_ticker_text_facebook_message_null" formatted="false">Nuevo Mensaje de Facebook.</string>
   <string name="status_bar_notification_ticker_text_email" formatted="false">Nuevo correo de %s - %s.</string>
   <string name="status_bar_notification_ticker_text_unknown_contact_email" formatted="false">Nuevo correo electrónico -  %s.</string>
@@ -583,7 +599,7 @@
   <string name="preference_display_text_to_speech_button_title">Mostrar el Botón de Texto a Voz</string>
   <string name="preference_display_text_to_speech_button_summary">Mostrar el botón de texto a voz (TAV) en el encabezado.</string>
   <string name="mark_as_read_text">Marcar como leído</string>
-  <string name="delete_from_call_log_text">Delete From Call Log</string>
+  <string name="delete_from_call_log_text">Eliminar del Registro de Llamadas</string>
   <string name="nothing_text">Nada</string>
   <string name="delete_message_text">Eliminar Mensaje</string>
   <string name="delete_thread_text">Eliminar un Tema</string>
@@ -833,7 +849,7 @@
   <string name="date_format_16_text">2011 Diciembre 31</string>
   <string name="use_preferred_client">Utilice el Cliente Preferido</string>
   <string name="preference_choose_client_title">Seleccione a Cliente Preferido</string>
-  <string name="preference_choose_client_summary">Choose the client that you prefer to use. This client will be used by the application when appropriate.</string>
+  <string name="preference_choose_client_summary">Elija el cliente que prefiere usar. Este cliente será utilizada por la aplicación cuando sea apropiado.</string>
   <string name="launch_twitter_app">Lanzar Twitter App</string>
   <string name="launch_facebook_app">Lanzar Facebook App</string>
   <string name="hootsuite">HootSuite</string>
@@ -848,7 +864,7 @@
   <string name="twicca">Twicca</string>
   <string name="twidroyd_legacy">Twidroyd Legacy</string>
   <string name="twitter">Twitter</string>
-  <string name="twitter_web_mobile">Twitter Web Mobile (http://mobile.twitter.com)</string>
+  <string name="twitter_web_mobile">Twitter Web Móvil (http://mobile.twitter.com)</string>
   <string name="ubersocial">Ubersocial (anteriormente Twidroyd Pro)</string>
   <string name="use_hootsuite">Utilizar HootSuite</string>
   <string name="use_plume">Utilizar Plume</string>

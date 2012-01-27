@@ -27,7 +27,8 @@
 			android:summary="@string/preference_language_summary"
 			android:defaultValue="phone_default"
 			android:entries="@array/language_options"
-			android:entryValues="@array/language_options_values" />
+			android:entryValues="@array/language_options_values"
+        	android:dependency="app_enabled" />
   	</PreferenceCategory>
 	<PreferenceCategory
 		android:key="basic_settings_category"

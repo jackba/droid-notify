@@ -82,14 +82,16 @@
   <string name="preference_language_title">שפה</string>
   <string name="preference_language_summary">בחר את השפה של האפליקציה.</string>
   <string name="phone_default_language">שפת ברירת המחדל של הטלפון</string>
-  <string name="preference_disable_context_menu_title">Disable Context Menu</string>
-  <string name="preference_disable_context_menu_summary">Disable the context menu that is attached to notification headers.</string>
-  <string name="preference_disable_quick_contact_title">Disable Photo Menu</string>
-  <string name="preference_disable_quick_contact_summary">Disable the quick contact menu that is attached to notification photos.</string>
-  <string name="preference_close_app_when_pushed_to_background_title">Close In Background</string>
-  <string name="preference_close_app_when_pushed_to_background_summary">Close the application when it is pushed to the background.</string>
-  <string name="preference_popup_width_padding_title">Popup Width Padding</string>
-  <string name="preference_popup_width_padding_summary">Select the window width padding amount.</string>
+  <string name="preference_disable_context_menu_title">בטל את תפריט ההקשר</string>
+  <string name="preference_disable_context_menu_summary">בטל את תפריט ההקשר המצורף לכותרות ההודעות.</string>
+  <string name="preference_disable_quick_contact_title">בטל את תפריט התמונה</string>
+  <string name="preference_disable_quick_contact_summary">בטל את תפריט אנשי קשר מהיר שאליה מצורפות הודעת תמונות.</string>
+  <string name="preference_close_app_when_pushed_to_background_title">סגור ברקע</string>
+  <string name="preference_close_app_when_pushed_to_background_summary">סגור את האפליקציה כאשר היא נמצאת ברקע.</string>
+  <string name="preference_ignore_linked_apps_when_pushed_to_background_title">Ignore Linked Apps</string>
+  <string name="preference_ignore_linked_apps_when_pushed_to_background_summary">Ignore linked apps when closing the application.</string>
+  <string name="preference_popup_width_padding_title">חלון קופץ של רוחב המרווח</string>
+  <string name="preference_popup_width_padding_summary">בחר את גודל המרווח של רוחב חלון.</string>
   <string name="app_settings_text">הגדרות</string>
   <string name="general_settings_text">הגדרות כלליות</string>
   <string name="basic_settings_text">הגדרות בסיסיות</string>
@@ -99,7 +101,7 @@
   <string name="quick_reply_settings_text">הגדרות תשובה מהירה</string>
   <string name="notification_body_settings_text">הגדרות תוכן התראה</string>
   <string name="notification_header_settings_text">הגדרות כותרת התראה</string>
-  <string name="notification_photo_settings_text">Notification Photo Settings</string>
+  <string name="notification_photo_settings_text">הגדרות התראת תמונה</string>
   <string name="event_body_settings_text">הגדרות תוכן אירוע</string>
   <string name="debug_settings_text">הגדרות איתור באגים</string>
   <string name="preference_debug_log_title">הפעל מצב איתור באגים</string>
@@ -131,8 +133,8 @@
   <string name="preference_display_contact_photo_summaryOff">תמונת איש הקשר לא תוצג.</string>
   <string name="preference_display_contact_name_title">הצג שם איש קשר</string>
   <string name="preference_display_contact_name_summary">הצג את שם איש הקשר בראש ההתראה.</string>
-  <string name="preference_hide_unknown_contact_name_title">Hide Unknown Contact Name</string>
-  <string name="preference_hide_unknown_contact_name_summary">Hide the contact name if it is unknown.</string>
+  <string name="preference_hide_unknown_contact_name_title">הסתר שם איש קשר לא ידוע</string>
+  <string name="preference_hide_unknown_contact_name_summary">הסתר את שם איש הקשר אם לא ידוע.</string>
   <string name="preference_contact_name_font_size_title">גודל גופן שם איש קשר</string>
   <string name="preference_contact_name_font_size_summary">בחר את גודל הגופן של טקסט שם איש הקשר.</string>
   <string name="preference_display_contact_number_title">הצג מספר איש קשר</string>
@@ -206,6 +208,7 @@
   <string name="preference_sms_timestamp_adjustment_title">התאמת סוג זמן הודעות</string>
   <string name="preference_sms_timestamp_adjustment_summary">כמה טלפונים/מיקומים יכולים להציג סוגי זמנים לא נכונים. השתמש בהגדרה הזו כדי להציג סוג זמן להודעות.</string>
   <string name="preference_sms_time_is_utc_summary">בדוק אופציה זו אם חותמת הזמן עבור הודעת SMS נכנסות ב- UTC. (זה עשוי לתקן הודעה שגויה בזמני התראות)</string>
+  <string name="view_mms_button_text">הצג מולטימדיה</string>
   <string name="preference_mms_enabled_title">אפשר מולטימדיה</string>
   <string name="preference_mms_enabled_summaryOn">התראות מולטימדיה מאופשרות.</string>
   <string name="preference_mms_enabled_summaryOff">התראות מולטימדיה מבוטלות.</string>
@@ -223,7 +226,7 @@
   <string name="preference_mms_timestamp_adjustment_title">התאמת סוג הזמן להודעת מולטימדיה</string>
   <string name="preference_mms_timestamp_adjustment_summary">כמה טלפונים/מיקומים יכולים להציג סוגי זמנים לא נכונים. השתמש בהגדרה הזו כדי להציג סוג זמן להודעות מולטימדיה.</string>
   <string name="mms_click_here_to_view">[לחץ כאן כדי להציג הודעת מולטימדיה]</string>
-  <string name="view_mms_button_text">הצג מולטימדיה</string>
+  <string name="private_number_text">Private Number</string>
   <string name="call_button_text">חייג</string>
   <string name="call_contact_text">חייג לאיש קשר</string>
   <string name="view_call_log_text">הצג יומן שיחות</string>
@@ -267,6 +270,10 @@
   <string name="preference_calendar_reminders_enabled_summaryOff">לא תישלח תזכורת לפני שהאירוע בלוח השנה יקרה.</string>
   <string name="preference_calendar_event_body_font_size_title">גודל גופן של טקסט אירוע</string>
   <string name="preference_calendar_event_body_font_size_summary">בחר את גודל הגופן שאתה רוצה להשתמש כאשר מוצג טקסט האירוע.</string>
+  <string name="preference_calendar_refresh_title">Refresh Calendar Alarms</string>
+  <string name="preference_calendar_refresh_summary">Manually reschedule the calendar events.</string>
+  <string name="reading_calendar_data">Reading Calendar Data...</string>
+  <string name="calendar_data_refreshed">Your calendar events have been read and alarms refreshed.</string>
   <string name="preference_twitter_notifications">התראות טוויטר</string>
   <string name="preference_twitter_enabled_title">אפשר טוויטר</string>
   <string name="preference_twitter_enabled_summaryOn">התראות טוויטר מאופשרות.</string>
@@ -287,6 +294,10 @@
   <string name="twitter_authentication_data_cleared">אימות הנתונים של טוויטר נוקו.</string>
   <string name="twitter_following_request" formatted="false">%s (@%s) ביקש לעקוב אחריך בטוויטר!</string>
   <string name="open_twitter_app_text">פתח את אפליקצית טוויטר</string>
+  <string name="preference_twitter_manual_poll_title">Read Twitter Account</string>
+  <string name="preference_twitter_manual_poll_summary">Manually read Twitter account and display notifications.</string>
+  <string name="reading_twitter_account">Reading Twitter Account...</string>
+  <string name="twitter_account_read">Your Twitter account has been read and notifications created.</string>
   <string name="preference_facebook_notifications">התראות פייסבוק</string>
   <string name="preference_facebook_enabled_title">אפשר פייסבוק</string>
   <string name="preference_facebook_enabled_summaryOn">התראות פייסבוק מאופשרות.</string>
@@ -304,6 +315,11 @@
   <string name="facebook_authentication_data_cleared">אימות הנתונים של פייסבוק נוקו.</string>
   <string name="open_facebook_app_text">פתח את אפליקצית פייסבוק</string>
   <string name="preference_facebook_polling_frequency_summary">באיזו תדירות אתה רוצה לקרוא את החשבון הפייסבוק שלך?</string>
+  <string name="facebook_new_friend_request_from">You have a new Facebook Friend Request from</string>
+  <string name="preference_facebook_manual_poll_title">Read Facebook Account</string>
+  <string name="preference_facebook_manual_poll_summary">Manually read Facebook account and display notifications.</string>
+  <string name="reading_facebook_account">Reading Facebook Account...</string>
+  <string name="facebook_account_read">Your Facebook account has been read and notifications created.</string>
   <string name="preference_linkedin_notifications">מאפייני התראות</string>
   <string name="preference_linkedin_enabled_title">אפשר LinkedIn</string>
   <string name="preference_linkedin_enabled_summaryOn">התראות LinkedIn זמינים.</string>
@@ -327,8 +343,8 @@
   <string name="preference_k9_message_body_font_size_summary">בחר את גודל הגופן שאתה רוצה להשתמש כאשר מוצג תוכן הדוא\"ל.</string>
   <string name="preference_k9_notifications">התראות K-9 Email</string>
   <string name="preference_polling_frequency">תדירות סקירה</string>
-  <string name="preference_ignore_class_0_messages_title">Ignore Class 0 Messages</string>
-  <string name="preference_ignore_class_0_messages_summary">Ignore Flash SMS Messages AKA Class 0 Messages</string>
+  <string name="preference_ignore_class_0_messages_title">להתעלם מחלקה 0 הודעות</string>
+  <string name="preference_ignore_class_0_messages_summary">התעלם מהבזק הודעות SMS AKA מחלקה 0 הודעות</string>
   <string name="view_contact_text">הצג איש קשר</string>
   <string name="add_contact_text">הוסף איש קשר</string>
   <string name="text_contact_text">טקסט איש קשר</string>
@@ -848,7 +864,7 @@
   <string name="twicca">Twicca</string>
   <string name="twidroyd_legacy">Twidroyd ירושת</string>
   <string name="twitter">טוויטר</string>
-  <string name="twitter_web_mobile">Twitter Web Mobile (http://mobile.twitter.com)</string>
+  <string name="twitter_web_mobile">כתובת טוויטר לנייד (http://mobile.twitter.com)</string>
   <string name="ubersocial">Ubersocial (formerly Twidroyd Pro)</string>
   <string name="use_hootsuite">השתמש ב HootSuite</string>
   <string name="use_plume">השתמש ב Plume</string>
@@ -862,11 +878,11 @@
   <string name="use_twicca">השתמש ב Twicca</string>
   <string name="use_twidroyd_legacy">השתמש ב Twidroyd Legacy</string>
   <string name="use_twitter">השתמש בטוויטר</string>
-  <string name="use_twitter_web_mobile">Use Twitter Web Mobile (http://mobile.twitter.com)</string>
+  <string name="use_twitter_web_mobile">השתמש בכתובת טוויטר לנייד (http://mobile.twitter.com)</string>
   <string name="use_ubersocial">השתמש ב Ubersocial (formerly Twidroyd Pro)</string>
   <string name="facebook">פייסבוק</string>
-  <string name="facebook_web_mobile">Facebook Web Mobile (http://m.facebook.com)</string>
-  <string name="fbm_for_facebook">FBM for Facebook</string>
+  <string name="facebook_web_mobile">כתובת פייסבוק לנייד (http://m.facebook.com)</string>
+  <string name="fbm_for_facebook">FBM לפייסבוק</string>
   <string name="friendCaster_for_facebook">זירת חברים של פייסבוק</string>
   <string name="friendCaster_pro_for_facebook">זירת חברים מלאה של פייסבוק</string>
 </resources>

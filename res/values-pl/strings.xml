@@ -83,13 +83,15 @@
   <string name="preference_language_summary">Wybierz język aplikacji.</string>
   <string name="phone_default_language">Domyślny język telefonu</string>
   <string name="preference_disable_context_menu_title">Wyłącz menu kontekstowe</string>
-  <string name="preference_disable_context_menu_summary">Wyłącza menu kontekstowe związane z nagłówkami powiadomień.</string>
-  <string name="preference_disable_quick_contact_title">Wyłącz menu zdjęć</string>
-  <string name="preference_disable_quick_contact_summary">Wyłącza menu kontaktów związane ze zdjęciami w oknie powiadomień.</string>
-  <string name="preference_close_app_when_pushed_to_background_title">Zamknij, jeśli w tle</string>
-  <string name="preference_close_app_when_pushed_to_background_summary">Zamyka aplikację jeśli została uruchomiona w tle.</string>
-  <string name="preference_popup_width_padding_title">Szerokość okna powiadomień</string>
-  <string name="preference_popup_width_padding_summary">Ustaw szerokość okna powiadomień.</string>
+  <string name="preference_disable_context_menu_summary">Wyłącza menu kontekstowe w oknach powiadomień.</string>
+  <string name="preference_disable_quick_contact_title">Wyłącz menu kontekstowe obrazka kontaktu</string>
+  <string name="preference_disable_quick_contact_summary">Wyłącza menu kontekstowe wyświetlane po kliknięciu na obrazek kontaktu.</string>
+  <string name="preference_close_app_when_pushed_to_background_title">Zamknij, jeśli uruchomiono w tle</string>
+  <string name="preference_close_app_when_pushed_to_background_summary">Zamyka okno powiadomienia, jeśli aplikacja została uruchomiona w tle.</string>
+  <string name="preference_ignore_linked_apps_when_pushed_to_background_title">Ignoruj powiązane aplikacje</string>
+  <string name="preference_ignore_linked_apps_when_pushed_to_background_summary">Ignoruje powiązane aplikacje podczas zamykania aplikacji.</string>
+  <string name="preference_popup_width_padding_title">Szerokość i odstępy okna powiadomień</string>
+  <string name="preference_popup_width_padding_summary">Ustaw szerokość i odstępy dla okna powiadomień.</string>
   <string name="app_settings_text">Ustawienia</string>
   <string name="general_settings_text">Ustawienia ogólne</string>
   <string name="basic_settings_text">Ustawienia podstawowe</string>
@@ -99,7 +101,7 @@
   <string name="quick_reply_settings_text">Ustawienia Szybkiej Odpowiedzi</string>
   <string name="notification_body_settings_text">Ustawienia treści powiadomień</string>
   <string name="notification_header_settings_text">Ustawienia nagłowka powiadomień</string>
-  <string name="notification_photo_settings_text">Ustawienia zdjęć powiadomień</string>
+  <string name="notification_photo_settings_text">Ustawienia obrazka okna powiadomień</string>
   <string name="event_body_settings_text">Ustawienia treści</string>
   <string name="debug_settings_text">Ustawienia debugowania</string>
   <string name="preference_debug_log_title">Włącz tryb debugowania</string>
@@ -132,7 +134,7 @@
   <string name="preference_display_contact_name_title">Wyświetl nazwę kontaktu</string>
   <string name="preference_display_contact_name_summary">Nazwa kontaktu będzie wyświetlana w nagłówku powiadomienia.</string>
   <string name="preference_hide_unknown_contact_name_title">Ukryj nazwę nieznanego kontaktu</string>
-  <string name="preference_hide_unknown_contact_name_summary">Ukryj nazwę kontaktu gdy jest nieznany.</string>
+  <string name="preference_hide_unknown_contact_name_summary">Ukrywa nazwę nieznanego kontaktu w oknie powiadomień.</string>
   <string name="preference_contact_name_font_size_title">Rozmiar czcionki nazwy kontaktu</string>
   <string name="preference_contact_name_font_size_summary">Wybierz rozmiar czcionki nazwy kontaktu.</string>
   <string name="preference_display_contact_number_title">Wyświetl numer kontaktu</string>
@@ -206,6 +208,7 @@
   <string name="preference_sms_timestamp_adjustment_title">Korekta czasów dla SMS</string>
   <string name="preference_sms_timestamp_adjustment_summary">Niektóre telefony/lokalizacje mogą powodować nieprawidłowe wyświetlanie czasów wiadomości. Użyj tej funkcji aby skorygować te czasy na prawidłowe.</string>
   <string name="preference_sms_time_is_utc_summary">Ustaw jeśli czas nadejścia SMS jest w formacie UTC. (Naprawia błędne wyświetlanie czasów w oknie powiadomień)</string>
+  <string name="view_mms_button_text">Pokaż MMS</string>
   <string name="preference_mms_enabled_title">Włącz obsługę MMS</string>
   <string name="preference_mms_enabled_summaryOn">Powiadomienia dla MMS są włączone.</string>
   <string name="preference_mms_enabled_summaryOff">Powiadomienia dla MMS są włączone.</string>
@@ -223,7 +226,7 @@
   <string name="preference_mms_timestamp_adjustment_title">Korekta czasów dla MMS</string>
   <string name="preference_mms_timestamp_adjustment_summary">Niektóre telefony/lokalizacje mogą powodować nieprawidłowe wyświetlanie czasów wiadomości. Użyj tej funkcji aby skorygować te czasy na prawidłowe.</string>
   <string name="mms_click_here_to_view">[Kliknij tutaj aby zobaczyć wiadomość MMS]</string>
-  <string name="view_mms_button_text">Pokaż MMS</string>
+  <string name="private_number_text">Numer prywatny</string>
   <string name="call_button_text">Zadzwoń</string>
   <string name="call_contact_text">Zadzwoń do kontaktu</string>
   <string name="view_call_log_text">Pokaż rejestr połączeń</string>
@@ -267,6 +270,10 @@
   <string name="preference_calendar_reminders_enabled_summaryOff">Powiadomienie nie będzie wysyłane przez wystapieniem zdarzenia.</string>
   <string name="preference_calendar_event_body_font_size_title">Rozmiar czcionki tekstu zdarzenia</string>
   <string name="preference_calendar_event_body_font_size_summary">Wybierz rozmiar czcionki dla tekstu powiadomień zdarzenia z kalendarza.</string>
+  <string name="preference_calendar_refresh_title">Odśwież alarmy kalendarza</string>
+  <string name="preference_calendar_refresh_summary">Rozplanuj zdarzenia z kalendarza.</string>
+  <string name="reading_calendar_data">Odczytywanie danych kalendarza...</string>
+  <string name="calendar_data_refreshed">Twoje zdarzenia z kalendarza zostały odczytane i alarmy zostały odświeżone.</string>
   <string name="preference_twitter_notifications">Powiadomienia Twittera</string>
   <string name="preference_twitter_enabled_title">Włącz obsługę Twittera</string>
   <string name="preference_twitter_enabled_summaryOn">Powiadomienia Twittera są włączone.</string>
@@ -287,6 +294,10 @@
   <string name="twitter_authentication_data_cleared">Dane logowania Twittera zostały wyczyszczone.</string>
   <string name="twitter_following_request" formatted="false">%s (@%s) wysłał żądanie by śledzić ciebie na Twitterze!</string>
   <string name="open_twitter_app_text">Uruchom Twittera</string>
+  <string name="preference_twitter_manual_poll_title">Odczytaj konto Twitter</string>
+  <string name="preference_twitter_manual_poll_summary">Odczytuje konto Twittera i wyświetla powiadomienia.</string>
+  <string name="reading_twitter_account">Odczytywanie konta Twitter...</string>
+  <string name="twitter_account_read">Twoje konto Twitter zostało odczytane i powiadomienia zostały utworzone.</string>
   <string name="preference_facebook_notifications">Powiadomienia Facebooka</string>
   <string name="preference_facebook_enabled_title">Włącz obsługę Facebook</string>
   <string name="preference_facebook_enabled_summaryOn">Powiadomienia Facebooka są włączone.</string>
@@ -304,6 +315,11 @@
   <string name="facebook_authentication_data_cleared">Dane logowania do Facebooka zostały usunięte.</string>
   <string name="open_facebook_app_text">Uruchom Facebooka</string>
   <string name="preference_facebook_polling_frequency_summary">Jak często chcesz odczytywać dane z Facebooka?</string>
+  <string name="facebook_new_friend_request_from">Masz nowe zaproszenie do grona przyjaciół na Facebooku od</string>
+  <string name="preference_facebook_manual_poll_title">Odczytywanie konta Facebook</string>
+  <string name="preference_facebook_manual_poll_summary">Odczytuje konto Facebooka i wyświetla powiadomienia.</string>
+  <string name="reading_facebook_account">Odczytywanie konta Facebook...</string>
+  <string name="facebook_account_read">Twoje konto Facebook zostało odczytane i powiadomienia zostały utworzone.</string>
   <string name="preference_linkedin_notifications">Powiadomienia LinkedIn</string>
   <string name="preference_linkedin_enabled_title">Włącz obsługę LinkedIn</string>
   <string name="preference_linkedin_enabled_summaryOn">Powiadomienia LinkedIn są włączone.</string>
@@ -327,7 +343,7 @@
   <string name="preference_k9_message_body_font_size_summary">Wybierz rozmiar czcionki tekstu z tekstem wiadomości w oknie powiadomienia.</string>
   <string name="preference_k9_notifications">Powiadomienia K-9 Email</string>
   <string name="preference_polling_frequency">Częstotliwość sprawdzania</string>
-  <string name="preference_ignore_class_0_messages_title">Ignoruj wiadomości klasy 0</string>
+  <string name="preference_ignore_class_0_messages_title">Ignoruj SMSy klasy 0</string>
   <string name="preference_ignore_class_0_messages_summary">Ignoruj SMSy typu FLASH (klasa 0)</string>
   <string name="view_contact_text">Pokaż kontakt</string>
   <string name="add_contact_text">Dodaj kontakt</string>
@@ -867,7 +883,7 @@ Przykład:
   <string name="use_twicca">Użyj Twicca</string>
   <string name="use_twidroyd_legacy">Użyj Twidroyd Legacy</string>
   <string name="use_twitter">Użyj Twitter</string>
-  <string name="use_twitter_web_mobile">Używaj Mobilnej Sieci Twitter (http://mobile.twitter.com)</string>
+  <string name="use_twitter_web_mobile">Użyj Mobilnej Sieci Twitter (http://mobile.twitter.com)</string>
   <string name="use_ubersocial">Użyj Ubersocial (poprzednio Twidroyd Pro)</string>
   <string name="facebook">Facebook</string>
   <string name="facebook_web_mobile">Mobilna Sieć Facebook (http://m.facebook.com)</string>
