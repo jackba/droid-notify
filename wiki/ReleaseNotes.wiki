@@ -11,6 +11,7 @@
  * Added a "View" button to Twitter notifications.
  * Fixed a Facebook Message bug.
  * Added a few more user preferences.
+ * Fixed a Kaiten Mail integration problem.
  * Small bug fixes.
  * Updated translations.
 
