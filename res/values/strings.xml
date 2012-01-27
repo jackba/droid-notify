@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Notification View Strings -->
+    <string name="dismiss">Dismiss</string> 
+    <string name="delete">Delete</string>
+    <string name="call">Call</string>
+    <string name="reply">Reply</string>
+    <string name="view">View</string>
+    
 	<!-- App Strings -->
 	<string name="app_name_formatted_version">Droid Notify v%s</string>
 	<string name="app_name_basic_formatted_version">Droid Notify Basic v%s</string>
