@@ -238,8 +238,8 @@ public class TwitterCommon {
 			for(long followerID: followerIDs){
         		Bundle twitterFollowerRequestNotificationBundleSingle = new Bundle();
         		bundleCount++;
-				long timeStamp = 0;
-				long followerRequestID = 0;
+				long timeStamp = -1;
+				long followerRequestID = -1;
 		    	User twitterUser = twitter.showUser(followerID);
 		    	String twitterScreenName = twitterUser.getScreenName();
 		    	String twitterName = twitterUser.getName();
@@ -297,7 +297,7 @@ public class TwitterCommon {
 	public static Bundle getContactInfoByTwitterID(Context context, long twitterID){
 		_debug = Log.getDebug();;
 		if (_debug) Log.v("TwitterCommon.getContactInfoByTwitterID()");
-		if (twitterID == 0) {
+		if (twitterID < 0) {
 			if (_debug) Log.v("TwitterCommon.getContactInfoByTwitterID() Twitter ID provided is 0. Exiting...");
 			return null;
 		}
@@ -371,8 +371,8 @@ public class TwitterCommon {
 		if (_debug) Log.v("TwitterCommon.deleteTwitterDirectMessage()");
 		try{
 			_context = context;
-			if(messageID == 0){
-				if (_debug) Log.v("TwitterCommon.deleteTwitterDirectMessage() messageID == 0. Exiting...");
+			if(messageID < 0){
+				if (_debug) Log.v("TwitterCommon.deleteTwitterDirectMessage() messageID < 0. Exiting...");
 				return;
 			}
 			new deleteTwitterDirectMessageAsyncTask().execute(messageID);
@@ -460,7 +460,7 @@ public class TwitterCommon {
 	public static boolean startTwitterQuickReplyActivity(Context context, NotificationActivity notificationActivity, int requestCode, long sendToID, String sendTo, String name, int notificationSubType){
 		_debug = Log.getDebug();
 		if (_debug) Log.v("TwitterCommon.startTwitterQuickReplyActivity()");
-		if(sendToID == 0){
+		if(sendToID < 0){
 			Toast.makeText(context, context.getString(R.string.app_quick_reply_address_error), Toast.LENGTH_LONG).show();
 			return false;
 		}

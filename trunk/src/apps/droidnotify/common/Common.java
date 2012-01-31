@@ -172,9 +172,9 @@ public class Common {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.getContactsInfoByPhoneNumber()");
 		Bundle contactInfoBundle = new Bundle();
-		long contactID = 0;
+		long contactID = -1;
 		String contactName = "";
-		long photoID = 0;
+		long photoID = -1;
 		String lookupKey = "";
 		boolean contactExists = false;
 		if (incomingNumber == null) {
@@ -230,9 +230,9 @@ public class Common {
 				if(contactExists) break;
 		   	}
 			cursor.close();
-			if(contactID != 0) contactInfoBundle.putLong(Constants.BUNDLE_CONTACT_ID, contactID);
+			if(contactID >= 0) contactInfoBundle.putLong(Constants.BUNDLE_CONTACT_ID, contactID);
 			if(contactName != null) contactInfoBundle.putString(Constants.BUNDLE_CONTACT_NAME, contactName);
-			if(photoID != 0) contactInfoBundle.putLong(Constants.BUNDLE_PHOTO_ID, photoID);
+			if(photoID >= 0) contactInfoBundle.putLong(Constants.BUNDLE_PHOTO_ID, photoID);
 			if(lookupKey != null) contactInfoBundle.putString(Constants.BUNDLE_LOOKUP_KEY, lookupKey);
 			return contactInfoBundle;
 		}catch(Exception ex){
@@ -253,9 +253,9 @@ public class Common {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.getContactsInfoByEmail()");
 		Bundle contactInfoBundle = new Bundle();
-		long contactID = 0;
+		long contactID = -1;
 		String contactName = "";
-		long photoID = 0;
+		long photoID = -1;
 		String lookupKey = "";
 		boolean contactExists = false;
 		if (incomingEmail == null) {
@@ -310,9 +310,9 @@ public class Common {
                 if(contactExists) break;
 		   	}
 			cursor.close();
-			if(contactID != 0) contactInfoBundle.putLong(Constants.BUNDLE_CONTACT_ID, contactID);
+			if(contactID >= 0) contactInfoBundle.putLong(Constants.BUNDLE_CONTACT_ID, contactID);
 			if(contactName != null) contactInfoBundle.putString(Constants.BUNDLE_CONTACT_NAME, contactName);
-			if(photoID != 0) contactInfoBundle.putLong(Constants.BUNDLE_PHOTO_ID, photoID);
+			if(photoID >= 0) contactInfoBundle.putLong(Constants.BUNDLE_PHOTO_ID, photoID);
 			if(lookupKey != null) contactInfoBundle.putString(Constants.BUNDLE_LOOKUP_KEY, lookupKey);
 			return contactInfoBundle;
 		}catch(Exception ex){
@@ -333,9 +333,9 @@ public class Common {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.getContactsInfoByName() IncomingName: " + incomingName);
 		Bundle contactInfoBundle = new Bundle();
-		long contactID = 0;
+		long contactID = -1;
 		String contactName = "";
-		long photoID = 0;
+		long photoID = -1;
 		String lookupKey = "";
 		if (incomingName == null || incomingName.equals("")) {
 			if (_debug) Log.v("Common.getContactsInfoByName() Name provided is null or empty. Exiting...");
@@ -364,9 +364,9 @@ public class Common {
 				break;
 		   	}
 			cursor.close();
-			if(contactID != 0) contactInfoBundle.putLong(Constants.BUNDLE_CONTACT_ID, contactID);
+			if(contactID >= 0) contactInfoBundle.putLong(Constants.BUNDLE_CONTACT_ID, contactID);
 			if(contactName != null) contactInfoBundle.putString(Constants.BUNDLE_CONTACT_NAME, contactName);
-			if(photoID != 0) contactInfoBundle.putLong(Constants.BUNDLE_PHOTO_ID, photoID);
+			if(photoID >= 0) contactInfoBundle.putLong(Constants.BUNDLE_PHOTO_ID, photoID);
 			if(lookupKey != null) contactInfoBundle.putString(Constants.BUNDLE_LOOKUP_KEY, lookupKey);
 			return contactInfoBundle;
 		}catch(Exception ex){
@@ -389,7 +389,7 @@ public class Common {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.startContactViewActivity()");
 		try{
-			if(contactID == 0){
+			if(contactID < 0){
 				Toast.makeText(context, context.getString(R.string.app_android_contact_not_found_error), Toast.LENGTH_LONG).show();
 				return false;
 			}
@@ -422,7 +422,7 @@ public class Common {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.startContactEditActivity()");
 		try{
-			if(contactID == 0){
+			if(contactID < 0){
 				Toast.makeText(context, context.getString(R.string.app_android_contact_not_found_error), Toast.LENGTH_LONG).show();
 				setInLinkedAppFlag(context, false);
 				return false;
@@ -613,7 +613,7 @@ public class Common {
 			String LED_PATTERN_CUSTOM_KEY = null;
 			String ICON_ID = null;
 			String ICON_DEFAULT = null;
-			int icon = 0;
+			int icon = -1;
 			CharSequence tickerText = null;
 			CharSequence contentTitle = null;
 			CharSequence contentText = null;
@@ -914,7 +914,7 @@ public class Common {
 								tickerText = context.getString(R.string.status_bar_notification_ticker_text_twitter_follower_request, sentFromContactName, message);
 							}
 						}
-				    	if(TwitterCommon.isUsingClientWeb(_context)){
+				    	if(TwitterCommon.isUsingClientWeb(context)){
 				    		if(linkURL == null){
 				    			notificationContentIntent = TwitterCommon.getTwitterAppActivityIntent(context);
 				    		}else{
@@ -1003,7 +1003,7 @@ public class Common {
 								tickerText = context.getString(R.string.status_bar_notification_ticker_text_facebook_message, sentFromContactName, message);
 							}
 						}
-				    	if(FacebookCommon.isUsingClientWeb(_context)){
+				    	if(FacebookCommon.isUsingClientWeb(context)){
 				    		if(linkURL == null){
 				    			notificationContentIntent = FacebookCommon.getFacebookAppActivityIntent(context);
 				    		}else{
@@ -1637,7 +1637,7 @@ public class Common {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.formatTimestamp()");
 		try{
-			if(inputTimestamp == 0){
+			if(inputTimestamp < 0){
 				return "";
 			}
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -1839,65 +1839,7 @@ public class Common {
 	public static PendingIntent rescheduleNotification(Context context, apps.droidnotify.Notification notification, long rescheduleTime, int rescheduleNumber){
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.rescheduleNotification()");
-		//Store the notification information into a Bundle
 		int notificationType = notification.getNotificationType() + 100;
-		
-		
-		
-//		//Get Notification Values.
-//		//========================================================
-//		//String[] Values:
-//		//[0]-notificationType
-//		//[1]-SentFromAddress
-//		//[2]-MessageBody
-//		//[3]-TimeStamp
-//		//[4]-ThreadID
-//		//[5]-ContactID
-//		//[6]-ContactName
-//		//[7]-MessageID
-//		//[8]-Title
-//		//[9]-CalendarID
-//		//[10]-CalendarEventID
-//		//[11]-CalendarEventStartTime
-//		//[12]-CalendarEventEndTime
-//		//[13]-AllDay
-//		//[14]-CallLogID
-//		//[15]-K9EmailUri
-//		//[16]-K9EmailDelUri
-//		//[17]-LookupKey
-//		//[18]-PhotoID
-//		//[19]-NotificationSubType
-//		//[20]-MessageStringID
-//		//========================================================		
-//		String sentFromAddress = notification.getSentFromAddress();
-//		String messageBody = notification.getMessageBody();
-//		long timeStamp = notification.getTimeStamp();
-//		long threadID = notification.getThreadID();
-//		long contactID = notification.getContactID();
-//		String contactName = notification.getContactName();
-//		long messageID = notification.getMessageID();
-//		String title = notification.getTitle();
-//		long calendarID = notification.getCalendarID();
-//		long calendarEventID = notification.getCalendarEventID();
-//		long calendarEventStartTime = notification.getCalendarEventStartTime();
-//		long calendarEventEndTime = notification.getCalendarEventEndTime();
-//		String allDay = "0";
-//		if(notification.getAllDay()){
-//			allDay = "1";
-//		}
-//		long callLogID = notification.getCallLogID();
-//		String k9EmailUri = notification.getK9EmailUri();
-//		String k9EmailDelUri = notification.getK9EmailDelUri();
-//		String lookupKey = notification.getLookupKey();
-//		long photoID = notification.getPhotoID();
-//		int notificationSubType = notification.getNotificationSubType();
-//		String messageStringID = notification.getMessageStringID();
-//		//Build Notification Information String Array.
-//		String[] rescheduleNotificationInfo = new String[] {String.valueOf(notificationType), sentFromAddress, messageBody, String.valueOf(timeStamp), String.valueOf(threadID), String.valueOf(contactID), contactName, String.valueOf(messageID), title, String.valueOf(calendarID), String.valueOf(calendarEventID), String.valueOf(calendarEventStartTime), String.valueOf(calendarEventEndTime), allDay, String.valueOf(callLogID), k9EmailUri, k9EmailDelUri, lookupKey, String.valueOf(photoID), String.valueOf(notificationSubType), messageStringID};
-		
-		
-		
-		
 		
 		Bundle rescheduleNotificationBundle = new Bundle();
 		rescheduleNotificationBundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_1", notification.getNotificationBundle());
@@ -1926,7 +1868,6 @@ public class Common {
 	public static boolean isQuietTime(Context context){
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.isQuietTime()");
-		_context = context;
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		if(preferences.getBoolean(Constants.QUIET_TIME_ENABLED_KEY, false)){
 			Calendar calendar = new GregorianCalendar();
@@ -2275,29 +2216,29 @@ public class Common {
 	public static Bundle createNotificationBundle(String sentFromAddress, long sentFromID, String messageBody, long timeStamp, long threadID, long contactID, String contactName, long photoID, int notificationType, long messageID, String messageStringID, String title, long calendarID, long calendarEventID, long calendarEventStartTime, long calendarEventEndTime, String calendarName, boolean allDay, long callLogID, String lookupKey, String k9EmailUri, String k9EmailDelUri, int rescheduleNumber, int notificationSubType, String linkURL){
 		Bundle notificationBundle = new Bundle();		
 		if(sentFromAddress != null) notificationBundle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, sentFromAddress);
-		if(sentFromID != 0) notificationBundle.putLong(Constants.BUNDLE_SENT_FROM_ID, sentFromID);
+		if(sentFromID >= 0) notificationBundle.putLong(Constants.BUNDLE_SENT_FROM_ID, sentFromID);
 		if(messageBody != null) notificationBundle.putString(Constants.BUNDLE_MESSAGE_BODY, messageBody);
-		if(timeStamp != 0) notificationBundle.putLong(Constants.BUNDLE_TIMESTAMP, timeStamp);
-		if(threadID != 0) notificationBundle.putLong(Constants.BUNDLE_THREAD_ID, threadID);
-		if(contactID != 0) notificationBundle.putLong(Constants.BUNDLE_CONTACT_ID, contactID);
+		if(timeStamp >= 0) notificationBundle.putLong(Constants.BUNDLE_TIMESTAMP, timeStamp);
+		if(threadID >= 0) notificationBundle.putLong(Constants.BUNDLE_THREAD_ID, threadID);
+		if(contactID >= 0) notificationBundle.putLong(Constants.BUNDLE_CONTACT_ID, contactID);
 		if(contactName != null) notificationBundle.putString(Constants.BUNDLE_CONTACT_NAME, contactName);
-		if(photoID != 0) notificationBundle.putLong(Constants.BUNDLE_PHOTO_ID, photoID);
-		if(notificationType != 0) notificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, notificationType);
-		if(messageID != 0) notificationBundle.putLong(Constants.BUNDLE_MESSAGE_ID, messageID);
+		if(photoID >= 0) notificationBundle.putLong(Constants.BUNDLE_PHOTO_ID, photoID);
+		if(notificationType >= 0) notificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, notificationType);
+		if(messageID >= 0) notificationBundle.putLong(Constants.BUNDLE_MESSAGE_ID, messageID);
 		if(messageStringID != null) notificationBundle.putString(Constants.BUNDLE_MESSAGE_STRING_ID, messageStringID);
 		if(title != null) notificationBundle.putString(Constants.BUNDLE_TITLE, title);
-		if(calendarID != 0) notificationBundle.putLong(Constants.BUNDLE_CALENDAR_ID, calendarID);
-		if(calendarEventID != 0) notificationBundle.putLong(Constants.BUNDLE_CALENDAR_EVENT_ID, calendarEventID);
-		if(calendarEventStartTime != 0) notificationBundle.putLong(Constants.BUNDLE_CALENDAR_EVENT_START_TIME, calendarEventStartTime);
-		if(calendarEventEndTime != 0) notificationBundle.putLong(Constants.BUNDLE_CALENDAR_EVENT_END_TIME, calendarEventEndTime);
+		if(calendarID >= 0) notificationBundle.putLong(Constants.BUNDLE_CALENDAR_ID, calendarID);
+		if(calendarEventID >= 0) notificationBundle.putLong(Constants.BUNDLE_CALENDAR_EVENT_ID, calendarEventID);
+		if(calendarEventStartTime >= 0) notificationBundle.putLong(Constants.BUNDLE_CALENDAR_EVENT_START_TIME, calendarEventStartTime);
+		if(calendarEventEndTime >= 0) notificationBundle.putLong(Constants.BUNDLE_CALENDAR_EVENT_END_TIME, calendarEventEndTime);
 		if(calendarName != null) notificationBundle.putString(Constants.BUNDLE_CALENDAR_NAME, calendarName);
 		notificationBundle.putBoolean(Constants.BUNDLE_ALL_DAY, allDay);
-		if(callLogID != 0) notificationBundle.putLong(Constants.BUNDLE_CALL_LOG_ID, callLogID);
+		if(callLogID >= 0) notificationBundle.putLong(Constants.BUNDLE_CALL_LOG_ID, callLogID);
 		if(lookupKey != null) notificationBundle.putString(Constants.BUNDLE_LOOKUP_KEY, lookupKey);
 		if(k9EmailUri != null) notificationBundle.putString(Constants.BUNDLE_K9_EMAIL_URI, k9EmailUri);
 		if(k9EmailDelUri != null) notificationBundle.putString(Constants.BUNDLE_K9_EMAIL_DEL_URI, k9EmailDelUri);
-		if(rescheduleNumber != 0) notificationBundle.putInt(Constants.BUNDLE_RESCHEDULE_NUMBER, rescheduleNumber);
-		if(notificationSubType != 0) notificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, notificationSubType);
+		if(rescheduleNumber > 0) notificationBundle.putInt(Constants.BUNDLE_RESCHEDULE_NUMBER, rescheduleNumber);
+		if(notificationSubType >= 0) notificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, notificationSubType);
 		if(linkURL != null) notificationBundle.putString(Constants.BUNDLE_LINK_URL, linkURL);
 		return notificationBundle;
 	}

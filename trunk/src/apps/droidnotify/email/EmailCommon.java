@@ -41,11 +41,11 @@ public class EmailCommon {
 		if (_debug) Log.v("EmailCommon.getK9MessagesFromIntent() intentAction: " + intentAction + ":");
 		Bundle k9NotificationBundle = new Bundle();
 		int bundleCount = 0;
-    	long timeStamp = 0;
+    	long timeStamp = -1;
     	String sentFromAddress = null;
     	String messageBody = null;
     	String messageSubject = null;
-    	long messageID = 0;
+    	long messageID = -1;
 		String k9EmailUri = null;
 		String k9EmailDelUri = null;
 		Date sentDate = null;

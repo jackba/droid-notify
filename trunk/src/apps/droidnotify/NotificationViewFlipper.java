@@ -191,11 +191,11 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 * Return the active Notification.
 	 * The active Notification is the current message.
 	 * 
-	 * @return Notification - The Notification that is the current Notification.
+	 * @return Notification - The current Notification or null if no notifications exist.
 	 */	
 	public Notification getActiveNotification(){
 		if (_debug) Log.v("NotificationViewFlipper.getActiveMessage()");
-		return _notifications.get(_currentNotification);
+		return _totalNotifications > 0 ? _notifications.get(_currentNotification) : null;
 	}
 
 	/**

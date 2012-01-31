@@ -410,18 +410,6 @@ public class NotificationActivity extends Activity {
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_FACEBOOK:{
-				//if(_preferences.getString(Constants.FACEBOOK_DELETE_KEY, "0").equals(Constants.FACEBOOK_DELETE_ACTION_NOTHING)){
-				//	//Remove the notification from the ViewFlipper
-				//	deleteMessage();
-				//}else{
-				//	if(_preferences.getBoolean(Constants.FACEBOOK_CONFIRM_DELETION_KEY, true)){
-				//		//Confirm deletion of the message.
-				//		showDialog(Constants.DIALOG_DELETE_MESSAGE);
-				//	}else{
-				//		//Remove the notification from the ViewFlipper.
-				//		deleteMessage();
-				//	}
-				//}
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_K9:{
@@ -931,7 +919,8 @@ public class NotificationActivity extends Activity {
 					finishActivity();
 				}else{
 					if(_preferences.getBoolean(Constants.SMS_DISPLAY_UNREAD_KEY, false)){
-						new getAllUnreadSMSMessagesAsyncTask().execute();
+						Notification currentNotification = _notificationViewFlipper.getActiveNotification();
+						new getAllUnreadSMSMessagesAsyncTask().execute(String.valueOf(currentNotification.getMessageID()), currentNotification.getMessageBody());
 				    }
 				}
 		    	break;
@@ -1023,7 +1012,6 @@ public class NotificationActivity extends Activity {
 	    }
 	    Common.acquireKeyguardLock(_context);
 	    setScreenTimeoutAlarm();
-	    checkReminderStatus();
 	}
 	  
 	/**
@@ -1070,7 +1058,7 @@ public class NotificationActivity extends Activity {
     	if(_preferences.getBoolean(Constants.APPLICATION_CLOSE_WHEN_PUSHED_TO_BACKGROUND_KEY, false)){
     		if(_preferences.getBoolean(Constants.IGNORE_LINKED_APPS_WHEN_PUSHED_TO_BACKGROUND_KEY, true)){
     	    	finishActivity();
-    	    }else{    	    	
+    	    }else{
     	    	if(Common.isUserInLinkedApp(_context)){
     		    	//Do Nothing.
     		    }else{
@@ -1079,7 +1067,7 @@ public class NotificationActivity extends Activity {
     	    }
     	}else{
     		//Do Nothing.
-    	}	    
+    	}
 	}
 	  
 	/**
@@ -1277,7 +1265,6 @@ public class NotificationActivity extends Activity {
 	    }
 	    Common.acquireKeyguardLock(_context);
 	    setScreenTimeoutAlarm();
-	    checkReminderStatus();
 	}
 	
 	//================================================================================
@@ -1679,7 +1666,7 @@ public class NotificationActivity extends Activity {
 			if(_preferences.getString(Constants.SMS_LOADING_SETTING_KEY, "0").equals(Constants.SMS_READ_FROM_INTENT)){
 				return SMSCommon.getAllUnreadSMSMessages(_context, Long.parseLong(params[0]), params[1]);
 			}else{
-				return SMSCommon.getAllUnreadSMSMessages(_context, 0, null);
+				return SMSCommon.getAllUnreadSMSMessages(_context, -1, null);
 			}
 	    }
 	    
@@ -1688,9 +1675,14 @@ public class NotificationActivity extends Activity {
 	     * 
 	     * @param result - The image of the contact.
 	     */
-	    protected void onPostExecute(Bundle smsnotificationBundle) {
-			if (_debug) Log.v("NotificationActivity.getAllUnreadSMSMessagesAsyncTask.onPostExecute()");		
-			setupBundleNotifications(smsnotificationBundle);
+	    protected void onPostExecute(Bundle smsNotificationBundle) {
+			if (_debug) Log.v("NotificationActivity.getAllUnreadSMSMessagesAsyncTask.onPostExecute()");	
+			if(smsNotificationBundle != null){
+				Bundle bundle = new Bundle();
+				bundle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_SMS);
+				bundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME, smsNotificationBundle);
+				setupBundleNotifications(bundle);
+			}
 	    }
 	}
 
@@ -1975,26 +1967,5 @@ public class NotificationActivity extends Activity {
 			}
     	}
   	};
-  	
-  	/**
-  	 * Check the reminder number and cancel it if necessary.
-  	 */
-  	private void checkReminderStatus(){
-  		Notification activeNotification = _notificationViewFlipper.getActiveNotification();
-  		int rescheduleNumber = activeNotification.getRescheduleNumber();
-  		boolean cancelReminder = false;
-  		if(_preferences.getBoolean(Constants.REMINDERS_ENABLED_KEY, false)){
-  			int maxRescheduleAttempts = Integer.parseInt(_preferences.getString(Constants.REMINDER_FREQUENCY_KEY, Constants.REMINDER_FREQUENCY_DEFAULT));
-  			if(maxRescheduleAttempts < 0){
-				//Infinite Attempts.
-  				cancelReminder = false;
-			}else if(rescheduleNumber >= maxRescheduleAttempts){
-				cancelReminder = true;
-			}
-  		}
-  		if(cancelReminder){
-  			activeNotification.cancelReminder();
-  		}
-  	}
 	
 }

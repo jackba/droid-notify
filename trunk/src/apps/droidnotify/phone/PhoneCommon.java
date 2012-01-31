@@ -130,8 +130,8 @@ public class PhoneCommon {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("PhoneCommon.deleteFromCallLog()");
 		try{
-			if(callLogID == 0){
-				if (_debug) Log.v("PhoneCommon.deleteFromCallLog() Call Log ID == 0. Exiting...");
+			if(callLogID < 0){
+				if (_debug) Log.v("PhoneCommon.deleteFromCallLog() Call Log ID < 0. Exiting...");
 				return false;
 			}
 			String selection = android.provider.CallLog.Calls._ID + " = " + callLogID;
@@ -159,8 +159,8 @@ public class PhoneCommon {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("PhoneCommon.setCallViewed()");
 		try{
-			if(callLogID == 0){
-				if (_debug) Log.v("PhoneCommon.setCallViewed() Call Log ID == 0. Exiting...");
+			if(callLogID < 0){
+				if (_debug) Log.v("PhoneCommon.setCallViewed() Call Log ID < 0. Exiting...");
 				return false;
 			}
 			ContentValues contentValues = new ContentValues();
