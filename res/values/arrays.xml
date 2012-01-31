@@ -9,9 +9,9 @@
 		<item name="3">Française</item>
 		<item name="4">Deutsch</item>
 		<item name="5">עברית</item>
-		<item name="6">Português Brasileiro</item>
-		<item name="7">Polski</item>
-		<item name="8">Português</item>
+		<item name="6">Português</item>
+		<item name="7">Português Brasileiro</item>
+		<item name="8">Polski</item>
 		<item name="9">Español</item>
 	</string-array>
 	<string-array name="language_options_values">
@@ -21,9 +21,9 @@
 		<item name="3">fr</item>
 		<item name="4">de</item>
 		<item name="5">he</item>
-		<item name="6">pt-rBR</item>
-		<item name="7">pl</item>
-		<item name="8">pt</item>
+		<item name="6">pt</item>
+		<item name="7">pt-rBR</item>
+		<item name="8">pl</item>
 		<item name="9">es</item>
 	</string-array>
 
@@ -991,15 +991,15 @@
 		<item name="8">Xperia</item>
 	</string-array>
 	<string-array name="theme_values">
-		<item name="0">android</item>
-		<item name="1">android_dark</item>
-		<item name="2">android_icecream_holo_dark</item>
-		<item name="3">iphone</item>
-		<item name="4">dark_translucent</item>
-		<item name="5">dark_translucent_v2</item>
-		<item name="6">dark_translucent_v3</item>
-		<item name="7">theme_htc</item>
-		<item name="8">theme_xperia</item>
+		<item name="0">apps.droidnotify.theme.froyo</item>
+		<item name="1">apps.droidnotify.theme.gingerbread</item>
+		<item name="2">apps.droidnotify.theme.icecreamsandwich</item>
+		<item name="3">apps.droidnotify.theme.iphone</item>
+		<item name="4">apps.droidnotify.theme.default</item>
+		<item name="5">apps.droidnotify.theme.default.v2</item>
+		<item name="6">apps.droidnotify.theme.default.v3</item>
+		<item name="7">apps.droidnotify.theme.htc</item>
+		<item name="8">apps.droidnotify.theme.xperia</item>
 	</string-array>
 	<array name="theme_images">
 		<item name="0">@drawable/theme_android_froyo</item>

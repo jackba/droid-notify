@@ -496,7 +496,6 @@ public class Common {
 		    }else if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_IGNORE)){
 		    	blockedFlag = true;
 		    }
-			blockedFlag = false;
 	    }else{
 	    	blockedFlag = false;
 	    }
@@ -523,7 +522,6 @@ public class Common {
 	    	ComponentName runningTaskComponent = runningTaskInfo.baseActivity;
 	    	String runningTaskPackageName = runningTaskComponent.getPackageName();
 	    	String runningTaskClassName = runningTaskComponent.getClassName();
-	        //if (_debug) Log.v("Common.isBlockingAppRunning() runningTaskPackageName: " + runningTaskPackageName + " runningTaskClassName: " + runningTaskClassName);
 	        int messagingPackageNamesArraySize = Constants.BLOCKED_PACKAGE_NAMES_ARRAY.length;
 	        for(int i = 0; i < messagingPackageNamesArraySize; i++){
 	        	String[] blockedInfoArray = Constants.BLOCKED_PACKAGE_NAMES_ARRAY[i].split(",");

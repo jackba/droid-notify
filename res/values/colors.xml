@@ -1,16 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<color name="white">#ffffff</color>
-    <color name="black">#000000</color>
     <color name="transparent">#00000000</color>
-	<color name="darker_gray">#aaa</color>
-	<color name="android_green">#a5c639</color>
-    <drawable name="red">#7f00</drawable>
-    <drawable name="blue">#770000ff</drawable>
-    <drawable name="green">#7700ff00</drawable>
-	<drawable name="yellow">#77ffff00</drawable>
-	<drawable name="translucent_background_6">#60000000</drawable>
-	<drawable name="translucent_background_a">#a0000000</drawable>
-	<drawable name="translucent_background_e">#e0000000</drawable>
-	<drawable name="transparent">#00000000</drawable>
+	<color name="white">#ffffffff</color>
+    <color name="black">#ff000000</color>
+	<color name="list_selector_text_color">#ffffffff</color>
+	<color name="list_selector_transition_text_color">#ff000000</color>
 </resources>

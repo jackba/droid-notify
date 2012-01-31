@@ -226,15 +226,15 @@ public class Constants {
 	
 	//-----APP THEME CONSTANTS-----//
 	public static final String APP_THEME_KEY = "app_theme";
-	public static final String ANDROID_FROYO_THEME = "android";
-	public static final String ANDROID_GINGERBREAD_THEME = "android_dark";
-	public static final String ANDROID_ICECREAM_HOLO_DARK_THEME = "android_icecream_holo_dark";
-	public static final String IPHONE_THEME = "iphone";
-	public static final String DARK_TRANSLUCENT_THEME = "dark_translucent";
-	public static final String DARK_TRANSLUCENT_V2_THEME = "dark_translucent_v2";
-	public static final String DARK_TRANSLUCENT_V3_THEME = "dark_translucent_v3";
-	public static final String HTC_SENSE_UI_THEME = "theme_htc";
-	public static final String XPERIA_THEME = "theme_xperia";
+	public static final String ANDROID_FROYO_THEME = "apps.droidnotify.theme.froyo";
+	public static final String ANDROID_GINGERBREAD_THEME = "apps.droidnotify.theme.gingerbread";
+	public static final String ANDROID_ICECREAM_HOLO_DARK_THEME = "apps.droidnotify.theme.icecreamsandwich";
+	public static final String IPHONE_THEME = "apps.droidnotify.theme.iphone";
+	public static final String DARK_TRANSLUCENT_THEME = "apps.droidnotify.theme.default";
+	public static final String DARK_TRANSLUCENT_V2_THEME = "apps.droidnotify.theme.default.v2";
+	public static final String DARK_TRANSLUCENT_V3_THEME = "apps.droidnotify.theme.default.v3";
+	public static final String HTC_SENSE_UI_THEME = "apps.droidnotify.theme.htc";
+	public static final String XPERIA_THEME = "apps.droidnotify.theme.xperia";
 	
 	public static final String APP_THEME_DEFAULT = DARK_TRANSLUCENT_THEME;
 	
