@@ -1661,39 +1661,60 @@ public class NotificationView extends LinearLayout {
 		    if(bitmap!=null){
 		    	return Common.getRoundedCornerBitmap(bitmap, 5, true, contactPhotoSize, contactPhotoSize);
 		    }else{
-		    	// Load the placeholder image if the contact has no photo.
-		    	// This is based on user preferences from a list of predefined images.
-		    	String contactPlaceholderImageID = _preferences.getString(Constants.CONTACT_PLACEHOLDER_KEY, Constants.CONTACT_PLACEHOLDER_DEFAULT);
-		    	//Default image resource.
-		    	int contactPlaceholderImageResourceID = R.drawable.ic_contact_picture_1;
-		    	if(contactPlaceholderImageID.equals("0")){
-		    		contactPlaceholderImageResourceID = R.drawable.ic_contact_picture_1;
-		    	}else if(contactPlaceholderImageID.equals("1")){
-		    		contactPlaceholderImageResourceID = R.drawable.ic_contact_picture_2;
-		    	}else if(contactPlaceholderImageID.equals("2")){
-		    		contactPlaceholderImageResourceID = R.drawable.ic_contact_picture_3;
-		    	}else if(contactPlaceholderImageID.equals("3")){
-		    		contactPlaceholderImageResourceID = R.drawable.ic_contact_picture_4;
-		    	}else if(contactPlaceholderImageID.equals("4")){
-		    		contactPlaceholderImageResourceID = R.drawable.ic_contact_picture_5;
-		    	}else if(contactPlaceholderImageID.equals("5")){
-		    		contactPlaceholderImageResourceID = R.drawable.ic_contact_picture_6;
-		    	}else if(contactPlaceholderImageID.equals("6")){
-		    		contactPlaceholderImageResourceID = R.drawable.ic_contact_picture_7;
-		    	}else if(contactPlaceholderImageID.equals("7")){
-		    		contactPlaceholderImageResourceID = R.drawable.ic_contact_picture_8;
-		    	}else if(contactPlaceholderImageID.equals("8")){
-		    		contactPlaceholderImageResourceID = R.drawable.ic_contact_picture_9;
-		    	}else if(contactPlaceholderImageID.equals("9")){
-		    		contactPlaceholderImageResourceID = R.drawable.ic_contact_picture_10;
-		    	}else if(contactPlaceholderImageID.equals("10")){
-		    		contactPlaceholderImageResourceID = R.drawable.ic_contact_picture_11;
-		    	}
-		    	return Common.getRoundedCornerBitmap(BitmapFactory.decodeResource(_context.getResources(), contactPlaceholderImageResourceID), 5, true, contactPhotoSize, contactPhotoSize);
+		    	String contactPlaceholderImageIndex = _preferences.getString(Constants.CONTACT_PLACEHOLDER_KEY, Constants.CONTACT_PLACEHOLDER_DEFAULT);
+		    	return Common.getRoundedCornerBitmap(BitmapFactory.decodeResource(_context.getResources(), getContactPhotoPlaceholderResourceID(Integer.parseInt(contactPlaceholderImageIndex))), 5, true, contactPhotoSize, contactPhotoSize);
 		    }
 		}catch(Exception ex){
 			Log.e("NotificationView.getNotificationContactImage() ERROR: " + ex.toString());
 			return null;
+		}
+	}
+	
+	/**
+	 * Get the contact photo placeholder image resource id.
+	 * 
+	 * @param index - The contact image index.
+	 * 
+	 * @return int - Returns the resource id of the image that corresponds to this index.
+	 */
+	private int getContactPhotoPlaceholderResourceID(int index){
+		switch(index){
+			case 1:{
+				return R.drawable.ic_contact_picture_1;
+			}
+			case 2:{
+				return R.drawable.ic_contact_picture_2;
+			}
+			case 3:{
+				return R.drawable.ic_contact_picture_3;
+			}
+			case 4:{
+				return R.drawable.ic_contact_picture_4;
+			}
+			case 5:{
+				return R.drawable.ic_contact_picture_5;
+			}
+			case 6:{
+				return R.drawable.ic_contact_picture_6;
+			}
+			case 7:{
+				return R.drawable.ic_contact_picture_7;
+			}
+			case 8:{
+				return R.drawable.ic_contact_picture_8;
+			}
+			case 9:{
+				return R.drawable.ic_contact_picture_9;
+			}
+			case 10:{
+				return R.drawable.ic_contact_picture_10;
+			}
+			case 11:{
+				return R.drawable.ic_contact_picture_11;
+			}
+			default:{
+				return R.drawable.ic_contact_picture_1;
+			}
 		}
 	}
 	

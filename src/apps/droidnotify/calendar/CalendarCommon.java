@@ -269,7 +269,7 @@ public class CalendarCommon {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.startViewCalendarEventActivity()");
 		try{
-			if(calendarEventID == 0){
+			if(calendarEventID < 0){
 				Toast.makeText(context, context.getString(R.string.app_android_calendar_event_not_found_error), Toast.LENGTH_LONG).show();
 				Common.setInLinkedAppFlag(context, false);
 				return false;
@@ -306,7 +306,7 @@ public class CalendarCommon {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.startEditCalendarEventActivity()");
 		try{
-			if(calendarEventID == 0){
+			if(calendarEventID < 0){
 				Toast.makeText(context, context.getString(R.string.app_android_calendar_event_not_found_error), Toast.LENGTH_LONG).show();
 				Common.setInLinkedAppFlag(context, false);
 				return false;

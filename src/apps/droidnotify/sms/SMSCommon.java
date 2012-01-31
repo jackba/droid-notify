@@ -62,8 +62,8 @@ public class SMSCommon {
 	    	String messageBody = null;
 	    	StringBuilder messageBodyBuilder = null;
 	    	String messageSubject = null;
-	    	long threadID = 0;
-	    	long messageID = 0;
+	    	long threadID = -1;
+	    	long messageID = -1;
     		Bundle smsNotificationBundleSingle = new Bundle();
     		bundleCount++;
 			SmsMessage[] msgs = null;
@@ -231,7 +231,6 @@ public class SMSCommon {
 					sortOrder);
 		    while (cursor.moveToNext()) { 
 	    		Bundle smsNotificationBundleSingle = new Bundle();
-	    		bundleCount++;
 		    	long messageID = cursor.getLong(cursor.getColumnIndex("_id"));
 		    	long threadID = cursor.getLong(cursor.getColumnIndex("thread_id"));
 		    	String messageBody = cursor.getString(cursor.getColumnIndex("body"));
@@ -240,9 +239,10 @@ public class SMSCommon {
 	            	sentFromAddress = EmailCommon.removeEmailFormatting(sentFromAddress);
 	            }
 		    	long timeStamp = cursor.getLong(cursor.getColumnIndex("date"));
-		    	if(messageIDFilter == 0 && messageBodyFilter == null){
+		    	if(messageIDFilter < 0 && messageBodyFilter == null){
 		    		//Do not grab the first unread SMS message.
 		    		if(!isFirst){
+			    		bundleCount++;
 		    			Bundle smsContactInfoBundle = sentFromAddress.contains("@") ? Common.getContactsInfoByEmail(context, sentFromAddress) : Common.getContactsInfoByPhoneNumber(context, sentFromAddress);
 			    		if(smsContactInfoBundle == null){				
 							//Basic Notification Information.
@@ -272,6 +272,7 @@ public class SMSCommon {
 		    	}else{
                     //Don't load the message that corresponds to the messageIDFilter or messageBodyFilter.
                     if(messageID != messageIDFilter && !messageBody.replace("\n", "<br/>").trim().equals(messageBodyFilter.replace("\n", "<br/>").trim())){
+        	    		bundleCount++;
                     	Bundle smsContactInfoBundle = sentFromAddress.contains("@") ? Common.getContactsInfoByEmail(context, sentFromAddress) : Common.getContactsInfoByPhoneNumber(context, sentFromAddress);
                         if(smsContactInfoBundle == null){				
         					//Basic Notification Information.
@@ -469,7 +470,7 @@ public class SMSCommon {
 			//messageURI = "content://mms/inbox";
 			messageURI = "content://sms/inbox";
 		}
-		long threadID = 0;
+		long threadID = -1;
 		if (address == null|| address.equals("")){
 			if (_debug) Log.v("Common.getThreadID() Address provided is null or empty. Exiting...");
 			return 0;
@@ -500,7 +501,7 @@ public class SMSCommon {
 					cursor.close();
 				}
 	    	}
-		    if(threadID == 0){
+		    if(threadID < 0){
 		    	if (_debug) Log.v("Common.getMessageID() Thread ID NOT Found: ADDRESS = " + address + " MESSAGE_TYPE = " + messageType);
 		    }
 	    	return threadID;
@@ -534,11 +535,11 @@ public class SMSCommon {
 			if (_debug) Log.v("Common.getMessageID() Message body provided is null. Exiting...");
 			return 0;
 		} 
-		long messageID = 0;
+		long messageID = -1;
 		try{
 			final String[] projection = new String[] { "_id, body"};
 			final String selection;
-			if(threadID == 0){
+			if(threadID < 0){
 				selection = null;
 			}
 			else{
@@ -568,7 +569,7 @@ public class SMSCommon {
 					cursor.close();
 				}
 		    }
-		    if(messageID == 0){
+		    if(messageID < 0){
 		    	if (_debug) Log.v("Common.getMessageID() Message ID NOT Found: THREAD_ID = " + threadID + " MESSAGE_BODY = " + messageBody);
 		    }
 		    return messageID;
@@ -852,8 +853,8 @@ public class SMSCommon {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.deleteMessageThread()");
 		try{
-			if(threadID == 0){
-				if (_debug) Log.v("Common.deleteMessageThread() Thread ID == 0. Exiting...");
+			if(threadID < 0){
+				if (_debug) Log.v("Common.deleteMessageThread() Thread ID < 0. Exiting...");
 				return false;
 			}
 			if(notificationType == Constants.NOTIFICATION_TYPE_MMS){
@@ -887,8 +888,8 @@ public class SMSCommon {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.deleteSingleMessage()");
 		try{
-			if(messageID == 0){
-				if (_debug) Log.v("Common.deleteSingleMessage() Message ID == 0. Exiting...");
+			if(messageID < 0){
+				if (_debug) Log.v("Common.deleteSingleMessage() Message ID < 0. Exiting...");
 				return false;
 			}
 			if(notificationType == Constants.NOTIFICATION_TYPE_MMS){
@@ -923,8 +924,8 @@ public class SMSCommon {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.setMessageRead()");
 		try{
-			if(messageID == 0){
-				if (_debug) Log.v("Common.setMessageRead() Message ID == 0. Exiting...");
+			if(messageID < 0){
+				if (_debug) Log.v("Common.setMessageRead() Message ID < 0. Exiting...");
 				return false;
 			}
 			ContentValues contentValues = new ContentValues();

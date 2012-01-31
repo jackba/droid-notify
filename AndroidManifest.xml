@@ -2,8 +2,8 @@
 <manifest 
 	xmlns:android="http://schemas.android.com/apk/res/android" 
 	package="apps.droidnotify"
-    android:versionCode="30"
-    android:versionName="2.23"
+    android:versionCode="31"
+    android:versionName="2.24"
     android:installLocation="internalOnly" >
 	<uses-sdk 
 		android:minSdkVersion="8" 
@@ -129,7 +129,7 @@
 		    android:exported="true" />
 		
 		<receiver 
-		    android:name="apps.droidnotifydonate.receivers.K9Receiver"
+		    android:name="apps.droidnotify.receivers.K9Receiver"
 		    android:exported="true">
 			<intent-filter android:priority="2147483647">
 				<action android:name="com.fsck.k9.intent.action.EMAIL_RECEIVED" />

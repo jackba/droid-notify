@@ -81,7 +81,7 @@ public class FacebookCommon {
         		Bundle facebookNotificationNotificationBundleSingle = new Bundle();
         		bundleCount++;
         	    JSONObject jsonNotificationData = jsonDataArray.getJSONObject(i);
-        	    long timeStamp = 0;
+        	    long timeStamp = -1;
         	    if(jsonNotificationData.has("updated_time")){
         	    	timeStamp = parseFacebookDateTime(jsonNotificationData.getString("updated_time"));
         	    }else if(jsonNotificationData.has("created_time")){
@@ -170,7 +170,7 @@ public class FacebookCommon {
         		Bundle facebookFriendRequestNotificationBundleSingle = new Bundle();
         		bundleCount++;
         	    JSONObject jsonFriendRequestData = jsonDataArray.getJSONObject(i);
-        	    long timeStamp = 0;
+        	    long timeStamp = -1;
         	    if(jsonFriendRequestData.has("updated_time")){
         	    	timeStamp = parseFacebookDateTime(jsonFriendRequestData.getString("updated_time"));
         	    }else if(jsonFriendRequestData.has("created_time")){
@@ -263,7 +263,7 @@ public class FacebookCommon {
     				String originalFromFacebookName = originalFromFacebookUser.getString("name");
     				String originalFromFacebookID = originalFromFacebookUser.getString("id");
     				//Original/Start message details.
-            	    long originalTimeStamp = 0;       	    
+            	    long originalTimeStamp = -1;       	    
             	    if(jsonMessageData.has("updated_time")){
             	    	originalTimeStamp = parseFacebookDateTime(jsonMessageData.getString("updated_time"));
             	    }else if(jsonMessageData.has("created_time")){
