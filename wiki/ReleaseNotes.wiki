@@ -3,8 +3,13 @@
 
 = Release Notes =
 
-*v2.23* _Coming Soon..._
+*v2.24* _Coming Soon..._
  * 
+
+*v2.23* (January 31, 2012)
+ * Fixed Force Close bug on new SMS messages.
+ * Fixed SMS messages not being marked as read bug.
+ * Other small bug fixes.
 
 *v2.22* (January 27, 2012)
  * Re-wrote code to improve efficiency and application file size.
