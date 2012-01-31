@@ -172,7 +172,7 @@ public class Constants {
 	//-----CONTACT PHOTO CONSTANTS-----//
 	public static final String CONTACT_PHOTO_DISPLAY_KEY = "display_contact_photo";
     public static final String CONTACT_PLACEHOLDER_KEY = "contact_placeholder";
-    public static final String CONTACT_PLACEHOLDER_DEFAULT = "0";
+    public static final String CONTACT_PLACEHOLDER_DEFAULT = "1";
     public static final String CONTACT_PHOTO_BACKGKROUND_KEY = "contact_photo_background";
 	public static final String CONTACT_PHOTO_SIZE_KEY = "contact_photo_size";
 	public static final String CONTACT_PHOTO_SIZE_DEFAULT = "80";
