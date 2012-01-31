@@ -37,7 +37,6 @@ import apps.droidnotify.log.Log;
 import apps.droidnotify.phone.PhoneCommon;
 import apps.droidnotify.sms.SMSCommon;
 import apps.droidnotify.twitter.TwitterCommon;
-import apps.droidnotifydonate.R;
 
 /**
  * This class is the view which the ViewFlipper displays for each notification.
@@ -72,6 +71,7 @@ public class NotificationViewNEW extends LinearLayout {
 	private ImageView _rescheduleButton = null;
 	private ImageView _photoImageView = null;
 	private ProgressBar _photoProgressBar = null;
+	
 	private Button _previousButton = null;
 	private Button _nextButton = null;
 	private Button _dismissButton = null;
@@ -84,7 +84,12 @@ public class NotificationViewNEW extends LinearLayout {
 	private ImageButton _callImageButton = null;
 	private ImageButton _replyImageButton = null;
 	private ImageButton _viewImageButton = null;
-
+	
+	private int _listSelectorBackgroundResourceID = 0;
+	private int _listSelectorBackgroundColorResourceID = 0;
+	private int _listSelectorBackgroundTransitionResourceID = 0;
+	private int _listSelectorBackgroundTransitionColorResourceID = 0;	
+	
 	//================================================================================
 	// Constructors
 	//================================================================================
@@ -114,9 +119,9 @@ public class NotificationViewNEW extends LinearLayout {
 	//================================================================================
 	
 	/**
-	 * Initialize the layout items.
+	 * Find the lauyout items within the view.
 	 * 
-	 * @param context - Application's Context.
+	 * @param context - Application context.
 	 */
 	private void findLayoutItems(Context context) {
 		if (_debug) Log.v("NotificationView.initLayoutItems()");
@@ -147,6 +152,28 @@ public class NotificationViewNEW extends LinearLayout {
 		_callImageButton = (ImageButton) findViewById(R.id.call_image_button);
 		_replyImageButton = (ImageButton) findViewById(R.id.reply_image_button);
 		_viewImageButton = (ImageButton) findViewById(R.id.view_image_button);
+	}
+	
+	/**
+	 * Set properties on the Notification popup window.
+	 */
+	private void setNotificationLayoutProperties(){
+		if (_debug) Log.v("NotificationView.setNotificationLayoutProperties()");
+		//Initialize The Button Views
+		_buttonLinearLayout.setVisibility(View.GONE);
+    	_imageButtonLinearLayout.setVisibility(View.GONE);
+    	//Remove the clickable attribute to the notification header.
+		if(_preferences.getBoolean(Constants.CONTEXT_MENU_DISABLED_KEY, false)){
+			_contactLinearLayout.setClickable(false);
+		}
+		//Set the width padding based on the user preferences.
+		int windowPaddingTop = 0;
+		int windowPaddingBottom = 0;
+		int windowPaddingLeft = Integer.parseInt(_preferences.getString(Constants.POPUP_WINDOW_WIDTH_PADDING_KEY, "0"));
+		int windowPaddingRight = windowPaddingLeft;
+		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+		layoutParams.setMargins(windowPaddingLeft, windowPaddingTop, windowPaddingRight, windowPaddingBottom);
+		_notificationWindowLinearLayout.setLayoutParams(layoutParams);
 	}
 
 	/**
@@ -1441,26 +1468,6 @@ public class NotificationViewNEW extends LinearLayout {
 		}
 		_notificationActivity.registerForContextMenu(_contactLinearLayout);
 	}
-
-	/**
-	 * Performs haptic feedback based on the users preferences.
-	 * 
-	 * @param hapticFeedbackConstant - What type of action the feedback is responding to.
-	 */
-	private void customPerformHapticFeedback(int hapticFeedbackConstant){
-		Vibrator vibrator = (Vibrator)_notificationActivity.getSystemService(Context.VIBRATOR_SERVICE);
-		//Perform the haptic feedback based on the users preferences.
-		if(_preferences.getBoolean(Constants.HAPTIC_FEEDBACK_ENABLED_KEY, true)){
-			if(hapticFeedbackConstant == HapticFeedbackConstants.VIRTUAL_KEY){
-				//performHapticFeedback(hapticFeedbackConstant);
-				vibrator.vibrate(50);
-			}
-			if(hapticFeedbackConstant == HapticFeedbackConstants.LONG_PRESS){
-				//performHapticFeedback(hapticFeedbackConstant);
-				vibrator.vibrate(100);
-			}
-		}
-	}
 	
 	/**
 	 * Creates and sets up the animation event when a long press is performed on the contact wrapper View.
@@ -1470,127 +1477,39 @@ public class NotificationViewNEW extends LinearLayout {
 		if(_preferences.getBoolean(Constants.CONTEXT_MENU_DISABLED_KEY, false)){
 			return;
 		}
+		//Load theme resources.
+		
+		
+		
+		//Create touch event actions.
 		OnTouchListener contactWrapperOnTouchListener = new OnTouchListener() {
 			public boolean onTouch(View view, MotionEvent motionEvent){
 	     		switch (motionEvent.getAction()){
 		     		case MotionEvent.ACTION_DOWN:{
 		     			if (_debug) Log.v("NotificationView.initLongPressView() ACTION_DOWN");
-		                String applicationThemeSetting = _preferences.getString(Constants.APP_THEME_KEY, Constants.APP_THEME_DEFAULT);
-		        		int listSelectorBackgroundResource = R.drawable.list_selector_background_transition_blue;
-		        		int contactWrapperTextColorResource = R.color.black;
-		        		if(applicationThemeSetting.equals(Constants.ANDROID_FROYO_THEME)){
-		        			listSelectorBackgroundResource = R.drawable.froyo_list_selector_background_transition;
-		        			contactWrapperTextColorResource = R.color.black;
-		        		}else if(applicationThemeSetting.equals(Constants.ANDROID_GINGERBREAD_THEME)){
-		        			listSelectorBackgroundResource = R.drawable.gingerbread_list_selector_background_transition;
-		        			contactWrapperTextColorResource = R.color.black;
-		        		}else if(applicationThemeSetting.equals(Constants.ANDROID_ICECREAM_HOLO_DARK_THEME)){
-		        			listSelectorBackgroundResource = R.drawable.icecream_holo_dark_list_selector_background_transition;
-		        			contactWrapperTextColorResource = R.color.black;
-		        		}else if(applicationThemeSetting.equals(Constants.IPHONE_THEME)){
-		        			listSelectorBackgroundResource = R.drawable.list_selector_background_transition_blue;
-		        			contactWrapperTextColorResource = R.color.black;
-		        		}else if(applicationThemeSetting.equals(Constants.DARK_TRANSLUCENT_THEME)){
-		        			listSelectorBackgroundResource = R.drawable.list_selector_background_transition_blue;
-		        			contactWrapperTextColorResource = R.color.black;
-		        		}else if(applicationThemeSetting.equals(Constants.DARK_TRANSLUCENT_V2_THEME)){
-		        			listSelectorBackgroundResource = R.drawable.list_selector_background_transition_blue;
-		        			contactWrapperTextColorResource = R.color.black;
-		        		}else if(applicationThemeSetting.equals(Constants.DARK_TRANSLUCENT_V3_THEME)){
-		        			listSelectorBackgroundResource = R.drawable.list_selector_background_transition_blue;
-		        			contactWrapperTextColorResource = R.color.black;
-		        		}else if(applicationThemeSetting.equals(Constants.HTC_SENSE_UI_THEME)){
-		        			listSelectorBackgroundResource = R.drawable.htc_list_selector_background_transition;
-		        			contactWrapperTextColorResource = R.color.black;
-		        		}else if(applicationThemeSetting.equals(Constants.XPERIA_THEME)){
-		        			listSelectorBackgroundResource = R.drawable.xperia_list_selector_background_transition;
-		        			contactWrapperTextColorResource = R.color.black;
-		        		}		        		
-	        			TransitionDrawable transition = (TransitionDrawable) _context.getResources().getDrawable(listSelectorBackgroundResource);
+		        		TransitionDrawable transition = (TransitionDrawable) _context.getResources().getDrawable(_listSelectorBackgroundTransitionResourceID);
 	        			view.setBackgroundDrawable(transition);
 		                transition.setCrossFadeEnabled(true);
 		                transition.startTransition(300);
-		                _notificationInfoTextView.setTextColor(_context.getResources().getColor(contactWrapperTextColorResource));
-		                _contactNameTextView.setTextColor(_context.getResources().getColor(contactWrapperTextColorResource));
-		                _contactNumberTextView.setTextColor(_context.getResources().getColor(contactWrapperTextColorResource));
+		                _notificationInfoTextView.setTextColor(_listSelectorBackgroundTransitionColorResourceID);
+		                _contactNameTextView.setTextColor(_listSelectorBackgroundTransitionColorResourceID);
+		                _contactNumberTextView.setTextColor(_listSelectorBackgroundTransitionColorResourceID);
 		                break;
 			        }
 		     		case MotionEvent.ACTION_UP:{
 		     			if (_debug) Log.v("NotificationView.initLongPressView() ACTION_UP");
-		         		String applicationThemeSetting = _preferences.getString(Constants.APP_THEME_KEY, Constants.APP_THEME_DEFAULT);
-		        		int listSelectorBackgroundResource = R.drawable.list_selector_background_blue;
-		        		int contactWrapperTextColorResource = R.color.white;
-		        		if(applicationThemeSetting.equals(Constants.ANDROID_FROYO_THEME)){
-		        			listSelectorBackgroundResource = R.drawable.froyo_list_selector_background;
-		        			contactWrapperTextColorResource = R.color.white;
-		        		}else if(applicationThemeSetting.equals(Constants.ANDROID_GINGERBREAD_THEME)){
-		        			listSelectorBackgroundResource = R.drawable.gingerbread_list_selector_background;
-		        			contactWrapperTextColorResource = R.color.white;
-		        		}else if(applicationThemeSetting.equals(Constants.ANDROID_ICECREAM_HOLO_DARK_THEME)){
-		        			listSelectorBackgroundResource = R.drawable.icecream_holo_dark_list_selector_background;
-		        			contactWrapperTextColorResource = R.color.white;
-		        		}else if(applicationThemeSetting.equals(Constants.IPHONE_THEME)){
-		        			listSelectorBackgroundResource = R.drawable.list_selector_background_blue;
-		        			contactWrapperTextColorResource = R.color.white;
-		        		}else if(applicationThemeSetting.equals(Constants.DARK_TRANSLUCENT_THEME)){
-		        			listSelectorBackgroundResource = R.drawable.list_selector_background_blue;
-		        			contactWrapperTextColorResource = R.color.white;
-		        		}else if(applicationThemeSetting.equals(Constants.DARK_TRANSLUCENT_V2_THEME)){
-		        			listSelectorBackgroundResource = R.drawable.list_selector_background_blue;
-		        			contactWrapperTextColorResource = R.color.white;
-		        		}else if(applicationThemeSetting.equals(Constants.DARK_TRANSLUCENT_V3_THEME)){
-		        			listSelectorBackgroundResource = R.drawable.list_selector_background_blue;
-		        			contactWrapperTextColorResource = R.color.white;
-		        		}else if(applicationThemeSetting.equals(Constants.HTC_SENSE_UI_THEME)){
-		        			listSelectorBackgroundResource = R.drawable.htc_list_selector_background;
-		        			contactWrapperTextColorResource = R.color.white;
-		        		}else if(applicationThemeSetting.equals(Constants.XPERIA_THEME)){
-		        			listSelectorBackgroundResource = R.drawable.xperia_list_selector_background;
-		        			contactWrapperTextColorResource = R.color.white;
-		        		}
-		                view.setBackgroundResource(listSelectorBackgroundResource);
-		                _notificationInfoTextView.setTextColor(_context.getResources().getColor(contactWrapperTextColorResource));
-		                _contactNameTextView.setTextColor(_context.getResources().getColor(contactWrapperTextColorResource));
-		                _contactNumberTextView.setTextColor(_context.getResources().getColor(contactWrapperTextColorResource)); 
+		         		view.setBackgroundResource(_listSelectorBackgroundResourceID);
+		                _notificationInfoTextView.setTextColor(_listSelectorBackgroundColorResourceID);
+		                _contactNameTextView.setTextColor(_listSelectorBackgroundColorResourceID);
+		                _contactNumberTextView.setTextColor(_listSelectorBackgroundColorResourceID);
 		                break;
 		     		}
 		     		case MotionEvent.ACTION_CANCEL:{
 		     			if (_debug) Log.v("NotificationView.initLongPressView() ACTION_CANCEL");
-		         		String applicationThemeSetting = _preferences.getString(Constants.APP_THEME_KEY, Constants.APP_THEME_DEFAULT);
-		        		int listSelectorBackgroundResource = R.drawable.list_selector_background_blue;
-		        		int contactWrapperTextColorResource = R.color.white;
-		        		if(applicationThemeSetting.equals(Constants.ANDROID_FROYO_THEME)){
-		        			listSelectorBackgroundResource = R.drawable.froyo_list_selector_background;
-		        			contactWrapperTextColorResource = R.color.white;
-		        		}else if(applicationThemeSetting.equals(Constants.ANDROID_GINGERBREAD_THEME)){
-		        			listSelectorBackgroundResource = R.drawable.gingerbread_list_selector_background;
-		        			contactWrapperTextColorResource = R.color.white;
-		        		}else if(applicationThemeSetting.equals(Constants.ANDROID_ICECREAM_HOLO_DARK_THEME)){
-		        			listSelectorBackgroundResource = R.drawable.icecream_holo_dark_list_selector_background;
-		        			contactWrapperTextColorResource = R.color.white;
-		        		}else if(applicationThemeSetting.equals(Constants.IPHONE_THEME)){
-		        			listSelectorBackgroundResource = R.drawable.list_selector_background_blue;
-		        			contactWrapperTextColorResource = R.color.white;
-		        		}else if(applicationThemeSetting.equals(Constants.DARK_TRANSLUCENT_THEME)){
-		        			listSelectorBackgroundResource = R.drawable.list_selector_background_blue;
-		        			contactWrapperTextColorResource = R.color.white;
-		        		}else if(applicationThemeSetting.equals(Constants.DARK_TRANSLUCENT_V2_THEME)){
-		        			listSelectorBackgroundResource = R.drawable.list_selector_background_blue;
-		        			contactWrapperTextColorResource = R.color.white;
-		        		}else if(applicationThemeSetting.equals(Constants.DARK_TRANSLUCENT_V3_THEME)){
-		        			listSelectorBackgroundResource = R.drawable.list_selector_background_blue;
-		        			contactWrapperTextColorResource = R.color.white;
-		        		}else if(applicationThemeSetting.equals(Constants.HTC_SENSE_UI_THEME)){
-		        			listSelectorBackgroundResource = R.drawable.htc_list_selector_background;
-		        			contactWrapperTextColorResource = R.color.white;
-		        		}else if(applicationThemeSetting.equals(Constants.XPERIA_THEME)){
-		        			listSelectorBackgroundResource = R.drawable.xperia_list_selector_background;
-		        			contactWrapperTextColorResource = R.color.white;
-		        		}
-		                view.setBackgroundResource(listSelectorBackgroundResource);
-		                _notificationInfoTextView.setTextColor(_context.getResources().getColor(contactWrapperTextColorResource));
-		                _contactNameTextView.setTextColor(_context.getResources().getColor(contactWrapperTextColorResource));
-		                _contactNumberTextView.setTextColor(_context.getResources().getColor(contactWrapperTextColorResource)); 
+		         		view.setBackgroundResource(_listSelectorBackgroundResourceID);
+		                _notificationInfoTextView.setTextColor(_listSelectorBackgroundColorResourceID);
+		                _contactNameTextView.setTextColor(_listSelectorBackgroundColorResourceID);
+		                _contactNumberTextView.setTextColor(_listSelectorBackgroundColorResourceID);
 		                break;
 		     		}
 	     		}
@@ -1655,7 +1574,7 @@ public class NotificationViewNEW extends LinearLayout {
 		    	return Common.getRoundedCornerBitmap(bitmap, 5, true, contactPhotoSize, contactPhotoSize);
 		    }else{
 		    	String contactPlaceholderImageIndex = _preferences.getString(Constants.CONTACT_PLACEHOLDER_KEY, Constants.CONTACT_PLACEHOLDER_DEFAULT);
-		    	return Common.getRoundedCornerBitmap(BitmapFactory.decodeResource(_context.getResources(), getContactPhotoPlaceholderResourceID(Integer.parseInt(contactPlaceholderImageIndex) + 1)), 5, true, contactPhotoSize, contactPhotoSize);
+		    	return Common.getRoundedCornerBitmap(BitmapFactory.decodeResource(_context.getResources(), getContactPhotoPlaceholderResourceID(Integer.parseInt(contactPlaceholderImageIndex))), 5, true, contactPhotoSize, contactPhotoSize);
 		    }
 		}catch(Exception ex){
 			Log.e("NotificationView.getNotificationContactImage() ERROR: " + ex.toString());
@@ -1666,7 +1585,7 @@ public class NotificationViewNEW extends LinearLayout {
 	/**
 	 * Get the contact photo placeholder image resource id.
 	 * 
-	 * @param index - The contact image index aka it's name.
+	 * @param index - The contact image index.
 	 * 
 	 * @return int - Returns the resource id of the image that corresponds to this index.
 	 */
@@ -1762,27 +1681,25 @@ public class NotificationViewNEW extends LinearLayout {
 			});
 		}
 	}
-	
+
 	/**
-	 * Set properties on the Notification popup window.
+	 * Performs haptic feedback based on the users preferences.
+	 * 
+	 * @param hapticFeedbackConstant - What type of action the feedback is responding to.
 	 */
-	private void setNotificationLayoutProperties(){
-		if (_debug) Log.v("NotificationView.setNotificationLayoutProperties()");
-		//Initialize The Button Views
-		_buttonLinearLayout.setVisibility(View.GONE);
-    	_imageButtonLinearLayout.setVisibility(View.GONE);
-    	//Remove the clickable attribute to the notification header.
-		if(_preferences.getBoolean(Constants.CONTEXT_MENU_DISABLED_KEY, false)){
-			_contactLinearLayout.setClickable(false);
+	private void customPerformHapticFeedback(int hapticFeedbackConstant){
+		Vibrator vibrator = (Vibrator)_notificationActivity.getSystemService(Context.VIBRATOR_SERVICE);
+		//Perform the haptic feedback based on the users preferences.
+		if(_preferences.getBoolean(Constants.HAPTIC_FEEDBACK_ENABLED_KEY, true)){
+			if(hapticFeedbackConstant == HapticFeedbackConstants.VIRTUAL_KEY){
+				//performHapticFeedback(hapticFeedbackConstant);
+				vibrator.vibrate(50);
+			}
+			if(hapticFeedbackConstant == HapticFeedbackConstants.LONG_PRESS){
+				//performHapticFeedback(hapticFeedbackConstant);
+				vibrator.vibrate(100);
+			}
 		}
-		//Set the width padding based on the user preferences.
-		int windowPaddingTop = 0;
-		int windowPaddingBottom = 0;
-		int windowPaddingLeft = Integer.parseInt(_preferences.getString(Constants.POPUP_WINDOW_WIDTH_PADDING_KEY, "0"));
-		int windowPaddingRight = windowPaddingLeft;
-		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-		layoutParams.setMargins(windowPaddingLeft, windowPaddingTop, windowPaddingRight, windowPaddingBottom);
-		_notificationWindowLinearLayout.setLayoutParams(layoutParams);
 	}
 	
 }
