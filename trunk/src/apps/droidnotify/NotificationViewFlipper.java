@@ -117,6 +117,9 @@ public class NotificationViewFlipper extends ViewFlipper {
 				_notifications.add(notification);
 				_totalNotifications = _notifications.size();
 				addView(new NotificationView(_context, notification));
+				
+				//addView(new NotificationViewNEW(_context, notification));
+				
 				if(_preferences.getBoolean(Constants.DISPLAY_NEWEST_NOTIFICATION, true)){
 					setDisplayedChild(_totalNotifications - 1);
 				}else{

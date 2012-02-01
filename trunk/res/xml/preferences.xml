@@ -318,7 +318,7 @@
 						android:summaryOff="@string/preference_quick_reply_dim_screen_background_enabled_summaryOff" 
 						android:defaultValue="true" />
 					<ListPreference
-						android:key="quick_reply_dim_screen_background_amount_settings"
+						android:key="quick_reply_dim_screen_background_amount"
 						android:title="@string/preference_dim_screen_background_amount"
 						android:summary="@string/preference_dim_screen_background_amount_summary"
 						android:defaultValue="50"
@@ -2036,7 +2036,7 @@
 					android:summaryOff="@string/preference_dim_screen_background_enabled_summaryOff" 
 					android:defaultValue="false" />
 				<ListPreference
-					android:key="dim_screen_background_amount_settings"
+					android:key="dim_screen_background_amount"
 					android:title="@string/preference_dim_screen_background_amount"
 					android:summary="@string/preference_dim_screen_background_amount_summary"
 					android:defaultValue="50"
