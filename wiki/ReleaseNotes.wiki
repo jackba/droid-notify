@@ -4,7 +4,10 @@
 = Release Notes =
 
 *v2.24* _Coming Soon..._
+ * Fixed a Dim Screen Background bug.
  * 
+ * Updated translations.
+ * Small bug fixes.
 
 *v2.23* (January 31, 2012)
  * Fixed Force Close bug on new SMS messages.
