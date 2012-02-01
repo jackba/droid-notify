@@ -895,7 +895,7 @@ public class NotificationActivity extends Activity {
 	    	mainWindow.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND); 
 		    WindowManager.LayoutParams params = mainWindow.getAttributes(); 
 		    int dimAmt = Integer.parseInt(_preferences.getString(Constants.DIM_SCREEN_BACKGROUND_AMOUNT_KEY, "50"));
-		    params.dimAmount = dimAmt / 100f; 
+		    params.dimAmount = dimAmt / 100f;
 		    mainWindow.setAttributes(params); 
 	    }
 	    setContentView(R.layout.notificationwrapper);

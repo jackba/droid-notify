@@ -98,12 +98,11 @@ public class CalendarCommon {
 						null);
 					while (cursor.moveToNext()) {
 						final String calendarID = cursor.getString(cursor.getColumnIndex(Constants.CALENDAR_ID));
-						int calendarDisplayNameColumnIndex  = cursor.getColumnIndex(Constants.CALENDAR_DISPLAY_NAME);
 						String calendarDisplayName = null;
-						if(calendarDisplayNameColumnIndex >= 0){
-							calendarDisplayName = cursor.getString(calendarDisplayNameColumnIndex);
-						}else{
-							calendarDisplayName = null;
+						if(cursor.getColumnIndex(Constants.CALENDAR_DISPLAY_NAME) >= 0){ //Android 2.2 - 3.x
+							calendarDisplayName = cursor.getString(cursor.getColumnIndex(Constants.CALENDAR_DISPLAY_NAME));
+						}else{ // Android > 4.0
+							calendarDisplayName = cursor.getString(cursor.getColumnIndex(Constants.CALENDAR_DISPLAY_NAME_NEW));
 						}
 						final Boolean calendarSelected = !cursor.getString(cursor.getColumnIndex(Constants.CALENDAR_SELECTED)).equals("0");
 						if (_debug) Log.v("CalendarAlarmReceiverService.readCalendars() FOUND CALENDAR - Id: " + calendarID + " Display Name: " + calendarDisplayName + " Selected: " + calendarSelected);
@@ -211,6 +210,60 @@ public class CalendarCommon {
 			}
 		}catch(Exception ex){
 			Log.e("CalendarAlarmReceiverService.readCalendars() ERROR: " + ex.toString());
+		}
+	}
+
+	/**
+	 * Read the phones Calendars and return the information on them.
+	 * @param context - The 
+	 * 
+	 * @return String - A string of the available Calendars. Specially formatted string with the Calendar information.
+	 */
+	public static String getAvailableCalendars(Context context){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.getAvailableCalendars()");
+		StringBuilder calendarsInfo = new StringBuilder();
+		Cursor cursor = null;
+		try{
+			ContentResolver contentResolver = context.getContentResolver();
+			// Fetch a list of all calendars synced with the device, their display names and whether the user has them selected for display.
+			String contentProvider = "";
+			contentProvider = "content://com.android.calendar";
+			cursor = contentResolver.query(
+				Uri.parse(contentProvider + "/calendars"), 
+				null, //new String[] { Constants.CALENDAR_ID, Constants.CALENDAR_DISPLAY_NAME, Constants.CALENDAR_SELECTED },
+				null,
+				null,
+				null);
+			while (cursor.moveToNext()) {
+				final String calendarID = cursor.getString(cursor.getColumnIndex(Constants.CALENDAR_ID));
+				String calendarDisplayName = null;
+				if(cursor.getColumnIndex(Constants.CALENDAR_DISPLAY_NAME) >= 0){ //Android 2.2 - 3.x
+					calendarDisplayName = cursor.getString(cursor.getColumnIndex(Constants.CALENDAR_DISPLAY_NAME));
+				}else{ // Android > 4.0
+					calendarDisplayName = cursor.getString(cursor.getColumnIndex(Constants.CALENDAR_DISPLAY_NAME_NEW));
+				}
+				final Boolean calendarSelected = !cursor.getString(cursor.getColumnIndex(Constants.CALENDAR_SELECTED)).equals("0");
+				if(calendarSelected){
+					if (_debug) Log.v("Id: " + calendarID + " Display Name: " + calendarDisplayName + " Selected: " + calendarSelected);
+					if(!calendarsInfo.toString().equals("")){
+						calendarsInfo.append(",");
+					}
+					calendarsInfo.append(calendarID + "|" + calendarDisplayName);
+				}
+			}	
+		}catch(Exception ex){
+			Log.e("Common.getAvailableCalendars() ERROR: " + ex.toString());
+			return null;
+		}finally{
+			if(cursor != null){
+				cursor.close();
+			}
+		}
+		if(calendarsInfo.toString().equals("")){
+			return null;
+		}else{
+			return calendarsInfo.toString();
 		}
 	}
 	
@@ -363,55 +416,6 @@ public class CalendarCommon {
 				Common.setInLinkedAppFlag(context, false);
 				return false;
 			}
-		}
-	}
-
-	/**
-	 * Read the phones Calendars and return the information on them.
-	 * @param context - The 
-	 * 
-	 * @return String - A string of the available Calendars. Specially formatted string with the Calendar information.
-	 */
-	public static String getAvailableCalendars(Context context){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.getAvailableCalendars()");
-		StringBuilder calendarsInfo = new StringBuilder();
-		Cursor cursor = null;
-		try{
-			ContentResolver contentResolver = context.getContentResolver();
-			// Fetch a list of all calendars synced with the device, their display names and whether the user has them selected for display.
-			String contentProvider = "";
-			contentProvider = "content://com.android.calendar";
-			cursor = contentResolver.query(
-				Uri.parse(contentProvider + "/calendars"), 
-				new String[] { Constants.CALENDAR_ID, Constants.CALENDAR_DISPLAY_NAME, Constants.CALENDAR_SELECTED },
-				null,
-				null,
-				null);
-			while (cursor.moveToNext()) {
-				final String calendarID = cursor.getString(cursor.getColumnIndex(Constants.CALENDAR_ID));
-				final String calendarDisplayName = cursor.getString(cursor.getColumnIndex(Constants.CALENDAR_DISPLAY_NAME));
-				final Boolean calendarSelected = !cursor.getString(cursor.getColumnIndex(Constants.CALENDAR_SELECTED)).equals("0");
-				if(calendarSelected){
-					if (_debug) Log.v("Id: " + calendarID + " Display Name: " + calendarDisplayName + " Selected: " + calendarSelected);
-					if(!calendarsInfo.toString().equals("")){
-						calendarsInfo.append(",");
-					}
-					calendarsInfo.append(calendarID + "|" + calendarDisplayName);
-				}
-			}	
-		}catch(Exception ex){
-			Log.e("Common.getAvailableCalendars() ERROR: " + ex.toString());
-			return null;
-		}finally{
-			if(cursor != null){
-				cursor.close();
-			}
-		}
-		if(calendarsInfo.toString().equals("")){
-			return null;
-		}else{
-			return calendarsInfo.toString();
 		}
 	}
 	
