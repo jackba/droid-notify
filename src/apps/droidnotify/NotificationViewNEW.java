@@ -10,6 +10,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.StateListDrawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -47,7 +48,7 @@ import apps.droidnotify.twitter.TwitterCommon;
  * @author Camille Sévigny
  */
 public class NotificationViewNEW extends LinearLayout {
-	
+
 	//================================================================================
     // Properties
     //================================================================================
@@ -59,6 +60,8 @@ public class NotificationViewNEW extends LinearLayout {
 	private NotificationViewFlipper _notificationViewFlipper = null;
 	private Notification _notification = null;
 	private int _notificationType = -1;
+	private String _themePackageName = null;
+	private Resources _resources = null;
 	
 	private LinearLayout _notificationWindowLinearLayout = null;	
 	private LinearLayout _contactLinearLayout = null;
@@ -201,39 +204,135 @@ public class NotificationViewNEW extends LinearLayout {
 	}
 	
 	/**
-	 * Setup the layout graphical items based on the currently selected theme.
+	 * Setup the layout graphical items based on the current theme.
 	 */
 	private void setupLayoutTheme(){
-
-//		//Load theme resources.
-//		String themePackageName = _preferences.getString(Constants.APP_THEME_KEY, Constants.APP_THEME_DEFAULT);
-//		if (_debug) Log.v("NotificationView.initLongPressView() ThemePackageName: " + themePackageName);
-//		Resources resources = null;
-//		if(themePackageName.startsWith(Constants.DARK_TRANSLUCENT_THEME)){
-//			resources = _context.getResources();
-//			_listSelectorBackgroundDrawable = resources.getDrawable(R.drawable.list_selector_background);
-//			_listSelectorBackgroundTransitionDrawable = (TransitionDrawable) resources.getDrawable(R.drawable.list_selector_background_transition);
-//			_listSelectorBackgroundColorResourceID = resources.getColor(R.color.list_selector_text_color);
-//			_listSelectorBackgroundTransitionColorResourceID = resources.getColor(R.color.list_selector_transition_text_color);
-//		}else{	
-//			try{
-//				resources = _context.getPackageManager().getResourcesForApplication(themePackageName);
-//				_listSelectorBackgroundDrawable = resources.getDrawable(resources.getIdentifier(themePackageName + ":drawable/list_selector_background", null, null));
-//				_listSelectorBackgroundTransitionDrawable = (TransitionDrawable) resources.getDrawable(resources.getIdentifier(themePackageName + ":drawable/list_selector_background_transition", null, null));
-//				_listSelectorBackgroundColorResourceID = resources.getColor(resources.getIdentifier(themePackageName + ":color/list_selector_text_color", null, null));
-//				_listSelectorBackgroundTransitionColorResourceID = resources.getColor(resources.getIdentifier(themePackageName + ":color/list_selector_transition_text_color", null, null));
-//			}catch(NameNotFoundException ex){
-//				Log.e("NotificationView.initLongPressView() Loading Theme Package ERROR: " + ex.toString());
-//				themePackageName = Constants.DARK_TRANSLUCENT_THEME;
-//				resources = _context.getResources();			
-//				_listSelectorBackgroundDrawable = resources.getDrawable(R.drawable.list_selector_background);
-//				_listSelectorBackgroundTransitionDrawable = (TransitionDrawable) resources.getDrawable(R.drawable.list_selector_background_transition);
-//				_listSelectorBackgroundColorResourceID = resources.getColor(R.color.list_selector_text_color);
-//				_listSelectorBackgroundTransitionColorResourceID = resources.getColor(R.color.list_selector_transition_text_color);
-//			}
-//		}
+		if (_debug) Log.v("NotificationView.setupLayoutTheme()");
+		_themePackageName = _preferences.getString(Constants.APP_THEME_KEY, Constants.APP_THEME_DEFAULT);
+		Drawable layoutBackgroundDrawable = null;
+		Drawable rescheduleDrawable = null;
+		Drawable ttsDrawable = null;
+		int textColorID = 0;
+		int buttonTextColorID = 0;
+		int notificationCountTextColorID = 0;
+		if(_themePackageName.startsWith(Constants.DARK_TRANSLUCENT_THEME)){
+			if(_themePackageName.equals(Constants.DARK_TRANSLUCENT_THEME)){
+				_resources = _context.getResources();
+				layoutBackgroundDrawable = _resources.getDrawable(R.drawable.background_panel);
+			}else if(_themePackageName.equals(Constants.DARK_TRANSLUCENT_V2_THEME)){
+				_resources = _context.getResources();
+				layoutBackgroundDrawable = _resources.getDrawable(R.drawable.background_panel_v2);
+			}else if(_themePackageName.equals(Constants.DARK_TRANSLUCENT_V3_THEME)){
+				_resources = _context.getResources();
+				layoutBackgroundDrawable = _resources.getDrawable(R.drawable.background_panel_v3);
+			}
+			rescheduleDrawable = _resources.getDrawable(R.drawable.ic_reschedule);
+			ttsDrawable = _resources.getDrawable(R.drawable.ic_tts);
+			textColorID = _resources.getColor(R.color.text_color);
+			buttonTextColorID = _resources.getColor(R.color.button_text_color);
+			notificationCountTextColorID = _resources.getColor(R.color.notification_count_text_color);		
+		}else{	
+			try{
+				_resources = _context.getPackageManager().getResourcesForApplication(_themePackageName);
+				layoutBackgroundDrawable = _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/background_panel", null, null));
+				rescheduleDrawable = _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/ic_reschedule", null, null));
+				ttsDrawable = _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/ic_tts", null, null));
+				textColorID = _resources.getColor(_resources.getIdentifier(_themePackageName + ":color/text_color", null, null));
+				buttonTextColorID = _resources.getColor(_resources.getIdentifier(_themePackageName + ":color/button_text_color", null, null));
+				notificationCountTextColorID = _resources.getColor(_resources.getIdentifier(_themePackageName + ":color/notification_count_text_color", null, null));
+			}catch(NameNotFoundException ex){
+				Log.e("NotificationView.setupLayoutTheme() Loading Theme Package ERROR: " + ex.toString());
+				_themePackageName = Constants.DARK_TRANSLUCENT_THEME;
+				_resources = _context.getResources();
+				layoutBackgroundDrawable = _resources.getDrawable(R.drawable.background_panel);
+				rescheduleDrawable = _resources.getDrawable(R.drawable.ic_reschedule);
+				ttsDrawable = _resources.getDrawable(R.drawable.ic_tts);
+				textColorID = _resources.getColor(R.color.text_color);
+				buttonTextColorID = _resources.getColor(R.color.button_text_color);
+				notificationCountTextColorID = _resources.getColor(R.color.notification_count_text_color);
+			}
+		}
 		
+		_notificationWindowLinearLayout.setBackgroundDrawable(layoutBackgroundDrawable);
+		
+		_notificationCountTextView.setTextColor(notificationCountTextColorID);
+		
+		_notificationInfoTextView.setTextColor(textColorID);
+		_contactNameTextView.setTextColor(textColorID);
+		_contactNumberTextView.setTextColor(textColorID);
+		
+		_notificationDetailsTextView.setTextColor(textColorID);
+		_notificationDetailsTextView.setLinkTextColor(textColorID);
+		_mmsLinkTextView.setTextColor(textColorID);
+		
+		_previousButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NAV_PREV));
+		_nextButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NAV_NEXT));
+				
+		_dismissButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));		
+		_deleteButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));		
+		_callButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));		
+		_replyButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));		
+		_viewButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));		
 
+		_dismissButton.setTextColor(buttonTextColorID);
+		_deleteButton.setTextColor(buttonTextColorID);		
+		_callButton.setTextColor(buttonTextColorID);		
+		_replyButton.setTextColor(buttonTextColorID);		
+		_viewButton.setTextColor(buttonTextColorID);
+		
+		_dismissImageButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));		
+		_deleteImageButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));		
+		_callImageButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));		
+		_replyImageButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));		
+		_viewImageButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));
+		
+		_rescheduleButton.setImageDrawable(rescheduleDrawable);
+		_ttsButton.setImageDrawable(ttsDrawable);
+		
+	}
+	
+	/**
+	 * Get the StateListDrawable object for the certain button types associated with the current theme.
+	 * 
+	 * @param buttonType - The button type we want to retrieve.
+	 * 
+	 * @return StateListDrawable - Returns a Drawable that contains the state specific images for this theme.
+	 */
+	private StateListDrawable getThemeButton(int buttonType){
+		StateListDrawable stateListDrawable = new StateListDrawable();
+		switch(buttonType){
+			case Constants.THEME_BUTTON_NORMAL:{
+				if(_themePackageName.startsWith(Constants.DARK_TRANSLUCENT_THEME)){
+					stateListDrawable.addState(new int[] {android.R.attr.state_pressed}, _resources.getDrawable(R.drawable.btn_dark_translucent_pressed));
+					stateListDrawable.addState(new int[] { }, _resources.getDrawable(R.drawable.btn_dark_translucent_normal));
+				}else{
+					stateListDrawable.addState(new int[] {android.R.attr.state_pressed}, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/button_pressed", null, null)));
+					stateListDrawable.addState(new int[] { }, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/button_normal", null, null)));
+				}
+				return stateListDrawable;
+			}
+			case Constants.THEME_BUTTON_NAV_PREV:{
+				if(_themePackageName.startsWith(Constants.DARK_TRANSLUCENT_THEME)){
+					stateListDrawable.addState(new int[] {android.R.attr.state_pressed}, _resources.getDrawable(R.drawable.button_navigate_prev_pressed));
+					stateListDrawable.addState(new int[] { }, _resources.getDrawable(R.drawable.button_navigate_prev_normal));
+				}else{
+					stateListDrawable.addState(new int[] {android.R.attr.state_pressed}, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/button_navigate_prev_pressed", null, null)));
+					stateListDrawable.addState(new int[] { }, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/button_navigate_prev_normal", null, null)));
+				}
+				return stateListDrawable;
+			}
+			case Constants.THEME_BUTTON_NAV_NEXT:{
+				if(_themePackageName.startsWith(Constants.DARK_TRANSLUCENT_THEME)){
+					stateListDrawable.addState(new int[] {android.R.attr.state_pressed}, _resources.getDrawable(R.drawable.button_navigate_next_pressed));
+					stateListDrawable.addState(new int[] { }, _resources.getDrawable(R.drawable.button_navigate_next_normal));
+				}else{
+					stateListDrawable.addState(new int[] {android.R.attr.state_pressed}, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/button_navigate_next_pressed", null, null)));
+					stateListDrawable.addState(new int[] { }, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/button_navigate_next_normal", null, null)));
+				}
+				return stateListDrawable;
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -385,14 +484,6 @@ public class NotificationViewNEW extends LinearLayout {
 				usingImageButtons = false;
 				_buttonLinearLayout.setVisibility(View.VISIBLE);
 		    	_imageButtonLinearLayout.setVisibility(View.GONE);
-				//Remove the icons from the View's buttons.
-				if(buttonDisplayStyle.equals(Constants.BUTTON_DISPLAY_TEXT_ONLY)){
-					_dismissButton.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
-					_deleteButton.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
-					_callButton.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
-					_replyButton.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
-					_viewButton.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
-				}
 			}
 			//Default all buttons to be hidden.
 			_dismissButton.setVisibility(View.GONE);
@@ -439,6 +530,7 @@ public class NotificationViewNEW extends LinearLayout {
 					break;
 				}
 			}
+			setupButtonIcons(usingImageButtons, _notificationType, buttonDisplayStyle);
 		}catch(Exception ex){
 			Log.e("NotificationView.setupViewButtons() ERROR: " + ex.toString());
 		}
@@ -454,9 +546,9 @@ public class NotificationViewNEW extends LinearLayout {
 		try{
 			// Notification Count Text Button
 			int notificationCountAction = Integer.parseInt(_preferences.getString(Constants.PHONE_NOTIFICATION_COUNT_ACTION_KEY, Constants.NOTIFICATION_COUNT_ACTION_NOTHING));
-			if(notificationCountAction == 0){
+			if(notificationCountAction == 0){	
 				//Do Nothing.
-			}else if(notificationCountAction == 1){
+			}else{				
 				_notificationCountTextView.setOnClickListener(
 					new OnClickListener() {
 					    public void onClick(View view) {
@@ -1220,6 +1312,135 @@ public class NotificationViewNEW extends LinearLayout {
 			}
 		}catch(Exception ex){
 			Log.e("NotificationView.setupViewK9Buttons() ERROR: " + ex.toString());
+		}
+	}
+	
+	/**
+	 * Setup and load the notification specific button icons.
+	 */
+	private void setupButtonIcons(boolean usingImageButtons, int notificationType, String buttonDisplayStyle){
+		if (_debug) Log.v("NotificationView.setupButtonIcons()");
+		try{
+			if(buttonDisplayStyle.equals(Constants.BUTTON_DISPLAY_TEXT_ONLY)){
+				return;
+			}
+			Drawable dismissButtonIcon = null;
+			Drawable deleteButtonIcon = null;
+			Drawable callButtonIcon = null;
+			Drawable replySMSButtonIcon = null;
+			Drawable replyEmailButtonIcon = null;
+			Drawable viewCalendarButtonIcon = null;
+			Drawable viewTwitterButtonIcon = null;
+			Drawable viewFacebookButtonIcon = null;
+			//Load the theme specific icons.
+			if(_themePackageName.startsWith(Constants.DARK_TRANSLUCENT_THEME)){
+				dismissButtonIcon = _resources.getDrawable(R.drawable.ic_dismiss);
+				deleteButtonIcon = _resources.getDrawable(R.drawable.ic_delete);
+				callButtonIcon = _resources.getDrawable(R.drawable.ic_call);
+				replySMSButtonIcon = _resources.getDrawable(R.drawable.ic_conversation);
+				replyEmailButtonIcon = _resources.getDrawable(R.drawable.ic_envelope);
+				viewCalendarButtonIcon = _resources.getDrawable(R.drawable.ic_calendar);
+				viewTwitterButtonIcon = _resources.getDrawable(R.drawable.ic_view_twitter);
+				viewFacebookButtonIcon = _resources.getDrawable(R.drawable.ic_view_facebook);
+			}else{
+				dismissButtonIcon = _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/ic_dismiss", null, null));
+				deleteButtonIcon = _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/ic_delete", null, null));
+				callButtonIcon = _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/ic_call", null, null));
+				replySMSButtonIcon = _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/ic_conversation", null, null));
+				replyEmailButtonIcon = _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/ic_envelope", null, null));
+				viewCalendarButtonIcon = _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/ic_calendar", null, null));
+				viewTwitterButtonIcon = _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/ic_view_twitter", null, null));
+				viewFacebookButtonIcon = _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/ic_view_facebook", null, null));
+			}
+			switch(notificationType){
+				case Constants.NOTIFICATION_TYPE_PHONE:{
+					if(usingImageButtons){
+						_dismissImageButton.setImageDrawable(dismissButtonIcon);
+						_callImageButton.setImageDrawable(callButtonIcon);
+					}else{
+						_dismissButton.setCompoundDrawablesWithIntrinsicBounds(dismissButtonIcon, null, null, null);
+						_callButton.setCompoundDrawablesWithIntrinsicBounds(callButtonIcon, null, null, null);
+					}		
+					break;
+				}
+				case Constants.NOTIFICATION_TYPE_SMS:{
+					if(usingImageButtons){
+						_dismissImageButton.setImageDrawable(dismissButtonIcon);
+						_deleteImageButton.setImageDrawable(deleteButtonIcon);
+						_replyImageButton.setImageDrawable(replySMSButtonIcon);
+					}else{
+						_dismissButton.setCompoundDrawablesWithIntrinsicBounds(dismissButtonIcon, null, null, null);
+						_deleteButton.setCompoundDrawablesWithIntrinsicBounds(deleteButtonIcon, null, null, null);
+						_replyButton.setCompoundDrawablesWithIntrinsicBounds(replySMSButtonIcon, null, null, null);
+					}		
+					break;
+				}
+				case Constants.NOTIFICATION_TYPE_MMS:{
+					if(usingImageButtons){
+						_dismissImageButton.setImageDrawable(dismissButtonIcon);
+						_deleteImageButton.setImageDrawable(deleteButtonIcon);
+						_replyImageButton.setImageDrawable(replySMSButtonIcon);
+					}else{
+						_dismissButton.setCompoundDrawablesWithIntrinsicBounds(dismissButtonIcon, null, null, null);
+						_deleteButton.setCompoundDrawablesWithIntrinsicBounds(deleteButtonIcon, null, null, null);
+						_replyButton.setCompoundDrawablesWithIntrinsicBounds(replySMSButtonIcon, null, null, null);
+					}		
+					break;
+				}
+				case Constants.NOTIFICATION_TYPE_CALENDAR:{
+					if(usingImageButtons){
+						_dismissImageButton.setImageDrawable(dismissButtonIcon);
+						_viewImageButton.setImageDrawable(viewCalendarButtonIcon);
+					}else{
+						_dismissButton.setCompoundDrawablesWithIntrinsicBounds(dismissButtonIcon, null, null, null);
+						_viewButton.setCompoundDrawablesWithIntrinsicBounds(viewCalendarButtonIcon, null, null, null);
+					}	
+					break;
+				}
+				case Constants.NOTIFICATION_TYPE_GMAIL:{
+					break;
+				}
+				case Constants.NOTIFICATION_TYPE_TWITTER:{
+					if(usingImageButtons){
+						_dismissImageButton.setImageDrawable(dismissButtonIcon);
+						_deleteImageButton.setImageDrawable(deleteButtonIcon);
+						_replyImageButton.setImageDrawable(replyEmailButtonIcon);
+						_viewImageButton.setImageDrawable(viewTwitterButtonIcon);
+					}else{
+						_dismissButton.setCompoundDrawablesWithIntrinsicBounds(dismissButtonIcon, null, null, null);
+						_deleteButton.setCompoundDrawablesWithIntrinsicBounds(deleteButtonIcon, null, null, null);
+						_replyButton.setCompoundDrawablesWithIntrinsicBounds(replyEmailButtonIcon, null, null, null);
+						_viewButton.setCompoundDrawablesWithIntrinsicBounds(viewTwitterButtonIcon, null, null, null);
+					}	
+					break;
+				}
+				case Constants.NOTIFICATION_TYPE_FACEBOOK:{
+					if(usingImageButtons){
+						_dismissImageButton.setImageDrawable(dismissButtonIcon);
+						_replyImageButton.setImageDrawable(replyEmailButtonIcon);
+						_viewImageButton.setImageDrawable(viewFacebookButtonIcon);
+					}else{
+						_dismissButton.setCompoundDrawablesWithIntrinsicBounds(dismissButtonIcon, null, null, null);
+						_replyButton.setCompoundDrawablesWithIntrinsicBounds(replyEmailButtonIcon, null, null, null);
+						_viewButton.setCompoundDrawablesWithIntrinsicBounds(viewFacebookButtonIcon, null, null, null);
+					}		
+					break;
+				}
+				case Constants.NOTIFICATION_TYPE_K9:{
+					if(usingImageButtons){
+						_dismissImageButton.setImageDrawable(dismissButtonIcon);
+						_deleteImageButton.setImageDrawable(deleteButtonIcon);
+						_replyImageButton.setImageDrawable(replyEmailButtonIcon);
+					}else{
+						_dismissButton.setCompoundDrawablesWithIntrinsicBounds(dismissButtonIcon, null, null, null);
+						_deleteButton.setCompoundDrawablesWithIntrinsicBounds(deleteButtonIcon, null, null, null);
+						_replyButton.setCompoundDrawablesWithIntrinsicBounds(replyEmailButtonIcon, null, null, null);
+					}	
+					break;
+				}
+			}
+		}catch(Exception ex){
+			Log.e("NotificationView.setupButtonIcons() ERROR: " + ex.toString());
 		}
 	}
 	
