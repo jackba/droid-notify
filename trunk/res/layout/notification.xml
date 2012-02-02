@@ -5,8 +5,7 @@
     android:orientation="vertical"
     android:layout_height="wrap_content"
     android:layout_width="fill_parent" 
-    android:gravity="center_vertical|fill_horizontal"
-    android:background="@drawable/android_froyo_panel">
+    android:gravity="center_vertical|fill_horizontal">
 	<RelativeLayout
 	    android:id="@+id/header_navigation"
 	    android:layout_height="wrap_content"
@@ -19,15 +18,13 @@
 	     	android:layout_width="wrap_content"
 	      	android:layout_alignParentLeft="true"
 	      	android:layout_alignParentTop="true"
-			android:hapticFeedbackEnabled="true"
-	      	android:background="@drawable/button_navigate_prev" />
+			android:hapticFeedbackEnabled="true" />
 	    <ImageView
 	        android:id="@+id/tts_button_image_view"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_alignTop="@+id/previous_button"
 	        android:layout_toRightOf="@+id/previous_button"
-	        android:background="@drawable/ic_tts"
 	        android:padding="5dp" />
 	    <TextView
 	        android:id="@+id/notification_count_text_view"
@@ -55,8 +52,7 @@
 	      	android:layout_width="wrap_content"
 	      	android:layout_alignParentRight="true"
 	      	android:layout_alignParentTop="true"
-			android:hapticFeedbackEnabled="true"
-	      	android:background="@drawable/button_navigate_next"/>
+			android:hapticFeedbackEnabled="true" />
 	</RelativeLayout>
 	<LinearLayout
 		android:id="@+id/contact_main_linear_layout"
@@ -75,15 +71,13 @@
 			android:layout_gravity="fill_horizontal"
 			android:focusable="true" 
 			android:clickable="true"
-			android:hapticFeedbackEnabled="true"
-			android:background="@drawable/list_selector_background_blue">
+			android:hapticFeedbackEnabled="true">
 			<ImageView
 				android:id="@+id/contact_photo_image_view"
 				android:layout_height="wrap_content"
 				android:layout_width="wrap_content"
 				android:layout_gravity="center_vertical"
-				android:scaleType="center"
-				android:background="@drawable/image_picture_frame_white" />	
+				android:scaleType="center" />	
 			<ProgressBar 
 				android:id="@+id/contact_photo_progress_bar" 
 				android:layout_height="wrap_content"
@@ -113,8 +107,7 @@
 						android:id="@+id/notification_info_text_view"
 						android:layout_height="wrap_content"
 						android:layout_width="wrap_content" 
-						android:layout_gravity="center_vertical" 
-	    				android:textColor="@color/white"
+						android:layout_gravity="center_vertical"
 						android:textAppearance="?android:attr/textAppearanceSmall"
 						android:paddingLeft="5dp" />
 				</LinearLayout>
@@ -127,16 +120,14 @@
 					android:layout_gravity="left"
 					android:textAppearance="?android:attr/textAppearanceLarge"
 					android:maxLines="1" 
-					android:textStyle="bold" 
-	    			android:textColor="@color/white" />
+					android:textStyle="bold" />
 				<TextView
 					android:id="@+id/contact_number_text_view"
 					android:layout_height="wrap_content"
 					android:layout_width="fill_parent"
 					android:layout_gravity="left"
 					android:textAppearance="?android:attr/textAppearanceMedium"
-					android:maxLines="1" 
-	    			android:textColor="@color/white" />
+					android:maxLines="1" />
 			</LinearLayout>
 		</LinearLayout>
 		<TextView
@@ -147,8 +138,7 @@
 			android:textAppearance="?android:attr/textAppearanceSmall"
 			android:gravity="center"
 			android:padding="15dp" 
-			android:selectAllOnFocus="true" 
-			android:textColor="@color/white"
+			android:selectAllOnFocus="true"
 			android:focusable="true" 
 			android:clickable="true" 
 			android:hapticFeedbackEnabled="true"
@@ -160,9 +150,7 @@
 			android:layout_height="wrap_content"
 			android:layout_width="fill_parent"
 			android:layout_gravity="left"
-			android:textAppearance="?android:attr/textAppearanceSmall" 
-			android:textColor="@color/white" 
-			android:textColorLink="@color/white"
+			android:textAppearance="?android:attr/textAppearanceSmall"
 			android:gravity="left" 
 			android:autoLink="all"
 			android:scrollbars="vertical"
@@ -185,7 +173,6 @@
 			android:layout_marginRight="1dp"
 			android:gravity="center_vertical|center_horizontal"
 			android:hapticFeedbackEnabled="true"
-			android:background="@drawable/button"
 			android:text="@string/dismiss" />
 		<Button
 			android:id="@+id/delete_button"  
@@ -196,7 +183,6 @@
 			android:layout_marginRight="1dp"
 			android:gravity="center_vertical|center_horizontal"
 			android:hapticFeedbackEnabled="true"
-			android:background="@drawable/button"
 			android:text="@string/delete" />
 		<Button
 			android:id="@+id/call_button"  
@@ -207,7 +193,6 @@
 			android:layout_marginRight="1dp"
 			android:gravity="center_vertical|center_horizontal"
 			android:hapticFeedbackEnabled="true"
-			android:background="@drawable/button"
 			android:text="@string/call" />
 		<Button
 			android:id="@+id/reply_button"  
@@ -218,7 +203,6 @@
 			android:layout_marginRight="1dp"
 			android:gravity="center_vertical|center_horizontal"
 			android:hapticFeedbackEnabled="true"
-			android:background="@drawable/button"
 			android:text="@string/reply" />
 		<Button
 			android:id="@+id/view_button"  
@@ -229,7 +213,6 @@
 			android:layout_marginRight="1dp"
 			android:gravity="center_vertical|center_horizontal"
 			android:hapticFeedbackEnabled="true"
-			android:background="@drawable/button"
 			android:text="@string/view" />
 	</LinearLayout>
 	<LinearLayout 
@@ -248,7 +231,6 @@
 			android:layout_marginRight="1dp"
 			android:gravity="center_vertical|center_horizontal"
 			android:hapticFeedbackEnabled="true"
-			android:background="@drawable/button"
 			android:scaleType="center" />
 		<ImageButton
 			android:id="@+id/delete_image_button"  
@@ -259,7 +241,6 @@
 			android:layout_marginRight="1dp"
 			android:gravity="center_vertical|center_horizontal"
 			android:hapticFeedbackEnabled="true"
-			android:background="@drawable/button"
 			android:scaleType="center" />
 		<ImageButton
 			android:id="@+id/call_image_button"  
@@ -270,7 +251,6 @@
 			android:layout_marginRight="1dp"
 			android:gravity="center_vertical|center_horizontal"
 			android:hapticFeedbackEnabled="true"
-			android:background="@drawable/button"
 			android:scaleType="center" />
 		<ImageButton
 			android:id="@+id/reply_image_button"  
@@ -281,7 +261,6 @@
 			android:layout_marginRight="1dp"
 			android:gravity="center_vertical|center_horizontal"
 			android:hapticFeedbackEnabled="true"
-			android:background="@drawable/button"
 			android:scaleType="center" />
 		<ImageButton
 			android:id="@+id/view_image_button"  
@@ -292,7 +271,6 @@
 			android:layout_marginRight="1dp"
 			android:gravity="center_vertical|center_horizontal"
 			android:hapticFeedbackEnabled="true"
-			android:background="@drawable/button"
 			android:scaleType="center" />
 	</LinearLayout>
 </LinearLayout>

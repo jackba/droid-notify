@@ -833,4 +833,9 @@ public class Constants {
 	//-----FLASH SMS CONSTANTS-----//
 	public static final String SMS_IGNORE_CLASS_0_MESSAGES_KEY = "sms_ignore_class_0_messages";	
 	
+	//-----THEME CONSTANTS-----//
+	public static final int THEME_BUTTON_NORMAL = 0;
+	public static final int THEME_BUTTON_NAV_PREV = 1;
+	public static final int THEME_BUTTON_NAV_NEXT = 2;
+	
 }

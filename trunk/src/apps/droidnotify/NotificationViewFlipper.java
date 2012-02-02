@@ -116,10 +116,8 @@ public class NotificationViewFlipper extends ViewFlipper {
 			if(_preferences.getString(Constants.VIEW_NOTIFICATION_ORDER, Constants.NEWEST_FIRST).equals(Constants.OLDER_FIRST)){
 				_notifications.add(notification);
 				_totalNotifications = _notifications.size();
-				addView(new NotificationView(_context, notification));
-				
-				//addView(new NotificationViewNEW(_context, notification));
-				
+				//addView(new NotificationView(_context, notification));				
+				addView(new NotificationViewNEW(_context, notification));				
 				if(_preferences.getBoolean(Constants.DISPLAY_NEWEST_NOTIFICATION, true)){
 					setDisplayedChild(_totalNotifications - 1);
 				}else{
@@ -128,7 +126,8 @@ public class NotificationViewFlipper extends ViewFlipper {
 			}else{
 				_notifications.add(0, notification);
 				_totalNotifications = _notifications.size();
-				addView(new NotificationView(_context, notification), 0);
+				//addView(new NotificationView(_context, notification), 0);
+				addView(new NotificationViewNEW(_context, notification), 0);
 				if(_preferences.getBoolean(Constants.DISPLAY_NEWEST_NOTIFICATION, true)){
 					setDisplayedChild(0);
 				}else{
