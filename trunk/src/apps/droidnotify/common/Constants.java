@@ -42,7 +42,8 @@ public class Constants {
 	
 	//-----RUNONCE CONSTANTS-----//
 	public static final String RUN_ONCE_EULA = "RUNONCE_EULA";
-	public static final String RUN_ONCE_CALENDAR_ALARM = "RUNONCE_CALENDAR_V_2_29";
+	public static final String RUN_ONCE_CALENDAR_ALARM = "RUNONCE_CALENDAR_V_2_24";
+	public static final String RUN_ONCE_CODE_FIX = "RUNONCE_CODE_FIX_V_2_24";
 	
 	//-----GENERAL APP CONSTANTS-----//
 	public static final String DROID_NOTIFY_WAKELOCK = "DROID_NOTIFY_WAKELOCK";
@@ -62,7 +63,9 @@ public class Constants {
     public static final String CLEAR_STATUS_BAR_NOTIFICATIONS_ON_EXIT_KEY = "clear_status_bar_notifications_on_exit_enabled";
     public static final String PREVIOUS_CALL_STATE_KEY = "previous_call_state";
 	public static final String USER_IN_LINKED_APP_KEY = "user_in_linked_app";
-	
+
+	//-----BLOCKING APP CONSTANTS-----//
+	public static final String BLOCKING_APP_RUNNING_ACTION_KEY = "blocking_app_running_action";
 	public static final String BLOCKING_APP_RUNNING_ACTION_RESCHEDULE = "0";
 	public static final String BLOCKING_APP_RUNNING_ACTION_IGNORE = "1";
 	public static final String BLOCKING_APP_RUNNING_ACTION_SHOW = "2";

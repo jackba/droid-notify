@@ -75,13 +75,12 @@ public class FacebookAlarmBroadcastReceiverService extends WakefulIntentService 
 		    boolean notificationIsBlocked = false;
 		    boolean rescheduleNotification = true;
 		    boolean callStateIdle = telemanager.getCallState() == TelephonyManager.CALL_STATE_IDLE;
-		    String blockingAppRuningAction = preferences.getString(Constants.FACEBOOK_BLOCKING_APP_RUNNING_ACTION_KEY, Constants.BLOCKING_APP_RUNNING_ACTION_SHOW);
 		    //Reschedule notification based on the users preferences.
 		    if(!callStateIdle){
 		    	notificationIsBlocked = true;		    	
 		    	rescheduleNotification = preferences.getBoolean(Constants.IN_CALL_RESCHEDULING_ENABLED_KEY, false);
 		    }else{		    	
-		    	notificationIsBlocked = Common.isNotificationBlocked(context, blockingAppRuningAction);
+		    	notificationIsBlocked = Common.isNotificationBlocked(context);
 		    }
 		    if(!notificationIsBlocked){
 				WakefulIntentService.sendWakefulWork(context, new Intent(context, FacebookService.class));
@@ -144,7 +143,7 @@ public class FacebookAlarmBroadcastReceiverService extends WakefulIntentService 
 						}
 				    }
 			    	//Ignore notification based on the users preferences.
-			    	if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_IGNORE)){
+			    	if(preferences.getString(Constants.BLOCKING_APP_RUNNING_ACTION_KEY, Constants.BLOCKING_APP_RUNNING_ACTION_SHOW).equals(Constants.BLOCKING_APP_RUNNING_ACTION_IGNORE)){
 			    		rescheduleNotification = false;
 			    		return;
 			    	}

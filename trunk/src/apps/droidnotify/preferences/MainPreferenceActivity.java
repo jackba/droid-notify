@@ -454,7 +454,59 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 				editor.commit();
 				displayHTMLAlertDialog(_context.getString(R.string.app_license),android.R.drawable.ic_dialog_info, _context.getString(R.string.eula_text));
 			}catch(Exception ex){
- 	    		Log.e("MainPreferenceActivity.runOnceEula() EULA ERROR: " + ex.toString());
+ 	    		Log.e("MainPreferenceActivity.runOnce() EULA ERROR: " + ex.toString());
+	    	}
+		}
+		//TODO - Remove this after sufficient time.
+		if(_preferences.getBoolean(Constants.RUN_ONCE_CODE_FIX, true)){
+			try{
+				SharedPreferences.Editor editor = _preferences.edit();
+				
+				editor.putBoolean(Constants.RUN_ONCE_CODE_FIX, false);
+				
+				String currentOldThemeKey = _preferences.getString(Constants.APP_THEME_KEY, "apps.droidnotify.theme.default");
+				if(currentOldThemeKey.equals("android")) editor.putString(Constants.APP_THEME_KEY, "apps.droidnotify.theme.froyo");
+				if(currentOldThemeKey.equals("android_dark")) editor.putString(Constants.APP_THEME_KEY, "apps.droidnotify.theme.gingerbread");
+				if(currentOldThemeKey.equals("android_icecream_holo_dark")) editor.putString(Constants.APP_THEME_KEY, "apps.droidnotify.theme.icecreamsandwich");
+				if(currentOldThemeKey.equals("iphone")) editor.putString(Constants.APP_THEME_KEY, "apps.droidnotify.theme.iphone");
+				if(currentOldThemeKey.equals("dark_translucent")) editor.putString(Constants.APP_THEME_KEY, "apps.droidnotify.theme.default");
+				if(currentOldThemeKey.equals("dark_translucent_v2")) editor.putString(Constants.APP_THEME_KEY, "apps.droidnotify.theme.default.v2");
+				if(currentOldThemeKey.equals("dark_translucent_v3")) editor.putString(Constants.APP_THEME_KEY, "apps.droidnotify.theme.default.v3");
+				if(currentOldThemeKey.equals("theme_htc")) editor.putString(Constants.APP_THEME_KEY, "apps.droidnotify.theme.htc");
+				if(currentOldThemeKey.equals("theme_xperia")) editor.putString(Constants.APP_THEME_KEY, "apps.droidnotify.theme.xperia");
+				
+				String blockingAppRuningAction = _preferences.getString(Constants.SMS_BLOCKING_APP_RUNNING_ACTION_KEY, Constants.BLOCKING_APP_RUNNING_ACTION_SHOW);
+				if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_RESCHEDULE)) editor.putString(Constants.BLOCKING_APP_RUNNING_ACTION_KEY, Constants.BLOCKING_APP_RUNNING_ACTION_RESCHEDULE);
+				if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_IGNORE)) editor.putString(Constants.BLOCKING_APP_RUNNING_ACTION_KEY, Constants.BLOCKING_APP_RUNNING_ACTION_IGNORE);
+				if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_SHOW)) editor.putString(Constants.BLOCKING_APP_RUNNING_ACTION_KEY, Constants.BLOCKING_APP_RUNNING_ACTION_SHOW);
+				blockingAppRuningAction = _preferences.getString(Constants.MMS_BLOCKING_APP_RUNNING_ACTION_KEY, Constants.BLOCKING_APP_RUNNING_ACTION_SHOW);
+				if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_RESCHEDULE)) editor.putString(Constants.BLOCKING_APP_RUNNING_ACTION_KEY, Constants.BLOCKING_APP_RUNNING_ACTION_RESCHEDULE);
+				if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_IGNORE)) editor.putString(Constants.BLOCKING_APP_RUNNING_ACTION_KEY, Constants.BLOCKING_APP_RUNNING_ACTION_IGNORE);
+				if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_SHOW)) editor.putString(Constants.BLOCKING_APP_RUNNING_ACTION_KEY, Constants.BLOCKING_APP_RUNNING_ACTION_SHOW);
+				blockingAppRuningAction = _preferences.getString(Constants.PHONE_BLOCKING_APP_RUNNING_ACTION_KEY, Constants.BLOCKING_APP_RUNNING_ACTION_SHOW);
+				if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_RESCHEDULE)) editor.putString(Constants.BLOCKING_APP_RUNNING_ACTION_KEY, Constants.BLOCKING_APP_RUNNING_ACTION_RESCHEDULE);
+				if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_IGNORE)) editor.putString(Constants.BLOCKING_APP_RUNNING_ACTION_KEY, Constants.BLOCKING_APP_RUNNING_ACTION_IGNORE);
+				if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_SHOW)) editor.putString(Constants.BLOCKING_APP_RUNNING_ACTION_KEY, Constants.BLOCKING_APP_RUNNING_ACTION_SHOW);
+				blockingAppRuningAction = _preferences.getString(Constants.CALENDAR_BLOCKING_APP_RUNNING_ACTION_KEY, Constants.BLOCKING_APP_RUNNING_ACTION_SHOW);
+				if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_RESCHEDULE)) editor.putString(Constants.BLOCKING_APP_RUNNING_ACTION_KEY, Constants.BLOCKING_APP_RUNNING_ACTION_RESCHEDULE);
+				if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_IGNORE)) editor.putString(Constants.BLOCKING_APP_RUNNING_ACTION_KEY, Constants.BLOCKING_APP_RUNNING_ACTION_IGNORE);
+				if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_SHOW)) editor.putString(Constants.BLOCKING_APP_RUNNING_ACTION_KEY, Constants.BLOCKING_APP_RUNNING_ACTION_SHOW);
+				blockingAppRuningAction = _preferences.getString(Constants.K9_BLOCKING_APP_RUNNING_ACTION_KEY, Constants.BLOCKING_APP_RUNNING_ACTION_SHOW);
+				if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_RESCHEDULE)) editor.putString(Constants.BLOCKING_APP_RUNNING_ACTION_KEY, Constants.BLOCKING_APP_RUNNING_ACTION_RESCHEDULE);
+				if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_IGNORE)) editor.putString(Constants.BLOCKING_APP_RUNNING_ACTION_KEY, Constants.BLOCKING_APP_RUNNING_ACTION_IGNORE);
+				if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_SHOW)) editor.putString(Constants.BLOCKING_APP_RUNNING_ACTION_KEY, Constants.BLOCKING_APP_RUNNING_ACTION_SHOW);
+				blockingAppRuningAction = _preferences.getString(Constants.TWITTER_BLOCKING_APP_RUNNING_ACTION_KEY, Constants.BLOCKING_APP_RUNNING_ACTION_SHOW);
+				if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_RESCHEDULE)) editor.putString(Constants.BLOCKING_APP_RUNNING_ACTION_KEY, Constants.BLOCKING_APP_RUNNING_ACTION_RESCHEDULE);
+				if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_IGNORE)) editor.putString(Constants.BLOCKING_APP_RUNNING_ACTION_KEY, Constants.BLOCKING_APP_RUNNING_ACTION_IGNORE);
+				if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_SHOW)) editor.putString(Constants.BLOCKING_APP_RUNNING_ACTION_KEY, Constants.BLOCKING_APP_RUNNING_ACTION_SHOW);
+				blockingAppRuningAction = _preferences.getString(Constants.FACEBOOK_BLOCKING_APP_RUNNING_ACTION_KEY, Constants.BLOCKING_APP_RUNNING_ACTION_SHOW);
+				if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_RESCHEDULE)) editor.putString(Constants.BLOCKING_APP_RUNNING_ACTION_KEY, Constants.BLOCKING_APP_RUNNING_ACTION_RESCHEDULE);
+				if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_IGNORE)) editor.putString(Constants.BLOCKING_APP_RUNNING_ACTION_KEY, Constants.BLOCKING_APP_RUNNING_ACTION_IGNORE);
+				if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_SHOW)) editor.putString(Constants.BLOCKING_APP_RUNNING_ACTION_KEY, Constants.BLOCKING_APP_RUNNING_ACTION_SHOW);
+
+				editor.commit();
+			}catch(Exception ex){
+ 	    		Log.e("MainPreferenceActivity.runOnce() CODE FIX ERROR: " + ex.toString());
 	    	}
 		}
 	}

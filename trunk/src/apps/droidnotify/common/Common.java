@@ -483,9 +483,11 @@ public class Common {
 	 * 
 	 * @return boolean - Returns true if a the notification should be blocked.
 	 */
-	public static boolean isNotificationBlocked(Context context, String blockingAppRuningAction){
+	public static boolean isNotificationBlocked(Context context){
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.isNotificationBlocked()");
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		String blockingAppRuningAction = preferences.getString(Constants.BLOCKING_APP_RUNNING_ACTION_KEY, Constants.BLOCKING_APP_RUNNING_ACTION_SHOW);
 		boolean blockedFlag = false;
 	    boolean blockingAppRunning = Common.isBlockingAppRunning(context);
 	    if(blockingAppRunning){

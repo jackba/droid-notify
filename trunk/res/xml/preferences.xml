@@ -47,7 +47,7 @@
 					android:entries="@array/theme_options"
 					android:entryValues="@array/theme_values"
 					droidnotify:entryImages="@array/theme_images"
-					android:defaultValue="dark_translucent" />
+					android:defaultValue="apps.droidnotify.theme.default" />
 				<CheckBoxPreference
 					android:key="phone_number_format_10_digits_only" 
 					android:title="@string/preference_phone_number_format_10_digits_only_title" 

@@ -65,26 +65,21 @@ public class RescheduleBroadcastReceiverService extends WakefulIntentService {
 		    boolean notificationIsBlocked = false;
 		    boolean rescheduleNotification = true;
 		    boolean callStateIdle = telemanager.getCallState() == TelephonyManager.CALL_STATE_IDLE;
-		    String blockingAppRuningAction = null;
 		    boolean showBlockedNotificationStatusBarNotification = false;
 		    switch(notificationType){
 			    case Constants.NOTIFICATION_TYPE_RESCHEDULE_PHONE:{
-			    	blockingAppRuningAction = preferences.getString(Constants.PHONE_BLOCKING_APP_RUNNING_ACTION_KEY, Constants.BLOCKING_APP_RUNNING_ACTION_SHOW);
 			    	showBlockedNotificationStatusBarNotification = preferences.getBoolean(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true);
 			    	break;
 			    }
 			    case Constants.NOTIFICATION_TYPE_RESCHEDULE_SMS:{
-			    	blockingAppRuningAction = preferences.getString(Constants.SMS_BLOCKING_APP_RUNNING_ACTION_KEY, Constants.BLOCKING_APP_RUNNING_ACTION_SHOW);
 			    	showBlockedNotificationStatusBarNotification = preferences.getBoolean(Constants.SMS_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true);
 			    	break;
 			    }
 			    case Constants.NOTIFICATION_TYPE_RESCHEDULE_MMS:{
-			    	blockingAppRuningAction = preferences.getString(Constants.MMS_BLOCKING_APP_RUNNING_ACTION_KEY, Constants.BLOCKING_APP_RUNNING_ACTION_SHOW);
 			    	showBlockedNotificationStatusBarNotification = preferences.getBoolean(Constants.MMS_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true);
 			    	break;
 			    }
 			    case Constants.NOTIFICATION_TYPE_RESCHEDULE_CALENDAR:{
-			    	blockingAppRuningAction = preferences.getString(Constants.CALENDAR_BLOCKING_APP_RUNNING_ACTION_KEY, Constants.BLOCKING_APP_RUNNING_ACTION_SHOW);
 			    	showBlockedNotificationStatusBarNotification = preferences.getBoolean(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true);
 			    	break;
 			    }
@@ -92,17 +87,14 @@ public class RescheduleBroadcastReceiverService extends WakefulIntentService {
 			    	break;
 			    }
 			    case Constants.NOTIFICATION_TYPE_RESCHEDULE_TWITTER:{
-			    	blockingAppRuningAction = preferences.getString(Constants.TWITTER_BLOCKING_APP_RUNNING_ACTION_KEY, Constants.BLOCKING_APP_RUNNING_ACTION_SHOW);
 			    	showBlockedNotificationStatusBarNotification = preferences.getBoolean(Constants.TWITTER_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true);
 			    	break;
 			    }
 			    case Constants.NOTIFICATION_TYPE_RESCHEDULE_FACEBOOK:{
-			    	blockingAppRuningAction = preferences.getString(Constants.FACEBOOK_BLOCKING_APP_RUNNING_ACTION_KEY, Constants.BLOCKING_APP_RUNNING_ACTION_SHOW);
 			    	showBlockedNotificationStatusBarNotification = preferences.getBoolean(Constants.FACEBOOK_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true);
 			    	break;
 			    }
 			    case Constants.NOTIFICATION_TYPE_RESCHEDULE_K9:{
-			    	blockingAppRuningAction = preferences.getString(Constants.K9_BLOCKING_APP_RUNNING_ACTION_KEY, Constants.BLOCKING_APP_RUNNING_ACTION_SHOW);
 			    	showBlockedNotificationStatusBarNotification = preferences.getBoolean(Constants.K9_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true);
 			    	break;
 			    }
@@ -112,7 +104,7 @@ public class RescheduleBroadcastReceiverService extends WakefulIntentService {
 		    	notificationIsBlocked = true;		    	
 		    	rescheduleNotification = preferences.getBoolean(Constants.IN_CALL_RESCHEDULING_ENABLED_KEY, false);
 		    }else{		    	
-		    	notificationIsBlocked = Common.isNotificationBlocked(context, blockingAppRuningAction);
+		    	notificationIsBlocked = Common.isNotificationBlocked(context);
 		    }
 		    if(!notificationIsBlocked){
 				Intent rescheduleIntent = new Intent(context, RescheduleService.class);
@@ -135,9 +127,9 @@ public class RescheduleBroadcastReceiverService extends WakefulIntentService {
 			    			}
 						}			    			
 					}
-		    	}		    	
+		    	}
 		    	//Ignore notification based on the users preferences.
-		    	if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_IGNORE)){
+		    	if(preferences.getString(Constants.BLOCKING_APP_RUNNING_ACTION_KEY, Constants.BLOCKING_APP_RUNNING_ACTION_SHOW).equals(Constants.BLOCKING_APP_RUNNING_ACTION_IGNORE)){
 		    		rescheduleNotification = false;
 		    		return;
 		    	}
