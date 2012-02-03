@@ -438,7 +438,9 @@
    	<string name="next_button_text">Next</string>
    	<string name="previous_button_text">Previous</string>
    	<string name="send_button_text">Send</string>
+   	<string name="send">Send</string>
    	<string name="cancel_button_text">Cancel</string>
+   	<string name="cancel">Cancel</string>
    	<string name="delete_button_text">Delete</string>
    	<string name="button_settings_text">Button Settings</string>
    	<string name="show_hide_button_settings_text">Show/Hide Button Settings</string>
