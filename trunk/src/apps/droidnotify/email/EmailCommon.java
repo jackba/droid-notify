@@ -63,9 +63,13 @@ public class EmailCommon {
 			}
 			if (_debug) Log.v("EmailCommon.getK9MessagesFromIntent() Email PackageName: " + packageName);
 			sentDate = (Date) bundle.get(packageName + ".intent.extra.SENT_DATE");
-            messageSubject = bundle.getString(packageName + ".intent.extra.SUBJECT").toLowerCase();
-            sentFromAddress = parseFromEmailAddress(bundle.getString(packageName + ".intent.extra.FROM").toLowerCase());
 			timeStamp = sentDate.getTime();
+			try{
+				messageSubject = bundle.getString(packageName + ".intent.extra.SUBJECT").toLowerCase();
+			}catch(Exception ex){
+				messageSubject = "";
+			}
+            sentFromAddress = parseFromEmailAddress(bundle.getString(packageName + ".intent.extra.FROM").toLowerCase());
             //if (_debug) Log.v("EmailCommon.getK9MessagesFromIntent() sentFromAddress: " + sentFromAddress);
             //Get the message body.
     		final String[] projection = new String[] {"_id", "date", "sender", "subject", "preview", "account", "uri", "delUri"};
@@ -88,7 +92,7 @@ public class EmailCommon {
 		    		k9EmailDelUri = cursor.getString(cursor.getColumnIndex("delUri"));
 		    		emailFoundFlag = true;
     	    	}else{
-    	    		if (_debug) Log.v("EmailCommon.getK9MessagesFromIntent() No Email Found Using The Following URI! URI: 'content://" + packageName + ".messageprovider/inbox_messages/'");
+    	    		Log.e("EmailCommon.getK9MessagesFromIntent() No Email Found Using The Following URI! URI: 'content://" + packageName + ".messageprovider/inbox_messages/'");
     	    	}
     		}catch(Exception ex){
     			Log.e("EmailCommon.getK9MessagesFromIntent() CURSOR ERROR: " + ex.toString());
@@ -117,7 +121,7 @@ public class EmailCommon {
 			}else{
 				//Basic Notification Information.
     			k9NotificationBundleSingle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, sentFromAddress);
-    			k9NotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_BODY, messageBody);
+    			if(messageBody != null) k9NotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_BODY, messageBody);
     			k9NotificationBundleSingle.putLong(Constants.BUNDLE_MESSAGE_ID, messageID);
     			k9NotificationBundleSingle.putLong(Constants.BUNDLE_TIMESTAMP, timeStamp);
     			k9NotificationBundleSingle.putString(Constants.BUNDLE_K9_EMAIL_URI, k9EmailUri);

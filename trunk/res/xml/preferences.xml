@@ -87,7 +87,15 @@
 					android:summary="@string/preference_popup_width_padding_summary"
 					android:defaultValue="0"
 					android:entries="@array/popup_width_padding_options"
-					android:entryValues="@array/popup_width_padding_options_values" />
+					android:entryValues="@array/popup_width_padding_options_values" />		
+				<ListPreference
+					android:key="blocking_app_running_action"
+					android:title="@string/blocking_app_running_action_text"
+					android:summary="@string/blocking_app_running_action_summary"
+					android:defaultValue="2"
+					android:entries="@array/blocking_app_running_action_options"
+					android:entryValues="@array/blocking_app_running_action_options_values"
+					android:dependency="sms_notifications_enabled" />
 			</PreferenceCategory>
 			<PreferenceCategory
 				android:key="notification_header_settings_category"
@@ -383,14 +391,6 @@
 							android:summaryOn="@string/preference_sms_display_unread_enabled_summaryOn" 
 							android:summaryOff="@string/preference_sms_display_unread_enabled_summaryOff" 
 							android:defaultValue="false"
-							android:dependency="sms_notifications_enabled" />		
-						<ListPreference
-							android:key="blocking_app_running_action_sms"
-							android:title="@string/blocking_app_running_action_text"
-							android:summary="@string/blocking_app_running_action_summary"
-							android:defaultValue="2"
-							android:entries="@array/blocking_app_running_action_options"
-							android:entryValues="@array/blocking_app_running_action_options_values"
 							android:dependency="sms_notifications_enabled" />
 					</PreferenceCategory>
 					<PreferenceCategory
@@ -607,14 +607,6 @@
 							android:summaryOn="@string/preference_mms_display_unread_enabled_summaryOn" 
 							android:summaryOff="@string/preference_mms_display_unread_enabled_summaryOff" 
 							android:defaultValue="false"
-							android:dependency="mms_notifications_enabled" />	
-						<ListPreference
-							android:key="blocking_app_running_action_mms"
-							android:title="@string/blocking_app_running_action_text"
-							android:summary="@string/blocking_app_running_action_summary"
-							android:defaultValue="2"
-							android:entries="@array/blocking_app_running_action_options"
-							android:entryValues="@array/blocking_app_running_action_options_values"
 							android:dependency="mms_notifications_enabled" />
 					</PreferenceCategory>	
 					<PreferenceCategory
@@ -831,14 +823,6 @@
 							android:defaultValue="0"
 							android:entries="@array/missed_call_loading_options"
 							android:entryValues="@array/missed_call_loading_options_values"
-							android:dependency="missed_call_notifications_enabled" />	
-						<ListPreference
-							android:key="blocking_app_running_action_missed_call"
-							android:title="@string/blocking_app_running_action_text"
-							android:summary="@string/blocking_app_running_action_summary"
-							android:defaultValue="2"
-							android:entries="@array/blocking_app_running_action_options"
-							android:entryValues="@array/blocking_app_running_action_options_values"
 							android:dependency="missed_call_notifications_enabled" />
 					</PreferenceCategory>	
 					<PreferenceCategory
@@ -1016,14 +1000,6 @@
 							android:defaultValue="12"
 							android:entries="@array/calendar_all_day_notify_day_of_time_options"
 							android:entryValues="@array/calendar_all_day_notify_day_of_time_options_values"
-							android:dependency="calendar_notifications_enabled" />		
-						<ListPreference
-							android:key="blocking_app_running_action_calendar"
-							android:title="@string/blocking_app_running_action_text"
-							android:summary="@string/blocking_app_running_action_summary"
-							android:defaultValue="2"
-							android:entries="@array/blocking_app_running_action_options"
-							android:entryValues="@array/blocking_app_running_action_options_values"
 							android:dependency="calendar_notifications_enabled" />
 						<ListPreference
 							android:key="calendar_polling_frequency"
@@ -1264,14 +1240,6 @@
 							android:summaryOn="@string/preference_k9_enabled_summaryOn" 
 							android:summaryOff="@string/preference_k9_enabled_summaryOff" 
 							android:defaultValue="true" />
-						<ListPreference
-							android:key="blocking_app_running_action_k9"
-							android:title="@string/blocking_app_running_action_text"
-							android:summary="@string/blocking_app_running_action_summary"
-							android:defaultValue="2"
-							android:entries="@array/blocking_app_running_action_options"
-							android:entryValues="@array/blocking_app_running_action_options_values"
-							android:dependency="k9_notifications_enabled" />
 					</PreferenceCategory>	
 					<PreferenceCategory
 						android:key="k9_notification_settings_category"
@@ -1508,14 +1476,6 @@
 							android:key="twitter_manual_poll" 
 							android:title="@string/preference_twitter_manual_poll_title" 
 							android:summary="@string/preference_twitter_manual_poll_summary" 
-							android:dependency="twitter_enabled" />
-						<ListPreference
-							android:key="blocking_app_running_action_twitter"
-							android:title="@string/blocking_app_running_action_text"
-							android:summary="@string/blocking_app_running_action_summary"
-							android:defaultValue="2"
-							android:entries="@array/blocking_app_running_action_options"
-							android:entryValues="@array/blocking_app_running_action_options_values"
 							android:dependency="twitter_enabled" />
 						<ListPreference
 							android:key="twitter_preferred_client"
@@ -1765,14 +1725,6 @@
 							android:key="facebook_manual_poll" 
 							android:title="@string/preference_facebook_manual_poll_title" 
 							android:summary="@string/preference_facebook_manual_poll_summary" 
-							android:dependency="facebook_enabled" />
-						<ListPreference
-							android:key="blocking_app_running_action_facebook"
-							android:title="@string/blocking_app_running_action_text"
-							android:summary="@string/blocking_app_running_action_summary"
-							android:defaultValue="2"
-							android:entries="@array/blocking_app_running_action_options"
-							android:entryValues="@array/blocking_app_running_action_options_values"
 							android:dependency="facebook_enabled" />
 						<ListPreference
 							android:key="facebook_preferred_client"

@@ -62,7 +62,10 @@ public class Constants {
 	public static final String HIDE_SINGLE_MESSAGE_HEADER_KEY = "hide_single_message_header_enabled";
     public static final String CLEAR_STATUS_BAR_NOTIFICATIONS_ON_EXIT_KEY = "clear_status_bar_notifications_on_exit_enabled";
     public static final String PREVIOUS_CALL_STATE_KEY = "previous_call_state";
+    
+    //-----LINKED APP CONSTANTS-----//
 	public static final String USER_IN_LINKED_APP_KEY = "user_in_linked_app";
+	public static final String USER_IN_QUICK_REPLY_APP_KEY = "user_in_quick_reply_app";
 
 	//-----BLOCKING APP CONSTANTS-----//
 	public static final String BLOCKING_APP_RUNNING_ACTION_KEY = "blocking_app_running_action";
@@ -204,19 +207,18 @@ public class Constants {
 	//-----UPGRADE CONSTATNS-----//
 	public static final String UPGRADE_TO_PRO_PREFERENCE_KEY = "upgrade_app_to_pro";
 	
-	//Staring Array of the top SMS Messaging Apps:
-	// Android Stock App
+	//Array of the top SMS Messaging Apps:
+	//---FORMAT = PACKAGE_NAME , CLASS_NAME---
+	// Android Stock SMS App
 	// Handcent
 	// Go SMS
-	// Magic Text
 	// Chomp SMS
 	// Pansi
-	// Text'n Drive
+	// Magic Text
+	// Zlango Messaging
+	// WhatsApp
 	//
-	//---FORMAT = PACKAGE_NAME , CLASS_NAME---
-	//
-	public static final String[] BLOCKED_PACKAGE_NAMES_ARRAY = new String[]{
-		"apps.droidnotifydonate,apps.droidnotifydonate.QuickReplyActivity", 
+	public static final String[] BLOCKED_SMS_PACKAGE_NAMES_ARRAY = new String[]{ 
 		"com.android.mms,com.android.mms.ui.ConversationList", 
 		"com.android.mms,com.android.mms.ui.ComposeMessageActivity",
 		"com.handcent.nextsms,com.handcent.sms.ui.ConversationExList",
@@ -225,6 +227,31 @@ public class Constants {
 		"com.pansi.msg,com.pansi.msg.ui.ConversationList", 
 		"com.pompeiicity.magictext,com.pompeiicity.magictext.SMSList",
 		"com.zlango.zms,com.zlango.zms.app.ConversationList",
+		"com.whatsapp,com.whatsapp.Conversations" };
+
+	//Array of the top Email Messaging Apps:
+	//---FORMAT = PACKAGE_NAME , CLASS_NAME---
+	// Android Stock Email App
+	// Google Gmail
+	// Kaiten Mail
+	// K-9 Mail
+	// Yahoo Mail
+	// Hotmail
+	//
+	public static final String[] BLOCKED_EMAIL_PACKAGE_NAMES_ARRAY = new String[]{ 
+		"com.android.email,com.android.email.activity.AccountFolderList,",
+		"com.google.android.gm,com.google.android.gm.ConversationListActivity",
+		"com.kaitenmail,com.kaitenmail.activity.Accounts",
+		"com.fsck.k9,com.fsck.k9.activity.Accounts",
+		"com.yahoo.mobile.client.android.mail,com.yahoo.mobile.client.android.mail.activity.YahooMail",
+		"com.hotmail.Z7,com.seven.Z7.app.email.EmailFront"};
+
+	//Array of the Misc Apps:
+	//---FORMAT = PACKAGE_NAME , CLASS_NAME---
+	// Text'n Drive
+	//
+	//
+	public static final String[] BLOCKED_MISC_PACKAGE_NAMES_ARRAY = new String[]{
 		"com.drivevox.drivevox" };
 	
 	//-----APP THEME CONSTANTS-----//
@@ -829,6 +856,9 @@ public class Constants {
 	
 	//-----IN-CALL SETTINGS CONSTANTS-----//
 	public static final String IN_CALL_RESCHEDULING_ENABLED_KEY = "in_call_rescheduling_enabled";
+	
+	//-----IN-QUICK REPLY SETTINGS CONSTANTS-----//
+	public static final String IN_QUICK_REPLY_RESCHEDULING_ENABLED_KEY = "in_quick_reply_rescheduling_enabled";
 	
 	//-----POPUP FORMATTING CONSTANTS-----//
 	public static final String POPUP_WINDOW_WIDTH_PADDING_KEY = "popup_width_padding";

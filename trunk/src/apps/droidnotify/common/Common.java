@@ -93,7 +93,7 @@ public class Common {
 	/**
 	 * Read/Display the content provider columns. This outputs to the log file the information.
 	 * 
-	 * @param context - Application Context.
+	 * @param context - The application context.
 	 * @param contentProviderURI - The URI we want to read.
 	 */
 	public static void debugReadContentProviderColumns(Context context, String contentProviderURI) {
@@ -163,7 +163,7 @@ public class Common {
 	/**
 	 * Get various contact info for a given phoneNumber.
 	 * 
-	 * @param context - Application Context.
+	 * @param context - The application context.
 	 * @param incomingNumber -  - The phoneNumber to search the contacts by.
 	 * 
 	 * @return Bundle - Returns a Bundle of the contact information.
@@ -244,7 +244,7 @@ public class Common {
 	/**
 	 * Get various contact info for a given email.
 	 * 
-	 * @param context - Application Context.
+	 * @param context - The application context.
 	 * @param incomingEmail - The email to search the contacts by.
 	 * 
 	 * @return Bundle - Returns a Bundle of the contact information.
@@ -324,7 +324,7 @@ public class Common {
 	/**
 	 * Get various contact info for a given name.
 	 * 
-	 * @param context - Application Context.
+	 * @param context - The application context.
 	 * @param incomingName - The name to search the contacts by.
 	 * 
 	 * @return Bundle - Returns a Bundle of the contact information.
@@ -378,7 +378,7 @@ public class Common {
 	/**
 	 * Start the intent to view a contact.
 	 * 
-	 * @param context - Application Context.
+	 * @param context - The application context.
 	 * @param notificationActivity - A reference to the parent activity.
 	 * @param contactID - The id of the contact we want to view.
 	 * @param requestCode - The request code we want returned.
@@ -411,7 +411,7 @@ public class Common {
 	/**
 	 * Start the intent to edit a contact.
 	 * 
-	 * @param context - Application Context.
+	 * @param context - The application context.
 	 * @param notificationActivity - A reference to the parent activity.
 	 * @param contactID - The id of the contact we want to edit.
 	 * @param requestCode - The request code we want returned.
@@ -445,7 +445,7 @@ public class Common {
 	/**
 	 * Start the intent to add a contact.
 	 * 
-	 * @param context - Application Context.
+	 * @param context - The application context.
 	 * @param notificationActivity - A reference to the parent activity.
 	 * @param sentFromAddress - The address (email or phone) of the contact we want to add.
 	 * @param requestCode - The request code we want returned.
@@ -478,7 +478,7 @@ public class Common {
 	/**
 	 * Determine if a notification should be shown or blocked.
 	 * 
-	 * @param context - Application Context.
+	 * @param context - The application context.
 	 * @param blockingAppRuningAction - The action to perform based on the user preferences.
 	 * 
 	 * @return boolean - Returns true if a the notification should be blocked.
@@ -487,10 +487,10 @@ public class Common {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.isNotificationBlocked()");
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-		String blockingAppRuningAction = preferences.getString(Constants.BLOCKING_APP_RUNNING_ACTION_KEY, Constants.BLOCKING_APP_RUNNING_ACTION_SHOW);
 		boolean blockedFlag = false;
 	    boolean blockingAppRunning = Common.isBlockingAppRunning(context);
 	    if(blockingAppRunning){
+			String blockingAppRuningAction = preferences.getString(Constants.BLOCKING_APP_RUNNING_ACTION_KEY, Constants.BLOCKING_APP_RUNNING_ACTION_SHOW);
 			if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_RESCHEDULE)){ 
 				blockedFlag = true;
 		    }else if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_SHOW)){
@@ -508,7 +508,7 @@ public class Common {
 	/**
 	 * Determine if the users phone has a blocked app currently running on the phone.
 	 * 
-	 * @param context - Application Context.
+	 * @param context - The application context.
 	 * 
 	 * @return boolean - Returns true if a app that is flagged to block is currently running.
 	 */
@@ -524,13 +524,47 @@ public class Common {
 	    	ComponentName runningTaskComponent = runningTaskInfo.baseActivity;
 	    	String runningTaskPackageName = runningTaskComponent.getPackageName();
 	    	String runningTaskClassName = runningTaskComponent.getClassName();
-	        int messagingPackageNamesArraySize = Constants.BLOCKED_PACKAGE_NAMES_ARRAY.length;
-	        for(int i = 0; i < messagingPackageNamesArraySize; i++){
-	        	String[] blockedInfoArray = Constants.BLOCKED_PACKAGE_NAMES_ARRAY[i].split(",");
+	    	if (_debug) Log.v("Common.isBlockingAppRunning() RunningTaskPackageName: " + runningTaskPackageName + " RunningTaskClassName: " + runningTaskClassName);
+	    	//Scan SMS Apps
+	        int smsPackageNamesArraySize = Constants.BLOCKED_SMS_PACKAGE_NAMES_ARRAY.length;
+	        for(int i = 0; i < smsPackageNamesArraySize; i++){
+	        	String[] blockedInfoArray = Constants.BLOCKED_SMS_PACKAGE_NAMES_ARRAY[i].split(",");
 		        if(blockedInfoArray[0].equals(runningTaskPackageName)){
-		        	if (_debug) Log.v("Common.isBlockingAppRunning() blockedInfoArray[0]: " + blockedInfoArray[0] + " runningTaskPackageName: " + runningTaskPackageName);
+		        	if (_debug) Log.v("Common.isBlockingAppRunning() SMS BlockedInfoArray[0]: " + blockedInfoArray[0] + " RunningTaskPackageName: " + runningTaskPackageName);
 		        	if(blockedInfoArray.length > 1){
-		        		if (_debug) Log.v("Common.isBlockingAppRunning() blockedInfoArray[1]: " + blockedInfoArray[1] + " runningTaskClassName: " + runningTaskClassName);
+		        		if (_debug) Log.v("Common.isBlockingAppRunning() SMS BlockedInfoArray[1]: " + blockedInfoArray[1] + " RunningTaskClassName: " + runningTaskClassName);
+		        		if(blockedInfoArray[1].equals(runningTaskClassName)){
+		        			return true;
+		        		}
+		        	}else{
+		        		return true;
+		        	}
+		        }
+	        }	        
+	        //Scan Email Apps
+	        int emailPackageNamesArraySize = Constants.BLOCKED_EMAIL_PACKAGE_NAMES_ARRAY.length;
+	        for(int i = 0; i < emailPackageNamesArraySize; i++){
+	        	String[] blockedInfoArray = Constants.BLOCKED_EMAIL_PACKAGE_NAMES_ARRAY[i].split(",");
+		        if(blockedInfoArray[0].equals(runningTaskPackageName)){
+		        	if (_debug) Log.v("Common.isBlockingAppRunning() EMAIL BlockedInfoArray[0]: " + blockedInfoArray[0] + " RunningTaskPackageName: " + runningTaskPackageName);
+		        	if(blockedInfoArray.length > 1){
+		        		if (_debug) Log.v("Common.isBlockingAppRunning() EMAIL BlockedInfoArray[1]: " + blockedInfoArray[1] + " RunningTaskClassName: " + runningTaskClassName);
+		        		if(blockedInfoArray[1].equals(runningTaskClassName)){
+		        			return true;
+		        		}
+		        	}else{
+		        		return true;
+		        	}
+		        }
+	        }	        
+	        //Scan Misc Apps
+	        int miscPackageNamesArraySize = Constants.BLOCKED_MISC_PACKAGE_NAMES_ARRAY.length;
+	        for(int i = 0; i < miscPackageNamesArraySize; i++){
+	        	String[] blockedInfoArray = Constants.BLOCKED_MISC_PACKAGE_NAMES_ARRAY[i].split(",");
+		        if(blockedInfoArray[0].equals(runningTaskPackageName)){
+		        	if (_debug) Log.v("Common.isBlockingAppRunning() MISC BlockedInfoArray[0]: " + blockedInfoArray[0] + " RunningTaskPackageName: " + runningTaskPackageName);
+		        	if(blockedInfoArray.length > 1){
+		        		if (_debug) Log.v("Common.isBlockingAppRunning() MISC BlockedInfoArray[1]: " + blockedInfoArray[1] + " RunningTaskClassName: " + runningTaskClassName);
 		        		if(blockedInfoArray[1].equals(runningTaskClassName)){
 		        			return true;
 		        		}
@@ -541,6 +575,39 @@ public class Common {
 	        }
 	    }
 		return false;
+	}
+	
+	/**
+	 * Reschedule a blocked notification.
+	 * 
+	 * @param context - The application context.
+	 * @param rescheduleNotificationInCall - Boolean that indicates that in-call rescheduling is turned on.
+	 * @param rescheduleNotificationInQuickReply - Boolean that indicates that in-quick reply app rescheduling is turned on.
+	 * @param className - The name of the receiver class.
+	 * @param extrasBundle - The extras information to pass to the receiver class.
+	 * @param actionText - The text that differentiates this alarm from other alarms.
+	 */
+	public static void rescheduleBlockedNotification(Context context, boolean rescheduleNotificationInCall, boolean rescheduleNotificationInQuickReply, Class<?> className, Bundle extrasBundle, String intentActionText){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.rescheduleBlockedNotification()");
+		boolean rescheduleNotification = false;
+    	SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+    	String blockingAppRunningAction = preferences.getString(Constants.BLOCKING_APP_RUNNING_ACTION_KEY, Constants.BLOCKING_APP_RUNNING_ACTION_SHOW);
+    	if(rescheduleNotificationInCall || rescheduleNotificationInQuickReply){
+    		rescheduleNotification = true;
+    	}else if(blockingAppRunningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_IGNORE)){
+    		rescheduleNotification = false;
+    	}else if(blockingAppRunningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_RESCHEDULE)){
+    		rescheduleNotification = true;
+    	}
+		if (_debug) Log.v("Common.rescheduleBlockedNotification() RescheduleNotification? " + rescheduleNotification);
+    	if(rescheduleNotification){
+	    	//Set alarm to go off x minutes from the current time as defined by the user preferences.
+	    	long rescheduleInterval = Long.parseLong(preferences.getString(Constants.RESCHEDULE_BLOCKED_NOTIFICATION_TIMEOUT_KEY, Constants.RESCHEDULE_BLOCKED_NOTIFICATION_TIMEOUT_DEFAULT)) * 60 * 1000;
+	    	if (_debug) Log.v("Common.rescheduleBlockedNotification() Rescheduling notification. Rechedule in " + (rescheduleInterval/60/1000) + " minutes.");
+			long rescheduleTime = System.currentTimeMillis() + rescheduleInterval;
+			Common.startAlarm(context, className, extrasBundle, intentActionText, rescheduleTime);
+    	}
 	}
 	
 	/**
@@ -1964,8 +2031,7 @@ public class Common {
 	public static void setInLinkedAppFlag(Context context, boolean flag){
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.setInLinkedAppFlag()");
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-		SharedPreferences.Editor editor = preferences.edit();
+		SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
 		editor.putBoolean(Constants.USER_IN_LINKED_APP_KEY, flag);
 		editor.commit();
 	}
@@ -1980,8 +2046,34 @@ public class Common {
 	public static boolean isUserInLinkedApp(Context context){
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.isUserInLinkedApp()");
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-		return preferences.getBoolean(Constants.USER_IN_LINKED_APP_KEY, false);
+		return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(Constants.USER_IN_LINKED_APP_KEY, false);
+	}
+	
+	/**
+	 * Set the UserInQuickReplyApp flag.
+	 * 
+	 * @param context - The application context.
+	 * @param flag - Boolean flag to set.
+	 */
+	public static void setInQuickReplyAppFlag(Context context, boolean flag){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.setInQuickReplyAppFlag()");
+		SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
+		editor.putBoolean(Constants.USER_IN_QUICK_REPLY_APP_KEY, flag);
+		editor.commit();
+	}
+
+	/**
+	 * Get the UserInQuickReplyApp flag.
+	 * 
+	 * @param context - The application context.
+	 * 
+	 * @return boolean - The boolean flag to return.
+	 */
+	public static boolean isUserInQuickReplyApp(Context context){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.isUserInQuickReplyApp()");
+		return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(Constants.USER_IN_QUICK_REPLY_APP_KEY, false);
 	}
 	
 	/**
@@ -2034,7 +2126,7 @@ public class Common {
 	 * 
 	 * @param context - The application context.
 	 * @param className - The name of the receiver class.
-	 * @param extrasBundle - The extras information to pass to the recevier class.
+	 * @param extrasBundle - The extras information to pass to the receiver class.
 	 * @param actionText - The text that differentiates this alarm from other alarms.
 	 * @param rescheduleTime - The time the alarm should go off.
 	 */

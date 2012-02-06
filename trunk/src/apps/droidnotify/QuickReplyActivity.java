@@ -101,6 +101,7 @@ public class QuickReplyActivity extends Activity {
 	    _context = getApplicationContext();
 		_debug = Log.getDebug();
 	    if (_debug) Log.v("QuickReplyActivity.onCreate()");
+	    Common.setInQuickReplyAppFlag(_context, true);
 	    Common.setApplicationLanguage(_context, this);
 	    _preferences = PreferenceManager.getDefaultSharedPreferences(_context);
 	    //Don't rotate the Activity when the screen rotates based on the user preferences.
@@ -237,6 +238,7 @@ public class QuickReplyActivity extends Activity {
 	    super.onResume();
 	    if (_debug) Log.v("QuickReplyActivity.onResume()");
 	    setFocus();
+	    Common.setInQuickReplyAppFlag(_context, true);
 	}
 	  
 	/**
@@ -247,6 +249,7 @@ public class QuickReplyActivity extends Activity {
 	    super.onPause();
 	    if (_debug) Log.v("QuickReplyActivity.onPause()");
 	    showSoftKeyboard(false, (EditText) findViewById(R.id.message_edit_text));
+	    Common.setInQuickReplyAppFlag(_context, false);
 	}
 	  
 	/**
@@ -266,6 +269,7 @@ public class QuickReplyActivity extends Activity {
 	    super.onDestroy();
 	    if (_debug) Log.v("QuickReplyActivity.onDestroy()");
 	    showSoftKeyboard(false, (EditText) findViewById(R.id.message_edit_text));
+	    Common.setInQuickReplyAppFlag(_context, false);
 	    saveMessageDraft();
 	}
 	
