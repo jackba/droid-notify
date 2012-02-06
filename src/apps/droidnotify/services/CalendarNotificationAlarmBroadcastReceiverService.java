@@ -68,15 +68,20 @@ public class CalendarNotificationAlarmBroadcastReceiverService extends WakefulIn
 				return;
 			}
 		    //Check the state of the users phone.
-			TelephonyManager telemanager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+		    TelephonyManager telemanager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 		    boolean notificationIsBlocked = false;
-		    boolean rescheduleNotification = true;
+		    boolean rescheduleNotificationInCall = true;
+		    boolean rescheduleNotificationInQuickReply = true;
 		    boolean callStateIdle = telemanager.getCallState() == TelephonyManager.CALL_STATE_IDLE;
+		    boolean inQuickReplyApp = Common.isUserInQuickReplyApp(context);
 		    //Reschedule notification based on the users preferences.
 		    if(!callStateIdle){
 		    	notificationIsBlocked = true;		    	
-		    	rescheduleNotification = preferences.getBoolean(Constants.IN_CALL_RESCHEDULING_ENABLED_KEY, false);
-		    }else{		    	
+		    	rescheduleNotificationInCall = preferences.getBoolean(Constants.IN_CALL_RESCHEDULING_ENABLED_KEY, false);
+		    }else if(inQuickReplyApp){
+		    	notificationIsBlocked = true;		    	
+		    	rescheduleNotificationInQuickReply = preferences.getBoolean(Constants.IN_QUICK_REPLY_RESCHEDULING_ENABLED_KEY, false);
+		    }else{
 		    	notificationIsBlocked = Common.isNotificationBlocked(context);
 		    }
 		    if(!notificationIsBlocked){
@@ -96,20 +101,9 @@ public class CalendarNotificationAlarmBroadcastReceiverService extends WakefulIn
 						    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_CALENDAR, -1, callStateIdle, null, null, calendarEventNotificationBundleSingle.getString(Constants.BUNDLE_MESSAGE_BODY), null, null);
 		    			}
 		    		}
-		    	}
-		    	//Ignore notification based on the users preferences.
-		    	if(preferences.getString(Constants.BLOCKING_APP_RUNNING_ACTION_KEY, Constants.BLOCKING_APP_RUNNING_ACTION_SHOW).equals(Constants.BLOCKING_APP_RUNNING_ACTION_IGNORE)){
-		    		rescheduleNotification = false;
-		    		return;
-		    	}
-		    	if(rescheduleNotification){
-			    	// Set alarm to go off x minutes from the current time as defined by the user preferences.
-			    	long rescheduleInterval = Long.parseLong(preferences.getString(Constants.RESCHEDULE_BLOCKED_NOTIFICATION_TIMEOUT_KEY, Constants.RESCHEDULE_BLOCKED_NOTIFICATION_TIMEOUT_DEFAULT)) * 60 * 1000;
-		    		if (_debug) Log.v("CalendarNotificationAlarmBroadcastReceiverService.onReceive() Rescheduling notification. Rechedule in " + rescheduleInterval + "minutes.");					
-					String intentActionText = "apps.droidnotify.alarm/CalendarNotificationAlarmReceiverAlarm/" + String.valueOf(System.currentTimeMillis());
-					long alarmTime = System.currentTimeMillis() + rescheduleInterval;
-					Common.startAlarm(context, CalendarNotificationAlarmReceiver.class, intent.getExtras(), intentActionText, alarmTime);
-		    	}
+		    	}					
+		    	String intentActionText = "apps.droidnotify.alarm/CalendarNotificationAlarmReceiverAlarm/" + String.valueOf(System.currentTimeMillis());
+		    	Common.rescheduleBlockedNotification(context, rescheduleNotificationInCall, rescheduleNotificationInQuickReply, CalendarNotificationAlarmReceiver.class, intent.getExtras(), intentActionText);
 		    }
 		}catch(Exception ex){
 			Log.e("CalendarNotificationAlarmBroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());

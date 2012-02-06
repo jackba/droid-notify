@@ -353,6 +353,7 @@ public class NotificationActivity extends Activity {
 		}
 	    Common.clearWakeLock();
 	    cancelScreenTimeout();
+	    Common.setInLinkedAppFlag(_context, false);
 	    //Finish the activity.
 	    finish();
 	}
@@ -656,6 +657,7 @@ public class NotificationActivity extends Activity {
 		        	Toast.makeText(_context, _context.getString(R.string.app_android_messaging_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
 		    	}
 		    	Common.setInLinkedAppFlag(_context, false);
+		    	Common.setInQuickReplyAppFlag(_context, false);
 		        break;
 		    }
 		    case Constants.CALL_ACTIVITY:{ 
@@ -768,6 +770,23 @@ public class NotificationActivity extends Activity {
 		        	Toast.makeText(_context, _context.getString(R.string.twitter_app_error) + " " + resultCode, Toast.LENGTH_LONG).show();
 		    	}
 		    	Common.setInLinkedAppFlag(_context, false);
+		        break;
+		    }
+		    case Constants.SEND_TWITTER_QUICK_REPLY_ACTIVITY:{ 
+		    	if (resultCode == RESULT_OK) {
+		    		if (_debug) Log.v("NotificationActivity.onActivityResult() SEND_TWITTER_QUICK_REPLY_ACTIVITY: RESULT_OK");
+		        	//Remove notification from ViewFlipper.
+		    		_notificationViewFlipper.removeActiveNotification(false);
+		    	}else if (resultCode == RESULT_CANCELED) {
+		    		if (_debug) Log.v("NotificationActivity.onActivityResult() SEND_TWITTER_QUICK_REPLY_ACTIVITY: RESULT_CANCELED");
+		    		//Remove notification from ViewFlipper.
+					//_notificationViewFlipper.removeActiveNotification(false);
+		    	}else{
+		    		if (_debug) Log.v("NotificationActivity.onActivityResult() SEND_TWITTER_QUICK_REPLY_ACTIVITY: " + resultCode);
+		        	Toast.makeText(_context, _context.getString(R.string.app_android_messaging_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
+		    	}
+		    	Common.setInLinkedAppFlag(_context, false);
+		    	Common.setInQuickReplyAppFlag(_context, false);
 		        break;
 		    }
 		    case Constants.FACEBOOK_OPEN_APP_ACTIVITY:{
@@ -1085,6 +1104,7 @@ public class NotificationActivity extends Activity {
 		}
 	    Common.clearWakeLock();
 	    cancelScreenTimeout();
+	    Common.setInLinkedAppFlag(_context, false);
 	    super.onDestroy();
 	}
 
