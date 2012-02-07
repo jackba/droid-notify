@@ -23,7 +23,9 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
@@ -1987,6 +1989,8 @@ public class Common {
 	 * @return Bundle - A Bundle that contains all the information provided.
 	 */
 	public static Bundle createNotificationBundle(String sentFromAddress, long sentFromID, String messageBody, long timeStamp, long threadID, long contactID, String contactName, long photoID, int notificationType, long messageID, String messageStringID, String title, long calendarID, long calendarEventID, long calendarEventStartTime, long calendarEventEndTime, String calendarName, boolean allDay, long callLogID, String lookupKey, String k9EmailUri, String k9EmailDelUri, int rescheduleNumber, int notificationSubType, String linkURL){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.createNotificationBundle()");
 		Bundle notificationBundle = new Bundle();		
 		if(sentFromAddress != null) notificationBundle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, sentFromAddress);
 		if(sentFromID >= 0) notificationBundle.putLong(Constants.BUNDLE_SENT_FROM_ID, sentFromID);
@@ -2015,6 +2019,25 @@ public class Common {
 		if(linkURL != null) notificationBundle.putString(Constants.BUNDLE_LINK_URL, linkURL);
 		return notificationBundle;
 	}
+	
+    /**
+     * Determine if the specified package is installed on the device.
+     * 
+     * @param packageName - The package name that we are searching for.
+     * 
+     * @return boolean - Returns true if the package name specified is installed on the device.
+     */
+	public static boolean packageExists(Context context, String packageName){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.packageExists()");
+    	try{
+    	    @SuppressWarnings("unused")
+			ApplicationInfo applicationInfo = context.getPackageManager().getApplicationInfo(packageName, 0);
+    	    return true;
+    	} catch(PackageManager.NameNotFoundException e ){
+    	    return false;
+    	}
+    }
 	
 	//================================================================================
 	// Private Methods
