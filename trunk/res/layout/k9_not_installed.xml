@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView 
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/content_scroll_view"
+    android:layout_height="fill_parent"
+    android:layout_width="fill_parent"
+    android:padding="5dp">
+	<LinearLayout
+		android:id="@+id/content_linear_layout"
+		android:layout_height="fill_parent"
+		android:layout_width="fill_parent"
+		android:orientation="vertical"
+		android:padding="5dp">
+		<TextView
+			android:id="@+id/content_text_view"
+			android:layout_height="wrap_content"
+			android:layout_width="fill_parent" 
+			android:textColor="@color/white" 
+			android:textColorLink="@color/white" 
+			android:autoLink="all"
+			android:scrollbars="vertical"
+			android:paddingLeft="5dp"
+			android:paddingRight="5dp"
+			android:paddingTop="5dp"
+			android:paddingBottom="10dp" />
+		<LinearLayout
+		    android:id="@+id/content_linear_layout"
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+		    android:gravity="center_horizontal"
+		    android:orientation="horizontal"
+		    android:padding="5dp" >
+			<Button
+				android:id="@+id/content_button_1"
+				android:layout_height="wrap_content"
+				android:layout_width="wrap_content"
+				android:layout_gravity="center_horizontal" />
+			<Button
+				android:id="@+id/content_button_2"
+				android:layout_height="wrap_content"
+				android:layout_width="wrap_content"
+				android:layout_gravity="center_horizontal" />
+		</LinearLayout>
+	</LinearLayout>
+</ScrollView>

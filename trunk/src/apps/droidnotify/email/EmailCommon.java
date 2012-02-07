@@ -14,6 +14,7 @@ import apps.droidnotify.NotificationActivity;
 import apps.droidnotify.R;
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
+import apps.droidnotify.contacts.ContactsCommon;
 import apps.droidnotify.log.Log;
 
 public class EmailCommon {
@@ -107,7 +108,7 @@ public class EmailCommon {
 			}else{
 				messageBody = messageBody.replace("\n", "<br/>").trim();
 			}
-    		Bundle k9ContactInfoBundle = Common.getContactsInfoByEmail(context, sentFromAddress);
+    		Bundle k9ContactInfoBundle = ContactsCommon.getContactsInfoByEmail(context, sentFromAddress);
     		if(k9ContactInfoBundle == null){
 				//Basic Notification Information.
     			k9NotificationBundleSingle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, sentFromAddress);

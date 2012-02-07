@@ -30,6 +30,7 @@ import apps.droidnotify.QuickReplyActivity;
 import apps.droidnotify.R;
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
+import apps.droidnotify.contacts.ContactsCommon;
 import apps.droidnotify.receivers.TwitterAlarmReceiver;
 import apps.droidnotify.log.Log;
 
@@ -332,7 +333,7 @@ public class TwitterCommon {
 		}
 		try{
 			String twitterName = twitterUser.getName();
-			return Common.getContactsInfoByName(context, twitterName);
+			return ContactsCommon.getContactsInfoByName(context, twitterName);
 		}catch(Exception ex){
 			Log.e("TwitterCommon.getContactInfoByTwitterUser() ERROR: " + ex.toString());
 			return null;

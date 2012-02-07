@@ -36,6 +36,7 @@ import apps.droidnotify.log.Log;
 import apps.droidnotify.calendar.CalendarCommon;
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
+import apps.droidnotify.contacts.ContactsCommon;
 import apps.droidnotify.email.EmailCommon;
 import apps.droidnotify.facebook.FacebookCommon;
 import apps.droidnotify.phone.PhoneCommon;
@@ -195,13 +196,13 @@ public class NotificationActivity extends Activity {
 		//customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 		switch (menuItem.getItemId()) {
 			case ADD_CONTACT_CONTEXT_MENU:{
-				return Common.startContactAddActivity(_context, this, notification.getSentFromAddress(), Constants.ADD_CONTACT_ACTIVITY);
+				return ContactsCommon.startContactAddActivity(_context, this, notification.getSentFromAddress(), Constants.ADD_CONTACT_ACTIVITY);
 			}
 			case EDIT_CONTACT_CONTEXT_MENU:{
-				return Common.startContactEditActivity(_context, this, notification.getContactID(), Constants.EDIT_CONTACT_ACTIVITY);
+				return ContactsCommon.startContactEditActivity(_context, this, notification.getContactID(), Constants.EDIT_CONTACT_ACTIVITY);
 			}
 			case VIEW_CONTACT_CONTEXT_MENU:{
-				return Common.startContactViewActivity(_context, this, notification.getContactID(), Constants.VIEW_CONTACT_ACTIVITY);
+				return ContactsCommon.startContactViewActivity(_context, this, notification.getContactID(), Constants.VIEW_CONTACT_ACTIVITY);
 			}
 			case VIEW_CALL_LOG_CONTEXT_MENU:{
 				return PhoneCommon.startCallLogViewActivity(_context, this, Constants.VIEW_CALL_LOG_ACTIVITY);
