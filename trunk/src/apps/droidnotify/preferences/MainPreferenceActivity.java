@@ -17,7 +17,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.pm.ActivityInfo;
-import android.content.pm.PackageInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -207,7 +206,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			reloadPreferenceActivity();
 		}else if(key.equals(Constants.K9_NOTIFICATIONS_ENABLED_KEY)){
 			if(_preferences.getBoolean(Constants.K9_NOTIFICATIONS_ENABLED_KEY, true)){
-				checkK9PackageInstallation();
+				checkK9PackageInstallation(true);
 			}
 		}
 	}
@@ -489,7 +488,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			SharedPreferences.Editor editor = _preferences.edit();
 			editor.putBoolean(Constants.RUN_ONCE_CALENDAR_ALARM, false);
 			editor.commit();
-			startCalendarAlarmManager(System.currentTimeMillis());
+			startCalendarAlarmManager(System.currentTimeMillis() + (60 * 1000));
 		}
 	}
 	
@@ -525,7 +524,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			SharedPreferences.Editor editor = _preferences.edit();
 			editor.putBoolean(Constants.RUN_ONCE_K9_CHECK, false);
 			editor.commit();
-			checkK9PackageInstallation();
+			checkK9PackageInstallation(false);
 		}
 		//TODO - Remove this after sufficient time.
 		if(_preferences.getBoolean(Constants.RUN_ONCE_CODE_FIX, true)){
@@ -1561,35 +1560,28 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	 * Check the users phone for the K-9 or Kaiten package installation.
 	 * If this is not found on the users phone, display a custom dialog box.
 	 */
-	private void checkK9PackageInstallation(){
+	private void checkK9PackageInstallation(boolean notifyFlag){
 		if (_debug) Log.v("MainPreferenceActivity.checkK9PackageInstallation()");
-		boolean packageInstalledFlag = false;
-		//Try K-9 Mail.
-		try{
-			@SuppressWarnings("unused")
-			PackageInfo packageInfo = _context.getPackageManager().getPackageInfo("com.fsck.k9", 0);
-			packageInstalledFlag = true;
-		}catch(Exception ex){
-			//Do Nothing
-		}
-		//Try Kaiten.
-		try{
-			@SuppressWarnings("unused")
-			PackageInfo packageInfo = _context.getPackageManager().getPackageInfo("com.kaitenmail", 0);
-			packageInstalledFlag = true;
-		}catch(Exception ex){
-			//Do Nothing		
-		}
+		//Look for K-9 Mail and Kaiten Mail.
+//		boolean packageInstalledFlag = Common.packageExists(_context, "com.fsck.k9") || 
+//										Common.packageExists(_context, "com.kaitenmail");
+		boolean packageInstalledFlag = Common.packageExists(_context, "com.fsck.k9");
 		if(!packageInstalledFlag){
-			if (_debug) Log.v("MainPreferenceActivity.checkK9PackageInstallation() K9 Packages Not Found!");
-			//Display dialog to user.
-			showDialog(Constants.DIALOG_K9_CLIENT_NOT_INSTALLED);
-			//Disable k9 notifications.
-            CheckBoxPreference k9NotificationsEnabledCheckbox = (CheckBoxPreference) findPreference(Constants.K9_NOTIFICATIONS_ENABLED_KEY);
-            k9NotificationsEnabledCheckbox.setChecked(false);
+			if (_debug) Log.v("MainPreferenceActivity.checkK9PackageInstallation() K9 Client Packages Not Found!");	
 			SharedPreferences.Editor editor = _preferences.edit();
         	editor.putBoolean(Constants.K9_NOTIFICATIONS_ENABLED_KEY, false);
             editor.commit();
+			//Disable k9 notifications.
+            CheckBoxPreference k9NotificationsEnabledCheckbox = (CheckBoxPreference) findPreference(Constants.K9_NOTIFICATIONS_ENABLED_KEY);
+            if(k9NotificationsEnabledCheckbox != null) k9NotificationsEnabledCheckbox.setChecked(false);			
+			//Display dialog to user.
+            if(notifyFlag){
+	            try{
+	            	showDialog(Constants.DIALOG_K9_CLIENT_NOT_INSTALLED);
+	            }catch(Exception ex){
+	            	if (_debug) Log.v("MainPreferenceActivity.checkK9PackageInstallation() ERROR: " + ex.toString());
+	            }
+            }
 		}
 	}
 	
