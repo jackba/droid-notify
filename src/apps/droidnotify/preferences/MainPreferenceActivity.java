@@ -17,6 +17,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -103,7 +104,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	    runOnceCalendarAlarmManager();
 	    setupRateAppPreference();
 	    setupAppVersion(_appProVersion);
-	    runOnce();
+	    runOnce();	    
 	}
     
 	/**
@@ -204,6 +205,10 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			Log.setDebug(_preferences.getBoolean(Constants.DEBUG, false));
 		}else if(key.equals(Constants.LANGUAGE_KEY)){
 			reloadPreferenceActivity();
+		}else if(key.equals(Constants.K9_NOTIFICATIONS_ENABLED_KEY)){
+			if(_preferences.getBoolean(Constants.K9_NOTIFICATIONS_ENABLED_KEY, true)){
+				checkK9PackageInstallation();
+			}
 		}
 	}
 
@@ -396,6 +401,65 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		        }
 				return alertDialog;
 			}
+			case Constants.DIALOG_K9_CLIENT_NOT_INSTALLED:{
+				if (_debug) Log.v("MainPreferenceActivity.onCreateDialog() DIALOG_K9_CLIENT_NOT_INSTALLED");
+				LayoutInflater factory = getLayoutInflater();
+		        final View k9PackageNotFoundView = factory.inflate(R.layout.k9_not_installed, null);
+				AlertDialog.Builder builder = new AlertDialog.Builder(this);
+				builder.setView(k9PackageNotFoundView);
+				builder.setIcon(android.R.drawable.ic_dialog_alert);
+				builder.setTitle(_context.getString(R.string.package_not_found));
+				final AlertDialog alertDialog = builder.create();
+				TextView contentTextView = (TextView) k9PackageNotFoundView.findViewById(R.id.content_text_view);
+		        Button contentButton1 = (Button) k9PackageNotFoundView.findViewById(R.id.content_button_1);
+		        Button contentButton2 = (Button) k9PackageNotFoundView.findViewById(R.id.content_button_2);
+		        if(Log.getShowAndroidRateAppLink()){
+		        	contentButton1.setText(_context.getString(R.string.k9_mail));
+		        	contentButton1.setOnClickListener(new OnClickListener(){
+			        	public void onClick(View view) {
+			        		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.K9_MAIL_ANDROID_URL));			    	
+					    	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_NO_HISTORY);
+				    		startActivity(intent);
+				    		alertDialog.dismiss();
+			        	}
+			        });
+		        	contentButton2.setText(_context.getString(R.string.kaiten_mail));
+			        contentButton2.setOnClickListener(new OnClickListener(){
+			        	public void onClick(View view) {
+			        		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.KAITEN_MAIL_ANDROID_URL));			    	
+					    	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_NO_HISTORY);
+				    		startActivity(intent);
+				    		alertDialog.dismiss();
+			        	}
+			        });
+			        contentTextView.setText(_context.getString(R.string.package_k9_not_found));
+		        }else if(Log.getShowAmazonRateAppLink()){
+		        	contentButton1.setText(_context.getString(R.string.k9_mail));
+		        	contentButton1.setOnClickListener(new OnClickListener(){
+				    	public void onClick(View view) {
+			        		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.K9_MAIL_AMAZON_URL));			    	
+					    	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_NO_HISTORY);
+				    		startActivity(intent);
+				    		alertDialog.dismiss();
+				    	}
+				    });
+		        	contentButton2.setText(_context.getString(R.string.kaiten_mail));
+		        	contentButton2.setOnClickListener(new OnClickListener(){
+				    	public void onClick(View view) {
+			        		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.KAITEN_MAIL_AMAZON_URL));			    	
+					    	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_NO_HISTORY);
+				    		startActivity(intent);
+				    		alertDialog.dismiss();
+				    	}
+				    });
+			        contentTextView.setText(_context.getString(R.string.package_k9_not_found));
+		        }else{
+		        	contentButton1.setVisibility(View.GONE);
+		        	contentButton2.setVisibility(View.GONE);
+			        contentTextView.setText(_context.getString(R.string.package_k9_not_found_generic));
+		        }
+				return alertDialog;
+			}
 		}
 		return super.onCreateDialog(id);
 	}
@@ -454,8 +518,14 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 				editor.commit();
 				displayHTMLAlertDialog(_context.getString(R.string.app_license),android.R.drawable.ic_dialog_info, _context.getString(R.string.eula_text));
 			}catch(Exception ex){
- 	    		Log.e("MainPreferenceActivity.runOnce() EULA ERROR: " + ex.toString());
+ 	    		Log.e("MainPreferenceActivity.runOnceEula() EULA ERROR: " + ex.toString());
 	    	}
+		}
+		if(_preferences.getBoolean(Constants.RUN_ONCE_K9_CHECK, true)) {
+			SharedPreferences.Editor editor = _preferences.edit();
+			editor.putBoolean(Constants.RUN_ONCE_K9_CHECK, false);
+			editor.commit();
+			checkK9PackageInstallation();
 		}
 		//TODO - Remove this after sufficient time.
 		if(_preferences.getBoolean(Constants.RUN_ONCE_CODE_FIX, true)){
@@ -1096,7 +1166,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	}
 	
 	/**
-	 * Display an HTML AletDialog.
+	 * Display an HTML AlertDialog.
 	 */
 	private boolean displayHTMLAlertDialog(String title, int iconResource, String content){
 		if (_debug) Log.v("MainPreferenceActivity.displayHTMLAlertDialog()");
@@ -1484,6 +1554,42 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			Toast.makeText(_context, _context.getString(R.string.not_online_error), Toast.LENGTH_LONG).show();
 			//CheckBoxPreference linkedInEnabledCheckBoxPreference = (CheckBoxPreference) findPreference(Constants.LINKEDIN_NOTIFICATIONS_ENABLED_KEY);
 			//if(linkedInEnabledCheckBoxPreference != null) linkedInEnabledCheckBoxPreference.setChecked(false);
+		}
+	}
+	
+	/**
+	 * Check the users phone for the K-9 or Kaiten package installation.
+	 * If this is not found on the users phone, display a custom dialog box.
+	 */
+	private void checkK9PackageInstallation(){
+		if (_debug) Log.v("MainPreferenceActivity.checkK9PackageInstallation()");
+		boolean packageInstalledFlag = false;
+		//Try K-9 Mail.
+		try{
+			@SuppressWarnings("unused")
+			PackageInfo packageInfo = _context.getPackageManager().getPackageInfo("com.fsck.k9", 0);
+			packageInstalledFlag = true;
+		}catch(Exception ex){
+			//Do Nothing
+		}
+		//Try Kaiten.
+		try{
+			@SuppressWarnings("unused")
+			PackageInfo packageInfo = _context.getPackageManager().getPackageInfo("com.kaitenmail", 0);
+			packageInstalledFlag = true;
+		}catch(Exception ex){
+			//Do Nothing		
+		}
+		if(!packageInstalledFlag){
+			if (_debug) Log.v("MainPreferenceActivity.checkK9PackageInstallation() K9 Packages Not Found!");
+			//Display dialog to user.
+			showDialog(Constants.DIALOG_K9_CLIENT_NOT_INSTALLED);
+			//Disable k9 notifications.
+            CheckBoxPreference k9NotificationsEnabledCheckbox = (CheckBoxPreference) findPreference(Constants.K9_NOTIFICATIONS_ENABLED_KEY);
+            k9NotificationsEnabledCheckbox.setChecked(false);
+			SharedPreferences.Editor editor = _preferences.edit();
+        	editor.putBoolean(Constants.K9_NOTIFICATIONS_ENABLED_KEY, false);
+            editor.commit();
 		}
 	}
 	

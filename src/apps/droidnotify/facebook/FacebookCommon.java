@@ -23,6 +23,7 @@ import apps.droidnotify.NotificationActivity;
 import apps.droidnotify.R;
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
+import apps.droidnotify.contacts.ContactsCommon;
 import apps.droidnotify.log.Log;
 import apps.droidnotify.receivers.FacebookAlarmReceiver;
 
@@ -93,7 +94,7 @@ public class FacebookCommon {
 				JSONObject fromFacebookUser = jsonNotificationData.getJSONObject("from");
 				String fromFacebookName = fromFacebookUser.getString("name");
 				String fromFacebookID = fromFacebookUser.getString("id");
-	    		Bundle facebookContactInfoBundle = Common.getContactsInfoByName(context, fromFacebookName);
+	    		Bundle facebookContactInfoBundle = ContactsCommon.getContactsInfoByName(context, fromFacebookName);
 	    		if(facebookContactInfoBundle == null){
 					//Basic Notification Information.
 	    			facebookNotificationNotificationBundleSingle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, fromFacebookName);
@@ -181,7 +182,7 @@ public class FacebookCommon {
 				String fromFacebookName = fromFacebookUser.getString("name");
 				String fromFacebookID = fromFacebookUser.getString("id");
         	    String friendRequestText = context.getString(R.string.facebook_new_friend_request_from) + " " + fromFacebookName;
-        	    Bundle facebookContactInfoBundle = Common.getContactsInfoByName(context, fromFacebookName);
+        	    Bundle facebookContactInfoBundle = ContactsCommon.getContactsInfoByName(context, fromFacebookName);
 	    		if(facebookContactInfoBundle == null){
 					//Basic Notification Information.
 	    			facebookFriendRequestNotificationBundleSingle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, fromFacebookName);
@@ -296,7 +297,7 @@ public class FacebookCommon {
 	        	    		JSONObject fromFacebookUser = jsonCommentMessageData.getJSONObject("from");
 	        				String fromFacebookName = fromFacebookUser.getString("name");
 	        				String fromFacebookID = fromFacebookUser.getString("id");
-	                	    Bundle facebookContactInfoBundle = Common.getContactsInfoByName(context, fromFacebookName);
+	                	    Bundle facebookContactInfoBundle = ContactsCommon.getContactsInfoByName(context, fromFacebookName);
 	        	    		if(facebookContactInfoBundle == null){
 	        					//Basic Notification Information.
 	        	    			facebookMessageNotificationBundleSingle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, fromFacebookName);
@@ -344,7 +345,7 @@ public class FacebookCommon {
         	    		//Sent From User Info
 	    	    		String fromFacebookName = originalFromFacebookName;
 	    	    		String fromFacebookID = originalFromFacebookID;
-	            	    Bundle facebookContactInfoBundle = Common.getContactsInfoByName(context, fromFacebookName);
+	            	    Bundle facebookContactInfoBundle = ContactsCommon.getContactsInfoByName(context, fromFacebookName);
 	    	    		if(facebookContactInfoBundle == null){
         					//Basic Notification Information.
         	    			facebookMessageNotificationBundleSingle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, fromFacebookName);

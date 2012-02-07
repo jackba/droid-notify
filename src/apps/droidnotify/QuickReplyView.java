@@ -47,7 +47,7 @@ import apps.droidnotify.twitter.TwitterCommon;
  * 
  * @author Camille Sévigny
  */
-public class NotificationViewNEW extends LinearLayout {
+public class QuickReplyView extends LinearLayout {
 
 	//================================================================================
     // Properties
@@ -110,7 +110,7 @@ public class NotificationViewNEW extends LinearLayout {
 	/**
      * Class Constructor.
      */	
-	public NotificationViewNEW(Context context,  Notification notification) {
+	public QuickReplyView(Context context,  Notification notification) {
 	    super(context);
 	    _debug = Log.getDebug();;
 	    if (_debug) Log.v("NotificationView.NotificationView()");

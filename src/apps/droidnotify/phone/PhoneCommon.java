@@ -16,6 +16,7 @@ import apps.droidnotify.NotificationActivity;
 import apps.droidnotify.R;
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
+import apps.droidnotify.contacts.ContactsCommon;
 import apps.droidnotify.log.Log;
 
 public class PhoneCommon {
@@ -71,7 +72,7 @@ public class PhoneCommon {
     				if(isPrivateUnknownNumber(context, callNumber)){
     					if (_debug) Log.v("PhoneCommon.getMissedCalls() Is a private or unknown number.");
     				}else{
-    					missedCallContactInfoBundle = Common.getContactsInfoByPhoneNumber(context, callNumber);
+    					missedCallContactInfoBundle = ContactsCommon.getContactsInfoByPhoneNumber(context, callNumber);
     				}
     				if(missedCallContactInfoBundle == null){				
     					//Basic Notification Information.

@@ -42,6 +42,7 @@ public class Constants {
 	
 	//-----RUNONCE CONSTANTS-----//
 	public static final String RUN_ONCE_EULA = "RUNONCE_EULA";
+	public static final String RUN_ONCE_K9_CHECK = "RUN_ONCE_K9_CHECK";
 	public static final String RUN_ONCE_CALENDAR_ALARM = "RUNONCE_CALENDAR_V_2_24";
 	public static final String RUN_ONCE_CODE_FIX = "RUNONCE_CODE_FIX_V_2_24";
 	
@@ -199,10 +200,13 @@ public class Constants {
 
 	public static final int DIALOG_DONATE = 100;
 	public static final int DIALOG_UPGRADE = 101;
+	
 	public static final int DIALOG_FEATURE_AVAILABLE_WITH_PRO_VERSION_GMAIL = 201;
 	public static final int DIALOG_FEATURE_AVAILABLE_WITH_PRO_VERSION_TWITTER = 201;
 	public static final int DIALOG_FEATURE_AVAILABLE_WITH_PRO_VERSION_FACEBOOK = 202;
 	public static final int DIALOG_FEATURE_AVAILABLE_WITH_PRO_VERSION_LINKEDIN = 203;
+	
+	public static final int DIALOG_K9_CLIENT_NOT_INSTALLED = 501;
 	
 	//-----UPGRADE CONSTATNS-----//
 	public static final String UPGRADE_TO_PRO_PREFERENCE_KEY = "upgrade_app_to_pro";
@@ -569,7 +573,7 @@ public class Constants {
 	
 	public static final String FACEBOOK_MANUAL_POLL_KEY = "facebook_manual_poll";
 	
-	//-----K9 NOTIFICATION CONSTANTS-----//
+	//-----K9 NOTIFICATION CONSTANTS-----//	
 	public static final String INTENT_ACTION_K9 = "com.fsck.k9.intent.action.EMAIL_RECEIVED";
 	public static final String INTENT_ACTION_KAITEN = "com.kaitenmail.intent.action.EMAIL_RECEIVED";
 	
@@ -620,9 +624,13 @@ public class Constants {
 	//Android Market URL
 	public static final String APP_ANDROID_URL = "http://market.android.com/details?id=apps.droidnotify";
 	public static final String APP_PRO_ANDROID_URL = "http://market.android.com/details?id=apps.droidnotifydonate";
+	public static final String K9_MAIL_ANDROID_URL = "http://market.android.com/details?id=com.fsck.k9";
+	public static final String KAITEN_MAIL_ANDROID_URL = "http://market.android.com/details?id=com.kaitenmail";
 	//Amazon Appstore URL
 	public static final String APP_AMAZON_URL = "http://www.amazon.com/gp/mas/dl/android?p=apps.droidnotify";
 	public static final String APP_PRO_AMAZON_URL = "http://www.amazon.com/gp/mas/dl/android?p=apps.droidnotifydonate";
+	public static final String K9_MAIL_AMAZON_URL = "http://www.amazon.com/gp/mas/dl/android?p=com.fsck.k9";
+	public static final String KAITEN_MAIL_AMAZON_URL = "http://www.amazon.com/gp/mas/dl/android?p=com.kaitenmail";
 	//PayPal URL
 	public static final String APP_PAYPAL_URL = "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=43V2NJQH5BQAA";
 	

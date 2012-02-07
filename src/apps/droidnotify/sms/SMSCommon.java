@@ -21,6 +21,7 @@ import apps.droidnotify.QuickReplyActivity;
 import apps.droidnotify.R;
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
+import apps.droidnotify.contacts.ContactsCommon;
 import apps.droidnotify.email.EmailCommon;
 import apps.droidnotify.log.Log;
 import apps.droidnotify.phone.PhoneCommon;
@@ -104,7 +105,7 @@ public class SMSCommon {
 			}
     		threadID = getThreadID(context, sentFromAddress, Constants.NOTIFICATION_TYPE_SMS);
     		messageID = getMessageID(context, threadID, messageBody, timeStamp, Constants.NOTIFICATION_TYPE_SMS);
-    		Bundle smsContactInfoBundle = sentFromAddress.contains("@") ? Common.getContactsInfoByEmail(context, sentFromAddress) : Common.getContactsInfoByPhoneNumber(context, sentFromAddress);
+    		Bundle smsContactInfoBundle = sentFromAddress.contains("@") ? ContactsCommon.getContactsInfoByEmail(context, sentFromAddress) : ContactsCommon.getContactsInfoByPhoneNumber(context, sentFromAddress);
     		if(smsContactInfoBundle == null){				
 				//Basic Notification Information.
 				smsNotificationBundleSingle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, sentFromAddress);
@@ -169,7 +170,7 @@ public class SMSCommon {
 		    	String sentFromAddress = cursor.getString(cursor.getColumnIndex("address"));
 		    	sentFromAddress = sentFromAddress.contains("@") ? EmailCommon.removeEmailFormatting(sentFromAddress) : PhoneCommon.removePhoneNumberFormatting(sentFromAddress);
 		    	long timeStamp = cursor.getLong(cursor.getColumnIndex("date"));
-		    	Bundle smsContactInfoBundle = sentFromAddress.contains("@") ? Common.getContactsInfoByEmail(context, sentFromAddress) : Common.getContactsInfoByPhoneNumber(context, sentFromAddress);
+		    	Bundle smsContactInfoBundle = sentFromAddress.contains("@") ? ContactsCommon.getContactsInfoByEmail(context, sentFromAddress) : ContactsCommon.getContactsInfoByPhoneNumber(context, sentFromAddress);
 	    		if(smsContactInfoBundle == null){				
 					//Basic Notification Information.
 					smsNotificationBundleSingle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, sentFromAddress);
@@ -243,7 +244,7 @@ public class SMSCommon {
 		    		//Do not grab the first unread SMS message.
 		    		if(!isFirst){
 			    		bundleCount++;
-		    			Bundle smsContactInfoBundle = sentFromAddress.contains("@") ? Common.getContactsInfoByEmail(context, sentFromAddress) : Common.getContactsInfoByPhoneNumber(context, sentFromAddress);
+		    			Bundle smsContactInfoBundle = sentFromAddress.contains("@") ? ContactsCommon.getContactsInfoByEmail(context, sentFromAddress) : ContactsCommon.getContactsInfoByPhoneNumber(context, sentFromAddress);
 			    		if(smsContactInfoBundle == null){				
 							//Basic Notification Information.
 							smsNotificationBundleSingle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, sentFromAddress);
@@ -273,7 +274,7 @@ public class SMSCommon {
                     //Don't load the message that corresponds to the messageIDFilter or messageBodyFilter.
                     if(messageID != messageIDFilter && !messageBody.replace("\n", "<br/>").trim().equals(messageBodyFilter.replace("\n", "<br/>").trim())){
         	    		bundleCount++;
-                    	Bundle smsContactInfoBundle = sentFromAddress.contains("@") ? Common.getContactsInfoByEmail(context, sentFromAddress) : Common.getContactsInfoByPhoneNumber(context, sentFromAddress);
+                    	Bundle smsContactInfoBundle = sentFromAddress.contains("@") ? ContactsCommon.getContactsInfoByEmail(context, sentFromAddress) : ContactsCommon.getContactsInfoByPhoneNumber(context, sentFromAddress);
                         if(smsContactInfoBundle == null){				
         					//Basic Notification Information.
         					smsNotificationBundleSingle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, sentFromAddress);
@@ -343,7 +344,7 @@ public class SMSCommon {
 		    	String sentFromAddress = getMMSAddress(context, messageID);
 		    	sentFromAddress = sentFromAddress.contains("@") ? EmailCommon.removeEmailFormatting(sentFromAddress) : PhoneCommon.removePhoneNumberFormatting(sentFromAddress);
 		    	String messageBody = getMMSText(context, messageID);
-		    	Bundle mmsContactInfoBundle = sentFromAddress.contains("@") ? Common.getContactsInfoByEmail(context, sentFromAddress) : Common.getContactsInfoByPhoneNumber(context, sentFromAddress);
+		    	Bundle mmsContactInfoBundle = sentFromAddress.contains("@") ? ContactsCommon.getContactsInfoByEmail(context, sentFromAddress) : ContactsCommon.getContactsInfoByPhoneNumber(context, sentFromAddress);
 				if(mmsContactInfoBundle == null){				
 					//Basic Notification Information.
 					mmsNotificationBundleSingle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, sentFromAddress);
@@ -416,7 +417,7 @@ public class SMSCommon {
 		            	sentFromAddress = EmailCommon.removeEmailFormatting(sentFromAddress);
 		            }
 			    	String messageBody = SMSCommon.getMMSText(context, messageID);
-			    	Bundle mmsContactInfoBundle = sentFromAddress.contains("@") ? Common.getContactsInfoByEmail(context, sentFromAddress) : Common.getContactsInfoByPhoneNumber(context, sentFromAddress);
+			    	Bundle mmsContactInfoBundle = sentFromAddress.contains("@") ? ContactsCommon.getContactsInfoByEmail(context, sentFromAddress) : ContactsCommon.getContactsInfoByPhoneNumber(context, sentFromAddress);
 					if(mmsContactInfoBundle == null){				
 						//Basic Notification Information.
 						mmsNotificationBundleSingle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, sentFromAddress);
