@@ -285,7 +285,7 @@ public class Log {
 		    	sendEmailIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
 		    	sendEmailIntent.putExtra(Intent.EXTRA_SUBJECT, "Droid Notify Debug Logs");
 	    		sendEmailIntent.putExtra(Intent.EXTRA_TEXT, log.toString());
-	    		_context.startActivity(sendEmailIntent);
+	    		_context.startActivity(Intent.createChooser(sendEmailIntent, "Send Using..."));
 	    		_progressDialog.dismiss();
             }else{
             	_progressDialog.dismiss();

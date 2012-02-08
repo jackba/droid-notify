@@ -20,7 +20,7 @@ import android.telephony.SmsMessage;
 import android.telephony.SmsMessage.MessageClass;
 import android.widget.Toast;
 import apps.droidnotify.NotificationActivity;
-import apps.droidnotify.QuickReplyActivity;
+//import apps.droidnotify.QuickReplyActivity;
 import apps.droidnotify.QuickReplyActivityNEW;
 import apps.droidnotify.R;
 import apps.droidnotify.common.Common;
@@ -730,15 +730,15 @@ public class SMSCommon {
 			Intent intent = new Intent(context, QuickReplyActivityNEW.class);
 	        if (_debug) Log.v("NotificationView.replyToMessage() Put bundle in intent");
 	        Bundle bundle = new Bundle();
-	        bundle.putInt("notificationType", Constants.NOTIFICATION_TYPE_SMS);
-	        bundle.putInt("notificationSubType", 0);
-	        bundle.putString("sendTo", sendTo);
+	        bundle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_SMS);
+	        bundle.putInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, 0);
+	        bundle.putString(Constants.QUICK_REPLY_BUNDLE_SEND_TO, sendTo);
 		    if(name != null && !name.equals( context.getString(android.R.string.unknownName))){
-		    	bundle.putString("name", name);
+		    	bundle.putString(Constants.QUICK_REPLY_BUNDLE_NAME, name);
 		    }else{
-		    	bundle.putString("name", "");
+		    	bundle.putString(Constants.QUICK_REPLY_BUNDLE_NAME, "");
 		    }
-		    bundle.putString("message", "");
+		    bundle.putString(Constants.QUICK_REPLY_BUNDLE_MESSAGE, "");
 		    intent.putExtras(bundle);
 	        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 	        notificationActivity.startActivityForResult(intent, requestCode);

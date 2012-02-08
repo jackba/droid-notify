@@ -110,7 +110,7 @@ public class NotificationViewNEW extends LinearLayout {
 	/**
      * Class Constructor.
      */	
-	public NotificationViewNEW(Context context,  Notification notification) {
+	public NotificationViewNEW(Context context, Notification notification) {
 	    super(context);
 	    _debug = Log.getDebug();;
 	    if (_debug) Log.v("NotificationView.NotificationView()");
@@ -216,14 +216,12 @@ public class NotificationViewNEW extends LinearLayout {
 		int buttonTextColorID = 0;
 		int notificationCountTextColorID = 0;
 		if(_themePackageName.startsWith(Constants.DARK_TRANSLUCENT_THEME)){
+			_resources = _context.getResources();
 			if(_themePackageName.equals(Constants.DARK_TRANSLUCENT_THEME)){
-				_resources = _context.getResources();
 				layoutBackgroundDrawable = _resources.getDrawable(R.drawable.background_panel);
 			}else if(_themePackageName.equals(Constants.DARK_TRANSLUCENT_V2_THEME)){
-				_resources = _context.getResources();
 				layoutBackgroundDrawable = _resources.getDrawable(R.drawable.background_panel_v2);
 			}else if(_themePackageName.equals(Constants.DARK_TRANSLUCENT_V3_THEME)){
-				_resources = _context.getResources();
 				layoutBackgroundDrawable = _resources.getDrawable(R.drawable.background_panel_v3);
 			}
 			rescheduleDrawable = _resources.getDrawable(R.drawable.ic_reschedule);
@@ -303,11 +301,13 @@ public class NotificationViewNEW extends LinearLayout {
 		switch(buttonType){
 			case Constants.THEME_BUTTON_NORMAL:{
 				if(_themePackageName.startsWith(Constants.DARK_TRANSLUCENT_THEME)){
-					stateListDrawable.addState(new int[] {android.R.attr.state_pressed}, _resources.getDrawable(R.drawable.btn_dark_translucent_pressed));
-					stateListDrawable.addState(new int[] { }, _resources.getDrawable(R.drawable.btn_dark_translucent_normal));
+					stateListDrawable.addState(new int[] {android.R.attr.state_enabled, android.R.attr.state_pressed}, _resources.getDrawable(R.drawable.button_pressed));
+					stateListDrawable.addState(new int[] {android.R.attr.state_enabled}, _resources.getDrawable(R.drawable.button_normal));
+					stateListDrawable.addState(new int[] {}, _resources.getDrawable(R.drawable.button_disabled));
 				}else{
-					stateListDrawable.addState(new int[] {android.R.attr.state_pressed}, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/button_pressed", null, null)));
-					stateListDrawable.addState(new int[] { }, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/button_normal", null, null)));
+					stateListDrawable.addState(new int[] {android.R.attr.state_enabled, android.R.attr.state_pressed}, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/button_pressed", null, null)));
+					stateListDrawable.addState(new int[] {android.R.attr.state_enabled}, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/button_normal", null, null)));
+					stateListDrawable.addState(new int[] {}, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/button_disabled", null, null)));
 				}
 				return stateListDrawable;
 			}
