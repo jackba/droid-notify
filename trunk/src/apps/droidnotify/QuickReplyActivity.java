@@ -1,9 +1,6 @@
 package apps.droidnotify;
 
-import java.util.ArrayList;
-
 import android.app.Activity;
-import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -13,7 +10,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
-import android.telephony.SmsManager;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
@@ -399,7 +395,7 @@ public class QuickReplyActivity extends Activity {
 		switch(_notificationType){
 	    	case Constants.NOTIFICATION_TYPE_SMS:{
 	            if(_sendTo.length()>0 && message.length()>0){                
-	                if(sendSMS(_sendTo, message)){
+	            	if(SMSCommon.sendSMS(_context, _sendTo, message)){
         				_messageSent = true;
         				return true;
             		}else{
@@ -467,151 +463,6 @@ public class QuickReplyActivity extends Activity {
 		}
         return false;
 	}
-	
-	/**
-	 * Send SMS message.
-	 * 
-	 * @param phoneNumber - The phone number we are sending the message to.
-	 * @param message - The message we are sending.
-	 */
-	private boolean sendSMS(String smsAddress, String message){   
-		if (_debug) Log.v("QuickReplyActivity.sendSMS()");
-//      final String SMS_SENT = "SMS_SENT";
-//      final String SMS_DELIVERED = "SMS_DELIVERED";
-        //PendingIntent sentPI = PendingIntent.getBroadcast(this, 0, new Intent(SMS_SENT), 0);
-        //PendingIntent deliveredPI = PendingIntent.getBroadcast(this, 0, new Intent(SMS_DELIVERED), 0);
-        PendingIntent sentPI = null;
-        PendingIntent deliveredPI = null;
-//        //When the SMS has been sent.
-//        registerReceiver(new BroadcastReceiver(){
-//            @Override
-//            public void onReceive(Context arg0, Intent arg1) {
-//                switch (getResultCode())
-//                {
-//                    case Activity.RESULT_OK:
-//                        Toast.makeText(getBaseContext(), getString(R.string.message_sent_text), Toast.LENGTH_LONG).show();
-//                        break;
-//                    case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
-//                        Toast.makeText(getBaseContext(), getString(R.string.message_sent_error_generic_failure_text), Toast.LENGTH_LONG).show();
-//                        break;
-//                    case SmsManager.RESULT_ERROR_NO_SERVICE:
-//                        Toast.makeText(getBaseContext(), getString(R.string.message_sent_error_no_service_text), Toast.LENGTH_LONG).show();
-//                        break;
-//                    case SmsManager.RESULT_ERROR_NULL_PDU:
-//                        Toast.makeText(getBaseContext(), getString(R.string.message_sent_error_null_pdu_text), Toast.LENGTH_LONG).show();
-//                        break;
-//                    case SmsManager.RESULT_ERROR_RADIO_OFF:
-//                        Toast.makeText(getBaseContext(), getString(R.string.message_sent_error_radio_off_text), Toast.LENGTH_LONG).show();
-//                        break;
-//                }
-//            }
-//        }, new IntentFilter(SMS_SENT));
-//        //When the SMS has been delivered.
-//        registerReceiver(new BroadcastReceiver(){
-//            @Override
-//            public void onReceive(Context arg0, Intent arg1) {
-//                switch (getResultCode())
-//                {
-//                    case Activity.RESULT_OK:
-//                        Toast.makeText(getBaseContext(), getString(R.string.message_delivered_text), Toast.LENGTH_LONG).show();
-//                        break;
-//                    case Activity.RESULT_CANCELED:
-//                        Toast.makeText(getBaseContext(), getString(R.string.message_not_delivered_text), Toast.LENGTH_LONG).show();
-//                        break;                        
-//                }
-//            }
-//        }, new IntentFilter(SMS_DELIVERED));  
-		SmsManager sms = SmsManager.getDefault();
-		if(smsAddress.contains("@")){
-			//Send to email address
-			//Need to set the SMS-to-Email Gateway number for this to work.
-			// (USA) Sprint PCS - 6245 [address message]
-			// (USA) T-Mobile - 500 [address text | address/subject/text | address#subject#text]
-			// (USA) AT&T - 121 [address text | address (subject) text]
-			// (USA) AT&T - 111 [address text | address (subject) text]
-			// (UK) AQL - 447766 [address text]
-			// (UK) AQL - 404142 [address text]
-			// (Croatia) T-Mobile - 100 [address#subject#text]
-			// (Costa Rica) ICS - 1001 [address : (subject) text]
-			//This value can be set in the Advanced Settings preferences.
-			int smsToEmailGatewayKey = Integer.parseInt(_preferences.getString(Constants.SMS_GATEWAY_KEY, "1"));
-			switch(smsToEmailGatewayKey){
-		    	case Constants.SMS_EMAIL_GATEWAY_1:{
-		    		// (USA) Sprint PCS - 6245 [address message]
-		    		String smsToEmailGatewayNumber = "6245";
-		    		sms.sendTextMessage(smsToEmailGatewayNumber, null, smsAddress + " " + message, sentPI, deliveredPI);
-		    		break;
-		    	}
-		    	case Constants.SMS_EMAIL_GATEWAY_2:{
-		    		// (USA) T-Mobile - 500 [address text | address/subject/text | address#subject#text]
-		    		String smsToEmailGatewayNumber = "500";
-		    		sms.sendTextMessage(smsToEmailGatewayNumber, null, smsAddress + " " + message, sentPI, deliveredPI);
-		    		break;
-		    	}
-		    	case Constants.SMS_EMAIL_GATEWAY_3:{
-		    		// (USA) AT&T - 121 [address text | address (subject) text]
-		    		String smsToEmailGatewayNumber = "121";
-		    		sms.sendTextMessage(smsToEmailGatewayNumber, null, smsAddress + " " + message, sentPI, deliveredPI);
-		    		break;
-		    	}
-		    	case Constants.SMS_EMAIL_GATEWAY_4:{
-		    		// (USA) AT&T - 111 [address text | address (subject) text]
-		    		String smsToEmailGatewayNumber = "111";
-		    		sms.sendTextMessage(smsToEmailGatewayNumber, null, smsAddress + " " + message, sentPI, deliveredPI);
-		    		break;
-		    	}
-		    	case Constants.SMS_EMAIL_GATEWAY_5:{
-		    		// (UK) AQL - 447766 [address text]
-		    		String smsToEmailGatewayNumber = "447766";
-		    		sms.sendTextMessage(smsToEmailGatewayNumber, null, smsAddress + " " + message, sentPI, deliveredPI);
-		    		break;
-		    	}
-		    	case Constants.SMS_EMAIL_GATEWAY_6:{
-		    		// (UK) AQL - 404142 [address text]
-		    		String smsToEmailGatewayNumber = "404142";
-		    		sms.sendTextMessage(smsToEmailGatewayNumber, null, smsAddress + " " + message, sentPI, deliveredPI);
-		    		break;
-		    	}
-		    	case Constants.SMS_EMAIL_GATEWAY_7:{
-		    		// (USA) AT&T - 121 [address text | address (subject) text]
-		    		String smsToEmailGatewayNumber = "121";
-		    		sms.sendTextMessage(smsToEmailGatewayNumber, null, smsAddress + " " + message, sentPI, deliveredPI);
-		    		break;
-		    	}
-		    	case Constants.SMS_EMAIL_GATEWAY_8:{
-		    		// (Croatia) T-Mobile - 100 [address#subject#text]
-		    		String smsToEmailGatewayNumber = "100";
-		    		sms.sendTextMessage(smsToEmailGatewayNumber, null, smsAddress + "##" + message, sentPI, deliveredPI);
-		    		break;
-		    	}
-		    	default:{
-		    		sms.sendTextMessage(smsAddress, null, message, sentPI, deliveredPI);
-		    		break;
-		    	}
-			}   	
-		}else{
-			//Send to regular text message number.
-			//Split message before sending using multiparts.
-			if(_preferences.getBoolean(Constants.SMS_SPLIT_MESSAGE_KEY, false)){
-				
-			}else{
-				ArrayList<String> parts = sms.divideMessage(message);
-				if (_debug) Log.v("QuickReplyActivity.sendSMS() Sending SMS Message. Send To Address: " + smsAddress);
-			    sms.sendMultipartTextMessage(smsAddress, null, parts, null, null);
-			}
-		}
-    	try{
-        	//Store the message in the Sent folder so that it shows in Messaging apps.
-            ContentValues values = new ContentValues();
-            values.put("address", smsAddress);
-            values.put("body", message);
-            getContentResolver().insert(Uri.parse("content://sms/sent"), values);
-    	}catch(Exception ex){
-    		Log.e("QuickReplyActivity.sendSMS() Insert Into Sent Foler ERROR: " + ex.toString());
-    		return false;
-    	}
-		return true; 
-    }
 	
 	/**
 	 * Function that performs custom haptic feedback.
