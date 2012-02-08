@@ -116,7 +116,7 @@ public class NotificationViewNEW extends LinearLayout {
 	    if (_debug) Log.v("NotificationView.NotificationView()");
 	    _context = context;
 	    _preferences = PreferenceManager.getDefaultSharedPreferences(context);
-	    _notificationActivity = (NotificationActivity)context;
+	    _notificationActivity = (NotificationActivity) context;
 	    _notification = notification;
 	    _notificationType = notification.getNotificationType();
 		View.inflate(context, R.layout.notification, this);

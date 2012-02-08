@@ -121,8 +121,8 @@
     
     <!-- K9 Package Not Found Strings -->
     <string name="package_not_found">Package Not Found</string>
-    <string name="package_k9_not_found">We cannot find the required k-9 email client installed on this device. Please download a compatible k-9 email client. Click on one of the buttons below to download a compatible client.</string>
-    <string name="package_k9_not_found_generic">We cannot find the required k-9 email client installed on this device. Please download a compatible k-9 email client.</string> 
+    <string name="package_k9_not_found">We cannot find the required K-9 email client installed on this device. Please download a compatible K-9 email client. Click on one of the buttons below to download a compatible client.</string>
+    <string name="package_k9_not_found_generic">We cannot find the required K-9 email client installed on this device. Please download a compatible K-9 email client.</string> 
     <string name="k9_mail">K-9 Mail</string>
     <string name="kaiten_mail">Kaiten Mail</string>
     

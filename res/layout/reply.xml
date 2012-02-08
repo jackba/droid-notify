@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout 
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:id="@+id/quick_reply_linear_layout"
+	android:id="@+id/reply_linear_layout"
   	android:orientation="vertical"
     android:layout_height="wrap_content"
   	android:layout_width="wrap_content"
     android:minWidth="300dip">
 	<TextView
-		android:id="@+id/quick_reply_title_text_view"
+		android:id="@+id/title_text_view"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_marginRight="3dip"
@@ -51,14 +51,14 @@
     		android:layout_marginLeft="5dip"
     		android:layout_marginBottom="10dip">
     		<Button
-      			android:id="@+id/quick_reply_send_button"
+      			android:id="@+id/send_button"
       			android:layout_height="wrap_content"
       			android:layout_width="60dip"
 				android:layout_gravity="top"
       			android:nextFocusLeft="@+id/message_edit_text"
 				android:gravity="center_vertical|center_horizontal"
 				android:hapticFeedbackEnabled="true"
-      			android:text="@string/send"/>
+      			android:text="@string/send" />
   			<TextView 
 				android:id="@+id/characters_remaining_text_view"
 				android:layout_height="wrap_content"
@@ -71,7 +71,7 @@
       	</LinearLayout>	
 	</LinearLayout>
 	<Button 
-		android:id="@+id/quick_reply_cancel_button" 
+		android:id="@+id/cancel_button" 
 		android:layout_height="wrap_content"  
 		android:layout_width="match_parent"
 		android:layout_marginLeft="5dip"

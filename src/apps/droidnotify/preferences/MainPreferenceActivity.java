@@ -100,10 +100,9 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	    addPreferencesFromResource(R.xml.preferences);
 	    _appVersion = Common.getApplicationVersion(_context);
 	    setupCustomPreferences();
-	    runOnceCalendarAlarmManager();
 	    setupRateAppPreference();
 	    setupAppVersion(_appProVersion);
-	    runOnce();	    
+	    runOnceCalendarAlarmManager();
 	}
     
 	/**
@@ -117,14 +116,14 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		if(key.equals(Constants.CALENDAR_NOTIFICATIONS_ENABLED_KEY)){
 			if(_preferences.getBoolean(Constants.CALENDAR_NOTIFICATIONS_ENABLED_KEY, false)){
 				//Setup Calendar recurring alarm.
-				CalendarCommon.startCalendarAlarmManager(_context, SystemClock.currentThreadTimeMillis());
+				startCalendarAlarmManager(SystemClock.currentThreadTimeMillis() + (60 * 1000));
 			}else{
 				//Cancel the Calendar recurring alarm.
 				CalendarCommon.cancelCalendarAlarmManager(_context);
 			}
 		}else if(key.equals(Constants.CALENDAR_POLLING_FREQUENCY_KEY)){
 			//The polling time for the calendars was changed. Run the alarm manager with the updated polling time.
-			startCalendarAlarmManager(SystemClock.currentThreadTimeMillis());
+			startCalendarAlarmManager(SystemClock.currentThreadTimeMillis() + (10 * 1000));
 		}else if(key.equals(Constants.SMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY)){
 			updateStatusBarNotificationVibrate(Constants.NOTIFICATION_TYPE_SMS);
 		}else if(key.equals(Constants.MMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY)){
@@ -168,38 +167,50 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		}else if(key.equals(Constants.K9_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY)){
 			updateClearStatusBarNotifications();
 		}else if(key.equals(Constants.TWITTER_NOTIFICATIONS_ENABLED_KEY)){
-			if(_preferences.getBoolean(Constants.TWITTER_NOTIFICATIONS_ENABLED_KEY, false)){
-				//Setup Twitter recurring alarm.
-				checkTwitterAuthentication();
-			}else{
-				//Cancel the Twitter recurring alarm.
-				TwitterCommon.cancelTwitterAlarmManager(_context);
+			if(_appProVersion){
+				if(_preferences.getBoolean(Constants.TWITTER_NOTIFICATIONS_ENABLED_KEY, false)){
+					//Setup Twitter recurring alarm.
+					checkTwitterAuthentication();
+				}else{
+					//Cancel the Twitter recurring alarm.
+					TwitterCommon.cancelTwitterAlarmManager(_context);
+				}
 			}
 		}else if(key.equals(Constants.TWITTER_POLLING_FREQUENCY_KEY)){
-			//The polling time for Twitter was changed. Run the alarm manager with the updated polling time.
-			TwitterCommon.startTwitterAlarmManager(_context, SystemClock.currentThreadTimeMillis());
+			if(_appProVersion){
+				//The polling time for Twitter was changed. Run the alarm manager with the updated polling time.
+				TwitterCommon.startTwitterAlarmManager(_context, SystemClock.currentThreadTimeMillis() + (10 * 1000));
+			}
 		}else if(key.equals(Constants.FACEBOOK_NOTIFICATIONS_ENABLED_KEY)){
-			if(_preferences.getBoolean(Constants.FACEBOOK_NOTIFICATIONS_ENABLED_KEY, false)){
-				//Setup Facebook recurring alarm.
-				checkFacebookAuthentication();
-			}else{
-				//Cancel the Facebook recurring alarm.
-				FacebookCommon.cancelFacebookAlarmManager(_context);
+			if(_appProVersion){
+				if(_preferences.getBoolean(Constants.FACEBOOK_NOTIFICATIONS_ENABLED_KEY, false)){
+					//Setup Facebook recurring alarm.
+					checkFacebookAuthentication();
+				}else{
+					//Cancel the Facebook recurring alarm.
+					FacebookCommon.cancelFacebookAlarmManager(_context);
+				}
 			}
 		}else if(key.equals(Constants.FACEBOOK_POLLING_FREQUENCY_KEY)){
-			//The polling time for Facebook was changed. Run the alarm manager with the updated polling time.
-			FacebookCommon.startFacebookAlarmManager(_context, SystemClock.currentThreadTimeMillis());
+			if(_appProVersion){
+				//The polling time for Facebook was changed. Run the alarm manager with the updated polling time.
+				FacebookCommon.startFacebookAlarmManager(_context, SystemClock.currentThreadTimeMillis() + (10 * 1000));
+			}
 		}else if(key.equals(Constants.LINKEDIN_NOTIFICATIONS_ENABLED_KEY)){
-			if(_preferences.getBoolean(Constants.LINKEDIN_NOTIFICATIONS_ENABLED_KEY, false)){
-				//Setup LinkedIn recurring alarm.
-				checkLinkedInAuthentication();
-			}else{
-				//Cancel the LinkedIn recurring alarm.
-				LinkedInCommon.cancelLinkedInAlarmManager(_context);
+			if(_appProVersion){
+				if(_preferences.getBoolean(Constants.LINKEDIN_NOTIFICATIONS_ENABLED_KEY, false)){
+					//Setup LinkedIn recurring alarm.
+					checkLinkedInAuthentication();
+				}else{
+					//Cancel the LinkedIn recurring alarm.
+					LinkedInCommon.cancelLinkedInAlarmManager(_context);
+				}
 			}
 		}else if(key.equals(Constants.LINKEDIN_POLLING_FREQUENCY_KEY)){
-			//The polling time for LinkedIn was changed. Run the alarm manager with the updated polling time.
-			LinkedInCommon.startLinkedInAlarmManager(_context, SystemClock.currentThreadTimeMillis());
+			if(_appProVersion){
+				//The polling time for LinkedIn was changed. Run the alarm manager with the updated polling time.
+				LinkedInCommon.startLinkedInAlarmManager(_context, SystemClock.currentThreadTimeMillis() + (10 * 1000));
+			}
 		}else if(key.equals(Constants.DEBUG)){
 			Log.setDebug(_preferences.getBoolean(Constants.DEBUG, false));
 		}else if(key.equals(Constants.LANGUAGE_KEY)){
@@ -224,7 +235,8 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	    if (_debug) Log.v("MainPreferenceActivity.onResume()");
 	    _preferences.registerOnSharedPreferenceChangeListener(this);
 	    setupImportPreferences();
-	    initPreferencesStates();
+	    initPreferencesStates();	
+	    runOnce();
 	}
 	
 	/**
@@ -510,16 +522,6 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	 */
 	private void runOnce(){
 		if (_debug) Log.v("MainPreferenceActivity.runOnce()");
-		if(!_appProVersion && _preferences.getBoolean(Constants.RUN_ONCE_EULA, true)) {
-			try{
-				SharedPreferences.Editor editor = _preferences.edit();
-				editor.putBoolean(Constants.RUN_ONCE_EULA, false);
-				editor.commit();
-				displayHTMLAlertDialog(_context.getString(R.string.app_license),android.R.drawable.ic_dialog_info, _context.getString(R.string.eula_text));
-			}catch(Exception ex){
- 	    		Log.e("MainPreferenceActivity.runOnceEula() EULA ERROR: " + ex.toString());
-	    	}
-		}
 		if(_preferences.getBoolean(Constants.RUN_ONCE_K9_CHECK, true)) {
 			SharedPreferences.Editor editor = _preferences.edit();
 			editor.putBoolean(Constants.RUN_ONCE_K9_CHECK, false);
@@ -576,6 +578,16 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 				editor.commit();
 			}catch(Exception ex){
  	    		Log.e("MainPreferenceActivity.runOnce() CODE FIX ERROR: " + ex.toString());
+	    	}
+		}
+		if(!_appProVersion && _preferences.getBoolean(Constants.RUN_ONCE_EULA, true)) {
+			try{
+				SharedPreferences.Editor editor = _preferences.edit();
+				editor.putBoolean(Constants.RUN_ONCE_EULA, false);
+				editor.commit();
+				displayHTMLAlertDialog(_context.getString(R.string.app_license),android.R.drawable.ic_dialog_info, _context.getString(R.string.eula_text));
+			}catch(Exception ex){
+ 	    		Log.e("MainPreferenceActivity.runOnceEula() EULA ERROR: " + ex.toString());
 	    	}
 		}
 	}
@@ -1563,9 +1575,8 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 	private void checkK9PackageInstallation(boolean notifyFlag){
 		if (_debug) Log.v("MainPreferenceActivity.checkK9PackageInstallation()");
 		//Look for K-9 Mail and Kaiten Mail.
-//		boolean packageInstalledFlag = Common.packageExists(_context, "com.fsck.k9") || 
-//										Common.packageExists(_context, "com.kaitenmail");
-		boolean packageInstalledFlag = Common.packageExists(_context, "com.fsck.k9");
+		boolean packageInstalledFlag = Common.packageExists(_context, "com.fsck.k9") || 
+										Common.packageExists(_context, "com.kaitenmail");
 		if(!packageInstalledFlag){
 			if (_debug) Log.v("MainPreferenceActivity.checkK9PackageInstallation() K9 Client Packages Not Found!");	
 			SharedPreferences.Editor editor = _preferences.edit();
