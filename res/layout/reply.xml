@@ -2,21 +2,31 @@
 <LinearLayout 
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:id="@+id/reply_linear_layout"
-  	android:orientation="vertical"
+    android:orientation="vertical"
     android:layout_height="wrap_content"
-  	android:layout_width="wrap_content"
-    android:minWidth="300dip">
-	<TextView
-		android:id="@+id/title_text_view"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_marginRight="3dip"
-		android:layout_marginLeft="3dip"
-		android:textAppearance="?android:attr/textAppearanceMedium"
-		android:drawableLeft="@drawable/ic_reply"
-		android:text="@string/quick_reply"
-		android:drawablePadding="5dip" 
-		android:gravity="center_horizontal"/>
+    android:layout_width="fill_parent" 
+    android:gravity="center_vertical|fill_horizontal">
+	<LinearLayout
+		android:id="@+id/title_linear_layout"
+	    android:layout_height="wrap_content"
+	  	android:layout_width="wrap_content"
+	  	android:orientation="horizontal">
+		<ImageView
+			android:id="@+id/title_image_view"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:layout_gravity="center" />
+		<TextView
+			android:id="@+id/title_text_view"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginRight="3dip"
+			android:layout_marginLeft="3dip"
+			android:textAppearance="?android:attr/textAppearanceMedium"
+			android:text="@string/quick_reply"
+			android:drawablePadding="5dp" 
+			android:gravity="center_horizontal" />
+	</LinearLayout>
 	<ImageView
   		android:src="@drawable/divider"
   		android:layout_height="1dip"  
@@ -42,7 +52,7 @@
 			android:maxLines="3"
 			android:inputType="textShortMessage|textAutoCorrect|textCapSentences|textMultiLine"
 			android:imeOptions="actionSend|flagNoEnterAction" 
-			android:gravity="left|top"/>
+			android:gravity="left|top" />
 		<LinearLayout
     		android:orientation="vertical"
     		android:layout_height="match_parent"

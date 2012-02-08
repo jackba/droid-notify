@@ -63,6 +63,14 @@
         	android:windowSoftInputMode="stateVisible" />
 	
 		<activity 
+   			android:name="apps.droidnotify.QuickReplyActivityNEW" 
+   			android:theme="@style/Theme.Transparent"
+   			android:taskAffinity="apps.droidnotify.notification"
+			android:screenOrientation="user"
+			android:configChanges="orientation|keyboardHidden|keyboard|navigation"
+        	android:windowSoftInputMode="stateVisible" />
+		
+		<activity 
 			android:name="apps.droidnotify.facebook.FacebookAuthenticationActivity"
 			android:theme="@android:style/Theme.Dialog"
 			android:launchMode="singleTask">

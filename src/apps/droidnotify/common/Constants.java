@@ -37,6 +37,12 @@ public class Constants {
 	public static final String BUNDLE_NOTIFICATION_BUNDLE_NAME = "NOTIFICATION_BUNDLE_NAME";
 	public static final String BUNDLE_NOTIFICATION_BUNDLE_COUNT = "NOTIFICATION_BUNDLE_COUNT";
 	
+	//-----QUICK REPLY BUNDLE CONSTANTS-----//
+	public static final String QUICK_REPLY_BUNDLE_SEND_TO = "sendTo";
+	public static final String QUICK_REPLY_BUNDLE_SEND_TO_ID = "sendToID";
+	public static final String QUICK_REPLY_BUNDLE_NAME = "name";
+	public static final String QUICK_REPLY_BUNDLE_MESSAGE = "message";
+	
 	//-----DEBUG CONSTANTS-----//
 	public static final String DEBUG = "debug_log_enabled";
 	

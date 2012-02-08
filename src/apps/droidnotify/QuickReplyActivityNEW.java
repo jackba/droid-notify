@@ -42,6 +42,7 @@ public class QuickReplyActivityNEW extends Activity {
 	private int _notificationSubType = -1;
 	private boolean _messageSent = false;
 	private QuickReplyView _quickReplyView = null;
+	private EditText _messageEditText = null;
 
 	//================================================================================
 	// Public Methods
@@ -173,8 +174,9 @@ public class QuickReplyActivityNEW extends Activity {
 	    }	    //Get name and phone number from the Bundle.
 	    Bundle extrasBundle = getIntent().getExtras();
 	    parseQuickReplyParameters(extrasBundle);
-	    _quickReplyView = new QuickReplyView(_context, _notificationType, _notificationSubType, _sendTo, _name, _message);
+	    _quickReplyView = new QuickReplyView(_context, this, _notificationType, _notificationSubType, _sendTo, _name, _message);
 	    this.setContentView(_quickReplyView);
+		_messageEditText = _quickReplyView.getMessageEditText();
 	    //Set focus to appropriate field.
 	    setFocus();
 	}
@@ -206,7 +208,7 @@ public class QuickReplyActivityNEW extends Activity {
 	protected void onPause() {
 	    super.onPause();
 	    if (_debug) Log.v("QuickReplyActivity.onPause()");
-	    showSoftKeyboard(false, (EditText) findViewById(R.id.message_edit_text));
+	    showSoftKeyboard(false, _messageEditText);
 	    Common.setInQuickReplyAppFlag(_context, false);
 	}
 	  
@@ -226,7 +228,7 @@ public class QuickReplyActivityNEW extends Activity {
 	protected void onDestroy() {
 	    super.onDestroy();
 	    if (_debug) Log.v("QuickReplyActivity.onDestroy()");
-	    showSoftKeyboard(false, (EditText) findViewById(R.id.message_edit_text));
+	    showSoftKeyboard(false, _messageEditText);
 	    Common.setInQuickReplyAppFlag(_context, false);
 	    saveMessageDraft();
 	}
@@ -242,30 +244,12 @@ public class QuickReplyActivityNEW extends Activity {
 	 */
 	private void parseQuickReplyParameters(Bundle bundle){
 		if (_debug) Log.v("QuickReplyActivity.parseQuickReplyParameters()");
-		_notificationType = bundle.getInt("notificationType");
-		_notificationSubType = bundle.getInt("notificationSubType");
-		switch(_notificationType){
-	    	case Constants.NOTIFICATION_TYPE_SMS:{
-	    		_sendTo = bundle.getString("sendTo");
-	    		_name = bundle.getString("name");
-	    		_message = bundle.getString("message");
-		    	break;
-		    }
-			case Constants.NOTIFICATION_TYPE_TWITTER:{
-				_sendToID = bundle.getLong("sendToID");
-				_sendTo = bundle.getString("sendTo");
-	    		_name = bundle.getString("name");
-	    		_message = bundle.getString("message");
-				break;
-			}
-			case Constants.NOTIFICATION_TYPE_FACEBOOK:{
-				_sendToID = bundle.getLong("sendToID");
-				_sendTo = bundle.getString("sendTo");
-	    		_name = bundle.getString("name");
-	    		_message = bundle.getString("message");
-				break;
-			}
-	    }
+		_notificationType = bundle.getInt(Constants.BUNDLE_NOTIFICATION_TYPE);
+		_notificationSubType = bundle.getInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE);
+		_sendTo = bundle.getString(Constants.QUICK_REPLY_BUNDLE_SEND_TO);
+		_sendToID = bundle.getLong(Constants.QUICK_REPLY_BUNDLE_SEND_TO_ID);
+	    _name = bundle.getString(Constants.QUICK_REPLY_BUNDLE_NAME);
+	    _message = bundle.getString(Constants.QUICK_REPLY_BUNDLE_MESSAGE);
 	}
 	
 	/**
@@ -273,9 +257,8 @@ public class QuickReplyActivityNEW extends Activity {
 	 */
 	private void setFocus(){
 		if (_debug) Log.v("QuickReplyActivity.setFocus()");
-		EditText quickReplyMessageEditText = (EditText) findViewById(R.id.message_edit_text);
-		quickReplyMessageEditText.requestFocus();
-		showSoftKeyboard(true, quickReplyMessageEditText);
+		_messageEditText.requestFocus();
+		showSoftKeyboard(true, _messageEditText);
 	}
 	
 	/**

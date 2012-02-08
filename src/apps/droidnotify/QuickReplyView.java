@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.ImageView;
 
 import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
@@ -47,6 +48,7 @@ public class QuickReplyView extends LinearLayout {
 	
 	private LinearLayout _replyWindowLinearLayout = null;
 	
+	private ImageView _titleImageView = null;
 	private TextView _titleTextView = null;
 	private TextView _sendToTextView = null;	
 	private TextView _charactersRemainingTextView = null;
@@ -63,13 +65,13 @@ public class QuickReplyView extends LinearLayout {
 	/**
      * Class Constructor.
      */	
-	public QuickReplyView(Context context, int notificationType, int notificationSubType, String sendTo, String name, String message) {
+	public QuickReplyView(Context context, QuickReplyActivityNEW quickReplyActivity, int notificationType, int notificationSubType, String sendTo, String name, String message) {
 	    super(context);
 	    _debug = Log.getDebug();;
 	    if (_debug) Log.v("QuickReplyView.QuickReplyView()");
 	    _context = context;
 	    _preferences = PreferenceManager.getDefaultSharedPreferences(context);
-	    _quickReplyActivity = (QuickReplyActivityNEW) context;
+	    _quickReplyActivity = quickReplyActivity;
 	    _notificationType = notificationType;
 	    _notificationSubType = notificationSubType;
 	    _sendTo = sendTo;
@@ -86,11 +88,23 @@ public class QuickReplyView extends LinearLayout {
 	}
 	
 	/**
-	 * Save the message as a draft.
+	 * Get the text that is held in the _messageEditText View.
+	 * 
+	 * @return String - The text that is currently help inside the _messageEditText View.
 	 */
 	public String getSendMessage(){
 		if (_debug) Log.v("QuickReplyActivity.getSendMessage()");
 		return _messageEditText.getText().toString();
+	}
+	
+	/**
+	 * Get the _messageEditText View object.
+	 * 
+	 * @return EditText - The _messageEditText View object.
+	 */
+	public EditText getMessageEditText(){
+		if (_debug) Log.v("QuickReplyActivity.getMessageEditText()");
+		return _messageEditText;
 	}
 
 	//================================================================================
@@ -106,6 +120,8 @@ public class QuickReplyView extends LinearLayout {
 		if (_debug) Log.v("QuickReplyView.initLayoutItems()");
 		
 		_replyWindowLinearLayout = (LinearLayout) findViewById(R.id.reply_linear_layout);
+		
+		_titleImageView = (ImageView) findViewById(R.id.title_image_view);
 		
 		_titleTextView = (TextView) findViewById(R.id.title_text_view);
 		_sendToTextView = (TextView) findViewById(R.id.send_to_text_view);
@@ -139,27 +155,34 @@ public class QuickReplyView extends LinearLayout {
 		if (_debug) Log.v("QuickReplyView.setupLayoutTheme()");
 		_themePackageName = _preferences.getString(Constants.APP_THEME_KEY, Constants.APP_THEME_DEFAULT);
 		Drawable layoutBackgroundDrawable = null;
+		Drawable titleSMSIcon = null;
+		Drawable titleTwitterIcon = null;
+		Drawable titleFacebookIcon = null;
 		int textColorID = 0;
 		int buttonTextColorID = 0;
 		if(_themePackageName.startsWith(Constants.DARK_TRANSLUCENT_THEME)){
+			_resources = _context.getResources();
 			if(_themePackageName.equals(Constants.DARK_TRANSLUCENT_THEME)){
-				_resources = _context.getResources();
 				layoutBackgroundDrawable = _resources.getDrawable(R.drawable.background_panel);
 			}else if(_themePackageName.equals(Constants.DARK_TRANSLUCENT_V2_THEME)){
-				_resources = _context.getResources();
 				layoutBackgroundDrawable = _resources.getDrawable(R.drawable.background_panel_v2);
 			}else if(_themePackageName.equals(Constants.DARK_TRANSLUCENT_V3_THEME)){
-				_resources = _context.getResources();
 				layoutBackgroundDrawable = _resources.getDrawable(R.drawable.background_panel_v3);
 			}
 			textColorID = _resources.getColor(R.color.text_color);
-			buttonTextColorID = _resources.getColor(R.color.button_text_color);	
+			buttonTextColorID = _resources.getColor(R.color.button_text_color);
+			titleSMSIcon = _resources.getDrawable(R.drawable.ic_reply);
+			titleTwitterIcon = _resources.getDrawable(R.drawable.twitter);
+			titleFacebookIcon = _resources.getDrawable(R.drawable.facebook);
 		}else{	
 			try{
 				_resources = _context.getPackageManager().getResourcesForApplication(_themePackageName);
 				layoutBackgroundDrawable = _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/background_panel", null, null));
 				textColorID = _resources.getColor(_resources.getIdentifier(_themePackageName + ":color/text_color", null, null));
 				buttonTextColorID = _resources.getColor(_resources.getIdentifier(_themePackageName + ":color/button_text_color", null, null));
+				titleSMSIcon = _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/ic_reply", null, null));
+				titleTwitterIcon = _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/twitter", null, null));
+				titleFacebookIcon = _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/facebook", null, null));
 			}catch(NameNotFoundException ex){
 				Log.e("QuickReplyView.setupLayoutTheme() Loading Theme Package ERROR: " + ex.toString());
 				_themePackageName = Constants.DARK_TRANSLUCENT_THEME;
@@ -167,8 +190,11 @@ public class QuickReplyView extends LinearLayout {
 				layoutBackgroundDrawable = _resources.getDrawable(R.drawable.background_panel);
 				textColorID = _resources.getColor(R.color.text_color);
 				buttonTextColorID = _resources.getColor(R.color.button_text_color);
+				titleSMSIcon = _resources.getDrawable(R.drawable.ic_reply);
+				titleTwitterIcon = _resources.getDrawable(R.drawable.twitter);
+				titleFacebookIcon = _resources.getDrawable(R.drawable.facebook);
 			}
-		}
+		}	
 		
 		_replyWindowLinearLayout.setBackgroundDrawable(layoutBackgroundDrawable);
 		
@@ -179,7 +205,23 @@ public class QuickReplyView extends LinearLayout {
 		_cancelButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));	
 
 		_sendButton.setTextColor(buttonTextColorID);
-		_cancelButton.setTextColor(buttonTextColorID);
+		_cancelButton.setTextColor(buttonTextColorID);		
+		
+		switch(_notificationType){
+	    	case Constants.NOTIFICATION_TYPE_SMS:{
+    			_titleImageView.setImageDrawable(titleSMSIcon);
+		    	break;
+		    }
+			case Constants.NOTIFICATION_TYPE_TWITTER:{
+    			_titleImageView.setImageDrawable(titleTwitterIcon);
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_FACEBOOK:{
+    			_titleImageView.setImageDrawable(titleFacebookIcon);
+				break;
+			}
+	    }
+		
 	}
 	
 	/**
@@ -195,11 +237,13 @@ public class QuickReplyView extends LinearLayout {
 		switch(buttonType){
 			case Constants.THEME_BUTTON_NORMAL:{
 				if(_themePackageName.startsWith(Constants.DARK_TRANSLUCENT_THEME)){
-					stateListDrawable.addState(new int[] {android.R.attr.state_pressed}, _resources.getDrawable(R.drawable.btn_dark_translucent_pressed));
-					stateListDrawable.addState(new int[] { }, _resources.getDrawable(R.drawable.btn_dark_translucent_normal));
+					stateListDrawable.addState(new int[] {android.R.attr.state_enabled, android.R.attr.state_pressed}, _resources.getDrawable(R.drawable.button_pressed));
+					stateListDrawable.addState(new int[] {android.R.attr.state_enabled}, _resources.getDrawable(R.drawable.button_normal));
+					stateListDrawable.addState(new int[] {}, _resources.getDrawable(R.drawable.button_disabled));
 				}else{
-					stateListDrawable.addState(new int[] {android.R.attr.state_pressed}, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/button_pressed", null, null)));
-					stateListDrawable.addState(new int[] { }, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/button_normal", null, null)));
+					stateListDrawable.addState(new int[] {android.R.attr.state_enabled, android.R.attr.state_pressed}, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/button_pressed", null, null)));
+					stateListDrawable.addState(new int[] {android.R.attr.state_enabled}, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/button_normal", null, null)));
+					stateListDrawable.addState(new int[] {}, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/button_disabled", null, null)));
 				}
 				return stateListDrawable;
 			}
@@ -355,7 +399,6 @@ public class QuickReplyView extends LinearLayout {
 		    		if(_message != null){
 		    			_messageEditText.setText(_message);
 		    		}
-		    		_titleTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_reply, 0, 0, 0);
 			    	break;
 			    }
 				case Constants.NOTIFICATION_TYPE_TWITTER:{
@@ -374,7 +417,6 @@ public class QuickReplyView extends LinearLayout {
 					if(_notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE){
 						//Do Nothing
 					}
-					_titleTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.twitter, 0, 0, 0);
 					break;
 				}
 				case Constants.NOTIFICATION_TYPE_FACEBOOK:{
@@ -395,7 +437,6 @@ public class QuickReplyView extends LinearLayout {
 					}else if(_notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE){
 						//Do Nothing										
 					}
-					_titleTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.facebook, 0, 0, 0);
 					break;
 				}
 		    }	

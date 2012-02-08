@@ -467,18 +467,17 @@ public class TwitterCommon {
 		}
 		try{
 			Intent intent = new Intent(context, QuickReplyActivity.class);
-	        if (_debug) Log.v("NotificationView.replyToMessage() Put bundle in intent");
 	        Bundle bundle = new Bundle();
-	        bundle.putInt("notificationType", Constants.NOTIFICATION_TYPE_TWITTER);
-	        bundle.putInt("notificationSubType", notificationSubType);
-	        bundle.putLong("sendToID", sendToID);
-	        bundle.putString("sendTo", sendTo);
+	        bundle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_TWITTER);
+	        bundle.putInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, notificationSubType);
+	        bundle.putString(Constants.QUICK_REPLY_BUNDLE_SEND_TO, sendTo);
+	        bundle.putLong(Constants.QUICK_REPLY_BUNDLE_SEND_TO_ID, sendToID);
 		    if(name != null && !name.equals(context.getString(android.R.string.unknownName))){
-		    	bundle.putString("name", name);
+		    	bundle.putString(Constants.QUICK_REPLY_BUNDLE_NAME, name);
 		    }else{
-		    	bundle.putString("name", "");
+		    	bundle.putString(Constants.QUICK_REPLY_BUNDLE_NAME, "");
 		    }
-		    bundle.putString("message", "");
+		    bundle.putString(Constants.QUICK_REPLY_BUNDLE_MESSAGE, "");
 		    intent.putExtras(bundle);
 	        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 	        notificationActivity.startActivityForResult(intent, requestCode);
