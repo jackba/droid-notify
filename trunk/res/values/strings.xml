@@ -16,6 +16,7 @@
 	<string name="app_name_basic">DroidNotifyBasic</string>
 	<string name="app_name_pro">DroidNotifyPro</string>
     <string name="app_name_formatted">Droid Notify</string>
+    <string name="app_name_notify">Notify</string>
     <string name="app_name_basic_formatted">Droid Notify Basic</string>
     <string name="app_name_pro_formatted">Droid Notify Pro</string>
     <string name="preference_appenabled_title">Enable Droid Notify</string>

@@ -11,7 +11,6 @@ import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
 import apps.droidnotify.phone.PhoneCommon;
-import apps.droidnotify.receivers.PhoneAlarmReceiver;
 
 /**
  * This class does the work of the BroadcastReceiver.
@@ -90,9 +89,8 @@ public class PhoneAlarmBroadcastReceiverService extends WakefulIntentService {
 				WakefulIntentService.sendWakefulWork(context, new Intent(context, PhoneService.class));
 		    }else{
 		    	//Display the Status Bar Notification even though the popup is blocked based on the user preferences.
+    			Bundle missedCallNotificationBundle = PhoneCommon.getMissedCalls(context);	
 		    	if(preferences.getBoolean(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true)){
-			    	//Get the missed call info.
-	    			Bundle missedCallNotificationBundle = PhoneCommon.getMissedCalls(context);	 
 	    			if(missedCallNotificationBundle != null){
 		    			Bundle missedCallNotificationBundleSingle = missedCallNotificationBundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_1");
 						if(missedCallNotificationBundleSingle != null){
@@ -101,8 +99,7 @@ public class PhoneAlarmBroadcastReceiverService extends WakefulIntentService {
 						}
 					}
 	    		}					
-		    	String intentActionText = "apps.droidnotify.alarm/PhoneAlarmReceiverAlarm/" + String.valueOf(System.currentTimeMillis());
-		    	Common.rescheduleBlockedNotification(context, rescheduleNotificationInCall, rescheduleNotificationInQuickReply, PhoneAlarmReceiver.class, null, intentActionText);
+		    	if(missedCallNotificationBundle != null) Common.rescheduleBlockedNotification(context, rescheduleNotificationInCall, rescheduleNotificationInQuickReply, Constants.NOTIFICATION_TYPE_PHONE, missedCallNotificationBundle);
 		    }
 	    }catch(Exception ex){
 			Log.e("PhoneAlarmBroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());

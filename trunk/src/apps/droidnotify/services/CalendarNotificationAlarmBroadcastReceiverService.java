@@ -10,7 +10,6 @@ import android.telephony.TelephonyManager;
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
-import apps.droidnotify.receivers.CalendarNotificationAlarmReceiver;
 
 /**
  * This class does the work of the BroadcastReceiver.
@@ -90,10 +89,9 @@ public class CalendarNotificationAlarmBroadcastReceiverService extends WakefulIn
 				WakefulIntentService.sendWakefulWork(context, calendarIntent);
 		    }else{	    	
 		    	//Display the Status Bar Notification even though the popup is blocked based on the user preferences.
+		    	Bundle bundle = intent.getExtras();
+	    		Bundle calendarEventNotificationBundle = bundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME);
 		    	if(preferences.getBoolean(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true)){
-			    	//Get the missed call info.
-			    	Bundle bundle = intent.getExtras();
-		    		Bundle calendarEventNotificationBundle = bundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME);
 		    		if(calendarEventNotificationBundle != null){
 		    			Bundle calendarEventNotificationBundleSingle = calendarEventNotificationBundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_1");
 		    			if(calendarEventNotificationBundleSingle != null){
@@ -101,9 +99,8 @@ public class CalendarNotificationAlarmBroadcastReceiverService extends WakefulIn
 						    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_CALENDAR, -1, callStateIdle, null, null, calendarEventNotificationBundleSingle.getString(Constants.BUNDLE_MESSAGE_BODY), null, null);
 		    			}
 		    		}
-		    	}					
-		    	String intentActionText = "apps.droidnotify.alarm/CalendarNotificationAlarmReceiverAlarm/" + String.valueOf(System.currentTimeMillis());
-		    	Common.rescheduleBlockedNotification(context, rescheduleNotificationInCall, rescheduleNotificationInQuickReply, CalendarNotificationAlarmReceiver.class, intent.getExtras(), intentActionText);
+		    	}
+		    	if(calendarEventNotificationBundle != null) Common.rescheduleBlockedNotification(context, rescheduleNotificationInCall, rescheduleNotificationInQuickReply, Constants.NOTIFICATION_TYPE_CALENDAR, calendarEventNotificationBundle);
 		    }
 		}catch(Exception ex){
 			Log.e("CalendarNotificationAlarmBroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());

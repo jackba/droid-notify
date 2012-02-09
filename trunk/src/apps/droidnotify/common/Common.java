@@ -262,39 +262,6 @@ public class Common {
 	}
 	
 	/**
-	 * Reschedule a blocked notification.
-	 * 
-	 * @param context - The application context.
-	 * @param rescheduleNotificationInCall - Boolean that indicates that in-call rescheduling is turned on.
-	 * @param rescheduleNotificationInQuickReply - Boolean that indicates that in-quick reply app rescheduling is turned on.
-	 * @param className - The name of the receiver class.
-	 * @param extrasBundle - The extras information to pass to the receiver class.
-	 * @param actionText - The text that differentiates this alarm from other alarms.
-	 */
-	public static void rescheduleBlockedNotification(Context context, boolean rescheduleNotificationInCall, boolean rescheduleNotificationInQuickReply, Class<?> className, Bundle extrasBundle, String intentActionText){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.rescheduleBlockedNotification()");
-		boolean rescheduleNotification = false;
-    	SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-    	String blockingAppRunningAction = preferences.getString(Constants.BLOCKING_APP_RUNNING_ACTION_KEY, Constants.BLOCKING_APP_RUNNING_ACTION_SHOW);
-    	if(rescheduleNotificationInCall || rescheduleNotificationInQuickReply){
-    		rescheduleNotification = true;
-    	}else if(blockingAppRunningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_IGNORE)){
-    		rescheduleNotification = false;
-    	}else if(blockingAppRunningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_RESCHEDULE)){
-    		rescheduleNotification = true;
-    	}
-		if (_debug) Log.v("Common.rescheduleBlockedNotification() RescheduleNotification? " + rescheduleNotification);
-    	if(rescheduleNotification){
-	    	//Set alarm to go off x minutes from the current time as defined by the user preferences.
-	    	long rescheduleInterval = Long.parseLong(preferences.getString(Constants.RESCHEDULE_BLOCKED_NOTIFICATION_TIMEOUT_KEY, Constants.RESCHEDULE_BLOCKED_NOTIFICATION_TIMEOUT_DEFAULT)) * 60 * 1000;
-	    	if (_debug) Log.v("Common.rescheduleBlockedNotification() Rescheduling notification. Rechedule in " + (rescheduleInterval/60/1000) + " minutes.");
-			long rescheduleTime = System.currentTimeMillis() + rescheduleInterval;
-			Common.startAlarm(context, className, extrasBundle, intentActionText, rescheduleTime);
-    	}
-	}
-	
-	/**
 	 * Convert a GMT timestamp to the phones local time.
 	 * 
 	 * @param inputTimestamp - GMT timestamp we want to convert.
@@ -1576,6 +1543,51 @@ public class Common {
 			return null;
 		}
 	}
+
+	/**
+	 * Reschedule a blocked notification.
+	 * 
+	 * @param context - The application context.
+	 * @param rescheduleNotificationInCall - Boolean that indicates that in-call rescheduling is turned on.
+	 * @param rescheduleNotificationInQuickReply - Boolean that indicates that in-quick reply app rescheduling is turned on.
+	 * @param className - The name of the receiver class.
+	 * @param extrasBundle - The extras information to pass to the receiver class.
+	 * @param actionText - The text that differentiates this alarm from other alarms.
+	 */
+	public static void rescheduleBlockedNotification(Context context, boolean rescheduleNotificationInCall, boolean rescheduleNotificationInQuickReply, int notificationType, Bundle incomingNotificationBundle){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.rescheduleBlockedNotification()");
+		boolean rescheduleNotification = false;
+    	SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+    	String blockingAppRunningAction = preferences.getString(Constants.BLOCKING_APP_RUNNING_ACTION_KEY, Constants.BLOCKING_APP_RUNNING_ACTION_SHOW);
+    	if(rescheduleNotificationInCall || rescheduleNotificationInQuickReply){
+    		rescheduleNotification = true;
+    	}else if(blockingAppRunningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_IGNORE)){
+    		rescheduleNotification = false;
+    	}else if(blockingAppRunningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_RESCHEDULE)){
+    		rescheduleNotification = true;
+    	}
+		if (_debug) Log.v("Common.rescheduleBlockedNotification() RescheduleNotification? " + rescheduleNotification);
+    	if(rescheduleNotification){
+	    	//Set alarm to go off x minutes from the current time as defined by the user preferences.
+	    	long rescheduleInterval = Long.parseLong(preferences.getString(Constants.RESCHEDULE_BLOCKED_NOTIFICATION_TIMEOUT_KEY, Constants.RESCHEDULE_BLOCKED_NOTIFICATION_TIMEOUT_DEFAULT)) * 60 * 1000;
+	    	if (_debug) Log.v("Common.rescheduleBlockedNotification() Rescheduling notification. Rechedule in " + (rescheduleInterval/60/1000) + " minutes.");
+			long rescheduleTime = System.currentTimeMillis() + rescheduleInterval;
+			
+			Bundle rescheduleBundle = new Bundle();
+			rescheduleBundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME, incomingNotificationBundle);
+			rescheduleBundle.putInt("notificationType", notificationType);
+
+			Intent rescheduleIntent = new Intent(context, RescheduleReceiver.class);
+			rescheduleIntent.putExtras(rescheduleBundle);
+			rescheduleIntent.setAction("apps.droidnotify.VIEW/RescheduleBlockedNotification/" + String.valueOf(System.currentTimeMillis()));
+			
+			PendingIntent reschedulePendingIntent = PendingIntent.getBroadcast(context, 0, rescheduleIntent, 0);
+
+			AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+			alarmManager.set(AlarmManager.RTC_WAKEUP, rescheduleTime, reschedulePendingIntent);
+    	}
+	}
 	
 	/**
 	 * Reschedule a notification.
@@ -1596,16 +1608,20 @@ public class Common {
 		rescheduleNotificationBundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_1", notification.getNotificationBundle());
 		rescheduleNotificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_BUNDLE_COUNT, 1);
 		
-		AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-		Intent rescheduleIntent = new Intent(context, RescheduleReceiver.class);
 		Bundle rescheduleBundle = new Bundle();
 		rescheduleBundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME, rescheduleNotificationBundle);
 		rescheduleBundle.putInt("rescheduleNumber", rescheduleNumber);
-		rescheduleBundle.putInt("notificationType", notificationType);
+		rescheduleBundle.putInt("notificationType", notificationType);		
+
+		Intent rescheduleIntent = new Intent(context, RescheduleReceiver.class);
 		rescheduleIntent.putExtras(rescheduleBundle);
 		rescheduleIntent.setAction("apps.droidnotify.VIEW/RescheduleNotification/" + rescheduleNumber + "/" + String.valueOf(notification.getTimeStamp()));
+		
 		PendingIntent reschedulePendingIntent = PendingIntent.getBroadcast(context, 0, rescheduleIntent, 0);
+		
+		AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 		alarmManager.set(AlarmManager.RTC_WAKEUP, rescheduleTime, reschedulePendingIntent);
+		
 		return reschedulePendingIntent;
 	}
 	

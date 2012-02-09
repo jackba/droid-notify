@@ -12,7 +12,6 @@ import android.telephony.TelephonyManager;
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
-import apps.droidnotify.receivers.TwitterAlarmReceiver;
 import apps.droidnotify.twitter.TwitterCommon;
 
 /**
@@ -92,17 +91,19 @@ public class TwitterAlarmBroadcastReceiverService extends WakefulIntentService {
 		    if(!notificationIsBlocked){
 				WakefulIntentService.sendWakefulWork(context, new Intent(context, TwitterService.class));
 		    }else{
+				//Get Twitter Object
+				Twitter twitter = TwitterCommon.getTwitter(context);
+				if(twitter == null){
+					if (_debug) Log.v("TwitterAlarmBroadcastReceiverService.doWakefulWork() Twitter object is null. Exiting...");
+					return;
+				}
 		    	//Display the Status Bar Notification even though the popup is blocked based on the user preferences.
+				Bundle twitterDirectMessageNotificationBundle = TwitterCommon.getTwitterDirectMessages(context, twitter);
+				Bundle twitterMentionNotificationBundle = TwitterCommon.getTwitterMentions(context, twitter);
+				Bundle twitterFollowerRequestNotificationBundle = TwitterCommon.getTwitterFollowerRequests(context, twitter);
 		    	if(preferences.getBoolean(Constants.TWITTER_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true)){
 		    		//Get the Twitter message info.
-					//Get Twitter Object
-					Twitter twitter = TwitterCommon.getTwitter(context);
-					if(twitter == null){
-						if (_debug) Log.v("TwitterAlarmBroadcastReceiverService.doWakefulWork() Twitter object is null. Exiting...");
-						return;
-					}
 					if(preferences.getBoolean(Constants.TWITTER_DIRECT_MESSAGES_ENABLED_KEY, true)){
-						Bundle twitterDirectMessageNotificationBundle = TwitterCommon.getTwitterDirectMessages(context, twitter);
 					    if(twitterDirectMessageNotificationBundle != null){
 							//Loop through all the bundles that were sent through.
 							int bundleCount = twitterDirectMessageNotificationBundle.getInt(Constants.BUNDLE_NOTIFICATION_BUNDLE_COUNT);
@@ -112,13 +113,12 @@ public class TwitterAlarmBroadcastReceiverService extends WakefulIntentService {
 									//Display Status Bar Notification
 								    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_TWITTER, Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE, callStateIdle, twitterDirectMessageNotificationBundleSingle.getString(Constants.BUNDLE_CONTACT_NAME), twitterDirectMessageNotificationBundleSingle.getString(Constants.BUNDLE_SENT_FROM_ADDRESS), twitterDirectMessageNotificationBundleSingle.getString(Constants.BUNDLE_MESSAGE_BODY), null, twitterDirectMessageNotificationBundleSingle.getString(Constants.BUNDLE_LINK_URL));
 				    			}
-							}			    			
+							}
 						}else{
 							if (_debug) Log.v("TwitterAlarmBroadcastReceiverService.doWakefulWork() No Twitter Direct Messages were found. Exiting...");
 						}
 					}
 					if(preferences.getBoolean(Constants.TWITTER_MENTIONS_ENABLED_KEY, true)){
-						Bundle twitterMentionNotificationBundle = TwitterCommon.getTwitterMentions(context, twitter);
 					    if(twitterMentionNotificationBundle != null){
 							//Loop through all the bundles that were sent through.
 							int bundleCount = twitterMentionNotificationBundle.getInt(Constants.BUNDLE_NOTIFICATION_BUNDLE_COUNT);
@@ -128,13 +128,12 @@ public class TwitterAlarmBroadcastReceiverService extends WakefulIntentService {
 									//Display Status Bar Notification
 								    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_TWITTER, Constants.NOTIFICATION_TYPE_TWITTER_MENTION, callStateIdle, twitterMentionNotificationBundleSingle.getString(Constants.BUNDLE_CONTACT_NAME), twitterMentionNotificationBundleSingle.getString(Constants.BUNDLE_SENT_FROM_ADDRESS), twitterMentionNotificationBundleSingle.getString(Constants.BUNDLE_MESSAGE_BODY), null, twitterMentionNotificationBundleSingle.getString(Constants.BUNDLE_LINK_URL));
 				    			}
-							}			    			
+							}
 						}else{
 							if (_debug) Log.v("TwitterAlarmBroadcastReceiverService.doWakefulWork() No Twitter Mentions were found. Exiting...");
 						}
 					}
 					if(preferences.getBoolean(Constants.TWITTER_FOLLOWER_REQUESTS_ENABLED_KEY, true)){
-						Bundle twitterFollowerRequestNotificationBundle = TwitterCommon.getTwitterFollowerRequests(context, twitter);
 					    if(twitterFollowerRequestNotificationBundle != null){
 							//Loop through all the bundles that were sent through.
 							int bundleCount = twitterFollowerRequestNotificationBundle.getInt(Constants.BUNDLE_NOTIFICATION_BUNDLE_COUNT);
@@ -144,14 +143,15 @@ public class TwitterAlarmBroadcastReceiverService extends WakefulIntentService {
 									//Display Status Bar Notification
 								    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_TWITTER, Constants.NOTIFICATION_TYPE_TWITTER_FOLLOWER_REQUEST, callStateIdle, twitterFollowerRequestNotificationBundleSingle.getString(Constants.BUNDLE_CONTACT_NAME), twitterFollowerRequestNotificationBundleSingle.getString(Constants.BUNDLE_SENT_FROM_ADDRESS), twitterFollowerRequestNotificationBundleSingle.getString(Constants.BUNDLE_MESSAGE_BODY), null, twitterFollowerRequestNotificationBundleSingle.getString(Constants.BUNDLE_LINK_URL));
 				    			}
-							}			    			
+							}
 						}else{
 							if (_debug) Log.v("TwitterAlarmBroadcastReceiverService.doWakefulWork() No Twitter Follower Requests were found. Exiting...");
 						}
 					}
-			    }					
-		    	String intentActionText = "apps.droidnotifydonate.alarm/TwitterAlarmReceiverAlarm/" + String.valueOf(System.currentTimeMillis());
-		    	Common.rescheduleBlockedNotification(context, rescheduleNotificationInCall, rescheduleNotificationInQuickReply, TwitterAlarmReceiver.class, null, intentActionText);
+			    }
+		    	if(twitterDirectMessageNotificationBundle != null) Common.rescheduleBlockedNotification(context, rescheduleNotificationInCall, rescheduleNotificationInQuickReply, Constants.NOTIFICATION_TYPE_TWITTER, twitterDirectMessageNotificationBundle);
+		    	if(twitterMentionNotificationBundle != null)Common.rescheduleBlockedNotification(context, rescheduleNotificationInCall, rescheduleNotificationInQuickReply, Constants.NOTIFICATION_TYPE_TWITTER, twitterMentionNotificationBundle);
+		    	if(twitterFollowerRequestNotificationBundle != null)Common.rescheduleBlockedNotification(context, rescheduleNotificationInCall, rescheduleNotificationInQuickReply, Constants.NOTIFICATION_TYPE_TWITTER, twitterFollowerRequestNotificationBundle);
 		    }
 		}catch(Exception ex){
 			Log.e("TwitterAlarmBroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());

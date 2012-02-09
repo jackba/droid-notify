@@ -10,7 +10,6 @@ import android.telephony.TelephonyManager;
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
-import apps.droidnotify.receivers.RescheduleReceiver;
 
 public class RescheduleBroadcastReceiverService extends WakefulIntentService {
 	
@@ -59,7 +58,7 @@ public class RescheduleBroadcastReceiverService extends WakefulIntentService {
 				return;
 			}
 		    Bundle bundle = intent.getExtras();
-		    int notificationType = bundle.getInt(Constants.BUNDLE_NOTIFICATION_TYPE) - 100;
+		    int notificationType = bundle.getInt(Constants.BUNDLE_NOTIFICATION_TYPE);
 		    //Check the state of the users phone.
 		    TelephonyManager telemanager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 		    boolean notificationIsBlocked = false;
@@ -69,6 +68,37 @@ public class RescheduleBroadcastReceiverService extends WakefulIntentService {
 		    boolean inQuickReplyApp = Common.isUserInQuickReplyApp(context);
 		    boolean showBlockedNotificationStatusBarNotification = false;
 		    switch(notificationType){
+			    case Constants.NOTIFICATION_TYPE_PHONE:{
+			    	showBlockedNotificationStatusBarNotification = preferences.getBoolean(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true);
+			    	break;
+			    }
+			    case Constants.NOTIFICATION_TYPE_SMS:{
+			    	showBlockedNotificationStatusBarNotification = preferences.getBoolean(Constants.SMS_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true);
+			    	break;
+			    }
+			    case Constants.NOTIFICATION_TYPE_MMS:{
+			    	showBlockedNotificationStatusBarNotification = preferences.getBoolean(Constants.MMS_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true);
+			    	break;
+			    }
+			    case Constants.NOTIFICATION_TYPE_CALENDAR:{
+			    	showBlockedNotificationStatusBarNotification = preferences.getBoolean(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true);
+			    	break;
+			    }
+			    case Constants.NOTIFICATION_TYPE_GMAIL:{
+			    	break;
+			    }
+			    case Constants.NOTIFICATION_TYPE_TWITTER:{
+			    	showBlockedNotificationStatusBarNotification = preferences.getBoolean(Constants.TWITTER_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true);
+			    	break;
+			    }
+			    case Constants.NOTIFICATION_TYPE_FACEBOOK:{
+			    	showBlockedNotificationStatusBarNotification = preferences.getBoolean(Constants.FACEBOOK_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true);
+			    	break;
+			    }
+			    case Constants.NOTIFICATION_TYPE_K9:{
+			    	showBlockedNotificationStatusBarNotification = preferences.getBoolean(Constants.K9_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true);
+			    	break;
+			    }
 			    case Constants.NOTIFICATION_TYPE_RESCHEDULE_PHONE:{
 			    	showBlockedNotificationStatusBarNotification = preferences.getBoolean(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true);
 			    	break;
@@ -117,10 +147,9 @@ public class RescheduleBroadcastReceiverService extends WakefulIntentService {
 				WakefulIntentService.sendWakefulWork(context, rescheduleIntent);
 		    }else{
 		    	//Display the Status Bar Notification even though the popup is blocked based on the user preferences.
+	    		Bundle rescheduleBundle = intent.getExtras();
+				Bundle rescheduleNotificationBundle = rescheduleBundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME);
 		    	if(showBlockedNotificationStatusBarNotification){
-		    		//Get the notification info.
-		    		Bundle rescheduleBundle = intent.getExtras();
-					Bundle rescheduleNotificationBundle = rescheduleBundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME);
 				    if(rescheduleNotificationBundle != null){
 						//Loop through all the bundles that were sent through.
 						int bundleCount = rescheduleNotificationBundle.getInt(Constants.BUNDLE_NOTIFICATION_BUNDLE_COUNT);
@@ -132,9 +161,8 @@ public class RescheduleBroadcastReceiverService extends WakefulIntentService {
 			    			}
 						}			    			
 					}
-		    	}					
-		    	String intentActionText = "apps.droidnotify.alarm/RescheduleReceiverAlarm/" + String.valueOf(notificationType) + "/" + String.valueOf(System.currentTimeMillis());
-		    	Common.rescheduleBlockedNotification(context, rescheduleNotificationInCall, rescheduleNotificationInQuickReply, RescheduleReceiver.class, intent.getExtras(), intentActionText);
+		    	}
+		    	Common.rescheduleBlockedNotification(context, rescheduleNotificationInCall, rescheduleNotificationInQuickReply, notificationType, rescheduleNotificationBundle);
 		    }
 		}catch(Exception ex){
 			Log.e("RescheduleBroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());

@@ -13,7 +13,6 @@ import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
 import apps.droidnotify.facebook.FacebookCommon;
 import apps.droidnotify.log.Log;
-import apps.droidnotify.receivers.FacebookAlarmReceiver;
 
 /**
  * This class handles the polling of the users Facebook account.
@@ -90,18 +89,20 @@ public class FacebookAlarmBroadcastReceiverService extends WakefulIntentService 
 		    }
 		    if(!notificationIsBlocked){
 				WakefulIntentService.sendWakefulWork(context, new Intent(context, FacebookService.class));
-		    }else{			    
+		    }else{
+			    //Get Facebook Object
+				Facebook facebook = FacebookCommon.getFacebook(context);
+			    if(facebook == null){
+			    	if (_debug) Log.v("FacebookAlarmBroadcastReceiverService.doWakefulWork() Facebook object is null. Exiting... ");
+			    	return;
+			    }
+				String accessToken = preferences.getString(Constants.FACEBOOK_ACCESS_TOKEN_KEY, null);
+				Bundle facebookNotificationNotificationBundle = FacebookCommon.getFacebookNotifications(context, accessToken, facebook);
+			    Bundle facebookFriendRequestNotificationBundle = FacebookCommon.getFacebookFriendRequests(context, accessToken, facebook);
+			    Bundle facebookMessageNotificationBundle = FacebookCommon.getFacebookMessages(context, accessToken, facebook);
 		    	//Display the Status Bar Notification even though the popup is blocked based on the user preferences.
 		    	if(preferences.getBoolean(Constants.FACEBOOK_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true)){
-				    //Get Facebook Object
-					Facebook facebook = FacebookCommon.getFacebook(context);
-				    if(facebook == null){
-				    	if (_debug) Log.v("FacebookAlarmBroadcastReceiverService.doWakefulWork() Facebook object is null. Exiting... ");
-				    	return;
-				    }
-					String accessToken = preferences.getString(Constants.FACEBOOK_ACCESS_TOKEN_KEY, null);
 					if(preferences.getBoolean(Constants.FACEBOOK_USER_NOTIFICATIONS_ENABLED_KEY, true)){
-						Bundle facebookNotificationNotificationBundle = FacebookCommon.getFacebookNotifications(context, accessToken, facebook);
 					    if(facebookNotificationNotificationBundle != null){
 							//Loop through all the bundles that were sent through.
 							int bundleCount = facebookNotificationNotificationBundle.getInt(Constants.BUNDLE_NOTIFICATION_BUNDLE_COUNT);
@@ -117,7 +118,6 @@ public class FacebookAlarmBroadcastReceiverService extends WakefulIntentService 
 						}
 					}
 					if(preferences.getBoolean(Constants.FACEBOOK_FRIEND_REQUESTS_ENABLED_KEY, true)){
-					    Bundle facebookFriendRequestNotificationBundle = FacebookCommon.getFacebookFriendRequests(context, accessToken, facebook);
 					    if(facebookFriendRequestNotificationBundle != null){
 							//Loop through all the bundles that were sent through.
 							int bundleCount = facebookFriendRequestNotificationBundle.getInt(Constants.BUNDLE_NOTIFICATION_BUNDLE_COUNT);
@@ -133,7 +133,6 @@ public class FacebookAlarmBroadcastReceiverService extends WakefulIntentService 
 						}
 					}
 					if(preferences.getBoolean(Constants.FACEBOOK_MESSAGES_ENABLED_KEY, true)){
-					    Bundle facebookMessageNotificationBundle = FacebookCommon.getFacebookMessages(context, accessToken, facebook);
 					    if(facebookMessageNotificationBundle != null){
 							//Loop through all the bundles that were sent through.
 							int bundleCount = facebookMessageNotificationBundle.getInt(Constants.BUNDLE_NOTIFICATION_BUNDLE_COUNT);
@@ -147,9 +146,10 @@ public class FacebookAlarmBroadcastReceiverService extends WakefulIntentService 
 						}else{
 							if (_debug) Log.v("FacebookAlarmBroadcastReceiverService.doWakefulWork() No Facebook Messages were found. Exiting...");
 						}
-				    }					
-					String intentActionText = "apps.droidnotifydonate.alarm/FacebookAlarmReceiverAlarm/" + String.valueOf(System.currentTimeMillis());
-			    	Common.rescheduleBlockedNotification(context, rescheduleNotificationInCall, rescheduleNotificationInQuickReply, FacebookAlarmReceiver.class, null, intentActionText);
+				    }
+					if(facebookNotificationNotificationBundle != null) Common.rescheduleBlockedNotification(context, rescheduleNotificationInCall, rescheduleNotificationInQuickReply, Constants.NOTIFICATION_TYPE_FACEBOOK, facebookNotificationNotificationBundle);					
+					if(facebookFriendRequestNotificationBundle != null) Common.rescheduleBlockedNotification(context, rescheduleNotificationInCall, rescheduleNotificationInQuickReply, Constants.NOTIFICATION_TYPE_FACEBOOK, facebookFriendRequestNotificationBundle);					
+					if(facebookMessageNotificationBundle != null) Common.rescheduleBlockedNotification(context, rescheduleNotificationInCall, rescheduleNotificationInQuickReply, Constants.NOTIFICATION_TYPE_FACEBOOK, facebookMessageNotificationBundle);
 			    }
 		    }
 		}catch(Exception ex){
