@@ -13,18 +13,20 @@
 		<item name="7">Português Brasileiro</item>
 		<item name="8">Polski</item>
 		<item name="9">Español</item>
+		<item name="10">中文（简体）</item>
 	</string-array>
 	<string-array name="language_options_values">
 		<item name="0">phone_default</item>
 		<item name="1">en</item>
-		<item name="2">en-rGB</item>
+		<item name="2">en_GB</item>
 		<item name="3">fr</item>
 		<item name="4">de</item>
 		<item name="5">he</item>
 		<item name="6">pt</item>
-		<item name="7">pt-rBR</item>
+		<item name="7">pt_BR</item>
 		<item name="8">pl</item>
 		<item name="9">es</item>
+		<item name="10">zh_CN</item>
 	</string-array>
 
 	<!-- Window Width Padding Preferences Arrays --> 

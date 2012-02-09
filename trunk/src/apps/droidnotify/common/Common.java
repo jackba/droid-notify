@@ -1910,7 +1910,12 @@ public class Common {
 			if(appLanguage.equals(Constants.LANGUAGE_DEFAULT)){				
 				locale = new Locale(Resources.getSystem().getConfiguration().locale.getLanguage());
 			}else{
-				locale = new Locale(appLanguage);
+				String[] languageInfo = appLanguage.split("_");
+				if(languageInfo.length > 1){
+					locale = new Locale(languageInfo[0], languageInfo[1]);
+				}else{
+					locale = new Locale(appLanguage);
+				}
 			} 
             Locale.setDefault(locale);
             Configuration config = new Configuration();
