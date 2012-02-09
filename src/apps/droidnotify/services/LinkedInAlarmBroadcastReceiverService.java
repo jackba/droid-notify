@@ -14,7 +14,6 @@ import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
 import apps.droidnotify.linkedin.LinkedInCommon;
 import apps.droidnotify.log.Log;
-import apps.droidnotify.receivers.LinkedInAlarmReceiver;
 
 public class LinkedInAlarmBroadcastReceiverService extends WakefulIntentService {
 	
@@ -86,22 +85,22 @@ public class LinkedInAlarmBroadcastReceiverService extends WakefulIntentService 
 		    }
 		    if(!notificationIsBlocked){
 				WakefulIntentService.sendWakefulWork(context, new Intent(context, LinkedInService.class));
-		    }else{			    
+		    }else{
+			    //Get LinkedIn Object
+				LinkedInApiClient linkedInClient = LinkedInCommon.getLinkedIn(context);
+			    if(linkedInClient == null){
+			    	if (_debug) Log.v("LinkedInAlarmBroadcastReceiverService.doWakefulWork() LinkedInClient object is null. Exiting... ");
+			    	return;
+			    }
+			    ArrayList<String> linkedInUpdateArray = LinkedInCommon.getLinkedInupdates(context, linkedInClient);
 		    	//Display the Status Bar Notification even though the popup is blocked based on the user preferences.
 		    	if(preferences.getBoolean(Constants.LINKEDIN_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true)){
 		    		//Get the Twitter message info.
 					String contactName = null;
 					String messageAddress = null;
 					String messageBody = null;
-				    //Get LinkedIn Object
-					LinkedInApiClient linkedInClient = LinkedInCommon.getLinkedIn(context);
-				    if(linkedInClient == null){
-				    	if (_debug) Log.v("LinkedInAlarmBroadcastReceiverService.doWakefulWork() LinkedInClient object is null. Exiting... ");
-				    	return;
-				    }
 				    if(preferences.getBoolean(Constants.LINKEDIN_UPDATES_ENABLED_KEY, true)){
-					    ArrayList<String> linkedInUpdateArray = LinkedInCommon.getLinkedInupdates(context, linkedInClient);
-					    if(linkedInUpdateArray != null && linkedInUpdateArray.size() > 0){
+					    if(linkedInUpdateArray != null){
 					    	int linkedInUpdateArraySize = linkedInUpdateArray.size();
 					    	for(int i=0; i<linkedInUpdateArraySize; i++ ){
 					    		String facebookArrayItem = linkedInUpdateArray.get(i);
@@ -120,8 +119,7 @@ public class LinkedInAlarmBroadcastReceiverService extends WakefulIntentService 
 						}
 					}
 			    }					
-		    	String intentActionText = "apps.droidnotify.alarm/LinkedInAlarmReceiverAlarm/" + String.valueOf(System.currentTimeMillis());
-		    	Common.rescheduleBlockedNotification(context, rescheduleNotificationInCall, rescheduleNotificationInQuickReply, LinkedInAlarmReceiver.class, null, intentActionText);
+		    	//if(linkedInUpdateArray != null) Common.rescheduleBlockedNotification(context, rescheduleNotificationInCall, rescheduleNotificationInQuickReply, Constants.NOTIFICATION_TYPE_LINKEDIN, linkedInUpdateArray);
 		    }
 		}catch(Exception ex){
 			Log.e("LinkedInAlarmBroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());

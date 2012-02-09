@@ -10,7 +10,6 @@ import android.telephony.TelephonyManager;
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
-import apps.droidnotify.receivers.SMSAlarmReceiver;
 import apps.droidnotify.sms.SMSCommon;
 
 public class SMSAlarmBroadcastReceiverService extends WakefulIntentService {
@@ -84,9 +83,9 @@ public class SMSAlarmBroadcastReceiverService extends WakefulIntentService {
 		    if(!notificationIsBlocked){
 				WakefulIntentService.sendWakefulWork(context, new Intent(context, SMSService.class));
 		    }else{
+	    		Bundle smsNotificationBundle = SMSCommon.getSMSMessagesFromDisk(context);
 		    	//Display the Status Bar Notification even though the popup is blocked based on the user preferences.
 		    	if(preferences.getBoolean(Constants.SMS_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true)){
-		    		Bundle smsNotificationBundle = SMSCommon.getSMSMessagesFromDisk(context);
 		    		if(smsNotificationBundle != null){
 		    			Bundle smsNotificationBundleSingle = smsNotificationBundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_1");
 		    			if(smsNotificationBundleSingle != null){
@@ -95,8 +94,7 @@ public class SMSAlarmBroadcastReceiverService extends WakefulIntentService {
 		    			}
 		    		}				    
 			    }					
-		    	String intentActionText = "apps.droidnotify.alarm/SMSAlarmReceiverAlarm/" + String.valueOf(System.currentTimeMillis());
-		    	Common.rescheduleBlockedNotification(context, rescheduleNotificationInCall, rescheduleNotificationInQuickReply, SMSAlarmReceiver.class, null, intentActionText);
+		    	if(smsNotificationBundle != null) Common.rescheduleBlockedNotification(context, rescheduleNotificationInCall, rescheduleNotificationInQuickReply, Constants.NOTIFICATION_TYPE_SMS, smsNotificationBundle);
 		    }
 		}catch(Exception ex){
 			Log.e("SMSAlarmBroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());

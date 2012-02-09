@@ -20,8 +20,7 @@ import android.telephony.SmsMessage;
 import android.telephony.SmsMessage.MessageClass;
 import android.widget.Toast;
 import apps.droidnotify.NotificationActivity;
-//import apps.droidnotify.QuickReplyActivity;
-import apps.droidnotify.QuickReplyActivityNEW;
+import apps.droidnotify.QuickReplyActivity;
 import apps.droidnotify.R;
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
@@ -727,7 +726,7 @@ public class SMSCommon {
 			return false;
 		}
 		try{
-			Intent intent = new Intent(context, QuickReplyActivityNEW.class);
+			Intent intent = new Intent(context, QuickReplyActivity.class);
 	        if (_debug) Log.v("NotificationView.replyToMessage() Put bundle in intent");
 	        Bundle bundle = new Bundle();
 	        bundle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_SMS);

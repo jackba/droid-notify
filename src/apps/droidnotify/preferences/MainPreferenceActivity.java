@@ -794,7 +794,7 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 		aboutPreferencesPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
         	public boolean onPreferenceClick(Preference preference) {
 		    	if (_debug) Log.v("MainPreferenceActivity() About Button Clicked()");
-		    	if(Log.getAppProVersion()){
+		    	if(_appProVersion){
 		    		return displayHTMLAlertDialog(_context.getString(R.string.app_name_pro_formatted_version, _appVersion), R.drawable.ic_launcher_droidnotify, _context.getString(R.string.preference_about_text) + _context.getString(R.string.preference_translated_by_text) + _context.getString(R.string.preference_copyright_text));
 		    	}else{
 		    		return displayHTMLAlertDialog(_context.getString(R.string.app_name_basic_formatted_version, _appVersion), R.drawable.ic_launcher_droidnotify, _context.getString(R.string.preference_about_text) + _context.getString(R.string.preference_translated_by_text) + _context.getString(R.string.preference_copyright_text));

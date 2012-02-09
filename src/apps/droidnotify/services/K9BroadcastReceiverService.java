@@ -11,7 +11,6 @@ import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
 import apps.droidnotify.email.EmailCommon;
 import apps.droidnotify.log.Log;
-import apps.droidnotify.receivers.K9Receiver;
 
 public class K9BroadcastReceiverService extends WakefulIntentService {
 	
@@ -73,7 +72,7 @@ public class K9BroadcastReceiverService extends WakefulIntentService {
 		    boolean inQuickReplyApp = Common.isUserInQuickReplyApp(context);
 		    //Reschedule notification based on the users preferences.
 		    if(!callStateIdle){
-		    	notificationIsBlocked = true;		    	
+		    	notificationIsBlocked = true;
 		    	rescheduleNotificationInCall = preferences.getBoolean(Constants.IN_CALL_RESCHEDULING_ENABLED_KEY, false);
 		    }else if(inQuickReplyApp){
 		    	notificationIsBlocked = true;		    	
@@ -88,10 +87,9 @@ public class K9BroadcastReceiverService extends WakefulIntentService {
 				WakefulIntentService.sendWakefulWork(context, k9Intent);
 		    }else{
 		    	//Display the Status Bar Notification even though the popup is blocked based on the user preferences.
+	    		Bundle bundle = intent.getExtras();
+	    		Bundle emailNotificationBundle = EmailCommon.getK9MessagesFromIntent(context, bundle, intent.getAction());
 		    	if(preferences.getBoolean(Constants.K9_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true)){
-		    		//Get the k9 email info.
-		    		Bundle bundle = intent.getExtras();
-		    		Bundle emailNotificationBundle = EmailCommon.getK9MessagesFromIntent(context, bundle, intent.getAction());
 		    		if(emailNotificationBundle != null){
 		    			Bundle emailNotificationBundleSingle = emailNotificationBundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_1");
 		    			if(emailNotificationBundleSingle != null){
@@ -99,9 +97,8 @@ public class K9BroadcastReceiverService extends WakefulIntentService {
 						    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_K9, 0, callStateIdle, emailNotificationBundleSingle.getString(Constants.BUNDLE_CONTACT_NAME), emailNotificationBundleSingle.getString(Constants.BUNDLE_SENT_FROM_ADDRESS), emailNotificationBundleSingle.getString(Constants.BUNDLE_MESSAGE_BODY), emailNotificationBundleSingle.getString(Constants.BUNDLE_K9_EMAIL_URI), null);
 		    			}
 		    		}
-		    	}					
-		    	String intentActionText = "apps.droidnotify.alarm/K9ReceiverAlarm/" + String.valueOf(System.currentTimeMillis());
-		    	Common.rescheduleBlockedNotification(context, rescheduleNotificationInCall, rescheduleNotificationInQuickReply, K9Receiver.class, null, intentActionText);
+		    	}
+		    	if(emailNotificationBundle != null) Common.rescheduleBlockedNotification(context, rescheduleNotificationInCall, rescheduleNotificationInQuickReply, Constants.NOTIFICATION_TYPE_K9, emailNotificationBundle);
 		    }
 		}catch(Exception ex){
 			Log.e("K9BroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());
