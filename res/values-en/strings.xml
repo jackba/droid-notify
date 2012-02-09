@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Notification View Strings -->
+    <string name="dismiss">Dismiss</string> 
+    <string name="delete">Delete</string>
+    <string name="call">Call</string>
+    <string name="reply">Reply</string>
+    <string name="view">View</string>
+    
 	<!-- App Strings -->
 	<string name="app_name_formatted_version">Droid Notify v%s</string>
 	<string name="app_name_basic_formatted_version">Droid Notify Basic v%s</string>
@@ -9,6 +16,7 @@
 	<string name="app_name_basic">DroidNotifyBasic</string>
 	<string name="app_name_pro">DroidNotifyPro</string>
     <string name="app_name_formatted">Droid Notify</string>
+    <string name="app_name_notify">Notify</string>
     <string name="app_name_basic_formatted">Droid Notify Basic</string>
     <string name="app_name_pro_formatted">Droid Notify Pro</string>
     <string name="preference_appenabled_title">Enable Droid Notify</string>
@@ -112,6 +120,13 @@
     <string name="preference_popup_width_padding_title">Popup Width Padding</string>
     <string name="preference_popup_width_padding_summary">Select the window width padding amount.</string> 
     
+    <!-- K9 Package Not Found Strings -->
+    <string name="package_not_found">Package Not Found</string>
+    <string name="package_k9_not_found">We cannot find the required K-9 email client installed on this device. Please download a compatible K-9 email client. Click on one of the buttons below to download a compatible client.</string>
+    <string name="package_k9_not_found_generic">We cannot find the required K-9 email client installed on this device. Please download a compatible K-9 email client.</string> 
+    <string name="k9_mail">K-9 Mail</string>
+    <string name="kaiten_mail">Kaiten Mail</string>
+    
 	<!-- Settings/Preference Strings -->
     <string name="app_settings_text">Settings</string>
     <string name="general_settings_text">General Settings</string>  	
@@ -182,7 +197,7 @@
     <string name="about_text">About</string>
    	<string name="preference_about_summary">About Droid Notify</string>
 	<string name="preference_about_text">&lt;b>Created by:&lt;/b> Camille Sévigny&lt;br/>&lt;b>Email:&lt;/b> &lt;a href="mailto:droidnotify@gmail.com">droidnotify@gmail.com&lt;/a>&lt;br/>&lt;br/>Droid Notify is an application that shows a popup dialog when a SMS/MMS message is received, a Missed Call is received, a new Email is received or a Calendar Event occurs. There are also more advanced features and support for other notifications in the pro version of this application.  The notifications link to your messaging app, your phone and your calendar. The notifications also display the contact information (if available) such as who it\'s from and contact photo if available.&lt;br/>&lt;br/>If you like Droid Notify, please rate this application and leave a comment.&lt;br/>&lt;br/>Feel free to email comments, suggestions or bugs.&lt;br/>&lt;br/>&lt;b>Translations powered by:&lt;/b> &lt;a href="http://www.crowdin.net/">CrowdIn.net&lt;/a>&lt;br/></string>
-	<string name="preference_translated_by_text">French Translation: Franky&lt;br/>Hebrew Translation: Benjo26&lt;br/>Polish Translation: Draco (draco.pl@gmail.com)&lt;br/>Portuguese Translation: Marcio Andrade (marcioaribeiro@hotmail.com.br)&lt;br/>Spanish Translation: Shaymelmed (shaben_translations@hotmail.com)&lt;br/>&lt;br/></string>
+	<string name="preference_translated_by_text">French Translation: Franky&lt;br/>Hebrew Translation: Benjo26&lt;br/>Polish Translation: Draco (draco.pl@gmail.com)&lt;br/>Portuguese Translation: Marcio Andrade (marcioaribeiro@hotmail.com.br)&lt;br/>Spanish Translation: Shaymelmed (shaben_translations@hotmail.com)&lt;br/>Simplified Chinese Translation: Jason (hrmqs86@gmail.com)&lt;br/>&lt;br/></string>
 	<string name="preference_copyright_text">&lt;b>&#169; 2012 Camille Sévigny&lt;/b>&lt;br/>&lt;br/></string>
 	
 	<!-- Haptic Feedback Strings -->
@@ -431,7 +446,9 @@
    	<string name="next_button_text">Next</string>
    	<string name="previous_button_text">Previous</string>
    	<string name="send_button_text">Send</string>
+   	<string name="send">Send</string>
    	<string name="cancel_button_text">Cancel</string>
+   	<string name="cancel">Cancel</string>
    	<string name="delete_button_text">Delete</string>
    	<string name="button_settings_text">Button Settings</string>
    	<string name="show_hide_button_settings_text">Show/Hide Button Settings</string>
