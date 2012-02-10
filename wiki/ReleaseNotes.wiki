@@ -6,7 +6,7 @@
 *v2.25* _Coming Soon..._
  * 
 
-*v2.24* _Coming Soon..._
+*v2.24* (February 10, 2012)
  * Fixed a Dim Screen Background bug.
  * Added compatibility between Android 4.0 (ICS) Calendars and the Calendar notifications.
  * Fixed/updated blocked notification user preference.
