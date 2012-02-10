@@ -1505,10 +1505,12 @@ public class MainPreferenceActivity extends PreferenceActivity implements OnShar
 			    		editor.putString(Constants.DATE_FORMAT_KEY, String.valueOf(Constants.DATE_FORMAT_12));
 			    	}
 			    }
-			    if(systemHourFormat.equals("12")){
-					editor.putString(Constants.TIME_FORMAT_KEY, String.valueOf(Constants.TIME_FORMAT_12_HOUR));
-			    }else{
-					editor.putString(Constants.TIME_FORMAT_KEY, String.valueOf(Constants.TIME_FORMAT_24_HOUR));
+			    if(systemHourFormat != null && !systemHourFormat.equals("")){
+				    if(systemHourFormat.equals("12")){
+						editor.putString(Constants.TIME_FORMAT_KEY, String.valueOf(Constants.TIME_FORMAT_12_HOUR));
+				    }else{
+						editor.putString(Constants.TIME_FORMAT_KEY, String.valueOf(Constants.TIME_FORMAT_24_HOUR));
+				    }
 			    }
 				editor.commit();
 			}catch(Exception ex){

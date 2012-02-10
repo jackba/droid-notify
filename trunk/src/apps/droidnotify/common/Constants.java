@@ -474,7 +474,8 @@ public class Constants {
     public static final String CALENDAR_EVENT_ALL_DAY = "allDay"; 
     public static final String CALENDAR_DISPLAY_NAME = "displayName"; 
     public static final String CALENDAR_DISPLAY_NAME_NEW = "calendar_displayName"; 
-    public static final String CALENDAR_SELECTED = "selected";
+    public static final String CALENDAR_SELECTED = "selected"; 
+    public static final String CALENDAR_VISIBLE = "visible";
     public static final String CALENDAR_EVENT_BEGIN_TIME = "beginTime";
     public static final String CALENDAR_EVENT_END_TIME = "endTime";
     
