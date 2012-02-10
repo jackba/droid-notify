@@ -11,6 +11,7 @@
  * Added compatibility between Android 4.0 (ICS) Calendars and the Calendar notifications.
  * Fixed/updated blocked notification user preference.
  * Fixed/updated incoming notifications being blocked when in the quick reply screen.
+ * Fixed a blocked notification reschedule bug.
  * Updated translations.
  * Small bug fixes.
 
