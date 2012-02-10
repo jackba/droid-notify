@@ -1,7 +1,5 @@
 package apps.droidnotify.services;
 
-import java.util.ArrayList;
-
 import com.google.code.linkedinapi.client.LinkedInApiClient;
 
 import android.content.Context;
@@ -12,9 +10,9 @@ import android.preference.PreferenceManager;
 
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
+import apps.droidnotify.linkedin.LinkedInCommon;
 import apps.droidnotify.log.Log;
 import apps.droidnotify.services.WakefulIntentService;
-import apps.droidnotify.linkedin.LinkedInCommon;
 
 /**
  * This class handles the work of processing incoming LinkedIn messages.
@@ -65,15 +63,16 @@ public class LinkedInService extends WakefulIntentService {
 		    	return;
 		    }
 			_preferences = PreferenceManager.getDefaultSharedPreferences(_context);
+			//Get LinkedIn updates.
 		    if(_preferences.getBoolean(Constants.LINKEDIN_UPDATES_ENABLED_KEY, true)){
-			    ArrayList<String> linkedInUpdateArray = LinkedInCommon.getLinkedInupdates(_context, linkedInClient);
-			    if(linkedInUpdateArray != null && linkedInUpdateArray.size() > 0){
+			    Bundle linkedInUpdateNotificationBundle = LinkedInCommon.getLinkedInupdates(_context, linkedInClient);
+			    if(linkedInUpdateNotificationBundle != null){
 					Bundle bundle = new Bundle();
 					bundle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_LINKEDIN);
-					bundle.putStringArrayList("linkedInArrayList", linkedInUpdateArray);
+					bundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME, linkedInUpdateNotificationBundle);
 			    	Common.startNotificationActivity(_context, bundle);
 				}else{
-					if (_debug) Log.v("LinkedInService.doWakefulWork() No Facebook Notifications were found. Exiting...");
+					if (_debug) Log.v("LinkedInService.doWakefulWork() No LinkedIn Updates were found. Exiting...");
 				}
 		    }
 		}catch(Exception ex){

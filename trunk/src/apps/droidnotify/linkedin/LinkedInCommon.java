@@ -1,6 +1,5 @@
 package apps.droidnotify.linkedin;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.google.code.linkedinapi.client.LinkedInApiClient;
@@ -15,6 +14,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 
 import apps.droidnotify.common.Common;
@@ -46,34 +46,62 @@ public class LinkedInCommon {
 	 * 
 	 * @return ArrayList<String> - Returns an ArrayList of Strings that contain the LinkedIn information.
 	 */
-	public static ArrayList<String> getLinkedInupdates(Context context, LinkedInApiClient linkedInClient){
+	public static Bundle getLinkedInupdates(Context context, LinkedInApiClient linkedInClient){
 		_debug = Log.getDebug();
 		if (_debug) Log.v("LinkedInCommon.getLinkedInupdates()");
 		try{
+        	Bundle linkedInNotificationNotificationBundle = new Bundle();
+        	int bundleCount = 0;
 		    Network results = linkedInClient.getUserUpdates();
 		    Updates updateResults = results.getUpdates();
 		    List<Update> updateList = updateResults.getUpdateList();
-		    ArrayList<String> linkedInArray = new ArrayList<String>();
 		    int updateListSize = updateList.size();
 		    for(int i = 1; i< updateListSize; i++){
+        		Bundle linkedInNotificationNotificationBundleSingle = new Bundle();
+        		bundleCount++;
 		    	Update linkedInUpdate = updateList.get(i);
-		    	if (_debug) Log.v("LinkedInCommon.getLinkedInupdates() linkedInUpdate.getTimestamp(): " + linkedInUpdate.getTimestamp());
-//				long timeStamp = linkedInUpdate.getTimestamp();
-				
-
-//				String messageBody = message.getText();
-//				long messageID = message.getId();					
-//		    	String sentFromAddress = message.getSenderScreenName();
-//		    	long linkedInID = message.getSenderId();
-//	    		String[] linkedInContactInfo = getContactInfoByLinkedInID(context, linkedInID);
-//	    		if(linkedInContactInfo == null){
-//	    			linkedInArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_LINKEDIN_UPDATE) + "|" + sentFromAddress + "|" + linkedInID + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + timeStamp);
+		    	if (_debug) Log.v("LinkedInCommon.getLinkedInupdates() LinkedInUpdate.getTimestamp(): " + linkedInUpdate.getTimestamp());
+//		    	String notificationText = jsonNotificationData.getString("title");
+//        	    String notificationExternalLinkURL = jsonNotificationData.getString("link");
+//				String notificationID = jsonNotificationData.getString("id");
+//				JSONObject fromFacebookUser = jsonNotificationData.getJSONObject("from");
+//				String fromFacebookName = fromFacebookUser.getString("name");
+//				String fromFacebookID = fromFacebookUser.getString("id");
+//	    		Bundle facebookContactInfoBundle = ContactsCommon.getContactsInfoByName(context, fromFacebookName);
+//	    		if(facebookContactInfoBundle == null){
+//					//Basic Notification Information.
+//	    			facebookNotificationNotificationBundleSingle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, fromFacebookName);
+//	    			facebookNotificationNotificationBundleSingle.putLong(Constants.BUNDLE_SENT_FROM_ID, Long.parseLong(fromFacebookID));
+//	    			facebookNotificationNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_BODY, notificationText.replace("\n", "<br/>"));
+//	    			facebookNotificationNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_STRING_ID, notificationID);
+//	    			facebookNotificationNotificationBundleSingle.putString(Constants.BUNDLE_LINK_URL, notificationExternalLinkURL.replace("http://www.facebook.com/", "http://m.facebook.com/"));
+//	    			facebookNotificationNotificationBundleSingle.putLong(Constants.BUNDLE_TIMESTAMP, timeStamp);	    			
+//	    			facebookNotificationNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_FACEBOOK);
+//	    			facebookNotificationNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION);
 //				}else{
-//					linkedInArray.add(String.valueOf(Constants.NOTIFICATION_TYPE_LINKEDIN_UPDATE) + "|" + sentFromAddress + "|" + linkedInID + "|" + messageBody.replace("\n", "<br/>") + "|" + messageID + "|" + timeStamp + "|" + linkedInContactInfo[0] + "|" + linkedInContactInfo[1] + "|" + linkedInContactInfo[2] + "|" + linkedInContactInfo[3]);
-//				}			
+//					//Basic Notification Information.
+//	    			facebookNotificationNotificationBundleSingle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, fromFacebookName);
+//	    			facebookNotificationNotificationBundleSingle.putLong(Constants.BUNDLE_SENT_FROM_ID, Long.parseLong(fromFacebookID));
+//	    			facebookNotificationNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_BODY, notificationText.replace("\n", "<br/>"));
+//	    			facebookNotificationNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_STRING_ID, notificationID);
+//	    			facebookNotificationNotificationBundleSingle.putString(Constants.BUNDLE_LINK_URL, notificationExternalLinkURL.replace("http://www.facebook.com/", "http://m.facebook.com/"));
+//	    			facebookNotificationNotificationBundleSingle.putLong(Constants.BUNDLE_TIMESTAMP, timeStamp);	    			
+//	    			facebookNotificationNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_FACEBOOK);
+//	    			facebookNotificationNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION);
+//	    			//Contact Information.
+//					facebookNotificationNotificationBundleSingle.putLong(Constants.BUNDLE_CONTACT_ID, facebookContactInfoBundle.getLong(Constants.BUNDLE_CONTACT_ID, -1));
+//					facebookNotificationNotificationBundleSingle.putString(Constants.BUNDLE_CONTACT_NAME, facebookContactInfoBundle.getString(Constants.BUNDLE_CONTACT_NAME));
+//					facebookNotificationNotificationBundleSingle.putLong(Constants.BUNDLE_PHOTO_ID, facebookContactInfoBundle.getLong(Constants.BUNDLE_PHOTO_ID, -1));
+//					facebookNotificationNotificationBundleSingle.putString(Constants.BUNDLE_LOOKUP_KEY, facebookContactInfoBundle.getString(Constants.BUNDLE_LOOKUP_KEY));
+//				}
+	    		linkedInNotificationNotificationBundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_" + String.valueOf(bundleCount), linkedInNotificationNotificationBundleSingle);		
 			}
-			//Return array.
-			return linkedInArray;
+			if(bundleCount <= 0){
+				if (_debug) Log.v("LinkedInCommon.getLinkedInupdates() No LinkedIn Updates Found. Exiting...");
+				return null;
+			}
+			linkedInNotificationNotificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_BUNDLE_COUNT, bundleCount);
+		    return linkedInNotificationNotificationBundle;
 		}catch(Exception ex){
 			if (_debug) Log.e("LinkedInCommon.getLinkedInupdates() ERROR: " + ex.toString());
 			return null;

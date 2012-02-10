@@ -1,12 +1,11 @@
 package apps.droidnotify.services;
 
-import java.util.ArrayList;
-
 import com.google.code.linkedinapi.client.LinkedInApiClient;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 
@@ -92,34 +91,22 @@ public class LinkedInAlarmBroadcastReceiverService extends WakefulIntentService 
 			    	if (_debug) Log.v("LinkedInAlarmBroadcastReceiverService.doWakefulWork() LinkedInClient object is null. Exiting... ");
 			    	return;
 			    }
-			    ArrayList<String> linkedInUpdateArray = LinkedInCommon.getLinkedInupdates(context, linkedInClient);
 		    	//Display the Status Bar Notification even though the popup is blocked based on the user preferences.
+			    Bundle linkedInUpdateBundle = LinkedInCommon.getLinkedInupdates(context, linkedInClient);
 		    	if(preferences.getBoolean(Constants.LINKEDIN_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true)){
-		    		//Get the Twitter message info.
-					String contactName = null;
-					String messageAddress = null;
-					String messageBody = null;
 				    if(preferences.getBoolean(Constants.LINKEDIN_UPDATES_ENABLED_KEY, true)){
-					    if(linkedInUpdateArray != null){
-					    	int linkedInUpdateArraySize = linkedInUpdateArray.size();
-					    	for(int i=0; i<linkedInUpdateArraySize; i++ ){
-					    		String facebookArrayItem = linkedInUpdateArray.get(i);
-								String[] facebookInfo = facebookArrayItem.split("\\|");
-				    			int arraySize = facebookInfo.length;
-				    			if(arraySize > 0){
-									if(arraySize >= 1) messageAddress = facebookInfo[1];
-									if(arraySize >= 2) messageBody = facebookInfo[3];
-									if(arraySize >= 8) contactName = facebookInfo[7];
-				    			}
+					    if(linkedInUpdateBundle != null){
+					    	Bundle linkedInUpdateBundleSingle = linkedInUpdateBundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_1");
+					    	if(linkedInUpdateBundleSingle != null){
 								//Display Status Bar Notification
-							    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_LINKEDIN, Constants.NOTIFICATION_TYPE_LINKEDIN_UPDATE, callStateIdle, contactName, messageAddress, messageBody, null, null);
+							    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_LINKEDIN, Constants.NOTIFICATION_TYPE_LINKEDIN_UPDATE, callStateIdle, linkedInUpdateBundleSingle.getString(Constants.BUNDLE_CONTACT_NAME), linkedInUpdateBundleSingle.getString(Constants.BUNDLE_SENT_FROM_ADDRESS), linkedInUpdateBundleSingle.getString(Constants.BUNDLE_MESSAGE_BODY), null, null);
 					    	}
 						}else{
 							if (_debug) Log.v("LinkedInAlarmBroadcastReceiverService.doWakefulWork() No Facebook Nnotifications were found. Exiting...");
 						}
 					}
 			    }					
-		    	//if(linkedInUpdateArray != null) Common.rescheduleBlockedNotification(context, rescheduleNotificationInCall, rescheduleNotificationInQuickReply, Constants.NOTIFICATION_TYPE_LINKEDIN, linkedInUpdateArray);
+		    	if(linkedInUpdateBundle != null) Common.rescheduleBlockedNotification(context, rescheduleNotificationInCall, rescheduleNotificationInQuickReply, Constants.NOTIFICATION_TYPE_LINKEDIN, linkedInUpdateBundle);
 		    }
 		}catch(Exception ex){
 			Log.e("LinkedInAlarmBroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());
