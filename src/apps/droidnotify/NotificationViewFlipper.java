@@ -180,13 +180,21 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 */
 	public void removeActiveNotification(boolean reschedule){
 		if (_debug) Log.v("NotificationViewFlipper.removeActiveNotification()");
-		_notificationActivity.stopTextToSpeechPlayback();
-		Notification notification =  getActiveNotification();
-		removeNotification(_currentNotification, reschedule);
-		//Clear the status bar notification.
-    	Common.clearNotification(_context, this, notification.getNotificationType(), _totalNotifications);
-    	//Cancel the notification reminder.
-    	notification.cancelReminder();
+		try{
+			_notificationActivity.stopTextToSpeechPlayback();
+			Notification notification =  getActiveNotification();
+			if(notification == null){
+				Log.e("NotificationViewFlipper.removeActiveNotification() Active Notification Is Null. Exiting...");
+				return;
+			}
+			removeNotification(_currentNotification, reschedule);
+			//Clear the status bar notification.
+	    	Common.clearNotification(_context, this, notification.getNotificationType(), _totalNotifications);
+	    	//Cancel the notification reminder.
+	    	notification.cancelReminder();
+		}catch(Exception ex){
+			Log.e("NotificationViewFlipper.removeActiveNotification() ERROR: " + ex.toString());
+		}
 	}
 
 	/**
@@ -196,8 +204,13 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 * @return Notification - The current Notification or null if no notifications exist.
 	 */	
 	public Notification getActiveNotification(){
-		if (_debug) Log.v("NotificationViewFlipper.getActiveMessage()");
-		return _totalNotifications > 0 ? _notifications.get(_currentNotification) : null;
+		if (_debug) Log.v("NotificationViewFlipper.getActiveNotification()");
+		try{
+			return _totalNotifications > 0 ? _notifications.get(_currentNotification) : null;
+		}catch(Exception ex){
+			Log.e("NotificationViewFlipper.getActiveNotification() ERROR: " + ex.toString());
+			return null;
+		}
 	}
 
 	/**
