@@ -55,23 +55,23 @@ public class CalendarCommon {
 	 */
 	public static void readCalendars(Context context) {
 		_debug = Log.getDebug();
-		if (_debug) Log.v("CalendarAlarmReceiverService.readCalendars()");
+		if (_debug) Log.v("Common.readCalendars()");
 		try{
 			//Determine the reminder interval based on the users preferences.
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 			//Read preferences and exit if app is disabled.
 		    if(!preferences.getBoolean(Constants.APP_ENABLED_KEY, true)){
-				if (_debug) Log.v("CalendarAlarmReceiverService.readCalendars() App Disabled. Exiting...");
+				if (_debug) Log.v("Common.readCalendars() App Disabled. Exiting...");
 				return;
 			}
 			//Block the notification if it's quiet time.
 			if(Common.isQuietTime(context)){
-				if (_debug) Log.v("CalendarAlarmReceiverService.readCalendars() Quiet Time. Exiting...");
+				if (_debug) Log.v("Common.readCalendars() Quiet Time. Exiting...");
 				return;
 			}
 			//Read preferences and exit if calendar notifications are disabled.
 		    if(!preferences.getBoolean(Constants.CALENDAR_NOTIFICATIONS_ENABLED_KEY, true)){
-				if (_debug) Log.v("CalendarAlarmReceiverService.readCalendars() Calendar Notifications Disabled. Exiting... ");
+				if (_debug) Log.v("Common.readCalendars() Calendar Notifications Disabled. Exiting... ");
 				return;
 			}
 			long reminderInterval = Long.parseLong(preferences.getString(Constants.CALENDAR_REMINDER_KEY, "15")) * 60 * 1000;
@@ -99,25 +99,31 @@ public class CalendarCommon {
 					while (cursor.moveToNext()) {
 						final String calendarID = cursor.getString(cursor.getColumnIndex(Constants.CALENDAR_ID));
 						String calendarDisplayName = null;
+						Boolean calendarSelected = true;
 						if(cursor.getColumnIndex(Constants.CALENDAR_DISPLAY_NAME) >= 0){ //Android 2.2 - 3.x
 							calendarDisplayName = cursor.getString(cursor.getColumnIndex(Constants.CALENDAR_DISPLAY_NAME));
+							calendarSelected = !cursor.getString(cursor.getColumnIndex(Constants.CALENDAR_SELECTED)).equals("0");
 						}else{ // Android > 4.0
 							calendarDisplayName = cursor.getString(cursor.getColumnIndex(Constants.CALENDAR_DISPLAY_NAME_NEW));
+							calendarSelected = !cursor.getString(cursor.getColumnIndex(Constants.CALENDAR_VISIBLE)).equals("0");
 						}
-						final Boolean calendarSelected = !cursor.getString(cursor.getColumnIndex(Constants.CALENDAR_SELECTED)).equals("0");
-						if (_debug) Log.v("CalendarAlarmReceiverService.readCalendars() FOUND CALENDAR - Id: " + calendarID + " Display Name: " + calendarDisplayName + " Selected: " + calendarSelected);
+						//if (_debug) Log.v("Common.readCalendars() FOUND CALENDAR - Id: " + calendarID + " Display Name: " + calendarDisplayName + " Selected: " + calendarSelected);
 						if(calendarsArray.contains(calendarID)){
-							if (_debug) Log.v("CalendarAlarmReceiverService.readCalendars() CHECKING CALENDAR -  Id: " + calendarID + " Display Name: " + calendarDisplayName + " Selected: " + calendarSelected);
+							if (_debug) Log.v("Common.readCalendars() CHECKING CALENDAR -  Id: " + calendarID + " Display Name: " + calendarDisplayName + " Selected: " + calendarSelected);
 							calendarIds.put(calendarID, calendarDisplayName);
 						}else{
-							if (_debug) Log.v("CalendarAlarmReceiverService.readCalendars() CALENDAR NOT BEING CHECKED -  Id: " + calendarID + " Display Name: " + calendarDisplayName + " Selected: " + calendarSelected);
+							if (_debug) Log.v("Common.readCalendars() CALENDAR NOT BEING CHECKED -  Id: " + calendarID + " Display Name: " + calendarDisplayName + " Selected: " + calendarSelected);
 						}
 					}
 				}catch(Exception ex){
 					if (_debug){
-						Log.v("CalendarAlarmReceiverService.readCalendars() DB ERROR - Try removing the 'CALENDAR_DISPLAY_NAME' column from the querry. ERROR: " + ex.toString());
+						Log.e("Common.readCalendars() READ CALENDARS ERROR: " + ex.toString());
 						Common.debugReadContentProviderColumns(context, contentProvider + "/calendars");
 					}
+				}
+				if(calendarIds.isEmpty()){
+					if (_debug) Log.v("Common.readCalendars() No calendars were found. Exiting...");
+					return;
 				}
 				// For each calendar, read the events.
 				Iterator<Map.Entry<String, String>> calendarIdsEnumerator = calendarIds.entrySet().iterator();
@@ -145,7 +151,7 @@ public class CalendarCommon {
 							long eventStartTime = eventCursor.getLong(eventCursor.getColumnIndex(Constants.CALENDAR_INSTANCE_BEGIN));
 							long eventEndTime = eventCursor.getLong(eventCursor.getColumnIndex(Constants.CALENDAR_INSTANCE_END));
 							final Boolean allDay = !eventCursor.getString(eventCursor.getColumnIndex(Constants.CALENDAR_EVENT_ALL_DAY)).equals("0");
-							if (_debug) Log.v("CalendarAlarmReceiverService.readCalendars() Event ID: " + eventID + " Title: " + eventTitle + " Begin: " + eventStartTime + " End: " + eventEndTime + " All Day: " + allDay);
+							if (_debug) Log.v("Common.readCalendars() Event ID: " + eventID + " Title: " + eventTitle + " Begin: " + eventStartTime + " End: " + eventEndTime + " All Day: " + allDay);
 							long timezoneOffsetValue =  TimeZone.getDefault().getOffset(System.currentTimeMillis());
 							//For all any event in the past, don't schedule them.
 							long currentSystemTime = System.currentTimeMillis();
@@ -198,18 +204,18 @@ public class CalendarCommon {
 							}
 						}
 					}catch(Exception ex){
-						Log.e("CalendarAlarmReceiverService.readCalendars() Event Query ERROR: " + ex.toString());
+						Log.e("Common.readCalendars() Event Query ERROR: " + ex.toString());
 					}finally{
 						eventCursor.close();
 					}
 				}
 			}catch(Exception ex){
-				Log.e("CalendarAlarmReceiverService.readCalendars() Calendar Query ERROR: " + ex.toString());
+				Log.e("Common.readCalendars() Calendar Query ERROR: " + ex.toString());
 			}finally{
 				cursor.close();
 			}
 		}catch(Exception ex){
-			Log.e("CalendarAlarmReceiverService.readCalendars() ERROR: " + ex.toString());
+			Log.e("Common.readCalendars() ERROR: " + ex.toString());
 		}
 	}
 
@@ -238,14 +244,17 @@ public class CalendarCommon {
 			while (cursor.moveToNext()) {
 				final String calendarID = cursor.getString(cursor.getColumnIndex(Constants.CALENDAR_ID));
 				String calendarDisplayName = null;
+				Boolean calendarSelected = true;
 				if(cursor.getColumnIndex(Constants.CALENDAR_DISPLAY_NAME) >= 0){ //Android 2.2 - 3.x
 					calendarDisplayName = cursor.getString(cursor.getColumnIndex(Constants.CALENDAR_DISPLAY_NAME));
+					calendarSelected = !cursor.getString(cursor.getColumnIndex(Constants.CALENDAR_SELECTED)).equals("0");
 				}else{ // Android > 4.0
 					calendarDisplayName = cursor.getString(cursor.getColumnIndex(Constants.CALENDAR_DISPLAY_NAME_NEW));
+					calendarSelected = !cursor.getString(cursor.getColumnIndex(Constants.CALENDAR_VISIBLE)).equals("0");
 				}
-				final Boolean calendarSelected = !cursor.getString(cursor.getColumnIndex(Constants.CALENDAR_SELECTED)).equals("0");
+				//if (_debug) Log.v("Common.getAvailableCalendars() FOUND CALENDAR - Id: " + calendarID + " Display Name: " + calendarDisplayName);
 				if(calendarSelected){
-					if (_debug) Log.v("Id: " + calendarID + " Display Name: " + calendarDisplayName + " Selected: " + calendarSelected);
+					//if (_debug) Log.v("Common.getAvailableCalendars() Calendar Found - Id: " + calendarID + " Display Name: " + calendarDisplayName + " Selected: " + calendarSelected);
 					if(!calendarsInfo.toString().equals("")){
 						calendarsInfo.append(",");
 					}
@@ -254,6 +263,7 @@ public class CalendarCommon {
 			}	
 		}catch(Exception ex){
 			Log.e("Common.getAvailableCalendars() ERROR: " + ex.toString());
+			Common.debugReadContentProviderColumns(context, "content://com.android.calendar/calendars");
 			return null;
 		}finally{
 			if(cursor != null){
@@ -261,6 +271,7 @@ public class CalendarCommon {
 			}
 		}
 		if(calendarsInfo.toString().equals("")){
+			if (_debug) Log.v("Common.getAvailableCalendars() No Calendars Found.");
 			return null;
 		}else{
 			return calendarsInfo.toString();
@@ -470,7 +481,7 @@ public class CalendarCommon {
 	 */
 	public static String formatCalendarEventMessage(Context context, String messageTitle, long eventStartTime, long eventEndTime, boolean allDay, String calendarName){
 		_debug = Log.getDebug();
-		if (_debug) Log.v("Notification.formatCalendarEventMessage()");
+		if (_debug) Log.v("Common.formatCalendarEventMessage()");
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		String formattedMessage = "";
 		Date eventEndDate = new Date(eventEndTime);
@@ -501,7 +512,7 @@ public class CalendarCommon {
     		}
     		formattedMessage =  messageTitle + formattedMessage;
 		}catch(Exception ex){
-			Log.e("Notification.formatCalendarEventMessage() ERROR: " + ex.toString());
+			Log.e("Common.formatCalendarEventMessage() ERROR: " + ex.toString());
 			formattedMessage = startDateFormated + " - " + endDateFormated;
 		}
     	if(preferences.getBoolean(Constants.CALENDAR_LABELS_KEY, true)){
@@ -525,7 +536,7 @@ public class CalendarCommon {
 	 * @param eventID - Event ID of the Calendar Event.
 	 */
 	private static void scheduleCalendarNotification(Context context, long scheduledAlarmTime, Bundle calendarEventNotificationBundleSingle, String intentAction){
-		if (_debug) Log.v("CalendarAlarmReceiverService.scheduleCalendarNotification()");
+		if (_debug) Log.v("Common.scheduleCalendarNotification()");
 		try{
 	    	Bundle calendarEventNotificationBundle = new Bundle();
 	    	calendarEventNotificationBundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_1", calendarEventNotificationBundleSingle);
@@ -535,7 +546,7 @@ public class CalendarCommon {
 	    	bundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME, calendarEventNotificationBundle);	    	
 			Common.startAlarm(context, CalendarNotificationAlarmReceiver.class, bundle, intentAction, scheduledAlarmTime);
 		}catch(Exception ex){
-			Log.e("CalendarAlarmReceiverService.scheduleCalendarNotification() ERROR: " + ex.toString());
+			Log.e("Common.scheduleCalendarNotification() ERROR: " + ex.toString());
 		}
 	}	
 	

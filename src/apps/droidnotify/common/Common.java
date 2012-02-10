@@ -96,17 +96,23 @@ public class Common {
 	 * @param contentProviderURI - The URI we want to read.
 	 */
 	public static void debugReadContentProviderColumns(Context context, String contentProviderURI) {
+		Log.i("Common.debugReadContentProviderColumns()");
+		Cursor cursor = null;
 	    try{
-		    Cursor conversations = context.getContentResolver().query(Uri.parse(contentProviderURI), null, null, null, null);
-		    while (conversations.moveToNext()) { 
-		    	for(int i=0;i<conversations.getColumnCount();i++){
-		    		Log.v("Common.debugReadContentProviderColumns() " + conversations.getColumnName(i) + " = " + conversations.getString(i));
+		    cursor = context.getContentResolver().query(Uri.parse(contentProviderURI), null, null, null, null);
+		    while (cursor.moveToNext()) { 
+		    	for(int i=0;i<cursor.getColumnCount();i++){
+		    		Log.i("Common.debugReadContentProviderColumns() " + cursor.getColumnName(i) + " = " + cursor.getString(i));
 		    	}
 		    	break;
 		    }
 	    }catch(Exception ex){
 	    	Log.e("Common.debugReadContentProviderColumns()  ERROR:" + ex.toString());
-	    }
+	    }finally{
+			if(cursor != null){
+				cursor.close();
+			}
+		}
 	}
 
 	//================================================================================
