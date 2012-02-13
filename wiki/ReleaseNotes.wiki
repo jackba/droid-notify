@@ -3,8 +3,15 @@
 
 = Release Notes =
 
-*v2.25* _Coming Soon..._
+*v2.26* _Coming Soon..._
  * 
+
+*v2.25* _Coming Soon..._
+ * Fixed another bug with the ICS Calendars which prevented calendar notifications from working.
+ * Updated the K-9 email notifications to prevent incorrect notification body text from appearing.
+ * Code cleanup/organization.
+ * Updated translations.
+ * Small bug fixes.
 
 *v2.24* (February 10, 2012)
  * Fixed a Dim Screen Background bug.
