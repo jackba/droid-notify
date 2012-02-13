@@ -48,7 +48,12 @@ public class PhoneCommon {
 			Boolean missedCallFound = false;
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 			String missedCallPreference = preferences.getString(Constants.PHONE_DISMISS_BUTTON_ACTION_KEY, "0");
-			final String[] projection = null;
+			final String[] projection = new String[] {
+					android.provider.CallLog.Calls._ID, 
+					android.provider.CallLog.Calls.NUMBER, 
+					android.provider.CallLog.Calls.DATE, 
+					android.provider.CallLog.Calls.TYPE, 
+					android.provider.CallLog.Calls.NEW};
 			final String selection = null;
 			final String[] selectionArgs = null;
 			final String sortOrder = android.provider.CallLog.Calls.DATE + " DESC";

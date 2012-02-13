@@ -562,11 +562,6 @@ public class Common {
 					deleteIntent = null;
 					break;
 				}
-				case Constants.NOTIFICATION_TYPE_GMAIL:{
-					if (_debug) Log.v("Common.setStatusBarNotification() NOTIFICATION_TYPE_GMAIL");
-		
-					break;
-				}
 				case Constants.NOTIFICATION_TYPE_TWITTER:{
 					if (_debug) Log.v("Common.setStatusBarNotification() NOTIFICATION_TYPE_TWITTER");
 					POPUP_ENABLED_KEY = Constants.TWITTER_NOTIFICATIONS_ENABLED_KEY;
@@ -1041,10 +1036,6 @@ public class Common {
 						//Default Value
 						icon = R.drawable.status_bar_notification_calendar_blue;
 					}
-					break;
-				}
-				case Constants.NOTIFICATION_TYPE_GMAIL:{
-		
 					break;
 				}
 				case Constants.NOTIFICATION_TYPE_TWITTER:{

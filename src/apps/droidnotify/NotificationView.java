@@ -111,6 +111,15 @@ public class NotificationView extends LinearLayout {
 	    setupNotificationViewButtons(notification);
 	    populateNotificationViewInfo(notification);
 	}
+	
+	/**
+	 * Get the Notification object.
+	 * 
+	 * @return Notification - The Notification object associated with this view.
+	 */
+	public Notification getNotification(){
+		return _notification;
+	}
 
 	//================================================================================
 	// Private Methods
@@ -655,10 +664,6 @@ public class NotificationView extends LinearLayout {
 					_viewFacebookImageButton.setVisibility(View.GONE);
 					break;
 				}
-				case Constants.NOTIFICATION_TYPE_GMAIL:{
-	
-					break;
-				}
 				case Constants.NOTIFICATION_TYPE_TWITTER:{
 					// Notification Count Text Button
 					int notificationCountAction = Integer.parseInt(_preferences.getString(Constants.TWITTER_NOTIFICATION_COUNT_ACTION_KEY, Constants.TWITTER_NOTIFICATION_COUNT_ACTION_LAUNCH_TWITTER_APP));
@@ -1158,8 +1163,6 @@ public class NotificationView extends LinearLayout {
 			}else{
 				_notificationDetailsTextView.setVisibility(View.VISIBLE);
 			}
-		}else if(_notificationType == Constants.NOTIFICATION_TYPE_GMAIL){
-			
 		}else if(_notificationType == Constants.NOTIFICATION_TYPE_K9){
 			if(_preferences.getBoolean(Constants.K9_HIDE_NOTIFICATION_BODY_KEY, false)){
 				_notificationDetailsTextView.setVisibility(View.GONE);
@@ -1204,10 +1207,6 @@ public class NotificationView extends LinearLayout {
 			}
 			case Constants.NOTIFICATION_TYPE_CALENDAR:{
 		    	notificationText = notification.getMessageBody();
-				break;
-			}
-			case Constants.NOTIFICATION_TYPE_GMAIL:{
-				notificationText = notification.getMessageBody();	
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_TWITTER:{
@@ -1270,12 +1269,6 @@ public class NotificationView extends LinearLayout {
 			case Constants.NOTIFICATION_TYPE_CALENDAR:{
 		    	iconBitmap = BitmapFactory.decodeResource(_context.getResources(), R.drawable.calendar);
 		    	receivedAtText = _context.getString(R.string.calendar_event_text);
-				break;
-			}
-			case Constants.NOTIFICATION_TYPE_GMAIL:{
-				String formattedTimestamp = Common.formatTimestamp(_context, notification.getTimeStamp(), false);
-		    	iconBitmap = BitmapFactory.decodeResource(_context.getResources(), R.drawable.ic_envelope_white);
-		    	receivedAtText = _context.getString(R.string.email_at_text, formattedTimestamp.toLowerCase());
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_TWITTER:{

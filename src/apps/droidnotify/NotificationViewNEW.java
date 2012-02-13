@@ -514,9 +514,6 @@ public class NotificationViewNEW extends LinearLayout {
 					setupViewCalendarButtons(usingImageButtons);
 					break;
 				}
-				case Constants.NOTIFICATION_TYPE_GMAIL:{
-					break;
-				}
 				case Constants.NOTIFICATION_TYPE_TWITTER:{
 					setupViewTwitterButtons(usingImageButtons, notificationSubType);
 					break;
@@ -1397,9 +1394,6 @@ public class NotificationViewNEW extends LinearLayout {
 					}	
 					break;
 				}
-				case Constants.NOTIFICATION_TYPE_GMAIL:{
-					break;
-				}
 				case Constants.NOTIFICATION_TYPE_TWITTER:{
 					if(usingImageButtons){
 						_dismissImageButton.setImageDrawable(dismissButtonIcon);
@@ -1564,8 +1558,6 @@ public class NotificationViewNEW extends LinearLayout {
 			}else{
 				_notificationDetailsTextView.setVisibility(View.VISIBLE);
 			}
-		}else if(_notificationType == Constants.NOTIFICATION_TYPE_GMAIL){
-			
 		}else if(_notificationType == Constants.NOTIFICATION_TYPE_K9){
 			if(_preferences.getBoolean(Constants.K9_HIDE_NOTIFICATION_BODY_KEY, false)){
 				_notificationDetailsTextView.setVisibility(View.GONE);
@@ -1636,10 +1628,6 @@ public class NotificationViewNEW extends LinearLayout {
 		    	notificationText = _notification.getMessageBody();
 				break;
 			}
-			case Constants.NOTIFICATION_TYPE_GMAIL:{
-				notificationText = _notification.getMessageBody();	
-				break;
-			}
 			case Constants.NOTIFICATION_TYPE_TWITTER:{
 				notificationText = _notification.getMessageBody();
 				break;
@@ -1700,12 +1688,6 @@ public class NotificationViewNEW extends LinearLayout {
 			case Constants.NOTIFICATION_TYPE_CALENDAR:{
 		    	iconBitmap = BitmapFactory.decodeResource(_context.getResources(), R.drawable.calendar);
 		    	receivedAtText = _context.getString(R.string.calendar_event_text);
-				break;
-			}
-			case Constants.NOTIFICATION_TYPE_GMAIL:{
-				String formattedTimestamp = Common.formatTimestamp(_context, _notification.getTimeStamp(), false);
-		    	iconBitmap = BitmapFactory.decodeResource(_context.getResources(), R.drawable.ic_envelope_white);
-		    	receivedAtText = _context.getString(R.string.email_at_text, formattedTimestamp.toLowerCase());
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_TWITTER:{

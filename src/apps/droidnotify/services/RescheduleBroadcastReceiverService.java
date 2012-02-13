@@ -84,9 +84,6 @@ public class RescheduleBroadcastReceiverService extends WakefulIntentService {
 			    	showBlockedNotificationStatusBarNotification = preferences.getBoolean(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true);
 			    	break;
 			    }
-			    case Constants.NOTIFICATION_TYPE_GMAIL:{
-			    	break;
-			    }
 			    case Constants.NOTIFICATION_TYPE_TWITTER:{
 			    	showBlockedNotificationStatusBarNotification = preferences.getBoolean(Constants.TWITTER_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true);
 			    	break;
@@ -113,9 +110,6 @@ public class RescheduleBroadcastReceiverService extends WakefulIntentService {
 			    }
 			    case Constants.NOTIFICATION_TYPE_RESCHEDULE_CALENDAR:{
 			    	showBlockedNotificationStatusBarNotification = preferences.getBoolean(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true);
-			    	break;
-			    }
-			    case Constants.NOTIFICATION_TYPE_RESCHEDULE_GMAIL:{
 			    	break;
 			    }
 			    case Constants.NOTIFICATION_TYPE_RESCHEDULE_TWITTER:{
