@@ -963,11 +963,6 @@ public class NotificationActivity extends Activity {
 				}
 		    	break;
 			}
-		    case Constants.NOTIFICATION_TYPE_GMAIL:{
-		    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_GMAIL");
-
-		    	break;
-		    }
 			case Constants.NOTIFICATION_TYPE_TWITTER:{
 				if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_TWITTER");
 				if(!setupBundleNotifications(extrasBundle)){
@@ -1009,11 +1004,6 @@ public class NotificationActivity extends Activity {
 		    	setupBundleNotifications(extrasBundle);
 		    	break;
 			}
-		    case Constants.NOTIFICATION_TYPE_RESCHEDULE_GMAIL:{
-		    	if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_RESCHEDULE_GMAIL");
-		    	setupBundleNotifications(extrasBundle);
-		    	break;
-		    }
 			case Constants.NOTIFICATION_TYPE_RESCHEDULE_TWITTER:{
 				if (_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_RESCHEDULE_TWITTER");
 				setupBundleNotifications(extrasBundle);
@@ -1223,11 +1213,6 @@ public class NotificationActivity extends Activity {
 			    setupBundleNotifications(extrasBundle);
 		    	break;
 		    }
-	    	case Constants.NOTIFICATION_TYPE_GMAIL:{
-		    	if (_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_GMAIL");
-
-		    	break;
-		    }
 			case Constants.NOTIFICATION_TYPE_TWITTER:{
 				if (_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_TWITTER");
 				setupBundleNotifications(extrasBundle);
@@ -1263,11 +1248,6 @@ public class NotificationActivity extends Activity {
 		    	setupBundleNotifications(extrasBundle);
 		    	break;
 			}
-		    case Constants.NOTIFICATION_TYPE_RESCHEDULE_GMAIL:{
-		    	if (_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_RESCHEDULE_GMAIL");
-		    	setupBundleNotifications(extrasBundle);
-		    	break;
-		    }
 			case Constants.NOTIFICATION_TYPE_RESCHEDULE_TWITTER:{
 				if (_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_RESCHEDULE_TWITTER");
 				setupBundleNotifications(extrasBundle);
@@ -1849,27 +1829,6 @@ public class NotificationActivity extends Activity {
 				viewThreadMenuItem.setVisible(false);
 				MenuItem textContactMenuItem = contextMenu.findItem(TEXT_CONTACT_CONTEXT_MENU);
 				textContactMenuItem.setVisible(false);
-				MenuItem viewK9EmailInboxMenuItem = contextMenu.findItem(VIEW_K9_INBOX_CONTEXT_MENU);
-				viewK9EmailInboxMenuItem.setVisible(false);
-				MenuItem openTwitterAppMenuItem = contextMenu.findItem(OPEN_TWITTER_APP_CONTEXT_MENU);
-				openTwitterAppMenuItem.setVisible(false);
-				MenuItem openFacebookAppMenuItem = contextMenu.findItem(OPEN_FACEBOOK_APP_CONTEXT_MENU);
-				openFacebookAppMenuItem.setVisible(false);
-				break;
-		    }
-			case Constants.NOTIFICATION_TYPE_GMAIL:{
-		    	MenuItem addCalendarEventMenuItem = contextMenu.findItem(ADD_CALENDAR_EVENT_CONTEXT_MENU);
-		    	addCalendarEventMenuItem.setVisible(false);
-				MenuItem editCalendarEventMenuItem = contextMenu.findItem(EDIT_CALENDAR_EVENT_CONTEXT_MENU);
-				editCalendarEventMenuItem.setVisible(false);
-				MenuItem viewCalendarEventMenuItem = contextMenu.findItem(VIEW_CALENDAR_CONTEXT_MENU);
-				viewCalendarEventMenuItem.setVisible(false);
-		    	MenuItem viewCallLogMenuItem = contextMenu.findItem(VIEW_CALL_LOG_CONTEXT_MENU);
-				viewCallLogMenuItem.setVisible(false);
-				MenuItem messagingInboxMenuItem = contextMenu.findItem(MESSAGING_INBOX_CONTEXT_MENU);
-				messagingInboxMenuItem.setVisible(false);
-				MenuItem viewThreadMenuItem = contextMenu.findItem(VIEW_THREAD_CONTEXT_MENU);
-				viewThreadMenuItem.setVisible(false);
 				MenuItem viewK9EmailInboxMenuItem = contextMenu.findItem(VIEW_K9_INBOX_CONTEXT_MENU);
 				viewK9EmailInboxMenuItem.setVisible(false);
 				MenuItem openTwitterAppMenuItem = contextMenu.findItem(OPEN_TWITTER_APP_CONTEXT_MENU);

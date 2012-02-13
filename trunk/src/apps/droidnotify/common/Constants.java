@@ -86,7 +86,6 @@ public class Constants {
 	public static final int NOTIFICATION_TYPE_SMS = 1;
 	public static final int NOTIFICATION_TYPE_MMS = 2;
 	public static final int NOTIFICATION_TYPE_CALENDAR = 3;
-	public static final int NOTIFICATION_TYPE_GMAIL = 4;
 	public static final int NOTIFICATION_TYPE_TWITTER = 5;
 	public static final int NOTIFICATION_TYPE_FACEBOOK = 6;
 	public static final int NOTIFICATION_TYPE_K9 = 7;	
@@ -97,7 +96,6 @@ public class Constants {
 	public static final int NOTIFICATION_TYPE_RESCHEDULE_SMS = 101;
 	public static final int NOTIFICATION_TYPE_RESCHEDULE_MMS = 102;
 	public static final int NOTIFICATION_TYPE_RESCHEDULE_CALENDAR = 103;
-	public static final int NOTIFICATION_TYPE_RESCHEDULE_GMAIL = 104;
 	public static final int NOTIFICATION_TYPE_RESCHEDULE_TWITTER = 105;
 	public static final int NOTIFICATION_TYPE_RESCHEDULE_FACEBOOK = 106;
 	public static final int NOTIFICATION_TYPE_RESCHEDULE_K9 = 107;
@@ -207,7 +205,6 @@ public class Constants {
 	public static final int DIALOG_DONATE = 100;
 	public static final int DIALOG_UPGRADE = 101;
 	
-	public static final int DIALOG_FEATURE_AVAILABLE_WITH_PRO_VERSION_GMAIL = 201;
 	public static final int DIALOG_FEATURE_AVAILABLE_WITH_PRO_VERSION_TWITTER = 201;
 	public static final int DIALOG_FEATURE_AVAILABLE_WITH_PRO_VERSION_FACEBOOK = 202;
 	public static final int DIALOG_FEATURE_AVAILABLE_WITH_PRO_VERSION_LINKEDIN = 203;
@@ -478,9 +475,6 @@ public class Constants {
     public static final String CALENDAR_VISIBLE = "visible";
     public static final String CALENDAR_EVENT_BEGIN_TIME = "beginTime";
     public static final String CALENDAR_EVENT_END_TIME = "endTime";
-    
-	//-----GMAIL NOTIFICATION CONSTANTS-----//
-	public static final String GMAIL_NOTIFICATION_COUNT_ACTION_KEY = "gmail_notification_count_action";	
 
 	//-----TWITTER NOTIFICATION CONSTANTS-----//
 	public static final String TWITTER_PRO_PREFERENCE_CATEGORY_KEY = "twitter_notification_settings_category";
@@ -599,7 +593,11 @@ public class Constants {
 	
 	public static final String K9_DISMISS_ACTION_MARK_READ = "0";
 	public static final String K9_DELETE_ACTION_DELETE_MESSAGE = "0";
-	public static final String K9_DELETE_ACTION_NOTHING = "2";	
+	public static final String K9_DELETE_ACTION_NOTHING = "2";
+	
+	public static final String K9_INCLUDE_ACCOUNT_NAME_KEY = "k9_include_account_name";
+	
+	public static final String K9_TIMEOUT_KEY = "k9_timeout";
 	
 	//-----LINKEDIN NOTIFICATION CONSTANTS-----//
 	public static final String LINKEDIN_PRO_PREFERENCE_CATEGORY_KEY = "linkedin_notification_settings_category";
@@ -781,28 +779,7 @@ public class Constants {
 	public static final String K9_STATUS_BAR_NOTIFICATIONS_IN_CALL_VIBRATE_ENABLED_KEY = "k9_notification_in_call_vibrate_enabled";	
 	
 	public static final String K9_STATUS_BAR_NOTIFICATIONS_ICON_SETTING_KEY = "notification_icon_k9";
-	public static final String K9_STATUS_BAR_NOTIFICATIONS_ICON_DEFAULT = "status_bar_notification_email_white";
-	
-	//-----GMAIL STATUS BAR NOTIFICATION CONSTANTS-----//
-	public static final String GMAIL_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY = "gmail_status_bar_notifications_enabled";
-	
-	public static final String GMAIL_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY = "gmail_notification_sound";
-	
-	public static final String GMAIL_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY = "gmail_notification_vibrate_setting";
-	public static final String GMAIL_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_KEY = "gmail_notification_vibrate_pattern";
-	public static final String GMAIL_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_VALUE_KEY = "gmail_custom";
-	public static final String GMAIL_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_KEY = "gmail_notification_vibrate_pattern_custom";
-	
-	public static final String GMAIL_STATUS_BAR_NOTIFICATIONS_LED_ENABLED_KEY = "gmail_notification_led_enabled";
-	public static final String GMAIL_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_KEY = "gmail_notification_led_pattern";	
-	public static final String GMAIL_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_VALUE_KEY = "gmail_custom";
-	public static final String GMAIL_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_KEY = "gmail_notification_led_pattern_custom";
-	public static final String GMAIL_STATUS_BAR_NOTIFICATIONS_LED_COLOR_KEY = "gmail_notification_led_color";	
-	public static final String GMAIL_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_VALUE_KEY = "gmail_custom";
-	public static final String GMAIL_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_KEY = "gmail_notification_led_color_custom";
-	
-	public static final String GMAIL_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY = "gmail_notification_in_call_sound_enabled";
-	public static final String GMAIL_STATUS_BAR_NOTIFICATIONS_IN_CALL_VIBRATE_ENABLED_KEY = "gmail_notification_in_call_vibrate_enabled";		
+	public static final String K9_STATUS_BAR_NOTIFICATIONS_ICON_DEFAULT = "status_bar_notification_email_white";	
 	
 	//-----TWITTER STATUS BAR NOTIFICATION CONSTANTS-----//
 	public static final String TWITTER_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY = "twitter_status_bar_notifications_enabled";

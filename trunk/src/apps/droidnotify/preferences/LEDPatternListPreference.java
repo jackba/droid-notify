@@ -82,9 +82,6 @@ public class LEDPatternListPreference extends ListPreference {
 			}else if (_preferences.getString(this.getKey(), Constants.STATUS_BAR_NOTIFICATIONS_LED_PATTERN_DEFAULT).equals(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_VALUE_KEY)) {
 				_notificationType = Constants.NOTIFICATION_TYPE_CALENDAR;
 				showDialog();
-			}else if (_preferences.getString(this.getKey(), Constants.STATUS_BAR_NOTIFICATIONS_LED_PATTERN_DEFAULT).equals(Constants.GMAIL_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_VALUE_KEY)) {
-				_notificationType = Constants.NOTIFICATION_TYPE_GMAIL;
-				showDialog();
 			}else if (_preferences.getString(this.getKey(), Constants.STATUS_BAR_NOTIFICATIONS_LED_PATTERN_DEFAULT).equals(Constants.TWITTER_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_VALUE_KEY)) {
 				_notificationType = Constants.NOTIFICATION_TYPE_TWITTER;
 				showDialog();
@@ -122,9 +119,6 @@ public class LEDPatternListPreference extends ListPreference {
 		    case Constants.NOTIFICATION_TYPE_CALENDAR:{
 		    	ledCustomPattern = _preferences.getString(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_KEY, Constants.STATUS_BAR_NOTIFICATIONS_LED_PATTERN_DEFAULT);
 		    }
-		    case Constants.NOTIFICATION_TYPE_GMAIL:{
-		    	ledCustomPattern = _preferences.getString(Constants.GMAIL_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_KEY, Constants.STATUS_BAR_NOTIFICATIONS_LED_PATTERN_DEFAULT);
-		    }
 		    case Constants.NOTIFICATION_TYPE_TWITTER:{
 		    	ledCustomPattern = _preferences.getString(Constants.TWITTER_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_KEY, Constants.STATUS_BAR_NOTIFICATIONS_LED_PATTERN_DEFAULT);
 		    }
@@ -161,9 +155,6 @@ public class LEDPatternListPreference extends ListPreference {
 					    }
 					    case Constants.NOTIFICATION_TYPE_CALENDAR:{
 					    	editor.putString(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_KEY, customLEDPattern);
-					    }
-					    case Constants.NOTIFICATION_TYPE_GMAIL:{
-					    	editor.putString(Constants.GMAIL_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_KEY, customLEDPattern);
 					    }
 					    case Constants.NOTIFICATION_TYPE_TWITTER:{
 					    	editor.putString(Constants.TWITTER_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_KEY, customLEDPattern);

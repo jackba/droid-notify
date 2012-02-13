@@ -132,11 +132,6 @@ public class Notification {
 					if(_sentFromAddress != null) _sentFromAddress = _sentFromAddress.toLowerCase();
 					break;
 				}
-				case Constants.NOTIFICATION_TYPE_GMAIL:{
-					if(_title == null) _title = "Email";
-					if(_sentFromAddress != null) _sentFromAddress = _sentFromAddress.toLowerCase();
-					break;
-				}
 				case Constants.NOTIFICATION_TYPE_TWITTER:{
 					if(_title == null) _title = "Twitter";
 					break;
@@ -580,10 +575,6 @@ public class Notification {
 				//Do nothing. There is no log to update for Calendar Events.
 				break;
 			}
-			case Constants.NOTIFICATION_TYPE_GMAIL:{
-	
-				break;
-			}
 			case Constants.NOTIFICATION_TYPE_TWITTER:{
 				//Currently, there is no way to mark a Twitter message or friend request as being viewed.
 				//if(_notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE){
@@ -732,13 +723,6 @@ public class Notification {
 			}
 			case Constants.NOTIFICATION_TYPE_CALENDAR:{
 				messageToSpeak.append(_context.getString(R.string.calendar_event_text) + ". " + _messageBody);
-				break;
-			}
-			case Constants.NOTIFICATION_TYPE_GMAIL:{
-				String formattedTimestamp = Common.formatTimestamp(_context, _timeStamp, false);
-				messageToSpeak.append(_context.getString(R.string.email_at_text, formattedTimestamp.toLowerCase()));
-				messageToSpeak.append(". " + _context.getString(R.string.from_text) + " " + sentFrom + ". ");
-				messageToSpeak.append(_messageBody);
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_TWITTER:{

@@ -5,9 +5,11 @@ import java.util.Date;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.widget.Toast;
 
 import apps.droidnotify.NotificationActivity;
@@ -39,10 +41,12 @@ public class EmailCommon {
 	 */
 	public static Bundle getK9MessagesFromIntent(Context context, Bundle bundle, String intentAction){
 		_debug = Log.getDebug();
-		if (_debug) Log.v("EmailCommon.getK9MessagesFromIntent() intentAction: " + intentAction + ":");
+		if (_debug) Log.v("EmailCommon.getK9MessagesFromIntent() IntentAction: " + intentAction + ":");
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		Bundle k9NotificationBundle = new Bundle();
 		int bundleCount = 0;
     	long timeStamp = -1;
+		String accountName = null;
     	String sentFromAddress = null;
     	String messageBody = null;
     	String messageSubject = null;
@@ -55,10 +59,10 @@ public class EmailCommon {
 		try{	    			
 			Bundle k9NotificationBundleSingle = new Bundle();
 			bundleCount++;
-			if(intentAction.equals(Constants.INTENT_ACTION_KAITEN)){
+			if(intentAction.startsWith(Constants.INTENT_ACTION_KAITEN)){
 				notificationSubType = Constants.NOTIFICATION_TYPE_KAITEN_MAIL;
 				packageName = "com.kaitenmail";
-			}else if(intentAction.equals(Constants.INTENT_ACTION_K9)){
+			}else if(intentAction.startsWith(Constants.INTENT_ACTION_K9)){
 				notificationSubType = Constants.NOTIFICATION_TYPE_K9_MAIL;
 				packageName = "com.fsck.k9";
 			}
@@ -66,17 +70,17 @@ public class EmailCommon {
 			sentDate = (Date) bundle.get(packageName + ".intent.extra.SENT_DATE");
 			timeStamp = sentDate.getTime();
 			try{
-				messageSubject = bundle.getString(packageName + ".intent.extra.SUBJECT").toLowerCase();
+				messageSubject = bundle.getString(packageName + ".intent.extra.SUBJECT");
 			}catch(Exception ex){
 				messageSubject = "";
 			}
-            sentFromAddress = parseFromEmailAddress(bundle.getString(packageName + ".intent.extra.FROM").toLowerCase());
-            //if (_debug) Log.v("EmailCommon.getK9MessagesFromIntent() sentFromAddress: " + sentFromAddress);
+            sentFromAddress = parseFromEmailAddress(bundle.getString(packageName + ".intent.extra.FROM").toLowerCase());			
+            accountName = bundle.getString(packageName + ".intent.extra.ACCOUNT");
             //Get the message body.
     		final String[] projection = new String[] {"_id", "date", "sender", "subject", "preview", "account", "uri", "delUri"};
-            final String selection = "date = " + timeStamp;
-    		final String[] selectionArgs = null;
-    		final String sortOrder = null;
+            final String selection = "date=? AND account=?";
+    		final String[] selectionArgs = new String[] {String.valueOf(timeStamp), accountName};
+    		final String sortOrder = "date DESC";
     		boolean emailFoundFlag = false;
     		Cursor cursor = null;
             try{
@@ -86,27 +90,46 @@ public class EmailCommon {
     		    		selection,
     					selectionArgs,
     					sortOrder);
-    	    	if(cursor.moveToFirst()){
-		    		messageID = Long.parseLong(cursor.getString(cursor.getColumnIndex("_id")));
-		    		messageBody = cursor.getString(cursor.getColumnIndex("preview"));
-		    		k9EmailUri = cursor.getString(cursor.getColumnIndex("uri"));
-		    		k9EmailDelUri = cursor.getString(cursor.getColumnIndex("delUri"));
-		    		emailFoundFlag = true;
-    	    	}else{
-    	    		Log.e("EmailCommon.getK9MessagesFromIntent() No Email Found Using The Following URI! URI: 'content://" + packageName + ".messageprovider/inbox_messages/'");
-    	    	}
+    		    //Loop over emails. Make sure that the date matches to ensure that the correct email is matched to the broadcast intent.
+	    		while(cursor.moveToNext()){
+	    			long timeStampTmp = cursor.getLong(cursor.getColumnIndex("date"));
+	    			//String subjectTmp = cursor.getString(cursor.getColumnIndex("subject"));
+    				String accountNameTmp = cursor.getString(cursor.getColumnIndex("account"));    	    			
+	    			if (_debug) Log.v("EmailCommon.getK9MessagesFromIntent() accountNameTmp: " + accountNameTmp + " accountName: " + accountName);
+	    			if (_debug) Log.v("EmailCommon.getK9MessagesFromIntent() timeStampTmp: " + timeStampTmp + " timeStamp: " + timeStamp);
+	    			//if (_debug) Log.v("EmailCommon.getK9MessagesFromIntent() subjectTmp: " + subjectTmp + " messageSubject: " + messageSubject);
+	    			if(timeStampTmp == timeStamp && accountNameTmp.equals(accountName)){
+			    		messageID = cursor.getLong(cursor.getColumnIndex("_id"));
+			    		messageBody = cursor.getString(cursor.getColumnIndex("preview"));
+			    		k9EmailUri = cursor.getString(cursor.getColumnIndex("uri"));
+			    		k9EmailDelUri = cursor.getString(cursor.getColumnIndex("delUri"));
+			    		emailFoundFlag = true;	
+	    			}
+		    		if(emailFoundFlag){
+		    			break;
+		    		}
+	    		}
     		}catch(Exception ex){
     			Log.e("EmailCommon.getK9MessagesFromIntent() CURSOR ERROR: " + ex.toString());
     		}finally{
         		cursor.close();
     		}
             if(emailFoundFlag == false){
+            	Log.e("EmailCommon.getK9MessagesFromIntent() No Email Found Matching The Subject & Date.");
             	return null;
             }
             if(messageSubject != null && !messageSubject.equals("")){
-				messageBody = "<b>" + messageSubject + "</b><br/>" + messageBody.replace("\n", "<br/>").trim();
+	    		if(preferences.getBoolean(Constants.K9_INCLUDE_ACCOUNT_NAME_KEY, true)){
+					messageBody = "<b>" + accountName + "<br/>" + messageSubject + "</b><br/>" + messageBody.replace("\n", "<br/>").trim();
+	    		}else{
+					messageBody = "<b>" + messageSubject + "</b><br/>" + messageBody.replace("\n", "<br/>").trim();
+	    		}
 			}else{
-				messageBody = messageBody.replace("\n", "<br/>").trim();
+	    		if(preferences.getBoolean(Constants.K9_INCLUDE_ACCOUNT_NAME_KEY, true)){
+	    			messageBody = "<b>" + accountName + "</b><br/>" + messageBody;
+	    		}else{
+	    			messageBody = messageBody.replace("\n", "<br/>").trim();
+	    		}				
 			}
     		Bundle k9ContactInfoBundle = ContactsCommon.getContactsInfoByEmail(context, sentFromAddress);
     		if(k9ContactInfoBundle == null){
