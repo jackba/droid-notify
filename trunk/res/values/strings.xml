@@ -424,6 +424,8 @@
    	<string name="preference_k9_message_body_font_size_title">Message Body Font Size</string>
    	<string name="preference_k9_message_body_font_size_summary">Select the font size you want to use when when displaying the email body.</string>
    	<string name="preference_k9_notifications">K-9 Email Notifications</string>
+   	<string name="preference_k9_timeout_title">K-9 Timeout</string>
+   	<string name="preference_k9_timeout_summary">Define how long to wait after an email is received before querying the inbox for the new email.</string>
    	    	   
    	<!-- Polling Strings -->   
    	<string name="preference_polling_frequency">Polling Frequency</string>

@@ -3,1331 +3,1298 @@
 
 	<!-- Language Preferences Arrays --> 
 	<string-array name="language_options">
-		<item name="0">@string/phone_default_language</item>
-		<item name="1">English (US)</item>
-		<item name="2">English (UK)</item>
-		<item name="3">Française</item>
-		<item name="4">Deutsch</item>
-		<item name="5">עברית</item>
-		<item name="6">Português</item>
-		<item name="7">Português Brasileiro</item>
-		<item name="8">Polski</item>
-		<item name="9">Español</item>
-		<item name="10">中文（简体）</item>
+		<item>@string/phone_default_language</item>
+		<item>English (US)</item>
+		<item>English (UK)</item>
+		<item>Française</item>
+		<item>Deutsch</item>
+		<item>עברית</item>
+		<item>Português</item>
+		<item>Português Brasileiro</item>
+		<item>Polski</item>
+		<item>Español</item>
+		<item>中文（简体）</item>
 	</string-array>
 	<string-array name="language_options_values">
-		<item name="0">phone_default</item>
-		<item name="1">en</item>
-		<item name="2">en_GB</item>
-		<item name="3">fr</item>
-		<item name="4">de</item>
-		<item name="5">he</item>
-		<item name="6">pt</item>
-		<item name="7">pt_BR</item>
-		<item name="8">pl</item>
-		<item name="9">es</item>
-		<item name="10">zh_CN</item>
+		<item>phone_default</item>
+		<item>en</item>
+		<item>en_GB</item>
+		<item>fr</item>
+		<item>de</item>
+		<item>he</item>
+		<item>pt</item>
+		<item>pt_BR</item>
+		<item>pl</item>
+		<item>es</item>
+		<item>zh_CN</item>
 	</string-array>
 
 	<!-- Window Width Padding Preferences Arrays --> 
 	<string-array name="popup_width_padding_options">
-		<item name="0">0</item>
-		<item name="1">1</item>
-		<item name="2">2</item>
-		<item name="3">3</item>
-		<item name="4">4</item>
-		<item name="5">5</item>
-		<item name="6">6</item>
-		<item name="7">7</item>
-		<item name="8">8</item>
-		<item name="9">9</item>
-		<item name="10">10</item>
-		<item name="11">11</item>
-		<item name="12">12</item>
-		<item name="13">13</item>
-		<item name="14">14</item>
-		<item name="15">15</item>
-		<item name="16">16</item>
-		<item name="17">17</item>
-		<item name="18">18</item>
-		<item name="19">19</item>
-		<item name="20">20</item>
-		<item name="21">21</item>
-		<item name="22">22</item>
-		<item name="23">23</item>
-		<item name="24">24</item>
-		<item name="25">25</item>
-		<item name="26">26</item>
-		<item name="27">27</item>
-		<item name="28">28</item>
-		<item name="29">29</item>
-		<item name="30">30</item>
-		<item name="31">31</item>
-		<item name="32">32</item>
-		<item name="33">33</item>
-		<item name="34">34</item>
-		<item name="35">35</item>
-		<item name="36">36</item>
-		<item name="37">37</item>
-		<item name="38">38</item>
-		<item name="39">39</item>
-		<item name="40">40</item>
-		<item name="41">41</item>
-		<item name="42">42</item>
-		<item name="43">43</item>
-		<item name="44">44</item>
-		<item name="45">45</item>
-		<item name="46">46</item>
-		<item name="47">47</item>
-		<item name="48">48</item>
-		<item name="49">49</item>
-		<item name="50">50</item>
+		<item>0</item>
+		<item>1</item>
+		<item>2</item>
+		<item>3</item>
+		<item>4</item>
+		<item>5</item>
+		<item>6</item>
+		<item>7</item>
+		<item>8</item>
+		<item>9</item>
+		<item>10</item>
+		<item>11</item>
+		<item>12</item>
+		<item>13</item>
+		<item>14</item>
+		<item>15</item>
+		<item>16</item>
+		<item>17</item>
+		<item>18</item>
+		<item>19</item>
+		<item>20</item>
+		<item>21</item>
+		<item>22</item>
+		<item>23</item>
+		<item>24</item>
+		<item>25</item>
+		<item>26</item>
+		<item>27</item>
+		<item>28</item>
+		<item>29</item>
+		<item>30</item>
+		<item>31</item>
+		<item>32</item>
+		<item>33</item>
+		<item>34</item>
+		<item>35</item>
+		<item>36</item>
+		<item>37</item>
+		<item>38</item>
+		<item>39</item>
+		<item>40</item>
+		<item>41</item>
+		<item>42</item>
+		<item>43</item>
+		<item>44</item>
+		<item>45</item>
+		<item>46</item>
+		<item>47</item>
+		<item>48</item>
+		<item>49</item>
+		<item>50</item>
 	</string-array>
 	<string-array name="popup_width_padding_options_values">
-		<item name="0">0</item>
-		<item name="1">1</item>
-		<item name="2">2</item>
-		<item name="3">3</item>
-		<item name="4">4</item>
-		<item name="5">5</item>
-		<item name="6">6</item>
-		<item name="7">7</item>
-		<item name="8">8</item>
-		<item name="9">9</item>
-		<item name="10">10</item>
-		<item name="11">11</item>
-		<item name="12">12</item>
-		<item name="13">13</item>
-		<item name="14">14</item>
-		<item name="15">15</item>
-		<item name="16">16</item>
-		<item name="17">17</item>
-		<item name="18">18</item>
-		<item name="19">19</item>
-		<item name="20">20</item>
-		<item name="21">21</item>
-		<item name="22">22</item>
-		<item name="23">23</item>
-		<item name="24">24</item>
-		<item name="25">25</item>
-		<item name="26">26</item>
-		<item name="27">27</item>
-		<item name="28">28</item>
-		<item name="29">29</item>
-		<item name="30">30</item>
-		<item name="31">31</item>
-		<item name="32">32</item>
-		<item name="33">33</item>
-		<item name="34">34</item>
-		<item name="35">35</item>
-		<item name="36">36</item>
-		<item name="37">37</item>
-		<item name="38">38</item>
-		<item name="39">39</item>
-		<item name="40">40</item>
-		<item name="41">41</item>
-		<item name="42">42</item>
-		<item name="43">43</item>
-		<item name="44">44</item>
-		<item name="45">45</item>
-		<item name="46">46</item>
-		<item name="47">47</item>
-		<item name="48">48</item>
-		<item name="49">49</item>
-		<item name="50">50</item>
+		<item>0</item>
+		<item>1</item>
+		<item>2</item>
+		<item>3</item>
+		<item>4</item>
+		<item>5</item>
+		<item>6</item>
+		<item>7</item>
+		<item>8</item>
+		<item>9</item>
+		<item>10</item>
+		<item>11</item>
+		<item>12</item>
+		<item>13</item>
+		<item>14</item>
+		<item>15</item>
+		<item>16</item>
+		<item>17</item>
+		<item>18</item>
+		<item>19</item>
+		<item>20</item>
+		<item>21</item>
+		<item>22</item>
+		<item>23</item>
+		<item>24</item>
+		<item>25</item>
+		<item>26</item>
+		<item>27</item>
+		<item>28</item>
+		<item>29</item>
+		<item>30</item>
+		<item>31</item>
+		<item>32</item>
+		<item>33</item>
+		<item>34</item>
+		<item>35</item>
+		<item>36</item>
+		<item>37</item>
+		<item>38</item>
+		<item>39</item>
+		<item>40</item>
+		<item>41</item>
+		<item>42</item>
+		<item>43</item>
+		<item>44</item>
+		<item>45</item>
+		<item>46</item>
+		<item>47</item>
+		<item>48</item>
+		<item>49</item>
+		<item>50</item>
+	</string-array>	
+	    
+    <!-- Timeout Arrays --> 
+	<string-array name="timeout_options">
+		<item>@string/no_timeout_text</item>
+		<item>@string/s1_second_text</item>
+		<item>@string/s2_seconds_text</item>
+		<item>@string/s3_seconds_text</item>
+		<item>@string/s4_seconds_text</item>
+		<item>@string/s5_seconds_text</item>
+		<item>@string/s6_seconds_text</item>
+		<item>@string/s7_seconds_text</item>
+		<item>@string/s8_seconds_text</item>
+		<item>@string/s9_seconds_text</item>
+		<item>@string/s10_seconds_text</item>
+		<item>@string/s15_seconds_text</item>
+		<item>@string/s20_seconds_text</item>
+		<item>@string/s25_seconds_text</item>
+		<item>@string/s30_seconds_text</item>
+		<item>@string/s35_seconds_text</item>
+		<item>@string/s40_seconds_text</item>
+		<item>@string/s45_seconds_text</item>
+		<item>@string/s50_seconds_text</item>
+		<item>@string/s55_seconds_text</item>
+		<item>@string/s60_seconds_text</item>
+	</string-array>
+	<string-array name="timeout_values">
+		<item>0</item>
+		<item>1</item>
+		<item>2</item>
+		<item>3</item>
+		<item>4</item>
+		<item>5</item>
+		<item>6</item>
+		<item>7</item>
+		<item>8</item>
+		<item>9</item>
+		<item>10</item>
+		<item>15</item>
+		<item>20</item>
+		<item>25</item>
+		<item>30</item>
+		<item>35</item>
+		<item>40</item>
+		<item>45</item>
+		<item>50</item>
+		<item>55</item>
+		<item>60</item>
 	</string-array>
 	
     <!-- SMS Preferences Arrays --> 
     <string-array name="sms_dismiss_button_options">
-		<item name="0">@string/nothing_text</item>
-		<item name="1">@string/mark_as_read_text</item>
+		<item>@string/nothing_text</item>
+		<item>@string/mark_as_read_text</item>
 	</string-array>	
 	<string-array name="sms_dismiss_button_options_values">
-		<item name="0">1</item>
-		<item name="1">0</item>
+		<item>1</item>
+		<item>0</item>
 	</string-array>
 	
     <string-array name="sms_delete_button_options">
-		<item name="2">@string/nothing_text</item>
-		<item name="0">@string/delete_message_text</item>
-		<item name="1">@string/delete_thread_text</item>
+		<item>@string/nothing_text</item>
+		<item>@string/delete_message_text</item>
+		<item>@string/delete_thread_text</item>
 	</string-array>	
 	<string-array name="sms_delete_button_options_values">
-		<item name="0">2</item>
-		<item name="1">0</item>
-		<item name="2">1</item>
+		<item>2</item>
+		<item>0</item>
+		<item>1</item>
 	</string-array>
 	
     <string-array name="sms_reply_button_options">
-    	<item name="0">@string/use_installed_messaging_app_text</item>
-		<item name="1">@string/use_quick_reply_text</item>
+    	<item>@string/use_installed_messaging_app_text</item>
+		<item>@string/use_quick_reply_text</item>
 	</string-array>
 	<string-array name="sms_reply_button_options_values">
-		<item name="0">0</item>
-		<item name="1">1</item>
+		<item>0</item>
+		<item>1</item>
 	</string-array>
 	
     <string-array name="sms_notification_count_button_options">
-    	<item name="0">@string/nothing_text</item>
-		<item name="1">@string/view_message_text</item>
-		<item name="2">@string/view_thread_text</item>
-		<item name="3">@string/messaging_inbox_text</item>
+    	<item>@string/nothing_text</item>
+		<item>@string/view_message_text</item>
+		<item>@string/view_thread_text</item>
+		<item>@string/messaging_inbox_text</item>
 	</string-array>
 	<string-array name="sms_notification_count_button_options_values">
-		<item name="0">0</item>
-		<item name="1">1</item>
-		<item name="2">2</item>
-		<item name="3">3</item>
-	</string-array>    
-	
-	<string-array name="sms_timeout_options">
-		<item name="0">@string/no_timeout_text</item>
-		<item name="1">@string/s1_second_text</item>
-		<item name="2">@string/s2_seconds_text</item>
-		<item name="3">@string/s3_seconds_text</item>
-		<item name="4">@string/s4_seconds_text</item>
-		<item name="5">@string/s5_seconds_text</item>
-		<item name="6">@string/s6_seconds_text</item>
-		<item name="7">@string/s7_seconds_text</item>
-		<item name="8">@string/s8_seconds_text</item>
-		<item name="9">@string/s9_seconds_text</item>
-		<item name="10">@string/s10_seconds_text</item>
-		<item name="11">@string/s15_seconds_text</item>
-		<item name="12">@string/s20_seconds_text</item>
-		<item name="13">@string/s25_seconds_text</item>
-		<item name="14">@string/s30_seconds_text</item>
-	</string-array>
-	<string-array name="sms_timeout_options_values">
-		<item name="0">0</item>
-		<item name="1">1</item>
-		<item name="2">2</item>
-		<item name="3">3</item>
-		<item name="4">4</item>
-		<item name="5">5</item>
-		<item name="6">6</item>
-		<item name="7">7</item>
-		<item name="8">8</item>
-		<item name="9">9</item>
-		<item name="10">10</item>
-		<item name="11">15</item>
-		<item name="12">20</item>
-		<item name="13">25</item>
-		<item name="14">30</item>
+		<item>0</item>
+		<item>1</item>
+		<item>2</item>
+		<item>3</item>
 	</string-array>
 	
     <string-array name="sms_loading_options">
-    	<item name="0">@string/parse_sms_directly_text</item>
-		<item name="1">@string/read_sms_from_disk_text</item>
+    	<item>@string/parse_sms_directly_text</item>
+		<item>@string/read_sms_from_disk_text</item>
 	</string-array>
 	<string-array name="sms_loading_options_values">
-		<item name="0">0</item>
-		<item name="1">1</item>
+		<item>0</item>
+		<item>1</item>
 	</string-array>
 		
 	<!-- MMS Preferences Arrays --> 
     <string-array name="mms_dismiss_button_options">
-		<item name="0">@string/nothing_text</item>
-		<item name="1">@string/mark_as_read_text</item>
+		<item>@string/nothing_text</item>
+		<item>@string/mark_as_read_text</item>
 	</string-array>
 	<string-array name="mms_dismiss_button_options_values">
-		<item name="0">1</item>
-		<item name="1">0</item>
+		<item>1</item>
+		<item>0</item>
 	</string-array>
 	
     <string-array name="mms_delete_button_options">
-		<item name="0">@string/delete_message_text</item>
-		<item name="1">@string/delete_thread_text</item>
-		<item name="2">@string/nothing_text</item>
+		<item>@string/delete_message_text</item>
+		<item>@string/delete_thread_text</item>
+		<item>@string/nothing_text</item>
 	</string-array>
 	<string-array name="mms_delete_button_options_values">
-		<item name="0">0</item>
-		<item name="1">1</item>
-		<item name="2">2</item>
+		<item>0</item>
+		<item>1</item>
+		<item>2</item>
 	</string-array>
 	
     <string-array name="mms_reply_button_options">
-    	<item name="0">@string/use_installed_messaging_app_text</item>
-		<item name="1">@string/use_quick_reply_text</item>
+    	<item>@string/use_installed_messaging_app_text</item>
+		<item>@string/use_quick_reply_text</item>
 	</string-array>
 	<string-array name="mms_reply_button_options_values">
-		<item name="0">0</item>
-		<item name="1">1</item>
-	</string-array>
-	
-    <string-array name="mms_timeout_options">
-		<item name="0">@string/no_timeout_text</item>
-		<item name="1">@string/s10_seconds_text</item>
-		<item name="2">@string/s20_seconds_text</item>
-		<item name="3">@string/s30_seconds_text</item>
-		<item name="4">@string/s40_seconds_text</item>
-		<item name="5">@string/s50_seconds_text</item>
-		<item name="6">@string/s60_seconds_text</item>
-	</string-array>
-	<string-array name="mms_timeout_options_values">
-		<item name="0">0</item>
-		<item name="1">10</item>
-		<item name="2">20</item>
-		<item name="3">30</item>
-		<item name="4">40</item>
-		<item name="5">50</item>
-		<item name="6">60</item>
+		<item>0</item>
+		<item>1</item>
 	</string-array>
 	
     <string-array name="mms_notification_count_button_options">
-    	<item name="0">@string/nothing_text</item>
-		<item name="1">@string/view_message_text</item>
-		<item name="2">@string/view_thread_text</item>
-		<item name="3">@string/messaging_inbox_text</item>
+    	<item>@string/nothing_text</item>
+		<item>@string/view_message_text</item>
+		<item>@string/view_thread_text</item>
+		<item>@string/messaging_inbox_text</item>
 	</string-array>
 	<string-array name="mms_notification_count_button_options_values">
-		<item name="0">0</item>
-		<item name="1">1</item>
-		<item name="2">2</item>
-		<item name="3">3</item>
+		<item>0</item>
+		<item>1</item>
+		<item>2</item>
+		<item>3</item>
 	</string-array>
 	
 	<!-- Missed Call Preferences Arrays --> 
     <string-array name="missed_call_dismiss_button_options">
-		<item name="0">@string/nothing_text</item>
-		<item name="1">@string/mark_as_read_text</item>
-		<item name="2">@string/delete_from_call_log_text</item>
+		<item>@string/nothing_text</item>
+		<item>@string/mark_as_read_text</item>
+		<item>@string/delete_from_call_log_text</item>
 	</string-array>
 	<string-array name="missed_call_dismiss_button_options_values">
-		<item name="0">2</item>
-		<item name="1">0</item>
-		<item name="2">1</item>
-	</string-array>
-	
-    <string-array name="call_log_timeout_options">
-		<item name="0">@string/no_timeout_text</item>
-		<item name="1">@string/s1_second_text</item>
-		<item name="2">@string/s2_seconds_text</item>
-		<item name="3">@string/s3_seconds_text</item>
-		<item name="4">@string/s4_seconds_text</item>
-		<item name="5">@string/s5_seconds_text</item>
-		<item name="6">@string/s6_seconds_text</item>
-		<item name="7">@string/s7_seconds_text</item>
-		<item name="8">@string/s8_seconds_text</item>
-		<item name="9">@string/s9_seconds_text</item>
-		<item name="10">@string/s10_seconds_text</item>
-	</string-array>
-	<string-array name="call_log_timeout_options_values">
-		<item name="0">0</item>
-		<item name="1">1</item>
-		<item name="2">2</item>
-		<item name="3">3</item>
-		<item name="4">4</item>
-		<item name="5">5</item>
-		<item name="6">6</item>
-		<item name="7">7</item>
-		<item name="8">8</item>
-		<item name="9">9</item>
-		<item name="10">10</item>
+		<item>2</item>
+		<item>0</item>
+		<item>1</item>
 	</string-array>
 	
     <string-array name="missed_call_loading_options">
-		<item name="0">@string/get_latest_missed_call_text</item>
-		<item name="1">@string/get_recent_missed_calls_text</item>
-		<item name="2">@string/get_all_missed_calls_text</item>
+		<item>@string/get_latest_missed_call_text</item>
+		<item>@string/get_recent_missed_calls_text</item>
+		<item>@string/get_all_missed_calls_text</item>
 	</string-array>
 	<string-array name="missed_call_loading_options_values">
-		<item name="0">0</item>
-		<item name="1">1</item>
-		<item name="2">2</item>
+		<item>0</item>
+		<item>1</item>
+		<item>2</item>
 	</string-array>	
 	
     <string-array name="missed_call_notification_count_button_options">
-    	<item name="0">@string/nothing_text</item>
-		<item name="1">@string/view_call_log_text</item>
+    	<item>@string/nothing_text</item>
+		<item>@string/view_call_log_text</item>
 	</string-array>
 	<string-array name="missed_call_notification_count_button_options_values">
-		<item name="0">0</item>
-		<item name="1">1</item>
+		<item>0</item>
+		<item>1</item>
 	</string-array>
 	
 	<!-- Calendar Event Preferences Arrays --> 
     <string-array name="polling_frequency_options">
-		<item name="0">@string/s5_minutes_text</item>
-		<item name="1">@string/s10_minutes_text</item>
-		<item name="2">@string/s15_minutes_text</item>
-		<item name="3">@string/s20_minutes_text</item>
-		<item name="4">@string/s25_minutes_text</item>
-		<item name="5">@string/s30_minutes_text</item>
-		<item name="6">@string/s45_minutes_text</item>
-		<item name="7">@string/s1_hour_text</item>
-		<item name="8">@string/s2_hours_text</item>
-		<item name="9">@string/s3_hours_text</item>
-		<item name="10">@string/s4_hours_text</item>
-		<item name="11">@string/s5_hours_text</item>
-		<item name="12">@string/s6_hours_text</item>
-		<item name="13">@string/s7_hours_text</item>
-		<item name="14">@string/s8_hours_text</item>
-		<item name="15">@string/s9_hours_text</item>
-		<item name="16">@string/s10_hours_text</item>
-		<item name="17">@string/s11_hours_text</item>
-		<item name="18">@string/s12_hours_text</item>
-		<item name="19">@string/s24_hours_text</item>
+		<item>@string/s5_minutes_text</item>
+		<item>@string/s10_minutes_text</item>
+		<item>@string/s15_minutes_text</item>
+		<item>@string/s20_minutes_text</item>
+		<item>@string/s25_minutes_text</item>
+		<item>@string/s30_minutes_text</item>
+		<item>@string/s45_minutes_text</item>
+		<item>@string/s1_hour_text</item>
+		<item>@string/s2_hours_text</item>
+		<item>@string/s3_hours_text</item>
+		<item>@string/s4_hours_text</item>
+		<item>@string/s5_hours_text</item>
+		<item>@string/s6_hours_text</item>
+		<item>@string/s7_hours_text</item>
+		<item>@string/s8_hours_text</item>
+		<item>@string/s9_hours_text</item>
+		<item>@string/s10_hours_text</item>
+		<item>@string/s11_hours_text</item>
+		<item>@string/s12_hours_text</item>
+		<item>@string/s24_hours_text</item>
 	</string-array>
 	<string-array name="polling_frequency_options_values">
-		<item name="0">5</item>
-		<item name="1">10</item>
-		<item name="2">15</item>
-		<item name="3">20</item>
-		<item name="4">25</item>
-		<item name="5">30</item>
-		<item name="6">45</item>
-		<item name="7">60</item>
-		<item name="8">120</item>
-		<item name="9">180</item>
-		<item name="10">240</item>
-		<item name="11">300</item>
-		<item name="12">360</item>
-		<item name="13">420</item>
-		<item name="14">480</item>
-		<item name="15">540</item>
-		<item name="16">600</item>
-		<item name="17">660</item>
-		<item name="18">720</item>
-		<item name="19">1440</item>
+		<item>5</item>
+		<item>10</item>
+		<item>15</item>
+		<item>20</item>
+		<item>25</item>
+		<item>30</item>
+		<item>45</item>
+		<item>60</item>
+		<item>120</item>
+		<item>180</item>
+		<item>240</item>
+		<item>300</item>
+		<item>360</item>
+		<item>420</item>
+		<item>480</item>
+		<item>540</item>
+		<item>600</item>
+		<item>660</item>
+		<item>720</item>
+		<item>1440</item>
 	</string-array>	
 	
     <string-array name="calendar_dismiss_button_options">
-		<item name="0">@string/nothing_text</item>
+		<item>@string/nothing_text</item>
 	</string-array>
 	<string-array name="calendar_dismiss_button_options_values">
-		<item name="0">0</item>
+		<item>0</item>
 	</string-array>
 	
     <string-array name="calendar_reminder_options">
-	    <item name="0">@string/s1_minute_before_text</item>
-	    <item name="1">@string/s5_minutes_before_text</item>
-	    <item name="2">@string/s10_minutes_before_text</item>
-		<item name="3">@string/s15_minutes_before_text</item>
-	    <item name="4">@string/s20_minutes_before_text</item>
-	    <item name="5">@string/s25_minutes_before_text</item>
-		<item name="6">@string/s30_minutes_before_text</item>
-	    <item name="7">@string/s35_minutes_before_text</item>
-	    <item name="8">@string/s40_minutes_before_text</item>
-		<item name="9">@string/s45_minutes_before_text</item>
-	    <item name="10">@string/s50_minutes_before_text</item>
-	    <item name="11">@string/s55_minutes_before_text</item>
-		<item name="12">@string/s1_hour_before_text</item>
+	    <item>@string/s1_minute_before_text</item>
+	    <item>@string/s5_minutes_before_text</item>
+	    <item>@string/s10_minutes_before_text</item>
+		<item>@string/s15_minutes_before_text</item>
+	    <item>@string/s20_minutes_before_text</item>
+	    <item>@string/s25_minutes_before_text</item>
+		<item>@string/s30_minutes_before_text</item>
+	    <item>@string/s35_minutes_before_text</item>
+	    <item>@string/s40_minutes_before_text</item>
+		<item>@string/s45_minutes_before_text</item>
+	    <item>@string/s50_minutes_before_text</item>
+	    <item>@string/s55_minutes_before_text</item>
+		<item>@string/s1_hour_before_text</item>
 	</string-array>
 	<string-array name="calendar_reminder_options_values">
-	    <item name="0">1</item>
-	    <item name="1">5</item>
-	    <item name="2">10</item>
-		<item name="3">15</item>
-	    <item name="4">20</item>
-	    <item name="5">25</item>
-		<item name="6">30</item>
-	    <item name="7">35</item>
-	    <item name="8">40</item>
-		<item name="9">45</item>
-	    <item name="10">50</item>
-	    <item name="11">55</item>
-		<item name="12">60</item>
+	    <item>1</item>
+	    <item>5</item>
+	    <item>10</item>
+		<item>15</item>
+	    <item>20</item>
+	    <item>25</item>
+		<item>30</item>
+	    <item>35</item>
+	    <item>40</item>
+		<item>45</item>
+	    <item>50</item>
+	    <item>55</item>
+		<item>60</item>
 	</string-array>
 	
     <string-array name="calendar_reminder_all_day_options">
-		<item name="0">@string/s1_hour_before_text</item>
-		<item name="1">@string/s2_hours_before_text</item>
-		<item name="2">@string/s3_hours_before_text</item>
-		<item name="3">@string/s4_hours_before_text</item>
-		<item name="4">@string/s5_hours_before_text</item>
-		<item name="5">@string/s6_hours_before_text</item>
-		<item name="6">@string/s7_hours_before_text</item>
-		<item name="7">@string/s8_hours_before_text</item>
-		<item name="8">@string/s9_hours_before_text</item>
-		<item name="9">@string/s10_hours_before_text</item>
-		<item name="10">@string/s11_hours_before_text</item>
-		<item name="11">@string/s12_hours_before_text</item>
-		<item name="12">@string/s13_hours_before_text</item>
-		<item name="13">@string/s14_hours_before_text</item>
-		<item name="14">@string/s15_hours_before_text</item>
-		<item name="15">@string/s16_hours_before_text</item>
-		<item name="16">@string/s17_hours_before_text</item>
-		<item name="17">@string/s18_hours_before_text</item>
-		<item name="18">@string/s19_hours_before_text</item>
-		<item name="19">@string/s20_hours_before_text</item>
-		<item name="20">@string/s21_hours_before_text</item>
-		<item name="21">@string/s22_hours_before_text</item>
-		<item name="22">@string/s23_hours_before_text</item>
-		<item name="23">@string/s24_hours_before_text</item>
+		<item>@string/s1_hour_before_text</item>
+		<item>@string/s2_hours_before_text</item>
+		<item>@string/s3_hours_before_text</item>
+		<item>@string/s4_hours_before_text</item>
+		<item>@string/s5_hours_before_text</item>
+		<item>@string/s6_hours_before_text</item>
+		<item>@string/s7_hours_before_text</item>
+		<item>@string/s8_hours_before_text</item>
+		<item>@string/s9_hours_before_text</item>
+		<item>@string/s10_hours_before_text</item>
+		<item>@string/s11_hours_before_text</item>
+		<item>@string/s12_hours_before_text</item>
+		<item>@string/s13_hours_before_text</item>
+		<item>@string/s14_hours_before_text</item>
+		<item>@string/s15_hours_before_text</item>
+		<item>@string/s16_hours_before_text</item>
+		<item>@string/s17_hours_before_text</item>
+		<item>@string/s18_hours_before_text</item>
+		<item>@string/s19_hours_before_text</item>
+		<item>@string/s20_hours_before_text</item>
+		<item>@string/s21_hours_before_text</item>
+		<item>@string/s22_hours_before_text</item>
+		<item>@string/s23_hours_before_text</item>
+		<item>@string/s24_hours_before_text</item>
 	</string-array>
 	<string-array name="calendar_reminder_all_day_options_values">
-		<item name="0">1</item>
-		<item name="1">2</item>
-		<item name="2">3</item>
-		<item name="3">4</item>
-		<item name="4">5</item>
-		<item name="5">6</item>
-		<item name="6">7</item>
-		<item name="7">8</item>
-		<item name="8">9</item>
-		<item name="9">10</item>
-		<item name="10">11</item>
-		<item name="11">12</item>
-		<item name="12">13</item>
-		<item name="13">14</item>
-		<item name="14">15</item>
-		<item name="15">16</item>
-		<item name="16">17</item>
-		<item name="17">18</item>
-		<item name="18">19</item>
-		<item name="19">20</item>
-		<item name="20">21</item>
-		<item name="21">22</item>
-		<item name="22">23</item>
-		<item name="23">24</item>
+		<item>1</item>
+		<item>2</item>
+		<item>3</item>
+		<item>4</item>
+		<item>5</item>
+		<item>6</item>
+		<item>7</item>
+		<item>8</item>
+		<item>9</item>
+		<item>10</item>
+		<item>11</item>
+		<item>12</item>
+		<item>13</item>
+		<item>14</item>
+		<item>15</item>
+		<item>16</item>
+		<item>17</item>
+		<item>18</item>
+		<item>19</item>
+		<item>20</item>
+		<item>21</item>
+		<item>22</item>
+		<item>23</item>
+		<item>24</item>
 	</string-array>	
 	
 	<string-array name="calendar_all_day_notify_day_of_time_options">
-		<item name="0">@string/s1_am_text</item>
-		<item name="1">@string/s2_am_text</item>
-		<item name="2">@string/s3_am_text</item>
-		<item name="3">@string/s4_am_text</item>
-		<item name="4">@string/s5_am_text</item>
-		<item name="5">@string/s6_am_text</item>
-		<item name="6">@string/s7_am_text</item>
-		<item name="7">@string/s8_am_text</item>
-		<item name="8">@string/s9_am_text</item>
-		<item name="9">@string/s10_am_text</item>
-		<item name="10">@string/s11_am_text</item>
-		<item name="11">@string/s12_pm_text</item>
-		<item name="12">@string/s1_pm_text</item>
-		<item name="13">@string/s2_pm_text</item>
-		<item name="14">@string/s3_pm_text</item>
-		<item name="15">@string/s4_pm_text</item>
-		<item name="16">@string/s5_pm_text</item>
-		<item name="17">@string/s6_pm_text</item>
-		<item name="18">@string/s7_pm_text</item>
-		<item name="19">@string/s8_pm_text</item>
-		<item name="20">@string/s9_pm_text</item>
-		<item name="21">@string/s10_pm_text</item>
-		<item name="22">@string/s11_pm_text</item>
+		<item>@string/s1_am_text</item>
+		<item>@string/s2_am_text</item>
+		<item>@string/s3_am_text</item>
+		<item>@string/s4_am_text</item>
+		<item>@string/s5_am_text</item>
+		<item>@string/s6_am_text</item>
+		<item>@string/s7_am_text</item>
+		<item>@string/s8_am_text</item>
+		<item>@string/s9_am_text</item>
+		<item>@string/s10_am_text</item>
+		<item>@string/s11_am_text</item>
+		<item>@string/s12_pm_text</item>
+		<item>@string/s1_pm_text</item>
+		<item>@string/s2_pm_text</item>
+		<item>@string/s3_pm_text</item>
+		<item>@string/s4_pm_text</item>
+		<item>@string/s5_pm_text</item>
+		<item>@string/s6_pm_text</item>
+		<item>@string/s7_pm_text</item>
+		<item>@string/s8_pm_text</item>
+		<item>@string/s9_pm_text</item>
+		<item>@string/s10_pm_text</item>
+		<item>@string/s11_pm_text</item>
 	</string-array>
 	<string-array name="calendar_all_day_notify_day_of_time_options_values">
-		<item name="0">1</item>
-		<item name="1">2</item>
-		<item name="2">3</item>
-		<item name="3">4</item>
-		<item name="4">5</item>
-		<item name="5">6</item>
-		<item name="6">7</item>
-		<item name="7">8</item>
-		<item name="8">9</item>
-		<item name="9">10</item>
-		<item name="10">11</item>
-		<item name="11">12</item>
-		<item name="12">13</item>
-		<item name="13">14</item>
-		<item name="14">15</item>
-		<item name="15">16</item>
-		<item name="16">17</item>
-		<item name="17">18</item>
-		<item name="18">19</item>
-		<item name="19">20</item>
-		<item name="20">21</item>
-		<item name="21">22</item>
-		<item name="22">23</item>
+		<item>1</item>
+		<item>2</item>
+		<item>3</item>
+		<item>4</item>
+		<item>5</item>
+		<item>6</item>
+		<item>7</item>
+		<item>8</item>
+		<item>9</item>
+		<item>10</item>
+		<item>11</item>
+		<item>12</item>
+		<item>13</item>
+		<item>14</item>
+		<item>15</item>
+		<item>16</item>
+		<item>17</item>
+		<item>18</item>
+		<item>19</item>
+		<item>20</item>
+		<item>21</item>
+		<item>22</item>
+		<item>23</item>
 	</string-array>
 	
     <string-array name="calendar_notification_count_button_options">
-    	<item name="0">@string/nothing_text</item>
-		<item name="1">@string/goto_calendar_text</item>
+    	<item>@string/nothing_text</item>
+		<item>@string/goto_calendar_text</item>
 	</string-array>
 	<string-array name="calendar_notification_count_button_options_values">
-		<item name="0">0</item>
-		<item name="1">1</item>
+		<item>0</item>
+		<item>1</item>
 	</string-array>
 	
 	<!-- Gmail Preferences Arrays --> 
 
 	<!-- K9 Preferences Arrays --> 
     <string-array name="k9_dismiss_button_options">
-		<item name="1">@string/nothing_text</item>
+		<item>@string/nothing_text</item>
 	</string-array>
 	<string-array name="k9_dismiss_button_options_values">
-		<item name="1">1</item>
+		<item>1</item>
 	</string-array>
 	
     <string-array name="k9_delete_button_options">
-		<item name="0">@string/nothing_text</item>
-		<item name="1">@string/delete_message_text</item>
+		<item>@string/nothing_text</item>
+		<item>@string/delete_message_text</item>
 	</string-array>
 	<string-array name="k9_delete_button_options_values">
-		<item name="0">1</item>
-		<item name="1">0</item>
+		<item>1</item>
+		<item>0</item>
 	</string-array>
 	
     <string-array name="k9_reply_button_options">
-    	<item name="0">@string/use_installed_email_app_text</item>
+    	<item>@string/use_installed_email_app_text</item>
 	</string-array>
 	<string-array name="k9_reply_button_options_values">
-		<item name="0">0</item>
+		<item>0</item>
 	</string-array>
 	
     <string-array name="k9_notification_count_button_options">
-    	<item name="0">@string/nothing_text</item>
-		<item name="1">@string/email_inbox_text</item>
+    	<item>@string/nothing_text</item>
+		<item>@string/email_inbox_text</item>
 	</string-array>
 	<string-array name="k9_notification_count_button_options_values">
-		<item name="0">0</item>
-		<item name="1">1</item>
+		<item>0</item>
+		<item>1</item>
 	</string-array>
 
 	<!-- Twitter Preferences Arrays -->	
     <string-array name="twitter_delete_button_options">
-		<item name="0">@string/nothing_text</item>
-		<item name="1">@string/delete_message_text</item>
+		<item>@string/nothing_text</item>
+		<item>@string/delete_message_text</item>
 	</string-array>
 	<string-array name="twitter_delete_button_options_values">
-		<item name="0">1</item>
-		<item name="1">0</item>
+		<item>1</item>
+		<item>0</item>
 	</string-array>
 
     <string-array name="twitter_reply_button_options">
-    	<item name="0">@string/use_quick_reply_text</item>
-    	<item name="1">@string/use_preferred_client</item>
+    	<item>@string/use_quick_reply_text</item>
+    	<item>@string/use_preferred_client</item>
 	</string-array>
 	<string-array name="twitter_reply_button_options_values">
-		<item name="0">0</item>
-		<item name="1">1</item>
+		<item>0</item>
+		<item>1</item>
 	</string-array>
 	    	
     <string-array name="twitter_notification_count_button_options">
-    	<item name="0">@string/nothing_text</item>
-		<item name="1">@string/launch_twitter_app</item>
+    	<item>@string/nothing_text</item>
+		<item>@string/launch_twitter_app</item>
 	</string-array>
 	<string-array name="twitter_notification_count_button_options_values">
-		<item name="0">0</item>
-		<item name="1">1</item>
+		<item>0</item>
+		<item>1</item>
 	</string-array>
 
 	<!-- Facebook Preferences Arrays -->	
     <string-array name="facebook_notification_count_button_options">
-    	<item name="0">@string/nothing_text</item>
-		<item name="1">@string/launch_facebook_app</item>
+    	<item>@string/nothing_text</item>
+		<item>@string/launch_facebook_app</item>
 	</string-array>
 	<string-array name="facebook_notification_count_button_options_values">
-		<item name="0">0</item>
-		<item name="1">1</item>
+		<item>0</item>
+		<item>1</item>
 	</string-array>
 		    		
 	<!-- Reschedule Arrays -->
     <string-array name="reschedule_time_options">
-		<item name="0">@string/s1_minute_text</item>
-		<item name="1">@string/s2_minutes_text</item>
-		<item name="2">@string/s3_minutes_text</item>
-		<item name="3">@string/s4_minutes_text</item>
-		<item name="4">@string/s5_minutes_text</item>
-		<item name="5">@string/s10_minutes_text</item>
-		<item name="6">@string/s15_minutes_text</item>
-		<item name="7">@string/s20_minutes_text</item>
-		<item name="8">@string/s25_minutes_text</item>
-		<item name="9">@string/s30_minutes_text</item>
-		<item name="10">@string/s35_minutes_text</item>
-		<item name="11">@string/s40_minutes_text</item>
-		<item name="12">@string/s45_minutes_text</item>
-		<item name="13">@string/s50_minutes_text</item>
-		<item name="14">@string/s55_minutes_text</item>
-		<item name="15">@string/s1_hour_text</item>
-		<item name="16">@string/s2_hours_text</item>
-		<item name="17">@string/s3_hours_text</item>
-		<item name="18">@string/s4_hours_text</item>
-		<item name="19">@string/s5_hours_text</item>
-		<item name="20">@string/s6_hours_text</item>
-		<item name="21">@string/s7_hours_text</item>
-		<item name="22">@string/s8_hours_text</item>
-		<item name="23">@string/s9_hours_text</item>
-		<item name="24">@string/s10_hours_text</item>
-		<item name="25">@string/s11_hours_text</item>
-		<item name="26">@string/s12_hours_text</item>
-		<item name="27">@string/s24_hours_text</item>
+		<item>@string/s1_minute_text</item>
+		<item>@string/s2_minutes_text</item>
+		<item>@string/s3_minutes_text</item>
+		<item>@string/s4_minutes_text</item>
+		<item>@string/s5_minutes_text</item>
+		<item>@string/s10_minutes_text</item>
+		<item>@string/s15_minutes_text</item>
+		<item>@string/s20_minutes_text</item>
+		<item>@string/s25_minutes_text</item>
+		<item>@string/s30_minutes_text</item>
+		<item>@string/s35_minutes_text</item>
+		<item>@string/s40_minutes_text</item>
+		<item>@string/s45_minutes_text</item>
+		<item>@string/s50_minutes_text</item>
+		<item>@string/s55_minutes_text</item>
+		<item>@string/s1_hour_text</item>
+		<item>@string/s2_hours_text</item>
+		<item>@string/s3_hours_text</item>
+		<item>@string/s4_hours_text</item>
+		<item>@string/s5_hours_text</item>
+		<item>@string/s6_hours_text</item>
+		<item>@string/s7_hours_text</item>
+		<item>@string/s8_hours_text</item>
+		<item>@string/s9_hours_text</item>
+		<item>@string/s10_hours_text</item>
+		<item>@string/s11_hours_text</item>
+		<item>@string/s12_hours_text</item>
+		<item>@string/s24_hours_text</item>
 	</string-array>
 	<string-array name="reschedule_time_options_values">
-		<item name="0">1</item>
-		<item name="1">2</item>
-		<item name="2">3</item>
-		<item name="3">4</item>
-		<item name="4">5</item>
-		<item name="5">10</item>
-		<item name="6">15</item>
-		<item name="7">20</item>
-		<item name="8">25</item>
-		<item name="9">30</item>
-		<item name="10">35</item>
-		<item name="11">40</item>
-		<item name="12">45</item>
-		<item name="13">50</item>
-		<item name="14">55</item>
-		<item name="15">60</item>
-		<item name="16">120</item>
-		<item name="17">180</item>
-		<item name="18">240</item>
-		<item name="19">300</item>
-		<item name="20">360</item>
-		<item name="21">420</item>
-		<item name="22">480</item>
-		<item name="23">540</item>
-		<item name="24">600</item>
-		<item name="25">660</item>
-		<item name="26">720</item>
-		<item name="27">1440</item>
+		<item>1</item>
+		<item>2</item>
+		<item>3</item>
+		<item>4</item>
+		<item>5</item>
+		<item>10</item>
+		<item>15</item>
+		<item>20</item>
+		<item>25</item>
+		<item>30</item>
+		<item>35</item>
+		<item>40</item>
+		<item>45</item>
+		<item>50</item>
+		<item>55</item>
+		<item>60</item>
+		<item>120</item>
+		<item>180</item>
+		<item>240</item>
+		<item>300</item>
+		<item>360</item>
+		<item>420</item>
+		<item>480</item>
+		<item>540</item>
+		<item>600</item>
+		<item>660</item>
+		<item>720</item>
+		<item>1440</item>
 	</string-array>
 
 	<!-- Reminder Arrays -->
     <string-array name="reminder_frequency_options">
-		<item name="0">1</item>
-		<item name="1">2</item>
-		<item name="2">3</item>
-		<item name="3">4</item>
-		<item name="4">5</item>
-		<item name="5">6</item>
-		<item name="6">7</item>
-		<item name="7">8</item>
-		<item name="8">9</item>
-		<item name="9">10</item>
-		<item name="10">15</item>
-		<item name="11">@string/keep_repeating_text</item>
+		<item>1</item>
+		<item>2</item>
+		<item>3</item>
+		<item>4</item>
+		<item>5</item>
+		<item>6</item>
+		<item>7</item>
+		<item>8</item>
+		<item>9</item>
+		<item>10</item>
+		<item>15</item>
+		<item>@string/keep_repeating_text</item>
 	</string-array>
 	<string-array name="reminder_frequency_options_values">
-		<item name="0">1</item>
-		<item name="1">2</item>
-		<item name="2">3</item>
-		<item name="3">4</item>
-		<item name="4">5</item>
-		<item name="5">6</item>
-		<item name="6">7</item>
-		<item name="7">8</item>
-		<item name="8">9</item>
-		<item name="9">10</item>
-		<item name="10">15</item>
-		<item name="11">-1</item>
+		<item>1</item>
+		<item>2</item>
+		<item>3</item>
+		<item>4</item>
+		<item>5</item>
+		<item>6</item>
+		<item>7</item>
+		<item>8</item>
+		<item>9</item>
+		<item>10</item>
+		<item>15</item>
+		<item>-1</item>
 	</string-array>
 	    	
 	<!-- Screen Timeout Arrays -->
     <string-array name="screen_timeout_options">
-		<item name="0">@string/s10_seconds_text</item>
-		<item name="1">@string/s15_seconds_text</item>
-		<item name="2">@string/s20_seconds_text</item>
-		<item name="3">@string/s25_seconds_text</item>
-		<item name="4">@string/s30_seconds_text</item>
-		<item name="5">@string/s35_seconds_text</item>
-		<item name="6">@string/s40_seconds_text</item>
-		<item name="7">@string/s45_seconds_text</item>
-		<item name="8">@string/s50_seconds_text</item>
-		<item name="9">@string/s55_seconds_text</item>
-		<item name="10">@string/s1_minute_text</item>
-		<item name="11">@string/s2_minutes_text</item>
-		<item name="12">@string/s3_minutes_text</item>
-		<item name="13">@string/s4_minutes_text</item>
-		<item name="14">@string/s5_minutes_text</item>
-		<item name="15">@string/s10_minutes_text</item>
-		<item name="16">@string/s15_minutes_text</item>
-		<item name="17">@string/s30_minutes_text</item>
+		<item>@string/s10_seconds_text</item>
+		<item>@string/s15_seconds_text</item>
+		<item>@string/s20_seconds_text</item>
+		<item>@string/s25_seconds_text</item>
+		<item>@string/s30_seconds_text</item>
+		<item>@string/s35_seconds_text</item>
+		<item>@string/s40_seconds_text</item>
+		<item>@string/s45_seconds_text</item>
+		<item>@string/s50_seconds_text</item>
+		<item>@string/s55_seconds_text</item>
+		<item>@string/s1_minute_text</item>
+		<item>@string/s2_minutes_text</item>
+		<item>@string/s3_minutes_text</item>
+		<item>@string/s4_minutes_text</item>
+		<item>@string/s5_minutes_text</item>
+		<item>@string/s10_minutes_text</item>
+		<item>@string/s15_minutes_text</item>
+		<item>@string/s30_minutes_text</item>
 	</string-array>
 	<string-array name="screen_timeout_options_values">
-		<item name="0">10</item>
-		<item name="1">15</item>
-		<item name="2">20</item>
-		<item name="3">25</item>
-		<item name="4">30</item>
-		<item name="5">35</item>
-		<item name="6">40</item>
-		<item name="7">45</item>
-		<item name="8">50</item>
-		<item name="9">55</item>
-		<item name="10">60</item>
-		<item name="11">120</item>
-		<item name="12">180</item>
-		<item name="13">240</item>
-		<item name="14">300</item>
-		<item name="15">600</item>
-		<item name="16">9000</item>
-		<item name="17">1800</item>
+		<item>10</item>
+		<item>15</item>
+		<item>20</item>
+		<item>25</item>
+		<item>30</item>
+		<item>35</item>
+		<item>40</item>
+		<item>45</item>
+		<item>50</item>
+		<item>55</item>
+		<item>60</item>
+		<item>120</item>
+		<item>180</item>
+		<item>240</item>
+		<item>300</item>
+		<item>600</item>
+		<item>9000</item>
+		<item>1800</item>
 	</string-array>
 
 	<string-array name="blocking_app_running_action_options">
-    	<item name="0">@string/reschedule_notification_text</item>
-		<item name="1">@string/ignore_notification_text</item>
-		<item name="2">@string/show_notification_text</item>
+    	<item>@string/reschedule_notification_text</item>
+		<item>@string/ignore_notification_text</item>
+		<item>@string/show_notification_text</item>
 	</string-array>
 	<string-array name="blocking_app_running_action_options_values">
-		<item name="0">0</item>
-		<item name="1">1</item>
-		<item name="2">2</item>
+		<item>0</item>
+		<item>1</item>
+		<item>2</item>
 	</string-array>
 	
     <string-array name="font_size_options">
-		<item name="0">@string/size_5_text</item>
-		<item name="1">@string/size_6_text</item>
-		<item name="2">@string/size_7_text</item>
-		<item name="3">@string/size_8_text</item>
-		<item name="4">@string/size_9_text</item>
-		<item name="5">@string/size_10_text</item>
-		<item name="6">@string/size_11_text</item>
-		<item name="7">@string/size_12_text</item>
-		<item name="8">@string/size_13_text</item>
-		<item name="9">@string/size_14_text</item>
-		<item name="10">@string/size_15_text</item>
-		<item name="11">@string/size_16_text</item>
-		<item name="12">@string/size_17_text</item>
-		<item name="13">@string/size_18_text</item>
-		<item name="14">@string/size_19_text</item>
-		<item name="15">@string/size_20_text</item>
-		<item name="16">@string/size_21_text</item>
-		<item name="17">@string/size_22_text</item>
-		<item name="18">@string/size_23_text</item>
-		<item name="19">@string/size_24_text</item>
-		<item name="20">@string/size_25_text</item>
-		<item name="21">@string/size_26_text</item>
-		<item name="22">@string/size_27_text</item>
-		<item name="23">@string/size_28_text</item>
-		<item name="24">@string/size_29_text</item>
-		<item name="25">@string/size_30_text</item>
+		<item>@string/size_5_text</item>
+		<item>@string/size_6_text</item>
+		<item>@string/size_7_text</item>
+		<item>@string/size_8_text</item>
+		<item>@string/size_9_text</item>
+		<item>@string/size_10_text</item>
+		<item>@string/size_11_text</item>
+		<item>@string/size_12_text</item>
+		<item>@string/size_13_text</item>
+		<item>@string/size_14_text</item>
+		<item>@string/size_15_text</item>
+		<item>@string/size_16_text</item>
+		<item>@string/size_17_text</item>
+		<item>@string/size_18_text</item>
+		<item>@string/size_19_text</item>
+		<item>@string/size_20_text</item>
+		<item>@string/size_21_text</item>
+		<item>@string/size_22_text</item>
+		<item>@string/size_23_text</item>
+		<item>@string/size_24_text</item>
+		<item>@string/size_25_text</item>
+		<item>@string/size_26_text</item>
+		<item>@string/size_27_text</item>
+		<item>@string/size_28_text</item>
+		<item>@string/size_29_text</item>
+		<item>@string/size_30_text</item>
 	</string-array>
 	<string-array name="font_size_options_values">
-		<item name="0">5</item>
-		<item name="1">6</item>
-		<item name="2">7</item>
-		<item name="3">8</item>
-		<item name="4">9</item>
-		<item name="5">10</item>
-		<item name="6">11</item>
-		<item name="7">12</item>
-		<item name="8">13</item>
-		<item name="9">14</item>
-		<item name="10">15</item>
-		<item name="11">16</item>
-		<item name="12">17</item>
-		<item name="13">18</item>
-		<item name="14">19</item>
-		<item name="15">20</item>
-		<item name="16">21</item>
-		<item name="17">22</item>
-		<item name="18">23</item>
-		<item name="19">24</item>
-		<item name="20">25</item>
-		<item name="21">26</item>
-		<item name="22">27</item>
-		<item name="23">28</item>
-		<item name="24">29</item>
-		<item name="25">30</item>
+		<item>5</item>
+		<item>6</item>
+		<item>7</item>
+		<item>8</item>
+		<item>9</item>
+		<item>10</item>
+		<item>11</item>
+		<item>12</item>
+		<item>13</item>
+		<item>14</item>
+		<item>15</item>
+		<item>16</item>
+		<item>17</item>
+		<item>18</item>
+		<item>19</item>
+		<item>20</item>
+		<item>21</item>
+		<item>22</item>
+		<item>23</item>
+		<item>24</item>
+		<item>25</item>
+		<item>26</item>
+		<item>27</item>
+		<item>28</item>
+		<item>29</item>
+		<item>30</item>
 	</string-array>
 
     <string-array name="max_lines_options">
-		<item name="0">5</item>
-		<item name="1">6</item>
-		<item name="2">7</item>
-		<item name="3">8</item>
-		<item name="4">9</item>
-		<item name="5">10</item>
-		<item name="6">11</item>
-		<item name="7">12</item>
-		<item name="8">13</item>
-		<item name="9">14</item>
-		<item name="10">15</item>
-		<item name="11">16</item>
-		<item name="12">17</item>
-		<item name="13">18</item>
-		<item name="14">19</item>
-		<item name="15">20</item>
-		<item name="16">21</item>
-		<item name="17">22</item>
-		<item name="18">23</item>
-		<item name="19">24</item>
-		<item name="20">25</item>
-		<item name="21">26</item>
-		<item name="22">27</item>
-		<item name="23">28</item>
-		<item name="24">29</item>
-		<item name="25">30</item>
+		<item>5</item>
+		<item>6</item>
+		<item>7</item>
+		<item>8</item>
+		<item>9</item>
+		<item>10</item>
+		<item>11</item>
+		<item>12</item>
+		<item>13</item>
+		<item>14</item>
+		<item>15</item>
+		<item>16</item>
+		<item>17</item>
+		<item>18</item>
+		<item>19</item>
+		<item>20</item>
+		<item>21</item>
+		<item>22</item>
+		<item>23</item>
+		<item>24</item>
+		<item>25</item>
+		<item>26</item>
+		<item>27</item>
+		<item>28</item>
+		<item>29</item>
+		<item>30</item>
 	</string-array>
 	<string-array name="max_lines_options_values">
-		<item name="0">5</item>
-		<item name="1">6</item>
-		<item name="2">7</item>
-		<item name="3">8</item>
-		<item name="4">9</item>
-		<item name="5">10</item>
-		<item name="6">11</item>
-		<item name="7">12</item>
-		<item name="8">13</item>
-		<item name="9">14</item>
-		<item name="10">15</item>
-		<item name="11">16</item>
-		<item name="12">17</item>
-		<item name="13">18</item>
-		<item name="14">19</item>
-		<item name="15">20</item>
-		<item name="16">21</item>
-		<item name="17">22</item>
-		<item name="18">23</item>
-		<item name="19">24</item>
-		<item name="20">25</item>
-		<item name="21">26</item>
-		<item name="22">27</item>
-		<item name="23">28</item>
-		<item name="24">29</item>
-		<item name="25">30</item>
+		<item>5</item>
+		<item>6</item>
+		<item>7</item>
+		<item>8</item>
+		<item>9</item>
+		<item>10</item>
+		<item>11</item>
+		<item>12</item>
+		<item>13</item>
+		<item>14</item>
+		<item>15</item>
+		<item>16</item>
+		<item>17</item>
+		<item>18</item>
+		<item>19</item>
+		<item>20</item>
+		<item>21</item>
+		<item>22</item>
+		<item>23</item>
+		<item>24</item>
+		<item>25</item>
+		<item>26</item>
+		<item>27</item>
+		<item>28</item>
+		<item>29</item>
+		<item>30</item>
 	</string-array>
 	
 	<!-- Contact Placeholder Image Arrays --> 
 	<string-array name="contact_placeholder_options">
-		<item name="0"></item>
-		<item name="1"></item>
-		<item name="2"></item>
-		<item name="3"></item>
-		<item name="4"></item>
-		<item name="5"></item>
-		<item name="6"></item>
-		<item name="7"></item>
-		<item name="8"></item>
-		<item name="9"></item>
-		<item name="10"></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
 	</string-array>
 	<string-array name="contact_placeholder_options_values">
-		<item name="0">1</item>
-		<item name="1">2</item>
-		<item name="2">3</item>
-		<item name="3">4</item>
-		<item name="4">5</item>
-		<item name="5">6</item>
-		<item name="6">7</item>
-		<item name="7">8</item>
-		<item name="8">9</item>
-		<item name="9">10</item>
-		<item name="10">11</item>
+		<item>1</item>
+		<item>2</item>
+		<item>3</item>
+		<item>4</item>
+		<item>5</item>
+		<item>6</item>
+		<item>7</item>
+		<item>8</item>
+		<item>9</item>
+		<item>10</item>
+		<item>11</item>
 	</string-array>
 	<array name="contact_placeholder_images">
-		<item name="0">@drawable/ic_contact_picture_1</item>
-		<item name="1">@drawable/ic_contact_picture_2</item>
-		<item name="2">@drawable/ic_contact_picture_3</item>
-		<item name="3">@drawable/ic_contact_picture_4</item>
-		<item name="4">@drawable/ic_contact_picture_5</item>
-		<item name="5">@drawable/ic_contact_picture_6</item>
-		<item name="6">@drawable/ic_contact_picture_7</item>
-		<item name="7">@drawable/ic_contact_picture_8</item>
-		<item name="8">@drawable/ic_contact_picture_9</item>
-		<item name="9">@drawable/ic_contact_picture_10</item>
-		<item name="10">@drawable/ic_contact_picture_11</item>
+		<item>@drawable/ic_contact_picture_1</item>
+		<item>@drawable/ic_contact_picture_2</item>
+		<item>@drawable/ic_contact_picture_3</item>
+		<item>@drawable/ic_contact_picture_4</item>
+		<item>@drawable/ic_contact_picture_5</item>
+		<item>@drawable/ic_contact_picture_6</item>
+		<item>@drawable/ic_contact_picture_7</item>
+		<item>@drawable/ic_contact_picture_8</item>
+		<item>@drawable/ic_contact_picture_9</item>
+		<item>@drawable/ic_contact_picture_10</item>
+		<item>@drawable/ic_contact_picture_11</item>
 	</array>
 
 	<!-- Contact Photo Background Arrays --> 
 	<string-array name="contact_photo_background_options">
-		<item name="0"></item>
-		<item name="1"></item>
-		<item name="2"></item>
+		<item></item>
+		<item></item>
+		<item></item>
 	</string-array>
 	<string-array name="contact_photo_background_options_values">
-		<item name="0">0</item>
-		<item name="1">1</item>
-		<item name="2">2</item>
+		<item>0</item>
+		<item>1</item>
+		<item>2</item>
 	</string-array>
 	<array name="contact_photo_background_images">
-		<item name="0">@drawable/contact_photo_background_white</item>
-		<item name="1">@drawable/contact_photo_background_froyo</item>
-		<item name="2">@drawable/contact_photo_background_gingerbread</item>
+		<item>@drawable/contact_photo_background_white</item>
+		<item>@drawable/contact_photo_background_froyo</item>
+		<item>@drawable/contact_photo_background_gingerbread</item>
 	</array>
 
 	<!-- Contact Image Size Arrays --> 
 	<string-array name="contact_photo_size_options">
-		<item name="0">40px</item>
-		<item name="1">45px</item>
-		<item name="2">50px</item>
-		<item name="3">55px</item>
-		<item name="4">60px</item>
-		<item name="5">65px</item>
-		<item name="6">70px</item>
-		<item name="7">75px</item>
-		<item name="8">80px</item>
-		<item name="9">85px</item>
-		<item name="10">90px</item>
-		<item name="11">95px</item>
-		<item name="12">100px</item>
-		<item name="13">105px</item>
-		<item name="14">110px</item>
-		<item name="15">115px</item>
-		<item name="15">120px</item>
-		<item name="16">125px</item>
-		<item name="17">130px</item>
-		<item name="18">135px</item>
-		<item name="19">140px</item>
+		<item>40px</item>
+		<item>45px</item>
+		<item>50px</item>
+		<item>55px</item>
+		<item>60px</item>
+		<item>65px</item>
+		<item>70px</item>
+		<item>75px</item>
+		<item>80px</item>
+		<item>85px</item>
+		<item>90px</item>
+		<item>95px</item>
+		<item>100px</item>
+		<item>105px</item>
+		<item>110px</item>
+		<item>115px</item>
+		<item>120px</item>
+		<item>125px</item>
+		<item>130px</item>
+		<item>135px</item>
+		<item>140px</item>
 	</string-array>
 	<string-array name="contact_photo_size_options_values">
-		<item name="0">40</item>
-		<item name="1">45</item>
-		<item name="2">50</item>
-		<item name="3">55</item>
-		<item name="4">60</item>
-		<item name="5">65</item>
-		<item name="6">70</item>
-		<item name="7">75</item>
-		<item name="8">80</item>
-		<item name="9">85</item>
-		<item name="10">90</item>
-		<item name="11">95</item>
-		<item name="12">100</item>
-		<item name="13">105</item>
-		<item name="14">110</item>
-		<item name="15">115</item>
-		<item name="15">120</item>
-		<item name="16">125</item>
-		<item name="17">130</item>
-		<item name="18">135</item>
-		<item name="19">140</item>
+		<item>40</item>
+		<item>45</item>
+		<item>50</item>
+		<item>55</item>
+		<item>60</item>
+		<item>65</item>
+		<item>70</item>
+		<item>75</item>
+		<item>80</item>
+		<item>85</item>
+		<item>90</item>
+		<item>95</item>
+		<item>100</item>
+		<item>105</item>
+		<item>110</item>
+		<item>115</item>
+		<item>120</item>
+		<item>125</item>
+		<item>130</item>
+		<item>135</item>
+		<item>140</item>
 	</string-array>
 	
 	<!-- App Theme Arrays --> 
 	<string-array name="theme_options">
-		<item name="0">Android Froyo</item>
-		<item name="1">Android Gingerbread</item>
-		<item name="2">Android Ice Cream</item>
-		<item name="3">iPhone</item>
-		<item name="4">Default Translucent</item>
-		<item name="5">Default Dark</item>
-		<item name="6">Default Solid</item>
-		<item name="7">HTC Sense UI</item>
-		<item name="8">Xperia</item>
+		<item>Android Froyo</item>
+		<item>Android Gingerbread</item>
+		<item>Android Ice Cream</item>
+		<item>iPhone</item>
+		<item>Default Translucent</item>
+		<item>Default Dark</item>
+		<item>Default Solid</item>
+		<item>HTC Sense UI</item>
+		<item>Xperia</item>
 	</string-array>
 	<string-array name="theme_values">
-		<item name="0">apps.droidnotify.theme.froyo</item>
-		<item name="1">apps.droidnotify.theme.gingerbread</item>
-		<item name="2">apps.droidnotify.theme.icecreamsandwich</item>
-		<item name="3">apps.droidnotify.theme.iphone</item>
-		<item name="4">apps.droidnotify.theme.default</item>
-		<item name="5">apps.droidnotify.theme.default.v2</item>
-		<item name="6">apps.droidnotify.theme.default.v3</item>
-		<item name="7">apps.droidnotify.theme.htc</item>
-		<item name="8">apps.droidnotify.theme.xperia</item>
+		<item>apps.droidnotify.theme.froyo</item>
+		<item>apps.droidnotify.theme.gingerbread</item>
+		<item>apps.droidnotify.theme.icecreamsandwich</item>
+		<item>apps.droidnotify.theme.iphone</item>
+		<item>apps.droidnotify.theme.default</item>
+		<item>apps.droidnotify.theme.default.v2</item>
+		<item>apps.droidnotify.theme.default.v3</item>
+		<item>apps.droidnotify.theme.htc</item>
+		<item>apps.droidnotify.theme.xperia</item>
 	</string-array>
 	<array name="theme_images">
-		<item name="0">@drawable/theme_android_froyo</item>
-		<item name="1">@drawable/theme_android_gingerbread</item>
-		<item name="2">@drawable/theme_android_icecream_holo_dark</item>
-		<item name="3">@drawable/theme_iphone</item>
-		<item name="4">@drawable/theme_dark_translucent</item>
-		<item name="5">@drawable/theme_dark_translucent</item>
-		<item name="6">@drawable/theme_dark_translucent</item>
-		<item name="7">@drawable/theme_htc</item>
-		<item name="8">@drawable/theme_xperia</item>
+		<item>@drawable/theme_android_froyo</item>
+		<item>@drawable/theme_android_gingerbread</item>
+		<item>@drawable/theme_android_icecream_holo_dark</item>
+		<item>@drawable/theme_iphone</item>
+		<item>@drawable/theme_dark_translucent</item>
+		<item>@drawable/theme_dark_translucent</item>
+		<item>@drawable/theme_dark_translucent</item>
+		<item>@drawable/theme_htc</item>
+		<item>@drawable/theme_xperia</item>
 	</array>
 	
 	<!-- Dim Screen Arrays --> 
 	<string-array name="dim_screen_background_amount_options">
-		<item name="0">0</item>
-		<item name="1">10</item>
-		<item name="2">20</item>
-		<item name="3">30</item>
-		<item name="4">40</item>
-		<item name="5">50</item>
-		<item name="6">60</item>
-		<item name="7">70</item>
-		<item name="8">80</item>
-		<item name="9">90</item>
-		<item name="10">100</item>
+		<item>0</item>
+		<item>10</item>
+		<item>20</item>
+		<item>30</item>
+		<item>40</item>
+		<item>50</item>
+		<item>60</item>
+		<item>70</item>
+		<item>80</item>
+		<item>90</item>
+		<item>100</item>
 	</string-array>
 	<string-array name="dim_screen_background_amount_options_values">
-		<item name="0">0</item>
-		<item name="1">10</item>
-		<item name="2">20</item>
-		<item name="3">30</item>
-		<item name="4">40</item>
-		<item name="5">50</item>
-		<item name="6">60</item>
-		<item name="7">70</item>
-		<item name="8">80</item>
-		<item name="9">90</item>
-		<item name="10">100</item>
+		<item>0</item>
+		<item>10</item>
+		<item>20</item>
+		<item>30</item>
+		<item>40</item>
+		<item>50</item>
+		<item>60</item>
+		<item>70</item>
+		<item>80</item>
+		<item>90</item>
+		<item>100</item>
 	</string-array>
 	
 	<!-- SMS Gateway Arrays --> 
 	<string-array name="quick_reply_sms_gateway_options">
-		<item name="0">@string/sms_gateway_sprint_text</item>
-		<item name="1">@string/sms_gateway_tmobile_text</item>
-		<item name="2">@string/sms_gateway_att_text</item>
-		<item name="3">@string/sms_gateway_att_b_text</item>
-		<item name="4">@string/sms_gateway_aql_text</item>
-		<item name="5">@string/sms_gateway_aql_b_text</item>
-		<item name="6">@string/sms_gateway_tmobile_b_text</item>
-		<item name="7">@string/sms_gateway_ics_text</item>
+		<item>@string/sms_gateway_sprint_text</item>
+		<item>@string/sms_gateway_tmobile_text</item>
+		<item>@string/sms_gateway_att_text</item>
+		<item>@string/sms_gateway_att_b_text</item>
+		<item>@string/sms_gateway_aql_text</item>
+		<item>@string/sms_gateway_aql_b_text</item>
+		<item>@string/sms_gateway_tmobile_b_text</item>
+		<item>@string/sms_gateway_ics_text</item>
 	</string-array>
 	<string-array name="quick_reply_sms_gateway_options_values">
-		<item name="0">1</item>
-		<item name="1">2</item>
-		<item name="2">3</item>
-		<item name="3">4</item>
-		<item name="4">5</item>
-		<item name="5">6</item>
-		<item name="6">7</item>
-		<item name="7">8</item>
+		<item>1</item>
+		<item>2</item>
+		<item>3</item>
+		<item>4</item>
+		<item>5</item>
+		<item>6</item>
+		<item>7</item>
+		<item>8</item>
 	</string-array>	
 	
 	<!-- Phone Number Format Arrays --> 
 	<string-array name="phone_number_format_options">
-		<item name="0">123-456-7890</item>
-		<item name="1">12-345-67890</item>
-		<item name="2">01-234-567890</item>
-		<item name="3">12-34-56-78-90</item>
-		<item name="4">1234567890</item>
-		<item name="5">(123) 456-7890</item>
-		<item name="6">123.456.7890</item>
-		<item name="7">12.345.67890</item>
-		<item name="8">01.234.567890</item>
-		<item name="9">12.34.56.78.90</item>
-		<item name="10">123 456 7890</item>
-		<item name="11">12 345 67890</item>
-		<item name="12">01 234 567890</item>
-		<item name="13">12 34 56 78 90</item>
+		<item>123-456-7890</item>
+		<item>12-345-67890</item>
+		<item>01-234-567890</item>
+		<item>12-34-56-78-90</item>
+		<item>1234567890</item>
+		<item>(123) 456-7890</item>
+		<item>123.456.7890</item>
+		<item>12.345.67890</item>
+		<item>01.234.567890</item>
+		<item>12.34.56.78.90</item>
+		<item>123 456 7890</item>
+		<item>12 345 67890</item>
+		<item>01 234 567890</item>
+		<item>12 34 56 78 90</item>
 	</string-array>
 	<string-array name="phone_number_format_options_values">
-		<item name="0">1</item>
-		<item name="1">2</item>
-		<item name="2">3</item>
-		<item name="3">4</item>
-		<item name="4">5</item>
-		<item name="5">6</item>
-		<item name="6">7</item>
-		<item name="7">8</item>
-		<item name="8">9</item>
-		<item name="9">10</item>
-		<item name="10">11</item>
-		<item name="11">12</item>
-		<item name="12">13</item>
-		<item name="13">14</item>
+		<item>1</item>
+		<item>2</item>
+		<item>3</item>
+		<item>4</item>
+		<item>5</item>
+		<item>6</item>
+		<item>7</item>
+		<item>8</item>
+		<item>9</item>
+		<item>10</item>
+		<item>11</item>
+		<item>12</item>
+		<item>13</item>
+		<item>14</item>
 	</string-array>	
 	
 	<!-- Time Format Arrays --> 
 	<string-array name="time_format_options">
-		<item name="0">@string/s12_hour_text</item>
-		<item name="1">@string/s24_hour_text</item>
+		<item>@string/s12_hour_text</item>
+		<item>@string/s24_hour_text</item>
 	</string-array>
 	<string-array name="time_format_options_values">
-		<item name="0">0</item>
-		<item name="1">1</item>
+		<item>0</item>
+		<item>1</item>
 	</string-array>	
 
 	<!-- Date Format Arrays --> 
 	<string-array name="date_format_options">
-		<item name="0">@string/date_format_1_text</item>
-		<item name="1">@string/date_format_2_text</item>
-		<item name="2">@string/date_format_3_text</item>
-		<item name="3">@string/date_format_4_text</item>
-		<item name="4">@string/date_format_5_text</item>
-		<item name="5">@string/date_format_6_text</item>
-		<item name="6">@string/date_format_7_text</item>
-		<item name="7">@string/date_format_8_text</item>
-		<item name="8">@string/date_format_9_text</item>
-		<item name="9">@string/date_format_10_text</item>
-		<item name="10">@string/date_format_11_text</item>
-		<item name="11">@string/date_format_12_text</item>
-		<item name="12">@string/date_format_13_text</item>
-		<item name="13">@string/date_format_14_text</item>
-		<item name="14">@string/date_format_15_text</item>
-		<item name="15">@string/date_format_16_text</item>
+		<item>@string/date_format_1_text</item>
+		<item>@string/date_format_2_text</item>
+		<item>@string/date_format_3_text</item>
+		<item>@string/date_format_4_text</item>
+		<item>@string/date_format_5_text</item>
+		<item>@string/date_format_6_text</item>
+		<item>@string/date_format_7_text</item>
+		<item>@string/date_format_8_text</item>
+		<item>@string/date_format_9_text</item>
+		<item>@string/date_format_10_text</item>
+		<item>@string/date_format_11_text</item>
+		<item>@string/date_format_12_text</item>
+		<item>@string/date_format_13_text</item>
+		<item>@string/date_format_14_text</item>
+		<item>@string/date_format_15_text</item>
+		<item>@string/date_format_16_text</item>
 	</string-array>
 	<string-array name="date_format_options_values">
-		<item name="0">0</item>
-		<item name="1">1</item>
-		<item name="2">2</item>
-		<item name="3">3</item>
-		<item name="4">4</item>
-		<item name="5">5</item>
-		<item name="6">6</item>
-		<item name="7">7</item>
-		<item name="8">8</item>
-		<item name="9">9</item>
-		<item name="10">10</item>
-		<item name="11">11</item>
-		<item name="12">12</item>
-		<item name="13">13</item>
-		<item name="14">14</item>
-		<item name="15">15</item>
+		<item>0</item>
+		<item>1</item>
+		<item>2</item>
+		<item>3</item>
+		<item>4</item>
+		<item>5</item>
+		<item>6</item>
+		<item>7</item>
+		<item>8</item>
+		<item>9</item>
+		<item>10</item>
+		<item>11</item>
+		<item>12</item>
+		<item>13</item>
+		<item>14</item>
+		<item>15</item>
 	</string-array>	
 	
 	<!-- SMS/MMS TimeStamp Adjustment Arrays --> 
 	<string-array name="timestamp_adjustment_options">
-		<item name="0">@string/minus12_hours_text</item>
-		<item name="1">@string/minus11_30_hours_text</item>
-		<item name="2">@string/minus11_hours_text</item>
-		<item name="3">@string/minus10_30_hours_text</item>
-		<item name="4">@string/minus10_hours_text</item>
-		<item name="5">@string/minus9_30_hours_text</item>
-		<item name="6">@string/minus9_hours_text</item>
-		<item name="7">@string/minus8_30_hours_text</item>
-		<item name="8">@string/minus8_hours_text</item>
-		<item name="9">@string/minus7_30_hours_text</item>
-		<item name="10">@string/minus7_hours_text</item>
-		<item name="11">@string/minus6_30_hours_text</item>
-		<item name="12">@string/minus6_hours_text</item>
-		<item name="13">@string/minus5_30_hours_text</item>
-		<item name="14">@string/minus5_hours_text</item>
-		<item name="15">@string/minus4_30_hours_text</item>
-		<item name="16">@string/minus4_hours_text</item>
-		<item name="17">@string/minus3_30_hours_text</item>
-		<item name="18">@string/minus3_hours_text</item>
-		<item name="19">@string/minus2_30_hours_text</item>
-		<item name="20">@string/minus2_hours_text</item>
-		<item name="21">@string/minus1_30_hours_text</item>
-		<item name="22">@string/minus1_hour_text</item>
-		<item name="23">@string/minus30_minutes_text</item>
-		<item name="24">@string/zero_hours_text</item>
-		<item name="25">@string/plus30_minutes_text</item>
-		<item name="26">@string/plus1_hour_text</item>
-		<item name="27">@string/plus1_30_hours_text</item>
-		<item name="28">@string/plus2_hours_text</item>
-		<item name="29">@string/plus2_30_hours_text</item>
-		<item name="30">@string/plus3_hours_text</item>
-		<item name="31">@string/plus3_30_hours_text</item>
-		<item name="32">@string/plus4_hours_text</item>
-		<item name="33">@string/plus4_30_hours_text</item>
-		<item name="34">@string/plus5_hours_text</item>
-		<item name="35">@string/plus5_30_hours_text</item>
-		<item name="36">@string/plus6_hours_text</item>
-		<item name="37">@string/plus6_30_hours_text</item>
-		<item name="38">@string/plus7_hours_text</item>
-		<item name="39">@string/plus7_30_hours_text</item>
-		<item name="40">@string/plus8_hours_text</item>
-		<item name="41">@string/plus8_30_hours_text</item>
-		<item name="42">@string/plus9_hours_text</item>
-		<item name="43">@string/plus9_30_hours_text</item>
-		<item name="44">@string/plus10_hours_text</item>
-		<item name="45">@string/plus10_30_hours_text</item>
-		<item name="46">@string/plus11_hours_text</item>
-		<item name="47">@string/plus11_30_hours_text</item>
-		<item name="48">@string/plus12_hours_text</item>
+		<item>@string/minus12_hours_text</item>
+		<item>@string/minus11_30_hours_text</item>
+		<item>@string/minus11_hours_text</item>
+		<item>@string/minus10_30_hours_text</item>
+		<item>@string/minus10_hours_text</item>
+		<item>@string/minus9_30_hours_text</item>
+		<item>@string/minus9_hours_text</item>
+		<item>@string/minus8_30_hours_text</item>
+		<item>@string/minus8_hours_text</item>
+		<item>@string/minus7_30_hours_text</item>
+		<item>@string/minus7_hours_text</item>
+		<item>@string/minus6_30_hours_text</item>
+		<item>@string/minus6_hours_text</item>
+		<item>@string/minus5_30_hours_text</item>
+		<item>@string/minus5_hours_text</item>
+		<item>@string/minus4_30_hours_text</item>
+		<item>@string/minus4_hours_text</item>
+		<item>@string/minus3_30_hours_text</item>
+		<item>@string/minus3_hours_text</item>
+		<item>@string/minus2_30_hours_text</item>
+		<item>@string/minus2_hours_text</item>
+		<item>@string/minus1_30_hours_text</item>
+		<item>@string/minus1_hour_text</item>
+		<item>@string/minus30_minutes_text</item>
+		<item>@string/zero_hours_text</item>
+		<item>@string/plus30_minutes_text</item>
+		<item>@string/plus1_hour_text</item>
+		<item>@string/plus1_30_hours_text</item>
+		<item>@string/plus2_hours_text</item>
+		<item>@string/plus2_30_hours_text</item>
+		<item>@string/plus3_hours_text</item>
+		<item>@string/plus3_30_hours_text</item>
+		<item>@string/plus4_hours_text</item>
+		<item>@string/plus4_30_hours_text</item>
+		<item>@string/plus5_hours_text</item>
+		<item>@string/plus5_30_hours_text</item>
+		<item>@string/plus6_hours_text</item>
+		<item>@string/plus6_30_hours_text</item>
+		<item>@string/plus7_hours_text</item>
+		<item>@string/plus7_30_hours_text</item>
+		<item>@string/plus8_hours_text</item>
+		<item>@string/plus8_30_hours_text</item>
+		<item>@string/plus9_hours_text</item>
+		<item>@string/plus9_30_hours_text</item>
+		<item>@string/plus10_hours_text</item>
+		<item>@string/plus10_30_hours_text</item>
+		<item>@string/plus11_hours_text</item>
+		<item>@string/plus11_30_hours_text</item>
+		<item>@string/plus12_hours_text</item>
 	</string-array>
 	<string-array name="timestamp_adjustment_options_values">
-		<item name="0">-12</item>
-		<item name="1">-11.5</item>
-		<item name="2">-11</item>
-		<item name="3">-10.5</item>
-		<item name="4">-10</item>
-		<item name="5">-9.5</item>
-		<item name="6">-9</item>
-		<item name="7">-8.5</item>
-		<item name="8">-8</item>
-		<item name="9">-7.5</item>
-		<item name="10">-7</item>
-		<item name="11">-6.5</item>
-		<item name="12">-6</item>
-		<item name="13">-5.5</item>
-		<item name="14">-5</item>
-		<item name="15">-4.5</item>
-		<item name="16">-4</item>
-		<item name="17">-3.5</item>
-		<item name="18">-3</item>
-		<item name="19">-2.5</item>
-		<item name="20">-2</item>
-		<item name="21">-1.5</item>
-		<item name="22">-1</item>
-		<item name="23">-0.5</item>
-		<item name="24">0</item>
-		<item name="25">0.5</item>
-		<item name="26">1</item>
-		<item name="27">1.5</item>
-		<item name="28">2</item>
-		<item name="29">2.5</item>
-		<item name="30">3</item>
-		<item name="31">3.5</item>
-		<item name="32">4</item>
-		<item name="33">4.5</item>
-		<item name="34">5</item>
-		<item name="35">5.5</item>
-		<item name="36">6</item>
-		<item name="37">6.5</item>
-		<item name="38">7</item>
-		<item name="39">7.5</item>
-		<item name="40">8</item>
-		<item name="41">8.5</item>
-		<item name="42">9</item>
-		<item name="43">9.5</item>
-		<item name="44">10</item>
-		<item name="45">10.5</item>
-		<item name="46">11</item>
-		<item name="47">11.5</item>
-		<item name="48">12</item>
+		<item>-12</item>
+		<item>-11.5</item>
+		<item>-11</item>
+		<item>-10.5</item>
+		<item>-10</item>
+		<item>-9.5</item>
+		<item>-9</item>
+		<item>-8.5</item>
+		<item>-8</item>
+		<item>-7.5</item>
+		<item>-7</item>
+		<item>-6.5</item>
+		<item>-6</item>
+		<item>-5.5</item>
+		<item>-5</item>
+		<item>-4.5</item>
+		<item>-4</item>
+		<item>-3.5</item>
+		<item>-3</item>
+		<item>-2.5</item>
+		<item>-2</item>
+		<item>-1.5</item>
+		<item>-1</item>
+		<item>-0.5</item>
+		<item>0</item>
+		<item>0.5</item>
+		<item>1</item>
+		<item>1.5</item>
+		<item>2</item>
+		<item>2.5</item>
+		<item>3</item>
+		<item>3.5</item>
+		<item>4</item>
+		<item>4.5</item>
+		<item>5</item>
+		<item>5.5</item>
+		<item>6</item>
+		<item>6.5</item>
+		<item>7</item>
+		<item>7.5</item>
+		<item>8</item>
+		<item>8.5</item>
+		<item>9</item>
+		<item>9.5</item>
+		<item>10</item>
+		<item>10.5</item>
+		<item>11</item>
+		<item>11.5</item>
+		<item>12</item>
 	</string-array>
 
 	<!-- Button Style Arrays --> 
 	<string-array name="button_display_style_options">
-		<item name="0">@string/button_style_icon_and_text_text</item>
-		<item name="1">@string/button_style_icon_only_text</item>
-		<item name="2">@string/button_style_text_only_text</item>
+		<item>@string/button_style_icon_and_text_text</item>
+		<item>@string/button_style_icon_only_text</item>
+		<item>@string/button_style_text_only_text</item>
 	</string-array>
 	<string-array name="button_display_style_options_values">
-		<item name="0">0</item>
-		<item name="1">1</item>
-		<item name="2">2</item>
+		<item>0</item>
+		<item>1</item>
+		<item>2</item>
 	</string-array>
 	    	
 	<!-- STATUS_BAR_NOTIFICATION_ARRAYS -->
 	
 	<!-- Vibrate Pattern Arrays --> 
 	<string-array name="preference_vibrate_pattern_options">
-		<item name="0">@string/short_vibrate_text</item>
-		<item name="1">@string/long_vibrate_text</item>
-		<item name="2">@string/multiple_short_text</item>
-    	<item name="3">@string/multiple_long_text</item>
-	    <item name="4">@string/custom_text</item>
+		<item>@string/short_vibrate_text</item>
+		<item>@string/long_vibrate_text</item>
+		<item>@string/multiple_short_text</item>
+    	<item>@string/multiple_long_text</item>
+	    <item>@string/custom_text</item>
 	</string-array>
 	
 	<string-array name="preference_vibrate_pattern_options_values_sms">
-	    <item name="0">0,1200</item>
-    	<item name="1">0,2500</item>
-	    <item name="2">0,300,100,300,100,300,100</item>
-	    <item name="3">0,800,200,800,200,800,200</item>
-	    <item name="4">sms_custom</item>
+	    <item>0,1200</item>
+    	<item>0,2500</item>
+	    <item>0,300,100,300,100,300,100</item>
+	    <item>0,800,200,800,200,800,200</item>
+	    <item>sms_custom</item>
 	</string-array>
 	
 	<string-array name="preference_vibrate_pattern_options_values_mms">
-	    <item name="0">0,1200</item>
-    	<item name="1">0,2500</item>
-	    <item name="2">0,300,100,300,100,300,100</item>
-	    <item name="3">0,800,200,800,200,800,200</item>
-	    <item name="4">mms_custom</item>
+	    <item>0,1200</item>
+    	<item>0,2500</item>
+	    <item>0,300,100,300,100,300,100</item>
+	    <item>0,800,200,800,200,800,200</item>
+	    <item>mms_custom</item>
 	</string-array>
 	
 	<string-array name="preference_vibrate_pattern_options_values_missed_call">
-	    <item name="0">0,1200</item>
-    	<item name="1">0,2500</item>
-	    <item name="2">0,300,100,300,100,300,100</item>
-	    <item name="3">0,800,200,800,200,800,200</item>
-	    <item name="4">phone_custom</item>
+	    <item>0,1200</item>
+    	<item>0,2500</item>
+	    <item>0,300,100,300,100,300,100</item>
+	    <item>0,800,200,800,200,800,200</item>
+	    <item>phone_custom</item>
 	</string-array>
 	
 	<string-array name="preference_vibrate_pattern_options_values_calendar">
-	    <item name="0">0,1200</item>
-    	<item name="1">0,2500</item>
-	    <item name="2">0,300,100,300,100,300,100</item>
-	    <item name="3">0,800,200,800,200,800,200</item>
-	    <item name="4">calendar_custom</item>
+	    <item>0,1200</item>
+    	<item>0,2500</item>
+	    <item>0,300,100,300,100,300,100</item>
+	    <item>0,800,200,800,200,800,200</item>
+	    <item>calendar_custom</item>
 	</string-array>
 	
 	<string-array name="preference_vibrate_pattern_options_values_k9">
-	    <item name="0">0,1200</item>
-    	<item name="1">0,2500</item>
-	    <item name="2">0,300,100,300,100,300,100</item>
-	    <item name="3">0,800,200,800,200,800,200</item>
-	    <item name="4">k9_custom</item>
+	    <item>0,1200</item>
+    	<item>0,2500</item>
+	    <item>0,300,100,300,100,300,100</item>
+	    <item>0,800,200,800,200,800,200</item>
+	    <item>k9_custom</item>
 	</string-array>
 	
 	<string-array name="preference_vibrate_pattern_options_values_twitter">
-	    <item name="0">0,1200</item>
-    	<item name="1">0,2500</item>
-	    <item name="2">0,300,100,300,100,300,100</item>
-	    <item name="3">0,800,200,800,200,800,200</item>
-	    <item name="4">twitter_custom</item>
+	    <item>0,1200</item>
+    	<item>0,2500</item>
+	    <item>0,300,100,300,100,300,100</item>
+	    <item>0,800,200,800,200,800,200</item>
+	    <item>twitter_custom</item>
 	</string-array>
 	
 	<string-array name="preference_vibrate_pattern_options_values_facebook">
-	    <item name="0">0,1200</item>
-    	<item name="1">0,2500</item>
-	    <item name="2">0,300,100,300,100,300,100</item>
-	    <item name="3">0,800,200,800,200,800,200</item>
-	    <item name="4">facebook_custom</item>
+	    <item>0,1200</item>
+    	<item>0,2500</item>
+	    <item>0,300,100,300,100,300,100</item>
+	    <item>0,800,200,800,200,800,200</item>
+	    <item>facebook_custom</item>
 	</string-array>
 
 	<!-- LED Pattern Arrays --> 
@@ -1335,492 +1302,492 @@
 	   	<item name="fast_text">@string/fast_text</item>
 	    <item name="normal_text">@string/normal_text</item>
 	    <item name="slow_text">@string/slow_text</item>
-	    <item name="3">@string/custom_text</item>
+	    <item>@string/custom_text</item>
 	</string-array>
 		
 	<string-array name="preference_led_pattern_options_values_sms">
-	    <item name="0">300,300</item>
-	    <item name="1">1000,1000</item>
-	    <item name="2">3000,3000</item>
-	    <item name="3">sms_custom</item>
+	    <item>300,300</item>
+	    <item>1000,1000</item>
+	    <item>3000,3000</item>
+	    <item>sms_custom</item>
 	</string-array>
 		
 	<string-array name="preference_led_pattern_options_values_mms">
-	    <item name="0">300,300</item>
-	    <item name="1">1000,1000</item>
-	    <item name="2">3000,3000</item>
-	    <item name="3">mms_custom</item>
+	    <item>300,300</item>
+	    <item>1000,1000</item>
+	    <item>3000,3000</item>
+	    <item>mms_custom</item>
 	</string-array>
 		
 	<string-array name="preference_led_pattern_options_values_missed_call">
-	    <item name="0">300,300</item>
-	    <item name="1">1000,1000</item>
-	    <item name="2">3000,3000</item>
-	    <item name="3">phone_custom</item>
+	    <item>300,300</item>
+	    <item>1000,1000</item>
+	    <item>3000,3000</item>
+	    <item>phone_custom</item>
 	</string-array>
 		
 	<string-array name="preference_led_pattern_options_values_calendar">
-	    <item name="0">300,300</item>
-	    <item name="1">1000,1000</item>
-	    <item name="2">3000,3000</item>
-	    <item name="3">calendar_custom</item>
+	    <item>300,300</item>
+	    <item>1000,1000</item>
+	    <item>3000,3000</item>
+	    <item>calendar_custom</item>
 	</string-array>
 	
 	<string-array name="preference_led_pattern_options_values_k9">
-	    <item name="0">300,300</item>
-	    <item name="1">1000,1000</item>
-	    <item name="2">3000,3000</item>
-	    <item name="3">k9_custom</item>
+	    <item>300,300</item>
+	    <item>1000,1000</item>
+	    <item>3000,3000</item>
+	    <item>k9_custom</item>
 	</string-array>
 	
 	<string-array name="preference_led_pattern_options_values_twitter">
-	    <item name="0">300,300</item>
-	    <item name="1">1000,1000</item>
-	    <item name="2">3000,3000</item>
-	    <item name="3">twitter_custom</item>
+	    <item>300,300</item>
+	    <item>1000,1000</item>
+	    <item>3000,3000</item>
+	    <item>twitter_custom</item>
 	</string-array>
 	
 	<string-array name="preference_led_pattern_options_values_facebook">
-	    <item name="0">300,300</item>
-	    <item name="1">1000,1000</item>
-	    <item name="2">3000,3000</item>
-	    <item name="3">facebook_custom</item>
+	    <item>300,300</item>
+	    <item>1000,1000</item>
+	    <item>3000,3000</item>
+	    <item>facebook_custom</item>
 	</string-array>
 
 	<!-- LED Color Arrays --> 
   	<string-array name="preference_led_color_options">
-	   	<item name="0">@string/red_text</item>
-	    <item name="1">@string/blue_text</item>
-	    <item name="2">@string/green_text</item>
-	    <item name="3">@string/cyan_text</item>
-	    <item name="4">@string/magenta_text</item>
-	    <item name="5">@string/yellow_text</item>
-	    <item name="6">@string/custom_text</item>
+	   	<item>@string/red_text</item>
+	    <item>@string/blue_text</item>
+	    <item>@string/green_text</item>
+	    <item>@string/cyan_text</item>
+	    <item>@string/magenta_text</item>
+	    <item>@string/yellow_text</item>
+	    <item>@string/custom_text</item>
   	</string-array>
   		
 	<string-array name="preference_led_color_options_values_sms">
-	    <item name="0">red</item>
-	    <item name="1">blue</item>
-	    <item name="2">green</item>
-	    <item name="3">cyan</item>
-	    <item name="4">magenta</item>
-	    <item name="5">yellow</item>
-	    <item name="6">sms_custom</item>
+	    <item>red</item>
+	    <item>blue</item>
+	    <item>green</item>
+	    <item>cyan</item>
+	    <item>magenta</item>
+	    <item>yellow</item>
+	    <item>sms_custom</item>
   	</string-array>
 
 	<string-array name="preference_led_color_options_values_mms">
-	    <item name="0">red</item>
-	    <item name="1">blue</item>
-	    <item name="2">green</item>
-	    <item name="3">cyan</item>
-	    <item name="4">magenta</item>
-	    <item name="5">yellow</item>
-	    <item name="6">mms_custom</item>
+	    <item>red</item>
+	    <item>blue</item>
+	    <item>green</item>
+	    <item>cyan</item>
+	    <item>magenta</item>
+	    <item>yellow</item>
+	    <item>mms_custom</item>
   	</string-array>
   	
   	<string-array name="preference_led_color_options_values_missed_call">
-	    <item name="0">red</item>
-	    <item name="1">blue</item>
-	    <item name="2">green</item>
-	    <item name="3">cyan</item>
-	    <item name="4">magenta</item>
-	    <item name="5">yellow</item>
-	    <item name="6">phone_custom</item>
+	    <item>red</item>
+	    <item>blue</item>
+	    <item>green</item>
+	    <item>cyan</item>
+	    <item>magenta</item>
+	    <item>yellow</item>
+	    <item>phone_custom</item>
   	</string-array>
   	
   	<string-array name="preference_led_color_options_values_calendar">
-	    <item name="0">red</item>
-	    <item name="1">blue</item>
-	    <item name="2">green</item>
-	    <item name="3">cyan</item>
-	    <item name="4">magenta</item>
-	    <item name="5">yellow</item>
-	    <item name="6">calendar_custom</item>
+	    <item>red</item>
+	    <item>blue</item>
+	    <item>green</item>
+	    <item>cyan</item>
+	    <item>magenta</item>
+	    <item>yellow</item>
+	    <item>calendar_custom</item>
   	</string-array>
  
   	<string-array name="preference_led_color_options_values_k9">
-	    <item name="0">red</item>
-	    <item name="1">blue</item>
-	    <item name="2">green</item>
-	    <item name="3">cyan</item>
-	    <item name="4">magenta</item>
-	    <item name="5">yellow</item>
-	    <item name="6">k9_custom</item>
+	    <item>red</item>
+	    <item>blue</item>
+	    <item>green</item>
+	    <item>cyan</item>
+	    <item>magenta</item>
+	    <item>yellow</item>
+	    <item>k9_custom</item>
   	</string-array>
  
   	<string-array name="preference_led_color_options_values_twitter">
-	    <item name="0">red</item>
-	    <item name="1">blue</item>
-	    <item name="2">green</item>
-	    <item name="3">cyan</item>
-	    <item name="4">magenta</item>
-	    <item name="5">yellow</item>
-	    <item name="6">twitter_custom</item>
+	    <item>red</item>
+	    <item>blue</item>
+	    <item>green</item>
+	    <item>cyan</item>
+	    <item>magenta</item>
+	    <item>yellow</item>
+	    <item>twitter_custom</item>
   	</string-array>
   	
   	<string-array name="preference_led_color_options_values_facebook">
-	    <item name="0">red</item>
-	    <item name="1">blue</item>
-	    <item name="2">green</item>
-	    <item name="3">cyan</item>
-	    <item name="4">magenta</item>
-	    <item name="5">yellow</item>
-	    <item name="6">facebook_custom</item>
+	    <item>red</item>
+	    <item>blue</item>
+	    <item>green</item>
+	    <item>cyan</item>
+	    <item>magenta</item>
+	    <item>yellow</item>
+	    <item>facebook_custom</item>
   	</string-array>
 
   	<!-- Notification Icon Arrays --> 
   	    		    	
   	<!-- SMS Notification Icon Image Arrays --> 
 	<string-array name="notification_icon_options_sms">
-		<item name="0"></item>
-		<item name="1"></item>
-		<item name="2"></item>
-		<item name="3"></item>
-		<item name="4"></item>
-		<item name="5"></item>
-		<item name="6"></item>
-		<item name="17"></item>
-		<item name="7"></item>
-		<item name="8"></item>
-		<item name="9"></item>
-		<item name="10"></item>
-		<item name="11"></item>
-		<item name="12"></item>
-		<item name="13"></item>
-		<item name="14"></item>
-		<item name="15"></item>
-		<item name="16"></item>
-		<item name="17"></item>
-		<item name="18"></item>
-		<item name="19"></item>
-		<item name="20"></item>
-		<item name="21"></item>
-		<item name="22"></item>
-		<item name="23"></item>
-		<item name="24"></item>
-		<item name="25"></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
 	</string-array>
 	<string-array name="notification_icon_values_sms">
-		<item name="0">status_bar_notification_sms_blue</item>
-		<item name="1">status_bar_notification_sms_green</item>
-		<item name="2">status_bar_notification_sms_grey</item>
-		<item name="3">status_bar_notification_sms_orange</item>
-		<item name="4">status_bar_notification_sms_pink</item>
-		<item name="5">status_bar_notification_sms_purple</item>
-		<item name="6">status_bar_notification_sms_red</item>
-		<item name="17">status_bar_notification_sms_white</item>
-		<item name="7">status_bar_notification_sms_postcard_aqua</item>
-		<item name="8">status_bar_notification_sms_postcard_blue</item>
-		<item name="9">status_bar_notification_sms_postcard_green</item>
-		<item name="10">status_bar_notification_sms_postcard_grey</item>
-		<item name="11">status_bar_notification_sms_postcard_orange</item>
-		<item name="12">status_bar_notification_sms_postcard_pink</item>
-		<item name="13">status_bar_notification_sms_postcard_purple</item>
-		<item name="14">status_bar_notification_sms_postcard_red</item>
-		<item name="15">status_bar_notification_sms_postcard_white</item>
-		<item name="16">status_bar_notification_sms_postcard_yellow</item>
-		<item name="17">status_bar_notification_sms_postcard_glass_aqua</item>
-		<item name="18">status_bar_notification_sms_postcard_glass_blue</item>
-		<item name="19">status_bar_notification_sms_postcard_glass_green</item>
-		<item name="20">status_bar_notification_sms_postcard_glass_orange</item>
-		<item name="21">status_bar_notification_sms_postcard_glass_pink</item>
-		<item name="22">status_bar_notification_sms_postcard_glass_purple</item>
-		<item name="23">status_bar_notification_sms_postcard_glass_red</item>
-		<item name="24">status_bar_notification_sms_postcard_glass_white</item>
-		<item name="25">status_bar_notification_sms_postcard_glass_yellow</item>
+		<item>status_bar_notification_sms_blue</item>
+		<item>status_bar_notification_sms_green</item>
+		<item>status_bar_notification_sms_grey</item>
+		<item>status_bar_notification_sms_orange</item>
+		<item>status_bar_notification_sms_pink</item>
+		<item>status_bar_notification_sms_purple</item>
+		<item>status_bar_notification_sms_red</item>
+		<item>status_bar_notification_sms_white</item>
+		<item>status_bar_notification_sms_postcard_aqua</item>
+		<item>status_bar_notification_sms_postcard_blue</item>
+		<item>status_bar_notification_sms_postcard_green</item>
+		<item>status_bar_notification_sms_postcard_grey</item>
+		<item>status_bar_notification_sms_postcard_orange</item>
+		<item>status_bar_notification_sms_postcard_pink</item>
+		<item>status_bar_notification_sms_postcard_purple</item>
+		<item>status_bar_notification_sms_postcard_red</item>
+		<item>status_bar_notification_sms_postcard_white</item>
+		<item>status_bar_notification_sms_postcard_yellow</item>
+		<item>status_bar_notification_sms_postcard_glass_aqua</item>
+		<item>status_bar_notification_sms_postcard_glass_blue</item>
+		<item>status_bar_notification_sms_postcard_glass_green</item>
+		<item>status_bar_notification_sms_postcard_glass_orange</item>
+		<item>status_bar_notification_sms_postcard_glass_pink</item>
+		<item>status_bar_notification_sms_postcard_glass_purple</item>
+		<item>status_bar_notification_sms_postcard_glass_red</item>
+		<item>status_bar_notification_sms_postcard_glass_white</item>
+		<item>status_bar_notification_sms_postcard_glass_yellow</item>
 	</string-array>
 	<array name="notification_icon_images_sms">
-		<item name="0">@drawable/status_bar_notification_sms_blue_preference</item>
-		<item name="1">@drawable/status_bar_notification_sms_green_preference</item>
-		<item name="2">@drawable/status_bar_notification_sms_grey_preference</item>
-		<item name="3">@drawable/status_bar_notification_sms_orange_preference</item>
-		<item name="4">@drawable/status_bar_notification_sms_pink_preference</item>
-		<item name="5">@drawable/status_bar_notification_sms_purple_preference</item>
-		<item name="6">@drawable/status_bar_notification_sms_red_preference</item>
-		<item name="17">@drawable/status_bar_notification_sms_white_preference</item>
-		<item name="7">@drawable/status_bar_notification_sms_postcard_aqua_preference</item>
-		<item name="8">@drawable/status_bar_notification_sms_postcard_blue_preference</item>
-		<item name="9">@drawable/status_bar_notification_sms_postcard_green_preference</item>
-		<item name="10">@drawable/status_bar_notification_sms_postcard_grey_preference</item>
-		<item name="11">@drawable/status_bar_notification_sms_postcard_orange_preference</item>
-		<item name="12">@drawable/status_bar_notification_sms_postcard_pink_preference</item>
-		<item name="13">@drawable/status_bar_notification_sms_postcard_purple_preference</item>
-		<item name="14">@drawable/status_bar_notification_sms_postcard_red_preference</item>
-		<item name="15">@drawable/status_bar_notification_sms_postcard_white_preference</item>
-		<item name="16">@drawable/status_bar_notification_sms_postcard_yellow_preference</item>
-		<item name="17">@drawable/status_bar_notification_sms_postcard_glass_aqua_preference</item>
-		<item name="18">@drawable/status_bar_notification_sms_postcard_glass_blue_preference</item>
-		<item name="19">@drawable/status_bar_notification_sms_postcard_glass_green_preference</item>
-		<item name="20">@drawable/status_bar_notification_sms_postcard_glass_orange_preference</item>
-		<item name="21">@drawable/status_bar_notification_sms_postcard_glass_pink_preference</item>
-		<item name="22">@drawable/status_bar_notification_sms_postcard_glass_purple_preference</item>
-		<item name="23">@drawable/status_bar_notification_sms_postcard_glass_red_preference</item>
-		<item name="24">@drawable/status_bar_notification_sms_postcard_glass_white_preference</item>
-		<item name="25">@drawable/status_bar_notification_sms_postcard_glass_yellow_preference</item>
+		<item>@drawable/status_bar_notification_sms_blue_preference</item>
+		<item>@drawable/status_bar_notification_sms_green_preference</item>
+		<item>@drawable/status_bar_notification_sms_grey_preference</item>
+		<item>@drawable/status_bar_notification_sms_orange_preference</item>
+		<item>@drawable/status_bar_notification_sms_pink_preference</item>
+		<item>@drawable/status_bar_notification_sms_purple_preference</item>
+		<item>@drawable/status_bar_notification_sms_red_preference</item>
+		<item>@drawable/status_bar_notification_sms_white_preference</item>
+		<item>@drawable/status_bar_notification_sms_postcard_aqua_preference</item>
+		<item>@drawable/status_bar_notification_sms_postcard_blue_preference</item>
+		<item>@drawable/status_bar_notification_sms_postcard_green_preference</item>
+		<item>@drawable/status_bar_notification_sms_postcard_grey_preference</item>
+		<item>@drawable/status_bar_notification_sms_postcard_orange_preference</item>
+		<item>@drawable/status_bar_notification_sms_postcard_pink_preference</item>
+		<item>@drawable/status_bar_notification_sms_postcard_purple_preference</item>
+		<item>@drawable/status_bar_notification_sms_postcard_red_preference</item>
+		<item>@drawable/status_bar_notification_sms_postcard_white_preference</item>
+		<item>@drawable/status_bar_notification_sms_postcard_yellow_preference</item>
+		<item>@drawable/status_bar_notification_sms_postcard_glass_aqua_preference</item>
+		<item>@drawable/status_bar_notification_sms_postcard_glass_blue_preference</item>
+		<item>@drawable/status_bar_notification_sms_postcard_glass_green_preference</item>
+		<item>@drawable/status_bar_notification_sms_postcard_glass_orange_preference</item>
+		<item>@drawable/status_bar_notification_sms_postcard_glass_pink_preference</item>
+		<item>@drawable/status_bar_notification_sms_postcard_glass_purple_preference</item>
+		<item>@drawable/status_bar_notification_sms_postcard_glass_red_preference</item>
+		<item>@drawable/status_bar_notification_sms_postcard_glass_white_preference</item>
+		<item>@drawable/status_bar_notification_sms_postcard_glass_yellow_preference</item>
 	</array>
 	
 	<!-- MMS Notification Icon Image Arrays --> 
 	<string-array name="notification_icon_options_mms">
-		<item name="0"></item>
-		<item name="1"></item>
-		<item name="2"></item>
-		<item name="3"></item>
-		<item name="4"></item>
-		<item name="5"></item>
-		<item name="6"></item>
-		<item name="17"></item>
-		<item name="7"></item>
-		<item name="8"></item>
-		<item name="9"></item>
-		<item name="10"></item>
-		<item name="11"></item>
-		<item name="12"></item>
-		<item name="13"></item>
-		<item name="14"></item>
-		<item name="15"></item>
-		<item name="16"></item>
-		<item name="17"></item>
-		<item name="18"></item>
-		<item name="19"></item>
-		<item name="20"></item>
-		<item name="21"></item>
-		<item name="22"></item>
-		<item name="23"></item>
-		<item name="24"></item>
-		<item name="25"></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
 	</string-array>
 	<string-array name="notification_icon_values_mms">
-		<item name="0">status_bar_notification_sms_blue</item>
-		<item name="1">status_bar_notification_sms_green</item>
-		<item name="2">status_bar_notification_sms_grey</item>
-		<item name="3">status_bar_notification_sms_orange</item>
-		<item name="4">status_bar_notification_sms_pink</item>
-		<item name="5">status_bar_notification_sms_purple</item>
-		<item name="6">status_bar_notification_sms_red</item>
-		<item name="17">status_bar_notification_sms_white</item>
-		<item name="7">status_bar_notification_sms_postcard_aqua</item>
-		<item name="8">status_bar_notification_sms_postcard_blue</item>
-		<item name="9">status_bar_notification_sms_postcard_green</item>
-		<item name="10">status_bar_notification_sms_postcard_grey</item>
-		<item name="11">status_bar_notification_sms_postcard_orange</item>
-		<item name="12">status_bar_notification_sms_postcard_pink</item>
-		<item name="13">status_bar_notification_sms_postcard_purple</item>
-		<item name="14">status_bar_notification_sms_postcard_red</item>
-		<item name="15">status_bar_notification_sms_postcard_white</item>
-		<item name="16">status_bar_notification_sms_postcard_yellow</item>
-		<item name="17">status_bar_notification_sms_postcard_glass_aqua</item>
-		<item name="18">status_bar_notification_sms_postcard_glass_blue</item>
-		<item name="19">status_bar_notification_sms_postcard_glass_green</item>
-		<item name="20">status_bar_notification_sms_postcard_glass_orange</item>
-		<item name="21">status_bar_notification_sms_postcard_glass_pink</item>
-		<item name="22">status_bar_notification_sms_postcard_glass_purple</item>
-		<item name="23">status_bar_notification_sms_postcard_glass_red</item>
-		<item name="24">status_bar_notification_sms_postcard_glass_white</item>
-		<item name="25">status_bar_notification_sms_postcard_glass_yellow</item>
+		<item>status_bar_notification_sms_blue</item>
+		<item>status_bar_notification_sms_green</item>
+		<item>status_bar_notification_sms_grey</item>
+		<item>status_bar_notification_sms_orange</item>
+		<item>status_bar_notification_sms_pink</item>
+		<item>status_bar_notification_sms_purple</item>
+		<item>status_bar_notification_sms_red</item>
+		<item>status_bar_notification_sms_white</item>
+		<item>status_bar_notification_sms_postcard_aqua</item>
+		<item>status_bar_notification_sms_postcard_blue</item>
+		<item>status_bar_notification_sms_postcard_green</item>
+		<item>status_bar_notification_sms_postcard_grey</item>
+		<item>status_bar_notification_sms_postcard_orange</item>
+		<item>status_bar_notification_sms_postcard_pink</item>
+		<item>status_bar_notification_sms_postcard_purple</item>
+		<item>status_bar_notification_sms_postcard_red</item>
+		<item>status_bar_notification_sms_postcard_white</item>
+		<item>status_bar_notification_sms_postcard_yellow</item>
+		<item>status_bar_notification_sms_postcard_glass_aqua</item>
+		<item>status_bar_notification_sms_postcard_glass_blue</item>
+		<item>status_bar_notification_sms_postcard_glass_green</item>
+		<item>status_bar_notification_sms_postcard_glass_orange</item>
+		<item>status_bar_notification_sms_postcard_glass_pink</item>
+		<item>status_bar_notification_sms_postcard_glass_purple</item>
+		<item>status_bar_notification_sms_postcard_glass_red</item>
+		<item>status_bar_notification_sms_postcard_glass_white</item>
+		<item>status_bar_notification_sms_postcard_glass_yellow</item>
 	</string-array>
 	<array name="notification_icon_images_mms">
-		<item name="0">@drawable/status_bar_notification_sms_blue_preference</item>
-		<item name="1">@drawable/status_bar_notification_sms_green_preference</item>
-		<item name="2">@drawable/status_bar_notification_sms_grey_preference</item>
-		<item name="3">@drawable/status_bar_notification_sms_orange_preference</item>
-		<item name="4">@drawable/status_bar_notification_sms_pink_preference</item>
-		<item name="5">@drawable/status_bar_notification_sms_purple_preference</item>
-		<item name="6">@drawable/status_bar_notification_sms_red_preference</item>
-		<item name="17">@drawable/status_bar_notification_sms_white_preference</item>
-		<item name="7">@drawable/status_bar_notification_sms_postcard_aqua_preference</item>
-		<item name="8">@drawable/status_bar_notification_sms_postcard_blue_preference</item>
-		<item name="9">@drawable/status_bar_notification_sms_postcard_green_preference</item>
-		<item name="10">@drawable/status_bar_notification_sms_postcard_grey_preference</item>
-		<item name="11">@drawable/status_bar_notification_sms_postcard_orange_preference</item>
-		<item name="12">@drawable/status_bar_notification_sms_postcard_pink_preference</item>
-		<item name="13">@drawable/status_bar_notification_sms_postcard_purple_preference</item>
-		<item name="14">@drawable/status_bar_notification_sms_postcard_red_preference</item>
-		<item name="15">@drawable/status_bar_notification_sms_postcard_white_preference</item>
-		<item name="16">@drawable/status_bar_notification_sms_postcard_yellow_preference</item>
-		<item name="17">@drawable/status_bar_notification_sms_postcard_glass_aqua_preference</item>
-		<item name="18">@drawable/status_bar_notification_sms_postcard_glass_blue_preference</item>
-		<item name="19">@drawable/status_bar_notification_sms_postcard_glass_green_preference</item>
-		<item name="20">@drawable/status_bar_notification_sms_postcard_glass_orange_preference</item>
-		<item name="21">@drawable/status_bar_notification_sms_postcard_glass_pink_preference</item>
-		<item name="22">@drawable/status_bar_notification_sms_postcard_glass_purple_preference</item>
-		<item name="23">@drawable/status_bar_notification_sms_postcard_glass_red_preference</item>
-		<item name="24">@drawable/status_bar_notification_sms_postcard_glass_white_preference</item>
-		<item name="25">@drawable/status_bar_notification_sms_postcard_glass_yellow_preference</item>
+		<item>@drawable/status_bar_notification_sms_blue_preference</item>
+		<item>@drawable/status_bar_notification_sms_green_preference</item>
+		<item>@drawable/status_bar_notification_sms_grey_preference</item>
+		<item>@drawable/status_bar_notification_sms_orange_preference</item>
+		<item>@drawable/status_bar_notification_sms_pink_preference</item>
+		<item>@drawable/status_bar_notification_sms_purple_preference</item>
+		<item>@drawable/status_bar_notification_sms_red_preference</item>
+		<item>@drawable/status_bar_notification_sms_white_preference</item>
+		<item>@drawable/status_bar_notification_sms_postcard_aqua_preference</item>
+		<item>@drawable/status_bar_notification_sms_postcard_blue_preference</item>
+		<item>@drawable/status_bar_notification_sms_postcard_green_preference</item>
+		<item>@drawable/status_bar_notification_sms_postcard_grey_preference</item>
+		<item>@drawable/status_bar_notification_sms_postcard_orange_preference</item>
+		<item>@drawable/status_bar_notification_sms_postcard_pink_preference</item>
+		<item>@drawable/status_bar_notification_sms_postcard_purple_preference</item>
+		<item>@drawable/status_bar_notification_sms_postcard_red_preference</item>
+		<item>@drawable/status_bar_notification_sms_postcard_white_preference</item>
+		<item>@drawable/status_bar_notification_sms_postcard_yellow_preference</item>
+		<item>@drawable/status_bar_notification_sms_postcard_glass_aqua_preference</item>
+		<item>@drawable/status_bar_notification_sms_postcard_glass_blue_preference</item>
+		<item>@drawable/status_bar_notification_sms_postcard_glass_green_preference</item>
+		<item>@drawable/status_bar_notification_sms_postcard_glass_orange_preference</item>
+		<item>@drawable/status_bar_notification_sms_postcard_glass_pink_preference</item>
+		<item>@drawable/status_bar_notification_sms_postcard_glass_purple_preference</item>
+		<item>@drawable/status_bar_notification_sms_postcard_glass_red_preference</item>
+		<item>@drawable/status_bar_notification_sms_postcard_glass_white_preference</item>
+		<item>@drawable/status_bar_notification_sms_postcard_glass_yellow_preference</item>
 	</array>
 	
 	<!-- Phone Notification Icon Image Arrays --> 
 	<string-array name="notification_icon_options_phone">
-		<item name="0"></item>
-		<item name="1"></item>
-		<item name="2"></item>
-		<item name="3"></item>
-		<item name="4"></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
 	</string-array>
 	<string-array name="notification_icon_values_phone">
-		<item name="0">status_bar_notification_missed_call_black</item>
-		<item name="1">status_bar_notification_missed_call_grey</item>
-		<item name="2">status_bar_notification_missed_call_red</item>
-		<item name="3">status_bar_notification_missed_call_white</item>
-		<item name="4">status_bar_notification_missed_call_glass_red</item>
+		<item>status_bar_notification_missed_call_black</item>
+		<item>status_bar_notification_missed_call_grey</item>
+		<item>status_bar_notification_missed_call_red</item>
+		<item>status_bar_notification_missed_call_white</item>
+		<item>status_bar_notification_missed_call_glass_red</item>
 	</string-array>
 	<array name="notification_icon_images_phone">
-		<item name="0">@drawable/status_bar_notification_missed_call_black_preference</item>
-		<item name="1">@drawable/status_bar_notification_missed_call_grey_preference</item>
-		<item name="2">@drawable/status_bar_notification_missed_call_red_preference</item>
-		<item name="3">@drawable/status_bar_notification_missed_call_white_preference</item>
-		<item name="4">@drawable/status_bar_notification_missed_call_glass_red_preference</item>
+		<item>@drawable/status_bar_notification_missed_call_black_preference</item>
+		<item>@drawable/status_bar_notification_missed_call_grey_preference</item>
+		<item>@drawable/status_bar_notification_missed_call_red_preference</item>
+		<item>@drawable/status_bar_notification_missed_call_white_preference</item>
+		<item>@drawable/status_bar_notification_missed_call_glass_red_preference</item>
 	</array>
 	
 	<!-- Calendar Notification Icon Image Arrays --> 
 	<string-array name="notification_icon_options_calendar">
-		<item name="0"></item>
-		<item name="1"></item>
-		<item name="2"></item>
-		<item name="3"></item>
-		<item name="4"></item>
-		<item name="5"></item>
-		<item name="6"></item>
-		<item name="7"></item>
-		<item name="8"></item>
-		<item name="9"></item>
-		<item name="10"></item>
-		<item name="11"></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
 	</string-array>
 	<string-array name="notification_icon_values_calendar">
-		<item name="0">status_bar_notification_calendar_black</item>
-		<item name="1">status_bar_notification_calendar_blue</item>
-		<item name="2">status_bar_notification_calendar_green</item>
-		<item name="3">status_bar_notification_calendar_grey</item>
-		<item name="4">status_bar_notification_calendar_orange</item>
-		<item name="5">status_bar_notification_calendar_red</item>
-		<item name="6">status_bar_notification_calendar_glass_blue</item>
-		<item name="7">status_bar_notification_calendar_glass_green</item>
-		<item name="8">status_bar_notification_calendar_glass_grey</item>
-		<item name="9">status_bar_notification_calendar_glass_orange</item>
-		<item name="10">status_bar_notification_calendar_glass_red</item>
-		<item name="11">status_bar_notification_calendar_glass_yellow</item>
+		<item>status_bar_notification_calendar_black</item>
+		<item>status_bar_notification_calendar_blue</item>
+		<item>status_bar_notification_calendar_green</item>
+		<item>status_bar_notification_calendar_grey</item>
+		<item>status_bar_notification_calendar_orange</item>
+		<item>status_bar_notification_calendar_red</item>
+		<item>status_bar_notification_calendar_glass_blue</item>
+		<item>status_bar_notification_calendar_glass_green</item>
+		<item>status_bar_notification_calendar_glass_grey</item>
+		<item>status_bar_notification_calendar_glass_orange</item>
+		<item>status_bar_notification_calendar_glass_red</item>
+		<item>status_bar_notification_calendar_glass_yellow</item>
 	</string-array>
 	<array name="notification_icon_images_calendar">
-		<item name="0">@drawable/status_bar_notification_calendar_black_preference</item>
-		<item name="1">@drawable/status_bar_notification_calendar_blue_preference</item>
-		<item name="2">@drawable/status_bar_notification_calendar_green_preference</item>
-		<item name="3">@drawable/status_bar_notification_calendar_grey_preference</item>
-		<item name="4">@drawable/status_bar_notification_calendar_orange_preference</item>
-		<item name="5">@drawable/status_bar_notification_calendar_red_preference</item>
-		<item name="6">@drawable/status_bar_notification_calendar_glass_blue_preference</item>
-		<item name="7">@drawable/status_bar_notification_calendar_glass_green_preference</item>
-		<item name="8">@drawable/status_bar_notification_calendar_glass_grey_preference</item>
-		<item name="9">@drawable/status_bar_notification_calendar_glass_orange_preference</item>
-		<item name="10">@drawable/status_bar_notification_calendar_glass_red_preference</item>
-		<item name="11">@drawable/status_bar_notification_calendar_glass_yellow_preference</item>
+		<item>@drawable/status_bar_notification_calendar_black_preference</item>
+		<item>@drawable/status_bar_notification_calendar_blue_preference</item>
+		<item>@drawable/status_bar_notification_calendar_green_preference</item>
+		<item>@drawable/status_bar_notification_calendar_grey_preference</item>
+		<item>@drawable/status_bar_notification_calendar_orange_preference</item>
+		<item>@drawable/status_bar_notification_calendar_red_preference</item>
+		<item>@drawable/status_bar_notification_calendar_glass_blue_preference</item>
+		<item>@drawable/status_bar_notification_calendar_glass_green_preference</item>
+		<item>@drawable/status_bar_notification_calendar_glass_grey_preference</item>
+		<item>@drawable/status_bar_notification_calendar_glass_orange_preference</item>
+		<item>@drawable/status_bar_notification_calendar_glass_red_preference</item>
+		<item>@drawable/status_bar_notification_calendar_glass_yellow_preference</item>
 	</array>
 
 	<!-- Email Notification Icon Image Arrays --> 
 	<string-array name="notification_icon_options_email">
-		<item name="0"></item>
-		<item name="1"></item>
-		<item name="2"></item>
-		<item name="3"></item>
-		<item name="4"></item>
-		<item name="5"></item>
-		<item name="6"></item>
-		<item name="7"></item>
-		<item name="8"></item>
-		<item name="9"></item>
-		<item name="10"></item>
-		<item name="11"></item>
-		<item name="12"></item>
-		<item name="13"></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
 	</string-array>
 	<string-array name="notification_icon_values_email">
-		<item name="0">status_bar_notification_email_black</item>
-		<item name="1">status_bar_notification_email_blue</item>
-		<item name="2">status_bar_notification_email_green</item>
-		<item name="3">status_bar_notification_email_grey</item>
-		<item name="4">status_bar_notification_email_orange</item>
-		<item name="5">status_bar_notification_email_red</item>
-		<item name="6">status_bar_notification_email_white</item>
-		<item name="7">status_bar_notification_email_glass_black</item>
-		<item name="8">status_bar_notification_email_glass_blue</item>
-		<item name="9">status_bar_notification_email_glass_green</item>
-		<item name="10">status_bar_notification_email_glass_orange</item>
-		<item name="11">status_bar_notification_email_glass_red</item>
-		<item name="12">status_bar_notification_email_glass_white</item>
-		<item name="13">status_bar_notification_email_glass_yellow</item>
+		<item>status_bar_notification_email_black</item>
+		<item>status_bar_notification_email_blue</item>
+		<item>status_bar_notification_email_green</item>
+		<item>status_bar_notification_email_grey</item>
+		<item>status_bar_notification_email_orange</item>
+		<item>status_bar_notification_email_red</item>
+		<item>status_bar_notification_email_white</item>
+		<item>status_bar_notification_email_glass_black</item>
+		<item>status_bar_notification_email_glass_blue</item>
+		<item>status_bar_notification_email_glass_green</item>
+		<item>status_bar_notification_email_glass_orange</item>
+		<item>status_bar_notification_email_glass_red</item>
+		<item>status_bar_notification_email_glass_white</item>
+		<item>status_bar_notification_email_glass_yellow</item>
 	</string-array>
 	<array name="notification_icon_images_email">
-		<item name="0">@drawable/status_bar_notification_email_black_preference</item>
-		<item name="1">@drawable/status_bar_notification_email_blue_preference</item>
-		<item name="2">@drawable/status_bar_notification_email_green_preference</item>
-		<item name="3">@drawable/status_bar_notification_email_grey_preference</item>
-		<item name="4">@drawable/status_bar_notification_email_orange_preference</item>
-		<item name="5">@drawable/status_bar_notification_email_red_preference</item>
-		<item name="6">@drawable/status_bar_notification_email_white_preference</item>
-		<item name="7">@drawable/status_bar_notification_email_glass_black_preference</item>
-		<item name="8">@drawable/status_bar_notification_email_glass_blue_preference</item>
-		<item name="9">@drawable/status_bar_notification_email_glass_green_preference</item>
-		<item name="10">@drawable/status_bar_notification_email_glass_orange_preference</item>
-		<item name="11">@drawable/status_bar_notification_email_glass_red_preference</item>
-		<item name="12">@drawable/status_bar_notification_email_glass_white_preference</item>
-		<item name="13">@drawable/status_bar_notification_email_glass_yellow_preference</item>
+		<item>@drawable/status_bar_notification_email_black_preference</item>
+		<item>@drawable/status_bar_notification_email_blue_preference</item>
+		<item>@drawable/status_bar_notification_email_green_preference</item>
+		<item>@drawable/status_bar_notification_email_grey_preference</item>
+		<item>@drawable/status_bar_notification_email_orange_preference</item>
+		<item>@drawable/status_bar_notification_email_red_preference</item>
+		<item>@drawable/status_bar_notification_email_white_preference</item>
+		<item>@drawable/status_bar_notification_email_glass_black_preference</item>
+		<item>@drawable/status_bar_notification_email_glass_blue_preference</item>
+		<item>@drawable/status_bar_notification_email_glass_green_preference</item>
+		<item>@drawable/status_bar_notification_email_glass_orange_preference</item>
+		<item>@drawable/status_bar_notification_email_glass_red_preference</item>
+		<item>@drawable/status_bar_notification_email_glass_white_preference</item>
+		<item>@drawable/status_bar_notification_email_glass_yellow_preference</item>
 	</array>
 
 	<!-- Twitter Notification Icon Image Arrays --> 
 	<string-array name="notification_icon_options_twitter">
-		<item name="0"></item>
-		<item name="1"></item>
-		<item name="2"></item>
-		<item name="3"></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
 	</string-array>
 	<string-array name="notification_icon_values_twitter">
-		<item name="0">status_bar_notification_twitter_bird_blue</item>
-		<item name="1">status_bar_notification_twitter_blue</item>
-		<item name="2">status_bar_notification_twitter_grey</item>
-		<item name="3">status_bar_notification_twitter_t_blue</item>
+		<item>status_bar_notification_twitter_bird_blue</item>
+		<item>status_bar_notification_twitter_blue</item>
+		<item>status_bar_notification_twitter_grey</item>
+		<item>status_bar_notification_twitter_t_blue</item>
 	</string-array>
 	<array name="notification_icon_images_twitter">
-		<item name="0">@drawable/status_bar_notification_twitter_bird_blue_preference</item>
-		<item name="1">@drawable/status_bar_notification_twitter_blue_preference</item>
-		<item name="2">@drawable/status_bar_notification_twitter_grey_preference</item>
-		<item name="3">@drawable/status_bar_notification_twitter_t_blue_preference</item>
+		<item>@drawable/status_bar_notification_twitter_bird_blue_preference</item>
+		<item>@drawable/status_bar_notification_twitter_blue_preference</item>
+		<item>@drawable/status_bar_notification_twitter_grey_preference</item>
+		<item>@drawable/status_bar_notification_twitter_t_blue_preference</item>
 	</array>
 
 	<!-- Facebook Notification Icon Image Arrays --> 
 	<string-array name="notification_icon_options_facebook">
-		<item name="0"></item>
-		<item name="1"></item>
+		<item></item>
+		<item></item>
 	</string-array>
 	<string-array name="notification_icon_values_facebook">
-		<item name="0">status_bar_notification_facebook_grey</item>
-		<item name="1">status_bar_notification_facebook_blue</item>
+		<item>status_bar_notification_facebook_grey</item>
+		<item>status_bar_notification_facebook_blue</item>
 	</string-array>
 	<array name="notification_icon_images_facebook">
-		<item name="0">@drawable/status_bar_notification_facebook_grey_preference</item>
-		<item name="1">@drawable/status_bar_notification_facebook_blue_preference</item>
+		<item>@drawable/status_bar_notification_facebook_grey_preference</item>
+		<item>@drawable/status_bar_notification_facebook_blue_preference</item>
 	</array>
 	    	    	    	
 	<!-- Notification Vibrate Arrays --> 
 	<string-array name="vibrate_setting_options">
-		<item name="0">@string/always_text</item>
-		<item name="1">@string/never_text</item>
-		<item name="2">@string/only_when_in_vibrate_mode_text</item>
+		<item>@string/always_text</item>
+		<item>@string/never_text</item>
+		<item>@string/only_when_in_vibrate_mode_text</item>
 	</string-array>
 	<string-array name="vibrate_setting_options_values">
-		<item name="0">0</item>
-		<item name="1">1</item>
-		<item name="2">2</item>
+		<item>0</item>
+		<item>1</item>
+		<item>2</item>
 	</string-array>	
 
 	<!-- Quiet Time Arrays --> 
 	<string-array name="quiet_time_of_week_options">
-		<item name="0">@string/everyday_text</item>
-		<item name="1">@string/only_on_weekends_text</item>
-		<item name="2">@string/only_on_weekdays_text</item>
+		<item>@string/everyday_text</item>
+		<item>@string/only_on_weekends_text</item>
+		<item>@string/only_on_weekdays_text</item>
 	</string-array>
 	<string-array name="quiet_time_of_week_options_values">
-		<item name="0">0</item>
-		<item name="1">1</item>
-		<item name="2">2</item>
+		<item>0</item>
+		<item>1</item>
+		<item>2</item>
 	</string-array>	
 	
 	<!-- Twitter Client Arrays
@@ -1839,36 +1806,36 @@
 		//"com.twidroid" //Ubersocial aka Twidroyd
 	 -->
 	<string-array name="twitter_client_options">
-		<item name="0">@string/hootsuite</item>
-		<item name="1">@string/plume</item>
-		<item name="2">@string/plume_premium</item>
-		<item name="3">@string/seesmic</item>
-		<item name="4">@string/tweetdeck</item>
-		<item name="5">@string/tweetcaster</item>
-		<item name="6">@string/tweetcaster_pink</item>
-		<item name="7">@string/tweetcaster_pro</item>
-		<item name="8">@string/tweetsride</item>
-		<item name="9">@string/twicca</item>
-		<item name="10">@string/twidroyd_legacy</item>
-		<item name="11">@string/twitter</item>
-		<item name="12">@string/twitter_web_mobile</item>
-		<item name="13">@string/ubersocial</item>
+		<item>@string/hootsuite</item>
+		<item>@string/plume</item>
+		<item>@string/plume_premium</item>
+		<item>@string/seesmic</item>
+		<item>@string/tweetdeck</item>
+		<item>@string/tweetcaster</item>
+		<item>@string/tweetcaster_pink</item>
+		<item>@string/tweetcaster_pro</item>
+		<item>@string/tweetsride</item>
+		<item>@string/twicca</item>
+		<item>@string/twidroyd_legacy</item>
+		<item>@string/twitter</item>
+		<item>@string/twitter_web_mobile</item>
+		<item>@string/ubersocial</item>
 	</string-array>
 	<string-array name="twitter_client_options_values">
-		<item name="0">com.hootsuite.droid.full</item>
-		<item name="1">com.levelup.touiteur</item>
-		<item name="2">com.levelup.touiteurpremium</item>
-		<item name="3">com.seesmic</item>
-		<item name="4">com.thedeck.android.app</item>
-		<item name="5">com.handmark.tweetcaster</item>
-		<item name="6">com.handmark.tweetcaster.pink.premium</item>
-		<item name="7">com.handmark.tweetcaster.premium</item>
-		<item name="8">to.tanimo.android.twitterride</item>
-		<item name="9">jp.r246.twicca</item>
-		<item name="10">com.twidroydlegacy</item>
-		<item name="11">com.twitter.android</item>
-		<item name="12">http://mobile.twitter.com</item>
-		<item name="13">com.twidroid</item>
+		<item>com.hootsuite.droid.full</item>
+		<item>com.levelup.touiteur</item>
+		<item>com.levelup.touiteurpremium</item>
+		<item>com.seesmic</item>
+		<item>com.thedeck.android.app</item>
+		<item>com.handmark.tweetcaster</item>
+		<item>com.handmark.tweetcaster.pink.premium</item>
+		<item>com.handmark.tweetcaster.premium</item>
+		<item>to.tanimo.android.twitterride</item>
+		<item>jp.r246.twicca</item>
+		<item>com.twidroydlegacy</item>
+		<item>com.twitter.android</item>
+		<item>http://mobile.twitter.com</item>
+		<item>com.twidroid</item>
 	</string-array>
 	 
 	<!-- FACEBOOK Client Arrays
@@ -1880,22 +1847,22 @@
 		//"com.thedeck.android.app" //TweetDeck
 	 -->
 	<string-array name="facebook_client_options">
-		<item name="0">@string/facebook</item>
-		<item name="1">@string/facebook_web_mobile</item>
-		<item name="2">@string/fbm_for_facebook</item>
-		<item name="3">@string/friendCaster_for_facebook</item>
-		<item name="4">@string/friendCaster_pro_for_facebook</item>
-		<item name="5">@string/seesmic</item>
-		<item name="6">@string/tweetdeck</item>
+		<item>@string/facebook</item>
+		<item>@string/facebook_web_mobile</item>
+		<item>@string/fbm_for_facebook</item>
+		<item>@string/friendCaster_for_facebook</item>
+		<item>@string/friendCaster_pro_for_facebook</item>
+		<item>@string/seesmic</item>
+		<item>@string/tweetdeck</item>
 	</string-array>
 	<string-array name="facebook_client_options_values">
-		<item name="0">com.facebook.katana</item>
-		<item name="1">http://m.facebook.com</item>
-		<item name="2">com.krm.fbm</item>
-		<item name="3">uk.co.senab.blueNotifyFree</item>
-		<item name="4">uk.co.senab.blueNotify</item>
-		<item name="5">com.seesmic</item>
-		<item name="6">com.thedeck.android.app</item>
+		<item>com.facebook.katana</item>
+		<item>http://m.facebook.com</item>
+		<item>com.krm.fbm</item>
+		<item>uk.co.senab.blueNotifyFree</item>
+		<item>uk.co.senab.blueNotify</item>
+		<item>com.seesmic</item>
+		<item>com.thedeck.android.app</item>
 	</string-array>
 	    	
 </resources>
