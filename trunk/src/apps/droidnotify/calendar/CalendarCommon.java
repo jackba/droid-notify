@@ -55,23 +55,24 @@ public class CalendarCommon {
 	 */
 	public static void readCalendars(Context context) {
 		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.readCalendars()");
+		if (_debug) Log.v("CalendarCommon.readCalendars()");
 		try{
+			int androidVersion = 4;
 			//Determine the reminder interval based on the users preferences.
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 			//Read preferences and exit if app is disabled.
 		    if(!preferences.getBoolean(Constants.APP_ENABLED_KEY, true)){
-				if (_debug) Log.v("Common.readCalendars() App Disabled. Exiting...");
+				if (_debug) Log.v("CalendarCommon.readCalendars() App Disabled. Exiting...");
 				return;
 			}
 			//Block the notification if it's quiet time.
 			if(Common.isQuietTime(context)){
-				if (_debug) Log.v("Common.readCalendars() Quiet Time. Exiting...");
+				if (_debug) Log.v("CalendarCommon.readCalendars() Quiet Time. Exiting...");
 				return;
 			}
 			//Read preferences and exit if calendar notifications are disabled.
 		    if(!preferences.getBoolean(Constants.CALENDAR_NOTIFICATIONS_ENABLED_KEY, true)){
-				if (_debug) Log.v("Common.readCalendars() Calendar Notifications Disabled. Exiting... ");
+				if (_debug) Log.v("CalendarCommon.readCalendars() Calendar Notifications Disabled. Exiting... ");
 				return;
 			}
 			long reminderInterval = Long.parseLong(preferences.getString(Constants.CALENDAR_REMINDER_KEY, "15")) * 60 * 1000;
@@ -92,7 +93,7 @@ public class CalendarCommon {
 				try{
 					cursor = contentResolver.query(
 						Uri.parse(contentProvider + "/calendars"), 						
-						null, //new String[] { Constants.CALENDAR_ID, Constants.CALENDAR_DISPLAY_NAME, Constants.CALENDAR_SELECTED },
+						null,
 						null,
 						null,
 						null);
@@ -101,28 +102,29 @@ public class CalendarCommon {
 						String calendarDisplayName = null;
 						Boolean calendarSelected = true;
 						if(cursor.getColumnIndex(Constants.CALENDAR_DISPLAY_NAME) >= 0){ //Android 2.2 - 3.x
+							androidVersion = 2;
 							calendarDisplayName = cursor.getString(cursor.getColumnIndex(Constants.CALENDAR_DISPLAY_NAME));
 							calendarSelected = !cursor.getString(cursor.getColumnIndex(Constants.CALENDAR_SELECTED)).equals("0");
-						}else{ // Android > 4.0
+						}else{ //Android > 4.0
+							androidVersion = 4;
 							calendarDisplayName = cursor.getString(cursor.getColumnIndex(Constants.CALENDAR_DISPLAY_NAME_NEW));
 							calendarSelected = !cursor.getString(cursor.getColumnIndex(Constants.CALENDAR_VISIBLE)).equals("0");
 						}
-						//if (_debug) Log.v("Common.readCalendars() FOUND CALENDAR - Id: " + calendarID + " Display Name: " + calendarDisplayName + " Selected: " + calendarSelected);
 						if(calendarsArray.contains(calendarID)){
-							if (_debug) Log.v("Common.readCalendars() CHECKING CALENDAR -  Id: " + calendarID + " Display Name: " + calendarDisplayName + " Selected: " + calendarSelected);
+							if (_debug) Log.v("CalendarCommon.readCalendars() CHECKING CALENDAR -  Id: " + calendarID + " Display Name: " + calendarDisplayName + " Selected: " + calendarSelected);
 							calendarIds.put(calendarID, calendarDisplayName);
 						}else{
-							if (_debug) Log.v("Common.readCalendars() CALENDAR NOT BEING CHECKED -  Id: " + calendarID + " Display Name: " + calendarDisplayName + " Selected: " + calendarSelected);
+							if (_debug) Log.v("CalendarCommon.readCalendars() CALENDAR NOT BEING CHECKED -  Id: " + calendarID + " Display Name: " + calendarDisplayName + " Selected: " + calendarSelected);
 						}
 					}
 				}catch(Exception ex){
 					if (_debug){
-						Log.e("Common.readCalendars() READ CALENDARS ERROR: " + ex.toString());
-						Common.debugReadContentProviderColumns(context, contentProvider + "/calendars");
+						Log.e("CalendarCommon.readCalendars() READ CALENDARS ERROR: " + ex.toString());
+						Common.debugReadContentProviderColumns(context, contentProvider + "/calendars", null);
 					}
 				}
 				if(calendarIds.isEmpty()){
-					if (_debug) Log.v("Common.readCalendars() No calendars were found. Exiting...");
+					if (_debug) Log.v("CalendarCommon.readCalendars() No calendars were found. Exiting...");
 					return;
 				}
 				// For each calendar, read the events.
@@ -138,20 +140,30 @@ public class CalendarCommon {
 					ContentUris.appendId(builder, queryStartTime);
 					//The end time of the query. One day past the start time.
 					ContentUris.appendId(builder, queryStartTime + AlarmManager.INTERVAL_DAY);
-					Cursor eventCursor = null;
+		    		final String[] projection = new String[] {
+		    				Constants.CALENDAR_EVENT_ID, 
+		    				Constants.CALENDAR_EVENT_TITLE, 
+		    				Constants.CALENDAR_INSTANCE_BEGIN, 
+		    				Constants.CALENDAR_INSTANCE_END, 
+		    				Constants.CALENDAR_EVENT_ALL_DAY};
+		            final String selection = (androidVersion >= 4) ? "calendar_id=?" : "Calendars._id=?";
+		    		final String[] selectionArgs = new String[] {calendarID};
+		    		final String sortOrder = "startDay ASC, startMinute ASC";
+					Cursor eventCursor = null;					
 					try{
-						eventCursor = contentResolver.query(builder.build(),
-							new String[] { Constants.CALENDAR_EVENT_ID, Constants.CALENDAR_EVENT_TITLE, Constants.CALENDAR_INSTANCE_BEGIN, Constants.CALENDAR_INSTANCE_END, Constants.CALENDAR_EVENT_ALL_DAY},
-							"Calendars._id=" + calendarID,
-							null,
-							"startDay ASC, startMinute ASC"); 
+						eventCursor = contentResolver.query(
+								builder.build(),
+								projection,
+								selection,
+								selectionArgs,
+								sortOrder);						
 						while (eventCursor.moveToNext()) {
 							String eventID = eventCursor.getString(eventCursor.getColumnIndex(Constants.CALENDAR_EVENT_ID));
 							String eventTitle = eventCursor.getString(eventCursor.getColumnIndex(Constants.CALENDAR_EVENT_TITLE));
 							long eventStartTime = eventCursor.getLong(eventCursor.getColumnIndex(Constants.CALENDAR_INSTANCE_BEGIN));
 							long eventEndTime = eventCursor.getLong(eventCursor.getColumnIndex(Constants.CALENDAR_INSTANCE_END));
 							final Boolean allDay = !eventCursor.getString(eventCursor.getColumnIndex(Constants.CALENDAR_EVENT_ALL_DAY)).equals("0");
-							if (_debug) Log.v("Common.readCalendars() Event ID: " + eventID + " Title: " + eventTitle + " Begin: " + eventStartTime + " End: " + eventEndTime + " All Day: " + allDay);
+							if (_debug) Log.v("CalendarCommon.readCalendars() Event ID: " + eventID + " Title: " + eventTitle + " Begin: " + eventStartTime + " End: " + eventEndTime + " All Day: " + allDay);
 							long timezoneOffsetValue =  TimeZone.getDefault().getOffset(System.currentTimeMillis());
 							//For all any event in the past, don't schedule them.
 							long currentSystemTime = System.currentTimeMillis();
@@ -204,18 +216,19 @@ public class CalendarCommon {
 							}
 						}
 					}catch(Exception ex){
-						Log.e("Common.readCalendars() Event Query ERROR: " + ex.toString());
+						Log.e("CalendarCommon.readCalendars() Event Query ERROR: " + ex.toString());						
+						Common.debugReadContentProviderColumns(context, null, builder.build());
 					}finally{
 						eventCursor.close();
 					}
 				}
 			}catch(Exception ex){
-				Log.e("Common.readCalendars() Calendar Query ERROR: " + ex.toString());
+				Log.e("CalendarCommon.readCalendars() Calendar Query ERROR: " + ex.toString());
 			}finally{
 				cursor.close();
 			}
 		}catch(Exception ex){
-			Log.e("Common.readCalendars() ERROR: " + ex.toString());
+			Log.e("CalendarCommon.readCalendars() ERROR: " + ex.toString());
 		}
 	}
 
@@ -227,7 +240,7 @@ public class CalendarCommon {
 	 */
 	public static String getAvailableCalendars(Context context){
 		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.getAvailableCalendars()");
+		if (_debug) Log.v("CalendarCommon.getAvailableCalendars()");
 		StringBuilder calendarsInfo = new StringBuilder();
 		Cursor cursor = null;
 		try{
@@ -237,7 +250,7 @@ public class CalendarCommon {
 			contentProvider = "content://com.android.calendar";
 			cursor = contentResolver.query(
 				Uri.parse(contentProvider + "/calendars"), 
-				null, //new String[] { Constants.CALENDAR_ID, Constants.CALENDAR_DISPLAY_NAME, Constants.CALENDAR_SELECTED },
+				null,
 				null,
 				null,
 				null);
@@ -252,9 +265,7 @@ public class CalendarCommon {
 					calendarDisplayName = cursor.getString(cursor.getColumnIndex(Constants.CALENDAR_DISPLAY_NAME_NEW));
 					calendarSelected = !cursor.getString(cursor.getColumnIndex(Constants.CALENDAR_VISIBLE)).equals("0");
 				}
-				//if (_debug) Log.v("Common.getAvailableCalendars() FOUND CALENDAR - Id: " + calendarID + " Display Name: " + calendarDisplayName);
 				if(calendarSelected){
-					//if (_debug) Log.v("Common.getAvailableCalendars() Calendar Found - Id: " + calendarID + " Display Name: " + calendarDisplayName + " Selected: " + calendarSelected);
 					if(!calendarsInfo.toString().equals("")){
 						calendarsInfo.append(",");
 					}
@@ -262,8 +273,8 @@ public class CalendarCommon {
 				}
 			}	
 		}catch(Exception ex){
-			Log.e("Common.getAvailableCalendars() ERROR: " + ex.toString());
-			Common.debugReadContentProviderColumns(context, "content://com.android.calendar/calendars");
+			Log.e("CalendarCommon.getAvailableCalendars() ERROR: " + ex.toString());
+			Common.debugReadContentProviderColumns(context, "content://com.android.calendar/calendars", null);
 			return null;
 		}finally{
 			if(cursor != null){
@@ -271,7 +282,7 @@ public class CalendarCommon {
 			}
 		}
 		if(calendarsInfo.toString().equals("")){
-			if (_debug) Log.v("Common.getAvailableCalendars() No Calendars Found.");
+			if (_debug) Log.v("CalendarCommon.getAvailableCalendars() No Calendars Found.");
 			return null;
 		}else{
 			return calendarsInfo.toString();
@@ -289,7 +300,7 @@ public class CalendarCommon {
 	 */
 	public static boolean startAddCalendarEventActivity(Context context, NotificationActivity notificationActivity, int requestCode){
 		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.startAddCalendarEventActivity()");
+		if (_debug) Log.v("CalendarCommon.startAddCalendarEventActivity()");
 		try{
 			//Androids calendar app.
 			Intent intent = new Intent(Intent.ACTION_EDIT);
@@ -299,7 +310,7 @@ public class CalendarCommon {
 			Common.setInLinkedAppFlag(context, true);
 			return true;
 		}catch(Exception e){
-			Log.e("Common.startAddCalendarEventActivity ERROR: " + e.toString());
+			Log.e("CalendarCommon.startAddCalendarEventActivity ERROR: " + e.toString());
 			try{
 				//HTC Sense UI calendar app.
 				Intent intent = new Intent(Intent.ACTION_EDIT);
@@ -309,7 +320,7 @@ public class CalendarCommon {
 				Common.setInLinkedAppFlag(context, true);
 				return true;
 			}catch(Exception ex){
-				Log.e("Common.startAddCalendarEventActivity ERROR: " + ex.toString());
+				Log.e("CalendarCommon.startAddCalendarEventActivity ERROR: " + ex.toString());
 				Toast.makeText(context, context.getString(R.string.app_android_calendar_app_error), Toast.LENGTH_LONG).show();
 				Common.setInLinkedAppFlag(context, false);
 				return false;
@@ -331,7 +342,7 @@ public class CalendarCommon {
 	 */
 	public static boolean startViewCalendarEventActivity(Context context, NotificationActivity notificationActivity, long calendarEventID, long calendarEventStartTime, long calendarEventEndTime, int requestCode){
 		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.startViewCalendarEventActivity()");
+		if (_debug) Log.v("CalendarCommon.startViewCalendarEventActivity()");
 		try{
 			if(calendarEventID < 0){
 				Toast.makeText(context, context.getString(R.string.app_android_calendar_event_not_found_error), Toast.LENGTH_LONG).show();
@@ -347,7 +358,7 @@ public class CalendarCommon {
 			Common.setInLinkedAppFlag(context, true);
 			return true;
 		}catch(Exception ex){
-			Log.e("Common.startViewCalendarEventActivity ERROR: " + ex.toString());
+			Log.e("CalendarCommon.startViewCalendarEventActivity ERROR: " + ex.toString());
 			Toast.makeText(context, context.getString(R.string.app_android_calendar_app_error), Toast.LENGTH_LONG).show();
 			Common.setInLinkedAppFlag(context, false);
 			return false;
@@ -368,7 +379,7 @@ public class CalendarCommon {
 	 */
 	public static boolean startEditCalendarEventActivity(Context context, NotificationActivity notificationActivity, long calendarEventID, long calendarEventStartTime, long calendarEventEndTime, int requestCode){
 		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.startEditCalendarEventActivity()");
+		if (_debug) Log.v("CalendarCommon.startEditCalendarEventActivity()");
 		try{
 			if(calendarEventID < 0){
 				Toast.makeText(context, context.getString(R.string.app_android_calendar_event_not_found_error), Toast.LENGTH_LONG).show();
@@ -384,7 +395,7 @@ public class CalendarCommon {
 			Common.setInLinkedAppFlag(context, true);
 			return true;
 		}catch(Exception ex){
-			Log.e("Common.startEditCalendarEventActivity ERROR: " + ex.toString());
+			Log.e("CalendarCommon.startEditCalendarEventActivity ERROR: " + ex.toString());
 			Toast.makeText(context, context.getString(R.string.app_android_calendar_app_error), Toast.LENGTH_LONG).show();
 			Common.setInLinkedAppFlag(context, false);
 			return false;
@@ -402,7 +413,7 @@ public class CalendarCommon {
 	 */
 	public static boolean startViewCalendarActivity(Context context, NotificationActivity notificationActivity, int requestCode){
 		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.startViewCalendarActivity()");
+		if (_debug) Log.v("CalendarCommon.startViewCalendarActivity()");
 		try{
 			//Androids calendar app.
 			Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -412,7 +423,7 @@ public class CalendarCommon {
 			Common.setInLinkedAppFlag(context, true);
 			return true;
 		}catch(Exception e){
-			Log.e("Common.startAddCalendarEventActivity ERROR: " + e.toString());
+			Log.e("CalendarCommon.startAddCalendarEventActivity ERROR: " + e.toString());
 			try{
 				//HTC Sense UI calendar app.
 				Intent intent = new Intent(Intent.ACTION_MAIN); 
@@ -422,7 +433,7 @@ public class CalendarCommon {
 				Common.setInLinkedAppFlag(context, true);
 				return true;
 			}catch(Exception ex){
-				Log.e("Common.startViewCalendarActivity() ERROR: " + ex.toString());
+				Log.e("CalendarCommon.startViewCalendarActivity() ERROR: " + ex.toString());
 				Toast.makeText(context, context.getString(R.string.app_android_calendar_app_error), Toast.LENGTH_LONG).show();
 				Common.setInLinkedAppFlag(context, false);
 				return false;
@@ -438,7 +449,7 @@ public class CalendarCommon {
 	 */
 	public static void startCalendarAlarmManager(Context context, long alarmStartTime){
 		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.startCalendarAlarmManager()");
+		if (_debug) Log.v("CalendarCommon.startCalendarAlarmManager()");
 		try{
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 			AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
@@ -447,7 +458,7 @@ public class CalendarCommon {
 			long pollingFrequency = Long.parseLong(preferences.getString(Constants.CALENDAR_POLLING_FREQUENCY_KEY, Constants.CALENDAR_POLLING_FREQUENCY_DEFAULT)) * 60 * 1000;
 			alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, alarmStartTime, pollingFrequency, pendingIntent);
 		}catch(Exception ex){
-			Log.e("Common.startCalendarAlarmManager() ERROR: " + ex.toString());
+			Log.e("CalendarCommon.startCalendarAlarmManager() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -458,14 +469,14 @@ public class CalendarCommon {
 	 */
 	public static void cancelCalendarAlarmManager(Context context){
 		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.cancelCalendarAlarmManager()");
+		if (_debug) Log.v("CalendarCommon.cancelCalendarAlarmManager()");
 		try{
 			AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 			Intent intent = new Intent(context, CalendarAlarmReceiver.class);
 			PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
 			alarmManager.cancel(pendingIntent);
 		}catch(Exception ex){
-			Log.e("Common.cancelCalendarAlarmManager() ERROR: " + ex.toString());
+			Log.e("CalendarCommon.cancelCalendarAlarmManager() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -481,7 +492,7 @@ public class CalendarCommon {
 	 */
 	public static String formatCalendarEventMessage(Context context, String messageTitle, long eventStartTime, long eventEndTime, boolean allDay, String calendarName){
 		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.formatCalendarEventMessage()");
+		if (_debug) Log.v("CalendarCommon.formatCalendarEventMessage()");
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		String formattedMessage = "";
 		Date eventEndDate = new Date(eventEndTime);
@@ -512,7 +523,7 @@ public class CalendarCommon {
     		}
     		formattedMessage =  messageTitle + formattedMessage;
 		}catch(Exception ex){
-			Log.e("Common.formatCalendarEventMessage() ERROR: " + ex.toString());
+			Log.e("CalendarCommon.formatCalendarEventMessage() ERROR: " + ex.toString());
 			formattedMessage = startDateFormated + " - " + endDateFormated;
 		}
     	if(preferences.getBoolean(Constants.CALENDAR_LABELS_KEY, true)){
@@ -536,7 +547,7 @@ public class CalendarCommon {
 	 * @param eventID - Event ID of the Calendar Event.
 	 */
 	private static void scheduleCalendarNotification(Context context, long scheduledAlarmTime, Bundle calendarEventNotificationBundleSingle, String intentAction){
-		if (_debug) Log.v("Common.scheduleCalendarNotification()");
+		if (_debug) Log.v("CalendarCommon.scheduleCalendarNotification()");
 		try{
 	    	Bundle calendarEventNotificationBundle = new Bundle();
 	    	calendarEventNotificationBundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_1", calendarEventNotificationBundleSingle);
@@ -546,7 +557,7 @@ public class CalendarCommon {
 	    	bundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME, calendarEventNotificationBundle);	    	
 			Common.startAlarm(context, CalendarNotificationAlarmReceiver.class, bundle, intentAction, scheduledAlarmTime);
 		}catch(Exception ex){
-			Log.e("Common.scheduleCalendarNotification() ERROR: " + ex.toString());
+			Log.e("CalendarCommon.scheduleCalendarNotification() ERROR: " + ex.toString());
 		}
 	}	
 	

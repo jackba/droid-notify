@@ -95,11 +95,18 @@ public class Common {
 	 * @param context - The application context.
 	 * @param contentProviderURI - The URI we want to read.
 	 */
-	public static void debugReadContentProviderColumns(Context context, String contentProviderURI) {
+	public static void debugReadContentProviderColumns(Context context, String stringURI, Uri uri) {
 		Log.i("Common.debugReadContentProviderColumns()");
 		Cursor cursor = null;
 	    try{
-		    cursor = context.getContentResolver().query(Uri.parse(contentProviderURI), null, null, null, null);
+	    	if(stringURI != null){
+	    		cursor = context.getContentResolver().query(Uri.parse(stringURI), null, null, null, null);
+	    	}else if(uri != null){
+	    		cursor = context.getContentResolver().query(uri, null, null, null, null);
+	    	}else{
+	    		Log.i("Common.debugReadContentProviderColumns() NO VALID URI PROVIDED.");
+	    		return;
+	    	}
 		    while (cursor.moveToNext()) { 
 		    	for(int i=0;i<cursor.getColumnCount();i++){
 		    		Log.i("Common.debugReadContentProviderColumns() " + cursor.getColumnName(i) + " = " + cursor.getString(i));
