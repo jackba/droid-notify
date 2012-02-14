@@ -1193,7 +1193,7 @@ public class Common {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.clearNotification()");
 		try{
-			if(totalNotifications > 0){
+			if(totalNotifications - 1 > 0){
 				if(!notificationViewFlipper.containsNotificationType(notificationType)){
 					removeStatusBarNotification(context, notificationType);
 				}

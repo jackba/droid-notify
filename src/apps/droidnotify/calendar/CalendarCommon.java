@@ -53,11 +53,10 @@ public class CalendarCommon {
 	 * 
 	 * @param context - Application Context.
 	 */
-	public static void readCalendars(Context context) {
+	public static void readCalendars(Context context){
 		_debug = Log.getDebug();
 		if (_debug) Log.v("CalendarCommon.readCalendars()");
 		try{
-			int androidVersion = 4;
 			//Determine the reminder interval based on the users preferences.
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 			//Read preferences and exit if app is disabled.
@@ -97,24 +96,22 @@ public class CalendarCommon {
 						null,
 						null,
 						null);
-					while (cursor.moveToNext()) {
+					while (cursor.moveToNext()){
 						final String calendarID = cursor.getString(cursor.getColumnIndex(Constants.CALENDAR_ID));
 						String calendarDisplayName = null;
 						Boolean calendarSelected = true;
 						if(cursor.getColumnIndex(Constants.CALENDAR_DISPLAY_NAME) >= 0){ //Android 2.2 - 3.x
-							androidVersion = 2;
 							calendarDisplayName = cursor.getString(cursor.getColumnIndex(Constants.CALENDAR_DISPLAY_NAME));
 							calendarSelected = !cursor.getString(cursor.getColumnIndex(Constants.CALENDAR_SELECTED)).equals("0");
 						}else{ //Android > 4.0
-							androidVersion = 4;
 							calendarDisplayName = cursor.getString(cursor.getColumnIndex(Constants.CALENDAR_DISPLAY_NAME_NEW));
 							calendarSelected = !cursor.getString(cursor.getColumnIndex(Constants.CALENDAR_VISIBLE)).equals("0");
 						}
 						if(calendarsArray.contains(calendarID)){
-							if (_debug) Log.v("CalendarCommon.readCalendars() CHECKING CALENDAR -  Id: " + calendarID + " Display Name: " + calendarDisplayName + " Selected: " + calendarSelected);
+							if (_debug) Log.v("CalendarCommon.readCalendars() CHECKING CALENDAR -  Calendar ID: " + calendarID + " Display Name: " + calendarDisplayName + " Selected: " + calendarSelected);
 							calendarIds.put(calendarID, calendarDisplayName);
 						}else{
-							if (_debug) Log.v("CalendarCommon.readCalendars() CALENDAR NOT BEING CHECKED -  Id: " + calendarID + " Display Name: " + calendarDisplayName + " Selected: " + calendarSelected);
+							if (_debug) Log.v("CalendarCommon.readCalendars() CALENDAR NOT BEING CHECKED -  Calendar ID: " + calendarID + " Display Name: " + calendarDisplayName + " Selected: " + calendarSelected);
 						}
 					}
 				}catch(Exception ex){
@@ -129,41 +126,43 @@ public class CalendarCommon {
 				}
 				// For each calendar, read the events.
 				Iterator<Map.Entry<String, String>> calendarIdsEnumerator = calendarIds.entrySet().iterator();
-				while(calendarIdsEnumerator.hasNext()) {
+				while(calendarIdsEnumerator.hasNext()){
 					Map.Entry<String, String> calendarInfo = calendarIdsEnumerator.next();
 					String calendarID = calendarInfo.getKey();
 					String calendarName = calendarInfo.getValue();
+					if (_debug) Log.v("CalendarCommon.readCalendars() CHECKING EVENTS FOR CALENDAR -  Calendar ID: " + calendarID  + " Calendar Name: " + calendarName);
 					Uri.Builder builder = Uri.parse(contentProvider + "/instances/when").buildUpon();
-					long currentTime = System.currentTimeMillis();
-					long queryStartTime = currentTime + reminderInterval;
 					//The start time of the query.
+					long queryStartTime = System.currentTimeMillis();
 					ContentUris.appendId(builder, queryStartTime);
 					//The end time of the query. One day past the start time.
 					ContentUris.appendId(builder, queryStartTime + AlarmManager.INTERVAL_DAY);
 		    		final String[] projection = new String[] {
-		    				Constants.CALENDAR_EVENT_ID, 
-		    				Constants.CALENDAR_EVENT_TITLE, 
-		    				Constants.CALENDAR_INSTANCE_BEGIN, 
-		    				Constants.CALENDAR_INSTANCE_END, 
+		    				Constants.CALENDAR_CALENDAR_ID,
+		    				Constants.CALENDAR_EVENT_ID,
+		    				Constants.CALENDAR_EVENT_TITLE,
+		    				Constants.CALENDAR_INSTANCE_BEGIN,
+		    				Constants.CALENDAR_INSTANCE_END,
 		    				Constants.CALENDAR_EVENT_ALL_DAY};
-		            final String selection = (androidVersion >= 4) ? "calendar_id=?" : "Calendars._id=?";
-		    		final String[] selectionArgs = new String[] {calendarID};
+		            final String selection = Constants.CALENDAR_CALENDAR_ID + "=" + calendarID;
+		    		final String[] selectionArgs = null;
 		    		final String sortOrder = "startDay ASC, startMinute ASC";
-					Cursor eventCursor = null;					
+					Cursor eventCursor = null;
 					try{
 						eventCursor = contentResolver.query(
 								builder.build(),
 								projection,
 								selection,
 								selectionArgs,
-								sortOrder);						
-						while (eventCursor.moveToNext()) {
+								sortOrder);
+						while (eventCursor.moveToNext()){
+							long eventCalendarID = eventCursor.getLong(eventCursor.getColumnIndex(Constants.CALENDAR_CALENDAR_ID));
 							String eventID = eventCursor.getString(eventCursor.getColumnIndex(Constants.CALENDAR_EVENT_ID));
 							String eventTitle = eventCursor.getString(eventCursor.getColumnIndex(Constants.CALENDAR_EVENT_TITLE));
 							long eventStartTime = eventCursor.getLong(eventCursor.getColumnIndex(Constants.CALENDAR_INSTANCE_BEGIN));
 							long eventEndTime = eventCursor.getLong(eventCursor.getColumnIndex(Constants.CALENDAR_INSTANCE_END));
 							final Boolean allDay = !eventCursor.getString(eventCursor.getColumnIndex(Constants.CALENDAR_EVENT_ALL_DAY)).equals("0");
-							if (_debug) Log.v("CalendarCommon.readCalendars() Event ID: " + eventID + " Title: " + eventTitle + " Begin: " + eventStartTime + " End: " + eventEndTime + " All Day: " + allDay);
+							if (_debug) Log.v("CalendarCommon.readCalendars() Calendar ID: " + eventCalendarID + " Event ID: " + eventID + " Event Title: " + eventTitle + " Event Begin: " + eventStartTime + " Event End: " + eventEndTime + " Event All Day: " + allDay);
 							long timezoneOffsetValue =  TimeZone.getDefault().getOffset(System.currentTimeMillis());
 							//For all any event in the past, don't schedule them.
 							long currentSystemTime = System.currentTimeMillis();
@@ -254,7 +253,7 @@ public class CalendarCommon {
 				null,
 				null,
 				null);
-			while (cursor.moveToNext()) {
+			while (cursor.moveToNext()){
 				final String calendarID = cursor.getString(cursor.getColumnIndex(Constants.CALENDAR_ID));
 				String calendarDisplayName = null;
 				Boolean calendarSelected = true;
