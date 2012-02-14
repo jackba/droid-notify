@@ -36,7 +36,7 @@ public class ImageListPreference extends ListPreference {
 	 */
 	public ImageListPreference(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ImageListPreference);
+		TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ImageList);
 		String[] imageNames = context.getResources().getStringArray(typedArray.getResourceId(typedArray.getIndexCount()-1, -1));
 		_resourceIds = new int[imageNames.length];
 		for (int i=0;i<imageNames.length;i++) {
@@ -58,9 +58,9 @@ public class ImageListPreference extends ListPreference {
 		ListAdapter listAdapter = null;
 		//Only round the corners of the Theme images.
 		if(this.getKey().startsWith("notification_icon_")){
-			listAdapter = new ImageArrayAdapter(getContext(), R.layout.listitem, getEntries(), _resourceIds, index);
+			listAdapter = new ImageArrayAdapter(getContext(), R.layout.listitem, this.getEntries(), _resourceIds, index);
 		}else{
-			listAdapter = new ImageArrayAdapterRounded(getContext(), R.layout.listitem, getEntries(), _resourceIds, index);
+			listAdapter = new ImageArrayAdapterRounded(getContext(), R.layout.listitem, this.getEntries(), _resourceIds, index);
 		}
 		// Order matters.
 		builder.setAdapter(listAdapter, this);

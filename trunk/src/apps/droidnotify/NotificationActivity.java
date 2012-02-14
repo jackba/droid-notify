@@ -16,6 +16,7 @@ import android.content.res.Configuration;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.speech.tts.TextToSpeech;
@@ -1296,7 +1297,8 @@ public class NotificationActivity extends Activity {
 	private void launchPreferenceScreen(){
 		if (_debug) Log.v("NotificationActivity.launchPreferenceScreen()");
 		Context context = getApplicationContext();
-		Intent intent = new Intent(context, MainPreferenceActivity.class);
+		//Intent intent = new Intent(context, MainPreferenceActivity.class);
+		Intent intent = new Intent(context, PreferenceActivity.class);
 		startActivity(intent);
 	}
 	

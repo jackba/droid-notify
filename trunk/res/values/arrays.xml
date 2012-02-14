@@ -1864,5 +1864,19 @@
 		<item>com.seesmic</item>
 		<item>com.thedeck.android.app</item>
 	</string-array>
+	
+	<!-- Email Notification Icon Image Arrays --> 
+	<string-array name="preference_level_1_options">
+		<item>Test 1</item>
+		<item>Test 2</item>
+	</string-array>
+	<string-array name="preference_level_1_values">
+		<item>test_1</item>
+		<item>test_2</item>
+	</string-array>
+	<array name="preference_level_1_images">
+		<item>@drawable/status_bar_notification_email_black_preference</item>
+		<item>@drawable/status_bar_notification_email_blue_preference</item>
+	</array>
 	    	
 </resources>

@@ -41,7 +41,7 @@ public class ImageArrayAdapterRounded extends ArrayAdapter<CharSequence> {
 	 * @param ids - Ids resource id of the images to be displayed.
 	 * @param i - Index of the previous selected item.
 	 */
-	public ImageArrayAdapterRounded(Context context, int textViewResourceId, CharSequence[] objects, int[] ids, int i) {
+	public ImageArrayAdapterRounded(Context context, int textViewResourceId, CharSequence[] objects, int[] ids, int i){
 		super(context, textViewResourceId, objects);
 		_inflater = ((Activity)context).getLayoutInflater();
 		_index = i;
@@ -59,17 +59,17 @@ public class ImageArrayAdapterRounded extends ArrayAdapter<CharSequence> {
 	 * @param view - View
 	 * @param parent - ViewGroup
 	 */
-	public View getView(int position, View currentView, ViewGroup parent) {
+	public View getView(int position, View currentView, ViewGroup parent){
 		final ViewHolder viewHolder;
 		if (currentView == null) {
 			currentView = _inflater.inflate(R.layout.listitem, parent, false);
 			// Creates a ViewHolder and store references to the children views we want to bind data to.
 			viewHolder = new ViewHolder();
-			viewHolder.imageView = (ImageView) currentView.findViewById(R.id.image);
-			viewHolder.checkedTextView = (CheckedTextView) currentView.findViewById(R.id.check);
+			viewHolder.imageView = (ImageView)currentView.findViewById(R.id.image);
+			viewHolder.checkedTextView = (CheckedTextView)currentView.findViewById(R.id.check);
 			// Store in tag
 			currentView.setTag(viewHolder);
-		} else {
+		}else{
 			// Get the ViewHolder back to get fast access to the TextView and CheckBox
 			viewHolder = (ViewHolder) currentView.getTag();
 		}
@@ -78,7 +78,7 @@ public class ImageArrayAdapterRounded extends ArrayAdapter<CharSequence> {
 		viewHolder.checkedTextView.setText(getItem(position));
 		if (position == _index) {
 			viewHolder.checkedTextView.setChecked(true);
-		} else {
+		}else{
 			viewHolder.checkedTextView.setChecked(false);
 		}
 		return currentView;
