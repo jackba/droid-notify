@@ -464,6 +464,7 @@ public class Constants {
 	public static final String CALENDAR_REFRESH_KEY = "calendar_refresh";
 	
 	public static final String CALENDAR_ID = "_id";
+	public static final String CALENDAR_CALENDAR_ID = "calendar_id";
 	public static final String CALENDAR_EVENT_ID = "event_id"; 
 	public static final String CALENDAR_EVENT_TITLE = "title"; 
     public static final String CALENDAR_INSTANCE_BEGIN = "begin"; 

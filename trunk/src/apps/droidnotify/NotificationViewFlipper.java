@@ -434,30 +434,6 @@ public class NotificationViewFlipper extends ViewFlipper {
 		if(_debug) Log.v("NotificationViewFlipper.getNotification()");
 		return ((NotificationView) this.getChildAt(index)).getNotification();
 	}
-
-	/**
-	 * Determine if the index supplied is the last View in the list.
-	 * 
-	 * @param viewIndex - The index of the view for which we want to know the info about.
-	 * 
-	 * @return boolean - Returns true if the viewIndex is the last View in the ViewFlipper.
-	 */
-	private boolean isLastView(int viewIndex){
-		if(_debug) Log.v("NotificationViewFlipper.isLastView()");
-		return viewIndex == this.getChildCount() - 1;
-	}
-	  
-	/**
-	 * Determine if the index supplied is the first View in the list.
-	 * 
-	 * @param viewIndex - The index of the view for which we want to know the info about.
-	 * 
-	 * @return boolean - Returns true if the viewIndex is the first View in the ViewFlipper.
-	 */
-	private boolean isFirstView(int viewIndex){
-		if(_debug) Log.v("NotificationViewFlipper.isFirsView()");
-		return viewIndex == 0;
-	}
 	
 	/**
 	* Remove the Notification and its view.
@@ -551,15 +527,20 @@ public class NotificationViewFlipper extends ViewFlipper {
 		Button previousButton = (Button) view.findViewById(R.id.previous_button);
 		TextView notificationCountTextView = (TextView) view.findViewById(R.id.notification_count_text_view);
 		Button nextButton = (Button) view.findViewById(R.id.next_button);
-    	int totalNotificationNumber = this.getChildCount();
-    	int currentNotificationNumber = viewIndex + 1;
+		if(_debug) Log.v("NotificationViewFlipper.updateView() viewIndex: " + viewIndex + " indexAdjustment: " + indexAdjustment);
+    	int totalviews = this.getChildCount();
+    	int currentView = viewIndex + 1;
     	boolean isFirstView = isFirstView(viewIndex + indexAdjustment);
     	boolean isLastView = isLastView(viewIndex + indexAdjustment);
-    	if(indexAdjustment > 0){
-    		totalNotificationNumber--;
-    	}else if(indexAdjustment < 0){
-    		totalNotificationNumber--;
-    		currentNotificationNumber += indexAdjustment;
+    	//Special cases when a View is removed.
+    	if(indexAdjustment > 0){ // Removing the last View.
+    		totalviews--;
+    		isLastView = true;
+    		if(!isFirstView) isFirstView = isFirstView(viewIndex);
+    	}else if(indexAdjustment < 0){ // Removing the first or other View.
+    		totalviews--;
+    		currentView += indexAdjustment;
+    		if(!isLastView) isLastView = isLastView(viewIndex);
     	}
     	//Update the navigation buttons and notification count text.
     	if(isFirstView){
@@ -567,7 +548,7 @@ public class NotificationViewFlipper extends ViewFlipper {
     	}else{
     		previousButton.setVisibility(View.VISIBLE);
     	}
-    	notificationCountTextView.setText(String.valueOf(currentNotificationNumber) + "/" + String.valueOf(totalNotificationNumber));
+    	notificationCountTextView.setText(String.valueOf(currentView) + "/" + String.valueOf(totalviews));
     	if(isLastView){
     		nextButton.setVisibility(View.INVISIBLE);
     	}else{
@@ -575,12 +556,36 @@ public class NotificationViewFlipper extends ViewFlipper {
     	}
     	//Hide notification header row if single notification.
     	if(_preferences.getBoolean(Constants.HIDE_SINGLE_MESSAGE_HEADER_KEY, false)){
-	    	if(this.getChildCount() == 1){
+	    	if(totalviews == 1){
 	    		headerRelativeLayout.setVisibility(View.GONE);
 	    	}else{
 	    		headerRelativeLayout.setVisibility(View.VISIBLE);
 	    	}
     	}
+	}
+
+	/**
+	 * Determine if the index supplied is the last View in the list.
+	 * 
+	 * @param viewIndex - The index of the view for which we want to know the info about.
+	 * 
+	 * @return boolean - Returns true if the viewIndex is the last View in the ViewFlipper.
+	 */
+	private boolean isLastView(int viewIndex){
+		if(_debug) Log.v("NotificationViewFlipper.isLastView()");
+		return viewIndex == this.getChildCount() - 1;
+	}
+	  
+	/**
+	 * Determine if the index supplied is the first View in the list.
+	 * 
+	 * @param viewIndex - The index of the view for which we want to know the info about.
+	 * 
+	 * @return boolean - Returns true if the viewIndex is the first View in the ViewFlipper.
+	 */
+	private boolean isFirstView(int viewIndex){
+		if(_debug) Log.v("NotificationViewFlipper.isFirsView()");
+		return viewIndex == 0;
 	}
 	
 	/**
