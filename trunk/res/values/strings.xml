@@ -96,11 +96,6 @@
     <string name="log_file_device_info" formatted="false">Droid Notify Version: %s\nDevice Model: %s\nFirmware Version: %s\nBuild Number: %s\n</string>
     <string name="send_debug_logs_text">Send Debug Logs</string>
 	<string name="send_debug_logs_summary">Send the debug logs to the developer.</string>
-    
-    <!-- Language Strings -->
-    <string name="preference_language_title">Language</string>
-    <string name="preference_language_summary">Select the application language.</string>
-    <string name="phone_default_language">Phone Default Language</string>
  
     <!-- Context Menu Strings -->
     <string name="preference_disable_context_menu_title">Disable Context Menu</string>
@@ -192,17 +187,117 @@
     <string name="contact_photo_settings_text">Contact Photo Settings</string>
 	<string name="preference_contact_photo_size">Contact Photo Size</string>
     <string name="preference_contact_photo_size_summary">Select the contact photo size.</string>
+ 
     
-   	<!-- About Strings -->
+    
+    
+     <!-- Settings Strings -->
+    <string name="settings">Settings</string>
+    
+    <!-- Settings Basic Strings -->
+    <string name="basic_category">BASIC</string>
+    <string name="basic">Basic</string>
+      
+    <!-- Settings Locale Strings -->
+    <string name="locale">Locale</string>
+    
+    <!-- Language Strings -->
+    <string name="preference_language_title">Language</string>
+    <string name="preference_language_summary">Select the application language.</string>
+    <string name="phone_default_language">Phone Default Language</string>  
+	
+   	<!-- Phone Number Format Strings -->
+   	<string name="preference_phone_number_format">Phone Number Format</string>
+   	<string name="preference_phone_number_format_summary">Select the phone number format used to display phone numbers.</string>
+   	<string name="preference_phone_number_format_10_digits_only_title">Display 10 Digits</string>
+	<string name="preference_phone_number_format_10_digits_only_summary">Display only the first 10 digits of a phone number. If there are more than 10 digits, a "0" will be placed in front of the number.</string>
+ 
+    <!-- Time Format Strings -->
+   	<string name="preference_time_format">Time Format</string>
+   	<string name="preference_time_format_summary">Select the desired time format.</string>
+ 
+     <!-- Date Format Strings -->
+   	<string name="preference_date_format">Date Format</string>
+   	<string name="preference_date_format_summary">Select the desired date format.</string>
+ 
+    <!-- Settings Screen Strings -->
+    <string name="screen">Screen</string>
+    
+    <!-- Screen Strings -->
+    <string name="general_screen_settings_text">Basic Screen Settings</string>   	
+    <string name="notification_screen_settings_text">Notification Screen Settings</string>
+    <string name="preference_screen_settings">Screen Settings</string>
+	<string name="preference_screen_enabled_title">Turn Screen On</string>
+   	<string name="preference_screen_enabled_summaryOn">Screen will turn on when a notification is shown.</string>
+   	<string name="preference_screen_enabled_summaryOff">Screen will not turn on when notification is shown.</string>
+	<string name="preference_screen_dim_enabled_title">Dim Screen</string>
+   	<string name="preference_screen_dim_enabled_summaryOn">Screen will dim when it turns on (saves battery power).</string>
+   	<string name="preference_screen_dim_enabled_summaryOff">Screen will not dim when it turns on.</string>
+  	<string name="preference_blur_screen_background_enabled_title">Blur Screen Background</string>
+   	<string name="preference_blur_screen_background_enabled_summaryOn">The background of the screen will blur when a notification is shown.</string>
+   	<string name="preference_blur_screen_background_enabled_summaryOff">The background of the screen will not blur when a notification is shown.</string>
+  	<string name="preference_dim_screen_background_enabled_title">Dim Screen Background</string>
+   	<string name="preference_dim_screen_background_enabled_summaryOn">The background of the screen will dim when a notification is shown.</string>
+   	<string name="preference_dim_screen_background_enabled_summaryOff">The background of the screen will not dim when a notification is shown.</string>
+   	<string name="preference_dim_screen_background_amount">Dim Screen Value</string>
+   	<string name="preference_dim_screen_background_amount_summary">Define how dim you want the background screen to get. (0 = no dimming, 100 = black)</string> 
+    <string name="preference_landscape_screen_enabled_title">Enable Landscape Mode</string>
+   	<string name="preference_landscape_screen_enabled_summaryOn">The screens will rotate to landscape mode when the phone is rotated.</string>
+   	<string name="preference_landscape_screen_enabled_summaryOff">The screens will not rotate to landscape mode when the phone is rotated.</string>
+ 	<string name="preference_screen_timeout">Screen Timeout</string>
+   	<string name="preference_screen_timeout_summary">Define how long to wait before releasing the phones screen after a notification is shown. The smaller the timeout, the less battery power is used.</string> 
+   	  	  	 	 	
+   	<!-- Keyguard Strings -->
+ 	<string name="preference_keyguard_enabled_title">Unlock Phone</string>
+   	<string name="preference_keyguard_enabled_summaryOn">Phone will unlock when a notification is shown.</string>
+   	<string name="preference_keyguard_enabled_summaryOff">Phone will not unlock when a notification is shown.</string>
+ 
+    <!-- Settings Customize Strings -->
+    <string name="customize">Customize</string>
+   	
+    <!-- Settings Notifications Strings -->
+    <string name="notifications">Notifications</string>
+    
+    <!-- Settings Advanced Strings -->
+    <string name="advanced_category">ADVANCED</string> 
+    <string name="advanced">Advanced</string>
+    
+	<!-- Haptic Feedback Strings -->
+   	<string name="preference_haptic_feedback_title">Enable Haptic Feedback</string>
+   	<string name="preference_haptic_feedback_summaryOn">Haptic Feedback is enabled. Vibrate when pressing soft keys and on certain UI interactions.</string>
+ 
+    <!-- Settings Feedback Strings --> 
+    <string name="feedback_category">FEEDBACK</string>
+    <string name="feedback">Feedback</string>
+    <string name="feedback_text">Feedback</string>
+    
+    <!-- Settings Email Developer Strings --> 
+   	<string name="email_developer_text">Email Developer</string>
+   	<string name="email_developer_summary">Send an email to the developer.</string>
+   	
+   	<!-- Settings Rate App Strings --> 
+    <string name="rate_app">Rate App</string>
+   	<string name="rate_app_text">Rate App</string>
+   	<string name="rate_app_summary">Rate this application.</string>
+   	
+   	<!-- Settings Email Developer Strings --> 
+    <string name="email_developer">Email Developer</string>
+    
+   	<!-- Settings About Strings --> 
+    <string name="about_category">ABOUT</string>
+   	<string name="about">About</string>
     <string name="about_text">About</string>
    	<string name="preference_about_summary">About Droid Notify</string>
 	<string name="preference_about_text">&lt;b>Created by:&lt;/b> Camille Sévigny&lt;br/>&lt;b>Email:&lt;/b> &lt;a href="mailto:droidnotify@gmail.com">droidnotify@gmail.com&lt;/a>&lt;br/>&lt;br/>Droid Notify is an application that shows a popup dialog when a SMS/MMS message is received, a Missed Call is received, a new Email is received or a Calendar Event occurs. There are also more advanced features and support for other notifications in the pro version of this application.  The notifications link to your messaging app, your phone and your calendar. The notifications also display the contact information (if available) such as who it\'s from and contact photo if available.&lt;br/>&lt;br/>If you like Droid Notify, please rate this application and leave a comment.&lt;br/>&lt;br/>Feel free to email comments, suggestions or bugs.&lt;br/>&lt;br/>&lt;b>Translations powered by:&lt;/b> &lt;a href="http://www.crowdin.net/">CrowdIn.net&lt;/a>&lt;br/></string>
 	<string name="preference_translated_by_text">French Translation: Franky&lt;br/>Hebrew Translation: Benjo26&lt;br/>Polish Translation: Draco (draco.pl@gmail.com)&lt;br/>Portuguese Translation: Marcio Andrade (marcioaribeiro@hotmail.com.br)&lt;br/>Spanish Translation: Shaymelmed (shaben_translations@hotmail.com)&lt;br/>Simplified Chinese Translation: Jason (hrmqs86@gmail.com)&lt;br/>&lt;br/></string>
 	<string name="preference_copyright_text">&lt;b>&#169; 2012 Camille Sévigny&lt;/b>&lt;br/>&lt;br/></string>
 	
-	<!-- Haptic Feedback Strings -->
-   	<string name="preference_haptic_feedback_title">Enable Haptic Feedback</string>
-   	<string name="preference_haptic_feedback_summaryOn">Haptic Feedback is enabled. Vibrate when pressing soft keys and on certain UI interactions.</string>
+	
+	
+	
+	
+	
+
    	<string name="preference_haptic_feedback_summaryOff">Haptic Feedback is disabled.</string>
    	
    	<!-- Quick Reply Strings --> 
@@ -425,8 +520,13 @@
    	<string name="preference_k9_message_body_font_size_summary">Select the font size you want to use when when displaying the email body.</string>
    	<string name="preference_k9_notifications">K-9 Email Notifications</string>
    	<string name="preference_k9_timeout_title">K-9 Timeout</string>
-   	<string name="preference_k9_timeout_summary">Define how long to wait after an email is received before querying the inbox for the new email.</string>
-   	    	   
+   	<string name="preference_k9_timeout_summary">Define how long to wait after an email is received before querying the inbox for the new email.</string> 
+   	
+   	<!-- K9 Email Account Strings -->
+    <string name="account">Account</string>	
+   	<string name="preference_k9_include_account_name_title">Include Account Name</string>	
+	<string name="preference_k9_include_account_name_summary">Include the email account name in the notification body.</string>	
+							
    	<!-- Polling Strings -->   
    	<string name="preference_polling_frequency">Polling Frequency</string>
    	
@@ -489,49 +589,6 @@
    	<string name="button_style_icon_and_text_text">Icons and Text</string>
    	<string name="button_style_icon_only_text">Icons Only</string>
    	<string name="button_style_text_only_text">Text Only</string>
-   	 	   
-    <!-- Screen Strings -->
-    <string name="general_screen_settings_text">Basic Screen Settings</string>   	
-    <string name="notification_screen_settings_text">Notification Screen Settings</string>
-    <string name="preference_screen_settings">Screen Settings</string>
-	<string name="preference_screen_enabled_title">Turn Screen On</string>
-   	<string name="preference_screen_enabled_summaryOn">Screen will turn on when a notification is shown.</string>
-   	<string name="preference_screen_enabled_summaryOff">Screen will not turn on when notification is shown.</string>
-	<string name="preference_screen_dim_enabled_title">Dim Screen</string>
-   	<string name="preference_screen_dim_enabled_summaryOn">Screen will dim when it turns on (saves battery power).</string>
-   	<string name="preference_screen_dim_enabled_summaryOff">Screen will not dim when it turns on.</string>
-  	<string name="preference_blur_screen_background_enabled_title">Blur Screen Background</string>
-   	<string name="preference_blur_screen_background_enabled_summaryOn">The background of the screen will blur when a notification is shown.</string>
-   	<string name="preference_blur_screen_background_enabled_summaryOff">The background of the screen will not blur when a notification is shown.</string>
-  	<string name="preference_dim_screen_background_enabled_title">Dim Screen Background</string>
-   	<string name="preference_dim_screen_background_enabled_summaryOn">The background of the screen will dim when a notification is shown.</string>
-   	<string name="preference_dim_screen_background_enabled_summaryOff">The background of the screen will not dim when a notification is shown.</string>
-   	<string name="preference_dim_screen_background_amount">Dim Screen Value</string>
-   	<string name="preference_dim_screen_background_amount_summary">Define how dim you want the background screen to get. (0 = no dimming, 100 = black)</string> 
-    <string name="preference_landscape_screen_enabled_title">Enable Landscape Mode</string>
-   	<string name="preference_landscape_screen_enabled_summaryOn">The screens will rotate to landscape mode when the phone is rotated.</string>
-   	<string name="preference_landscape_screen_enabled_summaryOff">The screens will not rotate to landscape mode when the phone is rotated.</string>
- 	<string name="preference_screen_timeout">Screen Timeout</string>
-   	<string name="preference_screen_timeout_summary">Define how long to wait before releasing the phones screen after a notification is shown. The smaller the timeout, the less battery power is used.</string> 
-   	  	  	 	 	
-   	<!-- Keyguard Strings -->
- 	<string name="preference_keyguard_enabled_title">Unlock Phone</string>
-   	<string name="preference_keyguard_enabled_summaryOn">Phone will unlock when a notification is shown.</string>
-   	<string name="preference_keyguard_enabled_summaryOff">Phone will not unlock when a notification is shown.</string>
-	
-   	<!-- Phone Number Format Strings -->
-   	<string name="preference_phone_number_format">Phone Number Format</string>
-   	<string name="preference_phone_number_format_summary">Select the phone number format used to display phone numbers.</string>
-   	<string name="preference_phone_number_format_10_digits_only_title">Display 10 Digits</string>
-	<string name="preference_phone_number_format_10_digits_only_summary">Display only the first 10 digits of a phone number. If there are more than 10 digits, a "0" will be placed in front of the number.</string>
- 
-    <!-- Time Format Strings -->
-   	<string name="preference_time_format">Time Format</string>
-   	<string name="preference_time_format_summary">Select the desired time format.</string>
- 
-     <!-- Date Format Strings -->
-   	<string name="preference_date_format">Date Format</string>
-   	<string name="preference_date_format_summary">Select the desired date format.</string>
    	
    	<!-- Test Notification Strings -->
     <string name="test_text">Test Notifications</string>
@@ -552,16 +609,7 @@
    	<string name="preference_quiet_period_dialog_instructions">Select the time you would like the quiet period to start and stop.</string>
 	<string name="start_quiet_time_text">Start Quiet Time:</string>
 	<string name="stop_quiet_time_text">Stop Quiet Time:</string>
-	<string name="preference_quiet_time_period_set">The quiet time period is now set.</string>
-
-    <!-- Rate App Strings -->
-   	<string name="rate_app_text">Rate App</string>
-   	<string name="rate_app_summary">Rate this application.</string>
-   	
-   	<!-- Feedback Strings -->
-    <string name="feedback_text">Feedback</string>
-   	<string name="email_developer_text">Email Developer</string>
-   	<string name="email_developer_summary">Send an email to the developer.</string>
+	<string name="preference_quiet_time_period_set">The quiet time period is now set.</string>   	
 
    	<!-- Theme Strings -->
    	<string name="theme_text">Notification Theme</string>

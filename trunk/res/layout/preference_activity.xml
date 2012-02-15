@@ -1,15 +1,321 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:droidnotify="http://schemas.android.com/apk/res/apps.droidnotify"
-	android:id="@+id/content_linear_layout"
-    android:layout_height="wrap_content"
-    android:layout_width="fill_parent">
-	<apps.droidnotify.ImageListView
-  		android:id="@+id/content_list_view"
-  		android:layout_width="fill_parent"
-  		android:layout_height="fill_parent"				
-  		android:entries="@array/preference_level_1_options"
-		android:entryValues="@array/preference_level_1_values"
-		droidnotify:entryImages="@array/preference_level_1_images" />
+	android:id="@+id/row_linear_layout_1"
+   	android:layout_height="wrap_content"
+   	android:layout_width="fill_parent"
+   	android:orientation="vertical"> 
+
+	<TextView
+	    android:id="@+id/header_title"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_gravity="center_vertical"
+	    android:gravity="center|left"
+	    android:paddingLeft="8dp"
+	    android:textAppearance="?android:attr/textAppearanceLarge"
+	    android:drawableLeft="@drawable/ic_launcher_notify"
+	    android:drawablePadding="2dp"
+	    android:text="@string/settings" />
+   
+	<ImageView
+       	android:id="@+id/header_title_divider"
+  		android:src="@drawable/preference_divider_header"
+  		android:layout_height="2dip"  
+		android:layout_width="fill_parent"
+	    android:layout_marginTop="5dp"
+	    android:layout_marginBottom="5dp" />	 
+   
+	<ScrollView 
+		android:id="@+id/content_scroll_view"
+	    android:layout_height="wrap_content"
+	    android:layout_width="fill_parent">
+		<LinearLayout
+			xmlns:android="http://schemas.android.com/apk/res/android"
+			android:id="@+id/content_linear_layout"
+		    android:layout_height="wrap_content"
+		    android:layout_width="fill_parent"
+	        android:layout_marginLeft="15dp"
+	        android:layout_marginRight="15dp"
+			android:orientation="vertical">
+			
+		    <!-- Category - Basic-->
+		    <TextView
+		        android:id="@+id/category_basic"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:paddingTop="25dp"
+		        android:paddingLeft="5dp"
+		        android:layout_gravity="center_vertical"
+		        android:textAppearance="?android:attr/textAppearanceSmall"
+		        android:textStyle="bold"
+		        android:text="@string/basic_category" />
+		    
+			<ImageView
+		        android:id="@+id/category_divider_basic"
+		  		android:src="@drawable/preference_divider_normal"
+		  		android:layout_height="2dip"  
+				android:layout_width="fill_parent"
+			    android:layout_marginTop="5dp"
+				android:layout_marginBottom="5dp" />
+			
+			<!-- Row - Basic-->
+		    <TextView
+		        android:id="@+id/row_basic"
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+			    android:paddingTop="10dp"
+				android:paddingBottom="10dp"
+		        android:drawableLeft="@drawable/preference_ic_basic"
+		        android:drawablePadding="10dp"
+		        android:gravity="center_vertical"
+		        android:paddingLeft="5dp"
+		        android:text="@string/basic"
+		        android:textAppearance="?android:attr/textAppearanceLarge" />
+		 
+			<ImageView
+		        android:id="@+id/row_divider_basic"
+		  		android:src="@drawable/preference_divider_normal"
+		  		android:layout_height="0.5dip"  
+				android:layout_width="fill_parent"
+			    android:layout_marginTop="5dp"
+				android:layout_marginBottom="5dp" />
+			
+			<!-- Row - Locale-->
+		    <TextView
+		        android:id="@+id/row_locale"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+			    android:layout_marginTop="10dp"
+				android:layout_marginBottom="10dp"
+		        android:clickable="true"
+		        android:drawableLeft="@drawable/preference_ic_globe"
+		        android:drawablePadding="10dp"
+		        android:gravity="center_vertical"
+		        android:paddingLeft="5dp"
+		        android:text="@string/locale"
+		        android:textAppearance="?android:attr/textAppearanceLarge" />
+		 
+			<ImageView
+		        android:id="@+id/row_divider_locale"
+		  		android:src="@drawable/preference_divider_normal"
+		  		android:layout_height="0.5dip"  
+				android:layout_width="fill_parent"
+			    android:layout_marginTop="5dp"
+				android:layout_marginBottom="5dp" />	 
+
+			<!-- Row - Screen-->
+		    <TextView
+		        android:id="@+id/row_screen"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+			    android:layout_marginTop="10dp"
+				android:layout_marginBottom="10dp"
+		        android:clickable="true"
+		        android:drawableLeft="@drawable/preference_ic_screen"
+		        android:drawablePadding="10dp"
+		        android:gravity="center_vertical"
+		        android:paddingLeft="5dp"
+		        android:text="@string/screen"
+		        android:textAppearance="?android:attr/textAppearanceLarge" />
+		 
+			<ImageView
+		        android:id="@+id/row_divider_screen"
+		  		android:src="@drawable/preference_divider_normal"
+		  		android:layout_height="0.5dip"  
+				android:layout_width="fill_parent"
+			    android:layout_marginTop="5dp"
+				android:layout_marginBottom="5dp" />
+					   
+			<!-- Row - Customize-->
+		    <TextView
+		        android:id="@+id/row_customize"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+			    android:layout_marginTop="10dp"
+				android:layout_marginBottom="10dp"
+		        android:clickable="true"
+		        android:drawableLeft="@drawable/preference_ic_customize"
+		        android:drawablePadding="10dp"
+		        android:gravity="center_vertical"
+		        android:paddingLeft="5dp"
+		        android:text="@string/customize"
+		        android:textAppearance="?android:attr/textAppearanceLarge" />
+		 
+			<ImageView
+		        android:id="@+id/row_divider_customize"
+		  		android:src="@drawable/preference_divider_normal"
+		  		android:layout_height="0.5dip"  
+				android:layout_width="fill_parent"
+			    android:layout_marginTop="5dp"
+				android:layout_marginBottom="5dp" />
+					   
+			<!-- Row - Notifications-->
+		    <TextView
+		        android:id="@+id/row_notifications"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+			    android:layout_marginTop="10dp"
+				android:layout_marginBottom="10dp"
+		        android:clickable="true"
+		        android:drawableLeft="@drawable/preference_ic_notifications"
+		        android:drawablePadding="10dp"
+		        android:gravity="center_vertical"
+		        android:paddingLeft="5dp"
+		        android:text="@string/notifications"
+		        android:textAppearance="?android:attr/textAppearanceLarge" />
+		 
+			<ImageView
+		        android:id="@+id/row_divider_notifications"
+		  		android:src="@drawable/preference_divider_normal"
+		  		android:layout_height="0.5dip"  
+				android:layout_width="fill_parent"
+			    android:layout_marginTop="5dp"
+				android:layout_marginBottom="5dp" />
+
+		    <!-- Category - Advanced-->
+		    <TextView
+		        android:id="@+id/category_advanced"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:paddingTop="25dp"
+		        android:paddingLeft="5dp"
+		        android:layout_gravity="center_vertical"
+		        android:textAppearance="?android:attr/textAppearanceSmall"
+		        android:textStyle="bold"
+		        android:text="@string/advanced_category" />
+		    
+			<ImageView
+		        android:id="@+id/category_divider_advanced"
+		  		android:src="@drawable/preference_divider_normal"
+		  		android:layout_height="2dip"  
+				android:layout_width="fill_parent"
+			    android:layout_marginTop="5dp"
+				android:layout_marginBottom="5dp" />
+			
+			<!-- Row - Advanced-->
+		    <TextView
+		        android:id="@+id/row_advanced"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+			    android:layout_marginTop="10dp"
+				android:layout_marginBottom="10dp"
+		        android:clickable="true"
+		        android:drawableLeft="@drawable/preference_ic_advanced"
+		        android:drawablePadding="10dp"
+		        android:gravity="center_vertical"
+		        android:paddingLeft="5dp"
+		        android:text="@string/advanced"
+		        android:textAppearance="?android:attr/textAppearanceLarge" />
+		 
+			<ImageView
+		        android:id="@+id/row_divider_advanced"
+		  		android:src="@drawable/preference_divider_normal"
+		  		android:layout_height="0.5dip"  
+				android:layout_width="fill_parent"
+			    android:layout_marginTop="5dp"
+				android:layout_marginBottom="5dp" />	 
+
+		    <!-- Category - Feedback-->
+		    <TextView
+		        android:id="@+id/category_feedback"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:paddingTop="25dp"
+		        android:paddingLeft="5dp"
+		        android:layout_gravity="center_vertical"
+		        android:textAppearance="?android:attr/textAppearanceSmall"
+		        android:textStyle="bold"
+		        android:text="@string/feedback_category" />
+		    
+			<ImageView
+		        android:id="@+id/category_divider_feedback"
+		  		android:src="@drawable/preference_divider_normal"
+		  		android:layout_height="2dip"  
+				android:layout_width="fill_parent"
+			    android:layout_marginTop="5dp"
+				android:layout_marginBottom="5dp" />
+
+			<!-- Row - Rate App-->
+		    <TextView
+		        android:id="@+id/row_rate_app"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+			    android:layout_marginTop="10dp"
+				android:layout_marginBottom="10dp"
+		        android:clickable="true"
+		        android:drawableLeft="@drawable/preference_ic_rate_app"
+		        android:drawablePadding="10dp"
+		        android:gravity="center_vertical"
+		        android:paddingLeft="5dp"
+		        android:text="@string/rate_app"
+		        android:textAppearance="?android:attr/textAppearanceLarge" />
+		 
+			<ImageView
+		        android:id="@+id/rate_appider_rate_app"
+		  		android:src="@drawable/preference_divider_normal"
+		  		android:layout_height="0.5dip"  
+				android:layout_width="fill_parent"
+			    android:layout_marginTop="5dp"
+				android:layout_marginBottom="5dp" />
+						
+			<!-- Row - Email Developer-->
+		    <TextView
+		        android:id="@+id/row_email_developer"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+			    android:layout_marginTop="10dp"
+				android:layout_marginBottom="10dp"
+		        android:clickable="true"
+		        android:drawableLeft="@drawable/preference_ic_email_developer"
+		        android:drawablePadding="10dp"
+		        android:gravity="center_vertical"
+		        android:paddingLeft="5dp"
+		        android:text="@string/email_developer"
+		        android:textAppearance="?android:attr/textAppearanceLarge" />
+		 
+			<ImageView
+		        android:id="@+id/row_divider_email_developer"
+		  		android:src="@drawable/preference_divider_normal"
+		  		android:layout_height="0.5dip"  
+				android:layout_width="fill_parent"
+			    android:layout_marginTop="5dp"
+				android:layout_marginBottom="5dp" />
+			
+		    <!-- Category - About-->
+		    <TextView
+		        android:id="@+id/category_about"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:paddingTop="25dp"
+		        android:paddingLeft="5dp"
+		        android:layout_gravity="center_vertical"
+		        android:textAppearance="?android:attr/textAppearanceSmall"
+		        android:textStyle="bold"
+		        android:text="@string/about_category" />
+		    
+			<ImageView
+		        android:id="@+id/category_divider_about"
+		  		android:src="@drawable/preference_divider_normal"
+		  		android:layout_height="2dip"  
+				android:layout_width="fill_parent"
+			    android:layout_marginTop="5dp"
+				android:layout_marginBottom="5dp" />
+			
+			<!-- Row - About-->
+
+		    <TextView
+		        android:id="@+id/row_about"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:clickable="true"
+		        android:drawableLeft="@drawable/preference_ic_about"
+		        android:drawablePadding="10dp"
+		        android:gravity="center_vertical"
+		        android:paddingLeft="5dp"
+		        android:text="@string/about"
+		        android:textAppearance="?android:attr/textAppearanceLarge" />
+			
+		</LinearLayout>
+	</ScrollView>
 </LinearLayout>
