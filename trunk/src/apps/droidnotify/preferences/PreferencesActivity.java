@@ -106,6 +106,13 @@ public class PreferencesActivity extends Activity {
 	     };
 		_basicSettingsRow.setOnTouchListener(onTouchListener);
 		_localeSettingsRow.setOnTouchListener(onTouchListener);
+		_screenSettingsRow.setOnTouchListener(onTouchListener);
+		_customizeSettingsRow.setOnTouchListener(onTouchListener);
+		_notificationsSettingsRow.setOnTouchListener(onTouchListener);
+		_advancedSettingsRow.setOnTouchListener(onTouchListener);
+		_rateAppSettingsRow.setOnTouchListener(onTouchListener);
+		_emailDeveloperSettingsRow.setOnTouchListener(onTouchListener);
+		_aboutSettingsRow.setOnTouchListener(onTouchListener);
 		
 	}
 	
