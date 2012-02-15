@@ -1,4 +1,4 @@
-package apps.droidnotify;
+package apps.droidnotify.custom;
 
 import android.content.Context;
 import android.content.res.TypedArray;

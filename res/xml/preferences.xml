@@ -394,7 +394,7 @@
 							android:dependency="sms_notifications_enabled" />
 					</PreferenceCategory>
 					<PreferenceCategory
-						android:key="sms_notification_settings_category"
+						android:key="sms_status_bar_notification_settings_category"
 						android:title="@string/preference_notification_settings">						
 						<CheckBoxPreference 
 							android:key="sms_status_bar_notifications_enabled" 
@@ -610,7 +610,7 @@
 							android:dependency="mms_notifications_enabled" />
 					</PreferenceCategory>	
 					<PreferenceCategory
-						android:key="mms_notification_settings_category"
+						android:key="mms_status_bar_notification_settings_category"
 						android:title="@string/preference_notification_settings">						
 						<CheckBoxPreference 
 							android:key="mms_status_bar_notifications_enabled" 
@@ -826,7 +826,7 @@
 							android:dependency="missed_call_notifications_enabled" />
 					</PreferenceCategory>	
 					<PreferenceCategory
-						android:key="missed_call_notification_settings_category"
+						android:key="missed_call_status_bar_notification_settings_category"
 						android:title="@string/preference_notification_settings">						
 						<CheckBoxPreference 
 							android:key="missed_call_status_bar_notifications_enabled" 
@@ -1028,7 +1028,7 @@
 							android:dependency="calendar_notifications_enabled" />
 					</PreferenceCategory>
 					<PreferenceCategory
-						android:key="calendar_notification_settings_category"
+						android:key="calendar_status_bar_notification_settings_category"
 						android:title="@string/preference_notification_settings">
 						<CheckBoxPreference 
 							android:key="calendar_status_bar_notifications_enabled" 
@@ -1239,10 +1239,16 @@
 							android:title="@string/preference_k9_enabled_title" 
 							android:summaryOn="@string/preference_k9_enabled_summaryOn" 
 							android:summaryOff="@string/preference_k9_enabled_summaryOff" 
-							android:defaultValue="true" />
+							android:defaultValue="true" />						
+						<CheckBoxPreference 
+							android:key="k9_include_account_name" 
+							android:title="@string/preference_k9_include_account_name_title" 
+							android:summary="@string/preference_k9_include_account_name_summary"
+							android:defaultValue="false"
+							android:dependency="k9_notifications_enabled" />
 					</PreferenceCategory>	
 					<PreferenceCategory
-						android:key="k9_notification_settings_category"
+						android:key="k9_status_bar_notification_settings_category"
 						android:title="@string/preference_notification_settings">						
 						<CheckBoxPreference 
 							android:key="k9_status_bar_notifications_enabled" 
@@ -1495,7 +1501,7 @@
 							android:dependency="twitter_enabled" />
 					</PreferenceCategory>
 					<PreferenceCategory
-						android:key="twitter_notification_settings_category"
+						android:key="twitter_status_bar_notification_settings_category"
 						android:title="@string/preference_notification_settings">						
 						<CheckBoxPreference 
 							android:key="twitter_status_bar_notifications_enabled" 
@@ -1744,7 +1750,7 @@
 							android:dependency="facebook_enabled" />
 					</PreferenceCategory>
 					<PreferenceCategory
-						android:key="facebook_notification_settings_category"
+						android:key="facebook_status_bar_notification_settings_category"
 						android:title="@string/preference_notification_settings">						
 						<CheckBoxPreference 
 							android:key="facebook_status_bar_notifications_enabled" 

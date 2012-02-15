@@ -1,4 +1,4 @@
-package apps.droidnotify;
+package apps.droidnotify.custom;
 
 import android.app.Activity;
 import android.content.Context;
@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import apps.droidnotify.R;
 
 /**
  * The ImageListViewArrayAdaptor class is used to load the ImageListView data.

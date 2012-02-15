@@ -120,13 +120,13 @@ public class EmailCommon {
             }
             if(messageSubject != null && !messageSubject.equals("")){
 	    		if(preferences.getBoolean(Constants.K9_INCLUDE_ACCOUNT_NAME_KEY, true)){
-					messageBody = "<b>" + accountName + "<br/>" + messageSubject + "</b><br/>" + messageBody.replace("\n", "<br/>").trim();
+					messageBody = "<b>" + context.getString(R.string.account) + ": " + accountName + "<br/>" + messageSubject + "</b><br/>" + messageBody.replace("\n", "<br/>").trim();
 	    		}else{
 					messageBody = "<b>" + messageSubject + "</b><br/>" + messageBody.replace("\n", "<br/>").trim();
 	    		}
 			}else{
 	    		if(preferences.getBoolean(Constants.K9_INCLUDE_ACCOUNT_NAME_KEY, true)){
-	    			messageBody = "<b>" + accountName + "</b><br/>" + messageBody;
+	    			messageBody = "<b>" + context.getString(R.string.account) + ": " + accountName + "</b><br/>" + messageBody;
 	    		}else{
 	    			messageBody = messageBody.replace("\n", "<br/>").trim();
 	    		}				
