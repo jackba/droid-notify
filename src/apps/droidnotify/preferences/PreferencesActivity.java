@@ -82,7 +82,7 @@ public class PreferencesActivity extends Activity {
 	}
 	
 	private void setupRowAttributes(){
-		_basicSettingsRow.setOnTouchListener( new OnTouchListener() {
+		OnTouchListener onTouchListener = new OnTouchListener() {
 			public boolean onTouch(View view, MotionEvent motionEvent){
 	     		switch (motionEvent.getAction()){
 		     		case MotionEvent.ACTION_DOWN:{
@@ -103,7 +103,9 @@ public class PreferencesActivity extends Activity {
 	     		}
 	     		return true;
 			}
-	     });
+	     };
+		_basicSettingsRow.setOnTouchListener(onTouchListener);
+		_localeSettingsRow.setOnTouchListener(onTouchListener);
 		
 	}
 	
