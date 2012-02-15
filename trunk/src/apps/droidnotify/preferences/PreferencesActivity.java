@@ -86,17 +86,14 @@ public class PreferencesActivity extends Activity {
 			public boolean onTouch(View view, MotionEvent motionEvent){
 	     		switch (motionEvent.getAction()){
 		     		case MotionEvent.ACTION_DOWN:{
-		     			if (_debug) Log.v("PreferencesActivity.initLayoutItems() ACTION DOWN");	
 	        			view.setBackgroundResource(R.color.blue);
 		                break;
 			        }
 		     		case MotionEvent.ACTION_UP:{
-		     			if (_debug) Log.v("PreferencesActivity.initLayoutItems() ACTION UP");	
 	        			view.setBackgroundResource(R.color.transparent);
 		                break;
 		     		}
 		     		case MotionEvent.ACTION_CANCEL:{
-		     			if (_debug) Log.v("PreferencesActivity.initLayoutItems() ACTION CANCEL");	
 	        			view.setBackgroundResource(R.color.transparent);
 		                break;
 		     		}
