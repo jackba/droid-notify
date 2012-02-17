@@ -26,6 +26,7 @@
     <string name="from_text">From</string>
     <string name="ok_text">OK</string>
     <string name="close_text">Close</string>
+    <string name="close">Close</string>
     <string name="cancel_text">Cancel</string>
     <string name="continue_text">Continue</string>
     <string name="dismiss_notification_text">Dismiss Notification</string>
@@ -88,14 +89,6 @@
     <string name="not_online_error">The application cannot gain online access at this time. Please try again later.</string>
     <string name="url_link_not_found_error">The URL link could not be found.</string>
     <string name="browser_app_error">The web browser application could not be started.</string>
-    
-    <!-- Log File Strings -->
-    <string name="log_file_error_title">Log File Error</string>
-    <string name="log_file_acquiring_system_logs">Acquiring system logs...</string>
-    <string name="log_file_retrieval_failure">Failed to retrieve system logs.</string>
-    <string name="log_file_device_info" formatted="false">Droid Notify Version: %s\nDevice Model: %s\nFirmware Version: %s\nBuild Number: %s\n</string>
-    <string name="send_debug_logs_text">Send Debug Logs</string>
-	<string name="send_debug_logs_summary">Send the debug logs to the developer.</string>
  
     <!-- Context Menu Strings -->
     <string name="preference_disable_context_menu_title">Disable Context Menu</string>
@@ -103,13 +96,7 @@
     
     <!-- Quick Contact Strings -->
     <string name="preference_disable_quick_contact_title">Disable Photo Menu</string>
-    <string name="preference_disable_quick_contact_summary">Disable the quick contact menu that is attached to notification photos.</string>   
-  
-    <!-- App In Background Strings -->
-    <string name="preference_close_app_when_pushed_to_background_title">Close In Background</string>
-    <string name="preference_close_app_when_pushed_to_background_summary">Close the application when it is pushed to the background.</string> 
-    <string name="preference_ignore_linked_apps_when_pushed_to_background_title">Ignore Linked Apps</string>
-    <string name="preference_ignore_linked_apps_when_pushed_to_background_summary">Ignore linked apps when closing the application.</string> 
+    <string name="preference_disable_quick_contact_summary">Disable the quick contact menu that is attached to notification photos.</string> 
   
     <!-- Popup Width Strings -->
     <string name="preference_popup_width_padding_title">Popup Width Padding</string>
@@ -193,6 +180,16 @@
     
      <!-- Settings Strings -->
     <string name="settings">Settings</string>
+    <string name="general_category">GENERAL</string>
+    <string name="screen_category">SCREEN</string>
+    <string name="sms_category">SMS</string>
+    <string name="mms_category">MMS</string>
+    <string name="missed_calls_category">MISSED CALLS</string>
+    <string name="twitter_category">TWITTER</string>
+    <string name="facebook_category">FACEBOOK</string>
+    <string name="k9_category">K9</string>
+    <string name="quick_reply_category">QUICK REPLY</string>
+    <string name="status_bar_category">STATUS BAR</string>
     
     <!-- Settings Basic Strings -->
     <string name="basic_category">BASIC</string>
@@ -263,9 +260,45 @@
     <string name="advanced">Advanced</string>
     
 	<!-- Haptic Feedback Strings -->
+   	<string name="haptic_feedback_title">Enable Haptic Feedback</string>
+   	<string name="haptic_feedback_summary">Vibrate when pressing soft keys and on certain UI interactions.</string>
    	<string name="preference_haptic_feedback_title">Enable Haptic Feedback</string>
    	<string name="preference_haptic_feedback_summaryOn">Haptic Feedback is enabled. Vibrate when pressing soft keys and on certain UI interactions.</string>
  
+    <!-- App In Background Strings -->
+    <string name="close_app_when_pushed_to_background_title">Close In Background</string>
+    <string name="close_app_when_pushed_to_background_summary">Close the application when it is pushed to the background.</string> 
+    <string name="preference_close_app_when_pushed_to_background_title">Close In Background</string>
+    <string name="preference_close_app_when_pushed_to_background_summary">Close the application when it is pushed to the background.</string> 
+    <string name="preference_ignore_linked_apps_when_pushed_to_background_title">Ignore Linked Apps</string>
+    <string name="preference_ignore_linked_apps_when_pushed_to_background_summary">Ignore linked apps when closing the application.</string> 
+
+    <!-- Import/Export Strings -->    
+    <string name="import_export_category">IMPORT/EXPORT</string>
+   	<string name="import_export">Import/Export</string>
+   	<string name="import_export_text">Import/Export</string>
+  	<string name="preference_export_preferences_title">Export Preferences</string>
+   	<string name="preference_export_preferences_summary">Export this applications preferences to your SD card.</string>
+   	<string name="preference_export_preferences_progress_text">Exporting Application Preferences...</string>
+   	<string name="preference_export_preferences_finish_text">The application preferences have been exported.</string>
+   	<string name="preference_export_preferences_error_text">The application preferences were not exported. Possible causes for this error include a missing SD Card or other SD card related issues which prevents this application from writing a file to the SD card location.</string>
+    <string name="preference_import_preferences_title">Import Preferences</string>
+   	<string name="preference_import_preferences_summary">Import application preferences from the SD card.\nThe preference screens will reload once the import has completed.</string>
+   	<string name="preference_import_preferences_progress_text">Importing Application Preferences...</string>
+   	<string name="preference_import_preferences_finish_text">The application preferences have been imported.</string>
+   	<string name="preference_import_preferences_error_text">The application preferences were not imported. Possible causes for this error include a missing preferences file, a missing SD Card or other SD card related issues which prevents this application from reading a file from the SD card location.</string>
+
+    
+    <!-- Debug / Log File Strings -->
+    <string name="debug_category">DEBUG</string>
+    <string name="debug">Debug</string>
+    <string name="log_file_error_title">Log File Error</string>
+    <string name="log_file_acquiring_system_logs">Acquiring system logs...</string>
+    <string name="log_file_retrieval_failure">Failed to retrieve system logs.</string>
+    <string name="log_file_device_info" formatted="false">Droid Notify Version: %s\nDevice Model: %s\nFirmware Version: %s\nBuild Number: %s\n</string>
+    <string name="send_debug_logs_text">Send Debug Logs</string>
+	<string name="send_debug_logs_summary">Send the debug logs to the developer.</string>
+    
     <!-- Settings Feedback Strings --> 
     <string name="feedback_category">FEEDBACK</string>
     <string name="feedback">Feedback</string>
@@ -615,19 +648,6 @@
    	<string name="theme_text">Notification Theme</string>
    	<string name="preference_theme_summary">Select the theme for the notifications.</string>  	 
    
-   	<!-- Import/Export Strings -->
-   	<string name="import_export_text">Import/Export</string>
-  	<string name="preference_export_preferences_title">Export Preferences</string>
-   	<string name="preference_export_preferences_summary">Export this applications preferences to your SD card.</string>
-   	<string name="preference_export_preferences_progress_text">Exporting Application Preferences...</string>
-   	<string name="preference_export_preferences_finish_text">The application preferences have been exported.</string>
-   	<string name="preference_export_preferences_error_text">The application preferences were not exported. Possible causes for this error include a missing SD Card or other SD card related issues which prevents this application from writing a file to the SD card location.</string>
-    <string name="preference_import_preferences_title">Import Preferences</string>
-   	<string name="preference_import_preferences_summary">Import application preferences from the SD card.\nThe preference screens will reload once the import has completed.</string>
-   	<string name="preference_import_preferences_progress_text">Importing Application Preferences...</string>
-   	<string name="preference_import_preferences_finish_text">The application preferences have been imported.</string>
-   	<string name="preference_import_preferences_error_text">The application preferences were not imported. Possible causes for this error include a missing preferences file, a missing SD Card or other SD card related issues which prevents this application from reading a file from the SD card location.</string>
-
    	<!-- Reschedule Strings -->
    	<string name="preference_display_reschedule_button_title">Display Reschedule Button</string>
    	<string name="preference_display_reschedule_button_summary">Display the reschedule button in the header.</string>
