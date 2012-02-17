@@ -53,7 +53,28 @@
             	<category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>        
+        </activity>  
+ 
+        <activity 
+        	android:name=".preferences.AdvancedPreferenceActivity"
+   			android:launchMode="singleTask"
+   			android:taskAffinity="apps.droidnotify.preferences"
+			android:screenOrientation="user"
+			android:configChanges="orientation|keyboardHidden|keyboard|navigation" />
+ 
+        <activity 
+        	android:name=".preferences.DebugPreferenceActivity"
+   			android:launchMode="singleTask"
+   			android:taskAffinity="apps.droidnotify.preferences"
+			android:screenOrientation="user"
+			android:configChanges="orientation|keyboardHidden|keyboard|navigation" />
+        
+        <activity 
+        	android:name="apps.droidnotify.preferences.AboutPreferenceActivity"
+   			android:launchMode="singleTask"
+   			android:taskAffinity="apps.droidnotify.preferences"
+			android:screenOrientation="user"
+			android:configChanges="orientation|keyboardHidden|keyboard|navigation" />
         
     	<activity 
    			android:name="apps.droidnotify.NotificationActivity" 
