@@ -9,6 +9,7 @@
 *v2.25* _Coming Soon..._
  * Fixed another bug with the ICS Calendars which prevented calendar notifications from working.
  * Updated the K-9 email notifications to prevent incorrect notification body text from appearing.
+ * Fixed a bug that prevented K-9 notifications from working.
  * Code cleanup/organization.
  * Updated translations.
  * Small bug fixes.
