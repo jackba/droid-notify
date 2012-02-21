@@ -39,42 +39,12 @@
    			android:taskAffinity="apps.droidnotify.preferences"
 			android:screenOrientation="user"
 			android:configChanges="orientation|keyboardHidden|keyboard|navigation">
-        </activity>
-        
-        <activity 
-        	android:name="apps.droidnotify.preferences.PreferencesActivity" 
-        	android:label="@string/app_name_formatted"
-   			android:launchMode="singleTask"
-   			android:taskAffinity="apps.droidnotify.preferences"
-			android:screenOrientation="user"
-			android:configChanges="orientation|keyboardHidden|keyboard|navigation">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             	<category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>  
- 
-        <activity 
-        	android:name=".preferences.AdvancedPreferenceActivity"
-   			android:launchMode="singleTask"
-   			android:taskAffinity="apps.droidnotify.preferences"
-			android:screenOrientation="user"
-			android:configChanges="orientation|keyboardHidden|keyboard|navigation" />
- 
-        <activity 
-        	android:name=".preferences.DebugPreferenceActivity"
-   			android:launchMode="singleTask"
-   			android:taskAffinity="apps.droidnotify.preferences"
-			android:screenOrientation="user"
-			android:configChanges="orientation|keyboardHidden|keyboard|navigation" />
-        
-        <activity 
-        	android:name="apps.droidnotify.preferences.AboutPreferenceActivity"
-   			android:launchMode="singleTask"
-   			android:taskAffinity="apps.droidnotify.preferences"
-			android:screenOrientation="user"
-			android:configChanges="orientation|keyboardHidden|keyboard|navigation" />
+        </activity>
         
     	<activity 
    			android:name="apps.droidnotify.NotificationActivity" 
@@ -86,14 +56,6 @@
    		
 		<activity 
    			android:name="apps.droidnotify.QuickReplyActivity" 
-   			android:theme="@style/Theme.Transparent"
-   			android:taskAffinity="apps.droidnotify.notification"
-			android:screenOrientation="user"
-			android:configChanges="orientation|keyboardHidden|keyboard|navigation"
-        	android:windowSoftInputMode="stateVisible" />
-	
-		<activity 
-   			android:name="apps.droidnotify.QuickReplyActivityNEW" 
    			android:theme="@style/Theme.Transparent"
    			android:taskAffinity="apps.droidnotify.notification"
 			android:screenOrientation="user"
