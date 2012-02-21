@@ -66,13 +66,13 @@ public class TwitterAuthenticationActivity extends Activity {
 		_provider = new DefaultOAuthProvider(Constants.TWITTER_REQUEST_URL, Constants.TWITTER_AUTHORIZE_URL, Constants.TWITTER_ACCESS_URL);
 		setupViews();
 		setupButtons();
-		if(TwitterCommon.isTwitterAuthenticated(_context)){
-			TwitterCommon.startTwitterAlarmManager(_context, System.currentTimeMillis());
-			finish();
-		}else{
+		//if(TwitterCommon.isTwitterAuthenticated(_context)){
+		//	TwitterCommon.startTwitterAlarmManager(_context, System.currentTimeMillis());
+		//	finish();
+		//}else{
 			_mainLinearLayout.setVisibility(View.VISIBLE);
 			_progressBarLinearLayout.setVisibility(View.GONE);
-		}
+		//}
 	}		
 	
 	/**
@@ -115,55 +115,6 @@ public class TwitterAuthenticationActivity extends Activity {
 			Toast.makeText(_context, _context.getString(R.string.twitter_authentication_error), Toast.LENGTH_LONG).show();
 			finish();
 		}
-	}
-	
-	//================================================================================
-	// Protected Methods
-	//================================================================================	
-	
-	/**
-	 * Activity was started after it stopped or for the first time.
-	 */
-	@Override
-	protected void onStart() {
-		super.onStart();
-	    if (_debug) Log.v("TwitterAuthenticationActivity.onStart()");
-	}
-	  
-	/**
-	 * Activity was resumed after it was stopped or paused.
-	 */
-	@Override
-	protected void onResume() {
-	    super.onResume();
-	    if (_debug) Log.v("TwitterAuthenticationActivity.onResume()");
-	}
-	  
-	/**
-	 * Activity was paused due to a new Activity being started or other reason.
-	 */
-	@Override
-	protected void onPause() {
-	    super.onPause();
-	    if (_debug) Log.v("TwitterAuthenticationActivity.onPause()");
-	}
-	  
-	/**
-	 * Activity was stopped due to a new Activity being started or other reason.
-	 */
-	@Override
-	protected void onStop() {
-	    super.onStop();
-	    if (_debug) Log.v("TwitterAuthenticationActivity.onStop()");
-	}
-	  
-	/**
-	 * Activity was stopped and closed out completely.
-	 */
-	@Override
-	protected void onDestroy() {
-	    super.onDestroy();
-	    if (_debug) Log.v("TwitterAuthenticationActivity.onDestroy()");
 	}
 	
 	//================================================================================

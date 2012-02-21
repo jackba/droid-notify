@@ -108,54 +108,5 @@ public class FacebookAuthenticationActivity extends Activity {
         super.onActivityResult(requestCode, resultCode, data);
         _facebook.authorizeCallback(requestCode, resultCode, data);
     }
-	
-	//================================================================================
-	// Protected Methods
-	//================================================================================	
-	
-	/**
-	 * Activity was started after it stopped or for the first time.
-	 */
-	@Override
-	protected void onStart() {
-		super.onStart();
-	    if (_debug) Log.v("FacebookAuthenticationActivity.onStart()");
-	}
-	  
-	/**
-	 * Activity was resumed after it was stopped or paused.
-	 */
-	@Override
-	protected void onResume() {
-	    super.onResume();
-	    if (_debug) Log.v("FacebookAuthenticationActivity.onResume()");
-	}
-	  
-	/**
-	 * Activity was paused due to a new Activity being started or other reason.
-	 */
-	@Override
-	protected void onPause() {
-	    super.onPause();
-	    if (_debug) Log.v("FacebookAuthenticationActivity.onPause()");
-	}
-	  
-	/**
-	 * Activity was stopped due to a new Activity being started or other reason.
-	 */
-	@Override
-	protected void onStop() {
-	    super.onStop();
-	    if (_debug) Log.v("FacebookAuthenticationActivity.onStop()");
-	}
-	  
-	/**
-	 * Activity was stopped and closed out completely.
-	 */
-	@Override
-	protected void onDestroy() {
-	    super.onDestroy();
-	    if (_debug) Log.v("FacebookAuthenticationActivity.onDestroy()");
-	}
 
 }
