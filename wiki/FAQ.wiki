@@ -20,6 +20,7 @@
  * [FAQ#Known_Issues_With_Phones_Running_HTC_Sense_UI Known Issues With Phones Running HTC Sense UI]
  * [FAQ#Known_Issues_With_Phones_Running_Samsung_Touchwiz_UI Known Issues With Phones Running Samsung Touchwiz UI]
  * [FAQ#Can_Droid_Notify_Popups_Display_Over_The_Lock_Screen? Can Droid Notify Popups Display Over The Lock Screen?]
+ * [FAQ#K-9_Emails_are_not_being_shown._Why? K-9 Emails are not being shown. Why?]
 
 ----
 
@@ -132,3 +133,12 @@ The answer is...it depends.
 If you are using the stock Android OS lock screen, the answer is no. It is not possible to display information over the lock screen. If you are using a 3rd party lockscreen app, then the answer is yes (with conditions...you cannot be in security mode).
 
 Here is why: Unfortunately, apps cannot be displayed over lock screens. This is a common misconception among Android users. Android has a built in lock screen and it's not possible to keep the phone locked while displaying information over it. With Android you can unlock or lock the phone, there is no state which is locked, but displaying information on the screen like a popup. There are 3rd party apps which are lock screen replacements but they are apps and are NOT part of the Android OS. When they are running, they DO NOT lock your phone, they are an app that is faking the process. Displaying information over a 3rd party lock screen occurs because your phone is never locked. Displaying an app over another app is perfectly normal and that is what you see when you see a popup over a 3rd party lock screen app.
+
+==K-9 Emails are not being shown. Why?==
+
+There is most likely one of two reasons that this might happen.
+
+1) The most likely reason is that you installed K-9 or Kaiten AFTER you installed Droid Notify. The reason has to do with permissions. Basically, K-9/Kaiten define permisoins that Droid Notify uses. If you install Droid Notify first, the permisions are not associated with the app and it will break. All you have to do is uninstall Droid Notify and re-install it again.
+
+2) The less likely reason is that there is a bug in the code. Try step 1 first and if that doesn't solve the problem please send me an email with a debug log.
+
