@@ -5,14 +5,51 @@
     android:versionCode="33"
     android:versionName="2.26"
     android:installLocation="internalOnly" >
+    
 	<uses-sdk 
 		android:minSdkVersion="8" 
 		android:targetSdkVersion="8" />
+	
 	<supports-screens
 		android:smallScreens="true"
         android:normalScreens="true"
         android:largeScreens="true"
         android:anyDensity="true" />
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<uses-permission android:name="android.permission.CALL_PHONE" />
+	<uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+	<uses-permission android:name="android.permission.GET_TASKS" />
+	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.MODIFY_PHONE_STATE" />
+	<uses-permission android:name="android.permission.READ_CONTACTS" />
+	<uses-permission android:name="android.permission.READ_CALENDAR" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+	<uses-permission android:name="android.permission.READ_LOGS" />
+	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
+	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+	<uses-permission android:name="android.permission.RECEIVE_MMS" />
+	<uses-permission android:name="android.permission.RECEIVE_SMS" />
+	<uses-permission android:name="android.permission.RECEIVE_WAP_PUSH" />
+	<uses-permission android:name="android.permission.SEND_SMS" />	
+	<uses-permission android:name="android.permission.VIBRATE" />
+	<uses-permission android:name="android.permission.WAKE_LOCK" />
+	<uses-permission android:name="android.permission.WRITE_SMS" />
+	<uses-permission android:name="android.permission.WRITE_CONTACTS" />
+	<uses-permission android:name="android.permission.WRITE_CALENDAR" />
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+	
+	<uses-permission android:name="com.fsck.k9.permission.READ_MESSAGES" />
+	<uses-permission android:name="com.fsck.k9.permission.DELETE_MESSAGES" />
+	
+	<uses-permission android:name="com.kaitenmail.permission.READ_MESSAGES" />
+	<uses-permission android:name="com.kaitenmail.permission.DELETE_MESSAGES" />
+	
+	<uses-permission android:name="thinkpanda.permission.CLEAR_MISSED_CALL" />
+	
+	<uses-feature android:name="android.hardware.telephony" />
+	
     <application 
     	android:icon="@drawable/ic_launcher_droidnotify"
     	android:label="@string/app_name_formatted"
@@ -211,37 +248,5 @@
 		    android:exported="true" />
 		
     </application>
-
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-	<uses-permission android:name="android.permission.CALL_PHONE" />
-	<uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
-	<uses-permission android:name="android.permission.GET_TASKS" />
-	<uses-permission android:name="android.permission.MODIFY_PHONE_STATE" />
-	<uses-permission android:name="android.permission.READ_CONTACTS" />
-	<uses-permission android:name="android.permission.READ_CALENDAR" />
-    <uses-permission android:name="android.permission.READ_SMS" />
-	<uses-permission android:name="android.permission.READ_LOGS" />
-	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
-	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-	<uses-permission android:name="android.permission.RECEIVE_MMS" />
-	<uses-permission android:name="android.permission.RECEIVE_SMS" />
-	<uses-permission android:name="android.permission.RECEIVE_WAP_PUSH" />
-	<uses-permission android:name="android.permission.SEND_SMS" />	
-	<uses-permission android:name="android.permission.VIBRATE" />
-	<uses-permission android:name="android.permission.WAKE_LOCK" />
-	<uses-permission android:name="android.permission.WRITE_SMS" />
-	<uses-permission android:name="android.permission.WRITE_CONTACTS" />
-	<uses-permission android:name="android.permission.WRITE_CALENDAR" />
-	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-	
-	<uses-permission android:name="com.kaitenmail.permission.READ_MESSAGES" />
-	<uses-permission android:name="com.kaitenmail.permission.DELETE_MESSAGES" />
-	
-	<uses-feature android:name="android.hardware.telephony" />
-	
-	<uses-permission android:name="com.fsck.k9.permission.READ_MESSAGES" />
-	<uses-permission android:name="com.fsck.k9.permission.DELETE_MESSAGES" />
-	
-	<uses-permission android:name="thinkpanda.permission.CLEAR_MISSED_CALL" />
 
 </manifest>
