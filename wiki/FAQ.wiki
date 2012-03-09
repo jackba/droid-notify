@@ -22,6 +22,7 @@
  * [FAQ#Can_Droid_Notify_Popups_Display_Over_The_Lock_Screen? Can Droid Notify Popups Display Over The Lock Screen?]
  * [FAQ#K-9_Emails_are_not_being_shown._Why? K-9 Emails are not being shown. Why?]
  * [FAQ#The_LED_light_is_not_working._Why? The LED light is not working. Why?]
+ * [FAQ#Known_Issues Known Issues]
 
 ----
 
@@ -148,3 +149,9 @@ There is most likely one of two reasons that this might happen.
 The Android OS allows you to set the LED color to any color that you want, after which the hardware will *do its best* to show that color. If the color you chose doesn't show properly or doesn't show at all then it is likely a hardware limitation. Some newer Android phones may not even have an LED or may not have an LED that supports multiple colors (or the color that you selected). 
 
 In my experience, many phones only show the LED when the screen is off. If the option to unlock the phone and turn the screen on is selected, then the LED will never be displayed on these phones. Another problem is that some phones only display a few colors (red, green, orange). If you set the LED color to blue or a bluish color, for example, then the LED will not be shown at all.
+
+==Known Issues==
+
+Here are confirmed, known issues that have not been resolved yet:
+  * Screen doesn't turn on / screen flashes when new notifications arrive. I have seen this on some devices (but not all). Due to Android fragmentation and the shear number of different hardware devices and rooted/ROM phones, it's difficult to find a cause for this problem but I will continue to try to update the waking of the phone to make it as smooth as possible for as many phones/makes/models as possible.
+ * 
