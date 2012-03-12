@@ -43,9 +43,17 @@ Unfortunately the Facebook app doesn't allow Developer Apps to access the photos
 
 Unfortunately, the answer is probably no or not at this time.
 
-Most applications are private apps and do not have an open API so currently there is no way to tap into their application data that they uses. I will continue to monitor the app and look for any API's that will allow Droid Notify to communicate with it or its data, but at this time it's not possible. The only solution is to enable the Google voice option to forward your Google Voice activity to you via SMS messages.
+Most applications are private apps and do not have an open API so currently there is no way to tap into their application data that they uses. I will continue to monitor all apps and look for any API's that will allow Droid Notify to communicate with them or their data. 
 
-
+Apps which users have asked for integration (with comments):
+1) WhatsApp - Currently there is no API for this application. I have contacted the company but they refuse to answer. Until they let 3rd party developers access to the data there is nothing we can do.
+2) Skype - Looking into the possibility.
+3) GMail - Looking into the possibility. Why not install K-9 Mail or Kaiten Mail? It works great with GMail!
+4) Google+ - Looking into the possibility.
+5) LinkedIn - Looking into the possibility.
+6) gTalk - Looking into the possibility.
+7) Yahoo Mail - Looking into the possibility. Why not install K-9 Mail or Kaiten Mail? It works great with Yahoo Mail!
+8) Hotmail - Looking into the possibility. Why not install K-9 Mail or Kaiten Mail? It works great with Hotmail!
 
 ==Can Droid Notify be moved to the SD card?==
 
