@@ -3,8 +3,16 @@
 
 = Release Notes =
 
-*v2.26* _Coming Soon..._
+*v3.0* _Coming Soon..._
+ * Completely redid the UI of the settings.
+ * Integrated downloadable "Theme" add-ons.
+ * Added a "Blacklist" feature.
+ * Added a "Customize Contacts" feature.
+ * Updated the status bar notifications. Counters will be used if more than one notification appears now.
+ * Added a few smaller new user preferences.
  * 
+ * Updated translations.
+ * Small bug fixes.
 
 *v2.25* (February 21, 2012)
  * Fixed another bug with the ICS Calendars which prevented calendar notifications from working.
