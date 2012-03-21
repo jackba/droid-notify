@@ -10,7 +10,7 @@
  * Added a "Customize Contacts" feature.
  * Updated the status bar notifications. Counters will be used if more than one notification appears now.
  * Added a few smaller new user preferences.
- * 
+ * Fixed some bugs with updating SMS messages.
  * Updated translations.
  * Small bug fixes.
 
