@@ -6,6 +6,7 @@
 Enable Droid Notify
 
 Basic
+
  * Blocking Notification Options
  * Display Text To Speech Button
  * Hide Single Message Header
@@ -33,6 +34,7 @@ Basic
  * Blacklist
 
 Locale
+
  * Language
  * Time Format
  * Date Format
@@ -40,6 +42,7 @@ Locale
  * Display 10 Digits
  
 Screen
+
  * Turn Screen On
  * Dim Screen
  * Unlock Phone
@@ -49,6 +52,7 @@ Screen
  * Dim Screen Value
  
 Customize
+
  * Theme
  * Popup horizontal Location
  * Popup Width Padding
@@ -71,6 +75,7 @@ Customize
  * Notification Body Max Lines
  
 Notifications
+
  * SMS
   * Enable SMS
   * Ignore Class 0 Messages
@@ -259,9 +264,11 @@ Notifications
    * Display Reply Button
  
 Privacy
+
  * Status Bar Notification Privacy
  
 Advanced
+
  * Enable Haptic Feedback
  * Close In Background
  * Ignore Linked Apps
@@ -283,14 +290,10 @@ Advanced
   * Turn On Debug Mode
   * Send Debug Logs
 
-*_Feedback_*
-
 Rate App
 
 Email Developer
 
 Upgrade
-
-*_About_*
 
 About
