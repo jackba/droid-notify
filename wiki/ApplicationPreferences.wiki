@@ -3,47 +3,20 @@
 
 = Application Preferences =
 
-Test Notifications
-
-
-*_General Settings_*
-
 Enable Droid Notify
 
+*_Basic_*
 
-*_Basic Settings_*
-
-Basic Settings
- * Notification Theme
- * Display 10 Digits
- * Phone Number Format
- * Time Format
- * Date Format
- * Button Style
- * Popup Width Padding
+Basic
  * Blocking Notification Options
  * Display Text To Speech Button
  * Hide Single Message Header
- * Display Type Icon
- * Type Font Size
- * Display Contact Name
- * Hide Unknown Contact Name
- * Contact Name Font Size
- * Display Contact Number
- * Contact Number Font Size
- * Disable Context Menu
- * Display Contact Photo
- * Contact Placeholder Image
- * Contact Photo Background
- * Contact Photo Size
+ * Hide Unknown Contact
+ * Disable Context MenU
  * Disable Photo Menu
- * Center Align Body Text
- * Disable 
- * Notification Body Font Size
- * Notification Body Max Lines
  * Display Reschedule Button
  * Reschedule Settings
-  * Reschedule Time
+   *Reschedule Time
  * Enable Reminders
  * Reminder Settings
   * Reminder Frequency
@@ -57,20 +30,56 @@ Basic Settings
   * Blur Screen Background
   * Dim Screen Background
   * Dim Screen Value
-  * Show/Hide Button Settings
-   * Hide Cancel Button
+  * Display Cancel Button
+ * Customize Contacts
+ * Blacklist
 
-
-*_Notification Settings_*
-
+Locale
+ * Language
+ * Time Format
+ * Date Format
+ * Phone Number Format
+ * Display 10 Digits
+ 
+Screen
+ * Turn Screen On
+ * Dim Screen
+ * Unlock Phone
+ * Enable Landscape Mode
+ * Blur Screen Background
+ * Dim Screen Background
+ * Dim Screen Value
+ 
+Customize
+ * Theme
+ * Popup horizontal Location
+ * Popup Width Padding
+ * Button Style
+ * Button Font Size
+ * Bold Button Text
+ * Display Type Icon
+ * Type Font Size
+ * Display Contact Photo
+ * Contact Photo Size
+ * Contact Placeholder Image
+ * Contact Photo Background
+ * Display Contact Name
+ * Contact Name Font Size
+ * Display Contact Number
+ * Contact Number Font Size
+ * Display Notification Body
+ * Center Align Body Text
+ * Notification Body Font Size
+ * Notification Body Max Lines
+ 
 Notifications
- * *_SMS Notifications_*
-  * Enable SMS Notifications
+ * SMS
+  * Enable SMS
   * Ignore Class 0 Messages
   * Time Is In UTC
-  * Load Unread SMS Messages
+  * Load Unread SMS
   * Enable Status Bar Notifications
-  * Status Bar Notification Settings
+  * Status Bar Notifications
    * Display When Blocked
    * Notification Icon
    * Notification Sound
@@ -81,24 +90,22 @@ Notifications
    * LED Blink Setting
    * Enable In-Call Sound
    * Enable In-Call Vibrate
-  * Notification Body Settings
+  * Customize
    * Hide Notification Body
-  * Button Settings
-   * Confirm Deletion
-   * Dismiss Button Action
-   * Delete Button Action
-   * Reply Button Action
    * Notification Count Action
-   * Show/Hide Button Settings
-    * Display Dismiss Button
-    * Display Delete Button
-    * Display Reply Button 
-
- * *_MMS Notifications_*
-  * Enable MMS Notifications
-  * Load Unread MMS Messages
+   * Confirm Deletion
+   * Display Dismiss Button
+   * Dismiss Button Action
+   * Display Delete Button
+   * Delete Button Action
+   * Display Reply Button
+   * Reply Button Action
+ 
+ * MMS
+  * Enable MMS
+  * Load Unread MMS
   * Enable Status Bar Notifications
-  * Status Bar Notification Settings
+  * Status Bar Notifications
    * Display When Blocked
    * Notification Icon
    * Notification Sound
@@ -109,24 +116,22 @@ Notifications
    * LED Blink Setting
    * Enable In-Call Sound
    * Enable In-Call Vibrate
-  * Notification Body Settings
+  * Customize
    * Hide Notification Body
-  * Button Settings
-   * Confirm Deletion
-   * Dismiss Button Action
-   * Delete Button Action
-   * Reply Button Action
    * Notification Count Action
-   * Show/Hide Button Settings
-    * Display Dismiss Button
-    * Display Delete Button
-    * Display Reply Button      
+   * Confirm Deletion
+   * Display Dismiss Button
+   * Dismiss Button Action
+   * Display Delete Button
+   * Delete Button Action
+   * Display Reply Button
+   * Reply Button Action
 
- * *_Missed Call Notifications_*
-  * Enable Missed Call Notifications
+ * Missed Calls
+  * Enable Missed Call
   * Loading Settings
   * Enable Status Bar Notifications
-  * Status Bar Notification Settings
+  * Status Bar Notifications
    * Display When Blocked
    * Notification Icon
    * Notification Sound
@@ -137,50 +142,24 @@ Notifications
    * LED Blink Setting
    * Enable In-Call Sound
    * Enable In-Call Vibrate
-  * Button Settings
-   * Dismiss Button Action
+  * Customize
    * Notification Count Action
-   * Show/Hide Button Settings
-    * Display Dismiss Button
-    * Display Call Button     
+   * Display Dismiss Button
+   * Dismiss Button Action
+   * Display Call Button
 
- * *_Calendar Notifications_*
-  * Enable Calendar Notifications
+ * Calendar
+  * Enable Calendar Event
   * All-Day Notification Time
-  * Send Event Reminders
   * Polling Frequency
   * Select Calendars
   * Enable Calendar Labels
   * Refresh Calendar Alarms
-  * Enable Status Bar Notifications
-  * Status Bar Notification Settings
-   * Display When Blocked
-   * Notification Icon
-   * Notification Sound
-   * Vibrate Setting
-   * Vibrate Pattern
-   * Enable LED
-   * LED Color Setting
-   * LED Blink Setting
-   * Enable In-Call Sound
-   * Enable In-Call Vibrate
-  * Notification Body Settings
-   * Hide Notification Body
   * Send Event Reminders
-  * Event Reminder Settings
-   * Event Settings
-   * All-Day Event Settings
-  * Button Settings
-   * Dismiss Button Action
-   * Notification Count Action
-   * Show/Hide Button Settings
-    * Display Dismiss Button
-    * Display View Button
-
- * *_K9 Email Notifications_*
-  * Enable K9 Email
+  * Event Settings
+  * All-Day Event Settings
   * Enable Status Bar Notifications
-  * Status Bar Notification Settings
+  * Status Bar Notifications
    * Display When Blocked
    * Notification Icon
    * Notification Sound
@@ -191,19 +170,39 @@ Notifications
    * LED Blink Setting
    * Enable In-Call Sound
    * Enable In-Call Vibrate
-  * Notification Body Settings
-   * Hide Notification Body
-  * Button Settings
-   * Confirm Deletion
-   * Delete Button Action
-   * Reply Button Action
+  * Customize
    * Notification Count Action
-   * Show/Hide Button Settings
-    * Display Dismiss Button
-    * Display Delete Button
-    * Display Reply Button 
+   * Display Dismiss Button
+   * Dismiss Button Action
+   * Display View Button
 
- * *_Twitter Notifications_*
+ * K-9
+  * Enable K9 Email
+  * Include Account Name
+  * Enable Status Bar Notifications
+  * Status Bar Notifications
+   * Display When Blocked
+   * Notification Icon
+   * Notification Sound
+   * Vibrate Setting
+   * Vibrate Pattern
+   * Enable LED
+   * LED Color Setting
+   * LED Blink Setting
+   * Enable In-Call Sound
+   * Enable In-Call Vibrate
+  * Customize
+   * Hide Notification Body
+   * Notification Count Action
+   * Confirm Deletion
+   * Display Dismiss Button
+   * Dismiss Button Action
+   * Display Delete Button
+   * Delete Button Action
+   * Display Reply Button
+   * Reply Button Action
+
+ * Twitter
   * Enable Twitter
   * Enable Twitter Direct Messages
   * Enable Twitter Mentions
@@ -212,7 +211,7 @@ Notifications
   * Select Preferred Client
   * Polling Frequency
   * Enable Status Bar Notifications
-  * Status Bar Notification Settings
+  * Status Bar Notifications
    * Display When Blocked
    * Notification Icon
    * Notification Sound
@@ -223,19 +222,18 @@ Notifications
    * LED Blink Setting
    * Enable In-Call Sound
    * Enable In-Call Vibrate
-  * Notification Body Settings
+  * Customize
    * Hide Notification Body
-  * Button Settings
-   * Confirm Deletion
-   * Delete Button Action
-   * Reply Button Action
    * Notification Count Action
-   * Show/Hide Button Settings
-    * Display Dismiss Button
-    * Display Delete Button
-    * Display Reply Button 
-	
- * *_Facebook Notifications_*
+   * Confirm Deletion
+   * Display Dismiss Button
+   * Display Delete Button
+   * Delete Button Action
+   * Display View Button
+   * Display Reply Button
+   * Reply Button Action
+
+ * Facebook
   * Enable Facebook
   * Enable Facebook Notifications
   * Enable Facebook Friend Requests
@@ -244,7 +242,7 @@ Notifications
   * Select Preferred Client
   * Polling Frequency
   * Enable Status Bar Notifications
-  * Status Bar Notification Settings
+  * Status Bar Notifications
    * Display When Blocked
    * Notification Icon
    * Notification Sound
@@ -255,41 +253,30 @@ Notifications
    * LED Blink Setting
    * Enable In-Call Sound
    * Enable In-Call Vibrate
-  * Notification Body Settings
+  * Customize
    * Hide Notification Body
-  * Button Settings
    * Notification Count Action
-   * Show/Hide Button Settings
-    * Display Dismiss Button
-    * Display View Button
-    * Display Reply Button
-	
-*_Screen Settings_*
-
-Screen Settings	
- * Turn Screen On
- * Dim Screen
- * Unlock Phone
- * Enable Landscape Mode
- * Blur Screen Background
- * Dim Screen Background
- * Dim Screen Value
-	
-*_Advanced Settings_*
-
-Advanced Settings
+   * Display Dismiss Button
+   * Display View Button
+   * Display Reply Button
+ 
+Privacy
+ * Status Bar Notification Privacy
+ 
+Advanced
  * Enable Haptic Feedback
  * Close In Background
  * Ignore Linked Apps
+ * Restrict Popup
  * Screen Timeout
  * SMS Timeout
  * SMS Loading Setting
  * SMS TimeStamp Adjustment
  * MMS Timeout
  * Call Log Timeout
+ * K-9 Timeout
  * Reset Twitter Data
  * Reset Facebook Data
- * K-9 Timeout
  * SMS-to-Email Gateway
  * Clear Notifications On Exit
  * Export Preferences
@@ -297,17 +284,15 @@ Advanced Settings
  * Debug Settings
   * Turn On Debug Mode
   * Send Debug Logs
- 
+
 *_Feedback_*
 
 Rate App
 
 Email Developer
 
+Upgrade
+
 *_About_*
 
 About
-
-*_License_*
-
-License
