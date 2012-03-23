@@ -5,8 +5,6 @@
 
 Enable Droid Notify
 
-*_Basic_*
-
 Basic
  * Blocking Notification Options
  * Display Text To Speech Button
