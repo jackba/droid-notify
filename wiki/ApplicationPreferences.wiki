@@ -271,7 +271,7 @@ Advanced
  * Screen Timeout
  * SMS Timeout
  * SMS Loading Setting
- * SMS _TimeStamp Adjustment
+ * SMS TimeStamp Adjustment
  * MMS Timeout
  * Call Log Timeout
  * K-9 Timeout
