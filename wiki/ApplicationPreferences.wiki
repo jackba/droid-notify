@@ -16,7 +16,7 @@ Basic
  * Disable Photo Menu
  * Display Reschedule Button
  * Reschedule Settings
-   *Reschedule Time
+   * Reschedule Time
  * Enable Reminders
  * Reminder Settings
   * Reminder Frequency
@@ -271,7 +271,7 @@ Advanced
  * Screen Timeout
  * SMS Timeout
  * SMS Loading Setting
- * SMS TimeStamp Adjustment
+ * SMS _TimeStamp Adjustment
  * MMS Timeout
  * Call Log Timeout
  * K-9 Timeout
