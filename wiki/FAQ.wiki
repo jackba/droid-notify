@@ -27,7 +27,7 @@
 
 = *Droid Notify Plus* =
 
- * [FAQ#After_Droid_Notify_Plus_updates,_the_app_stops_working. Why? After Droid Notify Plus updates, the app stops working. Why?]
+ * [FAQ#After_Droid_Notify_Plus_updates,_the_app_stops_working._Why? After Droid Notify Plus updates, the app stops working. Why?]
 
 ----
 
