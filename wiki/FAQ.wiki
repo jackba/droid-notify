@@ -25,6 +25,10 @@
  * [FAQ#The_LED_light_is_not_working._Why? The LED light is not working. Why?]
  * [FAQ#Known_Issues Known Issues]
 
+= *Droid Notify Plus* =
+
+ * [FAQ#After_Droid_Notify_Plus_updates,_the_app_stops_working. Why? After Droid Notify Plus updates, the app stops working. Why?]
+
 ----
 
 ==Can I change the UI of the notification?==
@@ -160,3 +164,7 @@ In my experience, many phones only show the LED when the screen is off. If the o
 Here are confirmed, known issues that have not been resolved yet:
   * *Screen doesn't turn on / screen flashes when new notifications arrive.* I have seen this on some devices (but not all). Due to Android fragmentation and the shear number of different hardware devices and rooted/ROM phones, it's difficult to find a cause for this problem but I will continue to try to update the waking of the phone to make it as smooth as possible for as many phones/makes/models as possible.
  * 
+
+==After Droid Notify Plus updates, the app stops working. Why?==
+
+There is a bug in all versions of Android prior to Android 4.0 which stops the accessibility services from running after an update. Either disable and then re-enable the accessibility service in the phones settings or restarts your phone to restart the service/app.
