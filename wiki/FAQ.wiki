@@ -61,6 +61,8 @@ Apps which users have asked for integration (with comments):
 7) Yahoo Mail - Looking into the possibility. Why not install K-9 Mail or Kaiten Mail? It works great with Yahoo Mail!
 8) Hotmail - Looking into the possibility. Why not install K-9 Mail or Kaiten Mail? It works great with Hotmail!
 
+Currently, I am working on an add-on called *Droid Notify Plus* which is an accessibility service which will offer a much simpler notification popup for all of the phones apps. Stay tuned!
+
 ==Can Droid Notify be moved to the SD card?==
 
 Unfortunately, the answer is no.
