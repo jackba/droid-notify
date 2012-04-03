@@ -8,7 +8,7 @@
  * Updated how reminders are cancelled.
  * Small bug fixes.
 
-*v3.1* _Coming Soon..._
+*v3.1* (April 3, 2012)
  * Fixed FC error when settings menu button is used.
  * Updated how reminders are cancelled.
  * Added a beta of a new API which will allow any 3r4d party app to display popup notifications on the phone.
