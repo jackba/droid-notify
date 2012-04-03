@@ -5,6 +5,7 @@
 
 *v3.1* _Coming Soon..._
  * Fixed FC error when settings menu button is used.
+ * Updated how reminders are cancelled.
  * Small bug fixes.
 
 *v3.0* (March 22, 2012)
