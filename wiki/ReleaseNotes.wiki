@@ -4,8 +4,9 @@
 = Release Notes =
 
 *v3.2* _Coming Soon..._
- * Fixed FC error when settings menu button is used.
- * Updated how reminders are cancelled.
+ * Updated the API in the application.
+ * Updated/fixed problems with notification timestamps.
+ * Updated translations.
  * Small bug fixes.
 
 *v3.1* (April 3, 2012)
