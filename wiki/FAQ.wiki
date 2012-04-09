@@ -23,6 +23,7 @@
  * [FAQ#Can_Droid_Notify_Popups_Display_Over_The_Lock_Screen? Can Droid Notify Popups Display Over The Lock Screen?]
  * [FAQ#K-9_Emails_are_not_being_shown._Why? K-9 Emails are not being shown. Why?]
  * [FAQ#The_LED_light_is_not_working._Why? The LED light is not working. Why?]
+ * [FAQ#The_Missed_Call_status_bar_notification_is_not_being_dismissed._Why? The Missed Call status bar notification is not being dismissed. Why?]
  * [FAQ#Known_Issues Known Issues]
 
 = *Droid Notify Plus* =
@@ -167,6 +168,10 @@ There is most likely one of two reasons that this might happen.
 The Android OS allows you to set the LED color to any color that you want, after which the hardware will *do its best* to show that color. If the color you chose doesn't show properly or doesn't show at all then it is likely a hardware limitation. Some newer Android phones may not even have an LED or may not have an LED that supports multiple colors (or the color that you selected in particular). 
 
 In my experience, many phones only show the LED when the screen is off. If the option to unlock the phone and turn the screen on is selected, then the LED will never be displayed on these phones. Another problem is that some phones only display a few colors (red, green, orange). If you set the LED color to blue or a bluish color, for example, then the LED will not be shown at all.
+
+==The Missed Call status bar notification is not being dismissed. Why?==
+
+On most phones, the stock missed call status bar notification will not be removed when a missed call popup id dismissed. This status bar notification is a system notificaiton and there is no API to remove it. If you are running Android 2.2, this should not be a problem, but any version of 2.3 or greater, this continues to be an issue. Until Android provides a way to remove system notifications, this issue will remain.
 
 ==Known Issues==
 
