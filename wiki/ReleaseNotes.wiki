@@ -3,7 +3,11 @@
 
 = Release Notes =
 
-*v3.2* _Coming Soon..._
+*v3.3* _Coming Soon..._
+ * 
+ * Small bug fixes.
+
+*v3.2* (April 9, 2012)
  * Updated the API in the application.
  * Updated/fixed problems with notification timestamps.
  * Updated translations.
