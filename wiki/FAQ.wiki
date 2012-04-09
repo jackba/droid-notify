@@ -53,14 +53,14 @@ Most applications are private apps and do not have an open API so currently ther
 
 Apps which users have asked for integration (with comments):
 
-1) WhatsApp - Currently there is no API for this application. I have contacted the company but they refuse to answer. Until they let 3rd party developers access to the data there is nothing we can do.
+1) !WhatsApp - Currently there is no API for this application. I have contacted the company but they refuse to answer. Until they let 3rd party developers access to the data there is nothing we can do.
 
 2) Skype - Looking into the possibility.
 
 3) GMail - Looking into the possibility. Why not install K-9 Mail or Kaiten Mail? It works great with GMail!
 4) Google+ - Looking into the possibility.
 
-5) LinkedIn - Looking into the possibility.
+5) !LinkedIn - Looking into the possibility.
 
 6) gTalk - Looking into the possibility.
 
