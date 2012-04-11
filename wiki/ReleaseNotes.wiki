@@ -7,8 +7,9 @@
  * 
  * Small bug fixes.
 
-*v3.3* (April 11, 2012)
+*v3.3* (April 12, 2012)
  * Fixed some bugs in the loading of unread SMS messages.
+ * Fixed a bug that caused incorrect Facebook times to be displayed.
  * Updated translations.
  * Small bug fixes.
 
