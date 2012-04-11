@@ -7,6 +7,11 @@
  * 
  * Small bug fixes.
 
+*v3.3* (April 11, 2012)
+ * Fixed some bugs in the loading of unread SMS messages.
+ * Updated translations.
+ * Small bug fixes.
+
 *v3.2* (April 9, 2012)
  * Updated the API in the application.
  * Updated/fixed problems with notification timestamps.
