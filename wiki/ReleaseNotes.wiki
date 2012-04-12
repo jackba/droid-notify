@@ -4,6 +4,7 @@
 = Release Notes =
 
 *v3.3* _Coming Soon..._
+ * Fixed incorrect timestamps in missed call notifications.
  * 
  * Small bug fixes.
 
