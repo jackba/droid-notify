@@ -5,7 +5,9 @@
 
 *v3.3* _Coming Soon..._
  * Fixed incorrect timestamps in missed call notifications.
- * 
+ * Removed some unneeded app permissions.
+ *
+ * Updated translations.
  * Small bug fixes.
 
 *v3.3* (April 12, 2012)
