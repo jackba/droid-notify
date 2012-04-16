@@ -69,6 +69,7 @@ Customize
  * Contact Name Font Size
  * Display Contact Number
  * Contact Number Font Size
+ * Display Unknown Contact Number
  * Display Notification Body
  * Center Align Body Text
  * Notification Body Font Size
