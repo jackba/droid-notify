@@ -6,7 +6,7 @@
 *v3.4* _Coming Soon..._
  * 
 
-*v3.3* _Coming Soon..._
+*v3.3* (April 18, 2012)
  * Fixed incorrect timestamps in missed call notifications.
  * Removed some unneeded app permissions.
  * Updated the debug log code. Logs will be stored on the phones SD card.
