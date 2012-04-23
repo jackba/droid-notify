@@ -9,6 +9,7 @@
 *v3.5* _Coming Soon..._
  * Fixed contact mapping issue.
  * Fixed call log permission error.
+ * Enhanced debugging capabilities.
  * Small bug fixes.
 
 *v3.4* (April 18, 2012)
