@@ -179,7 +179,7 @@ If your phone has been rooted, you can install and use a 3rd party add-on called
 
 Here are confirmed, known issues that have not been resolved yet:
   * *Screen doesn't turn on / screen flashes when new notifications arrive.* I have seen this on some devices (but not all). Due to Android fragmentation and the shear number of different hardware devices and rooted/ROM phones, it's difficult to find a cause for this problem but I will continue to try to update the waking of the phone to make it as smooth as possible for as many phones/makes/models as possible.
- * 
+ * Repeat Notifications. Some users have reported that notifications will repeat and display again and again on the phone. I have not been able to reproduce this problem but I am looking into it with users who report this problem.
 
 ==After Droid Notify Plus updates, the app stops working. Why?==
 
