@@ -13,11 +13,10 @@ import apps.droidnotify.calendar.CalendarCommon;
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
 import apps.droidnotify.email.EmailCommon;
-import apps.droidnotify.facebook.FacebookCommon;
 import apps.droidnotify.log.Log;
 import apps.droidnotify.phone.PhoneCommon;
 import apps.droidnotify.sms.SMSCommon;
-import apps.droidnotify.twitter.TwitterCommon;
+import apps.droidnotify.contacts.ContactsCommon;
 
 /**
  * This is the Notification class that holds all the information about all notifications we will display to the user.
@@ -62,6 +61,11 @@ public class Notification {
 	private PendingIntent _reminderPendingIntent = null;
 	private int _notificationSubType = -1;
 	private String _linkURL = null;
+	private String _packageName = null;
+	private PendingIntent _dismissPendingIntent = null;
+	private PendingIntent _deletePendingIntent = null;
+	private PendingIntent _viewPendingIntent = null;
+	private Bundle _statusBarNotificationBundle = null;
 	
 	//================================================================================
 	// Constructors
@@ -72,7 +76,7 @@ public class Notification {
 	 */
 	public Notification(Context context, Bundle notificationBundle){		
 		_debug = Log.getDebug();
-		if (_debug) Log.v("Notification.Notification() ==BUNDLE CONSTRUCTOR==");
+		if (_debug) Log.v("Notification.Notification()");
 		try{
 			_context = context;
 			_preferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -104,7 +108,11 @@ public class Notification {
 			_k9EmailDelUri = notificationBundle.getString(Constants.BUNDLE_K9_EMAIL_DEL_URI);
 			_rescheduleNumber = notificationBundle.getInt(Constants.BUNDLE_RESCHEDULE_NUMBER, 0);
 			_notificationSubType = notificationBundle.getInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, -1);
-			_linkURL = notificationBundle.getString(Constants.BUNDLE_LINK_URL);
+			_linkURL = notificationBundle.getString(Constants.BUNDLE_LINK_URL);			
+			_packageName = notificationBundle.getString(Constants.BUNDLE_PACKAGE);
+			_dismissPendingIntent = notificationBundle.getParcelable(Constants.BUNDLE_DISMISS_PENDINGINTENT);
+			_deletePendingIntent = notificationBundle.getParcelable(Constants.BUNDLE_DELETE_PENDINGINTENT);
+			_viewPendingIntent = notificationBundle.getParcelable(Constants.BUNDLE_VIEW_PENDINGINTENT);
 			
 			//Customize the Notification based on what was provided.
 			if(_sentFromAddress != null && _sentFromAddress.equals("")) _sentFromAddress = null;
@@ -132,18 +140,31 @@ public class Notification {
 					if(_sentFromAddress != null) _sentFromAddress = _sentFromAddress.toLowerCase();
 					break;
 				}
-				case Constants.NOTIFICATION_TYPE_TWITTER:{
-					if(_title == null) _title = "Twitter";
-					break;
-				}
-				case Constants.NOTIFICATION_TYPE_FACEBOOK:{
-					if(_title == null) _title = "Facebook";
-					if(_contactID < 0) _contactName = _sentFromAddress;
-					break;
-				}
 				case Constants.NOTIFICATION_TYPE_K9:{
 					if(_title == null) _title = "Email";
 					if(_sentFromAddress != null) _sentFromAddress = _sentFromAddress.toLowerCase();
+					break;
+				}
+				case Constants.NOTIFICATION_TYPE_GENERIC:{
+					_messageBody = String.valueOf(notificationBundle.getCharSequence(Constants.DROID_NOTIFY_API_DISPLAY_TEXT));
+					//Get Contact Info.
+					Bundle contactInfoBundle = null;
+					if(_contactID >= 0 && _contactName == null){
+						contactInfoBundle = ContactsCommon.getContactsInfoByID(_context, _contactID);
+					}else if(_contactName != null && _contactID < 0){
+						contactInfoBundle = ContactsCommon.getContactsInfoByName(_context, _contactName);
+					}else{
+						contactInfoBundle = ContactsCommon.getContactsInfoByID(_context, _contactID);
+					}
+					if(contactInfoBundle != null){
+						_contactID = contactInfoBundle.getLong(Constants.BUNDLE_CONTACT_ID, -1);
+						_contactName = contactInfoBundle.getString(Constants.BUNDLE_CONTACT_NAME);
+						_photoID = contactInfoBundle.getLong(Constants.BUNDLE_PHOTO_ID, -1);
+						_lookupKey = contactInfoBundle.getString(Constants.BUNDLE_LOOKUP_KEY);
+					}
+					break;
+				}
+				default:{
 					break;
 				}
 			}
@@ -165,7 +186,7 @@ public class Notification {
 			setReminder();
 			
 		}catch(Exception ex){
-			Log.e("Notification.Notification() ==BUNDLE CONSTRUCTOR== ERROR: " + ex.toString());
+			Log.e("Notification.Notification() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -206,6 +227,9 @@ public class Notification {
 		notificationBundle.putInt(Constants.BUNDLE_RESCHEDULE_NUMBER, _rescheduleNumber);
 		notificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, _notificationSubType);
 		notificationBundle.putString(Constants.BUNDLE_LINK_URL, _linkURL);
+		notificationBundle.putParcelable(Constants.BUNDLE_DISMISS_PENDINGINTENT, _dismissPendingIntent);
+		notificationBundle.putParcelable(Constants.BUNDLE_DELETE_PENDINGINTENT, _deletePendingIntent);
+		notificationBundle.putParcelable(Constants.BUNDLE_VIEW_PENDINGINTENT, _viewPendingIntent);
 		return notificationBundle;
 	}
 	
@@ -218,7 +242,12 @@ public class Notification {
 		if (_debug) Log.v("Notification.getSentFromAddress()");
 		//if (_debug) Log.v("Notification.getSentFromAddress() SentFromAddress: " + _sentFromAddress);
 		if (_sentFromAddress == null) {
-			_sentFromAddress = _context.getString(android.R.string.unknownName);
+			try{
+				_sentFromAddress = _context.getString(android.R.string.unknownName);
+			}catch(Exception ex){
+				//Set the address to blank if this fails.
+				_sentFromAddress = "";
+			}
 	    }
 		return _sentFromAddress;
 	}
@@ -538,6 +567,56 @@ public class Notification {
 	}
 	
 	/**
+	 * Get the packageName property.
+	 * 
+	 * @return String - The name of the package of the source of the generic notificaiton.
+	 */
+	public String getPackageName() {
+		if (_debug) Log.v("Notification.getPackageName()");
+	    return _packageName;
+	}
+	
+	/**
+	 * Get the dismissPendingIntent property.
+	 * 
+	 * @return PendingIntent - The dismiss PendingIntent.
+	 */
+	public PendingIntent getDismissPendingIntent() {
+		if (_debug) Log.v("Notification.getDismissPendingIntent()");
+	    return _dismissPendingIntent;
+	}
+	
+	/**
+	 * Get the deletePendingIntent property.
+	 * 
+	 * @return PendingIntent - The delete PendingIntent.
+	 */
+	public PendingIntent getDeletePendingIntent() {
+		if (_debug) Log.v("Notification.getDeletePendingIntent()");
+	    return _deletePendingIntent;
+	}
+	
+	/**
+	 * Get the viewPendingIntent property.
+	 * 
+	 * @return PendingIntent - The view PendingIntent.
+	 */
+	public PendingIntent getViewPendingIntent() {
+		if (_debug) Log.v("Notification.getViewPendingIntent()");
+	    return _viewPendingIntent;
+	}
+	
+	/**
+	 * Get the statusBarNotificationBundle property.
+	 * 
+	 * @return statusBarNotificationBundle - The Bundle that contains status bar notification properties.
+	 */
+	public Bundle getStatusBarNotificationBundle() {
+		if (_debug) Log.v("Notification.getStatusBarNotificationBundle()");
+	    return _statusBarNotificationBundle;
+	}
+	
+	/**
 	 * Set this notification as being viewed on the users phone.
 	 * 
 	 * @param isViewed - Boolean value to set or unset the item as being viewed.
@@ -573,28 +652,6 @@ public class Notification {
 			}
 			case Constants.NOTIFICATION_TYPE_CALENDAR:{
 				//Do nothing. There is no log to update for Calendar Events.
-				break;
-			}
-			case Constants.NOTIFICATION_TYPE_TWITTER:{
-				//Currently, there is no way to mark a Twitter message or friend request as being viewed.
-				//if(_notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE){
-				//	
-				//}else if(_notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_MENTION){
-				//	
-				//}else if(_notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_FRIEND_REQUEST){
-				//	
-				//}
-				break;
-			}
-			case Constants.NOTIFICATION_TYPE_FACEBOOK:{
-				if(_notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION){
-					FacebookCommon.setFacebookNotificationRead(_context, _messageStringID, isViewed);
-				}
-				//else if(_notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST){
-				//	//The Facebook API doesn't allow marking Friend Requests as being viewed.
-				//}else if(_notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE){
-				//	//The Facebook API doesn't allow marking Messages as being viewed.
-				//}
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_K9:{
@@ -635,13 +692,9 @@ public class Notification {
 				if(deleteThread){
 					SMSCommon.deleteMessageThread(_context, getThreadID(), _notificationType);
 				}else{
-					SMSCommon.deleteSingleMessage(_context, getMessageID(), _notificationType);
+					SMSCommon.deleteSingleMessage(_context, getMessageID(), getThreadID(), _notificationType);
 				}
 			}
-		}else if(_notificationType == Constants.NOTIFICATION_TYPE_TWITTER){
-			TwitterCommon.deleteTwitterItem(_context, this);
-		}else if(_notificationType == Constants.NOTIFICATION_TYPE_FACEBOOK){
-			FacebookCommon.deleteFacebookItem(_context, this);
 		}else if(_notificationType == Constants.NOTIFICATION_TYPE_K9){
 			EmailCommon.deleteK9Email(_context, _k9EmailDelUri, _notificationSubType);
 		}
@@ -702,20 +755,20 @@ public class Notification {
 		}
 		switch(_notificationType){
 			case Constants.NOTIFICATION_TYPE_PHONE:{
-				String formattedTimestamp = Common.formatTimestamp(_context, _timeStamp, false);
+				String formattedTimestamp = Common.formatTimestamp(_context, _timeStamp);
 				messageToSpeak.append(_context.getString(R.string.missed_call_at_text, formattedTimestamp.toLowerCase()));
 				messageToSpeak.append(". " + _context.getString(R.string.from_text) + " " + sentFrom + ". ");
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_SMS:{
-				String formattedTimestamp = Common.formatTimestamp(_context, _timeStamp, _preferences.getBoolean(Constants.SMS_TIME_IS_UTC_KEY, false));
+				String formattedTimestamp = Common.formatTimestamp(_context, _timeStamp);
 				messageToSpeak.append(_context.getString(R.string.message_at_text, formattedTimestamp.toLowerCase()));
 				messageToSpeak.append(". " + _context.getString(R.string.from_text) + " " + sentFrom + ". ");
 				messageToSpeak.append(_messageBody);
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_MMS:{
-				String formattedTimestamp = Common.formatTimestamp(_context, _timeStamp, false);
+				String formattedTimestamp = Common.formatTimestamp(_context, _timeStamp);
 				messageToSpeak.append(_context.getString(R.string.message_at_text, formattedTimestamp.toLowerCase()));
 				messageToSpeak.append(". " + _context.getString(R.string.from_text) + " " + sentFrom + ". ");
 				messageToSpeak.append(_messageBody);
@@ -725,32 +778,8 @@ public class Notification {
 				messageToSpeak.append(_context.getString(R.string.calendar_event_text) + ". " + _messageBody);
 				break;
 			}
-			case Constants.NOTIFICATION_TYPE_TWITTER:{
-				String formattedTimestamp = Common.formatTimestamp(_context, _timeStamp, false);
-				if(_notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE){
-					messageToSpeak.append(_context.getString(R.string.message_at_text, formattedTimestamp.toLowerCase()));
-				}else if(_notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_MENTION){
-					messageToSpeak.append(_context.getString(R.string.mention_at_text, formattedTimestamp.toLowerCase()));
-				}else if(_notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_FOLLOWER_REQUEST){
-					messageToSpeak.append(_context.getString(R.string.follower_request_text));
-				}
-				messageToSpeak.append(". " + _context.getString(R.string.from_text) + " " + sentFrom + ". ");
-				messageToSpeak.append(_messageBody);				
-				break;
-			}
-			case Constants.NOTIFICATION_TYPE_FACEBOOK:{
-				String formattedTimestamp = Common.formatTimestamp(_context, _timeStamp, true);
-				if(_notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION){
-					messageToSpeak.append(_context.getString(R.string.notification_at_text, formattedTimestamp.toLowerCase()));
-				}else if(_notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST){
-					messageToSpeak.append(_context.getString(R.string.friend_request_at_text, formattedTimestamp.toLowerCase()));
-				}
-				messageToSpeak.append(". " + _context.getString(R.string.from_text) + " " + sentFrom + ". ");
-				messageToSpeak.append(_messageBody);
-				break;
-			}
 			case Constants.NOTIFICATION_TYPE_K9:{
-				String formattedTimestamp = Common.formatTimestamp(_context, _timeStamp, false);
+				String formattedTimestamp = Common.formatTimestamp(_context, _timeStamp);
 				messageToSpeak.append(_context.getString(R.string.email_at_text, formattedTimestamp.toLowerCase()));
 				messageToSpeak.append(". " + _context.getString(R.string.from_text) + " " + sentFrom + ". ");
 				messageToSpeak.append(_messageBody);
@@ -791,7 +820,7 @@ public class Notification {
 	 */
 	private void setMessageRead(boolean isViewed){
 		if(_debug)Log.v("Notification.setMessageRead()");
-		SMSCommon.setMessageRead(_context, getMessageID(), isViewed, _notificationType);
+		SMSCommon.setMessageRead(_context, getMessageID(), isViewed);
 	}
 	
 }

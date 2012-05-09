@@ -68,6 +68,12 @@ public class PhoneAlarmBroadcastReceiverService extends WakefulIntentService {
 				if (_debug) Log.v("PhoneAlarmBroadcastReceiverService.doWakefulWork() Missed Call Notifications Disabled. Exiting... ");
 				return;
 			}
+			//Check for a blacklist entry before doing anything else.
+		    Bundle missedCallNotificationBundle = PhoneCommon.getMissedCalls(context);		
+    		Bundle missedCallNotificationBundleSingle = null;
+    		if(missedCallNotificationBundle != null){
+    			missedCallNotificationBundleSingle = missedCallNotificationBundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_1");
+    		}
 		    //Check the state of the users phone.
 		    TelephonyManager telemanager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 		    boolean notificationIsBlocked = false;
@@ -89,14 +95,10 @@ public class PhoneAlarmBroadcastReceiverService extends WakefulIntentService {
 				WakefulIntentService.sendWakefulWork(context, new Intent(context, PhoneService.class));
 		    }else{
 		    	//Display the Status Bar Notification even though the popup is blocked based on the user preferences.
-    			Bundle missedCallNotificationBundle = PhoneCommon.getMissedCalls(context);	
 		    	if(preferences.getBoolean(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true)){
-	    			if(missedCallNotificationBundle != null){
-		    			Bundle missedCallNotificationBundleSingle = missedCallNotificationBundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_1");
-						if(missedCallNotificationBundleSingle != null){
-			    			//Display Status Bar Notification
-			    			Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_PHONE, 0, callStateIdle, missedCallNotificationBundleSingle.getString(Constants.BUNDLE_CONTACT_NAME), missedCallNotificationBundleSingle.getString(Constants.BUNDLE_SENT_FROM_ADDRESS), null, null, null);
-						}
+					if(missedCallNotificationBundleSingle != null){
+		    			//Display Status Bar Notification
+		    			Common.setStatusBarNotification(context, 1, Constants.NOTIFICATION_TYPE_PHONE, 0, callStateIdle, missedCallNotificationBundleSingle.getString(Constants.BUNDLE_CONTACT_NAME), missedCallNotificationBundleSingle.getLong(Constants.BUNDLE_CONTACT_ID, -1), missedCallNotificationBundleSingle.getString(Constants.BUNDLE_SENT_FROM_ADDRESS), null, null, null, false, null);
 					}
 	    		}					
 		    	if(missedCallNotificationBundle != null) Common.rescheduleBlockedNotification(context, rescheduleNotificationInCall, rescheduleNotificationInQuickReply, Constants.NOTIFICATION_TYPE_PHONE, missedCallNotificationBundle);

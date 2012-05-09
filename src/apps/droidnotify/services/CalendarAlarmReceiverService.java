@@ -24,7 +24,7 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
 	//================================================================================
 	
 	/**
-	 * 
+	 * Class constructor.
 	 */
 	public CalendarAlarmReceiverService() {
 		super("CalendarAlarmReceiverService");

@@ -12,21 +12,26 @@
 	    android:layout_width="fill_parent"
 	    android:gravity="center"
 	    android:padding="2dp" >
-	    <Button
-	    	android:id="@+id/previous_button" 
-	     	android:layout_height="wrap_content"
-	     	android:layout_width="wrap_content"
+	    <LinearLayout 
+			android:id="@+id/navigation_left_linear_layout"
+		    android:layout_height="wrap_content"
+		    android:layout_width="wrap_content" 
+		    android:orientation="horizontal"
 	      	android:layout_alignParentLeft="true"
-	      	android:layout_alignParentTop="true"
-			android:hapticFeedbackEnabled="true" />
-	    <ImageView
-	        android:id="@+id/tts_button_image_view"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_alignTop="@+id/previous_button"
-	        android:layout_toRightOf="@+id/previous_button"
-	        android:padding="5dp" />
-	    <TextView
+	      	android:layout_alignParentTop="true">
+		    <Button
+		    	android:id="@+id/previous_button" 
+		     	android:layout_height="wrap_content"
+		     	android:layout_width="wrap_content" />	    
+		    <ImageView
+		        android:id="@+id/tts_button_image_view"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_gravity="center_vertical"
+		        android:padding="5dp"
+		        android:src="@drawable/ic_tts" />
+		 </LinearLayout>	    
+	     <TextView
 	        android:id="@+id/notification_count_text_view"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
@@ -38,21 +43,25 @@
 	        android:gravity="center"
 	        android:text="0/0"
 	        android:textAppearance="?android:attr/textAppearanceMedium" />
-		<ImageView
-		    android:id="@+id/reschedule_button_image_view"
-		    android:layout_width="wrap_content"
+	    <LinearLayout 
+			android:id="@+id/navigation_right_linear_layout"
 		    android:layout_height="wrap_content"
-		    android:layout_alignTop="@+id/next_button"
-		    android:layout_toLeftOf="@+id/next_button"
-		    android:layout_marginLeft="5dp"
-		    android:layout_marginRight="5dp" />
-	    <Button
-	    	android:id="@+id/next_button" 
-	      	android:layout_height="wrap_content"
-	      	android:layout_width="wrap_content"
+		    android:layout_width="wrap_content" 
+		    android:orientation="horizontal"
+		    android:layout_centerVertical="true"
 	      	android:layout_alignParentRight="true"
-	      	android:layout_alignParentTop="true"
-			android:hapticFeedbackEnabled="true" />
+	      	android:layout_alignParentTop="true">
+		    <ImageView
+		        android:id="@+id/reschedule_button_image_view"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"		        
+		        android:layout_gravity="center_vertical"
+		        android:src="@drawable/ic_reschedule" />
+		    <Button
+		    	android:id="@+id/next_button" 
+		      	android:layout_height="wrap_content"
+		      	android:layout_width="wrap_content" />
+		 </LinearLayout>	
 	</RelativeLayout>
 	<LinearLayout
 		android:id="@+id/contact_main_linear_layout"
@@ -61,8 +70,7 @@
 		android:layout_width="fill_parent"
 		android:layout_gravity="left"
 		android:focusable="true" 
-		android:clickable="true"
-		android:hapticFeedbackEnabled="true">	
+		android:clickable="true">	
 		<LinearLayout
 			android:id="@+id/contact_wrapper_linear_layout"
 			android:orientation="horizontal"
@@ -70,8 +78,7 @@
 			android:layout_width="fill_parent" 
 			android:layout_gravity="fill_horizontal"
 			android:focusable="true" 
-			android:clickable="true"
-			android:hapticFeedbackEnabled="true">
+			android:clickable="true">
 			<ImageView
 				android:id="@+id/contact_photo_image_view"
 				android:layout_height="wrap_content"
@@ -140,8 +147,7 @@
 			android:padding="15dp" 
 			android:selectAllOnFocus="true"
 			android:focusable="true" 
-			android:clickable="true" 
-			android:hapticFeedbackEnabled="true"
+			android:clickable="true"
 			android:textStyle="bold"
 			android:visibility="gone"
 			android:text="@string/mms_click_here_to_view" />
@@ -172,7 +178,6 @@
 			android:layout_marginLeft="1dp"
 			android:layout_marginRight="1dp"
 			android:gravity="center_vertical|center_horizontal"
-			android:hapticFeedbackEnabled="true"
 			android:text="@string/dismiss" />
 		<Button
 			android:id="@+id/delete_button"  
@@ -182,7 +187,6 @@
 			android:layout_marginLeft="1dp"
 			android:layout_marginRight="1dp"
 			android:gravity="center_vertical|center_horizontal"
-			android:hapticFeedbackEnabled="true"
 			android:text="@string/delete" />
 		<Button
 			android:id="@+id/call_button"  
@@ -192,7 +196,6 @@
 			android:layout_marginLeft="1dp"
 			android:layout_marginRight="1dp"
 			android:gravity="center_vertical|center_horizontal"
-			android:hapticFeedbackEnabled="true"
 			android:text="@string/call" />
 		<Button
 			android:id="@+id/reply_button"  
@@ -202,7 +205,6 @@
 			android:layout_marginLeft="1dp"
 			android:layout_marginRight="1dp"
 			android:gravity="center_vertical|center_horizontal"
-			android:hapticFeedbackEnabled="true"
 			android:text="@string/reply" />
 		<Button
 			android:id="@+id/view_button"  
@@ -212,7 +214,6 @@
 			android:layout_marginLeft="1dp"
 			android:layout_marginRight="1dp"
 			android:gravity="center_vertical|center_horizontal"
-			android:hapticFeedbackEnabled="true"
 			android:text="@string/view" />
 	</LinearLayout>
 	<LinearLayout 
@@ -230,7 +231,6 @@
 			android:layout_marginLeft="1dp"
 			android:layout_marginRight="1dp"
 			android:gravity="center_vertical|center_horizontal"
-			android:hapticFeedbackEnabled="true"
 			android:scaleType="center" />
 		<ImageButton
 			android:id="@+id/delete_image_button"  
@@ -240,7 +240,6 @@
 			android:layout_marginLeft="1dp"
 			android:layout_marginRight="1dp"
 			android:gravity="center_vertical|center_horizontal"
-			android:hapticFeedbackEnabled="true"
 			android:scaleType="center" />
 		<ImageButton
 			android:id="@+id/call_image_button"  
@@ -250,7 +249,6 @@
 			android:layout_marginLeft="1dp"
 			android:layout_marginRight="1dp"
 			android:gravity="center_vertical|center_horizontal"
-			android:hapticFeedbackEnabled="true"
 			android:scaleType="center" />
 		<ImageButton
 			android:id="@+id/reply_image_button"  
@@ -260,7 +258,6 @@
 			android:layout_marginLeft="1dp"
 			android:layout_marginRight="1dp"
 			android:gravity="center_vertical|center_horizontal"
-			android:hapticFeedbackEnabled="true"
 			android:scaleType="center" />
 		<ImageButton
 			android:id="@+id/view_image_button"  
@@ -270,7 +267,6 @@
 			android:layout_marginLeft="1dp"
 			android:layout_marginRight="1dp"
 			android:gravity="center_vertical|center_horizontal"
-			android:hapticFeedbackEnabled="true"
 			android:scaleType="center" />
 	</LinearLayout>
 </LinearLayout>

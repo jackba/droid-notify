@@ -9,19 +9,23 @@
 		<item>Française</item>
 		<item>Deutsch</item>
 		<item>עברית</item>
+		<item>Magyar</item>
+		<item>Italiano</item>
 		<item>Português</item>
 		<item>Português Brasileiro</item>
 		<item>Polski</item>
 		<item>Español</item>
 		<item>中文（简体）</item>
 	</string-array>
-	<string-array name="language_options_values">
+	<string-array name="language_values">
 		<item>phone_default</item>
 		<item>en</item>
 		<item>en_GB</item>
 		<item>fr</item>
 		<item>de</item>
 		<item>he</item>
+		<item>hu</item>
+		<item>it</item>
 		<item>pt</item>
 		<item>pt_BR</item>
 		<item>pl</item>
@@ -29,6 +33,18 @@
 		<item>zh_CN</item>
 	</string-array>
 
+		<!-- Window Width Padding Preferences Arrays --> 
+	<string-array name="popup_horizontal_location_options">
+		<item>@string/top</item>
+		<item>@string/center</item>
+		<item>@string/bottom</item>
+	</string-array>
+	<string-array name="popup_horizontal_location_values">
+		<item>0</item>
+		<item>1</item>
+		<item>2</item>
+	</string-array>
+	
 	<!-- Window Width Padding Preferences Arrays --> 
 	<string-array name="popup_width_padding_options">
 		<item>0</item>
@@ -83,7 +99,7 @@
 		<item>49</item>
 		<item>50</item>
 	</string-array>
-	<string-array name="popup_width_padding_options_values">
+	<string-array name="popup_width_padding_values">
 		<item>0</item>
 		<item>1</item>
 		<item>2</item>
@@ -190,7 +206,7 @@
 		<item>@string/nothing_text</item>
 		<item>@string/mark_as_read_text</item>
 	</string-array>	
-	<string-array name="sms_dismiss_button_options_values">
+	<string-array name="sms_dismiss_button_values">
 		<item>1</item>
 		<item>0</item>
 	</string-array>
@@ -200,7 +216,7 @@
 		<item>@string/delete_message_text</item>
 		<item>@string/delete_thread_text</item>
 	</string-array>	
-	<string-array name="sms_delete_button_options_values">
+	<string-array name="sms_delete_button_values">
 		<item>2</item>
 		<item>0</item>
 		<item>1</item>
@@ -210,7 +226,7 @@
     	<item>@string/use_installed_messaging_app_text</item>
 		<item>@string/use_quick_reply_text</item>
 	</string-array>
-	<string-array name="sms_reply_button_options_values">
+	<string-array name="sms_reply_button_values">
 		<item>0</item>
 		<item>1</item>
 	</string-array>
@@ -221,7 +237,7 @@
 		<item>@string/view_thread_text</item>
 		<item>@string/messaging_inbox_text</item>
 	</string-array>
-	<string-array name="sms_notification_count_button_options_values">
+	<string-array name="sms_notification_count_button_values">
 		<item>0</item>
 		<item>1</item>
 		<item>2</item>
@@ -232,7 +248,7 @@
     	<item>@string/parse_sms_directly_text</item>
 		<item>@string/read_sms_from_disk_text</item>
 	</string-array>
-	<string-array name="sms_loading_options_values">
+	<string-array name="sms_loading_values">
 		<item>0</item>
 		<item>1</item>
 	</string-array>
@@ -242,7 +258,7 @@
 		<item>@string/nothing_text</item>
 		<item>@string/mark_as_read_text</item>
 	</string-array>
-	<string-array name="mms_dismiss_button_options_values">
+	<string-array name="mms_dismiss_button_values">
 		<item>1</item>
 		<item>0</item>
 	</string-array>
@@ -252,7 +268,7 @@
 		<item>@string/delete_thread_text</item>
 		<item>@string/nothing_text</item>
 	</string-array>
-	<string-array name="mms_delete_button_options_values">
+	<string-array name="mms_delete_button_values">
 		<item>0</item>
 		<item>1</item>
 		<item>2</item>
@@ -262,7 +278,7 @@
     	<item>@string/use_installed_messaging_app_text</item>
 		<item>@string/use_quick_reply_text</item>
 	</string-array>
-	<string-array name="mms_reply_button_options_values">
+	<string-array name="mms_reply_button_values">
 		<item>0</item>
 		<item>1</item>
 	</string-array>
@@ -273,7 +289,7 @@
 		<item>@string/view_thread_text</item>
 		<item>@string/messaging_inbox_text</item>
 	</string-array>
-	<string-array name="mms_notification_count_button_options_values">
+	<string-array name="mms_notification_count_button_values">
 		<item>0</item>
 		<item>1</item>
 		<item>2</item>
@@ -286,7 +302,7 @@
 		<item>@string/mark_as_read_text</item>
 		<item>@string/delete_from_call_log_text</item>
 	</string-array>
-	<string-array name="missed_call_dismiss_button_options_values">
+	<string-array name="missed_call_dismiss_button_values">
 		<item>2</item>
 		<item>0</item>
 		<item>1</item>
@@ -297,7 +313,7 @@
 		<item>@string/get_recent_missed_calls_text</item>
 		<item>@string/get_all_missed_calls_text</item>
 	</string-array>
-	<string-array name="missed_call_loading_options_values">
+	<string-array name="missed_call_loading_values">
 		<item>0</item>
 		<item>1</item>
 		<item>2</item>
@@ -307,7 +323,7 @@
     	<item>@string/nothing_text</item>
 		<item>@string/view_call_log_text</item>
 	</string-array>
-	<string-array name="missed_call_notification_count_button_options_values">
+	<string-array name="missed_call_notification_count_button_values">
 		<item>0</item>
 		<item>1</item>
 	</string-array>
@@ -335,7 +351,7 @@
 		<item>@string/s12_hours_text</item>
 		<item>@string/s24_hours_text</item>
 	</string-array>
-	<string-array name="polling_frequency_options_values">
+	<string-array name="polling_frequency_values">
 		<item>5</item>
 		<item>10</item>
 		<item>15</item>
@@ -361,7 +377,7 @@
     <string-array name="calendar_dismiss_button_options">
 		<item>@string/nothing_text</item>
 	</string-array>
-	<string-array name="calendar_dismiss_button_options_values">
+	<string-array name="calendar_dismiss_button_values">
 		<item>0</item>
 	</string-array>
 	
@@ -380,7 +396,7 @@
 	    <item>@string/s55_minutes_before_text</item>
 		<item>@string/s1_hour_before_text</item>
 	</string-array>
-	<string-array name="calendar_reminder_options_values">
+	<string-array name="calendar_reminder_values">
 	    <item>1</item>
 	    <item>5</item>
 	    <item>10</item>
@@ -422,7 +438,7 @@
 		<item>@string/s23_hours_before_text</item>
 		<item>@string/s24_hours_before_text</item>
 	</string-array>
-	<string-array name="calendar_reminder_all_day_options_values">
+	<string-array name="calendar_reminder_all_day_values">
 		<item>1</item>
 		<item>2</item>
 		<item>3</item>
@@ -474,7 +490,7 @@
 		<item>@string/s10_pm_text</item>
 		<item>@string/s11_pm_text</item>
 	</string-array>
-	<string-array name="calendar_all_day_notify_day_of_time_options_values">
+	<string-array name="calendar_all_day_notify_day_of_time_values">
 		<item>1</item>
 		<item>2</item>
 		<item>3</item>
@@ -504,18 +520,8 @@
     	<item>@string/nothing_text</item>
 		<item>@string/goto_calendar_text</item>
 	</string-array>
-	<string-array name="calendar_notification_count_button_options_values">
+	<string-array name="calendar_notification_count_button_values">
 		<item>0</item>
-		<item>1</item>
-	</string-array>
-	
-	<!-- Gmail Preferences Arrays --> 
-
-	<!-- K9 Preferences Arrays --> 
-    <string-array name="k9_dismiss_button_options">
-		<item>@string/nothing_text</item>
-	</string-array>
-	<string-array name="k9_dismiss_button_options_values">
 		<item>1</item>
 	</string-array>
 	
@@ -523,7 +529,7 @@
 		<item>@string/nothing_text</item>
 		<item>@string/delete_message_text</item>
 	</string-array>
-	<string-array name="k9_delete_button_options_values">
+	<string-array name="k9_delete_button_values">
 		<item>1</item>
 		<item>0</item>
 	</string-array>
@@ -531,7 +537,7 @@
     <string-array name="k9_reply_button_options">
     	<item>@string/use_installed_email_app_text</item>
 	</string-array>
-	<string-array name="k9_reply_button_options_values">
+	<string-array name="k9_reply_button_values">
 		<item>0</item>
 	</string-array>
 	
@@ -539,49 +545,11 @@
     	<item>@string/nothing_text</item>
 		<item>@string/email_inbox_text</item>
 	</string-array>
-	<string-array name="k9_notification_count_button_options_values">
+	<string-array name="k9_notification_count_button_values">
 		<item>0</item>
 		<item>1</item>
 	</string-array>
-
-	<!-- Twitter Preferences Arrays -->	
-    <string-array name="twitter_delete_button_options">
-		<item>@string/nothing_text</item>
-		<item>@string/delete_message_text</item>
-	</string-array>
-	<string-array name="twitter_delete_button_options_values">
-		<item>1</item>
-		<item>0</item>
-	</string-array>
-
-    <string-array name="twitter_reply_button_options">
-    	<item>@string/use_quick_reply_text</item>
-    	<item>@string/use_preferred_client</item>
-	</string-array>
-	<string-array name="twitter_reply_button_options_values">
-		<item>0</item>
-		<item>1</item>
-	</string-array>
-	    	
-    <string-array name="twitter_notification_count_button_options">
-    	<item>@string/nothing_text</item>
-		<item>@string/launch_twitter_app</item>
-	</string-array>
-	<string-array name="twitter_notification_count_button_options_values">
-		<item>0</item>
-		<item>1</item>
-	</string-array>
-
-	<!-- Facebook Preferences Arrays -->	
-    <string-array name="facebook_notification_count_button_options">
-    	<item>@string/nothing_text</item>
-		<item>@string/launch_facebook_app</item>
-	</string-array>
-	<string-array name="facebook_notification_count_button_options_values">
-		<item>0</item>
-		<item>1</item>
-	</string-array>
-		    		
+ 		
 	<!-- Reschedule Arrays -->
     <string-array name="reschedule_time_options">
 		<item>@string/s1_minute_text</item>
@@ -589,6 +557,10 @@
 		<item>@string/s3_minutes_text</item>
 		<item>@string/s4_minutes_text</item>
 		<item>@string/s5_minutes_text</item>
+		<item>@string/s6_minutes_text</item>
+		<item>@string/s7_minutes_text</item>
+		<item>@string/s8_minutes_text</item>
+		<item>@string/s9_minutes_text</item>
 		<item>@string/s10_minutes_text</item>
 		<item>@string/s15_minutes_text</item>
 		<item>@string/s20_minutes_text</item>
@@ -613,12 +585,16 @@
 		<item>@string/s12_hours_text</item>
 		<item>@string/s24_hours_text</item>
 	</string-array>
-	<string-array name="reschedule_time_options_values">
+	<string-array name="reschedule_time_values">
 		<item>1</item>
 		<item>2</item>
 		<item>3</item>
 		<item>4</item>
 		<item>5</item>
+		<item>6</item>
+		<item>7</item>
+		<item>8</item>
+		<item>9</item>
 		<item>10</item>
 		<item>15</item>
 		<item>20</item>
@@ -659,7 +635,7 @@
 		<item>15</item>
 		<item>@string/keep_repeating_text</item>
 	</string-array>
-	<string-array name="reminder_frequency_options_values">
+	<string-array name="reminder_frequency_values">
 		<item>1</item>
 		<item>2</item>
 		<item>3</item>
@@ -691,11 +667,15 @@
 		<item>@string/s3_minutes_text</item>
 		<item>@string/s4_minutes_text</item>
 		<item>@string/s5_minutes_text</item>
+		<item>@string/s6_minutes_text</item>
+		<item>@string/s7_minutes_text</item>
+		<item>@string/s8_minutes_text</item>
+		<item>@string/s9_minutes_text</item>
 		<item>@string/s10_minutes_text</item>
 		<item>@string/s15_minutes_text</item>
 		<item>@string/s30_minutes_text</item>
 	</string-array>
-	<string-array name="screen_timeout_options_values">
+	<string-array name="screen_timeout_values">
 		<item>10</item>
 		<item>15</item>
 		<item>20</item>
@@ -711,6 +691,10 @@
 		<item>180</item>
 		<item>240</item>
 		<item>300</item>
+		<item>360</item>
+		<item>420</item>
+		<item>480</item>
+		<item>540</item>
 		<item>600</item>
 		<item>9000</item>
 		<item>1800</item>
@@ -721,7 +705,7 @@
 		<item>@string/ignore_notification_text</item>
 		<item>@string/show_notification_text</item>
 	</string-array>
-	<string-array name="blocking_app_running_action_options_values">
+	<string-array name="blocking_app_running_action_values">
 		<item>0</item>
 		<item>1</item>
 		<item>2</item>
@@ -755,7 +739,7 @@
 		<item>@string/size_29_text</item>
 		<item>@string/size_30_text</item>
 	</string-array>
-	<string-array name="font_size_options_values">
+	<string-array name="font_size_values">
 		<item>5</item>
 		<item>6</item>
 		<item>7</item>
@@ -812,7 +796,7 @@
 		<item>29</item>
 		<item>30</item>
 	</string-array>
-	<string-array name="max_lines_options_values">
+	<string-array name="max_lines_values">
 		<item>5</item>
 		<item>6</item>
 		<item>7</item>
@@ -854,8 +838,9 @@
 		<item></item>
 		<item></item>
 		<item></item>
+		<item></item>
 	</string-array>
-	<string-array name="contact_placeholder_options_values">
+	<string-array name="contact_placeholder_values">
 		<item>1</item>
 		<item>2</item>
 		<item>3</item>
@@ -867,6 +852,7 @@
 		<item>9</item>
 		<item>10</item>
 		<item>11</item>
+		<item>12</item>
 	</string-array>
 	<array name="contact_placeholder_images">
 		<item>@drawable/ic_contact_picture_1</item>
@@ -880,6 +866,7 @@
 		<item>@drawable/ic_contact_picture_9</item>
 		<item>@drawable/ic_contact_picture_10</item>
 		<item>@drawable/ic_contact_picture_11</item>
+		<item>@drawable/ic_contact_picture_12</item>
 	</array>
 
 	<!-- Contact Photo Background Arrays --> 
@@ -887,16 +874,19 @@
 		<item></item>
 		<item></item>
 		<item></item>
+		<item></item>
 	</string-array>
-	<string-array name="contact_photo_background_options_values">
+	<string-array name="contact_photo_background_values">
 		<item>0</item>
 		<item>1</item>
 		<item>2</item>
+		<item>3</item>
 	</string-array>
 	<array name="contact_photo_background_images">
 		<item>@drawable/contact_photo_background_white</item>
 		<item>@drawable/contact_photo_background_froyo</item>
 		<item>@drawable/contact_photo_background_gingerbread</item>
+		<item>@drawable/contact_photo_background_blue_steel</item>
 	</array>
 
 	<!-- Contact Image Size Arrays --> 
@@ -923,7 +913,7 @@
 		<item>135px</item>
 		<item>140px</item>
 	</string-array>
-	<string-array name="contact_photo_size_options_values">
+	<string-array name="contact_photo_size_values">
 		<item>40</item>
 		<item>45</item>
 		<item>50</item>
@@ -947,41 +937,6 @@
 		<item>140</item>
 	</string-array>
 	
-	<!-- App Theme Arrays --> 
-	<string-array name="theme_options">
-		<item>Android Froyo</item>
-		<item>Android Gingerbread</item>
-		<item>Android Ice Cream</item>
-		<item>iPhone</item>
-		<item>Default Translucent</item>
-		<item>Default Dark</item>
-		<item>Default Solid</item>
-		<item>HTC Sense UI</item>
-		<item>Xperia</item>
-	</string-array>
-	<string-array name="theme_values">
-		<item>apps.droidnotify.theme.froyo</item>
-		<item>apps.droidnotify.theme.gingerbread</item>
-		<item>apps.droidnotify.theme.icecreamsandwich</item>
-		<item>apps.droidnotify.theme.iphone</item>
-		<item>apps.droidnotify.theme.default</item>
-		<item>apps.droidnotify.theme.default.v2</item>
-		<item>apps.droidnotify.theme.default.v3</item>
-		<item>apps.droidnotify.theme.htc</item>
-		<item>apps.droidnotify.theme.xperia</item>
-	</string-array>
-	<array name="theme_images">
-		<item>@drawable/theme_android_froyo</item>
-		<item>@drawable/theme_android_gingerbread</item>
-		<item>@drawable/theme_android_icecream_holo_dark</item>
-		<item>@drawable/theme_iphone</item>
-		<item>@drawable/theme_dark_translucent</item>
-		<item>@drawable/theme_dark_translucent</item>
-		<item>@drawable/theme_dark_translucent</item>
-		<item>@drawable/theme_htc</item>
-		<item>@drawable/theme_xperia</item>
-	</array>
-	
 	<!-- Dim Screen Arrays --> 
 	<string-array name="dim_screen_background_amount_options">
 		<item>0</item>
@@ -996,7 +951,7 @@
 		<item>90</item>
 		<item>100</item>
 	</string-array>
-	<string-array name="dim_screen_background_amount_options_values">
+	<string-array name="dim_screen_background_amount_values">
 		<item>0</item>
 		<item>10</item>
 		<item>20</item>
@@ -1021,7 +976,7 @@
 		<item>@string/sms_gateway_tmobile_b_text</item>
 		<item>@string/sms_gateway_ics_text</item>
 	</string-array>
-	<string-array name="quick_reply_sms_gateway_options_values">
+	<string-array name="quick_reply_sms_gateway_values">
 		<item>1</item>
 		<item>2</item>
 		<item>3</item>
@@ -1034,33 +989,39 @@
 	
 	<!-- Phone Number Format Arrays --> 
 	<string-array name="phone_number_format_options">
-		<item>123-456-7890</item>
-		<item>12-345-67890</item>
-		<item>01-234-567890</item>
-		<item>12-34-56-78-90</item>
 		<item>1234567890</item>
-		<item>(123) 456-7890</item>
+		<item>(123) 456&#8211;7890</item>
+		<item>123&#8211;456&#8211;7890</item>		
+		<item>012&#8211;3456&#8211;7890</item>
+		<item>12&#8211;345&#8211;67890</item>
+		<item>01&#8211;234&#8211;567890</item>
+		<item>12&#8211;34&#8211;56&#8211;78&#8211;90</item>
 		<item>123.456.7890</item>
+		<item>012.3456.7890</item>
 		<item>12.345.67890</item>
 		<item>01.234.567890</item>
 		<item>12.34.56.78.90</item>
 		<item>123 456 7890</item>
+		<item>012 3456 7890</item>
 		<item>12 345 67890</item>
 		<item>01 234 567890</item>
 		<item>12 34 56 78 90</item>
 	</string-array>
-	<string-array name="phone_number_format_options_values">
-		<item>1</item>
+	<string-array name="phone_number_format_values">
+		<item>5</item>
+		<item>6</item>
+		<item>1</item>		
+		<item>15</item>
 		<item>2</item>
 		<item>3</item>
 		<item>4</item>
-		<item>5</item>
-		<item>6</item>
 		<item>7</item>
+		<item>16</item>
 		<item>8</item>
 		<item>9</item>
 		<item>10</item>
 		<item>11</item>
+		<item>17</item>
 		<item>12</item>
 		<item>13</item>
 		<item>14</item>
@@ -1071,7 +1032,7 @@
 		<item>@string/s12_hour_text</item>
 		<item>@string/s24_hour_text</item>
 	</string-array>
-	<string-array name="time_format_options_values">
+	<string-array name="time_format_values">
 		<item>0</item>
 		<item>1</item>
 	</string-array>	
@@ -1095,7 +1056,7 @@
 		<item>@string/date_format_15_text</item>
 		<item>@string/date_format_16_text</item>
 	</string-array>
-	<string-array name="date_format_options_values">
+	<string-array name="date_format_values">
 		<item>0</item>
 		<item>1</item>
 		<item>2</item>
@@ -1166,7 +1127,7 @@
 		<item>@string/plus11_30_hours_text</item>
 		<item>@string/plus12_hours_text</item>
 	</string-array>
-	<string-array name="timestamp_adjustment_options_values">
+	<string-array name="timestamp_adjustment_values">
 		<item>-12</item>
 		<item>-11.5</item>
 		<item>-11</item>
@@ -1224,7 +1185,7 @@
 		<item>@string/button_style_icon_only_text</item>
 		<item>@string/button_style_text_only_text</item>
 	</string-array>
-	<string-array name="button_display_style_options_values">
+	<string-array name="button_display_style_values">
 		<item>0</item>
 		<item>1</item>
 		<item>2</item>
@@ -1233,7 +1194,7 @@
 	<!-- STATUS_BAR_NOTIFICATION_ARRAYS -->
 	
 	<!-- Vibrate Pattern Arrays --> 
-	<string-array name="preference_vibrate_pattern_options">
+	<string-array name="vibrate_pattern_options">
 		<item>@string/short_vibrate_text</item>
 		<item>@string/long_vibrate_text</item>
 		<item>@string/multiple_short_text</item>
@@ -1241,7 +1202,7 @@
 	    <item>@string/custom_text</item>
 	</string-array>
 	
-	<string-array name="preference_vibrate_pattern_options_values_sms">
+	<string-array name="vibrate_pattern_values_sms">
 	    <item>0,1200</item>
     	<item>0,2500</item>
 	    <item>0,300,100,300,100,300,100</item>
@@ -1249,7 +1210,7 @@
 	    <item>sms_custom</item>
 	</string-array>
 	
-	<string-array name="preference_vibrate_pattern_options_values_mms">
+	<string-array name="vibrate_pattern_values_mms">
 	    <item>0,1200</item>
     	<item>0,2500</item>
 	    <item>0,300,100,300,100,300,100</item>
@@ -1257,7 +1218,7 @@
 	    <item>mms_custom</item>
 	</string-array>
 	
-	<string-array name="preference_vibrate_pattern_options_values_missed_call">
+	<string-array name="vibrate_pattern_values_missed_call">
 	    <item>0,1200</item>
     	<item>0,2500</item>
 	    <item>0,300,100,300,100,300,100</item>
@@ -1265,7 +1226,7 @@
 	    <item>phone_custom</item>
 	</string-array>
 	
-	<string-array name="preference_vibrate_pattern_options_values_calendar">
+	<string-array name="vibrate_pattern_values_calendar">
 	    <item>0,1200</item>
     	<item>0,2500</item>
 	    <item>0,300,100,300,100,300,100</item>
@@ -1273,89 +1234,74 @@
 	    <item>calendar_custom</item>
 	</string-array>
 	
-	<string-array name="preference_vibrate_pattern_options_values_k9">
+	<string-array name="vibrate_pattern_values_k9">
 	    <item>0,1200</item>
     	<item>0,2500</item>
 	    <item>0,300,100,300,100,300,100</item>
 	    <item>0,800,200,800,200,800,200</item>
 	    <item>k9_custom</item>
 	</string-array>
-	
-	<string-array name="preference_vibrate_pattern_options_values_twitter">
-	    <item>0,1200</item>
-    	<item>0,2500</item>
-	    <item>0,300,100,300,100,300,100</item>
-	    <item>0,800,200,800,200,800,200</item>
-	    <item>twitter_custom</item>
-	</string-array>
-	
-	<string-array name="preference_vibrate_pattern_options_values_facebook">
-	    <item>0,1200</item>
-    	<item>0,2500</item>
-	    <item>0,300,100,300,100,300,100</item>
-	    <item>0,800,200,800,200,800,200</item>
-	    <item>facebook_custom</item>
-	</string-array>
 
+	<string-array name="vibrate_pattern_values_custom">
+	    <item>0,1200</item>
+    	<item>0,2500</item>
+	    <item>0,300,100,300,100,300,100</item>
+	    <item>0,800,200,800,200,800,200</item>
+	    <item>custom</item>
+	</string-array>
+	
 	<!-- LED Pattern Arrays --> 
-	<string-array name="preference_led_pattern_options">
+	<string-array name="led_pattern_options">
 	   	<item name="fast_text">@string/fast_text</item>
 	    <item name="normal_text">@string/normal_text</item>
 	    <item name="slow_text">@string/slow_text</item>
 	    <item>@string/custom_text</item>
 	</string-array>
 		
-	<string-array name="preference_led_pattern_options_values_sms">
+	<string-array name="led_pattern_values_sms">
 	    <item>300,300</item>
 	    <item>1000,1000</item>
 	    <item>3000,3000</item>
 	    <item>sms_custom</item>
 	</string-array>
 		
-	<string-array name="preference_led_pattern_options_values_mms">
+	<string-array name="led_pattern_values_mms">
 	    <item>300,300</item>
 	    <item>1000,1000</item>
 	    <item>3000,3000</item>
 	    <item>mms_custom</item>
 	</string-array>
 		
-	<string-array name="preference_led_pattern_options_values_missed_call">
+	<string-array name="led_pattern_values_missed_call">
 	    <item>300,300</item>
 	    <item>1000,1000</item>
 	    <item>3000,3000</item>
 	    <item>phone_custom</item>
 	</string-array>
 		
-	<string-array name="preference_led_pattern_options_values_calendar">
+	<string-array name="led_pattern_values_calendar">
 	    <item>300,300</item>
 	    <item>1000,1000</item>
 	    <item>3000,3000</item>
 	    <item>calendar_custom</item>
 	</string-array>
 	
-	<string-array name="preference_led_pattern_options_values_k9">
+	<string-array name="led_pattern_values_k9">
 	    <item>300,300</item>
 	    <item>1000,1000</item>
 	    <item>3000,3000</item>
 	    <item>k9_custom</item>
 	</string-array>
-	
-	<string-array name="preference_led_pattern_options_values_twitter">
-	    <item>300,300</item>
-	    <item>1000,1000</item>
-	    <item>3000,3000</item>
-	    <item>twitter_custom</item>
-	</string-array>
-	
-	<string-array name="preference_led_pattern_options_values_facebook">
-	    <item>300,300</item>
-	    <item>1000,1000</item>
-	    <item>3000,3000</item>
-	    <item>facebook_custom</item>
-	</string-array>
 
+	<string-array name="led_pattern_values_custom">
+	    <item>300,300</item>
+	    <item>1000,1000</item>
+	    <item>3000,3000</item>
+	    <item>custom</item>
+	</string-array>
+	
 	<!-- LED Color Arrays --> 
-  	<string-array name="preference_led_color_options">
+  	<string-array name="led_color_options">
 	   	<item>@string/red_text</item>
 	    <item>@string/blue_text</item>
 	    <item>@string/green_text</item>
@@ -1365,7 +1311,7 @@
 	    <item>@string/custom_text</item>
   	</string-array>
   		
-	<string-array name="preference_led_color_options_values_sms">
+	<string-array name="led_color_values_sms">
 	    <item>red</item>
 	    <item>blue</item>
 	    <item>green</item>
@@ -1375,7 +1321,7 @@
 	    <item>sms_custom</item>
   	</string-array>
 
-	<string-array name="preference_led_color_options_values_mms">
+	<string-array name="led_color_values_mms">
 	    <item>red</item>
 	    <item>blue</item>
 	    <item>green</item>
@@ -1385,7 +1331,7 @@
 	    <item>mms_custom</item>
   	</string-array>
   	
-  	<string-array name="preference_led_color_options_values_missed_call">
+  	<string-array name="led_color_values_missed_call">
 	    <item>red</item>
 	    <item>blue</item>
 	    <item>green</item>
@@ -1395,7 +1341,7 @@
 	    <item>phone_custom</item>
   	</string-array>
   	
-  	<string-array name="preference_led_color_options_values_calendar">
+  	<string-array name="led_color_values_calendar">
 	    <item>red</item>
 	    <item>blue</item>
 	    <item>green</item>
@@ -1405,7 +1351,7 @@
 	    <item>calendar_custom</item>
   	</string-array>
  
-  	<string-array name="preference_led_color_options_values_k9">
+  	<string-array name="led_color_values_k9">
 	    <item>red</item>
 	    <item>blue</item>
 	    <item>green</item>
@@ -1414,31 +1360,52 @@
 	    <item>yellow</item>
 	    <item>k9_custom</item>
   	</string-array>
- 
-  	<string-array name="preference_led_color_options_values_twitter">
+
+  	<string-array name="led_color_values_custom">
 	    <item>red</item>
 	    <item>blue</item>
 	    <item>green</item>
 	    <item>cyan</item>
 	    <item>magenta</item>
 	    <item>yellow</item>
-	    <item>twitter_custom</item>
+	    <item>custom</item>
   	</string-array>
   	
-  	<string-array name="preference_led_color_options_values_facebook">
-	    <item>red</item>
-	    <item>blue</item>
-	    <item>green</item>
-	    <item>cyan</item>
-	    <item>magenta</item>
-	    <item>yellow</item>
-	    <item>facebook_custom</item>
-  	</string-array>
-
   	<!-- Notification Icon Arrays --> 
   	    		    	
-  	<!-- SMS Notification Icon Image Arrays --> 
-	<string-array name="notification_icon_options_sms">
+  	<!-- Status Bar Notification Icon Image Arrays --> 
+	<string-array name="notification_icon_options">
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
 		<item></item>
 		<item></item>
 		<item></item>
@@ -1467,7 +1434,7 @@
 		<item></item>
 		<item></item>
 	</string-array>
-	<string-array name="notification_icon_values_sms">
+	<string-array name="notification_icon_values">
 		<item>status_bar_notification_sms_blue</item>
 		<item>status_bar_notification_sms_green</item>
 		<item>status_bar_notification_sms_grey</item>
@@ -1495,165 +1462,11 @@
 		<item>status_bar_notification_sms_postcard_glass_red</item>
 		<item>status_bar_notification_sms_postcard_glass_white</item>
 		<item>status_bar_notification_sms_postcard_glass_yellow</item>
-	</string-array>
-	<array name="notification_icon_images_sms">
-		<item>@drawable/status_bar_notification_sms_blue_preference</item>
-		<item>@drawable/status_bar_notification_sms_green_preference</item>
-		<item>@drawable/status_bar_notification_sms_grey_preference</item>
-		<item>@drawable/status_bar_notification_sms_orange_preference</item>
-		<item>@drawable/status_bar_notification_sms_pink_preference</item>
-		<item>@drawable/status_bar_notification_sms_purple_preference</item>
-		<item>@drawable/status_bar_notification_sms_red_preference</item>
-		<item>@drawable/status_bar_notification_sms_white_preference</item>
-		<item>@drawable/status_bar_notification_sms_postcard_aqua_preference</item>
-		<item>@drawable/status_bar_notification_sms_postcard_blue_preference</item>
-		<item>@drawable/status_bar_notification_sms_postcard_green_preference</item>
-		<item>@drawable/status_bar_notification_sms_postcard_grey_preference</item>
-		<item>@drawable/status_bar_notification_sms_postcard_orange_preference</item>
-		<item>@drawable/status_bar_notification_sms_postcard_pink_preference</item>
-		<item>@drawable/status_bar_notification_sms_postcard_purple_preference</item>
-		<item>@drawable/status_bar_notification_sms_postcard_red_preference</item>
-		<item>@drawable/status_bar_notification_sms_postcard_white_preference</item>
-		<item>@drawable/status_bar_notification_sms_postcard_yellow_preference</item>
-		<item>@drawable/status_bar_notification_sms_postcard_glass_aqua_preference</item>
-		<item>@drawable/status_bar_notification_sms_postcard_glass_blue_preference</item>
-		<item>@drawable/status_bar_notification_sms_postcard_glass_green_preference</item>
-		<item>@drawable/status_bar_notification_sms_postcard_glass_orange_preference</item>
-		<item>@drawable/status_bar_notification_sms_postcard_glass_pink_preference</item>
-		<item>@drawable/status_bar_notification_sms_postcard_glass_purple_preference</item>
-		<item>@drawable/status_bar_notification_sms_postcard_glass_red_preference</item>
-		<item>@drawable/status_bar_notification_sms_postcard_glass_white_preference</item>
-		<item>@drawable/status_bar_notification_sms_postcard_glass_yellow_preference</item>
-	</array>
-	
-	<!-- MMS Notification Icon Image Arrays --> 
-	<string-array name="notification_icon_options_mms">
-		<item></item>
-		<item></item>
-		<item></item>
-		<item></item>
-		<item></item>
-		<item></item>
-		<item></item>
-		<item></item>
-		<item></item>
-		<item></item>
-		<item></item>
-		<item></item>
-		<item></item>
-		<item></item>
-		<item></item>
-		<item></item>
-		<item></item>
-		<item></item>
-		<item></item>
-		<item></item>
-		<item></item>
-		<item></item>
-		<item></item>
-		<item></item>
-		<item></item>
-		<item></item>
-		<item></item>
-	</string-array>
-	<string-array name="notification_icon_values_mms">
-		<item>status_bar_notification_sms_blue</item>
-		<item>status_bar_notification_sms_green</item>
-		<item>status_bar_notification_sms_grey</item>
-		<item>status_bar_notification_sms_orange</item>
-		<item>status_bar_notification_sms_pink</item>
-		<item>status_bar_notification_sms_purple</item>
-		<item>status_bar_notification_sms_red</item>
-		<item>status_bar_notification_sms_white</item>
-		<item>status_bar_notification_sms_postcard_aqua</item>
-		<item>status_bar_notification_sms_postcard_blue</item>
-		<item>status_bar_notification_sms_postcard_green</item>
-		<item>status_bar_notification_sms_postcard_grey</item>
-		<item>status_bar_notification_sms_postcard_orange</item>
-		<item>status_bar_notification_sms_postcard_pink</item>
-		<item>status_bar_notification_sms_postcard_purple</item>
-		<item>status_bar_notification_sms_postcard_red</item>
-		<item>status_bar_notification_sms_postcard_white</item>
-		<item>status_bar_notification_sms_postcard_yellow</item>
-		<item>status_bar_notification_sms_postcard_glass_aqua</item>
-		<item>status_bar_notification_sms_postcard_glass_blue</item>
-		<item>status_bar_notification_sms_postcard_glass_green</item>
-		<item>status_bar_notification_sms_postcard_glass_orange</item>
-		<item>status_bar_notification_sms_postcard_glass_pink</item>
-		<item>status_bar_notification_sms_postcard_glass_purple</item>
-		<item>status_bar_notification_sms_postcard_glass_red</item>
-		<item>status_bar_notification_sms_postcard_glass_white</item>
-		<item>status_bar_notification_sms_postcard_glass_yellow</item>
-	</string-array>
-	<array name="notification_icon_images_mms">
-		<item>@drawable/status_bar_notification_sms_blue_preference</item>
-		<item>@drawable/status_bar_notification_sms_green_preference</item>
-		<item>@drawable/status_bar_notification_sms_grey_preference</item>
-		<item>@drawable/status_bar_notification_sms_orange_preference</item>
-		<item>@drawable/status_bar_notification_sms_pink_preference</item>
-		<item>@drawable/status_bar_notification_sms_purple_preference</item>
-		<item>@drawable/status_bar_notification_sms_red_preference</item>
-		<item>@drawable/status_bar_notification_sms_white_preference</item>
-		<item>@drawable/status_bar_notification_sms_postcard_aqua_preference</item>
-		<item>@drawable/status_bar_notification_sms_postcard_blue_preference</item>
-		<item>@drawable/status_bar_notification_sms_postcard_green_preference</item>
-		<item>@drawable/status_bar_notification_sms_postcard_grey_preference</item>
-		<item>@drawable/status_bar_notification_sms_postcard_orange_preference</item>
-		<item>@drawable/status_bar_notification_sms_postcard_pink_preference</item>
-		<item>@drawable/status_bar_notification_sms_postcard_purple_preference</item>
-		<item>@drawable/status_bar_notification_sms_postcard_red_preference</item>
-		<item>@drawable/status_bar_notification_sms_postcard_white_preference</item>
-		<item>@drawable/status_bar_notification_sms_postcard_yellow_preference</item>
-		<item>@drawable/status_bar_notification_sms_postcard_glass_aqua_preference</item>
-		<item>@drawable/status_bar_notification_sms_postcard_glass_blue_preference</item>
-		<item>@drawable/status_bar_notification_sms_postcard_glass_green_preference</item>
-		<item>@drawable/status_bar_notification_sms_postcard_glass_orange_preference</item>
-		<item>@drawable/status_bar_notification_sms_postcard_glass_pink_preference</item>
-		<item>@drawable/status_bar_notification_sms_postcard_glass_purple_preference</item>
-		<item>@drawable/status_bar_notification_sms_postcard_glass_red_preference</item>
-		<item>@drawable/status_bar_notification_sms_postcard_glass_white_preference</item>
-		<item>@drawable/status_bar_notification_sms_postcard_glass_yellow_preference</item>
-	</array>
-	
-	<!-- Phone Notification Icon Image Arrays --> 
-	<string-array name="notification_icon_options_phone">
-		<item></item>
-		<item></item>
-		<item></item>
-		<item></item>
-		<item></item>
-	</string-array>
-	<string-array name="notification_icon_values_phone">
 		<item>status_bar_notification_missed_call_black</item>
 		<item>status_bar_notification_missed_call_grey</item>
 		<item>status_bar_notification_missed_call_red</item>
 		<item>status_bar_notification_missed_call_white</item>
 		<item>status_bar_notification_missed_call_glass_red</item>
-	</string-array>
-	<array name="notification_icon_images_phone">
-		<item>@drawable/status_bar_notification_missed_call_black_preference</item>
-		<item>@drawable/status_bar_notification_missed_call_grey_preference</item>
-		<item>@drawable/status_bar_notification_missed_call_red_preference</item>
-		<item>@drawable/status_bar_notification_missed_call_white_preference</item>
-		<item>@drawable/status_bar_notification_missed_call_glass_red_preference</item>
-	</array>
-	
-	<!-- Calendar Notification Icon Image Arrays --> 
-	<string-array name="notification_icon_options_calendar">
-		<item></item>
-		<item></item>
-		<item></item>
-		<item></item>
-		<item></item>
-		<item></item>
-		<item></item>
-		<item></item>
-		<item></item>
-		<item></item>
-		<item></item>
-		<item></item>
-	</string-array>
-	<string-array name="notification_icon_values_calendar">
 		<item>status_bar_notification_calendar_black</item>
 		<item>status_bar_notification_calendar_blue</item>
 		<item>status_bar_notification_calendar_green</item>
@@ -1666,40 +1479,6 @@
 		<item>status_bar_notification_calendar_glass_orange</item>
 		<item>status_bar_notification_calendar_glass_red</item>
 		<item>status_bar_notification_calendar_glass_yellow</item>
-	</string-array>
-	<array name="notification_icon_images_calendar">
-		<item>@drawable/status_bar_notification_calendar_black_preference</item>
-		<item>@drawable/status_bar_notification_calendar_blue_preference</item>
-		<item>@drawable/status_bar_notification_calendar_green_preference</item>
-		<item>@drawable/status_bar_notification_calendar_grey_preference</item>
-		<item>@drawable/status_bar_notification_calendar_orange_preference</item>
-		<item>@drawable/status_bar_notification_calendar_red_preference</item>
-		<item>@drawable/status_bar_notification_calendar_glass_blue_preference</item>
-		<item>@drawable/status_bar_notification_calendar_glass_green_preference</item>
-		<item>@drawable/status_bar_notification_calendar_glass_grey_preference</item>
-		<item>@drawable/status_bar_notification_calendar_glass_orange_preference</item>
-		<item>@drawable/status_bar_notification_calendar_glass_red_preference</item>
-		<item>@drawable/status_bar_notification_calendar_glass_yellow_preference</item>
-	</array>
-
-	<!-- Email Notification Icon Image Arrays --> 
-	<string-array name="notification_icon_options_email">
-		<item></item>
-		<item></item>
-		<item></item>
-		<item></item>
-		<item></item>
-		<item></item>
-		<item></item>
-		<item></item>
-		<item></item>
-		<item></item>
-		<item></item>
-		<item></item>
-		<item></item>
-		<item></item>
-	</string-array>
-	<string-array name="notification_icon_values_email">
 		<item>status_bar_notification_email_black</item>
 		<item>status_bar_notification_email_blue</item>
 		<item>status_bar_notification_email_green</item>
@@ -1715,55 +1494,65 @@
 		<item>status_bar_notification_email_glass_white</item>
 		<item>status_bar_notification_email_glass_yellow</item>
 	</string-array>
-	<array name="notification_icon_images_email">
-		<item>@drawable/status_bar_notification_email_black_preference</item>
-		<item>@drawable/status_bar_notification_email_blue_preference</item>
-		<item>@drawable/status_bar_notification_email_green_preference</item>
-		<item>@drawable/status_bar_notification_email_grey_preference</item>
-		<item>@drawable/status_bar_notification_email_orange_preference</item>
-		<item>@drawable/status_bar_notification_email_red_preference</item>
-		<item>@drawable/status_bar_notification_email_white_preference</item>
-		<item>@drawable/status_bar_notification_email_glass_black_preference</item>
-		<item>@drawable/status_bar_notification_email_glass_blue_preference</item>
-		<item>@drawable/status_bar_notification_email_glass_green_preference</item>
-		<item>@drawable/status_bar_notification_email_glass_orange_preference</item>
-		<item>@drawable/status_bar_notification_email_glass_red_preference</item>
-		<item>@drawable/status_bar_notification_email_glass_white_preference</item>
-		<item>@drawable/status_bar_notification_email_glass_yellow_preference</item>
-	</array>
-
-	<!-- Twitter Notification Icon Image Arrays --> 
-	<string-array name="notification_icon_options_twitter">
-		<item></item>
-		<item></item>
-		<item></item>
-		<item></item>
-	</string-array>
-	<string-array name="notification_icon_values_twitter">
-		<item>status_bar_notification_twitter_bird_blue</item>
-		<item>status_bar_notification_twitter_blue</item>
-		<item>status_bar_notification_twitter_grey</item>
-		<item>status_bar_notification_twitter_t_blue</item>
-	</string-array>
-	<array name="notification_icon_images_twitter">
-		<item>@drawable/status_bar_notification_twitter_bird_blue_preference</item>
-		<item>@drawable/status_bar_notification_twitter_blue_preference</item>
-		<item>@drawable/status_bar_notification_twitter_grey_preference</item>
-		<item>@drawable/status_bar_notification_twitter_t_blue_preference</item>
-	</array>
-
-	<!-- Facebook Notification Icon Image Arrays --> 
-	<string-array name="notification_icon_options_facebook">
-		<item></item>
-		<item></item>
-	</string-array>
-	<string-array name="notification_icon_values_facebook">
-		<item>status_bar_notification_facebook_grey</item>
-		<item>status_bar_notification_facebook_blue</item>
-	</string-array>
-	<array name="notification_icon_images_facebook">
-		<item>@drawable/status_bar_notification_facebook_grey_preference</item>
-		<item>@drawable/status_bar_notification_facebook_blue_preference</item>
+	<array name="notification_icon_images">
+		<item>@drawable/status_bar_notification_sms_blue</item>
+		<item>@drawable/status_bar_notification_sms_green</item>
+		<item>@drawable/status_bar_notification_sms_grey</item>
+		<item>@drawable/status_bar_notification_sms_orange</item>
+		<item>@drawable/status_bar_notification_sms_pink</item>
+		<item>@drawable/status_bar_notification_sms_purple</item>
+		<item>@drawable/status_bar_notification_sms_red</item>
+		<item>@drawable/status_bar_notification_sms_white</item>
+		<item>@drawable/status_bar_notification_sms_postcard_aqua</item>
+		<item>@drawable/status_bar_notification_sms_postcard_blue</item>
+		<item>@drawable/status_bar_notification_sms_postcard_green</item>
+		<item>@drawable/status_bar_notification_sms_postcard_grey</item>
+		<item>@drawable/status_bar_notification_sms_postcard_orange</item>
+		<item>@drawable/status_bar_notification_sms_postcard_pink</item>
+		<item>@drawable/status_bar_notification_sms_postcard_purple</item>
+		<item>@drawable/status_bar_notification_sms_postcard_red</item>
+		<item>@drawable/status_bar_notification_sms_postcard_white</item>
+		<item>@drawable/status_bar_notification_sms_postcard_yellow</item>
+		<item>@drawable/status_bar_notification_sms_postcard_glass_aqua</item>
+		<item>@drawable/status_bar_notification_sms_postcard_glass_blue</item>
+		<item>@drawable/status_bar_notification_sms_postcard_glass_green</item>
+		<item>@drawable/status_bar_notification_sms_postcard_glass_orange</item>
+		<item>@drawable/status_bar_notification_sms_postcard_glass_pink</item>
+		<item>@drawable/status_bar_notification_sms_postcard_glass_purple</item>
+		<item>@drawable/status_bar_notification_sms_postcard_glass_red</item>
+		<item>@drawable/status_bar_notification_sms_postcard_glass_white</item>
+		<item>@drawable/status_bar_notification_sms_postcard_glass_yellow</item>
+		<item>@drawable/status_bar_notification_missed_call_black</item>
+		<item>@drawable/status_bar_notification_missed_call_grey</item>
+		<item>@drawable/status_bar_notification_missed_call_red</item>
+		<item>@drawable/status_bar_notification_missed_call_white</item>
+		<item>@drawable/status_bar_notification_missed_call_glass_red</item>
+		<item>@drawable/status_bar_notification_calendar_black</item>
+		<item>@drawable/status_bar_notification_calendar_blue</item>
+		<item>@drawable/status_bar_notification_calendar_green</item>
+		<item>@drawable/status_bar_notification_calendar_grey</item>
+		<item>@drawable/status_bar_notification_calendar_orange</item>
+		<item>@drawable/status_bar_notification_calendar_red</item>
+		<item>@drawable/status_bar_notification_calendar_glass_blue</item>
+		<item>@drawable/status_bar_notification_calendar_glass_green</item>
+		<item>@drawable/status_bar_notification_calendar_glass_grey</item>
+		<item>@drawable/status_bar_notification_calendar_glass_orange</item>
+		<item>@drawable/status_bar_notification_calendar_glass_red</item>
+		<item>@drawable/status_bar_notification_calendar_glass_yellow</item>
+		<item>@drawable/status_bar_notification_email_black</item>
+		<item>@drawable/status_bar_notification_email_blue</item>
+		<item>@drawable/status_bar_notification_email_green</item>
+		<item>@drawable/status_bar_notification_email_grey</item>
+		<item>@drawable/status_bar_notification_email_orange</item>
+		<item>@drawable/status_bar_notification_email_red</item>
+		<item>@drawable/status_bar_notification_email_white</item>
+		<item>@drawable/status_bar_notification_email_glass_black</item>
+		<item>@drawable/status_bar_notification_email_glass_blue</item>
+		<item>@drawable/status_bar_notification_email_glass_green</item>
+		<item>@drawable/status_bar_notification_email_glass_orange</item>
+		<item>@drawable/status_bar_notification_email_glass_red</item>
+		<item>@drawable/status_bar_notification_email_glass_white</item>
+		<item>@drawable/status_bar_notification_email_glass_yellow</item>
 	</array>
 	    	    	    	
 	<!-- Notification Vibrate Arrays --> 
@@ -1772,7 +1561,7 @@
 		<item>@string/never_text</item>
 		<item>@string/only_when_in_vibrate_mode_text</item>
 	</string-array>
-	<string-array name="vibrate_setting_options_values">
+	<string-array name="vibrate_setting_values">
 		<item>0</item>
 		<item>1</item>
 		<item>2</item>
@@ -1784,99 +1573,10 @@
 		<item>@string/only_on_weekends_text</item>
 		<item>@string/only_on_weekdays_text</item>
 	</string-array>
-	<string-array name="quiet_time_of_week_options_values">
+	<string-array name="quiet_time_of_week_values">
 		<item>0</item>
 		<item>1</item>
 		<item>2</item>
 	</string-array>	
-	
-	<!-- Twitter Client Arrays
-		//"com.hootsuite.droid.full" //HootSuite
-		//"com.levelup.touiteur" //Plume
-		//"com.levelup.touiteurpremium" //Plume Premium
-		//"com.seesmic" //Seesmic
-		//"com.thedeck.android.app" //TweetDeck
-		//"com.handmark.tweetcaster" //TweetCaster
-		//"com.handmark.tweetcaster.pink.premium" //TweetCaster Pink
-		//"com.handmark.tweetcaster.premium" // TweetCaster Pro
-		//"to.tanimo.android.twitterride" //TweetsRide
-		//"jp.r246.twicca" //Twicca
-		//"com.twidroydlegacy" //Twidroyd Legacy
-		//"com.twitter.android" //Twitter
-		//"com.twidroid" //Ubersocial aka Twidroyd
-	 -->
-	<string-array name="twitter_client_options">
-		<item>@string/hootsuite</item>
-		<item>@string/plume</item>
-		<item>@string/plume_premium</item>
-		<item>@string/seesmic</item>
-		<item>@string/tweetdeck</item>
-		<item>@string/tweetcaster</item>
-		<item>@string/tweetcaster_pink</item>
-		<item>@string/tweetcaster_pro</item>
-		<item>@string/tweetsride</item>
-		<item>@string/twicca</item>
-		<item>@string/twidroyd_legacy</item>
-		<item>@string/twitter</item>
-		<item>@string/twitter_web_mobile</item>
-		<item>@string/ubersocial</item>
-	</string-array>
-	<string-array name="twitter_client_options_values">
-		<item>com.hootsuite.droid.full</item>
-		<item>com.levelup.touiteur</item>
-		<item>com.levelup.touiteurpremium</item>
-		<item>com.seesmic</item>
-		<item>com.thedeck.android.app</item>
-		<item>com.handmark.tweetcaster</item>
-		<item>com.handmark.tweetcaster.pink.premium</item>
-		<item>com.handmark.tweetcaster.premium</item>
-		<item>to.tanimo.android.twitterride</item>
-		<item>jp.r246.twicca</item>
-		<item>com.twidroydlegacy</item>
-		<item>com.twitter.android</item>
-		<item>http://mobile.twitter.com</item>
-		<item>com.twidroid</item>
-	</string-array>
-	 
-	<!-- FACEBOOK Client Arrays
-		//"com.facebook.katana" //Facebook
-		//"com.krm.fbm" //FBM for Facebook
-		//"uk.co.senab.blueNotifyFree" //FriendCaster for Facebook
-		//"uk.co.senab.blueNotify" //FriendCaster Pro for Facebook
-		//"com.seesmic" //Seesmic
-		//"com.thedeck.android.app" //TweetDeck
-	 -->
-	<string-array name="facebook_client_options">
-		<item>@string/facebook</item>
-		<item>@string/facebook_web_mobile</item>
-		<item>@string/fbm_for_facebook</item>
-		<item>@string/friendCaster_for_facebook</item>
-		<item>@string/friendCaster_pro_for_facebook</item>
-		<item>@string/seesmic</item>
-		<item>@string/tweetdeck</item>
-	</string-array>
-	<string-array name="facebook_client_options_values">
-		<item>com.facebook.katana</item>
-		<item>http://m.facebook.com</item>
-		<item>com.krm.fbm</item>
-		<item>uk.co.senab.blueNotifyFree</item>
-		<item>uk.co.senab.blueNotify</item>
-		<item>com.seesmic</item>
-		<item>com.thedeck.android.app</item>
-	</string-array>
-	
-	<!-- Email Notification Icon Image Arrays --> 
-	<string-array name="preference_level_1_options">
-		<item>Test 1</item>
-		<item>Test 2</item>
-	</string-array>
-	<string-array name="preference_level_1_values">
-		<item>test_1</item>
-		<item>test_2</item>
-	</string-array>
-	<array name="preference_level_1_images">
-		<item>@drawable/status_bar_notification_email_black_preference</item>
-		<item>@drawable/status_bar_notification_email_blue_preference</item>
-	</array>
 	    	
 </resources>

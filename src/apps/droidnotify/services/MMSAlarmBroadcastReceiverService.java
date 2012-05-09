@@ -63,6 +63,12 @@ public class MMSAlarmBroadcastReceiverService extends WakefulIntentService {
 				if (_debug) Log.v("MMSAlarmBroadcastReceiverService.doWakefulWork() MMS Notifications Disabled. Exiting...");
 				return;
 			}
+			//Check for a blacklist entry before doing anything else.
+		    Bundle mmsNotificationBundle = SMSCommon.getMMSMessagesFromDisk(context); 
+    		Bundle mmsNotificationBundleSingle = null;
+    		if(mmsNotificationBundle != null){
+    			mmsNotificationBundleSingle = mmsNotificationBundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_1");
+    		}
 		    //Check the state of the users phone.
 		    TelephonyManager telemanager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 		    boolean notificationIsBlocked = false;
@@ -82,17 +88,13 @@ public class MMSAlarmBroadcastReceiverService extends WakefulIntentService {
 		    }
 		    if(!notificationIsBlocked){
 				WakefulIntentService.sendWakefulWork(context, new Intent(context, MMSService.class));
-		    }else{
-	    		Bundle mmsNotificationBundle = SMSCommon.getMMSMessagesFromDisk(context);  	
+		    }else{	    		 	
 		    	//Display the Status Bar Notification even though the popup is blocked based on the user preferences.
 		    	if(preferences.getBoolean(Constants.MMS_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true)){
-		    		if(mmsNotificationBundle != null){
-		    			Bundle mmsNotificationBundleSingle = mmsNotificationBundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_1");
-		    			if(mmsNotificationBundleSingle != null){
-							//Display Status Bar Notification
-						    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_MMS, 0, callStateIdle, mmsNotificationBundleSingle.getString(Constants.BUNDLE_CONTACT_NAME), mmsNotificationBundleSingle.getString(Constants.BUNDLE_SENT_FROM_ADDRESS), mmsNotificationBundleSingle.getString(Constants.BUNDLE_MESSAGE_BODY), null, null);
-		    			}
-		    		}
+	    			if(mmsNotificationBundleSingle != null){
+						//Display Status Bar Notification
+					    Common.setStatusBarNotification(context, 1, Constants.NOTIFICATION_TYPE_MMS, 0, callStateIdle, mmsNotificationBundleSingle.getString(Constants.BUNDLE_CONTACT_NAME), mmsNotificationBundleSingle.getLong(Constants.BUNDLE_CONTACT_ID, -1), mmsNotificationBundleSingle.getString(Constants.BUNDLE_SENT_FROM_ADDRESS), mmsNotificationBundleSingle.getString(Constants.BUNDLE_MESSAGE_BODY), null, null, false, null);
+	    			}
 			    }					
 		    	if(mmsNotificationBundle != null) Common.rescheduleBlockedNotification(context, rescheduleNotificationInCall, rescheduleNotificationInQuickReply, Constants.NOTIFICATION_TYPE_MMS, mmsNotificationBundle);
 		    }

@@ -6,35 +6,30 @@
   <string name="call">חייג</string>
   <string name="reply">השב</string>
   <string name="view">הצג</string>
-  <string name="app_name_formatted_version">Droid Notify v%s</string>
-  <string name="app_name_basic_formatted_version">Droid Notify Basic v%s</string>
-  <string name="app_name_pro_formatted_version">Droid Notify Pro v%s</string>
-  <string name="app_name">DroidNotify</string>
-  <string name="app_name_basic">DroidNotifyBasic</string>
-  <string name="app_name_pro">DroidNotifyPro</string>
-  <string name="app_name_formatted">Droid Notify</string>
-  <string name="app_name_notify">Notify</string>
-  <string name="app_name_basic_formatted">DroidNotifyBasic</string>
-  <string name="app_name_pro_formatted">Droid Notify Pro</string>
-  <string name="preference_appenabled_title">אפשר Droid Notify</string>
-  <string name="preference_appenabled_summaryOn">Droid Notify מאופשר.</string>
-  <string name="preference_appenabled_summaryOff">Droid Notify מבוטל.</string>
+  <string name="dismiss_all">בטל הכל</string>
+  <string name="dismiss_all_dialog_text">זה ישחרר את כל ההתראות.</string>
+  <string name="share">שיתוף</string>
+  <string name="share_title">מישהו שאתה מכיר רוצה שתנסה את אפליקציית האנדרואיד Droid Notify!</string>
+  <string name="share_description">אני משתמש באפליקציית האנדרואיד המדהימה הזו שנקראת Droid Notify. היא מציגה התראה בחלון קופץ במסך שלי כאשר אני מקבל התראות מסוימות.\n\nניתן להוריד יישום זה ברוב חנויות האנדרואיד, רק חפש את מילות המפתח \'Droid Notify\'.</string>
+  <string name="app_name_basic_formatted_version">Notify Lite v%s</string>
+  <string name="app_name_pro_formatted_version">Notify Pro v%s</string>
+  <string name="app_name_basic_formatted">Notify Lite</string>
+  <string name="app_name_pro_formatted">Notify Pro</string>
   <string name="to_text">ל</string>
   <string name="from_text">מ</string>
-  <string name="ok_text">אישור</string>
-  <string name="close_text">סגור</string>
-  <string name="cancel_text">ביטול</string>
+  <string name="close">סגור</string>
   <string name="continue_text">המשך</string>
   <string name="dismiss_notification_text">בטל התראה</string>
-  <string name="reset_data">מאפס נתונים...</string>
-  <string name="donate_text">תרום</string>
-  <string name="donate_to_droid_notify_text">תרומות Droid Notify</string>
-  <string name="donate_summary">תרום לפרוייקט הזה. התרומות שלך עוזרות לעשות את ההתפתחות הממושכת ותוספות של מאפיינים חדשים אפשרית.</string>
-  <string name="donate_description_text">אנא שקול לתרום לפרוייקט זה. התרומות שלך עוזרות לעשות את ההתפתחות הממושכת ותוספות של מאפיינים חדשים אפשרית.\n\nתודה לך!</string>
-  <string name="donate_via_android_market_text">תרום באמצעות אנדרואיד מרקט</string>
-  <string name="donate_via_amazon_app_store_text">תרום באמצעות Amazon App Store</string>
-  <string name="donate_via_paypal_text">תרום באמצעות PayPal</string>
-  <string name="app_feature_pro_only">האופציה הזו זמינה רק בגירסה המלאה.</string>
+  <string name="reset_data">מאפס נתונים…</string>
+  <string name="colon">:</string>
+  <string name="save">שמור</string>
+  <string name="cancel">ביטול</string>
+  <string name="name">שם</string>
+  <string name="contact">איש קשר</string>
+  <string name="appenabled_title">אפשר Droid Notify</string>
+  <string name="appenabled_summary">הפעל את היישום.</string>
+  <string name="upgrade">שדרוג</string>
+  <string name="upgrade_to_pro">שדרג לגירסה מלאה</string>
   <string name="upgrade_description_text">האופציה הזו זמינה רק בגירסה המלאה. אם אתה רוצה לשדרג ולרכוש את האפליקציה אנא לחץ על הכפתור למטה.</string>
   <string name="upgrade_no_market_description_text">האופציה הזו זמינה רק בגירסה המלאה. אנא שדרג את האפליקציה כדי לקבל גישה לאופציה הזו.</string>
   <string name="upgrade_to_droid_notify_pro_text">שדרג לגירסה מלאה</string>
@@ -48,7 +43,6 @@
   <string name="app_android_email_app_error">אפליקצית הדוא\"ל של אנדרואיד לא יכלה להתחיל.</string>
   <string name="app_android_contacts_app_error">אפליקצית אנשי הקשר של אנדרואיד לא יכלה להתחיל.</string>
   <string name="app_android_quick_reply_app_error">אפליקצית התשובה המהירה לא יכלה להתחיל.</string>
-  <string name="app_android_test_app_error">ניסוי ההתראות לא יכלו להתחיל.</string>
   <string name="app_android_rate_app_error">אפליקצית הדפדפן לא יכלה להתחיל.</string>
   <string name="app_android_message_not_found_error">ההודעות הנבחרות לא יכלו להימצא.</string>
   <string name="app_android_phone_number_format_error">מספר הטלפון לא מופיע כבר תוקף. חיוג המספר נכשל.</string>
@@ -68,7 +62,6 @@
   <string name="app_email_app_error">אפליקצית הדוא\"ל לא יכולה להתחיל.</string>
   <string name="app_tts_error">שירות טקסט לדיבור לא יכול להתחיל.</string>
   <string name="app_preference_quiet_time_error">העדפות זמן שקט לא יכלו להתחיל.</string>
-  <string name="test_notifications_disabled_message">ניסוי ההתראות לא יכולות להיות מוצגות כי לא אופשרו שום התראות.</string>
   <string name="twitter_app_error">אפליקצית הטוויטר לא יכולה להתחיל.</string>
   <string name="twitter_app_not_found_error">אפליקצית הטוויטר לא יכולה להימצא. נסה לבחור בלקוח טוויטר מועדף שונה.</string>
   <string name="facebook_app_error">אפליקצית הפייסבוק לא יכולה להתחיל.</string>
@@ -79,106 +72,78 @@
   <string name="not_online_error">האפליקצילא יכולה לקבל גישה מקוונת כעת. נא נסה שוב מאוחר יותר.</string>
   <string name="url_link_not_found_error">לא היתה אפשרות למצוא את קישור ה-URL.</string>
   <string name="browser_app_error">לא היתה אפשרות להפעיל את יישום דפדפן האינטרנט.</string>
-  <string name="log_file_error_title">שגיאת קובץ של יומן רישום</string>
-  <string name="log_file_acquiring_system_logs">השג יומני רישום של המערכת...</string>
-  <string name="log_file_retrieval_failure">נכשל באחזור יומני רישום של המערכת.</string>
-  <string name="log_file_device_info" formatted="false">גירסת Droid Notify: %s\nדגם מכשיר: %s\nגירסת קושחה: %s\nמבנה מספר: %s\n</string>
-  <string name="send_debug_logs_text">שלח יומני רישום של איתור באגים</string>
-  <string name="send_debug_logs_summary">שלח את יומני הרישום של איתור באגים למפתח.</string>
-  <string name="preference_language_title">שפה</string>
-  <string name="preference_language_summary">בחר את השפה של האפליקציה.</string>
-  <string name="phone_default_language">שפת ברירת המחדל של הטלפון</string>
+  <string name="add_to_blacklist_error">לא היתה אפשרות להוסיף את הפריט ברשימה השחורה.</string>
   <string name="preference_disable_context_menu_title">בטל את תפריט ההקשר</string>
   <string name="preference_disable_context_menu_summary">בטל את תפריט ההקשר המצורף לכותרות ההודעות.</string>
   <string name="preference_disable_quick_contact_title">בטל את תפריט התמונה</string>
   <string name="preference_disable_quick_contact_summary">בטל את תפריט אנשי קשר מהיר שאליה מצורפות הודעת תמונות.</string>
-  <string name="preference_close_app_when_pushed_to_background_title">סגור ברקע</string>
-  <string name="preference_close_app_when_pushed_to_background_summary">סגור את האפליקציה כאשר היא נמצאת ברקע.</string>
-  <string name="preference_ignore_linked_apps_when_pushed_to_background_title">התעלם מיישומים מקושרים</string>
-  <string name="preference_ignore_linked_apps_when_pushed_to_background_summary">התעלם מיישומים מקושרים כשאתה סוגר את האפליקציה.</string>
+  <string name="popup_horizontal_location_title">מיקום אופקי של חלון קופץ</string>
+  <string name="popup_horizontal_location_summary">בחר מיקום אופקי של החלון.</string>
+  <string name="top">עליון</string>
+  <string name="center">מרכז</string>
+  <string name="bottom">תחתון</string>
   <string name="preference_popup_width_padding_title">חלון קופץ של רוחב המרווח</string>
   <string name="preference_popup_width_padding_summary">בחר את גודל המרווח של רוחב חלון.</string>
-  <string name="package_not_found">Package Not Found</string>
-  <string name="package_k9_not_found">We cannot find the required K-9 email client installed on this device. Please download a compatible K-9 email client. Click on one of the buttons below to download a compatible client.</string>
-  <string name="package_k9_not_found_generic">We cannot find the required K-9 email client installed on this device. Please download a compatible K-9 email client.</string>
+  <string name="package_not_found">החבילה לא נמצאה</string>
+  <string name="package_k9_not_found">לא ניתן למצוא לקוח דוא\"ל K-9 דרוש המותקן בהתקן זה. נא להוריד לקוח דוא\"ל K-9 תואם. לחץ על אחד הלחצנים שלהלן כדי להוריד מהדורות לקוח תואם.</string>
+  <string name="package_k9_not_found_generic">לא ניתן למצוא לקוח דוא\"ל K-9 דרוש המותקן בהתקן זה. נא להוריד לקוח דוא\"ל K-9 תואם.</string>
   <string name="k9_mail">K-9 Mail</string>
   <string name="kaiten_mail">Kaiten Mail</string>
-  <string name="app_settings_text">הגדרות</string>
-  <string name="general_settings_text">הגדרות כלליות</string>
-  <string name="basic_settings_text">הגדרות בסיסיות</string>
-  <string name="misc_settings_text">הגדרות שונות</string>
-  <string name="advanced_settings_text">הגדרות מתקדמות</string>
-  <string name="notification_settings_text">הגדרות התראה</string>
-  <string name="quick_reply_settings_text">הגדרות תשובה מהירה</string>
-  <string name="notification_body_settings_text">הגדרות תוכן התראה</string>
-  <string name="notification_header_settings_text">הגדרות כותרת התראה</string>
-  <string name="notification_photo_settings_text">הגדרות התראת תמונה</string>
-  <string name="event_body_settings_text">הגדרות תוכן אירוע</string>
-  <string name="debug_settings_text">הגדרות איתור באגים</string>
   <string name="preference_debug_log_title">הפעל מצב איתור באגים</string>
   <string name="preference_debug_log_summary">בעת מצב איתור באגים היישום יבצע רישום אבחון מידע.</string>
-  <string name="delete_text">מחק</string>
+  <string name="delete">מחק</string>
+  <string name="confirm_delete_entry">פעולה זו תמחק את הערך.</string>
   <string name="delete_message_dialog_text">זה ימחק את ההודעה מהטלפון.</string>
   <string name="delete_thread_dialog_text">שרשור ההודעות ימחק מהטלפון.</string>
   <string name="delete_email_dialog_text">זה ימחק את הדוא\"ל מהטלפון.</string>
   <string name="delete_twitter_direct_message_dialog_text">זה ימחק את ההודעה הישירה מחשבון הטוויטר שלך.</string>
   <string name="delete_facebook_notification_dialog_text">זה ימחק את ההתראה מחשבון הפייסבוק שלך.</string>
   <string name="delete_facebook_message_dialog_text">זה ימחוק את ההודעה מחשבון הפייסבוק שלך.</string>
-  <string name="preference_center_align_body_text_title">סדר במרכז את תוכן הטקסט</string>
-  <string name="preference_center_align_body_text_summary">סדר במרכז את תוכן הטקסט של ההתראה.</string>
-  <string name="preference_notification_body_font_size_title">גודל גופן תוכן התראה</string>
-  <string name="preference_notification_body_font_size_summary">בחר את גודל הגופן שאתה רוצה להשתמש כאשר מוצג תוכן ההתראה.</string>
-  <string name="preference_hide_notification_body_enabled_title">הסתר תוכן התראה</string>
-  <string name="preference_hide_notification_body_enabled_summaryOn">תוכן ההתראה לא יוצג בחלון הקופץ.</string>
-  <string name="preference_hide_notification_body_enabled_summaryOff">תוכן ההתראה יוצג בחלון הקופץ.</string>
-  <string name="preference_notification_body_max_lines_title">מקסימום שורות בתוכן ההתראה</string>
-  <string name="preference_notification_body_max_lines_summary">בחר את מספר השורות המרבי שיוצגו בתוכן התראה.</string>
-  <string name="preference_notification_type_info_icon_enabled_title">הצג סוג סמל</string>
-  <string name="preference_notification_type_info_icon_enabled_summaryOn">סוג סמל ההתראה יוצג.</string>
-  <string name="preference_notification_type_info_icon_enabled_summaryOff">סוג סמל ההתראה לא יוצג.</string>
-  <string name="notification_type_info_settings_text">הגדרות סוג מידע</string>
-  <string name="preference_notification_type_info_size">סוג גודל גופן</string>
-  <string name="preference_notification_type_info_size_summary">בחר את גודל הגופן של סוג התראת מידע טקסט.</string>
-  <string name="preference_display_contact_photo_title">הצג תמונת איש קשר</string>
-  <string name="preference_display_contact_photo_summaryOn">תמונת איש הקשר תוצג.</string>
-  <string name="preference_display_contact_photo_summaryOff">תמונת איש הקשר לא תוצג.</string>
-  <string name="preference_display_contact_name_title">הצג שם איש קשר</string>
-  <string name="preference_display_contact_name_summary">הצג את שם איש הקשר בראש ההתראה.</string>
-  <string name="preference_hide_unknown_contact_name_title">הסתר שם איש קשר לא ידוע</string>
-  <string name="preference_hide_unknown_contact_name_summary">הסתר את שם איש הקשר אם לא ידוע.</string>
-  <string name="preference_contact_name_font_size_title">גודל גופן שם איש קשר</string>
-  <string name="preference_contact_name_font_size_summary">בחר את גודל הגופן של טקסט שם איש הקשר.</string>
-  <string name="preference_display_contact_number_title">הצג מספר איש קשר</string>
-  <string name="preference_display_contact_number_summary">הצג את מספר איש הקשר בראש ההתראה.</string>
-  <string name="preference_contact_number_font_size_title">גודל גופן מספר איש הקשר</string>
-  <string name="preference_contact_number_font_size_summary">בחר את גודל גופן טקסט מספר איש הקשר.</string>
-  <string name="preference_contact_placeholder_image">סמל תמונת איש קשר</string>
-  <string name="preference_contact_placeholder_image_summary">בחר את סמל התמונה שאתה רוצה שתוצג לאנשי קשר לא ידועים.</string>
-  <string name="preference_contact_photo_background">רקע תמונת איש קשר</string>
-  <string name="preference_contact_photo_background_summary">בחר את תמונת הרקע שאתה רוצה שתוצג מאחורי תמונת איש הקשר.</string>
-  <string name="contact_photo_settings_text">הגדרות תמונת איש קשר</string>
-  <string name="preference_contact_photo_size">גודל תמונת איש קשר</string>
-  <string name="preference_contact_photo_size_summary">בחר את גודל תמונת איש הקשר.</string>
-  <string name="about_text">אודות</string>
-  <string name="preference_about_summary">אודות About Droid</string>
-  <string name="preference_about_text">&lt;b&gt;נוצר ע\"י:&lt;/b&gt; Camille Sévigny&lt;br/&gt;&lt;b&gt;דוא\"ל:&lt;/b&gt; &lt;a href=\"mailto:droidnotify@gmail.com\"&gt;droidnotify@gmail.com&lt;/a&gt;&lt;br/&gt;&lt;br/&gt;Droid Notify היא אפליקציה שמציגה דו שיח של חלון קופץ כאשר הודעה/הודעת מולטימדיה מתקבלת, שיחה שלא נענתה התקבלה, דוא\"ל חדש התקבל או אירוע בלוח השנה קורה. יש גם עוד אפשרויות מתקדמות ותמיכה בהתראות אחרות בגירסה המלאה של האפליקציה הזו. ההתראות מקושרות לאפליקצית ההודעות שלך, הטלפון שלך ולוח השנה שלך. ההתראות גם מציגות את מידע איש הקשר (אם ניתן להשיג) כמו ממי זה הגיע ותמונת איש קשר אם זמין.&lt;br/&gt;&lt;br/&gt;אם אתה אוהב את Droid Notify, אנא דרג את האפליקציה והשאר הערה.&lt;br/&gt;&lt;br/&gt;הרגש חופשי לשלוח הערות, הצעות או באגים.&lt;br/&gt;&lt;br/&gt;&lt;b&gt;לתרגומים בקר ב:&lt;/b&gt; &lt;a href=\"http://www.crowdin.net/\"&gt;CrowdIn.net&lt;/a&gt;&lt;br/&gt;</string>
-  <string name="preference_translated_by_text">French Translation: Franky&lt;br/&gt;Hebrew Translation: Benjo26&lt;br/&gt;Polish Translation: Draco (draco.pl@gmail.com)&lt;br/&gt;Portuguese Translation: Marcio Andrade (marcioaribeiro@hotmail.com.br)&lt;br/&gt;Spanish Translation: Shaymelmed (shaben_translations@hotmail.com)&lt;br/&gt;Simplified Chinese Translation: Jason (hrmqs86@gmail.com)&lt;br/&gt;&lt;br/&gt;</string>
-  <string name="preference_copyright_text">&lt;b&gt;© 2012 Camille Sévigny&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;</string>
-  <string name="preference_haptic_feedback_title">אפשר משוב</string>
-  <string name="preference_haptic_feedback_summaryOn">משוב מאופשר. רטוט כאשר אתה לוחץ על מקש מתוכנת ובאינטראקציות UI מסוימות.</string>
-  <string name="preference_haptic_feedback_summaryOff">משוב מבוטל.</string>
+  <string name="identifier">מזהה</string>
+  <string name="contact_name">שם איש קשר</string>
+  <string name="contact_phone">טלפון איש קשר</string>
+  <string name="contact_email">דוא\"ל איש קשר</string>
+  <string name="settings">הגדרות</string>
+  <string name="general_category">כללי</string>
+  <string name="screen_category">מסך</string>
+  <string name="basic_category">בסיסי</string>
+  <string name="basic">בסיסי</string>
+  <string name="reschedule_category">קבע מועד חדש</string>
+  <string name="reschedule_settings">תזמון מחדש של הגדרות</string>
+  <string name="preference_display_reschedule_button_title">הצג כפתור \"טען מחדש\"</string>
+  <string name="preference_display_reschedule_button_summary">הצג את כפתור \"טען מחדש\" בכותרת.</string>
+  <string name="preference_reschedule_time_text">זמן מועד חדש</string>
+  <string name="preference_reschedule_time_summary">הגדר מתי לטעון מחדש התראה.</string>
+  <string name="reminders_category">תזכורות</string>
+  <string name="reminder_settings">הגדרות תזכורת</string>
+  <string name="preference_reminders_enabled_title">אפשר תזכורות</string>
+  <string name="preference_reminders_enabled_summary">מזכיר לך להתראות שלא נקראו.</string>
+  <string name="preference_reminder_frequency_text">תדירות תזכורת</string>
+  <string name="preference_reminder_frequency_summary">הגדר את מספר התזכורות לשליחה.</string>
+  <string name="preference_reminder_interval_text">מרווח תזכורת</string>
+  <string name="preference_reminder_interval_summary">הגדר את המרווח לשליחת תזכורות.</string>
+  <string name="keep_repeating_text">שמור על חזרה</string>
+  <string name="quiet_time_category">זמן שקט</string>
+  <string name="quiet_time_settings">הגדרות זמן שקט</string>
+  <string name="preference_quiet_time_enabled_title">אפשר זמן שקט</string>
+  <string name="preference_quiet_time_enabled_summary">הפסק התראות במשך פרקי זמן מסויימים.</string>
+  <string name="preference_quiet_time_of_week_title">הגדרות זמן של שבוע</string>
+  <string name="preference_quiet_time_of_week_summary">הגדר מתי הזמן השקט יתבונן.</string>
+  <string name="everyday_text">כל יום</string>
+  <string name="only_on_weekends_text">רק במשך סופי שבוע.</string>
+  <string name="only_on_weekdays_text">רק במשך ימי חול.</string>
+  <string name="preference_quiet_time_quiet_period_title">הגדרות משך זמן שקט</string>
+  <string name="preference_quiet_time_quiet_period_summary">הגדר את פרק הזמן של זמן שקט.</string>
+  <string name="preference_quiet_period_dialog_instructions">בחר את הזמן שאתה מעדיף שהתקופה השקטה תתחיל ותפסיק.</string>
+  <string name="start_quiet_time_text">התחלת זמן שקט:</string>
+  <string name="stop_quiet_time_text">הפסקת זמן שקט:</string>
+  <string name="preference_quiet_time_period_set">תקופת זמן השקט נקבעה עכשיו.</string>
+  <string name="quick_reply_category">מענה מהיר</string>
+  <string name="quick_reply_settings">הגדרות תשובה מהירה</string>
   <string name="quick_reply">תשובה מהירה</string>
-  <string name="subject_text">נושא:</string>
   <string name="phone_number_error_text">אנא הקלד מספר לשליחת הודעה ל.</string>
   <string name="address_error_text">אנא הכנס כתובת כדי לשלוח את ההודעה ל.</string>
   <string name="message_error_text">אנא הקלד הודעה לשליחה.</string>
-  <string name="message_sent_text">ההודעה נשלחה.</string>
-  <string name="message_sent_error_generic_failure_text">הודעה לא נשלחה: שגיאה כללית.</string>
-  <string name="message_sent_error_no_service_text">הודעה לא נשלחה: אין שירות.</string>
-  <string name="message_sent_error_null_pdu_text">הודעה לא נשלחה: בטל PDU.</string>
-  <string name="message_sent_error_radio_off_text">הודעה לא נשלחה: רדיו לא פעיל.</string>
-  <string name="message_delivered_text">הודעה נמסרה.</string>
-  <string name="message_not_delivered_text">ההודעה לא נמסרה.</string>
   <string name="draft_saved_text">ההודעה נשמרה כטיוטה.</string>
   <string name="preference_quick_reply_blur_screen_background_enabled_summaryOn">הרקע של המסך יטושטש כאשר חלון התשובה המהירה יופיע.</string>
   <string name="preference_quick_reply_blur_screen_background_enabled_summaryOff">הרקע של המסך לא יטושטש כאשר חלון התשובה המהירה יופיע.</string>
@@ -189,220 +154,34 @@
   <string name="preference_save_draft_enabled_summaryOff">טיוטת ההודעה לא תישמר.</string>
   <string name="preference_quick_reply_sms_gateway">העבר הודעה לדוא\"ל</string>
   <string name="preference_quick_reply_sms_gateway_summary">בחר את ספק השירות שלך מהרשימה הזאת. אם אתה לא יכול למצוא את זה אתה לא תוכל לשלוח את ההודעות לכתובת הדוא\"ל עם התשובה המהירה הפנימית.</string>
-  <string name="message_at_text" formatted="false">הודעה חדשה ב %s</string>
-  <string name="email_at_text" formatted="false">דוא\"ל חדש ב %s</string>
-  <string name="missed_call_at_text" formatted="false">שיחה שלא נענתה ב %s</string>
-  <string name="mention_at_text" formatted="false">תזכיר חדש ב %s</string>
-  <string name="follower_request_at_text" formatted="false">בקשת מעקב חדשה ב %s</string>
-  <string name="follower_request_text" formatted="false">בקשת מעקב חדשה</string>
-  <string name="notification_at_text" formatted="false">התראה חדשה ב %s</string>
-  <string name="friend_request_at_text" formatted="false">בקשת חברות חדשה ב %s</string>
-  <string name="preference_confirm_deletion_title">אשר מחיקה</string>
-  <string name="preference_confirm_deletion_summary">הצג קופסת דיאלוג אישור כשאתה מוחק פריט.</string>
-  <string name="preference_time_is_utc_title">הזמן הוא ב- UTC</string>
-  <string name="view_thread_text">הצג שיחה</string>
-  <string name="messaging_inbox_text">תיבת העברת הודעות נכנסות</string>
-  <string name="preference_sms_enabled_title">אפשר הודעה</string>
-  <string name="preference_sms_enabled_summaryOn">התראות הודעה מאופשרות.</string>
-  <string name="preference_sms_enabled_summaryOff">התראות הודעה מבוטלות.</string>
-  <string name="preference_sms_display_unread_enabled_title">טען הודעה שלא נקראה</string>
-  <string name="preference_sms_display_unread_enabled_summaryOn">כל ההודעות שלא נקראו יטענו כאשר תתקבל הודעה חדשה.</string>
-  <string name="preference_sms_display_unread_enabled_summaryOff">רק ההודעה הנכנסת הנוכחית תיטען.</string>
-  <string name="preference_sms_notifications">התראות הודעה</string>
-  <string name="preference_sms_ringtone_enabled_title">אפשר צלצול</string>
-  <string name="preference_sms_ringtone_enabled_summaryOn">התראות הודעה ישמיעו צלצול בהגעה.</string>
-  <string name="preference_sms_ringtone_enabled_summaryOff">התראות הודעה לא ישמיעו צלצול בהגעה.</string>
-  <string name="preference_sms_timeout">פסק זמן הודעות</string>
-  <string name="preference_sms_timeout_summary">הגדר כמה זמן לחכות אחרי שהתקבלה הודעה לפני שתיבת ההודעות הנכנסות יתריעו להודעה חדשה.</string>
-  <string name="preference_sms_loading_title">הגדרות טעינת הודעות</string>
-  <string name="preference_sms_loading_summary">בחר איך האפליקציה טוענת הודעות נכנסות.</string>
-  <string name="preference_sms_timestamp_adjustment_title">התאמת סוג זמן הודעות</string>
-  <string name="preference_sms_timestamp_adjustment_summary">כמה טלפונים/מיקומים יכולים להציג סוגי זמנים לא נכונים. השתמש בהגדרה הזו כדי להציג סוג זמן להודעות.</string>
-  <string name="preference_sms_time_is_utc_summary">בדוק אופציה זו אם חותמת הזמן עבור הודעת SMS נכנסות ב- UTC. (זה עשוי לתקן הודעה שגויה בזמני התראות)</string>
-  <string name="view_mms_button_text">הצג מולטימדיה</string>
-  <string name="preference_mms_enabled_title">אפשר מולטימדיה</string>
-  <string name="preference_mms_enabled_summaryOn">התראות מולטימדיה מאופשרות.</string>
-  <string name="preference_mms_enabled_summaryOff">התראות מולטימדיה מבוטלות.</string>
-  <string name="preference_mms_display_unread_enabled_title">טען מולטימדיה שלא נקראה</string>
-  <string name="preference_mms_display_unread_enabled_summaryOn">כל הודעות המולטימדיה שלא נקראו יטענו כאשר הודעת מולטימדיה חדשה תגיע.</string>
-  <string name="preference_mms_display_unread_enabled_summaryOff">רק ההודעה הנכנסת הנוכחית תיטען.</string>
-  <string name="preference_mms_hide_message_body_enabled_title">הסתר תוכן הודעה</string>
-  <string name="preference_mms_hide_message_body_enabled_summaryOn">תוכן ההודעה לא יוצג בהתראת החלון הקופץ.</string>
-  <string name="preference_mms_hide_message_body_enabled_summaryOff">תוכן ההודעה יוצג בהתראת החלון הקופץ.</string>
-  <string name="preference_mms_message_body_font_size_title">גודל גופן תוכן ההודעה</string>
-  <string name="preference_mms_message_body_font_size_summary">בחר את גודל הגופן שאתה רוצה להשתמש כאשר מוצג תוכן ההודעה.</string>
-  <string name="preference_mms_notifications">התראות מולטימדיה</string>
-  <string name="preference_mms_timeout">פסק זמן מולטימדיה</string>
-  <string name="preference_mms_timeout_summary">הגדר כמה זמן לחכות אחרי שהתקבלה הודעת מולטימדיה לפני שתיבת הודעות המולטימדיה הנכנסות יתריעו להודעה חדשה.</string>
-  <string name="preference_mms_timestamp_adjustment_title">התאמת סוג הזמן להודעת מולטימדיה</string>
-  <string name="preference_mms_timestamp_adjustment_summary">כמה טלפונים/מיקומים יכולים להציג סוגי זמנים לא נכונים. השתמש בהגדרה הזו כדי להציג סוג זמן להודעות מולטימדיה.</string>
-  <string name="mms_click_here_to_view">[לחץ כאן כדי להציג הודעת מולטימדיה]</string>
-  <string name="private_number_text">מספר פרטי</string>
-  <string name="call_button_text">חייג</string>
-  <string name="call_contact_text">חייג לאיש קשר</string>
-  <string name="view_call_log_text">הצג יומן שיחות</string>
-  <string name="select_number_text">בחר מספר</string>
-  <string name="select_number_to_call_text">בחר מספר לחיוג</string>
-  <string name="select_number_to_text_text">בחר מספר לטקסט</string>
-  <string name="preference_missed_call_enabled_title">אפשר שיחה שלא נענתה</string>
-  <string name="preference_missed_call_enabled_summaryOn">התראות שיחה שלא נענתה מאופשר.</string>
-  <string name="preference_missed_call_enabled_summaryOff">התראות שיחה שלא נענתה מבוטל.</string>
-  <string name="preference_missed_call_notifications">התראות שיחה שלא נענתה</string>
-  <string name="preference_missed_call_loading_title">טוען הגדרות</string>
-  <string name="preference_missed_call_loading_summary">הגדר איזה שיחות לטעון כאשר אתה מקבל שיחה שלא נענתה.</string>
-  <string name="preference_call_log_timeout">פסק זמן יומן שיחות</string>
-  <string name="preference_call_log_timeout_summary">הגדר כמה זמן לחכות אחרי שיחה לפני שיומן שיחות יתריע לשיחה שלא נענתה.</string>
-  <string name="add_calendar_event_text">הוסף אירוע לוח שנה</string>
-  <string name="edit_calendar_event_text">ערוך אירוע לוח שנה</string>
-  <string name="event_on_text">אירוע ב %s</string>
-  <string name="view_calendar_text">הצג יומן</string>
-  <string name="calendar_event_text">אירוע לוח שנה</string>
-  <string name="preference_calendar_enabled_title">אפשר אירועי לוח שנה</string>
-  <string name="preference_calendar_enabled_summaryOn">התראות אירועי לוח שנה מאופשר.</string>
-  <string name="preference_calendar_enabled_summaryOff">התראות אירועי לוח שנה מבוטל.</string>
-  <string name="preference_calendar_polling_frequency_summary">באיזו תדירות אתה רוצה לקרוא את אירועי לוח השנה?</string>
-  <string name="preference_calendar_selection_title">בחר לוחות שנה</string>
-  <string name="preference_calendar_selection_summary">בחר את לוחות השנה שאתה רוצה לקבל עליהם התראה.</string>
-  <string name="preference_calendar_labels_enabled_title">אפשר תוויות לוח שנה</string>
-  <string name="preference_calendar_labels_enabled_summaryOn">השם של לוח השנה שהאירוע שייך לו יוצג בהתראה. (שימושי אם יש לך יותר מלוח שנה אחד)</string>
-  <string name="preference_calendar_labels_enabled_summaryOff">השם של לוח השנה שהאירוע שייך לו לא יוצג בהתראה. (שימושי אם יש לך יותר מלוח שנה אחד)</string>
-  <string name="preference_calendar_notifications">התראות לוח שנה</string>
-  <string name="event_reminder_settings_text">הגדרות תזכורת אירוע</string>
-  <string name="all_day_event_reminders_text">תזכורות אירועי כל היום</string>
-  <string name="all_day_event_reminder_setting_text">הגדרות אירועי כל היום</string>
-  <string name="preference_event_reminder_settings">הגדרות אירוע</string>
-  <string name="preference_event_reminder_summary">כמה מוקדם אתה רוצה שתוזכר על אירוע הבא?</string>
-  <string name="preference_event_reminder_all_day_settings">הגדרות תזכורת אירועי כל היום</string>
-  <string name="preference_event_reminder_all_day_summary">כמה מוקדם אתה רוצה שתוצג תזכורת על אירוע במשך כל היום?</string>
-  <string name="preference_calendar_all_day_notify_day_of_time_title">זמן התראת כל היום</string>
-  <string name="preference_calendar_all_day_notify_day_of_time_summary">לאירועי כל היום, מתי אתה רוצה שתופיע תזכורת על האירוע?</string>
-  <string name="preference_calendar_reminders_enabled_title">שלח תזכורות אירוע</string>
-  <string name="preference_calendar_reminders_enabled_summaryOn">התראת תזכורת תישלח לפני שאירוע בלוח השנה יקרה.</string>
-  <string name="preference_calendar_reminders_enabled_summaryOff">לא תישלח תזכורת לפני שהאירוע בלוח השנה יקרה.</string>
-  <string name="preference_calendar_event_body_font_size_title">גודל גופן של טקסט אירוע</string>
-  <string name="preference_calendar_event_body_font_size_summary">בחר את גודל הגופן שאתה רוצה להשתמש כאשר מוצג טקסט האירוע.</string>
-  <string name="preference_calendar_refresh_title">רענון התראות לוח שנה</string>
-  <string name="preference_calendar_refresh_summary">תזמן מחדש באופן ידני את אירועי לוח שנה.</string>
-  <string name="reading_calendar_data">קריאת נתוני לוח השנה...</string>
-  <string name="calendar_data_refreshed">אירועי לוח השנה שלך נקראו וההתראות רועננו.</string>
-  <string name="preference_twitter_notifications">התראות טוויטר</string>
-  <string name="preference_twitter_enabled_title">אפשר טוויטר</string>
-  <string name="preference_twitter_enabled_summaryOn">התראות טוויטר מאופשרות.</string>
-  <string name="preference_twitter_enabled_summaryOff">התראות טוויטר מבוטלות.</string>
-  <string name="preference_twitter_direct_messages_enabled_title">אפשר הודעות ישירות של טוויטר</string>
-  <string name="preference_twitter_direct_messages_enabled_summary">אפשר התראות הודעה ישירה של טוויטר.</string>
-  <string name="preference_twitter_mentions_enabled_title">אפשר תזכורות טוויטר</string>
-  <string name="preference_twitter_mentions_enabled_summary">אפשר התראות תזכורת של טוויטר.</string>
-  <string name="preference_twitter_follower_requests_enabled_title">אפשר בקשות מעקב של טוויטר</string>
-  <string name="preference_twitter_follower_requests_enabled_summary">אפשר התראות בקשת מעקב של טוויטר.</string>
-  <string name="twitter_authentication_text">אימות טוויטר</string>
-  <string name="twitter_authentication_message_text">המסך הבא ייפתח דף אינטרנט טוויטר בדפדפן האינטרנט. דף אינטרנט זה יבקש ממך לאפשר לאפליקציה גישה אל חשבון הטוויטר שלך. אם ברצונך להמשיך נא לחץ על לחצן \'המשך\' שלהלן.</string>
-  <string name="authenticating_text">לאמת...</string>
-  <string name="twitter_authentication_error">אנחנו לא יכולים לאמת או לגשת לחשבון הטוויטר שלך כרגע. אנא נסה שוב מאוחר יותר.</string>
-  <string name="preference_twitter_polling_frequency_summary">באיזו תדירות אתה רוצה לקרוא את חשבון הטוויטר שלך?</string>
-  <string name="preference_clear_twitter_authentication_data">אפס נתוני טוויטר</string>
-  <string name="preference_clear_twitter_authentication_data_summary">נקה את אימות נתוני טוויטר.</string>
-  <string name="twitter_authentication_data_cleared">אימות הנתונים של טוויטר נוקו.</string>
-  <string name="twitter_following_request" formatted="false">%s (@%s) ביקש לעקוב אחריך בטוויטר!</string>
-  <string name="open_twitter_app_text">פתח את אפליקצית טוויטר</string>
-  <string name="preference_twitter_manual_poll_title">קרא את חשבון הטוויטר</string>
-  <string name="preference_twitter_manual_poll_summary">קרא את חשבון הטוויטר באופן ידני והצג התראות.</string>
-  <string name="reading_twitter_account">קורא את חשבון הטוויטר...</string>
-  <string name="twitter_account_read">חשבון הטוויטר שלך כבר נקרא וההתראות נוצרו.</string>
-  <string name="preference_facebook_notifications">התראות פייסבוק</string>
-  <string name="preference_facebook_enabled_title">אפשר פייסבוק</string>
-  <string name="preference_facebook_enabled_summaryOn">התראות פייסבוק מאופשרות.</string>
-  <string name="preference_facebook_enabled_summaryOff">התראות פייסבוק מבוטלות.</string>
-  <string name="preference_facebook_user_notifications_enabled_title">אפשר התראות פייסבוק</string>
-  <string name="preference_facebook_user_notifications_enabled_summary">אפשר התראת התראות של פייסבוק.</string>
-  <string name="preference_facebook_messages_enabled_title">אפשר הודעות פייסבוק</string>
-  <string name="preference_facebook_messages_enabled_summary">אפשר התראות הודעה של פייסבוק.</string>
-  <string name="preference_facebook_friend_requests_enabled_title">אפשר בקשות חברות של פייסבוק</string>
-  <string name="preference_facebook_friend_requests_enabled_summary">אפשר התראות בקשת חברות של פייסבוק.</string>
-  <string name="facebook_authentication_text">אימות פייסבוק</string>
-  <string name="facebook_authentication_error">אנחנו לא יכולים לאמת או לגשת לחשבון הפייסבוק שלך כרגע. אנא נסה שוב מאוחר יותר.</string>
-  <string name="preference_clear_facebook_authentication_data">אפס נתוני פייסבוק</string>
-  <string name="preference_clear_facebook_authentication_data_summary">נקה את אימות נתוני פייסבוק.</string>
-  <string name="facebook_authentication_data_cleared">אימות הנתונים של פייסבוק נוקו.</string>
-  <string name="open_facebook_app_text">פתח את אפליקצית פייסבוק</string>
-  <string name="preference_facebook_polling_frequency_summary">באיזו תדירות אתה רוצה לקרוא את החשבון הפייסבוק שלך?</string>
-  <string name="facebook_new_friend_request_from">יש לך בקשת חברות חדשה בפייסבוק מ</string>
-  <string name="preference_facebook_manual_poll_title">קרא את חשבון פייסבוק</string>
-  <string name="preference_facebook_manual_poll_summary">קרא את חשבון הפייסבוק באופן ידני והצג התראות.</string>
-  <string name="reading_facebook_account">קורא את חשבון פייסבוק...</string>
-  <string name="facebook_account_read">חשבון הפייסבוק שלך כבר נקרא וההתראות נוצרו.</string>
-  <string name="preference_linkedin_notifications">מאפייני התראות</string>
-  <string name="preference_linkedin_enabled_title">אפשר LinkedIn</string>
-  <string name="preference_linkedin_enabled_summaryOn">התראות LinkedIn זמינים.</string>
-  <string name="preference_linkedin_enabled_summaryOff">התראות LinkedIn לא זמינים.</string>
-  <string name="linkedin_authentication_text">מאפייני אימות</string>
-  <string name="linkedin_authentication_message_text">המסך הבא ייפתח דף אינטרנט LinkedIn בדפדפן האינטרנט. דף אינטרנט זה יבקש ממך לאפשר לאפליקציה גישה אל חשבון ה LinkedIn שלך. אם ברצונך להמשיך נא לחץ על לחצן \'המשך\' שלהלן.</string>
-  <string name="linkedin_authentication_error">לא הצלחנו לאמת או לגשת לחשבון LinkedIn שלך בשלב זה. נא נסה שוב מאוחר יותר.</string>
-  <string name="preference_linkedin_polling_frequency_summary">באיזו תדירות ברצונך לקרוא את חשבון LinkedIn שלך?</string>
-  <string name="preference_clear_linkedin_authentication_data">אפס נתוני LinkedIn</string>
-  <string name="preference_clear_linkedin_authentication_data_summary">נקה נתוני אימות של LinkedIn.</string>
-  <string name="linkedin_authentication_data_cleared">נתוני אימות של LinkedIn נוקו.</string>
-  <string name="email_inbox_text">תיבת דוא\"ל נכנס</string>
-  <string name="view_email_text">הצג דוא\"ל</string>
-  <string name="preference_k9_enabled_title">אפשר K-9 Email</string>
-  <string name="preference_k9_enabled_summaryOn">התראות K-9 Email מאופשרות.</string>
-  <string name="preference_k9_enabled_summaryOff">התראות K-9 Email מבוטלות.</string>
-  <string name="preference_k9_hide_message_body_enabled_title">הסתר תוכן הודעה</string>
-  <string name="preference_k9_hide_message_body_enabled_summaryOn">תוכן ההודעה לא יוצג בהתראת החלון הקופץ.</string>
-  <string name="preference_k9_hide_message_body_enabled_summaryOff">תוכן ההודעה יוצג בהתראת החלון הקופץ.</string>
-  <string name="preference_k9_message_body_font_size_title">גודל גופן תוכן ההודעה</string>
-  <string name="preference_k9_message_body_font_size_summary">בחר את גודל הגופן שאתה רוצה להשתמש כאשר מוצג תוכן הדוא\"ל.</string>
-  <string name="preference_k9_notifications">התראות K-9 Email</string>
-  <string name="preference_polling_frequency">תדירות סקירה</string>
-  <string name="preference_ignore_class_0_messages_title">להתעלם מחלקה 0 הודעות</string>
-  <string name="preference_ignore_class_0_messages_summary">התעלם מהבזק הודעות SMS AKA מחלקה 0 הודעות</string>
-  <string name="view_contact_text">הצג איש קשר</string>
-  <string name="add_contact_text">הוסף איש קשר</string>
-  <string name="text_contact_text">טקסט איש קשר</string>
-  <string name="edit_contact_text">ערוך איש קשר</string>
-  <string name="view_button_text">הצג</string>
-  <string name="close_button_text">סגור</string>
-  <string name="dismiss_button_text">בטל</string>
-  <string name="reply_button_text">השב</string>
-  <string name="next_button_text">הבא</string>
-  <string name="previous_button_text">הקודם</string>
-  <string name="send_button_text">שלח</string>
-  <string name="send">שלח</string>
-  <string name="cancel_button_text">ביטול</string>
-  <string name="cancel">ביטול</string>
-  <string name="delete_button_text">מחק</string>
-  <string name="button_settings_text">הגדרות כפתור</string>
-  <string name="show_hide_button_settings_text">הצג/הסתר הגדרות כפתור</string>
-  <string name="preference_display_dismiss_button_title">הצג כפתור \"בטל\"</string>
-  <string name="preference_display_dismiss_button_summary">הצג את כפתור \"בטל\".</string>
-  <string name="preference_display_delete_button_title">הצג כפתור \"מחק\"</string>
-  <string name="preference_display_delete_button_summary">הצג את כפתור \"מחק\".</string>
-  <string name="preference_display_reply_button_title">הצג כפתור \"השב\"</string>
-  <string name="preference_display_reply_button_summary">הצג את כפתור \"השב\".</string>
-  <string name="preference_display_call_button_title">הצג כפתור \"חייג\"</string>
-  <string name="preference_display_call_button_summary">הצג את כפתור \"חייג\".</string>
-  <string name="preference_display_view_button_title">הצג כפתור \"הצג\"</string>
-  <string name="preference_display_view_button_summary">הצג את כפתור \"הצג\".</string>
-  <string name="preference_display_cancel_button_title">הצג כפתור \"ביטול\"</string>
-  <string name="preference_display_cancel_button_summary">הצג את כפתור \"ביטול\".</string>
-  <string name="preference_reply_button_action">פעולת כפתור \"השב\"</string>
-  <string name="preference_reply_button_action_summary">הגדר מה קורה כשאתה משיב לפריט.</string>
-  <string name="preference_delete_button_action">פעולת כפתור \"מחק\"</string>
-  <string name="preference_delete_button_action_summary">הגדר מה קורה כשאתה מוחק פריט.</string>
-  <string name="preference_dismiss_button_action">פעולת כפתור \"בטל\"</string>
-  <string name="preference_dismiss_button_action_summary">הגדר מה קורה כשאתה מבטל פריט.</string>
-  <string name="preference_view_button_action">הצג כפתור פעולה</string>
-  <string name="preference_view_button_action_summary">הגדר מה קורה כשאתה מציג פריט.</string>
-  <string name="preference_notification_count_button_action">פעולת ספירת התראה</string>
-  <string name="preference_notification_count_button_action_summary">הגדר מה יקרה כאשר את לוחץ על ספירת התראת טקסט.</string>
-  <string name="preference_button_style_title">סגנון כפתור</string>
-  <string name="preference_button_style_summary">בחר את התראת כפתור הסגנון.</string>
-  <string name="button_style_icon_and_text_text">סמלים וטקסט</string>
-  <string name="button_style_icon_only_text">רק סמלים</string>
-  <string name="button_style_text_only_text">רק טקסט</string>
-  <string name="general_screen_settings_text">הגדרות מסך בסיסיות</string>
-  <string name="notification_screen_settings_text">הגדרות התראת מסך</string>
-  <string name="preference_screen_settings">הגדרות מסך</string>
+  <string name="blacklist_category">רשימה שחורה</string>
+  <string name="blacklist">רשימה שחורה</string>
+  <string name="add_new">הוספת חדש</string>
+  <string name="add_contact">הוסף איש קשר</string>
+  <string name="add_other">הוסף אחר</string>
+  <string name="edit">עריכה</string>
+  <string name="add_to_blacklist">Add To Blacklist</string>
+  <string name="confirm_add_to_blacklist">This will add the sender to the blacklist database.</string>
+  <string name="customize_contacts_category">התאמה אישית של אנשי קשר</string>
+  <string name="customize_contacts">התאמה אישית של אנשי קשר</string>
+  <string name="buttons_category">לחצנים</string>
+  <string name="button_font_size_title">גודל גופן כפתור</string>
+  <string name="button_font_size_summary">בחר את גודל הגופן של טקסט הכפתור.</string>
+  <string name="bold_button_text_title">טקסט כפתור מודגש</string>
+  <string name="bold_button_text_summary">קבע את טקסט הכפתור למודגש.</string>
+  <string name="locale">﻿האזור</string>
+  <string name="preference_language_title">שפה</string>
+  <string name="preference_language_summary">בחר את השפה של האפליקציה.</string>
+  <string name="phone_default_language">שפת ברירת המחדל של הטלפון</string>
+  <string name="preference_phone_number_format">פורמט מספר טלפון</string>
+  <string name="preference_phone_number_format_summary">בחר את פורמט מספר הטלפון לשימוש להצגת מספרי טלפון.</string>
+  <string name="preference_phone_number_format_10_digits_only_title">הצג 10 סיפרות</string>
+  <string name="preference_phone_number_format_10_digits_only_summary">הצג רק את 10 הסיפרות הראשונות של מספר הטלפון. אם יש יותר מ 10 סיפרות, \"0\" יוצג לפני המספר.</string>
+  <string name="preference_time_format">פורמט זמן</string>
+  <string name="preference_time_format_summary">בחר את פורמט הזמן הרצוי.</string>
+  <string name="preference_date_format">פורמט תאריך</string>
+  <string name="preference_date_format_summary">בחר את פורמט התאריך הרצוי.</string>
+  <string name="screen">﻿מסך</string>
   <string name="preference_screen_enabled_title">הפוך מסך לפעיל</string>
   <string name="preference_screen_enabled_summaryOn">המסך יופעל כשתופיע התראה.</string>
   <string name="preference_screen_enabled_summaryOff">המסך לא יופעל כשתופיע התראה.</string>
@@ -425,75 +204,299 @@
   <string name="preference_keyguard_enabled_title">פתח טלפון</string>
   <string name="preference_keyguard_enabled_summaryOn">הטלפון יפתח כאשר תופיע התראה.</string>
   <string name="preference_keyguard_enabled_summaryOff">הטלפון לא יפתח כאשר התראה תופיע.</string>
-  <string name="preference_phone_number_format">פורמט מספר טלפון</string>
-  <string name="preference_phone_number_format_summary">בחר את פורמט מספר הטלפון לשימוש להצגת מספרי טלפון.</string>
-  <string name="preference_phone_number_format_10_digits_only_title">הצג 10 סיפרות</string>
-  <string name="preference_phone_number_format_10_digits_only_summary">הצג רק את 10 הסיפרות הראשונות של מספר הטלפון. אם יש יותר מ 10 סיפרות, \"0\" יוצג לפני המספר.</string>
-  <string name="preference_time_format">פורמט זמן</string>
-  <string name="preference_time_format_summary">בחר את פורמט הזמן הרצוי.</string>
-  <string name="preference_date_format">פורמט תאריך</string>
-  <string name="preference_date_format_summary">בחר את פורמט התאריך הרצוי.</string>
-  <string name="test_text">התראות טקסט</string>
-  <string name="test_app_text">התראות טקסט</string>
-  <string name="test_app_summary">לחץ להצגת התראות דוגמא.</string>
-  <string name="preference_quiet_time_title">הגדרות זמן שקט</string>
-  <string name="preference_quiet_time_enabled_title">אפשר זמן שקט</string>
-  <string name="preference_quiet_time_enabled_summary">הפסק התראות במשך פרקי זמן מסויימים.</string>
-  <string name="preference_quiet_time_of_week_title">הגדרות זמן של שבוע</string>
-  <string name="preference_quiet_time_of_week_summary">הגדר מתי הזמן השקט יתבונן.</string>
-  <string name="everyday_text">כל יום</string>
-  <string name="only_on_weekends_text">רק במשך סופי שבוע.</string>
-  <string name="only_on_weekdays_text">רק במשך ימי חול.</string>
-  <string name="preference_quiet_time_quiet_period_title">הגדרות משך זמן שקט</string>
-  <string name="preference_quiet_time_quiet_period_summary">הגדר את פרק הזמן של זמן שקט.</string>
-  <string name="preference_quiet_period_dialog_instructions">בחר את הזמן שאתה מעדיף שהתקופה השקטה תתחיל ותפסיק.</string>
-  <string name="start_quiet_time_text">התחלת זמן שקט:</string>
-  <string name="stop_quiet_time_text">הפסקת זמן שקט:</string>
-  <string name="preference_quiet_time_period_set">תקופת זמן השקט נקבעה עכשיו.</string>
-  <string name="rate_app_text">דרג אפליקציה</string>
-  <string name="rate_app_summary">דרג את האפליקציה הזו.</string>
-  <string name="feedback_text">משוב</string>
-  <string name="email_developer_text">דוא\"ל מפתח</string>
-  <string name="email_developer_summary">שלח דוא\"ל למפתח.</string>
-  <string name="theme_text">התראת ערכת נושא</string>
-  <string name="preference_theme_summary">בחר את ערכת הנושא של ההתראות.</string>
-  <string name="import_export_text">ייבוא/ייצוא</string>
+  <string name="customize_category">התאמה אישית</string>
+  <string name="customize">﻿התאמה אישית</string>
+  <string name="customize_notification_summary">התאמה אישית של התראות אלה.</string>
+  <string name="theme">ערכת נושא</string>
+  <string name="theme_summary">בחר את ערכת הנושא של ההתראות.</string>
+  <string name="theme_chooser_instructions">השתמש באמצעות תנועה סיבוב, בחר את ערכת הנושא הרצויה מתוך הדוגמאות הזמינות שלהלן. כאשר תמצא את ערכת הנושא הרצויה לחץ על לחצן אישור כדי לשמור את ערכת הנושא.</string>
+  <string name="more">יותר</string>
+  <string name="notify_theme">Notify ערכת נושא</string>
+  <string name="default_v1">Default</string>
+  <string name="default_v2">Default Translucent</string>
+  <string name="default_v3">Default Dark</string>
+  <string name="preference_notification_type_info_icon_enabled_title">הצג סוג סמל</string>
+  <string name="preference_notification_type_info_icon_enabled_summary">סוג סמל ההתראה הוא הסמל מימין לתמונת איש הקשר.</string>
+  <string name="preference_notification_type_info_size">סוג גודל גופן</string>
+  <string name="preference_notification_type_info_size_summary">בחר את גודל הגופן של סוג התראת מידע טקסט.</string>
+  <string name="preference_display_contact_photo_title">הצג תמונת איש קשר</string>
+  <string name="preference_display_contact_photo_summary">מציג איש קשר בהתראות מסוימות.</string>
+  <string name="preference_display_contact_name_title">הצג שם איש קשר</string>
+  <string name="preference_display_contact_name_summary">הצג את שם איש הקשר בראש ההתראה.</string>
+  <string name="preference_hide_unknown_contact_name_title">הסתר שם איש קשר לא ידוע</string>
+  <string name="preference_hide_unknown_contact_name_summary">הסתר את שם איש הקשר אם לא ידוע.</string>
+  <string name="preference_contact_name_font_size_title">גודל גופן שם איש קשר</string>
+  <string name="preference_contact_name_font_size_summary">בחר את גודל הגופן של טקסט שם איש הקשר.</string>
+  <string name="preference_display_contact_number_title">הצג מספר איש קשר</string>
+  <string name="preference_display_contact_number_summary">הצג את מספר איש הקשר בראש ההתראה.</string>
+  <string name="preference_contact_number_font_size_title">גודל גופן מספר איש הקשר</string>
+  <string name="preference_contact_number_font_size_summary">בחר את גודל גופן טקסט מספר איש הקשר.</string>
+  <string name="preference_display_unknown_contact_number_title">הצג את המספר של איש קשר לא ידוע.</string>
+  <string name="preference_display_unknown_contact_number_summary">הצג את המספר אם איש הקשר אינו ידוע.</string>
+  <string name="preference_contact_placeholder_image">סמל תמונת איש קשר</string>
+  <string name="preference_contact_placeholder_image_summary">בחר את סמל התמונה שאתה רוצה שתוצג לאנשי קשר לא ידועים.</string>
+  <string name="preference_contact_photo_background">רקע תמונת איש קשר</string>
+  <string name="preference_contact_photo_background_summary">בחר את תמונת הרקע שאתה רוצה שתוצג מאחורי תמונת איש הקשר.</string>
+  <string name="contact_photo_settings_text">הגדרות תמונת איש קשר</string>
+  <string name="preference_contact_photo_size">גודל תמונת איש קשר</string>
+  <string name="preference_contact_photo_size_summary">בחר את גודל תמונת איש הקשר.</string>
+  <string name="preference_center_align_body_text_title">סדר במרכז את תוכן הטקסט</string>
+  <string name="preference_center_align_body_text_summary">סדר במרכז את תוכן הטקסט של ההתראה.</string>
+  <string name="preference_notification_body_font_size_title">גודל גופן תוכן התראה</string>
+  <string name="preference_notification_body_font_size_summary">בחר את גודל הגופן שאתה רוצה להשתמש כאשר מוצג תוכן ההתראה.</string>
+  <string name="preference_display_notification_body_title">הצג תוכן התראות</string>
+  <string name="preference_display_notification_body_summary">הצג את תוכן ההתראות בחלון הקופץ.</string>
+  <string name="hide_notification_body_title">הסתר תוכן התראה</string>
+  <string name="hide_notification_body_summary">אל תציג את תוכן ההתראה בחלון הקופץ.</string>
+  <string name="preference_notification_body_max_lines_title">מקסימום שורות בתוכן ההתראה</string>
+  <string name="preference_notification_body_max_lines_summary">בחר את מספר השורות המרבי שיוצגו בתוכן התראה.</string>
+  <string name="sms_category">SMS</string>
+  <string name="sms">SMS</string>
+  <string name="view_thread_text">הצג שיחה</string>
+  <string name="messaging_inbox_text">תיבת העברת הודעות נכנסות</string>
+  <string name="preference_sms_enabled_title">אפשר הודעה</string>
+  <string name="sms_enabled_summary">הפעל הודעות SMS.</string>
+  <string name="preference_sms_display_unread_enabled_title">טען הודעה שלא נקראה</string>
+  <string name="display_unread_sms_enabled_summary">טען את כל ההודעות שלא נקראו כאשר מתקבלת הודעה חדשה.</string>
+  <string name="preference_sms_timeout">פסק זמן הודעות</string>
+  <string name="preference_sms_timeout_summary">הגדר כמה זמן לחכות אחרי שהתקבלה הודעה לפני שתיבת ההודעות הנכנסות יתריעו להודעה חדשה.</string>
+  <string name="preference_sms_loading_title">הגדרות טעינת הודעות</string>
+  <string name="preference_sms_loading_summary">בחר איך האפליקציה טוענת הודעות נכנסות.</string>
+  <string name="preference_sms_timestamp_adjustment_title">התאמת סוג זמן הודעות</string>
+  <string name="preference_sms_timestamp_adjustment_summary">כמה טלפונים/מיקומים יכולים להציג סוגי זמנים לא נכונים. השתמש בהגדרה הזו כדי להציג סוג זמן להודעות.</string>
+  <string name="preference_sms_time_is_utc_summary">בדוק אופציה זו אם חותמת הזמן עבור הודעת SMS נכנסות ב- UTC. (זה עשוי לתקן הודעה שגויה בזמני התראות)</string>
+  <string name="mms_category">MMS</string>
+  <string name="mms">MMS</string>
+  <string name="view_mms_button_text">הצג מולטימדיה</string>
+  <string name="preference_mms_enabled_title">אפשר מולטימדיה</string>
+  <string name="mms_enabled_summary">אפשר התראות מולטימדיה.</string>
+  <string name="preference_mms_display_unread_enabled_title">טען מולטימדיה שלא נקראה</string>
+  <string name="display_unread_mms_enabled_summary">טען את כל הודעות המולטימדיה שלא נקראו כאשר מתקבלת הודעת מולטימדיה חדשה.</string>
+  <string name="preference_mms_timeout">פסק זמן מולטימדיה</string>
+  <string name="preference_mms_timeout_summary">הגדר כמה זמן לחכות אחרי שהתקבלה הודעת מולטימדיה לפני שתיבת הודעות המולטימדיה הנכנסות יתריעו להודעה חדשה.</string>
+  <string name="missed_calls_category">﻿שיחות שלא נענו</string>
+  <string name="missed_calls">שיחות שלא נענו</string>
+  <string name="private_number_text">מספר פרטי</string>
+  <string name="call_contact_text">חייג לאיש קשר</string>
+  <string name="view_call_log_text">הצג יומן שיחות</string>
+  <string name="select_number_text">בחר מספר</string>
+  <string name="missed_call_enabled_title">אפשר שיחה שלא נענתה</string>
+  <string name="missed_call_enabled_summary">אפשר התראות לשיחות שלא נענו.</string>
+  <string name="preference_missed_call_loading_title">טוען הגדרות</string>
+  <string name="preference_missed_call_loading_summary">הגדר איזה שיחות לטעון כאשר אתה מקבל שיחה שלא נענתה.</string>
+  <string name="preference_call_log_timeout">פסק זמן יומן שיחות</string>
+  <string name="preference_call_log_timeout_summary">הגדר כמה זמן לחכות אחרי שיחה לפני שיומן שיחות יתריע לשיחה שלא נענתה.</string>
+  <string name="mms_click_here_to_view">[לחץ כאן כדי להציג הודעת מולטימדיה]</string>
+  <string name="event_reminders_category">תזכורות אירוע</string>
+  <string name="calendar">לוח שנה</string>
+  <string name="add_calendar_event_text">הוסף אירוע לוח שנה</string>
+  <string name="edit_calendar_event_text">ערוך אירוע לוח שנה</string>
+  <string name="view_calendar_text">הצג יומן</string>
+  <string name="calendar_event_text">אירוע לוח שנה</string>
+  <string name="calendar_enabled_title">אפשר אירוע יומן</string>
+  <string name="calendar_enabled_summary">אפשר התראות לאירועי לוח שנה.</string>
+  <string name="preference_calendar_polling_frequency_summary">באיזו תדירות אתה רוצה לקרוא את אירועי לוח השנה?</string>
+  <string name="preference_calendar_selection_title">בחר לוחות שנה</string>
+  <string name="preference_calendar_selection_summary">בחר את לוחות השנה שאתה רוצה לקבל עליהם התראה.</string>
+  <string name="calendar_labels_enabled_title">אפשר תוויות יומן</string>
+  <string name="calendar_labels_enabled_summary">הצג את השם של לוח השנה שהאירוע שייך ל. (שימושי אם יש לך לוח שנה אחד או יותר)</string>
+  <string name="all_day_event_reminder_setting_text">הגדרות אירועי כל היום</string>
+  <string name="preference_event_reminder_settings">הגדרות אירוע</string>
+  <string name="preference_event_reminder_summary">כמה מוקדם אתה רוצה שתוזכר על אירוע הבא?</string>
+  <string name="preference_event_reminder_all_day_summary">כמה מוקדם אתה רוצה שתוצג תזכורת על אירוע במשך כל היום?</string>
+  <string name="preference_calendar_all_day_notify_day_of_time_title">זמן התראת כל היום</string>
+  <string name="preference_calendar_all_day_notify_day_of_time_summary">לאירועי כל היום, מתי אתה רוצה שתופיע תזכורת על האירוע?</string>
+  <string name="calendar_reminders_enabled_title">שלח תזכורות אירוע</string>
+  <string name="calendar_reminders_enabled_summary">שלח התראת תזכורת לפני שהאירוע מתרחש.</string>
+  <string name="k9_category">K9</string>
+  <string name="k9">K-9</string>
+  <string name="preference_k9_enabled_title">אפשר K-9 Email</string>
+  <string name="k9_enabled_summary">אפשר התראות K-9 Email.</string>
+  <string name="preference_k9_timeout_title">זמן קצוב של K-9</string>
+  <string name="preference_k9_timeout_summary">הגדר כמה זמן לחכות לאחר הודעת דוא\"ל שהתקבלה לפני שתיבת הדואר הנכנס תתריע עבור דוא\"ל חדש.</string>
+  <string name="account">חשבון</string>
+  <string name="preference_k9_include_account_name_title">כלול שם חשבון</string>
+  <string name="preference_k9_include_account_name_summary">כלול את שם חשבון הדוא\"ל בגוף ההודעה.</string>
+  <string name="email_inbox_text">תיבת דוא\"ל נכנס</string>
+  <string name="twitter_category">טוויטר</string>
+  <string name="twitter_enabled_title">אפשר טוויטר</string>
+  <string name="twitter_enabled_summary">אפשר התראות טוויטר.</string>
+  <string name="preference_twitter_direct_messages_enabled_title">אפשר הודעות ישירות של טוויטר</string>
+  <string name="preference_twitter_direct_messages_enabled_summary">אפשר התראות הודעה ישירה של טוויטר.</string>
+  <string name="preference_twitter_mentions_enabled_title">אפשר תזכורות טוויטר</string>
+  <string name="preference_twitter_mentions_enabled_summary">אפשר התראות תזכורת של טוויטר.</string>
+  <string name="preference_twitter_follower_requests_enabled_title">אפשר בקשות מעקב של טוויטר</string>
+  <string name="preference_twitter_follower_requests_enabled_summary">אפשר התראות בקשת מעקב של טוויטר.</string>
+  <string name="twitter_authentication_text">אימות טוויטר</string>
+  <string name="twitter_authentication_message_text">המסך הבא ייפתח דף אינטרנט טוויטר בדפדפן האינטרנט. דף אינטרנט זה יבקש ממך לאפשר לאפליקציה גישה אל חשבון הטוויטר שלך. אם ברצונך להמשיך נא לחץ על לחצן \'המשך\' שלהלן.</string>
+  <string name="authenticating_text">מאמת…</string>
+  <string name="twitter_authentication_error">אנחנו לא יכולים לאמת או לגשת לחשבון הטוויטר שלך כרגע. אנא נסה שוב מאוחר יותר.</string>
+  <string name="preference_twitter_polling_frequency_summary">באיזו תדירות אתה רוצה לקרוא את חשבון הטוויטר שלך?</string>
+  <string name="preference_clear_twitter_authentication_data">אפס נתוני טוויטר</string>
+  <string name="preference_clear_twitter_authentication_data_summary">נקה את אימות נתוני טוויטר.</string>
+  <string name="twitter_authentication_data_cleared">אימות הנתונים של טוויטר נוקו.</string>
+  <string name="twitter_following_request" formatted="false">%s (@%s) ביקש לעקוב אחריך בטוויטר!</string>
+  <string name="open_twitter_app_text">פתח את אפליקצית טוויטר</string>
+  <string name="preference_twitter_manual_poll_title">קרא את חשבון הטוויטר</string>
+  <string name="preference_twitter_manual_poll_summary">קרא את חשבון הטוויטר באופן ידני והצג התראות.</string>
+  <string name="reading_twitter_account">קורא חשבון טוויטר…</string>
+  <string name="twitter_account_read">חשבון הטוויטר שלך כבר נקרא וההתראות נוצרו.</string>
+  <string name="facebook_category">פייסבוק</string>
+  <string name="facebook_enabled_title">אפשר פייסבוק</string>
+  <string name="facebook_enabled_summary">אפשר התראות פייסבוק.</string>
+  <string name="preference_facebook_user_notifications_enabled_title">אפשר התראות פייסבוק</string>
+  <string name="preference_facebook_user_notifications_enabled_summary">אפשר התראת התראות של פייסבוק.</string>
+  <string name="preference_facebook_messages_enabled_title">אפשר הודעות פייסבוק</string>
+  <string name="preference_facebook_messages_enabled_summary">אפשר התראות הודעה של פייסבוק.</string>
+  <string name="preference_facebook_friend_requests_enabled_title">אפשר בקשות חברות של פייסבוק</string>
+  <string name="preference_facebook_friend_requests_enabled_summary">אפשר התראות בקשת חברות של פייסבוק.</string>
+  <string name="facebook_authentication_text">אימות פייסבוק</string>
+  <string name="facebook_authentication_error">אנחנו לא יכולים לאמת או לגשת לחשבון הפייסבוק שלך כרגע. אנא נסה שוב מאוחר יותר.</string>
+  <string name="preference_clear_facebook_authentication_data">אפס נתוני פייסבוק</string>
+  <string name="preference_clear_facebook_authentication_data_summary">נקה את אימות נתוני פייסבוק.</string>
+  <string name="facebook_authentication_data_cleared">אימות הנתונים של פייסבוק נוקו.</string>
+  <string name="open_facebook_app_text">פתח את אפליקצית פייסבוק</string>
+  <string name="preference_facebook_polling_frequency_summary">באיזו תדירות אתה רוצה לקרוא את החשבון הפייסבוק שלך?</string>
+  <string name="facebook_new_friend_request_from">יש לך בקשת חברות חדשה בפייסבוק מ</string>
+  <string name="preference_facebook_manual_poll_title">קרא את חשבון פייסבוק</string>
+  <string name="preference_facebook_manual_poll_summary">קרא את חשבון הפייסבוק באופן ידני והצג התראות.</string>
+  <string name="reading_facebook_account">קורא חשבון פייסבוק…</string>
+  <string name="facebook_account_read">חשבון הפייסבוק שלך כבר נקרא וההתראות נוצרו.</string>
+  <string name="linkedin_enabled_title">אפשר LinkedIn</string>
+  <string name="linkedin_enabled_summary">אפשר התראות LinkedIn.</string>
+  <string name="linkedin_authentication">אימות LinkedIn</string>
+  <string name="linkedin_authentication_message">במסך הבא ייפתח דף אינטרנט LinkedIn בדפדפן אינטרנט. דף אינטרנט זה יבקש ממך לאפשר ליישום זה לגשת לחשבון LinkedIn שלך. אם ברצונך להמשיך נא לחץ על לחצן \'המשך\' שלהלן.</string>
+  <string name="linkedin_authentication_error">לא הצלחנו לאמת או לגשת לחשבון LinkedIn שלך בשלב זה. נא נסה שוב מאוחר יותר.</string>
+  <string name="clear_linkedin_authentication_data_title">אפס נתוני LinkedIn</string>
+  <string name="clear_linkedin_authentication_data_summary">נקה את נתוני האימות של LinkedIn.</string>
+  <string name="linkedin_authentication_data_cleared">נתוני אימות של LinkedIn נוקו.</string>
+  <string name="notifications_category">התראות</string>
+  <string name="notifications">﻿דיווחים</string>
+  <string name="status_bar_category">﻿שורת מצב</string>
+  <string name="sound_category">צליל</string>
+  <string name="vibrate_category">רטט</string>
+  <string name="led_category">LED</string>
+  <string name="in_call_category">בשיחה</string>
+  <string name="status_bar_notifications">התראות שורת הסטטוס</string>
+  <string name="status_bar_notifications_enabled_title">אפשר התראות בשורת הסטטוס</string>
+  <string name="status_bar_notifications_enabled_summary">הצג התראות בשורת הסטטוס.</string>
+  <string name="status_bar_notifications_text">התראות שורת הסטטוס</string>
+  <string name="preference_notification_icon_text">סמל התראה</string>
+  <string name="preference_notification_icon_summary">בחר את סמל ההתראה שאתה רוצה שיוצג בשורת הסטטוס.</string>
+  <string name="notification_ringtone_title">צלצול התראה</string>
+  <string name="notification_ringtone_summary">בחר את הצלצול שיושמע כאשר תוצג התראה.</string>
+  <string name="vibrate_setting_title">הגדרת רטט</string>
+  <string name="vibrate_setting_summary">בחר את הגדרת הרטט להתראות.</string>
+  <string name="vibrate_pattern_title">תבנית רטט</string>
+  <string name="vibrate_pattern_summary">בחר את תבנית הרטט.</string>
+  <string name="led_enabled_title">אפשר LED</string>
+  <string name="led_enabled_summary">הבהוב נורית ה-LED.</string>
+  <string name="led_color_title">הגדר צבע LED</string>
+  <string name="led_color_summary">קבע את צבע ה LED.</string>
+  <string name="led_pattern_title">הגדר הבהוב LED</string>
+  <string name="led_pattern_summary">קבע את רמת הבהוב ה LED.</string>
+  <string name="preference_led_color_set">צבע ה LED המותאם אישית נקבע עכשיו.</string>
+  <string name="status_bar_notification_in_call_sound_title">אפשר צלצול בשיחה</string>
+  <string name="status_bar_notification_in_call_sound_summary">השמע צליל כאשר אתה נמצא בשיחה.</string>
+  <string name="status_bar_notification_in_call_vibrate_title">אפשר רטט בשיחה</string>
+  <string name="status_bar_notification_in_call_vibrate_summary">רטוט כאשר אתה נמצא בשיחה.</string>
+  <string name="buttons_category">לחצנים</string>
+  <string name="send">שלח</string>
+  <string name="preference_display_dismiss_button_title">הצג כפתור \"בטל\"</string>
+  <string name="preference_display_dismiss_button_summary">הצג את כפתור \"בטל\".</string>
+  <string name="preference_display_delete_button_title">הצג כפתור \"מחק\"</string>
+  <string name="preference_display_delete_button_summary">הצג את כפתור \"מחק\".</string>
+  <string name="preference_display_reply_button_title">הצג כפתור \"השב\"</string>
+  <string name="preference_display_reply_button_summary">הצג את כפתור \"השב\".</string>
+  <string name="preference_display_call_button_title">הצג כפתור \"חייג\"</string>
+  <string name="preference_display_call_button_summary">הצג את כפתור \"חייג\".</string>
+  <string name="preference_display_view_button_title">הצג כפתור \"הצג\"</string>
+  <string name="preference_display_view_button_summary">הצג את כפתור \"הצג\".</string>
+  <string name="display_cancel_button_title">הצג את כפתור ביטול</string>
+  <string name="display_cancel_button_summary">הראה את כפתור ביטול.</string>
+  <string name="privacy">פרטיות</string>
+  <string name="status_bar_notification_privacy_title">שורת מצב ההתראות הפרטיות</string>
+  <string name="status_bar_notification_privacy_summary">אל תציג מידע פרטי ההתראות בשורת המצב.</string>
+  <string name="advanced_category">מתקדם</string>
+  <string name="advanced">מתקדם</string>
+  <string name="haptic_feedback_title">אפשר משוב Haptic</string>
+  <string name="haptic_feedback_summary">רטוט בעת הקשה על מקשים רכים ועל אינטראקציות מסוימות של ממשק המשתמש.</string>
+  <string name="close_app_when_pushed_to_background_title">סגור ברקע</string>
+  <string name="close_app_when_pushed_to_background_summary">סגור את האפליקציה כאשר היא נמצאת ברקע.</string>
+  <string name="preference_ignore_linked_apps_when_pushed_to_background_title">התעלם מיישומים מקושרים</string>
+  <string name="preference_ignore_linked_apps_when_pushed_to_background_summary">התעלם מיישומים מקושרים כשאתה סוגר את האפליקציה.</string>
+  <string name="restrict_popup_title">הגבלת חלון מוקפץ</string>
+  <string name="restrict_popup_summary">הצג חלון מוקפץ רק כאשר keyguard עוסקת.</string>
+  <string name="import_export_category">ייבוא/ייצוא</string>
   <string name="preference_export_preferences_title">ייצוא העדפות</string>
   <string name="preference_export_preferences_summary">ייצא את העדפות של האפליקציה לכרטיס הזיכרון.</string>
-  <string name="preference_export_preferences_progress_text">מייצא העדפות אפליקציה...</string>
+  <string name="preference_export_preferences_progress_text">מייצא העדפות אפליקציה…</string>
   <string name="preference_export_preferences_finish_text">העדפות האפליקציה יוצאו.</string>
   <string name="preference_export_preferences_error_text">העדפות האפליקציה לא יוצאו. סיבות אפשריות לשגיאה הזו כוללות כרטיס זיכרון חסר או כרטיס זיכרון פגום שמונע מהאפליקציה לכתוב למיקום של כרטיס הזיכרון.</string>
   <string name="preference_import_preferences_title">ייבוא העדפות</string>
   <string name="preference_import_preferences_summary">ייבא את העדפות האפליקציה מכרטיס הזיכרון.\nהעדפות המסכים יטענו מחדש פעם אחת כשהייבוא יושלם.</string>
-  <string name="preference_import_preferences_progress_text">מייבא העדפות אפליקציה...</string>
+  <string name="preference_import_preferences_progress_text">מייבא העדפות אפליקציה…</string>
   <string name="preference_import_preferences_finish_text">העדפות האפליקציה יובאו.</string>
   <string name="preference_import_preferences_error_text">העדפות האפליקציה לא יובאו. סיבות אפשריות לשגיאה הזו כוללות כרטיס זיכרון חסר או כרטיס זיכרון פגום שמונע מהאפליקציה לכתוב למיקום של כרטיס הזיכרון.</string>
-  <string name="preference_display_reschedule_button_title">הצג כפתור \"טען מחדש\"</string>
-  <string name="preference_display_reschedule_button_summary">הצג את כפתור \"טען מחדש\" בכותרת.</string>
-  <string name="reschedule_notifications_text">התראות מועד חדש</string>
-  <string name="preference_reschedule_notifications_enabled_summaryOn">האפליקציה תיקבע מועד חדש להתראות אם הם יחסמו (לדוגמא: בשיחת טלפון, באפליקצית הודעות וכו\'...).</string>
-  <string name="preference_reschedule_notifications_enabled_summaryOff">האפליקציה לא תקבע מועד מחדש להתראות אם הם יחסמו.</string>
-  <string name="reschedule_settings_text">הגדרות מועד חדש</string>
-  <string name="preference_reschedule_blocked_timeout_text">פסק זמן התראה חסומה</string>
-  <string name="preference_reschedule_blocked_timeout_summary">הגדר כמה זמן לחכות לפני שהתראה חדשה נטענת מחדש.</string>
-  <string name="preference_reschedule_time_text">זמן מועד חדש</string>
-  <string name="preference_reschedule_time_summary">הגדר מתי לטעון מחדש התראה.</string>
-  <string name="reminder_settings_text">הגדרות תזכורת</string>
-  <string name="preference_reminders_enabled_title">אפשר תזכורות</string>
-  <string name="preference_reminders_enabled_summary">מזכיר לך להתראות שלא נקראו.</string>
-  <string name="preference_reminder_frequency_text">תדירות תזכורת</string>
-  <string name="preference_reminder_frequency_summary">הגדר את מספר התזכורות לשליחה.</string>
-  <string name="preference_reminder_interval_text">מרווח תזכורת</string>
-  <string name="preference_reminder_interval_summary">הגדר את המרווח לשליחת תזכורות.</string>
-  <string name="keep_repeating_text">שמור על חזרה</string>
+  <string name="debug_category">איתור באגים</string>
+  <string name="debug">איתור באגים</string>
+  <string name="log_file_error_title">שגיאת קובץ של יומן רישום</string>
+  <string name="log_file_acquiring_system_logs">אוסף רשימות...</string>
+  <string name="log_file_retrieval_failure">קבלת הרשימות נכשלה.</string>
+  <string name="log_file_device_info" formatted="false">Droid Notify Version: %s\nDevice Model: %s\nFirmware Version: %s\nBuild Number: %s\n</string>
+  <string name="send_debug_logs_text">שלח יומני רישום של איתור באגים</string>
+  <string name="send_debug_logs_summary">שלח את יומני הרישום של איתור באגים למפתח.</string>
+  <string name="feedback_category">משוב</string>
+  <string name="rate_app">שיעור יישום</string>
+  <string name="email_developer">﻿מפתחים דוא</string>
+  <string name="about_category">אודות</string>
+  <string name="about">אודות</string>
+  <string name="created_by">&lt;b&gt;נוצר על ידי:&lt;/b&gt; Camille Sévigny&lt;br/&gt;&lt;b&gt;דוא\"ל:&lt;/b&gt; &lt;a href=\"mailto:droidnotify@gmail.com\"&gt;droidnotify@gmail.com&lt;/a&gt;</string>
+  <string name="give_feedback">&lt;br/&gt;&lt;br/&gt;אם אתה אוהב את היישום, אנא שיעור זה להשאיר תגובה.&lt;br/&gt;&lt;br/&gt;הרגש חופשי לשלוח הערות, הצעות או באגים.&lt;br/&gt;&lt;br/&gt;</string>
+  <string name="translations_powered_by">&lt;b&gt;לתרגומים בקר ב:&lt;/b&gt; &lt;a href=\"http://www.crowdin.net/\"&gt;CrowdIn.net&lt;/a&gt;&lt;br/&gt;</string>
+  <string name="preference_translated_by_text">תרגום צרפתית: Franky&lt;br/&gt;תרגום עברית: Benjo26&lt;br/&gt;תרגום פולנית: Draco (draco.pl@gmail.com)&lt;br/&gt;תרגום פורטוגזית: Marcio Andrade (marcioaribeiro@hotmail.com.br)&lt;br/&gt;תרגום ספרדית: Shaymelmed (shaben_translations@hotmail.com)&lt;br/&gt;תרגום סינית פשוטה: Jason (hrmqs86@gmail.com)&lt;br/&gt;&lt;br/&gt;</string>
+  <string name="preference_copyright_text">&lt;b&gt;© 2012 Camille Sévigny&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;</string>
+  <string name="message_at_text" formatted="false">הודעה חדשה ב %s</string>
+  <string name="email_at_text" formatted="false">דוא\"ל חדש ב %s</string>
+  <string name="missed_call_at_text" formatted="false">שיחה שלא נענתה ב %s</string>
+  <string name="mention_at_text" formatted="false">תזכיר חדש ב %s</string>
+  <string name="follower_request_at_text" formatted="false">בקשת מעקב חדשה ב %s</string>
+  <string name="follower_request_text" formatted="false">בקשת מעקב חדשה</string>
+  <string name="notification_at_text" formatted="false">התראה חדשה ב %s</string>
+  <string name="friend_request_at_text" formatted="false">בקשת חברות חדשה ב %s</string>
+  <string name="preference_confirm_deletion_title">אשר מחיקה</string>
+  <string name="preference_confirm_deletion_summary">הצג קופסת דיאלוג אישור כשאתה מוחק פריט.</string>
+  <string name="preference_time_is_utc_title">הזמן הוא ב- UTC</string>
+  <string name="preference_calendar_refresh_title">רענון התראות לוח שנה</string>
+  <string name="preference_calendar_refresh_summary">תזמן מחדש באופן ידני את אירועי לוח שנה.</string>
+  <string name="reading_calendar_data">קורא נתוני לוח שנה…</string>
+  <string name="calendar_data_refreshed">אירועי לוח השנה שלך נקראו וההתראות רועננו.</string>
+  <string name="preference_polling_frequency">תדירות סקירה</string>
+  <string name="preference_ignore_class_0_messages_title">להתעלם מחלקה 0 הודעות</string>
+  <string name="preference_ignore_class_0_messages_summary">התעלם מהבזק הודעות SMS AKA מחלקה 0 הודעות</string>
+  <string name="view_contact_text">הצג איש קשר</string>
+  <string name="add_contact_text">הוסף איש קשר</string>
+  <string name="text_contact_text">טקסט איש קשר</string>
+  <string name="edit_contact_text">ערוך איש קשר</string>
+  <string name="preference_reply_button_action">פעולת כפתור \"השב\"</string>
+  <string name="preference_reply_button_action_summary">הגדר מה קורה כשאתה משיב לפריט.</string>
+  <string name="preference_delete_button_action">פעולת כפתור \"מחק\"</string>
+  <string name="preference_delete_button_action_summary">הגדר מה קורה כשאתה מוחק פריט.</string>
+  <string name="preference_dismiss_button_action">פעולת כפתור \"בטל\"</string>
+  <string name="preference_dismiss_button_action_summary">הגדר מה קורה כשאתה מבטל פריט.</string>
+  <string name="preference_notification_count_button_action">פעולת ספירת התראה</string>
+  <string name="preference_notification_count_button_action_summary">הגדר מה יקרה כאשר את לוחץ על ספירת התראת טקסט.</string>
+  <string name="preference_button_style_title">סגנון כפתור</string>
+  <string name="preference_button_style_summary">בחר את התראת כפתור הסגנון.</string>
+  <string name="button_style_icon_and_text_text">סמלים וטקסט</string>
+  <string name="button_style_icon_only_text">רק סמלים</string>
+  <string name="button_style_text_only_text">רק טקסט</string>
   <string name="preference_hide_single_message_header_enabled_title">הסתר כותרת הודעה יחידה</string>
   <string name="preference_hide_single_message_header_enabled_summaryOn">ההתראות לא יציגו את כותרת הטקסט (למשל: 1/1) כאשר הודעה אחת מוצגת.</string>
   <string name="preference_hide_single_message_header_enabled_summaryOff">ההתראות יציגו את כותרת הטקסט (למשל: 1/1) כאשר הודעה אחת מוצגת.</string>
-  <string name="reschedule_blocked_notifications_text">קבע מחדש התראות חסומות</string>
   <string name="blocking_app_running_action_text">חסום אפשרויות התראה</string>
   <string name="blocking_app_running_action_summary">הגדר מה לעשות כאשר התראה מגיעה בזמן שאפליקצית החסימה רצה.</string>
   <string name="status_bar_notification_content_title_text_sms">הודעה חדשה</string>
-  <string name="status_bar_notification_content_title_text_mms">הודעה חדשה</string>
   <string name="status_bar_notification_content_title_text_phone">שיחה שלא נענתה</string>
   <string name="status_bar_notification_content_title_text_calendar">תזכורת אירוע לוח שנה</string>
   <string name="status_bar_notification_content_title_text_twitter_direct_message">הודעת טוויטר ישירה חדשה</string>
@@ -503,111 +506,92 @@
   <string name="status_bar_notification_content_title_text_facebook_friend_request">בקשת חברות פייסבוק חדשה</string>
   <string name="status_bar_notification_content_title_text_facebook_message">הודעת פייסבוק חדשה</string>
   <string name="status_bar_notification_content_title_text_email">דוא\"ל חדש</string>
-  <string name="status_bar_notification_content_text_sms" formatted="false">הודעה חדשה מ %s - %s.</string>
+  <string name="status_bar_notification_content_title_text_plural_sms">הודעות חדשות</string>
+  <string name="status_bar_notification_content_title_text_plural_phone">שיחות שלא נענו</string>
+  <string name="status_bar_notification_content_title_text_plural_calendar">תזכורת אירוע יומן</string>
+  <string name="status_bar_notification_content_title_text_plural_twitter">פריטים חדשים של טוויטר</string>
+  <string name="status_bar_notification_content_title_text_plural_twitter_direct_message">הודעת טוויטר ישירה חדשה</string>
+  <string name="status_bar_notification_content_title_text_plural_twitter_mention">תזכורת טוויטר חדשה</string>
+  <string name="status_bar_notification_content_title_text_plural_twitter_follower_request">בקשת מעקב טוויטר חדשה</string>
+  <string name="status_bar_notification_content_title_text_plural_facebook">פריטים חדשים של פייסבוק</string>
+  <string name="status_bar_notification_content_title_text_plural_facebook_notification">התראת פייסבוק חדשה</string>
+  <string name="status_bar_notification_content_title_text_plural_facebook_friend_request">בקשת חברות פייסבוק חדשה</string>
+  <string name="status_bar_notification_content_title_text_plural_facebook_message">הודעת פייסבוק חדשה</string>
+  <string name="status_bar_notification_content_title_text_plural_email">דוא\"ל חדש</string>
+  <string name="status_bar_notification_content_text_sms" formatted="false">הודעה חדשה מ %s - %s</string>
   <string name="status_bar_notification_content_text_sms_null" formatted="false">הודעה חדשה.</string>
-  <string name="status_bar_notification_content_text_mms" formatted="false">הודעה חדשה מ %s - %s.</string>
-  <string name="status_bar_notification_content_text_mms_null" formatted="false">הודעה חדשה.</string>
+  <string name="status_bar_notification_content_text_sms_count" formatted="false">%s הודעות חדשות של.</string>
   <string name="status_bar_notification_content_text_phone" formatted="false">שיחה שלא נענתה מ %s.</string>
   <string name="status_bar_notification_content_text_phone_null" formatted="false">שיחה שלא נענתה.</string>
+  <string name="status_bar_notification_content_text_phone_count" formatted="false">%s שיחות שלא נענו.</string>
   <string name="status_bar_notification_content_text_calendar" formatted="false">אירוע לוח שנה - %s</string>
   <string name="status_bar_notification_content_text_calendar_null" formatted="false">אירוע לוח שנה.</string>
-  <string name="status_bar_notification_content_text_twitter_direct_message" formatted="false">הודעת טוויטר ישירה חדשה מ %s - %s.</string>
+  <string name="status_bar_notification_content_text_calendar_count" formatted="false">%s אירועי לוח שנה של.</string>
+  <string name="status_bar_notification_content_text_twitter_count" formatted="false">%s פריטים חדשים של טוויטר.</string>
+  <string name="status_bar_notification_content_text_twitter_direct_message" formatted="false">הודעת טוויטר ישירה חדשה מ %s - %s</string>
   <string name="status_bar_notification_content_text_twitter_direct_message_null" formatted="false">הודעת טוויטר ישירה חדשה.</string>
-  <string name="status_bar_notification_content_text_twitter_mention" formatted="false">תזכורת טוויטר חדשה מ %s - %s.</string>
+  <string name="status_bar_notification_content_text_twitter_direct_message_count" formatted="false">%s הודעת טוויטר ישירה חדשה.</string>
+  <string name="status_bar_notification_content_text_twitter_mention" formatted="false">תזכורת טוויטר חדשה מ %s - %s</string>
   <string name="status_bar_notification_content_text_twitter_mention_null" formatted="false">תזכורת טוויטר חדשה.</string>
-  <string name="status_bar_notification_content_text_twitter_follower_request" formatted="false">בקשת מעקב טוויטר חדשה מ %s - %s.</string>
+  <string name="status_bar_notification_content_text_twitter_mention_count" formatted="false">%s תזכורת טוויטר חדשה.</string>
+  <string name="status_bar_notification_content_text_twitter_follower_request" formatted="false">בקשת מעקב טוויטר חדשה מ %s - %s</string>
   <string name="status_bar_notification_content_text_twitter_follower_request_null" formatted="false">בקשת מעקב טוויטר חדשה.</string>
-  <string name="status_bar_notification_content_text_facebook_notification" formatted="false">התראת פייסבוק חדשה מ %s - %s.</string>
+  <string name="status_bar_notification_content_text_twitter_follower_request_count" formatted="false">%s בקשת מעקב טוויטר חדשה.</string>
+  <string name="status_bar_notification_content_text_facebook_count" formatted="false">%s פריטים חדשים של פייסבוק.</string>
+  <string name="status_bar_notification_content_text_facebook_notification" formatted="false">התראת פייסבוק חדשה מ %s - %s</string>
   <string name="status_bar_notification_content_text_facebook_notification_null" formatted="false">התראת פייסבוק חדשה.</string>
-  <string name="status_bar_notification_content_text_facebook_friend_request" formatted="false">בקשת חברות פייסבוק חדשה מ %s - %s.</string>
+  <string name="status_bar_notification_content_text_facebook_notification_count" formatted="false">%s התראת פייסבוק חדשה.</string>
+  <string name="status_bar_notification_content_text_facebook_friend_request" formatted="false">בקשת חברות פייסבוק חדשה מ %s - %s</string>
   <string name="status_bar_notification_content_text_facebook_friend_request_null" formatted="false">בקשת חברות פייסבוק חדשה.</string>
-  <string name="status_bar_notification_content_text_facebook_message" formatted="false">הודעת פייסבוק חדשה מ %s - %s.</string>
+  <string name="status_bar_notification_content_text_facebook_friend_request_count" formatted="false">%s בקשת חברות פייסבוק חדשה.</string>
+  <string name="status_bar_notification_content_text_facebook_message" formatted="false">הודעת פייסבוק חדשה מ %s - %s</string>
   <string name="status_bar_notification_content_text_facebook_message_null" formatted="false">הודעת פייסבוק חדשה.</string>
-  <string name="status_bar_notification_content_text_email" formatted="false">דוא\"ל חדש מ %s - %s.</string>
-  <string name="status_bar_notification_content_text_email_null" formatted="false">דוא\"ל חדש.</string>
-  <string name="status_bar_notification_ticker_text_sms" formatted="false">הודעה חדשה מ %s - %s.</string>
-  <string name="status_bar_notification_ticker_text_unknown_contact_sms" formatted="false">הודעה חדשה - %s.</string>
+  <string name="status_bar_notification_content_text_facebook_message_count" formatted="false">%s הודעות פייסבוק חדשה.</string>
+  <string name="status_bar_notification_content_text_email" formatted="false">דוא\"ל חדש מ %s - %s</string>
+  <string name="status_bar_notification_content_text_email_null" formatted="false">דואר אלקטרוני חדש.</string>
+  <string name="status_bar_notification_content_text_email_count" formatted="false">%s דוא\"ל חדש.</string>
+  <string name="status_bar_notification_ticker_text_sms" formatted="false">הודעה חדשה מ %s - %s</string>
+  <string name="status_bar_notification_ticker_text_unknown_contact_sms" formatted="false">הודעה חדשה - %s</string>
   <string name="status_bar_notification_ticker_text_privacy_sms" formatted="false">הודעה חדשה מ %s.</string>
   <string name="status_bar_notification_ticker_text_sms_null" formatted="false">הודעה חדשה.</string>
-  <string name="status_bar_notification_ticker_text_mms" formatted="false">הודעה חדשה מ %s - %s.</string>
-  <string name="status_bar_notification_ticker_text_unknown_contact_mms" formatted="false">הודעה חדשה - %s.</string>
-  <string name="status_bar_notification_ticker_text_privacy_mms" formatted="false">הודעה חדשה מ %s.</string>
-  <string name="status_bar_notification_ticker_text_mms_null" formatted="false">הודעה חדשה.</string>
   <string name="status_bar_notification_ticker_text_phone" formatted="false">שיחה שלא נענתה מ %s.</string>
   <string name="status_bar_notification_ticker_text_phone_null" formatted="false">שיחה שלא נענתה.</string>
   <string name="status_bar_notification_ticker_text_calendar" formatted="false">אירוע לוח שנה - %s</string>
-  <string name="status_bar_notification_ticker_text_calendar_null" formatted="false">אירוע לוח שנה.</string>
-  <string name="status_bar_notification_ticker_text_twitter_direct_message" formatted="false">הודעת טוויטר ישירה חדשה מ %s - %s.</string>
-  <string name="status_bar_notification_ticker_text_unknown_contact_twitter_direct_message" formatted="false">הודעת טוויטר ישירה חדשה - %s.</string>
+  <string name="status_bar_notification_ticker_text_calendar_null" formatted="false">אירוע בלוח שנה.</string>
+  <string name="status_bar_notification_ticker_text_twitter_direct_message" formatted="false">הודעת טוויטר ישירה חדשה מ %s - %s</string>
+  <string name="status_bar_notification_ticker_text_unknown_contact_twitter_direct_message" formatted="false">הודעת טוויטר ישירה חדשה - %s</string>
   <string name="status_bar_notification_ticker_text_twitter_direct_message_null" formatted="false">הודעת טוויטר ישירה חדשה.</string>
-  <string name="status_bar_notification_ticker_text_twitter_mention" formatted="false">תזכורת טוויטר חדשה מ %s - %s.</string>
-  <string name="status_bar_notification_ticker_text_unknown_contact_twitter_mention" formatted="false">תזכורת טוויטר חדשה - %s.</string>
+  <string name="status_bar_notification_ticker_text_twitter_mention" formatted="false">תזכורת טוויטר חדשה מ %s - %s</string>
+  <string name="status_bar_notification_ticker_text_unknown_contact_twitter_mention" formatted="false">תזכורת טוויטר חדשה - %s</string>
   <string name="status_bar_notification_ticker_text_twitter_mention_null" formatted="false">תזכורת טוויטר חדשה.</string>
-  <string name="status_bar_notification_ticker_text_twitter_follower_request" formatted="false">בקשת מעקב טוויטר חדשה מ %s - %s.</string>
-  <string name="status_bar_notification_ticker_text_unknown_contact_twitter_follower_request" formatted="false">בקשת מעקב טוויטר חדשה - %s.</string>
+  <string name="status_bar_notification_ticker_text_twitter_follower_request" formatted="false">בקשת מעקב טוויטר חדשה מ %s - %s</string>
+  <string name="status_bar_notification_ticker_text_unknown_contact_twitter_follower_request" formatted="false">בקשת מעקב טוויטר חדשה - %s</string>
   <string name="status_bar_notification_ticker_text_twitter_follower_request_null" formatted="false">בקשת מעקב טוויטר חדשה.</string>
-  <string name="status_bar_notification_ticker_text_facebook_notification" formatted="false">התראת פייסבוק חדשה מ %s - %s.</string>
-  <string name="status_bar_notification_ticker_text_unknown_contact_facebook_notification" formatted="false">התראת פייסבוק חדשה - %s.</string>
+  <string name="status_bar_notification_ticker_text_facebook_notification" formatted="false">התראת פייסבוק חדשה מ %s - %s</string>
+  <string name="status_bar_notification_ticker_text_unknown_contact_facebook_notification" formatted="false">התראת פייסבוק חדשה - %s</string>
   <string name="status_bar_notification_ticker_text_facebook_notification_null" formatted="false">התראת פייסבוק חדשה.</string>
-  <string name="status_bar_notification_ticker_text_facebook_friend_request" formatted="false">בקשת חברות פייסבוק חדשה מ %s - %s.</string>
-  <string name="status_bar_notification_ticker_text_unknown_contact_facebook_friend_request" formatted="false">בקשת חברות פייסבוק חדשה - %s.</string>
+  <string name="status_bar_notification_ticker_text_facebook_friend_request" formatted="false">בקשת חברות פייסבוק חדשה מ %s - %s</string>
+  <string name="status_bar_notification_ticker_text_unknown_contact_facebook_friend_request" formatted="false">בקשת חברות פייסבוק חדשה - %s</string>
   <string name="status_bar_notification_ticker_text_facebook_friend_request_null" formatted="false">בקשת חברות פייסבוק חדשה.</string>
-  <string name="status_bar_notification_ticker_text_facebook_message" formatted="false">הודעת פייסבוק חדשה מ %s - %s.</string>
-  <string name="status_bar_notification_ticker_text_unknown_contact_facebook_message" formatted="false">הודעת פייסבוק חדשה - %s.</string>
+  <string name="status_bar_notification_ticker_text_facebook_message" formatted="false">הודעת פייסבוק חדשה מ %s - %s</string>
+  <string name="status_bar_notification_ticker_text_unknown_contact_facebook_message" formatted="false">הודעת פייסבוק חדשה - %s</string>
   <string name="status_bar_notification_ticker_text_facebook_message_null" formatted="false">הודעת פייסבוק חדשה.</string>
-  <string name="status_bar_notification_ticker_text_email" formatted="false">דוא\"ל חדש מ %s - %s.</string>
-  <string name="status_bar_notification_ticker_text_unknown_contact_email" formatted="false">דוא\"ל חדש - %s.</string>
-  <string name="status_bar_notification_ticker_text_privacy_email" formatted="false">דוא\"ל חדש מ %s.</string>
+  <string name="status_bar_notification_ticker_text_email" formatted="false">דוא\"ל חדש מ %s - %s</string>
+  <string name="status_bar_notification_ticker_text_unknown_contact_email" formatted="false">דוא\"ל חדש - %s</string>
   <string name="status_bar_notification_ticker_text_email_null" formatted="false">דוא\"ל חדש.</string>
-  <string name="status_bar_notifications_text">התראות שורת הסטטוס</string>
   <string name="clear_status_bar_notifications_on_exit_title">נקה התראות ביציאה</string>
   <string name="clear_status_bar_notifications_on_exit_summaryOn">התראות שורת הסטטוס יוסרו כאשר התראות קופצות מוסרות מהמסך.</string>
   <string name="clear_status_bar_notifications_on_exit_summaryOff">התראות שורת הסטטוס לא יוסרו כאשר התראות קופצות מוסרות מהמסך.</string>
-  <string name="preference_notifications_enabled_title">אפשר התראות בשורת הסטטוס</string>
-  <string name="preference_notifications_enabled_summaryOn">התראות שורת הסטטוס יוצגו.</string>
-  <string name="preference_notifications_enabled_summaryOff">התראות בשורת הסטטוס לא יוצגו.</string>
   <string name="preference_notifications_show_when_blocked_enabled_title">הצג כאשר שחסום</string>
   <string name="preference_notifications_show_when_blocked_enabled_summary">הצג התראות בשורת סטטוס אפילו אם החלון הקופץ נחסם (לדוגמא: כאשר בשיחת טלפון, אפליקציית העברת הודעות וכו\').</string>
-  <string name="preference_notification_settings">הגדרות התראת שורת סטטוס</string>
-  <string name="preference_notification_settings_summary">התאמה אישית של התראות שורת הסטטוס</string>
-  <string name="preference_notification_icon_settings_text">הגדרות סמל התראה</string>
-  <string name="preference_notification_icon_text">סמל התראה</string>
-  <string name="preference_notification_icon_summary">בחר את סמל ההתראה שאתה רוצה שיוצג בשורת הסטטוס.</string>
-  <string name="preference_notification_sound_settings_text">הגדרות צלצול התראה</string>
-  <string name="preference_notification_sound_title">צלצול התראה</string>
-  <string name="preference_notification_sound_summary">בחר את הצלצול שיושמע כאשר תוצג התראה.</string>
-  <string name="preference_notification_vibrate_settings_text">הגדרות התראת רטט</string>
-  <string name="preference_vibrate_setting_title">הגדרת רטט</string>
-  <string name="preference_vibrate_setting_summary">בחר את הגדרת הרטט להתראות.</string>
-  <string name="preference_vibrate_pattern_title">תבנית רטט</string>
-  <string name="preference_vibrate_pattern_summary">בחר את תבנית הרטט.</string>
   <string name="preference_vibrate_pattern_dialog">הכנס את תבנית הרטט המותאם אישית בפורמט הבא:\nמילישניות כבוי, מילישניות פעיל, וכו\'.\n\nלדוגמא:\n0,1000\n0,500,200,500,200,500</string>
   <string name="preference_vibrate_pattern_set">תבנית הרטט המותאמת אישית נקבעה.</string>
   <string name="preference_vibrate_pattern_error">תבנית הרטט המותאמת אישית לא חוקית.</string>
-  <string name="preference_notification_led_settings_text">הגדרות התראת LED</string>
-  <string name="preference_led_enabled_title">אפשר LED</string>
-  <string name="preference_led_enabled_summaryOn">התראות יגרמו לנורת ה LED להבהב.</string>
-  <string name="preference_led_enabled_summaryOff">התראות לא יגרמו לנורת ה LED להבהב.</string>
-  <string name="preference_led_pattern_title">הגדר הבהוב LED</string>
-  <string name="preference_led_pattern_summary">קבע את רמת הבהוב ה LED.</string>
   <string name="preference_led_pattern_dialog">הכנס את הזמן במילישניות כדי להפעיל או לכבות את ה נורת ה LED.</string>
   <string name="preference_led_pattern_on">זמן הפעלה:</string>
   <string name="preference_led_pattern_off">זמן כיבוי:</string>
   <string name="preference_led_pattern_set">תבנית נורת ה LED המותאמת אישית נקבעה.</string>
   <string name="preference_led_pattern_error">תבנית נורת ה LED המותאמת אישית לא חוקית.</string>
-  <string name="preference_led_color_title">הגדר צבע LED</string>
-  <string name="preference_led_color_summary">קבע את צבע ה LED.</string>
-  <string name="preference_led_color_red">אדום:</string>
-  <string name="preference_led_color_green">ירוק:</string>
-  <string name="preference_led_color_blue">כחול:</string>
-  <string name="preference_led_color_set">צבע ה LED המותאם אישית נקבע עכשיו.</string>
-  <string name="preference_notification_in_call_settings_text">הגדרות התראה בשיחה</string>
-  <string name="preference_notification_in_call_sound_enable_title">אפשר צלצול בשיחה</string>
-  <string name="preference_notification_in_call_sound_enable_summaryOn">התראות ישמיעו צלצול כאשר אתה בשיחת טלפון.</string>
-  <string name="preference_notification_in_call_sound_enable_summaryOff">התראות לא ישמיעו צלצול כאשר אתה בשיחת טלפון.</string>
-  <string name="preference_notification_in_call_vibrate_enable_title">אפשר רטט בשיחה</string>
-  <string name="preference_notification_in_call_vibrate_enable_summaryOn">התראות ירטטו כאשר אתה בשיחת טלפון.</string>
-  <string name="preference_notification_in_call_vibrate_enable_summaryOff">התראות לא ירטטו כאשר אתה בשיחת טלפון.</string>
   <string name="speak_notification_text">התראת דיבור</string>
   <string name="preference_display_text_to_speech_button_title">הצג כפתור \"טקסט לדיבור\"</string>
   <string name="preference_display_text_to_speech_button_summary">הצג את כפתור \"טקסט לדיבור\" (TTS) בכותרת.</string>
@@ -879,23 +863,12 @@
   <string name="twitter">טוויטר</string>
   <string name="twitter_web_mobile">כתובת טוויטר לנייד (http://mobile.twitter.com)</string>
   <string name="ubersocial">Ubersocial (formerly Twidroyd Pro)</string>
-  <string name="use_hootsuite">השתמש ב HootSuite</string>
-  <string name="use_plume">השתמש ב Plume</string>
-  <string name="use_plume_premium">השתמש ב Plume Premium</string>
-  <string name="use_seesmic">השתמש ב Seesmic</string>
-  <string name="use_tweetdeck">השתמש ב TweetDeck</string>
-  <string name="use_tweetcaster">השתמש ב TweetCaster</string>
-  <string name="use_tweetcaster_pink">השתמש ב TweetCaster Pink</string>
-  <string name="use_tweetcaster_pro">השתמש ב TweetCaster Pro</string>
-  <string name="use_tweetsride">השתמש ב TweetsRide</string>
-  <string name="use_twicca">השתמש ב Twicca</string>
-  <string name="use_twidroyd_legacy">השתמש ב Twidroyd Legacy</string>
-  <string name="use_twitter">השתמש בטוויטר</string>
-  <string name="use_twitter_web_mobile">השתמש בכתובת טוויטר לנייד (http://mobile.twitter.com)</string>
-  <string name="use_ubersocial">השתמש ב Ubersocial (formerly Twidroyd Pro)</string>
   <string name="facebook">פייסבוק</string>
   <string name="facebook_web_mobile">כתובת פייסבוק לנייד (http://m.facebook.com)</string>
   <string name="fbm_for_facebook">FBM לפייסבוק</string>
   <string name="friendCaster_for_facebook">זירת חברים של פייסבוק</string>
   <string name="friendCaster_pro_for_facebook">זירת חברים מלאה של פייסבוק</string>
+  <string name="droid_notify_plus">Droid Notify Plus</string>
+  <string name="download_now">הורד כעת</string>
+  <string name="download_droid_notify_plus_description_text">Droid Notify Plus מציע את האפשרות להציג התראה מכל יישום בתור חלון קופץ במכשיר שלך. הורד את תוסף זה כדי לממש את הפונטציאל המלא של המכשיר שלך.</string>
 </resources>

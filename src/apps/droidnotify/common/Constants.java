@@ -7,6 +7,13 @@ package apps.droidnotify.common;
  */
 public class Constants {
 
+	//-----DEBUG CONSTANTS-----//
+	public static final String LOGTAG = "DroidNotifyLite";
+	public static final String DEBUG = "debug_log_enabled";
+
+	//-----FIRST RUN CONSTANTS-----//	
+	public static final String FIRST_RUN_KEY = LOGTAG + "first_run";
+
 	//-----NOTIFICATIION BUNDLE CONSTANTS-----//
 	public static final String BUNDLE_SENT_FROM_ADDRESS = "sentFromAddress";
 	public static final String BUNDLE_SENT_FROM_ID  = "sentFromID";
@@ -15,6 +22,8 @@ public class Constants {
 	public static final String BUNDLE_THREAD_ID  = "threadID";
 	public static final String BUNDLE_CONTACT_ID  = "contactID";
 	public static final String BUNDLE_CONTACT_NAME  = "contactName";
+	public static final String BUNDLE_CONTACT_PHONE_NUMBERS  = "contactPhoneNumbers";
+	public static final String BUNDLE_CONTACT_EMAIL_ADDRESSES  = "contactEmailAddresses";
 	public static final String BUNDLE_PHOTO_ID  = "photoID";
 	public static final String BUNDLE_NOTIFICATION_TYPE  = "notificationType";
 	public static final String BUNDLE_MESSAGE_ID  = "messageID";
@@ -33,6 +42,19 @@ public class Constants {
 	public static final String BUNDLE_RESCHEDULE_NUMBER  = "rescheduleNumber";
 	public static final String BUNDLE_NOTIFICATION_SUB_TYPE  = "notificationSubType";
 	public static final String BUNDLE_LINK_URL  = "linkURL";
+	public static final String BUNDLE_PACKAGE  = "package";	
+	public static final String BUNDLE_DISMISS_PENDINGINTENT  = "dismissPendingIntent";
+	public static final String BUNDLE_DELETE_PENDINGINTENT  = "deletePendingIntent";
+	public static final String BUNDLE_VIEW_PENDINGINTENT  = "viewPendingIntent";
+	public static final String BUNDLE_ENABLE_STATUS_BAR_NOTIFICATION = "enableStatusBarNotification";
+	public static final String BUNDLE_STATUS_BAR_NOTIFICATION_SOUND_URI = "statusBarNotificationSoundURI";
+	public static final String BUNDLE_STATUS_BAR_NOTIFICATION_VIBRATE_SETTING = "statusBarNotificationVibrateSetting";
+	public static final String BUNDLE_STATUS_BAR_NOTIFICATION_VIBRATE_PATTERN = "statusBarNotificationVibratePattern";
+	public static final String BUNDLE_STATUS_BAR_NOTIFICATION_LED_ENABLED = "statusBarNotificationLEDEnabled";
+	public static final String BUNDLE_STATUS_BAR_NOTIFICATION_LED_PATTERN = "statusBarNotificationLEDPattern";
+	public static final String BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR = "statusBarNotificationLEDColor";
+	public static final String BUNDLE_STATUS_BAR_NOTIFICATION_IN_CALL_SOUND_ENABLED = "statusBarNotificationInCallSoundEnabled";
+	public static final String BUNDLE_STATUS_BAR_NOTIFICATION_IN_CALL_VIBRATE_ENABLED = "statusBarNotificationInCallVibrateEnabled";
 	
 	public static final String BUNDLE_NOTIFICATION_BUNDLE_NAME = "NOTIFICATION_BUNDLE_NAME";
 	public static final String BUNDLE_NOTIFICATION_BUNDLE_COUNT = "NOTIFICATION_BUNDLE_COUNT";
@@ -42,15 +64,6 @@ public class Constants {
 	public static final String QUICK_REPLY_BUNDLE_SEND_TO_ID = "sendToID";
 	public static final String QUICK_REPLY_BUNDLE_NAME = "name";
 	public static final String QUICK_REPLY_BUNDLE_MESSAGE = "message";
-	
-	//-----DEBUG CONSTANTS-----//
-	public static final String DEBUG = "debug_log_enabled";
-	
-	//-----RUNONCE CONSTANTS-----//
-	public static final String RUN_ONCE_EULA = "RUNONCE_EULA";
-	public static final String RUN_ONCE_K9_CHECK = "RUN_ONCE_K9_CHECK";
-	public static final String RUN_ONCE_CALENDAR_ALARM = "RUNONCE_CALENDAR_V_2_24";
-	public static final String RUN_ONCE_CODE_FIX = "RUNONCE_CODE_FIX_V_2_24";
 	
 	//-----GENERAL APP CONSTANTS-----//
 	public static final String DROID_NOTIFY_WAKELOCK = "DROID_NOTIFY_WAKELOCK";
@@ -70,6 +83,10 @@ public class Constants {
     public static final String CLEAR_STATUS_BAR_NOTIFICATIONS_ON_EXIT_KEY = "clear_status_bar_notifications_on_exit_enabled";
     public static final String PREVIOUS_CALL_STATE_KEY = "previous_call_state";
     
+	//-----SETTING ACTIVITIES CONSTANTS-----//
+	public static final String SETTINGS_STATUS_BAR_NOTIFICATIONS_PREFERENCE = "status_bar_notifications_preference";
+	public static final String SETTINGS_CUSTOMIZE_PREFERENCE = "customize_preference";
+    
     //-----LINKED APP CONSTANTS-----//
 	public static final String USER_IN_LINKED_APP_KEY = "user_in_linked_app";
 	public static final String USER_IN_QUICK_REPLY_APP_KEY = "user_in_quick_reply_app";
@@ -86,31 +103,20 @@ public class Constants {
 	public static final int NOTIFICATION_TYPE_SMS = 1;
 	public static final int NOTIFICATION_TYPE_MMS = 2;
 	public static final int NOTIFICATION_TYPE_CALENDAR = 3;
-	public static final int NOTIFICATION_TYPE_TWITTER = 5;
-	public static final int NOTIFICATION_TYPE_FACEBOOK = 6;
-	public static final int NOTIFICATION_TYPE_K9 = 7;	
-	public static final int NOTIFICATION_TYPE_LINKEDIN = 8;
+	public static final int NOTIFICATION_TYPE_K9 = 7;
+
+	public static final int NOTIFICATION_TYPE_GENERIC = 1000;
 	
 	//-----NOTIFICATION RESCHEDULE CONSTANTS-----//
 	public static final int NOTIFICATION_TYPE_RESCHEDULE_PHONE = 100;
 	public static final int NOTIFICATION_TYPE_RESCHEDULE_SMS = 101;
 	public static final int NOTIFICATION_TYPE_RESCHEDULE_MMS = 102;
 	public static final int NOTIFICATION_TYPE_RESCHEDULE_CALENDAR = 103;
-	public static final int NOTIFICATION_TYPE_RESCHEDULE_TWITTER = 105;
-	public static final int NOTIFICATION_TYPE_RESCHEDULE_FACEBOOK = 106;
-	public static final int NOTIFICATION_TYPE_RESCHEDULE_K9 = 107;
-	public static final int NOTIFICATION_TYPE_RESCHEDULE_LINKEDIN = 108;
+	public static final int NOTIFICATION_TYPE_RESCHEDULE_K9 = 107;	
+
+	public static final int NOTIFICATION_TYPE_RESCHEDULE_GENERIC = 1100;
 
 	//-----NOTIFICATION SUB-TYPE CONSTANTS-----//
-	public static final int NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE = 200;
-	public static final int NOTIFICATION_TYPE_TWITTER_MENTION = 201;
-	public static final int NOTIFICATION_TYPE_TWITTER_FOLLOWER_REQUEST = 202;
-	
-	public static final int NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION = 210;
-	public static final int NOTIFICATION_TYPE_FACEBOOK_MESSAGE = 211;
-	public static final int NOTIFICATION_TYPE_FACEBOOK_FRIEND_REQUEST = 212;
-	
-	public static final int NOTIFICATION_TYPE_LINKEDIN_UPDATE = 220;
 	
 	public static final int NOTIFICATION_TYPE_K9_MAIL = 230;
 	public static final int NOTIFICATION_TYPE_KAITEN_MAIL = 231;
@@ -132,10 +138,9 @@ public class Constants {
 	public static final int K9_VIEW_INBOX_ACTIVITY = 15;
 	public static final int K9_VIEW_EMAIL_ACTIVITY = 16;
 	public static final int K9_SEND_EMAIL_ACTIVITY = 17;
-	public static final int TWITTER_OPEN_APP_ACTIVITY = 18;
-	public static final int SEND_TWITTER_QUICK_REPLY_ACTIVITY = 19;
-	public static final int FACEBOOK_OPEN_APP_ACTIVITY = 20;
 	public static final int BROWSER_ACTIVITY = 21;
+	public static final int CONTACT_PICKER_ACTIVITY = 22;
+	public static final int RINGTONE_PICKER_ACTIVITY = 23;
 	
 	public static final int MESSAGE_TYPE_SMS = 1;
 	public static final int MESSAGE_TYPE_MMS = 2;
@@ -161,17 +166,22 @@ public class Constants {
 	public static final String BUTTON_DISPLAY_STYLE_DEFAULT = "0";
 	public static final String BUTTON_DISPLAY_BOTH_ICON_TEXT = "0";
 	public static final String BUTTON_DISPLAY_ICON_ONLY = "1";
-	public static final String BUTTON_DISPLAY_TEXT_ONLY = "2";
-		
-    public static final String BUTTON_ICONS_KEY = "button_icons_enabled";
-	public static final String DISPLAY_RESCHEDULE_BUTTON_KEY = "display_reschedule_button";
+	public static final String BUTTON_DISPLAY_TEXT_ONLY = "2";	
 	
+    public static final String BUTTON_ICONS_KEY = "button_icons_enabled";
+	
+    public static final String BUTTON_FONT_SIZE_KEY = "button_font_size";
+    public static final String BUTTON_FONT_SIZE_DEFAULT = "14";
+    
+    public static final String BUTTON_BOLD_TEXT_KEY = "bold_button_text";
+    
 	//-----RESCHEDULE CONSTANTS-----//
 	public static final String RESCHEDULE_NOTIFICATIONS_ENABLED_KEY = "reschedule_blocked_notifications";
 	public static final String RESCHEDULE_BLOCKED_NOTIFICATION_TIMEOUT_KEY = "reschedule_blocked_notification_timeout";
 	public static final String RESCHEDULE_BLOCKED_NOTIFICATION_TIMEOUT_DEFAULT = "5";
 	public static final String RESCHEDULE_TIME_KEY = "reschedule_time";
 	public static final String RESCHEDULE_TIME_DEFAULT = "60";
+	public static final String DISPLAY_RESCHEDULE_BUTTON_KEY = "display_reschedule_button";
 
 	//-----REMINDER CONSTANTS-----//
 	public static final String REMINDERS_ENABLED_KEY = "reminders_enabled";
@@ -197,17 +207,17 @@ public class Constants {
 	//-----CONTACT NUMBER CONSTANTS-----//
 	public static final String CONTACT_NUMBER_DISPLAY_KEY = "display_contact_number";
 	public static final String CONTACT_NUMBER_SIZE_KEY = "contact_number_font_size";
-	public static final String CONTACT_NUMBER_SIZE_DEFAULT = "18";    
+	public static final String CONTACT_NUMBER_SIZE_DEFAULT = "18";
+	public static final String CONTACT_NUMBER_DISPLAY_UNKNOWN_KEY = "display_unknown_contact_number";  
 	
 	//-----DIALOG CONSTANTS-----//
 	public static final int DIALOG_DELETE_MESSAGE = 0;
 
+	public static final String DIALOG_UPGRADE_TYPE = "upgrade_type";
+	
 	public static final int DIALOG_DONATE = 100;
 	public static final int DIALOG_UPGRADE = 101;
-	
-	public static final int DIALOG_FEATURE_AVAILABLE_WITH_PRO_VERSION_TWITTER = 201;
-	public static final int DIALOG_FEATURE_AVAILABLE_WITH_PRO_VERSION_FACEBOOK = 202;
-	public static final int DIALOG_FEATURE_AVAILABLE_WITH_PRO_VERSION_LINKEDIN = 203;
+	public static final int DIALOG_FEATURE_PRO_ONLY = 102;
 	
 	public static final int DIALOG_K9_CLIENT_NOT_INSTALLED = 501;
 	
@@ -262,6 +272,7 @@ public class Constants {
 		"com.drivevox.drivevox" };
 	
 	//-----APP THEME CONSTANTS-----//
+	public static final String APP_THEME_PREFIX = "apps.droidnotify.theme.";
 	public static final String APP_THEME_KEY = "app_theme";
 	public static final String ANDROID_FROYO_THEME = "apps.droidnotify.theme.froyo";
 	public static final String ANDROID_GINGERBREAD_THEME = "apps.droidnotify.theme.gingerbread";
@@ -293,9 +304,11 @@ public class Constants {
 	public static final int PHONE_NUMBER_FORMAT_12 = 12;
 	public static final int PHONE_NUMBER_FORMAT_13 = 13;
 	public static final int PHONE_NUMBER_FORMAT_14 = 14;
+	public static final int PHONE_NUMBER_FORMAT_15 = 15;
+	public static final int PHONE_NUMBER_FORMAT_16 = 16;
+	public static final int PHONE_NUMBER_FORMAT_17 = 17;
 	
 	//-----TIME FORMAT CONSTANTS-----//
-	public static final String RUN_ONCE_DATE_TIME_FORMAT = "runOnceDateTimeFormat";
 	public static final String TIME_FORMAT_KEY = "time_format_settings";
 	public static final String TIME_FORMAT_DEFAULT = "0";
 	public static final int TIME_FORMAT_12_HOUR = 0;
@@ -332,6 +345,8 @@ public class Constants {
 	public static final String QUIET_TIME_STOP_TIME_KEY  = "quiet_time_stop_time";
 	
 	//-----MESSAGE BODY CONSTANTS-----//
+	public static final String DISPLAY_NOTIFICATION_BODY_KEY = "display_notification_body";
+	
 	public static final String NOTIFICATION_BODY_CENTER_ALIGN_TEXT_KEY = "center_align_body_text";
 	public static final String NOTIFICATION_BODY_FONT_SIZE_KEY = "notification_body_font_size";
 	public static final String NOTIFICATION_BODY_FONT_SIZE_DEFAULT = "14";
@@ -373,7 +388,7 @@ public class Constants {
 	//-----NOTIFICATION COUNT CONSTANTS-----//
 	public static final String NOTIFICATION_COUNT_ACTION_NOTHING = "0";
 	
-	//-----SMS NOTIFICATION CONSTANTS-----//
+	//-----SMS CONSTANTS-----//
 	public static final String SMS_NOTIFICATIONS_ENABLED_KEY = "sms_notifications_enabled";
 	public static final String SMS_READ_FROM_INTENT = "0";
 	public static final String SMS_READ_FROM_DISK = "1";
@@ -381,8 +396,7 @@ public class Constants {
 	public static final String SMS_TIMEOUT_KEY = "sms_timeout_settings";
 	public static final String SMS_DELETE_KEY = "sms_delete_button_action";
 	public static final String SMS_TIMESTAMP_ADJUSTMENT_KEY = "sms_timestamp_adjustment_settings";
-	public static final String SMS_LOADING_SETTING_KEY = "sms_loading_settings"; 
-    public static final String SMS_HIDE_NOTIFICATION_BODY_KEY = "sms_hide_notification_body_enabled";
+	public static final String SMS_LOADING_SETTING_KEY = "sms_loading_settings";
 	public static final String SMS_REPLY_BUTTON_ACTION_KEY = "sms_reply_button_action";
 	public static final String SMS_DISPLAY_DISMISS_BUTTON_KEY = "sms_display_dismiss_button";
 	public static final String SMS_DISPLAY_DELETE_BUTTON_KEY = "sms_display_delete_button";
@@ -404,12 +418,11 @@ public class Constants {
 	
 	public static final String SMS_TIME_IS_UTC_KEY = "sms_time_is_utc";
 	
-	//-----MMS NOTIFICATION CONSTANTS-----//
+	//-----MMS CONSTANTS-----//
 	public static final String MMS_NOTIFICATIONS_ENABLED_KEY = "mms_notifications_enabled";
 	public static final String MMS_BLOCKING_APP_RUNNING_ACTION_KEY = "blocking_app_running_action_mms";
 	public static final String MMS_TIMEOUT_KEY = "mms_timeout_settings";
 	public static final String MMS_DELETE_KEY = "mms_delete_button_action";
-    public static final String MMS_HIDE_NOTIFICATION_BODY_KEY = "mms_hide_notification_body_enabled";
 	public static final String MMS_REPLY_BUTTON_ACTION_KEY = "mms_reply_button_action";
 	public static final String MMS_DISPLAY_DISMISS_BUTTON_KEY = "mms_display_dismiss_button";
 	public static final String MMS_DISPLAY_DELETE_BUTTON_KEY = "mms_display_delete_button";
@@ -427,7 +440,7 @@ public class Constants {
 	public static final String MMS_MESSAGING_APP_REPLY = "0";
 	public static final String MMS_QUICK_REPLY = "1";	
 
-	//-----MISSED CALL NOTIFICATION CONSTANTS-----//
+	//-----MISSED CALL CONSTANTS-----//
 	public static final String PHONE_NOTIFICATIONS_ENABLED_KEY = "missed_call_notifications_enabled";
 	public static final String PHONE_BLOCKING_APP_RUNNING_ACTION_KEY = "blocking_app_running_action_missed_call";
 	public static final String CALL_LOG_TIMEOUT_KEY = "call_log_timeout_settings";
@@ -446,7 +459,7 @@ public class Constants {
 	
 	public static final int PHONE_TYPE = android.provider.CallLog.Calls.MISSED_TYPE;
 	
-	//-----CALENDAR NOTIFICATION CONSTANTS-----//
+	//-----CALENDAR CONSTANTS-----//
 	public static final String CALENDAR_NOTIFICATIONS_ENABLED_KEY = "calendar_notifications_enabled";
 	public static final String CALENDAR_BLOCKING_APP_RUNNING_ACTION_KEY = "blocking_app_running_action_calendar";
 	public static final String CALENDAR_NOTIFY_DAY_OF_TIME_KEY = "calendar_notify_day_of_time";
@@ -454,8 +467,7 @@ public class Constants {
     public static final String CALENDAR_REMINDER_KEY = "calendar_reminder_settings";
     public static final String CALENDAR_REMINDER_ALL_DAY_KEY = "calendar_reminder_all_day_settings";
     public static final String CALENDAR_POLLING_FREQUENCY_KEY = "calendar_polling_frequency"; 
-    public static final String CALENDAR_POLLING_FREQUENCY_DEFAULT = "15"; 
-    public static final String CALENDAR_HIDE_NOTIFICATION_BODY_KEY = "calendar_hide_notification_body_enabled";
+    public static final String CALENDAR_POLLING_FREQUENCY_DEFAULT = "15";
 	public static final String CALENDAR_DISPLAY_DISMISS_BUTTON_KEY = "calendar_display_dismiss_button";
 	public static final String CALENDAR_DISPLAY_VIEW_BUTTON_KEY = "calendar_display_view_button";
 	public static final String CALENDAR_NOTIFICATION_COUNT_ACTION_KEY = "calendar_notification_count_action";
@@ -476,113 +488,14 @@ public class Constants {
     public static final String CALENDAR_VISIBLE = "visible";
     public static final String CALENDAR_EVENT_BEGIN_TIME = "beginTime";
     public static final String CALENDAR_EVENT_END_TIME = "endTime";
-
-	//-----TWITTER NOTIFICATION CONSTANTS-----//
-	public static final String TWITTER_PRO_PREFERENCE_CATEGORY_KEY = "twitter_notification_settings_category";
-	public static final String TWITTER_PRO_PLACEHOLDER_PREFERENCE_KEY = "twitter_notification_settings_placeholder_preference";
-	public static final String TWITTER_PRO_PREFERENCE_SCREEN_KEY = "twitter_notification_settings_screen";
 	
-	public static final String TWITTER_NOTIFICATIONS_ENABLED_KEY = "twitter_enabled";
-	public static final String TWITTER_POLLING_FREQUENCY_KEY = "twitter_polling_frequency"; 
-    public static final String TWITTER_POLLING_FREQUENCY_DEFAULT = "60"; 
-	public static final String TWITTER_DIRECT_MESSAGES_ENABLED_KEY = "twitter_direct_messages_enabled";
-	public static final String TWITTER_MENTIONS_ENABLED_KEY = "twitter_mentions_enabled";
-	public static final String TWITTER_FOLLOWER_REQUESTS_ENABLED_KEY = "twitter_follower_requests_enabled";
-	public static final String TWITTER_RETWEETS_ENABLED_KEY = "twitter_retweets_enabled";
-	public static final String TWITTER_REPLY_TWEETS_ENABLED_KEY = "twitter_reply_tweets_enabled";
-	
-	public static final String TWITTER_BLOCKING_APP_RUNNING_ACTION_KEY = "blocking_app_running_action_twitter";
-	
-	public static final String TWITTER_CONSUMER_KEY = "AhWe8llUXyaZhix1oyhCA";
-	public static final String TWITTER_CONSUMER_SECRET= "oFKn2cyLQanVESLWlwH0GK7twXisarFrClTfuZmVUI";
- 	public static final String TWITTER_REQUEST_URL = "http://api.twitter.com/oauth/request_token";
-	public static final String TWITTER_ACCESS_URL = "http://api.twitter.com/oauth/authorize";
-	public static final String TWITTER_AUTHORIZE_URL = "http://api.twitter.com/oauth/access_token";
-	public static final String TWITTER_CALLBACK_SCHEME = "droidnotify-oauth-twitter";
-	public static final String TWITTER_CALLBACK_URL = TWITTER_CALLBACK_SCHEME + "://callback";
-	public static final String TWITTER_OAUTH_TOKEN = "twitter_oauth_token";
-	public static final String TWITTER_OAUTH_TOKEN_SECRET = "twitter_oauth_token_secret";
-
-	public static final String TWITTER_DELETE_KEY = "twitter_delete_button_action";
-	public static final String TWITTER_CONFIRM_DELETION_KEY = "twitter_confirm_deletion";
-	
-	public static final String TWITTER_DELETE_ACTION_DELETE_MESSAGE = "0";
-	public static final String TWITTER_DELETE_ACTION_NOTHING = "2";	
-
-    public static final String TWITTER_HIDE_NOTIFICATION_BODY_KEY = "twitter_hide_notification_body_enabled";
-	public static final String TWITTER_DISPLAY_DISMISS_BUTTON_KEY = "twitter_display_dismiss_button";
-	public static final String TWITTER_DISPLAY_VIEW_BUTTON_KEY = "twitter_display_view_button";
-	public static final String TWITTER_DISPLAY_DELETE_BUTTON_KEY = "twitter_display_delete_button";
-	public static final String TWITTER_DISPLAY_REPLY_BUTTON_KEY = "twitter_display_reply_button";
-	public static final String TWITTER_NOTIFICATION_COUNT_ACTION_KEY = "twitter_notification_count_action";
-	public static final String TWITTER_NOTIFICATION_COUNT_ACTION_LAUNCH_TWITTER_APP = "1";
-	
-	public static final String TWITTER_PREFERRED_CLIENT_KEY = "twitter_preferred_client";
-	public static final String TWITTER_PREFERRED_CLIENT_DEFAULT = "http://mobile.twitter.com";
-	public static final String TWITTER_USE_QUICK_REPLY = "0";
-	public static final String TWITTER_USE_PREFERRED_CLIENT = "1";
-	
-	public static final String TWITTER_DIRECT_MESSAGE_DATE_FILTER_KEY = "twitter_direct_message_date_filter";
-	public static final String TWITTER_MENTION_DATE_FILTER_KEY = "twitter_mention_date_filter";
-	
-	public static final String TWITTER_CLEAR_AUTHENTICATION_DATA_KEY = "clear_twitter_authentication";
-	
-	public static final String TWITTER_ADVANCED_SETTINGS_CATEGORY_KEY = "advanced_twitter_settings_category";
-	
-	public static final String TWITTER_REPLY_BUTTON_ACTION_KEY = "twitter_reply_button_action";
-	public static final String TWITTER_DELETE_BUTTON_ACTION_KEY = "twitter_delete_button_action";
-	
-	public static final String TWITTER_MANUAL_POLL_KEY = "twitter_manual_poll";
-	
-	//-----FACEBOOK NOTIFICATION CONSTANTS-----//
-	public static final String FACEBOOK_PRO_PREFERENCE_CATEGORY_KEY = "facebook_notification_settings_category";
-	public static final String FACEBOOK_PRO_PLACEHOLDER_PREFERENCE_KEY = "facebook_notification_settings_placeholder_preference";
-	public static final String FACEBOOK_PRO_PREFERENCE_SCREEN_KEY = "facebook_notification_settings_screen";
-	
-	public static final String FACEBOOK_NOTIFICATIONS_ENABLED_KEY = "facebook_enabled";
-	public static final String FACEBOOK_USER_NOTIFICATIONS_ENABLED_KEY = "facebook_user_notifications_enabled";
-	public static final String FACEBOOK_FRIEND_REQUESTS_ENABLED_KEY = "facebook_friend_requests_enabled";
-	public static final String FACEBOOK_MESSAGES_ENABLED_KEY = "facebook_messages_enabled";
-	public static final String FACEBOOK_POLLING_FREQUENCY_KEY = "facebook_polling_frequency";
-	
-	public static final String FACEBOOK_BLOCKING_APP_RUNNING_ACTION_KEY = "blocking_app_running_action_facebook";
-	
-	public static final String FACEBOOK_APP_ID = "259676884089873";
-	public static final String FACEBOOK_ACCESS_TOKEN_KEY = "facebook_access_token";
-	public static final String FACEBOOK_ACCESS_EXPIRES_KEY = "facebook_access_expires";
-	
-	public static final String FACEBOOK_DELETE_KEY = "facebook_delete_button_action";
-	public static final String FACEBOOK_CONFIRM_DELETION_KEY = "facebook_confirm_deletion";
-	
-	public static final String FACEBOOK_DISMISS_ACTION_MARK_READ = "0";
-
-    public static final String FACEBOOK_HIDE_NOTIFICATION_BODY_KEY = "facebook_hide_notification_body_enabled";
-	public static final String FACEBOOK_DISPLAY_DISMISS_BUTTON_KEY = "facebook_display_dismiss_button";
-	public static final String FACEBOOK_DISPLAY_DELETE_BUTTON_KEY = "facebook_display_delete_button";
-	public static final String FACEBOOK_DISPLAY_VIEW_BUTTON_KEY = "facebook_display_view_button";
-	public static final String FACEBOOK_DISPLAY_REPLY_BUTTON_KEY = "facebook_display_reply_button";
-	public static final String FACEBOOK_NOTIFICATION_COUNT_ACTION_KEY = "facebook_notification_count_action";
-	public static final String FACEBOOK_NOTIFICATION_COUNT_ACTION_LAUNCH_FACEBOOK_APP = "1";
-	
-	public static final String FACEBOOK_ADVANCED_SETTINGS_CATEGORY_KEY = "advanced_facebook_settings_category";
-	
-	public static final String FACEBOOK_CLEAR_AUTHENTICATION_DATA_KEY = "clear_facebook_authentication";
-	
-	public static final String FACEBOOK_PREFERRED_CLIENT_KEY = "facebook_preferred_client";
-	public static final String FACEBOOK_PREFERRED_CLIENT_DEFAULT = "http://m.facebook.com";
-	public static final String FACEBOOK_USE_QUICK_REPLY = "0";
-	public static final String FACEBOOK_USE_PREFERRED_CLIENT = "1";
-	
-	public static final String FACEBOOK_MANUAL_POLL_KEY = "facebook_manual_poll";
-	
-	//-----K9 NOTIFICATION CONSTANTS-----//	
+	//-----K9 CONSTANTS-----//	
 	public static final String INTENT_ACTION_K9 = "com.fsck.k9.intent.action.EMAIL_RECEIVED";
 	public static final String INTENT_ACTION_KAITEN = "com.kaitenmail.intent.action.EMAIL_RECEIVED";
 	
 	public static final String K9_NOTIFICATIONS_ENABLED_KEY = "k9_notifications_enabled";
 	public static final String K9_BLOCKING_APP_RUNNING_ACTION_KEY = "blocking_app_running_action_k9";
 	public static final String K9_DELETE_KEY = "k9_delete_button_action";
-    public static final String K9_HIDE_NOTIFICATION_BODY_KEY = "k9_hide_notification_body_enabled";
 	public static final String K9_REPLY_BUTTON_ACTION_KEY = "k9_reply_button_action";
 	public static final String K9_DISPLAY_DISMISS_BUTTON_KEY = "k9_display_dismiss_button";
 	public static final String K9_DISPLAY_DELETE_BUTTON_KEY = "k9_display_delete_button";
@@ -600,27 +513,8 @@ public class Constants {
 	
 	public static final String K9_TIMEOUT_KEY = "k9_timeout";
 	
-	//-----LINKEDIN NOTIFICATION CONSTANTS-----//
-	public static final String LINKEDIN_PRO_PREFERENCE_CATEGORY_KEY = "linkedin_notification_settings_category";
-	public static final String LINKEDIN_PRO_PLACEHOLDER_PREFERENCE_KEY = "linkedin_notification_settings_placeholder_preference";
-	public static final String LINKEDIN_PRO_PREFERENCE_SCREEN_KEY = "linkedin_notification_settings_screen";
-	
-	public static final String LINKEDIN_NOTIFICATIONS_ENABLED_KEY = "linkedin_enabled";	
-	public static final String LINKEDIN_UPDATES_ENABLED_KEY = "linkedin_updates_enabled";	
-	public static final String LINKEDIN_POLLING_FREQUENCY_KEY = "linkedin_polling_frequency"; 
-    public static final String LINKEDIN_POLLING_FREQUENCY_DEFAULT = "60"; 
-	
-	public static final String LINKEDIN_CONSUMER_KEY = "i1ktinzc0j0c";
-	public static final String LINKEDIN_CONSUMER_SECRET= "IaqaWiDaHxY0X0v3";
-	public static final String LINKEDIN_CALLBACK_SCHEME = "droidnotify-oauth-linkedin";
-	public static final String LINKEDIN_CALLBACK_URL = LINKEDIN_CALLBACK_SCHEME + "://callback";
-	public static final String LINKEDIN_OAUTH_TOKEN = "linkedin_oauth_token";
-	public static final String LINKEDIN_OAUTH_TOKEN_SECRET = "linkedin_oauth_token_secret";
-	
-	public static final String LINKEDIN_BLOCKING_APP_RUNNING_ACTION_KEY = "blocking_app_running_action_linkedin";
-	
-	public static final String LINKEDIN_ADVANCED_SETTINGS_CATEGORY_KEY = "advanced_linkedin_settings_category";	
-	public static final String LINKEDIN_CLEAR_AUTHENTICATION_DATA_KEY = "clear_linkedin_authentication";
+	//-----GENERIC NOTIFICATION CONSTANTS-----//	
+	public static final String GENERIC_NOTIFICATIONS_ENABLED_KEY = "generic_notifications_enabled";
 	
 	//-----GOOGLEPLUS NOTIFICATION CONSTANTS-----//
 	public static final String GOOGLEPLUS_CONSUMER_KEY = "503968671076.apps.googleusercontent.com";
@@ -628,15 +522,21 @@ public class Constants {
 	
 	//-----APPLICATION URL CONSTANTS-----//
 	//Android Market URL
-	public static final String APP_ANDROID_URL = "http://market.android.com/details?id=apps.droidnotify";
-	public static final String APP_PRO_ANDROID_URL = "http://market.android.com/details?id=apps.droidnotifydonate";
-	public static final String K9_MAIL_ANDROID_URL = "http://market.android.com/details?id=com.fsck.k9";
-	public static final String KAITEN_MAIL_ANDROID_URL = "http://market.android.com/details?id=com.kaitenmail";
+	public static final String APP_ANDROID_URL = "https://play.google.com/store/apps/details?id=apps.droidnotify";
+	public static final String APP_PRO_ANDROID_URL = "https://play.google.com/store/apps/details?id=apps.droidnotifydonate";
+	public static final String K9_MAIL_ANDROID_URL = "https://play.google.com/store/apps/details?id=com.fsck.k9";
+	public static final String KAITEN_MAIL_ANDROID_URL = "https://play.google.com/store/apps/details?id=com.kaitenmail";
+	public static final String APP_SEARCH_ANDROID_URL = "https://play.google.com/store/search?q=apps.droidnotify.theme";
+	public static final String APP_ANDROID_PLUS_URL = "https://play.google.com/store/apps/details?id=apps.droidnotifyplus";
+	
 	//Amazon Appstore URL
 	public static final String APP_AMAZON_URL = "http://www.amazon.com/gp/mas/dl/android?p=apps.droidnotify";
 	public static final String APP_PRO_AMAZON_URL = "http://www.amazon.com/gp/mas/dl/android?p=apps.droidnotifydonate";
 	public static final String K9_MAIL_AMAZON_URL = "http://www.amazon.com/gp/mas/dl/android?p=com.fsck.k9";
 	public static final String KAITEN_MAIL_AMAZON_URL = "http://www.amazon.com/gp/mas/dl/android?p=com.kaitenmail";
+	public static final String APP_SEARCH_AMAZON_URL = "http://www.amazon.com/gp/mas/dl/android?p=apps.droidnotify.theme&showAll=1";
+	public static final String APP_AMAZON_PLUS_URL = "http://www.amazon.com/gp/mas/dl/android?p=apps.droidnotifyplus";
+	
 	//PayPal URL
 	public static final String APP_PAYPAL_URL = "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=43V2NJQH5BQAA";
 	
@@ -644,7 +544,7 @@ public class Constants {
 	public static final String STATUS_BAR_NOTIFICATIONS_RINGTONE_DEFAULT = "content://settings/system/notification_sound";
 	public static final String STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_DEFAULT = "0,1200";
 	public static final String STATUS_BAR_NOTIFICATIONS_LED_PATTERN_DEFAULT = "1000,1000";
-	public static final String STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT = "yellow";
+	public static final String STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT = "red";
 	
 	public static final String STATUS_BAR_NOTIFICATIONS_RINGTONE_SILENT_VALUE = "";
 	public static final String STATUS_BAR_NOTIFICATIONS_VIBRATE_ALWAYS_VALUE = "0";
@@ -653,6 +553,8 @@ public class Constants {
 	public static final String STATUS_BAR_NOTIFICATIONS_VIBRATE_DEFAULT = STATUS_BAR_NOTIFICATIONS_VIBRATE_ALWAYS_VALUE;
 	
 	//-----SMS STATUS BAR NOTIFICATION CONSTANTS-----//
+	public static final String SMS_STATUS_BAR_NOTIFICATIONS_CUSTOM_VALUE = "sms_custom";
+	
 	public static final String SMS_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY = "sms_status_bar_notifications_enabled";
 	
 	public static final String SMS_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY = "sms_status_bar_notifications_show_when_blocked_enabled";
@@ -661,15 +563,12 @@ public class Constants {
 	
 	public static final String SMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY = "sms_notification_vibrate_setting";
 	public static final String SMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_KEY = "sms_notification_vibrate_pattern";
-	public static final String SMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_VALUE_KEY = "sms_custom";
 	public static final String SMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_KEY = "sms_notification_vibrate_pattern_custom";
 	
 	public static final String SMS_STATUS_BAR_NOTIFICATIONS_LED_ENABLED_KEY = "sms_notification_led_enabled";
-	public static final String SMS_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_KEY = "sms_notification_led_pattern";	
-	public static final String SMS_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_VALUE_KEY = "sms_custom";
+	public static final String SMS_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_KEY = "sms_notification_led_pattern";
 	public static final String SMS_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_KEY = "sms_notification_led_pattern_custom";
-	public static final String SMS_STATUS_BAR_NOTIFICATIONS_LED_COLOR_KEY = "sms_notification_led_color";	
-	public static final String SMS_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_VALUE_KEY = "sms_custom";
+	public static final String SMS_STATUS_BAR_NOTIFICATIONS_LED_COLOR_KEY = "sms_notification_led_color";
 	public static final String SMS_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_KEY = "sms_notification_led_color_custom";
 	
 	public static final String SMS_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY = "sms_notification_in_call_sound_enabled";
@@ -679,6 +578,8 @@ public class Constants {
 	public static final String SMS_STATUS_BAR_NOTIFICATIONS_ICON_DEFAULT = "status_bar_notification_sms_green";
 	
 	//-----MMS STATUS BAR NOTIFICATION CONSTANTS-----//
+	public static final String MMS_STATUS_BAR_NOTIFICATIONS_CUSTOM_VALUE = "mms_custom";
+	
 	public static final String MMS_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY = "mms_status_bar_notifications_enabled";
 	
 	public static final String MMS_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY = "mms_status_bar_notifications_show_when_blocked_enabled";
@@ -687,15 +588,12 @@ public class Constants {
 	
 	public static final String MMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY = "mms_notification_vibrate_setting";
 	public static final String MMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_KEY = "mms_notification_vibrate_pattern";
-	public static final String MMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_VALUE_KEY = "mms_custom";
 	public static final String MMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_KEY = "mms_notification_vibrate_pattern_custom";
 	
 	public static final String MMS_STATUS_BAR_NOTIFICATIONS_LED_ENABLED_KEY = "mms_notification_led_enabled";
-	public static final String MMS_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_KEY = "mms_notification_led_pattern";	
-	public static final String MMS_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_VALUE_KEY = "mms_custom";
+	public static final String MMS_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_KEY = "mms_notification_led_pattern";
 	public static final String MMS_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_KEY = "mms_notification_led_pattern_custom";
-	public static final String MMS_STATUS_BAR_NOTIFICATIONS_LED_COLOR_KEY = "mms_notification_led_color";	
-	public static final String MMS_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_VALUE_KEY = "mms_custom";
+	public static final String MMS_STATUS_BAR_NOTIFICATIONS_LED_COLOR_KEY = "mms_notification_led_color";
 	public static final String MMS_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_KEY = "mms_notification_led_color_custom";
 	
 	public static final String MMS_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY = "mms_notification_in_call_sound_enabled";
@@ -705,6 +603,8 @@ public class Constants {
 	public static final String MMS_STATUS_BAR_NOTIFICATIONS_ICON_DEFAULT = "status_bar_notification_sms_green";
 	
 	//-----PHONE STATUS BAR NOTIFICATION CONSTANTS-----//
+	public static final String PHONE_STATUS_BAR_NOTIFICATIONS_CUSTOM_VALUE = "phone_custom";
+	
 	public static final String PHONE_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY = "missed_call_status_bar_notifications_enabled";
 	
 	public static final String PHONE_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY = "missed_call_status_bar_notifications_show_when_blocked_enabled";
@@ -713,15 +613,12 @@ public class Constants {
 	
 	public static final String PHONE_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY = "missed_call_notification_vibrate_setting";
 	public static final String PHONE_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_KEY = "missed_call_notification_vibrate_pattern";
-	public static final String PHONE_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_VALUE_KEY = "phone_custom";
 	public static final String PHONE_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_KEY = "missed_call_notification_vibrate_pattern_custom";
 	
 	public static final String PHONE_STATUS_BAR_NOTIFICATIONS_LED_ENABLED_KEY = "missed_call_notification_led_enabled";
-	public static final String PHONE_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_KEY = "missed_call_notification_led_pattern";	
-	public static final String PHONE_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_VALUE_KEY = "missed_call_custom";
+	public static final String PHONE_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_KEY = "missed_call_notification_led_pattern";
 	public static final String PHONE_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_KEY = "missed_call_notification_led_pattern_custom";
-	public static final String PHONE_STATUS_BAR_NOTIFICATIONS_LED_COLOR_KEY = "missed_call_notification_led_color";	
-	public static final String PHONE_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_VALUE_KEY = "phone_custom";
+	public static final String PHONE_STATUS_BAR_NOTIFICATIONS_LED_COLOR_KEY = "missed_call_notification_led_color";
 	public static final String PHONE_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_KEY = "missed_call_notification_led_color_custom";
 	
 	public static final String PHONE_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY = "missed_call_notification_in_call_sound_enabled";
@@ -731,6 +628,8 @@ public class Constants {
 	public static final String PHONE_STATUS_BAR_NOTIFICATIONS_ICON_DEFAULT = "status_bar_notification_missed_call_black";
 	
 	//-----CALENDAR STATUS BAR NOTIFICATION CONSTANTS-----//
+	public static final String CALENDAR_STATUS_BAR_NOTIFICATIONS_CUSTOM_VALUE = "calendar_custom";
+	
 	public static final String CALENDAR_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY = "calendar_status_bar_notifications_enabled";
 	
 	public static final String CALENDAR_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY = "calendar_status_bar_notifications_show_when_blocked_enabled";
@@ -739,15 +638,12 @@ public class Constants {
 	
 	public static final String CALENDAR_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY = "calendar_notification_vibrate_setting";
 	public static final String CALENDAR_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_KEY = "calendar_notification_vibrate_pattern";
-	public static final String CALENDAR_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_VALUE_KEY = "calendar_custom";
 	public static final String CALENDAR_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_KEY = "calendar_notification_vibrate_pattern_custom";
 	
 	public static final String CALENDAR_STATUS_BAR_NOTIFICATIONS_LED_ENABLED_KEY = "calendar_notification_led_enabled";
-	public static final String CALENDAR_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_KEY = "calendar_notification_led_pattern";	
-	public static final String CALENDAR_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_VALUE_KEY = "calendar_custom";
+	public static final String CALENDAR_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_KEY = "calendar_notification_led_pattern";
 	public static final String CALENDAR_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_KEY = "calendar_notification_led_pattern_custom";
-	public static final String CALENDAR_STATUS_BAR_NOTIFICATIONS_LED_COLOR_KEY = "calendar_notification_led_color";	
-	public static final String CALENDAR_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_VALUE_KEY = "calendar_custom";
+	public static final String CALENDAR_STATUS_BAR_NOTIFICATIONS_LED_COLOR_KEY = "calendar_notification_led_color";
 	public static final String CALENDAR_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_KEY = "calendar_notification_led_color_custom";
 	
 	public static final String CALENDAR_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY = "calendar_notification_in_call_sound_enabled";
@@ -757,6 +653,8 @@ public class Constants {
 	public static final String CALENDAR_STATUS_BAR_NOTIFICATIONS_ICON_DEFAULT = "status_bar_notification_calendar_blue";
 	
 	//-----K9 STATUS BAR NOTIFICATION CONSTANTS-----//
+	public static final String K9_STATUS_BAR_NOTIFICATIONS_CUSTOM_VALUE = "k9_custom";
+	
 	public static final String K9_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY = "k9_status_bar_notifications_enabled";
 	
 	public static final String K9_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY = "k9_status_bar_notifications_show_when_blocked_enabled";
@@ -765,79 +663,19 @@ public class Constants {
 	
 	public static final String K9_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY = "k9_notification_vibrate_setting";
 	public static final String K9_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_KEY = "k9_notification_vibrate_pattern";
-	public static final String K9_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_VALUE_KEY = "k9_custom";
 	public static final String K9_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_KEY = "k9_notification_vibrate_pattern_custom";
 	
 	public static final String K9_STATUS_BAR_NOTIFICATIONS_LED_ENABLED_KEY = "k9_notification_led_enabled";
-	public static final String K9_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_KEY = "k9_notification_led_pattern";	
-	public static final String K9_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_VALUE_KEY = "k9_custom";
+	public static final String K9_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_KEY = "k9_notification_led_pattern";
 	public static final String K9_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_KEY = "k9_notification_led_pattern_custom";
-	public static final String K9_STATUS_BAR_NOTIFICATIONS_LED_COLOR_KEY = "k9_notification_led_color";	
-	public static final String K9_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_VALUE_KEY = "k9_custom";
+	public static final String K9_STATUS_BAR_NOTIFICATIONS_LED_COLOR_KEY = "k9_notification_led_color";
 	public static final String K9_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_KEY = "k9_notification_led_color_custom";
 	
 	public static final String K9_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY = "k9_notification_in_call_sound_enabled";
 	public static final String K9_STATUS_BAR_NOTIFICATIONS_IN_CALL_VIBRATE_ENABLED_KEY = "k9_notification_in_call_vibrate_enabled";	
 	
 	public static final String K9_STATUS_BAR_NOTIFICATIONS_ICON_SETTING_KEY = "notification_icon_k9";
-	public static final String K9_STATUS_BAR_NOTIFICATIONS_ICON_DEFAULT = "status_bar_notification_email_white";	
-	
-	//-----TWITTER STATUS BAR NOTIFICATION CONSTANTS-----//
-	public static final String TWITTER_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY = "twitter_status_bar_notifications_enabled";
-	
-	public static final String TWITTER_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY = "twitter_status_bar_notifications_show_when_blocked_enabled";
-	
-	public static final String TWITTER_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY = "twitter_notification_sound";
-	
-	public static final String TWITTER_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY = "twitter_notification_vibrate_setting";
-	public static final String TWITTER_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_KEY = "twitter_notification_vibrate_pattern";
-	public static final String TWITTER_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_VALUE_KEY = "twitter_custom";
-	public static final String TWITTER_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_KEY = "twitter_notification_vibrate_pattern_custom";
-	
-	public static final String TWITTER_STATUS_BAR_NOTIFICATIONS_LED_ENABLED_KEY = "twitter_notification_led_enabled";
-	public static final String TWITTER_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_KEY = "twitter_notification_led_pattern";	
-	public static final String TWITTER_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_VALUE_KEY = "twitter_custom";
-	public static final String TWITTER_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_KEY = "twitter_notification_led_pattern_custom";
-	public static final String TWITTER_STATUS_BAR_NOTIFICATIONS_LED_COLOR_KEY = "twitter_notification_led_color";	
-	public static final String TWITTER_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_VALUE_KEY = "twitter_custom";
-	public static final String TWITTER_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_KEY = "twitter_notification_led_color_custom";
-	
-	public static final String TWITTER_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY = "twitter_notification_in_call_sound_enabled";
-	public static final String TWITTER_STATUS_BAR_NOTIFICATIONS_IN_CALL_VIBRATE_ENABLED_KEY = "twitter_notification_in_call_vibrate_enabled";	
-	
-	public static final String TWITTER_STATUS_BAR_NOTIFICATIONS_ICON_SETTING_KEY = "notification_icon_twitter";
-	public static final String TWITTER_STATUS_BAR_NOTIFICATIONS_ICON_DEFAULT = "status_bar_notification_twitter_blue";
-	
-	//-----FACEBOOK STATUS BAR NOTIFICATION CONSTANTS-----//
-	public static final String FACEBOOK_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY = "facebook_status_bar_notifications_enabled";
-	
-	public static final String FACEBOOK_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY = "facebook_status_bar_notifications_show_when_blocked_enabled";
-	
-	public static final String FACEBOOK_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY = "facebook_notification_sound";
-	
-	public static final String FACEBOOK_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY = "facebook_notification_vibrate_setting";
-	public static final String FACEBOOK_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_KEY = "facebook_notification_vibrate_pattern";
-	public static final String FACEBOOK_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_VALUE_KEY = "facebook_custom";
-	public static final String FACEBOOK_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_KEY = "facebook_notification_vibrate_pattern_custom";
-	
-	public static final String FACEBOOK_STATUS_BAR_NOTIFICATIONS_LED_ENABLED_KEY = "facebook_notification_led_enabled";
-	public static final String FACEBOOK_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_KEY = "facebook_notification_led_pattern";	
-	public static final String FACEBOOK_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_VALUE_KEY = "facebook_custom";
-	public static final String FACEBOOK_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_KEY = "facebook_notification_led_pattern_custom";
-	public static final String FACEBOOK_STATUS_BAR_NOTIFICATIONS_LED_COLOR_KEY = "facebook_notification_led_color";	
-	public static final String FACEBOOK_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_VALUE_KEY = "facebook_custom";
-	public static final String FACEBOOK_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_KEY = "facebook_notification_led_color_custom";
-	
-	public static final String FACEBOOK_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY = "facebook_notification_in_call_sound_enabled";
-	public static final String FACEBOOK_STATUS_BAR_NOTIFICATIONS_IN_CALL_VIBRATE_ENABLED_KEY = "facebook_notification_in_call_vibrate_enabled";	
-	
-	public static final String FACEBOOK_STATUS_BAR_NOTIFICATIONS_ICON_SETTING_KEY = "notification_icon_facebook";
-	public static final String FACEBOOK_STATUS_BAR_NOTIFICATIONS_ICON_DEFAULT = "status_bar_notification_facebook_blue";
-
-	//-----LINKEDIN STATUS BAR NOTIFICATION CONSTANTS-----//
-	public static final String LINKEDIN_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY = "linkedin_status_bar_notifications_enabled";
-	
-	public static final String LINKEDIN_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY = "linkedin_status_bar_notifications_show_when_blocked_enabled";
+	public static final String K9_STATUS_BAR_NOTIFICATIONS_ICON_DEFAULT = "status_bar_notification_email_white";
 	
 	//-----TEXT-TO-SPEECH CONSTANTS-----//
 	public static final String DISPLAY_TEXT_TO_SPEECH_KEY = "display_text_to_speech_button";
@@ -854,7 +692,13 @@ public class Constants {
 	public static final String IN_QUICK_REPLY_RESCHEDULING_ENABLED_KEY = "in_quick_reply_rescheduling_enabled";
 	
 	//-----POPUP FORMATTING CONSTANTS-----//
+	public static final String POPUP_HORIZONTAL_LOCATION_KEY = "popup_horizontal_location";
+	public static final String POPUP_HORIZONTAL_LOCATION_TOP = "0";
+	public static final String POPUP_HORIZONTAL_LOCATION_CENTER = "1";
+	public static final String POPUP_HORIZONTAL_LOCATION_BOTTOM = "2";
+	public static final String POPUP_HORIZONTAL_LOCATION_DEFAULT = POPUP_HORIZONTAL_LOCATION_CENTER;
 	public static final String POPUP_WINDOW_WIDTH_PADDING_KEY = "popup_width_padding";
+	public static final String POPUP_WINDOW_WIDTH_PADDING_DEFAULT = "0";
 	
 	//-----FLASH SMS CONSTANTS-----//
 	public static final String SMS_IGNORE_CLASS_0_MESSAGES_KEY = "sms_ignore_class_0_messages";	
@@ -863,5 +707,51 @@ public class Constants {
 	public static final int THEME_BUTTON_NORMAL = 0;
 	public static final int THEME_BUTTON_NAV_PREV = 1;
 	public static final int THEME_BUTTON_NAV_NEXT = 2;
+	
+	//-----CUSTOM STATUS BAR NOTIFICATION CONSTANTS-----//
+	public static final String CUSTOM_STATUS_BAR_NOTIFICATIONS_CUSTOM_VALUE = "custom";
+	
+	public static final String CUSTOM_STATUS_BAR_NOTIFICATIONS_RINGTONE_KEY = "custom_ringtone";
+	
+	public static final String CUSTOM_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY = "custom_vibrate_setting";
+	public static final String CUSTOM_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_KEY = "custom_vibrate_pattern";
+	public static final String CUSTOM_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_KEY = "custom_vibrate_pattern_custom";
+	
+	public static final String CUSTOM_STATUS_BAR_NOTIFICATIONS_LED_ENABLED_KEY = "custom_led_enabled";
+	public static final String CUSTOM_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_KEY = "custom_led_pattern";
+	public static final String CUSTOM_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_KEY = "custom_led_pattern_custom";
+	public static final String CUSTOM_STATUS_BAR_NOTIFICATIONS_LED_COLOR_KEY = "custom_led_color";
+	public static final String CUSTOM_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_KEY = "custom_led_color_custom";
+	
+	public static final String CUSTOM_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY = "custom_in_call_sound_enabled";
+	public static final String CUSTOM_STATUS_BAR_NOTIFICATIONS_IN_CALL_VIBRATE_ENABLED_KEY = "custom_in_call_vibrate_enabled";
+
+	//-----PRIVACY CONSTANTS-----//
+	public static final String STATUS_BAR_NOTIFICATION_PRIVACY_ENABLED_KEY = "status_bar_notification_privacy_enabled";
+
+	//-----RESTRICT POPUP CONSTANTS-----//
+	public static final String RESTRICT_POPUP_KEY = "restrict_popup";
+	
+	//-----DROID NOTIFY API CONSTANTS-----//
+	public static final String DROID_NOTIFY_API_NOTIFICATION_ACTION = "apps.droidnotify.api.NOTIFICATION_RECEIVED";
+	public static final String DROID_NOTIFY_API_PACKAGE = "package";
+	public static final String DROID_NOTIFY_API_TIMESTAMP = "timeStamp";
+	public static final String DROID_NOTIFY_API_DISPLAY_TEXT = "displayText";
+	public static final String DROID_NOTIFY_API_DISMISS_PENDINGINTENT = "dismissPendingIntent";
+	public static final String DROID_NOTIFY_API_DELETE_PENDINGINTENT = "deletePendingIntent";
+	public static final String DROID_NOTIFY_API_VIEW_PENDINGINTENT = "viewPendingIntent";	
+	public static final String DROID_NOTIFY_API_CONTACT_ID  = "contactID";
+	public static final String DROID_NOTIFY_API_CONTACT_NAME  = "contactName";
+	public static final String DROID_NOTIFY_API_SENT_FROM_ADDRESS = "sentFromAddress";	 
+	
+	public static final String DROID_NOTIFY_API_ENABLE_STATUS_BAR_NOTIFICATION = "enableStatusBarNotification";
+	public static final String DROID_NOTIFY_API_STATUS_BAR_NOTIFICATION_SOUND_URI = "statusBarNotificationSoundURI";
+	public static final String DROID_NOTIFY_API_STATUS_BAR_NOTIFICATION_VIBRATE_SETTING = "statusBarNotificationVibrateSetting";
+	public static final String DROID_NOTIFY_API_STATUS_BAR_NOTIFICATION_VIBRATE_PATTERN = "statusBarNotificationVibratePattern";
+	public static final String DROID_NOTIFY_API_STATUS_BAR_NOTIFICATION_LED_ENABLED = "statusBarNotificationLEDEnabled";
+	public static final String DROID_NOTIFY_API_STATUS_BAR_NOTIFICATION_LED_PATTERN = "statusBarNotificationLEDPattern";
+	public static final String DROID_NOTIFY_API_STATUS_BAR_NOTIFICATION_LED_COLOR = "statusBarNotificationLEDColor";
+	public static final String DROID_NOTIFY_API_STATUS_BAR_NOTIFICATION_IN_CALL_SOUND_ENABLED = "statusBarNotificationInCallSoundEnabled";
+	public static final String DROID_NOTIFY_API_STATUS_BAR_NOTIFICATION_IN_CALL_VIBRATE_ENABLED = "statusBarNotificationInCallVibrateEnabled";
 	
 }

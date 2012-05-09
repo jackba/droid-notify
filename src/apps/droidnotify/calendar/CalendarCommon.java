@@ -96,6 +96,9 @@ public class CalendarCommon {
 						null,
 						null,
 						null);
+					if(cursor ==  null){
+						return;
+					}
 					while (cursor.moveToNext()){
 						final String calendarID = cursor.getString(cursor.getColumnIndex(Constants.CALENDAR_ID));
 						String calendarDisplayName = null;
@@ -118,10 +121,13 @@ public class CalendarCommon {
 					if (_debug){
 						Log.e("CalendarCommon.readCalendars() READ CALENDARS ERROR: " + ex.toString());
 						Common.debugReadContentProviderColumns(context, contentProvider + "/calendars", null);
+						cursor.close();
+						return;
 					}
 				}
 				if(calendarIds.isEmpty()){
 					if (_debug) Log.v("CalendarCommon.readCalendars() No calendars were found. Exiting...");
+					cursor.close();
 					return;
 				}
 				// For each calendar, read the events.
@@ -155,6 +161,10 @@ public class CalendarCommon {
 								selection,
 								selectionArgs,
 								sortOrder);
+						if(eventCursor ==  null){
+							cursor.close();
+							return;
+						}
 						while (eventCursor.moveToNext()){
 							long eventCalendarID = eventCursor.getLong(eventCursor.getColumnIndex(Constants.CALENDAR_CALENDAR_ID));
 							String eventID = eventCursor.getString(eventCursor.getColumnIndex(Constants.CALENDAR_EVENT_ID));
@@ -182,12 +192,12 @@ public class CalendarCommon {
 									calendarEventNotificationBundleSingle.putLong(Constants.BUNDLE_CALENDAR_ID, Long.parseLong(calendarID));
 									calendarEventNotificationBundleSingle.putLong(Constants.BUNDLE_CALENDAR_EVENT_ID, Long.parseLong(eventID));
 									calendarEventNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_CALENDAR);
-									scheduleCalendarNotification(context, eventStartTime + dayOfReminderIntervalAllDay, calendarEventNotificationBundleSingle, "apps.droidnotify.VIEW/" + calendarID + "/" + eventID);
+									scheduleCalendarNotification(context, eventStartTime + dayOfReminderIntervalAllDay, calendarEventNotificationBundleSingle, "apps.droidnotifydonate.VIEW/" + calendarID + "/" + eventID);
 									//Schedule the reminder notification if it is enabled.
 									if(preferences.getBoolean(Constants.CALENDAR_REMINDERS_ENABLED_KEY,true)){
 										//Only schedule the all day event if the current time is before the notification time.
 										if((eventStartTime - reminderIntervalAllDay) > currentSystemTime){
-											scheduleCalendarNotification(context, eventStartTime - reminderIntervalAllDay, calendarEventNotificationBundleSingle, "apps.droidnotify.VIEW/" + calendarID + "/" + eventID + "/REMINDER");
+											scheduleCalendarNotification(context, eventStartTime - reminderIntervalAllDay, calendarEventNotificationBundleSingle, "apps.droidnotifydonate.VIEW/" + calendarID + "/" + eventID + "/REMINDER");
 										}
 									}
 								}else{
@@ -203,12 +213,12 @@ public class CalendarCommon {
 									calendarEventNotificationBundleSingle.putLong(Constants.BUNDLE_CALENDAR_ID, Long.parseLong(calendarID));
 									calendarEventNotificationBundleSingle.putLong(Constants.BUNDLE_CALENDAR_EVENT_ID, Long.parseLong(eventID));
 									calendarEventNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_CALENDAR);
-									scheduleCalendarNotification(context, eventStartTime, calendarEventNotificationBundleSingle, "apps.droidnotify.VIEW/" + calendarID + "/" + eventID);
+									scheduleCalendarNotification(context, eventStartTime, calendarEventNotificationBundleSingle, "apps.droidnotifydonate.VIEW/" + calendarID + "/" + eventID);
 									//Schedule the reminder notification if it is enabled.
 									if(preferences.getBoolean(Constants.CALENDAR_REMINDERS_ENABLED_KEY,true)){
 										//Only schedule the event if the current time is before the notification time.
 										if((eventStartTime - reminderInterval) > currentSystemTime){
-											scheduleCalendarNotification(context, eventStartTime - reminderInterval, calendarEventNotificationBundleSingle, "apps.droidnotify.VIEW/" + calendarID + "/" + eventID + "/REMINDER");
+											scheduleCalendarNotification(context, eventStartTime - reminderInterval, calendarEventNotificationBundleSingle, "apps.droidnotifydonate.VIEW/" + calendarID + "/" + eventID + "/REMINDER");
 										}
 									}
 								}
@@ -217,17 +227,22 @@ public class CalendarCommon {
 					}catch(Exception ex){
 						Log.e("CalendarCommon.readCalendars() Event Query ERROR: " + ex.toString());						
 						Common.debugReadContentProviderColumns(context, null, builder.build());
+						eventCursor.close();
+						return;
 					}finally{
 						eventCursor.close();
 					}
 				}
 			}catch(Exception ex){
 				Log.e("CalendarCommon.readCalendars() Calendar Query ERROR: " + ex.toString());
+				cursor.close();
+				return;
 			}finally{
 				cursor.close();
 			}
 		}catch(Exception ex){
 			Log.e("CalendarCommon.readCalendars() ERROR: " + ex.toString());
+			return;
 		}
 	}
 

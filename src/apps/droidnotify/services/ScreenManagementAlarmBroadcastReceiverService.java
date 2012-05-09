@@ -1,5 +1,6 @@
 package apps.droidnotify.services;
 
+import android.content.Context;
 import android.content.Intent;
 
 import apps.droidnotify.common.Common;
@@ -11,7 +12,7 @@ public class ScreenManagementAlarmBroadcastReceiverService extends WakefulIntent
     // Properties
     //================================================================================
 	
-	boolean _debug = false;
+	private boolean _debug = false;
 
 	//================================================================================
 	// Public Methods
@@ -39,9 +40,15 @@ public class ScreenManagementAlarmBroadcastReceiverService extends WakefulIntent
 	protected void doWakefulWork(Intent intent) {
 		if (_debug) Log.v("ScreenManagementAlarmBroadcastReceiverService.doWakefulWork()");
 		try{
-			//Release the KeyguardLock & WakeLock
-			Common.clearKeyguardLock();
-			Common.clearWakeLock();
+			//Check to see if the user is in a linked app. If they are, do not release the wakelock or keyguard.
+			Context context = this.getApplicationContext();
+			if(Common.isUserInLinkedApp(context) || Common.isUserInQuickReplyApp(context)){
+				//Do not release the wakelock or keyguard.
+			}else{
+				//Release the KeyguardLock & WakeLock
+				Common.clearKeyguardLock();
+				Common.clearWakeLock();
+			}
 		}catch(Exception ex){
 			Log.e("ScreenManagementAlarmBroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());
 		}
