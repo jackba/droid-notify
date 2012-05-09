@@ -46,6 +46,7 @@ public class Constants {
 	public static final String BUNDLE_DISMISS_PENDINGINTENT  = "dismissPendingIntent";
 	public static final String BUNDLE_DELETE_PENDINGINTENT  = "deletePendingIntent";
 	public static final String BUNDLE_VIEW_PENDINGINTENT  = "viewPendingIntent";
+	public static final String BUNDLE_STATUS_BAR_NOTIFICATON_BUNDLE  = "statusBarNotificationBundle";
 	public static final String BUNDLE_ENABLE_STATUS_BAR_NOTIFICATION = "enableStatusBarNotification";
 	public static final String BUNDLE_STATUS_BAR_NOTIFICATION_SOUND_URI = "statusBarNotificationSoundURI";
 	public static final String BUNDLE_STATUS_BAR_NOTIFICATION_VIBRATE_SETTING = "statusBarNotificationVibrateSetting";
@@ -742,15 +743,17 @@ public class Constants {
 	public static final String DROID_NOTIFY_API_VIEW_PENDINGINTENT = "viewPendingIntent";	
 	public static final String DROID_NOTIFY_API_CONTACT_ID  = "contactID";
 	public static final String DROID_NOTIFY_API_CONTACT_NAME  = "contactName";
-	public static final String DROID_NOTIFY_API_SENT_FROM_ADDRESS = "sentFromAddress";	 
-	
+	public static final String DROID_NOTIFY_API_SENT_FROM_ADDRESS = "sentFromAddress";	
 	public static final String DROID_NOTIFY_API_ENABLE_STATUS_BAR_NOTIFICATION = "enableStatusBarNotification";
 	public static final String DROID_NOTIFY_API_STATUS_BAR_NOTIFICATION_SOUND_URI = "statusBarNotificationSoundURI";
+	public static final String DROID_NOTIFY_API_STATUS_BAR_NOTIFICATIONS_VIBRATE_ALWAYS_VALUE = "0";
+	public static final String DROID_NOTIFY_API_STATUS_BAR_NOTIFICATIONS_VIBRATE_NEVER_VALUE = "1";
+	public static final String DROID_NOTIFY_API_STATUS_BAR_NOTIFICATIONS_VIBRATE_WHEN_VIBRATE_MODE_VALUE = "2";
 	public static final String DROID_NOTIFY_API_STATUS_BAR_NOTIFICATION_VIBRATE_SETTING = "statusBarNotificationVibrateSetting";
 	public static final String DROID_NOTIFY_API_STATUS_BAR_NOTIFICATION_VIBRATE_PATTERN = "statusBarNotificationVibratePattern";
-	public static final String DROID_NOTIFY_API_STATUS_BAR_NOTIFICATION_LED_ENABLED = "statusBarNotificationLEDEnabled";
-	public static final String DROID_NOTIFY_API_STATUS_BAR_NOTIFICATION_LED_PATTERN = "statusBarNotificationLEDPattern";
-	public static final String DROID_NOTIFY_API_STATUS_BAR_NOTIFICATION_LED_COLOR = "statusBarNotificationLEDColor";
+	//public static final String DROID_NOTIFY_API_STATUS_BAR_NOTIFICATION_LED_ENABLED = "statusBarNotificationLEDEnabled";
+	//public static final String DROID_NOTIFY_API_STATUS_BAR_NOTIFICATION_LED_PATTERN = "statusBarNotificationLEDPattern";
+	//public static final String DROID_NOTIFY_API_STATUS_BAR_NOTIFICATION_LED_COLOR = "statusBarNotificationLEDColor";
 	public static final String DROID_NOTIFY_API_STATUS_BAR_NOTIFICATION_IN_CALL_SOUND_ENABLED = "statusBarNotificationInCallSoundEnabled";
 	public static final String DROID_NOTIFY_API_STATUS_BAR_NOTIFICATION_IN_CALL_VIBRATE_ENABLED = "statusBarNotificationInCallVibrateEnabled";
 	

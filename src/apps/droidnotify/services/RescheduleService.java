@@ -141,9 +141,8 @@ public class RescheduleService extends WakefulIntentService {
 							for(int i=1;i<=bundleCount;i++){
 								Bundle rescheduleNotificationBundleSingle = rescheduleNotificationBundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_" + String.valueOf(i));
 				    			if(rescheduleNotificationBundleSingle != null){
-				    				Common.getStatusBarNotificationBundle(context, rescheduleNotificationBundleSingle.getInt(Constants.BUNDLE_NOTIFICATION_TYPE));
 									//Display Status Bar Notification
-								    Common.setStatusBarNotification(context, 1, rescheduleNotificationBundleSingle.getInt(Constants.BUNDLE_NOTIFICATION_TYPE), rescheduleNotificationBundleSingle.getInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE), callStateIdle, rescheduleNotificationBundleSingle.getString(Constants.BUNDLE_CONTACT_NAME), rescheduleNotificationBundleSingle.getLong(Constants.BUNDLE_CONTACT_ID, -1), rescheduleNotificationBundleSingle.getString(Constants.BUNDLE_SENT_FROM_ADDRESS), rescheduleNotificationBundleSingle.getString(Constants.BUNDLE_MESSAGE_BODY), rescheduleNotificationBundleSingle.getString(Constants.BUNDLE_K9_EMAIL_URI), rescheduleNotificationBundleSingle.getString(Constants.BUNDLE_LINK_URL), false);
+								    Common.setStatusBarNotification(context, 1, notificationType, rescheduleNotificationBundleSingle.getInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE), callStateIdle, rescheduleNotificationBundleSingle.getString(Constants.BUNDLE_CONTACT_NAME), rescheduleNotificationBundleSingle.getLong(Constants.BUNDLE_CONTACT_ID, -1), rescheduleNotificationBundleSingle.getString(Constants.BUNDLE_SENT_FROM_ADDRESS), rescheduleNotificationBundleSingle.getString(Constants.BUNDLE_MESSAGE_BODY), rescheduleNotificationBundleSingle.getString(Constants.BUNDLE_K9_EMAIL_URI), rescheduleNotificationBundleSingle.getString(Constants.BUNDLE_LINK_URL), false, Common.getStatusBarNotificationBundle(context, notificationType));
 				    			}
 							}			    			
 						}

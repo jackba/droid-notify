@@ -1547,7 +1547,8 @@ public class NotificationActivity extends Activity{
 				//Get the notification count based on the notification type.
 				int notificationTypecount = getNotificationTypeCount(notificationBundleSingle.getInt(Constants.BUNDLE_NOTIFICATION_TYPE, -1), notificationBundleSingle.getInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, -1));
 				//Display Status Bar Notification
-			    Common.setStatusBarNotification(_context, notificationTypecount, notificationBundleSingle.getInt(Constants.BUNDLE_NOTIFICATION_TYPE, -1), notificationBundleSingle.getInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, -1), true, notificationBundleSingle.getString(Constants.BUNDLE_CONTACT_NAME), notificationBundleSingle.getLong(Constants.BUNDLE_CONTACT_ID, -1), notificationBundleSingle.getString(Constants.BUNDLE_SENT_FROM_ADDRESS), notificationBundleSingle.getString(Constants.BUNDLE_MESSAGE_BODY), notificationBundleSingle.getString(Constants.BUNDLE_K9_EMAIL_URI), notificationBundleSingle.getString(Constants.BUNDLE_LINK_URL), false);
+				int notificationType = notificationBundleSingle.getInt(Constants.BUNDLE_NOTIFICATION_TYPE, -1);
+			    Common.setStatusBarNotification(_context, notificationTypecount, notificationType, notificationBundleSingle.getInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, -1), true, notificationBundleSingle.getString(Constants.BUNDLE_CONTACT_NAME), notificationBundleSingle.getLong(Constants.BUNDLE_CONTACT_ID, -1), notificationBundleSingle.getString(Constants.BUNDLE_SENT_FROM_ADDRESS), notificationBundleSingle.getString(Constants.BUNDLE_MESSAGE_BODY), notificationBundleSingle.getString(Constants.BUNDLE_K9_EMAIL_URI), notificationBundleSingle.getString(Constants.BUNDLE_LINK_URL), false, Common.getStatusBarNotificationBundle(_context, notificationType));
 			}
 			return displayPopup;
 		}catch(Exception ex){
@@ -1575,6 +1576,8 @@ public class NotificationActivity extends Activity{
 			if(displayPopup){
 				//Create and Add Notification to ViewFlipper.
 				_notificationViewFlipper.addNotification(new Notification(_context, bundle));
+				//Create the status bar notification bundle.
+			    Common.setStatusBarNotification(_context, 1, Constants.NOTIFICATION_TYPE_GENERIC, -1, true, null, -1, null, null, null, null, false, bundle);
 			}
 			return displayPopup;
 		}catch(Exception ex){

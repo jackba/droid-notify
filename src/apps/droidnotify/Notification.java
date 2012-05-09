@@ -113,6 +113,7 @@ public class Notification {
 			_dismissPendingIntent = notificationBundle.getParcelable(Constants.BUNDLE_DISMISS_PENDINGINTENT);
 			_deletePendingIntent = notificationBundle.getParcelable(Constants.BUNDLE_DELETE_PENDINGINTENT);
 			_viewPendingIntent = notificationBundle.getParcelable(Constants.BUNDLE_VIEW_PENDINGINTENT);
+			_statusBarNotificationBundle = notificationBundle.getBundle(Constants.BUNDLE_STATUS_BAR_NOTIFICATON_BUNDLE);
 			
 			//Customize the Notification based on what was provided.
 			if(_sentFromAddress != null && _sentFromAddress.equals("")) _sentFromAddress = null;
@@ -230,6 +231,7 @@ public class Notification {
 		notificationBundle.putParcelable(Constants.BUNDLE_DISMISS_PENDINGINTENT, _dismissPendingIntent);
 		notificationBundle.putParcelable(Constants.BUNDLE_DELETE_PENDINGINTENT, _deletePendingIntent);
 		notificationBundle.putParcelable(Constants.BUNDLE_VIEW_PENDINGINTENT, _viewPendingIntent);
+		notificationBundle.putBundle(Constants.BUNDLE_STATUS_BAR_NOTIFICATON_BUNDLE, _statusBarNotificationBundle);
 		return notificationBundle;
 	}
 	
@@ -569,7 +571,7 @@ public class Notification {
 	/**
 	 * Get the packageName property.
 	 * 
-	 * @return String - The name of the package of the source of the generic notificaiton.
+	 * @return String - The name of the package of the source of the generic notification.
 	 */
 	public String getPackageName() {
 		if (_debug) Log.v("Notification.getPackageName()");
