@@ -486,8 +486,10 @@ public class NotificationViewFlipper extends ViewFlipper {
 				}
 				// Remove the view from the ViewFlipper.
 				removeViewAt(index);
-		    	//Update the status bar notificatinos.
-		    	updateStatusBarNotifications(notification.getNotificationType(), notification.getNotificationSubType());
+		    	//Update the status bar notifications.
+				if(notificationType != Constants.NOTIFICATION_TYPE_GENERIC){
+			    	updateStatusBarNotifications(notification.getNotificationType(), notification.getNotificationSubType());
+				}
 			}catch(Exception ex){
 				if(_debug) Log.v("NotificationViewFlipper.removeNotification() [Total Notification > 1] ERROR: " + ex.toString());
 			}
@@ -659,7 +661,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 				linkURL = notification.getLinkURL();
 			}
 			//Display Status Bar Notification
-		    Common.setStatusBarNotification(_context, notificationTypecount, notificationType, notificationSubType, true, sentFromContactName, sentFromContactID, sentFromAddress, message, k9EmailUri, linkURL, true);
+		    Common.setStatusBarNotification(_context, notificationTypecount, notificationType, notificationSubType, true, sentFromContactName, sentFromContactID, sentFromAddress, message, k9EmailUri, linkURL, true, Common.getStatusBarNotificationBundle(_context, notificationType));
 		}
 	}
 	

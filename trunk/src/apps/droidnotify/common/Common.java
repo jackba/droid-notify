@@ -278,164 +278,13 @@ public class Common {
 	    }
 		return false;
 	}
-
-	/**
-	 * 
-	 * @param context
-	 * @param notificationType
-	 * @return
-	 */
-	public static Bundle getStatusBarNotificationBundle(Context context, int notificationType){
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-		String vibratePattern = null;
-		String LEDPattern = null;
-		String LEDColor = null;		
-		Bundle statusBarnotificationBundle = new Bundle();
-		//Load values into the preference keys based on the notification type.
-		switch(notificationType){
-			case Constants.NOTIFICATION_TYPE_SMS:{				
-				statusBarnotificationBundle.putBoolean(Constants.BUNDLE_ENABLE_STATUS_BAR_NOTIFICATION, preferences.getBoolean(Constants.SMS_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY, true));
-				statusBarnotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_SOUND_URI, preferences.getString(Constants.SMS_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY, Constants.STATUS_BAR_NOTIFICATIONS_RINGTONE_DEFAULT));
-				statusBarnotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_VIBRATE_SETTING, preferences.getString(Constants.SMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_ALWAYS_VALUE));
-				vibratePattern = preferences.getString(Constants.SMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_DEFAULT);
-				if(vibratePattern.equals(Constants.SMS_STATUS_BAR_NOTIFICATIONS_CUSTOM_VALUE)){				
-					statusBarnotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_VIBRATE_PATTERN, preferences.getString(Constants.SMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_DEFAULT));
-				}else{
-					statusBarnotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_VIBRATE_PATTERN, vibratePattern);
-				}
-				statusBarnotificationBundle.putBoolean(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_ENABLED, preferences.getBoolean(Constants.SMS_STATUS_BAR_NOTIFICATIONS_LED_ENABLED_KEY, true));
-				LEDPattern = preferences.getString(Constants.SMS_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_KEY, Constants.STATUS_BAR_NOTIFICATIONS_LED_PATTERN_DEFAULT);
-				if(LEDPattern.equals(Constants.SMS_STATUS_BAR_NOTIFICATIONS_CUSTOM_VALUE)){
-					statusBarnotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_PATTERN, preferences.getString(Constants.SMS_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_KEY, Constants.STATUS_BAR_NOTIFICATIONS_LED_PATTERN_DEFAULT));
-				}else{
-					statusBarnotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_PATTERN, LEDPattern);
-				}
-				LEDColor = preferences.getString(Constants.SMS_STATUS_BAR_NOTIFICATIONS_LED_COLOR_KEY, Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT);
-				if(LEDColor.equals(Constants.SMS_STATUS_BAR_NOTIFICATIONS_CUSTOM_VALUE)){
-					statusBarnotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, preferences.getString(Constants.SMS_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_KEY, Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT));
-				}else{
-					statusBarnotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, LEDColor);
-				}
-				statusBarnotificationBundle.putBoolean(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_IN_CALL_SOUND_ENABLED, preferences.getBoolean(Constants.SMS_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY, false));
-				statusBarnotificationBundle.putBoolean(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_IN_CALL_VIBRATE_ENABLED, preferences.getBoolean(Constants.SMS_STATUS_BAR_NOTIFICATIONS_IN_CALL_VIBRATE_ENABLED_KEY, true));
-				break;
-			}
-			case Constants.NOTIFICATION_TYPE_MMS:{
-				statusBarnotificationBundle.putBoolean(Constants.BUNDLE_ENABLE_STATUS_BAR_NOTIFICATION, preferences.getBoolean(Constants.MMS_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY, true));
-				statusBarnotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_SOUND_URI, preferences.getString(Constants.MMS_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY, Constants.STATUS_BAR_NOTIFICATIONS_RINGTONE_DEFAULT));
-				statusBarnotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_VIBRATE_SETTING, preferences.getString(Constants.MMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_ALWAYS_VALUE));
-				vibratePattern = preferences.getString(Constants.MMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_DEFAULT);
-				if(vibratePattern.equals(Constants.MMS_STATUS_BAR_NOTIFICATIONS_CUSTOM_VALUE)){				
-					statusBarnotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_VIBRATE_PATTERN, preferences.getString(Constants.MMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_DEFAULT));
-				}else{
-					statusBarnotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_VIBRATE_PATTERN, vibratePattern);
-				}
-				statusBarnotificationBundle.putBoolean(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_ENABLED, preferences.getBoolean(Constants.MMS_STATUS_BAR_NOTIFICATIONS_LED_ENABLED_KEY, true));
-				LEDPattern = preferences.getString(Constants.MMS_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_KEY, Constants.STATUS_BAR_NOTIFICATIONS_LED_PATTERN_DEFAULT);
-				if(LEDPattern.equals(Constants.MMS_STATUS_BAR_NOTIFICATIONS_CUSTOM_VALUE)){
-					statusBarnotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_PATTERN, preferences.getString(Constants.MMS_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_KEY, Constants.STATUS_BAR_NOTIFICATIONS_LED_PATTERN_DEFAULT));
-				}else{
-					statusBarnotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_PATTERN, LEDPattern);
-				}
-				LEDColor = preferences.getString(Constants.MMS_STATUS_BAR_NOTIFICATIONS_LED_COLOR_KEY, Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT);
-				if(LEDColor.equals(Constants.MMS_STATUS_BAR_NOTIFICATIONS_CUSTOM_VALUE)){
-					statusBarnotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, preferences.getString(Constants.MMS_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_KEY, Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT));
-				}else{
-					statusBarnotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, LEDColor);
-				}
-				statusBarnotificationBundle.putBoolean(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_IN_CALL_SOUND_ENABLED, preferences.getBoolean(Constants.MMS_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY, false));
-				statusBarnotificationBundle.putBoolean(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_IN_CALL_VIBRATE_ENABLED, preferences.getBoolean(Constants.MMS_STATUS_BAR_NOTIFICATIONS_IN_CALL_VIBRATE_ENABLED_KEY, true));
-				break;
-			}
-			case Constants.NOTIFICATION_TYPE_PHONE:{
-				statusBarnotificationBundle.putBoolean(Constants.BUNDLE_ENABLE_STATUS_BAR_NOTIFICATION, preferences.getBoolean(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY, true));
-				statusBarnotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_SOUND_URI, preferences.getString(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY, Constants.STATUS_BAR_NOTIFICATIONS_RINGTONE_DEFAULT));
-				statusBarnotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_VIBRATE_SETTING, preferences.getString(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_ALWAYS_VALUE));
-				vibratePattern = preferences.getString(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_DEFAULT);
-				if(vibratePattern.equals(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_CUSTOM_VALUE)){				
-					statusBarnotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_VIBRATE_PATTERN, preferences.getString(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_DEFAULT));
-				}else{
-					statusBarnotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_VIBRATE_PATTERN, vibratePattern);
-				}
-				statusBarnotificationBundle.putBoolean(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_ENABLED, preferences.getBoolean(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_LED_ENABLED_KEY, true));
-				LEDPattern = preferences.getString(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_KEY, Constants.STATUS_BAR_NOTIFICATIONS_LED_PATTERN_DEFAULT);
-				if(LEDPattern.equals(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_CUSTOM_VALUE)){
-					statusBarnotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_PATTERN, preferences.getString(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_KEY, Constants.STATUS_BAR_NOTIFICATIONS_LED_PATTERN_DEFAULT));
-				}else{
-					statusBarnotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_PATTERN, LEDPattern);
-				}
-				LEDColor = preferences.getString(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_LED_COLOR_KEY, Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT);
-				if(LEDColor.equals(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_CUSTOM_VALUE)){
-					statusBarnotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, preferences.getString(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_KEY, Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT));
-				}else{
-					statusBarnotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, LEDColor);
-				}
-				statusBarnotificationBundle.putBoolean(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_IN_CALL_SOUND_ENABLED, preferences.getBoolean(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY, false));
-				statusBarnotificationBundle.putBoolean(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_IN_CALL_VIBRATE_ENABLED, preferences.getBoolean(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_IN_CALL_VIBRATE_ENABLED_KEY, true));
-				break;
-			}
-			case Constants.NOTIFICATION_TYPE_CALENDAR:{
-				statusBarnotificationBundle.putBoolean(Constants.BUNDLE_ENABLE_STATUS_BAR_NOTIFICATION, preferences.getBoolean(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY, true));
-				statusBarnotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_SOUND_URI, preferences.getString(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY, Constants.STATUS_BAR_NOTIFICATIONS_RINGTONE_DEFAULT));
-				statusBarnotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_VIBRATE_SETTING, preferences.getString(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_ALWAYS_VALUE));
-				vibratePattern = preferences.getString(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_DEFAULT);
-				if(vibratePattern.equals(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_CUSTOM_VALUE)){				
-					statusBarnotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_VIBRATE_PATTERN, preferences.getString(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_DEFAULT));
-				}else{
-					statusBarnotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_VIBRATE_PATTERN, vibratePattern);
-				}
-				statusBarnotificationBundle.putBoolean(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_ENABLED, preferences.getBoolean(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_LED_ENABLED_KEY, true));
-				LEDPattern = preferences.getString(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_KEY, Constants.STATUS_BAR_NOTIFICATIONS_LED_PATTERN_DEFAULT);
-				if(LEDPattern.equals(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_CUSTOM_VALUE)){
-					statusBarnotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_PATTERN, preferences.getString(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_KEY, Constants.STATUS_BAR_NOTIFICATIONS_LED_PATTERN_DEFAULT));
-				}else{
-					statusBarnotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_PATTERN, LEDPattern);
-				}
-				LEDColor = preferences.getString(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_LED_COLOR_KEY, Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT);
-				if(LEDColor.equals(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_CUSTOM_VALUE)){
-					statusBarnotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, preferences.getString(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_KEY, Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT));
-				}else{
-					statusBarnotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, LEDColor);
-				}
-				statusBarnotificationBundle.putBoolean(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_IN_CALL_SOUND_ENABLED, preferences.getBoolean(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY, false));
-				statusBarnotificationBundle.putBoolean(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_IN_CALL_VIBRATE_ENABLED, preferences.getBoolean(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_IN_CALL_VIBRATE_ENABLED_KEY, true));
-				break;
-			}
-			case Constants.NOTIFICATION_TYPE_K9:{
-				statusBarnotificationBundle.putBoolean(Constants.BUNDLE_ENABLE_STATUS_BAR_NOTIFICATION, preferences.getBoolean(Constants.K9_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY, true));
-				statusBarnotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_SOUND_URI, preferences.getString(Constants.K9_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY, Constants.STATUS_BAR_NOTIFICATIONS_RINGTONE_DEFAULT));
-				statusBarnotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_VIBRATE_SETTING, preferences.getString(Constants.K9_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_ALWAYS_VALUE));
-				vibratePattern = preferences.getString(Constants.K9_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_DEFAULT);
-				if(vibratePattern.equals(Constants.K9_STATUS_BAR_NOTIFICATIONS_CUSTOM_VALUE)){				
-					statusBarnotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_VIBRATE_PATTERN, preferences.getString(Constants.K9_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_DEFAULT));
-				}else{
-					statusBarnotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_VIBRATE_PATTERN, vibratePattern);
-				}
-				statusBarnotificationBundle.putBoolean(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_ENABLED, preferences.getBoolean(Constants.K9_STATUS_BAR_NOTIFICATIONS_LED_ENABLED_KEY, true));
-				LEDPattern = preferences.getString(Constants.K9_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_KEY, Constants.STATUS_BAR_NOTIFICATIONS_LED_PATTERN_DEFAULT);
-				if(LEDPattern.equals(Constants.K9_STATUS_BAR_NOTIFICATIONS_CUSTOM_VALUE)){
-					statusBarnotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_PATTERN, preferences.getString(Constants.K9_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_KEY, Constants.STATUS_BAR_NOTIFICATIONS_LED_PATTERN_DEFAULT));
-				}else{
-					statusBarnotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_PATTERN, LEDPattern);
-				}
-				LEDColor = preferences.getString(Constants.K9_STATUS_BAR_NOTIFICATIONS_LED_COLOR_KEY, Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT);
-				if(LEDColor.equals(Constants.K9_STATUS_BAR_NOTIFICATIONS_CUSTOM_VALUE)){
-					statusBarnotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, preferences.getString(Constants.K9_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_KEY, Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT));
-				}else{
-					statusBarnotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, LEDColor);
-				}
-				statusBarnotificationBundle.putBoolean(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_IN_CALL_SOUND_ENABLED, preferences.getBoolean(Constants.K9_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY, false));
-				statusBarnotificationBundle.putBoolean(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_IN_CALL_VIBRATE_ENABLED, preferences.getBoolean(Constants.K9_STATUS_BAR_NOTIFICATIONS_IN_CALL_VIBRATE_ENABLED_KEY, true));
-				break;
-			}
-		}
-		return statusBarnotificationBundle;
-	}
 	
 	/**
 	 * Convert a GMT timestamp to the phones local time.
 	 * 
+	 * @param context - The application context.
 	 * @param inputTimestamp - GMT timestamp we want to convert.
+	 * @param isTimeUTC - Boolean indicating if the input time is in UTC/GMT.
 	 * 
 	 * @return long - The timestamp in the phones local time.
 	 */
@@ -451,19 +300,230 @@ public class Common {
 		if (_debug) Log.v("Common.convertGMTToLocalTime() OutputTimeStamp: " + outputTimeStamp);
 	    return outputTimeStamp;
 	}
+
+	/**
+	 * Get a bundle that contains the status bar notification settings for a notification type.
+	 * 
+	 * @param context - The application context.
+	 * @param notificationType - The type of notification we are working with.
+	 * 
+	 * @return Bundle - The bundle containing the status bar notification settings.
+	 */
+	public static Bundle getStatusBarNotificationBundle(Context context, int notificationType){
+		_debug = Log.getDebug();
+        if(_debug) Log.v("Common.getStatusBarNotificationBundle()");
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		String vibratePattern = null;
+		String LEDPattern = null;
+		String LEDColor = null;		
+		Bundle statusBarNotificationBundle = new Bundle();
+		//Load values into the preference keys based on the notification type.
+		switch(notificationType){
+			case Constants.NOTIFICATION_TYPE_SMS:{				
+				statusBarNotificationBundle.putBoolean(Constants.BUNDLE_ENABLE_STATUS_BAR_NOTIFICATION, preferences.getBoolean(Constants.SMS_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY, true));
+				statusBarNotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_SOUND_URI, preferences.getString(Constants.SMS_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY, Constants.STATUS_BAR_NOTIFICATIONS_RINGTONE_DEFAULT));
+				statusBarNotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_VIBRATE_SETTING, preferences.getString(Constants.SMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_ALWAYS_VALUE));
+				vibratePattern = preferences.getString(Constants.SMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_DEFAULT);
+				if(vibratePattern.equals(Constants.SMS_STATUS_BAR_NOTIFICATIONS_CUSTOM_VALUE)){				
+					statusBarNotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_VIBRATE_PATTERN, preferences.getString(Constants.SMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_DEFAULT));
+				}else{
+					statusBarNotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_VIBRATE_PATTERN, vibratePattern);
+				}
+				statusBarNotificationBundle.putBoolean(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_ENABLED, preferences.getBoolean(Constants.SMS_STATUS_BAR_NOTIFICATIONS_LED_ENABLED_KEY, true));
+				LEDPattern = preferences.getString(Constants.SMS_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_KEY, Constants.STATUS_BAR_NOTIFICATIONS_LED_PATTERN_DEFAULT);
+				if(LEDPattern.equals(Constants.SMS_STATUS_BAR_NOTIFICATIONS_CUSTOM_VALUE)){
+					statusBarNotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_PATTERN, preferences.getString(Constants.SMS_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_KEY, Constants.STATUS_BAR_NOTIFICATIONS_LED_PATTERN_DEFAULT));
+				}else{
+					statusBarNotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_PATTERN, LEDPattern);
+				}
+				LEDColor = preferences.getString(Constants.SMS_STATUS_BAR_NOTIFICATIONS_LED_COLOR_KEY, Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT);
+				if(LEDColor.equals(Constants.SMS_STATUS_BAR_NOTIFICATIONS_CUSTOM_VALUE)){
+					try{
+						statusBarNotificationBundle.putInt(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, Integer.parseInt(preferences.getString(Constants.SMS_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_KEY, Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT)));
+					}catch(Exception ex){
+						statusBarNotificationBundle.putInt(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, Color.parseColor(Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT));
+						Log.e("Common.setStatusBarNotification() LED Color Parsing Failed. ERROR: " + ex.toString());
+					}
+				}else{
+					try{
+						statusBarNotificationBundle.putInt(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, Color.parseColor(LEDColor));
+					}catch(Exception ex){
+						statusBarNotificationBundle.putInt(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, Color.parseColor(Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT));
+						Log.e("Common.setStatusBarNotification() LED Color Parsing Failed. ERROR: " + ex.toString());
+					}
+				}
+				statusBarNotificationBundle.putBoolean(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_IN_CALL_SOUND_ENABLED, preferences.getBoolean(Constants.SMS_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY, false));
+				statusBarNotificationBundle.putBoolean(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_IN_CALL_VIBRATE_ENABLED, preferences.getBoolean(Constants.SMS_STATUS_BAR_NOTIFICATIONS_IN_CALL_VIBRATE_ENABLED_KEY, true));
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_MMS:{
+				statusBarNotificationBundle.putBoolean(Constants.BUNDLE_ENABLE_STATUS_BAR_NOTIFICATION, preferences.getBoolean(Constants.MMS_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY, true));
+				statusBarNotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_SOUND_URI, preferences.getString(Constants.MMS_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY, Constants.STATUS_BAR_NOTIFICATIONS_RINGTONE_DEFAULT));
+				statusBarNotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_VIBRATE_SETTING, preferences.getString(Constants.MMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_ALWAYS_VALUE));
+				vibratePattern = preferences.getString(Constants.MMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_DEFAULT);
+				if(vibratePattern.equals(Constants.MMS_STATUS_BAR_NOTIFICATIONS_CUSTOM_VALUE)){				
+					statusBarNotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_VIBRATE_PATTERN, preferences.getString(Constants.MMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_DEFAULT));
+				}else{
+					statusBarNotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_VIBRATE_PATTERN, vibratePattern);
+				}
+				statusBarNotificationBundle.putBoolean(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_ENABLED, preferences.getBoolean(Constants.MMS_STATUS_BAR_NOTIFICATIONS_LED_ENABLED_KEY, true));
+				LEDPattern = preferences.getString(Constants.MMS_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_KEY, Constants.STATUS_BAR_NOTIFICATIONS_LED_PATTERN_DEFAULT);
+				if(LEDPattern.equals(Constants.MMS_STATUS_BAR_NOTIFICATIONS_CUSTOM_VALUE)){
+					statusBarNotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_PATTERN, preferences.getString(Constants.MMS_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_KEY, Constants.STATUS_BAR_NOTIFICATIONS_LED_PATTERN_DEFAULT));
+				}else{
+					statusBarNotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_PATTERN, LEDPattern);
+				}
+				LEDColor = preferences.getString(Constants.MMS_STATUS_BAR_NOTIFICATIONS_LED_COLOR_KEY, Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT);
+				if(LEDColor.equals(Constants.MMS_STATUS_BAR_NOTIFICATIONS_CUSTOM_VALUE)){
+					try{
+						statusBarNotificationBundle.putInt(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, Integer.parseInt(preferences.getString(Constants.MMS_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_KEY, Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT)));
+					}catch(Exception ex){
+						statusBarNotificationBundle.putInt(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, Color.parseColor(Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT));
+						Log.e("Common.setStatusBarNotification() LED Color Parsing Failed. ERROR: " + ex.toString());
+					}
+				}else{
+					try{
+						statusBarNotificationBundle.putInt(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, Color.parseColor(LEDColor));
+					}catch(Exception ex){
+						statusBarNotificationBundle.putInt(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, Color.parseColor(Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT));
+						Log.e("Common.setStatusBarNotification() LED Color Parsing Failed. ERROR: " + ex.toString());
+					}
+				}
+				statusBarNotificationBundle.putBoolean(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_IN_CALL_SOUND_ENABLED, preferences.getBoolean(Constants.MMS_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY, false));
+				statusBarNotificationBundle.putBoolean(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_IN_CALL_VIBRATE_ENABLED, preferences.getBoolean(Constants.MMS_STATUS_BAR_NOTIFICATIONS_IN_CALL_VIBRATE_ENABLED_KEY, true));
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_PHONE:{
+				statusBarNotificationBundle.putBoolean(Constants.BUNDLE_ENABLE_STATUS_BAR_NOTIFICATION, preferences.getBoolean(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY, true));
+				statusBarNotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_SOUND_URI, preferences.getString(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY, Constants.STATUS_BAR_NOTIFICATIONS_RINGTONE_DEFAULT));
+				statusBarNotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_VIBRATE_SETTING, preferences.getString(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_ALWAYS_VALUE));
+				vibratePattern = preferences.getString(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_DEFAULT);
+				if(vibratePattern.equals(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_CUSTOM_VALUE)){				
+					statusBarNotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_VIBRATE_PATTERN, preferences.getString(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_DEFAULT));
+				}else{
+					statusBarNotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_VIBRATE_PATTERN, vibratePattern);
+				}
+				statusBarNotificationBundle.putBoolean(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_ENABLED, preferences.getBoolean(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_LED_ENABLED_KEY, true));
+				LEDPattern = preferences.getString(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_KEY, Constants.STATUS_BAR_NOTIFICATIONS_LED_PATTERN_DEFAULT);
+				if(LEDPattern.equals(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_CUSTOM_VALUE)){
+					statusBarNotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_PATTERN, preferences.getString(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_KEY, Constants.STATUS_BAR_NOTIFICATIONS_LED_PATTERN_DEFAULT));
+				}else{
+					statusBarNotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_PATTERN, LEDPattern);
+				}
+				LEDColor = preferences.getString(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_LED_COLOR_KEY, Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT);
+				if(LEDColor.equals(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_CUSTOM_VALUE)){
+					try{
+						statusBarNotificationBundle.putInt(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, Integer.parseInt(preferences.getString(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_KEY, Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT)));
+					}catch(Exception ex){
+						statusBarNotificationBundle.putInt(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, Color.parseColor(Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT));
+						Log.e("Common.setStatusBarNotification() LED Color Parsing Failed. ERROR: " + ex.toString());
+					}
+				}else{
+					try{
+						statusBarNotificationBundle.putInt(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, Color.parseColor(LEDColor));
+					}catch(Exception ex){
+						statusBarNotificationBundle.putInt(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, Color.parseColor(Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT));
+						Log.e("Common.setStatusBarNotification() LED Color Parsing Failed. ERROR: " + ex.toString());
+					}
+				}
+				statusBarNotificationBundle.putBoolean(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_IN_CALL_SOUND_ENABLED, preferences.getBoolean(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY, false));
+				statusBarNotificationBundle.putBoolean(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_IN_CALL_VIBRATE_ENABLED, preferences.getBoolean(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_IN_CALL_VIBRATE_ENABLED_KEY, true));
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_CALENDAR:{
+				statusBarNotificationBundle.putBoolean(Constants.BUNDLE_ENABLE_STATUS_BAR_NOTIFICATION, preferences.getBoolean(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY, true));
+				statusBarNotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_SOUND_URI, preferences.getString(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY, Constants.STATUS_BAR_NOTIFICATIONS_RINGTONE_DEFAULT));
+				statusBarNotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_VIBRATE_SETTING, preferences.getString(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_ALWAYS_VALUE));
+				vibratePattern = preferences.getString(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_DEFAULT);
+				if(vibratePattern.equals(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_CUSTOM_VALUE)){				
+					statusBarNotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_VIBRATE_PATTERN, preferences.getString(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_DEFAULT));
+				}else{
+					statusBarNotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_VIBRATE_PATTERN, vibratePattern);
+				}
+				statusBarNotificationBundle.putBoolean(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_ENABLED, preferences.getBoolean(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_LED_ENABLED_KEY, true));
+				LEDPattern = preferences.getString(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_KEY, Constants.STATUS_BAR_NOTIFICATIONS_LED_PATTERN_DEFAULT);
+				if(LEDPattern.equals(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_CUSTOM_VALUE)){
+					statusBarNotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_PATTERN, preferences.getString(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_KEY, Constants.STATUS_BAR_NOTIFICATIONS_LED_PATTERN_DEFAULT));
+				}else{
+					statusBarNotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_PATTERN, LEDPattern);
+				}
+				LEDColor = preferences.getString(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_LED_COLOR_KEY, Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT);
+				if(LEDColor.equals(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_CUSTOM_VALUE)){
+					try{
+						statusBarNotificationBundle.putInt(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, Integer.parseInt(preferences.getString(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_KEY, Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT)));
+					}catch(Exception ex){
+						statusBarNotificationBundle.putInt(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, Color.parseColor(Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT));
+						Log.e("Common.setStatusBarNotification() LED Color Parsing Failed. ERROR: " + ex.toString());
+					}
+				}else{
+					try{
+						statusBarNotificationBundle.putInt(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, Color.parseColor(LEDColor));
+					}catch(Exception ex){
+						statusBarNotificationBundle.putInt(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, Color.parseColor(Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT));
+						Log.e("Common.setStatusBarNotification() LED Color Parsing Failed. ERROR: " + ex.toString());
+					}
+				}
+				statusBarNotificationBundle.putBoolean(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_IN_CALL_SOUND_ENABLED, preferences.getBoolean(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY, false));
+				statusBarNotificationBundle.putBoolean(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_IN_CALL_VIBRATE_ENABLED, preferences.getBoolean(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_IN_CALL_VIBRATE_ENABLED_KEY, true));
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_K9:{
+				statusBarNotificationBundle.putBoolean(Constants.BUNDLE_ENABLE_STATUS_BAR_NOTIFICATION, preferences.getBoolean(Constants.K9_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY, true));
+				statusBarNotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_SOUND_URI, preferences.getString(Constants.K9_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY, Constants.STATUS_BAR_NOTIFICATIONS_RINGTONE_DEFAULT));
+				statusBarNotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_VIBRATE_SETTING, preferences.getString(Constants.K9_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_ALWAYS_VALUE));
+				vibratePattern = preferences.getString(Constants.K9_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_DEFAULT);
+				if(vibratePattern.equals(Constants.K9_STATUS_BAR_NOTIFICATIONS_CUSTOM_VALUE)){				
+					statusBarNotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_VIBRATE_PATTERN, preferences.getString(Constants.K9_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_DEFAULT));
+				}else{
+					statusBarNotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_VIBRATE_PATTERN, vibratePattern);
+				}
+				statusBarNotificationBundle.putBoolean(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_ENABLED, preferences.getBoolean(Constants.K9_STATUS_BAR_NOTIFICATIONS_LED_ENABLED_KEY, true));
+				LEDPattern = preferences.getString(Constants.K9_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_KEY, Constants.STATUS_BAR_NOTIFICATIONS_LED_PATTERN_DEFAULT);
+				if(LEDPattern.equals(Constants.K9_STATUS_BAR_NOTIFICATIONS_CUSTOM_VALUE)){
+					statusBarNotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_PATTERN, preferences.getString(Constants.K9_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_KEY, Constants.STATUS_BAR_NOTIFICATIONS_LED_PATTERN_DEFAULT));
+				}else{
+					statusBarNotificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_PATTERN, LEDPattern);
+				}
+				LEDColor = preferences.getString(Constants.K9_STATUS_BAR_NOTIFICATIONS_LED_COLOR_KEY, Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT);
+				if(LEDColor.equals(Constants.K9_STATUS_BAR_NOTIFICATIONS_CUSTOM_VALUE)){
+					try{
+						statusBarNotificationBundle.putInt(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, Integer.parseInt(preferences.getString(Constants.K9_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_KEY, Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT)));
+					}catch(Exception ex){
+						statusBarNotificationBundle.putInt(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, Color.parseColor(Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT));
+						Log.e("Common.setStatusBarNotification() LED Color Parsing Failed. ERROR: " + ex.toString());
+					}
+				}else{
+					try{
+						statusBarNotificationBundle.putInt(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, Color.parseColor(LEDColor));
+					}catch(Exception ex){
+						statusBarNotificationBundle.putInt(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, Color.parseColor(Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT));
+						Log.e("Common.setStatusBarNotification() LED Color Parsing Failed. ERROR: " + ex.toString());
+					}
+				}
+				statusBarNotificationBundle.putBoolean(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_IN_CALL_SOUND_ENABLED, preferences.getBoolean(Constants.K9_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY, false));
+				statusBarNotificationBundle.putBoolean(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_IN_CALL_VIBRATE_ENABLED, preferences.getBoolean(Constants.K9_STATUS_BAR_NOTIFICATIONS_IN_CALL_VIBRATE_ENABLED_KEY, true));
+				break;
+			}
+		}
+		return statusBarNotificationBundle;
+	}
 	
 	/**
 	 * Display the status bar notification.
 	 * 
 	 * @param context - The application context.
+	 * @param notificationTypeCount - A count of the total active status bar notifications of this notification type.
 	 * @param notificationType - The type of notification we are working with.
+	 * @param notificationSubType - The sub-type of notification we are working with.
 	 * @param callStateIdle - The call state of the users phone. True if the users phone is idle (not being used).
 	 * @param sentFromContactName - The contact name.
-	 * @param sentFromAddress - The sent from address (phone number)
+	 * @param sentFromContactID - The contact id on the phone.
+	 * @param sentFromAddress - The sent from address (phone number).
 	 * @param message - The message of the notification.
-	 * @param calendarEventID - The calendar event id.
-	 * @param calendarEventStartTime - The calendar event start time.
-	 * @param calendarEventEndTime - The calendar event end time.
+	 * @param k9EmailUri - The URI to view a k9 email (only used for K9 notifications).
+	 * @param linkURL - A URL that we should link to.
+	 * @param updateOnly - A boolean indicating that this is an update and not a new notification.
+	 * @param statusBarNotificationBundle - A Bundle that contains the status bar notification settings for this notification.
 	 */
 	public static void setStatusBarNotification(Context context, int notificationTypeCount, int notificationType, int notificationSubType, boolean callStateIdle, String sentFromContactName, long sentFromContactID, String sentFromAddress, String message, String k9EmailUri, String linkURL, boolean updateOnly, Bundle statusBarNotificationBundle){
 		_debug = Log.getDebug();
@@ -476,14 +536,17 @@ public class Common {
 				if (_debug) Log.v("Common.setStatusBarNotification() App Disabled. Exiting...");
 				return;
 			}
+			//Stop if the notification bundle is null.
+			if(statusBarNotificationBundle ==  null){
+				if (_debug) Log.v("Common.setStatusBarNotification() StatusBarNotificationBundle is null. Exiting...");
+				return;
+			}
 			//Preference keys.
 			String POPUP_ENABLED_KEY = null;
 			String ENABLED_KEY = null;
 			boolean POPUP_ENABLED_DEFAULT = true;
-			String RINGTONE_DEFAULT = Constants.STATUS_BAR_NOTIFICATIONS_RINGTONE_DEFAULT;
 			String VIBRATE_ALWAYS_VALUE = Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_ALWAYS_VALUE;
 			String VIBRATE_WHEN_VIBRATE_MODE_VALUE = Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_WHEN_VIBRATE_MODE_VALUE;
-
 			int icon = -1;
 			CharSequence tickerText = null;
 			CharSequence contentTitle = null;
@@ -504,6 +567,44 @@ public class Common {
 			}
 			//Load values into the preference keys based on the notification type.
 			switch(notificationType){
+				case Constants.NOTIFICATION_TYPE_GENERIC:{
+					if (_debug) Log.v("Common.setStatusBarNotification() NOTIFICATION_TYPE_GENERIC");
+					//Notification Sound.
+					if(callStateIdle || statusBarNotificationBundle.getBoolean(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_IN_CALL_SOUND_ENABLED)){
+						try{
+							if (_debug) Log.v("Common.setStatusBarNotification() NotificationSoundURI: " + statusBarNotificationBundle.getString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_SOUND_URI));
+							new playNotificationMediaFileAsyncTask().execute(statusBarNotificationBundle.getString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_SOUND_URI));
+						}catch(Exception ex){
+							Log.e("Common.setStatusBarNotification() Generic Notification Sound Play ERROR: " + ex.toString());
+						}
+					}
+					//Notification Vibrate.
+					AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+					boolean inNormalMode = audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL;
+					boolean inVibrateMode = audioManager.getRingerMode() == AudioManager.RINGER_MODE_VIBRATE;
+					boolean vibrateEnabled = false;
+					String notificationVibrateSetting = statusBarNotificationBundle.getString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_VIBRATE_SETTING);
+					if (_debug) Log.v("Common.setStatusBarNotification() NotificationVibrateSetting: " + notificationVibrateSetting);
+					if(notificationVibrateSetting.equals(VIBRATE_ALWAYS_VALUE)){
+						vibrateEnabled = true;
+					}else if(notificationVibrateSetting.equals(VIBRATE_WHEN_VIBRATE_MODE_VALUE) && inVibrateMode){
+						vibrateEnabled = true;
+					}
+					if(vibrateEnabled){
+						if(callStateIdle || statusBarNotificationBundle.getBoolean(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_IN_CALL_VIBRATE_ENABLED)){
+							if((notificationVibrateSetting.equals(VIBRATE_ALWAYS_VALUE) || notificationVibrateSetting.equals(VIBRATE_WHEN_VIBRATE_MODE_VALUE)) && (inVibrateMode || inNormalMode)){
+								long[] vibrationPattern = parseVibratePattern(statusBarNotificationBundle.getString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_VIBRATE_PATTERN));
+								try{
+									Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+									vibrator.vibrate(vibrationPattern, -1);
+								}catch(Exception ex){
+									Log.e("Common.setStatusBarNotification() Generic Notification Vibrator ERROR: " + ex.toString());
+								}
+							}
+						}
+					}
+					return;
+				}
 				case Constants.NOTIFICATION_TYPE_SMS:{
 					if (_debug) Log.v("Common.setStatusBarNotification() NOTIFICATION_TYPE_SMS");
 					POPUP_ENABLED_KEY = Constants.SMS_NOTIFICATIONS_ENABLED_KEY;
@@ -764,9 +865,11 @@ public class Common {
 			int ledColor = Color.parseColor(Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT);
 			String ledPattern = null;
 			//Check if notifications are enabled or not.
-			if(!preferences.getBoolean(ENABLED_KEY, true) || !preferences.getBoolean(POPUP_ENABLED_KEY, POPUP_ENABLED_DEFAULT)){
-				if (_debug) Log.v("Common.setStatusBarNotification() Notifications Disabled: ENABLED_KEY " + ENABLED_KEY + " - Exiting...");
-				return;
+			if(notificationType != Constants.NOTIFICATION_TYPE_GENERIC){
+				if(!preferences.getBoolean(ENABLED_KEY, true) || !preferences.getBoolean(POPUP_ENABLED_KEY, POPUP_ENABLED_DEFAULT)){
+					if (_debug) Log.v("Common.setStatusBarNotification() Notifications Disabled: ENABLED_KEY " + ENABLED_KEY + " - Exiting...");
+					return;
+				}
 			}
 			//Only use vibration, lights and sound for new notifications, updates only update the text.
 			if(!updateOnly){
@@ -785,35 +888,15 @@ public class Common {
 				}
 				vibrateInCallEnabled = statusBarNotificationBundle.getBoolean(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_IN_CALL_VIBRATE_ENABLED);
 				if(vibrateEnabled){
-					vibratePattern = preferences.getString(VIBRATE_PATTERN_KEY, VIBRATE_PATTERN_DEFAULT);
-					if(vibratePattern.equals(VIBRATE_PATTERN_CUSTOM_VALUE_KEY)){
-						vibratePattern = preferences.getString(VIBRATE_PATTERN_CUSTOM_KEY, VIBRATE_PATTERN_DEFAULT);
-					}
+					vibratePattern = statusBarNotificationBundle.getString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_VIBRATE_PATTERN);
 				}	
 				//LED preferences
-				ledEnabled = preferences.getBoolean(LED_ENABLED_KEY, true);
-				String ledColorString = null;
+				ledEnabled = statusBarNotificationBundle.getBoolean(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_ENABLED);
 				if(ledEnabled){
 					//LED Color
-					ledColorString = preferences.getString(LED_COLOR_KEY, LED_COLOR_DEFAULT);
-					if(ledColorString.equals(LED_COLOR_CUSTOM_VALUE_KEY)){
-						try{
-							ledColor = preferences.getInt(LED_COLOR_CUSTOM_KEY, LED_COLOR_INT_DEFAULT);
-						}catch(Exception ex){
-							ledColor = Color.parseColor(Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT);
-						}
-					}else{
-						try{
-							ledColor = Color.parseColor(ledColorString);
-						}catch(Exception ex){
-							Log.e("Common.setStatusBarNotification() LED Color Parsing Failed. ERROR: " + ex.toString());
-						}
-					}
+					ledColor = statusBarNotificationBundle.getInt(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR);
 					//LED Pattern
-					ledPattern = preferences.getString(LED_PATTERN_KEY, LED_PATTERN_DEFAULT);
-					if(ledPattern.equals(LED_PATTERN_CUSTOM_VALUE_KEY)){
-						ledPattern = preferences.getString(LED_PATTERN_CUSTOM_KEY, LED_PATTERN_DEFAULT);
-					}
+					ledPattern = statusBarNotificationBundle.getString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_PATTERN);
 				}
 			}
 			//Notification icon.
@@ -936,7 +1019,7 @@ public class Common {
 				break;
 		    }
 			default:{
-				return 0;
+				return R.drawable.status_bar_notification_empty;
 			}
 		}
 		if(preferences.getString(ICON_ID, ICON_DEFAULT).equals("status_bar_notification_sms_blue")){
