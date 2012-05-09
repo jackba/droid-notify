@@ -36,8 +36,6 @@ public class NotificationViewFlipper extends ViewFlipper {
 	private int _mmsCount = 0;
 	private int _missedCallCount = 0;
 	private int _calendarCount = 0;
-	private int _twitterCount = 0;
-	private int _facebookCount = 0;
 	private int _k9Count = 0;
 
 	//================================================================================
@@ -73,13 +71,13 @@ public class NotificationViewFlipper extends ViewFlipper {
 	//================================================================================
 	
 	/**
-	 * Add notification to the notifications ArrayList.
-	 * Add new notification View to the ViewFlipper.
+	 * Add new View to the ViewFlipper.
 	 * 
 	 * @param notification - Notification to add to the ArrayList.
 	 */
 	public void addNotification(Notification notification){
 		if(_debug) Log.v("NotificationViewFlipper.addNotification()");
+		int notificationType = notification.getNotificationType();
 		boolean duplicateFound = false;
 		int totalNotifications = this.getChildCount();
 		for (int i=0; i<totalNotifications; i++){
@@ -100,12 +98,22 @@ public class NotificationViewFlipper extends ViewFlipper {
 					currentNotification.setRescheduleNumber(notification.getRescheduleNumber());
 					break; 
 				}
+			}else{
+				//Special case for SMS messages.
+				if(notificationType == Constants.NOTIFICATION_TYPE_SMS){
+					if(notification.getMessageID() == currentNotification.getMessageID()){
+						duplicateFound = true;
+						//Update Notification Information
+						currentNotification.setReminderPendingIntent(notification.getReminderPendingIntent());
+						currentNotification.setRescheduleNumber(notification.getRescheduleNumber());
+						break; 
+					}
+				}
 			}
 		}
 		if(!duplicateFound){
 			if(_preferences.getString(Constants.VIEW_NOTIFICATION_ORDER, Constants.NEWEST_FIRST).equals(Constants.OLDER_FIRST)){
-				addView(new NotificationView(_context, notification));				
-				//addView(new NotificationViewNEW(_context, notification));				
+				addView(new NotificationView(_context, notification));			
 				if(_preferences.getBoolean(Constants.DISPLAY_NEWEST_NOTIFICATION, true)){
 					setDisplayedChild(this.getChildCount() - 1);
 				}else{
@@ -113,7 +121,6 @@ public class NotificationViewFlipper extends ViewFlipper {
 				}
 			}else{
 				addView(new NotificationView(_context, notification), 0);
-				//addView(new NotificationViewNEW(_context, notification), 0);
 				if(_preferences.getBoolean(Constants.DISPLAY_NEWEST_NOTIFICATION, true)){
 					setDisplayedChild(0);
 				}else{
@@ -124,7 +131,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 			final View currentView = this.getCurrentView();
 			updateView(currentView, this.getDisplayedChild(), 0);
 			//Update specific type counts.
-			switch(notification.getNotificationType()){
+			switch(notificationType){
 				case Constants.NOTIFICATION_TYPE_PHONE:{
 					_missedCallCount++;
 					break;
@@ -139,14 +146,6 @@ public class NotificationViewFlipper extends ViewFlipper {
 				}
 				case Constants.NOTIFICATION_TYPE_CALENDAR:{
 					_calendarCount++;
-					break;
-				}
-				case Constants.NOTIFICATION_TYPE_TWITTER:{
-					_twitterCount++;
-					break;
-				}
-				case Constants.NOTIFICATION_TYPE_FACEBOOK:{
-					_facebookCount++;
 					break;
 				}
 				case Constants.NOTIFICATION_TYPE_K9:{
@@ -171,9 +170,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 			}
 			this.removeNotification(this.getDisplayedChild(), reschedule);
 			//Clear the status bar notification.
-	    	Common.clearNotification(_context, this, notification.getNotificationType(), this.getChildCount());
-	    	//Cancel the notification reminder.
-	    	notification.cancelReminder();
+	    	Common.clearNotification(_context, this, notification.getNotificationType());
 		}catch(Exception ex){
 			Log.e("NotificationViewFlipper.removeActiveNotification() ERROR: " + ex.toString());
 		}
@@ -256,6 +253,10 @@ public class NotificationViewFlipper extends ViewFlipper {
 		if(_debug) Log.v("NotificationViewFlipper.deleteMessage()");
 		//Remove the notification from the ViewFlipper.
 		Notification notification = getNotification(this.getDisplayedChild());
+		if(notification == null){
+			if(_debug) Log.v("NotificationViewFlipper.deleteMessage() Notification is null. Exiting...");
+			return;
+		}
 		int notificationType = notification.getNotificationType();
 		switch(notificationType){
 			case Constants.NOTIFICATION_TYPE_SMS:{
@@ -291,18 +292,6 @@ public class NotificationViewFlipper extends ViewFlipper {
 					notification.deleteMessage();
 					//Remove all Notifications with the thread ID.
 					this.removeNotificationsByThread(notification.getThreadID());
-				}
-				break;
-			}
-			case Constants.NOTIFICATION_TYPE_TWITTER:{
-				if(_preferences.getString(Constants.TWITTER_DELETE_KEY, "0").equals(Constants.TWITTER_DELETE_ACTION_NOTHING)){
-					//Remove the notification from the ViewFlipper
-					this.removeActiveNotification(false);
-				}else if(_preferences.getString(Constants.TWITTER_DELETE_KEY, "0").equals(Constants.TWITTER_DELETE_ACTION_DELETE_MESSAGE)){
-					//Delete the current message from the users phone.
-					notification.deleteMessage();
-					//Remove the notification from the ViewFlipper
-					this.removeActiveNotification(false);
 				}
 				break;
 			}
@@ -355,7 +344,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 * @return int - The current smsCount value.
 	 */
 	public int getSMSCount(){
-		if(_debug) Log.v("Notification.getSMSCount() SMSCount: " + _smsCount);
+		if(_debug) Log.v("NotificationViewFlipper.getSMSCount() SMSCount: " + _smsCount);
 		return _smsCount;
 	}
 
@@ -365,7 +354,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 * @return int - The current mmsCount value.
 	 */
 	public int getMMSCount(){
-		if(_debug) Log.v("Notification.getMMSCount() MMSCount: " + _mmsCount);
+		if(_debug) Log.v("NotificationViewFlipper.getMMSCount() MMSCount: " + _mmsCount);
 		return _mmsCount;
 	}
 
@@ -375,7 +364,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 * @return int - The current missedCallCount value.
 	 */
 	public int getMissedCallCount(){
-		if(_debug) Log.v("Notification.getMissedCallCount() MissedCallCount: " + _missedCallCount);
+		if(_debug) Log.v("NotificationViewFlipper.getMissedCallCount() MissedCallCount: " + _missedCallCount);
 		return _missedCallCount;
 	}
 
@@ -385,28 +374,8 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 * @return int - The current calendarCount value.
 	 */
 	public int getCalendarCount(){
-		if(_debug) Log.v("Notification.getCalendarCount() CalendarCount: " + _calendarCount);
+		if(_debug) Log.v("NotificationViewFlipper.getCalendarCount() CalendarCount: " + _calendarCount);
 		return _calendarCount;
-	}
-
-	/**
-	 * Get the twitterCount property.
-	 * 
-	 * @return int - The current twitterCount value.
-	 */
-	public int getTwitterCount(){
-		if(_debug) Log.v("Notification.getTwitterCount() TwitterCount: " + _twitterCount);
-		return _twitterCount;
-	}
-
-	/**
-	 * Get the facebookCount property.
-	 * 
-	 * @return int - The current facebookCount value.
-	 */
-	public int getFacebookCount(){
-		if(_debug) Log.v("Notification.getFacebookCount() FacebookCount: " + _facebookCount);
-		return _facebookCount;
 	}
 
 	/**
@@ -415,9 +384,24 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 * @return int - The current k9Count value.
 	 */
 	public int getK9Count(){
-		if(_debug) Log.v("Notification.getK9Count() K9Count: " + _k9Count);
+		if(_debug) Log.v("NotificationViewFlipper.getK9Count() K9Count: " + _k9Count);
 		return _k9Count;
 	}
+  	
+  	/**
+  	 * Dismiss all notifications.
+  	 */
+  	public void dismissAllNotifications(){
+		if (_debug) Log.v("NotificationViewFlipper.dismissAllNotifications()");
+		try{
+			int totalNotifications = this.getChildCount();
+			for (int i=0; i<totalNotifications; i++){
+				removeActiveNotification(false);
+			}
+  		}catch(Exception ex){
+  			Log.e("NotificationViewFlipper.dismissAllNotifications() ERROR: " + ex.toString());
+  		}
+  	}
 	
 	//================================================================================
 	// Private Methods
@@ -432,7 +416,12 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 */
 	private Notification getNotification(int index){
 		if(_debug) Log.v("NotificationViewFlipper.getNotification()");
-		return ((NotificationView) this.getChildAt(index)).getNotification();
+		try{
+			return ((NotificationView) this.getChildAt(index)).getNotification();
+		}catch(Exception ex){
+			Log.e("NotificationViewFlipper.getNotification() ERROR: " + ex.toString());
+			return null;
+		}
 	}
 	
 	/**
@@ -444,6 +433,12 @@ public class NotificationViewFlipper extends ViewFlipper {
 		if(_debug) Log.v("NotificationViewFlipper.removeNotification()");
 		//Get the current notification object.
 		Notification notification = getNotification(index);
+		if(notification == null){
+			if(_debug) Log.v("NotificationViewFlipper.removeNotification() Notification is null. Exiting...");
+			return;
+		}
+    	//Cancel the notification reminder.
+    	notification.cancelReminder();
 		int notificationType = notification.getNotificationType();
 		//Set notification as being viewed.
 		if(!reschedule){
@@ -465,14 +460,6 @@ public class NotificationViewFlipper extends ViewFlipper {
 			}
 			case Constants.NOTIFICATION_TYPE_CALENDAR:{
 				_calendarCount--;
-				break;
-			}
-			case Constants.NOTIFICATION_TYPE_TWITTER:{
-				_twitterCount--;
-				break;
-			}
-			case Constants.NOTIFICATION_TYPE_FACEBOOK:{
-				_facebookCount--;
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_K9:{
@@ -499,11 +486,15 @@ public class NotificationViewFlipper extends ViewFlipper {
 				}
 				// Remove the view from the ViewFlipper.
 				removeViewAt(index);
+		    	//Update the status bar notificatinos.
+		    	updateStatusBarNotifications(notification.getNotificationType(), notification.getNotificationSubType());
 			}catch(Exception ex){
 				if(_debug) Log.v("NotificationViewFlipper.removeNotification() [Total Notification > 1] ERROR: " + ex.toString());
 			}
 		}else{	
 			try{
+				// Remove the view from the ViewFlipper.
+				removeViewAt(index);
 				//Close the ViewFlipper and finish the Activity.
 				_notificationActivity.finishActivity();
 			}catch(Exception ex){
@@ -527,7 +518,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 		Button previousButton = (Button) view.findViewById(R.id.previous_button);
 		TextView notificationCountTextView = (TextView) view.findViewById(R.id.notification_count_text_view);
 		Button nextButton = (Button) view.findViewById(R.id.next_button);
-		if(_debug) Log.v("NotificationViewFlipper.updateView() viewIndex: " + viewIndex + " indexAdjustment: " + indexAdjustment);
+		//if(_debug) Log.v("NotificationViewFlipper.updateView() viewIndex: " + viewIndex + " indexAdjustment: " + indexAdjustment);
     	int totalviews = this.getChildCount();
     	int currentView = viewIndex + 1;
     	boolean isFirstView = isFirstView(viewIndex + indexAdjustment);
@@ -613,13 +604,82 @@ public class NotificationViewFlipper extends ViewFlipper {
 			Notification notification = ((NotificationView) this.getChildAt(i)).getNotification();
 			if(notification.getThreadID() == threadID){
 				removeNotification(i, false);
-		    	//Cancel the notification reminder.
-		    	notification.cancelReminder();
 			}
 		}
 		//Clear the status bar notification for SMS & MMS types.
-		Common.clearNotification(_context, this, Constants.NOTIFICATION_TYPE_SMS, totalNotifications);
-    	Common.clearNotification(_context, this, Constants.NOTIFICATION_TYPE_MMS, totalNotifications);
+		Common.clearNotification(_context, this, Constants.NOTIFICATION_TYPE_SMS);
+    	Common.clearNotification(_context, this, Constants.NOTIFICATION_TYPE_MMS);
+	}
+	
+	/**
+	 * Update the status bar notification when a notification is removed from the ViewFlipper.
+	 * 
+	 * @param notificationType - The notification type that we are updating.
+	 * @param notificationSubType - The notification sub type that we are updating.
+	 */
+	private void updateStatusBarNotifications(int notificationType, int notificationSubType){
+		if(_debug) Log.v("NotificationViewFlipper.updateStatusBarNotifications()");
+		int notificationTypecount = 1;
+		String sentFromContactName = null;
+		long sentFromContactID = -1;
+		String sentFromAddress = null;
+		String message = null;
+		String k9EmailUri = null;
+		String linkURL = null;
+		switch(notificationType){
+			case Constants.NOTIFICATION_TYPE_PHONE:{
+				notificationTypecount = _missedCallCount;
+				break;
+		    }
+			case Constants.NOTIFICATION_TYPE_SMS:{
+				notificationTypecount = _smsCount;
+				break;
+		    }
+			case Constants.NOTIFICATION_TYPE_MMS:{
+				notificationTypecount = _mmsCount;
+				break;
+		    }
+			case Constants.NOTIFICATION_TYPE_CALENDAR:{
+				notificationTypecount = _calendarCount;
+				break;
+		    }
+			case Constants.NOTIFICATION_TYPE_K9:{
+				notificationTypecount = _k9Count;
+				break;
+		    }
+		}
+		if(notificationTypecount > 0){
+			if(notificationTypecount == 1){
+				Notification notification = getNotificationByType(notificationType);
+				sentFromContactName = notification.getContactName();
+				sentFromContactID = notification.getContactID();
+				sentFromAddress = notification.getSentFromAddress();
+				message = notification.getMessageBody();
+				k9EmailUri = notification.getK9EmailUri();
+				linkURL = notification.getLinkURL();
+			}
+			//Display Status Bar Notification
+		    Common.setStatusBarNotification(_context, notificationTypecount, notificationType, notificationSubType, true, sentFromContactName, sentFromContactID, sentFromAddress, message, k9EmailUri, linkURL, true);
+		}
+	}
+	
+	/**
+	 * Get a notification of the given type.
+	 * 
+	 * @param notificationType - The notification type we are searchign for.
+	 * 
+	 * @return Notification - Returns the first notification of this type that is found or null if none are found.
+	 */
+	private Notification getNotificationByType(int notificationType){
+		if(_debug) Log.v("NotificationViewFlipper.getNotificationByType()");
+		int totalNotifications = this.getChildCount();
+		for(int i=totalNotifications-1; i>=0; i--){
+			Notification notification = ((NotificationView) this.getChildAt(i)).getNotification();
+			if(notification.getNotificationType() == notificationType){
+				return notification;
+			}
+		}
+		return null;
 	}
 	
 	/**

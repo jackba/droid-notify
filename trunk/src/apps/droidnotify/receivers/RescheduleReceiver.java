@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import apps.droidnotify.log.Log;
-import apps.droidnotify.services.RescheduleBroadcastReceiverService;
+import apps.droidnotify.services.RescheduleService;
 import apps.droidnotify.services.WakefulIntentService;
 
 /**
@@ -37,7 +37,7 @@ public class RescheduleReceiver extends BroadcastReceiver{
 		_debug = Log.getDebug();
 		if (_debug) Log.v("RescheduleReceiver.onReceive()");
 		try{
-			Intent rescheduleBroadcastReceiverServiceIntent = new Intent(context, RescheduleBroadcastReceiverService.class);
+			Intent rescheduleBroadcastReceiverServiceIntent = new Intent(context, RescheduleService.class);
 		    rescheduleBroadcastReceiverServiceIntent.putExtras(intent.getExtras());
 			WakefulIntentService.sendWakefulWork(context, rescheduleBroadcastReceiverServiceIntent);
 		}catch(Exception ex){

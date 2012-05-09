@@ -131,6 +131,7 @@ public class EmailCommon {
 	    			messageBody = messageBody.replace("\n", "<br/>").trim();
 	    		}				
 			}
+            timeStamp = Common.convertGMTToLocalTime(context, timeStamp, true);
     		Bundle k9ContactInfoBundle = ContactsCommon.getContactsInfoByEmail(context, sentFromAddress);
     		if(k9ContactInfoBundle == null){
 				//Basic Notification Information.
@@ -271,7 +272,6 @@ public class EmailCommon {
 	 */
 	public static String removeEmailFormatting(String address){
 		_debug = Log.getDebug();
-		if (_debug) Log.v("EmailCommon.removeEmailFormatting()");
 		//if (_debug) Log.v("EmailCommon.removeEmailFormatting() Email Address: " + address);
 		if(address.contains("<") && address.contains(">")){
 			address = address.substring(address.indexOf("<") + 1,address.indexOf(">"));
@@ -298,7 +298,7 @@ public class EmailCommon {
 	 * @return String- The email address that we parsed/extracted.
 	 */
 	private static String parseFromEmailAddress(String inputFromAddress){
-		if (_debug) Log.v("EmailCommon.parseFromEmailAddress()");
+		//if (_debug) Log.v("EmailCommon.parseFromEmailAddress()");
 		try{
 			if(inputFromAddress == null || inputFromAddress.equals("")){
 				if (_debug) Log.v("EmailCommon.parseFromEmailAddress() InputFromAddress is null/empty. Exiting...");

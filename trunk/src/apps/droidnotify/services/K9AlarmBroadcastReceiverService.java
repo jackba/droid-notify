@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
+
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
 import apps.droidnotify.email.EmailCommon;
@@ -62,6 +63,13 @@ public class K9AlarmBroadcastReceiverService extends WakefulIntentService {
 				if (_debug) Log.v("K9AlarmBroadcastReceiverService.doWakefulWork() K9 Notifications Disabled. Exiting...");
 				return;
 			}
+			//Check for a blacklist entry before doing anything else.
+    		Bundle bundle = intent.getExtras();
+    		Bundle emailNotificationBundle = EmailCommon.getK9MessagesFromIntent(context, bundle, intent.getAction());	
+    		Bundle emailNotificationBundleSingle = null;
+    		if(emailNotificationBundle != null){
+    			emailNotificationBundleSingle = emailNotificationBundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_1");
+    		}
 			if (_debug) Log.v("K9BroadcastReceiverService.doWakefulWork() IntentAction: " + intent.getAction());
 		    //Check the state of the users phone.
 		    TelephonyManager telemanager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
@@ -87,15 +95,10 @@ public class K9AlarmBroadcastReceiverService extends WakefulIntentService {
 				WakefulIntentService.sendWakefulWork(context, k9Intent);
 		    }else{
 		    	//Display the Status Bar Notification even though the popup is blocked based on the user preferences.
-	    		Bundle bundle = intent.getExtras();
-	    		Bundle emailNotificationBundle = EmailCommon.getK9MessagesFromIntent(context, bundle, intent.getAction());
 		    	if(preferences.getBoolean(Constants.K9_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true)){
-		    		if(emailNotificationBundle != null){
-		    			Bundle emailNotificationBundleSingle = emailNotificationBundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_1");
-		    			if(emailNotificationBundleSingle != null){
-							//Display Status Bar Notification
-						    Common.setStatusBarNotification(context, Constants.NOTIFICATION_TYPE_K9, 0, callStateIdle, emailNotificationBundleSingle.getString(Constants.BUNDLE_CONTACT_NAME), emailNotificationBundleSingle.getString(Constants.BUNDLE_SENT_FROM_ADDRESS), emailNotificationBundleSingle.getString(Constants.BUNDLE_MESSAGE_BODY), emailNotificationBundleSingle.getString(Constants.BUNDLE_K9_EMAIL_URI), null);
-		    			}
+		    		if(emailNotificationBundleSingle != null){
+						//Display Status Bar Notification
+					    Common.setStatusBarNotification(context, 1, Constants.NOTIFICATION_TYPE_K9, 0, callStateIdle, emailNotificationBundleSingle.getString(Constants.BUNDLE_CONTACT_NAME), emailNotificationBundleSingle.getLong(Constants.BUNDLE_CONTACT_ID, -1), emailNotificationBundleSingle.getString(Constants.BUNDLE_SENT_FROM_ADDRESS), emailNotificationBundleSingle.getString(Constants.BUNDLE_MESSAGE_BODY), emailNotificationBundleSingle.getString(Constants.BUNDLE_K9_EMAIL_URI), null, false, null);
 		    		}
 		    	}
 		    	if(emailNotificationBundle != null) Common.rescheduleBlockedNotification(context, rescheduleNotificationInCall, rescheduleNotificationInQuickReply, Constants.NOTIFICATION_TYPE_K9, emailNotificationBundle);

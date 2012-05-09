@@ -1,10 +1,19 @@
 package apps.droidnotify.log;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -12,9 +21,11 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Environment;
 
 import apps.droidnotify.R;
 import apps.droidnotify.common.Common;
+import apps.droidnotify.common.Constants;
 
 /**
  * This class logs messages to the Android log file.
@@ -22,24 +33,21 @@ import apps.droidnotify.common.Common;
  * @author Camille Sévigny
  */
 public class Log {
-	
+
 	//================================================================================
     // Constants
     //================================================================================
 	
-	private final String LINE_SEPARATOR = System.getProperty("line.separator");
-	private final int MAX_LOG_MESSAGE_LENGTH = 100000;
+	private static int LOG_FILE_MAX_LINES = 2000;
 	
 	//================================================================================
     // Properties
     //================================================================================
 	
-	private static final String _logTag = "DroidNotify";
-	private static final boolean _appProVersion = false;
 	private static boolean _debug = true;
 	private static final boolean _showAndroidRateAppLink = true;
-	private static final boolean _showAmazonRateAppLink = false;
-	
+	private static final boolean _showAmazonRateAppLink = false;	
+
 	private static Context _context = null;
 	private static CollectLogTask _collectLogTask = null;
     private ProgressDialog _progressDialog;
@@ -47,15 +55,6 @@ public class Log {
 	//================================================================================
 	// Public Methods
 	//================================================================================
-	
-	/**
-	 *  Get logTag property.
-	 *  
-	 *  @return String - Returns the tag of these log entries.
-	 */
-	public static String getLogTag(){
-		return _logTag;
-	}
 
 	/**
 	 *  Get debug property.
@@ -92,15 +91,6 @@ public class Log {
 	public static boolean getShowAmazonRateAppLink(){
 		return _showAmazonRateAppLink;
 	}
-
-	/**
-	 *  Get appProVersionproperty.
-	 *  
-	 *  @return boolean - Returns true if this is setup as the Pro Version app.
-	 */
-	public static boolean getAppProVersion(){
-		return _appProVersion;
-	}
 	
 	/**
 	 *  Add an entry to the Android LogCat log under the V (Verbose) type.
@@ -108,9 +98,8 @@ public class Log {
 	 *  @param msg - Entry to be made to the log file.
 	 */
 	public static void v(String msg) {
-		if(_debug){
-			android.util.Log.v(_logTag, msg);
-		}
+		android.util.Log.v(Constants.LOGTAG, msg);
+		appendToExternalLogFile("V", msg);
 	}
 	
 	/**
@@ -119,9 +108,8 @@ public class Log {
 	 *  @param msg - Entry to be made to the log file.
 	 */
 	public static void d(String msg) {
-		if(_debug){
-			android.util.Log.d(_logTag, msg);
-		}
+		android.util.Log.d(Constants.LOGTAG, msg);
+		appendToExternalLogFile("D", msg);
 	}	
 	
 	/**
@@ -130,9 +118,8 @@ public class Log {
 	 *  @param msg - Entry to be made to the log file.
 	 */
 	public static void i(String msg) {
-		if(_debug){
-			android.util.Log.i(_logTag, msg);
-		}
+		android.util.Log.i(Constants.LOGTAG, msg);
+		appendToExternalLogFile("I", msg);
 	}
 	
 	/**
@@ -141,9 +128,8 @@ public class Log {
 	 *  @param msg - Entry to be made to the log file.
 	 */
 	public static void w(String msg) {
-		if(_debug){
-			android.util.Log.w(_logTag, msg);
-		}
+		android.util.Log.w(Constants.LOGTAG, msg);
+		appendToExternalLogFile("W", msg);
 	}
 	
 	/**
@@ -152,9 +138,8 @@ public class Log {
 	 *  @param msg - Entry to be made to the log file.
 	 */
 	public static void e(String msg) {
-		if(_debug){
-			android.util.Log.e(_logTag, msg);
-		}
+		android.util.Log.e(Constants.LOGTAG, msg);
+		appendToExternalLogFile("E", msg);
 	}
 	
 	/**
@@ -162,75 +147,133 @@ public class Log {
 	 * 
 	 * @param context - The application context.
 	 */
-    @SuppressWarnings("unchecked")
 	public static void collectAndSendLog(Context context){
-    	if (_debug) Log.v("Log.collectAndSendLog()");
-    	_context = context;
-        ArrayList<String> commandLineOptions = new ArrayList<String>();
-        /*
-			---FORMAT OPTIONS---
-			brief — Display priority/tag and PID of originating process (the default format).
-			process — Display PID only.
-			tag — Display the priority/tag only.
-			thread — Display process:thread and priority/tag only.
-			raw — Display the raw log message, with no other metadata fields.
-			time — Display the date, invocation time, priority/tag, and PID of the originating process.
-			long — Display all metadata fields and separate messages with a blank lines.
-         */
-        commandLineOptions.add("-v");
-        commandLineOptions.add("long");
-        /*
-			---FILTER OPTIONS---
-			A series of <tag>[:priority]
-			
-			<tag> is a log component tag (or * for all) and priority is:
-          		V    Verbose
-          		D    Debug
-          		I    Info
-          		W    Warn
-          		E    Error
-          		F    Fatal
-          		S    Silent (supress all output)
-			
-			A filter expression follows this format tag:priority ..., where tag indicates the tag of interest and priority 
-			indicates the minimum level of priority to report for that tag. Messages for that tag at or above the specified 
-			priority are written to the log. You can supply any number of tag:priority specifications in a single filter 
-			expression. The series of specifications is whitespace-delimited.
-			
-			Here's an example of a filter expression that suppresses all log messages except those with the tag "ActivityManager", 
-			at priority "Info" or above, and all log messages with tag "MyApp", with priority "Debug" or above:
-			
-			adb logcat ActivityManager:I MyApp:D *:S
-			
-			The final element in the above expression, *:S, sets the priority level for all tags to "silent", thus ensuring only 
-			log messages with "View" and "MyApp" are displayed. Using *:S
-
-        	'*' means '*:d' and <tag> by itself means <tag>:v
-
-        If not specified on the commandline, filterspec is set from ANDROID_LOG_TAGS.
-        If no filterspec is found, filter defaults to '*:I'        	
-        */
-        commandLineOptions.add(_logTag + ":V");
-        commandLineOptions.add("AndroidRuntime:E");
-        commandLineOptions.add("*:S");
-        _collectLogTask = (CollectLogTask) (new Log()).new CollectLogTask().execute(commandLineOptions);
+		_context = context;
+		_collectLogTask = (CollectLogTask) (new Log()).new CollectLogTask().execute();
     }
  
 	//================================================================================
 	// Private Methods
 	//================================================================================
 
-    /*
+    /**
+     * Append text to the log file being kept on the SD card.
      * 
+     * @param context - The application context.
+     * @param msg - The message to append to the log file.
      */
-    private class CollectLogTask extends AsyncTask<ArrayList<String>, Void, StringBuilder>{
+    private static boolean appendToExternalLogFile(String level, String msg){
+    	try{
+    		//Check state of external storage.
+			String state = Environment.getExternalStorageState();
+			if (Environment.MEDIA_MOUNTED.equals(state)){
+			    //We can read and write the media. Do nothing.
+			}else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)){
+			    // We can only read the media.
+				android.util.Log.e(Constants.LOGTAG, "Log.appendToExternalLogFile() External Storage Read Only State");
+			    return false;
+			}else{
+			    // Something else is wrong. It may be one of many other states, but all we need to know is we can neither read nor write
+				android.util.Log.e(Constants.LOGTAG, "Log.appendToExternalLogFile() External Storage Can't Write Or Read State");
+			    return false;
+			}
+	    	File logFilePath = Environment.getExternalStoragePublicDirectory("DroidNotify/Log");
+	    	File logFile = new File(logFilePath, "DroidNotifyLog.txt");
+    		logFilePath.mkdirs();
+    		if(!logFile.exists()){
+    			logFile.createNewFile();
+    		}
+    		if(!logFile.canWrite()){
+    			android.util.Log.e(Constants.LOGTAG, "Log.appendToExternalLogFile() External Log File Not Writable");
+    			return false;
+    		}
+    		//Write each preference to the text file.
+			BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(logFile, true), msg.length());
+			bufferedWriter.append(level + " - " + new SimpleDateFormat().format(System.currentTimeMillis()) + " - " + Constants.LOGTAG + " - " + msg);
+			bufferedWriter.newLine();
+			bufferedWriter.flush();
+			bufferedWriter.close();
+			return true; 
+		}catch (Exception ex){
+			android.util.Log.e(Constants.LOGTAG, "Log.appendToExternalLogFile() Wrtie File ERROR: " + ex.toString());
+			return false;
+		}
+    }
+	
+	/**
+	 * Shrink the log file if it's too large.
+	 */
+	private static void shrinkLogFile(){
+    	File logFilePath = Environment.getExternalStoragePublicDirectory("DroidNotify/Log");
+    	File logFile = new File(logFilePath, "DroidNotifyLog.txt");
+    	File logFileTmp = new File(logFilePath, "DroidNotifyLogTMP.txt");
+    	try{
+    		boolean startWriting = false;
+    		int logFileLines = countNumberOfLines(logFile.getAbsolutePath());
+			if(logFileLines > LOG_FILE_MAX_LINES){
+				logFile.renameTo(logFileTmp);
+				logFile.delete();
+				logFile.createNewFile();
+				int currentLine = 0;
+	    	    BufferedReader bufferedReader = new BufferedReader(new FileReader(logFileTmp));
+	    	    BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(logFile, true)); 
+	    	    String line;
+	    	    while((line = bufferedReader.readLine()) != null){
+	    	    	currentLine++;
+	    	    	if(startWriting){
+	    	    		bufferedWriter.append(line);
+	    				bufferedWriter.newLine();
+	    	    	}else{
+	    	    		startWriting = (logFileLines - currentLine) <= LOG_FILE_MAX_LINES;
+	    	    	}
+				}
+				bufferedWriter.flush();
+				bufferedWriter.close();
+				bufferedReader.close();
+				logFileTmp.delete();
+			}
+    	}catch(IOException ex){
+    		android.util.Log.e(Constants.LOGTAG, "Log.shrinkLogFile() ERROR: " + ex.toString());
+    		return;
+    	}
+	}
+	
+	/**
+	 * Count the number of lines in a text file.
+	 * 
+	 * @param filename - The file that we want the number of lines.
+	 * 
+	 * @return int - Returns the number of lines in the text file.
+	 * 
+	 */
+	private static int countNumberOfLines(String file) throws IOException {
+	    InputStream is = new BufferedInputStream(new FileInputStream(file));
+	    try{
+	        byte[] c = new byte[1024];
+	        int count = 0;
+	        int readChars = 0;
+	        while((readChars = is.read(c)) != -1){
+	            for(int i = 0; i < readChars; ++i){
+	                if(c[i] == '\n')
+	                    ++count;
+	            }
+	        }
+	        return count;
+	    }finally{
+	        is.close();
+	    }
+	}
+	
+    /*
+     * Collect the log files.
+     */
+    private class CollectLogTask extends AsyncTask<Void, Void, Boolean>{
         
         /**
          * Do this work before the background task starts.
          */  	
         @Override
         protected void onPreExecute(){
-    		if(_debug) android.util.Log.v(_logTag, "CollectLogTask.onPreExecute()");
             showProgressDialog(_context.getString(R.string.log_file_acquiring_system_logs));
         }
         
@@ -240,28 +283,18 @@ public class Log {
 	     * @param params - An ArrayList of the command line parameters to use.
 	     */
         @Override
-        protected StringBuilder doInBackground(ArrayList<String>... params){
-    		if(_debug) android.util.Log.v(_logTag, "CollectLogTask.doInBackground()");
-            final StringBuilder log = new StringBuilder();
+        protected Boolean doInBackground(Void... params){
             try{
-                ArrayList<String> commandLine = new ArrayList<String>();
-                commandLine.add("logcat");
-                commandLine.add("-d");
-                ArrayList<String> commandLineOptions = params[0];
-                if (commandLineOptions != null){
-                    commandLine.addAll(commandLineOptions);
-                }                
-                Process process = Runtime.getRuntime().exec(commandLine.toArray(new String[0]));
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream()));                
-                String line;
-                while ((line = bufferedReader.readLine()) != null){ 
-                    log.append(line);
-                    log.append(LINE_SEPARATOR);
-                }
-            }catch (Exception ex){
-            	android.util.Log.e(_logTag, "CollectLogTask.doInBackground() ERROR: " + ex.toString());
-            } 
-            return log;
+    			//Shrink the file to ensure that it never gets too large.
+    			shrinkLogFile();
+    			//Export the current application preferences.
+    			Common.exportApplicationPreferences(_context, "DroidNotify/Log/Preferences", "DroidNotifyPreferences.txt");
+            }catch(Exception ex){
+            	android.util.Log.e(Constants.LOGTAG, "Log.collectAndSendLog() ERROR: " + ex.toString());
+            	showErrorDialog(_context, ex.toString());
+            	return false;
+            }
+        	return true;
         }
 
 	    /**
@@ -270,27 +303,32 @@ public class Log {
 	     * @param StringBuilder - A StringBuilder of the log file that was pulled from the phone.
 	     */
         @Override
-        protected void onPostExecute(StringBuilder log){
-    		if(_debug) android.util.Log.v(_logTag, "CollectLogTask.onPostExecute()");
-            if (log != null){
-                //Truncate if necessary.
-                int keepOffset = Math.max(log.length() - MAX_LOG_MESSAGE_LENGTH, 0);
-                if (keepOffset > 0){
-                    log.delete(0, keepOffset);
-                }
-                log.insert(0, LINE_SEPARATOR);
-                log.insert(0, _context.getString(R.string.log_file_device_info, Common.getApplicationVersion(_context), Build.MODEL, Build.VERSION.RELEASE, Build.DISPLAY));
-                //Send Log Info In Email To Developer AKA Me :)
-		    	Intent sendEmailIntent = new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:droidnotify@gmail.com"));
-		    	sendEmailIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-		    	sendEmailIntent.putExtra(Intent.EXTRA_SUBJECT, "Droid Notify Debug Logs");
-	    		sendEmailIntent.putExtra(Intent.EXTRA_TEXT, log.toString());
-	    		_context.startActivity(Intent.createChooser(sendEmailIntent, "Send Using..."));
-	    		_progressDialog.dismiss();
-            }else{
-            	_progressDialog.dismiss();
-                showErrorDialog(_context.getString(R.string.log_file_retrieval_failure));
-            }
+        protected void onPostExecute(Boolean result){
+ 
+	    	Intent sendEmailIntent = new Intent(Intent.ACTION_SEND_MULTIPLE);
+	    	sendEmailIntent.setType("plain/text");
+	    	sendEmailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {"droidnotify@gmail.com"});
+	    	sendEmailIntent.putExtra(Intent.EXTRA_SUBJECT, "Droid Notify Lite - Debug Logs");
+			sendEmailIntent.putExtra(Intent.EXTRA_TEXT, _context.getString(R.string.log_file_device_info, Common.getApplicationVersion(_context), Build.MODEL, Build.VERSION.RELEASE, Build.DISPLAY) + "\n\nThe application logs are attached.");
+	    	ArrayList<Uri> uris = new ArrayList<Uri>();
+	    	
+	    	File logFilePath = Environment.getExternalStoragePublicDirectory("DroidNotify/Log");
+	    	File logFile = new File(logFilePath, "DroidNotifyLog.txt");
+	    	if(logFile.exists()){
+	    		uris.add(Uri.fromFile(logFile));
+	    	}
+
+	    	File preferencesFilePath = Environment.getExternalStoragePublicDirectory("DroidNotify/Log/Preferences");
+	    	File preferencesFile = new File(preferencesFilePath, "DroidNotifyPreferences.txt");
+	    	if(preferencesFile.exists()){
+	    		uris.add(Uri.fromFile(preferencesFile));
+	    	}
+	    	
+	    	sendEmailIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);	    	
+			_context.startActivity(sendEmailIntent);
+			
+			_progressDialog.dismiss();
+			
         }
         
     }
@@ -300,18 +338,21 @@ public class Log {
      * 
      * @param errorMessage - The error message to display to the user.
      */
-	private void showErrorDialog(String errorMessage){
-		if(_debug) android.util.Log.v(_logTag, "Log.showErrorDialog()");
-        new AlertDialog.Builder(_context)
-        .setTitle(_context.getString(R.string.log_file_error_title))
-        .setMessage(errorMessage)
-        .setIcon(android.R.drawable.ic_dialog_alert)
-        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener(){
+	private static void showErrorDialog(Context context, String errorMessage){
+        Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(context.getString(R.string.log_file_error_title));
+        builder.setMessage(errorMessage);
+        try{
+        	builder.setIcon(android.R.drawable.ic_dialog_alert);
+        }catch(Exception ex){
+        	//Don't set the icon if this fails.
+        }
+        builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener(){
             public void onClick(DialogInterface dialog, int whichButton){
                 dialog.dismiss();
             }
-        })
-        .show();
+        });
+        builder.show();
     }
     
 	/**
@@ -320,7 +361,6 @@ public class Log {
 	 * @param message - The message to display to the user while the dialog is running.
 	 */
     private void showProgressDialog(String message){
-    	if(_debug) android.util.Log.v(_logTag, "Log.showProgressDialog()");
         _progressDialog = new ProgressDialog(_context);
         _progressDialog.setIndeterminate(true);
         _progressDialog.setMessage(message);
@@ -337,7 +377,6 @@ public class Log {
      * Can cell the Collect Log Async Task.
      */
     private void cancellCollectLogTask(){
-    	if(_debug) android.util.Log.v(_logTag, "Log.cancellCollectLogTask()");
         if (_collectLogTask != null && _collectLogTask.getStatus() == AsyncTask.Status.RUNNING){
         	_collectLogTask.cancel(true);
         	_collectLogTask = null;

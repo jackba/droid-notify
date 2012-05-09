@@ -1,35 +1,23 @@
 package apps.droidnotify;
 
 import android.app.Activity;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Vibrator;
 import android.preference.PreferenceManager;
-import android.text.Editable;
-import android.text.InputFilter;
-import android.text.TextWatcher;
-import android.view.HapticFeedbackConstants;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
 import apps.droidnotify.sms.SMSCommon;
-import apps.droidnotify.twitter.TwitterCommon;
-import apps.droidnotify.email.EmailCommon;
-import apps.droidnotify.phone.PhoneCommon;
 
 /**
  * This is the quick reply activity that is used to send sms messages.
@@ -37,17 +25,6 @@ import apps.droidnotify.phone.PhoneCommon;
  * @author Camille Sévigny
  */
 public class QuickReplyActivity extends Activity {
-
-	//================================================================================
-    // Constants
-    //================================================================================
-	
-	private static final int SEND_BUTTON = R.id.quick_reply_send_button;
-	private static final int CANCEL_BUTTON = R.id.quick_reply_cancel_button;
-	private static final int SEND_TO_TEXT_VIEW = R.id.send_to_text_view;
-	private static final int MESSAGE_EDIT_TEXT = R.id.message_edit_text;
-	private static final int CHARACTERS_REMAINING_TEXT_VIEW = R.id.characters_remaining_text_view;
-	private static final int TITLE_TEXT_VIEW = R.id.quick_reply_title_text_view;
 	
 	//================================================================================
     // Properties
@@ -55,19 +32,15 @@ public class QuickReplyActivity extends Activity {
 	
 	private boolean _debug;
 	private Context _context = null;
-	private Button _sendButton = null;
-	private Button _cancelButton = null;
-	private TextView _sendToTextView  = null;
-	private TextView _charactersRemainingTextView = null;
-	private TextView _titleTextView = null;
-	private EditText _messageEditText = null;
-	private long _sendToID = 0;
+	private SharedPreferences _preferences = null;
 	private String _sendTo = null;
 	private String _name = null;
-	private SharedPreferences _preferences = null;
+	private String _message = null;
+	private int _notificationType = -1;
+	private int _notificationSubType = -1;
 	private boolean _messageSent = false;
-	private int _notificationType = 0;
-	private int _notificationSubType = 0;
+	private QuickReplyView _quickReplyView = null;
+	private EditText _messageEditText = null;
 
 	//================================================================================
 	// Public Methods
@@ -76,10 +49,39 @@ public class QuickReplyActivity extends Activity {
 	/**
 	 * Handles the activity when the configuration changes (e.g. The phone switches from portrait view to landscape view).
 	 */
-	public void onConfigurationChanged(Configuration config) {
+	public void onConfigurationChanged(Configuration config){
         super.onConfigurationChanged(config);
-        if (_debug) Log.v("QuickReplyActivity.onConfigurationChanged()");
+        if(_debug) Log.v("QuickReplyActivity.onConfigurationChanged()");
         //Do Nothing.
+	}
+	
+	/**
+	 * Send simple SMS message.
+	 * 
+	 * @return boolean - Returns true if the message was sent.
+	 */
+	public boolean sendQuickReply(String message){
+		if(_debug) Log.v("QuickReplyActivity.sendQuickReply()");
+		switch(_notificationType){
+	    	case Constants.NOTIFICATION_TYPE_SMS:{
+	            if(_sendTo.length()>0 && message.length()>0){                
+	                if(SMSCommon.sendSMS(_context, _sendTo, message)){
+        				_messageSent = true;
+        				return true;
+            		}else{
+            			return false;
+            		}
+	            }else{
+	            	if(_sendTo.length()<= 0){
+	            		Toast.makeText(getBaseContext(), getString(R.string.phone_number_error_text), Toast.LENGTH_LONG).show();
+	            	}else if(message.length()<= 0){
+	            		Toast.makeText(getBaseContext(), getString(R.string.message_error_text), Toast.LENGTH_LONG).show();
+	            	}
+	            	return false;
+	            }
+		    }
+		}
+        return false;
 	}
 	
 	//================================================================================
@@ -92,11 +94,12 @@ public class QuickReplyActivity extends Activity {
 	 * @param bundle - The bundle passed into this Activity.
 	 */
 	@Override
-	protected void onCreate(Bundle bundle) {
+	protected void onCreate(Bundle bundle){
 		super.onCreate(bundle);
 	    _context = getApplicationContext();
 		_debug = Log.getDebug();
-	    if (_debug) Log.v("QuickReplyActivity.onCreate()");
+	    if(_debug) Log.v("QuickReplyActivity.onCreate()");
+	    Common.setInLinkedAppFlag(_context, true);
 	    Common.setInQuickReplyAppFlag(_context, true);
 	    Common.setApplicationLanguage(_context, this);
 	    _preferences = PreferenceManager.getDefaultSharedPreferences(_context);
@@ -117,101 +120,12 @@ public class QuickReplyActivity extends Activity {
 		    int dimAmt = Integer.parseInt(_preferences.getString(Constants.QUICK_REPLY_DIM_SCREEN_BACKGROUND_AMOUNT_KEY, "50"));
 		    params.dimAmount = dimAmt / 100f; 
 		    mainWindow.setAttributes(params); 
-	    }
-	    //Set based on the theme. This is set in the user preferences.
-		String applicationThemeSetting = _preferences.getString(Constants.APP_THEME_KEY, Constants.APP_THEME_DEFAULT);
-		int themeResource = R.layout.dark_translucent_theme_reply;
-		if(applicationThemeSetting.equals(Constants.ANDROID_FROYO_THEME)) themeResource = R.layout.android_froyo_theme_reply;
-		if(applicationThemeSetting.equals(Constants.ANDROID_GINGERBREAD_THEME)) themeResource = R.layout.android_gingerbread_theme_reply;
-		if(applicationThemeSetting.equals(Constants.ANDROID_ICECREAM_HOLO_DARK_THEME)) themeResource = R.layout.android_icecream_holo_dark_theme_reply;
-		if(applicationThemeSetting.equals(Constants.IPHONE_THEME)) themeResource = R.layout.iphone_theme_reply;
-		if(applicationThemeSetting.equals(Constants.DARK_TRANSLUCENT_THEME)) themeResource = R.layout.dark_translucent_theme_reply;
-		if(applicationThemeSetting.equals(Constants.DARK_TRANSLUCENT_V2_THEME)) themeResource = R.layout.dark_translucent_v2_theme_reply;
-		if(applicationThemeSetting.equals(Constants.DARK_TRANSLUCENT_V3_THEME)) themeResource = R.layout.dark_translucent_v3_theme_reply;		
-		if(applicationThemeSetting.equals(Constants.HTC_SENSE_UI_THEME)) themeResource = R.layout.htc_theme_reply;	
-		if(applicationThemeSetting.equals(Constants.XPERIA_THEME)) themeResource = R.layout.xperia_theme_reply;	
-	    setContentView(themeResource);  
-	    _sendButton = (Button)findViewById(SEND_BUTTON);
-	    //Disable the Send button initially.
-	    _sendButton.setEnabled(false);
-	    _cancelButton = (Button)findViewById(CANCEL_BUTTON);
-	    _sendToTextView = (TextView)findViewById(SEND_TO_TEXT_VIEW);
-	    _messageEditText = (EditText)findViewById(MESSAGE_EDIT_TEXT);
-	    _charactersRemainingTextView = (TextView)findViewById(CHARACTERS_REMAINING_TEXT_VIEW);
-	    _titleTextView = (TextView)findViewById(TITLE_TEXT_VIEW);
-	    //Update the mesage size limit based on the reply type.
-		InputFilter[] FilterArray = new InputFilter[1];
-	    switch(_notificationType){
-	    	case Constants.NOTIFICATION_TYPE_SMS:{
-		    	break;
-		    }
-			case Constants.NOTIFICATION_TYPE_TWITTER:{	   
-				FilterArray[0] = new InputFilter.LengthFilter(140);
-		    	_messageEditText.setFilters(FilterArray);
-				break;
-			}
-			case Constants.NOTIFICATION_TYPE_FACEBOOK:{	    		
-				if(_notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION){
-					//Do Nothing										
-				}else if(_notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE){
-					//Do Nothing										
-				}
-				break;
-			}
-	    }
-	    //Add a TextWatcher.
-	    _messageEditText.addTextChangedListener(new TextWatcher() {
-	    	public void afterTextChanged(Editable s){
-	    		//Do Nothing.
-	    	}
-	    	public void beforeTextChanged(CharSequence s, int start, int count, int after){
-	    		//Do Nothing.
-	    	}
-	    	public void onTextChanged(CharSequence s, int start, int before, int count){
-	    		//Enable the Send button if there is text in the EditText layout.
-	    		int maxCharacters = -1;
-	    		int characterBundleAmount = 160;
-	    		boolean useCharacterBundles = false;
-	    		if(s.length() > 0){
-	    			_sendButton.setEnabled(true);
-	    		}else{
-	    			_sendButton.setEnabled(false);
-	    		}
-	    		switch(_notificationType){
-			    	case Constants.NOTIFICATION_TYPE_SMS:{
-			    		maxCharacters = -1;
-			    		characterBundleAmount = 160;
-			    		useCharacterBundles = true;
-				    	break;
-				    }
-					case Constants.NOTIFICATION_TYPE_TWITTER:{	   
-						maxCharacters = 140;
-						characterBundleAmount = 140;
-						useCharacterBundles = false;
-						break;
-					}
-			    }
-	    		int numberOfBundles = s.length() / characterBundleAmount;
-	    		int charactersRemaining = 0;
-	    		if(maxCharacters == -1){
-	    			charactersRemaining = characterBundleAmount - (s.length() - (numberOfBundles * characterBundleAmount));
-	    		}else{
-	    			charactersRemaining = maxCharacters - (s.length() - (numberOfBundles * maxCharacters));
-	    		}
-	    		String charactersRemainingText = null;
-	    		if(useCharacterBundles){
-		    		charactersRemainingText = String.valueOf(numberOfBundles) + "/" + String.valueOf(charactersRemaining);
-	    		}else{
-	    			charactersRemainingText = String.valueOf(charactersRemaining);
-	    		}
-	    		_charactersRemainingTextView.setText(charactersRemainingText);
-	    	}
-	    });
-	    //Get name and phone number from the Bundle.
+	    }	    //Get name and phone number from the Bundle.
 	    Bundle extrasBundle = getIntent().getExtras();
 	    parseQuickReplyParameters(extrasBundle);
-	    //Setup Activities buttons.
-	    setupButtons();
+	    _quickReplyView = new QuickReplyView(_context, this, _notificationType, _notificationSubType, _sendTo, _name, _message);
+	    this.setContentView(_quickReplyView);
+		_messageEditText = _quickReplyView.getMessageEditText();
 	    //Set focus to appropriate field.
 	    setFocus();
 	}
@@ -220,53 +134,52 @@ public class QuickReplyActivity extends Activity {
 	 * Activity was started after it stopped or for the first time.
 	 */
 	@Override
-	protected void onStart() {
+	protected void onStart(){
+	    if(_debug) Log.v("QuickReplyActivity.onStart()");
 		super.onStart();
-	    if (_debug) Log.v("QuickReplyActivity.onStart()");
-	    setFocus();
 	}
 	  
 	/**
 	 * Activity was resumed after it was stopped or paused.
 	 */
 	@Override
-	protected void onResume() {
-	    super.onResume();
-	    if (_debug) Log.v("QuickReplyActivity.onResume()");
+	protected void onResume(){
+	    if(_debug) Log.v("QuickReplyActivity.onResume()");
 	    setFocus();
+	    Common.setInLinkedAppFlag(_context, true);
 	    Common.setInQuickReplyAppFlag(_context, true);
+	    super.onResume();
 	}
 	  
 	/**
 	 * Activity was paused due to a new Activity being started or other reason.
 	 */
 	@Override
-	protected void onPause() {
-	    super.onPause();
-	    if (_debug) Log.v("QuickReplyActivity.onPause()");
-	    showSoftKeyboard(false, (EditText) findViewById(R.id.message_edit_text));
+	protected void onPause(){
+	    if(_debug) Log.v("QuickReplyActivity.onPause()");
+	    showSoftKeyboard(false, _messageEditText);
+	    Common.setInLinkedAppFlag(_context, false);
 	    Common.setInQuickReplyAppFlag(_context, false);
+	    super.onPause();
 	}
 	  
 	/**
 	 * Activity was stopped due to a new Activity being started or other reason.
 	 */
 	@Override
-	protected void onStop() {
+	protected void onStop(){
+	    if(_debug) Log.v("QuickReplyActivity.onStop()");
+	    finishActivity();
 	    super.onStop();
-	    if (_debug) Log.v("QuickReplyActivity.onStop()");
 	}
 	  
 	/**
 	 * Activity was stopped and closed out completely.
 	 */
 	@Override
-	protected void onDestroy() {
+	protected void onDestroy(){
+	    if(_debug) Log.v("QuickReplyActivity.onDestroy()");
 	    super.onDestroy();
-	    if (_debug) Log.v("QuickReplyActivity.onDestroy()");
-	    showSoftKeyboard(false, (EditText) findViewById(R.id.message_edit_text));
-	    Common.setInQuickReplyAppFlag(_context, false);
-	    saveMessageDraft();
 	}
 	
 	//================================================================================
@@ -274,229 +187,40 @@ public class QuickReplyActivity extends Activity {
 	//================================================================================
 	
 	/**
+	 * Customized activity finish.
+	 * This closes this activity screen.
+	 */
+	public void finishActivity(){
+		if(_debug) Log.v("NotificationActivity.finishActivity()");	
+	    showSoftKeyboard(false, _messageEditText);
+	    Common.setInLinkedAppFlag(_context, false);
+	    Common.setInQuickReplyAppFlag(_context, false);
+	    saveMessageDraft();
+	    //Finish the activity.
+	    finish();
+	}
+	
+	/**
 	 * Gets the passed in parameters for this Activity and loads them into the text fields.
 	 * 
 	 * @param bundle - The bundle passed into this Activity.
 	 */
 	private void parseQuickReplyParameters(Bundle bundle){
-		if (_debug) Log.v("QuickReplyActivity.parseQuickReplyParameters()");
-		_notificationType = bundle.getInt("notificationType");
-		_notificationSubType = bundle.getInt("notificationSubType");
-		switch(_notificationType){
-	    	case Constants.NOTIFICATION_TYPE_SMS:{
-	    		_sendTo = bundle.getString("sendTo");
-	    		_name = bundle.getString("name");
-	    		String message = bundle.getString("message");
-	    		if(_sendTo == null){
-	    			if (_debug) Log.v("QuickReplyActivity.parseQuickReplyParameters() Send To value is null. Exiting...");
-	    			return;
-	    		}
-	    		if(!_name.equals("")){
-	    			_sendToTextView.setText(_context.getString(R.string.to_text) + ": " + _name + " (" + _sendTo + ")");
-	    		}else{
-	    			_sendToTextView.setText(_context.getString(R.string.to_text) + ": " + _sendTo);
-	    		}		
-	    		if(message != null){
-	    			_messageEditText.setText(message);
-	    		}
-	    		_titleTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_conversation_white, 0, 0, 0);
-		    	break;
-		    }
-			case Constants.NOTIFICATION_TYPE_TWITTER:{
-				_sendToID = bundle.getLong("sendToID");
-				_sendTo = bundle.getString("sendTo");
-	    		_name = bundle.getString("name");
-	    		String message = bundle.getString("message");
-	    		if(_sendTo == null){
-	    			if (_debug) Log.v("QuickReplyActivity.parseQuickReplyParameters() Send To value is null. Exiting...");
-	    			return;
-	    		}
-	    		if(!_name.equals("")){
-	    			_sendToTextView.setText(_context.getString(R.string.to_text) + ": " + _name + " (" + _sendTo + ")");
-	    		}else{
-	    			_sendToTextView.setText(_context.getString(R.string.to_text) + ": " + _sendTo);
-	    		}		
-	    		if(message != null){
-	    			_messageEditText.setText(message);
-	    		}		   
-				if(_notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE){
-					//Do Nothing
-				}
-				_titleTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.twitter, 0, 0, 0);
-				break;
-			}
-			case Constants.NOTIFICATION_TYPE_FACEBOOK:{
-				_sendToID = bundle.getLong("sendToID");
-				_sendTo = bundle.getString("sendTo");
-	    		_name = bundle.getString("name");
-	    		String message = bundle.getString("message");
-	    		if(_sendTo == null){
-	    			if (_debug) Log.v("QuickReplyActivity.parseQuickReplyParameters() Send To value is null. Exiting...");
-	    			return;
-	    		}
-	    		if(!_name.equals("")){
-	    			_sendToTextView.setText(_context.getString(R.string.to_text) + ": " + _name + " (" + _sendTo + ")");
-	    		}else{
-	    			_sendToTextView.setText(_context.getString(R.string.to_text) + ": " + _sendTo);
-	    		}		
-	    		if(message != null){
-	    			_messageEditText.setText(message);
-	    		}		    		
-				if(_notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION){
-					//Do Nothing										
-				}else if(_notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE){
-					//Do Nothing										
-				}
-				_titleTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.twitter, 0, 0, 0);
-				break;
-			}
-	    }
-	}
-	
-	/**
-	 * Setup the Quick Reply buttons.
-	 */
-	private void setupButtons(){
-		if (_debug) Log.v("QuickReplyActivity.setupButtons()");
-	    _sendButton.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View view) {
-            	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-            	if(sendQuickReply()){
-	                //Set the result for this activity.
-	                setResult(RESULT_OK);
-	                //Finish Activity.
-	                finish();
-            	}
-            }
-        });
-	    if(_preferences.getBoolean(Constants.DISPLAY_QUICK_REPLY_CANCEL_BUTTON_KEY, false)){
-	    	_cancelButton.setOnClickListener(new View.OnClickListener(){
-	            public void onClick(View view) {
-	            	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-	            	//Set the result for this activity.
-	            	setResult(RESULT_CANCELED);
-	            	//Finish Activity.
-	            	finish();                
-	            }
-	        });
-    	}else{
-    		_cancelButton.setVisibility(View.GONE);
-    	}
-	}
-	
-	/**
-	 * Send simple SMS message.
-	 * 
-	 * @return boolean - Returns true if the message was sent.
-	 */
-	private boolean sendQuickReply(){
-		if (_debug) Log.v("QuickReplyActivity.sendQuickReply()");
-        String message = _messageEditText.getText().toString(); 
-		switch(_notificationType){
-	    	case Constants.NOTIFICATION_TYPE_SMS:{
-	            if(_sendTo.length()>0 && message.length()>0){                
-	            	if(SMSCommon.sendSMS(_context, _sendTo, message)){
-        				_messageSent = true;
-        				return true;
-            		}else{
-            			return false;
-            		}
-	            }else{
-	            	if(_sendTo.length()<= 0){
-	            		Toast.makeText(getBaseContext(), getString(R.string.phone_number_error_text), Toast.LENGTH_LONG).show();
-	            	}else if(message.length()<= 0){
-	            		Toast.makeText(getBaseContext(), getString(R.string.message_error_text), Toast.LENGTH_LONG).show();
-	            	}
-	            	return false;
-	            }
-		    }
-			case Constants.NOTIFICATION_TYPE_TWITTER:{
-	            if(_sendTo.length()>0 && message.length()>0){ 
-	            	if(_notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_DIRECT_MESSAGE){
-	            		if(TwitterCommon.sendTwitterDirectMessage(_context, _sendToID, message)){
-	        				_messageSent = true;
-	        				return true;
-	            		}else{
-	            			return false;
-	            		}
-	            	}else if(_notificationSubType == Constants.NOTIFICATION_TYPE_TWITTER_MENTION){
-	            		if(TwitterCommon.sendTweet(_context, _sendToID, message, true)){
-	        				_messageSent = true;
-	        				return true;
-	            		}else{
-	            			return false;
-	            		}
-	            	}else{
-	            		return false;
-	            	}
-	            }else{
-	            	if(_sendTo.length()<= 0){
-	            		Toast.makeText(getBaseContext(), getString(R.string.address_error_text), Toast.LENGTH_LONG).show();
-	            	}else if(message.length()<= 0){
-	            		Toast.makeText(getBaseContext(), getString(R.string.message_error_text), Toast.LENGTH_LONG).show();
-	            	}
-	            	return false;
-	            }
-			}
-			case Constants.NOTIFICATION_TYPE_FACEBOOK:{
-				if(_sendTo.length()>0 && message.length()>0){  
-					if(_notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_NOTIFICATION){
-						
-
-		                return true;
-					}else if(_notificationSubType == Constants.NOTIFICATION_TYPE_FACEBOOK_MESSAGE){
-						
-
-		                return true;
-					} else{
-	            		return false;
-	            	}
-	            }else{
-	            	if(_sendTo.length()<= 0){
-	            		Toast.makeText(getBaseContext(), getString(R.string.address_error_text), Toast.LENGTH_LONG).show();
-	            	}else if(message.length()<= 0){
-	            		Toast.makeText(getBaseContext(), getString(R.string.message_error_text), Toast.LENGTH_LONG).show();
-	            	}
-	            	return false;
-	            }
-			}
-		}
-        return false;
-	}
-	
-	/**
-	 * Function that performs custom haptic feedback.
-	 * This function performs haptic feedback based on the users preferences.
-	 * 
-	 * @param hapticFeedbackConstant - What type of action the feedback is responding to.
-	 */
-	private void customPerformHapticFeedback(int hapticFeedbackConstant){
-		if (_debug) Log.v("QuickReplyActivity.customPerformHapticFeedback()");
-		Vibrator vibrator = null;
-		try{
-			vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
-			//Perform the haptic feedback based on the users preferences.
-			if(_preferences.getBoolean(Constants.HAPTIC_FEEDBACK_ENABLED_KEY, true)){
-				if(hapticFeedbackConstant == HapticFeedbackConstants.VIRTUAL_KEY){
-					if(vibrator != null) vibrator.vibrate(50);
-				}
-				if(hapticFeedbackConstant == HapticFeedbackConstants.LONG_PRESS){
-					if(vibrator != null) vibrator.vibrate(100);
-				}
-			}
-		}catch(Exception ex){
-			Log.e("QuickReplyActivity.customPerformHapticFeedback() ERROR: " + ex.toString());
-		}
+		if(_debug) Log.v("QuickReplyActivity.parseQuickReplyParameters()");
+		_notificationType = bundle.getInt(Constants.BUNDLE_NOTIFICATION_TYPE);
+		_notificationSubType = bundle.getInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE);
+		_sendTo = bundle.getString(Constants.QUICK_REPLY_BUNDLE_SEND_TO);
+	    _name = bundle.getString(Constants.QUICK_REPLY_BUNDLE_NAME);
+	    _message = bundle.getString(Constants.QUICK_REPLY_BUNDLE_MESSAGE);
 	}
 	
 	/**
 	 * Sets the focus to the body EditText field.
 	 */
 	private void setFocus(){
-		if (_debug) Log.v("QuickReplyActivity.setFocus()");
-		EditText quickReplyMessageEditText = (EditText) findViewById(R.id.message_edit_text);
-		quickReplyMessageEditText.requestFocus();
-		showSoftKeyboard(true, quickReplyMessageEditText);
+		if(_debug) Log.v("QuickReplyActivity.setFocus()");
+		_messageEditText.requestFocus();
+		showSoftKeyboard(true, _messageEditText);
 	}
 	
 	/**
@@ -505,7 +229,7 @@ public class QuickReplyActivity extends Activity {
 	 * @param showKeyboard - Boolean to either show or hide the soft keyboard.
 	 */
 	private void showSoftKeyboard(boolean showKeyboard, View view){
-		if (_debug) Log.v("QuickReplyActivity.showSoftKeyboard()");
+		if(_debug) Log.v("QuickReplyActivity.showSoftKeyboard()");
 		InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 		// This will only trigger it if no physical keyboard is open.
 		try{
@@ -525,28 +249,14 @@ public class QuickReplyActivity extends Activity {
 	 * Save the message as a draft.
 	 */
 	private void saveMessageDraft(){
-		if (_debug) Log.v("QuickReplyActivity.saveMessageDraft()");
+		if(_debug) Log.v("QuickReplyActivity.saveMessageDraft()");
 		if(_messageSent){
 			return;
 		}else{
 			if(_notificationType == Constants.NOTIFICATION_TYPE_SMS || _notificationType == Constants.NOTIFICATION_TYPE_MMS){
 				if(_preferences.getBoolean(Constants.SAVE_MESSAGE_DRAFT_KEY, true)){
 					try{
-						Context context = getBaseContext();
-						String address = _sendTo;
-						String message = _messageEditText.getText().toString().trim();
-						if(!message.equals("")){
-					    	//Store the message in the draft folder so that it shows in Messaging apps.
-					        ContentValues values = new ContentValues();
-					        values.put("address", address);
-					        values.put("body", message);
-					        values.put("date", String.valueOf(System.currentTimeMillis()));
-					        values.put("type", "3");
-					        String messageAddress = address.contains("@") ? EmailCommon.removeEmailFormatting(address) : PhoneCommon.removePhoneNumberFormatting(address);
-					        values.put("thread_id", String.valueOf(SMSCommon.getThreadID(context, messageAddress, 1)));
-					        getContentResolver().insert(Uri.parse("content://sms/draft"), values);
-					        Toast.makeText(context, getString(R.string.draft_saved_text), Toast.LENGTH_SHORT).show();
-						}
+						SMSCommon.saveMessageDraft(_context, _sendTo, _quickReplyView.getSendMessage());
 					}catch(Exception ex){
 						Log.e("QuickReplyActivity.sendSMS() Insert Into Sent Foler ERROR: " + ex.toString());
 					}

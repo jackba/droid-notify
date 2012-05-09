@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import apps.droidnotify.NotificationActivity;
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
@@ -55,11 +54,7 @@ public class MMSService extends WakefulIntentService {
 				Bundle bundle = new Bundle();
 				bundle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_MMS);
 				bundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME, mmsNotificationBundle);
-		    	Intent mmsNotificationIntent = new Intent(context, NotificationActivity.class);
-		    	mmsNotificationIntent.putExtras(bundle);
-		    	mmsNotificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-		    	Common.acquireWakeLock(context);
-		    	context.startActivity(mmsNotificationIntent);
+				Common.startNotificationActivity(context, bundle);
 			}else{
 				if (_debug) Log.v("MMSReceiverService.doWakefulWork() No new MMSs were found. Exiting...");
 			}

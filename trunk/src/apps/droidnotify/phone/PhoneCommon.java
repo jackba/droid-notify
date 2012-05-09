@@ -63,10 +63,11 @@ public class PhoneCommon {
 		    		selection,
 					selectionArgs,
 					sortOrder);
-	    	while (cursor.moveToNext()) { 
+	    	while (cursor.moveToNext()){ 
 	    		String callLogID = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls._ID));
 	    		String callNumber = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.NUMBER));
-	    		String callDate = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.DATE));
+	    		long timeStamp = cursor.getLong(cursor.getColumnIndex(android.provider.CallLog.Calls.DATE));
+	    		timeStamp = Common.convertGMTToLocalTime(context, timeStamp, true);
 	    		String callType = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.TYPE));
 	    		String isCallNew = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.NEW));
 	    		if(Integer.parseInt(callType) == Constants.PHONE_TYPE && Integer.parseInt(isCallNew) > 0){
@@ -83,13 +84,13 @@ public class PhoneCommon {
     					//Basic Notification Information.
     					missedCallNotificationBundleSingle.putLong(Constants.BUNDLE_CALL_LOG_ID, Long.parseLong(callLogID));
     					missedCallNotificationBundleSingle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, callNumber);
-    					missedCallNotificationBundleSingle.putLong(Constants.BUNDLE_TIMESTAMP, Long.parseLong(callDate));
+    					missedCallNotificationBundleSingle.putLong(Constants.BUNDLE_TIMESTAMP, timeStamp);
     					missedCallNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_PHONE);
     				}else{				
     					//Basic Notification Information.
     					missedCallNotificationBundleSingle.putLong(Constants.BUNDLE_CALL_LOG_ID, Long.parseLong(callLogID));
     					missedCallNotificationBundleSingle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, callNumber);
-    					missedCallNotificationBundleSingle.putLong(Constants.BUNDLE_TIMESTAMP, Long.parseLong(callDate));
+    					missedCallNotificationBundleSingle.putLong(Constants.BUNDLE_TIMESTAMP, timeStamp);
     					missedCallNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_PHONE);
     	    			//Contact Information.
     					missedCallNotificationBundleSingle.putLong(Constants.BUNDLE_CONTACT_ID, missedCallContactInfoBundle.getLong(Constants.BUNDLE_CONTACT_ID, -1));
@@ -288,18 +289,18 @@ public class PhoneCommon {
 		if (_debug) Log.v("PhoneCommon.clearStockMissedCallNotification()");
 		try{
 			try{
-		        Class serviceManagerClass = Class.forName("android.os.ServiceManager");
+		        Class<?> serviceManagerClass = Class.forName("android.os.ServiceManager");
 		        Method getServiceMethod = serviceManagerClass.getMethod("getService", String.class);
 		        Object phoneService = getServiceMethod.invoke(null, "phone");
 		        Class ITelephonyClass = Class.forName("com.android.internal.telephony.ITelephony");
-		        Class ITelephonyStubClass = null;
+		        Class<?> ITelephonyStubClass = null;
 		        for(Class clazz : ITelephonyClass.getDeclaredClasses()){
 		            if (clazz.getSimpleName().equals("Stub")){
 		                ITelephonyStubClass = clazz;
 		                break;
 		            }
 		        }
-		        if (ITelephonyStubClass != null) {
+		        if (ITelephonyStubClass != null){
 		            Class IBinderClass = Class.forName("android.os.IBinder");
 		            Method asInterfaceMethod = ITelephonyStubClass.getDeclaredMethod("asInterface", IBinderClass);
 		            Object iTelephony = asInterfaceMethod.invoke(null, phoneService);
@@ -350,14 +351,24 @@ public class PhoneCommon {
 			StringBuilder outputPhoneNumber = new StringBuilder("");		
 			int phoneNumberFormatPreference = Integer.parseInt(preferences.getString(Constants.PHONE_NUMBER_FORMAT_KEY, Constants.PHONE_NUMBER_FORMAT_DEFAULT));
 			String numberSeparator = "-";
-			if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_7 || phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_8 || phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_9 || phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_10){
+			if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_7 || 
+					phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_8 || 
+					phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_9 || 
+					phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_10 || 
+					phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_16){
 				numberSeparator = ".";
-			}else if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_11 || phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_12 || phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_13 || phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_14){
+			}else if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_11 || 
+					phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_12 || 
+					phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_13 || 
+					phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_14 || 
+					phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_17){
 				numberSeparator = " ";
 			}else if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_5){
 				numberSeparator = "";
 			}
-			if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_1 || phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_7 || phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_11){
+			if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_1 || 
+					phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_7 || 
+					phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_11){
 				if(inputPhoneNumber.length() >= 10){
 					//Format ###-###-#### (e.g.123-456-7890)
 					//Format ###-###-#### (e.g.123.456.7890)
@@ -379,7 +390,9 @@ public class PhoneCommon {
 				}else{
 					outputPhoneNumber.append(inputPhoneNumber);
 				}
-			}else if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_2 || phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_8 || phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_12){
+			}else if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_2 || 
+					phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_8 || 
+					phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_12){
 				if(inputPhoneNumber.length() >= 10){
 					//Format ##-###-##### (e.g.12-345-67890)
 					//Format ##-###-##### (e.g.12.345.67890)
@@ -401,7 +414,9 @@ public class PhoneCommon {
 				}else{
 					outputPhoneNumber.append(inputPhoneNumber);
 				}
-			}else if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_3 || phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_9 || phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_13){
+			}else if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_3 || 
+					phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_9 || 
+					phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_13){
 				if(inputPhoneNumber.length() >= 10){
 					//Format ##-###-##### (e.g.01-234-567890)
 					//Format ##-###-##### (e.g.01.234.567890)
@@ -425,7 +440,9 @@ public class PhoneCommon {
 				}else{
 					outputPhoneNumber.append(inputPhoneNumber);
 				}
-			}else if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_4 || phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_10 || phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_14){
+			}else if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_4 || 
+					phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_10 || 
+					phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_14){
 				if(inputPhoneNumber.length() >= 10){
 					//Format ##-##-##-##-## (e.g.12-34-56-78-90)
 					//Format ##-##-##-##-## (e.g.12.34.56.78.90)
@@ -439,6 +456,30 @@ public class PhoneCommon {
 					outputPhoneNumber.insert(0, numberSeparator);
 					if(inputPhoneNumber.length() == 10){
 						outputPhoneNumber.insert(0,inputPhoneNumber.substring(0, inputPhoneNumber.length() - 8));
+					}else{
+						outputPhoneNumber.insert(0, inputPhoneNumber.substring(inputPhoneNumber.length() - 10, inputPhoneNumber.length() - 8));
+						outputPhoneNumber.insert(0, numberSeparator);
+						if(preferences.getBoolean(Constants.PHONE_NUMBER_FORMAT_10_DIGITS_ONLY_KEY , false)){
+							outputPhoneNumber.insert(0, "0");
+						}else{
+							outputPhoneNumber.insert(0, inputPhoneNumber.substring(0, inputPhoneNumber.length() - 10));
+						}
+					}
+				}else{
+					outputPhoneNumber.append(inputPhoneNumber);
+				}
+			}else if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_15 || 
+					phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_16 || 
+					phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_17){
+				if(inputPhoneNumber.length() >= 10){
+					//Format ###-###-#### (e.g.012-3456-7890)
+					//Format ###-###-#### (e.g.012.3456.7890)
+					outputPhoneNumber.insert(0, inputPhoneNumber.substring(inputPhoneNumber.length() - 4, inputPhoneNumber.length()));
+					outputPhoneNumber.insert(0, numberSeparator);
+					outputPhoneNumber.insert(0, inputPhoneNumber.substring(inputPhoneNumber.length() - 8, inputPhoneNumber.length() - 4));
+					outputPhoneNumber.insert(0, numberSeparator);
+					if(inputPhoneNumber.length() == 10){
+						outputPhoneNumber.insert(0, inputPhoneNumber.substring(0, inputPhoneNumber.length() - 8));
 					}else{
 						outputPhoneNumber.insert(0, inputPhoneNumber.substring(inputPhoneNumber.length() - 10, inputPhoneNumber.length() - 8));
 						outputPhoneNumber.insert(0, numberSeparator);
@@ -499,38 +540,39 @@ public class PhoneCommon {
 	 */
 	public static boolean isPhoneNumberEqual(String contactNumber, String incomingNumber){
 		_debug = Log.getDebug();
-		if (_debug) Log.v("PhoneCommon.isPhoneNumberEqual()");
-		if(contactNumber == null || incomingNumber == null){
-			if (_debug) Log.v("PhoneCommon.isPhoneNumberEqual() ContactNumber OR IncomingNumber IS NULL. Exiting...");
-			return false;
-		}
-		//Remove any formatting from each number.
-		contactNumber = PhoneCommon.removePhoneNumberFormatting(contactNumber);
-		incomingNumber = PhoneCommon.removePhoneNumberFormatting(incomingNumber);
-		//Remove any leading zero's from each number.
-		contactNumber = removeLeadingZero(contactNumber);
-		incomingNumber = removeLeadingZero(incomingNumber);	
-		int contactNumberLength = contactNumber.length();
-		int incomingNumberLength = incomingNumber.length();
-		//Check to see if the contactNumber is not the empty string. If it is, return false.
-		if(contactNumberLength < 1){
-			return false;
-		}
-		//Iterate through the ends of both strings...backwards from the end of the string.
-		if(contactNumberLength <= incomingNumberLength){
-			for(int i = 0; i < contactNumberLength; i++){
-				if(contactNumber.charAt(contactNumberLength - 1 - i) != incomingNumber.charAt(incomingNumberLength - 1 - i)){
+		//if (_debug) Log.v("PhoneCommon.isPhoneNumberEqual() ContactNumber: " + contactNumber + " IncomingNumber: " + incomingNumber);
+		try{
+			if(contactNumber == null || incomingNumber == null){
+				if (_debug) Log.v("PhoneCommon.isPhoneNumberEqual() ContactNumber OR IncomingNumber IS NULL. Exiting...");
+				return false;
+			}
+			//Remove any formatting from each number.
+			contactNumber = PhoneCommon.removePhoneNumberFormatting(contactNumber);
+			incomingNumber = PhoneCommon.removePhoneNumberFormatting(incomingNumber);
+			//Remove any leading zero's from each number.
+			contactNumber = removeLeadingZero(contactNumber);
+			incomingNumber = removeLeadingZero(incomingNumber);	
+			int contactNumberLength = contactNumber.length();
+			int incomingNumberLength = incomingNumber.length();
+			//Check to see if the contactNumber is not the empty string. If it is, return false.
+			if(contactNumberLength < 1){
+				return false;
+			}
+			//Iterate through the ends of both strings...backwards from the end of the string.
+			if(contactNumberLength <= incomingNumberLength){
+				if(!incomingNumber.endsWith(contactNumber)){
+					return false;
+				}
+			}else{
+				if(!contactNumber.endsWith(incomingNumber)){
 					return false;
 				}
 			}
-		}else{
-			for(int i = incomingNumberLength - 1; i >= 0 ; i--){
-				if(contactNumber.charAt(contactNumberLength - 1 - i) != incomingNumber.charAt(incomingNumberLength - 1 - i)){
-					return false;
-				}
-			}
+			return true;
+		}catch(Exception ex){
+			Log.e("PhoneCommon.isPhoneNumberEqual() ERROR: " + ex.toString());
+			return false;
 		}
-		return true;
 	}
 	
 	/**
@@ -541,7 +583,7 @@ public class PhoneCommon {
 	 * @return String - String of phone number with no formatting.
 	 */
 	public static String removePhoneNumberFormatting(String phoneNumber){
-		if (_debug) Log.v("PhoneCommon.removePhoneNumberFormatting()");
+		//if (_debug) Log.v("PhoneCommon.removePhoneNumberFormatting()");
 		phoneNumber = phoneNumber.replace(" ", "");
 		phoneNumber = phoneNumber.replace("-", "");
 		phoneNumber = phoneNumber.replace(".", "");
@@ -566,8 +608,8 @@ public class PhoneCommon {
 	 * @return String - The number after we have removed the leading zero.
 	 */
 	private static String removeLeadingZero(String inputNumber){
-		if (_debug) Log.v("PhoneCommon.removeLeadingZero() InputNumber: " + inputNumber);
-		if(inputNumber.subSequence(0, 1).equals("0")){
+		//if (_debug) Log.v("PhoneCommon.removeLeadingZero() InputNumber: " + inputNumber);
+		if(inputNumber.substring(0, 1).equals("0")){
 			//Do not edit number if the number is exactly 0.
 			//Only update if there is more than 1 digit.
 			if(inputNumber.length() > 1){
