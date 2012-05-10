@@ -3,8 +3,13 @@
 
 = Release Notes =
 
-*v3.8* _Coming Soon..._
+*v3.9* _Coming Soon..._
  * 
+
+*v3.8* _Coming Soon..._
+ * Updated Translations.
+ * Updated API.
+ * Bug Fixes.
 
 *v3.7* (May 9, 2012)
  * Bug fixes.
