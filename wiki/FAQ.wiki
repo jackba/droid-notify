@@ -13,6 +13,7 @@
  * [FAQ#Known_Issues_with_Go_SMS_&_Droid_Notify Known Issues with Go SMS & Droid Notify]
  * [FAQ#Known_Issues_with_Pansi_SMS_&_Droid_Notify Known Issues with Pansi SMS & Droid Notify]
  * [FAQ#Known_Issues_with_Zlango_Messaging_&_Droid_Notify Known Issues with Zlango Messaging & Droid Notify]
+ * [FAQ#Known_Issues_with_ATT_Messaging_App_&_Droid_Notify Known Issues with ATT Messaging App & Droid Notify]
  * [FAQ#Will_email_notifications_be_an_added_feature_in_Droid_Notify? Will email notifications be an added feature in Droid Notify?]
  * [FAQ#Will_Droid_Notify_display_calendar_events_by_non_Android_calendars? Will Droid Notify display calendar events by non Android calendars?]
  * [FAQ#I_get_status_bar_notifications_but_no_popup,_why? I get status bar notifications but no popup, why?]
@@ -96,6 +97,10 @@ If you want to use Pansi SMS, you must follow the steps below in order for Droid
 If you want to use Zlango Messaging, you must follow the steps below in order for Droid Notify to work with SMS/MMS notifications.
 
 1) Uncheck/deselect the "Set as default messaging client" option in the Zlango Messaging settings/preferences. If this option is checked/selected then Droid Notify may not work (i.e. SMS/MMS notifications may not be displayed).
+
+==Known Issues with ATT Messaging App & Droid Notify==
+
+Users have reported that the a bundled app called "ATT Messaging" can stop SMS & MMS notifications from appearing. Uninstalling this application can solve this problem.
 
 ==Will email notifications be an added feature in Droid Notify?==
 
