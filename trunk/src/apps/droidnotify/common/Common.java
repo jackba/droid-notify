@@ -342,14 +342,14 @@ public class Common {
 						statusBarNotificationBundle.putInt(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, Integer.parseInt(preferences.getString(Constants.SMS_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_KEY, Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT)));
 					}catch(Exception ex){
 						statusBarNotificationBundle.putInt(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, Color.parseColor(Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT));
-						Log.e("Common.setStatusBarNotification() LED Color Parsing Failed. ERROR: " + ex.toString());
+						Log.e("Common.getStatusBarNotificationBundle() LED Color Parsing Failed. ERROR: " + ex.toString());
 					}
 				}else{
 					try{
 						statusBarNotificationBundle.putInt(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, Color.parseColor(LEDColor));
 					}catch(Exception ex){
 						statusBarNotificationBundle.putInt(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, Color.parseColor(Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT));
-						Log.e("Common.setStatusBarNotification() LED Color Parsing Failed. ERROR: " + ex.toString());
+						Log.e("Common.getStatusBarNotificationBundle() LED Color Parsing Failed. ERROR: " + ex.toString());
 					}
 				}
 				statusBarNotificationBundle.putBoolean(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_IN_CALL_SOUND_ENABLED, preferences.getBoolean(Constants.SMS_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY, false));
@@ -379,14 +379,14 @@ public class Common {
 						statusBarNotificationBundle.putInt(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, Integer.parseInt(preferences.getString(Constants.MMS_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_KEY, Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT)));
 					}catch(Exception ex){
 						statusBarNotificationBundle.putInt(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, Color.parseColor(Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT));
-						Log.e("Common.setStatusBarNotification() LED Color Parsing Failed. ERROR: " + ex.toString());
+						Log.e("Common.getStatusBarNotificationBundle() LED Color Parsing Failed. ERROR: " + ex.toString());
 					}
 				}else{
 					try{
 						statusBarNotificationBundle.putInt(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, Color.parseColor(LEDColor));
 					}catch(Exception ex){
 						statusBarNotificationBundle.putInt(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, Color.parseColor(Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT));
-						Log.e("Common.setStatusBarNotification() LED Color Parsing Failed. ERROR: " + ex.toString());
+						Log.e("Common.getStatusBarNotificationBundle() LED Color Parsing Failed. ERROR: " + ex.toString());
 					}
 				}
 				statusBarNotificationBundle.putBoolean(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_IN_CALL_SOUND_ENABLED, preferences.getBoolean(Constants.MMS_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY, false));
@@ -416,14 +416,14 @@ public class Common {
 						statusBarNotificationBundle.putInt(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, Integer.parseInt(preferences.getString(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_KEY, Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT)));
 					}catch(Exception ex){
 						statusBarNotificationBundle.putInt(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, Color.parseColor(Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT));
-						Log.e("Common.setStatusBarNotification() LED Color Parsing Failed. ERROR: " + ex.toString());
+						Log.e("Common.getStatusBarNotificationBundle() LED Color Parsing Failed. ERROR: " + ex.toString());
 					}
 				}else{
 					try{
 						statusBarNotificationBundle.putInt(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, Color.parseColor(LEDColor));
 					}catch(Exception ex){
 						statusBarNotificationBundle.putInt(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, Color.parseColor(Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT));
-						Log.e("Common.setStatusBarNotification() LED Color Parsing Failed. ERROR: " + ex.toString());
+						Log.e("Common.getStatusBarNotificationBundle() LED Color Parsing Failed. ERROR: " + ex.toString());
 					}
 				}
 				statusBarNotificationBundle.putBoolean(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_IN_CALL_SOUND_ENABLED, preferences.getBoolean(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY, false));
@@ -453,14 +453,14 @@ public class Common {
 						statusBarNotificationBundle.putInt(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, Integer.parseInt(preferences.getString(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_KEY, Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT)));
 					}catch(Exception ex){
 						statusBarNotificationBundle.putInt(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, Color.parseColor(Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT));
-						Log.e("Common.setStatusBarNotification() LED Color Parsing Failed. ERROR: " + ex.toString());
+						Log.e("Common.getStatusBarNotificationBundle() LED Color Parsing Failed. ERROR: " + ex.toString());
 					}
 				}else{
 					try{
 						statusBarNotificationBundle.putInt(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, Color.parseColor(LEDColor));
 					}catch(Exception ex){
 						statusBarNotificationBundle.putInt(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, Color.parseColor(Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT));
-						Log.e("Common.setStatusBarNotification() LED Color Parsing Failed. ERROR: " + ex.toString());
+						Log.e("Common.getStatusBarNotificationBundle() LED Color Parsing Failed. ERROR: " + ex.toString());
 					}
 				}
 				statusBarNotificationBundle.putBoolean(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_IN_CALL_SOUND_ENABLED, preferences.getBoolean(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY, false));
@@ -490,14 +490,14 @@ public class Common {
 						statusBarNotificationBundle.putInt(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, Integer.parseInt(preferences.getString(Constants.K9_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_KEY, Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT)));
 					}catch(Exception ex){
 						statusBarNotificationBundle.putInt(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, Color.parseColor(Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT));
-						Log.e("Common.setStatusBarNotification() LED Color Parsing Failed. ERROR: " + ex.toString());
+						Log.e("Common.getStatusBarNotificationBundle() LED Color Parsing Failed. ERROR: " + ex.toString());
 					}
 				}else{
 					try{
 						statusBarNotificationBundle.putInt(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, Color.parseColor(LEDColor));
 					}catch(Exception ex){
 						statusBarNotificationBundle.putInt(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, Color.parseColor(Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT));
-						Log.e("Common.setStatusBarNotification() LED Color Parsing Failed. ERROR: " + ex.toString());
+						Log.e("Common.getStatusBarNotificationBundle() LED Color Parsing Failed. ERROR: " + ex.toString());
 					}
 				}
 				statusBarNotificationBundle.putBoolean(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_IN_CALL_SOUND_ENABLED, preferences.getBoolean(Constants.K9_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY, false));
@@ -572,8 +572,11 @@ public class Common {
 					//Notification Sound.
 					if(callStateIdle || statusBarNotificationBundle.getBoolean(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_IN_CALL_SOUND_ENABLED)){
 						try{
-							if (_debug) Log.v("Common.setStatusBarNotification() NotificationSoundURI: " + statusBarNotificationBundle.getString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_SOUND_URI));
-							new playNotificationMediaFileAsyncTask().execute(statusBarNotificationBundle.getString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_SOUND_URI));
+							String statusBarNotificationSoundURI = statusBarNotificationBundle.getString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_SOUND_URI);
+							if (_debug) Log.v("Common.setStatusBarNotification() NotificationSoundURI: " + statusBarNotificationSoundURI);
+							if(statusBarNotificationSoundURI != null){
+								new playNotificationMediaFileAsyncTask().execute(statusBarNotificationSoundURI);
+							}
 						}catch(Exception ex){
 							Log.e("Common.setStatusBarNotification() Generic Notification Sound Play ERROR: " + ex.toString());
 						}
@@ -585,20 +588,26 @@ public class Common {
 					boolean vibrateEnabled = false;
 					String notificationVibrateSetting = statusBarNotificationBundle.getString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_VIBRATE_SETTING);
 					if (_debug) Log.v("Common.setStatusBarNotification() NotificationVibrateSetting: " + notificationVibrateSetting);
-					if(notificationVibrateSetting.equals(VIBRATE_ALWAYS_VALUE)){
-						vibrateEnabled = true;
-					}else if(notificationVibrateSetting.equals(VIBRATE_WHEN_VIBRATE_MODE_VALUE) && inVibrateMode){
-						vibrateEnabled = true;
-					}
-					if(vibrateEnabled){
-						if(callStateIdle || statusBarNotificationBundle.getBoolean(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_IN_CALL_VIBRATE_ENABLED)){
-							if((notificationVibrateSetting.equals(VIBRATE_ALWAYS_VALUE) || notificationVibrateSetting.equals(VIBRATE_WHEN_VIBRATE_MODE_VALUE)) && (inVibrateMode || inNormalMode)){
-								long[] vibrationPattern = parseVibratePattern(statusBarNotificationBundle.getString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_VIBRATE_PATTERN));
-								try{
-									Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
-									vibrator.vibrate(vibrationPattern, -1);
-								}catch(Exception ex){
-									Log.e("Common.setStatusBarNotification() Generic Notification Vibrator ERROR: " + ex.toString());
+					if(notificationVibrateSetting != null){
+						if(notificationVibrateSetting.equals(VIBRATE_ALWAYS_VALUE)){
+							vibrateEnabled = true;
+						}else if(notificationVibrateSetting.equals(VIBRATE_WHEN_VIBRATE_MODE_VALUE) && inVibrateMode){
+							vibrateEnabled = true;
+						}
+						if(vibrateEnabled){
+							if(callStateIdle || statusBarNotificationBundle.getBoolean(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_IN_CALL_VIBRATE_ENABLED)){
+								if((notificationVibrateSetting.equals(VIBRATE_ALWAYS_VALUE) || notificationVibrateSetting.equals(VIBRATE_WHEN_VIBRATE_MODE_VALUE)) && (inVibrateMode || inNormalMode)){
+									String statusBarNotificationVibratePattern = statusBarNotificationBundle.getString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_VIBRATE_PATTERN);
+									long[] vibrationPattern = parseVibratePattern(Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_DEFAULT);
+									if(statusBarNotificationVibratePattern != null){
+										vibrationPattern = parseVibratePattern(statusBarNotificationBundle.getString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_VIBRATE_PATTERN));
+									}
+									try{
+										Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+										vibrator.vibrate(vibrationPattern, -1);
+									}catch(Exception ex){
+										Log.e("Common.setStatusBarNotification() Generic Notification Vibrator ERROR: " + ex.toString());
+									}
 								}
 							}
 						}
