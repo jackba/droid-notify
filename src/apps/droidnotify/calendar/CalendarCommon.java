@@ -248,7 +248,8 @@ public class CalendarCommon {
 
 	/**
 	 * Read the phones Calendars and return the information on them.
-	 * @param context - The 
+	 * 
+	 * @param context - Application Context.
 	 * 
 	 * @return String - A string of the available Calendars. Specially formatted string with the Calendar information.
 	 */
@@ -544,6 +545,31 @@ public class CalendarCommon {
     		formattedMessage = "<b>" + calendarName + "</b><br/>" + formattedMessage;
     	}
 		return formattedMessage.replace("\n", "<br/>").trim();
+	}
+	
+	/**
+	 * Check whether a calendar has been selected 
+	 * 
+	 * @param context - The application context.
+	 * @param calendarID - The calendar ID.
+	 * 
+	 * @return boolean - Returns true if the user has selected this calendar to receive event notifications.
+	 */
+	public static boolean isCalendarEnabled(Context context, long calendarID){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("CalendarCommon.isCalendarEnabled()");
+		try{
+			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+			String calendarPreferences = preferences.getString(Constants.CALENDAR_SELECTION_KEY, "");
+			ArrayList<String> calendarsArray = new ArrayList<String>();
+			if(!calendarPreferences.equals("")){
+				Collections.addAll(calendarsArray, calendarPreferences.split("\\|")); 
+			}
+			return calendarsArray.contains(String.valueOf(calendarID));
+		}catch(Exception ex){
+			Log.e("CalendarCommon.isCalendarEnabled() ERROR: " + ex.toString());
+			return true;
+		}
 	}
 	
 	//================================================================================

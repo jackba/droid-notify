@@ -10,6 +10,7 @@ import android.telephony.TelephonyManager;
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
+import apps.droidnotify.calendar.CalendarCommon;
 
 /**
  * This class does the work of the BroadcastReceiver.
@@ -66,6 +67,26 @@ public class CalendarNotificationAlarmBroadcastReceiverService extends WakefulIn
 				if (_debug) Log.v("CalendarNotificationAlarmBroadcastReceiverService.onReceive() Calendar Notifications Disabled. Exiting... ");
 				return;
 			}
+	    	Bundle bundle = intent.getExtras();
+    		Bundle calendarEventNotificationBundle = bundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME);
+    		if(calendarEventNotificationBundle != null){
+    			Bundle calendarEventNotificationBundleSingle = calendarEventNotificationBundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_1");
+    			if(calendarEventNotificationBundleSingle != null){
+				    //Check to ensure that this calendar event should be displayed.
+			    	//if (_debug) Log.v("CalendarNotificationAlarmBroadcastReceiverService.onReceive() CalendarID: " + calendarEventNotificationBundleSingle.getLong(Constants.BUNDLE_CALENDAR_ID));
+			    	//if (_debug) Log.v("CalendarNotificationAlarmBroadcastReceiverService.onReceive() Is Calendar Enabled: " + CalendarCommon.isCalendarEnabled(context, calendarEventNotificationBundleSingle.getLong(Constants.BUNDLE_CALENDAR_ID)));
+				    if(!CalendarCommon.isCalendarEnabled(context, calendarEventNotificationBundleSingle.getLong(Constants.BUNDLE_CALENDAR_ID))){
+						if (_debug) Log.v("CalendarNotificationAlarmBroadcastReceiverService.onReceive() Specific Calendar Not Enabled. Exiting... ");
+						return;
+				    }
+	    		}else{
+	    			Log.v("CalendarNotificationAlarmBroadcastReceiverService.onReceive() CalendarEventBundle is null. Exiting... ");
+	    			return;
+	    		}
+    		}else{
+    			Log.v("CalendarNotificationAlarmBroadcastReceiverService.onReceive() CalendarEventBundle is null. Exiting... ");
+    			return;
+    		}
 		    //Check the state of the users phone.
 		    TelephonyManager telemanager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 		    boolean notificationIsBlocked = false;
@@ -89,8 +110,6 @@ public class CalendarNotificationAlarmBroadcastReceiverService extends WakefulIn
 				WakefulIntentService.sendWakefulWork(context, calendarIntent);
 		    }else{	    	
 		    	//Display the Status Bar Notification even though the popup is blocked based on the user preferences.
-		    	Bundle bundle = intent.getExtras();
-	    		Bundle calendarEventNotificationBundle = bundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME);
 		    	if(preferences.getBoolean(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true)){
 		    		if(calendarEventNotificationBundle != null){
 		    			Bundle calendarEventNotificationBundleSingle = calendarEventNotificationBundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_1");
