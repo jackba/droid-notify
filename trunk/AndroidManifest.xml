@@ -46,7 +46,8 @@
 	
 	<uses-feature android:name="android.hardware.telephony" />
 	
-    <application 
+    <application          
+    	android:name="apps.droidnotify.MyApplication"
     	android:icon="@drawable/ic_launcher"
     	android:label="@string/app_name_basic_formatted"
     	android:debuggable="true" >

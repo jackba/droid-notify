@@ -144,8 +144,8 @@ public class AdvancedPreferenceActivity extends PreferenceActivity{
 	    protected void onPostExecute(Boolean successful) {
 			if (_debug) Log.v("AdvancedPreferenceActivity.exportPreferencesAsyncTask.onPostExecute()");
 	        dialog.dismiss();
-	        if(successful){
-	    		setupImportPreferences();
+	    	setupImportPreferences();
+		    if(checkPreferencesFileExists("DroidNotify/Preferences/", "DroidNotifyPreferences.txt")){
 	        	Toast.makeText(_context, _context.getString(R.string.preference_export_preferences_finish_text), Toast.LENGTH_LONG).show();
 	        }else{
 	        	Toast.makeText(_context, _context.getString(R.string.preference_export_preferences_error_text), Toast.LENGTH_LONG).show();
