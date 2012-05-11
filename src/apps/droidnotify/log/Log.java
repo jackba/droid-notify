@@ -5,6 +5,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -26,6 +27,7 @@ import android.os.Environment;
 import apps.droidnotify.R;
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
+import apps.droidnotify.MyApplication;
 
 /**
  * This class logs messages to the Android log file.
@@ -99,7 +101,9 @@ public class Log {
 	 */
 	public static void v(String msg) {
 		android.util.Log.v(Constants.LOGTAG, msg);
-		appendToExternalLogFile("V", msg);
+		if(!appendToExternalLogFile("V", msg)){
+			appendToInternalLogFile("V", msg);
+		}
 	}
 	
 	/**
@@ -109,7 +113,9 @@ public class Log {
 	 */
 	public static void d(String msg) {
 		android.util.Log.d(Constants.LOGTAG, msg);
-		appendToExternalLogFile("D", msg);
+		if(!appendToExternalLogFile("D", msg)){
+			appendToInternalLogFile("D", msg);
+		}
 	}	
 	
 	/**
@@ -119,7 +125,9 @@ public class Log {
 	 */
 	public static void i(String msg) {
 		android.util.Log.i(Constants.LOGTAG, msg);
-		appendToExternalLogFile("I", msg);
+		if(!appendToExternalLogFile("I", msg)){
+			appendToInternalLogFile("I", msg);
+		}
 	}
 	
 	/**
@@ -129,7 +137,9 @@ public class Log {
 	 */
 	public static void w(String msg) {
 		android.util.Log.w(Constants.LOGTAG, msg);
-		appendToExternalLogFile("W", msg);
+		if(!appendToExternalLogFile("W", msg)){
+			appendToInternalLogFile("W", msg);
+		}
 	}
 	
 	/**
@@ -139,7 +149,9 @@ public class Log {
 	 */
 	public static void e(String msg) {
 		android.util.Log.e(Constants.LOGTAG, msg);
-		appendToExternalLogFile("E", msg);
+		if(!appendToExternalLogFile("E", msg)){
+			appendToInternalLogFile("E", msg);
+		}
 	}
 	
 	/**
@@ -151,11 +163,51 @@ public class Log {
 		_context = context;
 		_collectLogTask = (CollectLogTask) (new Log()).new CollectLogTask().execute();
     }
+    
+    /**
+     * Determine if the external storage can be written to.
+     * 
+     * @return boolean - Returns true if the external storage can be written to.
+     */
+    public static boolean writeExternalStorage(){
+    	//Check state of external storage.
+		String state = Environment.getExternalStorageState();
+		if (Environment.MEDIA_MOUNTED.equals(state)){
+		    //We can read and write the media. Do nothing.
+			return true;
+		}else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)){
+		    // We can only read the media.
+		    return false;
+		}else{
+		    // Something else is wrong. It may be one of many other states, but all we need to know is we can neither read nor write.
+		    return false;
+		}
+    }
  
 	//================================================================================
 	// Private Methods
 	//================================================================================
 
+    /**
+     * Append text to the log file being kept internally.
+     * 
+     * @param context - The application context.
+     * @param msg - The message to append to the log file.
+     */
+    private static boolean appendToInternalLogFile(String level, String msg){
+    	_context = MyApplication.getContext();
+    	try{
+    		FileOutputStream fileOutputStream = _context.openFileOutput("Log.txt", Context.MODE_WORLD_READABLE | Context.MODE_APPEND);
+    		String logString = level + " - " + new SimpleDateFormat().format(System.currentTimeMillis()) + " - " + Constants.LOGTAG + " - " + msg + "\n";
+    		fileOutputStream.write(logString.getBytes());
+    		fileOutputStream.close();
+			return true; 
+		}catch (Exception ex){
+			android.util.Log.e(Constants.LOGTAG, "Log.appendToInternalLogFile() ERROR: " + ex.toString());
+			return false;
+		}
+    }
+    
     /**
      * Append text to the log file being kept on the SD card.
      * 
@@ -164,17 +216,8 @@ public class Log {
      */
     private static boolean appendToExternalLogFile(String level, String msg){
     	try{
-    		//Check state of external storage.
-			String state = Environment.getExternalStorageState();
-			if (Environment.MEDIA_MOUNTED.equals(state)){
-			    //We can read and write the media. Do nothing.
-			}else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)){
-			    // We can only read the media.
-				//android.util.Log.e(Constants.LOGTAG, "Log.appendToExternalLogFile() External Storage Read Only State");
-			    return false;
-			}else{
-			    // Something else is wrong. It may be one of many other states, but all we need to know is we can neither read nor write
-				//android.util.Log.e(Constants.LOGTAG, "Log.appendToExternalLogFile() External Storage Can't Write Or Read State");
+    		//Check to see if we can write to the external storage.
+			if(!writeExternalStorage()){
 			    return false;
 			}
 	    	File logFilePath = Environment.getExternalStoragePublicDirectory("DroidNotify/Log");
@@ -203,7 +246,10 @@ public class Log {
 	/**
 	 * Shrink the log file if it's too large.
 	 */
-	private static void shrinkLogFile(){
+	private static void shrinkLogFile(){		
+		if(!readExternalStorage()){
+			return;
+		}
     	File logFilePath = Environment.getExternalStoragePublicDirectory("DroidNotify/Log");
     	File logFile = new File(logFilePath, "DroidNotifyLog.txt");
     	File logFileTmp = new File(logFilePath, "DroidNotifyLogTMP.txt");
@@ -288,13 +334,12 @@ public class Log {
     			//Shrink the file to ensure that it never gets too large.
     			shrinkLogFile();
     			//Export the current application preferences.
-    			Common.exportApplicationPreferences(_context, "DroidNotify/Log/Preferences", "DroidNotifyPreferences.txt");
+    			return Common.exportApplicationPreferences(_context, "DroidNotify/Log/Preferences", "DroidNotifyPreferences.txt");
             }catch(Exception ex){
             	android.util.Log.e(Constants.LOGTAG, "Log.collectAndSendLog() ERROR: " + ex.toString());
             	showErrorDialog(_context, ex.toString());
             	return false;
             }
-        	return true;
         }
 
 	    /**
@@ -306,26 +351,49 @@ public class Log {
         protected void onPostExecute(Boolean result){
  
 	    	Intent sendEmailIntent = new Intent(Intent.ACTION_SEND_MULTIPLE);
+	    	sendEmailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 	    	sendEmailIntent.setType("plain/text");
 	    	sendEmailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {"droidnotify@gmail.com"});
 	    	sendEmailIntent.putExtra(Intent.EXTRA_SUBJECT, "Droid Notify Lite - Debug Logs");
 			sendEmailIntent.putExtra(Intent.EXTRA_TEXT, _context.getString(R.string.log_file_device_info, Common.getApplicationVersion(_context), Build.MODEL, Build.VERSION.RELEASE, Build.DISPLAY) + "\n\nThe application logs are attached.");
 	    	ArrayList<Uri> uris = new ArrayList<Uri>();
 	    	
-	    	File logFilePath = Environment.getExternalStoragePublicDirectory("DroidNotify/Log");
-	    	File logFile = new File(logFilePath, "DroidNotifyLog.txt");
-	    	if(logFile.exists()){
-	    		uris.add(Uri.fromFile(logFile));
-	    	}
-
-	    	File preferencesFilePath = Environment.getExternalStoragePublicDirectory("DroidNotify/Log/Preferences");
-	    	File preferencesFile = new File(preferencesFilePath, "DroidNotifyPreferences.txt");
-	    	if(preferencesFile.exists()){
-	    		uris.add(Uri.fromFile(preferencesFile));
+	    	//Try to get the external storage logs.
+	    	if(readExternalStorage()){	    		
+	    	
+		    	File externalLogFilePath = Environment.getExternalStoragePublicDirectory("DroidNotify/Log");
+		    	File externalLogFile = new File(externalLogFilePath, "DroidNotifyLog.txt");
+		    	if(externalLogFile.exists()){
+		    		uris.add(Uri.fromFile(externalLogFile));
+		    	}
+	
+		    	File externalPreferencesFilePath = Environment.getExternalStoragePublicDirectory("DroidNotify/Log/Preferences");
+		    	File externalPreferencesFile = new File(externalPreferencesFilePath, "DroidNotifyPreferences.txt");
+		    	if(externalPreferencesFile.exists()){
+		    		uris.add(Uri.fromFile(externalPreferencesFile));
+		    	}
+		    	
 	    	}
 	    	
-	    	sendEmailIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);	    	
-			_context.startActivity(sendEmailIntent);
+	    	//Try to get the internal logs.
+	    	
+	    	File internalLogFile = new File(_context.getFilesDir(), "Log.txt");
+	    	if(internalLogFile.exists()){
+	    		uris.add(Uri.fromFile(internalLogFile));
+	    	}
+	
+	    	File internalPeferencesFile = new File(_context.getFilesDir(), "Preferences.txt");
+	    	if(internalPeferencesFile.exists()){
+	    		uris.add(Uri.fromFile(internalPeferencesFile));
+	    	}
+	    	
+	    	sendEmailIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
+	    	
+    		try{
+    			_context.startActivity(sendEmailIntent);
+    		}catch(Exception ex){
+    			android.util.Log.e(Constants.LOGTAG, "Log.CollectLogTask.onPostExecute() ERROR: " + ex.toString());
+    		}
 			
 			_progressDialog.dismiss();
 			
@@ -381,6 +449,26 @@ public class Log {
         	_collectLogTask.cancel(true);
         	_collectLogTask = null;
         }
+    }
+    
+    /**
+     * Determine if the external storage can be read.
+     * 
+     * @return boolean - Returns true if the external storage can be read.
+     */
+    private static boolean readExternalStorage(){
+    	//Check state of external storage.
+		String state = Environment.getExternalStorageState();
+		if (Environment.MEDIA_MOUNTED.equals(state)){
+		    //We can read and write the media. Do nothing.
+			return true;
+		}else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)){
+		    // We can only read the media.
+			return true;
+		}else{
+		    // Something else is wrong. It may be one of many other states, but all we need to know is we can neither read nor write.
+		    return false;
+		}
     }
 	
 }

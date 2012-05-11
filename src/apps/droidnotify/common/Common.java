@@ -2,6 +2,7 @@ package apps.droidnotify.common;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -2098,53 +2099,67 @@ public class Common {
 	public static boolean exportApplicationPreferences(Context context, String path, String fileName){
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.exportApplicationPreferences()");
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-		//Check state of external storage.
-		String state = Environment.getExternalStorageState();
-		if (Environment.MEDIA_MOUNTED.equals(state)) {
-		    //We can read and write the media. Do nothing.
-		} else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
-		    // We can only read the media.
-			Log.e("Common.exportApplicationPreferences() External Storage Read Only State");
-		    return false;
-		} else {
-		    // Something else is wrong. It may be one of many other states, but all we need to know is we can neither read nor write
-			Log.e("Common.exportApplicationPreferences() External Storage Can't Write Or Read State");
-		    return false;
-		}
-    	//Export the applications user preferences.
-    	File preferencesFilePath = Environment.getExternalStoragePublicDirectory(path);
-    	File preferencesFile = new File(preferencesFilePath, fileName);
     	try{
-    		preferencesFilePath.mkdirs();
-    		//Delete previous file if it exists.
-    		if(preferencesFile.exists()){
-    			preferencesFile.delete();   			
-    		}
-    		preferencesFile.createNewFile();
-    		//Write each preference to the text file.
-			BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(preferencesFile, true)); 			
-			Map<String, ?> applicationPreferencesMap = preferences.getAll();
-			for (Map.Entry<String, ?> entry : applicationPreferencesMap.entrySet()) {
-			    String key = entry.getKey();
-			    Object value = entry.getValue();
-			    if(value instanceof String){
-			    	bufferedWriter.append(key + "|" + value + "|string");
-			    }else if(value instanceof Boolean){
-			    	bufferedWriter.append(key + "|" + value + "|boolean");
-			    }else if(value instanceof Integer){
-			    	bufferedWriter.append(key + "|" + value + "|int");
-			    }else if(value instanceof Long){
-			    	bufferedWriter.append(key + "|" + value + "|long");
-			    }else if(value instanceof Float){
-			    	bufferedWriter.append(key + "|" + value + "|float");
-			    }
-				bufferedWriter.newLine();
-			}
-			bufferedWriter.flush();
-			bufferedWriter.close();
+			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+			if(!Log.writeExternalStorage()){
+				File internalPeferencesFile = new File(context.getFilesDir(), "Preferences.txt");
+				if(internalPeferencesFile.exists()){
+					internalPeferencesFile.delete();
+				}
+				FileOutputStream fileOutputStream = context.openFileOutput("Preferences.txt", Context.MODE_WORLD_READABLE | Context.MODE_APPEND);
+				Map<String, ?> applicationPreferencesMap = preferences.getAll();
+				for (Map.Entry<String, ?> entry : applicationPreferencesMap.entrySet()) {
+				    String key = entry.getKey();
+				    Object value = entry.getValue();
+				    String preferenceLine = "";
+				    if(value instanceof String){
+				    	preferenceLine = key + "|" + value + "|string" + "\n";
+				    }else if(value instanceof Boolean){
+				    	preferenceLine = key + "|" + value + "|boolean" + "\n";
+				    }else if(value instanceof Integer){
+				    	preferenceLine = key + "|" + value + "|int" + "\n";
+				    }else if(value instanceof Long){
+				    	preferenceLine = key + "|" + value + "|long" + "\n";
+				    }else if(value instanceof Float){
+				    	preferenceLine = key + "|" + value + "|float" + "\n";
+				    }
+				    fileOutputStream.write(preferenceLine.getBytes());
+				}
+				fileOutputStream.close();
+			}else{
+		    	//Export the applications user preferences.
+				File preferencesFilePath = Environment.getExternalStoragePublicDirectory(path);
+				File preferencesFile = new File(preferencesFilePath, fileName);
+	    		preferencesFilePath.mkdirs();
+	    		//Delete previous file if it exists.
+	    		if(preferencesFile.exists()){
+	    			preferencesFile.delete();   			
+	    		}
+	    		preferencesFile.createNewFile();
+	    		//Write each preference to the text file.
+				BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(preferencesFile, true)); 			
+				Map<String, ?> applicationPreferencesMap = preferences.getAll();
+				for (Map.Entry<String, ?> entry : applicationPreferencesMap.entrySet()) {
+				    String key = entry.getKey();
+				    Object value = entry.getValue();
+				    if(value instanceof String){
+				    	bufferedWriter.append(key + "|" + value + "|string");
+				    }else if(value instanceof Boolean){
+				    	bufferedWriter.append(key + "|" + value + "|boolean");
+				    }else if(value instanceof Integer){
+				    	bufferedWriter.append(key + "|" + value + "|int");
+				    }else if(value instanceof Long){
+				    	bufferedWriter.append(key + "|" + value + "|long");
+				    }else if(value instanceof Float){
+				    	bufferedWriter.append(key + "|" + value + "|float");
+				    }
+					bufferedWriter.newLine();
+				}
+				bufferedWriter.flush();
+				bufferedWriter.close();
+	    	}
 		}catch (Exception ex){
-			Log.e("Common.exportApplicationPreferences() Wrtie File ERROR: " + ex.toString());
+			Log.e("Common.exportApplicationPreferences() ERROR: " + ex.toString());
 			return false;
 		}
 		return true;
