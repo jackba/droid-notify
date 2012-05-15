@@ -571,10 +571,18 @@ public class Common {
 				case Constants.NOTIFICATION_TYPE_GENERIC:{
 					if (_debug) Log.v("Common.setStatusBarNotification() NOTIFICATION_TYPE_GENERIC");
 					//Notification Sound.
-					if(callStateIdle || statusBarNotificationBundle.getBoolean(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_IN_CALL_SOUND_ENABLED)){
+					String statusBarNotificationSoundURI = statusBarNotificationBundle.getString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_SOUND_URI);
+					if (_debug) Log.v("Common.setStatusBarNotification() NotificationSoundURI: " + statusBarNotificationSoundURI);
+					if(callStateIdle){
 						try{
-							String statusBarNotificationSoundURI = statusBarNotificationBundle.getString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_SOUND_URI);
-							if (_debug) Log.v("Common.setStatusBarNotification() NotificationSoundURI: " + statusBarNotificationSoundURI);
+							if(statusBarNotificationSoundURI != null){
+								new playGenericNotificationMediaFileAsyncTask().execute(statusBarNotificationSoundURI);
+							}
+						}catch(Exception ex){
+							Log.e("Common.setStatusBarNotification() Generic Notification Sound Play ERROR: " + ex.toString());
+						}
+					}else if(statusBarNotificationBundle.getBoolean(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_IN_CALL_SOUND_ENABLED)){
+						try{
 							if(statusBarNotificationSoundURI != null){
 								new playNotificationMediaFileAsyncTask().execute(statusBarNotificationSoundURI);
 							}
@@ -2094,6 +2102,11 @@ public class Common {
 	/**
 	 * Export the application preferences to the SD card.
 	 * 
+	 * @param context - The application context.
+	 * @param path - 
+	 * @param filename - 
+	 * @param exportDB - 
+	 * 
 	 * @return boolean - True if the operation was successful, false otherwise.
 	 */
 	public static boolean exportApplicationPreferences(Context context, String path, String fileName){
@@ -2163,6 +2176,46 @@ public class Common {
 			return false;
 		}
 		return true;
+	}
+	
+	/**
+	 * Remove the application log files from the phone.
+	 * 
+	 * @param context - The application context.
+	 * 
+	 * @return boolean - True if the operation was successful, false otherwise.
+	 */
+	public static boolean clearLogFiles(Context context){
+		_debug = Log.getDebug();
+		try{
+			//Remove internal preferences file.
+			File internalPeferencesFile = new File(context.getFilesDir(), "Preferences.txt");
+			if(internalPeferencesFile.exists()){
+				internalPeferencesFile.delete();
+			}
+			//Remove internal log file.
+	    	File internalLogFile = new File(context.getFilesDir(), "Log.txt");
+	    	if(internalLogFile.exists()){
+	    		internalLogFile.delete();
+	    	}		
+			if(Log.writeExternalStorage()){
+				//Remove external preferences file.
+		    	File preferencesFilePath = Environment.getExternalStoragePublicDirectory("DroidNotify/Log/Preferences");
+		    	File preferencesFile = new File(preferencesFilePath, "DroidNotifyPreferences.txt");
+				if(preferencesFile.exists()){
+					preferencesFile.delete();   			
+				}
+				//Remove external log file.
+		    	File externalLogFilePath = Environment.getExternalStoragePublicDirectory("DroidNotify/Log");
+		    	File externalLogFile = new File(externalLogFilePath, "DroidNotifyLog.txt");
+		    	if(externalLogFile.exists()){
+		    		externalLogFile.delete();
+		    	}
+			}
+			return true;
+		}catch (Exception ex){
+			return false;
+		}
 	}
 	
 	//================================================================================
@@ -2282,6 +2335,7 @@ public class Common {
 				mediaPlayer = new MediaPlayer();
 				mediaPlayer.setLooping(false);
 				mediaPlayer.setDataSource(_context,  Uri.parse(params[0]));
+				mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
 				mediaPlayer.prepare();
 				mediaPlayer.start();
 				mediaPlayer.setOnCompletionListener(new OnCompletionListener(){
@@ -2306,6 +2360,54 @@ public class Common {
 	     */
 	    protected void onPostExecute(Void result) {
 			if (_debug) Log.v("Common.playNotificationMediaFileAsyncTask.onPostExecute()");
+	    }
+	    
+	}
+	
+	/**
+	 * Play a notification sound through the media player using the ringtone stream.
+	 * 
+	 * @author Camille Sévigny
+	 */
+	private static class playGenericNotificationMediaFileAsyncTask extends AsyncTask<String, Void, Void> {
+	    
+	    /**
+	     * Do this work in the background.
+	     * 
+	     * @param params - The URI of the notification sound.
+	     */
+	    protected Void doInBackground(String... params) {
+			if (_debug) Log.v("Common.playGenericNotificationMediaFileAsyncTask.doInBackground()");
+			MediaPlayer mediaPlayer = null;
+			try{
+				mediaPlayer = new MediaPlayer();
+				mediaPlayer.setLooping(false);
+				mediaPlayer.setDataSource(_context,  Uri.parse(params[0]));
+				mediaPlayer.setAudioStreamType(AudioManager.STREAM_RING);
+				mediaPlayer.prepare();
+				mediaPlayer.start();
+				mediaPlayer.setOnCompletionListener(new OnCompletionListener(){
+	                public void onCompletion(MediaPlayer mediaPlayer) {
+	                	mediaPlayer.release();
+	                	mediaPlayer = null;
+	                }
+				});	
+		    	return null;
+			}catch(Exception ex){
+				Log.e("Common.playGenericNotificationMediaFileAsyncTask.doInBackground() ERROR: " + ex.toString());
+				mediaPlayer.release();
+            	mediaPlayer = null;
+				return null;
+			}
+	    }
+	    
+	    /**
+	     * Nothing needs to happen once the media file has been played.
+	     * 
+	     * @param result - Void.
+	     */
+	    protected void onPostExecute(Void result) {
+			if (_debug) Log.v("Common.playGenericNotificationMediaFileAsyncTask.onPostExecute()");
 	    }
 	    
 	}

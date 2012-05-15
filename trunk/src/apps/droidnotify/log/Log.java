@@ -52,6 +52,7 @@ public class Log {
 
 	private static Context _context = null;
 	private static CollectLogTask _collectLogTask = null;
+	private static ClearLogsTask _clearLogsTask = null;
     private ProgressDialog _progressDialog;
 
 	//================================================================================
@@ -162,6 +163,16 @@ public class Log {
 	public static void collectAndSendLog(Context context){
 		_context = context;
 		_collectLogTask = (CollectLogTask) (new Log()).new CollectLogTask().execute();
+    }
+	
+	/**
+	 * Clear the logs from the users phone.
+	 * 
+	 * @param context - The application context.
+	 */
+	public static void clearLogs(Context context){
+		_context = context;
+		_clearLogsTask = (ClearLogsTask) (new Log()).new ClearLogsTask().execute();
     }
     
     /**
@@ -399,6 +410,48 @@ public class Log {
 			
         }
         
+    }    
+    
+    /*
+     * Clear the log files.
+     */
+    private class ClearLogsTask extends AsyncTask<Void, Void, Boolean>{
+        
+        /**
+         * Do this work before the background task starts.
+         */  	
+        @Override
+        protected void onPreExecute(){
+            showProgressDialog(_context.getString(R.string.removing_logs));
+        }
+        
+	    /**
+	     * Do this work in the background.
+	     * 
+	     * @param params - An ArrayList of the command line parameters to use.
+	     */
+        @Override
+        protected Boolean doInBackground(Void... params){
+            try{
+    			//Export the current application preferences.
+    			return Common.clearLogFiles(_context);
+            }catch(Exception ex){
+            	android.util.Log.e(Constants.LOGTAG, "Log.collectAndSendLog() ERROR: " + ex.toString());
+            	showErrorDialog(_context, ex.toString());
+            	return false;
+            }
+        }
+
+	    /**
+	     * Do this work after the background has finished.
+	     * 
+	     * @param Boolean - Boolean result flag.
+	     */
+        @Override
+        protected void onPostExecute(Boolean result){
+			_progressDialog.dismiss();			
+        }
+        
     }
     
     /**
@@ -436,18 +489,29 @@ public class Log {
         _progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener(){
             public void onCancel(DialogInterface dialog){
             	cancellCollectLogTask();
+            	cancellCleartLogsTask();
             }
         });
         _progressDialog.show();
     }
     
     /**
-     * Can cell the Collect Log Async Task.
+     * Cancell the Collect Log Async Task.
      */
     private void cancellCollectLogTask(){
         if (_collectLogTask != null && _collectLogTask.getStatus() == AsyncTask.Status.RUNNING){
         	_collectLogTask.cancel(true);
         	_collectLogTask = null;
+        }
+    }
+    
+    /**
+     * Cancell the Clear Logs Async Task.
+     */
+    private void cancellCleartLogsTask(){
+        if (_clearLogsTask != null && _clearLogsTask.getStatus() == AsyncTask.Status.RUNNING){
+        	_clearLogsTask.cancel(true);
+        	_clearLogsTask = null;
         }
     }
     
