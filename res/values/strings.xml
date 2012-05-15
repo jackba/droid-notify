@@ -577,6 +577,9 @@
     <string name="log_file_device_info" formatted="false">Droid Notify Version: %s\nDevice Model: %s\nFirmware Version: %s\nBuild Number: %s\n</string>
     <string name="send_debug_logs_text">Send Debug Logs</string>
 	<string name="send_debug_logs_summary">Send the debug logs to the developer.</string>
+	<string name="clear_debug_logs">Clear Debug Logs</string>
+	<string name="clear_debug_logs_summary">Delete existing debug logs.</string>
+    <string name="removing_logs">Removing logs&#8230;</string>
     
     <!-- Settings Feedback Strings --> 
     <string name="feedback_category">FEEDBACK</string>

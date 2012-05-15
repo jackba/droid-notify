@@ -12,5 +12,10 @@
 		android:layout="@layout/custom_preference"
         android:key="send_debug_logs"
        	android:title="@string/send_debug_logs_text"
-        android:summary="@string/send_debug_logs_summary" />	
+        android:summary="@string/send_debug_logs_summary" />
+	<Preference
+		android:layout="@layout/custom_preference"
+        android:key="clear_debug_logs"
+       	android:title="@string/clear_debug_logs"
+        android:summary="@string/clear_debug_logs_summary" />	
 </PreferenceScreen>

@@ -81,7 +81,15 @@ public class DebugPreferenceActivity extends PreferenceActivity implements OnSha
 		    	Log.collectAndSendLog(_context);
 		    	return true;
         	}
-		});	
+		});		
+		//Clear Logs Button
+		Preference clearDebugLogsPreference = (Preference)this.findPreference("clear_debug_logs");
+		clearDebugLogsPreference.setOnPreferenceClickListener(new OnPreferenceClickListener(){
+			public boolean onPreferenceClick(Preference preference){
+		    	Log.clearLogs(_context);
+		    	return true;
+        	}
+		});
 	}
 	
 }
