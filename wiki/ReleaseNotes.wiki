@@ -6,7 +6,7 @@
 *v3.9* _Coming Soon..._
  * 
 
-*v3.8* _Coming Soon..._
+*v3.8* (May 16, 2012)
  * Updated Translations.
  * Updated API.
  * The app will now store files on the phones internal memory if the SD car/external memory is unavailable.
