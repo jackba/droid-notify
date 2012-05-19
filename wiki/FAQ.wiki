@@ -5,6 +5,8 @@
 
 = *Droid Notify* =
 
+ * [FAQ#What_is_the_difference_between_Droid_Notify_Pro_&_Droid_Notify_Plus? What is the difference between Droid Notify Pro & Droid Notify Plus?]
+
  * [FAQ#Can_I_change_the_UI_of_the_notification? Can I change the UI of the notification?]
  * [FAQ#The_notification_icon_is_not_removed_when_I_dismiss_or_acknowledge_the_new_message,_why? The notification icon is not removed when I dismiss or acknowledge the new message, why?]
  * [FAQ#The_contact_photo_in_the_notification_doesn't_display_the_user's_Facebook_photo_even_though_it_shows_in_the_system_contacts,_why? The contact photo in the notification doesn't display the user's Facebook photo even though it shows in the system contacts, why?]
@@ -32,6 +34,21 @@
  * [FAQ#After_Droid_Notify_Plus_updates,_the_app_stops_working._Why? After Droid Notify Plus updates, the app stops working. Why?]
 
 ----
+
+==What is the difference between Droid Notify Pro & Droid Notify Plus?==
+
+*Droid Notify Pro*
+
+Adds a few full features notifications and options:
+
+1) Adds Facebook Notifications
+2) Adds Twitter Notifications
+4) Adds A Blacklist Feature
+3) Adds A Custom Contact Feature
+
+*Droid Notify Plus*
+
+Adds very basic notifications for ANY app installed on the phone.
 
 ==Can I change the UI of the notification?==
 
