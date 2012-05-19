@@ -39,16 +39,21 @@
 
 *Droid Notify Pro*
 
-Adds a few full features notifications and options:
+Includes all the features of the Droid Notify Lite application and adds a few more features and notification types as described below:
 
 1) Adds Facebook Notifications
+
 2) Adds Twitter Notifications
+
 4) Adds A Blacklist Feature
+
 3) Adds A Custom Contact Feature
+
+4) Any new open API programs might be added as features to this app.
 
 *Droid Notify Plus*
 
-Adds very basic notifications for ANY app installed on the phone.
+Adds very basic notifications for ANY app installed on the phone (as long as they post status bar notifications). Droid Notify Plus reads a posted status bar notification and displays it as a popup window. Only the information provided in the status bar notification can be used in the popup window.
 
 ==Can I change the UI of the notification?==
 
