@@ -3,9 +3,9 @@
 
 = Droid Notify - Frequently Asked Questions =
 
-= *Droid Notify* =
+ * [FAQ#What_is_the_difference_between_Droid_Notify_Pro_and_Droid_Notify_Plus? What is the difference between Droid Notify Pro and Droid Notify Plus?]
 
- * [FAQ#What_is_the_difference_between_Droid_Notify_Pro_&_Droid_Notify_Plus? What is the difference between Droid Notify Pro & Droid Notify Plus?]
+= *Droid Notify* =
 
  * [FAQ#Can_I_change_the_UI_of_the_notification? Can I change the UI of the notification?]
  * [FAQ#The_notification_icon_is_not_removed_when_I_dismiss_or_acknowledge_the_new_message,_why? The notification icon is not removed when I dismiss or acknowledge the new message, why?]
@@ -35,7 +35,7 @@
 
 ----
 
-==What is the difference between Droid Notify Pro & Droid Notify Plus?==
+==What is the difference between Droid Notify Pro and Droid Notify Plus?==
 
 *Droid Notify Pro*
 
