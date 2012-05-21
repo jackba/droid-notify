@@ -47,8 +47,10 @@ public class Log {
     //================================================================================
 	
 	private static boolean _debug = true;
-	private static final boolean _showAndroidRateAppLink = true;
-	private static final boolean _showAmazonRateAppLink = false;	
+	
+	private static final boolean _AndroidVersion = true;
+	private static final boolean _AmazonVersion = false;
+	private static final boolean _SamsungVersion = false;	
 
 	private static Context _context = null;
 	private static CollectLogTask _collectLogTask = null;
@@ -78,21 +80,30 @@ public class Log {
 	}
 
 	/**
-	 *  Get showAndroidRateAppLink property.
+	 *  Get AndroidVersion property.
 	 *  
-	 *  @return boolean - Returns true if we want to show the Android Market link.
+	 *  @return boolean - Returns true if we want to show the Android links.
 	 */
-	public static boolean getShowAndroidRateAppLink(){
-		return _showAndroidRateAppLink;
+	public static boolean getAndroidVersion(){
+		return _AndroidVersion;
 	}
 
 	/**
-	 *  Get showAmazonRateAppLink property.
+	 *  Get AmazonVersion property.
 	 *  
-	 *  @return boolean - Returns true if we want to show the Amazon Appstore link.
+	 *  @return boolean - Returns true if we want to show the Amazon links.
 	 */
-	public static boolean getShowAmazonRateAppLink(){
-		return _showAmazonRateAppLink;
+	public static boolean getAmazonVersion(){
+		return _AmazonVersion;
+	}
+
+	/**
+	 *  Get SamsungVersion property.
+	 *  
+	 *  @return boolean - Returns true if we want to show the Samsung links.
+	 */
+	public static boolean getSamsungVersion(){
+		return _SamsungVersion;
 	}
 	
 	/**

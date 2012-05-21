@@ -82,7 +82,7 @@ public class Constants {
 	public static final String KEYGUARD_ENABLED_KEY = "keyguard_enabled";
 	public static final String HIDE_SINGLE_MESSAGE_HEADER_KEY = "hide_single_message_header_enabled";
     public static final String CLEAR_STATUS_BAR_NOTIFICATIONS_ON_EXIT_KEY = "clear_status_bar_notifications_on_exit_enabled";
-    public static final String PREVIOUS_CALL_STATE_KEY = "previous_call_state";
+    public static final String PREVIOUS_CALL_STATE_KEY = "NOTIFY_LITE_previous_call_state";
     
 	//-----SETTING ACTIVITIES CONSTANTS-----//
 	public static final String SETTINGS_STATUS_BAR_NOTIFICATIONS_PREFERENCE = "status_bar_notifications_preference";
@@ -537,6 +537,14 @@ public class Constants {
 	public static final String KAITEN_MAIL_AMAZON_URL = "http://www.amazon.com/gp/mas/dl/android?p=com.kaitenmail";
 	public static final String APP_SEARCH_AMAZON_URL = "http://www.amazon.com/gp/mas/dl/android?p=apps.droidnotify.theme&showAll=1";
 	public static final String APP_AMAZON_PLUS_URL = "http://www.amazon.com/gp/mas/dl/android?p=apps.droidnotifyplus";
+	
+	//Samsung Apps URL
+	public static final String APP_SAMSUNG_URL = "samsungapps://ProductDetail/apps.droidnotify";
+	public static final String APP_PRO_SAMSUNG_URL = "samsungapps://ProductDetail/apps.droidnotifydonate";
+	public static final String K9_MAIL_SAMSUNG_URL = "samsungapps://ProductDetail/com.fsck.k9";
+	public static final String KAITEN_MAIL_SAMSUNG_URL = "samsungapps://ProductDetail/com.kaitenmail";
+	public static final String APP_SEARCH_SAMSUNG_URL = "http://www.samsungapps.com/topApps/topAppsList.as?mkt_keyword=Droid+Notify";
+	public static final String APP_SAMSUNG_PLUS_URL = "samsungapps://ProductDetail/apps.droidnotifyplus";	
 	
 	//PayPal URL
 	public static final String APP_PAYPAL_URL = "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=43V2NJQH5BQAA";

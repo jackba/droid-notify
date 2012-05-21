@@ -173,10 +173,12 @@ public class ThemePreferenceActivity extends Activity {
         	public void onClick(View view){
 		    	try{
 			    	String searchAppURL = "";
-			    	if(Log.getShowAndroidRateAppLink()){
+			    	if(Log.getAndroidVersion()){
 			    		searchAppURL = Constants.APP_SEARCH_ANDROID_URL;
-			    	}else if(Log.getShowAmazonRateAppLink()){
+			    	}else if(Log.getAmazonVersion()){
 			    		searchAppURL = Constants.APP_SEARCH_AMAZON_URL;
+			    	}else if(Log.getSamsungVersion()){
+			    		searchAppURL = Constants.APP_SEARCH_SAMSUNG_URL;
 			    	}else{
 			    		searchAppURL = "";
 			    	}

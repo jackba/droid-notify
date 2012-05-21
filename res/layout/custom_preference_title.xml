@@ -16,7 +16,8 @@
     	android:layout_gravity="center_vertical"	            
     	android:gravity="center_vertical"
         android:textAppearance="?android:attr/textAppearanceLarge"
-    	android:paddingLeft="10dp" />	
+    	android:paddingLeft="10dp"
+	    android:layout_marginBottom="6dp" />	
 	<ImageView
         android:id="@+id/row_divider_basic"
   		android:src="@drawable/preference_divider_normal"

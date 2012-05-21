@@ -66,14 +66,18 @@ public class AddOnsActivity extends Activity {
 		String buttonText = null;
 		boolean displayUpgradeButton = true;
 		descriptionText = _context.getString(R.string.download_droid_notify_plus_description_text);
-		if(Log.getShowAndroidRateAppLink()){
+		if(Log.getAndroidVersion()){
 			displayUpgradeButton = true;
 			buttonText = _context.getString(R.string.download_now);
 			downloadURL = Constants.APP_ANDROID_PLUS_URL;
-        }else if(Log.getShowAmazonRateAppLink()){
+        }else if(Log.getAmazonVersion()){
 			displayUpgradeButton = true;
 			buttonText = _context.getString(R.string.download_now);
 			downloadURL = Constants.APP_AMAZON_PLUS_URL;
+        }else if(Log.getSamsungVersion()){
+			displayUpgradeButton = true;
+			buttonText = _context.getString(R.string.download_now);
+			downloadURL = Constants.APP_SAMSUNG_PLUS_URL;
         }else{
 			displayUpgradeButton = false;
 			buttonText = _context.getString(R.string.close);
