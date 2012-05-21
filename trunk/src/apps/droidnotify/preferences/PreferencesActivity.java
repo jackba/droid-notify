@@ -244,7 +244,7 @@ public class PreferencesActivity extends Activity {
 		});		
 		//Rate This App Preference/Button		
 		boolean displayRateAppRow = true;
-		if(!Log.getShowAndroidRateAppLink() && !Log.getShowAmazonRateAppLink()){
+		if(!Log.getAndroidVersion() && !Log.getAmazonVersion() && !Log.getSamsungVersion()){
 			displayRateAppRow = false;
 		}
 		if(displayRateAppRow){
@@ -252,10 +252,12 @@ public class PreferencesActivity extends Activity {
 	        	public void onClick(View view){
 			    	try{
 				    	String rateAppURL = "";
-				    	if(Log.getShowAndroidRateAppLink()){
-				    		rateAppURL = Constants.APP_ANDROID_URL;
-				    	}else if(Log.getShowAmazonRateAppLink()){
-				    		rateAppURL = Constants.APP_AMAZON_URL;
+				    	if(Log.getAndroidVersion()){
+				    		rateAppURL = Constants.APP_PRO_ANDROID_URL;
+				    	}else if(Log.getAmazonVersion()){
+				    		rateAppURL = Constants.APP_PRO_AMAZON_URL;
+				    	}else if(Log.getSamsungVersion()){
+				    		rateAppURL = Constants.APP_PRO_SAMSUNG_URL;
 				    	}else{
 				    		rateAppURL = "";
 				    	}
@@ -296,7 +298,7 @@ public class PreferencesActivity extends Activity {
 		});
 		//Upgrade Button
 		boolean displayUpgradeRow = true;
-		if(!Log.getShowAndroidRateAppLink() && !Log.getShowAmazonRateAppLink()){
+		if(!Log.getAndroidVersion() && !Log.getAmazonVersion() && !Log.getSamsungVersion()){
 			displayUpgradeRow = false;
 		}
 		if(displayUpgradeRow){

@@ -75,16 +75,21 @@ public class K9DownloadPreferenceActivity extends Activity {
 		final String kaitenDownloadURL;
 		String descriptionText = null;
 		boolean displayDownloadButtons = true;
-		if(Log.getShowAndroidRateAppLink()){
+		if(Log.getAndroidVersion()){
 			displayDownloadButtons = true;
 			descriptionText = _context.getString(R.string.package_k9_not_found);
 			k9DownloadURL = Constants.K9_MAIL_ANDROID_URL;
 			kaitenDownloadURL = Constants.KAITEN_MAIL_ANDROID_URL;
-        }else if(Log.getShowAmazonRateAppLink()){
+        }else if(Log.getAmazonVersion()){
         	displayDownloadButtons = true;
 			descriptionText = _context.getString(R.string.package_k9_not_found);
 			k9DownloadURL = Constants.K9_MAIL_AMAZON_URL;
 			kaitenDownloadURL = Constants.KAITEN_MAIL_AMAZON_URL;
+        }else if(Log.getSamsungVersion()){
+        	displayDownloadButtons = true;
+			descriptionText = _context.getString(R.string.package_k9_not_found);
+			k9DownloadURL = Constants.K9_MAIL_AMAZON_URL;
+			kaitenDownloadURL = Constants.KAITEN_MAIL_SAMSUNG_URL;
         }else{
 			displayDownloadButtons = false;
 			descriptionText = _context.getString(R.string.package_k9_not_found_generic);			

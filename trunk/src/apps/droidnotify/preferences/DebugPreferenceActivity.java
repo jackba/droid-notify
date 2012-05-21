@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
@@ -59,10 +60,10 @@ public class DebugPreferenceActivity extends PreferenceActivity implements OnSha
 	    _context = this;
 	    Common.setApplicationLanguage(_context, this);
 	    _preferences = PreferenceManager.getDefaultSharedPreferences(_context);
-	    _preferences.registerOnSharedPreferenceChangeListener(this);
 	    this.addPreferencesFromResource(R.xml.debug_preferences);
 	    this.setContentView(R.layout.debug_preferences);
 	    setupCustomPreferences();
+	    _preferences.registerOnSharedPreferenceChangeListener(this);
 	}
 
 	//================================================================================
@@ -74,6 +75,10 @@ public class DebugPreferenceActivity extends PreferenceActivity implements OnSha
 	 */
 	private void setupCustomPreferences(){
 	    if (_debug) Log.v("DebugPreferenceActivity.setupCustomPreferences()");
+	    //Debug Mode CheckBox
+	    boolean inDebugMode = _preferences.getBoolean(Constants.DEBUG, false) || Log.getDebug();
+	    CheckBoxPreference debugModeCheckBoxPreference = (CheckBoxPreference)this.findPreference(Constants.DEBUG);
+	    debugModeCheckBoxPreference.setChecked(inDebugMode);
 		//Debug Button
 		Preference sendDebugLogsPreference = (Preference)this.findPreference("send_debug_logs");
 		sendDebugLogsPreference.setOnPreferenceClickListener(new OnPreferenceClickListener(){
@@ -81,7 +86,7 @@ public class DebugPreferenceActivity extends PreferenceActivity implements OnSha
 		    	Log.collectAndSendLog(_context);
 		    	return true;
         	}
-		});		
+		});	
 		//Clear Logs Button
 		Preference clearDebugLogsPreference = (Preference)this.findPreference("clear_debug_logs");
 		clearDebugLogsPreference.setOnPreferenceClickListener(new OnPreferenceClickListener(){
