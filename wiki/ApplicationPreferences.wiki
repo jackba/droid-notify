@@ -289,6 +289,7 @@ Advanced
  * Debug Settings
   * Turn On Debug Mode
   * Send Debug Logs
+  * Clear Debug Logs
 
 Rate App
 
