@@ -65,36 +65,77 @@ public class EmailCommon {
 			}else if(intentAction.startsWith(Constants.INTENT_ACTION_K9)){
 				notificationSubType = Constants.NOTIFICATION_TYPE_K9_MAIL;
 				packageName = "com.fsck.k9";
+			}else if(intentAction.startsWith(Constants.INTENT_ACTION_K9_FOR_PURE)){
+				notificationSubType = Constants.NOTIFICATION_TYPE_K9_FOR_PURE;
+				packageName = "org.koxx.k9ForPureWidget";
+				//accountUID = intentAction.replace(Constants.INTENT_ACTION_K9_FOR_PURE + "/", "");
+				//if (_debug) Log.v("EmailCommon.getK9MessagesFromIntent() Email AccountUID: " + accountUID);
 			}
-			if (_debug) Log.v("EmailCommon.getK9MessagesFromIntent() Email PackageName: " + packageName);
+			//if (_debug) Log.v("EmailCommon.getK9MessagesFromIntent() Email PackageName: " + packageName);
 			sentDate = (Date) bundle.get(packageName + ".intent.extra.SENT_DATE");
+			//if (_debug) Log.v("EmailCommon.getK9MessagesFromIntent() Email SentDate: " + String.valueOf(sentDate));
 			timeStamp = sentDate.getTime();
+			//if (_debug) Log.v("EmailCommon.getK9MessagesFromIntent() Email TimeStamp: " + String.valueOf(timeStamp));
 			try{
 				messageSubject = bundle.getString(packageName + ".intent.extra.SUBJECT");
 			}catch(Exception ex){
 				messageSubject = "";
 			}
+            //if (_debug) Log.v("EmailCommon.getK9MessagesFromIntent() Email MessageSubject: " + messageSubject);
             sentFromAddress = parseFromEmailAddress(bundle.getString(packageName + ".intent.extra.FROM").toLowerCase());			
             accountName = bundle.getString(packageName + ".intent.extra.ACCOUNT");
+            //if (_debug) Log.v("EmailCommon.getK9MessagesFromIntent() Email SentFromAddress: " + sentFromAddress);
+            //if (_debug) Log.v("EmailCommon.getK9MessagesFromIntent() Email AccountName: " + accountName);
             //Get the message body.
-    		final String[] projection = new String[] {"_id", "date", "sender", "subject", "preview", "account", "uri", "delUri"};
-            final String selection = "date=? AND account=?";
-    		final String[] selectionArgs = new String[] {String.valueOf(timeStamp), accountName};
-    		final String sortOrder = "date DESC";
     		boolean emailFoundFlag = false;
     		Cursor cursor = null;
+    		String emailURI = "content://" + packageName + ".messageprovider/inbox_messages/";
             try{
+    		if(packageName.equals("org.koxx.k9ForPureWidget")){
+    			emailURI = emailURI + getK9ForPureEmailAccountUID(context, accountName);
+            	if (_debug) Log.v("EmailCommon.getK9MessagesFromIntent() EmailURI: " + emailURI);
+        		final String[] projection = new String[] {"_id", "date", "sender", "subject", "preview", "account", "uri"};
+        		final String selection = null; //"date=? AND account=?";
+        		final String[] selectionArgs = null; //new String[] {String.valueOf(timeStamp), accountName};
+        		final String sortOrder = "date DESC";
     		    cursor = context.getContentResolver().query(
-    		    		Uri.parse("content://" + packageName + ".messageprovider/inbox_messages/"),
+    		    		Uri.parse(emailURI),
     		    		projection,
     		    		selection,
     					selectionArgs,
     					sortOrder);
-    		    //Loop over emails. Make sure that the date matches to ensure that the correct email is matched to the broadcast intent.
 	    		while(cursor.moveToNext()){
+    				String accountNameTmp = cursor.getString(cursor.getColumnIndex("account"));
 	    			long timeStampTmp = cursor.getLong(cursor.getColumnIndex("date"));
-	    			//String subjectTmp = cursor.getString(cursor.getColumnIndex("subject"));
-    				String accountNameTmp = cursor.getString(cursor.getColumnIndex("account"));    	    			
+	    			//String subjectTmp = cursor.getString(cursor.getColumnIndex("subject"));    	    			
+	    			if (_debug) Log.v("EmailCommon.getK9MessagesFromIntent() accountNameTmp: " + accountNameTmp + " accountName: " + accountName);
+	    			if (_debug) Log.v("EmailCommon.getK9MessagesFromIntent() timeStampTmp: " + timeStampTmp + " timeStamp: " + timeStamp);
+	    			//if (_debug) Log.v("EmailCommon.getK9MessagesFromIntent() subjectTmp: " + subjectTmp + " messageSubject: " + messageSubject);
+	    			if(timeStampTmp == timeStamp && accountNameTmp.equals(accountName)){
+			    		messageID = cursor.getLong(cursor.getColumnIndex("_id"));
+			    		messageBody = cursor.getString(cursor.getColumnIndex("preview"));
+			    		k9EmailUri = cursor.getString(cursor.getColumnIndex("uri"));
+			    		emailFoundFlag = true;	
+	    			}
+		    		if(emailFoundFlag){
+		    			break;
+		    		}
+	    		}
+    		}else{
+            	final String[] projection = new String[] {"_id", "date", "sender", "subject", "preview", "account", "uri", "delUri"};
+        		final String selection = "date=? AND account=?";
+        		final String[] selectionArgs = new String[] {String.valueOf(timeStamp), accountName};
+        		final String sortOrder = "date DESC";
+    		    cursor = context.getContentResolver().query(
+    		    		Uri.parse(emailURI),
+    		    		projection,
+    		    		selection,
+    					selectionArgs,
+    					sortOrder);
+	    		while(cursor.moveToNext()){
+    				String accountNameTmp = cursor.getString(cursor.getColumnIndex("account"));
+	    			long timeStampTmp = cursor.getLong(cursor.getColumnIndex("date"));
+	    			//String subjectTmp = cursor.getString(cursor.getColumnIndex("subject"));    	    			
 	    			if (_debug) Log.v("EmailCommon.getK9MessagesFromIntent() accountNameTmp: " + accountNameTmp + " accountName: " + accountName);
 	    			if (_debug) Log.v("EmailCommon.getK9MessagesFromIntent() timeStampTmp: " + timeStampTmp + " timeStamp: " + timeStamp);
 	    			//if (_debug) Log.v("EmailCommon.getK9MessagesFromIntent() subjectTmp: " + subjectTmp + " messageSubject: " + messageSubject);
@@ -109,13 +150,14 @@ public class EmailCommon {
 		    			break;
 		    		}
 	    		}
+    		}
     		}catch(Exception ex){
     			Log.e("EmailCommon.getK9MessagesFromIntent() CURSOR ERROR: " + ex.toString());
     		}finally{
         		cursor.close();
     		}
             if(emailFoundFlag == false){
-            	Log.e("EmailCommon.getK9MessagesFromIntent() No Email Found Matching The Subject & Date.");
+            	Log.e("EmailCommon.getK9MessagesFromIntent() No Email Found Matching The Date & Account.");
             	return null;
             }
             if(messageSubject != null && !messageSubject.equals("")){
@@ -189,6 +231,8 @@ public class EmailCommon {
 				packageName = "com.kaitenmail";
 			}else if(notificationSubType == Constants.NOTIFICATION_TYPE_K9_MAIL){
 				packageName = "com.fsck.k9";
+			}else if(notificationSubType == Constants.NOTIFICATION_TYPE_K9_FOR_PURE){
+				packageName = "org.koxx.k9ForPureWidget";
 			}
             intent.setComponent(new ComponentName(packageName, packageName + ".activity.Accounts"));            
 	        notificationActivity.startActivityForResult(intent, requestCode);
@@ -315,6 +359,40 @@ public class EmailCommon {
 			Log.e("EmailCommon.parseFromEmailAddress() ERROR: " + ex.toString());
 			return inputFromAddress;
 		}
+	}
+	
+	/**
+	 * Get the account UID associated with the provided account name.
+	 * 
+	 * @param context - The application context.
+	 * @param accountName - The name of the account we are working with.
+	 * 
+	 * @return String - The account UID associated with this account name.
+	 */
+	private static String getK9ForPureEmailAccountUID(Context context, String accountName){
+		if (_debug) Log.v("EmailCommon.getK9ForPureEmailAccountUID()");
+		String accountUID = null;
+		Cursor cursor = null;
+        try{
+    		final String[] projection = new String[] {"accountName", "accountUuid"};
+    		final String selection = "accountName=?";
+    		final String[] selectionArgs = new String[]{accountName};
+    		final String sortOrder = null;
+		    cursor = context.getContentResolver().query(
+		    		Uri.parse("content://org.koxx.k9ForPureWidget.messageprovider/accounts/"),
+		    		projection,
+		    		selection,
+					selectionArgs,
+					sortOrder);
+    		if(cursor.moveToFirst()){
+    			accountUID = cursor.getString(cursor.getColumnIndex("accountUuid"));
+    		}
+		}catch(Exception ex){
+			Log.e("EmailCommon.getK9ForPureEmailAccountUID() CURSOR ERROR: " + ex.toString());
+		}finally{
+    		cursor.close();
+		}
+        return accountUID;
 	}
 	
 }

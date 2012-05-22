@@ -138,9 +138,10 @@ public class K9PreferenceActivity extends PreferenceActivity implements OnShared
 	private void checkK9PackageInstallation(boolean notifyFlag){
 		if (_debug) Log.v("K9PreferenceActivity().checkK9PackageInstallation()");
         try{
-			//Look for K-9 Mail and Kaiten Mail.
+			//Look for K-9 Mail, Kaiten Mail or K-9 Mail for Pure Widget.
 			boolean packageInstalledFlag = Common.packageExists(_context, "com.fsck.k9") || 
-											Common.packageExists(_context, "com.kaitenmail");
+					Common.packageExists(_context, "com.kaitenmail") || 
+					Common.packageExists(_context, "org.koxx.k9ForPureWidget");
 			if(packageInstalledFlag){
 				return;
 			}else{

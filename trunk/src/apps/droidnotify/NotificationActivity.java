@@ -515,311 +515,317 @@ public class NotificationActivity extends Activity{
 	 * @param returnedIntent - The intent that was returned.
 	 */
 	protected void onActivityResult(int requestCode, int resultCode, Intent returnedIntent){		
-		if(_debug) Log.v("NotificationActivity.onActivityResult() RequestCode: " + requestCode + " ResultCode: " + resultCode);
-    	//Cancel the notification reminder.
-	    Notification notification = _notificationViewFlipper.getActiveNotification();
-    	notification.cancelReminder();
-	    switch(requestCode){
-		    case Constants.ADD_CONTACT_ACTIVITY:{
-		    	if(resultCode == RESULT_OK){
-		    		if(_debug) Log.v("NotificationActivity.onActivityResult() ADD_CONTACT_ACTIVITY: RESULT_OK");
-		        	//Remove notification from ViewFlipper.
-					_notificationViewFlipper.removeActiveNotification(false);
-		    	}else if(resultCode == RESULT_CANCELED){
-		    		if(_debug) Log.v("NotificationActivity.onActivityResult() ADD_CONTACT_ACTIVITY: RESULT_CANCELED");
-		    		//Remove notification from ViewFlipper.
-					_notificationViewFlipper.removeActiveNotification(false);
-		    	}else{
-		    		if(_debug) Log.v("NotificationActivity.onActivityResult() ADD_CONTACT_ACTIVITY: " + resultCode);
-		        	Toast.makeText(_context, _context.getString(R.string.app_android_contacts_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
-		    	}
-		    	Common.setInLinkedAppFlag(_context, false);
-		        break;
+		try{
+			if(_debug) Log.v("NotificationActivity.onActivityResult() RequestCode: " + requestCode + " ResultCode: " + resultCode);
+	    	//Cancel the notification reminder.
+		    Notification notification = _notificationViewFlipper.getActiveNotification();
+	    	notification.cancelReminder();
+		    switch(requestCode){
+			    case Constants.ADD_CONTACT_ACTIVITY:{
+			    	if(resultCode == RESULT_OK){
+			    		if(_debug) Log.v("NotificationActivity.onActivityResult() ADD_CONTACT_ACTIVITY: RESULT_OK");
+			        	//Remove notification from ViewFlipper.
+						_notificationViewFlipper.removeActiveNotification(false);
+			    	}else if(resultCode == RESULT_CANCELED){
+			    		if(_debug) Log.v("NotificationActivity.onActivityResult() ADD_CONTACT_ACTIVITY: RESULT_CANCELED");
+			    		//Remove notification from ViewFlipper.
+						_notificationViewFlipper.removeActiveNotification(false);
+			    	}else{
+			    		if(_debug) Log.v("NotificationActivity.onActivityResult() ADD_CONTACT_ACTIVITY: " + resultCode);
+			        	Toast.makeText(_context, _context.getString(R.string.app_android_contacts_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
+			    	}
+			    	Common.setInLinkedAppFlag(_context, false);
+			        break;
+			    }
+			    case Constants.EDIT_CONTACT_ACTIVITY:{ 
+			    	if(resultCode == RESULT_OK){
+			    		if(_debug) Log.v("NotificationActivity.onActivityResult() EDIT_CONTACT_ACTIVITY: RESULT_OK");
+			        	//Remove notification from ViewFlipper.
+						_notificationViewFlipper.removeActiveNotification(false);
+			    	}else if(resultCode == RESULT_CANCELED){
+			    		if(_debug) Log.v("NotificationActivity.onActivityResult() EDIT_CONTACT_ACTIVITY: RESULT_CANCELED");
+			    		//Remove notification from ViewFlipper.
+						_notificationViewFlipper.removeActiveNotification(false);
+			    	}else{
+			    		if(_debug) Log.v("NotificationActivity.onActivityResult() EDIT_CONTACT_ACTIVITY: " + resultCode);
+			        	Toast.makeText(_context, _context.getString(R.string.app_android_contacts_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
+			    	}
+			    	Common.setInLinkedAppFlag(_context, false);
+			        break;
+			    }
+			    case Constants.VIEW_CONTACT_ACTIVITY:{ 
+			    	if(resultCode == RESULT_OK){
+			    		if(_debug) Log.v("NotificationActivity.onActivityResult() VIEW_CONTACT_ACTIVITY: RESULT_OK");
+			        	//Remove notification from ViewFlipper.
+						_notificationViewFlipper.removeActiveNotification(false);
+			    	}else if(resultCode == RESULT_CANCELED){
+			    		if(_debug) Log.v("NotificationActivity.onActivityResult() VIEW_CONTACT_ACTIVITY: RESULT_CANCELED");
+			    		//Remove notification from ViewFlipper.
+						_notificationViewFlipper.removeActiveNotification(false);
+			    	}else{
+			    		if(_debug) Log.v("NotificationActivity.onActivityResult() VIEW_CONTACT_ACTIVITY: " + resultCode);
+			        	Toast.makeText(_context, _context.getString(R.string.app_android_contacts_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
+			    	}
+			    	Common.setInLinkedAppFlag(_context, false);
+			        break;
+			    }
+			    case Constants.SEND_SMS_ACTIVITY:{ 
+			    	if(resultCode == RESULT_OK){
+			    		if(_debug) Log.v("NotificationActivity.onActivityResult() SEND_SMS_ACTIVITY: RESULT_OK");
+			        	//Remove notification from ViewFlipper.
+						_notificationViewFlipper.removeActiveNotification(false);
+			    	}else if(resultCode == RESULT_CANCELED){
+			    		if(_debug) Log.v("NotificationActivity.onActivityResult() SEND_SMS_ACTIVITY: RESULT_CANCELED");
+			    		//Remove notification from ViewFlipper.
+						_notificationViewFlipper.removeActiveNotification(false);
+			    	}else{
+			    		if(_debug) Log.v("NotificationActivity.onActivityResult() SEND_SMS_ACTIVITY: " + resultCode);
+			        	Toast.makeText(_context, _context.getString(R.string.app_android_messaging_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
+			    	}
+			    	Common.setInLinkedAppFlag(_context, false);
+			        break;
+			    }
+			    case Constants.VIEW_SMS_MESSAGE_ACTIVITY:{ 
+			    	if(resultCode == RESULT_OK){
+			    		if(_debug) Log.v("NotificationActivity.onActivityResult() VIEW_SMS_MESSAGE_ACTIVITY: RESULT_OK");
+			        	//Remove notification from ViewFlipper.
+						_notificationViewFlipper.removeActiveNotification(false);
+			    	}else if(resultCode == RESULT_CANCELED){
+			    		if(_debug) Log.v("NotificationActivity.onActivityResult() VIEW_SMS_MESSAGE_ACTIVITY: RESULT_CANCELED");
+			    		//Remove notification from ViewFlipper.
+						_notificationViewFlipper.removeActiveNotification(false);
+			    	}else{
+			    		if(_debug) Log.v("NotificationActivity.onActivityResult() VIEW_SMS_MESSAGE_ACTIVITY: " + resultCode);
+			        	Toast.makeText(_context, _context.getString(R.string.app_android_messaging_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
+			    	}
+			    	Common.setInLinkedAppFlag(_context, false);
+			        break;
+			    }
+			    case Constants.VIEW_SMS_THREAD_ACTIVITY:{ 
+			    	if(resultCode == RESULT_OK){
+			    		if(_debug) Log.v("NotificationActivity.onActivityResult() VIEW_SMS_THREAD_ACTIVITY: RESULT_OK");
+			        	//Remove notification from ViewFlipper.
+						_notificationViewFlipper.removeActiveNotification(false);
+			    	}else if(resultCode == RESULT_CANCELED){
+			    		if(_debug) Log.v("NotificationActivity.onActivityResult() VIEW_SMS_THREAD_ACTIVITY: RESULT_CANCELED");
+			    		//Remove notification from ViewFlipper.
+						_notificationViewFlipper.removeActiveNotification(false);
+			    	}else{
+			    		if(_debug) Log.v("NotificationActivity.onActivityResult() VIEW_SMS_THREAD_ACTIVITY: " + resultCode);
+			        	Toast.makeText(_context, _context.getString(R.string.app_android_messaging_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
+			    	}
+			    	Common.setInLinkedAppFlag(_context, false);
+			        break;
+			    }
+			    case Constants.MESSAGING_ACTIVITY:{ 
+			    	if(resultCode == RESULT_OK){
+			    		if(_debug) Log.v("NotificationActivity.onActivityResult() MESSAGING_ACTIVITY: RESULT_OK");
+			        	//Remove notification from ViewFlipper.
+						_notificationViewFlipper.removeActiveNotification(false);
+			    	}else if(resultCode == RESULT_CANCELED){
+			    		if(_debug) Log.v("NotificationActivity.onActivityResult() MESSAGING_ACTIVITY: RESULT_CANCELED");
+			    		//Remove notification from ViewFlipper.
+						_notificationViewFlipper.removeActiveNotification(false);
+			    	}else{
+			    		if(_debug) Log.v("NotificationActivity.onActivityResult() MESSAGING_ACTIVITY: " + resultCode);
+			        	Toast.makeText(_context, _context.getString(R.string.app_android_messaging_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
+			    	}
+			    	Common.setInLinkedAppFlag(_context, false);
+			        break;
+			    }
+			    case Constants.SEND_SMS_QUICK_REPLY_ACTIVITY:{ 
+			    	if(resultCode == RESULT_OK){
+			    		if(_debug) Log.v("NotificationActivity.onActivityResult() SEND_SMS_QUICK_REPLY_ACTIVITY: RESULT_OK");
+			        	//Remove notification from ViewFlipper.
+			    		_notificationViewFlipper.removeActiveNotification(false);
+			    	}else if(resultCode == RESULT_CANCELED){
+			    		if(_debug) Log.v("NotificationActivity.onActivityResult() SEND_SMS_QUICK_REPLY_ACTIVITY: RESULT_CANCELED");
+			    		//Remove notification from ViewFlipper.
+						//_notificationViewFlipper.removeActiveNotification(false);
+			    	}else{
+			    		if(_debug) Log.v("NotificationActivity.onActivityResult() SEND_SMS_QUICK_REPLY_ACTIVITY: " + resultCode);
+			        	Toast.makeText(_context, _context.getString(R.string.app_android_messaging_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
+			    	}
+			    	Common.setInLinkedAppFlag(_context, false);
+			    	Common.setInQuickReplyAppFlag(_context, false);
+			        break;
+			    }
+			    case Constants.CALL_ACTIVITY:{ 
+			    	if(resultCode == RESULT_OK){
+			    		if(_debug) Log.v("NotificationActivity.onActivityResult() CALL_ACTIVITY: RESULT_OK");
+			        	//Remove notification from ViewFlipper.
+						_notificationViewFlipper.removeActiveNotification(false);
+			    	}else if(resultCode == RESULT_CANCELED){
+			    		if(_debug) Log.v("NotificationActivity.onActivityResult() CALL_ACTIVITY: RESULT_CANCELED");
+			    		//Remove notification from ViewFlipper.
+						_notificationViewFlipper.removeActiveNotification(false);
+			    	}else{
+			    		if(_debug) Log.v("NotificationActivity.onActivityResult() CALL_ACTIVITY: " + resultCode);
+			        	Toast.makeText(_context, _context.getString(R.string.app_android_phone_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
+			    	}
+			    	Common.setInLinkedAppFlag(_context, false);
+			        break;
+			    }
+			    case Constants.ADD_CALENDAR_ACTIVITY:{ 
+			    	if(resultCode == RESULT_OK){
+			    		if(_debug) Log.v("NotificationActivity.onActivityResult() ADD_CALENDAR_ACTIVITY: RESULT_OK");
+			        	//Remove notification from ViewFlipper.
+						_notificationViewFlipper.removeActiveNotification(false);
+			    	}else if(resultCode == RESULT_CANCELED){
+			    		if(_debug) Log.v("NotificationActivity.onActivityResult() ADD_CALENDAR_ACTIVITY: RESULT_CANCELED");
+			    		//Remove notification from ViewFlipper.
+						_notificationViewFlipper.removeActiveNotification(false);
+			    	}else{
+			    		if(_debug) Log.v("NotificationActivity.onActivityResult() ADD_CALENDAR_ACTIVITY: " + resultCode);
+			        	Toast.makeText(_context, _context.getString(R.string.app_android_calendar_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
+			    	}
+			    	Common.setInLinkedAppFlag(_context, false);
+			        break;
+			    }
+			    case Constants.EDIT_CALENDAR_ACTIVITY:{ 
+			    	if(resultCode == RESULT_OK){
+			    		if(_debug) Log.v("NotificationActivity.onActivityResult() EDIT_CALENDAR_ACTIVITY: RESULT_OK");
+			        	//Remove notification from ViewFlipper.
+						_notificationViewFlipper.removeActiveNotification(false);
+			    	}else if(resultCode == RESULT_CANCELED){
+			    		if(_debug) Log.v("NotificationActivity.onActivityResult() EDIT_CALENDAR_ACTIVITY: RESULT_CANCELED");
+			    		//Remove notification from ViewFlipper.
+						_notificationViewFlipper.removeActiveNotification(false);
+			    	}else{
+			    		if(_debug) Log.v("NotificationActivity.onActivityResult() EDIT_CALENDAR_ACTIVITY: " + resultCode);
+			        	Toast.makeText(_context, _context.getString(R.string.app_android_calendar_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
+			    	}
+			    	Common.setInLinkedAppFlag(_context, false);
+			        break;
+			    }
+			    case Constants.VIEW_CALENDAR_ACTIVITY:{ 
+			    	if(resultCode == RESULT_OK){
+			    		if(_debug) Log.v("NotificationActivity.onActivityResult() VIEW_CALENDAR_ACTIVITY: RESULT_OK");
+			        	//Remove notification from ViewFlipper.
+						_notificationViewFlipper.removeActiveNotification(false);
+			    	}else if(resultCode == RESULT_CANCELED){
+			    		if(_debug) Log.v("NotificationActivity.onActivityResult() VIEW_CALENDAR_ACTIVITY: RESULT_CANCELED");
+			    		//Remove notification from ViewFlipper.
+						_notificationViewFlipper.removeActiveNotification(false);
+			    	}else{
+			    		if(_debug) Log.v("NotificationActivity.onActivityResult() VIEW_CALENDAR_ACTIVITY: " + resultCode);
+			        	Toast.makeText(_context, _context.getString(R.string.app_android_calendar_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
+			    	}
+			    	Common.setInLinkedAppFlag(_context, false);
+			        break;
+			    }
+			    case Constants.VIEW_CALL_LOG_ACTIVITY:{
+			    	if(resultCode == RESULT_OK){
+			    		if(_debug) Log.v("NotificationActivity.onActivityResult() VIEW_CALL_LOG_ACTIVITY: RESULT_OK");
+			        	//Remove notification from ViewFlipper.
+			    		_notificationViewFlipper.removeActiveNotification(false);
+			    	}else if(resultCode == RESULT_CANCELED){
+			    		if(_debug) Log.v("NotificationActivity.onActivityResult() VIEW_CALL_LOG_ACTIVITY: RESULT_CANCELED");
+			    		//Remove notification from ViewFlipper.
+						_notificationViewFlipper.removeActiveNotification(false);
+			    	}else{
+			    		if(_debug) Log.v("NotificationActivity.onActivityResult() VIEW_CALL_LOG_ACTIVITY: " + resultCode);
+			        	Toast.makeText(_context, _context.getString(R.string.app_android_call_log_error) + " " + resultCode, Toast.LENGTH_LONG).show();
+			    	}
+			    	Common.setInLinkedAppFlag(_context, false);
+			        break;
+			    }
+			    case Constants.CALENDAR_ACTIVITY:{
+			    	if(resultCode == RESULT_OK){
+			    		if(_debug) Log.v("NotificationActivity.onActivityResult() CALENDAR_ACTIVITY: RESULT_OK");
+			        	//Remove notification from ViewFlipper.
+			    		_notificationViewFlipper.removeActiveNotification(false);
+			    	}else if(resultCode == RESULT_CANCELED){
+			    		if(_debug) Log.v("NotificationActivity.onActivityResult() CALENDAR_ACTIVITY: RESULT_CANCELED");
+			    		//Remove notification from ViewFlipper.
+						_notificationViewFlipper.removeActiveNotification(false);
+			    	}else{
+			    		if(_debug) Log.v("NotificationActivity.onActivityResult() CALENDAR_ACTIVITY: " + resultCode);
+			        	Toast.makeText(_context, _context.getString(R.string.app_android_calendar_app_error) + " " + resultCode, Toast.LENGTH_LONG).show();
+			    	}
+			    	Common.setInLinkedAppFlag(_context, false);
+			        break;
+			    }
+			    case Constants.K9_VIEW_INBOX_ACTIVITY:{
+			    	if(resultCode == RESULT_OK){
+			    		if(_debug) Log.v("NotificationActivity.onActivityResult() K9_VIEW_INBOX_ACTIVITY: RESULT_OK");
+			        	//Remove notification from ViewFlipper.
+			    		_notificationViewFlipper.removeActiveNotification(false);
+			    	}else if(resultCode == RESULT_CANCELED){
+			    		if(_debug) Log.v("NotificationActivity.onActivityResult() K9_VIEW_INBOX_ACTIVITY: RESULT_CANCELED");
+			    		//Remove notification from ViewFlipper.
+						_notificationViewFlipper.removeActiveNotification(false);
+			    	}else{
+			    		if(_debug) Log.v("NotificationActivity.onActivityResult() K9_VIEW_INBOX_ACTIVITY: " + resultCode);
+			        	Toast.makeText(_context, _context.getString(R.string.app_email_app_error) + " " + resultCode, Toast.LENGTH_LONG).show();
+			    	}
+			    	Common.setInLinkedAppFlag(_context, false);
+			        break;
+			    }
+			    case Constants.K9_VIEW_EMAIL_ACTIVITY:{
+			    	if(resultCode == RESULT_OK){
+			    		if(_debug) Log.v("NotificationActivity.onActivityResult() K9_VIEW_EMAIL_ACTIVITY: RESULT_OK");
+			        	//Remove notification from ViewFlipper.
+			    		_notificationViewFlipper.removeActiveNotification(false);
+			    	}else if(resultCode == RESULT_CANCELED){
+			    		if(_debug) Log.v("NotificationActivity.onActivityResult() K9_VIEW_EMAIL_ACTIVITY: RESULT_CANCELED");
+			    		//Remove notification from ViewFlipper.
+						_notificationViewFlipper.removeActiveNotification(false);
+			    	}else{
+			    		if(_debug) Log.v("NotificationActivity.onActivityResult() K9_VIEW_EMAIL_ACTIVITY: " + resultCode);
+			        	Toast.makeText(_context, _context.getString(R.string.app_email_app_error) + " " + resultCode, Toast.LENGTH_LONG).show();
+			    	}
+			    	Common.setInLinkedAppFlag(_context, false);
+			        break;
+			    }
+			    case Constants.K9_SEND_EMAIL_ACTIVITY:{
+			    	if(resultCode == RESULT_OK){
+			    		if(_debug) Log.v("NotificationActivity.onActivityResult() K9_SEND_EMAIL_ACTIVITY: RESULT_OK");
+			        	//Remove notification from ViewFlipper.
+			    		_notificationViewFlipper.removeActiveNotification(false);
+			    	}else if(resultCode == RESULT_CANCELED){
+			    		if(_debug) Log.v("NotificationActivity.onActivityResult() K9_SEND_EMAIL_ACTIVITY: RESULT_CANCELED");
+			    		//Remove notification from ViewFlipper.
+						_notificationViewFlipper.removeActiveNotification(false);
+			    	}else{
+			    		if(_debug) Log.v("NotificationActivity.onActivityResult() K9_SEND_EMAIL_ACTIVITY: " + resultCode);
+			        	Toast.makeText(_context, _context.getString(R.string.app_email_app_error) + " " + resultCode, Toast.LENGTH_LONG).show();
+			    	}
+			    	Common.setInLinkedAppFlag(_context, false);
+			        break;
+			    }
+			    case Constants.TEXT_TO_SPEECH_ACTIVITY:{
+			        if(resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS){
+			            //Success, create the TTS instance.
+			            _tts = new TextToSpeech(_context, ttsOnInitListener);
+			        }else{
+			            //Missing data, install it.
+			            Intent installIntent = new Intent();
+			            installIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
+			            startActivity(installIntent);
+			        }
+			        break;
+			    }
+			    case Constants.BROWSER_ACTIVITY:{
+			    	if(resultCode == RESULT_OK){
+			    		if(_debug) Log.v("NotificationActivity.onActivityResult() BROWSER_ACTIVITY: RESULT_OK");
+			    		_notificationViewFlipper.removeActiveNotification(false);
+			    	}else if(resultCode == RESULT_CANCELED){
+			    		if(_debug) Log.v("NotificationActivity.onActivityResult() BROWSER_ACTIVITY: RESULT_CANCELED");
+						_notificationViewFlipper.removeActiveNotification(false);
+			    	}else{
+			    		if(_debug) Log.v("NotificationActivity.onActivityResult() BROWSER_ACTIVITY: " + resultCode);
+			        	Toast.makeText(_context, _context.getString(R.string.browser_app_error) + " " + resultCode, Toast.LENGTH_LONG).show();
+			    	}
+			    	Common.setInLinkedAppFlag(_context, false);
+			        break;
+			    }
 		    }
-		    case Constants.EDIT_CONTACT_ACTIVITY:{ 
-		    	if(resultCode == RESULT_OK){
-		    		if(_debug) Log.v("NotificationActivity.onActivityResult() EDIT_CONTACT_ACTIVITY: RESULT_OK");
-		        	//Remove notification from ViewFlipper.
-					_notificationViewFlipper.removeActiveNotification(false);
-		    	}else if(resultCode == RESULT_CANCELED){
-		    		if(_debug) Log.v("NotificationActivity.onActivityResult() EDIT_CONTACT_ACTIVITY: RESULT_CANCELED");
-		    		//Remove notification from ViewFlipper.
-					_notificationViewFlipper.removeActiveNotification(false);
-		    	}else{
-		    		if(_debug) Log.v("NotificationActivity.onActivityResult() EDIT_CONTACT_ACTIVITY: " + resultCode);
-		        	Toast.makeText(_context, _context.getString(R.string.app_android_contacts_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
-		    	}
-		    	Common.setInLinkedAppFlag(_context, false);
-		        break;
-		    }
-		    case Constants.VIEW_CONTACT_ACTIVITY:{ 
-		    	if(resultCode == RESULT_OK){
-		    		if(_debug) Log.v("NotificationActivity.onActivityResult() VIEW_CONTACT_ACTIVITY: RESULT_OK");
-		        	//Remove notification from ViewFlipper.
-					_notificationViewFlipper.removeActiveNotification(false);
-		    	}else if(resultCode == RESULT_CANCELED){
-		    		if(_debug) Log.v("NotificationActivity.onActivityResult() VIEW_CONTACT_ACTIVITY: RESULT_CANCELED");
-		    		//Remove notification from ViewFlipper.
-					_notificationViewFlipper.removeActiveNotification(false);
-		    	}else{
-		    		if(_debug) Log.v("NotificationActivity.onActivityResult() VIEW_CONTACT_ACTIVITY: " + resultCode);
-		        	Toast.makeText(_context, _context.getString(R.string.app_android_contacts_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
-		    	}
-		    	Common.setInLinkedAppFlag(_context, false);
-		        break;
-		    }
-		    case Constants.SEND_SMS_ACTIVITY:{ 
-		    	if(resultCode == RESULT_OK){
-		    		if(_debug) Log.v("NotificationActivity.onActivityResult() SEND_SMS_ACTIVITY: RESULT_OK");
-		        	//Remove notification from ViewFlipper.
-					_notificationViewFlipper.removeActiveNotification(false);
-		    	}else if(resultCode == RESULT_CANCELED){
-		    		if(_debug) Log.v("NotificationActivity.onActivityResult() SEND_SMS_ACTIVITY: RESULT_CANCELED");
-		    		//Remove notification from ViewFlipper.
-					_notificationViewFlipper.removeActiveNotification(false);
-		    	}else{
-		    		if(_debug) Log.v("NotificationActivity.onActivityResult() SEND_SMS_ACTIVITY: " + resultCode);
-		        	Toast.makeText(_context, _context.getString(R.string.app_android_messaging_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
-		    	}
-		    	Common.setInLinkedAppFlag(_context, false);
-		        break;
-		    }
-		    case Constants.VIEW_SMS_MESSAGE_ACTIVITY:{ 
-		    	if(resultCode == RESULT_OK){
-		    		if(_debug) Log.v("NotificationActivity.onActivityResult() VIEW_SMS_MESSAGE_ACTIVITY: RESULT_OK");
-		        	//Remove notification from ViewFlipper.
-					_notificationViewFlipper.removeActiveNotification(false);
-		    	}else if(resultCode == RESULT_CANCELED){
-		    		if(_debug) Log.v("NotificationActivity.onActivityResult() VIEW_SMS_MESSAGE_ACTIVITY: RESULT_CANCELED");
-		    		//Remove notification from ViewFlipper.
-					_notificationViewFlipper.removeActiveNotification(false);
-		    	}else{
-		    		if(_debug) Log.v("NotificationActivity.onActivityResult() VIEW_SMS_MESSAGE_ACTIVITY: " + resultCode);
-		        	Toast.makeText(_context, _context.getString(R.string.app_android_messaging_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
-		    	}
-		    	Common.setInLinkedAppFlag(_context, false);
-		        break;
-		    }
-		    case Constants.VIEW_SMS_THREAD_ACTIVITY:{ 
-		    	if(resultCode == RESULT_OK){
-		    		if(_debug) Log.v("NotificationActivity.onActivityResult() VIEW_SMS_THREAD_ACTIVITY: RESULT_OK");
-		        	//Remove notification from ViewFlipper.
-					_notificationViewFlipper.removeActiveNotification(false);
-		    	}else if(resultCode == RESULT_CANCELED){
-		    		if(_debug) Log.v("NotificationActivity.onActivityResult() VIEW_SMS_THREAD_ACTIVITY: RESULT_CANCELED");
-		    		//Remove notification from ViewFlipper.
-					_notificationViewFlipper.removeActiveNotification(false);
-		    	}else{
-		    		if(_debug) Log.v("NotificationActivity.onActivityResult() VIEW_SMS_THREAD_ACTIVITY: " + resultCode);
-		        	Toast.makeText(_context, _context.getString(R.string.app_android_messaging_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
-		    	}
-		    	Common.setInLinkedAppFlag(_context, false);
-		        break;
-		    }
-		    case Constants.MESSAGING_ACTIVITY:{ 
-		    	if(resultCode == RESULT_OK){
-		    		if(_debug) Log.v("NotificationActivity.onActivityResult() MESSAGING_ACTIVITY: RESULT_OK");
-		        	//Remove notification from ViewFlipper.
-					_notificationViewFlipper.removeActiveNotification(false);
-		    	}else if(resultCode == RESULT_CANCELED){
-		    		if(_debug) Log.v("NotificationActivity.onActivityResult() MESSAGING_ACTIVITY: RESULT_CANCELED");
-		    		//Remove notification from ViewFlipper.
-					_notificationViewFlipper.removeActiveNotification(false);
-		    	}else{
-		    		if(_debug) Log.v("NotificationActivity.onActivityResult() MESSAGING_ACTIVITY: " + resultCode);
-		        	Toast.makeText(_context, _context.getString(R.string.app_android_messaging_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
-		    	}
-		    	Common.setInLinkedAppFlag(_context, false);
-		        break;
-		    }
-		    case Constants.SEND_SMS_QUICK_REPLY_ACTIVITY:{ 
-		    	if(resultCode == RESULT_OK){
-		    		if(_debug) Log.v("NotificationActivity.onActivityResult() SEND_SMS_QUICK_REPLY_ACTIVITY: RESULT_OK");
-		        	//Remove notification from ViewFlipper.
-		    		_notificationViewFlipper.removeActiveNotification(false);
-		    	}else if(resultCode == RESULT_CANCELED){
-		    		if(_debug) Log.v("NotificationActivity.onActivityResult() SEND_SMS_QUICK_REPLY_ACTIVITY: RESULT_CANCELED");
-		    		//Remove notification from ViewFlipper.
-					//_notificationViewFlipper.removeActiveNotification(false);
-		    	}else{
-		    		if(_debug) Log.v("NotificationActivity.onActivityResult() SEND_SMS_QUICK_REPLY_ACTIVITY: " + resultCode);
-		        	Toast.makeText(_context, _context.getString(R.string.app_android_messaging_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
-		    	}
-		    	Common.setInLinkedAppFlag(_context, false);
-		    	Common.setInQuickReplyAppFlag(_context, false);
-		        break;
-		    }
-		    case Constants.CALL_ACTIVITY:{ 
-		    	if(resultCode == RESULT_OK){
-		    		if(_debug) Log.v("NotificationActivity.onActivityResult() CALL_ACTIVITY: RESULT_OK");
-		        	//Remove notification from ViewFlipper.
-					_notificationViewFlipper.removeActiveNotification(false);
-		    	}else if(resultCode == RESULT_CANCELED){
-		    		if(_debug) Log.v("NotificationActivity.onActivityResult() CALL_ACTIVITY: RESULT_CANCELED");
-		    		//Remove notification from ViewFlipper.
-					_notificationViewFlipper.removeActiveNotification(false);
-		    	}else{
-		    		if(_debug) Log.v("NotificationActivity.onActivityResult() CALL_ACTIVITY: " + resultCode);
-		        	Toast.makeText(_context, _context.getString(R.string.app_android_phone_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
-		    	}
-		    	Common.setInLinkedAppFlag(_context, false);
-		        break;
-		    }
-		    case Constants.ADD_CALENDAR_ACTIVITY:{ 
-		    	if(resultCode == RESULT_OK){
-		    		if(_debug) Log.v("NotificationActivity.onActivityResult() ADD_CALENDAR_ACTIVITY: RESULT_OK");
-		        	//Remove notification from ViewFlipper.
-					_notificationViewFlipper.removeActiveNotification(false);
-		    	}else if(resultCode == RESULT_CANCELED){
-		    		if(_debug) Log.v("NotificationActivity.onActivityResult() ADD_CALENDAR_ACTIVITY: RESULT_CANCELED");
-		    		//Remove notification from ViewFlipper.
-					_notificationViewFlipper.removeActiveNotification(false);
-		    	}else{
-		    		if(_debug) Log.v("NotificationActivity.onActivityResult() ADD_CALENDAR_ACTIVITY: " + resultCode);
-		        	Toast.makeText(_context, _context.getString(R.string.app_android_calendar_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
-		    	}
-		    	Common.setInLinkedAppFlag(_context, false);
-		        break;
-		    }
-		    case Constants.EDIT_CALENDAR_ACTIVITY:{ 
-		    	if(resultCode == RESULT_OK){
-		    		if(_debug) Log.v("NotificationActivity.onActivityResult() EDIT_CALENDAR_ACTIVITY: RESULT_OK");
-		        	//Remove notification from ViewFlipper.
-					_notificationViewFlipper.removeActiveNotification(false);
-		    	}else if(resultCode == RESULT_CANCELED){
-		    		if(_debug) Log.v("NotificationActivity.onActivityResult() EDIT_CALENDAR_ACTIVITY: RESULT_CANCELED");
-		    		//Remove notification from ViewFlipper.
-					_notificationViewFlipper.removeActiveNotification(false);
-		    	}else{
-		    		if(_debug) Log.v("NotificationActivity.onActivityResult() EDIT_CALENDAR_ACTIVITY: " + resultCode);
-		        	Toast.makeText(_context, _context.getString(R.string.app_android_calendar_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
-		    	}
-		    	Common.setInLinkedAppFlag(_context, false);
-		        break;
-		    }
-		    case Constants.VIEW_CALENDAR_ACTIVITY:{ 
-		    	if(resultCode == RESULT_OK){
-		    		if(_debug) Log.v("NotificationActivity.onActivityResult() VIEW_CALENDAR_ACTIVITY: RESULT_OK");
-		        	//Remove notification from ViewFlipper.
-					_notificationViewFlipper.removeActiveNotification(false);
-		    	}else if(resultCode == RESULT_CANCELED){
-		    		if(_debug) Log.v("NotificationActivity.onActivityResult() VIEW_CALENDAR_ACTIVITY: RESULT_CANCELED");
-		    		//Remove notification from ViewFlipper.
-					_notificationViewFlipper.removeActiveNotification(false);
-		    	}else{
-		    		if(_debug) Log.v("NotificationActivity.onActivityResult() VIEW_CALENDAR_ACTIVITY: " + resultCode);
-		        	Toast.makeText(_context, _context.getString(R.string.app_android_calendar_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
-		    	}
-		    	Common.setInLinkedAppFlag(_context, false);
-		        break;
-		    }
-		    case Constants.VIEW_CALL_LOG_ACTIVITY:{
-		    	if(resultCode == RESULT_OK){
-		    		if(_debug) Log.v("NotificationActivity.onActivityResult() VIEW_CALL_LOG_ACTIVITY: RESULT_OK");
-		        	//Remove notification from ViewFlipper.
-		    		_notificationViewFlipper.removeActiveNotification(false);
-		    	}else if(resultCode == RESULT_CANCELED){
-		    		if(_debug) Log.v("NotificationActivity.onActivityResult() VIEW_CALL_LOG_ACTIVITY: RESULT_CANCELED");
-		    		//Remove notification from ViewFlipper.
-					_notificationViewFlipper.removeActiveNotification(false);
-		    	}else{
-		    		if(_debug) Log.v("NotificationActivity.onActivityResult() VIEW_CALL_LOG_ACTIVITY: " + resultCode);
-		        	Toast.makeText(_context, _context.getString(R.string.app_android_call_log_error) + " " + resultCode, Toast.LENGTH_LONG).show();
-		    	}
-		    	Common.setInLinkedAppFlag(_context, false);
-		        break;
-		    }
-		    case Constants.CALENDAR_ACTIVITY:{
-		    	if(resultCode == RESULT_OK){
-		    		if(_debug) Log.v("NotificationActivity.onActivityResult() CALENDAR_ACTIVITY: RESULT_OK");
-		        	//Remove notification from ViewFlipper.
-		    		_notificationViewFlipper.removeActiveNotification(false);
-		    	}else if(resultCode == RESULT_CANCELED){
-		    		if(_debug) Log.v("NotificationActivity.onActivityResult() CALENDAR_ACTIVITY: RESULT_CANCELED");
-		    		//Remove notification from ViewFlipper.
-					_notificationViewFlipper.removeActiveNotification(false);
-		    	}else{
-		    		if(_debug) Log.v("NotificationActivity.onActivityResult() CALENDAR_ACTIVITY: " + resultCode);
-		        	Toast.makeText(_context, _context.getString(R.string.app_android_calendar_app_error) + " " + resultCode, Toast.LENGTH_LONG).show();
-		    	}
-		    	Common.setInLinkedAppFlag(_context, false);
-		        break;
-		    }
-		    case Constants.K9_VIEW_INBOX_ACTIVITY:{
-		    	if(resultCode == RESULT_OK){
-		    		if(_debug) Log.v("NotificationActivity.onActivityResult() K9_VIEW_INBOX_ACTIVITY: RESULT_OK");
-		        	//Remove notification from ViewFlipper.
-		    		_notificationViewFlipper.removeActiveNotification(false);
-		    	}else if(resultCode == RESULT_CANCELED){
-		    		if(_debug) Log.v("NotificationActivity.onActivityResult() K9_VIEW_INBOX_ACTIVITY: RESULT_CANCELED");
-		    		//Remove notification from ViewFlipper.
-					_notificationViewFlipper.removeActiveNotification(false);
-		    	}else{
-		    		if(_debug) Log.v("NotificationActivity.onActivityResult() K9_VIEW_INBOX_ACTIVITY: " + resultCode);
-		        	Toast.makeText(_context, _context.getString(R.string.app_email_app_error) + " " + resultCode, Toast.LENGTH_LONG).show();
-		    	}
-		    	Common.setInLinkedAppFlag(_context, false);
-		        break;
-		    }
-		    case Constants.K9_VIEW_EMAIL_ACTIVITY:{
-		    	if(resultCode == RESULT_OK){
-		    		if(_debug) Log.v("NotificationActivity.onActivityResult() K9_VIEW_EMAIL_ACTIVITY: RESULT_OK");
-		        	//Remove notification from ViewFlipper.
-		    		_notificationViewFlipper.removeActiveNotification(false);
-		    	}else if(resultCode == RESULT_CANCELED){
-		    		if(_debug) Log.v("NotificationActivity.onActivityResult() K9_VIEW_EMAIL_ACTIVITY: RESULT_CANCELED");
-		    		//Remove notification from ViewFlipper.
-					_notificationViewFlipper.removeActiveNotification(false);
-		    	}else{
-		    		if(_debug) Log.v("NotificationActivity.onActivityResult() K9_VIEW_EMAIL_ACTIVITY: " + resultCode);
-		        	Toast.makeText(_context, _context.getString(R.string.app_email_app_error) + " " + resultCode, Toast.LENGTH_LONG).show();
-		    	}
-		    	Common.setInLinkedAppFlag(_context, false);
-		        break;
-		    }
-		    case Constants.K9_SEND_EMAIL_ACTIVITY:{
-		    	if(resultCode == RESULT_OK){
-		    		if(_debug) Log.v("NotificationActivity.onActivityResult() K9_SEND_EMAIL_ACTIVITY: RESULT_OK");
-		        	//Remove notification from ViewFlipper.
-		    		_notificationViewFlipper.removeActiveNotification(false);
-		    	}else if(resultCode == RESULT_CANCELED){
-		    		if(_debug) Log.v("NotificationActivity.onActivityResult() K9_SEND_EMAIL_ACTIVITY: RESULT_CANCELED");
-		    		//Remove notification from ViewFlipper.
-					_notificationViewFlipper.removeActiveNotification(false);
-		    	}else{
-		    		if(_debug) Log.v("NotificationActivity.onActivityResult() K9_SEND_EMAIL_ACTIVITY: " + resultCode);
-		        	Toast.makeText(_context, _context.getString(R.string.app_email_app_error) + " " + resultCode, Toast.LENGTH_LONG).show();
-		    	}
-		    	Common.setInLinkedAppFlag(_context, false);
-		        break;
-		    }
-		    case Constants.TEXT_TO_SPEECH_ACTIVITY:{
-		        if(resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS){
-		            //Success, create the TTS instance.
-		            _tts = new TextToSpeech(_context, ttsOnInitListener);
-		        }else{
-		            //Missing data, install it.
-		            Intent installIntent = new Intent();
-		            installIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
-		            startActivity(installIntent);
-		        }
-		        break;
-		    }
-		    case Constants.BROWSER_ACTIVITY:{
-		    	if(resultCode == RESULT_OK){
-		    		if(_debug) Log.v("NotificationActivity.onActivityResult() BROWSER_ACTIVITY: RESULT_OK");
-		    		_notificationViewFlipper.removeActiveNotification(false);
-		    	}else if(resultCode == RESULT_CANCELED){
-		    		if(_debug) Log.v("NotificationActivity.onActivityResult() BROWSER_ACTIVITY: RESULT_CANCELED");
-					_notificationViewFlipper.removeActiveNotification(false);
-		    	}else{
-		    		if(_debug) Log.v("NotificationActivity.onActivityResult() BROWSER_ACTIVITY: " + resultCode);
-		        	Toast.makeText(_context, _context.getString(R.string.browser_app_error) + " " + resultCode, Toast.LENGTH_LONG).show();
-		    	}
-		    	Common.setInLinkedAppFlag(_context, false);
-		        break;
-		    }
-	    }
+		}catch(Exception ex){
+			Log.e("NotificationActivity.onActivityResult() ERROR: " + ex.toString());
+			_notificationViewFlipper.removeActiveNotification(false);
+			return;
+		}
     }
 	
 	/**

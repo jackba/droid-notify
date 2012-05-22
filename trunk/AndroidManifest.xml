@@ -42,6 +42,9 @@
 	<uses-permission android:name="com.kaitenmail.permission.READ_MESSAGES" />
 	<uses-permission android:name="com.kaitenmail.permission.DELETE_MESSAGES" />
 	
+	<uses-permission android:name="org.koxx.k9ForPureWidget.permission.READ_MESSAGES" />
+	<uses-permission android:name="org.koxx.k9ForPureWidget.permission.DELETE_MESSAGES" />
+	
 	<uses-permission android:name="thinkpanda.permission.CLEAR_MISSED_CALL" />
 	
 	<uses-feature android:name="android.hardware.telephony" />
@@ -395,6 +398,10 @@
 			<intent-filter>
 				<action android:name="com.kaitenmail.intent.action.EMAIL_RECEIVED" />
 				<data android:scheme="email" android:host="kaitenmail.com" />
+			</intent-filter>			
+			<intent-filter>
+				<action android:name="org.koxx.k9ForPureWidget.intent.action.EMAIL_RECEIVED" />
+				<data android:scheme="email" android:host="messages" />
 			</intent-filter>
 		</receiver>
 		    	    
@@ -404,11 +411,11 @@
         <receiver 
 		    android:name="apps.droidnotify.receivers.MMSReceiver"
 		    android:exported="true"> 
-			<intent-filter android:priority="2147483647">
+			<intent-filter>
                 <action android:name="android.provider.Telephony.WAP_PUSH_RECEIVED" />
                 <data android:mimeType="application/vnd.wap.mms-message" />
             </intent-filter>
-            <intent-filter android:priority="2147483647"> 
+            <intent-filter> 
                 <action android:name="android.provider.Telephony.MMS_RECEIVED" /> 
             </intent-filter>
         </receiver>
@@ -424,7 +431,7 @@
    		<receiver 
    		    android:name="apps.droidnotify.receivers.PhoneReceiver"
 		    android:exported="true" > 
-            <intent-filter android:priority="2147483647"> 
+            <intent-filter> 
                 <action android:name="android.intent.action.PHONE_STATE" />
             </intent-filter> 
         </receiver>        
@@ -446,7 +453,7 @@
 		<receiver 
 		    android:name="apps.droidnotify.receivers.SMSReceiver"
 		    android:exported="true">           
-			<intent-filter android:priority="2147483647"> 
+			<intent-filter> 
 	        	<action android:name="android.provider.Telephony.SMS_RECEIVED" /> 
 	        </intent-filter> 
 	    </receiver>

@@ -12,7 +12,7 @@ public class Constants {
 	public static final String DEBUG = "debug_log_enabled";
 
 	//-----FIRST RUN CONSTANTS-----//	
-	public static final String FIRST_RUN_KEY = LOGTAG + "first_run";
+	public static final String FIRST_RUN_KEY = LOGTAG + "_first_run";
 
 	//-----NOTIFICATIION BUNDLE CONSTANTS-----//
 	public static final String BUNDLE_SENT_FROM_ADDRESS = "sentFromAddress";
@@ -82,7 +82,8 @@ public class Constants {
 	public static final String KEYGUARD_ENABLED_KEY = "keyguard_enabled";
 	public static final String HIDE_SINGLE_MESSAGE_HEADER_KEY = "hide_single_message_header_enabled";
     public static final String CLEAR_STATUS_BAR_NOTIFICATIONS_ON_EXIT_KEY = "clear_status_bar_notifications_on_exit_enabled";
-    public static final String PREVIOUS_CALL_STATE_KEY = "NOTIFY_LITE_previous_call_state";
+    
+	public static final String PREVIOUS_CALL_STATE_KEY = LOGTAG + "_previous_call_state";
     
 	//-----SETTING ACTIVITIES CONSTANTS-----//
 	public static final String SETTINGS_STATUS_BAR_NOTIFICATIONS_PREFERENCE = "status_bar_notifications_preference";
@@ -121,6 +122,7 @@ public class Constants {
 	
 	public static final int NOTIFICATION_TYPE_K9_MAIL = 230;
 	public static final int NOTIFICATION_TYPE_KAITEN_MAIL = 231;
+	public static final int NOTIFICATION_TYPE_K9_FOR_PURE = 232;
 	
 	public static final int ADD_CONTACT_ACTIVITY = 1;
 	public static final int EDIT_CONTACT_ACTIVITY = 2;
@@ -493,6 +495,7 @@ public class Constants {
 	//-----K9 CONSTANTS-----//	
 	public static final String INTENT_ACTION_K9 = "com.fsck.k9.intent.action.EMAIL_RECEIVED";
 	public static final String INTENT_ACTION_KAITEN = "com.kaitenmail.intent.action.EMAIL_RECEIVED";
+	public static final String INTENT_ACTION_K9_FOR_PURE = "org.koxx.k9ForPureWidget.intent.action.EMAIL_RECEIVED";
 	
 	public static final String K9_NOTIFICATIONS_ENABLED_KEY = "k9_notifications_enabled";
 	public static final String K9_BLOCKING_APP_RUNNING_ACTION_KEY = "blocking_app_running_action_k9";
