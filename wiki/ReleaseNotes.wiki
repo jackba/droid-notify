@@ -4,7 +4,11 @@
 = Release Notes =
 
 *v3.9* _Coming Soon..._
+ * Added support for the app K-9 For Pure Widgets
  * 
+ * 
+ * Updated translations.
+ * Small bug fixes.
 
 *v3.8* (May 16, 2012)
  * Updated Translations.
