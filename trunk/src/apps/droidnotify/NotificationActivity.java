@@ -1000,7 +1000,6 @@ public class NotificationActivity extends Activity{
 	@Override
 	protected void onResume(){
 	    if(_debug) Log.v("NotificationActivity.onResume()");
-	    setScreenTimeoutAlarm();
 	    super.onResume();
 	}
 	  
@@ -1013,7 +1012,6 @@ public class NotificationActivity extends Activity{
 	    if(_tts != null){
 	    	_tts.stop();
 	    }
-	    cancelScreenTimeout();
 	    super.onPause();
 	}
 	  
