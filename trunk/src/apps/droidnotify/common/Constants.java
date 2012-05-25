@@ -83,6 +83,7 @@ public class Constants {
 	public static final String HIDE_SINGLE_MESSAGE_HEADER_KEY = "hide_single_message_header_enabled";
     public static final String CLEAR_STATUS_BAR_NOTIFICATIONS_ON_EXIT_KEY = "clear_status_bar_notifications_on_exit_enabled";
     
+	public static final String CALL_STATE_KEY = LOGTAG + "_call_state";
 	public static final String PREVIOUS_CALL_STATE_KEY = LOGTAG + "_previous_call_state";
     
 	//-----SETTING ACTIVITIES CONSTANTS-----//

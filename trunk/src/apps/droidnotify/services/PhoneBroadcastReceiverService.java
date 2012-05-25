@@ -68,31 +68,30 @@ public class PhoneBroadcastReceiverService extends WakefulIntentService {
 				return;
 			}
 		    //Check the state of the users phone.
-			TelephonyManager telemanager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-		    int callState = telemanager.getCallState();
+		    int callState = preferences.getInt(Constants.CALL_STATE_KEY, 0);
+		    if (_debug) Log.v("PhoneService.doWakefulWork() PREVIOUS_CALL_STATE: " + preferences.getInt(Constants.PREVIOUS_CALL_STATE_KEY, TelephonyManager.CALL_STATE_IDLE));
 		    if(callState == TelephonyManager.CALL_STATE_IDLE){
+		    	if (_debug) Log.v("PhoneService.doWakefulWork() Phone Idle.");
 		    	if(preferences.getInt(Constants.PREVIOUS_CALL_STATE_KEY, TelephonyManager.CALL_STATE_IDLE) != TelephonyManager.CALL_STATE_RINGING){
-		    		if (_debug) Log.v("PhoneBroadcastReceiverService.doWakefulWork() Previous call state not 'CALL_STATE_RINGING'. Exiting...");
-		    		//setCallStateFlag(preferences, callState);
-		    		//return;
+		    		if (_debug) Log.v("PhoneService.doWakefulWork() Previous call state not 'CALL_STATE_RINGING'. Exiting...");
 		    	}else{
-		    		if (_debug) Log.v("PhoneBroadcastReceiverService.doWakefulWork() Previous call state 'CALL_STATE_RINGING'. Missed Call Occurred");
+		    		if (_debug) Log.v("PhoneService.doWakefulWork() Previous call state 'CALL_STATE_RINGING'. Missed Call Occurred");
+					//Schedule phone task x seconds after the broadcast.
+					//This time is set by the users advanced preferences. 5 seconds is the default value.
+					//This should allow enough time to pass for the phone log to be written to.
+					long timeoutInterval = Long.parseLong(preferences.getString(Constants.CALL_LOG_TIMEOUT_KEY, "5")) * 1000;
+					String intentActionText = "apps.droidnotify.alarm." + String.valueOf(System.currentTimeMillis());
+					long alarmTime = System.currentTimeMillis() + timeoutInterval;
+					Common.startAlarm(context, PhoneAlarmReceiver.class, null, intentActionText, alarmTime);
 		    	}
-				//Schedule phone task x seconds after the broadcast.
-				//This time is set by the users advanced preferences. 5 seconds is the default value.
-				//This should allow enough time to pass for the phone log to be written to.
-				long timeoutInterval = Long.parseLong(preferences.getString(Constants.CALL_LOG_TIMEOUT_KEY, "5")) * 1000;
-				String intentActionText = "apps.droidnotify.alarm/PhoneAlarmReceiverAlarm/" + String.valueOf(System.currentTimeMillis());
-				long alarmTime = System.currentTimeMillis() + timeoutInterval;
-				Common.startAlarm(context, PhoneAlarmReceiver.class, null, intentActionText, alarmTime);
 		    }else if(callState == TelephonyManager.CALL_STATE_RINGING){
-		    	if (_debug) Log.v("PhoneBroadcastReceiverService.doWakefulWork() Phone Ringing. Exiting...");
+		    	if (_debug) Log.v("PhoneService.doWakefulWork() Phone Ringing.");
 		    }else if(callState == TelephonyManager.CALL_STATE_OFFHOOK){
-		    	if (_debug) Log.v("PhoneBroadcastReceiverService.doWakefulWork() Phone Call In Progress. Exiting...");
+		    	if (_debug) Log.v("PhoneService.doWakefulWork() Phone Call In Progress.");
 		    }else{
-		    	if (_debug) Log.v("PhoneBroadcastReceiverService.doWakefulWork() Unknown Call State. Exiting...");
+		    	if (_debug) Log.v("PhoneService.doWakefulWork() Unknown Call State: " + callState);
 		    }
-		    setCallStateFlag(preferences, callState);
+		    setPreviousCallStateFlag(preferences, callState);
 	    }catch(Exception ex){
 			Log.e("PhoneBroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());
 		}
@@ -105,8 +104,8 @@ public class PhoneBroadcastReceiverService extends WakefulIntentService {
 	/**
 	 * Set the phone state flag.
 	 */
-	private void setCallStateFlag(SharedPreferences preferences, int callState){
-		if (_debug) Log.v("PhoneBroadcastReceiverService.setCallStateFlag() callState: " + callState);
+	private void setPreviousCallStateFlag(SharedPreferences preferences, int callState){
+		if (_debug) Log.v("PhoneBroadcastReceiverService.setPreviousCallStateFlag() callState: " + callState);
 		SharedPreferences.Editor editor = preferences.edit();
 		editor.putInt(Constants.PREVIOUS_CALL_STATE_KEY, callState);
 		editor.commit();
