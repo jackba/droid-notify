@@ -3,7 +3,11 @@ package apps.droidnotify.receivers;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.telephony.TelephonyManager;
 
+import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
 import apps.droidnotify.services.PhoneBroadcastReceiverService;
 import apps.droidnotify.services.WakefulIntentService;
@@ -37,10 +41,29 @@ public class PhoneReceiver extends BroadcastReceiver{
 		_debug = Log.getDebug();
 		if (_debug) Log.v("PhoneReceiver.onReceive()");
 		try{
+		    //Check the state of the users phone.
+			TelephonyManager telemanager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+		    int callState = telemanager.getCallState();
+		    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		    setCallStateFlag(preferences, callState);
 			WakefulIntentService.sendWakefulWork(context, new Intent(context, PhoneBroadcastReceiverService.class));
 		}catch(Exception ex){
 			Log.e("PhoneReceiver.onReceive() ERROR: " + ex.toString());
 		}
+	}
+
+	//================================================================================
+	// Private Methods
+	//================================================================================
+	
+	/**
+	 * Set the phone state flag.
+	 */
+	private void setCallStateFlag(SharedPreferences preferences, int callState){
+		if (_debug) Log.v("PhoneReceiver.setCallStateFlag() callState: " + callState);
+		SharedPreferences.Editor editor = preferences.edit();
+		editor.putInt(Constants.CALL_STATE_KEY, callState);
+		editor.commit();
 	}
 	
 }
