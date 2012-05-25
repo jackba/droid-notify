@@ -21,11 +21,10 @@
   <string name="continue_text">Continua</string>
   <string name="dismiss_notification_text">Notifica respinta</string>
   <string name="reset_data">Ripristino dei dati…</string>
-  <string name="colon">:</string>
   <string name="save">Salva</string>
   <string name="cancel">Cancella</string>
   <string name="name">Nome</string>
-  <string name="contact">Contatto</string>
+  <string name="colon">:</string>
   <string name="appenabled_title">Abilita Droid Notify</string>
   <string name="appenabled_summary">Abilitare l\'Applicazione.</string>
   <string name="upgrade">Aggiornamento</string>
@@ -446,6 +445,9 @@
   <string name="log_file_device_info" formatted="false">Droid Notify Version: %s\nDevice Model: %s\nFirmware Version: %s\nBuild Number: %s\n</string>
   <string name="send_debug_logs_text">Inviare i log di Debug</string>
   <string name="send_debug_logs_summary">Inviare i log di debug allo sviluppatore.</string>
+  <string name="clear_debug_logs">Chiara Registri di Debug</string>
+  <string name="clear_debug_logs_summary">Eliminare i registri di debug esistenti.</string>
+  <string name="removing_logs">Rimozione di logs…</string>
   <string name="feedback_category">RETROAZIONE</string>
   <string name="rate_app">Vota l\'App</string>
   <string name="email_developer">Email Sviluppatore</string>
@@ -550,14 +552,14 @@
   <string name="status_bar_notification_content_text_email" formatted="false">Nuova email da %s - %s</string>
   <string name="status_bar_notification_content_text_email_null" formatted="false">Nuova email.</string>
   <string name="status_bar_notification_content_text_email_count" formatted="false">%s nuove emails.</string>
-  <string name="status_bar_notification_ticker_text_sms" formatted="false">Nuovo messaggio da %s - %s</string>
+  <string name="status_bar_notification_ticker_text_sms" formatted="false">Nuovo messaggio da %s-%s</string>
   <string name="status_bar_notification_ticker_text_unknown_contact_sms" formatted="false">Nuovo messaggio - %s</string>
   <string name="status_bar_notification_ticker_text_privacy_sms" formatted="false">Nuovo messaggio da %s.</string>
-  <string name="status_bar_notification_ticker_text_sms_null" formatted="false">Nuovo Messaggio.</string>
+  <string name="status_bar_notification_ticker_text_sms_null" formatted="false">Nuovo messaggio.</string>
   <string name="status_bar_notification_ticker_text_phone" formatted="false">Chiamata persa da %s.</string>
-  <string name="status_bar_notification_ticker_text_phone_null" formatted="false">Chiamata Persa.</string>
+  <string name="status_bar_notification_ticker_text_phone_null" formatted="false">Chiamata persa.</string>
   <string name="status_bar_notification_ticker_text_calendar" formatted="false">Evento Calendario - %s</string>
-  <string name="status_bar_notification_ticker_text_calendar_null" formatted="false">Eventi Calendario.</string>
+  <string name="status_bar_notification_ticker_text_calendar_null" formatted="false">Evento Calendario.</string>
   <string name="status_bar_notification_ticker_text_twitter_direct_message" formatted="false">Nuovo Twitter Direttamente il Messaggio da %s - %s</string>
   <string name="status_bar_notification_ticker_text_unknown_contact_twitter_direct_message" formatted="false">Nuovo Twitter Direttamente il Messaggio - %s</string>
   <string name="status_bar_notification_ticker_text_twitter_direct_message_null" formatted="false">Nuovo Messaggio Diretto di Twitter.</string>

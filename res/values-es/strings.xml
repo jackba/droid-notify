@@ -21,11 +21,10 @@
   <string name="continue_text">Continuar</string>
   <string name="dismiss_notification_text">Rechazar Notificación</string>
   <string name="reset_data">Restablecimiento de datos…</string>
-  <string name="colon">:</string>
   <string name="save">Guardar</string>
   <string name="cancel">Cancelar</string>
   <string name="name">Nombre</string>
-  <string name="contact">Contacto</string>
+  <string name="colon">:</string>
   <string name="appenabled_title">Activar Droid Notify</string>
   <string name="appenabled_summary">Activar la aplicación.</string>
   <string name="upgrade">Actualización</string>
@@ -446,6 +445,9 @@
   <string name="log_file_device_info" formatted="false">Droid Notify Version: %s\nDevice Model: %s\nFirmware Version: %s\nBuild Number: %s\n</string>
   <string name="send_debug_logs_text">Enviar Registros de Depuración</string>
   <string name="send_debug_logs_summary">﻿Enviar los registros de depuración para el desarrollador.</string>
+  <string name="clear_debug_logs">Borrar Registros de Depuración</string>
+  <string name="clear_debug_logs_summary">Eliminar los registros de depuración existentes.</string>
+  <string name="removing_logs">Eliminar logs…</string>
   <string name="feedback_category">COMENTARIOS</string>
   <string name="rate_app">Tasa App</string>
   <string name="email_developer">Correo Electrónico del Desarrollador</string>
@@ -475,7 +477,7 @@
   <string name="preference_ignore_class_0_messages_title">No Haga Caso de Mensajes 0</string>
   <string name="preference_ignore_class_0_messages_summary">No haga caso de mensajes SMS de destello de clase AKA caso de mensajes 0</string>
   <string name="view_contact_text">Ver Contacto</string>
-  <string name="add_contact_text">Añadir contacto</string>
+  <string name="add_contact_text">Agregar Contacto</string>
   <string name="text_contact_text">Texto del Contacto</string>
   <string name="edit_contact_text">Editar Contacto</string>
   <string name="preference_reply_button_action">Acción de botón de respuesta</string>
@@ -507,7 +509,7 @@
   <string name="status_bar_notification_content_title_text_facebook_message">Nuevo Mensaje de Facebook</string>
   <string name="status_bar_notification_content_title_text_email">Nuevo correo electrónico</string>
   <string name="status_bar_notification_content_title_text_plural_sms">Mensajes Nuevos</string>
-  <string name="status_bar_notification_content_title_text_plural_phone">Llamadas Perdidas</string>
+  <string name="status_bar_notification_content_title_text_plural_phone">Llamada Perdida</string>
   <string name="status_bar_notification_content_title_text_plural_calendar">Recordatorios de Eventos de Calendario</string>
   <string name="status_bar_notification_content_title_text_plural_twitter">Novedades de Twitter</string>
   <string name="status_bar_notification_content_title_text_plural_twitter_direct_message">Nuevos Mensajes Directos de Twitter</string>

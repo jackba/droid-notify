@@ -21,11 +21,10 @@
   <string name="continue_text">Weiter</string>
   <string name="dismiss_notification_text">Benachrichtigung schließen.</string>
   <string name="reset_data">Zurücksetzen von Daten…</string>
-  <string name="colon">:</string>
   <string name="save">Speichern</string>
   <string name="cancel">Abbrechen</string>
   <string name="name">Name</string>
-  <string name="contact">Kontakt</string>
+  <string name="colon">:</string>
   <string name="appenabled_title">Droid Notify Aktivieren</string>
   <string name="appenabled_summary">Aktivieren sie die anwendung.</string>
   <string name="upgrade">Aktualisieren</string>
@@ -446,6 +445,9 @@
   <string name="log_file_device_info" formatted="false">Droid Notify Version: %s\nDevice Model: %s\nFirmware Version: %s\nBuild Number: %s\n</string>
   <string name="send_debug_logs_text">Senden Sie Debug-Protokolle</string>
   <string name="send_debug_logs_summary">Senden Sie die Debugprotokolle für den Entwickler.</string>
+  <string name="clear_debug_logs">Deaktivieren Sie Debug-Protokolle</string>
+  <string name="clear_debug_logs_summary">Löschen sie vorhandene debug-logs.</string>
+  <string name="removing_logs">Entfernen von logs…</string>
   <string name="feedback_category">RÜCKMELDUNG</string>
   <string name="rate_app">App Bewerten</string>
   <string name="email_developer">E-Mail-Entwickler</string>
@@ -475,7 +477,7 @@
   <string name="preference_ignore_class_0_messages_title">Klasse 0 Nachrichten Ignorieren</string>
   <string name="preference_ignore_class_0_messages_summary">﻿Flash SMS-Mitteilungen AKA Klasse 0 Nachrichten ignorieren</string>
   <string name="view_contact_text">Zeige Kontakt</string>
-  <string name="add_contact_text">Kontakt hinzufügen</string>
+  <string name="add_contact_text">Kontakt Hinzufügen</string>
   <string name="text_contact_text">Text Kontakt</string>
   <string name="edit_contact_text">Kontakt bearbeiten</string>
   <string name="preference_reply_button_action">Antwort-Button: Aktion</string>
@@ -550,11 +552,11 @@
   <string name="status_bar_notification_content_text_email" formatted="false">Neue Email von %s - %s.</string>
   <string name="status_bar_notification_content_text_email_null" formatted="false">Neue e-Mail.</string>
   <string name="status_bar_notification_content_text_email_count" formatted="false">%s neue emails.</string>
-  <string name="status_bar_notification_ticker_text_sms" formatted="false">Neue Nachricht von %s -%s.</string>
+  <string name="status_bar_notification_ticker_text_sms" formatted="false">Neue nachricht von %s -%s.</string>
   <string name="status_bar_notification_ticker_text_unknown_contact_sms" formatted="false">Neue Nachricht -%s.</string>
   <string name="status_bar_notification_ticker_text_privacy_sms" formatted="false">Neue Nachricht von %s.</string>
-  <string name="status_bar_notification_ticker_text_sms_null" formatted="false">Neue Nachricht.</string>
-  <string name="status_bar_notification_ticker_text_phone" formatted="false">Verpasster Anruf von %s.</string>
+  <string name="status_bar_notification_ticker_text_sms_null" formatted="false">Neue nachricht.</string>
+  <string name="status_bar_notification_ticker_text_phone" formatted="false">Anruf in Abwesenheit von %s.</string>
   <string name="status_bar_notification_ticker_text_phone_null" formatted="false">Verpasster Anruf</string>
   <string name="status_bar_notification_ticker_text_calendar" formatted="false">Kalenderereignis - %s</string>
   <string name="status_bar_notification_ticker_text_calendar_null" formatted="false">Kalenderereignis.</string>
@@ -576,9 +578,9 @@
   <string name="status_bar_notification_ticker_text_facebook_message" formatted="false">Neue Facebook-Nachricht von %s - %s.</string>
   <string name="status_bar_notification_ticker_text_unknown_contact_facebook_message" formatted="false">Neue Facebook Nachricht - %s.</string>
   <string name="status_bar_notification_ticker_text_facebook_message_null" formatted="false">Neue Facebook-Nachricht.</string>
-  <string name="status_bar_notification_ticker_text_email" formatted="false">Neue EMail von %s - %s.</string>
+  <string name="status_bar_notification_ticker_text_email" formatted="false">Neue Email von %s - %s.</string>
   <string name="status_bar_notification_ticker_text_unknown_contact_email" formatted="false">Neue email -  %s.</string>
-  <string name="status_bar_notification_ticker_text_email_null" formatted="false">Neue email.</string>
+  <string name="status_bar_notification_ticker_text_email_null" formatted="false">Neue e-Mail.</string>
   <string name="clear_status_bar_notifications_on_exit_title">Löschen von Benachrichtigungen beim Beenden</string>
   <string name="clear_status_bar_notifications_on_exit_summaryOn">Die Statusbar-Benachrichtigungen werden entfernt, sobald die Popup-Benachrichtigungen entfernt werden.</string>
   <string name="clear_status_bar_notifications_on_exit_summaryOff">Statusbar Benachrichtigungen werden nicht zusammen mit den Popup-Benachrichtigungen entfernt.</string>
@@ -620,10 +622,10 @@
   <string name="s4_seconds_text">4 Sekunden</string>
   <string name="s5_seconds_text">5 Sekunden</string>
   <string name="s6_seconds_text">6 Sekunden</string>
-  <string name="s7_seconds_text">7 Seconds</string>
+  <string name="s7_seconds_text">7 Sekunden</string>
   <string name="s8_seconds_text">8 Sekunden</string>
   <string name="s9_seconds_text">9 Sekunden</string>
-  <string name="s10_seconds_text">10 Seconds</string>
+  <string name="s10_seconds_text">10 Sekunden</string>
   <string name="s15_seconds_text">15 Sekunden</string>
   <string name="s20_seconds_text">20 Sekunden</string>
   <string name="s25_seconds_text">25 Sekunden</string>

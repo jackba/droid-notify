@@ -30,11 +30,10 @@
     <string name="continue_text">Continue</string>
     <string name="dismiss_notification_text">Dismiss Notification</string>
     <string name="reset_data">Resetting data&#8230;</string>
-    <string name="colon">:</string>
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
     <string name="name">Name</string>
-    <string name="contact">Contact</string>
+    <string name="colon">:</string>
     
     <!-- Enable Application -->
     <string name="appenabled_title">Enable Droid Notify</string>
@@ -299,7 +298,7 @@
    	<string name="preference_display_contact_number_title">Display Contact Number</string>
    	<string name="preference_display_contact_number_summary">Display the contact number in the notification header.</string>
    	<string name="preference_contact_number_font_size_title">Contact Number Font Size</string>
-   	<string name="preference_contact_number_font_size_summary">Select the font size of the contact number text.</string>    
+   	<string name="preference_contact_number_font_size_summary">Select the font size of the contact number text.</string> 
    	<string name="preference_display_unknown_contact_number_title">Display Unknown Contact Number</string>
    	<string name="preference_display_unknown_contact_number_summary">Display the contact number if the contact is unknown.</string>  	
     <string name="preference_contact_placeholder_image">Contact Placeholder Image</string>

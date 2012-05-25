@@ -82,10 +82,10 @@ public class Common {
     //================================================================================
 	
 	private static boolean _debug = false; 
-	private static Context _context = null; 
-	private static PowerManager.WakeLock _partialWakeLock = null;
-	private static PowerManager.WakeLock _wakeLock = null;
+	private static Context _context = null;
 	private static KeyguardLock _keyguardLock = null;
+	private static PowerManager.WakeLock _wakeLock = null;
+	private static boolean _fullWakelockInUse = false;
 	
 	//================================================================================
 	// Public Methods
@@ -1202,6 +1202,17 @@ public class Common {
 	}
 	
 	/**
+	 * Get the full wakelock in use flag.
+	 * 
+	 * @return boolean - Returns the fullWakeLockInUse flag.
+	 */
+	public static boolean isFullWakelockInUse(){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.isFullWakelockInUse()");
+		return _fullWakelockInUse;
+	}
+	
+	/**
 	 * Aquire a global partial wakelock within this context.
 	 * 
 	 * @param context - The application context.
@@ -1210,32 +1221,25 @@ public class Common {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.aquirePartialWakelock()");
 		try{
-			if(_partialWakeLock == null){
+			if(_wakeLock == null){
 		    	PowerManager powerManager = (PowerManager)context.getSystemService(Context.POWER_SERVICE);
-		    	_partialWakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, Constants.DROID_NOTIFY_WAKELOCK);
-		    	_partialWakeLock.setReferenceCounted(false);
+		    	_wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, Constants.DROID_NOTIFY_WAKELOCK);
+		    	_wakeLock.setReferenceCounted(false);
+		    	_fullWakelockInUse = false;
 			}
-			_partialWakeLock.acquire();
+			if(_fullWakelockInUse){
+				return;
+			}
+			_wakeLock.acquire();
+			return;
 		}catch(Exception ex){
 			Log.e("Common.aquirePartialWakelock() ERROR: " + ex.toString());
-		}
-	}
-	
-	/**
-	 * Release the global partial wakelock within this context.
-	 * 
-	 * @param context - The application context.
-	 */
-	public static void clearPartialWakeLock(){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.clearPartialWakelock()");
-		try{
-	    	if(_partialWakeLock != null){
-	    		_partialWakeLock.release();
-	    		_partialWakeLock = null;
-	    	}
-		}catch(Exception ex){
-			Log.e("Common.clearPartialWakelock() ERROR: " + ex.toString());
+			if(_wakeLock != null){
+				_wakeLock.release();
+				_wakeLock = null;
+			}
+			_fullWakelockInUse = false;
+			return;
 		}
 	}
 	
@@ -1249,8 +1253,8 @@ public class Common {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.aquireWakelock()");
 		try{
-			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-			if(_wakeLock == null){
+			if(!_fullWakelockInUse){
+				SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 				PowerManager powerManager = (PowerManager)context.getSystemService(Context.POWER_SERVICE);
 				if(preferences.getBoolean(Constants.SCREEN_ENABLED_KEY, true)){
 					if(preferences.getBoolean(Constants.SCREEN_DIM_ENABLED_KEY, true)){
@@ -1261,14 +1265,21 @@ public class Common {
 				}else{
 					_wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, Constants.DROID_NOTIFY_WAKELOCK);
 				}
-				_wakeLock.setReferenceCounted(false);
+				_wakeLock.setReferenceCounted(false);					
+				if(_wakeLock != null){
+					_wakeLock.acquire();
+				}
+				_fullWakelockInUse = true;
 			}
-			if(_wakeLock != null){
-				_wakeLock.acquire();
-			}
-			Common.clearPartialWakeLock();
+			return;
 		}catch(Exception ex){
 			Log.e("Common.aquireWakelock() ERROR: " + ex.toString());
+			if(_wakeLock != null){
+				_wakeLock.release();
+				_wakeLock = null;
+			}
+			_fullWakelockInUse = false;
+			return;
 		}
 	}
 	
@@ -1281,13 +1292,17 @@ public class Common {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.clearWakelock()");
 		try{
-			Common.clearPartialWakeLock();
 	    	if(_wakeLock != null){
 	    		_wakeLock.release();
 	    		_wakeLock = null;
 	    	}
+			_fullWakelockInUse = false;
+			return;
 		}catch(Exception ex){
 			Log.e("Common.clearWakelock() ERROR: " + ex.toString());
+			_wakeLock = null;
+			_fullWakelockInUse = false;
+			return;
 		}
 	}
 

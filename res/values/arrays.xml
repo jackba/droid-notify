@@ -8,13 +8,14 @@
 		<item>English (UK)</item>
 		<item>Française</item>
 		<item>Deutsch</item>
+		<item>Español</item>
 		<item>עברית</item>
 		<item>Magyar</item>
 		<item>Italiano</item>
 		<item>Português</item>
 		<item>Português Brasileiro</item>
 		<item>Polski</item>
-		<item>Español</item>
+		<item>Русский</item>
 		<item>中文（简体）</item>
 	</string-array>
 	<string-array name="language_values">
@@ -23,13 +24,14 @@
 		<item>en_GB</item>
 		<item>fr</item>
 		<item>de</item>
+		<item>es</item>
 		<item>he</item>
 		<item>hu</item>
 		<item>it</item>
 		<item>pt</item>
 		<item>pt_BR</item>
 		<item>pl</item>
-		<item>es</item>
+		<item>ru</item>
 		<item>zh_CN</item>
 	</string-array>
 

@@ -1000,7 +1000,6 @@ public class NotificationActivity extends Activity{
 	@Override
 	protected void onResume(){
 	    if(_debug) Log.v("NotificationActivity.onResume()");
-	    Common.acquireWakeLock(_context);
 	    setScreenTimeoutAlarm();
 	    super.onResume();
 	}
@@ -1015,7 +1014,6 @@ public class NotificationActivity extends Activity{
 	    	_tts.stop();
 	    }
 	    cancelScreenTimeout();
-	    Common.clearWakeLock();
 	    super.onPause();
 	}
 	  
@@ -1046,13 +1044,13 @@ public class NotificationActivity extends Activity{
 	    if(_tts != null){
 	    	_tts.shutdown();
 	    }
-	    Common.clearKeyguardLock();
 		if(_preferences.getBoolean(Constants.CLEAR_STATUS_BAR_NOTIFICATIONS_ON_EXIT_KEY, false)){
 			Common.clearAllNotifications(_context);
 		}
 	    cancelScreenTimeout();
 	    Common.setInLinkedAppFlag(_context, false);
 	    Common.setInQuickReplyAppFlag(_context, false);
+	    Common.clearKeyguardLock();
 	    Common.clearWakeLock();
 	    super.onDestroy();
 	}
@@ -1235,13 +1233,13 @@ public class NotificationActivity extends Activity{
 		if(_tts != null){
 	    	_tts.shutdown();
 	    }
-	    Common.clearKeyguardLock();
 		if(_preferences.getBoolean(Constants.CLEAR_STATUS_BAR_NOTIFICATIONS_ON_EXIT_KEY, false)){
 			Common.clearAllNotifications(_context);
 		}
 	    cancelScreenTimeout();
 	    Common.setInLinkedAppFlag(_context, false);
 	    Common.setInQuickReplyAppFlag(_context, false);
+	    Common.clearKeyguardLock();
 	    Common.clearWakeLock();
 	    //Finish the activity.
 	    finish();

@@ -21,18 +21,17 @@
   <string name="continue_text">Dalej</string>
   <string name="dismiss_notification_text">Odrzuć powiadomienia</string>
   <string name="reset_data">Resetowanie danych...</string>
-  <string name="colon">:</string>
   <string name="save">Zapisz</string>
   <string name="cancel">Anuluj</string>
   <string name="name">Nazwa</string>
-  <string name="contact">Kontakt</string>
+  <string name="colon">:</string>
   <string name="appenabled_title">Włącz Droid Notify</string>
   <string name="appenabled_summary">Włącza aplikację.</string>
   <string name="upgrade">Aktualizacja</string>
   <string name="upgrade_to_pro">Aktualizacja do wersji Pro</string>
   <string name="upgrade_description_text">Ta opcja jest dostępna tylko w wersji Pro. Jeśli chcesz zaktualizować teraz i kupić wersję pro proszę kliknąć na przycisk poniżej.</string>
   <string name="upgrade_no_market_description_text">Ta opcja jest dostępna tylko w wersji Pro. Proszę zaktualizować aplikację aby uzyskać dostęp do tej funkcji.</string>
-  <string name="upgrade_to_droid_notify_pro_text">Aktualizuj do wersji Pro</string>
+  <string name="upgrade_to_droid_notify_pro_text">Aktualizacja do wersji Pro</string>
   <string name="upgrade_to_droid_notify_pro_text_summary">Aktualizuj do Droid Notify Pro. Odblokuj wszystkie funkcjonalności aplikacji.</string>
   <string name="upgrade_now_text">Aktualizuj teraz</string>
   <string name="upgrade_direct_description_text">Rozważ zaktualizowanie aplikacji do wersji Pro. Jeśli chcesz zaktualizować teraz kliknij na przycisk poniżej.\n\nTwoje wsparcie pomoże kontynować projekt i dodawanie nowych funcjonalności.\n\nDziękuję!</string>
@@ -380,7 +379,7 @@
   <string name="status_bar_notifications">Powiadomienia paska stanu</string>
   <string name="status_bar_notifications_enabled_title">Włącz powiadomienia paska stanu</string>
   <string name="status_bar_notifications_enabled_summary">Wyświetlaj powiadomienia paska stanu.</string>
-  <string name="status_bar_notifications_text">Powiadomienia na pasku stanu</string>
+  <string name="status_bar_notifications_text">Powiadomienia paska stanu</string>
   <string name="preference_notification_icon_text">Ikona powiadomień</string>
   <string name="preference_notification_icon_summary">Wybierz ikony powiadomień wyświetlane na pasku stanu.</string>
   <string name="notification_ringtone_title">Dźwięk powiadomienia</string>
@@ -446,6 +445,9 @@
   <string name="log_file_device_info" formatted="false">Droid Notify Version: %s\nDevice Model: %s\nFirmware Version: %s\nBuild Number: %s\n</string>
   <string name="send_debug_logs_text">Wyślij dziennik zdarzeń debugowania</string>
   <string name="send_debug_logs_summary">Wyślij dziennik zdarzeń debugowania do producenta aplikacji.</string>
+  <string name="clear_debug_logs">Wyczyść dziennik zdarzeń debugowania</string>
+  <string name="clear_debug_logs_summary">Wykasuj istniejący dziennik zdarzeń debugowania.</string>
+  <string name="removing_logs">Usuwanie dziennika zdarzeń...</string>
   <string name="feedback_category">OPINIA</string>
   <string name="rate_app">Oceń aplikację</string>
   <string name="email_developer">Email do programisty</string>
@@ -555,24 +557,24 @@
   <string name="status_bar_notification_ticker_text_privacy_sms" formatted="false">Nowa wiadomość od %s.</string>
   <string name="status_bar_notification_ticker_text_sms_null" formatted="false">Nowa wiadomość.</string>
   <string name="status_bar_notification_ticker_text_phone" formatted="false">Nieodebrane połączenie od %s.</string>
-  <string name="status_bar_notification_ticker_text_phone_null" formatted="false">Niodebrane połączenie.</string>
-  <string name="status_bar_notification_ticker_text_calendar" formatted="false">Zdarzenie kalendarza - %s</string>
-  <string name="status_bar_notification_ticker_text_calendar_null" formatted="false">Zdarzenie kalendarza.</string>
+  <string name="status_bar_notification_ticker_text_phone_null" formatted="false">Nieodebrane połączenie.</string>
+  <string name="status_bar_notification_ticker_text_calendar" formatted="false">Wydarzenie kalendarza - %s</string>
+  <string name="status_bar_notification_ticker_text_calendar_null" formatted="false">Wydarzenie kalendarza.</string>
   <string name="status_bar_notification_ticker_text_twitter_direct_message" formatted="false">Nowa wiadomość Twittera od %s - %s</string>
   <string name="status_bar_notification_ticker_text_unknown_contact_twitter_direct_message" formatted="false">Nowa wiadomość Twittera - %s</string>
   <string name="status_bar_notification_ticker_text_twitter_direct_message_null" formatted="false">Nowa wiadomość na Twitterze.</string>
   <string name="status_bar_notification_ticker_text_twitter_mention" formatted="false">Nowa wzmianka Twittera od %s - %s</string>
   <string name="status_bar_notification_ticker_text_unknown_contact_twitter_mention" formatted="false">Nowa wzmianka Twittera - %s</string>
-  <string name="status_bar_notification_ticker_text_twitter_mention_null" formatted="false">Nowa wzmianka na Twitterze.</string>
+  <string name="status_bar_notification_ticker_text_twitter_mention_null" formatted="false">Nowa wzmianka Twittera.</string>
   <string name="status_bar_notification_ticker_text_twitter_follower_request" formatted="false">Nowe powiadomienie śledzenia Twittera od %s - %s</string>
   <string name="status_bar_notification_ticker_text_unknown_contact_twitter_follower_request" formatted="false">Nowe powiadomienie śledzenia Twittera - %s</string>
-  <string name="status_bar_notification_ticker_text_twitter_follower_request_null" formatted="false">Nowe zaproszenie do grona przyjaciół na Twitterze.</string>
+  <string name="status_bar_notification_ticker_text_twitter_follower_request_null" formatted="false">Nowe żądanie śledzenia Twittera.</string>
   <string name="status_bar_notification_ticker_text_facebook_notification" formatted="false">Nowe powiadomienie Facebooka od %s - %s</string>
   <string name="status_bar_notification_ticker_text_unknown_contact_facebook_notification" formatted="false">Nowe powiadomienie Facebooka - %s</string>
-  <string name="status_bar_notification_ticker_text_facebook_notification_null" formatted="false">Nowe powiadomienie na Facebooku.</string>
+  <string name="status_bar_notification_ticker_text_facebook_notification_null" formatted="false">Nowe powiadomienie Facebooka.</string>
   <string name="status_bar_notification_ticker_text_facebook_friend_request" formatted="false">Nowe zaproszenie do grona przyjaciół na Facebooku od %s - %s</string>
   <string name="status_bar_notification_ticker_text_unknown_contact_facebook_friend_request" formatted="false">Nowe zaproszenie do grona przyjaciół na Facebooku - %s</string>
-  <string name="status_bar_notification_ticker_text_facebook_friend_request_null" formatted="false">Nowe zaproszenie na Facebooku.</string>
+  <string name="status_bar_notification_ticker_text_facebook_friend_request_null" formatted="false">Nowe zaproszenie do grona przyjaciół na Facebooku.</string>
   <string name="status_bar_notification_ticker_text_facebook_message" formatted="false">Nowa wiadomość na Facebooku od %s - %s</string>
   <string name="status_bar_notification_ticker_text_unknown_contact_facebook_message" formatted="false">Nowa wiadomość na Facebooku - %s</string>
   <string name="status_bar_notification_ticker_text_facebook_message_null" formatted="false">Nowa wiadomość na Facebooku.</string>
@@ -874,6 +876,6 @@ Przykład:
   <string name="friendCaster_for_facebook">FriendCaster dla Facebooka</string>
   <string name="friendCaster_pro_for_facebook">FriendCaster Pro dla Facebooka</string>
   <string name="droid_notify_plus">Droid Notify Plus</string>
-  <string name="download_now">Pobierz Teraz</string>
+  <string name="download_now">Pobierz teraz</string>
   <string name="download_droid_notify_plus_description_text">Droid Notify Plus oferuje możliwość wyświetlania powiadomień dla dowolnej aplikacji w twoim telefonie. Pobierz ten dodatek, aby odblokować pełne możliwości twojego telefonu.</string>
 </resources>
