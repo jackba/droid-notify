@@ -21,18 +21,17 @@
   <string name="continue_text">继续</string>
   <string name="dismiss_notification_text">关闭通知</string>
   <string name="reset_data">重置数据 …</string>
-  <string name="colon">:</string>
   <string name="save">保存</string>
   <string name="cancel">取消</string>
   <string name="name">名称</string>
-  <string name="contact">联系人</string>
+  <string name="colon">:</string>
   <string name="appenabled_title">启用Droid Notify</string>
   <string name="appenabled_summary">启用应用程序。</string>
   <string name="upgrade">升级</string>
   <string name="upgrade_to_pro">升级到Pro版</string>
   <string name="upgrade_description_text">此功能仅限专业版使用。如果你现在想升级购买专业本，请单击下面的按钮。</string>
   <string name="upgrade_no_market_description_text">此功能仅限专业版使用。</string>
-  <string name="upgrade_to_droid_notify_pro_text">升级到专业版</string>
+  <string name="upgrade_to_droid_notify_pro_text">升级到Pro版</string>
   <string name="upgrade_to_droid_notify_pro_text_summary">升级Droid Notify 专业版，解锁此程序的全部功能。</string>
   <string name="upgrade_now_text">现在升级</string>
   <string name="upgrade_direct_description_text">此功能仅限专业版使用。如果你现在想升级购买专业本，请单击下面的按钮。\n\n你的支持有助帮助开发者继续开发新的功能。\n\n非常感谢！</string>
@@ -446,6 +445,9 @@
   <string name="log_file_device_info" formatted="false">Droid Notify Version: %s\nDevice Model: %s\nFirmware Version: %s\nBuild Number: %s\n</string>
   <string name="send_debug_logs_text">发送调试日志</string>
   <string name="send_debug_logs_summary">将调试日志发送给开发人员。</string>
+  <string name="clear_debug_logs">清除调试日志</string>
+  <string name="clear_debug_logs_summary">删除现有的调试日志。</string>
+  <string name="removing_logs">删除 logs…</string>
   <string name="feedback_category">反馈</string>
   <string name="rate_app">评价应用程序</string>
   <string name="email_developer">开发人员电子邮件</string>
@@ -550,7 +552,7 @@
   <string name="status_bar_notification_content_text_email" formatted="false">从 %s - %s 的新电子邮件。</string>
   <string name="status_bar_notification_content_text_email_null" formatted="false">新的电子邮件。</string>
   <string name="status_bar_notification_content_text_email_count" formatted="false">%s 的新电子邮件。</string>
-  <string name="status_bar_notification_ticker_text_sms" formatted="false"> %s - %s 发来的新信息。</string>
+  <string name="status_bar_notification_ticker_text_sms" formatted="false">从 %s - %s 的新消息。</string>
   <string name="status_bar_notification_ticker_text_unknown_contact_sms" formatted="false">新信息 - %s</string>
   <string name="status_bar_notification_ticker_text_privacy_sms" formatted="false">%s 发来的新消息。</string>
   <string name="status_bar_notification_ticker_text_sms_null" formatted="false">新的消息。</string>
@@ -560,13 +562,13 @@
   <string name="status_bar_notification_ticker_text_calendar_null" formatted="false">日历事件。</string>
   <string name="status_bar_notification_ticker_text_twitter_direct_message" formatted="false">新的Twitter私信 %s - %s</string>
   <string name="status_bar_notification_ticker_text_unknown_contact_twitter_direct_message" formatted="false">新的Twitter私信 - %s</string>
-  <string name="status_bar_notification_ticker_text_twitter_direct_message_null" formatted="false">新的Twitter私信</string>
+  <string name="status_bar_notification_ticker_text_twitter_direct_message_null" formatted="false">新的Twitter私信。</string>
   <string name="status_bar_notification_ticker_text_twitter_mention" formatted="false">提到我新Twitter %s - %s</string>
   <string name="status_bar_notification_ticker_text_unknown_contact_twitter_mention" formatted="false">新提到我的Twitter - %s</string>
-  <string name="status_bar_notification_ticker_text_twitter_mention_null" formatted="false">提到我新的Twitter。</string>
-  <string name="status_bar_notification_ticker_text_twitter_follower_request" formatted="false">新的粉丝请求 %s - %s</string>
+  <string name="status_bar_notification_ticker_text_twitter_mention_null" formatted="false">提到我新的Twitter。.</string>
+  <string name="status_bar_notification_ticker_text_twitter_follower_request" formatted="false">新的Twitter粉丝请求 %s - %s</string>
   <string name="status_bar_notification_ticker_text_unknown_contact_twitter_follower_request" formatted="false">新的Twitter粉丝请求 -%s</string>
-  <string name="status_bar_notification_ticker_text_twitter_follower_request_null" formatted="false">新的 Twitter 粉丝请求。</string>
+  <string name="status_bar_notification_ticker_text_twitter_follower_request_null" formatted="false">新的Twitter粉丝请求.</string>
   <string name="status_bar_notification_ticker_text_facebook_notification" formatted="false">新 Facebook 通知 %s - %s</string>
   <string name="status_bar_notification_ticker_text_unknown_contact_facebook_notification" formatted="false">Facebook 新通知 - %s</string>
   <string name="status_bar_notification_ticker_text_facebook_notification_null" formatted="false">新的 Facebook 通知。</string>
@@ -575,8 +577,8 @@
   <string name="status_bar_notification_ticker_text_facebook_friend_request_null" formatted="false">新的 Facebook 好友请求。</string>
   <string name="status_bar_notification_ticker_text_facebook_message" formatted="false">新的 Facebook 消息从 %s - %s</string>
   <string name="status_bar_notification_ticker_text_unknown_contact_facebook_message" formatted="false">Facebook 新消息 - %s</string>
-  <string name="status_bar_notification_ticker_text_facebook_message_null" formatted="false">新的 Facebook 消息。.</string>
-  <string name="status_bar_notification_ticker_text_email" formatted="false">%s - %s 发来的新电子邮件。</string>
+  <string name="status_bar_notification_ticker_text_facebook_message_null" formatted="false">新的 Facebook 消息。</string>
+  <string name="status_bar_notification_ticker_text_email" formatted="false">从 %s - %s 的新电子邮件。</string>
   <string name="status_bar_notification_ticker_text_unknown_contact_email" formatted="false">新电子邮件 - %s</string>
   <string name="status_bar_notification_ticker_text_email_null" formatted="false">新的电子邮件。</string>
   <string name="clear_status_bar_notifications_on_exit_title">清除通知并退出</string>

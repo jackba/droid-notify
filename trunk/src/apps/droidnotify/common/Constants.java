@@ -237,6 +237,7 @@ public class Constants {
 	// Magic Text
 	// Zlango Messaging
 	// WhatsApp
+	// Motorola Messaging
 	//
 	public static final String[] BLOCKED_SMS_PACKAGE_NAMES_ARRAY = new String[]{ 
 		"com.android.mms,com.android.mms.ui.ConversationList", 
@@ -247,7 +248,9 @@ public class Constants {
 		"com.pansi.msg,com.pansi.msg.ui.ConversationList", 
 		"com.pompeiicity.magictext,com.pompeiicity.magictext.SMSList",
 		"com.zlango.zms,com.zlango.zms.app.ConversationList",
-		"com.whatsapp,com.whatsapp.Conversations" };
+		"com.whatsapp,com.whatsapp.Conversations",
+		"com.motorola.blur.conversations,com.motorola.blur.conversations.ui.ConversationList",
+		"com.motorola.blur.messaging,com.motorola.blur.messaging.MessagingActivity"};
 
 	//Array of the top Email Messaging Apps:
 	//---FORMAT = PACKAGE_NAME , CLASS_NAME---
@@ -269,10 +272,11 @@ public class Constants {
 	//Array of the Misc Apps:
 	//---FORMAT = PACKAGE_NAME , CLASS_NAME---
 	// Text'n Drive
-	//
+	// Motorola You Mail Voicemail
 	//
 	public static final String[] BLOCKED_MISC_PACKAGE_NAMES_ARRAY = new String[]{
-		"com.drivevox.drivevox" };
+		"com.drivevox.drivevox",
+		"com.youmail.android.vvm,com.youmail.android.vvm.activity.MainTabActivity"};
 	
 	//-----APP THEME CONSTANTS-----//
 	public static final String APP_THEME_PREFIX = "apps.droidnotify.theme.";

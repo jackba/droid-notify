@@ -23,11 +23,10 @@ Le tudod tölteni ezt az appot a legtöbb Android alkalmazásboltban, csak keres
   <string name="continue_text">Folytatás</string>
   <string name="dismiss_notification_text">Értesítés elutasítása</string>
   <string name="reset_data">Adatok visszaállítása…</string>
-  <string name="colon">:</string>
   <string name="save">Ment</string>
   <string name="cancel">Mégsem</string>
   <string name="name">Név</string>
-  <string name="contact">Kapcsolat</string>
+  <string name="colon">:</string>
   <string name="appenabled_title">Abilita Droid Notify</string>
   <string name="appenabled_summary">Az alkalmazás engedélyezése.</string>
   <string name="upgrade">Frissítés</string>
@@ -386,7 +385,7 @@ Köszönjük!\"</string>
   <string name="status_bar_notifications">Állapotsáv értesítés</string>
   <string name="status_bar_notifications_enabled_title">Állapotsáv értesítések engedélyezése</string>
   <string name="status_bar_notifications_enabled_summary">Az állapotsávon értesítések jelennek meg.</string>
-  <string name="status_bar_notifications_text">Állapotsáv értesítések</string>
+  <string name="status_bar_notifications_text">Állapotsáv értesítés</string>
   <string name="preference_notification_icon_text">Értesítés ikonja</string>
   <string name="preference_notification_icon_summary">Válassza ki az állapotsávon megjeneő értesítési ikont</string>
   <string name="notification_ringtone_title">Értesítési hang</string>
@@ -453,6 +452,9 @@ A preferencia képernyők újratöltése után az importálás befejeződött.\"
   <string name="log_file_device_info" formatted="false">Droid Notify Version: %s\nDevice Model: %s\nFirmware Version: %s\nBuild Number: %s\n</string>
   <string name="send_debug_logs_text">Hibanapló küldése</string>
   <string name="send_debug_logs_summary">Hibanapló küldése a fejlesztő számára.</string>
+  <string name="clear_debug_logs">Hibakeresési Naplók Törlése</string>
+  <string name="clear_debug_logs_summary">A létező hibakeresési naplók törlése.</string>
+  <string name="removing_logs">Naplók eltávolítása…</string>
   <string name="feedback_category">VISSZAJELZÉS</string>
   <string name="rate_app">Az app értékelése</string>
   <string name="email_developer">Írjon a fejlesztőnek</string>
@@ -482,7 +484,7 @@ A preferencia képernyők újratöltése után az importálás befejeződött.\"
   <string name="preference_ignore_class_0_messages_title">Class 0 üzenetek</string>
   <string name="preference_ignore_class_0_messages_summary">Flash SMS-ek, más néven Class 0 üzenetek mellőzése</string>
   <string name="view_contact_text">Kapcsolat megtekintése</string>
-  <string name="add_contact_text">Új kapcsolat</string>
+  <string name="add_contact_text">Kapcsolat hozzáadása</string>
   <string name="text_contact_text">Kapcsolat szövege</string>
   <string name="edit_contact_text">Kapcsolat szerksztése</string>
   <string name="preference_reply_button_action">Válasz gomb művelete</string>
@@ -514,7 +516,7 @@ A preferencia képernyők újratöltése után az importálás befejeződött.\"
   <string name="status_bar_notification_content_title_text_facebook_message">Új Facebook üzenet</string>
   <string name="status_bar_notification_content_title_text_email">Új Email</string>
   <string name="status_bar_notification_content_title_text_plural_sms">Új üzenet</string>
-  <string name="status_bar_notification_content_title_text_plural_phone">Nemfogadot hívás</string>
+  <string name="status_bar_notification_content_title_text_plural_phone">Nemfogadott hívások</string>
   <string name="status_bar_notification_content_title_text_plural_calendar">Naptári esemény emlékeztető</string>
   <string name="status_bar_notification_content_title_text_plural_twitter">Új Twitter elem</string>
   <string name="status_bar_notification_content_title_text_plural_twitter_direct_message">Új Twitter direkt üzenet</string>
@@ -561,7 +563,7 @@ A preferencia képernyők újratöltése után az importálás befejeződött.\"
   <string name="status_bar_notification_ticker_text_unknown_contact_sms" formatted="false">Új üzenet - %s</string>
   <string name="status_bar_notification_ticker_text_privacy_sms" formatted="false">Új üzenet %s.</string>
   <string name="status_bar_notification_ticker_text_sms_null" formatted="false">Új üzenet.</string>
-  <string name="status_bar_notification_ticker_text_phone" formatted="false">Nemfogadott hívás %s.</string>
+  <string name="status_bar_notification_ticker_text_phone" formatted="false">Nemfogadott hívás, hívó %s.</string>
   <string name="status_bar_notification_ticker_text_phone_null" formatted="false">Nemfogadott hívás.</string>
   <string name="status_bar_notification_ticker_text_calendar" formatted="false">Naptári esemény - %s</string>
   <string name="status_bar_notification_ticker_text_calendar_null" formatted="false">Naptári esemény.</string>
@@ -574,7 +576,7 @@ A preferencia képernyők újratöltése után az importálás befejeződött.\"
   <string name="status_bar_notification_ticker_text_twitter_follower_request" formatted="false">Új Twitter követési kérés %s - %s</string>
   <string name="status_bar_notification_ticker_text_unknown_contact_twitter_follower_request" formatted="false">Új Twitter követési kérés - %s</string>
   <string name="status_bar_notification_ticker_text_twitter_follower_request_null" formatted="false">Új Twitter követési kérés.</string>
-  <string name="status_bar_notification_ticker_text_facebook_notification" formatted="false">Új Facebook értesítés %s - %s</string>
+  <string name="status_bar_notification_ticker_text_facebook_notification" formatted="false">Új Facebook értesítés, %s - %s</string>
   <string name="status_bar_notification_ticker_text_unknown_contact_facebook_notification" formatted="false">Új Facebook értesítés - %s</string>
   <string name="status_bar_notification_ticker_text_facebook_notification_null" formatted="false">Új Facebook értesítés.</string>
   <string name="status_bar_notification_ticker_text_facebook_friend_request" formatted="false">Új Facebook barátkérés %s - %s</string>
@@ -583,7 +585,7 @@ A preferencia képernyők újratöltése után az importálás befejeződött.\"
   <string name="status_bar_notification_ticker_text_facebook_message" formatted="false">Új Facebook üzenet %s - %s</string>
   <string name="status_bar_notification_ticker_text_unknown_contact_facebook_message" formatted="false">Új Facebook üzenet - %s</string>
   <string name="status_bar_notification_ticker_text_facebook_message_null" formatted="false">Új Facebook üzenet.</string>
-  <string name="status_bar_notification_ticker_text_email" formatted="false">Új email %s - %s</string>
+  <string name="status_bar_notification_ticker_text_email" formatted="false">Új email, %s - %s</string>
   <string name="status_bar_notification_ticker_text_unknown_contact_email" formatted="false">Új email - %s</string>
   <string name="status_bar_notification_ticker_text_email_null" formatted="false">Új email.</string>
   <string name="clear_status_bar_notifications_on_exit_title">Értesítések törlése</string>
@@ -881,6 +883,6 @@ Példa:
   <string name="friendCaster_for_facebook">FriendCaster részére Facebook</string>
   <string name="friendCaster_pro_for_facebook">FriendCaster Pro részére Facebook</string>
   <string name="droid_notify_plus">Droid Notify Plus</string>
-  <string name="download_now">Töltse Le Most</string>
+  <string name="download_now">Letöltés most</string>
   <string name="download_droid_notify_plus_description_text">Droid Notify Plus képes megjeleníteni minden olyan app a bejelentések, egy felugró ablak a telefonon. Töltse le ezt a kiegészítőt, hogy teljes potenciáljának felszabadítása a telefon.</string>
 </resources>

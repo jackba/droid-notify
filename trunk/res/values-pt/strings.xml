@@ -21,11 +21,10 @@
   <string name="continue_text">Continuar</string>
   <string name="dismiss_notification_text">Fechar Notificação</string>
   <string name="reset_data">Redefinindo dados…</string>
-  <string name="colon">:</string>
   <string name="save">Salvar</string>
   <string name="cancel">Cancelar</string>
   <string name="name">Nome</string>
-  <string name="contact">Contato</string>
+  <string name="colon">:</string>
   <string name="appenabled_title">Ativar o Droid Notify</string>
   <string name="appenabled_summary">Habilitar o aplicativo.</string>
   <string name="upgrade">Atualizar</string>
@@ -212,7 +211,7 @@
   <string name="theme_chooser_instructions">Arrastando para os lados, selecione o tema desejado nos exemplos disponíveis abaixo. Quando você encontrar um tema que tenha gostado, pressione OK para salvar o tema.</string>
   <string name="more">Mais</string>
   <string name="notify_theme">Notify Tema</string>
-  <string name="default_v1">Default</string>
+  <string name="default_v1">Default Translucent</string>
   <string name="default_v2">Default Translucent</string>
   <string name="default_v3">Default Dark</string>
   <string name="preference_notification_type_info_icon_enabled_title">Exibir Ícone do Tipo</string>
@@ -380,7 +379,7 @@
   <string name="status_bar_notifications">Notificações da Barra de Status</string>
   <string name="status_bar_notifications_enabled_title">Habilitar notificações da barra de status</string>
   <string name="status_bar_notifications_enabled_summary">Exibir notificações na barra de status.</string>
-  <string name="status_bar_notifications_text">Notificações da barra de status</string>
+  <string name="status_bar_notifications_text">Notificações da Barra de Status</string>
   <string name="preference_notification_icon_text">Ícone de notificação</string>
   <string name="preference_notification_icon_summary">Selecione o ícone de notificação que deseja exibir na barra de status.</string>
   <string name="notification_ringtone_title">Som de Notificação</string>
@@ -446,6 +445,9 @@
   <string name="log_file_device_info" formatted="false">Droid Notify Version: %s\nDevice Model: %s\nFirmware Version: %s\nBuild Number: %s\n</string>
   <string name="send_debug_logs_text">Enviar logs de depuração</string>
   <string name="send_debug_logs_summary">Enviar os logs de depuração para o desenvolvedor.</string>
+  <string name="clear_debug_logs">http://crowdin.net/translate/droid-notify/8161/enus-ptbr</string>
+  <string name="clear_debug_logs_summary">Exclua os logs de depuração existentes.</string>
+  <string name="removing_logs">Removendo logs…</string>
   <string name="feedback_category">COMENTÁRIOS</string>
   <string name="rate_app">Classificar o App</string>
   <string name="email_developer">Email para o Desenvolvedor</string>

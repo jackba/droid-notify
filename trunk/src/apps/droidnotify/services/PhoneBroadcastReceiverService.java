@@ -73,8 +73,8 @@ public class PhoneBroadcastReceiverService extends WakefulIntentService {
 		    if(callState == TelephonyManager.CALL_STATE_IDLE){
 		    	if(preferences.getInt(Constants.PREVIOUS_CALL_STATE_KEY, TelephonyManager.CALL_STATE_IDLE) != TelephonyManager.CALL_STATE_RINGING){
 		    		if (_debug) Log.v("PhoneBroadcastReceiverService.doWakefulWork() Previous call state not 'CALL_STATE_RINGING'. Exiting...");
-		    		setCallStateFlag(preferences, callState);
-		    		return;
+		    		//setCallStateFlag(preferences, callState);
+		    		//return;
 		    	}else{
 		    		if (_debug) Log.v("PhoneBroadcastReceiverService.doWakefulWork() Previous call state 'CALL_STATE_RINGING'. Missed Call Occurred");
 		    	}

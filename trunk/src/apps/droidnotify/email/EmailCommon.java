@@ -92,11 +92,12 @@ public class EmailCommon {
     		String emailURI = "content://" + packageName + ".messageprovider/inbox_messages/";
             try{
     		if(packageName.equals("org.koxx.k9ForPureWidget")){
-    			emailURI = emailURI + getK9ForPureEmailAccountUID(context, accountName);
-            	if (_debug) Log.v("EmailCommon.getK9MessagesFromIntent() EmailURI: " + emailURI);
+    			String accountUID = getK9ForPureEmailAccountUID(context, accountName);
+    			emailURI = emailURI + accountUID;
+            	//if (_debug) Log.v("EmailCommon.getK9MessagesFromIntent() EmailURI: " + emailURI);
         		final String[] projection = new String[] {"_id", "date", "sender", "subject", "preview", "account", "uri"};
-        		final String selection = null; //"date=? AND account=?";
-        		final String[] selectionArgs = null; //new String[] {String.valueOf(timeStamp), accountName};
+        		final String selection = null;
+        		final String[] selectionArgs = null;
         		final String sortOrder = "date DESC";
     		    cursor = context.getContentResolver().query(
     		    		Uri.parse(emailURI),
@@ -115,6 +116,8 @@ public class EmailCommon {
 			    		messageID = cursor.getLong(cursor.getColumnIndex("_id"));
 			    		messageBody = cursor.getString(cursor.getColumnIndex("preview"));
 			    		k9EmailUri = cursor.getString(cursor.getColumnIndex("uri"));
+						k9EmailDelUri = emailURI + "/" + messageID;
+		    			//if (_debug) Log.v("EmailCommon.getK9MessagesFromIntent() k9EmailDelUri: " + k9EmailDelUri);
 			    		emailFoundFlag = true;	
 	    			}
 		    		if(emailFoundFlag){
@@ -370,13 +373,13 @@ public class EmailCommon {
 	 * @return String - The account UID associated with this account name.
 	 */
 	private static String getK9ForPureEmailAccountUID(Context context, String accountName){
-		if (_debug) Log.v("EmailCommon.getK9ForPureEmailAccountUID()");
+		if (_debug) Log.v("EmailCommon.getK9ForPureEmailAccountUID() AccountName: " + accountName);
 		String accountUID = null;
 		Cursor cursor = null;
         try{
     		final String[] projection = new String[] {"accountName", "accountUuid"};
-    		final String selection = "accountName=?";
-    		final String[] selectionArgs = new String[]{accountName};
+    		final String selection = null;
+    		final String[] selectionArgs = null;
     		final String sortOrder = null;
 		    cursor = context.getContentResolver().query(
 		    		Uri.parse("content://org.koxx.k9ForPureWidget.messageprovider/accounts/"),
@@ -384,8 +387,14 @@ public class EmailCommon {
 		    		selection,
 					selectionArgs,
 					sortOrder);
-    		if(cursor.moveToFirst()){
-    			accountUID = cursor.getString(cursor.getColumnIndex("accountUuid"));
+    		while(cursor.moveToNext()){  
+    			String accountNameTmp = cursor.getString(cursor.getColumnIndex("accountName"));
+    			//if (_debug) Log.v("EmailCommon.getK9ForPureEmailAccountUID() AccountNameTmp: " + accountNameTmp);
+    			if(accountNameTmp.equals(accountName)){
+	    			accountUID = cursor.getString(cursor.getColumnIndex("accountUuid"));
+	    			//if (_debug) Log.v("EmailCommon.getK9ForPureEmailAccountUID() AccountUID: " + accountUID);
+	    			break;
+    			}
     		}
 		}catch(Exception ex){
 			Log.e("EmailCommon.getK9ForPureEmailAccountUID() CURSOR ERROR: " + ex.toString());

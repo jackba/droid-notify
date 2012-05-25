@@ -21,11 +21,10 @@
   <string name="continue_text">המשך</string>
   <string name="dismiss_notification_text">בטל התראה</string>
   <string name="reset_data">מאפס נתונים…</string>
-  <string name="colon">:</string>
   <string name="save">שמור</string>
   <string name="cancel">ביטול</string>
   <string name="name">שם</string>
-  <string name="contact">איש קשר</string>
+  <string name="colon">:</string>
   <string name="appenabled_title">אפשר Droid Notify</string>
   <string name="appenabled_summary">הפעל את היישום.</string>
   <string name="upgrade">שדרוג</string>
@@ -160,8 +159,8 @@
   <string name="add_contact">הוסף איש קשר</string>
   <string name="add_other">הוסף אחר</string>
   <string name="edit">עריכה</string>
-  <string name="add_to_blacklist">Add To Blacklist</string>
-  <string name="confirm_add_to_blacklist">This will add the sender to the blacklist database.</string>
+  <string name="add_to_blacklist">הוסף לרשימה השחורה</string>
+  <string name="confirm_add_to_blacklist">פעולה זו תוסיף את השולח למסד הנתונים של הרשימה השחורה.</string>
   <string name="customize_contacts_category">התאמה אישית של אנשי קשר</string>
   <string name="customize_contacts">התאמה אישית של אנשי קשר</string>
   <string name="buttons_category">לחצנים</string>
@@ -212,9 +211,9 @@
   <string name="theme_chooser_instructions">השתמש באמצעות תנועה סיבוב, בחר את ערכת הנושא הרצויה מתוך הדוגמאות הזמינות שלהלן. כאשר תמצא את ערכת הנושא הרצויה לחץ על לחצן אישור כדי לשמור את ערכת הנושא.</string>
   <string name="more">יותר</string>
   <string name="notify_theme">Notify ערכת נושא</string>
-  <string name="default_v1">Default</string>
-  <string name="default_v2">Default Translucent</string>
-  <string name="default_v3">Default Dark</string>
+  <string name="default_v1">ברירת מחדל</string>
+  <string name="default_v2">ברירת המחדל שקוף למחצה</string>
+  <string name="default_v3">ברירת מחדל כהה</string>
   <string name="preference_notification_type_info_icon_enabled_title">הצג סוג סמל</string>
   <string name="preference_notification_type_info_icon_enabled_summary">סוג סמל ההתראה הוא הסמל מימין לתמונת איש הקשר.</string>
   <string name="preference_notification_type_info_size">סוג גודל גופן</string>
@@ -375,7 +374,7 @@
   <string name="status_bar_category">﻿שורת מצב</string>
   <string name="sound_category">צליל</string>
   <string name="vibrate_category">רטט</string>
-  <string name="led_category">LED</string>
+  <string name="led_category">נורית</string>
   <string name="in_call_category">בשיחה</string>
   <string name="status_bar_notifications">התראות שורת הסטטוס</string>
   <string name="status_bar_notifications_enabled_title">אפשר התראות בשורת הסטטוס</string>
@@ -446,6 +445,9 @@
   <string name="log_file_device_info" formatted="false">Droid Notify Version: %s\nDevice Model: %s\nFirmware Version: %s\nBuild Number: %s\n</string>
   <string name="send_debug_logs_text">שלח יומני רישום של איתור באגים</string>
   <string name="send_debug_logs_summary">שלח את יומני הרישום של איתור באגים למפתח.</string>
+  <string name="clear_debug_logs">נקה יומני רישום של איתור באגים</string>
+  <string name="clear_debug_logs_summary">מחק יומני רישום של איתור באגים קיימים.</string>
+  <string name="removing_logs">מסיר יומני רישום…</string>
   <string name="feedback_category">משוב</string>
   <string name="rate_app">שיעור יישום</string>
   <string name="email_developer">﻿מפתחים דוא</string>
@@ -557,7 +559,7 @@
   <string name="status_bar_notification_ticker_text_phone" formatted="false">שיחה שלא נענתה מ %s.</string>
   <string name="status_bar_notification_ticker_text_phone_null" formatted="false">שיחה שלא נענתה.</string>
   <string name="status_bar_notification_ticker_text_calendar" formatted="false">אירוע לוח שנה - %s</string>
-  <string name="status_bar_notification_ticker_text_calendar_null" formatted="false">אירוע בלוח שנה.</string>
+  <string name="status_bar_notification_ticker_text_calendar_null" formatted="false">אירוע לוח שנה.</string>
   <string name="status_bar_notification_ticker_text_twitter_direct_message" formatted="false">הודעת טוויטר ישירה חדשה מ %s - %s</string>
   <string name="status_bar_notification_ticker_text_unknown_contact_twitter_direct_message" formatted="false">הודעת טוויטר ישירה חדשה - %s</string>
   <string name="status_bar_notification_ticker_text_twitter_direct_message_null" formatted="false">הודעת טוויטר ישירה חדשה.</string>
@@ -578,7 +580,7 @@
   <string name="status_bar_notification_ticker_text_facebook_message_null" formatted="false">הודעת פייסבוק חדשה.</string>
   <string name="status_bar_notification_ticker_text_email" formatted="false">דוא\"ל חדש מ %s - %s</string>
   <string name="status_bar_notification_ticker_text_unknown_contact_email" formatted="false">דוא\"ל חדש - %s</string>
-  <string name="status_bar_notification_ticker_text_email_null" formatted="false">דוא\"ל חדש.</string>
+  <string name="status_bar_notification_ticker_text_email_null" formatted="false">דואר אלקטרוני חדש.</string>
   <string name="clear_status_bar_notifications_on_exit_title">נקה התראות ביציאה</string>
   <string name="clear_status_bar_notifications_on_exit_summaryOn">התראות שורת הסטטוס יוסרו כאשר התראות קופצות מוסרות מהמסך.</string>
   <string name="clear_status_bar_notifications_on_exit_summaryOff">התראות שורת הסטטוס לא יוסרו כאשר התראות קופצות מוסרות מהמסך.</string>
@@ -850,8 +852,8 @@
   <string name="launch_twitter_app">הפעל את אפליקצית טוויטר</string>
   <string name="launch_facebook_app">הפעל את אפליקצית פייסבוק</string>
   <string name="hootsuite">HootSuite</string>
-  <string name="plume">Plume</string>
-  <string name="plume_premium">Plume Premium</string>
+  <string name="plume">נוצה</string>
+  <string name="plume_premium">נוצה פרימיום</string>
   <string name="seesmic">Seesmic</string>
   <string name="tweetdeck">TweetDeck</string>
   <string name="tweetcaster">TweetCaster</string>
@@ -862,7 +864,7 @@
   <string name="twidroyd_legacy">Twidroyd ירושת</string>
   <string name="twitter">טוויטר</string>
   <string name="twitter_web_mobile">כתובת טוויטר לנייד (http://mobile.twitter.com)</string>
-  <string name="ubersocial">Ubersocial (formerly Twidroyd Pro)</string>
+  <string name="ubersocial">Ubersocial (Twidroyd Pro לשעבר)</string>
   <string name="facebook">פייסבוק</string>
   <string name="facebook_web_mobile">כתובת פייסבוק לנייד (http://m.facebook.com)</string>
   <string name="fbm_for_facebook">FBM לפייסבוק</string>
