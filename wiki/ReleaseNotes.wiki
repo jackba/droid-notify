@@ -6,7 +6,7 @@
 *v3.10* _Coming Soon..._
  *
 
-*v3.9* _Coming Soon..._
+*v3.9* (May 29, 2012)
  * Added support for the app K-9 For Pure Widgets
  * Added support/fixed conflicts with the Avast Mobile Security app
  * Updated the code that turns on the screen to help with a "flashing screen" issue.
