@@ -1572,7 +1572,7 @@ public class Common {
 
 				rescheduleIntent.putExtras(rescheduleBundle);			
 			}
-			rescheduleIntent.setAction("apps.droidnotifydonate.VIEW/RescheduleBlockedNotification/" + String.valueOf(System.currentTimeMillis()));
+			rescheduleIntent.setAction("apps.droidnotifydonate.view.RescheduleBlockedNotification." + String.valueOf(System.currentTimeMillis()));
 			
 			PendingIntent reschedulePendingIntent = PendingIntent.getBroadcast(context, 0, rescheduleIntent, 0);	
 			
@@ -1607,7 +1607,7 @@ public class Common {
 
 		Intent rescheduleIntent = new Intent(context, RescheduleReceiver.class);
 		rescheduleIntent.putExtras(rescheduleBundle);
-		rescheduleIntent.setAction("apps.droidnotify.VIEW/RescheduleNotification/" + rescheduleNumber + "/" + String.valueOf(notification.getTimeStamp()));
+		rescheduleIntent.setAction("apps.droidnotifydonate.view.RescheduleNotification." + rescheduleNumber + "/" + String.valueOf(notification.getTimeStamp()));
 		
 		PendingIntent reschedulePendingIntent = PendingIntent.getBroadcast(context, 0, rescheduleIntent, 0);
 		
