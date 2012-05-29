@@ -398,13 +398,9 @@ public class Constants {
 	
 	//-----SMS CONSTANTS-----//
 	public static final String SMS_NOTIFICATIONS_ENABLED_KEY = "sms_notifications_enabled";
-	public static final String SMS_READ_FROM_INTENT = "0";
-	public static final String SMS_READ_FROM_DISK = "1";
 	public static final String SMS_BLOCKING_APP_RUNNING_ACTION_KEY = "blocking_app_running_action_sms";
-	public static final String SMS_TIMEOUT_KEY = "sms_timeout_settings";
 	public static final String SMS_DELETE_KEY = "sms_delete_button_action";
 	public static final String SMS_TIMESTAMP_ADJUSTMENT_KEY = "sms_timestamp_adjustment_settings";
-	public static final String SMS_LOADING_SETTING_KEY = "sms_loading_settings";
 	public static final String SMS_REPLY_BUTTON_ACTION_KEY = "sms_reply_button_action";
 	public static final String SMS_DISPLAY_DISMISS_BUTTON_KEY = "sms_display_dismiss_button";
 	public static final String SMS_DISPLAY_DELETE_BUTTON_KEY = "sms_display_delete_button";

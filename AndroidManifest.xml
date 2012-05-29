@@ -363,9 +363,8 @@
 		<service android:name="apps.droidnotify.services.RescheduleService" />
        	
         <service android:name="apps.droidnotify.services.ScreenManagementAlarmBroadcastReceiverService" />
-		
-        <service android:name="apps.droidnotify.services.SMSAlarmBroadcastReceiverService" />
-        <service android:name="apps.droidnotify.services.SMSBroadcastReceiverService" />
+
+        <service android:name="apps.droidnotify.services.SMSReceiverService" />
         <service android:name="apps.droidnotify.services.SMSService" />
         
         <service android:name="apps.droidnotify.services.GenericNotificationService" />
@@ -446,10 +445,7 @@
 		<receiver 
 		    android:name="apps.droidnotify.receivers.ScreenManagementAlarmReceiver"
 		    android:exported="true" />
-		
-        <receiver 
-            android:name="apps.droidnotify.receivers.SMSAlarmReceiver"
-		    android:exported="true" />
+
 		<receiver 
 		    android:name="apps.droidnotify.receivers.SMSReceiver"
 		    android:exported="true">           

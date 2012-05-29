@@ -1463,7 +1463,18 @@
 		<item>status_bar_notification_sms_postcard_glass_purple</item>
 		<item>status_bar_notification_sms_postcard_glass_red</item>
 		<item>status_bar_notification_sms_postcard_glass_white</item>
-		<item>status_bar_notification_sms_postcard_glass_yellow</item>
+		<item>status_bar_notification_sms_postcard_glass_yellow</item>		
+		<item>status_bar_notification_sms_blur_black</item>
+		<item>status_bar_notification_sms_blur_blue</item>
+		<item>status_bar_notification_sms_blur_gray</item>
+		<item>status_bar_notification_sms_blur_green</item>
+		<item>status_bar_notification_sms_blur_light_blue</item>
+		<item>status_bar_notification_sms_blur_orange</item>
+		<item>status_bar_notification_sms_blur_pink</item>
+		<item>status_bar_notification_sms_blur_purple</item>
+		<item>status_bar_notification_sms_blur_red</item>
+		<item>status_bar_notification_sms_blur_white</item>
+		<item>status_bar_notification_sms_blur_yellow</item>
 		<item>status_bar_notification_missed_call_black</item>
 		<item>status_bar_notification_missed_call_grey</item>
 		<item>status_bar_notification_missed_call_red</item>
@@ -1524,6 +1535,17 @@
 		<item>@drawable/status_bar_notification_sms_postcard_glass_red</item>
 		<item>@drawable/status_bar_notification_sms_postcard_glass_white</item>
 		<item>@drawable/status_bar_notification_sms_postcard_glass_yellow</item>
+		<item>@drawable/status_bar_notification_sms_blur_black</item>
+		<item>@drawable/status_bar_notification_sms_blur_blue</item>
+		<item>@drawable/status_bar_notification_sms_blur_gray</item>
+		<item>@drawable/status_bar_notification_sms_blur_green</item>
+		<item>@drawable/status_bar_notification_sms_blur_light_blue</item>
+		<item>@drawable/status_bar_notification_sms_blur_orange</item>
+		<item>@drawable/status_bar_notification_sms_blur_pink</item>
+		<item>@drawable/status_bar_notification_sms_blur_purple</item>
+		<item>@drawable/status_bar_notification_sms_blur_red</item>
+		<item>@drawable/status_bar_notification_sms_blur_white</item>
+		<item>@drawable/status_bar_notification_sms_blur_yellow</item>
 		<item>@drawable/status_bar_notification_missed_call_black</item>
 		<item>@drawable/status_bar_notification_missed_call_grey</item>
 		<item>@drawable/status_bar_notification_missed_call_red</item>
