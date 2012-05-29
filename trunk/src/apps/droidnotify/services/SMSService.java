@@ -2,9 +2,7 @@ package apps.droidnotify.services;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
@@ -51,14 +49,8 @@ public class SMSService extends WakefulIntentService {
 		if (_debug) Log.v("SMSService.doWakefulWork()");
 		try{
 			Context context = getApplicationContext();
-			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-			Bundle smsNotificationBundle = null;
-			if(preferences.getString(Constants.SMS_LOADING_SETTING_KEY, "0").equals(Constants.SMS_READ_FROM_INTENT)){
-				Bundle newSMSBundle = intent.getExtras();
-				smsNotificationBundle = SMSCommon.getSMSMessagesFromIntent(context, newSMSBundle);
-			}else{
-				smsNotificationBundle = SMSCommon.getSMSMessagesFromDisk(context);
-			}
+			Bundle newSMSBundle = intent.getExtras();
+			Bundle smsNotificationBundle = SMSCommon.getSMSMessagesFromIntent(context, newSMSBundle);
 			if(smsNotificationBundle != null){
 				Bundle bundle = new Bundle();
 				bundle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_SMS);

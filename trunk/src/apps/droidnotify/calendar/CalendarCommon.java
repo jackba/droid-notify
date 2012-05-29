@@ -466,6 +466,7 @@ public class CalendarCommon {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("CalendarCommon.startCalendarAlarmManager()");
 		try{
+			cancelCalendarAlarmManager(context);
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 			AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 			Intent intent = new Intent(context, CalendarAlarmReceiver.class);

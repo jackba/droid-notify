@@ -47,37 +47,6 @@
     </PreferenceCategory>
 	<PreferenceCategory
 		android:layout="@layout/custom_preference_category"
-		android:key="sms_category"
-		android:title="@string/sms_category">
-		<ListPreference
-			android:layout="@layout/custom_preference_list"
-			android:key="sms_timeout_settings"
-			android:title="@string/preference_sms_timeout"
-			android:summary="@string/preference_sms_timeout_summary"
-			android:defaultValue="10"
-			android:entries="@array/timeout_options"
-			android:entryValues="@array/timeout_values" />
-		<ListPreference
-			android:layout="@layout/custom_preference_list"
-			android:key="sms_loading_settings"
-			android:title="@string/preference_sms_loading_title"
-			android:summary="@string/preference_sms_loading_summary"
-			android:defaultValue="0"
-			android:entries="@array/sms_loading_options"
-			android:entryValues="@array/sms_loading_values" />
-<!--
-		<ListPreference
-			android:layout="@layout/custom_preference_list"
-			android:key="sms_timestamp_adjustment_settings"
-			android:title="@string/preference_sms_timestamp_adjustment_title"
-			android:summary="@string/preference_sms_timestamp_adjustment_summary"
-			android:defaultValue="0"
-			android:entries="@array/timestamp_adjustment_options"
-			android:entryValues="@array/timestamp_adjustment_values" />
--->
-	</PreferenceCategory>
-	<PreferenceCategory
-		android:layout="@layout/custom_preference_category"
 		android:key="mms_category"
 		android:title="@string/mms_category">
 		<ListPreference

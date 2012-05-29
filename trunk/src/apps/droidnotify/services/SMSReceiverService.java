@@ -12,7 +12,12 @@ import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
 import apps.droidnotify.sms.SMSCommon;
 
-public class SMSAlarmBroadcastReceiverService extends WakefulIntentService {
+/**
+ * This class does the work of the BroadcastReceiver.
+ * 
+ * @author Camille Sévigny
+ */
+public class SMSReceiverService extends WakefulIntentService {
 	
 	//================================================================================
     // Properties
@@ -27,10 +32,10 @@ public class SMSAlarmBroadcastReceiverService extends WakefulIntentService {
 	/**
 	 * Class Constructor.
 	 */
-	public SMSAlarmBroadcastReceiverService() {
-		super("SMSAlarmBroadcastReceiverService");
+	public SMSReceiverService() {
+		super("SMSBroadcastReceiverService");
 		_debug = Log.getDebug();
-		if (_debug) Log.v("SMSAlarmBroadcastReceiverService.SMSAlarmBroadcastReceiverService()");
+		if (_debug) Log.v("SMSBroadcastReceiverService.SMSBroadcastReceiverService()");
 	}
 
 	//================================================================================
@@ -44,27 +49,28 @@ public class SMSAlarmBroadcastReceiverService extends WakefulIntentService {
 	 */
 	@Override
 	protected void doWakefulWork(Intent intent) {
-		if (_debug) Log.v("SMSAlarmBroadcastReceiverService.doWakefulWork()");
+		if (_debug) Log.v("SMSBroadcastReceiverService.doWakefulWork()");
 		try{
 			Context context = getApplicationContext();
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 			//Read preferences and exit if app is disabled.
 		    if(!preferences.getBoolean(Constants.APP_ENABLED_KEY, true)){
-				if (_debug) Log.v("SMSAlarmBroadcastReceiverService.doWakefulWork() App Disabled. Exiting...");
+				if (_debug) Log.v("SMSBroadcastReceiverService.doWakefulWork() App Disabled. Exiting...");
 				return;
 			}
 			//Block the notification if it's quiet time.
 			if(Common.isQuietTime(context)){
-				if (_debug) Log.v("SMSAlarmBroadcastReceiverService.doWakefulWork() Quiet Time. Exiting...");
+				if (_debug) Log.v("SMSBroadcastReceiverService.doWakefulWork() Quiet Time. Exiting...");
 				return;
 			}
-			//Read preferences and exit if MMS notifications are disabled.
+			//Read preferences and exit if SMS notifications are disabled.
 		    if(!preferences.getBoolean(Constants.SMS_NOTIFICATIONS_ENABLED_KEY, true)){
-				if (_debug) Log.v("SMSAlarmBroadcastReceiverService.doWakefulWork() SMS Notifications Disabled. Exiting...");
+				if (_debug) Log.v("SMSBroadcastReceiverService.doWakefulWork() SMS Notifications Disabled. Exiting...");
 				return;
 			}
 			//Check for a blacklist entry before doing anything else.
-    		Bundle smsNotificationBundle = SMSCommon.getSMSMessagesFromDisk(context);	
+    		Bundle bundle = intent.getExtras();
+    		Bundle smsNotificationBundle = SMSCommon.getSMSMessagesFromIntent(context, bundle);	
     		Bundle smsNotificationBundleSingle = null;
     		if(smsNotificationBundle != null){
     			smsNotificationBundleSingle = smsNotificationBundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_1");
@@ -87,19 +93,21 @@ public class SMSAlarmBroadcastReceiverService extends WakefulIntentService {
 		    	notificationIsBlocked = Common.isNotificationBlocked(context);
 		    }
 		    if(!notificationIsBlocked){
-				WakefulIntentService.sendWakefulWork(context, new Intent(context, SMSService.class));
-		    }else{	    		
+				Intent smsIntent = new Intent(context, SMSService.class);
+				smsIntent.putExtras(intent.getExtras());
+				WakefulIntentService.sendWakefulWork(context, smsIntent);
+		    }else{		    		
 		    	//Display the Status Bar Notification even though the popup is blocked based on the user preferences.
 		    	if(preferences.getBoolean(Constants.SMS_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true)){
-		    		if(smsNotificationBundleSingle != null){
+	    			if(smsNotificationBundleSingle != null){
 						//Display Status Bar Notification
 					    Common.setStatusBarNotification(context, 1, Constants.NOTIFICATION_TYPE_SMS, 0, callStateIdle, smsNotificationBundleSingle.getString(Constants.BUNDLE_CONTACT_NAME), smsNotificationBundleSingle.getLong(Constants.BUNDLE_CONTACT_ID, -1), smsNotificationBundleSingle.getString(Constants.BUNDLE_SENT_FROM_ADDRESS), smsNotificationBundleSingle.getString(Constants.BUNDLE_MESSAGE_BODY), null, null, false, Common.getStatusBarNotificationBundle(context, Constants.NOTIFICATION_TYPE_SMS));
-	    			}			    
+	    			}
 			    }					
 		    	if(smsNotificationBundle != null) Common.rescheduleBlockedNotification(context, rescheduleNotificationInCall, rescheduleNotificationInQuickReply, Constants.NOTIFICATION_TYPE_SMS, smsNotificationBundle);
 		    }
 		}catch(Exception ex){
-			Log.e("SMSAlarmBroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());
+			Log.e("SMSBroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());
 		}
 	}
 		

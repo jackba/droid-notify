@@ -143,76 +143,6 @@ public class SMSCommon {
 			return null;
 		}
 	}
-	
-	/**
-	 * Query the sms inbox and check for any new messages.
-	 * 
-	 * @param context - The application context.
-	 * 
-	 * @return Bundle - Returns a Bundle that contain the sms notification information.
-	 */
-	public static Bundle getSMSMessagesFromDisk(Context context){
-		_debug = Log.getDebug();
-		if(_debug) Log.v("SMSCommon.getSMSMessagesFromDisk()");
-		Bundle smsNotificationBundle = new Bundle();
-		Cursor cursor = null;
-        try{
-    		int bundleCount = 0;
-    		final String[] projection = new String[] { "_id", "thread_id", "body", "address", "date"};
-    		final String selection = "read=?";
-    		final String[] selectionArgs = new String[] {"0"};
-    		final String sortOrder = "date DESC";
-		    cursor = context.getContentResolver().query(
-		    		Uri.parse("content://sms/inbox"),
-		    		projection,
-		    		selection,
-					selectionArgs,
-					sortOrder);
-		    while(cursor.moveToNext()){
-	    		Bundle smsNotificationBundleSingle = new Bundle();
-	    		bundleCount++;
-		    	long messageID = cursor.getLong(cursor.getColumnIndex("_id"));
-		    	long threadID = cursor.getLong(cursor.getColumnIndex("thread_id"));
-		    	String messageBody = cursor.getString(cursor.getColumnIndex("body"));
-		    	String sentFromAddress = cursor.getString(cursor.getColumnIndex("address"));
-		    	sentFromAddress = sentFromAddress.contains("@") ? EmailCommon.removeEmailFormatting(sentFromAddress) : PhoneCommon.removePhoneNumberFormatting(sentFromAddress);
-		    	long timeStamp = cursor.getLong(cursor.getColumnIndex("date"));
-		    	timeStamp = Common.convertGMTToLocalTime(context, timeStamp, true);
-		    	Bundle smsContactInfoBundle = sentFromAddress.contains("@") ? ContactsCommon.getContactsInfoByEmail(context, sentFromAddress) : ContactsCommon.getContactsInfoByPhoneNumber(context, sentFromAddress);
-	    		if(smsContactInfoBundle == null){				
-					//Basic Notification Information.
-					smsNotificationBundleSingle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, sentFromAddress);
-					smsNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_BODY, messageBody.replace("\n", "<br/>"));
-					smsNotificationBundleSingle.putLong(Constants.BUNDLE_MESSAGE_ID, messageID);
-					smsNotificationBundleSingle.putLong(Constants.BUNDLE_THREAD_ID,threadID);
-					smsNotificationBundleSingle.putLong(Constants.BUNDLE_TIMESTAMP, timeStamp);
-					smsNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_SMS);
-				}else{				
-					//Basic Notification Information.
-					smsNotificationBundleSingle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, sentFromAddress);
-					smsNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_BODY, messageBody.replace("\n", "<br/>"));
-					smsNotificationBundleSingle.putLong(Constants.BUNDLE_MESSAGE_ID, messageID);
-					smsNotificationBundleSingle.putLong(Constants.BUNDLE_THREAD_ID,threadID);
-					smsNotificationBundleSingle.putLong(Constants.BUNDLE_TIMESTAMP, timeStamp);
-					smsNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_SMS);
-	    			//Contact Information.
-					smsNotificationBundleSingle.putLong(Constants.BUNDLE_CONTACT_ID, smsContactInfoBundle.getLong(Constants.BUNDLE_CONTACT_ID, -1));
-					smsNotificationBundleSingle.putString(Constants.BUNDLE_CONTACT_NAME, smsContactInfoBundle.getString(Constants.BUNDLE_CONTACT_NAME));
-					smsNotificationBundleSingle.putLong(Constants.BUNDLE_PHOTO_ID, smsContactInfoBundle.getLong(Constants.BUNDLE_PHOTO_ID, -1));
-					smsNotificationBundleSingle.putString(Constants.BUNDLE_LOOKUP_KEY, smsContactInfoBundle.getString(Constants.BUNDLE_LOOKUP_KEY));
-				}
-	    		smsNotificationBundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_" + String.valueOf(bundleCount), smsNotificationBundleSingle);
-		    	break;
-		    }
-		    smsNotificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_BUNDLE_COUNT, bundleCount);
-		}catch(Exception ex){
-			Log.e("SMSCommon.getSMSMessagesFromDisk() ERROR: " + ex.toString());
-			smsNotificationBundle = null;
-		} finally {
-    		cursor.close();
-    	}
-		return smsNotificationBundle;	
-	}
 
 	/**
 	 * Get all unread SMS messages and load them.
@@ -230,10 +160,6 @@ public class SMSCommon {
     		final String[] selectionArgs = new String[] {"0"};
     		final String sortOrder = "date DESC";
     		boolean isFirst = false; 
-    		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-    		if(preferences.getString(Constants.SMS_LOADING_SETTING_KEY, "0").equals(Constants.SMS_READ_FROM_DISK)){
-    			isFirst = true; 
-    		}
 		    cursor = context.getContentResolver().query(
 		    		Uri.parse("content://sms/inbox"),
 		    		projection,
@@ -448,7 +374,7 @@ public class SMSCommon {
 		}
 		try{
 			final String[] projection = new String[] { "_id", "thread_id" };
-			final String selection = "address = " + DatabaseUtils.sqlEscapeString(address);
+			final String selection = "address=" + DatabaseUtils.sqlEscapeString(address);
 			final String[] selectionArgs = null;
 			final String sortOrder = null;
 			Cursor cursor = null;

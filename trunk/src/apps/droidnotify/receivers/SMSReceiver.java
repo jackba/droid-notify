@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import apps.droidnotify.log.Log;
-import apps.droidnotify.services.SMSBroadcastReceiverService;
+import apps.droidnotify.services.SMSReceiverService;
 import apps.droidnotify.services.WakefulIntentService;
 
 /**
@@ -37,7 +37,7 @@ public class SMSReceiver extends BroadcastReceiver{
 		_debug = Log.getDebug();
 		if (_debug) Log.v("SMSReceiver.onReceive()");
 		try{
-			Intent smsBroadcastReceiverServiceIntent = new Intent(context, SMSBroadcastReceiverService.class);
+			Intent smsBroadcastReceiverServiceIntent = new Intent(context, SMSReceiverService.class);
 			smsBroadcastReceiverServiceIntent.putExtras(intent.getExtras());
 			WakefulIntentService.sendWakefulWork(context, smsBroadcastReceiverServiceIntent);
 		}catch(Exception ex){
