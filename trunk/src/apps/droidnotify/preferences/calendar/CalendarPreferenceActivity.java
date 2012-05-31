@@ -52,7 +52,6 @@ public class CalendarPreferenceActivity extends PreferenceActivity implements On
 	    _context = this;
 	    Common.setApplicationLanguage(_context, this);
 	    _preferences = PreferenceManager.getDefaultSharedPreferences(_context);
-	    _preferences.registerOnSharedPreferenceChangeListener(this);
 	    this.addPreferencesFromResource(R.xml.calendar_preferences);
 	    this.setContentView(R.layout.calendar_preferences);
 	    setupCustomPreferences();

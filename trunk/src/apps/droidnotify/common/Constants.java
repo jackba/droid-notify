@@ -43,6 +43,7 @@ public class Constants {
 	public static final String BUNDLE_NOTIFICATION_SUB_TYPE  = "notificationSubType";
 	public static final String BUNDLE_LINK_URL  = "linkURL";
 	public static final String BUNDLE_PACKAGE  = "package";	
+	public static final String BUNDLE_DISPLAY_TEXT  = "displayText";
 	public static final String BUNDLE_DISMISS_PENDINGINTENT  = "dismissPendingIntent";
 	public static final String BUNDLE_DELETE_PENDINGINTENT  = "deletePendingIntent";
 	public static final String BUNDLE_VIEW_PENDINGINTENT  = "viewPendingIntent";

@@ -147,7 +147,7 @@ public class Notification {
 					break;
 				}
 				case Constants.NOTIFICATION_TYPE_GENERIC:{
-					_messageBody = String.valueOf(notificationBundle.getCharSequence(Constants.DROID_NOTIFY_API_DISPLAY_TEXT));
+					_messageBody = String.valueOf(notificationBundle.getCharSequence(Constants.BUNDLE_DISPLAY_TEXT));
 					//Get Contact Info.
 					Bundle contactInfoBundle = null;
 					if(_contactID >= 0 && _contactName == null){
