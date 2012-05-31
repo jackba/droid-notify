@@ -49,7 +49,6 @@ public class K9PreferenceActivity extends PreferenceActivity implements OnShared
 	    Common.setApplicationLanguage(_context, this);
 	    _preferences = PreferenceManager.getDefaultSharedPreferences(_context);
 	    checkK9PackageInstallation(false);
-	    _preferences.registerOnSharedPreferenceChangeListener(this);
 	    this.addPreferencesFromResource(R.xml.k9_preferences);
 	    this.setContentView(R.layout.k9_preferences);
 	    setupCustomPreferences();

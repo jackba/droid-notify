@@ -1577,11 +1577,11 @@ public class Common {
     	}else if(blockingAppRunningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_RESCHEDULE)){
     		rescheduleNotification = true;
     	}
-		if (_debug) Log.v("Common.rescheduleBlockedNotification() RescheduleNotification? " + rescheduleNotification);
+		if (_debug) Log.v("Common.rescheduleBlockedNotification() RescheduleBlockedNotification? " + rescheduleNotification);
     	if(rescheduleNotification){
 	    	//Set alarm to go off x minutes from the current time as defined by the user preferences.
 	    	long rescheduleInterval = Long.parseLong(preferences.getString(Constants.RESCHEDULE_BLOCKED_NOTIFICATION_TIMEOUT_KEY, Constants.RESCHEDULE_BLOCKED_NOTIFICATION_TIMEOUT_DEFAULT)) * 60 * 1000;
-	    	if (_debug) Log.v("Common.rescheduleBlockedNotification() Rescheduling notification. Rechedule in " + (rescheduleInterval/60/1000) + " minutes.");
+	    	if (_debug) Log.v("Common.rescheduleBlockedNotification() Rescheduling blocked notification. Rechedule in " + (rescheduleInterval/60/1000) + " minutes.");
 			long rescheduleTime = System.currentTimeMillis() + rescheduleInterval;
 			
 			Intent rescheduleIntent = new Intent(context, RescheduleReceiver.class);		
@@ -1590,11 +1590,13 @@ public class Common {
 			}else{				
 				Bundle rescheduleBundle = new Bundle();
 				rescheduleBundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME, incomingNotificationBundle);
-				rescheduleBundle.putInt("notificationType", notificationType);		
-
+				rescheduleBundle.putInt("notificationType", notificationType);
 				rescheduleIntent.putExtras(rescheduleBundle);			
 			}
-			rescheduleIntent.setAction("apps.droidnotifydonate.view.RescheduleBlockedNotification." + String.valueOf(System.currentTimeMillis()));
+			//The action is what makes this intent unique from all other intents using this class.
+			String intentAction = "apps.droidnotifydonate.view.RescheduleBlockedNotification." + notificationType + "." + String.valueOf(incomingNotificationBundle.getLong(Constants.BUNDLE_TIMESTAMP));
+			rescheduleIntent.setAction(intentAction);
+			if (_debug) Log.v("Common.rescheduleBlockedNotification() Reschedule Blocked Notification Action: " + intentAction);
 			
 			PendingIntent reschedulePendingIntent = PendingIntent.getBroadcast(context, 0, rescheduleIntent, 0);	
 			
@@ -1616,6 +1618,7 @@ public class Common {
 	public static PendingIntent rescheduleNotification(Context context, apps.droidnotify.Notification notification, long rescheduleTime, int rescheduleNumber){
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.rescheduleNotification()");
+		if (_debug) Log.v("Common.rescheduleNotification() Rescheduling notification. Rechedule in " + (rescheduleTime/60/1000) + " minutes.");
 		int notificationType = notification.getNotificationType() + 100;
 		
 		Bundle rescheduleNotificationBundle = new Bundle();
@@ -1629,7 +1632,10 @@ public class Common {
 
 		Intent rescheduleIntent = new Intent(context, RescheduleReceiver.class);
 		rescheduleIntent.putExtras(rescheduleBundle);
-		rescheduleIntent.setAction("apps.droidnotifydonate.view.RescheduleNotification." + rescheduleNumber + "/" + String.valueOf(notification.getTimeStamp()));
+		//The action is what makes this intent unique from all other intents using this class.
+		String intentAction = "apps.droidnotifydonate.view.RescheduleNotification." + notificationType + "." + rescheduleNumber + "." + String.valueOf(notification.getTimeStamp());
+		rescheduleIntent.setAction(intentAction);
+		if (_debug) Log.v("Common.rescheduleBlockedNotification() Reschedule Notification Action: " + intentAction);
 		
 		PendingIntent reschedulePendingIntent = PendingIntent.getBroadcast(context, 0, rescheduleIntent, 0);
 		

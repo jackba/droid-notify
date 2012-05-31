@@ -3,6 +3,7 @@ package apps.droidnotify.services;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 
@@ -78,14 +79,36 @@ public class GenericNotificationService extends WakefulIntentService {
 		    }else{
 		    	notificationIsBlocked = Common.isNotificationBlocked(context);
 		    }
+		    Bundle intentExtrasBundle = intent.getExtras();
+		    //Check for empty notifications.
+		    if(isEmptyGenericNotification(intentExtrasBundle)){
+		    	if (_debug) Log.v("GenericNotificationService.doWakefulWork() Generic Notification Is Empty. Exiting...");
+		    	return;
+		    }
 		    if(!notificationIsBlocked){
-				Common.startNotificationActivity(context, intent.getExtras());
+				Common.startNotificationActivity(context, intentExtrasBundle);
 		    }else{					
-		    	Common.rescheduleBlockedNotification(context, rescheduleNotificationInCall, rescheduleNotificationInQuickReply, Constants.NOTIFICATION_TYPE_GENERIC, intent.getExtras());
+		    	Common.rescheduleBlockedNotification(context, rescheduleNotificationInCall, rescheduleNotificationInQuickReply, Constants.NOTIFICATION_TYPE_GENERIC, intentExtrasBundle);
 		    }
 		}catch(Exception ex){
 			Log.e("GenericNotificationService.doWakefulWork() ERROR: " + ex.toString());
 		}
+	}
+	
+	/**
+	 * Check for an empty notification API bundle.
+	 * 
+	 * @param bundle - The bundle to check.
+	 * 
+	 * @return boolean- Return true if the bundle is missing key information.
+	 */
+	private boolean isEmptyGenericNotification(Bundle bundle){
+		String packageName = bundle.getString(Constants.BUNDLE_PACKAGE);
+		String displayText = bundle.getString(Constants.BUNDLE_DISPLAY_TEXT);
+		if(packageName == null || packageName.trim().equals("") || displayText == null || displayText.trim().equals("")){
+			return true;
+		}
+		return false;
 	}
 	
 }
