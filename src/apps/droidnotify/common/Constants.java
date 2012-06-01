@@ -107,7 +107,7 @@ public class Constants {
 	public static final int NOTIFICATION_TYPE_SMS = 1;
 	public static final int NOTIFICATION_TYPE_MMS = 2;
 	public static final int NOTIFICATION_TYPE_CALENDAR = 3;
-	public static final int NOTIFICATION_TYPE_K9 = 7;
+	public static final int NOTIFICATION_TYPE_K9 = 4;
 
 	public static final int NOTIFICATION_TYPE_GENERIC = 1000;
 	
@@ -116,7 +116,7 @@ public class Constants {
 	public static final int NOTIFICATION_TYPE_RESCHEDULE_SMS = 101;
 	public static final int NOTIFICATION_TYPE_RESCHEDULE_MMS = 102;
 	public static final int NOTIFICATION_TYPE_RESCHEDULE_CALENDAR = 103;
-	public static final int NOTIFICATION_TYPE_RESCHEDULE_K9 = 107;	
+	public static final int NOTIFICATION_TYPE_RESCHEDULE_K9 = 104;	
 
 	public static final int NOTIFICATION_TYPE_RESCHEDULE_GENERIC = 1100;
 
