@@ -1,4 +1,4 @@
-package apps.droidnotify.preferences.calendar;
+package apps.droidnotify.sms;
 
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
@@ -8,11 +8,11 @@ import apps.droidnotify.common.Common;
 import apps.droidnotify.log.Log;
 
 /**
- * This is the "Calendar Customize" applications preference Activity.
+ * This is the "MMS Customize" applications preference Activity.
  * 
  * @author Camille Sévigny
  */
-public class CalendarCustomizePreferenceActivity extends PreferenceActivity{
+public class MMSCustomizePreferenceActivity extends PreferenceActivity{
 	
 	//================================================================================
     // Properties
@@ -33,9 +33,9 @@ public class CalendarCustomizePreferenceActivity extends PreferenceActivity{
 	protected void onCreate(Bundle bundle){
 	    super.onCreate(bundle);
 	    _debug = Log.getDebug();
-	    if (_debug) Log.v("CalendarCustomizePreferenceActivity.onCreate()");
+	    if (_debug) Log.v("MMSCustomizePreferenceActivity.onCreate()");
 	    Common.setApplicationLanguage(getApplicationContext(), this);
-	    this.addPreferencesFromResource(R.xml.calendar_customize_preferences);
+	    this.addPreferencesFromResource(R.xml.mms_customize_preferences);
 	    this.setContentView(R.layout.customize_preferences);
 	}
 	

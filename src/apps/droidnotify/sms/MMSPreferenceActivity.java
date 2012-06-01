@@ -1,4 +1,4 @@
-package apps.droidnotify.preferences.sms;
+package apps.droidnotify.sms;
 
 import android.content.Context;
 import android.content.Intent;

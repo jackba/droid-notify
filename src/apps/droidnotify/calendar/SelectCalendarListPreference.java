@@ -1,4 +1,4 @@
-package apps.droidnotify.preferences.calendar;
+package apps.droidnotify.calendar;
 
 import java.util.ArrayList;
 
@@ -9,7 +9,6 @@ import android.preference.ListPreference;
 import android.util.AttributeSet;
 import android.widget.Toast;
 
-import apps.droidnotify.calendar.CalendarCommon;
 import apps.droidnotify.log.Log;
 import apps.droidnotify.R;
 

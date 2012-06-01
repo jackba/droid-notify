@@ -1,4 +1,4 @@
-package apps.droidnotify.preferences.calendar;
+package apps.droidnotify.calendar;
 
 import android.content.Context;
 import android.content.SharedPreferences;

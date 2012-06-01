@@ -1,4 +1,4 @@
-package apps.droidnotify.preferences.k9;
+package apps.droidnotify.calendar;
 
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
@@ -8,11 +8,11 @@ import apps.droidnotify.common.Common;
 import apps.droidnotify.log.Log;
 
 /**
- * This is the "K9 Customize" applications preference Activity.
+ * This is the "Calendar Customize" applications preference Activity.
  * 
  * @author Camille Sévigny
  */
-public class K9CustomizePreferenceActivity extends PreferenceActivity{
+public class CalendarCustomizePreferenceActivity extends PreferenceActivity{
 	
 	//================================================================================
     // Properties
@@ -33,9 +33,9 @@ public class K9CustomizePreferenceActivity extends PreferenceActivity{
 	protected void onCreate(Bundle bundle){
 	    super.onCreate(bundle);
 	    _debug = Log.getDebug();
-	    if (_debug) Log.v("K9CustomizePreferenceActivity.onCreate()");
+	    if (_debug) Log.v("CalendarCustomizePreferenceActivity.onCreate()");
 	    Common.setApplicationLanguage(getApplicationContext(), this);
-	    this.addPreferencesFromResource(R.xml.k9_customize_preferences);
+	    this.addPreferencesFromResource(R.xml.calendar_customize_preferences);
 	    this.setContentView(R.layout.customize_preferences);
 	}
 	
