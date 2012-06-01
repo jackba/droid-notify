@@ -1,4 +1,4 @@
-package apps.droidnotify.preferences.calendar;
+package apps.droidnotify.calendar;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -15,7 +15,6 @@ import android.preference.Preference.OnPreferenceClickListener;
 import android.widget.Toast;
 
 import apps.droidnotify.R;
-import apps.droidnotify.calendar.CalendarCommon;
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;

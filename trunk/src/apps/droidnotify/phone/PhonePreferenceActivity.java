@@ -1,4 +1,4 @@
-package apps.droidnotify.preferences.phone;
+package apps.droidnotify.phone;
 
 import android.content.Context;
 import android.content.Intent;

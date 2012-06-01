@@ -1,4 +1,4 @@
-package apps.droidnotify.preferences.phone;
+package apps.droidnotify.phone;
 
 import android.os.Bundle;
 import android.preference.PreferenceActivity;

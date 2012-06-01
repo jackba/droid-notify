@@ -1,4 +1,4 @@
-package apps.droidnotify.preferences.sms;
+package apps.droidnotify.sms;
 
 import android.os.Bundle;
 import android.preference.PreferenceActivity;

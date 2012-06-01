@@ -1,4 +1,4 @@
-package apps.droidnotify.preferences.k9;
+package apps.droidnotify.k9;
 
 import android.app.Activity;
 import android.content.Context;

@@ -10,14 +10,14 @@ import android.view.View.OnClickListener;
 import android.widget.TextView;
 
 import apps.droidnotify.R;
+import apps.droidnotify.calendar.CalendarPreferenceActivity;
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
+import apps.droidnotify.k9.K9PreferenceActivity;
 import apps.droidnotify.log.Log;
-import apps.droidnotify.preferences.calendar.CalendarPreferenceActivity;
-import apps.droidnotify.preferences.k9.K9PreferenceActivity;
-import apps.droidnotify.preferences.phone.PhonePreferenceActivity;
-import apps.droidnotify.preferences.sms.MMSPreferenceActivity;
-import apps.droidnotify.preferences.sms.SMSPreferenceActivity;
+import apps.droidnotify.phone.PhonePreferenceActivity;
+import apps.droidnotify.sms.MMSPreferenceActivity;
+import apps.droidnotify.sms.SMSPreferenceActivity;
 
 /**
  * This is the "Notifications" applications preference Activity.

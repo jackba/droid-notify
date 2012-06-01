@@ -1,4 +1,4 @@
-package apps.droidnotify.preferences.phone;
+package apps.droidnotify.sms;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -15,11 +15,11 @@ import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
 
 /**
- * This is the "Phone Status Bar Notifications" applications preference Activity.
+ * This is the "MMS Status Bar Notifications" applications preference Activity.
  * 
  * @author Camille Sévigny
  */
-public class PhoneStatusBarNotificationsPreferenceActivity extends PreferenceActivity implements OnSharedPreferenceChangeListener{
+public class MMSStatusBarNotificationsPreferenceActivity extends PreferenceActivity implements OnSharedPreferenceChangeListener{
 	
 	//================================================================================
     // Properties
@@ -40,16 +40,16 @@ public class PhoneStatusBarNotificationsPreferenceActivity extends PreferenceAct
 	 * @param key - The String value of the preference Key who's preference value was changed.
 	 */
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-		if (_debug) Log.v("PhoneStatusBarNotificationsPreferenceActivity.onSharedPreferenceChanged() Key: " + key);
-		if(key.equals(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY)){
+		if (_debug) Log.v("MMSStatusBarNotificationsPreferenceActivity.onSharedPreferenceChanged() Key: " + key);
+		if(key.equals(Constants.MMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY)){
 			updateVibratePreferences();
 		}
 	}
-	
+
 	//================================================================================
 	// Protected Methods
 	//================================================================================
-
+	
 	/**
 	 * Called when the activity is created. Set up views and buttons.
 	 * 
@@ -59,21 +59,21 @@ public class PhoneStatusBarNotificationsPreferenceActivity extends PreferenceAct
 	protected void onCreate(Bundle bundle){
 	    super.onCreate(bundle);
 	    _debug = Log.getDebug();
-	    if (_debug) Log.v("PhoneStatusBarNotificationsPreferenceActivity.onCreate()");
+	    if (_debug) Log.v("MMSStatusBarNotificationsPreferenceActivity.onCreate()");
 	    _context = this;
 	    Common.setApplicationLanguage(_context, this);
 	    _preferences = PreferenceManager.getDefaultSharedPreferences(_context);
 	    _preferences.registerOnSharedPreferenceChangeListener(this);
-	    this.addPreferencesFromResource(R.xml.missed_calls_status_bar_notifications_preferences);
+	    this.addPreferencesFromResource(R.xml.mms_status_bar_notifications_preferences);
 	    this.setContentView(R.layout.status_bar_notifications_preferences);
-	}			
+	}		
 	
 	/**
 	 * Activity was resumed after it was stopped or paused.
 	 */
 	@Override
 	protected void onResume(){
-	    if(_debug) Log.v("PhoneStatusBarNotificationsPreferenceActivity.onResume()");
+	    if(_debug) Log.v("MMSStatusBarNotificationsPreferenceActivity.onResume()");
 	    super.onResume();
 	    _preferences.registerOnSharedPreferenceChangeListener(this);
 	}
@@ -83,7 +83,7 @@ public class PhoneStatusBarNotificationsPreferenceActivity extends PreferenceAct
 	 */
 	@Override
 	protected void onPause(){
-	    if(_debug) Log.v("PhoneStatusBarNotificationsPreferenceActivity.onPause()");
+	    if(_debug) Log.v("MMSStatusBarNotificationsPreferenceActivity.onPause()");
 	    super.onPause();
 	    _preferences.unregisterOnSharedPreferenceChangeListener(this);
 	}
@@ -96,11 +96,11 @@ public class PhoneStatusBarNotificationsPreferenceActivity extends PreferenceAct
 	 * Updates the vibrate preferences based on the vibrate setting.
 	 */
 	private void updateVibratePreferences(){
-		if (_debug) Log.v("PhoneStatusBarNotificationsPreferenceActivity.updateVibratePreferences()");
+		if (_debug) Log.v("MMSStatusBarNotificationsPreferenceActivity.updateVibratePreferences()");
 		try{
-			ListPreference vibratePatternListPreference = (ListPreference) findPreference(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_KEY);
-			CheckBoxPreference vibrateInCallCheckBoxPreference = (CheckBoxPreference) findPreference(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_IN_CALL_VIBRATE_ENABLED_KEY);
-			if(_preferences.getString(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_DEFAULT).equals(Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_NEVER_VALUE)){
+			ListPreference vibratePatternListPreference = (ListPreference) findPreference(Constants.MMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_KEY);
+			CheckBoxPreference vibrateInCallCheckBoxPreference = (CheckBoxPreference) findPreference(Constants.MMS_STATUS_BAR_NOTIFICATIONS_IN_CALL_VIBRATE_ENABLED_KEY);
+			if(_preferences.getString(Constants.MMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_DEFAULT).equals(Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_NEVER_VALUE)){
 				if(vibratePatternListPreference != null) vibratePatternListPreference.setEnabled(false);
 				if(vibrateInCallCheckBoxPreference != null) vibrateInCallCheckBoxPreference.setEnabled(false);
 			}else{
@@ -108,7 +108,7 @@ public class PhoneStatusBarNotificationsPreferenceActivity extends PreferenceAct
 				if(vibrateInCallCheckBoxPreference != null) vibrateInCallCheckBoxPreference.setEnabled(true);
 			}
 		}catch(Exception ex){
-			Log.e("PhoneStatusBarNotificationsPreferenceActivity.updateVibratePreferences() ERROR: " + ex.toString());
+			Log.e("MMSStatusBarNotificationsPreferenceActivity.updateVibratePreferences() ERROR: " + ex.toString());
 		}
 	}
 	
