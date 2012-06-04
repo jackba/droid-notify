@@ -1,17 +1,43 @@
-**NOTE** Please test the free basic version of this application before purchasing to ensure that it works on your phone.
-
 Don't miss what matters most, get notified!
+This application will display a popup notification window when certain phone/app events occur.
 
-Never miss another Call, Text Message, Email or Calendar Event again!
+This app is extremely customizable with many options to suit your needs and style. Updates and new features are frequent.
 
-This application will display a popup window if any of the following events occur:
-Missed Calls
-Text Messages (SMS/MMS)
-Calendar Events
-Emails  (Only works if you have a K-9 email client...examples: K-9 Mail, Kaiten, etc. ) 
+Features including:
 
-This app is extremely customizable with many options to suit your needs and style. Updates are frequent and new features are added based on user feedback.
+Popup Window Notifications for:
+• SMS/MMS Messages
+• Missed Calls
+• Calendar Events
+• K-9 Mail Clients (Kaiten Mail, K-9 Mail, K-9 Mail For Pure)
+• Twitter Notifications (Pro version only)
+• Facebook Notifications (Pro version only)
+• (Coming Soon) Google Voice Notifications (Pro version only)
+• More full featured notification options are in the works as well!
 
+Customizable features:
+• Different Popup Window Themes
+• Button Customization
+• Customization Options For Individual Contacts(Pro version only)
+• Quiet Time Feature
+• Blacklist Feature (Pro version only)
+• More customization features are added all the time!
+• and many more...
+
+Region features:
+• Supported in multiple languages (English, French, Spanish, German, Italian, Portuguese, Polish, Hebrew, Chinese, Russian, Hungarian)
+• Region Specific Display Options
+
+Visit Me
+Google+: https://plus.google.com/106330578986972156117
+Facebook: http://www.facebook.com/DroidNotify
+Twitter: https://twitter.com/droid_notify
+
+App Online Resources
 An outline of the application preferences can be found here: http://code.google.com/p/droid-notify/wiki/ApplicationPreferences
- 
 Development Website: http://code.google.com/p/droid-notify/
+
+Note: 
+If you run into any problems with this app, please visit the FAQ pages at http://code.google.com/p/droid-notify/wiki/FAQ, or email me at droidnotify@gmail.com.
+
+Keywords: talk google voice whatsapp twitter facebook k-9 email gmail missed call calendar messages mms sms popup pop up pop-up toast toaster alert banner notification notify notifier display dialog status feedback screen metro windows phone wp7 iphone ios htc sony xperia froyo gingerbread honeycomb holo ics ice cream sandwich
