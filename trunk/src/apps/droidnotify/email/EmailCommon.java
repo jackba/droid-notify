@@ -178,26 +178,16 @@ public class EmailCommon {
 			}
             timeStamp = Common.convertGMTToLocalTime(context, timeStamp, true);
     		Bundle k9ContactInfoBundle = ContactsCommon.getContactsInfoByEmail(context, sentFromAddress);
-    		if(k9ContactInfoBundle == null){
-				//Basic Notification Information.
-    			k9NotificationBundleSingle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, sentFromAddress);
-    			k9NotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_BODY, messageBody);
-    			k9NotificationBundleSingle.putLong(Constants.BUNDLE_MESSAGE_ID, messageID);
-    			k9NotificationBundleSingle.putLong(Constants.BUNDLE_TIMESTAMP, timeStamp);
-    			k9NotificationBundleSingle.putString(Constants.BUNDLE_K9_EMAIL_URI, k9EmailUri);
-    			k9NotificationBundleSingle.putString(Constants.BUNDLE_K9_EMAIL_DEL_URI, k9EmailDelUri);
-    			k9NotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_K9);
-    			k9NotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, notificationSubType);
-			}else{
-				//Basic Notification Information.
-    			k9NotificationBundleSingle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, sentFromAddress);
-    			if(messageBody != null) k9NotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_BODY, messageBody);
-    			k9NotificationBundleSingle.putLong(Constants.BUNDLE_MESSAGE_ID, messageID);
-    			k9NotificationBundleSingle.putLong(Constants.BUNDLE_TIMESTAMP, timeStamp);
-    			k9NotificationBundleSingle.putString(Constants.BUNDLE_K9_EMAIL_URI, k9EmailUri);
-    			k9NotificationBundleSingle.putString(Constants.BUNDLE_K9_EMAIL_DEL_URI, k9EmailDelUri);
-    			k9NotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_K9);
-    			k9NotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, notificationSubType);
+			//Basic Notification Information.
+			k9NotificationBundleSingle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, sentFromAddress);
+			k9NotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_BODY, messageBody);
+			k9NotificationBundleSingle.putLong(Constants.BUNDLE_MESSAGE_ID, messageID);
+			k9NotificationBundleSingle.putLong(Constants.BUNDLE_TIMESTAMP, timeStamp);
+			k9NotificationBundleSingle.putString(Constants.BUNDLE_K9_EMAIL_URI, k9EmailUri);
+			k9NotificationBundleSingle.putString(Constants.BUNDLE_K9_EMAIL_DEL_URI, k9EmailDelUri);
+			k9NotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_K9);
+			k9NotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, notificationSubType);
+    		if(k9ContactInfoBundle != null){
     			//Contact Information.
     			k9NotificationBundleSingle.putLong(Constants.BUNDLE_CONTACT_ID, k9ContactInfoBundle.getLong(Constants.BUNDLE_CONTACT_ID, -1));
     			k9NotificationBundleSingle.putString(Constants.BUNDLE_CONTACT_NAME, k9ContactInfoBundle.getString(Constants.BUNDLE_CONTACT_NAME));
