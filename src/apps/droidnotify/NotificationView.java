@@ -1714,26 +1714,28 @@ public class NotificationView extends LinearLayout {
 			return;
 		}
 		switch(notificationType){
-			case Constants.NOTIFICATION_TYPE_SMS:{
-				if(_preferences.getString(Constants.SMS_REPLY_BUTTON_ACTION_KEY, "0").equals(Constants.SMS_MESSAGING_APP_REPLY)){
-					//Reply using any installed SMS messaging app.
-					SMSCommon.startMessagingAppReplyActivity(_context, _notificationActivity, phoneNumber, Constants.SEND_SMS_ACTIVITY);
-				}else if(_preferences.getString(Constants.SMS_REPLY_BUTTON_ACTION_KEY, "0").equals(Constants.SMS_QUICK_REPLY)){
-					//Reply using the built in Quick Reply Activity.
-					SMSCommon.startMessagingQuickReplyActivity(_context, _notificationActivity, Constants.SEND_SMS_QUICK_REPLY_ACTIVITY, phoneNumber, _notification.getContactName());        
-				}
-				break;
+		case Constants.NOTIFICATION_TYPE_SMS:{
+			String replyButtonAction = _preferences.getString(Constants.SMS_REPLY_KEY, "0");
+			if(replyButtonAction.equals(Constants.SMS_MESSAGING_APP_REPLY)){
+				//Reply using any installed SMS messaging app.
+				SMSCommon.startMessagingAppReplyActivity(_context, _notificationActivity, phoneNumber, Constants.SEND_SMS_ACTIVITY);
+			}else if(replyButtonAction.equals(Constants.SMS_QUICK_REPLY)){
+				//Reply using the built in Quick Reply Activity.
+				SMSCommon.startMessagingQuickReplyActivity(_context, _notificationActivity, Constants.SEND_SMS_QUICK_REPLY_ACTIVITY, phoneNumber, _notification.getContactName());        
 			}
-			case Constants.NOTIFICATION_TYPE_MMS:{
-				if(_preferences.getString(Constants.MMS_REPLY_BUTTON_ACTION_KEY, "0").equals(Constants.MMS_MESSAGING_APP_REPLY)){
-					//Reply using any installed SMS messaging app.
-					SMSCommon.startMessagingAppReplyActivity(_context, _notificationActivity, phoneNumber, Constants.SEND_SMS_ACTIVITY);
-				}else if(_preferences.getString(Constants.MMS_REPLY_BUTTON_ACTION_KEY, "0").equals(Constants.MMS_QUICK_REPLY)){
-					//Reply using the built in Quick Reply Activity.
-					SMSCommon.startMessagingQuickReplyActivity(_context, _notificationActivity, Constants.SEND_SMS_QUICK_REPLY_ACTIVITY, phoneNumber, _notification.getContactName());
-				}
-				break;
+			break;
+		}
+		case Constants.NOTIFICATION_TYPE_MMS:{
+			String replyButtonAction = _preferences.getString(Constants.MMS_REPLY_KEY, "0");
+			if(replyButtonAction.equals(Constants.MMS_MESSAGING_APP_REPLY)){
+				//Reply using any installed SMS messaging app.
+				SMSCommon.startMessagingAppReplyActivity(_context, _notificationActivity, phoneNumber, Constants.SEND_SMS_ACTIVITY);
+			}else if(replyButtonAction.equals(Constants.MMS_QUICK_REPLY)){
+				//Reply using the built in Quick Reply Activity.
+				SMSCommon.startMessagingQuickReplyActivity(_context, _notificationActivity, Constants.SEND_SMS_QUICK_REPLY_ACTIVITY, phoneNumber, _notification.getContactName());
 			}
+			break;
+		}
 			case Constants.NOTIFICATION_TYPE_CALENDAR:{			
 				break;
 			}

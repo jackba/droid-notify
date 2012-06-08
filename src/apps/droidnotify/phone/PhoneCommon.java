@@ -79,19 +79,13 @@ public class PhoneCommon {
     					if (_debug) Log.v("PhoneCommon.getMissedCalls() Is a private or unknown number.");
     				}else{
     					missedCallContactInfoBundle = ContactsCommon.getContactsInfoByPhoneNumber(context, callNumber);
-    				}
-    				if(missedCallContactInfoBundle == null){				
-    					//Basic Notification Information.
-    					missedCallNotificationBundleSingle.putLong(Constants.BUNDLE_CALL_LOG_ID, Long.parseLong(callLogID));
-    					missedCallNotificationBundleSingle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, callNumber);
-    					missedCallNotificationBundleSingle.putLong(Constants.BUNDLE_TIMESTAMP, timeStamp);
-    					missedCallNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_PHONE);
-    				}else{				
-    					//Basic Notification Information.
-    					missedCallNotificationBundleSingle.putLong(Constants.BUNDLE_CALL_LOG_ID, Long.parseLong(callLogID));
-    					missedCallNotificationBundleSingle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, callNumber);
-    					missedCallNotificationBundleSingle.putLong(Constants.BUNDLE_TIMESTAMP, timeStamp);
-    					missedCallNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_PHONE);
+    				}				
+					//Basic Notification Information.
+					missedCallNotificationBundleSingle.putLong(Constants.BUNDLE_CALL_LOG_ID, Long.parseLong(callLogID));
+					missedCallNotificationBundleSingle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, callNumber);
+					missedCallNotificationBundleSingle.putLong(Constants.BUNDLE_TIMESTAMP, timeStamp);
+					missedCallNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_PHONE);
+    				if(missedCallContactInfoBundle != null){
     	    			//Contact Information.
     					missedCallNotificationBundleSingle.putLong(Constants.BUNDLE_CONTACT_ID, missedCallContactInfoBundle.getLong(Constants.BUNDLE_CONTACT_ID, -1));
     					missedCallNotificationBundleSingle.putString(Constants.BUNDLE_CONTACT_NAME, missedCallContactInfoBundle.getString(Constants.BUNDLE_CONTACT_NAME));

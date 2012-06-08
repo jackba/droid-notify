@@ -402,7 +402,7 @@ public class Constants {
 	public static final String SMS_BLOCKING_APP_RUNNING_ACTION_KEY = "blocking_app_running_action_sms";
 	public static final String SMS_DELETE_KEY = "sms_delete_button_action";
 	public static final String SMS_TIMESTAMP_ADJUSTMENT_KEY = "sms_timestamp_adjustment_settings";
-	public static final String SMS_REPLY_BUTTON_ACTION_KEY = "sms_reply_button_action";
+	public static final String SMS_REPLY_KEY = "sms_reply_button_action";
 	public static final String SMS_DISPLAY_DISMISS_BUTTON_KEY = "sms_display_dismiss_button";
 	public static final String SMS_DISPLAY_DELETE_BUTTON_KEY = "sms_display_delete_button";
 	public static final String SMS_DISPLAY_REPLY_BUTTON_KEY = "sms_display_reply_button";
@@ -428,7 +428,7 @@ public class Constants {
 	public static final String MMS_BLOCKING_APP_RUNNING_ACTION_KEY = "blocking_app_running_action_mms";
 	public static final String MMS_TIMEOUT_KEY = "mms_timeout_settings";
 	public static final String MMS_DELETE_KEY = "mms_delete_button_action";
-	public static final String MMS_REPLY_BUTTON_ACTION_KEY = "mms_reply_button_action";
+	public static final String MMS_REPLY_KEY = "mms_reply_button_action";
 	public static final String MMS_DISPLAY_DISMISS_BUTTON_KEY = "mms_display_dismiss_button";
 	public static final String MMS_DISPLAY_DELETE_BUTTON_KEY = "mms_display_delete_button";
 	public static final String MMS_DISPLAY_REPLY_BUTTON_KEY = "mms_display_reply_button";
@@ -502,7 +502,7 @@ public class Constants {
 	public static final String K9_NOTIFICATIONS_ENABLED_KEY = "k9_notifications_enabled";
 	public static final String K9_BLOCKING_APP_RUNNING_ACTION_KEY = "blocking_app_running_action_k9";
 	public static final String K9_DELETE_KEY = "k9_delete_button_action";
-	public static final String K9_REPLY_BUTTON_ACTION_KEY = "k9_reply_button_action";
+	public static final String K9_REPLY_KEY = "k9_reply_button_action";
 	public static final String K9_DISPLAY_DISMISS_BUTTON_KEY = "k9_display_dismiss_button";
 	public static final String K9_DISPLAY_DELETE_BUTTON_KEY = "k9_display_delete_button";
 	public static final String K9_DISPLAY_REPLY_BUTTON_KEY = "k9_display_reply_button";

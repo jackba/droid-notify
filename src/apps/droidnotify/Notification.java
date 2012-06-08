@@ -627,11 +627,12 @@ public class Notification {
 		if (_debug) Log.v("Notification.setViewed()");
 		switch(_notificationType){
 			case Constants.NOTIFICATION_TYPE_PHONE:{
+				String dismissButtonAction = _preferences.getString(Constants.PHONE_DISMISS_KEY, "0");
 	    		//Action is determined by the users preferences. 
 	    		//Either mark the call log as viewed, delete the call log entry, or do nothing to the call log entry.
-	    		if(_preferences.getString(Constants.PHONE_DISMISS_KEY, "0").equals(Constants.PHONE_DISMISS_ACTION_MARK_READ)){
+	    		if(dismissButtonAction.equals(Constants.PHONE_DISMISS_ACTION_MARK_READ)){
 	    			setCallViewed(isViewed);
-	    		}else if(_preferences.getString(Constants.PHONE_DISMISS_KEY, "0").equals(Constants.PHONE_DISMISS_ACTION_DELETE)){
+	    		}else if(dismissButtonAction.equals(Constants.PHONE_DISMISS_ACTION_DELETE)){
 	    			deleteFromCallLog();
 	    		}
 				break;
