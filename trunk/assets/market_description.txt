@@ -12,7 +12,7 @@ Popup Window Notifications for:
 • K-9 Mail Clients (Kaiten Mail, K-9 Mail, K-9 Mail For Pure)
 • Twitter Notifications (Pro version only)
 • Facebook Notifications (Pro version only)
-• (Coming Soon) Google Voice Notifications (Pro version only)
+• Google Voice Notifications (Pro version only)
 • More full featured notification options are in the works as well!
 
 Customizable features:
