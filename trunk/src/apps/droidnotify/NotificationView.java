@@ -40,7 +40,7 @@ import android.view.MotionEvent;
 import apps.droidnotify.calendar.CalendarCommon;
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
-import apps.droidnotify.email.EmailCommon;
+import apps.droidnotify.k9.K9Common;
 import apps.droidnotify.log.Log;
 import apps.droidnotify.phone.PhoneCommon;
 import apps.droidnotify.sms.SMSCommon;
@@ -924,7 +924,7 @@ public class NotificationView extends LinearLayout {
 					    public void onClick(View view) {
 					    	if (_debug) Log.v("Notification Count Button Clicked()");
 					    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-					    	EmailCommon.startK9EmailAppViewInboxActivity(_context, _notificationActivity, _notificationActivity.getNotificationViewFlipper().getActiveNotification().getNotificationSubType(), Constants.K9_VIEW_INBOX_ACTIVITY);
+					    	K9Common.startK9EmailAppViewInboxActivity(_context, _notificationActivity, _notificationActivity.getNotificationViewFlipper().getActiveNotification().getNotificationSubType(), Constants.K9_VIEW_INBOX_ACTIVITY);
 					    }
 					}
 				);		
@@ -1744,7 +1744,7 @@ public class NotificationView extends LinearLayout {
 			}
 			case Constants.NOTIFICATION_TYPE_K9:{
 				//Reply using any installed K9 email app.
-				EmailCommon.startK9MailAppReplyActivity(_context, _notificationActivity, _notification.getK9EmailUri(), _notification.getNotificationSubType(), Constants.K9_VIEW_EMAIL_ACTIVITY);
+				K9Common.startK9MailAppReplyActivity(_context, _notificationActivity, _notification.getK9EmailUri(), _notification.getNotificationSubType(), Constants.K9_VIEW_EMAIL_ACTIVITY);
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_GENERIC:{			

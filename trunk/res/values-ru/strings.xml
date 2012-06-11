@@ -72,6 +72,10 @@
   <string name="url_link_not_found_error">Не удается найти ссылку.</string>
   <string name="browser_app_error">Не удается запустить приложение веб браузера.</string>
   <string name="add_to_blacklist_error">Ошибка при добавлении в черный список.</string>
+  <string name="google_voice_app_error">Не удается запустить приложение Google Voice.</string>
+  <string name="google_voice_app_not_found_error">Не удалось найти приложение Google Voice. Попробуйте выбрать другой предпочтительный клиент Google Voice.</string>
+  <string name="google_voice_authentication_error">Мы не смогли проверить подлинность вашей учетной записи Google в настоящее время. Пожалуйста, попробуйте еще раз позже.</string>
+  <string name="google_voice_send_sms_mesage_error">Google Voice SMS сообщение не может быть отправлено.</string>
   <string name="preference_disable_context_menu_title">Отменить контекстное меню</string>
   <string name="preference_disable_context_menu_summary">Отменить контекстное меню прикрепленное в заголовку оповещения.</string>
   <string name="preference_disable_quick_contact_title">Отменить меню изображения</string>
@@ -98,6 +102,7 @@
   <string name="delete_twitter_direct_message_dialog_text">Удалить сообщение Twitter.</string>
   <string name="delete_facebook_notification_dialog_text">Удалить оповещения Facebook.</string>
   <string name="delete_facebook_message_dialog_text">Это удалит сообщения Facebook.</string>
+  <string name="delete_google_voice_message_dialog_text">Это будет переместить сообщение в ваш Google Voice мусор.</string>
   <string name="identifier">Идентификатор</string>
   <string name="contact_name">Имя контакта</string>
   <string name="contact_phone">Телефон контакта</string>
@@ -361,6 +366,24 @@
   <string name="preference_facebook_manual_poll_summary">Проверить аккаунт Facebook вручную и показать оповещения.</string>
   <string name="reading_facebook_account">Обновление аккаунта Facebook</string>
   <string name="facebook_account_read">Ваш аккаунт Facebook был проверен и оповещения созданны</string>
+  <string name="google_voice_category">GOOGLE VOICE</string>
+  <string name="google_voice">Google Voice</string>
+  <string name="google_voice_enabled_title">Включите Google Voice</string>
+  <string name="google_voice_enabled_summary">Включите уведомления Google Voice.</string>
+  <string name="google_voice_polling_frequency_summary">Как часто вы хотите прочитать ваш Google Voice счет?</string>
+  <string name="google_voice_manual_poll_title">Читайте Google Voice Cчет</string>
+  <string name="google_voice_manual_poll_summary">Читать Google Voice аккаунт и отображения уведомления вручную.</string>
+  <string name="reading_google_voice_account">Чтение Google Voice Cчет…</string>
+  <string name="google_voice_account_read">Аккаунт Google Voice был чтения и уведомления, созданные.</string>
+  <string name="sign_in_with_google_account_instructions">Войдите в систему с вашей учетной записи Google.</string>
+  <string name="username">Имя пользователя</string>
+  <string name="password">Пароль</string>
+  <string name="sign_in">Войти</string>
+  <string name="attempting_to_sign_in">Попытка подписать в…</string>
+  <string name="clear_google_voice_authentication_data">Сброс данных Google речи</string>
+  <string name="clear_google_voice_authentication_data_summary">Очистите данные аутентификации Google голос.</string>
+  <string name="google_voice_authentication_data_cleared">Данные аутентификации Google Voice была очищена.</string>
+  <string name="open_google_voice_app_text">Открытый Google Voice App</string>
   <string name="linkedin_enabled_title">Разрешить LinkedIn</string>
   <string name="linkedin_enabled_summary">Разрешить оповещения LinkedIn.</string>
   <string name="linkedin_authentication">LinkedIn аутентификация</string>
@@ -466,6 +489,7 @@
   <string name="follower_request_text" formatted="false">Новая заявка читателя</string>
   <string name="notification_at_text" formatted="false">Новое оповещение в %s</string>
   <string name="friend_request_at_text" formatted="false">Заявка в друзья в %s</string>
+  <string name="voicemail_at_text" formatted="false">Новый голосовой почты в %s</string>
   <string name="preference_confirm_deletion_title">Подтвердить удаление</string>
   <string name="preference_confirm_deletion_summary">Предлогать подтверждение удаления</string>
   <string name="preference_time_is_utc_title">Формат времени UTC</string>
@@ -508,6 +532,8 @@
   <string name="status_bar_notification_content_title_text_facebook_friend_request">Запрос на добавления в друзья Facebook</string>
   <string name="status_bar_notification_content_title_text_facebook_message">Новое сообщение Facebook</string>
   <string name="status_bar_notification_content_title_text_email">Новое письмо</string>
+  <string name="status_bar_notification_content_title_text_google_voice_message">Новый Google Voice сообщения</string>
+  <string name="status_bar_notification_content_title_text_google_voice_voicemail">Новый Google Voice голосовой почты</string>
   <string name="status_bar_notification_content_title_text_plural_sms">Новые сообщения</string>
   <string name="status_bar_notification_content_title_text_plural_phone">Пропущенные звонки</string>
   <string name="status_bar_notification_content_title_text_plural_calendar">Событие календаря</string>
@@ -520,6 +546,8 @@
   <string name="status_bar_notification_content_title_text_plural_facebook_friend_request">Новая заявка в друзья Facebook</string>
   <string name="status_bar_notification_content_title_text_plural_facebook_message">Новое сообщение Facebook</string>
   <string name="status_bar_notification_content_title_text_plural_email">Новоые письма</string>
+  <string name="status_bar_notification_content_title_text_plural_google_voice_message">Новый Google Voice сообщения</string>
+  <string name="status_bar_notification_content_title_text_plural_google_voice_voicemail">Новый Google Voice голосовых</string>
   <string name="status_bar_notification_content_text_sms" formatted="false">Новое сообщение от %s - %s</string>
   <string name="status_bar_notification_content_text_sms_null" formatted="false">Новое сообщение</string>
   <string name="status_bar_notification_content_text_sms_count" formatted="false">%s новых сообщений.</string>
@@ -552,6 +580,12 @@
   <string name="status_bar_notification_content_text_email" formatted="false">Новое письмо от %s - %s</string>
   <string name="status_bar_notification_content_text_email_null" formatted="false">Новое письмо.</string>
   <string name="status_bar_notification_content_text_email_count" formatted="false">%s новых писем.</string>
+  <string name="status_bar_notification_content_text_google_voice_message" formatted="false">Новый Google Voice сообщение от %s - %s</string>
+  <string name="status_bar_notification_content_text_google_voice_message_null" formatted="false">Новый Google Voice сообщение.</string>
+  <string name="status_bar_notification_content_text_google_voice_message_count" formatted="false">%s новых Google Voice сообщения.</string>
+  <string name="status_bar_notification_content_text_google_voice_voicemail" formatted="false">Новый Google Voice голосовой почты от %s - %s</string>
+  <string name="status_bar_notification_content_text_google_voice_voicemail_null" formatted="false">Новый Google Voice голосовой почты.</string>
+  <string name="status_bar_notification_content_text_google_voice_voicemail_count" formatted="false">%s новый Google Voice голосовые.</string>
   <string name="status_bar_notification_ticker_text_sms" formatted="false">Новое сообщение от %s - %s</string>
   <string name="status_bar_notification_ticker_text_unknown_contact_sms" formatted="false">Новое сообщение - %s</string>
   <string name="status_bar_notification_ticker_text_privacy_sms" formatted="false">Новоое сообщение от %s.</string>
@@ -581,6 +615,12 @@
   <string name="status_bar_notification_ticker_text_email" formatted="false">Новое письмо от %s - %s</string>
   <string name="status_bar_notification_ticker_text_unknown_contact_email" formatted="false">Новое письмо - %s</string>
   <string name="status_bar_notification_ticker_text_email_null" formatted="false">Новое письмо.</string>
+  <string name="status_bar_notification_ticker_text_google_voice_message" formatted="false">Новый Google Voice сообщение от %s - %s</string>
+  <string name="status_bar_notification_ticker_text_unknown_contact_google_voice_message" formatted="false">Новый Google Voice сообщение - %s</string>
+  <string name="status_bar_notification_ticker_text_google_voice_message_null" formatted="false">Новый Google Voice сообщение.</string>
+  <string name="status_bar_notification_ticker_text_google_voice_voicemail" formatted="false">Новый Google Voice голосовой почты от %s - %s</string>
+  <string name="status_bar_notification_ticker_text_unknown_contact_google_voice_voicemail" formatted="false">Новый гGoogle Voice голосовой почты - %s</string>
+  <string name="status_bar_notification_ticker_text_google_voice_voicemail_null" formatted="false">Новый Google Voice голосовой почты.</string>
   <string name="clear_status_bar_notifications_on_exit_title">Очистить оповещения при выходе</string>
   <string name="clear_status_bar_notifications_on_exit_summaryOn">Уведомомления в строке состояния будут очищенны,при закрытии окна оповещеня.</string>
   <string name="clear_status_bar_notifications_on_exit_summaryOff">Оповещения в строке состояния будут отображаться,когда всплывающее сообщение удаленно с экрана.</string>
@@ -851,6 +891,7 @@
   <string name="preference_choose_client_summary">Выбрать приложение.Это приложение будет использоваться для оповещений.</string>
   <string name="launch_twitter_app">Запустить приложение Twitter</string>
   <string name="launch_facebook_app">Запустить приложение Facebook</string>
+  <string name="launch_google_voice_app">Запуск голос Google App</string>
   <string name="hootsuite">HootSuite</string>
   <string name="plume">Plume</string>
   <string name="plume_premium">Plume Premium</string>
@@ -870,6 +911,7 @@
   <string name="fbm_for_facebook">FBM для Facebook</string>
   <string name="friendCaster_for_facebook">FriendCaster для Facebook</string>
   <string name="friendCaster_pro_for_facebook">FriendCaster Pro для Facebook</string>
+  <string name="google_voice_web_mobile">Google Voice Web (http://voice.google.com)</string>
   <string name="droid_notify_plus">Droid Notify Plus</string>
   <string name="download_now">Загрузить</string>
   <string name="download_droid_notify_plus_description_text">Droid Notify Plus предлогает оповещение для любого приложения на вашем телефоне.Загрузите это дополнение чтобы получить доступ ко всем опция приложения.</string>

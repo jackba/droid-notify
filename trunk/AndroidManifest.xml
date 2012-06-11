@@ -2,8 +2,8 @@
 <manifest 
 	xmlns:android="http://schemas.android.com/apk/res/android" 
 	package="apps.droidnotify"
-    android:versionCode="43"
-    android:versionName="3.10"
+    android:versionCode="44"
+    android:versionName="3.11"
     android:installLocation="internalOnly" >
     
 	<uses-sdk

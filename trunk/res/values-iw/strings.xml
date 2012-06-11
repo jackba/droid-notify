@@ -72,6 +72,10 @@
   <string name="url_link_not_found_error">לא היתה אפשרות למצוא את קישור ה-URL.</string>
   <string name="browser_app_error">לא היתה אפשרות להפעיל את יישום דפדפן האינטרנט.</string>
   <string name="add_to_blacklist_error">לא היתה אפשרות להוסיף את הפריט ברשימה השחורה.</string>
+  <string name="google_voice_app_error">תוכנת Google Voice לא ניתנת להפעלה.</string>
+  <string name="google_voice_app_not_found_error">תוכנת Google Voice לא ניתנת לאיתור. נסה תוכנות מועדפות אחרות ל Google Voice.</string>
+  <string name="google_voice_authentication_error">לא הצלחנו לבצע אימות של חשבון הגוגל שלך בשלב זה. נא נסה שוב מאוחר יותר.</string>
+  <string name="google_voice_send_sms_mesage_error">הודעת הטקסט של Google Voice אינה יכולה להשלח.</string>
   <string name="preference_disable_context_menu_title">בטל את תפריט ההקשר</string>
   <string name="preference_disable_context_menu_summary">בטל את תפריט ההקשר המצורף לכותרות ההודעות.</string>
   <string name="preference_disable_quick_contact_title">בטל את תפריט התמונה</string>
@@ -98,6 +102,7 @@
   <string name="delete_twitter_direct_message_dialog_text">זה ימחק את ההודעה הישירה מחשבון הטוויטר שלך.</string>
   <string name="delete_facebook_notification_dialog_text">זה ימחק את ההתראה מחשבון הפייסבוק שלך.</string>
   <string name="delete_facebook_message_dialog_text">זה ימחוק את ההודעה מחשבון הפייסבוק שלך.</string>
+  <string name="delete_google_voice_message_dialog_text">זה יעבור את ההודעה לפח של חשבון ה Google Voice שלך.</string>
   <string name="identifier">מזהה</string>
   <string name="contact_name">שם איש קשר</string>
   <string name="contact_phone">טלפון איש קשר</string>
@@ -361,6 +366,24 @@
   <string name="preference_facebook_manual_poll_summary">קרא את חשבון הפייסבוק באופן ידני והצג התראות.</string>
   <string name="reading_facebook_account">קורא חשבון פייסבוק…</string>
   <string name="facebook_account_read">חשבון הפייסבוק שלך כבר נקרא וההתראות נוצרו.</string>
+  <string name="google_voice_category">GOOGLE VOICE</string>
+  <string name="google_voice">Google Voice</string>
+  <string name="google_voice_enabled_title">הפעל Google Voice</string>
+  <string name="google_voice_enabled_summary">הפעל התראות Google Voice.</string>
+  <string name="google_voice_polling_frequency_summary">באיזו תדירות ברצונך לקרוא את חשבון Google Voice שלך?</string>
+  <string name="google_voice_manual_poll_title">קרא חשבון Google Voice</string>
+  <string name="google_voice_manual_poll_summary">קרא ידנית חשבון Google Voice והצג התראות.</string>
+  <string name="reading_google_voice_account">קורא חשבון Google Voice…</string>
+  <string name="google_voice_account_read">חשבון Google Voice נקרא ונוצרה התראה.</string>
+  <string name="sign_in_with_google_account_instructions">התחבר בעזרת חשבון גוגל.</string>
+  <string name="username">שם משתמש</string>
+  <string name="password">סיסמה</string>
+  <string name="sign_in">התחבר</string>
+  <string name="attempting_to_sign_in">מנסה להתחבר…</string>
+  <string name="clear_google_voice_authentication_data">אפס נתוני Google Voice</string>
+  <string name="clear_google_voice_authentication_data_summary">נקה נתוני אישור Google Voice.</string>
+  <string name="google_voice_authentication_data_cleared">נתוני אישור חשבון Google Voice נוקו בהצחה.</string>
+  <string name="open_google_voice_app_text">פתח יישום Google Voice</string>
   <string name="linkedin_enabled_title">אפשר LinkedIn</string>
   <string name="linkedin_enabled_summary">אפשר התראות LinkedIn.</string>
   <string name="linkedin_authentication">אימות LinkedIn</string>
@@ -466,6 +489,7 @@
   <string name="follower_request_text" formatted="false">בקשת מעקב חדשה</string>
   <string name="notification_at_text" formatted="false">התראה חדשה ב %s</string>
   <string name="friend_request_at_text" formatted="false">בקשת חברות חדשה ב %s</string>
+  <string name="voicemail_at_text" formatted="false">הודעה קולית חדשה ב %s</string>
   <string name="preference_confirm_deletion_title">אשר מחיקה</string>
   <string name="preference_confirm_deletion_summary">הצג קופסת דיאלוג אישור כשאתה מוחק פריט.</string>
   <string name="preference_time_is_utc_title">הזמן הוא ב- UTC</string>
@@ -508,6 +532,8 @@
   <string name="status_bar_notification_content_title_text_facebook_friend_request">בקשת חברות פייסבוק חדשה</string>
   <string name="status_bar_notification_content_title_text_facebook_message">הודעת פייסבוק חדשה</string>
   <string name="status_bar_notification_content_title_text_email">דוא\"ל חדש</string>
+  <string name="status_bar_notification_content_title_text_google_voice_message">הודעת Google Voice חדשה</string>
+  <string name="status_bar_notification_content_title_text_google_voice_voicemail">הודעה קולית חדשה ב Google Voice</string>
   <string name="status_bar_notification_content_title_text_plural_sms">הודעות חדשות</string>
   <string name="status_bar_notification_content_title_text_plural_phone">שיחות שלא נענו</string>
   <string name="status_bar_notification_content_title_text_plural_calendar">תזכורת אירוע יומן</string>
@@ -520,6 +546,8 @@
   <string name="status_bar_notification_content_title_text_plural_facebook_friend_request">בקשת חברות פייסבוק חדשה</string>
   <string name="status_bar_notification_content_title_text_plural_facebook_message">הודעת פייסבוק חדשה</string>
   <string name="status_bar_notification_content_title_text_plural_email">דוא\"ל חדש</string>
+  <string name="status_bar_notification_content_title_text_plural_google_voice_message">הודעות Google Voice חדשות</string>
+  <string name="status_bar_notification_content_title_text_plural_google_voice_voicemail">הודעות קוליות חדשות ב Google Voice</string>
   <string name="status_bar_notification_content_text_sms" formatted="false">הודעה חדשה מ %s - %s</string>
   <string name="status_bar_notification_content_text_sms_null" formatted="false">הודעה חדשה.</string>
   <string name="status_bar_notification_content_text_sms_count" formatted="false">%s הודעות חדשות של.</string>
@@ -552,6 +580,12 @@
   <string name="status_bar_notification_content_text_email" formatted="false">דוא\"ל חדש מ %s - %s</string>
   <string name="status_bar_notification_content_text_email_null" formatted="false">דואר אלקטרוני חדש.</string>
   <string name="status_bar_notification_content_text_email_count" formatted="false">%s דוא\"ל חדש.</string>
+  <string name="status_bar_notification_content_text_google_voice_message" formatted="false">הודעת Google Voice חדשה מ %s - %s</string>
+  <string name="status_bar_notification_content_text_google_voice_message_null" formatted="false">הודעת Google Voice חדשה.</string>
+  <string name="status_bar_notification_content_text_google_voice_message_count" formatted="false">%s הודעות Google Voice חדשות.</string>
+  <string name="status_bar_notification_content_text_google_voice_voicemail" formatted="false">הודעה קולית חדשה ב Google Voice מאת %s - %s</string>
+  <string name="status_bar_notification_content_text_google_voice_voicemail_null" formatted="false">הודעה קולית חדשה ב Google Voice.</string>
+  <string name="status_bar_notification_content_text_google_voice_voicemail_count" formatted="false">%s הודעות קוליות חדשות ה Google Voice.</string>
   <string name="status_bar_notification_ticker_text_sms" formatted="false">הודעה חדשה מ %s - %s</string>
   <string name="status_bar_notification_ticker_text_unknown_contact_sms" formatted="false">הודעה חדשה - %s</string>
   <string name="status_bar_notification_ticker_text_privacy_sms" formatted="false">הודעה חדשה מ %s.</string>
@@ -581,6 +615,12 @@
   <string name="status_bar_notification_ticker_text_email" formatted="false">דוא\"ל חדש מ %s - %s</string>
   <string name="status_bar_notification_ticker_text_unknown_contact_email" formatted="false">דוא\"ל חדש - %s</string>
   <string name="status_bar_notification_ticker_text_email_null" formatted="false">דואר אלקטרוני חדש.</string>
+  <string name="status_bar_notification_ticker_text_google_voice_message" formatted="false">הודעת Google Voice חדשה מ %s - %s</string>
+  <string name="status_bar_notification_ticker_text_unknown_contact_google_voice_message" formatted="false">הודעה Google Voice חדשה - %s</string>
+  <string name="status_bar_notification_ticker_text_google_voice_message_null" formatted="false">הודעת Google Voice חדשה.</string>
+  <string name="status_bar_notification_ticker_text_google_voice_voicemail" formatted="false">הודעה קולית חדשה ב Google Voice מאת %s - %s</string>
+  <string name="status_bar_notification_ticker_text_unknown_contact_google_voice_voicemail" formatted="false">הודעה קולית חדשה ב Google Voice - %s</string>
+  <string name="status_bar_notification_ticker_text_google_voice_voicemail_null" formatted="false">הודעה קולית חדשה ב Google Voice.</string>
   <string name="clear_status_bar_notifications_on_exit_title">נקה התראות ביציאה</string>
   <string name="clear_status_bar_notifications_on_exit_summaryOn">התראות שורת הסטטוס יוסרו כאשר התראות קופצות מוסרות מהמסך.</string>
   <string name="clear_status_bar_notifications_on_exit_summaryOff">התראות שורת הסטטוס לא יוסרו כאשר התראות קופצות מוסרות מהמסך.</string>
@@ -851,6 +891,7 @@
   <string name="preference_choose_client_summary">בחר בלקוח שאתה מעדיף להשתמש. הלקוח הזה ישתמש על ידי האפליקציה כאשר מתאים.</string>
   <string name="launch_twitter_app">הפעל את אפליקצית טוויטר</string>
   <string name="launch_facebook_app">הפעל את אפליקצית פייסבוק</string>
+  <string name="launch_google_voice_app">הפעל את יישום Google Voice</string>
   <string name="hootsuite">HootSuite</string>
   <string name="plume">נוצה</string>
   <string name="plume_premium">נוצה פרימיום</string>
@@ -870,6 +911,7 @@
   <string name="fbm_for_facebook">FBM לפייסבוק</string>
   <string name="friendCaster_for_facebook">זירת חברים של פייסבוק</string>
   <string name="friendCaster_pro_for_facebook">זירת חברים מלאה של פייסבוק</string>
+  <string name="google_voice_web_mobile">אתר Google Voice (http://voice.google.com)</string>
   <string name="droid_notify_plus">Droid Notify Plus</string>
   <string name="download_now">הורד כעת</string>
   <string name="download_droid_notify_plus_description_text">Droid Notify Plus מציע את האפשרות להציג התראה מכל יישום בתור חלון קופץ במכשיר שלך. הורד את תוסף זה כדי לממש את הפונטציאל המלא של המכשיר שלך.</string>

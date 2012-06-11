@@ -72,6 +72,10 @@
   <string name="url_link_not_found_error">找不到URL链接。</string>
   <string name="browser_app_error">无法启动浏览器。</string>
   <string name="add_to_blacklist_error">无法添加黑名单项目。</string>
+  <string name="google_voice_app_error">谷歌语音应用程序无法启动。</string>
+  <string name="google_voice_app_not_found_error">找不到谷歌语音应用程序。请尝试选择不同的首选的谷歌语音客户端。</string>
+  <string name="google_voice_authentication_error">我们无法验证您的 Google 帐户，在此时间。请稍后再试。</string>
+  <string name="google_voice_send_sms_mesage_error">谷歌语音短信邮件无法发送。</string>
   <string name="preference_disable_context_menu_title">禁用关联菜单</string>
   <string name="preference_disable_context_menu_summary">禁用连接到通知标题的关联菜单。</string>
   <string name="preference_disable_quick_contact_title">禁用图片菜单</string>
@@ -98,6 +102,7 @@
   <string name="delete_twitter_direct_message_dialog_text">这将直接从你的Twitter中删除信息。</string>
   <string name="delete_facebook_notification_dialog_text">这将从你的Facebook中删除通知。</string>
   <string name="delete_facebook_message_dialog_text">将从你的Facebook帐户中删除这条信息。</string>
+  <string name="delete_google_voice_message_dialog_text">这会将邮件移动到谷歌语音垃圾。</string>
   <string name="identifier">标识符</string>
   <string name="contact_name">联系人姓名</string>
   <string name="contact_phone">联系电话</string>
@@ -361,6 +366,24 @@
   <string name="preference_facebook_manual_poll_summary">手动读取Facebook账户并显示通知。</string>
   <string name="reading_facebook_account">阅读Facebook的帐户…</string>
   <string name="facebook_account_read">你的Facebook帐户已读取并创建通知。</string>
+  <string name="google_voice_category">GOOGLE VOICE</string>
+  <string name="google_voice">Google Voice</string>
+  <string name="google_voice_enabled_title">启用谷歌语音</string>
+  <string name="google_voice_enabled_summary">启用谷歌语音通知。</string>
+  <string name="google_voice_polling_frequency_summary">如何往往要读取您的谷歌语音帐户？</string>
+  <string name="google_voice_manual_poll_title">读取谷歌语音帐户</string>
+  <string name="google_voice_manual_poll_summary">手动阅读谷歌语音帐户并显示通知。</string>
+  <string name="reading_google_voice_account">读谷歌语音帐户…</string>
+  <string name="google_voice_account_read">你的谷歌语音帐户已读取和创建的通知。</string>
+  <string name="sign_in_with_google_account_instructions">在您的“Google帐户”。</string>
+  <string name="username">用户名</string>
+  <string name="password">密码</string>
+  <string name="sign_in">登录</string>
+  <string name="attempting_to_sign_in">试图注册…</string>
+  <string name="clear_google_voice_authentication_data">重置谷歌语音数据</string>
+  <string name="clear_google_voice_authentication_data_summary">清除谷歌语音身份验证数据。</string>
+  <string name="google_voice_authentication_data_cleared">谷歌语音身份验证数据已被清除。</string>
+  <string name="open_google_voice_app_text">打开谷歌语音应用</string>
   <string name="linkedin_enabled_title">启用 LinkedIn</string>
   <string name="linkedin_enabled_summary">启用 LinkedIn 通知。</string>
   <string name="linkedin_authentication">LinkedIn 身份验证</string>
@@ -466,6 +489,7 @@
   <string name="follower_request_text" formatted="false">新的粉丝请求</string>
   <string name="notification_at_text" formatted="false">新的通知 %s</string>
   <string name="friend_request_at_text" formatted="false">新的好友请求 %s</string>
+  <string name="voicemail_at_text" formatted="false">在 %s 新语音邮件</string>
   <string name="preference_confirm_deletion_title">确认删除</string>
   <string name="preference_confirm_deletion_summary">删除项目时显示一个确认对话框。</string>
   <string name="preference_time_is_utc_title">世界标准时间是</string>
@@ -508,6 +532,8 @@
   <string name="status_bar_notification_content_title_text_facebook_friend_request">新的 Facebook 好友请求</string>
   <string name="status_bar_notification_content_title_text_facebook_message">新的 Facebook 消息。</string>
   <string name="status_bar_notification_content_title_text_email">新邮件</string>
+  <string name="status_bar_notification_content_title_text_google_voice_message">新的谷歌语音邮件</string>
+  <string name="status_bar_notification_content_title_text_google_voice_voicemail">新的谷歌语音语音邮件</string>
   <string name="status_bar_notification_content_title_text_plural_sms">新邮件</string>
   <string name="status_bar_notification_content_title_text_plural_phone">未接来电</string>
   <string name="status_bar_notification_content_title_text_plural_calendar">日历事件提醒</string>
@@ -520,6 +546,8 @@
   <string name="status_bar_notification_content_title_text_plural_facebook_friend_request">新的 Facebook 好友请求</string>
   <string name="status_bar_notification_content_title_text_plural_facebook_message">新的 Facebook 消息。</string>
   <string name="status_bar_notification_content_title_text_plural_email">新的电子邮件</string>
+  <string name="status_bar_notification_content_title_text_plural_google_voice_message">新的谷歌语音邮件</string>
+  <string name="status_bar_notification_content_title_text_plural_google_voice_voicemail">新的谷歌语音留言</string>
   <string name="status_bar_notification_content_text_sms" formatted="false">从 %s - %s 的新消息。</string>
   <string name="status_bar_notification_content_text_sms_null" formatted="false">新的消息。</string>
   <string name="status_bar_notification_content_text_sms_count" formatted="false">%s 的新邮件。</string>
@@ -552,6 +580,12 @@
   <string name="status_bar_notification_content_text_email" formatted="false">从 %s - %s 的新电子邮件。</string>
   <string name="status_bar_notification_content_text_email_null" formatted="false">新的电子邮件。</string>
   <string name="status_bar_notification_content_text_email_count" formatted="false">%s 的新电子邮件。</string>
+  <string name="status_bar_notification_content_text_google_voice_message" formatted="false">新的谷歌语音邮件，从 %s - %s</string>
+  <string name="status_bar_notification_content_text_google_voice_message_null" formatted="false">新的谷歌语音邮件。</string>
+  <string name="status_bar_notification_content_text_google_voice_message_count" formatted="false">%s 新的谷歌语音邮件。</string>
+  <string name="status_bar_notification_content_text_google_voice_voicemail" formatted="false">新的谷歌语音语音邮件从 %s - %s</string>
+  <string name="status_bar_notification_content_text_google_voice_voicemail_null" formatted="false">新的谷歌语音语音邮件。</string>
+  <string name="status_bar_notification_content_text_google_voice_voicemail_count" formatted="false">%s 新的谷歌语音留言。</string>
   <string name="status_bar_notification_ticker_text_sms" formatted="false">从 %s - %s 的新消息。</string>
   <string name="status_bar_notification_ticker_text_unknown_contact_sms" formatted="false">新信息 - %s</string>
   <string name="status_bar_notification_ticker_text_privacy_sms" formatted="false">%s 发来的新消息。</string>
@@ -581,6 +615,12 @@
   <string name="status_bar_notification_ticker_text_email" formatted="false">从 %s - %s 的新电子邮件。</string>
   <string name="status_bar_notification_ticker_text_unknown_contact_email" formatted="false">新电子邮件 - %s</string>
   <string name="status_bar_notification_ticker_text_email_null" formatted="false">新的电子邮件。</string>
+  <string name="status_bar_notification_ticker_text_google_voice_message" formatted="false">新的谷歌语音邮件，从 %s - %s</string>
+  <string name="status_bar_notification_ticker_text_unknown_contact_google_voice_message" formatted="false">新的谷歌语音消息 - %s</string>
+  <string name="status_bar_notification_ticker_text_google_voice_message_null" formatted="false">新的谷歌语音邮件。</string>
+  <string name="status_bar_notification_ticker_text_google_voice_voicemail" formatted="false">新的谷歌语音语音邮件从 %s - %s</string>
+  <string name="status_bar_notification_ticker_text_unknown_contact_google_voice_voicemail" formatted="false">新的谷歌语音语音邮件 - %s</string>
+  <string name="status_bar_notification_ticker_text_google_voice_voicemail_null" formatted="false">新的谷歌语音语音邮件。</string>
   <string name="clear_status_bar_notifications_on_exit_title">清除通知并退出</string>
   <string name="clear_status_bar_notifications_on_exit_summaryOn">从屏幕中移除的弹出式通知时，将删除状态通知栏。</string>
   <string name="clear_status_bar_notifications_on_exit_summaryOff">删除通知窗口时不会删除状态通知栏。</string>
@@ -852,6 +892,7 @@
   <string name="preference_choose_client_summary">选择您想使用的客户端。这个程序将被本工具使用。</string>
   <string name="launch_twitter_app">启动 Twitter 程序</string>
   <string name="launch_facebook_app">启动 Facebook 程序</string>
+  <string name="launch_google_voice_app">谷歌语音应用程序启动</string>
   <string name="hootsuite">HootSuite</string>
   <string name="plume">Plume</string>
   <string name="plume_premium">Plume Premium</string>
@@ -871,6 +912,7 @@
   <string name="fbm_for_facebook">Facebook FBM</string>
   <string name="friendCaster_for_facebook">Facebook FriendCaster</string>
   <string name="friendCaster_pro_for_facebook">Facebook FriendCaster Pro</string>
+  <string name="google_voice_web_mobile">谷歌语音网页 (http://voice.google.com)</string>
   <string name="droid_notify_plus">Droid Notify Plus</string>
   <string name="download_now">立即下载</string>
   <string name="download_droid_notify_plus_description_text">Droid Notify Plus 提供的能力，作为您的手机上显示弹出窗口的任何应用程序的通知。下载此元件的解锁手机的全部潜力。</string>
