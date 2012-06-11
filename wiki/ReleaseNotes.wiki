@@ -3,8 +3,13 @@
 
 = Release Notes =
 
-*v3.10* _Coming Soon..._
- *
+*v3.11* _Coming Soon..._
+ * 
+
+*v3.10* (June 11, 2012)
+ * Added Google Voice integration to the app.
+ * Updated translations.
+ * Small bug fixes.
 
 *v3.9* (May 29, 2012)
  * Added support for the app K-9 For Pure Widgets
