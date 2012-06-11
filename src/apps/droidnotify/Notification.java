@@ -12,7 +12,7 @@ import android.speech.tts.TextToSpeech;
 import apps.droidnotify.calendar.CalendarCommon;
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
-import apps.droidnotify.email.EmailCommon;
+import apps.droidnotify.k9.K9Common;
 import apps.droidnotify.log.Log;
 import apps.droidnotify.phone.PhoneCommon;
 import apps.droidnotify.sms.SMSCommon;
@@ -699,7 +699,7 @@ public class Notification {
 				}
 			}
 		}else if(_notificationType == Constants.NOTIFICATION_TYPE_K9){
-			EmailCommon.deleteK9Email(_context, _k9EmailDelUri, _notificationSubType);
+			K9Common.deleteK9Email(_context, _k9EmailDelUri, _notificationSubType);
 		}
 	}
 	

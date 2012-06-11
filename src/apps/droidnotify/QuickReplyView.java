@@ -17,6 +17,7 @@ import android.view.HapticFeedbackConstants;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ImageView;
@@ -55,7 +56,7 @@ public class QuickReplyView extends LinearLayout {
 	
 	private EditText _messageEditText = null;
 
-	private Button _sendButton = null;
+	private ImageButton _sendButton = null;
 	private Button _cancelButton = null;
 
 	//================================================================================
@@ -127,7 +128,7 @@ public class QuickReplyView extends LinearLayout {
 		
 		_messageEditText = (EditText) findViewById(R.id.message_edit_text);
 
-		_sendButton = (Button) findViewById(R.id.send_button);
+		_sendButton = (ImageButton) findViewById(R.id.send_button);
 		_cancelButton = (Button) findViewById(R.id.cancel_button);
 	}
 	
@@ -194,7 +195,6 @@ public class QuickReplyView extends LinearLayout {
 		_sendButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));
 		_cancelButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));	
 
-		_sendButton.setTextColor(buttonTextColorID);
 		_cancelButton.setTextColor(buttonTextColorID);		
 		
 		_titleImageView.setImageDrawable(titleSMSIcon);
@@ -238,11 +238,9 @@ public class QuickReplyView extends LinearLayout {
 		try{ 
 			//Set button font size.
 			float buttonTextSize = Float.parseFloat(_preferences.getString(Constants.BUTTON_FONT_SIZE_KEY, Constants.BUTTON_FONT_SIZE_DEFAULT));
-			_sendButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, buttonTextSize);
 			_cancelButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, buttonTextSize);
 			//Set button font to bold.
 			if(_preferences.getBoolean(Constants.BUTTON_BOLD_TEXT_KEY, false)){
-				_sendButton.setTypeface(null, Typeface.BOLD);
 				_cancelButton.setTypeface(null, Typeface.BOLD);
 			}
 		    //Disable the Send button initially.

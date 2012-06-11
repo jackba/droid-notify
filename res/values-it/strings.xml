@@ -72,6 +72,10 @@
   <string name="url_link_not_found_error">Non è stato trovato il link URL.</string>
   <string name="browser_app_error">L\'applicazione browser web non potrebbe essere avviato.</string>
   <string name="add_to_blacklist_error">Impossibile aggiungere l\'elemento della lista nera.</string>
+  <string name="google_voice_app_error">L\'applicazione Google Voice non poteva essere avviato.</string>
+  <string name="google_voice_app_not_found_error">L\'applicazione Google Voice non è stato trovato. Provare a selezionare un diverso preferito client Google Voice.</string>
+  <string name="google_voice_authentication_error">Non siamo stati in grado di autenticare il tuo account Google in questo momento. Riprova più tardi.</string>
+  <string name="google_voice_send_sms_mesage_error">Il messaggio di SMS vocale di Google potrebbe non essere inviato.</string>
   <string name="preference_disable_context_menu_title">Disabilitare il Menu di Scelta Rapida</string>
   <string name="preference_disable_context_menu_summary">Disabilitare il menu di scelta rapida associato alle intestazioni di notifica.</string>
   <string name="preference_disable_quick_contact_title">Disabilitare Menu Foto</string>
@@ -98,6 +102,7 @@
   <string name="delete_twitter_direct_message_dialog_text">Questo elimina il messaggio diretto dal tuo account Twitter.</string>
   <string name="delete_facebook_notification_dialog_text">Questo eliminerà la notifica dal tuo account di Facebook.</string>
   <string name="delete_facebook_message_dialog_text">Questo elimina il messaggio dal tuo account di Facebook.</string>
+  <string name="delete_google_voice_message_dialog_text">Questo si sposta il messaggio per il cestino di Google Voice.</string>
   <string name="identifier">Identificatore</string>
   <string name="contact_name">Nome del Contatto</string>
   <string name="contact_phone">Telefono di Contatto</string>
@@ -361,6 +366,24 @@
   <string name="preference_facebook_manual_poll_summary">Account di Facebook di leggere e visualizzare notifiche manualmente.</string>
   <string name="reading_facebook_account">Lettura Account Facebook…</string>
   <string name="facebook_account_read">Tuo account di Facebook è stata la lettura e le notifiche create.</string>
+  <string name="google_voice_category">GOOGLE VOICE</string>
+  <string name="google_voice">Google Voice</string>
+  <string name="google_voice_enabled_title">Attiva Google Voice</string>
+  <string name="google_voice_enabled_summary">Attivare le Notifiche di Google Voice.</string>
+  <string name="google_voice_polling_frequency_summary">Quante volte si desidera leggere il tuo account Google Voice?</string>
+  <string name="google_voice_manual_poll_title">Leggi Account Google Voice</string>
+  <string name="google_voice_manual_poll_summary">Manuale di leggere il resoconto di Google Voice e le notifiche di visualizzazione.</string>
+  <string name="reading_google_voice_account">Lettura Account Google Voice…</string>
+  <string name="google_voice_account_read">Il tuo account Google Voice è stato letto e notifiche creato.</string>
+  <string name="sign_in_with_google_account_instructions">Accedi con il tuo account Google.</string>
+  <string name="username">Nome Utente</string>
+  <string name="password">Password</string>
+  <string name="sign_in">Accedi</string>
+  <string name="attempting_to_sign_in">Tentare di accedere in…</string>
+  <string name="clear_google_voice_authentication_data">Ripristina i Dati di Google Voice</string>
+  <string name="clear_google_voice_authentication_data_summary">Cancellare i dati di autenticazione di Google Voice.</string>
+  <string name="google_voice_authentication_data_cleared">I dati di autenticazione Google Voice sono stati cancellati.</string>
+  <string name="open_google_voice_app_text">Apri Google Voice App</string>
   <string name="linkedin_enabled_title">Abilitare LinkedIn</string>
   <string name="linkedin_enabled_summary">Attivare le Notifiche di LinkedIn.</string>
   <string name="linkedin_authentication">Autenticazione di LinkedIn</string>
@@ -466,6 +489,7 @@
   <string name="follower_request_text" formatted="false">Nuova richiesta seguace</string>
   <string name="notification_at_text" formatted="false">Nuova notifica a %s</string>
   <string name="friend_request_at_text" formatted="false">Nuova richiesta di amicizia a %s</string>
+  <string name="voicemail_at_text" formatted="false">Nuovo messaggi vocali a %s</string>
   <string name="preference_confirm_deletion_title">Conferma Eliminazione</string>
   <string name="preference_confirm_deletion_summary">Visualizzare una finestra di dialogo di conferma quando si elimina un elemento.</string>
   <string name="preference_time_is_utc_title">Tempo È In Formato UTC</string>
@@ -508,6 +532,8 @@
   <string name="status_bar_notification_content_title_text_facebook_friend_request">Nuova Richiesta Amico Facebook</string>
   <string name="status_bar_notification_content_title_text_facebook_message">Nuovo Messaggio di Facebook</string>
   <string name="status_bar_notification_content_title_text_email">Nuova Email</string>
+  <string name="status_bar_notification_content_title_text_google_voice_message">Nuovo Messaggio di Google Voice</string>
+  <string name="status_bar_notification_content_title_text_google_voice_voicemail">Nuovi Messaggio Vocali di Google Voice</string>
   <string name="status_bar_notification_content_title_text_plural_sms">Nuovi Messaggi</string>
   <string name="status_bar_notification_content_title_text_plural_phone">Chiamate perse</string>
   <string name="status_bar_notification_content_title_text_plural_calendar">Promemoria del Calendario Eventi</string>
@@ -520,6 +546,8 @@
   <string name="status_bar_notification_content_title_text_plural_facebook_friend_request">Nuova Richiesta Amico Facebook</string>
   <string name="status_bar_notification_content_title_text_plural_facebook_message">Nuovo Messaggio di Facebook</string>
   <string name="status_bar_notification_content_title_text_plural_email">Nuove Emails</string>
+  <string name="status_bar_notification_content_title_text_plural_google_voice_message">Nuovi Messaggi di Google Voice</string>
+  <string name="status_bar_notification_content_title_text_plural_google_voice_voicemail">Nuovi Messaggi Vocali di Google Voice</string>
   <string name="status_bar_notification_content_text_sms" formatted="false">Nuovo messaggio da %s-%s</string>
   <string name="status_bar_notification_content_text_sms_null" formatted="false">Nuovo messaggio.</string>
   <string name="status_bar_notification_content_text_sms_count" formatted="false">%s nuovi messaggi.</string>
@@ -552,6 +580,12 @@
   <string name="status_bar_notification_content_text_email" formatted="false">Nuova email da %s - %s</string>
   <string name="status_bar_notification_content_text_email_null" formatted="false">Nuova email.</string>
   <string name="status_bar_notification_content_text_email_count" formatted="false">%s nuove emails.</string>
+  <string name="status_bar_notification_content_text_google_voice_message" formatted="false">Nuovo Messaggio di Google Voice da %s - %s</string>
+  <string name="status_bar_notification_content_text_google_voice_message_null" formatted="false">Nuovo Messaggio di Google Voice.</string>
+  <string name="status_bar_notification_content_text_google_voice_message_count" formatted="false">%s nuovi messaggi di Google Voice.</string>
+  <string name="status_bar_notification_content_text_google_voice_voicemail" formatted="false">Nuovo Messaggio di Google Voice da %s - %s</string>
+  <string name="status_bar_notification_content_text_google_voice_voicemail_null" formatted="false">Nuovi Messaggi Vocali di Google Voice.</string>
+  <string name="status_bar_notification_content_text_google_voice_voicemail_count" formatted="false">%s nuovo Google Voice messaggi vocali.</string>
   <string name="status_bar_notification_ticker_text_sms" formatted="false">Nuovo messaggio da %s-%s</string>
   <string name="status_bar_notification_ticker_text_unknown_contact_sms" formatted="false">Nuovo messaggio - %s</string>
   <string name="status_bar_notification_ticker_text_privacy_sms" formatted="false">Nuovo messaggio da %s.</string>
@@ -581,6 +615,12 @@
   <string name="status_bar_notification_ticker_text_email" formatted="false">Nuova email da %s - %s</string>
   <string name="status_bar_notification_ticker_text_unknown_contact_email" formatted="false">Nuova email - %s</string>
   <string name="status_bar_notification_ticker_text_email_null" formatted="false">Nuova email.</string>
+  <string name="status_bar_notification_ticker_text_google_voice_message" formatted="false">Nuovo Messaggio di Google Voice da %s - %s</string>
+  <string name="status_bar_notification_ticker_text_unknown_contact_google_voice_message" formatted="false">Messaggio nuovo Google Voice - %s</string>
+  <string name="status_bar_notification_ticker_text_google_voice_message_null" formatted="false">Nuovo Messaggio di Google Voice.</string>
+  <string name="status_bar_notification_ticker_text_google_voice_voicemail" formatted="false">Nuovo Messaggio di Google Voice da %s - %s</string>
+  <string name="status_bar_notification_ticker_text_unknown_contact_google_voice_voicemail" formatted="false">Nuovo messaggi vocali di Google Voice - %s</string>
+  <string name="status_bar_notification_ticker_text_google_voice_voicemail_null" formatted="false">Nuovi Messaggi Vocali di Google Voice.</string>
   <string name="clear_status_bar_notifications_on_exit_title">Elimina notifiche all\'uscita</string>
   <string name="clear_status_bar_notifications_on_exit_summaryOn">Le notifiche nella barra di state saranno rimosse quando un popup di notifica è rimosso dallo schermo.</string>
   <string name="clear_status_bar_notifications_on_exit_summaryOff">Notifiche sullo stato del Bar non verranno rimossi quando le notifiche popup vengono rimosse dallo schermo.</string>
@@ -851,6 +891,7 @@
   <string name="preference_choose_client_summary">Scegliere il client che preferisci utilizzare. Questo client si utilizzerà l\'applicazione quando appropriato.</string>
   <string name="launch_twitter_app">Lanciare Twitter App</string>
   <string name="launch_facebook_app">Lanciare Facebook App</string>
+  <string name="launch_google_voice_app">Lanciare Google Voice App</string>
   <string name="hootsuite">HootSuite</string>
   <string name="plume">Plume</string>
   <string name="plume_premium">Plume Premium</string>
@@ -870,6 +911,7 @@
   <string name="fbm_for_facebook">FBM per Facebook</string>
   <string name="friendCaster_for_facebook">FriendCaster per Facebook</string>
   <string name="friendCaster_pro_for_facebook">FriendCaster Pro per Facebook</string>
+  <string name="google_voice_web_mobile">Google Voice Web (http://voice.google.com)</string>
   <string name="droid_notify_plus">Droid Notify Plus</string>
   <string name="download_now">Scarica Ora</string>
   <string name="download_droid_notify_plus_description_text">Droid Notify Plus offre la possibilità di visualizzare le notifiche di qualsiasi applicazione come una finestra di popup sul tuo telefono cellulare. Scarica questo componente aggiuntivo per sbloccare il potenziale del vostro telefono.</string>

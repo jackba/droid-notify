@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
-import apps.droidnotify.email.EmailCommon;
+import apps.droidnotify.k9.K9Common;
 import apps.droidnotify.log.Log;
 
 /**
@@ -50,7 +50,7 @@ public class K9Service extends WakefulIntentService {
 		try{
 			Context context = getApplicationContext();
 			Bundle newEmailBundle = intent.getExtras();
-			Bundle emailNotificationBundle = EmailCommon.getK9MessagesFromIntent(context, newEmailBundle, intent.getAction());
+			Bundle emailNotificationBundle = K9Common.getK9MessagesFromIntent(context, newEmailBundle, intent.getAction());
 			if(emailNotificationBundle != null){
 				Bundle bundle = new Bundle();
 				bundle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_K9);

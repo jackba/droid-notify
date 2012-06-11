@@ -839,6 +839,8 @@ public class Common {
 									packageName = "com.kaitenmail";
 								}else if(notificationSubType == Constants.NOTIFICATION_TYPE_K9_MAIL){
 									packageName = "com.fsck.k9";
+								}else if(notificationSubType == Constants.NOTIFICATION_TYPE_K9_FOR_PURE){
+									packageName = "org.koxx.k9ForPureWidget";
 								}
 								notificationContentIntent.setComponent(new ComponentName(packageName, packageName + ".activity.Accounts"));  
 							}
@@ -855,6 +857,8 @@ public class Common {
 							packageName = "com.kaitenmail";
 						}else if(notificationSubType == Constants.NOTIFICATION_TYPE_K9_MAIL){
 							packageName = "com.fsck.k9";
+						}else if(notificationSubType == Constants.NOTIFICATION_TYPE_K9_FOR_PURE){
+							packageName = "org.koxx.k9ForPureWidget";
 						}
 						notificationContentIntent.setComponent(new ComponentName(packageName, packageName + ".activity.Accounts"));
 					}

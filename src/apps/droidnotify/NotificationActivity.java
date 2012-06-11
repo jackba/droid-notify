@@ -34,12 +34,12 @@ import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.Toast;
 
+import apps.droidnotify.k9.K9Common;
 import apps.droidnotify.log.Log;
 import apps.droidnotify.calendar.CalendarCommon;
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
 import apps.droidnotify.contacts.ContactsCommon;
-import apps.droidnotify.email.EmailCommon;
 import apps.droidnotify.phone.PhoneCommon;
 import apps.droidnotify.preferences.PreferencesActivity;
 import apps.droidnotify.receivers.ScreenManagementAlarmReceiver;
@@ -308,7 +308,7 @@ public class NotificationActivity extends Activity{
 				return CalendarCommon.startViewCalendarActivity(_context, this, Constants.CALENDAR_ACTIVITY);
 			}
 			case VIEW_K9_INBOX_CONTEXT_MENU:{
-				return EmailCommon.startK9EmailAppViewInboxActivity(_context, this, notification.getNotificationSubType(), Constants.K9_VIEW_EMAIL_ACTIVITY);
+				return K9Common.startK9EmailAppViewInboxActivity(_context, this, notification.getNotificationSubType(), Constants.K9_VIEW_EMAIL_ACTIVITY);
 			}
 			case RESCHEDULE_NOTIFICATION_CONTEXT_MENU:{
 				try{

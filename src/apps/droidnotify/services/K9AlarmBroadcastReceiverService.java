@@ -9,7 +9,7 @@ import android.telephony.TelephonyManager;
 
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
-import apps.droidnotify.email.EmailCommon;
+import apps.droidnotify.k9.K9Common;
 import apps.droidnotify.log.Log;
 
 public class K9AlarmBroadcastReceiverService extends WakefulIntentService {
@@ -65,7 +65,7 @@ public class K9AlarmBroadcastReceiverService extends WakefulIntentService {
 			}
 			//Check for a blacklist entry before doing anything else.
     		Bundle bundle = intent.getExtras();
-    		Bundle emailNotificationBundle = EmailCommon.getK9MessagesFromIntent(context, bundle, intent.getAction());	
+    		Bundle emailNotificationBundle = K9Common.getK9MessagesFromIntent(context, bundle, intent.getAction());	
     		Bundle emailNotificationBundleSingle = null;
     		if(emailNotificationBundle != null){
     			emailNotificationBundleSingle = emailNotificationBundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_1");
