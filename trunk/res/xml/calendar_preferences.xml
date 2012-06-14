@@ -30,7 +30,7 @@
 			android:entries="@array/polling_frequency_options"
 			android:entryValues="@array/polling_frequency_values"
 			android:dependency="calendar_notifications_enabled" />
-		<apps.droidnotify.preferences.calendar.SelectCalendarListPreference
+		<apps.droidnotify.calendar.SelectCalendarListPreference
 			android:layout="@layout/custom_preference_list"
 			android:key="calendar_selection"
 			android:title="@string/preference_calendar_selection_title"
