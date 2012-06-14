@@ -263,6 +263,35 @@ Notifications
    * Display Dismiss Button
    * Display View Button
    * Display Reply Button
+
+ * Google Voice
+  * Enable Google Voice
+  * Read Google Voice Account
+  * Select Preferred Client
+  * Polling Frequency
+  * Enable Status Bar Notifications
+  * Status Bar Notifications
+   * Display When Blocked
+   * Notification Icon
+   * Notification Sound
+   * Vibrate Setting
+   * Vibrate Pattern
+   * Enable LED
+   * LED Color Setting
+   * LED Blink Setting
+   * Enable In-Call Sound
+   * Enable In-Call Vibrate
+  * Customize
+   * Hide Notification Body
+   * Notification Count Action
+   * Confirm Deletion
+   * Display Dismiss Button
+   * Dismiss Button Action
+   * Display Delete Button
+   * Delete Button Action
+   * Display Reply Button
+   * Reply Button Action
+   * Display Call Button
  
 Privacy
 
