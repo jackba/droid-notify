@@ -304,8 +304,6 @@ Advanced
  * Ignore Linked Apps
  * Restrict Popup
  * Screen Timeout
- * SMS Timeout
- * SMS Loading Setting
  * MMS Timeout
  * Call Log Timeout
  * K-9 Timeout
