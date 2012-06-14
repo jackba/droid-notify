@@ -46,6 +46,10 @@ public class DebugPreferenceActivity extends PreferenceActivity implements OnSha
 			Log.setDebug(_preferences.getBoolean(Constants.DEBUG, false));
 		}
 	}
+
+	//================================================================================
+	// Protected Methods
+	//================================================================================
 	
 	/**
 	 * Called when the activity is created. Set up views and buttons.
@@ -63,7 +67,26 @@ public class DebugPreferenceActivity extends PreferenceActivity implements OnSha
 	    this.addPreferencesFromResource(R.xml.debug_preferences);
 	    this.setContentView(R.layout.debug_preferences);
 	    setupCustomPreferences();
+	}
+	  
+	/**
+	 * Activity was resumed after it was stopped or paused.
+	 */
+	@Override
+	protected void onResume(){
+	    if(_debug) Log.v("DebugPreferenceActivity.onResume()");
+	    super.onResume();
 	    _preferences.registerOnSharedPreferenceChangeListener(this);
+	}
+	
+	/**
+	 * Activity was resumed after it was stopped or paused.
+	 */
+	@Override
+	protected void onPause(){
+	    if(_debug) Log.v("DebugPreferenceActivity.onPause()");
+	    super.onPause();
+	    _preferences.unregisterOnSharedPreferenceChangeListener(this);
 	}
 
 	//================================================================================
