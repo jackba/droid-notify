@@ -311,6 +311,7 @@ Advanced
  * K-9 Timeout
  * Reset Twitter Data
  * Reset Facebook Data
+ * Reset Google Voice Data
  * SMS-to-Email Gateway
  * Clear Notifications On Exit
  * Export Preferences
