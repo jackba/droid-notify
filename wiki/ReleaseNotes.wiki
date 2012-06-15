@@ -3,8 +3,11 @@
 
 = Release Notes =
 
-*v3.11* _Coming Soon..._
+*v3.12* _Coming Soon..._
  * 
+
+*v3.11* (June 15, 2012)
+ * Fixed bug causing the Calendar user preference screen to crash.
 
 *v3.10* (June 11, 2012)
  * Added Google Voice integration to the app.
