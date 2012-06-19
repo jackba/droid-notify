@@ -1156,10 +1156,8 @@
 
 	<!-- Reset Preferences Strings -->   
 	<string name="reset_category">RESET</string>
-	<string name="reset_sound_preferences">Reset Sound Preferences</string>
-	<string name="reset_sound_preferences_summary">Reset the sound preferences to silent.</string>
 	<string name="reset_app_preferences">Reset App Preferences</string>
-	<string name="reset_app_preferences_summary">Reset the app preferences to their defualt settings.</string>
+	<string name="reset_app_preferences_summary">Reset the app preferences to their defaultsettings.</string>
 	<string name="resetting_preferences">Resetting preferences&#8230;</string>	
 	<string name="preferences_reset">The preferences have been reset.</string>
 	
