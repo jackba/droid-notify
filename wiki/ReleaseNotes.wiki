@@ -3,8 +3,14 @@
 
 = Release Notes =
 
-*v3.12* _Coming Soon..._
+*v3.13* _Coming Soon..._
  * 
+
+*v3.12* _Coming Soon..._
+ * Option to reset/clear user preferences.
+ *
+ * Updated translations.
+ * Small bug fixes.
 
 *v3.11* (June 15, 2012)
  * Fixed bug causing the Calendar user preference screen to crash.
