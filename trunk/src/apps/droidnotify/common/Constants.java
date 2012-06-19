@@ -534,6 +534,7 @@ public class Constants {
 	public static final String KAITEN_MAIL_ANDROID_URL = "https://play.google.com/store/apps/details?id=com.kaitenmail";
 	public static final String APP_SEARCH_ANDROID_URL = "https://play.google.com/store/search?q=apps.droidnotify.theme";
 	public static final String APP_ANDROID_PLUS_URL = "https://play.google.com/store/apps/details?id=apps.droidnotifyplus";
+	public static final String APP_ANDROID_MISSED_CALL_MESSENGER_LITE_URL = "https://play.google.com/store/apps/details?id=com.missedcallmessenger.lite";
 	
 	//Amazon Appstore URL
 	public static final String APP_AMAZON_URL = "http://www.amazon.com/gp/mas/dl/android?p=apps.droidnotify";
@@ -542,6 +543,7 @@ public class Constants {
 	public static final String KAITEN_MAIL_AMAZON_URL = "http://www.amazon.com/gp/mas/dl/android?p=com.kaitenmail";
 	public static final String APP_SEARCH_AMAZON_URL = "http://www.amazon.com/gp/mas/dl/android?p=apps.droidnotify.theme&showAll=1";
 	public static final String APP_AMAZON_PLUS_URL = "http://www.amazon.com/gp/mas/dl/android?p=apps.droidnotifyplus";
+	public static final String APP_AMAZON_MISSED_CALL_MESSENGER_LITE_URL = "http://www.amazon.com/gp/mas/dl/android?p=com.missedcallmessenger.lite";
 	
 	//Samsung Apps URL
 	public static final String APP_SAMSUNG_URL = "samsungapps://ProductDetail/apps.droidnotify";
@@ -549,7 +551,8 @@ public class Constants {
 	public static final String K9_MAIL_SAMSUNG_URL = "samsungapps://ProductDetail/com.fsck.k9";
 	public static final String KAITEN_MAIL_SAMSUNG_URL = "samsungapps://ProductDetail/com.kaitenmail";
 	public static final String APP_SEARCH_SAMSUNG_URL = "http://www.samsungapps.com/topApps/topAppsList.as?mkt_keyword=Droid+Notify";
-	public static final String APP_SAMSUNG_PLUS_URL = "samsungapps://ProductDetail/apps.droidnotifyplus";	
+	public static final String APP_SAMSUNG_PLUS_URL = "samsungapps://ProductDetail/apps.droidnotifyplus";
+	public static final String APP_SAMSUNG_MISSED_CALL_MESSENGER_LITE_URL = "samsungapps://ProductDetail/com.missedcallmessenger.lite";
 	
 	//PayPal URL
 	public static final String APP_PAYPAL_URL = "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=43V2NJQH5BQAA";
@@ -746,28 +749,35 @@ public class Constants {
 	//-----RESTRICT POPUP CONSTANTS-----//
 	public static final String RESTRICT_POPUP_KEY = "restrict_popup";
 	
+	//-----RESET PREFERENCES CONSTANTS-----//
+	public static final String RESET_SOUND_PREFERENCES_KEY = "reset_sound_preferences";	
+	public static final String RESET_APP_PREFERENCES_KEY = "reset_app_preferences";	
+	
+	//-----MORE OPTIONS CONSTANTS-----//
+	public static final String MORE_OPTIONS_KEY = "more_options_preference";
+	
 	//-----DROID NOTIFY API CONSTANTS-----//
-	public static final String DROID_NOTIFY_API_NOTIFICATION_ACTION = "apps.droidnotify.api.NOTIFICATION_RECEIVED";
-	public static final String DROID_NOTIFY_API_PACKAGE = "package";
-	public static final String DROID_NOTIFY_API_TIMESTAMP = "timeStamp";
-	public static final String DROID_NOTIFY_API_DISPLAY_TEXT = "displayText";
-	public static final String DROID_NOTIFY_API_DISMISS_PENDINGINTENT = "dismissPendingIntent";
-	public static final String DROID_NOTIFY_API_DELETE_PENDINGINTENT = "deletePendingIntent";
-	public static final String DROID_NOTIFY_API_VIEW_PENDINGINTENT = "viewPendingIntent";	
-	public static final String DROID_NOTIFY_API_CONTACT_ID  = "contactID";
-	public static final String DROID_NOTIFY_API_CONTACT_NAME  = "contactName";
-	public static final String DROID_NOTIFY_API_SENT_FROM_ADDRESS = "sentFromAddress";	
-	public static final String DROID_NOTIFY_API_ENABLE_STATUS_BAR_NOTIFICATION = "enableStatusBarNotification";
-	public static final String DROID_NOTIFY_API_STATUS_BAR_NOTIFICATION_SOUND_URI = "statusBarNotificationSoundURI";
-	public static final String DROID_NOTIFY_API_STATUS_BAR_NOTIFICATIONS_VIBRATE_ALWAYS_VALUE = "0";
-	public static final String DROID_NOTIFY_API_STATUS_BAR_NOTIFICATIONS_VIBRATE_NEVER_VALUE = "1";
-	public static final String DROID_NOTIFY_API_STATUS_BAR_NOTIFICATIONS_VIBRATE_WHEN_VIBRATE_MODE_VALUE = "2";
-	public static final String DROID_NOTIFY_API_STATUS_BAR_NOTIFICATION_VIBRATE_SETTING = "statusBarNotificationVibrateSetting";
-	public static final String DROID_NOTIFY_API_STATUS_BAR_NOTIFICATION_VIBRATE_PATTERN = "statusBarNotificationVibratePattern";
-	//public static final String DROID_NOTIFY_API_STATUS_BAR_NOTIFICATION_LED_ENABLED = "statusBarNotificationLEDEnabled";
-	//public static final String DROID_NOTIFY_API_STATUS_BAR_NOTIFICATION_LED_PATTERN = "statusBarNotificationLEDPattern";
-	//public static final String DROID_NOTIFY_API_STATUS_BAR_NOTIFICATION_LED_COLOR = "statusBarNotificationLEDColor";
-	public static final String DROID_NOTIFY_API_STATUS_BAR_NOTIFICATION_IN_CALL_SOUND_ENABLED = "statusBarNotificationInCallSoundEnabled";
-	public static final String DROID_NOTIFY_API_STATUS_BAR_NOTIFICATION_IN_CALL_VIBRATE_ENABLED = "statusBarNotificationInCallVibrateEnabled";
+//	public static final String DROID_NOTIFY_API_NOTIFICATION_ACTION = "apps.droidnotify.api.NOTIFICATION_RECEIVED";
+//	public static final String DROID_NOTIFY_API_PACKAGE = "package";
+//	public static final String DROID_NOTIFY_API_TIMESTAMP = "timeStamp";
+//	public static final String DROID_NOTIFY_API_DISPLAY_TEXT = "displayText";
+//	public static final String DROID_NOTIFY_API_DISMISS_PENDINGINTENT = "dismissPendingIntent";
+//	public static final String DROID_NOTIFY_API_DELETE_PENDINGINTENT = "deletePendingIntent";
+//	public static final String DROID_NOTIFY_API_VIEW_PENDINGINTENT = "viewPendingIntent";	
+//	public static final String DROID_NOTIFY_API_CONTACT_ID  = "contactID";
+//	public static final String DROID_NOTIFY_API_CONTACT_NAME  = "contactName";
+//	public static final String DROID_NOTIFY_API_SENT_FROM_ADDRESS = "sentFromAddress";	
+//	public static final String DROID_NOTIFY_API_ENABLE_STATUS_BAR_NOTIFICATION = "enableStatusBarNotification";
+//	public static final String DROID_NOTIFY_API_STATUS_BAR_NOTIFICATION_SOUND_URI = "statusBarNotificationSoundURI";
+//	public static final String DROID_NOTIFY_API_STATUS_BAR_NOTIFICATIONS_VIBRATE_ALWAYS_VALUE = "0";
+//	public static final String DROID_NOTIFY_API_STATUS_BAR_NOTIFICATIONS_VIBRATE_NEVER_VALUE = "1";
+//	public static final String DROID_NOTIFY_API_STATUS_BAR_NOTIFICATIONS_VIBRATE_WHEN_VIBRATE_MODE_VALUE = "2";
+//	public static final String DROID_NOTIFY_API_STATUS_BAR_NOTIFICATION_VIBRATE_SETTING = "statusBarNotificationVibrateSetting";
+//	public static final String DROID_NOTIFY_API_STATUS_BAR_NOTIFICATION_VIBRATE_PATTERN = "statusBarNotificationVibratePattern";
+//	//public static final String DROID_NOTIFY_API_STATUS_BAR_NOTIFICATION_LED_ENABLED = "statusBarNotificationLEDEnabled";
+//	//public static final String DROID_NOTIFY_API_STATUS_BAR_NOTIFICATION_LED_PATTERN = "statusBarNotificationLEDPattern";
+//	//public static final String DROID_NOTIFY_API_STATUS_BAR_NOTIFICATION_LED_COLOR = "statusBarNotificationLEDColor";
+//	public static final String DROID_NOTIFY_API_STATUS_BAR_NOTIFICATION_IN_CALL_SOUND_ENABLED = "statusBarNotificationInCallSoundEnabled";
+//	public static final String DROID_NOTIFY_API_STATUS_BAR_NOTIFICATION_IN_CALL_VIBRATE_ENABLED = "statusBarNotificationInCallVibrateEnabled";
 	
 }

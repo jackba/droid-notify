@@ -282,6 +282,7 @@
     <string name="theme">Theme</string>
    	<string name="theme_summary">Select the theme for the notifications.</string>
    	<string name="theme_chooser_instructions">Using a swiping motion, select the desired theme from the available examples below. When you find the theme you would like press the OK button to save the theme.</string>
+	<string name="more_category">MORE</string>
 	<string name="more">More</string>
 	<string name="notify_theme">Notify Theme</string>
 	<string name="default_v1">Default</string>
@@ -1153,4 +1154,20 @@
 	<string name="download_now">Download Now</string>
 	<string name="download_droid_notify_plus_description_text">Droid Notify Plus offers the ability to display any app\'s notifications as a popup window on your phone. Download this add-on to unlock the full potential of your phone.</string>
 
+	<!-- Reset Preferences Strings -->   
+	<string name="reset_category">RESET</string>
+	<string name="reset_sound_preferences">Reset Sound Preferences</string>
+	<string name="reset_sound_preferences_summary">Reset the sound preferences to silent.</string>
+	<string name="reset_app_preferences">Reset App Preferences</string>
+	<string name="reset_app_preferences_summary">Reset the app preferences to their defualt settings.</string>
+	<string name="resetting_preferences">Resetting preferences&#8230;</string>	
+	<string name="preferences_reset">The preferences have been reset.</string>
+	
+	<!-- External Apps Strings --> 
+	<string name="more_options">More Options</string>
+	<string name="missed_call_messenger">Missed Call Messenger</string>
+	<string name="more_missed_call_options_description">Are you looking for more missed call options?</string>
+	<string name="missed_call_messenger_description">&lt;b>Missed Call Messenger&lt;/b> is an app that will send a message to you when you miss a phone call as well as send a response back to the caller automatically.&lt;br/>&lt;br/>Download this app for free and try it today!</string>
+	  
+	
 </resources>

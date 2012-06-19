@@ -34,8 +34,7 @@
 			android:summary="@string/notification_ringtone_summary"
 			android:ringtoneType="all"
 			android:showDefault="false"
-			android:showSilent="true"
-			android:defaultValue="content://settings/system/notification_sound" />
+			android:showSilent="true" />
 	</PreferenceCategory>
 	<PreferenceCategory
 		android:layout="@layout/custom_preference_category"
