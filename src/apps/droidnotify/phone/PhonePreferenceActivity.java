@@ -82,6 +82,37 @@ public class PhonePreferenceActivity extends PreferenceActivity{
 		    	}
         	}
 		});
+		//More Options Preference/Button
+		Preference moreOptionsPref = (Preference)findPreference(Constants.MORE_OPTIONS_KEY);
+		moreOptionsPref.setOnPreferenceClickListener(new OnPreferenceClickListener(){
+        	public boolean onPreferenceClick(Preference preference){
+		    	try{
+		    		if(Common.packageExists(_context, "com.missedcallmessenger.pro")){
+		    			Intent intent = _context.getPackageManager().getLaunchIntentForPackage("com.missedcallmessenger.pro");
+		    			if(intent == null){
+		    				if (_debug) Log.v("PhonePreferenceActivity() More Options Button - Launching 'com.missedcallmessenger.pro' Failed. Exiting...");
+		    				return false;
+		    			}
+		    			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		    			startActivity(intent);
+		    		}else if(Common.packageExists(_context, "com.missedcallmessenger.lite")){
+		    			Intent intent = _context.getPackageManager().getLaunchIntentForPackage("com.missedcallmessenger.lite");
+		    			if(intent == null){
+		    				if (_debug) Log.v("PhonePreferenceActivity() More Options Button - Launching 'com.missedcallmessenger.lite' Failed. Exiting...");
+		    				return false;
+		    			}
+		    			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		    			startActivity(intent);
+		    		}else{
+		    			startActivity(new Intent(_context, MoreMissedCallOptionsActivity.class));
+		    		}
+		    		return true;
+		    	}catch(Exception ex){
+	 	    		Log.e("PhonePreferenceActivity() More Options Button ERROR: " + ex.toString());
+	 	    		return false;
+		    	}
+        	}
+		});
 	}
 	
 }

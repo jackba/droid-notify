@@ -44,10 +44,20 @@
 		android:key="missed_call_customize_category"
 		android:title="@string/customize_category">
 		<Preference
-			android:layout="@layout/custom_preference_bottom"
+			android:layout="@layout/custom_preference"
 	        android:key="customize_preference"
 	       	android:title="@string/customize"
 	       	android:summary="@string/customize_notification_summary"
+			android:dependency="missed_call_notifications_enabled" />
+	</PreferenceCategory>  
+	<PreferenceCategory
+		android:layout="@layout/custom_preference_category"
+		android:key="more_category"
+		android:title="@string/more_category">
+		<Preference
+			android:layout="@layout/custom_preference_bottom_title"
+	        android:key="more_options_preference"
+	       	android:title="@string/more_options"
 			android:dependency="missed_call_notifications_enabled" />
 	</PreferenceCategory> 
 </PreferenceScreen>

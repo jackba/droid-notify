@@ -111,6 +111,21 @@
 	</PreferenceCategory>
 	<PreferenceCategory
 		android:layout="@layout/custom_preference_category"
+		android:key="reset_category"
+		android:title="@string/reset_category">
+		<Preference
+			android:layout="@layout/custom_preference"
+			android:key="reset_sound_preferences"
+			android:title="@string/reset_sound_preferences"
+			android:summary="@string/reset_sound_preferences_summary" />
+		<Preference
+			android:layout="@layout/custom_preference"
+			android:key="reset_app_preferences"
+			android:title="@string/reset_app_preferences"
+			android:summary="@string/reset_app_preferences_summary" />	
+	</PreferenceCategory>
+	<PreferenceCategory
+		android:layout="@layout/custom_preference_category"
 		android:key="import_export_category"
 		android:title="@string/import_export_category">
 		<Preference
