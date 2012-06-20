@@ -70,19 +70,6 @@ public class AdvancedPreferenceActivity extends PreferenceActivity{
 	 */
 	private void setupCustomPreferences(){
 	    if (_debug) Log.v("AdvancedPreferenceActivity.setupCustomPreferences()");
-		//Reset Sound Preferences Preference/Button
-		Preference resetSoundPreferencesPref = (Preference)findPreference(Constants.RESET_SOUND_PREFERENCES_KEY);
-		resetSoundPreferencesPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-        	public boolean onPreferenceClick(Preference preference) {
-		    	try{
-	        		new resetSoundPreferencesAsyncTask().execute();
-		    	}catch(Exception ex){
-	 	    		Log.e("MainPreferenceActivity() Reset Sound Preferences Button ERROR: " + ex.toString());
-	 	    		return false;
-		    	}
-	            return true;
-           }
-		});
 		//Reset App Preferences Preference/Button
 		Preference resetAppPreferencesPref = (Preference)findPreference(Constants.RESET_APP_PREFERENCES_KEY);
 		resetAppPreferencesPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
