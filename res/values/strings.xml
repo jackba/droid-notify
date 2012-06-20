@@ -1164,7 +1164,6 @@
 		    
 	<!-- External Apps Strings --> 
 	<string name="more_options">More Options</string>
-	<string name="missed_call_messenger">Missed Call Messenger</string>
 	<string name="more_missed_call_options_description">Are you looking for more missed call options?</string>
 	<string name="missed_call_messenger_description">&lt;b>Missed Call Messenger&lt;/b> is an app that will send a message to you when you miss a phone call as well as send a response back to the caller automatically.&lt;br/>&lt;br/>Download this app for free and try it today!</string>
 	
