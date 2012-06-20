@@ -1157,15 +1157,15 @@
 	<!-- Reset Preferences Strings -->   
 	<string name="reset_category">RESET</string>
 	<string name="reset_app_preferences">Reset App Preferences</string>
-	<string name="reset_app_preferences_summary">Reset the app preferences to their defaultsettings.</string>
+	<string name="reset_app_preferences_summary">Reset the app preferences to their default settings.</string>
 	<string name="resetting_preferences">Resetting preferences&#8230;</string>	
 	<string name="preferences_reset">The preferences have been reset.</string>
-	
+	<string name="confirm_reset_app_preferences">This will remove all the stored user preferences for this application.</string>  
+		    
 	<!-- External Apps Strings --> 
 	<string name="more_options">More Options</string>
 	<string name="missed_call_messenger">Missed Call Messenger</string>
 	<string name="more_missed_call_options_description">Are you looking for more missed call options?</string>
 	<string name="missed_call_messenger_description">&lt;b>Missed Call Messenger&lt;/b> is an app that will send a message to you when you miss a phone call as well as send a response back to the caller automatically.&lt;br/>&lt;br/>Download this app for free and try it today!</string>
-	  
 	
 </resources>
