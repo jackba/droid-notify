@@ -84,6 +84,7 @@ public class NotificationActivity extends Activity{
 	private boolean _debug = false;
 	private Context _context = null;
 	private NotificationViewFlipper _notificationViewFlipper = null;
+	//private ProgressBar _notificationProgressBar = null;
 	private MotionEvent _downMotionEvent = null;
 	private SharedPreferences _preferences = null;
 	private PendingIntent _screenTimeoutPendingIntent = null;
@@ -497,6 +498,8 @@ public class NotificationActivity extends Activity{
   	public void dismissAllNotifications(){
 		if(_debug) Log.v("NotificationActivity.dismissAllNotifications()");	
   		try{
+  			//_notificationProgressBar.setVisibility(View.VISIBLE);
+  			//_notificationViewFlipper.setVisibility(View.INVISIBLE);
   			_notificationViewFlipper.dismissAllNotifications();
   		}catch(Exception ex){
   			Log.e("NotificationActivity.dismissAllNotifications() ERROR: " + ex.toString());
@@ -1251,6 +1254,8 @@ public class NotificationActivity extends Activity{
 	private void setupViews(int notificationType){
 		if(_debug) Log.v("NotificationActivity.setupViews()");
 		_notificationViewFlipper = (NotificationViewFlipper) findViewById(R.id.notification_view_flipper);
+		//_notificationProgressBar = (ProgressBar) findViewById(R.id.notification_progress_bar);
+		//_notificationProgressBar.setVisibility(View.GONE);
 	}
 	
 	/**

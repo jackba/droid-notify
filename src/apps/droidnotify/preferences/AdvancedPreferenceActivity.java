@@ -5,8 +5,10 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -73,9 +75,28 @@ public class AdvancedPreferenceActivity extends PreferenceActivity{
 		//Reset App Preferences Preference/Button
 		Preference resetAppPreferencesPref = (Preference)findPreference(Constants.RESET_APP_PREFERENCES_KEY);
 		resetAppPreferencesPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-        	public boolean onPreferenceClick(Preference preference) {
-		    	try{
-	        		new resetAppPreferencesAsyncTask().execute();
+        	public boolean onPreferenceClick(Preference preference){
+		    	try{		 
+		    		AlertDialog.Builder builder = new AlertDialog.Builder(_context);
+			        try{
+			        	builder.setIcon(android.R.drawable.ic_dialog_alert);
+			        }catch(Exception ex){
+			        	//Don't set the icon if this fails.
+			        }
+					builder.setTitle(_context.getString(R.string.reset_app_preferences));
+					builder.setMessage(_context.getString(R.string.confirm_reset_app_preferences));
+					builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener(){
+							public void onClick(DialogInterface dialog, int id){
+				        		new resetAppPreferencesAsyncTask().execute();
+						    	dialog.dismiss();
+							}
+						})
+						.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener(){
+							public void onClick(DialogInterface dialog, int id){
+				            	dialog.cancel();
+							}
+						});
+					builder.create().show();
 		    	}catch(Exception ex){
 	 	    		Log.e("MainPreferenceActivity() Reset App Preferences Button ERROR: " + ex.toString());
 	 	    		return false;
@@ -124,50 +145,6 @@ public class AdvancedPreferenceActivity extends PreferenceActivity{
 		    	}
         	}
 		});	
-	}
-	
-	/**
-	 * Reset the sound preferences as a background task.
-	 * 
-	 * @author Camille Sévigny
-	 */
-	private class resetSoundPreferencesAsyncTask extends AsyncTask<Void, Void, Void> {
-		//ProgressDialog to display while the task is running.
-		private ProgressDialog dialog;
-		/**
-		 * Setup the Progress Dialog.
-		 */
-	    protected void onPreExecute() {
-			if (_debug) Log.v("MainPreferenceActivity.resetSoundPreferencesAsyncTask.onPreExecute()");
-	        dialog = ProgressDialog.show(AdvancedPreferenceActivity.this, "", _context.getString(R.string.resetting_preferences), true);
-	    }
-	    /**
-	     * Do this work in the background.
-	     * 
-	     * @param params
-	     */
-	    protected Void doInBackground(Void... params) {
-			if (_debug) Log.v("MainPreferenceActivity.resetSoundPreferencesAsyncTask.doInBackground()");
-			SharedPreferences.Editor editor = _preferences.edit();
-            editor.putString(Constants.SMS_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY, "");
-            editor.putString(Constants.MMS_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY, "");
-            editor.putString(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY, "");
-            editor.putString(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY, "");
-            editor.putString(Constants.K9_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY, "");
-            editor.commit();
-	    	return null;
-	    }
-	    /**
-	     * Stop the Progress Dialog and do any post background work.
-	     * 
-	     * @param result
-	     */
-	    protected void onPostExecute(Void res) {
-			if (_debug) Log.v("MainPreferenceActivity.resetSoundPreferencesAsyncTask.onPostExecute()");
-	        dialog.dismiss();
-	    	Toast.makeText(_context, _context.getString(R.string.preferences_reset), Toast.LENGTH_LONG).show();
-	        reloadPreferenceActivity();
-	    }
 	}
 	
 	/**
