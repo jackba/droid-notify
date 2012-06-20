@@ -151,6 +151,7 @@ Notifications
    * Display Dismiss Button
    * Dismiss Button Action
    * Display Call Button
+  * More Options
 
  * Calendar
   * Enable Calendar Event
@@ -312,6 +313,7 @@ Advanced
  * Reset Google Voice Data
  * SMS-to-Email Gateway
  * Clear Notifications On Exit
+ * Reset App Preferences
  * Export Preferences
  * Import Preferences
  * Debug Settings
