@@ -750,7 +750,6 @@ public class Constants {
 	public static final String RESTRICT_POPUP_KEY = "restrict_popup";
 	
 	//-----RESET PREFERENCES CONSTANTS-----//
-	public static final String RESET_SOUND_PREFERENCES_KEY = "reset_sound_preferences";	
 	public static final String RESET_APP_PREFERENCES_KEY = "reset_app_preferences";	
 	
 	//-----MORE OPTIONS CONSTANTS-----//
