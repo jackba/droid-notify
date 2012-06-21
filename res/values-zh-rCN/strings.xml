@@ -214,6 +214,7 @@
   <string name="theme">主题</string>
   <string name="theme_summary">选择通知主题。.</string>
   <string name="theme_chooser_instructions">从可用下面的示例使用翻页的手势，选择所需的主题。当你找到主题你可以按下确定按钮，保存的主题。</string>
+  <string name="more_category">更多</string>
   <string name="more">更多</string>
   <string name="notify_theme">通知主题</string>
   <string name="default_v1">Default</string>
@@ -916,4 +917,14 @@
   <string name="droid_notify_plus">Droid Notify Plus</string>
   <string name="download_now">立即下载</string>
   <string name="download_droid_notify_plus_description_text">Droid Notify Plus 提供的能力，作为您的手机上显示弹出窗口的任何应用程序的通知。下载此元件的解锁手机的全部潜力。</string>
+  <string name="reset_category">重置</string>
+  <string name="reset_app_preferences">应用程序首选项重置</string>
+  <string name="reset_app_preferences_summary">重置为其默认设置的应用程序首选项。</string>
+  <string name="resetting_preferences">重置首选项…</string>
+  <string name="preferences_reset">已重置首选项。</string>
+  <string name="confirm_reset_app_preferences">这将删除此应用程序的所有存储的用户首选项。</string>
+  <string name="more_options">更多选项</string>
+  <string name="missed_call_messenger">Missed Call Messenger</string>
+  <string name="more_missed_call_options_description">是您寻找更错过了调用选项吗？</string>
+  <string name="missed_call_messenger_description">&lt;b&gt;Missed Call Messenger&lt;/b&gt;是一个应用程序，将消息发送给你，当你错过了一个电话，以及自动发送一个响应返回给调用者。&lt;br/&gt;&lt;br/&gt;免费下载这个程序，今天试试吧！</string>
 </resources>

@@ -214,6 +214,7 @@
   <string name="theme">ערכת נושא</string>
   <string name="theme_summary">בחר את ערכת הנושא של ההתראות.</string>
   <string name="theme_chooser_instructions">השתמש באמצעות תנועה סיבוב, בחר את ערכת הנושא הרצויה מתוך הדוגמאות הזמינות שלהלן. כאשר תמצא את ערכת הנושא הרצויה לחץ על לחצן אישור כדי לשמור את ערכת הנושא.</string>
+  <string name="more_category">עוד</string>
   <string name="more">יותר</string>
   <string name="notify_theme">Notify ערכת נושא</string>
   <string name="default_v1">ברירת מחדל</string>
@@ -915,4 +916,14 @@
   <string name="droid_notify_plus">Droid Notify Plus</string>
   <string name="download_now">הורד כעת</string>
   <string name="download_droid_notify_plus_description_text">Droid Notify Plus מציע את האפשרות להציג התראה מכל יישום בתור חלון קופץ במכשיר שלך. הורד את תוסף זה כדי לממש את הפונטציאל המלא של המכשיר שלך.</string>
+  <string name="reset_category">אפס</string>
+  <string name="reset_app_preferences">אפס העדפות יישום</string>
+  <string name="reset_app_preferences_summary">אפס את העדפות היישום להגדרות ברירת המחדל.</string>
+  <string name="resetting_preferences">מאפס העדפות…</string>
+  <string name="preferences_reset">ההעדפות אופסו בהצלחה.</string>
+  <string name="confirm_reset_app_preferences">פעולה זו תסיר את העדפות המשתמש השמורות עבור יישום זה.</string>
+  <string name="more_options">אפשרויות נוספות</string>
+  <string name="missed_call_messenger">Missed Call Messenger</string>
+  <string name="more_missed_call_options_description">אתה מחפש אפשרויות נוספות לשיחות שלא נענו?</string>
+  <string name="missed_call_messenger_description">&lt;b&gt;Missed Call Messenger&lt;/b&gt; היא תוכנה ששולחת הודעה אליך כאשר אתה מחמיץ שיחה וכן יכולה לשלוח תגובה אוטומטית למתקשר.&lt;br/&gt;&lt;br/&gt;הורד ונסה תוכנה זו כעת בחינם!</string>
 </resources>
