@@ -96,14 +96,14 @@
   <string name="preference_debug_log_summary">Quand le débogueur est activé, l\'application enregistre des informations de diagnostic.</string>
   <string name="delete">Supprimer</string>
   <string name="confirm_delete_entry">Ceci supprimera l\'entrée.</string>
-  <string name="delete_message_dialog_text">Ceci va supprimer le message du téléphone.</string>
+  <string name="delete_message_dialog_text">Ceci supprimera le message du téléphone.</string>
   <string name="delete_thread_dialog_text">L\'ensemble de la discussion va être supprimée du téléphone.</string>
-  <string name="delete_email_dialog_text">Ceci va supprimer le mail du téléphone.</string>
-  <string name="delete_twitter_direct_message_dialog_text">Ceci va supprimer le message de votre compte Twitter.</string>
-  <string name="delete_facebook_notification_dialog_text">Ceci va supprimer la notification de votre compte Facebook.</string>
-  <string name="delete_facebook_message_dialog_text">Ceci va supprimer le message de votre compte Facebook.</string>
-  <string name="delete_google_voice_message_dialog_text">Cela va déplacer le message dans votre corbeille Google Voice.</string>
-  <string name="identifier">Identificateur</string>
+  <string name="delete_email_dialog_text">Ceci supprimera le mail du téléphone.</string>
+  <string name="delete_twitter_direct_message_dialog_text">Ceci supprimera le message de votre compte Twitter.</string>
+  <string name="delete_facebook_notification_dialog_text">Ceci supprimera la notification de votre compte Facebook.</string>
+  <string name="delete_facebook_message_dialog_text">Ceci supprimera le message de votre compte Facebook.</string>
+  <string name="delete_google_voice_message_dialog_text">Cela déplacera le message dans votre corbeille Google Voice.</string>
+  <string name="identifier">Identifiant</string>
   <string name="contact_name">Nom de Contact</string>
   <string name="contact_phone">Téléphone de Contact</string>
   <string name="contact_email">Courriel de Contact</string>
@@ -165,11 +165,11 @@
   <string name="add_other">Ajouter Autres</string>
   <string name="edit">Modifier</string>
   <string name="add_to_blacklist">Ajouter à la liste noire</string>
-  <string name="confirm_add_to_blacklist">Ceci va ajouter l\'expéditeur à la liste noire.</string>
+  <string name="confirm_add_to_blacklist">Ceci ajoutera l\'expéditeur à la liste noire.</string>
   <string name="customize_contacts_category">PERSONNALISER LES CONTACTS</string>
   <string name="customize_contacts">Personnaliser les Contacts</string>
   <string name="buttons_category">BOUTONS</string>
-  <string name="button_font_size_title">Taille de la Police Bouton</string>
+  <string name="button_font_size_title">Taille police Bouton</string>
   <string name="button_font_size_summary">Sélectionnez la taille de la police du texte du bouton.</string>
   <string name="bold_button_text_title">Texte du bouton en gras</string>
   <string name="bold_button_text_summary">Met le texte du bouton en gras.</string>
@@ -214,11 +214,12 @@
   <string name="theme">Thème</string>
   <string name="theme_summary">Choisissez l\'apparence des notifications.</string>
   <string name="theme_chooser_instructions">Sélectionnez le thème souhaité dans les exemples disponibles ci-dessous. Appuyez ensuite sur le bouton OK pour sauvegarder le thème.</string>
+  <string name="more_category">PLUS</string>
   <string name="more">Plus</string>
-  <string name="notify_theme">Notify Thème</string>
-  <string name="default_v1">Default</string>
-  <string name="default_v2">Default Translucent</string>
-  <string name="default_v3">Default Dark</string>
+  <string name="notify_theme">Thème Notify</string>
+  <string name="default_v1">Défaut</string>
+  <string name="default_v2">Translucide par défaut</string>
+  <string name="default_v3">Noir par défaut</string>
   <string name="preference_notification_type_info_icon_enabled_title">Voir l\'icone type</string>
   <string name="preference_notification_type_info_icon_enabled_summary">L\'icône de notification est l\'icône à droite de la photo de contact.</string>
   <string name="preference_notification_type_info_size">Taille caractères notification</string>
@@ -398,7 +399,7 @@
   <string name="sound_category">SON</string>
   <string name="vibrate_category">VIBRER</string>
   <string name="led_category">LED</string>
-  <string name="in_call_category">EN-APPEL</string>
+  <string name="in_call_category">EN APPEL</string>
   <string name="status_bar_notifications">Notifications barre d\'état</string>
   <string name="status_bar_notifications_enabled_title">Activer la barre d\'état</string>
   <string name="status_bar_notifications_enabled_summary">Affiche les notifications dans la barre d\'état.</string>
@@ -463,21 +464,21 @@
   <string name="debug_category">DÉBOGAGE</string>
   <string name="debug">Débogage</string>
   <string name="log_file_error_title">Fichier d\'erreur</string>
-  <string name="log_file_acquiring_system_logs">Acquisition des journaux…</string>
+  <string name="log_file_acquiring_system_logs">Acquisition des journaux...</string>
   <string name="log_file_retrieval_failure">Impossible de récupérer les journaux.</string>
   <string name="log_file_device_info" formatted="false">Droid Notify Version: %s\nDevice Model: %s\nFirmware Version: %s\nBuild Number: %s\n</string>
   <string name="send_debug_logs_text">Envoyer fichiers de débogage</string>
   <string name="send_debug_logs_summary">Envoie les fichiers de débogage au développeur.</string>
   <string name="clear_debug_logs">Effacer les journaux de débogage</string>
-  <string name="clear_debug_logs_summary">Supprimer des journaux de débogage existants.</string>
-  <string name="removing_logs">Suppression de logs…</string>
+  <string name="clear_debug_logs_summary">Supprime des journaux de débogage existants.</string>
+  <string name="removing_logs">Suppression des logs...</string>
   <string name="feedback_category">COMMENTAIRES</string>
   <string name="rate_app">Evaluer l\'application</string>
   <string name="email_developer">Email développeur</string>
   <string name="about_category">A PROPOS</string>
   <string name="about">A propos</string>
   <string name="created_by">&lt;b&gt;Créé par:&lt;/b&gt; Camille Sévigny&lt;br/&gt;&lt;b&gt;Email:&lt;/b&gt; &lt;a href=\"mailto:droidnotify@gmail.com\"&gt;droidnotify@gmail.com&lt;/a&gt;</string>
-  <string name="give_feedback">&lt;br/&gt;&lt;br/&gt;Si vous aimez Droid Notify, merci de noter cette application et de laisser un commentaire.&lt;br/&gt;&lt;br/&gt;Tous les commentaires, suggestions ou reports de bug sont également les bienvenus par mail.&lt;br/&gt;&lt;br/&gt;</string>
+  <string name="give_feedback">&lt;br/&gt;&lt;br/&gt;Si vous aimez cette application, merci de la noter et de laisser un commentaire.&lt;br/&gt;&lt;br/&gt;Tous les commentaires, suggestions ou reports de bug sont également les bienvenus par mail.&lt;br/&gt;&lt;br/&gt;</string>
   <string name="translations_powered_by">&lt;b&gt;Traductions réalisées grâce à:&lt;/b&gt; &lt;a href=\"http://www.crowdin.net/\"&gt;CrowdIn.net&lt;/a&gt;&lt;br/&gt;</string>
   <string name="preference_translated_by_text">Traduction Francaise : Franky&lt;br/&gt;Traduction Hébreu : Benjo26&lt;br/&gt;Traduction Polonaise : Draco (draco.pl@gmail.com)&lt;br/&gt;Traduction Portugaise : Marcio Andrade (marcioaribeiro@hotmail.com.br)&lt;br/&gt;Traduction Espagnole : Shaymelmed (shaben_translations@hotmail.com)&lt;br/&gt;Traduction Chinois Simplifié : Jason (hrmqs86@gmail.com)&lt;br/&gt;&lt;br/&gt;&lt;b&gt;</string>
   <string name="preference_copyright_text">&lt;b&gt;© 2012 Camille Sévigny&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;</string>
@@ -557,7 +558,7 @@
   <string name="status_bar_notification_content_text_calendar" formatted="false">Evènement calendrier - %s</string>
   <string name="status_bar_notification_content_text_calendar_null" formatted="false">Evènement calendrier.</string>
   <string name="status_bar_notification_content_text_calendar_count" formatted="false">%s événements du calendrier.</string>
-  <string name="status_bar_notification_content_text_twitter_count" formatted="false">%s nouveaux articles Twitter.</string>
+  <string name="status_bar_notification_content_text_twitter_count" formatted="false">%s nouveautés Twitter.</string>
   <string name="status_bar_notification_content_text_twitter_direct_message" formatted="false">Nouveau message Twitter de %s - %s</string>
   <string name="status_bar_notification_content_text_twitter_direct_message_null" formatted="false">Nouveau message Twitter.</string>
   <string name="status_bar_notification_content_text_twitter_direct_message_count" formatted="false">%s nouveaux messages Twitter.</string>
@@ -567,7 +568,7 @@
   <string name="status_bar_notification_content_text_twitter_follower_request" formatted="false">Nouvelle demande d\'abonné Twitter de %s - %s</string>
   <string name="status_bar_notification_content_text_twitter_follower_request_null" formatted="false">Nouvelle demande d\'abonné Twitter.</string>
   <string name="status_bar_notification_content_text_twitter_follower_request_count" formatted="false">%s nouvelles demandes d\'abonné Twitter.</string>
-  <string name="status_bar_notification_content_text_facebook_count" formatted="false">%s nouveaux articles Facebook.</string>
+  <string name="status_bar_notification_content_text_facebook_count" formatted="false">%s nouveautés Facebook.</string>
   <string name="status_bar_notification_content_text_facebook_notification" formatted="false">Nouvelle notification Facebook de %s - %s</string>
   <string name="status_bar_notification_content_text_facebook_notification_null" formatted="false">Nouvelle notification Facebook.</string>
   <string name="status_bar_notification_content_text_facebook_notification_count" formatted="false">%s nouvelles notifications Facebook.</string>
@@ -915,4 +916,14 @@
   <string name="droid_notify_plus">Droid Notify Plus</string>
   <string name="download_now">Télécharger Maintenant</string>
   <string name="download_droid_notify_plus_description_text">Droid Notify Plus permet d\'afficher sous forme de popup les notifications de n\'importe quelle application de votre téléphone. Téléchargez ce module complémentaire pour exploiter tout le potentiel de votre téléphone.</string>
+  <string name="reset_category">RÉINITIALISER</string>
+  <string name="reset_app_preferences">Réinitialiser les préférences de l\'application</string>
+  <string name="reset_app_preferences_summary">Réinitialise les préférences de l\'application avec les paramètres par défaut.</string>
+  <string name="resetting_preferences">Réinitialisation des préférences...</string>
+  <string name="preferences_reset">Les préférences ont été réinitialisées.</string>
+  <string name="confirm_reset_app_preferences">Ceci effacera toutes les préférences de l\'utilisateur.</string>
+  <string name="more_options">Plus d\'options</string>
+  <string name="missed_call_messenger">Missed Call Messenger</string>
+  <string name="more_missed_call_options_description">Souhaitez vous davantage d\'options pour les appels manqués ?</string>
+  <string name="missed_call_messenger_description">&lt;b&gt; Missed Call Messenger &lt;/b&gt; est une application qui vous enverra un message si vous manquez un appel téléphonique et qui peut aussi envoyer une réponse automatique à votre correspondant. &lt;br/&gt; &lt;br/&gt; Téléchargez cette application gratuitement et essayez la dès aujourd\'hui !</string>
 </resources>

@@ -214,6 +214,7 @@
   <string name="theme">Tema</string>
   <string name="theme_summary">Seleziona il tema per le notifiche.</string>
   <string name="theme_chooser_instructions">Con un movimento strisciatura, selezionate il tema desiderato dagli esempi disponibili qui sotto. Quando trovi il tema si vorrebbe premere il pulsante OK per salvare il tema.</string>
+  <string name="more_category">PIÙ</string>
   <string name="more">Più</string>
   <string name="notify_theme">Notify Tema</string>
   <string name="default_v1">Predefinita</string>
@@ -915,4 +916,14 @@
   <string name="droid_notify_plus">Droid Notify Plus</string>
   <string name="download_now">Scarica Ora</string>
   <string name="download_droid_notify_plus_description_text">Droid Notify Plus offre la possibilità di visualizzare le notifiche di qualsiasi applicazione come una finestra di popup sul tuo telefono cellulare. Scarica questo componente aggiuntivo per sbloccare il potenziale del vostro telefono.</string>
+  <string name="reset_category">REIMPOSTARE</string>
+  <string name="reset_app_preferences">Ripristinare le Preferenze App</string>
+  <string name="reset_app_preferences_summary">Ripristinare le preferenze app per le impostazioni predefinite.</string>
+  <string name="resetting_preferences">Reimpostazione di preferenze…</string>
+  <string name="preferences_reset">Le preferenze sono state ripristinate.</string>
+  <string name="confirm_reset_app_preferences">Questo rimuoverà tutte le preferenze utente memorizzati per questa applicazione.</string>
+  <string name="more_options">Più Opzioni</string>
+  <string name="missed_call_messenger">Missed Call Messenger</string>
+  <string name="more_missed_call_options_description">Sono alla ricerca di perdere più chiamare opzioni?</string>
+  <string name="missed_call_messenger_description">&lt;b&gt;Missed Call Messenger&lt;/b&gt; è un\'applicazione che invia un messaggio a voi quando è perdere una telefonata così come inviare una risposta al chiamante automaticamente.&lt;br/&gt;&lt;br/&gt;scaricare gratuitamente questo app e provala oggi!</string>
 </resources>

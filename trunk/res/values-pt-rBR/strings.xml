@@ -214,6 +214,7 @@
   <string name="theme">Tema</string>
   <string name="theme_summary">Selecione o tema para as notificações.</string>
   <string name="theme_chooser_instructions">Arrastando para os lados, selecione o tema desejado nos exemplos disponíveis abaixo. Quando você encontrar um tema que tenha gostado, pressione OK para salvar o tema.</string>
+  <string name="more_category">MAIS</string>
   <string name="more">Mais</string>
   <string name="notify_theme">Notify Tema</string>
   <string name="default_v1">Default</string>
@@ -915,4 +916,14 @@
   <string name="droid_notify_plus">Droid Notify Plus</string>
   <string name="download_now">Baixar Agora</string>
   <string name="download_droid_notify_plus_description_text">Droid Notify Plus oferece a capacidade de exibir notificações de qualquer app como uma janela de popup em seu telefone. Baixe este complemento para destravar todo o potencial do seu telefone.</string>
+  <string name="reset_category">REDEFINIR</string>
+  <string name="reset_app_preferences">Redefinir Preferências da App</string>
+  <string name="reset_app_preferences_summary">Repor as preferências de app para suas configurações padrão.</string>
+  <string name="resetting_preferences">Redefinir preferências…</string>
+  <string name="preferences_reset">As preferências foram redefinidas.</string>
+  <string name="confirm_reset_app_preferences">Isto irá remover todas as preferências do usuário armazenados para este aplicativo.</string>
+  <string name="more_options">Mais Opções</string>
+  <string name="missed_call_messenger">Missed Call Messenger</string>
+  <string name="more_missed_call_options_description">São você procurando mais faltou opções de chamadas?</string>
+  <string name="missed_call_messenger_description">&lt;b&gt;Missed Call Messenger&lt;/b&gt; é um app que irá enviar uma mensagem para você quando você perde uma chamada de telefone, bem como enviar uma resposta de volta para o chamador automaticamente.&lt;br/&gt;&lt;br/&gt;Baixar este app gratuitamente e experimentá-lo hoje!</string>
 </resources>

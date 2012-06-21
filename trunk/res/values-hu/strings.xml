@@ -220,6 +220,7 @@ Köszönjük!\"</string>
   <string name="theme">Téma</string>
   <string name="theme_summary">Válasszon ki egy témát az értesítésekhez.</string>
   <string name="theme_chooser_instructions">Csúsztatással válassza ki a kívánt témát az alábbi elérhető példák közül. Ha megtalálta a témát és azt szeretné megtartani, nyomja meg az OK gombot a téma mentéséhez.</string>
+  <string name="more_category">Tovább</string>
   <string name="more">Több</string>
   <string name="notify_theme">Notify Téma</string>
   <string name="default_v1">Alapért.</string>
@@ -927,4 +928,14 @@ Példa:
   <string name="droid_notify_plus">Droid Notify Plus</string>
   <string name="download_now">Letöltés most</string>
   <string name="download_droid_notify_plus_description_text">Droid Notify Plus képes megjeleníteni minden olyan app a bejelentések, egy felugró ablak a telefonon. Töltse le ezt a kiegészítőt, hogy teljes potenciáljának felszabadítása a telefon.</string>
+  <string name="reset_category">Visszaállítás</string>
+  <string name="reset_app_preferences">Alkalmazás lehetőségei alapállásba</string>
+  <string name="reset_app_preferences_summary">Állítsa alaphelyzetbe a app-beállítások alapértelmezett beállításait.</string>
+  <string name="resetting_preferences">Beállítások visszaállítása…</string>
+  <string name="preferences_reset">A beállítások alaphelyzetbe lettek állítva.</string>
+  <string name="confirm_reset_app_preferences">Ez az alkalmazás az összes tárolt felhasználói beállítások eltávolítása.</string>
+  <string name="more_options">További opciók</string>
+  <string name="missed_call_messenger">Nem fogadott hívás Üzenetküldő</string>
+  <string name="more_missed_call_options_description">Keres több kihagyott hívás opciót?</string>
+  <string name="missed_call_messenger_description">&lt;b&gt;Nem fogadott hívás Üzeneteküldő &lt;/b&gt; az app, amely értesítést küld Önnek, amikor Ön fogadott egy hívást, valamint a hívónak választ küldeni automatikusan.&lt;br/&gt;&lt;br/&gt;Az alkalmazást ingyenesen letöltheti és kipróbálhatja még ma!</string>
 </resources>

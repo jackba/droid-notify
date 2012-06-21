@@ -214,6 +214,7 @@
   <string name="theme">Motyw</string>
   <string name="theme_summary">Wybierz motyw powiadomień.</string>
   <string name="theme_chooser_instructions">Używając przesuwania po ekranie wybierz żądany motyw z dostępnych w programie. Gdy znajdziesz motyw naciśnij OK aby zapisać zmiany.</string>
+  <string name="more_category">WIĘCEJ</string>
   <string name="more">Więcej</string>
   <string name="notify_theme">Motyw powiadamiania</string>
   <string name="default_v1">Domyślny</string>
@@ -920,4 +921,14 @@ Przykład:
   <string name="droid_notify_plus">Droid Notify Plus</string>
   <string name="download_now">Pobierz teraz</string>
   <string name="download_droid_notify_plus_description_text">Droid Notify Plus oferuje możliwość wyświetlania powiadomień dla dowolnej aplikacji w twoim telefonie. Pobierz ten dodatek, aby odblokować pełne możliwości twojego telefonu.</string>
+  <string name="reset_category">RESETOWANIE</string>
+  <string name="reset_app_preferences">Zresetuj ustawienia aplikacji</string>
+  <string name="reset_app_preferences_summary">Zresetować ustawienia aplikacji do ich ustawień domyślnych.</string>
+  <string name="resetting_preferences">Resetowanie ustawień...</string>
+  <string name="preferences_reset">Ustawienia zostały zresetowane.</string>
+  <string name="confirm_reset_app_preferences">Ta opcja usunie wszystkie zapisane ustawienia użytkownika.</string>
+  <string name="more_options">Więcej opcji</string>
+  <string name="missed_call_messenger">Missed Call Messenger</string>
+  <string name="more_missed_call_options_description">Czy poszukujesz więcej opcji dotyczących nieodebranych połączeń?</string>
+  <string name="missed_call_messenger_description">Missed Call Messenger to aplikacja, która wysyła wiadomość w przypadku wystąpienia nieodebranego połączenia, jak również automatycznie wysyła odpowiedź do dzwoniącego. Pobierz aplikację dziś i wypróbuj ją za darmo!</string>
 </resources>
