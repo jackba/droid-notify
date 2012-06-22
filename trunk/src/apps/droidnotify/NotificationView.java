@@ -608,7 +608,7 @@ public class NotificationView extends LinearLayout {
 						    public void onClick(View v) {
 						    	if (_debug) Log.v("Call Button Clicked()");
 						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-						    	PhoneCommon.makePhoneCall(_context, _notificationActivity, _notification.getSentFromAddress(), Constants.CALL_ACTIVITY);
+						    	callMissedCall();
 						    }
 						}
 		    		);
@@ -639,7 +639,7 @@ public class NotificationView extends LinearLayout {
 						    public void onClick(View v) {
 						    	if (_debug) Log.v("Call Button Clicked()");
 						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-						    	PhoneCommon.makePhoneCall(_context, _notificationActivity, _notification.getSentFromAddress(), Constants.CALL_ACTIVITY);
+						    	callMissedCall();
 						    }
 						}
     				);
@@ -1810,6 +1810,20 @@ public class NotificationView extends LinearLayout {
 			if(hapticFeedbackConstant == HapticFeedbackConstants.LONG_PRESS){
 				vibrator.vibrate(100);
 			}
+		}
+	}
+	
+	/**
+	 * When the Missed Call Notification "Call" button is pressed, this determines what to do.
+	 */
+	private void callMissedCall(){
+		if (_debug) Log.v("NotificationView.callMissedCall()");
+		if(_preferences.getString(Constants.PHONE_CALL_KEY, "0").equals(Constants.PHONE_CALL_ACTION_CALL)){
+			PhoneCommon.makePhoneCall(_context, _notificationActivity, _notification.getSentFromAddress(), Constants.CALL_ACTIVITY);
+		}else if(_preferences.getString(Constants.PHONE_CALL_KEY, "0").equals(Constants.PHONE_CALL_ACTION_CALL_LOG)){
+			PhoneCommon.startCallLogViewActivity(_context, _notificationActivity, Constants.VIEW_CALL_LOG_ACTIVITY);
+		}else{
+			dismissNotification(false);
 		}
 	}
 	

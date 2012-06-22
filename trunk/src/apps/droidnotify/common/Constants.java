@@ -454,6 +454,7 @@ public class Constants {
 	public static final String PHONE_DISPLAY_CALL_BUTTON_KEY = "missed_call_display_call_button";
 	public static final String PHONE_NOTIFICATION_COUNT_ACTION_KEY = "missed_call_notification_count_action";
 	public static final String PHONE_DISMISS_KEY = "missed_call_dismiss_button_action";
+	public static final String PHONE_CALL_KEY = "missed_call_call_button_action";
 	
 	public static final String PHONE_GET_LATEST = "0";
 	public static final String PHONE_GET_RECENT = "1";
@@ -461,6 +462,9 @@ public class Constants {
 
 	public static final String PHONE_DISMISS_ACTION_MARK_READ = "0";
 	public static final String PHONE_DISMISS_ACTION_DELETE = "1";
+	
+	public static final String PHONE_CALL_ACTION_CALL = "0";
+	public static final String PHONE_CALL_ACTION_CALL_LOG = "1";
 	
 	public static final int PHONE_TYPE = android.provider.CallLog.Calls.MISSED_TYPE;
 	
