@@ -3,8 +3,15 @@
 
 = Release Notes =
 
-*v3.13* _Coming Soon..._
+*v3.14* _Coming Soon..._
  * 
+
+*v3.13* _Coming Soon..._
+ * Updated Google Voice user preferences.
+ * Added Google Voice Missed Call notifications.
+ * 
+ * Updated translations.
+ * Small bug fixes.
 
 *v3.12* (June 21, 2012)
  * Option to reset/clear user preferences.
