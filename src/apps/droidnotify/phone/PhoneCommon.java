@@ -552,6 +552,10 @@ public class PhoneCommon {
 			if(contactNumberLength < 1){
 				return false;
 			}
+			//Check to see if the incomingNumber is not the empty string. If it is, return false.
+			if(incomingNumberLength < 1){
+				return false;
+			}
 			//Iterate through the ends of both strings...backwards from the end of the string.
 			if(contactNumberLength <= incomingNumberLength){
 				if(!incomingNumber.endsWith(contactNumber)){
@@ -578,16 +582,24 @@ public class PhoneCommon {
 	 */
 	public static String removePhoneNumberFormatting(String phoneNumber){
 		//if (_debug) Log.v("PhoneCommon.removePhoneNumberFormatting()");
-		phoneNumber = phoneNumber.replace(" ", "");
-		phoneNumber = phoneNumber.replace("-", "");
-		phoneNumber = phoneNumber.replace(".", "");
-		phoneNumber = phoneNumber.replace(",", "");
-		phoneNumber = phoneNumber.replace("(", "");
-		phoneNumber = phoneNumber.replace(")", "");
-		phoneNumber = phoneNumber.replace("/", "");
-		phoneNumber = phoneNumber.replace("x", "");
-		phoneNumber = phoneNumber.replace("X", "");
-		return phoneNumber.trim();
+		try{
+			if(phoneNumber == null || phoneNumber.length() < 1){
+				return phoneNumber;
+			}
+			phoneNumber = phoneNumber.replace(" ", "");
+			phoneNumber = phoneNumber.replace("-", "");
+			phoneNumber = phoneNumber.replace(".", "");
+			phoneNumber = phoneNumber.replace(",", "");
+			phoneNumber = phoneNumber.replace("(", "");
+			phoneNumber = phoneNumber.replace(")", "");
+			phoneNumber = phoneNumber.replace("/", "");
+			phoneNumber = phoneNumber.replace("x", "");
+			phoneNumber = phoneNumber.replace("X", "");
+			return phoneNumber.trim();
+		}catch(Exception ex){
+			Log.e("PhoneCommon.removePhoneNumberFormatting() ERROR: " + ex.toString());
+			return phoneNumber;
+		}
 	}
 	
 	//================================================================================
@@ -603,14 +615,22 @@ public class PhoneCommon {
 	 */
 	private static String removeLeadingZero(String inputNumber){
 		//if (_debug) Log.v("PhoneCommon.removeLeadingZero() InputNumber: " + inputNumber);
-		if(inputNumber.substring(0, 1).equals("0")){
-			//Do not edit number if the number is exactly 0.
-			//Only update if there is more than 1 digit.
-			if(inputNumber.length() > 1){
-				return inputNumber.substring(1);
+		try{
+			if(inputNumber == null || inputNumber.length() < 1){
+				return inputNumber;
 			}
+			if(inputNumber.substring(0, 1).equals("0")){
+				//Do not edit number if the number is exactly 0.
+				//Only update if there is more than 1 digit.
+				if(inputNumber.length() > 1){
+					return inputNumber.substring(1);
+				}
+			}
+			return inputNumber;
+		}catch(Exception ex){
+			Log.e("PhoneCommon.removeLeadingZero() ERROR: " + ex.toString());
+			return inputNumber;
 		}
-		return inputNumber;
 	}
 	
 }
