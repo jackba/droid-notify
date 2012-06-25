@@ -472,7 +472,8 @@ public class Constants {
 	public static final String CALENDAR_NOTIFICATIONS_ENABLED_KEY = "calendar_notifications_enabled";
 	public static final String CALENDAR_BLOCKING_APP_RUNNING_ACTION_KEY = "blocking_app_running_action_calendar";
 	public static final String CALENDAR_NOTIFY_DAY_OF_TIME_KEY = "calendar_notify_day_of_time";
-	public static final String CALENDAR_REMINDERS_ENABLED_KEY = "calendar_reminders_enabled"; 
+	public static final String CALENDAR_REMINDERS_ENABLED_KEY = "calendar_reminders_enabled";
+	public static final String CALENDAR_USE_CALENDAR_REMINDER_SETTINGS_KEY = "use_current_calendar_reminder_settings";
     public static final String CALENDAR_REMINDER_KEY = "calendar_reminder_settings";
     public static final String CALENDAR_REMINDER_ALL_DAY_KEY = "calendar_reminder_all_day_settings";
     public static final String CALENDAR_POLLING_FREQUENCY_KEY = "calendar_polling_frequency"; 
@@ -497,6 +498,8 @@ public class Constants {
     public static final String CALENDAR_VISIBLE = "visible";
     public static final String CALENDAR_EVENT_BEGIN_TIME = "beginTime";
     public static final String CALENDAR_EVENT_END_TIME = "endTime";
+    public static final String CALENDAR_EVENT_HAS_ALARM = "hasAlarm";
+    public static final String CALENDAR_REMINDER_MINUTES = "minutes";  
 	
 	//-----K9 CONSTANTS-----//	
 	public static final String INTENT_ACTION_K9 = "com.fsck.k9.intent.action.EMAIL_RECEIVED";

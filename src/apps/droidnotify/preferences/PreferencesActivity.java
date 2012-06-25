@@ -77,7 +77,7 @@ public class PreferencesActivity extends Activity {
 	    Common.setInLinkedAppFlag(_context, false);
     	Common.setInQuickReplyAppFlag(_context, false);
     	_currentLanguage = _preferences.getString(Constants.LANGUAGE_KEY, Constants.LANGUAGE_DEFAULT);
-    	setupFirstRun();
+    	setupFirstRun();    	
 	}
 	  
 	/**

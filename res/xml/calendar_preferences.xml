@@ -61,6 +61,13 @@
 			android:summary="@string/calendar_reminders_enabled_summary"
 			android:defaultValue="true"
 			android:dependency="calendar_notifications_enabled" />
+		<CheckBoxPreference 
+			android:layout="@layout/custom_preference_checkbox" 
+			android:key="use_current_calendar_reminder_settings" 
+			android:title="@string/use_current_calendar_reminder_settings" 
+			android:summary="@string/use_current_calendar_reminder_settings_summary"
+			android:defaultValue="true"
+			android:dependency="calendar_notifications_enabled" />
 		<ListPreference
 			android:layout="@layout/custom_preference_list"
 			android:key="calendar_reminder_settings"

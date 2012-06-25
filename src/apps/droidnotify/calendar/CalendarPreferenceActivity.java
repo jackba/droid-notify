@@ -8,6 +8,7 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
@@ -54,6 +55,7 @@ public class CalendarPreferenceActivity extends PreferenceActivity implements On
 	    this.addPreferencesFromResource(R.xml.calendar_preferences);
 	    this.setContentView(R.layout.calendar_preferences);
 	    setupCustomPreferences();
+	    updateReminderSettings();
 	}
     
 	/**
@@ -75,6 +77,8 @@ public class CalendarPreferenceActivity extends PreferenceActivity implements On
 		}else if(key.equals(Constants.CALENDAR_POLLING_FREQUENCY_KEY)){
 			//The polling time for the calendars was changed. Run the alarm manager with the updated polling time.
 			startCalendarAlarmManager(SystemClock.currentThreadTimeMillis() + (10 * 1000));
+		}else if(key.equals(Constants.CALENDAR_USE_CALENDAR_REMINDER_SETTINGS_KEY)){
+			updateReminderSettings();
 		}
 	}
 
@@ -228,6 +232,21 @@ public class CalendarPreferenceActivity extends PreferenceActivity implements On
 	        dialog.dismiss();
 	    	Toast.makeText(_context, _context.getString(R.string.calendar_data_refreshed), Toast.LENGTH_LONG).show();
 	    }
+	}
+	
+	/**
+	 * Update the reminder settings based on their current settings.
+	 */
+	private void updateReminderSettings(){
+		ListPreference eventReminderListPref = (ListPreference)findPreference(Constants.CALENDAR_REMINDER_KEY);
+		ListPreference allDayEventReminderListPref = (ListPreference)findPreference(Constants.CALENDAR_REMINDER_ALL_DAY_KEY);
+		if(_preferences.getBoolean(Constants.CALENDAR_USE_CALENDAR_REMINDER_SETTINGS_KEY, true)){
+			if(eventReminderListPref != null) eventReminderListPref.setEnabled(false);
+			if(allDayEventReminderListPref != null) allDayEventReminderListPref.setEnabled(false);
+		}else{
+			if(eventReminderListPref != null) eventReminderListPref.setEnabled(true);
+			if(allDayEventReminderListPref != null) allDayEventReminderListPref.setEnabled(true);
+		}	
 	}
 	
 }

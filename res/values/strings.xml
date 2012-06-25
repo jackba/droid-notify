@@ -396,6 +396,8 @@
     <string name="preference_calendar_all_day_notify_day_of_time_summary">For All-Day events, when do you want to be reminded of the event?</string>
     <string name="calendar_reminders_enabled_title">Send Event Reminders</string>
    	<string name="calendar_reminders_enabled_summary">Send reminder notifications before the event occurs.</string>
+    <string name="use_current_calendar_reminder_settings">Use Current Calendar Reminder Settings</string>
+   	<string name="use_current_calendar_reminder_settings_summary">Use the calendars reminder settings for reminders.</string>
   
    	<!-- K9 Strings -->
     <string name="k9_category">K9</string>
