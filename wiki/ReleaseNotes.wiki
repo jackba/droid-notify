@@ -9,7 +9,7 @@
 *v3.13* _Coming Soon..._
  * Updated Google Voice user preferences.
  * Added Google Voice Missed Call notifications.
- * 
+ * Added preference to use the calendar reminder settings for reminder notifications.
  * Updated translations.
  * Small bug fixes.
 
