@@ -86,8 +86,7 @@ public class CalendarCommon {
 			try{
 				ContentResolver contentResolver = context.getContentResolver();
 				// Fetch a list of all calendars synced with the device, their display names and whether the user has them selected for display.
-				String contentProvider = "";
-				contentProvider = "content://com.android.calendar";	
+				String contentProvider = "content://com.android.calendar";	
 				HashMap<String, String> calendarIds = new HashMap<String, String>();
 				try{
 					cursor = contentResolver.query(
@@ -97,6 +96,7 @@ public class CalendarCommon {
 						null,
 						null);
 					if(cursor ==  null){
+						Log.e("CalendarCommon.readCalendars() READ CALENDARS ERROR: Cursor is null. Exiting...");
 						return;
 					}
 					while (cursor.moveToNext()){
@@ -118,17 +118,17 @@ public class CalendarCommon {
 						}
 					}
 				}catch(Exception ex){
-					if (_debug){
-						Log.e("CalendarCommon.readCalendars() READ CALENDARS ERROR: " + ex.toString());
-						Common.debugReadContentProviderColumns(context, contentProvider + "/calendars", null);
-						cursor.close();
-						return;
-					}
+					Log.e("CalendarCommon.readCalendars() READ CALENDARS ERROR: " + ex.toString());
+					if (_debug) Common.debugReadContentProviderColumns(context, contentProvider + "/calendars", null);
+					cursor.close();
+					return;
 				}
 				if(calendarIds.isEmpty()){
 					if (_debug) Log.v("CalendarCommon.readCalendars() No calendars were found. Exiting...");
 					cursor.close();
 					return;
+				}else{
+					cursor.close();
 				}
 				// For each calendar, read the events.
 				Iterator<Map.Entry<String, String>> calendarIdsEnumerator = calendarIds.entrySet().iterator();
@@ -149,7 +149,8 @@ public class CalendarCommon {
 		    				Constants.CALENDAR_EVENT_TITLE,
 		    				Constants.CALENDAR_INSTANCE_BEGIN,
 		    				Constants.CALENDAR_INSTANCE_END,
-		    				Constants.CALENDAR_EVENT_ALL_DAY};
+		    				Constants.CALENDAR_EVENT_ALL_DAY,
+		    				Constants.CALENDAR_EVENT_HAS_ALARM};
 		            final String selection = Constants.CALENDAR_CALENDAR_ID + "=" + calendarID;
 		    		final String[] selectionArgs = null;
 		    		final String sortOrder = "startDay ASC, startMinute ASC";
@@ -162,9 +163,11 @@ public class CalendarCommon {
 								selectionArgs,
 								sortOrder);
 						if(eventCursor ==  null){
+							Log.e("CalendarCommon.readCalendars() READ CALENDAR EVENTS: Event cursor is null. Exiting...");
 							cursor.close();
 							return;
 						}
+						//if (_debug) Log.v("CalendarCommon.readCalendars() CHECKING EVENTS FOR CALENDAR - eventCursor.getCount(): " + eventCursor.getCount());
 						while (eventCursor.moveToNext()){
 							long eventCalendarID = eventCursor.getLong(eventCursor.getColumnIndex(Constants.CALENDAR_CALENDAR_ID));
 							String eventID = eventCursor.getString(eventCursor.getColumnIndex(Constants.CALENDAR_EVENT_ID));
@@ -172,7 +175,14 @@ public class CalendarCommon {
 							long eventStartTime = eventCursor.getLong(eventCursor.getColumnIndex(Constants.CALENDAR_INSTANCE_BEGIN));
 							long eventEndTime = eventCursor.getLong(eventCursor.getColumnIndex(Constants.CALENDAR_INSTANCE_END));
 							final Boolean allDay = !eventCursor.getString(eventCursor.getColumnIndex(Constants.CALENDAR_EVENT_ALL_DAY)).equals("0");
-							if (_debug) Log.v("CalendarCommon.readCalendars() Calendar ID: " + eventCalendarID + " Event ID: " + eventID + " Event Title: " + eventTitle + " Event Begin: " + eventStartTime + " Event End: " + eventEndTime + " Event All Day: " + allDay);
+							final Boolean hasReminderAlarm = !eventCursor.getString(eventCursor.getColumnIndex(Constants.CALENDAR_EVENT_HAS_ALARM)).equals("0");
+							if (_debug) Log.v("CalendarCommon.readCalendars() Calendar ID: " + eventCalendarID + 
+									" Event ID: " + eventID + 
+									" Event Title: " + eventTitle + 
+									" Event Begin: " + eventStartTime + 
+									" Event End: " + eventEndTime + 
+									" Event All Day: " + allDay + 
+									" Event Has Reminder Alarm: " + hasReminderAlarm);
 							long timezoneOffsetValue =  TimeZone.getDefault().getOffset(System.currentTimeMillis());
 							//For all any event in the past, don't schedule them.
 							long currentSystemTime = System.currentTimeMillis();
@@ -196,9 +206,22 @@ public class CalendarCommon {
 									//Schedule the reminder notification if it is enabled.
 									if(preferences.getBoolean(Constants.CALENDAR_REMINDERS_ENABLED_KEY,true)){
 										//Only schedule the all day event if the current time is before the notification time.
-										if((eventStartTime - reminderIntervalAllDay) > currentSystemTime){
-											scheduleCalendarNotification(context, eventStartTime - reminderIntervalAllDay, calendarEventNotificationBundleSingle, "apps.droidnotifydonate.view." + calendarID + "." + eventID + ".reminder");
-										}
+											if(preferences.getBoolean(Constants.CALENDAR_USE_CALENDAR_REMINDER_SETTINGS_KEY,true)){
+												if(hasReminderAlarm){
+													reminderIntervalAllDay = getCalendarEventReminderTime(context, Long.parseLong(eventID), true);	
+													if(reminderIntervalAllDay > 0){
+														//Only schedule the event if the current time is before the notification time.
+														if((eventStartTime - reminderIntervalAllDay) > currentSystemTime){
+															scheduleCalendarNotification(context, eventStartTime - reminderIntervalAllDay, calendarEventNotificationBundleSingle, "apps.droidnotifydonate.view." + calendarID + "." + eventID + ".reminder");
+														}
+													}
+												}
+											}else{
+												//Only schedule the event if the current time is before the notification time.
+												if((eventStartTime - reminderIntervalAllDay) > currentSystemTime){
+													scheduleCalendarNotification(context, eventStartTime - reminderIntervalAllDay, calendarEventNotificationBundleSingle, "apps.droidnotifydonate.view." + calendarID + "." + eventID + ".reminder");
+												}
+											}
 									}
 								}else{
 									//Schedule non-all-day events.
@@ -216,17 +239,29 @@ public class CalendarCommon {
 									scheduleCalendarNotification(context, eventStartTime, calendarEventNotificationBundleSingle, "apps.droidnotifydonate.view." + calendarID + "." + eventID);
 									//Schedule the reminder notification if it is enabled.
 									if(preferences.getBoolean(Constants.CALENDAR_REMINDERS_ENABLED_KEY,true)){
-										//Only schedule the event if the current time is before the notification time.
-										if((eventStartTime - reminderInterval) > currentSystemTime){
-											scheduleCalendarNotification(context, eventStartTime - reminderInterval, calendarEventNotificationBundleSingle, "apps.droidnotifydonate.view." + calendarID + "." + eventID + ".reminder");
+										if(preferences.getBoolean(Constants.CALENDAR_USE_CALENDAR_REMINDER_SETTINGS_KEY,true)){
+											if(hasReminderAlarm){
+												reminderInterval = getCalendarEventReminderTime(context, Long.parseLong(eventID), false);	
+												if(reminderInterval > 0){
+													//Only schedule the event if the current time is before the notification time.
+													if((eventStartTime - reminderInterval) > currentSystemTime){
+														scheduleCalendarNotification(context, eventStartTime - reminderInterval, calendarEventNotificationBundleSingle, "apps.droidnotifydonate.view." + calendarID + "." + eventID + ".reminder");
+													}
+												}
+											}
+										}else{
+											//Only schedule the event if the current time is before the notification time.
+											if((eventStartTime - reminderInterval) > currentSystemTime){
+												scheduleCalendarNotification(context, eventStartTime - reminderInterval, calendarEventNotificationBundleSingle, "apps.droidnotifydonate.view." + calendarID + "." + eventID + ".reminder");
+											}
 										}
 									}
 								}
 							}
 						}
 					}catch(Exception ex){
-						Log.e("CalendarCommon.readCalendars() Event Query ERROR: " + ex.toString());						
-						Common.debugReadContentProviderColumns(context, null, builder.build());
+						Log.e("CalendarCommon.readCalendars() EVENT QUERY ERROR: " + ex.toString());						
+						if (_debug) Common.debugReadContentProviderColumns(context, null, builder.build());
 						eventCursor.close();
 						return;
 					}finally{
@@ -234,11 +269,9 @@ public class CalendarCommon {
 					}
 				}
 			}catch(Exception ex){
-				Log.e("CalendarCommon.readCalendars() Calendar Query ERROR: " + ex.toString());
+				Log.e("CalendarCommon.readCalendars() CALENDAR QUERY ERROR: " + ex.toString());
 				cursor.close();
 				return;
-			}finally{
-				cursor.close();
 			}
 		}catch(Exception ex){
 			Log.e("CalendarCommon.readCalendars() ERROR: " + ex.toString());
@@ -599,6 +632,46 @@ public class CalendarCommon {
 			Common.startAlarm(context, CalendarNotificationAlarmReceiver.class, bundle, intentAction, scheduledAlarmTime);
 		}catch(Exception ex){
 			Log.e("CalendarCommon.scheduleCalendarNotification() ERROR: " + ex.toString());
+		}
+	}
+	
+	/**
+	 * Get the reminder time in minutes (in milliseconds) for the event ID. Return -1 if none exists.
+	 * 
+	 * @param eventID - The event ID we want to querry.
+	 * @param allDay - Boolean indicating if the event is an all day event or not.
+	 * 
+	 * @return long - The number of minutes in milliseconds of the reminder time or -1 if none found.
+	 */
+	private static long getCalendarEventReminderTime(Context context, long eventID, boolean allDay){
+		if (_debug) Log.v("CalendarCommon.getCalendarEventReminderTime() EventID: " + eventID + " AllDay: " + allDay);
+		String contentProvider = "content://com.android.calendar/reminders";
+		Cursor cursor = null;
+		try{
+    		final String[] projection = null;
+            final String selection = Constants.CALENDAR_EVENT_ID + "=?";
+    		final String[] selectionArgs = new String[] {String.valueOf(eventID)};
+    		final String sortOrder = null;
+			cursor = context.getContentResolver().query(
+				Uri.parse(contentProvider), 						
+				projection,
+				selection,
+				selectionArgs,
+				sortOrder);
+			if(cursor ==  null){
+				Log.e("CalendarCommon.getCalendarEventReminderTime() Cursor is null. Exiting...");
+				return -1;
+			}
+			while (cursor.moveToNext()){
+				final int reminderTimeInMinutes = cursor.getInt(cursor.getColumnIndex(Constants.CALENDAR_REMINDER_MINUTES));
+				if (_debug) Log.v("CalendarCommon.getCalendarEventReminderTime() Reminder Time (minutes): " + reminderTimeInMinutes);
+				return reminderTimeInMinutes * 60 * 1000;
+			}
+			return -1;
+		}catch(Exception ex){
+			Log.e("CalendarCommon.getCalendarEventReminderTime() ERROR: " + ex.toString());
+			cursor.close();
+			return -1;
 		}
 	}	
 	
