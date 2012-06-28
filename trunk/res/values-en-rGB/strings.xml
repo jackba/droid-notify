@@ -283,6 +283,7 @@
   <string name="missed_calls">Missed Calls</string>
   <string name="private_number_text">Private Number</string>
   <string name="call_contact_text">Call Contact</string>
+  <string name="call_number">Call Contact</string>
   <string name="view_call_log_text">View Call Log</string>
   <string name="select_number_text">Select Number</string>
   <string name="missed_call_enabled_title">Enable Missed Call</string>
@@ -313,6 +314,8 @@
   <string name="preference_calendar_all_day_notify_day_of_time_summary">For All-Day events, when do you want to be reminded of the event?</string>
   <string name="calendar_reminders_enabled_title">Send Event Reminders</string>
   <string name="calendar_reminders_enabled_summary">Send reminder notifications before the event occurs.</string>
+  <string name="use_current_calendar_reminder_settings">Use Current Calendar Reminder Settings</string>
+  <string name="use_current_calendar_reminder_settings_summary">Use the calendars reminder settings for reminders.</string>
   <string name="k9_category">K9</string>
   <string name="k9">K-9</string>
   <string name="preference_k9_enabled_title">Enable K-9 Email</string>
@@ -371,6 +374,12 @@
   <string name="google_voice">Google Voice</string>
   <string name="google_voice_enabled_title">Enable Google Voice</string>
   <string name="google_voice_enabled_summary">Enable Google Voice notifications.</string>
+  <string name="google_voice_sms_messages_enabled">Enable Google Voice SMS Messages</string>
+  <string name="google_voice_sms_messages_enabled_summary">Enable Google Voice SMS Message notifications.</string>
+  <string name="google_voice_voicemails_enabled">Enable Google Voice Voicemails</string>
+  <string name="google_voice_voicemails_enabled_summary">Enable Google Voice Voicemail notifications.</string>
+  <string name="google_voice_missed_calls_enabled">Enable Google Voice Missed Calls</string>
+  <string name="google_voice_missed_calls_enabled_summary">Enable Google Voice Missed Call notifications.</string>
   <string name="google_voice_polling_frequency_summary">How often you want to read your Google Voice account?</string>
   <string name="google_voice_manual_poll_title">Read Google Voice Account</string>
   <string name="google_voice_manual_poll_summary">Manually read Google Voice account and display notifications.</string>
@@ -511,6 +520,8 @@
   <string name="preference_delete_button_action_summary">Define what happens when you delete an item.</string>
   <string name="preference_dismiss_button_action">Dismiss Button Action</string>
   <string name="preference_dismiss_button_action_summary">Define what happens when you dismiss an item.</string>
+  <string name="preference_call_button_action">Call Button Action</string>
+  <string name="preference_call_button_action_summary">Define what happens when you use the call button.</string>
   <string name="preference_notification_count_button_action">Notification Count Action</string>
   <string name="preference_notification_count_button_action_summary">Define what happens when you click on the notification count text.</string>
   <string name="preference_button_style_title">Button Style</string>
@@ -535,6 +546,7 @@
   <string name="status_bar_notification_content_title_text_email">New Email</string>
   <string name="status_bar_notification_content_title_text_google_voice_message">New Google Voice Message</string>
   <string name="status_bar_notification_content_title_text_google_voice_voicemail">New Google Voice Voicemail</string>
+  <string name="status_bar_notification_content_title_text_google_voice_missed_call">New Google Voice Missed Call</string>
   <string name="status_bar_notification_content_title_text_plural_sms">New Messages</string>
   <string name="status_bar_notification_content_title_text_plural_phone">Missed Calls</string>
   <string name="status_bar_notification_content_title_text_plural_calendar">Calendar Event Reminders</string>
@@ -587,6 +599,9 @@
   <string name="status_bar_notification_content_text_google_voice_voicemail" formatted="false">New Google Voice voicemail from %s - %s</string>
   <string name="status_bar_notification_content_text_google_voice_voicemail_null" formatted="false">New Google Voice voicemail.</string>
   <string name="status_bar_notification_content_text_google_voice_voicemail_count" formatted="false">%s new Google Voice voicemails.</string>
+  <string name="status_bar_notification_content_text_google_voice_missed_call" formatted="false">New Google Voice missed call from %s - %s</string>
+  <string name="status_bar_notification_content_text_google_voice_missed_call_null" formatted="false">New Google Voice missed call.</string>
+  <string name="status_bar_notification_content_text_google_voice_missed_call_count" formatted="false">%s new Google Voice missed calls.</string>
   <string name="status_bar_notification_ticker_text_sms" formatted="false">New message from %s - %s</string>
   <string name="status_bar_notification_ticker_text_unknown_contact_sms" formatted="false">New message - %s</string>
   <string name="status_bar_notification_ticker_text_privacy_sms" formatted="false">New message from %s.</string>
@@ -622,6 +637,9 @@
   <string name="status_bar_notification_ticker_text_google_voice_voicemail" formatted="false">New Google Voice voicemail from %s - %s</string>
   <string name="status_bar_notification_ticker_text_unknown_contact_google_voice_voicemail" formatted="false">New Google Voice voicemail - %s</string>
   <string name="status_bar_notification_ticker_text_google_voice_voicemail_null" formatted="false">New Google Voice voicemail.</string>
+  <string name="status_bar_notification_ticker_text_google_voice_missed_call" formatted="false">New Google Voice missed call from %s - %s</string>
+  <string name="status_bar_notification_ticker_text_unknown_contact_google_voice_missed_call" formatted="false">New Google Voice missed call - %s</string>
+  <string name="status_bar_notification_ticker_text_google_voice_missed_call_null" formatted="false">New Google Voice missed call.</string>
   <string name="clear_status_bar_notifications_on_exit_title">Clear Notifications On Exit</string>
   <string name="clear_status_bar_notifications_on_exit_summaryOn">Status Bar Notifications will be removed when the popup notifications are removed from the screen.</string>
   <string name="clear_status_bar_notifications_on_exit_summaryOff">Status Bar Notifications will not be removed when the popup notifications are removed from the screen.</string>
@@ -912,7 +930,7 @@
   <string name="fbm_for_facebook">FBM for Facebook</string>
   <string name="friendCaster_for_facebook">FriendCaster for Facebook</string>
   <string name="friendCaster_pro_for_facebook">FriendCaster Pro for Facebook</string>
-  <string name="google_voice_web_mobile">Google Voice Web (http://voice.google.com)</string>
+  <string name="google_voice_web_mobile">Google Voice Web (https://www.google.com/voice/m/)</string>
   <string name="droid_notify_plus">Droid Notify Plus</string>
   <string name="download_now">Download Now</string>
   <string name="download_droid_notify_plus_description_text">Droid Notify Plus offers the ability to display any app\'s notifications as a popup window on your phone. Download this add-on to unlock the full potential of your phone.</string>
@@ -923,7 +941,8 @@
   <string name="preferences_reset">The preferences have been reset.</string>
   <string name="confirm_reset_app_preferences">This will remove all the stored user preferences for this application.</string>
   <string name="more_options">More Options</string>
-  <string name="missed_call_messenger">Missed Call Messenger</string>
   <string name="more_missed_call_options_description">Are you looking for more missed call options?</string>
   <string name="missed_call_messenger_description">&lt;b&gt;Missed Call Messenger&lt;/b&gt; is an app that will send a message to you when you miss a phone call as well as send a response back to the caller automatically.&lt;br/&gt;&lt;br/&gt;Download this app for free and try it today!</string>
+  <string name="poll_wifi_cell_service_connected">Poll When Wifi/Cell Connected</string>
+  <string name="poll_wifi_cell_service_connected_summary">Poll this account when a wifi signal is connected or a cell signal is connected.</string>
 </resources>

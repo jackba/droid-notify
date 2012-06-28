@@ -289,6 +289,7 @@ Köszönjük!\"</string>
   <string name="missed_calls">Nemfogadott hívások</string>
   <string name="private_number_text">Magánszám</string>
   <string name="call_contact_text">Kapcsolat hívás</string>
+  <string name="call_number">Kapcsolat hívás</string>
   <string name="view_call_log_text">Hívásnapló megtekintése</string>
   <string name="select_number_text">Válasszon számot</string>
   <string name="missed_call_enabled_title">Nemfogadott hívás</string>
@@ -319,6 +320,8 @@ Köszönjük!\"</string>
   <string name="preference_calendar_all_day_notify_day_of_time_summary">Ismétlődő egész napos eseményeknél mikor szeretne emlékeztetőt kapni az eseményről?</string>
   <string name="calendar_reminders_enabled_title">Emlékeztető köldése</string>
   <string name="calendar_reminders_enabled_summary">Emlékeztető értesítések küldése, az esemény bekövetkezése előtt.</string>
+  <string name="use_current_calendar_reminder_settings">Az aktuális naptári emlékeztető beállításainak használata</string>
+  <string name="use_current_calendar_reminder_settings_summary">Használja a naptár emlékeztetők beállításait az emlékeztetőkre.</string>
   <string name="k9_category">K9</string>
   <string name="k9">K-9</string>
   <string name="preference_k9_enabled_title">K-9 Email</string>
@@ -377,6 +380,12 @@ Köszönjük!\"</string>
   <string name="google_voice">Google Voice</string>
   <string name="google_voice_enabled_title">Google Voice Engedélyezése</string>
   <string name="google_voice_enabled_summary">Google Voice értesítések engedélyezése.</string>
+  <string name="google_voice_sms_messages_enabled">Google Voice SMS engedélyezése</string>
+  <string name="google_voice_sms_messages_enabled_summary">Google Voice SMS értesítések engedélyezése.</string>
+  <string name="google_voice_voicemails_enabled">Google Voice hangposta engedélyezése</string>
+  <string name="google_voice_voicemails_enabled_summary">Google Voice hangposta értesítések engedélyezése.</string>
+  <string name="google_voice_missed_calls_enabled">Google Voice nem fogadott hívások engedélyezése</string>
+  <string name="google_voice_missed_calls_enabled_summary">Google Voice nem fogadott hívás értesítésének engedélyezése.</string>
   <string name="google_voice_polling_frequency_summary">Milyen gyakran szeretné olvasni, a Google Voice fiók?</string>
   <string name="google_voice_manual_poll_title">Google Voice-fiók Olvasása</string>
   <string name="google_voice_manual_poll_summary">Kézzel, olvassa el a Google Voice-fiókot, és jelenít meg értesítéseket.</string>
@@ -518,6 +527,8 @@ A preferencia képernyők újratöltése után az importálás befejeződött.\"
   <string name="preference_delete_button_action_summary">Határozza meg, mi történik, ha töröl egy elemet</string>
   <string name="preference_dismiss_button_action">Elutasít gomb művelete</string>
   <string name="preference_dismiss_button_action_summary">Határozza meg, mi történik, ha elutasít egy elemet.</string>
+  <string name="preference_call_button_action">Hívásgomb funkciója</string>
+  <string name="preference_call_button_action_summary">Határozza meg, mi történjen a hívásgomb használatakor.</string>
   <string name="preference_notification_count_button_action">Értesítés számláló</string>
   <string name="preference_notification_count_button_action_summary">Határozza meg, mi történjen, ha rákattint az értesítések számlálójára.</string>
   <string name="preference_button_style_title">Gomb stílus</string>
@@ -542,6 +553,7 @@ A preferencia képernyők újratöltése után az importálás befejeződött.\"
   <string name="status_bar_notification_content_title_text_email">Új Email</string>
   <string name="status_bar_notification_content_title_text_google_voice_message">Új Google Voice-üzenet</string>
   <string name="status_bar_notification_content_title_text_google_voice_voicemail">Új Google Voice hangposta</string>
+  <string name="status_bar_notification_content_title_text_google_voice_missed_call">Új Google Voice elmulasztott hívás</string>
   <string name="status_bar_notification_content_title_text_plural_sms">Új üzenet</string>
   <string name="status_bar_notification_content_title_text_plural_phone">Nemfogadott hívások</string>
   <string name="status_bar_notification_content_title_text_plural_calendar">Naptári esemény emlékeztető</string>
@@ -594,6 +606,9 @@ A preferencia képernyők újratöltése után az importálás befejeződött.\"
   <string name="status_bar_notification_content_text_google_voice_voicemail" formatted="false">Új Google Voice hangposta: %s - %s</string>
   <string name="status_bar_notification_content_text_google_voice_voicemail_null" formatted="false">Az új Google Voice hangposta.</string>
   <string name="status_bar_notification_content_text_google_voice_voicemail_count" formatted="false">%s új Google Voice előzményjelentések.</string>
+  <string name="status_bar_notification_content_text_google_voice_missed_call" formatted="false">Új Google Voice elmulasztott hívás, a hívó %s - %s</string>
+  <string name="status_bar_notification_content_text_google_voice_missed_call_null" formatted="false">Új Google Voice elmulasztott hívás.</string>
+  <string name="status_bar_notification_content_text_google_voice_missed_call_count" formatted="false">%s új Google Voice elmulasztott hívás.</string>
   <string name="status_bar_notification_ticker_text_sms" formatted="false">Új üzenet %s - %s</string>
   <string name="status_bar_notification_ticker_text_unknown_contact_sms" formatted="false">Új üzenet - %s</string>
   <string name="status_bar_notification_ticker_text_privacy_sms" formatted="false">Új üzenet %s.</string>
@@ -629,6 +644,9 @@ A preferencia képernyők újratöltése után az importálás befejeződött.\"
   <string name="status_bar_notification_ticker_text_google_voice_voicemail" formatted="false">Új Google Voice hangposta: %s - %s</string>
   <string name="status_bar_notification_ticker_text_unknown_contact_google_voice_voicemail" formatted="false">Új Google Voice hangposta - %s</string>
   <string name="status_bar_notification_ticker_text_google_voice_voicemail_null" formatted="false">Az új Google Voice hangposta.</string>
+  <string name="status_bar_notification_ticker_text_google_voice_missed_call" formatted="false">Új Google Voice elmulasztott hívás, a hívó %s - %s</string>
+  <string name="status_bar_notification_ticker_text_unknown_contact_google_voice_missed_call" formatted="false">Új Google Voice nem fogadott hívás - %s</string>
+  <string name="status_bar_notification_ticker_text_google_voice_missed_call_null" formatted="false">Új Google Voice elmulasztott hívás.</string>
   <string name="clear_status_bar_notifications_on_exit_title">Értesítések törlése</string>
   <string name="clear_status_bar_notifications_on_exit_summaryOn">Állapotsáv értesítések eltávolításra kerülnek, ha a felugró értesítéseket eltávolítják a képernyőről.</string>
   <string name="clear_status_bar_notifications_on_exit_summaryOff">Állapotsáv értesítések nem kerülnek eltávolításra, ha a felugró értesítéseket eltávolítják a képernyőről.</string>
@@ -924,7 +942,7 @@ Példa:
   <string name="fbm_for_facebook">FBM részére Facebook</string>
   <string name="friendCaster_for_facebook">FriendCaster részére Facebook</string>
   <string name="friendCaster_pro_for_facebook">FriendCaster Pro részére Facebook</string>
-  <string name="google_voice_web_mobile">Google Voice Web (http://voice.google.com)</string>
+  <string name="google_voice_web_mobile">Google Voice Web (https://www.google.com/voice/m/)</string>
   <string name="droid_notify_plus">Droid Notify Plus</string>
   <string name="download_now">Letöltés most</string>
   <string name="download_droid_notify_plus_description_text">Droid Notify Plus képes megjeleníteni minden olyan app a bejelentések, egy felugró ablak a telefonon. Töltse le ezt a kiegészítőt, hogy teljes potenciáljának felszabadítása a telefon.</string>
@@ -935,7 +953,8 @@ Példa:
   <string name="preferences_reset">A beállítások alaphelyzetbe lettek állítva.</string>
   <string name="confirm_reset_app_preferences">Ez az alkalmazás az összes tárolt felhasználói beállítások eltávolítása.</string>
   <string name="more_options">További opciók</string>
-  <string name="missed_call_messenger">Nem fogadott hívás Üzenetküldő</string>
   <string name="more_missed_call_options_description">Keres több kihagyott hívás opciót?</string>
   <string name="missed_call_messenger_description">&lt;b&gt;Nem fogadott hívás Üzeneteküldő &lt;/b&gt; az app, amely értesítést küld Önnek, amikor Ön fogadott egy hívást, valamint a hívónak választ küldeni automatikusan.&lt;br/&gt;&lt;br/&gt;Az alkalmazást ingyenesen letöltheti és kipróbálhatja még ma!</string>
+  <string name="poll_wifi_cell_service_connected">Lekérdezés Wifi/Cella kapcsolatkor</string>
+  <string name="poll_wifi_cell_service_connected_summary">Lekérdezheti ezt a fiókot, ha ha wifi vagy cella jelet érzékel.</string>
 </resources>
