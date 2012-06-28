@@ -283,6 +283,7 @@
   <string name="missed_calls">שיחות שלא נענו</string>
   <string name="private_number_text">מספר פרטי</string>
   <string name="call_contact_text">חייג לאיש קשר</string>
+  <string name="call_number">חייג לאיש קשר</string>
   <string name="view_call_log_text">הצג יומן שיחות</string>
   <string name="select_number_text">בחר מספר</string>
   <string name="missed_call_enabled_title">אפשר שיחה שלא נענתה</string>
@@ -313,6 +314,8 @@
   <string name="preference_calendar_all_day_notify_day_of_time_summary">לאירועי כל היום, מתי אתה רוצה שתופיע תזכורת על האירוע?</string>
   <string name="calendar_reminders_enabled_title">שלח תזכורות אירוע</string>
   <string name="calendar_reminders_enabled_summary">שלח התראת תזכורת לפני שהאירוע מתרחש.</string>
+  <string name="use_current_calendar_reminder_settings">השתמש בהגדרות תזכורת הנוכחית של לוח שנה</string>
+  <string name="use_current_calendar_reminder_settings_summary">השתמש בהגדרות תזכורת לוחות שנה עבור תזכורות.</string>
   <string name="k9_category">K9</string>
   <string name="k9">K-9</string>
   <string name="preference_k9_enabled_title">אפשר K-9 Email</string>
@@ -371,6 +374,12 @@
   <string name="google_voice">Google Voice</string>
   <string name="google_voice_enabled_title">הפעל Google Voice</string>
   <string name="google_voice_enabled_summary">הפעל התראות Google Voice.</string>
+  <string name="google_voice_sms_messages_enabled">הפעל Google Voice עבור הודעות טקסט</string>
+  <string name="google_voice_sms_messages_enabled_summary">הפעל Google Voice עבור התראות הודעת טקסט.</string>
+  <string name="google_voice_voicemails_enabled">הפעל Google Voice לתא קולי</string>
+  <string name="google_voice_voicemails_enabled_summary">הפעל Google Voice להתראות תא קולי.</string>
+  <string name="google_voice_missed_calls_enabled">הפעל Google Voice עבור שיחות שלא נענו</string>
+  <string name="google_voice_missed_calls_enabled_summary">הפעל Google Voice עבור התראות על שיחות שלא נענו.</string>
   <string name="google_voice_polling_frequency_summary">באיזו תדירות ברצונך לקרוא את חשבון Google Voice שלך?</string>
   <string name="google_voice_manual_poll_title">קרא חשבון Google Voice</string>
   <string name="google_voice_manual_poll_summary">קרא ידנית חשבון Google Voice והצג התראות.</string>
@@ -511,6 +520,8 @@
   <string name="preference_delete_button_action_summary">הגדר מה קורה כשאתה מוחק פריט.</string>
   <string name="preference_dismiss_button_action">פעולת כפתור \"בטל\"</string>
   <string name="preference_dismiss_button_action_summary">הגדר מה קורה כשאתה מבטל פריט.</string>
+  <string name="preference_call_button_action">פעולת לחצן חיוג</string>
+  <string name="preference_call_button_action_summary">הגדר מה קורה כאשר אתה לוחץ על לחצן השיחה.</string>
   <string name="preference_notification_count_button_action">פעולת ספירת התראה</string>
   <string name="preference_notification_count_button_action_summary">הגדר מה יקרה כאשר את לוחץ על ספירת התראת טקסט.</string>
   <string name="preference_button_style_title">סגנון כפתור</string>
@@ -535,6 +546,7 @@
   <string name="status_bar_notification_content_title_text_email">דוא\"ל חדש</string>
   <string name="status_bar_notification_content_title_text_google_voice_message">הודעת Google Voice חדשה</string>
   <string name="status_bar_notification_content_title_text_google_voice_voicemail">הודעה קולית חדשה ב Google Voice</string>
+  <string name="status_bar_notification_content_title_text_google_voice_missed_call">שיחת Google Voice חדשה שלא נענתה</string>
   <string name="status_bar_notification_content_title_text_plural_sms">הודעות חדשות</string>
   <string name="status_bar_notification_content_title_text_plural_phone">שיחות שלא נענו</string>
   <string name="status_bar_notification_content_title_text_plural_calendar">תזכורת אירוע יומן</string>
@@ -587,6 +599,9 @@
   <string name="status_bar_notification_content_text_google_voice_voicemail" formatted="false">הודעה קולית חדשה ב Google Voice מאת %s - %s</string>
   <string name="status_bar_notification_content_text_google_voice_voicemail_null" formatted="false">הודעה קולית חדשה ב Google Voice.</string>
   <string name="status_bar_notification_content_text_google_voice_voicemail_count" formatted="false">%s הודעות קוליות חדשות ה Google Voice.</string>
+  <string name="status_bar_notification_content_text_google_voice_missed_call" formatted="false">שיחת Google Voice חדשה שלא נענתה מאת %s - %s</string>
+  <string name="status_bar_notification_content_text_google_voice_missed_call_null" formatted="false">שיחת Google Voice חדשה שלא נענתה.</string>
+  <string name="status_bar_notification_content_text_google_voice_missed_call_count" formatted="false">%s שיחות Google Voice שלא נענו.</string>
   <string name="status_bar_notification_ticker_text_sms" formatted="false">הודעה חדשה מ %s - %s</string>
   <string name="status_bar_notification_ticker_text_unknown_contact_sms" formatted="false">הודעה חדשה - %s</string>
   <string name="status_bar_notification_ticker_text_privacy_sms" formatted="false">הודעה חדשה מ %s.</string>
@@ -622,6 +637,9 @@
   <string name="status_bar_notification_ticker_text_google_voice_voicemail" formatted="false">הודעה קולית חדשה ב Google Voice מאת %s - %s</string>
   <string name="status_bar_notification_ticker_text_unknown_contact_google_voice_voicemail" formatted="false">הודעה קולית חדשה ב Google Voice - %s</string>
   <string name="status_bar_notification_ticker_text_google_voice_voicemail_null" formatted="false">הודעה קולית חדשה ב Google Voice.</string>
+  <string name="status_bar_notification_ticker_text_google_voice_missed_call" formatted="false">שיחת Google Voice חדשה שלא נענתה מאת %s - %s</string>
+  <string name="status_bar_notification_ticker_text_unknown_contact_google_voice_missed_call" formatted="false">שיחת Google Voice שלא נענתה - %s</string>
+  <string name="status_bar_notification_ticker_text_google_voice_missed_call_null" formatted="false">שיחת Google Voice חדשה שלא נענתה.</string>
   <string name="clear_status_bar_notifications_on_exit_title">נקה התראות ביציאה</string>
   <string name="clear_status_bar_notifications_on_exit_summaryOn">התראות שורת הסטטוס יוסרו כאשר התראות קופצות מוסרות מהמסך.</string>
   <string name="clear_status_bar_notifications_on_exit_summaryOff">התראות שורת הסטטוס לא יוסרו כאשר התראות קופצות מוסרות מהמסך.</string>
@@ -912,7 +930,7 @@
   <string name="fbm_for_facebook">FBM לפייסבוק</string>
   <string name="friendCaster_for_facebook">זירת חברים של פייסבוק</string>
   <string name="friendCaster_pro_for_facebook">זירת חברים מלאה של פייסבוק</string>
-  <string name="google_voice_web_mobile">אתר Google Voice (http://voice.google.com)</string>
+  <string name="google_voice_web_mobile">אתר Google Voice (https://www.google.com/voice/m/)</string>
   <string name="droid_notify_plus">Droid Notify Plus</string>
   <string name="download_now">הורד כעת</string>
   <string name="download_droid_notify_plus_description_text">Droid Notify Plus מציע את האפשרות להציג התראה מכל יישום בתור חלון קופץ במכשיר שלך. הורד את תוסף זה כדי לממש את הפונטציאל המלא של המכשיר שלך.</string>
@@ -923,7 +941,8 @@
   <string name="preferences_reset">ההעדפות אופסו בהצלחה.</string>
   <string name="confirm_reset_app_preferences">פעולה זו תסיר את העדפות המשתמש השמורות עבור יישום זה.</string>
   <string name="more_options">אפשרויות נוספות</string>
-  <string name="missed_call_messenger">Missed Call Messenger</string>
   <string name="more_missed_call_options_description">אתה מחפש אפשרויות נוספות לשיחות שלא נענו?</string>
   <string name="missed_call_messenger_description">&lt;b&gt;Missed Call Messenger&lt;/b&gt; היא תוכנה ששולחת הודעה אליך כאשר אתה מחמיץ שיחה וכן יכולה לשלוח תגובה אוטומטית למתקשר.&lt;br/&gt;&lt;br/&gt;הורד ונסה תוכנה זו כעת בחינם!</string>
+  <string name="poll_wifi_cell_service_connected">סקר כאשר Wifi / נייד מחובר</string>
+  <string name="poll_wifi_cell_service_connected_summary">לסקר זה בחשבון כאשר האות WiFi מחובר או האות הסלולרי מחובר.</string>
 </resources>

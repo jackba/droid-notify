@@ -283,6 +283,7 @@
   <string name="missed_calls">Nieodebrane połączenia</string>
   <string name="private_number_text">Numer prywatny</string>
   <string name="call_contact_text">Zadzwoń do kontaktu</string>
+  <string name="call_number">Zadzwoń do kontaktu</string>
   <string name="view_call_log_text">Pokaż rejestr połączeń</string>
   <string name="select_number_text">Wybierz numer</string>
   <string name="missed_call_enabled_title">Włącz obsługę nieodebranych połączeń</string>
@@ -313,6 +314,8 @@
   <string name="preference_calendar_all_day_notify_day_of_time_summary">Jak chcesz być powiadamiany o nadchodzącym wydarzeniu całodziennym?</string>
   <string name="calendar_reminders_enabled_title">Wysyłanie przypomnień</string>
   <string name="calendar_reminders_enabled_summary">Wysyłaj przypomienia powiadomień przed wystąpieniem zdarzenia.</string>
+  <string name="use_current_calendar_reminder_settings">Użyj bieżących ustawień powiadomień kalendarza</string>
+  <string name="use_current_calendar_reminder_settings_summary">Użyj bieżących ustawień dla powiadomień kalendarza </string>
   <string name="k9_category">K9 EMAIL</string>
   <string name="k9">K-9</string>
   <string name="preference_k9_enabled_title">Włącz obsługę K-9 Email</string>
@@ -371,6 +374,12 @@
   <string name="google_voice">Google Voice</string>
   <string name="google_voice_enabled_title">Włącz obsługę Google Voice</string>
   <string name="google_voice_enabled_summary">Włącz obsługę powiadomień Google Voice.</string>
+  <string name="google_voice_sms_messages_enabled">Włącz obsługę wiadomości SMS Google Voice </string>
+  <string name="google_voice_sms_messages_enabled_summary">Włącza powiadomienia dla wiadomości SMS Google Voice.</string>
+  <string name="google_voice_voicemails_enabled">Włącz obsługę poczty głosowej Google Voice</string>
+  <string name="google_voice_voicemails_enabled_summary">Włącza powiadomienia dla poczty głosowej Google Voice.</string>
+  <string name="google_voice_missed_calls_enabled">Włącz obsługę nieodebranych połączeń Google Voice</string>
+  <string name="google_voice_missed_calls_enabled_summary">Włącz powiadomienia dla nieodebranych połączeń Google Voice.</string>
   <string name="google_voice_polling_frequency_summary">Jak często sprawdzać twoje konto Google Voice?</string>
   <string name="google_voice_manual_poll_title">Odczytaj konto Google Voice</string>
   <string name="google_voice_manual_poll_summary">Odczytaj teraz konto Google Voice i wyświetl powiadomienia.</string>
@@ -511,6 +520,8 @@
   <string name="preference_delete_button_action_summary">Zdefinuj co się stanie gdy usuniesz wiadomość.</string>
   <string name="preference_dismiss_button_action">Reakcja przycisku Zamknij</string>
   <string name="preference_dismiss_button_action_summary">Zdefinuj co się stanie gdy odczytasz powiadomienie.</string>
+  <string name="preference_call_button_action">Czynność po wciśnięciu przycisku dzwonienia</string>
+  <string name="preference_call_button_action_summary">Zdefinuj co ma się stać po wciśnięciu przycisku dzwonienia.</string>
   <string name="preference_notification_count_button_action">Licznik powiadomień</string>
   <string name="preference_notification_count_button_action_summary">Zdefinuj co się wydarzy gdy klikniesz na tekst z licznikiem powiadomień.</string>
   <string name="preference_button_style_title">Styl przycisków</string>
@@ -535,6 +546,7 @@
   <string name="status_bar_notification_content_title_text_email">Nowa wiadomość email</string>
   <string name="status_bar_notification_content_title_text_google_voice_message">Nowa wiadomość Google Voice</string>
   <string name="status_bar_notification_content_title_text_google_voice_voicemail">Nowa wiadomość głosowa Google Voice</string>
+  <string name="status_bar_notification_content_title_text_google_voice_missed_call">Nowe nieodebrane połączenie Google Voice</string>
   <string name="status_bar_notification_content_title_text_plural_sms">Nowe wiadomości</string>
   <string name="status_bar_notification_content_title_text_plural_phone">Nieodebrane połączenia</string>
   <string name="status_bar_notification_content_title_text_plural_calendar">Przypomnienie zdarzenia kalendarza</string>
@@ -587,6 +599,9 @@
   <string name="status_bar_notification_content_text_google_voice_voicemail" formatted="false">Nowa wiadomość głosowa Google Voice od %s - %s</string>
   <string name="status_bar_notification_content_text_google_voice_voicemail_null" formatted="false">Nowa wiadomość głosowa Google Voice.</string>
   <string name="status_bar_notification_content_text_google_voice_voicemail_count" formatted="false">Nowe wiadomości głosowe Google Voice: %s</string>
+  <string name="status_bar_notification_content_text_google_voice_missed_call" formatted="false">Nowe nieodebrane połączenie Google Voice od %s - %s</string>
+  <string name="status_bar_notification_content_text_google_voice_missed_call_null" formatted="false">Nowe nieodebrane połączenie Google Voice.</string>
+  <string name="status_bar_notification_content_text_google_voice_missed_call_count" formatted="false">Nowe nieodebrane połączenia Google Voice: %s</string>
   <string name="status_bar_notification_ticker_text_sms" formatted="false">Nowa wiadomość od %s - %s</string>
   <string name="status_bar_notification_ticker_text_unknown_contact_sms" formatted="false">Nowa wiadomość %s - %s</string>
   <string name="status_bar_notification_ticker_text_privacy_sms" formatted="false">Nowa wiadomość od %s.</string>
@@ -622,6 +637,9 @@
   <string name="status_bar_notification_ticker_text_google_voice_voicemail" formatted="false">Nowa wiadomość głosowa Google Voice od %s - %s</string>
   <string name="status_bar_notification_ticker_text_unknown_contact_google_voice_voicemail" formatted="false">Nowa wiadomość głosowa Google Voice - %s</string>
   <string name="status_bar_notification_ticker_text_google_voice_voicemail_null" formatted="false">Nowa wiadomość głosowa Google Voice.</string>
+  <string name="status_bar_notification_ticker_text_google_voice_missed_call" formatted="false">Nowe nieodebrane połączenie Google Voice od %s - %s</string>
+  <string name="status_bar_notification_ticker_text_unknown_contact_google_voice_missed_call" formatted="false">Nowe nieodebrane połączenie Google Voice - %s</string>
+  <string name="status_bar_notification_ticker_text_google_voice_missed_call_null" formatted="false">Nowe nieodebrane połączenie Google Voice.</string>
   <string name="clear_status_bar_notifications_on_exit_title">Wyczyść powiadomienia przy wyjściu</string>
   <string name="clear_status_bar_notifications_on_exit_summaryOn">Powiadomienia paska stanu będą usuwane po zamknięciu okienka z powiadomieniem.</string>
   <string name="clear_status_bar_notifications_on_exit_summaryOff">Powiadomienia paska stanu nie będą usuwane po zamknięciu okienka z powiadomieniem.</string>
@@ -917,7 +935,7 @@ Przykład:
   <string name="fbm_for_facebook">FBM dla Facebooka</string>
   <string name="friendCaster_for_facebook">FriendCaster dla Facebooka</string>
   <string name="friendCaster_pro_for_facebook">FriendCaster Pro dla Facebooka</string>
-  <string name="google_voice_web_mobile">Strona WWW Google Voice (http://voice.google.com)</string>
+  <string name="google_voice_web_mobile">Strona WWW Google Voice (https://www.google.com/voice/m/)</string>
   <string name="droid_notify_plus">Droid Notify Plus</string>
   <string name="download_now">Pobierz teraz</string>
   <string name="download_droid_notify_plus_description_text">Droid Notify Plus oferuje możliwość wyświetlania powiadomień dla dowolnej aplikacji w twoim telefonie. Pobierz ten dodatek, aby odblokować pełne możliwości twojego telefonu.</string>
@@ -928,7 +946,8 @@ Przykład:
   <string name="preferences_reset">Ustawienia zostały zresetowane.</string>
   <string name="confirm_reset_app_preferences">Ta opcja usunie wszystkie zapisane ustawienia użytkownika.</string>
   <string name="more_options">Więcej opcji</string>
-  <string name="missed_call_messenger">Missed Call Messenger</string>
   <string name="more_missed_call_options_description">Czy poszukujesz więcej opcji dotyczących nieodebranych połączeń?</string>
   <string name="missed_call_messenger_description">Missed Call Messenger to aplikacja, która wysyła wiadomość w przypadku wystąpienia nieodebranego połączenia, jak również automatycznie wysyła odpowiedź do dzwoniącego. Pobierz aplikację dziś i wypróbuj ją za darmo!</string>
+  <string name="poll_wifi_cell_service_connected">Sprawdzaj, gdy połączony z WiFi/siecią komórkową</string>
+  <string name="poll_wifi_cell_service_connected_summary">Sprawdzaj konto, gdy dostępny jest sygnał z sieci komórkowej lub WiFi.</string>
 </resources>

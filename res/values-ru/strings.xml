@@ -283,6 +283,7 @@
   <string name="missed_calls">Пропущенные звонки</string>
   <string name="private_number_text">Скрытый номер</string>
   <string name="call_contact_text">Звонок</string>
+  <string name="call_number">Звонок</string>
   <string name="view_call_log_text">Просмотр журнала звонков</string>
   <string name="select_number_text">Выбрать номер</string>
   <string name="missed_call_enabled_title">Разрешить пропущенные звонки</string>
@@ -313,6 +314,8 @@
   <string name="preference_calendar_all_day_notify_day_of_time_summary">﻿Для All-Day событий, когда напомнить о событии?</string>
   <string name="calendar_reminders_enabled_title">Предварительные оповещения</string>
   <string name="calendar_reminders_enabled_summary">Предварительные оповещения перед событием.</string>
+  <string name="use_current_calendar_reminder_settings">Использовать текущие параметры напоминания календаря</string>
+  <string name="use_current_calendar_reminder_settings_summary">Используйте параметры напоминания календари для напоминания.</string>
   <string name="k9_category">K-9 Mail</string>
   <string name="k9">K-9 Mail</string>
   <string name="preference_k9_enabled_title">Разрешить K-9 Email</string>
@@ -371,6 +374,12 @@
   <string name="google_voice">Google Voice</string>
   <string name="google_voice_enabled_title">Включите Google Voice</string>
   <string name="google_voice_enabled_summary">Включите уведомления Google Voice.</string>
+  <string name="google_voice_sms_messages_enabled">Включить голос Google SMS сообщений</string>
+  <string name="google_voice_sms_messages_enabled_summary">Включите уведомления Google Голосовой SMS сообщений.</string>
+  <string name="google_voice_voicemails_enabled">Включить голосовые почты Google Voice</string>
+  <string name="google_voice_voicemails_enabled_summary">Включите уведомления голосовой почты Google Voice.</string>
+  <string name="google_voice_missed_calls_enabled">Включить Google Voice пропущенных звонков</string>
+  <string name="google_voice_missed_calls_enabled_summary">Включите уведомления о пропущенных вызовов Google Voice.</string>
   <string name="google_voice_polling_frequency_summary">Как часто вы хотите прочитать ваш Google Voice счет?</string>
   <string name="google_voice_manual_poll_title">Читайте Google Voice Cчет</string>
   <string name="google_voice_manual_poll_summary">Читать Google Voice аккаунт и отображения уведомления вручную.</string>
@@ -511,6 +520,8 @@
   <string name="preference_delete_button_action_summary">Определить действие при удалении.</string>
   <string name="preference_dismiss_button_action">Действия кнопки Отмена</string>
   <string name="preference_dismiss_button_action_summary">Определить действие при отмене.</string>
+  <string name="preference_call_button_action">Действие кнопки вызова</string>
+  <string name="preference_call_button_action_summary">Определите, что происходит, когда вы используете кнопку вызова.</string>
   <string name="preference_notification_count_button_action">Действие кнопки счетчика оповещений</string>
   <string name="preference_notification_count_button_action_summary">Определить действие при нажамтии кнопки счетчика оповещений. </string>
   <string name="preference_button_style_title">Стиль кнопок</string>
@@ -535,6 +546,7 @@
   <string name="status_bar_notification_content_title_text_email">Новое письмо</string>
   <string name="status_bar_notification_content_title_text_google_voice_message">Новый Google Voice сообщения</string>
   <string name="status_bar_notification_content_title_text_google_voice_voicemail">Новый Google Voice голосовой почты</string>
+  <string name="status_bar_notification_content_title_text_google_voice_missed_call">Новый Google Voice пропущенный звонок</string>
   <string name="status_bar_notification_content_title_text_plural_sms">Новые сообщения</string>
   <string name="status_bar_notification_content_title_text_plural_phone">Пропущенные звонки</string>
   <string name="status_bar_notification_content_title_text_plural_calendar">Событие календаря</string>
@@ -587,6 +599,9 @@
   <string name="status_bar_notification_content_text_google_voice_voicemail" formatted="false">Новый Google Voice голосовой почты от %s - %s</string>
   <string name="status_bar_notification_content_text_google_voice_voicemail_null" formatted="false">Новый Google Voice голосовой почты.</string>
   <string name="status_bar_notification_content_text_google_voice_voicemail_count" formatted="false">%s новый Google Voice голосовые.</string>
+  <string name="status_bar_notification_content_text_google_voice_missed_call" formatted="false">Новый Google Voice пропущенный звонок из %s - %s</string>
+  <string name="status_bar_notification_content_text_google_voice_missed_call_null" formatted="false">Новый Google Voice пропущенный звонок.</string>
+  <string name="status_bar_notification_content_text_google_voice_missed_call_count" formatted="false">%s новый Google пропущенных звонков.</string>
   <string name="status_bar_notification_ticker_text_sms" formatted="false">Новое сообщение от %s - %s</string>
   <string name="status_bar_notification_ticker_text_unknown_contact_sms" formatted="false">Новое сообщение - %s</string>
   <string name="status_bar_notification_ticker_text_privacy_sms" formatted="false">Новоое сообщение от %s.</string>
@@ -622,6 +637,9 @@
   <string name="status_bar_notification_ticker_text_google_voice_voicemail" formatted="false">Новый Google Voice голосовой почты от %s - %s</string>
   <string name="status_bar_notification_ticker_text_unknown_contact_google_voice_voicemail" formatted="false">Новый гGoogle Voice голосовой почты - %s</string>
   <string name="status_bar_notification_ticker_text_google_voice_voicemail_null" formatted="false">Новый Google Voice голосовой почты.</string>
+  <string name="status_bar_notification_ticker_text_google_voice_missed_call" formatted="false">Новый Google Voice пропущенный звонок из %s - %s</string>
+  <string name="status_bar_notification_ticker_text_unknown_contact_google_voice_missed_call" formatted="false">Новый Google Voice пропущенный звонок - %s</string>
+  <string name="status_bar_notification_ticker_text_google_voice_missed_call_null" formatted="false">Новый Google Voice пропущенный звонок.</string>
   <string name="clear_status_bar_notifications_on_exit_title">Очистить оповещения при выходе</string>
   <string name="clear_status_bar_notifications_on_exit_summaryOn">Уведомомления в строке состояния будут очищенны,при закрытии окна оповещеня.</string>
   <string name="clear_status_bar_notifications_on_exit_summaryOff">Оповещения в строке состояния будут отображаться,когда всплывающее сообщение удаленно с экрана.</string>
@@ -912,7 +930,7 @@
   <string name="fbm_for_facebook">FBM для Facebook</string>
   <string name="friendCaster_for_facebook">FriendCaster для Facebook</string>
   <string name="friendCaster_pro_for_facebook">FriendCaster Pro для Facebook</string>
-  <string name="google_voice_web_mobile">Google Voice Web (http://voice.google.com)</string>
+  <string name="google_voice_web_mobile">Google Voice Web (https://www.google.com/voice/m/)</string>
   <string name="droid_notify_plus">Droid Notify Plus</string>
   <string name="download_now">Загрузить</string>
   <string name="download_droid_notify_plus_description_text">Droid Notify Plus предлогает оповещение для любого приложения на вашем телефоне.Загрузите это дополнение чтобы получить доступ ко всем опция приложения.</string>
@@ -923,7 +941,8 @@
   <string name="preferences_reset">Сбросить настройки.</string>
   <string name="confirm_reset_app_preferences">Это удалит все сохраненные пользовательские настройки для этого приложения.</string>
   <string name="more_options">Больше вариантов</string>
-  <string name="missed_call_messenger">Missed Call Messenger</string>
   <string name="more_missed_call_options_description">Являются ли вы искать более пропустили опционы?</string>
   <string name="missed_call_messenger_description">&lt;b&gt;Missed Call Messenger&lt;/b&gt; -приложение, которое будет отправить сообщение к вам, когда вы пропустите телефонного звонка, а также автоматически отправить ответ вызывающему.&lt;br/&gt;&lt;br/&gt;бесплатно скачать этот зап и попробуйте сегодня!</string>
+  <string name="poll_wifi_cell_service_connected">Опрос при подключении Wifi/Cell</string>
+  <string name="poll_wifi_cell_service_connected_summary">Опрос этой учетной записи при подключении wifi сигнал или сигнал клетки подключен.</string>
 </resources>
