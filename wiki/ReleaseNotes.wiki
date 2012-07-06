@@ -7,8 +7,9 @@
  * 
 
 *v3.14* _Coming Soon..._
- * Updated the Twitter API code.
- * Fixed a bug that prevented Twitter authentication from any device running Android 4.0+
+ * Updated Facebook API to latest version.
+ * Updated Twitter API to latest version.
+ * Fixed bug that prevented Twitter authentication from devices running Android 4.0+.
  * 
  * Updated translations.
  * Small bug fixes.
