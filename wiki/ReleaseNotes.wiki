@@ -3,8 +3,15 @@
 
 = Release Notes =
 
-*v3.14* _Coming Soon..._
+*v3.15* _Coming Soon..._
  * 
+
+*v3.14* _Coming Soon..._
+ * Updated the Twitter API code.
+ * Fixed a bug that prevented Twitter authentication from any device running Android 4.0+
+ * 
+ * Updated translations.
+ * Small bug fixes.
 
 *v3.13* (June 28, 2012)
  * Updated Google Voice user preferences.
