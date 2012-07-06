@@ -101,6 +101,6 @@
 			android:key="missed_call_notification_in_call_vibrate_enabled" 
 			android:title="@string/status_bar_notification_in_call_vibrate_title" 
 			android:summary="@string/status_bar_notification_in_call_vibrate_summary"
-			android:defaultValue="true" />
+			android:defaultValue="false" />
 	</PreferenceCategory>
 </PreferenceScreen>
