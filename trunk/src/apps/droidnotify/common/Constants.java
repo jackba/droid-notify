@@ -68,8 +68,8 @@ public class Constants {
 	public static final String QUICK_REPLY_BUNDLE_MESSAGE = "message";
 	
 	//-----GENERAL APP CONSTANTS-----//
-	public static final String DROID_NOTIFY_WAKELOCK = "DROID_NOTIFY_WAKELOCK";
-	public static final String DROID_NOTIFY_KEYGUARD = "DROID_NOTIFY_KEYGUARD";
+	public static final String DROID_NOTIFY_WAKELOCK = "app.droidnotify.wakelock";
+	public static final String DROID_NOTIFY_KEYGUARD = "app.droidnotify.keyguard";
 	
 	public static final String APP_ENABLED_KEY = "app_enabled";
 	public static final String HAPTIC_FEEDBACK_ENABLED_KEY = "haptic_feedback_enabled";

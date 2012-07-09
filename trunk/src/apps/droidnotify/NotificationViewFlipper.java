@@ -335,9 +335,10 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 * Reschedule a notification.
 	 */
 	public void rescheduleNotification(){
+		if(_debug) Log.v("NotificationViewFlipper.rescheduleNotification()");
 		long rescheduleInterval = Long.parseLong(_preferences.getString(Constants.RESCHEDULE_TIME_KEY, Constants.RESCHEDULE_TIME_DEFAULT)) * 60 * 1000;
 		Notification notification = getActiveNotification();
-    	Common.rescheduleNotification(_context, notification, System.currentTimeMillis() + rescheduleInterval, notification.getRescheduleNumber() + 0);
+    	Common.rescheduleNotification(_context, notification, System.currentTimeMillis() + rescheduleInterval, notification.getRescheduleNumber());
     	this.removeActiveNotification(true);
 	}
 
@@ -444,9 +445,7 @@ public class NotificationViewFlipper extends ViewFlipper {
     	notification.cancelReminder();
 		int notificationType = notification.getNotificationType();
 		//Set notification as being viewed.
-		if(!reschedule){
-			setNotificationViewed(notification);
-		}
+		if(!reschedule) setNotificationViewed(notification);
     	//Update specific type counts.
 		switch(notificationType){
 			case Constants.NOTIFICATION_TYPE_PHONE:{

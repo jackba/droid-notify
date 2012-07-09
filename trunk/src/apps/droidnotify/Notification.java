@@ -66,6 +66,11 @@ public class Notification {
 	private PendingIntent _deletePendingIntent = null;
 	private PendingIntent _viewPendingIntent = null;
 	private Bundle _statusBarNotificationBundle = null;
+	private String _soundURI = null;
+	private boolean _inCallSoundEnabled = false;
+	private String _vibrateSetting = null;
+	private String _vibratePattern = null;
+	private boolean _inCallVibrateEnabled = false;
 	
 	//================================================================================
 	// Constructors
@@ -163,6 +168,12 @@ public class Notification {
 						_photoID = contactInfoBundle.getLong(Constants.BUNDLE_PHOTO_ID, -1);
 						_lookupKey = contactInfoBundle.getString(Constants.BUNDLE_LOOKUP_KEY);
 					}
+					//Sound & Vibrate Settings
+					_soundURI = notificationBundle.getString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_SOUND_URI);
+					_inCallSoundEnabled = notificationBundle.getBoolean(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_IN_CALL_SOUND_ENABLED);
+					_vibrateSetting = notificationBundle.getString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_VIBRATE_SETTING);
+					_vibratePattern = notificationBundle.getString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_VIBRATE_PATTERN);
+					_inCallVibrateEnabled = notificationBundle.getBoolean(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_IN_CALL_VIBRATE_ENABLED);
 					break;
 				}
 				default:{
@@ -232,6 +243,12 @@ public class Notification {
 		notificationBundle.putParcelable(Constants.BUNDLE_DELETE_PENDINGINTENT, _deletePendingIntent);
 		notificationBundle.putParcelable(Constants.BUNDLE_VIEW_PENDINGINTENT, _viewPendingIntent);
 		notificationBundle.putBundle(Constants.BUNDLE_STATUS_BAR_NOTIFICATON_BUNDLE, _statusBarNotificationBundle);
+		notificationBundle.putString(Constants.BUNDLE_DISPLAY_TEXT, _messageBody);
+		notificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_SOUND_URI, _soundURI);
+		notificationBundle.putBoolean(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_IN_CALL_SOUND_ENABLED, _inCallSoundEnabled);
+		notificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_VIBRATE_SETTING, _vibrateSetting);
+		notificationBundle.putString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_VIBRATE_PATTERN, _vibratePattern);
+		notificationBundle.putBoolean(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_IN_CALL_VIBRATE_ENABLED, _inCallVibrateEnabled);
 		return notificationBundle;
 	}
 	
@@ -617,6 +634,49 @@ public class Notification {
 		if (_debug) Log.v("Notification.getStatusBarNotificationBundle()");
 	    return _statusBarNotificationBundle;
 	}
+	
+	/**
+	 * Get the soundURI property.
+	 * 
+	 * @return String - The sound URI of the notification.
+	 */
+	public String getSoundURI(){
+		return _soundURI;
+	}	
+	
+	/**
+	 * Get the inCallSoundEnabled property.
+	 * 
+	 * @return String - The in call sound setting  of the source of the notification.
+	 */
+	public boolean getInCallSoundEnabled(){
+		return _inCallSoundEnabled;
+	}
+	/**
+	 * Get the vibrateSetting property.
+	 * 
+	 * @return String - The vibrate setting of the notification.
+	 */
+	public String getVibrateSetting(){
+		return _vibrateSetting;
+	}
+	/**
+	 * Get the vibratePattern property.
+	 * 
+	 * @return String - The vibrate pattern of the notification.
+	 */
+	public String getVibratePattern(){
+		return _vibratePattern;
+	}
+	
+	/**
+	 * Get the inCallVibrateEnabled property.
+	 * 
+	 * @return String - The in call vibrate setting of the notification.
+	 */
+	public boolean getInCallVibrateEnabled(){
+		 return _inCallVibrateEnabled;
+	}		
 	
 	/**
 	 * Set this notification as being viewed on the users phone.

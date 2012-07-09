@@ -1745,7 +1745,7 @@ public class NotificationActivity extends Activity{
 				//Cancel the notification reminder.
 				activeNotification.cancelReminder();
 			}else{
-				Toast.makeText(_context, R.string.app_tts_error, Toast.LENGTH_LONG);
+				Toast.makeText(_context, R.string.app_tts_error, Toast.LENGTH_LONG).show();
 			}
     	}
   	};

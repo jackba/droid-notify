@@ -1624,16 +1624,20 @@ public class Common {
 		if (_debug) Log.v("Common.rescheduleNotification()");
 		if (_debug) Log.v("Common.rescheduleNotification() Rescheduling notification. Rechedule in " + (rescheduleTime/60/1000) + " minutes.");
 		int notificationType = notification.getNotificationType() + 100;
-		
-		Bundle rescheduleNotificationBundle = new Bundle();
-		rescheduleNotificationBundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_1", notification.getNotificationBundle());
-		rescheduleNotificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_BUNDLE_COUNT, 1);
-		
-		Bundle rescheduleBundle = new Bundle();
-		rescheduleBundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME, rescheduleNotificationBundle);
-		rescheduleBundle.putInt("rescheduleNumber", rescheduleNumber);
-		rescheduleBundle.putInt("notificationType", notificationType);		
 
+		Bundle rescheduleBundle = new Bundle();
+		if(notificationType == Constants.NOTIFICATION_TYPE_RESCHEDULE_GENERIC){
+			rescheduleBundle = notification.getNotificationBundle();
+		}else{
+			Bundle rescheduleNotificationBundle = new Bundle();
+			rescheduleNotificationBundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_1", notification.getNotificationBundle());
+			rescheduleNotificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_BUNDLE_COUNT, 1);
+			
+			rescheduleBundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME, rescheduleNotificationBundle);
+			rescheduleBundle.putInt("rescheduleNumber", rescheduleNumber);
+			rescheduleBundle.putInt("notificationType", notificationType);
+		}
+		
 		Intent rescheduleIntent = new Intent(context, RescheduleReceiver.class);
 		rescheduleIntent.putExtras(rescheduleBundle);
 		//The action is what makes this intent unique from all other intents using this class.
