@@ -1282,6 +1282,9 @@ public class Common {
 			if(!_fullWakelockInUse){
 				SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 				PowerManager powerManager = (PowerManager)context.getSystemService(Context.POWER_SERVICE);
+				if(_wakeLock != null && _wakeLock.isHeld()){
+					_wakeLock.release();
+				}
 				if(preferences.getBoolean(Constants.SCREEN_ENABLED_KEY, true)){
 					if(preferences.getBoolean(Constants.SCREEN_DIM_ENABLED_KEY, true)){
 						_wakeLock = powerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, Constants.DROID_NOTIFY_WAKELOCK);
@@ -1319,7 +1322,9 @@ public class Common {
 		if (_debug) Log.v("Common.clearWakelock()");
 		try{
 	    	if(_wakeLock != null){
-	    		_wakeLock.release();
+	    		if(_wakeLock.isHeld()){
+	    			_wakeLock.release();
+	    		}
 	    		_wakeLock = null;
 	    	}
 			_fullWakelockInUse = false;
