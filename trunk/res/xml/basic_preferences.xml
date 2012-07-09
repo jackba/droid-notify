@@ -55,7 +55,7 @@
 			android:key="display_reschedule_button" 
 			android:title="@string/preference_display_reschedule_button_title" 
 			android:summary="@string/preference_display_reschedule_button_summary"
-			android:defaultValue="true" />
+			android:defaultValue="false" />
 		<Preference
 			android:layout="@layout/custom_preference_title"
 	        android:key="reschedule_preference"
