@@ -463,7 +463,7 @@ public class NotificationView extends LinearLayout {
 				_ttsButton.setVisibility(View.GONE);
 			}
 			//Reschedule Button
-			if(_preferences.getBoolean(Constants.DISPLAY_RESCHEDULE_BUTTON_KEY, true)){
+			if(_preferences.getBoolean(Constants.DISPLAY_RESCHEDULE_BUTTON_KEY, false)){
 				_rescheduleButton.setVisibility(View.VISIBLE);
 				_rescheduleButton.setOnClickListener(
 					new OnClickListener() {

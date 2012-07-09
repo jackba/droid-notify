@@ -534,7 +534,7 @@ public class PhoneCommon {
 	 */
 	public static boolean isPhoneNumberEqual(String contactNumber, String incomingNumber){
 		_debug = Log.getDebug();
-		//if (_debug) Log.v("PhoneCommon.isPhoneNumberEqual() ContactNumber: " + contactNumber + " IncomingNumber: " + incomingNumber);
+		if (_debug) Log.v("PhoneCommon.isPhoneNumberEqual() ContactNumber: " + contactNumber + " IncomingNumber: " + incomingNumber);
 		try{
 			if(contactNumber == null || incomingNumber == null){
 				if (_debug) Log.v("PhoneCommon.isPhoneNumberEqual() ContactNumber OR IncomingNumber IS NULL. Exiting...");
