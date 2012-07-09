@@ -10,7 +10,8 @@
  * Updated Facebook API to latest version.
  * Updated Twitter API to latest version.
  * Fixed bug that prevented Twitter authentication from devices running Android 4.0+.
- * 
+ * Fixed a bug that prevented Notify Plus popups from having reminders.
+ *  
  * Updated translations.
  * Small bug fixes.
 
