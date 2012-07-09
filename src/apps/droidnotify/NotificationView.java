@@ -1752,16 +1752,6 @@ public class NotificationView extends LinearLayout {
 			}
 		}
 	}
- 
-	/**
-	 * Confirm the delete request of the current message.
-	 */
-	private void showDeleteDialog(){
-		if (_debug) Log.v("NotificationView.showDeleteDialog()");
-    	//Cancel the notification reminder.
-    	_notification.cancelReminder();
-		_notificationViewFlipper.showDeleteDialog();
-	}	
 	
 	/**
 	 * Views a notification.
@@ -1772,11 +1762,9 @@ public class NotificationView extends LinearLayout {
     	_notification.cancelReminder();
 		switch(notificationType){
 			case Constants.NOTIFICATION_TYPE_SMS:{
-
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_MMS:{
-
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_CALENDAR:{
@@ -1786,8 +1774,7 @@ public class NotificationView extends LinearLayout {
 			case Constants.NOTIFICATION_TYPE_PHONE:{			
 				break;
 			}
-			case Constants.NOTIFICATION_TYPE_K9:{
-				
+			case Constants.NOTIFICATION_TYPE_K9:{				
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_GENERIC:{			
@@ -1795,6 +1782,32 @@ public class NotificationView extends LinearLayout {
 			}
 		}
 	}
+	
+	/**
+	 * When the Missed Call Notification "Call" button is pressed, this determines what to do.
+	 */
+	private void callMissedCall(){
+		if (_debug) Log.v("NotificationView.callMissedCall()");
+		//Cancel the notification reminder.
+		_notification.cancelReminder();
+		if(_preferences.getString(Constants.PHONE_CALL_KEY, "0").equals(Constants.PHONE_CALL_ACTION_CALL)){
+			PhoneCommon.makePhoneCall(_context, _notificationActivity, _notification.getSentFromAddress(), Constants.CALL_ACTIVITY);
+		}else if(_preferences.getString(Constants.PHONE_CALL_KEY, "0").equals(Constants.PHONE_CALL_ACTION_CALL_LOG)){
+			PhoneCommon.startCallLogViewActivity(_context, _notificationActivity, Constants.VIEW_CALL_LOG_ACTIVITY);
+		}else{
+			dismissNotification(false);
+		}
+	}
+	 
+	/**
+	 * Confirm the delete request of the current message.
+	 */
+	private void showDeleteDialog(){
+		if (_debug) Log.v("NotificationView.showDeleteDialog()");
+    	//Cancel the notification reminder.
+    	_notification.cancelReminder();
+		_notificationViewFlipper.showDeleteDialog();
+	}	
 
 	/**
 	 * Performs haptic feedback based on the users preferences.
@@ -1810,20 +1823,6 @@ public class NotificationView extends LinearLayout {
 			if(hapticFeedbackConstant == HapticFeedbackConstants.LONG_PRESS){
 				vibrator.vibrate(100);
 			}
-		}
-	}
-	
-	/**
-	 * When the Missed Call Notification "Call" button is pressed, this determines what to do.
-	 */
-	private void callMissedCall(){
-		if (_debug) Log.v("NotificationView.callMissedCall()");
-		if(_preferences.getString(Constants.PHONE_CALL_KEY, "0").equals(Constants.PHONE_CALL_ACTION_CALL)){
-			PhoneCommon.makePhoneCall(_context, _notificationActivity, _notification.getSentFromAddress(), Constants.CALL_ACTIVITY);
-		}else if(_preferences.getString(Constants.PHONE_CALL_KEY, "0").equals(Constants.PHONE_CALL_ACTION_CALL_LOG)){
-			PhoneCommon.startCallLogViewActivity(_context, _notificationActivity, Constants.VIEW_CALL_LOG_ACTIVITY);
-		}else{
-			dismissNotification(false);
 		}
 	}
 	
