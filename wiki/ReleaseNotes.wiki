@@ -11,7 +11,8 @@
  * Updated Twitter API to latest version.
  * Fixed bug that prevented Twitter authentication from devices running Android 4.0+.
  * Fixed a bug that prevented Notify Plus popups from having reminders.
- *  
+ * Consolidated MMS Settings into the SMS settings.
+ * 
  * Updated translations.
  * Small bug fixes.
 
