@@ -691,20 +691,16 @@ public class SMSCommon {
 	 * 
 	 * @return boolean - Returns true if the activity can be started.
 	 */
-	public static boolean startMessagingAppViewThreadActivity(Context context, NotificationActivity notificationActivity, String phoneNumber, int requestCode){
+	public static boolean startMessagingAppViewThreadActivity(Context context, NotificationActivity notificationActivity, long threadID, int requestCode){
 		_debug = Log.getDebug();
 		if(_debug) Log.v("SMSCommon.startMessagingAppViewThreadActivity()");
-		if(phoneNumber == null){
-			Toast.makeText(context, context.getString(R.string.app_android_reply_messaging_address_error), Toast.LENGTH_LONG).show();
+		if(threadID < 0){
+			Toast.makeText(context, context.getString(R.string.app_android_message_not_found_error), Toast.LENGTH_LONG).show();
 			return false;
 		}
 		try{
 			Intent intent = new Intent(Intent.ACTION_VIEW);
-			if(phoneNumber.contains("@")){
-				intent.setData(Uri.parse("smsto:" + EmailCommon.removeEmailFormatting(phoneNumber)));
-			}else{
-			    intent.setData(Uri.parse("smsto:" + PhoneCommon.removePhoneNumberFormatting(phoneNumber)));
-			}
+			intent.setData(Uri.parse("content://mms-sms/conversations/" + String.valueOf(threadID))); 
 	        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 	        notificationActivity.startActivityForResult(intent, requestCode);
 	        Common.setInLinkedAppFlag(context, true);

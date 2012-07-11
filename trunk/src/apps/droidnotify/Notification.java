@@ -708,7 +708,7 @@ public class Notification {
 			case Constants.NOTIFICATION_TYPE_MMS:{
 	    		//Action is determined by the users preferences. 
 	    		//Either mark the message as viewed or do nothing to the message.
-	    		if(_preferences.getString(Constants.MMS_DISMISS_KEY, "0").equals(Constants.MMS_DISMISS_ACTION_MARK_READ)){
+	    		if(_preferences.getString(Constants.SMS_DISMISS_KEY, "0").equals(Constants.SMS_DISMISS_ACTION_MARK_READ)){
 	    			setMessageRead(isViewed);
 	    		}
 				break;
@@ -743,10 +743,10 @@ public class Notification {
 					deleteMessage = false;
 				}
 			}else if(_notificationType == Constants.NOTIFICATION_TYPE_MMS){
-				if(_preferences.getString(Constants.MMS_DELETE_KEY, "0").equals(Constants.MMS_DELETE_ACTION_DELETE_MESSAGE)){
+				if(_preferences.getString(Constants.SMS_DELETE_KEY, "0").equals(Constants.SMS_DELETE_ACTION_DELETE_MESSAGE)){
 					deleteThread = false;
 					deleteMessage = true;
-				}else if(_preferences.getString(Constants.MMS_DELETE_KEY, "0").equals(Constants.MMS_DELETE_ACTION_DELETE_THREAD)){
+				}else if(_preferences.getString(Constants.SMS_DELETE_KEY, "0").equals(Constants.SMS_DELETE_ACTION_DELETE_THREAD)){
 					deleteThread = true;
 					deleteMessage = false;
 				}

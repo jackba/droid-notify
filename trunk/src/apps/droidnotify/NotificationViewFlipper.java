@@ -279,16 +279,16 @@ public class NotificationViewFlipper extends ViewFlipper {
 			break;
 		}
 		case Constants.NOTIFICATION_TYPE_MMS:{
-			String deleteButtonAction = _preferences.getString(Constants.MMS_DELETE_KEY, "0");
-			if(deleteButtonAction.equals(Constants.MMS_DELETE_ACTION_NOTHING)){
+			String deleteButtonAction = _preferences.getString(Constants.SMS_DELETE_KEY, "0");
+			if(deleteButtonAction.equals(Constants.SMS_DELETE_ACTION_NOTHING)){
 				//Remove the notification from the ViewFlipper
 				this.removeActiveNotification(false);
-			}else if(deleteButtonAction.equals(Constants.MMS_DELETE_ACTION_DELETE_MESSAGE)){
+			}else if(deleteButtonAction.equals(Constants.SMS_DELETE_ACTION_DELETE_MESSAGE)){
 				//Delete the current message from the users phone.
 				notification.deleteMessage();
 				//Remove the notification from the ViewFlipper
 				this.removeActiveNotification(false);
-			}else if(deleteButtonAction.equals(Constants.MMS_DELETE_ACTION_DELETE_THREAD)){
+			}else if(deleteButtonAction.equals(Constants.SMS_DELETE_ACTION_DELETE_THREAD)){
 				//Delete the current message from the users phone.
 				//The notification will remove ALL messages for this thread from the phone for us.
 				notification.deleteMessage();

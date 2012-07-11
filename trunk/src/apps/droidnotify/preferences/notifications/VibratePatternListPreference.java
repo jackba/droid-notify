@@ -76,9 +76,6 @@ public class VibratePatternListPreference extends ListPreference {
 			}else if (_preferences.getString(this.getKey(), Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_DEFAULT).equals(Constants.SMS_STATUS_BAR_NOTIFICATIONS_CUSTOM_VALUE)) {
 				_notificationType = Constants.NOTIFICATION_TYPE_SMS;
 				showDialog();
-			}else if (_preferences.getString(this.getKey(), Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_DEFAULT).equals(Constants.MMS_STATUS_BAR_NOTIFICATIONS_CUSTOM_VALUE)) {
-				_notificationType = Constants.NOTIFICATION_TYPE_PHONE;
-				showDialog();
 			}else if (_preferences.getString(this.getKey(), Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_DEFAULT).equals(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_CUSTOM_VALUE)) {
 				_notificationType = Constants.NOTIFICATION_TYPE_PHONE;
 				showDialog();
@@ -110,9 +107,6 @@ public class VibratePatternListPreference extends ListPreference {
 		    case Constants.NOTIFICATION_TYPE_SMS:{
 		    	 customVibratePatternEditText.setText(_preferences.getString(Constants.SMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_DEFAULT));
 		    }
-		    case Constants.NOTIFICATION_TYPE_MMS:{
-		    	 customVibratePatternEditText.setText(_preferences.getString(Constants.MMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_DEFAULT));
-		    }
 		    case Constants.NOTIFICATION_TYPE_PHONE:{
 		    	 customVibratePatternEditText.setText(_preferences.getString(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_KEY, Constants.STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_DEFAULT));
 		    }
@@ -142,9 +136,6 @@ public class VibratePatternListPreference extends ListPreference {
 					    }
 					    case Constants.NOTIFICATION_TYPE_SMS:{
 					    	editor.putString(Constants.SMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_KEY, customVibratePattern);
-					    }
-					    case Constants.NOTIFICATION_TYPE_MMS:{
-					    	editor.putString(Constants.MMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_KEY, customVibratePattern);
 					    }
 					    case Constants.NOTIFICATION_TYPE_PHONE:{
 					    	editor.putString(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_KEY, customVibratePattern);

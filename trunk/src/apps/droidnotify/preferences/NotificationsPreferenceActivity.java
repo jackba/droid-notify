@@ -16,7 +16,6 @@ import apps.droidnotify.common.Constants;
 import apps.droidnotify.k9.K9PreferenceActivity;
 import apps.droidnotify.log.Log;
 import apps.droidnotify.phone.PhonePreferenceActivity;
-import apps.droidnotify.sms.MMSPreferenceActivity;
 import apps.droidnotify.sms.SMSPreferenceActivity;
 
 /**
@@ -33,7 +32,6 @@ public class NotificationsPreferenceActivity extends Activity {
 	private boolean _debug = false;
 	private Context _context = null;
 	private TextView _smsSettingsRow = null;	
-	private TextView _mmsSettingsRow = null;	
 	private TextView _missedCallsSettingsRow = null;	
 	private TextView _calendarSettingsRow = null;	
 	private TextView _k9SettingsRow = null;	
@@ -73,7 +71,6 @@ public class NotificationsPreferenceActivity extends Activity {
 	private void initLayoutItems() {
 		if (_debug) Log.v("NotificationsPreferenceActivity.initLayoutItems()");		
 		_smsSettingsRow = (TextView)findViewById(R.id.row_sms);
-		_mmsSettingsRow = (TextView)findViewById(R.id.row_mms);
 		_missedCallsSettingsRow = (TextView)findViewById(R.id.row_missed_calls);
 		_calendarSettingsRow = (TextView)findViewById(R.id.row_calendar);	
 		_k9SettingsRow = (TextView)findViewById(R.id.row_k9);
@@ -88,7 +85,6 @@ public class NotificationsPreferenceActivity extends Activity {
 	private void setupRowAttributes(){
 		if (_debug) Log.v("NotificationsPreferenceActivity.setupRowAttributes()");	
 		_smsSettingsRow.setBackgroundResource(R.drawable.preference_row_click);
-		_mmsSettingsRow.setBackgroundResource(R.drawable.preference_row_click);
 		_missedCallsSettingsRow.setBackgroundResource(R.drawable.preference_row_click);
 		_calendarSettingsRow.setBackgroundResource(R.drawable.preference_row_click);	
 		_k9SettingsRow.setBackgroundResource(R.drawable.preference_row_click);
@@ -112,16 +108,6 @@ public class NotificationsPreferenceActivity extends Activity {
 		    	}
         	}
 		});
-		//MMS Button
-		_mmsSettingsRow.setOnClickListener(new OnClickListener(){
-        	public void onClick(View view){
-		    	try{
-		    		startActivity(new Intent(_context, MMSPreferenceActivity.class));
-		    	}catch(Exception ex){
-	 	    		Log.e("NotificationsPreferenceActivity() MMS Button ERROR: " + ex.toString());
-		    	}
-        	}
-		});		
 		//Missed Calls Button
 		_missedCallsSettingsRow.setOnClickListener(new OnClickListener(){
 	    	public void onClick(View view){

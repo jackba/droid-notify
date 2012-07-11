@@ -424,26 +424,7 @@ public class Constants {
 	public static final String SMS_TIME_IS_UTC_KEY = "sms_time_is_utc";
 	
 	//-----MMS CONSTANTS-----//
-	public static final String MMS_NOTIFICATIONS_ENABLED_KEY = "mms_notifications_enabled";
-	public static final String MMS_BLOCKING_APP_RUNNING_ACTION_KEY = "blocking_app_running_action_mms";
 	public static final String MMS_TIMEOUT_KEY = "mms_timeout_settings";
-	public static final String MMS_DELETE_KEY = "mms_delete_button_action";
-	public static final String MMS_REPLY_KEY = "mms_reply_button_action";
-	public static final String MMS_DISPLAY_DISMISS_BUTTON_KEY = "mms_display_dismiss_button";
-	public static final String MMS_DISPLAY_DELETE_BUTTON_KEY = "mms_display_delete_button";
-	public static final String MMS_DISPLAY_REPLY_BUTTON_KEY = "mms_display_reply_button";
-	public static final String MMS_NOTIFICATION_COUNT_ACTION_KEY = "mms_notification_count_action";
-	public static final String MMS_DISMISS_KEY = "mms_dismiss_button_action";
-	public static final String MMS_CONFIRM_DELETION_KEY = "confirm_mms_deletion";
-	public static final String MMS_DISPLAY_UNREAD_KEY = "mms_display_unread_enabled";
-	
-	public static final String MMS_DISMISS_ACTION_MARK_READ = "0";
-	public static final String MMS_DELETE_ACTION_DELETE_MESSAGE = "0";
-	public static final String MMS_DELETE_ACTION_DELETE_THREAD = "1";
-	public static final String MMS_DELETE_ACTION_NOTHING = "2";
-	
-	public static final String MMS_MESSAGING_APP_REPLY = "0";
-	public static final String MMS_QUICK_REPLY = "1";	
 
 	//-----MISSED CALL CONSTANTS-----//
 	public static final String PHONE_NOTIFICATIONS_ENABLED_KEY = "missed_call_notifications_enabled";
@@ -601,31 +582,6 @@ public class Constants {
 	public static final String SMS_STATUS_BAR_NOTIFICATIONS_ICON_SETTING_KEY = "notification_icon_sms";
 	public static final String SMS_STATUS_BAR_NOTIFICATIONS_ICON_DEFAULT = "status_bar_notification_sms_green";
 	
-	//-----MMS STATUS BAR NOTIFICATION CONSTANTS-----//
-	public static final String MMS_STATUS_BAR_NOTIFICATIONS_CUSTOM_VALUE = "mms_custom";
-	
-	public static final String MMS_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY = "mms_status_bar_notifications_enabled";
-	
-	public static final String MMS_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY = "mms_status_bar_notifications_show_when_blocked_enabled";
-	
-	public static final String MMS_STATUS_BAR_NOTIFICATIONS_SOUND_SETTING_KEY = "mms_notification_sound";
-	
-	public static final String MMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY = "mms_notification_vibrate_setting";
-	public static final String MMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_KEY = "mms_notification_vibrate_pattern";
-	public static final String MMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_CUSTOM_KEY = "mms_notification_vibrate_pattern_custom";
-	
-	public static final String MMS_STATUS_BAR_NOTIFICATIONS_LED_ENABLED_KEY = "mms_notification_led_enabled";
-	public static final String MMS_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_KEY = "mms_notification_led_pattern";
-	public static final String MMS_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_KEY = "mms_notification_led_pattern_custom";
-	public static final String MMS_STATUS_BAR_NOTIFICATIONS_LED_COLOR_KEY = "mms_notification_led_color";
-	public static final String MMS_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_KEY = "mms_notification_led_color_custom";
-	
-	public static final String MMS_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY = "mms_notification_in_call_sound_enabled";
-	public static final String MMS_STATUS_BAR_NOTIFICATIONS_IN_CALL_VIBRATE_ENABLED_KEY = "mms_notification_in_call_vibrate_enabled";
-	
-	public static final String MMS_STATUS_BAR_NOTIFICATIONS_ICON_SETTING_KEY = "notification_icon_mms";
-	public static final String MMS_STATUS_BAR_NOTIFICATIONS_ICON_DEFAULT = "status_bar_notification_sms_green";
-	
 	//-----PHONE STATUS BAR NOTIFICATION CONSTANTS-----//
 	public static final String PHONE_STATUS_BAR_NOTIFICATIONS_CUSTOM_VALUE = "phone_custom";
 	
@@ -752,6 +708,9 @@ public class Constants {
 
 	//-----PRIVACY CONSTANTS-----//
 	public static final String STATUS_BAR_NOTIFICATION_PRIVACY_ENABLED_KEY = "status_bar_notification_privacy_enabled";
+	public static final String SMS_MESSAGE_PRIVACY_ENABLED_KEY = "sms_message_privacy_enabled";
+	public static final String EMAIL_MESSAGE_PRIVACY_ENABLED_KEY = "email_message_privacy_enabled";
+	public static final String MISSED_CALL_PRIVACY_ENABLED_KEY = "missed_call_privacy_enabled";
 
 	//-----RESTRICT POPUP CONSTANTS-----//
 	public static final String RESTRICT_POPUP_KEY = "restrict_popup";

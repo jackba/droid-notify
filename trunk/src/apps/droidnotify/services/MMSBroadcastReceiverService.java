@@ -62,7 +62,7 @@ public class MMSBroadcastReceiverService extends WakefulIntentService {
 				return;
 			}
 			//Read preferences and exit if MMS notifications are disabled.
-		    if(!preferences.getBoolean(Constants.MMS_NOTIFICATIONS_ENABLED_KEY, true)){
+		    if(!preferences.getBoolean(Constants.SMS_NOTIFICATIONS_ENABLED_KEY, true)){
 				if (_debug) Log.v("MMSBroadcastReceiverService.doWakefulWork() MMS Notifications Disabled. Exiting...");
 				return;
 			}

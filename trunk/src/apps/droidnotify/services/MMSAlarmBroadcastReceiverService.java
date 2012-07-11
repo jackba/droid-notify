@@ -59,7 +59,7 @@ public class MMSAlarmBroadcastReceiverService extends WakefulIntentService {
 				return;
 			}
 			//Read preferences and exit if MMS notifications are disabled.
-		    if(!preferences.getBoolean(Constants.MMS_NOTIFICATIONS_ENABLED_KEY, true)){
+		    if(!preferences.getBoolean(Constants.SMS_NOTIFICATIONS_ENABLED_KEY, true)){
 				if (_debug) Log.v("MMSAlarmBroadcastReceiverService.doWakefulWork() MMS Notifications Disabled. Exiting...");
 				return;
 			}
@@ -90,7 +90,7 @@ public class MMSAlarmBroadcastReceiverService extends WakefulIntentService {
 				WakefulIntentService.sendWakefulWork(context, new Intent(context, MMSService.class));
 		    }else{	    		 	
 		    	//Display the Status Bar Notification even though the popup is blocked based on the user preferences.
-		    	if(preferences.getBoolean(Constants.MMS_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true)){
+		    	if(preferences.getBoolean(Constants.SMS_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true)){
 	    			if(mmsNotificationBundleSingle != null){
 						//Display Status Bar Notification
 					    Common.setStatusBarNotification(context, 1, Constants.NOTIFICATION_TYPE_MMS, 0, callStateIdle, mmsNotificationBundleSingle.getString(Constants.BUNDLE_CONTACT_NAME), mmsNotificationBundleSingle.getLong(Constants.BUNDLE_CONTACT_ID, -1), mmsNotificationBundleSingle.getString(Constants.BUNDLE_SENT_FROM_ADDRESS), mmsNotificationBundleSingle.getString(Constants.BUNDLE_MESSAGE_BODY), null, null, false, Common.getStatusBarNotificationBundle(context, Constants.NOTIFICATION_TYPE_MMS));

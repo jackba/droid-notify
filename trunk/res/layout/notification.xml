@@ -138,7 +138,7 @@
 			</LinearLayout>
 		</LinearLayout>
 		<TextView
-			android:id="@+id/mms_link_text_view"
+			android:id="@+id/link_text_view"
 			android:layout_height="wrap_content"
 			android:layout_width="fill_parent"
 			android:layout_gravity="center"
@@ -149,8 +149,7 @@
 			android:focusable="true" 
 			android:clickable="true"
 			android:textStyle="bold"
-			android:visibility="gone"
-			android:text="@string/mms_click_here_to_view" />
+			android:visibility="gone" />
 		<TextView
 			android:id="@+id/notification_details_text_view"
 			android:layout_height="wrap_content"
