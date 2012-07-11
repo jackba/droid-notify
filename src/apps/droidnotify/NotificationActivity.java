@@ -261,7 +261,7 @@ public class NotificationActivity extends Activity{
 				}
 			}
 			case VIEW_THREAD_CONTEXT_MENU:{
-				if(SMSCommon.startMessagingAppViewThreadActivity(_context, this, notification.getSentFromAddress(), Constants.VIEW_SMS_THREAD_ACTIVITY)){
+				if(SMSCommon.startMessagingAppViewThreadActivity(_context, this, notification.getThreadID(), Constants.VIEW_SMS_THREAD_ACTIVITY)){
 					return true;
 				}else{
 					return false;
@@ -371,11 +371,11 @@ public class NotificationActivity extends Activity{
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_MMS:{
-				if(_preferences.getString(Constants.MMS_DELETE_KEY, "0").equals(Constants.MMS_DELETE_ACTION_NOTHING)){
+				if(_preferences.getString(Constants.SMS_DELETE_KEY, "0").equals(Constants.SMS_DELETE_ACTION_NOTHING)){
 					//Remove the notification from the ViewFlipper
 					deleteMessage();
 				}else{
-					if(_preferences.getBoolean(Constants.MMS_CONFIRM_DELETION_KEY, true)){
+					if(_preferences.getBoolean(Constants.SMS_CONFIRM_DELETION_KEY, true)){
 						//Confirm deletion of the message.
 						showDialog(Constants.DIALOG_DELETE_MESSAGE);
 					}else{
@@ -897,7 +897,7 @@ public class NotificationActivity extends Activity{
 					finishActivity();
 					return;
 				}else{
-					if(_preferences.getBoolean(Constants.MMS_DISPLAY_UNREAD_KEY, false)){
+					if(_preferences.getBoolean(Constants.SMS_DISPLAY_UNREAD_KEY, false)){
 						new getAllUnreadMMSMessagesAsyncTask().execute();
 				    }
 				}
@@ -953,7 +953,7 @@ public class NotificationActivity extends Activity{
 					finishActivity();
 					return;
 				}else{
-					if(_preferences.getBoolean(Constants.MMS_DISPLAY_UNREAD_KEY, false)){
+					if(_preferences.getBoolean(Constants.SMS_DISPLAY_UNREAD_KEY, false)){
 						new getAllUnreadMMSMessagesAsyncTask().execute();
 				    }
 				}
@@ -1089,9 +1089,9 @@ public class NotificationActivity extends Activity{
 						builder.setMessage(_context.getString(R.string.delete_thread_dialog_text));
 					}
 				}else if(notificationType == Constants.NOTIFICATION_TYPE_MMS){
-					if(_preferences.getString(Constants.MMS_DELETE_KEY, "0").equals(Constants.MMS_DELETE_ACTION_DELETE_MESSAGE)){
+					if(_preferences.getString(Constants.SMS_DELETE_KEY, "0").equals(Constants.SMS_DELETE_ACTION_DELETE_MESSAGE)){
 						builder.setMessage(_context.getString(R.string.delete_message_dialog_text));
-					}else if(_preferences.getString(Constants.MMS_DELETE_KEY, "0").equals(Constants.MMS_DELETE_ACTION_DELETE_THREAD)){
+					}else if(_preferences.getString(Constants.SMS_DELETE_KEY, "0").equals(Constants.SMS_DELETE_ACTION_DELETE_THREAD)){
 						builder.setMessage(_context.getString(R.string.delete_thread_dialog_text));
 					}					
 				}else if(notificationType == Constants.NOTIFICATION_TYPE_K9){
@@ -1154,7 +1154,7 @@ public class NotificationActivity extends Activity{
 	    	case Constants.NOTIFICATION_TYPE_MMS:{
 		    	if(_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_MMS");
 		    	setupBundleNotifications(extrasBundle);
-				if(_preferences.getBoolean(Constants.MMS_DISPLAY_UNREAD_KEY, false)){
+				if(_preferences.getBoolean(Constants.SMS_DISPLAY_UNREAD_KEY, false)){
 					if(_notificationViewFlipper.getMMSCount() <= 1){			
 						new getAllUnreadMMSMessagesAsyncTask().execute();
 					}
@@ -1194,7 +1194,7 @@ public class NotificationActivity extends Activity{
 		    case Constants.NOTIFICATION_TYPE_RESCHEDULE_MMS:{
 		    	if(_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_RESCHEDULE_MMS");
 		    	setupBundleNotifications(extrasBundle);
-				if(_preferences.getBoolean(Constants.MMS_DISPLAY_UNREAD_KEY, false)){
+				if(_preferences.getBoolean(Constants.SMS_DISPLAY_UNREAD_KEY, false)){
 					if(_notificationViewFlipper.getMMSCount() <= 1){			
 						new getAllUnreadMMSMessagesAsyncTask().execute();
 					}

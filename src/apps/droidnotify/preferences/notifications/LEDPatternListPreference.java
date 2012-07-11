@@ -76,9 +76,6 @@ public class LEDPatternListPreference extends ListPreference {
 			}else if (_preferences.getString(this.getKey(), Constants.STATUS_BAR_NOTIFICATIONS_LED_PATTERN_DEFAULT).equals(Constants.SMS_STATUS_BAR_NOTIFICATIONS_CUSTOM_VALUE)) {
 				_notificationType = Constants.NOTIFICATION_TYPE_SMS;
 				showDialog();
-			}else if (_preferences.getString(this.getKey(), Constants.STATUS_BAR_NOTIFICATIONS_LED_PATTERN_DEFAULT).equals(Constants.MMS_STATUS_BAR_NOTIFICATIONS_CUSTOM_VALUE)) {
-				_notificationType = Constants.NOTIFICATION_TYPE_MMS;
-				showDialog();
 			}else if (_preferences.getString(this.getKey(), Constants.STATUS_BAR_NOTIFICATIONS_LED_PATTERN_DEFAULT).equals(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_CUSTOM_VALUE)) {
 				_notificationType = Constants.NOTIFICATION_TYPE_PHONE;
 				showDialog();
@@ -109,9 +106,6 @@ public class LEDPatternListPreference extends ListPreference {
 		    }
 		    case Constants.NOTIFICATION_TYPE_SMS:{
 		    	 ledCustomPattern = _preferences.getString(Constants.SMS_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_KEY, Constants.STATUS_BAR_NOTIFICATIONS_LED_PATTERN_DEFAULT);
-		    }
-		    case Constants.NOTIFICATION_TYPE_MMS:{
-		    	ledCustomPattern = _preferences.getString(Constants.MMS_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_KEY, Constants.STATUS_BAR_NOTIFICATIONS_LED_PATTERN_DEFAULT);
 		    }
 		    case Constants.NOTIFICATION_TYPE_PHONE:{
 		    	ledCustomPattern = _preferences.getString(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_KEY, Constants.STATUS_BAR_NOTIFICATIONS_LED_PATTERN_DEFAULT);
@@ -147,9 +141,6 @@ public class LEDPatternListPreference extends ListPreference {
 					    }
 					    case Constants.NOTIFICATION_TYPE_SMS:{
 					    	editor.putString(Constants.SMS_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_KEY, customLEDPattern);
-					    }
-					    case Constants.NOTIFICATION_TYPE_MMS:{
-					    	editor.putString(Constants.MMS_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_KEY, customLEDPattern);
 					    }
 					    case Constants.NOTIFICATION_TYPE_PHONE:{
 					    	editor.putString(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_LED_PATTERN_CUSTOM_KEY, customLEDPattern);

@@ -77,7 +77,7 @@ public class RescheduleService extends WakefulIntentService {
 			    	break;
 			    }
 			    case Constants.NOTIFICATION_TYPE_MMS:{
-			    	showBlockedNotificationStatusBarNotification = preferences.getBoolean(Constants.MMS_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true);
+			    	showBlockedNotificationStatusBarNotification = preferences.getBoolean(Constants.SMS_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true);
 			    	break;
 			    }
 			    case Constants.NOTIFICATION_TYPE_CALENDAR:{
@@ -100,7 +100,7 @@ public class RescheduleService extends WakefulIntentService {
 			    	break;
 			    }
 			    case Constants.NOTIFICATION_TYPE_RESCHEDULE_MMS:{
-			    	showBlockedNotificationStatusBarNotification = preferences.getBoolean(Constants.MMS_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true);
+			    	showBlockedNotificationStatusBarNotification = preferences.getBoolean(Constants.SMS_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true);
 			    	break;
 			    }
 			    case Constants.NOTIFICATION_TYPE_RESCHEDULE_CALENDAR:{

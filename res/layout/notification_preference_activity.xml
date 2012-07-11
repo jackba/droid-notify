@@ -56,27 +56,6 @@
 		        android:id="@+id/row_divider_sms"
 		  		android:src="@drawable/preference_divider_normal"
 		  		android:layout_height="0.5dp"  
-				android:layout_width="fill_parent" />
-			
-			<!-- Row - MMS-->
-		    <TextView
-		        android:id="@+id/row_mms"
-		        android:layout_width="fill_parent"
-		        android:layout_height="wrap_content"
-    			android:minHeight="?android:attr/listPreferredItemHeight"
-			    android:paddingTop="15dp"
-				android:paddingBottom="15dp"
-		        android:clickable="true"
-		        android:drawableLeft="@drawable/preference_ic_sms"
-		        android:drawablePadding="10dp"
-		        android:gravity="center_vertical"
-		        android:paddingLeft="5dp"
-		        android:text="@string/mms"
-		        android:textAppearance="?android:attr/textAppearanceLarge" />		 
-			<ImageView
-		        android:id="@+id/row_divider_mms"
-		  		android:src="@drawable/preference_divider_normal"
-		  		android:layout_height="0.5dp"  
 				android:layout_width="fill_parent" />	 
 
 			<!-- Row - Missed Calls-->

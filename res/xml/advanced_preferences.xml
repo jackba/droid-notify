@@ -34,8 +34,8 @@
 	</PreferenceCategory>
 	<PreferenceCategory
 		android:layout="@layout/custom_preference_category"
-		android:key="mms_category"
-		android:title="@string/mms_category">
+		android:key="sms_category"
+		android:title="@string/sms_category">
 		<ListPreference
 			android:layout="@layout/custom_preference_list"
 			android:key="mms_timeout_settings"

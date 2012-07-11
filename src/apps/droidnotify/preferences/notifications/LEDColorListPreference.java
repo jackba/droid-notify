@@ -74,9 +74,6 @@ public class LEDColorListPreference extends ListPreference{
 			}else if (_preferences.getString(this.getKey(), Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT).equals(Constants.SMS_STATUS_BAR_NOTIFICATIONS_CUSTOM_VALUE)) {
 				_notificationType = Constants.NOTIFICATION_TYPE_SMS;
 				showDialog();
-			}else if (_preferences.getString(this.getKey(), Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT).equals(Constants.MMS_STATUS_BAR_NOTIFICATIONS_CUSTOM_VALUE)) {
-				_notificationType = Constants.NOTIFICATION_TYPE_MMS;
-				showDialog();
 			}else if (_preferences.getString(this.getKey(), Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT).equals(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_CUSTOM_VALUE)) {
 				_notificationType = Constants.NOTIFICATION_TYPE_PHONE;
 				showDialog();
@@ -107,9 +104,6 @@ public class LEDColorListPreference extends ListPreference{
 			    case Constants.NOTIFICATION_TYPE_SMS:{
 			    	initialColor = _preferences.getInt(Constants.SMS_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_KEY, Color.parseColor(Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT));
 			    }
-			    case Constants.NOTIFICATION_TYPE_MMS:{
-			    	initialColor = _preferences.getInt(Constants.MMS_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_KEY, Color.parseColor(Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT));
-			    }
 			    case Constants.NOTIFICATION_TYPE_PHONE:{
 			    	initialColor = _preferences.getInt(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_KEY, Color.parseColor(Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT));
 			    }
@@ -132,9 +126,6 @@ public class LEDColorListPreference extends ListPreference{
 					    }
 					    case Constants.NOTIFICATION_TYPE_SMS:{
 					    	editor.putInt(Constants.SMS_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_KEY, color);
-					    }
-					    case Constants.NOTIFICATION_TYPE_MMS:{
-					    	editor.putInt(Constants.MMS_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_KEY, color);
 					    }
 					    case Constants.NOTIFICATION_TYPE_PHONE:{
 					    	editor.putInt(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_KEY, color);
