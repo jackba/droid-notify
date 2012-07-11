@@ -1444,6 +1444,17 @@
 		<item></item>
 		<item></item>
 		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
 	</string-array>
 	<string-array name="notification_icon_values">
 		<item>status_bar_notification_sms_blue</item>
@@ -1472,7 +1483,7 @@
 		<item>status_bar_notification_sms_postcard_glass_purple</item>
 		<item>status_bar_notification_sms_postcard_glass_red</item>
 		<item>status_bar_notification_sms_postcard_glass_white</item>
-		<item>status_bar_notification_sms_postcard_glass_yellow</item>		
+		<item>status_bar_notification_sms_postcard_glass_yellow</item>
 		<item>status_bar_notification_sms_blur_black</item>
 		<item>status_bar_notification_sms_blur_blue</item>
 		<item>status_bar_notification_sms_blur_gray</item>
@@ -1585,7 +1596,7 @@
 		<item>@drawable/status_bar_notification_email_glass_orange</item>
 		<item>@drawable/status_bar_notification_email_glass_red</item>
 		<item>@drawable/status_bar_notification_email_glass_white</item>
-		<item>@drawable/status_bar_notification_email_glass_yellow</item>
+		<item>@drawable/status_bar_notification_email_glass_yellow</item>	
 	</array>
 	    	    	    	
 	<!-- Notification Vibrate Arrays --> 
