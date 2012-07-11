@@ -12,7 +12,7 @@
  * Fixed bug that prevented Twitter authentication from devices running Android 4.0+.
  * Fixed a bug that prevented Notify Plus popups from having reminders.
  * Consolidated MMS Settings into the SMS settings.
- * Added an SMS Message privacy setting.
+ * Added more notification privacy settings.
  * Fixed View SMS Thread bug.
  * Updated translations.
  * Small bug fixes.
