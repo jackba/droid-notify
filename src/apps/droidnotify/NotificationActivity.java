@@ -1470,7 +1470,12 @@ public class NotificationActivity extends Activity{
 	     */
 	    protected Bundle doInBackground(String... params){
 			if(_debug) Log.v("NotificationActivity.getAllUnreadSMSMessagesAsyncTask.doInBackground()");
-			return SMSCommon.getAllUnreadSMSMessages(_context);
+			try{
+				return SMSCommon.getAllUnreadSMSMessages(_context);
+			}catch(Exception ex){
+				Log.e("NotificationActivity.getAllUnreadSMSMessagesAsyncTask.doInBackground() ERROR: " + ex.toString());
+				return null;
+			}
 	    }
 	    
 	    /**

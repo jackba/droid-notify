@@ -113,7 +113,7 @@ public class Common {
 	    		Log.i("Common.debugReadContentProviderColumns() NO VALID URI PROVIDED.");
 	    		return;
 	    	}
-		    while (cursor.moveToNext()) { 
+		    while(cursor.moveToNext()){ 
 		    	for(int i=0;i<cursor.getColumnCount();i++){
 		    		Log.i("Common.debugReadContentProviderColumns() " + cursor.getColumnName(i) + " = " + cursor.getString(i));
 		    	}

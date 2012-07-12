@@ -63,7 +63,7 @@ public class PhoneCommon {
 		    		selection,
 					selectionArgs,
 					sortOrder);
-	    	while (cursor.moveToNext()){ 
+	    	while(cursor.moveToNext()){ 
 	    		String callLogID = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls._ID));
 	    		String callNumber = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.NUMBER));
 	    		long timeStamp = cursor.getLong(cursor.getColumnIndex(android.provider.CallLog.Calls.DATE));
@@ -522,58 +522,6 @@ public class PhoneCommon {
 	}
 	
 	/**
-	 * Compares the two strings. 
-	 * If the second string is larger and ends with the first string, return true.
-	 * If the first string is larger and ends with the second string, return true.
-	 * 
-	 * @param contactNumber - The address books phone number.
-	 * @param incomingNumber - The incoming phone number.
-	 * 
-	 * @return - boolean - 	 If the second string is larger ends with the first string, return true.
-	 *                       If the first string is larger ends with the second string, return true.
-	 */
-	public static boolean isPhoneNumberEqual(String contactNumber, String incomingNumber){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("PhoneCommon.isPhoneNumberEqual() ContactNumber: " + contactNumber + " IncomingNumber: " + incomingNumber);
-		try{
-			if(contactNumber == null || incomingNumber == null){
-				if (_debug) Log.v("PhoneCommon.isPhoneNumberEqual() ContactNumber OR IncomingNumber IS NULL. Exiting...");
-				return false;
-			}
-			//Remove any formatting from each number.
-			contactNumber = PhoneCommon.removePhoneNumberFormatting(contactNumber);
-			incomingNumber = PhoneCommon.removePhoneNumberFormatting(incomingNumber);
-			//Remove any leading zero's from each number.
-			contactNumber = removeLeadingZero(contactNumber);
-			incomingNumber = removeLeadingZero(incomingNumber);	
-			int contactNumberLength = contactNumber.length();
-			int incomingNumberLength = incomingNumber.length();
-			//Check to see if the contactNumber is not the empty string. If it is, return false.
-			if(contactNumberLength < 1){
-				return false;
-			}
-			//Check to see if the incomingNumber is not the empty string. If it is, return false.
-			if(incomingNumberLength < 1){
-				return false;
-			}
-			//Iterate through the ends of both strings...backwards from the end of the string.
-			if(contactNumberLength <= incomingNumberLength){
-				if(!incomingNumber.endsWith(contactNumber)){
-					return false;
-				}
-			}else{
-				if(!contactNumber.endsWith(incomingNumber)){
-					return false;
-				}
-			}
-			return true;
-		}catch(Exception ex){
-			Log.e("PhoneCommon.isPhoneNumberEqual() ERROR: " + ex.toString());
-			return false;
-		}
-	}
-	
-	/**
 	 * Remove all non-numeric items from the phone number.
 	 * 
 	 * @param phoneNumber - String of original phone number.
@@ -605,32 +553,5 @@ public class PhoneCommon {
 	//================================================================================
 	// Private Methods
 	//================================================================================
-	
-	/**
-	 * Remove the leading zero from a string.
-	 * 
-	 * @param inputNumber - The number to remove the leading zero from.
-	 * 
-	 * @return String - The number after we have removed the leading zero.
-	 */
-	private static String removeLeadingZero(String inputNumber){
-		//if (_debug) Log.v("PhoneCommon.removeLeadingZero() InputNumber: " + inputNumber);
-		try{
-			if(inputNumber == null || inputNumber.length() < 1){
-				return inputNumber;
-			}
-			if(inputNumber.substring(0, 1).equals("0")){
-				//Do not edit number if the number is exactly 0.
-				//Only update if there is more than 1 digit.
-				if(inputNumber.length() > 1){
-					return inputNumber.substring(1);
-				}
-			}
-			return inputNumber;
-		}catch(Exception ex){
-			Log.e("PhoneCommon.removeLeadingZero() ERROR: " + ex.toString());
-			return inputNumber;
-		}
-	}
 	
 }
