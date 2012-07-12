@@ -99,7 +99,7 @@ public class CalendarCommon {
 						Log.e("CalendarCommon.readCalendars() READ CALENDARS ERROR: Cursor is null. Exiting...");
 						return;
 					}
-					while (cursor.moveToNext()){
+					while(cursor.moveToNext()){
 						final String calendarID = cursor.getString(cursor.getColumnIndex(Constants.CALENDAR_ID));
 						String calendarDisplayName = null;
 						Boolean calendarSelected = true;
@@ -168,7 +168,7 @@ public class CalendarCommon {
 							return;
 						}
 						//if (_debug) Log.v("CalendarCommon.readCalendars() CHECKING EVENTS FOR CALENDAR - eventCursor.getCount(): " + eventCursor.getCount());
-						while (eventCursor.moveToNext()){
+						while(eventCursor.moveToNext()){
 							long eventCalendarID = eventCursor.getLong(eventCursor.getColumnIndex(Constants.CALENDAR_CALENDAR_ID));
 							String eventID = eventCursor.getString(eventCursor.getColumnIndex(Constants.CALENDAR_EVENT_ID));
 							String eventTitle = eventCursor.getString(eventCursor.getColumnIndex(Constants.CALENDAR_EVENT_TITLE));
@@ -302,7 +302,7 @@ public class CalendarCommon {
 				null,
 				null,
 				null);
-			while (cursor.moveToNext()){
+			while(cursor.moveToNext()){
 				final String calendarID = cursor.getString(cursor.getColumnIndex(Constants.CALENDAR_ID));
 				String calendarDisplayName = null;
 				Boolean calendarSelected = true;
@@ -662,7 +662,7 @@ public class CalendarCommon {
 				Log.e("CalendarCommon.getCalendarEventReminderTime() Cursor is null. Exiting...");
 				return -1;
 			}
-			while (cursor.moveToNext()){
+			if(cursor.moveToFirst()){
 				final int reminderTimeInMinutes = cursor.getInt(cursor.getColumnIndex(Constants.CALENDAR_REMINDER_MINUTES));
 				if (_debug) Log.v("CalendarCommon.getCalendarEventReminderTime() Reminder Time (minutes): " + reminderTimeInMinutes);
 				return reminderTimeInMinutes * 60 * 1000;
