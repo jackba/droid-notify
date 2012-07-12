@@ -579,11 +579,11 @@
     <string name="status_bar_notification_privacy_title">Status Bar Notification Privacy</string>
 	<string name="status_bar_notification_privacy_summary">Do not display private information in the status bar notifications.</string>
     <string name="sms_mesage_privacy">SMS Message Privacy</string>
-	<string name="sms_mesage_privacy_summary">Do not display the SMS message in the notification popup. A button will be dispayed and must be clicked to view the message.</string>
+	<string name="sms_mesage_privacy_summary">Do not display the SMS message in the notification popup. A button will be displayed and must be clicked to view the message.</string>
     <string name="email_mesage_privacy">Email Message Privacy</string>
-	<string name="email_mesage_privacy_summary">Do not display the email message in the notification popup. A button will be dispayed and must be clicked to view the message.</string>
+	<string name="email_mesage_privacy_summary">Do not display the email message in the notification popup. A button will be displayed and must be clicked to view the message.</string>
     <string name="missed_call_privacy">Missed Call Privacy</string>
-	<string name="missed_call_privacy_summary">Do not display the missed call information in the notification popup. A button will be dispayed and must be clicked to view the call log.</string>
+	<string name="missed_call_privacy_summary">Do not display the missed call information in the notification popup. A button will be displayed and must be clicked to view the call log.</string>
     
     <!-- Settings Advanced Strings -->
     <string name="advanced_category">ADVANCED</string> 
