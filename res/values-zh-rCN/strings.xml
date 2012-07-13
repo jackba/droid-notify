@@ -293,6 +293,8 @@
   <string name="preference_call_log_timeout">通话记录超时</string>
   <string name="preference_call_log_timeout_summary">定义在结束通话后等待多长时间查询通话记录。</string>
   <string name="mms_click_here_to_view">[点击这里查看彩信]</string>
+  <string name="click_to_view_message">[点击这里查看留言]</string>
+  <string name="click_to_view_log">[点击这里查看日志]</string>
   <string name="event_reminders_category">事件提醒</string>
   <string name="calendar">日历</string>
   <string name="add_calendar_event_text">添加日历事件</string>
@@ -449,6 +451,12 @@
   <string name="privacy">隐私</string>
   <string name="status_bar_notification_privacy_title">状态栏通知隐私</string>
   <string name="status_bar_notification_privacy_summary">不在状态条通知显示的私人信息。</string>
+  <string name="sms_mesage_privacy">SMS 消息隐私</string>
+  <string name="sms_mesage_privacy_summary">通知弹出式窗口中不显示接收短信。一个按钮将显示，必须单击以查看该邮件。</string>
+  <string name="email_mesage_privacy">电子邮件消息隐私</string>
+  <string name="email_mesage_privacy_summary">不通知弹出式窗口中显示的电子邮件。一个按钮将显示，必须单击以查看该邮件。</string>
+  <string name="missed_call_privacy">错过的呼叫隐私</string>
+  <string name="missed_call_privacy_summary">不通知弹出式窗口中显示的未接的来电信息。一个按钮将显示，必须单击以查看呼叫日志。</string>
   <string name="advanced_category">高级</string>
   <string name="advanced">高级</string>
   <string name="haptic_feedback_title">启用触觉反馈</string>

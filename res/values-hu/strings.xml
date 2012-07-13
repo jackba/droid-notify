@@ -299,6 +299,8 @@ Köszönjük!\"</string>
   <string name="preference_call_log_timeout">Hívásnapló időkorlát</string>
   <string name="preference_call_log_timeout_summary">Határozza meg, hogy meddig kell várni a hívás befejezése után, mielőtt lekérdez a hívásnaplóból egy nem fogadott hívást.</string>
   <string name="mms_click_here_to_view">[Katt ide az MMS megtekintéséhez]</string>
+  <string name="click_to_view_message">[Ide kattintva megtekintheti üzenetét]</string>
+  <string name="click_to_view_log">[Ide kattintva megtekintheti a naplózást]</string>
   <string name="event_reminders_category">ESEMÉNY EMLÉKEZTETŐ</string>
   <string name="calendar">Naptár</string>
   <string name="add_calendar_event_text">Új naptár esemény</string>
@@ -455,6 +457,12 @@ Köszönjük!\"</string>
   <string name="privacy">Adatvédelem</string>
   <string name="status_bar_notification_privacy_title">Értesítési adatvédelem</string>
   <string name="status_bar_notification_privacy_summary">Ne jelenjen meg magánjellegű információ az értesítésben.</string>
+  <string name="sms_mesage_privacy">SMS üzenet Adatvédelem</string>
+  <string name="sms_mesage_privacy_summary">Ne jelenjen meg az SMS a felugró értesítésben. Egy gomb jelenik meg amit meg kell érinteni az üzenet megtekintéséhez.</string>
+  <string name="email_mesage_privacy">Email Adatvédelem</string>
+  <string name="email_mesage_privacy_summary">Ne jelenjen meg az email a felugró értesítésben. Egy gomb jelenik meg amit meg kell érinteni az email megtekintéséhez.</string>
+  <string name="missed_call_privacy">Nemfogadott Hívások Adatvédelme</string>
+  <string name="missed_call_privacy_summary">Ne jelenjen meg hívásinformáció a felugró értesítésben. Egy gomb jelenik meg amit meg kell érinteni a hívásnapló megtekintéséhez.</string>
   <string name="advanced_category">HALADÓ</string>
   <string name="advanced">Haladó</string>
   <string name="haptic_feedback_title">Haptic visszajelzés</string>

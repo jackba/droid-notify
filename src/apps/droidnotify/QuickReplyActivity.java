@@ -111,7 +111,9 @@ public class QuickReplyActivity extends Activity {
 	    Window mainWindow = getWindow(); 
 	    //Set Blur 
 	    if(_preferences.getBoolean(Constants.QUICK_REPLY_BLUR_SCREEN_BACKGROUND_ENABLED_KEY, false)){
-	    	mainWindow.addFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
+	    	if(Common.getOSAPILevel() <= android.os.Build.VERSION_CODES.GINGERBREAD_MR1){
+	    		mainWindow.addFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
+	    	}
 	    }
 	    //Set Dim
 	    if(_preferences.getBoolean(Constants.QUICK_REPLY_DIM_SCREEN_BACKGROUND_ENABLED_KEY, true)){

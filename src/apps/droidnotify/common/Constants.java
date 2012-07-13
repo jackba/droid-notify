@@ -510,10 +510,6 @@ public class Constants {
 	//-----GENERIC NOTIFICATION CONSTANTS-----//	
 	public static final String GENERIC_NOTIFICATIONS_ENABLED_KEY = "generic_notifications_enabled";
 	
-	//-----GOOGLEPLUS NOTIFICATION CONSTANTS-----//
-	public static final String GOOGLEPLUS_CONSUMER_KEY = "503968671076.apps.googleusercontent.com";
-	public static final String GOOGLEPLUS_CONSUMER_SECRET= "a8q_wS-TG11-vV96vMl8zHic";
-	
 	//-----APPLICATION URL CONSTANTS-----//
 	//Android Market URL
 	public static final String APP_ANDROID_URL = "https://play.google.com/store/apps/details?id=apps.droidnotify";
@@ -543,7 +539,7 @@ public class Constants {
 	public static final String APP_SAMSUNG_MISSED_CALL_MESSENGER_LITE_URL = "samsungapps://ProductDetail/com.missedcallmessenger.lite";
 	
 	//PayPal URL
-	public static final String APP_PAYPAL_URL = "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=43V2NJQH5BQAA";
+	public static final String APP_PAYPAL_URL = "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=XV4WLUKUBTMV6";
 	
 	//-----STATUS BAR NOTIFICATION CONSTANTS-----//
 	public static final String STATUS_BAR_NOTIFICATIONS_RINGTONE_DEFAULT = "content://settings/system/notification_sound";

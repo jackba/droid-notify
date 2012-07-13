@@ -293,6 +293,8 @@
   <string name="preference_call_log_timeout">Call Log Timeout</string>
   <string name="preference_call_log_timeout_summary">Define how long to wait after a call before querying the call log for a missed call.</string>
   <string name="mms_click_here_to_view">[Click Here To View MMS Message]</string>
+  <string name="click_to_view_message">[Click Here To View Message]</string>
+  <string name="click_to_view_log">[Click Here To View Log]</string>
   <string name="event_reminders_category">EVENT REMINDERS</string>
   <string name="calendar">Calendar</string>
   <string name="add_calendar_event_text">Add Calendar Event</string>
@@ -449,6 +451,12 @@
   <string name="privacy">Privacy</string>
   <string name="status_bar_notification_privacy_title">Status Bar Notification Privacy</string>
   <string name="status_bar_notification_privacy_summary">Do not display private information in the status bar notifications.</string>
+  <string name="sms_mesage_privacy">SMS Message Privacy</string>
+  <string name="sms_mesage_privacy_summary">Do not display the SMS message in the notification popup. A button will be displayed and must be clicked to view the message.</string>
+  <string name="email_mesage_privacy">Email Message Privacy</string>
+  <string name="email_mesage_privacy_summary">Do not display the email message in the notification popup. A button will be displayed and must be clicked to view the message.</string>
+  <string name="missed_call_privacy">Missed Call Privacy</string>
+  <string name="missed_call_privacy_summary">Do not display the missed call information in the notification popup. A button will be displayed and must be clicked to view the call log.</string>
   <string name="advanced_category">ADVANCED</string>
   <string name="advanced">Advanced</string>
   <string name="haptic_feedback_title">Enable Haptic Feedback</string>

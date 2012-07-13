@@ -293,6 +293,8 @@
   <string name="preference_call_log_timeout">Temporisation appel manqué</string>
   <string name="preference_call_log_timeout_summary">Indique, lors d\'une notification pour appel manqué, le temps d\'attente souhaité avant que l\'application ne regarde s\'il y a d\'autres appels manqués.</string>
   <string name="mms_click_here_to_view">[Voir le message MMS]</string>
+  <string name="click_to_view_message">[Cliquez Ici Pour Voir le Message]</string>
+  <string name="click_to_view_log">[Cliquez Ici Pour Voir le Journal]</string>
   <string name="event_reminders_category">RAPPELS D\'EVENEMENT</string>
   <string name="calendar">Calendrier</string>
   <string name="add_calendar_event_text">Ajout évènement calendrier</string>
@@ -447,8 +449,14 @@
   <string name="display_cancel_button_title">Voir bouton Annuler</string>
   <string name="display_cancel_button_summary">Affiche le bouton Annuler.</string>
   <string name="privacy">Confidentialité</string>
-  <string name="status_bar_notification_privacy_title">Confidentialité barre d\'état</string>
+  <string name="status_bar_notification_privacy_title">Confidentialité de la Barre D\'état</string>
   <string name="status_bar_notification_privacy_summary">N\'affiche pas les informations privées dans la barre d\'état.</string>
+  <string name="sms_mesage_privacy">Confidentialité des SMS</string>
+  <string name="sms_mesage_privacy_summary">N\'affiche pas le message SMS dans le popup. Vous devrez cliquer sur un bouton pour l\'afficher.</string>
+  <string name="email_mesage_privacy">Confidentialité des Mails</string>
+  <string name="email_mesage_privacy_summary">N\'affiche pas le mail dans le popup. Vous devrez cliquer sur un bouton pour l\'afficher.</string>
+  <string name="missed_call_privacy">Confidentialité des Appels Manqués</string>
+  <string name="missed_call_privacy_summary">N\'affiche pas les informations liées à l\'appel manqué dans le popup. Vous devrez cliquer sur un bouton pour les afficher.</string>
   <string name="advanced_category">AVANCÉE</string>
   <string name="advanced">Avancée</string>
   <string name="haptic_feedback_title">Activer Retour Haptique</string>

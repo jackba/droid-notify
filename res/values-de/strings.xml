@@ -293,6 +293,8 @@
   <string name="preference_call_log_timeout">﻿Rufen Sie Log-Timeout</string>
   <string name="preference_call_log_timeout_summary">﻿Definieren Sie, wie lange um nach einem Aufruf vor dem Abfragen der Gesprächsliste für einen Anruf in Abwesenheit zu warten.</string>
   <string name="mms_click_here_to_view">[Klicken Sie hier, um MMS-Nachricht anzuzeigen]</string>
+  <string name="click_to_view_message">[Klicken Sie Hier, um Nachricht Anzeigen]</string>
+  <string name="click_to_view_log">[Klicken Sie Hier, auf Protokoll Anzeigen]</string>
   <string name="event_reminders_category">ERINNERUNGEN</string>
   <string name="calendar">Kalender</string>
   <string name="add_calendar_event_text">Termin hinzufügen</string>
@@ -449,6 +451,12 @@
   <string name="privacy">Datenschutz</string>
   <string name="status_bar_notification_privacy_title">Status Bar Notification Datenschutz</string>
   <string name="status_bar_notification_privacy_summary">Privaten Informationen nicht in der Status Bar Benachrichtigungen angezeigt.</string>
+  <string name="sms_mesage_privacy">SMS Nachricht Privatleben</string>
+  <string name="sms_mesage_privacy_summary">Die SMS-Nachricht nicht in der Benachrichtigungs-Popup angezeigt. Eine Schaltfläche wird angezeigt und muss angeklickt werden, um die Nachricht anzuzeigen.</string>
+  <string name="email_mesage_privacy">Email Nachricht Privatleben</string>
+  <string name="email_mesage_privacy_summary">Die e-Mail-Nachricht nicht in der Benachrichtigungs-Popup angezeigt. Eine Schaltfläche wird angezeigt und muss angeklickt werden, um die Nachricht anzuzeigen.</string>
+  <string name="missed_call_privacy">Anruf in Abwesenheit Privatleben</string>
+  <string name="missed_call_privacy_summary">Die verpassten Anruf-Informationen in der Benachrichtigung Popup nicht anzeigen. Eine Schaltfläche wird angezeigt und muss angeklickt werden, um die Anrufliste anzeigen.</string>
   <string name="advanced_category">ERWEITERTE</string>
   <string name="advanced">Erweiterte</string>
   <string name="haptic_feedback_title">Haptisches Feedback Aktivieren</string>

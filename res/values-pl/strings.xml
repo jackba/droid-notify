@@ -293,6 +293,8 @@
   <string name="preference_call_log_timeout">Opóźnienie dla rejestru połaczeń</string>
   <string name="preference_call_log_timeout_summary">Zdefiniuj jaki czas po połączeniu czekać aby odpytać rejestr o nowe nieodebrane połączenia.</string>
   <string name="mms_click_here_to_view">[Kliknij tutaj aby zobaczyć wiadomość MMS]</string>
+  <string name="click_to_view_message">[Click Here To View Message]</string>
+  <string name="click_to_view_log">[Click Here To View Log]</string>
   <string name="event_reminders_category">PRZYPOMNIENIA O ZDARZENIACH</string>
   <string name="calendar">Kalandarz</string>
   <string name="add_calendar_event_text">Dodaj zdarzenie kalandarza</string>
@@ -449,6 +451,12 @@
   <string name="privacy">Prywatność</string>
   <string name="status_bar_notification_privacy_title">Prywatność powiadomień paska stanu</string>
   <string name="status_bar_notification_privacy_summary">Nie wyświetlaj danych prywatnych na pasku stanu.</string>
+  <string name="sms_mesage_privacy">SMS Message Privacy</string>
+  <string name="sms_mesage_privacy_summary">Do not display the SMS message in the notification popup. A button will be displayed and must be clicked to view the message.</string>
+  <string name="email_mesage_privacy">Email Message Privacy</string>
+  <string name="email_mesage_privacy_summary">Do not display the email message in the notification popup. A button will be displayed and must be clicked to view the message.</string>
+  <string name="missed_call_privacy">Missed Call Privacy</string>
+  <string name="missed_call_privacy_summary">Do not display the missed call information in the notification popup. A button will be displayed and must be clicked to view the call log.</string>
   <string name="advanced_category">USTAWIENIA ZAAWANSOWANE</string>
   <string name="advanced">Zaawansowane</string>
   <string name="haptic_feedback_title">Włącz reakcję na dotyk</string>

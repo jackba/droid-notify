@@ -293,6 +293,8 @@
   <string name="preference_call_log_timeout">Задержка журнала звонков</string>
   <string name="preference_call_log_timeout_summary">Установить время задержки пропущенного звонка.</string>
   <string name="mms_click_here_to_view">Нажмите тут для просмотра ММС</string>
+  <string name="click_to_view_message">[Нажмите здесь, чтобы взгляд сообщение]</string>
+  <string name="click_to_view_log">[Нажмите здесь, чтобы просмотреть журнал]</string>
   <string name="event_reminders_category">Напоминатель событий</string>
   <string name="calendar">Календарь</string>
   <string name="add_calendar_event_text">Добавить событие календаря</string>
@@ -449,6 +451,12 @@
   <string name="privacy">Частные</string>
   <string name="status_bar_notification_privacy_title">Приватность строки состояния</string>
   <string name="status_bar_notification_privacy_summary">Не отображать текст в строке состояния.</string>
+  <string name="sms_mesage_privacy">SMS сообщение о конфиденциальности</string>
+  <string name="sms_mesage_privacy_summary">Не отображать сообщение SMS в всплывающих уведомлений. Кнопка будет отображаться и должна быть нажата для просмотра сообщения.</string>
+  <string name="email_mesage_privacy">Конфиденциальность сообщений электронной почты</string>
+  <string name="email_mesage_privacy_summary">Не отображать сообщение электронной почты в всплывающих уведомлений. Кнопка будет отображаться и должна быть нажата для просмотра сообщения.</string>
+  <string name="missed_call_privacy">Пропущенных вызовов конфиденциальности</string>
+  <string name="missed_call_privacy_summary">Не отображают сведения пропущенных звонках в всплывающих уведомлений. Кнопка будет отображаться и должна быть нажата, чтобы просмотреть журнал звонока.</string>
   <string name="advanced_category">Продвинутые</string>
   <string name="advanced">Продвинутые</string>
   <string name="haptic_feedback_title">Разрешить отчет</string>
