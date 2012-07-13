@@ -26,7 +26,7 @@
  * [FAQ#Can_Droid_Notify_Popups_Display_Over_The_Lock_Screen? Can Droid Notify Popups Display Over The Lock Screen?]
  * [FAQ#K-9_Emails_are_not_being_shown._Why? K-9 Emails are not being shown. Why?]
  * [FAQ#The_LED_light_is_not_working._Why? The LED light is not working. Why?]
- *  [FAQ#The_missed_call_status_bar_notification_is_not_being_dismissed._Why? The missed call status bar notification is not being dismissed. Why?]
+ *  [FAQ#The_missed_call_status_bar_notification_is_not_being_dismissed. The missed call status bar notification is not being dismissed. Why?]
  * [FAQ#Known_Issues Known Issues]
 
 = *Droid Notify Plus* =
