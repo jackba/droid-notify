@@ -297,6 +297,9 @@ Notifications
 Privacy
 
  * Status Bar Notification Privacy
+ * SMS Message Privacy
+ * Missed Call Privacy
+ * Email Message Privacy
  
 Advanced
 
