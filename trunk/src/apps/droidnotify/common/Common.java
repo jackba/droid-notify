@@ -9,12 +9,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.AlarmManager;
@@ -22,7 +21,6 @@ import android.app.KeyguardManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.ActivityManager.RunningTaskInfo;
 import android.app.KeyguardManager.KeyguardLock;
 import android.content.ComponentName;
 import android.content.Context;
@@ -209,7 +207,7 @@ public class Common {
 	}
 	
 	/**
-	 * Determine if the users phone has a blocked app currently running on the phone.
+	 * Determine if the users device has a blocked app currently running on the device.
 	 * 
 	 * @param context - The application context.
 	 * 
@@ -219,75 +217,69 @@ public class Common {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.isBlockingAppRunning()");
 		ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-	    List <RunningTaskInfo> runningTaskArray = activityManager.getRunningTasks(99999);
-	    Iterator <RunningTaskInfo> runningTaskArrayIterator = runningTaskArray.iterator();
-	    RunningTaskInfo runningTaskInfo = null;
-	    while(runningTaskArrayIterator.hasNext()){
-	    	runningTaskInfo = runningTaskArrayIterator.next();
-	    	ComponentName runningTaskComponent = runningTaskInfo.baseActivity;
-	    	String runningTaskPackageName = runningTaskComponent.getPackageName();
-	    	String runningTaskClassName = runningTaskComponent.getClassName();
-	    	if (_debug) Log.v("Common.isBlockingAppRunning() RunningTaskPackageName: " + runningTaskPackageName + " RunningTaskClassName: " + runningTaskClassName);
-	    	//Scan SMS Apps
-	        int smsPackageNamesArraySize = Constants.BLOCKED_SMS_PACKAGE_NAMES_ARRAY.length;
-	        for(int i = 0; i < smsPackageNamesArraySize; i++){
-	        	String[] blockedInfoArray = Constants.BLOCKED_SMS_PACKAGE_NAMES_ARRAY[i].split(",");
-		        if(blockedInfoArray[0].equals(runningTaskPackageName)){
-		        	if (_debug) Log.v("Common.isBlockingAppRunning() SMS BlockedInfoArray[0]: " + blockedInfoArray[0] + " RunningTaskPackageName: " + runningTaskPackageName);
-		        	if(blockedInfoArray.length > 1){
-		        		if (_debug) Log.v("Common.isBlockingAppRunning() SMS BlockedInfoArray[1]: " + blockedInfoArray[1] + " RunningTaskClassName: " + runningTaskClassName);
-		        		if(blockedInfoArray[1].equals(runningTaskClassName)){
-		        			return true;
-		        		}
-		        	}else{
-		        		return true;
-		        	}
-		        }
-	        }	        
-	        //Scan Email Apps
-	        int emailPackageNamesArraySize = Constants.BLOCKED_EMAIL_PACKAGE_NAMES_ARRAY.length;
-	        for(int i = 0; i < emailPackageNamesArraySize; i++){
-	        	String[] blockedInfoArray = Constants.BLOCKED_EMAIL_PACKAGE_NAMES_ARRAY[i].split(",");
-		        if(blockedInfoArray[0].equals(runningTaskPackageName)){
-		        	if (_debug) Log.v("Common.isBlockingAppRunning() EMAIL BlockedInfoArray[0]: " + blockedInfoArray[0] + " RunningTaskPackageName: " + runningTaskPackageName);
-		        	if(blockedInfoArray.length > 1){
-		        		if (_debug) Log.v("Common.isBlockingAppRunning() EMAIL BlockedInfoArray[1]: " + blockedInfoArray[1] + " RunningTaskClassName: " + runningTaskClassName);
-		        		if(blockedInfoArray[1].equals(runningTaskClassName)){
-		        			return true;
-		        		}
-		        	}else{
-		        		return true;
-		        	}
-		        }
-	        }	        
-	        //Scan Misc Apps
-	        int miscPackageNamesArraySize = Constants.BLOCKED_MISC_PACKAGE_NAMES_ARRAY.length;
-	        for(int i = 0; i < miscPackageNamesArraySize; i++){
-	        	String[] blockedInfoArray = Constants.BLOCKED_MISC_PACKAGE_NAMES_ARRAY[i].split(",");
-		        if(blockedInfoArray[0].equals(runningTaskPackageName)){
-		        	if (_debug) Log.v("Common.isBlockingAppRunning() MISC BlockedInfoArray[0]: " + blockedInfoArray[0] + " RunningTaskPackageName: " + runningTaskPackageName);
-		        	if(blockedInfoArray.length > 1){
-		        		if (_debug) Log.v("Common.isBlockingAppRunning() MISC BlockedInfoArray[1]: " + blockedInfoArray[1] + " RunningTaskClassName: " + runningTaskClassName);
-		        		if(blockedInfoArray[1].equals(runningTaskClassName)){
-		        			return true;
-		        		}
-		        	}else{
-		        		return true;
-		        	}
-		        }
+	    ComponentName runningTaskComponent = activityManager.getRunningTasks(1).get(0).topActivity;
+		String runningTaskPackageName = runningTaskComponent.getPackageName();
+		String runningTaskClassName = runningTaskComponent.getClassName();		
+		if (_debug) Log.v("Common.isBlockingAppRunning() CURRENTLY RunningTaskPackageName: " + runningTaskPackageName + " CURRENTLY RunningTaskClassName: " + runningTaskClassName);
+    	//Scan SMS Apps
+        int smsPackageNamesArraySize = Constants.BLOCKED_SMS_PACKAGE_NAMES_ARRAY.length;
+        for(int i = 0; i < smsPackageNamesArraySize; i++){
+        	String[] blockedInfoArray = Constants.BLOCKED_SMS_PACKAGE_NAMES_ARRAY[i].split(",");
+	        if(blockedInfoArray[0].equals(runningTaskPackageName)){
+	        	if (_debug) Log.v("Common.isBlockingAppRunning() SMS BlockedInfoArray[0]: " + blockedInfoArray[0] + " RunningTaskPackageName: " + runningTaskPackageName);
+	        	if(blockedInfoArray.length > 1){
+	        		if (_debug) Log.v("Common.isBlockingAppRunning() SMS BlockedInfoArray[1]: " + blockedInfoArray[1] + " RunningTaskClassName: " + runningTaskClassName);
+	        		if(blockedInfoArray[1].equals(runningTaskClassName)){
+	        			return true;
+	        		}
+	        	}else{
+	        		return true;
+	        	}
 	        }
-	    }
+        }	        
+        //Scan Email Apps
+        int emailPackageNamesArraySize = Constants.BLOCKED_EMAIL_PACKAGE_NAMES_ARRAY.length;
+        for(int i = 0; i < emailPackageNamesArraySize; i++){
+        	String[] blockedInfoArray = Constants.BLOCKED_EMAIL_PACKAGE_NAMES_ARRAY[i].split(",");
+	        if(blockedInfoArray[0].equals(runningTaskPackageName)){
+	        	if (_debug) Log.v("Common.isBlockingAppRunning() EMAIL BlockedInfoArray[0]: " + blockedInfoArray[0] + " RunningTaskPackageName: " + runningTaskPackageName);
+	        	if(blockedInfoArray.length > 1){
+	        		if (_debug) Log.v("Common.isBlockingAppRunning() EMAIL BlockedInfoArray[1]: " + blockedInfoArray[1] + " RunningTaskClassName: " + runningTaskClassName);
+	        		if(blockedInfoArray[1].equals(runningTaskClassName)){
+	        			return true;
+	        		}
+	        	}else{
+	        		return true;
+	        	}
+	        }
+        }	        
+        //Scan Misc Apps
+        int miscPackageNamesArraySize = Constants.BLOCKED_MISC_PACKAGE_NAMES_ARRAY.length;
+        for(int i = 0; i < miscPackageNamesArraySize; i++){
+        	String[] blockedInfoArray = Constants.BLOCKED_MISC_PACKAGE_NAMES_ARRAY[i].split(",");
+	        if(blockedInfoArray[0].equals(runningTaskPackageName)){
+	        	if (_debug) Log.v("Common.isBlockingAppRunning() MISC BlockedInfoArray[0]: " + blockedInfoArray[0] + " RunningTaskPackageName: " + runningTaskPackageName);
+	        	if(blockedInfoArray.length > 1){
+	        		if (_debug) Log.v("Common.isBlockingAppRunning() MISC BlockedInfoArray[1]: " + blockedInfoArray[1] + " RunningTaskClassName: " + runningTaskClassName);
+	        		if(blockedInfoArray[1].equals(runningTaskClassName)){
+	        			return true;
+	        		}
+	        	}else{
+	        		return true;
+	        	}
+	        }
+        }
 		return false;
 	}
 	
 	/**
-	 * Convert a GMT timestamp to the phones local time.
+	 * Convert a GMT timestamp to the devices local time.
 	 * 
 	 * @param context - The application context.
 	 * @param inputTimestamp - GMT timestamp we want to convert.
 	 * @param isTimeUTC - Boolean indicating if the input time is in UTC/GMT.
 	 * 
-	 * @return long - The timestamp in the phones local time.
+	 * @return long - The timestamp in the devices local time.
 	 */
 	public static long convertGMTToLocalTime(Context context, long inputTimeStamp, boolean isTimeUTC){
 		_debug = Log.getDebug();
@@ -1887,7 +1879,7 @@ public class Common {
 	}	
 	
 	/**
-	 * Checks if the users phone is online or not.
+	 * Checks if the users device is online or not.
 	 * 
 	 * @param context - The application context.
 	 * 
@@ -1929,6 +1921,21 @@ public class Common {
 			return packageInfo.versionName;
 		}catch(Exception ex){
 			return "";
+		}
+	}
+	
+	/**
+	 * Read the users OS API level from the device.
+	 * 
+	 * @return int - The SDK Interger API level of the device.
+	 */
+	public static int getOSAPILevel(){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.getOSAPILevel() API Level:" + android.os.Build.VERSION.SDK_INT);
+		try{
+			return android.os.Build.VERSION.SDK_INT;
+		}catch(Exception ex){
+			return 0;
 		}
 	}
 	
@@ -2165,6 +2172,7 @@ public class Common {
 	 * 
 	 * @return boolean - True if the operation was successful, false otherwise.
 	 */
+	@SuppressLint("WorldReadableFiles")
 	public static boolean exportApplicationPreferences(Context context, String path, String fileName){
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.exportApplicationPreferences()");
@@ -2235,7 +2243,7 @@ public class Common {
 	}
 	
 	/**
-	 * Remove the application log files from the phone.
+	 * Remove the application log files from the device.
 	 * 
 	 * @param context - The application context.
 	 * 

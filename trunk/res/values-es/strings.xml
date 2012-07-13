@@ -293,6 +293,8 @@
   <string name="preference_call_log_timeout">Tiempo de espera de Registro de Llamadas</string>
   <string name="preference_call_log_timeout_summary">Definir el tiempo de espera después de una llamada antes de consultar el registro de llamadas de una llamada perdida.</string>
   <string name="mms_click_here_to_view">[Haga clic aquí para ver mensaje MMS]</string>
+  <string name="click_to_view_message">[Clic Aquí Para Ver el Mensaje]</string>
+  <string name="click_to_view_log">[Clic Aquí Para Ver la Sesión]</string>
   <string name="event_reminders_category">RECORDATORIOS DE EVENTOS</string>
   <string name="calendar">Calendario</string>
   <string name="add_calendar_event_text">Añadir Evento al Calendario</string>
@@ -449,6 +451,12 @@
   <string name="privacy">Privacidad</string>
   <string name="status_bar_notification_privacy_title">Privacidad de Notificación de la Barra de Estado</string>
   <string name="status_bar_notification_privacy_summary">No mostrar información privada en las notificaciones de la barra de estado.</string>
+  <string name="sms_mesage_privacy">Mensaje SMS Privacidad</string>
+  <string name="sms_mesage_privacy_summary">No mostrar el mensaje SMS en la ventana emergente de notificación. Un botón en la pantalla y hay que hacer clic para ver el mensaje.</string>
+  <string name="email_mesage_privacy">Mensaje de Correo Electrónico Privacidad</string>
+  <string name="email_mesage_privacy_summary">No mostrar el mensaje de correo electrónico en la ventana emergente de notificación. Un botón en la pantalla y hay que hacer clic para ver el mensaje.</string>
+  <string name="missed_call_privacy">Llamada Perdida Privacidad</string>
+  <string name="missed_call_privacy_summary">No mostrar la información de llamada perdida en la ventana emergente de notificación. Un botón en la pantalla y hay que hacer clic para ver el registro de llamadas.</string>
   <string name="advanced_category">AVANZADA</string>
   <string name="advanced">Avanzada</string>
   <string name="haptic_feedback_title">Activar el Feedback Háptico</string>

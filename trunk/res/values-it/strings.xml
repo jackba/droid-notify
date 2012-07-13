@@ -293,6 +293,8 @@
   <string name="preference_call_log_timeout">Chiamare Log Timeout</string>
   <string name="preference_call_log_timeout_summary">Definire quanto tempo di attesa dopo una chiamata prima di interrogare il log di chiamata per una chiamata senza risposta.</string>
   <string name="mms_click_here_to_view">[Clicca Qui per Visualizzazione Messaggio MMS]</string>
+  <string name="click_to_view_message">[Clicca Qui Per Visualizza Messaggio]</string>
+  <string name="click_to_view_log">[Clicca Qui per Visualizza Log]</string>
   <string name="event_reminders_category">PROMEMORIA EVENTI</string>
   <string name="calendar">Calendario</string>
   <string name="add_calendar_event_text">Aggiungi Evento Calendario</string>
@@ -449,6 +451,12 @@
   <string name="privacy">Vita Privata</string>
   <string name="status_bar_notification_privacy_title">Barra di Stato Notifica Sulla Privacy</string>
   <string name="status_bar_notification_privacy_summary">Non mostrare informazioni private in notifiche sullo stato del bar.</string>
+  <string name="sms_mesage_privacy">Messaggio SMS Vita Privata</string>
+  <string name="sms_mesage_privacy_summary">Non visualizzare il messaggio di SMS nel popup notifica. Un pulsante verrà visualizzato e deve essere selezionato per visualizzare il messaggio.</string>
+  <string name="email_mesage_privacy">Messaggio Email Vita Privata</string>
+  <string name="email_mesage_privacy_summary">Il messaggio di posta elettronica non vengono visualizzati nel popup notifica. Un pulsante verrà visualizzato e deve essere selezionato per visualizzare il messaggio.</string>
+  <string name="missed_call_privacy">Chiamata Persa Vita Privata</string>
+  <string name="missed_call_privacy_summary">Non visualizzare le informazioni di chiamata persa nel popup notifica. Un pulsante verrà visualizzato e deve essere selezionato per visualizzare il registro chiamate.</string>
   <string name="advanced_category">AVANZATA</string>
   <string name="advanced">Avanzata</string>
   <string name="haptic_feedback_title">Attiva Feedback Aptico</string>

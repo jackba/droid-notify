@@ -293,6 +293,8 @@
   <string name="preference_call_log_timeout">פסק זמן יומן שיחות</string>
   <string name="preference_call_log_timeout_summary">הגדר כמה זמן לחכות אחרי שיחה לפני שיומן שיחות יתריע לשיחה שלא נענתה.</string>
   <string name="mms_click_here_to_view">[לחץ כאן כדי להציג הודעת מולטימדיה]</string>
+  <string name="click_to_view_message">[לחץ כאן כדי לראות את ההודעה]</string>
+  <string name="click_to_view_log">[לחץ כאן לראות את היומן]</string>
   <string name="event_reminders_category">תזכורות אירוע</string>
   <string name="calendar">לוח שנה</string>
   <string name="add_calendar_event_text">הוסף אירוע לוח שנה</string>
@@ -449,6 +451,12 @@
   <string name="privacy">פרטיות</string>
   <string name="status_bar_notification_privacy_title">שורת מצב ההתראות הפרטיות</string>
   <string name="status_bar_notification_privacy_summary">אל תציג מידע פרטי ההתראות בשורת המצב.</string>
+  <string name="sms_mesage_privacy">פרטיות הודעת טקסט</string>
+  <string name="sms_mesage_privacy_summary">Do not display the SMS message in the notification popup. A button will be displayed and must be clicked to view the message.</string>
+  <string name="email_mesage_privacy">פרטיות הודעת מייל</string>
+  <string name="email_mesage_privacy_summary">Do not display the email message in the notification popup. A button will be displayed and must be clicked to view the message.</string>
+  <string name="missed_call_privacy">פרטיות שיחה שלא נענתה</string>
+  <string name="missed_call_privacy_summary">Do not display the missed call information in the notification popup. A button will be displayed and must be clicked to view the call log.</string>
   <string name="advanced_category">מתקדם</string>
   <string name="advanced">מתקדם</string>
   <string name="haptic_feedback_title">אפשר משוב Haptic</string>
