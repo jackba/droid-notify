@@ -3,10 +3,13 @@
 
 = Release Notes =
 
+*v3.16* _Coming Soon..._
+ * 
+
 *v3.15* _Coming Soon..._
  * 
 
-*v3.14* _Coming Soon..._
+*v3.14* (July 13, 2012)
  * Updated Facebook API to latest version.
  * Updated Twitter API to latest version.
  * Fixed bug that prevented Twitter authentication from devices running Android 4.0+.
