@@ -3,7 +3,7 @@
 
 = Droid Notify - Frequently Asked Questions =
 
- * [FAQ#What_is_the_difference_between_Droid_Notify_and_Droid_Notify_Plus? What is the difference between Droid Notify and Droid Notify Plus?]
+ * [FAQ#What_is_the_difference_between_Droid_Notify_Pro_and_Droid_Notify What is the difference between Droid Notify and Droid Notify Plus?]
  * [FAQ#What_is_the_difference_between_Droid_Notify_Pro_and_Droid_Notify What is the difference between Droid Notify Pro and Droid Notify Plus?]
 
 = *Droid Notify* =
