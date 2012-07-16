@@ -3,6 +3,7 @@
 
 = Droid Notify - Frequently Asked Questions =
 
+ * [FAQ#What_is_the_difference_between_Droid_Notify_and_Droid_Notify_Plus? What is the difference between Droid Notify and Droid Notify Plus?]
  * [FAQ#What_is_the_difference_between_Droid_Notify_Pro_and_Droid_Notify What is the difference between Droid Notify Pro and Droid Notify Plus?]
 
 = *Droid Notify* =
@@ -50,6 +51,21 @@ Includes all the features of the Droid Notify Lite application and adds a few mo
 3) Adds A Custom Contact Feature
 
 4) Any new open API programs might be added as features to this app.
+
+*Droid Notify Plus*
+
+Adds very basic notifications for ANY app installed on the phone (as long as they post status bar notifications). Droid Notify Plus reads a posted status bar notification and displays it as a popup window. Only the information provided in the status bar notification can be used in the popup window.
+
+==What is the difference between Droid Notify and Droid Notify Plus?==
+
+*Droid Notify*
+
+Droid Notify (Lite/Pro) is a full featured notification app for very specific notification types. Some specific features of each notification type are listed below.
+
+1) SMS/MMS - Mark as read, delete, reply.
+2) Missed Calls - Mark as read, delete, call.
+3) Calendar - Dismiss, view.
+4) K-9 Mail Clients - Delete, reply.
 
 *Droid Notify Plus*
 
