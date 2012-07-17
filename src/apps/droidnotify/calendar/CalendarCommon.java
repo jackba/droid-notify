@@ -8,11 +8,12 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.TimeZone;
 
+import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.provider.CalendarContract;
 import android.content.ComponentName;
 import android.content.ContentResolver;
-import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -53,10 +54,12 @@ public class CalendarCommon {
 	 * 
 	 * @param context - Application Context.
 	 */
+	@SuppressLint("NewApi")
 	public static void readCalendars(Context context){
 		_debug = Log.getDebug();
 		if (_debug) Log.v("CalendarCommon.readCalendars()");
 		try{
+			int APILevel = Common.getOSAPILevel();
 			//Determine the reminder interval based on the users preferences.
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 			//Read preferences and exit if app is disabled.
@@ -74,208 +77,238 @@ public class CalendarCommon {
 				if (_debug) Log.v("CalendarCommon.readCalendars() Calendar Notifications Disabled. Exiting... ");
 				return;
 			}
-			long reminderInterval = Long.parseLong(preferences.getString(Constants.CALENDAR_REMINDER_KEY, "15")) * 60 * 1000;
-			long reminderIntervalAllDay = Long.parseLong(preferences.getString(Constants.CALENDAR_REMINDER_ALL_DAY_KEY, "6")) * 60 * 60 * 1000;
-			long dayOfReminderIntervalAllDay = Long.parseLong(preferences.getString(Constants.CALENDAR_NOTIFY_DAY_OF_TIME_KEY, "12")) * 60 * 60 * 1000;
 			String calendarPreferences = preferences.getString(Constants.CALENDAR_SELECTION_KEY, "");
 			ArrayList<String> calendarsArray = new ArrayList<String>();
 			if(!calendarPreferences.equals("")){
 				Collections.addAll(calendarsArray, calendarPreferences.split("\\|")); 
 			}
+			ContentResolver contentResolver = context.getContentResolver();
+			// Fetch a list of all calendars synced with the device, their display names and whether the user has them selected for display.
+			String contentProvider = null;	
+			if(APILevel >= 14){
+				contentProvider = CalendarContract.Calendars.CONTENT_URI.toString();
+			}else{
+				contentProvider = "content://com.android.calendar/calendars";
+			}
+			if (_debug) Log.v("CalendarCommon.readCalendars() ContentProvider URI String: " + contentProvider);
+			HashMap<String, String> calendarIds = new HashMap<String, String>();
 		 	Cursor cursor = null;
 			try{
-				ContentResolver contentResolver = context.getContentResolver();
-				// Fetch a list of all calendars synced with the device, their display names and whether the user has them selected for display.
-				String contentProvider = "content://com.android.calendar";	
-				HashMap<String, String> calendarIds = new HashMap<String, String>();
+				cursor = contentResolver.query(
+					Uri.parse(contentProvider), 						
+					null,
+					null,
+					null,
+					null);
+				if(cursor ==  null){
+					Log.e("CalendarCommon.readCalendars() READ CALENDARS ERROR: Cursor is null. Exiting...");
+					return;
+				}
+				while(cursor.moveToNext()){
+					long calendarID = -1;
+					String calendarDisplayName = null;
+					Boolean calendarSelected = true;
+					if(APILevel >= 14){
+						calendarID = cursor.getLong(cursor.getColumnIndex(CalendarContract.Calendars._ID));
+						calendarDisplayName = cursor.getString(cursor.getColumnIndex(CalendarContract.Events.CALENDAR_DISPLAY_NAME));
+						calendarSelected = !cursor.getString(cursor.getColumnIndex(CalendarContract.Events.VISIBLE)).equals("0");
+					}else{
+						calendarID = cursor.getLong(cursor.getColumnIndex(Constants.CALENDAR_ID));
+						calendarDisplayName = cursor.getString(cursor.getColumnIndex(Constants.CALENDAR_DISPLAY_NAME));
+						calendarSelected = !cursor.getString(cursor.getColumnIndex(Constants.CALENDAR_SELECTED)).equals("0");
+					}
+					if(calendarsArray.contains(String.valueOf(calendarID))){
+						if (_debug) Log.v("CalendarCommon.readCalendars() CHECKING CALENDAR -  Calendar ID: " + String.valueOf(calendarID) + " Display Name: " + calendarDisplayName + " Selected: " + calendarSelected);
+						calendarIds.put(String.valueOf(calendarID), calendarDisplayName);
+					}else{
+						if (_debug) Log.v("CalendarCommon.readCalendars() CALENDAR NOT BEING CHECKED -  Calendar ID: " + String.valueOf(calendarID) + " Display Name: " + calendarDisplayName + " Selected: " + calendarSelected);
+					}
+				}
+				cursor.close();
+			}catch(Exception ex){
+				Log.e("CalendarCommon.readCalendars() READ CALENDARS ERROR: " + ex.toString());
+				//if (_debug) Common.debugReadContentProviderColumns(context, contentProvider, null);
+				if(cursor != null){
+					cursor.close();
+				}
+				return;
+			}
+			if(calendarIds.isEmpty()){
+				if (_debug) Log.v("CalendarCommon.readCalendars() No calendars were found. Exiting...");
+				return;
+			}
+			long reminderInterval = Long.parseLong(preferences.getString(Constants.CALENDAR_REMINDER_KEY, "15")) * 60 * 1000;
+			long reminderIntervalAllDay = Long.parseLong(preferences.getString(Constants.CALENDAR_REMINDER_ALL_DAY_KEY, "6")) * 60 * 60 * 1000;
+			long dayOfReminderIntervalAllDay = Long.parseLong(preferences.getString(Constants.CALENDAR_NOTIFY_DAY_OF_TIME_KEY, "12")) * 60 * 60 * 1000;
+			// For each calendar, read the events.
+			Iterator<Map.Entry<String, String>> calendarIdsEnumerator = calendarIds.entrySet().iterator();
+			while(calendarIdsEnumerator.hasNext()){
+				Map.Entry<String, String> calendarInfo = calendarIdsEnumerator.next();
+				String calendarID = calendarInfo.getKey();
+				String calendarName = calendarInfo.getValue();
+				if (_debug) Log.v("CalendarCommon.readCalendars() CHECKING EVENTS FOR CALENDAR -  Calendar ID: " + calendarID  + " Calendar Name: " + calendarName);
+				String calendarEventContentProvider = null;
+				String eventCalendarIDColumn = null;
+				String eventIDColumn = null;
+				String eventTitleColumn = null;
+				String eventStartTimeColumn = null;
+				String eventEndTimeColumn = null;
+				String eventAllDayColumn = null;
+				String eventHasAlarmColumn = null;
+				String eventQuerySortOrder = null;
+				if(APILevel >= 14){
+					calendarEventContentProvider = CalendarContract.Events.CONTENT_URI.toString();
+					eventCalendarIDColumn = CalendarContract.Events.CALENDAR_ID;
+					eventIDColumn = CalendarContract.Events._ID;
+					eventTitleColumn = CalendarContract.Events.TITLE;
+					eventStartTimeColumn = CalendarContract.Events.DTSTART;
+					eventEndTimeColumn = CalendarContract.Events.DTEND;
+    				eventAllDayColumn = CalendarContract.Events.ALL_DAY;
+    				eventHasAlarmColumn = CalendarContract.Events.HAS_ALARM;
+    				eventQuerySortOrder = eventStartTimeColumn + " ASC";
+				}else{
+					calendarEventContentProvider = "content://com.android.calendar/events";
+					eventCalendarIDColumn = Constants.CALENDAR_CALENDAR_ID;
+					eventIDColumn = Constants.CALENDAR_EVENT_ID;
+					eventTitleColumn = Constants.CALENDAR_EVENT_TITLE;
+					eventStartTimeColumn = Constants.CALENDAR_INSTANCE_BEGIN;
+					eventEndTimeColumn = Constants.CALENDAR_INSTANCE_END;
+    				eventAllDayColumn = Constants.CALENDAR_EVENT_ALL_DAY;
+    				eventHasAlarmColumn = Constants.CALENDAR_EVENT_HAS_ALARM;
+    				eventQuerySortOrder = eventStartTimeColumn + " ASC";
+				}
+				if (_debug) Log.v("CalendarCommon.readCalendars() CalendarEventContentProvider URI String: " + calendarEventContentProvider);			
+				//The start time of the query.
+				long queryStartTime = System.currentTimeMillis();
+				long queryEndTime = queryStartTime + AlarmManager.INTERVAL_DAY;
+	    		final String[] projection = new String[] {
+						eventCalendarIDColumn,
+						eventIDColumn,
+						eventTitleColumn,
+						eventStartTimeColumn,
+						eventEndTimeColumn,
+	    				eventAllDayColumn,
+	    				eventHasAlarmColumn};
+	            final String selection = eventCalendarIDColumn + "=? AND " + eventStartTimeColumn + ">=? AND " + eventStartTimeColumn + "<=?";
+	    		final String[] selectionArgs = new String[]{calendarID, String.valueOf(queryStartTime), String.valueOf(queryEndTime)};
+	    		final String sortOrder = eventQuerySortOrder;
+				Cursor eventCursor = null;
 				try{
-					cursor = contentResolver.query(
-						Uri.parse(contentProvider + "/calendars"), 						
-						null,
-						null,
-						null,
-						null);
-					if(cursor ==  null){
-						Log.e("CalendarCommon.readCalendars() READ CALENDARS ERROR: Cursor is null. Exiting...");
+					eventCursor = contentResolver.query(
+							Uri.parse(calendarEventContentProvider)	,
+							projection,
+							selection,
+							selectionArgs,
+							sortOrder);
+					if(eventCursor ==  null){
+						Log.e("CalendarCommon.readCalendars() READ CALENDAR EVENTS: Event cursor is null. Exiting...");
+						cursor.close();
 						return;
 					}
-					while(cursor.moveToNext()){
-						final String calendarID = cursor.getString(cursor.getColumnIndex(Constants.CALENDAR_ID));
-						String calendarDisplayName = null;
-						Boolean calendarSelected = true;
-						if(cursor.getColumnIndex(Constants.CALENDAR_DISPLAY_NAME) >= 0){ //Android 2.2 - 3.x
-							calendarDisplayName = cursor.getString(cursor.getColumnIndex(Constants.CALENDAR_DISPLAY_NAME));
-							calendarSelected = !cursor.getString(cursor.getColumnIndex(Constants.CALENDAR_SELECTED)).equals("0");
-						}else{ //Android > 4.0
-							calendarDisplayName = cursor.getString(cursor.getColumnIndex(Constants.CALENDAR_DISPLAY_NAME_NEW));
-							calendarSelected = !cursor.getString(cursor.getColumnIndex(Constants.CALENDAR_VISIBLE)).equals("0");
-						}
-						if(calendarsArray.contains(calendarID)){
-							if (_debug) Log.v("CalendarCommon.readCalendars() CHECKING CALENDAR -  Calendar ID: " + calendarID + " Display Name: " + calendarDisplayName + " Selected: " + calendarSelected);
-							calendarIds.put(calendarID, calendarDisplayName);
-						}else{
-							if (_debug) Log.v("CalendarCommon.readCalendars() CALENDAR NOT BEING CHECKED -  Calendar ID: " + calendarID + " Display Name: " + calendarDisplayName + " Selected: " + calendarSelected);
-						}
-					}
-				}catch(Exception ex){
-					Log.e("CalendarCommon.readCalendars() READ CALENDARS ERROR: " + ex.toString());
-					if (_debug) Common.debugReadContentProviderColumns(context, contentProvider + "/calendars", null);
-					cursor.close();
-					return;
-				}
-				if(calendarIds.isEmpty()){
-					if (_debug) Log.v("CalendarCommon.readCalendars() No calendars were found. Exiting...");
-					cursor.close();
-					return;
-				}else{
-					cursor.close();
-				}
-				// For each calendar, read the events.
-				Iterator<Map.Entry<String, String>> calendarIdsEnumerator = calendarIds.entrySet().iterator();
-				while(calendarIdsEnumerator.hasNext()){
-					Map.Entry<String, String> calendarInfo = calendarIdsEnumerator.next();
-					String calendarID = calendarInfo.getKey();
-					String calendarName = calendarInfo.getValue();
-					if (_debug) Log.v("CalendarCommon.readCalendars() CHECKING EVENTS FOR CALENDAR -  Calendar ID: " + calendarID  + " Calendar Name: " + calendarName);
-					Uri.Builder builder = Uri.parse(contentProvider + "/instances/when").buildUpon();
-					//The start time of the query.
-					long queryStartTime = System.currentTimeMillis();
-					ContentUris.appendId(builder, queryStartTime);
-					//The end time of the query. One day past the start time.
-					ContentUris.appendId(builder, queryStartTime + AlarmManager.INTERVAL_DAY);
-		    		final String[] projection = new String[] {
-		    				Constants.CALENDAR_CALENDAR_ID,
-		    				Constants.CALENDAR_EVENT_ID,
-		    				Constants.CALENDAR_EVENT_TITLE,
-		    				Constants.CALENDAR_INSTANCE_BEGIN,
-		    				Constants.CALENDAR_INSTANCE_END,
-		    				Constants.CALENDAR_EVENT_ALL_DAY,
-		    				Constants.CALENDAR_EVENT_HAS_ALARM};
-		            final String selection = Constants.CALENDAR_CALENDAR_ID + "=" + calendarID;
-		    		final String[] selectionArgs = null;
-		    		final String sortOrder = "startDay ASC, startMinute ASC";
-					Cursor eventCursor = null;
-					try{
-						eventCursor = contentResolver.query(
-								builder.build(),
-								projection,
-								selection,
-								selectionArgs,
-								sortOrder);
-						if(eventCursor ==  null){
-							Log.e("CalendarCommon.readCalendars() READ CALENDAR EVENTS: Event cursor is null. Exiting...");
-							cursor.close();
-							return;
-						}
-						//if (_debug) Log.v("CalendarCommon.readCalendars() CHECKING EVENTS FOR CALENDAR - eventCursor.getCount(): " + eventCursor.getCount());
-						while(eventCursor.moveToNext()){
-							long eventCalendarID = eventCursor.getLong(eventCursor.getColumnIndex(Constants.CALENDAR_CALENDAR_ID));
-							String eventID = eventCursor.getString(eventCursor.getColumnIndex(Constants.CALENDAR_EVENT_ID));
-							String eventTitle = eventCursor.getString(eventCursor.getColumnIndex(Constants.CALENDAR_EVENT_TITLE));
-							long eventStartTime = eventCursor.getLong(eventCursor.getColumnIndex(Constants.CALENDAR_INSTANCE_BEGIN));
-							long eventEndTime = eventCursor.getLong(eventCursor.getColumnIndex(Constants.CALENDAR_INSTANCE_END));
-							final Boolean allDay = !eventCursor.getString(eventCursor.getColumnIndex(Constants.CALENDAR_EVENT_ALL_DAY)).equals("0");
-							final Boolean hasReminderAlarm = !eventCursor.getString(eventCursor.getColumnIndex(Constants.CALENDAR_EVENT_HAS_ALARM)).equals("0");
-							if (_debug) Log.v("CalendarCommon.readCalendars() Calendar ID: " + eventCalendarID + 
-									" Event ID: " + eventID + 
-									" Event Title: " + eventTitle + 
-									" Event Begin: " + eventStartTime + 
-									" Event End: " + eventEndTime + 
-									" Event All Day: " + allDay + 
-									" Event Has Reminder Alarm: " + hasReminderAlarm);
-							long timezoneOffsetValue =  TimeZone.getDefault().getOffset(System.currentTimeMillis());
-							//For all any event in the past, don't schedule them.
-							long currentSystemTime = System.currentTimeMillis();
-							if(eventStartTime > currentSystemTime){
-								if(allDay){
-									//Special case for all-day events.
-									eventStartTime = eventStartTime  - timezoneOffsetValue;
-									eventEndTime = eventEndTime  - timezoneOffsetValue;
-									//Schedule the notification for the event time.
-									Bundle calendarEventNotificationBundleSingle = new Bundle();
-									calendarEventNotificationBundleSingle.putString(Constants.BUNDLE_TITLE, eventTitle);
-									calendarEventNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_BODY, eventTitle);
-									calendarEventNotificationBundleSingle.putLong(Constants.BUNDLE_CALENDAR_EVENT_START_TIME, eventStartTime);
-									calendarEventNotificationBundleSingle.putLong(Constants.BUNDLE_CALENDAR_EVENT_END_TIME, eventEndTime);
-									calendarEventNotificationBundleSingle.putBoolean(Constants.BUNDLE_ALL_DAY, allDay);
-									calendarEventNotificationBundleSingle.putString(Constants.BUNDLE_CALENDAR_NAME, calendarName);
-									calendarEventNotificationBundleSingle.putLong(Constants.BUNDLE_CALENDAR_ID, Long.parseLong(calendarID));
-									calendarEventNotificationBundleSingle.putLong(Constants.BUNDLE_CALENDAR_EVENT_ID, Long.parseLong(eventID));
-									calendarEventNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_CALENDAR);
-									if(preferences.getBoolean(Constants.CALENDAR_EVENT_TIME_REMINDER_KEY, false)){
-										scheduleCalendarNotification(context, eventStartTime + dayOfReminderIntervalAllDay, calendarEventNotificationBundleSingle, "apps.droidnotifydonate.view." + calendarID + "." + eventID);
-									}
-									//Schedule the reminder notification if it is enabled.
-									if(preferences.getBoolean(Constants.CALENDAR_REMINDERS_ENABLED_KEY,true)){
-										//Only schedule the all day event if the current time is before the notification time.
-											if(preferences.getBoolean(Constants.CALENDAR_USE_CALENDAR_REMINDER_SETTINGS_KEY,true)){
-												if(hasReminderAlarm){
-													reminderIntervalAllDay = getCalendarEventReminderTime(context, Long.parseLong(eventID), true);	
-													if(reminderIntervalAllDay > 0){
-														//Only schedule the event if the current time is before the notification time.
-														if((eventStartTime - reminderIntervalAllDay) > currentSystemTime){
-															scheduleCalendarNotification(context, eventStartTime - reminderIntervalAllDay, calendarEventNotificationBundleSingle, "apps.droidnotifydonate.view." + calendarID + "." + eventID + ".reminder");
-														}
-													}
-												}
-											}else{
+					while(eventCursor.moveToNext()){
+						long eventCalendarID = eventCursor.getLong(eventCursor.getColumnIndex(eventCalendarIDColumn));
+						String eventID = eventCursor.getString(eventCursor.getColumnIndex(eventIDColumn));
+						String eventTitle = eventCursor.getString(eventCursor.getColumnIndex(eventTitleColumn));
+						long eventStartTime = eventCursor.getLong(eventCursor.getColumnIndex(eventStartTimeColumn));
+						long eventEndTime = eventCursor.getLong(eventCursor.getColumnIndex(eventEndTimeColumn));
+						final Boolean allDay = !eventCursor.getString(eventCursor.getColumnIndex(eventAllDayColumn)).equals("0");
+						final Boolean hasReminderAlarm = !eventCursor.getString(eventCursor.getColumnIndex(eventHasAlarmColumn)).equals("0");
+						if (_debug) Log.v("CalendarCommon.readCalendars() Calendar ID: " + eventCalendarID + 
+								" Event ID: " + eventID + 
+								" Event Title: " + eventTitle + 
+								" Event Begin: " + eventStartTime + 
+								" Event End: " + eventEndTime + 
+								" Event All Day: " + allDay + 
+								" Event Has Reminder Alarm: " + hasReminderAlarm);
+						long timezoneOffsetValue =  TimeZone.getDefault().getOffset(System.currentTimeMillis());
+						//For all any event in the past, don't schedule them.
+						long currentSystemTime = System.currentTimeMillis();
+						if(eventStartTime > currentSystemTime){
+							if(allDay){
+								//Special case for all-day events.
+								eventStartTime = eventStartTime  - timezoneOffsetValue;
+								eventEndTime = eventEndTime  - timezoneOffsetValue;
+								//Schedule the notification for the event time.
+								Bundle calendarEventNotificationBundleSingle = new Bundle();
+								calendarEventNotificationBundleSingle.putString(Constants.BUNDLE_TITLE, eventTitle);
+								calendarEventNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_BODY, eventTitle);
+								calendarEventNotificationBundleSingle.putLong(Constants.BUNDLE_CALENDAR_EVENT_START_TIME, eventStartTime);
+								calendarEventNotificationBundleSingle.putLong(Constants.BUNDLE_CALENDAR_EVENT_END_TIME, eventEndTime);
+								calendarEventNotificationBundleSingle.putBoolean(Constants.BUNDLE_ALL_DAY, allDay);
+								calendarEventNotificationBundleSingle.putString(Constants.BUNDLE_CALENDAR_NAME, calendarName);
+								calendarEventNotificationBundleSingle.putLong(Constants.BUNDLE_CALENDAR_ID, Long.parseLong(calendarID));
+								calendarEventNotificationBundleSingle.putLong(Constants.BUNDLE_CALENDAR_EVENT_ID, Long.parseLong(eventID));
+								calendarEventNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_CALENDAR);
+								if(preferences.getBoolean(Constants.CALENDAR_EVENT_TIME_REMINDER_KEY, false)){
+									scheduleCalendarNotification(context, eventStartTime + dayOfReminderIntervalAllDay, calendarEventNotificationBundleSingle, "apps.droidnotify.view." + calendarID + "." + eventID);
+								}
+								//Schedule the reminder notification if it is enabled.
+								if(preferences.getBoolean(Constants.CALENDAR_REMINDERS_ENABLED_KEY,true)){
+									//Only schedule the all day event if the current time is before the notification time.
+									if(preferences.getBoolean(Constants.CALENDAR_USE_CALENDAR_REMINDER_SETTINGS_KEY,true)){
+										if(hasReminderAlarm){
+											reminderIntervalAllDay = getCalendarEventReminderTime(context, Long.parseLong(eventID), true);	
+											if(reminderIntervalAllDay > 0){
 												//Only schedule the event if the current time is before the notification time.
 												if((eventStartTime - reminderIntervalAllDay) > currentSystemTime){
-													scheduleCalendarNotification(context, eventStartTime - reminderIntervalAllDay, calendarEventNotificationBundleSingle, "apps.droidnotifydonate.view." + calendarID + "." + eventID + ".reminder");
+													scheduleCalendarNotification(context, eventStartTime - reminderIntervalAllDay, calendarEventNotificationBundleSingle, "apps.droidnotify.view." + calendarID + "." + eventID + ".reminder");
 												}
 											}
+										}
+									}else{
+										//Only schedule the event if the current time is before the notification time.
+										if((eventStartTime - reminderIntervalAllDay) > currentSystemTime){
+											scheduleCalendarNotification(context, eventStartTime - reminderIntervalAllDay, calendarEventNotificationBundleSingle, "apps.droidnotify.view." + calendarID + "." + eventID + ".reminder");
+										}
 									}
-								}else{
-									//Schedule non-all-day events.
-									//Schedule the notification for the event time.
-									Bundle calendarEventNotificationBundleSingle = new Bundle();
-									calendarEventNotificationBundleSingle.putString(Constants.BUNDLE_TITLE, eventTitle);
-									calendarEventNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_BODY, eventTitle);
-									calendarEventNotificationBundleSingle.putLong(Constants.BUNDLE_CALENDAR_EVENT_START_TIME, eventStartTime);
-									calendarEventNotificationBundleSingle.putLong(Constants.BUNDLE_CALENDAR_EVENT_END_TIME, eventEndTime);
-									calendarEventNotificationBundleSingle.putBoolean(Constants.BUNDLE_ALL_DAY, allDay);
-									calendarEventNotificationBundleSingle.putString(Constants.BUNDLE_CALENDAR_NAME, calendarName);
-									calendarEventNotificationBundleSingle.putLong(Constants.BUNDLE_CALENDAR_ID, Long.parseLong(calendarID));
-									calendarEventNotificationBundleSingle.putLong(Constants.BUNDLE_CALENDAR_EVENT_ID, Long.parseLong(eventID));
-									calendarEventNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_CALENDAR);
-									if(preferences.getBoolean(Constants.CALENDAR_EVENT_TIME_REMINDER_KEY, false)){
-										scheduleCalendarNotification(context, eventStartTime, calendarEventNotificationBundleSingle, "apps.droidnotifydonate.view." + calendarID + "." + eventID);
-									}
-									//Schedule the reminder notification if it is enabled.
-									if(preferences.getBoolean(Constants.CALENDAR_REMINDERS_ENABLED_KEY,true)){
-										if(preferences.getBoolean(Constants.CALENDAR_USE_CALENDAR_REMINDER_SETTINGS_KEY,true)){
-											if(hasReminderAlarm){
-												reminderInterval = getCalendarEventReminderTime(context, Long.parseLong(eventID), false);	
-												if(reminderInterval > 0){
-													//Only schedule the event if the current time is before the notification time.
-													if((eventStartTime - reminderInterval) > currentSystemTime){
-														scheduleCalendarNotification(context, eventStartTime - reminderInterval, calendarEventNotificationBundleSingle, "apps.droidnotifydonate.view." + calendarID + "." + eventID + ".reminder");
-													}
+								}
+							}else{
+								//Schedule non-all-day events.
+								//Schedule the notification for the event time.
+								Bundle calendarEventNotificationBundleSingle = new Bundle();
+								calendarEventNotificationBundleSingle.putString(Constants.BUNDLE_TITLE, eventTitle);
+								calendarEventNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_BODY, eventTitle);
+								calendarEventNotificationBundleSingle.putLong(Constants.BUNDLE_CALENDAR_EVENT_START_TIME, eventStartTime);
+								calendarEventNotificationBundleSingle.putLong(Constants.BUNDLE_CALENDAR_EVENT_END_TIME, eventEndTime);
+								calendarEventNotificationBundleSingle.putBoolean(Constants.BUNDLE_ALL_DAY, allDay);
+								calendarEventNotificationBundleSingle.putString(Constants.BUNDLE_CALENDAR_NAME, calendarName);
+								calendarEventNotificationBundleSingle.putLong(Constants.BUNDLE_CALENDAR_ID, Long.parseLong(calendarID));
+								calendarEventNotificationBundleSingle.putLong(Constants.BUNDLE_CALENDAR_EVENT_ID, Long.parseLong(eventID));
+								calendarEventNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_CALENDAR);
+								if(preferences.getBoolean(Constants.CALENDAR_EVENT_TIME_REMINDER_KEY, false)){
+									scheduleCalendarNotification(context, eventStartTime, calendarEventNotificationBundleSingle, "apps.droidnotify.view." + calendarID + "." + eventID);
+								}
+								//Schedule the reminder notification if it is enabled.
+								if(preferences.getBoolean(Constants.CALENDAR_REMINDERS_ENABLED_KEY,true)){
+									if(preferences.getBoolean(Constants.CALENDAR_USE_CALENDAR_REMINDER_SETTINGS_KEY,true)){
+										if(hasReminderAlarm){
+											reminderInterval = getCalendarEventReminderTime(context, Long.parseLong(eventID), false);	
+											if(reminderInterval > 0){
+												//Only schedule the event if the current time is before the notification time.
+												if((eventStartTime - reminderInterval) > currentSystemTime){
+													scheduleCalendarNotification(context, eventStartTime - reminderInterval, calendarEventNotificationBundleSingle, "apps.droidnotify.view." + calendarID + "." + eventID + ".reminder");
 												}
 											}
-										}else{
-											//Only schedule the event if the current time is before the notification time.
-											if((eventStartTime - reminderInterval) > currentSystemTime){
-												scheduleCalendarNotification(context, eventStartTime - reminderInterval, calendarEventNotificationBundleSingle, "apps.droidnotifydonate.view." + calendarID + "." + eventID + ".reminder");
-											}
+										}
+									}else{
+										//Only schedule the event if the current time is before the notification time.
+										if((eventStartTime - reminderInterval) > currentSystemTime){
+											scheduleCalendarNotification(context, eventStartTime - reminderInterval, calendarEventNotificationBundleSingle, "apps.droidnotify.view." + calendarID + "." + eventID + ".reminder");
 										}
 									}
 								}
 							}
 						}
-					}catch(Exception ex){
-						Log.e("CalendarCommon.readCalendars() EVENT QUERY ERROR: " + ex.toString());						
-						if (_debug) Common.debugReadContentProviderColumns(context, null, builder.build());
-						eventCursor.close();
-						return;
-					}finally{
+					}
+					eventCursor.close();
+				}catch(Exception ex){
+					Log.e("CalendarCommon.readCalendars() EVENT QUERY ERROR: " + ex.toString());						
+					if (_debug) Common.debugReadContentProviderColumns(context, null, Uri.parse(calendarEventContentProvider));
+					if(eventCursor != null){
 						eventCursor.close();
 					}
+					return;
 				}
-			}catch(Exception ex){
-				Log.e("CalendarCommon.readCalendars() CALENDAR QUERY ERROR: " + ex.toString());
-				cursor.close();
-				return;
 			}
 		}catch(Exception ex){
 			Log.e("CalendarCommon.readCalendars() ERROR: " + ex.toString());
@@ -290,54 +323,141 @@ public class CalendarCommon {
 	 * 
 	 * @return String - A string of the available Calendars. Specially formatted string with the Calendar information.
 	 */
+	@SuppressLint("NewApi")
 	public static String getAvailableCalendars(Context context){
 		_debug = Log.getDebug();
 		if (_debug) Log.v("CalendarCommon.getAvailableCalendars()");
 		StringBuilder calendarsInfo = new StringBuilder();
 		Cursor cursor = null;
+		String contentProvider = null;
 		try{
+			int APILevel = Common.getOSAPILevel();
 			ContentResolver contentResolver = context.getContentResolver();
-			// Fetch a list of all calendars synced with the device, their display names and whether the user has them selected for display.
-			String contentProvider = "";
-			contentProvider = "content://com.android.calendar";
+			String calendarIDColumn = null;
+			String calendarDisplayNameColumn = null;
+			String calendarSelectedColumn = null;
+			if(APILevel >= 14){
+				contentProvider = CalendarContract.Calendars.CONTENT_URI.toString();
+				calendarIDColumn = CalendarContract.Calendars._ID;
+				calendarDisplayNameColumn = CalendarContract.Events.CALENDAR_DISPLAY_NAME;
+				calendarSelectedColumn = CalendarContract.Events.VISIBLE;
+			}else{
+				contentProvider = "content://com.android.calendar/calendars";
+				calendarIDColumn = Constants.CALENDAR_ID;
+				calendarDisplayNameColumn = Constants.CALENDAR_DISPLAY_NAME;
+				calendarSelectedColumn = Constants.CALENDAR_SELECTED;
+			}
+			if (_debug) Log.v("CalendarCommon.getAvailableCalendars() ContentProvider: " + contentProvider);
+    		final String[] projection = new String[]{calendarIDColumn, calendarDisplayNameColumn, calendarSelectedColumn};
+            final String selection = null;
+    		final String[] selectionArgs = null;
+    		final String sortOrder = null;
 			cursor = contentResolver.query(
-				Uri.parse(contentProvider + "/calendars"), 
-				null,
-				null,
-				null,
-				null);
+				Uri.parse(contentProvider), 
+				projection,
+				selection,
+				selectionArgs,
+				sortOrder);
+			if(cursor ==  null){
+				Log.e("CalendarCommon.getAvailableCalendars() Cursor is null. Exiting...");
+				return null;
+			}
 			while(cursor.moveToNext()){
-				final String calendarID = cursor.getString(cursor.getColumnIndex(Constants.CALENDAR_ID));
+				long calendarID = -1; 
 				String calendarDisplayName = null;
 				Boolean calendarSelected = true;
-				if(cursor.getColumnIndex(Constants.CALENDAR_DISPLAY_NAME) >= 0){ //Android 2.2 - 3.x
-					calendarDisplayName = cursor.getString(cursor.getColumnIndex(Constants.CALENDAR_DISPLAY_NAME));
-					calendarSelected = !cursor.getString(cursor.getColumnIndex(Constants.CALENDAR_SELECTED)).equals("0");
-				}else{ // Android > 4.0
-					calendarDisplayName = cursor.getString(cursor.getColumnIndex(Constants.CALENDAR_DISPLAY_NAME_NEW));
-					calendarSelected = !cursor.getString(cursor.getColumnIndex(Constants.CALENDAR_VISIBLE)).equals("0");
-				}
+				calendarID = cursor.getLong(cursor.getColumnIndex(calendarIDColumn));
+				calendarDisplayName = cursor.getString(cursor.getColumnIndex(calendarDisplayNameColumn));
+				calendarSelected = !cursor.getString(cursor.getColumnIndex(calendarSelectedColumn)).equals("0");
 				if(calendarSelected){
 					if(!calendarsInfo.toString().equals("")){
 						calendarsInfo.append(",");
 					}
-					calendarsInfo.append(calendarID + "|" + calendarDisplayName);
+					calendarsInfo.append(String.valueOf(calendarID) + "|" + calendarDisplayName);
 				}
-			}	
+			}
+			cursor.close();
 		}catch(Exception ex){
 			Log.e("CalendarCommon.getAvailableCalendars() ERROR: " + ex.toString());
-			Common.debugReadContentProviderColumns(context, "content://com.android.calendar/calendars", null);
-			return null;
-		}finally{
+			if (_debug) Common.debugReadContentProviderColumns(context, null, Uri.parse(contentProvider));
 			if(cursor != null){
 				cursor.close();
 			}
+			return null;
 		}
 		if(calendarsInfo.toString().equals("")){
 			if (_debug) Log.v("CalendarCommon.getAvailableCalendars() No Calendars Found.");
 			return null;
 		}else{
 			return calendarsInfo.toString();
+		}
+	}
+	
+	/**
+	 * Get the reminder time in minutes (in milliseconds) for the event ID. Return -1 if none exists.
+	 * 
+	 * @param eventID - The event ID we want to query.
+	 * @param allDay - Boolean indicating if the event is an all day event or not.
+	 * 
+	 * @return long - The number of minutes in milliseconds of the reminder time or -1 if none found.
+	 */
+	@SuppressLint("NewApi")
+	private static long getCalendarEventReminderTime(Context context, long eventID, boolean allDay){
+		if (_debug) Log.v("CalendarCommon.getCalendarEventReminderTime() EventID: " + eventID + " AllDay: " + allDay);
+		Cursor cursor = null;
+		String contentProvider = null;
+		try{
+			int APILevel = Common.getOSAPILevel();
+			String eventIDColumn = null;
+			String reminderTimeInMinutesColumn = null;
+			int defaultEventReminderMinutes = 15;
+			if(APILevel >= 14){
+				contentProvider = CalendarContract.Reminders.CONTENT_URI.toString();
+				eventIDColumn = CalendarContract.Reminders.EVENT_ID;
+				reminderTimeInMinutesColumn = CalendarContract.Reminders.MINUTES;
+				defaultEventReminderMinutes = 15; //TODO - Where Is This Stored Value???
+			}else{
+				contentProvider = "content://com.android.calendar/reminders";
+				eventIDColumn = Constants.CALENDAR_REMINDER_EVENT_ID;
+				reminderTimeInMinutesColumn = Constants.CALENDAR_REMINDER_MINUTES;
+				defaultEventReminderMinutes = 15;
+			}
+			if (_debug) Log.v("CalendarCommon.getCalendarEventReminderTime() ContentProvider: " + contentProvider);
+    		final String[] projection = new String[]{eventIDColumn, reminderTimeInMinutesColumn};
+            final String selection = eventIDColumn + "=?";
+    		final String[] selectionArgs = new String[] {String.valueOf(eventID)};
+    		final String sortOrder = null;
+			cursor = context.getContentResolver().query(
+				Uri.parse(contentProvider), 						
+				projection,
+				selection,
+				selectionArgs,
+				sortOrder);
+			if(cursor ==  null){
+				Log.e("CalendarCommon.getCalendarEventReminderTime() Cursor is null. Exiting...");
+				return -1;
+			}
+			if(cursor.moveToFirst()){
+				int reminderTimeInMinutes = cursor.getInt(cursor.getColumnIndex(reminderTimeInMinutesColumn));
+				if (_debug) Log.v("CalendarCommon.getCalendarEventReminderTime() Reminder Time (minutes): " + reminderTimeInMinutes);
+				if(reminderTimeInMinutes == CalendarContract.Reminders.MINUTES_DEFAULT){
+					//Use SystemDefault Reminder Time
+					reminderTimeInMinutes = defaultEventReminderMinutes;
+				}
+				cursor.close();
+				return reminderTimeInMinutes * 60 * 1000;
+			}else{
+				if (_debug) Log.v("CalendarCommon.getCalendarEventReminderTime() No Reminder Time Found!");
+			}
+			cursor.close();
+			return -1;
+		}catch(Exception ex){
+			Log.e("CalendarCommon.getCalendarEventReminderTime() ERROR: " + ex.toString());
+			if (_debug) Common.debugReadContentProviderColumns(context, null, Uri.parse(contentProvider));
+			if(cursor != null){
+				cursor.close();
+			}
+			return -1;
 		}
 	}
 	
@@ -503,7 +623,6 @@ public class CalendarCommon {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("CalendarCommon.startCalendarAlarmManager()");
 		try{
-			cancelCalendarAlarmManager(context);
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 			AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 			Intent intent = new Intent(context, CalendarAlarmReceiver.class);
@@ -638,45 +757,5 @@ public class CalendarCommon {
 			Log.e("CalendarCommon.scheduleCalendarNotification() ERROR: " + ex.toString());
 		}
 	}
-	
-	/**
-	 * Get the reminder time in minutes (in milliseconds) for the event ID. Return -1 if none exists.
-	 * 
-	 * @param eventID - The event ID we want to querry.
-	 * @param allDay - Boolean indicating if the event is an all day event or not.
-	 * 
-	 * @return long - The number of minutes in milliseconds of the reminder time or -1 if none found.
-	 */
-	private static long getCalendarEventReminderTime(Context context, long eventID, boolean allDay){
-		if (_debug) Log.v("CalendarCommon.getCalendarEventReminderTime() EventID: " + eventID + " AllDay: " + allDay);
-		String contentProvider = "content://com.android.calendar/reminders";
-		Cursor cursor = null;
-		try{
-    		final String[] projection = null;
-            final String selection = Constants.CALENDAR_EVENT_ID + "=?";
-    		final String[] selectionArgs = new String[] {String.valueOf(eventID)};
-    		final String sortOrder = null;
-			cursor = context.getContentResolver().query(
-				Uri.parse(contentProvider), 						
-				projection,
-				selection,
-				selectionArgs,
-				sortOrder);
-			if(cursor ==  null){
-				Log.e("CalendarCommon.getCalendarEventReminderTime() Cursor is null. Exiting...");
-				return -1;
-			}
-			if(cursor.moveToFirst()){
-				final int reminderTimeInMinutes = cursor.getInt(cursor.getColumnIndex(Constants.CALENDAR_REMINDER_MINUTES));
-				if (_debug) Log.v("CalendarCommon.getCalendarEventReminderTime() Reminder Time (minutes): " + reminderTimeInMinutes);
-				return reminderTimeInMinutes * 60 * 1000;
-			}
-			return -1;
-		}catch(Exception ex){
-			Log.e("CalendarCommon.getCalendarEventReminderTime() ERROR: " + ex.toString());
-			cursor.close();
-			return -1;
-		}
-	}	
 	
 }
