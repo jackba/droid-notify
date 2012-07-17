@@ -465,6 +465,9 @@ public class Constants {
 	public static final String CALENDAR_LABELS_KEY = "calendar_labels_enabled";
 	public static final String CALENDAR_SELECTION_KEY = "calendar_selection";
 	public static final String CALENDAR_REFRESH_KEY = "calendar_refresh";
+	public static final String CALENDAR_EVENT_TIME_REMINDER_KEY = "calendar_event_time_reminder_enabled";
+	public static final String CALENDAR_REMINDER_FREQUENCY_KEY = "calendar_reminder_frequency";
+	public static final String CALENDAR_REMINDER_INTERVAL_KEY = "calendar_reminder_interval";
 	
 	public static final String CALENDAR_ID = "_id";
 	public static final String CALENDAR_CALENDAR_ID = "calendar_id";

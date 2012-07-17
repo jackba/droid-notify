@@ -768,7 +768,14 @@ public class Notification {
 	 */
 	public void setReminder(){
 		if (_debug) Log.v("Notification.setReminder()");
-		if(_preferences.getBoolean(Constants.REMINDERS_ENABLED_KEY, false)){	
+		boolean setReminder = false;
+		if(_preferences.getBoolean(Constants.REMINDERS_ENABLED_KEY, false)){
+			setReminder = true;
+		}
+		if(_notificationType == Constants.NOTIFICATION_TYPE_CALENDAR || _notificationType == Constants.NOTIFICATION_TYPE_RESCHEDULE_CALENDAR){
+			setReminder = true;
+		}
+		if(setReminder){
 			boolean triggerReminder = true;
 			int maxRescheduleAttempts = Integer.parseInt(_preferences.getString(Constants.REMINDER_FREQUENCY_KEY, Constants.REMINDER_FREQUENCY_DEFAULT));
 			//Determine if the notification should be rescheduled or not.
