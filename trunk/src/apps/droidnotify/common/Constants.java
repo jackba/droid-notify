@@ -471,19 +471,18 @@ public class Constants {
 	
 	public static final String CALENDAR_ID = "_id";
 	public static final String CALENDAR_CALENDAR_ID = "calendar_id";
-	public static final String CALENDAR_EVENT_ID = "event_id"; 
+	public static final String CALENDAR_EVENT_ID = "_id"; 
+	public static final String CALENDAR_REMINDER_EVENT_ID = "event_id"; 
 	public static final String CALENDAR_EVENT_TITLE = "title"; 
-    public static final String CALENDAR_INSTANCE_BEGIN = "begin"; 
-    public static final String CALENDAR_INSTANCE_END = "end"; 
+    public static final String CALENDAR_INSTANCE_BEGIN = "dtstart"; 
+    public static final String CALENDAR_INSTANCE_END = "dtend"; 
     public static final String CALENDAR_EVENT_ALL_DAY = "allDay"; 
     public static final String CALENDAR_DISPLAY_NAME = "displayName"; 
-    public static final String CALENDAR_DISPLAY_NAME_NEW = "calendar_displayName"; 
-    public static final String CALENDAR_SELECTED = "selected"; 
-    public static final String CALENDAR_VISIBLE = "visible";
+    public static final String CALENDAR_SELECTED = "selected";
     public static final String CALENDAR_EVENT_BEGIN_TIME = "beginTime";
     public static final String CALENDAR_EVENT_END_TIME = "endTime";
     public static final String CALENDAR_EVENT_HAS_ALARM = "hasAlarm";
-    public static final String CALENDAR_REMINDER_MINUTES = "minutes";  
+    public static final String CALENDAR_REMINDER_MINUTES = "minutes"; 
 	
 	//-----K9 CONSTANTS-----//	
 	public static final String INTENT_ACTION_K9 = "com.fsck.k9.intent.action.EMAIL_RECEIVED";
