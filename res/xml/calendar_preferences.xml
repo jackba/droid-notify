@@ -56,6 +56,13 @@
 		android:title="@string/event_reminders_category">
 		<CheckBoxPreference 
 			android:layout="@layout/custom_preference_checkbox" 
+			android:key="calendar_event_time_reminder_enabled" 
+			android:title="@string/event_start_time_reminder" 
+			android:summary="@string/event_start_time_reminder_summary"
+			android:defaultValue="false"
+			android:dependency="calendar_notifications_enabled" />
+		<CheckBoxPreference 
+			android:layout="@layout/custom_preference_checkbox" 
 			android:key="calendar_reminders_enabled" 
 			android:title="@string/calendar_reminders_enabled_title" 
 			android:summary="@string/calendar_reminders_enabled_summary"
@@ -67,7 +74,7 @@
 			android:title="@string/use_current_calendar_reminder_settings" 
 			android:summary="@string/use_current_calendar_reminder_settings_summary"
 			android:defaultValue="true"
-			android:dependency="calendar_notifications_enabled" />
+			android:dependency="calendar_reminders_enabled" />
 		<ListPreference
 			android:layout="@layout/custom_preference_list"
 			android:key="calendar_reminder_settings"
@@ -85,6 +92,24 @@
 			android:defaultValue="6"
 			android:entries="@array/calendar_reminder_all_day_options"
 			android:entryValues="@array/calendar_reminder_all_day_values"
+			android:dependency="calendar_reminders_enabled" />
+		<ListPreference
+			android:layout="@layout/custom_preference_list"
+			android:key="calendar_reminder_frequency"
+			android:title="@string/preference_reminder_frequency_text"
+			android:summary="@string/preference_reminder_frequency_summary"
+			android:defaultValue="-1"
+			android:entries="@array/reminder_frequency_options"
+			android:entryValues="@array/reminder_frequency_values"
+			android:dependency="calendar_reminders_enabled" />
+		<ListPreference
+			android:layout="@layout/custom_preference_list"
+			android:key="calendar_reminder_interval"
+			android:title="@string/preference_reminder_interval_text"
+			android:summary="@string/preference_reminder_interval_summary"
+			android:defaultValue="1"
+			android:entries="@array/reschedule_time_options"
+			android:entryValues="@array/reschedule_time_values"
 			android:dependency="calendar_reminders_enabled" />
 	</PreferenceCategory>
 	<PreferenceCategory

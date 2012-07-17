@@ -202,7 +202,9 @@ public class CalendarCommon {
 									calendarEventNotificationBundleSingle.putLong(Constants.BUNDLE_CALENDAR_ID, Long.parseLong(calendarID));
 									calendarEventNotificationBundleSingle.putLong(Constants.BUNDLE_CALENDAR_EVENT_ID, Long.parseLong(eventID));
 									calendarEventNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_CALENDAR);
-									scheduleCalendarNotification(context, eventStartTime + dayOfReminderIntervalAllDay, calendarEventNotificationBundleSingle, "apps.droidnotifydonate.view." + calendarID + "." + eventID);
+									if(preferences.getBoolean(Constants.CALENDAR_EVENT_TIME_REMINDER_KEY, false)){
+										scheduleCalendarNotification(context, eventStartTime + dayOfReminderIntervalAllDay, calendarEventNotificationBundleSingle, "apps.droidnotifydonate.view." + calendarID + "." + eventID);
+									}
 									//Schedule the reminder notification if it is enabled.
 									if(preferences.getBoolean(Constants.CALENDAR_REMINDERS_ENABLED_KEY,true)){
 										//Only schedule the all day event if the current time is before the notification time.
@@ -236,7 +238,9 @@ public class CalendarCommon {
 									calendarEventNotificationBundleSingle.putLong(Constants.BUNDLE_CALENDAR_ID, Long.parseLong(calendarID));
 									calendarEventNotificationBundleSingle.putLong(Constants.BUNDLE_CALENDAR_EVENT_ID, Long.parseLong(eventID));
 									calendarEventNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_CALENDAR);
-									scheduleCalendarNotification(context, eventStartTime, calendarEventNotificationBundleSingle, "apps.droidnotifydonate.view." + calendarID + "." + eventID);
+									if(preferences.getBoolean(Constants.CALENDAR_EVENT_TIME_REMINDER_KEY, false)){
+										scheduleCalendarNotification(context, eventStartTime, calendarEventNotificationBundleSingle, "apps.droidnotifydonate.view." + calendarID + "." + eventID);
+									}
 									//Schedule the reminder notification if it is enabled.
 									if(preferences.getBoolean(Constants.CALENDAR_REMINDERS_ENABLED_KEY,true)){
 										if(preferences.getBoolean(Constants.CALENDAR_USE_CALENDAR_REMINDER_SETTINGS_KEY,true)){

@@ -400,6 +400,8 @@
    	<string name="calendar_reminders_enabled_summary">Send reminder notifications before the event occurs.</string>
     <string name="use_current_calendar_reminder_settings">Use Current Calendar Reminder Settings</string>
    	<string name="use_current_calendar_reminder_settings_summary">Use the calendars reminder settings for reminders.</string>
+    <string name="event_start_time_reminder">Remind Start Of Event</string>
+   	<string name="event_start_time_reminder_summary">Display a reminder on the start of the event.</string>
   
    	<!-- K9 Strings -->
     <string name="k9_category">K9</string>
