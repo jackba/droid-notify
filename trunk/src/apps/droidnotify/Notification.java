@@ -768,16 +768,21 @@ public class Notification {
 	 */
 	public void setReminder(){
 		if (_debug) Log.v("Notification.setReminder()");
-		boolean setReminder = false;
-		if(_preferences.getBoolean(Constants.REMINDERS_ENABLED_KEY, false)){
-			setReminder = true;
-		}
+		boolean calendarReminder = false;
 		if(_notificationType == Constants.NOTIFICATION_TYPE_CALENDAR || _notificationType == Constants.NOTIFICATION_TYPE_RESCHEDULE_CALENDAR){
-			setReminder = true;
+			calendarReminder = true;	
 		}
-		if(setReminder){
+		if(_preferences.getBoolean(Constants.REMINDERS_ENABLED_KEY, false) || calendarReminder){							
 			boolean triggerReminder = true;
-			int maxRescheduleAttempts = Integer.parseInt(_preferences.getString(Constants.REMINDER_FREQUENCY_KEY, Constants.REMINDER_FREQUENCY_DEFAULT));
+			int maxRescheduleAttempts = -1;		
+			long rescheduleTime = -1;
+			if(calendarReminder){
+				maxRescheduleAttempts = Integer.parseInt(_preferences.getString(Constants.CALENDAR_REMINDER_FREQUENCY_KEY, Constants.CALENDAR_REMINDER_FREQUENCY_DEFAULT));		
+				rescheduleTime = System.currentTimeMillis() + Long.parseLong(_preferences.getString(Constants.CALENDAR_REMINDER_INTERVAL_KEY, Constants.CALENDAR_REMINDER_INTERVAL_DEFAULT)) * 60 * 1000;
+			}else{
+				maxRescheduleAttempts = Integer.parseInt(_preferences.getString(Constants.REMINDER_FREQUENCY_KEY, Constants.REMINDER_FREQUENCY_DEFAULT));		
+				rescheduleTime = System.currentTimeMillis() + Long.parseLong(_preferences.getString(Constants.REMINDER_INTERVAL_KEY, Constants.REMINDER_INTERVAL_DEFAULT)) * 60 * 1000;
+			}
 			//Determine if the notification should be rescheduled or not.
 			if(maxRescheduleAttempts < 0){
 				//Infinite Attempts.
@@ -785,8 +790,7 @@ public class Notification {
 			}else if(_rescheduleNumber > maxRescheduleAttempts){
 				triggerReminder = false;
 			}
-			if(triggerReminder){		
-				long rescheduleTime = System.currentTimeMillis() + Long.parseLong(_preferences.getString(Constants.REMINDER_INTERVAL_KEY, Constants.REMINDER_INTERVAL_DEFAULT)) * 60 * 1000;
+			if(triggerReminder){
 				_reminderPendingIntent = Common.rescheduleNotification(_context, this, rescheduleTime, ++_rescheduleNumber);
 			}
 		}
