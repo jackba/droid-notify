@@ -98,7 +98,7 @@ public class PhoneAlarmBroadcastReceiverService extends WakefulIntentService {
 		    	if(preferences.getBoolean(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true)){
 					if(missedCallNotificationBundleSingle != null){
 		    			//Display Status Bar Notification
-		    			Common.setStatusBarNotification(context, 1, Constants.NOTIFICATION_TYPE_PHONE, 0, callStateIdle, missedCallNotificationBundleSingle.getString(Constants.BUNDLE_CONTACT_NAME), missedCallNotificationBundleSingle.getLong(Constants.BUNDLE_CONTACT_ID, -1), missedCallNotificationBundleSingle.getString(Constants.BUNDLE_SENT_FROM_ADDRESS), null, null, null, false, Common.getStatusBarNotificationBundle(context, Constants.NOTIFICATION_TYPE_PHONE));
+		    			Common.setStatusBarNotification(context, 1, Constants.NOTIFICATION_TYPE_PHONE, 0, callStateIdle, missedCallNotificationBundleSingle.getString(Constants.BUNDLE_CONTACT_NAME), missedCallNotificationBundleSingle.getLong(Constants.BUNDLE_CONTACT_ID, -1), missedCallNotificationBundleSingle.getString(Constants.BUNDLE_SENT_FROM_ADDRESS), null, null, null, -1, false, Common.getStatusBarNotificationBundle(context, Constants.NOTIFICATION_TYPE_PHONE));
 					}
 	    		}					
 		    	if(missedCallNotificationBundle != null) Common.rescheduleBlockedNotification(context, rescheduleNotificationInCall, rescheduleNotificationInQuickReply, Constants.NOTIFICATION_TYPE_PHONE, missedCallNotificationBundle);

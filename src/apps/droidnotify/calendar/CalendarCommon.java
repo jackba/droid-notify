@@ -85,10 +85,19 @@ public class CalendarCommon {
 			ContentResolver contentResolver = context.getContentResolver();
 			// Fetch a list of all calendars synced with the device, their display names and whether the user has them selected for display.
 			String contentProvider = null;	
+			String calendarIDColumn = null;
+			String calendarDisplayNameColumn = null;
+			String calendarSelectedColumn = null;
 			if(APILevel >= 14){
 				contentProvider = CalendarContract.Calendars.CONTENT_URI.toString();
+				calendarIDColumn = CalendarContract.Calendars._ID;
+				calendarDisplayNameColumn = CalendarContract.Events.CALENDAR_DISPLAY_NAME;
+				calendarSelectedColumn = CalendarContract.Events.VISIBLE;
 			}else{
 				contentProvider = "content://com.android.calendar/calendars";
+				calendarIDColumn = Constants.CALENDAR_ID;
+				calendarDisplayNameColumn = Constants.CALENDAR_DISPLAY_NAME;
+				calendarSelectedColumn = Constants.CALENDAR_SELECTED;
 			}
 			if (_debug) Log.v("CalendarCommon.readCalendars() ContentProvider URI String: " + contentProvider);
 			HashMap<String, String> calendarIds = new HashMap<String, String>();
@@ -108,15 +117,9 @@ public class CalendarCommon {
 					long calendarID = -1;
 					String calendarDisplayName = null;
 					Boolean calendarSelected = true;
-					if(APILevel >= 14){
-						calendarID = cursor.getLong(cursor.getColumnIndex(CalendarContract.Calendars._ID));
-						calendarDisplayName = cursor.getString(cursor.getColumnIndex(CalendarContract.Events.CALENDAR_DISPLAY_NAME));
-						calendarSelected = !cursor.getString(cursor.getColumnIndex(CalendarContract.Events.VISIBLE)).equals("0");
-					}else{
-						calendarID = cursor.getLong(cursor.getColumnIndex(Constants.CALENDAR_ID));
-						calendarDisplayName = cursor.getString(cursor.getColumnIndex(Constants.CALENDAR_DISPLAY_NAME));
-						calendarSelected = !cursor.getString(cursor.getColumnIndex(Constants.CALENDAR_SELECTED)).equals("0");
-					}
+					calendarID = cursor.getLong(cursor.getColumnIndex(calendarIDColumn));
+					calendarDisplayName = cursor.getString(cursor.getColumnIndex(calendarDisplayNameColumn));
+					calendarSelected = !cursor.getString(cursor.getColumnIndex(calendarSelectedColumn)).equals("0");
 					if(calendarsArray.contains(String.valueOf(calendarID))){
 						if (_debug) Log.v("CalendarCommon.readCalendars() CHECKING CALENDAR -  Calendar ID: " + String.valueOf(calendarID) + " Display Name: " + calendarDisplayName + " Selected: " + calendarSelected);
 						calendarIds.put(String.valueOf(calendarID), calendarDisplayName);
@@ -240,7 +243,7 @@ public class CalendarCommon {
 								calendarEventNotificationBundleSingle.putLong(Constants.BUNDLE_CALENDAR_EVENT_ID, Long.parseLong(eventID));
 								calendarEventNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_CALENDAR);
 								if(preferences.getBoolean(Constants.CALENDAR_EVENT_TIME_REMINDER_KEY, false)){
-									scheduleCalendarNotification(context, eventStartTime + dayOfReminderIntervalAllDay, calendarEventNotificationBundleSingle, "apps.droidnotify.view." + calendarID + "." + eventID);
+									scheduleCalendarNotification(context, eventStartTime + dayOfReminderIntervalAllDay, calendarEventNotificationBundleSingle, "apps.droidnotify.view.calendar." + calendarID + "." + eventID);
 								}
 								//Schedule the reminder notification if it is enabled.
 								if(preferences.getBoolean(Constants.CALENDAR_REMINDERS_ENABLED_KEY,true)){
@@ -251,14 +254,14 @@ public class CalendarCommon {
 											if(reminderIntervalAllDay > 0){
 												//Only schedule the event if the current time is before the notification time.
 												if((eventStartTime - reminderIntervalAllDay) > currentSystemTime){
-													scheduleCalendarNotification(context, eventStartTime - reminderIntervalAllDay, calendarEventNotificationBundleSingle, "apps.droidnotify.view." + calendarID + "." + eventID + ".reminder");
+													scheduleCalendarNotification(context, eventStartTime - reminderIntervalAllDay, calendarEventNotificationBundleSingle, "apps.droidnotify.view.calendar.reminder." + calendarID + "." + eventID);
 												}
 											}
 										}
 									}else{
 										//Only schedule the event if the current time is before the notification time.
 										if((eventStartTime - reminderIntervalAllDay) > currentSystemTime){
-											scheduleCalendarNotification(context, eventStartTime - reminderIntervalAllDay, calendarEventNotificationBundleSingle, "apps.droidnotify.view." + calendarID + "." + eventID + ".reminder");
+											scheduleCalendarNotification(context, eventStartTime - reminderIntervalAllDay, calendarEventNotificationBundleSingle, "apps.droidnotify.view.calendar.reminder." + calendarID + "." + eventID);
 										}
 									}
 								}
@@ -276,7 +279,7 @@ public class CalendarCommon {
 								calendarEventNotificationBundleSingle.putLong(Constants.BUNDLE_CALENDAR_EVENT_ID, Long.parseLong(eventID));
 								calendarEventNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_CALENDAR);
 								if(preferences.getBoolean(Constants.CALENDAR_EVENT_TIME_REMINDER_KEY, false)){
-									scheduleCalendarNotification(context, eventStartTime, calendarEventNotificationBundleSingle, "apps.droidnotify.view." + calendarID + "." + eventID);
+									scheduleCalendarNotification(context, eventStartTime, calendarEventNotificationBundleSingle, "apps.droidnotify.view.calendar." + calendarID + "." + eventID);
 								}
 								//Schedule the reminder notification if it is enabled.
 								if(preferences.getBoolean(Constants.CALENDAR_REMINDERS_ENABLED_KEY,true)){
@@ -286,14 +289,14 @@ public class CalendarCommon {
 											if(reminderInterval > 0){
 												//Only schedule the event if the current time is before the notification time.
 												if((eventStartTime - reminderInterval) > currentSystemTime){
-													scheduleCalendarNotification(context, eventStartTime - reminderInterval, calendarEventNotificationBundleSingle, "apps.droidnotify.view." + calendarID + "." + eventID + ".reminder");
+													scheduleCalendarNotification(context, eventStartTime - reminderInterval, calendarEventNotificationBundleSingle, "apps.droidnotify.view.calendar.reminder." + calendarID + "." + eventID);
 												}
 											}
 										}
 									}else{
 										//Only schedule the event if the current time is before the notification time.
 										if((eventStartTime - reminderInterval) > currentSystemTime){
-											scheduleCalendarNotification(context, eventStartTime - reminderInterval, calendarEventNotificationBundleSingle, "apps.droidnotify.view." + calendarID + "." + eventID + ".reminder");
+											scheduleCalendarNotification(context, eventStartTime - reminderInterval, calendarEventNotificationBundleSingle, "apps.droidnotify.view.calendar.reminder." + calendarID + "." + eventID);
 										}
 									}
 								}

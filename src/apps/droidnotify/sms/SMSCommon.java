@@ -113,29 +113,23 @@ public class SMSCommon {
     		threadID = getThreadID(context, sentFromAddress, Constants.NOTIFICATION_TYPE_SMS);
     		messageID = getMessageID(context, threadID, messageBody, timeStamp, Constants.NOTIFICATION_TYPE_SMS);
     		Bundle smsContactInfoBundle = sentFromAddress.contains("@") ? ContactsCommon.getContactsInfoByEmail(context, sentFromAddress) : ContactsCommon.getContactsInfoByPhoneNumber(context, sentFromAddress);
-    		if(smsContactInfoBundle == null){				
-				//Basic Notification Information.
-				smsNotificationBundleSingle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, sentFromAddress);
-				smsNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_BODY, messageBody);
-				smsNotificationBundleSingle.putLong(Constants.BUNDLE_MESSAGE_ID, messageID);
-				smsNotificationBundleSingle.putLong(Constants.BUNDLE_THREAD_ID,threadID);
-				smsNotificationBundleSingle.putLong(Constants.BUNDLE_TIMESTAMP, timeStamp);
-				smsNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_SMS);
-			}else{				
-				//Basic Notification Information.
-				smsNotificationBundleSingle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, sentFromAddress);
-				smsNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_BODY, messageBody);
-				smsNotificationBundleSingle.putLong(Constants.BUNDLE_MESSAGE_ID, messageID);
-				smsNotificationBundleSingle.putLong(Constants.BUNDLE_THREAD_ID,threadID);
-				smsNotificationBundleSingle.putLong(Constants.BUNDLE_TIMESTAMP, timeStamp);
-				smsNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_SMS);
+			long contactID = -1;				
+			//Basic Notification Information.
+			smsNotificationBundleSingle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, sentFromAddress);
+			smsNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_BODY, messageBody);
+			smsNotificationBundleSingle.putLong(Constants.BUNDLE_MESSAGE_ID, messageID);
+			smsNotificationBundleSingle.putLong(Constants.BUNDLE_THREAD_ID,threadID);
+			smsNotificationBundleSingle.putLong(Constants.BUNDLE_TIMESTAMP, timeStamp);
+			smsNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_SMS);
+			if(smsContactInfoBundle != null){
     			//Contact Information.
-				smsNotificationBundleSingle.putLong(Constants.BUNDLE_CONTACT_ID, smsContactInfoBundle.getLong(Constants.BUNDLE_CONTACT_ID, -1));
+				contactID = smsContactInfoBundle.getLong(Constants.BUNDLE_CONTACT_ID, -1);
+				smsNotificationBundleSingle.putLong(Constants.BUNDLE_CONTACT_ID, contactID);
 				smsNotificationBundleSingle.putString(Constants.BUNDLE_CONTACT_NAME, smsContactInfoBundle.getString(Constants.BUNDLE_CONTACT_NAME));
 				smsNotificationBundleSingle.putLong(Constants.BUNDLE_PHOTO_ID, smsContactInfoBundle.getLong(Constants.BUNDLE_PHOTO_ID, -1));
 				smsNotificationBundleSingle.putString(Constants.BUNDLE_LOOKUP_KEY, smsContactInfoBundle.getString(Constants.BUNDLE_LOOKUP_KEY));
 			}
-    		smsNotificationBundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_" + String.valueOf(bundleCount), smsNotificationBundleSingle);
+			smsNotificationBundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_" + String.valueOf(bundleCount), smsNotificationBundleSingle);
 		    smsNotificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_BUNDLE_COUNT, bundleCount);
     		return smsNotificationBundle;
 		}catch(Exception ex){
@@ -159,13 +153,17 @@ public class SMSCommon {
     		final String selection = "read=?";
     		final String[] selectionArgs = new String[] {"0"};
     		final String sortOrder = "date DESC";
-    		boolean isFirst = false; 
+    		boolean isFirst = false;
 		    cursor = context.getContentResolver().query(
 		    		Uri.parse("content://sms/inbox"),
 		    		projection,
 		    		selection,
 					selectionArgs,
 					sortOrder);
+		    if(cursor == null){
+		    	if(_debug) Log.v("SMSCommon.getAllUnreadSMSMessages() Currsor is null. Exiting...");
+		    	return null;
+		    }
 		    while(cursor.moveToNext()){ 
 	    		Bundle smsNotificationBundleSingle = new Bundle();
 		    	long messageID = cursor.getLong(cursor.getColumnIndex("_id"));
@@ -178,39 +176,35 @@ public class SMSCommon {
 	    		if(!isFirst){
     	    		bundleCount++;
                 	Bundle smsContactInfoBundle = sentFromAddress.contains("@") ? ContactsCommon.getContactsInfoByEmail(context, sentFromAddress) : ContactsCommon.getContactsInfoByPhoneNumber(context, sentFromAddress);
-                    if(smsContactInfoBundle == null){				
-    					//Basic Notification Information.
-    					smsNotificationBundleSingle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, sentFromAddress);
-    					smsNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_BODY, messageBody.replace("\n", "<br/>"));
-    					smsNotificationBundleSingle.putLong(Constants.BUNDLE_MESSAGE_ID, messageID);
-    					smsNotificationBundleSingle.putLong(Constants.BUNDLE_THREAD_ID,threadID);
-    					smsNotificationBundleSingle.putLong(Constants.BUNDLE_TIMESTAMP, timeStamp);
-    					smsNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_SMS);
-                    }else{
-    					//Basic Notification Information.
-    					smsNotificationBundleSingle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, sentFromAddress);
-    					smsNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_BODY, messageBody.replace("\n", "<br/>"));
-    					smsNotificationBundleSingle.putLong(Constants.BUNDLE_MESSAGE_ID, messageID);
-    					smsNotificationBundleSingle.putLong(Constants.BUNDLE_THREAD_ID,threadID);
-    					smsNotificationBundleSingle.putLong(Constants.BUNDLE_TIMESTAMP, timeStamp);
-    					smsNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_SMS);
+                	long contactID = -1;				
+					//Basic Notification Information.
+					smsNotificationBundleSingle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, sentFromAddress);
+					smsNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_BODY, messageBody.replace("\n", "<br/>"));
+					smsNotificationBundleSingle.putLong(Constants.BUNDLE_MESSAGE_ID, messageID);
+					smsNotificationBundleSingle.putLong(Constants.BUNDLE_THREAD_ID,threadID);
+					smsNotificationBundleSingle.putLong(Constants.BUNDLE_TIMESTAMP, timeStamp);
+					smsNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_SMS);
+        			if(smsContactInfoBundle != null){
     	    			//Contact Information.
-    					smsNotificationBundleSingle.putLong(Constants.BUNDLE_CONTACT_ID, smsContactInfoBundle.getLong(Constants.BUNDLE_CONTACT_ID, -1));
+    					contactID = smsContactInfoBundle.getLong(Constants.BUNDLE_CONTACT_ID, -1);
+    					smsNotificationBundleSingle.putLong(Constants.BUNDLE_CONTACT_ID, contactID);
     					smsNotificationBundleSingle.putString(Constants.BUNDLE_CONTACT_NAME, smsContactInfoBundle.getString(Constants.BUNDLE_CONTACT_NAME));
     					smsNotificationBundleSingle.putLong(Constants.BUNDLE_PHOTO_ID, smsContactInfoBundle.getLong(Constants.BUNDLE_PHOTO_ID, -1));
     					smsNotificationBundleSingle.putString(Constants.BUNDLE_LOOKUP_KEY, smsContactInfoBundle.getString(Constants.BUNDLE_LOOKUP_KEY));
                     }
-    	    		smsNotificationBundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_" + String.valueOf(bundleCount), smsNotificationBundleSingle);
+        			smsNotificationBundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_" + String.valueOf(bundleCount), smsNotificationBundleSingle);
 		    	}
 				isFirst = false;
 	    	}
+			cursor.close();
 		    smsNotificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_BUNDLE_COUNT, bundleCount);
 		}catch(Exception ex){
 			Log.e("SMSCommon.getAllUnreadSMSMessages() ERROR: " + ex.toString());
-			smsNotificationBundle = null;
-		} finally {
-    		cursor.close();
-    	}
+    		if(cursor != null){
+				cursor.close();
+			}
+			return null;
+		}
 		return smsNotificationBundle;
 	}
 	
@@ -238,6 +232,10 @@ public class SMSCommon {
 		    		selection,
 					selectionArgs,
 					sortOrder);
+		    if(cursor == null){
+		    	if(_debug) Log.v("SMSCommon.getMMSMessagesFromDisk() Currsor is null. Exiting...");
+		    	return null;
+		    }
 	    	while(cursor.moveToNext()){
 	    		Bundle mmsNotificationBundleSingle = new Bundle();
 	    		bundleCount++;	
@@ -249,38 +247,35 @@ public class SMSCommon {
 		    	sentFromAddress = sentFromAddress.contains("@") ? EmailCommon.removeEmailFormatting(sentFromAddress) : PhoneCommon.removePhoneNumberFormatting(sentFromAddress);
 		    	String messageBody = getMMSText(context, messageID);
 		    	Bundle mmsContactInfoBundle = sentFromAddress.contains("@") ? ContactsCommon.getContactsInfoByEmail(context, sentFromAddress) : ContactsCommon.getContactsInfoByPhoneNumber(context, sentFromAddress);
-				if(mmsContactInfoBundle == null){				
-					//Basic Notification Information.
-					mmsNotificationBundleSingle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, sentFromAddress);
-					mmsNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_BODY, messageBody.replace("\n", "<br/>"));
-					mmsNotificationBundleSingle.putLong(Constants.BUNDLE_MESSAGE_ID, messageID);
-					mmsNotificationBundleSingle.putLong(Constants.BUNDLE_THREAD_ID, threadID);
-					mmsNotificationBundleSingle.putLong(Constants.BUNDLE_TIMESTAMP, timeStamp);
-					mmsNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_MMS);
-				}else{				
-					//Basic Notification Information.
-					mmsNotificationBundleSingle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, sentFromAddress);
-					mmsNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_BODY, messageBody.replace("\n", "<br/>"));
-					mmsNotificationBundleSingle.putLong(Constants.BUNDLE_MESSAGE_ID, messageID);
-					mmsNotificationBundleSingle.putLong(Constants.BUNDLE_THREAD_ID, threadID);
-					mmsNotificationBundleSingle.putLong(Constants.BUNDLE_TIMESTAMP, timeStamp);
-					mmsNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_MMS);
+		    	long contactID = -1;
+			    if(_debug) Log.v("SMSCommon.getMMSMessagesFromDisk() MMS Message Found! - MessageID: " + messageID);
+				//Basic Notification Information.
+				mmsNotificationBundleSingle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, sentFromAddress);
+				mmsNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_BODY, messageBody.replace("\n", "<br/>"));
+				mmsNotificationBundleSingle.putLong(Constants.BUNDLE_MESSAGE_ID, messageID);
+				mmsNotificationBundleSingle.putLong(Constants.BUNDLE_THREAD_ID, threadID);
+				mmsNotificationBundleSingle.putLong(Constants.BUNDLE_TIMESTAMP, timeStamp);
+				mmsNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_MMS);
+    			if(mmsContactInfoBundle != null){
 	    			//Contact Information.
-					mmsNotificationBundleSingle.putLong(Constants.BUNDLE_CONTACT_ID, mmsContactInfoBundle.getLong(Constants.BUNDLE_CONTACT_ID, -1));
+					contactID = mmsContactInfoBundle.getLong(Constants.BUNDLE_CONTACT_ID, -1);
+					mmsNotificationBundleSingle.putLong(Constants.BUNDLE_CONTACT_ID, contactID);
 					mmsNotificationBundleSingle.putString(Constants.BUNDLE_CONTACT_NAME, mmsContactInfoBundle.getString(Constants.BUNDLE_CONTACT_NAME));
 					mmsNotificationBundleSingle.putLong(Constants.BUNDLE_PHOTO_ID, mmsContactInfoBundle.getLong(Constants.BUNDLE_PHOTO_ID, -1));
 					mmsNotificationBundleSingle.putString(Constants.BUNDLE_LOOKUP_KEY, mmsContactInfoBundle.getString(Constants.BUNDLE_LOOKUP_KEY));
 				}
-	    		mmsNotificationBundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_" + String.valueOf(bundleCount), mmsNotificationBundleSingle);
+    			mmsNotificationBundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_" + String.valueOf(bundleCount), mmsNotificationBundleSingle);
 		    	break;
 		    }
+			cursor.close();
 		    mmsNotificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_BUNDLE_COUNT, bundleCount);
 		}catch(Exception ex){
 			Log.e("SMSCommon.getMMSMessagesFromDisk() ERROR: " + ex.toString());
-			mmsNotificationBundle = null;
-		}finally{
-    		cursor.close();
-    	}
+    		if(cursor != null){
+				cursor.close();
+			}
+			return null;
+		}
 		return mmsNotificationBundle;	
 	}
 	
@@ -306,52 +301,52 @@ public class SMSCommon {
 		    		selection,
 					selectionArgs,
 					sortOrder);
+		    if(cursor == null){
+		    	if(_debug) Log.v("SMSCommon.getAllUnreadMMSMessages() Currsor is null. Exiting...");
+		    	return null;
+		    }
 	    	while(cursor.moveToNext()){
-	    		Bundle mmsNotificationBundleSingle = new Bundle();
-	    		long messageID = cursor.getLong(cursor.getColumnIndex("_id"));
-	    		long threadID = cursor.getLong(cursor.getColumnIndex("thread_id"));
-		    	String messageBody = SMSCommon.getMMSText(context, messageID);
-		    	String sentFromAddress = SMSCommon.getMMSAddress(context, messageID);
-		    	sentFromAddress = sentFromAddress.contains("@") ? EmailCommon.removeEmailFormatting(sentFromAddress) : PhoneCommon.removePhoneNumberFormatting(sentFromAddress);
-	    		long timeStamp = cursor.getLong(cursor.getColumnIndex("date")) * 1000;
-		    	timeStamp = Common.convertGMTToLocalTime(context, timeStamp, true);
 	    		//Do not grab the first unread MMS message.
 	    		if(!isFirst){
+		    		Bundle mmsNotificationBundleSingle = new Bundle();
+		    		long messageID = cursor.getLong(cursor.getColumnIndex("_id"));
+		    		long threadID = cursor.getLong(cursor.getColumnIndex("thread_id"));
+			    	String messageBody = SMSCommon.getMMSText(context, messageID);
+			    	String sentFromAddress = SMSCommon.getMMSAddress(context, messageID);
+			    	sentFromAddress = sentFromAddress.contains("@") ? EmailCommon.removeEmailFormatting(sentFromAddress) : PhoneCommon.removePhoneNumberFormatting(sentFromAddress);
+		    		long timeStamp = cursor.getLong(cursor.getColumnIndex("date")) * 1000;
+			    	timeStamp = Common.convertGMTToLocalTime(context, timeStamp, true);
 		    		bundleCount++;
 			    	Bundle mmsContactInfoBundle = sentFromAddress.contains("@") ? ContactsCommon.getContactsInfoByEmail(context, sentFromAddress) : ContactsCommon.getContactsInfoByPhoneNumber(context, sentFromAddress);
-			    	if(mmsContactInfoBundle == null){				
-						//Basic Notification Information.
-						mmsNotificationBundleSingle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, sentFromAddress);
-						mmsNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_BODY, messageBody.replace("\n", "<br/>"));
-						mmsNotificationBundleSingle.putLong(Constants.BUNDLE_MESSAGE_ID, messageID);
-						mmsNotificationBundleSingle.putLong(Constants.BUNDLE_THREAD_ID, threadID);
-						mmsNotificationBundleSingle.putLong(Constants.BUNDLE_TIMESTAMP, timeStamp);
-						mmsNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_MMS);
-					}else{				
-						//Basic Notification Information.
-						mmsNotificationBundleSingle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, sentFromAddress);
-						mmsNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_BODY, messageBody.replace("\n", "<br/>"));
-						mmsNotificationBundleSingle.putLong(Constants.BUNDLE_MESSAGE_ID, messageID);
-						mmsNotificationBundleSingle.putLong(Constants.BUNDLE_THREAD_ID, threadID);
-						mmsNotificationBundleSingle.putLong(Constants.BUNDLE_TIMESTAMP, timeStamp);
-						mmsNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_MMS);
+			    	long contactID = -1;				
+					//Basic Notification Information.
+					mmsNotificationBundleSingle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, sentFromAddress);
+					mmsNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_BODY, messageBody.replace("\n", "<br/>"));
+					mmsNotificationBundleSingle.putLong(Constants.BUNDLE_MESSAGE_ID, messageID);
+					mmsNotificationBundleSingle.putLong(Constants.BUNDLE_THREAD_ID, threadID);
+					mmsNotificationBundleSingle.putLong(Constants.BUNDLE_TIMESTAMP, timeStamp);
+					mmsNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_MMS);
+	    			if(mmsContactInfoBundle != null){
 		    			//Contact Information.
-						mmsNotificationBundleSingle.putLong(Constants.BUNDLE_CONTACT_ID, mmsContactInfoBundle.getLong(Constants.BUNDLE_CONTACT_ID, -1));
+						contactID = mmsContactInfoBundle.getLong(Constants.BUNDLE_CONTACT_ID, -1);
+						mmsNotificationBundleSingle.putLong(Constants.BUNDLE_CONTACT_ID, contactID);
 						mmsNotificationBundleSingle.putString(Constants.BUNDLE_CONTACT_NAME, mmsContactInfoBundle.getString(Constants.BUNDLE_CONTACT_NAME));
 						mmsNotificationBundleSingle.putLong(Constants.BUNDLE_PHOTO_ID, mmsContactInfoBundle.getLong(Constants.BUNDLE_PHOTO_ID, -1));
 						mmsNotificationBundleSingle.putString(Constants.BUNDLE_LOOKUP_KEY, mmsContactInfoBundle.getString(Constants.BUNDLE_LOOKUP_KEY));
 					}
-		    		mmsNotificationBundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_" + String.valueOf(bundleCount), mmsNotificationBundleSingle);
+	    			mmsNotificationBundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_" + String.valueOf(bundleCount), mmsNotificationBundleSingle);
 		    	}
 				isFirst = false;
 	    	}
+			cursor.close();
 		    mmsNotificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_BUNDLE_COUNT, bundleCount);
 		}catch(Exception ex){
 			Log.e("SMSCommon.getAllUnreadMMSMessages() ERROR: " + ex.toString());
-			mmsNotificationBundle = null;
-		} finally {
-    		cursor.close();
-    	}
+    		if(cursor != null){
+				cursor.close();
+			}
+			return null;
+		}
 		return mmsNotificationBundle;
 	}
 	
@@ -366,11 +361,10 @@ public class SMSCommon {
 		if(_debug) Log.v("SMSCommon.getThreadIdByAddress()");
 		address = address.contains("@") ? EmailCommon.removeEmailFormatting(address) : PhoneCommon.removePhoneNumberFormatting(address);
 		String messageURI = "content://sms/inbox";
-		messageURI = "content://sms/inbox";
 		long threadID = -1;
 		if(address == null|| address.equals("")){
 			if(_debug) Log.v("SMSCommon.getThreadID() Address provided is null or empty. Exiting...");
-			return 0;
+			return -1;
 		}
 		try{
 			final String[] projection = new String[] { "_id", "thread_id" };
@@ -378,7 +372,7 @@ public class SMSCommon {
 			final String[] selectionArgs = null;
 			final String sortOrder = null;
 			Cursor cursor = null;
-			try {
+			try{
 		    	cursor = context.getContentResolver().query(
 		    		Uri.parse(messageURI),
 		    		projection,
@@ -390,13 +384,17 @@ public class SMSCommon {
 		    			threadID = cursor.getLong(cursor.getColumnIndex("thread_id"));
 		    			if(_debug) Log.v("SMSCommon.getThreadID() Thread ID Found. THREAD_ID =  " + threadID);
 		    		}
+		    	}else{
+			    	if(_debug) Log.v("SMSCommon.getThreadIdByAddress() Currsor is null. Exiting...");
+			    	return -1;
 		    	}
+				cursor.close();
 	    	}catch(Exception e){
-		    		Log.e("SMSCommon.getThreadID() EXCEPTION: " + e.toString());
-	    	} finally {
+		    	Log.e("SMSCommon.getThreadID() EXCEPTION: " + e.toString());
 	    		if(cursor != null){
 					cursor.close();
 				}
+		    	return -1;
 	    	}
 		    if(threadID < 0){
 		    	if(_debug) Log.v("SMSCommon.getMessageID() Thread ID NOT Found: ADDRESS = " + address + " MESSAGE_TYPE = " + messageType);
@@ -404,7 +402,7 @@ public class SMSCommon {
 	    	return threadID;
 		}catch(Exception ex){
 			Log.e("SMSCommon.getThreadID() ERROR: " + ex.toString());
-			return 0;
+			return -1;
 		}
 	}
 	
@@ -418,11 +416,10 @@ public class SMSCommon {
 	public static long getMessageID(Context context, long threadID, String messageBody, long timeStamp, int messageType){
 		_debug = Log.getDebug();
 		if(_debug) Log.v("SMSCommon.getMessageID()");
-		String messageURI = null;
-		messageURI = "content://sms/inbox";
+		String messageURI = "content://sms/inbox";
 		if(messageBody == null){
 			if(_debug) Log.v("SMSCommon.getMessageID() Message body provided is null. Exiting...");
-			return 0;
+			return -1;
 		} 
 		long messageID = -1;
 		try{
@@ -432,8 +429,7 @@ public class SMSCommon {
 			if(threadID < 0){
 				selection = null;
 				selectionArgs = null;
-			}
-			else{
+			}else{
 				selection = "thread_id=?";
 				selectionArgs = new String[]{String.valueOf(threadID)};
 			}
@@ -446,6 +442,10 @@ public class SMSCommon {
 		    		selection,
 					selectionArgs,
 					sortOrder);
+			    if(cursor == null){
+			    	if(_debug) Log.v("SMSCommon.getMessageID() Currsor is null. Exiting...");
+			    	return -1;
+			    }
 			    while(cursor.moveToNext()){ 
 		    		if(cursor.getString(cursor.getColumnIndex("body")).replace("\n", "<br/>").trim().equals(messageBody)){
 		    			messageID = cursor.getLong(cursor.getColumnIndex("_id"));
@@ -453,20 +453,21 @@ public class SMSCommon {
 		    			break;
 		    		}
 			    }
+				cursor.close();
 		    }catch(Exception ex){
 				Log.e("SMSCommon.getMessageID() ERROR: " + ex.toString());
-			}finally{
 				if(cursor != null){
 					cursor.close();
 				}
-		    }
+				return -1;
+			}
 		    if(messageID < 0){
 		    	if(_debug) Log.v("SMSCommon.getMessageID() Message ID NOT Found: THREAD_ID = " + threadID + " MESSAGE_BODY = " + messageBody);
 		    }
 		    return messageID;
 		}catch(Exception ex){
 			Log.e("SMSCommon.loadMessageID() ERROR: " + ex.toString());
-			return 0;
+			return -1;
 		}
 	}
 
@@ -493,17 +494,22 @@ public class SMSCommon {
 		    		selection,
 					selectionArgs,
 					sortOrder);
+		    if(cursor == null){
+		    	if(_debug) Log.v("SMSCommon.getMMSAddress() Currsor is null. Exiting...");
+		    	return null;
+		    }
 		    while(cursor.moveToNext()){
 		    	messageAddress = cursor.getString(cursor.getColumnIndex("address"));
 	            break;
 	        }
+			cursor.close();
 		}catch(Exception ex){
 			Log.e("SMSCommon.getMMSAddress() ERROR: " + ex.toString());
-		} finally {
 			if(cursor != null){
 				cursor.close();
 			}
-    	}	   
+			return null;
+		}	   
 	    return messageAddress;
 	}
 	
@@ -530,6 +536,10 @@ public class SMSCommon {
 		    		selection,
 					selectionArgs,
 					sortOrder);
+		    if(cursor == null){
+		    	if(_debug) Log.v("SMSCommon.getMMSText() Currsor is null. Exiting...");
+		    	return null;
+		    }
 		    while(cursor.moveToNext()){
 		        long partId = cursor.getLong(cursor.getColumnIndex("_id"));
 		        String contentType = cursor.getString(cursor.getColumnIndex("ct"));
@@ -550,13 +560,14 @@ public class SMSCommon {
 		            }
 		        }
 	        }
+			cursor.close();
 		}catch(Exception ex){
 			Log.e("SMSCommon.getMMSText ERROR: " + ex.toString());
-		} finally {
 			if(cursor != null){
 				cursor.close();
 			}
-    	}	   
+			return null;
+		}   
 	    return messageText.toString();  
 	}
 
@@ -631,7 +642,6 @@ public class SMSCommon {
 	        }	
 		    bundle.putString(Constants.QUICK_REPLY_BUNDLE_MESSAGE, "");
 		    intent.putExtras(bundle);
-	        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 	        notificationActivity.startActivityForResult(intent, requestCode);
 	        Common.setInLinkedAppFlag(context, true);
 	        return true;
@@ -669,7 +679,6 @@ public class SMSCommon {
 			}
 		    // Exit the app once the SMS is sent.
 		    intent.putExtra("compose_mode", true);
-	        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 	        notificationActivity.startActivityForResult(intent, requestCode);
 	        Common.setInLinkedAppFlag(context, true);
 	        return true;
@@ -700,8 +709,7 @@ public class SMSCommon {
 		}
 		try{
 			Intent intent = new Intent(Intent.ACTION_VIEW);
-			intent.setData(Uri.parse("content://mms-sms/conversations/" + String.valueOf(threadID))); 
-	        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+			intent.setData(Uri.parse("content://mms-sms/conversations/" + String.valueOf(threadID)));
 	        notificationActivity.startActivityForResult(intent, requestCode);
 	        Common.setInLinkedAppFlag(context, true);
 	        return true;
@@ -728,7 +736,6 @@ public class SMSCommon {
 		try{
 			Intent intent = new Intent(Intent.ACTION_MAIN);
 		    intent.setType("vnd.android-dir/mms-sms");
-	        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 	        notificationActivity.startActivityForResult(intent, requestCode);
 	        Common.setInLinkedAppFlag(context, true);
 	        return true;

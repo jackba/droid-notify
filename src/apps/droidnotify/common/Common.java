@@ -515,10 +515,11 @@ public class Common {
 	 * @param message - The message of the notification.
 	 * @param k9EmailUri - The URI to view a k9 email (only used for K9 notifications).
 	 * @param linkURL - A URL that we should link to.
+	 * @param smsThreadID - The value of the SMS thread id.
 	 * @param updateOnly - A boolean indicating that this is an update and not a new notification.
 	 * @param statusBarNotificationBundle - A Bundle that contains the status bar notification settings for this notification.
 	 */
-	public static void setStatusBarNotification(Context context, int notificationTypeCount, int notificationType, int notificationSubType, boolean callStateIdle, String sentFromContactName, long sentFromContactID, String sentFromAddress, String message, String k9EmailUri, String linkURL, boolean updateOnly, Bundle statusBarNotificationBundle){
+	public static void setStatusBarNotification(Context context, int notificationTypeCount, int notificationType, int notificationSubType, boolean callStateIdle, String sentFromContactName, long sentFromContactID, String sentFromAddress, String message, String k9EmailUri, String linkURL, long smsThreadID, boolean updateOnly, Bundle statusBarNotificationBundle){
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.setStatusBarNotification()");
 		try{
@@ -648,8 +649,13 @@ public class Common {
 							}
 						}
 						//Content Intent
-						notificationContentIntent = new Intent(Intent.ACTION_VIEW);
-						notificationContentIntent.setData(Uri.parse("smsto:" + sentFromAddress));
+						if(smsThreadID >= 0){
+							notificationContentIntent = new Intent(Intent.ACTION_VIEW);
+							notificationContentIntent.setData(Uri.parse("content://mms-sms/conversations/" + String.valueOf(smsThreadID))); 
+						}else{
+							notificationContentIntent = new Intent(Intent.ACTION_MAIN);
+							notificationContentIntent.setType("vnd.android-dir/mms-sms");
+						}
 					}else{
 						contentTitle = context.getText(R.string.status_bar_notification_content_title_text_plural_sms);
 						contentText = context.getString(R.string.status_bar_notification_content_text_sms_count, notificationTypeCount);
@@ -699,8 +705,13 @@ public class Common {
 							}
 						}
 						//Content Intent
-						notificationContentIntent = new Intent(Intent.ACTION_VIEW);
-						notificationContentIntent.setData(Uri.parse("smsto:" + sentFromAddress));
+						if(smsThreadID >= 0){
+							notificationContentIntent = new Intent(Intent.ACTION_VIEW);
+							notificationContentIntent.setData(Uri.parse("content://mms-sms/conversations/" + String.valueOf(smsThreadID))); 
+						}else{
+							notificationContentIntent = new Intent(Intent.ACTION_MAIN);
+							notificationContentIntent.setType("vnd.android-dir/mms-sms");
+						}
 					}else{
 						contentTitle = context.getText(R.string.status_bar_notification_content_title_text_plural_sms);
 						contentText = context.getString(R.string.status_bar_notification_content_text_sms_count, notificationTypeCount);

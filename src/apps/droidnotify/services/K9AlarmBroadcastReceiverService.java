@@ -98,7 +98,7 @@ public class K9AlarmBroadcastReceiverService extends WakefulIntentService {
 		    	if(preferences.getBoolean(Constants.K9_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true)){
 		    		if(emailNotificationBundleSingle != null){
 						//Display Status Bar Notification
-					    Common.setStatusBarNotification(context, 1, Constants.NOTIFICATION_TYPE_K9, 0, callStateIdle, emailNotificationBundleSingle.getString(Constants.BUNDLE_CONTACT_NAME), emailNotificationBundleSingle.getLong(Constants.BUNDLE_CONTACT_ID, -1), emailNotificationBundleSingle.getString(Constants.BUNDLE_SENT_FROM_ADDRESS), emailNotificationBundleSingle.getString(Constants.BUNDLE_MESSAGE_BODY), emailNotificationBundleSingle.getString(Constants.BUNDLE_K9_EMAIL_URI), null, false, Common.getStatusBarNotificationBundle(context, Constants.NOTIFICATION_TYPE_K9));
+					    Common.setStatusBarNotification(context, 1, Constants.NOTIFICATION_TYPE_K9, 0, callStateIdle, emailNotificationBundleSingle.getString(Constants.BUNDLE_CONTACT_NAME), emailNotificationBundleSingle.getLong(Constants.BUNDLE_CONTACT_ID, -1), emailNotificationBundleSingle.getString(Constants.BUNDLE_SENT_FROM_ADDRESS), emailNotificationBundleSingle.getString(Constants.BUNDLE_MESSAGE_BODY), emailNotificationBundleSingle.getString(Constants.BUNDLE_K9_EMAIL_URI), null, -1, false, Common.getStatusBarNotificationBundle(context, Constants.NOTIFICATION_TYPE_K9));
 		    		}
 		    	}
 		    	if(emailNotificationBundle != null) Common.rescheduleBlockedNotification(context, rescheduleNotificationInCall, rescheduleNotificationInQuickReply, Constants.NOTIFICATION_TYPE_K9, emailNotificationBundle);
