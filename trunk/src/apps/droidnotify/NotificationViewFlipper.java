@@ -341,6 +341,16 @@ public class NotificationViewFlipper extends ViewFlipper {
     	Common.rescheduleNotification(_context, notification, System.currentTimeMillis() + rescheduleInterval, notification.getRescheduleNumber());
     	this.removeActiveNotification(true);
 	}
+	
+	/**
+	 * Snooze a calendar event.
+	 */
+	public void snoozeCalendarEvent(long snoozeTime){
+		if(_debug) Log.v("NotificationViewFlipper.snoozeCalendarEvent()");
+		Notification notification = getActiveNotification();
+    	Common.rescheduleNotification(_context, notification, System.currentTimeMillis() + snoozeTime, notification.getRescheduleNumber());
+    	this.removeActiveNotification(true);
+	}
 
 	/**
 	 * Get the smsCount property.
@@ -440,10 +450,14 @@ public class NotificationViewFlipper extends ViewFlipper {
 		if(notification == null){
 			if(_debug) Log.v("NotificationViewFlipper.removeNotification() Notification is null. Exiting...");
 			return;
-		}
-    	//Cancel the notification reminder.
-    	notification.cancelReminder();
+		}		
 		int notificationType = notification.getNotificationType();
+		if(reschedule && (notificationType == Constants.NOTIFICATION_TYPE_CALENDAR || notificationType == Constants.NOTIFICATION_TYPE_RESCHEDULE_CALENDAR)){
+			//Do not cancel the notificatino reminder.
+		}else{
+	    	//Cancel the notification reminder.
+	    	notification.cancelReminder();
+		}
 		//Set notification as being viewed.
 		if(!reschedule) setNotificationViewed(notification);
     	//Update specific type counts.

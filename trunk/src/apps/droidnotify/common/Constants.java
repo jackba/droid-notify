@@ -462,6 +462,7 @@ public class Constants {
     public static final String CALENDAR_POLLING_FREQUENCY_DEFAULT = "15";
 	public static final String CALENDAR_DISPLAY_DISMISS_BUTTON_KEY = "calendar_display_dismiss_button";
 	public static final String CALENDAR_DISPLAY_VIEW_BUTTON_KEY = "calendar_display_view_button";
+	public static final String CALENDAR_DISPLAY_SNOOZE_BUTTON_KEY = "calendar_display_snooze_button";
 	public static final String CALENDAR_NOTIFICATION_COUNT_ACTION_KEY = "calendar_notification_count_action";
 	public static final String CALENDAR_LABELS_KEY = "calendar_labels_enabled";
 	public static final String CALENDAR_SELECTION_KEY = "calendar_selection";
