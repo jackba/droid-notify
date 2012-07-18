@@ -82,31 +82,6 @@ Notifications
   * Ignore Class 0 Messages
   * Time Is In UTC
   * Load Unread SMS
-  * Enable Status Bar Notifications
-  * Status Bar Notifications
-   * Display When Blocked
-   * Notification Icon
-   * Notification Sound
-   * Vibrate Setting
-   * Vibrate Pattern
-   * Enable LED
-   * LED Color Setting
-   * LED Blink Setting
-   * Enable In-Call Sound
-   * Enable In-Call Vibrate
-  * Customize
-   * Hide Notification Body
-   * Notification Count Action
-   * Confirm Deletion
-   * Display Dismiss Button
-   * Dismiss Button Action
-   * Display Delete Button
-   * Delete Button Action
-   * Display Reply Button
-   * Reply Button Action
- 
- * MMS
-  * Enable MMS
   * Load Unread MMS
   * Enable Status Bar Notifications
   * Status Bar Notifications
