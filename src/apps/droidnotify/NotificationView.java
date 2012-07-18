@@ -33,6 +33,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.view.MotionEvent;
@@ -77,6 +78,9 @@ public class NotificationView extends LinearLayout {
 	private TextView _notificationInfoTextView = null;
 	private TextView _notificationDetailsTextView = null;
 	private TextView _privacyLinkTextView = null;
+	private TextView _calendarSnoozeTextView = null;
+	
+	private Spinner _calendarSnoozeSpinner = null;
 	
 	private ImageView _notificationIconImageView = null;
 	private ImageView _photoImageView = null;
@@ -92,12 +96,14 @@ public class NotificationView extends LinearLayout {
 	private Button _callButton = null;
 	private Button _replyButton = null;
 	private Button _viewButton = null;
+	private Button _snoozeButton = null;
 	
 	private ImageButton _dismissImageButton = null;
 	private ImageButton _deleteImageButton = null;
 	private ImageButton _callImageButton = null;
 	private ImageButton _replyImageButton = null;
 	private ImageButton _viewImageButton = null;
+	private ImageButton _snoozeImageButton = null;
 	
 	private ProgressBar _photoProgressBar = null;
 	
@@ -164,6 +170,9 @@ public class NotificationView extends LinearLayout {
 		_notificationInfoTextView = (TextView) findViewById(R.id.notification_info_text_view);	    
 		_notificationDetailsTextView = (TextView) findViewById(R.id.notification_details_text_view);
 		_privacyLinkTextView = (TextView) findViewById(R.id.link_text_view);
+		_calendarSnoozeTextView = (TextView) findViewById(R.id.calendar_snooze_text_view);
+		
+		_calendarSnoozeSpinner = (Spinner) findViewById(R.id.calendar_snooze_spinner);
 		
 		_notificationIconImageView = (ImageView) findViewById(R.id.notification_type_icon_image_view);
 		_photoImageView = (ImageView) findViewById(R.id.contact_photo_image_view);
@@ -179,12 +188,14 @@ public class NotificationView extends LinearLayout {
 		_callButton = (Button) findViewById(R.id.call_button);
 		_replyButton = (Button) findViewById(R.id.reply_button);
 		_viewButton = (Button) findViewById(R.id.view_button);
+		_snoozeButton = (Button) findViewById(R.id.snooze_button);
 		
 		_dismissImageButton = (ImageButton) findViewById(R.id.dismiss_image_button);
 		_deleteImageButton = (ImageButton) findViewById(R.id.delete_image_button);
 		_callImageButton = (ImageButton) findViewById(R.id.call_image_button);
 		_replyImageButton = (ImageButton) findViewById(R.id.reply_image_button);
 		_viewImageButton = (ImageButton) findViewById(R.id.view_image_button);
+		_snoozeImageButton = (ImageButton) findViewById(R.id.snooze_image_button);
 		
 		_photoProgressBar = (ProgressBar) findViewById(R.id.contact_photo_progress_bar);
 
@@ -210,7 +221,7 @@ public class NotificationView extends LinearLayout {
 		int windowPaddingBottom = 0;
 		int windowPaddingLeft = Integer.parseInt(_preferences.getString(Constants.POPUP_WINDOW_WIDTH_PADDING_KEY, Constants.POPUP_WINDOW_WIDTH_PADDING_DEFAULT));
 		int windowPaddingRight = windowPaddingLeft;
-		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 		layoutParams.setMargins(windowPaddingLeft, windowPaddingTop, windowPaddingRight, windowPaddingBottom);
 		_notificationWindowLinearLayout.setLayoutParams(layoutParams);
 	}
@@ -288,27 +299,31 @@ public class NotificationView extends LinearLayout {
 		_notificationDetailsTextView.setTextColor(bodyTextColorID);
 		_notificationDetailsTextView.setLinkTextColor(bodyTextColorID);
 		_privacyLinkTextView.setTextColor(bodyTextColorID);
+		_calendarSnoozeTextView.setTextColor(bodyTextColorID);
 		
 		_previousButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NAV_PREV));
 		_nextButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NAV_NEXT));
 				
-		_dismissButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));		
-		_deleteButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));		
-		_callButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));		
-		_replyButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));		
-		_viewButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));		
+		_dismissButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));
+		_deleteButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));
+		_callButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));
+		_replyButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));
+		_viewButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));
+		_snoozeButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));
 
 		_dismissButton.setTextColor(buttonTextColorID);
-		_deleteButton.setTextColor(buttonTextColorID);		
-		_callButton.setTextColor(buttonTextColorID);		
-		_replyButton.setTextColor(buttonTextColorID);		
+		_deleteButton.setTextColor(buttonTextColorID);
+		_callButton.setTextColor(buttonTextColorID);
+		_replyButton.setTextColor(buttonTextColorID);
 		_viewButton.setTextColor(buttonTextColorID);
+		_snoozeButton.setTextColor(buttonTextColorID);
 		
-		_dismissImageButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));		
-		_deleteImageButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));		
-		_callImageButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));		
-		_replyImageButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));		
+		_dismissImageButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));
+		_deleteImageButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));
+		_callImageButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));
+		_replyImageButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));
 		_viewImageButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));
+		_snoozeImageButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));
 		
 		_rescheduleButton.setImageDrawable(rescheduleDrawable);
 		_ttsButton.setImageDrawable(ttsDrawable);
@@ -507,11 +522,13 @@ public class NotificationView extends LinearLayout {
 			_callButton.setVisibility(View.GONE);
 			_replyButton.setVisibility(View.GONE);
 			_viewButton.setVisibility(View.GONE);
+			_snoozeButton.setVisibility(View.GONE);
 			_dismissImageButton.setVisibility(View.GONE);
 			_deleteImageButton.setVisibility(View.GONE);
 			_callImageButton.setVisibility(View.GONE);
 			_replyImageButton.setVisibility(View.GONE);
 			_viewImageButton.setVisibility(View.GONE);
+			_snoozeImageButton.setVisibility(View.GONE);
 			//Set button font size.
 			float buttonTextSize = Float.parseFloat(_preferences.getString(Constants.BUTTON_FONT_SIZE_KEY, Constants.BUTTON_FONT_SIZE_DEFAULT));
 			_dismissButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, buttonTextSize);
@@ -519,6 +536,7 @@ public class NotificationView extends LinearLayout {
 			_callButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, buttonTextSize);
 			_replyButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, buttonTextSize);
 			_viewButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, buttonTextSize);
+			_snoozeButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, buttonTextSize);
 			//Set button font to bold.
 			if(_preferences.getBoolean(Constants.BUTTON_BOLD_TEXT_KEY, false)){
 				_dismissButton.setTypeface(null, Typeface.BOLD);
@@ -526,6 +544,7 @@ public class NotificationView extends LinearLayout {
 				_callButton.setTypeface(null, Typeface.BOLD);
 				_replyButton.setTypeface(null, Typeface.BOLD);
 				_viewButton.setTypeface(null, Typeface.BOLD);
+				_snoozeButton.setTypeface(null, Typeface.BOLD);
 			}
 			//Setup the views buttons based on the notification type.
 			switch(_notificationType){
@@ -882,12 +901,27 @@ public class NotificationView extends LinearLayout {
 						    public void onClick(View view){
 						    	if (_debug) Log.v("Calendar View Button Clicked()");
 						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-						    	CalendarCommon.startViewCalendarEventActivity(_context, _notificationActivity, _notification.getCalendarEventID(), _notification.getCalendarEventStartTime(), _notification.getCalendarEventEndTime(), Constants.VIEW_CALENDAR_ACTIVITY);
+						    	viewNotification(Constants.NOTIFICATION_TYPE_CALENDAR);
 						    }
 						}
     				);
 		    	}else{
 		    		_viewImageButton.setVisibility(View.GONE);
+		    	}
+				// Snooze Button
+		    	if(_preferences.getBoolean(Constants.CALENDAR_DISPLAY_SNOOZE_BUTTON_KEY, true)){
+		    		_snoozeImageButton.setVisibility(View.VISIBLE);
+		    		_snoozeImageButton.setOnClickListener(
+	    				new OnClickListener(){
+						    public void onClick(View view){
+						    	if (_debug) Log.v("Calendar Snooze Button Clicked()");
+						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+						    	snoozeCalendarEvent();
+						    }
+						}
+    				);
+		    	}else{
+		    		_snoozeImageButton.setVisibility(View.GONE);
 		    	}
 			}else{
 				// Dismiss Button
@@ -919,6 +953,21 @@ public class NotificationView extends LinearLayout {
 		    		);
 		    	}else{
 		    		_viewButton.setVisibility(View.GONE);
+		    	}
+				// Snooze Button
+		    	if(_preferences.getBoolean(Constants.CALENDAR_DISPLAY_VIEW_BUTTON_KEY, true)){
+		    		_snoozeButton.setVisibility(View.VISIBLE);
+		    		_snoozeButton.setOnClickListener(
+	    				new OnClickListener(){
+						    public void onClick(View view){
+						    	if (_debug) Log.v("Calendar Snooze Button Clicked()");
+						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+						    	snoozeCalendarEvent();
+						    }
+	    				}
+		    		);
+		    	}else{
+		    		_snoozeButton.setVisibility(View.GONE);
 		    	}
 			}
 		}catch(Exception ex){
@@ -1149,6 +1198,7 @@ public class NotificationView extends LinearLayout {
 			Drawable replySMSButtonIcon = null;
 			Drawable replyEmailButtonIcon = null;
 			Drawable viewCalendarButtonIcon = null;
+			Drawable snoozeCalendarButtonIcon = null;
 			//Load the theme specific icons.
 			if(_themePackageName.startsWith(Constants.DARK_TRANSLUCENT_THEME)){
 				dismissButtonIcon = _resources.getDrawable(R.drawable.ic_dismiss);
@@ -1157,6 +1207,7 @@ public class NotificationView extends LinearLayout {
 				replySMSButtonIcon = _resources.getDrawable(R.drawable.ic_conversation);
 				replyEmailButtonIcon = _resources.getDrawable(R.drawable.ic_envelope);
 				viewCalendarButtonIcon = _resources.getDrawable(R.drawable.ic_calendar);
+				snoozeCalendarButtonIcon = _resources.getDrawable(R.drawable.ic_calendar_snooze);
 			}else{
 				dismissButtonIcon = _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/ic_dismiss", null, null));
 				deleteButtonIcon = _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/ic_delete", null, null));
@@ -1164,6 +1215,7 @@ public class NotificationView extends LinearLayout {
 				replySMSButtonIcon = _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/ic_conversation", null, null));
 				replyEmailButtonIcon = _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/ic_envelope", null, null));
 				viewCalendarButtonIcon = _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/ic_calendar", null, null));
+				snoozeCalendarButtonIcon = _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/ic_calendar_snooze", null, null));
 			}
 			switch(notificationType){
 				case Constants.NOTIFICATION_TYPE_PHONE:{
@@ -1204,9 +1256,11 @@ public class NotificationView extends LinearLayout {
 					if(usingImageButtons){
 						_dismissImageButton.setImageDrawable(dismissButtonIcon);
 						_viewImageButton.setImageDrawable(viewCalendarButtonIcon);
+						_snoozeButton.setImageDrawable(snoozeCalendarButtonIcon);
 					}else{
 						_dismissButton.setCompoundDrawablesWithIntrinsicBounds(dismissButtonIcon, null, null, null);
 						_viewButton.setCompoundDrawablesWithIntrinsicBounds(viewCalendarButtonIcon, null, null, null);
+						_snoozeButton.setCompoundDrawablesWithIntrinsicBounds(snoozeCalendarButtonIcon, null, null, null);
 					}	
 					break;
 				}
@@ -1325,6 +1379,8 @@ public class NotificationView extends LinearLayout {
 			_contactNumberTextView.setVisibility(View.GONE);
 			_photoImageView.setVisibility(View.GONE);
 			_photoProgressBar.setVisibility(View.GONE);
+			_calendarSnoozeTextView.setVisibility(View.VISIBLE);
+			_calendarSnoozeSpinner.setVisibility(View.VISIBLE);
 			loadContactPhoto = false;
 		}else if(_notificationType == Constants.NOTIFICATION_TYPE_GENERIC 
 					&& contactID == -1 
@@ -1334,8 +1390,13 @@ public class NotificationView extends LinearLayout {
 				_contactNumberTextView.setVisibility(View.GONE);
 				_photoImageView.setVisibility(View.GONE);
 				_photoProgressBar.setVisibility(View.GONE);
+				_calendarSnoozeTextView.setVisibility(View.GONE);
+				_calendarSnoozeSpinner.setVisibility(View.GONE);
 				loadContactPhoto = false;
 		}else{
+			//Hide Calendar Specific Items
+			_calendarSnoozeTextView.setVisibility(View.GONE);
+			_calendarSnoozeSpinner.setVisibility(View.GONE);
 			//Show/Hide Contact Name
 			boolean displayContactNameText = true;
 			if(_preferences.getBoolean(Constants.CONTACT_NAME_DISPLAY_KEY, true)){
@@ -1851,6 +1912,70 @@ public class NotificationView extends LinearLayout {
 		}else{
 			dismissNotification(false);
 		}
+	}
+	
+	/**
+	 * Snooze a calendar event.
+	 */
+	private void snoozeCalendarEvent(){
+		String snoozeText = _calendarSnoozeSpinner.getSelectedItem().toString();
+		long snoozeTime = 5;
+		if(snoozeText.equals(_context.getString(R.string.s1_minute_text))){
+			snoozeTime = 60;
+		}else if(snoozeText.equals(_context.getString(R.string.s2_minutes_text))){
+			snoozeTime = 120;
+		}else if(snoozeText.equals(_context.getString(R.string.s3_minutes_text))){
+			snoozeTime = 180;
+		}else if(snoozeText.equals(_context.getString(R.string.s4_minutes_text))){
+			snoozeTime = 240;
+		}else if(snoozeText.equals(_context.getString(R.string.s5_minutes_text))){
+			snoozeTime = 300;
+		}else if(snoozeText.equals(_context.getString(R.string.s6_minutes_text))){
+			snoozeTime = 360;
+		}else if(snoozeText.equals(_context.getString(R.string.s7_minutes_text))){
+			snoozeTime = 420;
+		}else if(snoozeText.equals(_context.getString(R.string.s8_minutes_text))){
+			snoozeTime = 480;
+		}else if(snoozeText.equals(_context.getString(R.string.s9_minutes_text))){
+			snoozeTime = 540;
+		}else if(snoozeText.equals(_context.getString(R.string.s10_minutes_text))){
+			snoozeTime = 600;
+		}else if(snoozeText.equals(_context.getString(R.string.s15_minutes_text))){
+			snoozeTime = 900;
+		}else if(snoozeText.equals(_context.getString(R.string.s30_minutes_text))){
+			snoozeTime = 1800;
+		}else if(snoozeText.equals(_context.getString(R.string.s45_minutes_text))){
+			snoozeTime = 2700;
+		}else if(snoozeText.equals(_context.getString(R.string.s1_hour_text))){
+			snoozeTime = 3600;
+		}else if(snoozeText.equals(_context.getString(R.string.s2_hours_text))){
+			snoozeTime = 7200;
+		}else if(snoozeText.equals(_context.getString(R.string.s3_hours_text))){
+			snoozeTime = 10800;
+		}else if(snoozeText.equals(_context.getString(R.string.s4_hours_text))){
+			snoozeTime = 14400;
+		}else if(snoozeText.equals(_context.getString(R.string.s5_hours_text))){
+			snoozeTime = 18000;
+		}else if(snoozeText.equals(_context.getString(R.string.s6_hours_text))){
+			snoozeTime = 21600;
+		}else if(snoozeText.equals(_context.getString(R.string.s7_hours_text))){
+			snoozeTime = 25200;
+		}else if(snoozeText.equals(_context.getString(R.string.s8_hours_text))){
+			snoozeTime = 28800;
+		}else if(snoozeText.equals(_context.getString(R.string.s9_hours_text))){
+			snoozeTime = 32400;
+		}else if(snoozeText.equals(_context.getString(R.string.s10_hours_text))){
+			snoozeTime = 36000;
+		}else if(snoozeText.equals(_context.getString(R.string.s11_hours_text))){
+			snoozeTime = 39600;
+		}else if(snoozeText.equals(_context.getString(R.string.s12_hours_text))){
+			snoozeTime = 43200;
+		}else if(snoozeText.equals(_context.getString(R.string.s24_hours_text))){
+			snoozeTime = 86400;
+		}else{
+			snoozeTime = 60;
+		}
+		_notificationViewFlipper.snoozeCalendarEvent(snoozeTime * 1000);
 	}
 	 
 	/**

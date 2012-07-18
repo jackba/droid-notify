@@ -402,6 +402,8 @@
    	<string name="use_current_calendar_reminder_settings_summary">Use the calendars reminder settings for reminders.</string>
     <string name="event_start_time_reminder">Remind Start Of Event</string>
    	<string name="event_start_time_reminder_summary">Display a reminder on the start of the event.</string>
+   	<string name="snooze">Snooze</string>
+   	<string name="snooze_for">Snooze for</string>
   
    	<!-- K9 Strings -->
     <string name="k9_category">K9</string>
@@ -1212,5 +1214,10 @@
 	<!-- Poll When Wifi/Cell Connected Strings -->	
 	<string name="poll_wifi_cell_service_connected">Poll When Wifi/Cell Connected</string>
 	<string name="poll_wifi_cell_service_connected_summary">Poll this account when a wifi signal is connected or a cell signal is connected.</string>
+	
+	<!-- Shortcut Strings -->	
+	<string name="custom_contacts_shortcut_name">Notify Custom Contacts</string>
+	<string name="blacklist_shortcut_name">Notify Blacklist</string>
+	<string name="contacts">Contacts</string>
 	
 </resources>

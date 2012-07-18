@@ -160,6 +160,21 @@
 			android:scrollbars="vertical"
 			android:padding="5dp" 
 			android:selectAllOnFocus="true"/>
+		<TextView
+			android:id="@+id/calendar_snooze_text_view"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:gravity="left"
+			android:textStyle="bold"
+			android:text="@string/snooze_for"
+			android:visibility="gone" />
+		<Spinner
+		    android:id="@+id/calendar_snooze_spinner"
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"		    
+        	android:entries="@array/calendar_snooze_options"
+			android:visibility="gone" />
 	</LinearLayout>
 	<LinearLayout 
 		android:id="@+id/button_linear_layout" 
@@ -204,6 +219,15 @@
 			android:layout_marginRight="1dp"
 			android:gravity="center_vertical|center_horizontal"
 			android:text="@string/reply" />
+		<Button
+			android:id="@+id/snooze_button"  
+			android:layout_height="wrap_content" 
+			android:layout_width="fill_parent" 
+			android:layout_weight="1"
+			android:layout_marginLeft="1dp"
+			android:layout_marginRight="1dp"
+			android:gravity="center_vertical|center_horizontal"
+			android:text="@string/snooze" />
 		<Button
 			android:id="@+id/view_button"  
 			android:layout_height="wrap_content" 
@@ -250,6 +274,15 @@
 			android:scaleType="center" />
 		<ImageButton
 			android:id="@+id/reply_image_button"  
+			android:layout_height="wrap_content" 
+			android:layout_width="fill_parent" 
+			android:layout_weight="1"
+			android:layout_marginLeft="1dp"
+			android:layout_marginRight="1dp"
+			android:gravity="center_vertical|center_horizontal"
+			android:scaleType="center" />
+		<ImageButton
+			android:id="@+id/snooze_image_button"  
 			android:layout_height="wrap_content" 
 			android:layout_width="fill_parent" 
 			android:layout_weight="1"

@@ -1606,7 +1606,7 @@ public class Common {
 				rescheduleIntent.putExtras(rescheduleBundle);			
 			}
 			//The action is what makes this intent unique from all other intents using this class.
-			String intentAction = "apps.droidnotifydonate.view.RescheduleBlockedNotification." + notificationType + "." + String.valueOf(incomingNotificationBundle.getLong(Constants.BUNDLE_TIMESTAMP));
+			String intentAction = "apps.droidnotifydonate.view.reschedule.blocked." + notificationType + "." + String.valueOf(incomingNotificationBundle.getLong(Constants.BUNDLE_TIMESTAMP));
 			rescheduleIntent.setAction(intentAction);
 			if (_debug) Log.v("Common.rescheduleBlockedNotification() Reschedule Blocked Notification Action: " + intentAction);
 			
@@ -1649,7 +1649,12 @@ public class Common {
 		Intent rescheduleIntent = new Intent(context, RescheduleReceiver.class);
 		rescheduleIntent.putExtras(rescheduleBundle);
 		//The action is what makes this intent unique from all other intents using this class.
-		String intentAction = "apps.droidnotifydonate.view.RescheduleNotification." + notificationType + "." + rescheduleNumber + "." + String.valueOf(notification.getTimeStamp());
+		String intentAction = null;
+		if(notificationType == Constants.NOTIFICATION_TYPE_RESCHEDULE_CALENDAR){
+			intentAction = "apps.droidnotify.view.calendar.reminder." + String.valueOf(notification.getCalendarID()) + "." + String.valueOf(notification.getCalendarEventID());
+		}else{
+			intentAction = "apps.droidnotify.view.reschedule." + notificationType + "." + rescheduleNumber + "." + String.valueOf(notification.getTimeStamp());
+		}
 		rescheduleIntent.setAction(intentAction);
 		if (_debug) Log.v("Common.rescheduleBlockedNotification() Reschedule Notification Action: " + intentAction);
 		
