@@ -26,7 +26,7 @@ Basic
   * Quiet Period Settings
  * Quick Reply Settings
   * Save Draft
-  * Blur Screen Background
+  * Blur Screen Background (Hidden in Android 4.0+ Devices)
   * Dim Screen Background
   * Dim Screen Value
   * Display Cancel Button
@@ -47,7 +47,7 @@ Screen
  * Dim Screen
  * Unlock Phone
  * Enable Landscape Mode
- * Blur Screen Background
+ * Blur Screen Background (Hidden in Android 4.0+ Devices)
  * Dim Screen Background
  * Dim Screen Value
  
