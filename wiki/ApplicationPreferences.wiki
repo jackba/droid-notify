@@ -135,9 +135,13 @@ Notifications
   * Select Calendars
   * Enable Calendar Labels
   * Refresh Calendar Alarms
+  * Remind Start Of Event
   * Send Event Reminders
+  * Use Current Calendar Reminder Settings
   * Event Settings
   * All-Day Event Settings
+  * Reminder Frequency
+  * Reminder Interval
   * Enable Status Bar Notifications
   * Status Bar Notifications
    * Display When Blocked
