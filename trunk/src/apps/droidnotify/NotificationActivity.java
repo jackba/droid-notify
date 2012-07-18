@@ -899,7 +899,7 @@ public class NotificationActivity extends Activity{
 					finishActivity();
 					return;
 				}else{
-					if(_preferences.getBoolean(Constants.SMS_DISPLAY_UNREAD_KEY, false)){
+					if(_preferences.getBoolean(Constants.MMS_DISPLAY_UNREAD_KEY, false)){
 						new getAllUnreadMMSMessagesAsyncTask().execute();
 				    }
 				}
@@ -955,7 +955,7 @@ public class NotificationActivity extends Activity{
 					finishActivity();
 					return;
 				}else{
-					if(_preferences.getBoolean(Constants.SMS_DISPLAY_UNREAD_KEY, false)){
+					if(_preferences.getBoolean(Constants.MMS_DISPLAY_UNREAD_KEY, false)){
 						new getAllUnreadMMSMessagesAsyncTask().execute();
 				    }
 				}
@@ -1156,7 +1156,7 @@ public class NotificationActivity extends Activity{
 	    	case Constants.NOTIFICATION_TYPE_MMS:{
 		    	if(_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_MMS");
 		    	setupBundleNotifications(extrasBundle);
-				if(_preferences.getBoolean(Constants.SMS_DISPLAY_UNREAD_KEY, false)){
+				if(_preferences.getBoolean(Constants.MMS_DISPLAY_UNREAD_KEY, false)){
 					if(_notificationViewFlipper.getMMSCount() <= 1){			
 						new getAllUnreadMMSMessagesAsyncTask().execute();
 					}
@@ -1196,7 +1196,7 @@ public class NotificationActivity extends Activity{
 		    case Constants.NOTIFICATION_TYPE_RESCHEDULE_MMS:{
 		    	if(_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_RESCHEDULE_MMS");
 		    	setupBundleNotifications(extrasBundle);
-				if(_preferences.getBoolean(Constants.SMS_DISPLAY_UNREAD_KEY, false)){
+				if(_preferences.getBoolean(Constants.MMS_DISPLAY_UNREAD_KEY, false)){
 					if(_notificationViewFlipper.getMMSCount() <= 1){			
 						new getAllUnreadMMSMessagesAsyncTask().execute();
 					}
@@ -1562,7 +1562,7 @@ public class NotificationActivity extends Activity{
 				int notificationTypecount = getNotificationTypeCount(notificationBundleSingle.getInt(Constants.BUNDLE_NOTIFICATION_TYPE, -1), notificationBundleSingle.getInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, -1));
 				//Display Status Bar Notification
 				int notificationType = notificationBundleSingle.getInt(Constants.BUNDLE_NOTIFICATION_TYPE, -1);
-			    Common.setStatusBarNotification(_context, notificationTypecount, notificationType, notificationBundleSingle.getInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, -1), true, notificationBundleSingle.getString(Constants.BUNDLE_CONTACT_NAME), notificationBundleSingle.getLong(Constants.BUNDLE_CONTACT_ID, -1), notificationBundleSingle.getString(Constants.BUNDLE_SENT_FROM_ADDRESS), notificationBundleSingle.getString(Constants.BUNDLE_MESSAGE_BODY), notificationBundleSingle.getString(Constants.BUNDLE_K9_EMAIL_URI), notificationBundleSingle.getString(Constants.BUNDLE_LINK_URL), false, Common.getStatusBarNotificationBundle(_context, notificationType));
+			    Common.setStatusBarNotification(_context, notificationTypecount, notificationType, notificationBundleSingle.getInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, -1), true, notificationBundleSingle.getString(Constants.BUNDLE_CONTACT_NAME), notificationBundleSingle.getLong(Constants.BUNDLE_CONTACT_ID, -1), notificationBundleSingle.getString(Constants.BUNDLE_SENT_FROM_ADDRESS), notificationBundleSingle.getString(Constants.BUNDLE_MESSAGE_BODY), notificationBundleSingle.getString(Constants.BUNDLE_K9_EMAIL_URI), notificationBundleSingle.getString(Constants.BUNDLE_LINK_URL), notificationBundleSingle.getLong(Constants.BUNDLE_THREAD_ID, -1), false, Common.getStatusBarNotificationBundle(_context, notificationType));
 			}
 			return displayPopup;
 		}catch(Exception ex){
@@ -1591,7 +1591,7 @@ public class NotificationActivity extends Activity{
 				//Create and Add Notification to ViewFlipper.
 				_notificationViewFlipper.addNotification(new Notification(_context, bundle));
 				//Create the status bar notification bundle.
-			    Common.setStatusBarNotification(_context, 1, Constants.NOTIFICATION_TYPE_GENERIC, -1, true, null, -1, null, null, null, null, false, bundle);
+			    Common.setStatusBarNotification(_context, 1, Constants.NOTIFICATION_TYPE_GENERIC, -1, true, null, -1, null, null, null, null, -1, false, bundle);
 			}
 			return displayPopup;
 		}catch(Exception ex){

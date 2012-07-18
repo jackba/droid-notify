@@ -1,6 +1,6 @@
 package apps.droidnotify.email;
 
-//import apps.droidnotify.log.Log;
+import apps.droidnotify.log.Log;
 
 public class EmailCommon {
 
@@ -8,11 +8,11 @@ public class EmailCommon {
     // Properties
     //================================================================================
 	
-	//private static boolean _debug = false; 
+	private static boolean _debug = false; 
 	
 	//================================================================================
 	// Public Methods
-	//================================================================================	
+	//================================================================================
 	
 	/**
 	 * Remove formatting from email addresses.
@@ -22,8 +22,12 @@ public class EmailCommon {
 	 * @return String - String of email address with no formatting.
 	 */
 	public static String removeEmailFormatting(String address){
-		//_debug = Log.getDebug();
-		//if (_debug) Log.v("EmailCommon.removeEmailFormatting() Email Address: " + address);
+		_debug = Log.getDebug();
+		//if (_debug) Log.v("EmailCommon.removeEmailFormatting()");
+		if(address == null){
+			if (_debug) Log.v("EmailCommon.removeEmailFormatting() Email Address: " + address);
+			return null;
+		}
 		if(address.contains("<") && address.contains(">")){
 			address = address.substring(address.indexOf("<") + 1,address.indexOf(">"));
 		}

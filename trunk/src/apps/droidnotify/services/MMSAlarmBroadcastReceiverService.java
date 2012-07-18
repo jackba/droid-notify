@@ -60,7 +60,7 @@ public class MMSAlarmBroadcastReceiverService extends WakefulIntentService {
 			}
 			//Read preferences and exit if MMS notifications are disabled.
 		    if(!preferences.getBoolean(Constants.SMS_NOTIFICATIONS_ENABLED_KEY, true)){
-				if (_debug) Log.v("MMSAlarmBroadcastReceiverService.doWakefulWork() MMS Notifications Disabled. Exiting...");
+				if (_debug) Log.v("MMSAlarmBroadcastReceiverService.doWakefulWork() SMS Notifications Disabled. Exiting...");
 				return;
 			}
 			//Check for a blacklist entry before doing anything else.
@@ -93,7 +93,7 @@ public class MMSAlarmBroadcastReceiverService extends WakefulIntentService {
 		    	if(preferences.getBoolean(Constants.SMS_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true)){
 	    			if(mmsNotificationBundleSingle != null){
 						//Display Status Bar Notification
-					    Common.setStatusBarNotification(context, 1, Constants.NOTIFICATION_TYPE_MMS, 0, callStateIdle, mmsNotificationBundleSingle.getString(Constants.BUNDLE_CONTACT_NAME), mmsNotificationBundleSingle.getLong(Constants.BUNDLE_CONTACT_ID, -1), mmsNotificationBundleSingle.getString(Constants.BUNDLE_SENT_FROM_ADDRESS), mmsNotificationBundleSingle.getString(Constants.BUNDLE_MESSAGE_BODY), null, null, false, Common.getStatusBarNotificationBundle(context, Constants.NOTIFICATION_TYPE_MMS));
+					    Common.setStatusBarNotification(context, 1, Constants.NOTIFICATION_TYPE_MMS, 0, callStateIdle, mmsNotificationBundleSingle.getString(Constants.BUNDLE_CONTACT_NAME), mmsNotificationBundleSingle.getLong(Constants.BUNDLE_CONTACT_ID, -1), mmsNotificationBundleSingle.getString(Constants.BUNDLE_SENT_FROM_ADDRESS), mmsNotificationBundleSingle.getString(Constants.BUNDLE_MESSAGE_BODY), null, null, mmsNotificationBundleSingle.getLong(Constants.BUNDLE_THREAD_ID, -1), false, Common.getStatusBarNotificationBundle(context, Constants.NOTIFICATION_TYPE_MMS));
 	    			}
 			    }					
 		    	if(mmsNotificationBundle != null) Common.rescheduleBlockedNotification(context, rescheduleNotificationInCall, rescheduleNotificationInQuickReply, Constants.NOTIFICATION_TYPE_MMS, mmsNotificationBundle);

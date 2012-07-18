@@ -630,6 +630,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 		String message = null;
 		String k9EmailUri = null;
 		String linkURL = null;
+		long threadID = -1;
 		switch(notificationType){
 			case Constants.NOTIFICATION_TYPE_PHONE:{
 				notificationTypecount = _missedCallCount;
@@ -661,9 +662,10 @@ public class NotificationViewFlipper extends ViewFlipper {
 				message = notification.getMessageBody();
 				k9EmailUri = notification.getK9EmailUri();
 				linkURL = notification.getLinkURL();
+				threadID = notification.getThreadID();
 			}
 			//Display Status Bar Notification
-		    Common.setStatusBarNotification(_context, notificationTypecount, notificationType, notificationSubType, true, sentFromContactName, sentFromContactID, sentFromAddress, message, k9EmailUri, linkURL, true, Common.getStatusBarNotificationBundle(_context, notificationType));
+		    Common.setStatusBarNotification(_context, notificationTypecount, notificationType, notificationSubType, true, sentFromContactName, sentFromContactID, sentFromAddress, message, k9EmailUri, linkURL, threadID, true, Common.getStatusBarNotificationBundle(_context, notificationType));
 		}
 	}
 	

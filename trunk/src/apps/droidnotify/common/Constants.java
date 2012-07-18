@@ -425,6 +425,7 @@ public class Constants {
 	
 	//-----MMS CONSTANTS-----//
 	public static final String MMS_TIMEOUT_KEY = "mms_timeout_settings";
+	public static final String MMS_DISPLAY_UNREAD_KEY = "mms_display_unread_enabled";
 
 	//-----MISSED CALL CONSTANTS-----//
 	public static final String PHONE_NOTIFICATIONS_ENABLED_KEY = "missed_call_notifications_enabled";
