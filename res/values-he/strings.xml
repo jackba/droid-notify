@@ -318,6 +318,10 @@
   <string name="calendar_reminders_enabled_summary">שלח התראת תזכורת לפני שהאירוע מתרחש.</string>
   <string name="use_current_calendar_reminder_settings">השתמש בהגדרות תזכורת הנוכחית של לוח שנה</string>
   <string name="use_current_calendar_reminder_settings_summary">השתמש בהגדרות תזכורת לוחות שנה עבור תזכורות.</string>
+  <string name="event_start_time_reminder">הזכר תחילת אירוע</string>
+  <string name="event_start_time_reminder_summary">הצג התראה בתחילת האירוע.</string>
+  <string name="snooze">השהה</string>
+  <string name="snooze_for">השהה ל</string>
   <string name="k9_category">K9</string>
   <string name="k9">K-9</string>
   <string name="preference_k9_enabled_title">אפשר K-9 Email</string>
@@ -452,11 +456,11 @@
   <string name="status_bar_notification_privacy_title">שורת מצב ההתראות הפרטיות</string>
   <string name="status_bar_notification_privacy_summary">אל תציג מידע פרטי ההתראות בשורת המצב.</string>
   <string name="sms_mesage_privacy">פרטיות הודעת טקסט</string>
-  <string name="sms_mesage_privacy_summary">Do not display the SMS message in the notification popup. A button will be displayed and must be clicked to view the message.</string>
+  <string name="sms_mesage_privacy_summary">אל תציג את הודעת הטקסט בחלון הקופץ. כפתור יוצג ולחיצה עליו תציג את ההודעה.</string>
   <string name="email_mesage_privacy">פרטיות הודעת מייל</string>
-  <string name="email_mesage_privacy_summary">Do not display the email message in the notification popup. A button will be displayed and must be clicked to view the message.</string>
+  <string name="email_mesage_privacy_summary">אל תציג את הודעת המייל בחלון הקופץ. כפתור יוצג ולחיצה עליו תציג את ההודעה.</string>
   <string name="missed_call_privacy">פרטיות שיחה שלא נענתה</string>
-  <string name="missed_call_privacy_summary">Do not display the missed call information in the notification popup. A button will be displayed and must be clicked to view the call log.</string>
+  <string name="missed_call_privacy_summary">אל תציג את מידע שיחות שלא נענו בחלון הקופץ. כפתור יוצג ולחיצה עליו תציג את המידע.</string>
   <string name="advanced_category">מתקדם</string>
   <string name="advanced">מתקדם</string>
   <string name="haptic_feedback_title">אפשר משוב Haptic</string>
@@ -953,4 +957,7 @@
   <string name="missed_call_messenger_description">&lt;b&gt;Missed Call Messenger&lt;/b&gt; היא תוכנה ששולחת הודעה אליך כאשר אתה מחמיץ שיחה וכן יכולה לשלוח תגובה אוטומטית למתקשר.&lt;br/&gt;&lt;br/&gt;הורד ונסה תוכנה זו כעת בחינם!</string>
   <string name="poll_wifi_cell_service_connected">סקר כאשר Wifi / נייד מחובר</string>
   <string name="poll_wifi_cell_service_connected_summary">לסקר זה בחשבון כאשר האות WiFi מחובר או האות הסלולרי מחובר.</string>
+  <string name="custom_contacts_shortcut_name">אנשי קשר מותאמים אישית</string>
+  <string name="blacklist_shortcut_name">הרשימה השחורה להתראות</string>
+  <string name="contacts">אנשי קשר</string>
 </resources>

@@ -3,10 +3,10 @@
 <resources>
   <string name="dismiss">Ignorar</string>
   <string name="delete">Excluir</string>
-  <string name="call">Discar</string>
+  <string name="call">Chamar</string>
   <string name="reply">Responder</string>
   <string name="view">Abrir</string>
-  <string name="dismiss_all">Dispensar Todas</string>
+  <string name="dismiss_all">Ignorar Todas</string>
   <string name="dismiss_all_dialog_text">Isso dispensará todas as notificações.</string>
   <string name="share">Compartilhar</string>
   <string name="share_title">Alguém que você conhece quer que você experimente o aplicativo Android Droid Notify!</string>
@@ -176,7 +176,7 @@
   <string name="locale">Localidade</string>
   <string name="preference_language_title">Idioma</string>
   <string name="preference_language_summary">Selecionar o idioma do aplicativo.</string>
-  <string name="phone_default_language">Linguagem padrão do telefone</string>
+  <string name="phone_default_language">Linguagem Padrão do Telefone</string>
   <string name="preference_phone_number_format">Formato de número de telefone</string>
   <string name="preference_phone_number_format_summary">Selecione o formato de número usado para exibir os números de telefone.</string>
   <string name="preference_phone_number_format_10_digits_only_title">Exibir 10 dígitos</string>
@@ -236,7 +236,7 @@
   <string name="preference_display_contact_number_summary">Exibir o número do contato no cabeçalho da notificação.</string>
   <string name="preference_contact_number_font_size_title">Tamanho da fonte do número do contato</string>
   <string name="preference_contact_number_font_size_summary">Selecione o tamanho da fonte do texto número de contato.</string>
-  <string name="preference_display_unknown_contact_number_title">Exibir Número de Contacto Desconhecido</string>
+  <string name="preference_display_unknown_contact_number_title">Exibir Número em Contatos Desconhecidos</string>
   <string name="preference_display_unknown_contact_number_summary">Exibir o número do contato se ele não estiver nos contatos.</string>
   <string name="preference_contact_placeholder_image">Imagem de contato genérica</string>
   <string name="preference_contact_placeholder_image_summary">Selecione a imagem que você gostaria de exibir para contatos desconhecidos.</string>
@@ -293,8 +293,8 @@
   <string name="preference_call_log_timeout">Tempo limite do registro de chamadas</string>
   <string name="preference_call_log_timeout_summary">Defina quanto tempo esperar após uma chamada antes de consultar o registro de chamadas para uma chamada não atendida.</string>
   <string name="mms_click_here_to_view">[Clique Aqui Para Ver a Mensagem MMS]</string>
-  <string name="click_to_view_message">[Click Here To View Message]</string>
-  <string name="click_to_view_log">[Click Here To View Log]</string>
+  <string name="click_to_view_message">[Clique Aqui Para Ver a Mensagem]</string>
+  <string name="click_to_view_log">[Clique Aqui Para Exibir o Registro]</string>
   <string name="event_reminders_category">LEMBRETES DE EVENTOS</string>
   <string name="calendar">Calendário</string>
   <string name="add_calendar_event_text">Adicionar evento ao calendário</string>
@@ -318,6 +318,10 @@
   <string name="calendar_reminders_enabled_summary">Enviar notificações de lembrete antes de ocorrer o evento.</string>
   <string name="use_current_calendar_reminder_settings">Usar configurações Atuais Lembrete Calendário</string>
   <string name="use_current_calendar_reminder_settings_summary">Use as configurações de lembrete de calendários para lembretes.</string>
+  <string name="event_start_time_reminder">Lembrar Início do Evento</string>
+  <string name="event_start_time_reminder_summary">Exiba lembrete no início do evento.</string>
+  <string name="snooze">Soneca</string>
+  <string name="snooze_for">Cochilar por</string>
   <string name="k9_category">K9</string>
   <string name="k9">K-9</string>
   <string name="preference_k9_enabled_title">Habilitar o K-9</string>
@@ -451,12 +455,12 @@
   <string name="privacy">Privacidade</string>
   <string name="status_bar_notification_privacy_title">Privacidade em Notificação da Barra de Status</string>
   <string name="status_bar_notification_privacy_summary">Não exibir informações particulares nas notificações da barra de status.</string>
-  <string name="sms_mesage_privacy">SMS Message Privacy</string>
-  <string name="sms_mesage_privacy_summary">Do not display the SMS message in the notification popup. A button will be displayed and must be clicked to view the message.</string>
-  <string name="email_mesage_privacy">Email Message Privacy</string>
-  <string name="email_mesage_privacy_summary">Do not display the email message in the notification popup. A button will be displayed and must be clicked to view the message.</string>
-  <string name="missed_call_privacy">Missed Call Privacy</string>
-  <string name="missed_call_privacy_summary">Do not display the missed call information in the notification popup. A button will be displayed and must be clicked to view the call log.</string>
+  <string name="sms_mesage_privacy">Privacidade em Mensagens SMS</string>
+  <string name="sms_mesage_privacy_summary">Não exibir a mensagem SMS no popup de notificação. Um botão será exibido e deve ser clicado para exibir a mensagem.</string>
+  <string name="email_mesage_privacy">Privacidade de Mensagens de Email</string>
+  <string name="email_mesage_privacy_summary">Não exibir conteúdo de email no popup de notificação. Um botão será exibido e deve ser clicado para exibir a mensagem.</string>
+  <string name="missed_call_privacy">Privacidade em Chamadas Não Atendidas</string>
+  <string name="missed_call_privacy_summary">Não exibir informações de chamadas não atendidas no popup de notificação. Um botão será exibido e deve ser clicado para exibir o log de chamadas.</string>
   <string name="advanced_category">AVANÇADO</string>
   <string name="advanced">Avançado</string>
   <string name="haptic_feedback_title">Habilitar o Feedback Tátil</string>
@@ -953,4 +957,7 @@
   <string name="missed_call_messenger_description">&lt;b&gt;Missed Call Messenger&lt;/b&gt; é um app que irá enviar uma mensagem para você quando você perde uma chamada de telefone, bem como enviar uma resposta de volta para o chamador automaticamente.&lt;br/&gt;&lt;br/&gt;Baixar este app gratuitamente e experimentá-lo hoje!</string>
   <string name="poll_wifi_cell_service_connected">Poll Quando Wifi/Celular Conectado</string>
   <string name="poll_wifi_cell_service_connected_summary">Enquete esta conta quando está ligado um sinal wifi ou um sinal de celular é ligado.</string>
+  <string name="custom_contacts_shortcut_name">Notificar Contatos Personalizados</string>
+  <string name="blacklist_shortcut_name">Notificar Lista Negra</string>
+  <string name="contacts">Contatos</string>
 </resources>

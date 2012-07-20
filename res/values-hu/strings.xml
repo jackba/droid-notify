@@ -324,6 +324,10 @@ Köszönjük!\"</string>
   <string name="calendar_reminders_enabled_summary">Emlékeztető értesítések küldése, az esemény bekövetkezése előtt.</string>
   <string name="use_current_calendar_reminder_settings">Az aktuális naptári emlékeztető beállításainak használata</string>
   <string name="use_current_calendar_reminder_settings_summary">Használja a naptár emlékeztetők beállításait az emlékeztetőkre.</string>
+  <string name="event_start_time_reminder">Emlékeztessen esemény kezdetére</string>
+  <string name="event_start_time_reminder_summary">Az esemény kezdetétől jeleníti meg az emlékeztetőt.</string>
+  <string name="snooze">Szundi</string>
+  <string name="snooze_for">Szundi esetében</string>
   <string name="k9_category">K9</string>
   <string name="k9">K-9</string>
   <string name="preference_k9_enabled_title">K-9 Email</string>
@@ -965,4 +969,7 @@ Példa:
   <string name="missed_call_messenger_description">&lt;b&gt;Nem fogadott hívás Üzeneteküldő &lt;/b&gt; az app, amely értesítést küld Önnek, amikor Ön fogadott egy hívást, valamint a hívónak választ küldeni automatikusan.&lt;br/&gt;&lt;br/&gt;Az alkalmazást ingyenesen letöltheti és kipróbálhatja még ma!</string>
   <string name="poll_wifi_cell_service_connected">Lekérdezés Wifi/Cella kapcsolatkor</string>
   <string name="poll_wifi_cell_service_connected_summary">Lekérdezheti ezt a fiókot, ha ha wifi vagy cella jelet érzékel.</string>
+  <string name="custom_contacts_shortcut_name">Értesítés egyedi kapcsolatokról</string>
+  <string name="blacklist_shortcut_name">Feketelistás értesítés</string>
+  <string name="contacts">Névjegyzék</string>
 </resources>

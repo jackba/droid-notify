@@ -318,6 +318,10 @@
   <string name="calendar_reminders_enabled_summary">Send reminder notifications before the event occurs.</string>
   <string name="use_current_calendar_reminder_settings">Use Current Calendar Reminder Settings</string>
   <string name="use_current_calendar_reminder_settings_summary">Use the calendars reminder settings for reminders.</string>
+  <string name="event_start_time_reminder">Remind Start Of Event</string>
+  <string name="event_start_time_reminder_summary">Display a reminder on the start of the event.</string>
+  <string name="snooze">Snooze</string>
+  <string name="snooze_for">Snooze for</string>
   <string name="k9_category">K9</string>
   <string name="k9">K-9</string>
   <string name="preference_k9_enabled_title">Enable K-9 Email</string>
@@ -953,4 +957,7 @@
   <string name="missed_call_messenger_description">&lt;b&gt;Missed Call Messenger&lt;/b&gt; is an app that will send a message to you when you miss a phone call as well as send a response back to the caller automatically.&lt;br/&gt;&lt;br/&gt;Download this app for free and try it today!</string>
   <string name="poll_wifi_cell_service_connected">Poll When Wifi/Cell Connected</string>
   <string name="poll_wifi_cell_service_connected_summary">Poll this account when a wifi signal is connected or a cell signal is connected.</string>
+  <string name="custom_contacts_shortcut_name">Notify Custom Contacts</string>
+  <string name="blacklist_shortcut_name">Notify Blacklist</string>
+  <string name="contacts">Contacts</string>
 </resources>

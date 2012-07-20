@@ -318,6 +318,10 @@
   <string name="calendar_reminders_enabled_summary">Inviare notifiche di promemoria, prima che l\'evento si verifichi.</string>
   <string name="use_current_calendar_reminder_settings">Utilizzare le Impostazioni Correnti del Promemoria Calendario</string>
   <string name="use_current_calendar_reminder_settings_summary">Utilizzare le impostazioni promemoria calendari per i promemoria.</string>
+  <string name="event_start_time_reminder">Ricordare l\'Inizio dell\'Evento</string>
+  <string name="event_start_time_reminder_summary">Visualizzare un promemoria sull\'inizio dell\'evento.</string>
+  <string name="snooze">Posporre</string>
+  <string name="snooze_for">Posporre per</string>
   <string name="k9_category">K9</string>
   <string name="k9">K-9</string>
   <string name="preference_k9_enabled_title">Attivare Email K-9</string>
@@ -953,4 +957,7 @@
   <string name="missed_call_messenger_description">&lt;b&gt;Missed Call Messenger&lt;/b&gt; è un\'applicazione che invia un messaggio a voi quando è perdere una telefonata così come inviare una risposta al chiamante automaticamente.&lt;br/&gt;&lt;br/&gt;scaricare gratuitamente questo app e provala oggi!</string>
   <string name="poll_wifi_cell_service_connected">Poll Quando Wifi / Cellulare Collegato</string>
   <string name="poll_wifi_cell_service_connected_summary">Sondaggio questo conto quando è collegato un segnale wifi o un segnale cellulare è collegato.</string>
+  <string name="custom_contacts_shortcut_name">Notify Contatti Personalizzati</string>
+  <string name="blacklist_shortcut_name">Notify Lista Nera</string>
+  <string name="contacts">Contatti</string>
 </resources>

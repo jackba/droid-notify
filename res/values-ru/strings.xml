@@ -318,6 +318,10 @@
   <string name="calendar_reminders_enabled_summary">Предварительные оповещения перед событием.</string>
   <string name="use_current_calendar_reminder_settings">Использовать текущие параметры напоминания календаря</string>
   <string name="use_current_calendar_reminder_settings_summary">Используйте параметры напоминания календари для напоминания.</string>
+  <string name="event_start_time_reminder">Напомнить начала события</string>
+  <string name="event_start_time_reminder_summary">Отображать напоминание о начале мероприятия.</string>
+  <string name="snooze">Повтор</string>
+  <string name="snooze_for">Позже</string>
   <string name="k9_category">K-9 Mail</string>
   <string name="k9">K-9 Mail</string>
   <string name="preference_k9_enabled_title">Разрешить K-9 Email</string>
@@ -953,4 +957,7 @@
   <string name="missed_call_messenger_description">&lt;b&gt;Missed Call Messenger&lt;/b&gt; -приложение, которое будет отправить сообщение к вам, когда вы пропустите телефонного звонка, а также автоматически отправить ответ вызывающему.&lt;br/&gt;&lt;br/&gt;бесплатно скачать этот зап и попробуйте сегодня!</string>
   <string name="poll_wifi_cell_service_connected">Опрос при подключении Wifi/Cell</string>
   <string name="poll_wifi_cell_service_connected_summary">Опрос этой учетной записи при подключении wifi сигнал или сигнал клетки подключен.</string>
+  <string name="custom_contacts_shortcut_name">Notify пользовательских контактов</string>
+  <string name="blacklist_shortcut_name">Notify черный список</string>
+  <string name="contacts">Контакты</string>
 </resources>
