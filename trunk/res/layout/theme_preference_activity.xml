@@ -2,13 +2,13 @@
 <RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/content_relataive_layout"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical" >
     <!-- Preference Header -->
     <TextView
         android:id="@+id/header_title"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:drawableLeft="@drawable/ic_launcher"
@@ -19,26 +19,26 @@
         android:textAppearance="?android:attr/textAppearanceLarge" />
     <ImageView
         android:id="@+id/header_title_divider"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="2dp"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/header_title"
         android:src="@drawable/preference_divider_header" />
 	<ScrollView 
 		android:id="@+id/view_flipper_scroll_view"
-	    android:layout_width="fill_parent"
+	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
 	    android:layout_above="@+id/button_divider"
 	    android:layout_below="@+id/header_title_divider">
 		<LinearLayout
 			android:id="@+id/content_linear_layout"
 		    android:layout_height="wrap_content"
-		    android:layout_width="fill_parent"
+		    android:layout_width="match_parent"
 			android:orientation="vertical">	
 		   	<!-- About Text-->
 		    <TextView
 		        android:id="@+id/instruction_text"
-		        android:layout_width="fill_parent"
+		        android:layout_width="match_parent"
 		        android:layout_height="wrap_content"
 		        android:layout_marginLeft="10dp"
 		        android:layout_marginRight="10dp"
@@ -57,7 +57,7 @@
 		    <!-- Available Themes List-->
 		    <apps.droidnotify.preferences.theme.ThemeViewFlipper
 		        android:id="@+id/theme_view_flipper"
-		        android:layout_width="fill_parent"
+		        android:layout_width="match_parent"
 		        android:layout_height="wrap_content"
 		        android:paddingTop="5dp" />
 		</LinearLayout>
@@ -65,13 +65,13 @@
     <!-- Buttons -->
     <ImageView
         android:id="@+id/button_divider"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:src="@drawable/preference_divider_normal"
         android:layout_above="@+id/button_relative_layout" />
 	<RelativeLayout
 	    android:id="@+id/button_relative_layout"
-	    android:layout_width="fill_parent"
+	    android:layout_width="match_parent"
 	    android:layout_height="?android:attr/listPreferredItemHeight"
 	    android:orientation="vertical"	        
 	    android:layout_alignParentBottom="true" >

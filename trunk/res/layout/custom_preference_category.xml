@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/ccontent_linear_layout"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:minHeight="?android:attr/listPreferredItemHeight"
     android:orientation="vertical"
@@ -10,7 +10,7 @@
     android:gravity="bottom">
     <TextView
         android:id="@android:id/title"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="5dp"
         android:paddingLeft="5dp"
@@ -19,7 +19,7 @@
         android:textStyle="bold" />
     <ImageView
         android:id="@+id/category_divider"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="2dp"
         android:layout_gravity="bottom"
         android:src="@drawable/preference_divider_normal" />

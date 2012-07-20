@@ -4,11 +4,11 @@
 	android:id="@+id/linear_layout"
     android:orientation="vertical"
     android:layout_height="wrap_content"
-    android:layout_width="fill_parent" 
+    android:layout_width="match_parent" 
     android:gravity="center_vertical|fill_horizontal">
     <TextView
         android:id="@+id/theme_name_text_view"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:padding="5dp"
@@ -18,12 +18,12 @@
 		android:id="@+id/notification_linear_layout"
 	    android:orientation="vertical"
 	    android:layout_height="wrap_content"
-	    android:layout_width="fill_parent" 
+	    android:layout_width="match_parent" 
 	    android:gravity="center_vertical|fill_horizontal">
 		<RelativeLayout
 		    android:id="@+id/header_navigation"
 		    android:layout_height="wrap_content"
-		    android:layout_width="fill_parent"
+		    android:layout_width="match_parent"
 		    android:gravity="center"
 		    android:padding="2dp" >
 		    <LinearLayout 
@@ -44,8 +44,8 @@
 			        android:layout_gravity="center_vertical"
 		        	android:layout_marginLeft="10dp"
 			        android:src="@drawable/ic_tts" />
-			 </LinearLayout>	    
-		     <TextView
+			</LinearLayout>	    
+			<TextView
 		        android:id="@+id/notification_count_text_view"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
@@ -75,13 +75,13 @@
 			    	android:id="@+id/next_button" 
 			      	android:layout_height="wrap_content"
 			      	android:layout_width="wrap_content" />
-			 </LinearLayout>	
+			</LinearLayout>	
 		</RelativeLayout>
 		<LinearLayout
 			android:id="@+id/contact_main_linear_layout"
 			android:orientation="vertical"
 			android:layout_height="wrap_content"
-			android:layout_width="fill_parent"
+			android:layout_width="match_parent"
 			android:layout_gravity="left"
 			android:focusable="true" 
 			android:clickable="true">	
@@ -89,7 +89,7 @@
 				android:id="@+id/contact_wrapper_linear_layout"
 				android:orientation="horizontal"
 				android:layout_height="wrap_content"
-				android:layout_width="fill_parent" 
+				android:layout_width="match_parent" 
 				android:layout_gravity="fill_horizontal"
 				android:focusable="true" 
 				android:clickable="true">
@@ -116,7 +116,7 @@
 					<LinearLayout
 						android:id="@+id/notification_info_linear_layout"
 						android:layout_height="wrap_content"
-						android:layout_width="fill_parent"
+						android:layout_width="match_parent"
 						android:orientation="horizontal" 
 						android:layout_gravity="center_vertical">
 						<ImageView
@@ -135,7 +135,7 @@
 					<TextView
 						android:id="@+id/contact_name_text_view"
 						android:layout_height="wrap_content"
-						android:layout_width="fill_parent"
+						android:layout_width="match_parent"
 			            android:singleLine="true"
 			            android:ellipsize="none"
 						android:layout_gravity="left"
@@ -145,7 +145,7 @@
 					<TextView
 						android:id="@+id/contact_number_text_view"
 						android:layout_height="wrap_content"
-						android:layout_width="fill_parent"
+						android:layout_width="match_parent"
 						android:layout_gravity="left"
 						android:textAppearance="?android:attr/textAppearanceMedium"
 						android:maxLines="1" />
@@ -154,7 +154,7 @@
 			<TextView
 				android:id="@+id/mms_link_text_view"
 				android:layout_height="wrap_content"
-				android:layout_width="fill_parent"
+				android:layout_width="match_parent"
 				android:layout_gravity="center"
 				android:textAppearance="?android:attr/textAppearanceSmall"
 				android:gravity="center"
@@ -168,7 +168,7 @@
 			<TextView
 				android:id="@+id/notification_details_text_view"
 				android:layout_height="wrap_content"
-				android:layout_width="fill_parent"
+				android:layout_width="match_parent"
 				android:layout_gravity="left"
 				android:textAppearance="?android:attr/textAppearanceSmall"
 				android:gravity="left" 
@@ -180,14 +180,14 @@
 		<LinearLayout 
 			android:id="@+id/button_linear_layout" 
 			android:layout_height="wrap_content"
-			android:layout_width="fill_parent" 
+			android:layout_width="match_parent" 
 			android:layout_gravity="center_horizontal" 
 			android:padding="2dp" 
 			android:gravity="center">
 			<Button
 				android:id="@+id/dismiss_button"  
 				android:layout_height="wrap_content" 
-				android:layout_width="fill_parent" 
+				android:layout_width="match_parent" 
 				android:layout_weight="1"
 				android:layout_marginLeft="1dp"
 				android:layout_marginRight="1dp"
@@ -196,7 +196,7 @@
 			<Button
 				android:id="@+id/delete_button"  
 				android:layout_height="wrap_content" 
-				android:layout_width="fill_parent" 
+				android:layout_width="match_parent" 
 				android:layout_weight="1"
 				android:layout_marginLeft="1dp"
 				android:layout_marginRight="1dp"
@@ -205,7 +205,7 @@
 			<Button
 				android:id="@+id/call_button"  
 				android:layout_height="wrap_content" 
-				android:layout_width="fill_parent" 
+				android:layout_width="match_parent" 
 				android:layout_weight="1"
 				android:layout_marginLeft="1dp"
 				android:layout_marginRight="1dp"
@@ -214,7 +214,7 @@
 			<Button
 				android:id="@+id/reply_button"  
 				android:layout_height="wrap_content" 
-				android:layout_width="fill_parent" 
+				android:layout_width="match_parent" 
 				android:layout_weight="1"
 				android:layout_marginLeft="1dp"
 				android:layout_marginRight="1dp"
@@ -223,7 +223,7 @@
 			<Button
 				android:id="@+id/snooze_button"  
 				android:layout_height="wrap_content" 
-				android:layout_width="fill_parent" 
+				android:layout_width="match_parent" 
 				android:layout_weight="1"
 				android:layout_marginLeft="1dp"
 				android:layout_marginRight="1dp"
@@ -232,7 +232,7 @@
 			<Button
 				android:id="@+id/view_button"  
 				android:layout_height="wrap_content" 
-				android:layout_width="fill_parent" 
+				android:layout_width="match_parent" 
 				android:layout_weight="1"
 				android:layout_marginLeft="1dp"
 				android:layout_marginRight="1dp"
@@ -242,14 +242,14 @@
 		<LinearLayout 
 			android:id="@+id/image_button_linear_layout" 
 			android:layout_height="wrap_content"
-			android:layout_width="fill_parent" 
+			android:layout_width="match_parent" 
 			android:layout_gravity="center_horizontal" 
 			android:padding="2dp" 
 			android:gravity="center">
 			<ImageButton
 				android:id="@+id/dismiss_image_button"  
 				android:layout_height="wrap_content" 
-				android:layout_width="fill_parent" 
+				android:layout_width="match_parent" 
 				android:layout_weight="1"
 				android:layout_marginLeft="1dp"
 				android:layout_marginRight="1dp"
@@ -258,7 +258,7 @@
 			<ImageButton
 				android:id="@+id/delete_image_button"  
 				android:layout_height="wrap_content" 
-				android:layout_width="fill_parent" 
+				android:layout_width="match_parent" 
 				android:layout_weight="1"
 				android:layout_marginLeft="1dp"
 				android:layout_marginRight="1dp"
@@ -267,7 +267,7 @@
 			<ImageButton
 				android:id="@+id/call_image_button"  
 				android:layout_height="wrap_content" 
-				android:layout_width="fill_parent" 
+				android:layout_width="match_parent" 
 				android:layout_weight="1"
 				android:layout_marginLeft="1dp"
 				android:layout_marginRight="1dp"
@@ -276,7 +276,7 @@
 			<ImageButton
 				android:id="@+id/reply_image_button"  
 				android:layout_height="wrap_content" 
-				android:layout_width="fill_parent" 
+				android:layout_width="match_parent" 
 				android:layout_weight="1"
 				android:layout_marginLeft="1dp"
 				android:layout_marginRight="1dp"
@@ -285,7 +285,7 @@
 			<ImageButton
 				android:id="@+id/snooze_image_button"  
 				android:layout_height="wrap_content" 
-				android:layout_width="fill_parent" 
+				android:layout_width="match_parent" 
 				android:layout_weight="1"
 				android:layout_marginLeft="1dp"
 				android:layout_marginRight="1dp"
@@ -294,7 +294,7 @@
 			<ImageButton
 				android:id="@+id/view_image_button"  
 				android:layout_height="wrap_content" 
-				android:layout_width="fill_parent" 
+				android:layout_width="match_parent" 
 				android:layout_weight="1"
 				android:layout_marginLeft="1dp"
 				android:layout_marginRight="1dp"

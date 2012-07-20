@@ -3,13 +3,13 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:id="@+id/row_linear_layout_1"
    	android:layout_height="wrap_content"
-   	android:layout_width="fill_parent"
+   	android:layout_width="match_parent"
    	android:orientation="vertical">
    	
     <!-- Preference Header-->
 	<TextView
 	    android:id="@+id/header_title"
-	    android:layout_width="fill_parent"
+	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
 	    android:layout_gravity="center_vertical"
 	    android:gravity="center|left"
@@ -22,17 +22,17 @@
        	android:id="@+id/header_title_divider"
   		android:src="@drawable/preference_divider_header"
   		android:layout_height="2dp"  
-		android:layout_width="fill_parent" />
+		android:layout_width="match_parent" />
    
 	<ScrollView 
 		android:id="@+id/content_scroll_view"
 	    android:layout_height="wrap_content"
-	    android:layout_width="fill_parent">
+	    android:layout_width="match_parent">
 		<LinearLayout
 			xmlns:android="http://schemas.android.com/apk/res/android"
 			android:id="@+id/content_linear_layout"
 		    android:layout_height="wrap_content"
-		    android:layout_width="fill_parent"
+		    android:layout_width="match_parent"
 			android:orientation="vertical"
 		    android:paddingRight="?android:attr/scrollbarSize"
 		    android:paddingLeft="?android:attr/scrollbarSize">
@@ -40,7 +40,7 @@
 			<!-- Row - SMS-->
 		    <TextView
 		        android:id="@+id/row_sms"
-		        android:layout_width="fill_parent"
+		        android:layout_width="match_parent"
 		        android:layout_height="wrap_content"
     			android:minHeight="?android:attr/listPreferredItemHeight"
 			    android:paddingTop="15dp"
@@ -56,12 +56,12 @@
 		        android:id="@+id/row_divider_sms"
 		  		android:src="@drawable/preference_divider_normal"
 		  		android:layout_height="0.5dp"  
-				android:layout_width="fill_parent" />	 
+				android:layout_width="match_parent" />	 
 
 			<!-- Row - Missed Calls-->
 		    <TextView
 		        android:id="@+id/row_missed_calls"
-		        android:layout_width="fill_parent"
+		        android:layout_width="match_parent"
 		        android:layout_height="wrap_content"
     			android:minHeight="?android:attr/listPreferredItemHeight"
 			    android:paddingTop="15dp"
@@ -77,12 +77,12 @@
 		        android:id="@+id/row_divider_missed_calls"
 		  		android:src="@drawable/preference_divider_normal"
 		  		android:layout_height="0.5dp"  
-				android:layout_width="fill_parent" />
+				android:layout_width="match_parent" />
 					   
 			<!-- Row - Calendar-->
 		    <TextView
 		        android:id="@+id/row_calendar"
-		        android:layout_width="fill_parent"
+		        android:layout_width="match_parent"
 		        android:layout_height="wrap_content"
     			android:minHeight="?android:attr/listPreferredItemHeight"
 			    android:paddingTop="15dp"
@@ -98,12 +98,12 @@
 		        android:id="@+id/row_divider_calendar"
 		  		android:src="@drawable/preference_divider_normal"
 		  		android:layout_height="0.5dp"  
-				android:layout_width="fill_parent" />
+				android:layout_width="match_parent" />
 					   
 			<!-- Row - K9-->
 		    <TextView
 		        android:id="@+id/row_k9"
-		        android:layout_width="fill_parent"
+		        android:layout_width="match_parent"
 		        android:layout_height="wrap_content"
     			android:minHeight="?android:attr/listPreferredItemHeight"
 			    android:paddingTop="15dp"
@@ -119,12 +119,12 @@
 		        android:id="@+id/row_divider_k9"
 		  		android:src="@drawable/preference_divider_normal"
 		  		android:layout_height="0.5dp"  
-				android:layout_width="fill_parent" />
+				android:layout_width="match_parent" />
 					   
 			<!-- Row - Twitter-->
 		    <TextView
 		        android:id="@+id/row_twitter"
-		        android:layout_width="fill_parent"
+		        android:layout_width="match_parent"
 		        android:layout_height="wrap_content"
     			android:minHeight="?android:attr/listPreferredItemHeight"
 			    android:paddingTop="15dp"
@@ -140,12 +140,12 @@
 		        android:id="@+id/row_divider_twitter"
 		  		android:src="@drawable/preference_divider_normal"
 		  		android:layout_height="0.5dp"  
-				android:layout_width="fill_parent" />
+				android:layout_width="match_parent" />
 			
 			<!-- Row - Facebook-->
 		    <TextView
 		        android:id="@+id/row_facebook"
-		        android:layout_width="fill_parent"
+		        android:layout_width="match_parent"
 		        android:layout_height="wrap_content"
     			android:minHeight="?android:attr/listPreferredItemHeight"
 			    android:paddingTop="15dp"
@@ -161,12 +161,12 @@
 		        android:id="@+id/row_divider_facebook"
 		  		android:src="@drawable/preference_divider_normal"
 		  		android:layout_height="0.5dp"  
-				android:layout_width="fill_parent" />
+				android:layout_width="match_parent" />
 			
 			<!-- Row - More-->
 		    <TextView
 		        android:id="@+id/row_more"
-		        android:layout_width="fill_parent"
+		        android:layout_width="match_parent"
 		        android:layout_height="wrap_content"
     			android:minHeight="?android:attr/listPreferredItemHeight"
 			    android:paddingTop="15dp"
