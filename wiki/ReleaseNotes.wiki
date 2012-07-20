@@ -7,7 +7,12 @@
  * 
 
 *v3.15* _Coming Soon..._
+ * Update icons in the app.
+ * Update calendar notification code.
+ * Added calendar snooze functionality.
  * 
+ * Updated translations.
+ * Small bug fixes.
 
 *v3.14* (July 13, 2012)
  * Updated Facebook API to latest version.
