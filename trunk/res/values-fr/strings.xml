@@ -318,6 +318,10 @@
   <string name="calendar_reminders_enabled_summary">Envoie une notification pour l\'évènement du calendrier.</string>
   <string name="use_current_calendar_reminder_settings">Utiliser les paramètres de rappel des calendriers</string>
   <string name="use_current_calendar_reminder_settings_summary">Utilise les paramètres de rappel définis dans les calendriers pour les rappels.</string>
+  <string name="event_start_time_reminder">Rappeler le Début de l\'Événement</string>
+  <string name="event_start_time_reminder_summary">Affiche un rappel au début de l\'événement.</string>
+  <string name="snooze">Répéter</string>
+  <string name="snooze_for">Répéter pour</string>
   <string name="k9_category">K9</string>
   <string name="k9">K-9</string>
   <string name="preference_k9_enabled_title">Activer mail K-9</string>
@@ -953,4 +957,7 @@
   <string name="missed_call_messenger_description">&lt;b&gt; Missed Call Messenger &lt;/b&gt; est une application qui vous enverra un message si vous manquez un appel téléphonique et qui peut aussi envoyer une réponse automatique à votre correspondant. &lt;br/&gt; &lt;br/&gt; Téléchargez cette application gratuitement et essayez la dès aujourd\'hui !</string>
   <string name="poll_wifi_cell_service_connected">Connexion wifi /cellulaire</string>
   <string name="poll_wifi_cell_service_connected_summary">Interroge ce compte lorsqu\'une connexion wifi ou cellulaire est disponible.</string>
+  <string name="custom_contacts_shortcut_name">Notify Contacts Personnalisés</string>
+  <string name="blacklist_shortcut_name">Notify Liste Noire</string>
+  <string name="contacts">Contacts</string>
 </resources>

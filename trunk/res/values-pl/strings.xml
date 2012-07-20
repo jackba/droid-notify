@@ -293,8 +293,8 @@
   <string name="preference_call_log_timeout">Opóźnienie dla rejestru połaczeń</string>
   <string name="preference_call_log_timeout_summary">Zdefiniuj jaki czas po połączeniu czekać aby odpytać rejestr o nowe nieodebrane połączenia.</string>
   <string name="mms_click_here_to_view">[Kliknij tutaj aby zobaczyć wiadomość MMS]</string>
-  <string name="click_to_view_message">[Click Here To View Message]</string>
-  <string name="click_to_view_log">[Click Here To View Log]</string>
+  <string name="click_to_view_message">[Kliknij tutaj, aby zobaczyć wiadomość]</string>
+  <string name="click_to_view_log">[Kliknij tutaj, aby zobaczyć dziennik zdarzeń]</string>
   <string name="event_reminders_category">PRZYPOMNIENIA O ZDARZENIACH</string>
   <string name="calendar">Kalandarz</string>
   <string name="add_calendar_event_text">Dodaj zdarzenie kalandarza</string>
@@ -318,6 +318,10 @@
   <string name="calendar_reminders_enabled_summary">Wysyłaj przypomienia powiadomień przed wystąpieniem zdarzenia.</string>
   <string name="use_current_calendar_reminder_settings">Użyj bieżących ustawień powiadomień kalendarza</string>
   <string name="use_current_calendar_reminder_settings_summary">Użyj bieżących ustawień dla powiadomień kalendarza </string>
+  <string name="event_start_time_reminder">Powiadomienie o rozpoczęciu zdarzenia</string>
+  <string name="event_start_time_reminder_summary">Wyświetlaj przypomnienie po rozpoczęciu zdarzenia.</string>
+  <string name="snooze">Odłóż</string>
+  <string name="snooze_for">Odłóż do</string>
   <string name="k9_category">K9 EMAIL</string>
   <string name="k9">K-9</string>
   <string name="preference_k9_enabled_title">Włącz obsługę K-9 Email</string>
@@ -451,12 +455,12 @@
   <string name="privacy">Prywatność</string>
   <string name="status_bar_notification_privacy_title">Prywatność powiadomień paska stanu</string>
   <string name="status_bar_notification_privacy_summary">Nie wyświetlaj danych prywatnych na pasku stanu.</string>
-  <string name="sms_mesage_privacy">SMS Message Privacy</string>
-  <string name="sms_mesage_privacy_summary">Do not display the SMS message in the notification popup. A button will be displayed and must be clicked to view the message.</string>
-  <string name="email_mesage_privacy">Email Message Privacy</string>
-  <string name="email_mesage_privacy_summary">Do not display the email message in the notification popup. A button will be displayed and must be clicked to view the message.</string>
-  <string name="missed_call_privacy">Missed Call Privacy</string>
-  <string name="missed_call_privacy_summary">Do not display the missed call information in the notification popup. A button will be displayed and must be clicked to view the call log.</string>
+  <string name="sms_mesage_privacy">Prywatność wiadomości SMS</string>
+  <string name="sms_mesage_privacy_summary">Nie wyświetla treści wiadomości SMS w oknie powiadomienia. Zostaje wyświetlony przycisk, który należy kliknąć aby podejrzeć treść wiadomości.</string>
+  <string name="email_mesage_privacy">Prywatność wiadomości Email</string>
+  <string name="email_mesage_privacy_summary">Nie wyświetla treści wiadomości email w oknie powiadomienia. Zostaje wyświetlony przycisk, który należy kliknąć aby podejrzeć treść wiadomości.</string>
+  <string name="missed_call_privacy">Prywatność rejestru nieodebranych połączeń </string>
+  <string name="missed_call_privacy_summary">Nie wyświetla informacji o nieodebranym połączeniu w oknie powiadomienia. Zostaje wyświetlony przycisk, który należy kliknąć aby podejrzeć rejestr połączeń.</string>
   <string name="advanced_category">USTAWIENIA ZAAWANSOWANE</string>
   <string name="advanced">Zaawansowane</string>
   <string name="haptic_feedback_title">Włącz reakcję na dotyk</string>
@@ -958,4 +962,7 @@ Przykład:
   <string name="missed_call_messenger_description">Missed Call Messenger to aplikacja, która wysyła wiadomość w przypadku wystąpienia nieodebranego połączenia, jak również automatycznie wysyła odpowiedź do dzwoniącego. Pobierz aplikację dziś i wypróbuj ją za darmo!</string>
   <string name="poll_wifi_cell_service_connected">Sprawdzaj, gdy połączony z WiFi/siecią komórkową</string>
   <string name="poll_wifi_cell_service_connected_summary">Sprawdzaj konto, gdy dostępny jest sygnał z sieci komórkowej lub WiFi.</string>
+  <string name="custom_contacts_shortcut_name">Powiadamiaj dla nietypowych kontaktów</string>
+  <string name="blacklist_shortcut_name">Lista zablokowanych powiadomień</string>
+  <string name="contacts">Kontakty</string>
 </resources>

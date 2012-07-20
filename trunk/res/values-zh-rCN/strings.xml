@@ -318,6 +318,10 @@
   <string name="calendar_reminders_enabled_summary">事件发生前，请发送提醒通知。</string>
   <string name="use_current_calendar_reminder_settings">使用当前日历提醒设置</string>
   <string name="use_current_calendar_reminder_settings_summary">使用日历提醒设置提醒。</string>
+  <string name="event_start_time_reminder">提醒事件的开始</string>
+  <string name="event_start_time_reminder_summary">事件的开始显示提醒。</string>
+  <string name="snooze">暂停</string>
+  <string name="snooze_for">对于暂停</string>
   <string name="k9_category">K9</string>
   <string name="k9">K-9</string>
   <string name="preference_k9_enabled_title">启用K-9 Email</string>
@@ -954,4 +958,7 @@
   <string name="missed_call_messenger_description">&lt;b&gt;Missed Call Messenger&lt;/b&gt;是一个应用程序，将消息发送给你，当你错过了一个电话，以及自动发送一个响应返回给调用者。&lt;br/&gt;&lt;br/&gt;免费下载这个程序，今天试试吧！</string>
   <string name="poll_wifi_cell_service_connected">轮询 Wifi/单元格在连接时</string>
   <string name="poll_wifi_cell_service_connected_summary">轮询此帐户连接到 wifi 信号时或细胞信号连接。</string>
+  <string name="custom_contacts_shortcut_name">Notify 自定义联系人</string>
+  <string name="blacklist_shortcut_name">Notify 黑名单</string>
+  <string name="contacts">联系人</string>
 </resources>
