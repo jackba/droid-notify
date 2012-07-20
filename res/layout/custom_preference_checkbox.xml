@@ -43,5 +43,5 @@
         android:id="@+id/row_divider_basic"
   		android:src="@drawable/preference_divider_normal"
   		android:layout_height="0.5dp"  
-		android:layout_width="fill_parent" />    
+		android:layout_width="match_parent" />    
 </LinearLayout>

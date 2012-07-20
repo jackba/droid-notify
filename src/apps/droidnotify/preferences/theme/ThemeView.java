@@ -6,6 +6,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
 import android.preference.PreferenceManager;
@@ -73,12 +74,14 @@ public class ThemeView extends LinearLayout {
 	private Button _callButton = null;
 	private Button _replyButton = null;
 	private Button _viewButton = null;
+	private Button _snoozeButton = null;
 	
 	private ImageButton _dismissImageButton = null;
 	private ImageButton _deleteImageButton = null;
 	private ImageButton _callImageButton = null;
 	private ImageButton _replyImageButton = null;
 	private ImageButton _viewImageButton = null;
+	private ImageButton _snoozeImageButton = null;
 	
 	private ProgressBar _photoProgressBar = null;
 
@@ -156,12 +159,14 @@ public class ThemeView extends LinearLayout {
 		_callButton = (Button) findViewById(R.id.call_button);
 		_replyButton = (Button) findViewById(R.id.reply_button);
 		_viewButton = (Button) findViewById(R.id.view_button);
+		_snoozeButton = (Button) findViewById(R.id.snooze_button);
 		
 		_dismissImageButton = (ImageButton) findViewById(R.id.dismiss_image_button);
 		_deleteImageButton = (ImageButton) findViewById(R.id.delete_image_button);
 		_callImageButton = (ImageButton) findViewById(R.id.call_image_button);
 		_replyImageButton = (ImageButton) findViewById(R.id.reply_image_button);
 		_viewImageButton = (ImageButton) findViewById(R.id.view_image_button);
+		_snoozeImageButton = (ImageButton) findViewById(R.id.snooze_image_button);
 		
 		_photoProgressBar = (ProgressBar) findViewById(R.id.contact_photo_progress_bar);
 
@@ -280,7 +285,6 @@ public class ThemeView extends LinearLayout {
 	 * @return StateListDrawable - Returns a Drawable that contains the state specific images for this theme.
 	 */
 	private StateListDrawable getThemeButton(int buttonType){
-		if (_debug) Log.v("ThemeView.getThemeButton() ButtonType: " + buttonType);
 		StateListDrawable stateListDrawable = new StateListDrawable();
 		switch(buttonType){
 			case Constants.THEME_BUTTON_NORMAL:{
@@ -385,11 +389,13 @@ public class ThemeView extends LinearLayout {
 			_callButton.setVisibility(View.GONE);
 			_replyButton.setVisibility(View.GONE);
 			_viewButton.setVisibility(View.GONE);
+			_snoozeButton.setVisibility(View.GONE);
 			_dismissImageButton.setVisibility(View.GONE);
 			_deleteImageButton.setVisibility(View.GONE);
 			_callImageButton.setVisibility(View.GONE);
 			_replyImageButton.setVisibility(View.GONE);
 			_viewImageButton.setVisibility(View.GONE);
+			_snoozeImageButton.setVisibility(View.GONE);
 			//Set button font size.
 			float buttonTextSize = Float.parseFloat(_preferences.getString(Constants.BUTTON_FONT_SIZE_KEY, Constants.BUTTON_FONT_SIZE_DEFAULT));
 			_dismissButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, buttonTextSize);
@@ -397,6 +403,16 @@ public class ThemeView extends LinearLayout {
 			_callButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, buttonTextSize);
 			_replyButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, buttonTextSize);
 			_viewButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, buttonTextSize);
+			_snoozeButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, buttonTextSize);
+			//Set button font to bold.
+			if(_preferences.getBoolean(Constants.BUTTON_BOLD_TEXT_KEY, false)){
+				_dismissButton.setTypeface(null, Typeface.BOLD);
+				_deleteButton.setTypeface(null, Typeface.BOLD);
+				_callButton.setTypeface(null, Typeface.BOLD);
+				_replyButton.setTypeface(null, Typeface.BOLD);
+				_viewButton.setTypeface(null, Typeface.BOLD);
+				_snoozeButton.setTypeface(null, Typeface.BOLD);
+			}
 			//Setup the views buttons based on the notification type.
 			setupViewSMSButtons(usingImageButtons, _notificationType);
 			setupButtonIcons(usingImageButtons, _notificationType, buttonDisplayStyle);

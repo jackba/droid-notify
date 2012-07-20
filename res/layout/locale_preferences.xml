@@ -3,13 +3,13 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:id="@+id/row_linear_layout_1"
    	android:layout_height="wrap_content"
-   	android:layout_width="fill_parent"
+   	android:layout_width="match_parent"
    	android:orientation="vertical">
 
     <!-- Preference Header-->
 	<TextView
 	    android:id="@+id/header_title"
-	    android:layout_width="fill_parent"
+	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
 	    android:layout_gravity="center_vertical"
 	    android:gravity="center|left"
@@ -22,11 +22,11 @@
        	android:id="@+id/header_title_divider"
   		android:src="@drawable/preference_divider_header"
   		android:layout_height="2dp"  
-		android:layout_width="fill_parent" />
+		android:layout_width="match_parent" />
 	
 	<!-- Preference List-->   
      <ListView android:id="@android:id/list"
-     	android:layout_width="fill_parent"
-		android:layout_height="fill_parent" />
+     	android:layout_width="match_parent"
+		android:layout_height="match_parent" />
 	
 </LinearLayout>
