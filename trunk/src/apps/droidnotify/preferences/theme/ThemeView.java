@@ -343,13 +343,13 @@ public class ThemeView extends LinearLayout {
 				}
 			);
 			//TTS Button
-			if(_preferences.getBoolean(Constants.DISPLAY_TEXT_TO_SPEECH_KEY, true)){
+			if(_preferences.getBoolean(Constants.DISPLAY_TEXT_TO_SPEECH_KEY, false)){
 				_ttsButton.setVisibility(View.VISIBLE);
 			}else{
 				_ttsButton.setVisibility(View.GONE);
 			}
 			//Reschedule Button
-			if(_preferences.getBoolean(Constants.DISPLAY_RESCHEDULE_BUTTON_KEY, true)){
+			if(_preferences.getBoolean(Constants.DISPLAY_RESCHEDULE_BUTTON_KEY, false)){
 				_rescheduleButton.setVisibility(View.VISIBLE);
 			}else{
 				_rescheduleButton.setVisibility(View.GONE);

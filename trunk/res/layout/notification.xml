@@ -28,7 +28,7 @@
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:layout_gravity="center_vertical"
-		        android:padding="5dp"
+		        android:layout_marginLeft="10dp"
 		        android:src="@drawable/ic_tts" />
 		 </LinearLayout>	    
 	     <TextView
@@ -55,6 +55,7 @@
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"		        
 		        android:layout_gravity="center_vertical"
+		        android:layout_marginRight="10dp"
 		        android:src="@drawable/ic_reschedule" />
 		    <Button
 		    	android:id="@+id/next_button" 
