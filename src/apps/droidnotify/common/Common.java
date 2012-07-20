@@ -1102,6 +1102,30 @@ public class Common {
 			icon = R.drawable.status_bar_notification_sms_postcard_glass_white;
 		}else if(iconPreference.equals("status_bar_notification_sms_postcard_glass_yellow")){
 			icon = R.drawable.status_bar_notification_sms_postcard_glass_yellow;
+		}else if(iconPreference.equals("status_bar_notification_sms_blur_black")){
+			icon = R.drawable.status_bar_notification_sms_blur_black;
+		}else if(iconPreference.equals("status_bar_notification_sms_blur_blue")){
+			icon = R.drawable.status_bar_notification_sms_blur_blue;
+		}else if(iconPreference.equals("status_bar_notification_sms_blur_gray")){
+			icon = R.drawable.status_bar_notification_sms_blur_gray;
+		}else if(iconPreference.equals("status_bar_notification_sms_blur_green")){
+			icon = R.drawable.status_bar_notification_sms_blur_green;
+		}else if(iconPreference.equals("status_bar_notification_sms_blur_light_blue")){
+			icon = R.drawable.status_bar_notification_sms_blur_light_blue;
+		}else if(iconPreference.equals("status_bar_notification_sms_blur_orange")){
+			icon = R.drawable.status_bar_notification_sms_blur_orange;
+		}else if(iconPreference.equals("status_bar_notification_sms_blur_pink")){
+			icon = R.drawable.status_bar_notification_sms_blur_pink;
+		}else if(iconPreference.equals("status_bar_notification_sms_blur_purple")){
+			icon = R.drawable.status_bar_notification_sms_blur_purple;
+		}else if(iconPreference.equals("status_bar_notification_sms_blur_red")){
+			icon = R.drawable.status_bar_notification_sms_blur_red;
+		}else if(iconPreference.equals("status_bar_notification_sms_blur_white")){
+			icon = R.drawable.status_bar_notification_sms_blur_white;
+		}else if(iconPreference.equals("status_bar_notification_sms_blur_yellow")){
+			icon = R.drawable.status_bar_notification_sms_blur_yellow;
+		}else if(iconPreference.equals("status_bar_notification_sms_chat")){
+			icon = R.drawable.status_bar_notification_sms_chat;
 		}else if(iconPreference.equals("status_bar_notification_missed_call_black")){
 			icon = R.drawable.status_bar_notification_missed_call_black;
 		}else if(iconPreference.equals("status_bar_notification_missed_call_grey")){
@@ -1164,29 +1188,9 @@ public class Common {
 			icon = R.drawable.status_bar_notification_email_glass_white;
 		}else if(iconPreference.equals("status_bar_notification_email_glass_yellow")){
 			icon = R.drawable.status_bar_notification_email_glass_yellow;
-		}else if(iconPreference.equals("status_bar_notification_sms_blur_black")){
-			icon = R.drawable.status_bar_notification_sms_blur_black;
-		}else if(iconPreference.equals("status_bar_notification_sms_blur_blue")){
-			icon = R.drawable.status_bar_notification_sms_blur_blue;
-		}else if(iconPreference.equals("status_bar_notification_sms_blur_gray")){
-			icon = R.drawable.status_bar_notification_sms_blur_gray;
-		}else if(iconPreference.equals("status_bar_notification_sms_blur_green")){
-			icon = R.drawable.status_bar_notification_sms_blur_green;
-		}else if(iconPreference.equals("status_bar_notification_sms_blur_light_blue")){
-			icon = R.drawable.status_bar_notification_sms_blur_light_blue;
-		}else if(iconPreference.equals("status_bar_notification_sms_blur_orange")){
-			icon = R.drawable.status_bar_notification_sms_blur_orange;
-		}else if(iconPreference.equals("status_bar_notification_sms_blur_pink")){
-			icon = R.drawable.status_bar_notification_sms_blur_pink;
-		}else if(iconPreference.equals("status_bar_notification_sms_blur_purple")){
-			icon = R.drawable.status_bar_notification_sms_blur_purple;
-		}else if(iconPreference.equals("status_bar_notification_sms_blur_red")){
-			icon = R.drawable.status_bar_notification_sms_blur_red;
-		}else if(iconPreference.equals("status_bar_notification_sms_blur_white")){
-			icon = R.drawable.status_bar_notification_sms_blur_white;
-		}else if(iconPreference.equals("status_bar_notification_sms_blur_yellow")){
-			icon = R.drawable.status_bar_notification_sms_blur_yellow;
-		}		
+		}else if(iconPreference.equals("status_bar_notification_email_ics_white")){
+			icon = R.drawable.status_bar_notification_email_ics_white;
+		}
 		return icon;
 	}
 	

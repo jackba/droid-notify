@@ -42,7 +42,7 @@
 			        android:layout_width="wrap_content"
 			        android:layout_height="wrap_content"
 			        android:layout_gravity="center_vertical"
-			        android:padding="5dp"
+		        	android:layout_marginLeft="10dp"
 			        android:src="@drawable/ic_tts" />
 			 </LinearLayout>	    
 		     <TextView
@@ -69,6 +69,7 @@
 			        android:layout_width="wrap_content"
 			        android:layout_height="wrap_content"		        
 			        android:layout_gravity="center_vertical"
+		        	android:layout_marginRight="10dp"
 			        android:src="@drawable/ic_reschedule" />
 			    <Button
 			    	android:id="@+id/next_button" 
@@ -220,6 +221,15 @@
 				android:gravity="center_vertical|center_horizontal"
 				android:text="@string/reply" />
 			<Button
+				android:id="@+id/snooze_button"  
+				android:layout_height="wrap_content" 
+				android:layout_width="fill_parent" 
+				android:layout_weight="1"
+				android:layout_marginLeft="1dp"
+				android:layout_marginRight="1dp"
+				android:gravity="center_vertical|center_horizontal"
+				android:text="@string/snooze" />
+			<Button
 				android:id="@+id/view_button"  
 				android:layout_height="wrap_content" 
 				android:layout_width="fill_parent" 
@@ -265,6 +275,15 @@
 				android:scaleType="center" />
 			<ImageButton
 				android:id="@+id/reply_image_button"  
+				android:layout_height="wrap_content" 
+				android:layout_width="fill_parent" 
+				android:layout_weight="1"
+				android:layout_marginLeft="1dp"
+				android:layout_marginRight="1dp"
+				android:gravity="center_vertical|center_horizontal"
+				android:scaleType="center" />
+			<ImageButton
+				android:id="@+id/snooze_image_button"  
 				android:layout_height="wrap_content" 
 				android:layout_width="fill_parent" 
 				android:layout_weight="1"

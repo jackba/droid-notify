@@ -463,7 +463,7 @@ public class NotificationView extends LinearLayout {
 				}
 			);
 			//TTS Button
-			if(_preferences.getBoolean(Constants.DISPLAY_TEXT_TO_SPEECH_KEY, true)){
+			if(_preferences.getBoolean(Constants.DISPLAY_TEXT_TO_SPEECH_KEY, false)){
 				_ttsButton.setVisibility(View.VISIBLE);
 				_ttsButton.setOnClickListener(
 					new OnClickListener(){
@@ -1256,7 +1256,7 @@ public class NotificationView extends LinearLayout {
 					if(usingImageButtons){
 						_dismissImageButton.setImageDrawable(dismissButtonIcon);
 						_viewImageButton.setImageDrawable(viewCalendarButtonIcon);
-						_snoozeButton.setImageDrawable(snoozeCalendarButtonIcon);
+						_snoozeImageButton.setImageDrawable(snoozeCalendarButtonIcon);
 					}else{
 						_dismissButton.setCompoundDrawablesWithIntrinsicBounds(dismissButtonIcon, null, null, null);
 						_viewButton.setCompoundDrawablesWithIntrinsicBounds(viewCalendarButtonIcon, null, null, null);

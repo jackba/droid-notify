@@ -53,7 +53,7 @@
 			    android:layout_width="wrap_content"
 			    android:layout_height="wrap_content"
 			    android:layout_gravity="center_horizontal|center_vertical"
-			    android:paddingTop="20dp" />
+			    android:padding="20dp" />
 		    <!-- Available Themes List-->
 		    <apps.droidnotify.preferences.theme.ThemeViewFlipper
 		        android:id="@+id/theme_view_flipper"
