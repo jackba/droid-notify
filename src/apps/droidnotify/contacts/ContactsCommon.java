@@ -1,5 +1,7 @@
 package apps.droidnotify.contacts;
 
+import java.util.ArrayList;
+
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -9,6 +11,7 @@ import android.provider.ContactsContract;
 import android.provider.ContactsContract.PhoneLookup;
 import android.widget.Toast;
 
+import apps.droidnotify.Notification;
 import apps.droidnotify.NotificationActivity;
 import apps.droidnotify.R;
 import apps.droidnotify.common.Common;
@@ -127,7 +130,7 @@ public class ContactsCommon {
                     emailSortOrder);
             if(emailCursor.moveToFirst()){
             	contactID = emailCursor.getLong(emailCursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.CONTACT_ID)); 
-            	//Querry the specific contact if found.
+            	//Query the specific contact if found.
     			final String[] projection = new String[]{ContactsContract.Contacts._ID, ContactsContract.Contacts.DISPLAY_NAME, ContactsContract.Contacts.PHOTO_ID, ContactsContract.Contacts.LOOKUP_KEY};
     			final String selection = ContactsContract.Contacts._ID + "=?";
     			final String[] selectionArgs = new String[]{String.valueOf(contactID)};
@@ -266,6 +269,155 @@ public class ContactsCommon {
 		}catch(Exception ex){
 			Log.e("ContactsCommon.getContactsInfoByID() ERROR: " + ex.toString());
 			return null;
+		}
+	}	
+	
+	/**
+	 * Get all the phone numbers associated with the incoming notification's contact.
+	 * 
+	 * @param context - The application context.
+	 * @param notification - The incoming notification.
+	 * 
+	 * @return String[] - Array of phone numbers for this contact. Returns null if no numbers are found.
+	 */
+	public static String[] getContactPhoneNumbers(Context context, Notification notification){
+		if(_debug) Log.v("ContactsCommon.getPhoneNumbers()");	
+		if(notification.getContactExists()){
+			long contactID = notification.getContactID();
+			Cursor phoneCursor = null;
+			try{
+				ArrayList<String> phoneNumberArray = new ArrayList<String>();
+				final String[] phoneProjection = new String[]{ContactsContract.CommonDataKinds.Phone.CONTACT_ID, ContactsContract.CommonDataKinds.Phone.NUMBER, ContactsContract.CommonDataKinds.Phone.TYPE, ContactsContract.CommonDataKinds.Phone.LABEL};
+				final String phoneSelection = ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=?";
+				final String[] phoneSelectionArgs = new String[]{String.valueOf(contactID)};
+				final String phoneSortOrder = null;
+				phoneCursor = context.getContentResolver().query(
+						ContactsContract.CommonDataKinds.Phone.CONTENT_URI, 
+						phoneProjection, 
+						phoneSelection, 
+						phoneSelectionArgs, 
+						phoneSortOrder); 
+				if(phoneCursor == null){
+					if(_debug) Log.v("ContactsCommon.getPhoneNumbers() PhoneCursor is null. Exiting...");	
+					return null;
+				}
+				while(phoneCursor.moveToNext()){ 
+					String phoneNumber = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+					int phoneNumberTypeInt = Integer.parseInt(phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE)));
+					String phoneNumberType = null;
+					switch(phoneNumberTypeInt){
+						case ContactsContract.CommonDataKinds.Phone.TYPE_HOME:{
+							phoneNumberType = "Home: ";
+							break;
+						}
+						case ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE:{
+							phoneNumberType = "Mobile: ";
+							break;
+						}
+						case ContactsContract.CommonDataKinds.Phone.TYPE_WORK:{
+							phoneNumberType = "Work: ";
+							break;
+						}
+						case ContactsContract.CommonDataKinds.Phone.TYPE_FAX_WORK:{
+							phoneNumberType = "Work Fax: ";
+							break;
+						}
+						case ContactsContract.CommonDataKinds.Phone.TYPE_FAX_HOME:{
+							phoneNumberType = "Home Fax: ";
+							break;
+						}
+						case ContactsContract.CommonDataKinds.Phone.TYPE_PAGER:{
+							phoneNumberType = "Pager: ";
+							break;
+						}
+						case ContactsContract.CommonDataKinds.Phone.TYPE_OTHER:{
+							phoneNumberType = "Other: ";
+							break;
+						}
+						case ContactsContract.CommonDataKinds.Phone.TYPE_CALLBACK:{
+							phoneNumberType = "Callback: ";
+							break;
+						}
+						case ContactsContract.CommonDataKinds.Phone.TYPE_CAR:{
+							phoneNumberType = "Car: ";
+							break;
+						}
+						case ContactsContract.CommonDataKinds.Phone.TYPE_COMPANY_MAIN:{
+							phoneNumberType = "Company: ";
+							break;
+						}
+						case ContactsContract.CommonDataKinds.Phone.TYPE_ISDN:{
+							phoneNumberType = "ISDN: ";
+							break;
+						}
+						case ContactsContract.CommonDataKinds.Phone.TYPE_MAIN:{
+							phoneNumberType = "Main: ";
+							break;
+						}
+						case ContactsContract.CommonDataKinds.Phone.TYPE_OTHER_FAX:{
+							phoneNumberType = "Other Fax: ";
+							break;
+						}
+						case ContactsContract.CommonDataKinds.Phone.TYPE_RADIO:{
+							phoneNumberType = "Radio: ";
+							break;
+						}
+						case ContactsContract.CommonDataKinds.Phone.TYPE_TELEX:{
+							phoneNumberType = "Telex: ";
+							break;
+						}
+						case ContactsContract.CommonDataKinds.Phone.TYPE_TTY_TDD:{
+							phoneNumberType = "TTY/TDD: ";
+							break;
+						}
+						case ContactsContract.CommonDataKinds.Phone.TYPE_WORK_MOBILE:{
+							phoneNumberType = "Work Mobile: ";
+							break;
+						}
+						case ContactsContract.CommonDataKinds.Phone.TYPE_WORK_PAGER:{
+							phoneNumberType = "Work Pager: ";
+							break;
+						}
+						case ContactsContract.CommonDataKinds.Phone.TYPE_ASSISTANT:{
+							phoneNumberType = "Assistant: ";
+							break;
+						}
+						case ContactsContract.CommonDataKinds.Phone.TYPE_MMS:{
+							phoneNumberType = "MMS: ";
+							break;
+						}
+						case ContactsContract.CommonDataKinds.Phone.TYPE_CUSTOM:{
+							phoneNumberType = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.LABEL)) + ": ";
+							break;
+						}
+						default:{
+							phoneNumberType = "No Label: ";
+							break;
+						}
+					}
+					phoneNumberArray.add(phoneNumberType + phoneNumber);
+				}
+				phoneCursor.close(); 
+				if(phoneNumberArray.size() > 0){
+					return phoneNumberArray.toArray(new String[]{});
+				}else{
+					if(_debug) Log.v("ContactsCommon.getPhoneNumbers() No phone numbers found for this contact.");	
+					return null;
+				}
+			}catch(Exception ex){
+				Log.e("ContactsCommon.getPhoneNumbers() ERROR: " + ex.toString());
+				if(phoneCursor != null){
+					phoneCursor.close(); 
+				}
+				return null;
+			}
+		}else{
+			String phoneNumber = notification.getSentFromAddress();
+			if(!phoneNumber.contains("@")){
+				return new String[]{phoneNumber};
+			}else{
+				return null;
+			}
 		}
 	}
 	

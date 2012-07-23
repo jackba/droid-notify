@@ -1,7 +1,5 @@
 package apps.droidnotify;
 
-import java.util.ArrayList;
-
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
@@ -13,11 +11,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
-import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.provider.ContactsContract;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 import android.view.ContextMenu;
@@ -875,7 +871,7 @@ public class NotificationActivity extends Activity{
 	    switch(notificationType){ 
 		    case Constants.NOTIFICATION_TYPE_PHONE:{
 		    	if(_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_PHONE");
-		    	if(!setupBundleNotifications(extrasBundle)){
+		    	if(!setupBundleNotifications(extrasBundle, true)){
 					finishActivity();
 					return;
 				}
@@ -883,7 +879,7 @@ public class NotificationActivity extends Activity{
 		    }
 		    case Constants.NOTIFICATION_TYPE_SMS:{
 			    if(_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_SMS");
-			    if(!setupBundleNotifications(extrasBundle)){
+			    if(!setupBundleNotifications(extrasBundle, true)){
 					finishActivity();
 					return;
 				}else{
@@ -895,7 +891,7 @@ public class NotificationActivity extends Activity{
 		    }
 		    case Constants.NOTIFICATION_TYPE_MMS:{
 		    	if(_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_MMS");
-		    	if(!setupBundleNotifications(extrasBundle)){
+		    	if(!setupBundleNotifications(extrasBundle, true)){
 					finishActivity();
 					return;
 				}else{
@@ -907,7 +903,7 @@ public class NotificationActivity extends Activity{
 		    }
 		    case Constants.NOTIFICATION_TYPE_CALENDAR:{
 		    	if(_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_CALENDAR");
-		    	if(!setupBundleNotifications(extrasBundle)){
+		    	if(!setupBundleNotifications(extrasBundle, true)){
 					finishActivity();
 					return;
 				}
@@ -915,7 +911,7 @@ public class NotificationActivity extends Activity{
 			}
 			case Constants.NOTIFICATION_TYPE_K9:{
 				if(_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_K9");
-				if(!setupBundleNotifications(extrasBundle)){
+				if(!setupBundleNotifications(extrasBundle, true)){
 					finishActivity();
 					return;
 				}
@@ -931,7 +927,7 @@ public class NotificationActivity extends Activity{
 		    }
 		    case Constants.NOTIFICATION_TYPE_RESCHEDULE_PHONE:{
 		    	if(_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_PHONE");
-				if(!setupBundleNotifications(extrasBundle)){
+				if(!setupBundleNotifications(extrasBundle, true)){
 					finishActivity();
 					return;
 				}
@@ -939,7 +935,7 @@ public class NotificationActivity extends Activity{
 		    }
 		    case Constants.NOTIFICATION_TYPE_RESCHEDULE_SMS:{
 			    if(_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_RESCHEDULE_SMS");
-				if(!setupBundleNotifications(extrasBundle)){
+				if(!setupBundleNotifications(extrasBundle, true)){
 					finishActivity();
 					return;
 				}else{
@@ -951,7 +947,7 @@ public class NotificationActivity extends Activity{
 		    }
 		    case Constants.NOTIFICATION_TYPE_RESCHEDULE_MMS:{
 		    	if(_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_RESCHEDULE_MMS");
-				if(!setupBundleNotifications(extrasBundle)){
+				if(!setupBundleNotifications(extrasBundle, true)){
 					finishActivity();
 					return;
 				}else{
@@ -963,7 +959,7 @@ public class NotificationActivity extends Activity{
 		    }
 		    case Constants.NOTIFICATION_TYPE_RESCHEDULE_CALENDAR:{
 		    	if(_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_RESCHEDULE_CALENDAR");
-				if(!setupBundleNotifications(extrasBundle)){
+				if(!setupBundleNotifications(extrasBundle, true)){
 					finishActivity();
 					return;
 				}
@@ -971,7 +967,7 @@ public class NotificationActivity extends Activity{
 			}
 			case Constants.NOTIFICATION_TYPE_RESCHEDULE_K9:{
 				if(_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_RESCHEDULE_K9");
-				if(!setupBundleNotifications(extrasBundle)){
+				if(!setupBundleNotifications(extrasBundle, true)){
 					finishActivity();
 					return;
 				}
@@ -1140,12 +1136,12 @@ public class NotificationActivity extends Activity{
 	    switch(notificationType){
 	    	case Constants.NOTIFICATION_TYPE_PHONE:{
 		    	if(_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_PHONE");
-		    	setupBundleNotifications(extrasBundle);
+		    	setupBundleNotifications(extrasBundle, true);
 		    	break;
 		    }
 	    	case Constants.NOTIFICATION_TYPE_SMS:{
 			    if(_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_SMS");
-			    setupBundleNotifications(extrasBundle);
+			    setupBundleNotifications(extrasBundle, true);
 				if(_preferences.getBoolean(Constants.SMS_DISPLAY_UNREAD_KEY, false)){
 					if(_notificationViewFlipper.getSMSCount() <= 1){
 						new getAllUnreadSMSMessagesAsyncTask().execute();
@@ -1155,7 +1151,7 @@ public class NotificationActivity extends Activity{
 		    }
 	    	case Constants.NOTIFICATION_TYPE_MMS:{
 		    	if(_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_MMS");
-		    	setupBundleNotifications(extrasBundle);
+		    	setupBundleNotifications(extrasBundle, true);
 				if(_preferences.getBoolean(Constants.MMS_DISPLAY_UNREAD_KEY, false)){
 					if(_notificationViewFlipper.getMMSCount() <= 1){			
 						new getAllUnreadMMSMessagesAsyncTask().execute();
@@ -1165,12 +1161,12 @@ public class NotificationActivity extends Activity{
 		    }
 	    	case Constants.NOTIFICATION_TYPE_CALENDAR:{
 		    	if(_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_CALENDAR");
-			    setupBundleNotifications(extrasBundle);
+			    setupBundleNotifications(extrasBundle, true);
 		    	break;
 		    }
 			case Constants.NOTIFICATION_TYPE_K9:{
 				if(_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_K9");
-				setupBundleNotifications(extrasBundle);
+				setupBundleNotifications(extrasBundle, true);
 				break;
 		    }
 			case Constants.NOTIFICATION_TYPE_GENERIC:{
@@ -1180,12 +1176,12 @@ public class NotificationActivity extends Activity{
 		    }
 	    	case Constants.NOTIFICATION_TYPE_RESCHEDULE_PHONE:{
 		    	if(_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_RESCHEDULE_PHONE");
-		    	setupBundleNotifications(extrasBundle);
+		    	setupBundleNotifications(extrasBundle, true);
 		    	break;
 		    }
 		    case Constants.NOTIFICATION_TYPE_RESCHEDULE_SMS:{
 			    if(_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_RESCHEDULE_SMS");
-			    setupBundleNotifications(extrasBundle);
+			    setupBundleNotifications(extrasBundle, true);
 				if(_preferences.getBoolean(Constants.SMS_DISPLAY_UNREAD_KEY, false)){
 					if(_notificationViewFlipper.getSMSCount() <= 1){
 						new getAllUnreadSMSMessagesAsyncTask().execute();
@@ -1195,7 +1191,7 @@ public class NotificationActivity extends Activity{
 		    }
 		    case Constants.NOTIFICATION_TYPE_RESCHEDULE_MMS:{
 		    	if(_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_RESCHEDULE_MMS");
-		    	setupBundleNotifications(extrasBundle);
+		    	setupBundleNotifications(extrasBundle, true);
 				if(_preferences.getBoolean(Constants.MMS_DISPLAY_UNREAD_KEY, false)){
 					if(_notificationViewFlipper.getMMSCount() <= 1){			
 						new getAllUnreadMMSMessagesAsyncTask().execute();
@@ -1205,12 +1201,12 @@ public class NotificationActivity extends Activity{
 		    }
 		    case Constants.NOTIFICATION_TYPE_RESCHEDULE_CALENDAR:{
 		    	if(_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_RESCHEDULE_CALENDAR");
-		    	setupBundleNotifications(extrasBundle);
+		    	setupBundleNotifications(extrasBundle, true);
 		    	break;
 			}
 			case Constants.NOTIFICATION_TYPE_RESCHEDULE_K9:{
 				if(_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_RESCHEDULE_K9");
-				setupBundleNotifications(extrasBundle);
+				setupBundleNotifications(extrasBundle, true);
 				break;
 		    }
 			case Constants.NOTIFICATION_TYPE_RESCHEDULE_GENERIC:{
@@ -1324,138 +1320,15 @@ public class NotificationActivity extends Activity{
 	}	
 	
 	/**
+	 * Get all the phone numbers associated with the incoming notification's contact.
 	 * 
+	 * @param notification - The incoming notification.
 	 * 
-	 * @param notification
-	 * 
-	 * @return String[] - Array of phone numbers for this contact. Returns null if no numbers are found or available.
+	 * @return String[] - Array of phone numbers for this contact. Returns null if no numbers are found.
 	 */
 	private String[] getPhoneNumbers(Notification notification){
 		if(_debug) Log.v("NotificationActivity.getPhoneNumbers()");	
-		if(notification.getContactExists()){
-			try{
-				ArrayList<String> phoneNumberArray = new ArrayList<String>();
-				long contactID = notification.getContactID();
-				final String[] phoneProjection = new String[]{ContactsContract.CommonDataKinds.Phone.NUMBER, ContactsContract.CommonDataKinds.Phone.TYPE, ContactsContract.CommonDataKinds.Phone.LABEL};
-				final String phoneSelection = ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = " + String.valueOf(contactID);
-				final String[] phoneSelectionArgs = null;
-				final String phoneSortOrder = null;
-				Cursor phoneCursor = _context.getContentResolver().query(
-						ContactsContract.CommonDataKinds.Phone.CONTENT_URI, 
-						phoneProjection, 
-						phoneSelection, 
-						phoneSelectionArgs, 
-						phoneSortOrder); 
-				while (phoneCursor.moveToNext()){ 
-					String phoneNumber = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-					int phoneNumberTypeInt = Integer.parseInt(phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE)));
-					String phoneNumberType = null;
-					switch(phoneNumberTypeInt){
-						case ContactsContract.CommonDataKinds.Phone.TYPE_HOME:{
-							phoneNumberType = "Home: ";
-							break;
-						}
-						case ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE:{
-							phoneNumberType = "Mobile: ";
-							break;
-						}
-						case ContactsContract.CommonDataKinds.Phone.TYPE_WORK:{
-							phoneNumberType = "Work: ";
-							break;
-						}
-						case ContactsContract.CommonDataKinds.Phone.TYPE_FAX_WORK:{
-							phoneNumberType = "Work Fax: ";
-							break;
-						}
-						case ContactsContract.CommonDataKinds.Phone.TYPE_FAX_HOME:{
-							phoneNumberType = "Home Fax: ";
-							break;
-						}
-						case ContactsContract.CommonDataKinds.Phone.TYPE_PAGER:{
-							phoneNumberType = "Pager: ";
-							break;
-						}
-						case ContactsContract.CommonDataKinds.Phone.TYPE_OTHER:{
-							phoneNumberType = "Other: ";
-							break;
-						}
-						case ContactsContract.CommonDataKinds.Phone.TYPE_CALLBACK:{
-							phoneNumberType = "Callback: ";
-							break;
-						}
-						case ContactsContract.CommonDataKinds.Phone.TYPE_CAR:{
-							phoneNumberType = "Car: ";
-							break;
-						}
-						case ContactsContract.CommonDataKinds.Phone.TYPE_COMPANY_MAIN:{
-							phoneNumberType = "Company: ";
-							break;
-						}
-						case ContactsContract.CommonDataKinds.Phone.TYPE_ISDN:{
-							phoneNumberType = "ISDN: ";
-							break;
-						}
-						case ContactsContract.CommonDataKinds.Phone.TYPE_MAIN:{
-							phoneNumberType = "Main: ";
-							break;
-						}
-						case ContactsContract.CommonDataKinds.Phone.TYPE_OTHER_FAX:{
-							phoneNumberType = "Other Fax: ";
-							break;
-						}
-						case ContactsContract.CommonDataKinds.Phone.TYPE_RADIO:{
-							phoneNumberType = "Radio: ";
-							break;
-						}
-						case ContactsContract.CommonDataKinds.Phone.TYPE_TELEX:{
-							phoneNumberType = "Telex: ";
-							break;
-						}
-						case ContactsContract.CommonDataKinds.Phone.TYPE_TTY_TDD:{
-							phoneNumberType = "TTY/TDD: ";
-							break;
-						}
-						case ContactsContract.CommonDataKinds.Phone.TYPE_WORK_MOBILE:{
-							phoneNumberType = "Work Mobile: ";
-							break;
-						}
-						case ContactsContract.CommonDataKinds.Phone.TYPE_WORK_PAGER:{
-							phoneNumberType = "Work Pager: ";
-							break;
-						}
-						case ContactsContract.CommonDataKinds.Phone.TYPE_ASSISTANT:{
-							phoneNumberType = "Assistant: ";
-							break;
-						}
-						case ContactsContract.CommonDataKinds.Phone.TYPE_MMS:{
-							phoneNumberType = "MMS: ";
-							break;
-						}
-						case ContactsContract.CommonDataKinds.Phone.TYPE_CUSTOM:{
-							phoneNumberType = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.LABEL)) + ": ";
-							break;
-						}
-						default:{
-							phoneNumberType = "No Label: ";
-							break;
-						}
-					}
-					phoneNumberArray.add(phoneNumberType + phoneNumber);
-				}
-				phoneCursor.close(); 
-				return phoneNumberArray.toArray(new String[]{});
-			}catch(Exception ex){
-				Log.e("NotificationActivity.getPhoneNumbers() ERROR: " + ex.toString());
-				return null;
-			}
-		}else{
-			String phoneNumber = notification.getSentFromAddress();
-			if(!phoneNumber.contains("@")){
-				return new String[]{phoneNumber};
-			}else{
-				return null;
-			}
-		}
+		return ContactsCommon.getContactPhoneNumbers(_context, notification);
 	}
 
 	/**
@@ -1491,7 +1364,7 @@ public class NotificationActivity extends Activity{
 				Bundle bundle = new Bundle();
 				bundle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_SMS);
 				bundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME, smsNotificationBundle);
-				setupBundleNotifications(bundle);
+				setupBundleNotifications(bundle, false);
 			}
 	    }
 	}
@@ -1524,7 +1397,7 @@ public class NotificationActivity extends Activity{
 				Bundle bundle = new Bundle();
 				bundle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_SMS);
 				bundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME, mmsNotificationBundle);
-				setupBundleNotifications(bundle);
+				setupBundleNotifications(bundle, false);
 			}
 	    }
 	}
@@ -1536,7 +1409,7 @@ public class NotificationActivity extends Activity{
 	 * 
 	 * @return boolean - Returns true if the method did not encounter an error.
 	 */
-	private boolean setupBundleNotifications(Bundle bundle){
+	private boolean setupBundleNotifications(Bundle bundle, boolean postStatusBarnotification){
 		if(_debug) Log.v("NotificationActivity.setupBundleNotifications()");
 		try{
 			Bundle notificationBundle = bundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME);
@@ -1562,7 +1435,9 @@ public class NotificationActivity extends Activity{
 				int notificationTypecount = getNotificationTypeCount(notificationBundleSingle.getInt(Constants.BUNDLE_NOTIFICATION_TYPE, -1), notificationBundleSingle.getInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, -1));
 				//Display Status Bar Notification
 				int notificationType = notificationBundleSingle.getInt(Constants.BUNDLE_NOTIFICATION_TYPE, -1);
-			    Common.setStatusBarNotification(_context, notificationTypecount, notificationType, notificationBundleSingle.getInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, -1), true, notificationBundleSingle.getString(Constants.BUNDLE_CONTACT_NAME), notificationBundleSingle.getLong(Constants.BUNDLE_CONTACT_ID, -1), notificationBundleSingle.getString(Constants.BUNDLE_SENT_FROM_ADDRESS), notificationBundleSingle.getString(Constants.BUNDLE_MESSAGE_BODY), notificationBundleSingle.getString(Constants.BUNDLE_K9_EMAIL_URI), notificationBundleSingle.getString(Constants.BUNDLE_LINK_URL), notificationBundleSingle.getLong(Constants.BUNDLE_THREAD_ID, -1), false, Common.getStatusBarNotificationBundle(_context, notificationType));
+				if(postStatusBarnotification){
+					Common.setStatusBarNotification(_context, notificationTypecount, notificationType, notificationBundleSingle.getInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, -1), true, notificationBundleSingle.getString(Constants.BUNDLE_CONTACT_NAME), notificationBundleSingle.getLong(Constants.BUNDLE_CONTACT_ID, -1), notificationBundleSingle.getString(Constants.BUNDLE_SENT_FROM_ADDRESS), notificationBundleSingle.getString(Constants.BUNDLE_MESSAGE_BODY), notificationBundleSingle.getString(Constants.BUNDLE_K9_EMAIL_URI), notificationBundleSingle.getString(Constants.BUNDLE_LINK_URL), notificationBundleSingle.getLong(Constants.BUNDLE_THREAD_ID, -1), false, Common.getStatusBarNotificationBundle(_context, notificationType));
+				}
 			}
 			return displayPopup;
 		}catch(Exception ex){
