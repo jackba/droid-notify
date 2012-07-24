@@ -37,7 +37,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.view.MotionEvent;
-import android.view.View.OnTouchListener;
 
 import apps.droidnotify.calendar.CalendarCommon;
 import apps.droidnotify.common.Common;
@@ -46,7 +45,6 @@ import apps.droidnotify.k9.K9Common;
 import apps.droidnotify.log.Log;
 import apps.droidnotify.phone.PhoneCommon;
 import apps.droidnotify.sms.SMSCommon;
-import apps.droidnotifydonate.R;
 
 /**
  * This class is the view which the ViewFlipper displays for each notification.
