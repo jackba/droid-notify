@@ -77,82 +77,86 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 */
 	public void addNotification(Notification notification){
 		if(_debug) Log.v("NotificationViewFlipper.addNotification()");
-		int notificationType = notification.getNotificationType();
-		boolean duplicateFound = false;
-		int totalNotifications = this.getChildCount();
-		for (int i=0; i<totalNotifications; i++){
-			Notification currentNotification = ((NotificationView) this.getChildAt(i)).getNotification();
-			String notificationSentFromAddress = notification.getSentFromAddress();
-			String currentSentFromAddress = currentNotification.getSentFromAddress();
-			if(notification.getTimeStamp() == currentNotification.getTimeStamp()){
-				if(notificationSentFromAddress == null && currentSentFromAddress == null){
-					duplicateFound = true;
-					//Update Notification Information
-					currentNotification.setReminderPendingIntent(notification.getReminderPendingIntent());
-					currentNotification.setRescheduleNumber(notification.getRescheduleNumber());
-					break;
-				}else if(notificationSentFromAddress != null && currentSentFromAddress != null && notificationSentFromAddress.equals(currentSentFromAddress)){
-					duplicateFound = true;
-					//Update Notification Information
-					currentNotification.setReminderPendingIntent(notification.getReminderPendingIntent());
-					currentNotification.setRescheduleNumber(notification.getRescheduleNumber());
-					break; 
-				}
-			}else{
-				//Special case for SMS messages.
-				if(notificationType == Constants.NOTIFICATION_TYPE_SMS){
-					if(notification.getMessageID() == currentNotification.getMessageID()){
+		try{
+			int notificationType = notification.getNotificationType();
+			boolean duplicateFound = false;
+			int totalNotifications = this.getChildCount();
+			for (int i=0; i<totalNotifications; i++){
+				Notification currentNotification = ((NotificationView) this.getChildAt(i)).getNotification();
+				String notificationSentFromAddress = notification.getSentFromAddress();
+				String currentSentFromAddress = currentNotification.getSentFromAddress();
+				if(notification.getTimeStamp() == currentNotification.getTimeStamp()){
+					if(notificationSentFromAddress == null && currentSentFromAddress == null){
+						duplicateFound = true;
+						//Update Notification Information
+						currentNotification.setReminderPendingIntent(notification.getReminderPendingIntent());
+						currentNotification.setRescheduleNumber(notification.getRescheduleNumber());
+						break;
+					}else if(notificationSentFromAddress != null && currentSentFromAddress != null && notificationSentFromAddress.equals(currentSentFromAddress)){
 						duplicateFound = true;
 						//Update Notification Information
 						currentNotification.setReminderPendingIntent(notification.getReminderPendingIntent());
 						currentNotification.setRescheduleNumber(notification.getRescheduleNumber());
 						break; 
 					}
-				}
-			}
-		}
-		if(!duplicateFound){
-			if(_preferences.getString(Constants.VIEW_NOTIFICATION_ORDER, Constants.NEWEST_FIRST).equals(Constants.OLDER_FIRST)){
-				addView(new NotificationView(_context, notification));			
-				if(_preferences.getBoolean(Constants.DISPLAY_NEWEST_NOTIFICATION, true)){
-					setDisplayedChild(this.getChildCount() - 1);
 				}else{
-					setDisplayedChild(0);
+					//Special case for SMS messages.
+					if(notificationType == Constants.NOTIFICATION_TYPE_SMS){
+						if(notification.getMessageID() == currentNotification.getMessageID()){
+							duplicateFound = true;
+							//Update Notification Information
+							currentNotification.setReminderPendingIntent(notification.getReminderPendingIntent());
+							currentNotification.setRescheduleNumber(notification.getRescheduleNumber());
+							break; 
+						}
+					}
 				}
-			}else{
-				addView(new NotificationView(_context, notification), 0);
-				if(_preferences.getBoolean(Constants.DISPLAY_NEWEST_NOTIFICATION, true)){
-					setDisplayedChild(0);
+			}
+			if(!duplicateFound){
+				if(_preferences.getString(Constants.VIEW_NOTIFICATION_ORDER, Constants.NEWEST_FIRST).equals(Constants.OLDER_FIRST)){
+					addView(new NotificationView(_context, notification));			
+					if(_preferences.getBoolean(Constants.DISPLAY_NEWEST_NOTIFICATION, true)){
+						setDisplayedChild(this.getChildCount() - 1);
+					}else{
+						setDisplayedChild(0);
+					}
 				}else{
-					setDisplayedChild(this.getChildCount() - 1);
+					addView(new NotificationView(_context, notification), 0);
+					if(_preferences.getBoolean(Constants.DISPLAY_NEWEST_NOTIFICATION, true)){
+						setDisplayedChild(0);
+					}else{
+						setDisplayedChild(this.getChildCount() - 1);
+					}
+				}
+				//Update the navigation information on the current View every time a new View is added.
+				final View currentView = this.getCurrentView();
+				updateView(currentView, this.getDisplayedChild(), 0);
+				//Update specific type counts.
+				switch(notificationType){
+					case Constants.NOTIFICATION_TYPE_PHONE:{
+						_missedCallCount++;
+						break;
+					}
+					case Constants.NOTIFICATION_TYPE_SMS:{
+						_smsCount++;
+						break;
+					}
+					case Constants.NOTIFICATION_TYPE_MMS:{
+						_mmsCount++;
+						break;
+					}
+					case Constants.NOTIFICATION_TYPE_CALENDAR:{
+						_calendarCount++;
+						break;
+					}
+					case Constants.NOTIFICATION_TYPE_K9:{
+						_k9Count++;
+						break;
+					}
 				}
 			}
-			//Update the navigation information on the current View every time a new View is added.
-			final View currentView = this.getCurrentView();
-			updateView(currentView, this.getDisplayedChild(), 0);
-			//Update specific type counts.
-			switch(notificationType){
-				case Constants.NOTIFICATION_TYPE_PHONE:{
-					_missedCallCount++;
-					break;
-				}
-				case Constants.NOTIFICATION_TYPE_SMS:{
-					_smsCount++;
-					break;
-				}
-				case Constants.NOTIFICATION_TYPE_MMS:{
-					_mmsCount++;
-					break;
-				}
-				case Constants.NOTIFICATION_TYPE_CALENDAR:{
-					_calendarCount++;
-					break;
-				}
-				case Constants.NOTIFICATION_TYPE_K9:{
-					_k9Count++;
-					break;
-				}
-			}
+		}catch(Exception ex){
+			Log.e("NotificationViewFlipper.addNotification() ERROR: " + ex.toString());
 		}
 	}
 

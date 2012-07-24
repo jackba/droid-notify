@@ -37,6 +37,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.view.MotionEvent;
+import android.view.View.OnTouchListener;
 
 import apps.droidnotify.calendar.CalendarCommon;
 import apps.droidnotify.common.Common;
@@ -45,6 +46,7 @@ import apps.droidnotify.k9.K9Common;
 import apps.droidnotify.log.Log;
 import apps.droidnotify.phone.PhoneCommon;
 import apps.droidnotify.sms.SMSCommon;
+import apps.droidnotifydonate.R;
 
 /**
  * This class is the view which the ViewFlipper displays for each notification.
@@ -381,59 +383,81 @@ public class NotificationView extends LinearLayout {
 	 */
 	private void initLongPressView(){
 		if (_debug) Log.v("NotificationView.initLongPressView()");	
-		if(_preferences.getBoolean(Constants.CONTEXT_MENU_DISABLED_KEY, false)){
-			return;
-		}
-		//Load theme resources.
-		String themePackageName = _preferences.getString(Constants.APP_THEME_KEY, Constants.APP_THEME_DEFAULT);
-		if (_debug) Log.v("NotificationView.initLongPressView() ThemePackageName: " + themePackageName);
-		//Resources resources = null;
-		if(themePackageName.startsWith(Constants.DARK_TRANSLUCENT_THEME)){
-			//resources = _context.getResources();
-			_listSelectorBackgroundDrawable = _resources.getDrawable(R.drawable.list_selector_background);
-			_listSelectorBackgroundTransitionDrawable = (TransitionDrawable) _resources.getDrawable(R.drawable.list_selector_background_transition);
-			_listSelectorBackgroundColorResourceID = _resources.getColor(R.color.list_selector_text_color);
-			_listSelectorBackgroundTransitionColorResourceID = _resources.getColor(R.color.list_selector_transition_text_color);
-		}else{	
-			_listSelectorBackgroundDrawable = _resources.getDrawable(_resources.getIdentifier(themePackageName + ":drawable/list_selector_background", null, null));
-			_listSelectorBackgroundTransitionDrawable = (TransitionDrawable) _resources.getDrawable(_resources.getIdentifier(themePackageName + ":drawable/list_selector_background_transition", null, null));
-			_listSelectorBackgroundColorResourceID = _resources.getColor(_resources.getIdentifier(themePackageName + ":color/list_selector_text_color", null, null));
-			_listSelectorBackgroundTransitionColorResourceID = _resources.getColor(_resources.getIdentifier(themePackageName + ":color/list_selector_transition_text_color", null, null));
-		}
-		//Create touch event actions.
-		LinearLayout contactWrapperLinearLayout = (LinearLayout) findViewById(R.id.contact_wrapper_linear_layout);
-		contactWrapperLinearLayout.setOnTouchListener(new OnTouchListener(){
-				public boolean onTouch(View view, MotionEvent motionEvent){
-		     		switch (motionEvent.getAction()){
-			     		case MotionEvent.ACTION_DOWN:{
-			        		TransitionDrawable transition = _listSelectorBackgroundTransitionDrawable;
-		        			view.setBackgroundDrawable(transition);
-			                transition.setCrossFadeEnabled(true);
-			                transition.startTransition(300);
-			                _notificationInfoTextView.setTextColor(_listSelectorBackgroundTransitionColorResourceID);
-			                _contactNameTextView.setTextColor(_listSelectorBackgroundTransitionColorResourceID);
-			                _contactNumberTextView.setTextColor(_listSelectorBackgroundTransitionColorResourceID);
-			                break;
-				        }
-			     		case MotionEvent.ACTION_UP:{
-			         		view.setBackgroundDrawable(_listSelectorBackgroundDrawable);
-			                _notificationInfoTextView.setTextColor(_listSelectorBackgroundColorResourceID);
-			                _contactNameTextView.setTextColor(_listSelectorBackgroundColorResourceID);
-			                _contactNumberTextView.setTextColor(_listSelectorBackgroundColorResourceID);
-			                break;
-			     		}
-			     		case MotionEvent.ACTION_CANCEL:{
-			         		view.setBackgroundDrawable(_listSelectorBackgroundDrawable);
-			                _notificationInfoTextView.setTextColor(_listSelectorBackgroundColorResourceID);
-			                _contactNameTextView.setTextColor(_listSelectorBackgroundColorResourceID);
-			                _contactNumberTextView.setTextColor(_listSelectorBackgroundColorResourceID);
-			                break;
-			     		}
-		     		}
-		     		return false;
+		try{
+			if(_preferences.getBoolean(Constants.CONTEXT_MENU_DISABLED_KEY, false)){
+				return;
+			}
+			//Load theme resources.
+			String themePackageName = _preferences.getString(Constants.APP_THEME_KEY, Constants.APP_THEME_DEFAULT);
+			if (_debug) Log.v("NotificationView.initLongPressView() ThemePackageName: " + themePackageName);
+			if(themePackageName.startsWith(Constants.DARK_TRANSLUCENT_THEME)){
+				_listSelectorBackgroundDrawable = _resources.getDrawable(R.drawable.list_selector_background);
+				try{
+					_listSelectorBackgroundTransitionDrawable = (TransitionDrawable) _resources.getDrawable(R.drawable.list_selector_background_transition);
+				}catch(ClassCastException classCastException){
+					//This shouldn't happen, but on the emulator it does sometimes.
+					_listSelectorBackgroundTransitionDrawable = null;
+					Log.e("NotificationView.initLongPressView() Transition Drawable Class Cast ERROR: " + classCastException.toString());
 				}
-		     }
-	     );
+				_listSelectorBackgroundColorResourceID = _resources.getColor(R.color.list_selector_text_color);
+				_listSelectorBackgroundTransitionColorResourceID = _resources.getColor(R.color.list_selector_transition_text_color);
+			}else{
+				_listSelectorBackgroundDrawable = _resources.getDrawable(_resources.getIdentifier(themePackageName + ":drawable/list_selector_background", null, null));
+				try{
+					_listSelectorBackgroundTransitionDrawable = (TransitionDrawable) _resources.getDrawable(_resources.getIdentifier(themePackageName + ":drawable/list_selector_background_transition", null, null));
+				}catch(ClassCastException classCastException){
+					//This shouldn't happen, but on the emulator it does sometimes.
+					_listSelectorBackgroundTransitionDrawable = null;
+					Log.e("NotificationView.initLongPressView() Transition Drawable Class Cast ERROR: " + classCastException.toString());
+				}
+				_listSelectorBackgroundColorResourceID = _resources.getColor(_resources.getIdentifier(themePackageName + ":color/list_selector_text_color", null, null));
+				_listSelectorBackgroundTransitionColorResourceID = _resources.getColor(_resources.getIdentifier(themePackageName + ":color/list_selector_transition_text_color", null, null));
+			}
+			//Create touch event actions.
+			LinearLayout contactWrapperLinearLayout = (LinearLayout) findViewById(R.id.contact_wrapper_linear_layout);
+			contactWrapperLinearLayout.setOnTouchListener( new OnTouchListener(){
+					public boolean onTouch(View view, MotionEvent motionEvent){
+			     		switch (motionEvent.getAction()){
+				     		case MotionEvent.ACTION_DOWN:{
+				     			if(_listSelectorBackgroundTransitionDrawable != null){
+					        		TransitionDrawable transition = _listSelectorBackgroundTransitionDrawable;
+				        			view.setBackgroundDrawable(transition);
+					                transition.setCrossFadeEnabled(true);
+					                transition.startTransition(300);
+				     			}
+				                if(_listSelectorBackgroundTransitionColorResourceID > 0){
+				                	_notificationInfoTextView.setTextColor(_listSelectorBackgroundTransitionColorResourceID);
+				                	_contactNameTextView.setTextColor(_listSelectorBackgroundTransitionColorResourceID);
+				                	_contactNumberTextView.setTextColor(_listSelectorBackgroundTransitionColorResourceID);
+				                }
+				                break;
+					        }
+				     		case MotionEvent.ACTION_UP:{
+				         		view.setBackgroundDrawable(_listSelectorBackgroundDrawable);
+				                if(_listSelectorBackgroundColorResourceID > 0){
+					                _notificationInfoTextView.setTextColor(_listSelectorBackgroundColorResourceID);
+					                _contactNameTextView.setTextColor(_listSelectorBackgroundColorResourceID);
+					                _contactNumberTextView.setTextColor(_listSelectorBackgroundColorResourceID);
+				                }
+				                break;
+				     		}
+				     		case MotionEvent.ACTION_CANCEL:{
+				         		view.setBackgroundDrawable(_listSelectorBackgroundDrawable);
+				                if(_listSelectorBackgroundColorResourceID > 0){
+					                _notificationInfoTextView.setTextColor(_listSelectorBackgroundColorResourceID);
+					                _contactNameTextView.setTextColor(_listSelectorBackgroundColorResourceID);
+					                _contactNumberTextView.setTextColor(_listSelectorBackgroundColorResourceID);
+				                }
+				                break;
+				     		}
+			     		}
+			     		return false;
+					}
+			     }
+		     );
+		}catch(Exception ex){
+			Log.e("NotificationView.initLongPressView() ERROR: " + ex.toString());	
+		}
 	}
 	
 	/**

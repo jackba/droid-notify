@@ -282,34 +282,36 @@ public class PhoneCommon {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("PhoneCommon.clearStockMissedCallNotification()");
 		try{
-			try{
-		        Class<?> serviceManagerClass = Class.forName("android.os.ServiceManager");
-		        Method getServiceMethod = serviceManagerClass.getMethod("getService", String.class);
-		        Object phoneService = getServiceMethod.invoke(null, "phone");
-		        Class ITelephonyClass = Class.forName("com.android.internal.telephony.ITelephony");
-		        Class<?> ITelephonyStubClass = null;
-		        for(Class clazz : ITelephonyClass.getDeclaredClasses()){
-		            if (clazz.getSimpleName().equals("Stub")){
-		                ITelephonyStubClass = clazz;
-		                break;
-		            }
-		        }
-		        if (ITelephonyStubClass != null){
-		            Class IBinderClass = Class.forName("android.os.IBinder");
-		            Method asInterfaceMethod = ITelephonyStubClass.getDeclaredMethod("asInterface", IBinderClass);
-		            Object iTelephony = asInterfaceMethod.invoke(null, phoneService);
-		            if (iTelephony != null){
-		                Method cancelMissedCallsNotificationMethod = iTelephony.getClass().getMethod("cancelMissedCallsNotification");
-		                cancelMissedCallsNotificationMethod.invoke(iTelephony);
-		            }else{
-		            	Log.e("Telephony service is null, can't call cancelMissedCallsNotification.");
-		            }
-		        }else{
-		            if (_debug) Log.v("Unable to locate ITelephony.Stub class.");
-		        }
-		    }catch (Exception ex){
-		    	Log.e("PhoneCommon.clearStockMissedCallNotification() REFLECTION ERROR: " + ex.toString());
-		    }
+			if(Common.getOSAPILevel() == 8){
+				try{
+			        Class<?> serviceManagerClass = Class.forName("android.os.ServiceManager");
+			        Method getServiceMethod = serviceManagerClass.getMethod("getService", String.class);
+			        Object phoneService = getServiceMethod.invoke(null, "phone");
+			        Class ITelephonyClass = Class.forName("com.android.internal.telephony.ITelephony");
+			        Class<?> ITelephonyStubClass = null;
+			        for(Class clazz : ITelephonyClass.getDeclaredClasses()){
+			            if (clazz.getSimpleName().equals("Stub")){
+			                ITelephonyStubClass = clazz;
+			                break;
+			            }
+			        }
+			        if (ITelephonyStubClass != null) {
+			            Class IBinderClass = Class.forName("android.os.IBinder");
+			            Method asInterfaceMethod = ITelephonyStubClass.getDeclaredMethod("asInterface", IBinderClass);
+			            Object iTelephony = asInterfaceMethod.invoke(null, phoneService);
+			            if (iTelephony != null){
+			                Method cancelMissedCallsNotificationMethod = iTelephony.getClass().getMethod("cancelMissedCallsNotification");
+			                cancelMissedCallsNotificationMethod.invoke(iTelephony);
+			            }else{
+			            	Log.e("Telephony service is null, can't call cancelMissedCallsNotification.");
+			            }
+			        }else{
+			            if (_debug) Log.v("Unable to locate ITelephony.Stub class.");
+			        }
+			    }catch (Exception ex){
+			    	Log.e("PhoneCommon.clearStockMissedCallNotification() REFLECTION ERROR: " + ex.toString());
+			    }
+			}
 			//Send broadcast to NotiGo (If installed)
 			Intent notiGoBroadcastIntent = new Intent();
 			notiGoBroadcastIntent.setAction("thinkpanda.notigo.CLEAR_MISSED_CALL");
