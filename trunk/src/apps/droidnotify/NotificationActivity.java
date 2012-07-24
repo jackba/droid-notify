@@ -1441,7 +1441,7 @@ public class NotificationActivity extends Activity{
 			}
 			return displayPopup;
 		}catch(Exception ex){
-			if(_debug) Log.v("NotificationActivity.setupBundleNotifications() ERROR: " + ex.toString());
+			Log.e("NotificationActivity.setupBundleNotifications() ERROR: " + ex.toString());
 			return false;
 		}
 	}
