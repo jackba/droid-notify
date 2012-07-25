@@ -3,14 +3,17 @@
 
 = Release Notes =
 
+*v3.17* _Coming Soon..._
+ * 
+
 *v3.16* _Coming Soon..._
  * 
 
-*v3.15* _Coming Soon..._
+*v3.15* (July 25, 2012)
  * Update icons in the app.
  * Update calendar notification code.
  * Added calendar snooze functionality.
- * 
+ * Updated app icons.
  * Updated translations.
  * Small bug fixes.
 
