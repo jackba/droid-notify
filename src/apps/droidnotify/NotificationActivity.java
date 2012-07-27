@@ -167,13 +167,17 @@ public class NotificationActivity extends Activity{
 				Notification notification = _notificationViewFlipper.getActiveNotification();
 				int notificationType = notification.getNotificationType();
 				//Add the header text to the menu.
-				if(notificationType == Constants.NOTIFICATION_TYPE_CALENDAR){
-					contextMenu.setHeaderTitle(_context.getString(R.string.calendar_event_text));
+				if(notificationType == Constants.NOTIFICATION_TYPE_GENERIC){
+					//Don't add a title if it's a generic notification.
 				}else{
-					if(notification.getContactExists()){
-						contextMenu.setHeaderTitle(notification.getContactName()); 
+					if(notificationType == Constants.NOTIFICATION_TYPE_CALENDAR){
+						contextMenu.setHeaderTitle(_context.getString(R.string.calendar_event_text));
 					}else{
-						contextMenu.setHeaderTitle(notification.getSentFromAddress()); 
+						if(notification.getContactExists()){
+							contextMenu.setHeaderTitle(notification.getContactName()); 
+						}else{
+							contextMenu.setHeaderTitle(notification.getSentFromAddress()); 
+						}
 					}
 				}
 				menuInflater.inflate(R.menu.notificationcontextmenu, contextMenu);
