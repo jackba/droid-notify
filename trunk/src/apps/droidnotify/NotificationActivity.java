@@ -1566,6 +1566,12 @@ public class NotificationActivity extends Activity{
 				break;
 		    }
 			case Constants.NOTIFICATION_TYPE_GENERIC:{
+				MenuItem addContactMenuItem = contextMenu.findItem(ADD_CONTACT_CONTEXT_MENU);
+				addContactMenuItem.setVisible(false);
+				MenuItem editContactMenuItem = contextMenu.findItem(EDIT_CONTACT_CONTEXT_MENU);
+				editContactMenuItem.setVisible(false);
+		    	MenuItem viewContactMenuItem = contextMenu.findItem(VIEW_CONTACT_CONTEXT_MENU);
+		    	viewContactMenuItem.setVisible(false);
 		    	MenuItem addCalendarEventMenuItem = contextMenu.findItem(ADD_CALENDAR_EVENT_CONTEXT_MENU);
 		    	addCalendarEventMenuItem.setVisible(false);
 				MenuItem editCalendarEventMenuItem = contextMenu.findItem(EDIT_CALENDAR_EVENT_CONTEXT_MENU);

@@ -423,29 +423,23 @@ public class NotificationView extends LinearLayout {
 					                transition.setCrossFadeEnabled(true);
 					                transition.startTransition(300);
 				     			}
-				                if(_listSelectorBackgroundTransitionColorResourceID > 0){
-				                	_notificationInfoTextView.setTextColor(_listSelectorBackgroundTransitionColorResourceID);
-				                	_contactNameTextView.setTextColor(_listSelectorBackgroundTransitionColorResourceID);
-				                	_contactNumberTextView.setTextColor(_listSelectorBackgroundTransitionColorResourceID);
-				                }
+			                	_notificationInfoTextView.setTextColor(_listSelectorBackgroundTransitionColorResourceID);
+			                	_contactNameTextView.setTextColor(_listSelectorBackgroundTransitionColorResourceID);
+			                	_contactNumberTextView.setTextColor(_listSelectorBackgroundTransitionColorResourceID);
 				                break;
 					        }
 				     		case MotionEvent.ACTION_UP:{
 				         		view.setBackgroundDrawable(_listSelectorBackgroundDrawable);
-				                if(_listSelectorBackgroundColorResourceID > 0){
-					                _notificationInfoTextView.setTextColor(_listSelectorBackgroundColorResourceID);
-					                _contactNameTextView.setTextColor(_listSelectorBackgroundColorResourceID);
-					                _contactNumberTextView.setTextColor(_listSelectorBackgroundColorResourceID);
-				                }
+				                _notificationInfoTextView.setTextColor(_listSelectorBackgroundColorResourceID);
+				                _contactNameTextView.setTextColor(_listSelectorBackgroundColorResourceID);
+				                _contactNumberTextView.setTextColor(_listSelectorBackgroundColorResourceID);
 				                break;
 				     		}
 				     		case MotionEvent.ACTION_CANCEL:{
 				         		view.setBackgroundDrawable(_listSelectorBackgroundDrawable);
-				                if(_listSelectorBackgroundColorResourceID > 0){
-					                _notificationInfoTextView.setTextColor(_listSelectorBackgroundColorResourceID);
-					                _contactNameTextView.setTextColor(_listSelectorBackgroundColorResourceID);
-					                _contactNumberTextView.setTextColor(_listSelectorBackgroundColorResourceID);
-				                }
+				                _notificationInfoTextView.setTextColor(_listSelectorBackgroundColorResourceID);
+				                _contactNameTextView.setTextColor(_listSelectorBackgroundColorResourceID);
+				                _contactNumberTextView.setTextColor(_listSelectorBackgroundColorResourceID);
 				                break;
 				     		}
 			     		}
@@ -932,6 +926,7 @@ public class NotificationView extends LinearLayout {
 		    	}
 				// Snooze Button
 		    	if(_preferences.getBoolean(Constants.CALENDAR_DISPLAY_SNOOZE_BUTTON_KEY, true)){
+		    		_calendarSnoozeTextView.setVisibility(View.VISIBLE);
 		    		_snoozeImageButton.setVisibility(View.VISIBLE);
 		    		_snoozeImageButton.setOnClickListener(
 	    				new OnClickListener(){
@@ -943,11 +938,12 @@ public class NotificationView extends LinearLayout {
 						}
     				);
 		    	}else{
+		    		_calendarSnoozeTextView.setVisibility(View.GONE);
 		    		_snoozeImageButton.setVisibility(View.GONE);
 		    	}
 			}else{
 				// Dismiss Button
-		    	if(_preferences.getBoolean(Constants.CALENDAR_DISPLAY_DISMISS_BUTTON_KEY, true)){	
+		    	if(_preferences.getBoolean(Constants.CALENDAR_DISPLAY_DISMISS_BUTTON_KEY, true)){
 		    		_dismissButton.setVisibility(View.VISIBLE);
 		    		_dismissButton.setOnClickListener(
 	    				new OnClickListener(){
@@ -977,7 +973,8 @@ public class NotificationView extends LinearLayout {
 		    		_viewButton.setVisibility(View.GONE);
 		    	}
 				// Snooze Button
-		    	if(_preferences.getBoolean(Constants.CALENDAR_DISPLAY_VIEW_BUTTON_KEY, true)){
+		    	if(_preferences.getBoolean(Constants.CALENDAR_DISPLAY_SNOOZE_BUTTON_KEY, true)){
+		    		_calendarSnoozeTextView.setVisibility(View.VISIBLE);
 		    		_snoozeButton.setVisibility(View.VISIBLE);
 		    		_snoozeButton.setOnClickListener(
 	    				new OnClickListener(){
@@ -989,6 +986,7 @@ public class NotificationView extends LinearLayout {
 	    				}
 		    		);
 		    	}else{
+		    		_calendarSnoozeTextView.setVisibility(View.GONE);
 		    		_snoozeButton.setVisibility(View.GONE);
 		    	}
 			}

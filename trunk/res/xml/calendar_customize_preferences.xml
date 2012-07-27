@@ -36,6 +36,12 @@
 			android:dependency="calendar_display_dismiss_button" />
 		<CheckBoxPreference
 			android:layout="@layout/custom_preference_checkbox" 
+			android:key="calendar_display_snooze_button" 
+			android:title="@string/display_snooze_button_title"
+			android:summary="@string/display_snooze_button_summary"
+			android:defaultValue="true" />
+		<CheckBoxPreference
+			android:layout="@layout/custom_preference_checkbox" 
 			android:key="calendar_display_view_button" 
 			android:title="@string/preference_display_view_button_title" 
 			android:summary="@string/preference_display_view_button_summary"
