@@ -577,6 +577,8 @@
    	<string name="preference_display_view_button_summary">Show the view button.</string>
    	<string name="display_cancel_button_title">Display Cancel Button</string>
    	<string name="display_cancel_button_summary">Show the cancel button.</string>
+    <string name="display_snooze_button_title">Display Snooze Button</string>
+   	<string name="display_snooze_button_summary">Show the snooze button.</string>
    			
     <!-- Settings Privacy Strings -->
     <string name="privacy">Privacy</string>
