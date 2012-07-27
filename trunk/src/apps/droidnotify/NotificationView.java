@@ -926,7 +926,8 @@ public class NotificationView extends LinearLayout {
 		    	}
 				// Snooze Button
 		    	if(_preferences.getBoolean(Constants.CALENDAR_DISPLAY_SNOOZE_BUTTON_KEY, true)){
-		    		_calendarSnoozeTextView.setVisibility(View.VISIBLE);
+					_calendarSnoozeTextView.setVisibility(View.VISIBLE);
+					_calendarSnoozeSpinner.setVisibility(View.VISIBLE);
 		    		_snoozeImageButton.setVisibility(View.VISIBLE);
 		    		_snoozeImageButton.setOnClickListener(
 	    				new OnClickListener(){
@@ -938,7 +939,8 @@ public class NotificationView extends LinearLayout {
 						}
     				);
 		    	}else{
-		    		_calendarSnoozeTextView.setVisibility(View.GONE);
+					_calendarSnoozeTextView.setVisibility(View.GONE);
+					_calendarSnoozeSpinner.setVisibility(View.GONE);
 		    		_snoozeImageButton.setVisibility(View.GONE);
 		    	}
 			}else{
@@ -974,7 +976,8 @@ public class NotificationView extends LinearLayout {
 		    	}
 				// Snooze Button
 		    	if(_preferences.getBoolean(Constants.CALENDAR_DISPLAY_SNOOZE_BUTTON_KEY, true)){
-		    		_calendarSnoozeTextView.setVisibility(View.VISIBLE);
+					_calendarSnoozeTextView.setVisibility(View.VISIBLE);
+					_calendarSnoozeSpinner.setVisibility(View.VISIBLE);
 		    		_snoozeButton.setVisibility(View.VISIBLE);
 		    		_snoozeButton.setOnClickListener(
 	    				new OnClickListener(){
@@ -986,7 +989,8 @@ public class NotificationView extends LinearLayout {
 	    				}
 		    		);
 		    	}else{
-		    		_calendarSnoozeTextView.setVisibility(View.GONE);
+					_calendarSnoozeTextView.setVisibility(View.GONE);
+					_calendarSnoozeSpinner.setVisibility(View.GONE);
 		    		_snoozeButton.setVisibility(View.GONE);
 		    	}
 			}
@@ -1399,8 +1403,6 @@ public class NotificationView extends LinearLayout {
 			_contactNumberTextView.setVisibility(View.GONE);
 			_photoImageView.setVisibility(View.GONE);
 			_photoProgressBar.setVisibility(View.GONE);
-			_calendarSnoozeTextView.setVisibility(View.VISIBLE);
-			_calendarSnoozeSpinner.setVisibility(View.VISIBLE);
 			loadContactPhoto = false;
 		}else if(_notificationType == Constants.NOTIFICATION_TYPE_GENERIC 
 					&& contactID == -1 
