@@ -3,7 +3,10 @@ package apps.droidnotify.receivers;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
+import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
 import apps.droidnotify.services.OnBootService;
 import apps.droidnotify.services.WakefulIntentService;
@@ -37,6 +40,12 @@ public class OnBootReceiver extends BroadcastReceiver {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("OnBootReceiver.onReceive()");
 		try{
+			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+			//Read preferences and exit if app is disabled.
+		    if(!preferences.getBoolean(Constants.APP_ENABLED_KEY, true)){
+				if (_debug) Log.v("OnBootReceiver.onReceive() App Disabled. Exiting...");
+				return;
+			}
 			WakefulIntentService.sendWakefulWork(context, new Intent(context, OnBootService.class));
 		}catch(Exception ex){
 			Log.e("OnBootReceiver.onReceive() ERROR: " + ex.toString());

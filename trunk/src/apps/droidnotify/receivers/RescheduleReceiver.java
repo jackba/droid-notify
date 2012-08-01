@@ -3,7 +3,10 @@ package apps.droidnotify.receivers;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
+import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
 import apps.droidnotify.services.RescheduleService;
 import apps.droidnotify.services.WakefulIntentService;
@@ -37,6 +40,12 @@ public class RescheduleReceiver extends BroadcastReceiver{
 		_debug = Log.getDebug();
 		if (_debug) Log.v("RescheduleReceiver.onReceive()");
 		try{
+			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+			//Read preferences and exit if app is disabled.
+		    if(!preferences.getBoolean(Constants.APP_ENABLED_KEY, true)){
+				if (_debug) Log.v("RescheduleReceiver.onReceive() App Disabled. Exiting...");
+				return;
+			}
 			Intent rescheduleBroadcastReceiverServiceIntent = new Intent(context, RescheduleService.class);
 		    rescheduleBroadcastReceiverServiceIntent.putExtras(intent.getExtras());
 			WakefulIntentService.sendWakefulWork(context, rescheduleBroadcastReceiverServiceIntent);

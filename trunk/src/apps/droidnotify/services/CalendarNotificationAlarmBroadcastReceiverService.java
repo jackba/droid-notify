@@ -53,18 +53,9 @@ public class CalendarNotificationAlarmBroadcastReceiverService extends WakefulIn
 		try{
 			Context context = getApplicationContext();
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-			if(!preferences.getBoolean(Constants.APP_ENABLED_KEY, true)){
-				if (_debug) Log.v("CalendarNotificationAlarmBroadcastReceiverService.onReceive() App Disabled. Exiting...");
-				return;
-			}
 			//Block the notification if it's quiet time.
 			if(Common.isQuietTime(context)){
 				if (_debug) Log.v("CalendarNotificationAlarmBroadcastReceiverService.onReceive() Quiet Time. Exiting...");
-				return;
-			}
-			//Read preferences and exit if calendar notifications are disabled.
-		    if(!preferences.getBoolean(Constants.CALENDAR_NOTIFICATIONS_ENABLED_KEY, true)){
-				if (_debug) Log.v("CalendarNotificationAlarmBroadcastReceiverService.onReceive() Calendar Notifications Disabled. Exiting... ");
 				return;
 			}
 	    	Bundle bundle = intent.getExtras();
