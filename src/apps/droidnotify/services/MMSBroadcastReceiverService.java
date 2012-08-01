@@ -51,19 +51,9 @@ public class MMSBroadcastReceiverService extends WakefulIntentService {
 		try{
 			Context context = getApplicationContext();
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-			//Read preferences and exit if app is disabled.
-		    if(!preferences.getBoolean(Constants.APP_ENABLED_KEY, true)){
-				if (_debug) Log.v("MMSBroadcastReceiverService.doWakefulWork() App Disabled. Exiting...");
-				return;
-			}
 			//Block the notification if it's quiet time.
 			if(Common.isQuietTime(context)){
 				if (_debug) Log.v("MMSBroadcastReceiverService.doWakefulWork() Quiet Time. Exiting...");
-				return;
-			}
-			//Read preferences and exit if MMS notifications are disabled.
-		    if(!preferences.getBoolean(Constants.SMS_NOTIFICATIONS_ENABLED_KEY, true)){
-				if (_debug) Log.v("MMSBroadcastReceiverService.doWakefulWork() SMS Notifications Disabled. Exiting...");
 				return;
 			}
 			//Schedule mms task x seconds after the broadcast.

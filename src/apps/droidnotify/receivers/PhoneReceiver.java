@@ -41,10 +41,20 @@ public class PhoneReceiver extends BroadcastReceiver{
 		_debug = Log.getDebug();
 		if (_debug) Log.v("PhoneReceiver.onReceive()");
 		try{
+			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+			//Read preferences and exit if app is disabled.
+		    if(!preferences.getBoolean(Constants.APP_ENABLED_KEY, true)){
+				if (_debug) Log.v("PhoneReceiver.onReceive() App Disabled. Exiting...");
+				return;
+			}
+			//Read preferences and exit if missed call notifications are disabled.
+		    if(!preferences.getBoolean(Constants.PHONE_NOTIFICATIONS_ENABLED_KEY, true)){
+				if (_debug) Log.v("PhoneReceiver.onReceive() Missed Call Notifications Disabled. Exiting... ");
+				return;
+			}
 		    //Check the state of the users phone.
 			TelephonyManager telemanager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 		    int callState = telemanager.getCallState();
-		    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		    setCallStateFlag(preferences, callState);
 			WakefulIntentService.sendWakefulWork(context, new Intent(context, PhoneBroadcastReceiverService.class));
 		}catch(Exception ex){

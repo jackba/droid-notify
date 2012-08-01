@@ -53,19 +53,9 @@ public class PhoneAlarmBroadcastReceiverService extends WakefulIntentService {
 		try{
 			Context context = getApplicationContext();
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-			//Read preferences and exit if app is disabled.
-		    if(!preferences.getBoolean(Constants.APP_ENABLED_KEY, true)){
-				if (_debug) Log.v("PhoneAlarmBroadcastReceiverService.doWakefulWork() App Disabled. Exiting...");
-				return;
-			}
 			//Block the notification if it's quiet time.
 			if(Common.isQuietTime(context)){
 				if (_debug) Log.v("PhoneAlarmBroadcastReceiverService.doWakefulWork() Quiet Time. Exiting...");
-				return;
-			}
-			//Read preferences and exit if missed call notifications are disabled.
-		    if(!preferences.getBoolean(Constants.PHONE_NOTIFICATIONS_ENABLED_KEY, true)){
-				if (_debug) Log.v("PhoneAlarmBroadcastReceiverService.doWakefulWork() Missed Call Notifications Disabled. Exiting... ");
 				return;
 			}
 			//Check for a blacklist entry before doing anything else.

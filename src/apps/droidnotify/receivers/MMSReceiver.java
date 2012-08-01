@@ -3,10 +3,13 @@ package apps.droidnotify.receivers;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import apps.droidnotify.log.Log;
 import apps.droidnotify.services.MMSBroadcastReceiverService;
 import apps.droidnotify.services.WakefulIntentService;
+import apps.droidnotify.common.Constants;
 
 /**
  * This class listens for incoming MMS messages.
@@ -36,6 +39,17 @@ public class MMSReceiver extends BroadcastReceiver{
 		_debug = Log.getDebug();
 		if (_debug) Log.v("MMSReceiver.onReceive()");
 		try{
+			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+			//Read preferences and exit if app is disabled.
+		    if(!preferences.getBoolean(Constants.APP_ENABLED_KEY, true)){
+				if (_debug) Log.v("MMSReceiver.onReceive() App Disabled. Exiting...");
+				return;
+			}
+			//Read preferences and exit if MMS notifications are disabled.
+		    if(!preferences.getBoolean(Constants.SMS_NOTIFICATIONS_ENABLED_KEY, true)){
+				if (_debug) Log.v("MMSReceiver.onReceive() SMS Notifications Disabled. Exiting...");
+				return;
+			}
 			WakefulIntentService.sendWakefulWork(context, new Intent(context, MMSBroadcastReceiverService.class));
 		}catch(Exception ex){
 			Log.e("MMSReceiver.onReceive() ERROR: " + ex.toString());

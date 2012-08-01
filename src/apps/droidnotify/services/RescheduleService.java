@@ -47,11 +47,6 @@ public class RescheduleService extends WakefulIntentService {
 		try{
 			Context context = getApplicationContext();
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-			//Read preferences and exit if app is disabled.
-		    if(!preferences.getBoolean(Constants.APP_ENABLED_KEY, true)){
-				if (_debug) Log.v("RescheduleBroadcastReceiverService.doWakefulWork() App Disabled. Exiting...");
-				return;
-			}
 			//Block the notification if it's quiet time.
 			if(Common.isQuietTime(context)){
 				if (_debug) Log.v("RescheduleBroadcastReceiverService.doWakefulWork() Quiet Time. Exiting...");

@@ -3,6 +3,8 @@ package apps.droidnotify.receivers;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import apps.droidnotify.log.Log;
 import apps.droidnotify.services.GenericNotificationService;
@@ -32,7 +34,18 @@ public class GenericNotificationReceiver extends BroadcastReceiver {
 	public void onReceive(Context context, Intent intent) {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("GenericNotificationReceiver.onReceive()");
-		try{		
+		try{	
+			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+			//Read preferences and exit if app is disabled.
+		    if(!preferences.getBoolean(Constants.APP_ENABLED_KEY, true)){
+				if (_debug) Log.v("GenericNotificationReceiver.onReceive() App Disabled. Exiting...");
+				return;
+			}
+			//Read preferences and exit if Generic notifications are disabled.
+		    if(!preferences.getBoolean(Constants.GENERIC_NOTIFICATIONS_ENABLED_KEY, true)){
+				if (_debug) Log.v("GenericNotificationReceiver.onReceive() Generic Notifications Disabled. Exiting...");
+				return;
+			}	
 			Intent genericNotificaitonIntent = new Intent(context, GenericNotificationService.class);
 			genericNotificaitonIntent.putExtras(intent.getExtras());
 			genericNotificaitonIntent.putExtra(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_GENERIC);

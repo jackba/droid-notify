@@ -3,10 +3,13 @@ package apps.droidnotify.receivers;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import apps.droidnotify.log.Log;
 import apps.droidnotify.services.K9BroadcastReceiverService;
 import apps.droidnotify.services.WakefulIntentService;
+import apps.droidnotify.common.Constants;
 
 /**
  * This class listens for incoming K-9 Email messages.
@@ -37,6 +40,17 @@ public class K9Receiver extends BroadcastReceiver{
 		_debug = Log.getDebug();
 		if (_debug) Log.v("K9Receiver.onReceive()");
 		try{
+			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+			//Read preferences and exit if app is disabled.
+		    if(!preferences.getBoolean(Constants.APP_ENABLED_KEY, true)){
+				if (_debug) Log.v("K9Receiver.onReceive() App Disabled. Exiting...");
+				return;
+			}
+			//Read preferences and exit if K9 notifications are disabled.
+		    if(!preferences.getBoolean(Constants.K9_NOTIFICATIONS_ENABLED_KEY, true)){
+				if (_debug) Log.v("K9Receiver.onReceive() K9 Notifications Disabled. Exiting...");
+				return;
+			}
 			Intent k9BroadcastReceiverServiceIntent = new Intent(context, K9BroadcastReceiverService.class);
 		    k9BroadcastReceiverServiceIntent.putExtras(intent.getExtras());
 		    k9BroadcastReceiverServiceIntent.setAction(intent.getAction());

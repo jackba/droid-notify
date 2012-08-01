@@ -3,10 +3,13 @@ package apps.droidnotify.receivers;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import apps.droidnotify.log.Log;
 import apps.droidnotify.services.SMSReceiverService;
 import apps.droidnotify.services.WakefulIntentService;
+import apps.droidnotify.common.Constants;
 
 /**
  * This class listens for incoming SMS messages.
@@ -37,6 +40,17 @@ public class SMSReceiver extends BroadcastReceiver{
 		_debug = Log.getDebug();
 		if (_debug) Log.v("SMSReceiver.onReceive()");
 		try{
+			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+			//Read preferences and exit if app is disabled.
+		    if(!preferences.getBoolean(Constants.APP_ENABLED_KEY, true)){
+				if (_debug) Log.v("SMSReceiver.onReceive() App Disabled. Exiting...");
+				return;
+			}
+			//Read preferences and exit if SMS notifications are disabled.
+		    if(!preferences.getBoolean(Constants.SMS_NOTIFICATIONS_ENABLED_KEY, true)){
+				if (_debug) Log.v("SMSReceiver.onReceive() SMS Notifications Disabled. Exiting...");
+				return;
+			}
 			Intent smsBroadcastReceiverServiceIntent = new Intent(context, SMSReceiverService.class);
 			smsBroadcastReceiverServiceIntent.putExtras(intent.getExtras());
 			WakefulIntentService.sendWakefulWork(context, smsBroadcastReceiverServiceIntent);
