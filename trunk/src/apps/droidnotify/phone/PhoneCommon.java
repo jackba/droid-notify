@@ -10,6 +10,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.CallLog;
 import android.widget.Toast;
 
 import apps.droidnotify.NotificationActivity;
@@ -49,28 +50,34 @@ public class PhoneCommon {
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 			String missedCallPreference = preferences.getString(Constants.PHONE_DISMISS_BUTTON_ACTION_KEY, "0");
 			final String[] projection = new String[] {
-					android.provider.CallLog.Calls._ID, 
-					android.provider.CallLog.Calls.NUMBER, 
-					android.provider.CallLog.Calls.DATE, 
-					android.provider.CallLog.Calls.TYPE, 
-					android.provider.CallLog.Calls.NEW};
+					CallLog.Calls._ID, 
+					CallLog.Calls.NUMBER, 
+					CallLog.Calls.DATE, 
+					CallLog.Calls.TYPE, 
+					CallLog.Calls.NEW};
 			final String selection = null;
 			final String[] selectionArgs = null;
-			final String sortOrder = android.provider.CallLog.Calls.DATE + " DESC";
+			//final String selection = CallLog.Calls.TYPE + "=? AND " + CallLog.Calls.NEW + "=?";
+			//final String[] selectionArgs = new String[]{String.valueOf(CallLog.Calls.MISSED_TYPE), "1"};
+			final String sortOrder = CallLog.Calls.DATE + " DESC";
 		    cursor = context.getContentResolver().query(
-		    		Uri.parse("content://call_log/calls"),
+		    		CallLog.Calls.CONTENT_URI,
 		    		projection,
 		    		selection,
 					selectionArgs,
 					sortOrder);
+		    if(cursor == null){
+		    	if (_debug) Log.v("PhoneCommon.getMissedCalls() Cursor is null. Exiting...");
+		    	return null;
+		    }
 	    	while(cursor.moveToNext()){ 
-	    		String callLogID = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls._ID));
-	    		String callNumber = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.NUMBER));
-	    		long timeStamp = cursor.getLong(cursor.getColumnIndex(android.provider.CallLog.Calls.DATE));
+	    		long callLogID = cursor.getLong(cursor.getColumnIndex(CallLog.Calls._ID));
+	    		String callNumber = cursor.getString(cursor.getColumnIndex(CallLog.Calls.NUMBER));
+	    		long timeStamp = cursor.getLong(cursor.getColumnIndex(CallLog.Calls.DATE));
 	    		timeStamp = Common.convertGMTToLocalTime(context, timeStamp, true);
-	    		String callType = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.TYPE));
-	    		String isCallNew = cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.NEW));
-	    		if(Integer.parseInt(callType) == Constants.PHONE_TYPE && Integer.parseInt(isCallNew) > 0){
+	    		int callType = cursor.getInt(cursor.getColumnIndex(CallLog.Calls.TYPE));
+	    		int isCallNew = cursor.getInt(cursor.getColumnIndex(CallLog.Calls.NEW));
+	    		if(callType == CallLog.Calls.MISSED_TYPE && isCallNew > 0){
 	    			Bundle missedCallNotificationBundleSingle = new Bundle();
     				bundleCount++;
     				if (_debug) Log.v("PhoneCommon.getMissedCalls() Missed Call Found: " + callNumber);
@@ -81,7 +88,7 @@ public class PhoneCommon {
     					missedCallContactInfoBundle = ContactsCommon.getContactsInfoByPhoneNumber(context, callNumber);
     				}				
 					//Basic Notification Information.
-					missedCallNotificationBundleSingle.putLong(Constants.BUNDLE_CALL_LOG_ID, Long.parseLong(callLogID));
+					missedCallNotificationBundleSingle.putLong(Constants.BUNDLE_CALL_LOG_ID, callLogID);
 					missedCallNotificationBundleSingle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, callNumber);
 					missedCallNotificationBundleSingle.putLong(Constants.BUNDLE_TIMESTAMP, timeStamp);
 					missedCallNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_PHONE);
@@ -94,29 +101,32 @@ public class PhoneCommon {
     				}
     				missedCallNotificationBundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_" + String.valueOf(bundleCount), missedCallNotificationBundleSingle);
     				if(missedCallPreference.equals(Constants.PHONE_GET_LATEST)){
-    					if (_debug) Log.v("PhoneCommon.getMissedCalls() Missed call found - Exiting");
+    					if (_debug) Log.v("PhoneCommon.getMissedCalls() Missed call found. Breaking...");
     					break;
     				}
     				missedCallFound = true;
     			}else{
     				if(missedCallPreference.equals(Constants.PHONE_GET_RECENT)){
-    					if (_debug) Log.v("PhoneCommon.getMissedCalls() Found first non-missed call - Exiting");
+    					if (_debug) Log.v("PhoneCommon.getMissedCalls() Found First Non-Missed Call. Breaking...");
     					break;
     				}
     			}
 	    		if(!missedCallFound){
-	    			if (_debug) Log.v("PhoneCommon.getMissedCalls() Missed call not found - Exiting");
-	    			break;
+	    			if (_debug) Log.v("PhoneCommon.getMissedCalls() Missed Call Not Found. Exiting...");
+	    			cursor.close();
+	    			return null;
 	    		}
 	    	}
+	    	cursor.close();
 			missedCallNotificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_BUNDLE_COUNT, bundleCount);
+		    return missedCallNotificationBundle;
 		}catch(Exception ex){
 			Log.e("PhoneCommon.getMissedCalls() ERROR: " + ex.toString());
-			missedCallNotificationBundle = null;
-		}finally{
-			cursor.close();
+			if(cursor != null){
+				cursor.close();
+			}
+			return null;
 		}
-	    return missedCallNotificationBundle;
 	}
 	
 	/**
@@ -135,10 +145,10 @@ public class PhoneCommon {
 				if (_debug) Log.v("PhoneCommon.deleteFromCallLog() Call Log ID < 0. Exiting...");
 				return false;
 			}
-			String selection = android.provider.CallLog.Calls._ID + " = " + callLogID;
-			String[] selectionArgs = null;
+			final String selection = CallLog.Calls._ID + "=?";
+			final String[] selectionArgs = new String[]{String.valueOf(callLogID)};
 			context.getContentResolver().delete(
-					Uri.parse("content://call_log/calls"),
+					CallLog.Calls.CONTENT_URI,
 					selection, 
 					selectionArgs);
 			return true;
@@ -166,14 +176,14 @@ public class PhoneCommon {
 			}
 			ContentValues contentValues = new ContentValues();
 			if(isViewed){
-				contentValues.put(android.provider.CallLog.Calls.NEW, 0);
+				contentValues.put(CallLog.Calls.NEW, 0);
 			}else{
-				contentValues.put(android.provider.CallLog.Calls.NEW, 1);
+				contentValues.put(CallLog.Calls.NEW, 1);
 			}
-			String selection = android.provider.CallLog.Calls._ID + " = " + callLogID;
-			String[] selectionArgs = null;
+			final String selection = CallLog.Calls._ID + "=?";
+			final String[] selectionArgs = new String[]{String.valueOf(callLogID)};
 			context.getContentResolver().update(
-					Uri.parse("content://call_log/calls"),
+					CallLog.Calls.CONTENT_URI,
 					contentValues,
 					selection, 
 					selectionArgs);
