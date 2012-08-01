@@ -448,8 +448,6 @@ public class Constants {
 	public static final String PHONE_CALL_ACTION_CALL = "0";
 	public static final String PHONE_CALL_ACTION_CALL_LOG = "1";
 	
-	public static final int PHONE_TYPE = android.provider.CallLog.Calls.MISSED_TYPE;
-	
 	//-----CALENDAR CONSTANTS-----//
 	public static final String CALENDAR_NOTIFICATIONS_ENABLED_KEY = "calendar_notifications_enabled";
 	public static final String CALENDAR_BLOCKING_APP_RUNNING_ACTION_KEY = "blocking_app_running_action_calendar";
