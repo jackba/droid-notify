@@ -10,6 +10,7 @@ import android.telephony.TelephonyManager;
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
+import apps.droidnotify.sms.SMSCommon;
 
 public class RescheduleService extends WakefulIntentService {
 	
@@ -53,7 +54,23 @@ public class RescheduleService extends WakefulIntentService {
 				return;
 			}
 		    Bundle bundle = intent.getExtras();
-		    int notificationType = bundle.getInt(Constants.BUNDLE_NOTIFICATION_TYPE);
+		    int notificationType = bundle.getInt(Constants.BUNDLE_NOTIFICATION_TYPE, -1);
+		    //If notification is an SMS/MMS, check to see if it's already been read/deleted.
+		    if(notificationType == Constants.NOTIFICATION_TYPE_SMS || 
+		    		notificationType == Constants.NOTIFICATION_TYPE_RESCHEDULE_SMS ||
+		    		notificationType == Constants.NOTIFICATION_TYPE_MMS || 
+		    		notificationType == Constants.NOTIFICATION_TYPE_RESCHEDULE_MMS){
+				Bundle rescheduleNotificationBundle = bundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME);
+			    if(rescheduleNotificationBundle != null){
+					Bundle rescheduleNotificationBundleSingle = rescheduleNotificationBundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_1");
+					if(rescheduleNotificationBundleSingle != null){
+				    	if(SMSCommon.isMessageRead(context, rescheduleNotificationBundleSingle.getLong(Constants.BUNDLE_MESSAGE_ID, -1), rescheduleNotificationBundleSingle.getLong(Constants.BUNDLE_THREAD_ID, -1))){
+				    		if (_debug) Log.v("RescheduleBroadcastReceiverService.doWakefulWork() SMS/MMS Message has already been marked read. Exiting...");
+				    		return;
+				    	}
+					}
+			    }
+		    }
 		    //Check the state of the users phone.
 		    TelephonyManager telemanager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 		    boolean notificationIsBlocked = false;
@@ -127,8 +144,7 @@ public class RescheduleService extends WakefulIntentService {
 		    		Common.rescheduleBlockedNotification(context, rescheduleNotificationInCall, rescheduleNotificationInQuickReply, notificationType, intent.getExtras());
 		    	}else{
 			    	//Display the Status Bar Notification even though the popup is blocked based on the user preferences.
-		    		Bundle rescheduleBundle = intent.getExtras();
-					Bundle rescheduleNotificationBundle = rescheduleBundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME);
+					Bundle rescheduleNotificationBundle = bundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME);
 			    	if(showBlockedNotificationStatusBarNotification){
 					    if(rescheduleNotificationBundle != null){
 							//Loop through all the bundles that were sent through.
