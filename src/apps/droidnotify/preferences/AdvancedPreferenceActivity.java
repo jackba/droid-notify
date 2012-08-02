@@ -346,7 +346,7 @@ public class AdvancedPreferenceActivity extends PreferenceActivity{
 		    	    	editor.putFloat(preferenceInfo[0], Float.parseFloat(preferenceInfo[1])); 
 		    	    }
     	    	}else{
-    	    		Log.e("AdvancedPreferenceActivity.importApplicationPreferences() Preference Line Error. PreferenceInfo.length: " + String.valueOf(preferenceInfo.length));
+    	    		Log.e("AdvancedPreferenceActivity.importApplicationPreferences() Preference Line Error. Line String: " + line + " PreferenceInfo.length: " + String.valueOf(preferenceInfo.length));
     	    	}
     	    }
     		editor.commit();

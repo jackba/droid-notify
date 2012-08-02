@@ -1610,7 +1610,7 @@ public class Common {
 				rescheduleIntent.putExtras(rescheduleBundle);			
 			}
 			//The action is what makes this intent unique from all other intents using this class.
-			String intentAction = "apps.droidnotifydonate.view.reschedule.blocked." + notificationType + "." + String.valueOf(incomingNotificationBundle.getLong(Constants.BUNDLE_TIMESTAMP));
+			String intentAction = "apps.droidnotify.reschedule.blocked." + notificationType + "." + String.valueOf(incomingNotificationBundle.getLong(Constants.BUNDLE_TIMESTAMP));
 			rescheduleIntent.setAction(intentAction);
 			if (_debug) Log.v("Common.rescheduleBlockedNotification() Reschedule Blocked Notification Action: " + intentAction);
 			
@@ -1653,14 +1653,9 @@ public class Common {
 		Intent rescheduleIntent = new Intent(context, RescheduleReceiver.class);
 		rescheduleIntent.putExtras(rescheduleBundle);
 		//The action is what makes this intent unique from all other intents using this class.
-		String intentAction = null;
-		if(notificationType == Constants.NOTIFICATION_TYPE_RESCHEDULE_CALENDAR){
-			intentAction = "apps.droidnotify.view.calendar.reminder." + String.valueOf(notification.getCalendarID()) + "." + String.valueOf(notification.getCalendarEventID());
-		}else{
-			intentAction = "apps.droidnotify.view.reschedule." + notificationType + "." + rescheduleNumber + "." + String.valueOf(notification.getTimeStamp());
-		}
+		String intentAction = getNotificationReqcheduleIntentAction(notification, rescheduleNumber);
 		rescheduleIntent.setAction(intentAction);
-		if (_debug) Log.v("Common.rescheduleBlockedNotification() Reschedule Notification Action: " + intentAction);
+		if (_debug) Log.v("Common.rescheduleNotification() Reschedule Notification Action: " + intentAction);
 		
 		PendingIntent reschedulePendingIntent = PendingIntent.getBroadcast(context, 0, rescheduleIntent, 0);
 		
@@ -2556,6 +2551,66 @@ public class Common {
 				}
 			}else{
 				return false;
+			}
+		}
+	}
+	
+	/**
+	 * Get a unique intent action for a given notification.
+	 * 
+	 * @param notification - The notification to generate a unique intent action for.
+	 * @param rescheduleNumber - The reschedule number of the intent.
+	 * 
+	 * @return String - Returns a unique intent action for this notification.
+	 */
+	private static String getNotificationReqcheduleIntentAction(apps.droidnotify.Notification notification, int rescheduleNumber){
+		switch(notification.getNotificationType()){
+			case Constants.NOTIFICATION_TYPE_PHONE:{
+				return "apps.droidnotify.reschedule." + 
+						String.valueOf(notification.getNotificationType()) + "." + 
+						String.valueOf(notification.getNotificationSubType()) + "." + 
+						String.valueOf(notification.getCallLogID()) + "." + 
+						String.valueOf(notification.getTimeStamp());
+			}
+			case Constants.NOTIFICATION_TYPE_SMS:{
+				return "apps.droidnotify.reschedule." + 
+						String.valueOf(notification.getNotificationType()) + "." + 
+						String.valueOf(notification.getNotificationSubType()) + "." + 
+						String.valueOf(notification.getMessageID()) + "." + 
+						String.valueOf(notification.getThreadID()) + "." + 
+						String.valueOf(notification.getTimeStamp());
+			}
+			case Constants.NOTIFICATION_TYPE_MMS:{
+				return "apps.droidnotify.reschedule." + 
+						String.valueOf(notification.getNotificationType()) + "." + 
+						String.valueOf(notification.getNotificationSubType()) + "." + 
+						String.valueOf(notification.getMessageID()) + "." + 
+						String.valueOf(notification.getThreadID()) + "." + 
+						String.valueOf(notification.getTimeStamp());
+			}
+			case Constants.NOTIFICATION_TYPE_CALENDAR:{
+				return "apps.droidnotify.reschedule." + 
+						String.valueOf(notification.getNotificationType()) + "." + 
+						String.valueOf(notification.getNotificationSubType()) + "." + 
+						String.valueOf(notification.getCalendarID()) + "." + 
+						String.valueOf(notification.getCalendarEventID());
+			}
+			case Constants.NOTIFICATION_TYPE_K9:{
+				return "apps.droidnotify.reschedule." + 
+						String.valueOf(notification.getNotificationType()) + "." + 
+						String.valueOf(notification.getNotificationSubType()) + "." + 
+						String.valueOf(notification.getMessageID()) + "." + 
+						String.valueOf(notification.getTimeStamp());
+			}
+			case Constants.NOTIFICATION_TYPE_GENERIC:{
+				return "apps.droidnotify.reschedule." + 
+						String.valueOf(notification.getNotificationType()) + "." + 
+						String.valueOf(notification.getNotificationSubType()) + "." +  
+						notification.getPackageName() + "." + 
+						String.valueOf(notification.getTimeStamp());
+			}
+			default:{
+				return null;
 			}
 		}
 	}
