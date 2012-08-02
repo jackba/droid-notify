@@ -96,7 +96,7 @@ public class SMSCommon {
             messageSubject = sms.getPseudoSubject();
             messageBodyBuilder = new StringBuilder();
             //Get the entire message body from the new message.
-    		  int messagesLength = msgs.length;
+    		int messagesLength = msgs.length;
             for (int i = 0; i < messagesLength; i++){                
             	//messageBody.append(msgs[i].getMessageBody().toString());
             	messageBodyBuilder.append(msgs[i].getDisplayMessageBody().toString());
@@ -748,7 +748,7 @@ public class SMSCommon {
 	}
 	
 	/**
-	 * Deleta an entire SMS/MMS thread.
+	 * Delete a an entire SMS/MMS thread.
 	 * 
 	 * @param context - The current context of this Activity.
 	 * @param threadID - The Thread ID that we want to delete.
@@ -825,11 +825,12 @@ public class SMSCommon {
 	 * 
 	 * @param context - The current context of this Activity.
 	 * @param messageID - The Message ID that we want to alter.
+	 * @param threadID - The Thread ID that we want to alter.
 	 * @param isViewed - The boolean value indicating if it was read or not.
 	 * 
 	 * @return boolean - Returns true if the message was updated successfully.
 	 */
-	public static boolean setMessageRead(Context context, long messageID, boolean isViewed){
+	public static boolean setMessageRead(Context context, long messageID, long threadID, boolean isViewed){
 		_debug = Log.getDebug();
 		if(_debug) Log.v("SMSCommon.setMessageRead()");
 		try{
@@ -891,6 +892,65 @@ public class SMSCommon {
 		}catch(Exception ex){
 			Log.e("SMSCommon.setThreadRead() ERROR: " + ex.toString());
 			return false;
+		}
+	}	
+	
+	/**
+	 * Determine if a SMS/MMS message is unread or not.
+	 * 
+	 * @param context - The current context of this Activity.
+	 * @param messageID - The Message ID that we want to alter.
+	 * @param threadID - The Thread ID that we want to alter.
+	 * 
+	 * @return boolean - Returns false if the message was found and is unread, returns true otherwise.
+	 */
+	public static boolean isMessageRead(Context context, long messageID, long threadID){
+		_debug = Log.getDebug();
+		if(_debug) Log.v("SMSCommon.isMessageRead()");
+		//if(_debug) Log.v("SMSCommon.isMessageRead() MessageID: " + messageID + " ThreadID: " + threadID);
+		Cursor cursor = null;
+		try{
+			if(messageID < 0){
+				if(_debug) Log.v("SMSCommon.isMessageRead() Message ID < 0. Exiting...");
+				return true;
+			}
+    		final String[] projection = new String[] { "_id", "thread_id", "read"};
+			String selection = null;
+			String[] selectionArgs = null;
+			if(threadID < 0){
+				selection = "_id=?";
+				selectionArgs = new String[]{String.valueOf(messageID)};
+			}else{
+				selection = "_id=? AND thread_id=?";
+				selectionArgs = new String[]{String.valueOf(messageID), String.valueOf(threadID)};
+			}
+    		final String sortOrder = null;
+				cursor = context.getContentResolver().query(
+						Uri.parse("content://sms/inbox"),
+						projection,
+						selection, 
+						selectionArgs,
+						sortOrder);
+		    if(cursor == null){
+		    	if(_debug) Log.v("SMSCommon.isMessageRead() Currsor is null. Exiting...");
+		    	return true;
+		    }
+		    int messageRead = 1;
+		    if(cursor.moveToFirst()){
+		    	messageRead = cursor.getInt(cursor.getColumnIndex("read"));
+		    	if(_debug) Log.v("SMSCommon.isMessageRead() Message Found - Message Read: " + String.valueOf(messageRead));
+	    	}else{
+	    		if(_debug) Log.v("SMSCommon.isMessageRead() Message ID: " + String.valueOf(messageID) + " was not found!  Exiting...");
+	    		return true;
+	    	}
+			cursor.close();
+		    return messageRead == 0 ? false : true;
+		}catch(Exception ex){
+			Log.e("SMSCommon.isMessageRead() ERROR: " + ex.toString());
+    		if(cursor != null){
+				cursor.close();
+			}
+			return true;
 		}
 	}
 	
