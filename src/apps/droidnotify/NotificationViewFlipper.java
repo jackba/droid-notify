@@ -81,70 +81,16 @@ public class NotificationViewFlipper extends ViewFlipper {
 		if(_debug) Log.v("NotificationViewFlipper.addNotification()");
 		try{
 			int notificationType = notification.getNotificationType();
-			int notificationSubType = notification.getNotificationSubType();
 			boolean duplicateFound = false;
 			int totalNotifications = this.getChildCount();
 			for (int i=0; i<totalNotifications; i++){
 				Notification currentNotification = ((NotificationView) this.getChildAt(i)).getNotification();
-				String notificationSentFromAddress = notification.getSentFromAddress();
-				String currentSentFromAddress = currentNotification.getSentFromAddress();
-				if(notificationType == currentNotification.getNotificationType() && notificationSubType == currentNotification.getNotificationSubType()){
-					switch(notificationType){
-						case Constants.NOTIFICATION_TYPE_PHONE:{
-							if(notification.getCallLogID() == currentNotification.getCallLogID()){
-								duplicateFound = true;
-								//Update Notification Information
-								currentNotification.setReminderPendingIntent(notification.getReminderPendingIntent());
-								currentNotification.setRescheduleNumber(notification.getRescheduleNumber());
-							}
-							break;
-						}
-						case Constants.NOTIFICATION_TYPE_SMS:{
-							if(notification.getMessageID() == currentNotification.getMessageID()){
-								duplicateFound = true;
-								//Update Notification Information
-								currentNotification.setReminderPendingIntent(notification.getReminderPendingIntent());
-								currentNotification.setRescheduleNumber(notification.getRescheduleNumber());
-							}
-							break;
-						}
-						case Constants.NOTIFICATION_TYPE_MMS:{
-							if(notification.getMessageID() == currentNotification.getMessageID()){
-								duplicateFound = true;
-								//Update Notification Information
-								currentNotification.setReminderPendingIntent(notification.getReminderPendingIntent());
-								currentNotification.setRescheduleNumber(notification.getRescheduleNumber());
-							}
-							break;
-						}case Constants.NOTIFICATION_TYPE_CALENDAR:{
-							if(notification.getCalendarID() == currentNotification.getCalendarID() &&  notification.getCalendarEventID() == currentNotification.getCalendarEventID()){
-								duplicateFound = true;
-								//Update Notification Information
-								currentNotification.setReminderPendingIntent(notification.getReminderPendingIntent());
-								currentNotification.setRescheduleNumber(notification.getRescheduleNumber());
-							}
-							break;
-						}
-						default:{
-							if(notification.getTimeStamp() == currentNotification.getTimeStamp()){
-								if(notificationSentFromAddress == null && currentSentFromAddress == null){
-									duplicateFound = true;
-									//Update Notification Information
-									currentNotification.setReminderPendingIntent(notification.getReminderPendingIntent());
-									currentNotification.setRescheduleNumber(notification.getRescheduleNumber());
-								}else if(notificationSentFromAddress != null && currentSentFromAddress != null && notificationSentFromAddress.equals(currentSentFromAddress)){
-									duplicateFound = true;
-									//Update Notification Information
-									currentNotification.setReminderPendingIntent(notification.getReminderPendingIntent());
-									currentNotification.setRescheduleNumber(notification.getRescheduleNumber());
-								}
-							}
-							break;
-						}
-					}
-					if(duplicateFound){
-						break;
-					}
+				if(notification.equals(currentNotification)){
+					duplicateFound = true;
+					//Update Notification Information
+					currentNotification.setReminderPendingIntent(notification.getReminderPendingIntent());
+					currentNotification.setRescheduleNumber(notification.getRescheduleNumber());
+					break;
 				}
 			}
 			if(!duplicateFound){
