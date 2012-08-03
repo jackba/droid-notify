@@ -17,6 +17,7 @@ import apps.droidnotify.log.Log;
 import apps.droidnotify.phone.PhoneCommon;
 import apps.droidnotify.sms.SMSCommon;
 import apps.droidnotify.contacts.ContactsCommon;
+import apps.droidnotifydonate.R;
 
 /**
  * This is the Notification class that holds all the information about all notifications we will display to the user.
@@ -859,9 +860,86 @@ public class Notification {
 				messageToSpeak.append(_messageBody);
 				break;
 			}
+			case Constants.NOTIFICATION_TYPE_GENERIC:{
+				String formattedTimestamp = Common.formatTimestamp(_context, _timeStamp);
+				messageToSpeak.append(_context.getString(R.string.message_at_text, formattedTimestamp.toLowerCase()));
+				if(_contactName != null && !_contactName.equals(_context.getString(android.R.string.unknownName))){
+					messageToSpeak.append(". " + _context.getString(R.string.from_text) + " " + _contactName + ". ");
+				}else{
+					messageToSpeak.append(". ");
+				}
+				messageToSpeak.append(_messageBody);
+				break;
+			}
 		}
 		if(messageToSpeak != null){
 			Common.speak(_context, tts, Common.removeHTML(messageToSpeak.toString()));
+		}
+	}
+	
+	/**
+	 * Determine if two notification objects are equal.
+	 * 
+	 * @param notification - The notification that we are comparing to.
+	 * 
+	 * @return boolean - Returns true if these two notifications are determined to be equal. 
+	 *                   This equality calculation differs depending on their notification type.
+	 */
+	public boolean equals(Notification notification) {
+		if (_debug) Log.v("Notification.equals()");
+		if(_notificationType != notification.getNotificationType()){
+			return false;
+		}
+		if(_notificationSubType != notification.getNotificationSubType()){
+			return false;
+		}
+		switch(_notificationType){
+			case Constants.NOTIFICATION_TYPE_PHONE:{
+				if(_callLogID == notification.getCallLogID()){
+					return true;
+				}
+				return false;
+			}
+			case Constants.NOTIFICATION_TYPE_SMS:{
+				if(_messageID == notification.getMessageID()){
+					return true;
+				}
+				return false;
+			}
+			case Constants.NOTIFICATION_TYPE_MMS:{
+				if(_messageID == notification.getMessageID()){
+					return true;
+				}
+				return false;
+			}case Constants.NOTIFICATION_TYPE_CALENDAR:{
+				if(_calendarID == notification.getCalendarID() &&  _calendarEventID == notification.getCalendarEventID()){
+					return true;
+				}
+				return false;
+			}
+			case Constants.NOTIFICATION_TYPE_K9:{
+				if(_messageID == notification.getMessageID()){
+					return true;
+				}
+				return false;
+			}
+			case Constants.NOTIFICATION_TYPE_GENERIC:{
+				if(_packageName.equals(notification.getPackageName()) && _timeStamp == notification.getTimeStamp()){
+					return true;
+				}
+				return false;
+			}
+			default:{
+				String notificationSentFromAddress = notification.getSentFromAddress();
+				if(_timeStamp == notification.getTimeStamp()){
+					if(_sentFromAddress == null && notificationSentFromAddress == null){
+						return true;
+					}else if(_sentFromAddress != null && notificationSentFromAddress != null && _sentFromAddress.equals(notificationSentFromAddress)){
+						return true;
+					}
+				}
+				return false;
+			}
 		}
 	}
 	
