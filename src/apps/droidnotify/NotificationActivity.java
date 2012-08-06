@@ -80,7 +80,6 @@ public class NotificationActivity extends Activity{
 	private boolean _debug = false;
 	private Context _context = null;
 	private NotificationViewFlipper _notificationViewFlipper = null;
-	//private ProgressBar _notificationProgressBar = null;
 	private MotionEvent _downMotionEvent = null;
 	private SharedPreferences _preferences = null;
 	private PendingIntent _screenTimeoutPendingIntent = null;
@@ -498,8 +497,6 @@ public class NotificationActivity extends Activity{
   	public void dismissAllNotifications(){
 		if(_debug) Log.v("NotificationActivity.dismissAllNotifications()");	
   		try{
-  			//_notificationProgressBar.setVisibility(View.VISIBLE);
-  			//_notificationViewFlipper.setVisibility(View.INVISIBLE);
   			_notificationViewFlipper.dismissAllNotifications();
   		}catch(Exception ex){
   			Log.e("NotificationActivity.dismissAllNotifications() ERROR: " + ex.toString());
@@ -1256,15 +1253,13 @@ public class NotificationActivity extends Activity{
 	private void setupViews(int notificationType){
 		if(_debug) Log.v("NotificationActivity.setupViews()");
 		_notificationViewFlipper = (NotificationViewFlipper) findViewById(R.id.notification_view_flipper);
-		//_notificationProgressBar = (ProgressBar) findViewById(R.id.notification_progress_bar);
-		//_notificationProgressBar.setVisibility(View.GONE);
 	}
 	
 	/**
 	 * Setup custom style elements of the ViewFlipper.
 	 */
 	private void setupViewFlipperStyles(){
-		RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
+		RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 		layoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
 		String horizontalLocation = _preferences.getString(Constants.POPUP_HORIZONTAL_LOCATION_KEY, Constants.POPUP_HORIZONTAL_LOCATION_DEFAULT);
 		if(horizontalLocation.equals(Constants.POPUP_HORIZONTAL_LOCATION_TOP)){
@@ -1429,19 +1424,18 @@ public class NotificationActivity extends Activity{
 			}
 			boolean displayPopup = !Common.restrictPopup(_context);
 			for(int i=1;i<=bundleCount;i++){
-				Bundle notificationBundleSingle = notificationBundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_" + String.valueOf(i));				
+				Bundle notificationBundleSingle = notificationBundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_" + String.valueOf(i));
+				Notification notification = new Notification(_context, notificationBundleSingle);				
 				//Only display the notification popup window if not in restrict mode.
 				if(displayPopup){
-					//Create and Add Notification to ViewFlipper.
-					_notificationViewFlipper.addNotification(new Notification(_context, notificationBundleSingle));
+					//Add the Notification to the ViewFlipper.
+					_notificationViewFlipper.addNotification(notification);
 				}
-				//Get the notification count based on the notification type.
-				int notificationTypecount = getNotificationTypeCount(notificationBundleSingle.getInt(Constants.BUNDLE_NOTIFICATION_TYPE, -1), notificationBundleSingle.getInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, -1));
 				//Display Status Bar Notification
-				int notificationType = notificationBundleSingle.getInt(Constants.BUNDLE_NOTIFICATION_TYPE, -1);
-				if(postStatusBarnotification){
-					Common.setStatusBarNotification(_context, notificationTypecount, notificationType, notificationBundleSingle.getInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, -1), true, notificationBundleSingle.getString(Constants.BUNDLE_CONTACT_NAME), notificationBundleSingle.getLong(Constants.BUNDLE_CONTACT_ID, -1), notificationBundleSingle.getString(Constants.BUNDLE_SENT_FROM_ADDRESS), notificationBundleSingle.getString(Constants.BUNDLE_MESSAGE_BODY), notificationBundleSingle.getString(Constants.BUNDLE_K9_EMAIL_URI), notificationBundleSingle.getString(Constants.BUNDLE_LINK_URL), notificationBundleSingle.getLong(Constants.BUNDLE_THREAD_ID, -1), false, Common.getStatusBarNotificationBundle(_context, notificationType));
-				}
+			    if(postStatusBarnotification){
+			    	int notificationType = notification.getNotificationType();
+			    	notification.postStatusBarNotification(getNotificationTypeCount(notificationType, notification.getNotificationSubType()), Common.getStatusBarNotificationBundle(_context, notificationType));
+			    }
 			}
 			return displayPopup;
 		}catch(Exception ex){
@@ -1455,7 +1449,7 @@ public class NotificationActivity extends Activity{
 	 * 
 	 * @param bundle - Activity bundle.
 	 * 
-	 * @return boolean - Returns true if the method did not encounter an error.
+	 * @return boolean - Returns true if a popup window was displayed.
 	 */
 	private boolean setupGenericBundleNotifications(Bundle bundle){
 		if(_debug) Log.v("NotificationActivity.setupGenericBundleNotifications()");
@@ -1467,10 +1461,11 @@ public class NotificationActivity extends Activity{
 			boolean displayPopup = !Common.restrictPopup(_context);				
 			//Only display the notification popup window if not in restrict mode.
 			if(displayPopup){
-				//Create and Add Notification to ViewFlipper.
-				_notificationViewFlipper.addNotification(new Notification(_context, bundle));
-				//Create the status bar notification bundle.
-			    Common.setStatusBarNotification(_context, 1, Constants.NOTIFICATION_TYPE_GENERIC, -1, true, null, -1, null, null, null, null, -1, false, bundle);
+				Notification notification = new Notification(_context, bundle);
+				//Add the Notification to the ViewFlipper.
+				_notificationViewFlipper.addNotification(notification);
+				//Display Status Bar Notification
+				notification.postStatusBarNotification(getNotificationTypeCount(notification.getNotificationType(), notification.getNotificationSubType()), bundle);
 			}
 			return displayPopup;
 		}catch(Exception ex){

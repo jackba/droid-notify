@@ -87,13 +87,11 @@ public class NotificationViewFlipper extends ViewFlipper {
 				Notification currentNotification = ((NotificationView) this.getChildAt(i)).getNotification();
 				if(notification.equals(currentNotification)){
 					duplicateFound = true;
-					//Update Notification Information
-					currentNotification.setReminderPendingIntent(notification.getReminderPendingIntent());
-					currentNotification.setRescheduleNumber(notification.getRescheduleNumber());
 					break;
 				}
 			}
 			if(!duplicateFound){
+				if(_debug) Log.v("NotificationViewFlipper.addNotification() New Notification. This notification will be added.");
 				if(_preferences.getString(Constants.VIEW_NOTIFICATION_ORDER, Constants.NEWEST_FIRST).equals(Constants.OLDER_FIRST)){
 					addView(new NotificationView(_context, notification));			
 					if(_preferences.getBoolean(Constants.DISPLAY_NEWEST_NOTIFICATION, true)){
@@ -135,7 +133,11 @@ public class NotificationViewFlipper extends ViewFlipper {
 						break;
 					}
 				}
+			}else{
+				if(_debug) Log.v("NotificationViewFlipper.addNotification() Duplicate Notification Found! This notification will not be added.");
 			}
+			//Set the notification reminder.
+			notification.setReminder();
 		}catch(Exception ex){
 			Log.e("NotificationViewFlipper.addNotification() ERROR: " + ex.toString());
 		}
@@ -322,18 +324,18 @@ public class NotificationViewFlipper extends ViewFlipper {
 	public void rescheduleNotification(){
 		if(_debug) Log.v("NotificationViewFlipper.rescheduleNotification()");
 		long rescheduleInterval = Long.parseLong(_preferences.getString(Constants.RESCHEDULE_TIME_KEY, Constants.RESCHEDULE_TIME_DEFAULT)) * 60 * 1000;
-		Notification notification = getActiveNotification();
-    	Common.rescheduleNotification(_context, notification, System.currentTimeMillis() + rescheduleInterval, notification.getRescheduleNumber());
+		this.getActiveNotification().reschedule(System.currentTimeMillis() + rescheduleInterval, false);
     	this.removeActiveNotification(true);
 	}
 	
 	/**
 	 * Snooze a calendar event.
+	 * 
+	 * @param snoozeTime - The time to snooze the notification.
 	 */
 	public void snoozeCalendarEvent(long snoozeTime){
 		if(_debug) Log.v("NotificationViewFlipper.snoozeCalendarEvent()");
-		Notification notification = getActiveNotification();
-    	Common.rescheduleNotification(_context, notification, System.currentTimeMillis() + snoozeTime, notification.getRescheduleNumber());
+		this.getActiveNotification().reschedule(System.currentTimeMillis() + snoozeTime, false);
     	this.removeActiveNotification(true);
 	}
 

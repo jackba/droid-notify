@@ -3,6 +3,7 @@ package apps.droidnotify;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -17,7 +18,7 @@ import apps.droidnotify.log.Log;
 import apps.droidnotify.phone.PhoneCommon;
 import apps.droidnotify.sms.SMSCommon;
 import apps.droidnotify.contacts.ContactsCommon;
-import apps.droidnotifydonate.R;
+import apps.droidnotify.receivers.RescheduleReceiver;
 
 /**
  * This is the Notification class that holds all the information about all notifications we will display to the user.
@@ -59,7 +60,7 @@ public class Notification {
 	private String _k9EmailUri = null;
 	private String _k9EmailDelUri = null;
 	private int _rescheduleNumber = 0;
-	private PendingIntent _reminderPendingIntent = null;
+	private PendingIntent _pendingIntent = null;
 	private int _notificationSubType = -1;
 	private String _linkURL = null;
 	private String _packageName = null;
@@ -195,9 +196,7 @@ public class Notification {
 			}else{
 				_contactPhotoExists = true;
 			}
-			
-			setReminder();
-			
+
 		}catch(Exception ex){
 			Log.e("Notification.Notification() ERROR: " + ex.toString());
 		}
@@ -210,21 +209,23 @@ public class Notification {
 	/**
 	 * Get a Bundle that contains all the Notification information.
 	 * 
+	 * @param rescheduleBundle - A boolean indicating if this bundle is to be used in a reminder or not.
+	 * 
 	 * @return Bundle - Returns a bundle that contains all of the Notification information.
 	 */
-	public Bundle getNotificationBundle(){
+	public Bundle getNotificationBundle(boolean reminder){
 		if (_debug) Log.v("Notification.getNotificationBundle()");
 		Bundle notificationBundle = new Bundle();
 		notificationBundle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, _sentFromAddress);
 		notificationBundle.putLong(Constants.BUNDLE_SENT_FROM_ID, _sentFromID);
 		notificationBundle.putString(Constants.BUNDLE_MESSAGE_BODY, _messageBody);
 		notificationBundle.putLong(Constants.BUNDLE_TIMESTAMP, _timeStamp);
-		notificationBundle.putLong(Constants.BUNDLE_THREAD_ID, _threadID);
+		notificationBundle.putLong(Constants.BUNDLE_THREAD_ID, getThreadID());
 		notificationBundle.putLong(Constants.BUNDLE_CONTACT_ID, _contactID);
 		notificationBundle.putString(Constants.BUNDLE_CONTACT_NAME, _contactName);
 		notificationBundle.putLong(Constants.BUNDLE_PHOTO_ID, _photoID);
 		notificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, _notificationType);
-		notificationBundle.putLong(Constants.BUNDLE_MESSAGE_ID, _messageID);
+		notificationBundle.putLong(Constants.BUNDLE_MESSAGE_ID, getMessageID());
 		notificationBundle.putString(Constants.BUNDLE_MESSAGE_STRING_ID, _messageStringID);
 		notificationBundle.putString(Constants.BUNDLE_TITLE, _title);
 		notificationBundle.putLong(Constants.BUNDLE_CALENDAR_ID, _calendarID);
@@ -237,8 +238,13 @@ public class Notification {
 		notificationBundle.putString(Constants.BUNDLE_LOOKUP_KEY, _lookupKey);
 		notificationBundle.putString(Constants.BUNDLE_K9_EMAIL_URI, _k9EmailUri);
 		notificationBundle.putString(Constants.BUNDLE_K9_EMAIL_DEL_URI, _k9EmailDelUri);
-		notificationBundle.putInt(Constants.BUNDLE_RESCHEDULE_NUMBER, _rescheduleNumber);
-		notificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, _notificationSubType);
+		if(reminder){
+			notificationBundle.putInt(Constants.BUNDLE_RESCHEDULE_NUMBER, _rescheduleNumber + 1);
+		}else{
+			notificationBundle.putInt(Constants.BUNDLE_RESCHEDULE_NUMBER, _rescheduleNumber);
+		}
+		notificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, _notificationSubType);		
+		notificationBundle.putString(Constants.BUNDLE_PACKAGE, _packageName );
 		notificationBundle.putString(Constants.BUNDLE_LINK_URL, _linkURL);
 		notificationBundle.putParcelable(Constants.BUNDLE_DISMISS_PENDINGINTENT, _dismissPendingIntent);
 		notificationBundle.putParcelable(Constants.BUNDLE_DELETE_PENDINGINTENT, _deletePendingIntent);
@@ -403,7 +409,7 @@ public class Notification {
 	public long getMessageID() {
 		if(_notificationType == Constants.NOTIFICATION_TYPE_SMS || _notificationType == Constants.NOTIFICATION_TYPE_MMS){
 			if(_messageID < 0){
-				_messageID = SMSCommon.getMessageID(_context, getThreadID(), _messageBody, _timeStamp, _notificationType);
+				_messageID = SMSCommon.getMessageID(_context, _sentFromAddress, getThreadID(), _messageBody, _timeStamp);
 			}
 		}
 		if (_debug) Log.v("Notification.getMessageID() MessageID: " + _messageID);
@@ -548,32 +554,16 @@ public class Notification {
 	public int getRescheduleNumber() {
 		if (_debug) Log.v("Notification.getRescheduleNumber() RescheduleNumber: " + _rescheduleNumber);
 	    return _rescheduleNumber;
-	}	
-	
-	/**
-	 * Set the rescheduleNumber property.
-	 */
-	public void setRescheduleNumber(int rescheduleNumber) {
-		if (_debug) Log.v("Notification.setRescheduleNumber()");
-		_rescheduleNumber = rescheduleNumber;
 	}
 
 	/**
-	 * Get the reminderPendingIntent property.
+	 * Get the pendingIntent property.
 	 * 
-	 * @return reminderPendingIntent - The current reminder PendingIntent.
+	 * @return pendingIntent - The current reminder/reschedule PendingIntent.
 	 */
-	public PendingIntent getReminderPendingIntent() {
-		if (_debug) Log.v("Notification.getReminderPendingIntent()");
-	    return _reminderPendingIntent;
-	}
-	
-	/**
-	 * Set the reminderPendingIntent property.
-	 */
-	public void setReminderPendingIntent(PendingIntent pendingIntent) {
-		if (_debug) Log.v("Notification.setReminderPendingIntent()");
-		_reminderPendingIntent = pendingIntent;
+	public PendingIntent getPendingIntent() {
+		if (_debug) Log.v("Notification.getPendingIntent()");
+	    return _pendingIntent;
 	}
 	
 	/**
@@ -788,11 +778,14 @@ public class Notification {
 			if(maxRescheduleAttempts < 0){
 				//Infinite Attempts.
 				triggerReminder = true;
-			}else if(_rescheduleNumber > maxRescheduleAttempts){
+			}else if(_rescheduleNumber >= maxRescheduleAttempts){
 				triggerReminder = false;
 			}
 			if(triggerReminder){
-				_reminderPendingIntent = Common.rescheduleNotification(_context, this, rescheduleTime, ++_rescheduleNumber);
+				if (_debug) Log.v("Notification.setReminder() Reminder has been triggered.");
+				reschedule(rescheduleTime, true);
+			}else{
+				if (_debug) Log.v("Notification.setReminder() Reminder will not be triggered.");
 			}
 		}
 	}
@@ -802,13 +795,21 @@ public class Notification {
 	 */
 	public void cancelReminder() {
 		if (_debug) Log.v("Notification.cancelReminder()");
-		if (_reminderPendingIntent != null) {
+		if (_pendingIntent != null) {
 	    	AlarmManager alarmManager = (AlarmManager) _context.getSystemService(Context.ALARM_SERVICE);
-	    	alarmManager.cancel(_reminderPendingIntent);
-	    	_reminderPendingIntent.cancel();
-	    	_reminderPendingIntent = null;
+	    	alarmManager.cancel(_pendingIntent);
+	    	_pendingIntent.cancel();
+	    	_pendingIntent = null;
 		}
 	}
+	
+//	/**
+//	 * Sets the alarm that will remind the user with another popup of the notification.
+//	 */
+//	public void setReschedule(long rescheduleTime){
+//		if (_debug) Log.v("Notification.setReschedule()");
+//		//TODO - Not sure if this will be done or not.
+//	}
 	
 	/**
 	 * SPeak the notification text using TTS.
@@ -940,6 +941,142 @@ public class Notification {
 				}
 				return false;
 			}
+		}
+	}
+
+	/**
+	 * Get a unique intent action for this notification.
+	 * 
+	 * This MUST be unique even across reschedule/reminder events, so the Reschedule/Reminder Number must be included 
+	 * in the action or this may fail to be recognized as a new Intent! 
+	 * 
+	 * @param reminder - A boolean indicating if this is rescheduling a reminder or not.
+	 * 
+	 * @return String - Returns a unique intent action for this notification.
+	 */
+	public String getRescheduleIntentAction(boolean reminder){
+		if (_debug) Log.v("Notification.getRescheduleIntentAction() Reminder: " + reminder);
+		String preText = null;
+		if(reminder){
+			preText = "apps.droidnotifydonate.reminder.";
+		}else{
+			preText = "apps.droidnotifydonate.reschedule.";
+		}
+		switch(_notificationType){
+			case Constants.NOTIFICATION_TYPE_PHONE:{
+				return preText + 
+						String.valueOf(_rescheduleNumber) + "." + 
+						String.valueOf(_notificationType) + "." + 
+						String.valueOf(_notificationSubType) + "." + 
+						String.valueOf(_callLogID) + "." + 
+						String.valueOf(_timeStamp);
+			}
+			case Constants.NOTIFICATION_TYPE_SMS:{
+				return preText + 
+						String.valueOf(_rescheduleNumber) + "." + 
+						String.valueOf(_notificationType) + "." + 
+						String.valueOf(_notificationSubType) + "." + 
+						String.valueOf(_messageID) + "." + 
+						String.valueOf(_threadID) + "." + 
+						String.valueOf(_timeStamp);
+			}
+			case Constants.NOTIFICATION_TYPE_MMS:{
+				return preText + 
+						String.valueOf(_rescheduleNumber) + "." + 
+						String.valueOf(_notificationType) + "." + 
+						String.valueOf(_notificationSubType) + "." + 
+						String.valueOf(_messageID) + "." + 
+						String.valueOf(_threadID) + "." + 
+						String.valueOf(_timeStamp);
+			}
+			case Constants.NOTIFICATION_TYPE_CALENDAR:{
+				return preText + 
+						String.valueOf(_rescheduleNumber) + "." +  
+						String.valueOf(_notificationType) + "." + 
+						String.valueOf(_notificationSubType) + "." + 
+						String.valueOf(_calendarID) + "." + 
+						String.valueOf(_calendarEventID);
+			}
+			case Constants.NOTIFICATION_TYPE_K9:{
+				return preText + 
+						String.valueOf(_rescheduleNumber) + "." + 
+						String.valueOf(_notificationType) + "." + 
+						String.valueOf(_notificationSubType) + "." + 
+						String.valueOf(_messageID) + "." + 
+						String.valueOf(_timeStamp);
+			}
+			case Constants.NOTIFICATION_TYPE_GENERIC:{
+				return preText + 
+						String.valueOf(_rescheduleNumber) + "." + 
+						String.valueOf(_notificationType) + "." + 
+						String.valueOf(_notificationSubType) + "." +  
+						_packageName + "." + 
+						String.valueOf(_timeStamp);
+			}
+			default:{
+				return null;
+			}
+		}
+	}
+	
+	/**
+	 * Reschedule this notification.
+	 * 
+	 * @param rescheduleTime - The time we want the notification to be rescheduled.
+	 * @param reminder - A boolean indicating if this is rescheduling a reminder or not.
+	 * 
+	 */
+	public void reschedule(long rescheduleTime, boolean reminder){
+		if (_debug) Log.v("Notification.reschedule() RescheduleTime: " + rescheduleTime + " Reminder: " + reminder);
+		long rescheduleInMinutes = (rescheduleTime - System.currentTimeMillis()) / 60 / 1000;
+		if (_debug) Log.v("Notification.reschedule() Rescheduling notification. Rechedule in " + String.valueOf(rescheduleInMinutes) + " minutes.");
+		int notificationType = _notificationType + 100;
+		
+		Bundle rescheduleBundle = new Bundle();
+		if(notificationType == Constants.NOTIFICATION_TYPE_RESCHEDULE_GENERIC){
+			rescheduleBundle = getNotificationBundle(reminder);
+		}else{
+			Bundle rescheduleNotificationBundle = new Bundle();
+			rescheduleNotificationBundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_1", getNotificationBundle(reminder));
+			rescheduleNotificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_BUNDLE_COUNT, 1);			
+			rescheduleBundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME, rescheduleNotificationBundle);
+			rescheduleBundle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, notificationType);
+		}
+
+		Intent rescheduleIntent = new Intent(_context, RescheduleReceiver.class);
+		rescheduleIntent.putExtras(rescheduleBundle);
+		//The action is what makes this intent unique from all other intents using this class.
+		String intentAction = getRescheduleIntentAction(reminder);
+		rescheduleIntent.setAction(intentAction);
+		if (_debug) Log.v("Notification.reschedule() Reschedule Notification Action: " + intentAction);
+		
+		//Cancel the previous reminder just in case it's still out there.
+		cancelReminder();
+		
+		//Android can be very frustrating. The Android OS saves PendingIntent Broadcasts for later use. 
+		//If you have set a PendingIntent before with the same Action, Class but DIFFERENT extras (data), it will return the first saved PendingIntent.
+		//It will NOT return the latest one!!! Very Frustrating!
+		PendingIntent reschedulePendingIntent = PendingIntent.getBroadcast(_context, 0, rescheduleIntent, 0);
+		if(reminder){
+			_pendingIntent = reschedulePendingIntent;	
+		}
+		AlarmManager alarmManager = (AlarmManager)_context.getSystemService(Context.ALARM_SERVICE);
+		alarmManager.set(AlarmManager.RTC_WAKEUP, rescheduleTime, reschedulePendingIntent);
+	}
+	
+	/**
+	 * Post a status bar notification to the Android notification system.
+	 * 
+	 * @param notificationTypecount - The total number of notifications of this type currently being displayed.
+	 * @param statusBarNotificationBundle - A Bundle that contains the android status bar notification settings.
+	 * 
+	 */
+	public void postStatusBarNotification(int notificationTypecount, Bundle statusBarNotificationBundle){
+		if (_debug) Log.v("Notification.setStatusBarNotification()");
+		if(_notificationType == Constants.NOTIFICATION_TYPE_GENERIC){
+		    Common.setStatusBarNotification(_context, 1, Constants.NOTIFICATION_TYPE_GENERIC, -1, true, null, -1, null, null, null, null, -1, false, statusBarNotificationBundle);
+		}else{
+			Common.setStatusBarNotification(_context, notificationTypecount, _notificationType, _notificationSubType, true, _contactName, _contactID, _sentFromAddress, _messageBody, _k9EmailUri, _linkURL, _threadID, false, statusBarNotificationBundle);
 		}
 	}
 	

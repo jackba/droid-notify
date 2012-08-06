@@ -11,7 +11,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.database.DatabaseUtils;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -111,7 +110,7 @@ public class SMSCommon {
 				messageBody = messageBody.replace("\n", "<br/>").trim();
 			}
     		threadID = getThreadID(context, sentFromAddress, Constants.NOTIFICATION_TYPE_SMS);
-    		messageID = getMessageID(context, threadID, messageBody, timeStamp, Constants.NOTIFICATION_TYPE_SMS);
+    		messageID = getMessageID(context, sentFromAddress, threadID, messageBody, timeStamp);
     		Bundle smsContactInfoBundle = sentFromAddress.contains("@") ? ContactsCommon.getContactsInfoByEmail(context, sentFromAddress) : ContactsCommon.getContactsInfoByPhoneNumber(context, sentFromAddress);
 			long contactID = -1;				
 			//Basic Notification Information.
@@ -350,123 +349,246 @@ public class SMSCommon {
 		return mmsNotificationBundle;
 	}
 	
+//	/**
+//	 * Load the SMS/MMS thread id for this notification.
+//	 * 
+//	 * @param context - Application Context.
+//	 * @param phoneNumber - Notifications's phone number.
+//	 */
+//	public static long getThreadID(Context context, String address, int messageType){
+//		_debug = Log.getDebug();
+//		if(_debug) Log.v("SMSCommon.getThreadID()");
+//		address = address.contains("@") ? EmailCommon.removeEmailFormatting(address) : PhoneCommon.removePhoneNumberFormatting(address);
+//		String messageURI = "content://sms/inbox";
+//		long threadID = -1;
+//		if(address == null|| address.equals("")){
+//			if(_debug) Log.v("SMSCommon.getThreadID() Address provided is null or empty. Exiting...");
+//			return -1;
+//		}
+//		try{
+//			final String[] projection = new String[] { "_id", "thread_id" };
+//			final String selection = "address=" + DatabaseUtils.sqlEscapeString(address);
+//			final String[] selectionArgs = null;
+//			final String sortOrder = null;
+//			Cursor cursor = null;
+//			try{
+//		    	cursor = context.getContentResolver().query(
+//		    		Uri.parse(messageURI),
+//		    		projection,
+//		    		selection,
+//					selectionArgs,
+//					sortOrder);
+//		    	if(cursor != null){
+//		    		if(cursor.moveToFirst()){
+//		    			threadID = cursor.getLong(cursor.getColumnIndex("thread_id"));
+//		    			if(_debug) Log.v("SMSCommon.getThreadID() Thread ID Found. THREAD_ID =  " + threadID);
+//		    		}
+//		    	}else{
+//			    	if(_debug) Log.v("SMSCommon.getThreadID() Currsor is null. Exiting...");
+//			    	return -1;
+//		    	}
+//				cursor.close();
+//	    	}catch(Exception e){
+//		    	Log.e("SMSCommon.getThreadID() EXCEPTION: " + e.toString());
+//	    		if(cursor != null){
+//					cursor.close();
+//				}
+//		    	return -1;
+//	    	}
+//		    if(threadID < 0){
+//		    	if(_debug) Log.v("SMSCommon.getThreadID() Thread ID NOT Found: ADDRESS = " + address + " MESSAGE_TYPE = " + messageType);
+//		    }
+//	    	return threadID;
+//		}catch(Exception ex){
+//			Log.e("SMSCommon.getThreadID() ERROR: " + ex.toString());
+//			return -1;
+//		}
+//	}	
+	
 	/**
-	 * Load the SMS/MMS thread id for this notification.
+	 * Get the SMS/MMS Thread ID for this notification.
 	 * 
-	 * @param context - Application Context.
-	 * @param phoneNumber - Notifications's phone number.
+	 * @param context - Application context.
+	 * @param address - SMS/MMS sent from address.
+	 * @param messageType - Message type (SMS/MMS);
+	 * 
+	 * @return long - Returns the Thread ID of this SMS/MMS message.
 	 */
 	public static long getThreadID(Context context, String address, int messageType){
 		_debug = Log.getDebug();
-		if(_debug) Log.v("SMSCommon.getThreadIdByAddress()");
+		if(_debug) Log.v("SMSCommon.getThreadID()");
 		address = address.contains("@") ? EmailCommon.removeEmailFormatting(address) : PhoneCommon.removePhoneNumberFormatting(address);
-		String messageURI = "content://sms/inbox";
-		long threadID = -1;
-		if(address == null|| address.equals("")){
+		if(address == null || address.equals("")){
 			if(_debug) Log.v("SMSCommon.getThreadID() Address provided is null or empty. Exiting...");
 			return -1;
 		}
+		long threadID = -1;
+		Cursor cursor = null;
 		try{
 			final String[] projection = new String[] { "_id", "thread_id" };
-			final String selection = "address=" + DatabaseUtils.sqlEscapeString(address);
-			final String[] selectionArgs = null;
+			//final String selection = "address=" + DatabaseUtils.sqlEscapeString(address);
+			final String selection = "address=?";
+			final String[] selectionArgs = new String[]{address};
 			final String sortOrder = null;
-			Cursor cursor = null;
-			try{
-		    	cursor = context.getContentResolver().query(
-		    		Uri.parse(messageURI),
-		    		projection,
-		    		selection,
-					selectionArgs,
-					sortOrder);
-		    	if(cursor != null){
-		    		if(cursor.moveToFirst()){
-		    			threadID = cursor.getLong(cursor.getColumnIndex("thread_id"));
-		    			if(_debug) Log.v("SMSCommon.getThreadID() Thread ID Found. THREAD_ID =  " + threadID);
-		    		}
-		    	}else{
-			    	if(_debug) Log.v("SMSCommon.getThreadIdByAddress() Currsor is null. Exiting...");
-			    	return -1;
-		    	}
-				cursor.close();
-	    	}catch(Exception e){
-		    	Log.e("SMSCommon.getThreadID() EXCEPTION: " + e.toString());
-	    		if(cursor != null){
+	    	cursor = context.getContentResolver().query(
+	    		Uri.parse("content://sms/inbox"),
+	    		projection,
+	    		selection,
+				selectionArgs,
+				sortOrder);
+	    	if(cursor.moveToFirst()){
+	   			threadID = cursor.getLong(cursor.getColumnIndex("thread_id"));
+	   			if(_debug) Log.v("SMSCommon.getThreadID() Thread ID Found: " + threadID);
+	    	}else{
+		    	if(_debug) Log.v("SMSCommon.getThreadID() Currsor is null. Exiting...");
+		    	return -1;
+	    	}
+			cursor.close();
+			return threadID;
+	   	}catch(Exception e){
+		    	Log.e("SMSCommon.getThreadID() ERROR: " + e.toString());
+	   		if(cursor != null){
 					cursor.close();
 				}
 		    	return -1;
-	    	}
-		    if(threadID < 0){
-		    	if(_debug) Log.v("SMSCommon.getMessageID() Thread ID NOT Found: ADDRESS = " + address + " MESSAGE_TYPE = " + messageType);
-		    }
-	    	return threadID;
-		}catch(Exception ex){
-			Log.e("SMSCommon.getThreadID() ERROR: " + ex.toString());
-			return -1;
-		}
+	   	}
 	}
 	
+//	/**
+//	 * Load the SMS/MMS message id for this notification.
+//	 * 
+//	 * @param context - Application Context.
+//	 * @param threadId - Notifications's threadID.
+//	 * @param timestamp - Notifications's timeStamp.
+//	 */
+//	public static long getMessageID(Context context, long threadID, String messageBody, long timeStamp, int messageType){
+//		_debug = Log.getDebug();
+//		if(_debug) Log.v("SMSCommon.getMessageID()");
+//		String messageURI = "content://sms/inbox";
+//		if(messageBody == null){
+//			if(_debug) Log.v("SMSCommon.getMessageID() Message body provided is null. Exiting...");
+//			return -1;
+//		} 
+//		long messageID = -1;
+//		try{
+//			final String[] projection = new String[] {"_id", "body"};
+//			final String selection;
+//			final String[] selectionArgs;
+//			if(threadID < 0){
+//				selection = null;
+//				selectionArgs = null;
+//			}else{
+//				selection = "thread_id=?";
+//				selectionArgs = new String[]{String.valueOf(threadID)};
+//			}
+//			final String sortOrder = null;
+//		    Cursor cursor = null;
+//		    try{
+//		    	cursor = context.getContentResolver().query(
+//		    		Uri.parse(messageURI),
+//		    		projection,
+//		    		selection,
+//					selectionArgs,
+//					sortOrder);
+//			    if(cursor == null){
+//			    	if(_debug) Log.v("SMSCommon.getMessageID() Currsor is null. Exiting...");
+//			    	return -1;
+//			    }
+//			    while(cursor.moveToNext()){ 
+//		    		if(cursor.getString(cursor.getColumnIndex("body")).replace("\n", "<br/>").trim().equals(messageBody)){
+//		    			messageID = cursor.getLong(cursor.getColumnIndex("_id"));
+//		    			if(_debug) Log.v("SMSCommon.getMessageID() Message ID Found. MESSAGE_ID = " + messageID);
+//		    			break;
+//		    		}
+//			    }
+//				cursor.close();
+//		    }catch(Exception ex){
+//				Log.e("SMSCommon.getMessageID() ERROR: " + ex.toString());
+//				if(cursor != null){
+//					cursor.close();
+//				}
+//				return -1;
+//			}
+//		    if(messageID < 0){
+//		    	if(_debug) Log.v("SMSCommon.getMessageID() Message ID NOT Found: THREAD_ID = " + threadID + " MESSAGE_BODY = " + messageBody);
+//		    }
+//		    return messageID;
+//		}catch(Exception ex){
+//			Log.e("SMSCommon.loadMessageID() ERROR: " + ex.toString());
+//			return -1;
+//		}
+//	}
+	
 	/**
-	 * Load the SMS/MMS message id for this notification.
+	 * Get the SMS Message ID for this notification.
 	 * 
-	 * @param context - Application Context.
-	 * @param threadId - Notifications's threadID.
-	 * @param timestamp - Notifications's timeStamp.
+	 * @param context - Application context.
+	 * @param address - The sent from address of this message.
+	 * @param threadID - The Thread ID of this message.
+	 * @param messageBody - The text of the message.
+	 * @param timeStamp - The timeStamp of the message.
+	 * 
+	 * @return long - Returns the Message ID of this SMS message.
 	 */
-	public static long getMessageID(Context context, long threadID, String messageBody, long timeStamp, int messageType){
+	public static long getMessageID(Context context, String address, long threadID, String messageBody, long timeStamp){
 		_debug = Log.getDebug();
 		if(_debug) Log.v("SMSCommon.getMessageID()");
-		String messageURI = "content://sms/inbox";
 		if(messageBody == null){
 			if(_debug) Log.v("SMSCommon.getMessageID() Message body provided is null. Exiting...");
 			return -1;
-		} 
+		}else{
+			messageBody = messageBody.replace("<br/>", "\n").replace("<br />", "\n").trim();
+		}
+		address = address.contains("@") ? EmailCommon.removeEmailFormatting(address) : PhoneCommon.removePhoneNumberFormatting(address);
+		if(address == null || address.equals("")){
+			if(_debug) Log.v("SMSCommon.getMessageID() Address provided is null or empty. Exiting...");
+			return -1;
+		}
 		long messageID = -1;
-		try{
+	    Cursor cursor = null;
+	    try{
 			final String[] projection = new String[] {"_id", "body"};
 			final String selection;
 			final String[] selectionArgs;
+			final String sortOrder = "date DESC";
 			if(threadID < 0){
-				selection = null;
-				selectionArgs = null;
+				selection = "address=?";
+				selectionArgs = new String[]{address};
 			}else{
 				selection = "thread_id=?";
 				selectionArgs = new String[]{String.valueOf(threadID)};
 			}
-			final String sortOrder = null;
-		    Cursor cursor = null;
-		    try{
-		    	cursor = context.getContentResolver().query(
-		    		Uri.parse(messageURI),
-		    		projection,
-		    		selection,
-					selectionArgs,
-					sortOrder);
-			    if(cursor == null){
-			    	if(_debug) Log.v("SMSCommon.getMessageID() Currsor is null. Exiting...");
-			    	return -1;
-			    }
-			    while(cursor.moveToNext()){ 
-		    		if(cursor.getString(cursor.getColumnIndex("body")).replace("\n", "<br/>").trim().equals(messageBody)){
-		    			messageID = cursor.getLong(cursor.getColumnIndex("_id"));
-		    			if(_debug) Log.v("SMSCommon.getMessageID() Message ID Found. MESSAGE_ID = " + messageID);
-		    			break;
-		    		}
-			    }
-				cursor.close();
-		    }catch(Exception ex){
-				Log.e("SMSCommon.getMessageID() ERROR: " + ex.toString());
-				if(cursor != null){
-					cursor.close();
-				}
-				return -1;
-			}
-		    if(messageID < 0){
-		    	if(_debug) Log.v("SMSCommon.getMessageID() Message ID NOT Found: THREAD_ID = " + threadID + " MESSAGE_BODY = " + messageBody);
+	    	cursor = context.getContentResolver().query(
+	    		Uri.parse("content://sms/inbox"),
+	    		projection,
+	    		selection,
+				selectionArgs,
+				sortOrder);
+		    if(cursor == null){
+		    	if(_debug) Log.v("SMSCommon.getMessageID() Currsor is null. Exiting...");
+		    	return -1;
 		    }
-		    return messageID;
-		}catch(Exception ex){
-			Log.e("SMSCommon.loadMessageID() ERROR: " + ex.toString());
+		    if(cursor.moveToFirst()){
+		    	int size = cursor.getCount();
+		    	for(int i=0;i<size;i++){
+			    	String currentMessageBody = cursor.getString(cursor.getColumnIndex("body")).trim();
+			    	//if(_debug) Log.v("SMSCommon.getMessageID() smsMessageBody: " + currentMessageBody + " MessageBody: " + messageBody);
+		    		if(currentMessageBody.equals(messageBody)){
+		    			messageID = cursor.getLong(cursor.getColumnIndex("_id"));
+		    			if(_debug) Log.v("SMSCommon.getMessageID() Message ID Found. MESSAGE_ID: " + messageID);
+		    			cursor.close();
+		    			return messageID;
+		    		}
+		    		cursor.moveToNext();
+		    	}
+		    }
+			cursor.close();
+			return -1;
+	    }catch(Exception ex){
+			Log.e("SMSCommon.getMessageID() ERROR: " + ex.toString());
+			if(cursor != null){
+				cursor.close();
+			}
 			return -1;
 		}
 	}
