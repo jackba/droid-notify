@@ -64,7 +64,12 @@ public class RescheduleService extends WakefulIntentService {
 			    if(rescheduleNotificationBundle != null){
 					Bundle rescheduleNotificationBundleSingle = rescheduleNotificationBundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_1");
 					if(rescheduleNotificationBundleSingle != null){
-				    	if(SMSCommon.isMessageRead(context, rescheduleNotificationBundleSingle.getLong(Constants.BUNDLE_MESSAGE_ID, -1), rescheduleNotificationBundleSingle.getLong(Constants.BUNDLE_THREAD_ID, -1))){
+						long threadID = rescheduleNotificationBundleSingle.getLong(Constants.BUNDLE_THREAD_ID, -1);
+						long messageID = rescheduleNotificationBundleSingle.getLong(Constants.BUNDLE_MESSAGE_ID, -1);
+						if(messageID < 0){
+							messageID = SMSCommon.getMessageID(context, rescheduleNotificationBundleSingle.getString(Constants.BUNDLE_SENT_FROM_ADDRESS), threadID, rescheduleNotificationBundleSingle.getString(Constants.BUNDLE_MESSAGE_BODY), rescheduleNotificationBundleSingle.getLong(Constants.BUNDLE_TIMESTAMP, -1));
+						}
+				    	if(SMSCommon.isMessageRead(context, messageID, threadID)){
 				    		if (_debug) Log.v("RescheduleBroadcastReceiverService.doWakefulWork() SMS/MMS Message has already been marked read. Exiting...");
 				    		return;
 				    	}
@@ -138,10 +143,10 @@ public class RescheduleService extends WakefulIntentService {
 		    	notificationIsBlocked = Common.isNotificationBlocked(context);
 		    }
 		    if(!notificationIsBlocked){
-		    	Common.startNotificationActivity(getApplicationContext(), intent.getExtras());
-		    }else{		    	
-		    	if(notificationType == Constants.NOTIFICATION_TYPE_GENERIC && notificationType == Constants.NOTIFICATION_TYPE_RESCHEDULE_GENERIC){
-		    		Common.rescheduleBlockedNotification(context, rescheduleNotificationInCall, rescheduleNotificationInQuickReply, notificationType, intent.getExtras());
+				Common.startNotificationActivity(getApplicationContext(), bundle);
+		    }else{
+		    	if(notificationType == Constants.NOTIFICATION_TYPE_GENERIC || notificationType == Constants.NOTIFICATION_TYPE_RESCHEDULE_GENERIC){
+		    		Common.rescheduleBlockedNotification(context, rescheduleNotificationInCall, rescheduleNotificationInQuickReply, notificationType, bundle);
 		    	}else{
 			    	//Display the Status Bar Notification even though the popup is blocked based on the user preferences.
 					Bundle rescheduleNotificationBundle = bundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME);
@@ -158,7 +163,7 @@ public class RescheduleService extends WakefulIntentService {
 							}			    			
 						}
 			    	}
-			    	Common.rescheduleBlockedNotification(context, rescheduleNotificationInCall, rescheduleNotificationInQuickReply, notificationType, rescheduleNotificationBundle);
+				    Common.rescheduleBlockedNotification(context, rescheduleNotificationInCall, rescheduleNotificationInQuickReply, notificationType, rescheduleNotificationBundle);
 			    }
 		    }
 		}catch(Exception ex){
