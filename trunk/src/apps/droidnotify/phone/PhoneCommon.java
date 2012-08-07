@@ -292,7 +292,7 @@ public class PhoneCommon {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("PhoneCommon.clearStockMissedCallNotification()");
 		try{
-			if(Common.getOSAPILevel() == 8){
+			if(Common.getDeviceAPILevel() == 8){
 				try{
 			        Class<?> serviceManagerClass = Class.forName("android.os.ServiceManager");
 			        Method getServiceMethod = serviceManagerClass.getMethod("getService", String.class);

@@ -59,7 +59,7 @@ public class CalendarCommon {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("CalendarCommon.readCalendars()");
 		try{
-			int APILevel = Common.getOSAPILevel();
+			int APILevel = Common.getDeviceAPILevel();
 			//Determine the reminder interval based on the users preferences.
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 			//Read preferences and exit if app is disabled.
@@ -334,7 +334,7 @@ public class CalendarCommon {
 		Cursor cursor = null;
 		String contentProvider = null;
 		try{
-			int APILevel = Common.getOSAPILevel();
+			int APILevel = Common.getDeviceAPILevel();
 			ContentResolver contentResolver = context.getContentResolver();
 			String calendarIDColumn = null;
 			String calendarDisplayNameColumn = null;
@@ -410,7 +410,7 @@ public class CalendarCommon {
 		Cursor cursor = null;
 		String contentProvider = null;
 		try{
-			int APILevel = Common.getOSAPILevel();
+			int APILevel = Common.getDeviceAPILevel();
 			String eventIDColumn = null;
 			String reminderTimeInMinutesColumn = null;
 			int defaultEventReminderMinutes = 15;
@@ -524,8 +524,13 @@ public class CalendarCommon {
 				Common.setInLinkedAppFlag(context, false);
 				return false;
 			}
+			String deviceManufacturer = Common.getDeviceManufacturer();
 			Intent intent = new Intent(Intent.ACTION_VIEW);
-			intent.setData(Uri.parse("content://com.android.calendar/events/" + String.valueOf(calendarEventID)));	
+			if(deviceManufacturer != null && deviceManufacturer.contains("HTC")){
+				intent.setData(Uri.parse("content://com.htc.calendar/events/" + String.valueOf(calendarEventID)));	
+			}else{
+				intent.setData(Uri.parse("content://com.android.calendar/events/" + String.valueOf(calendarEventID)));	
+			}
 			intent.putExtra(Constants.CALENDAR_EVENT_BEGIN_TIME, calendarEventStartTime);
 			intent.putExtra(Constants.CALENDAR_EVENT_END_TIME, calendarEventEndTime);
 	        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
@@ -561,8 +566,13 @@ public class CalendarCommon {
 				Common.setInLinkedAppFlag(context, false);
 				return false;
 			}
+			String deviceManufacturer = Common.getDeviceManufacturer();
 			Intent intent = new Intent(Intent.ACTION_EDIT);
-			intent.setData(Uri.parse("content://com.android.calendar/events/" + String.valueOf(calendarEventID)));	
+			if(deviceManufacturer != null && deviceManufacturer.contains("HTC")){
+				intent.setData(Uri.parse("content://com.htc.calendar/events/events/" + String.valueOf(calendarEventID)));	
+			}else{
+				intent.setData(Uri.parse("content://com.android.calendar/events/" + String.valueOf(calendarEventID)));
+			}
 			intent.putExtra(Constants.CALENDAR_EVENT_BEGIN_TIME, calendarEventStartTime);
 			intent.putExtra(Constants.CALENDAR_EVENT_END_TIME, calendarEventEndTime);
 	        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
@@ -590,29 +600,22 @@ public class CalendarCommon {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("CalendarCommon.startViewCalendarActivity()");
 		try{
-			//Androids calendar app.
+			String deviceManufacturer = Common.getDeviceManufacturer();
 			Intent intent = new Intent(Intent.ACTION_VIEW);
-			intent.setClassName("com.android.calendar", "com.android.calendar.LaunchActivity"); 
+			if(deviceManufacturer != null && deviceManufacturer.contains("HTC")){
+				intent.setComponent(new ComponentName("com.htc.calendar", "com.htc.calendar.LaunchActivity"));
+			}else{
+				intent.setClassName("com.android.calendar", "com.android.calendar.LaunchActivity"); 
+			}
 	        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 			notificationActivity.startActivityForResult(intent, requestCode);
 			Common.setInLinkedAppFlag(context, true);
 			return true;
-		}catch(Exception e){
-			Log.e("CalendarCommon.startAddCalendarEventActivity ERROR: " + e.toString());
-			try{
-				//HTC Sense UI calendar app.
-				Intent intent = new Intent(Intent.ACTION_MAIN); 
-				intent.setComponent(new ComponentName("com.htc.calendar", "com.htc.calendar.LaunchActivity"));
-		        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-				notificationActivity.startActivityForResult(intent, requestCode);
-				Common.setInLinkedAppFlag(context, true);
-				return true;
-			}catch(Exception ex){
-				Log.e("CalendarCommon.startViewCalendarActivity() ERROR: " + ex.toString());
-				Toast.makeText(context, context.getString(R.string.app_android_calendar_app_error), Toast.LENGTH_LONG).show();
-				Common.setInLinkedAppFlag(context, false);
-				return false;
-			}
+		}catch(Exception ex){
+			Log.e("CalendarCommon.startViewCalendarActivity() ERROR: " + ex.toString());
+			Toast.makeText(context, context.getString(R.string.app_android_calendar_app_error), Toast.LENGTH_LONG).show();
+			Common.setInLinkedAppFlag(context, false);
+			return false;
 		}
 	}
 	

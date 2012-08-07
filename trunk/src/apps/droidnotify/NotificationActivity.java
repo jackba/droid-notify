@@ -854,7 +854,7 @@ public class NotificationActivity extends Activity{
 	    Window mainWindow = getWindow();
     	//Set Background Blur Flags
 	    if(_preferences.getBoolean(Constants.BLUR_SCREEN_BACKGROUND_ENABLED_KEY, false)){
-	    	if(Common.getOSAPILevel() <= android.os.Build.VERSION_CODES.GINGERBREAD_MR1){
+	    	if(Common.getDeviceAPILevel() <= android.os.Build.VERSION_CODES.GINGERBREAD_MR1){
 	    		mainWindow.addFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
 	    	}
 	    }	 

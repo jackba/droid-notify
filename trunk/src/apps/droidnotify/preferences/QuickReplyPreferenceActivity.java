@@ -37,7 +37,7 @@ public class QuickReplyPreferenceActivity extends PreferenceActivity{
 	    this.addPreferencesFromResource(R.xml.quick_reply_preferences);
 	    this.setContentView(R.layout.quick_reply_preferences);
     	//Remove deprecated/invalid options based on OS version.
-    	if(Common.getOSAPILevel() > android.os.Build.VERSION_CODES.GINGERBREAD_MR1){
+    	if(Common.getDeviceAPILevel() > android.os.Build.VERSION_CODES.GINGERBREAD_MR1){
 			CheckBoxPreference blurScreenCheckBoxPreference = (CheckBoxPreference)findPreference(Constants.QUICK_REPLY_BLUR_SCREEN_BACKGROUND_ENABLED_KEY);
 			this.getPreferenceScreen().removePreference(blurScreenCheckBoxPreference);
     	}
