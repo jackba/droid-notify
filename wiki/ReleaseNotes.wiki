@@ -9,7 +9,7 @@
 *v3.17* _Coming Soon..._
  * 
 
-*v3.16* _Coming Soon..._
+*v3.16* (August 7, 2012)
  * Fixed some bugs in the notification reminder code.
  * Updated some application icons.
  * Fixed a few HTC Calendar compatibility issues.
