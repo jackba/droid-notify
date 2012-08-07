@@ -223,7 +223,7 @@ If your phone has been rooted, you can install and use a 3rd party add-on called
 ==Known Issues==
 
 Here are confirmed, known issues that have not been resolved yet:
- * *Repeat Popup Notifications.* Some users have reported that notifications will repeat and display again and again on the phone. I have not been able to reproduce this problem but I am looking into it with users who report this problem.
+ * 
 
 ==After Droid Notify Plus updates, the app stops working. Why?==
 
