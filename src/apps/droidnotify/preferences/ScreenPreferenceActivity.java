@@ -38,7 +38,7 @@ public class ScreenPreferenceActivity extends PreferenceActivity{
 	    this.addPreferencesFromResource(R.xml.screen_preferences);
 	    this.setContentView(R.layout.screen_preferences);
     	//Remove deprecated/invalid options based on OS version.
-    	if(Common.getOSAPILevel() > android.os.Build.VERSION_CODES.GINGERBREAD_MR1){
+    	if(Common.getDeviceAPILevel() > android.os.Build.VERSION_CODES.GINGERBREAD_MR1){
     		PreferenceCategory notificationsPreferenceCategory = (PreferenceCategory)findPreference("notifications_category");
     		if(notificationsPreferenceCategory != null){
 	    		CheckBoxPreference blurScreenCheckBoxPreference = (CheckBoxPreference)findPreference(Constants.BLUR_SCREEN_BACKGROUND_ENABLED_KEY);

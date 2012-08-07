@@ -525,6 +525,7 @@ public class Common {
 		try{
 			_context = context;
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+			String deviceManufacturer = Common.getDeviceManufacturer();
 			//Stop if app is disabled.
 			if(!preferences.getBoolean(Constants.APP_ENABLED_KEY, true)){
 				if (_debug) Log.v("Common.setStatusBarNotification() App Disabled. Exiting...");
@@ -794,7 +795,11 @@ public class Common {
 					}					
 					//Content Intent
 					notificationContentIntent = new Intent(Intent.ACTION_VIEW);
-					notificationContentIntent.setClassName("com.android.calendar", "com.android.calendar.LaunchActivity");
+					if(deviceManufacturer != null && deviceManufacturer.contains("HTC")){
+						notificationContentIntent.setClassName("com.htc.calendar", "com.htc.calendar.LaunchActivity");
+					}else{
+						notificationContentIntent.setClassName("com.android.calendar", "com.android.calendar.LaunchActivity");
+					}
 					//Delete Intent
 					notificationDeleteIntent = null;
 					//Content Intent
@@ -1895,17 +1900,32 @@ public class Common {
 	}
 	
 	/**
-	 * Read the users OS API level from the device.
+	 * Read the API level from the device.
 	 * 
 	 * @return int - The SDK Interger API level of the device.
 	 */
-	public static int getOSAPILevel(){
+	public static int getDeviceAPILevel(){
 		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.getOSAPILevel() API Level:" + android.os.Build.VERSION.SDK_INT);
+		if (_debug) Log.v("Common.getDeviceAPILevel() API Level:" + android.os.Build.VERSION.SDK_INT);
 		try{
 			return android.os.Build.VERSION.SDK_INT;
 		}catch(Exception ex){
 			return 0;
+		}
+	}
+	
+	/**
+	 * Read the manufacturer from the device.
+	 * 
+	 * @return String - The name of the manufacturer of the device.
+	 */
+	public static String getDeviceManufacturer(){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.getDeviceManufacturer() Device Manufacturer:" + android.os.Build.MANUFACTURER);
+		try{
+			return android.os.Build.MANUFACTURER;
+		}catch(Exception ex){
+			return null;
 		}
 	}
 	
