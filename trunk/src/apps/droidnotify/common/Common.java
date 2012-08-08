@@ -1577,12 +1577,13 @@ public class Common {
 
 	/**
 	 * Reschedule a blocked notification.
+	 * This may or may not reschedule a notification. This is in part determined by the user preferences.
 	 * 
 	 * @param context - The application context.
 	 * @param rescheduleNotificationInCall - Boolean that indicates that in-call rescheduling is turned on.
 	 * @param rescheduleNotificationInQuickReply - Boolean that indicates that in-quick reply app rescheduling is turned on.
-	 * @param className - The name of the receiver class.
-	 * @param extrasBundle - The extras information to pass to the receiver class.
+	 * @param notificationType - The notification type.
+	 * @param incomingNotificationBundle - The bundle that contains the notification information.
 	 */
 	public static void rescheduleBlockedNotification(Context context, boolean rescheduleNotificationInCall, boolean rescheduleNotificationInQuickReply, int notificationType, Bundle incomingNotificationBundle){
 		_debug = Log.getDebug();
@@ -1906,7 +1907,7 @@ public class Common {
 	 */
 	public static int getDeviceAPILevel(){
 		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.getDeviceAPILevel() API Level:" + android.os.Build.VERSION.SDK_INT);
+		if (_debug) Log.v("Common.getDeviceAPILevel() API Level: " + android.os.Build.VERSION.SDK_INT);
 		try{
 			return android.os.Build.VERSION.SDK_INT;
 		}catch(Exception ex){
@@ -1921,7 +1922,7 @@ public class Common {
 	 */
 	public static String getDeviceManufacturer(){
 		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.getDeviceManufacturer() Device Manufacturer:" + android.os.Build.MANUFACTURER);
+		if (_debug) Log.v("Common.getDeviceManufacturer() Device Manufacturer: " + android.os.Build.MANUFACTURER);
 		try{
 			return android.os.Build.MANUFACTURER;
 		}catch(Exception ex){

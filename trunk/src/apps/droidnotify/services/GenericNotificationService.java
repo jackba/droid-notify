@@ -72,7 +72,7 @@ public class GenericNotificationService extends WakefulIntentService {
 		    Bundle intentExtrasBundle = intent.getExtras();
 		    //Check for empty notifications.
 		    if(isEmptyGenericNotification(intentExtrasBundle)){
-		    	if (_debug) Log.v("GenericNotificationService.doWakefulWork() Generic Notification Is Empty. Exiting...");
+		    	Log.e("GenericNotificationService.doWakefulWork() Generic Notification Is Empty. Exiting...");
 		    	return;
 		    }
 		    if(!notificationIsBlocked){
@@ -93,9 +93,12 @@ public class GenericNotificationService extends WakefulIntentService {
 	 * @return boolean- Return true if the bundle is missing key information.
 	 */
 	private boolean isEmptyGenericNotification(Bundle bundle){
+		//if (_debug) Log.v("GenericNotificationService.isEmptyGenericNotification()");
 		String packageName = bundle.getString(Constants.BUNDLE_PACKAGE);
 		String displayText = bundle.getString(Constants.BUNDLE_DISPLAY_TEXT);
 		if(packageName == null || packageName.trim().equals("") || displayText == null || displayText.trim().equals("")){
+			Log.e("GenericNotificationService.isEmptyGenericNotification() PackageName: " + packageName);
+			Log.e("GenericNotificationService.isEmptyGenericNotification() DisplayText: " + displayText);
 			return true;
 		}
 		return false;

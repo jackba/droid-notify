@@ -67,7 +67,9 @@
       			android:nextFocusLeft="@+id/message_edit_text"
 				android:gravity="center_vertical|center_horizontal"
 				android:hapticFeedbackEnabled="true"
-      			android:src="@drawable/preference_ic_email_developer" />
+      			android:src="@drawable/ic_send"
+      			android:background="@drawable/transparent"
+      			android:padding="15dp" />
   			<TextView 
 				android:id="@+id/characters_remaining_text_view"
 				android:layout_height="wrap_content"

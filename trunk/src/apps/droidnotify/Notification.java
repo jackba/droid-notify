@@ -902,13 +902,13 @@ public class Notification {
 				return false;
 			}
 			case Constants.NOTIFICATION_TYPE_SMS:{
-				if(_messageID == notification.getMessageID()){
+				if(getMessageID() == notification.getMessageID()){
 					return true;
 				}
 				return false;
 			}
 			case Constants.NOTIFICATION_TYPE_MMS:{
-				if(_messageID == notification.getMessageID()){
+				if(getMessageID() == notification.getMessageID()){
 					return true;
 				}
 				return false;

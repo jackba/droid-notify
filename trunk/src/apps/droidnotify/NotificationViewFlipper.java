@@ -76,8 +76,9 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 * Add new View to the ViewFlipper.
 	 * 
 	 * @param notification - Notification to add to the ArrayList.
+	 * @param isNew - This notification is new and not a re-loaded/unread older notification.
 	 */
-	public void addNotification(Notification notification){
+	public void addNotification(Notification notification, boolean isNew){
 		if(_debug) Log.v("NotificationViewFlipper.addNotification()");
 		try{
 			int notificationType = notification.getNotificationType();
@@ -136,8 +137,12 @@ public class NotificationViewFlipper extends ViewFlipper {
 			}else{
 				if(_debug) Log.v("NotificationViewFlipper.addNotification() Duplicate Notification Found! This notification will not be added.");
 			}
-			//Set the notification reminder.
-			notification.setReminder();
+			//Only set the reminders if the notification is new.
+			//DO NOT set reminders for notifications that come from loading unread SMS messages.
+			if(isNew){
+				//Set the notification reminder.
+				notification.setReminder();
+			}
 		}catch(Exception ex){
 			Log.e("NotificationViewFlipper.addNotification() ERROR: " + ex.toString());
 		}

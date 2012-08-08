@@ -152,7 +152,6 @@ public class SMSCommon {
     		final String selection = "read=?";
     		final String[] selectionArgs = new String[] {"0"};
     		final String sortOrder = "date DESC";
-    		boolean isFirst = false;
 		    cursor = context.getContentResolver().query(
 		    		Uri.parse("content://sms/inbox"),
 		    		projection,
@@ -163,6 +162,7 @@ public class SMSCommon {
 		    	if(_debug) Log.v("SMSCommon.getAllUnreadSMSMessages() Currsor is null. Exiting...");
 		    	return null;
 		    }
+    		boolean isFirst = true;
 		    while(cursor.moveToNext()){ 
 	    		Bundle smsNotificationBundleSingle = new Bundle();
 		    	long messageID = cursor.getLong(cursor.getColumnIndex("_id"));
@@ -293,7 +293,6 @@ public class SMSCommon {
     		final String selection = "read=?";
     		final String[] selectionArgs = new String[] {"0"};
     		final String sortOrder = "date DESC";
-			boolean isFirst = true;
 		    cursor = context.getContentResolver().query(
 		    		Uri.parse("content://mms/inbox"),
 		    		projection,
@@ -304,6 +303,7 @@ public class SMSCommon {
 		    	if(_debug) Log.v("SMSCommon.getAllUnreadMMSMessages() Currsor is null. Exiting...");
 		    	return null;
 		    }
+			boolean isFirst = true;
 	    	while(cursor.moveToNext()){
 	    		//Do not grab the first unread MMS message.
 	    		if(!isFirst){
@@ -1029,7 +1029,6 @@ public class SMSCommon {
 	public static boolean isMessageRead(Context context, long messageID, long threadID){
 		_debug = Log.getDebug();
 		if(_debug) Log.v("SMSCommon.isMessageRead()");
-		//if(_debug) Log.v("SMSCommon.isMessageRead() MessageID: " + messageID + " ThreadID: " + threadID);
 		Cursor cursor = null;
 		try{
 			if(messageID < 0){
@@ -1046,7 +1045,7 @@ public class SMSCommon {
 				selection = "_id=? AND thread_id=?";
 				selectionArgs = new String[]{String.valueOf(messageID), String.valueOf(threadID)};
 			}
-    		final String sortOrder = null;
+    		final String sortOrder = "date DESC";
 				cursor = context.getContentResolver().query(
 						Uri.parse("content://sms/inbox"),
 						projection,

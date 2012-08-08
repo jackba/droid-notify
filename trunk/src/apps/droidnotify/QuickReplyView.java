@@ -8,6 +8,7 @@ import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
+import android.os.AsyncTask;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.text.Editable;
@@ -142,7 +143,7 @@ public class QuickReplyView extends LinearLayout {
 		int windowPaddingBottom = 0;
 		int windowPaddingLeft = Integer.parseInt(_preferences.getString(Constants.POPUP_WINDOW_WIDTH_PADDING_KEY, "0"));
 		int windowPaddingRight = windowPaddingLeft;
-		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 		layoutParams.setMargins(windowPaddingLeft, windowPaddingTop, windowPaddingRight, windowPaddingBottom);
 		_replyWindowLinearLayout.setLayoutParams(layoutParams);
 	}
@@ -192,7 +193,7 @@ public class QuickReplyView extends LinearLayout {
 		_titleTextView.setTextColor(textColorID);
 		_charactersRemainingTextView.setTextColor(textColorID);
 		
-		_sendButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));
+		//_sendButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));
 		_cancelButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));	
 
 		_cancelButton.setTextColor(buttonTextColorID);		
@@ -288,36 +289,18 @@ public class QuickReplyView extends LinearLayout {
 		    		//Do Nothing.
 		    	}
 		    	public void onTextChanged(CharSequence s, int start, int before, int count){
+		    		int characterCount = s.length();
 		    		//Enable the Send button if there is text in the EditText layout.
-		    		int maxCharacters = -1;
-		    		int characterBundleAmount = 160;
-		    		boolean useCharacterBundles = false;
-		    		if(s.length() > 0){
+		    		if(characterCount> 0){
 		    			_sendButton.setEnabled(true);
 		    		}else{
 		    			_sendButton.setEnabled(false);
 		    		}
-		    		switch(_notificationType){
-				    	case Constants.NOTIFICATION_TYPE_SMS:{
-				    		maxCharacters = -1;
-				    		characterBundleAmount = 160;
-				    		useCharacterBundles = true;
-					    	break;
-					    }
-				    }
-		    		int numberOfBundles = s.length() / characterBundleAmount;
+		    		int numberOfBundles = characterCount/ 160;
 		    		int charactersRemaining = 0;
-		    		if(maxCharacters == -1){
-		    			charactersRemaining = characterBundleAmount - (s.length() - (numberOfBundles * characterBundleAmount));
-		    		}else{
-		    			charactersRemaining = maxCharacters - (s.length() - (numberOfBundles * maxCharacters));
-		    		}
+		    		charactersRemaining = 160 - (characterCount- (numberOfBundles * 160));
 		    		String charactersRemainingText = null;
-		    		if(useCharacterBundles){
-			    		charactersRemainingText = String.valueOf(numberOfBundles) + "/" + String.valueOf(charactersRemaining);
-		    		}else{
-		    			charactersRemainingText = String.valueOf(charactersRemaining);
-		    		}
+		    		charactersRemainingText = String.valueOf(numberOfBundles) + "/" + String.valueOf(charactersRemaining);
 		    		_charactersRemainingTextView.setText(charactersRemainingText);
 		    	}
 		    });	
@@ -365,5 +348,77 @@ public class QuickReplyView extends LinearLayout {
 			}
 		}
 	}
+	
+//	/**
+//	 * Set current reply text count in the background.
+//	 * 
+//	 * @author Camille Sévigny
+//	 */
+//	private class setReplyTextCountAsyncTask extends AsyncTask<String, Void, String>{
+//	    
+//		/**
+//	     * Do this work in the background.
+//	     * 
+//	     * @param params - The contact's id.
+//	     */
+//	    protected String doInBackground(String... params){
+//			//if(_debug) Log.v("QuickReplyView.setReplyTextCountAsyncTask.doInBackground()");
+//			try{
+//				//Enable the Send button if there is text in the EditText layout.
+//	    		int maxCharacters = -1;
+//	    		int characterBundleAmount = 160;
+//	    		boolean useCharacterBundles = false;
+//	    		int count = Integer.parseInt(params[0]);
+//	    		if(count > 0){
+//	    			_sendButton.setEnabled(true);
+//	    		}else{
+//	    			_sendButton.setEnabled(false);
+//	    		}
+//	    		switch(_notificationType){
+//			    	case Constants.NOTIFICATION_TYPE_SMS:{
+//			    		maxCharacters = -1;
+//			    		characterBundleAmount = 160;
+//			    		useCharacterBundles = true;
+//				    	break;
+//				    }
+//					case Constants.NOTIFICATION_TYPE_TWITTER:{	   
+//						maxCharacters = 140;
+//						characterBundleAmount = 140;
+//						useCharacterBundles = false;
+//						break;
+//					}
+//			    }
+//	    		int numberOfBundles = count / characterBundleAmount;
+//	    		int charactersRemaining = 0;
+//	    		if(maxCharacters == -1){
+//	    			charactersRemaining = characterBundleAmount - (count - (numberOfBundles * characterBundleAmount));
+//	    		}else{
+//	    			charactersRemaining = maxCharacters - (count - (numberOfBundles * maxCharacters));
+//	    		}
+//	    		String charactersRemainingText = null;
+//	    		if(useCharacterBundles){
+//		    		charactersRemainingText = String.valueOf(numberOfBundles) + "/" + String.valueOf(charactersRemaining);
+//	    		}else{
+//	    			charactersRemainingText = String.valueOf(charactersRemaining);
+//	    		}
+//				return charactersRemainingText;
+//			}catch(Exception ex){
+//				Log.e("QuickReplyView.setReplyTextCountAsyncTask.doInBackground() ERROR: " + ex.toString());
+//				return null;
+//			}
+//	    }
+//	    
+//	    /**
+//	     * Set the characters remaining text.
+//	     * 
+//	     * @param replyCountText - The text to display.
+//	     */
+//	    protected void onPostExecute(String replyCountText){
+//			//if(_debug) Log.v("QuickReplyView.setReplyTextCountAsyncTask.onPostExecute()");	
+//			if(replyCountText != null){
+//	    		_charactersRemainingTextView.setText(replyCountText);
+//			}
+//	    }
+//	}
 	
 }
