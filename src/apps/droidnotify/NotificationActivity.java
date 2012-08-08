@@ -852,6 +852,8 @@ public class NotificationActivity extends Activity{
 	    }
 	    //Get main window for this Activity.
 	    Window mainWindow = getWindow();
+	    //Don't automatically show the soft keyboard.
+	    mainWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     	//Set Background Blur Flags
 	    if(_preferences.getBoolean(Constants.BLUR_SCREEN_BACKGROUND_ENABLED_KEY, false)){
 	    	if(Common.getDeviceAPILevel() <= android.os.Build.VERSION_CODES.GINGERBREAD_MR1){
@@ -872,7 +874,7 @@ public class NotificationActivity extends Activity{
 	    switch(notificationType){ 
 		    case Constants.NOTIFICATION_TYPE_PHONE:{
 		    	if(_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_PHONE");
-		    	if(!setupBundleNotifications(extrasBundle, true)){
+		    	if(!setupBundleNotifications(extrasBundle, true, true)){
 					finishActivity();
 					return;
 				}
@@ -880,7 +882,7 @@ public class NotificationActivity extends Activity{
 		    }
 		    case Constants.NOTIFICATION_TYPE_SMS:{
 			    if(_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_SMS");
-			    if(!setupBundleNotifications(extrasBundle, true)){
+			    if(!setupBundleNotifications(extrasBundle, true, true)){
 					finishActivity();
 					return;
 				}else{
@@ -892,7 +894,7 @@ public class NotificationActivity extends Activity{
 		    }
 		    case Constants.NOTIFICATION_TYPE_MMS:{
 		    	if(_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_MMS");
-		    	if(!setupBundleNotifications(extrasBundle, true)){
+		    	if(!setupBundleNotifications(extrasBundle, true, true)){
 					finishActivity();
 					return;
 				}else{
@@ -904,7 +906,7 @@ public class NotificationActivity extends Activity{
 		    }
 		    case Constants.NOTIFICATION_TYPE_CALENDAR:{
 		    	if(_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_CALENDAR");
-		    	if(!setupBundleNotifications(extrasBundle, true)){
+		    	if(!setupBundleNotifications(extrasBundle, true, true)){
 					finishActivity();
 					return;
 				}
@@ -912,7 +914,7 @@ public class NotificationActivity extends Activity{
 			}
 			case Constants.NOTIFICATION_TYPE_K9:{
 				if(_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_K9");
-				if(!setupBundleNotifications(extrasBundle, true)){
+				if(!setupBundleNotifications(extrasBundle, true, true)){
 					finishActivity();
 					return;
 				}
@@ -928,7 +930,7 @@ public class NotificationActivity extends Activity{
 		    }
 		    case Constants.NOTIFICATION_TYPE_RESCHEDULE_PHONE:{
 		    	if(_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_PHONE");
-				if(!setupBundleNotifications(extrasBundle, true)){
+				if(!setupBundleNotifications(extrasBundle, true, true)){
 					finishActivity();
 					return;
 				}
@@ -936,7 +938,7 @@ public class NotificationActivity extends Activity{
 		    }
 		    case Constants.NOTIFICATION_TYPE_RESCHEDULE_SMS:{
 			    if(_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_RESCHEDULE_SMS");
-				if(!setupBundleNotifications(extrasBundle, true)){
+				if(!setupBundleNotifications(extrasBundle, true, true)){
 					finishActivity();
 					return;
 				}else{
@@ -948,7 +950,7 @@ public class NotificationActivity extends Activity{
 		    }
 		    case Constants.NOTIFICATION_TYPE_RESCHEDULE_MMS:{
 		    	if(_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_RESCHEDULE_MMS");
-				if(!setupBundleNotifications(extrasBundle, true)){
+				if(!setupBundleNotifications(extrasBundle, true, true)){
 					finishActivity();
 					return;
 				}else{
@@ -960,7 +962,7 @@ public class NotificationActivity extends Activity{
 		    }
 		    case Constants.NOTIFICATION_TYPE_RESCHEDULE_CALENDAR:{
 		    	if(_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_RESCHEDULE_CALENDAR");
-				if(!setupBundleNotifications(extrasBundle, true)){
+				if(!setupBundleNotifications(extrasBundle, true, true)){
 					finishActivity();
 					return;
 				}
@@ -968,7 +970,7 @@ public class NotificationActivity extends Activity{
 			}
 			case Constants.NOTIFICATION_TYPE_RESCHEDULE_K9:{
 				if(_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_RESCHEDULE_K9");
-				if(!setupBundleNotifications(extrasBundle, true)){
+				if(!setupBundleNotifications(extrasBundle, true, true)){
 					finishActivity();
 					return;
 				}
@@ -1137,12 +1139,12 @@ public class NotificationActivity extends Activity{
 	    switch(notificationType){
 	    	case Constants.NOTIFICATION_TYPE_PHONE:{
 		    	if(_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_PHONE");
-		    	setupBundleNotifications(extrasBundle, true);
+		    	setupBundleNotifications(extrasBundle, true, true);
 		    	break;
 		    }
 	    	case Constants.NOTIFICATION_TYPE_SMS:{
 			    if(_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_SMS");
-			    setupBundleNotifications(extrasBundle, true);
+			    setupBundleNotifications(extrasBundle, true, true);
 				if(_preferences.getBoolean(Constants.SMS_DISPLAY_UNREAD_KEY, false)){
 					if(_notificationViewFlipper.getSMSCount() <= 1){
 						new getAllUnreadSMSMessagesAsyncTask().execute();
@@ -1152,7 +1154,7 @@ public class NotificationActivity extends Activity{
 		    }
 	    	case Constants.NOTIFICATION_TYPE_MMS:{
 		    	if(_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_MMS");
-		    	setupBundleNotifications(extrasBundle, true);
+		    	setupBundleNotifications(extrasBundle, true, true);
 				if(_preferences.getBoolean(Constants.MMS_DISPLAY_UNREAD_KEY, false)){
 					if(_notificationViewFlipper.getMMSCount() <= 1){			
 						new getAllUnreadMMSMessagesAsyncTask().execute();
@@ -1162,12 +1164,12 @@ public class NotificationActivity extends Activity{
 		    }
 	    	case Constants.NOTIFICATION_TYPE_CALENDAR:{
 		    	if(_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_CALENDAR");
-			    setupBundleNotifications(extrasBundle, true);
+			    setupBundleNotifications(extrasBundle, true, true);
 		    	break;
 		    }
 			case Constants.NOTIFICATION_TYPE_K9:{
 				if(_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_K9");
-				setupBundleNotifications(extrasBundle, true);
+				setupBundleNotifications(extrasBundle, true, true);
 				break;
 		    }
 			case Constants.NOTIFICATION_TYPE_GENERIC:{
@@ -1177,12 +1179,12 @@ public class NotificationActivity extends Activity{
 		    }
 	    	case Constants.NOTIFICATION_TYPE_RESCHEDULE_PHONE:{
 		    	if(_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_RESCHEDULE_PHONE");
-		    	setupBundleNotifications(extrasBundle, true);
+		    	setupBundleNotifications(extrasBundle, true, true);
 		    	break;
 		    }
 		    case Constants.NOTIFICATION_TYPE_RESCHEDULE_SMS:{
 			    if(_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_RESCHEDULE_SMS");
-			    setupBundleNotifications(extrasBundle, true);
+			    setupBundleNotifications(extrasBundle, true, true);
 				if(_preferences.getBoolean(Constants.SMS_DISPLAY_UNREAD_KEY, false)){
 					if(_notificationViewFlipper.getSMSCount() <= 1){
 						new getAllUnreadSMSMessagesAsyncTask().execute();
@@ -1192,7 +1194,7 @@ public class NotificationActivity extends Activity{
 		    }
 		    case Constants.NOTIFICATION_TYPE_RESCHEDULE_MMS:{
 		    	if(_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_RESCHEDULE_MMS");
-		    	setupBundleNotifications(extrasBundle, true);
+		    	setupBundleNotifications(extrasBundle, true, true);
 				if(_preferences.getBoolean(Constants.MMS_DISPLAY_UNREAD_KEY, false)){
 					if(_notificationViewFlipper.getMMSCount() <= 1){			
 						new getAllUnreadMMSMessagesAsyncTask().execute();
@@ -1202,12 +1204,12 @@ public class NotificationActivity extends Activity{
 		    }
 		    case Constants.NOTIFICATION_TYPE_RESCHEDULE_CALENDAR:{
 		    	if(_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_RESCHEDULE_CALENDAR");
-		    	setupBundleNotifications(extrasBundle, true);
+		    	setupBundleNotifications(extrasBundle, true, true);
 		    	break;
 			}
 			case Constants.NOTIFICATION_TYPE_RESCHEDULE_K9:{
 				if(_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_RESCHEDULE_K9");
-				setupBundleNotifications(extrasBundle, true);
+				setupBundleNotifications(extrasBundle, true, true);
 				break;
 		    }
 			case Constants.NOTIFICATION_TYPE_RESCHEDULE_GENERIC:{
@@ -1363,7 +1365,7 @@ public class NotificationActivity extends Activity{
 				Bundle bundle = new Bundle();
 				bundle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_SMS);
 				bundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME, smsNotificationBundle);
-				setupBundleNotifications(bundle, false);
+				setupBundleNotifications(bundle, false, false);
 			}
 	    }
 	}
@@ -1396,7 +1398,7 @@ public class NotificationActivity extends Activity{
 				Bundle bundle = new Bundle();
 				bundle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_SMS);
 				bundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME, mmsNotificationBundle);
-				setupBundleNotifications(bundle, false);
+				setupBundleNotifications(bundle, false, false);
 			}
 	    }
 	}
@@ -1405,10 +1407,12 @@ public class NotificationActivity extends Activity{
 	 * Setup the bundle notification.
 	 * 
 	 * @param bundle - Activity bundle.
+	 * @param postStatusBarnotification - Boolean telling us to post a new status bar notification.
+	 * @param isNew - This notification is new and not a re-loaded/unread older notification.
 	 * 
 	 * @return boolean - Returns true if the method did not encounter an error.
 	 */
-	private boolean setupBundleNotifications(Bundle bundle, boolean postStatusBarnotification){
+	private boolean setupBundleNotifications(Bundle bundle, boolean postStatusBarnotification, boolean isNew){
 		if(_debug) Log.v("NotificationActivity.setupBundleNotifications()");
 		try{
 			Bundle notificationBundle = bundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME);
@@ -1429,7 +1433,7 @@ public class NotificationActivity extends Activity{
 				//Only display the notification popup window if not in restrict mode.
 				if(displayPopup){
 					//Add the Notification to the ViewFlipper.
-					_notificationViewFlipper.addNotification(notification);
+					_notificationViewFlipper.addNotification(notification, isNew);
 				}
 				//Display Status Bar Notification
 			    if(postStatusBarnotification){
@@ -1463,7 +1467,7 @@ public class NotificationActivity extends Activity{
 			if(displayPopup){
 				Notification notification = new Notification(_context, bundle);
 				//Add the Notification to the ViewFlipper.
-				_notificationViewFlipper.addNotification(notification);
+				_notificationViewFlipper.addNotification(notification, true);
 				//Display Status Bar Notification
 				notification.postStatusBarNotification(getNotificationTypeCount(notification.getNotificationType(), notification.getNotificationSubType()), bundle);
 			}

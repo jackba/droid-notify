@@ -276,25 +276,25 @@
   <string name="preference_mms_enabled_title">Habilitar MMS</string>
   <string name="mms_enabled_summary">Habilitar notificações de MMS.</string>
   <string name="preference_mms_display_unread_enabled_title">Carregar MMS não lidos</string>
-  <string name="display_unread_mms_enabled_summary">Carregar todas as mensagens mms não lidas quando chegar uma nova mensagem mms.</string>
+  <string name="display_unread_mms_enabled_summary">Carregar todas as mensagens não lidas quando chegar uma nova mensagem.</string>
   <string name="preference_mms_timeout">Tempo limite MMS</string>
   <string name="preference_mms_timeout_summary">Defina quanto tempo esperar após um MMS ser recebido antes de consultar a caixa de entrada MMS para uma nova mensagem.</string>
   <string name="missed_calls_category">CHAMADAS PERDIDAS</string>
-  <string name="missed_calls">Chamadas Não Atendidas</string>
+  <string name="missed_calls">Chamadas Perdidas</string>
   <string name="private_number_text">Número privado</string>
   <string name="call_contact_text">Chamar Contato</string>
-  <string name="call_number">Chamar Contato</string>
+  <string name="call_number">Chamar</string>
   <string name="view_call_log_text">Ver registro de chamadas</string>
   <string name="select_number_text">Selecione o número</string>
-  <string name="missed_call_enabled_title">Habilitar Chamada Perdida</string>
+  <string name="missed_call_enabled_title">Habilitar Chamadas Perdidas</string>
   <string name="missed_call_enabled_summary">Habilitar notificações de chamadas perdidas.</string>
   <string name="preference_missed_call_loading_title">Configurações de carregamento</string>
   <string name="preference_missed_call_loading_summary">Defina que chamadas carregar quando é recebida uma chamada não atendida.</string>
   <string name="preference_call_log_timeout">Tempo limite do registro de chamadas</string>
   <string name="preference_call_log_timeout_summary">Defina quanto tempo esperar após uma chamada antes de consultar o registro de chamadas para uma chamada não atendida.</string>
-  <string name="mms_click_here_to_view">[Clique Aqui Para Ver a Mensagem MMS]</string>
-  <string name="click_to_view_message">[Clique Aqui Para Ver a Mensagem]</string>
-  <string name="click_to_view_log">[Clique Aqui Para Exibir o Registro]</string>
+  <string name="mms_click_here_to_view">[Clique Para Ver o MMS]</string>
+  <string name="click_to_view_message">[Clique Para Ver o SMS]</string>
+  <string name="click_to_view_log">[Clique Para Abrir o Registro]</string>
   <string name="event_reminders_category">LEMBRETES DE EVENTOS</string>
   <string name="calendar">Calendário</string>
   <string name="add_calendar_event_text">Adicionar evento ao calendário</string>
@@ -474,12 +474,12 @@
   <string name="import_export_category">IMPORTAÇÃO/EXPORTAÇÃO</string>
   <string name="preference_export_preferences_title">Exportar Preferências</string>
   <string name="preference_export_preferences_summary">Exportar preferências do aplicativo para o cartão SD.</string>
-  <string name="preference_export_preferences_progress_text">Exportando preferências</string>
+  <string name="preference_export_preferences_progress_text">Exportando preferências...</string>
   <string name="preference_export_preferences_finish_text">As preferências do aplicativo foram exportadas.</string>
   <string name="preference_export_preferences_error_text">As preferências de aplicativos não foram exportadas. As possíveis causas para esse erro incluem a falta do cartão SD ou outras questões relacionadas com cartão SD que impedem esta aplicação de acessar o mesmo.</string>
   <string name="preference_import_preferences_title">Importar Preferências</string>
-  <string name="preference_import_preferences_summary">Importar preferências a partir do cartão SD. \nA tela de preferências irá recarregar assim que a importação for concluída.</string>
-  <string name="preference_import_preferences_progress_text">Importando preferências</string>
+  <string name="preference_import_preferences_summary">Importar preferências a partir do cartão SD.\nA tela de preferências irá recarregar assim que a importação for concluída.</string>
+  <string name="preference_import_preferences_progress_text">Importando preferências...</string>
   <string name="preference_import_preferences_finish_text">As preferências do aplicativo foram importadas.</string>
   <string name="preference_import_preferences_error_text">As preferências de aplicativos não foram importadas. Possíveis causas para esse erro incluem a ausência de um arquivo de preferências, um cartão SD ausente ou outras questões que impedem o programa de ler o arquivo no cartão SD.</string>
   <string name="debug_category">DEPURAÇÃO</string>
@@ -503,14 +503,14 @@
   <string name="translations_powered_by">&lt;b&gt;Traduções apoiadas por:&lt;/b&gt; &lt;a href=\"http://www.crowdin.net/\"&gt;CrowdIn.net&lt;/a&gt;&lt;br/&gt;</string>
   <string name="preference_translated_by_text">Tradução para Francês: Franky&lt;br/&gt;Tradução para Hebraico: Benjo26&lt;br/&gt;Tradução para Polonês: Draco (draco.pl@gmail.com)&lt;br/&gt;Tradução para Português BR: Marcio Andrade (marcioaribeiro@hotmail.com.br)&lt;br/&gt;Tradução para Espanhol: Shaymelmed (shaben_translations@hotmail.com)&lt;br/&gt;Tradução para Chinês Simplificado: Jason (hrmqs86@gmail.com)&lt;br/&gt;&lt;br/&gt;</string>
   <string name="preference_copyright_text">&lt;b&gt;© 2012 Camille Sévigny&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;</string>
-  <string name="message_at_text" formatted="false">Nova mensagem as %s</string>
-  <string name="email_at_text" formatted="false">Novo email as %s</string>
-  <string name="missed_call_at_text" formatted="false">Chamada não atendida as %s</string>
-  <string name="mention_at_text" formatted="false">Nova menção as %s</string>
-  <string name="follower_request_at_text" formatted="false">Nova solicitação de seguidor as %s</string>
+  <string name="message_at_text" formatted="false">Nova mensagem às %s</string>
+  <string name="email_at_text" formatted="false">Novo email às %s</string>
+  <string name="missed_call_at_text" formatted="false">Chamada perdida às %s</string>
+  <string name="mention_at_text" formatted="false">Nova menção às %s</string>
+  <string name="follower_request_at_text" formatted="false">Nova solicitação de seguidor às %s</string>
   <string name="follower_request_text" formatted="false">Nova solicitação de seguidor</string>
-  <string name="notification_at_text" formatted="false">Nova notificação as %s</string>
-  <string name="friend_request_at_text" formatted="false">Novo pedido de amizade as %s</string>
+  <string name="notification_at_text" formatted="false">Nova notificação às %s</string>
+  <string name="friend_request_at_text" formatted="false">Novo pedido de amizade às %s</string>
   <string name="voicemail_at_text" formatted="false">Novo Voicemail às %s</string>
   <string name="preference_confirm_deletion_title">Confirmar exclusão</string>
   <string name="preference_confirm_deletion_summary">Exibe uma caixa de diálogo de confirmação quando você exclui um item.</string>
@@ -547,7 +547,7 @@
   <string name="blocking_app_running_action_text">Opções de bloqueio de notificações</string>
   <string name="blocking_app_running_action_summary">Defina o que fazer quando uma notificação enquanto um app bloqueador está em execução.</string>
   <string name="status_bar_notification_content_title_text_sms">Nova Mensagem</string>
-  <string name="status_bar_notification_content_title_text_phone">Chamada não atendida</string>
+  <string name="status_bar_notification_content_title_text_phone">Chamada Perdida</string>
   <string name="status_bar_notification_content_title_text_calendar">Lembrete de evento do calendário</string>
   <string name="status_bar_notification_content_title_text_twitter_direct_message">Nova mensagem direta do Twitter</string>
   <string name="status_bar_notification_content_title_text_twitter_mention">Nova menção do Twitter</string>
@@ -560,7 +560,7 @@
   <string name="status_bar_notification_content_title_text_google_voice_voicemail">Novo Google Voice Voicemail</string>
   <string name="status_bar_notification_content_title_text_google_voice_missed_call">Novo Google Voice Chamada Perdida</string>
   <string name="status_bar_notification_content_title_text_plural_sms">Novas Mensagens</string>
-  <string name="status_bar_notification_content_title_text_plural_phone">Chamadas Não Atendidas</string>
+  <string name="status_bar_notification_content_title_text_plural_phone">Chamadas Perdidas</string>
   <string name="status_bar_notification_content_title_text_plural_calendar">Lembretes de eventos do calendário</string>
   <string name="status_bar_notification_content_title_text_plural_twitter">Novos itens do Twitter</string>
   <string name="status_bar_notification_content_title_text_plural_twitter_direct_message">Novas mensagens diretas no Twitter</string>
@@ -576,8 +576,8 @@
   <string name="status_bar_notification_content_text_sms" formatted="false">Nova mensagem de %s - %s</string>
   <string name="status_bar_notification_content_text_sms_null" formatted="false">Nova mensagem.</string>
   <string name="status_bar_notification_content_text_sms_count" formatted="false">%s novas mensagens.</string>
-  <string name="status_bar_notification_content_text_phone" formatted="false">Chamada não atendida de %s.</string>
-  <string name="status_bar_notification_content_text_phone_null" formatted="false">Chamada não atendida.</string>
+  <string name="status_bar_notification_content_text_phone" formatted="false">Chamada perdida de %s.</string>
+  <string name="status_bar_notification_content_text_phone_null" formatted="false">Chamada perdida.</string>
   <string name="status_bar_notification_content_text_phone_count" formatted="false">%s chamadas perdidas.</string>
   <string name="status_bar_notification_content_text_calendar" formatted="false">Evento do calendário - %s</string>
   <string name="status_bar_notification_content_text_calendar_null" formatted="false">Evento do calendário.</string>
@@ -618,8 +618,8 @@
   <string name="status_bar_notification_ticker_text_unknown_contact_sms" formatted="false">Nova mensagem - %s.</string>
   <string name="status_bar_notification_ticker_text_privacy_sms" formatted="false">Nova mensagem de %s.</string>
   <string name="status_bar_notification_ticker_text_sms_null" formatted="false">Nova mensagem.</string>
-  <string name="status_bar_notification_ticker_text_phone" formatted="false">Chamada não atendida de %s.</string>
-  <string name="status_bar_notification_ticker_text_phone_null" formatted="false">Chamada não atendida.</string>
+  <string name="status_bar_notification_ticker_text_phone" formatted="false">Chamada perdida de %s.</string>
+  <string name="status_bar_notification_ticker_text_phone_null" formatted="false">Chamada perdida.</string>
   <string name="status_bar_notification_ticker_text_calendar" formatted="false">Evento do calendário - %s</string>
   <string name="status_bar_notification_ticker_text_calendar_null" formatted="false">Evento do calendário.</string>
   <string name="status_bar_notification_ticker_text_twitter_direct_message" formatted="false">Nova mensagem direta do Twitter de %s - %s</string>
@@ -678,7 +678,7 @@
   <string name="no_timeout_text">Nenhum tempo limite</string>
   <string name="get_latest_missed_call_text">Receber as últimas chamadas perdidas</string>
   <string name="get_recent_missed_calls_text">Obter chamadas perdidas recentes</string>
-  <string name="get_all_missed_calls_text">Obter todas as chamadas não atendidas</string>
+  <string name="get_all_missed_calls_text">Obter Todas as Chamadas Perdidas</string>
   <string name="use_installed_messaging_app_text">Usar aplicativo de mensagens instalado</string>
   <string name="use_installed_email_app_text">Usar Aplicativo de Email Instalado</string>
   <string name="use_quick_reply_text">Usar a resposta rápida</string>
@@ -953,7 +953,7 @@
   <string name="preferences_reset">As preferências foram redefinidas.</string>
   <string name="confirm_reset_app_preferences">Isto irá remover todas as preferências do usuário armazenados para este aplicativo.</string>
   <string name="more_options">Mais Opções</string>
-  <string name="more_missed_call_options_description">São você procurando mais faltou opções de chamadas?</string>
+  <string name="more_missed_call_options_description">Você está procurando mais opções de chamadas perdidas?</string>
   <string name="missed_call_messenger_description">&lt;b&gt;Missed Call Messenger&lt;/b&gt; é um app que irá enviar uma mensagem para você quando você perde uma chamada de telefone, bem como enviar uma resposta de volta para o chamador automaticamente.&lt;br/&gt;&lt;br/&gt;Baixar este app gratuitamente e experimentá-lo hoje!</string>
   <string name="poll_wifi_cell_service_connected">Poll Quando Wifi/Celular Conectado</string>
   <string name="poll_wifi_cell_service_connected_summary">Enquete esta conta quando está ligado um sinal wifi ou um sinal de celular é ligado.</string>

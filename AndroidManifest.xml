@@ -2,8 +2,8 @@
 <manifest 
 	xmlns:android="http://schemas.android.com/apk/res/android" 
 	package="apps.droidnotify"
-    android:versionCode="49"
-    android:versionName="3.16"
+    android:versionCode="50"
+    android:versionName="3.17"
     android:installLocation="internalOnly" >
     
 	<uses-sdk
@@ -350,21 +350,29 @@
         	android:windowSoftInputMode="stateVisible" />
 
 		<service android:name="apps.droidnotify.services.CalendarAlarmReceiverService" />
+		
 		<service android:name="apps.droidnotify.services.CalendarNotificationAlarmBroadcastReceiverService" />
+		
 		<service android:name="apps.droidnotify.services.CalendarService" />
 
 		<service android:name="apps.droidnotify.services.K9AlarmBroadcastReceiverService" />
+		
 		<service android:name="apps.droidnotify.services.K9BroadcastReceiverService" />
+		
 		<service android:name="apps.droidnotify.services.K9Service" />
 		
         <service android:name="apps.droidnotify.services.MMSAlarmBroadcastReceiverService" />
+        
         <service android:name="apps.droidnotify.services.MMSBroadcastReceiverService" />
+        
         <service android:name="apps.droidnotify.services.MMSService" /> 
 
         <service android:name="apps.droidnotify.services.OnBootService" />
         
         <service android:name="apps.droidnotify.services.PhoneAlarmBroadcastReceiverService" />
+        
         <service android:name="apps.droidnotify.services.PhoneBroadcastReceiverService" />
+        
        	<service android:name="apps.droidnotify.services.PhoneService" />
 
 		<service android:name="apps.droidnotify.services.RescheduleService" />
@@ -372,6 +380,7 @@
         <service android:name="apps.droidnotify.services.ScreenManagementAlarmBroadcastReceiverService" />
 
         <service android:name="apps.droidnotify.services.SMSReceiverService" />
+        
         <service android:name="apps.droidnotify.services.SMSService" />
         
         <service android:name="apps.droidnotify.services.GenericNotificationService" />
@@ -380,16 +389,14 @@
         
         <service android:name="apps.droidnotify.services.OnUpdateService" />
         
-		<receiver 
-		    android:name="apps.droidnotify.receivers.CalendarAlarmReceiver"
-		    android:exported="true" />
-		<receiver 
-		    android:name="apps.droidnotify.receivers.CalendarNotificationAlarmReceiver"
-		    android:exported="true" />
+		<receiver android:name="apps.droidnotify.receivers.CalendarAlarmReceiver" />
+		
+		<receiver android:name="apps.droidnotify.receivers.CalendarNotificationAlarmReceiver" />
 		
 		<receiver 
 		    android:name="apps.droidnotify.receivers.K9AlarmReceiver"
 		    android:exported="true" />
+		
 		<receiver 
 		    android:name="apps.droidnotify.receivers.K9Receiver"
 		    android:exported="true">
@@ -411,9 +418,8 @@
 			</intent-filter>
 		</receiver>
 		    	    
-        <receiver 
-            android:name="apps.droidnotify.receivers.MMSAlarmReceiver"
-		    android:exported="true" />
+        <receiver android:name="apps.droidnotify.receivers.MMSAlarmReceiver" />
+        
         <receiver 
 		    android:name="apps.droidnotify.receivers.MMSReceiver"
 		    android:exported="true"> 
@@ -440,18 +446,13 @@
             <intent-filter> 
                 <action android:name="android.intent.action.PHONE_STATE" />
             </intent-filter> 
-        </receiver>        
-        <receiver 
-            android:name="apps.droidnotify.receivers.PhoneAlarmReceiver"
-		    android:exported="true" />
+        </receiver>
+                
+        <receiver android:name="apps.droidnotify.receivers.PhoneAlarmReceiver" />
 		
-		<receiver 
-		    android:name="apps.droidnotify.receivers.RescheduleReceiver"
-		    android:exported="true" />
+		<receiver android:name="apps.droidnotify.receivers.RescheduleReceiver" />
 
-		<receiver 
-		    android:name="apps.droidnotify.receivers.ScreenManagementAlarmReceiver"
-		    android:exported="true" />
+		<receiver android:name="apps.droidnotify.receivers.ScreenManagementAlarmReceiver" />
 
 		<receiver 
 		    android:name="apps.droidnotify.receivers.SMSReceiver"
