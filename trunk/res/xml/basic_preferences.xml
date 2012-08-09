@@ -103,7 +103,7 @@
 			android:key="quick_reply_enabled" 
 			android:title="@string/enable_quick_reply" 
 			android:summary="@string/enable_quick_reply_summary" 
-			android:defaultValue="true" />
+			android:defaultValue="false" />
 		<!--
 		<Preference
 			android:layout="@layout/custom_preference_title"
