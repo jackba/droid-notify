@@ -1,5 +1,7 @@
 package apps.droidnotify;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
@@ -14,6 +16,7 @@ import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 import android.view.ContextMenu;
@@ -502,6 +505,22 @@ public class NotificationActivity extends Activity{
   			Log.e("NotificationActivity.dismissAllNotifications() ERROR: " + ex.toString());
   		}
   	}
+  	
+  	/**
+  	 * Start the Speech-To-Text voice recognition activity.
+  	 */
+  	public void startStt(){
+		if(_debug) Log.v("NotificationActivity.startStt()");	
+  		try{
+			Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+		    intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+		    //intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Voice recognition Demo...");
+		    startActivityForResult(intent, Constants.STT_ACTIVITY);
+  		}catch(Exception ex){
+  			Log.e("NotificationActivity.startStt() ERROR: " + ex.toString());	
+  			Toast.makeText(_context, _context.getString(R.string.voice_recognizer_error), Toast.LENGTH_LONG).show();
+  		}
+  	}
 	
 	//================================================================================
 	// Protected Methods
@@ -820,7 +839,17 @@ public class NotificationActivity extends Activity{
 			    	Common.setInLinkedAppFlag(_context, false);
 			        break;
 			    }
-		    }
+			    case Constants.STT_ACTIVITY:{
+			    	if(resultCode == RESULT_OK){
+			    		if(_debug) Log.v("NotificationActivity.onActivityResult() STT_ACTIVITY: RESULT_OK");
+			    		//Populate the current notification reply message with the text from the voice recognition engine.
+			            ArrayList<String> recognizedTextResults = returnedIntent.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+			            _notificationViewFlipper.setQuickReplyText(recognizedTextResults);
+			    	}
+			        break;
+			    }
+			}
+			super.onActivityResult(requestCode, resultCode, returnedIntent);
 		}catch(Exception ex){
 			Log.e("NotificationActivity.onActivityResult() ERROR: " + ex.toString());
 			_notificationViewFlipper.removeActiveNotification(false);

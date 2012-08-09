@@ -254,49 +254,6 @@
 		<item>0</item>
 		<item>1</item>
 	</string-array>
-		
-	<!-- MMS Preferences Arrays --> 
-    <string-array name="mms_dismiss_button_options">
-		<item>@string/nothing_text</item>
-		<item>@string/mark_as_read_text</item>
-	</string-array>
-	<string-array name="mms_dismiss_button_values">
-		<item>1</item>
-		<item>0</item>
-	</string-array>
-	
-    <string-array name="mms_delete_button_options">
-		<item>@string/delete_message_text</item>
-		<item>@string/delete_thread_text</item>
-		<item>@string/nothing_text</item>
-	</string-array>
-	<string-array name="mms_delete_button_values">
-		<item>0</item>
-		<item>1</item>
-		<item>2</item>
-	</string-array>
-	
-    <string-array name="mms_reply_button_options">
-    	<item>@string/use_installed_messaging_app_text</item>
-		<item>@string/use_quick_reply_text</item>
-	</string-array>
-	<string-array name="mms_reply_button_values">
-		<item>0</item>
-		<item>1</item>
-	</string-array>
-	
-    <string-array name="mms_notification_count_button_options">
-    	<item>@string/nothing_text</item>
-		<item>@string/view_message_text</item>
-		<item>@string/view_thread_text</item>
-		<item>@string/messaging_inbox_text</item>
-	</string-array>
-	<string-array name="mms_notification_count_button_values">
-		<item>0</item>
-		<item>1</item>
-		<item>2</item>
-		<item>3</item>
-	</string-array>
 	
 	<!-- Missed Call Preferences Arrays --> 
     <string-array name="missed_call_dismiss_button_options">
@@ -1221,14 +1178,6 @@
 	    <item>sms_custom</item>
 	</string-array>
 	
-	<string-array name="vibrate_pattern_values_mms">
-	    <item>0,1200</item>
-    	<item>0,2500</item>
-	    <item>0,300,100,300,100,300,100</item>
-	    <item>0,800,200,800,200,800,200</item>
-	    <item>mms_custom</item>
-	</string-array>
-	
 	<string-array name="vibrate_pattern_values_missed_call">
 	    <item>0,1200</item>
     	<item>0,2500</item>
@@ -1274,13 +1223,6 @@
 	    <item>1000,1000</item>
 	    <item>3000,3000</item>
 	    <item>sms_custom</item>
-	</string-array>
-		
-	<string-array name="led_pattern_values_mms">
-	    <item>300,300</item>
-	    <item>1000,1000</item>
-	    <item>3000,3000</item>
-	    <item>mms_custom</item>
 	</string-array>
 		
 	<string-array name="led_pattern_values_missed_call">
@@ -1330,16 +1272,6 @@
 	    <item>magenta</item>
 	    <item>yellow</item>
 	    <item>sms_custom</item>
-  	</string-array>
-
-	<string-array name="led_color_values_mms">
-	    <item>red</item>
-	    <item>blue</item>
-	    <item>green</item>
-	    <item>cyan</item>
-	    <item>magenta</item>
-	    <item>yellow</item>
-	    <item>mms_custom</item>
   	</string-array>
   	
   	<string-array name="led_color_values_missed_call">

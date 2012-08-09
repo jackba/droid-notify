@@ -1,5 +1,7 @@
 package apps.droidnotify;
 
+import java.util.ArrayList;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -9,6 +11,7 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
@@ -408,7 +411,30 @@ public class NotificationViewFlipper extends ViewFlipper {
   			Log.e("NotificationViewFlipper.dismissAllNotifications() ERROR: " + ex.toString());
   		}
   	}
-	
+  	
+  	/**
+  	 * Set the text in the message edit text of the active notification view.
+  	 * 
+  	 * @param recognizedTextResults - An array of strings of the text that was returned from the voice recognizer.
+  	 */
+  	public void setQuickReplyText(ArrayList<String> recognizedTextResults){
+  		if (_debug) Log.v("NotificationViewFlipper.setQuickReplyText()");
+  		final View currentView = this.getCurrentView();
+  		EditText messageEditText = (EditText) currentView.findViewById(R.id.message_edit_text);
+  		String currentText = messageEditText.getText().toString();
+  		String endCharacter = messageEditText.getText().toString().substring(currentText.length() - 1);
+  		if(recognizedTextResults.size() > 0){
+  			if(endCharacter.equals(" ")){
+  				messageEditText.append(recognizedTextResults.get(0));
+  			}else if(endCharacter.equals("\n")){
+  				messageEditText.append(recognizedTextResults.get(0));
+  			}else{
+  				//Append a space before the newly inserted text.
+  				messageEditText.append(" " + recognizedTextResults.get(0));
+  			}
+  		}
+  	}
+  	
 	//================================================================================
 	// Private Methods
 	//================================================================================

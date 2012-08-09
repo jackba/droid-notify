@@ -29,6 +29,7 @@ import android.view.Gravity;
 import android.view.HapticFeedbackConstants;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -37,7 +38,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.view.MotionEvent;
-import android.view.View.OnClickListener;
 
 import apps.droidnotify.calendar.CalendarCommon;
 import apps.droidnotify.common.Common;
@@ -72,6 +72,7 @@ public class NotificationView extends LinearLayout {
 	private LinearLayout _contactLinearLayout = null;
 	private LinearLayout _buttonLinearLayout = null;
 	private LinearLayout _imageButtonLinearLayout = null;
+	private LinearLayout _quickReplyLinearLayout = null;
 	
 	private TextView _contactNameTextView = null;
 	private TextView _contactNumberTextView = null;
@@ -112,6 +113,10 @@ public class NotificationView extends LinearLayout {
 	private int _listSelectorBackgroundTransitionColorResourceID = 0;
 	private Drawable _listSelectorBackgroundDrawable = null;
 	private TransitionDrawable _listSelectorBackgroundTransitionDrawable = null;
+	
+	private EditText _messageEditText = null;
+	private ImageButton _sttImageButton = null;
+	private ImageButton _sendImageButton = null;
 
 	//================================================================================
 	// Constructors
@@ -133,6 +138,7 @@ public class NotificationView extends LinearLayout {
 	    initLayoutItems();
 		setLayoutProperties();
 		setupLayoutTheme();
+		setupQuickReply();
 	    initLongPressView();
 	    setupViewHeaderButtons();
 	    setupViewButtons();
@@ -164,6 +170,7 @@ public class NotificationView extends LinearLayout {
 		_contactLinearLayout = (LinearLayout) findViewById(R.id.contact_wrapper_linear_layout);
 	    _buttonLinearLayout = (LinearLayout) findViewById(R.id.button_linear_layout);
 	    _imageButtonLinearLayout = (LinearLayout) findViewById(R.id.image_button_linear_layout);
+	    _quickReplyLinearLayout = (LinearLayout) findViewById(R.id.quickreply_linear_layout);
 		
 		_contactNameTextView = (TextView) findViewById(R.id.contact_name_text_view);
 		_contactNumberTextView = (TextView) findViewById(R.id.contact_number_text_view);
@@ -199,6 +206,10 @@ public class NotificationView extends LinearLayout {
 		_snoozeImageButton = (ImageButton) findViewById(R.id.snooze_image_button);
 		
 		_photoProgressBar = (ProgressBar) findViewById(R.id.contact_photo_progress_bar);
+
+		_messageEditText = (EditText) findViewById(R.id.message_edit_text);
+		_sttImageButton  = (ImageButton) findViewById(R.id.stt_image_button);
+		_sendImageButton  = (ImageButton) findViewById(R.id.send_image_button);
 
 		_notificationDetailsTextView.setMovementMethod(new ScrollingMovementMethod());
 	    
@@ -329,6 +340,91 @@ public class NotificationView extends LinearLayout {
 		_rescheduleButton.setImageDrawable(rescheduleDrawable);
 		_ttsButton.setImageDrawable(ttsDrawable);
 		
+	}
+	
+	/**
+	 * Setup the quick reply layout.
+	 */
+	private void setupQuickReply(){
+		switch(_notificationType){
+			case Constants.NOTIFICATION_TYPE_PHONE:{
+				_quickReplyLinearLayout.setVisibility(View.GONE);
+				return;
+			}
+			case Constants.NOTIFICATION_TYPE_SMS:{
+				setuptQuickReplySMS();
+				return;
+			}
+			case Constants.NOTIFICATION_TYPE_MMS:{
+				setuptQuickReplySMS();
+				return;
+			}
+			case Constants.NOTIFICATION_TYPE_CALENDAR:{
+				_quickReplyLinearLayout.setVisibility(View.GONE);
+				return;
+			}
+			case Constants.NOTIFICATION_TYPE_K9:{
+				_quickReplyLinearLayout.setVisibility(View.GONE);
+				return;
+			}
+			case Constants.NOTIFICATION_TYPE_GENERIC:{
+				_quickReplyLinearLayout.setVisibility(View.GONE);
+				return;
+			}
+		}
+	
+	}
+	
+	/**
+	 * Setup the quick reply layout for SMS/MMS messages.
+	 */
+	private void setuptQuickReplySMS(){
+		boolean quickReplyEnabled = _preferences.getBoolean(Constants.QUICK_REPLY_ENABLED, false);
+		String replyButtonAction = _preferences.getString(Constants.SMS_REPLY_KEY, Constants.SMS_MESSAGING_APP_REPLY);
+		if(quickReplyEnabled){
+			_quickReplyLinearLayout.setVisibility(View.VISIBLE);
+			setupQuickReplyButtons();
+		}else if(replyButtonAction.equals(Constants.SMS_QUICK_REPLY)){
+			_quickReplyLinearLayout.setVisibility(View.VISIBLE);
+			setupQuickReplyButtons();
+		}else{
+			_quickReplyLinearLayout.setVisibility(View.GONE);
+		}
+	}
+	
+	/**
+	 * Setup the quick reply buttons.
+	 * 
+	 * @param notificationType - The notification type.
+	 * @param notificationSubType - The notification sub type.
+	 */
+	private void setupQuickReplyButtons(){		
+		//Speech To Text (STT) Button.
+		_sttImageButton.setOnClickListener(
+			new OnClickListener(){
+			    public void onClick(View view){
+			    	if (_debug) Log.v("STT Button Clicked()");
+			    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+			    	_notificationActivity.startStt();
+			    }
+			}
+		);
+		//Send Button - Notification Dependent.
+		_sendImageButton.setOnClickListener(
+				new OnClickListener(){
+				    public void onClick(View view){
+				    	if (_debug) Log.v("STT Button Clicked()");
+				    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+				    	String message = _messageEditText.getText().toString();
+				    	if(message.equals("")){
+				    		//No text was entered.
+				    	}else{
+				    		SMSCommon.sendSMS(_context, _notification.getSentFromAddress(), message);
+				    		dismissNotification(false);
+				    	}
+				    }
+				}
+			);	
 	}
 	
 	/**
@@ -742,8 +838,6 @@ public class NotificationView extends LinearLayout {
 					    public void onClick(View view){
 					    	if (_debug) Log.v("Notification Count Button Clicked()");
 					    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-					    	//Cancel the notification reminder.
-					    	_notification.cancelReminder();
 					    	SMSCommon.startMessagingAppViewThreadActivity(_context, _notificationActivity, _notification.getThreadID(), Constants.VIEW_SMS_MESSAGE_ACTIVITY);
 					    }
 					}
@@ -754,8 +848,6 @@ public class NotificationView extends LinearLayout {
 					    public void onClick(View view){
 					    	if (_debug) Log.v("Notification Count Button Clicked()");
 					    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-					    	//Cancel the notification reminder.
-					    	_notification.cancelReminder();
 					    	SMSCommon.startMessagingAppViewThreadActivity(_context, _notificationActivity, _notification.getThreadID(), Constants.VIEW_SMS_THREAD_ACTIVITY);
 					    }
 					}
@@ -766,12 +858,20 @@ public class NotificationView extends LinearLayout {
 					    public void onClick(View view){
 					    	if (_debug) Log.v("Notification Count Button Clicked()");
 					    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-					    	//Cancel the notification reminder.
-					    	_notification.cancelReminder();
 					    	SMSCommon.startMessagingAppViewInboxActivity(_context, _notificationActivity, Constants.MESSAGING_ACTIVITY);
 					    }
 					}
 				);		
+			}			
+			boolean displayReplyButton = true;
+			if(_preferences.getBoolean(Constants.SMS_DISPLAY_REPLY_BUTTON_KEY, true)){
+				if(_preferences.getBoolean(Constants.QUICK_REPLY_ENABLED, false)){
+					displayReplyButton = false;
+				}else if(_preferences.getString(Constants.SMS_REPLY_KEY, Constants.SMS_MESSAGING_APP_REPLY).equals(Constants.SMS_QUICK_REPLY)){
+					displayReplyButton = false;
+				}			
+			}else{
+				displayReplyButton = false;
 			}
 			if(usingImageButtons){
 				// Dismiss Button
@@ -805,7 +905,7 @@ public class NotificationView extends LinearLayout {
 		    		_deleteImageButton.setVisibility(View.GONE);
 		    	}
 				// Reply Button;
-				if(_preferences.getBoolean(Constants.SMS_DISPLAY_REPLY_BUTTON_KEY, true)){
+				if(displayReplyButton){
 		    		_replyImageButton.setVisibility(View.VISIBLE);
 		    		_replyImageButton.setOnClickListener(
 	    				new OnClickListener(){
@@ -851,7 +951,7 @@ public class NotificationView extends LinearLayout {
 		    		_deleteButton.setVisibility(View.GONE);
 		    	}
 				// Reply Button
-				if(_preferences.getBoolean(Constants.SMS_DISPLAY_REPLY_BUTTON_KEY, true)){
+				if(displayReplyButton){
 		    		_replyButton.setVisibility(View.VISIBLE);
 		    		_replyButton.setOnClickListener(
 	    				new OnClickListener(){
@@ -1846,47 +1946,42 @@ public class NotificationView extends LinearLayout {
     	//Cancel the notification reminder.
     	_notification.cancelReminder();
 		//Setup Reply action.
-		String phoneNumber = _notification.getSentFromAddress();
-		if(phoneNumber == null){
-			Toast.makeText(_context, _context.getString(R.string.app_android_reply_messaging_address_error), Toast.LENGTH_LONG).show();
-			return;
-		}
+		String sentFromAddress = _notification.getSentFromAddress();
 		switch(notificationType){
-		case Constants.NOTIFICATION_TYPE_SMS:{
-			String replyButtonAction = _preferences.getString(Constants.SMS_REPLY_KEY, "0");
-			if(replyButtonAction.equals(Constants.SMS_MESSAGING_APP_REPLY)){
+			case Constants.NOTIFICATION_TYPE_SMS:{
+				if(sentFromAddress == null){
+					Toast.makeText(_context, _context.getString(R.string.app_android_reply_messaging_address_error), Toast.LENGTH_LONG).show();
+					return;
+				}
 				//Reply using any installed SMS messaging app.
-				SMSCommon.startMessagingAppReplyActivity(_context, _notificationActivity, phoneNumber, Constants.SEND_SMS_ACTIVITY);
-			}else if(replyButtonAction.equals(Constants.SMS_QUICK_REPLY)){
-				//Reply using the built in Quick Reply Activity.
-				SMSCommon.startMessagingQuickReplyActivity(_context, _notificationActivity, Constants.SEND_SMS_QUICK_REPLY_ACTIVITY, phoneNumber, _notification.getContactName());        
+				SMSCommon.startMessagingAppReplyActivity(_context, _notificationActivity, sentFromAddress, Constants.SEND_SMS_ACTIVITY);
+				return;
 			}
-			break;
-		}
-		case Constants.NOTIFICATION_TYPE_MMS:{
-			String replyButtonAction = _preferences.getString(Constants.SMS_REPLY_KEY, "0");
-			if(replyButtonAction.equals(Constants.SMS_MESSAGING_APP_REPLY)){
+			case Constants.NOTIFICATION_TYPE_MMS:{
+				if(sentFromAddress == null){
+					Toast.makeText(_context, _context.getString(R.string.app_android_reply_messaging_address_error), Toast.LENGTH_LONG).show();
+					return;
+				}
 				//Reply using any installed SMS messaging app.
-				SMSCommon.startMessagingAppReplyActivity(_context, _notificationActivity, phoneNumber, Constants.SEND_SMS_ACTIVITY);
-			}else if(replyButtonAction.equals(Constants.SMS_QUICK_REPLY)){
-				//Reply using the built in Quick Reply Activity.
-				SMSCommon.startMessagingQuickReplyActivity(_context, _notificationActivity, Constants.SEND_SMS_QUICK_REPLY_ACTIVITY, phoneNumber, _notification.getContactName());
+				SMSCommon.startMessagingAppReplyActivity(_context, _notificationActivity, sentFromAddress, Constants.SEND_SMS_ACTIVITY);
+				return;
 			}
-			break;
-		}
 			case Constants.NOTIFICATION_TYPE_CALENDAR:{			
-				break;
+				return;
 			}
 			case Constants.NOTIFICATION_TYPE_PHONE:{			
-				break;
+				return;
 			}
 			case Constants.NOTIFICATION_TYPE_K9:{
 				//Reply using any installed K9 email app.
 				K9Common.startK9MailAppReplyActivity(_context, _notificationActivity, _notification.getK9EmailUri(), _notification.getNotificationSubType(), Constants.K9_VIEW_EMAIL_ACTIVITY);
-				break;
+				return;
 			}
 			case Constants.NOTIFICATION_TYPE_GENERIC:{			
-				break;
+				return;
+			}
+			default:{
+				return;
 			}
 		}
 	}
@@ -1928,9 +2023,9 @@ public class NotificationView extends LinearLayout {
 		if (_debug) Log.v("NotificationView.callMissedCall()");
 		//Cancel the notification reminder.
 		_notification.cancelReminder();
-		if(_preferences.getString(Constants.PHONE_CALL_KEY, "0").equals(Constants.PHONE_CALL_ACTION_CALL)){
+		if(_preferences.getString(Constants.PHONE_CALL_KEY, Constants.PHONE_CALL_ACTION_CALL).equals(Constants.PHONE_CALL_ACTION_CALL)){
 			PhoneCommon.makePhoneCall(_context, _notificationActivity, _notification.getSentFromAddress(), Constants.CALL_ACTIVITY);
-		}else if(_preferences.getString(Constants.PHONE_CALL_KEY, "0").equals(Constants.PHONE_CALL_ACTION_CALL_LOG)){
+		}else if(_preferences.getString(Constants.PHONE_CALL_KEY, Constants.PHONE_CALL_ACTION_CALL).equals(Constants.PHONE_CALL_ACTION_CALL_LOG)){
 			PhoneCommon.startCallLogViewActivity(_context, _notificationActivity, Constants.VIEW_CALL_LOG_ACTIVITY);
 		}else{
 			dismissNotification(false);
