@@ -62,6 +62,7 @@ public class Constants {
 	public static final String BUNDLE_NOTIFICATION_BUNDLE_COUNT = "NOTIFICATION_BUNDLE_COUNT";
 	
 	//-----QUICK REPLY BUNDLE CONSTANTS-----//
+	public static final String QUICK_REPLY_ENABLED = "quick_reply_enabled";
 	public static final String QUICK_REPLY_BUNDLE_SEND_TO = "sendTo";
 	public static final String QUICK_REPLY_BUNDLE_SEND_TO_ID = "sendToID";
 	public static final String QUICK_REPLY_BUNDLE_NAME = "name";
@@ -146,6 +147,7 @@ public class Constants {
 	public static final int BROWSER_ACTIVITY = 21;
 	public static final int CONTACT_PICKER_ACTIVITY = 22;
 	public static final int RINGTONE_PICKER_ACTIVITY = 23;
+	public static final int STT_ACTIVITY = 26;
 	
 	public static final int MESSAGE_TYPE_SMS = 1;
 	public static final int MESSAGE_TYPE_MMS = 2;

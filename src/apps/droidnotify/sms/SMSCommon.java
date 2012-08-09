@@ -20,7 +20,6 @@ import android.telephony.SmsMessage.MessageClass;
 import android.widget.Toast;
 
 import apps.droidnotify.NotificationActivity;
-import apps.droidnotify.QuickReplyActivity;
 import apps.droidnotify.R;
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
@@ -728,54 +727,6 @@ public class SMSCommon {
 	}
 	
 	/**
-	 * Start the intent for the Quick Reply activity send a reply.
-	 * 
-	 * @param context - Application Context.
-	 * @param notificationActivity - A reference to the parent activity.
-	 * @param requestCode - The request code we want returned.
-	 * @param sendTo - The number/address/screen name we want to send a reply to.
-	 * @param name - The name of the contact we are sending a reply to.
-	 * 
-	 * @return boolean - Returns true if the activity can be started.
-	 */
-	public static boolean startMessagingQuickReplyActivity(Context context, NotificationActivity notificationActivity, int requestCode, String sendTo, String name){
-		_debug = Log.getDebug();
-		if(_debug) Log.v("SMSCommon.startMessagingQuickReplyActivity()");
-		if(sendTo == null){
-			Toast.makeText(context, context.getString(R.string.app_android_reply_messaging_address_error), Toast.LENGTH_LONG).show();
-			return false;
-		}
-		try{
-			Intent intent = new Intent(context, QuickReplyActivity.class);
-	        if(_debug) Log.v("NotificationView.replyToMessage() Put bundle in intent");
-	        Bundle bundle = new Bundle();
-	        bundle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_SMS);
-	        bundle.putInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, 0);
-	        bundle.putString(Constants.QUICK_REPLY_BUNDLE_SEND_TO, sendTo);
-	        try{
-			    if(name != null && !name.equals(context.getString(android.R.string.unknownName))){
-			    	bundle.putString(Constants.QUICK_REPLY_BUNDLE_NAME, name);
-			    }else{
-			    	bundle.putString(Constants.QUICK_REPLY_BUNDLE_NAME, "");
-			    }
-	        }catch(Exception ex){
-	        	//Set an empty string if this fails.
-	        	bundle.putString(Constants.QUICK_REPLY_BUNDLE_NAME, "");
-	        }	
-		    bundle.putString(Constants.QUICK_REPLY_BUNDLE_MESSAGE, "");
-		    intent.putExtras(bundle);
-	        notificationActivity.startActivityForResult(intent, requestCode);
-	        Common.setInLinkedAppFlag(context, true);
-	        return true;
-		}catch(Exception ex){
-			Log.e("SMSCommon.startMessagingQuickReplyActivity() ERROR: " + ex.toString());
-			Toast.makeText(context, context.getString(R.string.app_android_quick_reply_app_error), Toast.LENGTH_LONG).show();
-			Common.setInLinkedAppFlag(context, false);
-			return false;
-		}
-	}
-	
-	/**
 	 * Start the intent for any android messaging application to send a reply.
 	 * 
 	 * @param context - Application Context.
@@ -872,7 +823,7 @@ public class SMSCommon {
 	/**
 	 * Delete a an entire SMS/MMS thread.
 	 * 
-	 * @param context - The current context of this Activity.
+	 * @param context - The application context.
 	 * @param threadID - The Thread ID that we want to delete.
 	 * @param notificationType - The notification type.
 	 * 
@@ -907,7 +858,7 @@ public class SMSCommon {
 	/**
 	 * Delete a single SMS/MMS message.
 	 * 
-	 * @param context - The current context of this Activity.
+	 * @param context - The application context.
 	 * @param messageID - The Message ID that we want to delete.
 	 * 
 	 * @return boolean - Returns true if the message was deleted successfully.
@@ -945,7 +896,7 @@ public class SMSCommon {
 	/**
 	 * Mark a single SMS/MMS message as being read or not.
 	 * 
-	 * @param context - The current context of this Activity.
+	 * @param context - The application context.
 	 * @param messageID - The Message ID that we want to alter.
 	 * @param threadID - The Thread ID that we want to alter.
 	 * @param isViewed - The boolean value indicating if it was read or not.
@@ -983,7 +934,7 @@ public class SMSCommon {
 	/**
 	 * Mark a SMS/MMS thread as being read or not.
 	 * 
-	 * @param context - The current context of this Activity.
+	 * @param context - The application context.
 	 * @param threadID - The Thread ID that we want to alter.
 	 * @param isViewed - The boolean value indicating if it was read or not.
 	 * 
@@ -1020,7 +971,7 @@ public class SMSCommon {
 	/**
 	 * Determine if a SMS/MMS message is unread or not.
 	 * 
-	 * @param context - The current context of this Activity.
+	 * @param context - The application context.
 	 * @param messageID - The Message ID that we want to alter.
 	 * @param threadID - The Thread ID that we want to alter.
 	 * 
@@ -1078,8 +1029,9 @@ public class SMSCommon {
 	/**
 	 * Send SMS message.
 	 * 
-	 * @param phoneNumber - The phone number we are sending the message to.
-	 * @param message - The message we are sending.
+	 * @param context - The application context.
+	 * @param smsAddress - The address to send the message to.
+	 * @param message - The message to send.
 	 */
 	public static boolean sendSMS(Context context, String smsAddress, String message){
 		_debug = Log.getDebug();  

@@ -91,6 +91,7 @@
     <string name="google_voice_app_not_found_error">The Google Voice application could not be found. Try selecting a different preferred Google Voice client.</string>
  	<string name="google_voice_authentication_error">We were not able to authenticate your Google account at this time. Please try again later.</string>
     <string name="google_voice_send_sms_mesage_error">The Google Voice SMS Message could not be sent.</string>
+    <string name="voice_recognizer_error">The voice recognizer could not be started. Please ensure that your phone supports voice recognition.</string>
 
     <!-- Context Menu Strings -->
     <string name="preference_disable_context_menu_title">Disable Context Menu</string>
