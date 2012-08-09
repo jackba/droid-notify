@@ -2,6 +2,7 @@
 <PreferenceScreen 
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:key="quick_reply_settings_screen">
+	<!--
 	<CheckBoxPreference
 		android:layout="@layout/custom_preference_checkbox"
 		android:key="quick_reply_save_draft_enabled" 
@@ -38,4 +39,5 @@
 		android:title="@string/display_cancel_button_title" 
 		android:summary="@string/display_cancel_button_summary"
 		android:defaultValue="false" />
+	-->
 </PreferenceScreen>
