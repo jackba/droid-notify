@@ -8,6 +8,7 @@
 
 *v3.17* _Coming Soon..._
  * Replaced the separate quick reply screen with an inline quick reply feature.
+ * Added a global "use quick reply" option.
  * Added Voice Recognition to the quick reply feature.
  * 
  * Updated translations.
