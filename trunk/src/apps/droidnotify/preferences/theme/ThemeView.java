@@ -58,7 +58,7 @@ public class ThemeView extends LinearLayout {
 	private TextView _notificationCountTextView = null;
 	private TextView _notificationInfoTextView = null;
 	private TextView _notificationDetailsTextView = null;
-	private TextView _mmsLinkTextView = null;
+	private TextView _privacyLinkTextView = null;
 	
 	private ImageView _notificationIconImageView = null;
 	private ImageView _photoImageView = null;
@@ -71,17 +71,11 @@ public class ThemeView extends LinearLayout {
 	
 	private Button _dismissButton = null;
 	private Button _deleteButton = null;
-	private Button _callButton = null;
 	private Button _replyButton = null;
-	private Button _viewButton = null;
-	private Button _snoozeButton = null;
 	
 	private ImageButton _dismissImageButton = null;
 	private ImageButton _deleteImageButton = null;
-	private ImageButton _callImageButton = null;
 	private ImageButton _replyImageButton = null;
-	private ImageButton _viewImageButton = null;
-	private ImageButton _snoozeImageButton = null;
 	
 	private ProgressBar _photoProgressBar = null;
 
@@ -100,7 +94,7 @@ public class ThemeView extends LinearLayout {
 	    _preferences = PreferenceManager.getDefaultSharedPreferences(context);
 	    _themeViewFlipper = themeViewFlipper;
 	    _themePackageName = packageName;
-		View.inflate(context, R.layout.theme_notification, this);
+		View.inflate(context, R.layout.theme_notification_reply, this);
 	    initLayoutItems();
 		setupLayoutTheme();
 	    setupViewHeaderButtons();
@@ -143,7 +137,7 @@ public class ThemeView extends LinearLayout {
 		_notificationCountTextView = (TextView) findViewById(R.id.notification_count_text_view);
 		_notificationInfoTextView = (TextView) findViewById(R.id.notification_info_text_view);	    
 		_notificationDetailsTextView = (TextView) findViewById(R.id.notification_details_text_view);
-		_mmsLinkTextView = (TextView) findViewById(R.id.mms_link_text_view);
+		_privacyLinkTextView = (TextView) findViewById(R.id.link_text_view);
 		
 		_notificationIconImageView = (ImageView) findViewById(R.id.notification_type_icon_image_view);
 		_photoImageView = (ImageView) findViewById(R.id.contact_photo_image_view);
@@ -156,17 +150,11 @@ public class ThemeView extends LinearLayout {
 
 		_dismissButton = (Button) findViewById(R.id.dismiss_button);
 		_deleteButton = (Button) findViewById(R.id.delete_button);
-		_callButton = (Button) findViewById(R.id.call_button);
 		_replyButton = (Button) findViewById(R.id.reply_button);
-		_viewButton = (Button) findViewById(R.id.view_button);
-		_snoozeButton = (Button) findViewById(R.id.snooze_button);
 		
 		_dismissImageButton = (ImageButton) findViewById(R.id.dismiss_image_button);
 		_deleteImageButton = (ImageButton) findViewById(R.id.delete_image_button);
-		_callImageButton = (ImageButton) findViewById(R.id.call_image_button);
 		_replyImageButton = (ImageButton) findViewById(R.id.reply_image_button);
-		_viewImageButton = (ImageButton) findViewById(R.id.view_image_button);
-		_snoozeImageButton = (ImageButton) findViewById(R.id.snooze_image_button);
 		
 		_photoProgressBar = (ProgressBar) findViewById(R.id.contact_photo_progress_bar);
 
@@ -177,53 +165,23 @@ public class ThemeView extends LinearLayout {
 	 * Setup the layout graphical items based on the current theme.
 	 */
 	private void setupLayoutTheme(){
-		if (_debug) Log.v("ThemeView.setupLayoutTheme() _themePackageName: " + _themePackageName);
-		Drawable layoutBackgroundDrawable = null;
-		Drawable rescheduleDrawable = null;
-		Drawable ttsDrawable = null;
-		int notificationCountTextColorID = 0;
-		int headerInfoTextcolorID = 0;
-		int contactNameTextColorID = 0;
-		int contactNumberTextColorID = 0;
-		int bodyTextColorID = 0;
-		int buttonTextColorID = 0;
-		String themeName = null;
-		if(_themePackageName.startsWith(Constants.DARK_TRANSLUCENT_THEME)){
-			_resources = _context.getResources();
-			if(_themePackageName.equals(Constants.DARK_TRANSLUCENT_THEME)){
-				layoutBackgroundDrawable = _resources.getDrawable(R.drawable.background_panel);
-				themeName = _context.getString(R.string.notify_theme) + " - " + _context.getString(R.string.default_v1);
-			}else if(_themePackageName.equals(Constants.DARK_TRANSLUCENT_V2_THEME)){
-				layoutBackgroundDrawable = _resources.getDrawable(R.drawable.background_panel_v2);
-				themeName = _context.getString(R.string.notify_theme) + " - " + _context.getString(R.string.default_v2);
-			}else if(_themePackageName.equals(Constants.DARK_TRANSLUCENT_V3_THEME)){
-				layoutBackgroundDrawable = _resources.getDrawable(R.drawable.background_panel_v3);
-				themeName = _context.getString(R.string.notify_theme) + " - " + _context.getString(R.string.default_v3);
+		if (_debug) Log.v("ThemeView.setupLayoutTheme() ThemePackageName: " + _themePackageName);
+		try{
+			Drawable layoutBackgroundDrawable = null;
+			Drawable rescheduleDrawable = null;
+			Drawable ttsDrawable = null;
+			int notificationCountTextColorID = 0;
+			int headerInfoTextcolorID = 0;
+			int contactNameTextColorID = 0;
+			int contactNumberTextColorID = 0;
+			int bodyTextColorID = 0;
+			int buttonTextColorID = 0;
+			String themeName = null;
+			if(!_themePackageName.startsWith(Constants.APP_THEME_PREFIX)){
+				Log.e("ThemeView.setupLayoutTheme() Renaming Theme PackageName Error");
+				_themePackageName = Constants.APP_THEME_DEFAULT;
 			}
-			rescheduleDrawable = _resources.getDrawable(R.drawable.ic_reschedule);
-			ttsDrawable = _resources.getDrawable(R.drawable.ic_tts);
-			notificationCountTextColorID = _resources.getColor(R.color.notification_count_text_color);	
-			headerInfoTextcolorID = _resources.getColor(R.color.header_info_text_color);	
-			contactNameTextColorID = _resources.getColor(R.color.contact_name_text_color);	
-			contactNumberTextColorID = _resources.getColor(R.color.contact_number_text_color);	
-			bodyTextColorID = _resources.getColor(R.color.body_text_color);
-			buttonTextColorID = _resources.getColor(R.color.button_text_color);	
-		}else{
-			try{
-				_resources = _context.getPackageManager().getResourcesForApplication(_themePackageName);
-				layoutBackgroundDrawable = _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/background_panel", null, null));
-				rescheduleDrawable = _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/ic_reschedule", null, null));
-				ttsDrawable = _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/ic_tts", null, null));
-				notificationCountTextColorID = _resources.getColor(_resources.getIdentifier(_themePackageName + ":color/notification_count_text_color", null, null));
-				headerInfoTextcolorID = _resources.getColor(_resources.getIdentifier(_themePackageName + ":color/header_info_text_color", null, null));	
-				contactNameTextColorID = _resources.getColor(_resources.getIdentifier(_themePackageName + ":color/contact_name_text_color", null, null));	
-				contactNumberTextColorID = _resources.getColor(_resources.getIdentifier(_themePackageName + ":color/contact_number_text_color", null, null));
-				bodyTextColorID = _resources.getColor(_resources.getIdentifier(_themePackageName + ":color/body_text_color", null, null));
-				buttonTextColorID = _resources.getColor(_resources.getIdentifier(_themePackageName + ":color/button_text_color", null, null));
-				themeName = _resources.getString(_resources.getIdentifier(_themePackageName + ":string/app_name_desc", null, null));
-			}catch(NameNotFoundException ex){
-				Log.e("ThemeView.setupLayoutTheme() Loading Theme Package ERROR: " + ex.toString());
-				_themePackageName = Constants.DARK_TRANSLUCENT_THEME;
+			if(_themePackageName.equals(Constants.NOTIFY_DEFAULT_THEME)){
 				_resources = _context.getResources();
 				layoutBackgroundDrawable = _resources.getDrawable(R.drawable.background_panel);
 				rescheduleDrawable = _resources.getDrawable(R.drawable.ic_reschedule);
@@ -234,46 +192,79 @@ public class ThemeView extends LinearLayout {
 				contactNumberTextColorID = _resources.getColor(R.color.contact_number_text_color);	
 				bodyTextColorID = _resources.getColor(R.color.body_text_color);
 				buttonTextColorID = _resources.getColor(R.color.button_text_color);	
-				themeName = _context.getString(R.string.notify_theme) + " - " + _context.getString(R.string.default_v1);
+				themeName = _context.getString(R.string.notify_theme) + " - " + _context.getString(R.string.default_theme_notify);
+			}else if(_themePackageName.equals(Constants.PHONE_DEFAULT_THEME)){
+				_resources = _context.getResources();
+				layoutBackgroundDrawable = _resources.getDrawable(android.R.drawable.dialog_frame);
+				rescheduleDrawable = _resources.getDrawable(R.drawable.ic_reschedule);
+				ttsDrawable = _resources.getDrawable(R.drawable.ic_tts);
+				themeName = _context.getString(R.string.notify_theme) + " - " + _context.getString(R.string.default_theme_phone);
+			}else{
+				if (_debug) Log.v("ThemeView.setupLayoutTheme() External Package Theme: " + _themePackageName);
+				try{
+					_resources = _context.getPackageManager().getResourcesForApplication(_themePackageName);
+					layoutBackgroundDrawable = _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/background_panel", null, null));
+					rescheduleDrawable = _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/ic_reschedule", null, null));
+					ttsDrawable = _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/ic_tts", null, null));
+					notificationCountTextColorID = _resources.getColor(_resources.getIdentifier(_themePackageName + ":color/notification_count_text_color", null, null));
+					headerInfoTextcolorID = _resources.getColor(_resources.getIdentifier(_themePackageName + ":color/header_info_text_color", null, null));	
+					contactNameTextColorID = _resources.getColor(_resources.getIdentifier(_themePackageName + ":color/contact_name_text_color", null, null));	
+					contactNumberTextColorID = _resources.getColor(_resources.getIdentifier(_themePackageName + ":color/contact_number_text_color", null, null));
+					bodyTextColorID = _resources.getColor(_resources.getIdentifier(_themePackageName + ":color/body_text_color", null, null));
+					buttonTextColorID = _resources.getColor(_resources.getIdentifier(_themePackageName + ":color/button_text_color", null, null));
+					themeName = _resources.getString(_resources.getIdentifier(_themePackageName + ":string/app_name_desc", null, null));
+				}catch(NameNotFoundException ex){
+					Log.e("ThemeView.setupLayoutTheme() Loading Theme Package ERROR: " + ex.toString());
+					_themePackageName = Constants.APP_THEME_DEFAULT;
+					_resources = _context.getResources();
+					layoutBackgroundDrawable = _resources.getDrawable(R.drawable.background_panel);
+					rescheduleDrawable = _resources.getDrawable(R.drawable.ic_reschedule);
+					ttsDrawable = _resources.getDrawable(R.drawable.ic_tts);
+					notificationCountTextColorID = _resources.getColor(R.color.notification_count_text_color);	
+					headerInfoTextcolorID = _resources.getColor(R.color.header_info_text_color);	
+					contactNameTextColorID = _resources.getColor(R.color.contact_name_text_color);	
+					contactNumberTextColorID = _resources.getColor(R.color.contact_number_text_color);	
+					bodyTextColorID = _resources.getColor(R.color.body_text_color);
+					buttonTextColorID = _resources.getColor(R.color.button_text_color);		
+					themeName = _context.getString(R.string.notify_theme) + " - " + _context.getString(R.string.default_theme_notify);
+				}
 			}
-		}
-		
-		_notificationWindowLinearLayout.setBackgroundDrawable(layoutBackgroundDrawable);
-		
-		_notificationCountTextView.setTextColor(notificationCountTextColorID);
-		_notificationInfoTextView.setTextColor(headerInfoTextcolorID);
-		_contactNameTextView.setTextColor(contactNameTextColorID);
-		_contactNumberTextView.setTextColor(contactNumberTextColorID);
-		
-		_notificationDetailsTextView.setTextColor(bodyTextColorID);
-		_notificationDetailsTextView.setLinkTextColor(bodyTextColorID);
-		_mmsLinkTextView.setTextColor(bodyTextColorID);
-		
-		_previousButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NAV_PREV));
-		_nextButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NAV_NEXT));
+			
+			_notificationWindowLinearLayout.setBackgroundDrawable(layoutBackgroundDrawable);
+			
+			_previousButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NAV_PREV));
+			_nextButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NAV_NEXT));
+			
+			if(!_themePackageName.equals(Constants.PHONE_DEFAULT_THEME)){			
+				_notificationCountTextView.setTextColor(notificationCountTextColorID);
+				_notificationInfoTextView.setTextColor(headerInfoTextcolorID);
+				_contactNameTextView.setTextColor(contactNameTextColorID);
+				_contactNumberTextView.setTextColor(contactNumberTextColorID);
 				
-		_dismissButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));		
-		_deleteButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));		
-		_callButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));		
-		_replyButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));		
-		_viewButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));		
-
-		_dismissButton.setTextColor(buttonTextColorID);
-		_deleteButton.setTextColor(buttonTextColorID);		
-		_callButton.setTextColor(buttonTextColorID);		
-		_replyButton.setTextColor(buttonTextColorID);		
-		_viewButton.setTextColor(buttonTextColorID);
-		
-		_dismissImageButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));		
-		_deleteImageButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));		
-		_callImageButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));		
-		_replyImageButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));		
-		_viewImageButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));
-		
-		_rescheduleButton.setImageDrawable(rescheduleDrawable);
-		_ttsButton.setImageDrawable(ttsDrawable);
-		
-		_themeNameTextView.setText(themeName);
+				_notificationDetailsTextView.setTextColor(bodyTextColorID);
+				_notificationDetailsTextView.setLinkTextColor(bodyTextColorID);
+				_privacyLinkTextView.setTextColor(bodyTextColorID);
+						
+				_dismissButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));
+				_deleteButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));
+				_replyButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));
+	
+				_dismissButton.setTextColor(buttonTextColorID);
+				_deleteButton.setTextColor(buttonTextColorID);
+				_replyButton.setTextColor(buttonTextColorID);
+				
+				_dismissImageButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));
+				_deleteImageButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));
+				_replyImageButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));
+			}
+			
+			_rescheduleButton.setImageDrawable(rescheduleDrawable);
+			_ttsButton.setImageDrawable(ttsDrawable);
+			
+			_themeNameTextView.setText(themeName);
+		}catch(Exception ex){
+			Log.e("ThemeView.setupLayoutTheme() ERROR: " + ex.toString());
+		}
 		
 	}
 	
@@ -288,10 +279,12 @@ public class ThemeView extends LinearLayout {
 		StateListDrawable stateListDrawable = new StateListDrawable();
 		switch(buttonType){
 			case Constants.THEME_BUTTON_NORMAL:{
-				if(_themePackageName.startsWith(Constants.DARK_TRANSLUCENT_THEME)){
+				if(_themePackageName.equals(Constants.NOTIFY_DEFAULT_THEME)){
 					stateListDrawable.addState(new int[] {android.R.attr.state_enabled, android.R.attr.state_pressed}, _resources.getDrawable(R.drawable.button_pressed));
 					stateListDrawable.addState(new int[] {android.R.attr.state_enabled}, _resources.getDrawable(R.drawable.button_normal));
 					stateListDrawable.addState(new int[] {}, _resources.getDrawable(R.drawable.button_disabled));
+				}else if(_themePackageName.equals(Constants.PHONE_DEFAULT_THEME)){
+					return null;
 				}else{
 					stateListDrawable.addState(new int[] {android.R.attr.state_enabled, android.R.attr.state_pressed}, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/button_pressed", null, null)));
 					stateListDrawable.addState(new int[] {android.R.attr.state_enabled}, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/button_normal", null, null)));
@@ -300,7 +293,7 @@ public class ThemeView extends LinearLayout {
 				return stateListDrawable;
 			}
 			case Constants.THEME_BUTTON_NAV_PREV:{
-				if(_themePackageName.startsWith(Constants.DARK_TRANSLUCENT_THEME)){
+				if(_themePackageName.equals(Constants.NOTIFY_DEFAULT_THEME) || _themePackageName.equals(Constants.PHONE_DEFAULT_THEME)){
 					stateListDrawable.addState(new int[] {android.R.attr.state_pressed}, _resources.getDrawable(R.drawable.button_navigate_prev_pressed));
 					stateListDrawable.addState(new int[] { }, _resources.getDrawable(R.drawable.button_navigate_prev_normal));
 				}else{
@@ -310,7 +303,7 @@ public class ThemeView extends LinearLayout {
 				return stateListDrawable;
 			}
 			case Constants.THEME_BUTTON_NAV_NEXT:{
-				if(_themePackageName.startsWith(Constants.DARK_TRANSLUCENT_THEME)){
+				if(_themePackageName.equals(Constants.NOTIFY_DEFAULT_THEME) || _themePackageName.equals(Constants.PHONE_DEFAULT_THEME)){
 					stateListDrawable.addState(new int[] {android.R.attr.state_pressed}, _resources.getDrawable(R.drawable.button_navigate_next_pressed));
 					stateListDrawable.addState(new int[] { }, _resources.getDrawable(R.drawable.button_navigate_next_normal));
 				}else{
@@ -371,6 +364,12 @@ public class ThemeView extends LinearLayout {
 	private void setupViewButtons(){
 		if (_debug) Log.v("ThemeView.setupViewButtons()");
 		try{
+			//Setup SMS/MMS Link
+			if(_preferences.getBoolean(Constants.SMS_MESSAGE_PRIVACY_ENABLED_KEY, false)){
+				_privacyLinkTextView.setText(R.string.click_to_view_message);
+			}
+			// Notification Count Text Button
+			_notificationCountTextView.setText("1/1");
 			boolean usingImageButtons = false;
 			String buttonDisplayStyle = _preferences.getString(Constants.BUTTON_DISPLAY_STYLE_KEY, Constants.BUTTON_DISPLAY_STYLE_DEFAULT);
 			//Show the LinearLayout of the specified button style (ImageButton vs Button)
@@ -383,35 +382,16 @@ public class ThemeView extends LinearLayout {
 				_buttonLinearLayout.setVisibility(View.VISIBLE);
 		    	_imageButtonLinearLayout.setVisibility(View.GONE);
 			}
-			//Default all buttons to be hidden.
-			_dismissButton.setVisibility(View.GONE);
-			_deleteButton.setVisibility(View.GONE);
-			_callButton.setVisibility(View.GONE);
-			_replyButton.setVisibility(View.GONE);
-			_viewButton.setVisibility(View.GONE);
-			_snoozeButton.setVisibility(View.GONE);
-			_dismissImageButton.setVisibility(View.GONE);
-			_deleteImageButton.setVisibility(View.GONE);
-			_callImageButton.setVisibility(View.GONE);
-			_replyImageButton.setVisibility(View.GONE);
-			_viewImageButton.setVisibility(View.GONE);
-			_snoozeImageButton.setVisibility(View.GONE);
 			//Set button font size.
 			float buttonTextSize = Float.parseFloat(_preferences.getString(Constants.BUTTON_FONT_SIZE_KEY, Constants.BUTTON_FONT_SIZE_DEFAULT));
 			_dismissButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, buttonTextSize);
 			_deleteButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, buttonTextSize);
-			_callButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, buttonTextSize);
 			_replyButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, buttonTextSize);
-			_viewButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, buttonTextSize);
-			_snoozeButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, buttonTextSize);
 			//Set button font to bold.
 			if(_preferences.getBoolean(Constants.BUTTON_BOLD_TEXT_KEY, false)){
 				_dismissButton.setTypeface(null, Typeface.BOLD);
 				_deleteButton.setTypeface(null, Typeface.BOLD);
-				_callButton.setTypeface(null, Typeface.BOLD);
 				_replyButton.setTypeface(null, Typeface.BOLD);
-				_viewButton.setTypeface(null, Typeface.BOLD);
-				_snoozeButton.setTypeface(null, Typeface.BOLD);
 			}
 			//Setup the views buttons based on the notification type.
 			setupViewSMSButtons(usingImageButtons, _notificationType);
@@ -429,7 +409,17 @@ public class ThemeView extends LinearLayout {
 	 */
 	private void setupViewSMSButtons(boolean usingImageButtons, int notificationType){
 		if (_debug) Log.v("ThemeView.setupViewSMSButtons()");
-		try{
+		try{			
+			boolean displayReplyButton = true;
+			if(_preferences.getBoolean(Constants.SMS_DISPLAY_REPLY_BUTTON_KEY, true)){
+				if(_preferences.getBoolean(Constants.QUICK_REPLY_ENABLED, false)){
+					displayReplyButton = false;
+				}else if(_preferences.getString(Constants.SMS_REPLY_KEY, Constants.SMS_MESSAGING_APP_REPLY).equals(Constants.SMS_QUICK_REPLY)){
+					displayReplyButton = false;
+				}
+			}else{
+				displayReplyButton = false;
+			}
 			if(usingImageButtons){
 				// Dismiss Button
 		    	if(_preferences.getBoolean(Constants.SMS_DISPLAY_DISMISS_BUTTON_KEY, true)){		
@@ -444,7 +434,7 @@ public class ThemeView extends LinearLayout {
 		    		_deleteImageButton.setVisibility(View.GONE);
 		    	}
 				// Reply Button;
-				if(_preferences.getBoolean(Constants.SMS_DISPLAY_REPLY_BUTTON_KEY, true)){
+				if(displayReplyButton){
 					_replyImageButton.setVisibility(View.VISIBLE);
 		    	}else{
 		    		_replyImageButton.setVisibility(View.GONE);
@@ -463,7 +453,7 @@ public class ThemeView extends LinearLayout {
 		    		_deleteButton.setVisibility(View.GONE);
 		    	}
 				// Reply Button
-				if(_preferences.getBoolean(Constants.SMS_DISPLAY_REPLY_BUTTON_KEY, true)){
+				if(displayReplyButton){
 		    		_replyButton.setVisibility(View.VISIBLE);
 		    	}else{
 		    		_replyButton.setVisibility(View.GONE);
@@ -487,7 +477,7 @@ public class ThemeView extends LinearLayout {
 			Drawable deleteButtonIcon = null;
 			Drawable replySMSButtonIcon = null;
 			//Load the theme specific icons.
-			if(_themePackageName.startsWith(Constants.DARK_TRANSLUCENT_THEME)){
+			if(_themePackageName.equals(Constants.NOTIFY_DEFAULT_THEME) || _themePackageName.equals(Constants.PHONE_DEFAULT_THEME)){
 				dismissButtonIcon = _resources.getDrawable(R.drawable.ic_dismiss);
 				deleteButtonIcon = _resources.getDrawable(R.drawable.ic_delete);
 				replySMSButtonIcon = _resources.getDrawable(R.drawable.ic_conversation);
@@ -605,7 +595,7 @@ public class ThemeView extends LinearLayout {
 	private void setNotificationTypeInfo(){
 		if (_debug) Log.v("ThemeView.setNotificationTypeInfo()");
 		Bitmap iconBitmap = null;
-		// Update TextView that contains the image, contact info/calendar info, and timestamp for the Notification.
+		// Update TextView that contains the image, contact info, and timestamp for the Notification.
 		String formattedTimestamp = Common.formatTimestamp(_context, Common.convertGMTToLocalTime(_context, System.currentTimeMillis(), true));
     	iconBitmap = BitmapFactory.decodeResource(_context.getResources(), R.drawable.notification_type_sms);
     	String receivedAtText = _context.getString(R.string.message_at_text, formattedTimestamp.toLowerCase());

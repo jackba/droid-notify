@@ -435,7 +435,8 @@ public class NotificationActivity extends Activity{
 	        case MotionEvent.ACTION_UP:{
 	            //Consume if necessary and perform the fling / swipe action if it has been determined to be a fling / swipe.
 	        	float deltaX = motionEvent.getX() - _downMotionEvent.getX();
-		        if(Math.abs(deltaX) > new ViewConfiguration().getScaledTouchSlop()*2){
+	        	final ViewConfiguration viewConfiguration = ViewConfiguration.get(_context); 
+		        if(Math.abs(deltaX) > viewConfiguration.getScaledTouchSlop()*2){
 		        	if(deltaX < 0){
 		        		_notificationViewFlipper.showNext();
 	           	    	//Poke the screen timeout.

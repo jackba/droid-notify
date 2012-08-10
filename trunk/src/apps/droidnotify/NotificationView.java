@@ -65,6 +65,7 @@ public class NotificationView extends LinearLayout {
 	private NotificationViewFlipper _notificationViewFlipper = null;
 	private Notification _notification = null;
 	private int _notificationType = -1;
+	private int _notificationSubType = -1;
 	private String _themePackageName = null;
 	private Resources _resources = null;
 	
@@ -91,7 +92,7 @@ public class NotificationView extends LinearLayout {
 	private ImageView _ttsButton = null;
 	
 	private Button _previousButton = null;
-	private Button _nextButton = null;	
+	private Button _nextButton = null;
 	
 	private Button _dismissButton = null;
 	private Button _deleteButton = null;
@@ -134,11 +135,12 @@ public class NotificationView extends LinearLayout {
 	    _notificationActivity = (NotificationActivity) context;
 	    _notification = notification;
 	    _notificationType = notification.getNotificationType();
-		View.inflate(context, R.layout.notification, this);
+	    _notificationSubType = notification.getNotificationSubType();
+	    View.inflate(context, R.layout.notification_reply, this);
 	    initLayoutItems();
 		setLayoutProperties();
 		setupLayoutTheme();
-		setupQuickReply();
+	    setupQuickReply();
 	    initLongPressView();
 	    setupViewHeaderButtons();
 	    setupViewButtons();
@@ -256,15 +258,9 @@ public class NotificationView extends LinearLayout {
 		if(!_themePackageName.startsWith(Constants.APP_THEME_PREFIX)){
 			_themePackageName = Constants.APP_THEME_DEFAULT;
 		}
-		if(_themePackageName.startsWith(Constants.DARK_TRANSLUCENT_THEME)){
+		if(_themePackageName.equals(Constants.NOTIFY_DEFAULT_THEME)){
 			_resources = _context.getResources();
-			if(_themePackageName.equals(Constants.DARK_TRANSLUCENT_THEME)){
-				layoutBackgroundDrawable = _resources.getDrawable(R.drawable.background_panel);
-			}else if(_themePackageName.equals(Constants.DARK_TRANSLUCENT_V2_THEME)){
-				layoutBackgroundDrawable = _resources.getDrawable(R.drawable.background_panel_v2);
-			}else if(_themePackageName.equals(Constants.DARK_TRANSLUCENT_V3_THEME)){
-				layoutBackgroundDrawable = _resources.getDrawable(R.drawable.background_panel_v3);
-			}
+			layoutBackgroundDrawable = _resources.getDrawable(R.drawable.background_panel);
 			rescheduleDrawable = _resources.getDrawable(R.drawable.ic_reschedule);
 			ttsDrawable = _resources.getDrawable(R.drawable.ic_tts);
 			notificationCountTextColorID = _resources.getColor(R.color.notification_count_text_color);	
@@ -273,6 +269,11 @@ public class NotificationView extends LinearLayout {
 			contactNumberTextColorID = _resources.getColor(R.color.contact_number_text_color);	
 			bodyTextColorID = _resources.getColor(R.color.body_text_color);
 			buttonTextColorID = _resources.getColor(R.color.button_text_color);	
+		}else if(_themePackageName.equals(Constants.PHONE_DEFAULT_THEME)){
+			_resources = _context.getResources();
+			layoutBackgroundDrawable = _resources.getDrawable(android.R.drawable.dialog_frame);
+			rescheduleDrawable = _resources.getDrawable(R.drawable.ic_reschedule);
+			ttsDrawable = _resources.getDrawable(R.drawable.ic_tts);
 		}else{	
 			try{
 				_resources = _context.getPackageManager().getResourcesForApplication(_themePackageName);
@@ -287,7 +288,7 @@ public class NotificationView extends LinearLayout {
 				buttonTextColorID = _resources.getColor(_resources.getIdentifier(_themePackageName + ":color/button_text_color", null, null));
 			}catch(NameNotFoundException ex){
 				Log.e("NotificationView.setupLayoutTheme() Loading Theme Package ERROR: " + ex.toString());
-				_themePackageName = Constants.DARK_TRANSLUCENT_THEME;
+				_themePackageName = Constants.APP_THEME_DEFAULT;
 				_resources = _context.getResources();
 				layoutBackgroundDrawable = _resources.getDrawable(R.drawable.background_panel);
 				rescheduleDrawable = _resources.getDrawable(R.drawable.ic_reschedule);
@@ -301,41 +302,43 @@ public class NotificationView extends LinearLayout {
 			}
 		}
 		
-		_notificationWindowLinearLayout.setBackgroundDrawable(layoutBackgroundDrawable);
-		
-		_notificationCountTextView.setTextColor(notificationCountTextColorID);
-		_notificationInfoTextView.setTextColor(headerInfoTextcolorID);
-		_contactNameTextView.setTextColor(contactNameTextColorID);
-		_contactNumberTextView.setTextColor(contactNumberTextColorID);
-		
-		_notificationDetailsTextView.setTextColor(bodyTextColorID);
-		_notificationDetailsTextView.setLinkTextColor(bodyTextColorID);
-		_privacyLinkTextView.setTextColor(bodyTextColorID);
-		_calendarSnoozeTextView.setTextColor(bodyTextColorID);
-		
+		_notificationWindowLinearLayout.setBackgroundDrawable(layoutBackgroundDrawable);			
+
 		_previousButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NAV_PREV));
 		_nextButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NAV_NEXT));
-				
-		_dismissButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));
-		_deleteButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));
-		_callButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));
-		_replyButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));
-		_viewButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));
-		_snoozeButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));
-
-		_dismissButton.setTextColor(buttonTextColorID);
-		_deleteButton.setTextColor(buttonTextColorID);
-		_callButton.setTextColor(buttonTextColorID);
-		_replyButton.setTextColor(buttonTextColorID);
-		_viewButton.setTextColor(buttonTextColorID);
-		_snoozeButton.setTextColor(buttonTextColorID);
 		
-		_dismissImageButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));
-		_deleteImageButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));
-		_callImageButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));
-		_replyImageButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));
-		_viewImageButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));
-		_snoozeImageButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));
+		if(!_themePackageName.equals(Constants.PHONE_DEFAULT_THEME)){		
+			_notificationCountTextView.setTextColor(notificationCountTextColorID);
+			_notificationInfoTextView.setTextColor(headerInfoTextcolorID);
+			_contactNameTextView.setTextColor(contactNameTextColorID);
+			_contactNumberTextView.setTextColor(contactNumberTextColorID);
+			
+			_notificationDetailsTextView.setTextColor(bodyTextColorID);
+			_notificationDetailsTextView.setLinkTextColor(bodyTextColorID);
+			_privacyLinkTextView.setTextColor(bodyTextColorID);
+			_calendarSnoozeTextView.setTextColor(bodyTextColorID);
+					
+			_dismissButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));
+			_deleteButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));
+			_callButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));
+			_replyButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));
+			_viewButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));
+			_snoozeButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));
+
+			_dismissButton.setTextColor(buttonTextColorID);
+			_deleteButton.setTextColor(buttonTextColorID);
+			_callButton.setTextColor(buttonTextColorID);
+			_replyButton.setTextColor(buttonTextColorID);
+			_viewButton.setTextColor(buttonTextColorID);
+			_snoozeButton.setTextColor(buttonTextColorID);
+			
+			_dismissImageButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));
+			_deleteImageButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));
+			_callImageButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));
+			_replyImageButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));
+			_viewImageButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));
+			_snoozeImageButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));
+		}
 		
 		_rescheduleButton.setImageDrawable(rescheduleDrawable);
 		_ttsButton.setImageDrawable(ttsDrawable);
@@ -383,10 +386,10 @@ public class NotificationView extends LinearLayout {
 		String replyButtonAction = _preferences.getString(Constants.SMS_REPLY_KEY, Constants.SMS_MESSAGING_APP_REPLY);
 		if(quickReplyEnabled){
 			_quickReplyLinearLayout.setVisibility(View.VISIBLE);
-			setupQuickReplyButtons();
+			setupQuickReplyButtons(_notificationType, _notificationSubType);
 		}else if(replyButtonAction.equals(Constants.SMS_QUICK_REPLY)){
 			_quickReplyLinearLayout.setVisibility(View.VISIBLE);
-			setupQuickReplyButtons();
+			setupQuickReplyButtons(_notificationType, _notificationSubType);
 		}else{
 			_quickReplyLinearLayout.setVisibility(View.GONE);
 		}
@@ -398,7 +401,7 @@ public class NotificationView extends LinearLayout {
 	 * @param notificationType - The notification type.
 	 * @param notificationSubType - The notification sub type.
 	 */
-	private void setupQuickReplyButtons(){		
+	private void setupQuickReplyButtons(int notificationType, int notificationSubType){		
 		//Speech To Text (STT) Button.
 		_sttImageButton.setOnClickListener(
 			new OnClickListener(){
@@ -411,20 +414,20 @@ public class NotificationView extends LinearLayout {
 		);
 		//Send Button - Notification Dependent.
 		_sendImageButton.setOnClickListener(
-				new OnClickListener(){
-				    public void onClick(View view){
-				    	if (_debug) Log.v("STT Button Clicked()");
-				    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-				    	String message = _messageEditText.getText().toString();
-				    	if(message.equals("")){
-				    		//No text was entered.
-				    	}else{
-				    		SMSCommon.sendSMS(_context, _notification.getSentFromAddress(), message);
-				    		dismissNotification(false);
-				    	}
-				    }
-				}
-			);	
+			new OnClickListener(){
+				public void onClick(View view){
+			    	if (_debug) Log.v("STT Button Clicked()");
+			    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+			    	String message = _messageEditText.getText().toString();
+			    	if(message.equals("")){
+			    		//No text was entered.
+			    	}else{
+			    		SMSCommon.sendSMS(_context, _notification.getSentFromAddress(), message);
+			    		dismissNotification(false);
+			    	}
+			    }
+			}
+		);	
 	}
 	
 	/**
@@ -438,10 +441,12 @@ public class NotificationView extends LinearLayout {
 		StateListDrawable stateListDrawable = new StateListDrawable();
 		switch(buttonType){
 			case Constants.THEME_BUTTON_NORMAL:{
-				if(_themePackageName.startsWith(Constants.DARK_TRANSLUCENT_THEME)){
+				if(_themePackageName.equals(Constants.NOTIFY_DEFAULT_THEME)){
 					stateListDrawable.addState(new int[] {android.R.attr.state_enabled, android.R.attr.state_pressed}, _resources.getDrawable(R.drawable.button_pressed));
 					stateListDrawable.addState(new int[] {android.R.attr.state_enabled}, _resources.getDrawable(R.drawable.button_normal));
 					stateListDrawable.addState(new int[] {}, _resources.getDrawable(R.drawable.button_disabled));
+				}else if(_themePackageName.equals(Constants.PHONE_DEFAULT_THEME)){
+					return null;
 				}else{
 					stateListDrawable.addState(new int[] {android.R.attr.state_enabled, android.R.attr.state_pressed}, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/button_pressed", null, null)));
 					stateListDrawable.addState(new int[] {android.R.attr.state_enabled}, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/button_normal", null, null)));
@@ -450,7 +455,7 @@ public class NotificationView extends LinearLayout {
 				return stateListDrawable;
 			}
 			case Constants.THEME_BUTTON_NAV_PREV:{
-				if(_themePackageName.startsWith(Constants.DARK_TRANSLUCENT_THEME)){
+				if(_themePackageName.equals(Constants.NOTIFY_DEFAULT_THEME) || _themePackageName.equals(Constants.PHONE_DEFAULT_THEME)){
 					stateListDrawable.addState(new int[] {android.R.attr.state_pressed}, _resources.getDrawable(R.drawable.button_navigate_prev_pressed));
 					stateListDrawable.addState(new int[] { }, _resources.getDrawable(R.drawable.button_navigate_prev_normal));
 				}else{
@@ -460,7 +465,7 @@ public class NotificationView extends LinearLayout {
 				return stateListDrawable;
 			}
 			case Constants.THEME_BUTTON_NAV_NEXT:{
-				if(_themePackageName.startsWith(Constants.DARK_TRANSLUCENT_THEME)){
+				if(_themePackageName.equals(Constants.NOTIFY_DEFAULT_THEME) || _themePackageName.equals(Constants.PHONE_DEFAULT_THEME)){
 					stateListDrawable.addState(new int[] {android.R.attr.state_pressed}, _resources.getDrawable(R.drawable.button_navigate_next_pressed));
 					stateListDrawable.addState(new int[] { }, _resources.getDrawable(R.drawable.button_navigate_next_normal));
 				}else{
@@ -485,8 +490,13 @@ public class NotificationView extends LinearLayout {
 			//Load theme resources.
 			String themePackageName = _preferences.getString(Constants.APP_THEME_KEY, Constants.APP_THEME_DEFAULT);
 			if (_debug) Log.v("NotificationView.initLongPressView() ThemePackageName: " + themePackageName);
-			if(themePackageName.startsWith(Constants.DARK_TRANSLUCENT_THEME)){
-				_listSelectorBackgroundDrawable = _resources.getDrawable(R.drawable.list_selector_background);
+			if(themePackageName.equals(Constants.NOTIFY_DEFAULT_THEME)){
+				try{
+					_listSelectorBackgroundDrawable = _resources.getDrawable(R.drawable.list_selector_background);
+				}catch(Exception ex){
+					_listSelectorBackgroundDrawable = null;
+					Log.e("NotificationView.initLongPressView() List Selector Background Drawable ERROR: " + ex.toString());
+				}
 				try{
 					_listSelectorBackgroundTransitionDrawable = (TransitionDrawable) _resources.getDrawable(R.drawable.list_selector_background_transition);
 				}catch(ClassCastException classCastException){
@@ -496,8 +506,23 @@ public class NotificationView extends LinearLayout {
 				}
 				_listSelectorBackgroundColorResourceID = _resources.getColor(R.color.list_selector_text_color);
 				_listSelectorBackgroundTransitionColorResourceID = _resources.getColor(R.color.list_selector_transition_text_color);
+			}else if(themePackageName.equals(Constants.PHONE_DEFAULT_THEME)){
+				try{
+					_listSelectorBackgroundDrawable = _resources.getDrawable(android.R.drawable.list_selector_background);
+				}catch(Exception ex){
+					_listSelectorBackgroundDrawable = null;
+					Log.e("NotificationView.initLongPressView() List Selector Background Drawable ERROR: " + ex.toString());
+				}
+				_listSelectorBackgroundTransitionDrawable = null;
+				_listSelectorBackgroundColorResourceID = 0;
+				_listSelectorBackgroundTransitionColorResourceID = 0;
 			}else{
-				_listSelectorBackgroundDrawable = _resources.getDrawable(_resources.getIdentifier(themePackageName + ":drawable/list_selector_background", null, null));
+				try{
+					_listSelectorBackgroundDrawable = _resources.getDrawable(_resources.getIdentifier(themePackageName + ":drawable/list_selector_background", null, null));
+				}catch(Exception ex){
+					_listSelectorBackgroundDrawable = null;
+					Log.e("NotificationView.initLongPressView() List Selector Background Drawable ERROR: " + ex.toString());
+				}
 				try{
 					_listSelectorBackgroundTransitionDrawable = (TransitionDrawable) _resources.getDrawable(_resources.getIdentifier(themePackageName + ":drawable/list_selector_background_transition", null, null));
 				}catch(ClassCastException classCastException){
@@ -520,23 +545,29 @@ public class NotificationView extends LinearLayout {
 					                transition.setCrossFadeEnabled(true);
 					                transition.startTransition(300);
 				     			}
-			                	_notificationInfoTextView.setTextColor(_listSelectorBackgroundTransitionColorResourceID);
-			                	_contactNameTextView.setTextColor(_listSelectorBackgroundTransitionColorResourceID);
-			                	_contactNumberTextView.setTextColor(_listSelectorBackgroundTransitionColorResourceID);
+				     			if(_listSelectorBackgroundTransitionColorResourceID > 0){
+				                	_notificationInfoTextView.setTextColor(_listSelectorBackgroundTransitionColorResourceID);
+				                	_contactNameTextView.setTextColor(_listSelectorBackgroundTransitionColorResourceID);
+				                	_contactNumberTextView.setTextColor(_listSelectorBackgroundTransitionColorResourceID);
+				     			}
 				                break;
 					        }
 				     		case MotionEvent.ACTION_UP:{
-				         		view.setBackgroundDrawable(_listSelectorBackgroundDrawable);
-				                _notificationInfoTextView.setTextColor(_listSelectorBackgroundColorResourceID);
-				                _contactNameTextView.setTextColor(_listSelectorBackgroundColorResourceID);
-				                _contactNumberTextView.setTextColor(_listSelectorBackgroundColorResourceID);
+				         		if(_listSelectorBackgroundDrawable != null) view.setBackgroundDrawable(_listSelectorBackgroundDrawable);
+				                if(_listSelectorBackgroundColorResourceID > 0){
+				                	_notificationInfoTextView.setTextColor(_listSelectorBackgroundColorResourceID);
+				                	_contactNameTextView.setTextColor(_listSelectorBackgroundColorResourceID);
+				                	_contactNumberTextView.setTextColor(_listSelectorBackgroundColorResourceID);
+				     			}
 				                break;
 				     		}
 				     		case MotionEvent.ACTION_CANCEL:{
-				         		view.setBackgroundDrawable(_listSelectorBackgroundDrawable);
-				                _notificationInfoTextView.setTextColor(_listSelectorBackgroundColorResourceID);
-				                _contactNameTextView.setTextColor(_listSelectorBackgroundColorResourceID);
-				                _contactNumberTextView.setTextColor(_listSelectorBackgroundColorResourceID);
+				     			if(_listSelectorBackgroundDrawable != null) view.setBackgroundDrawable(_listSelectorBackgroundDrawable);
+				         		if(_listSelectorBackgroundColorResourceID > 0){
+					                _notificationInfoTextView.setTextColor(_listSelectorBackgroundColorResourceID);
+					                _contactNameTextView.setTextColor(_listSelectorBackgroundColorResourceID);
+					                _contactNumberTextView.setTextColor(_listSelectorBackgroundColorResourceID);
+				         		}
 				                break;
 				     		}
 			     		}
@@ -803,8 +834,6 @@ public class NotificationView extends LinearLayout {
 	private void setupViewSMSButtons(boolean usingImageButtons, int notificationType){
 		if (_debug) Log.v("NotificationView.setupViewSMSButtons()");
 		try{
-			int notificationCountAction = -1;
-			notificationCountAction = Integer.parseInt(_preferences.getString(Constants.SMS_NOTIFICATION_COUNT_ACTION_KEY, Constants.NOTIFICATION_COUNT_ACTION_NOTHING));
 			//Setup SMS/MMS Link
 			if(notificationType == Constants.NOTIFICATION_TYPE_SMS){
 				if(_preferences.getBoolean(Constants.SMS_MESSAGE_PRIVACY_ENABLED_KEY, false)){
@@ -830,6 +859,8 @@ public class NotificationView extends LinearLayout {
 				}
 			}
 			// Notification Count Text Button
+			int notificationCountAction = -1;
+			notificationCountAction = Integer.parseInt(_preferences.getString(Constants.SMS_NOTIFICATION_COUNT_ACTION_KEY, Constants.NOTIFICATION_COUNT_ACTION_NOTHING));
 			if(notificationCountAction == 0){
 				//Do Nothing.
 			}else if(notificationCountAction == 1){
@@ -869,7 +900,7 @@ public class NotificationView extends LinearLayout {
 					displayReplyButton = false;
 				}else if(_preferences.getString(Constants.SMS_REPLY_KEY, Constants.SMS_MESSAGING_APP_REPLY).equals(Constants.SMS_QUICK_REPLY)){
 					displayReplyButton = false;
-				}			
+				}
 			}else{
 				displayReplyButton = false;
 			}
@@ -1229,7 +1260,7 @@ public class NotificationView extends LinearLayout {
 		}catch(Exception ex){
 			Log.e("NotificationView.setupViewK9Buttons() ERROR: " + ex.toString());
 		}
-	}	
+	}
 	
 	/**
 	 * Setup the view buttons for K9 notifications.
@@ -1325,7 +1356,7 @@ public class NotificationView extends LinearLayout {
 			Drawable viewCalendarButtonIcon = null;
 			Drawable snoozeCalendarButtonIcon = null;
 			//Load the theme specific icons.
-			if(_themePackageName.startsWith(Constants.DARK_TRANSLUCENT_THEME)){
+			if(_themePackageName.equals(Constants.NOTIFY_DEFAULT_THEME) || _themePackageName.equals(Constants.PHONE_DEFAULT_THEME)){
 				dismissButtonIcon = _resources.getDrawable(R.drawable.ic_dismiss);
 				deleteButtonIcon = _resources.getDrawable(R.drawable.ic_delete);
 				callButtonIcon = _resources.getDrawable(R.drawable.ic_call);
@@ -1504,7 +1535,7 @@ public class NotificationView extends LinearLayout {
 			_contactNumberTextView.setVisibility(View.GONE);
 			_photoImageView.setVisibility(View.GONE);
 			_photoProgressBar.setVisibility(View.GONE);
-			loadContactPhoto = false;
+			loadContactPhoto = false;			
 		}else if(_notificationType == Constants.NOTIFICATION_TYPE_GENERIC 
 					&& contactID == -1 
 					&& (contactName == null || contactName.equals("") || contactName.equals(_context.getString(android.R.string.unknownName)))
@@ -1551,7 +1582,7 @@ public class NotificationView extends LinearLayout {
 		    	displayContactNumber = true;
 		    }else{
 	    		_contactNumberTextView.setText(PhoneCommon.formatPhoneNumber(_context, sentFromAddress));
-	    		displayContactNumber = true;		    	
+	    		displayContactNumber = true;	    	
 		    }
 			if(!_preferences.getBoolean(Constants.CONTACT_NUMBER_DISPLAY_KEY, true)){
 				if(_preferences.getBoolean(Constants.CONTACT_NUMBER_DISPLAY_UNKNOWN_KEY, true)){
@@ -1758,7 +1789,7 @@ public class NotificationView extends LinearLayout {
 			case Constants.NOTIFICATION_TYPE_GENERIC:{
 				String formattedTimestamp = Common.formatTimestamp(_context, _notification.getTimeStamp());
 				iconBitmap = Common.getPackageIcon(_context, _notification.getPackageName());
-				receivedAtText = _context.getString(R.string.notification_at_text, formattedTimestamp.toLowerCase());
+		    	receivedAtText = _context.getString(R.string.message_at_text, formattedTimestamp.toLowerCase());
 				break;
 			}
 		}
@@ -2015,13 +2046,22 @@ public class NotificationView extends LinearLayout {
 			}
 		}
 	}
+ 
+	/**
+	 * Confirm the delete request of the current message.
+	 */
+	private void showDeleteDialog(){
+		if (_debug) Log.v("NotificationView.showDeleteDialog()");
+    	//Cancel the notification reminder.
+    	_notification.cancelReminder();
+		_notificationViewFlipper.showDeleteDialog();
+	}
 	
 	/**
 	 * When the Missed Call Notification "Call" button is pressed, this determines what to do.
 	 */
 	private void callMissedCall(){
 		if (_debug) Log.v("NotificationView.callMissedCall()");
-		//Cancel the notification reminder.
 		_notification.cancelReminder();
 		if(_preferences.getString(Constants.PHONE_CALL_KEY, Constants.PHONE_CALL_ACTION_CALL).equals(Constants.PHONE_CALL_ACTION_CALL)){
 			PhoneCommon.makePhoneCall(_context, _notificationActivity, _notification.getSentFromAddress(), Constants.CALL_ACTIVITY);
@@ -2095,16 +2135,6 @@ public class NotificationView extends LinearLayout {
 		}
 		_notificationViewFlipper.snoozeCalendarEvent(snoozeTime * 1000);
 	}
-	 
-	/**
-	 * Confirm the delete request of the current message.
-	 */
-	private void showDeleteDialog(){
-		if (_debug) Log.v("NotificationView.showDeleteDialog()");
-    	//Cancel the notification reminder.
-    	_notification.cancelReminder();
-		_notificationViewFlipper.showDeleteDialog();
-	}	
 
 	/**
 	 * Performs haptic feedback based on the users preferences.

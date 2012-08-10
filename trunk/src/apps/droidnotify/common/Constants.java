@@ -283,19 +283,12 @@ public class Constants {
 		"com.youmail.android.vvm,com.youmail.android.vvm.activity.MainTabActivity"};
 	
 	//-----APP THEME CONSTANTS-----//
+    public static final String APP_THEME_KEY = "app_theme";       
 	public static final String APP_THEME_PREFIX = "apps.droidnotify.theme.";
-	public static final String APP_THEME_KEY = "app_theme";
-	public static final String ANDROID_FROYO_THEME = "apps.droidnotify.theme.froyo";
-	public static final String ANDROID_GINGERBREAD_THEME = "apps.droidnotify.theme.gingerbread";
-	public static final String ANDROID_ICECREAM_HOLO_DARK_THEME = "apps.droidnotify.theme.icecreamsandwich";
-	public static final String IPHONE_THEME = "apps.droidnotify.theme.iphone";
-	public static final String DARK_TRANSLUCENT_THEME = "apps.droidnotify.theme.default";
-	public static final String DARK_TRANSLUCENT_V2_THEME = "apps.droidnotify.theme.default.v2";
-	public static final String DARK_TRANSLUCENT_V3_THEME = "apps.droidnotify.theme.default.v3";
-	public static final String HTC_SENSE_UI_THEME = "apps.droidnotify.theme.htc";
-	public static final String XPERIA_THEME = "apps.droidnotify.theme.xperia";
+	public static final String NOTIFY_DEFAULT_THEME = "apps.droidnotify.theme.default.notify";
+	public static final String PHONE_DEFAULT_THEME = "apps.droidnotify.theme.default.phone";
 	
-	public static final String APP_THEME_DEFAULT = DARK_TRANSLUCENT_THEME;
+	public static final String APP_THEME_DEFAULT = NOTIFY_DEFAULT_THEME;
 	
 	//-----PHONE NUMBER FORMAT CONSTANTS-----//
 	public static final String PHONE_NUMBER_FORMAT_10_DIGITS_ONLY_KEY = "phone_number_format_10_digits_only";
