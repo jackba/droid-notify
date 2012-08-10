@@ -15,6 +15,7 @@ import android.preference.PreferenceManager;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -41,12 +42,12 @@ public class ThemePreferenceActivity extends Activity {
 	private SharedPreferences _preferences = null;
 	private ArrayList<ThemeView> _themeViews = null;
 	private ThemeViewFlipper _themeViewFlipper = null;
-	private LoadThemesAsyncTask _currentLoadThemesAsyncTask = null;
-	private final Object _loadThemesAsyncTaskLock = new Object();
-	private ProgressBar _themeProgressBar  = null;
+	private ProgressBar _themeProgressBar = null;
 	private TextView _okTextView = null;
 	private TextView _moreTextView = null;
 	private MotionEvent _downMotionEvent = null;
+    private LoadThemesAsyncTask _currentLoadThemesAsyncTask = null;
+    private final Object _loadThemesAsyncTaskLock = new Object();
 
 	//================================================================================
 	// Public Methods
@@ -69,7 +70,8 @@ public class ThemePreferenceActivity extends Activity {
 	        case MotionEvent.ACTION_UP:{
 	            //Consume if necessary and perform the fling / swipe action if it has been determined to be a fling / swipe.
 	        	float deltaX = motionEvent.getX() - _downMotionEvent.getX();
-		        if(Math.abs(deltaX) > new ViewConfiguration().getScaledTouchSlop()*2){
+	        	final ViewConfiguration viewConfiguration = ViewConfiguration.get(_context); 
+		        if(Math.abs(deltaX) > viewConfiguration.getScaledTouchSlop()*2){
 		        	if (deltaX < 0){
 		        		_themeViewFlipper.showNext();
 	           	    	return true;
@@ -101,41 +103,44 @@ public class ThemePreferenceActivity extends Activity {
 	    _context = getApplicationContext();
 	    _preferences = PreferenceManager.getDefaultSharedPreferences(_context);
 	    Common.setApplicationLanguage(_context, this);
+	    //Don't automatically show the soft keyboard.
+	    this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 	    this.setContentView(R.layout.theme_preference_activity);
 	    initLayoutItems();
 	    setupButtons();
 	}
-
-	/**
-	 * Activity was resumed after it was stopped or paused.
-	 */
-	@Override
-	protected void onResume() {
-	    if (_debug) Log.v("NotificationActivity.onResume()");
-	    super.onResume();
-        synchronized (_loadThemesAsyncTaskLock) {
-            if (_currentLoadThemesAsyncTask == null){
-			    LoadThemesAsyncTask loadThemesAsyncTask = new LoadThemesAsyncTask();
-			    _currentLoadThemesAsyncTask = loadThemesAsyncTask;
-			    _currentLoadThemesAsyncTask.execute();
-			}
-        }
-	}
-	
-	/**
-	 * Activity was paused due to a new Activity being started or other reason.
-	 */
-	@Override
-	protected void onPause() {
-	    if (_debug) Log.v("NotificationActivity.onPause()");
-	    super.onPause();
+ 
+    /**
+     * Activity was resumed after it was stopped or paused.
+     */
+    @Override
+    protected void onResume() {
+        if (_debug) Log.v("ThemePreferenceActivity.onResume()");
+        super.onResume();
 	    synchronized (_loadThemesAsyncTaskLock) {
-            if(_currentLoadThemesAsyncTask != null){
-            	_currentLoadThemesAsyncTask.cancel(true);
-            	_currentLoadThemesAsyncTask = null;
+	        if (_currentLoadThemesAsyncTask == null){
+	        	_themeViewFlipper.removeAllViews();
+                LoadThemesAsyncTask loadThemesAsyncTask = new LoadThemesAsyncTask();
+                _currentLoadThemesAsyncTask = loadThemesAsyncTask;
+                _currentLoadThemesAsyncTask.execute();
             }
-        }
-	}
+	    }
+    }
+	
+    /**
+     * Activity was paused due to a new Activity being started or other reason.
+     */
+    @Override
+    protected void onPause() {
+        if (_debug) Log.v("ThemePreferenceActivity.onPause()");
+        super.onPause();
+        synchronized (_loadThemesAsyncTaskLock) {
+	        if(_currentLoadThemesAsyncTask != null){
+	            _currentLoadThemesAsyncTask.cancel(true);
+	            _currentLoadThemesAsyncTask = null;
+	        }
+	    }
+    }
 	
 	//================================================================================
 	// Private Methods
@@ -180,7 +185,7 @@ public class ThemePreferenceActivity extends Activity {
 			    	}else if(Log.getSamsungVersion()){
 			    		searchAppURL = Constants.APP_SEARCH_SAMSUNG_URL;
 			    	}else{
-			    		searchAppURL = "";
+			    		searchAppURL = "http://www.google.com/m/search?q=apps.droidnotify.theme";
 			    	}
 		    		startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(searchAppURL)));
 		    	}catch(Exception ex){
@@ -196,15 +201,15 @@ public class ThemePreferenceActivity extends Activity {
 	 */
 	private void loadThemes(){
 		if (_debug) Log.v("ThemePreferenceActivity.loadThemes()");
-		_themeViews = new ArrayList<ThemeView>();
-		//Load Included Themes.
-		_themeViews.add(new ThemeView(_context, _themeViewFlipper, Constants.DARK_TRANSLUCENT_THEME));
-		_themeViews.add(new ThemeView(_context, _themeViewFlipper, Constants.DARK_TRANSLUCENT_V2_THEME));
-		_themeViews.add(new ThemeView(_context, _themeViewFlipper, Constants.DARK_TRANSLUCENT_V3_THEME));
-		//Load Installed Themes.   
 		try{
+			_themeViews = new ArrayList<ThemeView>();
+			//Load Included Themes.
+			_themeViews.add(new ThemeView(_context, _themeViewFlipper, Constants.PHONE_DEFAULT_THEME));
+			_themeViews.add(new ThemeView(_context, _themeViewFlipper, Constants.NOTIFY_DEFAULT_THEME));
+			//Load Installed Themes.
 		    List<PackageInfo> packages = getPackageManager().getInstalledPackages(0);
-		    for(int i=0;i<packages.size();i++) {
+		    int packagesSize = packages.size();
+		    for(int i=0;i<packagesSize;i++) {
 				try{
 			        PackageInfo packageInfo = packages.get(i);
 			        String packageName = packageInfo.packageName;
@@ -222,51 +227,51 @@ public class ThemePreferenceActivity extends Activity {
 	}
 	
 	/**
-	 * Set the displayed view flipper theme to be the currently selected theme.
+	 * Set the displayed ViewFlipper theme to be the currently selected theme.
 	 */
 	private void setDisplayedTheme(){
 		if (_debug) Log.v("ThemePreferenceActivity.setDisplayedTheme()");
 		_themeViewFlipper.setDisplayedTheme(_preferences.getString(Constants.APP_THEME_KEY, Constants.APP_THEME_DEFAULT));
-	}
+	}        
 	
 	/**
-	 * Load the ViewFlipper themes.
-	 * 
-	 * @author Camille Sévigny
-	 */
-	private class LoadThemesAsyncTask extends AsyncTask<Void, Void, Boolean> {
-		
-		/**
-		 * Set up the theme loading view.
-		 */
-	    protected void onPreExecute() {
-			if (_debug) Log.v("ThemePreferenceActivity.LoadThemesAsyncTask.onPreExecute()");
-			_themeViewFlipper.setVisibility(View.GONE);
-			_themeProgressBar.setVisibility(View.VISIBLE);
-	    }
-	    
-	    /**
-	     * Load the themes in the background.
-	     */
-	    protected Boolean doInBackground(Void... params) {
-			if (_debug) Log.v("ThemePreferenceActivity.LoadThemesAsyncTask.doInBackground()");
-			loadThemes();
-			return true;
-	    }
-	    
-	    /**
-	     * Display the available themes.
-	     */
-		protected void onPostExecute(Boolean success) {
-			if (_debug) Log.v("ThemePreferenceActivity.LoadThemesAsyncTask.onPostExecute()");
-			int size = _themeViews.size();
-			for(int i=0; i<size; i++){
-				_themeViewFlipper.addTheme(_themeViews.get(i));
-			}
-			_themeViewFlipper.setVisibility(View.VISIBLE);
-			_themeProgressBar.setVisibility(View.GONE);
-		    setDisplayedTheme();
-	    }
-	}
+     * Load the ViewFlipper themes.
+     * 
+     * @author Camille Sévigny
+     */
+    private class LoadThemesAsyncTask extends AsyncTask<Void, Void, Boolean> {
+            
+            /**
+             * Set up the theme loading view.
+             */
+        protected void onPreExecute() {
+                    if (_debug) Log.v("ThemePreferenceActivity.LoadThemesAsyncTask.onPreExecute()");
+                    _themeViewFlipper.setVisibility(View.GONE);
+                    _themeProgressBar.setVisibility(View.VISIBLE);
+        }
+        
+        /**
+         * Load the themes in the background.
+         */
+        protected Boolean doInBackground(Void... params) {
+                    if (_debug) Log.v("ThemePreferenceActivity.LoadThemesAsyncTask.doInBackground()");
+                    loadThemes();
+                    return true;
+        }
+        
+        /**
+         * Display the available themes.
+         */
+            protected void onPostExecute(Boolean success) {
+                    if (_debug) Log.v("ThemePreferenceActivity.LoadThemesAsyncTask.onPostExecute()");
+                    int size = _themeViews.size();
+                    for(int i=0; i<size; i++){
+                            _themeViewFlipper.addTheme(_themeViews.get(i));
+                    }
+                    _themeViewFlipper.setVisibility(View.VISIBLE);
+                    _themeProgressBar.setVisibility(View.GONE);
+                setDisplayedTheme();
+        }
+    }
 	
 }

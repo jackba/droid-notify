@@ -202,7 +202,8 @@
    	<string name="preference_quick_reply_sms_gateway">SMS-to-Email Gateway</string>
    	<string name="preference_quick_reply_sms_gateway_summary">Select your service provider from this list. If you can\'t find it you won\'t be able to send SMS messages to Email address\'s with the built in Quick Reply.</string>
 	<string name="enable_quick_reply">Enable Quick Reply</string>
-   	<string name="enable_quick_reply_summary">Displays a quick reply box in the notification.</string>  	
+   	<string name="enable_quick_reply_summary">Displays a quick reply box in the notification.</string> 
+   	<string name="type_to_compose">Type to compose</string> 
    	
     <!-- Blacklist Strings -->
     <string name="blacklist_category">BLACKLIST</string> 
@@ -288,9 +289,8 @@
 	<string name="more_category">MORE</string>
 	<string name="more">More</string>
 	<string name="notify_theme">Notify Theme</string>
-	<string name="default_v1">Default</string>
-	<string name="default_v2">Default Translucent</string>
-	<string name="default_v3">Default Dark</string>
+	<string name="default_theme_notify">Notify Default</string>
+	<string name="default_theme_phone">Phone Default</string>
    	
   	<!-- Notification Header Strings -->
     <string name="preference_notification_type_info_icon_enabled_title">Display Type Icon</string>
