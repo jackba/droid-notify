@@ -107,7 +107,7 @@
 			android:key="calendar_reminder_interval"
 			android:title="@string/preference_reminder_interval_text"
 			android:summary="@string/preference_reminder_interval_summary"
-			android:defaultValue="1"
+			android:defaultValue="10"
 			android:entries="@array/reschedule_time_options"
 			android:entryValues="@array/reschedule_time_values"
 			android:dependency="calendar_reminders_enabled" />

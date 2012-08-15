@@ -407,6 +407,7 @@
    	<string name="event_start_time_reminder_summary">Display a reminder on the start of the event.</string>
    	<string name="snooze">Snooze</string>
    	<string name="snooze_for">Snooze for</string>
+   	<string name="dismiss_alarm">Dismiss Alarm</string>
   
    	<!-- K9 Strings -->
     <string name="k9_category">K9</string>
@@ -624,7 +625,8 @@
    	<string name="preference_import_preferences_progress_text">Importing Application Preferences&#8230;</string>
    	<string name="preference_import_preferences_finish_text">The application preferences have been imported.</string>
    	<string name="preference_import_preferences_error_text">The application preferences were not imported. Possible causes for this error include a missing preferences file, a missing SD Card or other SD card related issues which prevents this application from reading a file from the SD card location.</string>
-    
+    <string name="confirm_import_app_preferences">This will remove the current app settings and replace them with the exported settings.</string>
+   	
     <!-- Debug / Log File Strings -->
     <string name="debug_category">DEBUG</string>
     <string name="debug">Debug</string>
@@ -723,7 +725,11 @@
    	<!-- Blocking App Settings Strings --> 
    	<string name="blocking_app_running_action_text">Blocking Notification Options</string>   	
    	<string name="blocking_app_running_action_summary">Define what to do when a notification comes in while a blocking app is running.</string> 
-   	    
+   	
+   	<!-- Clear Authentication Data Strings --> 
+   	<string name="confirm_clear_reset_authentication_data">This will reset the authentication data.</string>  
+   	<string name="clear_data">Clear Data</string>  
+   	
     <!-- Status Bar Notification Strings -->
     <string name="status_bar_notification_content_title_text_sms">New Message</string>
     

@@ -32,6 +32,7 @@
 	<uses-permission android:name="android.permission.SEND_SMS" />	
 	<uses-permission android:name="android.permission.VIBRATE" />
 	<uses-permission android:name="android.permission.WAKE_LOCK" />
+	<uses-permission android:name="android.permission.WRITE_CALENDAR" />
 	<uses-permission android:name="android.permission.WRITE_CONTACTS" />
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 	<uses-permission android:name="android.permission.WRITE_SMS" />
@@ -55,9 +56,17 @@
     	android:label="@string/app_name_basic_formatted"
     	android:debuggable="true" >
         
+    	<activity
+   			android:name="apps.droidnotifydonate.NotificationActivity"
+   			android:theme="@style/Theme.Transparent"
+   			android:launchMode="singleTask"
+   			android:taskAffinity="apps.droidnotifydonate.notification"
+			android:screenOrientation="user"
+			android:configChanges="orientation|keyboardHidden|keyboard|navigation" />
+        
         <activity 
         	android:name="apps.droidnotify.preferences.PreferencesActivity"
-    		android:theme="@android:style/Theme.Black.NoTitleBar" 
+    		android:theme="@style/Theme.AppPreferences" 
         	android:label="@string/app_name_basic_formatted"
    			android:launchMode="singleTask"
    			android:taskAffinity="apps.droidnotify.preferences"
@@ -72,7 +81,7 @@
          
         <activity 
         	android:name="apps.droidnotify.preferences.BasicPreferenceActivity"
-    		android:theme="@android:style/Theme.Black.NoTitleBar"
+    		android:theme="@style/Theme.AppPreferences"
    			android:launchMode="singleTask"
    			android:taskAffinity="apps.droidnotify.preferences"
 			android:screenOrientation="user"
@@ -80,7 +89,7 @@
          
         <activity 
         	android:name="apps.droidnotify.preferences.ReschedulePreferenceActivity"
-    		android:theme="@android:style/Theme.Black.NoTitleBar"
+    		android:theme="@style/Theme.AppPreferences"
    			android:launchMode="singleTask"
    			android:taskAffinity="apps.droidnotify.preferences"
 			android:screenOrientation="user"
@@ -88,7 +97,7 @@
          
         <activity 
         	android:name="apps.droidnotify.preferences.RemindersPreferenceActivity"
-    		android:theme="@android:style/Theme.Black.NoTitleBar"
+    		android:theme="@style/Theme.AppPreferences"
    			android:launchMode="singleTask"
    			android:taskAffinity="apps.droidnotify.preferences"
 			android:screenOrientation="user"
@@ -96,7 +105,7 @@
          
         <activity 
         	android:name="apps.droidnotify.preferences.QuietTimePreferenceActivity"
-    		android:theme="@android:style/Theme.Black.NoTitleBar"
+    		android:theme="@style/Theme.AppPreferences"
    			android:launchMode="singleTask"
    			android:taskAffinity="apps.droidnotify.preferences"
 			android:screenOrientation="user"
@@ -104,7 +113,7 @@
          
         <activity 
         	android:name="apps.droidnotify.preferences.QuickReplyPreferenceActivity"
-    		android:theme="@android:style/Theme.Black.NoTitleBar"
+    		android:theme="@style/Theme.AppPreferences"
    			android:launchMode="singleTask"
    			android:taskAffinity="apps.droidnotify.preferences"
 			android:screenOrientation="user"
@@ -112,7 +121,7 @@
          
         <activity 
         	android:name="apps.droidnotify.preferences.LocalePreferenceActivity"
-    		android:theme="@android:style/Theme.Black.NoTitleBar"
+    		android:theme="@style/Theme.AppPreferences"
    			android:launchMode="singleTask"
    			android:taskAffinity="apps.droidnotify.preferences"
 			android:screenOrientation="user"
@@ -120,7 +129,7 @@
          
         <activity 
         	android:name="apps.droidnotify.preferences.ScreenPreferenceActivity"
-    		android:theme="@android:style/Theme.Black.NoTitleBar"
+    		android:theme="@style/Theme.AppPreferences"
    			android:launchMode="singleTask"
    			android:taskAffinity="apps.droidnotify.preferences"
 			android:screenOrientation="user"
@@ -128,7 +137,7 @@
          
         <activity 
         	android:name="apps.droidnotify.preferences.CustomizePreferenceActivity"
-    		android:theme="@android:style/Theme.Black.NoTitleBar"
+    		android:theme="@style/Theme.AppPreferences"
    			android:launchMode="singleTask"
    			android:taskAffinity="apps.droidnotify.preferences"
 			android:screenOrientation="user"
@@ -136,7 +145,7 @@
          
         <activity 
         	android:name="apps.droidnotify.preferences.theme.ThemePreferenceActivity"
-    		android:theme="@android:style/Theme.Black.NoTitleBar"
+    		android:theme="@style/Theme.AppPreferences"
    			android:launchMode="singleTask"
    			android:taskAffinity="apps.droidnotify.preferences"
 			android:screenOrientation="user"
@@ -144,7 +153,7 @@
          
         <activity 
         	android:name="apps.droidnotify.preferences.NotificationsPreferenceActivity"
-    		android:theme="@android:style/Theme.Black.NoTitleBar"
+    		android:theme="@style/Theme.AppPreferences"
    			android:launchMode="singleTask"
    			android:taskAffinity="apps.droidnotify.preferences"
 			android:screenOrientation="user"
@@ -152,7 +161,7 @@
          
         <activity 
         	android:name="apps.droidnotify.preferences.UpgradePreferenceActivity"
-    		android:theme="@android:style/Theme.Black.NoTitleBar"
+    		android:theme="@style/Theme.AppPreferences"
    			android:launchMode="singleTask"
    			android:taskAffinity="apps.droidnotify.preferences"
 			android:screenOrientation="user"
@@ -160,7 +169,7 @@
          
         <activity 
         	android:name="apps.droidnotify.sms.SMSPreferenceActivity"
-    		android:theme="@android:style/Theme.Black.NoTitleBar"
+    		android:theme="@style/Theme.AppPreferences"
    			android:launchMode="singleTask"
    			android:taskAffinity="apps.droidnotify.preferences"
 			android:screenOrientation="user"
@@ -168,7 +177,7 @@
          
         <activity 
         	android:name="apps.droidnotify.sms.SMSStatusBarNotificationsPreferenceActivity"
-    		android:theme="@android:style/Theme.Black.NoTitleBar"
+    		android:theme="@style/Theme.AppPreferences"
    			android:launchMode="singleTask"
    			android:taskAffinity="apps.droidnotify.preferences"
 			android:screenOrientation="user"
@@ -176,7 +185,7 @@
          
         <activity 
         	android:name="apps.droidnotify.sms.SMSCustomizePreferenceActivity"
-    		android:theme="@android:style/Theme.Black.NoTitleBar"
+    		android:theme="@style/Theme.AppPreferences"
    			android:launchMode="singleTask"
    			android:taskAffinity="apps.droidnotify.preferences"
 			android:screenOrientation="user"
@@ -184,7 +193,7 @@
 
         <activity 
         	android:name="apps.droidnotify.sms.MMSPreferenceActivity"
-    		android:theme="@android:style/Theme.Black.NoTitleBar"
+    		android:theme="@style/Theme.AppPreferences"
    			android:launchMode="singleTask"
    			android:taskAffinity="apps.droidnotify.preferences"
 			android:screenOrientation="user"
@@ -192,14 +201,14 @@
          
         <activity 
         	android:name="apps.droidnotify.sms.MMSStatusBarNotificationsPreferenceActivity"
-    		android:theme="@android:style/Theme.Black.NoTitleBar"
+    		android:theme="@style/Theme.AppPreferences"
    			android:launchMode="singleTask"
 			android:screenOrientation="user"
 			android:configChanges="orientation|keyboardHidden|keyboard|navigation" /> 
          
         <activity 
         	android:name="apps.droidnotify.sms.MMSCustomizePreferenceActivity"
-    		android:theme="@android:style/Theme.Black.NoTitleBar"
+    		android:theme="@style/Theme.AppPreferences"
    			android:launchMode="singleTask"
    			android:taskAffinity="apps.droidnotify.preferences"
 			android:screenOrientation="user"
@@ -207,7 +216,7 @@
 
         <activity 
         	android:name="apps.droidnotify.phone.PhonePreferenceActivity"
-    		android:theme="@android:style/Theme.Black.NoTitleBar"
+    		android:theme="@style/Theme.AppPreferences"
    			android:launchMode="singleTask"
    			android:taskAffinity="apps.droidnotify.preferences"
 			android:screenOrientation="user"
@@ -215,7 +224,7 @@
          
         <activity 
         	android:name="apps.droidnotify.phone.PhoneStatusBarNotificationsPreferenceActivity"
-    		android:theme="@android:style/Theme.Black.NoTitleBar"
+    		android:theme="@style/Theme.AppPreferences"
    			android:launchMode="singleTask"
    			android:taskAffinity="apps.droidnotify.preferences"
 			android:screenOrientation="user"
@@ -223,7 +232,7 @@
          
         <activity 
         	android:name="apps.droidnotify.phone.PhoneCustomizePreferenceActivity"
-    		android:theme="@android:style/Theme.Black.NoTitleBar"
+    		android:theme="@style/Theme.AppPreferences"
    			android:launchMode="singleTask"
    			android:taskAffinity="apps.droidnotify.preferences"
 			android:screenOrientation="user"
@@ -231,7 +240,7 @@
          
         <activity 
         	android:name="apps.droidnotify.phone.MoreMissedCallOptionsActivity"
-    		android:theme="@android:style/Theme.Black.NoTitleBar"
+    		android:theme="@style/Theme.AppPreferences"
    			android:launchMode="singleTask"
    			android:taskAffinity="apps.droidnotify.preferences"
 			android:screenOrientation="user"
@@ -239,7 +248,7 @@
 
         <activity 
         	android:name="apps.droidnotify.calendar.CalendarPreferenceActivity"
-    		android:theme="@android:style/Theme.Black.NoTitleBar"
+    		android:theme="@style/Theme.AppPreferences"
    			android:launchMode="singleTask"
    			android:taskAffinity="apps.droidnotify.preferences"
 			android:screenOrientation="user"
@@ -247,7 +256,7 @@
          
         <activity 
         	android:name="apps.droidnotify.calendar.CalendarStatusBarNotificationsPreferenceActivity"
-    		android:theme="@android:style/Theme.Black.NoTitleBar"
+    		android:theme="@style/Theme.AppPreferences"
    			android:launchMode="singleTask"
    			android:taskAffinity="apps.droidnotify.preferences"
 			android:screenOrientation="user"
@@ -255,7 +264,7 @@
          
         <activity 
         	android:name="apps.droidnotify.calendar.CalendarCustomizePreferenceActivity"
-    		android:theme="@android:style/Theme.Black.NoTitleBar"
+    		android:theme="@style/Theme.AppPreferences"
    			android:launchMode="singleTask"
    			android:taskAffinity="apps.droidnotify.preferences"
 			android:screenOrientation="user"
@@ -263,7 +272,7 @@
 
         <activity 
         	android:name="apps.droidnotify.k9.K9PreferenceActivity"
-    		android:theme="@android:style/Theme.Black.NoTitleBar"
+    		android:theme="@style/Theme.AppPreferences"
    			android:launchMode="singleTask"
    			android:taskAffinity="apps.droidnotify.preferences"
 			android:screenOrientation="user"
@@ -271,7 +280,7 @@
          
         <activity 
         	android:name="apps.droidnotify.k9.K9StatusBarNotificationsPreferenceActivity"
-    		android:theme="@android:style/Theme.Black.NoTitleBar"
+    		android:theme="@style/Theme.AppPreferences"
    			android:launchMode="singleTask"
    			android:taskAffinity="apps.droidnotify.preferences"
 			android:screenOrientation="user"
@@ -279,7 +288,7 @@
          
         <activity 
         	android:name="apps.droidnotify.k9.K9CustomizePreferenceActivity"
-    		android:theme="@android:style/Theme.Black.NoTitleBar"
+    		android:theme="@style/Theme.AppPreferences"
    			android:launchMode="singleTask"
    			android:taskAffinity="apps.droidnotify.preferences"
 			android:screenOrientation="user"
@@ -287,7 +296,7 @@
          
         <activity 
         	android:name="apps.droidnotify.k9.K9DownloadPreferenceActivity"
-    		android:theme="@android:style/Theme.Black.NoTitleBar"
+    		android:theme="@style/Theme.AppPreferences"
    			android:launchMode="singleTask"
    			android:taskAffinity="apps.droidnotify.preferences"
 			android:screenOrientation="user"
@@ -295,7 +304,7 @@
          
         <activity 
         	android:name="apps.droidnotify.preferences.AddOnsActivity"
-    		android:theme="@android:style/Theme.Black.NoTitleBar"
+    		android:theme="@style/Theme.AppPreferences"
    			android:launchMode="singleTask"
    			android:taskAffinity="apps.droidnotify.preferences"
 			android:screenOrientation="user"
@@ -303,7 +312,7 @@
          
         <activity 
         	android:name="apps.droidnotify.preferences.PrivacyPreferenceActivity"
-    		android:theme="@android:style/Theme.Black.NoTitleBar"
+    		android:theme="@style/Theme.AppPreferences"
    			android:launchMode="singleTask"
    			android:taskAffinity="apps.droidnotify.preferences"
 			android:screenOrientation="user"
@@ -311,7 +320,7 @@
  
         <activity 
         	android:name="apps.droidnotify.preferences.AdvancedPreferenceActivity"
-    		android:theme="@android:style/Theme.Black.NoTitleBar"
+    		android:theme="@style/Theme.AppPreferences"
    			android:launchMode="singleTask"
    			android:taskAffinity="apps.droidnotify.preferences"
 			android:screenOrientation="user"
@@ -319,7 +328,7 @@
  
         <activity 
         	android:name="apps.droidnotify.preferences.DebugPreferenceActivity"
-    		android:theme="@android:style/Theme.Black.NoTitleBar"
+    		android:theme="@style/Theme.AppPreferences"
    			android:launchMode="singleTask"
    			android:taskAffinity="apps.droidnotify.preferences"
 			android:screenOrientation="user"
@@ -327,27 +336,11 @@
         
         <activity 
         	android:name="apps.droidnotify.preferences.AboutPreferenceActivity"
-    		android:theme="@android:style/Theme.Black.NoTitleBar"
+    		android:theme="@style/Theme.AppPreferences"
    			android:launchMode="singleTask"
    			android:taskAffinity="apps.droidnotify.preferences"
 			android:screenOrientation="user"
 			android:configChanges="orientation|keyboardHidden|keyboard|navigation" />
-        
-    	<activity
-   			android:name="apps.droidnotify.NotificationActivity"
-   			android:theme="@android:style/Theme.Translucent.NoTitleBar"
-   			android:launchMode="singleTask"
-   			android:taskAffinity="apps.droidnotify.notification"
-			android:screenOrientation="user"
-			android:configChanges="orientation|keyboardHidden|keyboard|navigation" />
-	
-		<activity 
-   			android:name="apps.droidnotify.QuickReplyActivity" 
-   			android:theme="@style/Theme.Transparent"
-   			android:taskAffinity="apps.droidnotify.notification"
-			android:screenOrientation="user"
-			android:configChanges="orientation|keyboardHidden|keyboard|navigation"
-        	android:windowSoftInputMode="stateVisible" />
 
 		<service android:name="apps.droidnotify.services.CalendarAlarmReceiverService" />
 		

@@ -972,8 +972,8 @@ public class SMSCommon {
 	 * Determine if a SMS/MMS message is unread or not.
 	 * 
 	 * @param context - The application context.
-	 * @param messageID - The Message ID that we want to alter.
-	 * @param threadID - The Thread ID that we want to alter.
+	 * @param messageID - The Message ID that we want to query.
+	 * @param threadID - The Thread ID that we want to query.
 	 * 
 	 * @return boolean - Returns false if the message was found and is unread, returns true otherwise.
 	 */

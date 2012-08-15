@@ -464,7 +464,7 @@ public class Constants {
 	public static final String CALENDAR_REMINDER_FREQUENCY_KEY = "calendar_reminder_frequency";
 	public static final String CALENDAR_REMINDER_FREQUENCY_DEFAULT = "-1";
 	public static final String CALENDAR_REMINDER_INTERVAL_KEY = "calendar_reminder_interval";
-	public static final String CALENDAR_REMINDER_INTERVAL_DEFAULT = "5";
+	public static final String CALENDAR_REMINDER_INTERVAL_DEFAULT = "10";
 	
 	public static final String CALENDAR_ID = "_id";
 	public static final String CALENDAR_CALENDAR_ID = "calendar_id";
@@ -479,7 +479,11 @@ public class Constants {
     public static final String CALENDAR_EVENT_BEGIN_TIME = "beginTime";
     public static final String CALENDAR_EVENT_END_TIME = "endTime";
     public static final String CALENDAR_EVENT_HAS_ALARM = "hasAlarm";
-    public static final String CALENDAR_REMINDER_MINUTES = "minutes"; 
+    public static final String CALENDAR_REMINDER_MINUTES = "minutes";  
+	public static final String CALENDAR_ALERT_EVENT_ID = "event_id";
+	public static final String CALENDAR_ALERT_EVENT_STATUS = "eventStatus";
+	public static final String CALENDAR_DISMISS_KEY = "calendar_dismiss_button_action";
+	public static final String CALENDAR_DISMISS_ACTION_MARK_DISMISSED = "1";
 	
 	//-----K9 CONSTANTS-----//	
 	public static final String INTENT_ACTION_K9 = "com.fsck.k9.intent.action.EMAIL_RECEIVED";
