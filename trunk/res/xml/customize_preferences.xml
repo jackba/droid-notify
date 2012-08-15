@@ -2,7 +2,12 @@
 <PreferenceScreen 
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:droidnotify="http://schemas.android.com/apk/res/apps.droidnotify"
-	android:key="customize_settings_screen">	
+	android:key="customize_settings_screen">
+	<Preference
+		android:layout="@layout/custom_preference_button"
+        android:key="notification_preview_preference"
+       	android:title="@string/notification_preview"
+       	android:summary="@string/notification_preview_summary" />	
 	<Preference
 		android:layout="@layout/custom_preference"
         android:key="theme_preference"

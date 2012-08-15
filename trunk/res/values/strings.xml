@@ -282,6 +282,10 @@
     <string name="customize">Customize</string>
     <string name="customize_notification_summary">Customize these notifications.</string>
     
+    <!-- Notification Preview Strings -->
+    <string name="notification_preview">Notification Preview</string>
+    <string name="notification_preview_summary">Display a preview of the notificaions.</string>
+    
     <!-- Theme Strings -->
     <string name="theme">Theme</string>
    	<string name="theme_summary">Select the theme for the notifications.</string>

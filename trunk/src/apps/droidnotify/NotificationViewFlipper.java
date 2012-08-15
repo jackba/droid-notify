@@ -16,7 +16,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
-import apps.droidnotify.calendar.CalendarCommon;
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
@@ -95,8 +94,13 @@ public class NotificationViewFlipper extends ViewFlipper {
 					break;
 				}
 			}
+			if(notificationType > 1999){
+				if(_debug) Log.v("NotificationViewFlipper.addNotification() This is a notification preview!");
+				duplicateFound = false;
+				//isNew = false;
+			}
 			if(!duplicateFound){
-				if(_debug) Log.v("NotificationViewFlipper.addNotification() New Notification. This notification will be added.");
+				if(_debug) Log.v("NotificationViewFlipper.addNotification() New Notification.");
 				if(_preferences.getString(Constants.VIEW_NOTIFICATION_ORDER, Constants.NEWEST_FIRST).equals(Constants.OLDER_FIRST)){
 					addView(new NotificationView(_context, notification));			
 					if(_preferences.getBoolean(Constants.DISPLAY_NEWEST_NOTIFICATION, true)){
@@ -154,8 +158,10 @@ public class NotificationViewFlipper extends ViewFlipper {
 
 	/**
 	 * Remove the current Notification.
+	 * 
+	 * @param rescheduled - A boolean indicating if this notification is being rescheduled or not.
 	 */
-	public void removeActiveNotification(boolean reschedule){
+	public void removeActiveNotification(boolean rescheduled){
 		if(_debug) Log.v("NotificationViewFlipper.removeActiveNotification()");
 		try{
 			_notificationActivity.stopTextToSpeechPlayback();
@@ -164,7 +170,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 				Log.e("NotificationViewFlipper.removeActiveNotification() Active Notification Is Null. Exiting...");
 				return;
 			}
-			this.removeNotification(this.getDisplayedChild(), reschedule);
+			this.removeNotification(this.getDisplayedChild(), rescheduled);
 			//Clear the status bar notification.
 	    	Common.clearNotification(_context, this, notification.getNotificationType());
 		}catch(Exception ex){
@@ -333,7 +339,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 	public void rescheduleNotification(){
 		if(_debug) Log.v("NotificationViewFlipper.rescheduleNotification()");
 		long rescheduleInterval = Long.parseLong(_preferences.getString(Constants.RESCHEDULE_TIME_KEY, Constants.RESCHEDULE_TIME_DEFAULT)) * 60 * 1000;
-		this.getActiveNotification().reschedule(System.currentTimeMillis() + rescheduleInterval, false);
+		this.getActiveNotification().reschedule(System.currentTimeMillis() + rescheduleInterval, Constants.PENDING_INTENT_TYPE_RESCHEDULE);
     	this.removeActiveNotification(true);
 	}
 	
@@ -344,7 +350,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 */
 	public void snoozeCalendarEvent(long snoozeTime){
 		if(_debug) Log.v("NotificationViewFlipper.snoozeCalendarEvent()");
-		this.getActiveNotification().reschedule(System.currentTimeMillis() + snoozeTime, false);
+		this.getActiveNotification().reschedule(System.currentTimeMillis() + snoozeTime, Constants.PENDING_INTENT_TYPE_SNOOZE);
     	this.removeActiveNotification(true);
 	}
 
@@ -420,19 +426,27 @@ public class NotificationViewFlipper extends ViewFlipper {
   	 */
   	public void setQuickReplyText(ArrayList<String> recognizedTextResults){
   		if (_debug) Log.v("NotificationViewFlipper.setQuickReplyText()");
-  		final View currentView = this.getCurrentView();
-  		EditText messageEditText = (EditText) currentView.findViewById(R.id.message_edit_text);
-  		String currentText = messageEditText.getText().toString();
-  		String endCharacter = messageEditText.getText().toString().substring(currentText.length() - 1);
-  		if(recognizedTextResults.size() > 0){
-  			if(endCharacter.equals(" ")){
-  				messageEditText.append(recognizedTextResults.get(0));
-  			}else if(endCharacter.equals("\n")){
-  				messageEditText.append(recognizedTextResults.get(0));
-  			}else{
-  				//Append a space before the newly inserted text.
-  				messageEditText.append(" " + recognizedTextResults.get(0));
-  			}
+  		try{
+	  		final View currentView = this.getCurrentView();
+	  		EditText messageEditText = (EditText) currentView.findViewById(R.id.message_edit_text);
+	  		String currentText = messageEditText.getText().toString();
+	  		String endCharacter = "";
+	  		int currentTextLength = currentText.length();
+	  		if(currentTextLength > 0){
+	  			endCharacter = messageEditText.getText().toString().substring(currentTextLength - 1);
+	  		}
+	  		if(recognizedTextResults.size() > 0){
+	  			if(endCharacter.equals(" ")){
+	  				messageEditText.append(recognizedTextResults.get(0));
+	  			}else if(endCharacter.equals("\n")){
+	  				messageEditText.append(recognizedTextResults.get(0));
+	  			}else{
+	  				//Append a space before the newly inserted text.
+	  				messageEditText.append(" " + recognizedTextResults.get(0));
+	  			}
+	  		}
+  		}catch(Exception ex){
+  			Log.e("NotificationViewFlipper.setQuickReplyText() ERROR: " + ex.toString());
   		}
   	}
   	
@@ -460,9 +474,10 @@ public class NotificationViewFlipper extends ViewFlipper {
 	/**
 	* Remove the Notification and its view.
 	*
-	* @param notificationNumber - Index of the notification to be removed.
+	* @param index - Index of the notification to be removed.
+	* @param rescheduled - A boolean indicating if this notification is being rescheduled or not.
 	*/
-	private void removeNotification(int index, boolean reschedule){
+	private void removeNotification(int index, boolean rescheduled){
 		if(_debug) Log.v("NotificationViewFlipper.removeNotification()");
 		//Get the current notification object.
 		Notification notification = getNotification(index);
@@ -471,14 +486,14 @@ public class NotificationViewFlipper extends ViewFlipper {
 			return;
 		}		
 		int notificationType = notification.getNotificationType();
-		if(reschedule && (notificationType == Constants.NOTIFICATION_TYPE_CALENDAR || notificationType == Constants.NOTIFICATION_TYPE_RESCHEDULE_CALENDAR)){
+		if(rescheduled && (notificationType == Constants.NOTIFICATION_TYPE_CALENDAR)){
 			//Do not cancel the notificatino reminder.
 		}else{
 	    	//Cancel the notification reminder.
 	    	notification.cancelReminder();
 		}
 		//Set notification as being viewed.
-		if(!reschedule) setNotificationViewed(notification);
+		if(!rescheduled) setNotificationViewed(notification);
     	//Update specific type counts.
 		switch(notificationType){
 			case Constants.NOTIFICATION_TYPE_PHONE:{

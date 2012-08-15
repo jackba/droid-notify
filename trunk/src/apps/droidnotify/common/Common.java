@@ -311,6 +311,10 @@ public class Common {
 		String LEDColor = null;		
 		Bundle statusBarNotificationBundle = new Bundle();
 		//Load values into the preference keys based on the notification type.
+		//Adjust for Preview notifications.
+		if(notificationType > 1999){
+			notificationType -= 2000;
+		}
 		switch(notificationType){
 			case Constants.NOTIFICATION_TYPE_SMS:{				
 				statusBarNotificationBundle.putBoolean(Constants.BUNDLE_ENABLE_STATUS_BAR_NOTIFICATION, preferences.getBoolean(Constants.SMS_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY, true));
@@ -525,7 +529,7 @@ public class Common {
 		try{
 			_context = context;
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-			String deviceManufacturer = Common.getDeviceManufacturer();
+			String deviceManufacturer = Common.getDeviceManufacturer();		
 			//Stop if app is disabled.
 			if(!preferences.getBoolean(Constants.APP_ENABLED_KEY, true)){
 				if (_debug) Log.v("Common.setStatusBarNotification() App Disabled. Exiting...");
@@ -535,6 +539,10 @@ public class Common {
 			if(statusBarNotificationBundle ==  null){
 				if (_debug) Log.v("Common.setStatusBarNotification() StatusBarNotificationBundle is null. Exiting...");
 				return;
+			}
+			//Adjust for Preview notifications.
+			if(notificationType > 1999){
+				notificationType -= 2000;
 			}
 			//Preference keys.
 			String POPUP_ENABLED_KEY = null;
@@ -2074,7 +2082,7 @@ public class Common {
 		if(lookupKey != null) notificationBundle.putString(Constants.BUNDLE_LOOKUP_KEY, lookupKey);
 		if(k9EmailUri != null) notificationBundle.putString(Constants.BUNDLE_K9_EMAIL_URI, k9EmailUri);
 		if(k9EmailDelUri != null) notificationBundle.putString(Constants.BUNDLE_K9_EMAIL_DEL_URI, k9EmailDelUri);
-		if(rescheduleNumber > 0) notificationBundle.putInt(Constants.BUNDLE_RESCHEDULE_NUMBER, rescheduleNumber);
+		if(rescheduleNumber > 0) notificationBundle.putInt(Constants.BUNDLE_REMINDER_NUMBER, rescheduleNumber);
 		if(notificationSubType > -2) notificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, notificationSubType);
 		if(linkURL != null) notificationBundle.putString(Constants.BUNDLE_LINK_URL, linkURL);
 		if(packageName != null) notificationBundle.putString(Constants.BUNDLE_PACKAGE, packageName);
