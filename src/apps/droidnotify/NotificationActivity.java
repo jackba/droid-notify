@@ -353,8 +353,7 @@ public class NotificationActivity extends Activity{
 	public void showDeleteDialog(){
 		if(_debug) Log.v("NotificationActivity.showDeleteDialog()");
     	//Cancel the notification reminder.
-	    Notification notification = _notificationViewFlipper.getActiveNotification();
-    	notification.cancelReminder();
+	    _notificationViewFlipper.getActiveNotification().cancelReminder();
 		int notificationType = _notificationViewFlipper.getActiveNotification().getNotificationType();
 		switch(notificationType){
 			case Constants.NOTIFICATION_TYPE_SMS:{
@@ -465,10 +464,10 @@ public class NotificationActivity extends Activity{
 		if(_tts == null){
 			setupTextToSpeech();
 		}else{
-			Notification activeNotification = _notificationViewFlipper.getActiveNotification();
-			activeNotification.speak(_tts);
+			Notification notification = _notificationViewFlipper.getActiveNotification();
+			notification.speak(_tts);
 			//Cancel the notification reminder.
-			activeNotification.cancelReminder();
+			notification.cancelReminder();
 		}
 	}
 	
@@ -538,8 +537,7 @@ public class NotificationActivity extends Activity{
 		try{
 			if(_debug) Log.v("NotificationActivity.onActivityResult() RequestCode: " + requestCode + " ResultCode: " + resultCode);
 	    	//Cancel the notification reminder.
-		    Notification notification = _notificationViewFlipper.getActiveNotification();
-	    	notification.cancelReminder();
+		    _notificationViewFlipper.getActiveNotification().cancelReminder();
 		    switch(requestCode){
 			    case Constants.ADD_CONTACT_ACTIVITY:{
 			    	if(resultCode == RESULT_OK){
@@ -958,62 +956,42 @@ public class NotificationActivity extends Activity{
 				}
 				break;
 		    }
-		    case Constants.NOTIFICATION_TYPE_RESCHEDULE_PHONE:{
+		    case Constants.NOTIFICATION_TYPE_PREVIEW_PHONE:{
 		    	if(_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_PHONE");
-				if(!setupBundleNotifications(extrasBundle, true, true)){
+		    	if(!setupBundleNotifications(extrasBundle, true, true)){
 					finishActivity();
 					return;
 				}
 		    	break;
 		    }
-		    case Constants.NOTIFICATION_TYPE_RESCHEDULE_SMS:{
-			    if(_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_RESCHEDULE_SMS");
-				if(!setupBundleNotifications(extrasBundle, true, true)){
+		    case Constants.NOTIFICATION_TYPE_PREVIEW_SMS:{
+			    if(_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_SMS");
+			    if(!setupBundleNotifications(extrasBundle, true, true)){
 					finishActivity();
 					return;
-				}else{
-					if(_preferences.getBoolean(Constants.SMS_DISPLAY_UNREAD_KEY, false)){
-						new getAllUnreadSMSMessagesAsyncTask().execute();
-				    }
 				}
 		    	break;
 		    }
-		    case Constants.NOTIFICATION_TYPE_RESCHEDULE_MMS:{
-		    	if(_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_RESCHEDULE_MMS");
-				if(!setupBundleNotifications(extrasBundle, true, true)){
-					finishActivity();
-					return;
-				}else{
-					if(_preferences.getBoolean(Constants.MMS_DISPLAY_UNREAD_KEY, false)){
-						new getAllUnreadMMSMessagesAsyncTask().execute();
-				    }
-				}
-		    	break;
-		    }
-		    case Constants.NOTIFICATION_TYPE_RESCHEDULE_CALENDAR:{
-		    	if(_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_RESCHEDULE_CALENDAR");
-				if(!setupBundleNotifications(extrasBundle, true, true)){
+		    case Constants.NOTIFICATION_TYPE_PREVIEW_CALENDAR:{
+		    	if(_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_CALENDAR");
+		    	if(!setupBundleNotifications(extrasBundle, true, true)){
 					finishActivity();
 					return;
 				}
 		    	break;
 			}
-			case Constants.NOTIFICATION_TYPE_RESCHEDULE_K9:{
-				if(_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_RESCHEDULE_K9");
+			case Constants.NOTIFICATION_TYPE_PREVIEW_K9:{
+				if(_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_K9");
 				if(!setupBundleNotifications(extrasBundle, true, true)){
 					finishActivity();
 					return;
 				}
 				break;
 		    }
-			case Constants.NOTIFICATION_TYPE_RESCHEDULE_GENERIC:{
-				if(_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_RESCHEDULE_GENERIC");
-				if(!setupGenericBundleNotifications(extrasBundle)){
-					finishActivity();
-					return;
-				}
-				break;
-		    }
+			default:{
+				finishActivity();
+				return;
+			}
 	    }
 	    Common.acquireKeyguardLock(_context);
 	    setScreenTimeoutAlarm();
@@ -1162,6 +1140,10 @@ public class NotificationActivity extends Activity{
 	    setIntent(intent);
 	    final Bundle extrasBundle = getIntent().getExtras();
 	    int notificationType = extrasBundle.getInt("notificationType");
+	    //Add conversion from Preview types to normal types.
+	    if(notificationType > 1999){
+	    	notificationType -= 2000;
+	    }
 	    switch(notificationType){
 	    	case Constants.NOTIFICATION_TYPE_PHONE:{
 		    	if(_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_PHONE");
@@ -1203,44 +1185,24 @@ public class NotificationActivity extends Activity{
 				setupGenericBundleNotifications(extrasBundle);
 				break;
 		    }
-	    	case Constants.NOTIFICATION_TYPE_RESCHEDULE_PHONE:{
-		    	if(_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_RESCHEDULE_PHONE");
+	    	case Constants.NOTIFICATION_TYPE_PREVIEW_PHONE:{
+		    	if(_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_PHONE");
 		    	setupBundleNotifications(extrasBundle, true, true);
 		    	break;
 		    }
-		    case Constants.NOTIFICATION_TYPE_RESCHEDULE_SMS:{
-			    if(_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_RESCHEDULE_SMS");
+	    	case Constants.NOTIFICATION_TYPE_PREVIEW_SMS:{
+			    if(_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_SMS");
 			    setupBundleNotifications(extrasBundle, true, true);
-				if(_preferences.getBoolean(Constants.SMS_DISPLAY_UNREAD_KEY, false)){
-					if(_notificationViewFlipper.getSMSCount() <= 1){
-						new getAllUnreadSMSMessagesAsyncTask().execute();
-					}
-			    }
 		    	break;
 		    }
-		    case Constants.NOTIFICATION_TYPE_RESCHEDULE_MMS:{
-		    	if(_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_RESCHEDULE_MMS");
-		    	setupBundleNotifications(extrasBundle, true, true);
-				if(_preferences.getBoolean(Constants.MMS_DISPLAY_UNREAD_KEY, false)){
-					if(_notificationViewFlipper.getMMSCount() <= 1){			
-						new getAllUnreadMMSMessagesAsyncTask().execute();
-					}
-			    }
+	    	case Constants.NOTIFICATION_TYPE_PREVIEW_CALENDAR:{
+		    	if(_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_CALENDAR");
+			    setupBundleNotifications(extrasBundle, true, true);
 		    	break;
 		    }
-		    case Constants.NOTIFICATION_TYPE_RESCHEDULE_CALENDAR:{
-		    	if(_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_RESCHEDULE_CALENDAR");
-		    	setupBundleNotifications(extrasBundle, true, true);
-		    	break;
-			}
-			case Constants.NOTIFICATION_TYPE_RESCHEDULE_K9:{
-				if(_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_RESCHEDULE_K9");
+			case Constants.NOTIFICATION_TYPE_PREVIEW_K9:{
+				if(_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_K9");
 				setupBundleNotifications(extrasBundle, true, true);
-				break;
-		    }
-			case Constants.NOTIFICATION_TYPE_RESCHEDULE_GENERIC:{
-				if(_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_RESCHEDULE_GENERIC");
-				setupGenericBundleNotifications(extrasBundle);
 				break;
 		    }
 	    }
@@ -1657,10 +1619,10 @@ public class NotificationActivity extends Activity{
 		public void onInit(int status){
 			if(_debug) Log.v("NotificationActivity.OnInitListener.onInit()");			
 			if(status == TextToSpeech.SUCCESS){
-				Notification activeNotification = _notificationViewFlipper.getActiveNotification();
-				activeNotification.speak(_tts);
+				Notification notification = _notificationViewFlipper.getActiveNotification();
+				notification.speak(_tts);
 				//Cancel the notification reminder.
-				activeNotification.cancelReminder();
+				notification.cancelReminder();
 			}else{
 				Toast.makeText(_context, R.string.app_tts_error, Toast.LENGTH_LONG).show();
 			}

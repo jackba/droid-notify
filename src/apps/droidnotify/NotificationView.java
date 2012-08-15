@@ -136,6 +136,9 @@ public class NotificationView extends LinearLayout {
 	    _notificationActivity = (NotificationActivity) context;
 	    _notification = notification;
 	    _notificationType = notification.getNotificationType();
+	    if(_notificationType > 1999){
+	    	_notificationType -= 2000;
+	    }
 	    _notificationSubType = notification.getNotificationSubType();
 	    View.inflate(context, R.layout.notification_reply, this);
 	    initLayoutItems();
@@ -543,7 +546,7 @@ public class NotificationView extends LinearLayout {
 					                transition.setCrossFadeEnabled(true);
 					                transition.startTransition(300);
 				     			}
-				     			if(_listSelectorBackgroundTransitionColorResourceID > 0){
+				     			if(_listSelectorBackgroundTransitionColorResourceID != 0){
 				                	_notificationInfoTextView.setTextColor(_listSelectorBackgroundTransitionColorResourceID);
 				                	_contactNameTextView.setTextColor(_listSelectorBackgroundTransitionColorResourceID);
 				                	_contactNumberTextView.setTextColor(_listSelectorBackgroundTransitionColorResourceID);
@@ -552,7 +555,7 @@ public class NotificationView extends LinearLayout {
 					        }
 				     		case MotionEvent.ACTION_UP:{
 				         		if(_listSelectorBackgroundDrawable != null) view.setBackgroundDrawable(_listSelectorBackgroundDrawable);
-				                if(_listSelectorBackgroundColorResourceID > 0){
+				                if(_listSelectorBackgroundColorResourceID != 0){
 				                	_notificationInfoTextView.setTextColor(_listSelectorBackgroundColorResourceID);
 				                	_contactNameTextView.setTextColor(_listSelectorBackgroundColorResourceID);
 				                	_contactNumberTextView.setTextColor(_listSelectorBackgroundColorResourceID);
@@ -561,7 +564,7 @@ public class NotificationView extends LinearLayout {
 				     		}
 				     		case MotionEvent.ACTION_CANCEL:{
 				     			if(_listSelectorBackgroundDrawable != null) view.setBackgroundDrawable(_listSelectorBackgroundDrawable);
-				         		if(_listSelectorBackgroundColorResourceID > 0){
+				         		if(_listSelectorBackgroundColorResourceID != 0){
 					                _notificationInfoTextView.setTextColor(_listSelectorBackgroundColorResourceID);
 					                _contactNameTextView.setTextColor(_listSelectorBackgroundColorResourceID);
 					                _contactNumberTextView.setTextColor(_listSelectorBackgroundColorResourceID);
@@ -937,7 +940,7 @@ public class NotificationView extends LinearLayout {
 						    public void onClick(View view){
 						    	if (_debug) Log.v("SMS Reply Button Clicked()");
 						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-						    	replyToMessage(_notification.getNotificationType());
+						    	replyToMessage(_notificationType);
 						    }
 						}
     				);
@@ -983,7 +986,7 @@ public class NotificationView extends LinearLayout {
 						    public void onClick(View view){
 						    	if (_debug) Log.v("SMS Reply Button Clicked()");
 						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-						    	replyToMessage(_notification.getNotificationType());
+						    	replyToMessage(_notificationType);
 						    }
 						}
     				);
@@ -1126,7 +1129,7 @@ public class NotificationView extends LinearLayout {
 					    public void onClick(View view){
 					    	if (_debug) Log.v("Notification Count Button Clicked()");
 					    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-					    	K9Common.startK9EmailAppViewInboxActivity(_context, _notificationActivity, _notificationActivity.getNotificationViewFlipper().getActiveNotification().getNotificationSubType(), Constants.K9_VIEW_INBOX_ACTIVITY);
+					    	K9Common.startK9EmailAppViewInboxActivity(_context, _notificationActivity, _notificationSubType, Constants.K9_VIEW_INBOX_ACTIVITY);
 					    }
 					}
 				);		
@@ -1137,7 +1140,7 @@ public class NotificationView extends LinearLayout {
 				    public void onClick(View view){
 				    	if (_debug) Log.v("Notification Email Link Clicked()");
 				    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-				    	K9Common.startK9EmailAppViewInboxActivity(_context, _notificationActivity, _notification.getNotificationSubType(), Constants.K9_VIEW_EMAIL_ACTIVITY);
+				    	K9Common.startK9EmailAppViewInboxActivity(_context, _notificationActivity, _notificationSubType, Constants.K9_VIEW_EMAIL_ACTIVITY);
 				    }
 				});
 			}
@@ -1983,7 +1986,7 @@ public class NotificationView extends LinearLayout {
 			}
 			case Constants.NOTIFICATION_TYPE_K9:{
 				//Reply using any installed K9 email app.
-				K9Common.startK9MailAppReplyActivity(_context, _notificationActivity, _notification.getK9EmailUri(), _notification.getNotificationSubType(), Constants.K9_VIEW_EMAIL_ACTIVITY);
+				K9Common.startK9MailAppReplyActivity(_context, _notificationActivity, _notification.getK9EmailUri(), _notificationSubType, Constants.K9_VIEW_EMAIL_ACTIVITY);
 				return;
 			}
 			case Constants.NOTIFICATION_TYPE_GENERIC:{			
@@ -2040,7 +2043,8 @@ public class NotificationView extends LinearLayout {
 	 */
 	private void callMissedCall(){
 		if (_debug) Log.v("NotificationView.callMissedCall()");
-		_notification.cancelReminder();
+    	//Cancel the notification reminder.
+    	_notification.cancelReminder();
 		if(_preferences.getString(Constants.PHONE_CALL_KEY, Constants.PHONE_CALL_ACTION_CALL).equals(Constants.PHONE_CALL_ACTION_CALL)){
 			PhoneCommon.makePhoneCall(_context, _notificationActivity, _notification.getSentFromAddress(), Constants.CALL_ACTIVITY);
 		}else if(_preferences.getString(Constants.PHONE_CALL_KEY, Constants.PHONE_CALL_ACTION_CALL).equals(Constants.PHONE_CALL_ACTION_CALL_LOG)){
@@ -2190,6 +2194,8 @@ public class NotificationView extends LinearLayout {
 		}else{
 			snoozeTime = 10;
 		}
+    	//Cancel the notification reminder.
+    	_notification.cancelReminder();
 		_notificationViewFlipper.snoozeCalendarEvent(snoozeTime * 60 * 1000);
 		CalendarCommon.setCalendarEventDismissed(_context, _notification.getCalendarEventID(), false);
 	}

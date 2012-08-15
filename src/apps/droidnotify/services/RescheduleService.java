@@ -57,10 +57,8 @@ public class RescheduleService extends WakefulIntentService {
 		    Bundle bundle = intent.getExtras();
 		    int notificationType = bundle.getInt(Constants.BUNDLE_NOTIFICATION_TYPE, -1);
 		    //If notification is an SMS/MMS, check to see if it's already been read/deleted.
-		    if(notificationType == Constants.NOTIFICATION_TYPE_SMS || 
-		    		notificationType == Constants.NOTIFICATION_TYPE_RESCHEDULE_SMS ||
-		    		notificationType == Constants.NOTIFICATION_TYPE_MMS || 
-		    		notificationType == Constants.NOTIFICATION_TYPE_RESCHEDULE_MMS){
+		    if(notificationType == Constants.NOTIFICATION_TYPE_SMS ||
+		    		notificationType == Constants.NOTIFICATION_TYPE_MMS){
 				Bundle rescheduleNotificationBundle = bundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME);
 			    if(rescheduleNotificationBundle != null){
 					Bundle rescheduleNotificationBundleSingle = rescheduleNotificationBundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_1");
@@ -78,8 +76,7 @@ public class RescheduleService extends WakefulIntentService {
 			    }
 		    }
 		    //If notification is an calendar event, check to see if it's already been dismissed.
-		    if(notificationType == Constants.NOTIFICATION_TYPE_CALENDAR || 
-		    		notificationType == Constants.NOTIFICATION_TYPE_RESCHEDULE_CALENDAR){
+		    if(notificationType == Constants.NOTIFICATION_TYPE_CALENDAR){
 				Bundle rescheduleNotificationBundle = bundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME);
 			    if(rescheduleNotificationBundle != null){
 					Bundle rescheduleNotificationBundleSingle = rescheduleNotificationBundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_1");
@@ -124,29 +121,6 @@ public class RescheduleService extends WakefulIntentService {
 			    case Constants.NOTIFICATION_TYPE_GENERIC:{
 			    	break;
 			    }
-			    case Constants.NOTIFICATION_TYPE_RESCHEDULE_PHONE:{
-			    	showBlockedNotificationStatusBarNotification = preferences.getBoolean(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true);
-			    	break;
-			    }
-			    case Constants.NOTIFICATION_TYPE_RESCHEDULE_SMS:{
-			    	showBlockedNotificationStatusBarNotification = preferences.getBoolean(Constants.SMS_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true);
-			    	break;
-			    }
-			    case Constants.NOTIFICATION_TYPE_RESCHEDULE_MMS:{
-			    	showBlockedNotificationStatusBarNotification = preferences.getBoolean(Constants.SMS_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true);
-			    	break;
-			    }
-			    case Constants.NOTIFICATION_TYPE_RESCHEDULE_CALENDAR:{
-			    	showBlockedNotificationStatusBarNotification = preferences.getBoolean(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true);
-			    	break;
-			    }
-			    case Constants.NOTIFICATION_TYPE_RESCHEDULE_K9:{
-			    	showBlockedNotificationStatusBarNotification = preferences.getBoolean(Constants.K9_STATUS_BAR_NOTIFICATIONS_SHOW_WHEN_BLOCKED_ENABLED_KEY, true);
-			    	break;
-			    }
-			    case Constants.NOTIFICATION_TYPE_RESCHEDULE_GENERIC:{
-			    	break;
-			    }
 		    }
 		    //Reschedule notification based on the users preferences.
 		    if(!callStateIdle){
@@ -161,7 +135,7 @@ public class RescheduleService extends WakefulIntentService {
 		    if(!notificationIsBlocked){
 				Common.startNotificationActivity(getApplicationContext(), bundle);
 		    }else{
-		    	if(notificationType == Constants.NOTIFICATION_TYPE_GENERIC || notificationType == Constants.NOTIFICATION_TYPE_RESCHEDULE_GENERIC){
+		    	if(notificationType == Constants.NOTIFICATION_TYPE_GENERIC){
 		    		Common.rescheduleBlockedNotification(context, rescheduleNotificationInCall, rescheduleNotificationInQuickReply, notificationType, bundle);
 		    	}else{
 			    	//Display the Status Bar Notification even though the popup is blocked based on the user preferences.

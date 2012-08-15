@@ -39,7 +39,7 @@ public class Constants {
 	public static final String BUNDLE_LOOKUP_KEY  = "lookupKey";
 	public static final String BUNDLE_K9_EMAIL_URI  = "k9EmailUri";
 	public static final String BUNDLE_K9_EMAIL_DEL_URI  = "k9EmailDelUri";
-	public static final String BUNDLE_RESCHEDULE_NUMBER  = "rescheduleNumber";
+	public static final String BUNDLE_REMINDER_NUMBER  = "reminderNumber";
 	public static final String BUNDLE_NOTIFICATION_SUB_TYPE  = "notificationSubType";
 	public static final String BUNDLE_LINK_URL  = "linkURL";
 	public static final String BUNDLE_PACKAGE  = "package";	
@@ -112,14 +112,16 @@ public class Constants {
 
 	public static final int NOTIFICATION_TYPE_GENERIC = 1000;
 	
-	//-----NOTIFICATION RESCHEDULE CONSTANTS-----//
-	public static final int NOTIFICATION_TYPE_RESCHEDULE_PHONE = 100;
-	public static final int NOTIFICATION_TYPE_RESCHEDULE_SMS = 101;
-	public static final int NOTIFICATION_TYPE_RESCHEDULE_MMS = 102;
-	public static final int NOTIFICATION_TYPE_RESCHEDULE_CALENDAR = 103;
-	public static final int NOTIFICATION_TYPE_RESCHEDULE_K9 = 104;	
-
-	public static final int NOTIFICATION_TYPE_RESCHEDULE_GENERIC = 1100;
+	//-----NOTIFICATION TYPE PREVIEW CONSTANTS-----//
+	public static final int NOTIFICATION_TYPE_PREVIEW_PHONE = 2000;
+	public static final int NOTIFICATION_TYPE_PREVIEW_SMS = 2001;
+	public static final int NOTIFICATION_TYPE_PREVIEW_MMS = 2002;
+	public static final int NOTIFICATION_TYPE_PREVIEW_CALENDAR = 2003;
+	public static final int NOTIFICATION_TYPE_PREVIEW_K9 = 2004;
+	public static final int NOTIFICATION_TYPE_PREVIEW_TWITTER = 2005;
+	public static final int NOTIFICATION_TYPE_PREVIEW_FACEBOOK = 2006;
+	public static final int NOTIFICATION_TYPE_PREVIEW_GOOGLE_VOICE = 2007;
+	public static final int NOTIFICATION_TYPE_PREVIEW_LINKEDIN = 2008;
 
 	//-----NOTIFICATION SUB-TYPE CONSTANTS-----//
 	
@@ -181,6 +183,11 @@ public class Constants {
     public static final String BUTTON_FONT_SIZE_DEFAULT = "14";
     
     public static final String BUTTON_BOLD_TEXT_KEY = "bold_button_text";
+    
+    //-----PENDING INTENT TYPE CONSTANTS-----//
+	public static final int PENDING_INTENT_TYPE_REMINDER = 1;
+	public static final int PENDING_INTENT_TYPE_SNOOZE = 2;
+	public static final int PENDING_INTENT_TYPE_RESCHEDULE = 3;
     
 	//-----RESCHEDULE CONSTANTS-----//
 	public static final String RESCHEDULE_NOTIFICATIONS_ENABLED_KEY = "reschedule_blocked_notifications";
