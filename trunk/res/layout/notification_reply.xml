@@ -170,12 +170,31 @@
 			android:textStyle="bold"
 			android:text="@string/snooze_for"
 			android:visibility="gone" />
-		<Spinner
-		    android:id="@+id/calendar_snooze_spinner"
+		<LinearLayout
+		    android:id="@+id/calendar_snooze_linear_layout"
 		    android:layout_width="match_parent"
-		    android:layout_height="wrap_content"		    
-        	android:entries="@array/calendar_snooze_options"
-			android:visibility="gone" />
+		    android:layout_height="wrap_content"
+			android:orientation="horizontal" 
+			android:layout_gravity="center_vertical">
+			<Spinner
+			    android:id="@+id/calendar_snooze_spinner"
+			    android:layout_height="wrap_content"	
+			    android:layout_width="0dp"
+			    android:layout_weight="1"
+			    android:layout_gravity="center_vertical"
+	        	android:entries="@array/reschedule_time_options" />
+			<ImageButton
+			    android:id="@+id/snooze_image_button"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_gravity="center_vertical"
+			    android:background="@drawable/transparent"
+			    android:gravity="center_vertical|center_horizontal"
+			    android:hapticFeedbackEnabled="true"
+			    android:nextFocusLeft="@+id/calendar_snooze_spinner"
+			    android:padding="10dp"
+			    android:src="@drawable/ic_calendar_snooze" />
+		</LinearLayout>
 	</LinearLayout>
 	<LinearLayout
 	    android:id="@+id/quickreply_linear_layout"
@@ -256,15 +275,6 @@
 			android:gravity="center_vertical|center_horizontal"
 			android:text="@string/reply" />
 		<Button
-			android:id="@+id/snooze_button"  
-			android:layout_height="wrap_content" 
-			android:layout_width="match_parent" 
-			android:layout_weight="1"
-			android:layout_marginLeft="1dp"
-			android:layout_marginRight="1dp"
-			android:gravity="center_vertical|center_horizontal"
-			android:text="@string/snooze" />
-		<Button
 			android:id="@+id/view_button"  
 			android:layout_height="wrap_content" 
 			android:layout_width="match_parent" 
@@ -310,15 +320,6 @@
 			android:scaleType="center" />
 		<ImageButton
 			android:id="@+id/reply_image_button"  
-			android:layout_height="wrap_content" 
-			android:layout_width="match_parent" 
-			android:layout_weight="1"
-			android:layout_marginLeft="1dp"
-			android:layout_marginRight="1dp"
-			android:gravity="center_vertical|center_horizontal"
-			android:scaleType="center" />
-		<ImageButton
-			android:id="@+id/snooze_image_button"  
 			android:layout_height="wrap_content" 
 			android:layout_width="match_parent" 
 			android:layout_weight="1"

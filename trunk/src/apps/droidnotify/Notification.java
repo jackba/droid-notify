@@ -705,7 +705,11 @@ public class Notification {
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_CALENDAR:{
-				//Do nothing. There is no log to update for Calendar Events.
+				//Action is determined by the users preferences. 
+	    		//Either mark the event as dismissed or do nothing.
+	    		if(_preferences.getString(Constants.CALENDAR_DISMISS_KEY, "0").equals(Constants.CALENDAR_DISMISS_ACTION_MARK_DISMISSED)){
+	    			CalendarCommon.setCalendarEventDismissed(_context, _calendarEventID, isViewed);
+	    		}
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_K9:{

@@ -78,11 +78,7 @@ public class AdvancedPreferenceActivity extends PreferenceActivity{
         	public boolean onPreferenceClick(Preference preference){
 		    	try{		 
 		    		AlertDialog.Builder builder = new AlertDialog.Builder(_context);
-			        try{
-			        	builder.setIcon(android.R.drawable.ic_dialog_alert);
-			        }catch(Exception ex){
-			        	//Don't set the icon if this fails.
-			        }
+			        builder.setIcon(android.R.drawable.ic_dialog_alert);
 					builder.setTitle(_context.getString(R.string.reset_app_preferences));
 					builder.setMessage(_context.getString(R.string.confirm_reset_app_preferences));
 					builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener(){
@@ -98,7 +94,7 @@ public class AdvancedPreferenceActivity extends PreferenceActivity{
 						});
 					builder.create().show();
 		    	}catch(Exception ex){
-	 	    		Log.e("MainPreferenceActivity() Reset App Preferences Button ERROR: " + ex.toString());
+	 	    		Log.e("AdvancedPreferenceActivity() Reset App Preferences Button ERROR: " + ex.toString());
 	 	    		return false;
 		    	}
 	            return true;
@@ -122,9 +118,23 @@ public class AdvancedPreferenceActivity extends PreferenceActivity{
 		Preference importPreferencesPref = (Preference)findPreference("import_preferences");
 		importPreferencesPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
         	public boolean onPreferenceClick(Preference preference) {
-		    	try{
-			    	//Run this process in the background in an AsyncTask.
-			    	new importPreferencesAsyncTask().execute();
+		    	try{		 
+		    		AlertDialog.Builder builder = new AlertDialog.Builder(_context);
+			        builder.setIcon(android.R.drawable.ic_dialog_alert);
+					builder.setTitle(_context.getString(R.string.preference_import_preferences_title));
+					builder.setMessage(_context.getString(R.string.confirm_import_app_preferences));
+					builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener(){
+							public void onClick(DialogInterface dialog, int id){
+						    	new importPreferencesAsyncTask().execute();
+						    	dialog.dismiss();
+							}
+						})
+						.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener(){
+							public void onClick(DialogInterface dialog, int id){
+				            	dialog.cancel();
+							}
+						});
+					builder.create().show();
 		    	}catch(Exception ex){
 	 	    		Log.e("AdvancedPreferenceActivity() Import Preferences Button ERROR: " + ex.toString());
 	 	    		return false;
@@ -159,7 +169,7 @@ public class AdvancedPreferenceActivity extends PreferenceActivity{
 		 * Setup the Progress Dialog.
 		 */
 	    protected void onPreExecute() {
-			if (_debug) Log.v("MainPreferenceActivity.resetAppPreferencesAsyncTask.onPreExecute()");
+			if (_debug) Log.v("AdvancedPreferenceActivity.resetAppPreferencesAsyncTask.onPreExecute()");
 	        dialog = ProgressDialog.show(AdvancedPreferenceActivity.this, "", _context.getString(R.string.resetting_preferences), true);
 	    }
 	    /**
@@ -168,7 +178,7 @@ public class AdvancedPreferenceActivity extends PreferenceActivity{
 	     * @param params
 	     */
 	    protected Void doInBackground(Void... params) {
-			if (_debug) Log.v("MainPreferenceActivity.resetAppPreferencesAsyncTask.doInBackground()");
+			if (_debug) Log.v("AdvancedPreferenceActivity.resetAppPreferencesAsyncTask.doInBackground()");
 			SharedPreferences.Editor editor = _preferences.edit();
 			editor.clear();
 			editor.commit();
@@ -180,7 +190,7 @@ public class AdvancedPreferenceActivity extends PreferenceActivity{
 	     * @param result
 	     */
 	    protected void onPostExecute(Void res) {
-			if (_debug) Log.v("MainPreferenceActivity.resetAppPreferencesAsyncTask.onPostExecute()");
+			if (_debug) Log.v("AdvancedPreferenceActivity.resetAppPreferencesAsyncTask.onPostExecute()");
 	        dialog.dismiss();
 	    	Toast.makeText(_context, _context.getString(R.string.preferences_reset), Toast.LENGTH_LONG).show();
 	        reloadPreferenceActivity();
@@ -364,11 +374,10 @@ public class AdvancedPreferenceActivity extends PreferenceActivity{
 		if (_debug) Log.v("AdvancedPreferenceActivity.reloadPreferenceActivity()");
 		try{
 		    Intent intent = getIntent();
-		    overridePendingTransition(0, 0);
 		    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+		    startActivity(intent);
 		    finish();
 		    overridePendingTransition(0, 0);
-		    startActivity(intent);
 		}catch(Exception ex){
 			Log.e("AdvancedPreferenceActivity.reloadPreferenceActivity() ERROR: " + ex.toString());
 		}

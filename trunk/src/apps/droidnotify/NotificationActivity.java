@@ -1106,11 +1106,7 @@ public class NotificationActivity extends Activity{
 			case Constants.DIALOG_DELETE_MESSAGE:{
 				if(_debug) Log.v("NotificationActivity.onCreateDialog() DIALOG_DELETE_MESSAGE");
 				AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		        try{
-		        	builder.setIcon(android.R.drawable.ic_dialog_alert);
-		        }catch(Exception ex){
-		        	//Don't set the icon if this fails.
-		        }
+		        builder.setIcon(android.R.drawable.ic_dialog_alert);
 				builder.setTitle(_context.getString(R.string.delete));
 				//Action is determined by the users preferences. 
 				if(notificationType == Constants.NOTIFICATION_TYPE_SMS){

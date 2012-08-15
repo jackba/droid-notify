@@ -465,6 +465,136 @@ public class CalendarCommon {
 	}
 	
 	/**
+	 * Set the status of an event reminder/alert.
+	 * 
+	 * @param context - The application context.
+	 * @param eventID - The event ID we want to query.
+	 * @param isDismissed - The boolean value indicating if it was read or not.
+	 * 
+	 * @return boolean - Returns true if the operation was successful.
+	 */
+	@SuppressLint("NewApi")
+	public static boolean setCalendarEventDismissed(Context context, long eventID, boolean isDismissed){
+		if (_debug) Log.v("CalendarCommon.setCalendarEventDismissed() EventID: " + eventID);
+//		String contentProvider = null;
+//		try{
+//			if(eventID < 0){
+//				if(_debug) Log.v("CalendarCommon.setCalendarEventDismissed() Event ID < 0. Exiting...");
+//				return true;
+//			}
+//			int APILevel = Common.getDeviceAPILevel();
+//			String eventIDColumn = null;
+//			String eventStatusColumn = null;
+//			int STATE_SCHEDULED = -1;
+//			int STATE_FIRED = -1;
+//			int STATE_DISMISSED = -1;
+//			if(APILevel >= 14){
+//				contentProvider = CalendarContract.CalendarAlerts.CONTENT_URI.toString();
+//				eventIDColumn = CalendarContract.CalendarAlerts.EVENT_ID;
+//				eventStatusColumn = CalendarContract.CalendarAlerts.STATUS;
+//				STATE_SCHEDULED = CalendarContract.CalendarAlerts.STATE_SCHEDULED;
+//				STATE_FIRED = CalendarContract.CalendarAlerts.STATE_FIRED;
+//				STATE_DISMISSED = CalendarContract.CalendarAlerts.STATE_DISMISSED;
+//			}else{
+//				contentProvider = "content://com.android.calendar/calendar_alerts";
+//				eventIDColumn = Constants.CALENDAR_ALERT_EVENT_ID;
+//				eventStatusColumn = Constants.CALENDAR_ALERT_EVENT_STATUS;
+//				STATE_SCHEDULED = 0;
+//				STATE_FIRED = 1;
+//				STATE_DISMISSED = 2;
+//			}
+//			if (_debug) Log.v("CalendarCommon.setCalendarEventDismissed() ContentProvider: " + contentProvider);
+//			ContentValues contentValues = new ContentValues();
+//			if(isDismissed){
+//				contentValues.put(eventStatusColumn, STATE_DISMISSED);
+//			}else{
+//				contentValues.put(eventStatusColumn, STATE_FIRED);
+//			}
+//            //final String selection = null;
+//    		//final String[] selectionArgs = null;
+//            final String selection = eventIDColumn + "=?";
+//    		final String[] selectionArgs = new String[] {String.valueOf(eventID)};
+//			context.getContentResolver().update(
+//				Uri.parse(contentProvider), 						
+//				contentValues,
+//				selection,
+//				selectionArgs);
+			return true;
+//		}catch(Exception ex){
+//			Log.e("CalendarCommon.setCalendarEventDismissed() ERROR: " + ex.toString());
+//			if (_debug) Common.debugReadContentProviderColumns(context, null, Uri.parse(contentProvider));
+//			return false;
+//		}
+	}	
+	
+	/**
+	 * Determine if a calendar event has already been dismissed.
+	 * 
+	 * @param context - The application context.
+	 * @param eventID - The Event ID that we want to query.
+	 * 
+	 * @return boolean - Returns false if the event was found and has not been dismissed, returns true otherwise.
+	 */
+	@SuppressLint("NewApi")
+	public static boolean isEventDismissed(Context context, long eventID){
+		_debug = Log.getDebug();
+		if(_debug) Log.v("CalendarCommon.isEventDismissed() EventID: " + eventID);
+		Cursor cursor = null;
+		String contentProvider = null;
+		try{
+			if(eventID < 0){
+				if(_debug) Log.v("CalendarCommon.isEventDismissed() Event ID < 0. Exiting...");
+				return true;
+			}			
+			int APILevel = Common.getDeviceAPILevel();
+			String eventIDColumn = null;
+			String eventStatusColumn = null;
+			int STATE_DISMISSED = -1;
+			if(APILevel >= 14){
+				contentProvider = CalendarContract.CalendarAlerts.CONTENT_URI.toString();
+				eventIDColumn = CalendarContract.CalendarAlerts.EVENT_ID;
+				eventStatusColumn = CalendarContract.CalendarAlerts.STATUS;
+				STATE_DISMISSED = CalendarContract.CalendarAlerts.STATE_DISMISSED;
+			}else{
+				contentProvider = "content://com.android.calendar/calendar_alerts";
+				eventIDColumn = Constants.CALENDAR_ALERT_EVENT_ID;
+				eventStatusColumn = Constants.CALENDAR_ALERT_EVENT_STATUS;
+				STATE_DISMISSED = 2;
+			}
+    		final String[] projection = new String[] { "_id", eventIDColumn, eventStatusColumn};
+			final String selection = eventIDColumn + "=?";
+			final String[] selectionArgs = new String[]{String.valueOf(eventID)};
+    		final String sortOrder = null;
+				cursor = context.getContentResolver().query(
+						Uri.parse(contentProvider),
+						projection,
+						selection, 
+						selectionArgs,
+						sortOrder);
+		    if(cursor == null){
+		    	if(_debug) Log.v("CalendarCommon.isEventDismissed() Currsor is null. Exiting...");
+		    	return true;
+		    }
+		    int eventStatus = 0;
+		    if(cursor.moveToFirst()){
+		    	eventStatus = cursor.getInt(cursor.getColumnIndex(eventStatusColumn));
+		    	if(_debug) Log.v("CalendarCommon.isEventDismissed() Event Found - Status: " + String.valueOf(eventStatus));
+	    	}else{
+	    		if(_debug) Log.v("CalendarCommon.isEventDismissed() Event ID: " + String.valueOf(eventID) + " was not found!  Exiting...");
+	    		return true;
+	    	}
+			cursor.close();
+		    return eventStatus == STATE_DISMISSED ? true : false;
+		}catch(Exception ex){
+			Log.e("CalendarCommon.isEventDismissed() ERROR: " + ex.toString());
+    		if(cursor != null){
+				cursor.close();
+			}
+			return true;
+		}
+	}
+	
+	/**
 	 * Start the intent to add an event to the calendar app.
 	 * 
 	 * @param context - Application Context.

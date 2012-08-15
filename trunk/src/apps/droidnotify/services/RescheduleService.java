@@ -11,6 +11,7 @@ import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
 import apps.droidnotify.sms.SMSCommon;
+import apps.droidnotify.calendar.CalendarCommon;
 
 public class RescheduleService extends WakefulIntentService {
 	
@@ -71,6 +72,21 @@ public class RescheduleService extends WakefulIntentService {
 						}
 				    	if(SMSCommon.isMessageRead(context, messageID, threadID)){
 				    		if (_debug) Log.v("RescheduleBroadcastReceiverService.doWakefulWork() SMS/MMS Message has already been marked read. Exiting...");
+				    		return;
+				    	}
+					}
+			    }
+		    }
+		    //If notification is an calendar event, check to see if it's already been dismissed.
+		    if(notificationType == Constants.NOTIFICATION_TYPE_CALENDAR || 
+		    		notificationType == Constants.NOTIFICATION_TYPE_RESCHEDULE_CALENDAR){
+				Bundle rescheduleNotificationBundle = bundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME);
+			    if(rescheduleNotificationBundle != null){
+					Bundle rescheduleNotificationBundleSingle = rescheduleNotificationBundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_1");
+					if(rescheduleNotificationBundleSingle != null){
+						long eventID = rescheduleNotificationBundleSingle.getLong(Constants.BUNDLE_CALENDAR_EVENT_ID, -1);
+				    	if(CalendarCommon.isEventDismissed(context, eventID)){
+				    		if (_debug) Log.v("RescheduleBroadcastReceiverService.doWakefulWork() Calendar Event has already been dismissed. Exiting...");
 				    		return;
 				    	}
 					}
