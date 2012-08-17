@@ -684,6 +684,8 @@ public class Constants {
 	public static final int THEME_BUTTON_NORMAL = 0;
 	public static final int THEME_BUTTON_NAV_PREV = 1;
 	public static final int THEME_BUTTON_NAV_NEXT = 2;
+	public static final int THEME_SPINNER = 3;
+	public static final int THEME_EDIT_TEXT =4;
 	
 	//-----CUSTOM STATUS BAR NOTIFICATION CONSTANTS-----//
 	public static final String CUSTOM_STATUS_BAR_NOTIFICATIONS_CUSTOM_VALUE = "custom";

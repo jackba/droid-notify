@@ -47,6 +47,7 @@ import apps.droidnotify.k9.K9Common;
 import apps.droidnotify.log.Log;
 import apps.droidnotify.phone.PhoneCommon;
 import apps.droidnotify.sms.SMSCommon;
+import apps.droidnotifydonate.R;
 
 /**
  * This class is the view which the ViewFlipper displays for each notification.
@@ -340,7 +341,8 @@ public class NotificationView extends LinearLayout {
 		_previousButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NAV_PREV));
 		_nextButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NAV_NEXT));
 		
-		if(!_themePackageName.equals(Constants.PHONE_DEFAULT_THEME)){		
+		if(!_themePackageName.equals(Constants.PHONE_DEFAULT_THEME)){
+			
 			_notificationCountTextView.setTextColor(notificationCountTextColorID);
 			_notificationInfoTextView.setTextColor(headerInfoTextcolorID);
 			_contactNameTextView.setTextColor(contactNameTextColorID);
@@ -368,6 +370,10 @@ public class NotificationView extends LinearLayout {
 			_callImageButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));
 			_replyImageButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));
 			_viewImageButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));
+			
+			_calendarSnoozeSpinner.setBackgroundDrawable(getThemeButton(Constants.THEME_SPINNER));
+			_messageEditText.setBackgroundDrawable(getThemeButton(Constants.THEME_EDIT_TEXT));
+			
 		}
 		
 		_rescheduleImageButton.setImageDrawable(rescheduleDrawable);
@@ -504,6 +510,30 @@ public class NotificationView extends LinearLayout {
 				}else{
 					stateListDrawable.addState(new int[] {android.R.attr.state_pressed}, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/button_navigate_next_pressed", null, null)));
 					stateListDrawable.addState(new int[] { }, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/button_navigate_next_normal", null, null)));
+				}
+				return stateListDrawable;
+			}
+			case Constants.THEME_SPINNER:{
+				if(_themePackageName.equals(Constants.NOTIFY_DEFAULT_THEME) || _themePackageName.equals(Constants.PHONE_DEFAULT_THEME)){
+					stateListDrawable.addState(new int[] {android.R.attr.state_focused}, _resources.getDrawable(R.drawable.spinner_focused));
+					stateListDrawable.addState(new int[] {android.R.attr.state_pressed}, _resources.getDrawable(R.drawable.spinner_pressed));
+					stateListDrawable.addState(new int[] { }, _resources.getDrawable(R.drawable.spinner_normal));
+				}else{
+					stateListDrawable.addState(new int[] {android.R.attr.state_focused}, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/spinner_focused", null, null)));
+					stateListDrawable.addState(new int[] {android.R.attr.state_pressed}, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/spinner_pressed", null, null)));
+					stateListDrawable.addState(new int[] { }, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/spinner_normal", null, null)));
+				}
+				return stateListDrawable;
+			}
+			case Constants.THEME_EDIT_TEXT:{
+				if(_themePackageName.equals(Constants.NOTIFY_DEFAULT_THEME) || _themePackageName.equals(Constants.PHONE_DEFAULT_THEME)){
+					stateListDrawable.addState(new int[] {android.R.attr.state_activated}, _resources.getDrawable(R.drawable.textfield_activated));
+					stateListDrawable.addState(new int[] {android.R.attr.state_focused}, _resources.getDrawable(R.drawable.textfield_focused));
+					stateListDrawable.addState(new int[] { }, _resources.getDrawable(R.drawable.textfield_normal));
+				}else{
+					stateListDrawable.addState(new int[] {android.R.attr.state_activated}, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/spinner_activated", null, null)));
+					stateListDrawable.addState(new int[] {android.R.attr.state_focused}, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/textfield_focused", null, null)));
+					stateListDrawable.addState(new int[] { }, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/textfield_normal", null, null)));
 				}
 				return stateListDrawable;
 			}
