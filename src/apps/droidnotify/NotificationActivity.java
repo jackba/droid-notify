@@ -168,6 +168,10 @@ public class NotificationActivity extends Activity{
 				MenuInflater menuInflater = getMenuInflater();
 				Notification notification = _notificationViewFlipper.getActiveNotification();
 				int notificationType = notification.getNotificationType();
+				//Adjust for Preview notifications.
+				if(notificationType > 1999){
+					notificationType -= 2000;
+				}
 				//Add the header text to the menu.
 				if(notificationType == Constants.NOTIFICATION_TYPE_GENERIC){
 					//Don't add a title if it's a generic notification.
@@ -207,8 +211,8 @@ public class NotificationActivity extends Activity{
 	@Override
 	public boolean onContextItemSelected(MenuItem menuItem){
 		if(_debug) Log.v("NotificationActivity.onContextItemSelected()");
-		final Notification notification = _notificationViewFlipper.getActiveNotification();	
-		//customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+		final Notification notification = _notificationViewFlipper.getActiveNotification();
+	    //Complete the selected action.
 		switch (menuItem.getItemId()){
 			case ADD_CONTACT_CONTEXT_MENU:{
 				return ContactsCommon.startContactAddActivity(_context, this, notification.getSentFromAddress(), Constants.ADD_CONTACT_ACTIVITY);
@@ -352,9 +356,12 @@ public class NotificationActivity extends Activity{
 	 */
 	public void showDeleteDialog(){
 		if(_debug) Log.v("NotificationActivity.showDeleteDialog()");
-    	//Cancel the notification reminder.
-	    _notificationViewFlipper.getActiveNotification().cancelReminder();
-		int notificationType = _notificationViewFlipper.getActiveNotification().getNotificationType();
+		Notification notification = _notificationViewFlipper.getActiveNotification();
+		int notificationType = notification.getNotificationType();
+		//Adjust for Preview notifications.
+		if(notificationType > 1999){
+			notificationType -= 2000;
+		}
 		switch(notificationType){
 			case Constants.NOTIFICATION_TYPE_SMS:{
 				if(_preferences.getString(Constants.SMS_DELETE_KEY, "0").equals(Constants.SMS_DELETE_ACTION_NOTHING)){
@@ -413,7 +420,7 @@ public class NotificationActivity extends Activity{
 	@Override
 	public void onConfigurationChanged(Configuration config){
         super.onConfigurationChanged(config);   
-        if(_debug) Log.v("NotificationActivity.onConfigurationChanged()");
+        //if(_debug) Log.v("NotificationActivity.onConfigurationChanged()");
         //Do Nothing.
 	}
 
@@ -466,8 +473,6 @@ public class NotificationActivity extends Activity{
 		}else{
 			Notification notification = _notificationViewFlipper.getActiveNotification();
 			notification.speak(_tts);
-			//Cancel the notification reminder.
-			notification.cancelReminder();
 		}
 	}
 	
@@ -536,8 +541,7 @@ public class NotificationActivity extends Activity{
 	protected void onActivityResult(int requestCode, int resultCode, Intent returnedIntent){		
 		try{
 			if(_debug) Log.v("NotificationActivity.onActivityResult() RequestCode: " + requestCode + " ResultCode: " + resultCode);
-	    	//Cancel the notification reminder.
-		    _notificationViewFlipper.getActiveNotification().cancelReminder();
+	    	Common.setInLinkedAppFlag(_context, false);
 		    switch(requestCode){
 			    case Constants.ADD_CONTACT_ACTIVITY:{
 			    	if(resultCode == RESULT_OK){
@@ -552,7 +556,6 @@ public class NotificationActivity extends Activity{
 			    		if(_debug) Log.v("NotificationActivity.onActivityResult() ADD_CONTACT_ACTIVITY: " + resultCode);
 			        	Toast.makeText(_context, _context.getString(R.string.app_android_contacts_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
 			    	}
-			    	Common.setInLinkedAppFlag(_context, false);
 			        break;
 			    }
 			    case Constants.EDIT_CONTACT_ACTIVITY:{ 
@@ -568,7 +571,6 @@ public class NotificationActivity extends Activity{
 			    		if(_debug) Log.v("NotificationActivity.onActivityResult() EDIT_CONTACT_ACTIVITY: " + resultCode);
 			        	Toast.makeText(_context, _context.getString(R.string.app_android_contacts_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
 			    	}
-			    	Common.setInLinkedAppFlag(_context, false);
 			        break;
 			    }
 			    case Constants.VIEW_CONTACT_ACTIVITY:{ 
@@ -584,7 +586,6 @@ public class NotificationActivity extends Activity{
 			    		if(_debug) Log.v("NotificationActivity.onActivityResult() VIEW_CONTACT_ACTIVITY: " + resultCode);
 			        	Toast.makeText(_context, _context.getString(R.string.app_android_contacts_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
 			    	}
-			    	Common.setInLinkedAppFlag(_context, false);
 			        break;
 			    }
 			    case Constants.SEND_SMS_ACTIVITY:{ 
@@ -600,7 +601,6 @@ public class NotificationActivity extends Activity{
 			    		if(_debug) Log.v("NotificationActivity.onActivityResult() SEND_SMS_ACTIVITY: " + resultCode);
 			        	Toast.makeText(_context, _context.getString(R.string.app_android_messaging_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
 			    	}
-			    	Common.setInLinkedAppFlag(_context, false);
 			        break;
 			    }
 			    case Constants.VIEW_SMS_MESSAGE_ACTIVITY:{ 
@@ -616,7 +616,6 @@ public class NotificationActivity extends Activity{
 			    		if(_debug) Log.v("NotificationActivity.onActivityResult() VIEW_SMS_MESSAGE_ACTIVITY: " + resultCode);
 			        	Toast.makeText(_context, _context.getString(R.string.app_android_messaging_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
 			    	}
-			    	Common.setInLinkedAppFlag(_context, false);
 			        break;
 			    }
 			    case Constants.VIEW_SMS_THREAD_ACTIVITY:{ 
@@ -632,7 +631,6 @@ public class NotificationActivity extends Activity{
 			    		if(_debug) Log.v("NotificationActivity.onActivityResult() VIEW_SMS_THREAD_ACTIVITY: " + resultCode);
 			        	Toast.makeText(_context, _context.getString(R.string.app_android_messaging_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
 			    	}
-			    	Common.setInLinkedAppFlag(_context, false);
 			        break;
 			    }
 			    case Constants.MESSAGING_ACTIVITY:{ 
@@ -648,24 +646,6 @@ public class NotificationActivity extends Activity{
 			    		if(_debug) Log.v("NotificationActivity.onActivityResult() MESSAGING_ACTIVITY: " + resultCode);
 			        	Toast.makeText(_context, _context.getString(R.string.app_android_messaging_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
 			    	}
-			    	Common.setInLinkedAppFlag(_context, false);
-			        break;
-			    }
-			    case Constants.SEND_SMS_QUICK_REPLY_ACTIVITY:{ 
-			    	if(resultCode == RESULT_OK){
-			    		if(_debug) Log.v("NotificationActivity.onActivityResult() SEND_SMS_QUICK_REPLY_ACTIVITY: RESULT_OK");
-			        	//Remove notification from ViewFlipper.
-			    		_notificationViewFlipper.removeActiveNotification(false);
-			    	}else if(resultCode == RESULT_CANCELED){
-			    		if(_debug) Log.v("NotificationActivity.onActivityResult() SEND_SMS_QUICK_REPLY_ACTIVITY: RESULT_CANCELED");
-			    		//Remove notification from ViewFlipper.
-						//_notificationViewFlipper.removeActiveNotification(false);
-			    	}else{
-			    		if(_debug) Log.v("NotificationActivity.onActivityResult() SEND_SMS_QUICK_REPLY_ACTIVITY: " + resultCode);
-			        	Toast.makeText(_context, _context.getString(R.string.app_android_messaging_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
-			    	}
-			    	Common.setInLinkedAppFlag(_context, false);
-			    	Common.setInQuickReplyAppFlag(_context, false);
 			        break;
 			    }
 			    case Constants.CALL_ACTIVITY:{ 
@@ -681,7 +661,6 @@ public class NotificationActivity extends Activity{
 			    		if(_debug) Log.v("NotificationActivity.onActivityResult() CALL_ACTIVITY: " + resultCode);
 			        	Toast.makeText(_context, _context.getString(R.string.app_android_phone_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
 			    	}
-			    	Common.setInLinkedAppFlag(_context, false);
 			        break;
 			    }
 			    case Constants.ADD_CALENDAR_ACTIVITY:{ 
@@ -697,7 +676,6 @@ public class NotificationActivity extends Activity{
 			    		if(_debug) Log.v("NotificationActivity.onActivityResult() ADD_CALENDAR_ACTIVITY: " + resultCode);
 			        	Toast.makeText(_context, _context.getString(R.string.app_android_calendar_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
 			    	}
-			    	Common.setInLinkedAppFlag(_context, false);
 			        break;
 			    }
 			    case Constants.EDIT_CALENDAR_ACTIVITY:{ 
@@ -713,7 +691,6 @@ public class NotificationActivity extends Activity{
 			    		if(_debug) Log.v("NotificationActivity.onActivityResult() EDIT_CALENDAR_ACTIVITY: " + resultCode);
 			        	Toast.makeText(_context, _context.getString(R.string.app_android_calendar_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
 			    	}
-			    	Common.setInLinkedAppFlag(_context, false);
 			        break;
 			    }
 			    case Constants.VIEW_CALENDAR_ACTIVITY:{ 
@@ -729,7 +706,6 @@ public class NotificationActivity extends Activity{
 			    		if(_debug) Log.v("NotificationActivity.onActivityResult() VIEW_CALENDAR_ACTIVITY: " + resultCode);
 			        	Toast.makeText(_context, _context.getString(R.string.app_android_calendar_unknown_error) + " " + resultCode, Toast.LENGTH_LONG).show();
 			    	}
-			    	Common.setInLinkedAppFlag(_context, false);
 			        break;
 			    }
 			    case Constants.VIEW_CALL_LOG_ACTIVITY:{
@@ -745,7 +721,6 @@ public class NotificationActivity extends Activity{
 			    		if(_debug) Log.v("NotificationActivity.onActivityResult() VIEW_CALL_LOG_ACTIVITY: " + resultCode);
 			        	Toast.makeText(_context, _context.getString(R.string.app_android_call_log_error) + " " + resultCode, Toast.LENGTH_LONG).show();
 			    	}
-			    	Common.setInLinkedAppFlag(_context, false);
 			        break;
 			    }
 			    case Constants.CALENDAR_ACTIVITY:{
@@ -761,7 +736,6 @@ public class NotificationActivity extends Activity{
 			    		if(_debug) Log.v("NotificationActivity.onActivityResult() CALENDAR_ACTIVITY: " + resultCode);
 			        	Toast.makeText(_context, _context.getString(R.string.app_android_calendar_app_error) + " " + resultCode, Toast.LENGTH_LONG).show();
 			    	}
-			    	Common.setInLinkedAppFlag(_context, false);
 			        break;
 			    }
 			    case Constants.K9_VIEW_INBOX_ACTIVITY:{
@@ -777,7 +751,6 @@ public class NotificationActivity extends Activity{
 			    		if(_debug) Log.v("NotificationActivity.onActivityResult() K9_VIEW_INBOX_ACTIVITY: " + resultCode);
 			        	Toast.makeText(_context, _context.getString(R.string.app_email_app_error) + " " + resultCode, Toast.LENGTH_LONG).show();
 			    	}
-			    	Common.setInLinkedAppFlag(_context, false);
 			        break;
 			    }
 			    case Constants.K9_VIEW_EMAIL_ACTIVITY:{
@@ -793,7 +766,6 @@ public class NotificationActivity extends Activity{
 			    		if(_debug) Log.v("NotificationActivity.onActivityResult() K9_VIEW_EMAIL_ACTIVITY: " + resultCode);
 			        	Toast.makeText(_context, _context.getString(R.string.app_email_app_error) + " " + resultCode, Toast.LENGTH_LONG).show();
 			    	}
-			    	Common.setInLinkedAppFlag(_context, false);
 			        break;
 			    }
 			    case Constants.K9_SEND_EMAIL_ACTIVITY:{
@@ -809,7 +781,6 @@ public class NotificationActivity extends Activity{
 			    		if(_debug) Log.v("NotificationActivity.onActivityResult() K9_SEND_EMAIL_ACTIVITY: " + resultCode);
 			        	Toast.makeText(_context, _context.getString(R.string.app_email_app_error) + " " + resultCode, Toast.LENGTH_LONG).show();
 			    	}
-			    	Common.setInLinkedAppFlag(_context, false);
 			        break;
 			    }
 			    case Constants.TEXT_TO_SPEECH_ACTIVITY:{
@@ -835,7 +806,6 @@ public class NotificationActivity extends Activity{
 			    		if(_debug) Log.v("NotificationActivity.onActivityResult() BROWSER_ACTIVITY: " + resultCode);
 			        	Toast.makeText(_context, _context.getString(R.string.browser_app_error) + " " + resultCode, Toast.LENGTH_LONG).show();
 			    	}
-			    	Common.setInLinkedAppFlag(_context, false);
 			        break;
 			    }
 			    case Constants.STT_ACTIVITY:{
@@ -851,8 +821,8 @@ public class NotificationActivity extends Activity{
 			super.onActivityResult(requestCode, resultCode, returnedIntent);
 		}catch(Exception ex){
 			Log.e("NotificationActivity.onActivityResult() ERROR: " + ex.toString());
+	    	Common.setInLinkedAppFlag(_context, false);
 			_notificationViewFlipper.removeActiveNotification(false);
-			return;
 		}
     }
 	
@@ -870,7 +840,6 @@ public class NotificationActivity extends Activity{
 	    _preferences = PreferenceManager.getDefaultSharedPreferences(_context);
 	    Common.setApplicationLanguage(_context, this);
 	    Common.setInLinkedAppFlag(_context, false);
-    	Common.setInQuickReplyAppFlag(_context, false);
 	    final Bundle extrasBundle = getIntent().getExtras();
 	    int notificationType = extrasBundle.getInt(Constants.BUNDLE_NOTIFICATION_TYPE);
 	    if(_debug) Log.v("NotificationActivity.onCreate() Notification Type: " + notificationType);
@@ -1059,7 +1028,6 @@ public class NotificationActivity extends Activity{
 		}
 	    cancelScreenTimeout();
 	    Common.setInLinkedAppFlag(_context, false);
-	    Common.setInQuickReplyAppFlag(_context, false);
 	    Common.clearKeyguardLock();
 	    Common.clearWakeLock();
 	    super.onDestroy();
@@ -1076,6 +1044,10 @@ public class NotificationActivity extends Activity{
 	protected Dialog onCreateDialog(int id){
 		if(_debug) Log.v("NotificationActivity.onCreateDialog()");
 		int notificationType = _notificationViewFlipper.getActiveNotification().getNotificationType();
+		//Adjust for Preview notifications.
+		if(notificationType > 1999){
+			notificationType -= 2000;
+		}
 		AlertDialog alertDialog = null;
 		switch (id){
 	        /*
@@ -1228,7 +1200,6 @@ public class NotificationActivity extends Activity{
 		}
 	    cancelScreenTimeout();
 	    Common.setInLinkedAppFlag(_context, false);
-	    Common.setInQuickReplyAppFlag(_context, false);
 	    Common.clearKeyguardLock();
 	    Common.clearWakeLock();
 	    //Finish the activity.
@@ -1621,8 +1592,6 @@ public class NotificationActivity extends Activity{
 			if(status == TextToSpeech.SUCCESS){
 				Notification notification = _notificationViewFlipper.getActiveNotification();
 				notification.speak(_tts);
-				//Cancel the notification reminder.
-				notification.cancelReminder();
 			}else{
 				Toast.makeText(_context, R.string.app_tts_error, Toast.LENGTH_LONG).show();
 			}
@@ -1639,6 +1608,10 @@ public class NotificationActivity extends Activity{
   	 */
   	private int getNotificationTypeCount(int notificationType, int notificationSubType){
 		if(_debug) Log.v("NotificationActivity.getNotificationTypeCount()");
+		//Adjust for Preview notifications.
+		if(notificationType > 1999){
+			notificationType -= 2000;
+		}
 		int notificationCount = 0;
 		switch(notificationType){
 			case Constants.NOTIFICATION_TYPE_PHONE:{

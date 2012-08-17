@@ -23,12 +23,13 @@
 		    	android:id="@+id/previous_button" 
 		     	android:layout_height="wrap_content"
 		     	android:layout_width="wrap_content" />	    
-		    <ImageView
-		        android:id="@+id/tts_button_image_view"
+		    <ImageButton
+		        android:id="@+id/tts_button_image_button"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:layout_gravity="center_vertical"
 		        android:layout_marginLeft="10dp"
+			    android:background="@drawable/transparent"
 		        android:src="@drawable/ic_tts" />
 		 </LinearLayout>	    
 	     <TextView
@@ -50,12 +51,13 @@
 		    android:layout_centerVertical="true"
 	      	android:layout_alignParentRight="true"
 	      	android:layout_alignParentTop="true">
-		    <ImageView
-		        android:id="@+id/reschedule_button_image_view"
+		    <ImageButton
+		        android:id="@+id/reschedule_button_image_button"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"		        
 		        android:layout_gravity="center_vertical"
 		        android:layout_marginRight="10dp"
+			    android:background="@drawable/transparent"
 		        android:src="@drawable/ic_reschedule" />
 		    <Button
 		    	android:id="@+id/next_button" 
@@ -212,12 +214,13 @@
 		    android:nextFocusRight="@+id/message_edit_text"
 		    android:src="@drawable/ic_stt" />
 		<EditText 
-			android:id="@+id/message_edit_text" 
-			android:layout_height="75dp"
+			android:id="@+id/message_edit_text"
+			android:layout_height="wrap_content"
 		    android:layout_width="0dp"
 		    android:layout_weight="1"
 			android:inputType="textShortMessage|textAutoCorrect|textCapSentences|textMultiLine"
 			android:imeOptions="actionSend|flagNoEnterAction" 
+			android:hint="@string/type_to_compose"
 			android:gravity="left|top" />
 		<ImageButton
 		    android:id="@+id/send_image_button"

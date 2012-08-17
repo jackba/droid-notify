@@ -88,9 +88,6 @@ public class NotificationView extends LinearLayout {
 	
 	private ImageView _notificationIconImageView = null;
 	private ImageView _photoImageView = null;
-
-	private ImageView _rescheduleButton = null;
-	private ImageView _ttsButton = null;
 	
 	private Button _previousButton = null;
 	private Button _nextButton = null;
@@ -117,6 +114,10 @@ public class NotificationView extends LinearLayout {
 	private ImageButton _snoozeImageButton = null;
 	
 	private EditText _messageEditText = null;
+
+	private ImageButton _rescheduleImageButton = null;
+	private ImageButton _ttsImageButton = null;
+	
 	private ImageButton _sttImageButton = null;
 	private ImageButton _sendImageButton = null;
 
@@ -136,9 +137,10 @@ public class NotificationView extends LinearLayout {
 	    _notificationActivity = (NotificationActivity) context;
 	    _notification = notification;
 	    _notificationType = notification.getNotificationType();
-	    if(_notificationType > 1999){
-	    	_notificationType -= 2000;
-	    }
+		//Adjust for Preview notifications.
+		if(_notificationType > 1999){
+			_notificationType -= 2000;
+		}
 	    _notificationSubType = notification.getNotificationSubType();
 	    View.inflate(context, R.layout.notification_reply, this);
 	    initLayoutItems();
@@ -191,8 +193,8 @@ public class NotificationView extends LinearLayout {
 		_notificationIconImageView = (ImageView) findViewById(R.id.notification_type_icon_image_view);
 		_photoImageView = (ImageView) findViewById(R.id.contact_photo_image_view);
 
-		_rescheduleButton = (ImageView) findViewById(R.id.reschedule_button_image_view);
-		_ttsButton = (ImageView) findViewById(R.id.tts_button_image_view);
+		_rescheduleImageButton = (ImageButton) findViewById(R.id.reschedule_button_image_button);
+		_ttsImageButton = (ImageButton) findViewById(R.id.tts_button_image_button);
 		
     	_previousButton = (Button) findViewById(R.id.previous_button);
 		_nextButton = (Button) findViewById(R.id.next_button);		
@@ -250,9 +252,12 @@ public class NotificationView extends LinearLayout {
 	private void setupLayoutTheme(){
 		if (_debug) Log.v("NotificationView.setupLayoutTheme()");
 		_themePackageName = _preferences.getString(Constants.APP_THEME_KEY, Constants.APP_THEME_DEFAULT);
+		Resources resources = _context.getResources();
 		Drawable layoutBackgroundDrawable = null;
 		Drawable rescheduleDrawable = null;
 		Drawable ttsDrawable = null;
+		Drawable sttDrawable = null;
+		Drawable sendDrawable = null;
 		int notificationCountTextColorID = 0;
 		int headerInfoTextcolorID = 0;
 		int contactNameTextColorID = 0;
@@ -267,6 +272,8 @@ public class NotificationView extends LinearLayout {
 			layoutBackgroundDrawable = _resources.getDrawable(R.drawable.background_panel);
 			rescheduleDrawable = _resources.getDrawable(R.drawable.ic_reschedule);
 			ttsDrawable = _resources.getDrawable(R.drawable.ic_tts);
+			sttDrawable = _resources.getDrawable(R.drawable.ic_stt);
+			sendDrawable = _resources.getDrawable(R.drawable.ic_send);
 			notificationCountTextColorID = _resources.getColor(R.color.notification_count_text_color);	
 			headerInfoTextcolorID = _resources.getColor(R.color.header_info_text_color);	
 			contactNameTextColorID = _resources.getColor(R.color.contact_name_text_color);	
@@ -278,12 +285,32 @@ public class NotificationView extends LinearLayout {
 			layoutBackgroundDrawable = _resources.getDrawable(android.R.drawable.dialog_frame);
 			rescheduleDrawable = _resources.getDrawable(R.drawable.ic_reschedule);
 			ttsDrawable = _resources.getDrawable(R.drawable.ic_tts);
+			sttDrawable = _resources.getDrawable(R.drawable.ic_stt);
+			sendDrawable = _resources.getDrawable(R.drawable.ic_send);
 		}else{	
 			try{
 				_resources = _context.getPackageManager().getResourcesForApplication(_themePackageName);
 				layoutBackgroundDrawable = _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/background_panel", null, null));
-				rescheduleDrawable = _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/ic_reschedule", null, null));
-				ttsDrawable = _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/ic_tts", null, null));
+				try{
+					rescheduleDrawable = _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/ic_reschedule", null, null));
+				}catch(Exception ex){
+					sttDrawable = resources.getDrawable(R.drawable.ic_reschedule);
+				}
+				try{
+					ttsDrawable = _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/ic_tts", null, null));
+				}catch(Exception ex){
+					sttDrawable = resources.getDrawable(R.drawable.ic_tts);
+				}
+				try{
+					sttDrawable =_resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/ic_stt", null, null));
+				}catch(Exception ex){
+					sttDrawable = resources.getDrawable(R.drawable.ic_stt);
+				}
+				try{
+					sendDrawable = _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/ic_send", null, null));
+				}catch(Exception ex){
+					sendDrawable = resources.getDrawable(R.drawable.ic_send);
+				}
 				notificationCountTextColorID = _resources.getColor(_resources.getIdentifier(_themePackageName + ":color/notification_count_text_color", null, null));
 				headerInfoTextcolorID = _resources.getColor(_resources.getIdentifier(_themePackageName + ":color/header_info_text_color", null, null));	
 				contactNameTextColorID = _resources.getColor(_resources.getIdentifier(_themePackageName + ":color/contact_name_text_color", null, null));	
@@ -297,6 +324,8 @@ public class NotificationView extends LinearLayout {
 				layoutBackgroundDrawable = _resources.getDrawable(R.drawable.background_panel);
 				rescheduleDrawable = _resources.getDrawable(R.drawable.ic_reschedule);
 				ttsDrawable = _resources.getDrawable(R.drawable.ic_tts);
+				sttDrawable = _resources.getDrawable(R.drawable.ic_stt);
+				sendDrawable = _resources.getDrawable(R.drawable.ic_send);
 				notificationCountTextColorID = _resources.getColor(R.color.notification_count_text_color);	
 				headerInfoTextcolorID = _resources.getColor(R.color.header_info_text_color);	
 				contactNameTextColorID = _resources.getColor(R.color.contact_name_text_color);	
@@ -341,8 +370,11 @@ public class NotificationView extends LinearLayout {
 			_viewImageButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NORMAL));
 		}
 		
-		_rescheduleButton.setImageDrawable(rescheduleDrawable);
-		_ttsButton.setImageDrawable(ttsDrawable);
+		_rescheduleImageButton.setImageDrawable(rescheduleDrawable);
+		_ttsImageButton.setImageDrawable(ttsDrawable);
+		
+		_sttImageButton.setImageDrawable(sttDrawable);
+		_sendImageButton.setImageDrawable(sendDrawable);
 		
 	}
 	
@@ -609,8 +641,8 @@ public class NotificationView extends LinearLayout {
 			);
 			//TTS Button
 			if(_preferences.getBoolean(Constants.DISPLAY_TEXT_TO_SPEECH_KEY, false)){
-				_ttsButton.setVisibility(View.VISIBLE);
-				_ttsButton.setOnClickListener(
+				_ttsImageButton.setVisibility(View.VISIBLE);
+				_ttsImageButton.setOnClickListener(
 					new OnClickListener(){
 					    public void onClick(View view){
 					    	if (_debug) Log.v("TTS Image Button Clicked()");
@@ -620,12 +652,12 @@ public class NotificationView extends LinearLayout {
 					}
 				);
 			}else{
-				_ttsButton.setVisibility(View.GONE);
+				_ttsImageButton.setVisibility(View.GONE);
 			}
 			//Reschedule Button
 			if(_preferences.getBoolean(Constants.DISPLAY_RESCHEDULE_BUTTON_KEY, false)){
-				_rescheduleButton.setVisibility(View.VISIBLE);
-				_rescheduleButton.setOnClickListener(
+				_rescheduleImageButton.setVisibility(View.VISIBLE);
+				_rescheduleImageButton.setOnClickListener(
 					new OnClickListener(){
 					    public void onClick(View view){
 					    	if (_debug) Log.v("Reschedule Button Clicked()");
@@ -635,7 +667,7 @@ public class NotificationView extends LinearLayout {
 					}
 				);
 			}else{
-				_rescheduleButton.setVisibility(View.GONE);
+				_rescheduleImageButton.setVisibility(View.GONE);
 			}
 		}catch(Exception ex){
 			Log.e("NotificationView.setupViewHeaderButtons() ERROR: " + ex.toString());

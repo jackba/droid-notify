@@ -20,20 +20,25 @@
         android:background="@color/blue">
         <TextView
             android:id="@+android:id/title"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_vertical|center_horizontal"
             android:paddingLeft="10dp"
             android:paddingTop="5dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/black" />	            
+		    android:textStyle="bold"
+            android:textColor="@color/white" />	            
         <TextView android:id="@+android:id/summary"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
             android:layout_below="@android:id/title"
             android:textAppearance="?android:attr/textAppearanceSmall"
+		    android:textStyle="bold"
 		    android:paddingLeft="10dp"
 		    android:paddingTop="5dp"
-            android:textColor="@color/black" />	
+		    android:paddingBottom="5dp"
+            android:textColor="@color/white" />	
     </RelativeLayout>   
 </LinearLayout>

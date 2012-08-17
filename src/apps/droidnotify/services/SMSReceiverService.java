@@ -71,14 +71,10 @@ public class SMSReceiverService extends WakefulIntentService {
 		    boolean rescheduleNotificationInCall = true;
 		    boolean rescheduleNotificationInQuickReply = true;
 		    boolean callStateIdle = telemanager.getCallState() == TelephonyManager.CALL_STATE_IDLE;
-		    boolean inQuickReplyApp = Common.isUserInQuickReplyApp(context);
 		    //Reschedule notification based on the users preferences.
 		    if(!callStateIdle){
 		    	notificationIsBlocked = true;		    	
 		    	rescheduleNotificationInCall = preferences.getBoolean(Constants.IN_CALL_RESCHEDULING_ENABLED_KEY, false);
-		    }else if(inQuickReplyApp){
-		    	notificationIsBlocked = true;		    	
-		    	rescheduleNotificationInQuickReply = preferences.getBoolean(Constants.IN_QUICK_REPLY_RESCHEDULING_ENABLED_KEY, false);
 		    }else{
 		    	notificationIsBlocked = Common.isNotificationBlocked(context);
 		    }

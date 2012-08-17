@@ -41,7 +41,7 @@ public class K9Common {
 	 */
 	public static Bundle getK9MessagesFromIntent(Context context, Bundle bundle, String intentAction){
 		_debug = Log.getDebug();
-		if (_debug) Log.v("EmailCommon.getK9MessagesFromIntent() IntentAction: " + intentAction + ":");
+		if (_debug) Log.v("EmailCommon.getK9MessagesFromIntent() IntentAction: " + intentAction);
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		Bundle k9NotificationBundle = new Bundle();
 		int bundleCount = 0;
@@ -109,8 +109,8 @@ public class K9Common {
     				String accountNameTmp = cursor.getString(cursor.getColumnIndex("account"));
 	    			long timeStampTmp = cursor.getLong(cursor.getColumnIndex("date"));
 	    			//String subjectTmp = cursor.getString(cursor.getColumnIndex("subject"));    	    			
-	    			if (_debug) Log.v("EmailCommon.getK9MessagesFromIntent() accountNameTmp: " + accountNameTmp + " accountName: " + accountName);
-	    			if (_debug) Log.v("EmailCommon.getK9MessagesFromIntent() timeStampTmp: " + timeStampTmp + " timeStamp: " + timeStamp);
+	    			//if (_debug) Log.v("EmailCommon.getK9MessagesFromIntent() accountNameTmp: " + accountNameTmp + " accountName: " + accountName);
+	    			//if (_debug) Log.v("EmailCommon.getK9MessagesFromIntent() timeStampTmp: " + timeStampTmp + " timeStamp: " + timeStamp);
 	    			//if (_debug) Log.v("EmailCommon.getK9MessagesFromIntent() subjectTmp: " + subjectTmp + " messageSubject: " + messageSubject);
 	    			if(timeStampTmp == timeStamp && accountNameTmp.equals(accountName)){
 			    		messageID = cursor.getLong(cursor.getColumnIndex("_id"));
@@ -139,8 +139,8 @@ public class K9Common {
     				String accountNameTmp = cursor.getString(cursor.getColumnIndex("account"));
 	    			long timeStampTmp = cursor.getLong(cursor.getColumnIndex("date"));
 	    			//String subjectTmp = cursor.getString(cursor.getColumnIndex("subject"));    	    			
-	    			if (_debug) Log.v("EmailCommon.getK9MessagesFromIntent() accountNameTmp: " + accountNameTmp + " accountName: " + accountName);
-	    			if (_debug) Log.v("EmailCommon.getK9MessagesFromIntent() timeStampTmp: " + timeStampTmp + " timeStamp: " + timeStamp);
+	    			//if (_debug) Log.v("EmailCommon.getK9MessagesFromIntent() accountNameTmp: " + accountNameTmp + " accountName: " + accountName);
+	    			//if (_debug) Log.v("EmailCommon.getK9MessagesFromIntent() timeStampTmp: " + timeStampTmp + " timeStamp: " + timeStamp);
 	    			//if (_debug) Log.v("EmailCommon.getK9MessagesFromIntent() subjectTmp: " + subjectTmp + " messageSubject: " + messageSubject);
 	    			if(timeStampTmp == timeStamp && accountNameTmp.equals(accountName)){
 			    		messageID = cursor.getLong(cursor.getColumnIndex("_id"));
@@ -305,7 +305,7 @@ public class K9Common {
 	//================================================================================
 	
 	/**
-	 * Parse an email address form a "FROM" email address.
+	 * Parse an email address from a "FROM" email address.
 	 * 
 	 * @param inputFromAddress - The address we wish to parse.
 	 * 
@@ -340,7 +340,7 @@ public class K9Common {
 	 * @return String - The account UID associated with this account name.
 	 */
 	private static String getK9ForPureEmailAccountUID(Context context, String accountName){
-		if (_debug) Log.v("EmailCommon.getK9ForPureEmailAccountUID() AccountName: " + accountName);
+		//if (_debug) Log.v("EmailCommon.getK9ForPureEmailAccountUID() AccountName: " + accountName);
 		String accountUID = null;
 		Cursor cursor = null;
         try{

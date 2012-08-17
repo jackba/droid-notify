@@ -94,7 +94,6 @@ public class Constants {
     
     //-----LINKED APP CONSTANTS-----//
 	public static final String USER_IN_LINKED_APP_KEY = "user_in_linked_app";
-	public static final String USER_IN_QUICK_REPLY_APP_KEY = "user_in_quick_reply_app";
 
 	//-----BLOCKING APP CONSTANTS-----//
 	public static final String BLOCKING_APP_RUNNING_ACTION_KEY = "blocking_app_running_action";
@@ -118,10 +117,6 @@ public class Constants {
 	public static final int NOTIFICATION_TYPE_PREVIEW_MMS = 2002;
 	public static final int NOTIFICATION_TYPE_PREVIEW_CALENDAR = 2003;
 	public static final int NOTIFICATION_TYPE_PREVIEW_K9 = 2004;
-	public static final int NOTIFICATION_TYPE_PREVIEW_TWITTER = 2005;
-	public static final int NOTIFICATION_TYPE_PREVIEW_FACEBOOK = 2006;
-	public static final int NOTIFICATION_TYPE_PREVIEW_GOOGLE_VOICE = 2007;
-	public static final int NOTIFICATION_TYPE_PREVIEW_LINKEDIN = 2008;
 
 	//-----NOTIFICATION SUB-TYPE CONSTANTS-----//
 	
@@ -141,7 +136,6 @@ public class Constants {
 	public static final int ADD_CALENDAR_ACTIVITY = 10;
 	public static final int EDIT_CALENDAR_ACTIVITY = 11;
 	public static final int VIEW_CALENDAR_ACTIVITY = 12;
-	public static final int SEND_SMS_QUICK_REPLY_ACTIVITY = 13;
 	public static final int VIEW_CALL_LOG_ACTIVITY = 14;
 	public static final int K9_VIEW_INBOX_ACTIVITY = 15;
 	public static final int K9_VIEW_EMAIL_ACTIVITY = 16;
@@ -673,9 +667,6 @@ public class Constants {
 	
 	//-----IN-CALL SETTINGS CONSTANTS-----//
 	public static final String IN_CALL_RESCHEDULING_ENABLED_KEY = "in_call_rescheduling_enabled";
-	
-	//-----IN-QUICK REPLY SETTINGS CONSTANTS-----//
-	public static final String IN_QUICK_REPLY_RESCHEDULING_ENABLED_KEY = "in_quick_reply_rescheduling_enabled";
 	
 	//-----POPUP FORMATTING CONSTANTS-----//
 	public static final String POPUP_HORIZONTAL_LOCATION_KEY = "popup_horizontal_location";
