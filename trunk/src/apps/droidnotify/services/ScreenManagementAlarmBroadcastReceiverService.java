@@ -42,7 +42,7 @@ public class ScreenManagementAlarmBroadcastReceiverService extends WakefulIntent
 		try{
 			//Check to see if the user is in a linked app. If they are, do not release the wakelock or keyguard.
 			Context context = this.getApplicationContext();
-			if(Common.isUserInLinkedApp(context) || Common.isUserInQuickReplyApp(context)){
+			if(Common.isUserInLinkedApp(context)){
 				//Do not release the wakelock or keyguard.
 			}else{
 				//Release the KeyguardLock & WakeLock

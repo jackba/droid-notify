@@ -310,11 +310,11 @@ public class Common {
 		String LEDPattern = null;
 		String LEDColor = null;		
 		Bundle statusBarNotificationBundle = new Bundle();
-		//Load values into the preference keys based on the notification type.
 		//Adjust for Preview notifications.
 		if(notificationType > 1999){
 			notificationType -= 2000;
 		}
+		//Load values into the preference keys based on the notification type.
 		switch(notificationType){
 			case Constants.NOTIFICATION_TYPE_SMS:{				
 				statusBarNotificationBundle.putBoolean(Constants.BUNDLE_ENABLE_STATUS_BAR_NOTIFICATION, preferences.getBoolean(Constants.SMS_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY, true));
@@ -1761,35 +1761,6 @@ public class Common {
 	}
 	
 	/**
-	 * Set the UserInQuickReplyApp flag.
-	 * 
-	 * @param context - The application context.
-	 * @param flag - Boolean flag to set.
-	 */
-	public static void setInQuickReplyAppFlag(Context context, boolean flag){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.setInQuickReplyAppFlag() Flag: " + flag);
-		SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
-		editor.putBoolean(Constants.USER_IN_QUICK_REPLY_APP_KEY, flag);
-		editor.commit();
-	}
-
-	/**
-	 * Get the UserInQuickReplyApp flag.
-	 * 
-	 * @param context - The application context.
-	 * 
-	 * @return boolean - The boolean flag to return.
-	 */
-	public static boolean isUserInQuickReplyApp(Context context){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.isUserInQuickReplyApp()");
-		boolean inQuickReply = PreferenceManager.getDefaultSharedPreferences(context).getBoolean(Constants.USER_IN_QUICK_REPLY_APP_KEY, false);
-		if (_debug) Log.v("Common.isUserInQuickReplyApp() InQuickReply: " + inQuickReply);
-		return inQuickReply;
-	}
-	
-	/**
 	 * This resends an intent to the main notification activity.
 	 * 
 	 * @param context - The application context.
@@ -2295,6 +2266,10 @@ public class Common {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.removeStatusBarNotification()");
 		try{
+			//Adjust for Preview notifications.
+			if(notificationType > 1999){
+				notificationType -= 2000;
+			}
 			NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 			notificationManager.cancel(notificationType);
 		}catch(Exception ex){
