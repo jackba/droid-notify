@@ -80,8 +80,10 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 * 
 	 * @param notification - Notification to add to the ArrayList.
 	 * @param isNew - This notification is new and not a re-loaded/unread older notification.
+	 * 
+	 * @return boolean - Returns true if the view was added, false otherwise.
 	 */
-	public void addNotification(Notification notification, boolean isNew){
+	public boolean addNotification(Notification notification, boolean isNew){
 		if(_debug) Log.v("NotificationViewFlipper.addNotification()");
 		try{
 			int notificationType = notification.getNotificationType();
@@ -152,8 +154,10 @@ public class NotificationViewFlipper extends ViewFlipper {
 				//Set the notification reminder.
 				notification.setReminder();
 			}
+			return true;
 		}catch(Exception ex){
 			Log.e("NotificationViewFlipper.addNotification() ERROR: " + ex.toString());
+			return false;
 		}
 	}
 

@@ -77,7 +77,7 @@
 		android:key="contact_photo_size"
 		android:title="@string/preference_contact_photo_size"
 		android:summary="@string/preference_contact_photo_size_summary"
-		android:defaultValue="80"
+		android:defaultValue="100"
 		android:entries="@array/contact_photo_size_options"
 		android:entryValues="@array/contact_photo_size_values"
 		android:dependency="display_contact_photo" />	

@@ -67,9 +67,7 @@ import apps.droidnotify.receivers.RescheduleReceiver;
 import apps.droidnotify.R;
 
 /**
- * This class is a collection of methods that are used more than once.
- * If a method is used more than once it is put here and made static so that 
- * it becomes accessible to all classes in the application.
+ * This class is a collection of commonly used methods.
  * 
  * @author Camille Sévigny
  */
