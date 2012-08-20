@@ -16,6 +16,7 @@
 		<item>Português Brasileiro</item>
 		<item>Polski</item>
 		<item>Русский</item>
+		<item>日本人</item>
 		<item>中文（简体）</item>
 	</string-array>
 	<string-array name="language_values">
@@ -32,6 +33,7 @@
 		<item>pt_BR</item>
 		<item>pl</item>
 		<item>ru</item>
+		<item>jp</item>
 		<item>zh_CN</item>
 	</string-array>
 

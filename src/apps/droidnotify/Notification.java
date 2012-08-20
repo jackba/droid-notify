@@ -19,6 +19,7 @@ import apps.droidnotify.log.Log;
 import apps.droidnotify.phone.PhoneCommon;
 import apps.droidnotify.receivers.RescheduleReceiver;
 import apps.droidnotify.sms.SMSCommon;
+import apps.droidnotify.reminder.ReminderCommon;
 
 /**
  * This is the Notification class that holds all the information about all notifications we will display to the user.
@@ -715,11 +716,6 @@ public class Notification {
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_CALENDAR:{
-				//Action is determined by the users preferences. 
-	    		//Either mark the event as dismissed or do nothing.
-	    		if(_preferences.getString(Constants.CALENDAR_DISMISS_KEY, "0").equals(Constants.CALENDAR_DISMISS_ACTION_MARK_DISMISSED)){
-	    			CalendarCommon.setCalendarEventDismissed(_context, _calendarEventID, isViewed);
-	    		}
 				break;
 			}
 			case Constants.NOTIFICATION_TYPE_K9:{
@@ -821,6 +817,9 @@ public class Notification {
 		//Cancel the alarm.
     	AlarmManager alarmManager = (AlarmManager) _context.getSystemService(Context.ALARM_SERVICE);
     	alarmManager.cancel(reminderPendingIntent);
+    	
+    	//Update the reminder in the db.
+    	ReminderCommon.updateValue(_context, intentAction, true);
 	}
 	
 	/**
@@ -1045,11 +1044,6 @@ public class Notification {
 		if (_debug) Log.v("Notification.reschedule() RescheduleTime: " + rescheduleTime + " RescheduleType: " + rescheduleType);
 		long rescheduleInMinutes = (rescheduleTime - System.currentTimeMillis()) / 60 / 1000;
 		if (_debug) Log.v("Notification.reschedule() Rescheduling notification. Rechedule in " + String.valueOf(rescheduleInMinutes) + " minutes.");
-
-//		//Cancel the current reminder if this is being rescheduled by a non-reminder event.
-//		if(rescheduleType != Constants.PENDING_INTENT_TYPE_REMINDER){
-//			cancelReminder();
-//		}
 		
 		//Create the bundle that will be rescheduled.
 		Bundle rescheduleBundle = new Bundle();
@@ -1078,6 +1072,9 @@ public class Notification {
 		//Schedule the alarm.
 		AlarmManager alarmManager = (AlarmManager)_context.getSystemService(Context.ALARM_SERVICE);
 		alarmManager.set(AlarmManager.RTC_WAKEUP, rescheduleTime, reschedulePendingIntent);
+		
+		//Insert reminder into the reminder db.
+		ReminderCommon.insertValue(_context, intentAction, false);
 	}
 	
 	/**

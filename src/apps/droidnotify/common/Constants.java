@@ -204,7 +204,7 @@ public class Constants {
     public static final String CONTACT_PLACEHOLDER_DEFAULT = "1";
     public static final String CONTACT_PHOTO_BACKGKROUND_KEY = "contact_photo_background";
 	public static final String CONTACT_PHOTO_SIZE_KEY = "contact_photo_size";
-	public static final String CONTACT_PHOTO_SIZE_DEFAULT = "80";
+	public static final String CONTACT_PHOTO_SIZE_DEFAULT = "100";
 	
 	//-----CONTACT NAME CONSTANTS-----//
 	public static final String CONTACT_NAME_DISPLAY_KEY = "display_contact_name";
@@ -719,6 +719,9 @@ public class Constants {
 	
 	//-----MORE OPTIONS CONSTANTS-----//
 	public static final String MORE_OPTIONS_KEY = "more_options_preference";
+	
+	//-----EMOJI CONSTANTS-----//
+	public static final String EMOJI_ENABLED = "emoji_enabled";
 	
 	//-----DROID NOTIFY API CONSTANTS-----//
 //	public static final String DROID_NOTIFY_API_NOTIFICATION_ACTION = "apps.droidnotify.api.NOTIFICATION_RECEIVED";

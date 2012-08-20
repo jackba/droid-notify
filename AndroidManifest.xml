@@ -57,10 +57,10 @@
     	android:debuggable="true" >
         
     	<activity
-   			android:name="apps.droidnotifydonate.NotificationActivity"
+   			android:name="apps.droidnotify.NotificationActivity"
    			android:theme="@style/Theme.Transparent"
    			android:launchMode="singleTask"
-   			android:taskAffinity="apps.droidnotifydonate.notification"
+   			android:taskAffinity="apps.droidnotify.notification"
 			android:screenOrientation="user"
 			android:configChanges="orientation|keyboardHidden|keyboard|navigation" />
         
@@ -469,6 +469,11 @@
 	            <data android:scheme="package" />
 	        </intent-filter>
 	    </receiver>
+		
+		<provider
+	       	android:authorities="apps.droidnotify.providers.remindercontentprovider"
+	       	android:name="apps.droidnotify.db.providers.ReminderContentProvider"
+	       	android:exported="false" />
 		
     </application>
 

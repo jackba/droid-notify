@@ -47,6 +47,8 @@ public class RescheduleReceiver extends BroadcastReceiver{
 				return;
 			}
 			Intent rescheduleBroadcastReceiverServiceIntent = new Intent(context, RescheduleService.class);
+			//You must pass all the data along to the service!!!
+		    rescheduleBroadcastReceiverServiceIntent.setAction(intent.getAction());
 		    rescheduleBroadcastReceiverServiceIntent.putExtras(intent.getExtras());
 			WakefulIntentService.sendWakefulWork(context, rescheduleBroadcastReceiverServiceIntent);
 		}catch(Exception ex){

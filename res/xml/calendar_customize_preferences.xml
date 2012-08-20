@@ -25,6 +25,7 @@
 			android:title="@string/preference_display_dismiss_button_title" 
 			android:summary="@string/preference_display_dismiss_button_summary"
 			android:defaultValue="true" />
+		<!--
 		<ListPreference
 			android:layout="@layout/custom_preference_list"
 			android:key="calendar_dismiss_button_action"
@@ -34,6 +35,7 @@
 			android:entries="@array/calendar_dismiss_button_options"
 			android:entryValues="@array/calendar_dismiss_button_values"
 			android:dependency="calendar_display_dismiss_button" />
+		-->
 		<CheckBoxPreference
 			android:layout="@layout/custom_preference_checkbox" 
 			android:key="calendar_display_snooze_button" 

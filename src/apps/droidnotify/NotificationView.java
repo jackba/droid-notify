@@ -43,11 +43,11 @@ import android.view.MotionEvent;
 import apps.droidnotify.calendar.CalendarCommon;
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
+import apps.droidnotify.emoji.EmojiCommon;
 import apps.droidnotify.k9.K9Common;
 import apps.droidnotify.log.Log;
 import apps.droidnotify.phone.PhoneCommon;
 import apps.droidnotify.sms.SMSCommon;
-import apps.droidnotifydonate.R;
 
 /**
  * This class is the view which the ViewFlipper displays for each notification.
@@ -134,24 +134,28 @@ public class NotificationView extends LinearLayout {
 	    _debug = Log.getDebug();;
 	    if (_debug) Log.v("NotificationView.NotificationView()");
 	    _context = context;
-	    _preferences = PreferenceManager.getDefaultSharedPreferences(context);
-	    _notificationActivity = (NotificationActivity) context;
-	    _notification = notification;
-	    _notificationType = notification.getNotificationType();
-		//Adjust for Preview notifications.
-		if(_notificationType > 1999){
-			_notificationType -= 2000;
-		}
-	    _notificationSubType = notification.getNotificationSubType();
-	    View.inflate(context, R.layout.notification_reply, this);
-	    initLayoutItems();
-		setLayoutProperties();
-		setupLayoutTheme();
-	    setupQuickReply();
-	    initLongPressView();
-	    setupViewHeaderButtons();
-	    setupViewButtons();
-	    populateViewInfo();
+	    try{
+		    _preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		    _notificationActivity = (NotificationActivity) context;
+		    _notification = notification;
+		    _notificationType = notification.getNotificationType();
+			//Adjust for Preview notifications.
+			if(_notificationType > 1999){
+				_notificationType -= 2000;
+			}
+		    _notificationSubType = notification.getNotificationSubType();
+		    View.inflate(context, R.layout.notification_reply, this);
+		    initLayoutItems();
+			setLayoutProperties();
+			setupLayoutTheme();
+		    setupQuickReply();
+		    initLongPressView();
+		    setupViewHeaderButtons();
+		    setupViewButtons();
+		    populateViewInfo();
+	    }catch(Exception ex){
+	    	Log.e("NotificationView.NotificationView() ERROR: " + ex.toString());
+	    }
 	}
 	
 	/**
@@ -1773,8 +1777,17 @@ public class NotificationView extends LinearLayout {
 				notificationText = _notification.getMessageBody();
 				break;
 			}
-		} 
-	    _notificationDetailsTextView.setText(Html.fromHtml(notificationText));
+		}
+		try{
+			if(_preferences.getBoolean(Constants.EMOJI_ENABLED, true)){
+				_notificationDetailsTextView.setText(Html.fromHtml(EmojiCommon.convertTextToEmoji(_context, notificationText), EmojiCommon.emojiGetter, null));
+			}else{
+				_notificationDetailsTextView.setText(Html.fromHtml(notificationText));
+			}
+		}catch(Exception ex){
+			Log.e("NotificationView.setNotificationMessage() EMOJI LOADING ERROR: " + ex.toString());
+			_notificationDetailsTextView.setText(Html.fromHtml(notificationText));
+		}
 		if(_preferences.getBoolean(Constants.NOTIFICATION_BODY_CENTER_ALIGN_TEXT_KEY, false)){
 			notificationAlignment = Gravity.CENTER_HORIZONTAL;
 		}else{
@@ -2006,8 +2019,8 @@ public class NotificationView extends LinearLayout {
 	 */
 	private void dismissNotification(boolean reschedule){
 		if (_debug) Log.v("NotificationView.dismissNotification()");
-    	//Cancel the notification reminder.
-    	_notification.cancelReminder();
+//    	//Cancel the notification reminder.
+//    	_notification.cancelReminder();
 		_notificationViewFlipper.removeActiveNotification(reschedule);
 	}
 	
@@ -2017,8 +2030,8 @@ public class NotificationView extends LinearLayout {
 	 */
 	private void replyToMessage(int notificationType){
 		if (_debug) Log.v("NotificationView.replyToMessage()");
-    	//Cancel the notification reminder.
-    	_notification.cancelReminder();
+//    	//Cancel the notification reminder.
+//    	_notification.cancelReminder();
 		//Setup Reply action.
 		String sentFromAddress = _notification.getSentFromAddress();
 		switch(notificationType){
@@ -2065,8 +2078,8 @@ public class NotificationView extends LinearLayout {
 	 */
 	private void viewNotification(int notificationType){
 		if (_debug) Log.v("NotificationView.viewNotification()");
-    	//Cancel the notification reminder.
-    	_notification.cancelReminder();
+//    	//Cancel the notification reminder.
+//    	_notification.cancelReminder();
 		switch(notificationType){
 			case Constants.NOTIFICATION_TYPE_SMS:{
 				break;
@@ -2095,8 +2108,8 @@ public class NotificationView extends LinearLayout {
 	 */
 	private void showDeleteDialog(){
 		if (_debug) Log.v("NotificationView.showDeleteDialog()");
-    	//Cancel the notification reminder.
-    	_notification.cancelReminder();
+//    	//Cancel the notification reminder.
+//    	_notification.cancelReminder();
 		_notificationViewFlipper.showDeleteDialog();
 	}
 	
@@ -2105,8 +2118,8 @@ public class NotificationView extends LinearLayout {
 	 */
 	private void callMissedCall(){
 		if (_debug) Log.v("NotificationView.callMissedCall()");
-    	//Cancel the notification reminder.
-    	_notification.cancelReminder();
+//    	//Cancel the notification reminder.
+//    	_notification.cancelReminder();
 		if(_preferences.getString(Constants.PHONE_CALL_KEY, Constants.PHONE_CALL_ACTION_CALL).equals(Constants.PHONE_CALL_ACTION_CALL)){
 			PhoneCommon.makePhoneCall(_context, _notificationActivity, _notification.getSentFromAddress(), Constants.CALL_ACTIVITY);
 		}else if(_preferences.getString(Constants.PHONE_CALL_KEY, Constants.PHONE_CALL_ACTION_CALL).equals(Constants.PHONE_CALL_ACTION_CALL_LOG)){
@@ -2256,10 +2269,9 @@ public class NotificationView extends LinearLayout {
 		}else{
 			snoozeTime = 10;
 		}
-    	//Cancel the notification reminder.
-    	_notification.cancelReminder();
+//    	//Cancel the notification reminder.
+//    	_notification.cancelReminder();
 		_notificationViewFlipper.snoozeCalendarEvent(snoozeTime * 60 * 1000);
-		CalendarCommon.setCalendarEventDismissed(_context, _notification.getCalendarEventID(), false);
 	}
 
 	/**

@@ -12,6 +12,7 @@ import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
 import apps.droidnotify.sms.SMSCommon;
 import apps.droidnotify.calendar.CalendarCommon;
+import apps.droidnotify.reminder.ReminderCommon;
 
 public class RescheduleService extends WakefulIntentService {
 	
@@ -56,9 +57,15 @@ public class RescheduleService extends WakefulIntentService {
 			}
 		    Bundle bundle = intent.getExtras();
 		    int notificationType = bundle.getInt(Constants.BUNDLE_NOTIFICATION_TYPE, -1);
+		    //Check to see if this is a reminder and it has been dismissed.
+		    String intentAction = intent.getAction();
+		    if (_debug) Log.v("RescheduleBroadcastReceiverService.doWakefulWork() IntentAction: " + intentAction);
+		    if(ReminderCommon.isDismissed(context, intentAction)){
+		    	if (_debug) Log.v("RescheduleBroadcastReceiverService.doWakefulWork() Reminder has been dismissed. Exiting...");
+		    	return;
+		    }
 		    //If notification is an SMS/MMS, check to see if it's already been read/deleted.
-		    if(notificationType == Constants.NOTIFICATION_TYPE_SMS ||
-		    		notificationType == Constants.NOTIFICATION_TYPE_MMS){
+		    if(notificationType == Constants.NOTIFICATION_TYPE_SMS || notificationType == Constants.NOTIFICATION_TYPE_MMS){
 				Bundle rescheduleNotificationBundle = bundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME);
 			    if(rescheduleNotificationBundle != null){
 					Bundle rescheduleNotificationBundleSingle = rescheduleNotificationBundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_1");
