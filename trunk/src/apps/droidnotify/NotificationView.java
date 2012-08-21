@@ -48,7 +48,6 @@ import apps.droidnotify.k9.K9Common;
 import apps.droidnotify.log.Log;
 import apps.droidnotify.phone.PhoneCommon;
 import apps.droidnotify.sms.SMSCommon;
-import apps.droidnotifydonate.R;
 
 /**
  * This class is the view which the ViewFlipper displays for each notification.
