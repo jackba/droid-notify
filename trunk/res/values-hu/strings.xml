@@ -82,6 +82,7 @@ Köszönjük!\"</string>
   <string name="google_voice_app_not_found_error">A Google Voice alkalmazás nem található. Próbálja ki a különböző előnyben részesített Google Voice-ügyfél.</string>
   <string name="google_voice_authentication_error">Nem voltunk képesek hitelesíteni a Google fiók-ebben az időben. Próbálkozzon újra később.</string>
   <string name="google_voice_send_sms_mesage_error">A Google Voice SMS üzenet nem küldhető el.</string>
+  <string name="voice_recognizer_error">A hangfelismerő nem indítható el. Győződjön meg arról, hogy a telefon támogatja-e a hangfelismerést.</string>
   <string name="preference_disable_context_menu_title">Helyi menü letiltása</string>
   <string name="preference_disable_context_menu_summary">Az értesítések fejlécéhez kapcsolódó helyi menü kikapcsolása.</string>
   <string name="preference_disable_quick_contact_title">Fotómenü tiltása</string>
@@ -164,6 +165,9 @@ Köszönjük!\"</string>
   <string name="preference_save_draft_enabled_summaryOff">Az üzenet nem lesz piszkozatként elmentve.</string>
   <string name="preference_quick_reply_sms_gateway">SMS-Email átjáró</string>
   <string name="preference_quick_reply_sms_gateway_summary">"Ebből a listából válassza ki a szolgáltatót. Ha nem tudja megtalálni, nem lesz képes SMS üzeneteket küldeni email címre a beépített Gyorsválasz-ból."</string>
+  <string name="enable_quick_reply">Gyors válasz engedélyezése</string>
+  <string name="enable_quick_reply_summary">Megjeleníti a gyors válasz mezőt az értesítésben.</string>
+  <string name="type_to_compose">Fogalmazza meg</string>
   <string name="blacklist_category">FEKETELISTA</string>
   <string name="blacklist">Feketelista</string>
   <string name="add_new">Új hozzáadása</string>
@@ -217,15 +221,16 @@ Köszönjük!\"</string>
   <string name="customize_category">TESTRESZABÁS</string>
   <string name="customize">Testreszabás</string>
   <string name="customize_notification_summary">Az értesítések testreszabása.</string>
+  <string name="notification_preview">Értesítés előnézete</string>
+  <string name="notification_preview_summary">Értesítés előnézetének megjelenítése.</string>
   <string name="theme">Téma</string>
   <string name="theme_summary">Válasszon ki egy témát az értesítésekhez.</string>
   <string name="theme_chooser_instructions">Csúsztatással válassza ki a kívánt témát az alábbi elérhető példák közül. Ha megtalálta a témát és azt szeretné megtartani, nyomja meg az OK gombot a téma mentéséhez.</string>
   <string name="more_category">Tovább</string>
   <string name="more">Több</string>
   <string name="notify_theme">Notify Téma</string>
-  <string name="default_v1">Alapért.</string>
-  <string name="default_v2">Alapért. áttetsző</string>
-  <string name="default_v3">Alapért. sötét</string>
+  <string name="default_theme_notify">Notify alapértelmezett</string>
+  <string name="default_theme_phone">Telefon alapértelmezett</string>
   <string name="preference_notification_type_info_icon_enabled_title">Megjelenő ikontípus</string>
   <string name="preference_notification_type_info_icon_enabled_summary">Az értesítéstípus-ikon az ikon a névjegyfotó jobb oldalán.</string>
   <string name="preference_notification_type_info_size">Szöveg betűméret</string>
@@ -328,6 +333,7 @@ Köszönjük!\"</string>
   <string name="event_start_time_reminder_summary">Az esemény kezdetétől jeleníti meg az emlékeztetőt.</string>
   <string name="snooze">Szundi</string>
   <string name="snooze_for">Szundi esetében</string>
+  <string name="dismiss_alarm">Riasztás elutasítása</string>
   <string name="k9_category">K9</string>
   <string name="k9">K-9</string>
   <string name="preference_k9_enabled_title">K-9 Email</string>
@@ -458,6 +464,8 @@ Köszönjük!\"</string>
   <string name="preference_display_view_button_summary">Jelenjen meg a megnéz gomb.</string>
   <string name="display_cancel_button_title">Mégsem gomb</string>
   <string name="display_cancel_button_summary">Jelenjen meg a mégsem gomb.</string>
+  <string name="display_snooze_button_title">Szundi gomb megjelenítése</string>
+  <string name="display_snooze_button_summary">A Szundi gomb megjelenítése.</string>
   <string name="privacy">Adatvédelem</string>
   <string name="status_bar_notification_privacy_title">Értesítési adatvédelem</string>
   <string name="status_bar_notification_privacy_summary">Ne jelenjen meg magánjellegű információ az értesítésben.</string>
@@ -489,6 +497,7 @@ A preferencia képernyők újratöltése után az importálás befejeződött.\"
   <string name="preference_import_preferences_progress_text">Alkalmazásbeállítások importálása…</string>
   <string name="preference_import_preferences_finish_text">Az alkalmazás beállításai importálva.</string>
   <string name="preference_import_preferences_error_text">Az alkalmazás beállításai nem lettek importálva. Lehetséges okai egy hiányzó beállítási fájl, egy hiányzó SD kártya vagy egyéb, SD kártyával kapcsolatos problémák, amely megakadályozza az alkalmazást az SD kártya olvasásában.</string>
+  <string name="confirm_import_app_preferences">Ez eltávolítja az aktuális beállításokat és kicseréli az exportált beállításokkal.</string>
   <string name="debug_category">HIBAKERESÉS</string>
   <string name="debug">Hibakeresés</string>
   <string name="log_file_error_title">Naplófájl hiba</string>
@@ -553,6 +562,8 @@ A preferencia képernyők újratöltése után az importálás befejeződött.\"
   <string name="preference_hide_single_message_header_enabled_summaryOff">Az értesítésben megjelenik a fejléc szöveg (pl. 1/1) amikor csak egyetlen üzenet jelenik meg.</string>
   <string name="blocking_app_running_action_text">Zárolt értesítések beállításai</string>
   <string name="blocking_app_running_action_summary">Határozza meg, mi a teendő, ha értesítés érkezik egy zárolt app futása közben.</string>
+  <string name="confirm_clear_reset_authentication_data">A hitelesítési adatok alaphelyzetbe állítása.</string>
+  <string name="clear_data">Adatok törlése</string>
   <string name="status_bar_notification_content_title_text_sms">Új üzenet</string>
   <string name="status_bar_notification_content_title_text_phone">Nemfogadott hívás</string>
   <string name="status_bar_notification_content_title_text_calendar">Naptári esemény emlékeztető</string>

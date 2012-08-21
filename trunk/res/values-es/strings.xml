@@ -76,6 +76,7 @@
   <string name="google_voice_app_not_found_error">No se pudo encontrar la aplicación Google Voice. Intente seleccionar a otro cliente preferido Google Voice.</string>
   <string name="google_voice_authentication_error">No hemos podido autenticar la cuenta de Google en este momento. Inténtalo de nuevo más tarde.</string>
   <string name="google_voice_send_sms_mesage_error">No se pudo enviar el mensaje de SMS de Google Voice.</string>
+  <string name="voice_recognizer_error">No se pudo iniciar el reconocedor de voz. Por favor asegúrese que su teléfono admite el reconocimiento de voz.</string>
   <string name="preference_disable_context_menu_title">Deshabilitar el Menú Contextual</string>
   <string name="preference_disable_context_menu_summary">Desactivar el menú contextual que se une a las cabeceras de la notificación.</string>
   <string name="preference_disable_quick_contact_title">Deshabilitar el Menú Foto</string>
@@ -158,6 +159,9 @@
   <string name="preference_save_draft_enabled_summaryOff">Un borrador del mensaje no se guardará.</string>
   <string name="preference_quick_reply_sms_gateway">Gateway SMS para correo electrónico</string>
   <string name="preference_quick_reply_sms_gateway_summary">Seleccione su proveedor de servicios de esta lista. Si no puede enonctrarlo, no será capaz de enviar mensajes SMS a la dirección de correo electrónico con el construido en la respuesta rápida.</string>
+  <string name="enable_quick_reply">Habilitar Respuesta Rápida</string>
+  <string name="enable_quick_reply_summary">Muestra un cuadro de respuesta rápida en la notificación.</string>
+  <string name="type_to_compose">Tipo para componer</string>
   <string name="blacklist_category">LISTA NEGRA</string>
   <string name="blacklist">Lista Negra</string>
   <string name="add_new">Agregar Nuevo</string>
@@ -211,15 +215,16 @@
   <string name="customize_category">PERSONALIZAR</string>
   <string name="customize">Personalizar</string>
   <string name="customize_notification_summary">Personalizar estas notificaciones.</string>
+  <string name="notification_preview">Vista Previa Notificación</string>
+  <string name="notification_preview_summary">Mostrar una vista previa de la notificaions.</string>
   <string name="theme">Tema</string>
   <string name="theme_summary">Seleccionar el tema de las notificaciones.</string>
   <string name="theme_chooser_instructions">Con un movimiento de deslizar, seleccione el tema deseado de los ejemplos disponibles a continuación. Cuando encuentre el tema que le gustaría pulse el botón OK para guardar el tema.</string>
   <string name="more_category">MÁS</string>
   <string name="more">Más</string>
   <string name="notify_theme">Notify Tema</string>
-  <string name="default_v1">Default</string>
-  <string name="default_v2">Default Translucent</string>
-  <string name="default_v3">Default Dark</string>
+  <string name="default_theme_notify">Notify Defecto</string>
+  <string name="default_theme_phone">Teléfono Defecto</string>
   <string name="preference_notification_type_info_icon_enabled_title">Mostrar el Icono de Tipo</string>
   <string name="preference_notification_type_info_icon_enabled_summary">El icono de tipo de notificación es el icono para thr derecha de la foto de contacto.</string>
   <string name="preference_notification_type_info_size">Tamaño de la fuente de tipo</string>
@@ -322,6 +327,7 @@
   <string name="event_start_time_reminder_summary">Mostrar un aviso en el inicio del evento.</string>
   <string name="snooze">Posponer</string>
   <string name="snooze_for">Posponer para</string>
+  <string name="dismiss_alarm">Despedir Alarma</string>
   <string name="k9_category">K9</string>
   <string name="k9">K-9</string>
   <string name="preference_k9_enabled_title">Activar correo electrónico K-9</string>
@@ -452,6 +458,8 @@
   <string name="preference_display_view_button_summary">Mostrar el botón de vista.</string>
   <string name="display_cancel_button_title">Mostrar el Botón de Cancelar</string>
   <string name="display_cancel_button_summary">Mostrar el botón de cancelar.</string>
+  <string name="display_snooze_button_title">Visualizar botón Snooze</string>
+  <string name="display_snooze_button_summary">Mostrar el botón snooze.</string>
   <string name="privacy">Privacidad</string>
   <string name="status_bar_notification_privacy_title">Privacidad de Notificación de la Barra de Estado</string>
   <string name="status_bar_notification_privacy_summary">No mostrar información privada en las notificaciones de la barra de estado.</string>
@@ -482,6 +490,7 @@
   <string name="preference_import_preferences_progress_text">Importación de Preferencias de la Aplicación</string>
   <string name="preference_import_preferences_finish_text">Se han importado las preferencias de la aplicación.</string>
   <string name="preference_import_preferences_error_text">No se han importado las preferencias de la aplicación. Esto puede deberse a la falta del archivo de preferencias, de la tarjeta SD o algún otro problema relacionado con la tarjeta SD que prohibe a esta aplicación leer un archivo en el lugar donde se encuentra la tarjeta SD.</string>
+  <string name="confirm_import_app_preferences">Esto eliminará la configuración actual de la app y reemplazarlos con los valores exportados.</string>
   <string name="debug_category">DEPURAR</string>
   <string name="debug">Depurar</string>
   <string name="log_file_error_title">Registro de Errores de Archivos</string>
@@ -546,6 +555,8 @@
   <string name="preference_hide_single_message_header_enabled_summaryOff">Las notificaciones mostrarán el texto de encabezado (pej 1/1) cuando se muestre un mensaje.</string>
   <string name="blocking_app_running_action_text">Bloqueo Opciones de Notificación</string>
   <string name="blocking_app_running_action_summary">Definir qué hacer cuando llega una notificación mientras se ejecuta una aplicación de bloqueo.</string>
+  <string name="confirm_clear_reset_authentication_data">Esto restablecerá los datos de autenticación.</string>
+  <string name="clear_data">Borrar Datos</string>
   <string name="status_bar_notification_content_title_text_sms">Nuevo mensaje</string>
   <string name="status_bar_notification_content_title_text_phone">Llamada perdida</string>
   <string name="status_bar_notification_content_title_text_calendar">Aviso de Evento del Calendario</string>

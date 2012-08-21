@@ -76,6 +76,7 @@
   <string name="google_voice_app_not_found_error">Не удалось найти приложение Google Voice. Попробуйте выбрать другой предпочтительный клиент Google Voice.</string>
   <string name="google_voice_authentication_error">Мы не смогли проверить подлинность вашей учетной записи Google в настоящее время. Пожалуйста, попробуйте еще раз позже.</string>
   <string name="google_voice_send_sms_mesage_error">Google Voice SMS сообщение не может быть отправлено.</string>
+  <string name="voice_recognizer_error">Не удается запустить голосового распознавания. Пожалуйста, убедитесь, что ваш телефон поддерживает распознавание голоса.</string>
   <string name="preference_disable_context_menu_title">Отменить контекстное меню</string>
   <string name="preference_disable_context_menu_summary">Отменить контекстное меню прикрепленное в заголовку оповещения.</string>
   <string name="preference_disable_quick_contact_title">Отменить меню изображения</string>
@@ -158,6 +159,9 @@
   <string name="preference_save_draft_enabled_summaryOff">Черновик сообщения не будет сохранен.</string>
   <string name="preference_quick_reply_sms_gateway">Шлюз SMS-to-Email</string>
   <string name="preference_quick_reply_sms_gateway_summary">Выберите оператора из списка.Если вы не видите своего оператора то сообщение СМС не будет отправленно в письме.</string>
+  <string name="enable_quick_reply">Разрешить быстрый ответ</string>
+  <string name="enable_quick_reply_summary">Отображает окно Быстрый ответ в уведомлении.</string>
+  <string name="type_to_compose">Тип составить</string>
   <string name="blacklist_category">Черный список</string>
   <string name="blacklist">Черный список</string>
   <string name="add_new">Добавить</string>
@@ -211,15 +215,16 @@
   <string name="customize_category">Настроить</string>
   <string name="customize">Настроить</string>
   <string name="customize_notification_summary">Настроить оповещения.</string>
+  <string name="notification_preview">Просмотр уведомлений</string>
+  <string name="notification_preview_summary">Просмотра notificaions.</string>
   <string name="theme">Тема</string>
   <string name="theme_summary">Выбрать тему для оповещений</string>
   <string name="theme_chooser_instructions">Выбрать тему,используя скользящее движение.</string>
   <string name="more_category">БОЛЕЕ</string>
   <string name="more">Больше</string>
   <string name="notify_theme">Тема оповещений</string>
-  <string name="default_v1">Стандартный</string>
-  <string name="default_v2">Стандартный прозрачный</string>
-  <string name="default_v3">Стандартный темный</string>
+  <string name="default_theme_notify">Уведомлять по умолчанию</string>
+  <string name="default_theme_phone">Телефон по умолчанию</string>
   <string name="preference_notification_type_info_icon_enabled_title">Показать тип Иконки</string>
   <string name="preference_notification_type_info_icon_enabled_summary">Иконка оповещения справа от изображения контакта.</string>
   <string name="preference_notification_type_info_size">Размер шрифта печати</string>
@@ -322,6 +327,7 @@
   <string name="event_start_time_reminder_summary">Отображать напоминание о начале мероприятия.</string>
   <string name="snooze">Повтор</string>
   <string name="snooze_for">Позже</string>
+  <string name="dismiss_alarm">Уволить сигнализации</string>
   <string name="k9_category">K-9 Mail</string>
   <string name="k9">K-9 Mail</string>
   <string name="preference_k9_enabled_title">Разрешить K-9 Email</string>
@@ -452,6 +458,8 @@
   <string name="preference_display_view_button_summary">Кнопка Просмотр отображенна.</string>
   <string name="display_cancel_button_title">Отображать кнопку Отмены</string>
   <string name="display_cancel_button_summary">Кнопка Отмены отображенна.</string>
+  <string name="display_snooze_button_title">Отображение кнопки повтора</string>
+  <string name="display_snooze_button_summary">Показать кнопку snooze.</string>
   <string name="privacy">Частные</string>
   <string name="status_bar_notification_privacy_title">Приватность строки состояния</string>
   <string name="status_bar_notification_privacy_summary">Не отображать текст в строке состояния.</string>
@@ -482,6 +490,7 @@
   <string name="preference_import_preferences_progress_text">Импортирование настроек</string>
   <string name="preference_import_preferences_finish_text">Настройки импортированны.</string>
   <string name="preference_import_preferences_error_text">Настройки не импортированны.Возможно отсутствует файл настроек или другая ошибка карты памяти.</string>
+  <string name="confirm_import_app_preferences">Это будет удалить текущие настройки приложения и заменить их с экспортируемых параметров.</string>
   <string name="debug_category">Отчеты об ошибках</string>
   <string name="debug">Отчеты об ошибках</string>
   <string name="log_file_error_title">Ошибка лога</string>
@@ -546,6 +555,8 @@
   <string name="preference_hide_single_message_header_enabled_summaryOff">Счетчик оповещений показан,при показе единственного оповещения(пример 1/1).</string>
   <string name="blocking_app_running_action_text">Параметры блока оповещений</string>
   <string name="blocking_app_running_action_summary">Определить действие оповещения во время запущенного приложения.</string>
+  <string name="confirm_clear_reset_authentication_data">Это будет сбросить данные аутентификации.</string>
+  <string name="clear_data">Удалить данные</string>
   <string name="status_bar_notification_content_title_text_sms">Новое сообщение</string>
   <string name="status_bar_notification_content_title_text_phone">Пропущенный звонок</string>
   <string name="status_bar_notification_content_title_text_calendar">Напоминание события календаря</string>

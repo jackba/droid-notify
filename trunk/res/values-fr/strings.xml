@@ -76,6 +76,7 @@
   <string name="google_voice_app_not_found_error">L\'application Google Voice n\'a pas pu être trouvée. Essayez de sélectionner un client différent pour Google Voice.</string>
   <string name="google_voice_authentication_error">Nous ne pouvons pas accéder à votre compte Google dans l\'immédiat. Veuillez réessayer plus tard.</string>
   <string name="google_voice_send_sms_mesage_error">Le Message SMS Google Voice ne peut pas être envoyé.</string>
+  <string name="voice_recognizer_error">La reconnaissance vocale n\'a pas pu être démarrée. Veuillez vous assurer que votre téléphone prend en charge la reconnaissance vocale.</string>
   <string name="preference_disable_context_menu_title">Désactiver menu contextuel</string>
   <string name="preference_disable_context_menu_summary">Désactive le menu contextuel des notifications.</string>
   <string name="preference_disable_quick_contact_title">Désactiver menu photo</string>
@@ -158,6 +159,9 @@
   <string name="preference_save_draft_enabled_summaryOff">Il n\'y aura pas de brouillon d\'enregistré si le message n\'est pas envoyé.</string>
   <string name="preference_quick_reply_sms_gateway">Passerelle SMS-Email</string>
   <string name="preference_quick_reply_sms_gateway_summary">Choisissez votre opérateur de messagerie dans la liste. S\'il n\'y est pas, il ne sera pas possible d\'envoyer un message SMS à une adresse Email avec la fonction de Réponse rapide.</string>
+  <string name="enable_quick_reply">Activer Réponse Rapide</string>
+  <string name="enable_quick_reply_summary">Affiche une boîte de réponse rapide dans la notification.</string>
+  <string name="type_to_compose">Tapez votre texte</string>
   <string name="blacklist_category">LISTE NOIRE</string>
   <string name="blacklist">Liste noire</string>
   <string name="add_new">Ajouter</string>
@@ -211,15 +215,16 @@
   <string name="customize_category">PERSONNALISER</string>
   <string name="customize">Personnaliser</string>
   <string name="customize_notification_summary">Personnalise ces notifications.</string>
+  <string name="notification_preview">Aperçu Notification</string>
+  <string name="notification_preview_summary">Affiche un aperçu des notifications.</string>
   <string name="theme">Thème</string>
   <string name="theme_summary">Choisissez l\'apparence des notifications.</string>
   <string name="theme_chooser_instructions">Sélectionnez le thème souhaité dans les exemples disponibles ci-dessous. Appuyez ensuite sur le bouton OK pour sauvegarder le thème.</string>
   <string name="more_category">PLUS</string>
   <string name="more">Plus</string>
   <string name="notify_theme">Thème Notify</string>
-  <string name="default_v1">Défaut</string>
-  <string name="default_v2">Translucide par défaut</string>
-  <string name="default_v3">Noir par défaut</string>
+  <string name="default_theme_notify">Notifier par défaut</string>
+  <string name="default_theme_phone">Téléphone par défaut</string>
   <string name="preference_notification_type_info_icon_enabled_title">Voir l\'icone type</string>
   <string name="preference_notification_type_info_icon_enabled_summary">L\'icône de notification est l\'icône à droite de la photo de contact.</string>
   <string name="preference_notification_type_info_size">Taille caractères notification</string>
@@ -322,6 +327,7 @@
   <string name="event_start_time_reminder_summary">Affiche un rappel au début de l\'événement.</string>
   <string name="snooze">Répéter</string>
   <string name="snooze_for">Répéter pour</string>
+  <string name="dismiss_alarm">Annuler l\'alarme</string>
   <string name="k9_category">K9</string>
   <string name="k9">K-9</string>
   <string name="preference_k9_enabled_title">Activer mail K-9</string>
@@ -452,6 +458,8 @@
   <string name="preference_display_view_button_summary">Affiche le bouton Voir.</string>
   <string name="display_cancel_button_title">Voir bouton Annuler</string>
   <string name="display_cancel_button_summary">Affiche le bouton Annuler.</string>
+  <string name="display_snooze_button_title">Afficher bouton Répéter</string>
+  <string name="display_snooze_button_summary">Affiche le bouton Répéter.</string>
   <string name="privacy">Confidentialité</string>
   <string name="status_bar_notification_privacy_title">Confidentialité de la Barre D\'état</string>
   <string name="status_bar_notification_privacy_summary">N\'affiche pas les informations privées dans la barre d\'état.</string>
@@ -482,6 +490,7 @@
   <string name="preference_import_preferences_progress_text">Restauration de la configuration...</string>
   <string name="preference_import_preferences_finish_text">Les réglages de l\'application ont bien été restaurés.</string>
   <string name="preference_import_preferences_error_text">Les réglages de l\'application n\'ont pas pu être restaurés. Causes possibles : absence de carte SD, carte SD mal insérée, défectueuse, etc...</string>
+  <string name="confirm_import_app_preferences">Ceci va supprimer les paramètres actuels de l\'application et les remplacer avec les paramètres exportés.</string>
   <string name="debug_category">DÉBOGAGE</string>
   <string name="debug">Débogage</string>
   <string name="log_file_error_title">Fichier d\'erreur</string>
@@ -546,6 +555,8 @@
   <string name="preference_hide_single_message_header_enabled_summaryOff">Le compteur de notification sera affiché même s\'il n\'y a qu\'un seul message (1/1 d\'affiché).</string>
   <string name="blocking_app_running_action_text">Options blocage notification</string>
   <string name="blocking_app_running_action_summary">Indique que faire lors de l\'arrivée d\'une notification si une application bloquante est en cours d\'exécution.</string>
+  <string name="confirm_clear_reset_authentication_data">Cela réinitialisera les données d\'authentification.</string>
+  <string name="clear_data">Effacer Données</string>
   <string name="status_bar_notification_content_title_text_sms">Nouveau message</string>
   <string name="status_bar_notification_content_title_text_phone">Appel manqué</string>
   <string name="status_bar_notification_content_title_text_calendar">Rappel calendrier</string>

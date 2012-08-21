@@ -76,6 +76,7 @@
   <string name="google_voice_app_not_found_error">תוכנת Google Voice לא ניתנת לאיתור. נסה תוכנות מועדפות אחרות ל Google Voice.</string>
   <string name="google_voice_authentication_error">לא הצלחנו לבצע אימות של חשבון הגוגל שלך בשלב זה. נא נסה שוב מאוחר יותר.</string>
   <string name="google_voice_send_sms_mesage_error">הודעת הטקסט של Google Voice אינה יכולה להשלח.</string>
+  <string name="voice_recognizer_error">לא היתה אפשרות להפעיל את המזהה הקולי. נא ודא כי הטלפון תומך בזיהוי קולי.</string>
   <string name="preference_disable_context_menu_title">בטל את תפריט ההקשר</string>
   <string name="preference_disable_context_menu_summary">בטל את תפריט ההקשר המצורף לכותרות ההודעות.</string>
   <string name="preference_disable_quick_contact_title">בטל את תפריט התמונה</string>
@@ -158,6 +159,9 @@
   <string name="preference_save_draft_enabled_summaryOff">טיוטת ההודעה לא תישמר.</string>
   <string name="preference_quick_reply_sms_gateway">העבר הודעה לדוא\"ל</string>
   <string name="preference_quick_reply_sms_gateway_summary">בחר את ספק השירות שלך מהרשימה הזאת. אם אתה לא יכול למצוא את זה אתה לא תוכל לשלוח את ההודעות לכתובת הדוא\"ל עם התשובה המהירה הפנימית.</string>
+  <string name="enable_quick_reply">הפעל תשובה מהירה</string>
+  <string name="enable_quick_reply_summary">מציג תיבת תשובה מהירה בהתראות.</string>
+  <string name="type_to_compose">לחץ לכתיבה</string>
   <string name="blacklist_category">רשימה שחורה</string>
   <string name="blacklist">רשימה שחורה</string>
   <string name="add_new">הוספת חדש</string>
@@ -211,15 +215,16 @@
   <string name="customize_category">התאמה אישית</string>
   <string name="customize">﻿התאמה אישית</string>
   <string name="customize_notification_summary">התאמה אישית של התראות אלה.</string>
+  <string name="notification_preview">תצוגה מקדימה של ההתראות</string>
+  <string name="notification_preview_summary">הצג תצוגה מקדימה של ההתראות.</string>
   <string name="theme">ערכת נושא</string>
   <string name="theme_summary">בחר את ערכת הנושא של ההתראות.</string>
   <string name="theme_chooser_instructions">השתמש באמצעות תנועה סיבוב, בחר את ערכת הנושא הרצויה מתוך הדוגמאות הזמינות שלהלן. כאשר תמצא את ערכת הנושא הרצויה לחץ על לחצן אישור כדי לשמור את ערכת הנושא.</string>
   <string name="more_category">עוד</string>
   <string name="more">יותר</string>
   <string name="notify_theme">Notify ערכת נושא</string>
-  <string name="default_v1">ברירת מחדל</string>
-  <string name="default_v2">ברירת המחדל שקוף למחצה</string>
-  <string name="default_v3">ברירת מחדל כהה</string>
+  <string name="default_theme_notify">ברירת המחדל של Notify</string>
+  <string name="default_theme_phone">ברירת המחדל של הטלפון</string>
   <string name="preference_notification_type_info_icon_enabled_title">הצג סוג סמל</string>
   <string name="preference_notification_type_info_icon_enabled_summary">סוג סמל ההתראה הוא הסמל מימין לתמונת איש הקשר.</string>
   <string name="preference_notification_type_info_size">סוג גודל גופן</string>
@@ -322,6 +327,7 @@
   <string name="event_start_time_reminder_summary">הצג התראה בתחילת האירוע.</string>
   <string name="snooze">השהה</string>
   <string name="snooze_for">השהה ל</string>
+  <string name="dismiss_alarm">שחרר התראה</string>
   <string name="k9_category">K9</string>
   <string name="k9">K-9</string>
   <string name="preference_k9_enabled_title">אפשר K-9 Email</string>
@@ -452,6 +458,8 @@
   <string name="preference_display_view_button_summary">הצג את כפתור \"הצג\".</string>
   <string name="display_cancel_button_title">הצג את כפתור ביטול</string>
   <string name="display_cancel_button_summary">הראה את כפתור ביטול.</string>
+  <string name="display_snooze_button_title">הצג לחצן השהה</string>
+  <string name="display_snooze_button_summary">הצג את לחצן \' השהה \'.</string>
   <string name="privacy">פרטיות</string>
   <string name="status_bar_notification_privacy_title">שורת מצב ההתראות הפרטיות</string>
   <string name="status_bar_notification_privacy_summary">אל תציג מידע פרטי ההתראות בשורת המצב.</string>
@@ -482,6 +490,7 @@
   <string name="preference_import_preferences_progress_text">מייבא העדפות אפליקציה…</string>
   <string name="preference_import_preferences_finish_text">העדפות האפליקציה יובאו.</string>
   <string name="preference_import_preferences_error_text">העדפות האפליקציה לא יובאו. סיבות אפשריות לשגיאה הזו כוללות כרטיס זיכרון חסר או כרטיס זיכרון פגום שמונע מהאפליקציה לכתוב למיקום של כרטיס הזיכרון.</string>
+  <string name="confirm_import_app_preferences">זה יסיר את ההגדרות הנוכחיות של היישום ויחליף אותן עם הגדרות המיוצאות.</string>
   <string name="debug_category">איתור באגים</string>
   <string name="debug">איתור באגים</string>
   <string name="log_file_error_title">שגיאת קובץ של יומן רישום</string>
@@ -546,6 +555,8 @@
   <string name="preference_hide_single_message_header_enabled_summaryOff">ההתראות יציגו את כותרת הטקסט (למשל: 1/1) כאשר הודעה אחת מוצגת.</string>
   <string name="blocking_app_running_action_text">חסום אפשרויות התראה</string>
   <string name="blocking_app_running_action_summary">הגדר מה לעשות כאשר התראה מגיעה בזמן שאפליקצית החסימה רצה.</string>
+  <string name="confirm_clear_reset_authentication_data">פעולה זו תאפס את נתוני האימות.</string>
+  <string name="clear_data">נקה נתונים</string>
   <string name="status_bar_notification_content_title_text_sms">הודעה חדשה</string>
   <string name="status_bar_notification_content_title_text_phone">שיחה שלא נענתה</string>
   <string name="status_bar_notification_content_title_text_calendar">תזכורת אירוע לוח שנה</string>

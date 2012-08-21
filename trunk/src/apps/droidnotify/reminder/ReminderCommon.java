@@ -1,12 +1,15 @@
 package apps.droidnotify.reminder;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
-import android.net.Uri;
 
 import apps.droidnotify.db.DBConstants;
 import apps.droidnotify.log.Log;
+import apps.droidnotify.receivers.ReminderDBManagementReceiver;
 
 /**
  * This class is a collection of methods that are used to manage reminders.
@@ -40,7 +43,7 @@ public class ReminderCommon {
 	 * 
 	 * @return Reminder - The reminder item that was inserted.
 	 */
-	public static Reminder insertValue(Context context, String intentAction, boolean dismissed){		
+	public static boolean insertValue(Context context, String intentAction, boolean dismissed){		
 		_debug = Log.getDebug();
 		if(_debug) Log.v("ReminderCommon.insertValue()");
         try{
@@ -48,7 +51,7 @@ public class ReminderCommon {
 			//Check the DB to ensure that this reminder was not already added.
 			Cursor cursor = null;
 	        try{
-	    		final String[] projection = new String[]{DBConstants.COLUMN_ID, DBConstants.COLUMN_ACTION, DBConstants.COLUMN_DISMISSED};
+	    		final String[] projection = new String[]{DBConstants.COLUMN_ID, DBConstants.COLUMN_CREATED, DBConstants.COLUMN_ACTION, DBConstants.COLUMN_DISMISSED};
 	    		final String selection = DBConstants.COLUMN_ACTION + "=?";
 	    		final String[] selectionArgs = new String[]{intentAction};
 	    		final String sortOrder = null;
@@ -64,11 +67,9 @@ public class ReminderCommon {
 			    if(cursor.moveToFirst()){
 			    	//This reminder has already been added.
 			    	if(_debug) Log.v("ReminderCommon.insertValue() Reminder action has already been added. Returning existing entry.");
-			    	long rowID = cursor.getLong(cursor.getColumnIndex(DBConstants.COLUMN_ID));
-			    	int rowDismissed = cursor.getInt(cursor.getColumnIndex(DBConstants.COLUMN_DISMISSED));
 			    	cursor.close();
 			    	//Return existing row of data.
-		        	return new Reminder(rowID, intentAction, rowDismissed == 1 ? true : false);
+		        	return true;
 			    }
 			    cursor.close();
 			}catch(Exception ex){
@@ -79,14 +80,14 @@ public class ReminderCommon {
 			}
 	        //Insert the new reminder into the db.
         	ContentValues contentValues = new ContentValues();
+			contentValues.put(DBConstants.COLUMN_CREATED, System.currentTimeMillis());
 			contentValues.put(DBConstants.COLUMN_ACTION, intentAction);
 			contentValues.put(DBConstants.COLUMN_DISMISSED, dismissedInt);
-        	Uri insertedUri = context.getContentResolver().insert(DBConstants.CONTENT_URI_REMINDER, contentValues);
-        	long insertedID = Long.parseLong(insertedUri.toString().substring( insertedUri.toString().lastIndexOf("/") + 1 )); 
-        	return new Reminder(insertedID, intentAction, dismissed);
+        	context.getContentResolver().insert(DBConstants.CONTENT_URI_REMINDER, contentValues);
+        	return true;
 		}catch(Exception ex){
 			Log.e("ReminderCommon.insertValue() ERROR: " + ex.toString());
-			return null;
+			return false;
 		}
 	}
 
@@ -189,6 +190,25 @@ public class ReminderCommon {
 		}catch(Exception ex){
 			Log.e("ReminderCommon.cleanDB() ERROR: " + ex.toString());
 			return false;
+		}
+	}
+			
+	/**
+	 * Start the reminder DB cleanup recurring alarm.
+	 * 
+	 * @param context - The application context.
+	 * @param alarmStartTime - The time to start the alarm.
+	 */
+	public static void startReminderDBManagementAlarmManager(Context context, long alarmStartTime){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("ReminderCommon.startReminderDBManagementAlarmManager()");
+		try{
+			AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+			Intent intent = new Intent(context, ReminderDBManagementReceiver.class);
+			PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+			alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, alarmStartTime, MILLISECONDS_PER_DAY, pendingIntent);
+		}catch(Exception ex){
+			Log.e("ReminderCommon.startReminderDBManagementAlarmManager() ERROR: " + ex.toString());
 		}
 	}
 	
