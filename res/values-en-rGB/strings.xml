@@ -76,6 +76,7 @@
   <string name="google_voice_app_not_found_error">The Google Voice application could not be found. Try selecting a different preferred Google Voice client.</string>
   <string name="google_voice_authentication_error">We were not able to authenticate your Google account at this time. Please try again later.</string>
   <string name="google_voice_send_sms_mesage_error">The Google Voice SMS Message could not be sent.</string>
+  <string name="voice_recognizer_error">The voice recognizer could not be started. Please ensure that your phone supports voice recognition.</string>
   <string name="preference_disable_context_menu_title">Disable Context Menu</string>
   <string name="preference_disable_context_menu_summary">Disable the context menu that is attached to notification headers.</string>
   <string name="preference_disable_quick_contact_title">Disable Photo Menu</string>
@@ -158,6 +159,9 @@
   <string name="preference_save_draft_enabled_summaryOff">A draft of the message will not be saved.</string>
   <string name="preference_quick_reply_sms_gateway">SMS-to-Email Gateway</string>
   <string name="preference_quick_reply_sms_gateway_summary">Select your service provider from this list. If you can\'t find it you won\'t be able to send SMS messages to Email address\'s with the built in Quick Reply.</string>
+  <string name="enable_quick_reply">Enable Quick Reply</string>
+  <string name="enable_quick_reply_summary">Displays a quick reply box in the notification.</string>
+  <string name="type_to_compose">Type to compose</string>
   <string name="blacklist_category">BLACKLIST</string>
   <string name="blacklist">Blacklist</string>
   <string name="add_new">Add New</string>
@@ -211,15 +215,16 @@
   <string name="customize_category">CUSTOMIZE</string>
   <string name="customize">Customize</string>
   <string name="customize_notification_summary">Customize these notifications.</string>
+  <string name="notification_preview">Notification Preview</string>
+  <string name="notification_preview_summary">Display a preview of the notificaions.</string>
   <string name="theme">Theme</string>
   <string name="theme_summary">Select the theme for the notifications.</string>
   <string name="theme_chooser_instructions">Using a swiping motion, select the desired theme from the available examples below. When you find the theme you would like press the OK button to save the theme.</string>
   <string name="more_category">MORE</string>
   <string name="more">More</string>
   <string name="notify_theme">Notify Theme</string>
-  <string name="default_v1">Default</string>
-  <string name="default_v2">Default Translucent</string>
-  <string name="default_v3">Default Dark</string>
+  <string name="default_theme_notify">Notify Default</string>
+  <string name="default_theme_phone">Phone Default</string>
   <string name="preference_notification_type_info_icon_enabled_title">Display Type Icon</string>
   <string name="preference_notification_type_info_icon_enabled_summary">The notification type icon is the icon to thr right of the contact photo.</string>
   <string name="preference_notification_type_info_size">Type Font Size</string>
@@ -322,6 +327,7 @@
   <string name="event_start_time_reminder_summary">Display a reminder on the start of the event.</string>
   <string name="snooze">Snooze</string>
   <string name="snooze_for">Snooze for</string>
+  <string name="dismiss_alarm">Dismiss Alarm</string>
   <string name="k9_category">K9</string>
   <string name="k9">K-9</string>
   <string name="preference_k9_enabled_title">Enable K-9 Email</string>
@@ -452,6 +458,8 @@
   <string name="preference_display_view_button_summary">Show the view button.</string>
   <string name="display_cancel_button_title">Display Cancel Button</string>
   <string name="display_cancel_button_summary">Show the cancel button.</string>
+  <string name="display_snooze_button_title">Display Snooze Button</string>
+  <string name="display_snooze_button_summary">Show the snooze button.</string>
   <string name="privacy">Privacy</string>
   <string name="status_bar_notification_privacy_title">Status Bar Notification Privacy</string>
   <string name="status_bar_notification_privacy_summary">Do not display private information in the status bar notifications.</string>
@@ -482,6 +490,7 @@
   <string name="preference_import_preferences_progress_text">Importing Application Preferences…</string>
   <string name="preference_import_preferences_finish_text">The application preferences have been imported.</string>
   <string name="preference_import_preferences_error_text">The application preferences were not imported. Possible causes for this error include a missing preferences file, a missing SD Card or other SD card related issues which prevents this application from reading a file from the SD card location.</string>
+  <string name="confirm_import_app_preferences">This will remove the current app settings and replace them with the exported settings.</string>
   <string name="debug_category">DEBUG</string>
   <string name="debug">Debug</string>
   <string name="log_file_error_title">Log File Error</string>
@@ -546,6 +555,8 @@
   <string name="preference_hide_single_message_header_enabled_summaryOff">The notifications will display the header text (e.g. 1/1) when a single message is displayed.</string>
   <string name="blocking_app_running_action_text">Blocking Notification Options</string>
   <string name="blocking_app_running_action_summary">Define what to do when a notification comes in while a blocking app is running.</string>
+  <string name="confirm_clear_reset_authentication_data">This will reset the authentication data.</string>
+  <string name="clear_data">Clear Data</string>
   <string name="status_bar_notification_content_title_text_sms">New Message</string>
   <string name="status_bar_notification_content_title_text_phone">Missed Call</string>
   <string name="status_bar_notification_content_title_text_calendar">Calendar Event Reminder</string>

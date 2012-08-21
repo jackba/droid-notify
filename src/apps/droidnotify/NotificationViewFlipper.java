@@ -100,7 +100,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 			if(notificationType > 1999){
 				if(_debug) Log.v("NotificationViewFlipper.addNotification() This is a notification preview!");
 				duplicateFound = false;
-				//isNew = false;
+				isNew = false;
 			}
 			if(!duplicateFound){
 				if(_debug) Log.v("NotificationViewFlipper.addNotification() New Notification.");

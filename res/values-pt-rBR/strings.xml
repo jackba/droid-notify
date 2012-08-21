@@ -76,6 +76,7 @@
   <string name="google_voice_app_not_found_error">O aplicativo Google Voice não pôde ser encontrado. Tente selecionar um cliente Google Voice diferente.</string>
   <string name="google_voice_authentication_error">Não fomos capazes de autenticar sua conta do Google neste momento. Por favor, tente novamente mais tarde.</string>
   <string name="google_voice_send_sms_mesage_error">Não foi possível enviar a mensagem de SMS do Google Voice.</string>
+  <string name="voice_recognizer_error">O reconhecedor de voz não pôde ser iniciado. Por favor, certifique-se de que seu telefone suporta reconhecimento de voz.</string>
   <string name="preference_disable_context_menu_title">﻿Desativar o menu de contexto</string>
   <string name="preference_disable_context_menu_summary">Desativar o menu de contexto anexado aos cabeçalhos de notificação.</string>
   <string name="preference_disable_quick_contact_title">﻿Desativar o menu de foto</string>
@@ -158,6 +159,9 @@
   <string name="preference_save_draft_enabled_summaryOff">Um rascunho da mensagem não será salvo.</string>
   <string name="preference_quick_reply_sms_gateway">Gateway de SMS-para-Email.</string>
   <string name="preference_quick_reply_sms_gateway_summary">Selecione o provedor de serviços desta lista. Se você não encontrá-lo, não será capaz de enviar mensagens SMS para o endereço de email definido na resposta rápida.</string>
+  <string name="enable_quick_reply">Habilitar Resposta Rápida</string>
+  <string name="enable_quick_reply_summary">Exibe uma caixa de resposta rápida na notificação.</string>
+  <string name="type_to_compose">Toque para escrever</string>
   <string name="blacklist_category">LISTA NEGRA</string>
   <string name="blacklist">Lista negra</string>
   <string name="add_new">Adicionar novo</string>
@@ -211,15 +215,16 @@
   <string name="customize_category">PERSONALIZAR</string>
   <string name="customize">Personalizar</string>
   <string name="customize_notification_summary">Personalizar essas notificações.</string>
+  <string name="notification_preview">Prévia das Notificações</string>
+  <string name="notification_preview_summary">Exibir uma visualização prévia das notificações.</string>
   <string name="theme">Tema</string>
   <string name="theme_summary">Selecione o tema para as notificações.</string>
   <string name="theme_chooser_instructions">Arrastando para os lados, selecione o tema desejado nos exemplos disponíveis abaixo. Quando você encontrar um tema que tenha gostado, pressione OK para salvar o tema.</string>
   <string name="more_category">MAIS</string>
   <string name="more">Mais</string>
   <string name="notify_theme">Notify Tema</string>
-  <string name="default_v1">Default</string>
-  <string name="default_v2">Default Translucent</string>
-  <string name="default_v3">Default Dark</string>
+  <string name="default_theme_notify">Padrão do Aplicativo</string>
+  <string name="default_theme_phone">Padrão do Telefone</string>
   <string name="preference_notification_type_info_icon_enabled_title">Exibir Ícone do Tipo</string>
   <string name="preference_notification_type_info_icon_enabled_summary">O ícone de tipo de notificação é o ícone à direita da foto do contato.</string>
   <string name="preference_notification_type_info_size">Tamanho da fonte do tipo</string>
@@ -322,6 +327,7 @@
   <string name="event_start_time_reminder_summary">Exiba lembrete no início do evento.</string>
   <string name="snooze">Soneca</string>
   <string name="snooze_for">Cochilar por</string>
+  <string name="dismiss_alarm">Descartar Alarme</string>
   <string name="k9_category">K9</string>
   <string name="k9">K-9</string>
   <string name="preference_k9_enabled_title">Habilitar o K-9</string>
@@ -452,6 +458,8 @@
   <string name="preference_display_view_button_summary">Mostrar o botão de visualização.</string>
   <string name="display_cancel_button_title">Mostrar o Botão Cancelar</string>
   <string name="display_cancel_button_summary">Mostrar o botão de cancelar.</string>
+  <string name="display_snooze_button_title">Exibir Botão Soneca</string>
+  <string name="display_snooze_button_summary">Mostrar o botão soneca.</string>
   <string name="privacy">Privacidade</string>
   <string name="status_bar_notification_privacy_title">Privacidade em Notificação da Barra de Status</string>
   <string name="status_bar_notification_privacy_summary">Não exibir informações particulares nas notificações da barra de status.</string>
@@ -482,6 +490,7 @@
   <string name="preference_import_preferences_progress_text">Importando preferências...</string>
   <string name="preference_import_preferences_finish_text">As preferências do aplicativo foram importadas.</string>
   <string name="preference_import_preferences_error_text">As preferências de aplicativos não foram importadas. Possíveis causas para esse erro incluem a ausência de um arquivo de preferências, um cartão SD ausente ou outras questões que impedem o programa de ler o arquivo no cartão SD.</string>
+  <string name="confirm_import_app_preferences">Isto irá remover as configurações atuais do aplicativo e substituí-las pelas configurações exportadas.</string>
   <string name="debug_category">DEPURAÇÃO</string>
   <string name="debug">Depuração</string>
   <string name="log_file_error_title">Arquivar log de erros</string>
@@ -546,6 +555,8 @@
   <string name="preference_hide_single_message_header_enabled_summaryOff">As notificações exibirão o texto do cabeçalho (por exemplo, 1/1) quando uma única mensagem é exibida.</string>
   <string name="blocking_app_running_action_text">Opções de bloqueio de notificações</string>
   <string name="blocking_app_running_action_summary">Defina o que fazer quando uma notificação enquanto um app bloqueador está em execução.</string>
+  <string name="confirm_clear_reset_authentication_data">Isto irá redefinir os dados de autenticação.</string>
+  <string name="clear_data">Limpar Dados</string>
   <string name="status_bar_notification_content_title_text_sms">Nova Mensagem</string>
   <string name="status_bar_notification_content_title_text_phone">Chamada Perdida</string>
   <string name="status_bar_notification_content_title_text_calendar">Lembrete de evento do calendário</string>
@@ -936,7 +947,7 @@
   <string name="twidroyd_legacy">Twidroyd Legacy</string>
   <string name="twitter">Twitter</string>
   <string name="twitter_web_mobile">Site Móvel do Twitter (http://mobile.twitter.com)</string>
-  <string name="ubersocial">Ubersocial (anteriormente Twidroyd Pro)</string>
+  <string name="ubersocial">Ubersocial (antigo Twidroyd Pro)</string>
   <string name="facebook">Facebook</string>
   <string name="facebook_web_mobile">Site Móvel do Facebook (http://m.facebook.com)</string>
   <string name="fbm_for_facebook">FBM para Facebook</string>

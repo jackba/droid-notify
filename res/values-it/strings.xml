@@ -76,6 +76,7 @@
   <string name="google_voice_app_not_found_error">L\'applicazione Google Voice non è stato trovato. Provare a selezionare un diverso preferito client Google Voice.</string>
   <string name="google_voice_authentication_error">Non siamo stati in grado di autenticare il tuo account Google in questo momento. Riprova più tardi.</string>
   <string name="google_voice_send_sms_mesage_error">Il messaggio di SMS vocale di Google potrebbe non essere inviato.</string>
+  <string name="voice_recognizer_error">Il sistema di riconoscimento vocale potrebbe non essere avviato. Si prega di assicurarsi che il telefono cellulare supporta il riconoscimento vocale.</string>
   <string name="preference_disable_context_menu_title">Disabilitare il Menu di Scelta Rapida</string>
   <string name="preference_disable_context_menu_summary">Disabilitare il menu di scelta rapida associato alle intestazioni di notifica.</string>
   <string name="preference_disable_quick_contact_title">Disabilitare Menu Foto</string>
@@ -158,6 +159,9 @@
   <string name="preference_save_draft_enabled_summaryOff">Non sarà salvata la bozza del messaggio.</string>
   <string name="preference_quick_reply_sms_gateway">SMS-Email Gateway</string>
   <string name="preference_quick_reply_sms_gateway_summary">Seleziona il tuo ISP dalla lista. Se non lo trovi non sarai in grado di inviare messaggi SMS agli indirizzi Email con la risposta rapida.</string>
+  <string name="enable_quick_reply">Abilitare Risposta Veloce</string>
+  <string name="enable_quick_reply_summary">Visualizza una finestra di risposta rapida nella notifica.</string>
+  <string name="type_to_compose">Tipo di comporre</string>
   <string name="blacklist_category">LISTA NERA</string>
   <string name="blacklist">Lista Nera</string>
   <string name="add_new">Aggiungere Nuovi</string>
@@ -211,15 +215,16 @@
   <string name="customize_category">PERSONALIZZA</string>
   <string name="customize">Personalizza</string>
   <string name="customize_notification_summary">Personalizzare queste notifiche.</string>
+  <string name="notification_preview">Anteprima di Notifica</string>
+  <string name="notification_preview_summary">Visualizzare un\'anteprima del notificaions.</string>
   <string name="theme">Tema</string>
   <string name="theme_summary">Seleziona il tema per le notifiche.</string>
   <string name="theme_chooser_instructions">Con un movimento strisciatura, selezionate il tema desiderato dagli esempi disponibili qui sotto. Quando trovi il tema si vorrebbe premere il pulsante OK per salvare il tema.</string>
   <string name="more_category">PIÙ</string>
   <string name="more">Più</string>
   <string name="notify_theme">Notify Tema</string>
-  <string name="default_v1">Predefinita</string>
-  <string name="default_v2">Default Translucent</string>
-  <string name="default_v3">Default Dark</string>
+  <string name="default_theme_notify">Notify Predefinita</string>
+  <string name="default_theme_phone">Telefono Predefinito</string>
   <string name="preference_notification_type_info_icon_enabled_title">Icona Tipo Display</string>
   <string name="preference_notification_type_info_icon_enabled_summary">L\'icona del tipo di notifica è l\'icona di thr destra della foto contatto.</string>
   <string name="preference_notification_type_info_size">Dimensione del Carattere di Tipo</string>
@@ -322,6 +327,7 @@
   <string name="event_start_time_reminder_summary">Visualizzare un promemoria sull\'inizio dell\'evento.</string>
   <string name="snooze">Posporre</string>
   <string name="snooze_for">Posporre per</string>
+  <string name="dismiss_alarm">Allontanare l\'Allarme</string>
   <string name="k9_category">K9</string>
   <string name="k9">K-9</string>
   <string name="preference_k9_enabled_title">Attivare Email K-9</string>
@@ -452,6 +458,8 @@
   <string name="preference_display_view_button_summary">Visualizzare il pulsante di visualizzazione.</string>
   <string name="display_cancel_button_title">Mostra Pulsante Annulla</string>
   <string name="display_cancel_button_summary">Visualizza il pulsante Annulla.</string>
+  <string name="display_snooze_button_title">Visualizzare Pulsante Snooze</string>
+  <string name="display_snooze_button_summary">Visualizza il pulsante snooze.</string>
   <string name="privacy">Vita Privata</string>
   <string name="status_bar_notification_privacy_title">Barra di Stato Notifica Sulla Privacy</string>
   <string name="status_bar_notification_privacy_summary">Non mostrare informazioni private in notifiche sullo stato del bar.</string>
@@ -482,6 +490,7 @@
   <string name="preference_import_preferences_progress_text">Importazione di applicazione preferenze …</string>
   <string name="preference_import_preferences_finish_text">Le preferenze dell\'applicazione sono state importate.</string>
   <string name="preference_import_preferences_error_text">Le preferenze dell\'applicazione non sono state importate. Possibili cause di questo errore potrebbero essere la mancanza del file di preferenze, la mancanza della scheda SD o altri problemi relativi alla scheda SD che impediscono a questa applicazione la lettura del file.</string>
+  <string name="confirm_import_app_preferences">Questo rimuoverà le attuali impostazioni di app e sostituirli con le impostazioni di esportazione.</string>
   <string name="debug_category">ESEGUIRE IL DEBUG</string>
   <string name="debug">Eseguire il debug</string>
   <string name="log_file_error_title">Errore del File di Registro</string>
@@ -546,6 +555,8 @@
   <string name="preference_hide_single_message_header_enabled_summaryOff">Le notifiche mostreranno l\'intestazione (es. 1/1) quando è mostrato un solo messaggio.</string>
   <string name="blocking_app_running_action_text">Bloccando le Opzioni di Notifica</string>
   <string name="blocking_app_running_action_summary">Definire cosa fare quando una notifica viene in durante l\'esecuzione di un blocco app.</string>
+  <string name="confirm_clear_reset_authentication_data">Questo sarà reimpostare i dati di autenticazione.</string>
+  <string name="clear_data">Cancella Dati</string>
   <string name="status_bar_notification_content_title_text_sms">Nuovo Messaggio</string>
   <string name="status_bar_notification_content_title_text_phone">Chiamata persa</string>
   <string name="status_bar_notification_content_title_text_calendar">Promemoria del Calendario Eventi</string>

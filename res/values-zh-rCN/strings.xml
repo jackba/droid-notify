@@ -76,6 +76,7 @@
   <string name="google_voice_app_not_found_error">找不到谷歌语音应用程序。请尝试选择不同的首选的谷歌语音客户端。</string>
   <string name="google_voice_authentication_error">我们无法验证您的 Google 帐户，在此时间。请稍后再试。</string>
   <string name="google_voice_send_sms_mesage_error">谷歌语音短信邮件无法发送。</string>
+  <string name="voice_recognizer_error">语音识别器无法启动。请确保您的电话支持语音识别。</string>
   <string name="preference_disable_context_menu_title">禁用关联菜单</string>
   <string name="preference_disable_context_menu_summary">禁用连接到通知标题的关联菜单。</string>
   <string name="preference_disable_quick_contact_title">禁用图片菜单</string>
@@ -158,6 +159,9 @@
   <string name="preference_save_draft_enabled_summaryOff">将不会保存草稿。</string>
   <string name="preference_quick_reply_sms_gateway">短信到邮件网关</string>
   <string name="preference_quick_reply_sms_gateway_summary">从列表中选择您的服务提供商。如果找不到，你将不能使用快速回复功能发送短信到Email地址。</string>
+  <string name="enable_quick_reply">启用快速回复</string>
+  <string name="enable_quick_reply_summary">在通知中显示一个快速回复框。</string>
+  <string name="type_to_compose">要撰写的类型</string>
   <string name="blacklist_category">黑名单</string>
   <string name="blacklist">黑名单</string>
   <string name="add_new">添加新的</string>
@@ -211,15 +215,16 @@
   <string name="customize_category">自定义</string>
   <string name="customize">定制</string>
   <string name="customize_notification_summary">自定义这些通知。</string>
+  <string name="notification_preview">通知预览</string>
+  <string name="notification_preview_summary">显示 notificaions 的预览。</string>
   <string name="theme">主题</string>
   <string name="theme_summary">选择通知主题。.</string>
   <string name="theme_chooser_instructions">从可用下面的示例使用翻页的手势，选择所需的主题。当你找到主题你可以按下确定按钮，保存的主题。</string>
   <string name="more_category">更多</string>
   <string name="more">更多</string>
   <string name="notify_theme">通知主题</string>
-  <string name="default_v1">Default</string>
-  <string name="default_v2">Default Translucent</string>
-  <string name="default_v3">Default Dark</string>
+  <string name="default_theme_notify">默认通知</string>
+  <string name="default_theme_phone">手机默认</string>
   <string name="preference_notification_type_info_icon_enabled_title">显示类型图标</string>
   <string name="preference_notification_type_info_icon_enabled_summary">通知类型图标是图标以 thr 联系人照片的权利。</string>
   <string name="preference_notification_type_info_size">输入字体大小</string>
@@ -322,6 +327,7 @@
   <string name="event_start_time_reminder_summary">事件的开始显示提醒。</string>
   <string name="snooze">暂停</string>
   <string name="snooze_for">对于暂停</string>
+  <string name="dismiss_alarm">解雇报警</string>
   <string name="k9_category">K9</string>
   <string name="k9">K-9</string>
   <string name="preference_k9_enabled_title">启用K-9 Email</string>
@@ -452,6 +458,8 @@
   <string name="preference_display_view_button_summary">显示查看按钮。</string>
   <string name="display_cancel_button_title">显示取消按钮</string>
   <string name="display_cancel_button_summary">显示取消按钮。</string>
+  <string name="display_snooze_button_title">显示暂停按钮</string>
+  <string name="display_snooze_button_summary">显示暂停按钮。</string>
   <string name="privacy">隐私</string>
   <string name="status_bar_notification_privacy_title">状态栏通知隐私</string>
   <string name="status_bar_notification_privacy_summary">不在状态条通知显示的私人信息。</string>
@@ -482,6 +490,7 @@
   <string name="preference_import_preferences_progress_text">正在导出应用程序设置…</string>
   <string name="preference_import_preferences_finish_text">已导出应用程序设置。.</string>
   <string name="preference_import_preferences_error_text">应用程序设置没有被导入。此错误的原因可能是因为配置文件丢失，或者找不到SD卡或其他SD卡的相关问题，导致不能从SD卡读取文件。</string>
+  <string name="confirm_import_app_preferences">这将删除当前应用程序设置，并将它们替换为导出的设置。</string>
   <string name="debug_category">调试</string>
   <string name="debug">调试</string>
   <string name="log_file_error_title">日志文件错误</string>
@@ -546,6 +555,8 @@
   <string name="preference_hide_single_message_header_enabled_summaryOff">显示一条消息时，将不会显示页眉文本（例如 1/1）.</string>
   <string name="blocking_app_running_action_text">通知阻止选项</string>
   <string name="blocking_app_running_action_summary">定义在一个阻止程序运行时如何提醒新通知。</string>
+  <string name="confirm_clear_reset_authentication_data">这将重置了身份验证数据。</string>
+  <string name="clear_data">清除数据</string>
   <string name="status_bar_notification_content_title_text_sms">新信息</string>
   <string name="status_bar_notification_content_title_text_phone">未接来电</string>
   <string name="status_bar_notification_content_title_text_calendar">日历事件提醒</string>

@@ -91,6 +91,7 @@
     <string name="google_voice_app_not_found_error">The Google Voice application could not be found. Try selecting a different preferred Google Voice client.</string>
  	<string name="google_voice_authentication_error">We were not able to authenticate your Google account at this time. Please try again later.</string>
     <string name="google_voice_send_sms_mesage_error">The Google Voice SMS Message could not be sent.</string>
+    <string name="voice_recognizer_error">The voice recognizer could not be started. Please ensure that your phone supports voice recognition.</string>
 
     <!-- Context Menu Strings -->
     <string name="preference_disable_context_menu_title">Disable Context Menu</string>
@@ -200,7 +201,10 @@
    	<string name="preference_save_draft_enabled_summaryOff">A draft of the message will not be saved.</string>
    	<string name="preference_quick_reply_sms_gateway">SMS-to-Email Gateway</string>
    	<string name="preference_quick_reply_sms_gateway_summary">Select your service provider from this list. If you can\'t find it you won\'t be able to send SMS messages to Email address\'s with the built in Quick Reply.</string>
-
+	<string name="enable_quick_reply">Enable Quick Reply</string>
+   	<string name="enable_quick_reply_summary">Displays a quick reply box in the notification.</string> 
+   	<string name="type_to_compose">Type to compose</string> 
+   	
     <!-- Blacklist Strings -->
     <string name="blacklist_category">BLACKLIST</string> 
     <string name="blacklist">Blacklist</string>
@@ -278,6 +282,10 @@
     <string name="customize">Customize</string>
     <string name="customize_notification_summary">Customize these notifications.</string>
     
+    <!-- Notification Preview Strings -->
+    <string name="notification_preview">Notification Preview</string>
+    <string name="notification_preview_summary">Display a preview of the notificaions.</string>
+    
     <!-- Theme Strings -->
     <string name="theme">Theme</string>
    	<string name="theme_summary">Select the theme for the notifications.</string>
@@ -285,9 +293,8 @@
 	<string name="more_category">MORE</string>
 	<string name="more">More</string>
 	<string name="notify_theme">Notify Theme</string>
-	<string name="default_v1">Default</string>
-	<string name="default_v2">Default Translucent</string>
-	<string name="default_v3">Default Dark</string>
+	<string name="default_theme_notify">Notify Default</string>
+	<string name="default_theme_phone">Phone Default</string>
    	
   	<!-- Notification Header Strings -->
     <string name="preference_notification_type_info_icon_enabled_title">Display Type Icon</string>
@@ -404,6 +411,7 @@
    	<string name="event_start_time_reminder_summary">Display a reminder on the start of the event.</string>
    	<string name="snooze">Snooze</string>
    	<string name="snooze_for">Snooze for</string>
+   	<string name="dismiss_alarm">Dismiss Alarm</string>
   
    	<!-- K9 Strings -->
     <string name="k9_category">K9</string>
@@ -621,7 +629,8 @@
    	<string name="preference_import_preferences_progress_text">Importing Application Preferences&#8230;</string>
    	<string name="preference_import_preferences_finish_text">The application preferences have been imported.</string>
    	<string name="preference_import_preferences_error_text">The application preferences were not imported. Possible causes for this error include a missing preferences file, a missing SD Card or other SD card related issues which prevents this application from reading a file from the SD card location.</string>
-    
+    <string name="confirm_import_app_preferences">This will remove the current app settings and replace them with the exported settings.</string>
+   	
     <!-- Debug / Log File Strings -->
     <string name="debug_category">DEBUG</string>
     <string name="debug">Debug</string>
@@ -720,7 +729,11 @@
    	<!-- Blocking App Settings Strings --> 
    	<string name="blocking_app_running_action_text">Blocking Notification Options</string>   	
    	<string name="blocking_app_running_action_summary">Define what to do when a notification comes in while a blocking app is running.</string> 
-   	    
+   	
+   	<!-- Clear Authentication Data Strings --> 
+   	<string name="confirm_clear_reset_authentication_data">This will reset the authentication data.</string>  
+   	<string name="clear_data">Clear Data</string>  
+   	
     <!-- Status Bar Notification Strings -->
     <string name="status_bar_notification_content_title_text_sms">New Message</string>
     

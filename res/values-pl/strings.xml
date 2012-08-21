@@ -76,6 +76,7 @@
   <string name="google_voice_app_not_found_error">Aplikacja Google Voice nie jest zainstalowana. Spróbuj wybrać innego klienta Google Voice.</string>
   <string name="google_voice_authentication_error">Nie można zweryfikować twojego konta Google w tej chwili. Spróbuj ponownie później.</string>
   <string name="google_voice_send_sms_mesage_error">Wiadomość SMS Google Voice nie może zostać wysłana.</string>
+  <string name="voice_recognizer_error">Rozpoznawanie głosu nie może zostać uruchomione. Upewnij się czy twój telefon obsługuje rozpoznawanie głosu.</string>
   <string name="preference_disable_context_menu_title">Wyłącz menu kontekstowe</string>
   <string name="preference_disable_context_menu_summary">Wyłącza menu kontekstowe w oknach powiadomień.</string>
   <string name="preference_disable_quick_contact_title">Wyłącz menu kontekstowe obrazka kontaktu</string>
@@ -158,6 +159,9 @@
   <string name="preference_save_draft_enabled_summaryOff">Wersje robocze wiadomości nie będą zapisywane.</string>
   <string name="preference_quick_reply_sms_gateway">Bramka SMS-na-Email</string>
   <string name="preference_quick_reply_sms_gateway_summary">Wybierz twojego dostawcę usług z listy. Jeśli nie możesz go znaleźć nie będziesz miał możliwości wysyłać SMSów na adresy Email z okna Szybkiej Odpowiedzi.</string>
+  <string name="enable_quick_reply">Włącz Szybką Odpowiedź</string>
+  <string name="enable_quick_reply_summary">Wyświetl pole Szybkiej Odpowiedzi w oknie powiadomienia.</string>
+  <string name="type_to_compose">Wpisz, aby utworzyć</string>
   <string name="blacklist_category">CZARNA LISTA</string>
   <string name="blacklist">Czarna lista</string>
   <string name="add_new">Dodaj nowy</string>
@@ -211,15 +215,16 @@
   <string name="customize_category">PERSONALIZACJA</string>
   <string name="customize">Personalizacja</string>
   <string name="customize_notification_summary">Dostosuj powiadomienia.</string>
+  <string name="notification_preview">Podgląd okna powiadomienia</string>
+  <string name="notification_preview_summary">Wyświetla podgląd okna powiadomienia.</string>
   <string name="theme">Motyw</string>
   <string name="theme_summary">Wybierz motyw powiadomień.</string>
   <string name="theme_chooser_instructions">Używając przesuwania po ekranie wybierz żądany motyw z dostępnych w programie. Gdy znajdziesz motyw naciśnij OK aby zapisać zmiany.</string>
   <string name="more_category">WIĘCEJ</string>
   <string name="more">Więcej</string>
   <string name="notify_theme">Motyw powiadamiania</string>
-  <string name="default_v1">Domyślny</string>
-  <string name="default_v2">Domyślny Przeźroczysty</string>
-  <string name="default_v3">Domyślny Ciemny</string>
+  <string name="default_theme_notify">Domyślny motyw powiadomień</string>
+  <string name="default_theme_phone">Domyślny motyw telefonu</string>
   <string name="preference_notification_type_info_icon_enabled_title">Wyświetlaj ikonę powiadomień</string>
   <string name="preference_notification_type_info_icon_enabled_summary">Ikona typu powiadomienia jest ikoną wyświetlaną na prawo od zdjęcia kontaktu.</string>
   <string name="preference_notification_type_info_size">Rozmiar czcionki rodzaju powiadomienia</string>
@@ -322,6 +327,7 @@
   <string name="event_start_time_reminder_summary">Wyświetlaj przypomnienie po rozpoczęciu zdarzenia.</string>
   <string name="snooze">Odłóż</string>
   <string name="snooze_for">Odłóż do</string>
+  <string name="dismiss_alarm">Wyłącz alarm</string>
   <string name="k9_category">K9 EMAIL</string>
   <string name="k9">K-9</string>
   <string name="preference_k9_enabled_title">Włącz obsługę K-9 Email</string>
@@ -452,6 +458,8 @@
   <string name="preference_display_view_button_summary">Wyświetla przycisk Pokaż.</string>
   <string name="display_cancel_button_title">Pokaż przycisk Anuluj</string>
   <string name="display_cancel_button_summary">Przycisk Anuluj będzie widoczny.</string>
+  <string name="display_snooze_button_title">Wyświetl przycisk Odłóż</string>
+  <string name="display_snooze_button_summary">Pokazuje przycisk Odłóż.</string>
   <string name="privacy">Prywatność</string>
   <string name="status_bar_notification_privacy_title">Prywatność powiadomień paska stanu</string>
   <string name="status_bar_notification_privacy_summary">Nie wyświetlaj danych prywatnych na pasku stanu.</string>
@@ -482,6 +490,7 @@
   <string name="preference_import_preferences_progress_text">Importowanie ustawień aplikacji...</string>
   <string name="preference_import_preferences_finish_text">Ustawienia aplikacji zostały zaimportowane.</string>
   <string name="preference_import_preferences_error_text">Ustawienia aplikacji nie zostały zaimportowane. Możliwe błędy to brak karty pamięci lub inny problem związany z odczytem danych z karty pamięci.</string>
+  <string name="confirm_import_app_preferences">Ta czynność spowoduje usunięcie bieżących ustawień aplikacji i zastąpienie ich ustawieniami wyeksportowanymi.</string>
   <string name="debug_category">DEBUGOWANIE</string>
   <string name="debug">Debugowanie</string>
   <string name="log_file_error_title">Błąd pliku dziennika zdarzeń</string>
@@ -546,6 +555,8 @@
   <string name="preference_hide_single_message_header_enabled_summaryOff">Okno powiadomienia wyświetli nagłowek z numerem(np. 1/1) gdy pojedyńcza wiadomość jest wyświetlana.</string>
   <string name="blocking_app_running_action_text">Opcje zablokowanych powiadomień</string>
   <string name="blocking_app_running_action_summary">Zdefinuj co ma się stać gdy nadejdzie powiadomienie w chwili gdy blokowana aplikacja jest uruchomiona.</string>
+  <string name="confirm_clear_reset_authentication_data">Ta opcja wyczyści zapisane dane logowania.</string>
+  <string name="clear_data">Wyczyść dane</string>
   <string name="status_bar_notification_content_title_text_sms">Nowa wiadomość</string>
   <string name="status_bar_notification_content_title_text_phone">Nieodebrane połączenie</string>
   <string name="status_bar_notification_content_title_text_calendar">Przypomnienie o zdarzeniu kalendarza</string>

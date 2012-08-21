@@ -35,6 +35,7 @@ public class ReminderContentProvider extends ContentProvider{
     	//Setup Projection Map.
     	_projectionMap = new HashMap<String, String>();
     	_projectionMap.put(DBConstants.COLUMN_ID, DBConstants.COLUMN_ID);
+    	_projectionMap.put(DBConstants.COLUMN_CREATED, DBConstants.COLUMN_CREATED);
     	_projectionMap.put(DBConstants.COLUMN_ACTION, DBConstants.COLUMN_ACTION);
     	_projectionMap.put(DBConstants.COLUMN_DISMISSED, DBConstants.COLUMN_DISMISSED);
     	return true;

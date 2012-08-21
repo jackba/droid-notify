@@ -76,6 +76,7 @@
   <string name="google_voice_app_not_found_error">Die Google-Sprachanwendung konnte nicht gefunden werden. Versuchen Sie einen anderen Google Voice Client auszuwählen.</string>
   <string name="google_voice_authentication_error">Ihr Google Konto konnte nicht authentifiziert werden. Bitte versuchen Sie es später noch einmal.</string>
   <string name="google_voice_send_sms_mesage_error">Die Google-Voice SMS-Nachricht konnte nicht gesendet werden.</string>
+  <string name="voice_recognizer_error">Der Spracherkenner konnte nicht gestartet werden. Bitte stellen Sie sicher, dass Ihr Telefon unterstützt die Spracherkennung.</string>
   <string name="preference_disable_context_menu_title">Kontextmenü abschalten</string>
   <string name="preference_disable_context_menu_summary">Kontextmenü abschalten, das mit Benachrichtigungstiteln verbunden ist.</string>
   <string name="preference_disable_quick_contact_title">Foto-Menü deaktivieren</string>
@@ -158,6 +159,9 @@
   <string name="preference_save_draft_enabled_summaryOff">Ein Entwurf der Nachricht wird nicht gespeichert.</string>
   <string name="preference_quick_reply_sms_gateway">SMS-Email Gateway</string>
   <string name="preference_quick_reply_sms_gateway_summary">Wählen Sie Ihren Service-Provider aus dieser Liste. Wenn Sie ihn nicht finden können, ist es nicht möglich, SMS-Nachrichten mit Hilfe der eingebauten Schnellantwort an E-Mail-Adressen zu senden.</string>
+  <string name="enable_quick_reply">Ermöglichen schnelle Antwort</string>
+  <string name="enable_quick_reply_summary">Zeigt eine schnelle Antwort-Box in der Benachrichtigung.</string>
+  <string name="type_to_compose">Art zu komponieren</string>
   <string name="blacklist_category">SCHWARZE LISTE</string>
   <string name="blacklist">Schwarze Liste</string>
   <string name="add_new">Neu hinzufügen</string>
@@ -211,15 +215,16 @@
   <string name="customize_category">ANPASSEN</string>
   <string name="customize">Anpassen</string>
   <string name="customize_notification_summary">Diese Benachrichtigungen anpassen.</string>
+  <string name="notification_preview">Benachrichtigung-Vorschau</string>
+  <string name="notification_preview_summary">Zeigen Sie eine Vorschau auf die Notificaions.</string>
   <string name="theme">Thema</string>
   <string name="theme_summary">Wählen Sie ein Thema für die Benachrichtigungen.</string>
   <string name="theme_chooser_instructions">Wischen Sie unten durch die einzelnen Themen. Drücken Sie OK, um das Thema auszuwählen.</string>
   <string name="more_category">MEHR</string>
   <string name="more">Mehr</string>
   <string name="notify_theme">Notify Thema</string>
-  <string name="default_v1">Standard</string>
-  <string name="default_v2">Standard transparent</string>
-  <string name="default_v3">Standard dunkel</string>
+  <string name="default_theme_notify">Notify Standard</string>
+  <string name="default_theme_phone">Telefon Standard</string>
   <string name="preference_notification_type_info_icon_enabled_title">Typ Symbol anzeigen</string>
   <string name="preference_notification_type_info_icon_enabled_summary">Das Mitteilungstyp Symbol befindet sich rechts vom Kontaktfoto.</string>
   <string name="preference_notification_type_info_size">Benachrichtigungstyp Schriftgröße</string>
@@ -322,6 +327,7 @@
   <string name="event_start_time_reminder_summary">Eine Erinnerung auf den Beginn der Veranstaltung anzeigen.</string>
   <string name="snooze">Schlummerfunktion</string>
   <string name="snooze_for">Schlummerfunktion für</string>
+  <string name="dismiss_alarm">Alarm zu entlassen</string>
   <string name="k9_category">K9</string>
   <string name="k9">K-9</string>
   <string name="preference_k9_enabled_title">K-9 EMail aktivieren</string>
@@ -452,6 +458,8 @@
   <string name="preference_display_view_button_summary">Ansicht Schaltfläche anzeigen.</string>
   <string name="display_cancel_button_title">﻿Abbrechen-Schaltfläche anzeigen</string>
   <string name="display_cancel_button_summary">Abbrechen Schaltfläche anzeigen.</string>
+  <string name="display_snooze_button_title">Display Snooze-Taste</string>
+  <string name="display_snooze_button_summary">Zeigen Sie die Snooze-Taste.</string>
   <string name="privacy">Datenschutz</string>
   <string name="status_bar_notification_privacy_title">Statusleiste Datenschutz</string>
   <string name="status_bar_notification_privacy_summary">Private Informationen nicht in der Statusleiste anzeigen.</string>
@@ -482,6 +490,7 @@
   <string name="preference_import_preferences_progress_text">Programmeinstellungen importieren…</string>
   <string name="preference_import_preferences_finish_text">Die Programmeinstellungen wurden importiert.</string>
   <string name="preference_import_preferences_error_text">Die Programmeinstellungen wurde nicht importiert. Mögliche Gründe sind eine fehlende Einstellungsdatei, eine fehlende SD-Karte oder andere Probleme, die diese Applikation daran hindern eine Datei von der SD-Karte zu lesen.</string>
+  <string name="confirm_import_app_preferences">Dies wird die aktuelle app-Einstellungen zu entfernen und ersetzen Sie sie durch die exportierten Einstellungen.</string>
   <string name="debug_category">DEBUGGEN</string>
   <string name="debug">Debuggen</string>
   <string name="log_file_error_title">﻿Protokoll-Dateifehler</string>
@@ -546,6 +555,8 @@
   <string name="preference_hide_single_message_header_enabled_summaryOff">Die Meldungen zeigen den Header-Text (z.B.: 1/1), auch wenn es sich nur um eine einzelne Nachricht handelt.</string>
   <string name="blocking_app_running_action_text">Optionen für blockierte Nachrichten</string>
   <string name="blocking_app_running_action_summary">Legen Sie fest was passieren soll, wenn eine Benachrichtigung eingeht, während eine blockierende App läuft.</string>
+  <string name="confirm_clear_reset_authentication_data">Die Authentifizierungsdaten werden zurückgesetzt.</string>
+  <string name="clear_data">Daten löschen</string>
   <string name="status_bar_notification_content_title_text_sms">Neue Nachricht</string>
   <string name="status_bar_notification_content_title_text_phone">Verpasster Anruf</string>
   <string name="status_bar_notification_content_title_text_calendar">Kalender Terminerinnerung</string>

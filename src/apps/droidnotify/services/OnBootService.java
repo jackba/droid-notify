@@ -8,6 +8,7 @@ import android.preference.PreferenceManager;
 import apps.droidnotify.calendar.CalendarCommon;
 import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
+import apps.droidnotify.reminder.ReminderCommon;
 
 /**
  * This class does the work of the BroadcastReceiver.
@@ -50,6 +51,8 @@ public class OnBootService extends WakefulIntentService {
 		try{
 			Context context = getApplicationContext();
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+			//Start Reminder DB Cleanup Alarms
+			ReminderCommon.startReminderDBManagementAlarmManager(context, System.currentTimeMillis() + (4 * 60 * 1000));
 			//Start Calendar Alarms
 		    if(preferences.getBoolean(Constants.CALENDAR_NOTIFICATIONS_ENABLED_KEY, true)){
 		    	CalendarCommon.startCalendarAlarmManager(context, System.currentTimeMillis() + (5 * 60 * 1000));

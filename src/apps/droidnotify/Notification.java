@@ -769,34 +769,38 @@ public class Notification {
 	 */
 	public void setReminder(){
 		if (_debug) Log.v("Notification.setReminder()");
-		boolean calendarReminder = false;
-		if(_notificationType == Constants.NOTIFICATION_TYPE_CALENDAR){
-			calendarReminder = true;	
-		}
-		if(_preferences.getBoolean(Constants.REMINDERS_ENABLED_KEY, false) || calendarReminder){							
-			boolean triggerReminder = true;
-			int maxRescheduleAttempts = -1;		
-			long rescheduleTime = -1;
-			if(calendarReminder){
-				maxRescheduleAttempts = Integer.parseInt(_preferences.getString(Constants.CALENDAR_REMINDER_FREQUENCY_KEY, Constants.CALENDAR_REMINDER_FREQUENCY_DEFAULT));		
-				rescheduleTime = System.currentTimeMillis() + Long.parseLong(_preferences.getString(Constants.CALENDAR_REMINDER_INTERVAL_KEY, Constants.CALENDAR_REMINDER_INTERVAL_DEFAULT)) * 60 * 1000;
-			}else{
-				maxRescheduleAttempts = Integer.parseInt(_preferences.getString(Constants.REMINDER_FREQUENCY_KEY, Constants.REMINDER_FREQUENCY_DEFAULT));		
-				rescheduleTime = System.currentTimeMillis() + Long.parseLong(_preferences.getString(Constants.REMINDER_INTERVAL_KEY, Constants.REMINDER_INTERVAL_DEFAULT)) * 60 * 1000;
+		try{
+			boolean calendarReminder = false;
+			if(_notificationType == Constants.NOTIFICATION_TYPE_CALENDAR){
+				calendarReminder = true;	
 			}
-			//Determine if the notification should be rescheduled or not.
-			if(maxRescheduleAttempts < 0){
-				//Infinite Attempts.
-				triggerReminder = true;
-			}else if(_reminderNumber >= maxRescheduleAttempts){
-				triggerReminder = false;
+			if(_preferences.getBoolean(Constants.REMINDERS_ENABLED_KEY, false) || calendarReminder){							
+				boolean triggerReminder = true;
+				int maxRescheduleAttempts = -1;		
+				long rescheduleTime = -1;
+				if(calendarReminder){
+					maxRescheduleAttempts = Integer.parseInt(_preferences.getString(Constants.CALENDAR_REMINDER_FREQUENCY_KEY, Constants.CALENDAR_REMINDER_FREQUENCY_DEFAULT));		
+					rescheduleTime = System.currentTimeMillis() + Long.parseLong(_preferences.getString(Constants.CALENDAR_REMINDER_INTERVAL_KEY, Constants.CALENDAR_REMINDER_INTERVAL_DEFAULT)) * 60 * 1000;
+				}else{
+					maxRescheduleAttempts = Integer.parseInt(_preferences.getString(Constants.REMINDER_FREQUENCY_KEY, Constants.REMINDER_FREQUENCY_DEFAULT));		
+					rescheduleTime = System.currentTimeMillis() + Long.parseLong(_preferences.getString(Constants.REMINDER_INTERVAL_KEY, Constants.REMINDER_INTERVAL_DEFAULT)) * 60 * 1000;
+				}
+				//Determine if the notification should be rescheduled or not.
+				if(maxRescheduleAttempts < 0){
+					//Infinite Attempts.
+					triggerReminder = true;
+				}else if(_reminderNumber >= maxRescheduleAttempts){
+					triggerReminder = false;
+				}
+				if(triggerReminder){
+					if (_debug) Log.v("Notification.setReminder() Reminder has been triggered.");
+					reschedule(rescheduleTime, Constants.PENDING_INTENT_TYPE_REMINDER);
+				}else{
+					if (_debug) Log.v("Notification.setReminder() Reminder will not be triggered.");
+				}
 			}
-			if(triggerReminder){
-				if (_debug) Log.v("Notification.setReminder() Reminder has been triggered.");
-				reschedule(rescheduleTime, Constants.PENDING_INTENT_TYPE_REMINDER);
-			}else{
-				if (_debug) Log.v("Notification.setReminder() Reminder will not be triggered.");
-			}
+		}catch(Exception ex){
+			Log.e("Notification.setReminder() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -805,21 +809,28 @@ public class Notification {
 	 */
 	public void cancelReminder() {
 		if (_debug) Log.v("Notification.cancelReminder()");
-		
-		//Create and cancel the PendingIntent that we want to cancel.
-		Intent reminderIntent = new Intent(_context, RescheduleReceiver.class);
-		String intentAction = getIntentAction(Constants.PENDING_INTENT_TYPE_REMINDER);
-		reminderIntent.setAction(intentAction);
-		PendingIntent reminderPendingIntent = PendingIntent.getBroadcast(_context, 0, reminderIntent, 0);
-		reminderPendingIntent.cancel();
-		if (_debug) Log.v("Notification.cancelReminder() Reminder Notification Action: " + intentAction);
-		
-		//Cancel the alarm.
-    	AlarmManager alarmManager = (AlarmManager) _context.getSystemService(Context.ALARM_SERVICE);
-    	alarmManager.cancel(reminderPendingIntent);
-    	
-    	//Update the reminder in the db.
-    	ReminderCommon.updateValue(_context, intentAction, true);
+		try{
+			if(_preferences.getBoolean(Constants.REMINDERS_ENABLED_KEY, false) || _notificationType == Constants.NOTIFICATION_TYPE_CALENDAR){
+				
+				//Create and cancel the PendingIntent that we want to cancel.
+				Intent reminderIntent = new Intent(_context, RescheduleReceiver.class);
+				String intentAction = getIntentAction(Constants.PENDING_INTENT_TYPE_REMINDER);
+				reminderIntent.setAction(intentAction);
+				PendingIntent reminderPendingIntent = PendingIntent.getBroadcast(_context, 0, reminderIntent, 0);
+				reminderPendingIntent.cancel();
+				if (_debug) Log.v("Notification.cancelReminder() Reminder Notification Action: " + intentAction);
+				
+				//Cancel the alarm.
+		    	AlarmManager alarmManager = (AlarmManager) _context.getSystemService(Context.ALARM_SERVICE);
+		    	alarmManager.cancel(reminderPendingIntent);
+		    	
+		    	//Update the reminder in the db.
+		    	ReminderCommon.updateValue(_context, intentAction, true);
+		    	
+			}
+		}catch(Exception ex){
+			Log.e("Notification.cancelReminder() ERROR: " + ex.toString());
+		}
 	}
 	
 	/**
@@ -968,6 +979,11 @@ public class Notification {
 	 */
 	public String getIntentAction(int rescheduleType){
 		if (_debug) Log.v("Notification.getIntentAction() RescheduleType: " + rescheduleType);
+		//Adjust for Preview notifications.
+		int notificationType = _notificationType;
+		if(notificationType > 1999){
+			notificationType -= 2000;
+		}
 		String preText = null;
 		if(rescheduleType == Constants.PENDING_INTENT_TYPE_REMINDER){
 			preText = "apps.droidnotify.reminder.";

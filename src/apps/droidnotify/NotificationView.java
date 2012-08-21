@@ -48,6 +48,7 @@ import apps.droidnotify.k9.K9Common;
 import apps.droidnotify.log.Log;
 import apps.droidnotify.phone.PhoneCommon;
 import apps.droidnotify.sms.SMSCommon;
+import apps.droidnotifydonate.R;
 
 /**
  * This class is the view which the ViewFlipper displays for each notification.
@@ -257,7 +258,8 @@ public class NotificationView extends LinearLayout {
 	private void setupLayoutTheme(){
 		if (_debug) Log.v("NotificationView.setupLayoutTheme()");
 		_themePackageName = _preferences.getString(Constants.APP_THEME_KEY, Constants.APP_THEME_DEFAULT);
-		Resources resources = _context.getResources();
+		if (_debug) Log.v("NotificationView.setupLayoutTheme() ThemePackageName: " + _themePackageName);
+		Resources localRresources = _context.getResources();
 		Drawable layoutBackgroundDrawable = null;
 		Drawable rescheduleDrawable = null;
 		Drawable ttsDrawable = null;
@@ -299,22 +301,22 @@ public class NotificationView extends LinearLayout {
 				try{
 					rescheduleDrawable = _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/ic_reschedule", null, null));
 				}catch(Exception ex){
-					sttDrawable = resources.getDrawable(R.drawable.ic_reschedule);
+					sttDrawable = localRresources.getDrawable(R.drawable.ic_reschedule);
 				}
 				try{
 					ttsDrawable = _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/ic_tts", null, null));
 				}catch(Exception ex){
-					sttDrawable = resources.getDrawable(R.drawable.ic_tts);
+					sttDrawable = localRresources.getDrawable(R.drawable.ic_tts);
 				}
 				try{
 					sttDrawable =_resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/ic_stt", null, null));
 				}catch(Exception ex){
-					sttDrawable = resources.getDrawable(R.drawable.ic_stt);
+					sttDrawable = localRresources.getDrawable(R.drawable.ic_stt);
 				}
 				try{
 					sendDrawable = _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/ic_send", null, null));
 				}catch(Exception ex){
-					sendDrawable = resources.getDrawable(R.drawable.ic_send);
+					sendDrawable = localRresources.getDrawable(R.drawable.ic_send);
 				}
 				notificationCountTextColorID = _resources.getColor(_resources.getIdentifier(_themePackageName + ":color/notification_count_text_color", null, null));
 				headerInfoTextcolorID = _resources.getColor(_resources.getIdentifier(_themePackageName + ":color/header_info_text_color", null, null));	
@@ -481,68 +483,104 @@ public class NotificationView extends LinearLayout {
 	 * @return StateListDrawable - Returns a Drawable that contains the state specific images for this theme.
 	 */
 	private StateListDrawable getThemeButton(int buttonType){
-		StateListDrawable stateListDrawable = new StateListDrawable();
-		switch(buttonType){
-			case Constants.THEME_BUTTON_NORMAL:{
-				if(_themePackageName.equals(Constants.NOTIFY_DEFAULT_THEME)){
-					stateListDrawable.addState(new int[] {android.R.attr.state_enabled, android.R.attr.state_pressed}, _resources.getDrawable(R.drawable.button_pressed));
-					stateListDrawable.addState(new int[] {android.R.attr.state_enabled}, _resources.getDrawable(R.drawable.button_normal));
-					stateListDrawable.addState(new int[] {}, _resources.getDrawable(R.drawable.button_disabled));
-				}else if(_themePackageName.equals(Constants.PHONE_DEFAULT_THEME)){
-					return null;
-				}else{
-					stateListDrawable.addState(new int[] {android.R.attr.state_enabled, android.R.attr.state_pressed}, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/button_pressed", null, null)));
-					stateListDrawable.addState(new int[] {android.R.attr.state_enabled}, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/button_normal", null, null)));
-					stateListDrawable.addState(new int[] {}, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/button_disabled", null, null)));
-				}
-				return stateListDrawable;
+		if (_debug) Log.v("NotificationView.getThemeButton() ButtonType: " + buttonType);
+		try{
+			if(_themePackageName.equals(Constants.PHONE_DEFAULT_THEME)){
+				return null;
 			}
-			case Constants.THEME_BUTTON_NAV_PREV:{
-				if(_themePackageName.equals(Constants.NOTIFY_DEFAULT_THEME) || _themePackageName.equals(Constants.PHONE_DEFAULT_THEME)){
-					stateListDrawable.addState(new int[] {android.R.attr.state_pressed}, _resources.getDrawable(R.drawable.button_navigate_prev_pressed));
-					stateListDrawable.addState(new int[] { }, _resources.getDrawable(R.drawable.button_navigate_prev_normal));
-				}else{
-					stateListDrawable.addState(new int[] {android.R.attr.state_pressed}, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/button_navigate_prev_pressed", null, null)));
-					stateListDrawable.addState(new int[] { }, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/button_navigate_prev_normal", null, null)));
+			Resources localRresources = _context.getResources();
+			StateListDrawable stateListDrawable = new StateListDrawable();
+			switch(buttonType){
+				case Constants.THEME_BUTTON_NORMAL:{
+					if(_themePackageName.equals(Constants.NOTIFY_DEFAULT_THEME)){
+						stateListDrawable.addState(new int[] {android.R.attr.state_enabled, android.R.attr.state_pressed}, _resources.getDrawable(R.drawable.button_pressed));
+						stateListDrawable.addState(new int[] {android.R.attr.state_enabled}, _resources.getDrawable(R.drawable.button_normal));
+						stateListDrawable.addState(new int[] {}, _resources.getDrawable(R.drawable.button_disabled));
+					}else{
+						try{
+							stateListDrawable.addState(new int[] {android.R.attr.state_enabled, android.R.attr.state_pressed}, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/button_pressed", null, null)));
+							stateListDrawable.addState(new int[] {android.R.attr.state_enabled}, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/button_normal", null, null)));
+							stateListDrawable.addState(new int[] {}, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/button_disabled", null, null)));
+						}catch(Exception ex){
+							stateListDrawable.addState(new int[] {android.R.attr.state_enabled, android.R.attr.state_pressed}, localRresources.getDrawable(R.drawable.button_pressed));
+							stateListDrawable.addState(new int[] {android.R.attr.state_enabled}, localRresources.getDrawable(R.drawable.button_normal));
+							stateListDrawable.addState(new int[] {}, localRresources.getDrawable(R.drawable.button_disabled));
+						}
+					}
+					return stateListDrawable;
 				}
-				return stateListDrawable;
-			}
-			case Constants.THEME_BUTTON_NAV_NEXT:{
-				if(_themePackageName.equals(Constants.NOTIFY_DEFAULT_THEME) || _themePackageName.equals(Constants.PHONE_DEFAULT_THEME)){
-					stateListDrawable.addState(new int[] {android.R.attr.state_pressed}, _resources.getDrawable(R.drawable.button_navigate_next_pressed));
-					stateListDrawable.addState(new int[] { }, _resources.getDrawable(R.drawable.button_navigate_next_normal));
-				}else{
-					stateListDrawable.addState(new int[] {android.R.attr.state_pressed}, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/button_navigate_next_pressed", null, null)));
-					stateListDrawable.addState(new int[] { }, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/button_navigate_next_normal", null, null)));
+				case Constants.THEME_BUTTON_NAV_PREV:{
+					if(_themePackageName.equals(Constants.NOTIFY_DEFAULT_THEME) || _themePackageName.equals(Constants.PHONE_DEFAULT_THEME)){
+						stateListDrawable.addState(new int[] {android.R.attr.state_pressed}, _resources.getDrawable(R.drawable.button_navigate_prev_pressed));
+						stateListDrawable.addState(new int[] { }, _resources.getDrawable(R.drawable.button_navigate_prev_normal));
+					}else{
+						try{
+							stateListDrawable.addState(new int[] {android.R.attr.state_pressed}, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/button_navigate_prev_pressed", null, null)));
+							stateListDrawable.addState(new int[] { }, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/button_navigate_prev_normal", null, null)));
+						}catch(Exception ex){
+							stateListDrawable.addState(new int[] {android.R.attr.state_pressed}, localRresources.getDrawable(R.drawable.button_navigate_prev_pressed));
+							stateListDrawable.addState(new int[] { }, localRresources.getDrawable(R.drawable.button_navigate_prev_normal));
+						}
+					}
+					return stateListDrawable;
 				}
-				return stateListDrawable;
-			}
-			case Constants.THEME_SPINNER:{
-				if(_themePackageName.equals(Constants.NOTIFY_DEFAULT_THEME) || _themePackageName.equals(Constants.PHONE_DEFAULT_THEME)){
-					stateListDrawable.addState(new int[] {android.R.attr.state_focused}, _resources.getDrawable(R.drawable.spinner_focused));
-					stateListDrawable.addState(new int[] {android.R.attr.state_pressed}, _resources.getDrawable(R.drawable.spinner_pressed));
-					stateListDrawable.addState(new int[] { }, _resources.getDrawable(R.drawable.spinner_normal));
-				}else{
-					stateListDrawable.addState(new int[] {android.R.attr.state_focused}, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/spinner_focused", null, null)));
-					stateListDrawable.addState(new int[] {android.R.attr.state_pressed}, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/spinner_pressed", null, null)));
-					stateListDrawable.addState(new int[] { }, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/spinner_normal", null, null)));
+				case Constants.THEME_BUTTON_NAV_NEXT:{
+					if(_themePackageName.equals(Constants.NOTIFY_DEFAULT_THEME) || _themePackageName.equals(Constants.PHONE_DEFAULT_THEME)){
+						stateListDrawable.addState(new int[] {android.R.attr.state_pressed}, _resources.getDrawable(R.drawable.button_navigate_next_pressed));
+						stateListDrawable.addState(new int[] { }, _resources.getDrawable(R.drawable.button_navigate_next_normal));
+					}else{
+						try{
+							stateListDrawable.addState(new int[] {android.R.attr.state_pressed}, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/button_navigate_next_pressed", null, null)));
+							stateListDrawable.addState(new int[] { }, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/button_navigate_next_normal", null, null)));
+						}catch(Exception ex){
+							stateListDrawable.addState(new int[] {android.R.attr.state_pressed}, localRresources.getDrawable(R.drawable.button_navigate_next_pressed));
+							stateListDrawable.addState(new int[] { }, localRresources.getDrawable(R.drawable.button_navigate_next_normal));
+						}
+					}
+					return stateListDrawable;
 				}
-				return stateListDrawable;
-			}
-			case Constants.THEME_EDIT_TEXT:{
-				if(_themePackageName.equals(Constants.NOTIFY_DEFAULT_THEME) || _themePackageName.equals(Constants.PHONE_DEFAULT_THEME)){
-					stateListDrawable.addState(new int[] {android.R.attr.state_activated}, _resources.getDrawable(R.drawable.textfield_activated));
-					stateListDrawable.addState(new int[] {android.R.attr.state_focused}, _resources.getDrawable(R.drawable.textfield_focused));
-					stateListDrawable.addState(new int[] { }, _resources.getDrawable(R.drawable.textfield_normal));
-				}else{
-					stateListDrawable.addState(new int[] {android.R.attr.state_activated}, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/spinner_activated", null, null)));
-					stateListDrawable.addState(new int[] {android.R.attr.state_focused}, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/textfield_focused", null, null)));
-					stateListDrawable.addState(new int[] { }, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/textfield_normal", null, null)));
+				case Constants.THEME_SPINNER:{
+					if(_themePackageName.equals(Constants.NOTIFY_DEFAULT_THEME) || _themePackageName.equals(Constants.PHONE_DEFAULT_THEME)){
+						stateListDrawable.addState(new int[] {android.R.attr.state_pressed}, _resources.getDrawable(R.drawable.spinner_pressed));
+						stateListDrawable.addState(new int[] {android.R.attr.state_focused}, _resources.getDrawable(R.drawable.spinner_focused));
+						stateListDrawable.addState(new int[] { }, _resources.getDrawable(R.drawable.spinner_normal));
+					}else{
+						try{
+							stateListDrawable.addState(new int[] {android.R.attr.state_pressed}, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/spinner_pressed", null, null)));
+							stateListDrawable.addState(new int[] {android.R.attr.state_focused}, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/spinner_focused", null, null)));
+							stateListDrawable.addState(new int[] { }, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/spinner_normal", null, null)));
+						}catch(Exception ex){
+							stateListDrawable.addState(new int[] {android.R.attr.state_pressed}, localRresources.getDrawable(R.drawable.spinner_pressed));
+							stateListDrawable.addState(new int[] {android.R.attr.state_focused}, localRresources.getDrawable(R.drawable.spinner_focused));
+							stateListDrawable.addState(new int[] { }, localRresources.getDrawable(R.drawable.spinner_normal));
+						}
+					}
+					return stateListDrawable;
 				}
-				return stateListDrawable;
+				case Constants.THEME_EDIT_TEXT:{
+					if(_themePackageName.equals(Constants.NOTIFY_DEFAULT_THEME) || _themePackageName.equals(Constants.PHONE_DEFAULT_THEME)){
+						stateListDrawable.addState(new int[] {android.R.attr.state_activated}, _resources.getDrawable(R.drawable.textfield_activated));
+						stateListDrawable.addState(new int[] {android.R.attr.state_focused}, _resources.getDrawable(R.drawable.textfield_focused));
+						stateListDrawable.addState(new int[] { }, _resources.getDrawable(R.drawable.textfield_normal));
+					}else{
+						try{
+							stateListDrawable.addState(new int[] {android.R.attr.state_activated}, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/textfield_activated", null, null)));
+							stateListDrawable.addState(new int[] {android.R.attr.state_focused}, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/textfield_focused", null, null)));
+							stateListDrawable.addState(new int[] { }, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/textfield_normal", null, null)));
+						}catch(Exception ex){
+							stateListDrawable.addState(new int[] {android.R.attr.state_activated}, localRresources.getDrawable(R.drawable.textfield_activated));
+							stateListDrawable.addState(new int[] {android.R.attr.state_focused}, localRresources.getDrawable(R.drawable.textfield_focused));
+							stateListDrawable.addState(new int[] { }, localRresources.getDrawable(R.drawable.textfield_normal));
+						}
+					}
+					return stateListDrawable;
+				}
 			}
+			return null;
+		}catch(Exception ex){
+			Log.e("NotificationView.getThemeButton() ERROR: " + ex.toString());
+			return null;
 		}
-		return null;
 	}
 
 	/**
