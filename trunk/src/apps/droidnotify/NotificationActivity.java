@@ -215,18 +215,28 @@ public class NotificationActivity extends Activity{
 	    //Complete the selected action.
 		switch (menuItem.getItemId()){
 			case ADD_CONTACT_CONTEXT_MENU:{
+				//Cancel the reminder.
+				notification.cancelReminder();
 				return ContactsCommon.startContactAddActivity(_context, this, notification.getSentFromAddress(), Constants.ADD_CONTACT_ACTIVITY);
 			}
 			case EDIT_CONTACT_CONTEXT_MENU:{
+				//Cancel the reminder.
+				notification.cancelReminder();
 				return ContactsCommon.startContactEditActivity(_context, this, notification.getContactID(), Constants.EDIT_CONTACT_ACTIVITY);
 			}
 			case VIEW_CONTACT_CONTEXT_MENU:{
+				//Cancel the reminder.
+				notification.cancelReminder();
 				return ContactsCommon.startContactViewActivity(_context, this, notification.getContactID(), Constants.VIEW_CONTACT_ACTIVITY);
 			}
 			case VIEW_CALL_LOG_CONTEXT_MENU:{
+				//Cancel the reminder.
+				notification.cancelReminder();
 				return PhoneCommon.startCallLogViewActivity(_context, this, Constants.VIEW_CALL_LOG_ACTIVITY);
 			}
 			case CALL_CONTACT_CONTEXT_MENU:{
+				//Cancel the reminder.
+				notification.cancelReminder();
 				try{
 					final String[] phoneNumberArray = getPhoneNumbers(notification);
 					if(phoneNumberArray == null){
@@ -260,6 +270,8 @@ public class NotificationActivity extends Activity{
 				}
 			}
 			case MESSAGING_INBOX_CONTEXT_MENU:{
+				//Cancel the reminder.
+				notification.cancelReminder();
 				if(SMSCommon.startMessagingAppViewInboxActivity(_context, this, Constants.MESSAGING_ACTIVITY)){
 					return true;
 				}else{
@@ -267,6 +279,8 @@ public class NotificationActivity extends Activity{
 				}
 			}
 			case VIEW_THREAD_CONTEXT_MENU:{
+				//Cancel the reminder.
+				notification.cancelReminder();
 				if(SMSCommon.startMessagingAppViewThreadActivity(_context, this, notification.getThreadID(), Constants.VIEW_SMS_THREAD_ACTIVITY)){
 					return true;
 				}else{
@@ -274,6 +288,8 @@ public class NotificationActivity extends Activity{
 				}
 			}
 			case TEXT_CONTACT_CONTEXT_MENU:{
+				//Cancel the reminder.
+				notification.cancelReminder();
 				try{
 					final String[] phoneNumberArray = getPhoneNumbers(notification);
 					if(phoneNumberArray == null){
@@ -306,18 +322,28 @@ public class NotificationActivity extends Activity{
 				}
 			}
 			case ADD_CALENDAR_EVENT_CONTEXT_MENU:{
+				//Cancel the reminder.
+				notification.cancelReminder();
 				return CalendarCommon.startAddCalendarEventActivity(_context, this, Constants.ADD_CALENDAR_ACTIVITY);
 			}
 			case EDIT_CALENDAR_EVENT_CONTEXT_MENU:{
+				//Cancel the reminder.
+				notification.cancelReminder();
 				return CalendarCommon.startEditCalendarEventActivity(_context, this, notification.getCalendarEventID(), notification.getCalendarEventStartTime(), notification.getCalendarEventEndTime(), Constants.EDIT_CALENDAR_ACTIVITY);
 			}
 			case VIEW_CALENDAR_CONTEXT_MENU:{
+				//Cancel the reminder.
+				notification.cancelReminder();
 				return CalendarCommon.startViewCalendarActivity(_context, this, Constants.CALENDAR_ACTIVITY);
 			}
 			case VIEW_K9_INBOX_CONTEXT_MENU:{
+				//Cancel the reminder.
+				notification.cancelReminder();
 				return K9Common.startK9EmailAppViewInboxActivity(_context, this, notification.getNotificationSubType(), Constants.K9_VIEW_EMAIL_ACTIVITY);
 			}
 			case RESCHEDULE_NOTIFICATION_CONTEXT_MENU:{
+				//Cancel the reminder.
+				notification.cancelReminder();
 				try{
 					_notificationViewFlipper.rescheduleNotification();
 					return true;
@@ -327,6 +353,8 @@ public class NotificationActivity extends Activity{
 				}
 			}
 			case SPEAK_NOTIFICATION_CONTEXT_MENU:{
+				//Cancel the reminder.
+				notification.cancelReminder();
 				try{
 					speak();
 					return true;
@@ -336,6 +364,8 @@ public class NotificationActivity extends Activity{
 				}
 			}
 			case DISMISS_NOTIFICATION_CONTEXT_MENU:{
+				//Cancel the reminder.
+				notification.cancelReminder();
 				try{
 					//Remove notification from ViewFlipper.
 					_notificationViewFlipper.removeActiveNotification(false);

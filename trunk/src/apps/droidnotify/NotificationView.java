@@ -452,6 +452,8 @@ public class NotificationView extends LinearLayout {
 			    public void onClick(View view){
 			    	if (_debug) Log.v("STT Button Clicked()");
 			    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+					//Cancel the reminder.
+					_notification.cancelReminder();
 			    	_notificationActivity.startStt();
 			    }
 			}
@@ -462,6 +464,8 @@ public class NotificationView extends LinearLayout {
 				public void onClick(View view){
 			    	if (_debug) Log.v("STT Button Clicked()");
 			    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+					//Cancel the reminder.
+					_notification.cancelReminder();
 			    	String message = _messageEditText.getText().toString();
 			    	if(message.equals("")){
 			    		//No text was entered.
@@ -484,9 +488,6 @@ public class NotificationView extends LinearLayout {
 	private StateListDrawable getThemeButton(int buttonType){
 		if (_debug) Log.v("NotificationView.getThemeButton() ButtonType: " + buttonType);
 		try{
-			if(_themePackageName.equals(Constants.PHONE_DEFAULT_THEME)){
-				return null;
-			}
 			Resources localRresources = _context.getResources();
 			StateListDrawable stateListDrawable = new StateListDrawable();
 			switch(buttonType){
@@ -501,6 +502,7 @@ public class NotificationView extends LinearLayout {
 							stateListDrawable.addState(new int[] {android.R.attr.state_enabled}, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/button_normal", null, null)));
 							stateListDrawable.addState(new int[] {}, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/button_disabled", null, null)));
 						}catch(Exception ex){
+							Log.e("NotificationView.getThemeButton() NORMAL BUTTON THEME ERROR: " + ex.toString());
 							stateListDrawable.addState(new int[] {android.R.attr.state_enabled, android.R.attr.state_pressed}, localRresources.getDrawable(R.drawable.button_pressed));
 							stateListDrawable.addState(new int[] {android.R.attr.state_enabled}, localRresources.getDrawable(R.drawable.button_normal));
 							stateListDrawable.addState(new int[] {}, localRresources.getDrawable(R.drawable.button_disabled));
@@ -517,6 +519,7 @@ public class NotificationView extends LinearLayout {
 							stateListDrawable.addState(new int[] {android.R.attr.state_pressed}, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/button_navigate_prev_pressed", null, null)));
 							stateListDrawable.addState(new int[] { }, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/button_navigate_prev_normal", null, null)));
 						}catch(Exception ex){
+							Log.e("NotificationView.getThemeButton() NAV PREV BUTTON THEME ERROR: " + ex.toString());
 							stateListDrawable.addState(new int[] {android.R.attr.state_pressed}, localRresources.getDrawable(R.drawable.button_navigate_prev_pressed));
 							stateListDrawable.addState(new int[] { }, localRresources.getDrawable(R.drawable.button_navigate_prev_normal));
 						}
@@ -532,6 +535,7 @@ public class NotificationView extends LinearLayout {
 							stateListDrawable.addState(new int[] {android.R.attr.state_pressed}, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/button_navigate_next_pressed", null, null)));
 							stateListDrawable.addState(new int[] { }, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/button_navigate_next_normal", null, null)));
 						}catch(Exception ex){
+							Log.e("NotificationView.getThemeButton() NAV NEXT BUTTON THEME ERROR: " + ex.toString());
 							stateListDrawable.addState(new int[] {android.R.attr.state_pressed}, localRresources.getDrawable(R.drawable.button_navigate_next_pressed));
 							stateListDrawable.addState(new int[] { }, localRresources.getDrawable(R.drawable.button_navigate_next_normal));
 						}
@@ -549,6 +553,7 @@ public class NotificationView extends LinearLayout {
 							stateListDrawable.addState(new int[] {android.R.attr.state_focused}, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/spinner_focused", null, null)));
 							stateListDrawable.addState(new int[] { }, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/spinner_normal", null, null)));
 						}catch(Exception ex){
+							Log.e("NotificationView.getThemeButton() SPINNER THEME ERROR: " + ex.toString());
 							stateListDrawable.addState(new int[] {android.R.attr.state_pressed}, localRresources.getDrawable(R.drawable.spinner_pressed));
 							stateListDrawable.addState(new int[] {android.R.attr.state_focused}, localRresources.getDrawable(R.drawable.spinner_focused));
 							stateListDrawable.addState(new int[] { }, localRresources.getDrawable(R.drawable.spinner_normal));
@@ -567,6 +572,7 @@ public class NotificationView extends LinearLayout {
 							stateListDrawable.addState(new int[] {android.R.attr.state_focused}, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/textfield_focused", null, null)));
 							stateListDrawable.addState(new int[] { }, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/textfield_normal", null, null)));
 						}catch(Exception ex){
+							Log.e("NotificationView.getThemeButton() EDIT TEXT THEME ERROR: " + ex.toString());
 							stateListDrawable.addState(new int[] {android.R.attr.state_activated}, localRresources.getDrawable(R.drawable.textfield_activated));
 							stateListDrawable.addState(new int[] {android.R.attr.state_focused}, localRresources.getDrawable(R.drawable.textfield_focused));
 							stateListDrawable.addState(new int[] { }, localRresources.getDrawable(R.drawable.textfield_normal));
@@ -696,6 +702,8 @@ public class NotificationView extends LinearLayout {
 				    public void onClick(View view){
 				    	if (_debug) Log.v("Previous Button Clicked()");
 				    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+						//Cancel the reminder.
+						_notification.cancelReminder();
 				    	_notificationViewFlipper.showPrevious();
 				    }
 				}
@@ -706,6 +714,8 @@ public class NotificationView extends LinearLayout {
 				    public void onClick(View view){
 				    	if (_debug) Log.v("Next Button Clicked()");
 				    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+						//Cancel the reminder.
+						_notification.cancelReminder();
 				    	_notificationViewFlipper.showNext();
 				    }
 				}
@@ -718,6 +728,8 @@ public class NotificationView extends LinearLayout {
 					    public void onClick(View view){
 					    	if (_debug) Log.v("TTS Image Button Clicked()");
 					    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+							//Cancel the reminder.
+							_notification.cancelReminder();
 					    	_notificationActivity.speak();
 					    }
 					}
@@ -733,6 +745,8 @@ public class NotificationView extends LinearLayout {
 					    public void onClick(View view){
 					    	if (_debug) Log.v("Reschedule Button Clicked()");
 					    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+							//Cancel the reminder.
+							_notification.cancelReminder();
 					    	_notificationViewFlipper.rescheduleNotification();
 					    }
 					}
@@ -842,6 +856,8 @@ public class NotificationView extends LinearLayout {
 					    public void onClick(View view){
 					    	if (_debug) Log.v("Notification Count Button Clicked()");
 					    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+							//Cancel the reminder.
+							_notification.cancelReminder();
 					    	PhoneCommon.startCallLogViewActivity(_context, _notificationActivity, Constants.VIEW_CALL_LOG_ACTIVITY);
 					    }
 					}
@@ -853,6 +869,8 @@ public class NotificationView extends LinearLayout {
 				    public void onClick(View view){
 				    	if (_debug) Log.v("Notification Missed Call Link Clicked()");
 				    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+						//Cancel the reminder.
+						_notification.cancelReminder();
 				    	PhoneCommon.startCallLogViewActivity(_context, _notificationActivity, Constants.VIEW_CALL_LOG_ACTIVITY);
 				    }
 				});
@@ -866,6 +884,8 @@ public class NotificationView extends LinearLayout {
 						    public void onClick(View v){
 						    	if (_debug) Log.v("Dismiss Button Clicked()");
 						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+								//Cancel the reminder.
+								_notification.cancelReminder();
 						    	dismissNotification(false);
 						    }
 						}
@@ -881,6 +901,8 @@ public class NotificationView extends LinearLayout {
 						    public void onClick(View v){
 						    	if (_debug) Log.v("Call Button Clicked()");
 						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+								//Cancel the reminder.
+								_notification.cancelReminder();
 						    	callMissedCall();
 						    }
 						}
@@ -897,6 +919,8 @@ public class NotificationView extends LinearLayout {
 						    public void onClick(View v){
 						    	if (_debug) Log.v("Dismiss Button Clicked()");
 						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+								//Cancel the reminder.
+								_notification.cancelReminder();
 						    	dismissNotification(false);
 						    }
 						}
@@ -912,6 +936,8 @@ public class NotificationView extends LinearLayout {
 						    public void onClick(View v){
 						    	if (_debug) Log.v("Call Button Clicked()");
 						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+								//Cancel the reminder.
+								_notification.cancelReminder();
 						    	callMissedCall();
 						    }
 						}
@@ -942,6 +968,8 @@ public class NotificationView extends LinearLayout {
 					    public void onClick(View view){
 					    	if (_debug) Log.v("Notification SMS Link Clicked()");
 					    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+							//Cancel the reminder.
+							_notification.cancelReminder();
 					    	SMSCommon.startMessagingAppViewThreadActivity(_context, _notificationActivity, _notification.getThreadID(), Constants.VIEW_SMS_MESSAGE_ACTIVITY);
 					    }
 					});
@@ -953,6 +981,8 @@ public class NotificationView extends LinearLayout {
 					    public void onClick(View view){
 					    	if (_debug) Log.v("Notification MMS Link Clicked()");
 					    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+							//Cancel the reminder.
+							_notification.cancelReminder();
 					    	SMSCommon.startMessagingAppViewThreadActivity(_context, _notificationActivity, _notification.getThreadID(), Constants.VIEW_SMS_MESSAGE_ACTIVITY);
 					    }
 					});
@@ -969,6 +999,8 @@ public class NotificationView extends LinearLayout {
 					    public void onClick(View view){
 					    	if (_debug) Log.v("Notification Count Button Clicked()");
 					    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+							//Cancel the reminder.
+							_notification.cancelReminder();
 					    	SMSCommon.startMessagingAppViewThreadActivity(_context, _notificationActivity, _notification.getThreadID(), Constants.VIEW_SMS_MESSAGE_ACTIVITY);
 					    }
 					}
@@ -979,6 +1011,8 @@ public class NotificationView extends LinearLayout {
 					    public void onClick(View view){
 					    	if (_debug) Log.v("Notification Count Button Clicked()");
 					    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+							//Cancel the reminder.
+							_notification.cancelReminder();
 					    	SMSCommon.startMessagingAppViewThreadActivity(_context, _notificationActivity, _notification.getThreadID(), Constants.VIEW_SMS_THREAD_ACTIVITY);
 					    }
 					}
@@ -989,6 +1023,8 @@ public class NotificationView extends LinearLayout {
 					    public void onClick(View view){
 					    	if (_debug) Log.v("Notification Count Button Clicked()");
 					    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+							//Cancel the reminder.
+							_notification.cancelReminder();
 					    	SMSCommon.startMessagingAppViewInboxActivity(_context, _notificationActivity, Constants.MESSAGING_ACTIVITY);
 					    }
 					}
@@ -1013,6 +1049,8 @@ public class NotificationView extends LinearLayout {
 						    public void onClick(View view){
 						    	if (_debug) Log.v("SMS Dismiss Button Clicked()");
 						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+								//Cancel the reminder.
+								_notification.cancelReminder();
 						    	dismissNotification(false);
 						    }
 						}
@@ -1028,6 +1066,8 @@ public class NotificationView extends LinearLayout {
 						    public void onClick(View view){
 						    	if (_debug) Log.v("SMS Delete Button Clicked()");
 						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+								//Cancel the reminder.
+								_notification.cancelReminder();
 						    	showDeleteDialog();
 						    }
 						}
@@ -1043,6 +1083,8 @@ public class NotificationView extends LinearLayout {
 						    public void onClick(View view){
 						    	if (_debug) Log.v("SMS Reply Button Clicked()");
 						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+								//Cancel the reminder.
+								_notification.cancelReminder();
 						    	replyToMessage(_notificationType);
 						    }
 						}
@@ -1059,6 +1101,8 @@ public class NotificationView extends LinearLayout {
 						    public void onClick(View view){
 						    	if (_debug) Log.v("SMS Dismiss Button Clicked()");
 						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+								//Cancel the reminder.
+								_notification.cancelReminder();
 						    	dismissNotification(false);
 						    }
 						}
@@ -1074,6 +1118,8 @@ public class NotificationView extends LinearLayout {
 						    public void onClick(View view){
 						    	if (_debug) Log.v("SMS Delete Button Clicked()");
 						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+								//Cancel the reminder.
+								_notification.cancelReminder();
 						    	showDeleteDialog();
 						    }
 						}
@@ -1089,6 +1135,8 @@ public class NotificationView extends LinearLayout {
 						    public void onClick(View view){
 						    	if (_debug) Log.v("SMS Reply Button Clicked()");
 						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+								//Cancel the reminder.
+								_notification.cancelReminder();
 						    	replyToMessage(_notificationType);
 						    }
 						}
@@ -1120,6 +1168,8 @@ public class NotificationView extends LinearLayout {
 					    public void onClick(View view){
 					    	if (_debug) Log.v("Notification Count Button Clicked()");
 					    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+							//Cancel the reminder.
+							_notification.cancelReminder();
 					    	CalendarCommon.startViewCalendarActivity(_context, _notificationActivity, Constants.CALENDAR_ACTIVITY);
 					    }
 					}
@@ -1137,6 +1187,8 @@ public class NotificationView extends LinearLayout {
 					    public void onClick(View view){
 					    	if (_debug) Log.v("Calendar Snooze Button Clicked()");
 					    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+							//Cancel the reminder.
+							_notification.cancelReminder();
 					    	snoozeCalendarEvent();
 					    }
 					}
@@ -1155,6 +1207,8 @@ public class NotificationView extends LinearLayout {
 						    public void onClick(View view){
 						    	if (_debug) Log.v("Calendar Dismiss Button Clicked()");
 						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+								//Cancel the reminder.
+								_notification.cancelReminder();
 						    	dismissNotification(false);
 						    }
 						}
@@ -1170,6 +1224,8 @@ public class NotificationView extends LinearLayout {
 						    public void onClick(View view){
 						    	if (_debug) Log.v("Calendar View Button Clicked()");
 						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+								//Cancel the reminder.
+								_notification.cancelReminder();
 						    	viewNotification(Constants.NOTIFICATION_TYPE_CALENDAR);
 						    }
 						}
@@ -1186,6 +1242,8 @@ public class NotificationView extends LinearLayout {
 						    public void onClick(View view){
 						    	if (_debug) Log.v("Calendar Dismiss Button Clicked()");
 						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+								//Cancel the reminder.
+								_notification.cancelReminder();
 						    	dismissNotification(false);
 						    }
 						}
@@ -1201,6 +1259,8 @@ public class NotificationView extends LinearLayout {
 						    public void onClick(View view){
 						    	if (_debug) Log.v("Calendar View Button Clicked()");
 						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+								//Cancel the reminder.
+								_notification.cancelReminder();
 						    	viewNotification(Constants.NOTIFICATION_TYPE_CALENDAR);
 						    }
 	    				}
@@ -1232,6 +1292,8 @@ public class NotificationView extends LinearLayout {
 					    public void onClick(View view){
 					    	if (_debug) Log.v("Notification Count Button Clicked()");
 					    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+							//Cancel the reminder.
+							_notification.cancelReminder();
 					    	K9Common.startK9EmailAppViewInboxActivity(_context, _notificationActivity, _notificationSubType, Constants.K9_VIEW_INBOX_ACTIVITY);
 					    }
 					}
@@ -1243,6 +1305,8 @@ public class NotificationView extends LinearLayout {
 				    public void onClick(View view){
 				    	if (_debug) Log.v("Notification Email Link Clicked()");
 				    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+						//Cancel the reminder.
+						_notification.cancelReminder();
 				    	K9Common.startK9EmailAppViewInboxActivity(_context, _notificationActivity, _notificationSubType, Constants.K9_VIEW_EMAIL_ACTIVITY);
 				    }
 				});
@@ -1256,6 +1320,8 @@ public class NotificationView extends LinearLayout {
 						    public void onClick(View view){
 						    	if (_debug) Log.v("K9 Dismiss Button Clicked()");
 						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+								//Cancel the reminder.
+								_notification.cancelReminder();
 						    	dismissNotification(false);
 						    }
 						}
@@ -1271,6 +1337,8 @@ public class NotificationView extends LinearLayout {
 						    public void onClick(View view){
 						    	if (_debug) Log.v("K9 Delete Button Clicked()");
 						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+								//Cancel the reminder.
+								_notification.cancelReminder();
 						    	showDeleteDialog();
 						    }
 						}
@@ -1286,6 +1354,8 @@ public class NotificationView extends LinearLayout {
 						    public void onClick(View view){
 						    	if (_debug) Log.v("K9 Reply Button Clicked()");
 						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+								//Cancel the reminder.
+								_notification.cancelReminder();
 						    	replyToMessage(Constants.NOTIFICATION_TYPE_K9);
 						    }
 						}
@@ -1302,6 +1372,8 @@ public class NotificationView extends LinearLayout {
 						    public void onClick(View view){
 						    	if (_debug) Log.v("K9 Dismiss Button Clicked()");
 						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+								//Cancel the reminder.
+								_notification.cancelReminder();
 						    	dismissNotification(false);
 						    }
 						}
@@ -1317,6 +1389,8 @@ public class NotificationView extends LinearLayout {
 						    public void onClick(View view){
 						    	if (_debug) Log.v("K9 Delete Button Clicked()");
 						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+								//Cancel the reminder.
+								_notification.cancelReminder();
 						    	showDeleteDialog();
 						    }
 						}
@@ -1332,6 +1406,8 @@ public class NotificationView extends LinearLayout {
 						    public void onClick(View view){
 						    	if (_debug) Log.v("K9 Reply Button Clicked()");
 						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+								//Cancel the reminder.
+								_notification.cancelReminder();
 						    	replyToMessage(Constants.NOTIFICATION_TYPE_K9);
 						    }
 						}
@@ -1361,6 +1437,8 @@ public class NotificationView extends LinearLayout {
 				    public void onClick(View view){
 				    	if (_debug) Log.v("Generic Dismiss Button Clicked()");
 				    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+						//Cancel the reminder.
+						_notification.cancelReminder();
 				    	dismissNotification(false);
 				    	if(dismissPendingIntent != null){
 					    	try{
@@ -1381,6 +1459,8 @@ public class NotificationView extends LinearLayout {
 					    public void onClick(View view){
 					    	if (_debug) Log.v("Generic Delete Button Clicked()");
 					    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+							//Cancel the reminder.
+							_notification.cancelReminder();
 					    	dismissNotification(false);
 					    	try{
 					    		deletePendingIntent.send();
@@ -1402,6 +1482,8 @@ public class NotificationView extends LinearLayout {
 					    public void onClick(View view){
 					    	if (_debug) Log.v("Generic View Button Clicked()");
 					    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+							//Cancel the reminder.
+							_notification.cancelReminder();
 					    	dismissNotification(false);
 					    	try{
 					    		viewPendingIntent.send();
@@ -1770,6 +1852,8 @@ public class NotificationView extends LinearLayout {
 			    public void onClick(View view){
 			    	if (_debug) Log.v("Contact Photo Clicked()");
 			    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+					//Cancel the reminder.
+					_notification.cancelReminder();
 			    	try{
 			    		ContactsContract.QuickContact.showQuickContact(_context, _photoImageView, Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_LOOKUP_URI, lookupKey), ContactsContract.QuickContact.MODE_MEDIUM, null);
 			    	}catch(Exception ex){

@@ -86,6 +86,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 	public boolean addNotification(Notification notification, boolean isNew){
 		if(_debug) Log.v("NotificationViewFlipper.addNotification()");
 		try{
+			Notification originalNotification = null;
 			int notificationType = notification.getNotificationType();
 			boolean duplicateFound = false;
 			int totalNotifications = this.getChildCount();
@@ -93,6 +94,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 				Notification currentNotification = ((NotificationView) this.getChildAt(i)).getNotification();
 				if(notification.equals(currentNotification)){
 					duplicateFound = true;
+					originalNotification = currentNotification;
 					break;
 				}
 			}
@@ -145,14 +147,18 @@ public class NotificationViewFlipper extends ViewFlipper {
 						break;
 					}
 				}
+				//Only set the reminders if the notification is new.
+				//DO NOT set reminders for notifications that come from loading unread SMS messages.
+				if(isNew){
+					//Set the notification reminder.
+					notification.setReminder();
+				}else{
+					
+				}
 			}else{
 				if(_debug) Log.v("NotificationViewFlipper.addNotification() Duplicate Notification Found! This notification will not be added.");
-			}
-			//Only set the reminders if the notification is new.
-			//DO NOT set reminders for notifications that come from loading unread SMS messages.
-			if(isNew){
-				//Set the notification reminder.
-				notification.setReminder();
+				//Set the same reminder again. This should have the same intent action as the original notification (not the incremented new notification).
+				originalNotification.setReminder();				
 			}
 			return true;
 		}catch(Exception ex){
@@ -423,6 +429,10 @@ public class NotificationViewFlipper extends ViewFlipper {
 		try{
 			int totalNotifications = this.getChildCount();
 			for (int i=0; i<totalNotifications; i++){
+				//Cancel the reminder.
+				Notification currentNotification = ((NotificationView) this.getChildAt(i)).getNotification();
+				currentNotification.cancelReminder();
+				//Remove the notification.
 				removeActiveNotification(false);
 			}
   		}catch(Exception ex){
@@ -496,8 +506,6 @@ public class NotificationViewFlipper extends ViewFlipper {
 			if(_debug) Log.v("NotificationViewFlipper.removeNotification() Notification is null. Exiting...");
 			return;
 		}
-		//Cancel the reminder.
-		notification.cancelReminder();
 		int notificationType = notification.getNotificationType();
 		//Adjust for Preview notifications.
 		if(notificationType > 1999){
