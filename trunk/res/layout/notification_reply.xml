@@ -184,7 +184,10 @@
 			    android:layout_width="0dp"
 			    android:layout_weight="1"
 			    android:layout_gravity="center_vertical"
-	        	android:entries="@array/reschedule_time_options" />
+	        	android:entries="@array/reschedule_time_options"
+		        android:nextFocusDown="@+id/snooze_image_button"
+		        android:nextFocusRight="@+id/snooze_image_button"
+		        android:nextFocusForward="@+id/snooze_image_button" />
 			<ImageButton
 			    android:id="@+id/snooze_image_button"
 			    android:layout_width="wrap_content"
@@ -193,9 +196,10 @@
 			    android:background="@drawable/transparent"
 			    android:gravity="center_vertical|center_horizontal"
 			    android:hapticFeedbackEnabled="true"
-			    android:nextFocusLeft="@+id/calendar_snooze_spinner"
 			    android:padding="10dp"
-			    android:src="@drawable/ic_calendar_snooze" />
+			    android:src="@drawable/ic_calendar_snooze"
+		        android:nextFocusUp="@+id/calendar_snooze_spinner"
+		        android:nextFocusLeft="@+id/calendar_snooze_spinner" />
 		</LinearLayout>
 	</LinearLayout>
 	<LinearLayout
@@ -211,17 +215,24 @@
 		    android:background="@drawable/transparent"
 		    android:gravity="center_vertical|center_horizontal"
 		    android:hapticFeedbackEnabled="true"
-		    android:nextFocusRight="@+id/message_edit_text"
-		    android:src="@drawable/ic_stt" />
+		    android:src="@drawable/ic_stt"
+	        android:nextFocusDown="@+id/message_edit_text"
+	        android:nextFocusRight="@+id/message_edit_text"
+	        android:nextFocusForward="@+id/message_edit_text" />
 		<EditText 
 			android:id="@+id/message_edit_text"
 			android:layout_height="wrap_content"
 		    android:layout_width="0dp"
 		    android:layout_weight="1"
 			android:inputType="textShortMessage|textAutoCorrect|textCapSentences|textMultiLine"
-			android:imeOptions="actionSend|flagNoEnterAction" 
+			android:imeOptions="actionSend|flagNoEnterAction"
 			android:hint="@string/type_to_compose"
-			android:gravity="left|top" />
+			android:gravity="left|top"
+	        android:nextFocusDown="@+id/send_image_button"
+	        android:nextFocusRight="@+id/send_image_button"
+	        android:nextFocusUp="@+id/stt_image_button"
+	        android:nextFocusLeft="@+id/stt_image_button"
+	        android:nextFocusForward="@+id/send_image_button" />
 		<ImageButton
 		    android:id="@+id/send_image_button"
 		    android:layout_width="wrap_content"
@@ -230,9 +241,10 @@
 		    android:background="@drawable/transparent"
 		    android:gravity="center_vertical|center_horizontal"
 		    android:hapticFeedbackEnabled="true"
-		    android:nextFocusLeft="@+id/message_edit_text"
 		    android:padding="5dp"
-		    android:src="@drawable/ic_send" />
+		    android:src="@drawable/ic_send"
+	        android:nextFocusUp="@+id/message_edit_text"
+	        android:nextFocusLeft="@+id/message_edit_text" />
 	</LinearLayout>
 	<LinearLayout 
 		android:id="@+id/button_linear_layout" 
