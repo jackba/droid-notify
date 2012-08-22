@@ -188,7 +188,8 @@ public class ReminderCommon {
 		if(_debug) Log.v("ReminderCommon.cleanDB()");
         try{
 			String deleteWhere = DBConstants.COLUMN_CREATED + "<?";
-        	context.getContentResolver().delete(DBConstants.CONTENT_URI_REMINDER, deleteWhere, new String[]{String.valueOf(System.currentTimeMillis() - (MILLISECONDS_PER_DAY * 3))});
+			String[] selectionArgs = new String[]{String.valueOf(System.currentTimeMillis() - (MILLISECONDS_PER_DAY * 3))};
+        	context.getContentResolver().delete(DBConstants.CONTENT_URI_REMINDER, deleteWhere, selectionArgs);
         	return true;
 		}catch(Exception ex){
 			Log.e("ReminderCommon.cleanDB() ERROR: " + ex.toString());
