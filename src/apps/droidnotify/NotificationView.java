@@ -27,6 +27,7 @@ import android.text.method.ScrollingMovementMethod;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.HapticFeedbackConstants;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -38,7 +39,9 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.TextView.OnEditorActionListener;
 import android.view.MotionEvent;
+import android.view.inputmethod.EditorInfo;
 
 import apps.droidnotify.calendar.CalendarCommon;
 import apps.droidnotify.common.Common;
@@ -462,17 +465,9 @@ public class NotificationView extends LinearLayout {
 		_sendImageButton.setOnClickListener(
 			new OnClickListener(){
 				public void onClick(View view){
-			    	if (_debug) Log.v("STT Button Clicked()");
+			    	if (_debug) Log.v("Quick Reply Send Button Clicked()");
 			    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-					//Cancel the reminder.
-					_notification.cancelReminder();
-			    	String message = _messageEditText.getText().toString();
-			    	if(message.equals("")){
-			    		//No text was entered.
-			    	}else{
-			    		SMSCommon.sendSMS(_context, _notification.getSentFromAddress(), message);
-			    		dismissNotification(false);
-			    	}
+			    	sendQuickReply();
 			    }
 			}
 		);	
@@ -2390,8 +2385,6 @@ public class NotificationView extends LinearLayout {
 		}else{
 			snoozeTime = 10;
 		}
-//    	//Cancel the notification reminder.
-//    	_notification.cancelReminder();
 		_notificationViewFlipper.snoozeCalendarEvent(snoozeTime * 60 * 1000);
 	}
 
@@ -2410,6 +2403,21 @@ public class NotificationView extends LinearLayout {
 				vibrator.vibrate(100);
 			}
 		}
+	}
+	
+	/**
+	 * Send a quick reply message.
+	 */
+	private void sendQuickReply(){
+    	String message = _messageEditText.getText().toString();
+    	if(message.equals("")){
+    		//No text was entered.
+    	}else{		
+    		//Cancel the reminder.
+    		_notification.cancelReminder();
+    		SMSCommon.sendSMS(_context, _notification.getSentFromAddress(), message);
+    		dismissNotification(false);
+    	}
 	}
 	
 }

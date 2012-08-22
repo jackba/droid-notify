@@ -7,9 +7,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 
+import apps.droidnotify.receivers.ReminderDBManagementReceiver;
 import apps.droidnotify.db.DBConstants;
 import apps.droidnotify.log.Log;
-import apps.droidnotify.receivers.ReminderDBManagementReceiver;
 
 /**
  * This class is a collection of methods that are used to manage reminders.
@@ -63,6 +63,7 @@ public class ReminderCommon {
 						sortOrder);
 			    if(cursor ==  null){
 			    	if(_debug) Log.v("ReminderCommon.insertValue() Currsor is null.");
+			    	return false;
 			    }
 			    if(cursor.moveToFirst()){
 			    	//This reminder has already been added.
@@ -77,6 +78,7 @@ public class ReminderCommon {
 				if(cursor != null){
 					cursor.close();
 				}
+				return false;
 			}
 	        //Insert the new reminder into the db.
         	ContentValues contentValues = new ContentValues();
@@ -156,6 +158,7 @@ public class ReminderCommon {
 			    if(cursor.moveToFirst()){
     		    	long dismissedInt = cursor.getInt(cursor.getColumnIndex(DBConstants.COLUMN_DISMISSED));
     		    	if (_debug) Log.v("ReminderCommon.isDismissed() Dismissed: " + dismissedInt);
+    		    	cursor.close();
     		    	return dismissedInt == 1 ? true : false;  		    	
     		    }else{
     		    	if (_debug) Log.v("ReminderCommon.isDismissed() Intent Action not found. Exiting...");
@@ -192,13 +195,13 @@ public class ReminderCommon {
 			return false;
 		}
 	}
-			
+	
 	/**
-	 * Start the reminder DB cleanup recurring alarm.
-	 * 
-	 * @param context - The application context.
-	 * @param alarmStartTime - The time to start the alarm.
-	 */
+	* Start the reminder DB cleanup recurring alarm.
+	* 
+	* @param context - The application context.
+	* @param alarmStartTime - The time to start the alarm.
+	*/
 	public static void startReminderDBManagementAlarmManager(Context context, long alarmStartTime){
 		_debug = Log.getDebug();
 		if (_debug) Log.v("ReminderCommon.startReminderDBManagementAlarmManager()");
