@@ -27,7 +27,6 @@ import android.text.method.ScrollingMovementMethod;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.HapticFeedbackConstants;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -39,9 +38,7 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.TextView.OnEditorActionListener;
 import android.view.MotionEvent;
-import android.view.inputmethod.EditorInfo;
 
 import apps.droidnotify.calendar.CalendarCommon;
 import apps.droidnotify.common.Common;
@@ -697,8 +694,6 @@ public class NotificationView extends LinearLayout {
 				    public void onClick(View view){
 				    	if (_debug) Log.v("Previous Button Clicked()");
 				    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-						//Cancel the reminder.
-						_notification.cancelReminder();
 				    	_notificationViewFlipper.showPrevious();
 				    }
 				}
@@ -709,8 +704,6 @@ public class NotificationView extends LinearLayout {
 				    public void onClick(View view){
 				    	if (_debug) Log.v("Next Button Clicked()");
 				    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-						//Cancel the reminder.
-						_notification.cancelReminder();
 				    	_notificationViewFlipper.showNext();
 				    }
 				}
