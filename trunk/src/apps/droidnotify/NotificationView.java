@@ -28,6 +28,7 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.HapticFeedbackConstants;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -258,7 +259,7 @@ public class NotificationView extends LinearLayout {
 		if (_debug) Log.v("NotificationView.setupLayoutTheme()");
 		_themePackageName = _preferences.getString(Constants.APP_THEME_KEY, Constants.APP_THEME_DEFAULT);
 		if (_debug) Log.v("NotificationView.setupLayoutTheme() ThemePackageName: " + _themePackageName);
-		Resources localRresources = _context.getResources();
+		final Resources localRresources = _context.getResources();
 		Drawable layoutBackgroundDrawable = null;
 		Drawable rescheduleDrawable = null;
 		Drawable ttsDrawable = null;
@@ -378,6 +379,17 @@ public class NotificationView extends LinearLayout {
 			
 			_calendarSnoozeSpinner.setBackgroundDrawable(getThemeButton(Constants.THEME_SPINNER));
 			_messageEditText.setBackgroundDrawable(getThemeButton(Constants.THEME_EDIT_TEXT));
+			
+			if(_themePackageName.equals(Constants.NOTIFY_DEFAULT_THEME)){
+				_calendarSnoozeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+		            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+		                 ((TextView)parentView.getChildAt(0)).setTextColor(localRresources.getColor(R.color.white));
+		            }
+					public void onNothingSelected(AdapterView<?> arg0){
+						
+					}
+				});
+			}
 			
 		}
 		
