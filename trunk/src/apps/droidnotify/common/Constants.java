@@ -255,7 +255,8 @@ public class Constants {
 		"com.zlango.zms,com.zlango.zms.app.ConversationList",
 		"com.whatsapp,com.whatsapp.Conversations",
 		"com.motorola.blur.conversations,com.motorola.blur.conversations.ui.ConversationList",
-		"com.motorola.blur.messaging,com.motorola.blur.messaging.MessagingActivity"};
+		"com.motorola.blur.messaging,com.motorola.blur.messaging.MessagingActivity",
+		"com.airg.hookt,com.airg.hookt.activity.Conversation"};
 
 	//Array of the top Email Messaging Apps:
 	//---FORMAT = PACKAGE_NAME , CLASS_NAME---
