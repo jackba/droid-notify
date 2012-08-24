@@ -287,10 +287,10 @@ public class Notification {
 	 * 
 	 * @return sentFromAddress - Persons address that sent the item.
 	 */
-	public String getSentFromAddress() {
+	public String getSentFromAddress(){
 		if (_debug) Log.v("Notification.getSentFromAddress()");
 		//if (_debug) Log.v("Notification.getSentFromAddress() SentFromAddress: " + _sentFromAddress);
-		if (_sentFromAddress == null) {
+		if (_sentFromAddress == null){
 			try{
 				_sentFromAddress = _context.getString(android.R.string.unknownName);
 			}catch(Exception ex){
@@ -306,7 +306,7 @@ public class Notification {
 	 * 
 	 * @return sentFromID - Persons ID that sent the item.
 	 */
-	public long getSentFromID() {
+	public long getSentFromID(){
 		if (_debug) Log.v("Notification.getSentFromID() SentFromID: " + _sentFromID);
 		return _sentFromID;
 	}
@@ -316,10 +316,10 @@ public class Notification {
 	 * 
 	 * @return messageBody - Notification's message.
 	 */
-	public String getMessageBody() {
+	public String getMessageBody(){
 		if (_debug) Log.v("Notification.getMessageBody()");
 		//if (_debug) Log.v("Notification.getMessageBody() Message Body: " + _messageBody);
-		if (_messageBody == null) {
+		if (_messageBody == null){
 			_messageBody = "";
 	    }
 	    return _messageBody;
@@ -330,7 +330,7 @@ public class Notification {
 	 * 
 	 * @return timeStamp - TimeStamp of notification.
 	 */
-	public long getTimeStamp() {
+	public long getTimeStamp(){
 		if (_debug) Log.v("Notification.getTimeStamp() TimeStamp: " + _timeStamp);
 	    return _timeStamp;
 	}
@@ -340,7 +340,7 @@ public class Notification {
 	 * 
 	 * @return threadID - SMS/MMS Message thread id.
 	 */
-	public long getThreadID() {
+	public long getThreadID(){
 		if(_notificationType == Constants.NOTIFICATION_TYPE_SMS || _notificationType == Constants.NOTIFICATION_TYPE_MMS){
 			if(_threadID < 0){
 				_threadID = SMSCommon.getThreadID(_context, _sentFromAddress, _notificationType);
@@ -355,7 +355,7 @@ public class Notification {
 	 * 
 	 * @return contactID - Contact's ID.
 	 */
-	public long getContactID() {
+	public long getContactID(){
 		if (_debug) Log.v("Notification.getContactID() ContactID: " + _contactID);
 	    return _contactID;
 	}
@@ -365,10 +365,10 @@ public class Notification {
 	 * 
 	 * @return contactName - Contact's display name.
 	 */
-	public String getContactName() {
+	public String getContactName(){
 		if (_debug) Log.v("Notification.getContactName()");
 		//if (_debug) Log.v("Notification.getContactName() ContactName: " + _contactName);
-		if (_contactName == null) {
+		if (_contactName == null){
 			_contactName = _context.getString(android.R.string.unknownName);
 	    }
 		return _contactName;
@@ -379,7 +379,7 @@ public class Notification {
 	 * 
 	 * @return photoID - Contact's photo ID.
 	 */
-	public long getPhotoID() {
+	public long getPhotoID(){
 		if (_debug) Log.v("Notification.getPhotoID() PhotoID: " + _photoID);
 		return _photoID;
 	}
@@ -389,7 +389,7 @@ public class Notification {
 	 * 
 	 * @return photoImg - Bitmap of contact's photo.
 	 */
-	public Bitmap getPhotoImg() {
+	public Bitmap getPhotoImg(){
 		if (_debug) Log.v("Notification.getPhotoImg()");
 		return _photoImg;
 	}
@@ -399,7 +399,7 @@ public class Notification {
 	 * 
 	 * @return photoImg - Bitmap of contact's photo.
 	 */
-	public void setPhotoImg(Bitmap photoImg) {
+	public void setPhotoImg(Bitmap photoImg){
 		if (_debug) Log.v("Notification.setPhotoIImg()");
 		_photoImg = photoImg;
 	}
@@ -409,7 +409,7 @@ public class Notification {
 	 * 
 	 * @return notificationType - The type of notification this is.
 	 */
-	public int getNotificationType() {
+	public int getNotificationType(){
 		if (_debug) Log.v("Notification.getNotificationType() NotificationType: " + _notificationType);
 		return _notificationType;
 	}
@@ -419,7 +419,7 @@ public class Notification {
 	 * 
 	 * @return notificationType - The type of notification this is.
 	 */
-	public int getNotificationSubType() {
+	public int getNotificationSubType(){
 		if (_debug) Log.v("Notification.getNotificationSubType() NotificationSubType: " + _notificationSubType);
 		return _notificationSubType;
 	}
@@ -429,7 +429,7 @@ public class Notification {
 	 * 
 	 * @return messageID - The message id of the notification message.
 	 */
-	public long getMessageID() {
+	public long getMessageID(){
 		if(_notificationType == Constants.NOTIFICATION_TYPE_SMS || _notificationType == Constants.NOTIFICATION_TYPE_MMS){
 			if(_messageID < 0){
 				_messageID = SMSCommon.getMessageID(_context, _sentFromAddress, getThreadID(), _messageBody, _timeStamp);
@@ -444,7 +444,7 @@ public class Notification {
 	 * 
 	 * @return messageStringID - The string message id of the notification message.
 	 */
-	public String getMessageStringID() {
+	public String getMessageStringID(){
 		if (_debug) Log.v("Notification.getMessageStringID() MessageStringID: " + _messageStringID);
   		return _messageStringID;
 	}
@@ -454,7 +454,7 @@ public class Notification {
 	 * 
 	 * @return  contactExists - Boolean returns true if there is a contact in the phone linked to this notification.
 	 */
-	public boolean getContactExists() {
+	public boolean getContactExists(){
 		if (_debug) Log.v("Notification.getContactExists() Exists: " + _contactExists);
   		return _contactExists;
 	}	
@@ -464,7 +464,7 @@ public class Notification {
 	 * 
 	 * @return  contactPhotoExists - Boolean returns true if there is a contact photo in the phone linked to this notification.
 	 */
-	public boolean getContactPhotoExists() {
+	public boolean getContactPhotoExists(){
 		if (_debug) Log.v("Notification.getContactPhotoExists() Exists: " + _contactPhotoExists);
   		return _contactPhotoExists;
 	}	
@@ -474,7 +474,7 @@ public class Notification {
 	 * 
 	 * @return title - Notification title.
 	 */
-	public String getTitle() {
+	public String getTitle(){
 		if (_debug) Log.v("Notification.getTitle()");
   		return _title;
 	}	
@@ -484,7 +484,7 @@ public class Notification {
 	 * 
 	 * @return calendarID - Notification calendarID.
 	 */
-	public long getCalendarID() {
+	public long getCalendarID(){
 		if (_debug) Log.v("Notification.getCalendarID() CalendarID: " + _calendarID);
   		return _calendarID;
 	}
@@ -494,7 +494,7 @@ public class Notification {
 	 * 
 	 * @param 
 	 */
-	public long getCalendarEventID() {
+	public long getCalendarEventID(){
 		if (_debug) Log.v("Notification.getCalendarEventID() CalendarEventID: " + _calendarEventID);
   		return _calendarEventID;
 	}
@@ -504,7 +504,7 @@ public class Notification {
 	 * 
 	 * @return calendarEventStartTime - Start time of the Calendar Event.
 	 */
-	public long getCalendarEventStartTime() {
+	public long getCalendarEventStartTime(){
 		if (_debug) Log.v("Notification.getCalendarEventStartTime() CalendarEventStartTime: " + _calendarEventStartTime);
   		return _calendarEventStartTime;
 	}
@@ -514,7 +514,7 @@ public class Notification {
 	 * 
 	 * @return calendarEventEndTime - End time of the Calendar Event.
 	 */
-	public long getCalendarEventEndTime() {
+	public long getCalendarEventEndTime(){
 		if (_debug) Log.v("Notification.getCalendarEventEndTime() CalendarEventEndTime: " + _calendarEventEndTime);
   		return _calendarEventEndTime;
 	}
@@ -524,7 +524,7 @@ public class Notification {
 	 * 
 	 * @return allDay - Boolean value set to true if the notification calendar event is an all day event.
 	 */
-	public boolean getAllDay() {
+	public boolean getAllDay(){
 		if (_debug) Log.v("Notification.getAllDay() AllDay: " + _allDay);
   		return _allDay;
 	}
@@ -534,7 +534,7 @@ public class Notification {
 	 * 
 	 * @return callLogID - The ID of the call in the call log.
 	 */
-	public long getCallLogID() {
+	public long getCallLogID(){
 		if (_debug) Log.v("Notification.getCallLogID() CallLogID: " + _callLogID);
   		return _callLogID;
 	}
@@ -544,7 +544,7 @@ public class Notification {
 	 * 
 	 * @return lookupKey - The contact LookupKey.
 	 */
-	public String getLookupKey() {
+	public String getLookupKey(){
 		if (_debug) Log.v("Notification.getLookupKey() LookupKey: " + _lookupKey);
 	    return _lookupKey;
 	}	
@@ -554,7 +554,7 @@ public class Notification {
 	 * 
 	 * @return k9EmailUri - The k9 email URI.
 	 */
-	public String getK9EmailUri() {
+	public String getK9EmailUri(){
 		if (_debug) Log.v("Notification.getK9EmailUri() K9EmailUri: " + _k9EmailUri);
 	    return _k9EmailUri;
 	}
@@ -564,9 +564,19 @@ public class Notification {
 	 * 
 	 * @return k9EmailDelUri - The k9 delete email URI.
 	 */
-	public String getK9EmailDelUri() {
+	public String getK9EmailDelUri(){
 		if (_debug) Log.v("Notification.getK9EmailDelUri() K9EmailDelUri: " + _k9EmailDelUri);
 	    return _k9EmailDelUri;
+	}
+	
+	/**
+	 * Set the reminderNumber property.
+	 * 
+	 * @param reminderNumber - The reminder number.
+	 */
+	public void setReminderNumber(int reminderNumber){
+		if (_debug) Log.v("Notification.setReminderNumber() New Reminder Number: " + reminderNumber);
+	    _reminderNumber = reminderNumber;
 	}
 	
 	/**
@@ -574,8 +584,8 @@ public class Notification {
 	 * 
 	 * @return reminderNumber - The current reminder number.
 	 */
-	public int getReminderNumber() {
-		if (_debug) Log.v("Notification.getReminderNumber() ReminderNumber: " + _reminderNumber);
+	public int getReminderNumber(){
+		if (_debug) Log.v("Notification.getReminderNumber() Reminder Number: " + _reminderNumber);
 	    return _reminderNumber;
 	}
 	
@@ -584,7 +594,7 @@ public class Notification {
 	 * 
 	 * @return linkURL - The URL link.
 	 */
-	public String getLinkURL() {
+	public String getLinkURL(){
 		if (_debug) Log.v("Notification.getLinkURL() LinkURL: " + _linkURL);
 	    return _linkURL;
 	}
@@ -594,7 +604,7 @@ public class Notification {
 	 * 
 	 * @return String - The name of the package of the source of the generic notification.
 	 */
-	public String getPackageName() {
+	public String getPackageName(){
 		if (_debug) Log.v("Notification.getPackageName()");
 	    return _packageName;
 	}
@@ -604,7 +614,7 @@ public class Notification {
 	 * 
 	 * @return PendingIntent - The dismiss PendingIntent.
 	 */
-	public PendingIntent getDismissPendingIntent() {
+	public PendingIntent getDismissPendingIntent(){
 		if (_debug) Log.v("Notification.getDismissPendingIntent()");
 	    return _dismissPendingIntent;
 	}
@@ -614,7 +624,7 @@ public class Notification {
 	 * 
 	 * @return PendingIntent - The delete PendingIntent.
 	 */
-	public PendingIntent getDeletePendingIntent() {
+	public PendingIntent getDeletePendingIntent(){
 		if (_debug) Log.v("Notification.getDeletePendingIntent()");
 	    return _deletePendingIntent;
 	}
@@ -624,7 +634,7 @@ public class Notification {
 	 * 
 	 * @return PendingIntent - The view PendingIntent.
 	 */
-	public PendingIntent getViewPendingIntent() {
+	public PendingIntent getViewPendingIntent(){
 		if (_debug) Log.v("Notification.getViewPendingIntent()");
 	    return _viewPendingIntent;
 	}
@@ -634,7 +644,7 @@ public class Notification {
 	 * 
 	 * @return statusBarNotificationBundle - The Bundle that contains status bar notification properties.
 	 */
-	public Bundle getStatusBarNotificationBundle() {
+	public Bundle getStatusBarNotificationBundle(){
 		if (_debug) Log.v("Notification.getStatusBarNotificationBundle()");
 	    return _statusBarNotificationBundle;
 	}
@@ -807,7 +817,7 @@ public class Notification {
 	/**
 	 * Cancel the reminder alarm.
 	 */
-	public void cancelReminder() {
+	public void cancelReminder(){
 		if (_debug) Log.v("Notification.cancelReminder()");
 		try{
 			if(_preferences.getBoolean(Constants.REMINDERS_ENABLED_KEY, false) || _notificationType == Constants.NOTIFICATION_TYPE_CALENDAR){
@@ -908,7 +918,7 @@ public class Notification {
 	 * @return boolean - Returns true if these two notifications are determined to be equal. 
 	 *                   This equality calculation differs depending on their notification type.
 	 */
-	public boolean equals(Notification notification) {
+	public boolean equals(Notification notification){
 		if (_debug) Log.v("Notification.equals()");
 		if(_notificationType != notification.getNotificationType()){
 			return false;
