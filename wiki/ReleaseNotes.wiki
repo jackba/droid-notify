@@ -13,6 +13,7 @@
  * Updated the default themes that come with the app.
  * Added a default "phone" theme, which should match the current phones default style.
  * Added a "Notification Preview" button on the Customize screen.
+ * Updated how notification reminders they work.
  * Updated translations.
  * Small bug fixes.
 
