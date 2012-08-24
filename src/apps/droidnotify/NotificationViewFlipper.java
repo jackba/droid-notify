@@ -11,7 +11,6 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
@@ -188,6 +187,27 @@ public class NotificationViewFlipper extends ViewFlipper {
 			Log.e("NotificationViewFlipper.removeActiveNotification() ERROR: " + ex.toString());
 		}
 	}
+	
+	/**
+	 * Remove all Notifications with this thread ID.
+	 * 
+	 * @param threadID - Thread ID of the Notifications to be removed.
+	 */ 
+	public void removeNotificationsByThread(long threadID){
+		if(_debug) Log.v("NotificationViewFlipper.removeNotifications() Thread ID: " + threadID);
+		//Must iterate backwards through this collection.
+		//By removing items from the end, we don't have to worry about shifting index numbers as we would if we removed from the beginning.
+		int totalNotifications = this.getChildCount();
+		for(int i=totalNotifications-1; i>=0; i--){
+			Notification notification = ((NotificationView) this.getChildAt(i)).getNotification();
+			if(notification.getThreadID() == threadID){
+				removeNotification(i, false);
+			}
+		}
+		//Clear the status bar notification for SMS & MMS types.
+		Common.clearNotification(_context, this, Constants.NOTIFICATION_TYPE_SMS);
+    	Common.clearNotification(_context, this, Constants.NOTIFICATION_TYPE_MMS);
+	}
 
 	/**
 	 * Return the active Notification.
@@ -252,85 +272,6 @@ public class NotificationViewFlipper extends ViewFlipper {
 	}
 	
 	/**
-	 * Display the delete dialog from the activity.
-	 */
-	public void showDeleteDialog(){
-		if(_debug) Log.v("NotificationViewFlipper.showDeleteDialog()");
-		_notificationActivity.showDeleteDialog();
-	}
-	
-	/**
-	 * Delete the current Notification.
-	 */
-	public void deleteMessage(){
-		if(_debug) Log.v("NotificationViewFlipper.deleteMessage()");
-		//Remove the notification from the ViewFlipper.
-		Notification notification = getNotification(this.getDisplayedChild());
-		if(notification == null){
-			if(_debug) Log.v("NotificationViewFlipper.deleteMessage() Notification is null. Exiting...");
-			return;
-		}
-		int notificationType = notification.getNotificationType();
-		//Adjust for Preview notifications.
-		if(notificationType > 1999){
-			notificationType -= 2000;
-		}
-		switch(notificationType){
-			case Constants.NOTIFICATION_TYPE_SMS:{
-				String deleteButtonAction = _preferences.getString(Constants.SMS_DELETE_KEY, "0");
-				if(deleteButtonAction.equals(Constants.SMS_DELETE_ACTION_NOTHING)){
-					//Remove the notification from the ViewFlipper
-					this.removeActiveNotification(false);
-				}else if(deleteButtonAction.equals(Constants.SMS_DELETE_ACTION_DELETE_MESSAGE)){
-					//Delete the current message from the users phone.
-					notification.deleteMessage();
-					//Remove the notification from the ViewFlipper
-					this.removeActiveNotification(false);
-				}else if(deleteButtonAction.equals(Constants.SMS_DELETE_ACTION_DELETE_THREAD)){
-					//Delete the current message from the users phone.
-					//The notification will remove ALL messages for this thread from the phone for us.
-					notification.deleteMessage();
-					//Remove all Notifications with the thread ID.
-					this.removeNotificationsByThread(notification.getThreadID());
-				}
-				break;
-			}
-			case Constants.NOTIFICATION_TYPE_MMS:{
-				String deleteButtonAction = _preferences.getString(Constants.SMS_DELETE_KEY, "0");
-				if(deleteButtonAction.equals(Constants.SMS_DELETE_ACTION_NOTHING)){
-					//Remove the notification from the ViewFlipper
-					this.removeActiveNotification(false);
-				}else if(deleteButtonAction.equals(Constants.SMS_DELETE_ACTION_DELETE_MESSAGE)){
-					//Delete the current message from the users phone.
-					notification.deleteMessage();
-					//Remove the notification from the ViewFlipper
-					this.removeActiveNotification(false);
-				}else if(deleteButtonAction.equals(Constants.SMS_DELETE_ACTION_DELETE_THREAD)){
-					//Delete the current message from the users phone.
-					//The notification will remove ALL messages for this thread from the phone for us.
-					notification.deleteMessage();
-					//Remove all Notifications with the thread ID.
-					this.removeNotificationsByThread(notification.getThreadID());
-				}
-				break;
-			}
-			case Constants.NOTIFICATION_TYPE_K9:{
-				String deleteButtonAction = _preferences.getString(Constants.K9_DELETE_KEY, "0");
-				if(deleteButtonAction.equals(Constants.K9_DELETE_ACTION_NOTHING)){
-					//Remove the notification from the ViewFlipper
-					this.removeActiveNotification(false);
-				}else if(deleteButtonAction.equals(Constants.K9_DELETE_ACTION_DELETE_MESSAGE)){
-					//Delete the current message from the users phone.
-					notification.deleteMessage();
-					//Remove the notification from the ViewFlipper
-					this.removeActiveNotification(false);
-				}
-				break;
-			}
-		}
-	}
-	
-	/**
 	 * Check if there are any notifications of a certain type.
 	 * 
 	 * @param notificationType - The notification type.
@@ -346,29 +287,6 @@ public class NotificationViewFlipper extends ViewFlipper {
 			}
 		}
 		return false;
-	}
-	
-	/**
-	 * Reschedule a notification.
-	 */
-	public void rescheduleNotification(){
-		if(_debug) Log.v("NotificationViewFlipper.rescheduleNotification()");
-		Notification notification = this.getActiveNotification();
-		long rescheduleInterval = Long.parseLong(_preferences.getString(Constants.RESCHEDULE_TIME_KEY, Constants.RESCHEDULE_TIME_DEFAULT)) * 60 * 1000;
-		notification.reschedule(System.currentTimeMillis() + rescheduleInterval, Constants.PENDING_INTENT_TYPE_RESCHEDULE);
-    	this.removeActiveNotification(true);
-	}
-	
-	/**
-	 * Snooze a calendar event.
-	 * 
-	 * @param snoozeTime - The time to snooze the notification.
-	 */
-	public void snoozeCalendarEvent(long snoozeTime){
-		if(_debug) Log.v("NotificationViewFlipper.snoozeCalendarEvent()");
-		Notification notification = this.getActiveNotification();
-		notification.reschedule(System.currentTimeMillis() + snoozeTime, Constants.PENDING_INTENT_TYPE_SNOOZE);
-    	this.removeActiveNotification(true);
 	}
 
 	/**
@@ -439,6 +357,19 @@ public class NotificationViewFlipper extends ViewFlipper {
   			Log.e("NotificationViewFlipper.dismissAllNotifications() ERROR: " + ex.toString());
   		}
   	}
+  
+	/**
+	 * Reschedule a notification.
+	 */
+	public void rescheduleNotification(){
+		if (_debug) Log.v("NotificationViewFlipper.rescheduleNotification()");
+  		try{
+  			NotificationView currentView = (NotificationView) getCurrentView();
+	  		currentView.rescheduleNotification();
+  		}catch(Exception ex){
+			Log.e("NotificationViewFlipper.setQuickReplyText() ERROR: " + ex.toString());
+		}
+	}
   	
   	/**
   	 * Set the text in the message edit text of the active notification view.
@@ -448,27 +379,11 @@ public class NotificationViewFlipper extends ViewFlipper {
   	public void setQuickReplyText(ArrayList<String> recognizedTextResults){
   		if (_debug) Log.v("NotificationViewFlipper.setQuickReplyText()");
   		try{
-	  		final View currentView = this.getCurrentView();
-	  		EditText messageEditText = (EditText) currentView.findViewById(R.id.message_edit_text);
-	  		String currentText = messageEditText.getText().toString();
-	  		String endCharacter = "";
-	  		int currentTextLength = currentText.length();
-	  		if(currentTextLength > 0){
-	  			endCharacter = messageEditText.getText().toString().substring(currentTextLength - 1);
-	  		}
-	  		if(recognizedTextResults.size() > 0){
-	  			if(endCharacter.equals(" ")){
-	  				messageEditText.append(recognizedTextResults.get(0));
-	  			}else if(endCharacter.equals("\n")){
-	  				messageEditText.append(recognizedTextResults.get(0));
-	  			}else{
-	  				//Append a space before the newly inserted text.
-	  				messageEditText.append(" " + recognizedTextResults.get(0));
-	  			}
-	  		}
+  			NotificationView currentView = (NotificationView) getCurrentView();
+	  		currentView.setQuickReplyText(recognizedTextResults);
   		}catch(Exception ex){
-  			Log.e("NotificationViewFlipper.setQuickReplyText() ERROR: " + ex.toString());
-  		}
+			Log.e("NotificationViewFlipper.setQuickReplyText() ERROR: " + ex.toString());
+		}
   	}
   	
 	//================================================================================
@@ -660,27 +575,6 @@ public class NotificationViewFlipper extends ViewFlipper {
 	private void setNotificationViewed(Notification notification){
 		if(_debug) Log.v("NotificationViewFlipper.setNotificationViewed()");
 		notification.setViewed(true);
-	}
-	
-	/**
-	 * Remove all Notifications with this thread ID.
-	 * 
-	 * @param threadID - Thread ID of the Notifications to be removed.
-	 */ 
-	private void removeNotificationsByThread(long threadID){
-		if(_debug) Log.v("NotificationViewFlipper.removeNotifications() Thread ID: " + threadID);
-		//Must iterate backwards through this collection.
-		//By removing items from the end, we don't have to worry about shifting index numbers as we would if we removed from the beginning.
-		int totalNotifications = this.getChildCount();
-		for(int i=totalNotifications-1; i>=0; i--){
-			Notification notification = ((NotificationView) this.getChildAt(i)).getNotification();
-			if(notification.getThreadID() == threadID){
-				removeNotification(i, false);
-			}
-		}
-		//Clear the status bar notification for SMS & MMS types.
-		Common.clearNotification(_context, this, Constants.NOTIFICATION_TYPE_SMS);
-    	Common.clearNotification(_context, this, Constants.NOTIFICATION_TYPE_MMS);
 	}
 	
 	/**

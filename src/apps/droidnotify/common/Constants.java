@@ -219,8 +219,6 @@ public class Constants {
 	public static final String CONTACT_NUMBER_DISPLAY_UNKNOWN_KEY = "display_unknown_contact_number";  
 	
 	//-----DIALOG CONSTANTS-----//
-	public static final int DIALOG_DELETE_MESSAGE = 0;
-
 	public static final String DIALOG_UPGRADE_TYPE = "upgrade_type";
 	
 	public static final int DIALOG_DONATE = 100;

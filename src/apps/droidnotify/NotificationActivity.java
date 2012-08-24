@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -377,69 +376,6 @@ public class NotificationActivity extends Activity{
 			}
 			default:{
 				return super.onContextItemSelected(menuItem);
-			}
-		}
-	}
-  
-	/**
-	 * Display the delete dialog from the activity and return the result. 
-	 */
-	public void showDeleteDialog(){
-		if(_debug) Log.v("NotificationActivity.showDeleteDialog()");
-		Notification notification = _notificationViewFlipper.getActiveNotification();
-		int notificationType = notification.getNotificationType();
-		//Adjust for Preview notifications.
-		if(notificationType > 1999){
-			notificationType -= 2000;
-		}
-		switch(notificationType){
-			case Constants.NOTIFICATION_TYPE_SMS:{
-				if(_preferences.getString(Constants.SMS_DELETE_KEY, "0").equals(Constants.SMS_DELETE_ACTION_NOTHING)){
-					//Remove the notification from the ViewFlipper.
-					deleteMessage();
-				}else{
-					if(_preferences.getBoolean(Constants.SMS_CONFIRM_DELETION_KEY, true)){
-						//Confirm deletion of the message.
-						showDialog(Constants.DIALOG_DELETE_MESSAGE);
-					}else{
-						//Remove the notification from the ViewFlipper.
-						deleteMessage();
-					}
-				}
-				break;
-			}
-			case Constants.NOTIFICATION_TYPE_MMS:{
-				if(_preferences.getString(Constants.SMS_DELETE_KEY, "0").equals(Constants.SMS_DELETE_ACTION_NOTHING)){
-					//Remove the notification from the ViewFlipper
-					deleteMessage();
-				}else{
-					if(_preferences.getBoolean(Constants.SMS_CONFIRM_DELETION_KEY, true)){
-						//Confirm deletion of the message.
-						showDialog(Constants.DIALOG_DELETE_MESSAGE);
-					}else{
-						//Remove the notification from the ViewFlipper.
-						deleteMessage();
-					}
-				}
-				break;
-			}
-			case Constants.NOTIFICATION_TYPE_K9:{
-				if(_preferences.getString(Constants.K9_DELETE_KEY, "0").equals(Constants.K9_DELETE_ACTION_NOTHING)){
-					//Remove the notification from the ViewFlipper
-					deleteMessage();
-				}else{
-					if(_preferences.getBoolean(Constants.K9_CONFIRM_DELETION_KEY, true)){
-						//Confirm deletion of the message.
-						showDialog(Constants.DIALOG_DELETE_MESSAGE);
-					}else{
-						//Remove the notification from the ViewFlipper.
-						deleteMessage();
-					}
-				}
-				break;
-			}
-			default:{
-				break;
 			}
 		}
 	}
@@ -861,6 +797,7 @@ public class NotificationActivity extends Activity{
 	 * 
 	 * @param bundle - Activity bundle.
 	 */
+	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle bundle){
 		super.onCreate(bundle);
@@ -1063,66 +1000,6 @@ public class NotificationActivity extends Activity{
 	    super.onDestroy();
 	}
 
-	/**
-	 * Create new Dialog.
-	 * 
-	 * @param id - ID of the Dialog that we want to display.
-	 * 
-	 * @return Dialog - Popup Dialog created.
-	 */
-	@Override
-	protected Dialog onCreateDialog(int id){
-		if(_debug) Log.v("NotificationActivity.onCreateDialog()");
-		int notificationType = _notificationViewFlipper.getActiveNotification().getNotificationType();
-		//Adjust for Preview notifications.
-		if(notificationType > 1999){
-			notificationType -= 2000;
-		}
-		AlertDialog alertDialog = null;
-		switch (id){
-	        /*
-	         * Delete confirmation dialog.
-	         */
-			case Constants.DIALOG_DELETE_MESSAGE:{
-				if(_debug) Log.v("NotificationActivity.onCreateDialog() DIALOG_DELETE_MESSAGE");
-				AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		        builder.setIcon(android.R.drawable.ic_dialog_alert);
-				builder.setTitle(_context.getString(R.string.delete));
-				//Action is determined by the users preferences. 
-				if(notificationType == Constants.NOTIFICATION_TYPE_SMS){
-					if(_preferences.getString(Constants.SMS_DELETE_KEY, "0").equals(Constants.SMS_DELETE_ACTION_DELETE_MESSAGE)){
-						builder.setMessage(_context.getString(R.string.delete_message_dialog_text));
-					}else if(_preferences.getString(Constants.SMS_DELETE_KEY, "0").equals(Constants.SMS_DELETE_ACTION_DELETE_THREAD)){
-						builder.setMessage(_context.getString(R.string.delete_thread_dialog_text));
-					}
-				}else if(notificationType == Constants.NOTIFICATION_TYPE_MMS){
-					if(_preferences.getString(Constants.SMS_DELETE_KEY, "0").equals(Constants.SMS_DELETE_ACTION_DELETE_MESSAGE)){
-						builder.setMessage(_context.getString(R.string.delete_message_dialog_text));
-					}else if(_preferences.getString(Constants.SMS_DELETE_KEY, "0").equals(Constants.SMS_DELETE_ACTION_DELETE_THREAD)){
-						builder.setMessage(_context.getString(R.string.delete_thread_dialog_text));
-					}					
-				}else if(notificationType == Constants.NOTIFICATION_TYPE_K9){
-					builder.setMessage(_context.getString(R.string.delete_email_dialog_text));
-				}
-				builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener(){
-						public void onClick(DialogInterface dialog, int id){
-							//customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-							deleteMessage();
-						}
-					})
-					.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener(){
-						public void onClick(DialogInterface dialog, int id){
-							//customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-			            	dialog.cancel();
-						}
-					});
-				alertDialog = builder.create();
-				break;
-			}
-		}
-		return alertDialog;
-	}
-
     /**
      * This is called when the activity is running and it is triggered and run again for a different notification.
      * This is a copy of the onCreate() method but without the initialization calls.
@@ -1261,14 +1138,6 @@ public class NotificationActivity extends Activity{
 			layoutParams.addRule(RelativeLayout.CENTER_VERTICAL);
 		}
 		_notificationViewFlipper.setLayoutParams(layoutParams);   	
-	}
-	
-	/**
-	 * Delete the current message from the users phone.
-	 */
-	private void deleteMessage(){
-		if(_debug) Log.v("NotificationActivity.deleteMessage()");
-		_notificationViewFlipper.deleteMessage();
 	}
 	
 	/**

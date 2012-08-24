@@ -1,6 +1,7 @@
 package apps.droidnotify;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 
 import android.app.AlertDialog;
 import android.app.PendingIntent;
@@ -166,6 +167,45 @@ public class NotificationView extends LinearLayout {
 	 */
 	public Notification getNotification(){
 		return _notification;
+	}
+	
+	/**
+	 * Reschedule a notification.
+	 */
+	public void rescheduleNotification(){
+		if (_debug) Log.v("NotificationView.rescheduleNotification()");
+		long rescheduleInterval = Long.parseLong(_preferences.getString(Constants.RESCHEDULE_TIME_KEY, Constants.RESCHEDULE_TIME_DEFAULT)) * 60 * 1000;
+		_notification.reschedule(System.currentTimeMillis() + rescheduleInterval, Constants.PENDING_INTENT_TYPE_RESCHEDULE);
+		dismissNotification(true);
+	}
+	
+  	/**
+	 * Set the text in the message edit text of the active notification view.
+	 * 
+	 * @param recognizedTextResults - An array of strings of the text that was returned from the voice recognizer.
+	 */
+	public void setQuickReplyText(ArrayList<String> recognizedTextResults){
+		if (_debug) Log.v("NotificationView.setQuickReplyText()");
+		try{
+	 		String currentText = _messageEditText.getText().toString();
+	 		String endCharacter = "";
+	 		int currentTextLength = currentText.length();
+	 		if(currentTextLength > 0){
+	 			endCharacter = _messageEditText.getText().toString().substring(currentTextLength - 1);
+	 		}
+	 		if(recognizedTextResults.size() > 0){
+	 			if(endCharacter.equals(" ")){
+	 				_messageEditText.append(recognizedTextResults.get(0));
+	 			}else if(endCharacter.equals("\n")){
+	 				_messageEditText.append(recognizedTextResults.get(0));
+	 			}else{
+	 				//Append a space before the newly inserted text.
+	 				_messageEditText.append(" " + recognizedTextResults.get(0));
+	 			}
+	 		}
+		}catch(Exception ex){
+			Log.e("NotificationView.setQuickReplyText() ERROR: " + ex.toString());
+		}
 	}
 
 	//================================================================================
@@ -747,7 +787,7 @@ public class NotificationView extends LinearLayout {
 					    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 							//Cancel the reminder.
 							_notification.cancelReminder();
-					    	_notificationViewFlipper.rescheduleNotification();
+					    	rescheduleNotification();
 					    }
 					}
 				);
@@ -769,14 +809,21 @@ public class NotificationView extends LinearLayout {
 			boolean usingImageButtons = false;
 			String buttonDisplayStyle = _preferences.getString(Constants.BUTTON_DISPLAY_STYLE_KEY, Constants.BUTTON_DISPLAY_STYLE_DEFAULT);
 			//Show the LinearLayout of the specified button style (ImageButton vs Button)
-			if(buttonDisplayStyle.equals(Constants.BUTTON_DISPLAY_ICON_ONLY)){
-				usingImageButtons = true;
-				_buttonLinearLayout.setVisibility(View.GONE);
-		    	_imageButtonLinearLayout.setVisibility(View.VISIBLE);
-			}else{
+			if(_notificationType == Constants.NOTIFICATION_TYPE_GENERIC){
+				//Special case for generic notifications
 				usingImageButtons = false;
 				_buttonLinearLayout.setVisibility(View.VISIBLE);
 		    	_imageButtonLinearLayout.setVisibility(View.GONE);
+			}else{
+				if(buttonDisplayStyle.equals(Constants.BUTTON_DISPLAY_ICON_ONLY)){
+					usingImageButtons = true;
+					_buttonLinearLayout.setVisibility(View.GONE);
+			    	_imageButtonLinearLayout.setVisibility(View.VISIBLE);
+				}else{
+					usingImageButtons = false;
+					_buttonLinearLayout.setVisibility(View.VISIBLE);
+			    	_imageButtonLinearLayout.setVisibility(View.GONE);
+				}
 			}
 			//Default all buttons to be hidden.
 			_dismissButton.setVisibility(View.GONE);
@@ -789,20 +836,22 @@ public class NotificationView extends LinearLayout {
 			_callImageButton.setVisibility(View.GONE);
 			_replyImageButton.setVisibility(View.GONE);
 			_viewImageButton.setVisibility(View.GONE);
-			//Set button font size.
-			float buttonTextSize = Float.parseFloat(_preferences.getString(Constants.BUTTON_FONT_SIZE_KEY, Constants.BUTTON_FONT_SIZE_DEFAULT));
-			_dismissButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, buttonTextSize);
-			_deleteButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, buttonTextSize);
-			_callButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, buttonTextSize);
-			_replyButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, buttonTextSize);
-			_viewButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, buttonTextSize);
-			//Set button font to bold.
-			if(_preferences.getBoolean(Constants.BUTTON_BOLD_TEXT_KEY, false)){
-				_dismissButton.setTypeface(null, Typeface.BOLD);
-				_deleteButton.setTypeface(null, Typeface.BOLD);
-				_callButton.setTypeface(null, Typeface.BOLD);
-				_replyButton.setTypeface(null, Typeface.BOLD);
-				_viewButton.setTypeface(null, Typeface.BOLD);
+			if(!usingImageButtons){
+				//Set button font size.
+				float buttonTextSize = Float.parseFloat(_preferences.getString(Constants.BUTTON_FONT_SIZE_KEY, Constants.BUTTON_FONT_SIZE_DEFAULT));
+				_dismissButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, buttonTextSize);
+				_deleteButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, buttonTextSize);
+				_callButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, buttonTextSize);
+				_replyButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, buttonTextSize);
+				_viewButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, buttonTextSize);
+				//Set button font to bold.
+				if(_preferences.getBoolean(Constants.BUTTON_BOLD_TEXT_KEY, false)){
+					_dismissButton.setTypeface(null, Typeface.BOLD);
+					_deleteButton.setTypeface(null, Typeface.BOLD);
+					_callButton.setTypeface(null, Typeface.BOLD);
+					_replyButton.setTypeface(null, Typeface.BOLD);
+					_viewButton.setTypeface(null, Typeface.BOLD);
+				}
 			}
 			//Setup the views buttons based on the notification type.
 			switch(_notificationType){
@@ -2140,8 +2189,6 @@ public class NotificationView extends LinearLayout {
 	 */
 	private void dismissNotification(boolean reschedule){
 		if (_debug) Log.v("NotificationView.dismissNotification()");
-//    	//Cancel the notification reminder.
-//    	_notification.cancelReminder();
 		_notificationViewFlipper.removeActiveNotification(reschedule);
 	}
 	
@@ -2151,8 +2198,6 @@ public class NotificationView extends LinearLayout {
 	 */
 	private void replyToMessage(int notificationType){
 		if (_debug) Log.v("NotificationView.replyToMessage()");
-//    	//Cancel the notification reminder.
-//    	_notification.cancelReminder();
 		//Setup Reply action.
 		String sentFromAddress = _notification.getSentFromAddress();
 		switch(notificationType){
@@ -2199,8 +2244,6 @@ public class NotificationView extends LinearLayout {
 	 */
 	private void viewNotification(int notificationType){
 		if (_debug) Log.v("NotificationView.viewNotification()");
-//    	//Cancel the notification reminder.
-//    	_notification.cancelReminder();
 		switch(notificationType){
 			case Constants.NOTIFICATION_TYPE_SMS:{
 				break;
@@ -2229,9 +2272,175 @@ public class NotificationView extends LinearLayout {
 	 */
 	private void showDeleteDialog(){
 		if (_debug) Log.v("NotificationView.showDeleteDialog()");
-//    	//Cancel the notification reminder.
-//    	_notification.cancelReminder();
-		_notificationViewFlipper.showDeleteDialog();
+		switch(_notificationType){
+			case Constants.NOTIFICATION_TYPE_SMS:{
+				if(_preferences.getString(Constants.SMS_DELETE_KEY, "0").equals(Constants.SMS_DELETE_ACTION_NOTHING)){
+					//Remove the notification from the ViewFlipper.
+					deleteMessage();
+				}else{
+					if(_preferences.getBoolean(Constants.SMS_CONFIRM_DELETION_KEY, true)){
+						//Confirm deletion of the message.
+						AlertDialog.Builder builder = new AlertDialog.Builder(_context);
+				        builder.setIcon(android.R.drawable.ic_dialog_alert);
+						builder.setTitle(_context.getString(R.string.delete));
+						if(_preferences.getString(Constants.SMS_DELETE_KEY, "0").equals(Constants.SMS_DELETE_ACTION_DELETE_MESSAGE)){
+							builder.setMessage(_context.getString(R.string.delete_message_dialog_text));
+						}else if(_preferences.getString(Constants.SMS_DELETE_KEY, "0").equals(Constants.SMS_DELETE_ACTION_DELETE_THREAD)){
+							builder.setMessage(_context.getString(R.string.delete_thread_dialog_text));
+						}
+						builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener(){
+								public void onClick(DialogInterface dialog, int id){
+									//customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+									deleteMessage();
+								}
+							})
+							.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener(){
+								public void onClick(DialogInterface dialog, int id){
+									//customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+					            	dialog.cancel();
+								}
+							});
+						builder.create().show();
+					}else{
+						//Remove the notification from the ViewFlipper.
+						deleteMessage();
+					}
+				}
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_MMS:{
+				if(_preferences.getString(Constants.SMS_DELETE_KEY, "0").equals(Constants.SMS_DELETE_ACTION_NOTHING)){
+					//Remove the notification from the ViewFlipper
+					deleteMessage();
+				}else{
+					if(_preferences.getBoolean(Constants.SMS_CONFIRM_DELETION_KEY, true)){
+						//Confirm deletion of the message.
+						AlertDialog.Builder builder = new AlertDialog.Builder(_context);
+				        builder.setIcon(android.R.drawable.ic_dialog_alert);
+						builder.setTitle(_context.getString(R.string.delete));
+						if(_preferences.getString(Constants.SMS_DELETE_KEY, "0").equals(Constants.SMS_DELETE_ACTION_DELETE_MESSAGE)){
+							builder.setMessage(_context.getString(R.string.delete_message_dialog_text));
+						}else if(_preferences.getString(Constants.SMS_DELETE_KEY, "0").equals(Constants.SMS_DELETE_ACTION_DELETE_THREAD)){
+							builder.setMessage(_context.getString(R.string.delete_thread_dialog_text));
+						}
+						builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener(){
+								public void onClick(DialogInterface dialog, int id){
+									//customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+									deleteMessage();
+								}
+							})
+							.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener(){
+								public void onClick(DialogInterface dialog, int id){
+									//customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+					            	dialog.cancel();
+								}
+							});
+						builder.create().show();
+					}else{
+						//Remove the notification from the ViewFlipper.
+						deleteMessage();
+					}
+				}
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_K9:{
+				if(_preferences.getString(Constants.K9_DELETE_KEY, "0").equals(Constants.K9_DELETE_ACTION_NOTHING)){
+					//Remove the notification from the ViewFlipper
+					deleteMessage();
+				}else{
+					if(_preferences.getBoolean(Constants.K9_CONFIRM_DELETION_KEY, true)){
+						//Confirm deletion of the message.
+						AlertDialog.Builder builder = new AlertDialog.Builder(_context);
+				        builder.setIcon(android.R.drawable.ic_dialog_alert);
+						builder.setTitle(_context.getString(R.string.delete));
+						builder.setMessage(_context.getString(R.string.delete_email_dialog_text));
+						builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener(){
+								public void onClick(DialogInterface dialog, int id){
+									//customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+									deleteMessage();
+								}
+							})
+							.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener(){
+								public void onClick(DialogInterface dialog, int id){
+									//customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+					            	dialog.cancel();
+								}
+							});
+						builder.create().show();
+					}else{
+						//Remove the notification from the ViewFlipper.
+						deleteMessage();
+					}
+				}
+				break;
+			}
+			default:{
+				break;
+			}
+		}
+	}
+
+	/**
+	 * Delete the current Notification.
+	 */
+	private void deleteMessage(){
+		if(_debug) Log.v("NotificationView.deleteMessage()");
+		switch(_notificationType){
+			case Constants.NOTIFICATION_TYPE_SMS:{
+				String deleteButtonAction = _preferences.getString(Constants.SMS_DELETE_KEY, "0");
+				if(deleteButtonAction.equals(Constants.SMS_DELETE_ACTION_NOTHING)){
+					//Remove the notification from the ViewFlipper
+					dismissNotification(false);
+				}else if(deleteButtonAction.equals(Constants.SMS_DELETE_ACTION_DELETE_MESSAGE)){
+					//Delete the current message from the users phone.
+					_notification.deleteMessage();
+					//Remove the notification from the ViewFlipper
+					dismissNotification(false);
+				}else if(deleteButtonAction.equals(Constants.SMS_DELETE_ACTION_DELETE_THREAD)){
+					//Delete the current message from the users phone.
+					//The notification will remove ALL messages for this thread from the phone for us.
+					_notification.deleteMessage();
+					//Remove all Notifications with the thread ID.
+					_notificationViewFlipper.removeNotificationsByThread(_notification.getThreadID());
+				}
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_MMS:{
+				String deleteButtonAction = _preferences.getString(Constants.SMS_DELETE_KEY, "0");
+				if(deleteButtonAction.equals(Constants.SMS_DELETE_ACTION_NOTHING)){
+					//Remove the notification from the ViewFlipper
+					dismissNotification(false);
+				}else if(deleteButtonAction.equals(Constants.SMS_DELETE_ACTION_DELETE_MESSAGE)){
+					//Delete the current message from the users phone.
+					_notification.deleteMessage();
+					//Remove the notification from the ViewFlipper
+					dismissNotification(false);
+				}else if(deleteButtonAction.equals(Constants.SMS_DELETE_ACTION_DELETE_THREAD)){
+					//Delete the current message from the users phone.
+					//The notification will remove ALL messages for this thread from the phone for us.
+					_notification.deleteMessage();
+					//Remove all Notifications with the thread ID.
+					_notificationViewFlipper.removeNotificationsByThread(_notification.getThreadID());
+				}
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_K9:{
+				String deleteButtonAction = _preferences.getString(Constants.K9_DELETE_KEY, "0");
+				if(deleteButtonAction.equals(Constants.K9_DELETE_ACTION_NOTHING)){
+					//Remove the notification from the ViewFlipper
+					dismissNotification(false);
+				}else if(deleteButtonAction.equals(Constants.K9_DELETE_ACTION_DELETE_MESSAGE)){
+					//Delete the current message from the users phone.
+					_notification.deleteMessage();
+					//Remove the notification from the ViewFlipper
+					dismissNotification(false);
+				}
+				break;
+			}
+			default:{
+				break;
+			}
+		}
 	}
 	
 	/**
@@ -2239,8 +2448,6 @@ public class NotificationView extends LinearLayout {
 	 */
 	private void callMissedCall(){
 		if (_debug) Log.v("NotificationView.callMissedCall()");
-//    	//Cancel the notification reminder.
-//    	_notification.cancelReminder();
 		if(_preferences.getString(Constants.PHONE_CALL_KEY, Constants.PHONE_CALL_ACTION_CALL).equals(Constants.PHONE_CALL_ACTION_CALL)){
 			PhoneCommon.makePhoneCall(_context, _notificationActivity, _notification.getSentFromAddress(), Constants.CALL_ACTIVITY);
 		}else if(_preferences.getString(Constants.PHONE_CALL_KEY, Constants.PHONE_CALL_ACTION_CALL).equals(Constants.PHONE_CALL_ACTION_CALL_LOG)){
@@ -2254,6 +2461,7 @@ public class NotificationView extends LinearLayout {
 	 * Set the calendar snooze spinner default value.
 	 */
 	private void setCalendarSnoozeSpinner(){
+		if (_debug) Log.v("NotificationView.setCalendarSnoozeSpinner()");
 		int selectionValue = Integer.parseInt(_preferences.getString(Constants.CALENDAR_REMINDER_INTERVAL_KEY, Constants.CALENDAR_REMINDER_INTERVAL_DEFAULT));
 		String selectionItem = _context.getString(R.string.s10_minutes_text);
 		if(selectionValue == 1){
@@ -2390,7 +2598,9 @@ public class NotificationView extends LinearLayout {
 		}else{
 			snoozeTime = 10;
 		}
-		_notificationViewFlipper.snoozeCalendarEvent(snoozeTime * 60 * 1000);
+		snoozeTime = snoozeTime * 60 * 1000;
+		_notification.reschedule(System.currentTimeMillis() + snoozeTime, Constants.PENDING_INTENT_TYPE_SNOOZE);
+    	dismissNotification(true);
 	}
 
 	/**
