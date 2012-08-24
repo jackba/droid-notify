@@ -156,6 +156,8 @@ public class NotificationViewFlipper extends ViewFlipper {
 				}
 			}else{
 				if(_debug) Log.v("NotificationViewFlipper.addNotification() Duplicate Notification Found! This notification will not be added.");
+				//Update the reminder number in the currently active notification.
+				originalNotification.setReminderNumber(notification.getReminderNumber());
 				//Set the same reminder again. This should have the same intent action as the original notification (not the incremented new notification).
 				originalNotification.setReminder();				
 			}
