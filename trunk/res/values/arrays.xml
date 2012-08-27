@@ -16,7 +16,7 @@
 		<item>Português Brasileiro</item>
 		<item>Polski</item>
 		<item>Русский</item>
-		<item>日本人</item>
+		<item>日本語</item>
 		<item>中文（简体）</item>
 	</string-array>
 	<string-array name="language_values">
@@ -38,12 +38,12 @@
 	</string-array>
 
 		<!-- Window Width Padding Preferences Arrays --> 
-	<string-array name="popup_horizontal_location_options">
+	<string-array name="popup_vertical_location_options">
 		<item>@string/top</item>
 		<item>@string/center</item>
 		<item>@string/bottom</item>
 	</string-array>
-	<string-array name="popup_horizontal_location_values">
+	<string-array name="popup_vertical_location_values">
 		<item>0</item>
 		<item>1</item>
 		<item>2</item>

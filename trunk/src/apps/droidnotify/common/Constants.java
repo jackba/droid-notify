@@ -668,11 +668,11 @@ public class Constants {
 	public static final String IN_CALL_RESCHEDULING_ENABLED_KEY = "in_call_rescheduling_enabled";
 	
 	//-----POPUP FORMATTING CONSTANTS-----//
-	public static final String POPUP_HORIZONTAL_LOCATION_KEY = "popup_horizontal_location";
-	public static final String POPUP_HORIZONTAL_LOCATION_TOP = "0";
-	public static final String POPUP_HORIZONTAL_LOCATION_CENTER = "1";
-	public static final String POPUP_HORIZONTAL_LOCATION_BOTTOM = "2";
-	public static final String POPUP_HORIZONTAL_LOCATION_DEFAULT = POPUP_HORIZONTAL_LOCATION_CENTER;
+	public static final String POPUP_VERTICAL_LOCATION_KEY = "popup_vertical_location";
+	public static final String POPUP_VERTICAL_LOCATION_TOP = "0";
+	public static final String POPUP_VERTICAL_LOCATION_CENTER = "1";
+	public static final String POPUP_VERTICAL_LOCATION_BOTTOM = "2";
+	public static final String POPUP_VERTICAL_LOCATION_DEFAULT = POPUP_VERTICAL_LOCATION_CENTER;
 	public static final String POPUP_WINDOW_WIDTH_PADDING_KEY = "popup_width_padding";
 	public static final String POPUP_WINDOW_WIDTH_PADDING_DEFAULT = "0";
 	
