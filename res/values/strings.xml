@@ -102,8 +102,8 @@
     <string name="preference_disable_quick_contact_summary">Disable the quick contact menu that is attached to notification photos.</string> 
   
     <!-- Popup Horizontal Location Strings -->
-    <string name="popup_horizontal_location_title">Popup Horizontal Location</string>
-    <string name="popup_horizontal_location_summary">Select horizontal location of the window.</string>     
+    <string name="popup_vertical_location_title">Popup Vertical Location</string>
+    <string name="popup_vertical_location_summary">Select vertical location of the window.</string>     
     <string name="top">Top</string>
     <string name="center">Center</string>
     <string name="bottom">Bottom</string>

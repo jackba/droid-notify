@@ -2,6 +2,7 @@ package apps.droidnotify;
 
 import java.util.ArrayList;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
@@ -12,6 +13,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -20,6 +22,7 @@ import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -28,6 +31,7 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.Toast;
@@ -383,11 +387,36 @@ public class NotificationActivity extends Activity{
 	/**
 	 * Handles the activity when the configuration changes (e.g. The phone switches from portrait view to landscape view).
 	 */
+	@SuppressWarnings("deprecation")
+	@SuppressLint("NewApi")
 	@Override
 	public void onConfigurationChanged(Configuration config){
         super.onConfigurationChanged(config);   
-        //if(_debug) Log.v("NotificationActivity.onConfigurationChanged()");
-        //Do Nothing.
+        if(_debug) Log.v("NotificationActivity.onConfigurationChanged()");
+        //Reset the width of the main activity window.
+        Display display = getWindowManager().getDefaultDisplay(); 
+        Point size = new Point();
+        int screenWidth;
+        int screenHeight;
+        if(Common.getDeviceAPILevel() >= 13){
+	        display.getSize(size);
+	        screenWidth = size.x;
+	        screenHeight = size.y;
+        }else{
+	        screenWidth = display.getWidth();
+	        screenHeight = display.getHeight();
+        }
+        if(screenWidth >= 800 && screenWidth < 1280){
+        	screenWidth = (int) (screenWidth * 0.8);
+        }else if(screenWidth >= 1280){
+        	screenWidth = (int) (screenWidth * 0.5);
+        }
+        if(screenHeight >= 800){
+        	screenHeight = (int) (screenWidth * 0.8);
+        }
+        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(screenWidth, screenHeight);
+        RelativeLayout contentView = (RelativeLayout) findViewById(R.id.notification_wrapper_relative_layout);
+		contentView.setLayoutParams(layoutParams);
 	}
 
 	/**
@@ -1129,10 +1158,10 @@ public class NotificationActivity extends Activity{
 	private void setupViewFlipperStyles(){
 		RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 		layoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
-		String horizontalLocation = _preferences.getString(Constants.POPUP_HORIZONTAL_LOCATION_KEY, Constants.POPUP_HORIZONTAL_LOCATION_DEFAULT);
-		if(horizontalLocation.equals(Constants.POPUP_HORIZONTAL_LOCATION_TOP)){
+		String verticalLocation = _preferences.getString(Constants.POPUP_VERTICAL_LOCATION_KEY, Constants.POPUP_VERTICAL_LOCATION_DEFAULT);
+		if(verticalLocation.equals(Constants.POPUP_VERTICAL_LOCATION_TOP)){
 			layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-		}else if(horizontalLocation.equals(Constants.POPUP_HORIZONTAL_LOCATION_BOTTOM)){
+		}else if(verticalLocation.equals(Constants.POPUP_VERTICAL_LOCATION_BOTTOM)){
 			layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 		}else{			
 			layoutParams.addRule(RelativeLayout.CENTER_VERTICAL);

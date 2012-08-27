@@ -15,12 +15,12 @@
        	android:summary="@string/theme_summary" />
 	<ListPreference
 		android:layout="@layout/custom_preference_list"
-		android:key="popup_horizontal_location"
-		android:title="@string/popup_horizontal_location_title"
-		android:summary="@string/popup_horizontal_location_summary"
+		android:key="popup_vertical_location"
+		android:title="@string/popup_vertical_location_title"
+		android:summary="@string/popup_vertical_location_summary"
 		android:defaultValue="1"
-		android:entries="@array/popup_horizontal_location_options"
-		android:entryValues="@array/popup_horizontal_location_values" />
+		android:entries="@array/popup_vertical_location_options"
+		android:entryValues="@array/popup_vertical_location_values" />
 	<ListPreference
 		android:layout="@layout/custom_preference_list"
 		android:key="popup_width_padding"
