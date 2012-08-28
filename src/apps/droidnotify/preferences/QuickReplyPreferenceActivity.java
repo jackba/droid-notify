@@ -27,6 +27,7 @@ public class QuickReplyPreferenceActivity extends PreferenceActivity{
 	 * 
 	 * @param bundle - Activity bundle.
 	 */
+	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle bundle){
 	    super.onCreate(bundle);

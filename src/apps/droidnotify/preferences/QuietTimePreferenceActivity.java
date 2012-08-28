@@ -37,6 +37,7 @@ public class QuietTimePreferenceActivity extends PreferenceActivity{
 	 * 
 	 * @param bundle - Activity bundle.
 	 */
+	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle bundle){
 	    super.onCreate(bundle);
@@ -57,6 +58,7 @@ public class QuietTimePreferenceActivity extends PreferenceActivity{
 	/**
 	 * Setup click events on custom preferences.
 	 */
+	@SuppressWarnings("deprecation")
 	private void setupCustomPreferences(){
 	    if (_debug) Log.v("QuietTimePreferenceActivity.setupCustomPreferences()");
 		//Export Preferences Preference/Button

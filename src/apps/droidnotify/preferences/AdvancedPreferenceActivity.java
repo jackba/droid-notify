@@ -49,6 +49,7 @@ public class AdvancedPreferenceActivity extends PreferenceActivity{
 	 * 
 	 * @param bundle - Activity bundle.
 	 */
+	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle bundle){
 	    super.onCreate(bundle);
@@ -70,6 +71,7 @@ public class AdvancedPreferenceActivity extends PreferenceActivity{
 	/**
 	 * Setup click events on custom preferences.
 	 */
+	@SuppressWarnings("deprecation")
 	private void setupCustomPreferences(){
 	    if (_debug) Log.v("AdvancedPreferenceActivity.setupCustomPreferences()");
 		//Reset App Preferences Preference/Button
@@ -241,6 +243,7 @@ public class AdvancedPreferenceActivity extends PreferenceActivity{
 	/**
 	 * Sets up the import preference button. Disables if there is no import file.
 	 */
+	@SuppressWarnings("deprecation")
 	private void setupImportPreferences(){
 		if (_debug) Log.v("AdvancedPreferenceActivity.setupImportPreferences()");
 		try{

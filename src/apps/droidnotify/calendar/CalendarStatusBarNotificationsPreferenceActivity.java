@@ -38,6 +38,7 @@ public class CalendarStatusBarNotificationsPreferenceActivity extends Preference
 	 * 
 	 * @param bundle - Activity bundle.
 	 */
+	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle bundle){
 	    super.onCreate(bundle);
@@ -67,6 +68,7 @@ public class CalendarStatusBarNotificationsPreferenceActivity extends Preference
 	/**
 	 * Updates the vibrate preferences based on the vibrate setting.
 	 */
+	@SuppressWarnings("deprecation")
 	private void updateVibratePreferences(){
 		if (_debug) Log.v("CalendarStatusBarNotificationsPreferenceActivity.updateVibratePreferences()");
 		try{

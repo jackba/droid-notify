@@ -40,6 +40,7 @@ public class K9PreferenceActivity extends PreferenceActivity implements OnShared
 	 * 
 	 * @param bundle - Activity bundle.
 	 */
+	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle bundle){
 	    super.onCreate(bundle);
@@ -100,6 +101,7 @@ public class K9PreferenceActivity extends PreferenceActivity implements OnShared
 	/**
 	 * Setup click events on custom preferences.
 	 */
+	@SuppressWarnings("deprecation")
 	private void setupCustomPreferences(){
 	    if (_debug) Log.v("K9PreferenceActivity.setupCustomPreferences()");
 		//Status Bar Notification Settings Preference/Button
@@ -134,6 +136,7 @@ public class K9PreferenceActivity extends PreferenceActivity implements OnShared
 	 * Check the users phone for the K-9 or Kaiten package installation.
 	 * If this is not found on the users phone, display a custom dialog box.
 	 */
+	@SuppressWarnings("deprecation")
 	private void checkK9PackageInstallation(boolean notifyFlag){
 		if (_debug) Log.v("K9PreferenceActivity().checkK9PackageInstallation()");
         try{

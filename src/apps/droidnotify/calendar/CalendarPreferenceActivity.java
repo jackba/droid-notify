@@ -44,6 +44,7 @@ public class CalendarPreferenceActivity extends PreferenceActivity implements On
 	 * 
 	 * @param bundle - Activity bundle.
 	 */
+	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle bundle){
 	    super.onCreate(bundle);
@@ -113,6 +114,7 @@ public class CalendarPreferenceActivity extends PreferenceActivity implements On
 	/**
 	 * Setup click events on custom preferences.
 	 */
+	@SuppressWarnings("deprecation")
 	private void setupCustomPreferences(){
 	    if (_debug) Log.v("CalendarPreferenceActivity.setupCustomPreferences()");
 		//Calendar Refresh Button
@@ -237,6 +239,7 @@ public class CalendarPreferenceActivity extends PreferenceActivity implements On
 	/**
 	 * Update the reminder settings based on their current settings.
 	 */
+	@SuppressWarnings("deprecation")
 	private void updateReminderSettings(){
 		ListPreference eventReminderListPref = (ListPreference)findPreference(Constants.CALENDAR_REMINDER_KEY);
 		ListPreference allDayEventReminderListPref = (ListPreference)findPreference(Constants.CALENDAR_REMINDER_ALL_DAY_KEY);

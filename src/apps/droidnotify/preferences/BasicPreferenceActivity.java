@@ -29,6 +29,7 @@ public class BasicPreferenceActivity extends PreferenceActivity{
 	 * 
 	 * @param bundle - Activity bundle.
 	 */
+	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle bundle){
 	    super.onCreate(bundle);
@@ -48,6 +49,7 @@ public class BasicPreferenceActivity extends PreferenceActivity{
 	/**
 	 * Setup click events on custom preferences.
 	 */
+	@SuppressWarnings("deprecation")
 	private void setupCustomPreferences(){
 	    if (_debug) Log.v("BasicPreferenceActivity.setupCustomPreferences()");
 		//Reschedule Preference/Button

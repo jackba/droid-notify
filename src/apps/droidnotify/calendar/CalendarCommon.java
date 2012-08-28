@@ -88,7 +88,7 @@ public class CalendarCommon {
 			String calendarIDColumn = null;
 			String calendarDisplayNameColumn = null;
 			String calendarSelectedColumn = null;
-			if(APILevel >= 14){
+			if(APILevel >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH){
 				contentProvider = CalendarContract.Calendars.CONTENT_URI.toString();
 				calendarIDColumn = CalendarContract.Calendars._ID;
 				calendarDisplayNameColumn = CalendarContract.Events.CALENDAR_DISPLAY_NAME;
@@ -159,7 +159,7 @@ public class CalendarCommon {
 				String eventAllDayColumn = null;
 				String eventHasAlarmColumn = null;
 				String eventQuerySortOrder = null;
-				if(APILevel >= 14){
+				if(APILevel >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH){
 					calendarEventContentProvider = CalendarContract.Events.CONTENT_URI.toString();
 					eventCalendarIDColumn = CalendarContract.Events.CALENDAR_ID;
 					eventIDColumn = CalendarContract.Events._ID;
@@ -339,7 +339,7 @@ public class CalendarCommon {
 			String calendarIDColumn = null;
 			String calendarDisplayNameColumn = null;
 			String calendarSelectedColumn = null;
-			if(APILevel >= 14){
+			if(APILevel >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH){
 				contentProvider = CalendarContract.Calendars.CONTENT_URI.toString();
 				calendarIDColumn = CalendarContract.Calendars._ID;
 				calendarDisplayNameColumn = CalendarContract.Events.CALENDAR_DISPLAY_NAME;
@@ -414,7 +414,7 @@ public class CalendarCommon {
 			String eventIDColumn = null;
 			String reminderTimeInMinutesColumn = null;
 			int defaultEventReminderMinutes = 15;
-			if(APILevel >= 14){
+			if(APILevel >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH){
 				contentProvider = CalendarContract.Reminders.CONTENT_URI.toString();
 				eventIDColumn = CalendarContract.Reminders.EVENT_ID;
 				reminderTimeInMinutesColumn = CalendarContract.Reminders.MINUTES;
@@ -487,7 +487,7 @@ public class CalendarCommon {
 			String eventIDColumn = null;
 			String eventStatusColumn = null;
 			int STATE_DISMISSED = -1;
-			if(APILevel >= 14){
+			if(APILevel >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH){
 				contentProvider = CalendarContract.CalendarAlerts.CONTENT_URI.toString();
 				eventIDColumn = CalendarContract.CalendarAlerts.EVENT_ID;
 				eventStatusColumn = CalendarContract.CalendarAlerts.STATUS;

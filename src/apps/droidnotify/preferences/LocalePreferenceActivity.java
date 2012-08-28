@@ -48,6 +48,7 @@ public class LocalePreferenceActivity extends PreferenceActivity implements OnSh
 	 * 
 	 * @param bundle - Activity bundle.
 	 */
+	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle bundle){
 	    super.onCreate(bundle);

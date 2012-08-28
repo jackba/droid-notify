@@ -55,6 +55,7 @@ public class SMSStatusBarNotificationsPreferenceActivity extends PreferenceActiv
 	 * 
 	 * @param bundle - Activity bundle.
 	 */
+	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle bundle){
 	    super.onCreate(bundle);
@@ -95,6 +96,7 @@ public class SMSStatusBarNotificationsPreferenceActivity extends PreferenceActiv
 	/**
 	 * Updates the vibrate preferences based on the vibrate setting.
 	 */
+	@SuppressWarnings("deprecation")
 	private void updateVibratePreferences(){
 		if (_debug) Log.v("SMSStatusBarNotificationsPreferenceActivity.updateVibratePreferences()");
 		try{
