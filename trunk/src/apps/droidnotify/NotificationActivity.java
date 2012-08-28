@@ -398,7 +398,7 @@ public class NotificationActivity extends Activity{
         Point size = new Point();
         int screenWidth;
         int screenHeight;
-        if(Common.getDeviceAPILevel() >= 13){
+        if(Common.getDeviceAPILevel() >= android.os.Build.VERSION_CODES.HONEYCOMB_MR2){
 	        display.getSize(size);
 	        screenWidth = size.x;
 	        screenHeight = size.y;
@@ -406,13 +406,11 @@ public class NotificationActivity extends Activity{
 	        screenWidth = display.getWidth();
 	        screenHeight = display.getHeight();
         }
+        //Adjust screen width based on the devices screen size.
         if(screenWidth >= 800 && screenWidth < 1280){
         	screenWidth = (int) (screenWidth * 0.8);
         }else if(screenWidth >= 1280){
         	screenWidth = (int) (screenWidth * 0.5);
-        }
-        if(screenHeight >= 800){
-        	screenHeight = (int) (screenWidth * 0.8);
         }
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(screenWidth, screenHeight);
         RelativeLayout contentView = (RelativeLayout) findViewById(R.id.notification_wrapper_relative_layout);
@@ -830,6 +828,7 @@ public class NotificationActivity extends Activity{
 	@Override
 	protected void onCreate(Bundle bundle){
 		super.onCreate(bundle);
+		int apiLevel = Common.getDeviceAPILevel();
 	    _context = getApplicationContext();
 		_debug = Log.getDebug();
 	    if(_debug) Log.v("NotificationActivity.onCreate()");
@@ -847,9 +846,13 @@ public class NotificationActivity extends Activity{
 	    Window mainWindow = getWindow();
 	    //Don't automatically show the soft keyboard.
 	    mainWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+	    //Alternative to Wakelock screen on parameter flag.
+	    if(apiLevel >= android.os.Build.VERSION_CODES.HONEYCOMB_MR2){
+	    	mainWindow.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+	    }
     	//Set Background Blur Flags
 	    if(_preferences.getBoolean(Constants.BLUR_SCREEN_BACKGROUND_ENABLED_KEY, false)){
-	    	if(Common.getDeviceAPILevel() <= android.os.Build.VERSION_CODES.GINGERBREAD_MR1){
+	    	if(apiLevel <= android.os.Build.VERSION_CODES.GINGERBREAD_MR1){
 	    		mainWindow.addFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
 	    	}
 	    }	 

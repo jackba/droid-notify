@@ -51,7 +51,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Parcelable;
 import android.os.PowerManager;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
@@ -71,6 +70,7 @@ import apps.droidnotify.R;
  * 
  * @author Camille Sévigny
  */
+@SuppressWarnings("deprecation")
 public class Common {
 	
 	//================================================================================
@@ -521,6 +521,7 @@ public class Common {
 	 * @param updateOnly - A boolean indicating that this is an update and not a new notification.
 	 * @param statusBarNotificationBundle - A Bundle that contains the status bar notification settings for this notification.
 	 */
+	@SuppressLint("NewApi")
 	public static void setStatusBarNotification(Context context, int notificationTypeCount, int notificationType, int notificationSubType, boolean callStateIdle, String sentFromContactName, long sentFromContactID, String sentFromAddress, String message, String k9EmailUri, String linkURL, long smsThreadID, boolean updateOnly, Bundle statusBarNotificationBundle){
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.setStatusBarNotification()");
@@ -936,73 +937,144 @@ public class Common {
 				}
 			}
 			//Notification icon.
-			icon = getStatusBarNotificationIconResource(context, notificationType);
+			icon = getStatusBarNotificationIconResource(context, notificationType);			
 			//Setup the notification
-			Notification notification = new Notification(icon, tickerText, System.currentTimeMillis());
-			//Set notification flags
-			notification.flags = Notification.FLAG_AUTO_CANCEL;
-			if(!updateOnly){
-				//Setup the notification vibration
-				if(vibrateEnabled && callStateIdle){
-					long[] vibrationPattern = parseVibratePattern(vibratePattern);
-					if(vibrationPattern == null){
-						notification.defaults |= Notification.DEFAULT_VIBRATE;
-					}else{
-						notification.vibrate = vibrationPattern;
-					}
-				}else if(vibrateEnabled && !callStateIdle && vibrateInCallEnabled && (inVibrateMode || inNormalMode)){
-					long[] vibrationPattern = parseVibratePattern(vibratePattern);
-					if(vibrationPattern == null){
-						//Do Nothing
-					}else{
-						try{
-							vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
-							vibrator.vibrate(vibrationPattern, -1);
-						}catch(Exception ex){
-							Log.e("Common.setStatusBarNotification() Notification Vibrator ERROR: " + ex.toString());
-						}
-					}
-				}
-				//Setup the notification sound
-				notification.audioStreamType = Notification.STREAM_DEFAULT;
-				if(soundEnabled && callStateIdle){
-					try{
-						notification.sound = Uri.parse(notificationSound);
-					}catch(Exception ex){
-						Log.e("Common.setStatusBarNotification() Notification Sound Set ERROR: " + ex.toString());
-						notification.defaults |= Notification.DEFAULT_SOUND;
-					}
-				}else if(soundEnabled && !callStateIdle && soundInCallEnabled && inNormalMode){
-					try{
-						new playNotificationMediaFileAsyncTask().execute(notificationSound);
-					}catch(Exception ex){
-						Log.e("Common.setStatusBarNotification() Notification Sound Play ERROR: " + ex.toString());
-					}					
-				}
-				//Setup the notification LED lights
-				if(ledEnabled){
-					try{
-						int[] ledPatternArray = parseLEDPattern(ledPattern);
-						if(ledPatternArray == null){
-							notification.defaults |= Notification.DEFAULT_LIGHTS;
-						}else{
-							//LED Color
-					        notification.ledARGB = ledColor;
-							//LED Pattern
-							notification.ledOnMS = ledPatternArray[0];
-					        notification.ledOffMS = ledPatternArray[1];
-							notification.flags |= Notification.FLAG_SHOW_LIGHTS;							
-						}
-					}catch(Exception ex){
-						Log.e("Common.setStatusBarNotification() Notification LED Lights ERROR: " + ex.toString());
-						notification.defaults |= Notification.DEFAULT_LIGHTS;
-					}
-				}
-			}
-			//Set notification intent values
-			notification.deleteIntent = deleteIntent;
-			notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
+			int apiLevel = Common.getDeviceAPILevel();
 			NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+			Notification notification = null;
+			int notificationBuilderDefaults = 0;
+			if(apiLevel >= android.os.Build.VERSION_CODES.HONEYCOMB){
+				Notification.Builder notificationBuilder = new Notification.Builder(context);
+				notificationBuilder.setContentIntent(contentIntent)
+					.setDeleteIntent(deleteIntent)
+		            .setSmallIcon(icon)
+		            .setTicker(tickerText)
+		            .setWhen(System.currentTimeMillis())
+		            .setAutoCancel(true)
+		            .setContentTitle(contentTitle)
+		            .setContentText(contentText);
+				if(!updateOnly){
+					//Setup the notification vibration
+					if(vibrateEnabled && callStateIdle){
+						long[] vibrationPattern = parseVibratePattern(vibratePattern);
+						if(vibrationPattern == null){
+							notificationBuilderDefaults |= Notification.DEFAULT_VIBRATE;
+						}else{
+							notificationBuilder.setVibrate(vibrationPattern);
+						}
+					}else if(vibrateEnabled && !callStateIdle && vibrateInCallEnabled && (inVibrateMode || inNormalMode)){
+						long[] vibrationPattern = parseVibratePattern(vibratePattern);
+						if(vibrationPattern != null){
+							try{
+								vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+								vibrator.vibrate(vibrationPattern, -1);
+							}catch(Exception ex){
+								Log.e("Common.setStatusBarNotification() Notification Vibrator ERROR: " + ex.toString());
+							}
+						}
+					}
+					//Setup the notification sound
+					if(soundEnabled && callStateIdle){
+						try{
+							notificationBuilder.setSound(Uri.parse(notificationSound), Notification.STREAM_DEFAULT);
+						}catch(Exception ex){
+							Log.e("Common.setStatusBarNotification() Notification Sound Set ERROR: " + ex.toString());
+							notificationBuilderDefaults |= Notification.DEFAULT_SOUND;
+						}
+					}else if(soundEnabled && !callStateIdle && soundInCallEnabled && inNormalMode){
+						try{
+							new playNotificationMediaFileAsyncTask().execute(notificationSound);
+						}catch(Exception ex){
+							Log.e("Common.setStatusBarNotification() Notification Sound Play ERROR: " + ex.toString());
+						}					
+					}
+					//Setup the notification LED lights
+					if(ledEnabled){
+						try{
+							int[] ledPatternArray = parseLEDPattern(ledPattern);
+							if(ledPatternArray == null){
+								notificationBuilderDefaults |= Notification.DEFAULT_LIGHTS;
+							}else{
+								notificationBuilder.setLights(ledColor, ledPatternArray[0], ledPatternArray[1]);
+							}
+						}catch(Exception ex){
+							Log.e("Common.setStatusBarNotification() Notification LED Lights ERROR: " + ex.toString());
+							notificationBuilderDefaults |= Notification.DEFAULT_LIGHTS;
+						}
+					}
+				}
+				//Set default values.
+				if(notificationBuilderDefaults > 0) notificationBuilder.setDefaults(notificationBuilderDefaults);
+				notification = notificationBuilder.getNotification();
+			}else{	
+				//Setup the notification
+				notification = new Notification(icon, tickerText, System.currentTimeMillis());
+				//Set notification flags
+				notification.flags = Notification.FLAG_AUTO_CANCEL;
+				if(!updateOnly){
+					//Setup the notification vibration
+					if(vibrateEnabled && callStateIdle){
+						long[] vibrationPattern = parseVibratePattern(vibratePattern);
+						if(vibrationPattern == null){
+							notificationBuilderDefaults |= Notification.DEFAULT_VIBRATE;
+						}else{
+							notification.vibrate = vibrationPattern;
+						}
+					}else if(vibrateEnabled && !callStateIdle && vibrateInCallEnabled && (inVibrateMode || inNormalMode)){
+						long[] vibrationPattern = parseVibratePattern(vibratePattern);
+						if(vibrationPattern == null){
+							//Do Nothing
+						}else{
+							try{
+								vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+								vibrator.vibrate(vibrationPattern, -1);
+							}catch(Exception ex){
+								Log.e("Common.setStatusBarNotification() Notification Vibrator ERROR: " + ex.toString());
+							}
+						}
+					}
+					//Setup the notification sound
+					notification.audioStreamType = Notification.STREAM_DEFAULT;
+					if(soundEnabled && callStateIdle){
+						try{
+							notification.sound = Uri.parse(notificationSound);
+						}catch(Exception ex){
+							Log.e("Common.setStatusBarNotification() Notification Sound Set ERROR: " + ex.toString());
+							notificationBuilderDefaults |= Notification.DEFAULT_SOUND;
+						}
+					}else if(soundEnabled && !callStateIdle && soundInCallEnabled && inNormalMode){
+						try{
+							new playNotificationMediaFileAsyncTask().execute(notificationSound);
+						}catch(Exception ex){
+							Log.e("Common.setStatusBarNotification() Notification Sound Play ERROR: " + ex.toString());
+						}					
+					}
+					//Setup the notification LED lights
+					if(ledEnabled){
+						try{
+							int[] ledPatternArray = parseLEDPattern(ledPattern);
+							if(ledPatternArray == null){
+								notificationBuilderDefaults |= Notification.DEFAULT_LIGHTS;
+							}else{
+								//LED Color
+						        notification.ledARGB = ledColor;
+								//LED Pattern
+								notification.ledOnMS = ledPatternArray[0];
+						        notification.ledOffMS = ledPatternArray[1];
+								notification.flags |= Notification.FLAG_SHOW_LIGHTS;							
+							}
+						}catch(Exception ex){
+							Log.e("Common.setStatusBarNotification() Notification LED Lights ERROR: " + ex.toString());
+							notificationBuilderDefaults |= Notification.DEFAULT_LIGHTS;
+						}
+					}
+				}
+				//Set default values.
+				if(notificationBuilderDefaults > 0) notification.defaults = notificationBuilderDefaults;
+				//Set notification intent values
+				notification.deleteIntent = deleteIntent;
+				notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
+			}
 			notificationManager.notify(notificationType, notification);
 			//Remove the stock status bar notification.
 			if(notificationType == Constants.NOTIFICATION_TYPE_PHONE){
@@ -1307,7 +1379,11 @@ public class Common {
 					if(preferences.getBoolean(Constants.SCREEN_DIM_ENABLED_KEY, true)){
 						_wakeLock = powerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, Constants.DROID_NOTIFY_WAKELOCK);
 					}else{
-						_wakeLock = powerManager.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, Constants.DROID_NOTIFY_WAKELOCK);
+						if(Common.getDeviceAPILevel() < android.os.Build.VERSION_CODES.HONEYCOMB_MR2){
+							_wakeLock = powerManager.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, Constants.DROID_NOTIFY_WAKELOCK);
+						}else{
+							_wakeLock = powerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, Constants.DROID_NOTIFY_WAKELOCK);
+						}
 					}
 				}else{
 					_wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, Constants.DROID_NOTIFY_WAKELOCK);

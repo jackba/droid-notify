@@ -56,6 +56,7 @@ public class DebugPreferenceActivity extends PreferenceActivity implements OnSha
 	 * 
 	 * @param bundle - Activity bundle.
 	 */
+	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle bundle){
 	    super.onCreate(bundle);
@@ -96,6 +97,7 @@ public class DebugPreferenceActivity extends PreferenceActivity implements OnSha
 	/**
 	 * Setup click events on custom preferences.
 	 */
+	@SuppressWarnings("deprecation")
 	private void setupCustomPreferences(){
 	    if (_debug) Log.v("DebugPreferenceActivity.setupCustomPreferences()");
 	    //Debug Mode CheckBox

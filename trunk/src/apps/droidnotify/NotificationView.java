@@ -41,6 +41,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.view.MotionEvent;
+import android.view.inputmethod.InputMethodManager;
 
 import apps.droidnotify.calendar.CalendarCommon;
 import apps.droidnotify.common.Common;
@@ -2632,7 +2633,17 @@ public class NotificationView extends LinearLayout {
     		_notification.cancelReminder();
     		SMSCommon.sendSMS(_context, _notification.getSentFromAddress(), message);
     		dismissNotification(false);
+    		//Hide the soft keyboard.
+    		hideSoftKeyboard();
     	}
+	}
+	
+	/**
+	 * Hide the soft keyboard.
+	 */
+	private void hideSoftKeyboard(){
+		InputMethodManager inputMethodManager = (InputMethodManager) _context.getSystemService(Context.INPUT_METHOD_SERVICE);
+		inputMethodManager.hideSoftInputFromWindow(_messageEditText.getWindowToken(), 0);
 	}
 	
 }

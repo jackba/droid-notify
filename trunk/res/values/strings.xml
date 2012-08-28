@@ -32,7 +32,7 @@
     <string name="reset_data">Resetting data&#8230;</string>
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
-    <string name="name">Name</string>
+    <string name="name">Name</string>    
     <string name="colon">:</string>
     
     <!-- Enable Application -->
@@ -1073,56 +1073,6 @@
   	<string name="size_28_text">Size 28</string>   	
   	<string name="size_29_text">Size 29</string>   	
   	<string name="size_30_text">Size 30</string> 
-  	
-  	<string name="minus12_hours_text">-12 Hours</string>
-  	<string name="minus11_30_hours_text">-11.5 Hours</string>
-  	<string name="minus11_hours_text">-11 Hours</string>
-  	<string name="minus10_30_hours_text">-10.5 Hours</string>
-  	<string name="minus10_hours_text">-10 Hours</string>
-  	<string name="minus9_30_hours_text">-9.5 Hours</string>
-  	<string name="minus9_hours_text">-9 Hours</string>
-  	<string name="minus8_30_hours_text">-8.5 Hours</string>
-  	<string name="minus8_hours_text">-8 Hours</string>
-  	<string name="minus7_30_hours_text">-7.5 Hours</string>
-  	<string name="minus7_hours_text">-7 Hours</string>
-  	<string name="minus6_30_hours_text">-6.5 Hours</string>
-  	<string name="minus6_hours_text">-6 Hours</string>
-  	<string name="minus5_30_hours_text">-5.5 Hours</string>
-  	<string name="minus5_hours_text">-5 Hours</string>
-  	<string name="minus4_30_hours_text">-4.5 Hours</string>
-  	<string name="minus4_hours_text">-4 Hours</string>
-  	<string name="minus3_30_hours_text">-3.5 Hours</string>
-  	<string name="minus3_hours_text">-3 Hours</string>
-  	<string name="minus2_30_hours_text">-2.5 Hours</string>
-  	<string name="minus2_hours_text">-2 Hours</string>
-  	<string name="minus1_30_hours_text">-1.5 Hours</string>
-  	<string name="minus1_hour_text">-1 Hour</string>
-  	<string name="minus30_minutes_text">-0.5 Hours</string>
-  	<string name="zero_hours_text">0 Hours</string>
-  	<string name="plus30_minutes_text">+0.5 Hours</string>
-  	<string name="plus1_hour_text">+1 Hour</string>
-  	<string name="plus1_30_hours_text">+1.5 Hours</string>
-  	<string name="plus2_hours_text">+2 Hours</string>
-  	<string name="plus2_30_hours_text">+2.5 Hours</string>
-  	<string name="plus3_hours_text">+3 Hours</string>
-  	<string name="plus3_30_hours_text">+3.5 Hours</string>
-  	<string name="plus4_hours_text">+4 Hours</string>
-  	<string name="plus4_30_hours_text">+4.5 Hours</string>
-  	<string name="plus5_hours_text">+5 Hours</string>
-  	<string name="plus5_30_hours_text">+5.5 Hours</string>
-  	<string name="plus6_hours_text">+6 Hours</string>
-  	<string name="plus6_30_hours_text">+6.5 Hours</string>
-  	<string name="plus7_hours_text">+7 Hours</string>
-  	<string name="plus7_30_hours_text">+7.5 Hours</string>
-  	<string name="plus8_hours_text">+8 Hours</string>
-  	<string name="plus8_30_hours_text">+8.5 Hours</string>
-  	<string name="plus9_hours_text">+9 Hours</string>
-  	<string name="plus9_30_hours_text">+9.5 Hours</string>
-  	<string name="plus10_hours_text">+10 Hours</string>
-  	<string name="plus10_30_hours_text">+10.5 Hours</string>
-  	<string name="plus11_hours_text">+11 Hours</string>
-  	<string name="plus11_30_hours_text">+11.5 Hours</string>
-  	<string name="plus12_hours_text">+12 Hours</string>
   	
  	<string name="sms_gateway_sprint_text">(USA) Sprint PCS / Virgin-Mobile</string>
 	<string name="sms_gateway_tmobile_text">(USA) T-Mobile</string>
