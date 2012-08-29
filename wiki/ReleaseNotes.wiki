@@ -3,8 +3,12 @@
 
 = Release Notes =
 
-*v3.18* _Coming Soon..._
+*v3.19* _Coming Soon..._
  * 
+
+*v3.18* _Coming Soon..._
+ * Fixed a quick reply font color issue that would appear on some devices. Updating your theme may be required to fix this problem.
+ * Other small bug fixes.
 
 *v3.17* (August 29, 2012)
  * Replaced the separate quick reply screen with an inline quick reply feature.
