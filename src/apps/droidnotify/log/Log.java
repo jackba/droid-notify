@@ -46,7 +46,7 @@ public class Log {
     // Properties
     //================================================================================
 	
-	private static boolean _debug = true;
+	private static boolean _debug = false;
 	
 	private static final boolean _AndroidVersion = true;
 	private static final boolean _AmazonVersion = false;
