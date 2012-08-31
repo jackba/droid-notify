@@ -9,7 +9,7 @@
 *v3.19* _Coming Soon..._
  * 
 
-*v3.18* _Coming Soon..._
+*v3.18* (August 31, 2012)
  * Fixed a quick reply font color issue that would appear on some devices. Updating your theme may be required to fix this problem.
  * Fixed a bug related to the screen waking up.
  * Other small bug fixes.
