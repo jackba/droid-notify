@@ -241,6 +241,9 @@ public class Constants {
 	// Zlango Messaging
 	// WhatsApp
 	// Motorola Messaging
+	// Hookt
+	// Google Talk
+	// Google Messenger
 	//
 	public static final String[] BLOCKED_SMS_PACKAGE_NAMES_ARRAY = new String[]{ 
 		"com.android.mms,com.android.mms.ui.ConversationList", 
@@ -254,7 +257,9 @@ public class Constants {
 		"com.whatsapp,com.whatsapp.Conversations",
 		"com.motorola.blur.conversations,com.motorola.blur.conversations.ui.ConversationList",
 		"com.motorola.blur.messaging,com.motorola.blur.messaging.MessagingActivity",
-		"com.airg.hookt,com.airg.hookt.activity.Conversation"};
+		"com.airg.hookt,com.airg.hookt.activity.Conversation",
+		"com.google.android.talk,com.google.android.talk.SigningInActivity",
+		"com.google.android.apps.plus,com.google.android.apps.plus.phone.ConversationActivity"};
 
 	//Array of the top Email Messaging Apps:
 	//---FORMAT = PACKAGE_NAME , CLASS_NAME---

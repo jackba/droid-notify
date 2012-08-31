@@ -12,6 +12,7 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources;
+import android.content.res.Resources.NotFoundException;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
@@ -25,6 +26,7 @@ import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.text.Html;
 import android.text.method.ScrollingMovementMethod;
+import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.HapticFeedbackConstants;
@@ -132,8 +134,29 @@ public class NotificationView extends LinearLayout {
 	/**
      * Class Constructor.
      */	
+	public NotificationView(Context context) {
+		super(context);
+	}
+	
+	/**
+     * Class Constructor.
+     */	
+	public NotificationView(Context context, AttributeSet attrs) {
+		super(context, attrs);
+	}
+	
+	/**
+     * Class Constructor.
+     */	
+	public NotificationView(Context context, AttributeSet attrs, int defStyle) {
+	    super(context, attrs, defStyle);
+	}
+	
+	/**
+     * Class Constructor.
+     */	
 	public NotificationView(Context context, Notification notification){
-	    super(context);
+		super(context);
 	    _debug = Log.getDebug();;
 	    if (_debug) Log.v("NotificationView.NotificationView()");
 	    _context = context;
@@ -312,6 +335,8 @@ public class NotificationView extends LinearLayout {
 		int contactNumberTextColorID = 0;
 		int bodyTextColorID = 0;
 		int buttonTextColorID = 0;
+		int quickReplyTextColorID = 0;
+		int spinnerTextColorID = 0;
 		if(!_themePackageName.startsWith(Constants.APP_THEME_PREFIX)){
 			_themePackageName = Constants.APP_THEME_DEFAULT;
 		}
@@ -327,7 +352,9 @@ public class NotificationView extends LinearLayout {
 			contactNameTextColorID = _resources.getColor(R.color.contact_name_text_color);	
 			contactNumberTextColorID = _resources.getColor(R.color.contact_number_text_color);	
 			bodyTextColorID = _resources.getColor(R.color.body_text_color);
+			quickReplyTextColorID = _resources.getColor(R.color.quick_reply_text_color);
 			buttonTextColorID = _resources.getColor(R.color.button_text_color);	
+			spinnerTextColorID = _resources.getColor(R.color.spinner_text_color);
 		}else if(_themePackageName.equals(Constants.PHONE_DEFAULT_THEME)){
 			_resources = _context.getResources();
 			layoutBackgroundDrawable = _resources.getDrawable(android.R.drawable.dialog_frame);
@@ -341,22 +368,22 @@ public class NotificationView extends LinearLayout {
 				layoutBackgroundDrawable = _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/background_panel", null, null));
 				try{
 					rescheduleDrawable = _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/ic_reschedule", null, null));
-				}catch(Exception ex){
+				}catch(NotFoundException nfe){
 					sttDrawable = localRresources.getDrawable(R.drawable.ic_reschedule);
 				}
 				try{
 					ttsDrawable = _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/ic_tts", null, null));
-				}catch(Exception ex){
+				}catch(NotFoundException nfe){
 					sttDrawable = localRresources.getDrawable(R.drawable.ic_tts);
 				}
 				try{
 					sttDrawable =_resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/ic_stt", null, null));
-				}catch(Exception ex){
+				}catch(NotFoundException nfe){
 					sttDrawable = localRresources.getDrawable(R.drawable.ic_stt);
 				}
 				try{
 					sendDrawable = _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/ic_send", null, null));
-				}catch(Exception ex){
+				}catch(NotFoundException nfe){
 					sendDrawable = localRresources.getDrawable(R.drawable.ic_send);
 				}
 				notificationCountTextColorID = _resources.getColor(_resources.getIdentifier(_themePackageName + ":color/notification_count_text_color", null, null));
@@ -365,6 +392,13 @@ public class NotificationView extends LinearLayout {
 				contactNumberTextColorID = _resources.getColor(_resources.getIdentifier(_themePackageName + ":color/contact_number_text_color", null, null));
 				bodyTextColorID = _resources.getColor(_resources.getIdentifier(_themePackageName + ":color/body_text_color", null, null));
 				buttonTextColorID = _resources.getColor(_resources.getIdentifier(_themePackageName + ":color/button_text_color", null, null));
+				try{
+					quickReplyTextColorID = _resources.getColor(_resources.getIdentifier(_themePackageName + ":color/quick_reply_text_color", null, null));
+					spinnerTextColorID = _resources.getColor(_resources.getIdentifier(_themePackageName + ":color/spinner_text_color", null, null));
+				}catch(NotFoundException nfe){
+					quickReplyTextColorID = bodyTextColorID;
+					spinnerTextColorID = bodyTextColorID;
+				}
 			}catch(NameNotFoundException ex){
 				Log.e("NotificationView.setupLayoutTheme() Loading Theme Package ERROR: " + ex.toString());
 				_themePackageName = Constants.APP_THEME_DEFAULT;
@@ -379,7 +413,9 @@ public class NotificationView extends LinearLayout {
 				contactNameTextColorID = _resources.getColor(R.color.contact_name_text_color);	
 				contactNumberTextColorID = _resources.getColor(R.color.contact_number_text_color);	
 				bodyTextColorID = _resources.getColor(R.color.body_text_color);
-				buttonTextColorID = _resources.getColor(R.color.button_text_color);	
+				buttonTextColorID = _resources.getColor(R.color.button_text_color);
+				quickReplyTextColorID = _resources.getColor(R.color.quick_reply_text_color);
+				spinnerTextColorID = _resources.getColor(R.color.spinner_text_color);
 			}
 		}
 		
@@ -420,17 +456,17 @@ public class NotificationView extends LinearLayout {
 			
 			_calendarSnoozeSpinner.setBackgroundDrawable(getThemeButton(Constants.THEME_SPINNER));
 			_messageEditText.setBackgroundDrawable(getThemeButton(Constants.THEME_EDIT_TEXT));
-			
-			if(_themePackageName.equals(Constants.NOTIFY_DEFAULT_THEME)){
-				_calendarSnoozeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
-		            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-		                 ((TextView)parentView.getChildAt(0)).setTextColor(localRresources.getColor(R.color.white));
-		            }
-					public void onNothingSelected(AdapterView<?> arg0){
-						
-					}
-				});
-			}
+			_messageEditText.setTextColor(quickReplyTextColorID);			
+
+			final int finalSpinnerTextColorID = spinnerTextColorID;
+			_calendarSnoozeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+	            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+	                 ((TextView)parentView.getChildAt(0)).setTextColor(finalSpinnerTextColorID);
+	            }
+				public void onNothingSelected(AdapterView<?> arg0){
+					
+				}
+			});
 			
 		}
 		

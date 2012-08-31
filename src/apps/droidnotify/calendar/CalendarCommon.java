@@ -12,7 +12,6 @@ import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.provider.CalendarContract;
-import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -530,39 +529,144 @@ public class CalendarCommon {
 			return true;
 		}
 	}
-	
+
 	/**
 	 * Start the intent to add an event to the calendar app.
 	 * 
-	 * @param context - Application Context.
+	 * @param context - The application context.
 	 * @param notificationActivity - A reference to the parent activity.
 	 * @param requestCode - The request code we want returned.
 	 * 
 	 * @return boolean - Returns true if the activity can be started.
 	 */
+	@SuppressLint("NewApi")
 	public static boolean startAddCalendarEventActivity(Context context, NotificationActivity notificationActivity, int requestCode){
 		_debug = Log.getDebug();
-		if (_debug) Log.v("CalendarCommon.startAddCalendarEventActivity()");
+		if (_debug) Log.v("CalendarCommon.startAddCalendarEventActivity()");		
 		try{
-			//Androids calendar app.
+			int APILevel = Common.getDeviceAPILevel();
+			String deviceManufacturer = Common.getDeviceManufacturer();
+			String calendarEventContentProvider = null;
 			Intent intent = new Intent(Intent.ACTION_EDIT);
-			intent.setType("vnd.android.cursor.item/event");
-	        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+			if(APILevel >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH){
+				calendarEventContentProvider = CalendarContract.Events.CONTENT_URI.toString();
+			}else if(deviceManufacturer != null && deviceManufacturer.contains("HTC") && Common.packageExists(context, "com.htc.calendar")){
+				calendarEventContentProvider = "content://com.htc.calendar/events";	
+			}else{
+				calendarEventContentProvider = "content://com.android.calendar/events";	
+			}
+			if (_debug) Log.v("CalendarCommon.startAddCalendarEventActivity() Trying to access Calendar Content Provider: " + calendarEventContentProvider);
 			notificationActivity.startActivityForResult(intent, requestCode);
 			Common.setInLinkedAppFlag(context, true);
 			return true;
 		}catch(Exception e){
-			Log.e("CalendarCommon.startAddCalendarEventActivity ERROR: " + e.toString());
 			try{
-				//HTC Sense UI calendar app.
+				if (_debug) Log.v("CalendarCommon.startAddCalendarEventActivity() Calendar Content Provider Failed ERROR: " + e.toString());
 				Intent intent = new Intent(Intent.ACTION_EDIT);
-				intent.setComponent(new ComponentName("com.htc.calendar", "com.htc.calendar.EditEvent"));
-		        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+				intent.setData(Uri.parse("content://com.android.calendar/events"));	
 				notificationActivity.startActivityForResult(intent, requestCode);
 				Common.setInLinkedAppFlag(context, true);
 				return true;
 			}catch(Exception ex){
-				Log.e("CalendarCommon.startAddCalendarEventActivity ERROR: " + ex.toString());
+				Log.e("CalendarCommon.startAddCalendarEventActivity() ERROR: " + ex.toString());
+				Toast.makeText(context, context.getString(R.string.app_android_calendar_app_error), Toast.LENGTH_LONG).show();
+				Common.setInLinkedAppFlag(context, false);
+				return false;
+			}
+		}
+	}
+	
+//	/**
+//	 * Start the intent to add an event to the calendar app.
+//	 * 
+//	 * @param context - Application Context.
+//	 * @param notificationActivity - A reference to the parent activity.
+//	 * @param requestCode - The request code we want returned.
+//	 * 
+//	 * @return boolean - Returns true if the activity can be started.
+//	 */
+//	public static boolean startAddCalendarEventActivity(Context context, NotificationActivity notificationActivity, int requestCode){
+//		_debug = Log.getDebug();
+//		if (_debug) Log.v("CalendarCommon.startAddCalendarEventActivity()");
+//		try{
+//			//Androids calendar app.
+//			Intent intent = new Intent(Intent.ACTION_EDIT);
+//			intent.setType("vnd.android.cursor.item/event");
+//	        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+//			notificationActivity.startActivityForResult(intent, requestCode);
+//			Common.setInLinkedAppFlag(context, true);
+//			return true;
+//		}catch(Exception e){
+//			Log.e("CalendarCommon.startAddCalendarEventActivity ERROR: " + e.toString());
+//			try{
+//				//HTC Sense UI calendar app.
+//				Intent intent = new Intent(Intent.ACTION_EDIT);
+//				intent.setComponent(new ComponentName("com.htc.calendar", "com.htc.calendar.EditEvent"));
+//		        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+//				notificationActivity.startActivityForResult(intent, requestCode);
+//				Common.setInLinkedAppFlag(context, true);
+//				return true;
+//			}catch(Exception ex){
+//				Log.e("CalendarCommon.startAddCalendarEventActivity ERROR: " + ex.toString());
+//				Toast.makeText(context, context.getString(R.string.app_android_calendar_app_error), Toast.LENGTH_LONG).show();
+//				Common.setInLinkedAppFlag(context, false);
+//				return false;
+//			}
+//		}
+//	}
+	
+	/**
+	 * Start the intent to view an event to the calendar app.
+	 * 
+	 * @param context - The application context.
+	 * @param notificationActivity - A reference to the parent activity.
+	 * @param calendarEventID - The id of the calendar event.
+	 * @param calendarEventStartTime - The start time of the calendar event.
+	 * @param calendarEventEndTime - The end time of the calendar event.
+	 * @param requestCode - The request code we want returned.
+	 * 
+	 * @return boolean - Returns true if the activity can be started.
+	 */
+	@SuppressLint("NewApi")
+	public static boolean startViewCalendarEventActivity(Context context, NotificationActivity notificationActivity, long calendarEventID, long calendarEventStartTime, long calendarEventEndTime, int requestCode){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("CalendarCommon.startViewCalendarEventActivity()");
+		try{
+			int APILevel = Common.getDeviceAPILevel();
+			if(calendarEventID < 0){
+				Toast.makeText(context, context.getString(R.string.app_android_calendar_event_not_found_error), Toast.LENGTH_LONG).show();
+				Common.setInLinkedAppFlag(context, false);
+				return false;
+			}
+			String deviceManufacturer = Common.getDeviceManufacturer();
+			String calendarEventContentProvider = null;
+			Intent intent = new Intent(Intent.ACTION_VIEW);
+			if(APILevel >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH){
+				calendarEventContentProvider = CalendarContract.Events.CONTENT_URI.toString() + "/" + String.valueOf(calendarEventID);
+			}else if(deviceManufacturer != null && deviceManufacturer.contains("HTC") && Common.packageExists(context, "com.htc.calendar")){
+				calendarEventContentProvider = "content://com.htc.calendar/events/" + String.valueOf(calendarEventID);	
+			}else{
+				calendarEventContentProvider = "content://com.android.calendar/events/" + String.valueOf(calendarEventID);	
+			}
+			if (_debug) Log.v("CalendarCommon.startViewCalendarEventActivity() Trying to access Calendar Content Provider: " + calendarEventContentProvider);
+			intent.setData(Uri.parse(calendarEventContentProvider));	
+			intent.putExtra(Constants.CALENDAR_EVENT_BEGIN_TIME, calendarEventStartTime);
+			intent.putExtra(Constants.CALENDAR_EVENT_END_TIME, calendarEventEndTime);
+			notificationActivity.startActivityForResult(intent, requestCode);
+			Common.setInLinkedAppFlag(context, true);
+			return true;
+		}catch(Exception e){
+			try{
+				if (_debug) Log.v("CalendarCommon.startViewCalendarEventActivity() Calendar Content Provider Failed ERROR: " + e.toString());
+				Intent intent = new Intent(Intent.ACTION_VIEW);
+				intent.setData(Uri.parse("content://com.android.calendar/events/" + String.valueOf(calendarEventID)));	
+				intent.putExtra(Constants.CALENDAR_EVENT_BEGIN_TIME, calendarEventStartTime);
+				intent.putExtra(Constants.CALENDAR_EVENT_END_TIME, calendarEventEndTime);
+				notificationActivity.startActivityForResult(intent, requestCode);
+				Common.setInLinkedAppFlag(context, true);
+				return true;
+			}catch(Exception ex){
+				Log.e("CalendarCommon.startViewCalendarEventActivity() ERROR: " + ex.toString());
 				Toast.makeText(context, context.getString(R.string.app_android_calendar_app_error), Toast.LENGTH_LONG).show();
 				Common.setInLinkedAppFlag(context, false);
 				return false;
@@ -571,51 +675,9 @@ public class CalendarCommon {
 	}
 	
 	/**
-	 * Start the intent to view an event to the calendar app.
-	 * 
-	 * @param context - Application Context.
-	 * @param notificationActivity - A reference to the parent activity.
-	 * @param calendarEventID - The id of the calendar event.
-	 * @param calendarEventStartTime - The start time of the calendar event.
-	 * @param calendarEventEndTime - The end time of the calendar event.
-	 * @param requestCode - The request code we want returned.
-	 * 
-	 * @return boolean - Returns true if the activity can be started.
-	 */
-	public static boolean startViewCalendarEventActivity(Context context, NotificationActivity notificationActivity, long calendarEventID, long calendarEventStartTime, long calendarEventEndTime, int requestCode){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("CalendarCommon.startViewCalendarEventActivity()");
-		try{
-			if(calendarEventID < 0){
-				Toast.makeText(context, context.getString(R.string.app_android_calendar_event_not_found_error), Toast.LENGTH_LONG).show();
-				Common.setInLinkedAppFlag(context, false);
-				return false;
-			}
-			String deviceManufacturer = Common.getDeviceManufacturer();
-			Intent intent = new Intent(Intent.ACTION_VIEW);
-			if(deviceManufacturer != null && deviceManufacturer.contains("HTC")){
-				intent.setData(Uri.parse("content://com.htc.calendar/events/" + String.valueOf(calendarEventID)));	
-			}else{
-				intent.setData(Uri.parse("content://com.android.calendar/events/" + String.valueOf(calendarEventID)));	
-			}
-			intent.putExtra(Constants.CALENDAR_EVENT_BEGIN_TIME, calendarEventStartTime);
-			intent.putExtra(Constants.CALENDAR_EVENT_END_TIME, calendarEventEndTime);
-	        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-			notificationActivity.startActivityForResult(intent, requestCode);
-			Common.setInLinkedAppFlag(context, true);
-			return true;
-		}catch(Exception ex){
-			Log.e("CalendarCommon.startViewCalendarEventActivity ERROR: " + ex.toString());
-			Toast.makeText(context, context.getString(R.string.app_android_calendar_app_error), Toast.LENGTH_LONG).show();
-			Common.setInLinkedAppFlag(context, false);
-			return false;
-		}
-	}
-	
-	/**
 	 * Start the intent to edit an event to the calendar app.
 	 * 
-	 * @param context - Application Context.
+	 * @param context - The application context.
 	 * @param notificationActivity - A reference to the parent activity.
 	 * @param calendarEventID - The id of the calendar event.
 	 * @param calendarEventStartTime - The start time of the calendar event.
@@ -624,40 +686,56 @@ public class CalendarCommon {
 	 * 
 	 * @return boolean - Returns true if the activity can be started.
 	 */
+	@SuppressLint("NewApi")
 	public static boolean startEditCalendarEventActivity(Context context, NotificationActivity notificationActivity, long calendarEventID, long calendarEventStartTime, long calendarEventEndTime, int requestCode){
 		_debug = Log.getDebug();
 		if (_debug) Log.v("CalendarCommon.startEditCalendarEventActivity()");
 		try{
+			int APILevel = Common.getDeviceAPILevel();
 			if(calendarEventID < 0){
 				Toast.makeText(context, context.getString(R.string.app_android_calendar_event_not_found_error), Toast.LENGTH_LONG).show();
 				Common.setInLinkedAppFlag(context, false);
 				return false;
 			}
 			String deviceManufacturer = Common.getDeviceManufacturer();
+			String calendarEventContentProvider = null;
 			Intent intent = new Intent(Intent.ACTION_EDIT);
-			if(deviceManufacturer != null && deviceManufacturer.contains("HTC")){
-				intent.setData(Uri.parse("content://com.htc.calendar/events/events/" + String.valueOf(calendarEventID)));	
+			if(APILevel >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH){
+				calendarEventContentProvider = CalendarContract.Events.CONTENT_URI.toString() + "/" + String.valueOf(calendarEventID);
+			}else if(deviceManufacturer != null && deviceManufacturer.contains("HTC") && Common.packageExists(context, "com.htc.calendar")){
+				calendarEventContentProvider = "content://com.htc.calendar/events/" + String.valueOf(calendarEventID);	
 			}else{
-				intent.setData(Uri.parse("content://com.android.calendar/events/" + String.valueOf(calendarEventID)));
+				calendarEventContentProvider = "content://com.android.calendar/events/" + String.valueOf(calendarEventID);	
 			}
+			if (_debug) Log.v("CalendarCommon.startEditCalendarEventActivity() Trying to access Calendar Content Provider: " + calendarEventContentProvider);
 			intent.putExtra(Constants.CALENDAR_EVENT_BEGIN_TIME, calendarEventStartTime);
 			intent.putExtra(Constants.CALENDAR_EVENT_END_TIME, calendarEventEndTime);
-	        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 			notificationActivity.startActivityForResult(intent, requestCode);
 			Common.setInLinkedAppFlag(context, true);
 			return true;
-		}catch(Exception ex){
-			Log.e("CalendarCommon.startEditCalendarEventActivity ERROR: " + ex.toString());
-			Toast.makeText(context, context.getString(R.string.app_android_calendar_app_error), Toast.LENGTH_LONG).show();
-			Common.setInLinkedAppFlag(context, false);
-			return false;
+		}catch(Exception e){
+			try{
+				if (_debug) Log.v("CalendarCommon.startEditCalendarEventActivity() Calendar Content Provider Failed ERROR: " + e.toString());
+				Intent intent = new Intent(Intent.ACTION_EDIT);
+				intent.setData(Uri.parse("content://com.android.calendar/events/" + String.valueOf(calendarEventID)));	
+				intent.putExtra(Constants.CALENDAR_EVENT_BEGIN_TIME, calendarEventStartTime);
+				intent.putExtra(Constants.CALENDAR_EVENT_END_TIME, calendarEventEndTime);
+				notificationActivity.startActivityForResult(intent, requestCode);
+				Common.setInLinkedAppFlag(context, true);
+				return true;
+			}catch(Exception ex){
+				Log.e("CalendarCommon.startEditCalendarEventActivity() ERROR: " + ex.toString());
+				Toast.makeText(context, context.getString(R.string.app_android_calendar_app_error), Toast.LENGTH_LONG).show();
+				Common.setInLinkedAppFlag(context, false);
+				return false;
+			}
 		}
 	}
 	
 	/**
 	 * Start the intent to start the calendar app.
 	 * 
-	 * @param context - Application Context.
+	 * @param context - The application context.
 	 * @param notificationActivity - A reference to the parent activity.
 	 * @param requestCode - The request code we want returned.
 	 * 
@@ -667,22 +745,34 @@ public class CalendarCommon {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("CalendarCommon.startViewCalendarActivity()");
 		try{
+//			int APILevel = Common.getDeviceAPILevel();
 			String deviceManufacturer = Common.getDeviceManufacturer();
 			Intent intent = new Intent(Intent.ACTION_VIEW);
-			if(deviceManufacturer != null && deviceManufacturer.contains("HTC")){
-				intent.setComponent(new ComponentName("com.htc.calendar", "com.htc.calendar.LaunchActivity"));
+//			if(APILevel >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH){
+//				//TODO - ?????
+//			}else if(deviceManufacturer != null && deviceManufacturer.contains("HTC") && Common.packageExists(context, "com.htc.calendar")){
+			if(deviceManufacturer != null && deviceManufacturer.contains("HTC") && Common.packageExists(context, "com.htc.calendar")){
+				intent.setClassName("com.htc.calendar", "com.htc.calendar.LaunchActivity");
 			}else{
 				intent.setClassName("com.android.calendar", "com.android.calendar.LaunchActivity"); 
 			}
-	        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 			notificationActivity.startActivityForResult(intent, requestCode);
 			Common.setInLinkedAppFlag(context, true);
 			return true;
-		}catch(Exception ex){
-			Log.e("CalendarCommon.startViewCalendarActivity() ERROR: " + ex.toString());
-			Toast.makeText(context, context.getString(R.string.app_android_calendar_app_error), Toast.LENGTH_LONG).show();
-			Common.setInLinkedAppFlag(context, false);
-			return false;
+		}catch(Exception e){
+			try{
+				if (_debug) Log.v("CalendarCommon.startViewCalendarActivity() Calendar Component Failed ERROR: " + e.toString());
+				Intent intent = new Intent(Intent.ACTION_VIEW);
+				intent.setClassName("com.android.calendar", "com.android.calendar.LaunchActivity"); 
+				notificationActivity.startActivityForResult(intent, requestCode);
+				Common.setInLinkedAppFlag(context, true);
+				return true;
+			}catch(Exception ex){
+				Log.e("CalendarCommon.startViewCalendarActivity() ERROR: " + ex.toString());
+				Toast.makeText(context, context.getString(R.string.app_android_calendar_app_error), Toast.LENGTH_LONG).show();
+				Common.setInLinkedAppFlag(context, false);
+				return false;
+			}
 		}
 	}
 	

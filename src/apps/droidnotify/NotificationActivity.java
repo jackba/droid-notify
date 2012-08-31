@@ -846,10 +846,6 @@ public class NotificationActivity extends Activity{
 	    Window mainWindow = getWindow();
 	    //Don't automatically show the soft keyboard.
 	    mainWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-	    //Alternative to Wakelock screen on parameter flag.
-	    if(apiLevel >= android.os.Build.VERSION_CODES.HONEYCOMB_MR2){
-	    	mainWindow.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-	    }
     	//Set Background Blur Flags
 	    if(_preferences.getBoolean(Constants.BLUR_SCREEN_BACKGROUND_ENABLED_KEY, false)){
 	    	if(apiLevel <= android.os.Build.VERSION_CODES.GINGERBREAD_MR1){

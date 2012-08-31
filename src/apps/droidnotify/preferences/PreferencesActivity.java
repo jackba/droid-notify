@@ -18,9 +18,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import apps.droidnotify.R;
+import apps.droidnotify.calendar.CalendarCommon;
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
+import apps.droidnotify.reminder.ReminderCommon;
 import apps.droidnotify.services.OnFirstRunService;
 import apps.droidnotify.services.WakefulIntentService;
 
@@ -155,6 +157,8 @@ public class PreferencesActivity extends Activity {
 		    		editor.commit();
 		    		//Enable/Disable all other buttons.
 		    		enableUserPreferences(appEnabled);
+		    		//Start the app alarms.
+		    		startAppAlarms(appEnabled);
 		    	}catch(Exception ex){
 	 	    		Log.e("PreferencesActivity() Enable App Button ERROR: " + ex.toString());
 		    	}
@@ -169,6 +173,8 @@ public class PreferencesActivity extends Activity {
 	    		editor.commit();
 	    		//Enable/Disable all other buttons.
 	    		enableUserPreferences(isChecked);
+	    		//Start the app alarms.
+	    		startAppAlarms(isChecked);
 			}
 		}); 
 		//Basic Button
@@ -368,6 +374,25 @@ public class PreferencesActivity extends Activity {
 			}
 		}catch(Exception ex){
 			Log.e("PreferencesActivity.setupFirstRun() ERROR: " + ex.toString());
+		}
+	}
+	
+	/**
+	 * Start/Stop all the alarms associated with this application.
+	 * 
+	 * @param appEnabled - A boolean indicating if the app is enabled or not.
+	 */
+	private void startAppAlarms(boolean appEnabled){
+		if(appEnabled){
+			//Start app alarms.
+			//Calendar Alarms
+		    if(_preferences.getBoolean(Constants.CALENDAR_NOTIFICATIONS_ENABLED_KEY, true)){
+		    	CalendarCommon.startCalendarAlarmManager(_context, System.currentTimeMillis() + (5 * 60 * 1000));
+			}
+		}else{
+			//Stop app alarms.
+			//Calendar Alarms			
+			CalendarCommon.cancelCalendarAlarmManager(_context);
 		}
 	}
 	
