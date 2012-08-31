@@ -15,4 +15,6 @@
 	<color name="button_text_color">#ffffffff</color>
 	<color name="list_selector_text_color">#ffffffff</color>
 	<color name="list_selector_transition_text_color">#ff000000</color>
+	<color name="quick_reply_text_color">#ffffffff</color>
+	<color name="spinner_text_color">#ffffffff</color>
 </resources>

@@ -1377,13 +1377,9 @@ public class Common {
 				}
 				if(preferences.getBoolean(Constants.SCREEN_ENABLED_KEY, true)){
 					if(preferences.getBoolean(Constants.SCREEN_DIM_ENABLED_KEY, true)){
-						_wakeLock = powerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, Constants.DROID_NOTIFY_WAKELOCK);
+						_wakeLock = powerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP | PowerManager.ON_AFTER_RELEASE, Constants.DROID_NOTIFY_WAKELOCK);
 					}else{
-						if(Common.getDeviceAPILevel() < android.os.Build.VERSION_CODES.HONEYCOMB_MR2){
-							_wakeLock = powerManager.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, Constants.DROID_NOTIFY_WAKELOCK);
-						}else{
-							_wakeLock = powerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, Constants.DROID_NOTIFY_WAKELOCK);
-						}
+						_wakeLock = powerManager.newWakeLock(PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP | PowerManager.ON_AFTER_RELEASE, Constants.DROID_NOTIFY_WAKELOCK);
 					}
 				}else{
 					_wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, Constants.DROID_NOTIFY_WAKELOCK);

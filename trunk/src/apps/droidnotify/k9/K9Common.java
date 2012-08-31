@@ -91,73 +91,84 @@ public class K9Common {
     		Cursor cursor = null;
     		String emailURI = "content://" + packageName + ".messageprovider/inbox_messages/";
             try{
-    		if(packageName.equals("org.koxx.k9ForPureWidget")){
-    			String accountUID = getK9ForPureEmailAccountUID(context, accountName);
-    			emailURI = emailURI + accountUID;
-            	//if (_debug) Log.v("EmailCommon.getK9MessagesFromIntent() EmailURI: " + emailURI);
-        		final String[] projection = new String[] {"_id", "date", "sender", "subject", "preview", "account", "uri"};
-        		final String selection = null;
-        		final String[] selectionArgs = null;
-        		final String sortOrder = "date DESC";
-    		    cursor = context.getContentResolver().query(
-    		    		Uri.parse(emailURI),
-    		    		projection,
-    		    		selection,
-    					selectionArgs,
-    					sortOrder);
-	    		while(cursor.moveToNext()){
-    				String accountNameTmp = cursor.getString(cursor.getColumnIndex("account"));
-	    			long timeStampTmp = cursor.getLong(cursor.getColumnIndex("date"));
-	    			//String subjectTmp = cursor.getString(cursor.getColumnIndex("subject"));    	    			
-	    			//if (_debug) Log.v("EmailCommon.getK9MessagesFromIntent() accountNameTmp: " + accountNameTmp + " accountName: " + accountName);
-	    			//if (_debug) Log.v("EmailCommon.getK9MessagesFromIntent() timeStampTmp: " + timeStampTmp + " timeStamp: " + timeStamp);
-	    			//if (_debug) Log.v("EmailCommon.getK9MessagesFromIntent() subjectTmp: " + subjectTmp + " messageSubject: " + messageSubject);
-	    			if(timeStampTmp == timeStamp && accountNameTmp.equals(accountName)){
-			    		messageID = cursor.getLong(cursor.getColumnIndex("_id"));
-			    		messageBody = cursor.getString(cursor.getColumnIndex("preview"));
-			    		k9EmailUri = cursor.getString(cursor.getColumnIndex("uri"));
-						k9EmailDelUri = emailURI + "/" + messageID;
-		    			//if (_debug) Log.v("EmailCommon.getK9MessagesFromIntent() k9EmailDelUri: " + k9EmailDelUri);
-			    		emailFoundFlag = true;	
-	    			}
-		    		if(emailFoundFlag){
-		    			break;
+	    		if(packageName.equals("org.koxx.k9ForPureWidget")){
+	    			String accountUID = getK9ForPureEmailAccountUID(context, accountName);
+	    			emailURI = emailURI + accountUID;
+	            	//if (_debug) Log.v("EmailCommon.getK9MessagesFromIntent() EmailURI: " + emailURI);
+	        		final String[] projection = new String[] {"_id", "date", "sender", "subject", "preview", "account", "uri"};
+	        		final String selection = null;
+	        		final String[] selectionArgs = null;
+	        		final String sortOrder = "date DESC";
+	    		    cursor = context.getContentResolver().query(
+	    		    		Uri.parse(emailURI),
+	    		    		projection,
+	    		    		selection,
+	    					selectionArgs,
+	    					sortOrder);
+	    		    if(cursor == null){
+	    		    	Log.v("EmailCommon.getK9MessagesFromIntent() Cursor is null. Exiting...");
+	    		    	return null;
+	    		    }
+		    		while(cursor.moveToNext()){
+	    				String accountNameTmp = cursor.getString(cursor.getColumnIndex("account"));
+		    			long timeStampTmp = cursor.getLong(cursor.getColumnIndex("date"));
+		    			//String subjectTmp = cursor.getString(cursor.getColumnIndex("subject"));    	    			
+		    			//if (_debug) Log.v("EmailCommon.getK9MessagesFromIntent() accountNameTmp: " + accountNameTmp + " accountName: " + accountName);
+		    			//if (_debug) Log.v("EmailCommon.getK9MessagesFromIntent() timeStampTmp: " + timeStampTmp + " timeStamp: " + timeStamp);
+		    			//if (_debug) Log.v("EmailCommon.getK9MessagesFromIntent() subjectTmp: " + subjectTmp + " messageSubject: " + messageSubject);
+		    			if(timeStampTmp == timeStamp && accountNameTmp.equals(accountName)){
+				    		messageID = cursor.getLong(cursor.getColumnIndex("_id"));
+				    		messageBody = cursor.getString(cursor.getColumnIndex("preview"));
+				    		k9EmailUri = cursor.getString(cursor.getColumnIndex("uri"));
+							k9EmailDelUri = emailURI + "/" + messageID;
+			    			//if (_debug) Log.v("EmailCommon.getK9MessagesFromIntent() k9EmailDelUri: " + k9EmailDelUri);
+				    		emailFoundFlag = true;	
+		    			}
+			    		if(emailFoundFlag){
+			    			break;
+			    		}
 		    		}
-	    		}
-    		}else{
-            	final String[] projection = new String[] {"_id", "date", "sender", "subject", "preview", "account", "uri", "delUri"};
-        		final String selection = "date=? AND account=?";
-        		final String[] selectionArgs = new String[] {String.valueOf(timeStamp), accountName};
-        		final String sortOrder = "date DESC";
-    		    cursor = context.getContentResolver().query(
-    		    		Uri.parse(emailURI),
-    		    		projection,
-    		    		selection,
-    					selectionArgs,
-    					sortOrder);
-	    		while(cursor.moveToNext()){
-    				String accountNameTmp = cursor.getString(cursor.getColumnIndex("account"));
-	    			long timeStampTmp = cursor.getLong(cursor.getColumnIndex("date"));
-	    			//String subjectTmp = cursor.getString(cursor.getColumnIndex("subject"));    	    			
-	    			//if (_debug) Log.v("EmailCommon.getK9MessagesFromIntent() accountNameTmp: " + accountNameTmp + " accountName: " + accountName);
-	    			//if (_debug) Log.v("EmailCommon.getK9MessagesFromIntent() timeStampTmp: " + timeStampTmp + " timeStamp: " + timeStamp);
-	    			//if (_debug) Log.v("EmailCommon.getK9MessagesFromIntent() subjectTmp: " + subjectTmp + " messageSubject: " + messageSubject);
-	    			if(timeStampTmp == timeStamp && accountNameTmp.equals(accountName)){
-			    		messageID = cursor.getLong(cursor.getColumnIndex("_id"));
-			    		messageBody = cursor.getString(cursor.getColumnIndex("preview"));
-			    		k9EmailUri = cursor.getString(cursor.getColumnIndex("uri"));
-			    		k9EmailDelUri = cursor.getString(cursor.getColumnIndex("delUri"));
-			    		emailFoundFlag = true;	
-	    			}
-		    		if(emailFoundFlag){
-		    			break;
+		    		cursor.close();
+	    		}else{
+	            	final String[] projection = new String[] {"_id", "date", "sender", "subject", "preview", "account", "uri", "delUri"};
+	        		final String selection = "date=? AND account=?";
+	        		final String[] selectionArgs = new String[] {String.valueOf(timeStamp), accountName};
+	        		final String sortOrder = "date DESC";
+	    		    cursor = context.getContentResolver().query(
+	    		    		Uri.parse(emailURI),
+	    		    		projection,
+	    		    		selection,
+	    					selectionArgs,
+	    					sortOrder);
+	    		    if(cursor == null){
+	    		    	Log.v("EmailCommon.getK9MessagesFromIntent() Cursor is null. Exiting...");
+	    		    	return null;
+	    		    }
+		    		while(cursor.moveToNext()){
+	    				String accountNameTmp = cursor.getString(cursor.getColumnIndex("account"));
+		    			long timeStampTmp = cursor.getLong(cursor.getColumnIndex("date"));
+		    			//String subjectTmp = cursor.getString(cursor.getColumnIndex("subject"));    	    			
+		    			//if (_debug) Log.v("EmailCommon.getK9MessagesFromIntent() accountNameTmp: " + accountNameTmp + " accountName: " + accountName);
+		    			//if (_debug) Log.v("EmailCommon.getK9MessagesFromIntent() timeStampTmp: " + timeStampTmp + " timeStamp: " + timeStamp);
+		    			//if (_debug) Log.v("EmailCommon.getK9MessagesFromIntent() subjectTmp: " + subjectTmp + " messageSubject: " + messageSubject);
+		    			if(timeStampTmp == timeStamp && accountNameTmp.equals(accountName)){
+				    		messageID = cursor.getLong(cursor.getColumnIndex("_id"));
+				    		messageBody = cursor.getString(cursor.getColumnIndex("preview"));
+				    		k9EmailUri = cursor.getString(cursor.getColumnIndex("uri"));
+				    		k9EmailDelUri = cursor.getString(cursor.getColumnIndex("delUri"));
+				    		emailFoundFlag = true;	
+		    			}
+			    		if(emailFoundFlag){
+			    			break;
+			    		}
 		    		}
+		    		cursor.close();
 	    		}
-    		}
     		}catch(Exception ex){
     			Log.e("EmailCommon.getK9MessagesFromIntent() CURSOR ERROR: " + ex.toString());
-    		}finally{
-        		cursor.close();
+    			if(cursor != null){
+    				cursor.close();
+    			}
     		}
             if(emailFoundFlag == false){
             	Log.e("EmailCommon.getK9MessagesFromIntent() No Email Found Matching The Date & Account.");
@@ -354,6 +365,10 @@ public class K9Common {
 		    		selection,
 					selectionArgs,
 					sortOrder);
+		    if(cursor == null){
+		    	Log.v("EmailCommon.getK9ForPureEmailAccountUID() Cursor is null. Exiting...");
+		    	return null;
+		    }
     		while(cursor.moveToNext()){  
     			String accountNameTmp = cursor.getString(cursor.getColumnIndex("accountName"));
     			//if (_debug) Log.v("EmailCommon.getK9ForPureEmailAccountUID() AccountNameTmp: " + accountNameTmp);
@@ -363,10 +378,13 @@ public class K9Common {
 	    			break;
     			}
     		}
+    		cursor.close();
 		}catch(Exception ex){
 			Log.e("EmailCommon.getK9ForPureEmailAccountUID() CURSOR ERROR: " + ex.toString());
-		}finally{
-    		cursor.close();
+			if(cursor != null){
+				cursor.close();
+			}
+			return null;
 		}
         return accountUID;
 	}
