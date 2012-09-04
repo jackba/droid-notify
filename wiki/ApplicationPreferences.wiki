@@ -73,6 +73,7 @@ Customize
  * Center Align Body Text
  * Notification Body Font Size
  * Notification Body Max Lines
+ * Enable Emoticons
  
 Notifications
 
