@@ -90,6 +90,7 @@ Notifications
    * LED Blink Setting
    * Enable In-Call Sound
    * Enable In-Call Vibrate
+  * Enable Quick Reply
   * Customize
    * Hide Notification Body
    * Notification Count Action
@@ -99,7 +100,6 @@ Notifications
    * Display Delete Button
    * Delete Button Action
    * Display Reply Button
-   * Reply Button Action
 
  * Missed Calls
   * Enable Missed Call
@@ -179,7 +179,6 @@ Notifications
    * Display Delete Button
    * Delete Button Action
    * Display Reply Button
-   * Reply Button Action
 
  * Twitter
   * Enable Twitter
@@ -201,6 +200,7 @@ Notifications
    * LED Blink Setting
    * Enable In-Call Sound
    * Enable In-Call Vibrate
+  * Enable Quick Reply
   * Customize
    * Hide Notification Body
    * Notification Count Action
@@ -210,7 +210,6 @@ Notifications
    * Delete Button Action
    * Display View Button
    * Display Reply Button
-   * Reply Button Action
 
  * Facebook
   * Enable Facebook
@@ -256,6 +255,7 @@ Notifications
    * LED Blink Setting
    * Enable In-Call Sound
    * Enable In-Call Vibrate
+  * Enable Quick Reply
   * Customize
    * Hide Notification Body
    * Notification Count Action
@@ -265,7 +265,6 @@ Notifications
    * Display Delete Button
    * Delete Button Action
    * Display Reply Button
-   * Reply Button Action
    * Display Call Button
  
 Privacy
