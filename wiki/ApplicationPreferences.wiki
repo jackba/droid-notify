@@ -24,12 +24,7 @@ Basic
  * Quiet Time Settings
   * Time Of Week Settings
   * Quiet Period Settings
- * Quick Reply Settings
-  * Save Draft
-  * Blur Screen Background (Hidden in Android 4.0+ Devices)
-  * Dim Screen Background
-  * Dim Screen Value
-  * Display Cancel Button
+ * Enable Quick Reply
  * Customize Contacts
  * Blacklist
 
