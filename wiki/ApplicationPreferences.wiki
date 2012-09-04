@@ -55,14 +55,18 @@ Customize
  * Button Font Size
  * Bold Button Text
  * Display Type Icon
+ * Display Notification Type Info
+ * Center Align Notification Type Info
  * Type Font Size
  * Display Contact Photo
  * Contact Photo Size
  * Contact Placeholder Image
  * Contact Photo Background
  * Display Contact Name
+ * Center Align Contact Name
  * Contact Name Font Size
  * Display Contact Number
+ * Center Align Contact Number
  * Contact Number Font Size
  * Display Unknown Contact Number
  * Display Notification Body
