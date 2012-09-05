@@ -47,7 +47,8 @@ public class ThemeView extends LinearLayout {
 	
 	private ThemeViewFlipper _themeViewFlipper = null;
 	
-	private LinearLayout _notificationWindowLinearLayout = null;	
+	private LinearLayout _notificationWindowLinearLayout = null;
+	private LinearLayout _notificationInfoLinearLayout = null;	
 
 	private LinearLayout _buttonLinearLayout = null;
 	private LinearLayout _imageButtonLinearLayout = null;
@@ -130,6 +131,7 @@ public class ThemeView extends LinearLayout {
 		_notificationWindowLinearLayout = (LinearLayout) findViewById(R.id.notification_linear_layout);
 	    _buttonLinearLayout = (LinearLayout) findViewById(R.id.button_linear_layout);
 	    _imageButtonLinearLayout = (LinearLayout) findViewById(R.id.image_button_linear_layout);
+	    _notificationInfoLinearLayout = (LinearLayout) findViewById(R.id.notification_info_linear_layout);
 		
 	    _themeNameTextView = (TextView) findViewById(R.id.theme_name_text_view);
 		_contactNameTextView = (TextView) findViewById(R.id.contact_name_text_view);
@@ -412,11 +414,9 @@ public class ThemeView extends LinearLayout {
 		try{			
 			boolean displayReplyButton = true;
 			if(_preferences.getBoolean(Constants.SMS_DISPLAY_REPLY_BUTTON_KEY, true)){
-				if(_preferences.getBoolean(Constants.QUICK_REPLY_ENABLED, false)){
-					displayReplyButton = false;
-				}else if(_preferences.getString(Constants.SMS_REPLY_KEY, Constants.SMS_MESSAGING_APP_REPLY).equals(Constants.SMS_QUICK_REPLY)){
-					displayReplyButton = false;
-				}
+				boolean quickReplyEnabled = _preferences.getBoolean(Constants.QUICK_REPLY_ENABLED_KEY, false);
+				boolean smsQuickReplyEnabled = _preferences.getBoolean(Constants.SMS_QUICK_REPLY_ENABLED_KEY, false);
+				displayReplyButton = !quickReplyEnabled && !smsQuickReplyEnabled;
 			}else{
 				displayReplyButton = false;
 			}
@@ -525,6 +525,23 @@ public class ThemeView extends LinearLayout {
 		}else{
 			_contactNumberTextView.setVisibility(View.GONE);
 		}
+		//Contact Name & Number Alignment
+		//Contact Name Alignment
+	    int contactNameAlignment = Gravity.LEFT;
+	    if(_preferences.getBoolean(Constants.CONTACT_NAME_CENTER_ALIGN_KEY, false)){
+	    	contactNameAlignment = Gravity.CENTER_HORIZONTAL;
+		}else{
+			contactNameAlignment = Gravity.LEFT;
+		}
+	    _contactNameTextView.setGravity(contactNameAlignment);
+	    //Contact Number Alignment
+	    int contactNumberAlignment = Gravity.LEFT;
+	    if(_preferences.getBoolean(Constants.CONTACT_NUMBER_CENTER_ALIGN_KEY, false)){
+	    	contactNumberAlignment = Gravity.CENTER_HORIZONTAL;
+		}else{
+			contactNumberAlignment = Gravity.LEFT;
+		}
+	    _contactNumberTextView.setGravity(contactNumberAlignment);
 		//Show/Hide Contact Photo
 		if(_preferences.getBoolean(Constants.CONTACT_PHOTO_DISPLAY_KEY, true)){
 			//Set Contact Photo Background
@@ -599,7 +616,7 @@ public class ThemeView extends LinearLayout {
 		String formattedTimestamp = Common.formatTimestamp(_context, Common.convertGMTToLocalTime(_context, System.currentTimeMillis(), true));
     	iconBitmap = BitmapFactory.decodeResource(_context.getResources(), R.drawable.notification_type_sms);
     	String receivedAtText = _context.getString(R.string.message_at_text, formattedTimestamp.toLowerCase());
-		if(_preferences.getBoolean(Constants.NOTIFICATION_TYPE_INFO_ICON_KEY, true)){
+		if(_preferences.getBoolean(Constants.NOTIFICATION_TYPE_INFO_ICON_DISPLAY_KEY, true)){
 		    if(iconBitmap != null){
 		    	_notificationIconImageView.setImageBitmap(iconBitmap);
 		    	_notificationIconImageView.setVisibility(View.VISIBLE);
@@ -609,6 +626,19 @@ public class ThemeView extends LinearLayout {
 		}
 		_notificationInfoTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, Float.parseFloat(_preferences.getString(Constants.NOTIFICATION_TYPE_INFO_FONT_SIZE_KEY, Constants.NOTIFICATION_TYPE_INFO_FONT_SIZE_DEFAULT)));
 	    _notificationInfoTextView.setText(receivedAtText);
+	    if(_preferences.getBoolean(Constants.NOTIFICATION_TYPE_INFO_DISPLAY_KEY, true)){
+	    	_notificationInfoLinearLayout.setVisibility(View.VISIBLE);
+		    //Set the notification info alignment. This includes the image and text.
+		    int notificationInfoAlignment = Gravity.LEFT;
+		    if(_preferences.getBoolean(Constants.NOTIFICATION_TYPE_INFO_CENTER_ALIGN_KEY, false)){
+		    	notificationInfoAlignment = Gravity.CENTER_HORIZONTAL;
+			}else{
+				notificationInfoAlignment = Gravity.LEFT;
+			}
+		    _notificationInfoLinearLayout.setGravity(notificationInfoAlignment);
+	    }else{
+	    	_notificationInfoLinearLayout.setVisibility(View.GONE);
+	    }
 	}
 	
 	/**

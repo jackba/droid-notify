@@ -361,13 +361,16 @@ public class PhoneCommon {
 					phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_8 || 
 					phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_9 || 
 					phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_10 || 
-					phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_16){
+					phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_16 || 
+					phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_20){
 				numberSeparator = ".";
 			}else if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_11 || 
 					phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_12 || 
 					phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_13 || 
 					phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_14 || 
-					phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_17){
+					phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_17 || 
+					phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_18 || 
+					phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_21){
 				numberSeparator = " ";
 			}else if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_5){
 				numberSeparator = "";
@@ -498,9 +501,37 @@ public class PhoneCommon {
 				}else{
 					outputPhoneNumber.append(inputPhoneNumber);
 				}
+			}else if( phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_19 || 
+					phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_20 || 
+					phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_21){
+				if(inputPhoneNumber.length() >= 10){
+					//Format ###-###-#### (e.g.0123-4567890)
+					//Format ###-###-#### (e.g.0123.4567890)
+					outputPhoneNumber.insert(0, inputPhoneNumber.substring(inputPhoneNumber.length() - 7, inputPhoneNumber.length()));
+					outputPhoneNumber.insert(0, numberSeparator);
+					if(inputPhoneNumber.length() == 10){
+						outputPhoneNumber.insert(0, inputPhoneNumber.substring(0, inputPhoneNumber.length() - 7));
+					}else{
+						if(preferences.getBoolean(Constants.PHONE_NUMBER_FORMAT_10_DIGITS_ONLY_KEY , false)){
+							outputPhoneNumber.insert(0, inputPhoneNumber.substring(inputPhoneNumber.length() - 10, inputPhoneNumber.length() - 7));
+							outputPhoneNumber.insert(0, "0");
+						}else{
+							outputPhoneNumber.insert(0, inputPhoneNumber.substring(0, inputPhoneNumber.length() - 7));
+						}
+					}
+				}else{
+					outputPhoneNumber.append(inputPhoneNumber);
+				}
 			}else if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_5){
 				//Format ########## (e.g.1234567890)
 				outputPhoneNumber.append(inputPhoneNumber);
+			}else if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_18){
+				//Format ########## (e.g.(0123) 4567890)
+				outputPhoneNumber.insert(0, inputPhoneNumber.substring(inputPhoneNumber.length() - 7, inputPhoneNumber.length()));
+				outputPhoneNumber.insert(0, numberSeparator);
+				outputPhoneNumber.insert(0, ") ");
+				outputPhoneNumber.insert(0, inputPhoneNumber.substring(0, inputPhoneNumber.length() - 7));
+				outputPhoneNumber.insert(0, "(");
 			}else if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_6){
 				if(inputPhoneNumber.length() >= 10){
 					//Format (###) ###-#### (e.g.(123) 456-7890)

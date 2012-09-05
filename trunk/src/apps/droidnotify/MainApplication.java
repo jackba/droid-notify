@@ -3,7 +3,7 @@ package apps.droidnotify;
 import android.app.Application;
 import android.content.Context;
 
-public class MyApplication extends Application{
+public class MainApplication extends Application{
 
 	private static Context _context;
 

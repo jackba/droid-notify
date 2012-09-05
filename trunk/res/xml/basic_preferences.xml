@@ -104,13 +104,11 @@
 			android:title="@string/enable_quick_reply" 
 			android:summary="@string/enable_quick_reply_summary" 
 			android:defaultValue="false" />
-		<!--
 		<Preference
 			android:layout="@layout/custom_preference_title"
 	        android:key="quick_reply_preference"
 	       	android:title="@string/quick_reply_settings"
 			android:dependency="quick_reply_enabled" />
-		-->
 	</PreferenceCategory>
 	<PreferenceCategory
 		android:layout="@layout/custom_preference_category"

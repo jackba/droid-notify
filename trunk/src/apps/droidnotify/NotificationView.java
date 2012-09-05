@@ -81,6 +81,7 @@ public class NotificationView extends LinearLayout {
 	private LinearLayout _buttonLinearLayout = null;
 	private LinearLayout _imageButtonLinearLayout = null;
 	private LinearLayout _quickReplyLinearLayout = null;
+	private LinearLayout _notificationInfoLinearLayout = null;
 	
 	private TextView _contactNameTextView = null;
 	private TextView _contactNumberTextView = null;
@@ -249,6 +250,7 @@ public class NotificationView extends LinearLayout {
 	    _buttonLinearLayout = (LinearLayout) findViewById(R.id.button_linear_layout);
 	    _imageButtonLinearLayout = (LinearLayout) findViewById(R.id.image_button_linear_layout);
 	    _quickReplyLinearLayout = (LinearLayout) findViewById(R.id.quickreply_linear_layout);
+	    _notificationInfoLinearLayout = (LinearLayout) findViewById(R.id.notification_info_linear_layout);
 		
 		_contactNameTextView = (TextView) findViewById(R.id.contact_name_text_view);
 		_contactNumberTextView = (TextView) findViewById(R.id.contact_number_text_view);
@@ -461,7 +463,11 @@ public class NotificationView extends LinearLayout {
 			final int finalSpinnerTextColorID = spinnerTextColorID;
 			_calendarSnoozeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
 	            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-	                 ((TextView)parentView.getChildAt(0)).setTextColor(finalSpinnerTextColorID);
+	            	try{
+	            		((TextView)parentView.getChildAt(0)).setTextColor(finalSpinnerTextColorID);
+	            	}catch(Exception ex){
+	            		Log.v("CalendarSpinner.onItemSelected() ERROR: " + ex.toString());
+	            	}
 	            }
 				public void onNothingSelected(AdapterView<?> arg0){
 					
@@ -515,12 +521,9 @@ public class NotificationView extends LinearLayout {
 	 * Setup the quick reply layout for SMS/MMS messages.
 	 */
 	private void setuptQuickReplySMS(){
-		boolean quickReplyEnabled = _preferences.getBoolean(Constants.QUICK_REPLY_ENABLED, false);
-		String replyButtonAction = _preferences.getString(Constants.SMS_REPLY_KEY, Constants.SMS_MESSAGING_APP_REPLY);
-		if(quickReplyEnabled){
-			_quickReplyLinearLayout.setVisibility(View.VISIBLE);
-			setupQuickReplyButtons(_notificationType, _notificationSubType);
-		}else if(replyButtonAction.equals(Constants.SMS_QUICK_REPLY)){
+		boolean quickReplyEnabled = _preferences.getBoolean(Constants.QUICK_REPLY_ENABLED_KEY, false);
+		boolean smsQuickReplyEnabled = _preferences.getBoolean(Constants.SMS_QUICK_REPLY_ENABLED_KEY, false);
+		if(quickReplyEnabled || smsQuickReplyEnabled){
 			_quickReplyLinearLayout.setVisibility(View.VISIBLE);
 			setupQuickReplyButtons(_notificationType, _notificationSubType);
 		}else{
@@ -1117,12 +1120,10 @@ public class NotificationView extends LinearLayout {
 				);		
 			}			
 			boolean displayReplyButton = true;
-			if(_preferences.getBoolean(Constants.SMS_DISPLAY_REPLY_BUTTON_KEY, true)){
-				if(_preferences.getBoolean(Constants.QUICK_REPLY_ENABLED, false)){
-					displayReplyButton = false;
-				}else if(_preferences.getString(Constants.SMS_REPLY_KEY, Constants.SMS_MESSAGING_APP_REPLY).equals(Constants.SMS_QUICK_REPLY)){
-					displayReplyButton = false;
-				}
+			if(_preferences.getBoolean(Constants.SMS_DISPLAY_REPLY_BUTTON_KEY, true)){		
+				boolean quickReplyEnabled = _preferences.getBoolean(Constants.QUICK_REPLY_ENABLED_KEY, false);
+				boolean smsQuickReplyEnabled = _preferences.getBoolean(Constants.SMS_QUICK_REPLY_ENABLED_KEY, false);
+				displayReplyButton = !quickReplyEnabled && !smsQuickReplyEnabled;
 			}else{
 				displayReplyButton = false;
 			}
@@ -1876,6 +1877,23 @@ public class NotificationView extends LinearLayout {
 		    	setupQuickContact();
 		    }
 		}
+		//Contact Name & Number Alignment
+		//Contact Name Alignment
+	    int contactNameAlignment = Gravity.LEFT;
+	    if(_preferences.getBoolean(Constants.CONTACT_NAME_CENTER_ALIGN_KEY, false)){
+	    	contactNameAlignment = Gravity.CENTER_HORIZONTAL;
+		}else{
+			contactNameAlignment = Gravity.LEFT;
+		}
+	    _contactNameTextView.setGravity(contactNameAlignment);
+	    //Contact Number Alignment
+	    int contactNumberAlignment = Gravity.LEFT;
+	    if(_preferences.getBoolean(Constants.CONTACT_NUMBER_CENTER_ALIGN_KEY, false)){
+	    	contactNumberAlignment = Gravity.CENTER_HORIZONTAL;
+		}else{
+			contactNumberAlignment = Gravity.LEFT;
+		}
+	    _contactNumberTextView.setGravity(contactNumberAlignment);
 		//Display SMS/MMS Link
 		if(_notificationType == Constants.NOTIFICATION_TYPE_SMS){
 			if(_preferences.getBoolean(Constants.SMS_MESSAGE_PRIVACY_ENABLED_KEY, false)){
@@ -1986,7 +2004,7 @@ public class NotificationView extends LinearLayout {
 			}
 		}
 		try{
-			if(_preferences.getBoolean(Constants.EMOJI_ENABLED, true)){
+			if(_preferences.getBoolean(Constants.EMOTICONS_ENABLED, true)){
 				_notificationDetailsTextView.setText(Html.fromHtml(EmojiCommon.convertTextToEmoji(_context, notificationText), EmojiCommon.emojiGetter, null));
 			}else{
 				_notificationDetailsTextView.setText(Html.fromHtml(notificationText));
@@ -2056,7 +2074,7 @@ public class NotificationView extends LinearLayout {
 				break;
 			}
 		}
-		if(_preferences.getBoolean(Constants.NOTIFICATION_TYPE_INFO_ICON_KEY, true)){
+		if(_preferences.getBoolean(Constants.NOTIFICATION_TYPE_INFO_ICON_DISPLAY_KEY, true)){
 		    if(iconBitmap != null){
 		    	_notificationIconImageView.setImageBitmap(iconBitmap);
 		    	_notificationIconImageView.setVisibility(View.VISIBLE);
@@ -2066,6 +2084,19 @@ public class NotificationView extends LinearLayout {
 		}
 		_notificationInfoTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, Float.parseFloat(_preferences.getString(Constants.NOTIFICATION_TYPE_INFO_FONT_SIZE_KEY, Constants.NOTIFICATION_TYPE_INFO_FONT_SIZE_DEFAULT)));
 	    _notificationInfoTextView.setText(receivedAtText);
+	    if(_preferences.getBoolean(Constants.NOTIFICATION_TYPE_INFO_DISPLAY_KEY, true)){
+	    	_notificationInfoLinearLayout.setVisibility(View.VISIBLE);
+		    //Set the notification info alignment. This includes the image and text.
+		    int notificationInfoAlignment = Gravity.LEFT;
+		    if(_preferences.getBoolean(Constants.NOTIFICATION_TYPE_INFO_CENTER_ALIGN_KEY, false)){
+		    	notificationInfoAlignment = Gravity.CENTER_HORIZONTAL;
+			}else{
+				notificationInfoAlignment = Gravity.LEFT;
+			}
+		    _notificationInfoLinearLayout.setGravity(notificationInfoAlignment);
+	    }else{
+	    	_notificationInfoLinearLayout.setVisibility(View.GONE);
+	    }
 	}
 	
 	/**
@@ -2667,7 +2698,7 @@ public class NotificationView extends LinearLayout {
     	}else{		
     		//Cancel the reminder.
     		_notification.cancelReminder();
-    		SMSCommon.sendSMS(_context, _notification.getSentFromAddress(), message);
+    		SMSCommon.sendSMSTask(_context, _notification.getSentFromAddress(), message);
     		dismissNotification(false);
     		//Hide the soft keyboard.
     		hideSoftKeyboard();

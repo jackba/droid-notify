@@ -6,7 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.text.Html.ImageGetter;
 
 
-import apps.droidnotify.MyApplication;
+import apps.droidnotify.MainApplication;
 import apps.droidnotify.R;
 import apps.droidnotify.log.Log;
 
@@ -117,7 +117,7 @@ public class EmojiCommon {
 	public static ImageGetter emojiGetter = new ImageGetter(){
         public Drawable getDrawable(String index){
         	try{
-	        	Resources resources = MyApplication.getContext().getResources();
+	        	Resources resources = MainApplication.getContext().getResources();
 	        	Drawable drawable = resources.getDrawable(_emojiIcons[Integer.valueOf(index.replace(".png", ""))]);
 	        	//This MUST be done otherwise the image will not be displayed!
 	        	drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
