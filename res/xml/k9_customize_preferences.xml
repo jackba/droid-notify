@@ -58,14 +58,5 @@
 			android:title="@string/preference_display_reply_button_title" 
 			android:summary="@string/preference_display_reply_button_summary"
 			android:defaultValue="true" />
-		<ListPreference
-			android:layout="@layout/custom_preference_list"
-			android:key="k9_reply_button_action"
-			android:title="@string/preference_reply_button_action"
-			android:summary="@string/preference_reply_button_action_summary"
-			android:defaultValue="0"
-			android:entries="@array/k9_reply_button_options"
-			android:entryValues="@array/k9_reply_button_values"
-			android:dependency="k9_display_reply_button" />
 	</PreferenceCategory>
 </PreferenceScreen>

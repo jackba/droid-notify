@@ -61,12 +61,11 @@ public class Constants {
 	public static final String BUNDLE_NOTIFICATION_BUNDLE_NAME = "NOTIFICATION_BUNDLE_NAME";
 	public static final String BUNDLE_NOTIFICATION_BUNDLE_COUNT = "NOTIFICATION_BUNDLE_COUNT";
 	
-	//-----QUICK REPLY BUNDLE CONSTANTS-----//
-	public static final String QUICK_REPLY_ENABLED = "quick_reply_enabled";
-	public static final String QUICK_REPLY_BUNDLE_SEND_TO = "sendTo";
-	public static final String QUICK_REPLY_BUNDLE_SEND_TO_ID = "sendToID";
-	public static final String QUICK_REPLY_BUNDLE_NAME = "name";
-	public static final String QUICK_REPLY_BUNDLE_MESSAGE = "message";
+	//-----QUICK REPLY CONSTANTS-----//
+	public static final String QUICK_REPLY_ENABLED_KEY = "quick_reply_enabled";
+	public static final String QUICK_REPLY_DELIVERY_REPORT_ENABLED_KEY = "quick_reply_delivery_report_enabled";
+	public static final String QUICK_REPLY_SIGNATURE_ENABLED_KEY = "quick_reply_signature_enabled";
+	public static final String QUICK_REPLY_SIGNATURE_KEY = "quick_reply_signature";
 	
 	//-----GENERAL APP CONSTANTS-----//
 	public static final String DROID_NOTIFY_WAKELOCK = "app.droidnotify.wakelock";
@@ -211,12 +210,14 @@ public class Constants {
 	public static final String CONTACT_NAME_HIDE_UNKNOWN_KEY = "hide_unknown_contact_name";
 	public static final String CONTACT_NAME_SIZE_KEY = "contact_name_font_size";
 	public static final String CONTACT_NAME_SIZE_DEFAULT = "22";
+	public static final String CONTACT_NAME_CENTER_ALIGN_KEY = "center_align_contact_name";
 	
 	//-----CONTACT NUMBER CONSTANTS-----//
 	public static final String CONTACT_NUMBER_DISPLAY_KEY = "display_contact_number";
 	public static final String CONTACT_NUMBER_SIZE_KEY = "contact_number_font_size";
 	public static final String CONTACT_NUMBER_SIZE_DEFAULT = "18";
-	public static final String CONTACT_NUMBER_DISPLAY_UNKNOWN_KEY = "display_unknown_contact_number";  
+	public static final String CONTACT_NUMBER_DISPLAY_UNKNOWN_KEY = "display_unknown_contact_number";
+	public static final String CONTACT_NUMBER_CENTER_ALIGN_KEY = "center_align_contact_number";
 	
 	//-----DIALOG CONSTANTS-----//
 	public static final String DIALOG_UPGRADE_TYPE = "upgrade_type";
@@ -316,6 +317,10 @@ public class Constants {
 	public static final int PHONE_NUMBER_FORMAT_15 = 15;
 	public static final int PHONE_NUMBER_FORMAT_16 = 16;
 	public static final int PHONE_NUMBER_FORMAT_17 = 17;
+	public static final int PHONE_NUMBER_FORMAT_18 = 18;
+	public static final int PHONE_NUMBER_FORMAT_19 = 19;
+	public static final int PHONE_NUMBER_FORMAT_20 = 20;
+	public static final int PHONE_NUMBER_FORMAT_21 = 21;
 	
 	//-----TIME FORMAT CONSTANTS-----//
 	public static final String TIME_FORMAT_KEY = "time_format_settings";
@@ -364,9 +369,11 @@ public class Constants {
 	public static final String NOTIFICATION_BODY_MAX_LINES_DEFAULT = "5";
 	
 	//-----NOTIFICATION TYPE INFO CONSTANTS-----//
-	public static final String NOTIFICATION_TYPE_INFO_ICON_KEY = "display_notification_type_info_icon";
+	public static final String NOTIFICATION_TYPE_INFO_ICON_DISPLAY_KEY  = "display_notification_type_info_icon";
+	public static final String NOTIFICATION_TYPE_INFO_DISPLAY_KEY = "display_notification_type_info";
+	public static final String NOTIFICATION_TYPE_INFO_CENTER_ALIGN_KEY = "center_align_notification_type_info";
 	public static final String NOTIFICATION_TYPE_INFO_FONT_SIZE_KEY = "notification_type_info_font_size";
-	public static final String NOTIFICATION_TYPE_INFO_FONT_SIZE_DEFAULT = "14";	
+	public static final String NOTIFICATION_TYPE_INFO_FONT_SIZE_DEFAULT = "14";
 	
 	//-----QUICK REPLY CONSTANTS-----//
 	public static final String SMS_GATEWAY_KEY = "quick_reply_sms_gateway_settings";	
@@ -402,7 +409,6 @@ public class Constants {
 	public static final String SMS_BLOCKING_APP_RUNNING_ACTION_KEY = "blocking_app_running_action_sms";
 	public static final String SMS_DELETE_KEY = "sms_delete_button_action";
 	public static final String SMS_TIMESTAMP_ADJUSTMENT_KEY = "sms_timestamp_adjustment_settings";
-	public static final String SMS_REPLY_KEY = "sms_reply_button_action";
 	public static final String SMS_DISPLAY_DISMISS_BUTTON_KEY = "sms_display_dismiss_button";
 	public static final String SMS_DISPLAY_DELETE_BUTTON_KEY = "sms_display_delete_button";
 	public static final String SMS_DISPLAY_REPLY_BUTTON_KEY = "sms_display_reply_button";
@@ -410,6 +416,8 @@ public class Constants {
 	public static final String SMS_DISMISS_KEY = "sms_dismiss_button_action";
 	public static final String SMS_DISPLAY_UNREAD_KEY = "sms_display_unread_enabled";
 	public static final String SMS_CONFIRM_DELETION_KEY = "confirm_sms_deletion";
+	
+	public static final String SMS_QUICK_REPLY_ENABLED_KEY = "sms_quick_reply_enabled";
 	
 	public static final String SMS_DISMISS_ACTION_MARK_READ = "0";
 	public static final String SMS_DELETE_ACTION_DELETE_MESSAGE = "0";
@@ -498,7 +506,6 @@ public class Constants {
 	public static final String K9_NOTIFICATIONS_ENABLED_KEY = "k9_notifications_enabled";
 	public static final String K9_BLOCKING_APP_RUNNING_ACTION_KEY = "blocking_app_running_action_k9";
 	public static final String K9_DELETE_KEY = "k9_delete_button_action";
-	public static final String K9_REPLY_KEY = "k9_reply_button_action";
 	public static final String K9_DISPLAY_DISMISS_BUTTON_KEY = "k9_display_dismiss_button";
 	public static final String K9_DISPLAY_DELETE_BUTTON_KEY = "k9_display_delete_button";
 	public static final String K9_DISPLAY_REPLY_BUTTON_KEY = "k9_display_reply_button";
@@ -725,7 +732,7 @@ public class Constants {
 	public static final String MORE_OPTIONS_KEY = "more_options_preference";
 	
 	//-----EMOJI CONSTANTS-----//
-	public static final String EMOJI_ENABLED = "emoji_enabled";
+	public static final String EMOTICONS_ENABLED = "emoticons_enabled";
 	
 	//-----DROID NOTIFY API CONSTANTS-----//
 //	public static final String DROID_NOTIFY_API_NOTIFICATION_ACTION = "apps.droidnotify.api.NOTIFICATION_RECEIVED";

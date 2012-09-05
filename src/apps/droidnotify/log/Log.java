@@ -23,11 +23,12 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 
 import apps.droidnotify.R;
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
-import apps.droidnotify.MyApplication;
+import apps.droidnotify.MainApplication;
 
 /**
  * This class logs messages to the Android log file.
@@ -46,7 +47,7 @@ public class Log {
     // Properties
     //================================================================================
 	
-	private static boolean _debug = false;
+	private static boolean _debug = true;
 	
 	private static final boolean _AndroidVersion = true;
 	private static final boolean _AmazonVersion = false;
@@ -67,7 +68,10 @@ public class Log {
 	 *  @return boolean - Returns true if the log class is set to log entries.
 	 */
 	public static boolean getDebug(){
-		return _debug;		
+		if(!_debug){
+			_debug = PreferenceManager.getDefaultSharedPreferences(MainApplication.getContext()).getBoolean(Constants.DEBUG, false);
+		}
+		return _debug;	
 	}
 
 	/**
@@ -217,7 +221,7 @@ public class Log {
      * @param msg - The message to append to the log file.
      */
     private static boolean appendToInternalLogFile(String level, String msg){
-    	_context = MyApplication.getContext();
+    	_context = MainApplication.getContext();
     	try{
     		FileOutputStream fileOutputStream = _context.openFileOutput("Log.txt", Context.MODE_WORLD_READABLE | Context.MODE_APPEND);
     		String logString = level + " - " + new SimpleDateFormat().format(System.currentTimeMillis()) + " - " + Constants.LOGTAG + " - " + msg + "\n";

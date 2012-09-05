@@ -5,13 +5,13 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.telephony.SmsManager;
@@ -40,6 +40,7 @@ public class SMSCommon {
     //================================================================================
 	
 	private static boolean _debug = false;
+	private static Context _context= null;
 	
 	//================================================================================
 	// Public Methods
@@ -1027,154 +1028,6 @@ public class SMSCommon {
 	}
 	
 	/**
-	 * Send SMS message.
-	 * 
-	 * @param context - The application context.
-	 * @param smsAddress - The address to send the message to.
-	 * @param message - The message to send.
-	 */
-	public static boolean sendSMS(Context context, String smsAddress, String message){
-		_debug = Log.getDebug();  
-		if(_debug) Log.v("SMSCommon.sendSMS()");
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-//      final String SMS_SENT = "SMS_SENT";
-//      final String SMS_DELIVERED = "SMS_DELIVERED";
-        //PendingIntent sentPI = PendingIntent.getBroadcast(this, 0, new Intent(SMS_SENT), 0);
-        //PendingIntent deliveredPI = PendingIntent.getBroadcast(this, 0, new Intent(SMS_DELIVERED), 0);
-        PendingIntent sentPI = null;
-        PendingIntent deliveredPI = null;
-//        //When the SMS has been sent.
-//        registerReceiver(new BroadcastReceiver(){
-//            @Override
-//            public void onReceive(Context arg0, Intent arg1){
-//                switch (getResultCode())
-//                {
-//                    case Activity.RESULT_OK:
-//                        Toast.makeText(getBaseContext(), getString(R.string.message_sent_text), Toast.LENGTH_LONG).show();
-//                        break;
-//                    case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
-//                        Toast.makeText(getBaseContext(), getString(R.string.message_sent_error_generic_failure_text), Toast.LENGTH_LONG).show();
-//                        break;
-//                    case SmsManager.RESULT_ERROR_NO_SERVICE:
-//                        Toast.makeText(getBaseContext(), getString(R.string.message_sent_error_no_service_text), Toast.LENGTH_LONG).show();
-//                        break;
-//                    case SmsManager.RESULT_ERROR_NULL_PDU:
-//                        Toast.makeText(getBaseContext(), getString(R.string.message_sent_error_null_pdu_text), Toast.LENGTH_LONG).show();
-//                        break;
-//                    case SmsManager.RESULT_ERROR_RADIO_OFF:
-//                        Toast.makeText(getBaseContext(), getString(R.string.message_sent_error_radio_off_text), Toast.LENGTH_LONG).show();
-//                        break;
-//                }
-//            }
-//        }, new IntentFilter(SMS_SENT));
-//        //When the SMS has been delivered.
-//        registerReceiver(new BroadcastReceiver(){
-//            @Override
-//            public void onReceive(Context arg0, Intent arg1){
-//                switch (getResultCode())
-//                {
-//                    case Activity.RESULT_OK:
-//                        Toast.makeText(getBaseContext(), getString(R.string.message_delivered_text), Toast.LENGTH_LONG).show();
-//                        break;
-//                    case Activity.RESULT_CANCELED:
-//                        Toast.makeText(getBaseContext(), getString(R.string.message_not_delivered_text), Toast.LENGTH_LONG).show();
-//                        break;                        
-//                }
-//            }
-//        }, new IntentFilter(SMS_DELIVERED));  
-		SmsManager sms = SmsManager.getDefault();
-		if(smsAddress.contains("@")){
-			//Send to email address
-			//Need to set the SMS-to-Email Gateway number for this to work.
-			// (USA) Sprint PCS - 6245 [address message]
-			// (USA) T-Mobile - 500 [address text | address/subject/text | address#subject#text]
-			// (USA) AT&T - 121 [address text | address (subject) text]
-			// (USA) AT&T - 111 [address text | address (subject) text]
-			// (UK) AQL - 447766 [address text]
-			// (UK) AQL - 404142 [address text]
-			// (Croatia) T-Mobile - 100 [address#subject#text]
-			// (Costa Rica) ICS - 1001 [address : (subject) text]
-			//This value can be set in the Advanced Settings preferences.
-			int smsToEmailGatewayKey = Integer.parseInt(preferences.getString(Constants.SMS_GATEWAY_KEY, "1"));
-			switch(smsToEmailGatewayKey){
-		    	case Constants.SMS_EMAIL_GATEWAY_1:{
-		    		// (USA) Sprint PCS - 6245 [address message]
-		    		String smsToEmailGatewayNumber = "6245";
-		    		sms.sendTextMessage(smsToEmailGatewayNumber, null, smsAddress + " " + message, sentPI, deliveredPI);
-		    		break;
-		    	}
-		    	case Constants.SMS_EMAIL_GATEWAY_2:{
-		    		// (USA) T-Mobile - 500 [address text | address/subject/text | address#subject#text]
-		    		String smsToEmailGatewayNumber = "500";
-		    		sms.sendTextMessage(smsToEmailGatewayNumber, null, smsAddress + " " + message, sentPI, deliveredPI);
-		    		break;
-		    	}
-		    	case Constants.SMS_EMAIL_GATEWAY_3:{
-		    		// (USA) AT&T - 121 [address text | address (subject) text]
-		    		String smsToEmailGatewayNumber = "121";
-		    		sms.sendTextMessage(smsToEmailGatewayNumber, null, smsAddress + " " + message, sentPI, deliveredPI);
-		    		break;
-		    	}
-		    	case Constants.SMS_EMAIL_GATEWAY_4:{
-		    		// (USA) AT&T - 111 [address text | address (subject) text]
-		    		String smsToEmailGatewayNumber = "111";
-		    		sms.sendTextMessage(smsToEmailGatewayNumber, null, smsAddress + " " + message, sentPI, deliveredPI);
-		    		break;
-		    	}
-		    	case Constants.SMS_EMAIL_GATEWAY_5:{
-		    		// (UK) AQL - 447766 [address text]
-		    		String smsToEmailGatewayNumber = "447766";
-		    		sms.sendTextMessage(smsToEmailGatewayNumber, null, smsAddress + " " + message, sentPI, deliveredPI);
-		    		break;
-		    	}
-		    	case Constants.SMS_EMAIL_GATEWAY_6:{
-		    		// (UK) AQL - 404142 [address text]
-		    		String smsToEmailGatewayNumber = "404142";
-		    		sms.sendTextMessage(smsToEmailGatewayNumber, null, smsAddress + " " + message, sentPI, deliveredPI);
-		    		break;
-		    	}
-		    	case Constants.SMS_EMAIL_GATEWAY_7:{
-		    		// (USA) AT&T - 121 [address text | address (subject) text]
-		    		String smsToEmailGatewayNumber = "121";
-		    		sms.sendTextMessage(smsToEmailGatewayNumber, null, smsAddress + " " + message, sentPI, deliveredPI);
-		    		break;
-		    	}
-		    	case Constants.SMS_EMAIL_GATEWAY_8:{
-		    		// (Croatia) T-Mobile - 100 [address#subject#text]
-		    		String smsToEmailGatewayNumber = "100";
-		    		sms.sendTextMessage(smsToEmailGatewayNumber, null, smsAddress + "##" + message, sentPI, deliveredPI);
-		    		break;
-		    	}
-		    	default:{
-		    		sms.sendTextMessage(smsAddress, null, message, sentPI, deliveredPI);
-		    		break;
-		    	}
-			}   	
-		}else{
-			//Send to regular text message number.
-			//Split message before sending using multiparts.
-			if(preferences.getBoolean(Constants.SMS_SPLIT_MESSAGE_KEY, false)){
-				
-			}else{
-				ArrayList<String> parts = sms.divideMessage(message);
-				if(_debug) Log.v("SMSCommon.sendSMS() Sending SMS Message. Send To Address: " + smsAddress);
-			    sms.sendMultipartTextMessage(smsAddress, null, parts, null, null);
-			}
-		}
-    	try{
-        	//Store the message in the Sent folder so that it shows in Messaging apps.
-            ContentValues values = new ContentValues();
-            values.put("address", smsAddress);
-            values.put("body", message);
-            context.getContentResolver().insert(Uri.parse("content://sms/sent"), values);
-    	}catch(Exception ex){
-    		Log.e("SMSCommon.sendSMS() Insert Into Sent Foler ERROR: " + ex.toString());
-    		return false;
-    	}
-		return true; 
-    }
-	
-	/**
 	 * Save a message as a draft.
 	 * 
 	 * @param context - The application context.
@@ -1200,6 +1053,282 @@ public class SMSCommon {
 		}catch(Exception ex){
 			Log.e("SMSCommon.saveMessageDraft() Insert Into Sent Folder ERROR: " + ex.toString());
 		}
-	}	
+	}
+
+	/**
+	 * Send a SMS message.
+	 * 
+	 * @param context - The application context.
+	 * @param address - The address the message it to.
+	 * @param message - The message to send.
+	 */
+	public static void sendSMSTask(Context context, String address, String message){
+		_context = context;
+		new sendSMSAsyncTask().execute(address, message);
+	}
+	
+	//================================================================================
+	// Private Methods
+	//================================================================================
+	
+	/**
+	 * Send a SMS message.
+	 * 
+	 * @author Camille Sévigny
+	 */
+	private static class sendSMSAsyncTask extends AsyncTask<String, Void, Boolean> {
+	    
+	    /**
+	     * Do this work in the background.
+	     * 
+	     * @param params - The SMS message parameters.
+	     */
+	    protected Boolean doInBackground(String... params){
+			if (_debug) Log.v("SMSCommon.sendSMSAsyncTask.doInBackground()");
+			return sendSMS(params[0], params[1]);
+	    }
+	    
+	    /**
+	     * Display a message if the SMS encountered an error.
+	     * 
+	     * @param result - Boolean indicating success.
+	     */
+	    protected void onPostExecute(Boolean result){
+			if (_debug) Log.v("SMSCommon.sendSMSAsyncTask.doInBackground.onPostExecute() RESULT: " + result);
+			//Do Nothing
+	    }
+	    
+	}
+	
+	/**
+	 * Send SMS message.
+	 * 
+	 * @param address - The address the message it to.
+	 * @param message - The message to send.
+	 */
+	public static boolean sendSMS(String address, String message){
+		_debug = Log.getDebug();  
+		if(_debug) Log.v("SMSCommon.sendSMS()");
+		try{
+			
+//			final String SMS_SENT = "SMS_SENT";
+//			final String SMS_DELIVERED = "SMS_DELIVERED";
+//	        PendingIntent sentPI = PendingIntent.getBroadcast(this, 0, new Intent(SMS_SENT), 0);
+//	        PendingIntent deliveredPI = PendingIntent.getBroadcast(this, 0, new Intent(SMS_DELIVERED), 0);
+//	        PendingIntent sentPI = null;
+//	        PendingIntent deliveredPI = null;
+//	        //When the SMS has been sent.
+//	        registerReceiver(new BroadcastReceiver(){
+//	            @Override
+//	            public void onReceive(Context arg0, Intent arg1){
+//	                switch (getResultCode())
+//	                {
+//	                    case Activity.RESULT_OK:
+//	                        Toast.makeText(getBaseContext(), getString(R.string.message_sent_text), Toast.LENGTH_LONG).show();
+//	                        break;
+//	                    case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
+//	                        Toast.makeText(getBaseContext(), getString(R.string.message_sent_error_generic_failure_text), Toast.LENGTH_LONG).show();
+//	                        break;
+//	                    case SmsManager.RESULT_ERROR_NO_SERVICE:
+//	                        Toast.makeText(getBaseContext(), getString(R.string.message_sent_error_no_service_text), Toast.LENGTH_LONG).show();
+//	                        break;
+//	                    case SmsManager.RESULT_ERROR_NULL_PDU:
+//	                        Toast.makeText(getBaseContext(), getString(R.string.message_sent_error_null_pdu_text), Toast.LENGTH_LONG).show();
+//	                        break;
+//	                    case SmsManager.RESULT_ERROR_RADIO_OFF:
+//	                        Toast.makeText(getBaseContext(), getString(R.string.message_sent_error_radio_off_text), Toast.LENGTH_LONG).show();
+//	                        break;
+//	                }
+//	            }
+//	        }, new IntentFilter(SMS_SENT));
+//	        //When the SMS has been delivered.
+//	        registerReceiver(new BroadcastReceiver(){
+//	            @Override
+//	            public void onReceive(Context arg0, Intent arg1){
+//	                switch (getResultCode())
+//	                {
+//	                    case Activity.RESULT_OK:
+//	                        Toast.makeText(getBaseContext(), getString(R.string.message_delivered_text), Toast.LENGTH_LONG).show();
+//	                        break;
+//	                    case Activity.RESULT_CANCELED:
+//	                        Toast.makeText(getBaseContext(), getString(R.string.message_not_delivered_text), Toast.LENGTH_LONG).show();
+//	                        break;                        
+//	                }
+//	            }
+//	        }, new IntentFilter(SMS_DELIVERED)); 
+			
+			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(_context);
+			//Include the signature.
+	        if(preferences.getBoolean(Constants.QUICK_REPLY_SIGNATURE_ENABLED_KEY, false)){
+	        	message += " " + preferences.getString(Constants.QUICK_REPLY_SIGNATURE_KEY, _context.getString(R.string.quick_reply_default_signature));
+	        }
+	        if(_debug) Log.v("SMSCommon.sendSMS() Message: " + message);
+			SmsManager smsManager = SmsManager.getDefault();
+			if(address.contains("@")){
+				//Send to email address
+				//Need to set the SMS-to-Email Gateway number for this to work.
+				// (USA) Sprint PCS - 6245 [address message]
+				// (USA) T-Mobile - 500 [address text | address/subject/text | address#subject#text]
+				// (USA) AT&T - 121 [address text | address (subject) text]
+				// (USA) AT&T - 111 [address text | address (subject) text]
+				// (UK) AQL - 447766 [address text]
+				// (UK) AQL - 404142 [address text]
+				// (Croatia) T-Mobile - 100 [address#subject#text]
+				// (Costa Rica) ICS - 1001 [address : (subject) text]
+				//This value can be set in the Advanced Settings preferences.
+				int smsToEmailGatewayKey = Integer.parseInt(preferences.getString(Constants.SMS_GATEWAY_KEY, "1"));
+				String smsToEmailGatewayNumber = null;
+				String smsToEmailMessageHeader = null;
+				switch(smsToEmailGatewayKey){
+			    	case Constants.SMS_EMAIL_GATEWAY_1:{
+			    		// (USA) Sprint PCS - 6245 [address message]
+			    		smsToEmailGatewayNumber = "6245";
+			    		smsToEmailMessageHeader = address + " ";
+			    		break;
+			    	}
+			    	case Constants.SMS_EMAIL_GATEWAY_2:{
+			    		// (USA) T-Mobile - 500 [address text | address/subject/text | address#subject#text]
+			    		smsToEmailGatewayNumber = "500";
+			    		smsToEmailMessageHeader = address + " ";
+			    		break;
+			    	}
+			    	case Constants.SMS_EMAIL_GATEWAY_3:{
+			    		// (USA) AT&T - 121 [address text | address (subject) text]
+			    		smsToEmailGatewayNumber = "121";
+			    		smsToEmailMessageHeader = address + " ";
+			    		break;
+			    	}
+			    	case Constants.SMS_EMAIL_GATEWAY_4:{
+			    		// (USA) AT&T - 111 [address text | address (subject) text]
+			    		smsToEmailGatewayNumber = "111";
+			    		smsToEmailMessageHeader = address + " ";
+			    		break;
+			    	}
+			    	case Constants.SMS_EMAIL_GATEWAY_5:{
+			    		// (UK) AQL - 447766 [address text]
+			    		smsToEmailGatewayNumber = "447766";
+			    		smsToEmailMessageHeader = address + " ";
+			    		break;
+			    	}
+			    	case Constants.SMS_EMAIL_GATEWAY_6:{
+			    		// (UK) AQL - 404142 [address text]
+			    		smsToEmailGatewayNumber = "404142";
+			    		smsToEmailMessageHeader = address + " ";
+			    		break;
+			    	}
+			    	case Constants.SMS_EMAIL_GATEWAY_7:{
+			    		// (USA) AT&T - 121 [address text | address (subject) text]
+			    		smsToEmailGatewayNumber = "121";
+			    		smsToEmailMessageHeader = address + " ";
+			    		break;
+			    	}
+			    	case Constants.SMS_EMAIL_GATEWAY_8:{
+			    		// (Croatia) T-Mobile - 100 [address#subject#text]
+			    		smsToEmailGatewayNumber = "100";
+			    		smsToEmailMessageHeader = address + "##";
+			    		break;
+			    	}
+				} 
+				if(_debug) Log.v("SMSCommon.sendSMS() SmsToEmailGatewayNumber: " + smsToEmailGatewayNumber);
+				try{
+					if(smsToEmailGatewayNumber != null && smsToEmailMessageHeader != null){
+						int smsToEmailMessageHeaderLength = smsToEmailMessageHeader.length();
+						if(smsToEmailMessageHeaderLength + message.length() <= 160){
+							//Send a single SMS message.
+							//if(_debug) Log.v("SMSCommon.sendSMS() Email SMS Message Sent: " + smsToEmailMessageHeader + message);
+							if(_debug) Log.v("SMSCommon.sendSMS() Email SMS Message Sent");
+							smsManager.sendTextMessage(smsToEmailGatewayNumber, null, smsToEmailMessageHeader + message, null, null);
+							writeSentSMSMessage(_context, address, message);
+							return true;
+						}else{
+							//Send multiple smaller SMS messages.
+							int splitMessageSize = 160 - smsToEmailMessageHeaderLength;
+							if(_debug) Log.v("SMSCommon.sendSMS() SplitMessageSize: " + splitMessageSize);
+							String[] messageArray = SMSCommon.splitEqually(message, splitMessageSize);
+							int size = messageArray.length;
+							for(int i=0; i<size; i++){
+								//if(_debug) Log.v("SMSCommon.sendSMS() Email SMS Message Part Sent: " + smsToEmailMessageHeader + messageArray[i]);
+								smsManager.sendTextMessage(smsToEmailGatewayNumber, null, smsToEmailMessageHeader + messageArray[i], null, null);
+								writeSentSMSMessage(_context, address,  messageArray[i]);
+							}
+							return true;
+						}
+					}else{
+						Log.e("SMSCommon.sendSMS() SmsToEmailGatewayNumber (" + smsToEmailGatewayNumber + ") or SmsToEmailMessageHeader (" + smsToEmailMessageHeader + ") is null! Exiting...");
+						return false;
+					}
+				}catch(Exception ex){
+		    		Log.e("SMSCommon.sendSMS() Send To Email ERROR: " + ex.toString());
+		    		return false;
+		    	}
+			}else{
+				try{
+					//Send to regular text message number.
+					//Split message before sending using multiparts.
+					if(preferences.getBoolean(Constants.SMS_SPLIT_MESSAGE_KEY, false)){
+						//TODO
+					}else{
+						if(_debug) Log.v("SMSCommon.sendSMS() Email SMS Message Sent");
+						ArrayList<String> parts = smsManager.divideMessage(message);
+						smsManager.sendMultipartTextMessage(address, null, parts, null, null);
+						writeSentSMSMessage(_context, address, message);
+					}
+					return true;
+				}catch(Exception ex){
+		    		Log.e("SMSCommon.sendSMS() Send To Number ERROR: " + ex.toString());
+		    		return false;
+		    	}
+			}
+		}catch(Exception ex){
+			Log.e("SMSCommon.sendSMS() ERROR: " + ex.toString());
+			return false;
+		}
+    }
+	
+	/**
+	 * Split a string into an array of equal length sub strings.
+	 * 
+	 * @param input - The input string.
+	 * @param size - The size to split the string into.
+	 * 
+	 * @return String[] - Returns a string array containing all the substrings.
+	 */
+	private static String[] splitEqually(String input, int size){
+        if(_debug) Log.v("SMSCommon.splitEqually()");
+		int length = input.length();
+		if(length <= size){
+			return new String[]{input};
+		}
+		ArrayList<String> arrayList = new ArrayList<String>((input.length() + size - 1) / size);
+	    for (int start = 0; start < length; start += size) {
+	    	arrayList.add(input.substring(start, Math.min(input.length(), start + size)));
+	    	if(_debug) Log.v("SMSCommon.splitEqually() Message Part: " + input.substring(start, Math.min(input.length(), start + size)));
+	    }
+	    return arrayList.toArray(new String[arrayList.size()]);
+	}
+	
+	/**
+	 * Store a SMS into the system DB as a "sent" sms message.
+	 * 
+	 * @param context - The application context.
+	 * @param address - The address the message it to.
+	 * @param message - The message to send.
+	 * 
+	 * @return boolean - Return true if the operation was successful.
+	 */
+	private static boolean writeSentSMSMessage(Context context, String address, String message){
+        if(_debug) Log.v("SMSCommon.writeSentSMSMessage()");
+    	try{
+    		if(_debug) Log.v("SMSCommon.writeSentSMSMessage() Storing message in sent message folder.");
+            ContentValues values = new ContentValues();
+            values.put("address", address);
+            values.put("body", message);
+            context.getContentResolver().insert(Uri.parse("content://sms/sent"), values);
+            return true;
+    	}catch(Exception ex){
+    		Log.e("SMSCommon.writeSentSMSMessage() Insert Into Sent Folder ERROR: " + ex.toString());
+    		return false;
+    	}
+	}
 	
 }

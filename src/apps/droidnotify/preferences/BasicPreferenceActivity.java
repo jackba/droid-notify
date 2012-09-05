@@ -91,19 +91,19 @@ public class BasicPreferenceActivity extends PreferenceActivity{
 		    	}
         	}
 		});
-//		//Quick Reply Preference/Button
-//		Preference quickReplyPref = (Preference)findPreference("quick_reply_preference");
-//		quickReplyPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-//        	public boolean onPreferenceClick(Preference preference) {
-//		    	try{
-//		    		startActivity(new Intent(_context, QuickReplyPreferenceActivity.class));
-//		    		return true;
-//		    	}catch(Exception ex){
-//	 	    		Log.e("BasicPreferenceActivity() Quick Reply Button ERROR: " + ex.toString());
-//	 	    		return false;
-//		    	}
-//        	}
-//		});
+		//Quick Reply Preference/Button
+		Preference quickReplyPref = (Preference)findPreference("quick_reply_preference");
+		quickReplyPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+        	public boolean onPreferenceClick(Preference preference) {
+		    	try{
+		    		startActivity(new Intent(_context, QuickReplyPreferenceActivity.class));
+		    		return true;
+		    	}catch(Exception ex){
+	 	    		Log.e("BasicPreferenceActivity() Quick Reply Button ERROR: " + ex.toString());
+	 	    		return false;
+		    	}
+        	}
+		});
 		//Customize Contacts Preference/Button
 		Preference customizeContactsPref = (Preference)findPreference("customize_contacts_preference");
 		customizeContactsPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {

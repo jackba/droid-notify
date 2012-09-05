@@ -2,8 +2,8 @@
 <manifest 
 	xmlns:android="http://schemas.android.com/apk/res/android" 
 	package="apps.droidnotify"
-    android:versionCode="51"
-    android:versionName="3.18"
+    android:versionCode="52"
+    android:versionName="3.19"
     android:installLocation="internalOnly" >
     
 	<uses-sdk
@@ -51,17 +51,18 @@
 	<uses-feature android:name="android.hardware.telephony" />
 	
     <application          
-    	android:name="apps.droidnotify.MyApplication"
+    	android:name=".MainApplication"
     	android:icon="@drawable/ic_launcher"
     	android:label="@string/app_name_basic_formatted"
-    	android:debuggable="false" >
+    	android:debuggable="true" >
         
     	<activity
    			android:name="apps.droidnotify.NotificationActivity"
    			android:theme="@style/Theme.Transparent"
    			android:launchMode="singleTask"
    			android:taskAffinity="apps.droidnotify.notification"
-			android:configChanges="orientation|screenSize" />
+			android:configChanges="orientation|screenSize"
+			android:windowSoftInputMode="stateVisible|adjustPan" />
         
         <activity 
         	android:name="apps.droidnotify.preferences.PreferencesActivity"
