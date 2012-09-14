@@ -362,7 +362,8 @@ public class PhoneCommon {
 					phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_9 || 
 					phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_10 || 
 					phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_16 || 
-					phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_20){
+					phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_20 || 
+					phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_23){
 				numberSeparator = ".";
 			}else if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_11 || 
 					phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_12 || 
@@ -370,7 +371,8 @@ public class PhoneCommon {
 					phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_14 || 
 					phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_17 || 
 					phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_18 || 
-					phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_21){
+					phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_21 || 
+					phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_24){
 				numberSeparator = " ";
 			}else if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_5){
 				numberSeparator = "";
@@ -404,7 +406,7 @@ public class PhoneCommon {
 					phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_12){
 				if(inputPhoneNumber.length() >= 10){
 					//Format ##-###-##### (e.g.12-345-67890)
-					//Format ##-###-##### (e.g.12.345.67890)
+					//Format ##.###.##### (e.g.12.345.67890)
 					outputPhoneNumber.insert(0, inputPhoneNumber.substring(inputPhoneNumber.length() - 5, inputPhoneNumber.length()));
 					outputPhoneNumber.insert(0, numberSeparator);
 					outputPhoneNumber.insert(0, inputPhoneNumber.substring(inputPhoneNumber.length() - 8, inputPhoneNumber.length() - 5));
@@ -427,8 +429,8 @@ public class PhoneCommon {
 					phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_9 || 
 					phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_13){
 				if(inputPhoneNumber.length() >= 10){
-					//Format ##-###-##### (e.g.01-234-567890)
-					//Format ##-###-##### (e.g.01.234.567890)
+					//Format ##-###-###### (e.g.01-234-567890)
+					//Format ##.###.###### (e.g.01.234.567890)
 					outputPhoneNumber.insert(0, inputPhoneNumber.substring(inputPhoneNumber.length() - 6, inputPhoneNumber.length()));
 					outputPhoneNumber.insert(0, numberSeparator);
 					outputPhoneNumber.insert(0, inputPhoneNumber.substring(inputPhoneNumber.length() - 9, inputPhoneNumber.length() - 6));
@@ -454,7 +456,7 @@ public class PhoneCommon {
 					phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_14){
 				if(inputPhoneNumber.length() >= 10){
 					//Format ##-##-##-##-## (e.g.12-34-56-78-90)
-					//Format ##-##-##-##-## (e.g.12.34.56.78.90)
+					//Format ##.##.##.##.## (e.g.12.34.56.78.90)
 					outputPhoneNumber.insert(0, inputPhoneNumber.substring(inputPhoneNumber.length() - 2, inputPhoneNumber.length()));
 					outputPhoneNumber.insert(0, numberSeparator);
 					outputPhoneNumber.insert(0, inputPhoneNumber.substring(inputPhoneNumber.length() - 4, inputPhoneNumber.length() - 2));
@@ -481,8 +483,8 @@ public class PhoneCommon {
 					phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_16 || 
 					phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_17){
 				if(inputPhoneNumber.length() >= 10){
-					//Format ###-###-#### (e.g.012-3456-7890)
-					//Format ###-###-#### (e.g.012.3456.7890)
+					//Format ###-####-#### (e.g.012-3456-7890)
+					//Format ###.####.#### (e.g.012.3456.7890)
 					outputPhoneNumber.insert(0, inputPhoneNumber.substring(inputPhoneNumber.length() - 4, inputPhoneNumber.length()));
 					outputPhoneNumber.insert(0, numberSeparator);
 					outputPhoneNumber.insert(0, inputPhoneNumber.substring(inputPhoneNumber.length() - 8, inputPhoneNumber.length() - 4));
@@ -505,8 +507,8 @@ public class PhoneCommon {
 					phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_20 || 
 					phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_21){
 				if(inputPhoneNumber.length() >= 10){
-					//Format ###-###-#### (e.g.0123-4567890)
-					//Format ###-###-#### (e.g.0123.4567890)
+					//Format ####-####### (e.g.0123-4567890)
+					//Format ####.####### (e.g.0123.4567890)
 					outputPhoneNumber.insert(0, inputPhoneNumber.substring(inputPhoneNumber.length() - 7, inputPhoneNumber.length()));
 					outputPhoneNumber.insert(0, numberSeparator);
 					if(inputPhoneNumber.length() == 10){
@@ -522,11 +524,35 @@ public class PhoneCommon {
 				}else{
 					outputPhoneNumber.append(inputPhoneNumber);
 				}
+			}else if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_22 || 
+					phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_23 || 
+					phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_24){
+				if(inputPhoneNumber.length() >= 10){
+					//Format ####-###-#### (e.g.1234-567-890)
+					//Format ####.###.#### (e.g.1234.567-890)
+					outputPhoneNumber.insert(0, inputPhoneNumber.substring(inputPhoneNumber.length() - 3, inputPhoneNumber.length()));
+					outputPhoneNumber.insert(0, numberSeparator);
+					outputPhoneNumber.insert(0, inputPhoneNumber.substring(inputPhoneNumber.length() - 6, inputPhoneNumber.length() - 3));
+					outputPhoneNumber.insert(0, numberSeparator);
+					if(inputPhoneNumber.length() == 10){
+						outputPhoneNumber.insert(0, inputPhoneNumber.substring(0, inputPhoneNumber.length() - 6));
+					}else{
+						outputPhoneNumber.insert(0, inputPhoneNumber.substring(inputPhoneNumber.length() - 10, inputPhoneNumber.length() - 6));
+						outputPhoneNumber.insert(0, numberSeparator);
+						if(preferences.getBoolean(Constants.PHONE_NUMBER_FORMAT_10_DIGITS_ONLY_KEY , false)){
+							outputPhoneNumber.insert(0, "0");
+						}else{
+							outputPhoneNumber.insert(0, inputPhoneNumber.substring(0, inputPhoneNumber.length() - 10));
+						}
+					}
+				}else{
+					outputPhoneNumber.append(inputPhoneNumber);
+				}
 			}else if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_5){
 				//Format ########## (e.g.1234567890)
 				outputPhoneNumber.append(inputPhoneNumber);
 			}else if(phoneNumberFormatPreference == Constants.PHONE_NUMBER_FORMAT_18){
-				//Format ########## (e.g.(0123) 4567890)
+				//Format (####) ####### (e.g.(0123) 4567890)
 				outputPhoneNumber.insert(0, inputPhoneNumber.substring(inputPhoneNumber.length() - 7, inputPhoneNumber.length()));
 				outputPhoneNumber.insert(0, numberSeparator);
 				outputPhoneNumber.insert(0, ") ");

@@ -11,6 +11,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
 import android.preference.PreferenceManager;
 import android.text.method.ScrollingMovementMethod;
+import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -83,6 +84,27 @@ public class ThemeView extends LinearLayout {
 	//================================================================================
 	// Constructors
 	//================================================================================
+
+	/**
+     * Class Constructor.
+     */	
+	public ThemeView(Context context) {
+		super(context);
+	}
+	
+	/**
+     * Class Constructor.
+     */	
+	public ThemeView(Context context, AttributeSet attrs) {
+		super(context, attrs);
+	}
+	
+	/**
+     * Class Constructor.
+     */	
+	public ThemeView(Context context, AttributeSet attrs, int defStyle) {
+	    super(context, attrs, defStyle);
+	}
 	
 	/**
      * Class Constructor.
@@ -394,6 +416,10 @@ public class ThemeView extends LinearLayout {
 				_dismissButton.setTypeface(null, Typeface.BOLD);
 				_deleteButton.setTypeface(null, Typeface.BOLD);
 				_replyButton.setTypeface(null, Typeface.BOLD);
+			}else{
+				_dismissButton.setTypeface(null, Typeface.NORMAL);
+				_deleteButton.setTypeface(null, Typeface.NORMAL);
+				_replyButton.setTypeface(null, Typeface.NORMAL);
 			}
 			//Setup the views buttons based on the notification type.
 			setupViewSMSButtons(usingImageButtons, _notificationType);
@@ -517,11 +543,21 @@ public class ThemeView extends LinearLayout {
 		_contactNameTextView.setText("Julie Miller");
 		_contactNameTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, Float.parseFloat(_preferences.getString(Constants.CONTACT_NAME_SIZE_KEY, Constants.CONTACT_NAME_SIZE_DEFAULT)));
 		_contactNameTextView.setVisibility(View.VISIBLE);
+		if(_preferences.getBoolean(Constants.CONTACT_NAME_BOLD_KEY, false)){
+			_contactNameTextView.setTypeface(null, Typeface.BOLD);
+	    }else{
+	    	_contactNameTextView.setTypeface(null, Typeface.NORMAL);
+	    }
 		//Show/Hide Contact Number
 		if(_preferences.getBoolean(Constants.CONTACT_NUMBER_DISPLAY_KEY, true)){
 	    	_contactNumberTextView.setText(PhoneCommon.formatPhoneNumber(_context, "5555555555"));		    	
 		    _contactNumberTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, Float.parseFloat(_preferences.getString(Constants.CONTACT_NUMBER_SIZE_KEY, Constants.CONTACT_NUMBER_SIZE_DEFAULT)));
-		    _contactNumberTextView.setVisibility(View.VISIBLE);
+		    _contactNumberTextView.setVisibility(View.VISIBLE);	
+			if(_preferences.getBoolean(Constants.CONTACT_NUMBER_BOLD_KEY, false)){
+				_contactNumberTextView.setTypeface(null, Typeface.BOLD);
+		    }else{
+		    	_contactNumberTextView.setTypeface(null, Typeface.NORMAL);
+		    }
 		}else{
 			_contactNumberTextView.setVisibility(View.GONE);
 		}
@@ -636,6 +672,11 @@ public class ThemeView extends LinearLayout {
 				notificationInfoAlignment = Gravity.LEFT;
 			}
 		    _notificationInfoLinearLayout.setGravity(notificationInfoAlignment);
+		    if(_preferences.getBoolean(Constants.NOTIFICATION_TYPE_INFO_BOLD_KEY, false)){
+		    	_notificationInfoTextView.setTypeface(null, Typeface.BOLD);
+		    }else{
+		    	_notificationInfoTextView.setTypeface(null, Typeface.NORMAL);
+		    }
 	    }else{
 	    	_notificationInfoLinearLayout.setVisibility(View.GONE);
 	    }

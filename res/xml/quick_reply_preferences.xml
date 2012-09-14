@@ -15,7 +15,7 @@
 		android:key="quick_reply_signature_enabled" 
 		android:title="@string/insert_signature" 
 		android:summary="@string/insert_signature_summary"
-		android:defaultValue="false" />
+		android:defaultValue="true" />
 	<EditTextPreference
 		android:layout="@layout/custom_preference_checkbox"
 		android:key="quick_reply_signature" 

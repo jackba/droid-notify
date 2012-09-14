@@ -22,7 +22,6 @@ import apps.droidnotify.calendar.CalendarCommon;
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
-import apps.droidnotify.reminder.ReminderCommon;
 import apps.droidnotify.services.OnFirstRunService;
 import apps.droidnotify.services.WakefulIntentService;
 

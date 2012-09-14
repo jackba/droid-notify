@@ -91,6 +91,7 @@ public class QuickReplyPreferenceActivity extends PreferenceActivity implements 
 	 * Update the summary of the Signature preference.
 	 */
 	private void updateQuickReplySignaturePreference(){		
+		@SuppressWarnings("deprecation")
 		EditTextPreference signatureEditTextPreference = (EditTextPreference)findPreference(Constants.QUICK_REPLY_SIGNATURE_KEY);
 		String signature = _preferences.getString(Constants.QUICK_REPLY_SIGNATURE_KEY, _context.getString(R.string.quick_reply_default_signature));
 		if(signature.contains("\n")){

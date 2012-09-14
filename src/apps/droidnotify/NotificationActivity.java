@@ -22,13 +22,16 @@ import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.ContextThemeWrapper;
 import android.view.Display;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
@@ -90,6 +93,8 @@ public class NotificationActivity extends Activity{
 	private SharedPreferences _preferences = null;
 	private PendingIntent _screenTimeoutPendingIntent = null;
 	private TextToSpeech _tts = null;
+    private AlertDialog _dismissAllNotificationsDialog = null;
+    private NotificationActivity _notificationActivity = null;
 
 	//================================================================================
 	// Public Methods
@@ -101,7 +106,7 @@ public class NotificationActivity extends Activity{
 	 * @return notificationViewFlipper - Applications' ViewFlipper.
 	 */
 	public NotificationViewFlipper getNotificationViewFlipper(){
-		if(_debug) Log.v("NotificationActivity.getNotificationViewFlipper()");
+		//if(_debug) Log.v("NotificationActivity.getNotificationViewFlipper()");
 	    return _notificationViewFlipper;
 	}
 	
@@ -159,7 +164,7 @@ public class NotificationActivity extends Activity{
 	@Override
 	public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenuInfo contextMenuInfo){
 	    super.onCreateContextMenu(contextMenu, view, contextMenuInfo);
-	    if(_debug) Log.v("NotificationActivity.onCreateContextMenu()");
+	    //if(_debug) Log.v("NotificationActivity.onCreateContextMenu()");
 	    if(_preferences.getBoolean(Constants.CONTEXT_MENU_DISABLED_KEY, false)){
 	    	return;
 	    }
@@ -415,6 +420,23 @@ public class NotificationActivity extends Activity{
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(screenWidth, screenHeight);
         RelativeLayout contentView = (RelativeLayout) findViewById(R.id.notification_wrapper_relative_layout);
 		contentView.setLayoutParams(layoutParams);
+		//Adjust the max lines in the notifications body.
+    	int maxLines = Integer.parseInt(_preferences.getString(Constants.NOTIFICATION_BODY_MAX_LINES_KEY, Constants.NOTIFICATION_BODY_MAX_LINES_DEFAULT));
+        int phoneOrientation = getResources().getConfiguration().orientation;
+	    if(phoneOrientation == Configuration.ORIENTATION_LANDSCAPE){
+	    	if(screenWidth >= 800 && screenWidth < 1280){
+	    	    if(maxLines >= 3) maxLines = ((maxLines / 3) > 2) ? (maxLines / 3) : 2;
+	        }else if(screenWidth >= 1280){
+	    	    if(maxLines >= 2) maxLines = ((maxLines / 2) > 2) ? (maxLines / 2) : 2;
+	        }else{
+	        	if(maxLines < 4){
+	        		maxLines = 2;
+	        	}else{
+	        		maxLines = ((maxLines / 4) > 2) ? (maxLines / 4) : 2;
+	        	}
+	        }
+        }
+    	_notificationViewFlipper.setNotificationBodyMaxLines(maxLines);
 	}
 
 	/**
@@ -460,7 +482,7 @@ public class NotificationActivity extends Activity{
 	 * Speak the notification message using TTS.
 	 */
 	public void speak(){
-		if(_debug) Log.v("NotificationActivity.speak()");
+		//if(_debug) Log.v("NotificationActivity.speak()");
 		if(_tts == null){
 			setupTextToSpeech();
 		}else{
@@ -473,7 +495,7 @@ public class NotificationActivity extends Activity{
 	 * Sets the alarm that will clear the KeyguardLock & WakeLock.
 	 */
 	public void setScreenTimeoutAlarm(){
-		if(_debug) Log.v("NotificationActivity.setScreenTimeoutAlarm()");
+		//if(_debug) Log.v("NotificationActivity.setScreenTimeoutAlarm()");
 		long scheduledAlarmTime = System.currentTimeMillis() + (Long.parseLong(_preferences.getString(Constants.SCREEN_TIMEOUT_KEY, "300")) * 1000);
 		AlarmManager alarmManager = (AlarmManager) _context.getSystemService(Context.ALARM_SERVICE);
     	Intent intent = new Intent(_context, ScreenManagementAlarmReceiver.class);
@@ -486,7 +508,7 @@ public class NotificationActivity extends Activity{
 	 * Stops the playback of the TTS message.
 	 */
 	public void stopTextToSpeechPlayback(){
-		if(_debug) Log.v("NotificationActivity.stopTextToSpeechPlayback()");
+		//if(_debug) Log.v("NotificationActivity.stopTextToSpeechPlayback()");
 	    if(_tts != null){
 	    	_tts.stop();
 	    }
@@ -496,9 +518,9 @@ public class NotificationActivity extends Activity{
   	 * Dismiss all notifications and close the activity.
   	 */
   	public void dismissAllNotifications(){
-		if(_debug) Log.v("NotificationActivity.dismissAllNotifications()");	
+		//if(_debug) Log.v("NotificationActivity.dismissAllNotifications()");	
   		try{
-  			_notificationViewFlipper.dismissAllNotifications();
+  			new DismissAllNotificationsTask().execute();
   		}catch(Exception ex){
   			Log.e("NotificationActivity.dismissAllNotifications() ERROR: " + ex.toString());
   		}
@@ -508,7 +530,7 @@ public class NotificationActivity extends Activity{
   	 * Start the Speech-To-Text voice recognition activity.
   	 */
   	public void startStt(){
-		if(_debug) Log.v("NotificationActivity.startStt()");	
+		//if(_debug) Log.v("NotificationActivity.startStt()");	
   		try{
 			Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
 		    intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
@@ -828,10 +850,11 @@ public class NotificationActivity extends Activity{
 	@Override
 	protected void onCreate(Bundle bundle){
 		super.onCreate(bundle);
-		int apiLevel = Common.getDeviceAPILevel();
-	    _context = getApplicationContext();
 		_debug = Log.getDebug();
 	    if(_debug) Log.v("NotificationActivity.onCreate()");
+		int apiLevel = Common.getDeviceAPILevel();
+	    _context = getApplicationContext();
+	    _notificationActivity = this;
 	    _preferences = PreferenceManager.getDefaultSharedPreferences(_context);
 	    Common.setApplicationLanguage(_context, this);
 	    Common.setInLinkedAppFlag(_context, false);
@@ -1569,5 +1592,45 @@ public class NotificationActivity extends Activity{
 		if(notificationCount == 0) notificationCount = 1;
 		return notificationCount;
   	}
+  	
+    /*
+     * Dismiss all notifications asynchronous task.
+     */
+    private class DismissAllNotificationsTask extends AsyncTask<Void, Void, Boolean>{
+        
+        /**
+         * Do this work before the background task starts.
+         */  	
+        @Override
+        protected void onPreExecute(){
+        	ContextThemeWrapper contextThemeWrapper = new ContextThemeWrapper(_notificationActivity, R.style.Theme_TransparentDialog);
+        	AlertDialog.Builder builder = new AlertDialog.Builder(contextThemeWrapper);
+        	LayoutInflater inflater = (LayoutInflater) _context.getSystemService(LAYOUT_INFLATER_SERVICE);
+        	View layout = inflater.inflate(R.layout.dismiss_all_notifications_dialog, (ViewGroup) findViewById(R.id.dismiss_all_notifications_relative_layout));
+        	builder.setView(layout);
+        	_dismissAllNotificationsDialog = builder.create();
+        	_dismissAllNotificationsDialog.getWindow().setBackgroundDrawable(_context.getResources().getDrawable(R.drawable.transparent));
+        	_dismissAllNotificationsDialog.show();
+        }
+        
+	    /**
+	     * Do this work in the background.
+	     */
+        @Override
+        protected Boolean doInBackground(Void... params){
+  			_notificationViewFlipper.dismissAllNotifications();
+        	return true;
+        }
+
+	    /**
+	     * Do this work after the background has finished.
+	     */
+        @Override
+        protected void onPostExecute(Boolean result){
+        	_dismissAllNotificationsDialog.dismiss();			
+			finishActivity();
+        }
+        
+    }  
 	
 }

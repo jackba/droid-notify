@@ -13,12 +13,14 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -47,7 +49,7 @@ public class Log {
     // Properties
     //================================================================================
 	
-	private static boolean _debug = true;
+	private static boolean _debug = false;
 	
 	private static final boolean _AndroidVersion = true;
 	private static final boolean _AmazonVersion = false;
@@ -68,10 +70,28 @@ public class Log {
 	 *  @return boolean - Returns true if the log class is set to log entries.
 	 */
 	public static boolean getDebug(){
-		if(!_debug){
-			_debug = PreferenceManager.getDefaultSharedPreferences(MainApplication.getContext()).getBoolean(Constants.DEBUG, false);
+		try{
+			Context context = MainApplication.getContext();
+			if(context == null){
+				e("Log.getDebug() Context Is Null");
+				return _debug;
+			}
+			if(!_debug){
+				SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+				if(preferences == null){
+					e("Log.getDebug() Preferences Are Null");
+					return _debug;
+				}else{
+					_debug = preferences.getBoolean(Constants.DEBUG, false);
+					return _debug;
+				}
+			}else{
+				return true;
+			}
+		}catch(Exception ex){
+			e("Log.getDebug() ERROR: " + ex.toString());
+			return _debug;
 		}
-		return _debug;	
 	}
 
 	/**
@@ -220,6 +240,7 @@ public class Log {
      * @param context - The application context.
      * @param msg - The message to append to the log file.
      */
+    @SuppressLint("WorldReadableFiles")
     private static boolean appendToInternalLogFile(String level, String msg){
     	_context = MainApplication.getContext();
     	try{
@@ -351,8 +372,6 @@ public class Log {
         
 	    /**
 	     * Do this work in the background.
-	     * 
-	     * @param params - An ArrayList of the command line parameters to use.
 	     */
         @Override
         protected Boolean doInBackground(Void... params){
@@ -370,8 +389,6 @@ public class Log {
 
 	    /**
 	     * Do this work after the background has finished.
-	     * 
-	     * @param StringBuilder - A StringBuilder of the log file that was pulled from the phone.
 	     */
         @Override
         protected void onPostExecute(Boolean result){

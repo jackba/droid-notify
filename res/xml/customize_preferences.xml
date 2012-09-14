@@ -29,28 +29,6 @@
 		android:defaultValue="0"
 		android:entries="@array/popup_width_padding_options"
 		android:entryValues="@array/popup_width_padding_values" />
-	<ListPreference
-		android:layout="@layout/custom_preference_list"
-		android:key="button_display_style"
-		android:title="@string/preference_button_style_title"
-		android:summary="@string/preference_button_style_summary"
-		android:defaultValue="0"
-		android:entries="@array/button_display_style_options"
-		android:entryValues="@array/button_display_style_values" />		
-	<ListPreference
-		android:layout="@layout/custom_preference_list"
-		android:key="button_font_size"
-		android:title="@string/button_font_size_title"
-		android:summary="@string/button_font_size_summary"
-		android:defaultValue="14"
-		android:entries="@array/font_size_options"
-		android:entryValues="@array/font_size_values" />
-	<CheckBoxPreference
-		android:layout="@layout/custom_preference_checkbox"
-		android:key="bold_button_text" 
-		android:title="@string/bold_button_text_title" 
-		android:summary="@string/bold_button_text_summary"
-		android:defaultValue="false" />
 	<CheckBoxPreference
 		android:layout="@layout/custom_preference_checkbox"
 		android:key="display_notification_type_info_icon" 
@@ -78,6 +56,13 @@
 		android:defaultValue="14"
 		android:entries="@array/font_size_options"
 		android:entryValues="@array/font_size_values"
+		android:dependency="display_notification_type_info" />
+	<CheckBoxPreference
+		android:layout="@layout/custom_preference_checkbox"
+		android:key="bold_notification_type_info" 
+		android:title="@string/bold_notification_type_info" 
+		android:summary="@string/bold_notification_type_info_summary"
+		android:defaultValue="false"
 		android:dependency="display_notification_type_info" />
 	<CheckBoxPreference
 		android:layout="@layout/custom_preference_checkbox"
@@ -138,6 +123,13 @@
 		android:dependency="display_contact_name" />
 	<CheckBoxPreference
 		android:layout="@layout/custom_preference_checkbox"
+		android:key="bold_contact_name" 
+		android:title="@string/bold_contact_name" 
+		android:summary="@string/bold_contact_name_summary"
+		android:defaultValue="true"
+		android:dependency="display_contact_name" />
+	<CheckBoxPreference
+		android:layout="@layout/custom_preference_checkbox"
 		android:key="display_contact_number" 
 		android:title="@string/preference_display_contact_number_title" 
 		android:summary="@string/preference_display_contact_number_summary" 
@@ -157,6 +149,13 @@
 		android:defaultValue="18"
 		android:entries="@array/font_size_options"
 		android:entryValues="@array/font_size_values"
+		android:dependency="display_contact_number" />
+	<CheckBoxPreference
+		android:layout="@layout/custom_preference_checkbox"
+		android:key="bold_contact_number" 
+		android:title="@string/bold_contact_number" 
+		android:summary="@string/bold_contact_number_summary"
+		android:defaultValue="true"
 		android:dependency="display_contact_number" />
 	<CheckBoxPreference
 		android:layout="@layout/custom_preference_checkbox"
@@ -194,6 +193,13 @@
 		android:defaultValue="5"
 		android:entries="@array/max_lines_options"
 		android:entryValues="@array/max_lines_values"
+		android:dependency="display_notification_body" />
+	<CheckBoxPreference
+		android:layout="@layout/custom_preference_checkbox"
+		android:key="bold_notification_body" 
+		android:title="@string/bold_notification_body" 
+		android:summary="@string/bold_notification_body_summary"
+		android:defaultValue="false"
 		android:dependency="display_notification_body" />	
 	<CheckBoxPreference
 		android:layout="@layout/custom_preference_checkbox"
@@ -202,4 +208,26 @@
 		android:summary="@string/enable_emoticons_summary"
 		android:defaultValue="true"
 		android:dependency="display_notification_body" />
+	<ListPreference
+		android:layout="@layout/custom_preference_list"
+		android:key="button_display_style"
+		android:title="@string/preference_button_style_title"
+		android:summary="@string/preference_button_style_summary"
+		android:defaultValue="0"
+		android:entries="@array/button_display_style_options"
+		android:entryValues="@array/button_display_style_values" />		
+	<ListPreference
+		android:layout="@layout/custom_preference_list"
+		android:key="button_font_size"
+		android:title="@string/button_font_size_title"
+		android:summary="@string/button_font_size_summary"
+		android:defaultValue="14"
+		android:entries="@array/font_size_options"
+		android:entryValues="@array/font_size_values" />
+	<CheckBoxPreference
+		android:layout="@layout/custom_preference_checkbox"
+		android:key="bold_button_text" 
+		android:title="@string/bold_button_text_title" 
+		android:summary="@string/bold_button_text_summary"
+		android:defaultValue="false" />
 </PreferenceScreen>

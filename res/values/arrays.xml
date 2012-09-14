@@ -830,18 +830,24 @@
 		<item></item>
 		<item></item>
 		<item></item>
+		<item></item>
+		<item></item>
 	</string-array>
 	<string-array name="contact_photo_background_values">
 		<item>0</item>
 		<item>1</item>
 		<item>2</item>
 		<item>3</item>
+		<item>4</item>
+		<item>5</item>
 	</string-array>
 	<array name="contact_photo_background_images">
 		<item>@drawable/contact_photo_background_white</item>
 		<item>@drawable/contact_photo_background_froyo</item>
 		<item>@drawable/contact_photo_background_gingerbread</item>
 		<item>@drawable/contact_photo_background_blue_steel</item>
+		<item>@drawable/contact_photo_background_ics_blue_list</item>
+		<item>@drawable/contact_photo_background_htc_green_list</item>
 	</array>
 
 	<!-- Contact Image Size Arrays --> 
@@ -926,6 +932,7 @@
 		<item>@string/sms_gateway_tmobile_text</item>
 		<item>@string/sms_gateway_att_text</item>
 		<item>@string/sms_gateway_att_b_text</item>
+		<item>@string/sms_gateway_verizon_text</item>		
 		<item>@string/sms_gateway_aql_text</item>
 		<item>@string/sms_gateway_aql_b_text</item>
 		<item>@string/sms_gateway_tmobile_b_text</item>
@@ -936,54 +943,61 @@
 		<item>2</item>
 		<item>3</item>
 		<item>4</item>
+		<item>9</item>
 		<item>5</item>
 		<item>6</item>
 		<item>7</item>
 		<item>8</item>
-	</string-array>	
+	</string-array>
 
 	<!-- Phone Number Format Arrays --> 
 	<string-array name="phone_number_format_options">
 		<item>1234567890</item>
 		<item>(123) 456&#8211;7890</item>
-		<item>0123 4567890</item>
+		<item>(0123) 4567890</item>
 		<item>123&#8211;456&#8211;7890</item>		
-		<item>012&#8211;3456&#8211;7890</item>
+		<item>012&#8211;3456&#8211;7890</item>		
+		<item>1234&#8211;567&#8211;890</item>
 		<item>0123&#8211;4567890</item>
 		<item>12&#8211;345&#8211;67890</item>
 		<item>01&#8211;234&#8211;567890</item>
 		<item>12&#8211;34&#8211;56&#8211;78&#8211;90</item>
 		<item>123.456.7890</item>
 		<item>012.3456.7890</item>
+		<item>1234.567.890</item>
 		<item>0123.4567890</item>
 		<item>12.345.67890</item>
 		<item>01.234.567890</item>
 		<item>12.34.56.78.90</item>
 		<item>123 456 7890</item>
 		<item>012 3456 7890</item>
+		<item>1234 567 890</item>
 		<item>0123 4567890</item>
 		<item>12 345 67890</item>
 		<item>01 234 567890</item>
 		<item>12 34 56 78 90</item>
-	</string-array>
+	</string-array>	
 	<string-array name="phone_number_format_values">
 		<item>5</item>
 		<item>6</item>		
 		<item>18</item>
 		<item>1</item>		
-		<item>15</item>		
+		<item>15</item>	
+		<item>22</item>		
 		<item>19</item>
 		<item>2</item>
 		<item>3</item>
 		<item>4</item>
 		<item>7</item>
-		<item>16</item>		
+		<item>16</item>	
+		<item>23</item>		
 		<item>20</item>
 		<item>8</item>
 		<item>9</item>
 		<item>10</item>
 		<item>11</item>
-		<item>17</item>		
+		<item>17</item>	
+		<item>24</item>		
 		<item>21</item>
 		<item>12</item>
 		<item>13</item>

@@ -211,13 +211,15 @@ public class Constants {
 	public static final String CONTACT_NAME_SIZE_KEY = "contact_name_font_size";
 	public static final String CONTACT_NAME_SIZE_DEFAULT = "22";
 	public static final String CONTACT_NAME_CENTER_ALIGN_KEY = "center_align_contact_name";
+	public static final String CONTACT_NAME_BOLD_KEY = "bold_contact_name";
 	
 	//-----CONTACT NUMBER CONSTANTS-----//
 	public static final String CONTACT_NUMBER_DISPLAY_KEY = "display_contact_number";
 	public static final String CONTACT_NUMBER_SIZE_KEY = "contact_number_font_size";
 	public static final String CONTACT_NUMBER_SIZE_DEFAULT = "18";
-	public static final String CONTACT_NUMBER_DISPLAY_UNKNOWN_KEY = "display_unknown_contact_number";
+	public static final String CONTACT_NUMBER_DISPLAY_UNKNOWN_KEY = "display_unknown_contact_number";  
 	public static final String CONTACT_NUMBER_CENTER_ALIGN_KEY = "center_align_contact_number";
+	public static final String CONTACT_NUMBER_BOLD_KEY = "bold_contact_number";
 	
 	//-----DIALOG CONSTANTS-----//
 	public static final String DIALOG_UPGRADE_TYPE = "upgrade_type";
@@ -321,6 +323,9 @@ public class Constants {
 	public static final int PHONE_NUMBER_FORMAT_19 = 19;
 	public static final int PHONE_NUMBER_FORMAT_20 = 20;
 	public static final int PHONE_NUMBER_FORMAT_21 = 21;
+	public static final int PHONE_NUMBER_FORMAT_22 = 22;
+	public static final int PHONE_NUMBER_FORMAT_23 = 23;
+	public static final int PHONE_NUMBER_FORMAT_24 = 24;
 	
 	//-----TIME FORMAT CONSTANTS-----//
 	public static final String TIME_FORMAT_KEY = "time_format_settings";
@@ -359,14 +364,13 @@ public class Constants {
 	public static final String QUIET_TIME_STOP_TIME_KEY  = "quiet_time_stop_time";
 	
 	//-----MESSAGE BODY CONSTANTS-----//
-	public static final String DISPLAY_NOTIFICATION_BODY_KEY = "display_notification_body";
-	
+	public static final String DISPLAY_NOTIFICATION_BODY_KEY = "display_notification_body";	
 	public static final String NOTIFICATION_BODY_CENTER_ALIGN_TEXT_KEY = "center_align_body_text";
 	public static final String NOTIFICATION_BODY_FONT_SIZE_KEY = "notification_body_font_size";
 	public static final String NOTIFICATION_BODY_FONT_SIZE_DEFAULT = "14";
-	
 	public static final String NOTIFICATION_BODY_MAX_LINES_KEY = "notification_body_max_lines";
 	public static final String NOTIFICATION_BODY_MAX_LINES_DEFAULT = "5";
+	public static final String NOTIFICATION_BODY_BOLD_KEY = "bold_notification_body";
 	
 	//-----NOTIFICATION TYPE INFO CONSTANTS-----//
 	public static final String NOTIFICATION_TYPE_INFO_ICON_DISPLAY_KEY  = "display_notification_type_info_icon";
@@ -374,6 +378,7 @@ public class Constants {
 	public static final String NOTIFICATION_TYPE_INFO_CENTER_ALIGN_KEY = "center_align_notification_type_info";
 	public static final String NOTIFICATION_TYPE_INFO_FONT_SIZE_KEY = "notification_type_info_font_size";
 	public static final String NOTIFICATION_TYPE_INFO_FONT_SIZE_DEFAULT = "14";
+	public static final String NOTIFICATION_TYPE_INFO_BOLD_KEY = "bold_notification_type_info";
 	
 	//-----QUICK REPLY CONSTANTS-----//
 	public static final String SMS_GATEWAY_KEY = "quick_reply_sms_gateway_settings";	
@@ -393,6 +398,7 @@ public class Constants {
 	public static final int SMS_EMAIL_GATEWAY_6 = 6;
 	public static final int SMS_EMAIL_GATEWAY_7 = 7;
 	public static final int SMS_EMAIL_GATEWAY_8 = 8;
+	public static final int SMS_EMAIL_GATEWAY_9 = 9;
 	
 	//-----PREFERENCE SCREEN CONSTANTS-----//
 	public static final String PREFERENCE_SCREEN_NOTIFICATION_SETTINGS_KEY = "notifications_settings_screen";
