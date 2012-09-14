@@ -25,6 +25,9 @@ Basic
   * Time Of Week Settings
   * Quiet Period Settings
  * Enable Quick Reply
+ * Quick Reply Settings
+  * Insert Signature
+  * Signature
  * Customize Contacts
  * Blacklist
 
@@ -52,13 +55,11 @@ Customize
  * Theme
  * Popup horizontal Location
  * Popup Width Padding
- * Button Style
- * Button Font Size
- * Bold Button Text
  * Display Type Icon
  * Display Notification Type Info
  * Center Align Notification Type Info
  * Type Font Size
+ * Bold Notification Type Info
  * Display Contact Photo
  * Contact Photo Size
  * Contact Placeholder Image
@@ -66,15 +67,21 @@ Customize
  * Display Contact Name
  * Center Align Contact Name
  * Contact Name Font Size
+ * Bold Contact Name
  * Display Contact Number
  * Center Align Contact Number
  * Contact Number Font Size
+ * Bold Contact Number
  * Display Unknown Contact Number
  * Display Notification Body
  * Center Align Body Text
  * Notification Body Font Size
  * Notification Body Max Lines
+ * Bold Notification Body
  * Enable Emoticons
+ * Button Style
+ * Button Font Size
+ * Bold Button Text
  
 Notifications
 
