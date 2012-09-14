@@ -8,9 +8,8 @@
 
 *v3.19* _Coming Soon..._
  * Added a few small customization options.
- * Updated the Quick Replay feature.
+ * Updated the Quick Reply feature.
  * Added Quick Reply signatures.
- * 
  * Updated translations.
  * Small bug fixes.
 
