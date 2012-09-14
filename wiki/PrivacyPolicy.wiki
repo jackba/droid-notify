@@ -1,4 +1,5 @@
 #summary Privacy Policy
+#labels Featured
 
 = Droid Notify - Privacy Policy =
 
