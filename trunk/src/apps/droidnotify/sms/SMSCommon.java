@@ -732,27 +732,26 @@ public class SMSCommon {
 	 * 
 	 * @param context - Application Context.
 	 * @param notificationActivity - A reference to the parent activity.
-	 * @param phoneNumber - The number/address/screen name we want to send a message to.
+	 * @param address - The number/address/screen name we want to send a message to.
 	 * @param requestCode - The request code we want returned.
 	 * 
 	 * @return boolean - Returns true if the activity can be started.
 	 */
-	public static boolean startMessagingAppReplyActivity(Context context, NotificationActivity notificationActivity, String phoneNumber, int requestCode){
+	public static boolean startMessagingAppReplyActivity(Context context, NotificationActivity notificationActivity, String address, int requestCode){
 		_debug = Log.getDebug();
 		if(_debug) Log.v("SMSCommon.startMessagingAppReplyActivity()");
-		if(phoneNumber == null){
+		if(address == null){
 			Toast.makeText(context, context.getString(R.string.app_android_reply_messaging_address_error), Toast.LENGTH_LONG).show();
 			return false;
 		}
 		try{
-			Intent intent = new Intent(Intent.ACTION_SENDTO);
-			if(phoneNumber.contains("@")){
-			    intent.setData(Uri.parse("smsto:" + EmailCommon.removeEmailFormatting(phoneNumber)));
-			}else{
-			    intent.setData(Uri.parse("smsto:" + PhoneCommon.removePhoneNumberFormatting(phoneNumber)));
-			}
-		    // Exit the app once the SMS is sent.
-		    intent.putExtra("compose_mode", true);
+			Uri smsUri = address.contains("@") ? Uri.parse("smsto:" + EmailCommon.removeEmailFormatting(address)) : Uri.parse("smsto:" + PhoneCommon.removePhoneNumberFormatting(address));
+			Intent intent = new Intent(Intent.ACTION_SENDTO, smsUri);
+			//Include the signature.
+			//SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+	        //if(){
+			//	intent.putExtra("sms_body", preferences.getString(Constants.QUICK_REPLY_SIGNATURE_KEY, context.getString(R.string.quick_reply_default_signature)));  
+	        //}
 	        notificationActivity.startActivityForResult(intent, requestCode);
 	        Common.setInLinkedAppFlag(context, true);
 	        return true;
@@ -1159,7 +1158,7 @@ public class SMSCommon {
 			
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(_context);
 			//Include the signature.
-	        if(preferences.getBoolean(Constants.QUICK_REPLY_SIGNATURE_ENABLED_KEY, false)){
+	        if(preferences.getBoolean(Constants.QUICK_REPLY_SIGNATURE_ENABLED_KEY, true)){
 	        	message += " " + preferences.getString(Constants.QUICK_REPLY_SIGNATURE_KEY, _context.getString(R.string.quick_reply_default_signature));
 	        }
 	        if(_debug) Log.v("SMSCommon.sendSMS() Message: " + message);
@@ -1171,6 +1170,7 @@ public class SMSCommon {
 				// (USA) T-Mobile - 500 [address text | address/subject/text | address#subject#text]
 				// (USA) AT&T - 121 [address text | address (subject) text]
 				// (USA) AT&T - 111 [address text | address (subject) text]
+				// (USA) VERIZON - 6245 [address (subject) text]
 				// (UK) AQL - 447766 [address text]
 				// (UK) AQL - 404142 [address text]
 				// (Croatia) T-Mobile - 100 [address#subject#text]
@@ -1226,6 +1226,12 @@ public class SMSCommon {
 			    		// (Croatia) T-Mobile - 100 [address#subject#text]
 			    		smsToEmailGatewayNumber = "100";
 			    		smsToEmailMessageHeader = address + "##";
+			    		break;
+			    	}
+			    	case Constants.SMS_EMAIL_GATEWAY_9:{
+			    		// (USA) Verizon - 6245 [address (subject) text]
+			    		smsToEmailGatewayNumber = "6245";
+			    		smsToEmailMessageHeader = address + " ";
 			    		break;
 			    	}
 				} 

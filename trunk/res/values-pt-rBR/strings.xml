@@ -41,7 +41,6 @@
   <string name="app_android_calendar_app_error">Não foi possível iniciar o aplicativo calendário do Android.</string>
   <string name="app_android_email_app_error">Não foi possível iniciar o aplicativo de email.</string>
   <string name="app_android_contacts_app_error">Não foi possível iniciar o aplicativo de contatos Android.</string>
-  <string name="app_android_quick_reply_app_error">Não foi possível iniciar o aplicativo de resposta rápida.</string>
   <string name="app_android_rate_app_error">Não foi possível iniciar o aplicativo da Web.</string>
   <string name="app_android_message_not_found_error">A mensagem selecionada não pôde ser encontrada.</string>
   <string name="app_android_phone_number_format_error">O número de telefone não parece ser válido. A discagem falhou.</string>
@@ -65,7 +64,6 @@
   <string name="twitter_app_not_found_error">O aplicativo do Twitter não pôde ser encontrado. Tente selecionar um cliente preferencial diferente do Twitter.</string>
   <string name="facebook_app_error">Não foi possível iniciar o aplicativo do Facebook.</string>
   <string name="facebook_app_not_found_error">O aplicativo Facebook não pôde ser encontrado. Tente selecionar um cliente preferencial diferente do Facebook.</string>
-  <string name="app_quick_reply_address_error">O endereço de resposta rápida não parece ser válido. Falha na inicialização da resposta rápida.</string>
   <string name="twitter_send_direct_mesage_error">Não foi possível enviar a mensagem direta do Twitter.</string>
   <string name="twitter_send_tweet_error">Não foi possível enviar a atualização de status do Twitter.</string>
   <string name="not_online_error">O aplicativo não consegue ter acesso on-line neste momento. Por favor, tente novamente mais tarde.</string>
@@ -146,14 +144,7 @@
   <string name="quick_reply_category">RESPOSTA RÁPIDA</string>
   <string name="quick_reply_settings">Configurações de Resposta Rápida</string>
   <string name="quick_reply">Resposta Rápida</string>
-  <string name="phone_number_error_text">Por favor, digite um número para enviar a mensagem.</string>
-  <string name="address_error_text">Por favor, digite um endereço para enviar a mensagem.</string>
-  <string name="message_error_text">Por favor, digite uma mensagem para enviar.</string>
   <string name="draft_saved_text">Mensagem salva como rascunho.</string>
-  <string name="preference_quick_reply_blur_screen_background_enabled_summaryOn">O plano de fundo da tela irá embaçar quando a janela de resposta rápida é mostrada.</string>
-  <string name="preference_quick_reply_blur_screen_background_enabled_summaryOff">O plano de fundo da tela não irá embaçar quando a janela de resposta rápida é mostrada.</string>
-  <string name="preference_quick_reply_dim_screen_background_enabled_summaryOn">O plano de fundo da tela irá escurecer quando a janela de resposta rápida é mostrada.</string>
-  <string name="preference_quick_reply_dim_screen_background_enabled_summaryOff">O plano de fundo da tela não irá escurecer quando a janela de resposta rápida é mostrada.</string>
   <string name="preference_save_draft_enabled_title">Salvar rascunho</string>
   <string name="preference_save_draft_enabled_summaryOn">Um rascunho da mensagem será salvo se a mensagem não for enviada.</string>
   <string name="preference_save_draft_enabled_summaryOff">Um rascunho da mensagem não será salvo.</string>
@@ -162,6 +153,12 @@
   <string name="enable_quick_reply">Habilitar Resposta Rápida</string>
   <string name="enable_quick_reply_summary">Exibe uma caixa de resposta rápida na notificação.</string>
   <string name="type_to_compose">Toque para escrever</string>
+  <string name="send_delivery_reports">Relatórios de Entrega</string>
+  <string name="send_delivery_reports_summary">Solicitar um relatório de entrega para cada mensagem que é enviada através da resposta rápida.</string>
+  <string name="insert_signature">Inserir Assinatura</string>
+  <string name="insert_signature_summary">Inserir uma assinatura no final da mensagem, quando ela for enviada através da resposta rápida.</string>
+  <string name="signature">Assinatura</string>
+  <string name="quick_reply_default_signature">-Enviada via Droid Notify para Android</string>
   <string name="blacklist_category">LISTA NEGRA</string>
   <string name="blacklist">Lista negra</string>
   <string name="add_new">Adicionar novo</string>
@@ -227,18 +224,32 @@
   <string name="default_theme_phone">Padrão do Telefone</string>
   <string name="preference_notification_type_info_icon_enabled_title">Exibir Ícone do Tipo</string>
   <string name="preference_notification_type_info_icon_enabled_summary">O ícone de tipo de notificação é o ícone à direita da foto do contato.</string>
+  <string name="display_notification_type_info">Exibir o Tipo de Notificação</string>
+  <string name="display_notification_type_info_summary">A informação do tipo de notificação é o texto abaixo do contador de notificações.</string>
   <string name="preference_notification_type_info_size">Tamanho da fonte do tipo</string>
   <string name="preference_notification_type_info_size_summary">Selecione o tamanho da fonte do texto de informações de notificação.</string>
+  <string name="center_align_notification_type_info">Centralizar Tipo de Notificação</string>
+  <string name="center_align_notification_type_info_summary">Centralizar a informação do tipo de notificação no cabeçalho da notificação.</string>
+  <string name="bold_notification_type_info">Tipo de Notificação em Negrito</string>
+  <string name="bold_notification_type_info_summary">Torna negrito as informações do tipo de notificação no cabeçalho da notificação.</string>
   <string name="preference_display_contact_photo_title">Exibir Foto do Contato</string>
   <string name="preference_display_contact_photo_summary">Mostre uma foto do contato para certas notificações.</string>
   <string name="preference_display_contact_name_title">Exibir Nome do Contato</string>
   <string name="preference_display_contact_name_summary">Exibir o nome do contato no cabeçalho da notificação.</string>
+  <string name="center_align_contact_name">Centralizar Nome do Contato</string>
+  <string name="center_align_contact_name_summary">Centralizar o nome do contato no cabeçalho da notificação.</string>
+  <string name="bold_contact_name">Nome do Contato em Negrito</string>
+  <string name="bold_contact_name_summary">Tornar negrito o nome do contato.</string>
   <string name="preference_hide_unknown_contact_name_title">Ocultar nome de contato quando desconhecido</string>
   <string name="preference_hide_unknown_contact_name_summary">Ocultar o nome do contato se ele for desconhecido.</string>
   <string name="preference_contact_name_font_size_title">Tamanho da fonte do nome de contato</string>
   <string name="preference_contact_name_font_size_summary">Selecione o tamanho da fonte do texto nome do contato.</string>
   <string name="preference_display_contact_number_title">Mostrar o Número do Contato</string>
   <string name="preference_display_contact_number_summary">Exibir o número do contato no cabeçalho da notificação.</string>
+  <string name="center_align_contact_number">Centralizar Número do Contato</string>
+  <string name="center_align_contact_number_summary">Centralizar o número do contato no cabeçalho da notificação.</string>
+  <string name="bold_contact_number">Número do Contato em Negrito</string>
+  <string name="bold_contact_number_summary">Torna negrito o número do contato.</string>
   <string name="preference_contact_number_font_size_title">Tamanho da fonte do número do contato</string>
   <string name="preference_contact_number_font_size_summary">Selecione o tamanho da fonte do texto número de contato.</string>
   <string name="preference_display_unknown_contact_number_title">Exibir Número em Contatos Desconhecidos</string>
@@ -260,6 +271,8 @@
   <string name="hide_notification_body_summary">Não exibir o corpo da notificação no popup.</string>
   <string name="preference_notification_body_max_lines_title">Número Máximo de Linhas na Notificação</string>
   <string name="preference_notification_body_max_lines_summary">Selecione o máximo de linhas que serão exibidas no corpo da notificação.</string>
+  <string name="bold_notification_body">Corpo da Notificação em Negrito</string>
+  <string name="bold_notification_body_summary">Torna negrito o texto do corpo da notificação.</string>
   <string name="sms_category">SMS</string>
   <string name="sms">SMS</string>
   <string name="view_thread_text">Ver Conversa</string>
@@ -297,9 +310,9 @@
   <string name="preference_missed_call_loading_summary">Defina que chamadas carregar quando é recebida uma chamada não atendida.</string>
   <string name="preference_call_log_timeout">Tempo limite do registro de chamadas</string>
   <string name="preference_call_log_timeout_summary">Defina quanto tempo esperar após uma chamada antes de consultar o registro de chamadas para uma chamada não atendida.</string>
-  <string name="mms_click_here_to_view">[Clique Para Ver o MMS]</string>
-  <string name="click_to_view_message">[Clique Para Ver o SMS]</string>
-  <string name="click_to_view_log">[Clique Para Abrir o Registro]</string>
+  <string name="mms_click_here_to_view">[CLIQUE PARA VER O MMS]</string>
+  <string name="click_to_view_message">[CLIQUE PARA VER O SMS]</string>
+  <string name="click_to_view_log">[CLIQUE PARA VER O REGISTRO]</string>
   <string name="event_reminders_category">LEMBRETES DE EVENTOS</string>
   <string name="calendar">Calendário</string>
   <string name="add_calendar_event_text">Adicionar evento ao calendário</string>
@@ -324,7 +337,7 @@
   <string name="use_current_calendar_reminder_settings">Usar configurações Atuais Lembrete Calendário</string>
   <string name="use_current_calendar_reminder_settings_summary">Use as configurações de lembrete de calendários para lembretes.</string>
   <string name="event_start_time_reminder">Lembrar Início do Evento</string>
-  <string name="event_start_time_reminder_summary">Exiba lembrete no início do evento.</string>
+  <string name="event_start_time_reminder_summary">Exibir um lembrete no início do evento.</string>
   <string name="snooze">Soneca</string>
   <string name="snooze_for">Cochilar por</string>
   <string name="dismiss_alarm">Descartar Alarme</string>
@@ -387,7 +400,7 @@
   <string name="google_voice_enabled_title">Habilitar o Google Voice</string>
   <string name="google_voice_enabled_summary">Habilite notificações de voz do Google.</string>
   <string name="google_voice_sms_messages_enabled">Permitir Mensagens SMS do Google Voice</string>
-  <string name="google_voice_sms_messages_enabled_summary">Habilite notificações de Mensagem de SMS do Google Voice.</string>
+  <string name="google_voice_sms_messages_enabled_summary">Habilitar notificações de Mensagem de SMS do Google Voice.</string>
   <string name="google_voice_voicemails_enabled">Permitir Mensagens de Voz do Google Voice</string>
   <string name="google_voice_voicemails_enabled_summary">Habilitar notificações de Correio de Voz do Google Voice.</string>
   <string name="google_voice_missed_calls_enabled">Ativar Google Voice Chamadas não Atendidas</string>
@@ -403,7 +416,7 @@
   <string name="sign_in">Entrar</string>
   <string name="attempting_to_sign_in">Tentando entrar…</string>
   <string name="clear_google_voice_authentication_data">Redefinir os Dados do Google Voice</string>
-  <string name="clear_google_voice_authentication_data_summary">Limpar os Dados de autenticação do Google Voice.</string>
+  <string name="clear_google_voice_authentication_data_summary">Limpar os dados de autenticação do Google Voice.</string>
   <string name="google_voice_authentication_data_cleared">Os dados de autenticação Google Voice foram limpos.</string>
   <string name="open_google_voice_app_text">Abrir o app do Google Voice</string>
   <string name="linkedin_enabled_title">Habilitar o LinkedIn</string>
@@ -467,7 +480,7 @@
   <string name="sms_mesage_privacy_summary">Não exibir a mensagem SMS no popup de notificação. Um botão será exibido e deve ser clicado para exibir a mensagem.</string>
   <string name="email_mesage_privacy">Privacidade de Mensagens de Email</string>
   <string name="email_mesage_privacy_summary">Não exibir conteúdo de email no popup de notificação. Um botão será exibido e deve ser clicado para exibir a mensagem.</string>
-  <string name="missed_call_privacy">Privacidade em Chamadas Não Atendidas</string>
+  <string name="missed_call_privacy">Privacidade em Chamadas Perdidas</string>
   <string name="missed_call_privacy_summary">Não exibir informações de chamadas não atendidas no popup de notificação. Um botão será exibido e deve ser clicado para exibir o log de chamadas.</string>
   <string name="advanced_category">AVANÇADO</string>
   <string name="advanced">Avançado</string>
@@ -482,12 +495,12 @@
   <string name="import_export_category">IMPORTAÇÃO/EXPORTAÇÃO</string>
   <string name="preference_export_preferences_title">Exportar Preferências</string>
   <string name="preference_export_preferences_summary">Exportar preferências do aplicativo para o cartão SD.</string>
-  <string name="preference_export_preferences_progress_text">Exportando preferências...</string>
+  <string name="preference_export_preferences_progress_text">Exportando Preferências...</string>
   <string name="preference_export_preferences_finish_text">As preferências do aplicativo foram exportadas.</string>
   <string name="preference_export_preferences_error_text">As preferências de aplicativos não foram exportadas. As possíveis causas para esse erro incluem a falta do cartão SD ou outras questões relacionadas com cartão SD que impedem esta aplicação de acessar o mesmo.</string>
   <string name="preference_import_preferences_title">Importar Preferências</string>
   <string name="preference_import_preferences_summary">Importar preferências a partir do cartão SD.\nA tela de preferências irá recarregar assim que a importação for concluída.</string>
-  <string name="preference_import_preferences_progress_text">Importando preferências...</string>
+  <string name="preference_import_preferences_progress_text">Importando Preferências...</string>
   <string name="preference_import_preferences_finish_text">As preferências do aplicativo foram importadas.</string>
   <string name="preference_import_preferences_error_text">As preferências de aplicativos não foram importadas. Possíveis causas para esse erro incluem a ausência de um arquivo de preferências, um cartão SD ausente ou outras questões que impedem o programa de ler o arquivo no cartão SD.</string>
   <string name="confirm_import_app_preferences">Isto irá remover as configurações atuais do aplicativo e substituí-las pelas configurações exportadas.</string>
@@ -622,9 +635,9 @@
   <string name="status_bar_notification_content_text_google_voice_voicemail" formatted="false">Novo Google Voice Voicemail de %s - %s</string>
   <string name="status_bar_notification_content_text_google_voice_voicemail_null" formatted="false">Novo Google Voice Voicemail.</string>
   <string name="status_bar_notification_content_text_google_voice_voicemail_count" formatted="false">%s novos Google Voice Voicemails.</string>
-  <string name="status_bar_notification_content_text_google_voice_missed_call" formatted="false">Novo Google Voice Chamada Não Atendida de %s - %s</string>
+  <string name="status_bar_notification_content_text_google_voice_missed_call" formatted="false">Nova chamada perdida do Google Voice de %s - %s</string>
   <string name="status_bar_notification_content_text_google_voice_missed_call_null" formatted="false">Novo Google Voice Chamada Perdida.</string>
-  <string name="status_bar_notification_content_text_google_voice_missed_call_count" formatted="false">%s novas Google Voice Perdida Chamadas.</string>
+  <string name="status_bar_notification_content_text_google_voice_missed_call_count" formatted="false">%s novas chamadas Google Voice perdidas.</string>
   <string name="status_bar_notification_ticker_text_sms" formatted="false">Nova mensagem de %s - %s</string>
   <string name="status_bar_notification_ticker_text_unknown_contact_sms" formatted="false">Nova mensagem - %s.</string>
   <string name="status_bar_notification_ticker_text_privacy_sms" formatted="false">Nova mensagem de %s.</string>
@@ -660,8 +673,8 @@
   <string name="status_bar_notification_ticker_text_google_voice_voicemail" formatted="false">Novo Google Voice Voicemail de %s - %s</string>
   <string name="status_bar_notification_ticker_text_unknown_contact_google_voice_voicemail" formatted="false">Novo Google Voice Voicemail - %s</string>
   <string name="status_bar_notification_ticker_text_google_voice_voicemail_null" formatted="false">Novo Google Voice Voicemail.</string>
-  <string name="status_bar_notification_ticker_text_google_voice_missed_call" formatted="false">Novo Google Voice Chamada Não Atendida de %s - %s</string>
-  <string name="status_bar_notification_ticker_text_unknown_contact_google_voice_missed_call" formatted="false">Novo Google Voice Chamadas Não Atendidas - %s</string>
+  <string name="status_bar_notification_ticker_text_google_voice_missed_call" formatted="false">Nova chamada perdida do Google Voice de %s - %s</string>
+  <string name="status_bar_notification_ticker_text_unknown_contact_google_voice_missed_call" formatted="false">Nova chamada Google Voice perdida - %s</string>
   <string name="status_bar_notification_ticker_text_google_voice_missed_call_null" formatted="false">Novo Google Voice Chamada Perdida.</string>
   <string name="clear_status_bar_notifications_on_exit_title">Limpar as notificações ao sair</string>
   <string name="clear_status_bar_notifications_on_exit_summaryOn">Notificações da barra de status serão removidas quando as notificações popup são lidas.</string>
@@ -838,8 +851,9 @@
   <string name="size_30_text">Tamanho 30</string>
   <string name="sms_gateway_sprint_text">(EUA) Sprint PCS / Virgin-Mobile</string>
   <string name="sms_gateway_tmobile_text">(EUA) T-Mobile</string>
-  <string name="sms_gateway_att_text">(EUA) AT</string>
-  <string name="sms_gateway_att_b_text">(EUA) AT [alternativa]</string>
+  <string name="sms_gateway_att_text">(EUA) AT&amp;T</string>
+  <string name="sms_gateway_att_b_text">(EUA) AT&amp;T [alternativa]</string>
+  <string name="sms_gateway_verizon_text">(EUA) Verizon</string>
   <string name="sms_gateway_aql_text">(Reino Unido) AQL</string>
   <string name="sms_gateway_aql_b_text">(Reino Unido) AQL [alternativa]</string>
   <string name="sms_gateway_tmobile_b_text">(Croácia) T-Mobile.</string>
@@ -904,6 +918,7 @@
   <string name="fbm_for_facebook">FBM para Facebook</string>
   <string name="friendCaster_for_facebook">FriendCaster para Facebook</string>
   <string name="friendCaster_pro_for_facebook">FriendCaster Pro para Facebook</string>
+  <string name="facebook_stream">Facebook Stream</string>
   <string name="google_voice_web_mobile">Google Voice Web (https://www.google.com/voice/m/)</string>
   <string name="droid_notify_plus">Droid Notify Plus</string>
   <string name="download_now">Baixar Agora</string>
@@ -913,13 +928,15 @@
   <string name="reset_app_preferences_summary">Repor as preferências de app para suas configurações padrão.</string>
   <string name="resetting_preferences">Redefinir preferências…</string>
   <string name="preferences_reset">As preferências foram redefinidas.</string>
-  <string name="confirm_reset_app_preferences">Isto irá remover todas as preferências do usuário armazenados para este aplicativo.</string>
+  <string name="confirm_reset_app_preferences">Isto irá remover todas as preferências do usuário salvas para este aplicativo.</string>
   <string name="more_options">Mais Opções</string>
   <string name="more_missed_call_options_description">Você está procurando mais opções de chamadas perdidas?</string>
   <string name="missed_call_messenger_description">&lt;b&gt;Missed Call Messenger&lt;/b&gt; é um app que irá enviar uma mensagem para você quando você perde uma chamada de telefone, bem como enviar uma resposta de volta para o chamador automaticamente.&lt;br/&gt;&lt;br/&gt;Baixar este app gratuitamente e experimentá-lo hoje!</string>
-  <string name="poll_wifi_cell_service_connected">Poll Quando Wifi/Celular Conectado</string>
-  <string name="poll_wifi_cell_service_connected_summary">Enquete esta conta quando está ligado um sinal wifi ou um sinal de celular é ligado.</string>
-  <string name="custom_contacts_shortcut_name">Notificar Contatos Personalizados</string>
-  <string name="blacklist_shortcut_name">Notificar Lista Negra</string>
+  <string name="poll_wifi_cell_service_connected">Perguntar Quando Conectar Wifi/Celular</string>
+  <string name="poll_wifi_cell_service_connected_summary">Consultar esta conta quando estiver ligado em WiFi ou dados móveis.</string>
+  <string name="custom_contacts_shortcut_name">Contatos Personalizados</string>
+  <string name="blacklist_shortcut_name">Lista Negra</string>
   <string name="contacts">Contatos</string>
+  <string name="enable_emoticons">Habilitar Emoticons</string>
+  <string name="enable_emoticons_summary">Exibir emoticons no corpo das notificações de mensagem.</string>
 </resources>

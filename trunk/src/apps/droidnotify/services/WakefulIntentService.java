@@ -30,12 +30,6 @@ abstract public class WakefulIntentService extends IntentService {
 	abstract protected void doWakefulWork(Intent intent);
 
 	//================================================================================
-    // Properties
-    //================================================================================
-	
-	private static boolean _debug = false;
-
-	//================================================================================
 	// Constructors
 	//================================================================================
 	
@@ -44,10 +38,8 @@ abstract public class WakefulIntentService extends IntentService {
 	 * 
 	 * @param name - String name of the service.
 	 */
-	public WakefulIntentService(String name) {
+	public WakefulIntentService(String name){
 		super(name);
-		_debug = Log.getDebug();
-		if(_debug) Log.v("WakefulIntentService.WakefulIntentService()");
 	    setIntentRedelivery(true);
 	}
 
@@ -61,8 +53,7 @@ abstract public class WakefulIntentService extends IntentService {
 	 * @param context - Application Context.
 	 * @param intent - Intent object that we are working with.
 	 */
-	public static void sendWakefulWork(Context context, Intent intent) {
-		if(_debug) Log.v("WakefulIntentService.sendWakefulWork()");
+	public static void sendWakefulWork(Context context, Intent intent){
 		Common.acquirePartialWakeLock(context);
 		context.startService(intent);
 	}
@@ -73,8 +64,7 @@ abstract public class WakefulIntentService extends IntentService {
 	 * @param context - Application Context.
 	 * @param clsService
 	 */
-	public static void sendWakefulWork(Context context, Class<?> clsService) {
-		if(_debug) Log.v("WakefulIntentService.sendWakefulWork()");
+	public static void sendWakefulWork(Context context, Class<?> clsService){
 		sendWakefulWork(context, new Intent(context, clsService));
 	}
 	
@@ -86,9 +76,8 @@ abstract public class WakefulIntentService extends IntentService {
 	 * @param intent - Intent object that we are working with.
 	 */
 	@Override
-	public int onStartCommand(Intent intent, int flags, int startId) {
-		if(_debug) Log.v("WakefulIntentService.onStartCommand()");
-		if ((flags & START_FLAG_REDELIVERY) != 0) { // if crash restart...
+	public int onStartCommand(Intent intent, int flags, int startId){
+		if ((flags & START_FLAG_REDELIVERY) != 0){ // if crash restart...
 			Common.acquirePartialWakeLock(this.getApplicationContext());  // ...then quick grab the lock
 	    }
 	    super.onStartCommand(intent, flags, startId);
@@ -105,12 +94,11 @@ abstract public class WakefulIntentService extends IntentService {
 	 * @param intent - Intent object that we are working with.
 	 */
 	@Override
-	final protected void onHandleIntent(Intent intent) {
-		if(_debug) Log.v("WakefulIntentService.onHandleIntent()");
-		try {
+	final protected void onHandleIntent(Intent intent){
+		try{
 			doWakefulWork(intent);
 		}catch(Exception ex){
-			if(_debug) Log.e("WakefulIntentService.onHandleIntent() ERROR: " + ex.toString());
+			Log.e("WakefulIntentService.onHandleIntent() ERROR: " + ex.toString());
 		}finally {
 			if(!Common.isFullWakelockInUse()){
 				Common.clearWakeLock();

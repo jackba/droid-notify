@@ -3,8 +3,7 @@
     <color name="blue">#ff31b6ef</color>
     <color name="grey">#ff808080</color>
 	<color name="white">#ffffffff</color>
-    <color name="black">#ff000000</color>
-	
+    <color name="black">#ff000000</color>	
 	<color name="transparent">#00000000</color>
 	<color name="text_color">#ffffffff</color>
 	<color name="notification_count_text_color">#ffffffff</color>
@@ -16,5 +15,7 @@
 	<color name="list_selector_text_color">#ffffffff</color>
 	<color name="list_selector_transition_text_color">#ff000000</color>
 	<color name="quick_reply_text_color">#ffffffff</color>
-	<color name="spinner_text_color">#ffffffff</color>
+	<color name="spinner_text_color">#ffffffff</color>	
+	<color name="contact_photo_background_htc_green">#ff73ab00</color>
+	<color name="contact_photo_background_ics_blue">#ff33B5E5</color>
 </resources>

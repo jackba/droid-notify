@@ -7,7 +7,7 @@
     android:layout_width="match_parent" 
     android:gravity="center_vertical|fill_horizontal">
 	<RelativeLayout
-	    android:id="@+id/header_navigation"
+	    android:id="@+id/header_relative_layout"
 	    android:layout_height="wrap_content"
 	    android:layout_width="match_parent"
 	    android:gravity="center"
@@ -66,7 +66,7 @@
 		 </LinearLayout>	
 	</RelativeLayout>
 	<LinearLayout
-		android:id="@+id/contact_main_linear_layout"
+		android:id="@+id/body_linear_layout"
 		android:orientation="vertical"
 		android:layout_height="wrap_content"
 		android:layout_width="match_parent"
@@ -161,6 +161,7 @@
 			android:gravity="left" 
 			android:autoLink="all"
 			android:scrollbars="vertical"
+			android:maxLines = "5"
 			android:padding="5dp" 
 			android:selectAllOnFocus="true"/>
 		<TextView
@@ -201,50 +202,52 @@
 		        android:nextFocusUp="@+id/calendar_snooze_spinner"
 		        android:nextFocusLeft="@+id/calendar_snooze_spinner" />
 		</LinearLayout>
-	</LinearLayout>
-	<LinearLayout
-	    android:id="@+id/quickreply_linear_layout"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content" 
-		android:padding="2dp">
-		<ImageButton
-		    android:id="@+id/stt_image_button"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:layout_gravity="center_vertical"
-		    android:background="@drawable/transparent"
-		    android:gravity="center_vertical|center_horizontal"
-		    android:hapticFeedbackEnabled="true"
-		    android:src="@drawable/ic_stt"
-	        android:nextFocusDown="@+id/message_edit_text"
-	        android:nextFocusRight="@+id/message_edit_text"
-	        android:nextFocusForward="@+id/message_edit_text" />
-		<EditText 
-			android:id="@+id/message_edit_text"
-			android:layout_height="wrap_content"
-		    android:layout_width="0dp"
-		    android:layout_weight="1"
-			android:inputType="textShortMessage|textAutoCorrect|textCapSentences|textMultiLine"
-			android:imeOptions="actionSend|flagNoEnterAction"
-			android:hint="@string/type_to_compose"
-			android:gravity="left|top"
-	        android:nextFocusDown="@+id/send_image_button"
-	        android:nextFocusRight="@+id/send_image_button"
-	        android:nextFocusUp="@+id/stt_image_button"
-	        android:nextFocusLeft="@+id/stt_image_button"
-	        android:nextFocusForward="@+id/send_image_button" />
-		<ImageButton
-		    android:id="@+id/send_image_button"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:layout_gravity="center_vertical"
-		    android:background="@drawable/transparent"
-		    android:gravity="center_vertical|center_horizontal"
-		    android:hapticFeedbackEnabled="true"
-		    android:padding="5dp"
-		    android:src="@drawable/ic_send"
-	        android:nextFocusUp="@+id/message_edit_text"
-	        android:nextFocusLeft="@+id/message_edit_text" />
+		<LinearLayout
+		    android:id="@+id/quickreply_linear_layout"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content" 
+			android:padding="2dp">
+			<ImageButton
+			    android:id="@+id/stt_image_button"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_gravity="center_vertical"
+			    android:background="@drawable/transparent"
+			    android:gravity="center_vertical|center_horizontal"
+			    android:hapticFeedbackEnabled="true"
+			    android:src="@drawable/ic_stt"
+		        android:nextFocusDown="@+id/message_edit_text"
+		        android:nextFocusRight="@+id/message_edit_text"
+		        android:nextFocusForward="@+id/message_edit_text" />
+			<EditText 
+				android:id="@+id/message_edit_text"
+				android:layout_height="wrap_content"
+			    android:layout_width="0dp"
+			    android:layout_weight="1"
+				android:inputType="textShortMessage|textAutoCorrect|textCapSentences|textMultiLine"
+				android:imeOptions="actionSend|flagNoEnterAction"
+				android:hint="@string/type_to_compose"
+				android:gravity="left|top"
+				android:scrollbars="vertical"
+				android:maxLines = "4"
+		        android:nextFocusDown="@+id/send_image_button"
+		        android:nextFocusRight="@+id/send_image_button"
+		        android:nextFocusUp="@+id/stt_image_button"
+		        android:nextFocusLeft="@+id/stt_image_button"
+		        android:nextFocusForward="@+id/send_image_button" />
+			<ImageButton
+			    android:id="@+id/send_image_button"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_gravity="center_vertical"
+			    android:background="@drawable/transparent"
+			    android:gravity="center_vertical|center_horizontal"
+			    android:hapticFeedbackEnabled="true"
+			    android:padding="5dp"
+			    android:src="@drawable/ic_send"
+		        android:nextFocusUp="@+id/message_edit_text"
+		        android:nextFocusLeft="@+id/message_edit_text" />
+		</LinearLayout>	
 	</LinearLayout>
 	<LinearLayout 
 		android:id="@+id/button_linear_layout" 

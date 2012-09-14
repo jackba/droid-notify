@@ -11,10 +11,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.content.res.Resources.NotFoundException;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
@@ -43,6 +45,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.view.MotionEvent;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.inputmethod.InputMethodManager;
 
 import apps.droidnotify.calendar.CalendarCommon;
@@ -127,6 +130,8 @@ public class NotificationView extends LinearLayout {
 	
 	private ImageButton _sttImageButton = null;
 	private ImageButton _sendImageButton = null;
+	
+	boolean _softKeyboardOnScreen = false;
 
 	//================================================================================
 	// Constructors
@@ -180,6 +185,7 @@ public class NotificationView extends LinearLayout {
 		    setupViewHeaderButtons();
 		    setupViewButtons();
 		    populateViewInfo();
+		    setKeyboardListener();
 	    }catch(Exception ex){
 	    	Log.e("NotificationView.NotificationView() ERROR: " + ex.toString());
 	    }
@@ -232,6 +238,18 @@ public class NotificationView extends LinearLayout {
 			Log.e("NotificationView.setQuickReplyText() ERROR: " + ex.toString());
 		}
 	}
+
+  	/**
+  	 * Set the max lines property of the notification.
+  	 */
+  	public void setNotificationBodyMaxLines(int maxLines){
+		try{
+			_notificationDetailsTextView.setMaxLines(maxLines);
+    		_notificationDetailsTextView.setMovementMethod(new ScrollingMovementMethod());
+  		}catch(Exception ex){
+  			Log.e("NotificationView.setNotificationBodyMaxLines() ERROR: " + ex.toString());
+  		}
+  	}
 
 	//================================================================================
 	// Private Methods
@@ -290,8 +308,6 @@ public class NotificationView extends LinearLayout {
 		_messageEditText = (EditText) findViewById(R.id.message_edit_text);
 		_sttImageButton  = (ImageButton) findViewById(R.id.stt_image_button);
 		_sendImageButton  = (ImageButton) findViewById(R.id.send_image_button);
-
-		_notificationDetailsTextView.setMovementMethod(new ScrollingMovementMethod());
 	    
 		_notificationViewFlipper = _notificationActivity.getNotificationViewFlipper();
 	}
@@ -891,6 +907,12 @@ public class NotificationView extends LinearLayout {
 					_callButton.setTypeface(null, Typeface.BOLD);
 					_replyButton.setTypeface(null, Typeface.BOLD);
 					_viewButton.setTypeface(null, Typeface.BOLD);
+				}else{
+					_dismissButton.setTypeface(null, Typeface.NORMAL);
+					_deleteButton.setTypeface(null, Typeface.NORMAL);
+					_callButton.setTypeface(null, Typeface.NORMAL);
+					_replyButton.setTypeface(null, Typeface.NORMAL);
+					_viewButton.setTypeface(null, Typeface.NORMAL);
 				}
 			}
 			//Setup the views buttons based on the notification type.
@@ -1773,13 +1795,13 @@ public class NotificationView extends LinearLayout {
 			_notificationDetailsTextView.setVisibility(View.VISIBLE);
 		    //Load the notification message.
 		    setNotificationMessage();
+			//Set the max lines property of the notification body.
+			setNotificationBodyMaxLines(Integer.parseInt(_preferences.getString(Constants.NOTIFICATION_BODY_MAX_LINES_KEY, Constants.NOTIFICATION_BODY_MAX_LINES_DEFAULT)));
+			//Set the font size property of the notification body.
+			_notificationDetailsTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, Float.parseFloat(_preferences.getString(Constants.NOTIFICATION_BODY_FONT_SIZE_KEY, Constants.NOTIFICATION_BODY_FONT_SIZE_DEFAULT)));
 		}else{
 			_notificationDetailsTextView.setVisibility(View.GONE);
 		}
-		//Set the max lines property of the notification body.
-		_notificationDetailsTextView.setMaxLines(Integer.parseInt(_preferences.getString(Constants.NOTIFICATION_BODY_MAX_LINES_KEY, Constants.NOTIFICATION_BODY_MAX_LINES_DEFAULT)));
-		//Set the font size property of the notification body.
-		_notificationDetailsTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, Float.parseFloat(_preferences.getString(Constants.NOTIFICATION_BODY_FONT_SIZE_KEY, Constants.NOTIFICATION_BODY_FONT_SIZE_DEFAULT)));
 	    // Set from, number, message etc. views.
 		if(_notificationType == Constants.NOTIFICATION_TYPE_CALENDAR){
 			_contactNameTextView.setText(notificationTitle);
@@ -1823,6 +1845,11 @@ public class NotificationView extends LinearLayout {
 				_contactNameTextView.setText(contactName);
 				_contactNameTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, Float.parseFloat(_preferences.getString(Constants.CONTACT_NAME_SIZE_KEY, Constants.CONTACT_NAME_SIZE_DEFAULT)));
 				_contactNameTextView.setVisibility(View.VISIBLE);
+				if(_preferences.getBoolean(Constants.CONTACT_NAME_BOLD_KEY, false)){
+					_contactNameTextView.setTypeface(null, Typeface.BOLD);
+			    }else{
+			    	_contactNameTextView.setTypeface(null, Typeface.NORMAL);
+			    }
 			}else{
 				_contactNameTextView.setVisibility(View.GONE);
 			}
@@ -1850,7 +1877,12 @@ public class NotificationView extends LinearLayout {
 			}
 			if(displayContactNumber){
 			    _contactNumberTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, Float.parseFloat(_preferences.getString(Constants.CONTACT_NUMBER_SIZE_KEY, Constants.CONTACT_NUMBER_SIZE_DEFAULT)));
-				_contactNumberTextView.setVisibility(View.VISIBLE);
+				_contactNumberTextView.setVisibility(View.VISIBLE);	
+				if(_preferences.getBoolean(Constants.CONTACT_NUMBER_BOLD_KEY, false)){
+					_contactNumberTextView.setTypeface(null, Typeface.BOLD);
+			    }else{
+			    	_contactNumberTextView.setTypeface(null, Typeface.NORMAL);
+			    }
 			}else{
 				_contactNumberTextView.setVisibility(View.GONE);
 			}
@@ -1864,6 +1896,18 @@ public class NotificationView extends LinearLayout {
 					_photoImageView.setBackgroundResource(R.drawable.quickcontact_badge_gingerbread);
 				}else if(contactPhotoBackground == 3){
 					_photoImageView.setBackgroundResource(R.drawable.quickcontact_badge_blue_steel);
+				}else if(contactPhotoBackground == 4){
+					_photoImageView.setBackgroundResource(R.drawable.contact_photo_background_ics_blue);
+					_photoImageView.setPadding(2, 2, 2, 2);
+					LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+					layoutParams.setMargins(5, 5, 5, 5);
+					_photoImageView.setLayoutParams(layoutParams);
+				}else if(contactPhotoBackground == 5){
+					_photoImageView.setBackgroundResource(R.drawable.contact_photo_background_htc_green);
+					_photoImageView.setPadding(2, 2, 2, 2);
+					LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+					layoutParams.setMargins(5, 5, 5, 5);
+					_photoImageView.setLayoutParams(layoutParams);
 				}else{
 					_photoImageView.setBackgroundResource(R.drawable.quickcontact_badge_white);
 				}
@@ -2094,6 +2138,11 @@ public class NotificationView extends LinearLayout {
 				notificationInfoAlignment = Gravity.LEFT;
 			}
 		    _notificationInfoLinearLayout.setGravity(notificationInfoAlignment);
+		    if(_preferences.getBoolean(Constants.NOTIFICATION_TYPE_INFO_BOLD_KEY, false)){
+		    	_notificationInfoTextView.setTypeface(null, Typeface.BOLD);
+		    }else{
+		    	_notificationInfoTextView.setTypeface(null, Typeface.NORMAL);
+		    }
 	    }else{
 	    	_notificationInfoLinearLayout.setVisibility(View.GONE);
 	    }
@@ -2711,6 +2760,84 @@ public class NotificationView extends LinearLayout {
 	private void hideSoftKeyboard(){
 		InputMethodManager inputMethodManager = (InputMethodManager) _context.getSystemService(Context.INPUT_METHOD_SERVICE);
 		inputMethodManager.hideSoftInputFromWindow(_messageEditText.getWindowToken(), 0);
+	}
+	
+	/**
+	 * Sets a listener to global layout changes to determine if the soft keyboard has been shown or not.
+	 */
+	private void setKeyboardListener(){
+		switch(_notificationType){
+			case Constants.NOTIFICATION_TYPE_PHONE:{
+				return;
+			}
+			case Constants.NOTIFICATION_TYPE_SMS:{
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_MMS:{
+				break;
+			}
+			case Constants.NOTIFICATION_TYPE_CALENDAR:{
+				return;
+			}
+			case Constants.NOTIFICATION_TYPE_K9:{
+				return;
+			}
+			case Constants.NOTIFICATION_TYPE_GENERIC:{
+				return;
+			}
+			default:{
+				return;
+			}
+		}
+		boolean quickReplyEnabled = _preferences.getBoolean(Constants.QUICK_REPLY_ENABLED_KEY, false);
+		boolean smsQuickReplyEnabled = _preferences.getBoolean(Constants.SMS_QUICK_REPLY_ENABLED_KEY, false);
+		if(quickReplyEnabled || smsQuickReplyEnabled){
+			_notificationWindowLinearLayout.getViewTreeObserver().addOnGlobalLayoutListener( new OnGlobalLayoutListener(){
+			    public void onGlobalLayout(){
+		        	int phoneOrientation = getResources().getConfiguration().orientation;
+		        	int maxLines = 5;
+			    	Rect viewableRectangle = new Rect();
+			    	_notificationWindowLinearLayout.getWindowVisibleDisplayFrame(viewableRectangle);
+			    	int viewableRectangleHeight = viewableRectangle.bottom - viewableRectangle.top;
+			    	int notificationHeight = _notificationWindowLinearLayout.getRootView().getHeight();			        	
+		        	//if (_debug) Log.v("viewableRectangle.height(): " + viewableRectangleHeight);
+		        	//if (_debug) Log.v("_notificationOriginalHeight: " + notificationHeight);
+			        if (notificationHeight - viewableRectangleHeight > 200){
+			        	if(!_softKeyboardOnScreen){
+			        		_softKeyboardOnScreen = true;			        	
+				        	//if (_debug) Log.v("NotificationView - KEYBOARD IS ON SCREEN!");
+				        	maxLines = 5;
+				        	if(phoneOrientation != Configuration.ORIENTATION_LANDSCAPE){
+					        	_contactLinearLayout.setVisibility(View.GONE);
+								_buttonLinearLayout.setVisibility(View.GONE);
+							    _imageButtonLinearLayout.setVisibility(View.GONE);
+				        	}
+				        	setNotificationBodyMaxLines(maxLines);
+			        	}
+			        }else{
+			        	if(_softKeyboardOnScreen){
+			        		_softKeyboardOnScreen = false;
+				        	//if (_debug) Log.v("NotificationView - KEYBOARD IS NOT ON SCREEN!");			        	
+				        	maxLines = Integer.parseInt(_preferences.getString(Constants.NOTIFICATION_BODY_MAX_LINES_KEY, Constants.NOTIFICATION_BODY_MAX_LINES_DEFAULT));
+				    	    if(phoneOrientation == Configuration.ORIENTATION_LANDSCAPE){
+				    	    	if(maxLines > 2) maxLines = maxLines / 2;
+				            }else{
+					        	_contactLinearLayout.setVisibility(View.VISIBLE);	
+					    		String buttonDisplayStyle = _preferences.getString(Constants.BUTTON_DISPLAY_STYLE_KEY, Constants.BUTTON_DISPLAY_STYLE_DEFAULT);
+					    		if(buttonDisplayStyle.equals(Constants.BUTTON_DISPLAY_ICON_ONLY)){
+									_buttonLinearLayout.setVisibility(View.GONE);
+							    	_imageButtonLinearLayout.setVisibility(View.VISIBLE);
+								}else{
+									_buttonLinearLayout.setVisibility(View.VISIBLE);
+							    	_imageButtonLinearLayout.setVisibility(View.GONE);
+								}
+				            }
+				        	setNotificationBodyMaxLines(maxLines);
+			        	}
+			        }
+			     }
+			});
+		}
 	}
 	
 }

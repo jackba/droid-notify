@@ -631,7 +631,7 @@ public class Common {
 					ENABLED_KEY = Constants.SMS_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY;
 					if(notificationTypeCount == 1){
 						contentTitle = context.getText(R.string.status_bar_notification_content_title_text_sms);
-						if(sentFromContactName == null || sentFromContactName.equals("")){
+						if(sentFromContactName == null || sentFromContactName.equals("") || sentFromContactName.equals(_context.getString(android.R.string.unknownName))){
 							if(sentFromAddress.contains("@")){
 								sentFrom = sentFromAddress;
 							}else{
@@ -687,7 +687,7 @@ public class Common {
 					ENABLED_KEY = Constants.SMS_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY;
 					if(notificationTypeCount == 1){
 						contentTitle = context.getText(R.string.status_bar_notification_content_title_text_sms);
-						if(sentFromContactName == null || sentFromContactName.equals("")){
+						if(sentFromContactName == null || sentFromContactName.equals("") || sentFromContactName.equals(_context.getString(android.R.string.unknownName))){
 							if(sentFromAddress.contains("@")){
 								sentFrom = sentFromAddress;
 							}else{
@@ -743,7 +743,7 @@ public class Common {
 					ENABLED_KEY = Constants.PHONE_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY;
 					if(notificationTypeCount == 1){
 						contentTitle = context.getText(R.string.status_bar_notification_content_title_text_phone);
-						if(sentFromContactName == null || sentFromContactName.equals("")){
+						if(sentFromContactName == null || sentFromContactName.equals("") || sentFromContactName.equals(_context.getString(android.R.string.unknownName))){
 							sentFrom = PhoneCommon.formatPhoneNumber(context, sentFromAddress);
 						}else{
 							sentFrom = sentFromContactName;
@@ -822,7 +822,7 @@ public class Common {
 					ENABLED_KEY = Constants.K9_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY;
 					if(notificationTypeCount == 1){
 						contentTitle = context.getText(R.string.status_bar_notification_content_title_text_email);
-						if(sentFromContactName == null || sentFromContactName.equals("")){
+						if(sentFromContactName == null || sentFromContactName.equals("") || sentFromContactName.equals(_context.getString(android.R.string.unknownName))){
 							sentFrom = sentFromAddress;
 						}else{
 							sentFrom = sentFromContactName;

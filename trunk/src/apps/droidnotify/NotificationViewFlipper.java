@@ -352,8 +352,10 @@ public class NotificationViewFlipper extends ViewFlipper {
 				//Cancel the reminder.
 				Notification currentNotification = ((NotificationView) this.getChildAt(i)).getNotification();
 				currentNotification.cancelReminder();
-				//Remove the notification.
-				removeActiveNotification(false);
+				//Set the notification as being viewed.
+				currentNotification.setViewed(true);
+				//Clear all the status bar notifications.
+				Common.clearAllNotifications(_context);
 			}
   		}catch(Exception ex){
   			Log.e("NotificationViewFlipper.dismissAllNotifications() ERROR: " + ex.toString());
@@ -379,13 +381,28 @@ public class NotificationViewFlipper extends ViewFlipper {
   	 * @param recognizedTextResults - An array of strings of the text that was returned from the voice recognizer.
   	 */
   	public void setQuickReplyText(ArrayList<String> recognizedTextResults){
-  		if (_debug) Log.v("NotificationViewFlipper.setQuickReplyText()");
   		try{
   			NotificationView currentView = (NotificationView) getCurrentView();
 	  		currentView.setQuickReplyText(recognizedTextResults);
   		}catch(Exception ex){
 			Log.e("NotificationViewFlipper.setQuickReplyText() ERROR: " + ex.toString());
 		}
+  	}
+
+  	/**
+  	 * Set the max lines property for each notification.
+  	 */
+  	public void setNotificationBodyMaxLines(int maxLines){
+		try{
+			int totalNotifications = this.getChildCount();
+			for (int i=0; i<totalNotifications; i++){
+				//Cancel the reminder.
+				NotificationView currentNotificationView = (NotificationView) this.getChildAt(i);
+				currentNotificationView.setNotificationBodyMaxLines(maxLines);
+			}
+  		}catch(Exception ex){
+  			Log.e("NotificationViewFlipper.setNotificationBodyMaxLines() ERROR: " + ex.toString());
+  		}
   	}
   	
 	//================================================================================

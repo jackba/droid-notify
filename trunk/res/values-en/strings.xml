@@ -56,7 +56,6 @@
     <string name="app_android_calendar_app_error">The Android Calendar application could not be started.</string>
     <string name="app_android_email_app_error">The Android Email application could not be started.</string>
     <string name="app_android_contacts_app_error">The Android Contacts application could not be started.</string>
-    <string name="app_android_quick_reply_app_error">The Quick Reply application could not be started.</string>
     <string name="app_android_rate_app_error">The Web application could not be started.</string>
     <string name="app_android_message_not_found_error">The selected message could not be found.</string>
     <string name="app_android_phone_number_format_error">The phone number does not appear to be valid. Dialing number failed.</string>
@@ -80,7 +79,6 @@
     <string name="twitter_app_not_found_error">The Twitter application could not be found. Try selecting a different preferred Twitter client.</string>
     <string name="facebook_app_error">The Facebook application could not be started.</string>
     <string name="facebook_app_not_found_error">The Facebook application could not be found. Try selecting a different preferred Facebook client.</string>
-    <string name="app_quick_reply_address_error">The quick reply address does not appear to be valid. Quick Reply launch failed.</string>
     <string name="twitter_send_direct_mesage_error">The Twitter Direct Message could not be sent.</string>
     <string name="twitter_send_tweet_error">The Tweet/Status Update could not be sent.</string>
     <string name="not_online_error">The application cannot gain online access at this time. Please try again later.</string>
@@ -188,14 +186,7 @@
     <string name="quick_reply_category">QUICK REPLY</string>
     <string name="quick_reply_settings">Quick Reply Settings</string>
     <string name="quick_reply">Quick Reply</string>
-   	<string name="phone_number_error_text">Please enter a number to send the message to.</string>
-   	<string name="address_error_text">Please enter an address to send the message to.</string>
-   	<string name="message_error_text">Please enter a message to send.</string>
    	<string name="draft_saved_text">Message saved as draft.</string>
-   	<string name="preference_quick_reply_blur_screen_background_enabled_summaryOn">The background of the screen will blur when the quick reply window is shown.</string>
-   	<string name="preference_quick_reply_blur_screen_background_enabled_summaryOff">The background of the screen will not blur when the quick reply window is shown.</string>
-   	<string name="preference_quick_reply_dim_screen_background_enabled_summaryOn">The background of the screen will dim when the quick reply window is shown.</string>
-   	<string name="preference_quick_reply_dim_screen_background_enabled_summaryOff">The background of the screen will not dim when the quick reply window is shown.</string>
     <string name="preference_save_draft_enabled_title">Save Draft</string>
    	<string name="preference_save_draft_enabled_summaryOn">A draft of the message will be saved if the message is not sent.</string>
    	<string name="preference_save_draft_enabled_summaryOff">A draft of the message will not be saved.</string>
@@ -203,7 +194,13 @@
    	<string name="preference_quick_reply_sms_gateway_summary">Select your service provider from this list. If you can\'t find it you won\'t be able to send SMS messages to Email address\'s with the built in Quick Reply.</string>
 	<string name="enable_quick_reply">Enable Quick Reply</string>
    	<string name="enable_quick_reply_summary">Displays a quick reply box in the notification.</string> 
-   	<string name="type_to_compose">Type to compose</string> 
+   	<string name="type_to_compose">Type to compose</string>   	
+   	<string name="send_delivery_reports">Send Delivery Reports</string>
+   	<string name="send_delivery_reports_summary">Send a delivery report for each message that is sent via quick reply.</string>   	
+   	<string name="insert_signature">Insert Signature</string>
+   	<string name="insert_signature_summary">Insert a signature at the end of the message when sent via quick reply.</string>
+   	<string name="signature">Signature</string>
+   	<string name="quick_reply_default_signature">-Sent via Droid Notify for Android</string>
    	
     <!-- Blacklist Strings -->
     <string name="blacklist_category">BLACKLIST</string> 
@@ -298,19 +295,33 @@
    	
   	<!-- Notification Header Strings -->
     <string name="preference_notification_type_info_icon_enabled_title">Display Type Icon</string>
-   	<string name="preference_notification_type_info_icon_enabled_summary">The notification type icon is the icon to thr right of the contact photo.</string>
+   	<string name="preference_notification_type_info_icon_enabled_summary">The notification type icon is the icon to the right of the contact photo.</string>
+    <string name="display_notification_type_info">Display Notification Type Info</string>
+   	<string name="display_notification_type_info_summary">The notification type info is the text information under the notification count.</string>
    	<string name="preference_notification_type_info_size">Type Font Size</string>
-   	<string name="preference_notification_type_info_size_summary">Select the font size of the notification type information text.</string>
+   	<string name="preference_notification_type_info_size_summary">Select the font size of the notification type information text.</string>  
+    <string name="center_align_notification_type_info">Center Align Notification Type Info</string>
+   	<string name="center_align_notification_type_info_summary">Center align the notification type info in the notification header.</string>  
+    <string name="bold_notification_type_info">Bold Notification Type Info</string>
+   	<string name="bold_notification_type_info_summary">Bold the notification type info in the notification header.</string>
    	<string name="preference_display_contact_photo_title">Display Contact Photo</string>
    	<string name="preference_display_contact_photo_summary">Show a contact photo for certain notifications.</string>
    	<string name="preference_display_contact_name_title">Display Contact Name</string>
-   	<string name="preference_display_contact_name_summary">Display the contact name in the notification header.</string>   	
+   	<string name="preference_display_contact_name_summary">Display the contact name in the notification header.</string>  
+    <string name="center_align_contact_name">Center Align Contact Name</string>
+   	<string name="center_align_contact_name_summary">Center align the contact name in the notification header.</string>
+    <string name="bold_contact_name">Bold Contact Name</string>
+   	<string name="bold_contact_name_summary">Bold the contact name text.</string>
    	<string name="preference_hide_unknown_contact_name_title">Hide Unknown Contact Name</string>
    	<string name="preference_hide_unknown_contact_name_summary">Hide the contact name if it is unknown.</string>   	
    	<string name="preference_contact_name_font_size_title">Contact Name Font Size</string>
    	<string name="preference_contact_name_font_size_summary">Select the font size of the contact name text.</string>
    	<string name="preference_display_contact_number_title">Display Contact Number</string>
-   	<string name="preference_display_contact_number_summary">Display the contact number in the notification header.</string>
+   	<string name="preference_display_contact_number_summary">Display the contact number in the notification header.</string>  
+    <string name="center_align_contact_number">Center Align Contact Number</string>
+   	<string name="center_align_contact_number_summary">Center align the contact number in the notification header.</string>
+    <string name="bold_contact_number">Bold Contact Number</string>
+   	<string name="bold_contact_number_summary">Bold the contact number text.</string>
    	<string name="preference_contact_number_font_size_title">Contact Number Font Size</string>
    	<string name="preference_contact_number_font_size_summary">Select the font size of the contact number text.</string> 
    	<string name="preference_display_unknown_contact_number_title">Display Unknown Contact Number</string>
@@ -329,13 +340,13 @@
    	<string name="preference_notification_body_font_size_title">Notification Body Font Size</string>
    	<string name="preference_notification_body_font_size_summary">Select the font size you want to use when when displaying the notification body.</string>
 	<string name="preference_display_notification_body_title">Display Notification Body</string>
-    <string name="preference_display_notification_body_summary">Display the notification body in the popup.</string>
-    
+    <string name="preference_display_notification_body_summary">Display the notification body in the popup.</string>    
 	<string name="hide_notification_body_title">Hide Notification Body</string>
 	<string name="hide_notification_body_summary">Do not display the notification body in the popup.</string>
-	
    	<string name="preference_notification_body_max_lines_title">Notification Body Max Lines</string>
    	<string name="preference_notification_body_max_lines_summary">Select the maximum lines that will display in the notification body.</string>
+   	<string name="bold_notification_body">Bold Notification Body</string>
+   	<string name="bold_notification_body_summary">Bold the notification body text.</string>
 
    	<!-- SMS Strings -->
     <string name="sms_category">SMS</string>
@@ -1078,6 +1089,7 @@
 	<string name="sms_gateway_tmobile_text">(USA) T-Mobile</string>
 	<string name="sms_gateway_att_text">(USA) AT&amp;T</string>
 	<string name="sms_gateway_att_b_text">(USA) AT&amp;T [alternate]</string>
+	<string name="sms_gateway_verizon_text">(USA) Verizon</string>
 	<string name="sms_gateway_aql_text">(UK) AQL</string>
 	<string name="sms_gateway_aql_b_text">(UK) AQL [alternate]</string>
 	<string name="sms_gateway_tmobile_b_text">(Croatia) T-Mobile</string>
@@ -1154,6 +1166,7 @@
 	<string name="fbm_for_facebook">FBM for Facebook</string>
 	<string name="friendCaster_for_facebook">FriendCaster for Facebook</string>
 	<string name="friendCaster_pro_for_facebook">FriendCaster Pro for Facebook</string>
+	<string name="facebook_stream">Facebook Stream</string>
 	
 	<!-- Google Voice Client Names Strings --> 
 	<string name="google_voice_web_mobile">Google Voice Web (https://www.google.com/voice/m/)</string>
@@ -1184,5 +1197,9 @@
 	<string name="custom_contacts_shortcut_name">Notify Custom Contacts</string>
 	<string name="blacklist_shortcut_name">Notify Blacklist</string>
 	<string name="contacts">Contacts</string>
+	
+	<!-- Emoticon Strings -->	
+	<string name="enable_emoticons">Enable Emoticons</string>
+	<string name="enable_emoticons_summary">Display emoticons in the message body of notifications.</string>
 	
 </resources>
