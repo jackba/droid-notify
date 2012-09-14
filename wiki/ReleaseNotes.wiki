@@ -3,10 +3,13 @@
 
 = Release Notes =
 
+*v3.21* _Coming Soon..._
+ * 
+
 *v3.20* _Coming Soon..._
  * 
 
-*v3.19* _Coming Soon..._
+*v3.19* (September 14, 2012)
  * Added a few small customization options.
  * Updated the Quick Reply feature.
  * Added Quick Reply signatures.
