@@ -3,11 +3,14 @@
 
 = Release Notes =
 
+*v3.22* _Coming Soon..._
+ * 
+
 *v3.21* _Coming Soon..._
  * 
 
 *v3.20* _Coming Soon..._
- * 
+ * Fixed a critical bug which caused the app to force close.
 
 *v3.19* (September 14, 2012)
  * Added a few small customization options.
