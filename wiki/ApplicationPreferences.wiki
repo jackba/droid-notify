@@ -9,7 +9,6 @@ Basic
 
  * Blocking Notification Options
  * Display Text To Speech Button
- * Hide Single Message Header
  * Disable Context Menu
  * Disable Photo Menu
  * Display Reschedule Button
@@ -54,6 +53,7 @@ Customize
  * Theme
  * Popup horizontal Location
  * Popup Width Padding
+ * Hide Single Message Header
  * Display Type Icon
  * Display Notification Type Info
  * Center Align Notification Type Info
