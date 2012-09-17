@@ -10,8 +10,7 @@ Basic
  * Blocking Notification Options
  * Display Text To Speech Button
  * Hide Single Message Header
- * Hide Unknown Contact
- * Disable Context MenU
+ * Disable Context Menu
  * Disable Photo Menu
  * Display Reschedule Button
  * Reschedule Settings
@@ -68,6 +67,7 @@ Customize
  * Center Align Contact Name
  * Contact Name Font Size
  * Bold Contact Name
+ * Hide Unknown Contact
  * Display Contact Number
  * Center Align Contact Number
  * Contact Number Font Size
