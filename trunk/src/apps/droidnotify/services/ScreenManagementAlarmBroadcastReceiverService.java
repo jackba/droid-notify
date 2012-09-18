@@ -45,8 +45,15 @@ public class ScreenManagementAlarmBroadcastReceiverService extends WakefulIntent
 			if(Common.isUserInLinkedApp(context)){
 				//Do not release the wakelock or keyguard.
 			}else{
+//				//Send out Widgetlocker API intent to lock Widgetlocker.
+//				try{
+//					Intent widgetLockerIntent = new Intent("com.teslacoilsw.widgetlocker.ACTIVATE");
+//					startActivity(widgetLockerIntent);
+//				}catch(ActivityNotFoundException anfe){
+//					//Ignore
+//				}
 				//Release the KeyguardLock & WakeLock
-				Common.clearKeyguardLock();
+				Common.clearKeyguardLock(null);
 				Common.clearWakeLock();
 			}
 		}catch(Exception ex){

@@ -387,12 +387,12 @@ public class NotificationView extends LinearLayout {
 				try{
 					rescheduleDrawable = _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/ic_reschedule", null, null));
 				}catch(NotFoundException nfe){
-					sttDrawable = localRresources.getDrawable(R.drawable.ic_reschedule);
+					rescheduleDrawable = localRresources.getDrawable(R.drawable.ic_reschedule);
 				}
 				try{
 					ttsDrawable = _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/ic_tts", null, null));
 				}catch(NotFoundException nfe){
-					sttDrawable = localRresources.getDrawable(R.drawable.ic_tts);
+					ttsDrawable = localRresources.getDrawable(R.drawable.ic_tts);
 				}
 				try{
 					sttDrawable =_resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/ic_stt", null, null));
@@ -2324,7 +2324,7 @@ public class NotificationView extends LinearLayout {
 					return;
 				}
 				//Reply using any installed SMS messaging app.
-				SMSCommon.startMessagingAppReplyActivity(_context, _notificationActivity, sentFromAddress, Constants.SEND_SMS_ACTIVITY);
+				SMSCommon.startMessagingAppReplyActivity(_context, _notificationActivity, sentFromAddress, _notification.getMessageID(), _notification.getThreadID(), Constants.SEND_SMS_ACTIVITY);
 				return;
 			}
 			case Constants.NOTIFICATION_TYPE_MMS:{
@@ -2333,7 +2333,7 @@ public class NotificationView extends LinearLayout {
 					return;
 				}
 				//Reply using any installed SMS messaging app.
-				SMSCommon.startMessagingAppReplyActivity(_context, _notificationActivity, sentFromAddress, Constants.SEND_SMS_ACTIVITY);
+				SMSCommon.startMessagingAppReplyActivity(_context, _notificationActivity, sentFromAddress, _notification.getMessageID(), _notification.getThreadID(), Constants.SEND_SMS_ACTIVITY);
 				return;
 			}
 			case Constants.NOTIFICATION_TYPE_CALENDAR:{			
@@ -2747,7 +2747,7 @@ public class NotificationView extends LinearLayout {
     	}else{		
     		//Cancel the reminder.
     		_notification.cancelReminder();
-    		SMSCommon.sendSMSTask(_context, _notification.getSentFromAddress(), message);
+    		SMSCommon.sendSMSTask(_context, _notification.getSentFromAddress(), message, _notification.getMessageID(), _notification.getThreadID());
     		dismissNotification(false);
     		//Hide the soft keyboard.
     		hideSoftKeyboard();

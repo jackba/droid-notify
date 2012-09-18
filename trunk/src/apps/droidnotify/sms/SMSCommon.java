@@ -417,11 +417,11 @@ public class SMSCommon {
 	public static long getThreadID(Context context, String address, int messageType){
 		_debug = Log.getDebug();
 		if(_debug) Log.v("SMSCommon.getThreadID()");
-		address = address.contains("@") ? EmailCommon.removeEmailFormatting(address) : PhoneCommon.removePhoneNumberFormatting(address);
 		if(address == null || address.equals("")){
 			if(_debug) Log.v("SMSCommon.getThreadID() Address provided is null or empty. Exiting...");
 			return -1;
 		}
+		address = address.contains("@") ? EmailCommon.removeEmailFormatting(address) : PhoneCommon.removePhoneNumberFormatting(address);
 		long threadID = -1;
 		Cursor cursor = null;
 		try{
@@ -448,9 +448,9 @@ public class SMSCommon {
 	   	}catch(Exception e){
 		    	Log.e("SMSCommon.getThreadID() ERROR: " + e.toString());
 	   		if(cursor != null){
-					cursor.close();
-				}
-		    	return -1;
+				cursor.close();
+			}
+	    	return -1;
 	   	}
 	}
 	
@@ -536,14 +536,13 @@ public class SMSCommon {
 		if(messageBody == null){
 			if(_debug) Log.v("SMSCommon.getMessageID() Message body provided is null. Exiting...");
 			return -1;
-		}else{
-			messageBody = messageBody.replace("<br/>", "\n").replace("<br />", "\n").trim();
 		}
-		address = address.contains("@") ? EmailCommon.removeEmailFormatting(address) : PhoneCommon.removePhoneNumberFormatting(address);
+		messageBody = messageBody.replace("<br/>", "\n").replace("<br />", "\n").trim();
 		if(address == null || address.equals("")){
 			if(_debug) Log.v("SMSCommon.getMessageID() Address provided is null or empty. Exiting...");
 			return -1;
 		}
+		address = address.contains("@") ? EmailCommon.removeEmailFormatting(address) : PhoneCommon.removePhoneNumberFormatting(address);
 		long messageID = -1;
 	    Cursor cursor = null;
 	    try{
@@ -733,13 +732,14 @@ public class SMSCommon {
 	 * @param context - Application Context.
 	 * @param notificationActivity - A reference to the parent activity.
 	 * @param address - The number/address/screen name we want to send a message to.
+	 * @param messageID - The Message ID that we want to alter.
+	 * @param threadID - The Thread ID that we want to alter.
 	 * @param requestCode - The request code we want returned.
 	 * 
 	 * @return boolean - Returns true if the activity can be started.
 	 */
-	public static boolean startMessagingAppReplyActivity(Context context, NotificationActivity notificationActivity, String address, int requestCode){
+	public static boolean startMessagingAppReplyActivity(Context context, NotificationActivity notificationActivity, String address, long messageID, long threadID, int requestCode){
 		_debug = Log.getDebug();
-		if(_debug) Log.v("SMSCommon.startMessagingAppReplyActivity()");
 		if(address == null){
 			Toast.makeText(context, context.getString(R.string.app_android_reply_messaging_address_error), Toast.LENGTH_LONG).show();
 			return false;
@@ -753,6 +753,8 @@ public class SMSCommon {
 			//	intent.putExtra("sms_body", preferences.getString(Constants.QUICK_REPLY_SIGNATURE_KEY, context.getString(R.string.quick_reply_default_signature)));  
 	        //}
 	        notificationActivity.startActivityForResult(intent, requestCode);
+	        //Mark SMS Message as read.
+	        setMessageRead(context, messageID, threadID, true);
 	        Common.setInLinkedAppFlag(context, true);
 	        return true;
 		}catch(Exception ex){
@@ -775,7 +777,6 @@ public class SMSCommon {
 	 */
 	public static boolean startMessagingAppViewThreadActivity(Context context, NotificationActivity notificationActivity, long threadID, int requestCode){
 		_debug = Log.getDebug();
-		if(_debug) Log.v("SMSCommon.startMessagingAppViewThreadActivity()");
 		if(threadID < 0){
 			Toast.makeText(context, context.getString(R.string.app_android_message_not_found_error), Toast.LENGTH_LONG).show();
 			return false;
@@ -805,7 +806,6 @@ public class SMSCommon {
 	 */
 	public static boolean startMessagingAppViewInboxActivity(Context context, NotificationActivity notificationActivity, int requestCode){
 		_debug = Log.getDebug();
-		if(_debug) Log.v("SMSCommon.startMessagingAppViewInboxActivity()");
 		try{
 			Intent intent = new Intent(Intent.ACTION_MAIN);
 		    intent.setType("vnd.android-dir/mms-sms");
@@ -831,7 +831,6 @@ public class SMSCommon {
 	 */
 	public static boolean deleteMessageThread(Context context, long threadID, int notificationType){
 		_debug = Log.getDebug();
-		if(_debug) Log.v("SMSCommon.deleteMessageThread()");
 		try{
 			if(threadID < 0){
 				if(_debug) Log.v("SMSCommon.deleteMessageThread() Thread ID < 0. Exiting...");
@@ -865,7 +864,6 @@ public class SMSCommon {
 	 */
 	public static boolean deleteSingleMessage(Context context, long messageID, long threadID, int notificationType){
 		_debug = Log.getDebug();
-		if(_debug) Log.v("SMSCommon.deleteSingleMessage()");
 		try{
 			if(messageID < 0){
 				if(_debug) Log.v("SMSCommon.deleteSingleMessage() Message ID < 0. Exiting...");
@@ -905,7 +903,6 @@ public class SMSCommon {
 	 */
 	public static boolean setMessageRead(Context context, long messageID, long threadID, boolean isViewed){
 		_debug = Log.getDebug();
-		if(_debug) Log.v("SMSCommon.setMessageRead()");
 		try{
 			if(messageID < 0){
 				if(_debug) Log.v("SMSCommon.setMessageRead() Message ID < 0. Exiting...");
@@ -942,7 +939,6 @@ public class SMSCommon {
 	 */
 	public static boolean setThreadRead(Context context, long threadID, boolean isViewed){
 		_debug = Log.getDebug();
-		if(_debug) Log.v("SMSCommon.setThreadRead()");
 		try{
 			if(threadID < 0){
 				if(_debug) Log.v("SMSCommon.setThreadRead() Thread ID < 0. Exiting...");
@@ -979,7 +975,7 @@ public class SMSCommon {
 	 */
 	public static boolean isMessageRead(Context context, long messageID, long threadID){
 		_debug = Log.getDebug();
-		if(_debug) Log.v("SMSCommon.isMessageRead()");
+		//if(_debug) Log.v("SMSCommon.isMessageRead() MessageID: " + messageID + " ThreadID: " + threadID);
 		Cursor cursor = null;
 		try{
 			if(messageID < 0){
@@ -1010,9 +1006,9 @@ public class SMSCommon {
 		    int messageRead = 1;
 		    if(cursor.moveToFirst()){
 		    	messageRead = cursor.getInt(cursor.getColumnIndex("read"));
-		    	if(_debug) Log.v("SMSCommon.isMessageRead() Message Found - Message Read: " + String.valueOf(messageRead));
+		    	//if(_debug) Log.v("SMSCommon.isMessageRead() Message Found - Message Read: " + String.valueOf(messageRead));
 	    	}else{
-	    		if(_debug) Log.v("SMSCommon.isMessageRead() Message ID: " + String.valueOf(messageID) + " was not found!  Exiting...");
+	    		//if(_debug) Log.v("SMSCommon.isMessageRead() Message ID: " + String.valueOf(messageID) + " was not found!  Exiting...");
 	    		return true;
 	    	}
 			cursor.close();
@@ -1034,8 +1030,7 @@ public class SMSCommon {
 	 * @param message - The message to save.
 	 */
 	public static void saveMessageDraft(Context context, String address, String message){
-		_debug = Log.getDebug();  
-		if(_debug) Log.v("SMSCommon.saveMessageDraft()");
+		_debug = Log.getDebug();
 		try{
 			if(message != null && !message.equals("")){
 		    	//Store the message in the draft folder so that it shows in Messaging apps.
@@ -1060,10 +1055,12 @@ public class SMSCommon {
 	 * @param context - The application context.
 	 * @param address - The address the message it to.
 	 * @param message - The message to send.
+	 * @param messageID - The Message ID that we are replying to.
+	 * @param threadID - The Thread ID that we are replying to.
 	 */
-	public static void sendSMSTask(Context context, String address, String message){
+	public static void sendSMSTask(Context context, String address, String message, long messageID, long threadID){
 		_context = context;
-		new sendSMSAsyncTask().execute(address, message);
+		new sendSMSAsyncTask().execute(address, message, String.valueOf(messageID), String.valueOf(threadID));
 	}
 	
 	//================================================================================
@@ -1083,8 +1080,7 @@ public class SMSCommon {
 	     * @param params - The SMS message parameters.
 	     */
 	    protected Boolean doInBackground(String... params){
-			if (_debug) Log.v("SMSCommon.sendSMSAsyncTask.doInBackground()");
-			return sendSMS(params[0], params[1]);
+			return sendSMS(params[0], params[1], Long.parseLong(params[2]), Long.parseLong(params[3]));
 	    }
 	    
 	    /**
@@ -1093,7 +1089,6 @@ public class SMSCommon {
 	     * @param result - Boolean indicating success.
 	     */
 	    protected void onPostExecute(Boolean result){
-			if (_debug) Log.v("SMSCommon.sendSMSAsyncTask.doInBackground.onPostExecute() RESULT: " + result);
 			//Do Nothing
 	    }
 	    
@@ -1104,8 +1099,12 @@ public class SMSCommon {
 	 * 
 	 * @param address - The address the message it to.
 	 * @param message - The message to send.
+	 * @param messageID - The Message ID that we are replying to.
+	 * @param threadID - The Thread ID that we are replying to.
+	 * 
+	 * @return boolean - Return true if successful.
 	 */
-	public static boolean sendSMS(String address, String message){
+	public static boolean sendSMS(String address, String message, long messageID, long threadID){
 		_debug = Log.getDebug();  
 		if(_debug) Log.v("SMSCommon.sendSMS()");
 		try{
@@ -1161,7 +1160,7 @@ public class SMSCommon {
 	        if(preferences.getBoolean(Constants.QUICK_REPLY_SIGNATURE_ENABLED_KEY, true)){
 	        	message += " " + preferences.getString(Constants.QUICK_REPLY_SIGNATURE_KEY, _context.getString(R.string.quick_reply_default_signature));
 	        }
-	        if(_debug) Log.v("SMSCommon.sendSMS() Message: " + message);
+	        //if(_debug) Log.v("SMSCommon.sendSMS() Message: " + message);
 			SmsManager smsManager = SmsManager.getDefault();
 			if(address.contains("@")){
 				//Send to email address
@@ -1244,19 +1243,25 @@ public class SMSCommon {
 							//if(_debug) Log.v("SMSCommon.sendSMS() Email SMS Message Sent: " + smsToEmailMessageHeader + message);
 							if(_debug) Log.v("SMSCommon.sendSMS() Email SMS Message Sent");
 							smsManager.sendTextMessage(smsToEmailGatewayNumber, null, smsToEmailMessageHeader + message, null, null);
+					        //Mark SMS Message as read.
+					        setMessageRead(_context, messageID, threadID, true);
+					        //Save the sent message to the phone.
 							writeSentSMSMessage(_context, address, message);
 							return true;
 						}else{
 							//Send multiple smaller SMS messages.
 							int splitMessageSize = 160 - smsToEmailMessageHeaderLength;
-							if(_debug) Log.v("SMSCommon.sendSMS() SplitMessageSize: " + splitMessageSize);
+							//if(_debug) Log.v("SMSCommon.sendSMS() SplitMessageSize: " + splitMessageSize);
 							String[] messageArray = SMSCommon.splitEqually(message, splitMessageSize);
 							int size = messageArray.length;
 							for(int i=0; i<size; i++){
 								//if(_debug) Log.v("SMSCommon.sendSMS() Email SMS Message Part Sent: " + smsToEmailMessageHeader + messageArray[i]);
 								smsManager.sendTextMessage(smsToEmailGatewayNumber, null, smsToEmailMessageHeader + messageArray[i], null, null);
-								writeSentSMSMessage(_context, address,  messageArray[i]);
+						        //Save the sent message to the phone.
+								writeSentSMSMessage(_context, address, message);
 							}
+					        //Mark SMS Message as read.
+					        setMessageRead(_context, messageID, threadID, true);
 							return true;
 						}
 					}else{
@@ -1277,6 +1282,9 @@ public class SMSCommon {
 						if(_debug) Log.v("SMSCommon.sendSMS() Email SMS Message Sent");
 						ArrayList<String> parts = smsManager.divideMessage(message);
 						smsManager.sendMultipartTextMessage(address, null, parts, null, null);
+				        //Mark SMS Message as read.
+				        setMessageRead(_context, messageID, threadID, true);
+				        //Save the sent message to the phone.
 						writeSentSMSMessage(_context, address, message);
 					}
 					return true;
@@ -1300,7 +1308,7 @@ public class SMSCommon {
 	 * @return String[] - Returns a string array containing all the substrings.
 	 */
 	private static String[] splitEqually(String input, int size){
-        if(_debug) Log.v("SMSCommon.splitEqually()");
+        //if(_debug) Log.v("SMSCommon.splitEqually()");
 		int length = input.length();
 		if(length <= size){
 			return new String[]{input};
@@ -1308,7 +1316,7 @@ public class SMSCommon {
 		ArrayList<String> arrayList = new ArrayList<String>((input.length() + size - 1) / size);
 	    for (int start = 0; start < length; start += size) {
 	    	arrayList.add(input.substring(start, Math.min(input.length(), start + size)));
-	    	if(_debug) Log.v("SMSCommon.splitEqually() Message Part: " + input.substring(start, Math.min(input.length(), start + size)));
+	    	//if(_debug) Log.v("SMSCommon.splitEqually() Message Part: " + input.substring(start, Math.min(input.length(), start + size)));
 	    }
 	    return arrayList.toArray(new String[arrayList.size()]);
 	}
@@ -1323,9 +1331,8 @@ public class SMSCommon {
 	 * @return boolean - Return true if the operation was successful.
 	 */
 	private static boolean writeSentSMSMessage(Context context, String address, String message){
-        if(_debug) Log.v("SMSCommon.writeSentSMSMessage()");
     	try{
-    		if(_debug) Log.v("SMSCommon.writeSentSMSMessage() Storing message in sent message folder.");
+    		//if(_debug) Log.v("SMSCommon.writeSentSMSMessage() Storing message in sent message folder.");
             ContentValues values = new ContentValues();
             values.put("address", address);
             values.put("body", message);

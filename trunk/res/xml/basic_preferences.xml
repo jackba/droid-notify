@@ -22,19 +22,6 @@
 			android:defaultValue="false" />
 		<CheckBoxPreference
 			android:layout="@layout/custom_preference_checkbox"
-			android:key="hide_single_message_header_enabled" 
-			android:title="@string/preference_hide_single_message_header_enabled_title" 
-			android:summaryOn="@string/preference_hide_single_message_header_enabled_summaryOn" 
-			android:summaryOff="@string/preference_hide_single_message_header_enabled_summaryOff" 
-			android:defaultValue="false" />
-		<CheckBoxPreference
-			android:layout="@layout/custom_preference_checkbox"
-			android:key="hide_unknown_contact_name" 
-			android:title="@string/preference_hide_unknown_contact_name_title" 
-			android:summary="@string/preference_hide_unknown_contact_name_summary"
-			android:defaultValue="false" />
-		<CheckBoxPreference
-			android:layout="@layout/custom_preference_checkbox"
 			android:key="disable_context_menu" 
 			android:title="@string/preference_disable_context_menu_title" 
 			android:summary="@string/preference_disable_context_menu_summary"

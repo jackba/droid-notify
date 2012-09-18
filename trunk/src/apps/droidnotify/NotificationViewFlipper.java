@@ -174,7 +174,6 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 * @param rescheduled - A boolean indicating if this notification is being rescheduled or not.
 	 */
 	public void removeActiveNotification(boolean rescheduled){
-		if(_debug) Log.v("NotificationViewFlipper.removeActiveNotification()");
 		try{
 			_notificationActivity.stopTextToSpeechPlayback();
 			Notification notification = this.getActiveNotification();
@@ -218,7 +217,6 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 * @return Notification - The current Notification or null if no notifications exist.
 	 */	
 	public Notification getActiveNotification(){
-		if(_debug) Log.v("NotificationViewFlipper.getActiveNotification()");
 		try{
 			return this.getChildCount() > 0 ? ((NotificationView) this.getCurrentView()).getNotification() : null;
 		}catch(Exception ex){
@@ -242,7 +240,6 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 */
 	@Override
 	public void showNext(){
-		if(_debug) Log.v("NotificationViewFlipper.showNext()");
 		int currentNotification = this.getDisplayedChild();
 		if(currentNotification < this.getChildCount() - 1){
 			setInAnimation(inFromRightAnimation());
@@ -260,7 +257,6 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 */
 	@Override
 	public void showPrevious(){
-		if(_debug) Log.v("NotificationViewFlipper.showPrevious()");
 		int currentNotification = this.getDisplayedChild();
 		if(currentNotification > 0){
 			setInAnimation(inFromLeftAnimation());
@@ -281,7 +277,6 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 * @return boolean - Returns true if a notification of the supplied type is found.
 	 */
 	public boolean containsNotificationType(int notificationType){
-		if(_debug) Log.v("NotificationViewFlipper.containsAnyNotificationType()");
 		int totalNotifications = this.getChildCount();
 		for (int i=0; i<totalNotifications; i++){
 			if(((NotificationView) this.getChildAt(i)).getNotification().getNotificationType() == notificationType){
@@ -297,7 +292,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 * @return int - The current smsCount value.
 	 */
 	public int getSMSCount(){
-		if(_debug) Log.v("NotificationViewFlipper.getSMSCount() SMSCount: " + _smsCount);
+		//if(_debug) Log.v("NotificationViewFlipper.getSMSCount() SMSCount: " + _smsCount);
 		return _smsCount;
 	}
 
@@ -307,7 +302,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 * @return int - The current mmsCount value.
 	 */
 	public int getMMSCount(){
-		if(_debug) Log.v("NotificationViewFlipper.getMMSCount() MMSCount: " + _mmsCount);
+		//if(_debug) Log.v("NotificationViewFlipper.getMMSCount() MMSCount: " + _mmsCount);
 		return _mmsCount;
 	}
 
@@ -317,7 +312,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 * @return int - The current missedCallCount value.
 	 */
 	public int getMissedCallCount(){
-		if(_debug) Log.v("NotificationViewFlipper.getMissedCallCount() MissedCallCount: " + _missedCallCount);
+		//if(_debug) Log.v("NotificationViewFlipper.getMissedCallCount() MissedCallCount: " + _missedCallCount);
 		return _missedCallCount;
 	}
 
@@ -327,7 +322,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 * @return int - The current calendarCount value.
 	 */
 	public int getCalendarCount(){
-		if(_debug) Log.v("NotificationViewFlipper.getCalendarCount() CalendarCount: " + _calendarCount);
+		//if(_debug) Log.v("NotificationViewFlipper.getCalendarCount() CalendarCount: " + _calendarCount);
 		return _calendarCount;
 	}
 
@@ -337,7 +332,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 * @return int - The current k9Count value.
 	 */
 	public int getK9Count(){
-		if(_debug) Log.v("NotificationViewFlipper.getK9Count() K9Count: " + _k9Count);
+		//if(_debug) Log.v("NotificationViewFlipper.getK9Count() K9Count: " + _k9Count);
 		return _k9Count;
 	}
   	
@@ -345,7 +340,6 @@ public class NotificationViewFlipper extends ViewFlipper {
   	 * Dismiss all notifications.
   	 */
   	public void dismissAllNotifications(){
-		if (_debug) Log.v("NotificationViewFlipper.dismissAllNotifications()");
 		try{
 			int totalNotifications = this.getChildCount();
 			for (int i=0; i<totalNotifications; i++){
@@ -366,7 +360,6 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 * Reschedule a notification.
 	 */
 	public void rescheduleNotification(){
-		if (_debug) Log.v("NotificationViewFlipper.rescheduleNotification()");
   		try{
   			NotificationView currentView = (NotificationView) getCurrentView();
 	  		currentView.rescheduleNotification();
@@ -417,7 +410,6 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 * @return Notification - Return the notification located at the specified index.
 	 */
 	private Notification getNotification(int index){
-		if(_debug) Log.v("NotificationViewFlipper.getNotification()");
 		try{
 			return ((NotificationView) this.getChildAt(index)).getNotification();
 		}catch(Exception ex){
@@ -519,45 +511,48 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 *                          IndexAdjustment = -1 - We are removing any view except the last view from the ViewFolipper.
 	 */
 	private void updateView(View view, int viewIndex, int indexAdjustment){
-    	if(_debug) Log.v("NotificationViewFlipper.updateView()");
-		RelativeLayout headerRelativeLayout = (RelativeLayout) view.findViewById(R.id.header_navigation);
-		Button previousButton = (Button) view.findViewById(R.id.previous_button);
-		TextView notificationCountTextView = (TextView) view.findViewById(R.id.notification_count_text_view);
-		Button nextButton = (Button) view.findViewById(R.id.next_button);
-		//if(_debug) Log.v("NotificationViewFlipper.updateView() viewIndex: " + viewIndex + " indexAdjustment: " + indexAdjustment);
-    	int totalviews = this.getChildCount();
-    	int currentView = viewIndex + 1;
-    	boolean isFirstView = isFirstView(viewIndex + indexAdjustment);
-    	boolean isLastView = isLastView(viewIndex + indexAdjustment);
-    	//Special cases when a View is removed.
-    	if(indexAdjustment > 0){ // Removing the last View.
-    		totalviews--;
-    		isLastView = true;
-    		if(!isFirstView) isFirstView = isFirstView(viewIndex);
-    	}else if(indexAdjustment < 0){ // Removing the first or other View.
-    		totalviews--;
-    		currentView += indexAdjustment;
-    		if(!isLastView) isLastView = isLastView(viewIndex);
-    	}
-    	//Update the navigation buttons and notification count text.
-    	if(isFirstView){
-    		previousButton.setVisibility(View.INVISIBLE);
-    	}else{
-    		previousButton.setVisibility(View.VISIBLE);
-    	}
-    	notificationCountTextView.setText(String.valueOf(currentView) + "/" + String.valueOf(totalviews));
-    	if(isLastView){
-    		nextButton.setVisibility(View.INVISIBLE);
-    	}else{
-    		nextButton.setVisibility(View.VISIBLE);
-    	}
-    	//Hide notification header row if single notification.
-    	if(_preferences.getBoolean(Constants.HIDE_SINGLE_MESSAGE_HEADER_KEY, false)){
-	    	if(totalviews == 1){
-	    		headerRelativeLayout.setVisibility(View.GONE);
-	    	}else{
-	    		headerRelativeLayout.setVisibility(View.VISIBLE);
+    	try{
+			RelativeLayout headerRelativeLayout = (RelativeLayout) view.findViewById(R.id.header_relative_layout);
+			Button previousButton = (Button) view.findViewById(R.id.previous_button);
+			TextView notificationCountTextView = (TextView) view.findViewById(R.id.notification_count_text_view);
+			Button nextButton = (Button) view.findViewById(R.id.next_button);
+			//if(_debug) Log.v("NotificationViewFlipper.updateView() viewIndex: " + viewIndex + " indexAdjustment: " + indexAdjustment);
+	    	int totalviews = this.getChildCount();
+	    	int currentView = viewIndex + 1;
+	    	boolean isFirstView = isFirstView(viewIndex + indexAdjustment);
+	    	boolean isLastView = isLastView(viewIndex + indexAdjustment);
+	    	//Special cases when a View is removed.
+	    	if(indexAdjustment > 0){ // Removing the last View.
+	    		totalviews--;
+	    		isLastView = true;
+	    		if(!isFirstView) isFirstView = isFirstView(viewIndex);
+	    	}else if(indexAdjustment < 0){ // Removing the first or other View.
+	    		totalviews--;
+	    		currentView += indexAdjustment;
+	    		if(!isLastView) isLastView = isLastView(viewIndex);
 	    	}
+	    	//Update the navigation buttons and notification count text.
+	    	if(isFirstView){
+	    		previousButton.setVisibility(View.INVISIBLE);
+	    	}else{
+	    		previousButton.setVisibility(View.VISIBLE);
+	    	}
+	    	notificationCountTextView.setText(String.valueOf(currentView) + "/" + String.valueOf(totalviews));
+	    	if(isLastView){
+	    		nextButton.setVisibility(View.INVISIBLE);
+	    	}else{
+	    		nextButton.setVisibility(View.VISIBLE);
+	    	}
+	    	//Hide notification header row if single notification.
+	    	if(_preferences.getBoolean(Constants.HIDE_SINGLE_MESSAGE_HEADER_KEY, false)){
+		    	if(totalviews == 1){
+		    		headerRelativeLayout.setVisibility(View.GONE);
+		    	}else{
+		    		headerRelativeLayout.setVisibility(View.VISIBLE);
+		    	}
+	    	}
+    	}catch(Exception ex){
+    		Log.e("NotificationViewFlipper.updateView() ERROR: " + ex.toString());
     	}
 	}
 
@@ -569,7 +564,6 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 * @return boolean - Returns true if the viewIndex is the last View in the ViewFlipper.
 	 */
 	private boolean isLastView(int viewIndex){
-		if(_debug) Log.v("NotificationViewFlipper.isLastView()");
 		return viewIndex == this.getChildCount() - 1;
 	}
 	  
@@ -581,7 +575,6 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 * @return boolean - Returns true if the viewIndex is the first View in the ViewFlipper.
 	 */
 	private boolean isFirstView(int viewIndex){
-		if(_debug) Log.v("NotificationViewFlipper.isFirsView()");
 		return viewIndex == 0;
 	}
 	
@@ -592,7 +585,6 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 * @param notification - The Notification to set as viewed.
 	 */
 	private void setNotificationViewed(Notification notification){
-		if(_debug) Log.v("NotificationViewFlipper.setNotificationViewed()");
 		notification.setViewed(true);
 	}
 	
@@ -658,7 +650,6 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 * @return Notification - Returns the first notification of this type that is found or null if none are found.
 	 */
 	private Notification getNotificationByType(int notificationType){
-		if(_debug) Log.v("NotificationViewFlipper.getNotificationByType()");
 		int totalNotifications = this.getChildCount();
 		for(int i=totalNotifications-1; i>=0; i--){
 			Notification notification = ((NotificationView) this.getChildAt(i)).getNotification();
@@ -675,7 +666,6 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 * @return Animation - Returns the Animation object.
 	 */
 	private Animation inFromRightAnimation(){
-		if(_debug) Log.v("NotificationViewFlipper.inFromRightAnimation()");
 		Animation inFromRight = new TranslateAnimation(
 		Animation.RELATIVE_TO_PARENT, +1.0f,
 		Animation.RELATIVE_TO_PARENT, 0.0f,
@@ -692,7 +682,6 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 * @return Animation - Returns the Animation object.
 	 */
 	private Animation outToLeftAnimation(){
-		if(_debug) Log.v("NotificationViewFlipper.outToLeftAnimation()");
 		Animation outtoLeft = new TranslateAnimation(
 		Animation.RELATIVE_TO_PARENT, 0.0f,
 		Animation.RELATIVE_TO_PARENT, -1.0f,
@@ -709,7 +698,6 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 * @return Animation - Returns the Animation object.
 	 */
 	private Animation inFromLeftAnimation(){
-		if(_debug) Log.v("NotificationViewFlipper.inFromLeftAnimation()");
 		Animation inFromLeft = new TranslateAnimation(
 		Animation.RELATIVE_TO_PARENT, -1.0f,
 		Animation.RELATIVE_TO_PARENT, 0.0f,
@@ -726,7 +714,6 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 * @return Animation - Returns the Animation object.
 	 */
 	private Animation outToRightAnimation(){
-		if(_debug) Log.v("NotificationViewFlipper.outToRightAnimation()");
 		Animation outtoRight = new TranslateAnimation(
 		Animation.RELATIVE_TO_PARENT, 0.0f,
 		Animation.RELATIVE_TO_PARENT, +1.0f,
