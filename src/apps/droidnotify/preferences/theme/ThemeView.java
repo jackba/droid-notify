@@ -4,13 +4,13 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources;
+import android.content.res.Resources.NotFoundException;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
 import android.preference.PreferenceManager;
-import android.text.method.ScrollingMovementMethod;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -49,7 +49,7 @@ public class ThemeView extends LinearLayout {
 	private ThemeViewFlipper _themeViewFlipper = null;
 	
 	private LinearLayout _notificationWindowLinearLayout = null;
-	private LinearLayout _notificationInfoLinearLayout = null;	
+	private LinearLayout _notificationInfoLinearLayout = null;
 
 	private LinearLayout _buttonLinearLayout = null;
 	private LinearLayout _imageButtonLinearLayout = null;
@@ -181,8 +181,6 @@ public class ThemeView extends LinearLayout {
 		_replyImageButton = (ImageButton) findViewById(R.id.reply_image_button);
 		
 		_photoProgressBar = (ProgressBar) findViewById(R.id.contact_photo_progress_bar);
-
-		_notificationDetailsTextView.setMovementMethod(new ScrollingMovementMethod());
 	}
 	
 	/**
@@ -191,6 +189,7 @@ public class ThemeView extends LinearLayout {
 	private void setupLayoutTheme(){
 		if (_debug) Log.v("ThemeView.setupLayoutTheme() ThemePackageName: " + _themePackageName);
 		try{
+			final Resources localRresources = _context.getResources();
 			Drawable layoutBackgroundDrawable = null;
 			Drawable rescheduleDrawable = null;
 			Drawable ttsDrawable = null;
@@ -228,8 +227,16 @@ public class ThemeView extends LinearLayout {
 				try{
 					_resources = _context.getPackageManager().getResourcesForApplication(_themePackageName);
 					layoutBackgroundDrawable = _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/background_panel", null, null));
-					rescheduleDrawable = _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/ic_reschedule", null, null));
-					ttsDrawable = _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/ic_tts", null, null));
+					try{
+						rescheduleDrawable = _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/ic_reschedule", null, null));
+					}catch(NotFoundException nfe){
+						rescheduleDrawable = localRresources.getDrawable(R.drawable.ic_reschedule);
+					}
+					try{
+						ttsDrawable = _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/ic_tts", null, null));
+					}catch(NotFoundException nfe){
+						ttsDrawable = localRresources.getDrawable(R.drawable.ic_tts);
+					}
 					notificationCountTextColorID = _resources.getColor(_resources.getIdentifier(_themePackageName + ":color/notification_count_text_color", null, null));
 					headerInfoTextcolorID = _resources.getColor(_resources.getIdentifier(_themePackageName + ":color/header_info_text_color", null, null));	
 					contactNameTextColorID = _resources.getColor(_resources.getIdentifier(_themePackageName + ":color/contact_name_text_color", null, null));	
@@ -259,7 +266,8 @@ public class ThemeView extends LinearLayout {
 			_previousButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NAV_PREV));
 			_nextButton.setBackgroundDrawable(getThemeButton(Constants.THEME_BUTTON_NAV_NEXT));
 			
-			if(!_themePackageName.equals(Constants.PHONE_DEFAULT_THEME)){			
+			if(!_themePackageName.equals(Constants.PHONE_DEFAULT_THEME)){
+				
 				_notificationCountTextView.setTextColor(notificationCountTextColorID);
 				_notificationInfoTextView.setTextColor(headerInfoTextcolorID);
 				_contactNameTextView.setTextColor(contactNameTextColorID);
@@ -286,6 +294,7 @@ public class ThemeView extends LinearLayout {
 			_ttsButton.setImageDrawable(ttsDrawable);
 			
 			_themeNameTextView.setText(themeName);
+			
 		}catch(Exception ex){
 			Log.e("ThemeView.setupLayoutTheme() ERROR: " + ex.toString());
 		}
@@ -535,7 +544,7 @@ public class ThemeView extends LinearLayout {
 		if (_debug) Log.v("ThemeView.populateViewInfo()");
 		boolean loadContactPhoto = true;
 		//Set the max lines property of the notification body.
-		_notificationDetailsTextView.setMaxLines(Integer.parseInt(_preferences.getString(Constants.NOTIFICATION_BODY_MAX_LINES_KEY, Constants.NOTIFICATION_BODY_MAX_LINES_DEFAULT)));
+		_notificationDetailsTextView.setMaxLines(5);
 		//Set the font size property of the notification body.
 		_notificationDetailsTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, Float.parseFloat(_preferences.getString(Constants.NOTIFICATION_BODY_FONT_SIZE_KEY, Constants.NOTIFICATION_BODY_FONT_SIZE_DEFAULT)));
 	    // Set from, number, message etc. views.

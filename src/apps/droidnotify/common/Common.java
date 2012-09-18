@@ -22,6 +22,7 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.KeyguardManager.KeyguardLock;
+import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -649,7 +650,7 @@ public class Common {
 								tickerText = context.getString(R.string.status_bar_notification_ticker_text_sms_null);
 							}else{
 								contentText = context.getString(R.string.status_bar_notification_content_text_sms, sentFrom, message);
-								if(sentFromContactName == null || sentFromContactName.equals("")){
+								if(sentFromContactName == null || sentFromContactName.equals("") || sentFromContactName.equals(_context.getString(android.R.string.unknownName))){
 									tickerText = context.getString(R.string.status_bar_notification_ticker_text_unknown_contact_sms, message);
 								}else{
 									tickerText = context.getString(R.string.status_bar_notification_ticker_text_sms, sentFromContactName, message);
@@ -705,7 +706,7 @@ public class Common {
 								tickerText = context.getString(R.string.status_bar_notification_ticker_text_sms_null);
 							}else{
 								contentText = context.getString(R.string.status_bar_notification_content_text_sms, sentFrom, message);
-								if(sentFromContactName == null || sentFromContactName.equals("")){
+								if(sentFromContactName == null || sentFromContactName.equals("") || sentFromContactName.equals(_context.getString(android.R.string.unknownName))){
 									tickerText = context.getString(R.string.status_bar_notification_ticker_text_unknown_contact_sms, message);
 								}else{
 									tickerText = context.getString(R.string.status_bar_notification_ticker_text_sms, sentFromContactName, message);
@@ -836,7 +837,7 @@ public class Common {
 								tickerText = context.getString(R.string.status_bar_notification_ticker_text_email_null);
 							}else{
 								contentText = context.getString(R.string.status_bar_notification_content_text_email, sentFrom, message);
-								if(sentFromContactName == null || sentFromContactName.equals("")){
+								if(sentFromContactName == null || sentFromContactName.equals("") || sentFromContactName.equals(_context.getString(android.R.string.unknownName))){
 									tickerText = context.getString(R.string.status_bar_notification_ticker_text_unknown_contact_email, message);
 								}else{
 									tickerText = context.getString(R.string.status_bar_notification_ticker_text_email, sentFromContactName, message);
@@ -1433,7 +1434,7 @@ public class Common {
 	 * 
 	 * @param context - The current context of this Activity.
 	 */
-	public static void acquireKeyguardLock(Context context){
+	public static void acquireKeyguardLock(Context context, NotificationActivity notificationActivity){
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.acquireKeyguardLock()");
 		try{
@@ -1445,6 +1446,15 @@ public class Common {
 				}
 				_keyguardLock.disableKeyguard();
 			}
+			//Send out Widgetlocker API intent to unlock Widgetlocker.
+			if(notificationActivity != null){
+				try{
+					Intent widgetLockerIntent = new Intent("com.teslacoilsw.widgetlocker.UNLOCK");
+					notificationActivity.startActivity(widgetLockerIntent);
+				}catch(ActivityNotFoundException anfe){
+					//Ignore
+				}
+			}
 		}catch(Exception ex){
 			Log.e("Common.acquireKeyguardLock() ERROR: " + ex.toString());
 		}
@@ -1453,7 +1463,7 @@ public class Common {
 	/**
 	 * Re-Enables the Keyguard for this Activity.
 	 */
-	public static void clearKeyguardLock(){
+	public static void clearKeyguardLock(NotificationActivity notificationActivity){
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.clearKeyguardLock()");
 		try{
@@ -1461,6 +1471,15 @@ public class Common {
 				_keyguardLock.reenableKeyguard();
 				_keyguardLock = null;
 			}
+//			//Send out Widgetlocker API intent to lock Widgetlocker.
+//			if(notificationActivity != null){
+//				try{
+//					Intent widgetLockerIntent = new Intent("com.teslacoilsw.widgetlocker.ACTIVATE");
+//					notificationActivity.startActivity(widgetLockerIntent);
+//				}catch(ActivityNotFoundException anfe){
+//					//Ignore
+//				}
+//			}
 		}catch(Exception ex){
 			Log.e("Common.clearKeyguardLock() ERROR: " + ex.toString());
 		}

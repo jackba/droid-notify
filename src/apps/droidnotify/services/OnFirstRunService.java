@@ -10,6 +10,7 @@ import android.text.format.DateFormat;
 import apps.droidnotify.log.Log;
 import apps.droidnotify.calendar.CalendarCommon;
 import apps.droidnotify.common.Constants;
+import apps.droidnotify.db.SQLiteHelperReminder;
 import apps.droidnotify.reminder.ReminderCommon;
 
 public class OnFirstRunService extends WakefulIntentService {
@@ -52,6 +53,9 @@ public class OnFirstRunService extends WakefulIntentService {
 		    _preferences = PreferenceManager.getDefaultSharedPreferences(_context);
 			startCalendarAlarmManager(System.currentTimeMillis() + (60 * 1000));
 			checkSystemDateTimeFormat();
+			//Create the reminder database.
+        	@SuppressWarnings("unused")
+			SQLiteHelperReminder reminderDBHelper = new SQLiteHelperReminder(_context);
 			//Start Reminder DB Cleanup Alarms
 			ReminderCommon.startReminderDBManagementAlarmManager(_context, System.currentTimeMillis() + (5 * 60 * 1000));
 		}catch(Exception ex){

@@ -31,6 +31,13 @@
 		android:entryValues="@array/popup_width_padding_values" />
 	<CheckBoxPreference
 		android:layout="@layout/custom_preference_checkbox"
+		android:key="hide_single_message_header_enabled" 
+		android:title="@string/preference_hide_single_message_header_enabled_title" 
+		android:summaryOn="@string/preference_hide_single_message_header_enabled_summaryOn" 
+		android:summaryOff="@string/preference_hide_single_message_header_enabled_summaryOff" 
+		android:defaultValue="false" />
+	<CheckBoxPreference
+		android:layout="@layout/custom_preference_checkbox"
 		android:key="display_notification_type_info_icon" 
 		android:title="@string/preference_notification_type_info_icon_enabled_title" 
 		android:summary="@string/preference_notification_type_info_icon_enabled_summary"
@@ -128,6 +135,13 @@
 		android:summary="@string/bold_contact_name_summary"
 		android:defaultValue="true"
 		android:dependency="display_contact_name" />
+	<CheckBoxPreference
+		android:layout="@layout/custom_preference_checkbox"
+		android:key="hide_unknown_contact_name" 
+		android:title="@string/preference_hide_unknown_contact_name_title" 
+		android:summary="@string/preference_hide_unknown_contact_name_summary"
+		android:defaultValue="false"
+		android:dependency="display_contact_name" />	
 	<CheckBoxPreference
 		android:layout="@layout/custom_preference_checkbox"
 		android:key="display_contact_number" 

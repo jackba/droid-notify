@@ -1,8 +1,14 @@
 package apps.droidnotify.services;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import apps.droidnotify.log.Log;
+import apps.droidnotify.db.SQLiteHelperReminder;
+import apps.droidnotify.calendar.CalendarCommon;
+import apps.droidnotify.common.Constants;
 
 public class OnUpdateService extends WakefulIntentService {
 	
@@ -38,7 +44,15 @@ public class OnUpdateService extends WakefulIntentService {
 	protected void doWakefulWork(Intent intent){
 		if (_debug) Log.v("OnUpdateService.doWakefulWork()");
 		try{
-
+			Context context = getApplicationContext();
+			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+			if(!preferences.getBoolean(Constants.CALENDAR_NOTIFICATIONS_ENABLED_KEY, false)){
+				//Cancel the Calendar recurring alarm.
+				CalendarCommon.cancelCalendarAlarmManager(context);
+			}
+			//Create the reminder database.
+        	@SuppressWarnings("unused")
+			SQLiteHelperReminder reminderDBHelper = new SQLiteHelperReminder(context);
 		}catch(Exception ex){
 			Log.e("OnUpdateService.doWakefulWork() ERROR: " + ex.toString());
 		}
