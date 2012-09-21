@@ -3,11 +3,16 @@
 
 = Release Notes =
 
+*v3.23* _Coming Soon..._
+ * 
+
 *v3.22* _Coming Soon..._
  * 
 
 *v3.21* _Coming Soon..._
- * 
+ * Fixed a critical bug which caused the app to force close.
+ * Fixed incorrect Twitter notification timestamps.
+ * Updated translations.
 
 *v3.20*(September 18, 2012)
  * Fixed a critical bug which caused the app to force close.
