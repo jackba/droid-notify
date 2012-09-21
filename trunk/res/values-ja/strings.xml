@@ -8,6 +8,7 @@
   <string name="view">表示</string>
   <string name="dismiss_all">全て破棄</string>
   <string name="dismiss_all_dialog_text">全ての通知を破棄します</string>
+  <string name="dismiss_all_loading_text">通知を破棄する</string>
   <string name="share">共有</string>
   <string name="share_title">あなたの知人があなたにアンドロイドアプリのDroid Notifyを試してもらいたいと思っています!</string>
   <string name="share_description">わたしはこのすばらしいアンドロイドアプリ Droid Notifyを使っています. 対応する通知を受け取った時にこのアプリはポップアップダイアログをスクリーンに表示します.\n\nアンドロイドアプリストアでこのアプリをダウンロードできます, \'Droid Notify\'で検索してみてください.</string>

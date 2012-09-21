@@ -28,7 +28,7 @@ public class OnUpdateReceiver extends BroadcastReceiver {
 	 * @param intent - Intent object that we are working with.
 	 */
 	@Override
-	public void onReceive(Context context, Intent intent) {
+	public void onReceive(Context context, Intent intent){
 		_debug = Log.getDebug();
 		if (_debug) Log.v("OnUpdateReceiver.onReceive()");
 		try{		

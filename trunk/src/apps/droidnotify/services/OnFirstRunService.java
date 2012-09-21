@@ -54,8 +54,9 @@ public class OnFirstRunService extends WakefulIntentService {
 			startCalendarAlarmManager(System.currentTimeMillis() + (60 * 1000));
 			checkSystemDateTimeFormat();
 			//Create the reminder database.
-        	@SuppressWarnings("unused")
 			SQLiteHelperReminder reminderDBHelper = new SQLiteHelperReminder(_context);
+        	reminderDBHelper.getReadableDatabase();
+        	reminderDBHelper.close();
 			//Start Reminder DB Cleanup Alarms
 			ReminderCommon.startReminderDBManagementAlarmManager(_context, System.currentTimeMillis() + (5 * 60 * 1000));
 		}catch(Exception ex){

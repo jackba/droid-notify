@@ -25,11 +25,6 @@
     	<item name="android:backgroundDimEnabled">false</item>
         <item name="android:windowAnimationStyle">@null</item>
     	<item name="android:windowBackground">@color/black</item>
-	</style>    
-	
-	<style name="Theme.TransparentDialog" parent="android:Theme.Dialog">
-    	<item name="android:windowBackground">@drawable/transparent</item>
-    	<item name="android:background">@drawable/transparent</item>
 	</style>
     
     <style name="Animation" />

@@ -8,6 +8,7 @@
   <string name="view">Ver</string>
   <string name="dismiss_all">Despedir a Todos</string>
   <string name="dismiss_all_dialog_text">Esto despedir a todas las notificaciones.</string>
+  <string name="dismiss_all_loading_text">Despido notificaciones…</string>
   <string name="share">Compartir</string>
   <string name="share_title">Alguien que usted conoce quiere probar la app Android Droid Notify!</string>
   <string name="share_description">He estado usando esta impresionante aplicación Android llamada Droid Notify. Muestra un menú emergente diálogo en mi pantalla cuando recibo ciertos notifications.\n\nYou pueden descargar esta aplicación en la mayoría de tiendas app Android, sólo busca las palabras clave «Droid Notify».</string>

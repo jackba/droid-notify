@@ -8,6 +8,7 @@
   <string name="view">Anzeigen</string>
   <string name="dismiss_all">Alles schließen</string>
   <string name="dismiss_all_dialog_text">Dies wird alle Benachrichtigungen schließen.</string>
+  <string name="dismiss_all_loading_text">Dismissing notifications…</string>
   <string name="share">Teilen</string>
   <string name="share_title">Jemand den Sie kennen, empfiehlt, die Android App Droid Notify auszuprobieren!</string>
   <string name="share_description">Ich nutze dieses tolle Android-Anwendung namens Droid Notify. Es zeigt ein Popup-Dialog auf meinem Bildschirm wenn ich bestimmte Benachrichtigungen erhalte.\n\nSie können diese App auf den meisten Android App Stores herunterladen, suchen Sie einfach nach \'Droid Notify\'.</string>

@@ -8,6 +8,7 @@
   <string name="view">Mostra</string>
   <string name="dismiss_all">Respingere Tutti</string>
   <string name="dismiss_all_dialog_text">Questo respingere tutte le notifiche.</string>
+  <string name="dismiss_all_loading_text">Respingendo notifiche…</string>
   <string name="share">Condividi</string>
   <string name="share_title">Qualcuno che conosci vuole provare l\'applicazione Android Droid Notify!</string>
   <string name="share_description">Sto usando questa impressionante applicazione Android chiamata Droid Notify. Esso consente di visualizzare un popup dialogo sul mio schermo quando ricevo certe notifications.\n\nYou è possibile scaricare questo app sulla maggior parte dei negozi di Android app, basta cercare le parole chiave \'Droid Notify\'.</string>

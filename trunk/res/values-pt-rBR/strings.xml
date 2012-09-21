@@ -8,6 +8,7 @@
   <string name="view">Abrir</string>
   <string name="dismiss_all">Ignorar Todas</string>
   <string name="dismiss_all_dialog_text">Isso dispensará todas as notificações.</string>
+  <string name="dismiss_all_loading_text">Descartando notificações...</string>
   <string name="share">Compartilhar</string>
   <string name="share_title">Alguém que você conhece quer que você experimente o aplicativo Android Droid Notify!</string>
   <string name="share_description">Eu tenho usado este incrível aplicativo Android chamado Droid Notify. Ele exibe um popup na minha tela quando recebo certas notificações.\n\nVocê pode baixar este app na maioria das lojas de apps Android, basta procurar pelas palavras-chave \'Droid Notify\'.</string>
@@ -75,9 +76,9 @@
   <string name="google_voice_authentication_error">Não fomos capazes de autenticar sua conta do Google neste momento. Por favor, tente novamente mais tarde.</string>
   <string name="google_voice_send_sms_mesage_error">Não foi possível enviar a mensagem de SMS do Google Voice.</string>
   <string name="voice_recognizer_error">O reconhecedor de voz não pôde ser iniciado. Por favor, certifique-se de que seu telefone suporta reconhecimento de voz.</string>
-  <string name="preference_disable_context_menu_title">﻿Desativar o menu de contexto</string>
+  <string name="preference_disable_context_menu_title">﻿Desativar o Menu de Contexto</string>
   <string name="preference_disable_context_menu_summary">Desativar o menu de contexto anexado aos cabeçalhos de notificação.</string>
-  <string name="preference_disable_quick_contact_title">﻿Desativar o menu de foto</string>
+  <string name="preference_disable_quick_contact_title">﻿Desativar o Menu de Foto</string>
   <string name="preference_disable_quick_contact_summary">Desativar o menu rápido na foto do contato na notificação.</string>
   <string name="popup_vertical_location_title">Posição Vertical do Popup</string>
   <string name="popup_vertical_location_summary">Selecionar a posição vertical da janela.</string>
@@ -119,7 +120,7 @@
   <string name="preference_reschedule_time_summary">Defina quando reagendar uma notificação.</string>
   <string name="reminders_category">LEMBRETES</string>
   <string name="reminder_settings">Configurações de Lembrete</string>
-  <string name="preference_reminders_enabled_title">Ativar lembretes</string>
+  <string name="preference_reminders_enabled_title">Ativar Lembretes</string>
   <string name="preference_reminders_enabled_summary">Lembrá-lo de notificações não lidas.</string>
   <string name="preference_reminder_frequency_text">Frequência de lembrete</string>
   <string name="preference_reminder_frequency_summary">Defina o número de lembretes para enviar.</string>
@@ -240,7 +241,7 @@
   <string name="center_align_contact_name_summary">Centralizar o nome do contato no cabeçalho da notificação.</string>
   <string name="bold_contact_name">Nome do Contato em Negrito</string>
   <string name="bold_contact_name_summary">Tornar negrito o nome do contato.</string>
-  <string name="preference_hide_unknown_contact_name_title">Ocultar nome de contato quando desconhecido</string>
+  <string name="preference_hide_unknown_contact_name_title">Ocultar Nomes de Contatos Desconhecidos</string>
   <string name="preference_hide_unknown_contact_name_summary">Ocultar o nome do contato se ele for desconhecido.</string>
   <string name="preference_contact_name_font_size_title">Tamanho da fonte do nome de contato</string>
   <string name="preference_contact_name_font_size_summary">Selecione o tamanho da fonte do texto nome do contato.</string>
@@ -250,7 +251,7 @@
   <string name="center_align_contact_number_summary">Centralizar o número do contato no cabeçalho da notificação.</string>
   <string name="bold_contact_number">Número do Contato em Negrito</string>
   <string name="bold_contact_number_summary">Torna negrito o número do contato.</string>
-  <string name="preference_contact_number_font_size_title">Tamanho da fonte do número do contato</string>
+  <string name="preference_contact_number_font_size_title">Tamanho da Fonte do Número do Contato</string>
   <string name="preference_contact_number_font_size_summary">Selecione o tamanho da fonte do texto número de contato.</string>
   <string name="preference_display_unknown_contact_number_title">Exibir Número em Contatos Desconhecidos</string>
   <string name="preference_display_unknown_contact_number_summary">Exibir o número do contato se ele não estiver nos contatos.</string>
@@ -294,7 +295,7 @@
   <string name="preference_mms_enabled_title">Habilitar MMS</string>
   <string name="mms_enabled_summary">Habilitar notificações de MMS.</string>
   <string name="preference_mms_display_unread_enabled_title">Carregar MMS não lidos</string>
-  <string name="display_unread_mms_enabled_summary">Carregar todas as mensagens não lidas quando chegar uma nova mensagem.</string>
+  <string name="display_unread_mms_enabled_summary">Carregar todas as mensagens não lidas quando chegar uma nova.</string>
   <string name="preference_mms_timeout">Tempo limite MMS</string>
   <string name="preference_mms_timeout_summary">Defina quanto tempo esperar após um MMS ser recebido antes de consultar a caixa de entrada MMS para uma nova mensagem.</string>
   <string name="missed_calls_category">CHAMADAS PERDIDAS</string>
@@ -310,9 +311,9 @@
   <string name="preference_missed_call_loading_summary">Defina que chamadas carregar quando é recebida uma chamada não atendida.</string>
   <string name="preference_call_log_timeout">Tempo limite do registro de chamadas</string>
   <string name="preference_call_log_timeout_summary">Defina quanto tempo esperar após uma chamada antes de consultar o registro de chamadas para uma chamada não atendida.</string>
-  <string name="mms_click_here_to_view">[CLIQUE PARA VER O MMS]</string>
-  <string name="click_to_view_message">[CLIQUE PARA VER O SMS]</string>
-  <string name="click_to_view_log">[CLIQUE PARA VER O REGISTRO]</string>
+  <string name="mms_click_here_to_view">[TOQUE PARA VER O MMS]</string>
+  <string name="click_to_view_message">[TOQUE PARA VER O SMS]</string>
+  <string name="click_to_view_log">[TOQUE PARA VER O REGISTRO]</string>
   <string name="event_reminders_category">LEMBRETES DE EVENTOS</string>
   <string name="calendar">Calendário</string>
   <string name="add_calendar_event_text">Adicionar evento ao calendário</string>
@@ -334,8 +335,8 @@
   <string name="preference_calendar_all_day_notify_day_of_time_summary">Para eventos diários, quando você deseja ser lembrado do evento?</string>
   <string name="calendar_reminders_enabled_title">Enviar lembretes de eventos</string>
   <string name="calendar_reminders_enabled_summary">Enviar notificações de lembrete antes de ocorrer o evento.</string>
-  <string name="use_current_calendar_reminder_settings">Usar configurações Atuais Lembrete Calendário</string>
-  <string name="use_current_calendar_reminder_settings_summary">Use as configurações de lembrete de calendários para lembretes.</string>
+  <string name="use_current_calendar_reminder_settings">Usar as Configurações Atuais de Calendário</string>
+  <string name="use_current_calendar_reminder_settings_summary">Usar as configurações de lembrete dos calendários para lembretes no app.</string>
   <string name="event_start_time_reminder">Lembrar Início do Evento</string>
   <string name="event_start_time_reminder_summary">Exibir um lembrete no início do evento.</string>
   <string name="snooze">Soneca</string>
@@ -371,7 +372,7 @@
   <string name="twitter_following_request" formatted="false">%s (@%s) deseja segui-lo no Twitter!</string>
   <string name="open_twitter_app_text">Abrir o app Twitter</string>
   <string name="preference_twitter_manual_poll_title">Ler Conta do Twitter</string>
-  <string name="preference_twitter_manual_poll_summary">Ler manualmente a conta do Twitter e exibir notificações.</string>
+  <string name="preference_twitter_manual_poll_summary">Verificar manualmente a conta do Twitter.</string>
   <string name="reading_twitter_account">Lendo Conta do Twitter...</string>
   <string name="twitter_account_read">Sua conta do Twitter foi lida e as notificações criadas.</string>
   <string name="facebook_category">FACEBOOK</string>
@@ -389,24 +390,24 @@
   <string name="preference_clear_facebook_authentication_data_summary">Limpar os dados de autenticação do Facebook.</string>
   <string name="facebook_authentication_data_cleared">Os dados de autenticação do Facebook foi removidos.</string>
   <string name="open_facebook_app_text">Abrir o app Facebook</string>
-  <string name="preference_facebook_polling_frequency_summary">Quantas vezes você quer ler sua conta no Facebook?</string>
+  <string name="preference_facebook_polling_frequency_summary">Quantas vezes você quer verificar sua conta no Facebook?</string>
   <string name="facebook_new_friend_request_from">Você tem uma nova solicitação de amizade no Facebook de</string>
-  <string name="preference_facebook_manual_poll_title">Ler conta no Facebook</string>
-  <string name="preference_facebook_manual_poll_summary">Ler manualmente a conta no Facebook e exibir notificações.</string>
+  <string name="preference_facebook_manual_poll_title">Verificar Conta do Facebook</string>
+  <string name="preference_facebook_manual_poll_summary">Verificar manualmente a conta do Facebook.</string>
   <string name="reading_facebook_account">Lendo Conta do Facebook...</string>
   <string name="facebook_account_read">Sua conta do Facebook foi lida e as notificações criadas.</string>
   <string name="google_voice_category">GOOGLE VOICE</string>
   <string name="google_voice">Google Voice</string>
   <string name="google_voice_enabled_title">Habilitar o Google Voice</string>
-  <string name="google_voice_enabled_summary">Habilite notificações de voz do Google.</string>
+  <string name="google_voice_enabled_summary">Habilitar notificações de voz do Google.</string>
   <string name="google_voice_sms_messages_enabled">Permitir Mensagens SMS do Google Voice</string>
   <string name="google_voice_sms_messages_enabled_summary">Habilitar notificações de Mensagem de SMS do Google Voice.</string>
   <string name="google_voice_voicemails_enabled">Permitir Mensagens de Voz do Google Voice</string>
   <string name="google_voice_voicemails_enabled_summary">Habilitar notificações de Correio de Voz do Google Voice.</string>
   <string name="google_voice_missed_calls_enabled">Ativar Google Voice Chamadas não Atendidas</string>
   <string name="google_voice_missed_calls_enabled_summary">Ativar Google Voice notificações de Chamadas Perdidas.</string>
-  <string name="google_voice_polling_frequency_summary">Quantas vezes você quer ler seu cliente Google Voice?</string>
-  <string name="google_voice_manual_poll_title">Ler Conta Google Voice</string>
+  <string name="google_voice_polling_frequency_summary">Quantas vezes você quer verificar a conta do Google Voice?</string>
+  <string name="google_voice_manual_poll_title">Verificar Conta Google Voice</string>
   <string name="google_voice_manual_poll_summary">Ler a conta do Google Voice e exibir notificações manualmente.</string>
   <string name="reading_google_voice_account">Lendo Conta Google Voice…</string>
   <string name="google_voice_account_read">Sua conta Google Voice foi lida e as notificações criadas.</string>
@@ -474,7 +475,7 @@
   <string name="display_snooze_button_title">Exibir Botão Soneca</string>
   <string name="display_snooze_button_summary">Mostrar o botão soneca.</string>
   <string name="privacy">Privacidade</string>
-  <string name="status_bar_notification_privacy_title">Privacidade em Notificação da Barra de Status</string>
+  <string name="status_bar_notification_privacy_title">Privacidade na Barra de Status</string>
   <string name="status_bar_notification_privacy_summary">Não exibir informações particulares nas notificações da barra de status.</string>
   <string name="sms_mesage_privacy">Privacidade em Mensagens SMS</string>
   <string name="sms_mesage_privacy_summary">Não exibir a mensagem SMS no popup de notificação. Um botão será exibido e deve ser clicado para exibir a mensagem.</string>
@@ -484,9 +485,9 @@
   <string name="missed_call_privacy_summary">Não exibir informações de chamadas não atendidas no popup de notificação. Um botão será exibido e deve ser clicado para exibir o log de chamadas.</string>
   <string name="advanced_category">AVANÇADO</string>
   <string name="advanced">Avançado</string>
-  <string name="haptic_feedback_title">Habilitar o Feedback Tátil</string>
-  <string name="haptic_feedback_summary">Vibrar ao pressionar teclas nos softwares e em certas interações na IU.</string>
-  <string name="close_app_when_pushed_to_background_title">Fechar em Segundo Plano</string>
+  <string name="haptic_feedback_title">Habilitar o Retorno Vibratório</string>
+  <string name="haptic_feedback_summary">Vibrar ao pressionar teclas virtuais e em certas interações na IU.</string>
+  <string name="close_app_when_pushed_to_background_title">Fechar Quando em Segundo Plano</string>
   <string name="close_app_when_pushed_to_background_summary">Fechar o aplicativo quando ele é jogado para segundo plano.</string>
   <string name="preference_ignore_linked_apps_when_pushed_to_background_title">Ignorar Aplicativos Vinculados</string>
   <string name="preference_ignore_linked_apps_when_pushed_to_background_summary">Ignorar aplicativos vinculados ao fechar o aplicativo.</string>
@@ -534,15 +535,15 @@
   <string name="notification_at_text" formatted="false">Nova notificação às %s</string>
   <string name="friend_request_at_text" formatted="false">Novo pedido de amizade às %s</string>
   <string name="voicemail_at_text" formatted="false">Novo voicemail às %s</string>
-  <string name="preference_confirm_deletion_title">Confirmar exclusão</string>
+  <string name="preference_confirm_deletion_title">Confirmar Exclusão</string>
   <string name="preference_confirm_deletion_summary">Exibe uma caixa de diálogo de confirmação quando você exclui um item.</string>
-  <string name="preference_time_is_utc_title">Horários estão em padrão UTC</string>
+  <string name="preference_time_is_utc_title">Horário em Padrão Universal</string>
   <string name="preference_calendar_refresh_title">Atualizar Alarmes de Calendário</string>
   <string name="preference_calendar_refresh_summary">Reagendar eventos de calendário manualmente.</string>
-  <string name="reading_calendar_data">Lendo dados do calendário...</string>
+  <string name="reading_calendar_data">Lendo Dados do Calendário...</string>
   <string name="calendar_data_refreshed">Eventos de calendário foram lidos e os alarmes atualizados.</string>
-  <string name="preference_polling_frequency">Frequência de atualização</string>
-  <string name="preference_ignore_class_0_messages_title">Ignorar mensagens de classe 0</string>
+  <string name="preference_polling_frequency">Frequência de Verificação</string>
+  <string name="preference_ignore_class_0_messages_title">Ignorar Mensagens de Classe 0</string>
   <string name="preference_ignore_class_0_messages_summary">﻿Ignorar as mensagens SMS Flash vulgo SMS classe 0</string>
   <string name="view_contact_text">Ver Contato</string>
   <string name="add_contact_text">Adicionar Contato</string>
@@ -579,21 +580,21 @@
   <string name="status_bar_notification_content_title_text_facebook_notification">Nova notificação do Facebook</string>
   <string name="status_bar_notification_content_title_text_facebook_friend_request">Nova solicitação de amizade no Facebook</string>
   <string name="status_bar_notification_content_title_text_facebook_message">Nova mensagem do Facebook</string>
-  <string name="status_bar_notification_content_title_text_email">Novo e-mail</string>
+  <string name="status_bar_notification_content_title_text_email">Novo E-mail</string>
   <string name="status_bar_notification_content_title_text_google_voice_message">Nova mensagem de voz do Google</string>
   <string name="status_bar_notification_content_title_text_google_voice_voicemail">Novo Google Voice Voicemail</string>
   <string name="status_bar_notification_content_title_text_google_voice_missed_call">Novo Google Voice Chamada Perdida</string>
   <string name="status_bar_notification_content_title_text_plural_sms">Novas Mensagens</string>
   <string name="status_bar_notification_content_title_text_plural_phone">Chamadas Perdidas</string>
-  <string name="status_bar_notification_content_title_text_plural_calendar">Lembretes de eventos do calendário</string>
-  <string name="status_bar_notification_content_title_text_plural_twitter">Novos itens do Twitter</string>
-  <string name="status_bar_notification_content_title_text_plural_twitter_direct_message">Novas mensagens diretas no Twitter</string>
-  <string name="status_bar_notification_content_title_text_plural_twitter_mention">Novas menções no Twitter</string>
-  <string name="status_bar_notification_content_title_text_plural_twitter_follower_request">Novas solicitações de seguidor no Twitter</string>
-  <string name="status_bar_notification_content_title_text_plural_facebook">Novos itens do Facebook</string>
-  <string name="status_bar_notification_content_title_text_plural_facebook_notification">Novas notificações do Facebook</string>
-  <string name="status_bar_notification_content_title_text_plural_facebook_friend_request">Novas solicitações de amizade no Facebook</string>
-  <string name="status_bar_notification_content_title_text_plural_facebook_message">Novas mensagens do Facebook</string>
+  <string name="status_bar_notification_content_title_text_plural_calendar">Lembretes de Eventos de Calendário</string>
+  <string name="status_bar_notification_content_title_text_plural_twitter">Novos Itens do Twitter</string>
+  <string name="status_bar_notification_content_title_text_plural_twitter_direct_message">Novas Mensagens Diretas no Twitter</string>
+  <string name="status_bar_notification_content_title_text_plural_twitter_mention">Novas Menções no Twitter</string>
+  <string name="status_bar_notification_content_title_text_plural_twitter_follower_request">Novas Solicitações de Seguidor no Twitter</string>
+  <string name="status_bar_notification_content_title_text_plural_facebook">Novos Itens do Facebook</string>
+  <string name="status_bar_notification_content_title_text_plural_facebook_notification">Novas Notificações do Facebook</string>
+  <string name="status_bar_notification_content_title_text_plural_facebook_friend_request">Novas Solicitações de Amizade no Facebook</string>
+  <string name="status_bar_notification_content_title_text_plural_facebook_message">Novas Mensagens do Facebook</string>
   <string name="status_bar_notification_content_title_text_plural_email">Novos Emails</string>
   <string name="status_bar_notification_content_title_text_plural_google_voice_message">Novas mensagens de voz do Google</string>
   <string name="status_bar_notification_content_title_text_plural_google_voice_voicemail">Novos Google Voice Voicemails</string>
@@ -676,10 +677,10 @@
   <string name="status_bar_notification_ticker_text_google_voice_missed_call" formatted="false">Nova chamada perdida do Google Voice de %s - %s</string>
   <string name="status_bar_notification_ticker_text_unknown_contact_google_voice_missed_call" formatted="false">Nova chamada Google Voice perdida - %s</string>
   <string name="status_bar_notification_ticker_text_google_voice_missed_call_null" formatted="false">Novo Google Voice Chamada Perdida.</string>
-  <string name="clear_status_bar_notifications_on_exit_title">Limpar as notificações ao sair</string>
+  <string name="clear_status_bar_notifications_on_exit_title">Limpar as Notificações ao Sair</string>
   <string name="clear_status_bar_notifications_on_exit_summaryOn">Notificações da barra de status serão removidas quando as notificações popup são lidas.</string>
   <string name="clear_status_bar_notifications_on_exit_summaryOff">Notificações da barra de status não serão removidas quando as notificações popup são removidas da tela.</string>
-  <string name="preference_notifications_show_when_blocked_enabled_title">Exibir quando bloqueado</string>
+  <string name="preference_notifications_show_when_blocked_enabled_title">Exibir Quando Bloqueado</string>
   <string name="preference_notifications_show_when_blocked_enabled_summary">Exibir notificações da barra de status, mesmo se o popup for bloqueado (exemplo, quando em uma chamada de telefone, mensagens, etc.).</string>
   <string name="preference_vibrate_pattern_dialog">Insira o padrão de vibração personalizado usando o seguinte formato: \nmilissegundos desligado , milissegundos ligado etc.\n\nExemplo:\n0,1000\n0,500,200,500,200,500</string>
   <string name="preference_vibrate_pattern_set">O padrão de vibração personalizado está definido.</string>
@@ -893,8 +894,8 @@
   <string name="date_format_14_text">2011.12.31</string>
   <string name="date_format_15_text">2011 Dez 31</string>
   <string name="date_format_16_text">2011 Dezembro 31</string>
-  <string name="use_preferred_client">Usar o cliente preferencial</string>
-  <string name="preference_choose_client_title">Selecione o cliente preferencial</string>
+  <string name="use_preferred_client">Usar o Cliente Preferido</string>
+  <string name="preference_choose_client_title">Selecione o Cliente Preferido</string>
   <string name="preference_choose_client_summary">Escolha o cliente que você prefere usar. Este cliente será usado pelo aplicativo quando apropriado.</string>
   <string name="launch_twitter_app">Iniciar Twitter</string>
   <string name="launch_facebook_app">Iniciar app Facebook</string>
@@ -924,16 +925,16 @@
   <string name="download_now">Baixar Agora</string>
   <string name="download_droid_notify_plus_description_text">Droid Notify Plus oferece a capacidade de exibir notificações de qualquer app como uma janela de popup em seu telefone. Baixe este complemento para destravar todo o potencial do seu telefone.</string>
   <string name="reset_category">REDEFINIR</string>
-  <string name="reset_app_preferences">Redefinir Preferências da App</string>
-  <string name="reset_app_preferences_summary">Repor as preferências de app para suas configurações padrão.</string>
-  <string name="resetting_preferences">Redefinir preferências…</string>
+  <string name="reset_app_preferences">Redefinir Preferências do App</string>
+  <string name="reset_app_preferences_summary">Redefinir as preferências do app para suas configurações padrão.</string>
+  <string name="resetting_preferences">Redefinindo preferências…</string>
   <string name="preferences_reset">As preferências foram redefinidas.</string>
   <string name="confirm_reset_app_preferences">Isto irá remover todas as preferências do usuário salvas para este aplicativo.</string>
   <string name="more_options">Mais Opções</string>
   <string name="more_missed_call_options_description">Você está procurando mais opções de chamadas perdidas?</string>
-  <string name="missed_call_messenger_description">&lt;b&gt;Missed Call Messenger&lt;/b&gt; é um app que irá enviar uma mensagem para você quando você perde uma chamada de telefone, bem como enviar uma resposta de volta para o chamador automaticamente.&lt;br/&gt;&lt;br/&gt;Baixar este app gratuitamente e experimentá-lo hoje!</string>
-  <string name="poll_wifi_cell_service_connected">Perguntar Quando Conectar Wifi/Celular</string>
-  <string name="poll_wifi_cell_service_connected_summary">Consultar esta conta quando estiver ligado em WiFi ou dados móveis.</string>
+  <string name="missed_call_messenger_description">&lt;b&gt;O Missed Call Messenger&lt;/b&gt; é um app que irá enviar uma mensagem personalizada automaticamente quando você perde uma chamada telefônica.&lt;br/&gt;&lt;br/&gt;Baixe este app gratuitamente e experimente hoje mesmo!</string>
+  <string name="poll_wifi_cell_service_connected">Verificar ao Conectar Wifi/Celular</string>
+  <string name="poll_wifi_cell_service_connected_summary">Verificar esta conta quando estiver ligado em WiFi ou dados móveis.</string>
   <string name="custom_contacts_shortcut_name">Contatos Personalizados</string>
   <string name="blacklist_shortcut_name">Lista Negra</string>
   <string name="contacts">Contatos</string>

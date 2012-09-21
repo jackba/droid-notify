@@ -8,6 +8,7 @@
   <string name="view">Voir</string>
   <string name="dismiss_all">Masquer tout</string>
   <string name="dismiss_all_dialog_text">Ceci masquera toutes les notifications.</string>
+  <string name="dismiss_all_loading_text">Masque les notifications...</string>
   <string name="share">Partager</string>
   <string name="share_title">Quelqu\'un que vous connaissez souhaite que vous essayez l\'application Android Droid Notify!</string>
   <string name="share_description">J\'utilise cette application Android géniale appelée Droid Notify. Elle affiche un message sur mon écran quand je reçois certaines notifications.\n\nVous pouvez télécharger cette application sur la plupart des boutiques Android, avec le mot clé \"Droid Notify\".</string>

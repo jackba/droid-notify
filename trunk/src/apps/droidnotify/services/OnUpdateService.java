@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import apps.droidnotify.log.Log;
+import apps.droidnotify.reminder.ReminderCommon;
 import apps.droidnotify.db.SQLiteHelperReminder;
 import apps.droidnotify.calendar.CalendarCommon;
 import apps.droidnotify.common.Constants;
@@ -51,8 +52,11 @@ public class OnUpdateService extends WakefulIntentService {
 				CalendarCommon.cancelCalendarAlarmManager(context);
 			}
 			//Create the reminder database.
-        	@SuppressWarnings("unused")
 			SQLiteHelperReminder reminderDBHelper = new SQLiteHelperReminder(context);
+        	reminderDBHelper.getReadableDatabase();
+        	reminderDBHelper.close();
+			//Start Reminder DB Cleanup Alarms
+			ReminderCommon.startReminderDBManagementAlarmManager(context, System.currentTimeMillis() + (5 * 60 * 1000));
 		}catch(Exception ex){
 			Log.e("OnUpdateService.doWakefulWork() ERROR: " + ex.toString());
 		}
