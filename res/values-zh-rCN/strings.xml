@@ -8,6 +8,7 @@
   <string name="view">查看</string>
   <string name="dismiss_all">全部解除</string>
   <string name="dismiss_all_dialog_text">这将关闭所有通知。</string>
+  <string name="dismiss_all_loading_text">Dismissing notifications…</string>
   <string name="share">共享</string>
   <string name="share_title">你知道有人想您尝试 Droid 通知的 Android 应用程序 ！</string>
   <string name="share_description">我一直在使用称为 Droid 通知此令人敬畏的 Android 应用程序。它显示弹出菜单对话框的当我收到某些 notifications.\n\nYou 我的屏幕上可以下载这款软件对大多数 Android 应用商店，只是搜索关键字 Droid 通告。</string>

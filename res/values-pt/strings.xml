@@ -8,6 +8,7 @@
   <string name="view">Abrir</string>
   <string name="dismiss_all">Dispensar Todas</string>
   <string name="dismiss_all_dialog_text">Isso dispensará todas as notificações.</string>
+  <string name="dismiss_all_loading_text">Descartando notificações…</string>
   <string name="share">Compartilhar</string>
   <string name="share_title">Alguém que você conhece quer que você experimente o aplicativo Android Droid Notify!</string>
   <string name="share_description">Eu tenho usado este incrível aplicativo Android chamado Droid Notify. Ele exibe um popup na minha tela quando recebo certas notificações.\n\nVocê pode baixar este app na maioria das lojas de apps Android, basta procurar pelas palavras-chave \'Droid Notify\'.</string>

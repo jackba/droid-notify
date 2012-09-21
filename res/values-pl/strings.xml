@@ -8,6 +8,7 @@
   <string name="view">Pokaż</string>
   <string name="dismiss_all">Odrzuć wszystkie</string>
   <string name="dismiss_all_dialog_text">Ta opcja zamknie wszystkie aktywne okna powiadomień.</string>
+  <string name="dismiss_all_loading_text">Usuwanie aktywnych powiadomień...</string>
   <string name="share">Udostępnij</string>
   <string name="share_title">Ktoś z Twoich znajomych chce wypróbować Droid Notify!</string>
   <string name="share_description">Używam niesamowitej aplikacji Droid Notify. Wyświetla powiadomienia na ekranie dla różnych zdarzeń.\n\n.Możesz pobrać ją wyszukując w sklapach Androida słowa \'Droid Notify\'.</string>
@@ -180,7 +181,7 @@
   <string name="phone_default_language">Domyślny język telefonu</string>
   <string name="preference_phone_number_format">Format numeru telefonu</string>
   <string name="preference_phone_number_format_summary">Wybierz format numeru telefonu do wyświetlenia.</string>
-  <string name="preference_phone_number_format_10_digits_only_title">Wyświetlaj 10 cyfr</string>
+  <string name="preference_phone_number_format_10_digits_only_title">Wyświetlaj pierwsze 10 cyfr</string>
   <string name="preference_phone_number_format_10_digits_only_summary">Wyświetla pierwsze 10 cyfr z numeru telefonu. Jeśli cyfr jest więcej cyfra 0 będzie wyświetlana przed numerem.</string>
   <string name="preference_time_format">Format czasu</string>
   <string name="preference_time_format_summary">Wybierz format wyświetlania czasu.</string>
@@ -314,7 +315,7 @@
   <string name="click_to_view_message">[Kliknij tutaj, aby zobaczyć wiadomość]</string>
   <string name="click_to_view_log">[Kliknij tutaj, aby zobaczyć dziennik zdarzeń]</string>
   <string name="event_reminders_category">PRZYPOMNIENIA O ZDARZENIACH</string>
-  <string name="calendar">Kalandarz</string>
+  <string name="calendar">Kalendarz</string>
   <string name="add_calendar_event_text">Dodaj zdarzenie kalandarza</string>
   <string name="edit_calendar_event_text">Edytuj zdarzenie kalandarza</string>
   <string name="view_calendar_text">Pokaż kalendarz</string>
@@ -337,7 +338,7 @@
   <string name="use_current_calendar_reminder_settings">Użyj bieżących ustawień powiadomień kalendarza</string>
   <string name="use_current_calendar_reminder_settings_summary">Użyj bieżących ustawień dla powiadomień kalendarza </string>
   <string name="event_start_time_reminder">Powiadomienie o rozpoczęciu zdarzenia</string>
-  <string name="event_start_time_reminder_summary">Wyświetlaj przypomnienie po rozpoczęciu zdarzenia.</string>
+  <string name="event_start_time_reminder_summary">Wyświetlaj powiadomienie o rozpoczęciu zdarzenia (również dla zdarzeń bez ustawionego alarmu).</string>
   <string name="snooze">Odłóż</string>
   <string name="snooze_for">Odłóż do</string>
   <string name="dismiss_alarm">Wyłącz alarm</string>
@@ -566,8 +567,8 @@
   <string name="preference_hide_single_message_header_enabled_title">Ukryj nagłówek dla pojedyńczego powiadomienia</string>
   <string name="preference_hide_single_message_header_enabled_summaryOn">Okno powiadomienia nie wyświetli nagłowka z numerem(np. 1/1) gdy pojedyńcza wiadomość jest wyświetlana.</string>
   <string name="preference_hide_single_message_header_enabled_summaryOff">Okno powiadomienia wyświetli nagłowek z numerem(np. 1/1) gdy pojedyńcza wiadomość jest wyświetlana.</string>
-  <string name="blocking_app_running_action_text">Opcje zablokowanych powiadomień</string>
-  <string name="blocking_app_running_action_summary">Zdefinuj co ma się stać gdy nadejdzie powiadomienie w chwili gdy blokowana aplikacja jest uruchomiona.</string>
+  <string name="blocking_app_running_action_text">Opcje blokowania powiadomień</string>
+  <string name="blocking_app_running_action_summary">Zdefiniuj co ma się stać, gdy nadejdzie powiadomienie w chwili gdy aplikacja do blokowania jest uruchomiona.</string>
   <string name="confirm_clear_reset_authentication_data">Ta opcja wyczyści zapisane dane logowania.</string>
   <string name="clear_data">Wyczyść dane</string>
   <string name="status_bar_notification_content_title_text_sms">Nowa wiadomość</string>

@@ -8,6 +8,7 @@
   <string name="view">Megtekint</string>
   <string name="dismiss_all">Elutasítja mind</string>
   <string name="dismiss_all_dialog_text">Ez felmenti minden bejelentés.</string>
+  <string name="dismiss_all_loading_text">Értesítések elutasítása…</string>
   <string name="share">Megoszt</string>
   <string name="share_title">Próbáld ki a Droid Notify Android alkalmazást!</string>
   <string name="share_description">\"Én használtam ezt a döbbenetes Android alkalmazást, amit Droid Notify-nek hívnak. Ez bemutat egy előugró párbeszédet a képernyőmön, amikor bizonyos értesítéseket kapok.

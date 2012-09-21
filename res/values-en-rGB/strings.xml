@@ -8,6 +8,7 @@
   <string name="view">View</string>
   <string name="dismiss_all">Dismiss All</string>
   <string name="dismiss_all_dialog_text">This will dismiss all notifications.</string>
+  <string name="dismiss_all_loading_text">Dismissing notifications…</string>
   <string name="share">Share</string>
   <string name="share_title">Someone you know wants you to try the Android app Droid Notify!</string>
   <string name="share_description">I\'ve been using this awesome Android application called Droid Notify. It displays a popup dialogue on my screen when I receive certain notifications.\n\nYou can download this app on most Android app stores, just search for the keywords \'Droid Notify\'.</string>

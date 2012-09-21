@@ -1099,8 +1099,11 @@ public class Notification {
 		AlarmManager alarmManager = (AlarmManager)_context.getSystemService(Context.ALARM_SERVICE);
 		alarmManager.set(AlarmManager.RTC_WAKEUP, rescheduleTime, reschedulePendingIntent);
 		
-		//Insert reminder into the reminder db.
-		ReminderCommon.insertValue(_context, intentAction, false);
+		//Only use the reminder db for reminders, not normal reschedule events.
+		if(_preferences.getBoolean(Constants.REMINDERS_ENABLED_KEY, false) || _notificationType == Constants.NOTIFICATION_TYPE_CALENDAR){
+			//Insert reminder into the reminder db.
+			ReminderCommon.insertValue(_context, intentAction, false);
+		}
 	}
 	
 	/**

@@ -55,7 +55,9 @@ import android.os.Environment;
 import android.os.PowerManager;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.speech.tts.TextToSpeech;
+import android.telephony.TelephonyManager;
 import android.widget.Toast;
 
 import apps.droidnotify.common.Constants;
@@ -2268,6 +2270,35 @@ public class Common {
 			return true;
 		}catch (Exception ex){
 			return false;
+		}
+	}
+	
+	/**
+	 * Is this device a WiFi only device?
+	 * 
+	 * @param context - The application context.
+	 * 
+	 * @return boolean - True if the device is a WiFi only device, false otherwise.
+	 */
+	public static boolean isDeviceWiFiOnly(Context context){
+		PackageManager packageManager = context.getPackageManager();
+		if(packageManager.hasSystemFeature(PackageManager.FEATURE_TELEPHONY)){
+			//Check to make sure that is has this feature.
+			if(Settings.System.getInt(context.getContentResolver(), Settings.System.AIRPLANE_MODE_ON, 0) != 0){
+				try{
+					if(((TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId() == null){
+						return true;
+					}else{
+						return false;
+					}
+				}catch(Exception ex){
+					return true;
+				}
+			}else{
+				return false;
+			}
+		}else{
+			return true;
 		}
 	}
 	

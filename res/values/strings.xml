@@ -10,7 +10,8 @@
     
     <!-- Dismiss Strings -->
     <string name="dismiss_all">Dismiss All</string> 
-    <string name="dismiss_all_dialog_text">This will dismiss all notifications.</string> 
+    <string name="dismiss_all_dialog_text">This will dismiss all notifications.</string>
+    <string name="dismiss_all_loading_text">Dismissing notifications&#8230;</string>
     
     <!-- Share Strings -->
     <string name="share">Share</string>

@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -22,16 +23,13 @@ import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.view.ContextThemeWrapper;
 import android.view.Display;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
@@ -49,7 +47,6 @@ import apps.droidnotify.phone.PhoneCommon;
 import apps.droidnotify.preferences.PreferencesActivity;
 import apps.droidnotify.receivers.ScreenManagementAlarmReceiver;
 import apps.droidnotify.sms.SMSCommon;
-
 /**
  * This is the main activity that runs the notifications.
  * 
@@ -93,8 +90,6 @@ public class NotificationActivity extends Activity{
 	private SharedPreferences _preferences = null;
 	private PendingIntent _screenTimeoutPendingIntent = null;
 	private TextToSpeech _tts = null;
-    private AlertDialog _dismissAllNotificationsDialog = null;
-    private NotificationActivity _notificationActivity = null;
 
 	//================================================================================
 	// Public Methods
@@ -794,7 +789,6 @@ public class NotificationActivity extends Activity{
 	    if(_debug) Log.v("NotificationActivity.onCreate()");
 		int apiLevel = Common.getDeviceAPILevel();
 	    _context = getApplicationContext();
-	    _notificationActivity = this;
 	    _preferences = PreferenceManager.getDefaultSharedPreferences(_context);
 	    Common.setApplicationLanguage(_context, this);
 	    Common.setInLinkedAppFlag(_context, false);
@@ -1503,20 +1497,16 @@ public class NotificationActivity extends Activity{
      * Dismiss all notifications asynchronous task.
      */
     private class DismissAllNotificationsTask extends AsyncTask<Void, Void, Boolean>{
-        
+    	
+    	//ProgressDialog to display while the task is running.
+    	private ProgressDialog dialog;
+    	
         /**
          * Do this work before the background task starts.
          */  	
         @Override
         protected void onPreExecute(){
-        	ContextThemeWrapper contextThemeWrapper = new ContextThemeWrapper(_notificationActivity, R.style.Theme_TransparentDialog);
-        	AlertDialog.Builder builder = new AlertDialog.Builder(contextThemeWrapper);
-        	LayoutInflater inflater = (LayoutInflater) _context.getSystemService(LAYOUT_INFLATER_SERVICE);
-        	View layout = inflater.inflate(R.layout.dismiss_all_notifications_dialog, (ViewGroup) findViewById(R.id.dismiss_all_notifications_relative_layout));
-        	builder.setView(layout);
-        	_dismissAllNotificationsDialog = builder.create();
-        	_dismissAllNotificationsDialog.getWindow().setBackgroundDrawable(_context.getResources().getDrawable(R.drawable.transparent));
-        	_dismissAllNotificationsDialog.show();
+        	dialog = ProgressDialog.show(NotificationActivity.this, "", _context.getString(R.string.dismiss_all_loading_text), true);
         }
         
 	    /**
@@ -1533,10 +1523,10 @@ public class NotificationActivity extends Activity{
 	     */
         @Override
         protected void onPostExecute(Boolean result){
-        	_dismissAllNotificationsDialog.dismiss();			
+        	dialog.dismiss();			
 			finishActivity();
         }
         
-    }  
+    }   
 	
 }

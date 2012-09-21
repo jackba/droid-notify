@@ -9,8 +9,8 @@ import android.database.Cursor;
 
 import apps.droidnotify.receivers.ReminderDBManagementReceiver;
 import apps.droidnotify.db.DBConstants;
-import apps.droidnotify.log.Log;
 import apps.droidnotify.db.SQLiteHelperReminder;
+import apps.droidnotify.log.Log;
 
 /**
  * This class is a collection of methods that are used to manage reminders.
@@ -63,19 +63,23 @@ public class ReminderCommon {
 						selectionArgs,
 						sortOrder);
 			    if(cursor ==  null){
-			    	if(_debug) Log.v("ReminderCommon.insertValue() Currsor is null.");
-			    	return false;
+			    	if(_debug) Log.v("ReminderCommon.insertValue() Currsor is null, no record found for this intentAction.");
+			    }else{
+				    if(cursor.moveToFirst()){
+				    	//This reminder has already been added.
+				    	if(_debug) Log.v("ReminderCommon.insertValue() Reminder action has already been added. Returning existing entry.");
+				    	cursor.close();
+				    	//Return existing row of data.
+			        	return true;
+				    }
+				    cursor.close();
 			    }
-			    if(cursor.moveToFirst()){
-			    	//This reminder has already been added.
-			    	if(_debug) Log.v("ReminderCommon.insertValue() Reminder action has already been added. Returning existing entry.");
-			    	cursor.close();
-			    	//Return existing row of data.
-		        	return true;
-			    }
-			    cursor.close();
 			}catch(Exception ex){
 				Log.e("ReminderCommon.insertValue() Check If Entry Exists ERROR: " + ex.toString());
+				//Create the reminder database.
+				SQLiteHelperReminder reminderDBHelper = new SQLiteHelperReminder(context);
+	        	reminderDBHelper.getReadableDatabase();
+	        	reminderDBHelper.close();
 				if(cursor != null){
 					cursor.close();
 				}
@@ -88,12 +92,6 @@ public class ReminderCommon {
 			contentValues.put(DBConstants.COLUMN_DISMISSED, dismissedInt);
         	context.getContentResolver().insert(DBConstants.CONTENT_URI_REMINDER, contentValues);
         	return true;
-        }catch(IllegalArgumentException iae){
-        	//Create the database if it's not already been created.
-        	@SuppressWarnings("unused")
-			SQLiteHelperReminder reminderDBHelper = new SQLiteHelperReminder(context);
-        	//Try to execute the above command again.
-        	return insertValue(context, intentAction, dismissed);
 		}catch(Exception ex){
 			Log.e("ReminderCommon.insertValue() ERROR: " + ex.toString());
 			return false;
@@ -123,14 +121,12 @@ public class ReminderCommon {
 			String updateWhere = DBConstants.COLUMN_ACTION + "=?";
         	context.getContentResolver().update(DBConstants.CONTENT_URI_REMINDER, contentValues, updateWhere, new String[]{intentAction});
         	return true;
-        }catch(IllegalArgumentException iae){
-        	//Create the database if it's not already been created.
-        	@SuppressWarnings("unused")
-			SQLiteHelperReminder reminderDBHelper = new SQLiteHelperReminder(context);
-        	//Try to execute the above command again.
-        	return updateValue(context, intentAction, dismissed);
 		}catch(Exception ex){
 			Log.e("ReminderCommon.updateValue() ERROR: " + ex.toString());
+			//Create the reminder database.
+			SQLiteHelperReminder reminderDBHelper = new SQLiteHelperReminder(context);
+        	reminderDBHelper.getReadableDatabase();
+        	reminderDBHelper.close();
 			return false;
 		}
 	}
@@ -178,12 +174,6 @@ public class ReminderCommon {
     		    	cursor.close();
     		    	return false;
     		    }
-            }catch(IllegalArgumentException iae){
-            	//Create the database if it's not already been created.
-            	@SuppressWarnings("unused")
-    			SQLiteHelperReminder reminderDBHelper = new SQLiteHelperReminder(context);
-            	//Try to execute the above command again.
-            	return isDismissed(context, intentAction);
     		}catch(Exception ex){
     			Log.e("ReminderCommon.isDismissed() DB Search ERROR: " + ex.toString());
     			if(cursor != null){
@@ -210,14 +200,12 @@ public class ReminderCommon {
 			String[] selectionArgs = new String[]{String.valueOf(System.currentTimeMillis() - (MILLISECONDS_PER_DAY * 3))};
         	context.getContentResolver().delete(DBConstants.CONTENT_URI_REMINDER, deleteWhere, selectionArgs);
         	return true;
-        }catch(IllegalArgumentException iae){
-        	//Create the database if it's not already been created.
-        	@SuppressWarnings("unused")
-			SQLiteHelperReminder reminderDBHelper = new SQLiteHelperReminder(context);
-        	//Try to execute the above command again.
-        	return cleanDB(context);
 		}catch(Exception ex){
 			Log.e("ReminderCommon.cleanDB() ERROR: " + ex.toString());
+			//Create the reminder database.
+			SQLiteHelperReminder reminderDBHelper = new SQLiteHelperReminder(context);
+        	reminderDBHelper.getReadableDatabase();
+        	reminderDBHelper.close();
 			return false;
 		}
 	}

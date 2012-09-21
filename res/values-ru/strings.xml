@@ -8,6 +8,7 @@
   <string name="view">Просмотреть</string>
   <string name="dismiss_all">Отменить все</string>
   <string name="dismiss_all_dialog_text">Отменить все оповещения</string>
+  <string name="dismiss_all_loading_text">Увольнения уведомлений…</string>
   <string name="share">Поделиться</string>
   <string name="share_title">Вам предложили воспользоваться приложением Droid Notify!</string>
   <string name="share_description">Удобное приложение для оповещения о событиях звонков,сообщений,писем,календаря,Facebook,Twitter.Оно показывает оповещением на домашнем экране.\n\nТы можешь скачать его на разных маркетах,ищи \'Droid Notify\'.</string>

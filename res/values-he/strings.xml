@@ -8,6 +8,7 @@
   <string name="view">הצג</string>
   <string name="dismiss_all">בטל הכל</string>
   <string name="dismiss_all_dialog_text">זה ישחרר את כל ההתראות.</string>
+  <string name="dismiss_all_loading_text">משחרר התראות</string>
   <string name="share">שיתוף</string>
   <string name="share_title">מישהו שאתה מכיר רוצה שתנסה את אפליקציית האנדרואיד Droid Notify!</string>
   <string name="share_description">אני משתמש באפליקציית האנדרואיד המדהימה הזו שנקראת Droid Notify. היא מציגה התראה בחלון קופץ במסך שלי כאשר אני מקבל התראות מסוימות.\n\nניתן להוריד יישום זה ברוב חנויות האנדרואיד, רק חפש את מילות המפתח \'Droid Notify\'.</string>
