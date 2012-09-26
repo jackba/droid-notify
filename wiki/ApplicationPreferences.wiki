@@ -26,6 +26,12 @@ Basic
  * Quick Reply Settings
   * Insert Signature
   * Signature
+  * Hide Header Panel
+  * Hide Contact Panel
+  * Hide Button Panel
+  * Message Sent Notification
+  * Message Delivered Notification
+  * Message Failed Notification
  * Customize Contacts
  * Blacklist
 
