@@ -82,7 +82,7 @@ public class RescheduleService extends WakefulIntentService {
 					}
 			    }
 		    }
-		    //If notification is an calendar event, check to see if it's already been dismissed.
+		    //If notification is an calendar event, check to see if it's already been dismissed or deleted.
 		    if(notificationType == Constants.NOTIFICATION_TYPE_CALENDAR){
 				Bundle rescheduleNotificationBundle = bundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME);
 			    if(rescheduleNotificationBundle != null){
@@ -90,12 +90,29 @@ public class RescheduleService extends WakefulIntentService {
 					if(rescheduleNotificationBundleSingle != null){
 						long eventID = rescheduleNotificationBundleSingle.getLong(Constants.BUNDLE_CALENDAR_EVENT_ID, -1);
 				    	if(CalendarCommon.isEventDismissed(context, eventID)){
-				    		if (_debug) Log.v("RescheduleBroadcastReceiverService.doWakefulWork() Calendar Event has already been dismissed. Exiting...");
+				    		if (_debug) Log.v("RescheduleBroadcastReceiverService.doWakefulWork() Calendar event has already been dismissed. Exiting...");
+				    		return;
+				    	}
+				    	if(!CalendarCommon.eventExists(context, eventID)){
+				    		if (_debug) Log.v("RescheduleBroadcastReceiverService.doWakefulWork() Calendar event has been deleted. Exiting...");
 				    		return;
 				    	}
 					}
 			    }
 		    }
+//		    //If notification is a k-9 email, check to see if it's been deleted.
+//		    if(notificationType == Constants.NOTIFICATION_TYPE_K9){
+//				Bundle rescheduleNotificationBundle = bundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME);
+//			    if(rescheduleNotificationBundle != null){
+//					Bundle rescheduleNotificationBundleSingle = rescheduleNotificationBundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_1");
+//					if(rescheduleNotificationBundleSingle != null){
+//				    	if(!K9Common.k9EmailExists(context, rescheduleNotificationBundleSingle.getLong(Constants.BUNDLE_MESSAGE_ID, -1), rescheduleNotificationBundleSingle.getInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, -1), rescheduleNotificationBundleSingle.getString(Constants.BUNDLE_K9_EMAIL_ACCOUNT_NAME))){
+//				    		if (_debug) Log.v("RescheduleBroadcastReceiverService.doWakefulWork() K9 email has been deleted. Exiting...");
+//				    		return;
+//				    	}
+//					}
+//			    }
+//		    }
 		    //Check the state of the users phone.
 		    TelephonyManager telemanager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 		    boolean notificationIsBlocked = false;

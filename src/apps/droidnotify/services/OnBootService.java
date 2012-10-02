@@ -56,6 +56,8 @@ public class OnBootService extends WakefulIntentService {
 			//Start Calendar Alarms
 		    if(preferences.getBoolean(Constants.CALENDAR_NOTIFICATIONS_ENABLED_KEY, true)){
 		    	CalendarCommon.startCalendarAlarmManager(context, System.currentTimeMillis() + (5 * 60 * 1000));
+			}else{
+				CalendarCommon.cancelCalendarAlarmManager(context);
 			}
 		}catch(Exception ex){
 			Log.e("OnBootBroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());

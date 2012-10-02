@@ -5,11 +5,19 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -19,6 +27,7 @@ import android.telephony.SmsMessage;
 import android.telephony.SmsMessage.MessageClass;
 import android.widget.Toast;
 
+import apps.droidnotify.MainApplication;
 import apps.droidnotify.NotificationActivity;
 import apps.droidnotify.R;
 import apps.droidnotify.common.Common;
@@ -34,13 +43,19 @@ import apps.droidnotify.phone.PhoneCommon;
  * @author Camille Sévigny
  */
 public class SMSCommon {
+	
+	//================================================================================
+    // Constants
+    //================================================================================	
 
+	private static final String SMS_SENT = "apps.droidnotify.sms.sent";
+	private static final String SMS_DELIVERED = "apps.droidnotify.sms.delivered";
+	
 	//================================================================================
     // Properties
     //================================================================================
 	
 	private static boolean _debug = false;
-	private static Context _context= null;
 	
 	//================================================================================
 	// Public Methods
@@ -1059,8 +1074,11 @@ public class SMSCommon {
 	 * @param threadID - The Thread ID that we are replying to.
 	 */
 	public static void sendSMSTask(Context context, String address, String message, long messageID, long threadID){
-		_context = context;
-		new sendSMSAsyncTask().execute(address, message, String.valueOf(messageID), String.valueOf(threadID));
+		try{
+			new sendSMSAsyncTask().execute(address, message, String.valueOf(messageID), String.valueOf(threadID));
+		}catch(Exception ex){
+			Log.e("SMSCommon.sendSMSTask() ERROR: " + ex.toString());
+		}
 	}
 	
 	//================================================================================
@@ -1107,58 +1125,77 @@ public class SMSCommon {
 	public static boolean sendSMS(String address, String message, long messageID, long threadID){
 		_debug = Log.getDebug();  
 		if(_debug) Log.v("SMSCommon.sendSMS()");
-		try{
-			
-//			final String SMS_SENT = "SMS_SENT";
-//			final String SMS_DELIVERED = "SMS_DELIVERED";
-//	        PendingIntent sentPI = PendingIntent.getBroadcast(this, 0, new Intent(SMS_SENT), 0);
-//	        PendingIntent deliveredPI = PendingIntent.getBroadcast(this, 0, new Intent(SMS_DELIVERED), 0);
-//	        PendingIntent sentPI = null;
-//	        PendingIntent deliveredPI = null;
-//	        //When the SMS has been sent.
-//	        registerReceiver(new BroadcastReceiver(){
-//	            @Override
-//	            public void onReceive(Context arg0, Intent arg1){
-//	                switch (getResultCode())
-//	                {
-//	                    case Activity.RESULT_OK:
-//	                        Toast.makeText(getBaseContext(), getString(R.string.message_sent_text), Toast.LENGTH_LONG).show();
-//	                        break;
-//	                    case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
-//	                        Toast.makeText(getBaseContext(), getString(R.string.message_sent_error_generic_failure_text), Toast.LENGTH_LONG).show();
-//	                        break;
-//	                    case SmsManager.RESULT_ERROR_NO_SERVICE:
-//	                        Toast.makeText(getBaseContext(), getString(R.string.message_sent_error_no_service_text), Toast.LENGTH_LONG).show();
-//	                        break;
-//	                    case SmsManager.RESULT_ERROR_NULL_PDU:
-//	                        Toast.makeText(getBaseContext(), getString(R.string.message_sent_error_null_pdu_text), Toast.LENGTH_LONG).show();
-//	                        break;
-//	                    case SmsManager.RESULT_ERROR_RADIO_OFF:
-//	                        Toast.makeText(getBaseContext(), getString(R.string.message_sent_error_radio_off_text), Toast.LENGTH_LONG).show();
-//	                        break;
-//	                }
-//	            }
-//	        }, new IntentFilter(SMS_SENT));
-//	        //When the SMS has been delivered.
-//	        registerReceiver(new BroadcastReceiver(){
-//	            @Override
-//	            public void onReceive(Context arg0, Intent arg1){
-//	                switch (getResultCode())
-//	                {
-//	                    case Activity.RESULT_OK:
-//	                        Toast.makeText(getBaseContext(), getString(R.string.message_delivered_text), Toast.LENGTH_LONG).show();
-//	                        break;
-//	                    case Activity.RESULT_CANCELED:
-//	                        Toast.makeText(getBaseContext(), getString(R.string.message_not_delivered_text), Toast.LENGTH_LONG).show();
-//	                        break;                        
-//	                }
-//	            }
-//	        }, new IntentFilter(SMS_DELIVERED)); 
-			
-			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(_context);
-			//Include the signature.
+		try{	
+			final Context context = MainApplication.getContext();
+	        PendingIntent sentPendingIntent = PendingIntent.getBroadcast(context, 0, new Intent(SMS_SENT), 0);
+	        PendingIntent deliveredPendingIntent = PendingIntent.getBroadcast(context, 0, new Intent(SMS_DELIVERED), 0);	        
+	        //Register a receiver to catch when the SMS has been sent.
+	        context.registerReceiver(new BroadcastReceiver(){
+	            @Override
+	            public void onReceive(Context arg0, Intent arg1){
+	            	int resultCode = getResultCode();
+	                switch (resultCode){
+	                    case Activity.RESULT_OK:{
+	                    	Log.v("SMSCommon.sendSMS.sentPendingIntent.onReceive() RESULT_OK");
+	                        postDeliveryReportStatusBarNotification(context, SMS_SENT, resultCode);
+	                    	return;
+	            		}
+	                    case SmsManager.RESULT_ERROR_GENERIC_FAILURE:{
+	                    	Log.e("SMSCommon.sendSMS.sentPendingIntent.onReceive() SEND ERROR: RESULT_ERROR_GENERIC_FAILURE");
+	                        postDeliveryReportStatusBarNotification(context, SMS_SENT, resultCode);
+	                    	return;
+	                    }
+	                    case SmsManager.RESULT_ERROR_NO_SERVICE:{
+	                    	Log.e("SMSCommon.sendSMS.sentPendingIntent.onReceive() SEND ERROR: RESULT_ERROR_NO_SERVICE");
+	                        postDeliveryReportStatusBarNotification(context, SMS_SENT, resultCode);
+	                    	return;
+    						}
+	                    case SmsManager.RESULT_ERROR_NULL_PDU:{
+	                    	Log.e("SMSCommon.sendSMS.sentPendingIntent.onReceive() SEND ERROR: RESULT_ERROR_NULL_PDU");
+	                        postDeliveryReportStatusBarNotification(context, SMS_SENT, resultCode);
+	                    	return;
+						}
+	                    case SmsManager.RESULT_ERROR_RADIO_OFF:{
+	                    	Log.e("SMSCommon.sendSMS.sentPendingIntent.onReceive() SEND ERROR: RESULT_ERROR_RADIO_OFF");
+	                        postDeliveryReportStatusBarNotification(context, SMS_SENT, resultCode);
+	                    	return;
+						}
+	                    default:{
+	                    	Log.e("SMSCommon.sendSMS.sentPendingIntent.onReceive() SEND ERROR: UNKNOWN ERROR");
+	                        postDeliveryReportStatusBarNotification(context, SMS_SENT, resultCode);
+	                    	return;
+	                    }
+	        		}
+	            }
+	        }, new IntentFilter(SMS_SENT));	        
+	        //Register a receiver to catch when the SMS has been delivered.
+	        context.registerReceiver(new BroadcastReceiver(){
+	            @Override
+	            public void onReceive(Context arg0, Intent arg1){
+	            	int resultCode = getResultCode();
+	                switch (resultCode){
+	                    case Activity.RESULT_OK:{
+	                    	Log.v("SMSCommon.sendSMS.deletePendingIntent.onReceive() RESULT_OK");
+	                        postDeliveryReportStatusBarNotification(context, SMS_DELIVERED, resultCode);
+	                        return;
+	                    }
+	                    case Activity.RESULT_CANCELED:{
+	                    	Log.e("SMSCommon.sendSMS.deletePendingIntent.onReceive() RESULT_CANCELED");
+	                        postDeliveryReportStatusBarNotification(context, SMS_DELIVERED, resultCode);
+	                    	return;  
+	                    }
+	                    default:{
+	                    	Log.e("SMSCommon.sendSMS.deletePendingIntent.onReceive() UNKNOWN ERROR");
+	                        postDeliveryReportStatusBarNotification(context, SMS_DELIVERED, resultCode);
+	                    	return;
+	                    }
+	                }
+	            }
+	        }, new IntentFilter(SMS_DELIVERED));
+			//Include the signature.			
+			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 	        if(preferences.getBoolean(Constants.QUICK_REPLY_SIGNATURE_ENABLED_KEY, true)){
-	        	message += " " + preferences.getString(Constants.QUICK_REPLY_SIGNATURE_KEY, _context.getString(R.string.quick_reply_default_signature));
+	        	message += " " + preferences.getString(Constants.QUICK_REPLY_SIGNATURE_KEY, context.getString(R.string.quick_reply_default_signature));
 	        }
 	        //if(_debug) Log.v("SMSCommon.sendSMS() Message: " + message);
 			SmsManager smsManager = SmsManager.getDefault();
@@ -1242,11 +1279,11 @@ public class SMSCommon {
 							//Send a single SMS message.
 							//if(_debug) Log.v("SMSCommon.sendSMS() Email SMS Message Sent: " + smsToEmailMessageHeader + message);
 							if(_debug) Log.v("SMSCommon.sendSMS() Email SMS Message Sent");
-							smsManager.sendTextMessage(smsToEmailGatewayNumber, null, smsToEmailMessageHeader + message, null, null);
+							smsManager.sendTextMessage(smsToEmailGatewayNumber, null, smsToEmailMessageHeader + message, sentPendingIntent, deliveredPendingIntent);
 					        //Mark SMS Message as read.
-					        setMessageRead(_context, messageID, threadID, true);
+					        setMessageRead(context, messageID, threadID, true);
 					        //Save the sent message to the phone.
-							writeSentSMSMessage(_context, address, message);
+							writeSentSMSMessage(context, address, message);
 							return true;
 						}else{
 							//Send multiple smaller SMS messages.
@@ -1256,12 +1293,12 @@ public class SMSCommon {
 							int size = messageArray.length;
 							for(int i=0; i<size; i++){
 								//if(_debug) Log.v("SMSCommon.sendSMS() Email SMS Message Part Sent: " + smsToEmailMessageHeader + messageArray[i]);
-								smsManager.sendTextMessage(smsToEmailGatewayNumber, null, smsToEmailMessageHeader + messageArray[i], null, null);
+								smsManager.sendTextMessage(smsToEmailGatewayNumber, null, smsToEmailMessageHeader + messageArray[i], sentPendingIntent, deliveredPendingIntent);
 						        //Save the sent message to the phone.
-								writeSentSMSMessage(_context, address, message);
+								writeSentSMSMessage(context, address, message);
 							}
 					        //Mark SMS Message as read.
-					        setMessageRead(_context, messageID, threadID, true);
+					        setMessageRead(context, messageID, threadID, true);
 							return true;
 						}
 					}else{
@@ -1277,15 +1314,22 @@ public class SMSCommon {
 					//Send to regular text message number.
 					//Split message before sending using multiparts.
 					if(preferences.getBoolean(Constants.SMS_SPLIT_MESSAGE_KEY, false)){
-						//TODO
+						//TODO - Manually split messages and send individualy.
 					}else{
 						if(_debug) Log.v("SMSCommon.sendSMS() Email SMS Message Sent");
 						ArrayList<String> parts = smsManager.divideMessage(message);
-						smsManager.sendMultipartTextMessage(address, null, parts, null, null);
+						int size = parts.size();
+						ArrayList<PendingIntent> sentPendingIntentArray = new ArrayList<PendingIntent>();
+						ArrayList<PendingIntent> deliveredPendingIntentArray = new ArrayList<PendingIntent>();
+						for(int i=0; i<size; i++){
+							sentPendingIntentArray.add(sentPendingIntent);
+							deliveredPendingIntentArray.add(deliveredPendingIntent);
+						}
+						smsManager.sendMultipartTextMessage(address, null, parts, sentPendingIntentArray, deliveredPendingIntentArray);
 				        //Mark SMS Message as read.
-				        setMessageRead(_context, messageID, threadID, true);
+				        setMessageRead(context, messageID, threadID, true);
 				        //Save the sent message to the phone.
-						writeSentSMSMessage(_context, address, message);
+						writeSentSMSMessage(context, address, message);
 					}
 					return true;
 				}catch(Exception ex){
@@ -1332,7 +1376,6 @@ public class SMSCommon {
 	 */
 	private static boolean writeSentSMSMessage(Context context, String address, String message){
     	try{
-    		//if(_debug) Log.v("SMSCommon.writeSentSMSMessage() Storing message in sent message folder.");
             ContentValues values = new ContentValues();
             values.put("address", address);
             values.put("body", message);
@@ -1341,6 +1384,223 @@ public class SMSCommon {
     	}catch(Exception ex){
     		Log.e("SMSCommon.writeSentSMSMessage() Insert Into Sent Folder ERROR: " + ex.toString());
     		return false;
+    	}
+	}
+	
+	/**
+	 * Post the delivery report SMS notification to the status bar.
+	 * 
+	 * @param type - The result type that we are processing.
+	 * @param resultCode - The result of sending the SMS message.
+	 */
+	@SuppressLint("NewApi")
+	@SuppressWarnings("deprecation")
+	private static void postDeliveryReportStatusBarNotification(Context context, String resultType, int resultCode){		
+		_debug = Log.getDebug();
+		if (_debug) Log.v("SMSCommon.postDeliveryReportStatusBarNotification() ResultType: " + resultType + " Resultcode: " + resultCode);
+		try{
+			final int STAUTS_BAR_NOTIFICATION_TYPE_INFO = -3;
+			final int STAUTS_BAR_NOTIFICATION_TYPE_FAILED = -4;
+			final int DELIVERY_REPORT_MESSAGE_SENT = 1;
+			final int DELIVERY_REPORT_MESSAGE_DELIVERED = 2;
+			final int DELIVERY_REPORT_MESSAGE_FAILED_NOT_SENT = 3;
+			final int DELIVERY_REPORT_MESSAGE_FAILED_NOT_DELIVERED = 4;
+			int deliveryReportType = -1;
+			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+			if(resultType.equals(SMS_SENT)){
+				switch (resultCode){
+		            case Activity.RESULT_OK:{
+		            	if(preferences.getBoolean(Constants.QUICK_REPLY_MESSAGE_SENT_DELIVERY_REPORT_ENABLED_KEY, false)){
+		            		deliveryReportType = DELIVERY_REPORT_MESSAGE_SENT;
+		            		break;
+		            	}else{
+		            		return;
+		            	}
+		    		}
+		            case SmsManager.RESULT_ERROR_GENERIC_FAILURE:{
+		            	if(preferences.getBoolean(Constants.QUICK_REPLY_MESSAGE_FAILED_DELIVERY_REPORT_ENABLED_KEY, false)){
+		            		deliveryReportType = DELIVERY_REPORT_MESSAGE_FAILED_NOT_SENT;
+		            		break;
+		            	}else{
+		            		return;
+		            	}
+		            }
+		            case SmsManager.RESULT_ERROR_NO_SERVICE:{
+		            	if(preferences.getBoolean(Constants.QUICK_REPLY_MESSAGE_FAILED_DELIVERY_REPORT_ENABLED_KEY, false)){
+		            		deliveryReportType = DELIVERY_REPORT_MESSAGE_FAILED_NOT_SENT;
+		            		break;
+		            	}else{
+		            		return;
+		            	}
+					}
+		            case SmsManager.RESULT_ERROR_NULL_PDU:{
+		            	if(preferences.getBoolean(Constants.QUICK_REPLY_MESSAGE_FAILED_DELIVERY_REPORT_ENABLED_KEY, false)){
+		            		deliveryReportType = DELIVERY_REPORT_MESSAGE_FAILED_NOT_SENT;
+		            		break;
+		            	}else{
+		            		return;
+		            	}
+					}
+		            case SmsManager.RESULT_ERROR_RADIO_OFF:{
+		            	if(preferences.getBoolean(Constants.QUICK_REPLY_MESSAGE_FAILED_DELIVERY_REPORT_ENABLED_KEY, false)){
+		            		deliveryReportType = DELIVERY_REPORT_MESSAGE_FAILED_NOT_SENT;
+		            		break;
+		            	}else{
+		            		return;
+		            	}
+					}
+		            default:{
+		            	if(preferences.getBoolean(Constants.QUICK_REPLY_MESSAGE_FAILED_DELIVERY_REPORT_ENABLED_KEY, false)){
+		            		deliveryReportType = DELIVERY_REPORT_MESSAGE_FAILED_NOT_SENT;
+		            		break;
+		            	}else{
+		            		return;
+		            	}
+		            }
+				}
+			}else{
+				switch (resultCode){
+		            case Activity.RESULT_OK:{
+		            	if(preferences.getBoolean(Constants.QUICK_REPLY_MESSAGE_DELIVERED_DELIVERY_REPORT_ENABLED_KEY, false)){
+		            		deliveryReportType = DELIVERY_REPORT_MESSAGE_DELIVERED;
+		            		break;
+		            	}else{
+		            		return;
+		            	}
+		            }
+		            case Activity.RESULT_CANCELED:{
+		            	if(preferences.getBoolean(Constants.QUICK_REPLY_MESSAGE_FAILED_DELIVERY_REPORT_ENABLED_KEY, false)){
+		            		deliveryReportType = DELIVERY_REPORT_MESSAGE_FAILED_NOT_DELIVERED;
+		            		break;
+		            	}else{
+		            		return;
+		            	}
+		            }
+		            default:{
+		            	if(preferences.getBoolean(Constants.QUICK_REPLY_MESSAGE_FAILED_DELIVERY_REPORT_ENABLED_KEY, false)){
+		            		deliveryReportType = DELIVERY_REPORT_MESSAGE_FAILED_NOT_DELIVERED;
+		            		break;
+		            	}else{
+		            		return;
+		            	}
+		            }
+		        }
+			}
+			if (_debug) Log.v("SMSCommon.postDeliveryReportStatusBarNotification() Creating Status Bar Notification");
+			//Content properties.
+			int statusBarNotificationType = 0;
+			CharSequence tickerText = null;
+			CharSequence contentTitle = null;
+			CharSequence contentText = null;
+			Intent contentIntent = new Intent(Intent.ACTION_MAIN);
+			contentIntent.setType("vnd.android-dir/mms-sms");
+			contentIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			PendingIntent contentPendingIntent = PendingIntent.getActivity(context, 0, contentIntent, 0);
+			int icon = 0;
+			long[] vibratePattern = null;
+			int ledBlinkOn = 1000;
+			int ledBlinkOff = 1000;
+			int ledColor = 0;
+			switch(deliveryReportType){
+				case DELIVERY_REPORT_MESSAGE_SENT:{
+					contentTitle = context.getString(R.string.message_sent);
+					contentText = context.getString(R.string.message_sent_successfully);
+					tickerText = contentText;
+					icon = R.drawable.status_bar_notification_delivery_report_sms_info;
+					vibratePattern = new long[]{0,1200};
+					ledBlinkOn = 1000;
+					ledBlinkOff = 1000;
+					ledColor = Color.parseColor("green");
+					statusBarNotificationType = STAUTS_BAR_NOTIFICATION_TYPE_INFO;
+					break;
+				}
+				case DELIVERY_REPORT_MESSAGE_DELIVERED:{
+					contentTitle = context.getString(R.string.message_delivered);
+					contentText = context.getString(R.string.message_delivered_successfully);
+					tickerText = contentText;
+					icon = R.drawable.status_bar_notification_delivery_report_sms_info;
+					vibratePattern = new long[]{0,1200};
+					ledBlinkOn = 1000;
+					ledBlinkOff = 1000;
+					ledColor = Color.parseColor("green");statusBarNotificationType = STAUTS_BAR_NOTIFICATION_TYPE_INFO;
+					break;
+				}
+				case DELIVERY_REPORT_MESSAGE_FAILED_NOT_SENT:{
+					contentTitle = context.getString(R.string.message_not_sent);
+					contentText = context.getString(R.string.message_could_not_be_sent);
+					tickerText = contentText;
+					icon = R.drawable.status_bar_notification_delivery_report_sms_failed;
+					vibratePattern = new long[]{0,300,100,300,100,300,100,300,100};
+					ledBlinkOn = 300;
+					ledBlinkOff = 300;
+					ledColor = Color.parseColor("red");
+					statusBarNotificationType = STAUTS_BAR_NOTIFICATION_TYPE_FAILED;
+					break;
+				}
+				case DELIVERY_REPORT_MESSAGE_FAILED_NOT_DELIVERED:{
+					contentTitle = context.getString(R.string.message_not_delivered);
+					contentText = context.getString(R.string.message_could_not_be_delivered);
+					tickerText = contentText;
+					icon = R.drawable.status_bar_notification_delivery_report_sms_failed;
+					vibratePattern = new long[]{0,300,100,300,100,300,100,300,100};
+					ledBlinkOn = 300;
+					ledBlinkOff = 300;
+					ledColor = Color.parseColor("red");
+					statusBarNotificationType = STAUTS_BAR_NOTIFICATION_TYPE_FAILED;
+					break;
+				}
+				default:{
+					return;
+				}
+			}
+			if (_debug) Log.v("SMSCommon.postDeliveryReportStatusBarNotification() Setting Up Status Bar Notification");
+			//Setup the notification
+			int apiLevel = Common.getDeviceAPILevel();
+			NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+			Notification notification = null;
+			if(apiLevel >= android.os.Build.VERSION_CODES.HONEYCOMB){
+				Notification.Builder notificationBuilder = new Notification.Builder(context);
+				notificationBuilder.setContentIntent(contentPendingIntent)
+					.setDeleteIntent(null)
+		            .setSmallIcon(icon)
+		            .setTicker(tickerText)
+		            .setWhen(System.currentTimeMillis())
+		            .setAutoCancel(true)
+	            	.setOngoing(false)
+		            .setContentTitle(contentTitle)
+		            .setContentText(contentText);
+				//Setup the notification vibration
+				notificationBuilder.setVibrate(vibratePattern);
+				//Setup the notification sound, use default sound
+				notificationBuilder.setDefaults(Notification.DEFAULT_SOUND);
+				//Setup the notification LED lights
+				notificationBuilder.setLights(ledColor, ledBlinkOn, ledBlinkOff);
+				notification = notificationBuilder.getNotification();
+			}else{
+				notification = new Notification(icon, tickerText, System.currentTimeMillis());
+				//Set notification flags
+				notification.flags = Notification.FLAG_AUTO_CANCEL;
+				//Setup the notification vibration
+				notification.vibrate = vibratePattern;
+				//Setup the notification sound, use default sound
+				notification.defaults |= Notification.DEFAULT_SOUND;
+				//Setup the notification LED lights
+				notification.flags |= Notification.FLAG_SHOW_LIGHTS;
+				//LED Color
+		        notification.ledARGB = ledColor;
+				//LED Pattern
+				notification.ledOnMS = ledBlinkOn;
+		        notification.ledOffMS = ledBlinkOff;
+				notification.flags |= Notification.FLAG_SHOW_LIGHTS;
+				notification.flags |= Notification.FLAG_AUTO_CANCEL;
+				//Set notification intent values
+				notification.deleteIntent = null;
+				notification.setLatestEventInfo(context, contentTitle, contentText, contentPendingIntent);
+			}
+			if (_debug) Log.v("SMSCommon.postDeliveryReportStatusBarNotification() Sending Status Bar Notification");
+			notificationManager.notify(statusBarNotificationType, notification);
+    	}catch(Exception ex){
+    		Log.e("SMSCommon.postDeliveryReportStatusBarNotification() ERROR: " + ex.toString());
     	}
 	}
 	

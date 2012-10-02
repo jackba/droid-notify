@@ -67,11 +67,15 @@ public class CalendarNotificationAlarmBroadcastReceiverService extends WakefulIn
 			    	//if (_debug) Log.v("CalendarNotificationAlarmBroadcastReceiverService.onReceive() CalendarID: " + calendarEventNotificationBundleSingle.getLong(Constants.BUNDLE_CALENDAR_ID));
 			    	//if (_debug) Log.v("CalendarNotificationAlarmBroadcastReceiverService.onReceive() Is Calendar Enabled: " + CalendarCommon.isCalendarEnabled(context, calendarEventNotificationBundleSingle.getLong(Constants.BUNDLE_CALENDAR_ID)));
 				    if(!CalendarCommon.isCalendarEnabled(context, calendarEventNotificationBundleSingle.getLong(Constants.BUNDLE_CALENDAR_ID))){
-						if (_debug) Log.v("CalendarNotificationAlarmBroadcastReceiverService.onReceive() Specific Calendar Not Enabled. Exiting... ");
+						if (_debug) Log.v("CalendarNotificationAlarmBroadcastReceiverService.onReceive() This calendar is not enabled. Exiting... ");
+						return;
+				    }
+				    if(!CalendarCommon.eventExists(context, calendarEventNotificationBundleSingle.getLong(Constants.BUNDLE_CALENDAR_EVENT_ID))){
+				    	if (_debug) Log.v("CalendarNotificationAlarmBroadcastReceiverService.onReceive() Calendar event does not exist. Exiting... ");
 						return;
 				    }
 	    		}else{
-	    			Log.v("CalendarNotificationAlarmBroadcastReceiverService.onReceive() CalendarEventBundle is null. Exiting... ");
+	    			Log.v("CalendarNotificationAlarmBroadcastReceiverService.onReceive() CalendarEventBundleSingle is null. Exiting... ");
 	    			return;
 	    		}
     		}else{

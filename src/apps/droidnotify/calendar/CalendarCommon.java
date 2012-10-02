@@ -396,74 +396,6 @@ public class CalendarCommon {
 	}
 	
 	/**
-	 * Get the reminder time in minutes (in milliseconds) for the event ID. Return -1 if none exists.
-	 * 
-	 * @param eventID - The event ID we want to query.
-	 * @param allDay - Boolean indicating if the event is an all day event or not.
-	 * 
-	 * @return long - The number of minutes in milliseconds of the reminder time or -1 if none found.
-	 */
-	@SuppressLint("NewApi")
-	private static long getCalendarEventReminderTime(Context context, long eventID, boolean allDay){
-		if (_debug) Log.v("CalendarCommon.getCalendarEventReminderTime() EventID: " + eventID + " AllDay: " + allDay);
-		Cursor cursor = null;
-		String contentProvider = null;
-		try{
-			int APILevel = Common.getDeviceAPILevel();
-			String eventIDColumn = null;
-			String reminderTimeInMinutesColumn = null;
-			int defaultEventReminderMinutes = 15;
-			if(APILevel >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH){
-				contentProvider = CalendarContract.Reminders.CONTENT_URI.toString();
-				eventIDColumn = CalendarContract.Reminders.EVENT_ID;
-				reminderTimeInMinutesColumn = CalendarContract.Reminders.MINUTES;
-				defaultEventReminderMinutes = 15; //TODO - Where Is This Stored Value???
-			}else{
-				contentProvider = "content://com.android.calendar/reminders";
-				eventIDColumn = Constants.CALENDAR_REMINDER_EVENT_ID;
-				reminderTimeInMinutesColumn = Constants.CALENDAR_REMINDER_MINUTES;
-				defaultEventReminderMinutes = 15;
-			}
-			if (_debug) Log.v("CalendarCommon.getCalendarEventReminderTime() ContentProvider: " + contentProvider);
-    		final String[] projection = new String[]{eventIDColumn, reminderTimeInMinutesColumn};
-            final String selection = eventIDColumn + "=?";
-    		final String[] selectionArgs = new String[] {String.valueOf(eventID)};
-    		final String sortOrder = null;
-			cursor = context.getContentResolver().query(
-				Uri.parse(contentProvider), 						
-				projection,
-				selection,
-				selectionArgs,
-				sortOrder);
-			if(cursor ==  null){
-				Log.e("CalendarCommon.getCalendarEventReminderTime() Cursor is null. Exiting...");
-				return -1;
-			}
-			if(cursor.moveToFirst()){
-				int reminderTimeInMinutes = cursor.getInt(cursor.getColumnIndex(reminderTimeInMinutesColumn));
-				if (_debug) Log.v("CalendarCommon.getCalendarEventReminderTime() Reminder Time (minutes): " + reminderTimeInMinutes);
-				if(reminderTimeInMinutes == CalendarContract.Reminders.MINUTES_DEFAULT){
-					//Use SystemDefault Reminder Time
-					reminderTimeInMinutes = defaultEventReminderMinutes;
-				}
-				cursor.close();
-				return reminderTimeInMinutes * 60 * 1000;
-			}else{
-				if (_debug) Log.v("CalendarCommon.getCalendarEventReminderTime() No Reminder Time Found!");
-			}
-			cursor.close();
-			return -1;
-		}catch(Exception ex){
-			Log.e("CalendarCommon.getCalendarEventReminderTime() ERROR: " + ex.toString());
-			if (_debug) Common.debugReadContentProviderColumns(context, null, Uri.parse(contentProvider));
-			if(cursor != null){
-				cursor.close();
-			}
-			return -1;
-		}
-	}	
-	
-	/**
 	 * Determine if a calendar event has already been dismissed.
 	 * 
 	 * @param context - The application context.
@@ -528,6 +460,62 @@ public class CalendarCommon {
 			}
 			return true;
 		}
+	}	/**
+	 * Determine if a calendar event exists or has been delted.
+	 * 
+	 * @param context - The application context.
+	 * @param eventID - The Event ID that we want to query.
+	 * 
+	 * @return boolean - Returns true if the event exists, returns false otherwise.
+	 */
+	@SuppressLint("NewApi")
+	public static boolean eventExists(Context context, long eventID){
+		_debug = Log.getDebug();
+		if(_debug) Log.v("CalendarCommon.eventExists() EventID: " + eventID);
+		Cursor cursor = null;
+		String contentProvider = null;
+		try{
+			if(eventID < 0){
+				if(_debug) Log.v("CalendarCommon.eventExists() Event ID < 0. Exiting...");
+				return true;
+			}			
+			int APILevel = Common.getDeviceAPILevel();
+			String eventIDColumn = null;
+			if(APILevel >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH){
+				contentProvider = CalendarContract.Events.CONTENT_URI.toString();
+				eventIDColumn = CalendarContract.Events._ID;
+			}else{
+				contentProvider = "content://com.android.calendar/events";
+				eventIDColumn = Constants.CALENDAR_EVENT_ID;
+			}
+    		final String[] projection = new String[] { "_id", eventIDColumn};
+			final String selection = eventIDColumn + "=?";
+			final String[] selectionArgs = new String[]{String.valueOf(eventID)};
+    		final String sortOrder = null;
+				cursor = context.getContentResolver().query(
+						Uri.parse(contentProvider),
+						projection,
+						selection, 
+						selectionArgs,
+						sortOrder);
+		    if(cursor == null){
+		    	if(_debug) Log.v("CalendarCommon.eventExists() Currsor is null. Exiting...");
+		    	return false;
+		    }
+		    if(cursor.moveToFirst()){
+				cursor.close();
+		    	return true;
+	    	}else{
+				cursor.close();
+	    		return false;
+	    	}
+		}catch(Exception ex){
+			Log.e("CalendarCommon.eventExists() ERROR: " + ex.toString());
+    		if(cursor != null){
+				cursor.close();
+			}
+			return false;
+		}
 	}
 
 	/**
@@ -575,45 +563,6 @@ public class CalendarCommon {
 			}
 		}
 	}
-	
-//	/**
-//	 * Start the intent to add an event to the calendar app.
-//	 * 
-//	 * @param context - Application Context.
-//	 * @param notificationActivity - A reference to the parent activity.
-//	 * @param requestCode - The request code we want returned.
-//	 * 
-//	 * @return boolean - Returns true if the activity can be started.
-//	 */
-//	public static boolean startAddCalendarEventActivity(Context context, NotificationActivity notificationActivity, int requestCode){
-//		_debug = Log.getDebug();
-//		if (_debug) Log.v("CalendarCommon.startAddCalendarEventActivity()");
-//		try{
-//			//Androids calendar app.
-//			Intent intent = new Intent(Intent.ACTION_EDIT);
-//			intent.setType("vnd.android.cursor.item/event");
-//	        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-//			notificationActivity.startActivityForResult(intent, requestCode);
-//			Common.setInLinkedAppFlag(context, true);
-//			return true;
-//		}catch(Exception e){
-//			Log.e("CalendarCommon.startAddCalendarEventActivity ERROR: " + e.toString());
-//			try{
-//				//HTC Sense UI calendar app.
-//				Intent intent = new Intent(Intent.ACTION_EDIT);
-//				intent.setComponent(new ComponentName("com.htc.calendar", "com.htc.calendar.EditEvent"));
-//		        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-//				notificationActivity.startActivityForResult(intent, requestCode);
-//				Common.setInLinkedAppFlag(context, true);
-//				return true;
-//			}catch(Exception ex){
-//				Log.e("CalendarCommon.startAddCalendarEventActivity ERROR: " + ex.toString());
-//				Toast.makeText(context, context.getString(R.string.app_android_calendar_app_error), Toast.LENGTH_LONG).show();
-//				Common.setInLinkedAppFlag(context, false);
-//				return false;
-//			}
-//		}
-//	}
 	
 	/**
 	 * Start the intent to view an event to the calendar app.
@@ -789,6 +738,7 @@ public class CalendarCommon {
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 			AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 			Intent intent = new Intent(context, CalendarAlarmReceiver.class);
+			intent.setAction(Constants.INTENT_ACTION_CALENDAR_ALARMS);
 			PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
 			long pollingFrequency = Long.parseLong(preferences.getString(Constants.CALENDAR_POLLING_FREQUENCY_KEY, Constants.CALENDAR_POLLING_FREQUENCY_DEFAULT)) * 60 * 1000;
 			alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, alarmStartTime, pollingFrequency, pendingIntent);
@@ -808,8 +758,10 @@ public class CalendarCommon {
 		try{
 			AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 			Intent intent = new Intent(context, CalendarAlarmReceiver.class);
+			intent.setAction(Constants.INTENT_ACTION_CALENDAR_ALARMS);
 			PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
 			alarmManager.cancel(pendingIntent);
+			pendingIntent.cancel();
 		}catch(Exception ex){
 			Log.e("CalendarCommon.cancelCalendarAlarmManager() ERROR: " + ex.toString());
 		}
@@ -895,6 +847,74 @@ public class CalendarCommon {
 	//================================================================================
 	// Private Methods
 	//================================================================================
+
+	/**
+	 * Get the reminder time in minutes (in milliseconds) for the event ID. Return -1 if none exists.
+	 * 
+	 * @param eventID - The event ID we want to query.
+	 * @param allDay - Boolean indicating if the event is an all day event or not.
+	 * 
+	 * @return long - The number of minutes in milliseconds of the reminder time or -1 if none found.
+	 */
+	@SuppressLint("NewApi")
+	private static long getCalendarEventReminderTime(Context context, long eventID, boolean allDay){
+		if (_debug) Log.v("CalendarCommon.getCalendarEventReminderTime() EventID: " + eventID + " AllDay: " + allDay);
+		Cursor cursor = null;
+		String contentProvider = null;
+		try{
+			int APILevel = Common.getDeviceAPILevel();
+			String eventIDColumn = null;
+			String reminderTimeInMinutesColumn = null;
+			int defaultEventReminderMinutes = 15;
+			if(APILevel >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH){
+				contentProvider = CalendarContract.Reminders.CONTENT_URI.toString();
+				eventIDColumn = CalendarContract.Reminders.EVENT_ID;
+				reminderTimeInMinutesColumn = CalendarContract.Reminders.MINUTES;
+				defaultEventReminderMinutes = 15; //TODO - Where Is This Stored Value???
+			}else{
+				contentProvider = "content://com.android.calendar/reminders";
+				eventIDColumn = Constants.CALENDAR_REMINDER_EVENT_ID;
+				reminderTimeInMinutesColumn = Constants.CALENDAR_REMINDER_MINUTES;
+				defaultEventReminderMinutes = 15;
+			}
+			if (_debug) Log.v("CalendarCommon.getCalendarEventReminderTime() ContentProvider: " + contentProvider);
+    		final String[] projection = new String[]{eventIDColumn, reminderTimeInMinutesColumn};
+            final String selection = eventIDColumn + "=?";
+    		final String[] selectionArgs = new String[] {String.valueOf(eventID)};
+    		final String sortOrder = null;
+			cursor = context.getContentResolver().query(
+				Uri.parse(contentProvider), 						
+				projection,
+				selection,
+				selectionArgs,
+				sortOrder);
+			if(cursor ==  null){
+				Log.e("CalendarCommon.getCalendarEventReminderTime() Cursor is null. Exiting...");
+				return -1;
+			}
+			if(cursor.moveToFirst()){
+				int reminderTimeInMinutes = cursor.getInt(cursor.getColumnIndex(reminderTimeInMinutesColumn));
+				if (_debug) Log.v("CalendarCommon.getCalendarEventReminderTime() Reminder Time (minutes): " + reminderTimeInMinutes);
+				if(reminderTimeInMinutes == CalendarContract.Reminders.MINUTES_DEFAULT){
+					//Use SystemDefault Reminder Time
+					reminderTimeInMinutes = defaultEventReminderMinutes;
+				}
+				cursor.close();
+				return reminderTimeInMinutes * 60 * 1000;
+			}else{
+				if (_debug) Log.v("CalendarCommon.getCalendarEventReminderTime() No Reminder Time Found!");
+			}
+			cursor.close();
+			return -1;
+		}catch(Exception ex){
+			Log.e("CalendarCommon.getCalendarEventReminderTime() ERROR: " + ex.toString());
+			if (_debug) Common.debugReadContentProviderColumns(context, null, Uri.parse(contentProvider));
+			if(cursor != null){
+				cursor.close();
+			}
+			return -1;
+		}
+	}	
 	
 	/**
 	 * Schedule an alarm that will trigger a Notification for a Calendar Event.

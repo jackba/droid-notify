@@ -678,6 +678,7 @@ public class Common {
 					//Delete Intent
 					notificationDeleteIntent = null;
 					//Content Intent
+					notificationContentIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					contentIntent = PendingIntent.getActivity(context, 0, notificationContentIntent, 0);
 					//Delete Intent
 					deleteIntent = null;
@@ -734,6 +735,7 @@ public class Common {
 					//Delete Intent
 					notificationDeleteIntent = null;
 					//Content Intent
+					notificationContentIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					contentIntent = PendingIntent.getActivity(context, 0, notificationContentIntent, 0);
 					//Delete Intent
 					deleteIntent = null;
@@ -774,6 +776,7 @@ public class Common {
 					//Delete Intent
 					notificationDeleteIntent = null;
 					//Content Intent
+					notificationContentIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					contentIntent = PendingIntent.getActivity(context, 0, notificationContentIntent, 0);
 					//Delete Intent
 					deleteIntent = null;
@@ -813,6 +816,7 @@ public class Common {
 					//Delete Intent
 					notificationDeleteIntent = null;
 					//Content Intent
+					notificationContentIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					contentIntent = PendingIntent.getActivity(context, 0, notificationContentIntent, 0);
 					//Delete Intent
 					deleteIntent = null;
@@ -883,6 +887,7 @@ public class Common {
 					//Delete Intent
 					notificationDeleteIntent = null;
 					//Content Intent
+					notificationContentIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					contentIntent = PendingIntent.getActivity(context, 0, notificationContentIntent, 0);
 					//Delete Intent
 					deleteIntent = null;
@@ -954,6 +959,7 @@ public class Common {
 		            .setTicker(tickerText)
 		            .setWhen(System.currentTimeMillis())
 		            .setAutoCancel(true)
+	            	.setOngoing(false)
 		            .setContentTitle(contentTitle)
 		            .setContentText(contentText);
 				if(!updateOnly){
@@ -2302,31 +2308,6 @@ public class Common {
 		}
 	}
 	
-	//================================================================================
-	// Private Methods
-	//================================================================================
-
-	/**
-	 * Remove a particular status bar notification.
-	 * 
-	 * @param context - The application context.
-	 * @param notificationType - The notification type.
-	 */
-	private static void removeStatusBarNotification(Context context, int notificationType){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.removeStatusBarNotification()");
-		try{
-			//Adjust for Preview notifications.
-			if(notificationType > 1999){
-				notificationType -= 2000;
-			}
-			NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-			notificationManager.cancel(notificationType);
-		}catch(Exception ex){
-			Log.e("Common.removeStatusBarNotification() ERROR: " + ex.toString());
-		}
-	}
-	
 	/**
 	 * Parse a vibration pattern.
 	 * 
@@ -2334,7 +2315,7 @@ public class Common {
 	 * 
 	 * @return long[] - Returns the pattern in an int array or null if an invalid pattern is provided.
 	 */
-	private static long[] parseVibratePattern(String vibratePattern){
+	public static long[] parseVibratePattern(String vibratePattern){
 		if (_debug) Log.v("Common.parseVibratePattern()");
 	    final int VIBRATE_PATTERN_MAX_LENGTH = 60000;
 	    final int VIBRATE_PATTERN_MAX_SIZE = 100;
@@ -2376,7 +2357,7 @@ public class Common {
 	 * 
 	 * @return int[] - Returns the pattern in an int array or null if an invalid pattern is provided.
 	 */
-	private static int[] parseLEDPattern(String ledPattern){
+	public static int[] parseLEDPattern(String ledPattern){
 		if (_debug) Log.v("Common.parseLEDPattern()");
 	    final int LED_PATTERN_MAX_LENGTH = 60000;
 		int[] ledPatternArray = {0, 0};
@@ -2409,7 +2390,7 @@ public class Common {
 	 * 
 	 * @author Camille Sévigny
 	 */
-	private static class playNotificationMediaFileAsyncTask extends AsyncTask<String, Void, Void> {
+	public static class playNotificationMediaFileAsyncTask extends AsyncTask<String, Void, Void> {
 	    
 	    /**
 	     * Do this work in the background.
@@ -2450,6 +2431,31 @@ public class Common {
 			if (_debug) Log.v("Common.playNotificationMediaFileAsyncTask.onPostExecute()");
 	    }
 	    
+	}
+	
+	//================================================================================
+	// Private Methods
+	//================================================================================
+
+	/**
+	 * Remove a particular status bar notification.
+	 * 
+	 * @param context - The application context.
+	 * @param notificationType - The notification type.
+	 */
+	private static void removeStatusBarNotification(Context context, int notificationType){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.removeStatusBarNotification()");
+		try{
+			//Adjust for Preview notifications.
+			if(notificationType > 1999){
+				notificationType -= 2000;
+			}
+			NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+			notificationManager.cancel(notificationType);
+		}catch(Exception ex){
+			Log.e("Common.removeStatusBarNotification() ERROR: " + ex.toString());
+		}
 	}
 	
 	/**

@@ -94,8 +94,7 @@
 		<Preference
 			android:layout="@layout/custom_preference_title"
 	        android:key="quick_reply_preference"
-	       	android:title="@string/quick_reply_settings"
-			android:dependency="quick_reply_enabled" />
+	       	android:title="@string/quick_reply_settings" />
 	</PreferenceCategory>
 	<PreferenceCategory
 		android:layout="@layout/custom_preference_category"
