@@ -1,4 +1,4 @@
-package apps.droidnotify.preferences;
+package apps.droidnotify.quickreply;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -11,7 +11,6 @@ import android.preference.PreferenceManager;
 import apps.droidnotify.R;
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
-import apps.droidnotify.log.Log;
 
 public class QuickReplyPreferenceActivity extends PreferenceActivity implements OnSharedPreferenceChangeListener{
 	
@@ -19,7 +18,6 @@ public class QuickReplyPreferenceActivity extends PreferenceActivity implements 
     // Properties
     //================================================================================
 
-    private boolean _debug = false;
     private Context _context = null;
     private SharedPreferences _preferences = null;
 	
@@ -36,8 +34,6 @@ public class QuickReplyPreferenceActivity extends PreferenceActivity implements 
 	@Override
 	protected void onCreate(Bundle bundle){
 	    super.onCreate(bundle);
-	    _debug = Log.getDebug();
-	    if (_debug) Log.v("QuickReplyPreferenceActivity.onCreate()");
 	    _context = this;
 	    _preferences = PreferenceManager.getDefaultSharedPreferences(_context);
 	    Common.setApplicationLanguage(_context, this);
@@ -52,8 +48,7 @@ public class QuickReplyPreferenceActivity extends PreferenceActivity implements 
 	 * @param sharedPreferences - The Preference object who's key was changed.
 	 * @param key - The String value of the preference Key who's preference value was changed.
 	 */
-	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-		if (_debug) Log.v("QuickReplyPreferenceActivity.onSharedPreferenceChanged() Key: " + key);
+	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key){
 		if(key.equals(Constants.QUICK_REPLY_SIGNATURE_KEY)){
 			updateQuickReplySignaturePreference();
 		}
@@ -68,7 +63,6 @@ public class QuickReplyPreferenceActivity extends PreferenceActivity implements 
 	 */
 	@Override
 	protected void onResume(){
-	    if(_debug) Log.v("QuickReplyPreferenceActivity.onResume()");
 	    super.onResume();
 	    _preferences.registerOnSharedPreferenceChangeListener(this);
 	}
@@ -78,7 +72,6 @@ public class QuickReplyPreferenceActivity extends PreferenceActivity implements 
 	 */
 	@Override
 	protected void onPause(){
-	    if(_debug) Log.v("QuickReplyPreferenceActivity.onPause()");
 	    super.onPause();
 	    _preferences.unregisterOnSharedPreferenceChangeListener(this);
 	}
@@ -90,7 +83,7 @@ public class QuickReplyPreferenceActivity extends PreferenceActivity implements 
 	/**
 	 * Update the summary of the Signature preference.
 	 */
-	private void updateQuickReplySignaturePreference(){		
+	private void updateQuickReplySignaturePreference(){
 		@SuppressWarnings("deprecation")
 		EditTextPreference signatureEditTextPreference = (EditTextPreference)findPreference(Constants.QUICK_REPLY_SIGNATURE_KEY);
 		String signature = _preferences.getString(Constants.QUICK_REPLY_SIGNATURE_KEY, _context.getString(R.string.quick_reply_default_signature));

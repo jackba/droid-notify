@@ -60,6 +60,7 @@ public class Notification {
 	private String _lookupKey = null;
 	private String _k9EmailUri = null;
 	private String _k9EmailDelUri = null;
+	private String _k9EmailAccountName = null;
 	private int _reminderNumber = 0;
 	private int _notificationSubType = -1;
 	private String _linkURL = null;
@@ -113,6 +114,7 @@ public class Notification {
 			_lookupKey = notificationBundle.getString(Constants.BUNDLE_LOOKUP_KEY);
 			_k9EmailUri = notificationBundle.getString(Constants.BUNDLE_K9_EMAIL_URI);
 			_k9EmailDelUri = notificationBundle.getString(Constants.BUNDLE_K9_EMAIL_DEL_URI);
+			_k9EmailAccountName = notificationBundle.getString(Constants.BUNDLE_K9_EMAIL_ACCOUNT_NAME);
 			_reminderNumber = notificationBundle.getInt(Constants.BUNDLE_REMINDER_NUMBER, 0);
 			_notificationSubType = notificationBundle.getInt(Constants.BUNDLE_NOTIFICATION_SUB_TYPE, -1);
 			_linkURL = notificationBundle.getString(Constants.BUNDLE_LINK_URL);			
@@ -261,6 +263,7 @@ public class Notification {
 		notificationBundle.putString(Constants.BUNDLE_LOOKUP_KEY, _lookupKey);
 		notificationBundle.putString(Constants.BUNDLE_K9_EMAIL_URI, _k9EmailUri);
 		notificationBundle.putString(Constants.BUNDLE_K9_EMAIL_DEL_URI, _k9EmailDelUri);
+		notificationBundle.putString(Constants.BUNDLE_K9_EMAIL_ACCOUNT_NAME, _k9EmailAccountName);
 		if(rescheduleType == Constants.PENDING_INTENT_TYPE_REMINDER){
 			notificationBundle.putInt(Constants.BUNDLE_REMINDER_NUMBER, _reminderNumber + 1);
 		}else{
@@ -567,6 +570,16 @@ public class Notification {
 	public String getK9EmailDelUri(){
 		if (_debug) Log.v("Notification.getK9EmailDelUri() K9EmailDelUri: " + _k9EmailDelUri);
 	    return _k9EmailDelUri;
+	}
+	
+	/**
+	 * Get the k9EmailAccountName property.
+	 * 
+	 * @return k9EmailAccountName - The k9 account name.
+	 */
+	public String getK9EmailAccountName(){
+		if (_debug) Log.v("Notification.getK9EmailAccountName() K9EmailAccountName: " + _k9EmailAccountName);
+	    return _k9EmailAccountName;
 	}
 	
 	/**

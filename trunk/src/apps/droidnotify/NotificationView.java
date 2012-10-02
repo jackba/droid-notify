@@ -26,7 +26,9 @@ import android.os.AsyncTask;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
+import android.text.Editable;
 import android.text.Html;
+import android.text.TextWatcher;
 import android.text.method.ScrollingMovementMethod;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -41,6 +43,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -85,6 +88,8 @@ public class NotificationView extends LinearLayout {
 	private LinearLayout _imageButtonLinearLayout = null;
 	private LinearLayout _quickReplyLinearLayout = null;
 	private LinearLayout _notificationInfoLinearLayout = null;
+	
+	private RelativeLayout _headerRelativeLayout = null;
 	
 	private TextView _contactNameTextView = null;
 	private TextView _contactNumberTextView = null;
@@ -269,6 +274,8 @@ public class NotificationView extends LinearLayout {
 	    _imageButtonLinearLayout = (LinearLayout) findViewById(R.id.image_button_linear_layout);
 	    _quickReplyLinearLayout = (LinearLayout) findViewById(R.id.quickreply_linear_layout);
 	    _notificationInfoLinearLayout = (LinearLayout) findViewById(R.id.notification_info_linear_layout);
+	    
+	    _headerRelativeLayout = (RelativeLayout) findViewById(R.id.header_relative_layout);
 		
 		_contactNameTextView = (TextView) findViewById(R.id.contact_name_text_view);
 		_contactNumberTextView = (TextView) findViewById(R.id.contact_number_text_view);
@@ -474,7 +481,18 @@ public class NotificationView extends LinearLayout {
 			
 			_calendarSnoozeSpinner.setBackgroundDrawable(getThemeButton(Constants.THEME_SPINNER));
 			_messageEditText.setBackgroundDrawable(getThemeButton(Constants.THEME_EDIT_TEXT));
-			_messageEditText.setTextColor(quickReplyTextColorID);			
+			_messageEditText.setTextColor(quickReplyTextColorID);
+			_messageEditText.addTextChangedListener(new TextWatcher(){				
+				public void afterTextChanged(Editable s){
+					Log.v("EditText afterTextChanged()");
+				}				
+				public void beforeTextChanged(CharSequence s, int start, int count, int after){
+					Log.v("EditText beforeTextChanged()");
+				}				
+				public void onTextChanged(CharSequence s, int start, int before, int count){
+					Log.v("EditText onTextChanged()");
+				}
+			});
 
 			final int finalSpinnerTextColorID = spinnerTextColorID;
 			_calendarSnoozeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
@@ -482,7 +500,7 @@ public class NotificationView extends LinearLayout {
 	            	try{
 	            		((TextView)parentView.getChildAt(0)).setTextColor(finalSpinnerTextColorID);
 	            	}catch(Exception ex){
-	            		Log.v("CalendarSpinner.onItemSelected() ERROR: " + ex.toString());
+	            		Log.e("CalendarSpinner.onItemSelected() ERROR: " + ex.toString());
 	            	}
 	            }
 				public void onNothingSelected(AdapterView<?> arg0){
@@ -541,10 +559,27 @@ public class NotificationView extends LinearLayout {
 		boolean smsQuickReplyEnabled = _preferences.getBoolean(Constants.SMS_QUICK_REPLY_ENABLED_KEY, false);
 		if(quickReplyEnabled || smsQuickReplyEnabled){
 			_quickReplyLinearLayout.setVisibility(View.VISIBLE);
+			setupQuickReplyEditText();
 			setupQuickReplyButtons(_notificationType, _notificationSubType);
 		}else{
 			_quickReplyLinearLayout.setVisibility(View.GONE);
 		}
+	}
+	
+	/**
+	 * Setup the quick reply EditText properties.
+	 */
+	private void setupQuickReplyEditText(){
+		_messageEditText.addTextChangedListener(new TextWatcher(){
+			public void beforeTextChanged(CharSequence s, int start, int count, int after){
+				//Poke the screen timeout when user types.
+				_notificationActivity.setScreenTimeoutAlarm();
+			}				
+			public void onTextChanged(CharSequence s, int start, int before, int count){
+			}				
+			public void afterTextChanged(Editable s){
+			}				
+		});
 	}
 	
 	/**
@@ -2792,6 +2827,12 @@ public class NotificationView extends LinearLayout {
 		boolean quickReplyEnabled = _preferences.getBoolean(Constants.QUICK_REPLY_ENABLED_KEY, false);
 		boolean smsQuickReplyEnabled = _preferences.getBoolean(Constants.SMS_QUICK_REPLY_ENABLED_KEY, false);
 		if(quickReplyEnabled || smsQuickReplyEnabled){
+			final boolean hideHeaderPanel = _preferences.getBoolean(Constants.QUICK_REPLY_HIDE_HEADER_PANEL_KEY, false);
+			final boolean hideContactPanel = _preferences.getBoolean(Constants.QUICK_REPLY_HIDE_CONTACT_PANEL_KEY, false);
+			final boolean hideButtonPanel = _preferences.getBoolean(Constants.QUICK_REPLY_HIDE_BUTTON_PANEL_KEY, false);
+			if(!hideHeaderPanel && !hideContactPanel && !hideButtonPanel){
+				return;
+			}
 			_notificationWindowLinearLayout.getViewTreeObserver().addOnGlobalLayoutListener( new OnGlobalLayoutListener(){
 			    public void onGlobalLayout(){
 		        	int phoneOrientation = getResources().getConfiguration().orientation;
@@ -2808,9 +2849,12 @@ public class NotificationView extends LinearLayout {
 				        	//if (_debug) Log.v("NotificationView - KEYBOARD IS ON SCREEN!");
 				        	maxLines = 5;
 				        	if(phoneOrientation != Configuration.ORIENTATION_LANDSCAPE){
-					        	_contactLinearLayout.setVisibility(View.GONE);
-								_buttonLinearLayout.setVisibility(View.GONE);
-							    _imageButtonLinearLayout.setVisibility(View.GONE);
+				        		if(hideHeaderPanel) _headerRelativeLayout.setVisibility(View.GONE);
+				        		if(hideContactPanel) _contactLinearLayout.setVisibility(View.GONE);
+					        	if(hideButtonPanel){
+									_buttonLinearLayout.setVisibility(View.GONE);
+								    _imageButtonLinearLayout.setVisibility(View.GONE);
+					        	}
 				        	}
 				        	setNotificationBodyMaxLines(maxLines);
 			        	}
@@ -2822,15 +2866,18 @@ public class NotificationView extends LinearLayout {
 				    	    if(phoneOrientation == Configuration.ORIENTATION_LANDSCAPE){
 				    	    	if(maxLines > 2) maxLines = maxLines / 2;
 				            }else{
-					        	_contactLinearLayout.setVisibility(View.VISIBLE);	
-					    		String buttonDisplayStyle = _preferences.getString(Constants.BUTTON_DISPLAY_STYLE_KEY, Constants.BUTTON_DISPLAY_STYLE_DEFAULT);
-					    		if(buttonDisplayStyle.equals(Constants.BUTTON_DISPLAY_ICON_ONLY)){
-									_buttonLinearLayout.setVisibility(View.GONE);
-							    	_imageButtonLinearLayout.setVisibility(View.VISIBLE);
-								}else{
-									_buttonLinearLayout.setVisibility(View.VISIBLE);
-							    	_imageButtonLinearLayout.setVisibility(View.GONE);
-								}
+				        		if(hideHeaderPanel) _headerRelativeLayout.setVisibility(View.VISIBLE);
+				            	if(hideContactPanel) _contactLinearLayout.setVisibility(View.VISIBLE);
+					        	if(hideButtonPanel){
+						    		String buttonDisplayStyle = _preferences.getString(Constants.BUTTON_DISPLAY_STYLE_KEY, Constants.BUTTON_DISPLAY_STYLE_DEFAULT);
+						    		if(buttonDisplayStyle.equals(Constants.BUTTON_DISPLAY_ICON_ONLY)){
+										_buttonLinearLayout.setVisibility(View.GONE);
+										_imageButtonLinearLayout.setVisibility(View.VISIBLE);
+									}else{
+										_buttonLinearLayout.setVisibility(View.VISIBLE);
+										_imageButtonLinearLayout.setVisibility(View.GONE);
+									}
+					        	}
 				            }
 				        	setNotificationBodyMaxLines(maxLines);
 			        	}

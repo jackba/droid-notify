@@ -2,8 +2,8 @@
 <manifest 
 	xmlns:android="http://schemas.android.com/apk/res/android" 
 	package="apps.droidnotify"
-    android:versionCode="54"
-    android:versionName="3.21"
+    android:versionCode="55"
+    android:versionName="3.22"
     android:installLocation="internalOnly" >
     
 	<uses-sdk
@@ -102,7 +102,7 @@
    			android:taskAffinity="apps.droidnotify.preferences" />  
          
         <activity 
-        	android:name="apps.droidnotify.preferences.QuickReplyPreferenceActivity"
+        	android:name="apps.droidnotify.quickreply.QuickReplyPreferenceActivity"
     		android:theme="@style/Theme.AppPreferences"
    			android:launchMode="singleTask"
    			android:taskAffinity="apps.droidnotify.preferences" />
@@ -314,7 +314,11 @@
         
         <service android:name="apps.droidnotify.services.OnUpdateService" />
         
-		<receiver android:name="apps.droidnotify.receivers.CalendarAlarmReceiver" />
+		<receiver android:name="apps.droidnotify.receivers.CalendarAlarmReceiver">
+			<intent-filter>
+				<action android:name="apps.droidnotifydonate.calendar.alarms" />
+			</intent-filter>
+        </receiver>
 		
 		<receiver android:name="apps.droidnotify.receivers.CalendarNotificationAlarmReceiver" />
 		

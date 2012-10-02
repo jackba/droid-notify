@@ -444,6 +444,8 @@ public class NotificationActivity extends Activity{
 	        case MotionEvent.ACTION_DOWN:{
 		        //Keep track of the starting down-event.
 		        _downMotionEvent = MotionEvent.obtain(motionEvent);
+			    //Poke the screen timeout.
+			    setScreenTimeoutAlarm();
 		        break;
 	        }
 	        case MotionEvent.ACTION_UP:{
@@ -453,21 +455,15 @@ public class NotificationActivity extends Activity{
 		        if(Math.abs(deltaX) > viewConfiguration.getScaledTouchSlop()*2){
 		        	if(deltaX < 0){
 		        		_notificationViewFlipper.showNext();
-	           	    	//Poke the screen timeout.
-	           	    	setScreenTimeoutAlarm();
 	           	    	return true;
 					}else if(deltaX > 0){
 						_notificationViewFlipper.showPrevious();
-	           	    	//Poke the screen timeout.
-	           	    	setScreenTimeoutAlarm();
 	           	    	return true;
 	               	}
 		        }
 	            break;
 	        }
 	    }
-	    //Poke the screen timeout.
-	    setScreenTimeoutAlarm();
 	    return super.dispatchTouchEvent(motionEvent);
 	}
 	
@@ -482,17 +478,13 @@ public class NotificationActivity extends Activity{
 			notification.speak(_tts);
 		}
 	}
-	
+
 	/**
 	 * Sets the alarm that will clear the KeyguardLock & WakeLock.
 	 */
 	public void setScreenTimeoutAlarm(){
-		long scheduledAlarmTime = System.currentTimeMillis() + (Long.parseLong(_preferences.getString(Constants.SCREEN_TIMEOUT_KEY, "300")) * 1000);
-		AlarmManager alarmManager = (AlarmManager) _context.getSystemService(Context.ALARM_SERVICE);
-    	Intent intent = new Intent(_context, ScreenManagementAlarmReceiver.class);
-    	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-    	_screenTimeoutPendingIntent = PendingIntent.getBroadcast(_context, 0, intent, 0);
-		alarmManager.set(AlarmManager.RTC_WAKEUP, scheduledAlarmTime, _screenTimeoutPendingIntent);
+		if (_debug) Log.v("NotificationActivity.setScreenTimeoutAlarm()");
+		new SetScreenTimeoutTask().execute();
 	}
 
 	/**
@@ -1527,6 +1519,35 @@ public class NotificationActivity extends Activity{
 			finishActivity();
         }
         
-    }   
+    }
+  	
+    /*
+     * Set the screen tineout asynchronous task.
+     */
+    private class SetScreenTimeoutTask extends AsyncTask<Void, Void, Boolean>{
+        
+	    /**
+	     * Do this work in the background.
+	     */
+        @Override
+        protected Boolean doInBackground(Void... params){
+    		long scheduledAlarmTime = System.currentTimeMillis() + (Long.parseLong(_preferences.getString(Constants.SCREEN_TIMEOUT_KEY, "300")) * 1000);
+    		AlarmManager alarmManager = (AlarmManager) _context.getSystemService(Context.ALARM_SERVICE);
+        	Intent intent = new Intent(_context, ScreenManagementAlarmReceiver.class);
+        	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+        	_screenTimeoutPendingIntent = PendingIntent.getBroadcast(_context, 0, intent, 0);
+    		alarmManager.set(AlarmManager.RTC_WAKEUP, scheduledAlarmTime, _screenTimeoutPendingIntent);
+        	return true;
+        }
+
+	    /**
+	     * Do this work after the background task has finished.
+	     */
+        @Override
+        protected void onPostExecute(Boolean result){
+
+        }
+        
+    }  
 	
 }

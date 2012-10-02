@@ -7,6 +7,9 @@ package apps.droidnotify.common;
  */
 public class Constants {
 
+	//-----INTENT ACTION CONSTANTS-----//
+	public static final String INTENT_ACTION_CALENDAR_ALARMS  = "apps.droidnotify.calendar.alarms";
+
 	//-----DEBUG CONSTANTS-----//
 	public static final String LOGTAG = "DroidNotifyLite";
 	public static final String DEBUG = "debug_log_enabled";
@@ -39,6 +42,7 @@ public class Constants {
 	public static final String BUNDLE_LOOKUP_KEY  = "lookupKey";
 	public static final String BUNDLE_K9_EMAIL_URI  = "k9EmailUri";
 	public static final String BUNDLE_K9_EMAIL_DEL_URI  = "k9EmailDelUri";
+	public static final String BUNDLE_K9_EMAIL_ACCOUNT_NAME  = "k9EmailAccountName";
 	public static final String BUNDLE_REMINDER_NUMBER  = "reminderNumber";
 	public static final String BUNDLE_NOTIFICATION_SUB_TYPE  = "notificationSubType";
 	public static final String BUNDLE_LINK_URL  = "linkURL";
@@ -63,9 +67,14 @@ public class Constants {
 	
 	//-----QUICK REPLY CONSTANTS-----//
 	public static final String QUICK_REPLY_ENABLED_KEY = "quick_reply_enabled";
-	public static final String QUICK_REPLY_DELIVERY_REPORT_ENABLED_KEY = "quick_reply_delivery_report_enabled";
 	public static final String QUICK_REPLY_SIGNATURE_ENABLED_KEY = "quick_reply_signature_enabled";
 	public static final String QUICK_REPLY_SIGNATURE_KEY = "quick_reply_signature";
+	public static final String QUICK_REPLY_HIDE_HEADER_PANEL_KEY = "quick_reply_hide_header_panel";
+	public static final String QUICK_REPLY_HIDE_CONTACT_PANEL_KEY = "quick_reply_hide_contact_panel";
+	public static final String QUICK_REPLY_HIDE_BUTTON_PANEL_KEY = "quick_reply_hide_button_panel";
+	public static final String QUICK_REPLY_MESSAGE_SENT_DELIVERY_REPORT_ENABLED_KEY = "message_sent_notification_enabled";
+	public static final String QUICK_REPLY_MESSAGE_DELIVERED_DELIVERY_REPORT_ENABLED_KEY = "message_delivered_notification_enabled";
+	public static final String QUICK_REPLY_MESSAGE_FAILED_DELIVERY_REPORT_ENABLED_KEY = "message_failed_notification_enabled";
 	
 	//-----GENERAL APP CONSTANTS-----//
 	public static final String DROID_NOTIFY_WAKELOCK = "app.droidnotify.wakelock";

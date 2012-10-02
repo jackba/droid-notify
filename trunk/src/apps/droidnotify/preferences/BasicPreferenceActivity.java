@@ -10,6 +10,7 @@ import apps.droidnotify.R;
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
+import apps.droidnotify.quickreply.QuickReplyPreferenceActivity;
 
 public class BasicPreferenceActivity extends PreferenceActivity{
 	

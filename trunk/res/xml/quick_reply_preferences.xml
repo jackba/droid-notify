@@ -2,14 +2,6 @@
 <PreferenceScreen 
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:key="quick_reply_settings_screen">
-	<!--
-	<CheckBoxPreference
-		android:layout="@layout/custom_preference_checkbox"
-		android:key="quick_reply_delivery_report_enabled" 
-		android:title="@string/send_delivery_reports" 
-		android:summary="@string/send_delivery_reports_summary"
-		android:defaultValue="false" />
-	-->
 	<CheckBoxPreference
 		android:layout="@layout/custom_preference_checkbox"
 		android:key="quick_reply_signature_enabled" 
@@ -22,5 +14,46 @@
 		android:title="@string/signature"
 		android:singleLine="true"
 		android:defaultValue="@string/quick_reply_default_signature"
-		android:dependency="quick_reply_signature_enabled" />
+		android:dependency="quick_reply_signature_enabled" />	
+	<CheckBoxPreference
+		android:layout="@layout/custom_preference_checkbox"
+		android:key="quick_reply_hide_header_panel" 
+		android:title="@string/hide_header_panel" 
+		android:summary="@string/hide_header_panel_summary"
+		android:defaultValue="false" />
+	<CheckBoxPreference
+		android:layout="@layout/custom_preference_checkbox"
+		android:key="quick_reply_hide_contact_panel" 
+		android:title="@string/hide_contact_panel" 
+		android:summary="@string/hide_contact_panel_summary"
+		android:defaultValue="false" />
+	<CheckBoxPreference
+		android:layout="@layout/custom_preference_checkbox"
+		android:key="quick_reply_hide_button_panel" 
+		android:title="@string/hide_button_panel" 
+		android:summary="@string/hide_button_panel_summary"
+		android:defaultValue="false" />		
+	<PreferenceCategory
+		android:layout="@layout/custom_preference_category"
+		android:key="delivery_reports_category"
+		android:title="@string/delivery_reports_category">						
+		<CheckBoxPreference
+			android:layout="@layout/custom_preference_checkbox"
+			android:key="message_sent_notification_enabled" 
+			android:title="@string/message_sent_notification" 
+			android:summary="@string/message_sent_notification_summary"
+			android:defaultValue="false" />						
+		<CheckBoxPreference
+			android:layout="@layout/custom_preference_checkbox"
+			android:key="message_delivered_notification_enabled" 
+			android:title="@string/message_delivered_notification" 
+			android:summary="@string/message_failed_notification_summary"
+			android:defaultValue="false" />						
+		<CheckBoxPreference
+			android:layout="@layout/custom_preference_checkbox"
+			android:key="message_failed_notification_enabled" 
+			android:title="@string/message_failed_notification" 
+			android:summary="@string/message_failed_notification_summary"
+			android:defaultValue="false" />
+	</PreferenceCategory>
 </PreferenceScreen>

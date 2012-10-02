@@ -12,22 +12,21 @@ import android.database.sqlite.SQLiteOpenHelper;
 import apps.droidnotify.common.FileUtils;
 import apps.droidnotify.log.Log;
 
-public class SQLiteHelperReminder extends SQLiteOpenHelper {
+public class SQLiteHelperReminder extends SQLiteOpenHelper{
 
 	private boolean _debug = false;
 
-	public SQLiteHelperReminder(Context context) {
+	public SQLiteHelperReminder(Context context){
 		super(context, DBConstants.DATABASE_NAME_REMINDER, null, DBConstants.DATABASE_VERSION_REMINDER);
-		_debug = Log.getDebug();
 	}
 
 	@Override
-	public void onCreate(SQLiteDatabase db) {
+	public void onCreate(SQLiteDatabase db){
 		db.execSQL(DBConstants.DATABASE_CREATE_REMINDER);
 	}
 
 	@Override
-	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){
 		//Alter DB on upgrade.
 	}
 	
@@ -36,7 +35,8 @@ public class SQLiteHelperReminder extends SQLiteOpenHelper {
 	 * 
 	 * @param dbPath - The path to the SD card database.
 	 */
-	public boolean exportDatabase(String dbPath, String packageName) throws IOException {
+	public boolean exportDatabase(String dbPath, String packageName) throws IOException{
+		_debug = Log.getDebug();
 		if (_debug) Log.v("SQLiteHelperReminder.exportDatabase()");
 		try{
 			String internalDBFilePath = "/data/data/" + packageName + "/databases/" + DBConstants.DATABASE_NAME_REMINDER;
@@ -47,7 +47,7 @@ public class SQLiteHelperReminder extends SQLiteOpenHelper {
 			}
 		    File newDb = new File(dbPath);
 		    File oldDb = new File(internalDBFilePath);
-		    if (oldDb.exists()) {
+		    if (oldDb.exists()){
 		    	FileUtils.copyFile(new FileInputStream(oldDb), new FileOutputStream(newDb));
 		        return true;
 		    }
@@ -63,7 +63,8 @@ public class SQLiteHelperReminder extends SQLiteOpenHelper {
 	 * @param dbPath - The path to the SD card database.
 	 * @param packageName - THe package name of this application.
 	 */
-	public boolean importDatabase(String dbPath, String packageName) throws IOException {
+	public boolean importDatabase(String dbPath, String packageName) throws IOException{
+		_debug = Log.getDebug();
 		if (_debug) Log.v("SQLiteHelperReminder.importDatabase()");
 		try{
 			String internalDBFilePath = "/data/data/" + packageName + "/databases/" + DBConstants.DATABASE_NAME_REMINDER;
@@ -74,7 +75,7 @@ public class SQLiteHelperReminder extends SQLiteOpenHelper {
 			}
 		    File newDb = new File(dbPath);
 		    File oldDb = new File(internalDBFilePath);
-		    if (newDb.exists()) {
+		    if (newDb.exists()){
 		    	FileUtils.copyFile(new FileInputStream(newDb), new FileOutputStream(oldDb));
 		        getWritableDatabase().close();
 		        return true;
