@@ -28,6 +28,7 @@
  * [FAQ#K-9_Emails_are_not_being_shown._Why? K-9 Emails are not being shown. Why?]
  * [FAQ#The_LED_light_is_not_working._Why? The LED light is not working. Why?]
  *  [FAQ#The_missed_call_status_bar_notification_is_not_being_dismissed. The missed call status bar notification is not being dismissed. Why?]
+ * [FAQ#Issues_When_Using_Quick_Reply Issues When Using Quick Reply]
  * [FAQ#Known_Issues Known Issues]
 
 = *Droid Notify Plus* =
@@ -217,6 +218,20 @@ In my experience, many phones only show the LED when the screen is off. If the o
 On most phones, the stock missed call status bar notification will not be removed when a missed call popup id dismissed. This status bar notification is a system notification and there is no API to remove it. If you are running Android 2.2, this should not be a problem, but any version of 2.3 or greater, this continues to be an issue. Until Android provides a way to remove system notifications, this issue will remain.
 
 If your phone has been rooted, you can install and use a 3rd party add-on called "!NotiGo" which can be found *[http://forum.xda-developers.com/showthread.php?t=1187025 here]* to help remove the system missed call notification.
+
+==Issues When Using Quick Reply==
+
+When you use the Quick Reply in the popup notification, the on-screen keyboard aka "soft keyboard" can hide parts of the notification including the reply box which makes it very difficult to type a reply. There are user options to help with this. They are located here:
+
+App Settings->Basic->Quick Reply Settings
+
+On this user settings screen you can hide some of the notification items if the soft keyboard is covering them. These include:
+
+Hide Header Panel - Hide the row of navigation buttons and notification count text at the very top of the popup window.
+
+Hide Contact Panel - Hide the row under the navigation buttons that has the contact photo, name and number of the notification.
+
+Hide Button Panel - Hide the row of buttons under the quick reply text box.
 
 ==Known Issues==
 
