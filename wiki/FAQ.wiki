@@ -223,15 +223,15 @@ If your phone has been rooted, you can install and use a 3rd party add-on called
 
 When you use the Quick Reply in the popup notification, the on-screen keyboard aka "soft keyboard" can hide parts of the notification including the reply box which makes it very difficult to type a reply. There are user options to help with this. They are located here:
 
-App Settings->Basic->Quick Reply Settings
+_*App Settings->Basic->Quick Reply Settings*_
 
 On this user settings screen you can hide some of the notification items if the soft keyboard is covering them. These include:
 
-Hide Header Panel - Hide the row of navigation buttons and notification count text at the very top of the popup window.
+*Hide Header Panel* - Hide the row of navigation buttons and notification count text at the very top of the popup window.
 
-Hide Contact Panel - Hide the row under the navigation buttons that has the contact photo, name and number of the notification.
+*Hide Contact Panel* - Hide the row under the navigation buttons that has the contact photo, name and number of the notification.
 
-Hide Button Panel - Hide the row of buttons under the quick reply text box.
+*Hide Button Panel* - Hide the row of buttons under the quick reply text box.
 
 ==Known Issues==
 
