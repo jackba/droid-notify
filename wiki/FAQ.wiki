@@ -228,9 +228,7 @@ App Settings->Basic->Quick Reply Settings
 On this user settings screen you can hide some of the notification items if the soft keyboard is covering them. These include:
 
 Hide Header Panel - Hide the row of navigation buttons and notification count text at the very top of the popup window.
-
 Hide Contact Panel - Hide the row under the navigation buttons that has the contact photo, name and number of the notification.
-
 Hide Button Panel - Hide the row of buttons under the quick reply text box.
 
 ==Known Issues==
