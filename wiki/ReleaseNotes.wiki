@@ -3,8 +3,13 @@
 
 = Release Notes =
 
+*v3.24* _Coming Soon..._
+ *
+
 *v3.23* _Coming Soon..._
- * 
+ * Improoved support for tablets & WiFi only devices.
+ * Updated translations.
+ * Small bug fixes.
 
 *v3.22* (October 3, 2012)
  * Added Quick Reply user options including delivery reports.
