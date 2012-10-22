@@ -7,7 +7,7 @@
  *
 
 *v3.23* October 21, 2012)
- * Improoved support for tablets & WiFi only devices.
+ * Improved support for tablets & WiFi only devices.
  * Updated translations.
  * Small bug fixes.
 
