@@ -16,6 +16,10 @@
   <string name="app_name_pro_formatted_version">Notify Pro v%s</string>
   <string name="app_name_basic_formatted">Notify Lite</string>
   <string name="app_name_pro_formatted">Notify Pro</string>
+  <string name="app_name_basic_wifi_formatted_version">Notify Lite (WiFi בלבד) v%s</string>
+  <string name="app_name_pro_wifi_formatted_version">Notify Pro (WiFi בלבד) v%s</string>
+  <string name="app_name_basic_wifi_formatted">Notify Lite (WiFi בלבד)</string>
+  <string name="app_name_pro_wifi_formatted">Notify Pro (WiFi בלבד)</string>
   <string name="to_text">ל</string>
   <string name="from_text">מ</string>
   <string name="close">סגור</string>

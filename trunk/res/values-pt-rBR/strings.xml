@@ -16,6 +16,10 @@
   <string name="app_name_pro_formatted_version">Notify Pro v%s</string>
   <string name="app_name_basic_formatted">Notify Lite</string>
   <string name="app_name_pro_formatted">Notify Pro</string>
+  <string name="app_name_basic_wifi_formatted_version">Notify Lite (WiFi Somente) v%s</string>
+  <string name="app_name_pro_wifi_formatted_version">Notify Pro (WiFi Somente) v%s</string>
+  <string name="app_name_basic_wifi_formatted">Notify Lite (WiFi Somente)</string>
+  <string name="app_name_pro_wifi_formatted">Notify Pro (WiFi Somente)</string>
   <string name="to_text">Para</string>
   <string name="from_text">De</string>
   <string name="close">Fechar</string>
@@ -175,10 +179,10 @@
   <string name="message_delivered_notification">Notificar Mensagem Entregue</string>
   <string name="message_delivered_notification_summary">Mostrar uma notificação na barra de status quando as mensagens são entregues.</string>
   <string name="message_delivered">Mensagem Entregue</string>
-  <string name="message_delivered_successfully">A mensagem foi entregue corretamente.</string>
+  <string name="message_delivered_successfully">Mensagem entregue corretamente.</string>
   <string name="message_not_delivered">Mensagem Não Entregue</string>
   <string name="message_could_not_be_delivered">A mensagem não pôde ser entregue.</string>
-  <string name="message_failed_notification">Notificar Falha na Entrega</string>
+  <string name="message_failed_notification">Notificar Falha na Mensagem</string>
   <string name="message_failed_notification_summary">Mostrar uma notificação na barra de status ocorre falha no envio da mensagem.</string>
   <string name="blacklist_category">LISTA NEGRA</string>
   <string name="blacklist">Lista negra</string>

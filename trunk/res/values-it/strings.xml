@@ -16,6 +16,10 @@
   <string name="app_name_pro_formatted_version">Notify Pro v%s</string>
   <string name="app_name_basic_formatted">Notify Lite</string>
   <string name="app_name_pro_formatted">Notify Pro</string>
+  <string name="app_name_basic_wifi_formatted_version">Notify Lite (WiFi Solo) v%s</string>
+  <string name="app_name_pro_wifi_formatted_version">Notify Pro (WiFi Solo) v%s</string>
+  <string name="app_name_basic_wifi_formatted">Notify Lite (WiFi Solo)</string>
+  <string name="app_name_pro_wifi_formatted">Notify Pro (WiFi Solo)</string>
   <string name="to_text">A</string>
   <string name="from_text">Da</string>
   <string name="close">Chiudi</string>

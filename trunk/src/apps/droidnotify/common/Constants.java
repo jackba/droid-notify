@@ -110,7 +110,6 @@ public class Constants {
 	public static final String BLOCKING_APP_RUNNING_ACTION_SHOW = "2";
 	
 	//-----NOTIFICATION TYPE CONSTANTS-----//
-	public static final int NOTIFICATION_TYPE_TEST = -1;
 	public static final int NOTIFICATION_TYPE_PHONE = 0;
 	public static final int NOTIFICATION_TYPE_SMS = 1;
 	public static final int NOTIFICATION_TYPE_MMS = 2;
@@ -392,7 +391,6 @@ public class Constants {
 	//-----QUICK REPLY CONSTANTS-----//
 	public static final String SMS_GATEWAY_KEY = "quick_reply_sms_gateway_settings";	
 	public static final String SAVE_MESSAGE_DRAFT_KEY = "quick_reply_save_draft_enabled";
-	public static final String DISPLAY_QUICK_REPLY_CANCEL_BUTTON_KEY = "display_quick_reply_cancel_button";
 	public static final String QUICK_REPLY_BLUR_SCREEN_BACKGROUND_ENABLED_KEY = "quick_reply_blur_screen_background_enabled";
 	public static final String QUICK_REPLY_DIM_SCREEN_BACKGROUND_ENABLED_KEY = "quick_reply_dim_screen_background_enabled";
 	public static final String QUICK_REPLY_DIM_SCREEN_BACKGROUND_AMOUNT_KEY = "quick_reply_dim_screen_background_amount";
@@ -549,6 +547,7 @@ public class Constants {
 	public static final String APP_SEARCH_ANDROID_URL = "https://play.google.com/store/search?q=apps.droidnotify.theme";
 	public static final String APP_ANDROID_PLUS_URL = "https://play.google.com/store/apps/details?id=apps.droidnotifyplus";
 	public static final String APP_ANDROID_MISSED_CALL_MESSENGER_LITE_URL = "https://play.google.com/store/apps/details?id=com.missedcallmessenger.lite";
+	public static final String APP_ANDROID_CALENDAR_MESSENGER_LITE_URL = "https://play.google.com/store/apps/details?id=com.calendarmessenger.lite";
 	
 	//Amazon Appstore URL
 	public static final String APP_AMAZON_URL = "http://www.amazon.com/gp/mas/dl/android?p=apps.droidnotify";
@@ -558,6 +557,7 @@ public class Constants {
 	public static final String APP_SEARCH_AMAZON_URL = "http://www.amazon.com/gp/mas/dl/android?p=apps.droidnotify.theme&showAll=1";
 	public static final String APP_AMAZON_PLUS_URL = "http://www.amazon.com/gp/mas/dl/android?p=apps.droidnotifyplus";
 	public static final String APP_AMAZON_MISSED_CALL_MESSENGER_LITE_URL = "http://www.amazon.com/gp/mas/dl/android?p=com.missedcallmessenger.lite";
+	public static final String APP_AMAZON_CALENDAR_MESSENGER_LITE_URL = "http://www.amazon.com/gp/mas/dl/android?p=com.calendarmessenger.lite";
 	
 	//Samsung Apps URL
 	public static final String APP_SAMSUNG_URL = "samsungapps://ProductDetail/apps.droidnotify";
@@ -567,6 +567,7 @@ public class Constants {
 	public static final String APP_SEARCH_SAMSUNG_URL = "http://www.samsungapps.com/topApps/topAppsList.as?mkt_keyword=Droid+Notify";
 	public static final String APP_SAMSUNG_PLUS_URL = "samsungapps://ProductDetail/apps.droidnotifyplus";
 	public static final String APP_SAMSUNG_MISSED_CALL_MESSENGER_LITE_URL = "samsungapps://ProductDetail/com.missedcallmessenger.lite";
+	public static final String APP_SAMSUNG_CALENDAR_MESSENGER_LITE_URL = "samsungapps://ProductDetail/com.calendarmessenger.lite";
 	
 	//PayPal URL
 	public static final String APP_PAYPAL_URL = "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=XV4WLUKUBTMV6";

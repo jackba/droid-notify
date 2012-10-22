@@ -98,26 +98,33 @@ public class NotificationsPreferenceActivity extends Activity {
 	 */
 	private void setupRowActivities(){
 		if (_debug) Log.v("NotificationsPreferenceActivity.Activities()");
-		//SMS Button
-		_smsSettingsRow.setOnClickListener(new OnClickListener(){
-        	public void onClick(View view){
-		    	try{
-		    		startActivity(new Intent(_context, SMSPreferenceActivity.class));
-		    	}catch(Exception ex){
-	 	    		Log.e("NotificationsPreferenceActivity() SMS Button ERROR: " + ex.toString());
+		if(Common.isDeviceWiFiOnly(_context)){
+			_smsSettingsRow.setClickable(false);
+			_smsSettingsRow.setTextColor(_context.getResources().getColor(R.color.disabled_text));
+			_missedCallsSettingsRow.setClickable(false);
+			_missedCallsSettingsRow.setTextColor(_context.getResources().getColor(R.color.disabled_text));
+		}else{
+			//SMS Button
+			_smsSettingsRow.setOnClickListener(new OnClickListener(){
+	        	public void onClick(View view){
+			    	try{
+			    		startActivity(new Intent(_context, SMSPreferenceActivity.class));
+			    	}catch(Exception ex){
+		 	    		Log.e("NotificationsPreferenceActivity() SMS Button ERROR: " + ex.toString());
+			    	}
+	        	}
+			});
+			//Missed Calls Button
+			_missedCallsSettingsRow.setOnClickListener(new OnClickListener(){
+		    	public void onClick(View view){
+			    	try{
+			    		startActivity(new Intent(_context, PhonePreferenceActivity.class));
+			    	}catch(Exception ex){
+		 	    		Log.e("NotificationsPreferenceActivity() Missed Calls Button ERROR: " + ex.toString());
+			    	}
 		    	}
-        	}
-		});
-		//Missed Calls Button
-		_missedCallsSettingsRow.setOnClickListener(new OnClickListener(){
-	    	public void onClick(View view){
-		    	try{
-		    		startActivity(new Intent(_context, PhonePreferenceActivity.class));
-		    	}catch(Exception ex){
-	 	    		Log.e("NotificationsPreferenceActivity() Missed Calls Button ERROR: " + ex.toString());
-		    	}
-	    	}
-		});		
+			});	
+		}
 		//Calendar Button
 		_calendarSettingsRow.setOnClickListener(new OnClickListener(){
 	    	public void onClick(View view){
