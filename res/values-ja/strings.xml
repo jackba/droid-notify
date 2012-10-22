@@ -16,6 +16,10 @@
   <string name="app_name_pro_formatted_version">Notify Pro v%s</string>
   <string name="app_name_basic_formatted">Notify Lite</string>
   <string name="app_name_pro_formatted">Notify Pro</string>
+  <string name="app_name_basic_wifi_formatted_version">Notify Lite (WiFi のみ) v%s</string>
+  <string name="app_name_pro_wifi_formatted_version">Notify Pro (WiFi のみ) v%s</string>
+  <string name="app_name_basic_wifi_formatted">Notify Lite (WiFi のみ)</string>
+  <string name="app_name_pro_wifi_formatted">Notify Pro (WiFi のみ)</string>
   <string name="to_text">宛先</string>
   <string name="from_text">送信元</string>
   <string name="close">閉じる</string>

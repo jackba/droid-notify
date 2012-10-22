@@ -16,6 +16,10 @@
   <string name="app_name_pro_formatted_version">Notify Pro v%s</string>
   <string name="app_name_basic_formatted">Notify Lite</string>
   <string name="app_name_pro_formatted">Notify Pro</string>
+  <string name="app_name_basic_wifi_formatted_version">Notify Lite (WiFi Seulement) v%s</string>
+  <string name="app_name_pro_wifi_formatted_version">Notify Pro (WiFi Seulement) v%s</string>
+  <string name="app_name_basic_wifi_formatted">Notify Lite (WiFi Seulement)</string>
+  <string name="app_name_pro_wifi_formatted">Notify Pro (WiFi Seulement)</string>
   <string name="to_text">à</string>
   <string name="from_text">De</string>
   <string name="close">Fermer</string>
@@ -76,9 +80,9 @@
   <string name="google_voice_authentication_error">Nous ne pouvons pas accéder à votre compte Google dans l\'immédiat. Veuillez réessayer plus tard.</string>
   <string name="google_voice_send_sms_mesage_error">Le Message SMS Google Voice ne peut pas être envoyé.</string>
   <string name="voice_recognizer_error">La reconnaissance vocale n\'a pas pu être démarrée. Veuillez vous assurer que votre téléphone prend en charge la reconnaissance vocale.</string>
-  <string name="preference_disable_context_menu_title">Désactiver menu contextuel</string>
+  <string name="preference_disable_context_menu_title">Désactiver le menu contextuel</string>
   <string name="preference_disable_context_menu_summary">Désactive le menu contextuel des notifications.</string>
-  <string name="preference_disable_quick_contact_title">Désactiver menu photo</string>
+  <string name="preference_disable_quick_contact_title">Désactiver le menu photo</string>
   <string name="preference_disable_quick_contact_summary">Désactive le menu contact rapide lié aux photos des notifications.</string>
   <string name="popup_vertical_location_title">Position verticale du popup</string>
   <string name="popup_vertical_location_summary">Choix de la position verticale de la fenêtre.</string>
@@ -143,7 +147,7 @@
   <string name="stop_quiet_time_text">Heure de fin :</string>
   <string name="preference_quiet_time_period_set">La période de mise en veille a été enregistrée.</string>
   <string name="quick_reply_category">RÉPONSE RAPIDE</string>
-  <string name="quick_reply_settings">Paramètres réponse rapide</string>
+  <string name="quick_reply_settings">Paramètres Réponse rapide</string>
   <string name="quick_reply">Réponse rapide</string>
   <string name="draft_saved_text">Message enregistré comme brouillon.</string>
   <string name="preference_save_draft_enabled_title">Enregistrer un brouillon</string>
@@ -151,7 +155,7 @@
   <string name="preference_save_draft_enabled_summaryOff">Il n\'y aura pas de brouillon d\'enregistré si le message n\'est pas envoyé.</string>
   <string name="preference_quick_reply_sms_gateway">Passerelle SMS-Email</string>
   <string name="preference_quick_reply_sms_gateway_summary">Choisissez votre opérateur de messagerie dans la liste. S\'il n\'y est pas, il ne sera pas possible d\'envoyer un message SMS à une adresse Email avec la fonction de Réponse rapide.</string>
-  <string name="enable_quick_reply">Activer Réponse Rapide</string>
+  <string name="enable_quick_reply">Activer la Réponse rapide</string>
   <string name="enable_quick_reply_summary">Affiche une boîte de réponse rapide dans la notification.</string>
   <string name="type_to_compose">Tapez votre texte</string>
   <string name="insert_signature">Insertion signature</string>
@@ -191,11 +195,11 @@
   <string name="customize_contacts_category">PERSONNALISER LES CONTACTS</string>
   <string name="customize_contacts">Personnaliser les Contacts</string>
   <string name="buttons_category">BOUTONS</string>
-  <string name="button_font_size_title">Taille police Bouton</string>
-  <string name="button_font_size_summary">Sélectionnez la taille de la police du texte du bouton.</string>
+  <string name="button_font_size_title">Taille de la police des boutons</string>
+  <string name="button_font_size_summary">Sélectionnez la taille de la police du texte des boutons.</string>
   <string name="bold_button_text_title">Texte du bouton en gras</string>
   <string name="bold_button_text_summary">Met le texte du bouton en gras.</string>
-  <string name="locale">Paramètres Régionaux</string>
+  <string name="locale">Paramètres régionaux</string>
   <string name="preference_language_title">Langue</string>
   <string name="preference_language_summary">Choix de la langue de l\'application.</string>
   <string name="phone_default_language">Langue par défaut du téléphone</string>
@@ -255,7 +259,7 @@
   <string name="bold_notification_type_info_summary">Met en gras le type de notification.</string>
   <string name="preference_display_contact_photo_title">Voir photo du contact</string>
   <string name="preference_display_contact_photo_summary">Voir la photo du contact pour certaines notifications.</string>
-  <string name="preference_display_contact_name_title">Voir nom du contact</string>
+  <string name="preference_display_contact_name_title">Voir le nom du contact</string>
   <string name="preference_display_contact_name_summary">Affiche le nom du contact dans l\'entête de la notification.</string>
   <string name="center_align_contact_name">Centrer le nom du contact</string>
   <string name="center_align_contact_name_summary">Centre le nom du contact dans l\'entête de la notification.</string>
@@ -265,7 +269,7 @@
   <string name="preference_hide_unknown_contact_name_summary">N\'affiche pas \"Inconnu\" si le contact est inconnu.</string>
   <string name="preference_contact_name_font_size_title">Taille caractères nom</string>
   <string name="preference_contact_name_font_size_summary">Choix de la taille des caractères pour l\'affichage du nom du contact.</string>
-  <string name="preference_display_contact_number_title">Voir numéro du contact</string>
+  <string name="preference_display_contact_number_title">Voir le numéro du contact</string>
   <string name="preference_display_contact_number_summary">Affiche le numéro du contact dans l\'entête de la notification.</string>
   <string name="center_align_contact_number">Centrer le numéro du contact</string>
   <string name="center_align_contact_number_summary">Centre le numéro du contact dans l\'entête de la notification.</string>
@@ -282,11 +286,11 @@
   <string name="contact_photo_settings_text">Paramètres photo du contact</string>
   <string name="preference_contact_photo_size">Taille de la photo</string>
   <string name="preference_contact_photo_size_summary">Choix de la taille de la photo du contact.</string>
-  <string name="preference_center_align_body_text_title">Centrer texte notification</string>
+  <string name="preference_center_align_body_text_title">Centrer le texte de la notification</string>
   <string name="preference_center_align_body_text_summary">Centre dans la fenêtre le texte du message lié à la notification (aligné à gauche sinon).</string>
   <string name="preference_notification_body_font_size_title">Taille corps notification</string>
   <string name="preference_notification_body_font_size_summary">Choix de la taille des caractères pour l\'affichage du corps de la notification.</string>
-  <string name="preference_display_notification_body_title">Afficher corps notification</string>
+  <string name="preference_display_notification_body_title">Afficher le corps de la notification</string>
   <string name="preference_display_notification_body_summary">Affiche le corps de la notification dans le popup.</string>
   <string name="hide_notification_body_title">Masquer le corps de la notification</string>
   <string name="hide_notification_body_summary">N\'affiche pas le corps de la notification dans le popup.</string>
@@ -319,13 +323,13 @@
   <string name="preference_mms_timeout">Temporisation MMS</string>
   <string name="preference_mms_timeout_summary">Indique, lors de la réception d\'un MMS, le temps d\'attente souhaité avant que l\'application ne regarde si d\'autres MMS sont arrivés.</string>
   <string name="missed_calls_category">APPELS MANQUÉS</string>
-  <string name="missed_calls">Appels Manqués</string>
+  <string name="missed_calls">Appels manqués</string>
   <string name="private_number_text">Numéro privé</string>
   <string name="call_contact_text">Appel contact</string>
   <string name="call_number">Appel contact</string>
   <string name="view_call_log_text">Voir appel</string>
   <string name="select_number_text">Choisir un numéro</string>
-  <string name="missed_call_enabled_title">Activer appels manqués</string>
+  <string name="missed_call_enabled_title">Activer les Appels manqués</string>
   <string name="missed_call_enabled_summary">Active les notifications pour appel manqué.</string>
   <string name="preference_missed_call_loading_title">Type d\'affichage</string>
   <string name="preference_missed_call_loading_summary">Indique quels sont les appels manqués à afficher lors d\'une notification (le dernier, tous...).</string>
@@ -386,7 +390,7 @@
   <string name="authenticating_text">Authentification...</string>
   <string name="twitter_authentication_error">Nous ne pouvons pas accéder à votre compte Twitter dans l\'immédiat. Veuillez réessayer plus tard.</string>
   <string name="preference_twitter_polling_frequency_summary">Indique à quelle fréquence vous souhaitez lire votre compte Twitter.</string>
-  <string name="preference_clear_twitter_authentication_data">Réinitialiser données Twitter</string>
+  <string name="preference_clear_twitter_authentication_data">Réinitialiser les données Twitter</string>
   <string name="preference_clear_twitter_authentication_data_summary">Efface les données d\'authentification de Twitter.</string>
   <string name="twitter_authentication_data_cleared">Les données d\'authentification de Twitter ont été effacées.</string>
   <string name="twitter_following_request" formatted="false">Demande d\'abonnement Twitter de %s (@%s) !</string>
@@ -406,7 +410,7 @@
   <string name="preference_facebook_friend_requests_enabled_summary">Active les notifications de demande d\'ami de Facebook.</string>
   <string name="facebook_authentication_text">Authentification Facebook</string>
   <string name="facebook_authentication_error">Nous ne pouvons pas accéder à votre compte Facebook dans l\'immédiat. Veuillez réessayer plus tard.</string>
-  <string name="preference_clear_facebook_authentication_data">Réinitialiser données Facebook</string>
+  <string name="preference_clear_facebook_authentication_data">Réinitialiser les données Facebook</string>
   <string name="preference_clear_facebook_authentication_data_summary">Efface les données d\'authentification de Facebook.</string>
   <string name="facebook_authentication_data_cleared">Les données d\'authentification de Facebook ont été effacées.</string>
   <string name="open_facebook_app_text">Ouvrir l\'application Facebook</string>
@@ -436,7 +440,7 @@
   <string name="password">Mot de passe</string>
   <string name="sign_in">Connexion</string>
   <string name="attempting_to_sign_in">Connexion en cours...</string>
-  <string name="clear_google_voice_authentication_data">Réinitialiser données Google Voice</string>
+  <string name="clear_google_voice_authentication_data">Réinitialiser les données Google Voice</string>
   <string name="clear_google_voice_authentication_data_summary">Efface les données d\'authentification de Google Voice.</string>
   <string name="google_voice_authentication_data_cleared">Les données d\'authentification de Google Voice ont été effacées.</string>
   <string name="open_google_voice_app_text">Ouvrir l\'application Google Voice</string>
@@ -445,7 +449,7 @@
   <string name="linkedin_authentication">Authentification LinkedIn</string>
   <string name="linkedin_authentication_message">L\'écran suivant ouvrira la page web de LinkedIn dans votre navigateur web. Cette page vous demandera l\'autorisation d\'accéder à votre compte LinkedIn. Pour continuer, cliquez sur le bouton \"Continuer\" ci-dessous.</string>
   <string name="linkedin_authentication_error">Nous ne pouvons pas accéder à votre compte LinkedIn dans l\'immédiat. Veuillez réessayer plus tard.</string>
-  <string name="clear_linkedin_authentication_data_title">Réinitialiser données LinkedIn</string>
+  <string name="clear_linkedin_authentication_data_title">Réinitialiser les données LinkedIn</string>
   <string name="clear_linkedin_authentication_data_summary">Efface les données d\'authentification de LinkedIn.</string>
   <string name="linkedin_authentication_data_cleared">Les données d\'authentification de LinkedIn ont été effacées.</string>
   <string name="notifications_category">NOTIFICATIONS</string>
@@ -532,10 +536,10 @@
   <string name="log_file_acquiring_system_logs">Acquisition des journaux...</string>
   <string name="log_file_retrieval_failure">Impossible de récupérer les journaux.</string>
   <string name="log_file_device_info" formatted="false">Droid Notify Version: %s\nDevice Model: %s\nFirmware Version: %s\nBuild Number: %s\n</string>
-  <string name="send_debug_logs_text">Envoyer fichiers de débogage</string>
+  <string name="send_debug_logs_text">Envoyer les fichiers de débogage</string>
   <string name="send_debug_logs_summary">Envoie les fichiers de débogage au développeur.</string>
   <string name="clear_debug_logs">Effacer les journaux de débogage</string>
-  <string name="clear_debug_logs_summary">Supprime des journaux de débogage existants.</string>
+  <string name="clear_debug_logs_summary">Supprime les journaux de débogage existants.</string>
   <string name="removing_logs">Suppression des logs...</string>
   <string name="feedback_category">COMMENTAIRES</string>
   <string name="rate_app">Evaluer l\'application</string>
@@ -590,7 +594,7 @@
   <string name="preference_hide_single_message_header_enabled_summaryOff">Le compteur de notification sera affiché même s\'il n\'y a qu\'un seul message (1/1 d\'affiché).</string>
   <string name="blocking_app_running_action_text">Options blocage notification</string>
   <string name="blocking_app_running_action_summary">Indique que faire lors de l\'arrivée d\'une notification si une application bloquante est en cours d\'exécution.</string>
-  <string name="confirm_clear_reset_authentication_data">Cela réinitialisera les données d\'authentification.</string>
+  <string name="confirm_clear_reset_authentication_data">Ceci effacera vos informations d\'authentification.</string>
   <string name="clear_data">Effacer Données</string>
   <string name="status_bar_notification_content_title_text_sms">Nouveau message</string>
   <string name="status_bar_notification_content_title_text_phone">Appel manqué</string>
@@ -606,7 +610,7 @@
   <string name="status_bar_notification_content_title_text_google_voice_voicemail">Nouveau message vocal Google Voice</string>
   <string name="status_bar_notification_content_title_text_google_voice_missed_call">Nouvel appel manqué Google Voice</string>
   <string name="status_bar_notification_content_title_text_plural_sms">Nouveaux messages</string>
-  <string name="status_bar_notification_content_title_text_plural_phone">Appels Manqués</string>
+  <string name="status_bar_notification_content_title_text_plural_phone">Appels manqués</string>
   <string name="status_bar_notification_content_title_text_plural_calendar">Rappels calendrier</string>
   <string name="status_bar_notification_content_title_text_plural_twitter">Nouveautés Twitter</string>
   <string name="status_bar_notification_content_title_text_plural_twitter_direct_message">Nouveaux messages Twitter</string>
@@ -727,7 +731,7 @@
   <string name="get_all_missed_calls_text">Voir tous les appels manqués</string>
   <string name="use_installed_messaging_app_text">Utiliser l\'application Messages</string>
   <string name="use_installed_email_app_text">Utiliser l\'application Email</string>
-  <string name="use_quick_reply_text">Utiliser la réponse rapide</string>
+  <string name="use_quick_reply_text">Utiliser la Réponse rapide</string>
   <string name="parse_sms_directly_text">Analyser le SMS directement (plus rapide)</string>
   <string name="read_sms_from_disk_text">Lire le SMS à partir du disque (plus lent)</string>
   <string name="reschedule_notification_text">Reporter la notification</string>

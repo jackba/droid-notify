@@ -18,4 +18,5 @@
 	<color name="spinner_text_color">#ffffffff</color>	
 	<color name="contact_photo_background_htc_green">#ff73ab00</color>
 	<color name="contact_photo_background_ics_blue">#ff33B5E5</color>
+	<color name="disabled_text">#ff333333</color>
 </resources>

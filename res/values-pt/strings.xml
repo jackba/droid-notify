@@ -16,6 +16,10 @@
   <string name="app_name_pro_formatted_version">Notify Pro v%s</string>
   <string name="app_name_basic_formatted">Notify Lite</string>
   <string name="app_name_pro_formatted">Notify Pro</string>
+  <string name="app_name_basic_wifi_formatted_version">Notify Lite (WiFi Somente) v%s</string>
+  <string name="app_name_pro_wifi_formatted_version">Notify Pro (WiFi Somente) v%s</string>
+  <string name="app_name_basic_wifi_formatted">Notify Lite (WiFi Somente)</string>
+  <string name="app_name_pro_wifi_formatted">Notify Pro (WiFi Somente)</string>
   <string name="to_text">Para</string>
   <string name="from_text">De</string>
   <string name="close">Fechar</string>

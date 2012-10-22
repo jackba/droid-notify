@@ -32,7 +32,6 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.Toast;
@@ -395,24 +394,30 @@ public class NotificationActivity extends Activity{
         Display display = getWindowManager().getDefaultDisplay(); 
         Point size = new Point();
         int screenWidth;
-        int screenHeight;
         if(Common.getDeviceAPILevel() >= android.os.Build.VERSION_CODES.HONEYCOMB_MR2){
 	        display.getSize(size);
 	        screenWidth = size.x;
-	        screenHeight = size.y;
         }else{
 	        screenWidth = display.getWidth();
-	        screenHeight = display.getHeight();
         }
+        //if(_debug) Log.e("NotificationActivity.onConfigurationChanged() screenWidth: " + screenWidth);
         //Adjust screen width based on the devices screen size.
         if(screenWidth >= 800 && screenWidth < 1280){
         	screenWidth = (int) (screenWidth * 0.8);
         }else if(screenWidth >= 1280){
         	screenWidth = (int) (screenWidth * 0.5);
         }
-        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(screenWidth, screenHeight);
-        RelativeLayout contentView = (RelativeLayout) findViewById(R.id.notification_wrapper_relative_layout);
-		contentView.setLayoutParams(layoutParams);
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(screenWidth, LayoutParams.WRAP_CONTENT);
+        layoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
+		String verticalLocation = _preferences.getString(Constants.POPUP_VERTICAL_LOCATION_KEY, Constants.POPUP_VERTICAL_LOCATION_DEFAULT);
+		if(verticalLocation.equals(Constants.POPUP_VERTICAL_LOCATION_TOP)){
+			layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+		}else if(verticalLocation.equals(Constants.POPUP_VERTICAL_LOCATION_BOTTOM)){
+			layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+		}else{			
+			layoutParams.addRule(RelativeLayout.CENTER_VERTICAL);
+		}
+		_notificationViewFlipper.setLayoutParams(layoutParams);
 		//Adjust the max lines in the notifications body.
     	int maxLines = Integer.parseInt(_preferences.getString(Constants.NOTIFICATION_BODY_MAX_LINES_KEY, Constants.NOTIFICATION_BODY_MAX_LINES_DEFAULT));
         int phoneOrientation = getResources().getConfiguration().orientation;
@@ -1083,9 +1088,26 @@ public class NotificationActivity extends Activity{
 	/**
 	 * Setup custom style elements of the ViewFlipper.
 	 */
+	@SuppressLint("NewApi") 
+	@SuppressWarnings("deprecation")
 	private void setupViewFlipperStyles(){
-		RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-		layoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
+        Display display = getWindowManager().getDefaultDisplay(); 
+        Point size = new Point();
+        int screenWidth;
+        if(Common.getDeviceAPILevel() >= android.os.Build.VERSION_CODES.HONEYCOMB_MR2){
+	        display.getSize(size);
+	        screenWidth = size.x;
+        }else{
+	        screenWidth = display.getWidth();
+        }
+        //Adjust screen width based on the devices screen size.
+        if(screenWidth >= 800 && screenWidth < 1280){
+        	screenWidth = (int) (screenWidth * 0.8);
+        }else if(screenWidth >= 1280){
+        	screenWidth = (int) (screenWidth * 0.5);
+        }
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(screenWidth, LayoutParams.WRAP_CONTENT);
+        layoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
 		String verticalLocation = _preferences.getString(Constants.POPUP_VERTICAL_LOCATION_KEY, Constants.POPUP_VERTICAL_LOCATION_DEFAULT);
 		if(verticalLocation.equals(Constants.POPUP_VERTICAL_LOCATION_TOP)){
 			layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);

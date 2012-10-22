@@ -94,35 +94,39 @@ public class CustomizePreferenceActivity extends PreferenceActivity{
 	 */
 	private void runNotificationPreviews(){
 		
-		//Missed Call
-		Bundle missedCallNotificationBundleSingle = new Bundle();
-		missedCallNotificationBundleSingle.putLong(Constants.BUNDLE_CALL_LOG_ID, -1);
-		missedCallNotificationBundleSingle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, "1234567890");
-		missedCallNotificationBundleSingle.putLong(Constants.BUNDLE_TIMESTAMP, Common.convertGMTToLocalTime(_context, System.currentTimeMillis(), true));
-		missedCallNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_PREVIEW_PHONE);
-		Bundle missedCallNotificationBundle = new Bundle();
-		missedCallNotificationBundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_1", missedCallNotificationBundleSingle);
-		missedCallNotificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_BUNDLE_COUNT, 1);
-		Bundle missedCallBundle = new Bundle();
-		missedCallBundle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_PREVIEW_PHONE);
-		missedCallBundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME, missedCallNotificationBundle);
-		Common.startNotificationActivity(_context, missedCallBundle);
-
-		//SMS
-		Bundle smsNotificationBundleSingle = new Bundle();
-		smsNotificationBundleSingle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, "1234567890");			
-		smsNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_BODY, "SMS message.");
-		smsNotificationBundleSingle.putLong(Constants.BUNDLE_MESSAGE_ID, -1);
-		smsNotificationBundleSingle.putLong(Constants.BUNDLE_THREAD_ID, -1);
-		smsNotificationBundleSingle.putLong(Constants.BUNDLE_TIMESTAMP, Common.convertGMTToLocalTime(_context, System.currentTimeMillis(), true));
-		smsNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_PREVIEW_SMS);
-		Bundle smsNotificationBundle = new Bundle();
-		smsNotificationBundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_1", smsNotificationBundleSingle);
-		smsNotificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_BUNDLE_COUNT, 1);
-		Bundle smsBundle = new Bundle();
-		smsBundle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_PREVIEW_SMS);
-		smsBundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME, smsNotificationBundle);
-		Common.startNotificationActivity(_context, smsBundle);
+		if(!Common.isDeviceWiFiOnly(_context)){
+			
+			//Missed Call
+			Bundle missedCallNotificationBundleSingle = new Bundle();
+			missedCallNotificationBundleSingle.putLong(Constants.BUNDLE_CALL_LOG_ID, -1);
+			missedCallNotificationBundleSingle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, "1234567890");
+			missedCallNotificationBundleSingle.putLong(Constants.BUNDLE_TIMESTAMP, Common.convertGMTToLocalTime(_context, System.currentTimeMillis(), true));
+			missedCallNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_PREVIEW_PHONE);
+			Bundle missedCallNotificationBundle = new Bundle();
+			missedCallNotificationBundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_1", missedCallNotificationBundleSingle);
+			missedCallNotificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_BUNDLE_COUNT, 1);
+			Bundle missedCallBundle = new Bundle();
+			missedCallBundle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_PREVIEW_PHONE);
+			missedCallBundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME, missedCallNotificationBundle);
+			Common.startNotificationActivity(_context, missedCallBundle);
+	
+			//SMS
+			Bundle smsNotificationBundleSingle = new Bundle();
+			smsNotificationBundleSingle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, "1234567890");			
+			smsNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_BODY, "SMS message.");
+			smsNotificationBundleSingle.putLong(Constants.BUNDLE_MESSAGE_ID, -1);
+			smsNotificationBundleSingle.putLong(Constants.BUNDLE_THREAD_ID, -1);
+			smsNotificationBundleSingle.putLong(Constants.BUNDLE_TIMESTAMP, Common.convertGMTToLocalTime(_context, System.currentTimeMillis(), true));
+			smsNotificationBundleSingle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_PREVIEW_SMS);
+			Bundle smsNotificationBundle = new Bundle();
+			smsNotificationBundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_1", smsNotificationBundleSingle);
+			smsNotificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_BUNDLE_COUNT, 1);
+			Bundle smsBundle = new Bundle();
+			smsBundle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_PREVIEW_SMS);
+			smsBundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME, smsNotificationBundle);
+			Common.startNotificationActivity(_context, smsBundle);
+		
+		}
 
 		//Calendar
 		Bundle calendarNotificationBundleSingle = new Bundle();

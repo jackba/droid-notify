@@ -14,6 +14,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
@@ -74,6 +75,14 @@ public class AdvancedPreferenceActivity extends PreferenceActivity{
 	@SuppressWarnings("deprecation")
 	private void setupCustomPreferences(){
 	    if (_debug) Log.v("AdvancedPreferenceActivity.setupCustomPreferences()");
+	    if(Common.isDeviceWiFiOnly(_context)){
+	    	ListPreference mmsTimeoutPreference = (ListPreference)this.findPreference(Constants.MMS_TIMEOUT_KEY);
+	    	ListPreference missedCallTimeoutPreference = (ListPreference)this.findPreference(Constants.CALL_LOG_TIMEOUT_KEY);
+	    	ListPreference smsToEmailGatewayPreference = (ListPreference)this.findPreference(Constants.SMS_GATEWAY_KEY);
+	    	mmsTimeoutPreference.setEnabled(false);
+	    	missedCallTimeoutPreference.setEnabled(false);
+	    	smsToEmailGatewayPreference.setEnabled(false);
+	    }
 		//Reset App Preferences Preference/Button
 		Preference resetAppPreferencesPref = (Preference)findPreference(Constants.RESET_APP_PREFERENCES_KEY);
 		resetAppPreferencesPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {

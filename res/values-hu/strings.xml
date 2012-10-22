@@ -18,6 +18,10 @@ Le tudod tölteni ezt az appot a legtöbb Android alkalmazásboltban, csak keres
   <string name="app_name_pro_formatted_version">Notify Pro v%s</string>
   <string name="app_name_basic_formatted">Notify Lite</string>
   <string name="app_name_pro_formatted">Notify Pro</string>
+  <string name="app_name_basic_wifi_formatted_version">Notify Lite (WiFi Csak) v%s</string>
+  <string name="app_name_pro_wifi_formatted_version">Notify Pro (WiFi Csak) v%s</string>
+  <string name="app_name_basic_wifi_formatted">Notify Lite (WiFi Csak)</string>
+  <string name="app_name_pro_wifi_formatted">Notify Pro (WiFi Csak)</string>
   <string name="to_text">Címzett</string>
   <string name="from_text">Feladó</string>
   <string name="close">Bezár</string>
