@@ -6,7 +6,7 @@
 *v3.24* _Coming Soon..._
  *
 
-*v3.23* _Coming Soon..._
+*v3.23* October 21, 2012)
  * Improoved support for tablets & WiFi only devices.
  * Updated translations.
  * Small bug fixes.
