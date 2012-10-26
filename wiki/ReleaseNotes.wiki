@@ -9,7 +9,7 @@
 *v3.24* _Coming Soon..._
  * Added a Dismiss All from User option.
  * Added a Dismiss All from App option.
- * 
+ * Reworked how app blocking works. You can now select the apps that will prevent a notification popup when that app is being used.
  * Updated translations.
  * Small bug fixes.
 
