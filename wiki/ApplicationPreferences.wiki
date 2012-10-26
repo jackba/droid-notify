@@ -7,7 +7,6 @@ Enable Droid Notify
 
 Basic
 
- * Blocking Notification Options
  * Display Text To Speech Button
  * Disable Context Menu
  * Disable Photo Menu
@@ -32,6 +31,10 @@ Basic
   * Message Sent Notification
   * Message Delivered Notification
   * Message Failed Notification
+ * Enable App Blocking
+ * Blocking Apps Settings
+  * Select Blocking Apps
+  * Blocking Action
  * Customize Contacts
  * Blacklist
 
@@ -48,7 +51,7 @@ Screen
  * Turn Screen On
  * Dim Screen
  * Unlock Phone
- * Enable Landscape Mode
+ * Auto Rotate Screen
  * Screen Timeout
  * Blur Screen Background (Hidden in Android 4.0+ Devices)
  * Dim Screen Background
@@ -57,7 +60,7 @@ Screen
 Customize
 
  * Theme
- * Popup horizontal Location
+ * Popup Vertical Location
  * Popup Width Padding
  * Hide Single Message Header
  * Display Type Icon
@@ -88,6 +91,7 @@ Customize
  * Button Style
  * Button Font Size
  * Bold Button Text
+ * Long Press Dismiss Button Action
  
 Notifications
 
