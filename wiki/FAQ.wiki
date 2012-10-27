@@ -227,7 +227,9 @@ On this user settings screen you can hide some of the notification items if the 
 
 Yes, you can prevent the popup notification from appearing when you are using almost any application. You can select the applications that you wish to block notifications by updating the application settings here:
 
-_*App Settings->Basic->Blocking App Settings*_
+_*App Settings->Basic->Blocking Apps Settings*_
+
+Simply enable app blocking and select the apps on your phone that you want to block notifications.
 
 ==Known Issues==
 
