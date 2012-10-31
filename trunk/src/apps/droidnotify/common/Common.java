@@ -60,12 +60,16 @@ import android.speech.tts.TextToSpeech;
 import android.telephony.TelephonyManager;
 import android.widget.Toast;
 
+import apps.droidnotify.calendar.CalendarCommon;
 import apps.droidnotify.common.Constants;
+import apps.droidnotify.db.DBConstants;
+import apps.droidnotify.db.SQLiteHelperBlockingApps;
 import apps.droidnotify.NotificationActivity;
 import apps.droidnotify.NotificationViewFlipper;
 import apps.droidnotify.log.Log;
 import apps.droidnotify.phone.PhoneCommon;
 import apps.droidnotify.receivers.RescheduleReceiver;
+import apps.droidnotify.reminder.ReminderCommon;
 import apps.droidnotify.R;
 
 /**
@@ -181,7 +185,6 @@ public class Common {
 	 * Determine if a notification should be shown or blocked.
 	 * 
 	 * @param context - The application context.
-	 * @param blockingAppRuningAction - The action to perform based on the user preferences.
 	 * 
 	 * @return boolean - Returns true if a the notification should be blocked.
 	 */
@@ -189,22 +192,11 @@ public class Common {
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.isNotificationBlocked()");
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-		boolean blockedFlag = false;
-	    boolean blockingAppRunning = Common.isBlockingAppRunning(context);
-	    if(blockingAppRunning){
-			String blockingAppRuningAction = preferences.getString(Constants.BLOCKING_APP_RUNNING_ACTION_KEY, Constants.BLOCKING_APP_RUNNING_ACTION_SHOW);
-			if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_RESCHEDULE)){ 
-				blockedFlag = true;
-		    }else if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_SHOW)){
-		    	blockedFlag = false;
-		    }else if(blockingAppRuningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_IGNORE)){
-		    	blockedFlag = true;
-		    }
-	    }else{
-	    	blockedFlag = false;
-	    }
-	    if (_debug) Log.v("Common.isNotificationBlocked() BlockedFlag: " + blockedFlag);
-	    return blockedFlag;
+		if(preferences.getBoolean(Constants.BLOCKING_APPS_ENABLED_KEY, false)){
+			return Common.isBlockingAppRunning(context);
+		}else{
+			return false;
+		}
 	}
 	
 	/**
@@ -1690,17 +1682,20 @@ public class Common {
 	 * @param notificationType - The notification type.
 	 * @param incomingNotificationBundle - The bundle that contains the notification information.
 	 */
-	public static void rescheduleBlockedNotification(Context context, boolean rescheduleNotificationInCall, boolean rescheduleNotificationInQuickReply, int notificationType, Bundle incomingNotificationBundle){
+	public static void rescheduleBlockedNotification(Context context, boolean callStateIdle, boolean rescheduleNotificationInCall, int notificationType, Bundle incomingNotificationBundle){
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.rescheduleBlockedNotification()");
 		boolean rescheduleNotification = false;
     	SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-    	String blockingAppRunningAction = preferences.getString(Constants.BLOCKING_APP_RUNNING_ACTION_KEY, Constants.BLOCKING_APP_RUNNING_ACTION_SHOW);
-    	if(rescheduleNotificationInCall || rescheduleNotificationInQuickReply){
+    	String blockingAppRunningAction = preferences.getString(Constants.BLOCKING_APPS_ACTION_KEY, Constants.BLOCKING_APPS_ACTION_IGNORE);
+    	if(rescheduleNotificationInCall && !callStateIdle){
+    		if (_debug) Log.v("Common.rescheduleBlockedNotification() IN CALL = TRUE");
     		rescheduleNotification = true;
-    	}else if(blockingAppRunningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_IGNORE)){
+    	}else if(blockingAppRunningAction.equals(Constants.BLOCKING_APPS_ACTION_IGNORE)){
+    		if (_debug) Log.v("Common.rescheduleBlockedNotification() BLOCKING_APPS_ACTION_IGNORE = FALSE");
     		rescheduleNotification = false;
-    	}else if(blockingAppRunningAction.equals(Constants.BLOCKING_APP_RUNNING_ACTION_RESCHEDULE)){
+    	}else if(blockingAppRunningAction.equals(Constants.BLOCKING_APPS_ACTION_RESCHEDULE)){
+    		if (_debug) Log.v("Common.rescheduleBlockedNotification() BLOCKING_APPS_ACTION_RESCHEDULE = TRUE");
     		rescheduleNotification = true;
     	}
 		if (_debug) Log.v("Common.rescheduleBlockedNotification() RescheduleBlockedNotification? " + rescheduleNotification);
@@ -2170,7 +2165,7 @@ public class Common {
 	 * @return boolean - True if the operation was successful, false otherwise.
 	 */
 	@SuppressLint("WorldReadableFiles")
-	public static boolean exportApplicationPreferences(Context context, String path, String fileName){
+	public static boolean exportApplicationPreferences(Context context, String path, String fileName, boolean exportDB){
 		_debug = Log.getDebug();
 		if (_debug) Log.v("Common.exportApplicationPreferences()");
     	try{
@@ -2202,8 +2197,8 @@ public class Common {
 				fileOutputStream.close();
 			}else{
 		    	//Export the applications user preferences.
-				File preferencesFilePath = Environment.getExternalStoragePublicDirectory(path);
-				File preferencesFile = new File(preferencesFilePath, fileName);
+		    	File preferencesFilePath = Environment.getExternalStoragePublicDirectory(path);
+		    	File preferencesFile = new File(preferencesFilePath, fileName);
 	    		preferencesFilePath.mkdirs();
 	    		//Delete previous file if it exists.
 	    		if(preferencesFile.exists()){
@@ -2211,7 +2206,7 @@ public class Common {
 	    		}
 	    		preferencesFile.createNewFile();
 	    		//Write each preference to the text file.
-				BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(preferencesFile, true)); 			
+				BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(preferencesFile, true)); 		
 				Map<String, ?> applicationPreferencesMap = preferences.getAll();
 				for (Map.Entry<String, ?> entry : applicationPreferencesMap.entrySet()) {
 				    String key = entry.getKey();
@@ -2231,6 +2226,24 @@ public class Common {
 				}
 				bufferedWriter.flush();
 				bufferedWriter.close();
+				if(exportDB){
+					boolean dbExportOK = true;
+		    		//Export the SQLite DB's as well.
+		    		String packageName = context.getPackageName();
+		    		File dbFilePath = Environment.getExternalStoragePublicDirectory("DroidNotify/DB/");
+		    		dbFilePath.mkdirs();
+		        	//BlockedApps DB export.
+		        	File blockedAppsDBFile = new File(dbFilePath, DBConstants.DATABASE_NAME_BLOCKINGAPPS);
+		    		if(blockedAppsDBFile.exists()){
+		    			blockedAppsDBFile.delete();   			
+		    		}
+		    		blockedAppsDBFile.createNewFile();
+		    		SQLiteHelperBlockingApps blockingAppsDBHelper = new SQLiteHelperBlockingApps(context);
+		        	if(!blockingAppsDBHelper.exportDatabase(blockedAppsDBFile.getAbsolutePath(), packageName)){
+		        		dbExportOK = false;
+		        	}
+		        	if(!dbExportOK) return false;
+				}
 	    	}
 		}catch (Exception ex){
 			Log.e("Common.exportApplicationPreferences() ERROR: " + ex.toString());
@@ -2431,6 +2444,27 @@ public class Common {
 			if (_debug) Log.v("Common.playNotificationMediaFileAsyncTask.onPostExecute()");
 	    }
 	    
+	}
+	
+	/**
+	 * Start the application alarms
+	 * 
+	 * @param context - The application context.
+	 */
+	public static void startAppAlarms(Context context){
+		_debug = Log.getDebug();
+		if (_debug) Log.v("Common.startAppAlarms()");
+		try{
+			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+			//Start Reminder DB Cleanup Alarms
+			ReminderCommon.startReminderDBManagementAlarmManager(context, System.currentTimeMillis() + (4 * 60 * 1000));
+			//Start Calendar Alarms
+		    if(preferences.getBoolean(Constants.CALENDAR_NOTIFICATIONS_ENABLED_KEY, true)){
+		    	CalendarCommon.startCalendarAlarmManager(context, System.currentTimeMillis() + (5 * 60 * 1000));
+			}
+		}catch(Exception ex){
+			Log.e("Common.startAppAlarms() ERROR: " + ex.toString());
+		}
 	}
 	
 	//================================================================================

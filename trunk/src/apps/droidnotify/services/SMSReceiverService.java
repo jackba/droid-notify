@@ -68,8 +68,7 @@ public class SMSReceiverService extends WakefulIntentService {
 		    //Check the state of the users phone.
 		    TelephonyManager telemanager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 		    boolean notificationIsBlocked = false;
-		    boolean rescheduleNotificationInCall = true;
-		    boolean rescheduleNotificationInQuickReply = true;
+		    boolean rescheduleNotificationInCall = false;
 		    boolean callStateIdle = telemanager.getCallState() == TelephonyManager.CALL_STATE_IDLE;
 		    //Reschedule notification based on the users preferences.
 		    if(!callStateIdle){
@@ -90,7 +89,7 @@ public class SMSReceiverService extends WakefulIntentService {
 					    Common.setStatusBarNotification(context, 1, Constants.NOTIFICATION_TYPE_SMS, 0, callStateIdle, smsNotificationBundleSingle.getString(Constants.BUNDLE_CONTACT_NAME), smsNotificationBundleSingle.getLong(Constants.BUNDLE_CONTACT_ID, -1), smsNotificationBundleSingle.getString(Constants.BUNDLE_SENT_FROM_ADDRESS), smsNotificationBundleSingle.getString(Constants.BUNDLE_MESSAGE_BODY), null, null, smsNotificationBundleSingle.getLong(Constants.BUNDLE_THREAD_ID, -1), false, Common.getStatusBarNotificationBundle(context, Constants.NOTIFICATION_TYPE_SMS));
 	    			}
 			    }					
-		    	if(smsNotificationBundle != null) Common.rescheduleBlockedNotification(context, rescheduleNotificationInCall, rescheduleNotificationInQuickReply, Constants.NOTIFICATION_TYPE_SMS, smsNotificationBundle);
+		    	if(smsNotificationBundle != null) Common.rescheduleBlockedNotification(context, callStateIdle, rescheduleNotificationInCall, Constants.NOTIFICATION_TYPE_SMS, smsNotificationBundle);
 		    }
 		}catch(Exception ex){
 			Log.e("SMSBroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());

@@ -116,8 +116,7 @@ public class RescheduleService extends WakefulIntentService {
 		    //Check the state of the users phone.
 		    TelephonyManager telemanager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 		    boolean notificationIsBlocked = false;
-		    boolean rescheduleNotificationInCall = true;
-		    boolean rescheduleNotificationInQuickReply = true;
+		    boolean rescheduleNotificationInCall = false;
 		    boolean callStateIdle = telemanager.getCallState() == TelephonyManager.CALL_STATE_IDLE;
 		    boolean showBlockedNotificationStatusBarNotification = false;
 		    switch(notificationType){
@@ -156,7 +155,7 @@ public class RescheduleService extends WakefulIntentService {
 				Common.startNotificationActivity(getApplicationContext(), bundle);
 		    }else{
 		    	if(notificationType == Constants.NOTIFICATION_TYPE_GENERIC){
-		    		Common.rescheduleBlockedNotification(context, rescheduleNotificationInCall, rescheduleNotificationInQuickReply, notificationType, bundle);
+		    		Common.rescheduleBlockedNotification(context, callStateIdle, rescheduleNotificationInCall, notificationType, bundle);
 		    	}else{
 			    	//Display the Status Bar Notification even though the popup is blocked based on the user preferences.
 					Bundle rescheduleNotificationBundle = bundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME);
@@ -173,7 +172,7 @@ public class RescheduleService extends WakefulIntentService {
 							}			    			
 						}
 			    	}
-				    Common.rescheduleBlockedNotification(context, rescheduleNotificationInCall, rescheduleNotificationInQuickReply, notificationType, rescheduleNotificationBundle);
+				    Common.rescheduleBlockedNotification(context, callStateIdle, rescheduleNotificationInCall, notificationType, rescheduleNotificationBundle);
 			    }
 		    }
 		}catch(Exception ex){

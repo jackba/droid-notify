@@ -85,8 +85,7 @@ public class CalendarNotificationAlarmBroadcastReceiverService extends WakefulIn
 		    //Check the state of the users phone.
 		    TelephonyManager telemanager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 		    boolean notificationIsBlocked = false;
-		    boolean rescheduleNotificationInCall = true;
-		    boolean rescheduleNotificationInQuickReply = true;
+		    boolean rescheduleNotificationInCall = false;
 		    boolean callStateIdle = telemanager.getCallState() == TelephonyManager.CALL_STATE_IDLE;
 		    //Reschedule notification based on the users preferences.
 		    if(!callStateIdle){
@@ -110,7 +109,7 @@ public class CalendarNotificationAlarmBroadcastReceiverService extends WakefulIn
 		    			}
 		    		}
 		    	}
-		    	if(calendarEventNotificationBundle != null) Common.rescheduleBlockedNotification(context, rescheduleNotificationInCall, rescheduleNotificationInQuickReply, Constants.NOTIFICATION_TYPE_CALENDAR, calendarEventNotificationBundle);
+		    	if(calendarEventNotificationBundle != null) Common.rescheduleBlockedNotification(context, callStateIdle, rescheduleNotificationInCall, Constants.NOTIFICATION_TYPE_CALENDAR, calendarEventNotificationBundle);
 		    }
 		}catch(Exception ex){
 			Log.e("CalendarNotificationAlarmBroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());

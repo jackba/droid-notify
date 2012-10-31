@@ -134,7 +134,7 @@
 		android:key="calendar_customize_category"
 		android:title="@string/customize_category">
 		<Preference
-			android:layout="@layout/custom_preference_bottom"
+			android:layout="@layout/custom_preference"
 	        android:key="customize_preference"
 	       	android:title="@string/customize"
 	       	android:summary="@string/customize_notification_summary"

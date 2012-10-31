@@ -5,15 +5,7 @@
 	<PreferenceCategory
 		android:layout="@layout/custom_preference_category"
 		android:key="general_category"
-		android:title="@string/general_category">	
-		<ListPreference
-			android:layout="@layout/custom_preference_list"
-			android:key="blocking_app_running_action"
-			android:title="@string/blocking_app_running_action_text"
-			android:summary="@string/blocking_app_running_action_summary"
-			android:defaultValue="2"
-			android:entries="@array/blocking_app_running_action_options"
-			android:entryValues="@array/blocking_app_running_action_values" />
+		android:title="@string/general_category">
 		<CheckBoxPreference
 			android:layout="@layout/custom_preference_checkbox"
 			android:key="display_text_to_speech_button" 
@@ -98,6 +90,22 @@
 	</PreferenceCategory>
 	<PreferenceCategory
 		android:layout="@layout/custom_preference_category"
+		android:key="blocking_apps_category"
+		android:title="@string/blocking_apps_category">	
+		<CheckBoxPreference
+			android:layout="@layout/custom_preference_checkbox"
+			android:key="blocking_apps_enabled" 
+			android:title="@string/enable_app_blocking" 
+			android:summary="@string/enable_app_blocking_summary" 
+			android:defaultValue="false" />
+		<Preference
+			android:layout="@layout/custom_preference_title"
+	        android:key="blocking_apps_preference"
+	       	android:title="@string/blocking_apps_settings"
+			android:dependency="blocking_apps_enabled" />
+	</PreferenceCategory>
+	<PreferenceCategory
+		android:layout="@layout/custom_preference_category"
 		android:key="customize_contacts_category"
 		android:title="@string/customize_contacts_category">
 		<Preference
@@ -110,7 +118,7 @@
 		android:key="blacklist_category"
 		android:title="@string/blacklist_category">
 		<Preference
-			android:layout="@layout/custom_preference_bottom_title"
+			android:layout="@layout/custom_preference_title"
 	        android:key="blacklist_preference"
 	       	android:title="@string/blacklist" />
 	</PreferenceCategory>

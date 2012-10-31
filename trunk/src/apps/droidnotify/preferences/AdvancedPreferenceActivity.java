@@ -24,6 +24,8 @@ import android.widget.Toast;
 import apps.droidnotify.R;
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
+import apps.droidnotify.db.DBConstants;
+import apps.droidnotify.db.SQLiteHelperBlockingApps;
 import apps.droidnotify.log.Log;
 
 /**
@@ -230,7 +232,7 @@ public class AdvancedPreferenceActivity extends PreferenceActivity{
 	     */
 	    protected Boolean doInBackground(Void... params) {
 			if (_debug) Log.v("AdvancedPreferenceActivity.exportPreferencesAsyncTask.doInBackground()");
-			return Common.exportApplicationPreferences(_context, "DroidNotify/Preferences", "DroidNotifyPreferences.txt");
+			return Common.exportApplicationPreferences(_context, "DroidNotify/Preferences", "DroidNotifyPreferences.txt", true);
 	    }
 	    /**
 	     * Stop the Progress Dialog and do any post background work.
@@ -372,7 +374,22 @@ public class AdvancedPreferenceActivity extends PreferenceActivity{
     	    	}
     	    }
     		editor.commit();
-    		return true;
+			boolean dbImportOK = true;
+    		//Import the SQLite DB's as well.
+    		String packageName = this.getPackageName();
+    		File dbFilePath = Environment.getExternalStoragePublicDirectory("DroidNotify/DB/");
+        	//BlockingApps DB import.
+        	File blockingAppsDBFile = new File(dbFilePath, DBConstants.DATABASE_NAME_BLOCKINGAPPS);
+        	if(blockingAppsDBFile.exists()){
+	        	SQLiteHelperBlockingApps blockingAppsDBHelper = new SQLiteHelperBlockingApps(_context);
+	        	if(!blockingAppsDBHelper.importDatabase(blockingAppsDBFile.getAbsolutePath(), packageName)){
+	        		dbImportOK = false;
+	        	}
+        	}
+        	//Start Alarms If Necessary
+        	Common.startAppAlarms(getApplicationContext());
+        	if(!dbImportOK) return false;			
+			return true;
     	}catch (IOException ex) {
     		Log.e("AdvancedPreferenceActivity.importApplicationPreferences() ERROR: " + ex.toString());
     		return false;

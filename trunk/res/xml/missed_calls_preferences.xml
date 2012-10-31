@@ -55,7 +55,7 @@
 		android:key="more_category"
 		android:title="@string/more_category">
 		<Preference
-			android:layout="@layout/custom_preference_bottom_title"
+			android:layout="@layout/custom_preference_title"
 	        android:key="more_options_preference"
 	       	android:title="@string/more_options"
 			android:dependency="missed_call_notifications_enabled" />

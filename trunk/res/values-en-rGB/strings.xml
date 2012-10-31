@@ -9,6 +9,12 @@
   <string name="dismiss_all">Dismiss All</string>
   <string name="dismiss_all_dialog_text">This will dismiss all notifications.</string>
   <string name="dismiss_all_loading_text">Dismissing notifications…</string>
+  <string name="dismiss_all_same_user">Dismiss All (Same User)</string>
+  <string name="dismiss_all_same_user_dialog_text">This will dismiss all notifications from this user.</string>
+  <string name="dismiss_all_same_app">Dismiss All (Same App)</string>
+  <string name="dismiss_all_same_app_dialog_text">This will dismiss all notifications from this application.</string>
+  <string name="dismiss_all_action">Dismiss All Notifications</string>
+  <string name="launch_options_menu">Launch Options Menu</string>
   <string name="share">Share</string>
   <string name="share_title">Someone you know wants you to try the Android app Droid Notify!</string>
   <string name="share_description">I\'ve been using this awesome Android application called Droid Notify. It displays a popup dialogue on my screen when I receive certain notifications.\n\nYou can download this app on most Android app stores, just search for the keywords \'Droid Notify\'.</string>
@@ -154,7 +160,7 @@
   <string name="preference_save_draft_enabled_summaryOn">A draft of the message will be saved if the message is not sent.</string>
   <string name="preference_save_draft_enabled_summaryOff">A draft of the message will not be saved.</string>
   <string name="preference_quick_reply_sms_gateway">SMS-to-Email Gateway</string>
-  <string name="preference_quick_reply_sms_gateway_summary">Select your service provider from this list. If you can\'t find it you won\'t be able to send SMS messages to Email address\'s with the built in Quick Reply.</string>
+  <string name="preference_quick_reply_sms_gateway_summary">Select your service provider from this list. If you can\'t find it you won\'t be able to send SMS messages to Email addresses with the built in Quick Reply.</string>
   <string name="enable_quick_reply">Enable Quick Reply</string>
   <string name="enable_quick_reply_summary">Displays a quick reply box in the notification.</string>
   <string name="type_to_compose">Type to compose</string>
@@ -231,6 +237,8 @@
   <string name="preference_landscape_screen_enabled_summaryOff">The screens will not rotate to landscape mode when the phone is rotated.</string>
   <string name="preference_screen_timeout">Screen Timeout</string>
   <string name="preference_screen_timeout_summary">Define how long to wait before releasing the phones screen after a notification is shown. The smaller the timeout, the less battery power is used.</string>
+  <string name="auto_rotate_screen">Auto Rotate Screen</string>
+  <string name="auto_rotate_screen_summary">Automatically rotate the notifications when the screen is rotated.</string>
   <string name="preference_keyguard_enabled_title">Unlock Phone</string>
   <string name="preference_keyguard_enabled_summaryOn">Phone will unlock when a notification is shown.</string>
   <string name="preference_keyguard_enabled_summaryOff">Phone will not unlock when a notification is shown.</string>
@@ -238,7 +246,7 @@
   <string name="customize">Customize</string>
   <string name="customize_notification_summary">Customize these notifications.</string>
   <string name="notification_preview">Notification Preview</string>
-  <string name="notification_preview_summary">Display a preview of the notificaions.</string>
+  <string name="notification_preview_summary">Display a preview of the notifications.</string>
   <string name="theme">Theme</string>
   <string name="theme_summary">Select the theme for the notifications.</string>
   <string name="theme_chooser_instructions">Using a swiping motion, select the desired theme from the available examples below. When you find the theme you would like press the OK button to save the theme.</string>
@@ -312,7 +320,7 @@
   <string name="preference_sms_loading_summary">Select how the application retrieves incoming SMS messages.</string>
   <string name="preference_sms_timestamp_adjustment_title">SMS TimeStamp Adjustment</string>
   <string name="preference_sms_timestamp_adjustment_summary">Some phones/locations may display incorrect timestamps. Use this setting to adjust the displayed timestamp for SMS messages.</string>
-  <string name="preference_sms_time_is_utc_summary">Check this optoin if the incoming SMS message timestamp is in UTC. (This may fix incorrect message times in the notifications)</string>
+  <string name="preference_sms_time_is_utc_summary">Check this option if the incoming SMS message timestamp is in UTC. (This may fix incorrect message times in the notifications)</string>
   <string name="mms_category">MMS</string>
   <string name="mms">MMS</string>
   <string name="view_mms_button_text">View MMS</string>
@@ -584,6 +592,8 @@
   <string name="preference_call_button_action_summary">Define what happens when you use the call button.</string>
   <string name="preference_notification_count_button_action">Notification Count Action</string>
   <string name="preference_notification_count_button_action_summary">Define what happens when you click on the notification count text.</string>
+  <string name="long_press_dismiss_button_action">Long Press Dismiss Button Action</string>
+  <string name="long_press_dismiss_button_action_summary">Define what happens when you long press the dismiss button.</string>
   <string name="preference_button_style_title">Button Style</string>
   <string name="preference_button_style_summary">Choose the notification button style.</string>
   <string name="button_style_icon_and_text_text">Icons and Text</string>
@@ -592,8 +602,16 @@
   <string name="preference_hide_single_message_header_enabled_title">Hide Single Message Header</string>
   <string name="preference_hide_single_message_header_enabled_summaryOn">The notifications will not display the header text (e.g. 1/1) when a single message is displayed.</string>
   <string name="preference_hide_single_message_header_enabled_summaryOff">The notifications will display the header text (e.g. 1/1) when a single message is displayed.</string>
-  <string name="blocking_app_running_action_text">Blocking Notification Options</string>
-  <string name="blocking_app_running_action_summary">Define what to do when a notification comes in while a blocking app is running.</string>
+  <string name="blocking_apps_category">BLOCKING APPS</string>
+  <string name="select_blocking_apps">Select Blocking Apps</string>
+  <string name="saving_selection">Saving selection…</string>
+  <string name="enable_app_blocking">Enable App Blocking</string>
+  <string name="enable_app_blocking_summary">Block notifications from appearing on the screen when selected applications are being used.</string>
+  <string name="blocking_apps_settings">Blocking Apps Settings</string>
+  <string name="select_blocking_apps">Select Blocking Apps</string>
+  <string name="select_blocking_apps_summary">Select the applications that will block notifications from appearing.</string>
+  <string name="blocking_app_action">Blocking Action</string>
+  <string name="blocking_app_action_summary">Define what to do when a notification is blocked.</string>
   <string name="confirm_clear_reset_authentication_data">This will reset the authentication data.</string>
   <string name="clear_data">Clear Data</string>
   <string name="status_bar_notification_content_title_text_sms">New Message</string>

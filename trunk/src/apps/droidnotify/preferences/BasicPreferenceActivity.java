@@ -10,6 +10,7 @@ import apps.droidnotify.R;
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
+import apps.droidnotify.preferences.blockingapps.BlockingAppsPreferenceActivity;
 import apps.droidnotify.quickreply.QuickReplyPreferenceActivity;
 
 public class BasicPreferenceActivity extends PreferenceActivity{
@@ -101,6 +102,19 @@ public class BasicPreferenceActivity extends PreferenceActivity{
 		    		return true;
 		    	}catch(Exception ex){
 	 	    		Log.e("BasicPreferenceActivity() Quick Reply Button ERROR: " + ex.toString());
+	 	    		return false;
+		    	}
+        	}
+		});
+		//Blocking Apps Preference/Button
+		Preference blockingAppsPref = (Preference)findPreference("blocking_apps_preference");
+		blockingAppsPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+        	public boolean onPreferenceClick(Preference preference) {
+		    	try{
+		    		startActivity(new Intent(_context, BlockingAppsPreferenceActivity.class));
+		    		return true;
+		    	}catch(Exception ex){
+	 	    		Log.e("BasicPreferenceActivity() Blocking Apps Button ERROR: " + ex.toString());
 	 	    		return false;
 		    	}
         	}

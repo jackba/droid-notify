@@ -126,7 +126,7 @@
 		android:key="debug_category"
 		android:title="@string/debug_category">
 		<Preference
-			android:layout="@layout/custom_preference_bottom_title"
+			android:layout="@layout/custom_preference_title"
             android:key="debug_preference"
         	android:title="@string/debug" />
 	</PreferenceCategory>	

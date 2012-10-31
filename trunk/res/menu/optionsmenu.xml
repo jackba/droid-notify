@@ -3,7 +3,15 @@
 	<item 
 		android:id="@+id/dismiss_all"
         android:icon="@drawable/ic_menu_dismiss_all"
-        android:title="@string/dismiss_all" />    
+        android:title="@string/dismiss_all" />     
+	<item 
+		android:id="@+id/dismiss_all_same_user"
+        android:icon="@drawable/ic_menu_dismiss_all"
+        android:title="@string/dismiss_all_same_user" />     
+	<item 
+		android:id="@+id/dismiss_all_same_app"
+        android:icon="@drawable/ic_menu_dismiss_all"
+        android:title="@string/dismiss_all_same_app" />    
 	<item 
 		android:id="@+id/share"
         android:icon="@drawable/ic_menu_share"

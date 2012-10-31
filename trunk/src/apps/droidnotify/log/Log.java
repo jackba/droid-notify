@@ -379,7 +379,7 @@ public class Log {
     			//Shrink the file to ensure that it never gets too large.
     			shrinkLogFile();
     			//Export the current application preferences.
-    			return Common.exportApplicationPreferences(_context, "DroidNotify/Log/Preferences", "DroidNotifyPreferences.txt");
+    			return Common.exportApplicationPreferences(_context, "DroidNotify/Log/Preferences", "DroidNotifyPreferences.txt", false);
             }catch(Exception ex){
             	android.util.Log.e(Constants.LOGTAG, "Log.collectAndSendLog() ERROR: " + ex.toString());
             	showErrorDialog(_context, ex.toString());

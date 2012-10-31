@@ -9,6 +9,12 @@
   <string name="dismiss_all">Odrzuć wszystkie</string>
   <string name="dismiss_all_dialog_text">Ta opcja zamknie wszystkie aktywne okna powiadomień.</string>
   <string name="dismiss_all_loading_text">Usuwanie aktywnych powiadomień...</string>
+  <string name="dismiss_all_same_user">Odrzuć Wszystkie (Sam Użytkownik)</string>
+  <string name="dismiss_all_same_user_dialog_text">To będzie odrzucić wszystkie powiadomienia od tego użytkownika.</string>
+  <string name="dismiss_all_same_app">Odrzuć Wszystkie (Sam Wniosek)</string>
+  <string name="dismiss_all_same_app_dialog_text">To będzie odrzucić wszystkie powiadomienia z tej aplikacji.</string>
+  <string name="dismiss_all_action">Odrzucić Wszystkie Powiadomienia</string>
+  <string name="launch_options_menu">Uruchomienia Menu Opcji</string>
   <string name="share">Udostępnij</string>
   <string name="share_title">Ktoś z Twoich znajomych chce wypróbować Droid Notify!</string>
   <string name="share_description">Używam niesamowitej aplikacji Droid Notify. Wyświetla powiadomienia na ekranie dla różnych zdarzeń.\n\n.Możesz pobrać ją wyszukując w sklapach Androida słowa \'Droid Notify\'.</string>
@@ -231,6 +237,8 @@
   <string name="preference_landscape_screen_enabled_summaryOff">Ekran nie będzie się obracał do trybu poziomego, gdy telefon zostanie obrócony.</string>
   <string name="preference_screen_timeout">Czas wygaszenia ekranu</string>
   <string name="preference_screen_timeout_summary">Zdefiniuj po jakim czasie ekran zostanie wygaszony po wyświetleniu powiadomienia. Im czas krótszy tym żywotność baterii będzie większa.</string>
+  <string name="auto_rotate_screen">Auto-Obracanie Ekranu</string>
+  <string name="auto_rotate_screen_summary">Automatyczne obracanie powiadomienia, gdy ekran jest obrócony.</string>
   <string name="preference_keyguard_enabled_title">Odblokuj ekran</string>
   <string name="preference_keyguard_enabled_summaryOn">Ekran zostanie odblokowany przy wyświetlaniu powiadomienia.</string>
   <string name="preference_keyguard_enabled_summaryOff">Ekran nie zostanie odblokowany przy wyświetlaniu powiadomienia.</string>
@@ -238,7 +246,7 @@
   <string name="customize">Personalizacja</string>
   <string name="customize_notification_summary">Dostosuj powiadomienia.</string>
   <string name="notification_preview">Podgląd okna powiadomienia</string>
-  <string name="notification_preview_summary">Wyświetla podgląd okna powiadomienia.</string>
+  <string name="notification_preview_summary">Wyświetlić podgląd powiadomień.</string>
   <string name="theme">Motyw</string>
   <string name="theme_summary">Wybierz motyw powiadomień.</string>
   <string name="theme_chooser_instructions">Używając przesuwania po ekranie wybierz żądany motyw z dostępnych w programie. Gdy znajdziesz motyw naciśnij OK aby zapisać zmiany.</string>
@@ -520,7 +528,7 @@
   <string name="restrict_popup_summary">Wyświetla powiadomienia tylko wtedy, gdy włączona jest blokada ekranu.</string>
   <string name="import_export_category">IMPORT/EKSPORT</string>
   <string name="preference_export_preferences_title">Eksport ustawień</string>
-  <string name="preference_export_preferences_summary">Wyeksportuj ustawienia programu na kartę pamięci.</string>
+  <string name="preference_export_preferences_summary">Eksport ustawień programu na kartę pamięci.</string>
   <string name="preference_export_preferences_progress_text">Eksportowanie ustawień aplikacji...</string>
   <string name="preference_export_preferences_finish_text">Ustawienia aplikacji zostały wyeksportowane.</string>
   <string name="preference_export_preferences_error_text">Ustawienia aplikacji nie zostały wyeksportowane. Możliwe błędy to brak karty pamięci lub inny problem związany z zapisem danych na kartę pamięci.</string>
@@ -537,7 +545,7 @@
   <string name="log_file_retrieval_failure">Nie można uzyskać dostępu do pliku dziennika zdarzeń.</string>
   <string name="log_file_device_info" formatted="false">Droid Notify Version: %s\nDevice Model: %s\nFirmware Version: %s\nBuild Number: %s\n</string>
   <string name="send_debug_logs_text">Wyślij dziennik zdarzeń debugowania</string>
-  <string name="send_debug_logs_summary">Wyślij dziennik zdarzeń debugowania do producenta aplikacji.</string>
+  <string name="send_debug_logs_summary">Wysyła dziennik zdarzeń debugowania do producenta aplikacji.</string>
   <string name="clear_debug_logs">Wyczyść dziennik zdarzeń debugowania</string>
   <string name="clear_debug_logs_summary">Usuwa istniejący dziennik zdarzeń debugowania.</string>
   <string name="removing_logs">Usuwanie dziennika zdarzeń...</string>
@@ -584,6 +592,8 @@
   <string name="preference_call_button_action_summary">Zdefinuj co ma się stać po wciśnięciu przycisku dzwonienia.</string>
   <string name="preference_notification_count_button_action">Licznik powiadomień</string>
   <string name="preference_notification_count_button_action_summary">Zdefinuj co się wydarzy gdy klikniesz na tekst z licznikiem powiadomień.</string>
+  <string name="long_press_dismiss_button_action">Wyświetla podgląd okna powiadomienia</string>
+  <string name="long_press_dismiss_button_action_summary">Określić, co się dzieje, kiedy długo naciśnij zwolnieniu przycisku.</string>
   <string name="preference_button_style_title">Styl przycisków</string>
   <string name="preference_button_style_summary">Wybierz styl przycisków.</string>
   <string name="button_style_icon_and_text_text">Ikony i tekst</string>
@@ -592,8 +602,16 @@
   <string name="preference_hide_single_message_header_enabled_title">Ukryj nagłówek dla pojedyńczego powiadomienia</string>
   <string name="preference_hide_single_message_header_enabled_summaryOn">Okno powiadomienia nie wyświetli nagłówka z numerem(np. 1/1), gdy pojedyncza wiadomość jest wyświetlana.</string>
   <string name="preference_hide_single_message_header_enabled_summaryOff">Okno powiadomienia wyświetli nagłówek z numerem(np. 1/1), gdy pojedyncza wiadomość jest wyświetlana.</string>
-  <string name="blocking_app_running_action_text">Opcje blokowania powiadomień</string>
-  <string name="blocking_app_running_action_summary">Zdefiniuj co ma się stać, gdy nadejdzie powiadomienie w chwili gdy aplikacja do blokowania jest uruchomiona.</string>
+  <string name="blocking_apps_category">Blokowanie Aplikacje</string>
+  <string name="select_blocking_apps">Wybierz Blokowanie Aplikacji</string>
+  <string name="saving_selection">Zapisywanie...</string>
+  <string name="enable_app_blocking">Włącz Blokowanie Aplikacji</string>
+  <string name="enable_app_blocking_summary">Zablokuj powiadomienia z pojawiających się na ekranie, gdy wybrane aplikacje są używane.</string>
+  <string name="blocking_apps_settings">Blokowanie Aplikacji Ustawień</string>
+  <string name="select_blocking_apps">Wybierz Blokowanie Aplikacji</string>
+  <string name="select_blocking_apps_summary">Wybierz aplikacje, które blokują powiadomienia w wynikach.</string>
+  <string name="blocking_app_action">Blokowanie Działania</string>
+  <string name="blocking_app_action_summary">Określić, co należy zrobić, gdy zawiadomienie jest zablokowane.</string>
   <string name="confirm_clear_reset_authentication_data">Ta opcja wyczyści zapisane dane logowania.</string>
   <string name="clear_data">Wyczyść dane</string>
   <string name="status_bar_notification_content_title_text_sms">Nowa wiadomość</string>

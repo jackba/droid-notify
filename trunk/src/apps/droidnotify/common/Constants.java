@@ -82,7 +82,7 @@ public class Constants {
 	
 	public static final String APP_ENABLED_KEY = "app_enabled";
 	public static final String HAPTIC_FEEDBACK_ENABLED_KEY = "haptic_feedback_enabled";
-	public static final String LANDSCAPE_SCREEN_ENABLED_KEY = "landscape_screen_enabled";	
+	public static final String AUTO_ROTATE_SCREEN_KEY = "landscape_screen_enabled";	
 	public static final String BLUR_SCREEN_BACKGROUND_ENABLED_KEY = "blur_screen_background_enabled";
 	public static final String DIM_SCREEN_BACKGROUND_ENABLED_KEY = "dim_screen_background_enabled";
 	public static final String DIM_SCREEN_BACKGROUND_AMOUNT_KEY = "dim_screen_background_amount";
@@ -104,10 +104,10 @@ public class Constants {
 	public static final String USER_IN_LINKED_APP_KEY = "user_in_linked_app";
 
 	//-----BLOCKING APP CONSTANTS-----//
-	public static final String BLOCKING_APP_RUNNING_ACTION_KEY = "blocking_app_running_action";
-	public static final String BLOCKING_APP_RUNNING_ACTION_RESCHEDULE = "0";
-	public static final String BLOCKING_APP_RUNNING_ACTION_IGNORE = "1";
-	public static final String BLOCKING_APP_RUNNING_ACTION_SHOW = "2";
+	public static final String BLOCKING_APPS_ENABLED_KEY = "blocking_apps_enabled";
+	public static final String BLOCKING_APPS_ACTION_KEY = "blocking_app_action";
+	public static final String BLOCKING_APPS_ACTION_RESCHEDULE = "0";
+	public static final String BLOCKING_APPS_ACTION_IGNORE = "1";
 	
 	//-----NOTIFICATION TYPE CONSTANTS-----//
 	public static final int NOTIFICATION_TYPE_PHONE = 0;
@@ -773,5 +773,152 @@ public class Constants {
 //	//public static final String DROID_NOTIFY_API_STATUS_BAR_NOTIFICATION_LED_COLOR = "statusBarNotificationLEDColor";
 //	public static final String DROID_NOTIFY_API_STATUS_BAR_NOTIFICATION_IN_CALL_SOUND_ENABLED = "statusBarNotificationInCallSoundEnabled";
 //	public static final String DROID_NOTIFY_API_STATUS_BAR_NOTIFICATION_IN_CALL_VIBRATE_ENABLED = "statusBarNotificationInCallVibrateEnabled";
+	
+	//-----LONG PRESS DISMISS BUTTON CONSTANTS-----//
+	public static final String DISMISS_BUTTON_LONG_PRESS_ACTION_KEY = "long_press_dismiss_button_action";
+	public static final String DISMISS_BUTTON_LONG_PRESS_ACTION_DISMISS_ALL = "0";
+	public static final String DISMISS_BUTTON_LONG_PRESS_ACTION_LAUNCH_OPTIONS_MENU = "1";
+	
+	//-----PACKAGE LOADING CONSTANTS-----//
+	//Array of packages to ignore when loading.
+	public static final String[] IGNORE_PACKAGES_ARRAY = new String[]{
+		"android.tts",
+		"jp.co.omronsoft.openwnn",
+		"com.svox.pico",
+		"com.android.certinstaller",
+		"com.google.android.apps.uploader",
+		"com.google.android.gsf",
+		"com.google.android.location",
+		"com.google.android.partnersetup",
+		"com.android.backupconfirm", 
+		"com.android.defcontainer",
+		"com.android.emulator.connectivity.test",
+		"com.android.emulator.gps.test", 
+		"com.android.development", 
+		"com.android.gesture.builder", 
+		"com.android.DunServer",  
+		"com.android.htmlviewer", 
+		"com.android.inputmethod.latin", 
+		"com.android.LGSetupWizard",
+		"com.android.packageinstaller",
+		"com.android.providers.applications", 
+		"com.android.providers.downloads",   
+		"com.android.providers.drm", 
+		"com.android.providers.media", 
+		"com.android.providers.userdictionary", 
+		"com.android.sdksetup",
+		"com.android.server.vpn",
+		"com.android.setupwizard", 
+		"com.android.sharedstoragebackup", 
+		"com.android.vending.updater", 
+		"com.android.voicedialer", 
+		"com.google.android.feedback",
+		"com.lge.hiddenmenu",
+		"com.lge.internal",
+		"com.lge.LgHiddenMenu",  
+		"com.lge.SprintHiddenMenu",
+		"com.lge.uts",
+		"com.adobe.flashplayer",
+		"com.android.CSDFunctionG",
+		"com.android.backupconfirm",
+		"com.android.certinstaller",
+		"com.android.defcontainer",
+		"com.android.dmportread",
+		"com.android.providers.htcCheckin",
+		"com.android.providers.htcmessage",
+		"com.android.sharedstoragebackup",
+		"com.android.smith",
+		"com.android.updater",
+		"com.android.vpndialogs",
+		"com.android.MtpApplication",
+		"com.android.Preconfig",
+		"com.android.keychain",
+		"com.android.pickuptutorial",
+		"com.android.server.device.enterprise",
+		"com.android.server.vpn.enterprise",
+		"com.android.smspush",
+		"com.broadcom.bt.app.system",
+		"com.cellmania.android.storefront.webview.vmu",
+		"com.fd.httpd.service.wifi.detect",
+		"com.google.android.backup",
+		"com.google.android.onetimeinitializer",
+		"com.google.android.setupwizard",
+		"com.google.android.tts",
+		"com.htc",
+		"com.htc.AutoMotive.Traffic",
+		"com.htc.CustomizationSetup",
+		"com.htc.MediaAutoUploadSetting",
+		"com.htc.MediaCacheService",
+		"com.htc.android.epst",
+		"com.htc.android.fieldtrial",
+		"com.htc.android.inputset.cxt9ldb",
+		"com.htc.android.inputset.pphwr",
+		"com.htc.android.inputset.xt9bul",
+		"com.htc.android.inputset.xt9cze",
+		"com.htc.android.inputset.xt9dan",
+		"com.htc.android.inputset.xt9dut",
+		"com.htc.android.inputset.xt9eng",
+		"com.htc.android.inputset.xt9est",
+		"com.htc.android.inputset.xt9fin",
+		"com.htc.android.inputset.xt9fre",
+		"com.htc.android.inputset.xt9ger",
+		"com.htc.android.inputset.xt9gre",
+		"com.htc.android.inputset.xt9hrv",
+		"com.htc.android.inputset.xt9hun",
+		"com.htc.android.inputset.xt9ita",
+		"com.htc.android.inputset.xt9lav",
+		"com.htc.android.inputset.xt9lit",
+		"com.htc.android.inputset.xt9nor",
+		"com.htc.android.inputset.xt9pol",
+		"com.htc.android.inputset.xt9por",
+		"com.htc.android.inputset.xt9rom",
+		"com.htc.android.inputset.xt9rus",
+		"com.htc.android.inputset.xt9slo",
+		"com.htc.android.inputset.xt9slv",
+		"com.htc.android.inputset.xt9spa",
+		"com.htc.android.inputset.xt9srp",
+		"com.htc.android.inputset.xt9swe",
+		"com.htc.android.inputset.xt9tur",
+		"com.htc.csengine",
+		"com.htc.demoflopackageinstaller",
+		"com.htc.dlnamiddlelayer",
+		"com.htc.dropbox.glrplugin",
+		"com.htc.dummyskin",
+		"com.htc.framework",
+		"com.htc.fusion.FusionApk",
+		"com.htc.htcCOTAClient",
+		"com.htc.htcsprintservice",
+		"com.htc.providers.settings",
+		"com.htc.resetnotify",
+		"com.htc.task.gtask",
+		"com.google.android.gsf",
+		"com.google.android.gsf.login",
+		"com.infraware.filemanager.webstorage.boxnet",
+		"com.infraware.filemanager.webstorage.dropbox",
+		"com.infraware.filemanager.webstorage.google",
+		"com.monotype.android.font.chococooky",
+		"com.monotype.android.font.helvneuelt",
+		"com.monotype.android.font.rosemary",
+		"com.samsung.app.playreadyui",
+		"com.sec.android.app.DataCreate",
+		"com.sec.android.app.FileShareServer",
+		"com.sec.android.app.SecSetupWizard",
+		"com.sec.android.app.bluetoothtest",
+		"com.sec.android.app.factorymode",
+		"com.sec.android.app.kieswifi",
+		"com.sec.android.app.lcdtest",
+		"com.sec.android.app.minimode.res",
+		"com.sec.android.app.personalization",
+		"com.sec.android.app.phoneutil",
+		"com.sec.android.app.popupuireceiver",
+		"com.sec.android.app.samsungapps.una2",
+		"com.sec.android.app.shareapp",
+		"com.sec.android.app.wallpaperchooser",
+		"com.sec.android.app.wlantest",
+		"com.sec.android.drmpopup",
+		"com.sec.android.dttsupport",
+		"com.sec.android.providers.downloads",
+		"com.sec.factory",
+		"com.sec.minimode.taskcloser"};
 	
 }

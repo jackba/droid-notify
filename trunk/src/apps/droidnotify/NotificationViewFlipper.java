@@ -202,6 +202,9 @@ public class NotificationViewFlipper extends ViewFlipper {
 		for(int i=totalNotifications-1; i>=0; i--){
 			Notification notification = ((NotificationView) this.getChildAt(i)).getNotification();
 			if(notification.getThreadID() == threadID){
+				//Cancel the reminder.
+				notification.cancelReminder();
+				//Remove the notification at this index.
 				removeNotification(i, false);
 			}
 		}
@@ -343,16 +346,91 @@ public class NotificationViewFlipper extends ViewFlipper {
 		try{
 			int totalNotifications = this.getChildCount();
 			for (int i=0; i<totalNotifications; i++){
+				Notification notification = ((NotificationView)this.getChildAt(i)).getNotification();
 				//Cancel the reminder.
-				Notification currentNotification = ((NotificationView) this.getChildAt(i)).getNotification();
-				currentNotification.cancelReminder();
+				notification.cancelReminder();
 				//Set the notification as being viewed.
-				currentNotification.setViewed(true);
+				notification.setViewed(true);
 				//Clear all the status bar notifications.
 				Common.clearAllNotifications(_context);
 			}
   		}catch(Exception ex){
   			Log.e("NotificationViewFlipper.dismissAllNotifications() ERROR: " + ex.toString());
+  		}
+  	}
+  	
+  	/**
+  	 * Dismiss all notifications from the current user.
+  	 */
+  	public void dismissAllUserNotifications(Context context){
+		try{
+			String masterSentFromAddress = this.getActiveNotification().getSentFromAddress();
+			long masterContactID = this.getActiveNotification().getContactID();
+			int totalNotifications = this.getChildCount();
+			for(int i=totalNotifications-1; i>=0; i--){
+				Notification notification = ((NotificationView) this.getChildAt(i)).getNotification();
+				boolean removeNotification = false;
+				if(masterSentFromAddress.equals(notification.getSentFromAddress())){
+					removeNotification = true;
+				}else{
+					if(masterContactID > 0){
+						removeNotification = masterContactID == notification.getContactID();
+					}
+				}
+				if(removeNotification){
+					//Cancel the reminder.
+					notification.cancelReminder();
+					//Remove the notification at this index.
+					this.removeNotification(i, false);
+				}
+			}
+			//Update the navigation information on the current View.
+			if(this.getChildCount() > 0){
+				final View currentView = this.getCurrentView();				
+				updateView(currentView, this.getDisplayedChild(), 0);
+			}else{
+				//Close the ViewFlipper and finish the Activity.
+				_notificationActivity.finishActivity();
+			}
+  		}catch(Exception ex){
+  			Log.e("NotificationViewFlipper.dismissAllUserNotifications() ERROR: " + ex.toString());
+  		}
+  	}
+  	
+  	/**
+  	 * Dismiss all notifications from the current user.
+  	 */
+  	public void dismissAllAppNotifications(Context context){
+		try{
+			int masterNotificationType = this.getActiveNotification().getNotificationType();
+			String masterPackageName = this.getActiveNotification().getPackageName();
+			int totalNotifications = this.getChildCount();
+			for(int i=totalNotifications-1; i>=0; i--){
+				Notification notification = ((NotificationView) this.getChildAt(i)).getNotification();
+				boolean removeNotification = false;
+				if(masterNotificationType == Constants.NOTIFICATION_TYPE_GENERIC){
+					removeNotification = masterPackageName.equals(notification.getPackageName());
+				}else{
+					removeNotification = masterNotificationType == notification.getNotificationType();
+				}
+				if(removeNotification){
+					//Cancel the reminder.
+					notification.cancelReminder();
+					//Remove the notification at this index.
+					this.removeNotification(i, false);
+				}
+			}
+			//Update the navigation information on the current View.
+			if(this.getChildCount() > 0){
+				final View currentView = this.getCurrentView();
+				
+				updateView(currentView, this.getDisplayedChild(), 0);
+			}else{
+				//Close the ViewFlipper and finish the Activity.
+				_notificationActivity.finishActivity();
+			}
+  		}catch(Exception ex){
+  			Log.e("NotificationViewFlipper.dismissAllAppNotifications() ERROR: " + ex.toString());
   		}
   	}
   
