@@ -9,6 +9,7 @@
 		<item>Française</item>
 		<item>Deutsch</item>
 		<item>Español</item>
+		<item>Gaeilge</item>
 		<item>עברית</item>
 		<item>Magyar</item>
 		<item>Italiano</item>
@@ -26,6 +27,7 @@
 		<item>fr</item>
 		<item>de</item>
 		<item>es</item>
+		<item>ga</item>
 		<item>he</item>
 		<item>hu</item>
 		<item>it</item>
@@ -655,15 +657,13 @@
 		<item>1800</item>
 	</string-array>
 
-	<string-array name="blocking_app_running_action_options">
+	<string-array name="blocking_app_action_options">
     	<item>@string/reschedule_notification_text</item>
 		<item>@string/ignore_notification_text</item>
-		<item>@string/show_notification_text</item>
 	</string-array>
-	<string-array name="blocking_app_running_action_values">
+	<string-array name="blocking_app_action_values">
 		<item>0</item>
 		<item>1</item>
-		<item>2</item>
 	</string-array>
 	
     <string-array name="font_size_options">
@@ -1505,6 +1505,15 @@
 		<item>0</item>
 		<item>1</item>
 		<item>2</item>
+	</string-array>
+
+	<string-array name="long_press_dismiss_button_options">
+		<item>@string/dismiss_all_action</item>
+		<item>@string/launch_options_menu</item>
+	</string-array>
+	<string-array name="long_press_dismiss_button_values">
+		<item>0</item>
+		<item>1</item>
 	</string-array>
 	    	
 </resources>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen 
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:key="blocking_apps_settings_screen">
+	<Preference
+		android:layout="@layout/custom_preference_title"
+        android:key="select_blocking_apps_preference"
+       	android:title="@string/select_blocking_apps"
+		android:summary="@string/select_blocking_apps_summary" />		
+	<ListPreference
+		android:layout="@layout/custom_preference_list"
+		android:key="blocking_app_action"
+		android:title="@string/blocking_app_action"
+		android:summary="@string/blocking_app_action_summary"
+		android:defaultValue="1"
+		android:entries="@array/blocking_app_action_options"
+		android:entryValues="@array/blocking_app_action_values" />
+</PreferenceScreen>

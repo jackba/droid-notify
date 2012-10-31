@@ -64,8 +64,7 @@ public class K9AlarmBroadcastReceiverService extends WakefulIntentService {
 		    //Check the state of the users phone.
 		    TelephonyManager telemanager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 		    boolean notificationIsBlocked = false;
-		    boolean rescheduleNotificationInCall = true;
-		    boolean rescheduleNotificationInQuickReply = true;
+		    boolean rescheduleNotificationInCall = false;
 		    boolean callStateIdle = telemanager.getCallState() == TelephonyManager.CALL_STATE_IDLE;
 		    //Reschedule notification based on the users preferences.
 		    if(!callStateIdle){
@@ -87,7 +86,7 @@ public class K9AlarmBroadcastReceiverService extends WakefulIntentService {
 					    Common.setStatusBarNotification(context, 1, Constants.NOTIFICATION_TYPE_K9, 0, callStateIdle, emailNotificationBundleSingle.getString(Constants.BUNDLE_CONTACT_NAME), emailNotificationBundleSingle.getLong(Constants.BUNDLE_CONTACT_ID, -1), emailNotificationBundleSingle.getString(Constants.BUNDLE_SENT_FROM_ADDRESS), emailNotificationBundleSingle.getString(Constants.BUNDLE_MESSAGE_BODY), emailNotificationBundleSingle.getString(Constants.BUNDLE_K9_EMAIL_URI), null, -1, false, Common.getStatusBarNotificationBundle(context, Constants.NOTIFICATION_TYPE_K9));
 		    		}
 		    	}
-		    	if(emailNotificationBundle != null) Common.rescheduleBlockedNotification(context, rescheduleNotificationInCall, rescheduleNotificationInQuickReply, Constants.NOTIFICATION_TYPE_K9, emailNotificationBundle);
+		    	if(emailNotificationBundle != null) Common.rescheduleBlockedNotification(context, callStateIdle, rescheduleNotificationInCall, Constants.NOTIFICATION_TYPE_K9, emailNotificationBundle);
 		    }
 		}catch(Exception ex){
 			Log.e("K9AlarmBroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());

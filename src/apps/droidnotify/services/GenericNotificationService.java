@@ -55,8 +55,7 @@ public class GenericNotificationService extends WakefulIntentService {
 		    //Check the state of the users phone.
 		    TelephonyManager telemanager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 		    boolean notificationIsBlocked = false;
-		    boolean rescheduleNotificationInCall = true;
-		    boolean rescheduleNotificationInQuickReply = true;
+		    boolean rescheduleNotificationInCall = false;
 		    boolean callStateIdle = telemanager.getCallState() == TelephonyManager.CALL_STATE_IDLE;
 		    //Reschedule notification based on the users preferences.
 		    if(!callStateIdle){
@@ -74,7 +73,7 @@ public class GenericNotificationService extends WakefulIntentService {
 		    if(!notificationIsBlocked){
 				Common.startNotificationActivity(context, intentExtrasBundle);
 		    }else{					
-		    	Common.rescheduleBlockedNotification(context, rescheduleNotificationInCall, rescheduleNotificationInQuickReply, Constants.NOTIFICATION_TYPE_GENERIC, intentExtrasBundle);
+		    	Common.rescheduleBlockedNotification(context, callStateIdle, rescheduleNotificationInCall, Constants.NOTIFICATION_TYPE_GENERIC, intentExtrasBundle);
 		    }
 		}catch(Exception ex){
 			Log.e("GenericNotificationService.doWakefulWork() ERROR: " + ex.toString());

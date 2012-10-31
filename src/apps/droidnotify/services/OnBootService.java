@@ -1,14 +1,9 @@
 package apps.droidnotify.services;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
-import apps.droidnotify.calendar.CalendarCommon;
-import apps.droidnotify.common.Constants;
+import apps.droidnotify.common.Common;
 import apps.droidnotify.log.Log;
-import apps.droidnotify.reminder.ReminderCommon;
 
 /**
  * This class does the work of the BroadcastReceiver.
@@ -49,16 +44,7 @@ public class OnBootService extends WakefulIntentService {
 	protected void doWakefulWork(Intent intent) {
 		if (_debug) Log.v("OnBootBroadcastReceiverService.doWakefulWork()");
 		try{
-			Context context = getApplicationContext();
-			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-			//Start Reminder DB Cleanup Alarms
-			ReminderCommon.startReminderDBManagementAlarmManager(context, System.currentTimeMillis() + (4 * 60 * 1000));
-			//Start Calendar Alarms
-		    if(preferences.getBoolean(Constants.CALENDAR_NOTIFICATIONS_ENABLED_KEY, true)){
-		    	CalendarCommon.startCalendarAlarmManager(context, System.currentTimeMillis() + (5 * 60 * 1000));
-			}else{
-				CalendarCommon.cancelCalendarAlarmManager(context);
-			}
+			Common.startAppAlarms(getApplicationContext());
 		}catch(Exception ex){
 			Log.e("OnBootBroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());
 		}

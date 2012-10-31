@@ -9,6 +9,12 @@
   <string name="dismiss_all">Отменить все</string>
   <string name="dismiss_all_dialog_text">Отменить все оповещения</string>
   <string name="dismiss_all_loading_text">Увольнения уведомлений…</string>
+  <string name="dismiss_all_same_user">Уволить всех (же пользователя)</string>
+  <string name="dismiss_all_same_user_dialog_text">Это будет отвергать все уведомления от этого пользователя.</string>
+  <string name="dismiss_all_same_app">Уволить всех (же App)</string>
+  <string name="dismiss_all_same_app_dialog_text">Это будет отвергать все уведомления от этого приложения.</string>
+  <string name="dismiss_all_action">Отклонить все уведомления</string>
+  <string name="launch_options_menu">Меню Параметры запуска</string>
   <string name="share">Поделиться</string>
   <string name="share_title">Вам предложили воспользоваться приложением Droid Notify!</string>
   <string name="share_description">Удобное приложение для оповещения о событиях звонков,сообщений,писем,календаря,Facebook,Twitter.Оно показывает оповещением на домашнем экране.\n\nТы можешь скачать его на разных маркетах,ищи \'Droid Notify\'.</string>
@@ -231,6 +237,8 @@
   <string name="preference_landscape_screen_enabled_summaryOff">Экран не будет повернут в режим ландшафта,когда телефон повернут.</string>
   <string name="preference_screen_timeout">Задержка отключения экрана</string>
   <string name="preference_screen_timeout_summary">Настроить время отключения экрана после оповещения.</string>
+  <string name="auto_rotate_screen">Автоматический поворот экрана</string>
+  <string name="auto_rotate_screen_summary">Автоматически поверните уведомления при повороте экрана.</string>
   <string name="preference_keyguard_enabled_title">Разблокировать телефон</string>
   <string name="preference_keyguard_enabled_summaryOn">Телефон будет разблокирован при оповещении.</string>
   <string name="preference_keyguard_enabled_summaryOff">Телефон не будет разблокирован при оповещении.</string>
@@ -238,7 +246,7 @@
   <string name="customize">Настроить</string>
   <string name="customize_notification_summary">Настроить оповещения.</string>
   <string name="notification_preview">Просмотр уведомлений</string>
-  <string name="notification_preview_summary">Просмотра notificaions.</string>
+  <string name="notification_preview_summary">Предварительный просмотр уведомлений.</string>
   <string name="theme">Тема</string>
   <string name="theme_summary">Выбрать тему для оповещений</string>
   <string name="theme_chooser_instructions">Выбрать тему,используя скользящее движение.</string>
@@ -312,7 +320,7 @@
   <string name="preference_sms_loading_summary">Выбрать какое приложение загружает входящие СМС сообщения.</string>
   <string name="preference_sms_timestamp_adjustment_title">Настройки временного штампа СМС</string>
   <string name="preference_sms_timestamp_adjustment_summary">Некоторые аппараты/временные зоны могут неправильно отображать временной штамп.Используйте данную настройку для отображения временного штампа СМС сообщения.</string>
-  <string name="preference_sms_time_is_utc_summary">Выберите эту опцию,если временной штамп входящих сообщений в формате UTC.Возможно это исправит отображение временного шампа</string>
+  <string name="preference_sms_time_is_utc_summary">Установите этот флажок, если входящие SMS сообщение отметка времени в формате UTC. (Это может исправить неверные сообщения раз в уведомлениях)</string>
   <string name="mms_category">ММС сообщения</string>
   <string name="mms">ММС сообщения</string>
   <string name="view_mms_button_text">Просмотр ММС</string>
@@ -584,6 +592,8 @@
   <string name="preference_call_button_action_summary">Определите, что происходит, когда вы используете кнопку вызова.</string>
   <string name="preference_notification_count_button_action">Действие кнопки счетчика оповещений</string>
   <string name="preference_notification_count_button_action_summary">Определить действие при нажамтии кнопки счетчика оповещений. </string>
+  <string name="long_press_dismiss_button_action">Длительно нажмите уволить кнопки действий</string>
+  <string name="long_press_dismiss_button_action_summary">Определите, что происходит, когда вы длительно нажмите кнопку Закрыть.</string>
   <string name="preference_button_style_title">Стиль кнопок</string>
   <string name="preference_button_style_summary">Выбрать стиль кнопок.</string>
   <string name="button_style_icon_and_text_text">Иконки и Текст</string>
@@ -592,8 +602,16 @@
   <string name="preference_hide_single_message_header_enabled_title">Скрыть счетчик оповещений</string>
   <string name="preference_hide_single_message_header_enabled_summaryOn">Счетчик оповещений скрыт,при показе единственного оповещения(пример 1/1).</string>
   <string name="preference_hide_single_message_header_enabled_summaryOff">Счетчик оповещений показан,при показе единственного оповещения(пример 1/1).</string>
-  <string name="blocking_app_running_action_text">Параметры блока оповещений</string>
-  <string name="blocking_app_running_action_summary">Определить действие оповещения во время запущенного приложения.</string>
+  <string name="blocking_apps_category">БЛОКИРОВКА ПРИЛОЖЕНИЯ</string>
+  <string name="select_blocking_apps">Выберите блокирования приложений</string>
+  <string name="saving_selection">Сохранение выбор…</string>
+  <string name="enable_app_blocking">Включить блокирование App</string>
+  <string name="enable_app_blocking_summary">Блокировать уведомления от появления на экране, когда используются выбранные приложения.</string>
+  <string name="blocking_apps_settings">Блокировка параметров приложений</string>
+  <string name="select_blocking_apps">Выберите блокирования приложений</string>
+  <string name="select_blocking_apps_summary">Выберите приложения, которые будут блокировать уведомления от появления.</string>
+  <string name="blocking_app_action">Блокирование действий</string>
+  <string name="blocking_app_action_summary">Определите что делать когда уведомление заблокирован.</string>
   <string name="confirm_clear_reset_authentication_data">Это будет сбросить данные аутентификации.</string>
   <string name="clear_data">Удалить данные</string>
   <string name="status_bar_notification_content_title_text_sms">Новое сообщение</string>

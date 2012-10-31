@@ -1756,54 +1756,62 @@ public class NotificationView extends LinearLayout {
 		if(usingImageButtons){
 			_dismissImageButton.setOnLongClickListener(new OnLongClickListener(){ 
 		        public boolean onLongClick(View view){
-		        	AlertDialog.Builder builder = new AlertDialog.Builder(_context);
-			        try{
-			        	builder.setIcon(android.R.drawable.ic_dialog_alert);
-			        }catch(Exception ex){
-			        	//Don't set the icon if this fails.
-			        }
-					builder.setTitle(_context.getString(R.string.dismiss_all));
-					builder.setMessage(_context.getString(R.string.dismiss_all_dialog_text));	
-					builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener(){
-							public void onClick(DialogInterface dialog, int id){
-								//customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-								_notificationActivity.dismissAllNotifications();
-							}
-						})
-						.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener(){
-							public void onClick(DialogInterface dialog, int id){
-								//customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-				            	dialog.cancel();
-							}
-						});
-					builder.create().show();		        	
+		        	if(_preferences.getString(Constants.DISMISS_BUTTON_LONG_PRESS_ACTION_KEY, Constants.DISMISS_BUTTON_LONG_PRESS_ACTION_DISMISS_ALL).equals(Constants.DISMISS_BUTTON_LONG_PRESS_ACTION_DISMISS_ALL)){
+			        	AlertDialog.Builder builder = new AlertDialog.Builder(_context);
+				        try{
+				        	builder.setIcon(android.R.drawable.ic_dialog_alert);
+				        }catch(Exception ex){
+				        	//Don't set the icon if this fails.
+				        }
+						builder.setTitle(_context.getString(R.string.dismiss_all));
+						builder.setMessage(_context.getString(R.string.dismiss_all_dialog_text));	
+						builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener(){
+								public void onClick(DialogInterface dialog, int id){
+									//customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+									_notificationActivity.dismissAllNotifications();
+								}
+							})
+							.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener(){
+								public void onClick(DialogInterface dialog, int id){
+									//customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+					            	dialog.cancel();
+								}
+							});
+						builder.create().show();
+		        	}else{
+		        		_notificationActivity.openOptionsMenu();
+		        	}
 		            return true;
 		        }
 		    });
 		}else{
 			_dismissButton.setOnLongClickListener(new OnLongClickListener(){ 
 		        public boolean onLongClick(View view){
-		        	AlertDialog.Builder builder = new AlertDialog.Builder(_context);
-			        try{
-			        	builder.setIcon(android.R.drawable.ic_dialog_alert);
-			        }catch(Exception ex){
-			        	//Don't set the icon if this fails.
-			        }
-					builder.setTitle(_context.getString(R.string.dismiss_all));
-					builder.setMessage(_context.getString(R.string.dismiss_all_dialog_text));	
-					builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener(){
-							public void onClick(DialogInterface dialog, int id){
-								//customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-								_notificationActivity.dismissAllNotifications();
-							}
-						})
-						.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener(){
-							public void onClick(DialogInterface dialog, int id){
-								//customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-				            	dialog.cancel();
-							}
-						});
-					builder.create().show();		        	
+		        	if(_preferences.getString(Constants.DISMISS_BUTTON_LONG_PRESS_ACTION_KEY, Constants.DISMISS_BUTTON_LONG_PRESS_ACTION_DISMISS_ALL).equals(Constants.DISMISS_BUTTON_LONG_PRESS_ACTION_DISMISS_ALL)){
+			        	AlertDialog.Builder builder = new AlertDialog.Builder(_context);
+				        try{
+				        	builder.setIcon(android.R.drawable.ic_dialog_alert);
+				        }catch(Exception ex){
+				        	//Don't set the icon if this fails.
+				        }
+						builder.setTitle(_context.getString(R.string.dismiss_all));
+						builder.setMessage(_context.getString(R.string.dismiss_all_dialog_text));	
+						builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener(){
+								public void onClick(DialogInterface dialog, int id){
+									//customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+									_notificationActivity.dismissAllNotifications();
+								}
+							})
+							.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener(){
+								public void onClick(DialogInterface dialog, int id){
+									//customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+					            	dialog.cancel();
+								}
+							});
+						builder.create().show();
+		        	}else{
+		        		_notificationActivity.openOptionsMenu();
+		        	}
 		            return true;
 		        }
 		    });

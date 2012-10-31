@@ -61,6 +61,9 @@ public class NotificationActivity extends Activity{
 	private static final int MENU_ITEM_SETTINGS = R.id.settings;
 	private static final int MENU_ITEM_SHARE = R.id.share;
 	private static final int MENU_ITEM_DISMISS_ALL = R.id.dismiss_all;
+	private static final int MENU_ITEM_DISMISS_ALL_SAME_USER = R.id.dismiss_all_same_user;
+	private static final int MENU_ITEM_DISMISS_ALL_SAME_APP = R.id.dismiss_all_same_app;
+	
 	private static final int CONTACT_WRAPPER_LINEAR_LAYOUT = R.id.contact_wrapper_linear_layout;
 	private static final int ADD_CONTACT_CONTEXT_MENU = R.id.add_contact_context_menu;	
 	private static final int EDIT_CONTACT_CONTEXT_MENU = R.id.edit_contact_context_menu;
@@ -77,6 +80,9 @@ public class NotificationActivity extends Activity{
 	private static final int RESCHEDULE_NOTIFICATION_CONTEXT_MENU = R.id.reschedule_notification_context_menu;
 	private static final int SPEAK_NOTIFICATION_CONTEXT_MENU = R.id.speak_notification_context_menu;
 	private static final int DISMISS_NOTIFICATION_CONTEXT_MENU = R.id.dismiss_notification_context_menu;
+	private static final int DISMISS_ALL_CONTEXT_MENU = R.id.dismiss_all_context_menu;
+	private static final int DISMISS_ALL_USER_CONTEXT_MENU = R.id.dismiss_all_same_user_context_menu;
+	private static final int DISMISS_ALL_APP_CONTEXT_MENU = R.id.dismiss_all_same_app_context_menu;
 
 	//================================================================================
     // Properties
@@ -126,9 +132,17 @@ public class NotificationActivity extends Activity{
 	@Override
 	public boolean onOptionsItemSelected(MenuItem menuItem){
 	    // Handle item selection
-	    switch (menuItem.getItemId()){
-	    	case MENU_ITEM_SETTINGS:{
-	    		launchPreferenceScreen();
+	    switch (menuItem.getItemId()){	    	
+	    	case MENU_ITEM_DISMISS_ALL:{
+	    		dismissAllNotifications();
+	    		break;
+	    	}	    	
+	    	case MENU_ITEM_DISMISS_ALL_SAME_USER:{
+	    		dismissAllUserNotifications();
+	    		break;
+	    	}	    	
+	    	case MENU_ITEM_DISMISS_ALL_SAME_APP:{
+	    		dismissAllAppNotifications();
 	    		break;
 	    	}	    	
 	    	case MENU_ITEM_SHARE:{
@@ -138,9 +152,9 @@ public class NotificationActivity extends Activity{
 	    		shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, _context.getString(R.string.share_description));
 	    		startActivity(shareIntent);
 	    		break;
-	    	}	    	
-	    	case MENU_ITEM_DISMISS_ALL:{
-	    		dismissAllNotifications();
+	    	}
+	    	case MENU_ITEM_SETTINGS:{
+	    		launchPreferenceScreen();
 	    		break;
 	    	}
 	    }
@@ -375,6 +389,39 @@ public class NotificationActivity extends Activity{
 					return false;
 				}
 			}
+			case DISMISS_ALL_CONTEXT_MENU:{
+				//Cancel the reminder.
+				notification.cancelReminder();
+				try{
+					dismissAllNotifications();
+					return true;
+				}catch(Exception ex){
+					Log.e("NotificationActivity.onContextItemSelected() DISMISS_ALL_CONTEXT_MENU ERROR: " + ex.toString());
+					return false;
+				}
+			}
+			case DISMISS_ALL_USER_CONTEXT_MENU:{
+				//Cancel the reminder.
+				notification.cancelReminder();
+				try{
+					dismissAllUserNotifications();
+					return true;
+				}catch(Exception ex){
+					Log.e("NotificationActivity.onContextItemSelected() DISMISS_ALL_USER_CONTEXT_MENU ERROR: " + ex.toString());
+					return false;
+				}
+			}
+			case DISMISS_ALL_APP_CONTEXT_MENU:{
+				//Cancel the reminder.
+				notification.cancelReminder();
+				try{
+					dismissAllAppNotifications();
+					return true;
+				}catch(Exception ex){
+					Log.e("NotificationActivity.onContextItemSelected() DISMISS_ALL_APP_CONTEXT_MENU ERROR: " + ex.toString());
+					return false;
+				}
+			}
 			default:{
 				return super.onContextItemSelected(menuItem);
 			}
@@ -389,7 +436,10 @@ public class NotificationActivity extends Activity{
 	@Override
 	public void onConfigurationChanged(Configuration config){
         super.onConfigurationChanged(config);   
-        if(_debug) Log.v("NotificationActivity.onConfigurationChanged()");
+        if(_debug) Log.v("NotificationActivity.onConfigurationChanged()");        
+        if(!_preferences.getBoolean(Constants.AUTO_ROTATE_SCREEN_KEY, false)){
+        	return;
+        }
         //Reset the width of the main activity window.
         Display display = getWindowManager().getDefaultDisplay(); 
         Point size = new Point();
@@ -504,11 +554,33 @@ public class NotificationActivity extends Activity{
   	/**
   	 * Dismiss all notifications and close the activity.
   	 */
-  	public void dismissAllNotifications(){	
+  	public void dismissAllNotifications(){
   		try{
   			new DismissAllNotificationsTask().execute();
   		}catch(Exception ex){
   			Log.e("NotificationActivity.dismissAllNotifications() ERROR: " + ex.toString());
+  		}
+  	}
+  	
+  	/**
+  	 * Dismiss all notifications and close the activity.
+  	 */
+  	public void dismissAllUserNotifications(){
+  		try{
+  			//_notificationViewFlipper.dismissAllUserNotifications();
+  		}catch(Exception ex){
+  			Log.e("NotificationActivity.dismissAllUsersNotifications() ERROR: " + ex.toString());
+  		}
+  	}
+  	
+  	/**
+  	 * Dismiss all notifications and close the activity.
+  	 */
+  	public void dismissAllAppNotifications(){
+  		try{
+  			_notificationViewFlipper.dismissAllAppNotifications(_context);
+  		}catch(Exception ex){
+  			Log.e("NotificationActivity.dismissAllAppNotifications() ERROR: " + ex.toString());
   		}
   	}
   	
@@ -793,8 +865,12 @@ public class NotificationActivity extends Activity{
 	    int notificationType = extrasBundle.getInt(Constants.BUNDLE_NOTIFICATION_TYPE);
 	    if(_debug) Log.v("NotificationActivity.onCreate() Notification Type: " + notificationType);
 	    //Don't rotate the Activity when the screen rotates based on the user preferences.
-	    if(!_preferences.getBoolean(Constants.LANDSCAPE_SCREEN_ENABLED_KEY, false)){
-	    	this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+	    if(!_preferences.getBoolean(Constants.AUTO_ROTATE_SCREEN_KEY, false)){
+	    	if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+	    		this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+	    	}else{
+	    		this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+	    	}
 	    }
 	    //Get main window for this Activity.
 	    Window mainWindow = getWindow();
