@@ -7,6 +7,7 @@ import android.preference.PreferenceManager;
 
 import apps.droidnotify.log.Log;
 import apps.droidnotify.reminder.ReminderCommon;
+import apps.droidnotify.db.SQLiteHelperBlockingApps;
 import apps.droidnotify.db.SQLiteHelperReminder;
 import apps.droidnotify.calendar.CalendarCommon;
 import apps.droidnotify.common.Constants;
@@ -55,6 +56,10 @@ public class OnUpdateService extends WakefulIntentService {
 			SQLiteHelperReminder reminderDBHelper = new SQLiteHelperReminder(context);
         	reminderDBHelper.getReadableDatabase();
         	reminderDBHelper.close();
+			//Create the blocking apps database.
+			SQLiteHelperBlockingApps blockingAppsDBHelper = new SQLiteHelperBlockingApps(context);
+			blockingAppsDBHelper.getReadableDatabase();
+			blockingAppsDBHelper.close();
 			//Start Reminder DB Cleanup Alarms
 			ReminderCommon.startReminderDBManagementAlarmManager(context, System.currentTimeMillis() + (5 * 60 * 1000));
 		}catch(Exception ex){

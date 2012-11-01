@@ -88,8 +88,13 @@ public class K9DownloadPreferenceActivity extends Activity {
         }else if(Log.getSamsungVersion()){
         	displayDownloadButtons = true;
 			descriptionText = _context.getString(R.string.package_k9_not_found);
-			k9DownloadURL = Constants.K9_MAIL_AMAZON_URL;
+			k9DownloadURL = Constants.K9_MAIL_SAMSUNG_URL;
 			kaitenDownloadURL = Constants.KAITEN_MAIL_SAMSUNG_URL;
+        }else if(Log.getSlideMeVersion()){
+        	displayDownloadButtons = true;
+			descriptionText = _context.getString(R.string.package_k9_not_found);
+			k9DownloadURL = Constants.K9_MAIL_SLIDEME_URL;
+			kaitenDownloadURL = Constants.KAITEN_MAIL_SLIDEME_URL;
         }else{
 			displayDownloadButtons = false;
 			descriptionText = _context.getString(R.string.package_k9_not_found_generic);			
@@ -104,13 +109,21 @@ public class K9DownloadPreferenceActivity extends Activity {
         	_okButtonTextView.setVisibility(View.GONE);
         	_k9ButtonTextView.setOnClickListener(new OnClickListener(){
 	        	public void onClick(View view) {
-		    		startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(k9DownloadURL)));
+	        		try{
+			    		startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(k9DownloadURL)));
+	        		}catch(Exception ex){
+	        			startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.K9_MAIL_GOOGLE_URL)));
+	        		}
 		    		finish();
 	        	}
 	        });        	
         	_kaitenButtonTextView.setOnClickListener(new OnClickListener(){
 	        	public void onClick(View view) {
-		    		startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(kaitenDownloadURL)));
+	        		try{
+			    		startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(kaitenDownloadURL)));
+	        		}catch(Exception ex){
+	        			startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.KAITEN_MAIL_GOOGLE_URL)));
+	        		}
 		    		finish();
 	        	}
 	        });
