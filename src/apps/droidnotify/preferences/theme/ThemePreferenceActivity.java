@@ -184,10 +184,16 @@ public class ThemePreferenceActivity extends Activity {
 			    		searchAppURL = Constants.APP_SEARCH_AMAZON_URL;
 			    	}else if(Log.getSamsungVersion()){
 			    		searchAppURL = Constants.APP_SEARCH_SAMSUNG_URL;
+			    	}else if(Log.getSlideMeVersion()){
+			    		searchAppURL = Constants.APP_SEARCH_SLIDEME_URL;
 			    	}else{
 			    		searchAppURL = "http://www.google.com/m/search?q=apps.droidnotify.theme";
 			    	}
-		    		startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(searchAppURL)));
+			    	try{
+			    		startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(searchAppURL)));
+			    	}catch(Exception ex){
+			    		startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.APP_SEARCH_GOOGLE_URL)));
+			    	}
 		    	}catch(Exception ex){
 	 	    		Log.e("PreferencesActivity() Rate App Button ERROR: " + ex.toString());
 	 	    		Toast.makeText(_context, _context.getString(R.string.app_android_rate_app_error), Toast.LENGTH_LONG).show();

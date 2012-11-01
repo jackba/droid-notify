@@ -87,6 +87,11 @@ public class UpgradePreferenceActivity extends Activity {
 				descriptionText = _context.getString(R.string.upgrade_description_text);
 				buttonText = _context.getString(R.string.upgrade_now_text);
 				upgradeURL = Constants.APP_PRO_SAMSUNG_URL;
+	        }else if(Log.getSlideMeVersion()){
+				displayUpgradeButton = true;
+				descriptionText = _context.getString(R.string.upgrade_description_text);
+				buttonText = _context.getString(R.string.upgrade_now_text);
+				upgradeURL = Constants.APP_PRO_SLIDEME_URL;
 	        }else{
 				displayUpgradeButton = false;
 				descriptionText = _context.getString(R.string.upgrade_no_market_description_text);
@@ -110,6 +115,11 @@ public class UpgradePreferenceActivity extends Activity {
 				descriptionText = _context.getString(R.string.upgrade_direct_description_text);
 				buttonText = _context.getString(R.string.upgrade_now_text);
 				upgradeURL = Constants.APP_PRO_SAMSUNG_URL;
+	        }else if(Log.getSlideMeVersion()){
+				displayUpgradeButton = true;
+				descriptionText = _context.getString(R.string.upgrade_direct_description_text);
+				buttonText = _context.getString(R.string.upgrade_now_text);
+				upgradeURL = Constants.APP_PRO_SLIDEME_URL;
 	        }else{
 				upgradeURL = Constants.APP_PRO_ANDROID_URL;
 	        }
@@ -122,7 +132,23 @@ public class UpgradePreferenceActivity extends Activity {
         if(displayUpgradeButton){
         	_buttonTextView.setOnClickListener(new OnClickListener(){
 	        	public void onClick(View view) {
-		    		startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(upgradeURL)));
+	        		try{
+	        			startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(upgradeURL)));
+	        		}catch(Exception ex){
+	        			String upgradeURLBackup;
+			    		if(Log.getAndroidVersion()){
+			    			upgradeURLBackup = Constants.APP_ANDROID_WEB_URL;
+				    	}else if(Log.getAmazonVersion()){
+				    		upgradeURLBackup = Constants.APP_AMAZON_WEB_URL;
+				    	}else if(Log.getSamsungVersion()){
+				    		upgradeURLBackup = Constants.APP_SAMSUNG_WEB_URL;
+				    	}else if(Log.getSlideMeVersion()){
+				    		upgradeURLBackup = Constants.APP_SLIDEME_WEB_URL;
+	        	        }else{
+	        	        	upgradeURLBackup = Constants.APP_PRO_GOOGLE_URL;
+	        	        }
+	        			startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(upgradeURLBackup)));
+	        		}
 		    		finish();
 	        	}
 	        });

@@ -54,6 +54,7 @@ public class Log {
 	private static final boolean _AndroidVersion = true;
 	private static final boolean _AmazonVersion = false;
 	private static final boolean _SamsungVersion = false;	
+	private static final boolean _SlideMeVersion = false;
 
 	private static Context _context = null;
 	private static CollectLogTask _collectLogTask = null;
@@ -128,6 +129,15 @@ public class Log {
 	 */
 	public static boolean getSamsungVersion(){
 		return _SamsungVersion;
+	}
+
+	/**
+	 *  Get SlideMeVersion property.
+	 *  
+	 *  @return boolean - Returns true if we want to show the SlideMe links.
+	 */
+	public static boolean getSlideMeVersion(){
+		return _SlideMeVersion;
 	}
 	
 	/**

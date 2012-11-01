@@ -76,6 +76,9 @@ public class MoreMissedCallOptionsActivity extends Activity {
         }else if(Log.getSamsungVersion()){
 			displayUpgradeButton = true;
 			upgradeURL = Constants.APP_SAMSUNG_MISSED_CALL_MESSENGER_LITE_URL;
+        }else if(Log.getSlideMeVersion()){
+			displayUpgradeButton = true;
+			upgradeURL = Constants.APP_SLIDEME_MISSED_CALL_MESSENGER_LITE_URL;
         }else{
 			upgradeURL = Constants.APP_ANDROID_MISSED_CALL_MESSENGER_LITE_URL;
         }	
@@ -84,7 +87,11 @@ public class MoreMissedCallOptionsActivity extends Activity {
         	_buttonTextView.setVisibility(View.VISIBLE);
         	_buttonTextView.setOnClickListener(new OnClickListener(){
 	        	public void onClick(View view) {
-		    		startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(upgradeURL)));
+	        		try{
+	        			startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(upgradeURL)));
+	        		}catch(Exception ex){
+	        			startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.APP_GOOGLE_MISSED_CALL_MESSENGER_LITE_URL)));
+	        		}
 		    		finish();
 	        	}
 	        });

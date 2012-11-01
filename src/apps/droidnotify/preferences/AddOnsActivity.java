@@ -56,7 +56,7 @@ public class AddOnsActivity extends Activity {
 	 * @param context - Application context.
 	 */
 	private void initLayoutItems() {
-		if (_debug) Log.v("UpgradePreferenceActivity.initLayoutItems()");
+		if (_debug) Log.v("AddOnsActivity.initLayoutItems()");
 		//Find Views.
 		_contentTextView = (TextView)findViewById(R.id.content_text);
 		_buttonTextView = (TextView)findViewById(R.id.button);
@@ -78,6 +78,10 @@ public class AddOnsActivity extends Activity {
 			displayUpgradeButton = true;
 			buttonText = _context.getString(R.string.download_now);
 			downloadURL = Constants.APP_SAMSUNG_PLUS_URL;
+        }else if(Log.getSlideMeVersion()){
+			displayUpgradeButton = true;
+			buttonText = _context.getString(R.string.download_now);
+			downloadURL = Constants.APP_SLIDEME_PLUS_URL;
         }else{
 			displayUpgradeButton = false;
 			buttonText = _context.getString(R.string.close);
@@ -88,7 +92,11 @@ public class AddOnsActivity extends Activity {
         if(displayUpgradeButton){
         	_buttonTextView.setOnClickListener(new OnClickListener(){
 	        	public void onClick(View view) {
-		    		startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(downloadURL)));
+	        		try{
+	        			startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(downloadURL)));
+	        		}catch(Exception ex){
+	        			startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.APP_GOOGLE_PLUS_URL)));
+	        		}
 		    		finish();
 	        	}
 	        });

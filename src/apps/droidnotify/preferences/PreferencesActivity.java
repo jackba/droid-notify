@@ -248,7 +248,7 @@ public class PreferencesActivity extends Activity {
 		});		
 		//Rate This App Preference/Button		
 		boolean displayRateAppRow = true;
-		if(!Log.getAndroidVersion() && !Log.getAmazonVersion() && !Log.getSamsungVersion()){
+		if(!Log.getAndroidVersion() && !Log.getAmazonVersion() && !Log.getSamsungVersion() && !Log.getSlideMeVersion()){
 			displayRateAppRow = false;
 		}
 		if(displayRateAppRow){
@@ -257,15 +257,32 @@ public class PreferencesActivity extends Activity {
 			    	try{
 				    	String rateAppURL = "";
 				    	if(Log.getAndroidVersion()){
-				    		rateAppURL = Constants.APP_PRO_ANDROID_URL;
+				    		rateAppURL = Constants.APP_ANDROID_URL;
 				    	}else if(Log.getAmazonVersion()){
-				    		rateAppURL = Constants.APP_PRO_AMAZON_URL;
+				    		rateAppURL = Constants.APP_AMAZON_URL;
 				    	}else if(Log.getSamsungVersion()){
-				    		rateAppURL = Constants.APP_PRO_SAMSUNG_URL;
+				    		rateAppURL = Constants.APP_SAMSUNG_URL;
+				    	}else if(Log.getSlideMeVersion()){
+				    		rateAppURL = Constants.APP_SLIDEME_URL;
 				    	}else{
 				    		rateAppURL = "";
 				    	}
-			    		startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(rateAppURL)));
+				    	try{
+				    		startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(rateAppURL)));
+				    	}catch(Exception ex){
+				    		if(Log.getAndroidVersion()){
+					    		rateAppURL = Constants.APP_ANDROID_WEB_URL;
+					    	}else if(Log.getAmazonVersion()){
+					    		rateAppURL = Constants.APP_AMAZON_WEB_URL;
+					    	}else if(Log.getSamsungVersion()){
+					    		rateAppURL = Constants.APP_SAMSUNG_WEB_URL;
+					    	}else if(Log.getSlideMeVersion()){
+					    		rateAppURL = Constants.APP_SLIDEME_WEB_URL;
+					    	}else{
+					    		rateAppURL = "Constants.APP_GOOGLE_URL";
+					    	}
+				    		startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(rateAppURL)));
+				    	}
 			    	}catch(Exception ex){
 		 	    		Log.e("PreferencesActivity() Rate App Button ERROR: " + ex.toString());
 		 	    		Toast.makeText(_context, _context.getString(R.string.app_android_rate_app_error), Toast.LENGTH_LONG).show();
@@ -302,7 +319,7 @@ public class PreferencesActivity extends Activity {
 		});
 		//Upgrade Button
 		boolean displayUpgradeRow = true;
-		if(!Log.getAndroidVersion() && !Log.getAmazonVersion() && !Log.getSamsungVersion()){
+		if(!Log.getAndroidVersion() && !Log.getAmazonVersion() && !Log.getSamsungVersion() && !Log.getSlideMeVersion()){
 			displayUpgradeRow = false;
 		}
 		if(displayUpgradeRow){
