@@ -19,8 +19,7 @@ public class OnFirstRunService extends WakefulIntentService {
 	//================================================================================
     // Properties
     //================================================================================
-	
-	private boolean _debug = false;
+
 	private Context _context = null;
     private SharedPreferences _preferences = null;
 
@@ -33,8 +32,6 @@ public class OnFirstRunService extends WakefulIntentService {
 	 */
 	public OnFirstRunService(){
 		super("OnFirstRunService");
-		_debug = Log.getDebug();
-		if (_debug) Log.v("OnFirstRunService.OnFirstRunService()");
 	}
 
 	//================================================================================
@@ -47,10 +44,9 @@ public class OnFirstRunService extends WakefulIntentService {
 	 * @param intent - Intent object that we are working with.
 	 */
 	@Override
-	protected void doWakefulWork(Intent intent){
-		if (_debug) Log.v("OnFirstRunService.doWakefulWork()");
-		try{	   
-			_context = this.getApplicationContext();
+	protected void doWakefulWork(Intent intent){	   
+		_context = this.getApplicationContext();
+		try{
 		    _preferences = PreferenceManager.getDefaultSharedPreferences(_context);
 			startCalendarAlarmManager(System.currentTimeMillis() + (60 * 1000));
 			checkSystemDateTimeFormat();
@@ -65,7 +61,7 @@ public class OnFirstRunService extends WakefulIntentService {
 			//Start Reminder DB Cleanup Alarms
 			ReminderCommon.startReminderDBManagementAlarmManager(_context, System.currentTimeMillis() + (5 * 60 * 1000));
 		}catch(Exception ex){
-			Log.e("OnFirstRunService.doWakefulWork() ERROR: " + ex.toString());
+			Log.e(_context, "OnFirstRunService.doWakefulWork() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -75,7 +71,6 @@ public class OnFirstRunService extends WakefulIntentService {
 	 * @param alarmStartTime - The time to start the alarm.
 	 */
 	private void startCalendarAlarmManager(long alarmStartTime){
-		if (_debug) Log.v("OnFirstRunService.startCalendarAlarmManager()");
 		//Make sure that this user preference has been set and initialized.
 		initUserCalendarsPreference();
 		//Schedule the reading of the calendar events.
@@ -87,7 +82,6 @@ public class OnFirstRunService extends WakefulIntentService {
 	 * This sets the user preference to check all available calendars.
 	 */
 	private void initUserCalendarsPreference(){
-		if (_debug) Log.v("OnFirstRunService.initUserCalendarsPreference()");
     	String availableCalendarsInfo = CalendarCommon.getAvailableCalendars(_context);
     	if(availableCalendarsInfo == null){
     		return;
@@ -111,7 +105,6 @@ public class OnFirstRunService extends WakefulIntentService {
 	 * A first time installation check and update of the Date & Time format settings.
 	 */
 	private void checkSystemDateTimeFormat(){
-		if (_debug) Log.v("OnFirstRunService.checkSystemDateTimeFormat()");
 		try{
 			SharedPreferences.Editor editor = _preferences.edit();
 			String systemDateFormat = Settings.System.getString(_context.getContentResolver(), Settings.System.DATE_FORMAT);
@@ -143,7 +136,7 @@ public class OnFirstRunService extends WakefulIntentService {
 		    }
 			editor.commit();
 		}catch(Exception ex){
-    		Log.e("MainPreferenceActivity.checkSystemDateTimeFormat() ERROR: " + ex.toString());
+    		Log.e(_context, "MainPreferenceActivity.checkSystemDateTimeFormat() ERROR: " + ex.toString());
     	}	
 	}
 		

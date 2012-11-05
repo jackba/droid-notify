@@ -5,10 +5,7 @@ import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.text.Html.ImageGetter;
 
-
-import apps.droidnotify.MainApplication;
 import apps.droidnotify.R;
-import apps.droidnotify.log.Log;
 
 public class EmojiCommon {
 	
@@ -40,54 +37,60 @@ public class EmojiCommon {
 			R.drawable.yo_tongue			 
 		};
 	 
-	public static final String[] _emojiLabels = new String[]{ 
-			"Angel",
-			"Happy",
-			"Sad",
-	        "Winking",
-	        "Tongue Sticking Out",
-	        "Surprised",
-	        "Kiss",
-	        "Yelling",
-	        "Cool",
-	        "Money",
-	        "Foot In Mouth",
-	        "Embarrased",
-	        "Undecided",
-	        "Crying",
-	        "Lips Are Sealed",
-	        "Laughing",
-	        "Confused",
-			"Happy",
-			"Sad",
-	        "Winking",
-	        "Tongue Sticking Out"            
+    public static final String[] _emojiLabels = new String[]{ 
+    		"Angel",
+    		"Happy",
+    		"Sad",
+            "Winking",
+            "Tongue Sticking Out",
+            "Surprised",
+            "Kiss",
+            "Yelling",
+            "Cool",
+            "Money",
+            "Foot In Mouth",
+            "Embarrased",
+            "Undecided",
+            "Crying",
+            "Lips Are Sealed",
+            "Laughing",
+            "Confused",
+    		"Happy",
+    		"Sad",
+            "Winking",
+            "Tongue Sticking Out"            
 		};
-	
-	public static final String[] _emojis = new String[]{ 
-			"O:-)",
-			":-)",
-			":-(",
-			";-)",
-			":-P",
-	        "=-O",
-	        ":-*",
-	        ":-O",
-	        "B-)",
-	        ":-$",
-	        ":-!",
-	        ":-[",
-	        ":-\\",
-	        ":'(",
-	        ":-X",
-	        ":-D",
-	        "o_O",           
-			":)",
-			":(",
-			";)",
-			":P"
+    
+    public static final String[] _emojis = new String[]{ 
+    		"O:-)",
+    		":-)",
+    		":-(",
+    		";-)",
+    		":-P",
+            "=-O",
+            ":-*",
+            ":-O",
+            "B-)",
+            ":-$",
+            ":-!",
+            ":-[",
+            ":-\\",
+            ":'(",
+            ":-X",
+            ":-D",
+            "o_O",           
+    		":)",
+    		":(",
+    		";)",
+    		":P"
 		};
+    
+	//================================================================================
+	// Properties Methods
+	//================================================================================
 	
+    private static Context _context = null;
+    
 	//================================================================================
 	// Public Methods
 	//================================================================================
@@ -102,7 +105,8 @@ public class EmojiCommon {
 	 * 
 	 * @return
 	 */
-	public static String convertTextToEmoji(Context context,String input){
+	public static String convertTextToEmoji(Context context, String input){
+		_context = context;
 		String output = input;
 		int size = _emojis.length;
 		for(int i=0;i<size;i++){
@@ -117,13 +121,12 @@ public class EmojiCommon {
 	public static ImageGetter emojiGetter = new ImageGetter(){
         public Drawable getDrawable(String index){
         	try{
-	        	Resources resources = MainApplication.getContext().getResources();
+	        	Resources resources = _context.getResources();
 	        	Drawable drawable = resources.getDrawable(_emojiIcons[Integer.valueOf(index.replace(".png", ""))]);
 	        	//This MUST be done otherwise the image will not be displayed!
 	        	drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
 	        	return drawable;  
         	}catch(Exception ex){
-        		Log.e("EmojiCommon.ImageGetter.getDrawable() ERROR: " + ex.toString());
 	            return null;
         	}
         }

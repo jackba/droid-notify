@@ -10,11 +10,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import apps.droidnotify.common.FileUtils;
-import apps.droidnotify.log.Log;
 
 public class SQLiteHelperReminder extends SQLiteOpenHelper{
-
-	private boolean _debug = false;
 
 	public SQLiteHelperReminder(Context context){
 		super(context, DBConstants.DATABASE_NAME_REMINDER, null, DBConstants.DATABASE_VERSION_REMINDER);
@@ -36,8 +33,6 @@ public class SQLiteHelperReminder extends SQLiteOpenHelper{
 	 * @param dbPath - The path to the SD card database.
 	 */
 	public boolean exportDatabase(String dbPath, String packageName) throws IOException{
-		_debug = Log.getDebug();
-		if (_debug) Log.v("SQLiteHelperReminder.exportDatabase()");
 		try{
 			String internalDBFilePath = "/data/data/" + packageName + "/databases/" + DBConstants.DATABASE_NAME_REMINDER;
 			if(!(new File(internalDBFilePath).exists())){
@@ -52,7 +47,7 @@ public class SQLiteHelperReminder extends SQLiteOpenHelper{
 		        return true;
 		    }
 		}catch(Exception ex){
-			Log.e("SQLiteHelperReminder.exportDatabase() ERROR: " + ex.toString());
+			return false;
 		}
 	    return false;
 	}
@@ -64,8 +59,6 @@ public class SQLiteHelperReminder extends SQLiteOpenHelper{
 	 * @param packageName - THe package name of this application.
 	 */
 	public boolean importDatabase(String dbPath, String packageName) throws IOException{
-		_debug = Log.getDebug();
-		if (_debug) Log.v("SQLiteHelperReminder.importDatabase()");
 		try{
 			String internalDBFilePath = "/data/data/" + packageName + "/databases/" + DBConstants.DATABASE_NAME_REMINDER;
 			if(!(new File(internalDBFilePath).exists())){
@@ -81,7 +74,7 @@ public class SQLiteHelperReminder extends SQLiteOpenHelper{
 		        return true;
 		    }
 		}catch(Exception ex){
-			Log.e("SQLiteHelperReminder.importDatabase() ERROR: " + ex.toString());
+			return false;
 		}
 	    return false;
 	}

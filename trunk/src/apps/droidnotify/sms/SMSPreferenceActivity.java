@@ -23,7 +23,6 @@ public class SMSPreferenceActivity extends PreferenceActivity{
     // Properties
     //================================================================================
 
-    private boolean _debug = false;
     private Context _context = null;
 	
 	//================================================================================
@@ -39,8 +38,6 @@ public class SMSPreferenceActivity extends PreferenceActivity{
 	@Override
 	protected void onCreate(Bundle bundle){
 	    super.onCreate(bundle);
-	    _debug = Log.getDebug();
-	    if (_debug) Log.v("SMSPreferenceActivity.onCreate()");
 	    _context = this;
 	    Common.setApplicationLanguage(_context, this);
 	    this.addPreferencesFromResource(R.xml.sms_preferences);
@@ -57,7 +54,6 @@ public class SMSPreferenceActivity extends PreferenceActivity{
 	 */
 	@SuppressWarnings("deprecation")
 	private void setupCustomPreferences(){
-	    if (_debug) Log.v("SMSPreferenceActivity.setupCustomPreferences()");
 		//Status Bar Notification Settings Preference/Button
 		Preference statusBarNotificationSettingsPref = (Preference)findPreference(Constants.SETTINGS_STATUS_BAR_NOTIFICATIONS_PREFERENCE);
 		statusBarNotificationSettingsPref.setOnPreferenceClickListener(new OnPreferenceClickListener(){
@@ -66,7 +62,7 @@ public class SMSPreferenceActivity extends PreferenceActivity{
 		    		startActivity(new Intent(_context, SMSStatusBarNotificationsPreferenceActivity.class));
 		    		return true;
 		    	}catch(Exception ex){
-	 	    		Log.e("SMSPreferenceActivity() Status Bar Notifications Button ERROR: " + ex.toString());
+	 	    		Log.e(_context, "SMSPreferenceActivity() Status Bar Notifications Button ERROR: " + ex.toString());
 	 	    		return false;
 		    	}
         	}
@@ -79,7 +75,7 @@ public class SMSPreferenceActivity extends PreferenceActivity{
 		    		startActivity(new Intent(_context, SMSCustomizePreferenceActivity.class));
 		    		return true;
 		    	}catch(Exception ex){
-	 	    		Log.e("SMSPreferenceActivity() Customize Button ERROR: " + ex.toString());
+	 	    		Log.e(_context, "SMSPreferenceActivity() Customize Button ERROR: " + ex.toString());
 	 	    		return false;
 		    	}
         	}

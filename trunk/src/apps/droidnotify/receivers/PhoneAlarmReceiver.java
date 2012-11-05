@@ -33,12 +33,12 @@ public class PhoneAlarmReceiver extends BroadcastReceiver {
 	 */
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		_debug = Log.getDebug();
-		if (_debug) Log.v("PhoneAlarmReceiver.onReceive()");
+		_debug = Log.getDebug(context);
+		if (_debug) Log.v(context, "PhoneAlarmReceiver.onReceive()");
 		try{
 			WakefulIntentService.sendWakefulWork(context, new Intent(context, PhoneAlarmBroadcastReceiverService.class));
 		}catch(Exception ex){
-			Log.e("PhoneAlarmReceiver.onReceive() ERROR: " + ex.toString());
+			Log.e(context, "PhoneAlarmReceiver.onReceive() ERROR: " + ex.toString());
 		}
 	}
 

@@ -25,7 +25,6 @@ public class SMSStatusBarNotificationsPreferenceActivity extends PreferenceActiv
     // Properties
     //================================================================================
 
-    private boolean _debug = false;
     private Context _context = null;
     private SharedPreferences _preferences = null;
 	
@@ -40,7 +39,6 @@ public class SMSStatusBarNotificationsPreferenceActivity extends PreferenceActiv
 	 * @param key - The String value of the preference Key who's preference value was changed.
 	 */
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-		if (_debug) Log.v("SMSStatusBarNotificationsPreferenceActivity.onSharedPreferenceChanged() Key: " + key);
 		if(key.equals(Constants.SMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY)){
 			updateVibratePreferences();
 		}
@@ -59,8 +57,6 @@ public class SMSStatusBarNotificationsPreferenceActivity extends PreferenceActiv
 	@Override
 	protected void onCreate(Bundle bundle){
 	    super.onCreate(bundle);
-	    _debug = Log.getDebug();
-	    if (_debug) Log.v("SMSStatusBarNotificationsPreferenceActivity.onCreate()");
 	    _context = this;
 	    Common.setApplicationLanguage(_context, this);
 	    _preferences = PreferenceManager.getDefaultSharedPreferences(_context);
@@ -74,7 +70,6 @@ public class SMSStatusBarNotificationsPreferenceActivity extends PreferenceActiv
 	 */
 	@Override
 	protected void onResume(){
-	    if(_debug) Log.v("SMSStatusBarNotificationsPreferenceActivity.onResume()");
 	    super.onResume();
 	    _preferences.registerOnSharedPreferenceChangeListener(this);
 	}
@@ -84,7 +79,6 @@ public class SMSStatusBarNotificationsPreferenceActivity extends PreferenceActiv
 	 */
 	@Override
 	protected void onPause(){
-	    if(_debug) Log.v("SMSStatusBarNotificationsPreferenceActivity.onPause()");
 	    super.onPause();
 	    _preferences.unregisterOnSharedPreferenceChangeListener(this);
 	}
@@ -98,7 +92,6 @@ public class SMSStatusBarNotificationsPreferenceActivity extends PreferenceActiv
 	 */
 	@SuppressWarnings("deprecation")
 	private void updateVibratePreferences(){
-		if (_debug) Log.v("SMSStatusBarNotificationsPreferenceActivity.updateVibratePreferences()");
 		try{
 			ListPreference vibratePatternListPreference = (ListPreference) findPreference(Constants.SMS_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_KEY);
 			CheckBoxPreference vibrateInCallCheckBoxPreference = (CheckBoxPreference) findPreference(Constants.SMS_STATUS_BAR_NOTIFICATIONS_IN_CALL_VIBRATE_ENABLED_KEY);
@@ -110,7 +103,7 @@ public class SMSStatusBarNotificationsPreferenceActivity extends PreferenceActiv
 				if(vibrateInCallCheckBoxPreference != null) vibrateInCallCheckBoxPreference.setEnabled(true);
 			}
 		}catch(Exception ex){
-			Log.e("SMSStatusBarNotificationsPreferenceActivity.updateVibratePreferences() ERROR: " + ex.toString());
+			Log.e(_context, "SMSStatusBarNotificationsPreferenceActivity.updateVibratePreferences() ERROR: " + ex.toString());
 		}
 	}
 	

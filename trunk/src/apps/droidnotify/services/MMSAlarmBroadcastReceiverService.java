@@ -13,12 +13,6 @@ import apps.droidnotify.log.Log;
 import apps.droidnotify.sms.SMSCommon;
 
 public class MMSAlarmBroadcastReceiverService extends WakefulIntentService {
-	
-	//================================================================================
-    // Properties
-    //================================================================================
-	
-	boolean _debug = false;
 
 	//================================================================================
 	// Public Methods
@@ -29,8 +23,6 @@ public class MMSAlarmBroadcastReceiverService extends WakefulIntentService {
 	 */
 	public MMSAlarmBroadcastReceiverService() {
 		super("MMSAlarmBroadcastReceiverService");
-		_debug = Log.getDebug();
-		if (_debug) Log.v("MMSAlarmBroadcastReceiverService.MMSAlarmBroadcastReceiverService()");
 	}
 
 	//================================================================================
@@ -44,13 +36,12 @@ public class MMSAlarmBroadcastReceiverService extends WakefulIntentService {
 	 */
 	@Override
 	protected void doWakefulWork(Intent intent) {
-		if (_debug) Log.v("MMSAlarmBroadcastReceiverService.doWakefulWork()");
+		Context context = getApplicationContext();
 		try{
-			Context context = getApplicationContext();
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 			//Block the notification if it's quiet time.
 			if(Common.isQuietTime(context)){
-				if (_debug) Log.v("MMSAlarmBroadcastReceiverService.doWakefulWork() Quiet Time. Exiting...");
+				Log.e(context, "MMSAlarmBroadcastReceiverService.doWakefulWork() Quiet Time. Exiting...");
 				return;
 			}
 			//Check for a blacklist entry before doing anything else.
@@ -84,7 +75,7 @@ public class MMSAlarmBroadcastReceiverService extends WakefulIntentService {
 		    	if(mmsNotificationBundle != null) Common.rescheduleBlockedNotification(context, callStateIdle, rescheduleNotificationInCall, Constants.NOTIFICATION_TYPE_MMS, mmsNotificationBundle);
 		    }
 		}catch(Exception ex){
-			Log.e("MMSAlarmBroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());
+			Log.e(context, "MMSAlarmBroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());
 		}
 	}
 		

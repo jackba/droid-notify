@@ -18,12 +18,6 @@ import apps.droidnotify.phone.PhoneCommon;
  * @author Camille Sévigny
  */
 public class PhoneAlarmBroadcastReceiverService extends WakefulIntentService {
-	
-	//================================================================================
-    // Properties
-    //================================================================================
-	
-	boolean _debug = false;
 
 	//================================================================================
 	// Public Methods
@@ -34,8 +28,6 @@ public class PhoneAlarmBroadcastReceiverService extends WakefulIntentService {
 	 */
 	public PhoneAlarmBroadcastReceiverService() {
 		super("PhoneAlarmBroadcastReceiverService");
-		_debug = Log.getDebug();
-		if (_debug) Log.v("PhoneAlarmBroadcastReceiverService.PhoneAlarmBroadcastReceiverService()");
 	}
 
 	//================================================================================
@@ -49,13 +41,12 @@ public class PhoneAlarmBroadcastReceiverService extends WakefulIntentService {
 	 */
 	@Override
 	protected void doWakefulWork(Intent intent) {
-		if (_debug) Log.v("PhoneAlarmBroadcastReceiverService.doWakefulWork()");
+		Context context = getApplicationContext();
 		try{
-			Context context = getApplicationContext();
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 			//Block the notification if it's quiet time.
 			if(Common.isQuietTime(context)){
-				if (_debug) Log.v("PhoneAlarmBroadcastReceiverService.doWakefulWork() Quiet Time. Exiting...");
+				Log.e(context, "PhoneAlarmBroadcastReceiverService.doWakefulWork() Quiet Time. Exiting...");
 				return;
 			}
 			//Check for a blacklist entry before doing anything else.
@@ -89,7 +80,7 @@ public class PhoneAlarmBroadcastReceiverService extends WakefulIntentService {
 		    	if(missedCallNotificationBundle != null) Common.rescheduleBlockedNotification(context, callStateIdle, rescheduleNotificationInCall, Constants.NOTIFICATION_TYPE_PHONE, missedCallNotificationBundle);
 		    }
 	    }catch(Exception ex){
-			Log.e("PhoneAlarmBroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());
+			Log.e(context, "PhoneAlarmBroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());
 		}
 	}
 		

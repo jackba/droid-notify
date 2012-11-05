@@ -1,5 +1,6 @@
 package apps.droidnotify.services;
 
+import android.content.Context;
 import android.content.Intent;
 
 import apps.droidnotify.common.Common;
@@ -11,12 +12,6 @@ import apps.droidnotify.log.Log;
  * @author Camille Sévigny
  */
 public class OnBootService extends WakefulIntentService {
-	
-	//================================================================================
-    // Properties
-    //================================================================================
-	
-	private boolean _debug = false;
 
 	//================================================================================
 	// Public Methods
@@ -27,8 +22,6 @@ public class OnBootService extends WakefulIntentService {
 	 */
 	public OnBootService() {
 		super("OnBootBroadcastReceiverService");
-		_debug = Log.getDebug();
-		if (_debug) Log.v("OnBootBroadcastReceiverService.OnBootBroadcastReceiverService()");
 	}
 
 	//================================================================================
@@ -42,11 +35,11 @@ public class OnBootService extends WakefulIntentService {
 	 */
 	@Override
 	protected void doWakefulWork(Intent intent) {
-		if (_debug) Log.v("OnBootBroadcastReceiverService.doWakefulWork()");
+		Context context = this.getApplicationContext();
 		try{
 			Common.startAppAlarms(getApplicationContext());
 		}catch(Exception ex){
-			Log.e("OnBootBroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());
+			Log.e(context, "OnBootBroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());
 		}
 	}
 		

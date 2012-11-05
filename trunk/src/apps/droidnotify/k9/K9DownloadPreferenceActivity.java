@@ -27,7 +27,6 @@ public class K9DownloadPreferenceActivity extends Activity {
     // Properties
     //================================================================================
 
-	private boolean _debug = false;
 	private Context _context = null;
 	private RelativeLayout _buttonRelativeLayout = null;
 	private TextView _contentTextView = null;
@@ -47,8 +46,6 @@ public class K9DownloadPreferenceActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle bundle){
 		super.onCreate(bundle);
-	    _debug = Log.getDebug();
-	    if (_debug) Log.v("K9DownloadPreferenceActivity.onCreate()");
 	    _context = getApplicationContext();
 	    Common.setApplicationLanguage(_context, this);
 	    this.setContentView(R.layout.k9_download_preference_activity);
@@ -61,7 +58,6 @@ public class K9DownloadPreferenceActivity extends Activity {
 	 * @param context - Application context.
 	 */
 	private void initLayoutItems() {
-		if (_debug) Log.v("K9DownloadPreferenceActivity.initLayoutItems()");
 		//Find Views.
 		_buttonRelativeLayout = (RelativeLayout)findViewById(R.id.button_relative_layout);
 		_contentTextView = (TextView)findViewById(R.id.content_text);

@@ -40,20 +40,20 @@ public class ContactsCommon {
 	 * @return Bundle - Returns a Bundle of the contact information.
 	 */ 
 	public static Bundle getContactsInfoByPhoneNumber(Context context, String incomingNumber){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("ContactsCommon.getContactsInfoByPhoneNumber()");
+		_debug = Log.getDebug(context);
+		if (_debug) Log.v(context, "ContactsCommon.getContactsInfoByPhoneNumber()");
 		Bundle contactInfoBundle = new Bundle();
 		long contactID = -1;
 		String contactName = "";
 		long photoID = -1;
 		String lookupKey = "";
 		if (incomingNumber == null) {
-			if (_debug) Log.v("ContactsCommon.getContactsInfoByPhoneNumber() Phone number provided is null. Exiting...");
+			if (_debug) Log.v(context, "ContactsCommon.getContactsInfoByPhoneNumber() Phone number provided is null. Exiting...");
 			return null;
 		}
 		//Exit if the phone number is an email address.
 		if (incomingNumber.contains("@")) {
-			if (_debug) Log.v("ContactsCommon.getContactsInfoByPhoneNumber() Phone number provided appears to be an email address. Exiting...");
+			if (_debug) Log.v(context, "ContactsCommon.getContactsInfoByPhoneNumber() Phone number provided appears to be an email address. Exiting...");
 			return null;
 		}
 		try{
@@ -87,7 +87,7 @@ public class ContactsCommon {
 			if(lookupKey != null) contactInfoBundle.putString(Constants.BUNDLE_LOOKUP_KEY, lookupKey);
 			return contactInfoBundle;
 		}catch(Exception ex){
-			Log.e("ContactsCommon.getContactsInfoByPhoneNumber() ERROR: " + ex.toString());
+			Log.e(context, "ContactsCommon.getContactsInfoByPhoneNumber() ERROR: " + ex.toString());
 			return null;
 		}
 	}
@@ -101,19 +101,19 @@ public class ContactsCommon {
 	 * @return Bundle - Returns a Bundle of the contact information.
 	 */ 
 	public static Bundle getContactsInfoByEmail(Context context, String incomingEmail){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("ContactsCommon.getContactsInfoByEmail()");
+		_debug = Log.getDebug(context);
+		if (_debug) Log.v(context, "ContactsCommon.getContactsInfoByEmail()");
 		Bundle contactInfoBundle = new Bundle();
 		long contactID = -1;
 		String contactName = "";
 		long photoID = -1;
 		String lookupKey = "";
 		if (incomingEmail == null) {
-			if (_debug) Log.v("ContactsCommon.getContactsInfoByEmail() Email provided is null. Exiting...");
+			if (_debug) Log.v(context, "ContactsCommon.getContactsInfoByEmail() Email provided is null. Exiting...");
 			return null;
 		}
 		if (!incomingEmail.contains("@")) {
-			if (_debug) Log.v("ContactsCommon.getContactsInfoByEmail() Email provided does not appear to be a valid email address. Exiting...");
+			if (_debug) Log.v(context, "ContactsCommon.getContactsInfoByEmail() Email provided does not appear to be a valid email address. Exiting...");
 			return null;
 		}
 		try{
@@ -161,7 +161,7 @@ public class ContactsCommon {
 			if(lookupKey != null) contactInfoBundle.putString(Constants.BUNDLE_LOOKUP_KEY, lookupKey);
 			return contactInfoBundle;
 		}catch(Exception ex){
-			Log.e("ContactsCommon.getContactsInfoByEmail() ERROR: " + ex.toString());
+			Log.e(context, "ContactsCommon.getContactsInfoByEmail() ERROR: " + ex.toString());
 			return null;
 		}
 	}
@@ -175,14 +175,14 @@ public class ContactsCommon {
 	 * @return Bundle - Returns a Bundle of the contact information.
 	 */ 
 	public static Bundle getContactsInfoByName(Context context, String incomingName){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("ContactsCommon.getContactsInfoByName() IncomingName: " + incomingName);
+		_debug = Log.getDebug(context);
+		if (_debug) Log.v(context, "ContactsCommon.getContactsInfoByName() IncomingName: " + incomingName);
 		Bundle contactInfoBundle = new Bundle();
 		long contactID = -1;
 		long photoID = -1;
 		String lookupKey = "";
 		if (incomingName == null || incomingName.equals("")) {
-			if (_debug) Log.v("ContactsCommon.getContactsInfoByName() Name provided is null or empty. Exiting...");
+			if (_debug) Log.v(context, "ContactsCommon.getContactsInfoByName() Name provided is null or empty. Exiting...");
 			return null;
 		}
 		try{
@@ -214,7 +214,7 @@ public class ContactsCommon {
 			if(lookupKey != null) contactInfoBundle.putString(Constants.BUNDLE_LOOKUP_KEY, lookupKey);
 			return contactInfoBundle;
 		}catch(Exception ex){
-			Log.e("ContactsCommon.getContactsInfoByName() ERROR: " + ex.toString());
+			Log.e(context, "ContactsCommon.getContactsInfoByName() ERROR: " + ex.toString());
 			return null;
 		}
 	}
@@ -228,14 +228,14 @@ public class ContactsCommon {
 	 * @return Bundle - Returns a Bundle of the contact information.
 	 */ 
 	public static Bundle getContactsInfoByID(Context context, long contactID){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("ContactsCommon.getContactsInfoByID() IncomingID: " + contactID);
+		_debug = Log.getDebug(context);
+		if (_debug) Log.v(context, "ContactsCommon.getContactsInfoByID() IncomingID: " + contactID);
 		Bundle contactInfoBundle = new Bundle();
 		String contactName = "";
 		long photoID = -1;
 		String lookupKey = "";
 		if (contactID <= 0) {
-			if (_debug) Log.v("ContactsCommon.getContactsInfoByID() ID provided is null or empty. Exiting...");
+			if (_debug) Log.v(context, "ContactsCommon.getContactsInfoByID() ID provided is null or empty. Exiting...");
 			return null;
 		}
 		try{
@@ -267,7 +267,7 @@ public class ContactsCommon {
 			if(lookupKey != null) contactInfoBundle.putString(Constants.BUNDLE_LOOKUP_KEY, lookupKey);
 			return contactInfoBundle;
 		}catch(Exception ex){
-			Log.e("ContactsCommon.getContactsInfoByID() ERROR: " + ex.toString());
+			Log.e(context, "ContactsCommon.getContactsInfoByID() ERROR: " + ex.toString());
 			return null;
 		}
 	}	
@@ -281,7 +281,7 @@ public class ContactsCommon {
 	 * @return String[] - Array of phone numbers for this contact. Returns null if no numbers are found.
 	 */
 	public static String[] getContactPhoneNumbers(Context context, Notification notification){
-		if(_debug) Log.v("ContactsCommon.getPhoneNumbers()");	
+		if(_debug) Log.v(context, "ContactsCommon.getPhoneNumbers()");	
 		if(notification.getContactExists()){
 			long contactID = notification.getContactID();
 			Cursor phoneCursor = null;
@@ -298,7 +298,7 @@ public class ContactsCommon {
 						phoneSelectionArgs, 
 						phoneSortOrder); 
 				if(phoneCursor == null){
-					if(_debug) Log.v("ContactsCommon.getPhoneNumbers() PhoneCursor is null. Exiting...");	
+					if(_debug) Log.v(context, "ContactsCommon.getPhoneNumbers() PhoneCursor is null. Exiting...");	
 					return null;
 				}
 				while(phoneCursor.moveToNext()){ 
@@ -401,11 +401,11 @@ public class ContactsCommon {
 				if(phoneNumberArray.size() > 0){
 					return phoneNumberArray.toArray(new String[]{});
 				}else{
-					if(_debug) Log.v("ContactsCommon.getPhoneNumbers() No phone numbers found for this contact.");	
+					if(_debug) Log.v(context, "ContactsCommon.getPhoneNumbers() No phone numbers found for this contact.");	
 					return null;
 				}
 			}catch(Exception ex){
-				Log.e("ContactsCommon.getPhoneNumbers() ERROR: " + ex.toString());
+				Log.e(context, "ContactsCommon.getPhoneNumbers() ERROR: " + ex.toString());
 				if(phoneCursor != null){
 					phoneCursor.close(); 
 				}
@@ -432,8 +432,8 @@ public class ContactsCommon {
 	 * @return boolean - Returns true if the activity can be started.
 	 */
 	public static boolean startContactViewActivity(Context context, NotificationActivity notificationActivity, long contactID, int requestCode){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("ContactsCommon.startContactViewActivity()");
+		_debug = Log.getDebug(context);
+		if (_debug) Log.v(context, "ContactsCommon.startContactViewActivity()");
 		try{
 			if(contactID < 0){
 				Toast.makeText(context, context.getString(R.string.app_android_contact_not_found_error), Toast.LENGTH_LONG).show();
@@ -447,7 +447,7 @@ public class ContactsCommon {
 		    Common.setInLinkedAppFlag(context, true);
 			return true;
 		}catch(Exception ex){
-			Log.e("ContactsCommon.startContactViewActivity() ERROR: " + ex.toString());
+			Log.e(context, "ContactsCommon.startContactViewActivity() ERROR: " + ex.toString());
 			Toast.makeText(context, context.getString(R.string.app_android_contacts_app_error), Toast.LENGTH_LONG).show();
 			Common.setInLinkedAppFlag(context, false);
 			return false;
@@ -465,8 +465,8 @@ public class ContactsCommon {
 	 * @return boolean - Returns true if the activity can be started.
 	 */
 	public static boolean startContactEditActivity(Context context, NotificationActivity notificationActivity, long contactID, int requestCode){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("ContactsCommon.startContactEditActivity()");
+		_debug = Log.getDebug(context);
+		if (_debug) Log.v(context, "ContactsCommon.startContactEditActivity()");
 		try{
 			if(contactID < 0){
 				Toast.makeText(context, context.getString(R.string.app_android_contact_not_found_error), Toast.LENGTH_LONG).show();
@@ -481,7 +481,7 @@ public class ContactsCommon {
 		    Common.setInLinkedAppFlag(context, true);
 			return true;
 		}catch(Exception ex){
-			Log.e("ContactsCommon.startContactEditActivity() ERROR: " + ex.toString());
+			Log.e(context, "ContactsCommon.startContactEditActivity() ERROR: " + ex.toString());
 			Toast.makeText(context, context.getString(R.string.app_android_contacts_app_error), Toast.LENGTH_LONG).show();
 			Common.setInLinkedAppFlag(context, false);
 			return false;
@@ -499,8 +499,8 @@ public class ContactsCommon {
 	 * @return boolean - Returns true if the activity can be started.
 	 */
 	public static boolean startContactAddActivity(Context context, NotificationActivity notificationActivity, String sentFromAddress, int requestCode){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("ContactsCommon.startContactAddActivity()");
+		_debug = Log.getDebug(context);
+		if (_debug) Log.v(context, "ContactsCommon.startContactAddActivity()");
 		try{
 			Intent intent = new Intent(Intent.ACTION_INSERT);
 			intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
@@ -514,7 +514,7 @@ public class ContactsCommon {
 		    Common.setInLinkedAppFlag(context, true);
 			return true;
 		}catch(Exception ex){
-			Log.e("ContactsCommon.startContactAddActivity() ERROR: " + ex.toString());
+			Log.e(context, "ContactsCommon.startContactAddActivity() ERROR: " + ex.toString());
 			Toast.makeText(context, context.getString(R.string.app_android_contacts_app_error), Toast.LENGTH_LONG).show();
 			Common.setInLinkedAppFlag(context, false);
 			return false;

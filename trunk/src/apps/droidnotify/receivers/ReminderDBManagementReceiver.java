@@ -33,12 +33,12 @@ public class ReminderDBManagementReceiver extends BroadcastReceiver {
 	 */
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		_debug = Log.getDebug();
-		if (_debug) Log.v("ReminderDBManagementReceiver.onReceive()");
+		_debug = Log.getDebug(context);
+		if (_debug) Log.v(context, "ReminderDBManagementReceiver.onReceive()");
 		try{
 			WakefulIntentService.sendWakefulWork(context,  new Intent(context, ReminderDBManagementService.class));
 		}catch(Exception ex){
-			Log.e("ReminderDBManagementReceiver.onReceive() ERROR: " + ex.toString());
+			Log.e(context, "ReminderDBManagementReceiver.onReceive() ERROR: " + ex.toString());
 		}
 	}
 	

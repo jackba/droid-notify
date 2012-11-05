@@ -30,7 +30,6 @@ import android.preference.PreferenceManager;
 import apps.droidnotify.R;
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
-import apps.droidnotify.MainApplication;
 
 /**
  * This class logs messages to the Android log file.
@@ -50,10 +49,10 @@ public class Log {
     //================================================================================
 	
 	private static boolean _debug = false;
-	
+
 	private static final boolean _AndroidVersion = true;
 	private static final boolean _AmazonVersion = false;
-	private static final boolean _SamsungVersion = false;	
+	private static final boolean _SamsungVersion = false;
 	private static final boolean _SlideMeVersion = false;
 
 	private static Context _context = null;
@@ -70,17 +69,16 @@ public class Log {
 	 *  
 	 *  @return boolean - Returns true if the log class is set to log entries.
 	 */
-	public static boolean getDebug(){
+	public static boolean getDebug(Context context){
 		try{
-			Context context = MainApplication.getContext();
 			if(context == null){
-				e("Log.getDebug() Context Is Null");
+				android.util.Log.e(Constants.LOGTAG, "Log.getDebug(context) Context Is Null");
 				return _debug;
 			}
 			if(!_debug){
 				SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 				if(preferences == null){
-					e("Log.getDebug() Preferences Are Null");
+					android.util.Log.e(Constants.LOGTAG, "Log.getDebug(context) Preferences Are Null");
 					return _debug;
 				}else{
 					_debug = preferences.getBoolean(Constants.DEBUG, false);
@@ -90,7 +88,7 @@ public class Log {
 				return true;
 			}
 		}catch(Exception ex){
-			e("Log.getDebug() ERROR: " + ex.toString());
+			android.util.Log.e(Constants.LOGTAG, "Log.getDebug(context) ERROR: " + ex.toString());
 			return _debug;
 		}
 	}
@@ -101,7 +99,7 @@ public class Log {
 	 *  @param debug - The value we want to set the debug flag to.
 	 */
 	public static void setDebug(boolean debug){
-		_debug = debug;		
+		_debug = debug;
 	}
 
 	/**
@@ -145,10 +143,10 @@ public class Log {
 	 *  
 	 *  @param msg - Entry to be made to the log file.
 	 */
-	public static void v(String msg) {
+	public static void v(Context context, String msg) {
 		android.util.Log.v(Constants.LOGTAG, msg);
 		if(!appendToExternalLogFile("V", msg)){
-			appendToInternalLogFile("V", msg);
+			appendToInternalLogFile(context, "V", msg);
 		}
 	}
 	
@@ -157,10 +155,10 @@ public class Log {
 	 *  
 	 *  @param msg - Entry to be made to the log file.
 	 */
-	public static void d(String msg) {
+	public static void d(Context context, String msg) {
 		android.util.Log.d(Constants.LOGTAG, msg);
 		if(!appendToExternalLogFile("D", msg)){
-			appendToInternalLogFile("D", msg);
+			appendToInternalLogFile(context, "D", msg);
 		}
 	}	
 	
@@ -169,10 +167,10 @@ public class Log {
 	 *  
 	 *  @param msg - Entry to be made to the log file.
 	 */
-	public static void i(String msg) {
+	public static void i(Context context, String msg) {
 		android.util.Log.i(Constants.LOGTAG, msg);
 		if(!appendToExternalLogFile("I", msg)){
-			appendToInternalLogFile("I", msg);
+			appendToInternalLogFile(context, "I", msg);
 		}
 	}
 	
@@ -181,10 +179,10 @@ public class Log {
 	 *  
 	 *  @param msg - Entry to be made to the log file.
 	 */
-	public static void w(String msg) {
+	public static void w(Context context, String msg) {
 		android.util.Log.w(Constants.LOGTAG, msg);
 		if(!appendToExternalLogFile("W", msg)){
-			appendToInternalLogFile("W", msg);
+			appendToInternalLogFile(context, "W", msg);
 		}
 	}
 	
@@ -193,10 +191,10 @@ public class Log {
 	 *  
 	 *  @param msg - Entry to be made to the log file.
 	 */
-	public static void e(String msg) {
+	public static void e(Context context, String msg) {
 		android.util.Log.e(Constants.LOGTAG, msg);
 		if(!appendToExternalLogFile("E", msg)){
-			appendToInternalLogFile("E", msg);
+			appendToInternalLogFile(context, "E", msg);
 		}
 	}
 	
@@ -251,10 +249,10 @@ public class Log {
      * @param msg - The message to append to the log file.
      */
     @SuppressLint("WorldReadableFiles")
-    private static boolean appendToInternalLogFile(String level, String msg){
-    	_context = MainApplication.getContext();
+	private static boolean appendToInternalLogFile(Context context, String level, String msg){
     	try{
-    		FileOutputStream fileOutputStream = _context.openFileOutput("Log.txt", Context.MODE_WORLD_READABLE | Context.MODE_APPEND);
+        	_context = context;
+    		FileOutputStream fileOutputStream = context.openFileOutput("Log.txt", Context.MODE_WORLD_READABLE | Context.MODE_APPEND);
     		String logString = level + " - " + new SimpleDateFormat().format(System.currentTimeMillis()) + " - " + Constants.LOGTAG + " - " + msg + "\n";
     		fileOutputStream.write(logString.getBytes());
     		fileOutputStream.close();
@@ -264,7 +262,7 @@ public class Log {
 			return false;
 		}
     }
-    
+	
     /**
      * Append text to the log file being kept on the SD card.
      * 
@@ -303,7 +301,7 @@ public class Log {
 	/**
 	 * Shrink the log file if it's too large.
 	 */
-	private static void shrinkLogFile(){		
+	private static void shrinkLogFile(){
 		if(!readExternalStorage()){
 			return;
 		}
@@ -407,13 +405,13 @@ public class Log {
 	    	sendEmailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 	    	sendEmailIntent.setType("plain/text");
 	    	sendEmailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {"droidnotify@gmail.com"});
-	    	sendEmailIntent.putExtra(Intent.EXTRA_SUBJECT, "Droid Notify Lite - Debug Logs");
+	    	sendEmailIntent.putExtra(Intent.EXTRA_SUBJECT, "Droid Notify Pro - Debug Logs");
 			sendEmailIntent.putExtra(Intent.EXTRA_TEXT, _context.getString(R.string.log_file_device_info, Common.getApplicationVersion(_context), Build.MODEL, Build.VERSION.RELEASE, Build.DISPLAY) + "\n\nThe application logs are attached.");
 	    	ArrayList<Uri> uris = new ArrayList<Uri>();
 	    	
 	    	//Try to get the external storage logs.
-	    	if(readExternalStorage()){	    		
-	    	
+	    	if(readExternalStorage()){
+
 		    	File externalLogFilePath = Environment.getExternalStoragePublicDirectory("DroidNotify/Log");
 		    	File externalLogFile = new File(externalLogFilePath, "DroidNotifyLog.txt");
 		    	if(externalLogFile.exists()){
@@ -439,9 +437,9 @@ public class Log {
 	    	if(internalPeferencesFile.exists()){
 	    		uris.add(Uri.fromFile(internalPeferencesFile));
 	    	}
-	    	
-	    	sendEmailIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
-	    	
+
+     		sendEmailIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
+     		
     		try{
     			_context.startActivity(sendEmailIntent);
     		}catch(Exception ex){

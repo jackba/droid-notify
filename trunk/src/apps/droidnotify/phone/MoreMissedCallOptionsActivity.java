@@ -22,7 +22,6 @@ public class MoreMissedCallOptionsActivity extends Activity {
     // Properties
     //================================================================================
 
-	private boolean _debug = false;
 	private Context _context = null;
 	private TextView _descriptionTextView = null;
 	private ImageView _buttonDividerImageView = null;
@@ -40,8 +39,6 @@ public class MoreMissedCallOptionsActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle bundle){
 		super.onCreate(bundle);
-	    _debug = Log.getDebug();
-	    if (_debug) Log.v("MissedCallMessengerActivity.onCreate()");
 	    _context = getApplicationContext();
 	    Common.setApplicationLanguage(_context, this);
 	    this.setContentView(R.layout.more_missed_call_options_activity);
@@ -54,7 +51,6 @@ public class MoreMissedCallOptionsActivity extends Activity {
 	 * @param context - Application context.
 	 */
 	private void initLayoutItems() {
-		if (_debug) Log.v("MissedCallMessengerActivity.initLayoutItems()");
 		//Button Divider
 		_buttonDividerImageView = (ImageView)findViewById(R.id.button_divider_below);
 		//Description	
@@ -63,8 +59,7 @@ public class MoreMissedCallOptionsActivity extends Activity {
 		_descriptionTextView.setText(Html.fromHtml(descriptionText.replace("&lt;", "<")));
 		//Setup Button
 		_buttonTextView = (TextView)findViewById(R.id.button);
-		_buttonTextView.setBackgroundResource(R.drawable.preference_row_click);
-		
+		_buttonTextView.setBackgroundResource(R.drawable.preference_row_click);		
 		final String upgradeURL;
 		boolean displayUpgradeButton = false;
 		if(Log.getAndroidVersion()){

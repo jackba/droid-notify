@@ -11,12 +11,6 @@ import apps.droidnotify.log.Log;
 import apps.droidnotify.receivers.K9AlarmReceiver;
 
 public class K9BroadcastReceiverService extends WakefulIntentService {
-	
-	//================================================================================
-    // Properties
-    //================================================================================
-	
-	boolean _debug = false;
 
 	//================================================================================
 	// Public Methods
@@ -27,8 +21,6 @@ public class K9BroadcastReceiverService extends WakefulIntentService {
 	 */
 	public K9BroadcastReceiverService() {
 		super("K9BroadcastReceiverService");
-		_debug = Log.getDebug();
-		if (_debug) Log.v("K9BroadcastReceiverService.K9BroadcastReceiverService()");
 	}
 
 	//================================================================================
@@ -42,16 +34,14 @@ public class K9BroadcastReceiverService extends WakefulIntentService {
 	 */
 	@Override
 	protected void doWakefulWork(Intent intent) {
-		if (_debug) Log.v("K9BroadcastReceiverService.doWakefulWork()");
+		Context context = getApplicationContext();
 		try{
-			Context context = getApplicationContext();
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 			//Block the notification if it's quiet time.
 			if(Common.isQuietTime(context)){
-				if (_debug) Log.v("K9BroadcastReceiverService.doWakefulWork() Quiet Time. Exiting...");
+				Log.e(context, "K9BroadcastReceiverService.doWakefulWork() Quiet Time. Exiting...");
 				return;
 			}
-			if (_debug) Log.v("K9BroadcastReceiverService.doWakefulWork() IntentAction: " + intent.getAction());
 			//Schedule task x seconds after the broadcast.
 			//This time is set by the users advanced preferences. 1 seconds is the default value.
 			//This should allow enough time to pass for the email db to be written to.
@@ -60,7 +50,7 @@ public class K9BroadcastReceiverService extends WakefulIntentService {
 			long alarmTime = System.currentTimeMillis() + timeoutInterval;
 			Common.startAlarm(context, K9AlarmReceiver.class, intent.getExtras(), intentActionText, alarmTime);
 		}catch(Exception ex){
-			Log.e("K9BroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());
+			Log.e(context, "K9BroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());
 		}
 	}
 		

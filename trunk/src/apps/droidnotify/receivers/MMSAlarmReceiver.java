@@ -33,12 +33,12 @@ public class MMSAlarmReceiver extends BroadcastReceiver {
 	 */
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		_debug = Log.getDebug();
-		if (_debug) Log.v("MMSAlarmReceiver.onReceive()");
+		_debug = Log.getDebug(context);
+		if (_debug) Log.v(context, "MMSAlarmReceiver.onReceive()");
 		try{
 			WakefulIntentService.sendWakefulWork(context, new Intent(context, MMSAlarmBroadcastReceiverService.class));
 		}catch(Exception ex){
-			Log.e("MMSAlarmReceiver.onReceive() ERROR: " + ex.toString());
+			Log.e(context, "MMSAlarmReceiver.onReceive() ERROR: " + ex.toString());
 		}
 	}
 

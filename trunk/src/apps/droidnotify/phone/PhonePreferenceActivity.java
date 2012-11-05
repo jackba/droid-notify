@@ -23,7 +23,6 @@ public class PhonePreferenceActivity extends PreferenceActivity{
     // Properties
     //================================================================================
 
-    private boolean _debug = false;
     private Context _context = null;
 	
 	//================================================================================
@@ -39,8 +38,6 @@ public class PhonePreferenceActivity extends PreferenceActivity{
 	@Override
 	protected void onCreate(Bundle bundle){
 	    super.onCreate(bundle);
-	    _debug = Log.getDebug();
-	    if (_debug) Log.v("PhonePreferenceActivity.onCreate()");
 	    _context = this;
 	    Common.setApplicationLanguage(_context, this);
 	    this.addPreferencesFromResource(R.xml.missed_calls_preferences);
@@ -57,7 +54,6 @@ public class PhonePreferenceActivity extends PreferenceActivity{
 	 */
 	@SuppressWarnings("deprecation")
 	private void setupCustomPreferences(){
-	    if (_debug) Log.v("PhonePreferenceActivity.setupCustomPreferences()");
 		//Status Bar Notification Settings Preference/Button
 		Preference statusBarNotificationSettingsPref = (Preference)findPreference(Constants.SETTINGS_STATUS_BAR_NOTIFICATIONS_PREFERENCE);
 		statusBarNotificationSettingsPref.setOnPreferenceClickListener(new OnPreferenceClickListener(){
@@ -66,7 +62,7 @@ public class PhonePreferenceActivity extends PreferenceActivity{
 		    		startActivity(new Intent(_context, PhoneStatusBarNotificationsPreferenceActivity.class));
 		    		return true;
 		    	}catch(Exception ex){
-	 	    		Log.e("PhonePreferenceActivity() Status Bar Notifications Button ERROR: " + ex.toString());
+	 	    		Log.e(_context, "PhonePreferenceActivity() Status Bar Notifications Button ERROR: " + ex.toString());
 	 	    		return false;
 		    	}
         	}
@@ -79,7 +75,7 @@ public class PhonePreferenceActivity extends PreferenceActivity{
 		    		startActivity(new Intent(_context, PhoneCustomizePreferenceActivity.class));
 		    		return true;
 		    	}catch(Exception ex){
-	 	    		Log.e("PhonePreferenceActivity() Customize Button ERROR: " + ex.toString());
+	 	    		Log.e(_context, "PhonePreferenceActivity() Customize Button ERROR: " + ex.toString());
 	 	    		return false;
 		    	}
         	}
@@ -92,7 +88,7 @@ public class PhonePreferenceActivity extends PreferenceActivity{
 		    		if(Common.packageExists(_context, "com.missedcallmessenger.pro")){
 		    			Intent intent = _context.getPackageManager().getLaunchIntentForPackage("com.missedcallmessenger.pro");
 		    			if(intent == null){
-		    				if (_debug) Log.v("PhonePreferenceActivity() More Options Button - Launching 'com.missedcallmessenger.pro' Failed. Exiting...");
+		    				Log.e(_context, "PhonePreferenceActivity() More Options Button - Launching 'com.missedcallmessenger.pro' Failed. Exiting...");
 		    				return false;
 		    			}
 		    			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -100,7 +96,7 @@ public class PhonePreferenceActivity extends PreferenceActivity{
 		    		}else if(Common.packageExists(_context, "com.missedcallmessenger.lite")){
 		    			Intent intent = _context.getPackageManager().getLaunchIntentForPackage("com.missedcallmessenger.lite");
 		    			if(intent == null){
-		    				if (_debug) Log.v("PhonePreferenceActivity() More Options Button - Launching 'com.missedcallmessenger.lite' Failed. Exiting...");
+		    				Log.e(_context, "PhonePreferenceActivity() More Options Button - Launching 'com.missedcallmessenger.lite' Failed. Exiting...");
 		    				return false;
 		    			}
 		    			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -110,7 +106,7 @@ public class PhonePreferenceActivity extends PreferenceActivity{
 		    		}
 		    		return true;
 		    	}catch(Exception ex){
-	 	    		Log.e("PhonePreferenceActivity() More Options Button ERROR: " + ex.toString());
+		    		Log.e(_context, "PhonePreferenceActivity() More Options Button ERROR: " + ex.toString());
 	 	    		return false;
 		    	}
         	}

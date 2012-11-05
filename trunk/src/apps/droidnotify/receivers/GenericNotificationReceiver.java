@@ -32,18 +32,18 @@ public class GenericNotificationReceiver extends BroadcastReceiver {
 	 */
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		_debug = Log.getDebug();
-		if (_debug) Log.v("GenericNotificationReceiver.onReceive()");
+		_debug = Log.getDebug(context);
+		if (_debug) Log.v(context, "GenericNotificationReceiver.onReceive()");
 		try{	
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 			//Read preferences and exit if app is disabled.
 		    if(!preferences.getBoolean(Constants.APP_ENABLED_KEY, true)){
-				if (_debug) Log.v("GenericNotificationReceiver.onReceive() App Disabled. Exiting...");
+				if (_debug) Log.v(context, "GenericNotificationReceiver.onReceive() App Disabled. Exiting...");
 				return;
 			}
 			//Read preferences and exit if Generic notifications are disabled.
 		    if(!preferences.getBoolean(Constants.GENERIC_NOTIFICATIONS_ENABLED_KEY, true)){
-				if (_debug) Log.v("GenericNotificationReceiver.onReceive() Generic Notifications Disabled. Exiting...");
+				if (_debug) Log.v(context, "GenericNotificationReceiver.onReceive() Generic Notifications Disabled. Exiting...");
 				return;
 			}	
 			Intent genericNotificaitonIntent = new Intent(context, GenericNotificationService.class);
@@ -51,7 +51,7 @@ public class GenericNotificationReceiver extends BroadcastReceiver {
 			genericNotificaitonIntent.putExtra(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_GENERIC);
 			WakefulIntentService.sendWakefulWork(context, genericNotificaitonIntent);
 		}catch(Exception ex){
-			Log.e("GenericNotificationReceiver.onReceive() ERROR: " + ex.toString());
+			Log.e(context, "GenericNotificationReceiver.onReceive() ERROR: " + ex.toString());
 		}
 	}
 	

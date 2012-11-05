@@ -13,12 +13,6 @@ import apps.droidnotify.calendar.CalendarCommon;
 import apps.droidnotify.common.Constants;
 
 public class OnUpdateService extends WakefulIntentService {
-	
-	//================================================================================
-    // Properties
-    //================================================================================
-	
-	private boolean _debug = false;
 
 	//================================================================================
 	// Public Methods
@@ -29,8 +23,6 @@ public class OnUpdateService extends WakefulIntentService {
 	 */
 	public OnUpdateService() {
 		super("OnUpdateService.OnUpdateService()");
-		_debug = Log.getDebug();
-		if (_debug) Log.v("OnUpdateService.OnUpdateService()");
 	}
 
 	//================================================================================
@@ -44,9 +36,8 @@ public class OnUpdateService extends WakefulIntentService {
 	 */
 	@Override
 	protected void doWakefulWork(Intent intent){
-		if (_debug) Log.v("OnUpdateService.doWakefulWork()");
+		Context context = getApplicationContext();
 		try{
-			Context context = getApplicationContext();
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 			if(!preferences.getBoolean(Constants.CALENDAR_NOTIFICATIONS_ENABLED_KEY, false)){
 				//Cancel the Calendar recurring alarm.
@@ -63,7 +54,7 @@ public class OnUpdateService extends WakefulIntentService {
 			//Start Reminder DB Cleanup Alarms
 			ReminderCommon.startReminderDBManagementAlarmManager(context, System.currentTimeMillis() + (5 * 60 * 1000));
 		}catch(Exception ex){
-			Log.e("OnUpdateService.doWakefulWork() ERROR: " + ex.toString());
+			Log.e(context, "OnUpdateService.doWakefulWork() ERROR: " + ex.toString());
 		}
 	}
 	

@@ -19,7 +19,6 @@ public class BasicPreferenceActivity extends PreferenceActivity{
     // Properties
     //================================================================================
 
-    private boolean _debug = false;
     private Context _context = null;
 	
 	//================================================================================
@@ -35,8 +34,6 @@ public class BasicPreferenceActivity extends PreferenceActivity{
 	@Override
 	protected void onCreate(Bundle bundle){
 	    super.onCreate(bundle);
-	    _debug = Log.getDebug();
-	    if (_debug) Log.v("BasicPreferenceActivity.onCreate()");
 	    _context = this;
 	    Common.setApplicationLanguage(_context, this);
 	    this.addPreferencesFromResource(R.xml.basic_preferences);
@@ -53,7 +50,6 @@ public class BasicPreferenceActivity extends PreferenceActivity{
 	 */
 	@SuppressWarnings("deprecation")
 	private void setupCustomPreferences(){
-	    if (_debug) Log.v("BasicPreferenceActivity.setupCustomPreferences()");
 		//Reschedule Preference/Button
 		Preference reschedulePref = (Preference)findPreference("reschedule_preference");
 		reschedulePref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
@@ -62,7 +58,7 @@ public class BasicPreferenceActivity extends PreferenceActivity{
 		    		startActivity(new Intent(_context, ReschedulePreferenceActivity.class));
 		    		return true;
 		    	}catch(Exception ex){
-	 	    		Log.e("BasicPreferenceActivity() Reschedule Button ERROR: " + ex.toString());
+	 	    		Log.e(_context, "BasicPreferenceActivity() Reschedule Button ERROR: " + ex.toString());
 	 	    		return false;
 		    	}
         	}
@@ -75,7 +71,7 @@ public class BasicPreferenceActivity extends PreferenceActivity{
 		    		startActivity(new Intent(_context, RemindersPreferenceActivity.class));
 		    		return true;
 		    	}catch(Exception ex){
-	 	    		Log.e("BasicPreferenceActivity() Reminders Button ERROR: " + ex.toString());
+	 	    		Log.e(_context, "BasicPreferenceActivity() Reminders Button ERROR: " + ex.toString());
 	 	    		return false;
 		    	}
         	}
@@ -88,7 +84,7 @@ public class BasicPreferenceActivity extends PreferenceActivity{
 		    		startActivity(new Intent(_context, QuietTimePreferenceActivity.class));
 		    		return true;
 		    	}catch(Exception ex){
-	 	    		Log.e("BasicPreferenceActivity() Quiet Time Button ERROR: " + ex.toString());
+	 	    		Log.e(_context, "BasicPreferenceActivity() Quiet Time Button ERROR: " + ex.toString());
 	 	    		return false;
 		    	}
         	}
@@ -101,7 +97,7 @@ public class BasicPreferenceActivity extends PreferenceActivity{
 		    		startActivity(new Intent(_context, QuickReplyPreferenceActivity.class));
 		    		return true;
 		    	}catch(Exception ex){
-	 	    		Log.e("BasicPreferenceActivity() Quick Reply Button ERROR: " + ex.toString());
+	 	    		Log.e(_context, "BasicPreferenceActivity() Quick Reply Button ERROR: " + ex.toString());
 	 	    		return false;
 		    	}
         	}
@@ -114,7 +110,7 @@ public class BasicPreferenceActivity extends PreferenceActivity{
 		    		startActivity(new Intent(_context, BlockingAppsPreferenceActivity.class));
 		    		return true;
 		    	}catch(Exception ex){
-	 	    		Log.e("BasicPreferenceActivity() Blocking Apps Button ERROR: " + ex.toString());
+	 	    		Log.e(_context, "BasicPreferenceActivity() Blocking Apps Button ERROR: " + ex.toString());
 	 	    		return false;
 		    	}
         	}
@@ -131,7 +127,7 @@ public class BasicPreferenceActivity extends PreferenceActivity{
 		    		startActivity(upgradeActivityIntent);
 		    		return true;
 		    	}catch(Exception ex){
-	 	    		Log.e("BasicPreferenceActivity() Customize Contacts Button ERROR: " + ex.toString());
+	 	    		Log.e(_context, "BasicPreferenceActivity() Customize Contacts Button ERROR: " + ex.toString());
 	 	    		return false;
 		    	}
         	}
@@ -148,7 +144,7 @@ public class BasicPreferenceActivity extends PreferenceActivity{
 		    		startActivity(upgradeActivityIntent);
 		    		return true;
 		    	}catch(Exception ex){
-	 	    		Log.e("BasicPreferenceActivity() Blacklist Button ERROR: " + ex.toString());
+	 	    		Log.e(_context, "BasicPreferenceActivity() Blacklist Button ERROR: " + ex.toString());
 	 	    		return false;
 		    	}
         	}

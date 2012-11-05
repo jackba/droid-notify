@@ -23,7 +23,6 @@ public class CustomizePreferenceActivity extends PreferenceActivity{
     // Properties
     //================================================================================
 
-	private boolean _debug = false;
 	private Context _context = null;
 	private SharedPreferences _preferences = null;
 	
@@ -40,8 +39,6 @@ public class CustomizePreferenceActivity extends PreferenceActivity{
 	@Override
 	protected void onCreate(Bundle bundle){
 	    super.onCreate(bundle);
-	    _debug = Log.getDebug();
-	    if (_debug) Log.v("CustomizePreferenceActivity.onCreate()");
 	    _context = this;
 	    _preferences = PreferenceManager.getDefaultSharedPreferences(_context);
 	    Common.setApplicationLanguage(_context, this);
@@ -59,7 +56,6 @@ public class CustomizePreferenceActivity extends PreferenceActivity{
 	 */
 	@SuppressWarnings("deprecation")
 	private void setupCustomPreferences(){
-	    if (_debug) Log.v("CustomizePreferenceActivity.setupCustomPreferences()");
 		//Notification Preview Preference/Button
 		Preference previewPref = (Preference)findPreference("notification_preview_preference");
 		previewPref.setOnPreferenceClickListener(new OnPreferenceClickListener(){
@@ -69,7 +65,7 @@ public class CustomizePreferenceActivity extends PreferenceActivity{
 		    		runNotificationPreviews();
 		    		return true;
 		    	}catch(Exception ex){
-	 	    		Log.e("CustomizePreferenceActivity() Notification Preview Button ERROR: " + ex.toString());
+	 	    		Log.e(_context, "CustomizePreferenceActivity() Notification Preview Button ERROR: " + ex.toString());
 	 	    		return false;
 		    	}
         	}
@@ -82,7 +78,7 @@ public class CustomizePreferenceActivity extends PreferenceActivity{
 		    		startActivity(new Intent(_context, ThemePreferenceActivity.class));
 		    		return true;
 		    	}catch(Exception ex){
-	 	    		Log.e("CustomizePreferenceActivity() Theme Button ERROR: " + ex.toString());
+	 	    		Log.e(_context, "CustomizePreferenceActivity() Theme Button ERROR: " + ex.toString());
 	 	    		return false;
 		    	}
         	}

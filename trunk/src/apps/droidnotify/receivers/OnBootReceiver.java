@@ -37,18 +37,18 @@ public class OnBootReceiver extends BroadcastReceiver {
 	 */
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		_debug = Log.getDebug();
-		if (_debug) Log.v("OnBootReceiver.onReceive()");
+		_debug = Log.getDebug(context);
+		if (_debug) Log.v(context, "OnBootReceiver.onReceive()");
 		try{
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 			//Read preferences and exit if app is disabled.
 		    if(!preferences.getBoolean(Constants.APP_ENABLED_KEY, true)){
-				if (_debug) Log.v("OnBootReceiver.onReceive() App Disabled. Exiting...");
+				if (_debug) Log.v(context, "OnBootReceiver.onReceive() App Disabled. Exiting...");
 				return;
 			}
 			WakefulIntentService.sendWakefulWork(context, new Intent(context, OnBootService.class));
 		}catch(Exception ex){
-			Log.e("OnBootReceiver.onReceive() ERROR: " + ex.toString());
+			Log.e(context, "OnBootReceiver.onReceive() ERROR: " + ex.toString());
 		}
 	}
 

@@ -3,7 +3,6 @@ package apps.droidnotify.services;
 import android.content.Intent;
 
 import apps.droidnotify.calendar.CalendarCommon;
-import apps.droidnotify.log.Log;
 
 /**
  * This class handles the checking of the users calendars.
@@ -12,12 +11,6 @@ import apps.droidnotify.log.Log;
  *
  */
 public class CalendarAlarmReceiverService extends WakefulIntentService {
-    
-	//================================================================================
-    // Properties
-    //================================================================================
-
-	private boolean _debug = false;
 	
 	//================================================================================
 	// Public Methods
@@ -28,8 +21,6 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
 	 */
 	public CalendarAlarmReceiverService() {
 		super("CalendarAlarmReceiverService");
-		_debug = Log.getDebug();
-		if (_debug) Log.v("CalendarAlarmReceiverService.CalendarAlarmReceiverService()");
 	}
 
 	//================================================================================
@@ -43,7 +34,6 @@ public class CalendarAlarmReceiverService extends WakefulIntentService {
 	 */
 	@Override
 	protected void doWakefulWork(Intent intent) {
-		if (_debug) Log.v("CalendarAlarmReceiverService.doWakefulWork()");
 		//Read the users calendar(s) and events.
 		CalendarCommon.readCalendars(getApplicationContext());
 	}

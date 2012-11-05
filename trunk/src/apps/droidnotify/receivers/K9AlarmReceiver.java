@@ -32,15 +32,15 @@ public class K9AlarmReceiver extends BroadcastReceiver {
 	 */
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		_debug = Log.getDebug();;
-		if (_debug) Log.v("K9AlarmReceiver.onReceive()");
+		_debug = Log.getDebug(context);;
+		if (_debug) Log.v(context, "K9AlarmReceiver.onReceive()");
 		try{
 			Intent k9AlarmBroadcastReceiverServiceIntent = new Intent(context, K9AlarmBroadcastReceiverService.class);
 		    k9AlarmBroadcastReceiverServiceIntent.putExtras(intent.getExtras());
 		    k9AlarmBroadcastReceiverServiceIntent.setAction(intent.getAction());
 			WakefulIntentService.sendWakefulWork(context, k9AlarmBroadcastReceiverServiceIntent);
 		}catch(Exception ex){
-			Log.e("K9AlarmReceiver.onReceive() ERROR: " + ex.toString());
+			Log.e(context, "K9AlarmReceiver.onReceive() ERROR: " + ex.toString());
 		}
 	}
 

@@ -37,13 +37,13 @@ public class RescheduleReceiver extends BroadcastReceiver{
 	 */
 	@Override
 	public void onReceive(Context context, Intent intent){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("RescheduleReceiver.onReceive()");
+		_debug = Log.getDebug(context);
+		if (_debug) Log.v(context, "RescheduleReceiver.onReceive()");
 		try{
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 			//Read preferences and exit if app is disabled.
 		    if(!preferences.getBoolean(Constants.APP_ENABLED_KEY, true)){
-				if (_debug) Log.v("RescheduleReceiver.onReceive() App Disabled. Exiting...");
+				if (_debug) Log.v(context, "RescheduleReceiver.onReceive() App Disabled. Exiting...");
 				return;
 			}
 			Intent rescheduleBroadcastReceiverServiceIntent = new Intent(context, RescheduleService.class);
@@ -52,7 +52,7 @@ public class RescheduleReceiver extends BroadcastReceiver{
 		    rescheduleBroadcastReceiverServiceIntent.putExtras(intent.getExtras());
 			WakefulIntentService.sendWakefulWork(context, rescheduleBroadcastReceiverServiceIntent);
 		}catch(Exception ex){
-			Log.e("RescheduleReceiver.onReceive() ERROR: " + ex.toString());
+			Log.e(context, "RescheduleReceiver.onReceive() ERROR: " + ex.toString());
 		}
 	}
 

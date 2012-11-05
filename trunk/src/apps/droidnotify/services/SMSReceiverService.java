@@ -18,12 +18,6 @@ import apps.droidnotify.sms.SMSCommon;
  * @author Camille Sévigny
  */
 public class SMSReceiverService extends WakefulIntentService {
-	
-	//================================================================================
-    // Properties
-    //================================================================================
-	
-	boolean _debug = false;
 
 	//================================================================================
 	// Public Methods
@@ -34,8 +28,6 @@ public class SMSReceiverService extends WakefulIntentService {
 	 */
 	public SMSReceiverService() {
 		super("SMSBroadcastReceiverService");
-		_debug = Log.getDebug();
-		if (_debug) Log.v("SMSBroadcastReceiverService.SMSBroadcastReceiverService()");
 	}
 
 	//================================================================================
@@ -49,13 +41,12 @@ public class SMSReceiverService extends WakefulIntentService {
 	 */
 	@Override
 	protected void doWakefulWork(Intent intent) {
-		if (_debug) Log.v("SMSBroadcastReceiverService.doWakefulWork()");
+		Context context = getApplicationContext();
 		try{
-			Context context = getApplicationContext();
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 			//Block the notification if it's quiet time.
 			if(Common.isQuietTime(context)){
-				if (_debug) Log.v("SMSBroadcastReceiverService.doWakefulWork() Quiet Time. Exiting...");
+				Log.e(context, "SMSBroadcastReceiverService.doWakefulWork() Quiet Time. Exiting...");
 				return;
 			}
 			//Check for a blacklist entry before doing anything else.
@@ -92,7 +83,7 @@ public class SMSReceiverService extends WakefulIntentService {
 		    	if(smsNotificationBundle != null) Common.rescheduleBlockedNotification(context, callStateIdle, rescheduleNotificationInCall, Constants.NOTIFICATION_TYPE_SMS, smsNotificationBundle);
 		    }
 		}catch(Exception ex){
-			Log.e("SMSBroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());
+			Log.e(context, "SMSBroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());
 		}
 	}
 		

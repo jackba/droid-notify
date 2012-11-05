@@ -25,7 +25,6 @@ public class AddOnsActivity extends Activity {
     // Properties
     //================================================================================
 
-	private boolean _debug = false;
 	private Context _context = null;
 	private TextView _contentTextView = null;
 	private TextView _buttonTextView = null;
@@ -42,8 +41,6 @@ public class AddOnsActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle bundle){
 		super.onCreate(bundle);
-	    _debug = Log.getDebug();
-	    if (_debug) Log.v("UpgradePreferenceActivity.onCreate()");
 	    _context = getApplicationContext();
 	    Common.setApplicationLanguage(_context, this);
 	    this.setContentView(R.layout.add_ons_activity);
@@ -56,7 +53,6 @@ public class AddOnsActivity extends Activity {
 	 * @param context - Application context.
 	 */
 	private void initLayoutItems() {
-		if (_debug) Log.v("AddOnsActivity.initLayoutItems()");
 		//Find Views.
 		_contentTextView = (TextView)findViewById(R.id.content_text);
 		_buttonTextView = (TextView)findViewById(R.id.button);

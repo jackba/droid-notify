@@ -9,7 +9,6 @@ import android.preference.ListPreference;
 import android.util.AttributeSet;
 import android.widget.Toast;
 
-import apps.droidnotify.log.Log;
 import apps.droidnotify.R;
 
 /**
@@ -24,8 +23,7 @@ public class SelectCalendarListPreference extends ListPreference {
 	//================================================================================
     // Properties
     //================================================================================
-	
-	private boolean _debug = false;
+
     private Context _context = null;
     private boolean[] _clickedDialogEntryIndices = null;
 
@@ -40,8 +38,6 @@ public class SelectCalendarListPreference extends ListPreference {
      */
     public SelectCalendarListPreference(Context context) {
         this(context, null);
-        _debug = Log.getDebug();
-        if (_debug) Log.v("SelectCalendarListPreference(Context context)");
         _context = context;
     }
     
@@ -53,8 +49,6 @@ public class SelectCalendarListPreference extends ListPreference {
      */
     public SelectCalendarListPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
-        _debug = Log.getDebug();
-        if (_debug) Log.v("SelectCalendarListPreference(Context context, AttributeSet attrs)");
         _context = context;
     }
  
@@ -70,7 +64,6 @@ public class SelectCalendarListPreference extends ListPreference {
     @Override
     public void setEntries(CharSequence[] entries) {
     	super.setEntries(entries);
-    	if (_debug) Log.v("SelectCalendarListPreference.setEntries()");
     	_clickedDialogEntryIndices = new boolean[entries.length];
     }
  
@@ -82,7 +75,6 @@ public class SelectCalendarListPreference extends ListPreference {
     @Override
     public void setEntryValues(CharSequence[] entryValues) {
     	super.setEntryValues(entryValues);
-    	if (_debug) Log.v("SelectCalendarListPreference.setEntryValues()");
     	_clickedDialogEntryIndices = new boolean[entryValues.length];
     }
     
@@ -94,7 +86,6 @@ public class SelectCalendarListPreference extends ListPreference {
      */
     @Override
     protected void onPrepareDialogBuilder(Builder builder) {
-    	if (_debug) Log.v("SelectCalendarListPreference.onPrepareDialogBuilder()");
     	String availableCalendarsInfo = CalendarCommon.getAvailableCalendars(_context);
     	if(availableCalendarsInfo == null){
     		Toast.makeText(_context, _context.getString(R.string.app_android_calendars_not_found_error), Toast.LENGTH_LONG).show();
@@ -133,7 +124,6 @@ public class SelectCalendarListPreference extends ListPreference {
      * @return String[] - An array of parsed values.
      */
     private String[] parseStoredValue(String value) {
-    	if (_debug) Log.v("SelectCalendarListPreference.parseStoredValue() value: " + value);
     	if(value == null){
     		return null;
     	}else if(value.equals("")){
@@ -147,7 +137,6 @@ public class SelectCalendarListPreference extends ListPreference {
      * Read the stored preference value and set the current ListPreference to the values stored.
      */
     private void restoreCheckedEntries() {
-    	if (_debug) Log.v("SelectCalendarListPreference.restoreCheckedEntries()");
     	CharSequence[] entryValues = getEntryValues();
     	String[] preferenceValues = parseStoredValue(getValue());
     	if (preferenceValues != null) {
@@ -180,7 +169,6 @@ public class SelectCalendarListPreference extends ListPreference {
      */
 	@Override
     protected void onDialogClosed(boolean positiveResult) {
-		if (_debug) Log.v("SelectCalendarListPreference.onDialogClosed()");
     	CharSequence[] entryValues = getEntryValues();
         if (positiveResult && entryValues != null) {
         	StringBuffer value = new StringBuffer();

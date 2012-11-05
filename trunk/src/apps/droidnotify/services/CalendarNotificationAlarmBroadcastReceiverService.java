@@ -18,12 +18,6 @@ import apps.droidnotify.calendar.CalendarCommon;
  * @author Camille Sévigny
  */
 public class CalendarNotificationAlarmBroadcastReceiverService extends WakefulIntentService {
-	
-	//================================================================================
-    // Properties
-    //================================================================================
-	
-	boolean _debug = false;
 
 	//================================================================================
 	// Public Methods
@@ -34,8 +28,6 @@ public class CalendarNotificationAlarmBroadcastReceiverService extends WakefulIn
 	 */
 	public CalendarNotificationAlarmBroadcastReceiverService() {
 		super("CalendarNotificationAlarmBroadcastReceiverService");
-		_debug = Log.getDebug();
-		if (_debug) Log.v("CalendarNotificationAlarmBroadcastReceiverService.CalendarNotificationAlarmBroadcastReceiverService()");
 	}
 
 	//================================================================================
@@ -49,13 +41,12 @@ public class CalendarNotificationAlarmBroadcastReceiverService extends WakefulIn
 	 */
 	@Override
 	protected void doWakefulWork(Intent intent) {
-		if (_debug) Log.v("CalendarNotificationAlarmBroadcastReceiverService.doWakefulWork()");
+		Context context = getApplicationContext();
 		try{
-			Context context = getApplicationContext();
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 			//Block the notification if it's quiet time.
 			if(Common.isQuietTime(context)){
-				if (_debug) Log.v("CalendarNotificationAlarmBroadcastReceiverService.onReceive() Quiet Time. Exiting...");
+				Log.e(context, "CalendarNotificationAlarmBroadcastReceiverService.onReceive() Quiet Time. Exiting...");
 				return;
 			}
 	    	Bundle bundle = intent.getExtras();
@@ -64,22 +55,20 @@ public class CalendarNotificationAlarmBroadcastReceiverService extends WakefulIn
     			Bundle calendarEventNotificationBundleSingle = calendarEventNotificationBundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_1");
     			if(calendarEventNotificationBundleSingle != null){
 				    //Check to ensure that this calendar event should be displayed.
-			    	//if (_debug) Log.v("CalendarNotificationAlarmBroadcastReceiverService.onReceive() CalendarID: " + calendarEventNotificationBundleSingle.getLong(Constants.BUNDLE_CALENDAR_ID));
-			    	//if (_debug) Log.v("CalendarNotificationAlarmBroadcastReceiverService.onReceive() Is Calendar Enabled: " + CalendarCommon.isCalendarEnabled(context, calendarEventNotificationBundleSingle.getLong(Constants.BUNDLE_CALENDAR_ID)));
-				    if(!CalendarCommon.isCalendarEnabled(context, calendarEventNotificationBundleSingle.getLong(Constants.BUNDLE_CALENDAR_ID))){
-						if (_debug) Log.v("CalendarNotificationAlarmBroadcastReceiverService.onReceive() This calendar is not enabled. Exiting... ");
+			    	if(!CalendarCommon.isCalendarEnabled(context, calendarEventNotificationBundleSingle.getLong(Constants.BUNDLE_CALENDAR_ID))){
+						Log.e(context, "CalendarNotificationAlarmBroadcastReceiverService.onReceive() This calendar is not enabled. Exiting... ");
 						return;
 				    }
 				    if(!CalendarCommon.eventExists(context, calendarEventNotificationBundleSingle.getLong(Constants.BUNDLE_CALENDAR_EVENT_ID))){
-				    	if (_debug) Log.v("CalendarNotificationAlarmBroadcastReceiverService.onReceive() Calendar event does not exist. Exiting... ");
+				    	Log.e(context, "CalendarNotificationAlarmBroadcastReceiverService.onReceive() Calendar event does not exist. Exiting... ");
 						return;
 				    }
 	    		}else{
-	    			Log.v("CalendarNotificationAlarmBroadcastReceiverService.onReceive() CalendarEventBundleSingle is null. Exiting... ");
+	    			Log.e(context, "CalendarNotificationAlarmBroadcastReceiverService.onReceive() CalendarEventBundleSingle is null. Exiting... ");
 	    			return;
 	    		}
     		}else{
-    			Log.v("CalendarNotificationAlarmBroadcastReceiverService.onReceive() CalendarEventBundle is null. Exiting... ");
+    			Log.e(context, "CalendarNotificationAlarmBroadcastReceiverService.onReceive() CalendarEventBundle is null. Exiting... ");
     			return;
     		}
 		    //Check the state of the users phone.
@@ -112,7 +101,7 @@ public class CalendarNotificationAlarmBroadcastReceiverService extends WakefulIn
 		    	if(calendarEventNotificationBundle != null) Common.rescheduleBlockedNotification(context, callStateIdle, rescheduleNotificationInCall, Constants.NOTIFICATION_TYPE_CALENDAR, calendarEventNotificationBundle);
 		    }
 		}catch(Exception ex){
-			Log.e("CalendarNotificationAlarmBroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());
+			Log.e(context, "CalendarNotificationAlarmBroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());
 		}
 	}
 		

@@ -5,7 +5,6 @@ import android.preference.PreferenceActivity;
 
 import apps.droidnotify.R;
 import apps.droidnotify.common.Common;
-import apps.droidnotify.log.Log;
 
 /**
  * This is the "K9 Customize" applications preference Activity.
@@ -13,12 +12,6 @@ import apps.droidnotify.log.Log;
  * @author Camille Sévigny
  */
 public class K9CustomizePreferenceActivity extends PreferenceActivity{
-	
-	//================================================================================
-    // Properties
-    //================================================================================
-
-    private boolean _debug = false;
 	
 	//================================================================================
 	// Public Methods
@@ -33,8 +26,6 @@ public class K9CustomizePreferenceActivity extends PreferenceActivity{
 	@Override
 	protected void onCreate(Bundle bundle){
 	    super.onCreate(bundle);
-	    _debug = Log.getDebug();
-	    if (_debug) Log.v("K9CustomizePreferenceActivity.onCreate()");
 	    Common.setApplicationLanguage(getApplicationContext(), this);
 	    this.addPreferencesFromResource(R.xml.k9_customize_preferences);
 	    this.setContentView(R.layout.customize_preferences);

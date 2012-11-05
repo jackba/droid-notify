@@ -15,12 +15,6 @@ import apps.droidnotify.phone.PhoneCommon;
  * @author Camille Sévigny
  */
 public class PhoneService extends WakefulIntentService {
-	
-	//================================================================================
-    // Properties
-    //================================================================================
-	
-	private boolean _debug = false;
 
 	//================================================================================
 	// Public Methods
@@ -31,8 +25,6 @@ public class PhoneService extends WakefulIntentService {
 	 */
 	public PhoneService() {
 		super("PhoneService");
-		_debug = Log.getDebug();
-		if (_debug) Log.v("PhoneService.PhoneService()");
 	}
 
 	//================================================================================
@@ -46,9 +38,8 @@ public class PhoneService extends WakefulIntentService {
 	 */
 	@Override
 	protected void doWakefulWork(Intent intent) {
-		if (_debug) Log.v("PhoneService.doWakefulWork()");
+		Context context = getApplicationContext();
 		try{
-			Context context = getApplicationContext();
 			Bundle missedCallNotificationBundle = PhoneCommon.getMissedCalls(context);
 			if(missedCallNotificationBundle != null){
 				Bundle bundle = new Bundle();
@@ -56,10 +47,10 @@ public class PhoneService extends WakefulIntentService {
 				bundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME, missedCallNotificationBundle);
 				Common.startNotificationActivity(context, bundle);
 			}else{
-				if (_debug) Log.v("PhoneService.doWakefulWork() No missed calls were found. Exiting...");
+				Log.e(context, "PhoneService.doWakefulWork() No missed calls were found. Exiting...");
 			}
 		}catch(Exception ex){
-			Log.e("PhoneService.doWakefulWork() ERROR: " + ex.toString());
+			Log.e(context, "PhoneService.doWakefulWork() ERROR: " + ex.toString());
 		}
 	}
 	

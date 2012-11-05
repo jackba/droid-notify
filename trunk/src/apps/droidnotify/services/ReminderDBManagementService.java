@@ -1,17 +1,12 @@
 package apps.droidnotify.services;
 
+import android.content.Context;
 import android.content.Intent;
 
 import apps.droidnotify.log.Log;
 import apps.droidnotify.reminder.ReminderCommon;
 
 public class ReminderDBManagementService extends WakefulIntentService {
-	
-	//================================================================================
-    // Properties
-    //================================================================================
-	
-	private boolean _debug = false;
 
 	//================================================================================
 	// Public Methods
@@ -22,8 +17,6 @@ public class ReminderDBManagementService extends WakefulIntentService {
 	 */
 	public ReminderDBManagementService() {
 		super("ReminderDBManagementService");
-		_debug = Log.getDebug();
-		if (_debug) Log.v("ReminderDBManagementService.ReminderDBManagementService()");
 	}
 
 	//================================================================================
@@ -37,11 +30,11 @@ public class ReminderDBManagementService extends WakefulIntentService {
 	 */
 	@Override
 	protected void doWakefulWork(Intent intent) {
-		if (_debug) Log.v("ReminderDBManagementService.doWakefulWork()");
+		Context context = getApplicationContext();
 		try{
 			ReminderCommon.cleanDB(getApplication());
 		}catch(Exception ex){
-			Log.e("ReminderDBManagementService.doWakefulWork() ERROR: " + ex.toString());
+			Log.e(context, "ReminderDBManagementService.doWakefulWork() ERROR: " + ex.toString());
 		}
 	}
 		

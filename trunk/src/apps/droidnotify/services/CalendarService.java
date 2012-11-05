@@ -1,5 +1,6 @@
 package apps.droidnotify.services;
 
+import android.content.Context;
 import android.content.Intent;
 
 import apps.droidnotify.common.Common;
@@ -11,12 +12,6 @@ import apps.droidnotify.log.Log;
  * @author Camille Sévigny
  */
 public class CalendarService extends WakefulIntentService {
-	
-	//================================================================================
-    // Properties
-    //================================================================================
-
-	private boolean _debug = false;
 
 	//================================================================================
 	// Public Methods
@@ -27,8 +22,6 @@ public class CalendarService extends WakefulIntentService {
 	 */
 	public CalendarService() {
 		super("CalendarService");
-		_debug = Log.getDebug();
-		if (_debug) Log.v("CalendarService.CalendarService()");
 	}
 
 	//================================================================================
@@ -42,11 +35,11 @@ public class CalendarService extends WakefulIntentService {
 	 */
 	@Override
 	protected void doWakefulWork(Intent intent) {
-		if (_debug) Log.v("CalendarService.doWakefulWork()");
+		Context context = getApplicationContext();
 		try{
 	    	Common.startNotificationActivity(getApplicationContext(), intent.getExtras());
 		}catch(Exception ex){
-			Log.e("CalendarService.doWakefulWork() ERROR: " + ex.toString());
+			Log.e(context, "CalendarService.doWakefulWork() ERROR: " + ex.toString());
 		}
 	}
 	

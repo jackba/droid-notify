@@ -26,7 +26,6 @@ public class DebugPreferenceActivity extends PreferenceActivity implements OnSha
     // Properties
     //================================================================================
 
-    private boolean _debug = false;
     private Context _context = null;
     private SharedPreferences _preferences = null;
 	
@@ -41,7 +40,6 @@ public class DebugPreferenceActivity extends PreferenceActivity implements OnSha
 	 * @param key - The String value of the preference Key who's preference value was changed.
 	 */
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-		if (_debug) Log.v("DebugPreferenceActivity.onSharedPreferenceChanged() Key: " + key);
 		if(key.equals(Constants.DEBUG)){
 			Log.setDebug(_preferences.getBoolean(Constants.DEBUG, false));
 		}
@@ -60,8 +58,6 @@ public class DebugPreferenceActivity extends PreferenceActivity implements OnSha
 	@Override
 	protected void onCreate(Bundle bundle){
 	    super.onCreate(bundle);
-	    _debug = Log.getDebug();
-	    if (_debug) Log.v("DebugPreferenceActivity.onCreate()");
 	    _context = this;
 	    Common.setApplicationLanguage(_context, this);
 	    _preferences = PreferenceManager.getDefaultSharedPreferences(_context);
@@ -75,7 +71,6 @@ public class DebugPreferenceActivity extends PreferenceActivity implements OnSha
 	 */
 	@Override
 	protected void onResume(){
-	    if(_debug) Log.v("DebugPreferenceActivity.onResume()");
 	    super.onResume();
 	    _preferences.registerOnSharedPreferenceChangeListener(this);
 	}
@@ -85,7 +80,6 @@ public class DebugPreferenceActivity extends PreferenceActivity implements OnSha
 	 */
 	@Override
 	protected void onPause(){
-	    if(_debug) Log.v("DebugPreferenceActivity.onPause()");
 	    super.onPause();
 	    _preferences.unregisterOnSharedPreferenceChangeListener(this);
 	}
@@ -99,9 +93,8 @@ public class DebugPreferenceActivity extends PreferenceActivity implements OnSha
 	 */
 	@SuppressWarnings("deprecation")
 	private void setupCustomPreferences(){
-	    if (_debug) Log.v("DebugPreferenceActivity.setupCustomPreferences()");
 	    //Debug Mode CheckBox
-	    boolean inDebugMode = _preferences.getBoolean(Constants.DEBUG, false) || Log.getDebug();
+	    boolean inDebugMode = _preferences.getBoolean(Constants.DEBUG, false) || Log.getDebug(_context);
 	    CheckBoxPreference debugModeCheckBoxPreference = (CheckBoxPreference)this.findPreference(Constants.DEBUG);
 	    debugModeCheckBoxPreference.setChecked(inDebugMode);
 		//Debug Button

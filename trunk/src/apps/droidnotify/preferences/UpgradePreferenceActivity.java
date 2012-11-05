@@ -25,7 +25,6 @@ public class UpgradePreferenceActivity extends Activity {
     // Properties
     //================================================================================
 
-	private boolean _debug = false;
 	private Context _context = null;
 	private TextView _titleTextView = null;
 	private TextView _contentTextView = null;
@@ -44,8 +43,6 @@ public class UpgradePreferenceActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle bundle){
 		super.onCreate(bundle);
-	    _debug = Log.getDebug();
-	    if (_debug) Log.v("UpgradePreferenceActivity.onCreate()");
 	    _context = getApplicationContext();
 	    _upgradeType = getIntent().getExtras().getInt(Constants.DIALOG_UPGRADE_TYPE);
 	    Common.setApplicationLanguage(_context, this);
@@ -59,7 +56,6 @@ public class UpgradePreferenceActivity extends Activity {
 	 * @param context - Application context.
 	 */
 	private void initLayoutItems() {
-		if (_debug) Log.v("UpgradePreferenceActivity.initLayoutItems()");
 		//Find Views.
 		_titleTextView = (TextView)findViewById(R.id.header_title);
 		_contentTextView = (TextView)findViewById(R.id.content_text);

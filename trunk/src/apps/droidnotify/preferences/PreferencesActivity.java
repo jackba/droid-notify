@@ -36,7 +36,6 @@ public class PreferencesActivity extends Activity {
     // Properties
     //================================================================================
 
-	private boolean _debug = false;
 	private Context _context = null;
     private SharedPreferences _preferences = null;
     private LinearLayout _enableAppLinearLayout = null;
@@ -66,8 +65,6 @@ public class PreferencesActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle bundle){
 		super.onCreate(bundle);
-	    _debug = Log.getDebug();
-	    if (_debug) Log.v("PreferencesActivity.onCreate()");
 	    _context = this;
 	    _preferences = PreferenceManager.getDefaultSharedPreferences(_context);
 	    Common.setApplicationLanguage(_context, this);
@@ -85,7 +82,6 @@ public class PreferencesActivity extends Activity {
 	 */
 	@Override
 	protected void onResume(){
-	    if(_debug) Log.v("PreferencesActivity.onResume()");
 	    //Restart activity if the language was changed.
 	    if(!_currentLanguage.equals(_preferences.getString(Constants.LANGUAGE_KEY, Constants.LANGUAGE_DEFAULT))){
 	    	reloadPreferenceActivity();
@@ -101,7 +97,6 @@ public class PreferencesActivity extends Activity {
 	 * Initialize the layout items.
 	 */
 	private void initLayoutItems() {
-		if (_debug) Log.v("PreferencesActivity.initLayoutItems()");	
 		_enableAppLinearLayout = (LinearLayout)findViewById(R.id.enable_app_linear_layout);
 		_enableAppCheckBox = (CheckBox)findViewById(R.id.enable_app_checkbox);
 		_basicSettingsRow = (TextView)findViewById(R.id.row_basic);
@@ -121,7 +116,6 @@ public class PreferencesActivity extends Activity {
 	 * Set up each preference row's attributes (background style etc.)
 	 */
 	private void setupRowAttributes(){
-		if (_debug) Log.v("PreferencesActivity.setupRowAttributes()");	
 		_enableAppLinearLayout.setBackgroundResource(R.drawable.preference_row_click);
 		_basicSettingsRow.setBackgroundResource(R.drawable.preference_row_click);
 		_localeSettingsRow.setBackgroundResource(R.drawable.preference_row_click);
@@ -140,7 +134,6 @@ public class PreferencesActivity extends Activity {
 	 * Attach the click events to the preference rows.
 	 */
 	private void setupRowActivities(){
-		if (_debug) Log.v("PreferencesActivity.Activities()");
 		//Enable App Button. Initialize this checkbox.
 		boolean appEnabled = _preferences.getBoolean(Constants.APP_ENABLED_KEY, true);
 		_enableAppCheckBox.setChecked(appEnabled);
@@ -159,7 +152,7 @@ public class PreferencesActivity extends Activity {
 		    		//Start the app alarms.
 		    		startAppAlarms(appEnabled);
 		    	}catch(Exception ex){
-	 	    		Log.e("PreferencesActivity() Enable App Button ERROR: " + ex.toString());
+	 	    		Log.e(_context, "PreferencesActivity() Enable App Button ERROR: " + ex.toString());
 		    	}
         	}
 		});
@@ -182,7 +175,7 @@ public class PreferencesActivity extends Activity {
 		    	try{
 		    		startActivity(new Intent(_context, BasicPreferenceActivity.class));
 		    	}catch(Exception ex){
-	 	    		Log.e("PreferencesActivity() Basic Button ERROR: " + ex.toString());
+	 	    		Log.e(_context, "PreferencesActivity() Basic Button ERROR: " + ex.toString());
 		    	}
         	}
 		});
@@ -192,7 +185,7 @@ public class PreferencesActivity extends Activity {
 		    	try{
 		    		startActivity(new Intent(_context, LocalePreferenceActivity.class));
 		    	}catch(Exception ex){
-	 	    		Log.e("PreferencesActivity() Locale Button ERROR: " + ex.toString());
+	 	    		Log.e(_context, "PreferencesActivity() Locale Button ERROR: " + ex.toString());
 		    	}
         	}
 		});		
@@ -202,7 +195,7 @@ public class PreferencesActivity extends Activity {
 		    	try{
 		    		startActivity(new Intent(_context, ScreenPreferenceActivity.class));
 		    	}catch(Exception ex){
-	 	    		Log.e("PreferencesActivity() Screen Button ERROR: " + ex.toString());
+	 	    		Log.e(_context, "PreferencesActivity() Screen Button ERROR: " + ex.toString());
 		    	}
 	    	}
 		});		
@@ -212,7 +205,7 @@ public class PreferencesActivity extends Activity {
 		    	try{
 		    		startActivity(new Intent(_context, CustomizePreferenceActivity.class));
 		    	}catch(Exception ex){
-	 	    		Log.e("PreferencesActivity() Customize Button ERROR: " + ex.toString());
+	 	    		Log.e(_context, "PreferencesActivity() Customize Button ERROR: " + ex.toString());
 		    	}
 	    	}
 		});		
@@ -222,7 +215,7 @@ public class PreferencesActivity extends Activity {
 		    	try{
 		    		startActivity(new Intent(_context, NotificationsPreferenceActivity.class));
 		    	}catch(Exception ex){
-	 	    		Log.e("PreferencesActivity() Notifications Button ERROR: " + ex.toString());
+	 	    		Log.e(_context, "PreferencesActivity() Notifications Button ERROR: " + ex.toString());
 		    	}
 	    	}
 		});		
@@ -232,7 +225,7 @@ public class PreferencesActivity extends Activity {
 		    	try{
 		    		startActivity(new Intent(_context, PrivacyPreferenceActivity.class));
 		    	}catch(Exception ex){
-	 	    		Log.e("PreferencesActivity() Privacy Button ERROR: " + ex.toString());
+	 	    		Log.e(_context, "PreferencesActivity() Privacy Button ERROR: " + ex.toString());
 		    	}
 	    	}
 		});
@@ -242,7 +235,7 @@ public class PreferencesActivity extends Activity {
 		    	try{
 		    		startActivity(new Intent(_context, AdvancedPreferenceActivity.class));
 		    	}catch(Exception ex){
-	 	    		Log.e("PreferencesActivity() Advanced Button ERROR: " + ex.toString());
+	 	    		Log.e(_context, "PreferencesActivity() Advanced Button ERROR: " + ex.toString());
 		    	}
         	}
 		});		
@@ -284,7 +277,7 @@ public class PreferencesActivity extends Activity {
 				    		startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(rateAppURL)));
 				    	}
 			    	}catch(Exception ex){
-		 	    		Log.e("PreferencesActivity() Rate App Button ERROR: " + ex.toString());
+		 	    		Log.e(_context, "PreferencesActivity() Rate App Button ERROR: " + ex.toString());
 		 	    		Toast.makeText(_context, _context.getString(R.string.app_android_rate_app_error), Toast.LENGTH_LONG).show();
 			    	}
 	           }
@@ -302,7 +295,7 @@ public class PreferencesActivity extends Activity {
 			    	sendEmailIntent.putExtra(Intent.EXTRA_SUBJECT, "Droid Notify Lite - App Feedback");
 		    		startActivity(sendEmailIntent);
 		    	}catch(Exception ex){
-	 	    		Log.e("PreferencesActivity() Email Developer Button ERROR: " + ex.toString());
+	 	    		Log.e(_context, "PreferencesActivity() Email Developer Button ERROR: " + ex.toString());
 	 	    		Toast.makeText(_context, _context.getString(R.string.app_android_email_app_error), Toast.LENGTH_LONG).show();
 		    	}
            }
@@ -313,7 +306,7 @@ public class PreferencesActivity extends Activity {
 		    	try{
 		    		startActivity(new Intent(_context, AboutPreferenceActivity.class));
 		    	}catch(Exception ex){
-	 	    		Log.e("PreferencesActivity() About Button ERROR: " + ex.toString());
+	 	    		Log.e(_context, "PreferencesActivity() About Button ERROR: " + ex.toString());
 		    	}
         	}
 		});
@@ -332,7 +325,7 @@ public class PreferencesActivity extends Activity {
 				    	upgradeActivityIntent.putExtras(bundle);
 			    		startActivity(upgradeActivityIntent);
 			    	}catch(Exception ex){
-		 	    		Log.e("PreferencesActivity() Upgrade Button ERROR: " + ex.toString());
+		 	    		Log.e(_context, "PreferencesActivity() Upgrade Button ERROR: " + ex.toString());
 			    	}
 	        	}
 			});
@@ -349,7 +342,6 @@ public class PreferencesActivity extends Activity {
 	 * @param appEnabled - The flag to set the user preferences with.
 	 */
 	private void enableUserPreferences(boolean appEnabled){
-		if (_debug) Log.v("PreferencesActivity.enableUserPreferences()");
 		_basicSettingsRow.setEnabled(appEnabled);
 		_localeSettingsRow.setEnabled(appEnabled);
 		_screenSettingsRow.setEnabled(appEnabled);
@@ -363,7 +355,6 @@ public class PreferencesActivity extends Activity {
 	 * Reload Preference Activity
 	 */
 	public void reloadPreferenceActivity() {
-		if (_debug) Log.v("PreferencesActivity.reloadPreferenceActivity()");
 		try{
 		    Intent intent = getIntent();
 		    overridePendingTransition(0, 0);
@@ -372,7 +363,7 @@ public class PreferencesActivity extends Activity {
 		    overridePendingTransition(0, 0);
 		    startActivity(intent);
 		}catch(Exception ex){
-			Log.e("PreferencesActivity.reloadPreferenceActivity() ERROR: " + ex.toString());
+			Log.e(_context, "PreferencesActivity.reloadPreferenceActivity() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -380,7 +371,6 @@ public class PreferencesActivity extends Activity {
 	 * Setup the app when it is first run.
 	 */
 	private void setupFirstRun(){
-		if (_debug) Log.v("PreferencesActivity.setupFirstRun()");
 		try{
 			if(!_preferences.getBoolean(Constants.FIRST_RUN_KEY, false)){	
 				SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(_context).edit();
@@ -389,7 +379,7 @@ public class PreferencesActivity extends Activity {
 				WakefulIntentService.sendWakefulWork(_context, new Intent(_context, OnFirstRunService.class));
 			}
 		}catch(Exception ex){
-			Log.e("PreferencesActivity.setupFirstRun() ERROR: " + ex.toString());
+			Log.e(_context, "PreferencesActivity.setupFirstRun() ERROR: " + ex.toString());
 		}
 	}
 	

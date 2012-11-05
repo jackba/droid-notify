@@ -168,8 +168,8 @@ public class NotificationView extends LinearLayout {
      */	
 	public NotificationView(Context context, Notification notification){
 		super(context);
-	    _debug = Log.getDebug();;
-	    if (_debug) Log.v("NotificationView.NotificationView()");
+	    _debug = Log.getDebug(context);;
+	    if (_debug) Log.v(_context, "NotificationView.NotificationView()");
 	    _context = context;
 	    try{
 		    _preferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -192,7 +192,7 @@ public class NotificationView extends LinearLayout {
 		    populateViewInfo();
 		    setKeyboardListener();
 	    }catch(Exception ex){
-	    	Log.e("NotificationView.NotificationView() ERROR: " + ex.toString());
+	    	Log.e(_context, "NotificationView.NotificationView() ERROR: " + ex.toString());
 	    }
 	}
 	
@@ -209,7 +209,7 @@ public class NotificationView extends LinearLayout {
 	 * Reschedule a notification.
 	 */
 	public void rescheduleNotification(){
-		if (_debug) Log.v("NotificationView.rescheduleNotification()");
+		if (_debug) Log.v(_context, "NotificationView.rescheduleNotification()");
 		long rescheduleInterval = Long.parseLong(_preferences.getString(Constants.RESCHEDULE_TIME_KEY, Constants.RESCHEDULE_TIME_DEFAULT)) * 60 * 1000;
 		_notification.reschedule(System.currentTimeMillis() + rescheduleInterval, Constants.PENDING_INTENT_TYPE_RESCHEDULE);
 		dismissNotification(true);
@@ -221,7 +221,7 @@ public class NotificationView extends LinearLayout {
 	 * @param recognizedTextResults - An array of strings of the text that was returned from the voice recognizer.
 	 */
 	public void setQuickReplyText(ArrayList<String> recognizedTextResults){
-		if (_debug) Log.v("NotificationView.setQuickReplyText()");
+		if (_debug) Log.v(_context, "NotificationView.setQuickReplyText()");
 		try{
 	 		String currentText = _messageEditText.getText().toString();
 	 		String endCharacter = "";
@@ -240,7 +240,7 @@ public class NotificationView extends LinearLayout {
 	 			}
 	 		}
 		}catch(Exception ex){
-			Log.e("NotificationView.setQuickReplyText() ERROR: " + ex.toString());
+			Log.e(_context, "NotificationView.setQuickReplyText() ERROR: " + ex.toString());
 		}
 	}
 
@@ -252,7 +252,7 @@ public class NotificationView extends LinearLayout {
 			_notificationDetailsTextView.setMaxLines(maxLines);
     		_notificationDetailsTextView.setMovementMethod(new ScrollingMovementMethod());
   		}catch(Exception ex){
-  			Log.e("NotificationView.setNotificationBodyMaxLines() ERROR: " + ex.toString());
+  			Log.e(_context, "NotificationView.setNotificationBodyMaxLines() ERROR: " + ex.toString());
   		}
   	}
 
@@ -266,7 +266,7 @@ public class NotificationView extends LinearLayout {
 	 * @param context - Application's Context.
 	 */
 	private void initLayoutItems(){
-		if (_debug) Log.v("NotificationView.initLayoutItems()");
+		if (_debug) Log.v(_context, "NotificationView.initLayoutItems()");
 		
 		_notificationWindowLinearLayout = (LinearLayout) findViewById(R.id.notification_linear_layout);
 		_contactLinearLayout = (LinearLayout) findViewById(R.id.contact_wrapper_linear_layout);
@@ -323,7 +323,7 @@ public class NotificationView extends LinearLayout {
 	 * Set properties on the Notification popup window.
 	 */
 	private void setLayoutProperties(){
-		if (_debug) Log.v("NotificationView.setLayoutProperties()");
+		if (_debug) Log.v(_context, "NotificationView.setLayoutProperties()");
 		//Initialize The Button Views
 		_buttonLinearLayout.setVisibility(View.GONE);
     	_imageButtonLinearLayout.setVisibility(View.GONE);
@@ -345,9 +345,9 @@ public class NotificationView extends LinearLayout {
 	 * Setup the layout graphical items based on the current theme.
 	 */
 	private void setupLayoutTheme(){
-		if (_debug) Log.v("NotificationView.setupLayoutTheme()");
+		if (_debug) Log.v(_context, "NotificationView.setupLayoutTheme()");
 		_themePackageName = _preferences.getString(Constants.APP_THEME_KEY, Constants.APP_THEME_DEFAULT);
-		if (_debug) Log.v("NotificationView.setupLayoutTheme() ThemePackageName: " + _themePackageName);
+		if (_debug) Log.v(_context, "NotificationView.setupLayoutTheme() ThemePackageName: " + _themePackageName);
 		final Resources localRresources = _context.getResources();
 		Drawable layoutBackgroundDrawable = null;
 		Drawable rescheduleDrawable = null;
@@ -425,7 +425,7 @@ public class NotificationView extends LinearLayout {
 					spinnerTextColorID = bodyTextColorID;
 				}
 			}catch(NameNotFoundException ex){
-				Log.e("NotificationView.setupLayoutTheme() Loading Theme Package ERROR: " + ex.toString());
+				Log.e(_context, "NotificationView.setupLayoutTheme() Loading Theme Package ERROR: " + ex.toString());
 				_themePackageName = Constants.APP_THEME_DEFAULT;
 				_resources = _context.getResources();
 				layoutBackgroundDrawable = _resources.getDrawable(R.drawable.background_panel);
@@ -484,13 +484,13 @@ public class NotificationView extends LinearLayout {
 			_messageEditText.setTextColor(quickReplyTextColorID);
 			_messageEditText.addTextChangedListener(new TextWatcher(){				
 				public void afterTextChanged(Editable s){
-					Log.v("EditText afterTextChanged()");
+					Log.v(_context, "EditText afterTextChanged()");
 				}				
 				public void beforeTextChanged(CharSequence s, int start, int count, int after){
-					Log.v("EditText beforeTextChanged()");
+					Log.v(_context, "EditText beforeTextChanged()");
 				}				
 				public void onTextChanged(CharSequence s, int start, int before, int count){
-					Log.v("EditText onTextChanged()");
+					Log.v(_context, "EditText onTextChanged()");
 				}
 			});
 
@@ -500,7 +500,7 @@ public class NotificationView extends LinearLayout {
 	            	try{
 	            		((TextView)parentView.getChildAt(0)).setTextColor(finalSpinnerTextColorID);
 	            	}catch(Exception ex){
-	            		Log.e("CalendarSpinner.onItemSelected() ERROR: " + ex.toString());
+	            		Log.e(_context, "CalendarSpinner.onItemSelected() ERROR: " + ex.toString());
 	            	}
 	            }
 				public void onNothingSelected(AdapterView<?> arg0){
@@ -593,7 +593,7 @@ public class NotificationView extends LinearLayout {
 		_sttImageButton.setOnClickListener(
 			new OnClickListener(){
 			    public void onClick(View view){
-			    	if (_debug) Log.v("STT Button Clicked()");
+			    	if (_debug) Log.v(_context, "STT Button Clicked()");
 			    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 					//Cancel the reminder.
 					_notification.cancelReminder();
@@ -605,7 +605,7 @@ public class NotificationView extends LinearLayout {
 		_sendImageButton.setOnClickListener(
 			new OnClickListener(){
 				public void onClick(View view){
-			    	if (_debug) Log.v("Quick Reply Send Button Clicked()");
+			    	if (_debug) Log.v(_context, "Quick Reply Send Button Clicked()");
 			    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 			    	sendQuickReply();
 			    }
@@ -621,7 +621,7 @@ public class NotificationView extends LinearLayout {
 	 * @return StateListDrawable - Returns a Drawable that contains the state specific images for this theme.
 	 */
 	private StateListDrawable getThemeButton(int buttonType){
-		if (_debug) Log.v("NotificationView.getThemeButton() ButtonType: " + buttonType);
+		if (_debug) Log.v(_context, "NotificationView.getThemeButton() ButtonType: " + buttonType);
 		try{
 			Resources localRresources = _context.getResources();
 			StateListDrawable stateListDrawable = new StateListDrawable();
@@ -637,7 +637,7 @@ public class NotificationView extends LinearLayout {
 							stateListDrawable.addState(new int[] {android.R.attr.state_enabled}, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/button_normal", null, null)));
 							stateListDrawable.addState(new int[] {}, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/button_disabled", null, null)));
 						}catch(Exception ex){
-							Log.e("NotificationView.getThemeButton() NORMAL BUTTON THEME ERROR: " + ex.toString());
+							Log.e(_context, "NotificationView.getThemeButton() NORMAL BUTTON THEME ERROR: " + ex.toString());
 							stateListDrawable.addState(new int[] {android.R.attr.state_enabled, android.R.attr.state_pressed}, localRresources.getDrawable(R.drawable.button_pressed));
 							stateListDrawable.addState(new int[] {android.R.attr.state_enabled}, localRresources.getDrawable(R.drawable.button_normal));
 							stateListDrawable.addState(new int[] {}, localRresources.getDrawable(R.drawable.button_disabled));
@@ -654,7 +654,7 @@ public class NotificationView extends LinearLayout {
 							stateListDrawable.addState(new int[] {android.R.attr.state_pressed}, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/button_navigate_prev_pressed", null, null)));
 							stateListDrawable.addState(new int[] { }, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/button_navigate_prev_normal", null, null)));
 						}catch(Exception ex){
-							Log.e("NotificationView.getThemeButton() NAV PREV BUTTON THEME ERROR: " + ex.toString());
+							Log.e(_context, "NotificationView.getThemeButton() NAV PREV BUTTON THEME ERROR: " + ex.toString());
 							stateListDrawable.addState(new int[] {android.R.attr.state_pressed}, localRresources.getDrawable(R.drawable.button_navigate_prev_pressed));
 							stateListDrawable.addState(new int[] { }, localRresources.getDrawable(R.drawable.button_navigate_prev_normal));
 						}
@@ -670,7 +670,7 @@ public class NotificationView extends LinearLayout {
 							stateListDrawable.addState(new int[] {android.R.attr.state_pressed}, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/button_navigate_next_pressed", null, null)));
 							stateListDrawable.addState(new int[] { }, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/button_navigate_next_normal", null, null)));
 						}catch(Exception ex){
-							Log.e("NotificationView.getThemeButton() NAV NEXT BUTTON THEME ERROR: " + ex.toString());
+							Log.e(_context, "NotificationView.getThemeButton() NAV NEXT BUTTON THEME ERROR: " + ex.toString());
 							stateListDrawable.addState(new int[] {android.R.attr.state_pressed}, localRresources.getDrawable(R.drawable.button_navigate_next_pressed));
 							stateListDrawable.addState(new int[] { }, localRresources.getDrawable(R.drawable.button_navigate_next_normal));
 						}
@@ -688,7 +688,7 @@ public class NotificationView extends LinearLayout {
 							stateListDrawable.addState(new int[] {android.R.attr.state_focused}, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/spinner_focused", null, null)));
 							stateListDrawable.addState(new int[] { }, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/spinner_normal", null, null)));
 						}catch(Exception ex){
-							Log.e("NotificationView.getThemeButton() SPINNER THEME ERROR: " + ex.toString());
+							Log.e(_context, "NotificationView.getThemeButton() SPINNER THEME ERROR: " + ex.toString());
 							stateListDrawable.addState(new int[] {android.R.attr.state_pressed}, localRresources.getDrawable(R.drawable.spinner_pressed));
 							stateListDrawable.addState(new int[] {android.R.attr.state_focused}, localRresources.getDrawable(R.drawable.spinner_focused));
 							stateListDrawable.addState(new int[] { }, localRresources.getDrawable(R.drawable.spinner_normal));
@@ -707,7 +707,7 @@ public class NotificationView extends LinearLayout {
 							stateListDrawable.addState(new int[] {android.R.attr.state_focused}, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/textfield_focused", null, null)));
 							stateListDrawable.addState(new int[] { }, _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/textfield_normal", null, null)));
 						}catch(Exception ex){
-							Log.e("NotificationView.getThemeButton() EDIT TEXT THEME ERROR: " + ex.toString());
+							Log.e(_context, "NotificationView.getThemeButton() EDIT TEXT THEME ERROR: " + ex.toString());
 							stateListDrawable.addState(new int[] {android.R.attr.state_activated}, localRresources.getDrawable(R.drawable.textfield_activated));
 							stateListDrawable.addState(new int[] {android.R.attr.state_focused}, localRresources.getDrawable(R.drawable.textfield_focused));
 							stateListDrawable.addState(new int[] { }, localRresources.getDrawable(R.drawable.textfield_normal));
@@ -718,7 +718,7 @@ public class NotificationView extends LinearLayout {
 			}
 			return null;
 		}catch(Exception ex){
-			Log.e("NotificationView.getThemeButton() ERROR: " + ex.toString());
+			Log.e(_context, "NotificationView.getThemeButton() ERROR: " + ex.toString());
 			return null;
 		}
 	}
@@ -727,27 +727,27 @@ public class NotificationView extends LinearLayout {
 	 * Creates and sets up the animation event when a long press is performed on the contact wrapper View.
 	 */
 	private void initLongPressView(){
-		if (_debug) Log.v("NotificationView.initLongPressView()");	
+		if (_debug) Log.v(_context, "NotificationView.initLongPressView()");	
 		try{
 			if(_preferences.getBoolean(Constants.CONTEXT_MENU_DISABLED_KEY, false)){
 				return;
 			}
 			//Load theme resources.
 			String themePackageName = _preferences.getString(Constants.APP_THEME_KEY, Constants.APP_THEME_DEFAULT);
-			if (_debug) Log.v("NotificationView.initLongPressView() ThemePackageName: " + themePackageName);
+			if (_debug) Log.v(_context, "NotificationView.initLongPressView() ThemePackageName: " + themePackageName);
 			if(themePackageName.equals(Constants.NOTIFY_DEFAULT_THEME)){
 				try{
 					_listSelectorBackgroundDrawable = _resources.getDrawable(R.drawable.list_selector_background);
 				}catch(Exception ex){
 					_listSelectorBackgroundDrawable = null;
-					Log.e("NotificationView.initLongPressView() List Selector Background Drawable ERROR: " + ex.toString());
+					Log.e(_context, "NotificationView.initLongPressView() List Selector Background Drawable ERROR: " + ex.toString());
 				}
 				try{
 					_listSelectorBackgroundTransitionDrawable = (TransitionDrawable) _resources.getDrawable(R.drawable.list_selector_background_transition);
 				}catch(ClassCastException classCastException){
 					//This shouldn't happen, but on the emulator it does sometimes.
 					_listSelectorBackgroundTransitionDrawable = null;
-					Log.e("NotificationView.initLongPressView() Transition Drawable Class Cast ERROR: " + classCastException.toString());
+					Log.e(_context, "NotificationView.initLongPressView() Transition Drawable Class Cast ERROR: " + classCastException.toString());
 				}
 				_listSelectorBackgroundColorResourceID = _resources.getColor(R.color.list_selector_text_color);
 				_listSelectorBackgroundTransitionColorResourceID = _resources.getColor(R.color.list_selector_transition_text_color);
@@ -756,7 +756,7 @@ public class NotificationView extends LinearLayout {
 					_listSelectorBackgroundDrawable = _resources.getDrawable(android.R.drawable.list_selector_background);
 				}catch(Exception ex){
 					_listSelectorBackgroundDrawable = null;
-					Log.e("NotificationView.initLongPressView() List Selector Background Drawable ERROR: " + ex.toString());
+					Log.e(_context, "NotificationView.initLongPressView() List Selector Background Drawable ERROR: " + ex.toString());
 				}
 				_listSelectorBackgroundTransitionDrawable = null;
 				_listSelectorBackgroundColorResourceID = 0;
@@ -766,14 +766,14 @@ public class NotificationView extends LinearLayout {
 					_listSelectorBackgroundDrawable = _resources.getDrawable(_resources.getIdentifier(themePackageName + ":drawable/list_selector_background", null, null));
 				}catch(Exception ex){
 					_listSelectorBackgroundDrawable = null;
-					Log.e("NotificationView.initLongPressView() List Selector Background Drawable ERROR: " + ex.toString());
+					Log.e(_context, "NotificationView.initLongPressView() List Selector Background Drawable ERROR: " + ex.toString());
 				}
 				try{
 					_listSelectorBackgroundTransitionDrawable = (TransitionDrawable) _resources.getDrawable(_resources.getIdentifier(themePackageName + ":drawable/list_selector_background_transition", null, null));
 				}catch(ClassCastException classCastException){
 					//This shouldn't happen, but on the emulator it does sometimes.
 					_listSelectorBackgroundTransitionDrawable = null;
-					Log.e("NotificationView.initLongPressView() Transition Drawable Class Cast ERROR: " + classCastException.toString());
+					Log.e(_context, "NotificationView.initLongPressView() Transition Drawable Class Cast ERROR: " + classCastException.toString());
 				}
 				_listSelectorBackgroundColorResourceID = _resources.getColor(_resources.getIdentifier(themePackageName + ":color/list_selector_text_color", null, null));
 				_listSelectorBackgroundTransitionColorResourceID = _resources.getColor(_resources.getIdentifier(themePackageName + ":color/list_selector_transition_text_color", null, null));
@@ -821,7 +821,7 @@ public class NotificationView extends LinearLayout {
 			     }
 		     );
 		}catch(Exception ex){
-			Log.e("NotificationView.initLongPressView() ERROR: " + ex.toString());	
+			Log.e(_context, "NotificationView.initLongPressView() ERROR: " + ex.toString());	
 		}
 	}
 	
@@ -829,13 +829,13 @@ public class NotificationView extends LinearLayout {
 	 * 
 	 */
 	private void setupViewHeaderButtons(){
-		if (_debug) Log.v("NotificationView.setupViewHeaderButtons()");
+		if (_debug) Log.v(_context, "NotificationView.setupViewHeaderButtons()");
 		try{
 			//Previous Button
 			_previousButton.setOnClickListener(
 				new OnClickListener(){
 				    public void onClick(View view){
-				    	if (_debug) Log.v("Previous Button Clicked()");
+				    	if (_debug) Log.v(_context, "Previous Button Clicked()");
 				    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 				    	_notificationViewFlipper.showPrevious();
 				    }
@@ -845,7 +845,7 @@ public class NotificationView extends LinearLayout {
 			_nextButton.setOnClickListener(
 				new OnClickListener(){
 				    public void onClick(View view){
-				    	if (_debug) Log.v("Next Button Clicked()");
+				    	if (_debug) Log.v(_context, "Next Button Clicked()");
 				    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 				    	_notificationViewFlipper.showNext();
 				    }
@@ -857,7 +857,7 @@ public class NotificationView extends LinearLayout {
 				_ttsImageButton.setOnClickListener(
 					new OnClickListener(){
 					    public void onClick(View view){
-					    	if (_debug) Log.v("TTS Image Button Clicked()");
+					    	if (_debug) Log.v(_context, "TTS Image Button Clicked()");
 					    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 							//Cancel the reminder.
 							_notification.cancelReminder();
@@ -874,7 +874,7 @@ public class NotificationView extends LinearLayout {
 				_rescheduleImageButton.setOnClickListener(
 					new OnClickListener(){
 					    public void onClick(View view){
-					    	if (_debug) Log.v("Reschedule Button Clicked()");
+					    	if (_debug) Log.v(_context, "Reschedule Button Clicked()");
 					    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 							//Cancel the reminder.
 							_notification.cancelReminder();
@@ -886,7 +886,7 @@ public class NotificationView extends LinearLayout {
 				_rescheduleImageButton.setVisibility(View.GONE);
 			}
 		}catch(Exception ex){
-			Log.e("NotificationView.setupViewHeaderButtons() ERROR: " + ex.toString());
+			Log.e(_context, "NotificationView.setupViewHeaderButtons() ERROR: " + ex.toString());
 		}
 	}
 
@@ -980,7 +980,7 @@ public class NotificationView extends LinearLayout {
 			setupButtonIcons(usingImageButtons, _notificationType, buttonDisplayStyle);
 			setupDismissButtonLongClickAction(usingImageButtons);
 		}catch(Exception ex){
-			Log.e("NotificationView.setupViewButtons() ERROR: " + ex.toString());
+			Log.e(_context, "NotificationView.setupViewButtons() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -990,7 +990,7 @@ public class NotificationView extends LinearLayout {
 	 * @param usingImageButtons - True if the user wants to use buttons with icons only.
 	 */
 	private void setupViewPhoneButtons(boolean usingImageButtons){
-		if (_debug) Log.v("NotificationView.setupViewPhoneButtons()");
+		if (_debug) Log.v(_context, "NotificationView.setupViewPhoneButtons()");
 		try{
 			// Notification Count Text Button
 			int notificationCountAction = Integer.parseInt(_preferences.getString(Constants.PHONE_NOTIFICATION_COUNT_ACTION_KEY, Constants.NOTIFICATION_COUNT_ACTION_NOTHING));
@@ -1000,7 +1000,7 @@ public class NotificationView extends LinearLayout {
 				_notificationCountTextView.setOnClickListener(
 					new OnClickListener(){
 					    public void onClick(View view){
-					    	if (_debug) Log.v("Notification Count Button Clicked()");
+					    	if (_debug) Log.v(_context, "Notification Count Button Clicked()");
 					    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 							//Cancel the reminder.
 							_notification.cancelReminder();
@@ -1013,7 +1013,7 @@ public class NotificationView extends LinearLayout {
 				_privacyLinkTextView.setText(R.string.click_to_view_log);
 				_privacyLinkTextView.setOnClickListener(new OnClickListener(){
 				    public void onClick(View view){
-				    	if (_debug) Log.v("Notification Missed Call Link Clicked()");
+				    	if (_debug) Log.v(_context, "Notification Missed Call Link Clicked()");
 				    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 						//Cancel the reminder.
 						_notification.cancelReminder();
@@ -1028,7 +1028,7 @@ public class NotificationView extends LinearLayout {
 		    		_dismissImageButton.setOnClickListener(
 	    				new OnClickListener(){
 						    public void onClick(View v){
-						    	if (_debug) Log.v("Dismiss Button Clicked()");
+						    	if (_debug) Log.v(_context, "Dismiss Button Clicked()");
 						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 								//Cancel the reminder.
 								_notification.cancelReminder();
@@ -1045,7 +1045,7 @@ public class NotificationView extends LinearLayout {
 		    		_callImageButton.setOnClickListener(
 	    				new OnClickListener(){
 						    public void onClick(View v){
-						    	if (_debug) Log.v("Call Button Clicked()");
+						    	if (_debug) Log.v(_context, "Call Button Clicked()");
 						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 								//Cancel the reminder.
 								_notification.cancelReminder();
@@ -1063,7 +1063,7 @@ public class NotificationView extends LinearLayout {
 					_dismissButton.setOnClickListener(
 						new OnClickListener(){
 						    public void onClick(View v){
-						    	if (_debug) Log.v("Dismiss Button Clicked()");
+						    	if (_debug) Log.v(_context, "Dismiss Button Clicked()");
 						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 								//Cancel the reminder.
 								_notification.cancelReminder();
@@ -1080,7 +1080,7 @@ public class NotificationView extends LinearLayout {
 		    		_callButton.setOnClickListener(
 	    				new OnClickListener(){
 						    public void onClick(View v){
-						    	if (_debug) Log.v("Call Button Clicked()");
+						    	if (_debug) Log.v(_context, "Call Button Clicked()");
 						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 								//Cancel the reminder.
 								_notification.cancelReminder();
@@ -1093,7 +1093,7 @@ public class NotificationView extends LinearLayout {
 		    	}
 			}
 		}catch(Exception ex){
-			Log.e("NotificationView.setupViewPhoneButtons() ERROR: " + ex.toString());
+			Log.e(_context, "NotificationView.setupViewPhoneButtons() ERROR: " + ex.toString());
 		}
 	}
 
@@ -1104,7 +1104,7 @@ public class NotificationView extends LinearLayout {
 	 * @param notificationType - The notification type.
 	 */
 	private void setupViewSMSButtons(boolean usingImageButtons, int notificationType){
-		if (_debug) Log.v("NotificationView.setupViewSMSButtons()");
+		if (_debug) Log.v(_context, "NotificationView.setupViewSMSButtons()");
 		try{
 			//Setup SMS/MMS Link
 			if(notificationType == Constants.NOTIFICATION_TYPE_SMS){
@@ -1112,7 +1112,7 @@ public class NotificationView extends LinearLayout {
 					_privacyLinkTextView.setText(R.string.click_to_view_message);
 					_privacyLinkTextView.setOnClickListener(new OnClickListener(){
 					    public void onClick(View view){
-					    	if (_debug) Log.v("Notification SMS Link Clicked()");
+					    	if (_debug) Log.v(_context, "Notification SMS Link Clicked()");
 					    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 							//Cancel the reminder.
 							_notification.cancelReminder();
@@ -1125,7 +1125,7 @@ public class NotificationView extends LinearLayout {
 					_privacyLinkTextView.setText(R.string.mms_click_here_to_view);
 					_privacyLinkTextView.setOnClickListener(new OnClickListener(){
 					    public void onClick(View view){
-					    	if (_debug) Log.v("Notification MMS Link Clicked()");
+					    	if (_debug) Log.v(_context, "Notification MMS Link Clicked()");
 					    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 							//Cancel the reminder.
 							_notification.cancelReminder();
@@ -1143,7 +1143,7 @@ public class NotificationView extends LinearLayout {
 				_notificationCountTextView.setOnClickListener(
 					new OnClickListener(){
 					    public void onClick(View view){
-					    	if (_debug) Log.v("Notification Count Button Clicked()");
+					    	if (_debug) Log.v(_context, "Notification Count Button Clicked()");
 					    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 							//Cancel the reminder.
 							_notification.cancelReminder();
@@ -1155,7 +1155,7 @@ public class NotificationView extends LinearLayout {
 				_notificationCountTextView.setOnClickListener(
 					new OnClickListener(){
 					    public void onClick(View view){
-					    	if (_debug) Log.v("Notification Count Button Clicked()");
+					    	if (_debug) Log.v(_context, "Notification Count Button Clicked()");
 					    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 							//Cancel the reminder.
 							_notification.cancelReminder();
@@ -1167,7 +1167,7 @@ public class NotificationView extends LinearLayout {
 				_notificationCountTextView.setOnClickListener(
 					new OnClickListener(){
 					    public void onClick(View view){
-					    	if (_debug) Log.v("Notification Count Button Clicked()");
+					    	if (_debug) Log.v(_context, "Notification Count Button Clicked()");
 					    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 							//Cancel the reminder.
 							_notification.cancelReminder();
@@ -1191,7 +1191,7 @@ public class NotificationView extends LinearLayout {
 		    		_dismissImageButton.setOnClickListener(
 	    				new OnClickListener(){
 						    public void onClick(View view){
-						    	if (_debug) Log.v("SMS Dismiss Button Clicked()");
+						    	if (_debug) Log.v(_context, "SMS Dismiss Button Clicked()");
 						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 								//Cancel the reminder.
 								_notification.cancelReminder();
@@ -1208,7 +1208,7 @@ public class NotificationView extends LinearLayout {
 		    		_deleteImageButton.setOnClickListener(
 	    				new OnClickListener(){
 						    public void onClick(View view){
-						    	if (_debug) Log.v("SMS Delete Button Clicked()");
+						    	if (_debug) Log.v(_context, "SMS Delete Button Clicked()");
 						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 								//Cancel the reminder.
 								_notification.cancelReminder();
@@ -1225,7 +1225,7 @@ public class NotificationView extends LinearLayout {
 		    		_replyImageButton.setOnClickListener(
 	    				new OnClickListener(){
 						    public void onClick(View view){
-						    	if (_debug) Log.v("SMS Reply Button Clicked()");
+						    	if (_debug) Log.v(_context, "SMS Reply Button Clicked()");
 						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 								//Cancel the reminder.
 								_notification.cancelReminder();
@@ -1243,7 +1243,7 @@ public class NotificationView extends LinearLayout {
 		    		_dismissButton.setOnClickListener(
 	    				new OnClickListener(){
 						    public void onClick(View view){
-						    	if (_debug) Log.v("SMS Dismiss Button Clicked()");
+						    	if (_debug) Log.v(_context, "SMS Dismiss Button Clicked()");
 						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 								//Cancel the reminder.
 								_notification.cancelReminder();
@@ -1260,7 +1260,7 @@ public class NotificationView extends LinearLayout {
 		    		_deleteButton.setOnClickListener(
 	    				new OnClickListener(){
 						    public void onClick(View view){
-						    	if (_debug) Log.v("SMS Delete Button Clicked()");
+						    	if (_debug) Log.v(_context, "SMS Delete Button Clicked()");
 						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 								//Cancel the reminder.
 								_notification.cancelReminder();
@@ -1277,7 +1277,7 @@ public class NotificationView extends LinearLayout {
 		    		_replyButton.setOnClickListener(
 	    				new OnClickListener(){
 						    public void onClick(View view){
-						    	if (_debug) Log.v("SMS Reply Button Clicked()");
+						    	if (_debug) Log.v(_context, "SMS Reply Button Clicked()");
 						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 								//Cancel the reminder.
 								_notification.cancelReminder();
@@ -1290,7 +1290,7 @@ public class NotificationView extends LinearLayout {
 		    	}
 			}
 		}catch(Exception ex){
-			Log.e("NotificationView.setupViewSMSButtons() ERROR: " + ex.toString());
+			Log.e(_context, "NotificationView.setupViewSMSButtons() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -1300,7 +1300,7 @@ public class NotificationView extends LinearLayout {
 	 * @param usingImageButtons - True if the user wants to use buttons with icons only.
 	 */
 	private void setupViewCalendarButtons(boolean usingImageButtons){
-		if (_debug) Log.v("NotificationView.setupViewCalendarButtons()");
+		if (_debug) Log.v(_context, "NotificationView.setupViewCalendarButtons()");
 		try{
 			// Notification Count Text Button
 			int notificationCountAction = Integer.parseInt(_preferences.getString(Constants.CALENDAR_NOTIFICATION_COUNT_ACTION_KEY, Constants.NOTIFICATION_COUNT_ACTION_NOTHING));
@@ -1310,7 +1310,7 @@ public class NotificationView extends LinearLayout {
 				_notificationCountTextView.setOnClickListener(
 					new OnClickListener(){
 					    public void onClick(View view){
-					    	if (_debug) Log.v("Notification Count Button Clicked()");
+					    	if (_debug) Log.v(_context, "Notification Count Button Clicked()");
 					    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 							//Cancel the reminder.
 							_notification.cancelReminder();
@@ -1329,7 +1329,7 @@ public class NotificationView extends LinearLayout {
 	    		_snoozeImageButton.setOnClickListener(
     				new OnClickListener(){
 					    public void onClick(View view){
-					    	if (_debug) Log.v("Calendar Snooze Button Clicked()");
+					    	if (_debug) Log.v(_context, "Calendar Snooze Button Clicked()");
 					    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 							//Cancel the reminder.
 							_notification.cancelReminder();
@@ -1349,7 +1349,7 @@ public class NotificationView extends LinearLayout {
 		    		_dismissImageButton.setOnClickListener(
 	    				new OnClickListener(){
 						    public void onClick(View view){
-						    	if (_debug) Log.v("Calendar Dismiss Button Clicked()");
+						    	if (_debug) Log.v(_context, "Calendar Dismiss Button Clicked()");
 						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 								//Cancel the reminder.
 								_notification.cancelReminder();
@@ -1366,7 +1366,7 @@ public class NotificationView extends LinearLayout {
 		    		_viewImageButton.setOnClickListener(
 	    				new OnClickListener(){
 						    public void onClick(View view){
-						    	if (_debug) Log.v("Calendar View Button Clicked()");
+						    	if (_debug) Log.v(_context, "Calendar View Button Clicked()");
 						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 								//Cancel the reminder.
 								_notification.cancelReminder();
@@ -1384,7 +1384,7 @@ public class NotificationView extends LinearLayout {
 		    		_dismissButton.setOnClickListener(
 	    				new OnClickListener(){
 						    public void onClick(View view){
-						    	if (_debug) Log.v("Calendar Dismiss Button Clicked()");
+						    	if (_debug) Log.v(_context, "Calendar Dismiss Button Clicked()");
 						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 								//Cancel the reminder.
 								_notification.cancelReminder();
@@ -1401,7 +1401,7 @@ public class NotificationView extends LinearLayout {
 		    		_viewButton.setOnClickListener(
 	    				new OnClickListener(){
 						    public void onClick(View view){
-						    	if (_debug) Log.v("Calendar View Button Clicked()");
+						    	if (_debug) Log.v(_context, "Calendar View Button Clicked()");
 						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 								//Cancel the reminder.
 								_notification.cancelReminder();
@@ -1414,7 +1414,7 @@ public class NotificationView extends LinearLayout {
 		    	}
 			}
 		}catch(Exception ex){
-			Log.e("NotificationView.setupViewCalendarButtons() ERROR: " + ex.toString());
+			Log.e(_context, "NotificationView.setupViewCalendarButtons() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -1424,7 +1424,7 @@ public class NotificationView extends LinearLayout {
 	 * @param usingImageButtons - True if the user wants to use buttons with icons only.
 	 */
 	private void setupViewK9Buttons(boolean usingImageButtons){
-		if (_debug) Log.v("NotificationView.setupViewK9Buttons()");
+		if (_debug) Log.v(_context, "NotificationView.setupViewK9Buttons()");
 		try{
 			// Notification Count Text Button
 			int notificationCountAction = Integer.parseInt(_preferences.getString(Constants.K9_NOTIFICATION_COUNT_ACTION_KEY, Constants.K9_NOTIFICATION_COUNT_ACTION_K9_INBOX));
@@ -1434,7 +1434,7 @@ public class NotificationView extends LinearLayout {
 				_notificationCountTextView.setOnClickListener(
 					new OnClickListener(){
 					    public void onClick(View view){
-					    	if (_debug) Log.v("Notification Count Button Clicked()");
+					    	if (_debug) Log.v(_context, "Notification Count Button Clicked()");
 					    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 							//Cancel the reminder.
 							_notification.cancelReminder();
@@ -1447,7 +1447,7 @@ public class NotificationView extends LinearLayout {
 				_privacyLinkTextView.setText(R.string.click_to_view_message);
 				_privacyLinkTextView.setOnClickListener(new OnClickListener(){
 				    public void onClick(View view){
-				    	if (_debug) Log.v("Notification Email Link Clicked()");
+				    	if (_debug) Log.v(_context, "Notification Email Link Clicked()");
 				    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 						//Cancel the reminder.
 						_notification.cancelReminder();
@@ -1462,7 +1462,7 @@ public class NotificationView extends LinearLayout {
 		    		_dismissImageButton.setOnClickListener(
 	    				new OnClickListener(){
 						    public void onClick(View view){
-						    	if (_debug) Log.v("K9 Dismiss Button Clicked()");
+						    	if (_debug) Log.v(_context, "K9 Dismiss Button Clicked()");
 						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 								//Cancel the reminder.
 								_notification.cancelReminder();
@@ -1479,7 +1479,7 @@ public class NotificationView extends LinearLayout {
 		    		_deleteImageButton.setOnClickListener(
 	    				new OnClickListener(){
 						    public void onClick(View view){
-						    	if (_debug) Log.v("K9 Delete Button Clicked()");
+						    	if (_debug) Log.v(_context, "K9 Delete Button Clicked()");
 						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 								//Cancel the reminder.
 								_notification.cancelReminder();
@@ -1496,7 +1496,7 @@ public class NotificationView extends LinearLayout {
 		    		_replyImageButton.setOnClickListener(
 	    				new OnClickListener(){
 						    public void onClick(View view){
-						    	if (_debug) Log.v("K9 Reply Button Clicked()");
+						    	if (_debug) Log.v(_context, "K9 Reply Button Clicked()");
 						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 								//Cancel the reminder.
 								_notification.cancelReminder();
@@ -1514,7 +1514,7 @@ public class NotificationView extends LinearLayout {
 		    		_dismissButton.setOnClickListener(
 	    				new OnClickListener(){
 						    public void onClick(View view){
-						    	if (_debug) Log.v("K9 Dismiss Button Clicked()");
+						    	if (_debug) Log.v(_context, "K9 Dismiss Button Clicked()");
 						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 								//Cancel the reminder.
 								_notification.cancelReminder();
@@ -1531,7 +1531,7 @@ public class NotificationView extends LinearLayout {
 		    		_deleteButton.setOnClickListener(
 	    				new OnClickListener(){
 						    public void onClick(View view){
-						    	if (_debug) Log.v("K9 Delete Button Clicked()");
+						    	if (_debug) Log.v(_context, "K9 Delete Button Clicked()");
 						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 								//Cancel the reminder.
 								_notification.cancelReminder();
@@ -1548,7 +1548,7 @@ public class NotificationView extends LinearLayout {
 		    		_replyButton.setOnClickListener(
 	    				new OnClickListener(){
 						    public void onClick(View view){
-						    	if (_debug) Log.v("K9 Reply Button Clicked()");
+						    	if (_debug) Log.v(_context, "K9 Reply Button Clicked()");
 						    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 								//Cancel the reminder.
 								_notification.cancelReminder();
@@ -1561,7 +1561,7 @@ public class NotificationView extends LinearLayout {
 		    	}
 			}
 		}catch(Exception ex){
-			Log.e("NotificationView.setupViewK9Buttons() ERROR: " + ex.toString());
+			Log.e(_context, "NotificationView.setupViewK9Buttons() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -1571,7 +1571,7 @@ public class NotificationView extends LinearLayout {
 	 * @param usingImageButtons - True if the user wants to use buttons with icons only.
 	 */
 	private void setupViewGenericButtons(){
-		if (_debug) Log.v("NotificationView.setupViewGenericButtons()");
+		if (_debug) Log.v(_context, "NotificationView.setupViewGenericButtons()");
 		try{
 			// Dismiss Button
 			final PendingIntent dismissPendingIntent = _notification.getDismissPendingIntent();
@@ -1579,7 +1579,7 @@ public class NotificationView extends LinearLayout {
     		_dismissButton.setOnClickListener(
 				new OnClickListener(){
 				    public void onClick(View view){
-				    	if (_debug) Log.v("Generic Dismiss Button Clicked()");
+				    	if (_debug) Log.v(_context, "Generic Dismiss Button Clicked()");
 				    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 						//Cancel the reminder.
 						_notification.cancelReminder();
@@ -1601,7 +1601,7 @@ public class NotificationView extends LinearLayout {
 	    		_deleteButton.setOnClickListener(
 					new OnClickListener(){
 					    public void onClick(View view){
-					    	if (_debug) Log.v("Generic Delete Button Clicked()");
+					    	if (_debug) Log.v(_context, "Generic Delete Button Clicked()");
 					    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 							//Cancel the reminder.
 							_notification.cancelReminder();
@@ -1624,7 +1624,7 @@ public class NotificationView extends LinearLayout {
 	    		_viewButton.setOnClickListener(
 					new OnClickListener(){
 					    public void onClick(View view){
-					    	if (_debug) Log.v("Generic View Button Clicked()");
+					    	if (_debug) Log.v(_context, "Generic View Button Clicked()");
 					    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 							//Cancel the reminder.
 							_notification.cancelReminder();
@@ -1641,7 +1641,7 @@ public class NotificationView extends LinearLayout {
 				_viewButton.setVisibility(View.GONE);
 			}
 		}catch(Exception ex){
-			Log.e("NotificationView.setupViewGenericButtons() ERROR: " + ex.toString());
+			Log.e(_context, "NotificationView.setupViewGenericButtons() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -1649,7 +1649,7 @@ public class NotificationView extends LinearLayout {
 	 * Setup and load the notification specific button icons.
 	 */
 	private void setupButtonIcons(boolean usingImageButtons, int notificationType, String buttonDisplayStyle){
-		if (_debug) Log.v("NotificationView.setupButtonIcons()");
+		if (_debug) Log.v(_context, "NotificationView.setupButtonIcons()");
 		try{
 			if(buttonDisplayStyle.equals(Constants.BUTTON_DISPLAY_TEXT_ONLY)){
 				return;
@@ -1742,7 +1742,7 @@ public class NotificationView extends LinearLayout {
 				}
 			}
 		}catch(Exception ex){
-			Log.e("NotificationView.setupButtonIcons() ERROR: " + ex.toString());
+			Log.e(_context, "NotificationView.setupButtonIcons() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -1752,7 +1752,7 @@ public class NotificationView extends LinearLayout {
 	 * @param usingImageButtons - Boolean value indicating if the image buttons are being used.
 	 */
 	private void setupDismissButtonLongClickAction(boolean usingImageButtons){
-		if (_debug) Log.v("NotificationView.setupDismissButtonLongClickAction()");
+		if (_debug) Log.v(_context, "NotificationView.setupDismissButtonLongClickAction()");
 		if(usingImageButtons){
 			_dismissImageButton.setOnLongClickListener(new OnLongClickListener(){ 
 		        public boolean onLongClick(View view){
@@ -1824,7 +1824,7 @@ public class NotificationView extends LinearLayout {
 	 * @param notification - This View's Notification.
 	 */
 	private void populateViewInfo(){
-		if (_debug) Log.v("NotificationView.populateViewInfo()");
+		if (_debug) Log.v(_context, "NotificationView.populateViewInfo()");
 		boolean loadContactPhoto = true;
 		String notificationTitle = _notification.getTitle();
 		String contactName = _notification.getContactName();
@@ -2033,7 +2033,7 @@ public class NotificationView extends LinearLayout {
 	 * Add the QuickContact widget to the Contact Photo. This is added to the OnClick event of the photo.
 	 */
 	private void setupQuickContact(){
-		if (_debug) Log.v("NotificationView.setupQuickContact()");
+		if (_debug) Log.v(_context, "NotificationView.setupQuickContact()");
 		if(_preferences.getBoolean(Constants.QUICK_CONTACT_DISABLED_KEY, false)){
 			return;
 		}
@@ -2041,14 +2041,14 @@ public class NotificationView extends LinearLayout {
 		if(lookupKey != null && !lookupKey.equals("")){
 			_photoImageView.setOnClickListener(new OnClickListener(){
 			    public void onClick(View view){
-			    	if (_debug) Log.v("Contact Photo Clicked()");
+			    	if (_debug) Log.v(_context, "Contact Photo Clicked()");
 			    	customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 					//Cancel the reminder.
 					_notification.cancelReminder();
 			    	try{
 			    		ContactsContract.QuickContact.showQuickContact(_context, _photoImageView, Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_LOOKUP_URI, lookupKey), ContactsContract.QuickContact.MODE_MEDIUM, null);
 			    	}catch(Exception ex){
-			    		Log.e("Contact Photo Clicked ContactsContract.QuickContact.showQuickContact() Error: " + ex.toString());
+			    		Log.e(_context, "Contact Photo Clicked ContactsContract.QuickContact.showQuickContact() Error: " + ex.toString());
 			    	}
 			    }
 			});
@@ -2062,7 +2062,7 @@ public class NotificationView extends LinearLayout {
 	 * @param notification - This View's Notification.
 	 */
 	private void setNotificationMessage(){
-		if (_debug) Log.v("NotificationView.setNotificationMessage()");
+		if (_debug) Log.v(_context, "NotificationView.setNotificationMessage()");
 		String notificationText = "";
 		int notificationAlignment = Gravity.LEFT;
 		switch(_notificationType){
@@ -2097,7 +2097,7 @@ public class NotificationView extends LinearLayout {
 				_notificationDetailsTextView.setText(Html.fromHtml(notificationText));
 			}
 		}catch(Exception ex){
-			Log.e("NotificationView.setNotificationMessage() EMOJI LOADING ERROR: " + ex.toString());
+			Log.e(_context, "NotificationView.setNotificationMessage() EMOJI LOADING ERROR: " + ex.toString());
 			_notificationDetailsTextView.setText(Html.fromHtml(notificationText));
 		}
 		if(_preferences.getBoolean(Constants.NOTIFICATION_BODY_CENTER_ALIGN_TEXT_KEY, false)){
@@ -2120,7 +2120,7 @@ public class NotificationView extends LinearLayout {
 	 * @param notification - This View's Notification.
 	 */
 	private void setNotificationTypeInfo(){
-		if (_debug) Log.v("NotificationView.setNotificationTypeInfo()");
+		if (_debug) Log.v(_context, "NotificationView.setNotificationTypeInfo()");
 		Bitmap iconBitmap = null;
 		// Update TextView that contains the image, contact info/calendar info, and timestamp for the Notification.
 	    String receivedAtText = "";
@@ -2195,7 +2195,7 @@ public class NotificationView extends LinearLayout {
 	 * Setup the context menus for the various items on the notification window.
 	 */
 	private void setupContextMenus(){
-		if (_debug) Log.v("NotificationView.setupContextMenus()"); 
+		if (_debug) Log.v(_context, "NotificationView.setupContextMenus()"); 
 		if(_preferences.getBoolean(Constants.CONTEXT_MENU_DISABLED_KEY, false)){
 			return;
 		}
@@ -2213,7 +2213,7 @@ public class NotificationView extends LinearLayout {
 		 * Set up the contact image loading view.
 		 */
 	    protected void onPreExecute(){
-			if (_debug) Log.v("NotificationView.setNotificationContactImageAsyncTask.onPreExecute()");
+			if (_debug) Log.v(_context, "NotificationView.setNotificationContactImageAsyncTask.onPreExecute()");
 	    	_photoImageView.setVisibility(View.GONE);
 	    	_photoProgressBar.setVisibility(View.VISIBLE);
 	    }
@@ -2224,7 +2224,7 @@ public class NotificationView extends LinearLayout {
 	     * @param params - The contact's id.
 	     */
 	    protected Bitmap doInBackground(Long... params){
-			if (_debug) Log.v("NotificationView.setNotificationContactImageAsyncTask.doInBackground()");
+			if (_debug) Log.v(_context, "NotificationView.setNotificationContactImageAsyncTask.doInBackground()");
 	    	return getNotificationContactImage(params[0]);
 	    }
 	    
@@ -2234,7 +2234,7 @@ public class NotificationView extends LinearLayout {
 	     * @param result - The image of the contact.
 	     */
 	    protected void onPostExecute(Bitmap result){
-			if (_debug) Log.v("NotificationView.setNotificationContactImageAsyncTask.onPostExecute()");
+			if (_debug) Log.v(_context, "NotificationView.setNotificationContactImageAsyncTask.onPostExecute()");
 	    	_photoImageView.setImageBitmap(result);
 	    	_photoProgressBar.setVisibility(View.GONE);
 	    	_photoImageView.setVisibility(View.VISIBLE);
@@ -2247,7 +2247,7 @@ public class NotificationView extends LinearLayout {
 	 * @param contactID - This contact's id.
 	 */
 	private Bitmap getNotificationContactImage(long contactID){
-		if (_debug) Log.v("NotificationView.getNotificationContactImage()");
+		if (_debug) Log.v(_context, "NotificationView.getNotificationContactImage()");
 	    //Load contact photo if it exists.
 		try{
 		    Bitmap bitmap = getContactImage(contactID);
@@ -2259,7 +2259,7 @@ public class NotificationView extends LinearLayout {
 		    	return Common.getRoundedCornerBitmap(BitmapFactory.decodeResource(_context.getResources(), getContactPhotoPlaceholderResourceID(Integer.parseInt(contactPlaceholderImageIndex))), 5, true, contactPhotoSize, contactPhotoSize);
 		    }
 		}catch(Exception ex){
-			Log.e("NotificationView.getNotificationContactImage() ERROR: " + ex.toString());
+			Log.e(_context, "NotificationView.getNotificationContactImage() ERROR: " + ex.toString());
 			return null;
 		}
 	}
@@ -2272,10 +2272,10 @@ public class NotificationView extends LinearLayout {
 	 * @return Bitmap - The bitmap of the contact image or null if there is none.
 	 */
 	private Bitmap getContactImage(long contactID){
-		if (_debug) Log.v("NotificationView.getContactImage()");
+		if (_debug) Log.v(_context, "NotificationView.getContactImage()");
 		try{
 			if(contactID < 0){
-				if (_debug) Log.v("NotificationView.getContactImage() ContactID < 0. Exiting...");
+				if (_debug) Log.v(_context, "NotificationView.getContactImage() ContactID < 0. Exiting...");
 				return null;
 			}
 			Uri uri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, contactID);
@@ -2287,7 +2287,7 @@ public class NotificationView extends LinearLayout {
 				return null;
 			}
 		}catch(Exception ex){
-			Log.e("NotificationView.getContactImage() ERROR: " + ex.toString());
+			Log.e(_context, "NotificationView.getContactImage() ERROR: " + ex.toString());
 			return null;
 		}
 	}
@@ -2300,7 +2300,7 @@ public class NotificationView extends LinearLayout {
 	 * @return int - Returns the resource id of the image that corresponds to this index.
 	 */
 	private int getContactPhotoPlaceholderResourceID(int index){
-		if (_debug) Log.v("NotificationView.getContactPhotoPlaceholderResourceID()");
+		if (_debug) Log.v(_context, "NotificationView.getContactPhotoPlaceholderResourceID()");
 		switch(index){
 			case 1:{
 				return R.drawable.ic_contact_picture_1;
@@ -2348,7 +2348,7 @@ public class NotificationView extends LinearLayout {
 	 * Remove the notification from the ViewFlipper.
 	 */
 	private void dismissNotification(boolean reschedule){
-		if (_debug) Log.v("NotificationView.dismissNotification()");
+		if (_debug) Log.v(_context, "NotificationView.dismissNotification()");
 		_notificationViewFlipper.removeActiveNotification(reschedule);
 	}
 	
@@ -2357,7 +2357,7 @@ public class NotificationView extends LinearLayout {
 	 * Replies to the current message using the stock Android messaging app.
 	 */
 	private void replyToMessage(int notificationType){
-		if (_debug) Log.v("NotificationView.replyToMessage()");
+		if (_debug) Log.v(_context, "NotificationView.replyToMessage()");
 		//Setup Reply action.
 		String sentFromAddress = _notification.getSentFromAddress();
 		switch(notificationType){
@@ -2403,7 +2403,7 @@ public class NotificationView extends LinearLayout {
 	 * Views a notification.
 	 */
 	private void viewNotification(int notificationType){
-		if (_debug) Log.v("NotificationView.viewNotification()");
+		if (_debug) Log.v(_context, "NotificationView.viewNotification()");
 		switch(notificationType){
 			case Constants.NOTIFICATION_TYPE_SMS:{
 				break;
@@ -2431,7 +2431,7 @@ public class NotificationView extends LinearLayout {
 	 * Confirm the delete request of the current message.
 	 */
 	private void showDeleteDialog(){
-		if (_debug) Log.v("NotificationView.showDeleteDialog()");
+		if (_debug) Log.v(_context, "NotificationView.showDeleteDialog()");
 		switch(_notificationType){
 			case Constants.NOTIFICATION_TYPE_SMS:{
 				if(_preferences.getString(Constants.SMS_DELETE_KEY, "0").equals(Constants.SMS_DELETE_ACTION_NOTHING)){
@@ -2544,7 +2544,7 @@ public class NotificationView extends LinearLayout {
 	 * Delete the current Notification.
 	 */
 	private void deleteMessage(){
-		if(_debug) Log.v("NotificationView.deleteMessage()");
+		if(_debug) Log.v(_context, "NotificationView.deleteMessage()");
 		switch(_notificationType){
 			case Constants.NOTIFICATION_TYPE_SMS:{
 				String deleteButtonAction = _preferences.getString(Constants.SMS_DELETE_KEY, "0");
@@ -2607,7 +2607,7 @@ public class NotificationView extends LinearLayout {
 	 * When the Missed Call Notification "Call" button is pressed, this determines what to do.
 	 */
 	private void callMissedCall(){
-		if (_debug) Log.v("NotificationView.callMissedCall()");
+		if (_debug) Log.v(_context, "NotificationView.callMissedCall()");
 		if(_preferences.getString(Constants.PHONE_CALL_KEY, Constants.PHONE_CALL_ACTION_CALL).equals(Constants.PHONE_CALL_ACTION_CALL)){
 			PhoneCommon.makePhoneCall(_context, _notificationActivity, _notification.getSentFromAddress(), Constants.CALL_ACTIVITY);
 		}else if(_preferences.getString(Constants.PHONE_CALL_KEY, Constants.PHONE_CALL_ACTION_CALL).equals(Constants.PHONE_CALL_ACTION_CALL_LOG)){
@@ -2621,7 +2621,7 @@ public class NotificationView extends LinearLayout {
 	 * Set the calendar snooze spinner default value.
 	 */
 	private void setCalendarSnoozeSpinner(){
-		if (_debug) Log.v("NotificationView.setCalendarSnoozeSpinner()");
+		if (_debug) Log.v(_context, "NotificationView.setCalendarSnoozeSpinner()");
 		int selectionValue = Integer.parseInt(_preferences.getString(Constants.CALENDAR_REMINDER_INTERVAL_KEY, Constants.CALENDAR_REMINDER_INTERVAL_DEFAULT));
 		String selectionItem = _context.getString(R.string.s10_minutes_text);
 		if(selectionValue == 1){
@@ -2849,12 +2849,12 @@ public class NotificationView extends LinearLayout {
 			    	_notificationWindowLinearLayout.getWindowVisibleDisplayFrame(viewableRectangle);
 			    	int viewableRectangleHeight = viewableRectangle.bottom - viewableRectangle.top;
 			    	int notificationHeight = _notificationWindowLinearLayout.getRootView().getHeight();			        	
-		        	//if (_debug) Log.v("viewableRectangle.height(): " + viewableRectangleHeight);
-		        	//if (_debug) Log.v("_notificationOriginalHeight: " + notificationHeight);
+		        	//if (_debug) Log.v(_context, "viewableRectangle.height(): " + viewableRectangleHeight);
+		        	//if (_debug) Log.v(_context, "_notificationOriginalHeight: " + notificationHeight);
 			        if (notificationHeight - viewableRectangleHeight > 200){
 			        	if(!_softKeyboardOnScreen){
 			        		_softKeyboardOnScreen = true;			        	
-				        	//if (_debug) Log.v("NotificationView - KEYBOARD IS ON SCREEN!");
+				        	//if (_debug) Log.v(_context, "NotificationView - KEYBOARD IS ON SCREEN!");
 				        	maxLines = 5;
 				        	if(phoneOrientation != Configuration.ORIENTATION_LANDSCAPE){
 				        		if(hideHeaderPanel) _headerRelativeLayout.setVisibility(View.GONE);
@@ -2869,7 +2869,7 @@ public class NotificationView extends LinearLayout {
 			        }else{
 			        	if(_softKeyboardOnScreen){
 			        		_softKeyboardOnScreen = false;
-				        	//if (_debug) Log.v("NotificationView - KEYBOARD IS NOT ON SCREEN!");			        	
+				        	//if (_debug) Log.v(_context, "NotificationView - KEYBOARD IS NOT ON SCREEN!");			        	
 				        	maxLines = Integer.parseInt(_preferences.getString(Constants.NOTIFICATION_BODY_MAX_LINES_KEY, Constants.NOTIFICATION_BODY_MAX_LINES_DEFAULT));
 				    	    if(phoneOrientation == Configuration.ORIENTATION_LANDSCAPE){
 				    	    	if(maxLines > 2) maxLines = maxLines / 2;

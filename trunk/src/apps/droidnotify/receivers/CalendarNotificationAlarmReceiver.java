@@ -37,25 +37,25 @@ public class CalendarNotificationAlarmReceiver extends BroadcastReceiver {
 	 */
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		_debug = Log.getDebug();
-		if (_debug) Log.v("CalendarNotificationAlarmReceiver.onReceive()");
+		_debug = Log.getDebug(context);
+		if (_debug) Log.v(context, "CalendarNotificationAlarmReceiver.onReceive()");
 		try{
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 			//Read preferences and exit if app is disabled.
 			if(!preferences.getBoolean(Constants.APP_ENABLED_KEY, true)){
-				if (_debug) Log.v("CalendarNotificationAlarmReceiver.onReceive() App Disabled. Exiting...");
+				if (_debug) Log.v(context, "CalendarNotificationAlarmReceiver.onReceive() App Disabled. Exiting...");
 				return;
 			}
 			//Read preferences and exit if calendar notifications are disabled.
 		    if(!preferences.getBoolean(Constants.CALENDAR_NOTIFICATIONS_ENABLED_KEY, true)){
-				if (_debug) Log.v("CalendarNotificationAlarmReceiver.onReceive() Calendar Notifications Disabled. Exiting... ");
+				if (_debug) Log.v(context, "CalendarNotificationAlarmReceiver.onReceive() Calendar Notifications Disabled. Exiting... ");
 				return;
 			}
 		    Intent calendarNotificationAlarmBroadcastReceiverServiceIntent = new Intent(context, CalendarNotificationAlarmBroadcastReceiverService.class);
 		    calendarNotificationAlarmBroadcastReceiverServiceIntent.putExtras(intent.getExtras());
 			WakefulIntentService.sendWakefulWork(context, calendarNotificationAlarmBroadcastReceiverServiceIntent);
 		}catch(Exception ex){
-			Log.e("CalendarNotificationAlarmReceiver.onReceive() ERROR: " + ex.toString());
+			Log.e(context, "CalendarNotificationAlarmReceiver.onReceive() ERROR: " + ex.toString());
 		}
 	}
 	

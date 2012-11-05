@@ -55,25 +55,25 @@ public class CalendarCommon {
 	 */
 	@SuppressLint("NewApi")
 	public static void readCalendars(Context context){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("CalendarCommon.readCalendars()");
+		_debug = Log.getDebug(context);
+		if (_debug) Log.v(context, "CalendarCommon.readCalendars()");
 		try{
 			int APILevel = Common.getDeviceAPILevel();
 			//Determine the reminder interval based on the users preferences.
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 			//Read preferences and exit if app is disabled.
 		    if(!preferences.getBoolean(Constants.APP_ENABLED_KEY, true)){
-				if (_debug) Log.v("CalendarCommon.readCalendars() App Disabled. Exiting...");
+				if (_debug) Log.v(context, "CalendarCommon.readCalendars() App Disabled. Exiting...");
 				return;
 			}
 			//Block the notification if it's quiet time.
 			if(Common.isQuietTime(context)){
-				if (_debug) Log.v("CalendarCommon.readCalendars() Quiet Time. Exiting...");
+				if (_debug) Log.v(context, "CalendarCommon.readCalendars() Quiet Time. Exiting...");
 				return;
 			}
 			//Read preferences and exit if calendar notifications are disabled.
 		    if(!preferences.getBoolean(Constants.CALENDAR_NOTIFICATIONS_ENABLED_KEY, true)){
-				if (_debug) Log.v("CalendarCommon.readCalendars() Calendar Notifications Disabled. Exiting... ");
+				if (_debug) Log.v(context, "CalendarCommon.readCalendars() Calendar Notifications Disabled. Exiting... ");
 				return;
 			}
 			String calendarPreferences = preferences.getString(Constants.CALENDAR_SELECTION_KEY, "");
@@ -98,7 +98,7 @@ public class CalendarCommon {
 				calendarDisplayNameColumn = Constants.CALENDAR_DISPLAY_NAME;
 				calendarSelectedColumn = Constants.CALENDAR_SELECTED;
 			}
-			if (_debug) Log.v("CalendarCommon.readCalendars() ContentProvider URI String: " + contentProvider);
+			if (_debug) Log.v(context, "CalendarCommon.readCalendars() ContentProvider URI String: " + contentProvider);
 			HashMap<String, String> calendarIds = new HashMap<String, String>();
 		 	Cursor cursor = null;
 			try{
@@ -109,7 +109,7 @@ public class CalendarCommon {
 					null,
 					null);
 				if(cursor ==  null){
-					Log.e("CalendarCommon.readCalendars() READ CALENDARS ERROR: Cursor is null. Exiting...");
+					Log.e(context, "CalendarCommon.readCalendars() READ CALENDARS ERROR: Cursor is null. Exiting...");
 					return;
 				}
 				while(cursor.moveToNext()){
@@ -120,15 +120,15 @@ public class CalendarCommon {
 					calendarDisplayName = cursor.getString(cursor.getColumnIndex(calendarDisplayNameColumn));
 					calendarSelected = !cursor.getString(cursor.getColumnIndex(calendarSelectedColumn)).equals("0");
 					if(calendarsArray.contains(String.valueOf(calendarID))){
-						if (_debug) Log.v("CalendarCommon.readCalendars() CHECKING CALENDAR -  Calendar ID: " + String.valueOf(calendarID) + " Display Name: " + calendarDisplayName + " Selected: " + calendarSelected);
+						if (_debug) Log.v(context, "CalendarCommon.readCalendars() CHECKING CALENDAR -  Calendar ID: " + String.valueOf(calendarID) + " Display Name: " + calendarDisplayName + " Selected: " + calendarSelected);
 						calendarIds.put(String.valueOf(calendarID), calendarDisplayName);
 					}else{
-						if (_debug) Log.v("CalendarCommon.readCalendars() CALENDAR NOT BEING CHECKED -  Calendar ID: " + String.valueOf(calendarID) + " Display Name: " + calendarDisplayName + " Selected: " + calendarSelected);
+						if (_debug) Log.v(context, "CalendarCommon.readCalendars() CALENDAR NOT BEING CHECKED -  Calendar ID: " + String.valueOf(calendarID) + " Display Name: " + calendarDisplayName + " Selected: " + calendarSelected);
 					}
 				}
 				cursor.close();
 			}catch(Exception ex){
-				Log.e("CalendarCommon.readCalendars() READ CALENDARS ERROR: " + ex.toString());
+				Log.e(context, "CalendarCommon.readCalendars() READ CALENDARS ERROR: " + ex.toString());
 				//if (_debug) Common.debugReadContentProviderColumns(context, contentProvider, null);
 				if(cursor != null){
 					cursor.close();
@@ -136,7 +136,7 @@ public class CalendarCommon {
 				return;
 			}
 			if(calendarIds.isEmpty()){
-				if (_debug) Log.v("CalendarCommon.readCalendars() No calendars were found. Exiting...");
+				if (_debug) Log.v(context, "CalendarCommon.readCalendars() No calendars were found. Exiting...");
 				return;
 			}
 			long reminderInterval = Long.parseLong(preferences.getString(Constants.CALENDAR_REMINDER_KEY, "15")) * 60 * 1000;
@@ -148,7 +148,7 @@ public class CalendarCommon {
 				Map.Entry<String, String> calendarInfo = calendarIdsEnumerator.next();
 				String calendarID = calendarInfo.getKey();
 				String calendarName = calendarInfo.getValue();
-				if (_debug) Log.v("CalendarCommon.readCalendars() CHECKING EVENTS FOR CALENDAR -  Calendar ID: " + calendarID  + " Calendar Name: " + calendarName);
+				if (_debug) Log.v(context, "CalendarCommon.readCalendars() CHECKING EVENTS FOR CALENDAR -  Calendar ID: " + calendarID  + " Calendar Name: " + calendarName);
 				String calendarEventContentProvider = null;
 				String eventCalendarIDColumn = null;
 				String eventIDColumn = null;
@@ -179,7 +179,7 @@ public class CalendarCommon {
     				eventHasAlarmColumn = Constants.CALENDAR_EVENT_HAS_ALARM;
     				eventQuerySortOrder = eventStartTimeColumn + " ASC";
 				}
-				if (_debug) Log.v("CalendarCommon.readCalendars() CalendarEventContentProvider URI String: " + calendarEventContentProvider);			
+				if (_debug) Log.v(context, "CalendarCommon.readCalendars() CalendarEventContentProvider URI String: " + calendarEventContentProvider);			
 				//The start time of the query.
 				long queryStartTime = System.currentTimeMillis();
 				long queryEndTime = queryStartTime + AlarmManager.INTERVAL_DAY;
@@ -203,7 +203,7 @@ public class CalendarCommon {
 							selectionArgs,
 							sortOrder);
 					if(eventCursor ==  null){
-						Log.e("CalendarCommon.readCalendars() READ CALENDAR EVENTS: Event cursor is null. Exiting...");
+						Log.e(context, "CalendarCommon.readCalendars() READ CALENDAR EVENTS: Event cursor is null. Exiting...");
 						cursor.close();
 						return;
 					}
@@ -215,7 +215,7 @@ public class CalendarCommon {
 						long eventEndTime = eventCursor.getLong(eventCursor.getColumnIndex(eventEndTimeColumn));
 						final Boolean allDay = !eventCursor.getString(eventCursor.getColumnIndex(eventAllDayColumn)).equals("0");
 						final Boolean hasReminderAlarm = !eventCursor.getString(eventCursor.getColumnIndex(eventHasAlarmColumn)).equals("0");
-						if (_debug) Log.v("CalendarCommon.readCalendars() Calendar ID: " + eventCalendarID + 
+						if (_debug) Log.v(context, "CalendarCommon.readCalendars() Calendar ID: " + eventCalendarID + 
 								" Event ID: " + eventID + 
 								" Event Title: " + eventTitle + 
 								" Event Begin: " + eventStartTime + 
@@ -304,7 +304,7 @@ public class CalendarCommon {
 					}
 					eventCursor.close();
 				}catch(Exception ex){
-					Log.e("CalendarCommon.readCalendars() EVENT QUERY ERROR: " + ex.toString());						
+					Log.e(context, "CalendarCommon.readCalendars() EVENT QUERY ERROR: " + ex.toString());						
 					if (_debug) Common.debugReadContentProviderColumns(context, null, Uri.parse(calendarEventContentProvider));
 					if(eventCursor != null){
 						eventCursor.close();
@@ -313,7 +313,7 @@ public class CalendarCommon {
 				}
 			}
 		}catch(Exception ex){
-			Log.e("CalendarCommon.readCalendars() ERROR: " + ex.toString());
+			Log.e(context, "CalendarCommon.readCalendars() ERROR: " + ex.toString());
 			return;
 		}
 	}
@@ -327,8 +327,8 @@ public class CalendarCommon {
 	 */
 	@SuppressLint("NewApi")
 	public static String getAvailableCalendars(Context context){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("CalendarCommon.getAvailableCalendars()");
+		_debug = Log.getDebug(context);
+		if (_debug) Log.v(context, "CalendarCommon.getAvailableCalendars()");
 		StringBuilder calendarsInfo = new StringBuilder();
 		Cursor cursor = null;
 		String contentProvider = null;
@@ -349,7 +349,7 @@ public class CalendarCommon {
 				calendarDisplayNameColumn = Constants.CALENDAR_DISPLAY_NAME;
 				calendarSelectedColumn = Constants.CALENDAR_SELECTED;
 			}
-			if (_debug) Log.v("CalendarCommon.getAvailableCalendars() ContentProvider: " + contentProvider);
+			if (_debug) Log.v(context, "CalendarCommon.getAvailableCalendars() ContentProvider: " + contentProvider);
     		final String[] projection = new String[]{calendarIDColumn, calendarDisplayNameColumn, calendarSelectedColumn};
             final String selection = null;
     		final String[] selectionArgs = null;
@@ -361,7 +361,7 @@ public class CalendarCommon {
 				selectionArgs,
 				sortOrder);
 			if(cursor ==  null){
-				Log.e("CalendarCommon.getAvailableCalendars() Cursor is null. Exiting...");
+				Log.e(context, "CalendarCommon.getAvailableCalendars() Cursor is null. Exiting...");
 				return null;
 			}
 			while(cursor.moveToNext()){
@@ -380,7 +380,7 @@ public class CalendarCommon {
 			}
 			cursor.close();
 		}catch(Exception ex){
-			Log.e("CalendarCommon.getAvailableCalendars() ERROR: " + ex.toString());
+			Log.e(context, "CalendarCommon.getAvailableCalendars() ERROR: " + ex.toString());
 			if (_debug) Common.debugReadContentProviderColumns(context, null, Uri.parse(contentProvider));
 			if(cursor != null){
 				cursor.close();
@@ -388,7 +388,7 @@ public class CalendarCommon {
 			return null;
 		}
 		if(calendarsInfo.toString().equals("")){
-			if (_debug) Log.v("CalendarCommon.getAvailableCalendars() No Calendars Found.");
+			if (_debug) Log.v(context, "CalendarCommon.getAvailableCalendars() No Calendars Found.");
 			return null;
 		}else{
 			return calendarsInfo.toString();
@@ -405,13 +405,13 @@ public class CalendarCommon {
 	 */
 	@SuppressLint("NewApi")
 	public static boolean isEventDismissed(Context context, long eventID){
-		_debug = Log.getDebug();
-		if(_debug) Log.v("CalendarCommon.isEventDismissed() EventID: " + eventID);
+		_debug = Log.getDebug(context);
+		if(_debug) Log.v(context, "CalendarCommon.isEventDismissed() EventID: " + eventID);
 		Cursor cursor = null;
 		String contentProvider = null;
 		try{
 			if(eventID < 0){
-				if(_debug) Log.v("CalendarCommon.isEventDismissed() Event ID < 0. Exiting...");
+				if(_debug) Log.v(context, "CalendarCommon.isEventDismissed() Event ID < 0. Exiting...");
 				return true;
 			}			
 			int APILevel = Common.getDeviceAPILevel();
@@ -440,21 +440,21 @@ public class CalendarCommon {
 						selectionArgs,
 						sortOrder);
 		    if(cursor == null){
-		    	if(_debug) Log.v("CalendarCommon.isEventDismissed() Currsor is null. Exiting...");
+		    	if(_debug) Log.v(context, "CalendarCommon.isEventDismissed() Currsor is null. Exiting...");
 		    	return true;
 		    }
 		    int eventStatus = 0;
 		    if(cursor.moveToFirst()){
 		    	eventStatus = cursor.getInt(cursor.getColumnIndex(eventStatusColumn));
-		    	if(_debug) Log.v("CalendarCommon.isEventDismissed() Event Found - Status: " + String.valueOf(eventStatus));
+		    	if(_debug) Log.v(context, "CalendarCommon.isEventDismissed() Event Found - Status: " + String.valueOf(eventStatus));
 	    	}else{
-	    		if(_debug) Log.v("CalendarCommon.isEventDismissed() Event ID: " + String.valueOf(eventID) + " was not found!  Exiting...");
+	    		if(_debug) Log.v(context, "CalendarCommon.isEventDismissed() Event ID: " + String.valueOf(eventID) + " was not found!  Exiting...");
 	    		return true;
 	    	}
 			cursor.close();
 		    return eventStatus == STATE_DISMISSED ? true : false;
 		}catch(Exception ex){
-			Log.e("CalendarCommon.isEventDismissed() ERROR: " + ex.toString());
+			Log.e(context, "CalendarCommon.isEventDismissed() ERROR: " + ex.toString());
     		if(cursor != null){
 				cursor.close();
 			}
@@ -470,13 +470,13 @@ public class CalendarCommon {
 	 */
 	@SuppressLint("NewApi")
 	public static boolean eventExists(Context context, long eventID){
-		_debug = Log.getDebug();
-		if(_debug) Log.v("CalendarCommon.eventExists() EventID: " + eventID);
+		_debug = Log.getDebug(context);
+		if(_debug) Log.v(context, "CalendarCommon.eventExists() EventID: " + eventID);
 		Cursor cursor = null;
 		String contentProvider = null;
 		try{
 			if(eventID < 0){
-				if(_debug) Log.v("CalendarCommon.eventExists() Event ID < 0. Exiting...");
+				if(_debug) Log.v(context, "CalendarCommon.eventExists() Event ID < 0. Exiting...");
 				return true;
 			}			
 			int APILevel = Common.getDeviceAPILevel();
@@ -499,7 +499,7 @@ public class CalendarCommon {
 						selectionArgs,
 						sortOrder);
 		    if(cursor == null){
-		    	if(_debug) Log.v("CalendarCommon.eventExists() Currsor is null. Exiting...");
+		    	if(_debug) Log.v(context, "CalendarCommon.eventExists() Currsor is null. Exiting...");
 		    	return false;
 		    }
 		    if(cursor.moveToFirst()){
@@ -510,7 +510,7 @@ public class CalendarCommon {
 	    		return false;
 	    	}
 		}catch(Exception ex){
-			Log.e("CalendarCommon.eventExists() ERROR: " + ex.toString());
+			Log.e(context, "CalendarCommon.eventExists() ERROR: " + ex.toString());
     		if(cursor != null){
 				cursor.close();
 			}
@@ -529,8 +529,8 @@ public class CalendarCommon {
 	 */
 	@SuppressLint("NewApi")
 	public static boolean startAddCalendarEventActivity(Context context, NotificationActivity notificationActivity, int requestCode){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("CalendarCommon.startAddCalendarEventActivity()");		
+		_debug = Log.getDebug(context);
+		if (_debug) Log.v(context, "CalendarCommon.startAddCalendarEventActivity()");		
 		try{
 			int APILevel = Common.getDeviceAPILevel();
 			String deviceManufacturer = Common.getDeviceManufacturer();
@@ -543,20 +543,20 @@ public class CalendarCommon {
 			}else{
 				calendarEventContentProvider = "content://com.android.calendar/events";	
 			}
-			if (_debug) Log.v("CalendarCommon.startAddCalendarEventActivity() Trying to access Calendar Content Provider: " + calendarEventContentProvider);
+			if (_debug) Log.v(context, "CalendarCommon.startAddCalendarEventActivity() Trying to access Calendar Content Provider: " + calendarEventContentProvider);
 			notificationActivity.startActivityForResult(intent, requestCode);
 			Common.setInLinkedAppFlag(context, true);
 			return true;
 		}catch(Exception e){
 			try{
-				if (_debug) Log.v("CalendarCommon.startAddCalendarEventActivity() Calendar Content Provider Failed ERROR: " + e.toString());
+				if (_debug) Log.v(context, "CalendarCommon.startAddCalendarEventActivity() Calendar Content Provider Failed ERROR: " + e.toString());
 				Intent intent = new Intent(Intent.ACTION_EDIT);
 				intent.setData(Uri.parse("content://com.android.calendar/events"));	
 				notificationActivity.startActivityForResult(intent, requestCode);
 				Common.setInLinkedAppFlag(context, true);
 				return true;
 			}catch(Exception ex){
-				Log.e("CalendarCommon.startAddCalendarEventActivity() ERROR: " + ex.toString());
+				Log.e(context, "CalendarCommon.startAddCalendarEventActivity() ERROR: " + ex.toString());
 				Toast.makeText(context, context.getString(R.string.app_android_calendar_app_error), Toast.LENGTH_LONG).show();
 				Common.setInLinkedAppFlag(context, false);
 				return false;
@@ -578,8 +578,8 @@ public class CalendarCommon {
 	 */
 	@SuppressLint("NewApi")
 	public static boolean startViewCalendarEventActivity(Context context, NotificationActivity notificationActivity, long calendarEventID, long calendarEventStartTime, long calendarEventEndTime, int requestCode){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("CalendarCommon.startViewCalendarEventActivity()");
+		_debug = Log.getDebug(context);
+		if (_debug) Log.v(context, "CalendarCommon.startViewCalendarEventActivity()");
 		try{
 			int APILevel = Common.getDeviceAPILevel();
 			if(calendarEventID < 0){
@@ -597,7 +597,7 @@ public class CalendarCommon {
 			}else{
 				calendarEventContentProvider = "content://com.android.calendar/events/" + String.valueOf(calendarEventID);	
 			}
-			if (_debug) Log.v("CalendarCommon.startViewCalendarEventActivity() Trying to access Calendar Content Provider: " + calendarEventContentProvider);
+			if (_debug) Log.v(context, "CalendarCommon.startViewCalendarEventActivity() Trying to access Calendar Content Provider: " + calendarEventContentProvider);
 			intent.setData(Uri.parse(calendarEventContentProvider));	
 			intent.putExtra(Constants.CALENDAR_EVENT_BEGIN_TIME, calendarEventStartTime);
 			intent.putExtra(Constants.CALENDAR_EVENT_END_TIME, calendarEventEndTime);
@@ -606,7 +606,7 @@ public class CalendarCommon {
 			return true;
 		}catch(Exception e){
 			try{
-				if (_debug) Log.v("CalendarCommon.startViewCalendarEventActivity() Calendar Content Provider Failed ERROR: " + e.toString());
+				if (_debug) Log.v(context, "CalendarCommon.startViewCalendarEventActivity() Calendar Content Provider Failed ERROR: " + e.toString());
 				Intent intent = new Intent(Intent.ACTION_VIEW);
 				intent.setData(Uri.parse("content://com.android.calendar/events/" + String.valueOf(calendarEventID)));	
 				intent.putExtra(Constants.CALENDAR_EVENT_BEGIN_TIME, calendarEventStartTime);
@@ -615,7 +615,7 @@ public class CalendarCommon {
 				Common.setInLinkedAppFlag(context, true);
 				return true;
 			}catch(Exception ex){
-				Log.e("CalendarCommon.startViewCalendarEventActivity() ERROR: " + ex.toString());
+				Log.e(context, "CalendarCommon.startViewCalendarEventActivity() ERROR: " + ex.toString());
 				Toast.makeText(context, context.getString(R.string.app_android_calendar_app_error), Toast.LENGTH_LONG).show();
 				Common.setInLinkedAppFlag(context, false);
 				return false;
@@ -637,8 +637,8 @@ public class CalendarCommon {
 	 */
 	@SuppressLint("NewApi")
 	public static boolean startEditCalendarEventActivity(Context context, NotificationActivity notificationActivity, long calendarEventID, long calendarEventStartTime, long calendarEventEndTime, int requestCode){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("CalendarCommon.startEditCalendarEventActivity()");
+		_debug = Log.getDebug(context);
+		if (_debug) Log.v(context, "CalendarCommon.startEditCalendarEventActivity()");
 		try{
 			int APILevel = Common.getDeviceAPILevel();
 			if(calendarEventID < 0){
@@ -656,7 +656,7 @@ public class CalendarCommon {
 			}else{
 				calendarEventContentProvider = "content://com.android.calendar/events/" + String.valueOf(calendarEventID);	
 			}
-			if (_debug) Log.v("CalendarCommon.startEditCalendarEventActivity() Trying to access Calendar Content Provider: " + calendarEventContentProvider);
+			if (_debug) Log.v(context, "CalendarCommon.startEditCalendarEventActivity() Trying to access Calendar Content Provider: " + calendarEventContentProvider);
 			intent.putExtra(Constants.CALENDAR_EVENT_BEGIN_TIME, calendarEventStartTime);
 			intent.putExtra(Constants.CALENDAR_EVENT_END_TIME, calendarEventEndTime);
 			notificationActivity.startActivityForResult(intent, requestCode);
@@ -664,7 +664,7 @@ public class CalendarCommon {
 			return true;
 		}catch(Exception e){
 			try{
-				if (_debug) Log.v("CalendarCommon.startEditCalendarEventActivity() Calendar Content Provider Failed ERROR: " + e.toString());
+				if (_debug) Log.v(context, "CalendarCommon.startEditCalendarEventActivity() Calendar Content Provider Failed ERROR: " + e.toString());
 				Intent intent = new Intent(Intent.ACTION_EDIT);
 				intent.setData(Uri.parse("content://com.android.calendar/events/" + String.valueOf(calendarEventID)));	
 				intent.putExtra(Constants.CALENDAR_EVENT_BEGIN_TIME, calendarEventStartTime);
@@ -673,7 +673,7 @@ public class CalendarCommon {
 				Common.setInLinkedAppFlag(context, true);
 				return true;
 			}catch(Exception ex){
-				Log.e("CalendarCommon.startEditCalendarEventActivity() ERROR: " + ex.toString());
+				Log.e(context, "CalendarCommon.startEditCalendarEventActivity() ERROR: " + ex.toString());
 				Toast.makeText(context, context.getString(R.string.app_android_calendar_app_error), Toast.LENGTH_LONG).show();
 				Common.setInLinkedAppFlag(context, false);
 				return false;
@@ -691,8 +691,8 @@ public class CalendarCommon {
 	 * @return boolean - Returns true if the activity can be started.
 	 */
 	public static boolean startViewCalendarActivity(Context context, NotificationActivity notificationActivity, int requestCode){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("CalendarCommon.startViewCalendarActivity()");
+		_debug = Log.getDebug(context);
+		if (_debug) Log.v(context, "CalendarCommon.startViewCalendarActivity()");
 		try{
 //			int APILevel = Common.getDeviceAPILevel();
 			String deviceManufacturer = Common.getDeviceManufacturer();
@@ -710,14 +710,14 @@ public class CalendarCommon {
 			return true;
 		}catch(Exception e){
 			try{
-				if (_debug) Log.v("CalendarCommon.startViewCalendarActivity() Calendar Component Failed ERROR: " + e.toString());
+				if (_debug) Log.v(context, "CalendarCommon.startViewCalendarActivity() Calendar Component Failed ERROR: " + e.toString());
 				Intent intent = new Intent(Intent.ACTION_VIEW);
 				intent.setClassName("com.android.calendar", "com.android.calendar.LaunchActivity"); 
 				notificationActivity.startActivityForResult(intent, requestCode);
 				Common.setInLinkedAppFlag(context, true);
 				return true;
 			}catch(Exception ex){
-				Log.e("CalendarCommon.startViewCalendarActivity() ERROR: " + ex.toString());
+				Log.e(context, "CalendarCommon.startViewCalendarActivity() ERROR: " + ex.toString());
 				Toast.makeText(context, context.getString(R.string.app_android_calendar_app_error), Toast.LENGTH_LONG).show();
 				Common.setInLinkedAppFlag(context, false);
 				return false;
@@ -732,8 +732,8 @@ public class CalendarCommon {
 	 * @param alarmStartTime - The time to start the alarm.
 	 */
 	public static void startCalendarAlarmManager(Context context, long alarmStartTime){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("CalendarCommon.startCalendarAlarmManager()");
+		_debug = Log.getDebug(context);
+		if (_debug) Log.v(context, "CalendarCommon.startCalendarAlarmManager()");
 		try{
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 			AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
@@ -743,7 +743,7 @@ public class CalendarCommon {
 			long pollingFrequency = Long.parseLong(preferences.getString(Constants.CALENDAR_POLLING_FREQUENCY_KEY, Constants.CALENDAR_POLLING_FREQUENCY_DEFAULT)) * 60 * 1000;
 			alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, alarmStartTime, pollingFrequency, pendingIntent);
 		}catch(Exception ex){
-			Log.e("CalendarCommon.startCalendarAlarmManager() ERROR: " + ex.toString());
+			Log.e(context, "CalendarCommon.startCalendarAlarmManager() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -753,8 +753,8 @@ public class CalendarCommon {
 	 * @param context - The application context.
 	 */
 	public static void cancelCalendarAlarmManager(Context context){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("CalendarCommon.cancelCalendarAlarmManager()");
+		_debug = Log.getDebug(context);
+		if (_debug) Log.v(context, "CalendarCommon.cancelCalendarAlarmManager()");
 		try{
 			AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 			Intent intent = new Intent(context, CalendarAlarmReceiver.class);
@@ -763,7 +763,7 @@ public class CalendarCommon {
 			alarmManager.cancel(pendingIntent);
 			pendingIntent.cancel();
 		}catch(Exception ex){
-			Log.e("CalendarCommon.cancelCalendarAlarmManager() ERROR: " + ex.toString());
+			Log.e(context, "CalendarCommon.cancelCalendarAlarmManager() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -778,8 +778,8 @@ public class CalendarCommon {
 	 * @return String - Returns the formatted Calendar Event message.
 	 */
 	public static String formatCalendarEventMessage(Context context, String messageTitle, long eventStartTime, long eventEndTime, boolean allDay, String calendarName){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("CalendarCommon.formatCalendarEventMessage()");
+		_debug = Log.getDebug(context);
+		if (_debug) Log.v(context, "CalendarCommon.formatCalendarEventMessage()");
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		String formattedMessage = "";
 		Date eventEndDate = new Date(eventEndTime);
@@ -810,7 +810,7 @@ public class CalendarCommon {
     		}
     		formattedMessage =  messageTitle + formattedMessage;
 		}catch(Exception ex){
-			Log.e("CalendarCommon.formatCalendarEventMessage() ERROR: " + ex.toString());
+			Log.e(context, "CalendarCommon.formatCalendarEventMessage() ERROR: " + ex.toString());
 			formattedMessage = startDateFormated + " - " + endDateFormated;
 		}
     	if(preferences.getBoolean(Constants.CALENDAR_LABELS_KEY, true)){
@@ -828,8 +828,8 @@ public class CalendarCommon {
 	 * @return boolean - Returns true if the user has selected this calendar to receive event notifications.
 	 */
 	public static boolean isCalendarEnabled(Context context, long calendarID){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("CalendarCommon.isCalendarEnabled()");
+		_debug = Log.getDebug(context);
+		if (_debug) Log.v(context, "CalendarCommon.isCalendarEnabled()");
 		try{
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 			String calendarPreferences = preferences.getString(Constants.CALENDAR_SELECTION_KEY, "");
@@ -839,7 +839,7 @@ public class CalendarCommon {
 			}
 			return calendarsArray.contains(String.valueOf(calendarID));
 		}catch(Exception ex){
-			Log.e("CalendarCommon.isCalendarEnabled() ERROR: " + ex.toString());
+			Log.e(context, "CalendarCommon.isCalendarEnabled() ERROR: " + ex.toString());
 			return true;
 		}
 	}
@@ -858,7 +858,7 @@ public class CalendarCommon {
 	 */
 	@SuppressLint("NewApi")
 	private static long getCalendarEventReminderTime(Context context, long eventID, boolean allDay){
-		if (_debug) Log.v("CalendarCommon.getCalendarEventReminderTime() EventID: " + eventID + " AllDay: " + allDay);
+		if (_debug) Log.v(context, "CalendarCommon.getCalendarEventReminderTime() EventID: " + eventID + " AllDay: " + allDay);
 		Cursor cursor = null;
 		String contentProvider = null;
 		try{
@@ -877,7 +877,7 @@ public class CalendarCommon {
 				reminderTimeInMinutesColumn = Constants.CALENDAR_REMINDER_MINUTES;
 				defaultEventReminderMinutes = 15;
 			}
-			if (_debug) Log.v("CalendarCommon.getCalendarEventReminderTime() ContentProvider: " + contentProvider);
+			if (_debug) Log.v(context, "CalendarCommon.getCalendarEventReminderTime() ContentProvider: " + contentProvider);
     		final String[] projection = new String[]{eventIDColumn, reminderTimeInMinutesColumn};
             final String selection = eventIDColumn + "=?";
     		final String[] selectionArgs = new String[] {String.valueOf(eventID)};
@@ -889,12 +889,12 @@ public class CalendarCommon {
 				selectionArgs,
 				sortOrder);
 			if(cursor ==  null){
-				Log.e("CalendarCommon.getCalendarEventReminderTime() Cursor is null. Exiting...");
+				Log.e(context, "CalendarCommon.getCalendarEventReminderTime() Cursor is null. Exiting...");
 				return -1;
 			}
 			if(cursor.moveToFirst()){
 				int reminderTimeInMinutes = cursor.getInt(cursor.getColumnIndex(reminderTimeInMinutesColumn));
-				if (_debug) Log.v("CalendarCommon.getCalendarEventReminderTime() Reminder Time (minutes): " + reminderTimeInMinutes);
+				if (_debug) Log.v(context, "CalendarCommon.getCalendarEventReminderTime() Reminder Time (minutes): " + reminderTimeInMinutes);
 				if(reminderTimeInMinutes == CalendarContract.Reminders.MINUTES_DEFAULT){
 					//Use SystemDefault Reminder Time
 					reminderTimeInMinutes = defaultEventReminderMinutes;
@@ -902,12 +902,12 @@ public class CalendarCommon {
 				cursor.close();
 				return reminderTimeInMinutes * 60 * 1000;
 			}else{
-				if (_debug) Log.v("CalendarCommon.getCalendarEventReminderTime() No Reminder Time Found!");
+				if (_debug) Log.v(context, "CalendarCommon.getCalendarEventReminderTime() No Reminder Time Found!");
 			}
 			cursor.close();
 			return -1;
 		}catch(Exception ex){
-			Log.e("CalendarCommon.getCalendarEventReminderTime() ERROR: " + ex.toString());
+			Log.e(context, "CalendarCommon.getCalendarEventReminderTime() ERROR: " + ex.toString());
 			if (_debug) Common.debugReadContentProviderColumns(context, null, Uri.parse(contentProvider));
 			if(cursor != null){
 				cursor.close();
@@ -927,7 +927,7 @@ public class CalendarCommon {
 	 * @param eventID - Event ID of the Calendar Event.
 	 */
 	private static void scheduleCalendarNotification(Context context, long scheduledAlarmTime, Bundle calendarEventNotificationBundleSingle, String intentAction){
-		if (_debug) Log.v("CalendarCommon.scheduleCalendarNotification()");
+		if (_debug) Log.v(context, "CalendarCommon.scheduleCalendarNotification()");
 		try{
 	    	Bundle calendarEventNotificationBundle = new Bundle();
 	    	calendarEventNotificationBundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_1", calendarEventNotificationBundleSingle);
@@ -937,7 +937,7 @@ public class CalendarCommon {
 	    	bundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME, calendarEventNotificationBundle);	    	
 			Common.startAlarm(context, CalendarNotificationAlarmReceiver.class, bundle, intentAction, scheduledAlarmTime);
 		}catch(Exception ex){
-			Log.e("CalendarCommon.scheduleCalendarNotification() ERROR: " + ex.toString());
+			Log.e(context, "CalendarCommon.scheduleCalendarNotification() ERROR: " + ex.toString());
 		}
 	}
 	

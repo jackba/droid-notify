@@ -38,8 +38,7 @@ public class ThemeView extends LinearLayout {
 	//================================================================================
     // Properties
     //================================================================================
-	
-	private boolean _debug = false;
+
 	private Context _context = null;
 	private SharedPreferences _preferences = null;
 	private int _notificationType = -1;
@@ -111,8 +110,6 @@ public class ThemeView extends LinearLayout {
      */	
 	public ThemeView(Context context, ThemeViewFlipper themeViewFlipper, String packageName){
 	    super(context);
-	    _debug = Log.getDebug();;
-	    if (_debug) Log.v("ThemeView.ThemeView()");
 	    _context = context;
 	    _preferences = PreferenceManager.getDefaultSharedPreferences(context);
 	    _themeViewFlipper = themeViewFlipper;
@@ -148,7 +145,6 @@ public class ThemeView extends LinearLayout {
 	 * @param context - Application's Context.
 	 */
 	private void initLayoutItems(){
-		if (_debug) Log.v("ThemeView.initLayoutItems()");
 		
 		_notificationWindowLinearLayout = (LinearLayout) findViewById(R.id.notification_linear_layout);
 	    _buttonLinearLayout = (LinearLayout) findViewById(R.id.button_linear_layout);
@@ -187,7 +183,6 @@ public class ThemeView extends LinearLayout {
 	 * Setup the layout graphical items based on the current theme.
 	 */
 	private void setupLayoutTheme(){
-		if (_debug) Log.v("ThemeView.setupLayoutTheme() ThemePackageName: " + _themePackageName);
 		try{
 			final Resources localRresources = _context.getResources();
 			Drawable layoutBackgroundDrawable = null;
@@ -201,7 +196,7 @@ public class ThemeView extends LinearLayout {
 			int buttonTextColorID = 0;
 			String themeName = null;
 			if(!_themePackageName.startsWith(Constants.APP_THEME_PREFIX)){
-				Log.e("ThemeView.setupLayoutTheme() Renaming Theme PackageName Error");
+				Log.e(_context, "ThemeView.setupLayoutTheme() Renaming Theme PackageName Error");
 				_themePackageName = Constants.APP_THEME_DEFAULT;
 			}
 			if(_themePackageName.equals(Constants.NOTIFY_DEFAULT_THEME)){
@@ -223,7 +218,6 @@ public class ThemeView extends LinearLayout {
 				ttsDrawable = _resources.getDrawable(R.drawable.ic_tts);
 				themeName = _context.getString(R.string.notify_theme) + " - " + _context.getString(R.string.default_theme_phone);
 			}else{
-				if (_debug) Log.v("ThemeView.setupLayoutTheme() External Package Theme: " + _themePackageName);
 				try{
 					_resources = _context.getPackageManager().getResourcesForApplication(_themePackageName);
 					layoutBackgroundDrawable = _resources.getDrawable(_resources.getIdentifier(_themePackageName + ":drawable/background_panel", null, null));
@@ -245,7 +239,7 @@ public class ThemeView extends LinearLayout {
 					buttonTextColorID = _resources.getColor(_resources.getIdentifier(_themePackageName + ":color/button_text_color", null, null));
 					themeName = _resources.getString(_resources.getIdentifier(_themePackageName + ":string/app_name_desc", null, null));
 				}catch(NameNotFoundException ex){
-					Log.e("ThemeView.setupLayoutTheme() Loading Theme Package ERROR: " + ex.toString());
+					Log.e(_context, "ThemeView.setupLayoutTheme() Loading Theme Package ERROR: " + ex.toString());
 					_themePackageName = Constants.APP_THEME_DEFAULT;
 					_resources = _context.getResources();
 					layoutBackgroundDrawable = _resources.getDrawable(R.drawable.background_panel);
@@ -296,7 +290,7 @@ public class ThemeView extends LinearLayout {
 			_themeNameTextView.setText(themeName);
 			
 		}catch(Exception ex){
-			Log.e("ThemeView.setupLayoutTheme() ERROR: " + ex.toString());
+			Log.e(_context, "ThemeView.setupLayoutTheme() ERROR: " + ex.toString());
 		}
 		
 	}
@@ -350,14 +344,12 @@ public class ThemeView extends LinearLayout {
 	}
 	
 	private void setupViewHeaderButtons(){
-		if (_debug) Log.v("ThemeView.setupViewHeaderButtons()");
 		try{
 			//Previous Button
 			_previousButton.setVisibility(View.VISIBLE);
 			_previousButton.setOnClickListener(
 				new OnClickListener(){
 				    public void onClick(View view){
-				    	if (_debug) Log.v("Previous Button Clicked()");
 				    	_themeViewFlipper.showPrevious();
 				    }
 				}
@@ -367,7 +359,6 @@ public class ThemeView extends LinearLayout {
 			_nextButton.setOnClickListener(
 				new OnClickListener(){
 				    public void onClick(View view){
-				    	if (_debug) Log.v("Next Button Clicked()");
 				    	_themeViewFlipper.showNext();
 				    }
 				}
@@ -385,7 +376,7 @@ public class ThemeView extends LinearLayout {
 				_rescheduleButton.setVisibility(View.GONE);
 			}
 		}catch(Exception ex){
-			Log.e("ThemeView.setupViewHeaderButtons() ERROR: " + ex.toString());
+			Log.e(_context, "ThemeView.setupViewHeaderButtons() ERROR: " + ex.toString());
 		}
 	}
 
@@ -395,7 +386,6 @@ public class ThemeView extends LinearLayout {
 	 * @param notification - This View's Notification.
 	 */
 	private void setupViewButtons(){
-		if (_debug) Log.v("ThemeView.setupViewButtons()");
 		try{
 			//Setup SMS/MMS Link
 			if(_preferences.getBoolean(Constants.SMS_MESSAGE_PRIVACY_ENABLED_KEY, false)){
@@ -434,7 +424,7 @@ public class ThemeView extends LinearLayout {
 			setupViewSMSButtons(usingImageButtons, _notificationType);
 			setupButtonIcons(usingImageButtons, _notificationType, buttonDisplayStyle);
 		}catch(Exception ex){
-			Log.e("ThemeView.setupViewButtons() ERROR: " + ex.toString());
+			Log.e(_context, "ThemeView.setupViewButtons() ERROR: " + ex.toString());
 		}
 	}
 
@@ -445,7 +435,6 @@ public class ThemeView extends LinearLayout {
 	 * @param notificationType - The notification type.
 	 */
 	private void setupViewSMSButtons(boolean usingImageButtons, int notificationType){
-		if (_debug) Log.v("ThemeView.setupViewSMSButtons()");
 		try{			
 			boolean displayReplyButton = true;
 			if(_preferences.getBoolean(Constants.SMS_DISPLAY_REPLY_BUTTON_KEY, true)){
@@ -495,7 +484,7 @@ public class ThemeView extends LinearLayout {
 		    	}
 			}
 		}catch(Exception ex){
-			Log.e("ThemeView.setupViewSMSButtons() ERROR: " + ex.toString());
+			Log.e(_context, "ThemeView.setupViewSMSButtons() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -503,7 +492,6 @@ public class ThemeView extends LinearLayout {
 	 * Setup and load the notification specific button icons.
 	 */
 	private void setupButtonIcons(boolean usingImageButtons, int notificationType, String buttonDisplayStyle){
-		if (_debug) Log.v("ThemeView.setupButtonIcons()");
 		try{
 			if(buttonDisplayStyle.equals(Constants.BUTTON_DISPLAY_TEXT_ONLY)){
 				return;
@@ -531,7 +519,7 @@ public class ThemeView extends LinearLayout {
 				_replyButton.setCompoundDrawablesWithIntrinsicBounds(replySMSButtonIcon, null, null, null);
 			}
 		}catch(Exception ex){
-			Log.e("ThemeView.setupButtonIcons() ERROR: " + ex.toString());
+			Log.e(_context, "ThemeView.setupButtonIcons() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -541,7 +529,6 @@ public class ThemeView extends LinearLayout {
 	 * @param notification - This View's Notification.
 	 */
 	private void populateViewInfo(){
-		if (_debug) Log.v("ThemeView.populateViewInfo()");
 		boolean loadContactPhoto = true;
 		//Set the max lines property of the notification body.
 		_notificationDetailsTextView.setMaxLines(5);
@@ -632,7 +619,6 @@ public class ThemeView extends LinearLayout {
 	 * @param notification - This View's Notification.
 	 */
 	private void setNotificationMessage(){
-		if (_debug) Log.v("ThemeView.setNotificationMessage()");
 		int notificationAlignment = Gravity.LEFT;
 	    _notificationDetailsTextView.setText("Theme test message.");
 		if(_preferences.getBoolean(Constants.NOTIFICATION_BODY_CENTER_ALIGN_TEXT_KEY, false)){
@@ -655,7 +641,6 @@ public class ThemeView extends LinearLayout {
 	 * @param notification - This View's Notification.
 	 */
 	private void setNotificationTypeInfo(){
-		if (_debug) Log.v("ThemeView.setNotificationTypeInfo()");
 		Bitmap iconBitmap = null;
 		// Update TextView that contains the image, contact info, and timestamp for the Notification.
 		String formattedTimestamp = Common.formatTimestamp(_context, Common.convertGMTToLocalTime(_context, System.currentTimeMillis(), true));
@@ -699,7 +684,6 @@ public class ThemeView extends LinearLayout {
 	 * @return int - Returns the resource id of the image that corresponds to this index.
 	 */
 	private int getContactPhotoPlaceholderResourceID(int index){
-		if (_debug) Log.v("ThemeView.getContactPhotoPlaceholderResourceID()");
 		switch(index){
 			case 1:{
 				return R.drawable.ic_contact_picture_1;
