@@ -39,7 +39,6 @@ public class AdvancedPreferenceActivity extends PreferenceActivity{
     // Properties
     //================================================================================
 
-    private boolean _debug = false;
     private Context _context = null;
     private SharedPreferences _preferences = null;
 	
@@ -56,8 +55,6 @@ public class AdvancedPreferenceActivity extends PreferenceActivity{
 	@Override
 	protected void onCreate(Bundle bundle){
 	    super.onCreate(bundle);
-	    _debug = Log.getDebug();
-	    if (_debug) Log.v("AdvancedPreferenceActivity.onCreate()");
 	    _context = this;
 	    _preferences = PreferenceManager.getDefaultSharedPreferences(_context);
 	    Common.setApplicationLanguage(_context, this);
@@ -76,7 +73,6 @@ public class AdvancedPreferenceActivity extends PreferenceActivity{
 	 */
 	@SuppressWarnings("deprecation")
 	private void setupCustomPreferences(){
-	    if (_debug) Log.v("AdvancedPreferenceActivity.setupCustomPreferences()");
 	    if(Common.isDeviceWiFiOnly(_context)){
 	    	ListPreference mmsTimeoutPreference = (ListPreference)this.findPreference(Constants.MMS_TIMEOUT_KEY);
 	    	ListPreference missedCallTimeoutPreference = (ListPreference)this.findPreference(Constants.CALL_LOG_TIMEOUT_KEY);
@@ -107,7 +103,7 @@ public class AdvancedPreferenceActivity extends PreferenceActivity{
 						});
 					builder.create().show();
 		    	}catch(Exception ex){
-	 	    		Log.e("AdvancedPreferenceActivity() Reset App Preferences Button ERROR: " + ex.toString());
+	 	    		Log.e(_context, "AdvancedPreferenceActivity() Reset App Preferences Button ERROR: " + ex.toString());
 	 	    		return false;
 		    	}
 	            return true;
@@ -121,7 +117,7 @@ public class AdvancedPreferenceActivity extends PreferenceActivity{
 			    	//Run this process in the background in an AsyncTask.
 			    	new exportPreferencesAsyncTask().execute();
 		    	}catch(Exception ex){
-	 	    		Log.e("AdvancedPreferenceActivity() Export Preferences Button ERROR: " + ex.toString());
+	 	    		Log.e(_context, "AdvancedPreferenceActivity() Export Preferences Button ERROR: " + ex.toString());
 	 	    		return false;
 		    	}
 	            return true;
@@ -149,7 +145,7 @@ public class AdvancedPreferenceActivity extends PreferenceActivity{
 						});
 					builder.create().show();
 		    	}catch(Exception ex){
-	 	    		Log.e("AdvancedPreferenceActivity() Import Preferences Button ERROR: " + ex.toString());
+	 	    		Log.e(_context, "AdvancedPreferenceActivity() Import Preferences Button ERROR: " + ex.toString());
 	 	    		return false;
 		    	}
 	            return true;
@@ -163,7 +159,7 @@ public class AdvancedPreferenceActivity extends PreferenceActivity{
 		    		startActivity(new Intent(_context, DebugPreferenceActivity.class));
 		    		return true;
 		    	}catch(Exception ex){
-	 	    		Log.e("PreferencesActivity() Debug Button ERROR: " + ex.toString());
+	 	    		Log.e(_context, "PreferencesActivity() Debug Button ERROR: " + ex.toString());
 	 	    		return false;
 		    	}
         	}
@@ -182,7 +178,6 @@ public class AdvancedPreferenceActivity extends PreferenceActivity{
 		 * Setup the Progress Dialog.
 		 */
 	    protected void onPreExecute() {
-			if (_debug) Log.v("AdvancedPreferenceActivity.resetAppPreferencesAsyncTask.onPreExecute()");
 	        dialog = ProgressDialog.show(AdvancedPreferenceActivity.this, "", _context.getString(R.string.resetting_preferences), true);
 	    }
 	    /**
@@ -191,7 +186,6 @@ public class AdvancedPreferenceActivity extends PreferenceActivity{
 	     * @param params
 	     */
 	    protected Void doInBackground(Void... params) {
-			if (_debug) Log.v("AdvancedPreferenceActivity.resetAppPreferencesAsyncTask.doInBackground()");
 			SharedPreferences.Editor editor = _preferences.edit();
 			editor.clear();
 			editor.commit();
@@ -203,7 +197,6 @@ public class AdvancedPreferenceActivity extends PreferenceActivity{
 	     * @param result
 	     */
 	    protected void onPostExecute(Void res) {
-			if (_debug) Log.v("AdvancedPreferenceActivity.resetAppPreferencesAsyncTask.onPostExecute()");
 	        dialog.dismiss();
 	    	Toast.makeText(_context, _context.getString(R.string.preferences_reset), Toast.LENGTH_LONG).show();
 	        reloadPreferenceActivity();
@@ -222,7 +215,6 @@ public class AdvancedPreferenceActivity extends PreferenceActivity{
 		 * Setup the Progress Dialog.
 		 */
 	    protected void onPreExecute() {
-			if (_debug) Log.v("AdvancedPreferenceActivity.exportPreferencesAsyncTask.onPreExecute()");
 	        dialog = ProgressDialog.show(AdvancedPreferenceActivity.this, "", _context.getString(R.string.preference_export_preferences_progress_text), true);
 	    }
 	    /**
@@ -231,7 +223,6 @@ public class AdvancedPreferenceActivity extends PreferenceActivity{
 	     * @param params
 	     */
 	    protected Boolean doInBackground(Void... params) {
-			if (_debug) Log.v("AdvancedPreferenceActivity.exportPreferencesAsyncTask.doInBackground()");
 			return Common.exportApplicationPreferences(_context, "DroidNotify/Preferences", "DroidNotifyPreferences.txt", true);
 	    }
 	    /**
@@ -240,7 +231,6 @@ public class AdvancedPreferenceActivity extends PreferenceActivity{
 	     * @param result
 	     */
 	    protected void onPostExecute(Boolean successful) {
-			if (_debug) Log.v("AdvancedPreferenceActivity.exportPreferencesAsyncTask.onPostExecute()");
 	        dialog.dismiss();
 	    	setupImportPreferences();
 		    if(checkPreferencesFileExists("DroidNotify/Preferences/", "DroidNotifyPreferences.txt")){
@@ -256,12 +246,11 @@ public class AdvancedPreferenceActivity extends PreferenceActivity{
 	 */
 	@SuppressWarnings("deprecation")
 	private void setupImportPreferences(){
-		if (_debug) Log.v("AdvancedPreferenceActivity.setupImportPreferences()");
 		try{
 			Preference importPreference = (Preference) findPreference("import_preferences");
 			if(importPreference != null) importPreference.setEnabled(checkPreferencesFileExists("DroidNotify/Preferences/", "DroidNotifyPreferences.txt"));
 		}catch(Exception ex){
-			Log.e("AdvancedPreferenceActivity.setupImportPreferences() ERROR: " + ex.toString());
+			Log.e(_context, "AdvancedPreferenceActivity.setupImportPreferences() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -271,7 +260,6 @@ public class AdvancedPreferenceActivity extends PreferenceActivity{
 	 * @return boolean - Returns true if the preference file exists.
 	 */
 	private boolean checkPreferencesFileExists(String directory, String file){
-		if (_debug) Log.v("AdvancedPreferenceActivity.checkPreferencesFileExists()");
 		try{
 			File preferencesFilePath = Environment.getExternalStoragePublicDirectory(directory);
 	    	File preferencesFile = new File(preferencesFilePath, file);
@@ -297,7 +285,6 @@ public class AdvancedPreferenceActivity extends PreferenceActivity{
 		 * Setup the Progress Dialog.
 		 */
 	    protected void onPreExecute() {
-			if (_debug) Log.v("AdvancedPreferenceActivity.importPreferencesAsyncTask.onPreExecute()");
 	        dialog = ProgressDialog.show(AdvancedPreferenceActivity.this, "", _context.getString(R.string.preference_import_preferences_progress_text), true);
 	    }
 	    /**
@@ -306,7 +293,6 @@ public class AdvancedPreferenceActivity extends PreferenceActivity{
 	     * @param params
 	     */
 	    protected Boolean doInBackground(Void... params) {
-			if (_debug) Log.v("AdvancedPreferenceActivity.importPreferencesAsyncTask.doInBackground()");
 	    	return importApplicationPreferences();
 	    }
 	    /**
@@ -315,7 +301,6 @@ public class AdvancedPreferenceActivity extends PreferenceActivity{
 	     * @param result
 	     */
 	    protected void onPostExecute(Boolean successful) {
-			if (_debug) Log.v("AdvancedPreferenceActivity.importPreferencesAsyncTask.onPostExecute()");
 	        dialog.dismiss();
 	        if(successful){
 	        	Toast.makeText(_context, _context.getString(R.string.preference_import_preferences_finish_text), Toast.LENGTH_LONG).show();
@@ -332,7 +317,6 @@ public class AdvancedPreferenceActivity extends PreferenceActivity{
 	 * @return boolean - True if the operation was successful, false otherwise.
 	 */
 	private boolean importApplicationPreferences(){
-		if (_debug) Log.v("AdvancedPreferenceActivity.importApplicationPreferences()");
     	try {
 			//Check state of external storage.
 			String state = Environment.getExternalStorageState();
@@ -342,11 +326,11 @@ public class AdvancedPreferenceActivity extends PreferenceActivity{
 			    // We can only read the media. Do nothing.
 			} else {
 			    // Something else is wrong. It may be one of many other states, but all we need to know is we can neither read nor write
-				Log.e("AdvancedPreferenceActivity.importApplicationPreferences() External Storage Can't Write Or Read State");
+				Log.e(_context, "AdvancedPreferenceActivity.importApplicationPreferences() External Storage Can't Write Or Read State");
 			    return false;
 			}
 	    	if (!checkPreferencesFileExists("DroidNotify/Preferences/", "DroidNotifyPreferences.txt")){
-	    		if (_debug) Log.v("AdvancedPreferenceActivity.importApplicationPreferences() Preference file does not exist.");
+	    		Log.e(_context, "AdvancedPreferenceActivity.importApplicationPreferences() Preference file does not exist.");
 				return false;
 			}
         	//Import the applications user preferences.
@@ -370,7 +354,7 @@ public class AdvancedPreferenceActivity extends PreferenceActivity{
 		    	    	editor.putFloat(preferenceInfo[0], Float.parseFloat(preferenceInfo[1])); 
 		    	    }
     	    	}else{
-    	    		Log.e("AdvancedPreferenceActivity.importApplicationPreferences() Preference Line Error. Line String: " + line + " PreferenceInfo.length: " + String.valueOf(preferenceInfo.length));
+    	    		Log.e(_context, "AdvancedPreferenceActivity.importApplicationPreferences() Preference Line Error. Line String: " + line + " PreferenceInfo.length: " + String.valueOf(preferenceInfo.length));
     	    	}
     	    }
     		editor.commit();
@@ -391,7 +375,7 @@ public class AdvancedPreferenceActivity extends PreferenceActivity{
         	if(!dbImportOK) return false;			
 			return true;
     	}catch (IOException ex) {
-    		Log.e("AdvancedPreferenceActivity.importApplicationPreferences() ERROR: " + ex.toString());
+    		Log.e(_context, "AdvancedPreferenceActivity.importApplicationPreferences() ERROR: " + ex.toString());
     		return false;
     	}
 	}
@@ -400,7 +384,6 @@ public class AdvancedPreferenceActivity extends PreferenceActivity{
 	 * Reload Preference Activity
 	 */
 	public void reloadPreferenceActivity() {
-		if (_debug) Log.v("AdvancedPreferenceActivity.reloadPreferenceActivity()");
 		try{
 		    Intent intent = getIntent();
 		    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
@@ -408,7 +391,7 @@ public class AdvancedPreferenceActivity extends PreferenceActivity{
 		    finish();
 		    overridePendingTransition(0, 0);
 		}catch(Exception ex){
-			Log.e("AdvancedPreferenceActivity.reloadPreferenceActivity() ERROR: " + ex.toString());
+			Log.e(_context, "AdvancedPreferenceActivity.reloadPreferenceActivity() ERROR: " + ex.toString());
 		}
 	}
 	

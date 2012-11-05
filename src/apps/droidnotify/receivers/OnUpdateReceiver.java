@@ -29,14 +29,14 @@ public class OnUpdateReceiver extends BroadcastReceiver {
 	 */
 	@Override
 	public void onReceive(Context context, Intent intent){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("OnUpdateReceiver.onReceive()");
+		_debug = Log.getDebug(context);
+		if (_debug) Log.v(context, "OnUpdateReceiver.onReceive()");
 		try{		
 			if(intent.getDataString().contains("apps.droidnotify")){
 				WakefulIntentService.sendWakefulWork(context, new Intent(context, OnUpdateService.class));
 			}
 		}catch(Exception ex){
-			Log.e("OnUpdateReceiver.onReceive() ERROR: " + ex.toString());
+			Log.e(context, "OnUpdateReceiver.onReceive() ERROR: " + ex.toString());
 		}
 	}
 

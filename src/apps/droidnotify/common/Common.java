@@ -105,7 +105,7 @@ public class Common {
 	 * @param contentProviderURI - The URI we want to read.
 	 */
 	public static void debugReadContentProviderColumns(Context context, String stringURI, Uri uri) {
-		Log.i("Common.debugReadContentProviderColumns()");
+		Log.i(context, "Common.debugReadContentProviderColumns()");
 		Cursor cursor = null;
 	    try{
 	    	if(stringURI != null){
@@ -113,17 +113,17 @@ public class Common {
 	    	}else if(uri != null){
 	    		cursor = context.getContentResolver().query(uri, null, null, null, null);
 	    	}else{
-	    		Log.i("Common.debugReadContentProviderColumns() NO VALID URI PROVIDED.");
+	    		Log.i(context, "Common.debugReadContentProviderColumns() NO VALID URI PROVIDED.");
 	    		return;
 	    	}
 		    while(cursor.moveToNext()){ 
 		    	for(int i=0;i<cursor.getColumnCount();i++){
-		    		Log.i("Common.debugReadContentProviderColumns() " + cursor.getColumnName(i) + " = " + cursor.getString(i));
+		    		Log.i(context, "Common.debugReadContentProviderColumns() " + cursor.getColumnName(i) + " = " + cursor.getString(i));
 		    	}
 		    	break;
 		    }
 	    }catch(Exception ex){
-	    	Log.e("Common.debugReadContentProviderColumns()  ERROR:" + ex.toString());
+	    	Log.e(context, "Common.debugReadContentProviderColumns()  ERROR:" + ex.toString());
 	    }finally{
 			if(cursor != null){
 				cursor.close();
@@ -144,8 +144,6 @@ public class Common {
 	 * @return Bitmap - The formatted Bitmap image.
 	 */
 	public static Bitmap getRoundedCornerBitmap(Bitmap bitmap, int pixels, boolean resizeImage, int resizeX, int resizeY) {
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.getRoundedCornerBitmap()");
 		try{
 			Bitmap output = null;
 			if(bitmap == null){
@@ -176,7 +174,6 @@ public class Common {
 		        return output;
 			}
 		}catch(Exception ex){
-			Log.e("Common.getRoundedCornerBitmap() ERROR: " + ex.toString());
 			return null;
 		}
 	}
@@ -189,8 +186,6 @@ public class Common {
 	 * @return boolean - Returns true if a the notification should be blocked.
 	 */
 	public static boolean isNotificationBlocked(Context context){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.isNotificationBlocked()");
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		if(preferences.getBoolean(Constants.BLOCKING_APPS_ENABLED_KEY, false)){
 			return Common.isBlockingAppRunning(context);
@@ -207,21 +202,19 @@ public class Common {
 	 * @return boolean - Returns true if a app that is flagged to block is currently running.
 	 */
 	public static boolean isBlockingAppRunning(Context context){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.isBlockingAppRunning()");
 		ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
 	    ComponentName runningTaskComponent = activityManager.getRunningTasks(1).get(0).topActivity;
 		String runningTaskPackageName = runningTaskComponent.getPackageName();
 		String runningTaskClassName = runningTaskComponent.getClassName();		
-		if (_debug) Log.v("Common.isBlockingAppRunning() CURRENTLY RunningTaskPackageName: " + runningTaskPackageName + " CURRENTLY RunningTaskClassName: " + runningTaskClassName);
+		if (_debug) Log.v(context, "Common.isBlockingAppRunning() CURRENTLY RunningTaskPackageName: " + runningTaskPackageName + " CURRENTLY RunningTaskClassName: " + runningTaskClassName);
     	//Scan SMS Apps
         int smsPackageNamesArraySize = Constants.BLOCKED_SMS_PACKAGE_NAMES_ARRAY.length;
         for(int i = 0; i < smsPackageNamesArraySize; i++){
         	String[] blockedInfoArray = Constants.BLOCKED_SMS_PACKAGE_NAMES_ARRAY[i].split(",");
 	        if(blockedInfoArray[0].equals(runningTaskPackageName)){
-	        	if (_debug) Log.v("Common.isBlockingAppRunning() SMS BlockedInfoArray[0]: " + blockedInfoArray[0] + " RunningTaskPackageName: " + runningTaskPackageName);
+	        	if (_debug) Log.v(context, "Common.isBlockingAppRunning() SMS BlockedInfoArray[0]: " + blockedInfoArray[0] + " RunningTaskPackageName: " + runningTaskPackageName);
 	        	if(blockedInfoArray.length > 1){
-	        		if (_debug) Log.v("Common.isBlockingAppRunning() SMS BlockedInfoArray[1]: " + blockedInfoArray[1] + " RunningTaskClassName: " + runningTaskClassName);
+	        		if (_debug) Log.v(context, "Common.isBlockingAppRunning() SMS BlockedInfoArray[1]: " + blockedInfoArray[1] + " RunningTaskClassName: " + runningTaskClassName);
 	        		if(blockedInfoArray[1].equals(runningTaskClassName)){
 	        			return true;
 	        		}
@@ -235,9 +228,9 @@ public class Common {
         for(int i = 0; i < emailPackageNamesArraySize; i++){
         	String[] blockedInfoArray = Constants.BLOCKED_EMAIL_PACKAGE_NAMES_ARRAY[i].split(",");
 	        if(blockedInfoArray[0].equals(runningTaskPackageName)){
-	        	if (_debug) Log.v("Common.isBlockingAppRunning() EMAIL BlockedInfoArray[0]: " + blockedInfoArray[0] + " RunningTaskPackageName: " + runningTaskPackageName);
+	        	if (_debug) Log.v(context, "Common.isBlockingAppRunning() EMAIL BlockedInfoArray[0]: " + blockedInfoArray[0] + " RunningTaskPackageName: " + runningTaskPackageName);
 	        	if(blockedInfoArray.length > 1){
-	        		if (_debug) Log.v("Common.isBlockingAppRunning() EMAIL BlockedInfoArray[1]: " + blockedInfoArray[1] + " RunningTaskClassName: " + runningTaskClassName);
+	        		if (_debug) Log.v(context, "Common.isBlockingAppRunning() EMAIL BlockedInfoArray[1]: " + blockedInfoArray[1] + " RunningTaskClassName: " + runningTaskClassName);
 	        		if(blockedInfoArray[1].equals(runningTaskClassName)){
 	        			return true;
 	        		}
@@ -251,9 +244,9 @@ public class Common {
         for(int i = 0; i < miscPackageNamesArraySize; i++){
         	String[] blockedInfoArray = Constants.BLOCKED_MISC_PACKAGE_NAMES_ARRAY[i].split(",");
 	        if(blockedInfoArray[0].equals(runningTaskPackageName)){
-	        	if (_debug) Log.v("Common.isBlockingAppRunning() MISC BlockedInfoArray[0]: " + blockedInfoArray[0] + " RunningTaskPackageName: " + runningTaskPackageName);
+	        	if (_debug) Log.v(context, "Common.isBlockingAppRunning() MISC BlockedInfoArray[0]: " + blockedInfoArray[0] + " RunningTaskPackageName: " + runningTaskPackageName);
 	        	if(blockedInfoArray.length > 1){
-	        		if (_debug) Log.v("Common.isBlockingAppRunning() MISC BlockedInfoArray[1]: " + blockedInfoArray[1] + " RunningTaskClassName: " + runningTaskClassName);
+	        		if (_debug) Log.v(context, "Common.isBlockingAppRunning() MISC BlockedInfoArray[1]: " + blockedInfoArray[1] + " RunningTaskClassName: " + runningTaskClassName);
 	        		if(blockedInfoArray[1].equals(runningTaskClassName)){
 	        			return true;
 	        		}
@@ -275,15 +268,11 @@ public class Common {
 	 * @return long - The timestamp in the devices local time.
 	 */
 	public static long convertGMTToLocalTime(Context context, long inputTimeStamp, boolean isTimeUTC){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.convertGMTToLocalTime() InputTimeStamp: " + inputTimeStamp);
 	    long offset = TimeZone.getDefault().getOffset(inputTimeStamp);
-	    if (_debug) Log.v("Common.convertGMTToLocalTime() Offset: " + offset);
 		long outputTimeStamp = inputTimeStamp;
 		if(isTimeUTC){
 			outputTimeStamp += offset;
 		}
-		if (_debug) Log.v("Common.convertGMTToLocalTime() OutputTimeStamp: " + outputTimeStamp);
 	    return outputTimeStamp;
 	}
 
@@ -296,8 +285,6 @@ public class Common {
 	 * @return Bundle - The bundle containing the status bar notification settings.
 	 */
 	public static Bundle getStatusBarNotificationBundle(Context context, int notificationType){
-		_debug = Log.getDebug();
-        if(_debug) Log.v("Common.getStatusBarNotificationBundle()");
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		String vibratePattern = null;
 		String LEDPattern = null;
@@ -332,14 +319,14 @@ public class Common {
 						statusBarNotificationBundle.putInt(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, Integer.parseInt(preferences.getString(Constants.SMS_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_KEY, Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT)));
 					}catch(Exception ex){
 						statusBarNotificationBundle.putInt(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, Color.parseColor(Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT));
-						Log.e("Common.getStatusBarNotificationBundle() LED Color Parsing Failed. ERROR: " + ex.toString());
+						Log.e(context, "Common.getStatusBarNotificationBundle() LED Color Parsing Failed. ERROR: " + ex.toString());
 					}
 				}else{
 					try{
 						statusBarNotificationBundle.putInt(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, Color.parseColor(LEDColor));
 					}catch(Exception ex){
 						statusBarNotificationBundle.putInt(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, Color.parseColor(Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT));
-						Log.e("Common.getStatusBarNotificationBundle() LED Color Parsing Failed. ERROR: " + ex.toString());
+						Log.e(context, "Common.getStatusBarNotificationBundle() LED Color Parsing Failed. ERROR: " + ex.toString());
 					}
 				}
 				statusBarNotificationBundle.putBoolean(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_IN_CALL_SOUND_ENABLED, preferences.getBoolean(Constants.SMS_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY, false));
@@ -369,14 +356,14 @@ public class Common {
 						statusBarNotificationBundle.putInt(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, Integer.parseInt(preferences.getString(Constants.SMS_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_KEY, Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT)));
 					}catch(Exception ex){
 						statusBarNotificationBundle.putInt(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, Color.parseColor(Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT));
-						Log.e("Common.getStatusBarNotificationBundle() LED Color Parsing Failed. ERROR: " + ex.toString());
+						Log.e(context, "Common.getStatusBarNotificationBundle() LED Color Parsing Failed. ERROR: " + ex.toString());
 					}
 				}else{
 					try{
 						statusBarNotificationBundle.putInt(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, Color.parseColor(LEDColor));
 					}catch(Exception ex){
 						statusBarNotificationBundle.putInt(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, Color.parseColor(Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT));
-						Log.e("Common.getStatusBarNotificationBundle() LED Color Parsing Failed. ERROR: " + ex.toString());
+						Log.e(context, "Common.getStatusBarNotificationBundle() LED Color Parsing Failed. ERROR: " + ex.toString());
 					}
 				}
 				statusBarNotificationBundle.putBoolean(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_IN_CALL_SOUND_ENABLED, preferences.getBoolean(Constants.SMS_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY, false));
@@ -406,14 +393,14 @@ public class Common {
 						statusBarNotificationBundle.putInt(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, Integer.parseInt(preferences.getString(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_KEY, Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT)));
 					}catch(Exception ex){
 						statusBarNotificationBundle.putInt(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, Color.parseColor(Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT));
-						Log.e("Common.getStatusBarNotificationBundle() LED Color Parsing Failed. ERROR: " + ex.toString());
+						Log.e(context, "Common.getStatusBarNotificationBundle() LED Color Parsing Failed. ERROR: " + ex.toString());
 					}
 				}else{
 					try{
 						statusBarNotificationBundle.putInt(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, Color.parseColor(LEDColor));
 					}catch(Exception ex){
 						statusBarNotificationBundle.putInt(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, Color.parseColor(Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT));
-						Log.e("Common.getStatusBarNotificationBundle() LED Color Parsing Failed. ERROR: " + ex.toString());
+						Log.e(context, "Common.getStatusBarNotificationBundle() LED Color Parsing Failed. ERROR: " + ex.toString());
 					}
 				}
 				statusBarNotificationBundle.putBoolean(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_IN_CALL_SOUND_ENABLED, preferences.getBoolean(Constants.PHONE_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY, false));
@@ -443,14 +430,14 @@ public class Common {
 						statusBarNotificationBundle.putInt(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, Integer.parseInt(preferences.getString(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_KEY, Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT)));
 					}catch(Exception ex){
 						statusBarNotificationBundle.putInt(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, Color.parseColor(Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT));
-						Log.e("Common.getStatusBarNotificationBundle() LED Color Parsing Failed. ERROR: " + ex.toString());
+						Log.e(context, "Common.getStatusBarNotificationBundle() LED Color Parsing Failed. ERROR: " + ex.toString());
 					}
 				}else{
 					try{
 						statusBarNotificationBundle.putInt(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, Color.parseColor(LEDColor));
 					}catch(Exception ex){
 						statusBarNotificationBundle.putInt(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, Color.parseColor(Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT));
-						Log.e("Common.getStatusBarNotificationBundle() LED Color Parsing Failed. ERROR: " + ex.toString());
+						Log.e(context, "Common.getStatusBarNotificationBundle() LED Color Parsing Failed. ERROR: " + ex.toString());
 					}
 				}
 				statusBarNotificationBundle.putBoolean(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_IN_CALL_SOUND_ENABLED, preferences.getBoolean(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY, false));
@@ -480,14 +467,14 @@ public class Common {
 						statusBarNotificationBundle.putInt(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, Integer.parseInt(preferences.getString(Constants.K9_STATUS_BAR_NOTIFICATIONS_LED_COLOR_CUSTOM_KEY, Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT)));
 					}catch(Exception ex){
 						statusBarNotificationBundle.putInt(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, Color.parseColor(Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT));
-						Log.e("Common.getStatusBarNotificationBundle() LED Color Parsing Failed. ERROR: " + ex.toString());
+						Log.e(context, "Common.getStatusBarNotificationBundle() LED Color Parsing Failed. ERROR: " + ex.toString());
 					}
 				}else{
 					try{
 						statusBarNotificationBundle.putInt(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, Color.parseColor(LEDColor));
 					}catch(Exception ex){
 						statusBarNotificationBundle.putInt(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_LED_COLOR, Color.parseColor(Constants.STATUS_BAR_NOTIFICATIONS_LED_COLOR_DEFAULT));
-						Log.e("Common.getStatusBarNotificationBundle() LED Color Parsing Failed. ERROR: " + ex.toString());
+						Log.e(context, "Common.getStatusBarNotificationBundle() LED Color Parsing Failed. ERROR: " + ex.toString());
 					}
 				}
 				statusBarNotificationBundle.putBoolean(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_IN_CALL_SOUND_ENABLED, preferences.getBoolean(Constants.K9_STATUS_BAR_NOTIFICATIONS_IN_CALL_SOUND_ENABLED_KEY, false));
@@ -518,20 +505,20 @@ public class Common {
 	 */
 	@SuppressLint("NewApi")
 	public static void setStatusBarNotification(Context context, int notificationTypeCount, int notificationType, int notificationSubType, boolean callStateIdle, String sentFromContactName, long sentFromContactID, String sentFromAddress, String message, String k9EmailUri, String linkURL, long smsThreadID, boolean updateOnly, Bundle statusBarNotificationBundle){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.setStatusBarNotification()");
+		_debug = Log.getDebug(context);
+		if (_debug) Log.v(context, "Common.setStatusBarNotification()");
 		try{
 			_context = context;
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 			String deviceManufacturer = Common.getDeviceManufacturer();		
 			//Stop if app is disabled.
 			if(!preferences.getBoolean(Constants.APP_ENABLED_KEY, true)){
-				if (_debug) Log.v("Common.setStatusBarNotification() App Disabled. Exiting...");
+				if (_debug) Log.v(context, "Common.setStatusBarNotification() App Disabled. Exiting...");
 				return;
 			}
 			//Stop if the notification bundle is null.
 			if(statusBarNotificationBundle ==  null){
-				if (_debug) Log.v("Common.setStatusBarNotification() StatusBarNotificationBundle is null. Exiting...");
+				if (_debug) Log.v(context, "Common.setStatusBarNotification() StatusBarNotificationBundle is null. Exiting...");
 				return;
 			}
 			//Adjust for Preview notifications.
@@ -565,17 +552,17 @@ public class Common {
 			//Load values into the preference keys based on the notification type.
 			switch(notificationType){
 				case Constants.NOTIFICATION_TYPE_GENERIC:{
-					if (_debug) Log.v("Common.setStatusBarNotification() NOTIFICATION_TYPE_GENERIC");
+					if (_debug) Log.v(context, "Common.setStatusBarNotification() NOTIFICATION_TYPE_GENERIC");
 					//Notification Sound.
 					String statusBarNotificationSoundURI = statusBarNotificationBundle.getString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_SOUND_URI);
-					if (_debug) Log.v("Common.setStatusBarNotification() NotificationSoundURI: " + statusBarNotificationSoundURI);
+					if (_debug) Log.v(context, "Common.setStatusBarNotification() NotificationSoundURI: " + statusBarNotificationSoundURI);
 					if(callStateIdle){
 						try{
 							if(statusBarNotificationSoundURI != null){
 								new playGenericNotificationMediaFileAsyncTask().execute(statusBarNotificationSoundURI);
 							}
 						}catch(Exception ex){
-							Log.e("Common.setStatusBarNotification() Generic Notification Sound Play ERROR: " + ex.toString());
+							Log.e(context, "Common.setStatusBarNotification() Generic Notification Sound Play ERROR: " + ex.toString());
 						}
 					}else if(statusBarNotificationBundle.getBoolean(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_IN_CALL_SOUND_ENABLED)){
 						try{
@@ -583,7 +570,7 @@ public class Common {
 								new playNotificationMediaFileAsyncTask().execute(statusBarNotificationSoundURI);
 							}
 						}catch(Exception ex){
-							Log.e("Common.setStatusBarNotification() Generic Notification Sound Play ERROR: " + ex.toString());
+							Log.e(context, "Common.setStatusBarNotification() Generic Notification Sound Play ERROR: " + ex.toString());
 						}
 					}
 					//Notification Vibrate.
@@ -592,7 +579,7 @@ public class Common {
 					boolean inVibrateMode = audioManager.getRingerMode() == AudioManager.RINGER_MODE_VIBRATE;
 					boolean vibrateEnabled = false;
 					String notificationVibrateSetting = statusBarNotificationBundle.getString(Constants.BUNDLE_STATUS_BAR_NOTIFICATION_VIBRATE_SETTING);
-					if (_debug) Log.v("Common.setStatusBarNotification() NotificationVibrateSetting: " + notificationVibrateSetting);
+					if (_debug) Log.v(context, "Common.setStatusBarNotification() NotificationVibrateSetting: " + notificationVibrateSetting);
 					if(notificationVibrateSetting != null){
 						if(notificationVibrateSetting.equals(VIBRATE_ALWAYS_VALUE)){
 							vibrateEnabled = true;
@@ -611,7 +598,7 @@ public class Common {
 										Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
 										vibrator.vibrate(vibrationPattern, -1);
 									}catch(Exception ex){
-										Log.e("Common.setStatusBarNotification() Generic Notification Vibrator ERROR: " + ex.toString());
+										Log.e(context, "Common.setStatusBarNotification() Generic Notification Vibrator ERROR: " + ex.toString());
 									}
 								}
 							}
@@ -620,7 +607,7 @@ public class Common {
 					return;
 				}
 				case Constants.NOTIFICATION_TYPE_SMS:{
-					if (_debug) Log.v("Common.setStatusBarNotification() NOTIFICATION_TYPE_SMS");
+					if (_debug) Log.v(context, "Common.setStatusBarNotification() NOTIFICATION_TYPE_SMS");
 					POPUP_ENABLED_KEY = Constants.SMS_NOTIFICATIONS_ENABLED_KEY;
 					POPUP_ENABLED_DEFAULT = true;
 					ENABLED_KEY = Constants.SMS_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY;
@@ -677,7 +664,7 @@ public class Common {
 					break;
 				}
 				case Constants.NOTIFICATION_TYPE_MMS:{
-					if (_debug) Log.v("Common.setStatusBarNotification() NOTIFICATION_TYPE_MMS");
+					if (_debug) Log.v(context, "Common.setStatusBarNotification() NOTIFICATION_TYPE_MMS");
 					POPUP_ENABLED_KEY = Constants.SMS_NOTIFICATIONS_ENABLED_KEY;
 					POPUP_ENABLED_DEFAULT = true;
 					ENABLED_KEY = Constants.SMS_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY;
@@ -734,7 +721,7 @@ public class Common {
 					break;
 				}
 				case Constants.NOTIFICATION_TYPE_PHONE:{
-					if (_debug) Log.v("Common.setStatusBarNotification() NOTIFICATION_TYPE_PHONE");
+					if (_debug) Log.v(context, "Common.setStatusBarNotification() NOTIFICATION_TYPE_PHONE");
 					POPUP_ENABLED_KEY = Constants.PHONE_NOTIFICATIONS_ENABLED_KEY;
 					POPUP_ENABLED_DEFAULT = true;
 					ENABLED_KEY = Constants.PHONE_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY;
@@ -775,7 +762,7 @@ public class Common {
 					break;
 				}
 				case Constants.NOTIFICATION_TYPE_CALENDAR:{
-					if (_debug) Log.v("Common.setStatusBarNotification() NOTIFICATION_TYPE_CALENDAR");
+					if (_debug) Log.v(context, "Common.setStatusBarNotification() NOTIFICATION_TYPE_CALENDAR");
 					POPUP_ENABLED_KEY = Constants.CALENDAR_NOTIFICATIONS_ENABLED_KEY;
 					POPUP_ENABLED_DEFAULT = true;
 					ENABLED_KEY = Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY;				
@@ -815,7 +802,7 @@ public class Common {
 					break;
 				}
 				case Constants.NOTIFICATION_TYPE_K9:{
-					if (_debug) Log.v("Common.setStatusBarNotification() NOTIFICATION_TYPE_K9");
+					if (_debug) Log.v(context, "Common.setStatusBarNotification() NOTIFICATION_TYPE_K9");
 					POPUP_ENABLED_KEY = Constants.K9_NOTIFICATIONS_ENABLED_KEY;
 					POPUP_ENABLED_DEFAULT = true;
 					ENABLED_KEY = Constants.K9_STATUS_BAR_NOTIFICATIONS_ENABLED_KEY;
@@ -904,7 +891,7 @@ public class Common {
 			//Check if notifications are enabled or not.
 			if(notificationType != Constants.NOTIFICATION_TYPE_GENERIC){
 				if(!preferences.getBoolean(ENABLED_KEY, true) || !preferences.getBoolean(POPUP_ENABLED_KEY, POPUP_ENABLED_DEFAULT)){
-					if (_debug) Log.v("Common.setStatusBarNotification() Notifications Disabled: ENABLED_KEY " + ENABLED_KEY + " - Exiting...");
+					if (_debug) Log.v(context, "Common.setStatusBarNotification() Notifications Disabled: ENABLED_KEY " + ENABLED_KEY + " - Exiting...");
 					return;
 				}
 			}
@@ -970,7 +957,7 @@ public class Common {
 								vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
 								vibrator.vibrate(vibrationPattern, -1);
 							}catch(Exception ex){
-								Log.e("Common.setStatusBarNotification() Notification Vibrator ERROR: " + ex.toString());
+								Log.e(context, "Common.setStatusBarNotification() Notification Vibrator ERROR: " + ex.toString());
 							}
 						}
 					}
@@ -979,14 +966,14 @@ public class Common {
 						try{
 							notificationBuilder.setSound(Uri.parse(notificationSound), Notification.STREAM_DEFAULT);
 						}catch(Exception ex){
-							Log.e("Common.setStatusBarNotification() Notification Sound Set ERROR: " + ex.toString());
+							Log.e(context, "Common.setStatusBarNotification() Notification Sound Set ERROR: " + ex.toString());
 							notificationBuilderDefaults |= Notification.DEFAULT_SOUND;
 						}
 					}else if(soundEnabled && !callStateIdle && soundInCallEnabled && inNormalMode){
 						try{
 							new playNotificationMediaFileAsyncTask().execute(notificationSound);
 						}catch(Exception ex){
-							Log.e("Common.setStatusBarNotification() Notification Sound Play ERROR: " + ex.toString());
+							Log.e(context, "Common.setStatusBarNotification() Notification Sound Play ERROR: " + ex.toString());
 						}					
 					}
 					//Setup the notification LED lights
@@ -999,7 +986,7 @@ public class Common {
 								notificationBuilder.setLights(ledColor, ledPatternArray[0], ledPatternArray[1]);
 							}
 						}catch(Exception ex){
-							Log.e("Common.setStatusBarNotification() Notification LED Lights ERROR: " + ex.toString());
+							Log.e(context, "Common.setStatusBarNotification() Notification LED Lights ERROR: " + ex.toString());
 							notificationBuilderDefaults |= Notification.DEFAULT_LIGHTS;
 						}
 					}
@@ -1030,7 +1017,7 @@ public class Common {
 								vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
 								vibrator.vibrate(vibrationPattern, -1);
 							}catch(Exception ex){
-								Log.e("Common.setStatusBarNotification() Notification Vibrator ERROR: " + ex.toString());
+								Log.e(context, "Common.setStatusBarNotification() Notification Vibrator ERROR: " + ex.toString());
 							}
 						}
 					}
@@ -1040,14 +1027,14 @@ public class Common {
 						try{
 							notification.sound = Uri.parse(notificationSound);
 						}catch(Exception ex){
-							Log.e("Common.setStatusBarNotification() Notification Sound Set ERROR: " + ex.toString());
+							Log.e(context, "Common.setStatusBarNotification() Notification Sound Set ERROR: " + ex.toString());
 							notificationBuilderDefaults |= Notification.DEFAULT_SOUND;
 						}
 					}else if(soundEnabled && !callStateIdle && soundInCallEnabled && inNormalMode){
 						try{
 							new playNotificationMediaFileAsyncTask().execute(notificationSound);
 						}catch(Exception ex){
-							Log.e("Common.setStatusBarNotification() Notification Sound Play ERROR: " + ex.toString());
+							Log.e(context, "Common.setStatusBarNotification() Notification Sound Play ERROR: " + ex.toString());
 						}					
 					}
 					//Setup the notification LED lights
@@ -1065,7 +1052,7 @@ public class Common {
 								notification.flags |= Notification.FLAG_SHOW_LIGHTS;							
 							}
 						}catch(Exception ex){
-							Log.e("Common.setStatusBarNotification() Notification LED Lights ERROR: " + ex.toString());
+							Log.e(context, "Common.setStatusBarNotification() Notification LED Lights ERROR: " + ex.toString());
 							notificationBuilderDefaults |= Notification.DEFAULT_LIGHTS;
 						}
 					}
@@ -1082,7 +1069,7 @@ public class Common {
 				PhoneCommon.clearStockMissedCallNotification(context);
 			}
 		}catch(Exception ex){
-			Log.e("Common.setStatusBarNotification() ERROR: " + ex.toString());
+			Log.e(context, "Common.setStatusBarNotification() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -1095,8 +1082,6 @@ public class Common {
 	 * @return int - Returns the resource id of the notification icon.
 	 */
 	public static int getStatusBarNotificationIconResource(Context context, int notificationType){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.getStatusBarNotificationIconResource()");
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		String ICON_ID = null;
 		String ICON_DEFAULT = null;
@@ -1287,8 +1272,6 @@ public class Common {
 	 * @param totalNotifications - The total number of current notifications.
 	 */
 	public static void clearNotification(Context context, NotificationViewFlipper notificationViewFlipper, int notificationType){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.clearNotification()");
 		try{
 			if(notificationViewFlipper.getChildCount() > 0){
 				if(!notificationViewFlipper.containsNotificationType(notificationType)){
@@ -1298,7 +1281,7 @@ public class Common {
 				removeStatusBarNotification(context, notificationType);
 			}
 		}catch(Exception ex){
-			Log.e("Common.clearNotification() ERROR: " + ex.toString());
+			Log.e(context, "Common.clearNotification() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -1308,13 +1291,11 @@ public class Common {
 	 * @param context - The application context.
 	 */
 	public static void clearAllNotifications(Context context){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.clearAllNotifications()");
 		try{
 			NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 			notificationManager.cancelAll();
 		}catch(Exception ex){
-			Log.e("Common.clearAllNotifications() ERROR: " + ex.toString());
+			Log.e(context, "Common.clearAllNotifications() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -1324,8 +1305,6 @@ public class Common {
 	 * @return boolean - Returns the fullWakeLockInUse flag.
 	 */
 	public static boolean isFullWakelockInUse(){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.isFullWakelockInUse()");
 		return _fullWakelockInUse;
 	}
 	
@@ -1335,8 +1314,6 @@ public class Common {
 	 * @param context - The application context.
 	 */
 	public static void acquirePartialWakeLock(Context context){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.aquirePartialWakelock()");
 		try{
 			if(_wakeLock == null){
 		    	PowerManager powerManager = (PowerManager)context.getSystemService(Context.POWER_SERVICE);
@@ -1350,7 +1327,7 @@ public class Common {
 			_wakeLock.acquire();
 			return;
 		}catch(Exception ex){
-			Log.e("Common.aquirePartialWakelock() ERROR: " + ex.toString());
+			Log.e(context, "Common.aquirePartialWakelock() ERROR: " + ex.toString());
 			if(_wakeLock != null){
 				_wakeLock.release();
 				_wakeLock = null;
@@ -1367,8 +1344,6 @@ public class Common {
 	 * @param context - The application context.
 	 */
 	public static void acquireWakeLock(Context context){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.aquireWakelock()");
 		try{
 			if(!_fullWakelockInUse){
 				SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -1393,7 +1368,7 @@ public class Common {
 			}
 			return;
 		}catch(Exception ex){
-			Log.e("Common.aquireWakelock() ERROR: " + ex.toString());
+			Log.e(context, "Common.aquireWakelock() ERROR: " + ex.toString());
 			if(_wakeLock != null){
 				_wakeLock.release();
 				_wakeLock = null;
@@ -1409,8 +1384,6 @@ public class Common {
 	 * @param context - The application context.
 	 */
 	public static void clearWakeLock(){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.clearWakelock()");
 		try{
 	    	if(_wakeLock != null){
 	    		if(_wakeLock.isHeld()){
@@ -1421,7 +1394,6 @@ public class Common {
 			_fullWakelockInUse = false;
 			return;
 		}catch(Exception ex){
-			Log.e("Common.clearWakelock() ERROR: " + ex.toString());
 			_wakeLock = null;
 			_fullWakelockInUse = false;
 			return;
@@ -1435,8 +1407,6 @@ public class Common {
 	 * @param context - The current context of this Activity.
 	 */
 	public static void acquireKeyguardLock(Context context, NotificationActivity notificationActivity){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.acquireKeyguardLock()");
 		try{
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 			KeyguardManager keyguardManager = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
@@ -1456,7 +1426,7 @@ public class Common {
 				}
 			}
 		}catch(Exception ex){
-			Log.e("Common.acquireKeyguardLock() ERROR: " + ex.toString());
+			Log.e(context, "Common.acquireKeyguardLock() ERROR: " + ex.toString());
 		}
 	}
 
@@ -1464,24 +1434,13 @@ public class Common {
 	 * Re-Enables the Keyguard for this Activity.
 	 */
 	public static void clearKeyguardLock(NotificationActivity notificationActivity){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.clearKeyguardLock()");
 		try{
 			if(_keyguardLock != null){
 				_keyguardLock.reenableKeyguard();
 				_keyguardLock = null;
 			}
-//			//Send out Widgetlocker API intent to lock Widgetlocker.
-//			if(notificationActivity != null){
-//				try{
-//					Intent widgetLockerIntent = new Intent("com.teslacoilsw.widgetlocker.ACTIVATE");
-//					notificationActivity.startActivity(widgetLockerIntent);
-//				}catch(ActivityNotFoundException anfe){
-//					//Ignore
-//				}
-//			}
 		}catch(Exception ex){
-			Log.e("Common.clearKeyguardLock() ERROR: " + ex.toString());
+			return;
 		}
 	}
 
@@ -1494,8 +1453,6 @@ public class Common {
 	 * @return String - Formatted time string.
 	 */
 	public static String formatTimestamp(Context context, long inputTimestamp){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.formatTimestamp() InputTimestamp: " + inputTimestamp);
 		try{
 			if(inputTimestamp < 0){
 				return "";
@@ -1517,7 +1474,7 @@ public class Common {
 			displayTime = dateFormatted.format(inputTimestamp);			
 			return displayTime;
 		}catch(Exception ex){
-			Log.e("Common.formatTimestamp() ERROR: " + ex.toString());
+			Log.e(context, "Common.formatTimestamp() ERROR: " + ex.toString());
 			return "";
 		}
 	}
@@ -1531,8 +1488,6 @@ public class Common {
 	 * @return String - Formatted date string.
 	 */
 	public static String formatDate(Context context, Date inputDate){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.formatDate()");
 		try{
 			if(inputDate == null){
 				return "";
@@ -1630,7 +1585,7 @@ public class Common {
 			dateFormatted.setTimeZone(TimeZone.getDefault());
 			return dateFormatted.format(inputDate);
 		}catch(Exception ex){
-			Log.e("Common.formatDate() ERROR: " + ex.toString());
+			Log.e(context, "Common.formatDate() ERROR: " + ex.toString());
 			return "";
 		}
 	}
@@ -1644,8 +1599,6 @@ public class Common {
 	 * @return String[] - Parsed date string.
 	 */
 	public static String[] parseDateInfo(Context context, String inputFormattedDate){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.parseDateInfo()");
 		try{
 			if(inputFormattedDate == null){
 				return null;
@@ -1667,7 +1620,7 @@ public class Common {
 			}
 			return dateInfoArray;
 		}catch(Exception ex){
-			Log.e("Common.parseDateInfo() ERROR: " + ex.toString());
+			Log.e(context, "Common.parseDateInfo() ERROR: " + ex.toString());
 			return null;
 		}
 	}
@@ -1683,26 +1636,24 @@ public class Common {
 	 * @param incomingNotificationBundle - The bundle that contains the notification information.
 	 */
 	public static void rescheduleBlockedNotification(Context context, boolean callStateIdle, boolean rescheduleNotificationInCall, int notificationType, Bundle incomingNotificationBundle){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.rescheduleBlockedNotification()");
 		boolean rescheduleNotification = false;
     	SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
     	String blockingAppRunningAction = preferences.getString(Constants.BLOCKING_APPS_ACTION_KEY, Constants.BLOCKING_APPS_ACTION_IGNORE);
     	if(rescheduleNotificationInCall && !callStateIdle){
-    		if (_debug) Log.v("Common.rescheduleBlockedNotification() IN CALL = TRUE");
+    		if (_debug) Log.v(context, "Common.rescheduleBlockedNotification() IN CALL = TRUE");
     		rescheduleNotification = true;
     	}else if(blockingAppRunningAction.equals(Constants.BLOCKING_APPS_ACTION_IGNORE)){
-    		if (_debug) Log.v("Common.rescheduleBlockedNotification() BLOCKING_APPS_ACTION_IGNORE = FALSE");
+    		if (_debug) Log.v(context, "Common.rescheduleBlockedNotification() BLOCKING_APPS_ACTION_IGNORE = FALSE");
     		rescheduleNotification = false;
     	}else if(blockingAppRunningAction.equals(Constants.BLOCKING_APPS_ACTION_RESCHEDULE)){
-    		if (_debug) Log.v("Common.rescheduleBlockedNotification() BLOCKING_APPS_ACTION_RESCHEDULE = TRUE");
+    		if (_debug) Log.v(context, "Common.rescheduleBlockedNotification() BLOCKING_APPS_ACTION_RESCHEDULE = TRUE");
     		rescheduleNotification = true;
     	}
-		if (_debug) Log.v("Common.rescheduleBlockedNotification() RescheduleBlockedNotification? " + rescheduleNotification);
+		if (_debug) Log.v(context, "Common.rescheduleBlockedNotification() RescheduleBlockedNotification? " + rescheduleNotification);
     	if(rescheduleNotification){
 	    	//Set alarm to go off x minutes from the current time as defined by the user preferences.
 	    	long rescheduleInterval = Long.parseLong(preferences.getString(Constants.RESCHEDULE_BLOCKED_NOTIFICATION_TIMEOUT_KEY, Constants.RESCHEDULE_BLOCKED_NOTIFICATION_TIMEOUT_DEFAULT)) * 60 * 1000;
-	    	if (_debug) Log.v("Common.rescheduleBlockedNotification() Rescheduling blocked notification. Rechedule in " + (rescheduleInterval/60/1000) + " minutes.");
+	    	if (_debug) Log.v(context, "Common.rescheduleBlockedNotification() Rescheduling blocked notification. Rechedule in " + (rescheduleInterval/60/1000) + " minutes.");
 			long rescheduleTime = System.currentTimeMillis() + rescheduleInterval;
 			
 			Intent rescheduleIntent = new Intent(context, RescheduleReceiver.class);		
@@ -1717,7 +1668,7 @@ public class Common {
 			//The action is what makes this intent unique from all other intents using this class.
 			String intentAction = "apps.droidnotify.reschedule.blocked." + notificationType + "." + String.valueOf(System.currentTimeMillis());
 			rescheduleIntent.setAction(intentAction);
-			if (_debug) Log.v("Common.rescheduleBlockedNotification() Reschedule Blocked Notification Action: " + intentAction);
+			if (_debug) Log.v(context, "Common.rescheduleBlockedNotification() Reschedule Blocked Notification Action: " + intentAction);
 			
 			PendingIntent reschedulePendingIntent = PendingIntent.getBroadcast(context, 0, rescheduleIntent, 0);	
 			
@@ -1734,12 +1685,10 @@ public class Common {
 	 * @return boolean - Returns true if Quiet Time is enabled and the current time falls within the defined tiem period.
 	 */
 	public static boolean isQuietTime(Context context){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.isQuietTime()");
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		if(preferences.getBoolean(Constants.QUIET_TIME_ENABLED_KEY, false)){
 			Calendar calendar = new GregorianCalendar();
-			if (_debug) Log.v("Common.isQuietTime() HOUR: " + calendar.get(Calendar.HOUR_OF_DAY));
+			if (_debug) Log.v(context, "Common.isQuietTime() HOUR: " + calendar.get(Calendar.HOUR_OF_DAY));
 			String startTime = preferences.getString(Constants.QUIET_TIME_START_TIME_KEY, "");
 			String stopTime = preferences.getString(Constants.QUIET_TIME_STOP_TIME_KEY, "");
 			int hourStart = 0;
@@ -1795,8 +1744,6 @@ public class Common {
 	 * @return boolean - Return true if the Android TTS engine could be started.
 	 */
 	public static boolean speak(Context context, TextToSpeech tts, String text){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.speak()");
 		if (tts == null) {
 			return false;
 	    }else{
@@ -1813,8 +1760,6 @@ public class Common {
 	 * @return String - The output string without any html.
 	 */
 	public static String removeHTML(String input){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.removeHTML()");
 		String output = input;
 		output = output.replace("<br/>", ". ");
 		output = output.replace("<i>", "").replace("</i>", "");
@@ -1830,8 +1775,6 @@ public class Common {
 	 * @param flag - Boolean flag to set.
 	 */
 	public static void setInLinkedAppFlag(Context context, boolean flag){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.setInLinkedAppFlag() Flag: " + flag);
 		SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
 		editor.putBoolean(Constants.USER_IN_LINKED_APP_KEY, flag);
 		editor.commit();
@@ -1845,10 +1788,7 @@ public class Common {
 	 * @return boolean - The boolean flag to return.
 	 */
 	public static boolean isUserInLinkedApp(Context context){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.isUserInLinkedApp()");
 		boolean inLinkedApp = PreferenceManager.getDefaultSharedPreferences(context).getBoolean(Constants.USER_IN_LINKED_APP_KEY, false);
-		if (_debug) Log.v("Common.isUserInLinkedApp() InLinkedApp: " + inLinkedApp);
 		return inLinkedApp;
 	}
 	
@@ -1859,8 +1799,6 @@ public class Common {
 	 * @param intent - The intent to resend.
 	 */
 	public static void resendNotification(Context context, Intent intent){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.resendNotification()");
 		try{
 			Bundle bundle = intent.getExtras();
 	    	Intent notificationIntent = new Intent(context, NotificationActivity.class);
@@ -1869,7 +1807,7 @@ public class Common {
 	    	Common.acquireWakeLock(context);
 	    	context.startActivity(notificationIntent);
 		}catch(Exception ex){
-			Log.e("Common.resendNotification() ERROR: " + ex.toString());
+			Log.e(context, "Common.resendNotification() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -1882,8 +1820,6 @@ public class Common {
 	 * @return boolean - Returns true if the activity was started successfully.
 	 */
 	public static boolean startNotificationActivity(Context context, Bundle bundle){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.startNotificationActivity()");
 		try{
 			Intent notificationIntent = new Intent(context, NotificationActivity.class);
 	    	notificationIntent.putExtras(bundle);
@@ -1892,7 +1828,7 @@ public class Common {
 	    	context.startActivity(notificationIntent);	
 	    	return true;
 		}catch(Exception ex){
-			Log.e("Common.startNotificationActivity() ERROR: " + ex.toString());
+			Log.e(context, "Common.startNotificationActivity() ERROR: " + ex.toString());
 			return false;
 		}
 	}
@@ -1907,8 +1843,6 @@ public class Common {
 	 * @param rescheduleTime - The time the alarm should go off.
 	 */
 	public static void startAlarm(Context context, Class<?> className, Bundle extrasBundle, String actionText, long alarmTime){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.startAlarm()");
 		try{
 			AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 			Intent intent = new Intent(context, className);
@@ -1921,7 +1855,7 @@ public class Common {
 			PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
 			alarmManager.set(AlarmManager.RTC_WAKEUP, alarmTime, pendingIntent);
 		}catch(Exception ex){
-			Log.e("Common.startAlarm() ERROR: " + ex.toString());
+			Log.e(context, "Common.startAlarm() ERROR: " + ex.toString());
 		}
 	}	
 	
@@ -1933,22 +1867,20 @@ public class Common {
 	 * @return boolean - Returns true if the user is online.
 	 */
 	public static boolean isOnline(Context context) {
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.isOnline()");
 		try{
 			ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 			if(connectivityManager == null){
-				if (_debug) Log.v("Common.isOnline() ConnectivityManager is null. Exiting...");
+				if (_debug) Log.v(context, "Common.isOnline() ConnectivityManager is null. Exiting...");
 				return false;
 			}
 			NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
 			if(networkInfo == null){
-				if (_debug) Log.v("Common.isOnline() NetworkInfo is null. Exiting...");
+				if (_debug) Log.v(context, "Common.isOnline() NetworkInfo is null. Exiting...");
 				return false;
 			}
 			return networkInfo.isConnected();
 		 }catch(Exception ex){
-			Log.e("Common.isOnline() ERROR: " + ex.toString());
+			Log.e(context, "Common.isOnline() ERROR: " + ex.toString());
 			return false;
 		}
 	}
@@ -1961,8 +1893,6 @@ public class Common {
 	 * @return String - The version number of the application.
 	 */
 	public static String getApplicationVersion(Context context){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.getApplicationVersion()");
 		try{
 			PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
 			return packageInfo.versionName;
@@ -1977,8 +1907,6 @@ public class Common {
 	 * @return int - The SDK Interger API level of the device.
 	 */
 	public static int getDeviceAPILevel(){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.getDeviceAPILevel() API Level: " + android.os.Build.VERSION.SDK_INT);
 		try{
 			return android.os.Build.VERSION.SDK_INT;
 		}catch(Exception ex){
@@ -1992,8 +1920,6 @@ public class Common {
 	 * @return String - The name of the manufacturer of the device.
 	 */
 	public static String getDeviceManufacturer(){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.getDeviceManufacturer() Device Manufacturer: " + android.os.Build.MANUFACTURER);
 		try{
 			return android.os.Build.MANUFACTURER;
 		}catch(Exception ex){
@@ -2007,8 +1933,6 @@ public class Common {
 	 * @param context - The application context.
 	 */
 	public static void setApplicationLanguage(Context context, Activity activity){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.setApplicationLanguage()");
 		try{
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 			String appLanguage = preferences.getString(Constants.LANGUAGE_KEY, Constants.LANGUAGE_DEFAULT);
@@ -2028,7 +1952,7 @@ public class Common {
             config.locale = locale;
             activity.getBaseContext().getResources().updateConfiguration(config, activity.getBaseContext().getResources().getDisplayMetrics());
 		}catch(Exception ex){
-			Log.e("Common.setApplicationLanguage() ERROR: " + ex.toString());
+			Log.e(context, "Common.setApplicationLanguage() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -2043,8 +1967,6 @@ public class Common {
 	 * @return boolean - Returns true if the activity can be started.
 	 */
 	public static boolean startBrowserActivity(Context context, NotificationActivity notificationActivity, String linkURL, int requestCode, boolean displayErrors){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.startBrowserActivity() LinkURL: " + linkURL);
 		try{
 			if(linkURL == null || linkURL.equals("")){
 				if(displayErrors) Toast.makeText(context, context.getString(R.string.url_link_not_found_error), Toast.LENGTH_LONG).show();
@@ -2057,7 +1979,7 @@ public class Common {
 			setInLinkedAppFlag(context, true);
 			return true;
 		}catch(Exception ex){
-			Log.e("Common.startBrowserActivity() ERROR: " + ex.toString());
+			Log.e(context, "Common.startBrowserActivity() ERROR: " + ex.toString());
 			if(displayErrors) Toast.makeText(context, context.getString(R.string.browser_app_error), Toast.LENGTH_LONG).show();
 			setInLinkedAppFlag(context, false);
 			return false;
@@ -2072,15 +1994,12 @@ public class Common {
 	 * @return Intent - Returns the Intent.
 	 */
 	public static Intent getBrowserActivityIntent(String linkURL){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.getBrowserActivityIntent()");
 		try{
 			Intent browserIntent = new Intent(Intent.ACTION_VIEW);	
 			browserIntent.setData(Uri.parse(linkURL));
 			browserIntent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 	        return browserIntent;
 		}catch(Exception ex){
-			Log.e("Common.getBrowserActivityIntent() ERROR: " + ex.toString());
 			return null;
 		}
 	}
@@ -2094,8 +2013,6 @@ public class Common {
      * @return boolean - Returns true if the package name specified is installed on the device.
      */
 	public static boolean packageExists(Context context, String packageName){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.packageExists()");
     	try{
     	    @SuppressWarnings("unused")
 			ApplicationInfo applicationInfo = context.getPackageManager().getApplicationInfo(packageName, 0);
@@ -2113,19 +2030,16 @@ public class Common {
      * @return boolean - Returns true if the keyguard is not engaged and the app is in restrict popup mode.
      */
 	public static boolean restrictPopup(Context context){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.restrictPopup()");
     	try{
     		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 			KeyguardManager keyguardManager = (KeyguardManager)context.getSystemService(Context.KEYGUARD_SERVICE);
     		if(preferences.getBoolean(Constants.RESTRICT_POPUP_KEY, false) && !keyguardManager.inKeyguardRestrictedInputMode()){
-    			if (_debug) Log.v("Common.restrictPopup() True");
+    			if (_debug) Log.v(context, "Common.restrictPopup() True");
     			return true;
     		}
-    		if (_debug) Log.v("Common.restrictPopup() False");
     		return false;
     	} catch(Exception ex){
-    		if (_debug) Log.v("Common.restrictPopup() ERROR: " + ex.toString());
+    		if (_debug) Log.v(context, "Common.restrictPopup() ERROR: " + ex.toString());
     	    return false;
     	}
     }
@@ -2139,17 +2053,13 @@ public class Common {
 	 * @return Bitmap - Returns the package launcher icon.
 	 */
 	public static Bitmap getPackageIcon(Context context, String packageName){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.getPackageIcon() PackageName: " + packageName);
 		try{
 			ApplicationInfo applicationInfo = context.getPackageManager().getApplicationInfo(packageName, 0);
 			int packageIconId = applicationInfo.icon;
 			Resources resources = context.getPackageManager().getResourcesForApplication(packageName);
-			//Drawable packageIconDrawable = resources.getDrawable(packageIconId);
-			//return ((BitmapDrawable)packageIconDrawable).getBitmap();
 			return BitmapFactory.decodeResource(resources, packageIconId);			
 		}catch(Exception ex){
-			Log.e("Common.getPackageIcon() ERROR: " + ex.toString());
+			Log.e(context, "Common.getPackageIcon() ERROR: " + ex.toString());
 			return null;
 		}
 	}
@@ -2166,8 +2076,6 @@ public class Common {
 	 */
 	@SuppressLint("WorldReadableFiles")
 	public static boolean exportApplicationPreferences(Context context, String path, String fileName, boolean exportDB){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.exportApplicationPreferences()");
     	try{
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 			if(!Log.writeExternalStorage()){
@@ -2246,7 +2154,7 @@ public class Common {
 				}
 	    	}
 		}catch (Exception ex){
-			Log.e("Common.exportApplicationPreferences() ERROR: " + ex.toString());
+			Log.e(context, "Common.exportApplicationPreferences() ERROR: " + ex.toString());
 			return false;
 		}
 		return true;
@@ -2260,7 +2168,6 @@ public class Common {
 	 * @return boolean - True if the operation was successful, false otherwise.
 	 */
 	public static boolean clearLogFiles(Context context){
-		_debug = Log.getDebug();
 		try{
 			//Remove internal preferences file.
 			File internalPeferencesFile = new File(context.getFilesDir(), "Preferences.txt");
@@ -2329,7 +2236,6 @@ public class Common {
 	 * @return long[] - Returns the pattern in an int array or null if an invalid pattern is provided.
 	 */
 	public static long[] parseVibratePattern(String vibratePattern){
-		if (_debug) Log.v("Common.parseVibratePattern()");
 	    final int VIBRATE_PATTERN_MAX_LENGTH = 60000;
 	    final int VIBRATE_PATTERN_MAX_SIZE = 100;
 		ArrayList<Long> vibratePatternArrayList = new ArrayList<Long>();
@@ -2341,7 +2247,6 @@ public class Common {
 	    	try {
 	    		vibrateLength = Long.parseLong(vibratePatternStringArray[i].trim());
 	    	} catch (Exception ex) {
-	    		Log.e("Common.parseVibratePattern() ERROR: " + ex.toString());
 	    		return null;
 	    	}
 	    	if(vibrateLength < 0){
@@ -2371,12 +2276,10 @@ public class Common {
 	 * @return int[] - Returns the pattern in an int array or null if an invalid pattern is provided.
 	 */
 	public static int[] parseLEDPattern(String ledPattern){
-		if (_debug) Log.v("Common.parseLEDPattern()");
 	    final int LED_PATTERN_MAX_LENGTH = 60000;
 		int[] ledPatternArray = {0, 0};
 		String[] ledPatternStringArray = ledPattern.split(",");
 		if(ledPatternStringArray.length != 2){
-			Log.e("Common.parseLEDPattern() LED Blink Pattern != 2. Exiting...");
 			return null;
 		}
 	    for (int i = 0; i < 2; i++) {
@@ -2384,7 +2287,6 @@ public class Common {
 	    	try {
 	    		blinkLength = Integer.parseInt(ledPatternStringArray[i].trim());
 	    	} catch (Exception ex) {
-	    		Log.e("Common.parseLEDPattern() ERROR: " + ex.toString());
 	    		return null;
 	    	}
 	    	if(blinkLength < 0){
@@ -2411,7 +2313,6 @@ public class Common {
 	     * @param params - The URI of the notification sound.
 	     */
 	    protected Void doInBackground(String... params) {
-			if (_debug) Log.v("Common.playNotificationMediaFileAsyncTask.doInBackground()");
 			MediaPlayer mediaPlayer = null;
 			try{
 				mediaPlayer = new MediaPlayer();
@@ -2428,7 +2329,6 @@ public class Common {
 				});	
 		    	return null;
 			}catch(Exception ex){
-				Log.e("Common.playNotificationMediaFileAsyncTask.doInBackground() ERROR: " + ex.toString());
 				mediaPlayer.release();
             	mediaPlayer = null;
 				return null;
@@ -2441,7 +2341,7 @@ public class Common {
 	     * @param result - Void.
 	     */
 	    protected void onPostExecute(Void result) {
-			if (_debug) Log.v("Common.playNotificationMediaFileAsyncTask.onPostExecute()");
+			return;
 	    }
 	    
 	}
@@ -2452,8 +2352,6 @@ public class Common {
 	 * @param context - The application context.
 	 */
 	public static void startAppAlarms(Context context){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.startAppAlarms()");
 		try{
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 			//Start Reminder DB Cleanup Alarms
@@ -2463,7 +2361,7 @@ public class Common {
 		    	CalendarCommon.startCalendarAlarmManager(context, System.currentTimeMillis() + (5 * 60 * 1000));
 			}
 		}catch(Exception ex){
-			Log.e("Common.startAppAlarms() ERROR: " + ex.toString());
+			Log.e(context, "Common.startAppAlarms() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -2478,8 +2376,6 @@ public class Common {
 	 * @param notificationType - The notification type.
 	 */
 	private static void removeStatusBarNotification(Context context, int notificationType){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("Common.removeStatusBarNotification()");
 		try{
 			//Adjust for Preview notifications.
 			if(notificationType > 1999){
@@ -2488,7 +2384,7 @@ public class Common {
 			NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 			notificationManager.cancel(notificationType);
 		}catch(Exception ex){
-			Log.e("Common.removeStatusBarNotification() ERROR: " + ex.toString());
+			Log.e(context, "Common.removeStatusBarNotification() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -2505,7 +2401,6 @@ public class Common {
 	     * @param params - The URI of the notification sound.
 	     */
 	    protected Void doInBackground(String... params) {
-			if (_debug) Log.v("Common.playGenericNotificationMediaFileAsyncTask.doInBackground()");
 			MediaPlayer mediaPlayer = null;
 			try{
 				mediaPlayer = new MediaPlayer();
@@ -2522,7 +2417,6 @@ public class Common {
 				});	
 		    	return null;
 			}catch(Exception ex){
-				Log.e("Common.playGenericNotificationMediaFileAsyncTask.doInBackground() ERROR: " + ex.toString());
 				mediaPlayer.release();
             	mediaPlayer = null;
 				return null;
@@ -2535,7 +2429,7 @@ public class Common {
 	     * @param result - Void.
 	     */
 	    protected void onPostExecute(Void result) {
-			if (_debug) Log.v("Common.playGenericNotificationMediaFileAsyncTask.onPostExecute()");
+			return;
 	    }
 	    
 	}
@@ -2552,7 +2446,6 @@ public class Common {
 	 * @return boolean - Returns true if the current time falls within the period time.
 	 */
 	private static boolean timeFallsWithinPeriod(Calendar calendar, int hourStart, int minuteStart, int hourStop, int minuteStop){
-		if (_debug) Log.v("Common.timeFallsWithinPeriod()");
 		int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
 		int currentMinute = calendar.get(Calendar.MINUTE);
 		if(hourStart < hourStop){

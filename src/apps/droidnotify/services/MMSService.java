@@ -15,12 +15,8 @@ import apps.droidnotify.sms.SMSCommon;
  * @author Camille Sévigny
  */
 public class MMSService extends WakefulIntentService {
+
 	
-	//================================================================================
-    // Properties
-    //================================================================================
-	
-	boolean _debug = false;
 
 	//================================================================================
 	// Public Methods
@@ -31,8 +27,6 @@ public class MMSService extends WakefulIntentService {
 	 */
 	public MMSService() {
 		super("MMSReceiverService");
-		_debug = Log.getDebug();
-		if (_debug) Log.v("MMSReceiverService.MMSReceiverService()");
 	}
 
 	//================================================================================
@@ -46,9 +40,8 @@ public class MMSService extends WakefulIntentService {
 	 */
 	@Override
 	protected void doWakefulWork(Intent intent) {
-		if (_debug) Log.v("MMSReceiverService.doWakefulWork()");
+		Context context = getApplicationContext();
 		try{
-			Context context = getApplicationContext();
 			Bundle mmsNotificationBundle = SMSCommon.getMMSMessagesFromDisk(context);
 			if(mmsNotificationBundle != null){
 				Bundle bundle = new Bundle();
@@ -56,10 +49,10 @@ public class MMSService extends WakefulIntentService {
 				bundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME, mmsNotificationBundle);
 				Common.startNotificationActivity(context, bundle);
 			}else{
-				if (_debug) Log.v("MMSReceiverService.doWakefulWork() No new MMSs were found. Exiting...");
+				Log.e(context, "MMSReceiverService.doWakefulWork() No new MMSs were found. Exiting...");
 			}
 		}catch(Exception ex){
-			Log.e("MMSReceiverService.doWakefulWork() ERROR: " + ex.toString());
+			Log.e(context, "MMSReceiverService.doWakefulWork() ERROR: " + ex.toString());
 		}
 	}
 	

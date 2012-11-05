@@ -13,12 +13,6 @@ import apps.droidnotify.k9.K9Common;
 import apps.droidnotify.log.Log;
 
 public class K9AlarmBroadcastReceiverService extends WakefulIntentService {
-	
-	//================================================================================
-    // Properties
-    //================================================================================
-	
-	boolean _debug = false;
 
 	//================================================================================
 	// Public Methods
@@ -29,8 +23,6 @@ public class K9AlarmBroadcastReceiverService extends WakefulIntentService {
 	 */
 	public K9AlarmBroadcastReceiverService() {
 		super("K9AlarmBroadcastReceiverService");
-		_debug = Log.getDebug();
-		if (_debug) Log.v("K9AlarmBroadcastReceiverService.K9AlarmBroadcastReceiverService()");
 	}
 
 	//================================================================================
@@ -44,13 +36,12 @@ public class K9AlarmBroadcastReceiverService extends WakefulIntentService {
 	 */
 	@Override
 	protected void doWakefulWork(Intent intent) {
-		if (_debug) Log.v("K9AlarmBroadcastReceiverService.doWakefulWork()");
+		Context context = getApplicationContext();
 		try{
-			Context context = getApplicationContext();
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 			//Block the notification if it's quiet time.
 			if(Common.isQuietTime(context)){
-				if (_debug) Log.v("K9AlarmBroadcastReceiverService.doWakefulWork() Quiet Time. Exiting...");
+				Log.e(context, "K9AlarmBroadcastReceiverService.doWakefulWork() Quiet Time. Exiting...");
 				return;
 			}
 			//Check for a blacklist entry before doing anything else.
@@ -60,7 +51,6 @@ public class K9AlarmBroadcastReceiverService extends WakefulIntentService {
     		if(emailNotificationBundle != null){
     			emailNotificationBundleSingle = emailNotificationBundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_1");
     		}
-			if (_debug) Log.v("K9BroadcastReceiverService.doWakefulWork() IntentAction: " + intent.getAction());
 		    //Check the state of the users phone.
 		    TelephonyManager telemanager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 		    boolean notificationIsBlocked = false;
@@ -89,7 +79,7 @@ public class K9AlarmBroadcastReceiverService extends WakefulIntentService {
 		    	if(emailNotificationBundle != null) Common.rescheduleBlockedNotification(context, callStateIdle, rescheduleNotificationInCall, Constants.NOTIFICATION_TYPE_K9, emailNotificationBundle);
 		    }
 		}catch(Exception ex){
-			Log.e("K9AlarmBroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());
+			Log.e(context, "K9AlarmBroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());
 		}
 	}
 		

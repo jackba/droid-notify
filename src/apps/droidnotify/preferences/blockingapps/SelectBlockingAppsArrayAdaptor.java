@@ -36,8 +36,8 @@ public class SelectBlockingAppsArrayAdaptor extends ArrayAdapter<CustomPackage> 
 
     public SelectBlockingAppsArrayAdaptor(Context context, int textViewResourceId, List<CustomPackage> customPackageInfoArray, SelectBlockingAppsPreferenceActivity selectBlockingAppsPreferenceActivity) {
 	    super(context, textViewResourceId, customPackageInfoArray);
-		//_debug = Log.getDebug();
-	    //if (_debug) Log.v("SelectBlockingAppsArrayAdaptor.SelectBlockingAppsArrayAdaptor()");
+		//_debug = Log.getDebug(context);
+	    //if (_debug) Log.v(context, "SelectBlockingAppsArrayAdaptor.SelectBlockingAppsArrayAdaptor()");
 	    _context = context;
 		_inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	    _customPackageInfoArray = customPackageInfoArray;
@@ -50,8 +50,8 @@ public class SelectBlockingAppsArrayAdaptor extends ArrayAdapter<CustomPackage> 
 
 	@Override
     public View getView(int position, View view, ViewGroup parent){
-		//_debug = Log.getDebug();
-	    //if (_debug) Log.v("SelectBlockingAppsArrayAdaptor.getView()");
+		//_debug = Log.getDebug(context);
+	    //if (_debug) Log.v(context, "SelectBlockingAppsArrayAdaptor.getView()");
 		final ViewHolder viewHolder;
 		if(view == null){
 			view = _inflater.inflate(R.layout.package_listitem, parent, false);
@@ -85,7 +85,7 @@ public class SelectBlockingAppsArrayAdaptor extends ArrayAdapter<CustomPackage> 
 		view.setBackgroundResource(R.drawable.preference_row_click);
 		view.setOnClickListener(new OnClickListener(){
         	public void onClick(View view){
-        		//if (_debug) Log.v("SelectBlockingAppsArrayAdaptor() Row View Clicked");	        		
+        		//if (_debug) Log.v(context, "SelectBlockingAppsArrayAdaptor() Row View Clicked");	        		
             	CheckBox checkBox = (CheckBox) view.findViewById(R.id.check);
             	checkBox.setChecked(!checkBox.isChecked());
             	new setSelectedPackageAsyncTask().execute(customPackageInfo.getPackageName(), String.valueOf(checkBox.isChecked()));
@@ -93,7 +93,7 @@ public class SelectBlockingAppsArrayAdaptor extends ArrayAdapter<CustomPackage> 
 		});
 		viewHolder.checkBox.setOnClickListener(new OnClickListener(){
         	public void onClick(View view){
-        		//if (_debug) Log.v("SelectBlockingAppsArrayAdaptor() Row View Clicked");	        		
+        		//if (_debug) Log.v(context, "SelectBlockingAppsArrayAdaptor() Row View Clicked");	        		
             	CheckBox checkBox = (CheckBox) view.findViewById(R.id.check);
             	new setSelectedPackageAsyncTask().execute(customPackageInfo.getPackageName(), String.valueOf(checkBox.isChecked()));
         	}
@@ -126,7 +126,7 @@ public class SelectBlockingAppsArrayAdaptor extends ArrayAdapter<CustomPackage> 
 		 * Setup the Progress Dialog.
 		 */
 	    protected void onPreExecute(){
-			//if(_debug) Log.v("SelectBlockingAppsArrayAdaptor.setSelectedPackageAsyncTask.onPreExecute()");
+			//if(_debug) Log.v(context, "SelectBlockingAppsArrayAdaptor.setSelectedPackageAsyncTask.onPreExecute()");
 	        dialog = ProgressDialog.show(_selectBlockingAppsPreferenceActivity, "", _context.getString(R.string.saving_selection), true);
 	    }
 	    /**
@@ -135,7 +135,7 @@ public class SelectBlockingAppsArrayAdaptor extends ArrayAdapter<CustomPackage> 
 	     * @param params
 	     */
 	    protected Boolean doInBackground(String... params){
-			//if(_debug) Log.v("SelectBlockingAppsArrayAdaptor.setSelectedPackageAsyncTask.doInBackground()");
+			//if(_debug) Log.v(context, "SelectBlockingAppsArrayAdaptor.setSelectedPackageAsyncTask.doInBackground()");
 			setPackage(params[0], Boolean.parseBoolean(params[1]));
 	    	return true;
 	    }
@@ -145,7 +145,7 @@ public class SelectBlockingAppsArrayAdaptor extends ArrayAdapter<CustomPackage> 
 	     * @param result
 	     */
 	    protected void onPostExecute(Boolean successful){
-			//if(_debug) Log.v("SelectBlockingAppsArrayAdaptor.setSelectedPackageAsyncTask.onPostExecute()");
+			//if(_debug) Log.v(context, "SelectBlockingAppsArrayAdaptor.setSelectedPackageAsyncTask.onPostExecute()");
 	        dialog.dismiss();
 	    }
 	}

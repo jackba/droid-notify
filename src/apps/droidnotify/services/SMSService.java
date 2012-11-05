@@ -15,12 +15,6 @@ import apps.droidnotify.sms.SMSCommon;
  * @author Camille Sévigny
  */
 public class SMSService extends WakefulIntentService {
-	
-	//================================================================================
-    // Properties
-    //================================================================================
-	
-	boolean _debug = false;
 
 	//================================================================================
 	// Public Methods
@@ -31,8 +25,6 @@ public class SMSService extends WakefulIntentService {
 	 */
 	public SMSService() {
 		super("SMSService");
-		_debug = Log.getDebug();
-		if (_debug) Log.v("SMSService.SMSService()");
 	}
 
 	//================================================================================
@@ -46,9 +38,8 @@ public class SMSService extends WakefulIntentService {
 	 */
 	@Override
 	protected void doWakefulWork(Intent intent) {
-		if (_debug) Log.v("SMSService.doWakefulWork()");
+		Context context = getApplicationContext();
 		try{
-			Context context = getApplicationContext();
 			Bundle newSMSBundle = intent.getExtras();
 			Bundle smsNotificationBundle = SMSCommon.getSMSMessagesFromIntent(context, newSMSBundle);
 			if(smsNotificationBundle != null){
@@ -57,10 +48,10 @@ public class SMSService extends WakefulIntentService {
 				bundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME, smsNotificationBundle);
 		    	Common.startNotificationActivity(context, bundle);
 			}else{
-				if (_debug) Log.v("SMSService.doWakefulWork() No new SMSs were found. Exiting...");
+				Log.e(context, "SMSService.doWakefulWork() No new SMSs were found. Exiting...");
 			}
 		}catch(Exception ex){
-			Log.e("SMSService.doWakefulWork() ERROR: " + ex.toString());
+			Log.e(context, "SMSService.doWakefulWork() ERROR: " + ex.toString());
 		}
 	}
 		

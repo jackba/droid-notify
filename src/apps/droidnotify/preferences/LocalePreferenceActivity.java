@@ -18,7 +18,6 @@ public class LocalePreferenceActivity extends PreferenceActivity implements OnSh
     // Properties
     //================================================================================
 
-    private boolean _debug = false;
     private Context _context = null;
     private SharedPreferences _preferences = null;
 	
@@ -33,7 +32,6 @@ public class LocalePreferenceActivity extends PreferenceActivity implements OnSh
 	 * @param key - The String value of the preference Key who's preference value was changed.
 	 */
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-		if (_debug) Log.v("LocalePreferenceActivity.onSharedPreferenceChanged() Key: " + key);
 		if(key.equals(Constants.LANGUAGE_KEY)){
 			reloadPreferenceActivity();
 		}
@@ -52,8 +50,6 @@ public class LocalePreferenceActivity extends PreferenceActivity implements OnSh
 	@Override
 	protected void onCreate(Bundle bundle){
 	    super.onCreate(bundle);
-	    _debug = Log.getDebug();
-	    if (_debug) Log.v("LocalePreferenceActivity.onCreate()");
 	    _context = this;
 	    Common.setApplicationLanguage(_context, this);
 	    _preferences = PreferenceManager.getDefaultSharedPreferences(_context);
@@ -67,7 +63,6 @@ public class LocalePreferenceActivity extends PreferenceActivity implements OnSh
 	 */
 	@Override
 	protected void onResume(){
-	    if(_debug) Log.v("LocalePreferenceActivity.onResume()");
 	    super.onResume();
 	    _preferences.registerOnSharedPreferenceChangeListener(this);
 	}
@@ -77,7 +72,6 @@ public class LocalePreferenceActivity extends PreferenceActivity implements OnSh
 	 */
 	@Override
 	protected void onPause(){
-	    if(_debug) Log.v("LocalePreferenceActivity.onPause()");
 	    super.onPause();
 	    _preferences.unregisterOnSharedPreferenceChangeListener(this);
 	}
@@ -90,7 +84,6 @@ public class LocalePreferenceActivity extends PreferenceActivity implements OnSh
 	 * Reload Preference Activity
 	 */
 	public void reloadPreferenceActivity() {
-		if (_debug) Log.v("LocalePreferenceActivity.reloadPreferenceActivity()");
 		try{
 		    Intent intent = getIntent();
 		    overridePendingTransition(0, 0);
@@ -99,7 +92,7 @@ public class LocalePreferenceActivity extends PreferenceActivity implements OnSh
 		    overridePendingTransition(0, 0);
 		    startActivity(intent);
 		}catch(Exception ex){
-			Log.e("LocalePreferenceActivity.reloadPreferenceActivity() ERROR: " + ex.toString());
+			Log.e(_context, "LocalePreferenceActivity.reloadPreferenceActivity() ERROR: " + ex.toString());
 		}
 	}
 	

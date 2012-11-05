@@ -29,7 +29,6 @@ public class NotificationsPreferenceActivity extends Activity {
     // Properties
     //================================================================================
 
-	private boolean _debug = false;
 	private Context _context = null;
 	private TextView _smsSettingsRow = null;	
 	private TextView _missedCallsSettingsRow = null;	
@@ -51,8 +50,6 @@ public class NotificationsPreferenceActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle bundle){
 		super.onCreate(bundle);
-	    _debug = Log.getDebug();
-	    if (_debug) Log.v("NotificationsPreferenceActivity.onCreate()");
 		_context = this;
 	    Common.setApplicationLanguage(_context, this);
 	    this.setContentView(R.layout.notification_preference_activity);
@@ -68,8 +65,7 @@ public class NotificationsPreferenceActivity extends Activity {
 	/**
 	 * Initialize the layout items.
 	 */
-	private void initLayoutItems() {
-		if (_debug) Log.v("NotificationsPreferenceActivity.initLayoutItems()");		
+	private void initLayoutItems() {		
 		_smsSettingsRow = (TextView)findViewById(R.id.row_sms);
 		_missedCallsSettingsRow = (TextView)findViewById(R.id.row_missed_calls);
 		_calendarSettingsRow = (TextView)findViewById(R.id.row_calendar);	
@@ -83,7 +79,6 @@ public class NotificationsPreferenceActivity extends Activity {
 	 * Set up each preference row's attributes (background style etc.)
 	 */
 	private void setupRowAttributes(){
-		if (_debug) Log.v("NotificationsPreferenceActivity.setupRowAttributes()");	
 		_smsSettingsRow.setBackgroundResource(R.drawable.preference_row_click);
 		_missedCallsSettingsRow.setBackgroundResource(R.drawable.preference_row_click);
 		_calendarSettingsRow.setBackgroundResource(R.drawable.preference_row_click);	
@@ -97,7 +92,6 @@ public class NotificationsPreferenceActivity extends Activity {
 	 * Attach the click events to the preference rows.
 	 */
 	private void setupRowActivities(){
-		if (_debug) Log.v("NotificationsPreferenceActivity.Activities()");
 		if(Common.isDeviceWiFiOnly(_context)){
 			_smsSettingsRow.setClickable(false);
 			_smsSettingsRow.setTextColor(_context.getResources().getColor(R.color.disabled_text));
@@ -110,7 +104,7 @@ public class NotificationsPreferenceActivity extends Activity {
 			    	try{
 			    		startActivity(new Intent(_context, SMSPreferenceActivity.class));
 			    	}catch(Exception ex){
-		 	    		Log.e("NotificationsPreferenceActivity() SMS Button ERROR: " + ex.toString());
+		 	    		Log.e(_context, "NotificationsPreferenceActivity() SMS Button ERROR: " + ex.toString());
 			    	}
 	        	}
 			});
@@ -120,7 +114,7 @@ public class NotificationsPreferenceActivity extends Activity {
 			    	try{
 			    		startActivity(new Intent(_context, PhonePreferenceActivity.class));
 			    	}catch(Exception ex){
-		 	    		Log.e("NotificationsPreferenceActivity() Missed Calls Button ERROR: " + ex.toString());
+		 	    		Log.e(_context, "NotificationsPreferenceActivity() Missed Calls Button ERROR: " + ex.toString());
 			    	}
 		    	}
 			});	
@@ -131,7 +125,7 @@ public class NotificationsPreferenceActivity extends Activity {
 		    	try{
 		    		startActivity(new Intent(_context, CalendarPreferenceActivity.class));
 		    	}catch(Exception ex){
-	 	    		Log.e("NotificationsPreferenceActivity() Calendar Button ERROR: " + ex.toString());
+	 	    		Log.e(_context, "NotificationsPreferenceActivity() Calendar Button ERROR: " + ex.toString());
 		    	}
 	    	}
 		});		
@@ -141,7 +135,7 @@ public class NotificationsPreferenceActivity extends Activity {
 		    	try{
 		    		startActivity(new Intent(_context, K9PreferenceActivity.class));
 		    	}catch(Exception ex){
-	 	    		Log.e("NotificationsPreferenceActivity() K9 Button ERROR: " + ex.toString());
+	 	    		Log.e(_context, "NotificationsPreferenceActivity() K9 Button ERROR: " + ex.toString());
 		    	}
 	    	}
 		});		
@@ -155,7 +149,7 @@ public class NotificationsPreferenceActivity extends Activity {
 			    	upgradeActivityIntent.putExtras(bundle);
 		    		startActivity(upgradeActivityIntent);
 		    	}catch(Exception ex){
-	 	    		Log.e("NotificationsPreferenceActivity() Twitter Button ERROR: " + ex.toString());
+	 	    		Log.e(_context, "NotificationsPreferenceActivity() Twitter Button ERROR: " + ex.toString());
 		    	}
 	    	}
 		});
@@ -169,7 +163,7 @@ public class NotificationsPreferenceActivity extends Activity {
 			    	upgradeActivityIntent.putExtras(bundle);
 		    		startActivity(upgradeActivityIntent);
 		    	}catch(Exception ex){
-	 	    		Log.e("NotificationsPreferenceActivity() Facebook Button ERROR: " + ex.toString());
+	 	    		Log.e(_context, "NotificationsPreferenceActivity() Facebook Button ERROR: " + ex.toString());
 		    	}
         	}
 		});
@@ -182,7 +176,7 @@ public class NotificationsPreferenceActivity extends Activity {
 			    		intent.setComponent(new ComponentName("apps.droidnotifyplus", "apps.droidnotifyplus.preferences.selectnotifications.SelectNotificationsPreferenceActivity"));
 			    		startActivity(intent);
 			    	}catch(Exception ex){
-		 	    		Log.e("NotificationsPreferenceActivity() More Button ERROR: " + ex.toString());
+		 	    		Log.e(_context, "NotificationsPreferenceActivity() More Button ERROR: " + ex.toString());
 			    	}
 	        	}
 			});
@@ -192,7 +186,7 @@ public class NotificationsPreferenceActivity extends Activity {
 			    	try{	    		
 			    		startActivity(new Intent(_context, AddOnsActivity.class));
 			    	}catch(Exception ex){
-		 	    		Log.e("NotificationsPreferenceActivity() More Button ERROR: " + ex.toString());
+		 	    		Log.e(_context, "NotificationsPreferenceActivity() More Button ERROR: " + ex.toString());
 			    	}
 	        	}
 			});

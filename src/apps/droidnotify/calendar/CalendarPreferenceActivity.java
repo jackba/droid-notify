@@ -31,7 +31,6 @@ public class CalendarPreferenceActivity extends PreferenceActivity implements On
     // Properties
     //================================================================================
 
-    private boolean _debug = false;
     private Context _context = null;
     private SharedPreferences _preferences = null;
 	
@@ -48,8 +47,6 @@ public class CalendarPreferenceActivity extends PreferenceActivity implements On
 	@Override
 	protected void onCreate(Bundle bundle){
 	    super.onCreate(bundle);
-	    _debug = Log.getDebug();
-	    if (_debug) Log.v("CalendarPreferenceActivity.onCreate()");
 	    _context = this;
 	    Common.setApplicationLanguage(_context, this);
 	    _preferences = PreferenceManager.getDefaultSharedPreferences(_context);
@@ -66,7 +63,6 @@ public class CalendarPreferenceActivity extends PreferenceActivity implements On
 	 * @param key - The String value of the preference Key who's preference value was changed.
 	 */
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-		if (_debug) Log.v("CalendarPreferenceActivity.onSharedPreferenceChanged() Key: " + key);
 		if(key.equals(Constants.CALENDAR_NOTIFICATIONS_ENABLED_KEY)){
 			if(_preferences.getBoolean(Constants.CALENDAR_NOTIFICATIONS_ENABLED_KEY, false)){
 				//Setup Calendar recurring alarm.
@@ -92,7 +88,6 @@ public class CalendarPreferenceActivity extends PreferenceActivity implements On
 	 */
 	@Override
 	protected void onResume(){
-	    if(_debug) Log.v("CalendarPreferenceActivity.onResume()");
 	    super.onResume();
 	    _preferences.registerOnSharedPreferenceChangeListener(this);
 	}
@@ -102,7 +97,6 @@ public class CalendarPreferenceActivity extends PreferenceActivity implements On
 	 */
 	@Override
 	protected void onPause(){
-	    if(_debug) Log.v("CalendarPreferenceActivity.onPause()");
 	    super.onPause();
 	    _preferences.unregisterOnSharedPreferenceChangeListener(this);
 	}
@@ -116,17 +110,15 @@ public class CalendarPreferenceActivity extends PreferenceActivity implements On
 	 */
 	@SuppressWarnings("deprecation")
 	private void setupCustomPreferences(){
-	    if (_debug) Log.v("CalendarPreferenceActivity.setupCustomPreferences()");
 		//Calendar Refresh Button
 		Preference calendarRefreshPref = (Preference)findPreference(Constants.CALENDAR_REFRESH_KEY);
 		calendarRefreshPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
         	public boolean onPreferenceClick(Preference preference) {
-		    	if (_debug) Log.v("CalendarPreferenceActivity() Calendar Refresh Button Clicked()");
 		    	try{
 			    	//Run this process in the background in an AsyncTask.
 			    	new calendarRefreshAsyncTask().execute();
 		    	}catch(Exception ex){
-	 	    		Log.e("CalendarPreferenceActivity() Calendar Refresh Button ERROR: " + ex.toString());
+	 	    		Log.e(_context, "CalendarPreferenceActivity() Calendar Refresh Button ERROR: " + ex.toString());
 	 	    		return false;
 		    	}
 	            return true;
@@ -140,7 +132,7 @@ public class CalendarPreferenceActivity extends PreferenceActivity implements On
 		    		startActivity(new Intent(_context, CalendarStatusBarNotificationsPreferenceActivity.class));
 		    		return true;
 		    	}catch(Exception ex){
-	 	    		Log.e("CalendarPreferenceActivity() Status Bar Notifications Button ERROR: " + ex.toString());
+	 	    		Log.e(_context, "CalendarPreferenceActivity() Status Bar Notifications Button ERROR: " + ex.toString());
 	 	    		return false;
 		    	}
         	}
@@ -153,7 +145,7 @@ public class CalendarPreferenceActivity extends PreferenceActivity implements On
 		    		startActivity(new Intent(_context, CalendarCustomizePreferenceActivity.class));
 		    		return true;
 		    	}catch(Exception ex){
-	 	    		Log.e("CalendarPreferenceActivity() Customize Button ERROR: " + ex.toString());
+	 	    		Log.e(_context, "CalendarPreferenceActivity() Customize Button ERROR: " + ex.toString());
 	 	    		return false;
 		    	}
         	}
@@ -166,7 +158,6 @@ public class CalendarPreferenceActivity extends PreferenceActivity implements On
 	 * @param alarmStartTime - The time to start the alarm.
 	 */
 	private void startCalendarAlarmManager(long alarmStartTime){
-		if (_debug) Log.v("CalendarPreferenceActivity.startCalendarAlarmManager()");
 		//Make sure that this user preference has been set and initialized.
 		initUserCalendarsPreference();
 		//Schedule the reading of the calendar events.
@@ -178,7 +169,6 @@ public class CalendarPreferenceActivity extends PreferenceActivity implements On
 	 * This sets the user preference to check all available calendars.
 	 */
 	private void initUserCalendarsPreference(){
-		if (_debug) Log.v("CalendarPreferenceActivity.initUserCalendarsPreference()");
     	String availableCalendarsInfo = CalendarCommon.getAvailableCalendars(_context);
     	if(availableCalendarsInfo == null){
     		return;
@@ -192,7 +182,6 @@ public class CalendarPreferenceActivity extends PreferenceActivity implements On
 	    		if(!calendarSelectionPreference.toString().equals("")) calendarSelectionPreference.append("|");
 	    		calendarSelectionPreference.append(calendarInfoArray[0]);
 	    	}
-	    	if (_debug) Log.v("CalendarPreferenceActivity.initUserCalendarsPreference() Available Calendars: " + calendarSelectionPreference.toString());
 	    	SharedPreferences.Editor editor = _preferences.edit();
 	    	editor.putString(Constants.CALENDAR_SELECTION_KEY, calendarSelectionPreference.toString());
 	    	editor.commit();
@@ -211,7 +200,6 @@ public class CalendarPreferenceActivity extends PreferenceActivity implements On
 		 * Setup the Progress Dialog.
 		 */
 	    protected void onPreExecute() {
-			if (_debug) Log.v("CalendarPreferenceActivity.calendarRefreshAsyncTask.onPreExecute()");
 	        dialog = ProgressDialog.show(_context, "", _context.getString(R.string.reading_calendar_data), true);
 	    }
 	    /**
@@ -220,7 +208,6 @@ public class CalendarPreferenceActivity extends PreferenceActivity implements On
 	     * @param params
 	     */
 	    protected Void doInBackground(Void... params) {
-			if (_debug) Log.v("CalendarPreferenceActivity.calendarRefreshAsyncTask.doInBackground()");
 			CalendarCommon.readCalendars(_context);
 	    	return null;
 	    }
@@ -230,7 +217,6 @@ public class CalendarPreferenceActivity extends PreferenceActivity implements On
 	     * @param result
 	     */
 	    protected void onPostExecute(Void res) {
-			if (_debug) Log.v("CalendarPreferenceActivity.calendarRefreshAsyncTask.onPostExecute()");
 	        dialog.dismiss();
 	    	Toast.makeText(_context, _context.getString(R.string.calendar_data_refreshed), Toast.LENGTH_LONG).show();
 	    }

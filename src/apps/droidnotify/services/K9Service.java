@@ -15,12 +15,6 @@ import apps.droidnotify.log.Log;
  * @author Camille Sévigny
  */
 public class K9Service extends WakefulIntentService {
-	
-	//================================================================================
-    // Properties
-    //================================================================================
-	
-	boolean _debug = false;
 
 	//================================================================================
 	// Public Methods
@@ -31,8 +25,6 @@ public class K9Service extends WakefulIntentService {
 	 */
 	public K9Service() {
 		super("K9Service");
-		_debug = Log.getDebug();
-		if (_debug) Log.v("K9Service.K9Service()");
 	}
 
 	//================================================================================
@@ -46,9 +38,8 @@ public class K9Service extends WakefulIntentService {
 	 */
 	@Override
 	protected void doWakefulWork(Intent intent) {
-		if (_debug) Log.v("K9Service.doWakefulWork()");
+		Context context = getApplicationContext();
 		try{
-			Context context = getApplicationContext();
 			Bundle newEmailBundle = intent.getExtras();
 			Bundle emailNotificationBundle = K9Common.getK9MessagesFromIntent(context, newEmailBundle, intent.getAction());
 			if(emailNotificationBundle != null){
@@ -57,10 +48,10 @@ public class K9Service extends WakefulIntentService {
 				bundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME, emailNotificationBundle);
 		    	Common.startNotificationActivity(context, bundle);
 			}else{
-				if (_debug) Log.v("K9Service.doWakefulWork() No new emails were found. Exiting...");
+				Log.e(context, "K9Service.doWakefulWork() No new emails were found. Exiting...");
 			}
 		}catch(Exception ex){
-			Log.e("K9Service.doWakefulWork() ERROR: " + ex.toString());
+			Log.e(context, "K9Service.doWakefulWork() ERROR: " + ex.toString());
 		}
 	}
 		

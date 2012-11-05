@@ -98,7 +98,7 @@ abstract public class WakefulIntentService extends IntentService {
 		try{
 			doWakefulWork(intent);
 		}catch(Exception ex){
-			Log.e("WakefulIntentService.onHandleIntent() ERROR: " + ex.toString());
+			Log.e(getApplicationContext(), "WakefulIntentService.onHandleIntent() ERROR: " + ex.toString());
 		}finally {
 			if(!Common.isFullWakelockInUse()){
 				Common.clearWakeLock();

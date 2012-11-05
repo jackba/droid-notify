@@ -45,8 +45,8 @@ public class ReminderCommon {
 	 * @return Reminder - The reminder item that was inserted.
 	 */
 	public static boolean insertValue(Context context, String intentAction, boolean dismissed){		
-		_debug = Log.getDebug();
-		if(_debug) Log.v("ReminderCommon.insertValue()");
+		_debug = Log.getDebug(context);
+		if(_debug) Log.v(context, "ReminderCommon.insertValue()");
         try{
 			int dismissedInt = dismissed ? 1 : 0;
 			//Check the DB to ensure that this reminder was not already added.
@@ -63,11 +63,11 @@ public class ReminderCommon {
 						selectionArgs,
 						sortOrder);
 			    if(cursor ==  null){
-			    	if(_debug) Log.v("ReminderCommon.insertValue() Currsor is null, no record found for this intentAction.");
+			    	if(_debug) Log.v(context, "ReminderCommon.insertValue() Currsor is null, no record found for this intentAction.");
 			    }else{
 				    if(cursor.moveToFirst()){
 				    	//This reminder has already been added.
-				    	if(_debug) Log.v("ReminderCommon.insertValue() Reminder action has already been added. Returning existing entry.");
+				    	if(_debug) Log.v(context, "ReminderCommon.insertValue() Reminder action has already been added. Returning existing entry.");
 				    	cursor.close();
 				    	//Return existing row of data.
 			        	return true;
@@ -75,7 +75,7 @@ public class ReminderCommon {
 				    cursor.close();
 			    }
 			}catch(Exception ex){
-				Log.e("ReminderCommon.insertValue() Check If Entry Exists ERROR: " + ex.toString());
+				Log.e(context, "ReminderCommon.insertValue() Check If Entry Exists ERROR: " + ex.toString());
 				//Create the reminder database.
 				SQLiteHelperReminder reminderDBHelper = new SQLiteHelperReminder(context);
 	        	reminderDBHelper.getReadableDatabase();
@@ -93,7 +93,7 @@ public class ReminderCommon {
         	context.getContentResolver().insert(DBConstants.CONTENT_URI_REMINDER, contentValues);
         	return true;
 		}catch(Exception ex){
-			Log.e("ReminderCommon.insertValue() ERROR: " + ex.toString());
+			Log.e(context, "ReminderCommon.insertValue() ERROR: " + ex.toString());
 			return false;
 		}
 	}
@@ -108,12 +108,12 @@ public class ReminderCommon {
 	 * @return Reminder - The reminder item that was updated.
 	 */
 	public static boolean updateValue(Context context, String intentAction, boolean dismissed){		
-		_debug = Log.getDebug();
-		if(_debug) Log.v("ReminderCommon.updateValue()");
+		_debug = Log.getDebug(context);
+		if(_debug) Log.v(context, "ReminderCommon.updateValue()");
         try{
         	ContentValues contentValues = new ContentValues();
         	if(intentAction == null){
-        		if (_debug) Log.v("ReminderCommon.updateValue() Reminder Action is null. Exiting...");
+        		if (_debug) Log.v(context, "ReminderCommon.updateValue() Reminder Action is null. Exiting...");
         		return false;
         	}        	
 			int dismissedInt = dismissed ? 1 : 0;
@@ -122,7 +122,7 @@ public class ReminderCommon {
         	context.getContentResolver().update(DBConstants.CONTENT_URI_REMINDER, contentValues, updateWhere, new String[]{intentAction});
         	return true;
 		}catch(Exception ex){
-			Log.e("ReminderCommon.updateValue() ERROR: " + ex.toString());
+			Log.e(context, "ReminderCommon.updateValue() ERROR: " + ex.toString());
 			//Create the reminder database.
 			SQLiteHelperReminder reminderDBHelper = new SQLiteHelperReminder(context);
         	reminderDBHelper.getReadableDatabase();
@@ -140,12 +140,12 @@ public class ReminderCommon {
 	 * @return boolean - Returns the dismissed value of the reminder.
 	 */
 	public static boolean isDismissed(Context context, String intentAction){		
-		_debug = Log.getDebug();
-		_debug = Log.getDebug();
-		if (_debug) Log.v("ReminderCommon.isDismissed() Intent Action: " + intentAction);
+		_debug = Log.getDebug(context);
+		_debug = Log.getDebug(context);
+		if (_debug) Log.v(context, "ReminderCommon.isDismissed() Intent Action: " + intentAction);
     	try{    		
     		if(intentAction == null){
-				if (_debug) Log.v("ReminderCommon.isDismissed() Reminder Action is null. Exiting...");
+				if (_debug) Log.v(context, "ReminderCommon.isDismissed() Reminder Action is null. Exiting...");
 				return false;
 			}
     		Cursor cursor = null;
@@ -161,28 +161,28 @@ public class ReminderCommon {
     					selectionArgs,
     					sortOrder);
 			    if(cursor ==  null){
-			    	if(_debug) Log.v("ReminderCommon.isDismissed() Currsor is null. Exiting...");
+			    	if(_debug) Log.v(context, "ReminderCommon.isDismissed() Currsor is null. Exiting...");
 			    	return false;
 			    }
 			    if(cursor.moveToFirst()){
     		    	long dismissedInt = cursor.getInt(cursor.getColumnIndex(DBConstants.COLUMN_DISMISSED));
-    		    	if (_debug) Log.v("ReminderCommon.isDismissed() Dismissed: " + dismissedInt);
+    		    	if (_debug) Log.v(context, "ReminderCommon.isDismissed() Dismissed: " + dismissedInt);
     		    	cursor.close();
     		    	return dismissedInt == 1 ? true : false;  		    	
     		    }else{
-    		    	if (_debug) Log.v("ReminderCommon.isDismissed() Intent Action not found. Exiting...");
+    		    	if (_debug) Log.v(context, "ReminderCommon.isDismissed() Intent Action not found. Exiting...");
     		    	cursor.close();
     		    	return false;
     		    }
     		}catch(Exception ex){
-    			Log.e("ReminderCommon.isDismissed() DB Search ERROR: " + ex.toString());
+    			Log.e(context, "ReminderCommon.isDismissed() DB Search ERROR: " + ex.toString());
     			if(cursor != null){
     				cursor.close();
     			}
     		}   		
     		return false;
     	}catch(Exception ex){
-    		Log.e("ReminderCommon.isDismissed() ERROR: " + ex.toString());
+    		Log.e(context, "ReminderCommon.isDismissed() ERROR: " + ex.toString());
     	    return false;
     	}
 	}
@@ -193,15 +193,15 @@ public class ReminderCommon {
 	 * @return boolean - Returns true if the operation was successful.
 	 */
 	public static boolean cleanDB(Context context){
-		_debug = Log.getDebug();
-		if(_debug) Log.v("ReminderCommon.cleanDB()");
+		_debug = Log.getDebug(context);
+		if(_debug) Log.v(context, "ReminderCommon.cleanDB()");
         try{
 			String deleteWhere = DBConstants.COLUMN_CREATED + "<?";
 			String[] selectionArgs = new String[]{String.valueOf(System.currentTimeMillis() - (MILLISECONDS_PER_DAY * 3))};
         	context.getContentResolver().delete(DBConstants.CONTENT_URI_REMINDER, deleteWhere, selectionArgs);
         	return true;
 		}catch(Exception ex){
-			Log.e("ReminderCommon.cleanDB() ERROR: " + ex.toString());
+			Log.e(context, "ReminderCommon.cleanDB() ERROR: " + ex.toString());
 			//Create the reminder database.
 			SQLiteHelperReminder reminderDBHelper = new SQLiteHelperReminder(context);
         	reminderDBHelper.getReadableDatabase();
@@ -217,15 +217,15 @@ public class ReminderCommon {
 	* @param alarmStartTime - The time to start the alarm.
 	*/
 	public static void startReminderDBManagementAlarmManager(Context context, long alarmStartTime){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("ReminderCommon.startReminderDBManagementAlarmManager()");
+		_debug = Log.getDebug(context);
+		if (_debug) Log.v(context, "ReminderCommon.startReminderDBManagementAlarmManager()");
 		try{
 			AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 			Intent intent = new Intent(context, ReminderDBManagementReceiver.class);
 			PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
 			alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, alarmStartTime, MILLISECONDS_PER_DAY, pendingIntent);
 		}catch(Exception ex){
-			Log.e("ReminderCommon.startReminderDBManagementAlarmManager() ERROR: " + ex.toString());
+			Log.e(context, "ReminderCommon.startReminderDBManagementAlarmManager() ERROR: " + ex.toString());
 		}
 	}
 	

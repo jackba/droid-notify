@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import apps.droidnotify.R;
 import apps.droidnotify.common.Common;
-import apps.droidnotify.log.Log;
 
 public class RemindersPreferenceActivity extends PreferenceActivity{
 	
@@ -13,7 +12,6 @@ public class RemindersPreferenceActivity extends PreferenceActivity{
     // Properties
     //================================================================================
 
-    private boolean _debug = false;
     private Context _context = null;
 	
 	//================================================================================
@@ -29,8 +27,6 @@ public class RemindersPreferenceActivity extends PreferenceActivity{
 	@Override
 	protected void onCreate(Bundle bundle){
 	    super.onCreate(bundle);
-	    _debug = Log.getDebug();
-	    if (_debug) Log.v("RemindersPreferenceActivity.onCreate()");
 	    _context = this;
 	    Common.setApplicationLanguage(_context, this);
 	    this.addPreferencesFromResource(R.xml.reminder_preferences);

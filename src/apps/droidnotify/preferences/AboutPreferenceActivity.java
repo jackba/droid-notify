@@ -41,8 +41,8 @@ public class AboutPreferenceActivity extends Activity {
 	protected void onCreate(Bundle bundle){
 		super.onCreate(bundle);
 	    Context context = getApplicationContext();
-	    _debug = Log.getDebug();
-	    if (_debug) Log.v("AboutPreferenceActivity.onCreate()");
+	    _debug = Log.getDebug(context);
+	    if (_debug) Log.v(context, "AboutPreferenceActivity.onCreate()");
 	    Common.setApplicationLanguage(context, this);
 	    this.setContentView(R.layout.about_preference_activity);
 	    initLayoutItems(context);
@@ -54,7 +54,7 @@ public class AboutPreferenceActivity extends Activity {
 	 * @param context - Application context.
 	 */
 	private void initLayoutItems(Context context) {
-		if (_debug) Log.v("AboutPreferenceActivity.initLayoutItems()");	
+		if (_debug) Log.v(context, "AboutPreferenceActivity.initLayoutItems()");	
 		//About Title Text View
 		String appNameVersion = context.getString(R.string.app_name_basic_formatted_version, Common.getApplicationVersion(context));
 		_aboutTitleTextView = (TextView)findViewById(R.id.about_title_text);

@@ -27,7 +27,6 @@ import android.telephony.SmsMessage;
 import android.telephony.SmsMessage.MessageClass;
 import android.widget.Toast;
 
-import apps.droidnotify.MainApplication;
 import apps.droidnotify.NotificationActivity;
 import apps.droidnotify.R;
 import apps.droidnotify.common.Common;
@@ -56,6 +55,7 @@ public class SMSCommon {
     //================================================================================
 	
 	private static boolean _debug = false;
+	private static Context _context = null;
 	
 	//================================================================================
 	// Public Methods
@@ -70,8 +70,8 @@ public class SMSCommon {
 	 * @return Bundle - Returns a Bundle that contain the sms notification information.
 	 */
 	public static Bundle getSMSMessagesFromIntent(Context context, Bundle bundle){
-		_debug = Log.getDebug();
-		if(_debug) Log.v("SMSCommon.getSMSMessagesFromIntent()");
+		_debug = Log.getDebug(context);
+		if(_debug) Log.v(context, "SMSCommon.getSMSMessagesFromIntent()");
 		try{
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 			Bundle smsNotificationBundle = new Bundle();
@@ -94,7 +94,7 @@ public class SMSCommon {
             SmsMessage sms = msgs[0];
             //Handle Flash SMS AKA Class 0 Messages
             MessageClass messageClass = sms.getMessageClass();
-            if(_debug) Log.v("SMSCommon.getSMSMessagesFromIntent() MessageClass: " + messageClass);
+            if(_debug) Log.v(context, "SMSCommon.getSMSMessagesFromIntent() MessageClass: " + messageClass);
             if(messageClass == MessageClass.CLASS_0){
             	if(preferences.getBoolean(Constants.SMS_IGNORE_CLASS_0_MESSAGES_KEY, false)){
             		return null;
@@ -147,7 +147,7 @@ public class SMSCommon {
 		    smsNotificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_BUNDLE_COUNT, bundleCount);
     		return smsNotificationBundle;
 		}catch(Exception ex){
-			Log.e("SMSCommon.getSMSMessagesFromIntent() ERROR: " + ex.toString());
+			Log.e(context, "SMSCommon.getSMSMessagesFromIntent() ERROR: " + ex.toString());
 			return null;
 		}
 	}
@@ -158,7 +158,7 @@ public class SMSCommon {
 	 * @param context - The application context.
 	 */
 	public static Bundle getAllUnreadSMSMessages(Context context){
-		if(_debug) Log.v("SMSCommon.getAllUnreadSMSMessages()" );
+		if(_debug) Log.v(context, "SMSCommon.getAllUnreadSMSMessages()" );
 		Bundle smsNotificationBundle = new Bundle();
 		Cursor cursor = null;
         try{
@@ -174,7 +174,7 @@ public class SMSCommon {
 					selectionArgs,
 					sortOrder);
 		    if(cursor == null){
-		    	if(_debug) Log.v("SMSCommon.getAllUnreadSMSMessages() Currsor is null. Exiting...");
+		    	if(_debug) Log.v(context, "SMSCommon.getAllUnreadSMSMessages() Currsor is null. Exiting...");
 		    	return null;
 		    }
     		boolean isFirst = true;
@@ -213,7 +213,7 @@ public class SMSCommon {
 			cursor.close();
 		    smsNotificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_BUNDLE_COUNT, bundleCount);
 		}catch(Exception ex){
-			Log.e("SMSCommon.getAllUnreadSMSMessages() ERROR: " + ex.toString());
+			Log.e(context, "SMSCommon.getAllUnreadSMSMessages() ERROR: " + ex.toString());
     		if(cursor != null){
 				cursor.close();
 			}
@@ -230,8 +230,8 @@ public class SMSCommon {
 	 * @return Bundle - Returns a Bundle that contain the mms notification information.
 	 */
 	public static Bundle getMMSMessagesFromDisk(Context context){
-		_debug = Log.getDebug();
-		if(_debug) Log.v("SMSCommon.getMMSMessagesFromDisk()");
+		_debug = Log.getDebug(context);
+		if(_debug) Log.v(context, "SMSCommon.getMMSMessagesFromDisk()");
 		Bundle mmsNotificationBundle = new Bundle();
 		Cursor cursor = null;
         try{
@@ -247,7 +247,7 @@ public class SMSCommon {
 					selectionArgs,
 					sortOrder);
 		    if(cursor == null){
-		    	if(_debug) Log.v("SMSCommon.getMMSMessagesFromDisk() Currsor is null. Exiting...");
+		    	if(_debug) Log.v(context, "SMSCommon.getMMSMessagesFromDisk() Currsor is null. Exiting...");
 		    	return null;
 		    }
 	    	while(cursor.moveToNext()){
@@ -262,7 +262,7 @@ public class SMSCommon {
 		    	String messageBody = getMMSText(context, messageID);
 		    	Bundle mmsContactInfoBundle = sentFromAddress.contains("@") ? ContactsCommon.getContactsInfoByEmail(context, sentFromAddress) : ContactsCommon.getContactsInfoByPhoneNumber(context, sentFromAddress);
 		    	long contactID = -1;
-			    if(_debug) Log.v("SMSCommon.getMMSMessagesFromDisk() MMS Message Found! - MessageID: " + messageID);
+			    if(_debug) Log.v(context, "SMSCommon.getMMSMessagesFromDisk() MMS Message Found! - MessageID: " + messageID);
 				//Basic Notification Information.
 				mmsNotificationBundleSingle.putString(Constants.BUNDLE_SENT_FROM_ADDRESS, sentFromAddress);
 				mmsNotificationBundleSingle.putString(Constants.BUNDLE_MESSAGE_BODY, messageBody.replace("\n", "<br/>"));
@@ -284,7 +284,7 @@ public class SMSCommon {
 			cursor.close();
 		    mmsNotificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_BUNDLE_COUNT, bundleCount);
 		}catch(Exception ex){
-			Log.e("SMSCommon.getMMSMessagesFromDisk() ERROR: " + ex.toString());
+			Log.e(context, "SMSCommon.getMMSMessagesFromDisk() ERROR: " + ex.toString());
     		if(cursor != null){
 				cursor.close();
 			}
@@ -299,7 +299,7 @@ public class SMSCommon {
 	 * @param context - The application context.
 	 */
 	public static Bundle getAllUnreadMMSMessages(Context context){
-		if(_debug) Log.v("SMSCommon.getAllUnreadMMSMessages()");
+		if(_debug) Log.v(context, "SMSCommon.getAllUnreadMMSMessages()");
 		Bundle mmsNotificationBundle = new Bundle();
 		Cursor cursor = null;
         try{
@@ -315,7 +315,7 @@ public class SMSCommon {
 					selectionArgs,
 					sortOrder);
 		    if(cursor == null){
-		    	if(_debug) Log.v("SMSCommon.getAllUnreadMMSMessages() Currsor is null. Exiting...");
+		    	if(_debug) Log.v(context, "SMSCommon.getAllUnreadMMSMessages() Currsor is null. Exiting...");
 		    	return null;
 		    }
 			boolean isFirst = true;
@@ -355,7 +355,7 @@ public class SMSCommon {
 			cursor.close();
 		    mmsNotificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_BUNDLE_COUNT, bundleCount);
 		}catch(Exception ex){
-			Log.e("SMSCommon.getAllUnreadMMSMessages() ERROR: " + ex.toString());
+			Log.e(context, "SMSCommon.getAllUnreadMMSMessages() ERROR: " + ex.toString());
     		if(cursor != null){
 				cursor.close();
 			}
@@ -371,13 +371,13 @@ public class SMSCommon {
 //	 * @param phoneNumber - Notifications's phone number.
 //	 */
 //	public static long getThreadID(Context context, String address, int messageType){
-//		_debug = Log.getDebug();
-//		if(_debug) Log.v("SMSCommon.getThreadID()");
+//		_debug = Log.getDebug(context);
+//		if(_debug) Log.v(context, "SMSCommon.getThreadID()");
 //		address = address.contains("@") ? EmailCommon.removeEmailFormatting(address) : PhoneCommon.removePhoneNumberFormatting(address);
 //		String messageURI = "content://sms/inbox";
 //		long threadID = -1;
 //		if(address == null|| address.equals("")){
-//			if(_debug) Log.v("SMSCommon.getThreadID() Address provided is null or empty. Exiting...");
+//			if(_debug) Log.v(context, "SMSCommon.getThreadID() Address provided is null or empty. Exiting...");
 //			return -1;
 //		}
 //		try{
@@ -396,26 +396,26 @@ public class SMSCommon {
 //		    	if(cursor != null){
 //		    		if(cursor.moveToFirst()){
 //		    			threadID = cursor.getLong(cursor.getColumnIndex("thread_id"));
-//		    			if(_debug) Log.v("SMSCommon.getThreadID() Thread ID Found. THREAD_ID =  " + threadID);
+//		    			if(_debug) Log.v(context, "SMSCommon.getThreadID() Thread ID Found. THREAD_ID =  " + threadID);
 //		    		}
 //		    	}else{
-//			    	if(_debug) Log.v("SMSCommon.getThreadID() Currsor is null. Exiting...");
+//			    	if(_debug) Log.v(context, "SMSCommon.getThreadID() Currsor is null. Exiting...");
 //			    	return -1;
 //		    	}
 //				cursor.close();
 //	    	}catch(Exception e){
-//		    	Log.e("SMSCommon.getThreadID() EXCEPTION: " + e.toString());
+//		    	Log.e(context, "SMSCommon.getThreadID() EXCEPTION: " + e.toString());
 //	    		if(cursor != null){
 //					cursor.close();
 //				}
 //		    	return -1;
 //	    	}
 //		    if(threadID < 0){
-//		    	if(_debug) Log.v("SMSCommon.getThreadID() Thread ID NOT Found: ADDRESS = " + address + " MESSAGE_TYPE = " + messageType);
+//		    	if(_debug) Log.v(context, "SMSCommon.getThreadID() Thread ID NOT Found: ADDRESS = " + address + " MESSAGE_TYPE = " + messageType);
 //		    }
 //	    	return threadID;
 //		}catch(Exception ex){
-//			Log.e("SMSCommon.getThreadID() ERROR: " + ex.toString());
+//			Log.e(context, "SMSCommon.getThreadID() ERROR: " + ex.toString());
 //			return -1;
 //		}
 //	}	
@@ -430,10 +430,10 @@ public class SMSCommon {
 	 * @return long - Returns the Thread ID of this SMS/MMS message.
 	 */
 	public static long getThreadID(Context context, String address, int messageType){
-		_debug = Log.getDebug();
-		if(_debug) Log.v("SMSCommon.getThreadID()");
+		_debug = Log.getDebug(context);
+		if(_debug) Log.v(context, "SMSCommon.getThreadID()");
 		if(address == null || address.equals("")){
-			if(_debug) Log.v("SMSCommon.getThreadID() Address provided is null or empty. Exiting...");
+			if(_debug) Log.v(context, "SMSCommon.getThreadID() Address provided is null or empty. Exiting...");
 			return -1;
 		}
 		address = address.contains("@") ? EmailCommon.removeEmailFormatting(address) : PhoneCommon.removePhoneNumberFormatting(address);
@@ -453,15 +453,15 @@ public class SMSCommon {
 				sortOrder);
 	    	if(cursor.moveToFirst()){
 	   			threadID = cursor.getLong(cursor.getColumnIndex("thread_id"));
-	   			if(_debug) Log.v("SMSCommon.getThreadID() Thread ID Found: " + threadID);
+	   			if(_debug) Log.v(context, "SMSCommon.getThreadID() Thread ID Found: " + threadID);
 	    	}else{
-		    	if(_debug) Log.v("SMSCommon.getThreadID() Currsor is null. Exiting...");
+		    	if(_debug) Log.v(context, "SMSCommon.getThreadID() Currsor is null. Exiting...");
 		    	return -1;
 	    	}
 			cursor.close();
 			return threadID;
 	   	}catch(Exception e){
-		    	Log.e("SMSCommon.getThreadID() ERROR: " + e.toString());
+		    	Log.e(context, "SMSCommon.getThreadID() ERROR: " + e.toString());
 	   		if(cursor != null){
 				cursor.close();
 			}
@@ -477,11 +477,11 @@ public class SMSCommon {
 //	 * @param timestamp - Notifications's timeStamp.
 //	 */
 //	public static long getMessageID(Context context, long threadID, String messageBody, long timeStamp, int messageType){
-//		_debug = Log.getDebug();
-//		if(_debug) Log.v("SMSCommon.getMessageID()");
+//		_debug = Log.getDebug(context);
+//		if(_debug) Log.v(context, "SMSCommon.getMessageID()");
 //		String messageURI = "content://sms/inbox";
 //		if(messageBody == null){
-//			if(_debug) Log.v("SMSCommon.getMessageID() Message body provided is null. Exiting...");
+//			if(_debug) Log.v(context, "SMSCommon.getMessageID() Message body provided is null. Exiting...");
 //			return -1;
 //		} 
 //		long messageID = -1;
@@ -506,30 +506,30 @@ public class SMSCommon {
 //					selectionArgs,
 //					sortOrder);
 //			    if(cursor == null){
-//			    	if(_debug) Log.v("SMSCommon.getMessageID() Currsor is null. Exiting...");
+//			    	if(_debug) Log.v(context, "SMSCommon.getMessageID() Currsor is null. Exiting...");
 //			    	return -1;
 //			    }
 //			    while(cursor.moveToNext()){ 
 //		    		if(cursor.getString(cursor.getColumnIndex("body")).replace("\n", "<br/>").trim().equals(messageBody)){
 //		    			messageID = cursor.getLong(cursor.getColumnIndex("_id"));
-//		    			if(_debug) Log.v("SMSCommon.getMessageID() Message ID Found. MESSAGE_ID = " + messageID);
+//		    			if(_debug) Log.v(context, "SMSCommon.getMessageID() Message ID Found. MESSAGE_ID = " + messageID);
 //		    			break;
 //		    		}
 //			    }
 //				cursor.close();
 //		    }catch(Exception ex){
-//				Log.e("SMSCommon.getMessageID() ERROR: " + ex.toString());
+//				Log.e(context, "SMSCommon.getMessageID() ERROR: " + ex.toString());
 //				if(cursor != null){
 //					cursor.close();
 //				}
 //				return -1;
 //			}
 //		    if(messageID < 0){
-//		    	if(_debug) Log.v("SMSCommon.getMessageID() Message ID NOT Found: THREAD_ID = " + threadID + " MESSAGE_BODY = " + messageBody);
+//		    	if(_debug) Log.v(context, "SMSCommon.getMessageID() Message ID NOT Found: THREAD_ID = " + threadID + " MESSAGE_BODY = " + messageBody);
 //		    }
 //		    return messageID;
 //		}catch(Exception ex){
-//			Log.e("SMSCommon.loadMessageID() ERROR: " + ex.toString());
+//			Log.e(context, "SMSCommon.loadMessageID() ERROR: " + ex.toString());
 //			return -1;
 //		}
 //	}
@@ -546,15 +546,15 @@ public class SMSCommon {
 	 * @return long - Returns the Message ID of this SMS message.
 	 */
 	public static long getMessageID(Context context, String address, long threadID, String messageBody, long timeStamp){
-		_debug = Log.getDebug();
-		if(_debug) Log.v("SMSCommon.getMessageID()");
+		_debug = Log.getDebug(context);
+		if(_debug) Log.v(context, "SMSCommon.getMessageID()");
 		if(messageBody == null){
-			if(_debug) Log.v("SMSCommon.getMessageID() Message body provided is null. Exiting...");
+			if(_debug) Log.v(context, "SMSCommon.getMessageID() Message body provided is null. Exiting...");
 			return -1;
 		}
 		messageBody = messageBody.replace("<br/>", "\n").replace("<br />", "\n").trim();
 		if(address == null || address.equals("")){
-			if(_debug) Log.v("SMSCommon.getMessageID() Address provided is null or empty. Exiting...");
+			if(_debug) Log.v(context, "SMSCommon.getMessageID() Address provided is null or empty. Exiting...");
 			return -1;
 		}
 		address = address.contains("@") ? EmailCommon.removeEmailFormatting(address) : PhoneCommon.removePhoneNumberFormatting(address);
@@ -579,17 +579,17 @@ public class SMSCommon {
 				selectionArgs,
 				sortOrder);
 		    if(cursor == null){
-		    	if(_debug) Log.v("SMSCommon.getMessageID() Currsor is null. Exiting...");
+		    	if(_debug) Log.v(context, "SMSCommon.getMessageID() Currsor is null. Exiting...");
 		    	return -1;
 		    }
 		    if(cursor.moveToFirst()){
 		    	int size = cursor.getCount();
 		    	for(int i=0;i<size;i++){
 			    	String currentMessageBody = cursor.getString(cursor.getColumnIndex("body")).trim();
-			    	//if(_debug) Log.v("SMSCommon.getMessageID() smsMessageBody: " + currentMessageBody + " MessageBody: " + messageBody);
+			    	//if(_debug) Log.v(context, "SMSCommon.getMessageID() smsMessageBody: " + currentMessageBody + " MessageBody: " + messageBody);
 		    		if(currentMessageBody.equals(messageBody)){
 		    			messageID = cursor.getLong(cursor.getColumnIndex("_id"));
-		    			if(_debug) Log.v("SMSCommon.getMessageID() Message ID Found. MESSAGE_ID: " + messageID);
+		    			if(_debug) Log.v(context, "SMSCommon.getMessageID() Message ID Found. MESSAGE_ID: " + messageID);
 		    			cursor.close();
 		    			return messageID;
 		    		}
@@ -599,7 +599,7 @@ public class SMSCommon {
 			cursor.close();
 			return -1;
 	    }catch(Exception ex){
-			Log.e("SMSCommon.getMessageID() ERROR: " + ex.toString());
+			Log.e(context, "SMSCommon.getMessageID() ERROR: " + ex.toString());
 			if(cursor != null){
 				cursor.close();
 			}
@@ -615,8 +615,8 @@ public class SMSCommon {
 	 * @return String - The phone or email address of the MMS message.
 	 */
 	public static String getMMSAddress(Context context, long messageID){
-		_debug = Log.getDebug();
-		if(_debug) Log.v("SMSCommon.getMMSAddress()");
+		_debug = Log.getDebug(context);
+		if(_debug) Log.v(context, "SMSCommon.getMMSAddress()");
 		final String[] projection = new String[] {"address"};
 		final String selection = "msg_id=?";
 		final String[] selectionArgs = new String[]{String.valueOf(messageID)};
@@ -631,7 +631,7 @@ public class SMSCommon {
 					selectionArgs,
 					sortOrder);
 		    if(cursor == null){
-		    	if(_debug) Log.v("SMSCommon.getMMSAddress() Currsor is null. Exiting...");
+		    	if(_debug) Log.v(context, "SMSCommon.getMMSAddress() Currsor is null. Exiting...");
 		    	return null;
 		    }
 		    while(cursor.moveToNext()){
@@ -640,7 +640,7 @@ public class SMSCommon {
 	        }
 			cursor.close();
 		}catch(Exception ex){
-			Log.e("SMSCommon.getMMSAddress() ERROR: " + ex.toString());
+			Log.e(context, "SMSCommon.getMMSAddress() ERROR: " + ex.toString());
 			if(cursor != null){
 				cursor.close();
 			}
@@ -657,8 +657,8 @@ public class SMSCommon {
 	 * @return String - The message text of the MMS message.
 	 */
 	public static String getMMSText(Context context, long messageID){
-		_debug = Log.getDebug();
-		if(_debug) Log.v("SMSCommon.getMMSText()");
+		_debug = Log.getDebug(context);
+		if(_debug) Log.v(context, "SMSCommon.getMMSText()");
 		final String[] projection = new String[] {"_id", "ct", "_data", "text"};
 		final String selection = "mid=?";
 		final String[] selectionArgs = new String[]{String.valueOf(messageID)};
@@ -673,7 +673,7 @@ public class SMSCommon {
 					selectionArgs,
 					sortOrder);
 		    if(cursor == null){
-		    	if(_debug) Log.v("SMSCommon.getMMSText() Currsor is null. Exiting...");
+		    	if(_debug) Log.v(context, "SMSCommon.getMMSText() Currsor is null. Exiting...");
 		    	return null;
 		    }
 		    while(cursor.moveToNext()){
@@ -698,7 +698,7 @@ public class SMSCommon {
 	        }
 			cursor.close();
 		}catch(Exception ex){
-			Log.e("SMSCommon.getMMSText ERROR: " + ex.toString());
+			Log.e(context, "SMSCommon.getMMSText ERROR: " + ex.toString());
 			if(cursor != null){
 				cursor.close();
 			}
@@ -715,7 +715,7 @@ public class SMSCommon {
 	 * @return String - The message text of the MMS message.
 	 */
 	private static String getMMSTextFromPart(Context context, long messageID){
-		if(_debug) Log.v("SMSCommon.getMMSTextFromPart()");
+		if(_debug) Log.v(context, "SMSCommon.getMMSTextFromPart()");
 	    InputStream inputStream = null;
 	    StringBuilder messageText = new StringBuilder();
 	    try {
@@ -730,12 +730,12 @@ public class SMSCommon {
 	            }
 	        }
 	    }catch(Exception ex){
-	    	Log.e("SMSCommon.getMMSTextFromPart() ERROR: " + ex.toString());
+	    	Log.e(context, "SMSCommon.getMMSTextFromPart() ERROR: " + ex.toString());
 	    }finally {
 	    	try{
 	    		inputStream.close();
 	    	}catch(Exception ex){
-	    		Log.e("SMSCommon.getMMSTextFromPart() ERROR: " + ex.toString());
+	    		Log.e(context, "SMSCommon.getMMSTextFromPart() ERROR: " + ex.toString());
 	    	}
 	    }
 	    return messageText.toString();
@@ -754,7 +754,7 @@ public class SMSCommon {
 	 * @return boolean - Returns true if the activity can be started.
 	 */
 	public static boolean startMessagingAppReplyActivity(Context context, NotificationActivity notificationActivity, String address, long messageID, long threadID, int requestCode){
-		_debug = Log.getDebug();
+		_debug = Log.getDebug(context);
 		if(address == null){
 			Toast.makeText(context, context.getString(R.string.app_android_reply_messaging_address_error), Toast.LENGTH_LONG).show();
 			return false;
@@ -773,7 +773,7 @@ public class SMSCommon {
 	        Common.setInLinkedAppFlag(context, true);
 	        return true;
 		}catch(Exception ex){
-			Log.e("SMSCommon.startMessagingAppReplyActivity() ERROR: " + ex.toString());
+			Log.e(context, "SMSCommon.startMessagingAppReplyActivity() ERROR: " + ex.toString());
 			Toast.makeText(context, context.getString(R.string.app_android_messaging_app_error), Toast.LENGTH_LONG).show();
 			Common.setInLinkedAppFlag(context, false);
 			return false;
@@ -791,7 +791,7 @@ public class SMSCommon {
 	 * @return boolean - Returns true if the activity can be started.
 	 */
 	public static boolean startMessagingAppViewThreadActivity(Context context, NotificationActivity notificationActivity, long threadID, int requestCode){
-		_debug = Log.getDebug();
+		_debug = Log.getDebug(context);
 		if(threadID < 0){
 			Toast.makeText(context, context.getString(R.string.app_android_message_not_found_error), Toast.LENGTH_LONG).show();
 			return false;
@@ -803,7 +803,7 @@ public class SMSCommon {
 	        Common.setInLinkedAppFlag(context, true);
 	        return true;
 		}catch(Exception ex){
-			Log.e("SMSCommon.startMessagingAppViewThreadActivity() ERROR: " + ex.toString());
+			Log.e(context, "SMSCommon.startMessagingAppViewThreadActivity() ERROR: " + ex.toString());
 			Toast.makeText(context, context.getString(R.string.app_android_messaging_app_error), Toast.LENGTH_LONG).show();
 			Common.setInLinkedAppFlag(context, false);
 			return false;
@@ -820,7 +820,7 @@ public class SMSCommon {
 	 * @return boolean - Returns true if the activity can be started.
 	 */
 	public static boolean startMessagingAppViewInboxActivity(Context context, NotificationActivity notificationActivity, int requestCode){
-		_debug = Log.getDebug();
+		_debug = Log.getDebug(context);
 		try{
 			Intent intent = new Intent(Intent.ACTION_MAIN);
 		    intent.setType("vnd.android-dir/mms-sms");
@@ -828,7 +828,7 @@ public class SMSCommon {
 	        Common.setInLinkedAppFlag(context, true);
 	        return true;
 		}catch(Exception ex){
-			Log.e("SMSCommon.startMessagingAppViewInboxActivity() ERROR: " + ex.toString());
+			Log.e(context, "SMSCommon.startMessagingAppViewInboxActivity() ERROR: " + ex.toString());
 			Toast.makeText(context, context.getString(R.string.app_android_messaging_app_error), Toast.LENGTH_LONG).show();
 			Common.setInLinkedAppFlag(context, false);
 			return false;
@@ -845,10 +845,10 @@ public class SMSCommon {
 	 * @return boolean - Returns true if the thread was deleted successfully.
 	 */
 	public static boolean deleteMessageThread(Context context, long threadID, int notificationType){
-		_debug = Log.getDebug();
+		_debug = Log.getDebug(context);
 		try{
 			if(threadID < 0){
-				if(_debug) Log.v("SMSCommon.deleteMessageThread() Thread ID < 0. Exiting...");
+				if(_debug) Log.v(context, "SMSCommon.deleteMessageThread() Thread ID < 0. Exiting...");
 				return false;
 			}
 			if(notificationType == Constants.NOTIFICATION_TYPE_MMS){
@@ -864,7 +864,7 @@ public class SMSCommon {
 			}
 			return true;
 		}catch(Exception ex){
-			Log.e("SMSCommon.deleteMessageThread() ERROR: " + ex.toString());
+			Log.e(context, "SMSCommon.deleteMessageThread() ERROR: " + ex.toString());
 			return false;
 		}
 	}
@@ -878,10 +878,10 @@ public class SMSCommon {
 	 * @return boolean - Returns true if the message was deleted successfully.
 	 */
 	public static boolean deleteSingleMessage(Context context, long messageID, long threadID, int notificationType){
-		_debug = Log.getDebug();
+		_debug = Log.getDebug(context);
 		try{
 			if(messageID < 0){
-				if(_debug) Log.v("SMSCommon.deleteSingleMessage() Message ID < 0. Exiting...");
+				if(_debug) Log.v(context, "SMSCommon.deleteSingleMessage() Message ID < 0. Exiting...");
 				return false;
 			}	
 			String selection = null;
@@ -901,7 +901,7 @@ public class SMSCommon {
 			setThreadRead(context, threadID, true);
 			return true;
 		}catch(Exception ex){
-			Log.e("SMSCommon.deleteSingleMessage() ERROR: " + ex.toString());
+			Log.e(context, "SMSCommon.deleteSingleMessage() ERROR: " + ex.toString());
 			return false;
 		}
 	}
@@ -917,10 +917,10 @@ public class SMSCommon {
 	 * @return boolean - Returns true if the message was updated successfully.
 	 */
 	public static boolean setMessageRead(Context context, long messageID, long threadID, boolean isViewed){
-		_debug = Log.getDebug();
+		_debug = Log.getDebug(context);
 		try{
 			if(messageID < 0){
-				if(_debug) Log.v("SMSCommon.setMessageRead() Message ID < 0. Exiting...");
+				if(_debug) Log.v(context, "SMSCommon.setMessageRead() Message ID < 0. Exiting...");
 				return false;
 			}
 			ContentValues contentValues = new ContentValues();
@@ -938,7 +938,7 @@ public class SMSCommon {
 		    		selectionArgs);
 			return true;
 		}catch(Exception ex){
-			Log.e("SMSCommon.setMessageRead() ERROR: " + ex.toString());
+			Log.e(context, "SMSCommon.setMessageRead() ERROR: " + ex.toString());
 			return false;
 		}
 	}
@@ -953,10 +953,10 @@ public class SMSCommon {
 	 * @return boolean - Returns true if the message was updated successfully.
 	 */
 	public static boolean setThreadRead(Context context, long threadID, boolean isViewed){
-		_debug = Log.getDebug();
+		_debug = Log.getDebug(context);
 		try{
 			if(threadID < 0){
-				if(_debug) Log.v("SMSCommon.setThreadRead() Thread ID < 0. Exiting...");
+				if(_debug) Log.v(context, "SMSCommon.setThreadRead() Thread ID < 0. Exiting...");
 				return false;
 			}
 			ContentValues contentValues = new ContentValues();
@@ -974,7 +974,7 @@ public class SMSCommon {
 		    		selectionArgs);
 			return true;
 		}catch(Exception ex){
-			Log.e("SMSCommon.setThreadRead() ERROR: " + ex.toString());
+			Log.e(context, "SMSCommon.setThreadRead() ERROR: " + ex.toString());
 			return false;
 		}
 	}	
@@ -989,12 +989,12 @@ public class SMSCommon {
 	 * @return boolean - Returns false if the message was found and is unread, returns true otherwise.
 	 */
 	public static boolean isMessageRead(Context context, long messageID, long threadID){
-		_debug = Log.getDebug();
-		//if(_debug) Log.v("SMSCommon.isMessageRead() MessageID: " + messageID + " ThreadID: " + threadID);
+		_debug = Log.getDebug(context);
+		//if(_debug) Log.v(context, "SMSCommon.isMessageRead() MessageID: " + messageID + " ThreadID: " + threadID);
 		Cursor cursor = null;
 		try{
 			if(messageID < 0){
-				if(_debug) Log.v("SMSCommon.isMessageRead() Message ID < 0. Exiting...");
+				if(_debug) Log.v(context, "SMSCommon.isMessageRead() Message ID < 0. Exiting...");
 				return true;
 			}
     		final String[] projection = new String[] { "_id", "thread_id", "read"};
@@ -1015,21 +1015,21 @@ public class SMSCommon {
 						selectionArgs,
 						sortOrder);
 		    if(cursor == null){
-		    	if(_debug) Log.v("SMSCommon.isMessageRead() Currsor is null. Exiting...");
+		    	if(_debug) Log.v(context, "SMSCommon.isMessageRead() Currsor is null. Exiting...");
 		    	return true;
 		    }
 		    int messageRead = 1;
 		    if(cursor.moveToFirst()){
 		    	messageRead = cursor.getInt(cursor.getColumnIndex("read"));
-		    	//if(_debug) Log.v("SMSCommon.isMessageRead() Message Found - Message Read: " + String.valueOf(messageRead));
+		    	//if(_debug) Log.v(context, "SMSCommon.isMessageRead() Message Found - Message Read: " + String.valueOf(messageRead));
 	    	}else{
-	    		//if(_debug) Log.v("SMSCommon.isMessageRead() Message ID: " + String.valueOf(messageID) + " was not found!  Exiting...");
+	    		//if(_debug) Log.v(context, "SMSCommon.isMessageRead() Message ID: " + String.valueOf(messageID) + " was not found!  Exiting...");
 	    		return true;
 	    	}
 			cursor.close();
 		    return messageRead == 0 ? false : true;
 		}catch(Exception ex){
-			Log.e("SMSCommon.isMessageRead() ERROR: " + ex.toString());
+			Log.e(context, "SMSCommon.isMessageRead() ERROR: " + ex.toString());
     		if(cursor != null){
 				cursor.close();
 			}
@@ -1045,7 +1045,7 @@ public class SMSCommon {
 	 * @param message - The message to save.
 	 */
 	public static void saveMessageDraft(Context context, String address, String message){
-		_debug = Log.getDebug();
+		_debug = Log.getDebug(context);
 		try{
 			if(message != null && !message.equals("")){
 		    	//Store the message in the draft folder so that it shows in Messaging apps.
@@ -1060,7 +1060,7 @@ public class SMSCommon {
 		        Toast.makeText(context, context.getString(R.string.draft_saved_text), Toast.LENGTH_SHORT).show();
 			}
 		}catch(Exception ex){
-			Log.e("SMSCommon.saveMessageDraft() Insert Into Sent Folder ERROR: " + ex.toString());
+			Log.e(context, "SMSCommon.saveMessageDraft() Insert Into Sent Folder ERROR: " + ex.toString());
 		}
 	}
 
@@ -1073,11 +1073,12 @@ public class SMSCommon {
 	 * @param messageID - The Message ID that we are replying to.
 	 * @param threadID - The Thread ID that we are replying to.
 	 */
-	public static void sendSMSTask(Context context, String address, String message, long messageID, long threadID){
+	public static void sendSMSTask(Context context, String address, String message, long messageID, long threadID){		
 		try{
+			_context = context;
 			new sendSMSAsyncTask().execute(address, message, String.valueOf(messageID), String.valueOf(threadID));
 		}catch(Exception ex){
-			Log.e("SMSCommon.sendSMSTask() ERROR: " + ex.toString());
+			Log.e(context, "SMSCommon.sendSMSTask() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -1123,10 +1124,8 @@ public class SMSCommon {
 	 * @return boolean - Return true if successful.
 	 */
 	public static boolean sendSMS(String address, String message, long messageID, long threadID){
-		_debug = Log.getDebug();  
-		if(_debug) Log.v("SMSCommon.sendSMS()");
 		try{	
-			final Context context = MainApplication.getContext();
+			final Context context = _context;
 	        PendingIntent sentPendingIntent = PendingIntent.getBroadcast(context, 0, new Intent(SMS_SENT), 0);
 	        PendingIntent deliveredPendingIntent = PendingIntent.getBroadcast(context, 0, new Intent(SMS_DELIVERED), 0);	        
 	        //Register a receiver to catch when the SMS has been sent.
@@ -1136,32 +1135,32 @@ public class SMSCommon {
 	            	int resultCode = getResultCode();
 	                switch (resultCode){
 	                    case Activity.RESULT_OK:{
-	                    	Log.v("SMSCommon.sendSMS.sentPendingIntent.onReceive() RESULT_OK");
+	                    	Log.v(context, "SMSCommon.sendSMS.sentPendingIntent.onReceive() RESULT_OK");
 	                        postDeliveryReportStatusBarNotification(context, SMS_SENT, resultCode);
 	                    	return;
 	            		}
 	                    case SmsManager.RESULT_ERROR_GENERIC_FAILURE:{
-	                    	Log.e("SMSCommon.sendSMS.sentPendingIntent.onReceive() SEND ERROR: RESULT_ERROR_GENERIC_FAILURE");
+	                    	Log.e(context, "SMSCommon.sendSMS.sentPendingIntent.onReceive() SEND ERROR: RESULT_ERROR_GENERIC_FAILURE");
 	                        postDeliveryReportStatusBarNotification(context, SMS_SENT, resultCode);
 	                    	return;
 	                    }
 	                    case SmsManager.RESULT_ERROR_NO_SERVICE:{
-	                    	Log.e("SMSCommon.sendSMS.sentPendingIntent.onReceive() SEND ERROR: RESULT_ERROR_NO_SERVICE");
+	                    	Log.e(context, "SMSCommon.sendSMS.sentPendingIntent.onReceive() SEND ERROR: RESULT_ERROR_NO_SERVICE");
 	                        postDeliveryReportStatusBarNotification(context, SMS_SENT, resultCode);
 	                    	return;
     						}
 	                    case SmsManager.RESULT_ERROR_NULL_PDU:{
-	                    	Log.e("SMSCommon.sendSMS.sentPendingIntent.onReceive() SEND ERROR: RESULT_ERROR_NULL_PDU");
+	                    	Log.e(context, "SMSCommon.sendSMS.sentPendingIntent.onReceive() SEND ERROR: RESULT_ERROR_NULL_PDU");
 	                        postDeliveryReportStatusBarNotification(context, SMS_SENT, resultCode);
 	                    	return;
 						}
 	                    case SmsManager.RESULT_ERROR_RADIO_OFF:{
-	                    	Log.e("SMSCommon.sendSMS.sentPendingIntent.onReceive() SEND ERROR: RESULT_ERROR_RADIO_OFF");
+	                    	Log.e(context, "SMSCommon.sendSMS.sentPendingIntent.onReceive() SEND ERROR: RESULT_ERROR_RADIO_OFF");
 	                        postDeliveryReportStatusBarNotification(context, SMS_SENT, resultCode);
 	                    	return;
 						}
 	                    default:{
-	                    	Log.e("SMSCommon.sendSMS.sentPendingIntent.onReceive() SEND ERROR: UNKNOWN ERROR");
+	                    	Log.e(context, "SMSCommon.sendSMS.sentPendingIntent.onReceive() SEND ERROR: UNKNOWN ERROR");
 	                        postDeliveryReportStatusBarNotification(context, SMS_SENT, resultCode);
 	                    	return;
 	                    }
@@ -1175,17 +1174,17 @@ public class SMSCommon {
 	            	int resultCode = getResultCode();
 	                switch (resultCode){
 	                    case Activity.RESULT_OK:{
-	                    	Log.v("SMSCommon.sendSMS.deletePendingIntent.onReceive() RESULT_OK");
+	                    	Log.v(context, "SMSCommon.sendSMS.deletePendingIntent.onReceive() RESULT_OK");
 	                        postDeliveryReportStatusBarNotification(context, SMS_DELIVERED, resultCode);
 	                        return;
 	                    }
 	                    case Activity.RESULT_CANCELED:{
-	                    	Log.e("SMSCommon.sendSMS.deletePendingIntent.onReceive() RESULT_CANCELED");
+	                    	Log.e(context, "SMSCommon.sendSMS.deletePendingIntent.onReceive() RESULT_CANCELED");
 	                        postDeliveryReportStatusBarNotification(context, SMS_DELIVERED, resultCode);
 	                    	return;  
 	                    }
 	                    default:{
-	                    	Log.e("SMSCommon.sendSMS.deletePendingIntent.onReceive() UNKNOWN ERROR");
+	                    	Log.e(context, "SMSCommon.sendSMS.deletePendingIntent.onReceive() UNKNOWN ERROR");
 	                        postDeliveryReportStatusBarNotification(context, SMS_DELIVERED, resultCode);
 	                    	return;
 	                    }
@@ -1197,7 +1196,7 @@ public class SMSCommon {
 	        if(preferences.getBoolean(Constants.QUICK_REPLY_SIGNATURE_ENABLED_KEY, true)){
 	        	message += " " + preferences.getString(Constants.QUICK_REPLY_SIGNATURE_KEY, context.getString(R.string.quick_reply_default_signature));
 	        }
-	        //if(_debug) Log.v("SMSCommon.sendSMS() Message: " + message);
+	        //if(_debug) Log.v(context, "SMSCommon.sendSMS() Message: " + message);
 			SmsManager smsManager = SmsManager.getDefault();
 			if(address.contains("@")){
 				//Send to email address
@@ -1271,14 +1270,14 @@ public class SMSCommon {
 			    		break;
 			    	}
 				} 
-				if(_debug) Log.v("SMSCommon.sendSMS() SmsToEmailGatewayNumber: " + smsToEmailGatewayNumber);
+				if(_debug) Log.v(context, "SMSCommon.sendSMS() SmsToEmailGatewayNumber: " + smsToEmailGatewayNumber);
 				try{
 					if(smsToEmailGatewayNumber != null && smsToEmailMessageHeader != null){
 						int smsToEmailMessageHeaderLength = smsToEmailMessageHeader.length();
 						if(smsToEmailMessageHeaderLength + message.length() <= 160){
 							//Send a single SMS message.
-							//if(_debug) Log.v("SMSCommon.sendSMS() Email SMS Message Sent: " + smsToEmailMessageHeader + message);
-							if(_debug) Log.v("SMSCommon.sendSMS() Email SMS Message Sent");
+							//if(_debug) Log.v(context, "SMSCommon.sendSMS() Email SMS Message Sent: " + smsToEmailMessageHeader + message);
+							if(_debug) Log.v(context, "SMSCommon.sendSMS() Email SMS Message Sent");
 							smsManager.sendTextMessage(smsToEmailGatewayNumber, null, smsToEmailMessageHeader + message, sentPendingIntent, deliveredPendingIntent);
 					        //Mark SMS Message as read.
 					        setMessageRead(context, messageID, threadID, true);
@@ -1288,11 +1287,11 @@ public class SMSCommon {
 						}else{
 							//Send multiple smaller SMS messages.
 							int splitMessageSize = 160 - smsToEmailMessageHeaderLength;
-							//if(_debug) Log.v("SMSCommon.sendSMS() SplitMessageSize: " + splitMessageSize);
+							//if(_debug) Log.v(context, "SMSCommon.sendSMS() SplitMessageSize: " + splitMessageSize);
 							String[] messageArray = SMSCommon.splitEqually(message, splitMessageSize);
 							int size = messageArray.length;
 							for(int i=0; i<size; i++){
-								//if(_debug) Log.v("SMSCommon.sendSMS() Email SMS Message Part Sent: " + smsToEmailMessageHeader + messageArray[i]);
+								//if(_debug) Log.v(context, "SMSCommon.sendSMS() Email SMS Message Part Sent: " + smsToEmailMessageHeader + messageArray[i]);
 								smsManager.sendTextMessage(smsToEmailGatewayNumber, null, smsToEmailMessageHeader + messageArray[i], sentPendingIntent, deliveredPendingIntent);
 						        //Save the sent message to the phone.
 								writeSentSMSMessage(context, address, message);
@@ -1302,11 +1301,11 @@ public class SMSCommon {
 							return true;
 						}
 					}else{
-						Log.e("SMSCommon.sendSMS() SmsToEmailGatewayNumber (" + smsToEmailGatewayNumber + ") or SmsToEmailMessageHeader (" + smsToEmailMessageHeader + ") is null! Exiting...");
+						Log.e(context, "SMSCommon.sendSMS() SmsToEmailGatewayNumber (" + smsToEmailGatewayNumber + ") or SmsToEmailMessageHeader (" + smsToEmailMessageHeader + ") is null! Exiting...");
 						return false;
 					}
 				}catch(Exception ex){
-		    		Log.e("SMSCommon.sendSMS() Send To Email ERROR: " + ex.toString());
+		    		Log.e(context, "SMSCommon.sendSMS() Send To Email ERROR: " + ex.toString());
 		    		return false;
 		    	}
 			}else{
@@ -1316,7 +1315,7 @@ public class SMSCommon {
 					if(preferences.getBoolean(Constants.SMS_SPLIT_MESSAGE_KEY, false)){
 						//TODO - Manually split messages and send individualy.
 					}else{
-						if(_debug) Log.v("SMSCommon.sendSMS() Email SMS Message Sent");
+						if(_debug) Log.v(context, "SMSCommon.sendSMS() Email SMS Message Sent");
 						ArrayList<String> parts = smsManager.divideMessage(message);
 						int size = parts.size();
 						ArrayList<PendingIntent> sentPendingIntentArray = new ArrayList<PendingIntent>();
@@ -1333,12 +1332,11 @@ public class SMSCommon {
 					}
 					return true;
 				}catch(Exception ex){
-		    		Log.e("SMSCommon.sendSMS() Send To Number ERROR: " + ex.toString());
+		    		Log.e(context, "SMSCommon.sendSMS() Send To Number ERROR: " + ex.toString());
 		    		return false;
 		    	}
 			}
 		}catch(Exception ex){
-			Log.e("SMSCommon.sendSMS() ERROR: " + ex.toString());
 			return false;
 		}
     }
@@ -1352,7 +1350,7 @@ public class SMSCommon {
 	 * @return String[] - Returns a string array containing all the substrings.
 	 */
 	private static String[] splitEqually(String input, int size){
-        //if(_debug) Log.v("SMSCommon.splitEqually()");
+        //if(_debug) Log.v(context, "SMSCommon.splitEqually()");
 		int length = input.length();
 		if(length <= size){
 			return new String[]{input};
@@ -1360,7 +1358,7 @@ public class SMSCommon {
 		ArrayList<String> arrayList = new ArrayList<String>((input.length() + size - 1) / size);
 	    for (int start = 0; start < length; start += size) {
 	    	arrayList.add(input.substring(start, Math.min(input.length(), start + size)));
-	    	//if(_debug) Log.v("SMSCommon.splitEqually() Message Part: " + input.substring(start, Math.min(input.length(), start + size)));
+	    	//if(_debug) Log.v(context, "SMSCommon.splitEqually() Message Part: " + input.substring(start, Math.min(input.length(), start + size)));
 	    }
 	    return arrayList.toArray(new String[arrayList.size()]);
 	}
@@ -1382,7 +1380,7 @@ public class SMSCommon {
             context.getContentResolver().insert(Uri.parse("content://sms/sent"), values);
             return true;
     	}catch(Exception ex){
-    		Log.e("SMSCommon.writeSentSMSMessage() Insert Into Sent Folder ERROR: " + ex.toString());
+    		Log.e(context, "SMSCommon.writeSentSMSMessage() Insert Into Sent Folder ERROR: " + ex.toString());
     		return false;
     	}
 	}
@@ -1396,8 +1394,8 @@ public class SMSCommon {
 	@SuppressLint("NewApi")
 	@SuppressWarnings("deprecation")
 	private static void postDeliveryReportStatusBarNotification(Context context, String resultType, int resultCode){		
-		_debug = Log.getDebug();
-		if (_debug) Log.v("SMSCommon.postDeliveryReportStatusBarNotification() ResultType: " + resultType + " Resultcode: " + resultCode);
+		_debug = Log.getDebug(context);
+		if (_debug) Log.v(context, "SMSCommon.postDeliveryReportStatusBarNotification() ResultType: " + resultType + " Resultcode: " + resultCode);
 		try{
 			final int STAUTS_BAR_NOTIFICATION_TYPE_INFO = -3;
 			final int STAUTS_BAR_NOTIFICATION_TYPE_FAILED = -4;
@@ -1486,7 +1484,7 @@ public class SMSCommon {
 		            }
 		        }
 			}
-			if (_debug) Log.v("SMSCommon.postDeliveryReportStatusBarNotification() Creating Status Bar Notification");
+			if (_debug) Log.v(context, "SMSCommon.postDeliveryReportStatusBarNotification() Creating Status Bar Notification");
 			//Content properties.
 			int statusBarNotificationType = 0;
 			CharSequence tickerText = null;
@@ -1553,7 +1551,7 @@ public class SMSCommon {
 					return;
 				}
 			}
-			if (_debug) Log.v("SMSCommon.postDeliveryReportStatusBarNotification() Setting Up Status Bar Notification");
+			if (_debug) Log.v(context, "SMSCommon.postDeliveryReportStatusBarNotification() Setting Up Status Bar Notification");
 			//Setup the notification
 			int apiLevel = Common.getDeviceAPILevel();
 			NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -1597,10 +1595,10 @@ public class SMSCommon {
 				notification.deleteIntent = null;
 				notification.setLatestEventInfo(context, contentTitle, contentText, contentPendingIntent);
 			}
-			if (_debug) Log.v("SMSCommon.postDeliveryReportStatusBarNotification() Sending Status Bar Notification");
+			if (_debug) Log.v(context, "SMSCommon.postDeliveryReportStatusBarNotification() Sending Status Bar Notification");
 			notificationManager.notify(statusBarNotificationType, notification);
     	}catch(Exception ex){
-    		Log.e("SMSCommon.postDeliveryReportStatusBarNotification() ERROR: " + ex.toString());
+    		Log.e(context, "SMSCommon.postDeliveryReportStatusBarNotification() ERROR: " + ex.toString());
     	}
 	}
 	

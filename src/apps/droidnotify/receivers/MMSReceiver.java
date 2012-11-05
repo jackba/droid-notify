@@ -36,23 +36,23 @@ public class MMSReceiver extends BroadcastReceiver{
 	 */
 	@Override
 	public void onReceive(Context context, Intent intent){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("MMSReceiver.onReceive()");
+		_debug = Log.getDebug(context);
+		if (_debug) Log.v(context, "MMSReceiver.onReceive()");
 		try{
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 			//Read preferences and exit if app is disabled.
 		    if(!preferences.getBoolean(Constants.APP_ENABLED_KEY, true)){
-				if (_debug) Log.v("MMSReceiver.onReceive() App Disabled. Exiting...");
+				if (_debug) Log.v(context, "MMSReceiver.onReceive() App Disabled. Exiting...");
 				return;
 			}
 			//Read preferences and exit if MMS notifications are disabled.
 		    if(!preferences.getBoolean(Constants.SMS_NOTIFICATIONS_ENABLED_KEY, true)){
-				if (_debug) Log.v("MMSReceiver.onReceive() SMS Notifications Disabled. Exiting...");
+				if (_debug) Log.v(context, "MMSReceiver.onReceive() SMS Notifications Disabled. Exiting...");
 				return;
 			}
 			WakefulIntentService.sendWakefulWork(context, new Intent(context, MMSBroadcastReceiverService.class));
 		}catch(Exception ex){
-			Log.e("MMSReceiver.onReceive() ERROR: " + ex.toString());
+			Log.e(context, "MMSReceiver.onReceive() ERROR: " + ex.toString());
 		}
 	}
 

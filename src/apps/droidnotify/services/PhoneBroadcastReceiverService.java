@@ -17,12 +17,6 @@ import apps.droidnotify.receivers.PhoneAlarmReceiver;
  * @author Camille Sévigny
  */
 public class PhoneBroadcastReceiverService extends WakefulIntentService {
-	
-	//================================================================================
-    // Properties
-    //================================================================================
-	
-	boolean _debug = false;
 
 	//================================================================================
 	// Public Methods
@@ -33,8 +27,6 @@ public class PhoneBroadcastReceiverService extends WakefulIntentService {
 	 */
 	public PhoneBroadcastReceiverService() {
 		super("PhoneBroadcastReceiverService");
-		_debug = Log.getDebug();
-		if (_debug) Log.v("PhoneBroadcastReceiverService.PhoneBroadcastReceiverService()");
 	}
 
 	//================================================================================
@@ -48,24 +40,24 @@ public class PhoneBroadcastReceiverService extends WakefulIntentService {
 	 */
 	@Override
 	protected void doWakefulWork(Intent intent) {
-		if (_debug) Log.v("PhoneBroadcastReceiverService.doWakefulWork()");
+		Context context = getApplicationContext();
 		try{
-			Context context = getApplicationContext();
+			boolean debug = Log.getDebug(context);
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 			//Block the notification if it's quiet time.
 			if(Common.isQuietTime(context)){
-				if (_debug) Log.v("PhoneBroadcastReceiverService.doWakefulWork() Quiet Time. Exiting...");
+				if (debug) Log.v(context, "PhoneBroadcastReceiverService.doWakefulWork() Quiet Time. Exiting...");
 				return;
 			}
 		    //Check the state of the users phone.
 		    int callState = preferences.getInt(Constants.CALL_STATE_KEY, 0);
-		    if (_debug) Log.v("PhoneService.doWakefulWork() PREVIOUS_CALL_STATE: " + preferences.getInt(Constants.PREVIOUS_CALL_STATE_KEY, TelephonyManager.CALL_STATE_IDLE));
+		    if (debug) Log.v(context, "PhoneService.doWakefulWork() PREVIOUS_CALL_STATE: " + preferences.getInt(Constants.PREVIOUS_CALL_STATE_KEY, TelephonyManager.CALL_STATE_IDLE));
 		    if(callState == TelephonyManager.CALL_STATE_IDLE){
-		    	if (_debug) Log.v("PhoneService.doWakefulWork() Phone Idle.");
+		    	if (debug) Log.v(context, "PhoneService.doWakefulWork() Phone Idle.");
 		    	if(preferences.getInt(Constants.PREVIOUS_CALL_STATE_KEY, TelephonyManager.CALL_STATE_IDLE) != TelephonyManager.CALL_STATE_RINGING){
-		    		if (_debug) Log.v("PhoneService.doWakefulWork() Previous call state not 'CALL_STATE_RINGING'. Exiting...");
+		    		if (debug) Log.v(context, "PhoneService.doWakefulWork() Previous call state not 'CALL_STATE_RINGING'. Exiting...");
 		    	}else{
-		    		if (_debug) Log.v("PhoneService.doWakefulWork() Previous call state 'CALL_STATE_RINGING'. Missed Call Occurred");
+		    		if (debug) Log.v(context, "PhoneService.doWakefulWork() Previous call state 'CALL_STATE_RINGING'. Missed Call Occurred");
 					//Schedule phone task x seconds after the broadcast.
 					//This time is set by the users advanced preferences. 5 seconds is the default value.
 					//This should allow enough time to pass for the phone log to be written to.
@@ -75,15 +67,15 @@ public class PhoneBroadcastReceiverService extends WakefulIntentService {
 					Common.startAlarm(context, PhoneAlarmReceiver.class, null, intentActionText, alarmTime);
 		    	}
 		    }else if(callState == TelephonyManager.CALL_STATE_RINGING){
-		    	if (_debug) Log.v("PhoneService.doWakefulWork() Phone Ringing.");
+		    	if (debug) Log.v(context, "PhoneService.doWakefulWork() Phone Ringing.");
 		    }else if(callState == TelephonyManager.CALL_STATE_OFFHOOK){
-		    	if (_debug) Log.v("PhoneService.doWakefulWork() Phone Call In Progress.");
+		    	if (debug) Log.v(context, "PhoneService.doWakefulWork() Phone Call In Progress.");
 		    }else{
-		    	if (_debug) Log.v("PhoneService.doWakefulWork() Unknown Call State: " + callState);
+		    	if (debug) Log.v(context, "PhoneService.doWakefulWork() Unknown Call State: " + callState);
 		    }
 		    setPreviousCallStateFlag(preferences, callState);
 	    }catch(Exception ex){
-			Log.e("PhoneBroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());
+			Log.e(context, "PhoneBroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());
 		}
 	}
 
@@ -95,7 +87,6 @@ public class PhoneBroadcastReceiverService extends WakefulIntentService {
 	 * Set the phone state flag.
 	 */
 	private void setPreviousCallStateFlag(SharedPreferences preferences, int callState){
-		if (_debug) Log.v("PhoneBroadcastReceiverService.setPreviousCallStateFlag() callState: " + callState);
 		SharedPreferences.Editor editor = preferences.edit();
 		editor.putInt(Constants.PREVIOUS_CALL_STATE_KEY, callState);
 		editor.commit();

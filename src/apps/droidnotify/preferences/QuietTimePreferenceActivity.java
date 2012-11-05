@@ -24,7 +24,6 @@ public class QuietTimePreferenceActivity extends PreferenceActivity{
     // Properties
     //================================================================================
 
-    private boolean _debug = false;
     private Context _context = null;
     private SharedPreferences _preferences = null;
 	
@@ -41,8 +40,6 @@ public class QuietTimePreferenceActivity extends PreferenceActivity{
 	@Override
 	protected void onCreate(Bundle bundle){
 	    super.onCreate(bundle);
-	    _debug = Log.getDebug();
-	    if (_debug) Log.v("QuietTimePreferenceActivity.onCreate()");
 	    _context = this;
 	    Common.setApplicationLanguage(_context, this);
 	    _preferences = PreferenceManager.getDefaultSharedPreferences(_context);
@@ -60,7 +57,6 @@ public class QuietTimePreferenceActivity extends PreferenceActivity{
 	 */
 	@SuppressWarnings("deprecation")
 	private void setupCustomPreferences(){
-	    if (_debug) Log.v("QuietTimePreferenceActivity.setupCustomPreferences()");
 		//Export Preferences Preference/Button
 		Preference quietTimePref = (Preference)findPreference("quiet_time_blackout_period_preference");
 		quietTimePref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
@@ -68,7 +64,7 @@ public class QuietTimePreferenceActivity extends PreferenceActivity{
 		    	try{
 		    		showQuietTimePeriodDialog();
 		    	}catch(Exception ex){
-	 	    		Log.e("QuietTimePreferenceActivity() Quiet Time Button ERROR: " + ex.toString());
+	 	    		Log.e(_context, "QuietTimePreferenceActivity() Quiet Time Button ERROR: " + ex.toString());
 	 	    		return false;
 		    	}
 	            return true;
@@ -80,7 +76,6 @@ public class QuietTimePreferenceActivity extends PreferenceActivity{
 	 * Display the dialog window that allows the user to set the quiet time hours.
 	 */
 	private void showQuietTimePeriodDialog() {
-		if (_debug) Log.v("MainPreferenceActivity.showQuietTimePeriodDialog()");
 	    LayoutInflater inflater = (LayoutInflater) _context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	    View view = inflater.inflate(R.layout.quiet_time_period_dialog, null);
 		final TimePicker startTimePicker = (TimePicker) view.findViewById(R.id.start_time_picker);

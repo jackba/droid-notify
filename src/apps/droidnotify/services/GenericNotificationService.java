@@ -12,12 +12,6 @@ import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
 
 public class GenericNotificationService extends WakefulIntentService {
-	
-	//================================================================================
-    // Properties
-    //================================================================================
-
-	private boolean _debug = false;
 
 	//================================================================================
 	// Public Methods
@@ -28,8 +22,6 @@ public class GenericNotificationService extends WakefulIntentService {
 	 */
 	public GenericNotificationService() {
 		super("GenericNotificationService");
-		_debug = Log.getDebug();
-		if (_debug) Log.v("GenericNotificationService.GenericNotificationService()");
 	}
 
 	//================================================================================
@@ -43,13 +35,12 @@ public class GenericNotificationService extends WakefulIntentService {
 	 */
 	@Override
 	protected void doWakefulWork(Intent intent) {
-		if (_debug) Log.v("GenericNotificationService.doWakefulWork()");
+		Context context = getApplicationContext();
 		try{
-			Context context = getApplicationContext();
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 			//Block the notification if it's quiet time.
 			if(Common.isQuietTime(context)){
-				if (_debug) Log.v("GenericNotificationService.doWakefulWork() Quiet Time. Exiting...");
+				Log.e(context, "GenericNotificationService.doWakefulWork() Quiet Time. Exiting...");
 				return;
 			}
 		    //Check the state of the users phone.
@@ -67,7 +58,7 @@ public class GenericNotificationService extends WakefulIntentService {
 		    Bundle intentExtrasBundle = intent.getExtras();
 		    //Check for empty notifications.
 		    if(isEmptyGenericNotification(intentExtrasBundle)){
-		    	Log.e("GenericNotificationService.doWakefulWork() Generic Notification Is Empty. Exiting...");
+		    	Log.e(context, "GenericNotificationService.doWakefulWork() Generic Notification Is Empty. Exiting...");
 		    	return;
 		    }
 		    if(!notificationIsBlocked){
@@ -76,7 +67,7 @@ public class GenericNotificationService extends WakefulIntentService {
 		    	Common.rescheduleBlockedNotification(context, callStateIdle, rescheduleNotificationInCall, Constants.NOTIFICATION_TYPE_GENERIC, intentExtrasBundle);
 		    }
 		}catch(Exception ex){
-			Log.e("GenericNotificationService.doWakefulWork() ERROR: " + ex.toString());
+			Log.e(context, "GenericNotificationService.doWakefulWork() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -88,12 +79,9 @@ public class GenericNotificationService extends WakefulIntentService {
 	 * @return boolean- Return true if the bundle is missing key information.
 	 */
 	private boolean isEmptyGenericNotification(Bundle bundle){
-		//if (_debug) Log.v("GenericNotificationService.isEmptyGenericNotification()");
 		String packageName = bundle.getString(Constants.BUNDLE_PACKAGE);
 		String displayText = bundle.getString(Constants.BUNDLE_DISPLAY_TEXT);
 		if(packageName == null || packageName.trim().equals("") || displayText == null || displayText.trim().equals("")){
-			Log.e("GenericNotificationService.isEmptyGenericNotification() PackageName: " + packageName);
-			Log.e("GenericNotificationService.isEmptyGenericNotification() DisplayText: " + displayText);
 			return true;
 		}
 		return false;

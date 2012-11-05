@@ -10,15 +10,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import apps.droidnotify.common.FileUtils;
-import apps.droidnotify.log.Log;
 
 public class SQLiteHelperBlockingApps extends SQLiteOpenHelper {
-
-	//private boolean _debug = false;
-
+	
 	public SQLiteHelperBlockingApps(Context context) {
 		super(context, DBConstants.DATABASE_NAME_BLOCKINGAPPS, null, DBConstants.DATABASE_VERSION_BLOCKINGAPPS);
-		//_debug = Log.getDebug();
+		//_debug = Log.getDebug(context);
 	}
 
 	@Override
@@ -38,7 +35,6 @@ public class SQLiteHelperBlockingApps extends SQLiteOpenHelper {
 	 * @param dbPath - The path to the SD card database.
 	 */
 	public boolean exportDatabase(String dbPath, String packageName) throws IOException {
-		//if (_debug) Log.v("SQLiteHelperBlockingApps.exportDatabase()");
 		try{
 			String internalDBFilePath = "/data/data/" + packageName + "/databases/" + DBConstants.DATABASE_NAME_BLOCKINGAPPS;
 			if(!(new File(internalDBFilePath).exists())){
@@ -53,7 +49,7 @@ public class SQLiteHelperBlockingApps extends SQLiteOpenHelper {
 		        return true;
 		    }
 		}catch(Exception ex){
-			Log.e("SQLiteHelperBlockingApps.exportDatabase() ERROR: " + ex.toString());
+			return false;
 		}
 	    return false;
 	}
@@ -65,7 +61,6 @@ public class SQLiteHelperBlockingApps extends SQLiteOpenHelper {
 	 * @param packageName - THe package name of this application.
 	 */
 	public boolean importDatabase(String dbPath, String packageName) throws IOException {
-		//if (_debug) Log.v("SQLiteHelperBlockingApps.importDatabase()");
 		try{
 			String internalDBFilePath = "/data/data/" + packageName + "/databases/" + DBConstants.DATABASE_NAME_BLOCKINGAPPS;
 			if(!(new File(internalDBFilePath).exists())){
@@ -81,7 +76,7 @@ public class SQLiteHelperBlockingApps extends SQLiteOpenHelper {
 		        return true;
 		    }
 		}catch(Exception ex){
-			Log.e("SQLiteHelperBlockingApps.importDatabase() ERROR: " + ex.toString());
+			return false;
 		}
 	    return false;
 	}

@@ -40,8 +40,8 @@ public class PhoneCommon {
 	 * @return Bundle - Returns a Bundle that contain the missed call notification information.
 	 */
 	public static Bundle getMissedCalls(Context context){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("PhoneCommon.getMissedCalls()");
+		_debug = Log.getDebug(context);
+		if (_debug) Log.v(context, "PhoneCommon.getMissedCalls()");
 		Bundle missedCallNotificationBundle = new Bundle();
 		Cursor cursor = null;
 		try{
@@ -67,7 +67,7 @@ public class PhoneCommon {
 					selectionArgs,
 					sortOrder);
 		    if(cursor == null){
-		    	if (_debug) Log.v("PhoneCommon.getMissedCalls() Cursor is null. Exiting...");
+		    	if (_debug) Log.v(context, "PhoneCommon.getMissedCalls() Cursor is null. Exiting...");
 		    	return null;
 		    }
 	    	while(cursor.moveToNext()){ 
@@ -80,10 +80,10 @@ public class PhoneCommon {
 	    		if(callType == CallLog.Calls.MISSED_TYPE && isCallNew > 0){
 	    			Bundle missedCallNotificationBundleSingle = new Bundle();
     				bundleCount++;
-    				if (_debug) Log.v("PhoneCommon.getMissedCalls() Missed Call Found: " + callNumber);
+    				if (_debug) Log.v(context, "PhoneCommon.getMissedCalls() Missed Call Found: " + callNumber);
     				Bundle missedCallContactInfoBundle = null;
     				if(isPrivateUnknownNumber(context, callNumber)){
-    					if (_debug) Log.v("PhoneCommon.getMissedCalls() Is a private or unknown number.");
+    					if (_debug) Log.v(context, "PhoneCommon.getMissedCalls() Is a private or unknown number.");
     				}else{
     					missedCallContactInfoBundle = ContactsCommon.getContactsInfoByPhoneNumber(context, callNumber);
     				}				
@@ -101,18 +101,18 @@ public class PhoneCommon {
     				}
     				missedCallNotificationBundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_" + String.valueOf(bundleCount), missedCallNotificationBundleSingle);
     				if(missedCallPreference.equals(Constants.PHONE_GET_LATEST)){
-    					if (_debug) Log.v("PhoneCommon.getMissedCalls() Missed call found. Breaking...");
+    					if (_debug) Log.v(context, "PhoneCommon.getMissedCalls() Missed call found. Breaking...");
     					break;
     				}
     				missedCallFound = true;
     			}else{
     				if(missedCallPreference.equals(Constants.PHONE_GET_RECENT)){
-    					if (_debug) Log.v("PhoneCommon.getMissedCalls() Found First Non-Missed Call. Breaking...");
+    					if (_debug) Log.v(context, "PhoneCommon.getMissedCalls() Found First Non-Missed Call. Breaking...");
     					break;
     				}
     			}
 	    		if(!missedCallFound){
-	    			if (_debug) Log.v("PhoneCommon.getMissedCalls() Missed Call Not Found. Exiting...");
+	    			if (_debug) Log.v(context, "PhoneCommon.getMissedCalls() Missed Call Not Found. Exiting...");
 	    			cursor.close();
 	    			return null;
 	    		}
@@ -121,7 +121,7 @@ public class PhoneCommon {
 			missedCallNotificationBundle.putInt(Constants.BUNDLE_NOTIFICATION_BUNDLE_COUNT, bundleCount);
 		    return missedCallNotificationBundle;
 		}catch(Exception ex){
-			Log.e("PhoneCommon.getMissedCalls() ERROR: " + ex.toString());
+			Log.e(context, "PhoneCommon.getMissedCalls() ERROR: " + ex.toString());
 			if(cursor != null){
 				cursor.close();
 			}
@@ -138,11 +138,9 @@ public class PhoneCommon {
 	 * @return boolean - Returns true if the call log entry was deleted successfully.
 	 */
 	public static boolean deleteFromCallLog(Context context, long callLogID){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("PhoneCommon.deleteFromCallLog()");
 		try{
 			if(callLogID < 0){
-				if (_debug) Log.v("PhoneCommon.deleteFromCallLog() Call Log ID < 0. Exiting...");
+				Log.e(context, "PhoneCommon.deleteFromCallLog() Call Log ID < 0. Exiting...");
 				return false;
 			}
 			final String selection = CallLog.Calls._ID + "=?";
@@ -153,7 +151,7 @@ public class PhoneCommon {
 					selectionArgs);
 			return true;
 		}catch(Exception ex){
-			Log.e("PhoneCommon.deleteFromCallLog() ERROR: " + ex.toString());
+			Log.e(context, "PhoneCommon.deleteFromCallLog() ERROR: " + ex.toString());
 			return false;
 		}
 	}
@@ -167,11 +165,9 @@ public class PhoneCommon {
 	 * @return boolean - Returns true if the call log entry was updated successfully.
 	 */
 	public static boolean setCallViewed(Context context, long callLogID, boolean isViewed){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("PhoneCommon.setCallViewed()");
 		try{
 			if(callLogID < 0){
-				if (_debug) Log.v("PhoneCommon.setCallViewed() Call Log ID < 0. Exiting...");
+				Log.e(context, "PhoneCommon.setCallViewed() Call Log ID < 0. Exiting...");
 				return false;
 			}
 			ContentValues contentValues = new ContentValues();
@@ -189,7 +185,7 @@ public class PhoneCommon {
 					selectionArgs);
 			return true;
 		}catch(Exception ex){
-			Log.e("PhoneCommon.setCallViewed() ERROR: " + ex.toString());
+			Log.e(context, "PhoneCommon.setCallViewed() ERROR: " + ex.toString());
 			return false;
 		}
 	}
@@ -205,8 +201,6 @@ public class PhoneCommon {
 	 * @return boolean - Returns true if the application can be launched.
 	 */
 	public static boolean makePhoneCall(Context context, NotificationActivity notificationActivity, String phoneNumber, int requestCode){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("PhoneCommon.makePhoneCall()");
 		try{
 			phoneNumber = PhoneCommon.removePhoneNumberFormatting(phoneNumber);
 			if(phoneNumber == null){
@@ -221,7 +215,7 @@ public class PhoneCommon {
 	        Common.setInLinkedAppFlag(context, true);
 		    return true;
 		}catch(Exception ex){
-			Log.e("PhoneCommon.makePhoneCall() ERROR: " + ex.toString());
+			Log.e(context, "PhoneCommon.makePhoneCall() ERROR: " + ex.toString());
 			Toast.makeText(context, context.getString(R.string.app_android_phone_app_error), Toast.LENGTH_LONG).show();
 			Common.setInLinkedAppFlag(context, false);
 			return false;
@@ -238,8 +232,6 @@ public class PhoneCommon {
 	 * @return boolean - Returns true if the activity can be started.
 	 */
 	public static boolean startCallLogViewActivity(Context context, NotificationActivity notificationActivity, int requestCode){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("PhoneCommon.startCallLogViewActivity()");
 		try{
 			Intent intent = new Intent(Intent.ACTION_VIEW);
 			intent.setType("vnd.android.cursor.dir/calls");
@@ -248,7 +240,7 @@ public class PhoneCommon {
 			Common.setInLinkedAppFlag(context, true);
 			return true;
 		}catch(Exception ex){
-			Log.e("PhoneCommon.startCallLogViewActivity() ERROR: " + ex.toString());
+			Log.e(context, "PhoneCommon.startCallLogViewActivity() ERROR: " + ex.toString());
 			Toast.makeText(context, context.getString(R.string.app_android_call_log_error), Toast.LENGTH_LONG).show();
 			Common.setInLinkedAppFlag(context, false);
 			return false;
@@ -263,20 +255,16 @@ public class PhoneCommon {
 	 * @return boolean - Returns true if the number is a Private number or Unknown number.
 	 */
 	public static boolean isPrivateUnknownNumber(Context context, String incomingNumber){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("PhoneCommon.isPrivateUnknownNumber() IncomingNumber: " + incomingNumber);
 		try{
 			if(incomingNumber == null){
-				if (_debug) Log.v("PhoneCommon.isPrivateUnknownNumber() IncomingNumber is null. Exiting...");
 				return false;
 			}else if(incomingNumber.length() > 4){
-				if (_debug) Log.v("PhoneCommon.isPrivateUnknownNumber() IncomingNumber is >4 digits. Exiting...");
 				return false;
 			}
 			int convertedNumber = Integer.parseInt(incomingNumber);
 			if(convertedNumber < 1) return true;
 		}catch(Exception ex){
-			if (_debug) Log.v("PhoneCommon.isPrivateUnknownNumber() Integer Parse Error");
+			Log.e(context, "PhoneCommon.isPrivateUnknownNumber() Integer Parse Error");
 			return false;
 		}
 		return false;
@@ -289,8 +277,6 @@ public class PhoneCommon {
 	 */
 	@SuppressWarnings("rawtypes")
 	public static boolean clearStockMissedCallNotification(Context context){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("PhoneCommon.clearStockMissedCallNotification()");
 		try{
 			if(Common.getDeviceAPILevel() == android.os.Build.VERSION_CODES.FROYO){
 				try{
@@ -313,13 +299,13 @@ public class PhoneCommon {
 			                Method cancelMissedCallsNotificationMethod = iTelephony.getClass().getMethod("cancelMissedCallsNotification");
 			                cancelMissedCallsNotificationMethod.invoke(iTelephony);
 			            }else{
-			            	Log.e("Telephony service is null, can't call cancelMissedCallsNotification.");
+			            	Log.e(context, "Telephony service is null, can't call cancelMissedCallsNotification.");
 			            }
 			        }else{
-			            if (_debug) Log.v("Unable to locate ITelephony.Stub class.");
+			            if (_debug) Log.v(context, "Unable to locate ITelephony.Stub class.");
 			        }
 			    }catch (Exception ex){
-			    	Log.e("PhoneCommon.clearStockMissedCallNotification() REFLECTION ERROR: " + ex.toString());
+			    	Log.e(context, "PhoneCommon.clearStockMissedCallNotification() REFLECTION ERROR: " + ex.toString());
 			    }
 			}
 			//Send broadcast to NotiGo (If installed)
@@ -328,7 +314,7 @@ public class PhoneCommon {
 	        context.sendBroadcast(notiGoBroadcastIntent);
 	        return true;
 	    }catch (Exception ex){
-	    	Log.e("PhoneCommon.clearStockMissedCallNotification() ERROR: " + ex.toString());
+	    	Log.e(context, "PhoneCommon.clearStockMissedCallNotification() ERROR: " + ex.toString());
 	    	return false;
 	    }
 	}
@@ -342,11 +328,9 @@ public class PhoneCommon {
 	 * @return String - Formatted phone number string.
 	 */
 	public static String formatPhoneNumber(Context context, String inputPhoneNumber){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("PhoneCommon.formatPhoneNumber()");
 		try{
 			if(inputPhoneNumber == null){
-				if (_debug) Log.v("PhoneCommon.formatPhoneNumber() InputPhoneNumber is null. exiting...");
+				Log.e(context, "PhoneCommon.formatPhoneNumber() InputPhoneNumber is null. exiting...");
 				return null;
 			}
 			if(inputPhoneNumber.equals(context.getString(R.string.private_number_text))){
@@ -585,7 +569,7 @@ public class PhoneCommon {
 			}
 			return outputPhoneNumber.toString();
 		}catch(Exception ex){
-			Log.e("PhoneCommon.formatPhoneNumber() ERROR: " + ex.toString());
+			Log.e(context, "PhoneCommon.formatPhoneNumber() ERROR: " + ex.toString());
 			return inputPhoneNumber;
 		}
 	}
@@ -598,7 +582,7 @@ public class PhoneCommon {
 	 * @return String - String of phone number with no formatting.
 	 */
 	public static String removePhoneNumberFormatting(String phoneNumber){
-		//if (_debug) Log.v("PhoneCommon.removePhoneNumberFormatting()");
+		//if (_debug) Log.v(context, "PhoneCommon.removePhoneNumberFormatting()");
 		try{
 			if(phoneNumber == null || phoneNumber.length() < 1){
 				return phoneNumber;
@@ -614,7 +598,6 @@ public class PhoneCommon {
 			phoneNumber = phoneNumber.replace("X", "");
 			return phoneNumber.trim();
 		}catch(Exception ex){
-			Log.e("PhoneCommon.removePhoneNumberFormatting() ERROR: " + ex.toString());
 			return phoneNumber;
 		}
 	}

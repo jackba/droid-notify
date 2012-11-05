@@ -5,7 +5,6 @@ import android.preference.PreferenceActivity;
 
 import apps.droidnotify.R;
 import apps.droidnotify.common.Common;
-import apps.droidnotify.log.Log;
 
 /**
  * This is the "Calendar Customize" applications preference Activity.
@@ -13,12 +12,6 @@ import apps.droidnotify.log.Log;
  * @author Camille Sévigny
  */
 public class CalendarCustomizePreferenceActivity extends PreferenceActivity{
-	
-	//================================================================================
-    // Properties
-    //================================================================================
-
-    private boolean _debug = false;
 	
 	//================================================================================
 	// Public Methods
@@ -33,8 +26,6 @@ public class CalendarCustomizePreferenceActivity extends PreferenceActivity{
 	@Override
 	protected void onCreate(Bundle bundle){
 	    super.onCreate(bundle);
-	    _debug = Log.getDebug();
-	    if (_debug) Log.v("CalendarCustomizePreferenceActivity.onCreate()");
 	    Common.setApplicationLanguage(getApplicationContext(), this);
 	    this.addPreferencesFromResource(R.xml.calendar_customize_preferences);
 	    this.setContentView(R.layout.customize_preferences);

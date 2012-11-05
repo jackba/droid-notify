@@ -25,7 +25,6 @@ public class CalendarStatusBarNotificationsPreferenceActivity extends Preference
     // Properties
     //================================================================================
 
-    private boolean _debug = false;
     private Context _context = null;
     private SharedPreferences _preferences = null;
 	
@@ -42,8 +41,6 @@ public class CalendarStatusBarNotificationsPreferenceActivity extends Preference
 	@Override
 	protected void onCreate(Bundle bundle){
 	    super.onCreate(bundle);
-	    _debug = Log.getDebug();
-	    if (_debug) Log.v("CalendarStatusBarNotificationsPreferenceActivity.onCreate()");
 	    _context = getApplicationContext();
 	    Common.setApplicationLanguage(_context, this);
 	    _preferences = PreferenceManager.getDefaultSharedPreferences(_context);
@@ -59,7 +56,6 @@ public class CalendarStatusBarNotificationsPreferenceActivity extends Preference
 	 * @param key - The String value of the preference Key who's preference value was changed.
 	 */
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-		if (_debug) Log.v("CalendarStatusBarNotificationsPreferenceActivity.onSharedPreferenceChanged() Key: " + key);
 		if(key.equals(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_VIBRATE_SETTING_KEY)){
 			updateVibratePreferences();
 		}
@@ -70,7 +66,6 @@ public class CalendarStatusBarNotificationsPreferenceActivity extends Preference
 	 */
 	@SuppressWarnings("deprecation")
 	private void updateVibratePreferences(){
-		if (_debug) Log.v("CalendarStatusBarNotificationsPreferenceActivity.updateVibratePreferences()");
 		try{
 			ListPreference vibratePatternListPreference = (ListPreference) findPreference(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_VIBRATE_PATTERN_KEY);
 			CheckBoxPreference vibrateInCallCheckBoxPreference = (CheckBoxPreference) findPreference(Constants.CALENDAR_STATUS_BAR_NOTIFICATIONS_IN_CALL_VIBRATE_ENABLED_KEY);
@@ -82,7 +77,7 @@ public class CalendarStatusBarNotificationsPreferenceActivity extends Preference
 				if(vibrateInCallCheckBoxPreference != null) vibrateInCallCheckBoxPreference.setEnabled(true);
 			}
 		}catch(Exception ex){
-			Log.e("CalendarStatusBarNotificationsPreferenceActivity.updateVibratePreferences() ERROR: " + ex.toString());
+			Log.e(_context, "CalendarStatusBarNotificationsPreferenceActivity.updateVibratePreferences() ERROR: " + ex.toString());
 		}
 	}
 	

@@ -224,7 +224,7 @@ public class NotificationActivity extends Activity{
 	 */
 	@Override
 	public boolean onContextItemSelected(MenuItem menuItem){
-		if(_debug) Log.v("NotificationActivity.onContextItemSelected()");
+		if(_debug) Log.v(_context, "NotificationActivity.onContextItemSelected()");
 		final Notification notification = _notificationViewFlipper.getActiveNotification();
 	    //Complete the selected action.
 		switch (menuItem.getItemId()){
@@ -278,7 +278,7 @@ public class NotificationActivity extends Activity{
 						return true;
 					}
 				}catch(Exception ex){
-					Log.e("NotificationActivity.onContextItemSelected() CALL_CONTACT_CONTEXT_MENU ERROR: " + ex.toString());
+					Log.e(_context, "NotificationActivity.onContextItemSelected() CALL_CONTACT_CONTEXT_MENU ERROR: " + ex.toString());
 					Toast.makeText(_context, _context.getString(R.string.app_android_contacts_phone_number_chooser_error), Toast.LENGTH_LONG).show();
 					return false;
 				}
@@ -330,7 +330,7 @@ public class NotificationActivity extends Activity{
 						return true;
 					}
 				}catch(Exception ex){
-					Log.e("NotificationActivity.onContextItemSelected() TEXT_CONTACT_CONTEXT_MENU ERROR: " + ex.toString());
+					Log.e(_context, "NotificationActivity.onContextItemSelected() TEXT_CONTACT_CONTEXT_MENU ERROR: " + ex.toString());
 					Toast.makeText(_context, _context.getString(R.string.app_android_contacts_phone_number_chooser_error), Toast.LENGTH_LONG).show();
 					return false;
 				}
@@ -362,7 +362,7 @@ public class NotificationActivity extends Activity{
 					_notificationViewFlipper.rescheduleNotification();
 					return true;
 				}catch(Exception ex){
-					Log.e("NotificationActivity.onContextItemSelected() RESCHEDULE_NOTIFICATION_CONTEXT_MENU ERROR: " + ex.toString());
+					Log.e(_context, "NotificationActivity.onContextItemSelected() RESCHEDULE_NOTIFICATION_CONTEXT_MENU ERROR: " + ex.toString());
 					return false;
 				}
 			}
@@ -373,7 +373,7 @@ public class NotificationActivity extends Activity{
 					speak();
 					return true;
 				}catch(Exception ex){
-					Log.e("NotificationActivity.onContextItemSelected() SPEAK_NOTIFICATION_CONTEXT_MENU ERROR: " + ex.toString());
+					Log.e(_context, "NotificationActivity.onContextItemSelected() SPEAK_NOTIFICATION_CONTEXT_MENU ERROR: " + ex.toString());
 					return false;
 				}
 			}
@@ -385,7 +385,7 @@ public class NotificationActivity extends Activity{
 					_notificationViewFlipper.removeActiveNotification(false);
 					return true;
 				}catch(Exception ex){
-					Log.e("NotificationActivity.onContextItemSelected() DISMISS_NOTIFICATION_CONTEXT_MENU ERROR: " + ex.toString());
+					Log.e(_context, "NotificationActivity.onContextItemSelected() DISMISS_NOTIFICATION_CONTEXT_MENU ERROR: " + ex.toString());
 					return false;
 				}
 			}
@@ -396,7 +396,7 @@ public class NotificationActivity extends Activity{
 					dismissAllNotifications();
 					return true;
 				}catch(Exception ex){
-					Log.e("NotificationActivity.onContextItemSelected() DISMISS_ALL_CONTEXT_MENU ERROR: " + ex.toString());
+					Log.e(_context, "NotificationActivity.onContextItemSelected() DISMISS_ALL_CONTEXT_MENU ERROR: " + ex.toString());
 					return false;
 				}
 			}
@@ -407,7 +407,7 @@ public class NotificationActivity extends Activity{
 					dismissAllUserNotifications();
 					return true;
 				}catch(Exception ex){
-					Log.e("NotificationActivity.onContextItemSelected() DISMISS_ALL_USER_CONTEXT_MENU ERROR: " + ex.toString());
+					Log.e(_context, "NotificationActivity.onContextItemSelected() DISMISS_ALL_USER_CONTEXT_MENU ERROR: " + ex.toString());
 					return false;
 				}
 			}
@@ -418,7 +418,7 @@ public class NotificationActivity extends Activity{
 					dismissAllAppNotifications();
 					return true;
 				}catch(Exception ex){
-					Log.e("NotificationActivity.onContextItemSelected() DISMISS_ALL_APP_CONTEXT_MENU ERROR: " + ex.toString());
+					Log.e(_context, "NotificationActivity.onContextItemSelected() DISMISS_ALL_APP_CONTEXT_MENU ERROR: " + ex.toString());
 					return false;
 				}
 			}
@@ -436,7 +436,7 @@ public class NotificationActivity extends Activity{
 	@Override
 	public void onConfigurationChanged(Configuration config){
         super.onConfigurationChanged(config);   
-        if(_debug) Log.v("NotificationActivity.onConfigurationChanged()");        
+        if(_debug) Log.v(_context, "NotificationActivity.onConfigurationChanged()");        
         if(!_preferences.getBoolean(Constants.AUTO_ROTATE_SCREEN_KEY, false)){
         	return;
         }
@@ -450,7 +450,7 @@ public class NotificationActivity extends Activity{
         }else{
 	        screenWidth = display.getWidth();
         }
-        //if(_debug) Log.e("NotificationActivity.onConfigurationChanged() screenWidth: " + screenWidth);
+        //if(_debug) Log.e(_context, "NotificationActivity.onConfigurationChanged() screenWidth: " + screenWidth);
         //Adjust screen width based on the devices screen size.
         if(screenWidth >= 800 && screenWidth < 1280){
         	screenWidth = (int) (screenWidth * 0.8);
@@ -538,7 +538,7 @@ public class NotificationActivity extends Activity{
 	 * Sets the alarm that will clear the KeyguardLock & WakeLock.
 	 */
 	public void setScreenTimeoutAlarm(){
-		if (_debug) Log.v("NotificationActivity.setScreenTimeoutAlarm()");
+		if (_debug) Log.v(_context, "NotificationActivity.setScreenTimeoutAlarm()");
 		new SetScreenTimeoutTask().execute();
 	}
 
@@ -558,7 +558,7 @@ public class NotificationActivity extends Activity{
   		try{
   			new DismissAllNotificationsTask().execute();
   		}catch(Exception ex){
-  			Log.e("NotificationActivity.dismissAllNotifications() ERROR: " + ex.toString());
+  			Log.e(_context, "NotificationActivity.dismissAllNotifications() ERROR: " + ex.toString());
   		}
   	}
   	
@@ -569,7 +569,7 @@ public class NotificationActivity extends Activity{
   		try{
   			//_notificationViewFlipper.dismissAllUserNotifications();
   		}catch(Exception ex){
-  			Log.e("NotificationActivity.dismissAllUsersNotifications() ERROR: " + ex.toString());
+  			Log.e(_context, "NotificationActivity.dismissAllUsersNotifications() ERROR: " + ex.toString());
   		}
   	}
   	
@@ -580,7 +580,7 @@ public class NotificationActivity extends Activity{
   		try{
   			_notificationViewFlipper.dismissAllAppNotifications(_context);
   		}catch(Exception ex){
-  			Log.e("NotificationActivity.dismissAllAppNotifications() ERROR: " + ex.toString());
+  			Log.e(_context, "NotificationActivity.dismissAllAppNotifications() ERROR: " + ex.toString());
   		}
   	}
   	
@@ -594,7 +594,7 @@ public class NotificationActivity extends Activity{
 		    //intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Voice recognition Demo...");
 		    startActivityForResult(intent, Constants.STT_ACTIVITY);
   		}catch(Exception ex){
-  			Log.e("NotificationActivity.startStt() ERROR: " + ex.toString());	
+  			Log.e(_context, "NotificationActivity.startStt() ERROR: " + ex.toString());	
   			Toast.makeText(_context, _context.getString(R.string.voice_recognizer_error), Toast.LENGTH_LONG).show();
   		}
   	}
@@ -839,7 +839,7 @@ public class NotificationActivity extends Activity{
 			}
 			super.onActivityResult(requestCode, resultCode, returnedIntent);
 		}catch(Exception ex){
-			Log.e("NotificationActivity.onActivityResult() ERROR: " + ex.toString());
+			Log.e(_context, "NotificationActivity.onActivityResult() ERROR: " + ex.toString());
 	    	Common.setInLinkedAppFlag(_context, false);
 			_notificationViewFlipper.removeActiveNotification(false);
 		}
@@ -854,16 +854,16 @@ public class NotificationActivity extends Activity{
 	@Override
 	protected void onCreate(Bundle bundle){
 		super.onCreate(bundle);
-		_debug = Log.getDebug();
-	    if(_debug) Log.v("NotificationActivity.onCreate()");
-		int apiLevel = Common.getDeviceAPILevel();
 	    _context = getApplicationContext();
+		_debug = Log.getDebug(_context);
+	    if(_debug) Log.v(_context, "NotificationActivity.onCreate()");
+		int apiLevel = Common.getDeviceAPILevel();
 	    _preferences = PreferenceManager.getDefaultSharedPreferences(_context);
 	    Common.setApplicationLanguage(_context, this);
 	    Common.setInLinkedAppFlag(_context, false);
 	    final Bundle extrasBundle = getIntent().getExtras();
 	    int notificationType = extrasBundle.getInt(Constants.BUNDLE_NOTIFICATION_TYPE);
-	    if(_debug) Log.v("NotificationActivity.onCreate() Notification Type: " + notificationType);
+	    if(_debug) Log.v(_context, "NotificationActivity.onCreate() Notification Type: " + notificationType);
 	    //Don't rotate the Activity when the screen rotates based on the user preferences.
 	    if(!_preferences.getBoolean(Constants.AUTO_ROTATE_SCREEN_KEY, false)){
 	    	if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
@@ -895,7 +895,7 @@ public class NotificationActivity extends Activity{
 	    setupViewFlipperStyles();
 	    switch(notificationType){ 
 		    case Constants.NOTIFICATION_TYPE_PHONE:{
-		    	if(_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_PHONE");
+		    	if(_debug) Log.v(_context, "NotificationActivity.onCreate() NOTIFICATION_TYPE_PHONE");
 		    	if(!setupBundleNotifications(extrasBundle, true, true)){
 					finishActivity();
 					return;
@@ -903,7 +903,7 @@ public class NotificationActivity extends Activity{
 		    	break;
 		    }
 		    case Constants.NOTIFICATION_TYPE_SMS:{
-			    if(_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_SMS");
+			    if(_debug) Log.v(_context, "NotificationActivity.onCreate() NOTIFICATION_TYPE_SMS");
 			    if(!setupBundleNotifications(extrasBundle, true, true)){
 					finishActivity();
 					return;
@@ -915,7 +915,7 @@ public class NotificationActivity extends Activity{
 		    	break;
 		    }
 		    case Constants.NOTIFICATION_TYPE_MMS:{
-		    	if(_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_MMS");
+		    	if(_debug) Log.v(_context, "NotificationActivity.onCreate() NOTIFICATION_TYPE_MMS");
 		    	if(!setupBundleNotifications(extrasBundle, true, true)){
 					finishActivity();
 					return;
@@ -927,7 +927,7 @@ public class NotificationActivity extends Activity{
 		    	break;
 		    }
 		    case Constants.NOTIFICATION_TYPE_CALENDAR:{
-		    	if(_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_CALENDAR");
+		    	if(_debug) Log.v(_context, "NotificationActivity.onCreate() NOTIFICATION_TYPE_CALENDAR");
 		    	if(!setupBundleNotifications(extrasBundle, true, true)){
 					finishActivity();
 					return;
@@ -935,7 +935,7 @@ public class NotificationActivity extends Activity{
 		    	break;
 			}
 			case Constants.NOTIFICATION_TYPE_K9:{
-				if(_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_K9");
+				if(_debug) Log.v(_context, "NotificationActivity.onCreate() NOTIFICATION_TYPE_K9");
 				if(!setupBundleNotifications(extrasBundle, true, true)){
 					finishActivity();
 					return;
@@ -943,7 +943,7 @@ public class NotificationActivity extends Activity{
 				break;
 		    }
 			case Constants.NOTIFICATION_TYPE_GENERIC:{
-				if(_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_GENERIC");
+				if(_debug) Log.v(_context, "NotificationActivity.onCreate() NOTIFICATION_TYPE_GENERIC");
 				if(!setupGenericBundleNotifications(extrasBundle)){
 					finishActivity();
 					return;
@@ -951,7 +951,7 @@ public class NotificationActivity extends Activity{
 				break;
 		    }
 		    case Constants.NOTIFICATION_TYPE_PREVIEW_PHONE:{
-		    	if(_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_PHONE");
+		    	if(_debug) Log.v(_context, "NotificationActivity.onCreate() NOTIFICATION_TYPE_PHONE");
 		    	if(!setupBundleNotifications(extrasBundle, true, true)){
 					finishActivity();
 					return;
@@ -959,7 +959,7 @@ public class NotificationActivity extends Activity{
 		    	break;
 		    }
 		    case Constants.NOTIFICATION_TYPE_PREVIEW_SMS:{
-			    if(_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_SMS");
+			    if(_debug) Log.v(_context, "NotificationActivity.onCreate() NOTIFICATION_TYPE_SMS");
 			    if(!setupBundleNotifications(extrasBundle, true, true)){
 					finishActivity();
 					return;
@@ -967,7 +967,7 @@ public class NotificationActivity extends Activity{
 		    	break;
 		    }
 		    case Constants.NOTIFICATION_TYPE_PREVIEW_CALENDAR:{
-		    	if(_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_CALENDAR");
+		    	if(_debug) Log.v(_context, "NotificationActivity.onCreate() NOTIFICATION_TYPE_CALENDAR");
 		    	if(!setupBundleNotifications(extrasBundle, true, true)){
 					finishActivity();
 					return;
@@ -975,7 +975,7 @@ public class NotificationActivity extends Activity{
 		    	break;
 			}
 			case Constants.NOTIFICATION_TYPE_PREVIEW_K9:{
-				if(_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_K9");
+				if(_debug) Log.v(_context, "NotificationActivity.onCreate() NOTIFICATION_TYPE_K9");
 				if(!setupBundleNotifications(extrasBundle, true, true)){
 					finishActivity();
 					return;
@@ -996,7 +996,7 @@ public class NotificationActivity extends Activity{
 	 */
 	@Override
 	protected void onPause(){
-	    if(_debug) Log.v("NotificationActivity.onPause()");
+	    if(_debug) Log.v(_context, "NotificationActivity.onPause()");
 	    if(_tts != null){
 	    	_tts.stop();
 	    }
@@ -1008,7 +1008,7 @@ public class NotificationActivity extends Activity{
 	 */
 	@Override
 	protected void onStop(){
-	    if(_debug) Log.v("NotificationActivity.onStop()");
+	    if(_debug) Log.v(_context, "NotificationActivity.onStop()");
     	if(_preferences.getBoolean(Constants.APPLICATION_CLOSE_WHEN_PUSHED_TO_BACKGROUND_KEY, false)){
     		if(_preferences.getBoolean(Constants.IGNORE_LINKED_APPS_WHEN_PUSHED_TO_BACKGROUND_KEY, false)){
     	    	finishActivity();
@@ -1026,7 +1026,7 @@ public class NotificationActivity extends Activity{
 	 */
 	@Override
 	protected void onDestroy(){
-	    if(_debug) Log.v("NotificationActivity.onDestroy()");
+	    if(_debug) Log.v(_context, "NotificationActivity.onDestroy()");
 	    if(_tts != null){
 	    	_tts.shutdown();
 	    }
@@ -1049,7 +1049,7 @@ public class NotificationActivity extends Activity{
 	@Override
 	protected void onNewIntent(Intent intent){
 	    super.onNewIntent(intent);
-	    if(_debug) Log.v("NotificationActivity.onNewIntent()");
+	    if(_debug) Log.v(_context, "NotificationActivity.onNewIntent()");
 	    //Resend/Reschedule incoming notification. Fix for !@#$# Home Key Pressed action. 
 	    //This is needed when there is only a single notification and it was removed prior to this method being called.
 	    if(_notificationViewFlipper.getTotalNotifications() == 0){
@@ -1065,12 +1065,12 @@ public class NotificationActivity extends Activity{
 	    }
 	    switch(notificationType){
 	    	case Constants.NOTIFICATION_TYPE_PHONE:{
-		    	if(_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_PHONE");
+		    	if(_debug) Log.v(_context, "NotificationActivity.onNewIntent() NOTIFICATION_TYPE_PHONE");
 		    	setupBundleNotifications(extrasBundle, true, true);
 		    	break;
 		    }
 	    	case Constants.NOTIFICATION_TYPE_SMS:{
-			    if(_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_SMS");
+			    if(_debug) Log.v(_context, "NotificationActivity.onNewIntent() NOTIFICATION_TYPE_SMS");
 			    setupBundleNotifications(extrasBundle, true, true);
 				if(_preferences.getBoolean(Constants.SMS_DISPLAY_UNREAD_KEY, false)){
 					if(_notificationViewFlipper.getSMSCount() <= 1){
@@ -1080,7 +1080,7 @@ public class NotificationActivity extends Activity{
 		    	break;
 		    }
 	    	case Constants.NOTIFICATION_TYPE_MMS:{
-		    	if(_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_MMS");
+		    	if(_debug) Log.v(_context, "NotificationActivity.onNewIntent() NOTIFICATION_TYPE_MMS");
 		    	setupBundleNotifications(extrasBundle, true, true);
 				if(_preferences.getBoolean(Constants.MMS_DISPLAY_UNREAD_KEY, false)){
 					if(_notificationViewFlipper.getMMSCount() <= 1){			
@@ -1090,37 +1090,37 @@ public class NotificationActivity extends Activity{
 		    	break;
 		    }
 	    	case Constants.NOTIFICATION_TYPE_CALENDAR:{
-		    	if(_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_CALENDAR");
+		    	if(_debug) Log.v(_context, "NotificationActivity.onNewIntent() NOTIFICATION_TYPE_CALENDAR");
 			    setupBundleNotifications(extrasBundle, true, true);
 		    	break;
 		    }
 			case Constants.NOTIFICATION_TYPE_K9:{
-				if(_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_K9");
+				if(_debug) Log.v(_context, "NotificationActivity.onNewIntent() NOTIFICATION_TYPE_K9");
 				setupBundleNotifications(extrasBundle, true, true);
 				break;
 		    }
 			case Constants.NOTIFICATION_TYPE_GENERIC:{
-				if(_debug) Log.v("NotificationActivity.onCreate() NOTIFICATION_TYPE_GENERIC");
+				if(_debug) Log.v(_context, "NotificationActivity.onCreate() NOTIFICATION_TYPE_GENERIC");
 				setupGenericBundleNotifications(extrasBundle);
 				break;
 		    }
 	    	case Constants.NOTIFICATION_TYPE_PREVIEW_PHONE:{
-		    	if(_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_PHONE");
+		    	if(_debug) Log.v(_context, "NotificationActivity.onNewIntent() NOTIFICATION_TYPE_PHONE");
 		    	setupBundleNotifications(extrasBundle, true, true);
 		    	break;
 		    }
 	    	case Constants.NOTIFICATION_TYPE_PREVIEW_SMS:{
-			    if(_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_SMS");
+			    if(_debug) Log.v(_context, "NotificationActivity.onNewIntent() NOTIFICATION_TYPE_SMS");
 			    setupBundleNotifications(extrasBundle, true, true);
 		    	break;
 		    }
 	    	case Constants.NOTIFICATION_TYPE_PREVIEW_CALENDAR:{
-		    	if(_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_CALENDAR");
+		    	if(_debug) Log.v(_context, "NotificationActivity.onNewIntent() NOTIFICATION_TYPE_CALENDAR");
 			    setupBundleNotifications(extrasBundle, true, true);
 		    	break;
 		    }
 			case Constants.NOTIFICATION_TYPE_PREVIEW_K9:{
-				if(_debug) Log.v("NotificationActivity.onNewIntent() NOTIFICATION_TYPE_K9");
+				if(_debug) Log.v(_context, "NotificationActivity.onNewIntent() NOTIFICATION_TYPE_K9");
 				setupBundleNotifications(extrasBundle, true, true);
 				break;
 		    }
@@ -1251,11 +1251,11 @@ public class NotificationActivity extends Activity{
 	     * @param params - The contact's id.
 	     */
 	    protected Bundle doInBackground(String... params){
-			if(_debug) Log.v("NotificationActivity.getAllUnreadSMSMessagesAsyncTask.doInBackground()");
+			if(_debug) Log.v(_context, "NotificationActivity.getAllUnreadSMSMessagesAsyncTask.doInBackground()");
 			try{
 				return SMSCommon.getAllUnreadSMSMessages(_context);
 			}catch(Exception ex){
-				Log.e("NotificationActivity.getAllUnreadSMSMessagesAsyncTask.doInBackground() ERROR: " + ex.toString());
+				Log.e(_context, "NotificationActivity.getAllUnreadSMSMessagesAsyncTask.doInBackground() ERROR: " + ex.toString());
 				return null;
 			}
 	    }
@@ -1266,7 +1266,7 @@ public class NotificationActivity extends Activity{
 	     * @param result - The image of the contact.
 	     */
 	    protected void onPostExecute(Bundle smsNotificationBundle){
-			if(_debug) Log.v("NotificationActivity.getAllUnreadSMSMessagesAsyncTask.onPostExecute()");	
+			if(_debug) Log.v(_context, "NotificationActivity.getAllUnreadSMSMessagesAsyncTask.onPostExecute()");	
 			if(smsNotificationBundle != null){
 				Bundle bundle = new Bundle();
 				bundle.putInt(Constants.BUNDLE_NOTIFICATION_TYPE, Constants.NOTIFICATION_TYPE_SMS);
@@ -1317,17 +1317,17 @@ public class NotificationActivity extends Activity{
 	 * @return boolean - Returns true if the method did not encounter an error.
 	 */
 	private boolean setupBundleNotifications(Bundle bundle, boolean postStatusBarnotification, boolean isNew){
-		if(_debug) Log.v("NotificationActivity.setupBundleNotifications()");
+		if(_debug) Log.v(_context, "NotificationActivity.setupBundleNotifications()");
 		try{
 			Bundle notificationBundle = bundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME);
 			if(notificationBundle == null){
-				if(_debug) Log.v("NotificationActivity.setupBundleNotifications() Bundle is null. Exiting..."); 
+				if(_debug) Log.v(_context, "NotificationActivity.setupBundleNotifications() Bundle is null. Exiting..."); 
 				return false;
 			}
 			//Loop through all the bundles that were sent through.
 			int bundleCount = notificationBundle.getInt(Constants.BUNDLE_NOTIFICATION_BUNDLE_COUNT, -1);
 			if(bundleCount <= 0){
-				if(_debug) Log.e("NotificationActivity.setupBundleNotifications() Bundle does not contain a notification! BundleCount = " + bundleCount);
+				if(_debug) Log.e(_context, "NotificationActivity.setupBundleNotifications() Bundle does not contain a notification! BundleCount = " + bundleCount);
 				return false;
 			}
 			boolean displayPopup = !Common.restrictPopup(_context);
@@ -1347,7 +1347,7 @@ public class NotificationActivity extends Activity{
 			}
 			return displayPopup;
 		}catch(Exception ex){
-			Log.e("NotificationActivity.setupBundleNotifications() ERROR: " + ex.toString());
+			Log.e(_context, "NotificationActivity.setupBundleNotifications() ERROR: " + ex.toString());
 			return false;
 		}
 	}
@@ -1360,10 +1360,10 @@ public class NotificationActivity extends Activity{
 	 * @return boolean - Returns true if a popup window was displayed.
 	 */
 	private boolean setupGenericBundleNotifications(Bundle bundle){
-		if(_debug) Log.v("NotificationActivity.setupGenericBundleNotifications()");
+		if(_debug) Log.v(_context, "NotificationActivity.setupGenericBundleNotifications()");
 		try{
 			if(bundle == null){
-				if(_debug) Log.v("NotificationActivity.setupGenericBundleNotifications() Bundle is null. Exiting..."); 
+				if(_debug) Log.v(_context, "NotificationActivity.setupGenericBundleNotifications() Bundle is null. Exiting..."); 
 				return false;
 			}
 			boolean displayPopup = !Common.restrictPopup(_context);				
@@ -1377,7 +1377,7 @@ public class NotificationActivity extends Activity{
 			}
 			return displayPopup;
 		}catch(Exception ex){
-			if(_debug) Log.v("NotificationActivity.setupGenericBundleNotifications() ERROR: " + ex.toString());
+			if(_debug) Log.v(_context, "NotificationActivity.setupGenericBundleNotifications() ERROR: " + ex.toString());
 			return false;
 		}
 	}

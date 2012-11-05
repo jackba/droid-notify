@@ -27,7 +27,6 @@ public class K9PreferenceActivity extends PreferenceActivity implements OnShared
     // Properties
     //================================================================================
 
-    private boolean _debug = false;
     private Context _context = null;
     private SharedPreferences _preferences = null;
 	
@@ -44,8 +43,6 @@ public class K9PreferenceActivity extends PreferenceActivity implements OnShared
 	@Override
 	protected void onCreate(Bundle bundle){
 	    super.onCreate(bundle);
-	    _debug = Log.getDebug();
-	    if (_debug) Log.v("K9PreferenceActivity.onCreate()");
 	    _context = this;
 	    Common.setApplicationLanguage(_context, this);
 	    _preferences = PreferenceManager.getDefaultSharedPreferences(_context);
@@ -62,7 +59,6 @@ public class K9PreferenceActivity extends PreferenceActivity implements OnShared
 	 * @param key - The String value of the preference Key who's preference value was changed.
 	 */
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-		if (_debug) Log.v("K9PreferenceActivity.onSharedPreferenceChanged() Key: " + key);
 		if(key.equals(Constants.K9_NOTIFICATIONS_ENABLED_KEY)){
 			if(_preferences.getBoolean(Constants.K9_NOTIFICATIONS_ENABLED_KEY, true)){
 				checkK9PackageInstallation(true);
@@ -79,7 +75,6 @@ public class K9PreferenceActivity extends PreferenceActivity implements OnShared
 	 */
 	@Override
 	protected void onResume(){
-	    if(_debug) Log.v("K9PreferenceActivity.onResume()");
 	    super.onResume();
 	    _preferences.registerOnSharedPreferenceChangeListener(this);
 	}
@@ -89,7 +84,6 @@ public class K9PreferenceActivity extends PreferenceActivity implements OnShared
 	 */
 	@Override
 	protected void onPause(){
-	    if(_debug) Log.v("K9PreferenceActivity.onPause()");
 	    super.onPause();
 	    _preferences.unregisterOnSharedPreferenceChangeListener(this);
 	}
@@ -103,7 +97,6 @@ public class K9PreferenceActivity extends PreferenceActivity implements OnShared
 	 */
 	@SuppressWarnings("deprecation")
 	private void setupCustomPreferences(){
-	    if (_debug) Log.v("K9PreferenceActivity.setupCustomPreferences()");
 		//Status Bar Notification Settings Preference/Button
 		Preference statusBarNotificationSettingsPref = (Preference)findPreference(Constants.SETTINGS_STATUS_BAR_NOTIFICATIONS_PREFERENCE);
 		statusBarNotificationSettingsPref.setOnPreferenceClickListener(new OnPreferenceClickListener(){
@@ -112,7 +105,7 @@ public class K9PreferenceActivity extends PreferenceActivity implements OnShared
 		    		startActivity(new Intent(_context, K9StatusBarNotificationsPreferenceActivity.class));
 		    		return true;
 		    	}catch(Exception ex){
-	 	    		Log.e("K9PreferenceActivity() Status Bar Notifications Button ERROR: " + ex.toString());
+	 	    		Log.e(_context, "K9PreferenceActivity() Status Bar Notifications Button ERROR: " + ex.toString());
 	 	    		return false;
 		    	}
         	}
@@ -125,7 +118,7 @@ public class K9PreferenceActivity extends PreferenceActivity implements OnShared
 		    		startActivity(new Intent(_context, K9CustomizePreferenceActivity.class));
 		    		return true;
 		    	}catch(Exception ex){
-	 	    		Log.e("K9PreferenceActivity() Customize Button ERROR: " + ex.toString());
+	 	    		Log.e(_context, "K9PreferenceActivity() Customize Button ERROR: " + ex.toString());
 	 	    		return false;
 		    	}
         	}
@@ -138,7 +131,6 @@ public class K9PreferenceActivity extends PreferenceActivity implements OnShared
 	 */
 	@SuppressWarnings("deprecation")
 	private void checkK9PackageInstallation(boolean notifyFlag){
-		if (_debug) Log.v("K9PreferenceActivity().checkK9PackageInstallation()");
         try{
 			//Look for K-9 Mail, Kaiten Mail or K-9 Mail for Pure Widget.
 			boolean packageInstalledFlag = Common.packageExists(_context, "com.fsck.k9") || 
@@ -147,7 +139,7 @@ public class K9PreferenceActivity extends PreferenceActivity implements OnShared
 			if(packageInstalledFlag){
 				return;
 			}else{
-				if (_debug) Log.v("K9PreferenceActivity().checkK9PackageInstallation() K9 Client Packages Not Found!");	
+				Log.v(_context, "K9PreferenceActivity().checkK9PackageInstallation() K9 Client Packages Not Found!");	
 				SharedPreferences.Editor editor = _preferences.edit();
 	        	editor.putBoolean(Constants.K9_NOTIFICATIONS_ENABLED_KEY, false);
 	            editor.commit();	
@@ -160,7 +152,7 @@ public class K9PreferenceActivity extends PreferenceActivity implements OnShared
 	            }
 			}
         }catch(Exception ex){
-        	if (_debug) Log.v("K9PreferenceActivity().checkK9PackageInstallation() ERROR: " + ex.toString());
+        	Log.e(_context, "K9PreferenceActivity().checkK9PackageInstallation() ERROR: " + ex.toString());
         }
 	}
 	

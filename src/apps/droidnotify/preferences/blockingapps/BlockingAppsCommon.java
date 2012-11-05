@@ -20,12 +20,6 @@ import apps.droidnotify.db.DBConstants;
 import apps.droidnotify.log.Log;
 
 public class BlockingAppsCommon {
-	
-	//================================================================================
-    // Properties
-    //================================================================================
-	
-	//private static boolean _debug = false; 
 
 	//================================================================================
 	// Public Methods
@@ -40,8 +34,6 @@ public class BlockingAppsCommon {
 	 * @return CustomContact - The custom contact item that was inserted.
 	 */
 	public static CustomPackage insertValue(Context context, String packageName){
-		//_debug = Log.getDebug();
-		//if(_debug) Log.v("BlockingAppsCommon..insertValue()");
         try{
         	ContentValues contentValues = new ContentValues();
 			contentValues.put(DBConstants.COLUMN_PACKAGE, packageName);
@@ -60,7 +52,7 @@ public class BlockingAppsCommon {
 						sortOrder);
 			    if(cursor.moveToFirst()){
 			    	//This contact id has already been added.
-			    	//if(_debug) Log.v("BlockingAppsCommon.insertValue() Package has already been added. Returning existing entry.");
+			    	//if(_debug) Log.v(context, "BlockingAppsCommon.insertValue() Package has already been added. Returning existing entry.");
 			    	long rowID = cursor.getLong(cursor.getColumnIndex(DBConstants.COLUMN_ID));
 			    	cursor.close();
 			    	//Return existing row of data.
@@ -68,7 +60,7 @@ public class BlockingAppsCommon {
 			    	return existingCustomContact;
 			    }
 			}catch(Exception ex){
-				Log.e("BlockingAppsCommon.insertValue() Check If Entry Exists ERROR: " + ex.toString());
+				Log.e(context, "BlockingAppsCommon.insertValue() Check If Entry Exists ERROR: " + ex.toString());
 			}finally{
 				cursor.close();
 			}
@@ -77,7 +69,7 @@ public class BlockingAppsCommon {
         	long insertedID = Long.parseLong(insertedUri.toString().substring( insertedUri.toString().lastIndexOf("/") + 1 )); 
         	return new CustomPackage(context, insertedID, packageName, null, null);
 		}catch(Exception ex){
-			Log.e("BlockingAppsCommon.insertValue() ERROR: " + ex.toString());
+			Log.e(context, "BlockingAppsCommon.insertValue() ERROR: " + ex.toString());
 			return null;
 		}
 	}
@@ -92,14 +84,12 @@ public class BlockingAppsCommon {
 	 * @return CustomContact - The custom contact item that was updated.
 	 */
 	public static CustomPackage updateValues(Context context, ContentValues contentValues, long customPackageID, String packageName){
-		//_debug = Log.getDebug();
-		//if(_debug) Log.v("BlockingAppsCommon.updateValues()");
         try{
 			String updateWhere = DBConstants.COLUMN_ID + "=?";
         	context.getContentResolver().update(DBConstants.CONTENT_URI_BLOCKINGAPPS, contentValues, updateWhere, new String[]{String.valueOf(customPackageID)}); 
             return new CustomPackage(context, customPackageID, packageName, null, null);
 		}catch(Exception ex){
-			Log.e("BlockingAppsCommon.updateValues() ERROR: " + ex.toString());
+			Log.e(context, "BlockingAppsCommon.updateValues() ERROR: " + ex.toString());
 			return null;
 		}
 	}	
@@ -114,14 +104,12 @@ public class BlockingAppsCommon {
 	 * @return CustomContact - The custom contact item that was updated.
 	 */
 	public static boolean deleteValues(Context context, String packageName){
-		//_debug = Log.getDebug();
-		//if(_debug) Log.v("BlockingAppsCommon.deleteValues()");
         try{
 			String updateWhere = DBConstants.COLUMN_PACKAGE + "=?";
         	context.getContentResolver().delete(DBConstants.CONTENT_URI_BLOCKINGAPPS, updateWhere, new String[]{packageName}); 
             return true;
 		}catch(Exception ex){
-			Log.e("BlockingAppsCommon.deleteValues() ERROR: " + ex.toString());
+			Log.e(context, "BlockingAppsCommon.deleteValues() ERROR: " + ex.toString());
 			return false;
 		}
 	}
@@ -135,10 +123,8 @@ public class BlockingAppsCommon {
 	 * @return long - Returns the package db id.
 	 */
 	public static long getPackageDBID(Context context, String packageName){
-		//_debug = Log.getDebug();
-		//if (_debug) Log.v("BlockingAppsCommon.getPackageDBID() PackageName: " + packageName);
 		if(packageName == null){
-			Log.e("BlockingAppsCommon.getPackageDBID() PackageName is null. Exiting...");
+			Log.e(context, "BlockingAppsCommon.getPackageDBID() PackageName is null. Exiting...");
 			return -1;
 		}
 		long packageDBID = -1;
@@ -158,7 +144,7 @@ public class BlockingAppsCommon {
 		    	packageDBID = cursor.getLong(cursor.getColumnIndex(DBConstants.COLUMN_ID));
 		    }
 		}catch(Exception ex){
-			Log.e("BlockingAppsCommon.getSelectedPackageNames() Cursor ERROR: " + ex.toString());
+			Log.e(context, "BlockingAppsCommon.getSelectedPackageNames() Cursor ERROR: " + ex.toString());
 		}finally{
 			cursor.close();
 		}
@@ -174,23 +160,21 @@ public class BlockingAppsCommon {
 	 * @return String - Returns the package display name.
 	 */
 	public static String getPackageDisplayName(Context context, String packageName){
-		//_debug = Log.getDebug();
-		//if (_debug) Log.v("BlockingAppsCommon.getPackageDisplayName() PackageName: " + packageName);
 		try{
 			if(packageName == null){
-				Log.e("BlockingAppsCommon.getPackageDisplayName() PackageName is null. Exiting...");
+				Log.e(context, "BlockingAppsCommon.getPackageDisplayName() PackageName is null. Exiting...");
 				return null;
 			}
 			ApplicationInfo applicationInfo = context.getPackageManager().getApplicationInfo(packageName, 0);
 			int labelId = applicationInfo.labelRes;
 			if(labelId == 0){
-				Log.e("BlockingAppsCommon.getPackageDisplayName() Label ID is null. Exiting...");
+				Log.e(context, "BlockingAppsCommon.getPackageDisplayName() Label ID is null. Exiting...");
 				return null;
 			}
 			Resources resources = context.getPackageManager().getResourcesForApplication(packageName);
 			return resources.getString(labelId);
 		}catch(Exception ex){
-			Log.e("BlockingAppsCommon.getPackageDisplayName() ERROR: " + ex.toString());
+			Log.e(context, "BlockingAppsCommon.getPackageDisplayName() ERROR: " + ex.toString());
 			return null;
 		}
 	}
@@ -206,17 +190,15 @@ public class BlockingAppsCommon {
 	@SuppressLint("NewApi")
 	@SuppressWarnings("deprecation")
 	public static Bitmap getPackageIcon(Context context, String packageName){
-		//_debug = Log.getDebug();
-		//if (_debug) Log.v("BlockingAppsCommon.getPackageIcon() PackageName: " + packageName);
 		try{
 			if(packageName == null){
-				Log.e("BlockingAppsCommon.getPackageIcon() PackageName is null. Exiting...");
+				Log.e(context, "BlockingAppsCommon.getPackageIcon() PackageName is null. Exiting...");
 				return null;
 			}
 			ApplicationInfo applicationInfo = context.getPackageManager().getApplicationInfo(packageName, 0);
 			int packageIconId = applicationInfo.icon;			
 			if(packageIconId == 0){
-				Log.e("BlockingAppsCommon.getPackageIcon() Package Icon ID is null. Exiting...");
+				Log.e(context, "BlockingAppsCommon.getPackageIcon() Package Icon ID is null. Exiting...");
 				return null;
 			}
 			int resizeWidth = 48;
@@ -241,7 +223,7 @@ public class BlockingAppsCommon {
 					resizeWidth = 72;
 				}
 			}catch(Exception ex){
-				Log.e("BlockingAppsCommon.getPackageIcon() WindowManager ERROR: " + ex.toString());
+				Log.e(context, "BlockingAppsCommon.getPackageIcon() WindowManager ERROR: " + ex.toString());
 				resizeWidth = 48;
 			}
 			Resources resources = context.getPackageManager().getResourcesForApplication(packageName);
@@ -254,7 +236,7 @@ public class BlockingAppsCommon {
 				return getResizedBitmap(packageIcon, resizeWidth);	
 			}		
 		}catch(Exception ex){
-			Log.e("BlockingAppsCommon.getPackageIcon() ERROR: " + ex.toString());
+			Log.e(context, "BlockingAppsCommon.getPackageIcon() ERROR: " + ex.toString());
 			return null;
 		}
 	}
@@ -267,8 +249,6 @@ public class BlockingAppsCommon {
 	 * @return String[] - A string array of the stored selected package names.
 	 */
 	public static String[] getSelectedPackageNames(Context context){
-		//_debug = Log.getDebug();
-		//if(_debug) Log.v("BlockingAppsCommon.getSelectedPackageNames()");
 		ArrayList<String> packageNameArray = new ArrayList<String>();
 		Cursor cursor = null;
         try{
@@ -287,7 +267,7 @@ public class BlockingAppsCommon {
 		    	packageNameArray.add(packageName);
 		    }
 		}catch(Exception ex){
-			Log.e("BlockingAppsCommon.getSelectedPackageNames() Cursor ERROR: " + ex.toString());
+			Log.e(context, "BlockingAppsCommon.getSelectedPackageNames() Cursor ERROR: " + ex.toString());
 		}finally{
 			cursor.close();
 		}
@@ -307,8 +287,6 @@ public class BlockingAppsCommon {
 	 * @return Bitmap - The formatted Bitmap image.
 	 */
 	public static Bitmap getResizedBitmap(Bitmap bitmap, int resizeX) {
-		//_debug = Log.getDebug();
-		//if (_debug) Log.v("BlockingAppsCommon.getResizedBitmap()");
 		try{
 			Bitmap output = null;
 			if(bitmap == null){
@@ -326,13 +304,15 @@ public class BlockingAppsCommon {
 		        	int resizeY = (resizeX/bitmapWidth) * bitmapHeight;
 					if(resizeY < 36 && resizeX < 36){
 						return bitmap;
+					}else if(resizeY <= 0 || resizeX <= 0){
+						resizeX = 36;
+						resizeY = resizeX;
 					}
 		        	output = Bitmap.createScaledBitmap(bitmap, resizeX, resizeY, true);
 		        }
 		        return output;
 			}
 		}catch(Exception ex){
-			Log.e("BlockingAppsCommon.getResizedBitmap() ERROR: " + ex.toString());
 			return null;
 		}
 	}
@@ -345,11 +325,9 @@ public class BlockingAppsCommon {
 	 * 
 	 * @return boolean - Returns true if the package name is currently selected.
 	 */
-	public static boolean isSelectedPackage(Context context, String packageName){
-		//_debug = Log.getDebug();
-		//if (_debug) Log.v("BlockingAppsCommon.isSelectedPackage()");    		
+	public static boolean isSelectedPackage(Context context, String packageName){ 		
 		if(packageName == null){
-			Log.e("BlockingAppsCommon.isSelectedPackage() PackageName is null. Exiting...");
+			Log.e(context, "BlockingAppsCommon.isSelectedPackage() PackageName is null. Exiting...");
 			return false;
 		}
 		//Check the DB and see if this package is selected or not.
@@ -370,7 +348,7 @@ public class BlockingAppsCommon {
 		    	packageFound = true;
 		    }
 		}catch(Exception ex){
-			Log.e("BlockingAppsCommon.isSelectedPackage() Cursor ERROR: " + ex.toString());
+			Log.e(context, "BlockingAppsCommon.isSelectedPackage() Cursor ERROR: " + ex.toString());
 		}finally{
 			cursor.close();
 		}
@@ -386,11 +364,9 @@ public class BlockingAppsCommon {
 	 * @param isSelected - A boolean indicating if the package is selected or not.
 	 */
 	public static void setBlockingAppPackage(Context context, String packageName, boolean isSelected){
-		//_debug = Log.getDebug();
-		//if (_debug) Log.v("BlockingAppsCommon.setSelectedPackages()");	
 		try{		
 			if(packageName == null){
-				Log.e("BlockingAppsCommon.setBlockingAppPackage() PackageName is null. Exiting...");
+				Log.e(context, "BlockingAppsCommon.setBlockingAppPackage() PackageName is null. Exiting...");
 				return;
 			}
 			if(isSelected){
@@ -401,7 +377,7 @@ public class BlockingAppsCommon {
 				deleteValues(context, packageName);
 			}	
 		}catch(Exception ex){
-			Log.e("BlockingAppsCommon.setBlockingAppPackage() ERROR: " + ex.toString());
+			Log.e(context, "BlockingAppsCommon.setBlockingAppPackage() ERROR: " + ex.toString());
 		}
 	}	
 	

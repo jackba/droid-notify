@@ -51,8 +51,8 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 */
 	public NotificationViewFlipper(Context context){
 		super(context);
-		_debug = Log.getDebug();
-		if(_debug) Log.v("NotificationViewFlipper.NotificationViewFlipper()");
+		_debug = Log.getDebug(context);
+		if(_debug) Log.v(_context, "NotificationViewFlipper.NotificationViewFlipper()");
 		_context = context;
 		_preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		_notificationActivity = (NotificationActivity) context;
@@ -63,8 +63,8 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 */	
 	public  NotificationViewFlipper(Context context, AttributeSet attributes){
 		super(context, attributes);
-		_debug = Log.getDebug();
-		if(_debug) Log.v("NotificationViewFlipper.NotificationViewFlipper()");
+		_debug = Log.getDebug(context);
+		if(_debug) Log.v(_context, "NotificationViewFlipper.NotificationViewFlipper()");
 		_context = context;
 		_preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		_notificationActivity = (NotificationActivity) context;
@@ -83,7 +83,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 * @return boolean - Returns true if the view was added, false otherwise.
 	 */
 	public boolean addNotification(Notification notification, boolean isNew){
-		if(_debug) Log.v("NotificationViewFlipper.addNotification()");
+		if(_debug) Log.v(_context, "NotificationViewFlipper.addNotification()");
 		try{
 			Notification originalNotification = null;
 			int notificationType = notification.getNotificationType();
@@ -99,12 +99,12 @@ public class NotificationViewFlipper extends ViewFlipper {
 			}
 			//Special case for preview notifications.
 			if(notificationType > 1999){
-				if(_debug) Log.v("NotificationViewFlipper.addNotification() This is a notification preview!");
+				if(_debug) Log.v(_context, "NotificationViewFlipper.addNotification() This is a notification preview!");
 				duplicateFound = false;
 				isNew = false;
 			}
 			if(!duplicateFound){
-				if(_debug) Log.v("NotificationViewFlipper.addNotification() New Notification.");
+				if(_debug) Log.v(_context, "NotificationViewFlipper.addNotification() New Notification.");
 				if(_preferences.getString(Constants.VIEW_NOTIFICATION_ORDER, Constants.NEWEST_FIRST).equals(Constants.OLDER_FIRST)){
 					addView(new NotificationView(_context, notification));			
 					if(_preferences.getBoolean(Constants.DISPLAY_NEWEST_NOTIFICATION, true)){
@@ -155,7 +155,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 					
 				}
 			}else{
-				if(_debug) Log.v("NotificationViewFlipper.addNotification() Duplicate Notification Found! This notification will not be added.");
+				if(_debug) Log.v(_context, "NotificationViewFlipper.addNotification() Duplicate Notification Found! This notification will not be added.");
 				//Update the reminder number in the currently active notification.
 				originalNotification.setReminderNumber(notification.getReminderNumber());
 				//Set the same reminder again. This should have the same intent action as the original notification (not the incremented new notification).
@@ -163,7 +163,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 			}
 			return true;
 		}catch(Exception ex){
-			Log.e("NotificationViewFlipper.addNotification() ERROR: " + ex.toString());
+			Log.e(_context, "NotificationViewFlipper.addNotification() ERROR: " + ex.toString());
 			return false;
 		}
 	}
@@ -178,14 +178,14 @@ public class NotificationViewFlipper extends ViewFlipper {
 			_notificationActivity.stopTextToSpeechPlayback();
 			Notification notification = this.getActiveNotification();
 			if(notification == null){
-				Log.e("NotificationViewFlipper.removeActiveNotification() Active Notification Is Null. Exiting...");
+				Log.e(_context, "NotificationViewFlipper.removeActiveNotification() Active Notification Is Null. Exiting...");
 				return;
 			}
 			this.removeNotification(this.getDisplayedChild(), rescheduled);
 			//Clear the status bar notification.
 	    	Common.clearNotification(_context, this, notification.getNotificationType());
 		}catch(Exception ex){
-			Log.e("NotificationViewFlipper.removeActiveNotification() ERROR: " + ex.toString());
+			Log.e(_context, "NotificationViewFlipper.removeActiveNotification() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -195,7 +195,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 * @param threadID - Thread ID of the Notifications to be removed.
 	 */ 
 	public void removeNotificationsByThread(long threadID){
-		if(_debug) Log.v("NotificationViewFlipper.removeNotifications() Thread ID: " + threadID);
+		if(_debug) Log.v(_context, "NotificationViewFlipper.removeNotifications() Thread ID: " + threadID);
 		//Must iterate backwards through this collection.
 		//By removing items from the end, we don't have to worry about shifting index numbers as we would if we removed from the beginning.
 		int totalNotifications = this.getChildCount();
@@ -223,7 +223,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 		try{
 			return this.getChildCount() > 0 ? ((NotificationView) this.getCurrentView()).getNotification() : null;
 		}catch(Exception ex){
-			Log.e("NotificationViewFlipper.getActiveNotification() ERROR: " + ex.toString());
+			Log.e(_context, "NotificationViewFlipper.getActiveNotification() ERROR: " + ex.toString());
 			return null;
 		}
 	}
@@ -234,7 +234,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 * @return int - The number of current notifications.
 	 */	
 	public int getTotalNotifications(){
-		if(_debug) Log.v("NotificationViewFlipper.getTotalNotifications()");
+		if(_debug) Log.v(_context, "NotificationViewFlipper.getTotalNotifications()");
 		return this.getChildCount();
 	}
 	
@@ -295,7 +295,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 * @return int - The current smsCount value.
 	 */
 	public int getSMSCount(){
-		//if(_debug) Log.v("NotificationViewFlipper.getSMSCount() SMSCount: " + _smsCount);
+		//if(_debug) Log.v(_context, "NotificationViewFlipper.getSMSCount() SMSCount: " + _smsCount);
 		return _smsCount;
 	}
 
@@ -305,7 +305,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 * @return int - The current mmsCount value.
 	 */
 	public int getMMSCount(){
-		//if(_debug) Log.v("NotificationViewFlipper.getMMSCount() MMSCount: " + _mmsCount);
+		//if(_debug) Log.v(_context, "NotificationViewFlipper.getMMSCount() MMSCount: " + _mmsCount);
 		return _mmsCount;
 	}
 
@@ -315,7 +315,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 * @return int - The current missedCallCount value.
 	 */
 	public int getMissedCallCount(){
-		//if(_debug) Log.v("NotificationViewFlipper.getMissedCallCount() MissedCallCount: " + _missedCallCount);
+		//if(_debug) Log.v(_context, "NotificationViewFlipper.getMissedCallCount() MissedCallCount: " + _missedCallCount);
 		return _missedCallCount;
 	}
 
@@ -325,7 +325,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 * @return int - The current calendarCount value.
 	 */
 	public int getCalendarCount(){
-		//if(_debug) Log.v("NotificationViewFlipper.getCalendarCount() CalendarCount: " + _calendarCount);
+		//if(_debug) Log.v(_context, "NotificationViewFlipper.getCalendarCount() CalendarCount: " + _calendarCount);
 		return _calendarCount;
 	}
 
@@ -335,7 +335,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 * @return int - The current k9Count value.
 	 */
 	public int getK9Count(){
-		//if(_debug) Log.v("NotificationViewFlipper.getK9Count() K9Count: " + _k9Count);
+		//if(_debug) Log.v(_context, "NotificationViewFlipper.getK9Count() K9Count: " + _k9Count);
 		return _k9Count;
 	}
   	
@@ -355,7 +355,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 				Common.clearAllNotifications(_context);
 			}
   		}catch(Exception ex){
-  			Log.e("NotificationViewFlipper.dismissAllNotifications() ERROR: " + ex.toString());
+  			Log.e(_context, "NotificationViewFlipper.dismissAllNotifications() ERROR: " + ex.toString());
   		}
   	}
   	
@@ -393,7 +393,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 				_notificationActivity.finishActivity();
 			}
   		}catch(Exception ex){
-  			Log.e("NotificationViewFlipper.dismissAllUserNotifications() ERROR: " + ex.toString());
+  			Log.e(_context, "NotificationViewFlipper.dismissAllUserNotifications() ERROR: " + ex.toString());
   		}
   	}
   	
@@ -430,7 +430,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 				_notificationActivity.finishActivity();
 			}
   		}catch(Exception ex){
-  			Log.e("NotificationViewFlipper.dismissAllAppNotifications() ERROR: " + ex.toString());
+  			Log.e(_context, "NotificationViewFlipper.dismissAllAppNotifications() ERROR: " + ex.toString());
   		}
   	}
   
@@ -442,7 +442,7 @@ public class NotificationViewFlipper extends ViewFlipper {
   			NotificationView currentView = (NotificationView) getCurrentView();
 	  		currentView.rescheduleNotification();
   		}catch(Exception ex){
-			Log.e("NotificationViewFlipper.setQuickReplyText() ERROR: " + ex.toString());
+			Log.e(_context, "NotificationViewFlipper.setQuickReplyText() ERROR: " + ex.toString());
 		}
 	}
   	
@@ -456,7 +456,7 @@ public class NotificationViewFlipper extends ViewFlipper {
   			NotificationView currentView = (NotificationView) getCurrentView();
 	  		currentView.setQuickReplyText(recognizedTextResults);
   		}catch(Exception ex){
-			Log.e("NotificationViewFlipper.setQuickReplyText() ERROR: " + ex.toString());
+			Log.e(_context, "NotificationViewFlipper.setQuickReplyText() ERROR: " + ex.toString());
 		}
   	}
 
@@ -472,7 +472,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 				currentNotificationView.setNotificationBodyMaxLines(maxLines);
 			}
   		}catch(Exception ex){
-  			Log.e("NotificationViewFlipper.setNotificationBodyMaxLines() ERROR: " + ex.toString());
+  			Log.e(_context, "NotificationViewFlipper.setNotificationBodyMaxLines() ERROR: " + ex.toString());
   		}
   	}
   	
@@ -491,7 +491,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 		try{
 			return ((NotificationView) this.getChildAt(index)).getNotification();
 		}catch(Exception ex){
-			Log.e("NotificationViewFlipper.getNotification() ERROR: " + ex.toString());
+			Log.e(_context, "NotificationViewFlipper.getNotification() ERROR: " + ex.toString());
 			return null;
 		}
 	}
@@ -503,11 +503,11 @@ public class NotificationViewFlipper extends ViewFlipper {
 	* @param rescheduled - A boolean indicating if this notification is being rescheduled or not.
 	*/
 	private void removeNotification(int index, boolean rescheduled){
-		if(_debug) Log.v("NotificationViewFlipper.removeNotification()");
+		if(_debug) Log.v(_context, "NotificationViewFlipper.removeNotification()");
 		//Get the current notification object.
 		Notification notification = getNotification(index);
 		if(notification == null){
-			if(_debug) Log.v("NotificationViewFlipper.removeNotification() Notification is null. Exiting...");
+			if(_debug) Log.v(_context, "NotificationViewFlipper.removeNotification() Notification is null. Exiting...");
 			return;
 		}
 		int notificationType = notification.getNotificationType();
@@ -565,7 +565,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 			    	updateStatusBarNotifications(notificationType, notificationSubType);
 				}
 			}catch(Exception ex){
-				if(_debug) Log.v("NotificationViewFlipper.removeNotification() [Total Notification > 1] ERROR: " + ex.toString());
+				if(_debug) Log.v(_context, "NotificationViewFlipper.removeNotification() [Total Notification > 1] ERROR: " + ex.toString());
 			}
 		}else{	
 			try{
@@ -574,7 +574,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 				//Close the ViewFlipper and finish the Activity.
 				_notificationActivity.finishActivity();
 			}catch(Exception ex){
-				if(_debug) Log.v("NotificationViewFlipper.removeNotification() [TotalNotification <= 1] ERROR: " + ex.toString());
+				if(_debug) Log.v(_context, "NotificationViewFlipper.removeNotification() [TotalNotification <= 1] ERROR: " + ex.toString());
 			}
 		}
 	}
@@ -594,7 +594,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 			Button previousButton = (Button) view.findViewById(R.id.previous_button);
 			TextView notificationCountTextView = (TextView) view.findViewById(R.id.notification_count_text_view);
 			Button nextButton = (Button) view.findViewById(R.id.next_button);
-			//if(_debug) Log.v("NotificationViewFlipper.updateView() viewIndex: " + viewIndex + " indexAdjustment: " + indexAdjustment);
+			//if(_debug) Log.v(_context, "NotificationViewFlipper.updateView() viewIndex: " + viewIndex + " indexAdjustment: " + indexAdjustment);
 	    	int totalviews = this.getChildCount();
 	    	int currentView = viewIndex + 1;
 	    	boolean isFirstView = isFirstView(viewIndex + indexAdjustment);
@@ -630,7 +630,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 		    	}
 	    	}
     	}catch(Exception ex){
-    		Log.e("NotificationViewFlipper.updateView() ERROR: " + ex.toString());
+    		Log.e(_context, "NotificationViewFlipper.updateView() ERROR: " + ex.toString());
     	}
 	}
 
@@ -673,7 +673,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 	 * @param notificationSubType - The notification sub type that we are updating.
 	 */
 	private void updateStatusBarNotifications(int notificationType, int notificationSubType){
-		if(_debug) Log.v("NotificationViewFlipper.updateStatusBarNotifications()");
+		if(_debug) Log.v(_context, "NotificationViewFlipper.updateStatusBarNotifications()");
 		int notificationTypecount = 1;
 		String sentFromContactName = null;
 		long sentFromContactID = -1;

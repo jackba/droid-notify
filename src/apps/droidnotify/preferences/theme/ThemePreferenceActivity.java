@@ -37,7 +37,6 @@ public class ThemePreferenceActivity extends Activity {
     // Properties
     //================================================================================
 
-	private boolean _debug = false;
 	private Context _context = null;
 	private SharedPreferences _preferences = null;
 	private ArrayList<ThemeView> _themeViews = null;
@@ -98,8 +97,6 @@ public class ThemePreferenceActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle bundle){
 		super.onCreate(bundle);
-	    _debug = Log.getDebug();
-	    if (_debug) Log.v("ThemePreferenceActivity.onCreate()");
 	    _context = getApplicationContext();
 	    _preferences = PreferenceManager.getDefaultSharedPreferences(_context);
 	    Common.setApplicationLanguage(_context, this);
@@ -115,7 +112,6 @@ public class ThemePreferenceActivity extends Activity {
      */
     @Override
     protected void onResume() {
-        if (_debug) Log.v("ThemePreferenceActivity.onResume()");
         super.onResume();
 	    synchronized (_loadThemesAsyncTaskLock) {
 	        if (_currentLoadThemesAsyncTask == null){
@@ -132,7 +128,6 @@ public class ThemePreferenceActivity extends Activity {
      */
     @Override
     protected void onPause() {
-        if (_debug) Log.v("ThemePreferenceActivity.onPause()");
         super.onPause();
         synchronized (_loadThemesAsyncTaskLock) {
 	        if(_currentLoadThemesAsyncTask != null){
@@ -150,7 +145,6 @@ public class ThemePreferenceActivity extends Activity {
 	 * Initialize the layout items.
 	 */
 	private void initLayoutItems() {
-		if (_debug) Log.v("ThemePreferenceActivity.initLayoutItems()");
 		_themeViewFlipper = (ThemeViewFlipper)findViewById(R.id.theme_view_flipper);
 		_themeProgressBar = (ProgressBar)findViewById(R.id.theme_progress_bar);
 		_okTextView = (TextView)findViewById(R.id.ok_button);
@@ -161,7 +155,6 @@ public class ThemePreferenceActivity extends Activity {
 	 * Setup the activity buttons.
 	 */
 	private void setupButtons(){
-		if (_debug) Log.v("ThemePreferenceActivity.setupButtons()");
 		//OK Button.
 		_okTextView.setBackgroundResource(R.drawable.preference_row_click);
 		_okTextView.setOnClickListener(new OnClickListener(){
@@ -195,7 +188,7 @@ public class ThemePreferenceActivity extends Activity {
 			    		startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.APP_SEARCH_GOOGLE_URL)));
 			    	}
 		    	}catch(Exception ex){
-	 	    		Log.e("PreferencesActivity() Rate App Button ERROR: " + ex.toString());
+	 	    		Log.e(_context, "PreferencesActivity() Rate App Button ERROR: " + ex.toString());
 	 	    		Toast.makeText(_context, _context.getString(R.string.app_android_rate_app_error), Toast.LENGTH_LONG).show();
 		    	}
         	}
@@ -206,7 +199,6 @@ public class ThemePreferenceActivity extends Activity {
 	 * Load the themes to choose from including installed theme packages.
 	 */
 	private void loadThemes(){
-		if (_debug) Log.v("ThemePreferenceActivity.loadThemes()");
 		try{
 			_themeViews = new ArrayList<ThemeView>();
 			//Load Included Themes.
@@ -220,15 +212,14 @@ public class ThemePreferenceActivity extends Activity {
 			        PackageInfo packageInfo = packages.get(i);
 			        String packageName = packageInfo.packageName;
 			        if(packageName.startsWith(Constants.APP_THEME_PREFIX)){
-			        	if (_debug) Log.v("ThemePreferenceActivity.loadThemes() Found Installed Package: " + packageName);
 			        	_themeViews.add(new ThemeView(_context, _themeViewFlipper, packageName));
 			        }
 				}catch(Exception ex){
-					Log.e("ThemePreferenceActivity.loadThemes() PACKAGE SPECIFIC ERROR: " + ex.toString());
+					Log.e(_context, "ThemePreferenceActivity.loadThemes() PACKAGE SPECIFIC ERROR: " + ex.toString());
 				}
 		    }
 		}catch(Exception ex){
-			Log.e("ThemePreferenceActivity.loadThemes() ERROR: " + ex.toString());
+			Log.e(_context, "ThemePreferenceActivity.loadThemes() ERROR: " + ex.toString());
 		}
 	}
 	
@@ -236,7 +227,6 @@ public class ThemePreferenceActivity extends Activity {
 	 * Set the displayed ViewFlipper theme to be the currently selected theme.
 	 */
 	private void setDisplayedTheme(){
-		if (_debug) Log.v("ThemePreferenceActivity.setDisplayedTheme()");
 		_themeViewFlipper.setDisplayedTheme(_preferences.getString(Constants.APP_THEME_KEY, Constants.APP_THEME_DEFAULT));
 	}        
 	
@@ -251,7 +241,6 @@ public class ThemePreferenceActivity extends Activity {
              * Set up the theme loading view.
              */
         protected void onPreExecute() {
-                    if (_debug) Log.v("ThemePreferenceActivity.LoadThemesAsyncTask.onPreExecute()");
                     _themeViewFlipper.setVisibility(View.GONE);
                     _themeProgressBar.setVisibility(View.VISIBLE);
         }
@@ -260,7 +249,6 @@ public class ThemePreferenceActivity extends Activity {
          * Load the themes in the background.
          */
         protected Boolean doInBackground(Void... params) {
-                    if (_debug) Log.v("ThemePreferenceActivity.LoadThemesAsyncTask.doInBackground()");
                     loadThemes();
                     return true;
         }
@@ -269,7 +257,6 @@ public class ThemePreferenceActivity extends Activity {
          * Display the available themes.
          */
             protected void onPostExecute(Boolean success) {
-                    if (_debug) Log.v("ThemePreferenceActivity.LoadThemesAsyncTask.onPostExecute()");
                     int size = _themeViews.size();
                     for(int i=0; i<size; i++){
                             _themeViewFlipper.addTheme(_themeViews.get(i));

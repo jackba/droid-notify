@@ -56,7 +56,7 @@ public class BlockingAppsPreferenceActivity extends PreferenceActivity{
 		    		startActivity(new Intent(_context, SelectBlockingAppsPreferenceActivity.class));
 		    		return true;
 		    	}catch(Exception ex){
-	 	    		Log.e("BlockingAppsPreferenceActivity() Select Blocking Apps Button ERROR: " + ex.toString());
+	 	    		Log.e(_context, "BlockingAppsPreferenceActivity() Select Blocking Apps Button ERROR: " + ex.toString());
 	 	    		return false;
 		    	}
         	}

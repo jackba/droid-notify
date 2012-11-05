@@ -38,18 +38,18 @@ public class PhoneReceiver extends BroadcastReceiver{
 	 */
 	@Override
 	public void onReceive(Context context, Intent intent){
-		_debug = Log.getDebug();
-		if (_debug) Log.v("PhoneReceiver.onReceive()");
+		_debug = Log.getDebug(context);
+		if (_debug) Log.v(context, "PhoneReceiver.onReceive()");
 		try{
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 			//Read preferences and exit if app is disabled.
 		    if(!preferences.getBoolean(Constants.APP_ENABLED_KEY, true)){
-				if (_debug) Log.v("PhoneReceiver.onReceive() App Disabled. Exiting...");
+				if (_debug) Log.v(context, "PhoneReceiver.onReceive() App Disabled. Exiting...");
 				return;
 			}
 			//Read preferences and exit if missed call notifications are disabled.
 		    if(!preferences.getBoolean(Constants.PHONE_NOTIFICATIONS_ENABLED_KEY, true)){
-				if (_debug) Log.v("PhoneReceiver.onReceive() Missed Call Notifications Disabled. Exiting... ");
+				if (_debug) Log.v(context, "PhoneReceiver.onReceive() Missed Call Notifications Disabled. Exiting... ");
 				return;
 			}
 		    //Check the state of the users phone.
@@ -58,7 +58,7 @@ public class PhoneReceiver extends BroadcastReceiver{
 		    setCallStateFlag(preferences, callState);
 			WakefulIntentService.sendWakefulWork(context, new Intent(context, PhoneBroadcastReceiverService.class));
 		}catch(Exception ex){
-			Log.e("PhoneReceiver.onReceive() ERROR: " + ex.toString());
+			Log.e(context, "PhoneReceiver.onReceive() ERROR: " + ex.toString());
 		}
 	}
 
@@ -70,7 +70,6 @@ public class PhoneReceiver extends BroadcastReceiver{
 	 * Set the phone state flag.
 	 */
 	private void setCallStateFlag(SharedPreferences preferences, int callState){
-		if (_debug) Log.v("PhoneReceiver.setCallStateFlag() callState: " + callState);
 		SharedPreferences.Editor editor = preferences.edit();
 		editor.putInt(Constants.CALL_STATE_KEY, callState);
 		editor.commit();

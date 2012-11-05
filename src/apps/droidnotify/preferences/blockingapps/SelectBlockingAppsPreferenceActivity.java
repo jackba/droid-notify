@@ -25,8 +25,7 @@ public class SelectBlockingAppsPreferenceActivity extends ListActivity {
 	//================================================================================
     // Properties
     //================================================================================
-	
-	private static boolean _debug = false;
+
 	private Context _context = null;
 	private ProgressBar _progressBar = null;
 	private TextView _okTextView = null;
@@ -41,8 +40,6 @@ public class SelectBlockingAppsPreferenceActivity extends ListActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
-		_debug = Log.getDebug();
-		if(_debug) Log.v("SelectBlockingAppsPreferenceActivity.onCreate()");
 		_context = getApplicationContext();
 	    _selectBlockingAppsPreferenceActivity = this;
 	    Common.setApplicationLanguage(_context, this);
@@ -68,8 +65,7 @@ public class SelectBlockingAppsPreferenceActivity extends ListActivity {
 	/**
 	 * Initialize the layout items.
 	 */
-	private void initLayoutItems(){
-		if(_debug) Log.v("SelectBlockingAppsPreferenceActivity.initLayoutItems()");	
+	private void initLayoutItems(){	
 		_progressBar = (ProgressBar)findViewById(R.id.progress_bar);
 		_okTextView = (TextView)findViewById(R.id.ok_button);
 		_okTextView.setBackgroundResource(R.drawable.preference_row_click);
@@ -91,7 +87,6 @@ public class SelectBlockingAppsPreferenceActivity extends ListActivity {
 		 * Setup the Progress Dialog.
 		 */
 	    protected void onPreExecute(){
-			if(_debug) Log.v("SelectBlockingAppsPreferenceActivity.loadPackagesAsyncTask.onPreExecute()");
 			_progressBar.setVisibility(View.VISIBLE);
 	    }
 	    /**
@@ -99,8 +94,7 @@ public class SelectBlockingAppsPreferenceActivity extends ListActivity {
 	     * 
 	     * @param params
 	     */
-	    protected Void doInBackground(Void... params){
-			if(_debug) Log.v("SelectBlockingAppsPreferenceActivity.loadPackagesAsyncTask.doInBackground()");		    
+	    protected Void doInBackground(Void... params){		    
 			//Load the activity's ListView.
 			_packageValues = getAllValues();
 			return null;
@@ -111,7 +105,6 @@ public class SelectBlockingAppsPreferenceActivity extends ListActivity {
 	     * @param result
 	     */
 	    protected void onPostExecute(Void res){
-			if(_debug) Log.v("SelectBlockingAppsPreferenceActivity.loadPackagesAsyncTask.onPostExecute()");
 			_selectBlockingAppsPreferenceActivity.setListAdapter(new SelectBlockingAppsArrayAdaptor(_context, R.layout.package_listitem, _packageValues, _selectBlockingAppsPreferenceActivity));
 			_progressBar.setVisibility(View.GONE);
 	    }
@@ -123,7 +116,6 @@ public class SelectBlockingAppsPreferenceActivity extends ListActivity {
 	 * @return List<CustomPackageInfo> - A list of the phones packages and info for each.
 	 */
 	private List<CustomPackage> getAllValues(){
-		if(_debug) Log.v("SelectBlockingAppsPreferenceActivity.getAllValues()");
         try{
         	List<CustomPackage> packageInfoArray = new ArrayList<CustomPackage>();
         	final PackageManager packageManager = getPackageManager();
@@ -134,7 +126,7 @@ public class SelectBlockingAppsPreferenceActivity extends ListActivity {
     	    for(int i=0; i<size; i++){
     	    	skipPackage = false;
     	    	String packageName = installedPackages.get(i).packageName;
-    	    	//Log.v("SelectBlockingAppsPreferenceActivity.getAllValues() PackageName: " + packageName);
+    	    	//Log.v(context, "SelectBlockingAppsPreferenceActivity.getAllValues() PackageName: " + packageName);
     	    	//Skip certain packages ============================================
     	    	if(packageName.startsWith("apps.droidnotify")){
     	    		skipPackage = true;
@@ -154,7 +146,7 @@ public class SelectBlockingAppsPreferenceActivity extends ListActivity {
     	    packageInfoArray = removeUninstalledPackages(packageInfoArray);
 	        return packageInfoArray;
 		}catch(Exception ex){
-			Log.e("SelectBlockingAppsPreferenceActivity.getAllValues() ERROR: " + ex.toString());
+			Log.e(_context, "SelectBlockingAppsPreferenceActivity.getAllValues() ERROR: " + ex.toString());
 			return null;
 		}
 	}
@@ -163,15 +155,14 @@ public class SelectBlockingAppsPreferenceActivity extends ListActivity {
 	 * Remove any packages in the user preferences that no longer are installed on the users phone.
 	 */
 	private List<CustomPackage> removeUninstalledPackages(List<CustomPackage> packageInfoArray){
-		if(_debug) Log.v("SelectBlockingAppsPreferenceActivity.removeUninstalledPackages()");
 		try{
 			String[] packagesArray = BlockingAppsCommon.getSelectedPackageNames(_context);
 			if(packagesArray == null){
-				//if(_debug) Log.v("SelectBlockingAppsPreferenceActivity.removeUninstalledPackages() PackageNames is null. Exiting...");
+				//if(_debug) Log.v(context, "SelectBlockingAppsPreferenceActivity.removeUninstalledPackages() PackageNames is null. Exiting...");
 				return packageInfoArray;
 			}
 			if(packageInfoArray == null){
-				//if(_debug) Log.v("SelectBlockingAppsPreferenceActivity.removeUninstalledPackages() PackageInfoArray is null. Exiting...");
+				//if(_debug) Log.v(context, "SelectBlockingAppsPreferenceActivity.removeUninstalledPackages() PackageInfoArray is null. Exiting...");
 				return packageInfoArray;
 			}
 			int packagesArraySize = packagesArray.length;
@@ -190,11 +181,11 @@ public class SelectBlockingAppsPreferenceActivity extends ListActivity {
 					//Update user preferences. Remove packages that no longer are on the users phone.
 			    	BlockingAppsCommon.setBlockingAppPackage(_context, packageName, false);
 			    	packageInfoArray.remove(i);
-			    	//if(_debug) Log.v("SelectBlockingAppsPreferenceActivity.removeUninstalledPackages() Package Removed: " + packageName);
+			    	//if(_debug) Log.v(context, "SelectBlockingAppsPreferenceActivity.removeUninstalledPackages() Package Removed: " + packageName);
 				}
 			}
 		}catch(Exception ex){
-			Log.e("SelectBlockingAppsPreferenceActivity.removeUninstalledPackages() ERROR: " + ex.toString());
+			Log.e(_context, "SelectBlockingAppsPreferenceActivity.removeUninstalledPackages() ERROR: " + ex.toString());
 		}
 		return packageInfoArray;
 	}

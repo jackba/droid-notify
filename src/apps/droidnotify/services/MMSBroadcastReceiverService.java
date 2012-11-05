@@ -16,12 +16,6 @@ import apps.droidnotify.receivers.MMSAlarmReceiver;
  * @author Camille Sévigny
  */
 public class MMSBroadcastReceiverService extends WakefulIntentService {
-	
-	//================================================================================
-    // Properties
-    //================================================================================
-	
-	boolean _debug = false;
 
 	//================================================================================
 	// Public Methods
@@ -32,8 +26,6 @@ public class MMSBroadcastReceiverService extends WakefulIntentService {
 	 */
 	public MMSBroadcastReceiverService() {
 		super("MMSBroadcastReceiverService");
-		_debug = Log.getDebug();
-		if (_debug) Log.v("MMSBroadcastReceiverService.MMSBroadcastReceiverService()");
 	}
 
 	//================================================================================
@@ -47,13 +39,12 @@ public class MMSBroadcastReceiverService extends WakefulIntentService {
 	 */
 	@Override
 	protected void doWakefulWork(Intent intent) {
-		if (_debug) Log.v("MMSBroadcastReceiverService.doWakefulWork()");
+		Context context = getApplicationContext();
 		try{
-			Context context = getApplicationContext();
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 			//Block the notification if it's quiet time.
 			if(Common.isQuietTime(context)){
-				if (_debug) Log.v("MMSBroadcastReceiverService.doWakefulWork() Quiet Time. Exiting...");
+				Log.e(context, "MMSBroadcastReceiverService.doWakefulWork() Quiet Time. Exiting...");
 				return;
 			}
 			//Schedule mms task x seconds after the broadcast.
@@ -64,7 +55,7 @@ public class MMSBroadcastReceiverService extends WakefulIntentService {
 			long alarmTime = System.currentTimeMillis() + timeoutInterval;
 			Common.startAlarm(context, MMSAlarmReceiver.class, null, intentActionText, alarmTime);
 		}catch(Exception ex){
-			Log.e("MMSBroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());
+			Log.e(context, "MMSBroadcastReceiverService.doWakefulWork() ERROR: " + ex.toString());
 		}
 	}
 		
