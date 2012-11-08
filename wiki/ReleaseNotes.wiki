@@ -7,7 +7,10 @@
  *
 
 *v3.26* _Coming Soon..._
- *
+ * Updates to the "Customize" menu options. Added options to automatically set the popup width or customize the popup width (both for Portrait and Landscape mode).
+ * 
+ * Updated translations.
+ * Small bug fixes.
 
 *v3.25.x* _Coming Soon..._
  * Removed an Application level class which was causing the app to FC on open. This seemed to be caused by updating to the latest Google ADT Compiler.
