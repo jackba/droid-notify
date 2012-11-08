@@ -53,6 +53,7 @@ Screen
  * Unlock Phone
  * Auto Rotate Screen
  * Screen Timeout
+ * Hide Status Bar
  * Blur Screen Background (Hidden in Android 4.0+ Devices)
  * Dim Screen Background
  * Dim Screen Value
