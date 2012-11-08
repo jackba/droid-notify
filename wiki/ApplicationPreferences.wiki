@@ -62,7 +62,9 @@ Customize
 
  * Theme
  * Popup Vertical Location
- * Popup Width Padding
+ * Auto Popup Width
+ * Portrait Popup Width
+ * Landscape Popup Width
  * Hide Single Message Header
  * Display Type Icon
  * Display Notification Type Info
