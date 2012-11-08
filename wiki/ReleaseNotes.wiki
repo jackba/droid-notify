@@ -8,6 +8,7 @@
 
 *v3.26* _Coming Soon..._
  * Updates to the "Customize" menu options. Added options to automatically set the popup width or customize the popup width (both for Portrait and Landscape mode).
+ * Updated the app to use the latest Facebook SDK.
  * 
  * Updated translations.
  * Small bug fixes.
