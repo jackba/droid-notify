@@ -91,6 +91,7 @@ Customize
  * Notification Body Max Lines
  * Bold Notification Body
  * Enable Emoticons
+ * Disable Notification Body Links
  * Button Style
  * Button Font Size
  * Bold Button Text
