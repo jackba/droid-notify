@@ -9,7 +9,8 @@
 *v3.26* _Coming Soon..._
  * Updates to the "Customize" menu options. Added options to automatically set the popup width or customize the popup width (both for Portrait and Landscape mode).
  * Updated the app to use the latest Facebook SDK.
- * 
+ * Added an option to hide the Status Bar when a notification is on the screen.
+ * Fixed the notification body text links as well as added an option to disable those links.
  * Updated translations.
  * Small bug fixes.
 
