@@ -88,7 +88,7 @@ Droid Notify supports its own Status Bar Notifications. If you enable this featu
 
 ==The contact photo in the notification doesn't display even though it shows in the system contacts, why?==
 
-There are many 3rd party apps that hook into the phones contacts (e.g. Facebook, Twitter, Linked In, etc.). Although these apps are displaying user photos in the phones address book, these photos are not available by outside apps. The only photos that are available to all 3rd party apps are those that are part of the devices Google Contacts. You can download a few free apps that will sync your Facebook/Twitter/Linked In users to the Google Contacts.
+There are many 3rd party apps that hook into the phones contacts (e.g. Facebook, Twitter, Linked In, etc.). Although these apps are displaying user photos in the phones address book, these photos are not available by outside apps. The only photos that are available to all 3rd party apps are those that are part of the devices Google Contacts. You can download a few free apps that will sync your Facebook/Twitter/Linked In user data (including their photo) to the Google Contacts.
 
 ==Can APPLICATION X be integrated with Droid Notify?==
 
