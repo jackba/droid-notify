@@ -10,7 +10,7 @@
 
  * [FAQ#Can_I_change_the_UI_of_the_notification? Can I change the UI of the notification?]
  * [FAQ#The_notification_icon_is_not_removed_when_I_dismiss_or_acknowled The notification icon is not removed when I dismiss or acknowledge the new message, why?]
- * [FAQ#The_contact_photo_in_the_notification_doesn%27t_display. The contact photo in the notification doesn't display even though it shows in the system contacts, why?]
+ * [FAQ#The_contact_photo_in_the_notification_doesn't_display_even The contact photo in the notification doesn't display even though it shows in the system contacts, why?]
  * [FAQ#Can_APPLICATION_X_be_integrated_with_Droid_Notify? Can APPLICATION X be integrated with Droid Notify?]
  * [FAQ#Can_Droid_Notify_be_moved_to_the_SD_card? Can Droid Notify be moved to the SD card?]
  * [FAQ#Known_Issues_with_Go_SMS_&_Droid_Notify Known Issues with Go SMS & Droid Notify]
