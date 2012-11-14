@@ -3,6 +3,9 @@
 
 = Release Notes =
 
+*v3.28* _Coming Soon..._
+ *
+
 *v3.27* _Coming Soon..._
  *
 
@@ -11,6 +14,7 @@
  * Updated the app to use the latest Facebook SDK.
  * Added an option to hide the Status Bar when a notification is on the screen.
  * Fixed the notification body text links as well as added an option to disable those links.
+ * Updated how the Dismiss Button long press works. Added a few more user options as well for this feature.
  * Updated translations.
  * Small bug fixes.
 
