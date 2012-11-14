@@ -1,4 +1,4 @@
-#summary Application Version Summaries & Changelog
+#summary Application Version Summaries & Change Log
 #labels Featured
 
 = Release Notes =
