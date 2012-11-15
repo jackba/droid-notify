@@ -15,6 +15,7 @@
  * Added an option to hide the Status Bar when a notification is on the screen.
  * Fixed the notification body text links as well as added an option to disable those links.
  * Updated how the Dismiss Button long press works. Added a few more user options as well for this feature.
+ * Fixed a bug which prevented some Calendar reminders from appearing.
  * Updated translations.
  * Small bug fixes.
 
